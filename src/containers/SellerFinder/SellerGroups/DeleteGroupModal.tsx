@@ -8,20 +8,12 @@ interface DeleteGroupModalProps {
   handleUntrack: any;
   groupId: any;
   activeGroup: any;
-  filteredProducts: any;
-  handleMoveGroup: any;
+  handleKeepTracking: any;
 }
 
 class DeleteGroupModal extends Component<DeleteGroupModalProps> {
   render() {
-    const {
-      open,
-      handleUntrack,
-      groupId,
-      activeGroup,
-      filteredProducts,
-      handleMoveGroup,
-    } = this.props;
+    const { open, handleUntrack, groupId, activeGroup, handleKeepTracking } = this.props;
 
     return (
       <Modal
@@ -46,12 +38,7 @@ class DeleteGroupModal extends Component<DeleteGroupModalProps> {
           </Button>
           <Button
             className="delete-btn"
-            onClick={() => {
-              filteredProducts.forEach((product: any) => {
-                handleMoveGroup(null, product.id);
-              });
-              handleUntrack(groupId);
-            }}
+            onClick={() => handleKeepTracking({ ...activeGroup, status: 'inactive' })}
           >
             Keep Tracking
           </Button>

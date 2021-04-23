@@ -16,9 +16,12 @@ import {
   SET_SELLER_PRODUCTS_PAGE_COUNT,
   SET_SELLER_PRODUCTS_PAGE_NO,
   SET_SELLER_PRODUCTS_PAGE_SIZE,
+  SET_SELLER_TRACK_GROUPS,
 } from '../../constants/SellerFinder';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { AppConfig } from '../../config';
+import { error, success } from '../../utils/notifications';
+import { SET_MENU_ITEM } from '../../constants/Tracker';
 export interface SellersPayload {
   enableLoader: boolean;
 }
@@ -34,6 +37,7 @@ export interface ProductSellersPayload {
   merchantId: any;
   asin: string;
 }
+
 export const fetchSellers = (payload: SellersPayload) => async (dispatch: any) => {
   try {
     const sellerID = sellerIDSelector();
@@ -51,6 +55,7 @@ export const fetchSellers = (payload: SellersPayload) => async (dispatch: any) =
     await dispatch(fetchingError(err));
   }
 };
+
 export const fetchInventory = (data: any) => async (dispatch: any) => {
   await dispatch(fetchingInventory(data));
 };
@@ -108,6 +113,7 @@ export const fetchProductSellers = (payload: ProductSellersPayload) => async (di
     await dispatch(fetchingProductSellers(false));
   }
 };
+
 const fetchingSellers = (fetching: boolean) => ({
   type: FETCH_SELLERS,
   data: fetching,
@@ -157,6 +163,157 @@ const setProductSellersError = (error: any) => ({
   type: FETCH_PRODUCT_SELLERS_ERROR,
   data: error,
 });
+
+/* Delet seller with merchant id */
+export const handleDeleteSeller = (merchantID: number) => {
+  return async (dispatch: any) => {
+    try {
+      const sellerID = sellerIDSelector();
+      const URL = AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants/${merchantID}`;
+
+      const response = await Axios.delete(URL);
+
+      if (response.data) {
+        const { message } = response.data;
+        success(message);
+        dispatch(fetchSellers({ enableLoader: false }));
+      }
+    } catch (err) {
+      console.error('Error Deleting Seller', err.response);
+      error('Oops! The Seller could not be deleted');
+    }
+  };
+};
+
+/* Action to set active track groups for seller */
+export const setSellerTrackGroups = (data: any) => {
+  return {
+    type: SET_SELLER_TRACK_GROUPS,
+    data,
+  };
+};
+
+/* Action to get all tracked groups */
+export const getAllSellerTrackGroups = () => {
+  return async (dispatch: any) => {
+    try {
+      const sellerID = sellerIDSelector();
+      const URL = AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants/group`;
+      const response = await Axios.get(URL);
+      if (response.data) {
+        dispatch(setSellerTrackGroups(response.data));
+      }
+    } catch (err) {
+      console.error('Error loading track groups for seller', err.response);
+    }
+  };
+};
+
+/* Action to set menu items */
+export const setMenuItem = (menuItem: any) => ({
+  type: SET_MENU_ITEM,
+  data: menuItem,
+});
+
+/* Action to create a new group with name */
+export const postCreateSellerTrackGroup = (name: string) => async (dispatch: any) => {
+  const sellerID = sellerIDSelector();
+  const bodyFormData = new FormData();
+  bodyFormData.set('name', name);
+
+  try {
+    const response = await Axios.post(
+      AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants/group`,
+      bodyFormData
+    );
+
+    const { data, status } = response;
+
+    if (status === 201) {
+      const newGroup = data;
+      dispatch(getAllSellerTrackGroups());
+      dispatch(setMenuItem(newGroup.id));
+      success(`Tracker group successfully created!`);
+    }
+  } catch (err) {
+    error('Failed to create a new group');
+  }
+};
+
+/* Action to delete seller track group */
+export const deleteSellerTrackGroup = (groupID: number) => async (dispatch: any) => {
+  const sellerID = sellerIDSelector();
+
+  try {
+    const URL = AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants/group?id=${groupID}`;
+
+    // axios doesn't accept form data in delete requests
+    const response = await Axios.delete(URL);
+
+    const { status } = response;
+
+    if (status === 200) {
+      dispatch(getAllSellerTrackGroups());
+      dispatch(fetchSellers({ enableLoader: false }));
+      dispatch(setMenuItem(null));
+      success(`Tracker group successfully deleted!`);
+    }
+  } catch (err) {
+    console.error('Error deleting a group', err.response);
+    error(`Failed to delete tracker group`);
+  }
+};
+
+/* Action to update a tracker group */
+export const updateSellerTrackerGroup = (group: any) => async (dispatch: any) => {
+  const sellerID = sellerIDSelector();
+
+  const formData = new FormData();
+  formData.set('name', group.name);
+  formData.set('status', group.status);
+
+  try {
+    const URL = AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants/group?id=${group.id}`;
+    const response = await Axios.patch(URL, formData);
+
+    const { status } = response;
+    if (status === 200) {
+      // when we want to keep tracking merchants in group but delete the group
+      if (group.status === 'inactive') {
+        dispatch(fetchSellers({ enableLoader: false }));
+        success(`Tracker group successfully deleted!`);
+      } else {
+        success(`Tracker group successfully updated`);
+      }
+      dispatch(getAllSellerTrackGroups());
+    }
+  } catch (err) {
+    console.error('Error updating group', err.response);
+  }
+};
+
+/* Action to move a merchant another tracker group */
+export const moveMerchantToSellerTrackGroup = (merchantId: number, groupID: number) => async (
+  dispatch: any
+) => {
+  const sellerID = sellerIDSelector();
+
+  try {
+    const URL =
+      AppConfig.BASE_URL_API +
+      `sellers/${sellerID}/merchants/group?id=${groupID}&merchant_ids=${merchantId}`;
+    const response = await Axios.patch(URL);
+    const { status } = response;
+    if (status === 200) {
+      dispatch(getAllSellerTrackGroups());
+      dispatch(fetchSellers({ enableLoader: false }));
+      dispatch(setMenuItem(groupID));
+      success(`Merchant successfully moved to group`);
+    }
+  } catch (err) {
+    console.error('Error updating group', err.response);
+  }
+};
 
 const setProductsCount = (count: number) => ({
   type: SET_SELLER_PRODUCTS_COUNT,

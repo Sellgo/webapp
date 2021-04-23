@@ -24,3 +24,9 @@ export const sellerProductsSinglePageItemsCount = (state: {}) =>
   get(state, 'sellerFinder.productsSinglePageItemsCount');
 export const activeProductSellerStatus = (state: {}) =>
   get(state, 'sellerFinder.activeProductSellerStatus');
+
+/* Select seller track groups */
+export const selectSellerTrackGroups = (state: {}) => get(state, 'sellerFinder.sellerTrackGroups');
+
+/* Select active menu group */
+export const selectActiveMenuGroupID = (state: {}) => get(state, 'sellerFinder.sellerMenuItem');

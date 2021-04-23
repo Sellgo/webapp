@@ -26,11 +26,11 @@ interface SellerGroupsProps {
   deleteGroup: any;
   activeGroupId: any;
   error: boolean;
-  groupError: boolean;
   items: any;
   editError: boolean;
   filteredProducts: any;
   handleMoveGroup: any;
+  handleKeepTracking: any;
 }
 
 class SellerGroups extends Component<SellerGroupsProps> {
@@ -43,7 +43,6 @@ class SellerGroups extends Component<SellerGroupsProps> {
       deleteGroup,
       handleAddGroup,
       error,
-      groupError,
       items = [],
       handleAddGroupCancel,
       handleAddGroupSubmit,
@@ -52,10 +51,10 @@ class SellerGroups extends Component<SellerGroupsProps> {
       handleEditGroupCancel,
       handleEditGroupSubmit,
       handleDeleteGroup,
-      handleDeleteGroupSubmit,
       editError,
       filteredProducts,
-      handleMoveGroup,
+      handleKeepTracking,
+      handleDeleteGroupSubmit,
     } = this.props;
 
     const activeGroup =
@@ -161,7 +160,6 @@ class SellerGroups extends Component<SellerGroupsProps> {
         <CreateGroup
           open={open}
           error={error}
-          groupError={groupError}
           handleGroupChange={(e: any) => handleAddGroupNameChange(e)}
           handleCancel={handleAddGroupCancel}
           handleSubmit={handleAddGroupSubmit}
@@ -178,8 +176,7 @@ class SellerGroups extends Component<SellerGroupsProps> {
           groupId={this.props.activeGroupId}
           handleUntrack={handleDeleteGroupSubmit}
           activeGroup={activeGroup}
-          filteredProducts={filteredProducts}
-          handleMoveGroup={handleMoveGroup}
+          handleKeepTracking={handleKeepTracking}
         />
         {/* Magic to make scrollbar disappear */}
         <div className="cover-bar" />
@@ -189,7 +186,7 @@ class SellerGroups extends Component<SellerGroupsProps> {
 }
 const mapStateToProps = (state: any) => {
   return {
-    activeGroupId: get(state, 'productTracker.menuItem'),
+    activeGroupId: get(state, 'sellerFinder.sellerMenuItem'),
   };
 };
 

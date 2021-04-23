@@ -12,20 +12,6 @@ $darkgary: #dfe8f329;
   }
 }
 
-.zero-products {
-  > .rst__tree {
-    > .rst__node:nth-child(2) {
-      > .rst__lineBlock {
-        display: none;
-      }
-
-      > .rst__nodeContent {
-        display: none;
-      }
-    }
-  }
-}
-
 .seller-products-pagination {
   height: 46px;
   display: flex;
@@ -35,13 +21,17 @@ $darkgary: #dfe8f329;
   border-radius: 11px;
   background: #fff;
   justify-content: flex-end;
-  width: 98%;
+  width: 97.5%;
   padding: 0 10px;
   margin-left: 15px;
 }
 
 .seller-details {
   min-height: 230px;
+
+  .text-center {
+    text-align: center;
+  }
 
   > .rst__tree {
     //min-height: 250px;
@@ -72,6 +62,7 @@ $darkgary: #dfe8f329;
       > .rst__nodeContent {
         left: 0 !important;
         top: 50px;
+        width: 100%;
 
         .lineChildren {
           display: none;
@@ -258,6 +249,7 @@ $darkgary: #dfe8f329;
     .card {
       margin-top: 20px;
       margin-left: 30px;
+      width: 97.3%;
 
       .rowContents {
         border: none;
@@ -316,7 +308,7 @@ $darkgary: #dfe8f329;
 
           .business-details-container {
             display: flex;
-            margin: 0 58px;
+            margin: 0 30px;
 
             .seller-address-container {
               padding-top: 7px;
@@ -334,6 +326,10 @@ $darkgary: #dfe8f329;
               color: $black;
               font-size: 25px;
               font-weight: 600;
+              max-width: 260px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
             }
 
             .seller-info {
@@ -344,6 +340,9 @@ $darkgary: #dfe8f329;
             .seller-info-address {
               @extend .seller-info;
 
+              max-width: 200px;
+              overflow: hidden;
+              text-overflow: ellipsis;
               white-space: pre-line;
               width: 184px;
             }
@@ -355,6 +354,10 @@ $darkgary: #dfe8f329;
             font-size: 14px;
             color: $black;
             padding: 5px 0;
+            max-width: 265px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
 
             .value {
               color: $blue;
@@ -377,7 +380,7 @@ $darkgary: #dfe8f329;
         }
 
         .statistics-container {
-          margin: 0 58px;
+          margin: 0 20px;
 
           .static-row {
             display: flex;
@@ -609,7 +612,7 @@ $darkgary: #dfe8f329;
           }
 
           @media only screen and (min-width: 1600px) and (max-width: 1679px) {
-            margin: 0 75px !important;
+            margin: 0 25px !important;
 
             .cell {
               width: 65px !important;
@@ -624,7 +627,7 @@ $darkgary: #dfe8f329;
           }
 
           @media only screen and (min-width: 1680px) and (max-width: 1919px) {
-            margin: 0 250px 0 60px !important;
+            margin: 0 135px 0 90px !important;
 
             .cell {
               width: 55px !important;
@@ -635,6 +638,25 @@ $darkgary: #dfe8f329;
             .head-cell-row {
               width: 95px !important;
             }
+          }
+        }
+      }
+    }
+  }
+}
+
+.zero-products {
+  > .rst__tree {
+    > .rst__node:nth-child(2) {
+      > .rst__lineBlock {
+        //display: none;
+        visibility: hidden;
+      }
+
+      .product-tree {
+        > .rst__node {
+          .rst__lineBlock {
+            visibility: hidden;
           }
         }
       }

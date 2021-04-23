@@ -65,8 +65,8 @@ const SellerDetails = (props: SellerDetailsProps) => {
         showNAIfZeroOrNull(details.inventory_count, details.inventory_count) === '-'
           ? 'disable-products'
           : ''
-      } 
-     
+      }
+      ${!sellerProducts.length ? 'zero-products' : ''}
       `}
     >
       <SortableTree
@@ -87,8 +87,9 @@ const SellerDetails = (props: SellerDetailsProps) => {
         }}
         onChange={(data: any) => setTreeData(data)}
         rowHeight={({ treeIndex, node }) => {
+          const add = sellerProducts.length > 4 ? 150 : 350;
           if (node.expanded) {
-            const newHeight = sellerProducts.length ? 65 * sellerProducts.length : 400;
+            const newHeight = sellerProducts.length ? 60 * sellerProducts.length + add : 400;
             updateHeight(newHeight);
           }
           return treeIndex === 0 ? 75 : 400;
