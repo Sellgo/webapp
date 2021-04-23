@@ -6,9 +6,10 @@ import { formatBoolean, formatCurrency, showNAIfZeroOrNull } from '../../../../u
 import { formatCompletedDate } from '../../../../utils/date';
 import TrackSeller from '../TrackSeller';
 const renderSellerName = (row: any) => {
+  console.log(row.merchant_name);
   return (
     <p>
-      <span className="name">{showNAIfZeroOrNull(row.merchant_name, row.merchant_name)}</span>
+      <span className="name">{row.merchant_name}</span>
       <span className="asin">{row.merchant_id}</span>
     </p>
   );
@@ -55,7 +56,7 @@ const renderTrackSeller = (row: any) => {
 const columns = [
   {
     renderLabel: () => <p>Seller Name</p>,
-    dataKey: 'merchant_name: ',
+    dataKey: 'merchant_name',
     className: 'seller-name',
     render: renderSellerName,
   },
@@ -141,7 +142,7 @@ export const SellersRow = ({ row }: any) => {
   };
   const renderRow = (row: any) => {
     const dataKeys = columns.map(({ dataKey }) => ({ [`${dataKey}`]: dataKey }));
-    let object = { asin: 'asin' };
+    let object = { asin: 'asin', merchant_id: 'merchant_id' };
     let data: any = row;
     dataKeys.forEach((obj: any) => {
       object = { ...object, ...obj };
@@ -154,6 +155,7 @@ export const SellersRow = ({ row }: any) => {
       obj[key] = data[key];
       return obj;
     }, {});
+    console.log(sorted);
     return Object.keys(sorted).map((key: any) => render(key, sorted));
   };
   return (

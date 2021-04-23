@@ -5,8 +5,8 @@ import 'react-sortable-tree/style.css';
 import './index.scss';
 import { SellersProductsHeader, SellersRow } from './InventorySellers';
 import { loadingProductSellers, productSellers } from '../../../selectors/SellerFinder';
-import { connect } from 'react-redux';
 import PageLoader from '../../../components/PageLoader';
+import { connect } from 'react-redux';
 
 interface Props {
   productSellers: any[];
@@ -14,7 +14,6 @@ interface Props {
 }
 const ProductSellers = (props: Props) => {
   const { productSellers } = props;
-  console.log(productSellers);
   const getSellersData = () => {
     return productSellers.map((seller: any, index: number) => {
       let row = {
@@ -43,15 +42,21 @@ const ProductSellers = (props: Props) => {
       {props.loadingProductSellers ? (
         <PageLoader pageLoading={true} />
       ) : (
-        <SortableTree
-          treeData={sellers}
-          theme={CustomTreeRenderer}
-          canDrag={false}
-          isVirtualized={false}
-          className={'sellers-tree'}
-          onChange={(data: any) => setSellers(data)}
-          rowHeight={46}
-        />
+        <>
+          {productSellers.length > 0 ? (
+            <SortableTree
+              treeData={sellers}
+              theme={CustomTreeRenderer}
+              canDrag={false}
+              isVirtualized={false}
+              className={'sellers-tree'}
+              onChange={(data: any) => setSellers(data)}
+              rowHeight={46}
+            />
+          ) : (
+            <p className="text-center">Sellers Not Found!</p>
+          )}
+        </>
       )}
     </div>
   );

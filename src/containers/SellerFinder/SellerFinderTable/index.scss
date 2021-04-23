@@ -277,6 +277,10 @@ $new_black: #3b4557;
 
         .name {
           font-weight: 500;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 150px;
         }
 
         .seller-id {
@@ -398,7 +402,7 @@ $new_black: #3b4557;
 
             .sf-seller-details {
               > img {
-                margin-left: -13px !important;
+                margin-left: 0 !important;
                 width: 12px;
                 height: 12px;
               }
