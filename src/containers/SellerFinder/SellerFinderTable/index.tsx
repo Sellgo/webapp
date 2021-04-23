@@ -14,19 +14,23 @@ import OtherSort from './OtherSort';
 import SellerGroups from '../SellerGroups';
 import SellerSearch from '../SellerSearch';
 import SellerDetails from '../SellerDetails';
-
 import {
   failed,
   loadingSellers,
   sellers,
   selectActiveMenuGroupID,
   selectSellerTrackGroups,
+  sellerProductsPageNo,
+  sellerProductsPageSize,
+  activeProduct,
 } from '../../../selectors/SellerFinder';
 
 import {
   fetchInventory,
+  fetchProductSellers,
   fetchSellerProducts,
   fetchSellers,
+  ProductSellersPayload,
   SellersPayload,
   SellersProductsPayload,
   deleteSellerTrackGroup,
@@ -36,6 +40,7 @@ import {
   setMenuItem,
   getAllSellerTrackGroups,
   moveMerchantToSellerTrackGroup,
+  setActiveProductSellerStatus,
 } from '../../../actions/SellerFinder';
 
 import { SEARCH_STATUS } from '../../../constants/SellerFinder';
@@ -50,8 +55,14 @@ interface Props {
   error: any;
   ws: WebSocket;
   inventorySocket: WebSocket;
+  sellersSocket: WebSocket;
   fetchInventory: (data: any) => void;
   fetchSellerProducts: (payload: SellersProductsPayload) => void;
+  fetchProductSellers: (payload: ProductSellersPayload) => void;
+  productsPageNo: number;
+  productsPageSize: number;
+  activeProduct: any;
+  setActiveProductStatus: (data: any) => void;
   handleDeleteSeller: (merchantID: number) => void;
   sellerTrackGroups: any;
   getAllSellerTrackGroups: () => void;
@@ -68,7 +79,7 @@ interface SearchResponse {
   status: string;
   message: string;
 }
-const SellerFinderTable: React.FC<Props> = props => {
+const SellerFinderTable = (props: Props) => {
   const {
     ws,
     fetchSellers,
@@ -77,6 +88,12 @@ const SellerFinderTable: React.FC<Props> = props => {
     inventorySocket,
     fetchInventory,
     fetchSellerProducts,
+    productsPageNo,
+    productsPageSize,
+    activeProduct,
+    sellersSocket,
+    setActiveProductStatus,
+    fetchProductSellers,
     sellerTrackGroups,
     getAllSellerTrackGroups,
     activeGroupID,
@@ -140,6 +157,7 @@ const SellerFinderTable: React.FC<Props> = props => {
 
   const expandRow = (row: any) => {
     setExpandedRow(expandedRow ? null : row.id);
+    setActiveMerchant(row);
   };
 
   useEffect(() => {
@@ -156,26 +174,51 @@ const SellerFinderTable: React.FC<Props> = props => {
       };
     }
   });
-
+  const fetchProducts = (payload: any) => {
+    fetchSellerProducts({
+      enableLoader: false,
+      merchantId: `${activeMerchant.id}`,
+      ...payload,
+    });
+  };
   useEffect(() => {
     if (inventorySocket.OPEN && !inventorySocket.CONNECTING) {
       inventorySocket.onmessage = (res: any) => {
         const data: SearchResponse = JSON.parse(res.data);
-        console.log('inventory response', {
-          data,
-          enable: data.status === SEARCH_STATUS.PENDING,
-        });
         fetchInventory({ ...data, merchant_id: activeMerchant.merchant_id });
         if (data.status === SEARCH_STATUS.DONE) {
-          fetchSellerProducts({
-            enableLoader: false,
-            merchantId: `${activeMerchant.id}`,
-          });
+          fetchProducts({ pageNo: productsPageNo, pageSize: productsPageSize });
         }
       };
     }
   });
+  useEffect(() => {
+    if (activeProduct && sellersSocket.OPEN && !sellersSocket.CONNECTING) {
+      sellersSocket.send(
+        JSON.stringify({
+          parent_asin: true,
+          merchant_id: activeMerchant.id,
+          asins: activeProduct.asin,
+        })
+      );
+    }
+  }, [activeProduct]);
 
+  useEffect(() => {
+    if (sellersSocket.OPEN && !sellersSocket.CONNECTING) {
+      sellersSocket.onmessage = (res: any) => {
+        const data: SearchResponse = JSON.parse(res.data);
+        setActiveProductStatus({ ...data, asin: activeProduct.asin });
+        if (data.status === SEARCH_STATUS.DONE) {
+          fetchProductSellers({
+            asin: activeProduct.asin,
+            enableLoader: true,
+            merchantId: activeMerchant.id,
+          });
+        }
+      };
+    }
+  }, [activeProduct]);
   const search = (value: string) => {
     if (value.trim()) {
       ws.send(JSON.stringify({ merchant_ids: value.trim() }));
@@ -313,6 +356,7 @@ const SellerFinderTable: React.FC<Props> = props => {
           cursor: 'pointer',
         }}
         onClick={() => expandRow(row)}
+        alt={'expand icon'}
       />
       <span className="name">{row.merchant_name}</span>
       <span className="seller-id">
@@ -577,7 +621,13 @@ const SellerFinderTable: React.FC<Props> = props => {
           data={filteredProductsByGroups}
           columns={columns}
           extendedInfo={(data: any) => {
-            return <SellerDetails details={data} onCheckInventory={onCheckInventory} />;
+            return (
+              <SellerDetails
+                details={data}
+                onCheckInventory={onCheckInventory}
+                onPagination={payload => fetchProducts(payload)}
+              />
+            );
           }}
           name={'seller-finder'}
         />
@@ -591,12 +641,17 @@ const mapStateToProps = (state: {}) => ({
   error: failed(state),
   sellerTrackGroups: selectSellerTrackGroups(state),
   activeGroupID: selectActiveMenuGroupID(state),
+  productsPageNo: sellerProductsPageNo(state),
+  productsPageSize: sellerProductsPageSize(state),
+  activeProduct: activeProduct(state),
 });
 
 const mapDispatchToProps = {
   fetchSellers: (payload: SellersPayload) => fetchSellers(payload),
   fetchInventory: (data: any) => fetchInventory(data),
   fetchSellerProducts: (payload: SellersProductsPayload) => fetchSellerProducts(payload),
+  fetchProductSellers: (payload: ProductSellersPayload) => fetchProductSellers(payload),
+  setActiveProductStatus: (data: any) => setActiveProductSellerStatus(data),
   handleDeleteSeller: (merchantID: number) => handleDeleteSeller(merchantID),
   getAllSellerTrackGroups: () => getAllSellerTrackGroups(),
   postCreateSellerTrackGroup: (name: string) => postCreateSellerTrackGroup(name),

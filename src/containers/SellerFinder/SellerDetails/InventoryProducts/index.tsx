@@ -58,8 +58,8 @@ const renderLastUpdate = (row: any) => {
   return <p>{formatCompletedDate(row.udate)}</p>;
 };
 
-const renderTrackProducts = () => {
-  return <TrackSeller tracking={false} type={'product'} />;
+const renderTrackProducts = (row: any) => {
+  return <TrackSeller tracking={false} type={'product'} data={row} />;
 };
 const columns = [
   {

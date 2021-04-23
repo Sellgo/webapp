@@ -6,10 +6,11 @@ import { formatBoolean, formatCurrency, showNAIfZeroOrNull } from '../../../../u
 import { formatCompletedDate } from '../../../../utils/date';
 import TrackSeller from '../TrackSeller';
 const renderSellerName = (row: any) => {
+  console.log(row.merchant_name);
   return (
     <p>
-      <span className="name">{showNAIfZeroOrNull(row.name, row.name)}</span>
-      <span className="asin">{row.asin}</span>
+      <span className="name">{row.merchant_name}</span>
+      <span className="asin">{row.merchant_id}</span>
     </p>
   );
 };
@@ -29,7 +30,7 @@ const renderPrice = (row: any) => {
 const renderRating = (row: any) => {
   return (
     <Rating
-      placeholderRating={row.rating}
+      placeholderRating={parseInt(`${row.seller_rating}`.trim())}
       emptySymbol={<Icon name="star outline" color={'grey'} />}
       fullSymbol={<Icon name="star" color={'grey'} />}
       placeholderSymbol={<Icon name="star" color={'grey'} />}
@@ -38,7 +39,7 @@ const renderRating = (row: any) => {
 };
 
 const renderRatingPercentage = (row: any) => {
-  return <p>{row.rating_percentage}</p>;
+  return <p>{row.review_ratings}</p>;
 };
 
 const renderTotalRating = (row: any) => {
@@ -46,7 +47,7 @@ const renderTotalRating = (row: any) => {
 };
 
 const renderProcessedOn = (row: any) => {
-  return <p>{formatCompletedDate(row.processed_on)}</p>;
+  return <p>{formatCompletedDate(row.udate)}</p>;
 };
 
 const renderTrackSeller = (row: any) => {
@@ -55,7 +56,7 @@ const renderTrackSeller = (row: any) => {
 const columns = [
   {
     renderLabel: () => <p>Seller Name</p>,
-    dataKey: 'name',
+    dataKey: 'merchant_name',
     className: 'seller-name',
     render: renderSellerName,
   },
@@ -79,13 +80,13 @@ const columns = [
   },
   {
     renderLabel: () => <p>{`Rating \nL365D`}</p>,
-    dataKey: 'rating',
+    dataKey: 'seller_rating',
     className: 'product-rating',
     render: renderRating,
   },
   {
     renderLabel: () => <p>{`Rating% \nL365D`}</p>,
-    dataKey: 'rating_percentage',
+    dataKey: 'review_ratings',
     className: 'product-rating',
     render: renderRatingPercentage,
   },
@@ -97,7 +98,7 @@ const columns = [
   },
   {
     renderLabel: () => <p>Processed on</p>,
-    dataKey: 'processed_on',
+    dataKey: 'udate',
     className: 'processed-on',
     render: renderProcessedOn,
   },
@@ -121,23 +122,7 @@ export const SellersProductsHeader = () => {
   );
 };
 
-export const SellersRow = () => {
-  const data = [
-    {
-      id: 1,
-      name: 'Kikkoman',
-      asin: 'B074QM7756',
-      price: 12.99,
-      fba: true,
-      fbm: false,
-      rating: 4.5,
-      rating_percentage: '98% Positive',
-      total_rating: 538,
-      processed_on: '7/21/2020, 1:45 PM',
-      tracking: false,
-    },
-  ];
-
+export const SellersRow = ({ row }: any) => {
   const render = (dataKey: string, row: any) => {
     const column = columns.find((c: any) => c.dataKey === dataKey);
     return column ? (
@@ -148,13 +133,34 @@ export const SellersRow = () => {
       undefined
     );
   };
-
+  const extraData = {
+    total_rating: 0,
+    fba: false,
+    fbm: false,
+    price: 0,
+    tracking: false,
+  };
   const renderRow = (row: any) => {
-    return Object.keys(row).map((key: any) => render(key, row));
+    const dataKeys = columns.map(({ dataKey }) => ({ [`${dataKey}`]: dataKey }));
+    let object = { asin: 'asin', merchant_id: 'merchant_id' };
+    let data: any = row;
+    dataKeys.forEach((obj: any) => {
+      object = { ...object, ...obj };
+      if (row[obj.key]) {
+        data = { ...data, [obj.key]: row[obj.key] };
+      }
+    });
+
+    const sorted = Object.keys(object).reduce((obj: any, key) => {
+      obj[key] = data[key];
+      return obj;
+    }, {});
+    console.log(sorted);
+    return Object.keys(sorted).map((key: any) => render(key, sorted));
   };
   return (
     <div className="sellers-row">
-      {data.map((row: any) => (
+      {[{ ...row, ...extraData }].map((row: any) => (
         <React.Fragment key={row.id}>{renderRow(row)}</React.Fragment>
       ))}
     </div>

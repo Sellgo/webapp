@@ -9,6 +9,8 @@ import {
   loadingSellerProducts,
   sellerProducts,
   sellerProductsError,
+  sellerProductsPageNo,
+  sellerProductsPageSize,
 } from '../../../selectors/SellerFinder';
 import { fetchSellerProducts, SellersProductsPayload } from '../../../actions/SellerFinder';
 import { connect } from 'react-redux';
@@ -20,18 +22,30 @@ interface SellerDetailsProps {
   fetchSellerProducts: (payload: SellersProductsPayload) => void;
   sellerProducts: any;
   loadingSellerProducts: any;
+  productsPageNo: number;
+  productsPageSize: number;
+  onPagination: (payload: any) => void;
 }
 
 const SellerDetails = (props: SellerDetailsProps) => {
+  const {
+    onCheckInventory,
+    fetchSellerProducts,
+    sellerProducts,
+    productsPageNo,
+    productsPageSize,
+    details,
+    onPagination,
+  } = props;
   const [treeData, setTreeData] = React.useState([
     {
       title: () => (
-        <SellerInformation details={props.details} onCheckInventory={props.onCheckInventory} />
+        <SellerInformation details={props.details} onCheckInventory={onCheckInventory} />
       ),
       className: 'card',
       children: [
         {
-          title: () => <InnerTree />,
+          title: () => <InnerTree onPagination={onPagination} />,
           className: 'inner-tree',
         },
       ],
@@ -48,11 +62,11 @@ const SellerDetails = (props: SellerDetailsProps) => {
   return (
     <div
       className={`seller-details ${
-        showNAIfZeroOrNull(props.details.inventory_count, props.details.inventory_count) === '-'
+        showNAIfZeroOrNull(details.inventory_count, details.inventory_count) === '-'
           ? 'disable-products'
           : ''
-      } 
-     
+      }
+      ${!sellerProducts.length ? 'zero-products' : ''}
       `}
     >
       <SortableTree
@@ -61,15 +75,21 @@ const SellerDetails = (props: SellerDetailsProps) => {
         canDrag={false}
         isVirtualized={false}
         onVisibilityToggle={node => {
-          props.fetchSellerProducts({ merchantId: props.details.id, enableLoader: true });
+          fetchSellerProducts({
+            merchantId: details.id,
+            enableLoader: true,
+            pageSize: productsPageSize,
+            pageNo: productsPageNo,
+          });
           if (!node.expanded) {
             updateHeight(250);
           }
         }}
         onChange={(data: any) => setTreeData(data)}
         rowHeight={({ treeIndex, node }) => {
+          const add = sellerProducts.length > 4 ? 150 : 350;
           if (node.expanded) {
-            const newHeight = props.sellerProducts.length ? 52 * props.sellerProducts.length : 400;
+            const newHeight = sellerProducts.length ? 60 * sellerProducts.length + add : 400;
             updateHeight(newHeight);
           }
           return treeIndex === 0 ? 75 : 400;
@@ -82,6 +102,8 @@ const mapStateToProps = (state: {}) => ({
   sellerProducts: sellerProducts(state),
   loadingSellerProducts: loadingSellerProducts(state),
   error: sellerProductsError(state),
+  productsPageNo: sellerProductsPageNo(state),
+  productsPageSize: sellerProductsPageSize(state),
 });
 
 const mapDispatchToProps = {
