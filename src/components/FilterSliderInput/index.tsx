@@ -58,6 +58,7 @@ const FilterSliderInput = (props: any) => {
             'number_of_sellers',
             'avg_inventory',
             'avg_amazon_inventory',
+            'avg_daily_sales',
           ].includes(dataKey) || dataKey === 'customer_reviews'
             ? 1
             : 0.01
