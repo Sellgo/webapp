@@ -238,8 +238,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         return trackLimit.toLocaleString() + ' Product Tracker Limit';
       };
 
+      const isMonthlySynthesisPeriod = subscription.synthesis_period === 'monthly';
       const getSynthesisLimit = (synthesisLimit: number) => {
-        return synthesisLimit.toLocaleString() + ' UPCs /mo';
+        return (
+          synthesisLimit.toLocaleString() + ' UPC/' + `${isMonthlySynthesisPeriod ? 'mo' : 'day'}`
+        );
       };
 
       const subscriptionValueType = !isSubscribed

@@ -24,6 +24,7 @@ export interface Subscription {
   synthesis_limit: number;
   track_limit: number;
   leads_track_limit: number;
+  synthesis_period: string;
 }
 
 export interface SellerSubscription {
