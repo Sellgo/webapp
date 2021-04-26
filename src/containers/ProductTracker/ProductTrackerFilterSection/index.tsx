@@ -697,8 +697,15 @@ function ProductTrackerFilterSection(props: Props) {
       return subscription.id === sellerSubscription.subscription_id;
     });
 
-  const historyTrackPeriod =
-    (matchingSubscription && matchingSubscription.track_history_limit) || Infinity;
+  let historyTrackPeriod: number;
+
+  if (!matchingSubscription) {
+    // for free trial and free account
+    historyTrackPeriod = 7;
+  } else {
+    historyTrackPeriod =
+      (matchingSubscription && matchingSubscription.track_history_limit) || Infinity;
+  }
 
   return (
     <div className="tracker-filter-section">
