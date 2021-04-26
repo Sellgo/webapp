@@ -13,7 +13,6 @@ import {
   DEFAULT_PERIOD,
   filterPeriods,
   filterKeys,
-  getMaxFilterPeriod,
 } from '../../../constants/Tracker';
 import {
   filterTrackedProducts,
@@ -25,6 +24,8 @@ import {
 import { sellerIDSelector } from '../../../selectors/Seller';
 import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
 import PresetFilter from '../../../components/ProductTrackerFilter/PresetFilter';
+import { fetchSubscriptions } from '../../../actions/Settings/Subscription';
+import { Subscription } from '../../../interfaces/Seller';
 
 interface Props {
   setPageNumber: (pageNumber: number) => void;
@@ -37,6 +38,8 @@ interface Props {
   isTrackerFilterLoading: (data: boolean) => void;
   isLoadingTrackerProducts: boolean;
   sellerSubscription: any;
+  fetchSubscriptions: () => void;
+  subscriptions: any;
 }
 
 function ProductTrackerFilterSection(props: Props) {
@@ -51,9 +54,15 @@ function ProductTrackerFilterSection(props: Props) {
     isLoadingTrackerProducts,
     isTrackerFilterLoading,
     sellerSubscription,
+    fetchSubscriptions,
+    subscriptions,
   } = props;
 
   const sellerID = sellerIDSelector();
+
+  useEffect(() => {
+    fetchSubscriptions();
+  }, []);
 
   const filterStorage =
     typeof localStorage.trackerFilter === 'undefined' ||
@@ -682,6 +691,15 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterState(filterValue);
   };
 
+  const matchingSubscription =
+    subscriptions &&
+    subscriptions.find((subscription: Subscription) => {
+      return subscription.id === sellerSubscription.subscription_id;
+    });
+
+  const historyTrackPeriod =
+    (matchingSubscription && matchingSubscription.track_history_limit) || Infinity;
+
   return (
     <div className="tracker-filter-section">
       <div className="tracker-filter-section__header">
@@ -725,10 +743,12 @@ function ProductTrackerFilterSection(props: Props) {
         <div className="tracker-filter-section__header__period-container">
           {_.map(filterDataState.period.data, filterData => {
             const shouldDisabledFilterPeriod = filterData.value
-              ? filterData.value > getMaxFilterPeriod(sellerSubscription.subscription_id)
+              ? filterData.value > historyTrackPeriod
                 ? true
                 : false
               : true;
+
+            console.log(shouldDisabledFilterPeriod);
             return (
               <div
                 className={`tracker-filter-section__header__period-container__period-items 
@@ -760,6 +780,7 @@ const mapStateToProps = (state: {}) => ({
   trackerDetails: get(state, 'productTracker.trackerDetails'),
   resettingFilter: get(state, 'productTracker.resettingFilter'),
   sellerSubscription: get(state, 'subscription.sellerSubscription'),
+  subscriptions: get(state, 'subscription.subscriptions'),
 });
 
 const mapDispatchToProps = {
@@ -769,5 +790,6 @@ const mapDispatchToProps = {
   fetchAllTrackedProductDetails: (periodValue: any) =>
     fetchAllSupplierProductTrackerDetails(periodValue),
   setPageNumber: (pageNumber: number) => setProductTrackerPageNumber(pageNumber),
+  fetchSubscriptions: () => fetchSubscriptions(),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerFilterSection);
