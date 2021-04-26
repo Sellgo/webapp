@@ -748,7 +748,6 @@ function ProductTrackerFilterSection(props: Props) {
                 : false
               : true;
 
-            console.log(shouldDisabledFilterPeriod);
             return (
               <div
                 className={`tracker-filter-section__header__period-container__period-items 

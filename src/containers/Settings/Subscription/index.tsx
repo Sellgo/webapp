@@ -578,9 +578,13 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                   <Table.Row>
                     <Table.Cell>Maximum Monthly Uploads</Table.Cell>
                     {subscriptionsSorted.map((subscription: Subscription, index: number) => {
+                      const isMonthlySynthesisPeriod = subscription.synthesis_period === 'monthly';
                       return (
                         <Table.Cell key={index}>
-                          <p>{subscription.synthesis_limit.toLocaleString()} UPCs /mo</p>
+                          <p>
+                            {subscription.synthesis_limit.toLocaleString()}{' '}
+                            {`UPC${isMonthlySynthesisPeriod ? '/mo' : '/day'}`}
+                          </p>
                         </Table.Cell>
                       );
                     })}
