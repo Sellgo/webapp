@@ -137,3 +137,12 @@ export const guessColumnMappings = (
 
   return mappings;
 };
+
+export const download = (url: string) => {
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', `${url}`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};

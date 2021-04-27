@@ -17,11 +17,13 @@ import {
   SET_SELLER_PRODUCTS_PAGE_NO,
   SET_SELLER_PRODUCTS_PAGE_SIZE,
   SET_SELLER_TRACK_GROUPS,
+  // SET_TRACK_PRODUCT_SELLER,
 } from '../../constants/SellerFinder';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { AppConfig } from '../../config';
 import { error, success } from '../../utils/notifications';
 import { SET_MENU_ITEM } from '../../constants/Tracker';
+import { productSellers } from '../../selectors/SellerFinder';
 export interface SellersPayload {
   enableLoader: boolean;
 }
@@ -36,6 +38,11 @@ export interface ProductSellersPayload {
   enableLoader: boolean;
   merchantId: any;
   asin: string;
+}
+
+export interface TrackProductPayload {
+  status: string;
+  product_id: number;
 }
 
 export const fetchSellers = (payload: SellersPayload) => async (dispatch: any) => {
@@ -315,6 +322,51 @@ export const moveMerchantToSellerTrackGroup = (merchantId: number, groupID: numb
   }
 };
 
+export const trackProduct = (payload: TrackProductPayload) => async () => {
+  try {
+    const { product_id, status } = payload;
+    const sellerID = sellerIDSelector();
+    const url = `${AppConfig.BASE_URL_API}sellers/${sellerID}/track/product`;
+    const data = new FormData();
+    data.set('seller_id', `${sellerID}`);
+    data.set('product_id', `${product_id}`);
+    data.set('status', status);
+
+    const res = await Axios.post(url, data);
+    console.log('Tracking Product Res', res);
+  } catch (err) {
+    console.log('Error Tracking Seller', err);
+  }
+};
+
+export const trackProductSeller = (merchantId: any) => async (dispatch: any, getState: any) => {
+  try {
+    const sellerID = sellerIDSelector();
+
+    const url = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants/track`;
+    let amazonSellers = productSellers(getState());
+    const payload = new FormData();
+    payload.set('seller_merchant_id', merchantId);
+    const res = await Axios.post(url, payload);
+    const data = res.data;
+    if (data) {
+      const status = data.object.track_status;
+      amazonSellers = amazonSellers.map((seller: any) => {
+        let update = seller;
+        if (seller.seller_merchant_id === data.object.id) {
+          update = { ...update, track_status: status };
+        }
+        return update;
+      });
+      success(`Seller ${status === 'active' ? 'Tracking' : 'Untracking'}`);
+      dispatch(setProductSellers(amazonSellers));
+    }
+    console.log('Tracking Res', res);
+  } catch (err) {
+    console.log('Error Tracking Seller', err);
+  }
+};
+
 const setProductsCount = (count: number) => ({
   type: SET_SELLER_PRODUCTS_COUNT,
   data: count,
@@ -343,3 +395,8 @@ const setActiveProductData = (data: any) => ({
   type: SET_ACTIVE_PRODUCT,
   data: data,
 });
+
+// const setProductSellerTrackStatus = (status: any) => ({
+//   type: SET_TRACK_PRODUCT_SELLER,
+//   data: status,
+// });

@@ -22,10 +22,12 @@ export const SET_PRODUCT_SELLERS = 'SET_FETCH_SELLERS';
 
 export const SET_SELLER_TRACK_GROUPS = 'SET_SELLER_TRACK_GROUPS';
 export const SET_MENU_ITEM = 'SET_MENU_ITEM';
+export const SET_TRACK_PRODUCT_SELLER = 'SET_TRACK_PRODUCT_SELLER';
 
 export const SEARCH_STATUS = {
   PENDING: 'pending',
   DONE: 'done',
+  SUCCESS: 'success',
 };
 
 export const selectItemsCountList = [

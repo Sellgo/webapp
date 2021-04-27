@@ -51,7 +51,7 @@ const renderProcessedOn = (row: any) => {
 };
 
 const renderTrackSeller = (row: any) => {
-  return <TrackSeller tracking={row.tracking} type={'seller'} />;
+  return <TrackSeller data={row} type={'seller'} />;
 };
 const columns = [
   {
@@ -142,7 +142,12 @@ export const SellersRow = ({ row }: any) => {
   };
   const renderRow = (row: any) => {
     const dataKeys = columns.map(({ dataKey }) => ({ [`${dataKey}`]: dataKey }));
-    let object = { asin: 'asin', merchant_id: 'merchant_id' };
+    let object = {
+      asin: 'asin',
+      merchant_id: 'merchant_id',
+      seller_merchant_id: 'seller_merchant_id',
+      track_status: 'track_status',
+    };
     let data: any = row;
     dataKeys.forEach((obj: any) => {
       object = { ...object, ...obj };
@@ -155,7 +160,6 @@ export const SellersRow = ({ row }: any) => {
       obj[key] = data[key];
       return obj;
     }, {});
-    console.log(sorted);
     return Object.keys(sorted).map((key: any) => render(key, sorted));
   };
   return (

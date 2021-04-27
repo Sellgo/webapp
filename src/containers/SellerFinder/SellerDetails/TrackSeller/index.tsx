@@ -2,30 +2,52 @@ import React from 'react';
 import './index.scss';
 import { Button, Icon } from 'semantic-ui-react';
 import { activeProductSellerStatus } from '../../../../selectors/SellerFinder';
-import { setActiveProduct } from '../../../../actions/SellerFinder';
+import {
+  setActiveProduct,
+  trackProduct,
+  TrackProductPayload,
+  trackProductSeller,
+} from '../../../../actions/SellerFinder';
 import { connect } from 'react-redux';
 import { SEARCH_STATUS } from '../../../../constants/SellerFinder';
 interface Props {
-  tracking: boolean;
   type?: string;
   activeProductSellerStatus?: any;
   setActiveProduct?: (data: any) => void;
   data?: any;
+  trackSeller: (id: any) => void;
+  tracking?: any;
+  trackProduct: (payload: TrackProductPayload) => void;
 }
 
 const TrackSeller = (props: Props) => {
+  const { data, trackSeller, type, trackProduct } = props;
+  const track = () => {
+    if (type === 'product') {
+      trackProduct({
+        status: data.track_status === 'active' ? 'inactive' : 'active',
+        product_id: data.product_id,
+      });
+    } else {
+      trackSeller(data.seller_merchant_id);
+    }
+  };
   return (
     <div className={'track-btn-container'}>
       <Button
         className={`${props.type === 'seller' ? 'track-seller' : 'track-product'} ${
-          props.tracking ? 'tracking' : 'not-tracking'
-        }`}
+          data.track_status === 'active' ? 'tracking' : 'not-tracking'
+        }
+        `}
+        onClick={track}
       >
         <span>
           {props.type === 'product' && <i className={'fas fa-fingerprint'} />}
           {props.type === 'seller' && '+'}
         </span>
-        <span className="tracking-label">Track</span>
+        <span className="tracking-label">
+          {data.track_status === 'active' ? `Tracking` : 'Track'}
+        </span>
       </Button>
       {props.type === 'product' && (
         <span>
@@ -57,6 +79,8 @@ const mapStateToProps = (state: any) => ({
 });
 const mapDispatchToProps = {
   setActiveProduct: (data: any) => setActiveProduct(data),
+  trackSeller: (payload: any) => trackProductSeller(payload),
+  trackProduct: (payload: TrackProductPayload) => trackProduct(payload),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TrackSeller);

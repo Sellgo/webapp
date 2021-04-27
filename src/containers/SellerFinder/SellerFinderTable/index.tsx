@@ -47,6 +47,10 @@ import { SEARCH_STATUS } from '../../../constants/SellerFinder';
 import { formatPercent, showNAIfZeroOrNull } from '../../../utils/format';
 import PageLoader from '../../../components/PageLoader';
 import { Merchant } from '../../../interfaces/Seller';
+import ExportResultAs from '../../../components/ExportResultAs';
+import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Suppliers';
+import { info, success } from '../../../utils/notifications';
+import { download } from '../../../utils/file';
 
 interface Props {
   sellers: any[];
@@ -56,6 +60,7 @@ interface Props {
   ws: WebSocket;
   inventorySocket: WebSocket;
   sellersSocket: WebSocket;
+  exportMerchantsSocket: WebSocket;
   fetchInventory: (data: any) => void;
   fetchSellerProducts: (payload: SellersProductsPayload) => void;
   fetchProductSellers: (payload: ProductSellersPayload) => void;
@@ -78,6 +83,16 @@ interface SearchResponse {
   job_id: string;
   status: string;
   message: string;
+  parent_asin: boolean;
+}
+
+interface ExportResponse {
+  message: string;
+  progress: number;
+  status: string;
+  type: string;
+  csv_path: string;
+  excel_path: string;
 }
 const SellerFinderTable = (props: Props) => {
   const {
@@ -97,6 +112,7 @@ const SellerFinderTable = (props: Props) => {
     sellerTrackGroups,
     getAllSellerTrackGroups,
     activeGroupID,
+    exportMerchantsSocket,
   } = props;
 
   const [expandedRow, setExpandedRow] = useState(null);
@@ -149,11 +165,16 @@ const SellerFinderTable = (props: Props) => {
 
   /* States for groups */
   const [name, setName] = useState('');
+  const [searchText, setSearchText] = useState('');
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const [deleteGroup, setDeleteGroup] = useState(false);
   const [editGroup, setEditGroup] = useState(false);
   const [editError, setEditError] = useState(false);
+  const [exportResult, setExportResult] = useState(false);
+  const [searching, setSearching] = useState(false);
+  const [refreshing, setRefreshing] = useState('');
+  const [exportFormat, setExportFormat] = useState('csv');
 
   const expandRow = (row: any) => {
     setExpandedRow(expandedRow ? null : row.id);
@@ -167,8 +188,13 @@ const SellerFinderTable = (props: Props) => {
         if (data.job_id) {
           setSearchMessage(data.message);
         }
-        console.log(data);
+        if (searchText) {
+          setSearching(data.status === SEARCH_STATUS.PENDING);
+        }
+
         if (data.status === SEARCH_STATUS.DONE) {
+          success('Seller Found!');
+          setRefreshing('');
           fetchSellers({ enableLoader: false });
         }
       };
@@ -201,6 +227,7 @@ const SellerFinderTable = (props: Props) => {
           asins: activeProduct.asin,
         })
       );
+      success('Searching for ' + activeProduct.asin);
     }
   }, [activeProduct]);
 
@@ -209,20 +236,63 @@ const SellerFinderTable = (props: Props) => {
       sellersSocket.onmessage = (res: any) => {
         const data: SearchResponse = JSON.parse(res.data);
         setActiveProductStatus({ ...data, asin: activeProduct.asin });
-        if (data.status === SEARCH_STATUS.DONE) {
+        setSearching(data.status === SEARCH_STATUS.PENDING);
+
+        if (data.status === SEARCH_STATUS.DONE && data.parent_asin) {
           fetchProductSellers({
             asin: activeProduct.asin,
             enableLoader: true,
             merchantId: activeMerchant.id,
           });
         }
+        if (data.status === SEARCH_STATUS.DONE && !data.parent_asin) {
+          fetchSellers({ enableLoader: false });
+        }
+        success('Seller Found!');
       };
     }
   }, [activeProduct]);
-  const search = (value: string) => {
-    if (value.trim()) {
-      ws.send(JSON.stringify({ merchant_ids: value.trim() }));
+
+  useEffect(() => {
+    if (exportMerchantsSocket.OPEN && !exportMerchantsSocket.CONNECTING) {
+      exportMerchantsSocket.onmessage = (res: any) => {
+        const data: ExportResponse = JSON.parse(res.data);
+        if (data.status === SEARCH_STATUS.PENDING) {
+          info(`Export Progress (${data.progress})`);
+        }
+        if (data.status === SEARCH_STATUS.SUCCESS && !!data.excel_path) {
+          success('File Exported Successfully!');
+          const fileUrl = exportFormat === 'csv' ? data.csv_path : data.excel_path;
+          download(fileUrl);
+        }
+      };
     }
+  });
+
+  const exportMerchants = () => {
+    if (exportMerchantsSocket.OPEN && !exportMerchantsSocket.CONNECTING) {
+      exportMerchantsSocket.send(JSON.stringify({ start_report: true }));
+      info('Check Notifications for Export Progress.');
+    }
+  };
+
+  const search = (value: string) => {
+    const data = value.trim();
+    if (data) {
+      setSearchText(data);
+      setSearching(true);
+      if (data.length === 10) {
+        sellersSocket.send(JSON.stringify({ asins: data }));
+      } else {
+        ws.send(JSON.stringify({ merchant_ids: data }));
+      }
+      success('Searching for ' + data);
+    }
+  };
+
+  const refreshSeller = (data: string) => {
+    ws.send(JSON.stringify({ merchant_ids: data }));
+    setRefreshing(data);
   };
 
   const onCheckInventory = (data: any) => {
@@ -421,8 +491,8 @@ const SellerFinderTable = (props: Props) => {
     );
     return (
       <div className="sf-actions">
-        <span>
-          <Icon name="refresh" color="grey" />
+        <span onClick={() => refreshSeller(row.merchant_id)}>
+          <Icon name="refresh" color="grey" loading={refreshing === row.merchant_id} />
         </span>
         <OtherSort
           row={row}
@@ -433,6 +503,7 @@ const SellerFinderTable = (props: Props) => {
           handleConfirmMessage={handleConfirmMessage}
           handleCancel={handleCancel}
           handleMoveGroup={handleMoveGroup}
+          handleRefresh={() => refreshSeller(row.merchant_id)}
         />
       </div>
     );
@@ -575,7 +646,11 @@ const SellerFinderTable = (props: Props) => {
   return (
     <div className="seller-finder-table">
       <div className="search-input-container">
-        <SellerSearch onSearch={value => search(value)} message={searchMessage} />
+        <SellerSearch
+          onSearch={value => search(value)}
+          message={searchMessage}
+          loading={searching}
+        />
       </div>
       <div className="seller-menu">
         <SellerGroups
@@ -606,7 +681,7 @@ const SellerFinderTable = (props: Props) => {
           handleKeepTracking={handleKeepTracking}
         />
 
-        <span>
+        <span className="export-icon" onClick={() => setExportResult(true)}>
           <Icon name="download" /> {'Export'}
         </span>
       </div>
@@ -632,6 +707,19 @@ const SellerFinderTable = (props: Props) => {
           name={'seller-finder'}
         />
       )}
+      <ExportResultAs
+        open={exportResult}
+        formats={EXPORT_FORMATS}
+        data={EXPORT_DATA}
+        format={'csv'}
+        onFormatChange={setExportFormat}
+        onClose={() => setExportResult(false)}
+        onExport={() => {
+          console.log('Format', exportFormat);
+          setExportResult(false);
+          exportMerchants();
+        }}
+      />
     </div>
   );
 };

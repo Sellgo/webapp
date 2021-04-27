@@ -19,6 +19,7 @@ import {
   SET_SELLER_PRODUCTS_PAGE_SIZE,
   SET_MENU_ITEM,
   SET_SELLER_TRACK_GROUPS,
+  SET_TRACK_PRODUCT_SELLER,
 } from '../../constants/SellerFinder';
 
 const initialState = {
@@ -41,6 +42,7 @@ const initialState = {
   productsPageCount: 0,
   activeProductSellerStatus: {},
   activeProduct: {},
+  productSellerTrackStatus: 'inactive',
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -93,6 +95,8 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'activeProductSellerStatus', action.data);
     case SET_ACTIVE_PRODUCT:
       return setIn(state, 'activeProduct', action.data);
+    case SET_TRACK_PRODUCT_SELLER:
+      return setIn(state, 'productSellerTrackStatus', action.data);
     default:
       return state;
   }

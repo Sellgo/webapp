@@ -1,8 +1,9 @@
 import React from 'react';
 import { Icon, Popup, Confirm, Menu, Divider, Header, Segment } from 'semantic-ui-react';
 import { clamp } from 'lodash';
-import Untrack from '../../../assets/images/untrack.svg';
 import Folder from '../../../assets/images/folder-plus.svg';
+import './index.scss';
+import { openLink } from '../../../utils/format';
 
 interface OtherSortProps {
   row: any;
@@ -13,6 +14,7 @@ interface OtherSortProps {
   handleConfirmMessage: any;
   handleCancel: any;
   handleMoveGroup: any;
+  handleRefresh: () => void;
 }
 class OtherSort extends React.Component<OtherSortProps> {
   state = {
@@ -33,12 +35,13 @@ class OtherSort extends React.Component<OtherSortProps> {
       handleConfirmMessage,
       handleMoveGroup,
       handleUntrack,
+      handleRefresh,
     } = this.props;
 
     const { trackGroupsOpen, otherOptionsOpen } = this.state;
 
     return (
-      <div className="other-sort">
+      <div className="other-sort-sf">
         <Popup
           basic={true}
           on="click"
@@ -87,26 +90,43 @@ class OtherSort extends React.Component<OtherSortProps> {
         <Popup
           basic={true}
           on="click"
-          className="untrack-popup"
+          className="untrack-popup-sf actions"
           trigger={<Icon link={true} className="ellipsis vertical" />}
           position="bottom right"
           hideOnScroll={true}
-          style={{ padding: 0 }}
+          style={{ padding: 0, marginBottom: 0, borderRadius: 15 }}
           onOpen={() => this.setOtherOptionsOpen(true)}
           onClose={() => this.setOtherOptionsOpen(false)}
           open={otherOptionsOpen}
         >
-          <Menu fluid={true} vertical={true}>
+          <Menu fluid={true} vertical={true} className={'action-menu'}>
+            <Menu.Item onClick={() => openLink(row.inventory_link)}>
+              <p>
+                <Icon name={'external alternate'} /> View On Amazon
+              </p>
+            </Menu.Item>
+            <Menu.Item onClick={() => console.log('To do')}>
+              <p>
+                <Icon name={'download'} />
+                Export As
+              </p>
+            </Menu.Item>
+            <Menu.Item onClick={handleRefresh}>
+              <p>
+                <Icon name={'refresh'} />
+                Refresh
+              </p>
+            </Menu.Item>
             <Menu.Item
               className="untrack-link"
-              style={{ color: 'red' }}
               onClick={() => {
                 this.setOtherOptionsOpen(false);
                 handleConfirmMessage(row);
               }}
             >
-              <img src={Untrack} alt="Untrack" />
-              {`Delte Seller`}
+              <p>
+                <Icon name={'trash'} /> Delete Seller
+              </p>
             </Menu.Item>
           </Menu>
         </Popup>

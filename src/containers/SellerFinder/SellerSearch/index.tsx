@@ -4,6 +4,7 @@ import './index.scss';
 interface Props {
   onSearch: (input: string) => void;
   message: string;
+  loading: boolean;
 }
 const SellerSearch = (props: Props) => {
   const [search, setSearch] = React.useState<any>('');
@@ -12,7 +13,8 @@ const SellerSearch = (props: Props) => {
       <div className="search-container">
         <Input
           size="small"
-          icon="search"
+          icon={'search'}
+          loading={props.loading}
           placeholder="Search by ASIN or Seller Name/ID"
           onChange={evt => setSearch(evt.target.value)}
         />

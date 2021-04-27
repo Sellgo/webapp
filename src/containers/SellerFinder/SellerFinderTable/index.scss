@@ -1,6 +1,73 @@
 $link-color: #5381db;
 $new_black: #3b4557;
 
+.untrack-popup-sf {
+  padding: 1.33em 1.33em 0.33em 0.9em;
+  border-radius: 25px;
+
+  .action-menu {
+    background: #e6e6e6 !important;
+    border-radius: 15px;
+
+    .item::before {
+      display: none;
+    }
+  }
+
+  .untrack-span {
+    a {
+      color: #000 !important;
+    }
+  }
+
+  .ui.divider {
+    margin: 1.3rem 0 0.5rem;
+  }
+
+  button {
+    font-family: 'Work sans', sans-serif !important;
+    font-weight: 500 !important;
+    padding: 0.28571429em 0 0.58571429em !important;
+  }
+
+  a.item.amazon-link,
+  a.item.untrack-link {
+    width: 200px;
+    display: flex !important;
+
+    img {
+      margin-right: 10px !important;
+    }
+  }
+
+  a.item.amazon-link {
+    color: #349af8 !important;
+  }
+
+  a.edit-cost {
+    display: flex !important;
+
+    .icon {
+      margin: 0 0.25rem 0 0 !important;
+    }
+  }
+}
+
+.other-sort-sf {
+  @media (max-width: 767px) {
+    position: static;
+  }
+
+  .ui.popup {
+    background: gray;
+  }
+
+  i.icon,
+  i.icons {
+    color: #98aeca;
+  }
+}
+
 .seller-finder-table {
   width: 100%;
   margin: 0 auto;
@@ -196,17 +263,6 @@ $new_black: #3b4557;
       }
     }
 
-    .other-sort {
-      @media (max-width: 767px) {
-        position: static;
-      }
-
-      i.icon,
-      i.icons {
-        color: #98aeca;
-      }
-    }
-
     tbody {
       tr {
         td.table-cell {
@@ -266,6 +322,7 @@ $new_black: #3b4557;
 
         .icon {
           font-size: 12px;
+          cursor: pointer;
         }
       }
 
@@ -480,6 +537,10 @@ $new_black: #3b4557;
           line-height: 24px;
         }
       }
+    }
+
+    .export-icon {
+      cursor: pointer;
     }
   }
 

@@ -30,3 +30,5 @@ export const selectSellerTrackGroups = (state: {}) => get(state, 'sellerFinder.s
 
 /* Select active menu group */
 export const selectActiveMenuGroupID = (state: {}) => get(state, 'sellerFinder.sellerMenuItem');
+export const productSellerTrackStatus = (state: {}) =>
+  get(state, 'sellerFinder.productSellerTrackStatus');
