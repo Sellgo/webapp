@@ -76,8 +76,9 @@ export const setActiveProduct = (data: any) => async (dispatch: any) => {
 
 export const fetchSellerProducts = (payload: SellersProductsPayload) => async (dispatch: any) => {
   try {
+    const { pageNo = 1, pageSize = 25 } = payload;
     const sellerID = sellerIDSelector();
-    const pagination = `page=${payload.pageNo || 1}&per_page=${payload.pageSize}`;
+    const pagination = `page=${pageNo}&per_page=${pageSize}`;
     const url =
       AppConfig.BASE_URL_API +
       `sellers/${sellerID}/merchants/${payload.merchantId}/products?${pagination}`;
