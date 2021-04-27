@@ -77,6 +77,7 @@ interface Props {
   deleteSellerTrackGroup: (groupID: number) => void;
   updateSellerTrackerGroup: (group: any) => void;
   moveMerchantToSellerTrackGroup: (merchantID: number, groupID: number) => void;
+  reconnectExportSocket: () => void;
 }
 
 interface SearchResponse {
@@ -113,6 +114,7 @@ const SellerFinderTable = (props: Props) => {
     getAllSellerTrackGroups,
     activeGroupID,
     exportMerchantsSocket,
+    reconnectExportSocket,
   } = props;
 
   const [expandedRow, setExpandedRow] = useState(null);
@@ -263,7 +265,10 @@ const SellerFinderTable = (props: Props) => {
         if (data.status === SEARCH_STATUS.SUCCESS && !!data.excel_path) {
           success('File Exported Successfully!');
           const fileUrl = exportFormat === 'csv' ? data.csv_path : data.excel_path;
-          download(fileUrl);
+          const name = `merchant-export-${Date.now()}.${exportFormat}`;
+          download(fileUrl, name).then(() => {
+            reconnectExportSocket();
+          });
         }
       };
     }

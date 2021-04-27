@@ -138,11 +138,11 @@ export const guessColumnMappings = (
   return mappings;
 };
 
-export const download = (url: string) => {
+export const download = async (url: string, name: string) => {
   const link = document.createElement('a');
   link.href = url;
-  link.setAttribute('download', `${url}`);
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+  await link.setAttribute('download', `${name}`);
+  await document.body.appendChild(link);
+  await link.click();
+  await document.body.removeChild(link);
 };

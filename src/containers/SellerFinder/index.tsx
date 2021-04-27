@@ -14,13 +14,12 @@ const SellerFinder = (props: SellerFinderProps) => {
   const [websocketSellers, setWebsocketSellers] = React.useState<any>({});
   const [websocketMerchantsReport, setWebsocketMerchantsReport] = React.useState<any>({});
 
+  const sellerId = sellerIDSelector();
+  const socketUrl = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/search`;
+  const socketUrlInventory = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/inventory/search`;
+  const socketUrlSellers = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/asin/search`;
+  const socketMerchantReport = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/export`;
   useEffect(() => {
-    const sellerId = sellerIDSelector();
-    const socketUrl = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/search`;
-    const socketUrlInventory = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/inventory/search`;
-    const socketUrlSellers = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/asin/search`;
-    const socketMerchantReport = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/export`;
-
     const wsInventory = new WebSocket(socketUrlInventory);
     const ws = new WebSocket(socketUrl);
     const wsSellers = new WebSocket(socketUrlSellers);
@@ -45,6 +44,7 @@ const SellerFinder = (props: SellerFinderProps) => {
       console.log('sellers report connected');
       setWebsocketMerchantsReport(wsMerchantsReport);
     };
+
     return () => {
       wsInventory.close();
       wsSellers.close();
@@ -53,6 +53,10 @@ const SellerFinder = (props: SellerFinderProps) => {
     };
   }, []);
   const { match } = props;
+
+  const reconnectExportSocket = () => {
+    setWebsocketMerchantsReport(new WebSocket(socketMerchantReport));
+  };
   return (
     <div className="seller-finder">
       <PageHeader
@@ -69,6 +73,7 @@ const SellerFinder = (props: SellerFinderProps) => {
         inventorySocket={websocketInventory}
         sellersSocket={websocketSellers}
         exportMerchantsSocket={websocketMerchantsReport}
+        reconnectExportSocket={reconnectExportSocket}
       />
     </div>
   );
