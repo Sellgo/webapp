@@ -335,7 +335,7 @@ const SellerFinderTable = (props: Props) => {
         }
 
         if (data.status === SEARCH_STATUS.DONE) {
-          success(`${data.merchants_count} Sellers Found!`);
+          success(`${data.merchants_count || 1} Sellers Found!`);
           setRefreshing('');
           fetchAmazonSellers({ enableLoader: false });
         }
@@ -390,7 +390,7 @@ const SellerFinderTable = (props: Props) => {
         if (data.status === SEARCH_STATUS.DONE && !data.parent_asin) {
           fetchAmazonSellers({ enableLoader: false });
         }
-        success(`${data.merchants_count} Sellers Found!`);
+        success(`${data.merchants_count || 1} Sellers Found!`);
       };
     }
   }, [activeProduct]);
