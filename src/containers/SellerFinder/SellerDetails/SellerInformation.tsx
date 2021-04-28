@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, Icon } from 'semantic-ui-react';
-import SellerSampleLogo from '../../../assets/images/Image 1.png';
 import SellerSampleMarketpalce from '../../../assets/images/Ellipse 180.png';
 import { formatString, showNAIfZeroOrNull } from '../../../utils/format';
 import { loadingInventory } from '../../../selectors/SellerFinder';
@@ -100,7 +99,9 @@ const SellerInformation = (props: SellerInformationProps) => {
         </div>
       </div>
       <div className="seller-logo-container">
-        <img src={SellerSampleLogo} className={'seller-logo'} />
+        {details.merchant_logo && <img src={details.merchant_logo} className={'seller-logo'} />}
+        {!details.merchant_logo && <span className={'seller-logo'} />}
+
         <div className={'business-details-container'}>
           <div>
             <p className="seller-name">{formatString(details.merchant_name)}</p>

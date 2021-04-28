@@ -387,7 +387,7 @@ const SellerFinderTable = (props: Props) => {
             merchantId: activeMerchant.id,
           });
         }
-        if (data.status === SEARCH_STATUS.DONE && !data.parent_asin) {
+        if (data.status === SEARCH_STATUS.DONE) {
           fetchAmazonSellers({ enableLoader: false });
         }
         success(`${data.merchants_count || 1} Sellers Found!`);
