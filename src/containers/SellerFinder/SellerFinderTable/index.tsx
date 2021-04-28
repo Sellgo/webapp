@@ -23,6 +23,14 @@ import {
   sellerProductsPageNo,
   sellerProductsPageSize,
   activeProduct,
+  sellersPageNo,
+  sellersPageSize,
+  sellersPageCount,
+  sellersCount,
+  sellersSinglePageItemsCount,
+  sellersLoading,
+  loadingSellersFilters,
+  sellersFilters,
 } from '../../../selectors/SellerFinder';
 
 import {
@@ -41,6 +49,8 @@ import {
   getAllSellerTrackGroups,
   moveMerchantToSellerTrackGroup,
   setActiveProductSellerStatus,
+  setSellersSinglePageItemsCount,
+  fetchSellerFilters,
 } from '../../../actions/SellerFinder';
 
 import { SEARCH_STATUS } from '../../../constants/SellerFinder';
@@ -78,6 +88,16 @@ interface Props {
   updateSellerTrackerGroup: (group: any) => void;
   moveMerchantToSellerTrackGroup: (merchantID: number, groupID: number) => void;
   reconnectExportSocket: () => void;
+  sellersPageNo: number;
+  sellersPageSize: number;
+  sellersCount: number;
+  sellersPageCount: number;
+  sellersSinglePageItemsCount: number;
+  setSellersSinglePageItemsCount: (count: number) => void;
+  sellersLoading: boolean;
+  loadingFilters: boolean;
+  sellerFilters: any;
+  fetchSellerFilters: (query: string) => void;
 }
 
 interface SearchResponse {
@@ -85,6 +105,7 @@ interface SearchResponse {
   status: string;
   message: string;
   parent_asin: boolean;
+  merchants_count: number;
 }
 
 interface ExportResponse {
@@ -115,6 +136,16 @@ const SellerFinderTable = (props: Props) => {
     activeGroupID,
     exportMerchantsSocket,
     reconnectExportSocket,
+    sellersPageNo,
+    sellersPageSize,
+    sellersCount,
+    sellersPageCount,
+    sellersSinglePageItemsCount,
+    setSellersSinglePageItemsCount,
+    sellersLoading,
+    loadingFilters,
+    sellerFilters,
+    fetchSellerFilters,
   } = props;
 
   const [expandedRow, setExpandedRow] = useState(null);
@@ -177,10 +208,119 @@ const SellerFinderTable = (props: Props) => {
   const [searching, setSearching] = useState(false);
   const [refreshing, setRefreshing] = useState('');
   const [exportFormat, setExportFormat] = useState('csv');
+  const [viewFilterDialog, setViewFilterDialog] = useState(false);
+  const [activeColumnFilter, setActiveColumnFilter] = useState('');
+  // const [activeColumn, setActiveColumn] = useState({
+  //   label: 'Seller Information',
+  //   dataKey: 'seller_information',
+  //   type: 'string',
+  //   sortable: false,
+  //   show: true,
+  //   className: ``,
+  //   filter: true,
+  //   filterSign: '',
+  //   filterType: 'list',
+  //   filterDataKey: 'search',
+  //   filterLabel: 'Seller Information',
+  // });
 
   const expandRow = (row: any) => {
     setExpandedRow(expandedRow ? null : row.id);
     setActiveMerchant(row);
+  };
+
+  const fetchAmazonSellers = (payload: SellersPayload, resetKey = '') => {
+    const {
+      pageSize = sellersPageSize,
+      pageNo = sellersPageNo,
+      enableLoader,
+      sort,
+      sortDirection,
+    } = payload;
+
+    let reqPayload: SellersPayload = {
+      pageSize,
+      pageNo,
+      enableLoader,
+      sort,
+      sortDirection,
+    };
+    let filterQuery = getSavedFilters(resetKey);
+    if (payload.query && payload.query.length && !filterQuery.includes(payload.query)) {
+      filterQuery = `${filterQuery}&${payload.query}`;
+    }
+    if (filterQuery) {
+      reqPayload = { ...reqPayload, query: filterQuery };
+    }
+
+    fetchSellers(reqPayload);
+    setViewFilterDialog(false);
+  };
+
+  const fetchFilters = async (filterDataKey: string) => {
+    const query = `column_value=${filterDataKey}&column_type=${
+      filterDataKey === 'search' ? filterDataKey : 'slider'
+    }`;
+    fetchSellerFilters(query);
+    setActiveColumnFilter(filterDataKey);
+  };
+
+  const getFilterValue = (dataKey: string): any => {
+    const localFilters = localStorage.getItem(`seller-finder:${dataKey}`);
+    let parsed: any;
+    if (localFilters) {
+      parsed = JSON.parse(localFilters);
+      if (dataKey === 'search') {
+        parsed = parsed.value.length ? parsed : undefined;
+      } else {
+        parsed = Object.keys(parsed.value).length ? parsed : undefined;
+      }
+    }
+    return parsed ? parsed : undefined;
+  };
+
+  const parseFilters = (filter: any): string => {
+    const { dataKey, value } = filter;
+    let query = '';
+    if (value) {
+      if (dataKey === 'search') {
+        query = `searches=${value}`;
+      } else {
+        query = `${dataKey}_min=${value.min}&${dataKey}_max=${value.max}`;
+      }
+    }
+
+    setViewFilterDialog(false);
+    return query;
+  };
+
+  const applyFilters = (data: any) => {
+    let filter = data;
+    let query = '';
+    if (data.dataKey !== 'search') {
+      filter = Object.keys(data.value).length ? data : undefined;
+      if (filter) {
+        query = parseFilters(filter);
+      }
+    } else {
+      query = parseFilters(filter);
+    }
+    fetchAmazonSellers({ query });
+    setViewFilterDialog(false);
+  };
+
+  const getSavedFilters = (resetKey = '') => {
+    let query = '';
+    columns.forEach((c: any) => {
+      if (resetKey !== c.dataKey) {
+        const saved: any = getFilterValue(c.dataKey);
+        if (saved && !!saved.value) {
+          const parsed = parseFilters(saved);
+          query = !parsed.includes('undefined') ? `${query}&${parseFilters(saved)}&` : query;
+        }
+      }
+    });
+    return query;
   };
 
   useEffect(() => {
@@ -195,9 +335,9 @@ const SellerFinderTable = (props: Props) => {
         }
 
         if (data.status === SEARCH_STATUS.DONE) {
-          success('Seller Found!');
+          success(`${data.merchants_count} Sellers Found!`);
           setRefreshing('');
-          fetchSellers({ enableLoader: false });
+          fetchAmazonSellers({ enableLoader: false });
         }
       };
     }
@@ -248,9 +388,9 @@ const SellerFinderTable = (props: Props) => {
           });
         }
         if (data.status === SEARCH_STATUS.DONE && !data.parent_asin) {
-          fetchSellers({ enableLoader: false });
+          fetchAmazonSellers({ enableLoader: false });
         }
-        success('Seller Found!');
+        success(`${data.merchants_count} Sellers Found!`);
       };
     }
   }, [activeProduct]);
@@ -522,6 +662,11 @@ const SellerFinderTable = (props: Props) => {
       sortable: false,
       show: true,
       className: ``,
+      filter: true,
+      filterSign: '',
+      filterType: 'list',
+      filterDataKey: 'search',
+      filterLabel: 'Seller Information',
       render: renderSellerInformation,
     },
     {
@@ -585,6 +730,11 @@ const SellerFinderTable = (props: Props) => {
       sortable: true,
       show: true,
       className: `review`,
+      filter: true,
+      filterSign: '',
+      filterType: 'range',
+      filterDataKey: 'count_30_days',
+      filterLabel: 'Review \nL30D',
       render: renderReviewL30D,
     },
     {
@@ -594,6 +744,11 @@ const SellerFinderTable = (props: Props) => {
       sortable: true,
       show: true,
       className: `review`,
+      filter: true,
+      filterSign: '',
+      filterType: 'range',
+      filterDataKey: 'count_90_days',
+      filterLabel: 'Review \nL90D',
       render: renderReviewL90D,
     },
     {
@@ -603,6 +758,11 @@ const SellerFinderTable = (props: Props) => {
       sortable: true,
       show: true,
       className: `review`,
+      filter: true,
+      filterSign: '',
+      filterType: 'range',
+      filterDataKey: 'count_12_month',
+      filterLabel: 'Review \nL365D',
       render: renderReviewL365D,
     },
     {
@@ -710,6 +870,49 @@ const SellerFinderTable = (props: Props) => {
             );
           }}
           name={'seller-finder'}
+          loading={sellersLoading}
+          singlePageItemsCount={sellersSinglePageItemsCount}
+          currentPage={sellersPageNo}
+          count={sellersCount}
+          pageCount={sellersPageCount}
+          setPage={(page: number) => {
+            if (page !== sellersPageNo) {
+              fetchAmazonSellers({
+                pageNo: page,
+                pageSize: sellersPageSize,
+                enableLoader: false,
+              });
+            }
+          }}
+          setSinglePageItemsCount={(pageSize: number) => {
+            fetchAmazonSellers({
+              pageNo: 1,
+              pageSize,
+              enableLoader: false,
+            });
+            setSellersSinglePageItemsCount(pageSize);
+          }}
+          onSort={(sortDirection, sort) => {
+            fetchAmazonSellers({
+              pageNo: 1,
+              pageSize: sellersPageSize,
+              enableLoader: false,
+              sort,
+              sortDirection,
+            });
+          }}
+          toggleColumnCheckbox={() => setViewFilterDialog(!viewFilterDialog)}
+          activeColumnFilters={activeColumnFilter}
+          columnFilterBox={viewFilterDialog}
+          toggleColumnFilters={fetchFilters}
+          loadingFilters={loadingFilters}
+          filterValues={sellerFilters}
+          applyColumnFilters={applyFilters}
+          cancelColumnFilters={() => setViewFilterDialog(false)}
+          resetColumnFilters={resetKey => {
+            fetchAmazonSellers({ enableLoader: false }, resetKey);
+            setViewFilterDialog(false);
+          }}
         />
       )}
       <ExportResultAs
@@ -737,6 +940,14 @@ const mapStateToProps = (state: {}) => ({
   productsPageNo: sellerProductsPageNo(state),
   productsPageSize: sellerProductsPageSize(state),
   activeProduct: activeProduct(state),
+  sellersPageNo: sellersPageNo(state),
+  sellersPageSize: sellersPageSize(state),
+  sellersPageCount: sellersPageCount(state),
+  sellersCount: sellersCount(state),
+  sellersSinglePageItemsCount: sellersSinglePageItemsCount(state),
+  sellersLoading: sellersLoading(state),
+  loadingFilters: loadingSellersFilters(state),
+  sellerFilters: sellersFilters(state),
 });
 
 const mapDispatchToProps = {
@@ -753,5 +964,7 @@ const mapDispatchToProps = {
   updateSellerTrackerGroup: (group: any) => updateSellerTrackerGroup(group),
   moveMerchantToSellerTrackGroup: (merchantID: number, groupID: number) =>
     moveMerchantToSellerTrackGroup(merchantID, groupID),
+  setSellersSinglePageItemsCount: (count: number) => setSellersSinglePageItemsCount(count),
+  fetchSellerFilters: (query: string) => fetchSellerFilters(query),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SellerFinderTable);

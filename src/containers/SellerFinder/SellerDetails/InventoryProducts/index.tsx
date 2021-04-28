@@ -154,7 +154,12 @@ export const InventoryProductsRow = (props: any) => {
 
   const renderRow = (row: any) => {
     const dataKeys = columns.map(({ dataKey }) => ({ [`${dataKey}`]: dataKey }));
-    let object = { asin: 'asin', product_id: 'product_id' };
+    let object = {
+      asin: 'asin',
+      product_id: 'product_id',
+      tracking_status: 'tracking_status',
+      product_track_id: 'product_track_id',
+    };
     let data: any = row;
     dataKeys.forEach((obj: any) => {
       object = { ...object, ...obj };

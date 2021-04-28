@@ -24,19 +24,24 @@ const TrackSeller = (props: Props) => {
   const { data, trackSeller, type, trackProduct } = props;
   const track = () => {
     if (type === 'product') {
-      trackProduct({
-        status: data.track_status === 'active' ? 'inactive' : 'active',
+      let payload: any = {
+        status: data.tracking_status === 'active' ? 'inactive' : 'active',
         product_id: data.product_id,
-      });
+      };
+      if (data.tracking_status === 'active') {
+        payload = { ...payload, product_track_id: data.product_track_id };
+      }
+      trackProduct(payload);
     } else {
       trackSeller(data.seller_merchant_id);
     }
   };
+  const status = type === 'product' ? data.tracking_status : data.track_status;
   return (
     <div className={'track-btn-container'}>
       <Button
         className={`${props.type === 'seller' ? 'track-seller' : 'track-product'} ${
-          data.track_status === 'active' ? 'tracking' : 'not-tracking'
+          status === 'active' ? 'tracking' : 'not-tracking'
         }
         `}
         onClick={track}
@@ -45,9 +50,7 @@ const TrackSeller = (props: Props) => {
           {props.type === 'product' && <i className={'fas fa-fingerprint'} />}
           {props.type === 'seller' && '+'}
         </span>
-        <span className="tracking-label">
-          {data.track_status === 'active' ? `Tracking` : 'Track'}
-        </span>
+        <span className="tracking-label">{status === 'active' ? `Tracking` : 'Track'}</span>
       </Button>
       {props.type === 'product' && (
         <span>

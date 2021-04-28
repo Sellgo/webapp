@@ -11,21 +11,39 @@ import {
   FETCH_SELLERS_ERROR,
   FETCH_SELLERS_SUCCESS,
   SET_ACTIVE_PRODUCT,
+  SET_LOADING_SELLERS,
   SET_PRODUCT_SELLERS,
   SET_SELLER_PRODUCTS_COUNT,
   SET_SELLER_PRODUCTS_PAGE_COUNT,
   SET_SELLER_PRODUCTS_PAGE_NO,
   SET_SELLER_PRODUCTS_PAGE_SIZE,
   SET_SELLER_TRACK_GROUPS,
-  // SET_TRACK_PRODUCT_SELLER,
+  SET_SELLERS_COUNT,
+  SET_SELLERS_FILTERS,
+  SET_SELLERS_FILTERS_LOADING,
+  SET_SELLERS_PAGE_COUNT,
+  SET_SELLERS_PAGE_NO,
+  SET_SELLERS_SINGLE_PAGE_ITEMS_COUNT,
+  SET_SELLERS_SORT,
+  SET_SELLERS_SORT_DIRECTION,
 } from '../../constants/SellerFinder';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { AppConfig } from '../../config';
-import { error, success } from '../../utils/notifications';
+import { error, info, success } from '../../utils/notifications';
 import { SET_MENU_ITEM } from '../../constants/Tracker';
-import { productSellers } from '../../selectors/SellerFinder';
+import {
+  productSellers,
+  sellerProducts,
+  sellersSort,
+  sellersSortDirection,
+} from '../../selectors/SellerFinder';
 export interface SellersPayload {
-  enableLoader: boolean;
+  enableLoader?: boolean;
+  pageNo?: number;
+  pageSize?: number;
+  sort?: string;
+  sortDirection?: string;
+  query?: string;
 }
 export interface SellersProductsPayload {
   enableLoader: boolean;
@@ -43,26 +61,66 @@ export interface ProductSellersPayload {
 export interface TrackProductPayload {
   status: string;
   product_id: number;
+  product_track_id?: number;
 }
 
-export const fetchSellers = (payload: SellersPayload) => async (dispatch: any) => {
+export const fetchSellers = (payload: SellersPayload) => async (dispatch: any, getState: any) => {
   try {
+    const defaultSort = sellersSort(getState());
+    const defaultSortDirection = sellersSortDirection(getState);
+    const {
+      pageNo = 1,
+      pageSize = 50,
+      sort = defaultSort,
+      sortDirection = defaultSortDirection,
+    } = payload;
+    const pagination = `page=${pageNo}&per_page=${pageSize}`;
+    const sorting = `ordering=${sortDirection === 'descending' ? `-${sort}` : sort}`;
     const sellerID = sellerIDSelector();
-    const url = AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants`;
+    const url =
+      AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants-paginated?${pagination}&${sorting}`;
     if (payload.enableLoader) {
       await dispatch(fetchingSellers(true));
+    } else {
+      dispatch(setLoadingSellers(true));
     }
+
     const res = await Axios.get(url);
     if (res) {
-      dispatch(setSellers(res.data));
+      const { count, current_page, per_page, results, total_pages } = res.data;
+      dispatch(setSellers(results));
+      dispatch(setSellersPageNo(current_page));
+      dispatch(setSellersCount(count));
+      dispatch(setSellersPageSize(per_page));
+      dispatch(setSellersPageCount(total_pages));
+      dispatch(setSellersSortDirection(sortDirection));
+      dispatch(setSellersSort(sort));
     }
     await dispatch(fetchingSellers(false));
+    dispatch(setLoadingSellers(false));
   } catch (err) {
     await dispatch(fetchingSellers(false));
     await dispatch(fetchingError(err));
   }
 };
+export const fetchSellerFilters = (query: string) => async (dispatch: any) => {
+  try {
+    dispatch(fetchingSellersFilters(true));
+    const sellerID = sellerIDSelector();
+    const pagination = `page=1&per_page=100`;
 
+    const url =
+      AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants-paginated?${pagination}&${query}`;
+    const res = await Axios.get(url);
+    console.log(res);
+    if (res) {
+      dispatch(setSellerFilters([]));
+      dispatch(fetchingSellersFilters(false));
+    }
+  } catch (err) {
+    console.log('Filters Fetching Error', err.response);
+  }
+};
 export const fetchInventory = (data: any) => async (dispatch: any) => {
   await dispatch(fetchingInventory(data));
 };
@@ -323,18 +381,37 @@ export const moveMerchantToSellerTrackGroup = (merchantId: number, groupID: numb
   }
 };
 
-export const trackProduct = (payload: TrackProductPayload) => async () => {
+export const trackProduct = (payload: TrackProductPayload) => async (
+  dispatch: any,
+  getState: any
+) => {
   try {
-    const { product_id, status } = payload;
+    const { product_id, status, product_track_id } = payload;
     const sellerID = sellerIDSelector();
+    let products = sellerProducts(getState());
     const url = `${AppConfig.BASE_URL_API}sellers/${sellerID}/track/product`;
     const data = new FormData();
     data.set('seller_id', `${sellerID}`);
     data.set('product_id', `${product_id}`);
+    if (status === 'inactive') {
+      data.set('id', `${product_track_id}`);
+    }
     data.set('status', status);
 
-    const res = await Axios.post(url, data);
-    console.log('Tracking Product Res', res);
+    const res = status === 'active' ? await Axios.post(url, data) : await Axios.patch(url, data);
+    const obj = res.data;
+    info(obj.message);
+    products = products.map((product: any) => {
+      let prod = product;
+      if (product.product_id === obj.object.product_id) {
+        prod = {
+          ...prod,
+          tracking_status: obj.object.status,
+        };
+      }
+      return prod;
+    });
+    await dispatch(setSellerProducts(products));
   } catch (err) {
     console.log('Error Tracking Seller', err);
   }
@@ -367,6 +444,9 @@ export const trackProductSeller = (merchantId: any) => async (dispatch: any, get
     console.log('Error Tracking Seller', err);
   }
 };
+export const setSellersSinglePageItemsCount = (count: number) => async (dispatch: any) => {
+  dispatch(updateSellersSinglePageItemsCount(count));
+};
 
 const setProductsCount = (count: number) => ({
   type: SET_SELLER_PRODUCTS_COUNT,
@@ -397,7 +477,50 @@ const setActiveProductData = (data: any) => ({
   data: data,
 });
 
-// const setProductSellerTrackStatus = (status: any) => ({
-//   type: SET_TRACK_PRODUCT_SELLER,
-//   data: status,
-// });
+const setSellersCount = (count: number) => ({
+  type: SET_SELLERS_COUNT,
+  data: count,
+});
+
+const setSellersPageCount = (count: number) => ({
+  type: SET_SELLERS_PAGE_COUNT,
+  data: count,
+});
+
+const setSellersPageSize = (size: number) => ({
+  type: SET_SELLERS_PAGE_COUNT,
+  data: size,
+});
+
+const setSellersPageNo = (page: number) => ({
+  type: SET_SELLERS_PAGE_NO,
+  data: page,
+});
+
+const updateSellersSinglePageItemsCount = (count: number) => ({
+  type: SET_SELLERS_SINGLE_PAGE_ITEMS_COUNT,
+  data: count,
+});
+
+const setLoadingSellers = (loading: boolean) => ({
+  type: SET_LOADING_SELLERS,
+  data: loading,
+});
+
+const setSellersSort = (sort: string) => ({
+  type: SET_SELLERS_SORT,
+  data: sort,
+});
+const setSellersSortDirection = (sortDirection: string) => ({
+  type: SET_SELLERS_SORT_DIRECTION,
+  data: sortDirection,
+});
+
+const fetchingSellersFilters = (loading: boolean) => ({
+  type: SET_SELLERS_FILTERS_LOADING,
+  data: loading,
+});
+const setSellerFilters = (filters: []) => ({
+  type: SET_SELLERS_FILTERS,
+  data: filters,
+});

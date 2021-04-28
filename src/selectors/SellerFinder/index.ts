@@ -32,3 +32,16 @@ export const selectSellerTrackGroups = (state: {}) => get(state, 'sellerFinder.s
 export const selectActiveMenuGroupID = (state: {}) => get(state, 'sellerFinder.sellerMenuItem');
 export const productSellerTrackStatus = (state: {}) =>
   get(state, 'sellerFinder.productSellerTrackStatus');
+
+export const sellersCount = (state: {}) => get(state, 'sellerFinder.sellersCount');
+export const sellersPageCount = (state: {}) => get(state, 'sellerFinder.sellersPageCount');
+export const sellersPageNo = (state: {}) => get(state, 'sellerFinder.sellersPageNo');
+export const sellersPageSize = (state: {}) => get(state, 'sellerFinder.sellersPageSize');
+export const sellersSinglePageItemsCount = (state: {}) =>
+  get(state, 'sellerFinder.sellersSinglePageItemsCount');
+export const sellersLoading = (state: {}) => get(state, 'sellerFinder.loadingSellers');
+export const sellersSort = (state: {}) => get(state, 'sellerFinder.sellersSort');
+export const sellersSortDirection = (state: {}) => get(state, 'sellerFinder.sellersSortDirection');
+export const loadingSellersFilters = (state: {}) =>
+  get(state, 'sellerFinder.loadingSellersFilters');
+export const sellersFilters = (state: {}) => get(state, 'sellerFinder.sellersFilters');

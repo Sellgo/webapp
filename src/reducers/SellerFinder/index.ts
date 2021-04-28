@@ -20,11 +20,22 @@ import {
   SET_MENU_ITEM,
   SET_SELLER_TRACK_GROUPS,
   SET_TRACK_PRODUCT_SELLER,
+  SET_SELLERS_PAGE_COUNT,
+  SET_SELLERS_PAGE_NO,
+  SET_SELLERS_PAGE_SIZE,
+  SET_SELLERS_COUNT,
+  SET_SELLERS_SINGLE_PAGE_ITEMS_COUNT,
+  SET_LOADING_SELLERS,
+  SET_SELLERS_SORT,
+  SET_SELLERS_SORT_DIRECTION,
+  SET_SELLERS_FILTERS,
+  SET_SELLERS_FILTERS_LOADING,
 } from '../../constants/SellerFinder';
 
 const initialState = {
   sellers: [],
   fetchingSellers: false,
+  loadingSellers: false,
   error: null,
   loadingInventory: {},
   sellerProducts: [],
@@ -43,6 +54,15 @@ const initialState = {
   activeProductSellerStatus: {},
   activeProduct: {},
   productSellerTrackStatus: 'inactive',
+  sellersPageSize: 50,
+  sellersPageNo: 1,
+  sellersSinglePageItemsCount: 50,
+  sellersCount: 0,
+  sellersPageCount: 0,
+  sellersSort: 'id',
+  sellersSortDirection: 'ascending',
+  loadingSellersFilters: false,
+  sellersFilters: [],
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -85,18 +105,55 @@ export default (state = initialState, action: AnyAction) => {
 
     case SET_SELLER_PRODUCTS_PAGE_NO:
       return setIn(state, 'productsPageNo', action.data);
+
     case SET_SELLER_PRODUCTS_PAGE_SIZE:
       return setIn(state, 'productsPageSize', action.data);
+
     case SET_SELLER_PRODUCTS_COUNT:
       return setIn(state, 'productsCount', action.data);
+
     case SET_SELLER_PRODUCTS_PAGE_COUNT:
       return setIn(state, 'productsPageCount', action.data);
+
     case SET_PRODUCT_SELLERS:
       return setIn(state, 'activeProductSellerStatus', action.data);
+
     case SET_ACTIVE_PRODUCT:
       return setIn(state, 'activeProduct', action.data);
+
     case SET_TRACK_PRODUCT_SELLER:
       return setIn(state, 'productSellerTrackStatus', action.data);
+
+    case SET_SELLERS_PAGE_NO:
+      return setIn(state, 'sellersPageNo', action.data);
+
+    case SET_SELLERS_PAGE_SIZE:
+      return setIn(state, 'sellersPageSize', action.data);
+
+    case SET_SELLERS_COUNT:
+      return setIn(state, 'sellersCount', action.data);
+
+    case SET_SELLERS_PAGE_COUNT:
+      return setIn(state, 'sellersPageCount', action.data);
+
+    case SET_SELLERS_SINGLE_PAGE_ITEMS_COUNT:
+      return setIn(state, 'sellersSinglePageItemsCount', action.data);
+
+    case SET_LOADING_SELLERS:
+      return setIn(state, 'loadingSellers', action.data);
+
+    case SET_SELLERS_SORT:
+      return setIn(state, 'sellersSort', action.data);
+
+    case SET_SELLERS_SORT_DIRECTION:
+      return setIn(state, 'sellersSortDirection', action.data);
+
+    case SET_SELLERS_FILTERS_LOADING:
+      return setIn(state, 'loadingSellersFilters', action.data);
+
+    case SET_SELLERS_FILTERS:
+      return setIn(state, 'sellersFilters', action.data);
+
     default:
       return state;
   }
