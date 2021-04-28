@@ -80,6 +80,7 @@ const InnerTree = ({
             },
           ],
         };
+        return row;
       }
       return row;
     });
