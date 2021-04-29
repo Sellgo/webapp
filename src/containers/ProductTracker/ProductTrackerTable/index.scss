@@ -416,9 +416,11 @@
 
     .dv-arrow {
       position: absolute;
-      width: 42%;
+      width: max-content;
       display: flex;
       justify-content: center;
+      left: 50%;
+      transform: translateX(-50%);
 
       span {
         float: left;
