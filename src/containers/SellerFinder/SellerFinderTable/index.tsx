@@ -287,7 +287,7 @@ const SellerFinderTable = (props: Props) => {
     let query = '';
     if (value) {
       if (dataKey === 'search') {
-        query = `searches=${value}`;
+        query = `search=${value}`;
       } else {
         query = `${dataKey}_min=${value.min}&${dataKey}_max=${value.max}`;
       }
