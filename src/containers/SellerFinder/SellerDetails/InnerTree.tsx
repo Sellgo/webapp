@@ -38,6 +38,13 @@ interface Props {
   loadingProductSellers: boolean;
 }
 
+export const updateParentHeight = (height: number) => {
+  const details = document.querySelector('.seller-details');
+  if (details) {
+    details.setAttribute('style', `height: ${details.clientHeight + height}px`);
+  }
+};
+
 const InnerTree = ({
   sellerProducts,
   loadingSellerProducts,
@@ -103,13 +110,6 @@ const InnerTree = ({
       if (element) {
         element.setAttribute('style', `height:${height}px !important`);
       }
-    }
-  };
-
-  const updateParentHeight = (height: number) => {
-    const details = document.querySelector('.seller-details');
-    if (details) {
-      details.setAttribute('style', `height: ${details.clientHeight + height}px`);
     }
   };
 

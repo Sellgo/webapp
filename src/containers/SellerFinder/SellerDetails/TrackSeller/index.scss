@@ -35,6 +35,7 @@ $lightgray: #98aeca;
     padding: 0 10px !important;
     color: $blue !important;
     background: white !important;
+    z-index: 999;
 
     > span {
       margin: unset !important;

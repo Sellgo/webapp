@@ -37,6 +37,7 @@ import {
   sellersSort,
   sellersSortDirection,
 } from '../../selectors/SellerFinder';
+import { updateParentHeight } from '../../containers/SellerFinder/SellerDetails/InnerTree';
 export interface SellersPayload {
   enableLoader?: boolean;
   pageNo?: number;
@@ -73,12 +74,14 @@ export const fetchSellers = (payload: SellersPayload) => async (dispatch: any, g
       pageSize = 50,
       sort = defaultSort,
       sortDirection = defaultSortDirection,
+      query,
     } = payload;
     const pagination = `page=${pageNo}&per_page=${pageSize}`;
     const sorting = `ordering=${sortDirection === 'descending' ? `-${sort}` : sort}`;
     const sellerID = sellerIDSelector();
     const url =
-      AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants-paginated?${pagination}&${sorting}`;
+      AppConfig.BASE_URL_API +
+      `sellers/${sellerID}/merchants-paginated?${pagination}&${sorting}${query ? query : ''}`;
     if (payload.enableLoader) {
       await dispatch(fetchingSellers(true));
     } else {
@@ -107,14 +110,12 @@ export const fetchSellerFilters = (query: string) => async (dispatch: any) => {
   try {
     dispatch(fetchingSellersFilters(true));
     const sellerID = sellerIDSelector();
-    const pagination = `page=1&per_page=100`;
 
-    const url =
-      AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants-paginated?${pagination}&${query}`;
+    const url = AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants-paginated?${query}`;
     const res = await Axios.get(url);
     console.log(res);
     if (res) {
-      dispatch(setSellerFilters([]));
+      dispatch(setSellerFilters(res.data));
       dispatch(fetchingSellersFilters(false));
     }
   } catch (err) {
@@ -437,7 +438,9 @@ export const trackProductSeller = (merchantId: any) => async (dispatch: any, get
         return update;
       });
       success(`Seller ${status === 'active' ? 'Tracking' : 'Untracking'}`);
-      dispatch(setProductSellers(amazonSellers));
+      await dispatch(setProductSellers(amazonSellers));
+      await dispatch(fetchSellers({ enableLoader: false }));
+      await updateParentHeight(280);
     }
     console.log('Tracking Res', res);
   } catch (err) {

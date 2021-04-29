@@ -106,6 +106,7 @@ interface SearchResponse {
   message: string;
   parent_asin: boolean;
   merchants_count: number;
+  products_count: number;
 }
 
 interface ExportResponse {
@@ -236,6 +237,7 @@ const SellerFinderTable = (props: Props) => {
       enableLoader,
       sort,
       sortDirection,
+      query = getSavedFilters(),
     } = payload;
 
     let reqPayload: SellersPayload = {
@@ -244,10 +246,11 @@ const SellerFinderTable = (props: Props) => {
       enableLoader,
       sort,
       sortDirection,
+      query,
     };
     let filterQuery = getSavedFilters(resetKey);
-    if (payload.query && payload.query.length && !filterQuery.includes(payload.query)) {
-      filterQuery = `${filterQuery}&${payload.query}`;
+    if (query && query.length && !filterQuery.includes(query)) {
+      filterQuery = `${filterQuery}&${query}`;
     }
     if (filterQuery) {
       reqPayload = { ...reqPayload, query: filterQuery };
@@ -259,7 +262,7 @@ const SellerFinderTable = (props: Props) => {
 
   const fetchFilters = async (filterDataKey: string) => {
     const query = `column_value=${filterDataKey}&column_type=${
-      filterDataKey === 'search' ? filterDataKey : 'slider'
+      filterDataKey === 'search' ? 'single' : 'slider'
     }`;
     fetchSellerFilters(query);
     setActiveColumnFilter(filterDataKey);
@@ -335,7 +338,9 @@ const SellerFinderTable = (props: Props) => {
         }
 
         if (data.status === SEARCH_STATUS.DONE) {
-          success(`${data.merchants_count || 1} Sellers Found!`);
+          if (data.merchants_count) {
+            success(`${data.merchants_count} Sellers Found!`);
+          }
           setRefreshing('');
           fetchAmazonSellers({ enableLoader: false });
         }
@@ -356,6 +361,9 @@ const SellerFinderTable = (props: Props) => {
         fetchInventory({ ...data, merchant_id: activeMerchant.merchant_id });
         if (data.status === SEARCH_STATUS.DONE) {
           fetchProducts({ pageNo: productsPageNo, pageSize: productsPageSize });
+          if (data.products_count) {
+            success(`${data.products_count} Products Found!`);
+          }
         }
       };
     }
@@ -390,7 +398,9 @@ const SellerFinderTable = (props: Props) => {
         if (data.status === SEARCH_STATUS.DONE) {
           fetchAmazonSellers({ enableLoader: false });
         }
-        success(`${data.merchants_count || 1} Sellers Found!`);
+        if (data.merchants_count) {
+          success(`${data.merchants_count} Sellers Found!`);
+        }
       };
     }
   }, [activeProduct]);
@@ -444,11 +454,12 @@ const SellerFinderTable = (props: Props) => {
     setActiveMerchant(data.merchant);
     if (inventorySocket.OPEN && !inventorySocket.CONNECTING) {
       inventorySocket.send(data.payload);
+      success('Checking Inventory');
     }
   };
 
   useEffect(() => {
-    fetchSellers({ enableLoader: true });
+    fetchAmazonSellers({ enableLoader: true });
     getAllSellerTrackGroups();
   }, []);
 

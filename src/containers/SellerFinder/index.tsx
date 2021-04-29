@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import SellerFinderTable from './SellerFinderTable';
 import './index.scss';
 import PageHeader from '../../components/PageHeader';
@@ -58,24 +60,26 @@ const SellerFinder = (props: SellerFinderProps) => {
     setWebsocketMerchantsReport(new WebSocket(socketMerchantReport));
   };
   return (
-    <div className="seller-finder">
-      <PageHeader
-        title={'Seller Finder'}
-        breadcrumb={[
-          { content: 'Home', to: '/' },
-          { content: 'Seller Finder', to: '/seller-finder' },
-        ]}
-        callToAction={<QuotaMeter />}
-        auth={match.params.auth}
-      />
-      <SellerFinderTable
-        ws={webSocket}
-        inventorySocket={websocketInventory}
-        sellersSocket={websocketSellers}
-        exportMerchantsSocket={websocketMerchantsReport}
-        reconnectExportSocket={reconnectExportSocket}
-      />
-    </div>
+    <DndProvider backend={HTML5Backend}>
+      <div className="seller-finder">
+        <PageHeader
+          title={'Seller Finder'}
+          breadcrumb={[
+            { content: 'Home', to: '/' },
+            { content: 'Seller Finder', to: '/seller-finder' },
+          ]}
+          callToAction={<QuotaMeter />}
+          auth={match.params.auth}
+        />
+        <SellerFinderTable
+          ws={webSocket}
+          inventorySocket={websocketInventory}
+          sellersSocket={websocketSellers}
+          exportMerchantsSocket={websocketMerchantsReport}
+          reconnectExportSocket={reconnectExportSocket}
+        />
+      </div>
+    </DndProvider>
   );
 };
 export default SellerFinder;
