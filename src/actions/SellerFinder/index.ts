@@ -146,12 +146,12 @@ export const fetchSellerProducts = (payload: SellersProductsPayload) => async (d
     }
     const res = await Axios.get(url);
     if (res) {
-      const { results, count, current_page, per_page, total_pages } = res.data;
+      const { results, count, per_page, total_pages } = res.data;
       await dispatch(setSellerProducts(results));
       await dispatch(setProductsCount(count));
       await dispatch(setProductsPageCount(total_pages));
       await dispatch(setProductsPageSize(per_page));
-      await dispatch(setProductsPageNo(current_page));
+      await dispatch(setProductsPageNo(pageNo));
     }
 
     await dispatch(fetchingSellerProducts(false));

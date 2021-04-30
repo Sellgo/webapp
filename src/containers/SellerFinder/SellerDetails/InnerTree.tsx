@@ -122,7 +122,7 @@ const InnerTree = ({
 
   const getHeight = (): number => {
     let height = 50;
-    height = productSellers.length * 50 + 150;
+    height = totalRecords * 50 + 150;
     return height;
   };
 

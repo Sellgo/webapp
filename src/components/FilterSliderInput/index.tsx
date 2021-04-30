@@ -51,7 +51,18 @@ const FilterSliderInput = (props: any) => {
   return (
     <div className="range-content">
       <InputRange
-        step={['avg_rank', 'rank'].includes(dataKey) || dataKey === 'customer_reviews' ? 1 : 0.01}
+        step={
+          [
+            'avg_rank',
+            'rank',
+            'customer_reviews',
+            'count_30_days',
+            'count_90_days',
+            'count_12_month',
+          ].includes(dataKey)
+            ? 1
+            : 0.01
+        }
         maxValue={filterRangeLocal.max === undefined ? Number.MAX_SAFE_INTEGER : range.max}
         minValue={filterRangeLocal.min === undefined ? Number.MIN_SAFE_INTEGER : range.min}
         value={{

@@ -54,7 +54,7 @@ import {
 } from '../../../actions/SellerFinder';
 
 import { SEARCH_STATUS } from '../../../constants/SellerFinder';
-import { formatPercent, showNAIfZeroOrNull } from '../../../utils/format';
+import { showNAIfZeroOrNull } from '../../../utils/format';
 import PageLoader from '../../../components/PageLoader';
 import { Merchant } from '../../../interfaces/Seller';
 import ExportResultAs from '../../../components/ExportResultAs';
@@ -291,7 +291,7 @@ const SellerFinderTable = (props: Props) => {
       if (dataKey === 'search') {
         query = `search=${value}`;
       } else {
-        query = `${dataKey}_min=${parseInt(value.min)}&${dataKey}_max=${parseInt(value.max)}`;
+        query = `${dataKey}_min=${value.min}&${dataKey}_max=${value.max}`;
       }
     }
 
@@ -390,7 +390,7 @@ const SellerFinderTable = (props: Props) => {
         setActiveProductStatus({ ...data, asin: activeProduct.asin });
         setSearching(data.status === SEARCH_STATUS.PENDING);
 
-        if (data.status === SEARCH_STATUS.DONE && data.parent_asin) {
+        if (data.status === SEARCH_STATUS.DONE) {
           fetchProductSellers({
             asin: activeProduct.asin,
             enableLoader: true,
@@ -625,14 +625,14 @@ const SellerFinderTable = (props: Props) => {
   );
 
   const renderRatingL365DPercentage = (row: any) => (
-    <p>{row.review_rating ? formatPercent(row.review_rating) : '-'}</p>
+    <p>{row.review_ratings ? row.review_ratings : '-'}</p>
   );
 
-  const renderTotalRating = () => <p>{'-'}</p>;
-
-  const renderFBA = () => <p>{'-'}</p>;
-
-  const renderFBM = () => <p>{'-'}</p>;
+  // const renderTotalRating = () => <p>{'-'}</p>;
+  //
+  // const renderFBA = () => <p>{'-'}</p>;
+  //
+  // const renderFBM = () => <p>{'-'}</p>;
 
   const renderReviewL30D = (row: any) => (
     <p>{showNAIfZeroOrNull(row.count_30_days, row.count_30_days)}</p>
@@ -650,7 +650,7 @@ const SellerFinderTable = (props: Props) => {
     <p>{showNAIfZeroOrNull(row.count_lifetime, row.count_lifetime)}</p>
   );
 
-  const renderProductReview = () => <p>{'-'}</p>;
+  // const renderProductReview = () => <p>{'-'}</p>;
 
   const renderProcessedOn = (row: any) => <p>{formatCompletedDate(row.udate)}</p>;
 
@@ -710,40 +710,40 @@ const SellerFinderTable = (props: Props) => {
     },
     {
       label: `Rating% \nL365D`,
-      dataKey: 'review_rating',
+      dataKey: 'review_ratings',
       type: 'string',
       sortable: true,
       show: true,
       className: `seller_rating`,
       render: renderRatingL365DPercentage,
     },
-    {
-      label: `Total \nRating`,
-      dataKey: 'total_rating',
-      type: 'string',
-      sortable: true,
-      show: true,
-      className: `seller_rating`,
-      render: renderTotalRating,
-    },
-    {
-      label: `FBA`,
-      dataKey: 'fba',
-      type: 'string',
-      sortable: true,
-      show: true,
-      className: ``,
-      render: renderFBA,
-    },
-    {
-      label: `FBM`,
-      dataKey: 'fbm',
-      type: 'string',
-      sortable: true,
-      show: true,
-      className: ``,
-      render: renderFBM,
-    },
+    // {
+    //   label: `Total \nRating`,
+    //   dataKey: 'total_rating',
+    //   type: 'string',
+    //   sortable: true,
+    //   show: true,
+    //   className: `seller_rating`,
+    //   render: renderTotalRating,
+    // },
+    // {
+    //   label: `FBA`,
+    //   dataKey: 'fba',
+    //   type: 'string',
+    //   sortable: true,
+    //   show: true,
+    //   className: ``,
+    //   render: renderFBA,
+    // },
+    // {
+    //   label: `FBM`,
+    //   dataKey: 'fbm',
+    //   type: 'string',
+    //   sortable: true,
+    //   show: true,
+    //   className: ``,
+    //   render: renderFBM,
+    // },
     {
       label: `Review \nL30D`,
       dataKey: 'count_30_days',
@@ -795,15 +795,15 @@ const SellerFinderTable = (props: Props) => {
       className: `review`,
       render: renderReviewLifeTime,
     },
-    {
-      label: `Product \nReview #`,
-      dataKey: 'product_review',
-      type: 'string',
-      sortable: true,
-      show: true,
-      className: `review`,
-      render: renderProductReview,
-    },
+    // {
+    //   label: `Product \nReview #`,
+    //   dataKey: 'product_review',
+    //   type: 'string',
+    //   sortable: true,
+    //   show: true,
+    //   className: `review`,
+    //   render: renderProductReview,
+    // },
     {
       label: `Processed on`,
       dataKey: 'processed',
