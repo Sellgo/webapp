@@ -387,19 +387,19 @@ export const trackProduct = (payload: TrackProductPayload) => async (
   getState: any
 ) => {
   try {
-    const { product_id, status, product_track_id } = payload;
+    const { product_id, status, product_track_id = null } = payload;
     const sellerID = sellerIDSelector();
     let products = sellerProducts(getState());
     const url = `${AppConfig.BASE_URL_API}sellers/${sellerID}/track/product`;
     const data = new FormData();
     data.set('seller_id', `${sellerID}`);
     data.set('product_id', `${product_id}`);
-    if (status === 'inactive') {
+    if (product_track_id) {
       data.set('id', `${product_track_id}`);
     }
     data.set('status', status);
 
-    const res = status === 'active' ? await Axios.post(url, data) : await Axios.patch(url, data);
+    const res = !product_track_id ? await Axios.post(url, data) : await Axios.patch(url, data);
     const obj = res.data;
     info(obj.message);
     products = products.map((product: any) => {
@@ -408,6 +408,7 @@ export const trackProduct = (payload: TrackProductPayload) => async (
         prod = {
           ...prod,
           tracking_status: obj.object.status,
+          product_track_id: obj.object.id,
         };
       }
       return prod;

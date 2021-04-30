@@ -5,11 +5,21 @@ import { Icon } from 'semantic-ui-react';
 import SampleProductImage from '../../../../assets/images/Image 37.png';
 import TrackSeller from '../TrackSeller';
 import { formatCompletedDate } from '../../../../utils/date';
-const renderBuyBox = () => {
-  return <p>{'-'}</p>;
-};
-
+import { copyToClipboard } from '../../../../utils/file';
+import { formatBoolean } from '../../../../utils/format';
+// const renderBuyBox = () => {
+//   return <p>{'-'}</p>;
+// };
 const renderProductInventory = (row: any) => {
+  let copied = false;
+  const copyText = (text: string) => {
+    copyToClipboard(text).then(() => {
+      copied = true;
+    });
+    setTimeout(() => {
+      copied = false;
+    }, 500);
+  };
   return (
     <p>
       <span className="product-inner-container">
@@ -18,8 +28,11 @@ const renderProductInventory = (row: any) => {
         </span>
         <span className="product-info">
           <span className="product-name"> {row.product_name}</span>
-          <span className="asin">
-            {row.asin} <Icon name={'copy outline'} />
+          <span className="asin tooltip">
+            <span className="tooltiptext" id="myTooltip">
+              {copied ? 'Copied !' : 'Copy to clipboard'}
+            </span>
+            {row.asin} <Icon name={'copy outline'} onClick={() => copyText(row.asin)} />
           </span>
         </span>
       </span>
@@ -27,8 +40,16 @@ const renderProductInventory = (row: any) => {
   );
 };
 
-const renderInStock = () => {
-  return <p>{'-'}</p>;
+// const renderInStock = () => {
+//   return <p>{'-'}</p>;
+// };
+
+const renderFBA = (row: any) => {
+  return <p>{formatBoolean(row.fba)}</p>;
+};
+
+const renderFBM = (row: any) => {
+  return <p>{formatBoolean(row.fbm)}</p>;
 };
 
 const renderPrice = (row: any) => {
@@ -62,29 +83,41 @@ const renderTrackProducts = (row: any) => {
   return <TrackSeller tracking={false} type={'product'} data={row} />;
 };
 const columns = [
-  {
-    label: `Buybox \n Competition`,
-    dataKey: 'buy_box',
-    className: 'buy-box',
-    render: renderBuyBox,
-  },
+  // {
+  //   label: `Buybox \n Competition`,
+  //   dataKey: 'buy_box',
+  //   className: 'buy-box',
+  //   render: renderBuyBox,
+  // },
   {
     label: `Product Inventory Information`,
     dataKey: 'product_name',
     className: 'product-inventory',
     render: renderProductInventory,
   },
-  {
-    label: `In Stock`,
-    dataKey: 'in_stock',
-    className: 'in-stock',
-    render: renderInStock,
-  },
+  // {
+  //   label: `In Stock`,
+  //   dataKey: 'in_stock',
+  //   className: 'in-stock',
+  //   render: renderInStock,
+  // },
   {
     label: `Price`,
     dataKey: 'current_price',
     className: 'price',
     render: renderPrice,
+  },
+  {
+    label: `FBA`,
+    dataKey: 'fba',
+    className: 'fba',
+    render: renderFBA,
+  },
+  {
+    label: `FBM`,
+    dataKey: 'fbm',
+    className: 'fbm',
+    render: renderFBM,
   },
   {
     label: `Rating \nL365D`,

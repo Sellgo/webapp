@@ -1,10 +1,10 @@
 import React from 'react';
 import { Button, Icon } from 'semantic-ui-react';
-import SellerSampleMarketpalce from '../../../assets/images/Ellipse 180.png';
 import { formatString, showNAIfZeroOrNull } from '../../../utils/format';
 import { loadingInventory } from '../../../selectors/SellerFinder';
 import { connect } from 'react-redux';
 import { SEARCH_STATUS } from '../../../constants/SellerFinder';
+import { copyToClipboard } from '../../../utils/file';
 
 interface SellerInformationProps {
   details: any;
@@ -14,6 +14,7 @@ interface SellerInformationProps {
 
 const SellerInformation = (props: SellerInformationProps) => {
   const { details, loadingInventory } = props;
+  const [copied, setCopied] = React.useState(false);
 
   const getTotal30DaysReview = () => {
     let review = 0;
@@ -69,6 +70,11 @@ const SellerInformation = (props: SellerInformationProps) => {
     return review;
   };
 
+  const copyText = (text: string) => {
+    copyToClipboard(text).then(() => setCopied(true));
+    setTimeout(() => setCopied(false), 500);
+  };
+
   return (
     <div className="seller-information">
       <div className="action-button-container">
@@ -121,18 +127,18 @@ const SellerInformation = (props: SellerInformationProps) => {
       </div>
       <div className={'seller-products-container'}>
         <p className={'seller-product-label'}>{`Seller ID: ${showNAIfZeroOrNull(
-          details.seller,
-          details.seller
+          details.merchant_id,
+          details.merchant_id
         )}`}</p>
-        <p className={'seller-product-marketplace'}>
-          {'Marketplace:'}{' '}
-          <span className="place-image-container">
-            <img src={SellerSampleMarketpalce} className="place-image" />
-            <img src={SellerSampleMarketpalce} className="place-image" />
-            <img src={SellerSampleMarketpalce} className="place-image" />
-            <img src={SellerSampleMarketpalce} className="place-image" />
-          </span>
-        </p>
+        {/*<p className={'seller-product-marketplace'}>*/}
+        {/*  {'Marketplace:'}{' '}*/}
+        {/*  <span className="place-image-container">*/}
+        {/*    <img src={SellerSampleMarketpalce} className="place-image" />*/}
+        {/*    <img src={SellerSampleMarketpalce} className="place-image" />*/}
+        {/*    <img src={SellerSampleMarketpalce} className="place-image" />*/}
+        {/*    <img src={SellerSampleMarketpalce} className="place-image" />*/}
+        {/*  </span>*/}
+        {/*</p>*/}
         <p className={'seller-product-label'}>{`Launched: ${formatString(details.launched)}`}</p>
         <p className={'seller-product-label'}>
           {'Inventory:'}{' '}
@@ -140,17 +146,25 @@ const SellerInformation = (props: SellerInformationProps) => {
             {showNAIfZeroOrNull(details.inventory_count, details.inventory_count)}
           </span>
         </p>
-        <p className={'seller-product-label'}>
-          {`Brands: -`} {/*<span>*/}
-          {/*  <Icon name={'copy outline'} />*/}
-          {/*</span>*/}
+        <p className={'seller-product-label label-flex'}>
+          Brands:<span className="seller-product-value">{` ${details.brands}`}</span>
+          {formatString(details.brands) !== '-' && (
+            <span className="tooltip">
+              <span className="tooltiptext" id="myTooltip">
+                {copied ? 'Copied !' : 'Copy to clipboard'}
+              </span>
+              <Icon name={'copy outline'} onClick={() => copyText(details.brands)} />
+            </span>
+          )}
         </p>
-        <p className={'seller-product-label'}>
-          {`ASINs: ${formatString(details.asins)}`}
-          {'   '}
+        <p className={'seller-product-label label-flex'}>
+          ASINs: <span className="seller-product-value">{` ${details.asins}`}</span>
           {formatString(details.asins) !== '-' && (
-            <span>
-              <Icon name={'copy outline'} />
+            <span className="tooltip">
+              <span className="tooltiptext" id="myTooltip">
+                {copied ? 'Copied !' : 'Copy to clipboard'}
+              </span>
+              <Icon name={'copy outline'} onClick={() => copyText(details.asins)} />
             </span>
           )}
         </p>

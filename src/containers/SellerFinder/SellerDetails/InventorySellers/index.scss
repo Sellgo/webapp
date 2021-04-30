@@ -61,6 +61,7 @@ $blue: #349af8;
     min-width: auto;
 
     > button {
+      visibility: hidden;
       width: 168px;
       height: 25px;
       border: 0.5px solid $blue !important;
@@ -85,6 +86,7 @@ $blue: #349af8;
   border-radius: 11px;
   background: #fff;
   width: 97%;
+  z-index: 999;
 
   .td-column {
     min-width: 100px;
@@ -100,6 +102,7 @@ $blue: #349af8;
     min-width: 350px;
     padding-left: 35px;
     padding-right: 10px;
+    z-index: 999;
 
     > p {
       .name {
@@ -115,6 +118,12 @@ $blue: #349af8;
         float: right;
         font-size: 12px;
         font-weight: 400 !important;
+
+        .icon {
+          cursor: pointer;
+          z-index: 999;
+          position: relative;
+        }
       }
     }
   }

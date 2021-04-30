@@ -247,8 +247,8 @@ $new_black: #3b4557;
         }
 
         .processed {
-          min-width: 135px !important;
-          width: 135px !important;
+          min-width: 145px !important;
+          width: 145px !important;
 
           .table-cell-container {
             .sort-arrow {
@@ -345,6 +345,7 @@ $new_black: #3b4557;
 
           .icon {
             font-size: 10px;
+            cursor: pointer;
           }
         }
       }

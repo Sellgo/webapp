@@ -249,12 +249,14 @@ $darkgary: #dfe8f329;
       margin-top: 20px;
       margin-left: 30px;
       width: 97.3%;
+      z-index: 9999;
 
       .rowContents {
         border: none;
       }
 
       .seller-information {
+        z-index: 999;
         height: 211px;
         background: #fff;
         width: 100%;
@@ -349,17 +351,34 @@ $darkgary: #dfe8f329;
         }
 
         .seller-products-container {
+          @media only screen and (min-width: 1920px) and (max-width: 2500px) {
+            width: 400px;
+          }
+
+          .label-flex {
+            display: flex;
+          }
+
           .seller-product-label {
             font-size: 14px;
             color: $black;
             padding: 5px 0;
-            max-width: 265px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            max-width: 370px;
+
+            .seller-product-value {
+              max-width: 370px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
 
             .value {
               color: $blue;
+            }
+
+            .icon {
+              font-size: 14px;
+              cursor: pointer;
             }
           }
 
@@ -536,6 +555,14 @@ $darkgary: #dfe8f329;
             font-size: 10px !important;
             color: $black;
             padding: 5px 0;
+            max-width: 230px !important;
+
+            .seller-product-value {
+              max-width: 230px !important;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
 
             .value {
               color: $blue;

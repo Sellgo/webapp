@@ -60,7 +60,8 @@ import { Merchant } from '../../../interfaces/Seller';
 import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Suppliers';
 import { info, success } from '../../../utils/notifications';
-import { download } from '../../../utils/file';
+import { copyToClipboard, download } from '../../../utils/file';
+import { formatCompletedDate } from '../../../utils/date';
 
 interface Props {
   sellers: any[];
@@ -211,6 +212,7 @@ const SellerFinderTable = (props: Props) => {
   const [exportFormat, setExportFormat] = useState('csv');
   const [viewFilterDialog, setViewFilterDialog] = useState(false);
   const [activeColumnFilter, setActiveColumnFilter] = useState('');
+  const [copied, setCopied] = useState(false);
   // const [activeColumn, setActiveColumn] = useState({
   //   label: 'Seller Information',
   //   dataKey: 'seller_information',
@@ -235,8 +237,8 @@ const SellerFinderTable = (props: Props) => {
       pageSize = sellersPageSize,
       pageNo = sellersPageNo,
       enableLoader,
-      sort,
-      sortDirection,
+      sort = 'id',
+      sortDirection = 'descending',
       query = getSavedFilters(),
     } = payload;
 
@@ -289,7 +291,7 @@ const SellerFinderTable = (props: Props) => {
       if (dataKey === 'search') {
         query = `search=${value}`;
       } else {
-        query = `${dataKey}_min=${value.min}&${dataKey}_max=${value.max}`;
+        query = `${dataKey}_min=${parseInt(value.min)}&${dataKey}_max=${parseInt(value.max)}`;
       }
     }
 
@@ -342,7 +344,7 @@ const SellerFinderTable = (props: Props) => {
             success(`${data.merchants_count} Sellers Found!`);
           }
           setRefreshing('');
-          fetchAmazonSellers({ enableLoader: false });
+          fetchAmazonSellers({ enableLoader: false, sort: 'id', sortDirection: 'descending' });
         }
       };
     }
@@ -571,7 +573,14 @@ const SellerFinderTable = (props: Props) => {
     updateSellerTrackerGroup(group);
     setDeleteGroup(false);
   };
-
+  const copyText = (text: string) => {
+    copyToClipboard(text).then(() => {
+      setCopied(true);
+    });
+    setTimeout(() => {
+      setCopied(false);
+    }, 200);
+  };
   const renderSellerInformation = (row: any) => (
     <p className="sf-seller-details">
       <img
@@ -586,7 +595,13 @@ const SellerFinderTable = (props: Props) => {
       />
       <span className="name">{row.merchant_name}</span>
       <span className="seller-id">
-        {row.merchant_id} <Icon name={'copy outline'} />
+        {row.merchant_id}
+        <span className="tooltip">
+          <span className="tooltiptext" id="myTooltip">
+            {copied ? 'Copied !' : 'Copy to clipboard'}
+          </span>
+          <Icon name={'copy outline'} onClick={() => copyText(row.merchant_id)} />
+        </span>
       </span>
     </p>
   );
@@ -637,7 +652,7 @@ const SellerFinderTable = (props: Props) => {
 
   const renderProductReview = () => <p>{'-'}</p>;
 
-  const renderProcessedOn = () => <p>{'-'}</p>;
+  const renderProcessedOn = (row: any) => <p>{formatCompletedDate(row.udate)}</p>;
 
   const renderActions = (row: any) => {
     const { sellerTrackGroups } = props;
@@ -673,11 +688,6 @@ const SellerFinderTable = (props: Props) => {
       sortable: false,
       show: true,
       className: ``,
-      filter: true,
-      filterSign: '',
-      filterType: 'list',
-      filterDataKey: 'search',
-      filterLabel: 'Seller Information',
       render: renderSellerInformation,
     },
     {

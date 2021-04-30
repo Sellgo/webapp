@@ -28,7 +28,7 @@ const TrackSeller = (props: Props) => {
         status: data.tracking_status === 'active' ? 'inactive' : 'active',
         product_id: data.product_id,
       };
-      if (data.tracking_status === 'active') {
+      if (data.product_track_id) {
         payload = { ...payload, product_track_id: data.product_track_id };
       }
       trackProduct(payload);

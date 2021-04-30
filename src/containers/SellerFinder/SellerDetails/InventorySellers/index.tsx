@@ -2,7 +2,7 @@ import React from 'react';
 import './index.scss';
 import Rating from 'react-rating';
 import { Button, Icon } from 'semantic-ui-react';
-import { formatBoolean, formatCurrency, showNAIfZeroOrNull } from '../../../../utils/format';
+import { formatCurrency, showNAIfZeroOrNull } from '../../../../utils/format';
 import { formatCompletedDate } from '../../../../utils/date';
 import TrackSeller from '../TrackSeller';
 const renderSellerName = (row: any) => {
@@ -13,14 +13,6 @@ const renderSellerName = (row: any) => {
       <span className="asin">{row.merchant_id}</span>
     </p>
   );
-};
-
-const renderFBA = (row: any) => {
-  return <p>{formatBoolean(row.fba)}</p>;
-};
-
-const renderFBM = (row: any) => {
-  return <p>{formatBoolean(row.fbm)}</p>;
 };
 
 const renderPrice = (row: any) => {
@@ -34,6 +26,7 @@ const renderRating = (row: any) => {
       emptySymbol={<Icon name="star outline" color={'grey'} />}
       fullSymbol={<Icon name="star" color={'grey'} />}
       placeholderSymbol={<Icon name="star" color={'grey'} />}
+      readonly
     />
   );
 };
@@ -65,18 +58,6 @@ const columns = [
     dataKey: 'price',
     className: 'price',
     render: renderPrice,
-  },
-  {
-    renderLabel: () => <p>FBA</p>,
-    dataKey: 'fba',
-    className: 'fba',
-    render: renderFBA,
-  },
-  {
-    renderLabel: () => <p>FBM</p>,
-    dataKey: 'fbm',
-    className: 'fbm',
-    render: renderFBM,
   },
   {
     renderLabel: () => <p>{`Rating \nL365D`}</p>,

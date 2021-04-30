@@ -36,6 +36,7 @@ $blue: #349af8;
 
   .product-inventory {
     min-width: 440px;
+    padding-left: 10px;
   }
 
   .in-stock {
@@ -101,6 +102,7 @@ $blue: #349af8;
   .product-inventory {
     min-width: 440px;
     color: $black;
+    padding-left: 10px;
 
     .product-inner-container {
       display: flex;
