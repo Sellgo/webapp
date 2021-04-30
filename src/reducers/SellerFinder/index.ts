@@ -59,8 +59,8 @@ const initialState = {
   sellersSinglePageItemsCount: 50,
   sellersCount: 0,
   sellersPageCount: 0,
-  sellersSort: 'id',
-  sellersSortDirection: 'ascending',
+  sellersSort: 'udate',
+  sellersSortDirection: 'descending',
   loadingSellersFilters: false,
   sellersFilters: [],
 };

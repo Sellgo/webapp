@@ -236,7 +236,7 @@ const SellerFinderTable = (props: Props) => {
       pageSize = sellersPageSize,
       pageNo = sellersPageNo,
       enableLoader,
-      sort = 'id',
+      sort = 'udate',
       sortDirection = 'descending',
       query = getSavedFilters(),
     } = payload;

@@ -114,7 +114,6 @@ export const fetchSellerFilters = (query: string) => async (dispatch: any) => {
 
     const url = AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants-paginated?${query}`;
     const res = await Axios.get(url);
-    console.log(res);
     if (res) {
       dispatch(setSellerFilters(res.data));
       dispatch(fetchingSellersFilters(false));
