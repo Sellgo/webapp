@@ -16,6 +16,12 @@ import { fetchSellerProducts, SellersProductsPayload } from '../../../actions/Se
 import { connect } from 'react-redux';
 import { showNAIfZeroOrNull } from '../../../utils/format';
 
+export const updateHeight = (height: number) => {
+  const details = document.querySelector('.seller-details');
+  if (details) {
+    details.setAttribute('style', `height: ${height}px`);
+  }
+};
 interface SellerDetailsProps {
   details: any;
   onCheckInventory: (data: any) => void;
@@ -51,13 +57,6 @@ const SellerDetails = (props: SellerDetailsProps) => {
       ],
     },
   ]);
-
-  const updateHeight = (height: number) => {
-    const details = document.querySelector('.seller-details');
-    if (details) {
-      details.setAttribute('style', `height: ${height}px`);
-    }
-  };
 
   return (
     <div

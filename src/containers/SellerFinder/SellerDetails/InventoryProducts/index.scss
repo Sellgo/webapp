@@ -47,6 +47,14 @@ $blue: #349af8;
     min-width: 100px;
   }
 
+  .fba {
+    min-width: 95px;
+  }
+
+  .fbm {
+    min-width: 95px;
+  }
+
   .product-rating {
     min-width: 125px;
   }
@@ -199,6 +207,14 @@ $blue: #349af8;
       min-width: 260px;
     }
 
+    .fba {
+      padding-right: 25px;
+    }
+
+    .fbm {
+      padding-right: 25px;
+    }
+
     @media only screen and (min-width: 1440px) and (max-width: 1599px) {
       .product-inventory {
         min-width: 300px !important;
@@ -323,6 +339,14 @@ $blue: #349af8;
           }
         }
       }
+    }
+
+    .fba {
+      padding-right: 25px;
+    }
+
+    .fbm {
+      padding-right: 25px;
     }
 
     @media only screen and (min-width: 1440px) and (max-width: 1599px) {

@@ -132,7 +132,6 @@ const SellerFinderTable = (props: Props) => {
     activeProduct,
     sellersSocket,
     setActiveProductStatus,
-    fetchProductSellers,
     sellerTrackGroups,
     getAllSellerTrackGroups,
     activeGroupID,
@@ -390,13 +389,13 @@ const SellerFinderTable = (props: Props) => {
         setActiveProductStatus({ ...data, asin: activeProduct.asin });
         setSearching(data.status === SEARCH_STATUS.PENDING);
 
-        if (data.status === SEARCH_STATUS.DONE) {
-          fetchProductSellers({
-            asin: activeProduct.asin,
-            enableLoader: true,
-            merchantId: activeMerchant.id,
-          });
-        }
+        // if (data.status === SEARCH_STATUS.DONE) {
+        //   fetchProductSellers({
+        //     asin: activeProduct.asin,
+        //     enableLoader: true,
+        //     merchantId: activeMerchant.id,
+        //   });
+        // }
         if (data.status === SEARCH_STATUS.DONE) {
           fetchAmazonSellers({ enableLoader: false });
         }
@@ -643,7 +642,7 @@ const SellerFinderTable = (props: Props) => {
   );
 
   const renderReviewL365D = (row: any) => (
-    <p>{showNAIfZeroOrNull(row.count_356_days, row.count_356_days)}</p>
+    <p>{showNAIfZeroOrNull(row.count_12_month, row.count_12_month)}</p>
   );
 
   const renderReviewLifeTime = (row: any) => (

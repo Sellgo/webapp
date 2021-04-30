@@ -8,6 +8,7 @@ import { InventoryProductsHeader, InventoryProductsRow } from './InventoryProduc
 import ProductSellers from './ProductSellers';
 import {
   activeProduct,
+  activeProductSellerStatus,
   loadingProductSellers,
   loadingSellerProducts,
   productSellers,
@@ -36,6 +37,7 @@ interface Props {
   productSellers: any[];
   activeProduct: any;
   loadingProductSellers: boolean;
+  activeProductSellerStatus: any;
 }
 
 export const updateParentHeight = (height: number) => {
@@ -103,6 +105,7 @@ const InnerTree = ({
       },
     ]);
   }, [sellerProducts]);
+
   const assignNewHeight = (index: number, height: number) => {
     const tree = document.querySelector('.product-tree');
     if (tree && tree.hasChildNodes()) {
@@ -122,7 +125,7 @@ const InnerTree = ({
 
   const getHeight = (): number => {
     let height = 50;
-    height = totalRecords * 50 + 150;
+    height = productSellers.length * 55 + 150;
     return height;
   };
 
@@ -262,6 +265,7 @@ const mapStateToProps = (state: {}) => ({
   totalPages: sellerProductsPageCount(state),
   totalRecords: sellerProductsCount(state),
   activeProduct: activeProduct(state),
+  activeProductSellerStatus: activeProductSellerStatus(state),
 });
 const mapDispatchToProps = {
   fetchProductSellers: (payload: ProductSellersPayload) => fetchProductSellers(payload),

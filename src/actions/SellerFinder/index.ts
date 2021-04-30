@@ -36,6 +36,7 @@ import {
   sellerProducts,
   sellersSort,
   sellersSortDirection,
+  sellers,
 } from '../../selectors/SellerFinder';
 import { updateParentHeight } from '../../containers/SellerFinder/SellerDetails/InnerTree';
 export interface SellersPayload {
@@ -171,7 +172,6 @@ export const fetchProductSellers = (payload: ProductSellersPayload) => async (di
     }
     const res = await Axios.get(url);
     if (res) {
-      console.log(res);
       await dispatch(setProductSellers(res.data));
     }
     await dispatch(fetchingProductSellers(false));
@@ -425,6 +425,7 @@ export const trackProductSeller = (merchantId: any) => async (dispatch: any, get
 
     const url = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants/track`;
     let amazonSellers = productSellers(getState());
+    const topLevelSellers = sellers(getState());
     const payload = new FormData();
     payload.set('seller_merchant_id', merchantId);
     const res = await Axios.post(url, payload);
@@ -438,9 +439,11 @@ export const trackProductSeller = (merchantId: any) => async (dispatch: any, get
         }
         return update;
       });
+
       success(`Seller ${status === 'active' ? 'Tracking' : 'Untracking'}`);
       await dispatch(setProductSellers(amazonSellers));
       await dispatch(fetchSellers({ enableLoader: false }));
+      await dispatch(setSellers([data.object, ...topLevelSellers]));
       await updateParentHeight(280);
     }
     console.log('Tracking Res', res);
