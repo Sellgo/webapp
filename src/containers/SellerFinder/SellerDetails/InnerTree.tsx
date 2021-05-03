@@ -8,6 +8,7 @@ import { InventoryProductsHeader, InventoryProductsRow } from './InventoryProduc
 import ProductSellers from './ProductSellers';
 import {
   activeProduct,
+  activeProductIndex,
   activeProductSellerStatus,
   loadingProductSellers,
   loadingSellerProducts,
@@ -21,7 +22,13 @@ import {
 } from '../../../selectors/SellerFinder';
 import { connect } from 'react-redux';
 import PageLoader from '../../../components/PageLoader';
-import { fetchProductSellers, ProductSellersPayload } from '../../../actions/SellerFinder';
+import {
+  fetchProductSellers,
+  ProductSellersPayload,
+  setProductHeight,
+  setProductIndex,
+  setSellerHeight,
+} from '../../../actions/SellerFinder';
 import Pagination from '../../../components/Pagination';
 import { selectItemsCountList } from '../../../constants/SellerFinder';
 
@@ -38,12 +45,34 @@ interface Props {
   activeProduct: any;
   loadingProductSellers: boolean;
   activeProductSellerStatus: any;
+  setActiveProductIndex: (index: number) => void;
+  activeProductIndex: number;
+  setActiveProductHeight: (height: number) => void;
+  setActiveSellerHeight: (height: number) => void;
 }
 
-export const updateParentHeight = (height: number) => {
+export const updateParentHeight = (height: number, update: boolean) => {
   const details = document.querySelector('.seller-details');
   if (details) {
-    details.setAttribute('style', `height: ${details.clientHeight + height}px`);
+    details.setAttribute('style', `height: ${update ? details.clientHeight + height : height}px`);
+  }
+};
+
+export const updateProductHeight = (height: number, hidden: boolean, activeNodeIndex: number) => {
+  const products = document.querySelector('.product-tree');
+  if (products) {
+    const element = products.children.item(activeNodeIndex + 1);
+    if (element) {
+      element.setAttribute('style', `height: ${height}px !important`);
+      const verticalLine = element.querySelector('.rst__lineHalfVerticalTop');
+      if (verticalLine) {
+        if (hidden) {
+          verticalLine.setAttribute('style', 'visibility: hidden');
+        } else {
+          verticalLine.setAttribute('style', 'visibility: visible');
+        }
+      }
+    }
   }
 };
 
@@ -58,6 +87,9 @@ const InnerTree = ({
   onPagination,
   productSellers,
   fetchProductSellers,
+  activeProductIndex,
+  setActiveProductIndex,
+  setActiveProductHeight,
 }: Props) => {
   const [activeNode, setActiveNode] = useState<any>({});
   const getTreeData = () => {
@@ -65,6 +97,7 @@ const InnerTree = ({
       let row: any = {
         title: () => <InventoryProductsRow row={rowData} />,
         index,
+        expanded: activeProductIndex === index,
         children: [
           {
             title: () => <ProductSellers />,
@@ -82,6 +115,7 @@ const InnerTree = ({
           ),
           className: 'first-node',
           index,
+          expanded: activeProductIndex === index,
           children: [
             {
               title: () => <ProductSellers />,
@@ -128,34 +162,19 @@ const InnerTree = ({
     height = productSellers.length * 55 + 150;
     return height;
   };
-
-  const updateProductHeight = (newHeight: number) => {
-    const products = document.querySelector('.product-tree');
-    const height = newHeight > 0 ? newHeight : productSellers.length * 50 + 150;
-    if (products) {
-      const element = products.children.item(activeNode.index + 1);
-      if (element) {
-        element.setAttribute('style', `height: ${height}px !important`);
-        const verticalLine = element.querySelector('.rst__lineHalfVerticalTop');
-        if (verticalLine) {
-          if (!productSellers.length) {
-            verticalLine.setAttribute('style', 'visibility: hidden');
-          } else {
-            verticalLine.setAttribute('style', 'visibility: visible');
-          }
-        }
-      }
-    }
+  const calculateHeight = () => {
+    return productSellers.length * 50 + 150;
   };
 
   useEffect(() => {
-    updateProductHeight(0);
-    updateParentHeight(getHeight());
+    updateProductHeight(calculateHeight(), !productSellers.length, activeNode.index);
+    updateParentHeight(getHeight(), true);
+    setActiveProductHeight(calculateHeight());
   }, [productSellers]);
 
   useEffect(() => {
     if (loadingProductSellers) {
-      updateProductHeight(100);
+      updateProductHeight(100, !!productSellers.length, activeNode.index);
     }
   }, [loadingProductSellers]);
 
@@ -197,8 +216,10 @@ const InnerTree = ({
                   setActiveNode(product);
                 } else {
                   removeHeight(getHeight());
+                  setActiveProductHeight(0);
                 }
 
+                setActiveProductIndex(node.index);
                 setSellerInventory(data);
               }}
               rowHeight={({ treeIndex, node }) => {
@@ -266,8 +287,12 @@ const mapStateToProps = (state: {}) => ({
   totalRecords: sellerProductsCount(state),
   activeProduct: activeProduct(state),
   activeProductSellerStatus: activeProductSellerStatus(state),
+  activeProductIndex: activeProductIndex(state),
 });
 const mapDispatchToProps = {
   fetchProductSellers: (payload: ProductSellersPayload) => fetchProductSellers(payload),
+  setActiveProductIndex: (index: number) => setProductIndex(index),
+  setActiveProductHeight: (height: number) => setProductHeight(height),
+  setActiveSellerHeight: (height: number) => setSellerHeight(height),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(InnerTree);

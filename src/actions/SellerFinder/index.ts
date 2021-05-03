@@ -11,6 +11,10 @@ import {
   FETCH_SELLERS_ERROR,
   FETCH_SELLERS_SUCCESS,
   SET_ACTIVE_PRODUCT,
+  SET_ACTIVE_PRODUCT_HEIGHT,
+  SET_ACTIVE_PRODUCT_INDEX,
+  SET_ACTIVE_PRODUCT_SELLER_INDEX,
+  SET_ACTIVE_SELLER_INDEX,
   SET_LOADING_SELLERS,
   SET_PRODUCT_SELLERS,
   SET_SELLER_PRODUCTS_COUNT,
@@ -26,6 +30,7 @@ import {
   SET_SELLERS_SINGLE_PAGE_ITEMS_COUNT,
   SET_SELLERS_SORT,
   SET_SELLERS_SORT_DIRECTION,
+  SET_TRACK_PRODUCT_SELLER,
 } from '../../constants/SellerFinder';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { AppConfig } from '../../config';
@@ -37,8 +42,13 @@ import {
   sellersSort,
   sellersSortDirection,
   sellers,
+  activeProductHeight,
+  activeProductIndex,
 } from '../../selectors/SellerFinder';
-import { updateParentHeight } from '../../containers/SellerFinder/SellerDetails/InnerTree';
+import {
+  updateParentHeight,
+  updateProductHeight,
+} from '../../containers/SellerFinder/SellerDetails/InnerTree';
 export interface SellersPayload {
   enableLoader?: boolean;
   pageNo?: number;
@@ -425,6 +435,9 @@ export const trackProductSeller = (merchantId: any) => async (dispatch: any, get
     const url = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants/track`;
     let amazonSellers = productSellers(getState());
     const topLevelSellers = sellers(getState());
+    const productHeight = activeProductHeight(getState());
+    const productIndex = activeProductIndex(getState());
+    dispatch(setProductSellerTrackStatus({ seller_merchant_id: merchantId }));
     const payload = new FormData();
     payload.set('seller_merchant_id', merchantId);
     const res = await Axios.post(url, payload);
@@ -439,13 +452,35 @@ export const trackProductSeller = (merchantId: any) => async (dispatch: any, get
         return update;
       });
 
-      success(`Seller ${status === 'active' ? 'Tracking' : 'Untracking'}`);
-      await dispatch(setProductSellers(amazonSellers));
-      await dispatch(fetchSellers({ enableLoader: false }));
-      await dispatch(setSellers([data.object, ...topLevelSellers]));
-      await updateParentHeight(280);
+      info(`Seller ${status === 'active' ? 'Tracking' : 'Untracking'}`);
+      let update = topLevelSellers;
+      if (status === 'active') {
+        update = [data.object, ...topLevelSellers];
+      } else {
+        update = update.filter(
+          (seller: any) => seller.seller_merchant_id !== data.object.seller_merchant_id
+        );
+      }
+      await dispatch(
+        fetchProductSellers({
+          enableLoader: false,
+          merchantId: data.object.seller_merchant_id,
+          asin: data.object.parent_asin,
+        })
+      );
+      await dispatch(setSellers(update));
+      await dispatch(setProductSellerTrackStatus({ seller_merchant_id: null }));
+      const parentHeight = amazonSellers.length * 55 + 150;
+      await updateParentHeight(parentHeight + productHeight, false);
+      await updateProductHeight(50, amazonSellers.length, productIndex - 1);
+      await updateProductHeight(productHeight, amazonSellers.length, productIndex);
+
+      const message =
+        status === 'active'
+          ? 'Merchant has been added to the list!'
+          : 'Merchant has been removed from the list!';
+      await success(message);
     }
-    console.log('Tracking Res', res);
   } catch (err) {
     console.log('Error Tracking Seller', err);
   }
@@ -453,6 +488,21 @@ export const trackProductSeller = (merchantId: any) => async (dispatch: any, get
 export const setSellersSinglePageItemsCount = (count: number) => async (dispatch: any) => {
   dispatch(updateSellersSinglePageItemsCount(count));
 };
+
+export const setProductIndex = (index: number) => async (dispatch: any) =>
+  dispatch(setActiveProductIndex(index));
+
+export const setProductSellerIndex = (index: number) => async (dispatch: any) =>
+  dispatch(setActiveProductSellerIndex(index));
+
+export const setSellerIndex = (index: number) => async (dispatch: any) =>
+  dispatch(setActiveSellerIndex(index));
+
+export const setProductHeight = (height: number) => async (dispatch: any) =>
+  dispatch(setActiveProductHeight(height));
+
+export const setSellerHeight = (height: number) => async (dispatch: any) =>
+  dispatch(setSellerHeight(height));
 
 const setProductsCount = (count: number) => ({
   type: SET_SELLER_PRODUCTS_COUNT,
@@ -529,4 +579,29 @@ const fetchingSellersFilters = (loading: boolean) => ({
 const setSellerFilters = (filters: []) => ({
   type: SET_SELLERS_FILTERS,
   data: filters,
+});
+
+const setActiveProductIndex = (index: number) => ({
+  type: SET_ACTIVE_PRODUCT_INDEX,
+  data: index,
+});
+
+const setActiveProductSellerIndex = (index: number) => ({
+  type: SET_ACTIVE_PRODUCT_SELLER_INDEX,
+  data: index,
+});
+
+const setActiveSellerIndex = (index: number) => ({
+  type: SET_ACTIVE_SELLER_INDEX,
+  data: index,
+});
+
+const setActiveProductHeight = (height: number) => ({
+  type: SET_ACTIVE_PRODUCT_HEIGHT,
+  data: height,
+});
+
+const setProductSellerTrackStatus = (data: any) => ({
+  type: SET_TRACK_PRODUCT_SELLER,
+  data,
 });

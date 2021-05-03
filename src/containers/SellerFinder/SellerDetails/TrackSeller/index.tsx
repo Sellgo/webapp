@@ -1,7 +1,10 @@
 import React from 'react';
 import './index.scss';
 import { Button, Icon } from 'semantic-ui-react';
-import { activeProductSellerStatus } from '../../../../selectors/SellerFinder';
+import {
+  activeProductSellerStatus,
+  productSellerTrackStatus,
+} from '../../../../selectors/SellerFinder';
 import {
   setActiveProduct,
   trackProduct,
@@ -18,10 +21,11 @@ interface Props {
   trackSeller: (id: any) => void;
   tracking?: any;
   trackProduct: (payload: TrackProductPayload) => void;
+  trackingData: any;
 }
 
 const TrackSeller = (props: Props) => {
-  const { data, trackSeller, type, trackProduct } = props;
+  const { data, trackSeller, type, trackProduct, trackingData } = props;
   const track = () => {
     if (type === 'product') {
       let payload: any = {
@@ -37,6 +41,7 @@ const TrackSeller = (props: Props) => {
     }
   };
   const status = type === 'product' ? data.tracking_status : data.track_status;
+  const loading = trackingData.seller_merchant_id === data.seller_merchant_id;
   return (
     <div className={'track-btn-container'}>
       <Button
@@ -48,7 +53,9 @@ const TrackSeller = (props: Props) => {
       >
         <span>
           {props.type === 'product' && <i className={'fas fa-fingerprint'} />}
-          {props.type === 'seller' && '+'}
+          {props.type === 'seller' && (
+            <Icon name={loading ? 'spinner' : 'plus'} loading={loading} />
+          )}
         </span>
         <span className="tracking-label">{status === 'active' ? `Tracking` : 'Track'}</span>
       </Button>
@@ -79,6 +86,7 @@ const TrackSeller = (props: Props) => {
 
 const mapStateToProps = (state: any) => ({
   activeProductSellerStatus: activeProductSellerStatus(state),
+  trackingData: productSellerTrackStatus(state),
 });
 const mapDispatchToProps = {
   setActiveProduct: (data: any) => setActiveProduct(data),

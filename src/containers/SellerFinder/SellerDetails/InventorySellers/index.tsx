@@ -2,14 +2,13 @@ import React from 'react';
 import './index.scss';
 import Rating from 'react-rating';
 import { Button, Icon } from 'semantic-ui-react';
-import { formatCurrency, showNAIfZeroOrNull } from '../../../../utils/format';
+import { formatCurrency, showNAIfZeroOrNull, truncateString } from '../../../../utils/format';
 import { formatCompletedDate } from '../../../../utils/date';
 import TrackSeller from '../TrackSeller';
 const renderSellerName = (row: any) => {
-  console.log(row.merchant_name);
   return (
     <p>
-      <span className="name">{row.merchant_name}</span>
+      <span className="name">{truncateString(row.merchant_name, 25)}</span>
       <span className="asin">{row.merchant_id}</span>
     </p>
   );

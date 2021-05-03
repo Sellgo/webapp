@@ -6,13 +6,18 @@ import './index.scss';
 import SellerInformation from './SellerInformation';
 import InnerTree from './InnerTree';
 import {
+  activeSellerIndex,
   loadingSellerProducts,
   sellerProducts,
   sellerProductsError,
   sellerProductsPageNo,
   sellerProductsPageSize,
 } from '../../../selectors/SellerFinder';
-import { fetchSellerProducts, SellersProductsPayload } from '../../../actions/SellerFinder';
+import {
+  fetchSellerProducts,
+  SellersProductsPayload,
+  setSellerIndex,
+} from '../../../actions/SellerFinder';
 import { connect } from 'react-redux';
 import { showNAIfZeroOrNull } from '../../../utils/format';
 
@@ -31,6 +36,8 @@ interface SellerDetailsProps {
   productsPageNo: number;
   productsPageSize: number;
   onPagination: (payload: any) => void;
+  setActiveSellerIndex: (index: number) => void;
+  activeSellerIndex: number;
 }
 
 const SellerDetails = (props: SellerDetailsProps) => {
@@ -42,6 +49,8 @@ const SellerDetails = (props: SellerDetailsProps) => {
     productsPageSize,
     details,
     onPagination,
+    setActiveSellerIndex,
+    activeSellerIndex,
   } = props;
   const [treeData, setTreeData] = React.useState([
     {
@@ -49,6 +58,7 @@ const SellerDetails = (props: SellerDetailsProps) => {
         <SellerInformation details={props.details} onCheckInventory={onCheckInventory} />
       ),
       className: 'card',
+      expanded: details.id === activeSellerIndex,
       children: [
         {
           title: () => <InnerTree onPagination={onPagination} />,
@@ -80,6 +90,7 @@ const SellerDetails = (props: SellerDetailsProps) => {
             pageSize: productsPageSize,
             pageNo: productsPageNo,
           });
+          setActiveSellerIndex(details.id);
           if (!node.expanded) {
             updateHeight(250);
           }
@@ -106,9 +117,11 @@ const mapStateToProps = (state: {}) => ({
   error: sellerProductsError(state),
   productsPageNo: sellerProductsPageNo(state),
   productsPageSize: sellerProductsPageSize(state),
+  activeSellerIndex: activeSellerIndex(state),
 });
 
 const mapDispatchToProps = {
   fetchSellerProducts: (payload: SellersProductsPayload) => fetchSellerProducts(payload),
+  setActiveSellerIndex: (index: number) => setSellerIndex(index),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SellerDetails);

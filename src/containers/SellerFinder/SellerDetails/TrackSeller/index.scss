@@ -43,6 +43,11 @@ $lightgray: #98aeca;
       > i {
         font-size: 12px;
       }
+
+      > .icon {
+        font-size: 10px !important;
+        line-height: 1;
+      }
     }
 
     .tracking-label {

@@ -30,6 +30,10 @@ import {
   SET_SELLERS_SORT_DIRECTION,
   SET_SELLERS_FILTERS,
   SET_SELLERS_FILTERS_LOADING,
+  SET_ACTIVE_PRODUCT_INDEX,
+  SET_ACTIVE_PRODUCT_SELLER_INDEX,
+  SET_ACTIVE_SELLER_INDEX,
+  SET_ACTIVE_PRODUCT_HEIGHT,
 } from '../../constants/SellerFinder';
 
 const initialState = {
@@ -53,7 +57,7 @@ const initialState = {
   productsPageCount: 0,
   activeProductSellerStatus: {},
   activeProduct: {},
-  productSellerTrackStatus: 'inactive',
+  productSellerTrackStatus: { seller_merchant_id: null },
   sellersPageSize: 50,
   sellersPageNo: 1,
   sellersSinglePageItemsCount: 50,
@@ -63,6 +67,10 @@ const initialState = {
   sellersSortDirection: 'descending',
   loadingSellersFilters: false,
   sellersFilters: [],
+  activeSellerIndex: null,
+  activeProductIndex: null,
+  activeProductSellerIndex: null,
+  activeProductHeight: null,
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -153,6 +161,18 @@ export default (state = initialState, action: AnyAction) => {
 
     case SET_SELLERS_FILTERS:
       return setIn(state, 'sellersFilters', action.data);
+
+    case SET_ACTIVE_PRODUCT_INDEX:
+      return setIn(state, 'activeProductIndex', action.data);
+
+    case SET_ACTIVE_PRODUCT_SELLER_INDEX:
+      return setIn(state, 'activeProductSellerIndex', action.data);
+
+    case SET_ACTIVE_SELLER_INDEX:
+      return setIn(state, 'activeSellerIndex', action.data);
+
+    case SET_ACTIVE_PRODUCT_HEIGHT:
+      return setIn(state, 'activeProductHeight', action.data);
 
     default:
       return state;

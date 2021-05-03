@@ -6,7 +6,6 @@ export const failed = (state: {}) => get(state, 'sellerFinder.error');
 export const loadingInventory = (state: {}) => get(state, 'sellerFinder.loadingInventory');
 export const sellerProducts = (state: {}) => get(state, 'sellerFinder.sellerProducts');
 export const activeProduct = (state: {}) => get(state, 'sellerFinder.activeProduct');
-
 export const loadingSellerProducts = (state: {}) =>
   get(state, 'sellerFinder.loadingSellerProducts');
 export const sellerProductsError = (state: {}) =>
@@ -45,3 +44,12 @@ export const sellersSortDirection = (state: {}) => get(state, 'sellerFinder.sell
 export const loadingSellersFilters = (state: {}) =>
   get(state, 'sellerFinder.loadingSellersFilters');
 export const sellersFilters = (state: {}) => get(state, 'sellerFinder.sellersFilters');
+
+export const activeSellerIndex = (state: {}) => get(state, 'sellerFinder.activeSellerIndex');
+export const activeSellerHeight = (state: {}) => get(state, 'sellerFinder.activeSellerHeight');
+
+export const activeProductIndex = (state: {}) => get(state, 'sellerFinder.activeProductIndex');
+export const activeProductHeight = (state: {}) => get(state, 'sellerFinder.activeProductHeight');
+
+export const activeProductSellerIndex = (state: {}) =>
+  get(state, 'sellerFinder.activeProductSellerIndex');
