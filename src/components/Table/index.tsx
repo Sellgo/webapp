@@ -188,7 +188,7 @@ export const GenericTable = (props: GenericTableProps) => {
   useEffect(() => {
     if (setPage) {
       setPage(localCurrentPage);
-      if (!['leads-tracker', 'products'].includes(name)) {
+      if (!['leads-tracker', 'products', 'seller-finder'].includes(name)) {
         return () => setPage(1); // reset on unmount
       }
     }
@@ -203,7 +203,7 @@ export const GenericTable = (props: GenericTableProps) => {
   let sortDirection = sortOrder;
 
   useEffect(() => {
-    if (onSort && sortClicked && !['leads-tracker', 'products'].includes(name)) {
+    if (onSort && sortClicked && !['leads-tracker', 'products', 'seller-finder'].includes(name)) {
       onSort(sortDirection);
     }
   }, [sortDirection]);
@@ -217,7 +217,7 @@ export const GenericTable = (props: GenericTableProps) => {
     ? columnFilterData.map((cf: any) => ({ ...cf, label: cf.key }))
     : columns.map((c: any) => ({ ...c, value: c.show, key: c.label }));
   let rows =
-    checkSortedColumnExist.length && !['leads-tracker', 'products'].includes(name)
+    checkSortedColumnExist.length && !['leads-tracker', 'products', 'seller-finder'].includes(name)
       ? [...data].sort((a, b) => {
           const sortedColumn = checkSortedColumnExist[0];
           let aColumn;
@@ -294,7 +294,7 @@ export const GenericTable = (props: GenericTableProps) => {
 
   const totalPages = Math.ceil(rows.length / singlePageItemsCount);
 
-  if (!['leads-tracker', 'products'].includes(name)) {
+  if (!['leads-tracker', 'products', 'seller-finder'].includes(name)) {
     if (checkSortedColumnExist[0]) {
       const key: any = checkSortedColumnExist[0].dataKey;
       rows = rows.sort((a, b) => {
@@ -305,11 +305,11 @@ export const GenericTable = (props: GenericTableProps) => {
 
   if (name === 'trackerTable' && sortClicked) {
     rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
-  } else if (!['trackerTable', 'leads-tracker', 'products'].includes(name)) {
+  } else if (!['trackerTable', 'leads-tracker', 'products', 'seller-finder'].includes(name)) {
     rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   }
 
-  if (!['leads-tracker', 'products'].includes(name)) {
+  if (!['leads-tracker', 'products', 'seller-finder'].includes(name)) {
     rows = rows.slice(
       (localCurrentPage - 1) * singlePageItemsCount,
       localCurrentPage * singlePageItemsCount
@@ -326,7 +326,9 @@ export const GenericTable = (props: GenericTableProps) => {
     e.stopPropagation();
   };
 
-  const totalItemsCount = ['leads-tracker', 'products'].includes(name) ? count : data.length;
+  const totalItemsCount = ['leads-tracker', 'products', 'seller-finder'].includes(name)
+    ? count
+    : data.length;
   const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
   const isStickyChartActive = stickyChartSelector ? 'sticky-chart-active' : '';
   let timer: NodeJS.Timeout | undefined = undefined;
@@ -350,7 +352,7 @@ export const GenericTable = (props: GenericTableProps) => {
       setLocalCurrentPage(1);
     }
 
-    if (onSort && ['leads-tracker', 'products'].includes(name)) {
+    if (onSort && ['leads-tracker', 'products', 'seller-finder'].includes(name)) {
       onSort(sortDirection, dataKey);
     }
   };
@@ -427,6 +429,7 @@ export const GenericTable = (props: GenericTableProps) => {
           resetPage={(sortDirection: string, dataKey: string) => resetPage(sortDirection, dataKey)}
           leftFixedColumns={leftFixedColumns ? leftFixedColumns : 0}
           rightFixedColumns={rightFixedColumns ? rightFixedColumns : 0}
+          sortIconPosition={name === 'seller-finder' ? 'right' : 'left'}
         />
         {name === 'leads-tracker' && count < 1 && !loading ? (
           <ConstructionImage />
@@ -479,10 +482,13 @@ export const GenericTable = (props: GenericTableProps) => {
                         if (setSinglePageItemsCount) {
                           setSinglePageItemsCount(size);
                         }
-                        if (!['leads-tracker', 'products'].includes(name) && setPage) {
+                        if (
+                          !['leads-tracker', 'products', 'seller-finder'].includes(name) &&
+                          setPage
+                        ) {
                           setPage(1);
                         }
-                        if (['leads-tracker', 'products'].includes(name)) {
+                        if (['leads-tracker', 'products', 'seller-finder'].includes(name)) {
                           setLocalCurrentPage(1);
                         }
                       }}
@@ -491,7 +497,9 @@ export const GenericTable = (props: GenericTableProps) => {
                       onPageNumberUpdate={setLocalCurrentPage}
                       currentPage={localCurrentPage || 1}
                       totalPages={
-                        ['leads-tracker', 'products'].includes(name) ? pageCount : totalPages
+                        ['leads-tracker', 'products', 'seller-finder'].includes(name)
+                          ? pageCount
+                          : totalPages
                       }
                       totalRecords={totalItemsCount}
                       pageSize={singlePageItemsCount}

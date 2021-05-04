@@ -287,7 +287,7 @@ export const TableBody = (props: TableBodyProps) => {
                           {expandedRows &&
                             expandedRows === row.id &&
                             extendedInfo &&
-                            type === 'trackerTable' && (
+                            ['trackerTable', 'seller-finder'].includes(type) && (
                               <React.Fragment>
                                 <Table.Row key={index + '-extended'}>
                                   <Table.Cell
@@ -337,7 +337,10 @@ export const TableBody = (props: TableBodyProps) => {
             />
             {expandedRows && expandedRows === row.id && extendedInfo && (
               <Table.Row key={index + '-extended'}>
-                <Table.Cell colSpan={columns.length} className="default-column">
+                <Table.Cell
+                  colSpan={columns.length}
+                  className={`default-column ${type === 'seller-finder' ? 'seller-card' : ''} `}
+                >
                   {''}
                   {expandedRows === row.id && extendedInfo(row)}
                 </Table.Cell>

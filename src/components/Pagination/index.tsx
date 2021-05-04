@@ -14,6 +14,7 @@ interface PaginationProps {
   onPageSizeSelect: (size: number) => void;
   onPageNumberUpdate: (currentPage: number) => void;
   loading: boolean;
+  pageSizeList?: any[];
 }
 
 const Pagination = (props: PaginationProps) => {
@@ -28,6 +29,7 @@ const Pagination = (props: PaginationProps) => {
     onPrevPage,
     showPageSize,
     loading,
+    pageSizeList = selectItemsCountList,
   } = props;
 
   const [page, setPage] = React.useState(currentPage);
@@ -105,7 +107,7 @@ const Pagination = (props: PaginationProps) => {
             <Dropdown
               text={`${pageSize}`}
               value={pageSize}
-              options={selectItemsCountList}
+              options={pageSizeList}
               className="page-size-input"
               selection
               onChange={onPageSizeChanges}

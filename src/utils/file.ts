@@ -137,3 +137,22 @@ export const guessColumnMappings = (
 
   return mappings;
 };
+
+export const download = async (url: string, name: string) => {
+  const link = document.createElement('a');
+  link.href = url;
+  await link.setAttribute('download', `${name}`);
+  await document.body.appendChild(link);
+  await link.click();
+  await document.body.removeChild(link);
+};
+
+export const copyToClipboard = async (str: string) => {
+  const el = document.createElement('textarea');
+  el.value = str;
+  await document.body.appendChild(el);
+  await el.select();
+  await document.execCommand('copy');
+  await document.body.removeChild(el);
+  return true;
+};

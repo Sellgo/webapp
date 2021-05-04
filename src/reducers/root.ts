@@ -12,6 +12,7 @@ import productTrackerReducer from './ProductTracker';
 import userOnboardingReducer from './UserOnboarding';
 import leadsReducer from './LeadsTracker';
 import notificationReducer from './Notification';
+import sellerFinderReducer from './SellerFinder';
 
 const rootReducer = combineReducers({
   settings: settingsReducer,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   userOnboarding: userOnboardingReducer,
   leads: leadsReducer,
   notification: notificationReducer,
+  sellerFinder: sellerFinderReducer,
 });
 
 export default rootReducer;
