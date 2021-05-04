@@ -131,7 +131,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           </Menu>
         </Popup>
         <Confirm
-          className="confirmation-box"
+          className="confirmation-box-sf"
           open={confirm && activeRow.id === row.id}
           cancelButton="No"
           confirmButton="Yes"
