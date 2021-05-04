@@ -7,9 +7,6 @@ import TrackSeller from '../TrackSeller';
 import { formatCompletedDate } from '../../../../utils/date';
 import { copyToClipboard } from '../../../../utils/file';
 import { formatBoolean } from '../../../../utils/format';
-// const renderBuyBox = () => {
-//   return <p>{'-'}</p>;
-// };
 const renderProductInventory = (row: any) => {
   let copied = false;
   const copyText = (text: string) => {
@@ -39,10 +36,6 @@ const renderProductInventory = (row: any) => {
     </p>
   );
 };
-
-// const renderInStock = () => {
-//   return <p>{'-'}</p>;
-// };
 
 const renderFBA = (row: any) => {
   return <p>{formatBoolean(row.fba)}</p>;
@@ -83,24 +76,12 @@ const renderTrackProducts = (row: any) => {
   return <TrackSeller tracking={false} type={'product'} data={row} />;
 };
 const columns = [
-  // {
-  //   label: `Buybox \n Competition`,
-  //   dataKey: 'buy_box',
-  //   className: 'buy-box',
-  //   render: renderBuyBox,
-  // },
   {
     label: `Product Inventory Information`,
     dataKey: 'product_name',
     className: 'product-inventory',
     render: renderProductInventory,
   },
-  // {
-  //   label: `In Stock`,
-  //   dataKey: 'in_stock',
-  //   className: 'in-stock',
-  //   render: renderInStock,
-  // },
   {
     label: `Price`,
     dataKey: 'current_price',

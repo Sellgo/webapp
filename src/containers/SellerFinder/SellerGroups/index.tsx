@@ -62,11 +62,6 @@ class SellerGroups extends Component<SellerGroupsProps> {
         ? this.props.groups.find((data: any) => data.id === this.props.activeGroupId)
         : null;
 
-    // const existingItems = items.results,
-    //   ungroupedCount =
-    //     existingItems && existingItems.length > 0
-    //       ? existingItems.filter((data: any) => data.product_track_group_id === null).length
-    //       : 0;
     const existingItems = items;
 
     return (

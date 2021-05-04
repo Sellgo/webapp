@@ -130,15 +130,6 @@ const SellerInformation = (props: SellerInformationProps) => {
           details.merchant_id,
           details.merchant_id
         )}`}</p>
-        {/*<p className={'seller-product-marketplace'}>*/}
-        {/*  {'Marketplace:'}{' '}*/}
-        {/*  <span className="place-image-container">*/}
-        {/*    <img src={SellerSampleMarketpalce} className="place-image" />*/}
-        {/*    <img src={SellerSampleMarketpalce} className="place-image" />*/}
-        {/*    <img src={SellerSampleMarketpalce} className="place-image" />*/}
-        {/*    <img src={SellerSampleMarketpalce} className="place-image" />*/}
-        {/*  </span>*/}
-        {/*</p>*/}
         <p className={'seller-product-label'}>{`Launched: ${formatString(details.launched)}`}</p>
         <p className={'seller-product-label'}>
           {'Inventory:'}{' '}
