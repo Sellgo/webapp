@@ -7,6 +7,29 @@ $lightgray: #98aeca;
   line-height: 0;
 }
 
+.tracking {
+  @extend .inner-container;
+
+  border: 0.5px solid $green !important;
+  color: $green !important;
+
+  .icon {
+    font-size: 10px !important;
+    line-height: 1;
+    color: $green !important;
+  }
+}
+
+.not-tracking {
+  @extend .inner-container;
+
+  .icon {
+    font-size: 10px !important;
+    line-height: 1;
+    color: $blue !important;
+  }
+}
+
 .track-btn-container {
   display: flex;
   align-items: center;
@@ -61,14 +84,14 @@ $lightgray: #98aeca;
   .track-product {
     width: 99px;
     height: 25px;
-    border: 0.5px solid $blue !important;
+    border: 0.5px solid $blue;
     border-radius: 100px !important;
     box-shadow: unset !important;
     cursor: pointer;
     display: flex !important;
     align-items: center !important;
     padding: 0 10px !important;
-    color: $blue !important;
+    color: $blue;
     background: white !important;
 
     > span {
@@ -114,28 +137,28 @@ $lightgray: #98aeca;
       padding-left: 10px;
       margin: unset !important;
     }
+  }
 
-    .tracking {
-      @extend .inner-container;
+  .tracking {
+    @extend .inner-container;
 
-      border: 0.5px solid $green !important;
+    border: 0.5px solid $green !important;
+    color: $green !important;
+    /* stylelint-disable no-descending-specificity */
+    .icon {
+      font-size: 10px !important;
+      line-height: 1;
       color: $green !important;
-
-      .icon {
-        font-size: 10px !important;
-        line-height: 1;
-        color: $green !important;
-      }
     }
+  }
 
-    .not-tracking {
-      @extend .inner-container;
+  .not-tracking {
+    @extend .inner-container;
 
-      .icon {
-        font-size: 10px !important;
-        line-height: 1;
-        color: $blue !important;
-      }
+    .icon {
+      font-size: 10px !important;
+      line-height: 1;
+      color: $blue !important;
     }
   }
 }
