@@ -49,6 +49,7 @@ import {
   updateParentHeight,
   updateProductHeight,
 } from '../../containers/SellerFinder/SellerDetails/InnerTree';
+import { getSellerQuota } from '../Settings';
 export interface SellersPayload {
   enableLoader?: boolean;
   pageNo?: number;
@@ -423,6 +424,7 @@ export const trackProduct = (payload: TrackProductPayload) => async (
       return prod;
     });
     await dispatch(setSellerProducts(products));
+    await dispatch(getSellerQuota());
   } catch (err) {
     console.log('Error Tracking Seller', err);
   }

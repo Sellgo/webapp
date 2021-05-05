@@ -51,6 +51,7 @@ import {
   setActiveProductSellerStatus,
   setSellersSinglePageItemsCount,
   fetchSellerFilters,
+  setProductIndex,
 } from '../../../actions/SellerFinder';
 
 import { SEARCH_STATUS } from '../../../constants/SellerFinder';
@@ -99,6 +100,7 @@ interface Props {
   loadingFilters: boolean;
   sellerFilters: any;
   fetchSellerFilters: (query: string) => void;
+  setActiveProductIndex: (index: number) => void;
 }
 
 interface SearchResponse {
@@ -147,6 +149,7 @@ const SellerFinderTable = (props: Props) => {
     loadingFilters,
     sellerFilters,
     fetchSellerFilters,
+    setActiveProductIndex,
   } = props;
 
   const [expandedRow, setExpandedRow] = useState(null);
@@ -212,19 +215,6 @@ const SellerFinderTable = (props: Props) => {
   const [viewFilterDialog, setViewFilterDialog] = useState(false);
   const [activeColumnFilter, setActiveColumnFilter] = useState('');
   const [copied, setCopied] = useState(false);
-  // const [activeColumn, setActiveColumn] = useState({
-  //   label: 'Seller Information',
-  //   dataKey: 'seller_information',
-  //   type: 'string',
-  //   sortable: false,
-  //   show: true,
-  //   className: ``,
-  //   filter: true,
-  //   filterSign: '',
-  //   filterType: 'list',
-  //   filterDataKey: 'search',
-  //   filterLabel: 'Seller Information',
-  // });
 
   const expandRow = (row: any) => {
     setExpandedRow(expandedRow ? null : row.id);
@@ -389,18 +379,11 @@ const SellerFinderTable = (props: Props) => {
         setActiveProductStatus({ ...data, asin: activeProduct.asin });
         setSearching(data.status === SEARCH_STATUS.PENDING);
 
-        // if (data.status === SEARCH_STATUS.DONE) {
-        //   fetchProductSellers({
-        //     asin: activeProduct.asin,
-        //     enableLoader: true,
-        //     merchantId: activeMerchant.id,
-        //   });
-        // }
         if (data.status === SEARCH_STATUS.DONE) {
+          if (data.merchants_count) {
+            success(`${data.merchants_count} Sellers Found!`);
+          }
           fetchAmazonSellers({ enableLoader: false });
-        }
-        if (data.merchants_count) {
-          success(`${data.merchants_count} Sellers Found!`);
         }
       };
     }
@@ -589,7 +572,10 @@ const SellerFinderTable = (props: Props) => {
           left: '70px',
           cursor: 'pointer',
         }}
-        onClick={() => expandRow(row)}
+        onClick={() => {
+          expandRow(row);
+          setActiveProductIndex(-1);
+        }}
         alt={'expand icon'}
       />
       <span className="name">{row.merchant_name}</span>
@@ -626,12 +612,6 @@ const SellerFinderTable = (props: Props) => {
   const renderRatingL365DPercentage = (row: any) => (
     <p>{row.review_ratings ? row.review_ratings : '-'}</p>
   );
-
-  // const renderTotalRating = () => <p>{'-'}</p>;
-  //
-  // const renderFBA = () => <p>{'-'}</p>;
-  //
-  // const renderFBM = () => <p>{'-'}</p>;
 
   const renderReviewL30D = (row: any) => (
     <p>{showNAIfZeroOrNull(row.count_30_days, row.count_30_days)}</p>
@@ -716,33 +696,6 @@ const SellerFinderTable = (props: Props) => {
       className: `seller_rating`,
       render: renderRatingL365DPercentage,
     },
-    // {
-    //   label: `Total \nRating`,
-    //   dataKey: 'total_rating',
-    //   type: 'string',
-    //   sortable: true,
-    //   show: true,
-    //   className: `seller_rating`,
-    //   render: renderTotalRating,
-    // },
-    // {
-    //   label: `FBA`,
-    //   dataKey: 'fba',
-    //   type: 'string',
-    //   sortable: true,
-    //   show: true,
-    //   className: ``,
-    //   render: renderFBA,
-    // },
-    // {
-    //   label: `FBM`,
-    //   dataKey: 'fbm',
-    //   type: 'string',
-    //   sortable: true,
-    //   show: true,
-    //   className: ``,
-    //   render: renderFBM,
-    // },
     {
       label: `Review \nL30D`,
       dataKey: 'count_30_days',
@@ -794,15 +747,6 @@ const SellerFinderTable = (props: Props) => {
       className: `review`,
       render: renderReviewLifeTime,
     },
-    // {
-    //   label: `Product \nReview #`,
-    //   dataKey: 'product_review',
-    //   type: 'string',
-    //   sortable: true,
-    //   show: true,
-    //   className: `review`,
-    //   render: renderProductReview,
-    // },
     {
       label: `Processed on`,
       dataKey: 'processed',
@@ -986,5 +930,6 @@ const mapDispatchToProps = {
     moveMerchantToSellerTrackGroup(merchantID, groupID),
   setSellersSinglePageItemsCount: (count: number) => setSellersSinglePageItemsCount(count),
   fetchSellerFilters: (query: string) => fetchSellerFilters(query),
+  setActiveProductIndex: (index: number) => setProductIndex(index),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SellerFinderTable);

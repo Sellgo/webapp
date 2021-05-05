@@ -108,22 +108,34 @@ $lightgray: #98aeca;
       }
     }
 
+    .tracking {
+      @extend .inner-container;
+
+      border: 0.5px solid $green !important;
+      color: $green !important;
+
+      .icon {
+        font-size: 10px !important;
+        line-height: 1;
+        color: $green !important;
+      }
+    }
+
+    .not-tracking {
+      @extend .inner-container;
+
+      .icon {
+        font-size: 10px !important;
+        line-height: 1;
+        color: $blue !important;
+      }
+    }
+
     .tracking-label {
       @extend .inner-container;
 
       padding-left: 10px;
       margin: unset !important;
     }
-  }
-
-  .tracking {
-    @extend .inner-container;
-
-    border: 0.5px solid $green !important;
-    color: $green !important;
-  }
-
-  .not-tracking {
-    @extend .inner-container;
   }
 }

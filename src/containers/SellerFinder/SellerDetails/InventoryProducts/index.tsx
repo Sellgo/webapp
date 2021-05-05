@@ -2,7 +2,6 @@ import React from 'react';
 import './index.scss';
 import Rating from 'react-rating';
 import { Icon } from 'semantic-ui-react';
-import SampleProductImage from '../../../../assets/images/Image 37.png';
 import TrackSeller from '../TrackSeller';
 import { formatCompletedDate } from '../../../../utils/date';
 import { copyToClipboard } from '../../../../utils/file';
@@ -21,7 +20,7 @@ const renderProductInventory = (row: any) => {
     <p>
       <span className="product-inner-container">
         <span>
-          <img src={SampleProductImage} alt={'product-image'} className="product-image" />
+          <img src={row.image_url} alt={'product-image'} className="product-image" />
         </span>
         <span className="product-info">
           <span className="product-name"> {row.product_name}</span>
@@ -173,6 +172,7 @@ export const InventoryProductsRow = (props: any) => {
       product_id: 'product_id',
       tracking_status: 'tracking_status',
       product_track_id: 'product_track_id',
+      image_url: 'image_url',
     };
     let data: any = row;
     dataKeys.forEach((obj: any) => {

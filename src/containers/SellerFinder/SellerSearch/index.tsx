@@ -16,10 +16,11 @@ const SellerSearch = (props: Props) => {
           icon={'search'}
           loading={props.loading}
           placeholder="Search by ASIN or Seller Name/ID"
-          onChange={evt => setSearch(evt.target.value)}
+          onChange={(evt: any) => setSearch(evt.target.value)}
+          onKeyDown={(evt: any) => (evt.key === 'Enter' ? props.onSearch(search) : undefined)}
         />
         <span className="or">Or</span>
-        <Button primary className="search-btn" onClick={() => props.onSearch(search)}>
+        <Button primary className="search-btn">
           Find Sellers
         </Button>
       </div>

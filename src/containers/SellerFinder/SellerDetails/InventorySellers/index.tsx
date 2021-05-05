@@ -2,13 +2,13 @@ import React from 'react';
 import './index.scss';
 import Rating from 'react-rating';
 import { Button, Icon } from 'semantic-ui-react';
-import { formatCurrency, showNAIfZeroOrNull, truncateString } from '../../../../utils/format';
+import { formatCurrency, truncateString } from '../../../../utils/format';
 import { formatCompletedDate } from '../../../../utils/date';
 import TrackSeller from '../TrackSeller';
 const renderSellerName = (row: any) => {
   return (
     <p>
-      <span className="name">{truncateString(row.merchant_name, 25)}</span>
+      <span className="name">{truncateString(row.merchant_name, 20)}</span>
       <span className="asin">{row.merchant_id}</span>
     </p>
   );
@@ -32,10 +32,6 @@ const renderRating = (row: any) => {
 
 const renderRatingPercentage = (row: any) => {
   return <p>{row.review_ratings}</p>;
-};
-
-const renderTotalRating = (row: any) => {
-  return <p>{showNAIfZeroOrNull(row.total_rating, row.total_rating)}</p>;
 };
 
 const renderProcessedOn = (row: any) => {
@@ -69,12 +65,6 @@ const columns = [
     dataKey: 'review_ratings',
     className: 'product-rating',
     render: renderRatingPercentage,
-  },
-  {
-    renderLabel: () => <p>{`Total \nRating`}</p>,
-    dataKey: 'total_rating',
-    className: 'total_rating',
-    render: renderTotalRating,
   },
   {
     renderLabel: () => <p>Processed on</p>,
