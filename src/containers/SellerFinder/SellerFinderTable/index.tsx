@@ -376,10 +376,12 @@ const SellerFinderTable = (props: Props) => {
     if (sellersSocket.OPEN && !sellersSocket.CONNECTING) {
       sellersSocket.onmessage = (res: any) => {
         const data: SearchResponse = JSON.parse(res.data);
-        setActiveProductStatus({ ...data, asin: activeProduct.asin });
+        if (activeProduct) {
+          setActiveProductStatus({ ...data, asin: activeProduct.asin });
+        }
         setSearching(data.status === SEARCH_STATUS.PENDING);
-
         if (data.status === SEARCH_STATUS.DONE) {
+          setSearching(false);
           if (data.merchants_count) {
             success(`${data.merchants_count} Sellers Found!`);
           }
@@ -387,7 +389,7 @@ const SellerFinderTable = (props: Props) => {
         }
       };
     }
-  }, [activeProduct]);
+  });
 
   useEffect(() => {
     if (exportMerchantsSocket.OPEN && !exportMerchantsSocket.CONNECTING) {
