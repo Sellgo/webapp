@@ -108,6 +108,13 @@ $lightgray: #98aeca;
       }
     }
 
+    .tracking-label {
+      @extend .inner-container;
+
+      padding-left: 10px;
+      margin: unset !important;
+    }
+
     .tracking {
       @extend .inner-container;
 
@@ -129,13 +136,6 @@ $lightgray: #98aeca;
         line-height: 1;
         color: $blue !important;
       }
-    }
-
-    .tracking-label {
-      @extend .inner-container;
-
-      padding-left: 10px;
-      margin: unset !important;
     }
   }
 }
