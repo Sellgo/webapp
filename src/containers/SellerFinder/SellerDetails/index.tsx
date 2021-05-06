@@ -16,6 +16,7 @@ import {
 import {
   fetchSellerProducts,
   SellersProductsPayload,
+  setProductIndex,
   setSellerIndex,
 } from '../../../actions/SellerFinder';
 import { connect } from 'react-redux';
@@ -38,6 +39,7 @@ interface SellerDetailsProps {
   onPagination: (payload: any) => void;
   setActiveSellerIndex: (index: number) => void;
   activeSellerIndex: number;
+  setActiveProductIndex: (index: number) => void;
 }
 
 const SellerDetails = (props: SellerDetailsProps) => {
@@ -51,6 +53,7 @@ const SellerDetails = (props: SellerDetailsProps) => {
     onPagination,
     setActiveSellerIndex,
     activeSellerIndex,
+    setActiveProductIndex,
   } = props;
   const [treeData, setTreeData] = React.useState([
     {
@@ -94,6 +97,7 @@ const SellerDetails = (props: SellerDetailsProps) => {
           if (!node.expanded) {
             updateHeight(250);
           }
+          setActiveProductIndex(-1);
         }}
         onChange={(data: any) => setTreeData(data)}
         rowHeight={({ treeIndex, node }) => {
@@ -123,5 +127,6 @@ const mapStateToProps = (state: {}) => ({
 const mapDispatchToProps = {
   fetchSellerProducts: (payload: SellersProductsPayload) => fetchSellerProducts(payload),
   setActiveSellerIndex: (index: number) => setSellerIndex(index),
+  setActiveProductIndex: (index: number) => setProductIndex(index),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SellerDetails);

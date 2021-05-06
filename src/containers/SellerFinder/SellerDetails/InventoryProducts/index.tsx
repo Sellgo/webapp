@@ -55,12 +55,9 @@ const renderRating = () => {
       emptySymbol={<Icon name="star outline" color={'grey'} />}
       fullSymbol={<Icon name="star" color={'grey'} />}
       placeholderSymbol={<Icon name="star" color={'grey'} />}
+      readonly
     />
   );
-};
-
-const renderRatingPercentage = () => {
-  return <p>{'-'}</p>;
 };
 
 const renderProductReview = (row: any) => {
@@ -104,12 +101,6 @@ const columns = [
     dataKey: 'product_rating',
     className: 'product-rating',
     render: renderRating,
-  },
-  {
-    label: `Rating \nL365D%`,
-    dataKey: 'rating_percentage',
-    className: 'product-rating',
-    render: renderRatingPercentage,
   },
   {
     label: `Product \nReview #`,
