@@ -333,7 +333,7 @@ const SellerFinderTable = (props: Props) => {
             success(`${data.merchants_count} Sellers Found!`);
           }
           setRefreshing('');
-          fetchAmazonSellers({ enableLoader: false, sort: 'id', sortDirection: 'descending' });
+          fetchAmazonSellers({ enableLoader: false, sort: 'udate', sortDirection: 'descending' });
         }
       };
     }
