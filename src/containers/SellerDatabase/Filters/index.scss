@@ -1,0 +1,116 @@
+$font-color: #3b4557;
+$gray: #757575;
+$blue: #349af8;
+
+.sd-filters-container {
+  padding: 40px;
+  border: 1px solid #a2a2a2;
+  border-radius: 7px;
+
+  .sd-filters {
+    display: flex;
+
+    .sf-filter-container {
+      display: flex;
+      flex-direction: column;
+
+      p {
+        margin-bottom: 0;
+      }
+
+      .search-input-container {
+        display: flex;
+        align-items: center;
+
+        .search-label {
+          width: 200px;
+          color: $font-color;
+          font-weight: bold;
+        }
+
+        .sd-search-input {
+          width: 270px;
+        }
+
+        .amazon-links {
+          width: 160px;
+        }
+
+        .state {
+          width: 100px;
+        }
+
+        input {
+          margin: 5px 12px;
+        }
+
+        justify-content: space-between;
+
+        > .dropdown {
+          margin-left: 12px;
+        }
+
+        .or {
+          margin-left: 10px;
+        }
+      }
+
+      .filters-label {
+        margin: 10px 0;
+        color: $font-color;
+        font-weight: 500;
+      }
+
+      .input-search-filters {
+        input {
+          margin: 5px 12px;
+          width: 160px;
+        }
+
+        .list-filter {
+          width: 90px;
+        }
+
+        display: flex;
+
+        .input-filter {
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+
+    .right-filters {
+      margin-left: 20px;
+    }
+
+    .seller-tier {
+      margin-top: 40px;
+    }
+  }
+
+  .sd-filter-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .button {
+      width: 140px;
+    }
+
+    .reset-btn {
+      border: 1px solid $gray;
+      border-radius: 7px;
+      background: #fff;
+      color: $gray;
+    }
+
+    .submit-btn {
+      margin-left: 10px;
+      border: 1px solid $blue;
+      border-radius: 7px;
+      background: $blue;
+      color: #fff;
+    }
+  }
+}

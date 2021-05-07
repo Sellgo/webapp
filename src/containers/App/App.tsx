@@ -23,6 +23,7 @@ import Subscription from '../Settings/Subscription';
 import Payment from '../Subscription/Payment';
 import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
+import SellerDatabase from '../SellerDatabase';
 
 export const auth = new Auth();
 
@@ -204,6 +205,13 @@ function App() {
             exact={true}
             path="/onboarding"
             component={Onboarding}
+            requireSubscription={true}
+          />
+
+          <PrivateRoute
+            exact={true}
+            path="/seller-database"
+            component={SellerDatabase}
             requireSubscription={true}
           />
           <Route component={NotFound} />
