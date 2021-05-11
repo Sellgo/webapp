@@ -93,7 +93,7 @@ export const fetchSellers = (payload: SellersPayload) => async (dispatch: any, g
     const sellerID = sellerIDSelector();
     const url =
       AppConfig.BASE_URL_API +
-      `sellers/${sellerID}/merchants-paginated?${pagination}&${sorting}${query ? query : ''}`;
+      `sellers/${sellerID}/merchants?${pagination}&${sorting}${query ? query : ''}`;
     if (payload.enableLoader) {
       await dispatch(fetchingSellers(true));
     } else {
@@ -123,7 +123,7 @@ export const fetchSellerFilters = (query: string) => async (dispatch: any) => {
     dispatch(fetchingSellersFilters(true));
     const sellerID = sellerIDSelector();
 
-    const url = AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants-paginated?${query}`;
+    const url = AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants?${query}`;
     const res = await Axios.get(url);
     if (res) {
       dispatch(setSellerFilters(res.data));
@@ -176,7 +176,7 @@ export const fetchProductSellers = (payload: ProductSellersPayload) => async (di
     const sellerID = sellerIDSelector();
     const url =
       AppConfig.BASE_URL_API +
-      `sellers/${sellerID}/merchants/${payload.merchantId}/children?parent_asin=${payload.asin}`;
+      `sellers/${sellerID}/merchants/${payload.merchantId}?parent_asin=${payload.asin}`;
     if (payload.enableLoader) {
       await dispatch(fetchingProductSellers(true));
     }

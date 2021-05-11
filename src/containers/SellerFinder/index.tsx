@@ -17,10 +17,12 @@ const SellerFinder = (props: SellerFinderProps) => {
   const [websocketMerchantsReport, setWebsocketMerchantsReport] = React.useState<any>({});
 
   const sellerId = sellerIDSelector();
-  const socketUrl = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/search`;
-  const socketUrlInventory = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/inventory/search`;
-  const socketUrlSellers = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/asin/search`;
-  const socketMerchantReport = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/export`;
+  const AUTH_TOKEN = `token=${localStorage.getItem('idToken')}`;
+  const socketUrl = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/search?${AUTH_TOKEN}`;
+  const socketUrlInventory = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/inventory/search?${AUTH_TOKEN}`;
+  const socketUrlSellers = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/asin/search?${AUTH_TOKEN}`;
+  const socketMerchantReport = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/export?${AUTH_TOKEN}`;
+
   useEffect(() => {
     const wsInventory = new WebSocket(socketUrlInventory);
     const ws = new WebSocket(socketUrl);
@@ -28,22 +30,18 @@ const SellerFinder = (props: SellerFinderProps) => {
     const wsMerchantsReport = new WebSocket(socketMerchantReport);
 
     ws.onopen = () => {
-      console.log('socket connected');
       setWebSocket(ws);
     };
 
     wsInventory.onopen = () => {
-      console.log('inventory connected');
       setWebsocketInventory(wsInventory);
     };
 
     wsSellers.onopen = () => {
-      console.log('sellers connected');
       setWebsocketSellers(wsSellers);
     };
 
     wsMerchantsReport.onopen = () => {
-      console.log('sellers report connected');
       setWebsocketMerchantsReport(wsMerchantsReport);
     };
 
