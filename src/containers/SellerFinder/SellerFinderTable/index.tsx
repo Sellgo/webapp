@@ -228,7 +228,7 @@ const SellerFinderTable = (props: Props) => {
       enableLoader,
       sort = 'udate',
       sortDirection = 'descending',
-      query = getSavedFilters(),
+      query = getSavedFilters(resetKey),
     } = payload;
 
     let reqPayload: SellersPayload = {
@@ -678,6 +678,11 @@ const SellerFinderTable = (props: Props) => {
       sortable: true,
       show: true,
       className: ``,
+      filter: true,
+      filterSign: '',
+      filterType: 'range',
+      filterDataKey: 'inventory_count',
+      filterLabel: 'Inventory',
       render: renderInventory,
     },
     {
@@ -687,6 +692,11 @@ const SellerFinderTable = (props: Props) => {
       sortable: true,
       show: true,
       className: ``,
+      filter: true,
+      filterSign: '',
+      filterType: 'range',
+      filterDataKey: 'seller_rating',
+      filterLabel: 'Rating L365D',
       render: renderRatingL365D,
     },
     {
@@ -696,6 +706,11 @@ const SellerFinderTable = (props: Props) => {
       sortable: true,
       show: true,
       className: `seller_rating`,
+      filter: true,
+      filterSign: '%',
+      filterType: 'range',
+      filterDataKey: 'review_ratings',
+      filterLabel: 'Rating% L365D',
       render: renderRatingL365DPercentage,
     },
     {
@@ -747,6 +762,11 @@ const SellerFinderTable = (props: Props) => {
       sortable: true,
       show: true,
       className: `review`,
+      filter: true,
+      filterSign: '',
+      filterType: 'range',
+      filterDataKey: 'count_lifetime',
+      filterLabel: 'Review Lifetime',
       render: renderReviewLifeTime,
     },
     {
