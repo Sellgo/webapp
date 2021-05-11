@@ -1,5 +1,7 @@
 import React from 'react';
 import { Column, GenericTable } from '../../../components/Table';
+import SellerCheckBoxHeader from './sellerCheckBoxHeader';
+import './index.scss';
 
 const SellerDatabaseTable = () => {
   const renderSellerInformation = (row: any) => {
@@ -46,11 +48,20 @@ const SellerDatabaseTable = () => {
     return <p>{row.review}</p>;
   };
 
+  const renderCheckBox = () => <SellerCheckBoxHeader />;
   const Columns: Column[] = [
+    {
+      label: '',
+      sortable: false,
+      dataKey: 'checkboxes',
+      show: true,
+      check: true,
+      render: renderCheckBox,
+    },
     {
       label: 'Seller Information',
       dataKey: 'title',
-      sortable: true,
+      sortable: false,
       type: 'string',
       show: true,
       render: renderSellerInformation,
