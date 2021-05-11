@@ -80,6 +80,7 @@ const SellerInformation = (props: SellerInformationProps) => {
       <div className="action-button-container">
         <div className="action-buttons">
           <Button
+            icon={'apple'}
             basic
             className="check-inventory"
             onClick={() =>

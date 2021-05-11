@@ -287,13 +287,15 @@ $darkgary: #dfe8f329;
               width: 168px;
               height: 25px;
               border: 0.5px solid $blue;
-              line-height: 0;
+              //line-height: 0;
               border-radius: 100px;
               text-align: left;
               padding-left: 10px !important;
               font-size: 14px;
               font-weight: 600;
               color: $blue !important;
+              display: flex;
+              align-items: center;
             }
           }
         }
@@ -352,7 +354,7 @@ $darkgary: #dfe8f329;
 
         .seller-products-container {
           @media only screen and (min-width: 1920px) and (max-width: 2500px) {
-            width: 400px;
+            width: 375px;
           }
 
           .label-flex {
@@ -398,7 +400,7 @@ $darkgary: #dfe8f329;
         }
 
         .statistics-container {
-          margin: 0 20px;
+          margin: 0 17px;
 
           .static-row {
             display: flex;
@@ -460,7 +462,6 @@ $darkgary: #dfe8f329;
             .check-inventory {
               width: 150px !important;
               height: 23px !important;
-              line-height: 0.5 !important;
               font-size: 10px !important;
               font-weight: 600 !important;
               color: $blue !important;
@@ -470,9 +471,14 @@ $darkgary: #dfe8f329;
               }
             }
 
+            @media only screen and (min-width: 1366px) and (max-width: 1440px) {
+              width: 110px !important;
+              line-height: 1 !important;
+            }
+
             @media only screen and (min-width: 1440px) and (max-width: 1919px) {
               .check-inventory {
-                width: 180px !important;
+                width: 120px !important;
                 height: 23px !important;
                 line-height: 0.5 !important;
                 font-size: 10px !important;
@@ -481,6 +487,7 @@ $darkgary: #dfe8f329;
 
                 .icon {
                   font-size: 12px;
+                  line-height: 0.8;
                 }
               }
             }
@@ -488,7 +495,7 @@ $darkgary: #dfe8f329;
         }
 
         .seller-logo-container {
-          margin-left: 5px !important;
+          margin-left: 15px !important;
 
           .seller-logo {
             width: 120px !important;
@@ -500,11 +507,19 @@ $darkgary: #dfe8f329;
             .seller-logo {
               margin-left: 20px !important;
             }
+
+            .seller-name {
+              max-width: 180px !important;
+            }
           }
 
           @media only screen and (min-width: 1440px) and (max-width: 1679px) {
             .seller-logo {
               margin-left: 30px !important;
+            }
+
+            .seller-name {
+              max-width: 220px !important;
             }
           }
 
@@ -608,7 +623,7 @@ $darkgary: #dfe8f329;
           }
 
           @media only screen and (min-width: 1366px) and (max-width: 1439px) {
-            margin: 0 28px !important;
+            margin: 0 18px !important;
 
             .cell {
               width: 55px !important;
@@ -623,7 +638,7 @@ $darkgary: #dfe8f329;
           }
 
           @media only screen and (min-width: 1440px) and (max-width: 1599px) {
-            margin: 0 38px !important;
+            margin: 0 24px !important;
 
             .cell {
               width: 60px !important;
