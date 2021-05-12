@@ -88,13 +88,15 @@ const TrackSeller = (props: Props) => {
         props.activeProductSellerStatus.status
       ) &&
         props.activeProductSellerStatus.asin === props.data.asin && (
-          <Progress
-            percent={props.activeProductSellerStatus.progress}
-            size="tiny"
-            success={!props.activeProductSellerStatus.error_status}
-            error={props.activeProductSellerStatus.error_status}
-            active={props.activeProductSellerStatus.progress !== 100}
-          />
+          <div className="product-seller-progress">
+            <Progress
+              percent={props.activeProductSellerStatus.progress}
+              size="tiny"
+              success={!props.activeProductSellerStatus.error_status}
+              error={props.activeProductSellerStatus.error_status}
+              active={props.activeProductSellerStatus.progress !== 100}
+            />
+          </div>
         )}
     </>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Progress } from 'semantic-ui-react';
 import { formatString, showNAIfZeroOrNull } from '../../../utils/format';
 import { loadingInventory } from '../../../selectors/SellerFinder';
 import { connect } from 'react-redux';
@@ -103,6 +103,17 @@ const SellerInformation = (props: SellerInformationProps) => {
           />
           {/*<span>{' 2 Mins'}</span>*/}
         </div>
+        {loadingInventory && loadingInventory.status === SEARCH_STATUS.PENDING && (
+          <div className="inventory-progress">
+            <Progress
+              percent={loadingInventory.progress}
+              size="tiny"
+              success={!loadingInventory.error_status}
+              error={loadingInventory.error_status}
+              active={loadingInventory.progress !== 100}
+            />
+          </div>
+        )}
       </div>
       <div className="seller-logo-container">
         {details.merchant_logo && <img src={details.merchant_logo} className={'seller-logo'} />}

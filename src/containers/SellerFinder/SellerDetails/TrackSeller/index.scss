@@ -162,3 +162,13 @@ $lightgray: #98aeca;
     }
   }
 }
+
+.product-seller-progress {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  .ui.progress {
+    width: 50%;
+  }
+}
