@@ -87,6 +87,7 @@ const TrackSeller = (props: Props) => {
       {![SEARCH_STATUS.SUCCESS, SEARCH_STATUS.DONE].includes(
         props.activeProductSellerStatus.status
       ) &&
+        type === 'product' &&
         props.activeProductSellerStatus.asin === props.data.asin && (
           <div className="product-seller-progress">
             <Progress
