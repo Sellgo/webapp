@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Rating from 'react-rating';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Progress } from 'semantic-ui-react';
 
 import { Column, GenericTable } from '../../../components/Table';
 import './index.scss';
@@ -110,6 +110,8 @@ interface SearchResponse {
   parent_asin: boolean;
   merchants_count: number;
   products_count: number;
+  progress: number;
+  error_status: boolean;
 }
 
 interface ExportResponse {
@@ -215,6 +217,8 @@ const SellerFinderTable = (props: Props) => {
   const [viewFilterDialog, setViewFilterDialog] = useState(false);
   const [activeColumnFilter, setActiveColumnFilter] = useState('');
   const [copied, setCopied] = useState(false);
+  const [sellerProgress, setSellerProgress] = useState(0);
+  const [sellerProgressError, setSellerProgressError] = useState(false);
 
   const expandRow = (row: any) => {
     setExpandedRow(expandedRow ? null : row.id);
@@ -248,6 +252,7 @@ const SellerFinderTable = (props: Props) => {
     }
 
     fetchSellers(reqPayload);
+    setSearching(false);
     setViewFilterDialog(false);
   };
 
@@ -321,11 +326,16 @@ const SellerFinderTable = (props: Props) => {
     if (ws.OPEN && !ws.CONNECTING) {
       ws.onmessage = (res: any) => {
         const data: SearchResponse = JSON.parse(res.data);
-        if (data.job_id) {
-          setSearchMessage(data.message);
-        }
+        setSearchMessage(data.message);
         if (searchText) {
-          setSearching(data.status === SEARCH_STATUS.PENDING);
+          setSearching(true);
+        }
+
+        if (data.error_status) {
+          setSellerProgressError(data.error_status);
+          setSellerProgress(100);
+        } else {
+          setSellerProgress(data.progress);
         }
 
         if (data.status === SEARCH_STATUS.DONE) {
@@ -797,11 +807,22 @@ const SellerFinderTable = (props: Props) => {
   return (
     <div className="seller-finder-table">
       <div className="search-input-container">
-        <SellerSearch
-          onSearch={value => search(value)}
-          message={searchMessage}
-          loading={searching}
-        />
+        <SellerSearch onSearch={value => search(value)} />
+        {searching && (
+          <div className="search-progress-container">
+            <p className={`search-message ${sellerProgressError ? 'searching-error' : ''}`}>
+              {searchMessage}
+            </p>
+            <Progress
+              percent={sellerProgress}
+              size="small"
+              progress
+              success={!sellerProgressError}
+              error={sellerProgressError}
+              active={sellerProgress !== 100}
+            />
+          </div>
+        )}
       </div>
       <div className="seller-menu">
         <SellerGroups

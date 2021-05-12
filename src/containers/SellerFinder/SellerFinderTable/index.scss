@@ -617,5 +617,21 @@ $new_black: #3b4557;
 
   .search-input-container {
     margin: -25px 0 15px 0;
+
+    .search-progress-container {
+      margin-top: 10px;
+      width: 27%;
+
+      .search-message {
+        color: $sellgo-green;
+        font-size: 16px;
+        font-weight: 500;
+        margin-left: 25px;
+      }
+
+      .searching-error {
+        color: red;
+      }
+    }
   }
 }
