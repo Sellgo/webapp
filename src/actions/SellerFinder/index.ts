@@ -175,14 +175,15 @@ export const fetchProductSellers = (payload: ProductSellersPayload) => async (di
   try {
     const sellerID = sellerIDSelector();
     const url =
-      AppConfig.BASE_URL_API +
-      `sellers/${sellerID}/merchants/${payload.merchantId}?parent_asin=${payload.asin}`;
+      AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants?parent_asin=${payload.asin}`;
     if (payload.enableLoader) {
       await dispatch(fetchingProductSellers(true));
     }
     const res = await Axios.get(url);
-    if (res) {
-      await dispatch(setProductSellers(res.data));
+    if (res.data) {
+      const { results } = res.data;
+
+      await dispatch(setProductSellers(results));
     }
     await dispatch(fetchingProductSellers(false));
   } catch (err) {

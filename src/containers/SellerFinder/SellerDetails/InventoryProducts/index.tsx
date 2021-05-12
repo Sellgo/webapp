@@ -69,7 +69,11 @@ const renderLastUpdate = (row: any) => {
 };
 
 const renderTrackProducts = (row: any) => {
-  return <TrackSeller tracking={false} type={'product'} data={row} />;
+  return (
+    <div className="product-merchant-track-container">
+      <TrackSeller tracking={false} type={'product'} data={row} />
+    </div>
+  );
 };
 const columns = [
   {

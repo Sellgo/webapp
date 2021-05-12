@@ -173,6 +173,16 @@ $blue: #349af8;
   .track-products {
     min-width: 250px;
   }
+
+  .product-merchant-track-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .ui.progress:last-child {
+      margin: 2px 0 0;
+    }
+  }
 }
 
 @media only screen and (min-width: 1024px) and (max-width: 1919px) {
