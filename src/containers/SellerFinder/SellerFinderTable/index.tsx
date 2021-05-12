@@ -328,6 +328,7 @@ const SellerFinderTable = (props: Props) => {
         const data: SearchResponse = JSON.parse(res.data);
         setSearchMessage(data.message);
         if (searchText) {
+          setSellerProgressError(false);
           setSearching(true);
         }
 
@@ -386,11 +387,23 @@ const SellerFinderTable = (props: Props) => {
     if (sellersSocket.OPEN && !sellersSocket.CONNECTING) {
       sellersSocket.onmessage = (res: any) => {
         const data: SearchResponse = JSON.parse(res.data);
+
+        if (data.message && searchText) {
+          setSearching(true);
+          setSellerProgressError(false);
+          setSearchMessage(data.message);
+        }
+
+        if (data.error_status) {
+          setSellerProgressError(data.error_status);
+          setSellerProgress(100);
+        } else {
+          setSellerProgress(data.progress);
+        }
         if (activeProduct) {
           setActiveProductStatus({ ...data, asin: activeProduct.asin });
         }
-        setSearching(data.status === SEARCH_STATUS.PENDING);
-        if (data.status === SEARCH_STATUS.DONE) {
+        if (data.status === SEARCH_STATUS.DONE && !data.error_status) {
           setSearching(false);
           if (data.merchants_count) {
             success(`${data.merchants_count} Sellers Found!`);
@@ -815,7 +828,7 @@ const SellerFinderTable = (props: Props) => {
             </p>
             <Progress
               percent={sellerProgress}
-              size="small"
+              size="tiny"
               progress
               success={!sellerProgressError}
               error={sellerProgressError}
