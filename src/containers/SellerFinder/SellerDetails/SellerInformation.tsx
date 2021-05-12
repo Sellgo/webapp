@@ -106,7 +106,7 @@ const SellerInformation = (props: SellerInformationProps) => {
         {loadingInventory && loadingInventory.status === SEARCH_STATUS.PENDING && (
           <div className="inventory-progress">
             <Progress
-              percent={loadingInventory.progress}
+              percent={loadingInventory.error_status ? 100 : loadingInventory.progress}
               size="tiny"
               success={!loadingInventory.error_status}
               error={loadingInventory.error_status}
