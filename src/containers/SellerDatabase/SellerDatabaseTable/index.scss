@@ -1,3 +1,5 @@
+@import '../../../design-system/colors';
+
 .seller-database-table {
   .ui.table {
     border-collapse: separate;
@@ -32,6 +34,21 @@
       input:checked ~ .box::after,
       input:checked ~ label::after {
         color: #fff;
+      }
+    }
+
+    .target-btn {
+      display: flex;
+      align-items: center;
+      width: 120px;
+      height: 30px;
+      border: 1px solid $sellgo-blue;
+      border-radius: 7px;
+      color: $sellgo-blue;
+      font-size: 11px;
+
+      > img {
+        margin-right: 10px;
       }
     }
 

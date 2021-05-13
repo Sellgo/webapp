@@ -60,9 +60,10 @@ class SidebarCollapsible extends Component<
         path: '/leads-tracker',
         notifyId: 2,
       },
-      { id: 5, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
+      { id: 5, label: 'Seller Finder', icon: 'fas fa-magic', path: '/seller-finder', notifyId: 4 },
+      { id: 6, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
       {
-        id: 6,
+        id: 7,
         label: 'Onboarding',
         icon: 'far fa-question-circle',
         path: '/onboarding',
@@ -94,7 +95,7 @@ class SidebarCollapsible extends Component<
         </Link>
         <Menu.Menu>
           {this.state.sidebarIcon.map(icon => {
-            if (icon.id < 5) {
+            if (icon.id < 6) {
               return (
                 <Menu.Item
                   onClick={() => {
@@ -123,7 +124,7 @@ class SidebarCollapsible extends Component<
         </Menu.Menu>
         <Menu.Menu className="sidebar-bottom-icon">
           {this.state.sidebarIcon.map(icon => {
-            if (icon.id > 4) {
+            if (icon.id > 5) {
               return (
                 <Menu.Item
                   key={icon.id}

@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Column, GenericTable } from '../../../components/Table';
 import SellerCheckBox from './sellerCheckbox';
 import './index.scss';
-
+import { Button, Icon } from 'semantic-ui-react';
+import PLUS_ICON from '../../../assets/images/plus-circle-regular.svg';
+import Rating from 'react-rating';
 export interface CheckedRowDictionary {
   [index: number]: boolean;
 }
@@ -18,7 +20,15 @@ const SellerDatabaseTable = () => {
   };
 
   const renderSellerRating = (row: any) => {
-    return <p>{row.rating}</p>;
+    return (
+      <Rating
+        placeholderRating={parseInt(row.rating) || 0}
+        emptySymbol={<Icon name="star outline" color={'grey'} />}
+        fullSymbol={<Icon name="star" color={'grey'} />}
+        placeholderSymbol={<Icon name="star" color={'grey'} />}
+        readonly
+      />
+    );
   };
 
   const renderSellerTotalRating = (row: any) => {
@@ -53,8 +63,15 @@ const SellerDatabaseTable = () => {
     return <p>{row.review}</p>;
   };
 
-  const renderActions = (row: any) => {
-    return <p>{row.review}</p>;
+  const renderActions = () => {
+    return (
+      <div>
+        <Button basic color="blue" className="target-btn">
+          <img src={PLUS_ICON} alt="target" />
+          <span>Target Now</span>
+        </Button>
+      </div>
+    );
   };
 
   const renderCheckBox = () => <SellerCheckBox />;
@@ -93,7 +110,7 @@ const SellerDatabaseTable = () => {
     },
     {
       label: `Rating% \nL365D`,
-      dataKey: 'total-rating',
+      dataKey: 'total_rating',
       sortable: true,
       type: 'string',
       show: true,
@@ -169,7 +186,21 @@ const SellerDatabaseTable = () => {
         currentActiveColumn={''}
         stickyChartSelector={false}
         scrollTopSelector={false}
-        data={[]}
+        data={[
+          {
+            title: 'Something',
+            inventory: 200,
+            rating: 4.5,
+            total_rating: 200,
+            fba: 'Yes',
+            fbm: 'No',
+            review_count_30: 100,
+            review_count_90: 50,
+            review_count_365: 500,
+            review_lifetime: 5000,
+            product_review: 2000,
+          },
+        ]}
         checkedRows={checkedRows}
         columns={Columns}
         name="seller-database"

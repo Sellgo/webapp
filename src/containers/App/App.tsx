@@ -24,6 +24,7 @@ import Payment from '../Subscription/Payment';
 import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
 import SellerDatabase from '../SellerDatabase';
+import SellerFinder from '../SellerFinder';
 
 export const auth = new Auth();
 
@@ -214,6 +215,13 @@ function App() {
             component={SellerDatabase}
             requireSubscription={true}
           />
+          <PrivateRoute
+            exact={true}
+            path="/seller-finder"
+            component={SellerFinder}
+            requireSubscription={true}
+          />
+
           <Route component={NotFound} />
         </Switch>
       </Router>

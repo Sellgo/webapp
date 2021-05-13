@@ -34,3 +34,9 @@ export const formatDimensionForSorting = (dimension: string): number => {
       return acc * Number(val);
     }, 1);
 };
+
+export const formatString = (value: any) => (!value || value === 'null' ? '-' : value);
+
+export const formatBoolean = (value: boolean) => (value ? 'Yes' : 'No');
+
+export const openLink = (link: string) => window.open(link, '_blank');
