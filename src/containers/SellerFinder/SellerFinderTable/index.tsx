@@ -940,7 +940,7 @@ const SellerFinderTable = (props: Props) => {
                 details={data}
                 onCheckInventory={onCheckInventory}
                 onPagination={payload => fetchProducts(payload)}
-                onProductsExport={() => exportMerchantProducts(data.seller_merchant_id)}
+                onProductsExport={() => exportMerchantProducts(data.id)}
               />
             );
           }}
