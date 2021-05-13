@@ -259,8 +259,10 @@ $darkgary: #dfe8f329;
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        padding: 10px;
+        padding: 10px 0;
         margin-top: 40px;
+        margin-left: 20px;
+        width: 100%;
 
         .export-products {
           cursor: pointer;
