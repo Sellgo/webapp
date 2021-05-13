@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Column, GenericTable } from '../../../components/Table';
-import SellerCheckBoxHeader from './sellerCheckBoxHeader';
+import SellerCheckBox from './sellerCheckbox';
 import './index.scss';
 
+export interface CheckedRowDictionary {
+  [index: number]: boolean;
+}
+
 const SellerDatabaseTable = () => {
+  const [checkedRows, setCheckedRows] = useState({});
   const renderSellerInformation = (row: any) => {
     return <p>{row.merchant_name}</p>;
   };
@@ -48,7 +53,11 @@ const SellerDatabaseTable = () => {
     return <p>{row.review}</p>;
   };
 
-  const renderCheckBox = () => <SellerCheckBoxHeader />;
+  const renderActions = (row: any) => {
+    return <p>{row.review}</p>;
+  };
+
+  const renderCheckBox = () => <SellerCheckBox />;
   const Columns: Column[] = [
     {
       label: '',
@@ -146,16 +155,25 @@ const SellerDatabaseTable = () => {
       show: true,
       render: renderProductReivew,
     },
+    {
+      label: ``,
+      dataKey: 'actions',
+      show: true,
+      render: renderActions,
+    },
   ];
 
   return (
-    <div>
+    <div className="seller-database-table">
       <GenericTable
         currentActiveColumn={''}
         stickyChartSelector={false}
         scrollTopSelector={false}
         data={[]}
+        checkedRows={checkedRows}
         columns={Columns}
+        name="seller-database"
+        updateCheckedRows={rows => setCheckedRows(rows)}
       />
     </div>
   );

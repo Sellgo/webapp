@@ -12,6 +12,8 @@ import './index.scss';
 import { Column, getColumnLabel, getColumnClass } from './index';
 import { setActiveColumn, setSortColumn } from '../../actions/Suppliers';
 import RangeFilterBox from '../RangeFilterBox';
+import SellerCheckBoxHeader from '../../containers/SellerDatabase/SellerDatabaseTable/sellerCheckBoxHeader';
+
 interface Shared {
   setSort: (e: any, clickedColumn: string) => void;
   onClick?: (e: any) => void;
@@ -302,16 +304,29 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
         </span>
         {filter && searchIconPosition === 'right' && ColumnFilter}
 
-        {check && checkedRows && updateCheckedRows && type !== 'leads-tracker' && (
-          <ProductCheckBoxHeader
+        {check &&
+          checkedRows &&
+          updateCheckedRows &&
+          type &&
+          !['leads-tracker', 'seller-database'].includes(type) && (
+            <ProductCheckBoxHeader
+              currentPage={currentPage}
+              currentPageRows={rows}
+              checkedRows={checkedRows}
+              updateCheckedRows={updateCheckedRows}
+            />
+          )}
+        {check && checkedRows && updateCheckedRows && type === 'leads-tracker' && (
+          <LeadsCheckBoxHeader
             currentPage={currentPage}
             currentPageRows={rows}
             checkedRows={checkedRows}
             updateCheckedRows={updateCheckedRows}
           />
         )}
-        {check && checkedRows && updateCheckedRows && type === 'leads-tracker' && (
-          <LeadsCheckBoxHeader
+
+        {check && checkedRows && updateCheckedRows && type === 'seller-database' && (
+          <SellerCheckBoxHeader
             currentPage={currentPage}
             currentPageRows={rows}
             checkedRows={checkedRows}
