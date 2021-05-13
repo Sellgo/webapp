@@ -921,7 +921,7 @@ const SellerFinderTable = (props: Props) => {
             setExportType('merchants');
           }}
         >
-          <Icon name="download" /> {'Export'}
+          <Icon name="download" /> {'Export Sellers'}
         </span>
       </div>
       {loadingSellers ? (
@@ -998,7 +998,6 @@ const SellerFinderTable = (props: Props) => {
         onFormatChange={setExportFormat}
         onClose={() => setExportResult(false)}
         onExport={() => {
-          console.log('Format', exportFormat);
           setExportResult(false);
           if (exportType === 'merchants') {
             exportMerchants();
