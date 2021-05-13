@@ -11,8 +11,18 @@ export interface CheckedRowDictionary {
 
 const SellerDatabaseTable = () => {
   const [checkedRows, setCheckedRows] = useState({});
-  const renderSellerInformation = (row: any) => {
-    return <p>{row.merchant_name}</p>;
+  const renderSellerInformation = () => {
+    return (
+      <p className="sd-seller-details">
+        <span className="name">{'Kikkoman'}</span>
+        <span className="seller-id">
+          {'AU12349G1'}
+          <span className="tooltip">
+            <Icon name={'copy outline'} />
+          </span>
+        </span>
+      </p>
+    );
   };
 
   const renderSellerInventory = (row: any) => {
@@ -56,7 +66,7 @@ const SellerDatabaseTable = () => {
   };
 
   const renderSellerReviewLifetime = (row: any) => {
-    return <p>{row.count_all}</p>;
+    return <p>{row.review_all}</p>;
   };
 
   const renderProductReivew = (row: any) => {
@@ -128,13 +138,14 @@ const SellerDatabaseTable = () => {
       label: `FBM`,
       dataKey: 'fbm',
       sortable: true,
+      className: 'sm-col',
       type: 'string',
       show: true,
       render: renderSellerFBM,
     },
     {
       label: `Review \nL30D`,
-      dataKey: 'review_count_30',
+      dataKey: 'count_30',
       sortable: true,
       type: 'string',
       show: true,
@@ -142,7 +153,7 @@ const SellerDatabaseTable = () => {
     },
     {
       label: `Review \nL90D`,
-      dataKey: 'review_count_90',
+      dataKey: 'count_90',
       sortable: true,
       type: 'string',
       show: true,
@@ -150,7 +161,7 @@ const SellerDatabaseTable = () => {
     },
     {
       label: `Review \nL365D`,
-      dataKey: 'review_count_365',
+      dataKey: 'count_12_months',
       sortable: true,
       type: 'string',
       show: true,
@@ -158,7 +169,7 @@ const SellerDatabaseTable = () => {
     },
     {
       label: `Review \nLifetime`,
-      dataKey: 'review_lifetime',
+      dataKey: 'review_all',
       sortable: true,
       type: 'string',
       show: true,
@@ -166,7 +177,7 @@ const SellerDatabaseTable = () => {
     },
     {
       label: `Product \nReview#`,
-      dataKey: 'product_review',
+      dataKey: 'review',
       sortable: true,
       type: 'string',
       show: true,
@@ -191,14 +202,40 @@ const SellerDatabaseTable = () => {
             title: 'Something',
             inventory: 200,
             rating: 4.5,
-            total_rating: 200,
+            total_rating: '98% Positive',
             fba: 'Yes',
             fbm: 'No',
-            review_count_30: 100,
-            review_count_90: 50,
-            review_count_365: 500,
-            review_lifetime: 5000,
-            product_review: 2000,
+            count_30: 100,
+            count_90: 50,
+            count_12_months: 500,
+            review_all: 5000,
+            review: 2000,
+          },
+          {
+            title: 'Something',
+            inventory: 200,
+            rating: 4.5,
+            total_rating: '98% Positive',
+            fba: 'Yes',
+            fbm: 'No',
+            count_30: 100,
+            count_90: 50,
+            count_12_months: 500,
+            review_all: 5000,
+            review: 2000,
+          },
+          {
+            title: 'Something',
+            inventory: 200,
+            rating: 4.5,
+            total_rating: '98% Positive',
+            fba: 'Yes',
+            fbm: 'No',
+            count_30: 100,
+            count_90: 50,
+            count_12_months: 500,
+            review_all: 5000,
+            review: 2000,
           },
         ]}
         checkedRows={checkedRows}

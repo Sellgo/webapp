@@ -11,7 +11,10 @@ const SellerDatabase = (props: any) => {
     <div className="seller-database">
       <PageHeader
         title={`Seller Database`}
-        breadcrumb={[{ content: 'Seller Database', to: '/' }]}
+        breadcrumb={[
+          { content: 'Home', to: '/' },
+          { content: 'Seller Database', to: '/seller-finder' },
+        ]}
         callToAction={<QuotaMeter />}
         auth={match.params.auth}
       />
