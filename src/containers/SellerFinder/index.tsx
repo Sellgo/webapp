@@ -15,6 +15,7 @@ const SellerFinder = (props: SellerFinderProps) => {
   const [websocketInventory, setWebsocketInventory] = React.useState<any>({});
   const [websocketSellers, setWebsocketSellers] = React.useState<any>({});
   const [websocketMerchantsReport, setWebsocketMerchantsReport] = React.useState<any>({});
+  const [websocketProductsReport, setWebsocketProductsReport] = React.useState<any>({});
 
   const sellerId = sellerIDSelector();
   const AUTH_TOKEN = `token=${localStorage.getItem('idToken')}`;
@@ -22,12 +23,14 @@ const SellerFinder = (props: SellerFinderProps) => {
   const socketUrlInventory = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/inventory/search?${AUTH_TOKEN}`;
   const socketUrlSellers = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/asin/search?${AUTH_TOKEN}`;
   const socketMerchantReport = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/export?${AUTH_TOKEN}`;
+  const socketProductsReport = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/export-products?${AUTH_TOKEN}`;
 
   useEffect(() => {
     const wsInventory = new WebSocket(socketUrlInventory);
     const ws = new WebSocket(socketUrl);
     const wsSellers = new WebSocket(socketUrlSellers);
     const wsMerchantsReport = new WebSocket(socketMerchantReport);
+    const wsProductsReport = new WebSocket(socketProductsReport);
 
     ws.onopen = () => {
       setWebSocket(ws);
@@ -45,6 +48,10 @@ const SellerFinder = (props: SellerFinderProps) => {
       setWebsocketMerchantsReport(wsMerchantsReport);
     };
 
+    wsProductsReport.onopen = () => {
+      setWebsocketProductsReport(wsProductsReport);
+    };
+
     return () => {
       wsInventory.close();
       wsSellers.close();
@@ -56,6 +63,10 @@ const SellerFinder = (props: SellerFinderProps) => {
 
   const reconnectExportSocket = () => {
     setWebsocketMerchantsReport(new WebSocket(socketMerchantReport));
+  };
+
+  const reconnectExportProductsSocket = () => {
+    setWebsocketProductsReport(new WebSocket(socketProductsReport));
   };
   return (
     <DndProvider backend={HTML5Backend}>
@@ -74,7 +85,9 @@ const SellerFinder = (props: SellerFinderProps) => {
           inventorySocket={websocketInventory}
           sellersSocket={websocketSellers}
           exportMerchantsSocket={websocketMerchantsReport}
+          exportProductsSocket={websocketProductsReport}
           reconnectExportSocket={reconnectExportSocket}
+          reconnectExportProductsSocket={reconnectExportProductsSocket}
         />
       </div>
     </DndProvider>

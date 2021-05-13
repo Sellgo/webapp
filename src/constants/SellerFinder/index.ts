@@ -44,6 +44,7 @@ export const SEARCH_STATUS = {
   PENDING: 'pending',
   DONE: 'done',
   SUCCESS: 'success',
+  ERROR: 'error',
 };
 
 export const selectItemsCountList = [

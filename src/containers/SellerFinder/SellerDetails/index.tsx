@@ -21,6 +21,7 @@ import {
 } from '../../../actions/SellerFinder';
 import { connect } from 'react-redux';
 import { showNAIfZeroOrNull } from '../../../utils/format';
+import { Icon } from 'semantic-ui-react';
 
 export const updateHeight = (height: number) => {
   const details = document.querySelector('.seller-details');
@@ -40,6 +41,7 @@ interface SellerDetailsProps {
   setActiveSellerIndex: (index: number) => void;
   activeSellerIndex: number;
   setActiveProductIndex: (index: number) => void;
+  onProductsExport: () => void;
 }
 
 const SellerDetails = (props: SellerDetailsProps) => {
@@ -54,11 +56,19 @@ const SellerDetails = (props: SellerDetailsProps) => {
     setActiveSellerIndex,
     activeSellerIndex,
     setActiveProductIndex,
+    onProductsExport,
   } = props;
   const [treeData, setTreeData] = React.useState([
     {
       title: () => (
-        <SellerInformation details={props.details} onCheckInventory={onCheckInventory} />
+        <>
+          <div className="export-container">
+            <p className="export-products" onClick={onProductsExport}>
+              <Icon name="download" /> {'Export Products'}
+            </p>
+          </div>
+          <SellerInformation details={props.details} onCheckInventory={onCheckInventory} />
+        </>
       ),
       className: 'card',
       expanded: details.id === activeSellerIndex,
@@ -103,13 +113,13 @@ const SellerDetails = (props: SellerDetailsProps) => {
         rowHeight={({ treeIndex, node }) => {
           const add = 350;
           if (node.expanded) {
-            let newHeight = sellerProducts.length ? 60 * sellerProducts.length + add : 400;
+            let newHeight = sellerProducts.length ? 60 * sellerProducts.length + add : 450;
             if (sellerProducts.length > 10) {
               newHeight = newHeight - 150;
             }
             updateHeight(newHeight);
           }
-          return treeIndex === 0 ? 75 : 400;
+          return treeIndex === 0 ? 75 : 450;
         }}
       />
     </div>

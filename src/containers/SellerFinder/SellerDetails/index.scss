@@ -27,7 +27,7 @@ $darkgary: #dfe8f329;
 }
 
 .seller-details {
-  min-height: 230px;
+  min-height: 255px;
 
   .text-center {
     text-align: center;
@@ -197,7 +197,7 @@ $darkgary: #dfe8f329;
 
       > .rst__nodeContent {
         position: relative !important;
-        top: -146px !important;
+        top: -125px !important;
 
         > .rowContents {
           > .rowLabel {
@@ -255,6 +255,24 @@ $darkgary: #dfe8f329;
         border: none;
       }
 
+      .export-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 10px;
+        margin-top: 40px;
+
+        .export-products {
+          cursor: pointer;
+          font-size: 13px;
+          color: $black;
+
+          .icon {
+            font-size: 12px;
+          }
+        }
+      }
+
       .seller-information {
         z-index: 999;
         height: 211px;
@@ -265,8 +283,8 @@ $darkgary: #dfe8f329;
         margin-left: 30px;
         border: 1px solid #a2a2a2;
         border-radius: 10px;
-        //margin-top: 10px;
         justify-content: space-between;
+        margin-bottom: 20px;
 
         .action-button-container {
           padding-top: 33px;

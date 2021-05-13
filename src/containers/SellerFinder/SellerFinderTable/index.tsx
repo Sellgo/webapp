@@ -60,7 +60,7 @@ import PageLoader from '../../../components/PageLoader';
 import { Merchant } from '../../../interfaces/Seller';
 import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Suppliers';
-import { info, success } from '../../../utils/notifications';
+import { info, success, error as errorMessage } from '../../../utils/notifications';
 import { copyToClipboard, download } from '../../../utils/file';
 import { formatCompletedDate } from '../../../utils/date';
 
@@ -73,6 +73,7 @@ interface Props {
   inventorySocket: WebSocket;
   sellersSocket: WebSocket;
   exportMerchantsSocket: WebSocket;
+  exportProductsSocket: WebSocket;
   fetchInventory: (data: any) => void;
   fetchSellerProducts: (payload: SellersProductsPayload) => void;
   fetchProductSellers: (payload: ProductSellersPayload) => void;
@@ -90,6 +91,7 @@ interface Props {
   updateSellerTrackerGroup: (group: any) => void;
   moveMerchantToSellerTrackGroup: (merchantID: number, groupID: number) => void;
   reconnectExportSocket: () => void;
+  reconnectExportProductsSocket: () => void;
   sellersPageNo: number;
   sellersPageSize: number;
   sellersCount: number;
@@ -152,10 +154,14 @@ const SellerFinderTable = (props: Props) => {
     sellerFilters,
     fetchSellerFilters,
     setActiveProductIndex,
+    exportProductsSocket,
+    reconnectExportProductsSocket,
   } = props;
 
   const [expandedRow, setExpandedRow] = useState(null);
   const [searchMessage, setSearchMessage] = useState('');
+  const [exportType, setExportType] = useState('');
+
   const [activeMerchant, setActiveMerchant] = useState<Merchant>({
     address: undefined,
     asins: '',
@@ -219,6 +225,7 @@ const SellerFinderTable = (props: Props) => {
   const [copied, setCopied] = useState(false);
   const [sellerProgress, setSellerProgress] = useState(0);
   const [sellerProgressError, setSellerProgressError] = useState(false);
+  const [exportMerchantID, setExportMerchantID] = useState(0);
 
   const expandRow = (row: any) => {
     setExpandedRow(expandedRow ? null : row.id);
@@ -437,9 +444,40 @@ const SellerFinderTable = (props: Props) => {
     }
   });
 
+  useEffect(() => {
+    if (exportProductsSocket.OPEN && !exportProductsSocket.CONNECTING) {
+      exportProductsSocket.onmessage = (res: any) => {
+        const data: ExportResponse = JSON.parse(res.data);
+        if (data.status === SEARCH_STATUS.PENDING) {
+          info(`Export Progress (${data.progress})`);
+        }
+        if (data.status === SEARCH_STATUS.ERROR) {
+          errorMessage(data.message);
+        }
+        if (data.status === SEARCH_STATUS.SUCCESS && !!data.excel_path) {
+          success('File Exported Successfully!');
+          const fileUrl = exportFormat === 'csv' ? data.csv_path : data.excel_path;
+          const name = `products-export-${Date.now()}.${exportFormat}`;
+          download(fileUrl, name).then(() => {
+            reconnectExportProductsSocket();
+          });
+        }
+      };
+    }
+  });
+
   const exportMerchants = () => {
     if (exportMerchantsSocket.OPEN && !exportMerchantsSocket.CONNECTING) {
       exportMerchantsSocket.send(JSON.stringify({ start_report: true }));
+      info('Check Notifications for Export Progress.');
+    }
+  };
+
+  const exportProducts = () => {
+    if (exportProductsSocket.OPEN && !exportProductsSocket.CONNECTING) {
+      exportProductsSocket.send(
+        JSON.stringify({ start_report: true, merchant_id: exportMerchantID })
+      );
       info('Check Notifications for Export Progress.');
     }
   };
@@ -592,6 +630,13 @@ const SellerFinderTable = (props: Props) => {
       setCopied(false);
     }, 200);
   };
+
+  const exportMerchantProducts = (merchantId: number) => {
+    setExportMerchantID(merchantId);
+    setExportType('products');
+    setExportResult(true);
+  };
+
   const renderSellerInformation = (row: any) => (
     <p className="sf-seller-details">
       <img
@@ -869,7 +914,13 @@ const SellerFinderTable = (props: Props) => {
           handleKeepTracking={handleKeepTracking}
         />
 
-        <span className="export-icon" onClick={() => setExportResult(true)}>
+        <span
+          className="export-icon"
+          onClick={() => {
+            setExportResult(true);
+            setExportType('merchants');
+          }}
+        >
           <Icon name="download" /> {'Export'}
         </span>
       </div>
@@ -889,6 +940,7 @@ const SellerFinderTable = (props: Props) => {
                 details={data}
                 onCheckInventory={onCheckInventory}
                 onPagination={payload => fetchProducts(payload)}
+                onProductsExport={() => exportMerchantProducts(data.seller_merchant_id)}
               />
             );
           }}
@@ -948,7 +1000,12 @@ const SellerFinderTable = (props: Props) => {
         onExport={() => {
           console.log('Format', exportFormat);
           setExportResult(false);
-          exportMerchants();
+          if (exportType === 'merchants') {
+            exportMerchants();
+          }
+          if (exportType === 'products') {
+            exportProducts();
+          }
         }}
       />
     </div>
