@@ -40,7 +40,7 @@ const TrackSeller = (props: Props) => {
       trackSeller(data.seller_merchant_id);
     }
   };
-  const status = type === 'product' ? data.tracking_status : data.track_status;
+  const status = data.tracking_status;
   const loading = trackingData.seller_merchant_id === data.seller_merchant_id;
   return (
     <>

@@ -116,7 +116,7 @@ export const SellersRow = ({ row }: any) => {
       asin: 'asin',
       merchant_id: 'merchant_id',
       seller_merchant_id: 'seller_merchant_id',
-      track_status: 'track_status',
+      tracking_status: 'tracking_status',
     };
     let data: any = row;
     dataKeys.forEach((obj: any) => {
