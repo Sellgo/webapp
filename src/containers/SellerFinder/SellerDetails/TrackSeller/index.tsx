@@ -61,11 +61,6 @@ const TrackSeller = (props: Props) => {
           <span className="tracking-label">{status === 'active' ? `Tracking` : 'Track'}</span>
         </Button>
         {props.type === 'product' && (
-          <span>
-            <Icon name="refresh" color="grey" />
-          </span>
-        )}
-        {props.type === 'product' && (
           <Button
             className={`reload-product`}
             onClick={() =>
