@@ -13,7 +13,8 @@ const SellerDatabase = (props: any) => {
         title={`Seller Database`}
         breadcrumb={[
           { content: 'Home', to: '/' },
-          { content: 'Seller Database', to: '/seller-finder' },
+          { content: 'Seller Finder', to: '/seller-finder' },
+          { content: 'Seller Database', to: '/seller-database' },
         ]}
         callToAction={<QuotaMeter />}
         auth={match.params.auth}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Input } from 'semantic-ui-react';
 import './index.scss';
+import history from '../../../history';
 interface Props {
   onSearch: (input: string) => void;
 }
@@ -17,7 +18,7 @@ const SellerSearch = (props: Props) => {
           onKeyDown={(evt: any) => (evt.key === 'Enter' ? props.onSearch(search) : undefined)}
         />
         <span className="or">Or</span>
-        <Button primary className="search-btn">
+        <Button primary className="search-btn" onClick={() => history.push('seller-database')}>
           Find Sellers
         </Button>
       </div>
