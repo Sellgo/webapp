@@ -120,7 +120,9 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
 
   otherProps = {
     onClick:
-      sortable && type && !['leads-tracker', 'products', 'seller-finder'].includes(type)
+      sortable &&
+      type &&
+      !['leads-tracker', 'products', 'seller-finder', 'seller-database'].includes(type)
         ? (e: any) => {
             e.preventDefault();
             e.stopPropagation();
@@ -142,7 +144,9 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   const sorting = {
     onClick:
       type &&
-      ['leads-tracker', 'products', 'seller-finder', 'trackerTable'].includes(type) &&
+      ['leads-tracker', 'products', 'seller-finder', 'trackerTable', 'seller-database'].includes(
+        type
+      ) &&
       sortable
         ? (e: any) => {
             e.preventDefault();

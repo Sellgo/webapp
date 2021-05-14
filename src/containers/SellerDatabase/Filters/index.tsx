@@ -70,8 +70,8 @@ const Filters = () => {
               <div>
                 <div className="input-filter">
                   <Checkbox />
-                  <Input placeholder="Min # of Inventory" />
-                  <Input placeholder="Max # of Inventory" />
+                  <Input placeholder="Min Review Ratings" />
+                  <Input placeholder="Max Review Ratings" />
                   <Dropdown
                     placeholder="30D"
                     className="list-filter"
@@ -82,8 +82,8 @@ const Filters = () => {
                 </div>
                 <div className="input-filter">
                   <Checkbox />
-                  <Input placeholder="Min Seller Ratings" />
-                  <Input placeholder="Max Seller Ratings" />
+                  <Input placeholder="Min Review Count" />
+                  <Input placeholder="Max Review Count" />
                   <Dropdown
                     placeholder="30D"
                     className="list-filter"
@@ -94,8 +94,8 @@ const Filters = () => {
                 </div>
                 <div className="input-filter">
                   <Checkbox />
-                  <Input placeholder="Min # of Brand" />
-                  <Input placeholder="Max # of Brand" />
+                  <Input placeholder="Min Positive Review" />
+                  <Input placeholder="Max Positive Review" />
                   <Dropdown
                     placeholder="30D"
                     className="list-filter"
@@ -106,25 +106,25 @@ const Filters = () => {
                 </div>
                 <div className="input-filter">
                   <Checkbox />
-                  <Input placeholder="Min Total Sales" />
-                  <Input placeholder="Max Total Sales" />
+                  <Input placeholder="Min Neutral Review" />
+                  <Input placeholder="Max Neutral Review" />
                   <Dropdown
                     placeholder="30D"
                     className="list-filter"
-                    fluid
                     selection
+                    fluid
                     options={[]}
                   />
                 </div>
                 <div className="input-filter">
                   <Checkbox />
-                  <Input placeholder="Min Revenue" />
-                  <Input placeholder="Max Revenue" />
+                  <Input placeholder="Min Negative Review" />
+                  <Input placeholder="Max Negative Review" />
                   <Dropdown
                     placeholder="30D"
                     className="list-filter"
-                    selection
                     fluid
+                    selection
                     options={[]}
                   />
                 </div>

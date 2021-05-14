@@ -13,7 +13,9 @@ interface Props {
 }
 
 const SellerCheckBoxHeader = (props: Props) => {
-  console.log(props);
+  if (!props) {
+    console.log(props);
+  }
   return (
     <div className="sd-header-action-container">
       <div className="sd-header-checkbox-container">

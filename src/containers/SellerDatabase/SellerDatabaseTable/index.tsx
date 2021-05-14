@@ -1,22 +1,79 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Column, GenericTable } from '../../../components/Table';
 import SellerCheckBox from './sellerCheckbox';
 import './index.scss';
 import { Button, Icon } from 'semantic-ui-react';
 import PLUS_ICON from '../../../assets/images/plus-circle-regular.svg';
 import Rating from 'react-rating';
+import {
+  databaseCount,
+  loadingDatabase,
+  loadingSellerDatabase,
+  pageCount,
+  pageNo,
+  pageSize,
+  sellerDatabase,
+  singlePageItemsCount,
+} from '../../../selectors/SellerDatabase';
+import {
+  fetchSellersDatabase,
+  SellerDatabasePayload,
+  setSellerDatabaseSinglePageItemsCount,
+} from '../../../actions/SellerDatabase';
+import { connect } from 'react-redux';
+import PageLoader from '../../../components/PageLoader';
+import { formatPercent, showNAIfZeroOrNull } from '../../../utils/format';
 export interface CheckedRowDictionary {
   [index: number]: boolean;
 }
 
-const SellerDatabaseTable = () => {
+interface Props {
+  loading: boolean;
+  loadingDatabase: boolean;
+  database: any[];
+  pageNo: number;
+  pageSize: number;
+  pageCount: number;
+  databaseCount: number;
+  singlePageItemsCount: number;
+  fetchSellersDatabase: (payload: SellerDatabasePayload) => void;
+  setSinglePageItemsCount: (count: number) => void;
+}
+
+const SellerDatabaseTable = (props: Props) => {
+  const {
+    fetchSellersDatabase,
+    loading,
+    database,
+    setSinglePageItemsCount,
+    pageCount,
+    pageSize,
+    pageNo,
+    databaseCount,
+    singlePageItemsCount,
+    loadingDatabase,
+  } = props;
   const [checkedRows, setCheckedRows] = useState({});
-  const renderSellerInformation = () => {
+
+  const fetchDatabase = (payload: SellerDatabasePayload) => {
+    fetchSellersDatabase(payload);
+  };
+
+  useEffect(() => {
+    fetchDatabase({
+      pageNo,
+      pageSize,
+      sort: 'udate',
+      sortDirection: 'descending',
+    });
+  }, []);
+
+  const renderSellerInformation = (row: any) => {
     return (
       <p className="sd-seller-details">
-        <span className="name">{'Kikkoman'}</span>
+        <span className="name">{row.merchant_name}</span>
         <span className="seller-id">
-          {'AU12349G1'}
+          {row.merchant_id}
           <span className="tooltip">
             <Icon name={'copy outline'} />
           </span>
@@ -26,13 +83,13 @@ const SellerDatabaseTable = () => {
   };
 
   const renderSellerInventory = (row: any) => {
-    return <p>{row.inventory}</p>;
+    return <p>{showNAIfZeroOrNull(row.inventory_count, row.inventory_count)}</p>;
   };
 
   const renderSellerRating = (row: any) => {
     return (
       <Rating
-        placeholderRating={parseInt(row.rating) || 0}
+        placeholderRating={parseFloat(row.seller_rating) || 0}
         emptySymbol={<Icon name="star outline" color={'grey'} />}
         fullSymbol={<Icon name="star" color={'grey'} />}
         placeholderSymbol={<Icon name="star" color={'grey'} />}
@@ -42,35 +99,35 @@ const SellerDatabaseTable = () => {
   };
 
   const renderSellerTotalRating = (row: any) => {
-    return <p>{row.total_rating}</p>;
+    return <p>{formatPercent(row.review_ratings)}</p>;
   };
 
-  const renderSellerFBA = (row: any) => {
-    return <p>{row.fba}</p>;
+  const renderSellerFBA = ({ fba = null }) => {
+    return <p>{fba !== null ? (fba ? 'Yes' : 'No') : '-'}</p>;
   };
 
-  const renderSellerFBM = (row: any) => {
-    return <p>{row.fbm}</p>;
+  const renderSellerFBM = ({ fbm = null }) => {
+    return <p>{fbm !== null ? (fbm ? 'Yes' : 'No') : '-'}</p>;
   };
 
   const renderSellerReview30D = (row: any) => {
-    return <p>{row.count_30}</p>;
+    return <p>{showNAIfZeroOrNull(row.count_30_days, row.count_30_days)}</p>;
   };
 
   const renderSellerReview90D = (row: any) => {
-    return <p>{row.count_90}</p>;
+    return <p>{showNAIfZeroOrNull(row.count_90_days, row.count_90_days)}</p>;
   };
 
   const renderSellerReview365D = (row: any) => {
-    return <p>{row.count_12_months}</p>;
+    return <p>{showNAIfZeroOrNull(row.count_lifetime, row.count_lifetime)}</p>;
   };
 
   const renderSellerReviewLifetime = (row: any) => {
-    return <p>{row.review_all}</p>;
+    return <p>{showNAIfZeroOrNull(row.review_lifetime, row.review_lifetime)}</p>;
   };
 
-  const renderProductReivew = (row: any) => {
-    return <p>{row.review}</p>;
+  const renderProductReview = (row: any) => {
+    return <p>{showNAIfZeroOrNull(row.review, row.review)}</p>;
   };
 
   const renderActions = () => {
@@ -181,7 +238,7 @@ const SellerDatabaseTable = () => {
       sortable: true,
       type: 'string',
       show: true,
-      render: renderProductReivew,
+      render: renderProductReview,
     },
     {
       label: ``,
@@ -193,58 +250,69 @@ const SellerDatabaseTable = () => {
 
   return (
     <div className="seller-database-table">
-      <GenericTable
-        currentActiveColumn={''}
-        stickyChartSelector={false}
-        scrollTopSelector={false}
-        data={[
-          {
-            title: 'Something',
-            inventory: 200,
-            rating: 4.5,
-            total_rating: '98% Positive',
-            fba: 'Yes',
-            fbm: 'No',
-            count_30: 100,
-            count_90: 50,
-            count_12_months: 500,
-            review_all: 5000,
-            review: 2000,
-          },
-          {
-            title: 'Something',
-            inventory: 200,
-            rating: 4.5,
-            total_rating: '98% Positive',
-            fba: 'Yes',
-            fbm: 'No',
-            count_30: 100,
-            count_90: 50,
-            count_12_months: 500,
-            review_all: 5000,
-            review: 2000,
-          },
-          {
-            title: 'Something',
-            inventory: 200,
-            rating: 4.5,
-            total_rating: '98% Positive',
-            fba: 'Yes',
-            fbm: 'No',
-            count_30: 100,
-            count_90: 50,
-            count_12_months: 500,
-            review_all: 5000,
-            review: 2000,
-          },
-        ]}
-        checkedRows={checkedRows}
-        columns={Columns}
-        name="seller-database"
-        updateCheckedRows={rows => setCheckedRows(rows)}
-      />
+      {loading ? (
+        <PageLoader pageLoading={true} />
+      ) : (
+        <GenericTable
+          currentActiveColumn={''}
+          stickyChartSelector={false}
+          scrollTopSelector={false}
+          data={database}
+          checkedRows={checkedRows}
+          columns={Columns}
+          name="seller-database"
+          singlePageItemsCount={singlePageItemsCount}
+          currentPage={pageNo}
+          pageCount={pageCount}
+          count={databaseCount}
+          loading={loadingDatabase}
+          setPage={(page: number) => {
+            if (page !== pageNo) {
+              fetchDatabase({
+                pageNo: page,
+                pageSize: pageSize,
+                enableLoader: false,
+              });
+            }
+          }}
+          setSinglePageItemsCount={(pageSize: number) => {
+            fetchDatabase({
+              pageNo: 1,
+              pageSize,
+              enableLoader: false,
+            });
+            setSinglePageItemsCount(pageSize);
+          }}
+          onSort={(sortDirection, sort) => {
+            fetchDatabase({
+              pageNo: 1,
+              pageSize: pageSize,
+              enableLoader: false,
+              sort,
+              sortDirection,
+            });
+          }}
+          updateCheckedRows={rows => setCheckedRows(rows)}
+        />
+      )}
     </div>
   );
 };
 
-export default SellerDatabaseTable;
+const mapStateToProps = (state: any) => ({
+  loading: loadingSellerDatabase(state),
+  database: sellerDatabase(state),
+  pageNo: pageNo(state),
+  pageSize: pageSize(state),
+  pageCount: pageCount(state),
+  databaseCount: databaseCount(state),
+  singlePageItemsCount: singlePageItemsCount(state),
+  loadingDatabase: loadingDatabase(state),
+});
+
+const mapDispatchToProps = {
+  fetchSellersDatabase: (payload: SellerDatabasePayload) => fetchSellersDatabase(payload),
+  setSinglePageItemsCount: (count: number) => setSellerDatabaseSinglePageItemsCount(count),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SellerDatabaseTable);
