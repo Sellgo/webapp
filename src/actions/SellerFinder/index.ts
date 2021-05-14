@@ -446,11 +446,11 @@ export const trackProductSeller = (merchantId: any) => async (dispatch: any, get
     const res = await Axios.post(url, payload);
     const data = res.data;
     if (data) {
-      const status = data.object.track_status;
+      const status = data.object.tracking_status;
       amazonSellers = amazonSellers.map((seller: any) => {
         let update = seller;
         if (seller.seller_merchant_id === data.object.id) {
-          update = { ...update, track_status: status };
+          update = { ...update, tracking_status: status };
         }
         return update;
       });
