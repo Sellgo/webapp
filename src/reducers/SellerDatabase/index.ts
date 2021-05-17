@@ -12,6 +12,8 @@ import {
   LOADING_DATABASE,
   SET_SELLER_DATABASE_SORT,
   SET_SELLER_DATABASE_SORT_DIRECTION,
+  SET_SELLER_DATABASE_FILTERS,
+  defaultFilters,
 } from '../../constants/SellerDatabase';
 
 const initialState = {
@@ -26,6 +28,7 @@ const initialState = {
   loadingDatabase: false,
   sort: 'udate',
   sortDirection: 'descending',
+  filters: defaultFilters,
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -71,6 +74,9 @@ export default (state = initialState, action: AnyAction) => {
 
     case SET_SELLER_DATABASE_SORT_DIRECTION: {
       return setIn(state, 'databaseSortDirection', action.data);
+    }
+    case SET_SELLER_DATABASE_FILTERS: {
+      return setIn(state, 'filters', action.data);
     }
     default:
       return state;

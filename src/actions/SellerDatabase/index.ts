@@ -13,8 +13,15 @@ import {
   LOADING_DATABASE,
   SET_SELLER_DATABASE_SORT,
   SET_SELLER_DATABASE_SORT_DIRECTION,
+  SET_SELLER_DATABASE_FILTERS,
+  FILTERS,
+  defaultFilters,
 } from '../../constants/SellerDatabase';
-import { databaseSort, databaseSortDirection } from '../../selectors/SellerDatabase';
+import {
+  databaseSort,
+  databaseSortDirection,
+  sellerDatabaseFilters,
+} from '../../selectors/SellerDatabase';
 
 export interface SellerDatabasePayload {
   pageNo?: number;
@@ -22,6 +29,21 @@ export interface SellerDatabasePayload {
   enableLoader?: boolean;
   sort?: string;
   sortDirection?: string;
+  filters?: boolean;
+  resetFilters?: boolean;
+  search?: string;
+  searchType?: string;
+  state?: string;
+}
+
+export interface SellerDatabaseFilter {
+  type: string;
+  min: number;
+  max: number;
+  value: any;
+  values: string[];
+  active: boolean;
+  duration: string;
 }
 
 export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
@@ -31,6 +53,26 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
   try {
     const defaultSort = databaseSort(getState());
     const defaultSortDirection = databaseSortDirection(getState());
+    const sellerDBFilters = sellerDatabaseFilters(getState());
+    if (payload.filters) {
+      localStorage.setItem('seller-database-filters', JSON.stringify(sellerDBFilters));
+    }
+    let filters = '';
+
+    if (!payload.resetFilters) {
+      filters = parseFilters(sellerDBFilters);
+    } else {
+      localStorage.removeItem('seller-database-filters');
+      dispatch(setFilters(defaultFilters));
+    }
+
+    if (payload.search && payload.searchType) {
+      filters += `search=${payload.search}&type=${payload.searchType}`;
+    }
+
+    if (payload.search && payload.state) {
+      filters += `search=${payload.search}&state=${payload.state}`;
+    }
 
     const {
       pageNo = 1,
@@ -44,7 +86,8 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
 
     const sellerID = sellerIDSelector();
     const url =
-      AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants-database?${pagination}&${sorting}`;
+      AppConfig.BASE_URL_API +
+      `sellers/${sellerID}/merchants-database?${pagination}&${sorting}${filters}`;
     dispatch(setLoadingDatabase(!enableLoader));
     if (enableLoader) {
       await dispatch(fetchSellerDatabase(true));
@@ -70,6 +113,61 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
 
 export const setSellerDatabaseSinglePageItemsCount = (count: number) => async (dispatch: any) =>
   dispatch(fetchSellerDatabaseSingelPageItemsCount(count));
+
+export const updateSellerDatabaseFilters = (filter: SellerDatabaseFilter) => async (
+  dispatch: any,
+  getState: any
+) => {
+  try {
+    let filters: SellerDatabaseFilter[] = sellerDatabaseFilters(getState());
+    filters = filters.map(f => {
+      let update = f;
+      if (update.type === filter.type) {
+        update = { ...update, ...filter };
+      }
+      return update;
+    });
+
+    dispatch(setFilters(filters));
+  } catch (e) {
+    console.log('error', e);
+  }
+};
+
+export const loadFilters = () => async (dispatch: any) => {
+  const localFilters = localStorage.getItem('seller-database-filters');
+  if (localFilters) {
+    const parsed = JSON.parse(localFilters);
+    dispatch(setFilters(parsed));
+  }
+};
+
+const parseFilters = (data: SellerDatabaseFilter[]): string => {
+  const localFilters = localStorage.getItem('seller-database-filters');
+  let query = '';
+  let filters = data;
+  if (localFilters) {
+    filters = JSON.parse(localFilters);
+  }
+  filters.forEach(filter => {
+    if (filter.type === FILTERS.FBA && filter.active) {
+      query += `&${filter.type}=${filter.active}`;
+    } else if (filter.type === FILTERS.FBM && filter.active) {
+      query += `&${filter.type}=${filter.active}`;
+    } else if (filter.type === FILTERS.INCLUDE_BRANDS && filter.values.length) {
+      query += `&${filter.type}=${filter.values.join(',')}`;
+    } else if (filter.type === FILTERS.LAUNCHED && filter.value) {
+      query += `&${filter.type}=${filter.value}`;
+    } else {
+      if (filter.active) {
+        const duration = filter.duration ? `&${filter.duration}` : '';
+        query += `&${filter.type}_min=${filter.min}&${filter.type}_max=${filter.max}${duration}`;
+      }
+    }
+  });
+
+  return query;
+};
 
 const fetchSellerDatabase = (loading: boolean) => ({
   type: FETCH_SELLER_DATABASE,
@@ -124,4 +222,9 @@ const setDatabaseSort = (sort: string) => ({
 const setDatabaseSortDirection = (sortDirection: string) => ({
   type: SET_SELLER_DATABASE_SORT_DIRECTION,
   data: sortDirection,
+});
+
+const setFilters = (filters: any[]) => ({
+  type: SET_SELLER_DATABASE_FILTERS,
+  data: filters,
 });

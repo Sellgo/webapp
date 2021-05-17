@@ -14,3 +14,4 @@ export const singlePageItemsCount = (state: {}) =>
 export const databaseSort = (state: {}) => get(state, 'sellerDatabase.databaseSort');
 export const databaseSortDirection = (state: {}) =>
   get(state, 'sellerDatabase.databaseSortDirection');
+export const sellerDatabaseFilters = (state: {}) => get(state, 'sellerDatabase.filters');
