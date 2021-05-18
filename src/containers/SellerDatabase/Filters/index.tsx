@@ -67,10 +67,10 @@ const Filters = (props: Props) => {
     updateFilter({ ...includeBrands, values: brands });
   };
 
-  const states = STATES.map(s => ({
-    key: s,
-    value: s,
-    text: s,
+  const states = STATES.map((state: any) => ({
+    key: state.code,
+    value: state.code,
+    text: state.name,
   }));
   const marketplaceOptions = defaultMarketplaces.map(({ name, id, disabled }, key) => {
     return { key, text: name, value: id, disabled };
@@ -119,7 +119,7 @@ const Filters = (props: Props) => {
                   />
                   <Input
                     placeholder="Min # of Inventory"
-                    value={inventory.min > 0 ? inventory.min : ''}
+                    value={inventory.min ? inventory.min : ''}
                     onChange={evt =>
                       updateInputFilterValue({ ...inventory, min: +evt.target.value })
                     }
@@ -127,7 +127,7 @@ const Filters = (props: Props) => {
                   />
                   <Input
                     placeholder="Max # of Inventory"
-                    value={inventory.max > 0 ? inventory.max : ''}
+                    value={inventory.max ? inventory.max : ''}
                     onChange={evt =>
                       updateInputFilterValue({ ...inventory, max: +evt.target.value })
                     }
@@ -456,16 +456,16 @@ const Filters = (props: Props) => {
         <Button
           size="small"
           className="reset-btn"
-          onClick={() =>
-            fetchSellersDatabase({ resetFilters: true, search: keyword, searchType, state })
-          }
+          onClick={() => fetchSellersDatabase({ resetFilters: true })}
         >
           Reset
         </Button>
         <Button
           size="small"
           className="submit-btn"
-          onClick={() => fetchSellersDatabase({ filters: true })}
+          onClick={() =>
+            fetchSellersDatabase({ filters: true, search: keyword, searchType, state })
+          }
         >
           Find
         </Button>

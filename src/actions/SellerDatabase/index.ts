@@ -67,11 +67,11 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
     }
 
     if (payload.search && payload.searchType) {
-      filters += `search=${payload.search}&type=${payload.searchType}`;
+      filters += `&search=${payload.search}&type=${payload.searchType}`;
     }
 
     if (payload.search && payload.state) {
-      filters += `search=${payload.search}&state=${payload.state}`;
+      filters += `&search=${payload.search}&state=${payload.state}`;
     }
 
     const {
@@ -160,8 +160,10 @@ const parseFilters = (data: SellerDatabaseFilter[]): string => {
       query += `&${filter.type}=${filter.value}`;
     } else {
       if (filter.active) {
-        const duration = filter.duration ? `&${filter.duration}` : '';
-        query += `&${filter.type}_min=${filter.min}&${filter.type}_max=${filter.max}${duration}`;
+        const duration = filter.duration ? `&duration=${filter.duration}` : '';
+        const min = filter.min ? `&${filter.type}_min=${filter.min}` : '';
+        const max = filter.max ? `&${filter.type}_max=${filter.max}` : '';
+        query += `${min}${max}${duration}`;
       }
     }
   });
