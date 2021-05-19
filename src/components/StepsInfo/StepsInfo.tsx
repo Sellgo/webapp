@@ -10,11 +10,14 @@ interface Props {
   blurInput: any;
   subscriptionRegister?: boolean;
   id?: any;
+  className?: string;
 }
 
 const StepsInfo = (props: Props) => {
   const { stepsData, onChange, isFocusPW, focusInput, blurInput, subscriptionRegister, id } = props;
+
   const [isPassword, setPassword] = useState(true);
+
   const stepsDisplay = stepsData.map((stat: Steps) => {
     if (stat.stepShow) {
       return (
@@ -30,6 +33,7 @@ const StepsInfo = (props: Props) => {
       return null;
     }
   });
+
   const handleClickPassword = () => {
     if (isPassword) {
       setPassword(false);
@@ -37,6 +41,7 @@ const StepsInfo = (props: Props) => {
       setPassword(true);
     }
   };
+
   return (
     <Popup
       className="StepsInfo__container"

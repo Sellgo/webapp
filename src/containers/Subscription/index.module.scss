@@ -1,0 +1,22 @@
+.subscriptionPage {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0 auto;
+  background-color: #f9f9fa;
+  overflow-y: scroll;
+  padding-top: 2rem;
+  min-height: 100vh !important;
+  height: 100%;
+}
+
+.logo {
+  position: absolute;
+  top: 2rem;
+  left: 15rem;
+
+  img {
+    width: 150px;
+    height: 60px;
+  }
+}

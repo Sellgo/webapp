@@ -1,11 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import './index.scss';
-import { Container, Header, Form, Button, Divider, Modal, TextArea } from 'semantic-ui-react';
+import { Header, Form, Modal, TextArea } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
+
+/* Styling */
+import styles from './index.module.scss';
+
+/* Components */
 import Auth from '../../../components/Auth/Auth';
-import { useInput } from '../../../hooks/useInput';
 import StepsInfo from '../../../components/StepsInfo/StepsInfo';
-import { Steps } from '../../../interfaces/StepsInfo';
+
+/* Containers */
 import StepsContent from '../StepsContent';
+
+/* Actions */
+import { fetchTOS, fetchPP } from '../../../actions/UserOnboarding';
+
+/* Hooks */
+import { useInput } from '../../../hooks/useInput';
+
+/* Constants */
 import {
   passwordPolicy,
   strong,
@@ -16,9 +30,9 @@ import {
   validateEmail,
   Name,
 } from '../../../constants/Validators';
-import { fetchTOS, fetchPP } from '../../../actions/UserOnboarding';
-import get from 'lodash/get';
-import { connect } from 'react-redux';
+
+/* Types */
+import { Steps } from '../../../interfaces/StepsInfo';
 
 interface Props {
   auth: Auth;
@@ -28,27 +42,35 @@ interface Props {
   fetchPP: any;
   fetchTOS: any;
 }
+
 interface State {
   stepsInfo: Steps[];
 }
-function Signup(props: Props, state: State) {
+
+const Signup = (props: Props, state: State) => {
   const { auth, setLogin, termsOfService, privacyPolicy, fetchTOS, fetchPP } = props;
+
   const [verifySignupError, setVerifySignupError] = useState(false);
+
   const [emailError, setEmailError] = useState(false);
   const [fnameError, setFnameError] = useState(false);
   const [lnameError, setLnameError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
   const { value: email, bind: bindEmail } = useInput('');
   const { value: firstName, bind: bindFirstName } = useInput('');
   const { value: lastName, bind: bindLastName } = useInput('');
   const { value: password, bind: bindPassword } = useInput('');
+
   const [isFocusPW, setFocusPassword] = useState(false);
   const [openTOS, setOpenTOS] = useState(false);
   const [openPP, setOpenPP] = useState(false);
+
   useEffect(() => {
     fetchTOS();
     fetchPP();
   }, [fetchTOS, fetchPP]);
+
   state = {
     stepsInfo: [
       {
@@ -93,6 +115,7 @@ function Signup(props: Props, state: State) {
       },
     ],
   };
+
   function onBlur() {
     setFocusPassword(false);
   }
@@ -127,6 +150,7 @@ function Signup(props: Props, state: State) {
       </div>
     );
   };
+
   const newUserExperiencePopup = () => {
     return (
       <Modal onClose={() => onClose()} size={'small'} open={openTOS || openPP}>
@@ -137,11 +161,16 @@ function Signup(props: Props, state: State) {
       </Modal>
     );
   };
-  const handleSubmit = () => {
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+
     setEmailError(false);
     setFnameError(false);
     setLnameError(false);
+
     localStorage.removeItem('userId');
+
     if (!passwordPolicy.validate(password)) {
       setFocusPassword(true);
     } else if (!validateEmail(email)) {
@@ -181,12 +210,15 @@ function Signup(props: Props, state: State) {
       );
     }
   };
+
   return (
-    <Container text className="signup-container">
+    <section className={styles.registerContainer}>
       {newUserExperiencePopup()}
+
       <StepsContent contentType={'register'} />
-      <Header as="h3">Register Here</Header>
-      <Form className="signup-container__form" onSubmit={handleSubmit}>
+
+      <h2>Register Here</h2>
+      <form onSubmit={handleSubmit}>
         <Form.Input
           size="huge"
           label="Email"
@@ -194,28 +226,31 @@ function Signup(props: Props, state: State) {
           placeholder="Email"
           {...bindEmail}
           error={emailError}
+          className={styles.formInput}
         />
-        <Form.Group className="signup-container__form__fullname-group">
-          <Form.Input
-            size="huge"
-            label="First Name"
-            type="text"
-            placeholder="First Name"
-            required
-            {...bindFirstName}
-            error={fnameError}
-          />
-          <Form.Input
-            size="huge"
-            label="Last Name"
-            type="text"
-            placeholder="Last Name"
-            required
-            {...bindLastName}
-            error={lnameError}
-          />
-        </Form.Group>
-        <Form.Field className="payment-container__stripe-checkout-form__password-field">
+
+        <Form.Input
+          size="huge"
+          label="First Name"
+          type="text"
+          placeholder="First Name"
+          required
+          {...bindFirstName}
+          error={fnameError}
+          className={styles.formInput}
+        />
+        <Form.Input
+          size="huge"
+          label="Last Name"
+          type="text"
+          placeholder="Last Name"
+          required
+          {...bindLastName}
+          error={lnameError}
+          className={styles.formInput}
+        />
+
+        <Form.Input className={`${styles.formInput} ${styles.formInput__password}`}>
           <label htmlFor="password">Password</label>
           <StepsInfo
             id="password"
@@ -225,22 +260,17 @@ function Signup(props: Props, state: State) {
             blurInput={onBlur}
             stepsData={state.stepsInfo}
             {...bindPassword}
+            className={styles.formInput}
           />
-        </Form.Field>
+        </Form.Input>
 
-        <div className="signup-container__form__error">
+        <div className={styles.errorMessage}>
           {verifySignupError ? <span>{errorMessage}</span> : <span />}
         </div>
-        <Form.Field
-          size="huge"
-          className="signup-container__form__signup"
-          control={Button}
-          primary={true}
-          value="Submit"
-        >
-          Register
-        </Form.Field>
-        <p className="signup-container__form__consent">
+
+        <button className={styles.submitButton}>Register</button>
+
+        <p className={styles.consent}>
           By signing up, you’re agreeing to our{' '}
           <span
             onClick={() => {
@@ -259,9 +289,11 @@ function Signup(props: Props, state: State) {
           </span>{' '}
           as well as the use of cookies.
         </p>
-        <Divider section />
-        <p className="signup-container__form__sign-up">
-          Already have a Sellgo account?
+
+        <div className={styles.divider} />
+
+        <p className={styles.loginMessage}>
+          Already have a Sellgo account?{' '}
           <span
             onClick={() => {
               setLogin();
@@ -270,10 +302,10 @@ function Signup(props: Props, state: State) {
             Log in
           </span>
         </p>
-      </Form>
-    </Container>
+      </form>
+    </section>
   );
-}
+};
 
 const mapStateToProps = (state: any) => ({
   termsOfService: get(state, 'userOnboarding.termsOfService'),
