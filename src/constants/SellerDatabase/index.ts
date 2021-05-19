@@ -37,6 +37,13 @@ export const DURATIONS = [
   { key: '365D', text: '365D', value: '365D' },
 ];
 
+export const SEARCH_TYPE = {
+  ASIN: 'ASIN',
+  SELLER_ID: 'SELLER_ID',
+  SELLER_NAME: 'SELLER_NAME',
+  AMAZON_LINK: 'AMAZON_LINK',
+};
+
 export const SEARCH_TYPES = [
   {
     key: 'ASIN',
@@ -46,17 +53,17 @@ export const SEARCH_TYPES = [
   {
     key: 'Seller ID',
     text: 'Seller ID',
-    value: 'Seller ID',
+    value: 'SELLER_ID',
   },
   {
     key: 'Seller Name',
     text: 'Seller Name',
-    value: 'Seller Name',
+    value: 'SELLER_NAME',
   },
   {
     key: 'Amazon Links',
     text: 'Amazon Links',
-    value: 'Amazon Links',
+    value: 'AMAZON_LINK',
   },
 ];
 

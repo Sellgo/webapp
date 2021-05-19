@@ -16,12 +16,14 @@ import {
   SET_SELLER_DATABASE_FILTERS,
   FILTERS,
   defaultFilters,
+  SEARCH_TYPE,
 } from '../../constants/SellerDatabase';
 import {
   databaseSort,
   databaseSortDirection,
   sellerDatabaseFilters,
 } from '../../selectors/SellerDatabase';
+import { extractAsinFromUrl } from '../../utils/format';
 
 export interface SellerDatabasePayload {
   pageNo?: number;
@@ -54,25 +56,6 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
     const defaultSort = databaseSort(getState());
     const defaultSortDirection = databaseSortDirection(getState());
     const sellerDBFilters = sellerDatabaseFilters(getState());
-    if (payload.filters) {
-      localStorage.setItem('seller-database-filters', JSON.stringify(sellerDBFilters));
-    }
-    let filters = '';
-
-    if (!payload.resetFilters) {
-      filters = parseFilters(sellerDBFilters);
-    } else {
-      localStorage.removeItem('seller-database-filters');
-      dispatch(setFilters(defaultFilters));
-    }
-
-    if (payload.search && payload.searchType) {
-      filters += `&search=${payload.search}&type=${payload.searchType}`;
-    }
-
-    if (payload.search && payload.state) {
-      filters += `&search=${payload.search}&state=${payload.state}`;
-    }
 
     const {
       pageNo = 1,
@@ -80,14 +63,54 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
       enableLoader = true,
       sort = defaultSort,
       sortDirection = defaultSortDirection,
+      filters,
+      resetFilters,
+      search,
+      searchType,
+      state,
     } = payload;
+    if (filters) {
+      localStorage.setItem('seller-database-filters', JSON.stringify(sellerDBFilters));
+    }
+    let queryFilters = '';
+
+    if (!resetFilters) {
+      queryFilters = parseFilters(sellerDBFilters);
+    } else {
+      localStorage.removeItem('seller-database-filters');
+      dispatch(setFilters(defaultFilters));
+    }
+
+    if (search) {
+      if (searchType) {
+        switch (searchType) {
+          case SEARCH_TYPE.ASIN:
+            queryFilters += `&asin=${search}`;
+            break;
+
+          case SEARCH_TYPE.SELLER_ID:
+            queryFilters += `&seller_id=${search}`;
+            break;
+
+          case SEARCH_TYPE.SELLER_NAME:
+            queryFilters += `&seller_name=${search}`;
+            break;
+          case SEARCH_TYPE.AMAZON_LINK:
+            queryFilters += `&asin=${extractAsinFromUrl(search)}`;
+            break;
+        }
+      }
+    }
+    if (state) {
+      queryFilters += `&state=${state}`;
+    }
     const pagination = `page=${pageNo}&per_page=${pageSize}`;
     const sorting = `ordering=${sortDirection === 'descending' ? `-${sort}` : sort}`;
 
     const sellerID = sellerIDSelector();
     const url =
       AppConfig.BASE_URL_API +
-      `sellers/${sellerID}/merchants-database?${pagination}&${sorting}${filters}`;
+      `sellers/${sellerID}/merchants-database?${pagination}&${sorting}${queryFilters}`;
     dispatch(setLoadingDatabase(!enableLoader));
     if (enableLoader) {
       await dispatch(fetchSellerDatabase(true));

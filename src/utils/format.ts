@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export const formatCurrency = (num: any) =>
   Number(num).toLocaleString('en-US', {
     style: 'currency',
@@ -40,3 +42,15 @@ export const formatString = (value: any) => (!value || value === 'null' ? '-' : 
 export const formatBoolean = (value: boolean) => (value ? 'Yes' : 'No');
 
 export const openLink = (link: string) => window.open(link, '_blank');
+
+export const extractAsinFromUrl = (data: string) => {
+  const regex = RegExp('(?:[/dp/]|$)([A-Z0-9]{10})');
+  const asinData = data.split(' ');
+  _.each(asinData, (item, index) => {
+    const res = item.match(regex);
+    if (res) {
+      asinData[index] = res[1];
+    }
+  });
+  return asinData.join();
+};

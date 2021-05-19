@@ -11,7 +11,13 @@ import {
   updateSellerDatabaseFilters,
 } from '../../../actions/SellerDatabase';
 import { connect } from 'react-redux';
-import { DURATIONS, FILTERS, SEARCH_TYPES, STATES } from '../../../constants/SellerDatabase';
+import {
+  DURATIONS,
+  FILTERS,
+  SEARCH_TYPE,
+  SEARCH_TYPES,
+  STATES,
+} from '../../../constants/SellerDatabase';
 import { defaultMarketplaces } from '../../../constants/Settings';
 
 interface Props {
@@ -23,7 +29,7 @@ interface Props {
 const Filters = (props: Props) => {
   const { updateFilter, filters, loadFilters, fetchSellersDatabase } = props;
   const [keyword, setKeyword] = useState('');
-  const [searchType, setSearchType] = useState('');
+  const [searchType, setSearchType] = useState(SEARCH_TYPE.AMAZON_LINK);
   const [state, setState] = useState('');
   const [marketplace, setMarketplace] = useState('ATVPDKIKX0DER');
   const getFilterValue = (type: string): SellerDatabaseFilter => {
@@ -392,21 +398,22 @@ const Filters = (props: Props) => {
         </div>
 
         <div>
-          <div className="sf-filter-container right-filters">
-            <div className="search-input-container right-filters">
+          <div className="sf-filter-container right-filters-container">
+            <div className="marketplace-container">
               <p className="filters-label">Marketplace</p>
               <Dropdown
                 placeholder="United States"
                 defaultValue={marketplace}
+                className="right-filters"
                 onChange={(evt, { value }: any) => setMarketplace(value)}
                 selection
                 options={marketplaceOptions}
               />
             </div>
-            <div className="right-filters seller-tier">
+            <div className="right-filters-container seller-tier">
               <p className="filters-label">Seller Tier</p>
               <div>
-                <div className="input-filter">
+                <div className="checkbox-filter">
                   <Checkbox
                     label="FBA"
                     checked={fba.active}
@@ -415,13 +422,13 @@ const Filters = (props: Props) => {
                   <Checkbox
                     radio
                     label="Launched < 1-yr"
-                    className=" right-filters"
+                    className="right-filters"
                     name="launched"
                     checked={launched.value === '<1Y'}
                     onChange={() => updateFilter({ ...launched, value: '<1Y' })}
                   />
                 </div>
-                <div className="input-filter">
+                <div className="checkbox-filter">
                   <Checkbox
                     label="FBM"
                     checked={fbm.active}
@@ -430,7 +437,7 @@ const Filters = (props: Props) => {
                   <Checkbox
                     radio
                     label="Launched > 1-yr"
-                    className=" right-filters"
+                    className="right-filters"
                     name="launched"
                     checked={launched.value === '>1Y'}
                     onChange={() => updateFilter({ ...launched, value: '>1Y' })}
