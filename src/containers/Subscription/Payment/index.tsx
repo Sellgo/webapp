@@ -28,9 +28,8 @@ interface PaymentProps {
   sellerSubscription: any;
   fetchSellerSubscription: () => void;
 }
+
 const Payment = (props: PaymentProps) => {
-  const [paymentError, setPaymentError] = useState(false);
-  const [paymentErrorMessage, setPaymentErrorMessage] = useState('');
   const {
     subscriptionType,
     successPayment,
@@ -38,16 +37,19 @@ const Payment = (props: PaymentProps) => {
     sellerSubscription,
     fetchSellerSubscription,
   } = props;
+
+  const [paymentError, setPaymentError] = useState(false);
+  const [paymentErrorMessage, setPaymentErrorMessage] = useState('');
+
   const accountType = localStorage.getItem('planType') || '';
   const paymentMode = localStorage.getItem('paymentMode') || '';
+  const sellerID = localStorage.getItem('userId');
 
   const handlePaymentError = (data: any) => {
     if (_.isEmpty(data)) return;
     setPaymentError(true);
     setPaymentErrorMessage(data.message);
   };
-
-  const sellerID = localStorage.getItem('userId');
 
   useEffect(() => {
     localStorage.setItem('loginRedirectPath', '/');
@@ -64,6 +66,7 @@ const Payment = (props: PaymentProps) => {
     }
     handlePaymentError(stripeErrorMessage);
   }, [stripeErrorMessage, sellerSubscription]);
+
   const loggedIn =
     sellerSubscription !== undefined || localStorage.getItem('isLoggedIn') === 'true';
 
