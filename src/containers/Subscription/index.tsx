@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 /* Styling */
 import styles from './index.module.scss';
+import './globals.scss';
 
 /* Containers */
 import Summary from './Summary';
