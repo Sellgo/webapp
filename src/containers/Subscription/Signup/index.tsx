@@ -268,7 +268,9 @@ const Signup = (props: Props, state: State) => {
           {verifySignupError ? <span>{errorMessage}</span> : <span />}
         </div>
 
-        <button className={styles.submitButton}>Register</button>
+        <button className={styles.submitButton} type="submit">
+          Register
+        </button>
 
         <p className={styles.consent}>
           By signing up, you’re agreeing to our{' '}
