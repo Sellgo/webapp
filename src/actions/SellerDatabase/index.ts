@@ -21,9 +21,11 @@ import {
 import {
   databaseSort,
   databaseSortDirection,
+  sellerDatabase,
   sellerDatabaseFilters,
 } from '../../selectors/SellerDatabase';
 import { extractAsinFromUrl } from '../../utils/format';
+import { info } from '../../utils/notifications';
 
 export interface SellerDatabasePayload {
   pageNo?: number;
@@ -192,6 +194,34 @@ const parseFilters = (data: SellerDatabaseFilter[]): string => {
   });
 
   return query;
+};
+
+export const trackDatabaseSeller = (merchantId: any) => async (dispatch: any, getState: any) => {
+  try {
+    const sellerID = sellerIDSelector();
+
+    const url = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants/track`;
+    let sellers = sellerDatabase(getState());
+    const payload = new FormData();
+    payload.set('merchant_id', merchantId);
+    const res = await Axios.post(url, payload);
+    const data = res.data;
+    if (data) {
+      const { tracking_status } = data.object;
+      sellers = sellers.map((seller: any) => {
+        let update = seller;
+        if (seller.id === data.object.id) {
+          update = { ...update, tracking_status };
+        }
+        return update;
+      });
+
+      info(`Seller ${tracking_status === 'active' ? 'Tracking' : 'Untracking'}`);
+      dispatch(fetchSellerDatabaseSuccess(sellers));
+    }
+  } catch (err) {
+    console.log('Error Tracking Seller', err);
+  }
 };
 
 const fetchSellerDatabase = (loading: boolean) => ({

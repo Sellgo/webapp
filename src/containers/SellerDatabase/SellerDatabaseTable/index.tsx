@@ -19,6 +19,7 @@ import {
   fetchSellersDatabase,
   SellerDatabasePayload,
   setSellerDatabaseSinglePageItemsCount,
+  trackDatabaseSeller,
 } from '../../../actions/SellerDatabase';
 import { connect } from 'react-redux';
 import PageLoader from '../../../components/PageLoader';
@@ -38,6 +39,7 @@ interface Props {
   singlePageItemsCount: number;
   fetchSellersDatabase: (payload: SellerDatabasePayload) => void;
   setSinglePageItemsCount: (count: number) => void;
+  targetSeller: (merchantId: string) => void;
 }
 
 const SellerDatabaseTable = (props: Props) => {
@@ -52,8 +54,9 @@ const SellerDatabaseTable = (props: Props) => {
     databaseCount,
     singlePageItemsCount,
     loadingDatabase,
+    targetSeller,
   } = props;
-  const [checkedRows, setCheckedRows] = useState({});
+  const [checkedRows, setCheckedRows] = useState<any>({});
 
   const fetchDatabase = (payload: SellerDatabasePayload) => {
     fetchSellersDatabase(payload);
@@ -130,18 +133,36 @@ const SellerDatabaseTable = (props: Props) => {
     return <p>{showNAIfZeroOrNull(row.review, row.review)}</p>;
   };
 
-  const renderActions = () => {
+  const renderActions = (row: any) => {
+    const active = row.tracking_status === 'active';
     return (
       <div>
-        <Button basic color="blue" className="target-btn">
+        <Button
+          basic
+          color="blue"
+          className={active ? 'target-btn-active' : 'target-btn'}
+          onClick={() => targetSeller(row.id)}
+        >
           <img src={PLUS_ICON} alt="target" />
-          <span>Target Now</span>
+          <span>{active ? `Tracking` : `Target Now`}</span>
         </Button>
       </div>
     );
   };
-
-  const renderCheckBox = () => <SellerCheckBox />;
+  const handleItemSelect = (e: any, isChecked: any, itemId: any) => {
+    const newCheckedRows = {
+      ...checkedRows,
+      [itemId]: isChecked,
+    };
+    setCheckedRows(newCheckedRows);
+  };
+  const renderCheckBox = (row: any) => {
+    let checked = false;
+    if (checkedRows[row.id] !== undefined) {
+      checked = checkedRows[row.id];
+    }
+    return <SellerCheckBox checked={checked} item={row} onClick={handleItemSelect} />;
+  };
   const Columns: Column[] = [
     {
       label: '',
@@ -313,6 +334,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = {
   fetchSellersDatabase: (payload: SellerDatabasePayload) => fetchSellersDatabase(payload),
   setSinglePageItemsCount: (count: number) => setSellerDatabaseSinglePageItemsCount(count),
+  targetSeller: (merchantId: string) => trackDatabaseSeller(merchantId),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SellerDatabaseTable);

@@ -55,6 +55,26 @@
       }
     }
 
+    .target-btn-active {
+      display: flex;
+      align-items: center;
+      width: 120px;
+      height: 30px;
+      border: 1px solid $sellgo-green !important;
+      border-radius: 7px;
+      color: $sellgo-green !important;
+      font-size: 11px;
+
+      > img {
+        margin-right: 10px;
+      }
+    }
+
+    .target-btn-active:hover {
+      border: 1px solid $sellgo-green !important;
+      color: $sellgo-green !important;
+    }
+
     .title {
       min-width: 250px !important;
     }
@@ -140,6 +160,7 @@
             display: flex;
             align-items: center;
             margin-left: 13px;
+            margin-top: 4px;
           }
 
           .sd-checkbox-select {
