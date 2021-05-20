@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Icon, Step, Popup } from 'semantic-ui-react';
 import { Steps } from '../../interfaces/StepsInfo';
 
+import './index.scss';
+
 interface Props {
   stepsData: Steps[];
   onChange: any;
@@ -10,7 +12,6 @@ interface Props {
   blurInput: any;
   subscriptionRegister?: boolean;
   id?: any;
-  className?: string;
 }
 
 const StepsInfo = (props: Props) => {
@@ -47,7 +48,7 @@ const StepsInfo = (props: Props) => {
       className="StepsInfo__container"
       open={isFocusPW}
       trigger={
-        <div className={`ui icon input field ${subscriptionRegister && 'huge'}`}>
+        <div className={`ui icon input field passwordInput ${subscriptionRegister && 'huge'}`}>
           <input
             id={id}
             autoFocus={isFocusPW}
@@ -58,11 +59,9 @@ const StepsInfo = (props: Props) => {
             minLength={8}
             placeholder="Password"
             onChange={onChange}
+            // className={className}
           />
-          <i
-            className={isPassword ? 'eye icon' : 'eye icon active'}
-            onClick={handleClickPassword}
-          />
+          <Icon name={isPassword ? 'eye slash' : 'eye'} onClick={handleClickPassword} />
         </div>
       }
       on="focus"

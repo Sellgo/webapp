@@ -8,7 +8,7 @@ import styles from './index.module.scss';
 
 /* Components */
 import Auth from '../../../components/Auth/Auth';
-import StepsInfo from '../../../components/StepsInfo/StepsInfo';
+import StepsInfo from '../../../components/StepsInfo';
 
 /* Containers */
 import StepsContent from '../StepsContent';
@@ -250,7 +250,7 @@ const Signup = (props: Props, state: State) => {
           className={styles.formInput}
         />
 
-        <Form.Input className={`${styles.formInput} ${styles.formInput__password}`}>
+        <Form.Field className={`${styles.formInput} ${styles.formInput__password}`}>
           <label htmlFor="password">Password</label>
           <StepsInfo
             id="password"
@@ -260,9 +260,8 @@ const Signup = (props: Props, state: State) => {
             blurInput={onBlur}
             stepsData={state.stepsInfo}
             {...bindPassword}
-            className={styles.formInput}
           />
-        </Form.Input>
+        </Form.Field>
 
         <div className={styles.errorMessage}>
           {verifySignupError ? <span>{errorMessage}</span> : <span />}

@@ -19,6 +19,8 @@
   flex-direction: column;
   text-align: left;
   margin: 15px 0;
+  width: 400px !important;
+  position: relative !important;
 
   label {
     font-size: 16px;
@@ -27,17 +29,23 @@
   }
 
   input {
-    height: 40px;
+    height: 40px !important;
     background: #fff;
     font-size: 14px;
     color: #808080 !important;
+    width: 100%;
+    padding: 0 !important;
+    border-radius: 5px !important;
+    border: 1px solid #dededf !important;
+    padding-left: 10px !important;
+
+    &::placeholder {
+      color: #808080 !important;
+    }
   }
 
   &__password {
-    div {
-      display: flex;
-      flex-direction: column;
-    }
+    display: flex;
   }
 }
 
@@ -47,7 +55,7 @@
 }
 
 .submitButton {
-  width: 100%;
+  width: 400px;
   background: #fc7900;
   border-radius: 5px;
   height: 50px;

@@ -1,0 +1,23 @@
+.passwordInput {
+  position: relative !important;
+
+  input#password {
+    padding-right: 0 !important;
+  }
+
+  i.icon.eye {
+    position: absolute !important;
+    top: 0 !important;
+    cursor: pointer !important;
+    pointer-events: unset !important;
+    z-index: 1000 !important;
+  }
+
+  i.icon.eye.slash {
+    position: absolute !important;
+    top: 0 !important;
+    cursor: pointer !important;
+    pointer-events: unset !important;
+    z-index: 1000 !important;
+  }
+}

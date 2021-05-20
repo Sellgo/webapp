@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Header, Modal, TextArea } from 'semantic-ui-react';
 import SignupBase from '../../components/SignupBase';
-import StepsInfo from '../../components/StepsInfo/StepsInfo';
+import StepsInfo from '../../components/StepsInfo';
 import { Steps } from '../../interfaces/StepsInfo';
 import Auth from '../../components/Auth/Auth';
 import { useInput } from '../../hooks/useInput';
