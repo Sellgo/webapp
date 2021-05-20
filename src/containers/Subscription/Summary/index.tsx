@@ -31,7 +31,7 @@ const Summary: React.FC<Props> = props => {
             </p>
           ) : (
             <p className={styles.planDetails__pricing}>
-              ${summaryDetails.yearlyPrice} /mo billed monthly
+              ${summaryDetails.monthlyPrice} /mo billed monthly
             </p>
           )}
         </div>
