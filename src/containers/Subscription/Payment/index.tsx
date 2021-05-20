@@ -1,22 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import './index.scss';
-import { Container, Grid, Image } from 'semantic-ui-react';
-import StepsContent from '../StepsContent';
+import Axios from 'axios';
 import { Elements } from '@stripe/react-stripe-js';
-import CheckoutForm from './CheckoutForm';
 import { loadStripe } from '@stripe/stripe-js';
-import Summary from '../Summary';
 import { connect } from 'react-redux';
-import { isSubscriptionNotPaid, isSubscriptionPaid } from '../../../utils/subscriptions';
-import PaidContent from './PaidContent';
-import { AppConfig } from '../../../config';
-import get from 'lodash/get';
-import SuccessContent from './SuccessContent';
 import _ from 'lodash';
+
+/* Styling */
+import styles from './index.module.scss';
+
+/* Actions */
+import { fetchSellerSubscription } from '../../../actions/Settings/Subscription';
+
+/* Utils */
+import { isSubscriptionNotPaid, isSubscriptionPaid } from '../../../utils/subscriptions';
+
+/* Containers */
+import PaidContent from './PaidContent';
+import Summary from '../Summary';
+import SuccessContent from './SuccessContent/SuccessContent';
+import CheckoutForm from './CheckOutForm';
+import StepsContent from '../StepsContent';
+
+/* Components */
 import Auth from '../../../components/Auth/Auth';
 import history from '../../../history';
-import { fetchSellerSubscription } from '../../../actions/Settings/Subscription';
-import Axios from 'axios';
+
+/* Assets */
+import newSellgoLogo from '../../../assets/images/sellgoNewLogo.png';
+
+/* Config */
+import { AppConfig } from '../../../config';
+
 const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
 
 interface PaymentProps {
@@ -71,49 +85,47 @@ const Payment = (props: PaymentProps) => {
     sellerSubscription !== undefined || localStorage.getItem('isLoggedIn') === 'true';
 
   return (
-    <Grid className="subscription-page" columns={2}>
-      <Grid.Row>
-        <Grid.Column width={5} className="subscription-page__logo-container">
-          <div className="subscription-page__logo-container__image">
-            <Image src="/images/sellgo_grey_logo.svg" wrapped={true} />
+    <main className={styles.paymentPage}>
+      <div className={styles.logo}>
+        <img src={newSellgoLogo} alt="Sellgo Company Logo" />
+      </div>
+
+      <section>
+        <Summary
+          planType={accountType}
+          paymentMode={paymentMode}
+          showCoupon={true && !isSubscriptionPaid(subscriptionType) && !successPayment}
+        />
+
+        <StepsContent contentType={'payment'} loggedIn={loggedIn} />
+        {!successPayment && isSubscriptionNotPaid(subscriptionType) && paymentError && (
+          <div className={styles.paymentErrorMessage}>
+            <p>{paymentErrorMessage}</p>
           </div>
-        </Grid.Column>
-        <Grid.Column width={11} className="subscription-page__content">
-          <Summary
-            planType={accountType}
-            paymentMode={paymentMode}
-            showCoupon={true && !isSubscriptionPaid(subscriptionType) && !successPayment}
-          />
-          <Container text className="payment-container">
-            <StepsContent contentType={'payment'} loggedIn={loggedIn} />
-            {!successPayment && isSubscriptionNotPaid(subscriptionType) && paymentError && (
-              <div className="payment-container__error">
-                <div className="payment-container__error__title">{paymentErrorMessage}</div>
-              </div>
-            )}
-            {!successPayment && isSubscriptionNotPaid(subscriptionType) && (
-              <Elements stripe={stripePromise}>
-                <CheckoutForm
-                  accountType={accountType}
-                  paymentMode={paymentMode}
-                  handlePaymentError={handlePaymentError}
-                />
-              </Elements>
-            )}
-            {isSubscriptionPaid(subscriptionType) && <PaidContent />}
-            {successPayment && <SuccessContent sellerSubscription={sellerSubscription} />}
-          </Container>
-        </Grid.Column>
-      </Grid.Row>
-    </Grid>
+        )}
+
+        {!false && (
+          <Elements stripe={stripePromise}>
+            <CheckoutForm
+              accountType={accountType}
+              paymentMode={paymentMode}
+              handlePaymentError={handlePaymentError}
+            />
+          </Elements>
+        )}
+        {isSubscriptionPaid(subscriptionType) && <PaidContent />}
+
+        {successPayment && <SuccessContent sellerSubscription={sellerSubscription} />}
+      </section>
+    </main>
   );
 };
 
 const mapStateToProps = (state: {}) => ({
-  subscriptionType: get(state, 'subscription.subscriptionType'),
-  successPayment: get(state, 'subscription.successPayment'),
-  stripeErrorMessage: get(state, 'subscription.stripeErrorMessage'),
-  sellerSubscription: get(state, 'subscription.sellerSubscription'),
+  subscriptionType: _.get(state, 'subscription.subscriptionType'),
+  successPayment: _.get(state, 'subscription.successPayment'),
+  stripeErrorMessage: _.get(state, 'subscription.stripeErrorMessage'),
+  sellerSubscription: _.get(state, 'subscription.sellerSubscription'),
 });
 const mapDispatchToProps = {
   fetchSellerSubscription: () => fetchSellerSubscription(),

@@ -1,4 +1,4 @@
-.paidContainer {
+.successContainer {
   text-align: center;
   font-size: 16px;
   color: #3b4557;
@@ -21,6 +21,7 @@
     a {
       text-decoration: underline;
       color: #5381db;
+      font-weight: 400 !important;
 
       &:hover {
         font-weight: normal;

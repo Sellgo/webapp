@@ -67,7 +67,7 @@ const Subscription: React.FC<Props> = props => {
 
   return (
     <>
-      <div className={styles.subscriptionPage}>
+      <main className={styles.subscriptionPage}>
         <div className={styles.logo}>
           <Link to="/" replace>
             <img src={newSellgoLogo} alt="Sellgo Company Logo" />
@@ -79,7 +79,7 @@ const Subscription: React.FC<Props> = props => {
           {isLogin && <Login auth={auth} setSignup={setSignUp} />}
           {isSignup && <Signup auth={auth} setLogin={setLogin} />}
         </section>
-      </div>
+      </main>
     </>
   );
 };

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { get } from 'lodash';
 import {
   CardNumberElement,
   CardExpiryElement,
@@ -6,31 +8,41 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
-import { Form, Header, Button, Dropdown, Loader } from 'semantic-ui-react';
-import { connect } from 'react-redux';
-import { get } from 'lodash';
+import { Form, Dropdown, Loader } from 'semantic-ui-react';
+import Axios from 'axios';
+
+/* Constants */
+import { countryList } from '../../../../constants/Settings';
+import { postalCode } from '../../../../constants/Validators';
+
+/* App Config */
+import { AppConfig } from '../../../../config';
+
+/* Actions */
 import {
   createSubscription,
   retryInvoiceWithNewPaymentMethod,
   setStripeLoading,
-} from '../../../actions/Settings/Subscription';
-import { useInput } from '../../../hooks/useInput';
-import { countryList } from '../../../constants/Settings';
-import cardIcons from '../../../assets/images/4_Card_color_horizontal.svg';
-import stripeIcon from '../../../assets/images/powered_by_stripe.svg';
-import { postalCode } from '../../../constants/Validators';
-import { AppConfig } from '../../../config';
-import Axios from 'axios';
+} from '../../../../actions/Settings/Subscription';
+
+/* Hooks */
+import { useInput } from '../../../../hooks/useInput';
+
+/* Assets */
+import cardIcons from '../../../../assets/images/4_Card_color_horizontal.svg';
+import stripeIcon from '../../../../assets/images/powered_by_stripe.svg';
+
+/* Styling */
+import styles from './index.module.scss';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
     base: {
-      color: '#3b4557',
+      color: '#808080',
       fontFamily: "'Work Sans', sans-serif",
       fontSmoothing: 'antialiased',
-      fontSize: window.innerWidth < 1440 ? '18px' : '21px',
       '::placeholder': {
-        color: '#98AECA',
+        color: 'rgba(0,0,0,0.3)',
       },
     },
     invalid: {
@@ -50,6 +62,7 @@ interface MyProps {
   setStripeLoad: (data: boolean) => void;
   stripeLoading: boolean;
 }
+
 function CheckoutForm(props: MyProps) {
   const stripe: any = useStripe();
   const elements = useElements();
@@ -66,7 +79,7 @@ function CheckoutForm(props: MyProps) {
     value: 'US',
   });
   const [zipCodeError, setZipCodeError] = useState(false);
-  const [nameCardError, setNameCardError] = useState(false);
+  const [cardNameError, setNameCardError] = useState(false);
 
   const handleCountry = (data: any) => {
     setSelectedCountry(data);
@@ -167,53 +180,61 @@ function CheckoutForm(props: MyProps) {
     }
   };
   return (
-    <>
-      <Header className="payment-container__title" as="h2">
-        Secure Credit Card Payment
-      </Header>
-      <span className="payment-container__subtitle">14-days money back guarantee.</span>
+    <div className={styles.checkoutContainer}>
+      <h2>Secure Credit Card Payment</h2>
 
-      <Form onSubmit={handleSubmit} className="payment-container__stripe-checkout-form">
-        <Form.Field className="payment-container__stripe-checkout-form__card-number-field">
+      <form onSubmit={handleSubmit}>
+        <Form.Field className={styles.formInput}>
           <label htmlFor="CardNumber">Credit Card Number</label>
-          <CardNumberElement id="CardNumber" options={CARD_ELEMENT_OPTIONS} />
+          <CardNumberElement
+            id="CardNumber"
+            options={CARD_ELEMENT_OPTIONS}
+            className={styles.stripeInput}
+          />
         </Form.Field>
-        <Form.Group className="checkout-form__group-1">
+
+        <Form.Group className={styles.formGroup}>
           <Form.Input
-            className={`payment-container__stripe-checkout-form__group-1__card-name ${nameCardError &&
-              'error'}`}
+            className={`${styles.formInput} ${cardNameError ? styles.formInput__error : ''}`}
             size="huge"
             label="Name on Card"
             type="text"
             placeholder="John Smith"
             {...bindName}
           />
-          <Form.Field className="payment-container__stripe-checkout-form__group-1__card-exp-field">
-            <label htmlFor="expiry">Expiry Date</label>
 
-            <CardExpiryElement id="expiry" options={CARD_ELEMENT_OPTIONS} />
+          <Form.Field className={`${styles.formInput} ${styles.formInput__expiry}`}>
+            <label htmlFor="expiry">Expiry Date</label>
+            <CardExpiryElement
+              id="expiry"
+              options={CARD_ELEMENT_OPTIONS}
+              className={`${styles.stripeInput} ${styles.stripeInput__expiry}`}
+            />
           </Form.Field>
 
-          <Form.Field className="payment-container__stripe-checkout-form__group-1__card-cvc-field">
+          <Form.Field className={`${styles.formInput} ${styles.formInput__expiry}`}>
             <label htmlFor="cvc">CVC</label>
-            <CardCvcElement id="cvc" options={CARD_ELEMENT_OPTIONS} />
+            <CardCvcElement
+              id="cvc"
+              options={CARD_ELEMENT_OPTIONS}
+              className={`${styles.stripeInput} ${styles.stripeInput__cvv}`}
+            />
           </Form.Field>
         </Form.Group>
 
-        <Header className="payment-container__stripe-checkout-form__billing_title" as="h2">
-          Billing Address
-        </Header>
+        <h2>Billing Address</h2>
         <Form.Input
-          className="payment-container__stripe-checkout-form__address"
+          className={styles.formInput}
           size="huge"
           label="Address"
           type="text"
           placeholder="Address"
           {...bindAddress}
         />
-        <Form.Group className="payment-container__stripe-checkout-form__group-2">
+
+        <Form.Group className={styles.formGroup}>
           <Form.Input
-            className="payment-container__stripe-checkout-form__group-2__city"
+            className={styles.formInput}
             size="huge"
             label="City"
             type="text"
@@ -221,7 +242,7 @@ function CheckoutForm(props: MyProps) {
             {...bindCity}
           />
           <Form.Input
-            className="payment-container__stripe-checkout-form__group-2__state"
+            className={styles.formInput}
             size="huge"
             label="State"
             type="text"
@@ -229,15 +250,17 @@ function CheckoutForm(props: MyProps) {
             {...bindStateAddress}
           />
         </Form.Group>
-        <Form.Group className="payment-container__stripe-checkout-form__group-3">
-          <Form.Field className="payment-container__stripe-checkout-form__group-3__country">
+
+        <Form.Group className={styles.formGroup}>
+          <Form.Field className={styles.formInput}>
             <label htmlFor="Country">Country</label>
-            <Dropdown id="Country" className="selection" openOnFocus trigger={trigger}>
-              <Dropdown.Menu>
+            <Dropdown id="Country" className={styles.dropdown} openOnFocus trigger={trigger}>
+              <Dropdown.Menu className={styles.dropdown__menu}>
                 {countryList.map((option, key) => {
                   return (
                     <Dropdown.Item
                       key={key}
+                      className={styles.dropdown__menuItem}
                       text={option.name}
                       value={option.id}
                       onClick={() => {
@@ -249,9 +272,9 @@ function CheckoutForm(props: MyProps) {
               </Dropdown.Menu>
             </Dropdown>
           </Form.Field>
+
           <Form.Input
-            className={`payment-container__stripe-checkout-form__group-3__zipcode ${zipCodeError &&
-              'error'}`}
+            className={`${styles.formInput} ${zipCodeError ? styles.formInput__error : ''}`}
             size="huge"
             label="Zipcode"
             type="text"
@@ -259,43 +282,34 @@ function CheckoutForm(props: MyProps) {
             {...bindZipCode}
           />
         </Form.Group>
-        <div className="payment-container__stripe-checkout-form__card-icons">
-          <img
-            className="payment-container__stripe-checkout-form__card-icons__four-cards"
-            src={cardIcons}
-            alt="cards"
-          />
-          <img
-            className="payment-container__stripe-checkout-form__card-icons__stripe-card"
-            src={stripeIcon}
-            alt="powered by stripe"
-          />
+
+        <div className={styles.paymentMeta}>
+          <div className={styles.cardsWrapper}>
+            <img className={styles.cardsWrapper__cards} src={cardIcons} alt="cards" />
+            <img className={styles.cardsWrapper__stripe} src={stripeIcon} alt="powered by stripe" />
+          </div>
+
+          <div className={styles.paymentButtons}>
+            <button
+              onClick={() => {
+                window.location.href = AppConfig.WEB_URL + '/pricing';
+              }}
+              className={styles.cancelButton}
+            >
+              Cancel
+            </button>
+            <button
+              disabled={!stripe || stripeLoading}
+              type="submit"
+              className={styles.completeButton}
+            >
+              Complete Payment
+              {stripeLoading && <Loader active inline size="mini" inverted />}
+            </button>
+          </div>
         </div>
-        <Form.Group className="payment-container__stripe-checkout-form__buttons">
-          <Button
-            onClick={() => {
-              window.location.href = AppConfig.WEB_URL + '/pricing';
-            }}
-            size="huge"
-            basic
-            className="payment-container__stripe-checkout-form__buttons__back"
-          >
-            Cancel
-          </Button>
-          <Form.Field
-            disabled={!stripe || stripeLoading}
-            size="huge"
-            className="payment-container__stripe-checkout-form__buttons__register"
-            control={Button}
-            primary={true}
-            value="Submit"
-          >
-            Complete Payment
-            {stripeLoading && <Loader active inline size="mini" inverted />}
-          </Form.Field>
-        </Form.Group>
-      </Form>
-    </>
+      </form>
+    </div>
   );
 }
 
