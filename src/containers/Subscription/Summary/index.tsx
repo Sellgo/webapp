@@ -35,7 +35,7 @@ const Summary: React.FC<Props> = props => {
             </p>
           )}
         </div>
-        <p className={styles.subDescription}>14-day Money Back Guarantee</p>
+        <p className={styles.subDescription}>{summaryDetails.subDescription}</p>
 
         <ul className={styles.benefitsWrapper}>
           {summaryDetails.benefits.map((benefit: string, index: number) => {
