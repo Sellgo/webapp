@@ -47,13 +47,13 @@ export const subscriptionDetails: any = {
 
 export const generateSubscriptionDetails = (planType: string) => {
   if (!planType) {
-    return subscriptionDetails.professional;
+    return subscriptionDetails.suite;
   }
 
   const planDetails = subscriptionDetails[planType];
 
   if (!planDetails) {
-    return subscriptionDetails.professional;
+    return subscriptionDetails.suite;
   }
   return planDetails;
 };

@@ -16,7 +16,7 @@ interface Props {
 const Summary: React.FC<Props> = props => {
   const { planType, paymentMode } = props;
 
-  const summaryDetails: SummaryDetails = generateSubscriptionDetails(planType);
+  const summaryDetails: SummaryDetails = generateSubscriptionDetails(planType.toLowerCase());
 
   return (
     <>

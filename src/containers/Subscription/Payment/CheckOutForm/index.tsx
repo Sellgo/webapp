@@ -144,12 +144,12 @@ function CheckoutForm(props: MyProps) {
       const getSubscriptionId = (): number => {
         let id = 1;
         switch (accountType) {
-          case 'basic':
+          case 'suite':
             {
               id = 1;
             }
             break;
-          case 'extension':
+          case 'starter':
             {
               id = 6;
             }

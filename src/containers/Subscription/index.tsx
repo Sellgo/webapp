@@ -49,9 +49,9 @@ const Subscription: React.FC<Props> = props => {
     const search = window.location.search;
 
     let plan: any = 'professional';
-    if (search.includes('starter')) {
+    if (search.includes('starter') || search.includes('Starter')) {
       plan = 'starter';
-    } else if (search.includes('suite')) {
+    } else if (search.includes('suite') || search.includes('Suite')) {
       plan = 'suite';
     } else {
       plan = 'professional';
