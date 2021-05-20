@@ -7,22 +7,10 @@ export interface SummaryDetails {
 }
 
 export const subscriptionDetails: any = {
-  professional: {
-    name: 'Professional',
-    yearlyPrice: 334,
-    monthlyPrice: 12,
-    subDescription: '14-Days Money Back Guarantee',
-    benefits: [
-      'Manage your supplier files in Supplier Management',
-      '100 Products can be tracked through Product Tracker',
-      'Unlimited access in our Profit Finder',
-      'Sellgo support',
-    ],
-  },
   starter: {
     name: 'Starter',
-    yearlyPrice: 334,
-    monthlyPrice: 12,
+    yearlyPrice: 348,
+    monthlyPrice: 49,
     subDescription: '14-Days Money Back Guarantee',
     benefits: [
       'Manage your supplier files in Supplier Management',
@@ -33,8 +21,20 @@ export const subscriptionDetails: any = {
   },
   suite: {
     name: 'Suite',
-    yearlyPrice: 334,
-    monthlyPrice: 12,
+    yearlyPrice: 588,
+    monthlyPrice: 69,
+    subDescription: '14-Days Money Back Guarantee',
+    benefits: [
+      'Manage your supplier files in Supplier Management',
+      '100 Products can be tracked through Product Tracker',
+      'Unlimited access in our Profit Finder',
+      'Sellgo support',
+    ],
+  },
+  professional: {
+    name: 'Professional',
+    yearlyPrice: 996,
+    monthlyPrice: 129,
     subDescription: '14-Days Money Back Guarantee',
     benefits: [
       'Manage your supplier files in Supplier Management',
