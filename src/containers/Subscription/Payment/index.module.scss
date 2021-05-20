@@ -19,6 +19,10 @@
     width: 150px;
     height: 60px;
   }
+
+  @media only screen and(max-width: 1600px) {
+    left: 1.5rem;
+  }
 }
 
 .paymentErrorMessage {
