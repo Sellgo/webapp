@@ -148,6 +148,13 @@ $blue: #349af8;
           > .icon {
             font-size: 10px;
           }
+
+          .copy-clipboard {
+            z-index: 999;
+            position: absolute;
+            padding: 5px;
+            background: transparent;
+          }
         }
       }
     }
@@ -345,6 +352,7 @@ $blue: #349af8;
 
             > .icon {
               font-size: 9px;
+              cursor: pointer;
             }
           }
         }

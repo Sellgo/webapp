@@ -4,18 +4,10 @@ import Rating from 'react-rating';
 import { Icon } from 'semantic-ui-react';
 import TrackSeller from '../TrackSeller';
 import { formatCompletedDate } from '../../../../utils/date';
-import { copyToClipboard } from '../../../../utils/file';
 import { formatBoolean } from '../../../../utils/format';
+import CheckMerchants from '../CheckMerchants';
+import CopyToClipboard from '../../../../components/CopyToClipboard';
 const renderProductInventory = (row: any) => {
-  let copied = false;
-  const copyText = (text: string) => {
-    copyToClipboard(text).then(() => {
-      copied = true;
-    });
-    setTimeout(() => {
-      copied = false;
-    }, 500);
-  };
   return (
     <p>
       <span className="product-inner-container">
@@ -24,12 +16,7 @@ const renderProductInventory = (row: any) => {
         </span>
         <span className="product-info">
           <span className="product-name"> {row.product_name}</span>
-          <span className="asin tooltip">
-            <span className="tooltiptext" id="myTooltip">
-              {copied ? 'Copied !' : 'Copy to clipboard'}
-            </span>
-            {row.asin} <Icon name={'copy outline'} onClick={() => copyText(row.asin)} />
-          </span>
+          <CopyToClipboard data={row.asin} className={'asin'} />
         </span>
       </span>
     </p>
@@ -75,7 +62,21 @@ const renderTrackProducts = (row: any) => {
     </div>
   );
 };
+
+const renderBuybox = (row: any) => {
+  return (
+    <div className="product-merchant-track-container">
+      <CheckMerchants data={row} />
+    </div>
+  );
+};
 const columns = [
+  {
+    label: `Buybox\n Competition`,
+    dataKey: 'buy_box',
+    className: 'buy-box',
+    render: renderBuybox,
+  },
   {
     label: `Product Inventory Information`,
     dataKey: 'product_name',
