@@ -104,7 +104,7 @@ const Payment = (props: PaymentProps) => {
           </div>
         )}
 
-        {!false && (
+        {!successPayment && isSubscriptionNotPaid(subscriptionType) && (
           <Elements stripe={stripePromise}>
             <CheckoutForm
               accountType={accountType}

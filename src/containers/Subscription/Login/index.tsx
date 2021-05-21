@@ -36,6 +36,7 @@ const Login: React.FC<Props> = props => {
     setSignupSuccess(false);
     setErrorMessage(message);
   };
+
   const redirectPath = localStorage.getItem('loginRedirectPath');
 
   useEffect(() => {
@@ -64,6 +65,8 @@ const Login: React.FC<Props> = props => {
       }
     );
   };
+
+  console.log('IsSignUp Success', isSignupSuccess);
 
   return (
     <section className={styles.loginContainer}>
@@ -102,7 +105,7 @@ const Login: React.FC<Props> = props => {
           </div>
         )}
 
-        <button className={styles.submitButton} type="submit">
+        <button className={styles.submitButton} type="submit" disabled={isError}>
           Log in
         </button>
 

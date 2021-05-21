@@ -68,6 +68,11 @@
   font-family: 'Work Sans', sans-serif;
   cursor: pointer;
   margin-top: 30px;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: unset;
+  }
 }
 
 .consent {

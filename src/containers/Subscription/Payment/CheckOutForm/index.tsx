@@ -299,7 +299,7 @@ function CheckoutForm(props: MyProps) {
               Cancel
             </button>
             <button
-              disabled={!stripe || stripeLoading}
+              disabled={!stripe || stripeLoading || cardNameError || zipCodeError}
               type="submit"
               className={styles.completeButton}
             >

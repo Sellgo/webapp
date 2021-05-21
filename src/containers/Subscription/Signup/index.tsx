@@ -239,6 +239,7 @@ const Signup = (props: Props, state: State) => {
           error={fnameError}
           className={styles.formInput}
         />
+
         <Form.Input
           size="huge"
           label="Last Name"
