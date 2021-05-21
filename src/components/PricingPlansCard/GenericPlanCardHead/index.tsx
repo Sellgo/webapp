@@ -4,45 +4,42 @@ import React from 'react';
 import styles from './index.module.scss';
 
 /* Components */
-
 import GemGenerator from '../../GemGenerator';
-import PricePlanToggleButton from '../../PricePlanToggleButton';
 
-interface Props {
-  name: string;
-  monthlyPrice: number;
-  annualPrice: number;
-  salesEstimateCount: number;
-  isMonthly: boolean;
-  desc: string;
-  withToggle?: boolean;
-  className?: string;
-  handleChange?: any;
-}
+/* Utils */
+import { isSubscriptionNotPaid, isSubscriptionPaid } from '../../../utils/subscriptions';
 
-const GenericPriceCardHead: React.FC<Props> = props => {
+const GenericPriceCardHead: React.FC<any> = props => {
   const {
     name,
     isMonthly,
     monthlyPrice,
     annualPrice,
     desc,
-    withToggle,
-    className,
-    handleChange,
+    subscribedSubscription,
+    subscriptionType,
+    subscriptionId,
+    promptCancelSubscription,
+    changePlan,
+    sellerSubscription,
   } = props;
 
+  const isSubscribed =
+    subscribedSubscription &&
+    subscribedSubscription.id === subscriptionId &&
+    (isMonthly
+      ? sellerSubscription.payment_mode === 'monthly'
+      : sellerSubscription.payment_mode === 'yearly');
+
   return (
-    <div className={className}>
+    <div>
       <div className={styles.pricingCardHead}>
         <div className={styles.pricingCardHead__Left}>
-          {!withToggle && (
-            <div className={styles.planGems}>
-              <GemGenerator name={name} />
-            </div>
-          )}
+          <div className={styles.planGems}>
+            <GemGenerator name={name} />
+          </div>
           <h2>{name}</h2>
-          {!withToggle && <p>{desc}</p>}
+          <p>{desc}</p>
         </div>
       </div>
 
@@ -62,13 +59,32 @@ const GenericPriceCardHead: React.FC<Props> = props => {
         )}
       </div>
 
-      {withToggle && (
-        <div className={styles.toggleWrapper}>
-          <PricePlanToggleButton isMonthly={isMonthly} handleChange={handleChange} />
-        </div>
+      {isSubscribed && (
+        <button
+          className={`${styles.button} ${styles.button__cancelPlan}`}
+          onClick={promptCancelSubscription}
+        >
+          Cancel
+        </button>
       )}
 
-      <button className={`${styles.button} ${styles.button__changePlan}`}>Buy Now</button>
+      {!isSubscribed && isSubscriptionPaid(subscriptionType) && (
+        <button
+          className={`${styles.button} ${styles.button__changePlan}`}
+          onClick={() => changePlan({ name, id: subscriptionId }, isMonthly ? 'monthly' : 'yearly')}
+        >
+          Change Plan
+        </button>
+      )}
+
+      {!isSubscribed && isSubscriptionNotPaid(subscriptionType) && (
+        <button
+          className={`${styles.button} ${styles.button__buyPlan}`}
+          onClick={() => changePlan({ name, id: subscriptionId }, isMonthly ? 'monthly' : 'yearly')}
+        >
+          Buy this now
+        </button>
+      )}
     </div>
   );
 };

@@ -3,14 +3,14 @@ export const plansAndProductsDetails = {
   summary: 'Try Our Premium Tools and Access Real-Data for $1!',
   infoAlertMessage: {
     monthly: {
-      head: `Start selling on Amazon today with Sellgo's free tools Monthly`,
+      head: `Start selling on Amazon today with Sellgo's free tools.`,
       desc: `Want to try our advanced Amazon tools? Review our FBA tools and pricing packages.
 			Our premium tools empower you to track and research more products to optimize your Amazon business.`,
       navigateTo: '/',
       navigateLabel: 'Learn More',
     },
     yearly: {
-      head: `Start selling on Amazon today with Sellgo's free tools`,
+      head: `Start selling on Amazon today with Sellgo's free tools.`,
       desc: `Want to try our advanced Amazon tools? Review our FBA tools and pricing packages.
 			Our premium tools empower you to track and research more products to optimize your Amazon business.`,
       navigateTo: '/',
@@ -20,7 +20,7 @@ export const plansAndProductsDetails = {
   productsIncluded: [
     {
       name: 'Starter',
-      productsDatabase: 0,
+      subscriptionId: 6,
       salesEstimateCount: 1000,
       monthlyPrice: 49,
       annualPrice: 348,
@@ -43,7 +43,7 @@ export const plansAndProductsDetails = {
     },
     {
       name: 'Suite',
-      productsDatabase: 0,
+      subscriptionId: 1,
       salesEstimateCount: 1500,
       monthlyPrice: 69,
       annualPrice: 588,
@@ -74,7 +74,7 @@ export const plansAndProductsDetails = {
     },
     {
       name: 'Professional',
-      productsDatabase: 0,
+      subscriptionId: 2,
       salesEstimateCount: 2500,
       monthlyPrice: 129,
       annualPrice: 996,

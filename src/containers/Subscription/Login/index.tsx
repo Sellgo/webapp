@@ -105,7 +105,7 @@ const Login: React.FC<Props> = props => {
           </div>
         )}
 
-        <button className={styles.submitButton} type="submit" disabled={isError}>
+        <button className={styles.submitButton} type="submit">
           Log in
         </button>
 

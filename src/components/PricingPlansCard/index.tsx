@@ -5,49 +5,72 @@ import { v4 as uuid } from 'uuid';
 import styles from './index.module.scss';
 
 /* Components */
-import PricingPlansCardHead from './PricingPlansCardHead';
 import PricingPlansCardFeaturesList from './PricingPlansCardFeaturesList';
+import GenericPriceCardHead from './GenericPlanCardHead';
 
 interface Props {
   name: string;
-  productsDatabase: number;
   salesEstimateCount: number;
   annualPrice: number;
   featuresLists: any;
   featureSubName: string;
-  planName: string;
   isMonthly: boolean;
   monthlyPrice: number;
   desc: string;
+  subscriptionId: number;
+  sellerSubscription: any;
+  subscribedSubscription: any;
+  subscriptionType: string;
+  promptCancelSubscription: () => void;
+  changePlan: (details: any) => void;
 }
 
 const PricingPlansCard: React.FC<Props> = props => {
   const {
     name,
-    productsDatabase,
+    subscriptionId,
     annualPrice,
     featuresLists,
     featureSubName,
-    planName,
     salesEstimateCount,
     isMonthly,
     monthlyPrice,
-
     desc,
+    subscribedSubscription,
+    sellerSubscription,
+    subscriptionType,
+    promptCancelSubscription,
+    changePlan,
   } = props;
 
+  const activeSubscriptionId = subscribedSubscription && subscribedSubscription.id;
+
+  const isMainCard =
+    activeSubscriptionId === subscriptionId &&
+    (isMonthly
+      ? sellerSubscription.payment_mode === 'monthly'
+      : sellerSubscription.payment_mode === 'yearly');
+
   return (
-    <div className={styles.pricingPlansCardWrapper}>
+    <div
+      className={`${styles.pricingPlansCardWrapper} ${
+        isMainCard ? styles.pricingPlansCardWrapper__main : ''
+      }`}
+    >
       <div className={styles.pricingPlansCard}>
-        <PricingPlansCardHead
+        <GenericPriceCardHead
           name={name}
-          productsDatabase={productsDatabase}
+          monthlyPrice={monthlyPrice}
           annualPrice={annualPrice}
-          planName={planName}
           salesEstimateCount={salesEstimateCount}
           isMonthly={isMonthly}
-          monthlyPrice={monthlyPrice}
           desc={desc}
+          subscribedSubscription={subscribedSubscription}
+          subscriptionId={subscriptionId}
+          subscriptionType={subscriptionType}
+          promptCancelSubscription={promptCancelSubscription}
+          changePlan={changePlan}
+          sellerSubscription={sellerSubscription}
         />
 
         <p className={styles.planType}>{featureSubName}</p>

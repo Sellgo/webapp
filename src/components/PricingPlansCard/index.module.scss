@@ -7,6 +7,10 @@
   min-width: 380px;
   min-height: 830px;
   border: 1px solid $second_silver;
+
+  &__main {
+    background: #f2efe4;
+  }
 }
 
 .pricingPlansCard {
