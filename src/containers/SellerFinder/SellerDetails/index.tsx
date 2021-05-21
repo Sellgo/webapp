@@ -63,12 +63,16 @@ const SellerDetails = (props: SellerDetailsProps) => {
     onProductsExport,
     activeProductIndex,
   } = props;
+  const noInventory = showNAIfZeroOrNull(details.inventory_count, details.inventory_count) === '-';
   const [treeData, setTreeData] = React.useState([
     {
       title: () => (
         <>
-          <div className="export-container">
-            <p className="export-products" onClick={onProductsExport}>
+          <div className={`export-container`}>
+            <p
+              className={`export-products ${noInventory ? 'export-products-disabled' : ''}`}
+              onClick={!noInventory ? onProductsExport : undefined}
+            >
               <Icon name="download" /> {'Export Products'}
             </p>
           </div>
@@ -116,7 +120,7 @@ const SellerDetails = (props: SellerDetailsProps) => {
         }}
         onChange={(data: any) => setTreeData(data)}
         rowHeight={({ treeIndex, node }) => {
-          const add = activeProductIndex > -1 ? 500 : 350;
+          const add = activeProductIndex > -1 ? 550 : 400;
           if (node.expanded) {
             let newHeight = sellerProducts.length ? 60 * sellerProducts.length + add : 450;
             if (sellerProducts.length > 10) {

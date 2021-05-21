@@ -75,13 +75,15 @@ const SellerInformation = (props: SellerInformationProps) => {
     setTimeout(() => setCopied(false), 500);
   };
 
+  const noInventory = showNAIfZeroOrNull(details.inventory_count, details.inventory_count) === '-';
+
   return (
     <div className="seller-information">
       <div className="action-button-container">
         <div className="action-buttons">
           <Button
             basic
-            className="check-inventory"
+            className={`check-inventory ${noInventory ? 'check-inventory-disabled' : ''}`}
             onClick={() =>
               props.onCheckInventory({
                 payload: JSON.stringify({ merchant_ids: `${details.merchant_id}` }),
@@ -95,6 +97,7 @@ const SellerInformation = (props: SellerInformationProps) => {
           <Icon
             name={'refresh'}
             color={'grey'}
+            disabled={noInventory}
             loading={
               loadingInventory &&
               loadingInventory.status === SEARCH_STATUS.PENDING &&

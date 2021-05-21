@@ -258,6 +258,12 @@ $darkgary: #dfe8f329;
         border: none;
       }
 
+      .disabled-control {
+        color: #e6e6e6 !important;
+        border-color: #e6e6e6 !important;
+        cursor: auto;
+      }
+
       .export-container {
         display: flex;
         align-items: center;
@@ -275,6 +281,11 @@ $darkgary: #dfe8f329;
           .icon {
             font-size: 12px;
           }
+        }
+
+        .export-products-disabled {
+          color: #e6e6e6;
+          cursor: auto;
         }
       }
 
@@ -319,6 +330,12 @@ $darkgary: #dfe8f329;
               color: $blue !important;
               display: flex;
               align-items: center;
+            }
+
+            .check-inventory-disabled {
+              color: #e6e6e6 !important;
+              border: 0.5px solid #e6e6e6 !important;
+              pointer-events: none !important;
             }
           }
 
