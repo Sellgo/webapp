@@ -9,12 +9,23 @@ import { plansAndProductsDetails } from './data/index';
 import { monthlyAndAnnualPlans } from './data/tableData';
 
 /* Components */
+import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
+import PageHeader from '../../../components/PageHeader';
 import PricePlanToggleButton from '../../../components/PricePlanToggleButton';
 import PricingInfoAlert from '../../../components/PricingInfoAlert';
 import PricingPlansCard from '../../../components/PricingPlansCard';
 import AllFeaturesTable from '../../../components/AllFeaturesTable';
 
-const Subscription: React.FC<{}> = () => {
+/* Asssets */
+import Setcard from '../../../assets/images/4_Card_color_horizontal.svg';
+import Stripe from '../../../assets/images/powered_by_stripe.svg';
+
+interface Props {
+  match: any;
+}
+const Subscription: React.FC<Props> = props => {
+  const { match } = props;
+
   const [isMonthly, setIsMonthly] = useState(false);
 
   const infoAlertDetails = isMonthly
@@ -23,6 +34,18 @@ const Subscription: React.FC<{}> = () => {
 
   return (
     <>
+      <SubscriptionMessage page={'subscription'} />
+
+      <PageHeader
+        title={'Pricing Plans'}
+        breadcrumb={[
+          { content: 'Home', to: '/' },
+          { content: 'Settings', to: '/settings' },
+          { content: 'Pricing' },
+        ]}
+        auth={match.params.auth}
+      />
+
       <main className={styles.subscriptionPage}>
         <section className={styles.subscriptionPageWrapper}>
           <div className={styles.planName}>
@@ -59,6 +82,16 @@ const Subscription: React.FC<{}> = () => {
             {monthlyAndAnnualPlans.map((feature: any) => {
               return <AllFeaturesTable key={uuid()} header={feature.header} body={feature.body} />;
             })}
+          </section>
+
+          <section className={styles.paymentMeta}>
+            <div className={styles.paymentMeta__images}>
+              <img src={Setcard} alt="Different card payment options" />
+              <img src={Stripe} alt="Protected by stripe logo" />
+            </div>
+            <div className={styles.paymentMeta__text}>
+              <p>We offer 7-day money back guarantee.</p>
+            </div>
           </section>
         </section>
       </main>
