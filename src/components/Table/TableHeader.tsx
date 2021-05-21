@@ -116,8 +116,10 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
 
   otherProps = {
     onClick:
-      sortable && type && !['leads-tracker', 'products', 'trackerTable'].includes(type)
+      sortable && type && !['leads-tracker', 'products'].includes(type)
         ? (e: any) => {
+            e.preventDefault();
+            e.stopPropagation();
             setSort(e, dataKey || '');
             setSortColumn(sortDirection);
             setActiveColumn(dataKey);
@@ -137,6 +139,8 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     onClick:
       type && ['leads-tracker', 'products', 'trackerTable'].includes(type) && sortable
         ? (e: any) => {
+            e.preventDefault();
+            e.stopPropagation();
             setSort(e, dataKey || '');
             setSortColumn(sortDirection);
             setActiveColumn(dataKey);
@@ -184,9 +188,11 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
       trigger={
         <Icon
           className={`filter ${isFilterActive() ? 'column-filter-ic-active' : 'column-filter-ic'} `}
-          onClick={() =>
-            toggleColumnFilters ? toggleColumnFilters(columnDataKey, filterType) : undefined
-          }
+          onClick={(e: any) => {
+            e.preventDefault();
+            e.stopPropagation();
+            return toggleColumnFilters ? toggleColumnFilters(columnDataKey, filterType) : undefined;
+          }}
         />
       }
       content={

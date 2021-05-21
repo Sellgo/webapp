@@ -424,7 +424,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
 
     return (
       <Segment basic={true}>
-        {!suppliers.length && <PageLoader isSearchManagement />}
+        {!suppliers && <PageLoader isSearchManagement />}
         <div className="suppliers-table">
           <Grid columns={2} style={{ alignItems: 'center' }} className={'ipad-wdth100'}>
             <Grid.Column floated="left" className={'wdt100 ipad-wdth100'}>

@@ -754,9 +754,7 @@ export const saveSupplierDetails = (details: any) => (dispatch: any) => {
         resolve(json.data);
       })
       .catch(err => {
-        for (const er in err.response.data) {
-          error(err.response.data[er].length ? err.response.data[er][0] : err.response.data[er]);
-        }
+        error(err.response.data.message);
       });
   });
 };
