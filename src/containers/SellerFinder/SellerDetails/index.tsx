@@ -120,7 +120,7 @@ const SellerDetails = (props: SellerDetailsProps) => {
         }}
         onChange={(data: any) => setTreeData(data)}
         rowHeight={({ treeIndex, node }) => {
-          const add = activeProductIndex > -1 ? 500 : 350;
+          const add = activeProductIndex > -1 ? 550 : 400;
           if (node.expanded) {
             let newHeight = sellerProducts.length ? 60 * sellerProducts.length + add : 450;
             if (sellerProducts.length > 10) {
