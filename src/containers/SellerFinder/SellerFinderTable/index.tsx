@@ -654,13 +654,14 @@ const SellerFinderTable = (props: Props) => {
       />
       <span className="name">{row.merchant_name}</span>
       <span className="seller-id">
-        {row.merchant_id}
+        <span className="merchant-id">{row.merchant_id}</span>
         <span className="tooltip">
           <span className="tooltiptext" id="myTooltip">
             {copied ? 'Copied !' : 'Copy to clipboard'}
           </span>
           <Icon name={'copy outline'} onClick={() => copyText(row.merchant_id)} />
         </span>
+        <Icon name={'external'} onClick={() => window.open(row.inventory_link, '_blank')} />
       </span>
     </p>
   );
