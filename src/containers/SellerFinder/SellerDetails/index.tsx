@@ -63,12 +63,16 @@ const SellerDetails = (props: SellerDetailsProps) => {
     onProductsExport,
     activeProductIndex,
   } = props;
+  const noInventory = showNAIfZeroOrNull(details.inventory_count, details.inventory_count) === '-';
   const [treeData, setTreeData] = React.useState([
     {
       title: () => (
         <>
-          <div className="export-container">
-            <p className="export-products" onClick={onProductsExport}>
+          <div className={`export-container`}>
+            <p
+              className={`export-products ${noInventory ? 'export-products-disabled' : ''}`}
+              onClick={!noInventory ? onProductsExport : undefined}
+            >
               <Icon name="download" /> {'Export Products'}
             </p>
           </div>

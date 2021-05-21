@@ -158,7 +158,7 @@ const SellerFinderTable = (props: Props) => {
     reconnectExportProductsSocket,
   } = props;
 
-  const [expandedRow, setExpandedRow] = useState(null);
+  const [expandedRow, setExpandedRow] = useState<any>(null);
   const [searchMessage, setSearchMessage] = useState('');
   const [exportType, setExportType] = useState('');
 
@@ -228,7 +228,7 @@ const SellerFinderTable = (props: Props) => {
   const [exportMerchantID, setExportMerchantID] = useState(0);
 
   const expandRow = (row: any) => {
-    setExpandedRow(expandedRow ? null : row.id);
+    setExpandedRow(expandedRow && expandedRow === row.id ? null : row.id);
     setActiveMerchant(row);
   };
 
@@ -649,6 +649,14 @@ const SellerFinderTable = (props: Props) => {
         onClick={() => {
           expandRow(row);
           setActiveProductIndex(-1);
+          setTimeout(() => {
+            const sellerCard = document.querySelector(
+              '.seller-finder-table .ui.table .seller-card'
+            );
+            if (sellerCard) {
+              sellerCard.classList.add('seller-card-active');
+            }
+          }, 50);
         }}
         alt={'expand icon'}
       />

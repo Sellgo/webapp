@@ -81,6 +81,7 @@ const SellerInformation = (props: SellerInformationProps) => {
         <div className="action-buttons">
           <Button
             basic
+            disabled={showNAIfZeroOrNull(details.inventory_count, details.inventory_count) === '-'}
             className="check-inventory"
             onClick={() =>
               props.onCheckInventory({
