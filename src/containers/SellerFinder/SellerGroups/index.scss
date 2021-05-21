@@ -1,3 +1,5 @@
+@import '../../../design-system/colors';
+
 .create-group-modal {
   .header {
     border-bottom: none !important;
@@ -25,62 +27,40 @@
   }
 }
 
-.menu-bar {
-  .menu-bar-inner {
-    &::-webkit-scrollbar {
-      height: 4px;
-    }
-
-    @media screen and (min-width: 768px) {
-      overflow-x: auto;
-      overflow-y: hidden;
-    }
-  }
-
-  @media screen and (min-width: 1024px) {
-    width: 60%;
-  }
-
-  .ui.secondary.pointing.menu .item {
-    @media screen and (min-width: 1025px) {
-      border-radius: 4px 4px 0 0;
-    }
-
-    h4 {
-      font-family: 'Work sans', sans-serif !important;
-      color: #000 !important;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 24px;
-    }
-  }
-
-  .ui.blue.menu .active.item,
-  .ui.menu .blue.active.item {
-    border-color: #707070 !important;
-  }
-
+.sf-menu-bar {
   .ui.secondary.pointing.menu {
-    border-bottom: 1px solid #707070;
-  }
+    border: none !important;
+    width: max-content;
+    overflow-x: auto;
 
-  .ui.secondary.pointing.menu .active.item {
-    background-color: #fff;
-    border: 1px solid;
-    border-bottom: none;
-    padding-bottom: 10px !important;
-    margin-bottom: 0;
-
-    @media screen and (min-width: 1025px) {
-      border-radius: 4px 4px 0 0;
-    }
-
-    h4 {
-      font-family: 'Work sans', sans-serif !important;
-      color: #000 !important;
+    h4.ui.header {
+      font-family: 'Work Sans', sans-serif !important;
+      color: $text-color !important;
       font-size: 14px;
       font-weight: 600;
       line-height: 24px;
+    }
+
+    .item {
+      border-bottom: 1px solid #707070 !important;
+      margin-bottom: 0 !important;
+    }
+
+    .active.item {
+      background-color: #fff;
+      border: 1px solid;
+      border-bottom: none !important;
+      padding-bottom: 10px !important;
+      margin-bottom: 0;
+      border-color: #707070 !important;
+
+      @media screen and (min-width: 1025px) {
+        border-radius: 4px 4px 0 0;
+      }
+
+      h4.ui.header {
+        color: $text-color !important;
+      }
     }
   }
 }

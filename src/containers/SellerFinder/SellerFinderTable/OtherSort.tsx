@@ -2,6 +2,8 @@ import React from 'react';
 import { Icon, Popup, Confirm, Menu, Divider, Header, Segment } from 'semantic-ui-react';
 import { clamp } from 'lodash';
 import Folder from '../../../assets/images/folder-plus.svg';
+import FolderDisabled from '../../../assets/images/folder-plus-disabled.svg';
+
 import './index.scss';
 import { openLink } from '../../../utils/format';
 
@@ -50,7 +52,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           open={trackGroupsOpen}
           trigger={
             <img
-              src={Folder}
+              src={group && !group.length ? FolderDisabled : Folder}
               title={group && !group.length ? 'No Groups Available' : 'Move to a Different Group'}
               style={{
                 cursor: group && !group.length ? 'default' : 'pointer',

@@ -6,6 +6,8 @@ import './index.scss';
 import SellerInformation from './SellerInformation';
 import InnerTree from './InnerTree';
 import {
+  activeProductIndex,
+  activeProductSellerStatus,
   activeSellerIndex,
   loadingSellerProducts,
   sellerProducts,
@@ -42,6 +44,8 @@ interface SellerDetailsProps {
   activeSellerIndex: number;
   setActiveProductIndex: (index: number) => void;
   onProductsExport: () => void;
+  activeProductSellerStatus?: any;
+  activeProductIndex: number;
 }
 
 const SellerDetails = (props: SellerDetailsProps) => {
@@ -57,6 +61,7 @@ const SellerDetails = (props: SellerDetailsProps) => {
     activeSellerIndex,
     setActiveProductIndex,
     onProductsExport,
+    activeProductIndex,
   } = props;
   const [treeData, setTreeData] = React.useState([
     {
@@ -111,7 +116,7 @@ const SellerDetails = (props: SellerDetailsProps) => {
         }}
         onChange={(data: any) => setTreeData(data)}
         rowHeight={({ treeIndex, node }) => {
-          const add = 350;
+          const add = activeProductIndex > -1 ? 500 : 350;
           if (node.expanded) {
             let newHeight = sellerProducts.length ? 60 * sellerProducts.length + add : 450;
             if (sellerProducts.length > 10) {
@@ -132,6 +137,8 @@ const mapStateToProps = (state: {}) => ({
   productsPageNo: sellerProductsPageNo(state),
   productsPageSize: sellerProductsPageSize(state),
   activeSellerIndex: activeSellerIndex(state),
+  activeProductSellerStatus: activeProductSellerStatus(state),
+  activeProductIndex: activeProductIndex(state),
 });
 
 const mapDispatchToProps = {
