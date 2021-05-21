@@ -149,7 +149,7 @@ const SellerInformation = (props: SellerInformationProps) => {
           </span>
         </p>
         <p className={'seller-product-label label-flex'}>
-          Brands:<span className="seller-product-value">{` ${details.brands}`}</span>
+          Brands: <span className="seller-product-value">{` ${details.brands}`}</span>
           {formatString(details.brands) !== '-' && (
             <span className="tooltip">
               <span className="tooltiptext" id="myTooltip">

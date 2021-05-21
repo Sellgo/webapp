@@ -63,7 +63,7 @@ export const updateProductHeight = (height: number, hidden: boolean, activeNodeI
   if (products) {
     const element = products.children.item(activeNodeIndex + 1);
     if (element) {
-      element.setAttribute('style', `height: ${height}px !important`);
+      element.setAttribute('style', `height: ${height}px !important;`);
       const verticalLine = element.querySelector('.rst__lineHalfVerticalTop');
       if (verticalLine) {
         if (hidden) {
@@ -145,7 +145,7 @@ const InnerTree = ({
     if (tree && tree.hasChildNodes()) {
       const element = tree.children.item(index + 1);
       if (element) {
-        element.setAttribute('style', `height:${height}px !important`);
+        element.setAttribute('style', `height:${height}px !important;`);
       }
     }
   };

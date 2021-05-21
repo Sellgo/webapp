@@ -1,0 +1,94 @@
+$blue: #349af8;
+$green: #5dc560;
+$lightgray: #98aeca;
+
+.inner-container {
+  font-weight: 500 !important;
+  line-height: 0;
+}
+
+.tracking {
+  @extend .inner-container;
+
+  border: 0.5px solid $green !important;
+  color: $green !important;
+
+  .icon {
+    font-size: 10px !important;
+    line-height: 1;
+    color: $green !important;
+  }
+}
+
+.not-tracking {
+  @extend .inner-container;
+
+  .icon {
+    font-size: 10px !important;
+    line-height: 1;
+    color: $blue !important;
+  }
+}
+
+.track-btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 999;
+
+  .refresh {
+    font-size: 14px !important;
+    cursor: pointer;
+  }
+
+  > span {
+    margin: unset !important;
+    padding: 0 10px;
+  }
+
+  .tracking-label {
+    @extend .inner-container;
+
+    padding-left: 10px;
+    margin: unset !important;
+  }
+}
+
+.reload-merchant {
+  width: 125px;
+  height: 25px;
+  border: 0.5px solid $blue !important;
+  border-radius: 100px !important;
+  box-shadow: unset !important;
+  cursor: pointer;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 10px !important;
+  color: $blue !important;
+  background: white !important;
+
+  > span {
+    margin: unset !important;
+
+    > i {
+      font-size: 12px;
+    }
+  }
+
+  .tracking-label {
+    @extend .inner-container;
+
+    padding-left: 10px;
+    margin: unset !important;
+  }
+}
+
+.seller-progress {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  .ui.progress {
+    width: 100%;
+  }
+}

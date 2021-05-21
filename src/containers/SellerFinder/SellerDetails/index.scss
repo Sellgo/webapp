@@ -27,7 +27,7 @@ $darkgary: #dfe8f329;
 }
 
 .seller-details {
-  min-height: 255px;
+  min-height: 270px;
 
   .text-center {
     text-align: center;
@@ -89,6 +89,7 @@ $darkgary: #dfe8f329;
 
         .rst__node {
           height: 50px !important;
+
           //top: 20px;
           > .rst__lineBlock:nth-child(1) {
             width: 44px !important;
@@ -193,7 +194,8 @@ $darkgary: #dfe8f329;
     > .rst__node:nth-child(2) {
       height: 275px !important;
       left: -54px;
-      top: 30px;
+      top: 60px;
+      z-index: 0;
 
       > .rst__nodeContent {
         position: relative !important;
@@ -250,6 +252,7 @@ $darkgary: #dfe8f329;
       margin-left: 30px;
       width: 97.3%;
       z-index: 9999;
+      height: 100px;
 
       .rowContents {
         border: none;
@@ -260,7 +263,7 @@ $darkgary: #dfe8f329;
         align-items: center;
         justify-content: flex-end;
         padding: 10px 0;
-        margin-top: 40px;
+        //margin-top: 40px;
         margin-left: 20px;
         width: 100%;
 
@@ -396,6 +399,7 @@ $darkgary: #dfe8f329;
               white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;
+              font-weight: 400;
             }
 
             .value {
@@ -405,6 +409,8 @@ $darkgary: #dfe8f329;
             .icon {
               font-size: 14px;
               cursor: pointer;
+              position: absolute;
+              z-index: 9;
             }
           }
 

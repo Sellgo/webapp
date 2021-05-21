@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.scss';
-import { Button, Icon, Progress } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 import {
   activeProductSellerStatus,
   productSellerTrackStatus,
@@ -12,7 +12,6 @@ import {
   trackProductSeller,
 } from '../../../../actions/SellerFinder';
 import { connect } from 'react-redux';
-import { SEARCH_STATUS } from '../../../../constants/SellerFinder';
 interface Props {
   type?: string;
   activeProductSellerStatus?: any;
@@ -60,44 +59,7 @@ const TrackSeller = (props: Props) => {
           </span>
           <span className="tracking-label">{status === 'active' ? `Tracking` : 'Track'}</span>
         </Button>
-        {props.type === 'product' && (
-          <Button
-            className={`reload-product`}
-            onClick={() =>
-              props.setActiveProduct ? props.setActiveProduct(props.data) : undefined
-            }
-          >
-            <Icon
-              name="refresh"
-              loading={
-                props.activeProductSellerStatus.status === SEARCH_STATUS.PENDING &&
-                props.activeProductSellerStatus.asin === props.data.asin
-              }
-            />
-
-            <span className="tracking-label">Merchants</span>
-          </Button>
-        )}
       </div>
-      {![SEARCH_STATUS.SUCCESS, SEARCH_STATUS.DONE].includes(
-        props.activeProductSellerStatus.status
-      ) &&
-        type === 'product' &&
-        props.activeProductSellerStatus.asin === props.data.asin && (
-          <div className="product-seller-progress">
-            <Progress
-              percent={
-                props.activeProductSellerStatus.error_status
-                  ? 100
-                  : props.activeProductSellerStatus.progress
-              }
-              size="tiny"
-              success={!props.activeProductSellerStatus.error_status}
-              error={props.activeProductSellerStatus.error_status}
-              active={props.activeProductSellerStatus.progress !== 100}
-            />
-          </div>
-        )}
     </>
   );
 };
