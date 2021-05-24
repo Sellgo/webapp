@@ -1,16 +1,14 @@
 export interface SummaryDetails {
   name: string;
-  yearlyPrice: number;
-  monthlyPrice: number;
   subDescription: string;
   benefits: string[];
+  id: number;
 }
 
-export const subscriptionDetails: any = {
+export const subscriptionDetails: { [key: string]: SummaryDetails } = {
   starter: {
     name: 'Starter',
-    yearlyPrice: 348,
-    monthlyPrice: 49,
+    id: 6,
     subDescription: '14-Days Money Back Guarantee',
     benefits: [
       'Manage your supplier files in Supplier Management',
@@ -21,8 +19,7 @@ export const subscriptionDetails: any = {
   },
   suite: {
     name: 'Suite',
-    yearlyPrice: 588,
-    monthlyPrice: 69,
+    id: 1,
     subDescription: '14-Days Money Back Guarantee',
     benefits: [
       'Manage your supplier files in Supplier Management',
@@ -33,8 +30,7 @@ export const subscriptionDetails: any = {
   },
   professional: {
     name: 'Professional',
-    yearlyPrice: 996,
-    monthlyPrice: 129,
+    id: 2,
     subDescription: '14-Days Money Back Guarantee',
     benefits: [
       'Manage your supplier files in Supplier Management',

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -16,12 +17,20 @@ import Auth from '../../components/Auth/Auth';
 /* Assets */
 import newSellgoLogo from '../../assets/images/sellgoNewLogo.png';
 
+/* Actions */
+import { fetchSubscriptions } from '../../actions/Settings/Subscription';
+
+/* Types */
+import { Subscription } from '../../interfaces/Seller';
+
 interface Props {
   auth: Auth;
+  subscriptions: Subscription[];
+  fetchSubscriptions: () => void;
 }
 
-const Subscription: React.FC<Props> = props => {
-  const { auth } = props;
+const SubscriptionPage: React.FC<Props> = props => {
+  const { auth, subscriptions, fetchSubscriptions } = props;
 
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [isSignup, setIsSignup] = useState<boolean>(true);
@@ -40,6 +49,7 @@ const Subscription: React.FC<Props> = props => {
   };
 
   useEffect(() => {
+    fetchSubscriptions();
     if (localStorage.getItem('isLoggedIn') === 'true') {
       setLogin();
       localStorage.setItem('isLoggedIn', 'false');
@@ -75,7 +85,7 @@ const Subscription: React.FC<Props> = props => {
         </div>
 
         <section className={styles.contentSection}>
-          <Summary planType={accountType} paymentMode={paymentMode} />
+          <Summary planType={accountType} paymentMode={paymentMode} subscriptions={subscriptions} />
           {isLogin && <Login auth={auth} setSignup={setSignUp} />}
           {isSignup && <Signup auth={auth} setLogin={setLogin} />}
         </section>
@@ -84,4 +94,11 @@ const Subscription: React.FC<Props> = props => {
   );
 };
 
-export default Subscription;
+const mapStateToProps = (state: any) => ({
+  subscriptions: state.subscription.subscriptions,
+});
+
+const mapDispatchToProps = {
+  fetchSubscriptions: () => fetchSubscriptions(),
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SubscriptionPage);
