@@ -9,33 +9,29 @@ import PricingPlansCardFeaturesList from './PricingPlansCardFeaturesList';
 import GenericPriceCardHead from './GenericPlanCardHead';
 
 interface Props {
-  name: string;
-  salesEstimateCount: number;
-  annualPrice: number;
-  featuresLists: any;
-  featureSubName: string;
-  isMonthly: boolean;
-  monthlyPrice: number;
-  desc: string;
   subscriptionId: number;
+  name: string;
+  desc: string;
+  featureSubName: string;
+  featuresLists: any;
+  isMonthly: boolean;
+  subscriptions?: any;
   sellerSubscription: any;
   subscribedSubscription: any;
   subscriptionType: string;
   promptCancelSubscription: () => void;
-  changePlan: (details: any) => void;
+  changePlan: (details: any, mode: string) => void;
 }
 
 const PricingPlansCard: React.FC<Props> = props => {
   const {
     name,
     subscriptionId,
-    annualPrice,
     featuresLists,
     featureSubName,
-    salesEstimateCount,
     isMonthly,
-    monthlyPrice,
     desc,
+    subscriptions,
     subscribedSubscription,
     sellerSubscription,
     subscriptionType,
@@ -59,14 +55,12 @@ const PricingPlansCard: React.FC<Props> = props => {
     >
       <div className={styles.pricingPlansCard}>
         <GenericPriceCardHead
-          name={name}
-          monthlyPrice={monthlyPrice}
-          annualPrice={annualPrice}
-          salesEstimateCount={salesEstimateCount}
-          isMonthly={isMonthly}
-          desc={desc}
-          subscribedSubscription={subscribedSubscription}
           subscriptionId={subscriptionId}
+          name={name}
+          desc={desc}
+          isMonthly={isMonthly}
+          subscriptions={subscriptions}
+          subscribedSubscription={subscribedSubscription}
           subscriptionType={subscriptionType}
           promptCancelSubscription={promptCancelSubscription}
           changePlan={changePlan}

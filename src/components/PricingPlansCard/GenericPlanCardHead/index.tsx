@@ -9,13 +9,12 @@ import GemGenerator from '../../GemGenerator';
 /* Utils */
 import { isSubscriptionNotPaid, isSubscriptionPaid } from '../../../utils/subscriptions';
 
-const GenericPriceCardHead: React.FC<any> = props => {
+const GenericPriceCardHead = (props: any) => {
   const {
     name,
     isMonthly,
-    monthlyPrice,
-    annualPrice,
     desc,
+    subscriptions,
     subscribedSubscription,
     subscriptionType,
     subscriptionId,
@@ -30,6 +29,13 @@ const GenericPriceCardHead: React.FC<any> = props => {
     (isMonthly
       ? sellerSubscription.payment_mode === 'monthly'
       : sellerSubscription.payment_mode === 'yearly');
+
+  const getSubscriptionDetails = subscriptions.filter((subscription: any) => {
+    return Number(subscription.id) === Number(subscriptionId);
+  })[0];
+
+  const monthlyPrice = Math.round(getSubscriptionDetails && getSubscriptionDetails.monthly_price);
+  const annualPrice = Math.round(getSubscriptionDetails && getSubscriptionDetails.yearly_price);
 
   return (
     <div>

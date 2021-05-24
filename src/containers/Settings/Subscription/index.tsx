@@ -42,7 +42,7 @@ import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
 
 /* Data */
 import { plansAndProductsDetails } from './data/index';
-import { monthlyAndAnnualPlans } from './data/tableData';
+import { generateHybridTable } from './data/tableData';
 
 /* Types */
 import { Subscription } from '../../../interfaces/Seller';
@@ -224,9 +224,28 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       : plansAndProductsDetails.infoAlertMessage.yearly;
 
     // Find the subscribed subscription
-    const subscribedSubscription = sellerSubscription
+    const subscribedSubscription = subscriptions
       ? subscriptions.filter(e => e.id === sellerSubscription.subscription_id)[0]
       : undefined;
+
+    const nonEnterprisePlans = subscriptions && subscriptions.filter((plan: any) => plan.id !== 3);
+
+    const getComparisionStats =
+      nonEnterprisePlans &&
+      nonEnterprisePlans.reduce((acc: any, plan: any) => {
+        return {
+          ...acc,
+          [plan.name.toLocaleLowerCase()]: {
+            productTracker: plan.track_limit,
+            salesEstimateLimit: plan.sales_estimation_limit,
+            profitFinder: plan.synthesis_limit,
+            leadsTracker: plan.leads_track_limit,
+            trackHistory: Math.round(plan.track_history_limit / 30),
+          },
+        };
+      }, {});
+
+    const comparisionTableData = generateHybridTable(getComparisionStats);
 
     return (
       <>
@@ -302,20 +321,25 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 return (
                   <PricingPlansCard
                     key={uuid()}
-                    {...product}
+                    subscriptionId={product.subscriptionId}
+                    name={product.name}
+                    desc={product.desc}
+                    featureSubName={product.featureSubName}
+                    featuresLists={product.featuresLists}
                     isMonthly={isMonthly}
                     subscribedSubscription={subscribedSubscription}
                     subscriptionType={subscriptionType}
                     promptCancelSubscription={this.promptCancelSubscriptionPlan.bind(this)}
                     changePlan={(subscriptionDetails: any) => this.getNewPlan(subscriptionDetails)}
                     sellerSubscription={sellerSubscription}
+                    subscriptions={subscriptions}
                   />
                 );
               })}
             </section>
 
             <section className={styles.allFeaturesSection}>
-              {monthlyAndAnnualPlans.map((feature: any) => {
+              {comparisionTableData.map((feature: any) => {
                 return (
                   <AllFeaturesTable key={uuid()} header={feature.header} body={feature.body} />
                 );

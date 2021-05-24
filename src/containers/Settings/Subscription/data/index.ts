@@ -19,11 +19,8 @@ export const plansAndProductsDetails = {
   },
   productsIncluded: [
     {
-      name: 'Starter',
       subscriptionId: 6,
-      salesEstimateCount: 1000,
-      monthlyPrice: 49,
-      annualPrice: 348,
+      name: 'Starter',
       desc: `The toolbox for beginner sellers. \n Get access to our tools and chrome extension!`,
       featureSubName: 'Start with',
       featuresLists: [
@@ -42,11 +39,8 @@ export const plansAndProductsDetails = {
       ],
     },
     {
-      name: 'Suite',
       subscriptionId: 1,
-      salesEstimateCount: 1500,
-      monthlyPrice: 69,
-      annualPrice: 588,
+      name: 'Suite',
       featureSubName: 'Starter Plan Plus',
       desc: `For experienced sellers looking to grow \n their businesses and maximize their earnings.`,
       featuresLists: [
@@ -73,11 +67,8 @@ export const plansAndProductsDetails = {
       ],
     },
     {
-      name: 'Professional',
       subscriptionId: 2,
-      salesEstimateCount: 2500,
-      monthlyPrice: 129,
-      annualPrice: 996,
+      name: 'Professional',
       featureSubName: 'Suite Plan Plus',
       desc: `For professional sellers and businesses who need the best \n tools. 
 				Track more products, obtain more data, and optimize your entire Amazon business.`,
