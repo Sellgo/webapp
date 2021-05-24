@@ -6,6 +6,21 @@ const formatPlansStats = (stat: number) => {
   return stat.toLocaleString();
 };
 
+const periodToDisplayMapper: { [key: string]: string } = {
+  monthly: '/mo',
+  daily: '/day',
+};
+
+export const formatPlanPeriod = (period: string, appendString = '') => {
+  if (!period) {
+    return '/day';
+  }
+
+  const periodFormatter = periodToDisplayMapper[period] || '/day';
+
+  return `${appendString}${periodFormatter}`;
+};
+
 export const generateHybridTable = (comparisonStats: any) => {
   const { starter, suite, professional } = comparisonStats;
 
@@ -40,9 +55,16 @@ export const generateHybridTable = (comparisonStats: any) => {
         ],
         [
           'Amazon Best Sales Estimator',
-          `${formatPlansStats(starter && starter.salesEstimateLimit)} estimates/mo`,
-          `${formatPlansStats(suite && suite.salesEstimateLimit)} estimates/mo`,
-          `${formatPlansStats(professional && professional.salesEstimateLimit)} estimates/mo`,
+          `${formatPlansStats(starter && starter.salesEstimateLimit)} 
+					${formatPlanPeriod(starter && starter.salesEstimatePeriod, 'estimates')}`,
+
+          `${formatPlansStats(suite && suite.salesEstimateLimit)}
+					${formatPlanPeriod(suite && suite.salesEstimatePeriod, 'estimates')}`,
+
+          `${formatPlansStats(professional && professional.salesEstimateLimit)} 	${formatPlanPeriod(
+            professional && professional.salesEstimatePeriod,
+            'estimates'
+          )}`,
         ],
         ['Inventory Insight', '-', '✓', '✓'],
         ['Market share insight', '-', '✓', '✓'],
@@ -53,9 +75,20 @@ export const generateHybridTable = (comparisonStats: any) => {
       body: [
         [
           'Profit Finder',
-          `${formatPlansStats(starter && starter.profitFinder)} products/mo`,
-          `${formatPlansStats(suite && suite.profitFinder)} products/mo`,
-          `${formatPlansStats(professional && professional.profitFinder)} products/mo`,
+
+          `${formatPlansStats(starter && starter.profitFinder)} ${formatPlanPeriod(
+            starter && starter.profitFinderPeriod,
+            'products'
+          )}`,
+          `${formatPlansStats(suite && suite.profitFinder)} ${formatPlanPeriod(
+            suite && suite.profitFinderPeriod,
+            'products'
+          )}`,
+
+          `${formatPlansStats(professional && professional.profitFinder)} ${formatPlanPeriod(
+            professional && professional.profitFinderPeriod,
+            'products'
+          )}`,
         ],
         ['Additional bulk processing', '-', '-', '-'],
         ['Data input (UPC, EAN, ASIN, ISBN)', '✓', '✓', '✓'],
@@ -75,7 +108,24 @@ export const generateHybridTable = (comparisonStats: any) => {
     {
       header: ['Seller Research', 'Starter', 'Suite', 'Professional'],
       body: [
-        ['Seller Finder', '20 sellers/day', '1,000 sellers/mo', '5,000 sellers/mo'],
+        [
+          'Seller Finder',
+          `${formatPlansStats(starter && starter.sellerFinderLimit)}${formatPlanPeriod(
+            starter && starter.sellerFinderPeriod,
+            'sellers'
+          )}`,
+
+          `${formatPlansStats(suite && suite.sellerFinderLimit)}${formatPlanPeriod(
+            suite && suite.sellerFinderPeriod,
+            'sellers'
+          )}`,
+
+          `${formatPlansStats(professional && professional.sellerFinderLimit)}${formatPlanPeriod(
+            professional && professional.sellerFinderPeriod,
+            'sellers'
+          )}`,
+        ],
+
         ['Export Seller Data', '-', 'Annual plan', 'Annual plan'],
         ['Check Seller Inventory', '-', '✓', '✓'],
         ['Brand Finder', '-', '✓', '✓'],
