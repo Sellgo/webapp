@@ -437,7 +437,7 @@ const SellerFinderTable = (props: Props) => {
       exportMerchantsSocket.onmessage = (res: any) => {
         const data: ExportResponse = JSON.parse(res.data);
         if (data.status === SEARCH_STATUS.PENDING) {
-          info(`Export Progress (${data.progress})`);
+          info(`Export Progress (${data.progress ? data.progress : 0}%)`);
         }
         if (data.status === SEARCH_STATUS.SUCCESS && !!data.excel_path) {
           success('File Exported Successfully!');
@@ -456,7 +456,7 @@ const SellerFinderTable = (props: Props) => {
       exportProductsSocket.onmessage = (res: any) => {
         const data: ExportResponse = JSON.parse(res.data);
         if (data.status === SEARCH_STATUS.PENDING) {
-          info(`Export Progress (${data.progress})`);
+          info(`Export Progress (${data.progress ? data.progress : 0}%)`);
         }
         if (data.status === SEARCH_STATUS.ERROR) {
           errorMessage(data.message);
@@ -476,7 +476,6 @@ const SellerFinderTable = (props: Props) => {
   const exportMerchants = () => {
     if (exportMerchantsSocket.OPEN && !exportMerchantsSocket.CONNECTING) {
       exportMerchantsSocket.send(JSON.stringify({ start_report: true }));
-      info('Check Notifications for Export Progress.');
     }
   };
 
@@ -485,7 +484,6 @@ const SellerFinderTable = (props: Props) => {
       exportProductsSocket.send(
         JSON.stringify({ start_report: true, merchant_id: exportMerchantID })
       );
-      info('Check Notifications for Export Progress.');
     }
   };
 
