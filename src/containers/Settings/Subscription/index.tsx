@@ -242,7 +242,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             profitFinder: plan.synthesis_limit,
             profitFinderPeriod: plan.synthesis_period,
             leadsTracker: plan.leads_track_limit,
-            sellerFinderLimit: plan.seller_finder,
+            sellerFinderLimit: plan.seller_limit,
             sellerFinderPeriod: plan.seller_period,
             trackHistory: Math.round(plan.track_history_limit / 30),
           },
