@@ -35,8 +35,7 @@ const CheckMerchants = (props: Props) => {
           onClick={() => (props.setActiveProduct ? props.setActiveProduct(props.data) : undefined)}
         >
           {loading && <Icon name="refresh" loading={loading} />}
-
-          <span className="tracking-label">{!loading && '+'} Sellers</span>
+          <span className="tracking-label">Check Sellers</span>
         </Button>
       </div>
       {![SEARCH_STATUS.SUCCESS, SEARCH_STATUS.DONE].includes(

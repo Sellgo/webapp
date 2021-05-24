@@ -49,7 +49,6 @@ $lightgray: #98aeca;
   .tracking-label {
     @extend .inner-container;
 
-    padding-left: 10px;
     margin: unset !important;
   }
 }
@@ -58,7 +57,7 @@ $lightgray: #98aeca;
   width: 125px;
   height: 25px;
   border: 0.5px solid $blue !important;
-  border-radius: 100px !important;
+  border-radius: 7px !important;
   box-shadow: unset !important;
   cursor: pointer;
   display: flex !important;
@@ -78,7 +77,6 @@ $lightgray: #98aeca;
   .tracking-label {
     @extend .inner-container;
 
-    padding-left: 10px;
     margin: unset !important;
   }
 }

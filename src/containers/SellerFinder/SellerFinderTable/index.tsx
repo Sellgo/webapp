@@ -669,7 +669,10 @@ const SellerFinderTable = (props: Props) => {
           </span>
           <Icon name={'copy outline'} onClick={() => copyText(row.merchant_id)} />
         </span>
-        <Icon name={'external'} onClick={() => window.open(row.inventory_link, '_blank')} />
+        <Icon
+          name={'external'}
+          onClick={() => window.open(`${row.inventory_link}&seller=${row.seller_id}`, '_blank')}
+        />
       </span>
     </p>
   );
