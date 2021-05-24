@@ -124,6 +124,13 @@ interface ExportResponse {
   csv_path: string;
   excel_path: string;
 }
+
+export const showSellerInformation = () => {
+  const sellerCard = document.querySelector('.seller-finder-table .ui.table .seller-card');
+  if (sellerCard) {
+    sellerCard.classList.add('seller-card-active');
+  }
+};
 const SellerFinderTable = (props: Props) => {
   const {
     ws,
@@ -650,12 +657,7 @@ const SellerFinderTable = (props: Props) => {
           expandRow(row);
           setActiveProductIndex(-1);
           setTimeout(() => {
-            const sellerCard = document.querySelector(
-              '.seller-finder-table .ui.table .seller-card'
-            );
-            if (sellerCard) {
-              sellerCard.classList.add('seller-card-active');
-            }
+            showSellerInformation();
           }, 50);
         }}
         alt={'expand icon'}
@@ -671,7 +673,7 @@ const SellerFinderTable = (props: Props) => {
         </span>
         <Icon
           name={'external'}
-          onClick={() => window.open(`${row.inventory_link}&seller=${row.seller_id}`, '_blank')}
+          onClick={() => window.open(`${row.inventory_link}&seller=${row.merchant_id}`, '_blank')}
         />
       </span>
     </p>
@@ -1022,6 +1024,7 @@ const SellerFinderTable = (props: Props) => {
     </div>
   );
 };
+
 const mapStateToProps = (state: {}) => ({
   sellers: sellers(state),
   loadingSellers: loadingSellers(state),

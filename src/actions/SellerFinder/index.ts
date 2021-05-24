@@ -50,6 +50,7 @@ import {
   updateProductHeight,
 } from '../../containers/SellerFinder/SellerDetails/InnerTree';
 import { getSellerQuota } from '../Settings';
+import { showSellerInformation } from '../../containers/SellerFinder/SellerFinderTable';
 export interface SellersPayload {
   enableLoader?: boolean;
   pageNo?: number;
@@ -440,6 +441,7 @@ export const trackProductSeller = (merchantId: any) => async (dispatch: any, get
     const topLevelSellers = sellers(getState());
     const productHeight = activeProductHeight(getState());
     const productIndex = activeProductIndex(getState());
+    const products = sellerProducts(getState());
     dispatch(setProductSellerTrackStatus({ seller_merchant_id: merchantId }));
     const payload = new FormData();
     payload.set('seller_merchant_id', merchantId);
@@ -473,10 +475,14 @@ export const trackProductSeller = (merchantId: any) => async (dispatch: any, get
       );
       await dispatch(setSellers(update));
       await dispatch(setProductSellerTrackStatus({ seller_merchant_id: null }));
-      const parentHeight = amazonSellers.length * 55 + 150;
-      await updateParentHeight(parentHeight + productHeight, false);
+      const parentHeight = amazonSellers.length * 45;
+      await updateParentHeight(
+        (parentHeight >= 450 ? parentHeight : 550) + (productHeight + products.length * 50),
+        false
+      );
       await updateProductHeight(50, amazonSellers.length, productIndex - 1);
       await updateProductHeight(productHeight, amazonSellers.length, productIndex);
+      await showSellerInformation();
 
       const message =
         status === 'active'

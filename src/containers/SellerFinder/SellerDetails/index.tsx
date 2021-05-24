@@ -122,7 +122,16 @@ const SellerDetails = (props: SellerDetailsProps) => {
         rowHeight={({ treeIndex, node }) => {
           const add = activeProductIndex > -1 ? 550 : 400;
           if (node.expanded) {
-            let newHeight = sellerProducts.length ? 60 * sellerProducts.length + add : 450;
+            let multiplier = 60;
+            if (productsPageSize === 50) {
+              multiplier = 55;
+            } else if (productsPageSize === 100) {
+              multiplier = 52;
+            } else {
+              multiplier = 60;
+            }
+
+            let newHeight = sellerProducts.length ? multiplier * sellerProducts.length + add : 450;
             if (sellerProducts.length > 10) {
               newHeight = newHeight - 150;
             }

@@ -167,7 +167,8 @@ const InnerTree = ({
   };
 
   useEffect(() => {
-    updateProductHeight(calculateHeight(), !productSellers.length, activeNode.index);
+    const height: number = calculateHeight();
+    updateProductHeight(height, !productSellers.length, activeNode.index);
     updateParentHeight(getHeight(), true);
     setActiveProductHeight(calculateHeight());
   }, [productSellers]);
@@ -177,6 +178,14 @@ const InnerTree = ({
       updateProductHeight(100, !!productSellers.length, activeNode.index);
     }
   }, [loadingProductSellers]);
+
+  useEffect(() => {
+    const data = sellerInventory.map((n: any) => {
+      n = { ...n, expanded: false };
+      return n;
+    });
+    setSellerInventory(data);
+  }, [pageSize]);
 
   return (
     <div>
