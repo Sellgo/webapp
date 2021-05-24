@@ -63,7 +63,7 @@ const SellerDetails = (props: SellerDetailsProps) => {
     onProductsExport,
     activeProductIndex,
   } = props;
-  const noInventory = showNAIfZeroOrNull(details.inventory_count, details.inventory_count) === '-';
+  const noInventory = !details.has_inventory;
   const [treeData, setTreeData] = React.useState([
     {
       title: () => (
