@@ -75,8 +75,9 @@
       color: $sellgo-green !important;
     }
 
-    .title {
+    .business_name {
       min-width: 250px !important;
+      padding-left: 20px !important;
     }
 
     .rating {
@@ -118,6 +119,21 @@
           padding-left: 5px;
           cursor: pointer;
           color: $filter-text-color;
+        }
+
+        .tooltip {
+          width: 40%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          .text-class {
+            width: 25%;
+          }
+
+          .copy-clipboard {
+            background: transparent;
+          }
         }
       }
     }

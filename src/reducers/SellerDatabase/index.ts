@@ -26,7 +26,7 @@ const initialState = {
   error: null,
   singlePageItemsCount: 50,
   loadingDatabase: false,
-  sort: 'udate',
+  sort: 'id',
   sortDirection: 'descending',
   filters: defaultFilters,
 };

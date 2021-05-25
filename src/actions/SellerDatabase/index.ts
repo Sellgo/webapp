@@ -83,22 +83,30 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
       dispatch(setFilters(defaultFilters));
     }
 
+    let queryParams = {};
     if (search) {
       if (searchType) {
         switch (searchType) {
           case SEARCH_TYPE.ASIN:
-            queryFilters += `&asin=${search}`;
+            // queryFilters += `&asin=${search}`;
+            queryParams = { asin: search };
             break;
 
           case SEARCH_TYPE.SELLER_ID:
-            queryFilters += `&seller_id=${search}`;
+            // queryFilters += `&seller_id=${search}`;
+            queryParams = { seller_id: search };
+
             break;
 
           case SEARCH_TYPE.SELLER_NAME:
-            queryFilters += `&seller_name=${search}`;
+            // queryFilters += `&seller_name=${search}`;
+            queryParams = { seller_name: search };
+
             break;
           case SEARCH_TYPE.AMAZON_LINK:
-            queryFilters += `&asin=${extractAsinFromUrl(search)}`;
+            // queryFilters += `&asin=${extractAsinFromUrl(search)}`;
+            queryParams = { asin: extractAsinFromUrl(search) };
+
             break;
         }
       }
@@ -117,7 +125,7 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
     if (enableLoader) {
       await dispatch(fetchSellerDatabase(true));
     }
-    const res = await Axios.get(url);
+    const res = await Axios.get(url, { params: queryParams });
     if (res.data) {
       const { results, count, per_page, current_page, total_pages } = res.data;
       dispatch(fetchSellerDatabaseSuccess(results));

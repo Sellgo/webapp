@@ -15,7 +15,7 @@ export const SET_SELLER_DATABASE_SORT_DIRECTION = 'SET_SELLER_DATABASE_SORT_DIRE
 export const SET_SELLER_DATABASE_FILTERS = 'SET_SELLER_DATABASE_FILTERS';
 
 export const FILTERS = {
-  INVENTORY: 'inventory',
+  INVENTORY: 'inventory_count',
   SELLER_RATINGS: 'seller_ratings',
   BRAND: 'brand',
   TOTAL_SALES: 'total_sales',

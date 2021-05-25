@@ -20,7 +20,7 @@ const CopyToClipboard = ({ data, className = '' }: Props) => {
   return (
     <span className={`${className} tooltip`}>
       <span className="tooltiptext" id="myTooltip">
-        {copyText}
+        <span className="text-class">{copyText}</span>
       </span>
       {data}
       <Button icon className="copy-clipboard">

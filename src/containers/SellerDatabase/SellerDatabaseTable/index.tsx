@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Column, GenericTable } from '../../../components/Table';
-import SellerCheckBox from './sellerCheckbox';
 import './index.scss';
 import { Button, Icon } from 'semantic-ui-react';
 import PLUS_ICON from '../../../assets/images/plus-circle-regular.svg';
@@ -23,7 +22,8 @@ import {
 } from '../../../actions/SellerDatabase';
 import { connect } from 'react-redux';
 import PageLoader from '../../../components/PageLoader';
-import { formatPercent, showNAIfZeroOrNull } from '../../../utils/format';
+import { showNAIfZeroOrNull } from '../../../utils/format';
+import CopyToClipboard from '../../../components/CopyToClipboard';
 export interface CheckedRowDictionary {
   [index: number]: boolean;
 }
@@ -66,7 +66,7 @@ const SellerDatabaseTable = (props: Props) => {
     fetchDatabase({
       pageNo,
       pageSize,
-      sort: 'udate',
+      sort: 'id',
       sortDirection: 'descending',
     });
   }, []);
@@ -74,12 +74,9 @@ const SellerDatabaseTable = (props: Props) => {
   const renderSellerInformation = (row: any) => {
     return (
       <p className="sd-seller-details">
-        <span className="name">{row.merchant_name}</span>
+        <span className="name">{row.business_name}</span>
         <span className="seller-id">
-          {row.merchant_id}
-          <span className="tooltip">
-            <Icon name={'copy outline'} />
-          </span>
+          <CopyToClipboard data={row.seller_id} className={''} />
         </span>
       </p>
     );
@@ -102,16 +99,16 @@ const SellerDatabaseTable = (props: Props) => {
   };
 
   const renderSellerTotalRating = (row: any) => {
-    return <p>{formatPercent(row.review_ratings)}</p>;
+    return <p>{row.review_ratings ? row.review_ratings : '-'}</p>;
   };
 
-  const renderSellerFBA = ({ fba = null }) => {
-    return <p>{fba !== null ? (fba ? 'Yes' : 'No') : '-'}</p>;
-  };
-
-  const renderSellerFBM = ({ fbm = null }) => {
-    return <p>{fbm !== null ? (fbm ? 'Yes' : 'No') : '-'}</p>;
-  };
+  // const renderSellerFBA = ({ fba = null }) => {
+  //   return <p>{fba !== null ? (fba ? 'Yes' : 'No') : '-'}</p>;
+  // };
+  //
+  // const renderSellerFBM = ({ fbm = null }) => {
+  //   return <p>{fbm !== null ? (fbm ? 'Yes' : 'No') : '-'}</p>;
+  // };
 
   const renderSellerReview30D = (row: any) => {
     return <p>{showNAIfZeroOrNull(row.count_30_days, row.count_30_days)}</p>;
@@ -122,16 +119,16 @@ const SellerDatabaseTable = (props: Props) => {
   };
 
   const renderSellerReview365D = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.count_lifetime, row.count_lifetime)}</p>;
+    return <p>{showNAIfZeroOrNull(row.count_12_month, row.count_12_month)}</p>;
   };
 
   const renderSellerReviewLifetime = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.review_lifetime, row.review_lifetime)}</p>;
+    return <p>{showNAIfZeroOrNull(row.count_lifetime, row.count_lifetime)}</p>;
   };
 
-  const renderProductReview = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.review, row.review)}</p>;
-  };
+  // const renderProductReview = (row: any) => {
+  //   return <p>{showNAIfZeroOrNull(row.review, row.review)}</p>;
+  // };
 
   const renderActions = (row: any) => {
     const active = row.tracking_status === 'active';
@@ -149,32 +146,35 @@ const SellerDatabaseTable = (props: Props) => {
       </div>
     );
   };
-  const handleItemSelect = (e: any, isChecked: any, itemId: any) => {
-    const newCheckedRows = {
-      ...checkedRows,
-      [itemId]: isChecked,
-    };
-    setCheckedRows(newCheckedRows);
-  };
-  const renderCheckBox = (row: any) => {
-    let checked = false;
-    if (checkedRows[row.id] !== undefined) {
-      checked = checkedRows[row.id];
-    }
-    return <SellerCheckBox checked={checked} item={row} onClick={handleItemSelect} />;
-  };
+
+  // const handleItemSelect = (e: any, isChecked: any, itemId: any) => {
+  //   const newCheckedRows = {
+  //     ...checkedRows,
+  //     [itemId]: isChecked,
+  //   };
+  //   setCheckedRows(newCheckedRows);
+  // };
+
+  // const renderCheckBox = (row: any) => {
+  //   let checked = false;
+  //   if (checkedRows[row.id] !== undefined) {
+  //     checked = checkedRows[row.id];
+  //   }
+  //   return <SellerCheckBox checked={checked} item={row} onClick={handleItemSelect} />;
+  // };
+
   const Columns: Column[] = [
-    {
-      label: '',
-      sortable: false,
-      dataKey: 'checkboxes',
-      show: true,
-      check: true,
-      render: renderCheckBox,
-    },
+    // {
+    //   label: '',
+    //   sortable: false,
+    //   dataKey: 'checkboxes',
+    //   show: true,
+    //   check: true,
+    //   render: renderCheckBox,
+    // },
     {
       label: 'Seller Information',
-      dataKey: 'title',
+      dataKey: 'business_name',
       sortable: false,
       type: 'string',
       show: true,
@@ -182,7 +182,7 @@ const SellerDatabaseTable = (props: Props) => {
     },
     {
       label: 'inventory',
-      dataKey: 'inventory',
+      dataKey: 'inventory_count',
       sortable: true,
       type: 'string',
       show: true,
@@ -190,7 +190,7 @@ const SellerDatabaseTable = (props: Props) => {
     },
     {
       label: `Rating \nL365D`,
-      dataKey: 'rating',
+      dataKey: 'seller_rating',
       sortable: true,
       type: 'string',
       show: true,
@@ -198,32 +198,32 @@ const SellerDatabaseTable = (props: Props) => {
     },
     {
       label: `Rating% \nL365D`,
-      dataKey: 'total_rating',
+      dataKey: 'review_ratings',
       sortable: true,
       type: 'string',
       show: true,
       render: renderSellerTotalRating,
     },
-    {
-      label: `FBA`,
-      dataKey: 'fba',
-      sortable: true,
-      type: 'string',
-      show: true,
-      render: renderSellerFBA,
-    },
-    {
-      label: `FBM`,
-      dataKey: 'fbm',
-      sortable: true,
-      className: 'sm-col',
-      type: 'string',
-      show: true,
-      render: renderSellerFBM,
-    },
+    // {
+    //   label: `FBA`,
+    //   dataKey: 'fba',
+    //   sortable: true,
+    //   type: 'string',
+    //   show: true,
+    //   render: renderSellerFBA,
+    // },
+    // {
+    //   label: `FBM`,
+    //   dataKey: 'fbm',
+    //   sortable: true,
+    //   className: 'sm-col',
+    //   type: 'string',
+    //   show: true,
+    //   render: renderSellerFBM,
+    // },
     {
       label: `Review \nL30D`,
-      dataKey: 'count_30',
+      dataKey: 'count_30_days',
       sortable: true,
       type: 'string',
       show: true,
@@ -231,7 +231,7 @@ const SellerDatabaseTable = (props: Props) => {
     },
     {
       label: `Review \nL90D`,
-      dataKey: 'count_90',
+      dataKey: 'count_90_days',
       sortable: true,
       type: 'string',
       show: true,
@@ -239,7 +239,7 @@ const SellerDatabaseTable = (props: Props) => {
     },
     {
       label: `Review \nL365D`,
-      dataKey: 'count_12_months',
+      dataKey: 'count_12_month',
       sortable: true,
       type: 'string',
       show: true,
@@ -247,20 +247,20 @@ const SellerDatabaseTable = (props: Props) => {
     },
     {
       label: `Review \nLifetime`,
-      dataKey: 'review_all',
+      dataKey: 'count_lifetime',
       sortable: true,
       type: 'string',
       show: true,
       render: renderSellerReviewLifetime,
     },
-    {
-      label: `Product \nReview#`,
-      dataKey: 'review',
-      sortable: true,
-      type: 'string',
-      show: true,
-      render: renderProductReview,
-    },
+    // {
+    //   label: `Product \nReview#`,
+    //   dataKey: 'review',
+    //   sortable: true,
+    //   type: 'string',
+    //   show: true,
+    //   render: renderProductReview,
+    // },
     {
       label: ``,
       dataKey: 'actions',
