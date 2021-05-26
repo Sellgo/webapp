@@ -15,7 +15,7 @@ interface Props {
 }
 
 const PricingInfoAlert: React.FC<Props> = props => {
-  const { className, navigateLabel, navigateTo, head, desc, background } = props;
+  const { className, head, desc, background, navigateLabel, navigateTo } = props;
 
   return (
     <div className={`${styles.pricingInfoAlert} ${className}`} style={{ background }}>

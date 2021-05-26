@@ -3,18 +3,16 @@ export const plansAndProductsDetails = {
   summary: 'Try Our Premium Tools and Access Real-Data for $1!',
   infoAlertMessage: {
     monthly: {
-      head: `Start selling on Amazon today with Sellgo's free tools.`,
-      desc: `Want to try our advanced Amazon tools? Review our FBA tools and pricing packages.
-			Our premium tools empower you to track and research more products to optimize your Amazon business.`,
-      navigateTo: '/pricing?type=free-trial',
-      navigateLabel: 'Free Trial',
+      head: `For new members register with Amazon Seller Central Account. Risk free 14-day money back guarantee.`,
+      desc: `Want to try our advanced Amazon tools? Review our FBA tools and pricing packages.`,
+      navigateTo: '/',
+      navigateLabel: 'Learn More',
     },
     yearly: {
-      head: `Start selling on Amazon today with Sellgo's free tools.`,
-      desc: `Want to try our advanced Amazon tools? Review our FBA tools and pricing packages.
-			Our premium tools empower you to track and research more products to optimize your Amazon business.`,
-      navigateTo: '/pricing?type=free-trial',
-      navigateLabel: 'Free Trial',
+      head: `For new members register with Amazon Seller Central Account. Risk free 14-day money back guarantee.`,
+      desc: `Want to try our advanced Amazon tools? Review our FBA tools and pricing packages.`,
+      navigateTo: '/',
+      navigateLabel: 'Learn More',
     },
   },
   productsIncluded: [
