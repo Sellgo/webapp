@@ -17,12 +17,14 @@ import {
   FILTERS,
   defaultFilters,
   SEARCH_TYPE,
+  SET_MARKETPLACE,
 } from '../../constants/SellerDatabase';
 import {
   databaseSort,
   databaseSortDirection,
   sellerDatabase,
   sellerDatabaseFilters,
+  sellerDatabaseMarket,
 } from '../../selectors/SellerDatabase';
 import { extractAsinFromUrl } from '../../utils/format';
 import { info } from '../../utils/notifications';
@@ -58,6 +60,7 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
     const defaultSort = databaseSort(getState());
     const defaultSortDirection = databaseSortDirection(getState());
     const sellerDBFilters = sellerDatabaseFilters(getState());
+    const defaultMarketplace = sellerDatabaseMarket(getState());
 
     const {
       pageNo = 1,
@@ -100,7 +103,7 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
 
           case SEARCH_TYPE.SELLER_NAME:
             // queryFilters += `&seller_name=${search}`;
-            queryParams = { seller_name: search };
+            queryParams = { business_name: search };
 
             break;
           case SEARCH_TYPE.AMAZON_LINK:
@@ -120,7 +123,7 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
     const sellerID = sellerIDSelector();
     const url =
       AppConfig.BASE_URL_API +
-      `sellers/${sellerID}/merchants-database?${pagination}&${sorting}${queryFilters}`;
+      `sellers/${sellerID}/merchants-database?${pagination}&${sorting}${queryFilters}&market=${defaultMarketplace}`;
     dispatch(setLoadingDatabase(!enableLoader));
     if (enableLoader) {
       await dispatch(fetchSellerDatabase(true));
@@ -175,6 +178,10 @@ export const loadFilters = () => async (dispatch: any) => {
   }
 };
 
+export const updateMarketplace = (market: string) => async (dispatch: any) => {
+  await dispatch(setMarketplace(market));
+};
+
 const parseFilters = (data: SellerDatabaseFilter[]): string => {
   const localFilters = localStorage.getItem('seller-database-filters');
   let query = '';
@@ -193,10 +200,9 @@ const parseFilters = (data: SellerDatabaseFilter[]): string => {
       query += `&${filter.type}=${filter.value}`;
     } else {
       if (filter.active) {
-        const duration = filter.duration ? `&duration=${filter.duration}` : '';
-        const min = filter.min ? `&${filter.type}_min=${filter.min}` : '';
-        const max = filter.max ? `&${filter.type}_max=${filter.max}` : '';
-        query += `${min}${max}${duration}`;
+        const min = filter.min ? `&${filter.type}_${filter.duration}_min=${filter.min}` : '';
+        const max = filter.max ? `&${filter.type}_${filter.duration}_max=${filter.max}` : '';
+        query += `${min}${max}`;
       }
     }
   });
@@ -290,4 +296,9 @@ const setDatabaseSortDirection = (sortDirection: string) => ({
 const setFilters = (filters: any[]) => ({
   type: SET_SELLER_DATABASE_FILTERS,
   data: filters,
+});
+
+const setMarketplace = (market: string) => ({
+  type: SET_MARKETPLACE,
+  data: market,
 });

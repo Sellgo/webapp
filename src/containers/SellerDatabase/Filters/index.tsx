@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, Dropdown, Input } from 'semantic-ui-react';
 import ReactChipInput from 'react-chip-input';
 import './index.scss';
-import { sellerDatabaseFilters } from '../../../selectors/SellerDatabase';
+import { sellerDatabaseFilters, sellerDatabaseMarket } from '../../../selectors/SellerDatabase';
 import {
   fetchSellersDatabase,
   loadFilters,
   SellerDatabaseFilter,
   SellerDatabasePayload,
+  updateMarketplace,
   updateSellerDatabaseFilters,
 } from '../../../actions/SellerDatabase';
 import { connect } from 'react-redux';
@@ -25,13 +26,21 @@ interface Props {
   loadFilters: () => void;
   filters: SellerDatabaseFilter[];
   fetchSellersDatabase: (payload: SellerDatabasePayload) => void;
+  updateMarketplace: (market: string) => void;
+  market: string;
 }
 const Filters = (props: Props) => {
-  const { updateFilter, filters, loadFilters, fetchSellersDatabase } = props;
+  const {
+    updateFilter,
+    filters,
+    loadFilters,
+    fetchSellersDatabase,
+    updateMarketplace,
+    market,
+  } = props;
   const [keyword, setKeyword] = useState('');
   const [searchType, setSearchType] = useState(SEARCH_TYPE.AMAZON_LINK);
   const [state, setState] = useState('');
-  const [marketplace, setMarketplace] = useState('ATVPDKIKX0DER');
   const getFilterValue = (type: string): SellerDatabaseFilter => {
     const filter = filters.find(f => f.type === type);
     return filter
@@ -41,16 +50,16 @@ const Filters = (props: Props) => {
   const inventory = getFilterValue(FILTERS.INVENTORY);
   const ratings = getFilterValue(FILTERS.SELLER_RATINGS);
   const brand = getFilterValue(FILTERS.BRAND);
-  const totalSales = getFilterValue(FILTERS.TOTAL_SALES);
-  const revenue = getFilterValue(FILTERS.REVENUE);
+  // const totalSales = getFilterValue(FILTERS.TOTAL_SALES);
+  // const revenue = getFilterValue(FILTERS.REVENUE);
   const reviewRatings = getFilterValue(FILTERS.REVIEW_RATINGS);
   const reviewCount = getFilterValue(FILTERS.REVIEW_COUNT);
   const positiveReview = getFilterValue(FILTERS.POSITIVE_REVIEW);
   const neutralReview = getFilterValue(FILTERS.NEUTRAL_REVIEW);
   const negativeReview = getFilterValue(FILTERS.NEGATIVE_REVIEW);
   const includeBrands = getFilterValue(FILTERS.INCLUDE_BRANDS);
-  const fba = getFilterValue(FILTERS.FBA);
-  const fbm = getFilterValue(FILTERS.FBM);
+  // const fba = getFilterValue(FILTERS.FBA);
+  // const fbm = getFilterValue(FILTERS.FBM);
   const launched = getFilterValue(FILTERS.LAUNCHED);
 
   const updateInputFilterValue = (update: SellerDatabaseFilter) => {
@@ -176,46 +185,46 @@ const Filters = (props: Props) => {
                     error={Number.isNaN(brand.max)}
                   />
                 </div>
-                <div className="input-filter">
-                  <Checkbox
-                    checked={totalSales.active}
-                    onChange={() => updateFilter({ ...totalSales, active: !totalSales.active })}
-                  />
-                  <Input
-                    placeholder="Min Total Sales"
-                    value={totalSales.min > 0 ? totalSales.min : ''}
-                    onChange={evt =>
-                      updateInputFilterValue({ ...totalSales, min: +evt.target.value })
-                    }
-                    error={Number.isNaN(totalSales.min)}
-                  />
-                  <Input
-                    placeholder="Max Total Sales"
-                    value={totalSales.max > 0 ? totalSales.max : ''}
-                    onChange={evt =>
-                      updateInputFilterValue({ ...totalSales, max: +evt.target.value })
-                    }
-                    error={Number.isNaN(totalSales.max)}
-                  />
-                </div>
-                <div className="input-filter">
-                  <Checkbox
-                    checked={revenue.active}
-                    onChange={() => updateFilter({ ...revenue, active: !revenue.active })}
-                  />
-                  <Input
-                    placeholder="Min Revenue"
-                    value={revenue.min > 0 ? revenue.min : ''}
-                    onChange={evt => updateInputFilterValue({ ...revenue, min: +evt.target.value })}
-                    error={Number.isNaN(revenue.min)}
-                  />
-                  <Input
-                    placeholder="Max Revenue"
-                    value={revenue.max > 0 ? revenue.max : ''}
-                    onChange={evt => updateInputFilterValue({ ...revenue, max: +evt.target.value })}
-                    error={Number.isNaN(revenue.max)}
-                  />
-                </div>
+                {/*<div className="input-filter">*/}
+                {/*  <Checkbox*/}
+                {/*    checked={totalSales.active}*/}
+                {/*    onChange={() => updateFilter({ ...totalSales, active: !totalSales.active })}*/}
+                {/*  />*/}
+                {/*  <Input*/}
+                {/*    placeholder="Min Total Sales"*/}
+                {/*    value={totalSales.min > 0 ? totalSales.min : ''}*/}
+                {/*    onChange={evt =>*/}
+                {/*      updateInputFilterValue({ ...totalSales, min: +evt.target.value })*/}
+                {/*    }*/}
+                {/*    error={Number.isNaN(totalSales.min)}*/}
+                {/*  />*/}
+                {/*  <Input*/}
+                {/*    placeholder="Max Total Sales"*/}
+                {/*    value={totalSales.max > 0 ? totalSales.max : ''}*/}
+                {/*    onChange={evt =>*/}
+                {/*      updateInputFilterValue({ ...totalSales, max: +evt.target.value })*/}
+                {/*    }*/}
+                {/*    error={Number.isNaN(totalSales.max)}*/}
+                {/*  />*/}
+                {/*</div>*/}
+                {/*<div className="input-filter">*/}
+                {/*  <Checkbox*/}
+                {/*    checked={revenue.active}*/}
+                {/*    onChange={() => updateFilter({ ...revenue, active: !revenue.active })}*/}
+                {/*  />*/}
+                {/*  <Input*/}
+                {/*    placeholder="Min Revenue"*/}
+                {/*    value={revenue.min > 0 ? revenue.min : ''}*/}
+                {/*    onChange={evt => updateInputFilterValue({ ...revenue, min: +evt.target.value })}*/}
+                {/*    error={Number.isNaN(revenue.min)}*/}
+                {/*  />*/}
+                {/*  <Input*/}
+                {/*    placeholder="Max Revenue"*/}
+                {/*    value={revenue.max > 0 ? revenue.max : ''}*/}
+                {/*    onChange={evt => updateInputFilterValue({ ...revenue, max: +evt.target.value })}*/}
+                {/*    error={Number.isNaN(revenue.max)}*/}
+                {/*  />*/}
+                {/*</div>*/}
               </div>
 
               <div>
@@ -403,41 +412,41 @@ const Filters = (props: Props) => {
               <p className="filters-label">Marketplace</p>
               <Dropdown
                 placeholder="United States"
-                defaultValue={marketplace}
+                defaultValue={market}
                 className="right-filters"
-                onChange={(evt, { value }: any) => setMarketplace(value)}
+                onChange={(evt, { value }: any) => updateMarketplace(value)}
                 selection
                 options={marketplaceOptions}
               />
             </div>
             <div className="right-filters-container seller-tier">
-              <p className="filters-label">Seller Tier</p>
+              {/*<p className="filters-label">Seller Tier</p>*/}
               <div>
                 <div className="checkbox-filter">
-                  <Checkbox
-                    label="FBA"
-                    checked={fba.active}
-                    onChange={() => updateFilter({ ...fba, active: !fba.active })}
-                  />
+                  {/*<Checkbox*/}
+                  {/*  label="FBA"*/}
+                  {/*  checked={fba.active}*/}
+                  {/*  onChange={() => updateFilter({ ...fba, active: !fba.active })}*/}
+                  {/*/>*/}
                   <Checkbox
                     radio
                     label="Launched < 1-yr"
-                    className="right-filters"
+                    // className="right-filters"
                     name="launched"
                     checked={launched.value === '<1Y'}
                     onChange={() => updateFilter({ ...launched, value: '<1Y' })}
                   />
                 </div>
                 <div className="checkbox-filter">
-                  <Checkbox
-                    label="FBM"
-                    checked={fbm.active}
-                    onChange={() => updateFilter({ ...fbm, active: !fbm.active })}
-                  />
+                  {/*<Checkbox*/}
+                  {/*  label="FBM"*/}
+                  {/*  checked={fbm.active}*/}
+                  {/*  onChange={() => updateFilter({ ...fbm, active: !fbm.active })}*/}
+                  {/*/>*/}
                   <Checkbox
                     radio
                     label="Launched > 1-yr"
-                    className="right-filters"
+                    // className="right-filters"
                     name="launched"
                     checked={launched.value === '>1Y'}
                     onChange={() => updateFilter({ ...launched, value: '>1Y' })}
@@ -471,7 +480,12 @@ const Filters = (props: Props) => {
           size="small"
           className="submit-btn"
           onClick={() =>
-            fetchSellersDatabase({ filters: true, search: keyword, searchType, state })
+            fetchSellersDatabase({
+              filters: true,
+              search: keyword,
+              searchType,
+              state,
+            })
           }
         >
           Find
@@ -482,12 +496,14 @@ const Filters = (props: Props) => {
 };
 const mapStateToProps = (state: any) => ({
   filters: sellerDatabaseFilters(state),
+  market: sellerDatabaseMarket(state),
 });
 
 const mapDispatchToProps = {
   loadFilters: () => loadFilters(),
   updateFilter: (filter: SellerDatabaseFilter) => updateSellerDatabaseFilters(filter),
   fetchSellersDatabase: (payload: SellerDatabasePayload) => fetchSellersDatabase(payload),
+  updateMarketplace: (market: string) => updateMarketplace(market),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filters);

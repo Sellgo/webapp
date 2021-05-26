@@ -14,6 +14,7 @@ import {
   SET_SELLER_DATABASE_SORT_DIRECTION,
   SET_SELLER_DATABASE_FILTERS,
   defaultFilters,
+  SET_MARKETPLACE,
 } from '../../constants/SellerDatabase';
 
 const initialState = {
@@ -29,6 +30,7 @@ const initialState = {
   sort: 'id',
   sortDirection: 'descending',
   filters: defaultFilters,
+  market: 'ATVPDKIKX0DER',
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -77,6 +79,10 @@ export default (state = initialState, action: AnyAction) => {
     }
     case SET_SELLER_DATABASE_FILTERS: {
       return setIn(state, 'filters', action.data);
+    }
+
+    case SET_MARKETPLACE: {
+      return setIn(state, 'market', action.data);
     }
     default:
       return state;

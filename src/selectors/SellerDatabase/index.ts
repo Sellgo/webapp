@@ -15,3 +15,4 @@ export const databaseSort = (state: {}) => get(state, 'sellerDatabase.databaseSo
 export const databaseSortDirection = (state: {}) =>
   get(state, 'sellerDatabase.databaseSortDirection');
 export const sellerDatabaseFilters = (state: {}) => get(state, 'sellerDatabase.filters');
+export const sellerDatabaseMarket = (state: {}) => get(state, 'sellerDatabase.market');

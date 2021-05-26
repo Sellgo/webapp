@@ -13,6 +13,7 @@ export const SET_SELLER_DATABASE_SINGLE_PAGE_ITEMS_COUNT =
 export const SET_SELLER_DATABASE_SORT = 'SET_SELLER_DATABASE_SORT';
 export const SET_SELLER_DATABASE_SORT_DIRECTION = 'SET_SELLER_DATABASE_SORT_DIRECTION';
 export const SET_SELLER_DATABASE_FILTERS = 'SET_SELLER_DATABASE_FILTERS';
+export const SET_MARKETPLACE = 'SET_MARKETPLACE';
 
 export const FILTERS = {
   INVENTORY: 'inventory_count',
@@ -22,9 +23,9 @@ export const FILTERS = {
   REVENUE: 'revenue',
   REVIEW_RATINGS: 'review_ratings',
   REVIEW_COUNT: 'review_count',
-  POSITIVE_REVIEW: 'positive_review',
-  NEUTRAL_REVIEW: 'neutral_review',
-  NEGATIVE_REVIEW: 'negative_review',
+  POSITIVE_REVIEW: 'positive',
+  NEUTRAL_REVIEW: 'neutral',
+  NEGATIVE_REVIEW: 'negative',
   INCLUDE_BRANDS: 'include_brands',
   FBA: 'fba',
   FBM: 'fbm',
@@ -32,9 +33,9 @@ export const FILTERS = {
 };
 
 export const DURATIONS = [
-  { key: '30D', text: '30D', value: '30D' },
-  { key: '90D', text: '90D', value: '90D' },
-  { key: '365D', text: '365D', value: '365D' },
+  { key: '30D', text: '30D', value: '30_days' },
+  { key: '90D', text: '90D', value: '90_days' },
+  { key: '365D', text: '365D', value: '12_month' },
 ];
 
 export const SEARCH_TYPE = {
@@ -103,35 +104,35 @@ export const defaultFilters = [
     min: 0,
     max: 0,
     active: false,
-    duration: null,
+    duration: '30_days',
   },
   {
     type: FILTERS.REVIEW_COUNT,
     min: 0,
     max: 0,
     active: false,
-    duration: null,
+    duration: '30_days',
   },
   {
     type: FILTERS.POSITIVE_REVIEW,
     min: 0,
     max: 0,
     active: false,
-    duration: null,
+    duration: '30_days',
   },
   {
     type: FILTERS.NEUTRAL_REVIEW,
     min: 0,
     max: 0,
     active: false,
-    duration: null,
+    duration: '30_days',
   },
   {
     type: FILTERS.NEGATIVE_REVIEW,
     min: 0,
     max: 0,
     active: false,
-    duration: null,
+    duration: '30_days',
   },
   {
     type: FILTERS.INCLUDE_BRANDS,
