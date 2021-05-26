@@ -66,8 +66,8 @@ const SellerDatabaseTable = (props: Props) => {
     fetchDatabase({
       pageNo,
       pageSize,
-      sort: 'id',
-      sortDirection: 'descending',
+      sort: 'seller_id',
+      sortDirection: 'ascending',
     });
   }, []);
 
