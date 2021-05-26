@@ -6,21 +6,25 @@ export const plansAndProductsDetails = {
       head: `Start selling on Amazon today with Sellgo's free tools.`,
       desc: `Want to try our advanced Amazon tools? Review our FBA tools and pricing packages.
 			Our premium tools empower you to track and research more products to optimize your Amazon business.`,
-      navigateTo: '/',
-      navigateLabel: 'Learn More',
+      navigateTo: '/pricing?type=free-trial',
+      navigateLabel: 'Free Trial',
     },
     yearly: {
       head: `Start selling on Amazon today with Sellgo's free tools.`,
       desc: `Want to try our advanced Amazon tools? Review our FBA tools and pricing packages.
 			Our premium tools empower you to track and research more products to optimize your Amazon business.`,
-      navigateTo: '/',
-      navigateLabel: 'Learn More',
+      navigateTo: '/pricing?type=free-trial',
+      navigateLabel: 'Free Trial',
     },
   },
   productsIncluded: [
     {
-      subscriptionId: 6,
+      id: 6, // subscriptionID if needed
       name: 'Starter',
+      productsDatabase: 0,
+      salesEstimateCount: 1000,
+      monthlyPrice: 49,
+      annualPrice: 348,
       desc: `The toolbox for beginner sellers. \n Get access to our tools and chrome extension!`,
       featureSubName: 'Start with',
       featuresLists: [
@@ -39,8 +43,12 @@ export const plansAndProductsDetails = {
       ],
     },
     {
-      subscriptionId: 1,
+      id: 1,
       name: 'Suite',
+      productsDatabase: 0,
+      salesEstimateCount: 1500,
+      monthlyPrice: 69,
+      annualPrice: 588,
       featureSubName: 'Starter Plan Plus',
       desc: `For experienced sellers looking to grow \n their businesses and maximize their earnings.`,
       featuresLists: [
@@ -67,11 +75,15 @@ export const plansAndProductsDetails = {
       ],
     },
     {
-      subscriptionId: 2,
+      id: 2,
       name: 'Professional',
+      productsDatabase: 0,
+      salesEstimateCount: 2500,
+      monthlyPrice: 129,
+      annualPrice: 996,
       featureSubName: 'Suite Plan Plus',
-      desc: `For professional sellers and businesses who need the best \n tools. 
-				Track more products, obtain more data, and optimize your entire Amazon business.`,
+      desc: `For professional sellers and businesses who need \nthe best tools. 
+				Track more products, obtain more data, \nand optimize your entire Amazon business.`,
       featuresLists: [
         {
           title: 'Advance your leads',

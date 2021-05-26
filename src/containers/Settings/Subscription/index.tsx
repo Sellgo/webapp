@@ -42,7 +42,7 @@ import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
 
 /* Data */
 import { plansAndProductsDetails } from './data/index';
-import { generateHybridTable } from './data/tableData';
+import { getAllFeaturesForPlans } from './data/table';
 
 /* Types */
 import { Subscription } from '../../../interfaces/Seller';
@@ -228,28 +228,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       ? subscriptions.filter(e => e.id === sellerSubscription.subscription_id)[0]
       : undefined;
 
-    const nonEnterprisePlans = subscriptions && subscriptions.filter((plan: any) => plan.id !== 3);
-
-    const getComparisionStats =
-      nonEnterprisePlans &&
-      nonEnterprisePlans.reduce((acc: any, plan: any) => {
-        return {
-          ...acc,
-          [plan.name.toLocaleLowerCase()]: {
-            productTracker: plan.track_limit,
-            salesEstimateLimit: plan.sales_estimation_limit,
-            salesEstimatePeriod: plan.sales_estimation_period,
-            profitFinder: plan.synthesis_limit,
-            profitFinderPeriod: plan.synthesis_period,
-            leadsTracker: plan.leads_track_limit,
-            sellerFinderLimit: plan.seller_limit,
-            sellerFinderPeriod: plan.seller_period,
-            trackHistory: Math.round(plan.track_history_limit / 30),
-          },
-        };
-      }, {});
-
-    const comparisionTableData = generateHybridTable(getComparisionStats);
+    const comparisionTableData = getAllFeaturesForPlans('Monthly and Annual Pricing Plans');
 
     return (
       <>
@@ -325,18 +304,23 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 return (
                   <PricingPlansCard
                     key={uuid()}
-                    subscriptionId={product.subscriptionId}
+                    subscriptionId={product.id}
                     name={product.name}
+                    productsDatabase={product.productsDatabase}
+                    salesEstimateCount={product.salesEstimateCount}
+                    monthlyPrice={product.monthlyPrice}
+                    annualPrice={product.annualPrice}
                     desc={product.desc}
                     featureSubName={product.featureSubName}
                     featuresLists={product.featuresLists}
+                    // plan type details
                     isMonthly={isMonthly}
                     subscribedSubscription={subscribedSubscription}
                     subscriptionType={subscriptionType}
+                    sellerSubscription={sellerSubscription}
+                    // action on subscriptions
                     promptCancelSubscription={this.promptCancelSubscriptionPlan.bind(this)}
                     changePlan={(subscriptionDetails: any) => this.getNewPlan(subscriptionDetails)}
-                    sellerSubscription={sellerSubscription}
-                    subscriptions={subscriptions}
                   />
                 );
               })}

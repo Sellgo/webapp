@@ -11,27 +11,35 @@ import GenericPriceCardHead from './GenericPlanCardHead';
 interface Props {
   subscriptionId: number;
   name: string;
+  productsDatabase: number;
+  salesEstimateCount: number;
+  monthlyPrice: number;
+  annualPrice: number;
   desc: string;
   featureSubName: string;
   featuresLists: any;
+
+  // plan type details
   isMonthly: boolean;
-  subscriptions?: any;
   sellerSubscription: any;
   subscribedSubscription: any;
   subscriptionType: string;
+
+  // actions for subscription
   promptCancelSubscription: () => void;
   changePlan: (details: any, mode: string) => void;
 }
 
 const PricingPlansCard: React.FC<Props> = props => {
   const {
-    name,
     subscriptionId,
-    featuresLists,
-    featureSubName,
-    isMonthly,
+    name,
+    monthlyPrice,
+    annualPrice,
     desc,
-    subscriptions,
+    featureSubName,
+    featuresLists,
+    isMonthly,
     subscribedSubscription,
     sellerSubscription,
     subscriptionType,
@@ -57,14 +65,17 @@ const PricingPlansCard: React.FC<Props> = props => {
         <GenericPriceCardHead
           subscriptionId={subscriptionId}
           name={name}
+          monthlyPrice={monthlyPrice}
+          annualPrice={annualPrice}
           desc={desc}
+          // plan type details
           isMonthly={isMonthly}
-          subscriptions={subscriptions}
           subscribedSubscription={subscribedSubscription}
           subscriptionType={subscriptionType}
+          sellerSubscription={sellerSubscription}
+          // subscription actions
           promptCancelSubscription={promptCancelSubscription}
           changePlan={changePlan}
-          sellerSubscription={sellerSubscription}
         />
 
         <p className={styles.planType}>{featureSubName}</p>

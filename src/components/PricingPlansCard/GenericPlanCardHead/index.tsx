@@ -11,16 +11,18 @@ import { isSubscriptionNotPaid, isSubscriptionPaid } from '../../../utils/subscr
 
 const GenericPriceCardHead = (props: any) => {
   const {
+    subscriptionId,
     name,
-    isMonthly,
+    monthlyPrice,
+    annualPrice,
     desc,
-    subscriptions,
+    isMonthly,
     subscribedSubscription,
     subscriptionType,
-    subscriptionId,
+    sellerSubscription,
+    // action on subscriptions
     promptCancelSubscription,
     changePlan,
-    sellerSubscription,
   } = props;
 
   const isSubscribed =
@@ -29,13 +31,6 @@ const GenericPriceCardHead = (props: any) => {
     (isMonthly
       ? sellerSubscription.payment_mode === 'monthly'
       : sellerSubscription.payment_mode === 'yearly');
-
-  const getSubscriptionDetails = subscriptions.filter((subscription: any) => {
-    return Number(subscription.id) === Number(subscriptionId);
-  })[0];
-
-  const monthlyPrice = Math.round(getSubscriptionDetails && getSubscriptionDetails.monthly_price);
-  const annualPrice = Math.round(getSubscriptionDetails && getSubscriptionDetails.yearly_price);
 
   return (
     <div>
