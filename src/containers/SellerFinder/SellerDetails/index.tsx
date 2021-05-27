@@ -22,7 +22,6 @@ import {
   setSellerIndex,
 } from '../../../actions/SellerFinder';
 import { connect } from 'react-redux';
-import { showNAIfZeroOrNull } from '../../../utils/format';
 import { Icon } from 'semantic-ui-react';
 
 export const updateHeight = (height: number) => {
@@ -92,11 +91,7 @@ const SellerDetails = (props: SellerDetailsProps) => {
 
   return (
     <div
-      className={`seller-details ${
-        showNAIfZeroOrNull(details.inventory_count, details.inventory_count) === '-'
-          ? 'disable-products'
-          : ''
-      }
+      className={`seller-details ${noInventory ? 'disable-products' : ''}
       ${noInventory ? 'zero-products' : ''}
       `}
     >
