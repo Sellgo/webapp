@@ -20,7 +20,7 @@ interface Props {
   auth: Auth;
 }
 
-const Subscription: React.FC<Props> = props => {
+const SubscriptionPage: React.FC<Props> = props => {
   const { auth } = props;
 
   const [isLogin, setIsLogin] = useState<boolean>(false);
@@ -84,4 +84,4 @@ const Subscription: React.FC<Props> = props => {
   );
 };
 
-export default Subscription;
+export default SubscriptionPage;

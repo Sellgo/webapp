@@ -1,16 +1,18 @@
 export interface SummaryDetails {
   name: string;
-  yearlyPrice: number;
-  monthlyPrice: number;
   subDescription: string;
   benefits: string[];
+  id: number;
+  monthlyPrice: number;
+  annualPrice: number;
 }
 
-export const subscriptionDetails: any = {
+export const subscriptionDetails: { [key: string]: SummaryDetails } = {
   starter: {
     name: 'Starter',
-    yearlyPrice: 348,
+    id: 6,
     monthlyPrice: 49,
+    annualPrice: 348,
     subDescription: '14-Days Money Back Guarantee',
     benefits: [
       'Manage your supplier files in Supplier Management',
@@ -21,24 +23,26 @@ export const subscriptionDetails: any = {
   },
   suite: {
     name: 'Suite',
-    yearlyPrice: 588,
+    id: 1,
     monthlyPrice: 69,
+    annualPrice: 588,
     subDescription: '14-Days Money Back Guarantee',
     benefits: [
       'Manage your supplier files in Supplier Management',
-      '100 Products can be tracked through Product Tracker',
+      '200 Products can be tracked through Product Tracker',
       'Unlimited access in our Profit Finder',
       'Sellgo support',
     ],
   },
   professional: {
     name: 'Professional',
-    yearlyPrice: 996,
+    id: 2,
     monthlyPrice: 129,
+    annualPrice: 996,
     subDescription: '14-Days Money Back Guarantee',
     benefits: [
       'Manage your supplier files in Supplier Management',
-      '100 Products can be tracked through Product Tracker',
+      '1000 Products can be tracked through Product Tracker',
       'Unlimited access in our Profit Finder',
       'Sellgo support',
     ],

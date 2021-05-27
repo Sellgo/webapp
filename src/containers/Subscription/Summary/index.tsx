@@ -27,7 +27,7 @@ const Summary: React.FC<Props> = props => {
 
           {paymentMode === 'yearly' ? (
             <p className={styles.planDetails__pricing}>
-              ${summaryDetails.yearlyPrice} billed yearly
+              ${summaryDetails.annualPrice} billed yearly
             </p>
           ) : (
             <p className={styles.planDetails__pricing}>

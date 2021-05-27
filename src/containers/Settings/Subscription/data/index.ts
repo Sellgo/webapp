@@ -3,24 +3,23 @@ export const plansAndProductsDetails = {
   summary: 'Try Our Premium Tools and Access Real-Data for $1!',
   infoAlertMessage: {
     monthly: {
-      head: `Start selling on Amazon today with Sellgo's free tools.`,
-      desc: `Want to try our advanced Amazon tools? Review our FBA tools and pricing packages.
-			Our premium tools empower you to track and research more products to optimize your Amazon business.`,
+      head: `For new members register with Amazon Seller Central Account. Risk free 14-day money back guarantee.`,
+      desc: `Want to try our advanced Amazon tools? Review our FBA tools and pricing packages.`,
       navigateTo: '/',
       navigateLabel: 'Learn More',
     },
     yearly: {
-      head: `Start selling on Amazon today with Sellgo's free tools.`,
-      desc: `Want to try our advanced Amazon tools? Review our FBA tools and pricing packages.
-			Our premium tools empower you to track and research more products to optimize your Amazon business.`,
+      head: `For new members register with Amazon Seller Central Account. Risk free 14-day money back guarantee.`,
+      desc: `Want to try our advanced Amazon tools? Review our FBA tools and pricing packages.`,
       navigateTo: '/',
       navigateLabel: 'Learn More',
     },
   },
   productsIncluded: [
     {
+      id: 6, // subscriptionID if needed
       name: 'Starter',
-      subscriptionId: 6,
+      productsDatabase: 0,
       salesEstimateCount: 1000,
       monthlyPrice: 49,
       annualPrice: 348,
@@ -42,8 +41,9 @@ export const plansAndProductsDetails = {
       ],
     },
     {
+      id: 1,
       name: 'Suite',
-      subscriptionId: 1,
+      productsDatabase: 0,
       salesEstimateCount: 1500,
       monthlyPrice: 69,
       annualPrice: 588,
@@ -73,14 +73,15 @@ export const plansAndProductsDetails = {
       ],
     },
     {
+      id: 2,
       name: 'Professional',
-      subscriptionId: 2,
+      productsDatabase: 0,
       salesEstimateCount: 2500,
       monthlyPrice: 129,
       annualPrice: 996,
       featureSubName: 'Suite Plan Plus',
-      desc: `For professional sellers and businesses who need the best \n tools. 
-				Track more products, obtain more data, and optimize your entire Amazon business.`,
+      desc: `For professional sellers and businesses who need \nthe best tools. 
+				Track more products, obtain more data, \nand optimize your entire Amazon business.`,
       featuresLists: [
         {
           title: 'Advance your leads',

@@ -9,19 +9,20 @@ import GemGenerator from '../../GemGenerator';
 /* Utils */
 import { isSubscriptionNotPaid, isSubscriptionPaid } from '../../../utils/subscriptions';
 
-const GenericPriceCardHead: React.FC<any> = props => {
+const GenericPriceCardHead = (props: any) => {
   const {
+    subscriptionId,
     name,
-    isMonthly,
     monthlyPrice,
     annualPrice,
     desc,
+    isMonthly,
     subscribedSubscription,
     subscriptionType,
-    subscriptionId,
+    sellerSubscription,
+    // action on subscriptions
     promptCancelSubscription,
     changePlan,
-    sellerSubscription,
   } = props;
 
   const isSubscribed =
