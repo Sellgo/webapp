@@ -12,10 +12,10 @@
       width: 180px;
       overflow: hidden;
       text-overflow: ellipsis;
-      text-decoration: underline;
 
       a {
         color: $table-title-text-color !important;
+        text-decoration: underline !important;
 
         &:hover {
           color: $table-title-text-color-hover !important;

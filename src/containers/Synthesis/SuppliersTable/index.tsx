@@ -84,7 +84,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
 
   renderName = (row: Supplier) => {
     const name =
-      row.file_status === 'completed' && row.progress !== -1 ? (
+      row.progress >= 100 && row.file_status === 'completed' ? (
         <Link to={`/profit-finder/${row.supplier_id}`} onClick={() => setLatestSupplier(row)}>
           {row.search}
         </Link>
