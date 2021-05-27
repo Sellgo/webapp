@@ -40,6 +40,9 @@ export const SET_ACTIVE_PRODUCT_SELLER_INDEX = 'SET_ACTIVE_PRODUCT_SELLER_INDEX'
 export const SET_ACTIVE_SELLER_INDEX = 'SET_ACTIVE_SELLER_INDEX';
 export const SET_ACTIVE_PRODUCT_HEIGHT = 'SET_ACTIVE_PRODUCT_HEIGHT';
 
+export const SELLER_DETAILS_URL =
+  'https://www.amazon.com/sp?_encoding=UTF8&asin=&isAmazonFulfilled=&ref_=olp_merch_name_3';
+
 export const SEARCH_STATUS = {
   PENDING: 'pending',
   DONE: 'done',

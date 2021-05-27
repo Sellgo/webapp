@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, RefObject } from 'react';
 import Rating from 'react-rating';
 import _ from 'lodash';
 import { connect } from 'react-redux';
@@ -54,13 +54,13 @@ import {
   setProductIndex,
 } from '../../../actions/SellerFinder';
 
-import { SEARCH_STATUS } from '../../../constants/SellerFinder';
+import { SEARCH_STATUS, SELLER_DETAILS_URL } from '../../../constants/SellerFinder';
 import { showNAIfZeroOrNull } from '../../../utils/format';
 import PageLoader from '../../../components/PageLoader';
 import { Merchant } from '../../../interfaces/Seller';
 import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Suppliers';
-import { info, success, error as errorMessage } from '../../../utils/notifications';
+import { success, error as errorMessage } from '../../../utils/notifications';
 import { copyToClipboard, download } from '../../../utils/file';
 import { formatCompletedDate } from '../../../utils/date';
 
@@ -168,6 +168,7 @@ const SellerFinderTable = (props: Props) => {
   const [expandedRow, setExpandedRow] = useState<any>(null);
   const [searchMessage, setSearchMessage] = useState('');
   const [exportType, setExportType] = useState('');
+  const expandRef: RefObject<any> = useRef();
 
   const [activeMerchant, setActiveMerchant] = useState<Merchant>({
     address: undefined,
@@ -437,7 +438,7 @@ const SellerFinderTable = (props: Props) => {
       exportMerchantsSocket.onmessage = (res: any) => {
         const data: ExportResponse = JSON.parse(res.data);
         if (data.status === SEARCH_STATUS.PENDING) {
-          info(`Export Progress (${data.progress ? data.progress : 0}%)`);
+          success(`Export Progress (${data.progress ? data.progress : 0}%)`);
         }
         if (data.status === SEARCH_STATUS.SUCCESS && !!data.excel_path) {
           success('File Exported Successfully!');
@@ -456,7 +457,7 @@ const SellerFinderTable = (props: Props) => {
       exportProductsSocket.onmessage = (res: any) => {
         const data: ExportResponse = JSON.parse(res.data);
         if (data.status === SEARCH_STATUS.PENDING) {
-          info(`Export Progress (${data.progress ? data.progress : 0}%)`);
+          success(`Export Progress (${data.progress ? data.progress : 0}%)`);
         }
         if (data.status === SEARCH_STATUS.ERROR) {
           errorMessage(data.message);
@@ -642,9 +643,16 @@ const SellerFinderTable = (props: Props) => {
     setExportResult(true);
   };
 
+  const scrollToCurrent = () => {
+    if (expandRef.current && expandRef.current.scrollIntoView) {
+      expandRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   const renderSellerInformation = (row: any) => (
-    <p className="sf-seller-details">
+    <p className="sf-seller-details" ref={expandedRow === row.id ? expandRef : null}>
       <img
+        className={'expand-btn'}
         src={expandedRow === row.id ? MINUS_ICON : PLUS_ICON}
         style={{
           position: 'absolute',
@@ -656,6 +664,7 @@ const SellerFinderTable = (props: Props) => {
           setActiveProductIndex(-1);
           setTimeout(() => {
             showSellerInformation();
+            scrollToCurrent();
           }, 50);
         }}
         alt={'expand icon'}
@@ -671,7 +680,7 @@ const SellerFinderTable = (props: Props) => {
         </span>
         <Icon
           name={'external'}
-          onClick={() => window.open(`${row.inventory_link}&seller=${row.merchant_id}`, '_blank')}
+          onClick={() => window.open(`${SELLER_DETAILS_URL}&seller=${row.merchant_id}`, '_blank')}
         />
       </span>
     </p>

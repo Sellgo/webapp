@@ -97,7 +97,7 @@ const SellerDetails = (props: SellerDetailsProps) => {
           ? 'disable-products'
           : ''
       }
-      ${!sellerProducts.length ? 'zero-products' : ''}
+      ${noInventory ? 'zero-products' : ''}
       `}
     >
       <SortableTree

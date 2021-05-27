@@ -7,7 +7,9 @@ $darkgary: #dfe8f329;
 .disable-products {
   > .rst__tree {
     .square {
-      visibility: hidden !important;
+      //visibility: hidden !important;
+      opacity: 0.5;
+      pointer-events: none;
     }
   }
 }

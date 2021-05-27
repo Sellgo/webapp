@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Icon, Progress } from 'semantic-ui-react';
-import { formatString, showNAIfZeroOrNull } from '../../../utils/format';
+import { formatString, removeSpecialChars, showNAIfZeroOrNull } from '../../../utils/format';
 import { loadingInventory } from '../../../selectors/SellerFinder';
 import { connect } from 'react-redux';
 import { SEARCH_STATUS } from '../../../constants/SellerFinder';
@@ -91,20 +91,18 @@ const SellerInformation = (props: SellerInformationProps) => {
               })
             }
           >
-            <Icon name="apple" />
+            <Icon
+              name={'refresh'}
+              // color={'grey'}
+              disabled={noInventory}
+              loading={
+                loadingInventory &&
+                loadingInventory.status === SEARCH_STATUS.PENDING &&
+                details.merchant_id === loadingInventory.merchant_id
+              }
+            />
             Check Inventory
           </Button>
-          <Icon
-            name={'refresh'}
-            color={'grey'}
-            disabled={noInventory}
-            loading={
-              loadingInventory &&
-              loadingInventory.status === SEARCH_STATUS.PENDING &&
-              details.merchant_id === loadingInventory.merchant_id
-            }
-          />
-          {/*<span>{' 2 Mins'}</span>*/}
         </div>
         {loadingInventory && loadingInventory.status === SEARCH_STATUS.PENDING && (
           <div className="inventory-progress">
@@ -152,24 +150,32 @@ const SellerInformation = (props: SellerInformationProps) => {
           </span>
         </p>
         <p className={'seller-product-label label-flex'}>
-          Brands: <span className="seller-product-value">{` ${details.brands}`}</span>
+          Brands:{' '}
+          <span className="seller-product-value">{` ${removeSpecialChars(details.brands)}`}</span>
           {formatString(details.brands) !== '-' && (
             <span className="tooltip">
               <span className="tooltiptext" id="myTooltip">
                 {copied ? 'Copied !' : 'Copy to clipboard'}
               </span>
-              <Icon name={'copy outline'} onClick={() => copyText(details.brands)} />
+              <Icon
+                name={'copy outline'}
+                onClick={() => copyText(removeSpecialChars(details.brands))}
+              />
             </span>
           )}
         </p>
         <p className={'seller-product-label label-flex'}>
-          ASINs: <span className="seller-product-value">{` ${details.asins}`}</span>
+          ASINs:{' '}
+          <span className="seller-product-value">{` ${removeSpecialChars(details.asins)}`}</span>
           {formatString(details.asins) !== '-' && (
             <span className="tooltip">
               <span className="tooltiptext" id="myTooltip">
                 {copied ? 'Copied !' : 'Copy to clipboard'}
               </span>
-              <Icon name={'copy outline'} onClick={() => copyText(details.asins)} />
+              <Icon
+                name={'copy outline'}
+                onClick={() => copyText(removeSpecialChars(details.asins))}
+              />
             </span>
           )}
         </p>
