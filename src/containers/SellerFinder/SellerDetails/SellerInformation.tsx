@@ -104,17 +104,19 @@ const SellerInformation = (props: SellerInformationProps) => {
             Check Inventory
           </Button>
         </div>
-        {loadingInventory && loadingInventory.status === SEARCH_STATUS.PENDING && (
-          <div className="inventory-progress">
-            <Progress
-              percent={loadingInventory.error_status ? 100 : loadingInventory.progress}
-              size="tiny"
-              success={!loadingInventory.error_status}
-              error={loadingInventory.error_status}
-              active={loadingInventory.progress !== 100}
-            />
-          </div>
-        )}
+        {loadingInventory &&
+          loadingInventory.status === SEARCH_STATUS.PENDING &&
+          details.merchant_id === loadingInventory.merchant_id && (
+            <div className="inventory-progress">
+              <Progress
+                percent={loadingInventory.error_status ? 100 : loadingInventory.progress}
+                size="tiny"
+                success={!loadingInventory.error_status}
+                error={loadingInventory.error_status}
+                active={loadingInventory.progress !== 100}
+              />
+            </div>
+          )}
       </div>
       <div className="seller-logo-container">
         {details.merchant_logo && <img src={details.merchant_logo} className={'seller-logo'} />}
