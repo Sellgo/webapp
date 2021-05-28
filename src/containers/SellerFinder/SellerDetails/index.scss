@@ -437,12 +437,16 @@ $darkgary: #dfe8f329;
             @extend .seller-product-label;
 
             display: flex;
+            align-items: center;
 
             .place-image-container {
               margin-left: 10px;
+              display: flex;
+              align-items: center;
 
               .place-image {
-                margin: 0 2px;
+                width: 15px;
+                height: 15px;
               }
             }
           }

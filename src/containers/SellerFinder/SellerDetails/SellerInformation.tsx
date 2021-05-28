@@ -5,7 +5,6 @@ import { loadingInventory } from '../../../selectors/SellerFinder';
 import { connect } from 'react-redux';
 import { SEARCH_STATUS } from '../../../constants/SellerFinder';
 import { copyToClipboard } from '../../../utils/file';
-
 interface SellerInformationProps {
   details: any;
   onCheckInventory: (data: any) => void;
@@ -144,6 +143,15 @@ const SellerInformation = (props: SellerInformationProps) => {
           details.merchant_id,
           details.merchant_id
         )}`}</p>
+        <p className="seller-product-marketplace">
+          Marketplace:
+          <span className="place-image-container">
+            <img
+              src={require(`../../../assets/images/${details.marketplace_id}.svg`)}
+              className="place-image"
+            />
+          </span>
+        </p>
         <p className={'seller-product-label'}>{`Launched: ${formatString(details.launched)}`}</p>
         <p className={'seller-product-label'}>
           {'Inventory:'}{' '}
