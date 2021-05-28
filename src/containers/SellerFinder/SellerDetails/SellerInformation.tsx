@@ -160,8 +160,10 @@ const SellerInformation = (props: SellerInformationProps) => {
           </span>
         </p>
         <p className={'seller-product-label label-flex'}>
-          Brands:{' '}
-          <span className="seller-product-value">{` ${removeSpecialChars(details.brands)}`}</span>
+          Brands:
+          <span className="seller-product-value" style={{ paddingLeft: 5 }}>{` ${removeSpecialChars(
+            details.brands
+          )}`}</span>
           {formatString(details.brands) !== '-' && (
             <span className="tooltip">
               <span className="tooltiptext" id="myTooltip">
@@ -175,8 +177,11 @@ const SellerInformation = (props: SellerInformationProps) => {
           )}
         </p>
         <p className={'seller-product-label label-flex'}>
-          ASINs:{' '}
-          <span className="seller-product-value">{` ${removeSpecialChars(details.asins)}`}</span>
+          ASINs:
+          <span
+            className="seller-product-value"
+            style={{ paddingLeft: 10 }}
+          >{` ${removeSpecialChars(details.asins)}`}</span>
           {formatString(details.asins) !== '-' && (
             <span className="tooltip">
               <span className="tooltiptext" id="myTooltip">

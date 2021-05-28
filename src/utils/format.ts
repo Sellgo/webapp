@@ -56,5 +56,5 @@ export const extractAsinFromUrl = (data: string) => {
 };
 
 export const removeSpecialChars = (str: string) => {
-  return str.replace(/[^\w\s]/gi, '');
+  return str.replace(/[" ' [\]/]/gi, '').replace(',', ', ');
 };
