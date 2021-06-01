@@ -91,6 +91,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     filterValues,
     resetPage,
   } = props;
+
   const {
     dataKey,
     sortable,
@@ -107,13 +108,18 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     filterDataKey,
     filterLabel,
   } = column;
+
   const style = label === 'Supplier' ? { minWidth: '120px' } : { padding: 0, height: 46 };
   let otherProps: any;
+
   const columnClass = type !== 'leads-tracker' ? getColumnClass(column) : '';
+
   otherProps = {
     onClick:
       sortable && type && !['leads-tracker', 'products'].includes(type)
         ? (e: any) => {
+            e.preventDefault();
+            e.stopPropagation();
             setSort(e, dataKey || '');
             setSortColumn(sortDirection);
             setActiveColumn(dataKey);
@@ -131,8 +137,10 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
 
   const sorting = {
     onClick:
-      type && ['leads-tracker', 'products'].includes(type) && sortable
+      type && ['leads-tracker', 'products', 'trackerTable'].includes(type) && sortable
         ? (e: any) => {
+            e.preventDefault();
+            e.stopPropagation();
             setSort(e, dataKey || '');
             setSortColumn(sortDirection);
             setActiveColumn(dataKey);
@@ -140,10 +148,13 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
           }
         : undefined,
   };
+
   if (dataKey === 'sellgo_score') {
     otherProps = { ...otherProps, className: `${otherProps.className} remove-left-border` };
   }
+
   const columnDataKey = filterDataKey ? filterDataKey : dataKey;
+
   if (sortedColumnKey === dataKey) {
     otherProps = { ...otherProps, sorted: sortDirection };
   }
@@ -162,22 +173,26 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     return parsed ? parsed : undefined;
   };
 
+  const openForTrackerTable = activeColumnFilters === columnDataKey;
+  const openForOtherTables = columnFilterBox && activeColumnFilters === columnDataKey;
   const ColumnFilter = (
     <Popup
       on="click"
-      open={columnFilterBox && activeColumnFilters === columnDataKey}
+      open={type !== 'trackerTable' ? openForOtherTables : openForTrackerTable}
       key={dataKey}
-      onClose={toggleColumnCheckbox}
-      onOpen={toggleColumnCheckbox}
+      onClose={type !== 'trackerTable' ? toggleColumnCheckbox : cancelColumnFilters}
+      onOpen={type !== 'trackerTable' ? toggleColumnCheckbox : undefined}
       position="bottom right"
       className="range-filters"
       basic={true}
       trigger={
         <Icon
           className={`filter ${isFilterActive() ? 'column-filter-ic-active' : 'column-filter-ic'} `}
-          onClick={() =>
-            toggleColumnFilters ? toggleColumnFilters(columnDataKey, filterType) : undefined
-          }
+          onClick={(e: any) => {
+            e.preventDefault();
+            e.stopPropagation();
+            return toggleColumnFilters ? toggleColumnFilters(columnDataKey, filterType) : undefined;
+          }}
         />
       }
       content={
@@ -219,6 +234,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
           ) : null}
 
           <span className="th-label">{label}</span>
+          {filter && searchIconPosition === 'right' && ColumnFilter}
           {label === 'Supplier' && (
             <span>
               <Icon
@@ -260,6 +276,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
       </Table.HeaderCell>
     );
   }
+
   return (
     <Table.HeaderCell key={dataKey || Date.now()} {...otherProps}>
       {' '}

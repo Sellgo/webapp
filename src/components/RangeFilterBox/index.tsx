@@ -62,7 +62,11 @@ const RangeFilterBox = (props: any) => {
     } else {
       setFilterRange(minMax);
     }
-    resetFilters(['checkbox', 'list'].includes(filterType) ? 'checkbox' : dataKey);
+    resetFilters(
+      ['checkbox', 'list'].includes(filterType) ? 'checkbox' : dataKey,
+      filterType,
+      dataKey
+    );
     if (filterType !== ['checkbox', 'list']) {
       localStorage.removeItem(`${name}:${dataKey}`);
     }

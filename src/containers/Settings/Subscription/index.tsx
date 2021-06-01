@@ -1,18 +1,21 @@
 import React from 'react';
-import {
-  Button,
-  Header,
-  Segment,
-  Card,
-  Input,
-  Confirm,
-  Grid,
-  Image,
-  Table,
-  Divider,
-} from 'semantic-ui-react';
+import { Confirm } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
+import { v4 as uuid } from 'uuid';
+import Axios from 'axios';
+import _ from 'lodash';
+
+import stripe from '../../../stripe';
+
+/* Utils */
+import { success, error } from '../../../utils/notifications';
+import history from '../../../history';
+
+/* Config */
+import { AppConfig } from '../../../config';
+
+/* Actions */
 import {
   fetchSellerSubscription,
   fetchSubscriptions,
@@ -20,28 +23,29 @@ import {
   setSellerSubscription,
 } from '../../../actions/Settings/Subscription';
 import { getSellerInfo } from '../../../actions/Settings';
-import './subscription.scss';
-import PageHeader from '../../../components/PageHeader';
-import { Subscription } from '../../../interfaces/Seller';
-import Axios from 'axios';
-import { AppConfig } from '../../../config';
-import stripe from '../../../stripe';
-import { success, error } from '../../../utils/notifications';
-import history from '../../../history';
 
+/* Assets */
 import Setcard from '../../../assets/images/4_Card_color_horizontal.svg';
 import Stripe from '../../../assets/images/powered_by_stripe.svg';
-import { Link } from 'react-router-dom';
+
+/* Styling */
+import styles from './index.module.scss';
+
+/* Components */
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
-import {
-  isSubscriptionFree,
-  isSubscriptionIdBasic,
-  isSubscriptionIdEnterprise,
-  isSubscriptionIdPro,
-  isSubscriptionNotPaid,
-  isTrialExpired,
-} from '../../../utils/subscriptions';
-import _ from 'lodash';
+import PageHeader from '../../../components/PageHeader';
+import PricePlanToggleButton from '../../../components/PricePlanToggleButton';
+import PricingInfoAlert from '../../../components/PricingInfoAlert';
+import PricingPlansCard from '../../../components/PricingPlansCard';
+import AllFeaturesTable from '../../../components/AllFeaturesTable';
+import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
+
+/* Data */
+import { plansAndProductsDetails } from './data/index';
+import { getAllFeaturesForPlans } from './data/table';
+
+/* Types */
+import { Subscription } from '../../../interfaces/Seller';
 
 interface SubscriptionProps {
   getSeller: () => void;
@@ -62,13 +66,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   state = {
     couponVal: '',
     promptCancelSubscription: false,
-    // Breaking these out into individual values instead of an object
-    // because couldn't get Typescript to allow an undefined object :(
     pendingSubscription: false,
     pendingSubscriptionId: '',
     pendingSubscriptionName: '',
     pendingSubscriptionMode: '',
-    isYearly: false,
+    isMonthly: false,
   };
 
   componentDidMount() {
@@ -88,9 +90,10 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     getSeller();
     fetchSubscriptions();
+    console.log(sellerSubscription.payment_mode);
 
     this.setState({
-      isYearly: sellerSubscription.payment_mode === 'yearly' ? true : false,
+      isMonthly: sellerSubscription.payment_mode === 'monthly' ? true : false,
     });
   }
 
@@ -195,150 +198,37 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     redeemCoupon(couponVal, profile.id);
   }
 
+  promptCancelSubscriptionPlan = () => {
+    this.setState({ promptCancelSubscription: true });
+  };
+
+  getNewPlan(subscriptionDetails: any) {
+    const { isMonthly } = this.state;
+    this.chooseSubscription(subscriptionDetails, isMonthly ? 'monthly' : 'yearly');
+  }
+
   render() {
-    const {
-      subscriptions,
-      sellerSubscription,
-      subscriptionType,
-      subscriptionPlan,
-      match,
-    } = this.props;
+    const { match, sellerSubscription, subscriptions, subscriptionType } = this.props;
+
     const {
       promptCancelSubscription,
       pendingSubscription,
       pendingSubscriptionId,
       pendingSubscriptionName,
       pendingSubscriptionMode,
-      isYearly,
+      isMonthly,
     } = this.state;
-    const subscribedSubscription = sellerSubscription
+
+    const infoAlertDetails = isMonthly
+      ? plansAndProductsDetails.infoAlertMessage.monthly
+      : plansAndProductsDetails.infoAlertMessage.yearly;
+
+    // Find the subscribed subscription
+    const subscribedSubscription = subscriptions
       ? subscriptions.filter(e => e.id === sellerSubscription.subscription_id)[0]
       : undefined;
 
-    const trackTitle = 'Unlimited Profit Finder';
-
-    let subscriptionsSorted = _.cloneDeep(subscriptions).sort((a, b) => (a.id > b.id ? 1 : -1));
-    if (subscriptionsSorted.length && subscriptionsSorted.length === 4) {
-      const [basic, pro, enterprise, extension] = subscriptionsSorted;
-      subscriptionsSorted = [extension, basic, pro, enterprise];
-    }
-
-    const plansDisplay = subscriptionsSorted.map((subscription: Subscription) => {
-      const isSubscribed =
-        subscribedSubscription &&
-        subscribedSubscription.id === subscription.id &&
-        (isYearly
-          ? sellerSubscription.payment_mode === 'yearly'
-          : sellerSubscription.payment_mode === 'monthly');
-      const subscriptionId = Number(subscription.id);
-
-      const getTrackLimit = (trackLimit: number) => {
-        return isSubscriptionIdBasic(subscriptionId) || isSubscriptionIdPro(subscriptionId)
-          ? trackLimit + ' Product Tracker Limit'
-          : 'More than 100,000 Product Tracker Limit';
-      };
-
-      return (
-        <Card
-          key={subscription.id}
-          className={`card-container ${isYearly ? 'yearly-card' : 'monthly-card'} ${isSubscribed &&
-            'active-plan'} ${!isSubscribed &&
-            (isSubscriptionIdBasic(subscriptionId)
-              ? 'basic-value-content'
-              : isSubscriptionIdPro(subscriptionId)
-              ? 'best-value-content'
-              : 'contact-us-content')}`}
-        >
-          <Card.Content className="card-container__header">
-            <Card.Header>
-              <Button
-                className={`${isSubscriptionIdBasic(subscriptionId) &&
-                  !isSubscribed &&
-                  'best-value'}`}
-                fluid
-              >
-                Best Value
-              </Button>
-            </Card.Header>
-          </Card.Content>
-          <Card.Content className="card-container__name">
-            <Card.Header className={`${isSubscriptionIdPro(subscriptionId) && 'pro-plan'}`}>
-              {subscription.name}
-            </Card.Header>
-            <Card.Meta>
-              {subscription.track_limit > 0 && trackTitle}
-              <br />
-              {subscription.track_limit > 0 && getTrackLimit(subscription.track_limit)}
-            </Card.Meta>
-          </Card.Content>
-          {isYearly && !isSubscriptionIdEnterprise(subscriptionId) && (
-            <Card.Content className="card-container__discount-details">
-              <p className="card-container__discount-details__slash">
-                ${subscription.monthly_price * 12}
-              </p>
-              <p className="card-container__discount-details__save">
-                Pay ${Math.round(subscription.yearly_price)}
-              </p>
-            </Card.Content>
-          )}
-          <Card.Content
-            className={`card-container__details ${isSubscriptionIdEnterprise(subscriptionId) &&
-              'contact-us'}`}
-          >
-            <Card.Header>
-              <strong>$&nbsp;</strong>
-              {isSubscriptionIdEnterprise(subscriptionId)
-                ? 'Contact Us'
-                : isYearly
-                ? Number(subscription.yearly_price / 12).toFixed(2)
-                : Math.trunc(Number(subscription.monthly_price))}
-              <strong>&nbsp;/mo</strong>
-            </Card.Header>
-            <Card.Description>
-              {!isSubscriptionIdEnterprise(subscriptionId) &&
-                (isYearly ? 'Billed Annually' : 'Billed Monthly')}
-            </Card.Description>
-          </Card.Content>
-          <Card.Content extra>
-            {isSubscribed && (
-              <Button
-                onClick={() => this.setState({ promptCancelSubscription: true })}
-                className={`basic-btn active-plan`}
-                fluid
-              >
-                Cancel
-              </Button>
-            )}
-            {!isSubscribed && (
-              <Button
-                onClick={() =>
-                  this.chooseSubscription(subscription, isYearly ? 'yearly' : 'monthly')
-                }
-                className={`basic-btn`}
-                fluid
-              >
-                {subscribedSubscription ? 'Change Plan' : 'Get Started'}
-              </Button>
-            )}
-
-            {!subscribedSubscription &&
-              isSubscriptionFree(subscriptionPlan) &&
-              !isTrialExpired(sellerSubscription) && (
-                <Link to="/settings/#amazon-mws" className="free-trial-btn">
-                  <Button className="basic-btn" fluid>
-                    Free Trial
-                  </Button>
-                </Link>
-              )}
-
-            <p className={Number(subscription.id) === 3 ? 'contact-us' : ''}>
-              Contact Customer Service
-              <a href="mailto: support@sellgo.com">{'support@sellgo.com'}</a>
-            </p>
-          </Card.Content>
-        </Card>
-      );
-    });
+    const comparisionTableData = getAllFeaturesForPlans('Monthly and Annual Pricing Plans');
 
     return (
       <>
@@ -390,234 +280,71 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
           }}
         />
 
-        <Segment basic={true} className="subscription" style={{ textAlign: 'center' }}>
-          <Grid className="pricing-container">
-            <Grid.Row>
-              <Header as="h1">Sellgo Pricing</Header>
-              For new members register with Amazon Seller Central Account <br />
-              Risk free 14-day money back guarantee
-            </Grid.Row>
-
-            <Grid.Row className="pricing-type flex-center">
-              <div className="pricing-type__content">
-                <Button
-                  className={`pricing-type__content__monthly-btn ${!isYearly && 'primary active'}`}
-                  onClick={() => {
-                    this.setState({ isYearly: false });
-                  }}
-                >
-                  Monthly
-                </Button>
-                <Button
-                  className={`pricing-type__content__yearly-btn ${isYearly && 'primary active'}`}
-                  onClick={() => {
-                    this.setState({ isYearly: true });
-                  }}
-                >
-                  Yearly
-                </Button>
-                <div className="pricing-type__content__circle" />
-              </div>
-            </Grid.Row>
-            <Grid.Row className="pricing-content flex-center">{plansDisplay}</Grid.Row>
-            {isSubscriptionNotPaid(subscriptionType) && (
-              <div className="coupon-container" style={{ marginTop: '15px' }}>
-                <Header as="h4">Have a coupon?</Header>
-                <Grid className="field-container">
-                  <Input
-                    style={{
-                      marginLeft: '10px',
-                      marginRight: '10px',
-                      marginBottom: '15px',
-                    }}
-                    value={this.state.couponVal}
-                    onChange={e => this.setState({ couponVal: e.target.value })}
-                    onKeyPress={(e: KeyboardEvent) => {
-                      if (e.key === 'Enter') this.redeem();
-                    }}
-                    placeholder="Enter Coupon Here"
-                    type="text"
-                  />
-                  <Button
-                    basic={true}
-                    style={{
-                      borderRadius: 20,
-                      background: 'rgb(66, 133, 244) !important',
-                      fontWeight: 'bold',
-                      width: '180px',
-                    }}
-                    color="grey"
-                    onClick={() => this.redeem()}
-                  >
-                    {'Redeem'}
-                  </Button>
-                </Grid>
-              </div>
-            )}
-            <Grid.Row className="setcard-container">
-              <Image src={Setcard} />
-              <Image src={Stripe} />
-            </Grid.Row>
-            <Grid.Row className="offer-footer">We offer 14-day money back guarantee.</Grid.Row>
-            <Divider />
-          </Grid>
-          <Grid className="plans-table-container">
-            <div className="plans-table-container__wrapper">
-              <Grid.Row className="plans-table-container__wrapper__title">
-                <p>Compare Plans</p>{' '}
-              </Grid.Row>
-              <Table striped className="plans-table-container__wrapper__table">
-                <Table.Header className="plans-table-container__wrapper__table__header">
-                  <Table.Row>
-                    <Table.HeaderCell></Table.HeaderCell>
-                    {_.map(subscriptionsSorted, (data, index) => {
-                      return <Table.HeaderCell key={index}>{data.name}</Table.HeaderCell>;
-                    })}
-                  </Table.Row>
-                </Table.Header>
-
-                <Table.Body className="plans-table-container__wrapper__table__body">
-                  <Table.Row>
-                    <Table.Cell>Find Profitable Products</Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell>Search Management</Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
-                  </Table.Row>
-
-                  <Table.Row>
-                    <Table.Cell>Filter and Sort</Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell>Daily Inventory Tracking</Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell>Maximum Monthly Uploads</Table.Cell>
-                    <Table.Cell>
-                      <p>Limited</p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>Unlimited</p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>Unlimited</p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>Unlimited</p>
-                    </Table.Cell>
-                  </Table.Row>
-
-                  <Table.Row>
-                    <Table.Cell>Product Tracking</Table.Cell>
-                    {_.map(subscriptionsSorted, (data, index) => {
-                      if (data.name !== 'Enterprise') {
-                        return (
-                          <Table.Cell key={index}>
-                            <p>{data.track_limit}</p>
-                          </Table.Cell>
-                        );
-                      } else {
-                        return (
-                          <Table.Cell key={index}>
-                            <p>Inquiry based</p>
-                          </Table.Cell>
-                        );
-                      }
-                    })}
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell>Leads Tracker</Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell>
-                      <p>Inquiry based</p>
-                    </Table.Cell>
-                    <Table.Cell></Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-              </Table>
+        <main className={styles.subscriptionPage}>
+          <section className={styles.subscriptionPageWrapper}>
+            <div className={styles.planName}>
+              <span />
+              <h2>{plansAndProductsDetails.planName}</h2>
             </div>
-          </Grid>
-        </Segment>
+
+            <div className={styles.planShortSummary}>
+              <p>{plansAndProductsDetails.summary}</p>
+            </div>
+
+            <PricePlanToggleButton
+              isMonthly={isMonthly}
+              handleChange={() => this.setState({ isMonthly: !isMonthly })}
+              className={styles.paymentModeToggle}
+            />
+
+            <PricingInfoAlert {...infoAlertDetails} background="#F2EFE4" />
+
+            <section className={styles.pricingPlanCardsWrapper}>
+              {plansAndProductsDetails.productsIncluded.map(product => {
+                return (
+                  <PricingPlansCard
+                    key={uuid()}
+                    subscriptionId={product.id}
+                    name={product.name}
+                    productsDatabase={product.productsDatabase}
+                    salesEstimateCount={product.salesEstimateCount}
+                    monthlyPrice={product.monthlyPrice}
+                    annualPrice={product.annualPrice}
+                    desc={product.desc}
+                    featureSubName={product.featureSubName}
+                    featuresLists={product.featuresLists}
+                    // plan type details
+                    isMonthly={isMonthly}
+                    subscribedSubscription={subscribedSubscription}
+                    subscriptionType={subscriptionType}
+                    sellerSubscription={sellerSubscription}
+                    // action on subscriptions
+                    promptCancelSubscription={this.promptCancelSubscriptionPlan.bind(this)}
+                    changePlan={(subscriptionDetails: any) => this.getNewPlan(subscriptionDetails)}
+                  />
+                );
+              })}
+            </section>
+
+            <section className={styles.allFeaturesSection}>
+              {comparisionTableData.map((feature: any) => {
+                return (
+                  <AllFeaturesTable key={uuid()} header={feature.header} body={feature.body} />
+                );
+              })}
+            </section>
+
+            <section className={styles.paymentMeta}>
+              <div className={styles.paymentMeta__images}>
+                <img src={Setcard} alt="Different card payment options" />
+                <img src={Stripe} alt="Protected by stripe logo" />
+              </div>
+              <div className={styles.paymentMeta__text}>
+                <p>We offer 7-day money back guarantee.</p>
+              </div>
+            </section>
+          </section>
+        </main>
       </>
     );
   }

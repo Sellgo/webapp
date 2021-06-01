@@ -38,7 +38,25 @@
           color: $icon-hover-color;
           transform: scale(1.05);
           transform-origin: center;
-          transition: all 0.2s ease-in-out;
+        }
+      }
+    }
+
+    > .error-file-download {
+      margin-left: 15px;
+
+      a:hover {
+        color: $icon-hover-color !important;
+      }
+
+      i.error-download-icon {
+        font-size: 14px;
+        color: $error-icon-color !important;
+
+        &:hover {
+          color: $error-icon-hover-color !important;
+          transform: scale(1.05);
+          transform-origin: center;
         }
       }
     }

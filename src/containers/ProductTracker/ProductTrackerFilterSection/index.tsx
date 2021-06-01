@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
 import { connect } from 'react-redux';
-import { Range } from '../../../interfaces/Generic';
+
 import get from 'lodash/get';
 import _ from 'lodash';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 import { ProductTrackerFilterInterface } from '../../../interfaces/Filters';
-import ProductTrackerFilter from '../../../components/ProductTrackerFilter';
+
 import {
   findMinMax,
   filterProductsByGroupId,
@@ -24,6 +24,8 @@ import {
 import { sellerIDSelector } from '../../../selectors/Seller';
 import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
 import PresetFilter from '../../../components/ProductTrackerFilter/PresetFilter';
+import { fetchSubscriptions } from '../../../actions/Settings/Subscription';
+import { Subscription } from '../../../interfaces/Seller';
 
 interface Props {
   setPageNumber: (pageNumber: number) => void;
@@ -35,6 +37,9 @@ interface Props {
   filterReset: (data: boolean) => void;
   isTrackerFilterLoading: (data: boolean) => void;
   isLoadingTrackerProducts: boolean;
+  sellerSubscription: any;
+  fetchSubscriptions: () => void;
+  subscriptions: any;
 }
 
 function ProductTrackerFilterSection(props: Props) {
@@ -48,8 +53,16 @@ function ProductTrackerFilterSection(props: Props) {
     setPageNumber,
     isLoadingTrackerProducts,
     isTrackerFilterLoading,
+    sellerSubscription,
+    fetchSubscriptions,
+    subscriptions,
   } = props;
+
   const sellerID = sellerIDSelector();
+
+  useEffect(() => {
+    fetchSubscriptions();
+  }, []);
 
   const filterStorage =
     typeof localStorage.trackerFilter === 'undefined' ||
@@ -67,11 +80,12 @@ function ProductTrackerFilterSection(props: Props) {
   );
 
   const [openPresetFilter, togglePresetFilter] = React.useState(false);
-  const [filterType, setFilterType] = useState('');
+
   const [isAllReviews, setAllReviews] = useState(selectAllStorage);
   const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupId);
   const filteredRanges = findMinMax(groupProducts);
   const rangeData: any = _.cloneDeep(filteredRanges);
+
   const filterInitialData: any = {
     sellerID: sellerID,
     amazonChoice: [],
@@ -89,7 +103,18 @@ function ProductTrackerFilterSection(props: Props) {
     avg_daily_sales: filteredRanges.avg_daily_sales,
     avg_rank: filteredRanges.avg_rank,
     customer_reviews: filteredRanges.customer_reviews,
+    rating: filteredRanges.rating,
+    avg_daily_revenue: filteredRanges.avg_daily_revenue,
+    amazon_oos_90: filteredRanges.amazon_oos_90,
+    weight: filteredRanges.weight,
+    avg_inventory: filteredRanges.avg_inventory,
+    avg_amazon_inventory: filteredRanges.avg_amazon_inventory,
+    number_of_sellers: filteredRanges.number_of_sellers,
+    amazon_price: filteredRanges.amazon_price,
     activeGroupId: activeGroupId,
+    is_amazon_selling: 'Yes,No',
+    subscribe_save: 'Yes,No',
+    source: 'all',
     customizable: [
       {
         dataKey: 'listing-monthly',
@@ -133,7 +158,6 @@ function ProductTrackerFilterSection(props: Props) {
     filterStorage && filterStorage.sellerID === sellerID ? filterStorage : filterInitialData;
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
-  const [hasAllFilter, setHasAllFilter] = React.useState(false);
 
   if (filterState.amazonChoice === undefined) {
     filterState.amazonChoice = filterInitialData.amazonChoice;
@@ -159,7 +183,6 @@ function ProductTrackerFilterSection(props: Props) {
     if (!_.isEmpty(groupProducts)) {
       isTrackerFilterLoading(true);
       if (filterStorage && filterStorage.activeGroupId !== activeGroupId) {
-        setFilterType('');
         const filterValue = filterState;
         filterValue.activeGroupId = activeGroupId;
         setFilterState(filterValue);
@@ -184,8 +207,6 @@ function ProductTrackerFilterSection(props: Props) {
       if (isAllReviews) {
         selectAllReviews(true);
       }
-
-      setHasAllFilter(isAllFilterUse());
     }
   }, [filterState, activeGroupId, isLoadingTrackerProducts, groupProducts]);
 
@@ -367,34 +388,8 @@ function ProductTrackerFilterSection(props: Props) {
   };
 
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.all.filterRanges);
-  const [filterReviews, setFilterReviews] = React.useState(filterDataState.all.reviews.data);
+
   const [presetFilter, setPresetFilter] = React.useState(filterDataState.presets);
-
-  const handleCompleteChange = (datakey: string, range: Range) => {
-    const filterDetails: any = filterState;
-    const data = _.map(filterRanges, filter => {
-      if (filter.dataKey === datakey) {
-        filter.filterRange = range;
-      }
-      return filter;
-    });
-    filterDetails[datakey] = range;
-    setFilterState(filterDetails);
-    setFilterRanges(data);
-    toggleOffCustomFilter(datakey);
-  };
-
-  const toggleSelectAllReviews = () => {
-    setAllReviews(!isAllReviews);
-    const data = filterState;
-    if (!isAllReviews) {
-      selectAllReviews();
-    } else {
-      localStorage.setItem('filterSelectAllReviews', JSON.stringify(false));
-      data.reviews = [];
-      setFilterState(data);
-    }
-  };
 
   const selectAllReviews = (firstLoad?: boolean) => {
     if (!firstLoad) {
@@ -409,26 +404,6 @@ function ProductTrackerFilterSection(props: Props) {
       return reviewsData;
     });
 
-    setFilterState(data);
-  };
-
-  const toggleReviewsCheckbox = (filterDataKey: string) => {
-    const data = filterState;
-    setAllReviews(false);
-    localStorage.setItem('filterSelectAllReviews', JSON.stringify(false));
-    const tempReviews = _.map(filterReviews, review => {
-      review.checked = data.reviews.indexOf(filterDataKey) !== -1;
-      return review;
-    });
-    setFilterReviews(tempReviews);
-    if (data.reviews.indexOf(filterDataKey) !== -1) {
-      data.reviews.splice(data.reviews.indexOf(filterDataKey), 1);
-    } else {
-      data.reviews.push(filterDataKey);
-      if (data.reviews.length === filterReviews.length) {
-        selectAllReviews();
-      }
-    }
     setFilterState(data);
   };
 
@@ -452,6 +427,7 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterState(data);
     applyFilter(true);
   };
+
   const setPeriod = (value: number) => {
     isTrackerFilterLoading(true);
     fetchAllTrackedProductDetails(value);
@@ -505,26 +481,6 @@ function ProductTrackerFilterSection(props: Props) {
 
     setFilterRanges(filterDetails);
     setFilterState(data);
-  };
-
-  const resetSingleFilter = (datakey: string) => {
-    const filterDetails = filterState;
-    const data = _.map(filterRanges, filter => {
-      if (filter.dataKey === datakey) {
-        filter.filterRange = rangeData[datakey];
-        filterDetails[datakey] = rangeData[datakey];
-        if (filterDetails.removeNegative.indexOf(datakey) !== -1) {
-          filterDetails.removeNegative.splice(filterDetails.removeNegative.indexOf(datakey), 1);
-          filter.range = rangeData[datakey];
-          filter.filterRange = rangeData[datakey];
-          filterDetails[datakey] = rangeData[datakey];
-        }
-      }
-      return filter;
-    });
-    toggleOffCustomFilter(datakey);
-    setFilterRanges(data);
-    setFilterState(filterDetails);
   };
 
   const customizableFilterWithSlider = (dataKey: string) => {
@@ -605,9 +561,9 @@ function ProductTrackerFilterSection(props: Props) {
     });
     setFilterState(filterData);
   };
+
   const applyFilter = (isPreset?: boolean) => {
     setPageNumber(1);
-    setHasAllFilter(isAllFilterUse());
 
     if (
       !isPreset &&
@@ -625,12 +581,9 @@ function ProductTrackerFilterSection(props: Props) {
     } else {
       localStorage.removeItem('trackerFilter');
     }
-    if (!isPreset) {
-      setFilterType('');
-    }
   };
 
-  const resetFilter = (onClick?: boolean) => {
+  const resetFilter = () => {
     checkCustomizePresetChange();
     const ranges = findMinMax(groupProducts);
     const data = filterState;
@@ -661,9 +614,7 @@ function ProductTrackerFilterSection(props: Props) {
       setFilterRanges(ranges);
     });
     setFilterState(data);
-    if (onClick) {
-      setFilterType('');
-    }
+
     applyFilter();
   };
 
@@ -740,42 +691,26 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterState(filterValue);
   };
 
-  const handleFilterType = (type: string) => {
-    if (filterType === type) {
-      setFilterType('');
-      return;
-    }
-    setFilterType(type);
-  };
+  const matchingSubscription =
+    subscriptions &&
+    subscriptions.find((subscription: Subscription) => {
+      return subscription.id === sellerSubscription.subscription_id;
+    });
 
-  const isAllFilterUse = () => {
-    const ranges = findMinMax(groupProducts);
-    if (JSON.stringify(ranges.customer_reviews) !== JSON.stringify(filterState.customer_reviews))
-      return true;
-    if (JSON.stringify(ranges.avg_daily_sales) !== JSON.stringify(filterState.avg_daily_sales))
-      return true;
-    if (JSON.stringify(ranges.avg_profit) !== JSON.stringify(filterState.avg_profit)) return true;
-    if (JSON.stringify(ranges.avg_margin) !== JSON.stringify(filterState.avg_margin)) return true;
-    if (JSON.stringify(ranges.avg_price) !== JSON.stringify(filterState.avg_price)) return true;
-    if (JSON.stringify(ranges.avg_rank) !== JSON.stringify(filterState.avg_rank)) return true;
-    if (JSON.stringify(ranges.avg_roi) !== JSON.stringify(filterState.avg_roi)) return true;
-    if (!isAllReviews) return true;
-    return false;
-  };
+  let historyTrackPeriod: number;
+
+  if (!matchingSubscription) {
+    // for free trial and free account
+    historyTrackPeriod = 7;
+  } else {
+    historyTrackPeriod =
+      (matchingSubscription && matchingSubscription.track_history_limit) || Infinity;
+  }
 
   return (
     <div className="tracker-filter-section">
       <div className="tracker-filter-section__header">
         <div className="tracker-filter-section__header__all-container">
-          <Button
-            className={`all-filter-btn ${filterType === 'all-filter' && 'active'}`}
-            onClick={() => handleFilterType('all-filter')}
-          >
-            <Icon name="sliders horizontal" />
-            <span className="filter-name">All</span>
-            <Icon name="filter" className={` ${hasAllFilter ? 'active' : ''} `} />
-          </Button>
-
           <Popup
             on="click"
             open={openPresetFilter}
@@ -814,15 +749,24 @@ function ProductTrackerFilterSection(props: Props) {
         </div>
         <div className="tracker-filter-section__header__period-container">
           {_.map(filterDataState.period.data, filterData => {
+            const shouldDisabledFilterPeriod = filterData.value
+              ? filterData.value > historyTrackPeriod
+                ? true
+                : false
+              : true;
+
             return (
               <div
-                className={`tracker-filter-section__header__period-container__period-items ${filterData.value ===
-                  filterState.period && 'active'}`}
+                className={`tracker-filter-section__header__period-container__period-items 
+                ${filterData.value === filterState.period ? 'active' : ''}
+                ${shouldDisabledFilterPeriod ? ' disabled' : ''}`}
                 key={filterData.dataKey}
               >
                 <span
                   onClick={() => {
-                    setPeriod(filterData.value || 1);
+                    return !shouldDisabledFilterPeriod
+                      ? setPeriod(filterData.value || 1)
+                      : undefined;
                   }}
                 >
                   {filterData.label}
@@ -832,21 +776,6 @@ function ProductTrackerFilterSection(props: Props) {
           })}
         </div>
       </div>
-      <>
-        <ProductTrackerFilter
-          filterType={filterType}
-          applyFilter={applyFilter}
-          resetSingleFilter={resetSingleFilter}
-          resetFilter={resetFilter}
-          filterData={filterDataState}
-          handleCompleteChange={handleCompleteChange}
-          filterState={filterState}
-          toggleSelectAllReviews={toggleSelectAllReviews}
-          isAllReviews={isAllReviews}
-          toggleReviewsCheckbox={toggleReviewsCheckbox}
-          toggleNegative={toggleNegative}
-        />
-      </>
     </div>
   );
 }
@@ -856,6 +785,8 @@ const mapStateToProps = (state: {}) => ({
   activeGroupId: get(state, 'productTracker.menuItem'),
   trackerDetails: get(state, 'productTracker.trackerDetails'),
   resettingFilter: get(state, 'productTracker.resettingFilter'),
+  sellerSubscription: get(state, 'subscription.sellerSubscription'),
+  subscriptions: get(state, 'subscription.subscriptions'),
 });
 
 const mapDispatchToProps = {
@@ -865,5 +796,6 @@ const mapDispatchToProps = {
   fetchAllTrackedProductDetails: (periodValue: any) =>
     fetchAllSupplierProductTrackerDetails(periodValue),
   setPageNumber: (pageNumber: number) => setProductTrackerPageNumber(pageNumber),
+  fetchSubscriptions: () => fetchSubscriptions(),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerFilterSection);

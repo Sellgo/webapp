@@ -1,0 +1,38 @@
+@import '../../design-system/new-colors';
+
+.pricingInfoAlert {
+  border: 1px solid $blue_6;
+  color: $prim_dark_2;
+  padding: 10px 20px;
+  border-radius: 7px;
+  margin: 20px auto;
+
+  h3 {
+    font-size: 16px;
+    color: $prim_dark_2;
+    margin: 0;
+  }
+
+  div {
+    font-size: 14px;
+    color: $prim_dark_2;
+    margin-top: 5px;
+
+    a {
+      text-decoration: underline;
+      color: inherit;
+      font-size: 14px;
+      margin-left: 10px;
+      display: inline-block;
+
+      &:hover {
+        color: $prim_dark_2 !important;
+        font-weight: normal;
+      }
+
+      svg {
+        margin-left: 5px;
+      }
+    }
+  }
+}

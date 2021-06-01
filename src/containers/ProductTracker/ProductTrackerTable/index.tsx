@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, Icon } from 'semantic-ui-react';
+import { Checkbox, Icon, Popup } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './index.scss';
 import { ProductTrackerDetails, ProductsPaginated } from '../../../interfaces/Product';
@@ -28,13 +28,20 @@ import {
   updateProductCost,
   removeProductTrackGroup,
   fetchOOS90,
+  filterTrackedProducts,
 } from '../../../actions/ProductTracker';
 
 import {
   fetchSupplierProductDetailChartRating,
   fetchSupplierProductDetailChartReview,
 } from '../../../actions/Products';
-import { columnFilter } from '../../../constants/Tracker';
+import {
+  booleanFilterKeys,
+  columnFilter,
+  filterProductsByGroupId,
+  findMinMax,
+  mapTrackerSourceForFilter,
+} from '../../../constants/Tracker';
 import ProductTrackerFilterSection from '../ProductTrackerFilterSection';
 import _ from 'lodash';
 import {
@@ -94,11 +101,15 @@ interface TrackerProps {
   fetchOOS90: (payload: any) => void;
   loadingOOS90: boolean;
   OOS90: any;
+  filterTrackedProducts: (filterData: any, activeGroup: any) => void;
+  activeGroupID: any;
+  productTrackerFilterRanges: any;
+  trackerDetails: any;
 }
+
 class ProductTrackerTable extends React.Component<TrackerProps> {
   state = {
     expandedRows: null,
-    ColumnFilterBox: false,
     name: '',
     confirm: false,
     open: false,
@@ -115,6 +126,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     editCost: false,
     product_cost: 0,
     isValidCostValue: false,
+    ColumnFilterBox: false,
+    activeColumnFilters: '',
+    filterValues: {
+      min: '',
+      max: '',
+    },
   };
 
   componentDidMount() {
@@ -146,6 +163,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       this.setState({ open: false });
     }
   }
+
   handleSubmit = (e: any) => {
     e.preventDefault();
     const { name } = this.state;
@@ -157,6 +175,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       postCreateProductTrackGroup(name);
     }
   };
+
   handleChange = (e: any) => {
     this.setState({ name: e.target.value, error: false });
   };
@@ -167,11 +186,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       activeRow: row,
     });
   };
+
   handleCancel = () => {
     this.setState({
       confirm: false,
     });
   };
+
   handleUntrackSubmit = (productTrackGroupId: any, id: any) => {
     this.setState({
       confirm: false,
@@ -185,6 +206,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       name: '',
     });
   };
+
   handleAddGroupCancel = () => {
     this.setState({
       open: false,
@@ -192,6 +214,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       name: '',
     });
   };
+
   handleAddGroupSubmit = () => {
     const { name } = this.state;
     const { postCreateProductTrackGroup } = this.props;
@@ -202,6 +225,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       this.setState({ error: true });
     }
   };
+
   handleAddGroupNameChange = (e: any) => {
     this.setState({ name: e.target.value });
   };
@@ -211,11 +235,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       editGroup: true,
     });
   };
+
   handleEditGroupCancel = () => {
     this.setState({
       editGroup: false,
     });
   };
+
   handleEditGroupSubmit = (group: any) => {
     if (!_.isEmpty(group.name.trim())) {
       this.props.updateProductTrackGroup(group);
@@ -233,11 +259,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       deleteGroup: true,
     });
   };
+
   handleDeleteGroupCancel = () => {
     this.setState({
       deleteGroup: false,
     });
   };
+
   handleDeleteGroupSubmit = (group: any) => {
     this.props.deleteProductTrackGroup(group);
     this.setState({
@@ -247,6 +275,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
 
   handleClick = () => {
     const { ColumnFilterBox } = this.state;
+
     this.setState({
       ColumnFilterBox: !ColumnFilterBox,
     });
@@ -286,6 +315,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     localStorage.setItem('productTrackerColumnFilterState', JSON.stringify([...checkedData]));
     this.setState({ columnFilterData: [...checkedData] });
   };
+
   renderCheckbox = () => {
     return <Checkbox />;
   };
@@ -415,17 +445,21 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       </p>
     );
   };
+
   renderRating = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">{showNAIfZeroOrNull(row.rating && row.rating !== '0.0', row.rating)}</p>
     );
   };
+
   renderDimensions = (row: ProductTrackerDetails) => {
     return <p className="stat">{showNAIfZeroOrNull(row.dimension, row.dimension)}</p>;
   };
+
   renderWeight = (row: ProductTrackerDetails) => {
     return <p className="stat">{showNAIfZeroOrNull(row.weight, `${row.weight} lbs`)}</p>;
   };
+
   renderAvgInventory = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
@@ -433,6 +467,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       </p>
     );
   };
+
   renderAvgAmazonInventory = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
@@ -443,6 +478,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       </p>
     );
   };
+
   renderIsAmazonSelling = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
@@ -450,6 +486,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       </p>
     );
   };
+
   renderIcons = (row: ProductTrackerDetails) => {
     const { trackGroups, handleMoveGroup, setProductEditDetails } = this.props;
 
@@ -475,8 +512,64 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       />
     );
   };
+
   renderSource = (row: ProductTrackerDetails) => {
     return <p>{truncateString(row.source, 25)}</p>;
+  };
+
+  renderSubScribeSave = (row: ProductTrackerDetails) => {
+    let subscribeSave: string;
+    if (!row.subscribe_save) {
+      subscribeSave = row.subscribe_save === null ? '-' : 'No';
+    } else {
+      subscribeSave = 'Yes';
+    }
+    return <p className="stat">{subscribeSave}</p>;
+  };
+
+  renderOtherUPCS = (row: ProductTrackerDetails) => {
+    const upcs = row.upcs ? row.upcs.split(' ') : [];
+
+    const dataValue = row.upcs === null ? '-' : upcs[0];
+
+    return (
+      <>
+        {upcs.length > 0 ? (
+          <Popup
+            className="other-upcs-popup"
+            size="large"
+            position="bottom left"
+            basic
+            content={
+              <div className="other-upcs-card">
+                <h5>Other UPCs (This product has multiple UPC's) </h5>
+                <p>{upcs.join(' ')}</p>
+              </div>
+            }
+            on={'click'}
+            trigger={<p className="stat">{dataValue}</p>}
+          />
+        ) : (
+          dataValue
+        )}
+      </>
+    );
+  };
+
+  renderNoOfSellers = (row: ProductTrackerDetails) => {
+    return (
+      <p className="stat">
+        {showNAIfZeroOrNull(row.number_of_sellers, formatNumber(row.number_of_sellers))}
+      </p>
+    );
+  };
+
+  renderAmazonPrice = (row: ProductTrackerDetails) => {
+    return (
+      <p className="stat">
+        {showNAIfZeroOrNull(row.amazon_price, formatCurrency(row.amazon_price))}
+      </p>
+    );
   };
 
   columns: Column[] = [
@@ -497,6 +590,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       render: this.renderSource,
       className: 'pt-source',
+      filter: true,
+      filterLabel: 'Source',
+      filterSign: '',
+      filterDataKey: 'source',
+      filterType: 'list',
     },
     {
       label: 'Avg\nPrice',
@@ -506,6 +604,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       render: this.renderAvgPrice,
       className: 'pt-price',
+      filter: true,
+      filterSign: '$',
+      filterLabel: 'Avg Price',
+      filterDataKey: 'avg_price',
+      filterType: 'slider',
     },
     {
       label: 'Avg\nProfit',
@@ -514,6 +617,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       sortable: true,
       show: true,
       render: this.renderAvgProfit,
+      filter: true,
+      filterSign: '$',
+      filterLabel: 'Avg Profit',
+      filterDataKey: 'avg_profit',
+      filterType: 'slider',
     },
     {
       label: 'Avg\nMargin',
@@ -522,6 +630,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       sortable: true,
       show: true,
       render: this.renderAvgMargin,
+      filter: true,
+      filterSign: '%',
+      filterLabel: 'Avg Margin',
+      filterDataKey: 'avg_margin',
+      filterType: 'slider',
     },
     {
       label: 'Avg Daily\nUnit Sold',
@@ -530,6 +643,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       sortable: true,
       show: true,
       render: this.renderAvgUnitSold,
+      filter: true,
+      filterSign: '',
+      filterLabel: 'Avg Daily Sales',
+      filterDataKey: 'avg_daily_sales',
+      filterType: 'slider',
     },
     {
       label: 'Avg Daily\nRevenue',
@@ -538,6 +656,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderDailyRevenue,
+      filter: true,
+      filterSign: '$',
+      filterLabel: 'Avg Daily Revenue',
+      filterDataKey: 'avg_daily_revenue',
+      filterType: 'slider',
     },
     {
       label: 'Avg\nROI',
@@ -546,6 +669,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderAvgROI,
+      filter: true,
+      filterSign: '%',
+      filterLabel: 'Avg ROI',
+      filterDataKey: 'avg_roi',
+      filterType: 'slider',
     },
     {
       label: 'Out Of\nStock %',
@@ -554,6 +682,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderOOS,
+      filter: true,
+      filterSign: '%',
+      filterLabel: 'Out of Stock',
+      filterDataKey: 'amazon_oos_90',
+      filterType: 'slider',
     },
     {
       label: 'Avg Daily\nRank',
@@ -562,6 +695,58 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderAvgRank,
+      filter: true,
+      filterSign: '',
+      filterLabel: 'Avg Daily Rank',
+      filterDataKey: 'avg_rank',
+      filterType: 'slider',
+    },
+    {
+      label: 'Subscribe\n& Save',
+      dataKey: 'subscribe_save',
+      type: 'boolean',
+      show: true,
+      sortable: true,
+      render: this.renderSubScribeSave,
+      filter: true,
+      filterLabel: 'Subscribe & Save',
+      filterSign: '',
+      filterDataKey: 'subscribe_save',
+      filterType: 'list',
+    },
+    {
+      label: 'Number\nOf Sellers',
+      dataKey: 'number_of_sellers',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderNoOfSellers,
+      filter: true,
+      filterSign: '',
+      filterLabel: 'Number of Sellers',
+      filterDataKey: 'number_of_sellers',
+      filterType: 'slider',
+    },
+    {
+      label: 'Amazon\n Sells at',
+      dataKey: 'amazon_price',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderAmazonPrice,
+      filter: true,
+      filterSign: '$',
+      filterLabel: 'Amazon Sells At',
+      filterDataKey: 'amazon_price',
+      filterType: 'slider',
+    },
+    {
+      label: 'Other UPC',
+      dataKey: 'upcs',
+      type: 'string',
+      show: true,
+      sortable: true,
+      render: this.renderOtherUPCS,
     },
     {
       label: 'Dimensions',
@@ -578,6 +763,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderWeight,
+      filter: true,
+      filterSign: 'lb',
+      filterLabel: 'Weight',
+      filterDataKey: 'weight',
+      filterType: 'slider',
     },
     {
       label: 'Reviews',
@@ -586,6 +776,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderCustomerReviews,
+      filter: true,
+      filterSign: '',
+      filterLabel: 'Reviews Count',
+      filterDataKey: 'customer_reviews',
+      filterType: 'slider',
     },
     {
       label: 'Rating',
@@ -594,6 +789,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderRating,
+      filter: true,
+      filterSign: '',
+      filterLabel: 'Ratings',
+      filterDataKey: 'rating',
+      filterType: 'slider',
     },
     {
       label: 'Avg\nInventory',
@@ -602,6 +802,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderAvgInventory,
+      filter: true,
+      filterSign: '',
+      filterLabel: 'Avg Inventory',
+      filterDataKey: 'avg_inventory',
+      filterType: 'slider',
     },
     {
       label: 'Is Amazon\nSelling',
@@ -610,6 +815,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderIsAmazonSelling,
+      filter: true,
+      filterLabel: 'Is Amazon Selling',
+      filterSign: '',
+      filterDataKey: 'is_amazon_selling',
+      filterType: 'list',
     },
     {
       label: 'Avg Amazon\nInventory',
@@ -619,6 +829,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       sortable: true,
       render: this.renderAvgAmazonInventory,
       className: 'pt-avg_amazon_inventory',
+      filter: true,
+      filterSign: '',
+      filterLabel: 'Amazon Inventory',
+      filterDataKey: 'avg_amazon_inventory',
+      filterType: 'slider',
     },
     {
       icon: 'ellipsis horizontal',
@@ -669,6 +884,108 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     });
   };
 
+  setActiveColumnFilters = (dataKey: any, filterType: any) => {
+    const { trackerDetails, activeGroupID } = this.props;
+
+    const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupID);
+    const filteredRanges = findMinMax(groupProducts);
+    const mapSourceForFilter = mapTrackerSourceForFilter(groupProducts);
+
+    let filterValues: any;
+    if (filterType === 'slider') {
+      filterValues = [
+        {
+          [`${dataKey}_min`]: filteredRanges[dataKey].min,
+          [`${dataKey}_max`]: filteredRanges[dataKey].max,
+        },
+      ];
+    }
+
+    if (filterType === 'list') {
+      //subscribe_save and is_amazon_selling
+      if (booleanFilterKeys.includes(dataKey)) {
+        filterValues = [{ value: 'Yes' }, { value: 'No' }];
+      }
+      // for source
+      else {
+        filterValues = mapSourceForFilter;
+      }
+    }
+
+    this.setState({
+      activeColumnFilters: dataKey,
+      ColumnFilterBox: false,
+      filterValues,
+    });
+  };
+
+  applyColumnFilters = (data: any) => {
+    const { filterTrackedProducts, activeGroupID, setPageNumber } = this.props;
+    const { dataKey, value } = data;
+
+    const filterStorage = localStorage.getItem('trackerFilter') || '{}';
+    const trackerFilter = JSON.parse(filterStorage);
+
+    const newTrackerFilter = {
+      ...trackerFilter,
+      [dataKey]: value,
+    };
+
+    setPageNumber(1);
+    filterTrackedProducts(newTrackerFilter, activeGroupID);
+    localStorage.setItem('trackerFilter', JSON.stringify(newTrackerFilter));
+
+    this.setState({ activeColumnFilters: '' });
+  };
+
+  resetColumnFilter = (dataKey: any, filterType: any, filterKey: any) => {
+    const { filterTrackedProducts, activeGroupID, trackerDetails, setPageNumber } = this.props;
+
+    const filterStorage = localStorage.getItem('trackerFilter') || '{}';
+
+    const trackerFilter = JSON.parse(filterStorage);
+    const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupID);
+    const filteredRanges = findMinMax(groupProducts);
+
+    let newTrackerFilter: any;
+
+    if (filterType === 'slider') {
+      newTrackerFilter = {
+        ...trackerFilter,
+        [dataKey]: filteredRanges[dataKey],
+      };
+    }
+
+    if (filterType === 'list') {
+      // subscribe_save and is_amazon_selling
+      if (booleanFilterKeys.includes(filterKey)) {
+        newTrackerFilter = {
+          ...trackerFilter,
+          [filterKey]: 'Yes,No',
+        };
+      }
+      // source
+      else {
+        newTrackerFilter = {
+          ...trackerFilter,
+          [filterKey]: 'all',
+        };
+      }
+    }
+
+    setPageNumber(1);
+    filterTrackedProducts(newTrackerFilter, activeGroupID);
+    this.setState({ activeColumnFilters: '' });
+    localStorage.setItem('trackerFilter', JSON.stringify(newTrackerFilter));
+  };
+
+  cancelColumnFilter = () => {
+    this.setState({
+      ColumnFilterBox: false,
+      activeColumnFilters: '',
+    });
+  };
+
   render() {
     const {
       loadingTrackerFilter,
@@ -692,7 +1009,14 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       currentActiveColumn,
       costDetails,
     } = this.props;
-    const { ColumnFilterBox, editCost, product_cost } = this.state;
+
+    const {
+      ColumnFilterBox,
+      editCost,
+      product_cost,
+      activeColumnFilters,
+      filterValues,
+    } = this.state;
 
     return (
       <div className="tracker-table">
@@ -736,7 +1060,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           currentActiveColumn={currentActiveColumn}
           stickyChartSelector={stickyChartSelector}
           scrollTopSelector={scrollTopSelector}
-          columnFilterBox={ColumnFilterBox}
           tableKey={tableKeys.PRODUCTS}
           data={filteredProducts}
           columns={this.state.columns}
@@ -764,6 +1087,15 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           scrollToView={this.state.scrollView}
           leftFixedColumns={1}
           rightFixedColumns={1}
+          /* Filters */
+          columnFilterBox={ColumnFilterBox}
+          activeColumnFilters={activeColumnFilters}
+          filterValues={filterValues}
+          loadingFilters={loadingTrackerFilter}
+          toggleColumnFilters={this.setActiveColumnFilters}
+          cancelColumnFilters={this.cancelColumnFilter}
+          applyColumnFilters={this.applyColumnFilters}
+          resetColumnFilters={this.resetColumnFilter}
         />
 
         {editCost && (
@@ -807,6 +1139,9 @@ const mapStateToProps = (state: any) => {
     costDetails: get(state, 'productTracker.costDetails'),
     loadingOOS90: loadingOOS90(state),
     OOS90: getOOS90(state),
+    activeGroupID: get(state, 'productTracker.menuItem'),
+    trackerDetails: get(state, 'productTracker.trackerDetails'),
+    productTrackerFilterRanges: get(state, 'productTracker.filterRanges'),
   };
 };
 
@@ -833,5 +1168,7 @@ const mapDispatchToProps = {
   updateCost: (payload: any) => updateProductCost(payload),
   removeProductTrackGroup: (payload: any) => removeProductTrackGroup(payload),
   fetchOOS90,
+  filterTrackedProducts: (filterData: any, groupId: any) =>
+    filterTrackedProducts(filterData, groupId),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerTable);

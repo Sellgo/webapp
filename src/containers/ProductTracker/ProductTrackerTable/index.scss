@@ -6,7 +6,7 @@
 
 .table-cell-container {
   .icon {
-    display: none;
+    color: $icon-color;
   }
 }
 
@@ -416,9 +416,11 @@
 
     .dv-arrow {
       position: absolute;
-      width: 42%;
+      width: max-content;
       display: flex;
       justify-content: center;
+      left: 50%;
+      transform: translateX(-50%);
 
       span {
         float: left;
@@ -458,8 +460,64 @@
         width: 100px;
       }
 
+      .source {
+        min-width: 116px !important;
+
+        .stat {
+          text-align: left !important;
+        }
+      }
+
+      .avg_price {
+        min-width: 104px !important;
+
+        .stat {
+          text-align: left !important;
+        }
+      }
+
+      .avg_profit {
+        min-width: 108px !important;
+
+        .stat {
+          text-align: left;
+        }
+      }
+
+      .avg_margin {
+        min-width: 114px !important;
+
+        .stat {
+          text-align: left !important;
+        }
+      }
+
+      .avg_daily_sales {
+        min-width: 129px !important;
+
+        .stat {
+          text-align: left;
+        }
+      }
+
+      .avg_daily_revenue {
+        min-width: 128px !important;
+
+        .stat {
+          text-align: left !important;
+        }
+      }
+
+      .avg_roi {
+        min-width: 95px !important;
+
+        .stat {
+          text-align: left !important;
+        }
+      }
+
       .amazon_oos_90 {
-        min-width: 98.4px !important;
+        min-width: 123px !important;
 
         .stat {
           display: flex;
@@ -478,56 +536,41 @@
         }
       }
 
-      .avg_price {
-        min-width: 95px !important;
-
-        .stat {
-          text-align: left !important;
-        }
-      }
-
-      .avg_profit {
-        min-width: 95px !important;
-
-        .stat {
-          text-align: left;
-        }
-      }
-
-      .avg_margin {
-        min-width: 95px !important;
-
-        .stat {
-          text-align: left !important;
-        }
-      }
-
-      .avg_daily_sales {
-        min-width: 95px !important;
-
-        .stat {
-          text-align: left;
-        }
-      }
-
-      .avg_daily_revenue {
-        min-width: 95px !important;
-
-        .stat {
-          text-align: left !important;
-        }
-      }
-
-      .avg_roi {
-        min-width: 95px !important;
-
-        .stat {
-          text-align: left !important;
-        }
-      }
-
       .avg_rank {
-        min-width: 95px !important;
+        min-width: 128px !important;
+
+        .stat {
+          text-align: left !important;
+        }
+      }
+
+      .subscribe_save {
+        min-width: 133px !important;
+
+        .stat {
+          text-align: left !important;
+        }
+      }
+
+      .number_of_sellers {
+        min-width: 132px !important;
+
+        .stat {
+          text-align: left !important;
+        }
+      }
+
+      .amazon_price {
+        min-width: 123px !important;
+
+        .stat {
+          text-align: left !important;
+        }
+      }
+
+      .upcs {
+        min-width: 116px !important;
+        text-align: left !important;
 
         .stat {
           text-align: left !important;
@@ -535,7 +578,7 @@
       }
 
       .weight {
-        min-width: 95px !important;
+        min-width: 115px !important;
 
         .stat {
           text-align: left;
@@ -543,7 +586,7 @@
       }
 
       .customer_reviews {
-        min-width: 95px !important;
+        min-width: 123px !important;
 
         .stat {
           text-align: left !important;
@@ -551,7 +594,7 @@
       }
 
       .rating {
-        min-width: 95px !important;
+        min-width: 112px !important;
 
         .stat {
           text-align: left !important;
@@ -559,15 +602,7 @@
       }
 
       .avg_inventory {
-        min-width: 95px !important;
-
-        .stat {
-          text-align: left !important;
-        }
-      }
-
-      .avg_amazon_inventory {
-        min-width: 108px !important;
+        min-width: 130px !important;
 
         .stat {
           text-align: left !important;
@@ -575,7 +610,15 @@
       }
 
       .is_amazon_selling {
-        min-width: 95px !important;
+        min-width: 135px !important;
+
+        .stat {
+          text-align: left !important;
+        }
+      }
+
+      .avg_amazon_inventory {
+        min-width: 146px !important;
 
         .stat {
           text-align: left !important;
@@ -616,6 +659,22 @@
       }
     }
 
+    td:nth-child(1) {
+      vertical-align: middle;
+
+      .image-wrapper {
+        align-items: center;
+        display: flex;
+        height: 75px;
+        justify-content: center;
+        width: 75px;
+
+        img {
+          display: block;
+        }
+      }
+    }
+
     .product-tracker-description {
       display: flex;
       text-align: left;
@@ -641,6 +700,7 @@
             color: $table-special-kpi;
             font-weight: 500;
             text-decoration: underline;
+            margin-bottom: 0;
 
             &:hover {
               color: $table-special-kpi-hover !important;
@@ -648,6 +708,11 @@
             }
           }
         }
+      }
+
+      .wrap-prod-information {
+        align-items: flex-start;
+        margin-top: 0;
       }
 
       .information {
@@ -681,26 +746,17 @@
             line-height: 14px;
           }
         }
+
+        .product-labels-container {
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          flex-direction: column;
+        }
       }
 
       .table-icon {
         margin-left: 10px;
-      }
-    }
-
-    td:nth-child(1) {
-      vertical-align: middle;
-
-      .image-wrapper {
-        align-items: center;
-        display: flex;
-        height: 75px;
-        justify-content: center;
-        width: 75px;
-
-        img {
-          display: block;
-        }
       }
     }
 

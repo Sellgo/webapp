@@ -56,11 +56,55 @@ export const filterPeriods: FilterData = {
       value: 90,
     },
     {
+      label: '180D',
+      dataKey: '6-Month',
+      value: 180,
+    },
+    {
       label: '365D',
       dataKey: 'year',
       value: 365,
     },
   ],
+};
+
+export const maxStarterPlanFilterPeriod = 30;
+export const maxSuitePlanFilterperiod = 180;
+export const maxProfessionalPlanFilterPeriod = 365;
+
+export const getMaxFilterPeriod = (subscriptionID: number) => {
+  // Free Trial, Free Account and Starter Plans
+  if (subscriptionID >= 4) {
+    return maxStarterPlanFilterPeriod;
+  }
+
+  // Pro Plan and Old Exterprise Plan
+  if (subscriptionID >= 2 && subscriptionID <= 3) {
+    return maxProfessionalPlanFilterPeriod;
+  }
+
+  //Suite Plan
+  return maxSuitePlanFilterperiod;
+};
+
+export const booleanFilterKeys = ['is_amazon_selling', 'subscribe_save'];
+
+export const findUniqueTrackerSources = (products: any) => {
+  const uniqueSources = products.filter((product: any, index: number) => {
+    const firstMatchIndex = products.findIndex((obj: any) => obj.source === product.source);
+    return firstMatchIndex === index;
+  });
+
+  return uniqueSources;
+};
+
+export const mapTrackerSourceForFilter = (products: any) => {
+  const allUnqiueSources = findUniqueTrackerSources(products);
+  return allUnqiueSources.map((product: any) => {
+    return {
+      value: product.source,
+    };
+  });
 };
 
 export const filterKeys: any = [
@@ -72,6 +116,14 @@ export const filterKeys: any = [
   'avg_roi',
   'avg_rank',
   'customer_reviews',
+  'rating',
+  'avg_daily_revenue',
+  'amazon_oos_90',
+  'weight',
+  'avg_inventory',
+  'avg_amazon_inventory',
+  'number_of_sellers',
+  'amazon_price',
 ];
 
 export const dataKeyMapping: any = {
@@ -220,7 +272,34 @@ export const columnFilter = [
   {
     key: 'Avg Amazon Inventory',
     dataKey: 'avg_amazon_inventory',
+    visible: true,
     value: true,
+  },
+  {
+    key: 'Subscribe & Save',
+    dataKey: 'subscribe_save',
+    visible: true,
+    value: true,
+  },
+
+  {
+    key: 'Number Of Sellers',
+    dataKey: 'number_of_sellers',
+    visible: true,
+    value: true,
+  },
+  {
+    key: 'Amazon Sells At',
+    dataKey: 'amazon_price',
+    type: 'number',
+    visible: true,
+    value: true,
+  },
+  {
+    key: 'Other UPC',
+    dataKey: 'upcs',
+    value: true,
+    visible: true,
   },
   {
     value: true,
@@ -340,13 +419,33 @@ export const findNonProfitableProducts = (product: any, profitabilityFilter: any
 
 export const findFilteredProducts = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
+    // Filter by source
+    const filterSource = filterData.source.includes(product.source) || filterData.source === 'all';
+
+    // Filter By subscribe and save
+    const isSubscribeSave =
+      (filterData.subscribe_save === 'Yes' && product.subscribe_save) ||
+      (filterData.subscribe_save === 'No' && !product.subscribe_save) ||
+      filterData.subscribe_save === 'Yes,No' ||
+      filterData.subscribe_save === 'No,Yes';
+
+    // Filter by is amazon selling
+    const isAmazonSelling =
+      (filterData.is_amazon_selling === 'Yes' && product.is_amazon_selling) ||
+      (filterData.is_amazon_selling === 'No' && !product.is_amazon_selling) ||
+      filterData.is_amazon_selling === 'Yes,No' ||
+      filterData.is_amazon_selling === 'No,Yes';
+
     return filterData !== undefined
-      ? /*
+      ? filterSource &&
+          isAmazonSelling &&
+          isSubscribeSave &&
+          /*
           show amazon choice products if checked, if not, show all
         */
-        (filterData.amazonChoice.indexOf('amazon-choice-products') === -1 ||
-          (filterData.amazonChoice.indexOf('amazon-choice-products') !== -1 &&
-            !_.isEmpty(product.amazon_choice))) &&
+          (filterData.amazonChoice.indexOf('amazon-choice-products') === -1 ||
+            (filterData.amazonChoice.indexOf('amazon-choice-products') !== -1 &&
+              !_.isEmpty(product.amazon_choice))) &&
           /*
           show NOT selling products if checked, if not, show all
         */
@@ -359,8 +458,8 @@ export const findFilteredProducts = (products: any, filterData: any) => {
           findNonProfitableProducts(product, filterData.profitabilityFilter) &&
           filterKeys.every(
             (dataKey: any) =>
-              Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
-              Number(product[dataKey]) <= Number(filterData[dataKey].max)
+              Number(product[dataKey]) >= Number(filterData[dataKey].min || -Infinity) &&
+              Number(product[dataKey]) <= Number(filterData[dataKey].max || Infinity)
           )
       : products;
   });
