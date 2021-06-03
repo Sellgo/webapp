@@ -217,7 +217,7 @@ export const trackDatabaseSeller = (merchantId: any) => async (dispatch: any, ge
     const url = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants/track`;
     let sellers = sellerDatabase(getState());
     const payload = new FormData();
-    payload.set('merchant_id', merchantId);
+    payload.set('seller_merchant_id', merchantId);
     const res = await Axios.post(url, payload);
     const data = res.data;
     if (data) {

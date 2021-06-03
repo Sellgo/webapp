@@ -62,7 +62,8 @@ import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Suppliers';
 import { success, error as errorMessage } from '../../../utils/notifications';
 import { copyToClipboard, download } from '../../../utils/file';
-import { formatCompletedDate } from '../../../utils/date';
+import { formatCompletedDate, getHours } from '../../../utils/date';
+import moment from 'moment';
 
 interface Props {
   sellers: any[];
@@ -234,6 +235,7 @@ const SellerFinderTable = (props: Props) => {
   const [sellerProgress, setSellerProgress] = useState(0);
   const [sellerProgressError, setSellerProgressError] = useState(false);
   const [exportMerchantID, setExportMerchantID] = useState(0);
+  const [inventoryDate, setInventoryDate] = useState({ sellerId: 0, last_check_inventory: '' });
 
   const expandRow = (row: any) => {
     setExpandedRow(expandedRow && expandedRow === row.id ? null : row.id);
@@ -383,6 +385,10 @@ const SellerFinderTable = (props: Props) => {
         if (data.status === SEARCH_STATUS.DONE) {
           fetchProducts({ pageNo: productsPageNo, pageSize: productsPageSize });
           if (data.products_count) {
+            setInventoryDate({
+              sellerId: activeMerchant.merchant_id,
+              last_check_inventory: moment().format(),
+            });
             success(`${data.products_count} Products Found!`);
           }
         }
@@ -707,6 +713,9 @@ const SellerFinderTable = (props: Props) => {
   const renderRatingL365DPercentage = (row: any) => (
     <p>{row.review_ratings ? row.review_ratings : '-'}</p>
   );
+  const renderFBA = (row: any) => <p>{row.fba_count ? 'Yes' : 'No'}</p>;
+
+  const renderFBM = (row: any) => <p>{row.fbm_count ? 'Yes' : 'No'}</p>;
 
   const renderReviewL30D = (row: any) => (
     <p>{showNAIfZeroOrNull(row.count_30_days, row.count_30_days)}</p>
@@ -805,6 +814,34 @@ const SellerFinderTable = (props: Props) => {
       filterDataKey: 'review_ratings',
       filterLabel: 'Rating% L365D',
       render: renderRatingL365DPercentage,
+    },
+    {
+      label: `FBA`,
+      dataKey: 'fba_count',
+      type: 'string',
+      sortable: true,
+      show: true,
+      className: `fba`,
+      filter: true,
+      filterSign: '',
+      filterType: 'list',
+      filterDataKey: 'fba_count',
+      filterLabel: 'FBA',
+      render: renderFBA,
+    },
+    {
+      label: `FBM`,
+      dataKey: 'fbm_count',
+      type: 'string',
+      sortable: true,
+      show: true,
+      className: `fbm`,
+      filter: true,
+      filterSign: '',
+      filterType: 'list',
+      filterDataKey: 'fbm_count',
+      filterLabel: 'FBM',
+      render: renderFBM,
     },
     {
       label: `Review \nL30D`,
@@ -956,9 +993,15 @@ const SellerFinderTable = (props: Props) => {
           data={filteredProductsByGroups}
           columns={columns}
           extendedInfo={(data: any) => {
+            const totalHours = getHours(data.last_check_inventory);
+            console.log(totalHours);
             return (
               <SellerDetails
-                details={data}
+                details={
+                  inventoryDate.sellerId === data.merchant_id
+                    ? { ...data, last_check_inventory: inventoryDate.last_check_inventory }
+                    : data
+                }
                 onCheckInventory={onCheckInventory}
                 onPagination={payload => fetchProducts(payload)}
                 onProductsExport={() => exportMerchantProducts(data.id)}

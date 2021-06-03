@@ -5,6 +5,7 @@ import { loadingInventory } from '../../../selectors/SellerFinder';
 import { connect } from 'react-redux';
 import { SEARCH_STATUS } from '../../../constants/SellerFinder';
 import { copyToClipboard } from '../../../utils/file';
+import { getHours } from '../../../utils/date';
 interface SellerInformationProps {
   details: any;
   onCheckInventory: (data: any) => void;
@@ -74,8 +75,12 @@ const SellerInformation = (props: SellerInformationProps) => {
     setTimeout(() => setCopied(false), 500);
   };
 
-  const noInventory = showNAIfZeroOrNull(details.inventory_count, details.inventory_count) === '-';
-
+  let noInventory = false;
+  if (showNAIfZeroOrNull(details.inventory_count, details.inventory_count) === '-') {
+    noInventory = true;
+  } else if (getHours(details.last_check_inventory) <= 24) {
+    noInventory = true;
+  }
   return (
     <div className="seller-information">
       <div className="action-button-container">
