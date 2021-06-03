@@ -62,7 +62,7 @@ import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Suppliers';
 import { success, error as errorMessage } from '../../../utils/notifications';
 import { copyToClipboard, download } from '../../../utils/file';
-import { formatCompletedDate, getHours } from '../../../utils/date';
+import { formatCompletedDate } from '../../../utils/date';
 import moment from 'moment';
 
 interface Props {
@@ -993,8 +993,6 @@ const SellerFinderTable = (props: Props) => {
           data={filteredProductsByGroups}
           columns={columns}
           extendedInfo={(data: any) => {
-            const totalHours = getHours(data.last_check_inventory);
-            console.log(totalHours);
             return (
               <SellerDetails
                 details={
