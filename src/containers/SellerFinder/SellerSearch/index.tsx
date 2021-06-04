@@ -12,14 +12,23 @@ const SellerSearch = (props: Props) => {
       <div className="search-container">
         <Input
           size="small"
+          className="input-1"
           icon={'search'}
-          placeholder="Search by ASIN or Seller Name/ID"
+          placeholder="Find in your Seller Finder List"
           onChange={(evt: any) => setSearch(evt.target.value)}
           onKeyDown={(evt: any) => (evt.key === 'Enter' ? props.onSearch(search) : undefined)}
         />
-        <span className="or">Or</span>
+        <span className="or">or</span>
+        <Input
+          size="small"
+          className="input-2"
+          icon={'search'}
+          placeholder="Insert Amazon Links or ASINs or Seller IDs ..."
+          onChange={(evt: any) => setSearch(evt.target.value)}
+          onKeyDown={(evt: any) => (evt.key === 'Enter' ? props.onSearch(search) : undefined)}
+        />
         <Button primary className="search-btn" onClick={() => history.push('seller-database')}>
-          Find Sellers
+          Find
         </Button>
       </div>
     </div>

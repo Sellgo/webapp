@@ -433,8 +433,15 @@ $new_black: #3b4557;
       }
 
       .inventory-details {
-        color: #349af8;
-        font-weight: bold;
+        color: $sellgo-disabled;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .inventory-active {
+        color: $sellgo-orange;
+        font-weight: 600;
+        font-size: 14px;
       }
     }
 
@@ -607,15 +614,34 @@ $new_black: #3b4557;
     }
   }
 
+  .card-title {
+    font-size: 16px !important;
+    color: $sellgo-text-color !important;
+  }
+
+  .search-card {
+    width: 100%;
+    border-radius: 7px !important;
+
+    .search-content {
+      height: 146px;
+      display: flex;
+      padding-top: 28px;
+    }
+  }
+
   .search-input-container {
-    margin: -25px 0 15px 0;
+    //margin: -25px 0 15px 0;
 
     .search-progress-container {
       margin-top: 10px;
-      width: 27%;
+      width: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
 
       .search-message {
-        color: $sellgo-green;
+        color: $sellgo-text-color;
         font-size: 16px;
         font-weight: 500;
         margin-left: 25px;
@@ -623,6 +649,17 @@ $new_black: #3b4557;
 
       .searching-error {
         color: red;
+      }
+
+      .ui.progress {
+        width: 30%;
+        margin-left: 33%;
+        margin-bottom: 0;
+        margin-top: 0;
+
+        .bar {
+          background-color: $sellgo-orange;
+        }
       }
     }
   }

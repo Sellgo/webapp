@@ -2,6 +2,8 @@ $blue: #349af8;
 $green: #5dc560;
 $lightgray: #98aeca;
 
+@import '../../../../design-system/colors';
+
 .inner-container {
   font-weight: 500 !important;
   line-height: 0;
@@ -26,7 +28,7 @@ $lightgray: #98aeca;
   .icon {
     font-size: 10px !important;
     line-height: 1;
-    color: $blue !important;
+    color: $sellgo-orange !important;
   }
 }
 
@@ -47,16 +49,16 @@ $lightgray: #98aeca;
   }
 
   .track-seller {
-    width: 119px;
+    width: 150px;
     height: 20px;
-    border: 0.5px solid $blue !important;
-    border-radius: 100px !important;
+    border: 0.5px solid $sellgo-orange !important;
+    border-radius: 5px !important;
     box-shadow: unset !important;
     cursor: pointer;
     display: flex !important;
     align-items: center !important;
     padding: 0 10px !important;
-    color: $blue !important;
+    color: $sellgo-orange !important;
     background: white !important;
     z-index: 999;
 
@@ -82,16 +84,16 @@ $lightgray: #98aeca;
   }
 
   .track-product {
-    width: 99px;
-    height: 25px;
-    border: 0.5px solid $blue;
-    border-radius: 100px !important;
+    width: 150px;
+    height: 20px;
+    border: 0.5px solid $sellgo-orange;
+    border-radius: 5px !important;
     box-shadow: unset !important;
     cursor: pointer;
     display: flex !important;
     align-items: center !important;
     padding: 0 10px !important;
-    color: $blue;
+    color: $sellgo-orange;
     background: white !important;
 
     > span {
@@ -113,14 +115,14 @@ $lightgray: #98aeca;
   .reload-product {
     width: 125px;
     height: 25px;
-    border: 0.5px solid $blue !important;
+    border: 0.5px solid $sellgo-orange !important;
     border-radius: 100px !important;
     box-shadow: unset !important;
     cursor: pointer;
     display: flex !important;
     align-items: center !important;
     padding: 0 10px !important;
-    color: $blue !important;
+    color: $sellgo-orange !important;
     background: white !important;
 
     > span {
@@ -158,7 +160,7 @@ $lightgray: #98aeca;
     .icon {
       font-size: 10px !important;
       line-height: 1;
-      color: $blue !important;
+      color: $sellgo-orange !important;
     }
   }
 }

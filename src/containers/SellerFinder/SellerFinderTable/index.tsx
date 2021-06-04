@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, RefObject } from 'react';
 import Rating from 'react-rating';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { Icon, Progress } from 'semantic-ui-react';
+import { Card, Icon, Progress } from 'semantic-ui-react';
 
 import { Column, GenericTable } from '../../../components/Table';
 import './index.scss';
@@ -52,6 +52,7 @@ import {
   setSellersSinglePageItemsCount,
   fetchSellerFilters,
   setProductIndex,
+  updateSellers,
 } from '../../../actions/SellerFinder';
 
 import { SEARCH_STATUS, SELLER_DETAILS_URL } from '../../../constants/SellerFinder';
@@ -104,6 +105,7 @@ interface Props {
   sellerFilters: any;
   fetchSellerFilters: (query: string) => void;
   setActiveProductIndex: (index: number) => void;
+  updateSellers: (info: any) => void;
 }
 
 interface SearchResponse {
@@ -164,6 +166,7 @@ const SellerFinderTable = (props: Props) => {
     setActiveProductIndex,
     exportProductsSocket,
     reconnectExportProductsSocket,
+    updateSellers,
   } = props;
 
   const [expandedRow, setExpandedRow] = useState<any>(null);
@@ -235,7 +238,6 @@ const SellerFinderTable = (props: Props) => {
   const [sellerProgress, setSellerProgress] = useState(0);
   const [sellerProgressError, setSellerProgressError] = useState(false);
   const [exportMerchantID, setExportMerchantID] = useState(0);
-  const [inventoryDate, setInventoryDate] = useState({ sellerId: 0, last_check_inventory: '' });
 
   const expandRow = (row: any) => {
     setExpandedRow(expandedRow && expandedRow === row.id ? null : row.id);
@@ -385,7 +387,7 @@ const SellerFinderTable = (props: Props) => {
         if (data.status === SEARCH_STATUS.DONE) {
           fetchProducts({ pageNo: productsPageNo, pageSize: productsPageSize });
           if (data.products_count) {
-            setInventoryDate({
+            updateSellers({
               sellerId: activeMerchant.merchant_id,
               last_check_inventory: moment().format(),
             });
@@ -693,7 +695,7 @@ const SellerFinderTable = (props: Props) => {
   );
 
   const renderInventory = (row: any) => (
-    <p className="inventory-details">
+    <p className={row.has_inventory ? 'inventory-active' : 'inventory-details'}>
       {showNAIfZeroOrNull(row.inventory_count, row.inventory_count)}
     </p>
   );
@@ -926,23 +928,30 @@ const SellerFinderTable = (props: Props) => {
 
   return (
     <div className="seller-finder-table">
-      <div className="search-input-container">
-        <SellerSearch onSearch={value => search(value)} />
-        {searching && (
-          <div className="search-progress-container">
-            <p className={`search-message ${sellerProgressError ? 'searching-error' : ''}`}>
-              {searchMessage}
-            </p>
-            <Progress
-              percent={sellerProgress}
-              size="tiny"
-              success={!sellerProgressError}
-              error={sellerProgressError}
-              active={sellerProgress !== 100}
-            />
+      <Card className="search-card">
+        <Card.Content>
+          <Card.Header className="card-title">SELLER FINDER</Card.Header>
+        </Card.Content>
+        <Card.Content className="search-content">
+          <div className="search-input-container">
+            <SellerSearch onSearch={value => search(value)} />
+            {searching && (
+              <div className="search-progress-container">
+                <Progress
+                  percent={sellerProgress}
+                  size="tiny"
+                  color="orange"
+                  error={sellerProgressError}
+                  active={sellerProgress !== 100}
+                />
+                <span className={`search-message ${sellerProgressError ? 'searching-error' : ''}`}>
+                  {searchMessage}
+                </span>
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </Card.Content>
+      </Card>
       <div className="seller-menu">
         <SellerGroups
           groups={sellerTrackGroups}
@@ -995,11 +1004,7 @@ const SellerFinderTable = (props: Props) => {
           extendedInfo={(data: any) => {
             return (
               <SellerDetails
-                details={
-                  inventoryDate.sellerId === data.merchant_id
-                    ? { ...data, last_check_inventory: inventoryDate.last_check_inventory }
-                    : data
-                }
+                details={data}
                 onCheckInventory={onCheckInventory}
                 onPagination={payload => fetchProducts(payload)}
                 onProductsExport={() => exportMerchantProducts(data.id)}
@@ -1109,5 +1114,6 @@ const mapDispatchToProps = {
   setSellersSinglePageItemsCount: (count: number) => setSellersSinglePageItemsCount(count),
   fetchSellerFilters: (query: string) => fetchSellerFilters(query),
   setActiveProductIndex: (index: number) => setProductIndex(index),
+  updateSellers: (info: any) => updateSellers(info),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SellerFinderTable);

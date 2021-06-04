@@ -513,6 +513,18 @@ export const setProductHeight = (height: number) => async (dispatch: any) =>
 export const setSellerHeight = (height: number) => async (dispatch: any) =>
   dispatch(setSellerHeight(height));
 
+export const updateSellers = (sellerInfo: any) => async (dispatch: any, getState: any) => {
+  let data = sellers(getState());
+  data = data.map((seller: any) => {
+    if (seller.merchant_id === sellerInfo.sellerId) {
+      seller = { ...seller, last_check_inventory: sellerInfo.last_check_inventory };
+    }
+    return seller;
+  });
+
+  dispatch(setSellers(data));
+};
+
 const setProductsCount = (count: number) => ({
   type: SET_SELLER_PRODUCTS_COUNT,
   data: count,

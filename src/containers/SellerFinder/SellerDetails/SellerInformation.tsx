@@ -115,7 +115,7 @@ const SellerInformation = (props: SellerInformationProps) => {
               <Progress
                 percent={loadingInventory.error_status ? 100 : loadingInventory.progress}
                 size="tiny"
-                success={!loadingInventory.error_status}
+                color="orange"
                 error={loadingInventory.error_status}
                 active={loadingInventory.progress !== 100}
               />

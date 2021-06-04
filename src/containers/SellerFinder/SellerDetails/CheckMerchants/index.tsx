@@ -50,7 +50,8 @@ const CheckMerchants = (props: Props) => {
                   : props.activeProductSellerStatus.progress
               }
               size="tiny"
-              success={!props.activeProductSellerStatus.error_status}
+              color="orange"
+              // success={!props.activeProductSellerStatus.error_status}
               error={props.activeProductSellerStatus.error_status}
               active={props.activeProductSellerStatus.progress !== 100}
             />

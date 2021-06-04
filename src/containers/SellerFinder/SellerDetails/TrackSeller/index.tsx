@@ -57,7 +57,13 @@ const TrackSeller = (props: Props) => {
               <Icon name={loading ? 'spinner' : 'plus'} loading={loading} />
             )}
           </span>
-          <span className="tracking-label">{status === 'active' ? `Tracking` : 'Track'}</span>
+          <span className="tracking-label">
+            {status === 'active'
+              ? `Tracking`
+              : props.type === 'seller'
+              ? 'Track Seller'
+              : 'Track Product'}
+          </span>
         </Button>
       </div>
     </>

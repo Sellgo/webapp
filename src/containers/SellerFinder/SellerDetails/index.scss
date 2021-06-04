@@ -4,6 +4,8 @@ $grey: #98aeca;
 $red: #e74c3c;
 $darkgary: #dfe8f329;
 
+@import '../../../design-system/colors';
+
 .disable-products {
   > .rst__tree {
     .square {
@@ -322,14 +324,14 @@ $darkgary: #dfe8f329;
             .check-inventory {
               width: 168px;
               height: 25px;
-              border: 0.5px solid $blue;
+              border: 0.5px solid $sellgo-orange;
               //line-height: 0;
               border-radius: 7px;
               text-align: left;
               padding-left: 10px !important;
               font-size: 14px;
               font-weight: 600;
-              color: $blue !important;
+              color: $sellgo-orange !important;
               display: flex;
               align-items: center;
             }
@@ -343,6 +345,10 @@ $darkgary: #dfe8f329;
 
           .inventory-progress {
             margin-top: 10px;
+
+            .ui.orange.progress .bar {
+              background-color: $sellgo-orange;
+            }
           }
         }
 
