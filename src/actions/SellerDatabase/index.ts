@@ -200,9 +200,15 @@ const parseFilters = (data: SellerDatabaseFilter[]): string => {
       query += `&${filter.type}=${filter.value}`;
     } else {
       if (filter.active) {
-        const min = filter.min ? `&${filter.type}_${filter.duration}_min=${filter.min}` : '';
-        const max = filter.max ? `&${filter.type}_${filter.duration}_max=${filter.max}` : '';
-        query += `${min}${max}`;
+        if (filter.duration) {
+          const min = filter.min ? `&${filter.type}_${filter.duration}_min=${filter.min}` : '';
+          const max = filter.max ? `&${filter.type}_${filter.duration}_max=${filter.max}` : '';
+          query += `${min}${max}`;
+        } else {
+          const min = filter.min ? `&${filter.type}_min=${filter.min}` : '';
+          const max = filter.max ? `&${filter.type}_max=${filter.max}` : '';
+          query += `${min}${max}`;
+        }
       }
     }
   });

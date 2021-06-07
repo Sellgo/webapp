@@ -38,28 +38,33 @@ const Filters = (props: Props) => {
     updateMarketplace,
     market,
   } = props;
+
   const [keyword, setKeyword] = useState('');
   const [searchType, setSearchType] = useState(SEARCH_TYPE.AMAZON_LINK);
   const [state, setState] = useState('');
+
+  // find the correct filter and get it's value
   const getFilterValue = (type: string): SellerDatabaseFilter => {
     const filter = filters.find(f => f.type === type);
     return filter
       ? filter
       : { active: false, value: null, type, values: [], max: 0, min: 0, duration: '' };
   };
+
+  // filters without time
   const inventory = getFilterValue(FILTERS.INVENTORY);
   const ratings = getFilterValue(FILTERS.SELLER_RATINGS);
   const brand = getFilterValue(FILTERS.BRAND);
-  // const totalSales = getFilterValue(FILTERS.TOTAL_SALES);
-  // const revenue = getFilterValue(FILTERS.REVENUE);
   const reviewRatings = getFilterValue(FILTERS.REVIEW_RATINGS);
+
+  //  filters with time
   const reviewCount = getFilterValue(FILTERS.REVIEW_COUNT);
   const positiveReview = getFilterValue(FILTERS.POSITIVE_REVIEW);
   const neutralReview = getFilterValue(FILTERS.NEUTRAL_REVIEW);
   const negativeReview = getFilterValue(FILTERS.NEGATIVE_REVIEW);
+
   const includeBrands = getFilterValue(FILTERS.INCLUDE_BRANDS);
-  // const fba = getFilterValue(FILTERS.FBA);
-  // const fbm = getFilterValue(FILTERS.FBM);
+
   const launched = getFilterValue(FILTERS.LAUNCHED);
 
   const updateInputFilterValue = (update: SellerDatabaseFilter) => {
@@ -87,15 +92,18 @@ const Filters = (props: Props) => {
     value: state.code,
     text: state.name,
   }));
+
   const marketplaceOptions = defaultMarketplaces.map(({ name, id, disabled }, key) => {
     return { key, text: name, value: id, disabled };
   });
+
   return (
     <div className="sd-filters-container">
       <div className="sd-filters">
         <div>
           <div className="sf-filter-container">
             <div className="search-input-container">
+              {/* Top level filter */}
               <p className="search-label">SELLER DATABASE</p>
               <Input
                 placeholder="Insert search..."
@@ -123,6 +131,8 @@ const Filters = (props: Props) => {
                 options={states}
               />
             </div>
+
+            {/* Bottom FIlter */}
             <p className="filters-label">FILTERS</p>
 
             <div className="input-search-filters">
@@ -149,6 +159,7 @@ const Filters = (props: Props) => {
                     error={Number.isNaN(inventory.max)}
                   />
                 </div>
+
                 <div className="input-filter">
                   <Checkbox
                     checked={ratings.active}
@@ -167,7 +178,8 @@ const Filters = (props: Props) => {
                     error={Number.isNaN(ratings.max)}
                   />
                 </div>
-                <div>
+
+                <div className="input-filter">
                   <Checkbox
                     checked={brand.active}
                     onChange={() => updateFilter({ ...brand, active: !brand.active })}
@@ -185,49 +197,7 @@ const Filters = (props: Props) => {
                     error={Number.isNaN(brand.max)}
                   />
                 </div>
-                {/*<div className="input-filter">*/}
-                {/*  <Checkbox*/}
-                {/*    checked={totalSales.active}*/}
-                {/*    onChange={() => updateFilter({ ...totalSales, active: !totalSales.active })}*/}
-                {/*  />*/}
-                {/*  <Input*/}
-                {/*    placeholder="Min Total Sales"*/}
-                {/*    value={totalSales.min > 0 ? totalSales.min : ''}*/}
-                {/*    onChange={evt =>*/}
-                {/*      updateInputFilterValue({ ...totalSales, min: +evt.target.value })*/}
-                {/*    }*/}
-                {/*    error={Number.isNaN(totalSales.min)}*/}
-                {/*  />*/}
-                {/*  <Input*/}
-                {/*    placeholder="Max Total Sales"*/}
-                {/*    value={totalSales.max > 0 ? totalSales.max : ''}*/}
-                {/*    onChange={evt =>*/}
-                {/*      updateInputFilterValue({ ...totalSales, max: +evt.target.value })*/}
-                {/*    }*/}
-                {/*    error={Number.isNaN(totalSales.max)}*/}
-                {/*  />*/}
-                {/*</div>*/}
-                {/*<div className="input-filter">*/}
-                {/*  <Checkbox*/}
-                {/*    checked={revenue.active}*/}
-                {/*    onChange={() => updateFilter({ ...revenue, active: !revenue.active })}*/}
-                {/*  />*/}
-                {/*  <Input*/}
-                {/*    placeholder="Min Revenue"*/}
-                {/*    value={revenue.min > 0 ? revenue.min : ''}*/}
-                {/*    onChange={evt => updateInputFilterValue({ ...revenue, min: +evt.target.value })}*/}
-                {/*    error={Number.isNaN(revenue.min)}*/}
-                {/*  />*/}
-                {/*  <Input*/}
-                {/*    placeholder="Max Revenue"*/}
-                {/*    value={revenue.max > 0 ? revenue.max : ''}*/}
-                {/*    onChange={evt => updateInputFilterValue({ ...revenue, max: +evt.target.value })}*/}
-                {/*    error={Number.isNaN(revenue.max)}*/}
-                {/*  />*/}
-                {/*</div>*/}
-              </div>
 
-              <div>
                 <div className="input-filter">
                   <Checkbox
                     checked={reviewRatings.active}
@@ -237,7 +207,7 @@ const Filters = (props: Props) => {
                   />
                   <Input
                     placeholder="Min Review Ratings"
-                    value={reviewRatings.min > 0 ? reviewRatings.min : ''}
+                    value={reviewRatings.min ? reviewRatings.min : ''}
                     onChange={evt =>
                       updateInputFilterValue({ ...reviewRatings, min: +evt.target.value })
                     }
@@ -245,24 +215,16 @@ const Filters = (props: Props) => {
                   />
                   <Input
                     placeholder="Max Review Ratings"
-                    value={reviewRatings.max > 0 ? reviewRatings.max : ''}
+                    value={reviewRatings.max ? reviewRatings.max : ''}
                     onChange={evt =>
                       updateInputFilterValue({ ...reviewRatings, max: +evt.target.value })
                     }
                     error={Number.isNaN(reviewRatings.max)}
                   />
-                  <Dropdown
-                    placeholder="30D"
-                    className="list-filter"
-                    fluid
-                    selection
-                    value={reviewRatings.duration}
-                    onChange={(evt, { value }: any) =>
-                      updateInputFilterValue({ ...reviewRatings, duration: value })
-                    }
-                    options={DURATIONS}
-                  />
                 </div>
+              </div>
+
+              <div>
                 <div className="input-filter">
                   <Checkbox
                     checked={reviewCount.active}

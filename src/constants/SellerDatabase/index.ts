@@ -17,16 +17,16 @@ export const SET_MARKETPLACE = 'SET_MARKETPLACE';
 
 export const FILTERS = {
   INVENTORY: 'inventory_count',
-  SELLER_RATINGS: 'seller_ratings',
-  BRAND: 'brand',
+  SELLER_RATINGS: 'seller_rating',
+  BRAND: 'number_brands',
+  REVIEW_RATINGS: 'review_ratings',
   TOTAL_SALES: 'total_sales',
   REVENUE: 'revenue',
-  REVIEW_RATINGS: 'review_ratings',
-  REVIEW_COUNT: 'review_count',
+  REVIEW_COUNT: 'count',
   POSITIVE_REVIEW: 'positive',
   NEUTRAL_REVIEW: 'neutral',
   NEGATIVE_REVIEW: 'negative',
-  INCLUDE_BRANDS: 'include_brands',
+  INCLUDE_BRANDS: 'brands',
   FBA: 'fba',
   FBM: 'fbm',
   LAUNCHED: 'launched',
@@ -88,6 +88,12 @@ export const defaultFilters = [
     active: false,
   },
   {
+    type: FILTERS.REVIEW_RATINGS,
+    min: 0,
+    max: 0,
+    active: false,
+  },
+  {
     type: FILTERS.TOTAL_SALES,
     min: 0,
     max: 0,
@@ -99,13 +105,7 @@ export const defaultFilters = [
     max: 0,
     active: false,
   },
-  {
-    type: FILTERS.REVIEW_RATINGS,
-    min: 0,
-    max: 0,
-    active: false,
-    duration: '30_days',
-  },
+
   {
     type: FILTERS.REVIEW_COUNT,
     min: 0,
