@@ -1,6 +1,6 @@
 import React, { Component, ReactElement } from 'react';
 import { connect } from 'react-redux';
-import { Menu, Segment, Sidebar, Grid, Label } from 'semantic-ui-react';
+import { Menu, Segment, Sidebar, Grid, Popup } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { notifyIdSelector } from '../../selectors/UserOnboarding';
 import SidebarPusher from './SidebarPusher';
@@ -9,6 +9,8 @@ import { getLatestSupplier } from '../../actions/Suppliers';
 import get from 'lodash/get';
 
 import { LogoWithoutText } from '../Logo/index';
+import SellerFinderIcon from '../../assets/images/sellerDatabaseIcon.svg';
+import SellerDatabaseIcon from '../../assets/images/sellerFinderIcon.svg';
 
 interface IconD {
   id: number;
@@ -95,7 +97,44 @@ class SidebarCollapsible extends Component<
         </Link>
         <Menu.Menu>
           {this.state.sidebarIcon.map(icon => {
-            if (icon.id < 6) {
+            if (icon.id === 5) {
+              return (
+                <Popup
+                  content={
+                    <>
+                      <div className="hover-menu">
+                        <Link to="/seller-finder">
+                          <img src={SellerFinderIcon} alt="Seller Finder" /> Seller Finder
+                        </Link>
+                        <Link to="/seller-database">
+                          <img src={SellerDatabaseIcon} alt="Seller Finder" /> Seller Database
+                        </Link>
+                      </div>
+                    </>
+                  }
+                  on={'hover'}
+                  hoverable
+                  position={'left center'}
+                  className="seller-finder-submenu"
+                  trigger={
+                    <Menu.Item
+                      className="sidebar-menu__items"
+                      as={'div'}
+                      name={icon.icon}
+                      key={icon.id}
+                      active={['/seller-finder', '/seller-database'].includes(currentPath)}
+                    >
+                      <i
+                        className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
+                          'forward'}`}
+                      />
+                    </Menu.Item>
+                  }
+                />
+              );
+            }
+
+            if (icon.id < 6 && icon.id !== 5) {
               return (
                 <Menu.Item
                   onClick={() => {
@@ -113,8 +152,6 @@ class SidebarCollapsible extends Component<
                     className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
                       'forward'} ${icon.id === 2 && !supplier_id ? 'disabled-link' : ''}`}
                   />
-
-                  <Label> {icon.label} </Label>
                 </Menu.Item>
               );
             } else {
@@ -138,7 +175,6 @@ class SidebarCollapsible extends Component<
                     className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
                       'forward'} `}
                   />
-                  <Label> {icon.label} </Label>
                 </Menu.Item>
               );
             } else {

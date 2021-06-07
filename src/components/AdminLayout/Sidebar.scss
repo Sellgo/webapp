@@ -237,3 +237,42 @@
 .disabled-link {
   color: gray;
 }
+
+.ui.right.center.popup.seller-finder-submenu {
+  position: absolute !important;
+  left: 16.5rem !important;
+  top: 0 !important;
+  background-color: #3b4557 !important;
+  margin: 0;
+
+  &::before {
+    background-color: #3b4557 !important;
+  }
+
+  .hover-menu {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    a {
+      color: white !important;
+      margin: 5px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        margin-right: 10px !important;
+        height: 15px;
+      }
+
+      &:hover {
+        text-decoration: underline;
+        font-weight: normal;
+      }
+    }
+  }
+}
