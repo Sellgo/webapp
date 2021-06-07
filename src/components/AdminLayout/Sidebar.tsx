@@ -9,8 +9,8 @@ import { getLatestSupplier } from '../../actions/Suppliers';
 import get from 'lodash/get';
 
 import { LogoWithoutText } from '../Logo/index';
-import SellerFinderIcon from '../../assets/images/sellerDatabaseIcon.svg';
-import SellerDatabaseIcon from '../../assets/images/sellerFinderIcon.svg';
+import sellerDatabaseIcon from '../../assets/images/sellerDatabaseIcon.svg';
+import sellerFInderIcon from '../../assets/images/sellerFinderIcon.svg';
 
 interface IconD {
   id: number;
@@ -104,10 +104,10 @@ class SidebarCollapsible extends Component<
                     <>
                       <div className="hover-menu">
                         <Link to="/seller-finder">
-                          <img src={SellerFinderIcon} alt="Seller Finder" /> Seller Finder
+                          <img src={sellerFInderIcon} alt="Seller Finder" /> Seller Finder
                         </Link>
                         <Link to="/seller-database">
-                          <img src={SellerDatabaseIcon} alt="Seller Finder" /> Seller Database
+                          <img src={sellerDatabaseIcon} alt="Seller Finder" /> Seller Database
                         </Link>
                       </div>
                     </>
