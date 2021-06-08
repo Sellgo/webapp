@@ -37,9 +37,10 @@ const renderPrice = (row: any) => {
 };
 
 const renderRating = (row: any) => {
+  const ratingValue = row.review_stars || '0';
   return (
     <Rating
-      placeholderRating={Number.parseInt(row.review_stars.trim())}
+      placeholderRating={Number.parseInt(ratingValue.trim())}
       emptySymbol={<Icon name="star outline" color={'grey'} />}
       fullSymbol={<Icon name="star" color={'grey'} />}
       placeholderSymbol={<Icon name="star" color={'grey'} />}
