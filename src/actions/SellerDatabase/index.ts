@@ -121,9 +121,11 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
     const sorting = `ordering=${sortDirection === 'descending' ? `-${sort}` : sort}`;
 
     const sellerID = sellerIDSelector();
+
     const url =
       AppConfig.BASE_URL_API +
-      `sellers/${sellerID}/merchants-database?${pagination}&${sorting}${queryFilters}&market=${defaultMarketplace}`;
+      // eslint-disable-next-line max-len
+      `sellers/${sellerID}/merchants-database?${pagination}&${sorting}${queryFilters}&marketplace_id=${defaultMarketplace}`;
     dispatch(setLoadingDatabase(!enableLoader));
     if (enableLoader) {
       await dispatch(fetchSellerDatabase(true));

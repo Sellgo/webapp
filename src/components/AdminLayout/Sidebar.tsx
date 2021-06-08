@@ -103,11 +103,11 @@ class SidebarCollapsible extends Component<
                   content={
                     <>
                       <div className="hover-menu">
+                        <Link to="/seller-database">
+                          <img src={sellerDatabaseIcon} alt="Seller Database" /> Seller Database
+                        </Link>
                         <Link to="/seller-finder">
                           <img src={sellerFInderIcon} alt="Seller Finder" /> Seller Finder
-                        </Link>
-                        <Link to="/seller-database">
-                          <img src={sellerDatabaseIcon} alt="Seller Finder" /> Seller Database
                         </Link>
                       </div>
                     </>
