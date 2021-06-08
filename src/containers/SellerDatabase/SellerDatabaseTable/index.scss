@@ -102,12 +102,19 @@
       justify-content: center;
 
       .name {
-        font-weight: 500;
+        font-weight: 600;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         max-width: 150px;
         color: $filter-text-color;
+
+        .icon.external {
+          font-size: 10px;
+          padding-left: 5px;
+          cursor: pointer;
+          color: $filter-text-color;
+        }
       }
 
       .seller-id {

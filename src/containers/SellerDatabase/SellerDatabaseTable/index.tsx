@@ -74,7 +74,10 @@ const SellerDatabaseTable = (props: Props) => {
   const renderSellerInformation = (row: any) => {
     return (
       <p className="sd-seller-details">
-        <span className="name">{row.business_name}</span>
+        <span className="name">
+          {row.business_name}{' '}
+          <Icon name={'external'} onClick={() => window.open(row.seller_link, '_blank')} />
+        </span>
         <span className="seller-id">
           <CopyToClipboard data={row.seller_id} className={''} />
         </span>
