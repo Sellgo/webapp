@@ -71,7 +71,7 @@ const SellerInformation = (props: SellerInformationProps) => {
   };
 
   const copyText = (text: string) => {
-    copyToClipboard(text).then(() => setCopied(true));
+    copyToClipboard(text.replace(/,/g, '\n')).then(() => setCopied(true));
     setTimeout(() => setCopied(false), 500);
   };
 

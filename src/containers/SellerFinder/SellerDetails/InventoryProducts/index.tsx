@@ -7,6 +7,7 @@ import { formatCompletedDate } from '../../../../utils/date';
 import { formatBoolean } from '../../../../utils/format';
 import CheckMerchants from '../CheckMerchants';
 import CopyToClipboard from '../../../../components/CopyToClipboard';
+
 const renderProductInventory = (row: any) => {
   return (
     <p>
@@ -70,6 +71,7 @@ const renderBuybox = (row: any) => {
     </div>
   );
 };
+
 const columns = [
   {
     label: `Buybox\n Competition`,
