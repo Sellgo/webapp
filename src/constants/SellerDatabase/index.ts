@@ -61,11 +61,11 @@ export const SEARCH_TYPES = [
     text: 'Seller Name',
     value: 'SELLER_NAME',
   },
-  {
-    key: 'Amazon Links',
-    text: 'Amazon Links',
-    value: 'AMAZON_LINK',
-  },
+  // {
+  //   key: 'Amazon Links',
+  //   text: 'Amazon Links',
+  //   value: 'AMAZON_LINK',
+  // },
 ];
 
 export const defaultFilters = [

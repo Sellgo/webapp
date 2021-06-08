@@ -40,7 +40,7 @@ const Filters = (props: Props) => {
   } = props;
 
   const [keyword, setKeyword] = useState('');
-  const [searchType, setSearchType] = useState(SEARCH_TYPE.AMAZON_LINK);
+  const [searchType, setSearchType] = useState(SEARCH_TYPE.SELLER_ID);
   const [state, setState] = useState('');
 
   // find the correct filter and get it's value
@@ -416,7 +416,7 @@ const Filters = (props: Props) => {
                 </div>
               </div>
               <div>
-                <p className="filters-label">Include Brands</p>
+                <p className="filters-label">Include Brands*</p>
                 <div>
                   <ReactChipInput
                     classes={'multiple-brand-container__wrapper'}
@@ -424,6 +424,7 @@ const Filters = (props: Props) => {
                     onSubmit={(value: string) => addBrand(value)}
                     onRemove={(index: number) => removeBrand(index)}
                   />
+                  <p className="message">*Seperated by new line</p>
                 </div>
               </div>
             </div>
