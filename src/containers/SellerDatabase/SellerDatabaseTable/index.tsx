@@ -184,7 +184,7 @@ const SellerDatabaseTable = (props: Props) => {
       render: renderSellerInformation,
     },
     {
-      label: 'inventory',
+      label: 'Inventory',
       dataKey: 'inventory_count',
       sortable: true,
       type: 'string',
