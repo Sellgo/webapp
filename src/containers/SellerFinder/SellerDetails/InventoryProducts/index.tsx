@@ -36,10 +36,10 @@ const renderPrice = (row: any) => {
   return <p>{row.current_price}</p>;
 };
 
-const renderRating = () => {
+const renderRating = (row: any) => {
   return (
     <Rating
-      placeholderRating={0}
+      placeholderRating={Number.parseInt(row.review_stars.trim())}
       emptySymbol={<Icon name="star outline" color={'grey'} />}
       fullSymbol={<Icon name="star" color={'grey'} />}
       placeholderSymbol={<Icon name="star" color={'grey'} />}
@@ -104,9 +104,9 @@ const columns = [
     render: renderFBM,
   },
   {
-    label: `Rating \nL365D`,
-    dataKey: 'product_rating',
-    className: 'product-rating',
+    label: `Rating L365D`,
+    dataKey: 'review_stars',
+    className: 'review_stars',
     render: renderRating,
   },
   {
@@ -143,11 +143,10 @@ export const InventoryProductsHeader = () => {
 
 export const InventoryProductsRow = (props: any) => {
   const { row } = props;
+
   const extraData = {
     buy_box: 0,
     in_stock: false,
-    rating: 0,
-    product_review: 0,
     last_update: '',
     tracking: false,
   };
@@ -165,6 +164,7 @@ export const InventoryProductsRow = (props: any) => {
 
   const renderRow = (row: any) => {
     const dataKeys = columns.map(({ dataKey }) => ({ [`${dataKey}`]: dataKey }));
+
     let object = {
       asin: 'asin',
       product_id: 'product_id',
@@ -173,6 +173,7 @@ export const InventoryProductsRow = (props: any) => {
       image_url: 'image_url',
     };
     let data: any = row;
+
     dataKeys.forEach((obj: any) => {
       object = { ...object, ...obj };
       if (row[obj.key]) {
@@ -184,8 +185,10 @@ export const InventoryProductsRow = (props: any) => {
       obj[key] = data[key];
       return obj;
     }, {});
+
     return Object.keys(sorted).map((key: any) => render(key, sorted));
   };
+
   return (
     <div className="inventory-row">
       {[{ ...row, ...extraData }].map((row: any) => (

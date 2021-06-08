@@ -55,8 +55,10 @@ $blue: #349af8;
     min-width: 95px;
   }
 
-  .product-rating {
-    min-width: 125px;
+  .review_stars {
+    min-width: 140px;
+    color: red;
+    text-align: center;
   }
 
   .product-review {
@@ -99,8 +101,9 @@ $blue: #349af8;
     padding-left: 10px;
   }
 
-  .product-rating {
+  .review_stars {
     min-width: 125px;
+    text-align: left;
 
     > span {
       font-size: 10px !important;
