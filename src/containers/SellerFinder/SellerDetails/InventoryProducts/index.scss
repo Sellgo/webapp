@@ -3,6 +3,8 @@ $darkgary: #dfe8f329;
 $black: #3b4557;
 $blue: #349af8;
 
+@import '../../../../design-system/colors.scss';
+
 .inventory-header {
   height: 50px;
   display: flex;
@@ -30,7 +32,7 @@ $blue: #349af8;
   }
 
   .buy-box {
-    min-width: 135px;
+    min-width: 150px;
     padding-left: 10px;
   }
 
@@ -95,7 +97,7 @@ $blue: #349af8;
   }
 
   .buy-box {
-    min-width: 135px;
+    min-width: 150px;
     font-weight: 600;
     color: $blue;
     padding-left: 10px;
@@ -186,8 +188,17 @@ $blue: #349af8;
 
   .product-merchant-track-container {
     display: flex;
-    flex-direction: column;
+    color: $sellgo-orange;
     justify-content: center;
+
+    span.buy-box-count {
+      margin-right: 4px !important;
+    }
+
+    div.check-seller-btn {
+      display: flex;
+      flex-direction: column;
+    }
 
     .ui.progress:last-child {
       margin: 2px 0 0;

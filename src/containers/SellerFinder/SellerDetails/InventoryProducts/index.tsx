@@ -68,7 +68,10 @@ const renderTrackProducts = (row: any) => {
 const renderBuybox = (row: any) => {
   return (
     <div className="product-merchant-track-container">
-      <CheckMerchants data={row} />
+      <span className="buy-box-count">{row.num_sellers || 0}</span>
+      <div className="check-seller-btn">
+        <CheckMerchants data={row} />
+      </div>
     </div>
   );
 };
