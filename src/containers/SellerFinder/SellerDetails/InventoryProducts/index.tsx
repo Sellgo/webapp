@@ -68,7 +68,7 @@ const renderTrackProducts = (row: any) => {
 const renderBuybox = (row: any) => {
   return (
     <div className="product-merchant-track-container">
-      <span className="buy-box-count">{row.num_sellers || 0}</span>
+      <span className="buy-box-count">{row.num_sellers}</span>
       <div className="check-seller-btn">
         <CheckMerchants data={row} />
       </div>
@@ -149,7 +149,6 @@ export const InventoryProductsRow = (props: any) => {
   const { row } = props;
 
   const extraData = {
-    buy_box: 0,
     in_stock: false,
     last_update: '',
     tracking: false,
@@ -175,7 +174,9 @@ export const InventoryProductsRow = (props: any) => {
       tracking_status: 'tracking_status',
       product_track_id: 'product_track_id',
       image_url: 'image_url',
+      num_sellers: 'num_sellers',
     };
+
     let data: any = row;
 
     dataKeys.forEach((obj: any) => {
