@@ -2,9 +2,10 @@ import React from 'react';
 import './index.scss';
 import Rating from 'react-rating';
 import { Button, Icon } from 'semantic-ui-react';
-import { formatCurrency, truncateString } from '../../../../utils/format';
+import { truncateString } from '../../../../utils/format';
 import { formatCompletedDate } from '../../../../utils/date';
 import TrackSeller from '../TrackSeller';
+
 const renderSellerName = (row: any) => {
   return (
     <p>
@@ -14,9 +15,9 @@ const renderSellerName = (row: any) => {
   );
 };
 
-const renderPrice = (row: any) => {
-  return <p>{formatCurrency(row.price)}</p>;
-};
+// const renderPrice = (row: any) => {
+//   return <p>{formatCurrency(row.price)}</p>;
+// };
 
 const renderRating = (row: any) => {
   return (
@@ -41,18 +42,13 @@ const renderProcessedOn = (row: any) => {
 const renderTrackSeller = (row: any) => {
   return <TrackSeller data={row} type={'seller'} />;
 };
+
 const columns = [
   {
     renderLabel: () => <p>Seller Name</p>,
     dataKey: 'merchant_name',
     className: 'seller-name',
     render: renderSellerName,
-  },
-  {
-    renderLabel: () => <p>Price</p>,
-    dataKey: 'price',
-    className: 'price',
-    render: renderPrice,
   },
   {
     renderLabel: () => <p>{`Rating \nL365D`}</p>,
@@ -103,6 +99,7 @@ export const SellersRow = ({ row }: any) => {
       undefined
     );
   };
+
   const extraData = {
     total_rating: 0,
     fba: false,
@@ -110,6 +107,7 @@ export const SellersRow = ({ row }: any) => {
     price: 0,
     tracking: false,
   };
+
   const renderRow = (row: any) => {
     const dataKeys = columns.map(({ dataKey }) => ({ [`${dataKey}`]: dataKey }));
     let object = {
@@ -132,6 +130,7 @@ export const SellersRow = ({ row }: any) => {
     }, {});
     return Object.keys(sorted).map((key: any) => render(key, sorted));
   };
+
   return (
     <div className="sellers-row">
       {[{ ...row, ...extraData }].map((row: any) => (
