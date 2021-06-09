@@ -442,14 +442,16 @@ const Filters = (props: Props) => {
         <Button
           size="small"
           className="submit-btn"
-          onClick={() =>
+          onClick={() => {
+            localStorage.setItem('showSellerDatabaseData', 'true');
             fetchSellersDatabase({
               filters: true,
               search: keyword,
+              sort: 'seller_id',
               searchType,
               state,
-            })
-          }
+            });
+          }}
         >
           Find
         </Button>

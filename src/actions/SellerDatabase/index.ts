@@ -74,9 +74,21 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
       searchType,
       state,
     } = payload;
+
     if (filters) {
       localStorage.setItem('seller-database-filters', JSON.stringify(sellerDBFilters));
     }
+
+    const shouldShowSellerDatabaseData = Boolean(localStorage.getItem('showSellerDatabaseData'));
+
+    // make request only if showSellerDatabaseData flag in localStorage is set to true
+    // : when user click find on filters first
+
+    if (!shouldShowSellerDatabaseData) {
+      fetchSellerDatabaseSuccess([]);
+      return;
+    }
+
     let queryFilters = '';
 
     if (!resetFilters) {
@@ -114,9 +126,11 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
         }
       }
     }
+
     if (state) {
       queryFilters += `&state=${state}`;
     }
+
     const pagination = `page=${pageNo}&per_page=${pageSize}`;
     const sorting = `ordering=${sortDirection === 'descending' ? `-${sort}` : sort}`;
 
@@ -126,10 +140,13 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
       AppConfig.BASE_URL_API +
       // eslint-disable-next-line max-len
       `sellers/${sellerID}/merchants-database?${pagination}&${sorting}${queryFilters}&marketplace_id=${defaultMarketplace}`;
+
     dispatch(setLoadingDatabase(!enableLoader));
+
     if (enableLoader) {
       await dispatch(fetchSellerDatabase(true));
     }
+
     const res = await Axios.get(url, { params: queryParams });
     if (res.data) {
       const { results, count, per_page, current_page, total_pages } = res.data;

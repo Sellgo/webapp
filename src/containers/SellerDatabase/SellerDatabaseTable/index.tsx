@@ -63,12 +63,15 @@ const SellerDatabaseTable = (props: Props) => {
   };
 
   useEffect(() => {
-    fetchDatabase({
-      pageNo,
-      pageSize,
-      sort: 'seller_id',
-      sortDirection: 'ascending',
-    });
+    const shouldShowSellerDatabaseData = Boolean(localStorage.getItem('showSellerDatabaseData'));
+    if (shouldShowSellerDatabaseData) {
+      fetchDatabase({
+        pageNo,
+        pageSize,
+        sort: 'seller_id',
+        sortDirection: 'ascending',
+      });
+    }
   }, []);
 
   const renderSellerInformation = (row: any) => {
