@@ -92,6 +92,7 @@ const SellerDatabaseTable = (props: Props) => {
     return <p>{showNAIfZeroOrNull(row.inventory_count, row.inventory_count)}</p>;
   };
 
+  // Seller Ratings
   const renderSellerRating = (row: any) => {
     return (
       <Rating
@@ -107,14 +108,6 @@ const SellerDatabaseTable = (props: Props) => {
   const renderSellerTotalRating = (row: any) => {
     return <p>{row.review_ratings ? row.review_ratings : '-'}</p>;
   };
-
-  // const renderSellerFBA = ({ fba = null }) => {
-  //   return <p>{fba !== null ? (fba ? 'Yes' : 'No') : '-'}</p>;
-  // };
-  //
-  // const renderSellerFBM = ({ fbm = null }) => {
-  //   return <p>{fbm !== null ? (fbm ? 'Yes' : 'No') : '-'}</p>;
-  // };
 
   const renderSellerReview30D = (row: any) => {
     return <p>{showNAIfZeroOrNull(row.count_30_days, row.count_30_days)}</p>;
@@ -132,10 +125,67 @@ const SellerDatabaseTable = (props: Props) => {
     return <p>{showNAIfZeroOrNull(row.count_lifetime, row.count_lifetime)}</p>;
   };
 
-  // const renderProductReview = (row: any) => {
-  //   return <p>{showNAIfZeroOrNull(row.review, row.review)}</p>;
-  // };
+  // Negative Reviews
+  const renderNegativeReview30D = (row: any) => {
+    return <p>{showNAIfZeroOrNull(row.negative_30_days, row.negative_30_days)}</p>;
+  };
 
+  const renderNegativeReview90D = (row: any) => {
+    return <p>{showNAIfZeroOrNull(row.negative_90_days, row.negative_90_days)}</p>;
+  };
+
+  const renderNegativeReview365D = (row: any) => {
+    return <p>{showNAIfZeroOrNull(row.negative_12_month, row.negative_12_month)}</p>;
+  };
+
+  const renderNegativeLifetime = (row: any) => {
+    return <p>{showNAIfZeroOrNull(row.negative_lifetime, row.negative_lifetime)}</p>;
+  };
+
+  // Positive Reviews
+  const renderPositiveReview30D = (row: any) => {
+    return <p>{showNAIfZeroOrNull(row.positive_30_days, row.positive_30_days)}</p>;
+  };
+
+  const renderPositiveReview90D = (row: any) => {
+    return <p>{showNAIfZeroOrNull(row.positive_90_days, row.positive_90_days)}</p>;
+  };
+
+  const renderPositiveReview365D = (row: any) => {
+    return <p>{showNAIfZeroOrNull(row.positive_12_month, row.positive_12_month)}</p>;
+  };
+
+  const renderPositiveLifetime = (row: any) => {
+    return <p>{showNAIfZeroOrNull(row.positive_lifetime, row.positive_lifetime)}</p>;
+  };
+
+  // Neutral Reviews
+  const renderNeutralReview30D = (row: any) => {
+    return <p>{showNAIfZeroOrNull(row.neutral_30_days, row.neutral_30_days)}</p>;
+  };
+
+  const renderNeutralReview90D = (row: any) => {
+    return <p>{showNAIfZeroOrNull(row.neutral_90_days, row.neutral_90_days)}</p>;
+  };
+
+  const renderNeutralReview365D = (row: any) => {
+    return <p>{showNAIfZeroOrNull(row.neutral_12_month, row.neutral_12_month)}</p>;
+  };
+
+  const renderNeutralLifetime = (row: any) => {
+    return <p>{showNAIfZeroOrNull(row.neutral_lifetime, row.neutral_lifetime)}</p>;
+  };
+
+  // Launched
+  const renderLauched = (row: any) => {
+    return <p>{showNAIfZeroOrNull(row.launched, row.launched)}</p>;
+  };
+
+  // State
+  const renderState = (row: any) => {
+    return <p>{showNAIfZeroOrNull(row.state, row.state)}</p>;
+  };
+  // Actions
   const renderActions = (row: any) => {
     const active = row.tracking_status === 'active';
     return (
@@ -186,6 +236,7 @@ const SellerDatabaseTable = (props: Props) => {
       show: true,
       render: renderSellerInformation,
     },
+    // Inventory
     {
       label: 'Inventory',
       dataKey: 'inventory_count',
@@ -194,6 +245,7 @@ const SellerDatabaseTable = (props: Props) => {
       show: true,
       render: renderSellerInventory,
     },
+    // Ratings
     {
       label: `Rating \nL365D`,
       dataKey: 'seller_rating',
@@ -210,23 +262,6 @@ const SellerDatabaseTable = (props: Props) => {
       show: true,
       render: renderSellerTotalRating,
     },
-    // {
-    //   label: `FBA`,
-    //   dataKey: 'fba',
-    //   sortable: true,
-    //   type: 'string',
-    //   show: true,
-    //   render: renderSellerFBA,
-    // },
-    // {
-    //   label: `FBM`,
-    //   dataKey: 'fbm',
-    //   sortable: true,
-    //   className: 'sm-col',
-    //   type: 'string',
-    //   show: true,
-    //   render: renderSellerFBM,
-    // },
     {
       label: `Review \nL30D`,
       dataKey: 'count_30_days',
@@ -235,6 +270,7 @@ const SellerDatabaseTable = (props: Props) => {
       show: true,
       render: renderSellerReview30D,
     },
+    // Review
     {
       label: `Review \nL90D`,
       dataKey: 'count_90_days',
@@ -259,14 +295,124 @@ const SellerDatabaseTable = (props: Props) => {
       show: true,
       render: renderSellerReviewLifetime,
     },
-    // {
-    //   label: `Product \nReview#`,
-    //   dataKey: 'review',
-    //   sortable: true,
-    //   type: 'string',
-    //   show: true,
-    //   render: renderProductReview,
-    // },
+    // Negative Reviews
+    {
+      label: `Negative \n Review L30D`,
+      dataKey: 'negative_30_days',
+      sortable: true,
+      type: 'string',
+      show: true,
+      render: renderNegativeReview30D,
+    },
+    {
+      label: `Negative \n Review L90D`,
+      dataKey: 'negative_90_days',
+      sortable: true,
+      type: 'string',
+      show: true,
+      render: renderNegativeReview90D,
+    },
+    {
+      label: `Negative \n Review L365D`,
+      dataKey: 'negative_12_month',
+      sortable: true,
+      type: 'string',
+      show: true,
+      render: renderNegativeReview365D,
+    },
+    {
+      label: `Negative \n Review Lifetime`,
+      dataKey: 'negative_lifetime',
+      sortable: true,
+      type: 'string',
+      show: true,
+      render: renderNegativeLifetime,
+    },
+    // Positive Review
+    {
+      label: `Positive \n Review L30D`,
+      dataKey: 'positive_30_days',
+      sortable: true,
+      type: 'string',
+      show: true,
+      render: renderPositiveReview30D,
+    },
+    {
+      label: `Positive \n Review L90D`,
+      dataKey: 'positive_90_days',
+      sortable: true,
+      type: 'string',
+      show: true,
+      render: renderPositiveReview90D,
+    },
+    {
+      label: `Positive \n Review L365D`,
+      dataKey: 'positive_12_month',
+      sortable: true,
+      type: 'string',
+      show: true,
+      render: renderPositiveReview365D,
+    },
+    {
+      label: `Positive\n Review Lifetime`,
+      dataKey: 'positive_lifetime',
+      sortable: true,
+      type: 'string',
+      show: true,
+      render: renderPositiveLifetime,
+    },
+    // Neutral Reviews
+    {
+      label: `Neutral \n Review L30D`,
+      dataKey: 'neutral_30_days',
+      sortable: true,
+      type: 'string',
+      show: true,
+      render: renderNeutralReview30D,
+    },
+    {
+      label: `Neutral \n Review L90D`,
+      dataKey: 'neutral_90_days',
+      sortable: true,
+      type: 'string',
+      show: true,
+      render: renderNeutralReview90D,
+    },
+    {
+      label: `Neutral \n Review L365D`,
+      dataKey: 'neutral_12_month',
+      sortable: true,
+      type: 'string',
+      show: true,
+      render: renderNeutralReview365D,
+    },
+    {
+      label: `Neutral\n Review Lifetime`,
+      dataKey: 'positive_lifetime',
+      sortable: true,
+      type: 'string',
+      show: true,
+      render: renderNeutralLifetime,
+    },
+    // Launched Year
+    {
+      label: `Launched`,
+      dataKey: 'launched',
+      sortable: true,
+      type: 'string',
+      show: true,
+      render: renderLauched,
+    },
+    // State
+    {
+      label: `State`,
+      dataKey: 'state',
+      sortable: true,
+      type: 'string',
+      show: true,
+      render: renderState,
+    },
+    // Actions
     {
       label: ``,
       dataKey: 'actions',
