@@ -435,7 +435,11 @@ const Filters = (props: Props) => {
         <Button
           size="small"
           className="reset-btn"
-          onClick={() => fetchSellersDatabase({ resetFilters: true })}
+          onClick={() => {
+            console.log('This is clicked');
+            localStorage.removeItem('showSellerDatabaseData');
+            fetchSellersDatabase({ resetFilters: true });
+          }}
         >
           Reset
         </Button>

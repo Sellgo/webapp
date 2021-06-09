@@ -85,7 +85,7 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
     // : when user click find on filters first
 
     if (!shouldShowSellerDatabaseData) {
-      fetchSellerDatabaseSuccess([]);
+      dispatch(fetchSellerDatabaseSuccess([]));
       return;
     }
 
@@ -96,6 +96,8 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
     } else {
       localStorage.removeItem('seller-database-filters');
       dispatch(setFilters(defaultFilters));
+      dispatch(fetchSellerDatabaseSuccess([]));
+      return;
     }
 
     let queryParams = {};
