@@ -2,7 +2,6 @@ import React from 'react';
 import './index.scss';
 import Rating from 'react-rating';
 import { Icon } from 'semantic-ui-react';
-import TrackSeller from '../TrackSeller';
 import { formatCompletedDate } from '../../../../utils/date';
 import { formatBoolean } from '../../../../utils/format';
 import CheckMerchants from '../CheckMerchants';
@@ -57,13 +56,13 @@ const renderLastUpdate = (row: any) => {
   return <p>{formatCompletedDate(row.udate)}</p>;
 };
 
-const renderTrackProducts = (row: any) => {
-  return (
-    <div className="product-merchant-track-container">
-      <TrackSeller tracking={false} type={'product'} data={row} />
-    </div>
-  );
-};
+// const renderTrackProducts = (row: any) => {
+//   return (
+//     <div className="product-merchant-track-container">
+//       <TrackSeller tracking={false} type={'product'} data={row} />
+//     </div>
+//   );
+// };
 
 const renderBuybox = (row: any) => {
   return (
@@ -125,12 +124,12 @@ const columns = [
     className: 'last-update',
     render: renderLastUpdate,
   },
-  {
-    label: `Track Products`,
-    dataKey: 'tracking',
-    className: 'track-products',
-    render: renderTrackProducts,
-  },
+  // {
+  //   label: `Track Products`,
+  //   dataKey: 'tracking',
+  //   className: 'track-products',
+  //   render: renderTrackProducts,
+  // },
 ];
 
 export const InventoryProductsHeader = () => {

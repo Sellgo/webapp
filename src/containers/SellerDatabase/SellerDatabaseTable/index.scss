@@ -2,7 +2,7 @@
 
 .seller-database-table {
   .ui.table {
-    border-collapse: separate;
+    // border-collapse: separate;
     border-spacing: 0;
     border: none;
     background: transparent;
@@ -76,7 +76,7 @@
     }
 
     .business_name {
-      min-width: 250px !important;
+      min-width: 320px !important;
       padding-left: 20px !important;
     }
 
@@ -250,7 +250,6 @@
       padding: 8px;
       font-size: 14px;
       text-align: left;
-      vertical-align: middle;
       background: #fff;
 
       &:first-child {
@@ -258,6 +257,7 @@
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
         border-left: 1px solid rgba(34, 36, 38, 0.2);
+        height: 100% !important;
       }
 
       &:last-child {

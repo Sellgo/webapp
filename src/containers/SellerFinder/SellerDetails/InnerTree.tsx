@@ -93,6 +93,7 @@ const InnerTree = ({
 }: Props) => {
   const [activeNode, setActiveNode] = useState<any>({});
   const [productsPageSize, setProductsPageSize] = useState(pageSize);
+
   const getTreeData = () => {
     const rows = sellerProducts.map((rowData: any, index: number) => {
       let row: any = {
@@ -130,7 +131,9 @@ const InnerTree = ({
     });
     return rows;
   };
+
   const [sellerInventory, setSellerInventory] = React.useState<any>([]);
+
   useEffect(() => {
     setSellerInventory([
       ...getTreeData(),
@@ -163,6 +166,7 @@ const InnerTree = ({
     height = productSellers.length * 50 + 150;
     return height;
   };
+
   const calculateHeight = () => {
     return productSellers.length * 50 + 150;
   };
@@ -176,7 +180,9 @@ const InnerTree = ({
 
   useEffect(() => {
     if (loadingProductSellers) {
-      updateProductHeight(100, !!productSellers.length, activeNode.index);
+      updateProductHeight(300, !!productSellers.length, activeNode.index);
+    } else {
+      updateProductHeight(4800, !!productSellers.length, activeNode.index);
     }
   }, [loadingProductSellers]);
 

@@ -388,7 +388,7 @@ const SellerDatabaseTable = (props: Props) => {
     },
     {
       label: `Neutral\n Review Lifetime`,
-      dataKey: 'positive_lifetime',
+      dataKey: 'neutral_lifetime',
       sortable: true,
       type: 'string',
       show: true,
@@ -427,6 +427,9 @@ const SellerDatabaseTable = (props: Props) => {
         <PageLoader pageLoading={true} />
       ) : (
         <GenericTable
+          middleScroll
+          leftFixedColumns={1}
+          rightFixedColumns={1}
           currentActiveColumn={''}
           stickyChartSelector={false}
           scrollTopSelector={false}
