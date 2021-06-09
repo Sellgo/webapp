@@ -372,6 +372,7 @@ const SellerFinderTable = (props: Props) => {
       };
     }
   });
+
   const fetchProducts = (payload: any) => {
     fetchSellerProducts({
       enableLoader: false,
@@ -379,6 +380,7 @@ const SellerFinderTable = (props: Props) => {
       ...payload,
     });
   };
+
   useEffect(() => {
     if (inventorySocket.OPEN && !inventorySocket.CONNECTING) {
       inventorySocket.onmessage = (res: any) => {
@@ -397,6 +399,7 @@ const SellerFinderTable = (props: Props) => {
       };
     }
   });
+
   useEffect(() => {
     if (activeProduct && sellersSocket.OPEN && !sellersSocket.CONNECTING) {
       sellersSocket.send(
@@ -636,6 +639,7 @@ const SellerFinderTable = (props: Props) => {
     updateSellerTrackerGroup(group);
     setDeleteGroup(false);
   };
+
   const copyText = (text: string) => {
     copyToClipboard(text).then(() => {
       setCopied(true);
@@ -715,9 +719,16 @@ const SellerFinderTable = (props: Props) => {
   const renderRatingL365DPercentage = (row: any) => (
     <p>{row.review_ratings ? row.review_ratings : '-'}</p>
   );
-  const renderFBA = (row: any) => <p>{row.fba_count ? 'Yes' : 'No'}</p>;
 
-  const renderFBM = (row: any) => <p>{row.fbm_count ? 'Yes' : 'No'}</p>;
+  const renderFBA = (row: any) => {
+    const fbaValue = Math.floor(row.fba_perc);
+    return <p>{fbaValue ? `${fbaValue}%` : '-'}</p>;
+  };
+
+  const renderFBM = (row: any) => {
+    const fbmValue = Math.floor(row.fbm_perc);
+    return <p>{fbmValue ? `${fbmValue}%` : '-'}</p>;
+  };
 
   const renderReviewL30D = (row: any) => (
     <p>{showNAIfZeroOrNull(row.count_30_days, row.count_30_days)}</p>
