@@ -43,6 +43,7 @@ const SellerInformation = (props: SellerInformationProps) => {
     }
     return review;
   };
+
   const getTotal365DaysReview = () => {
     let review = 0;
     if (details.positive_12_month) {
@@ -56,6 +57,7 @@ const SellerInformation = (props: SellerInformationProps) => {
     }
     return review;
   };
+
   const getTotalLifeTimeReview = () => {
     let review = 0;
     if (details.positive_lifetime) {
@@ -71,7 +73,7 @@ const SellerInformation = (props: SellerInformationProps) => {
   };
 
   const copyText = (text: string) => {
-    copyToClipboard(text.replace(/,/g, '\n')).then(() => setCopied(true));
+    copyToClipboard(text.trim().replace(/,/g, '\n')).then(() => setCopied(true));
     setTimeout(() => setCopied(false), 500);
   };
 
@@ -81,6 +83,7 @@ const SellerInformation = (props: SellerInformationProps) => {
   } else if (getHours(details.last_check_inventory) <= 24) {
     noInventory = true;
   }
+
   return (
     <div className="seller-information">
       <div className="action-button-container">
@@ -166,9 +169,9 @@ const SellerInformation = (props: SellerInformationProps) => {
         </p>
         <p className={'seller-product-label label-flex'}>
           Brands:
-          <span className="seller-product-value" style={{ paddingLeft: 5 }}>{` ${removeSpecialChars(
-            details.brands
-          )}`}</span>
+          <span className="seller-product-value" style={{ paddingLeft: 5 }}>
+            {removeSpecialChars(details.brands)}
+          </span>
           {formatString(details.brands) !== '-' && (
             <span className="tooltip">
               <span className="tooltiptext" id="myTooltip">
@@ -183,10 +186,9 @@ const SellerInformation = (props: SellerInformationProps) => {
         </p>
         <p className={'seller-product-label label-flex'}>
           ASINs:
-          <span
-            className="seller-product-value"
-            style={{ paddingLeft: 10 }}
-          >{` ${removeSpecialChars(details.asins)}`}</span>
+          <span className="seller-product-value" style={{ paddingLeft: 10 }}>
+            {removeSpecialChars(details.asins)}
+          </span>
           {formatString(details.asins) !== '-' && (
             <span className="tooltip">
               <span className="tooltiptext" id="myTooltip">
