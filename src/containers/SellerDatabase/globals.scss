@@ -21,7 +21,8 @@
   }
 }
 
-.ui.dropdown.formDropdown__marketplace {
+.ui.dropdown.formDropdown__marketplace,
+.ui.dropdown.formDropdown__state {
   @extend .ui.dropdown.formDropdown;
 
   font-size: 14px !important;
