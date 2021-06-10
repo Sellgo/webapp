@@ -102,8 +102,8 @@ const Filters: React.FC<Props> = props => {
   const launched = getFilterValue(FILTERS.LAUNCHED);
 
   // Marketplace options
-  const marketplaceOptions = defaultMarketplaces.map(({ name, id, disabled }, key) => {
-    return { key, text: name, value: id, disabled };
+  const marketplaceOptions = defaultMarketplaces.map(({ name, id, disabled, code }, key) => {
+    return { key, text: name, value: id, disabled, flag: code.toLowerCase() };
   });
 
   // State Options
@@ -544,6 +544,7 @@ const Filters: React.FC<Props> = props => {
             setAsins('');
             setBrands('');
             setSellerIds('');
+            setState('');
             fetchSellersDatabase({ resetFilters: true });
           }}
         >
