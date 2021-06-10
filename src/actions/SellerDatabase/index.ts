@@ -16,7 +16,6 @@ import {
   SET_SELLER_DATABASE_FILTERS,
   FILTERS,
   defaultFilters,
-  SEARCH_TYPE,
   SET_MARKETPLACE,
 } from '../../constants/SellerDatabase';
 import {
@@ -26,7 +25,7 @@ import {
   sellerDatabaseFilters,
   sellerDatabaseMarket,
 } from '../../selectors/SellerDatabase';
-import { extractAsinFromUrl } from '../../utils/format';
+
 import { info } from '../../utils/notifications';
 
 export interface SellerDatabasePayload {
@@ -37,8 +36,9 @@ export interface SellerDatabasePayload {
   sortDirection?: string;
   filters?: boolean;
   resetFilters?: boolean;
-  search?: string;
-  searchType?: string;
+  asins?: string;
+  brands?: string;
+  sellerIds?: string;
   state?: string;
 }
 
@@ -70,8 +70,9 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
       sortDirection = defaultSortDirection,
       filters,
       resetFilters,
-      search,
-      searchType,
+      asins,
+      brands,
+      sellerIds,
       state,
     } = payload;
 
@@ -86,6 +87,7 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
 
     if (!shouldShowSellerDatabaseData) {
       dispatch(fetchSellerDatabaseSuccess([]));
+      dispatch(setFilters(defaultFilters));
       return;
     }
 
@@ -100,37 +102,20 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
       return;
     }
 
-    let queryParams = {};
-    if (search) {
-      if (searchType) {
-        switch (searchType) {
-          case SEARCH_TYPE.ASIN:
-            // queryFilters += `&asin=${search}`;
-            queryParams = { asin: search };
-            break;
-
-          case SEARCH_TYPE.SELLER_ID:
-            // queryFilters += `&seller_id=${search}`;
-            queryParams = { seller_id: search };
-
-            break;
-
-          case SEARCH_TYPE.SELLER_NAME:
-            // queryFilters += `&seller_name=${search}`;
-            queryParams = { business_name: search };
-
-            break;
-          case SEARCH_TYPE.AMAZON_LINK:
-            // queryFilters += `&asin=${extractAsinFromUrl(search)}`;
-            queryParams = { asin: extractAsinFromUrl(search) };
-
-            break;
-        }
-      }
-    }
-
     if (state) {
       queryFilters += `&state=${state}`;
+    }
+
+    if (asins) {
+      queryFilters += `&asins=${asins}`;
+    }
+
+    if (brands) {
+      queryFilters += `&brands=${brands}`;
+    }
+
+    if (sellerIds) {
+      queryFilters += `&seller_ids=${sellerIds}`;
     }
 
     const pagination = `page=${pageNo}&per_page=${pageSize}`;
@@ -149,7 +134,7 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
       await dispatch(fetchSellerDatabase(true));
     }
 
-    const res = await Axios.get(url, { params: queryParams });
+    const res = await Axios.get(url);
     if (res.data) {
       const { results, count, per_page, current_page, total_pages } = res.data;
       dispatch(fetchSellerDatabaseSuccess(results));
@@ -211,25 +196,18 @@ const parseFilters = (data: SellerDatabaseFilter[]): string => {
     filters = JSON.parse(localFilters);
   }
   filters.forEach(filter => {
-    if (filter.type === FILTERS.FBA && filter.active) {
-      query += `&${filter.type}=${filter.active}`;
-    } else if (filter.type === FILTERS.FBM && filter.active) {
-      query += `&${filter.type}=${filter.active}`;
-    } else if (filter.type === FILTERS.INCLUDE_BRANDS && filter.values.length) {
-      query += `&${filter.type}=${filter.values.join(',')}`;
-    } else if (filter.type === FILTERS.LAUNCHED && filter.value) {
+    // if(filter.typ==='fbm and && filter.active)
+    if (filter.type === FILTERS.LAUNCHED && filter.value) {
       query += `&${filter.type}=${filter.value}`;
     } else {
-      if (filter.active) {
-        if (filter.duration) {
-          const min = filter.min ? `&${filter.type}_${filter.duration}_min=${filter.min}` : '';
-          const max = filter.max ? `&${filter.type}_${filter.duration}_max=${filter.max}` : '';
-          query += `${min}${max}`;
-        } else {
-          const min = filter.min ? `&${filter.type}_min=${filter.min}` : '';
-          const max = filter.max ? `&${filter.type}_max=${filter.max}` : '';
-          query += `${min}${max}`;
-        }
+      if (filter.duration) {
+        const min = filter.min ? `&${filter.type}_${filter.duration}_min=${filter.min}` : '';
+        const max = filter.max ? `&${filter.type}_${filter.duration}_max=${filter.max}` : '';
+        query += `${min}${max}`;
+      } else {
+        const min = filter.min ? `&${filter.type}_min=${filter.min}` : '';
+        const max = filter.max ? `&${filter.type}_max=${filter.max}` : '';
+        query += `${min}${max}`;
       }
     }
   });

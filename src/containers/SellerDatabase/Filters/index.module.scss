@@ -1,0 +1,144 @@
+@import '../../../design-system/colors.scss';
+
+.filterContainerWrapper {
+  border: 1px solid $sellgo-light-gray-100;
+  border-radius: 7px;
+  padding: 20px;
+  min-height: 430px;
+
+  h1 {
+    color: $sellgo-text-color;
+    font-weight: bold;
+    font-size: 16px;
+  }
+}
+
+.filterContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 40px;
+}
+
+.groupedFilters {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px !important;
+
+  p {
+    color: $sellgo-text-color;
+    font-size: 16px !important;
+    font-weight: 500;
+    margin: 0 !important;
+  }
+}
+
+.filterGroups {
+  margin-bottom: 20px !important;
+  display: flex;
+  align-items: center;
+
+  &:first-child {
+    margin-top: 20px !important;
+  }
+
+  &__icon {
+    width: 20px;
+    height: 16px;
+  }
+}
+
+.formInput {
+  margin: 0 5px;
+  color: $sellgo-placeholder-color !important;
+
+  input {
+    height: 35px !important;
+    border: 1px solid $sellgo-light-gray-100 !important;
+    color: $sellgo-placeholder-color !important;
+    border-radius: 3px;
+    font-size: 12px !important;
+    width: 140px;
+
+    &::placeholder {
+      color: $sellgo-placeholder-color !important;
+    }
+  }
+
+  label {
+    color: $sellgo-placeholder-color !important;
+    font-size: 14px !important;
+  }
+}
+
+.groupedFilters__input {
+  @extend .groupedFilters;
+
+  height: 100%;
+  margin-top: 0 !important;
+  justify-content: space-between;
+}
+
+.inputGroups {
+  margin-bottom: 28px;
+
+  p {
+    color: $sellgo-text-color;
+    font-size: 16px !important;
+    font-weight: 500;
+    margin: 0 !important;
+  }
+}
+
+.formInput__long {
+  @extend .formInput;
+
+  margin: 0 !important;
+
+  input {
+    width: 340px !important;
+  }
+}
+
+.inputGroups__marketplace {
+  @extend .inputGroups;
+
+  margin-top: 20px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+
+  p {
+    color: $sellgo-text-color;
+    font-size: 16px !important;
+    font-weight: 500;
+    margin: 0 !important;
+    margin-right: 10px !important;
+  }
+}
+
+.filterSubmit {
+  align-self: flex-end;
+  margin-top: 80px !important;
+
+  &__reset {
+    width: 140px !important;
+    color: #757575 !important;
+    height: 34px !important;
+    border-radius: 7px !important;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    background: #fff !important;
+    border: 1px solid #757575 !important;
+    margin: 0 20px !important;
+  }
+
+  &__find {
+    @extend .filterSubmit__reset;
+
+    background: $sellgo-orange !important;
+    color: #fff !important;
+    border: 1px solid $sellgo-orange !important;
+  }
+}

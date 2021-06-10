@@ -16,19 +16,17 @@ export const SET_SELLER_DATABASE_FILTERS = 'SET_SELLER_DATABASE_FILTERS';
 export const SET_MARKETPLACE = 'SET_MARKETPLACE';
 
 export const FILTERS = {
+  // value should be paired with API query parameter name
   INVENTORY: 'inventory_count',
   SELLER_RATINGS: 'seller_rating',
   BRAND: 'number_brands',
   REVIEW_RATINGS: 'review_ratings',
-  TOTAL_SALES: 'total_sales',
-  REVENUE: 'revenue',
+
   REVIEW_COUNT: 'count',
   POSITIVE_REVIEW: 'positive',
   NEUTRAL_REVIEW: 'neutral',
   NEGATIVE_REVIEW: 'negative',
-  INCLUDE_BRANDS: 'brands',
-  FBA: 'fba',
-  FBM: 'fbm',
+
   LAUNCHED: 'launched',
 };
 
@@ -38,113 +36,51 @@ export const DURATIONS = [
   { key: '365D', text: '365D', value: '12_month' },
 ];
 
-export const SEARCH_TYPE = {
-  ASIN: 'ASIN',
-  SELLER_ID: 'SELLER_ID',
-  SELLER_NAME: 'SELLER_NAME',
-  AMAZON_LINK: 'AMAZON_LINK',
-};
-
-export const SEARCH_TYPES = [
-  {
-    key: 'ASIN',
-    text: 'ASIN',
-    value: 'ASIN',
-  },
-  {
-    key: 'Seller ID',
-    text: 'Seller ID',
-    value: 'SELLER_ID',
-  },
-  {
-    key: 'Seller Name',
-    text: 'Seller Name',
-    value: 'SELLER_NAME',
-  },
-  // {
-  //   key: 'Amazon Links',
-  //   text: 'Amazon Links',
-  //   value: 'AMAZON_LINK',
-  // },
-];
-
 export const defaultFilters = [
   {
     type: FILTERS.INVENTORY,
     min: 0,
     max: 0,
-    active: false,
   },
   {
     type: FILTERS.SELLER_RATINGS,
     min: 0,
     max: 0,
-    active: false,
   },
   {
     type: FILTERS.BRAND,
     min: 0,
     max: 0,
-    active: false,
   },
   {
     type: FILTERS.REVIEW_RATINGS,
     min: 0,
     max: 0,
-    active: false,
-  },
-  {
-    type: FILTERS.TOTAL_SALES,
-    min: 0,
-    max: 0,
-    active: false,
-  },
-  {
-    type: FILTERS.REVENUE,
-    min: 0,
-    max: 0,
-    active: false,
   },
 
   {
     type: FILTERS.REVIEW_COUNT,
     min: 0,
     max: 0,
-    active: false,
     duration: '30_days',
   },
   {
     type: FILTERS.POSITIVE_REVIEW,
     min: 0,
     max: 0,
-    active: false,
     duration: '30_days',
   },
   {
     type: FILTERS.NEUTRAL_REVIEW,
     min: 0,
     max: 0,
-    active: false,
     duration: '30_days',
   },
   {
     type: FILTERS.NEGATIVE_REVIEW,
     min: 0,
     max: 0,
-    active: false,
     duration: '30_days',
-  },
-  {
-    type: FILTERS.INCLUDE_BRANDS,
-    values: [],
-  },
-  {
-    type: FILTERS.FBA,
-    active: false,
-  },
-  {
-    type: FILTERS.FBM,
-    active: false,
   },
   {
     type: FILTERS.LAUNCHED,
