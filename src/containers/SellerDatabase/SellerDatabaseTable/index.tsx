@@ -82,7 +82,7 @@ const SellerDatabaseTable = (props: Props) => {
           <Icon name={'external'} onClick={() => window.open(row.seller_link, '_blank')} />
         </span>
         <span className="seller-id">
-          <CopyToClipboard data={row.seller_id} className={''} />
+          <CopyToClipboard data={row.merchant_id} className={''} />
         </span>
       </p>
     );
@@ -193,7 +193,7 @@ const SellerDatabaseTable = (props: Props) => {
       <div>
         <button
           className={active ? 'target-btn-active' : 'target-btn'}
-          onClick={() => targetSeller(row.seller_id)}
+          onClick={() => targetSeller(row.merchant_id)}
         >
           <TrackingPlusIcon />
           <span>{active ? `Tracking` : `Seller Finder`}</span>

@@ -27,7 +27,6 @@ import {
 } from '../../selectors/SellerDatabase';
 
 import { info } from '../../utils/notifications';
-import { getSellerQuota } from '../Settings';
 
 export interface SellerDatabasePayload {
   pageNo?: number;
@@ -250,7 +249,7 @@ export const trackDatabaseSeller = (merchantId: any) => async (dispatch: any, ge
         }`
       );
       dispatch(fetchSellerDatabaseSuccess(updatedSellersList));
-      dispatch(getSellerQuota());
+      // dispatch(getSellerQuota());
     }
   } catch (err) {
     console.log('Error Tracking Seller', err);
