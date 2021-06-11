@@ -36,6 +36,10 @@
   border-radius: 7px;
   padding: 20px 40px;
 
+  @media only screen and(max-width: 1550px) {
+    padding: 20px 15px;
+  }
+
   h1 {
     color: $sellgo-text-color;
     font-weight: bold;
@@ -49,11 +53,15 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-top: 15px;
+
+  @media only screen and(max-width: 1550px) {
+    justify-content: flex-start;
+  }
 }
 
 .locationContainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-start;
   margin-top: 40px;
 }
@@ -61,7 +69,10 @@
 .groupedFilters {
   display: flex;
   flex-direction: column;
-  margin-right: 20px !important;
+
+  @media only screen and(max-width: 1550px) {
+    margin-right: 10px;
+  }
 
   p {
     color: $sellgo-text-color;
@@ -135,6 +146,10 @@
 
   input {
     width: 340px !important;
+
+    @media only screen and(max-width: 1550px) {
+      width: 200px !important;
+    }
   }
 }
 
