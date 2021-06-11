@@ -115,7 +115,7 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
     }
 
     if (sellerIds) {
-      queryFilters += `&seller_ids=${sellerIds}`;
+      queryFilters += `&merchant_ids=${sellerIds}`;
     }
 
     const pagination = `page=${pageNo}&per_page=${pageSize}`;
