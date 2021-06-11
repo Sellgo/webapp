@@ -252,7 +252,7 @@ export const TableBody = (props: TableBodyProps) => {
                                 ? { height: '46px' }
                                 : filteredColumns.length === 2
                                 ? { height: '56px' }
-                                : {}
+                                : { height: '56px' }
                             }
                           >
                             {filteredColumns.length === 4 && cell.side === 'center' && (

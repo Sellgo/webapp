@@ -40,6 +40,161 @@
       }
     }
 
+    // affects tbody cell
+    .business_name {
+      padding-left: 20px !important;
+      min-width: 200px !important;
+
+      .sd-seller-details {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        margin: 0 !important;
+
+        .name {
+          font-weight: 600;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 150px;
+          color: $filter-text-color;
+          margin: 0 !important;
+
+          .icon.external {
+            font-size: 10px;
+            padding-left: 5px;
+            cursor: pointer;
+            color: $filter-text-color;
+          }
+        }
+
+        .seller-id {
+          font-size: 12px;
+          color: $filter-text-color;
+          margin: 0 !important;
+
+          .icon {
+            font-size: 10px;
+            padding-left: 5px;
+            cursor: pointer;
+            color: $filter-text-color;
+          }
+
+          .tooltip {
+            width: 40%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0 !important;
+
+            .text-class {
+              width: 25%;
+            }
+
+            .copy-clipboard {
+              background: transparent;
+            }
+          }
+        }
+      }
+    }
+
+    .inventory_count {
+      min-width: 110px !important;
+    }
+
+    .seller_rating {
+      min-width: 110px !important;
+
+      .star {
+        font-size: 12px;
+
+        @media only screen and (min-width: 1024px) and (max-width: 1599px) {
+          font-size: 10px;
+        }
+      }
+    }
+
+    .review_ratings {
+      min-width: 110px !important;
+    }
+
+    .count_30_days {
+      min-width: 110px !important;
+    }
+
+    .count_90_days {
+      min-width: 110px !important;
+    }
+
+    .count_12_month {
+      min-width: 110px !important;
+    }
+
+    .count_lifetime {
+      min-width: 110px !important;
+    }
+
+    .negative_30_days {
+      min-width: 132px !important;
+    }
+
+    .negative_90_days {
+      min-width: 132px !important;
+    }
+
+    .negative_12_month {
+      min-width: 132px !important;
+    }
+
+    .negative_lifetime {
+      min-width: 132px !important;
+    }
+
+    .positive_30_days {
+      min-width: 132px !important;
+    }
+
+    .positive_90_days {
+      min-width: 132px !important;
+    }
+
+    .positive_12_month {
+      min-width: 150px !important;
+    }
+
+    .positive_lifetime {
+      min-width: 150px !important;
+    }
+
+    .neutral_30_days {
+      min-width: 132px !important;
+    }
+
+    .neutral_90_days {
+      min-width: 132px !important;
+    }
+
+    .neutral_12_month {
+      min-width: 150px !important;
+    }
+
+    .neutral_lifetime {
+      min-width: 150px !important;
+    }
+
+    .launched {
+      min-width: 110px !important;
+    }
+
+    .state {
+      min-width: 110px !important;
+    }
+
+    .actions {
+      min-width: 135px !important;
+    }
+
     .target-btn {
       display: flex;
       align-items: center;
@@ -75,74 +230,8 @@
       color: $sellgo-green !important;
     }
 
-    .business_name {
-      min-width: 320px !important;
-      padding-left: 20px !important;
-    }
-
-    .rating {
-      min-width: 96px !important;
-
-      .star {
-        font-size: 12px;
-
-        @media only screen and (min-width: 1024px) and (max-width: 1599px) {
-          font-size: 10px;
-        }
-      }
-    }
-
     .sm-col {
       min-width: 85px !important;
-    }
-
-    .sd-seller-details {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-
-      .name {
-        font-weight: 600;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 150px;
-        color: $filter-text-color;
-
-        .icon.external {
-          font-size: 10px;
-          padding-left: 5px;
-          cursor: pointer;
-          color: $filter-text-color;
-        }
-      }
-
-      .seller-id {
-        font-size: 12px;
-        color: $filter-text-color;
-
-        .icon {
-          font-size: 10px;
-          padding-left: 5px;
-          cursor: pointer;
-          color: $filter-text-color;
-        }
-
-        .tooltip {
-          width: 40%;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-
-          .text-class {
-            width: 25%;
-          }
-
-          .copy-clipboard {
-            background: transparent;
-          }
-        }
-      }
     }
 
     td p {
@@ -198,7 +287,7 @@
           }
 
           .sort-arrow {
-            margin-left: 25px;
+            margin-left: 10px;
           }
 
           border-top: 1px solid rgba(34, 36, 38, 0.3);
@@ -216,12 +305,29 @@
           border-left: 1px solid rgba(34, 36, 38, 0.3);
         }
 
+        // affects thead
+        .inventory_count {
+          min-width: 110px !important;
+        }
+
+        .positive_12_month {
+          min-width: 150px !important;
+        }
+
         th:last-child {
           border-right: 1px solid rgba(34, 36, 38, 0.3);
           border-top-right-radius: 10px;
           border-bottom-right-radius: 10px;
         }
       }
+    }
+
+    tbody::before {
+      /* This doesn't work because of border-collapse */
+      content: '@';
+      display: block;
+      line-height: 10px;
+      text-indent: -99999px;
     }
 
     tbody {
@@ -234,14 +340,6 @@
           }
         }
       }
-    }
-
-    tbody::before {
-      /* This doesn't work because of border-collapse */
-      content: '@';
-      display: block;
-      line-height: 10px;
-      text-indent: -99999px;
     }
 
     td {
