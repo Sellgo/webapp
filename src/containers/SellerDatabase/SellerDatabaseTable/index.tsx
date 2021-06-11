@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Column, GenericTable } from '../../../components/Table';
 import './index.scss';
-import { Button, Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import PLUS_ICON from '../../../assets/images/plus-circle-regular.svg';
 import Rating from 'react-rating';
 import {
@@ -187,18 +187,17 @@ const SellerDatabaseTable = (props: Props) => {
   };
   // Actions
   const renderActions = (row: any) => {
-    const active = row.tracking_status === 'active';
+    // true of false value
+    const active = row.tracking_status;
     return (
       <div>
-        <Button
-          basic
-          color="blue"
+        <button
           className={active ? 'target-btn-active' : 'target-btn'}
-          onClick={() => targetSeller(row.id)}
+          onClick={() => targetSeller(row.seller_id)}
         >
           <img src={PLUS_ICON} alt="target" />
-          <span>{active ? `Tracking` : `Target Now`}</span>
-        </Button>
+          <span>{active ? `Tracking` : `Seller Finder`}</span>
+        </button>
       </div>
     );
   };
@@ -332,7 +331,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `Positive \n Review L30D`,
       dataKey: 'positive_30_days',
-      sortable: true,
+      // sortable: true,
       type: 'number',
       show: true,
       render: renderPositiveReview30D,
@@ -340,7 +339,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `Positive \n Review L90D`,
       dataKey: 'positive_90_days',
-      sortable: true,
+      // sortable: true,
       type: 'number',
       show: true,
       render: renderPositiveReview90D,
@@ -348,7 +347,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `Positive \n Review L365D`,
       dataKey: 'positive_12_month',
-      sortable: true,
+      // sortable: true,
       type: 'number',
       show: true,
       render: renderPositiveReview365D,
@@ -356,7 +355,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `Positive\n Review Lifetime`,
       dataKey: 'positive_lifetime',
-      sortable: true,
+      // sortable: true,
       type: 'string',
       show: true,
       render: renderPositiveLifetime,
@@ -365,7 +364,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `Neutral \n Review L30D`,
       dataKey: 'neutral_30_days',
-      sortable: true,
+      // sortable: true,
       type: 'number',
       show: true,
       render: renderNeutralReview30D,
@@ -373,7 +372,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `Neutral \n Review L90D`,
       dataKey: 'neutral_90_days',
-      sortable: true,
+      // sortable: true,
       type: 'number',
       show: true,
       render: renderNeutralReview90D,
@@ -381,7 +380,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `Neutral \n Review L365D`,
       dataKey: 'neutral_12_month',
-      sortable: true,
+      // sortable: true,
       type: 'number',
       show: true,
       render: renderNeutralReview365D,
@@ -389,7 +388,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `Neutral\n Review Lifetime`,
       dataKey: 'neutral_lifetime',
-      sortable: true,
+      // sortable: true,
       type: 'number',
       show: true,
       render: renderNeutralLifetime,
@@ -398,7 +397,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `Launched`,
       dataKey: 'launched',
-      sortable: true,
+      // sortable: true,
       type: 'string',
       show: true,
       render: renderLauched,
@@ -407,7 +406,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `State`,
       dataKey: 'state',
-      sortable: true,
+      // sortable: true,
       type: 'string',
       show: true,
       render: renderState,

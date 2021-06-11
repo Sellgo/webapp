@@ -200,13 +200,22 @@
       align-items: center;
       width: 120px;
       height: 30px;
-      border: 1px solid $sellgo-blue;
-      border-radius: 7px;
-      color: $sellgo-blue;
+      border: 0;
+      border: 1px solid $sellgo-orange !important;
+      border-radius: 4px !important;
+      color: $sellgo-orange !important;
       font-size: 11px;
+      cursor: pointer;
+      background: #fff;
 
       > img {
-        margin-right: 10px;
+        margin-right: 5px;
+        width: 15px;
+        height: 15px;
+      }
+
+      span {
+        margin: 0 !important;
       }
     }
 
@@ -215,13 +224,22 @@
       align-items: center;
       width: 120px;
       height: 30px;
-      border: 1px solid $sellgo-green !important;
-      border-radius: 7px;
+      border: 0;
+      border: 1px solid $sellgo-orange !important;
+      border-radius: 4px !important;
       color: $sellgo-green !important;
       font-size: 11px;
+      cursor: pointer;
+      background: #fff;
 
       > img {
-        margin-right: 10px;
+        margin-right: 5px;
+        width: 15px;
+        height: 15px;
+      }
+
+      span {
+        margin: 0 !important;
       }
     }
 
