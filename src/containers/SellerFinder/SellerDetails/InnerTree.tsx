@@ -163,26 +163,24 @@ const InnerTree = ({
 
   const getHeight = (): number => {
     let height = 50;
-    height = productSellers.length * 50 + 150;
+    height = productSellers.length * 50;
     return height;
   };
 
   const calculateHeight = () => {
-    return productSellers.length * 50 + 150;
+    return productSellers.length * 50 + 80;
   };
 
   useEffect(() => {
     const height: number = calculateHeight();
     updateProductHeight(height, !productSellers.length, activeNode.index);
     updateParentHeight(getHeight(), true);
-    setActiveProductHeight(calculateHeight());
+    setActiveProductHeight(height);
   }, [productSellers]);
 
   useEffect(() => {
     if (loadingProductSellers) {
       updateProductHeight(300, !!productSellers.length, activeNode.index);
-    } else {
-      updateProductHeight(4800, !!productSellers.length, activeNode.index);
     }
   }, [loadingProductSellers]);
 
