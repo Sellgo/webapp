@@ -27,6 +27,7 @@ import {
 } from '../../selectors/SellerDatabase';
 
 import { info } from '../../utils/notifications';
+import { getSellerQuota } from '../Settings';
 
 export interface SellerDatabasePayload {
   pageNo?: number;
@@ -220,23 +221,36 @@ export const trackDatabaseSeller = (merchantId: any) => async (dispatch: any, ge
     const sellerID = sellerIDSelector();
 
     const url = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants/track`;
-    let sellers = sellerDatabase(getState());
+    const sellers = sellerDatabase(getState());
     const payload = new FormData();
+
     payload.set('amazon_merchant_id', merchantId);
+
     const res = await Axios.post(url, payload);
+
     const data = res.data;
+
     if (data) {
       const { tracking_status } = data.object;
-      sellers = sellers.map((seller: any) => {
-        let update = seller;
-        if (seller.id === data.object.id) {
-          update = { ...update, tracking_status };
+
+      const updatedSellersList = sellers.map((seller: any) => {
+        if (seller.merchant_id === data.object.merchant_id) {
+          return {
+            ...seller,
+            ...data.object,
+          };
+        } else {
+          return seller;
         }
-        return update;
       });
 
-      info(`Seller ${tracking_status === 'active' ? 'Tracking' : 'Untracking'}`);
-      dispatch(fetchSellerDatabaseSuccess(sellers));
+      info(
+        `Seller ${
+          tracking_status === 'active' || tracking_status === true ? 'Tracking' : 'Untracking'
+        }`
+      );
+      dispatch(fetchSellerDatabaseSuccess(updatedSellersList));
+      dispatch(getSellerQuota());
     }
   } catch (err) {
     console.log('Error Tracking Seller', err);

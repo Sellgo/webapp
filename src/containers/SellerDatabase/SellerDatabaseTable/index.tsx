@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Column, GenericTable } from '../../../components/Table';
 import './index.scss';
 import { Icon } from 'semantic-ui-react';
-import PLUS_ICON from '../../../assets/images/plus-circle-regular.svg';
+import { ReactComponent as TrackingPlusIcon } from '../../../assets/images/plus-circle-regular.svg';
 import Rating from 'react-rating';
 import {
   databaseCount,
@@ -188,14 +188,14 @@ const SellerDatabaseTable = (props: Props) => {
   // Actions
   const renderActions = (row: any) => {
     // true of false value
-    const active = row.tracking_status;
+    const active = row.tracking_status === 'active' || row.tracking_status === true;
     return (
       <div>
         <button
           className={active ? 'target-btn-active' : 'target-btn'}
           onClick={() => targetSeller(row.seller_id)}
         >
-          <img src={PLUS_ICON} alt="target" />
+          <TrackingPlusIcon />
           <span>{active ? `Tracking` : `Seller Finder`}</span>
         </button>
       </div>
