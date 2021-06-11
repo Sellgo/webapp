@@ -6,6 +6,7 @@ $blue: #349af8;
 .sellers-header {
   height: 46px;
   display: flex;
+  justify-content: space-evenly;
   border: 0.5px solid $gray;
   align-items: center;
   box-shadow: 0 3px 3px $darkgary;
@@ -80,6 +81,7 @@ $blue: #349af8;
 .sellers-row {
   height: 46px;
   display: flex;
+  justify-content: space-evenly;
   border: 0.5px solid $gray;
   align-items: center;
   box-shadow: 0 3px 3px $darkgary;
