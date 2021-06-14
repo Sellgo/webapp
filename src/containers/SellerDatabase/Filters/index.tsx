@@ -739,7 +739,7 @@ const Filters: React.FC<Props> = props => {
                     label="All"
                     className={styles.formInput}
                     name="launched"
-                    checked={launched.value === null}
+                    checked={launched.value === null || launched.value === ''}
                     onChange={() =>
                       updateFilter({
                         ...launched,
