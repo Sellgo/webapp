@@ -762,7 +762,7 @@ const Filters: React.FC<Props> = props => {
                 placeholder="State"
                 fluid
                 className="formDropdown__state"
-                defaultValue={state}
+                value={state}
                 onChange={(evt, { value }: any) => setState(value)}
                 selection
                 options={states}
