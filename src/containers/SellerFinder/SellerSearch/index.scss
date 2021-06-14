@@ -23,7 +23,7 @@
     }
 
     > .search-btn {
-      background: $sellgo-orange;
+      background: $sellgo-orange !important;
       font-size: 16px;
       font-weight: 600;
       color: #fff;
@@ -35,7 +35,7 @@
     }
 
     .search-btn:hover {
-      background: $sellgo-orange;
+      background: $sellgo-orange !important;
     }
   }
 }

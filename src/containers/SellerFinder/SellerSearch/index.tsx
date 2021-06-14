@@ -1,12 +1,23 @@
 import React from 'react';
 import { Button, Input } from 'semantic-ui-react';
 import './index.scss';
-import history from '../../../history';
+
+import { SellersPayload } from '../../../actions/SellerFinder';
+
 interface Props {
   onSearch: (input: string) => void;
+  fetchSellers: (payload: SellersPayload) => void;
 }
 const SellerSearch = (props: Props) => {
+  const { onSearch, fetchSellers } = props;
+
   const [search, setSearch] = React.useState<any>('');
+
+  const handleSellerSearch = () => {
+    console.log('True');
+    fetchSellers({ enableLoader: true, query: `&search=${search}` });
+  };
+
   return (
     <div className="seller-finder-search">
       <div className="search-container">
@@ -16,18 +27,17 @@ const SellerSearch = (props: Props) => {
           icon={'search'}
           placeholder="Find in your Seller Finder List"
           onChange={(evt: any) => setSearch(evt.target.value)}
-          onKeyDown={(evt: any) => (evt.key === 'Enter' ? props.onSearch(search) : undefined)}
+          onKeyDown={(evt: any) => (evt.key === 'Enter' ? handleSellerSearch() : undefined)}
         />
         <span className="or">or</span>
         <Input
           size="small"
           className="input-2"
           icon={'search'}
-          placeholder="Insert Amazon Links or ASINs or Seller IDs ..."
+          placeholder="Insert ASINs or Seller IDs ..."
           onChange={(evt: any) => setSearch(evt.target.value)}
-          onKeyDown={(evt: any) => (evt.key === 'Enter' ? props.onSearch(search) : undefined)}
         />
-        <Button primary className="search-btn" onClick={() => history.push('seller-database')}>
+        <Button primary className="search-btn" onClick={() => onSearch(search)}>
           Find
         </Button>
       </div>

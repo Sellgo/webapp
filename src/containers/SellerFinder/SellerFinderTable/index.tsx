@@ -964,7 +964,7 @@ const SellerFinderTable = (props: Props) => {
         </Card.Content>
         <Card.Content className="search-content">
           <div className="search-input-container">
-            <SellerSearch onSearch={value => search(value)} />
+            <SellerSearch onSearch={value => search(value)} fetchSellers={fetchSellers} />
             {searching && (
               <div className="search-progress-container">
                 <Progress
