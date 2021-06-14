@@ -61,6 +61,23 @@ const Filters: React.FC<Props> = props => {
   const [sellerIds, setSellerIds] = useState<string>('');
   const [state, setState] = useState<string>('');
 
+  /* Error States */
+  const [inventoryError, setInventoryError] = useState({
+    min: false,
+    max: false,
+  });
+  const [sellerRatingsError, setSellerRatingsError] = useState({ min: false, max: false });
+  const [brandError, setBrandError] = useState({
+    min: false,
+    max: false,
+  });
+  const [reviewRatingsError, setReviewRatingsError] = useState({ min: false, max: false });
+
+  const [reviewCountError, setReviewCountError] = useState({ min: false, max: false });
+  const [positiveReviewError, setPositiveReviewError] = useState({ min: false, max: false });
+  const [negativeReviewError, setNegativeReviewError] = useState({ min: false, max: false });
+  const [neutralReviewError, setNeutralReviewError] = useState({ min: false, max: false });
+
   // find the correct filter and get it's value
   const getFilterValue = (type: string): SellerDatabaseFilter => {
     const filter = filters.find(f => f.type === type);
@@ -103,7 +120,13 @@ const Filters: React.FC<Props> = props => {
 
   // Marketplace options
   const marketplaceOptions = defaultMarketplaces.map(({ name, id, disabled, code }, key) => {
-    return { key, text: name, value: id, disabled, flag: code.toLowerCase() };
+    return {
+      key,
+      text: name,
+      value: id,
+      disabled,
+      flag: code.toLowerCase(),
+    };
   });
 
   // State Options
@@ -112,6 +135,169 @@ const Filters: React.FC<Props> = props => {
     value: state.code,
     text: state.name,
   }));
+
+  /* Effect to check inventory values error*/
+  useEffect(() => {
+    const minError =
+      Boolean(inventory.min && inventory.max && Number(inventory.min) > Number(inventory.max)) ||
+      Number.isNaN(inventory.min);
+
+    const maxError =
+      Boolean(inventory.min && inventory.max && Number(inventory.max) < Number(inventory.min)) ||
+      Number.isNaN(inventory.max);
+
+    setInventoryError({ min: minError, max: maxError });
+  }, [inventory.min, inventory.max]);
+
+  /* Effect to check seller ratings values error*/
+  useEffect(() => {
+    const minError =
+      Boolean(ratings.min && ratings.max && Number(ratings.min) > Number(ratings.max)) ||
+      Number.isNaN(ratings.min);
+
+    const maxError =
+      Boolean(ratings.min && ratings.max && Number(ratings.max) < Number(ratings.min)) ||
+      Number.isNaN(ratings.max);
+
+    setSellerRatingsError({
+      min: minError,
+      max: maxError,
+    });
+  }, [ratings.min, ratings.max]);
+
+  /* Effect to check brands  values error*/
+  useEffect(() => {
+    const minError =
+      Boolean(brand.min && brand.max && Number(brand.min) > Number(brand.max)) ||
+      Number.isNaN(brand.min);
+
+    const maxError =
+      Boolean(brand.min && brand.max && Number(brand.max) < Number(brand.min)) ||
+      Number.isNaN(brand.max);
+
+    setBrandError({ min: minError, max: maxError });
+  }, [brand.min, brand.max]);
+
+  /* Effect to review ratings values error*/
+  useEffect(() => {
+    const minError =
+      Boolean(
+        reviewRatings.min &&
+          reviewRatings.max &&
+          Number(reviewRatings.min) > Number(reviewRatings.max)
+      ) || Number.isNaN(reviewRatings.min);
+
+    const maxError =
+      Boolean(
+        reviewRatings.min &&
+          reviewRatings.max &&
+          Number(reviewRatings.max) < Number(reviewRatings.min)
+      ) || Number.isNaN(reviewRatings.max);
+
+    setReviewRatingsError({
+      min: minError,
+      max: maxError,
+    });
+  }, [reviewRatings.min, reviewRatings.max]);
+
+  /* Effect to review count values error*/
+  useEffect(() => {
+    const minError =
+      Boolean(
+        reviewCount.min && reviewCount.max && Number(reviewCount.min) > Number(reviewCount.max)
+      ) || Number.isNaN(reviewCount.min);
+
+    const maxError =
+      Boolean(
+        reviewCount.min && reviewCount.max && Number(reviewCount.max) < Number(reviewCount.min)
+      ) || Number.isNaN(reviewCount.max);
+
+    setReviewCountError({ min: minError, max: maxError });
+  }, [reviewCount.min, reviewCount.max]);
+
+  /* Effect to positive ratings values error*/
+  useEffect(() => {
+    const minError =
+      Boolean(
+        positiveReview.min &&
+          positiveReview.max &&
+          Number(positiveReview.min) > Number(positiveReview.max)
+      ) || Number.isNaN(positiveReview.min);
+
+    const maxError =
+      Boolean(
+        positiveReview.min &&
+          positiveReview.max &&
+          Number(positiveReview.max) < Number(positiveReview.min)
+      ) || Number.isNaN(positiveReview.max);
+
+    setPositiveReviewError({
+      min: minError,
+      max: maxError,
+    });
+  }, [positiveReview.min, positiveReview.max]);
+
+  /* Effect to negative ratings values error*/
+  useEffect(() => {
+    const minError =
+      Boolean(
+        negativeReview.min &&
+          negativeReview.max &&
+          Number(negativeReview.min) > Number(negativeReview.max)
+      ) || Number.isNaN(negativeReview.min);
+
+    const maxError =
+      Boolean(
+        negativeReview.min &&
+          negativeReview.max &&
+          Number(negativeReview.max) < Number(negativeReview.min)
+      ) || Number.isNaN(negativeReview.max);
+
+    setNegativeReviewError({
+      min: minError,
+      max: maxError,
+    });
+  }, [negativeReview.min, negativeReview.max]);
+
+  /* Effect to neutral ratings values error*/
+  useEffect(() => {
+    const minError =
+      Boolean(
+        neutralReview.min &&
+          neutralReview.max &&
+          Number(neutralReview.min) > Number(neutralReview.max)
+      ) || Number.isNaN(neutralReview.min);
+
+    const maxError =
+      Boolean(
+        neutralReview.min &&
+          neutralReview.max &&
+          Number(neutralReview.max) < Number(neutralReview.min)
+      ) || Number.isNaN(neutralReview.max);
+
+    setNeutralReviewError({
+      min: minError,
+      max: maxError,
+    });
+  }, [neutralReview.min, neutralReview.max]);
+
+  const isFilterInputError =
+    inventoryError.min ||
+    inventoryError.max ||
+    sellerRatingsError.min ||
+    sellerRatingsError.max ||
+    brandError.min ||
+    brandError.max ||
+    reviewRatingsError.min ||
+    reviewRatingsError.max ||
+    reviewCountError.min ||
+    reviewCountError.max ||
+    positiveReviewError.min ||
+    positiveReviewError.max ||
+    negativeReviewError.min ||
+    negativeReviewError.max ||
+    neutralReviewError.min ||
+    neutralReviewError.max;
 
   return (
     <section className={styles.filterContainerWrapper}>
@@ -144,8 +330,9 @@ const Filters: React.FC<Props> = props => {
                       min: +evt.target.value,
                     })
                   }
-                  error={Number.isNaN(inventory.min)}
+                  error={inventoryError.min}
                 />
+
                 <img src={filterRightArrow} alt="Right Arrow" />
                 <Input
                   className={styles.formInput}
@@ -157,7 +344,7 @@ const Filters: React.FC<Props> = props => {
                       max: +evt.target.value,
                     })
                   }
-                  error={Number.isNaN(inventory.max)}
+                  error={inventoryError.max}
                 />
               </div>
 
@@ -179,7 +366,7 @@ const Filters: React.FC<Props> = props => {
                       min: +evt.target.value,
                     })
                   }
-                  error={Number.isNaN(ratings.min)}
+                  error={sellerRatingsError.min}
                 />
                 <img src={filterRightArrow} alt="Right Arrow" />
                 <Input
@@ -192,7 +379,7 @@ const Filters: React.FC<Props> = props => {
                       max: +evt.target.value,
                     })
                   }
-                  error={Number.isNaN(ratings.max)}
+                  error={sellerRatingsError.max}
                 />
               </div>
 
@@ -210,7 +397,7 @@ const Filters: React.FC<Props> = props => {
                       min: +evt.target.value,
                     })
                   }
-                  error={Number.isNaN(brand.min)}
+                  error={brandError.min}
                 />
                 <img src={filterRightArrow} alt="Right Arrow" />
                 <Input
@@ -223,7 +410,7 @@ const Filters: React.FC<Props> = props => {
                       max: +evt.target.value,
                     })
                   }
-                  error={Number.isNaN(brand.max)}
+                  error={brandError.max}
                 />
               </div>
 
@@ -245,7 +432,7 @@ const Filters: React.FC<Props> = props => {
                       min: +evt.target.value,
                     })
                   }
-                  error={Number.isNaN(reviewRatings.min)}
+                  error={reviewRatingsError.min}
                 />
                 <img src={filterRightArrow} alt="Right Arrow" />
                 <Input
@@ -258,7 +445,7 @@ const Filters: React.FC<Props> = props => {
                       max: +evt.target.value,
                     })
                   }
-                  error={Number.isNaN(reviewRatings.max)}
+                  error={reviewRatingsError.max}
                 />
               </div>
             </div>
@@ -273,9 +460,12 @@ const Filters: React.FC<Props> = props => {
                   placeholder="Min Review Count"
                   value={reviewCount.min > 0 ? reviewCount.min : ''}
                   onChange={evt =>
-                    updateInputFilterValue({ ...reviewCount, min: +evt.target.value })
+                    updateInputFilterValue({
+                      ...reviewCount,
+                      min: +evt.target.value,
+                    })
                   }
-                  error={Number.isNaN(reviewCount.min)}
+                  error={reviewCountError.min}
                 />
                 <img src={filterRightArrow} alt="Right Arrow" />
                 <Input
@@ -283,9 +473,12 @@ const Filters: React.FC<Props> = props => {
                   placeholder="Max Review Count"
                   value={reviewCount.max > 0 ? reviewCount.max : ''}
                   onChange={evt =>
-                    updateInputFilterValue({ ...reviewCount, max: +evt.target.value })
+                    updateInputFilterValue({
+                      ...reviewCount,
+                      max: +evt.target.value,
+                    })
                   }
-                  error={Number.isNaN(reviewCount.max)}
+                  error={reviewCountError.max}
                 />
 
                 <Dropdown
@@ -295,7 +488,10 @@ const Filters: React.FC<Props> = props => {
                   selection
                   value={reviewCount.duration}
                   onChange={(evt, { value }: any) =>
-                    updateInputFilterValue({ ...reviewCount, duration: value })
+                    updateInputFilterValue({
+                      ...reviewCount,
+                      duration: value,
+                    })
                   }
                   options={DURATIONS}
                 />
@@ -310,9 +506,12 @@ const Filters: React.FC<Props> = props => {
                   placeholder="Min Positive Review"
                   value={positiveReview.min > 0 ? positiveReview.min : ''}
                   onChange={evt =>
-                    updateInputFilterValue({ ...positiveReview, min: +evt.target.value })
+                    updateInputFilterValue({
+                      ...positiveReview,
+                      min: +evt.target.value,
+                    })
                   }
-                  error={Number.isNaN(positiveReview.min)}
+                  error={positiveReviewError.min}
                 />
                 <img src={filterRightArrow} alt="Right Arrow" />
                 <Input
@@ -320,9 +519,12 @@ const Filters: React.FC<Props> = props => {
                   placeholder="Max Positive Review"
                   value={positiveReview.max > 0 ? positiveReview.max : ''}
                   onChange={evt =>
-                    updateInputFilterValue({ ...positiveReview, max: +evt.target.value })
+                    updateInputFilterValue({
+                      ...positiveReview,
+                      max: +evt.target.value,
+                    })
                   }
-                  error={Number.isNaN(positiveReview.max)}
+                  error={positiveReviewError.max}
                 />
 
                 <Dropdown
@@ -332,7 +534,10 @@ const Filters: React.FC<Props> = props => {
                   selection
                   value={positiveReview.duration}
                   onChange={(evt, { value }: any) =>
-                    updateInputFilterValue({ ...positiveReview, duration: value })
+                    updateInputFilterValue({
+                      ...positiveReview,
+                      duration: value,
+                    })
                   }
                   options={DURATIONS}
                 />
@@ -347,9 +552,12 @@ const Filters: React.FC<Props> = props => {
                   placeholder="Min Neutral Review"
                   value={neutralReview.min > 0 ? neutralReview.min : ''}
                   onChange={evt =>
-                    updateInputFilterValue({ ...neutralReview, min: +evt.target.value })
+                    updateInputFilterValue({
+                      ...neutralReview,
+                      min: +evt.target.value,
+                    })
                   }
-                  error={Number.isNaN(neutralReview.min)}
+                  error={neutralReviewError.min}
                 />
                 <img src={filterRightArrow} alt="Right Arrow" />
                 <Input
@@ -357,9 +565,12 @@ const Filters: React.FC<Props> = props => {
                   placeholder="Max Neutral Review"
                   value={neutralReview.max > 0 ? neutralReview.max : ''}
                   onChange={evt =>
-                    updateInputFilterValue({ ...neutralReview, max: +evt.target.value })
+                    updateInputFilterValue({
+                      ...neutralReview,
+                      max: +evt.target.value,
+                    })
                   }
-                  error={Number.isNaN(neutralReview.max)}
+                  error={neutralReviewError.max}
                 />
 
                 <Dropdown
@@ -369,7 +580,10 @@ const Filters: React.FC<Props> = props => {
                   selection
                   value={neutralReview.duration}
                   onChange={(evt, { value }: any) =>
-                    updateInputFilterValue({ ...neutralReview, duration: value })
+                    updateInputFilterValue({
+                      ...neutralReview,
+                      duration: value,
+                    })
                   }
                   options={DURATIONS}
                 />
@@ -384,9 +598,12 @@ const Filters: React.FC<Props> = props => {
                   placeholder="Min Negative Review"
                   value={negativeReview.min > 0 ? negativeReview.min : ''}
                   onChange={evt =>
-                    updateInputFilterValue({ ...negativeReview, min: +evt.target.value })
+                    updateInputFilterValue({
+                      ...negativeReview,
+                      min: +evt.target.value,
+                    })
                   }
-                  error={Number.isNaN(negativeReview.min)}
+                  error={negativeReviewError.min}
                 />
                 <img src={filterRightArrow} alt="Right Arrow" />
                 <Input
@@ -394,9 +611,12 @@ const Filters: React.FC<Props> = props => {
                   placeholder="Max Negative Review"
                   value={negativeReview.max > 0 ? negativeReview.max : ''}
                   onChange={evt =>
-                    updateInputFilterValue({ ...negativeReview, max: +evt.target.value })
+                    updateInputFilterValue({
+                      ...negativeReview,
+                      max: +evt.target.value,
+                    })
                   }
-                  error={Number.isNaN(negativeReview.max)}
+                  error={negativeReviewError.max}
                 />
 
                 <Dropdown
@@ -406,7 +626,10 @@ const Filters: React.FC<Props> = props => {
                   selection
                   value={negativeReview.duration}
                   onChange={(evt, { value }: any) =>
-                    updateInputFilterValue({ ...negativeReview, duration: value })
+                    updateInputFilterValue({
+                      ...negativeReview,
+                      duration: value,
+                    })
                   }
                   options={DURATIONS}
                 />
@@ -446,7 +669,7 @@ const Filters: React.FC<Props> = props => {
                 <p>Include Seller IDs</p>
                 <Input
                   className={styles.formInput__long}
-                  placeholder="Enter Sellrer IDs separated by commas"
+                  placeholder="Enter Seller IDs separated by commas"
                   value={sellerIds}
                   onChange={evt => {
                     setSellerIds(evt.target.value);
@@ -480,7 +703,12 @@ const Filters: React.FC<Props> = props => {
                     className={styles.formInput}
                     name="launched"
                     checked={launched.value === '<1Y'}
-                    onChange={() => updateFilter({ ...launched, value: '<1Y' })}
+                    onChange={() =>
+                      updateFilter({
+                        ...launched,
+                        value: '<1Y',
+                      })
+                    }
                   />
                 </div>
 
@@ -491,7 +719,12 @@ const Filters: React.FC<Props> = props => {
                     className={styles.formInput}
                     name="launched"
                     checked={launched.value === '>1Y'}
-                    onChange={() => updateFilter({ ...launched, value: '>1Y' })}
+                    onChange={() =>
+                      updateFilter({
+                        ...launched,
+                        value: '>1Y',
+                      })
+                    }
                   />
                 </div>
 
@@ -507,7 +740,12 @@ const Filters: React.FC<Props> = props => {
                     className={styles.formInput}
                     name="launched"
                     checked={launched.value === null}
-                    onChange={() => updateFilter({ ...launched, value: '' })}
+                    onChange={() =>
+                      updateFilter({
+                        ...launched,
+                        value: '',
+                      })
+                    }
                   />
                 </div>
               </div>
@@ -552,6 +790,7 @@ const Filters: React.FC<Props> = props => {
         </Button>
         <Button
           size="small"
+          disabled={isFilterInputError}
           className={styles.filterSubmit__find}
           onClick={() => {
             localStorage.setItem('showSellerDatabaseData', 'true');
