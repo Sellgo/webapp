@@ -657,7 +657,26 @@ const SellerFinderTable = (props: Props) => {
 
   const scrollToCurrent = () => {
     if (expandRef.current && expandRef.current.scrollIntoView) {
-      expandRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const currentParentElement = expandRef.current.parentElement.parentElement;
+
+      if (currentParentElement && currentParentElement.previousSibling) {
+        const prevFirstSiblingFromCurrent = currentParentElement.previousSibling;
+        const prevSecondSiblingFromCurrent = prevFirstSiblingFromCurrent.previousSibling;
+
+        if (prevSecondSiblingFromCurrent) {
+          prevSecondSiblingFromCurrent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else if (prevFirstSiblingFromCurrent) {
+          prevFirstSiblingFromCurrent.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          });
+        }
+      } else {
+        expandRef.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }
     }
   };
 
