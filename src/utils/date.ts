@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const HOURS_IN_A_DAY = 24;
 export const MINUTES_IN_A_DAY = HOURS_IN_A_DAY * 60; // 1440
 export const SECONDS_IN_A_DAY = MINUTES_IN_A_DAY * 60; // 86400
@@ -34,4 +36,10 @@ export const formatCompletedDate = (timestamp: Date) => {
   const year: number = toFormatDate.getFullYear();
   const formattedTime = formatCompletedTime(toFormatDate);
   return `${date}-${month}-${year} \n ${formattedTime}`;
+};
+
+export const getHours = (startDate: string) => {
+  const end = moment();
+  const duration = moment.duration(end.diff(moment(startDate)));
+  return duration.asHours();
 };

@@ -12,6 +12,8 @@ import './index.scss';
 import { Column, getColumnLabel, getColumnClass } from './index';
 import { setActiveColumn, setSortColumn } from '../../actions/Suppliers';
 import RangeFilterBox from '../RangeFilterBox';
+import SellerCheckBoxHeader from '../../containers/SellerDatabase/SellerDatabaseTable/sellerCheckBoxHeader';
+
 interface Shared {
   setSort: (e: any, clickedColumn: string) => void;
   onClick?: (e: any) => void;
@@ -46,6 +48,7 @@ interface Shared {
   resetPage: (sortDirection: string, dataKey: string) => void;
   leftFixedColumns?: number;
   rightFixedColumns?: number;
+  sortIconPosition?: string;
 }
 
 export interface TableHeaderProps extends Shared {
@@ -90,6 +93,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     loadingFilters,
     filterValues,
     resetPage,
+    sortIconPosition = 'left',
   } = props;
 
   const {
@@ -116,7 +120,9 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
 
   otherProps = {
     onClick:
-      sortable && type && !['leads-tracker', 'products'].includes(type)
+      sortable &&
+      type &&
+      !['leads-tracker', 'products', 'seller-finder', 'seller-database'].includes(type)
         ? (e: any) => {
             e.preventDefault();
             e.stopPropagation();
@@ -137,7 +143,11 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
 
   const sorting = {
     onClick:
-      type && ['leads-tracker', 'products', 'trackerTable'].includes(type) && sortable
+      type &&
+      ['leads-tracker', 'products', 'seller-finder', 'trackerTable', 'seller-database'].includes(
+        type
+      ) &&
+      sortable
         ? (e: any) => {
             e.preventDefault();
             e.stopPropagation();
@@ -212,13 +222,29 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     />
   );
 
+  const Sort =
+    sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (
+      <img src={SortIcon} className="sort-arrow" alt="sort arrow" {...sorting} />
+    ) : sortable && sortedColumnKey === dataKey ? (
+      sortDirection === 'ascending' ? (
+        <span>
+          <Icon name="caret down" className="sort-icon" {...sorting} />
+        </span>
+      ) : (
+        <span>
+          {' '}
+          <Icon name="caret up" className="sort-icon" {...sorting} />
+        </span>
+      )
+    ) : null;
+
   if (type === 'trackerTable') {
     otherProps = { ...otherProps, style: { height: '56px' } };
     return (
       <Table.HeaderCell key={dataKey || Date.now()} {...otherProps}>
         {' '}
         <div className={`table-cell-container ${(icon && popUp) || check ? 'popup-cell' : ''}`}>
-          {sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (
+          {!sortedColumnKey || sortedColumnKey !== dataKey ? (
             <img src={SortIcon} className="sort-arrow" alt="sort arrow" {...sorting} />
           ) : sortable && sortedColumnKey === dataKey ? (
             sortDirection === 'ascending' ? (
@@ -282,36 +308,37 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
       {' '}
       <div className={`table-cell-container ${(icon && popUp) || check ? 'popup-cell' : ''}`}>
         {filter && searchIconPosition === 'left' && ColumnFilter}
+        {sortable && sortIconPosition === 'left' && Sort}
 
-        {sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (
-          <img src={SortIcon} className="sort-arrow" alt="sort arrow" {...sorting} />
-        ) : sortable && sortedColumnKey === dataKey ? (
-          sortDirection === 'ascending' ? (
-            <span>
-              <Icon name="caret down" className="sort-icon" {...sorting} />
-            </span>
-          ) : (
-            <span>
-              {' '}
-              <Icon name="caret up" className="sort-icon" {...sorting} />
-            </span>
-          )
-        ) : null}
         <span className={`th-label ${type === 'leads-tracker' ? 'lt-th-label' : ''}`} {...sorting}>
           {label}
         </span>
+        {sortable && sortIconPosition === 'right' && Sort}
         {filter && searchIconPosition === 'right' && ColumnFilter}
 
-        {check && checkedRows && updateCheckedRows && type !== 'leads-tracker' && (
-          <ProductCheckBoxHeader
+        {check &&
+          checkedRows &&
+          updateCheckedRows &&
+          type &&
+          !['leads-tracker', 'seller-database'].includes(type) && (
+            <ProductCheckBoxHeader
+              currentPage={currentPage}
+              currentPageRows={rows}
+              checkedRows={checkedRows}
+              updateCheckedRows={updateCheckedRows}
+            />
+          )}
+        {check && checkedRows && updateCheckedRows && type === 'leads-tracker' && (
+          <LeadsCheckBoxHeader
             currentPage={currentPage}
             currentPageRows={rows}
             checkedRows={checkedRows}
             updateCheckedRows={updateCheckedRows}
           />
         )}
-        {check && checkedRows && updateCheckedRows && type === 'leads-tracker' && (
-          <LeadsCheckBoxHeader
+
+        {check && checkedRows && updateCheckedRows && type === 'seller-database' && (
+          <SellerCheckBoxHeader
             currentPage={currentPage}
             currentPageRows={rows}
             checkedRows={checkedRows}

@@ -1,6 +1,6 @@
 import React, { Component, ReactElement } from 'react';
 import { connect } from 'react-redux';
-import { Menu, Segment, Sidebar, Grid, Label } from 'semantic-ui-react';
+import { Menu, Segment, Sidebar, Grid } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { notifyIdSelector } from '../../selectors/UserOnboarding';
 import SidebarPusher from './SidebarPusher';
@@ -9,6 +9,8 @@ import { getLatestSupplier } from '../../actions/Suppliers';
 import get from 'lodash/get';
 
 import { LogoWithoutText } from '../Logo/index';
+import sellerFinderIcon from '../../assets/images/sellerFinder.svg';
+import sellerDatabaseIcon from '../../assets/images/sellerDatabase.svg';
 
 interface IconD {
   id: number;
@@ -60,9 +62,24 @@ class SidebarCollapsible extends Component<
         path: '/leads-tracker',
         notifyId: 2,
       },
-      { id: 5, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
+      {
+        id: 5,
+        label: 'Seller Database',
+        icon: 'fas fa-user-unlocked',
+        path: '/seller-database',
+        notifyId: 4,
+      },
       {
         id: 6,
+        label: 'Seller Finder',
+        icon: 'fas fa-scanner',
+        path: '/seller-finder',
+        notifyId: 4,
+      },
+
+      { id: 7, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
+      {
+        id: 8,
         label: 'Onboarding',
         icon: 'far fa-question-circle',
         path: '/onboarding',
@@ -94,7 +111,7 @@ class SidebarCollapsible extends Component<
         </Link>
         <Menu.Menu>
           {this.state.sidebarIcon.map(icon => {
-            if (icon.id < 5) {
+            if (icon.id <= 6) {
               return (
                 <Menu.Item
                   onClick={() => {
@@ -108,12 +125,20 @@ class SidebarCollapsible extends Component<
                   className={'sidebar-menu__items'}
                   key={icon.id}
                 >
-                  <i
-                    className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
-                      'forward'} ${icon.id === 2 && !supplier_id ? 'disabled-link' : ''}`}
-                  />
-
-                  <Label> {icon.label} </Label>
+                  {icon.id === 5 || icon.id === 6 ? (
+                    <>
+                      {' '}
+                      <img
+                        src={icon.id === 5 ? sellerDatabaseIcon : sellerFinderIcon}
+                        alt="Icons"
+                      />
+                    </>
+                  ) : (
+                    <i
+                      className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
+                        'forward'} ${icon.id === 2 && !supplier_id ? 'disabled-link' : ''}`}
+                    />
+                  )}
                 </Menu.Item>
               );
             } else {
@@ -123,7 +148,7 @@ class SidebarCollapsible extends Component<
         </Menu.Menu>
         <Menu.Menu className="sidebar-bottom-icon">
           {this.state.sidebarIcon.map(icon => {
-            if (icon.id > 4) {
+            if (icon.id >= 7) {
               return (
                 <Menu.Item
                   key={icon.id}
@@ -137,7 +162,6 @@ class SidebarCollapsible extends Component<
                     className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
                       'forward'} `}
                   />
-                  <Label> {icon.label} </Label>
                 </Menu.Item>
               );
             } else {

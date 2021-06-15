@@ -55,11 +55,18 @@ const FilterSliderInput = (props: any) => {
           [
             'avg_rank',
             'rank',
+            'customer_reviews',
+            'count_30_days',
+            'count_90_days',
+            'count_12_month',
             'number_of_sellers',
             'avg_inventory',
             'avg_amazon_inventory',
             'avg_daily_sales',
-          ].includes(dataKey) || dataKey === 'customer_reviews'
+            'inventory_count',
+            'review_ratings',
+            'count_lifetime',
+          ].includes(dataKey)
             ? 1
             : 0.01
         }

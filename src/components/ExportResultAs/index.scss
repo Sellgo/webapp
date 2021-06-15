@@ -4,7 +4,7 @@
   width: 342px !important;
   padding: 20px;
   color: $text-color;
-  border-radius: 1.285714rem !important;
+  border-radius: 7px !important;
 
   .export-format {
     margin: 15px 0 0 !important;
@@ -34,8 +34,8 @@
     margin-top: 25px;
 
     .ui.button {
-      border: 1px solid $text-color;
-      border-radius: 16px !important;
+      border: 1px solid $sellgo-light-gray;
+      border-radius: 7px !important;
       height: 32px;
       width: 120px;
       line-height: 0 !important;
