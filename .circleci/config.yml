@@ -24,7 +24,7 @@ jobs:
       - checkout
       - run:
           name: install-npm
-          command: npm install
+          command: npm install -f
       - run:
           name: build
           command: CI=false REACT_APP_ENV=development npm run build
@@ -52,7 +52,7 @@ jobs:
       - checkout
       - run:
           name: install-npm
-          command: npm install
+          command: npm install -f
       - run:
           name: run-lint
           command: npm run lint
@@ -63,7 +63,7 @@ jobs:
       - checkout
       - run:
           name: install-npm
-          command: npm install
+          command: npm install -f
       - run:
           name: run-test
           command: CI=true npm run test
