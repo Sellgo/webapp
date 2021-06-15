@@ -1,0 +1,96 @@
+@import '../../../design-system/new-colors';
+
+.subscriptionPage {
+  min-height: 430vh;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 40px;
+  flex-direction: column;
+
+  @media only screen and(max-width: 1200px) {
+    width: 90%;
+  }
+}
+
+.subscriptionPageWrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  color: $prim_dark_2;
+}
+
+.planName {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media only screen and(max-width: 1200px) {
+    flex-direction: column;
+  }
+
+  span {
+    width: 40px;
+    height: 40px;
+    background: $blue_6;
+    border-radius: 3px;
+    margin-right: 10px;
+  }
+
+  h2 {
+    font-size: 32px;
+    margin: 0;
+  }
+}
+
+.planShortSummary {
+  color: $prim_dark_2;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto;
+
+  p {
+    margin-right: 10px;
+    color: inherit;
+  }
+}
+
+.paymentModeToggle {
+  margin: 50px auto !important;
+}
+
+.pricingPlanCardsWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 40px 0;
+}
+
+.allFeaturesSection {
+  margin: 10px 0;
+  width: 100%;
+
+  @media only screen and(max-width: 1200px) {
+    width: 100%;
+  }
+}
+
+.paymentMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: 40px 0;
+
+  &__images {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__text {
+    font-size: 14px;
+  }
+}

@@ -1,94 +1,87 @@
-import React from 'react';
-import './index.scss';
-import { Grid, Image } from 'semantic-ui-react';
-import Auth from '../../components/Auth/Auth';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
+/* Styling */
+import styles from './index.module.scss';
+import './globals.scss';
+
+/* Containers */
 import Summary from './Summary';
 import Login from './Login';
 import Signup from './Signup';
 
-interface SubscriptionProps {
+/* Components */
+import Auth from '../../components/Auth/Auth';
+
+/* Assets */
+import newSellgoLogo from '../../assets/images/sellgoNewLogo.png';
+
+interface Props {
   auth: Auth;
 }
 
-interface SubscriptionStates {
-  isLogin: boolean;
-  isSignup: boolean;
-  accountType: string;
-  paymentMode: string;
-}
+const SubscriptionPage: React.FC<Props> = props => {
+  const { auth } = props;
 
-class Subscription extends React.Component<SubscriptionProps, SubscriptionStates> {
-  state = {
-    isLogin: false,
-    isSignup: true,
-    accountType: '',
-    paymentMode: '',
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [isSignup, setIsSignup] = useState<boolean>(true);
+  const [accountType, setAccountType] = useState<string>('');
+  const [paymentMode, setPaymentMode] = useState<string>('');
+
+  const setSignUp = () => {
+    window.location.search = '?type=' + accountType + '&' + 'mode=' + paymentMode;
+    setIsSignup(true);
+    setIsLogin(false);
   };
 
-  componentDidMount() {
+  const setLogin = () => {
+    setIsLogin(true);
+    setIsSignup(false);
+  };
+
+  useEffect(() => {
     if (localStorage.getItem('isLoggedIn') === 'true') {
-      this.setLogin();
+      setLogin();
       localStorage.setItem('isLoggedIn', 'false');
     } else if (window.location.search.indexOf('-unverified') !== -1) {
-      this.setLogin();
+      setLogin();
     }
     const search = window.location.search;
-    let plan = 'pro';
-    if (search.includes('basic')) {
-      plan = 'basic';
-    } else if (search.includes('extension')) {
-      plan = 'extension';
+
+    let plan: any = 'professional';
+    if (search.includes('starter') || search.includes('Starter')) {
+      plan = 'starter';
+    } else if (search.includes('suite') || search.includes('Suite')) {
+      plan = 'suite';
     } else {
-      plan = 'pro';
+      plan = 'professional';
     }
 
-    this.setState(
-      {
-        accountType: plan,
-        paymentMode: window.location.search.indexOf('yearly') !== -1 ? 'yearly' : 'monthly',
-      },
-      () => {
-        localStorage.setItem('planType', this.state.accountType);
-        localStorage.setItem('paymentMode', this.state.paymentMode);
-      }
-    );
-  }
+    const paymentMode = window.location.search.indexOf('yearly') !== -1 ? 'yearly' : 'monthly';
 
-  setSignup() {
-    window.location.search =
-      '?type=' + this.state.accountType + '&' + 'mode=' + this.state.paymentMode;
-    this.setState({
-      isSignup: true,
-      isLogin: false,
-    });
-  }
+    setAccountType(plan);
+    setPaymentMode(paymentMode);
+    localStorage.setItem('planType', plan);
+    localStorage.setItem('paymentMode', paymentMode);
+  }, []);
 
-  setLogin() {
-    this.setState({
-      isLogin: true,
-      isSignup: false,
-    });
-  }
+  return (
+    <>
+      <main className={styles.subscriptionPage}>
+        <div className={styles.logo}>
+          <Link to="/" replace>
+            <img src={newSellgoLogo} alt="Sellgo Company Logo" />
+          </Link>
+        </div>
 
-  render() {
-    const { isLogin, isSignup, accountType, paymentMode } = this.state;
-    const { auth } = this.props;
-    return (
-      <Grid className="subscription-page" columns={2}>
-        <Grid.Row>
-          <Grid.Column width={5} className="subscription-page__logo-container">
-            <div className="subscription-page__logo-container__image">
-              <Image src="/images/sellgo_grey_logo.svg" wrapped={true} />
-            </div>
-          </Grid.Column>
-          <Grid.Column width={11} className="subscription-page__content">
-            <Summary planType={accountType} paymentMode={paymentMode} />
-            {isLogin && <Login auth={auth} setSignup={this.setSignup.bind(this)} />}
-            {isSignup && <Signup auth={auth} setLogin={this.setLogin.bind(this)} />}
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    );
-  }
-}
-export default Subscription;
+        <section className={styles.contentSection}>
+          <Summary planType={accountType} paymentMode={paymentMode} />
+          {isLogin && <Login auth={auth} setSignup={setSignUp} />}
+          {isSignup && <Signup auth={auth} setLogin={setLogin} />}
+        </section>
+      </main>
+    </>
+  );
+};
+
+export default SubscriptionPage;

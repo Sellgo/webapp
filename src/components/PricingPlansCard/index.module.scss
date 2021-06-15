@@ -1,0 +1,25 @@
+@import '../../design-system/new-colors';
+
+.pricingPlansCardWrapper {
+  position: relative;
+  background: $prim_white;
+  border-radius: 7px;
+  min-width: 380px;
+  min-height: 830px;
+  border: 1px solid $second_silver;
+
+  &__main {
+    background: #f2efe4;
+  }
+}
+
+.pricingPlansCard {
+  width: 100%;
+  padding: 20px;
+  height: 100%;
+}
+
+.planType {
+  font-size: 14px;
+  color: $prim_dark_2;
+}

@@ -1,0 +1,161 @@
+.checkoutContainer {
+  margin: 40px auto;
+  width: max-content;
+
+  h2 {
+    color: #3b4557;
+    font-size: 16px;
+  }
+}
+
+.formGroup {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
+.formInput {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 400px;
+  margin: 15px 0;
+  margin-right: 10px;
+
+  label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #3b4557;
+  }
+
+  input {
+    height: 40px;
+    background: #fff;
+    font-size: 14px;
+    color: #808080 !important;
+    border: 1px solid #dededf;
+    border-radius: 4px;
+  }
+
+  &__expiry {
+    width: 150px;
+  }
+
+  &__cvv {
+    width: 75px;
+  }
+
+  &__error {
+    input {
+      border: 1px solid #eb675e !important;
+    }
+  }
+}
+
+.stripeInput {
+  height: 40px;
+  background: #fff;
+  color: #808080 !important;
+  border: 1px solid #dededf;
+  border-radius: 4px;
+  font-size: 14px !important;
+  padding: 9.5px 14px;
+
+  &::placeholder {
+    font-size: 14px !important;
+  }
+
+  &__expiry {
+    width: 150px;
+  }
+
+  &__cvv {
+    width: 75px;
+  }
+}
+
+.dropdown {
+  height: 40px;
+  background: #fff;
+  font-size: 14px;
+  color: #808080 !important;
+  border: 1px solid #dededf;
+  border-radius: 4px;
+  position: relative !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0 20px;
+
+  &__menu {
+    width: 100%;
+    position: absolute;
+    top: 41px !important;
+    background: #fff !important;
+    min-height: 200px;
+    max-height: 200px;
+    overflow: auto;
+  }
+}
+
+.paymentMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.cardsWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  &__cards {
+    height: 35px;
+  }
+
+  &__stripe {
+    height: 20px;
+  }
+}
+
+.paymentButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 50px;
+
+  button {
+    height: 50px;
+    border: 0;
+    outline: 0;
+    font-family: 'Work Sans', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: unset;
+    }
+  }
+
+  .cancelButton {
+    color: #808080;
+    border: 1px solid #808080;
+    background: #fff;
+    margin: 0 20px;
+  }
+
+  .completeButton {
+    color: #fff;
+    border: 1px solid #fc7900;
+    background: #fc7900;
+    margin-right: 10px;
+  }
+}

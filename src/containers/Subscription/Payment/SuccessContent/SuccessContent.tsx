@@ -1,28 +1,31 @@
 import React from 'react';
-import './index.scss';
-import { Header, Button, Form } from 'semantic-ui-react';
+
 import { createBrowserHistory } from 'history';
 
-export default function SuccessContent(props: any) {
+/* Styling */
+import styles from './index.module.scss';
+
+const SuccessContent = (props: any) => {
   const { sellerSubscription } = props;
   const history = createBrowserHistory({ forceRefresh: true });
+
   return (
-    <div className="payment-success-container">
-      <Header as="h3">Payment Success</Header>
+    <section className={styles.successContainer}>
+      <h2>Payment Success</h2>
+
       {!sellerSubscription && <p>Please verify you email</p>}
+
       <p>We have sent you a receipt in your email</p>
-      <Form.Field
-        size="huge"
-        className="payment-success-container__login"
-        control={Button}
-        primary={true}
+      <button
         onClick={() => {
           localStorage.setItem('loginRedirectPath', '/');
           history.push('/');
         }}
       >
         Log in
-      </Form.Field>
-    </div>
+      </button>
+    </section>
   );
-}
+};
+
+export default SuccessContent;

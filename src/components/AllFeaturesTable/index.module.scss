@@ -1,0 +1,49 @@
+@import '../../design-system/new-colors';
+
+.allFeaturesTable {
+  color: $prim_dark_2;
+  width: 100%;
+
+  thead {
+    width: 100%;
+
+    tr {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      min-width: 100%;
+
+      th {
+        font-size: 16px;
+        font-weight: 600;
+        text-transform: uppercase;
+        text-align: center;
+        flex: 1;
+      }
+    }
+  }
+
+  tbody {
+    width: 100%;
+
+    tr {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+
+      &:nth-child(2n + 1) {
+        background: $grey_1;
+      }
+
+      td {
+        flex: 1;
+        font-size: 14px;
+        font-weight: 500;
+        text-align: center;
+      }
+    }
+  }
+}

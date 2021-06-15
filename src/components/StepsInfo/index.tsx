@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Icon, Step, Popup } from 'semantic-ui-react';
 import { Steps } from '../../interfaces/StepsInfo';
 
+import './index.scss';
+
 interface Props {
   stepsData: Steps[];
   onChange: any;
@@ -14,7 +16,9 @@ interface Props {
 
 const StepsInfo = (props: Props) => {
   const { stepsData, onChange, isFocusPW, focusInput, blurInput, subscriptionRegister, id } = props;
+
   const [isPassword, setPassword] = useState(true);
+
   const stepsDisplay = stepsData.map((stat: Steps) => {
     if (stat.stepShow) {
       return (
@@ -30,6 +34,7 @@ const StepsInfo = (props: Props) => {
       return null;
     }
   });
+
   const handleClickPassword = () => {
     if (isPassword) {
       setPassword(false);
@@ -37,12 +42,13 @@ const StepsInfo = (props: Props) => {
       setPassword(true);
     }
   };
+
   return (
     <Popup
       className="StepsInfo__container"
       open={isFocusPW}
       trigger={
-        <div className={`ui icon input field ${subscriptionRegister && 'huge'}`}>
+        <div className={`ui icon input field passwordInput ${subscriptionRegister && 'huge'}`}>
           <input
             id={id}
             autoFocus={isFocusPW}
@@ -53,11 +59,9 @@ const StepsInfo = (props: Props) => {
             minLength={8}
             placeholder="Password"
             onChange={onChange}
+            // className={className}
           />
-          <i
-            className={isPassword ? 'eye icon' : 'eye icon active'}
-            onClick={handleClickPassword}
-          />
+          <Icon name={isPassword ? 'eye slash' : 'eye'} onClick={handleClickPassword} />
         </div>
       }
       on="focus"
