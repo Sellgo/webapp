@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .Onboarding__page {
   $font-fam: 'Work sans', sans-serif !important;
 
@@ -271,19 +273,19 @@
     $size: 1.5;
 
     .Onboarding__tutorial {
-      font-size: 50px / $size !important;
-      margin-bottom: 30px / $size;
+      font-size: math.div(50px, $size) !important;
+      margin-bottom: math.div(30px, $size);
     }
 
     .Slider__container {
       .Slider__title {
-        font-size: 30px / $size;
+        font-size: math.div(30px, $size);
       }
 
       .control-prev::before,
       .control-next::before {
-        height: 50px / $size;
-        width: 50px / $size;
+        height: math.div(50px, $size);
+        width: math.div(50px, $size);
         padding: 4px;
       }
 
@@ -294,21 +296,21 @@
       div:first-child.carousel.carousel-slider {
         .slider-wrapper.axis-horizontal .slider {
           .slide {
-            min-width: 450px / $size !important;
-            max-width: 450px / $size !important;
-            height: 366px / $size;
-            margin: 20px / $size;
-            border-radius: 11px / $size;
+            min-width: math.div(450px, $size) !important;
+            max-width: math.div(450px, $size) !important;
+            height: math.div(366px, $size);
+            margin: math.div(20px, $size);
+            border-radius: math.div(11px, $size);
 
             .Slider__detail {
-              font-size: 20px / $size;
-              padding: 20px / $size;
-              padding-top: 10px / $size;
+              font-size: math.div(20px, $size);
+              padding: math.div(20px, $size);
+              padding-top: math.div(10px, $size);
 
               .sub.header {
-                font-size: 15px / $size;
-                margin-top: 8px / $size;
-                height: 57px / $size;
+                font-size: math.div(15px, $size);
+                margin-top: math.div(8px, $size);
+                height: math.div(57px, $size);
               }
             }
           }
