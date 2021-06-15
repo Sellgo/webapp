@@ -751,6 +751,39 @@ const Filters: React.FC<Props> = props => {
               </div>
             </div>
           </div>
+          {/* Filter submission */}
+          <div className={styles.filterSubmit}>
+            <Button
+              size="small"
+              className={styles.filterSubmit__reset}
+              onClick={() => {
+                localStorage.removeItem('showSellerDatabaseData');
+                setAsins('');
+                setBrands('');
+                setSellerIds('');
+                fetchSellersDatabase({ resetFilters: true });
+              }}
+            >
+              Reset
+            </Button>
+            <Button
+              size="small"
+              disabled={isFilterInputError}
+              className={styles.filterSubmit__find}
+              onClick={() => {
+                localStorage.setItem('showSellerDatabaseData', 'true');
+                fetchSellersDatabase({
+                  filters: true,
+                  sort: 'seller_id',
+                  asins,
+                  brands,
+                  sellerIds,
+                });
+              }}
+            >
+              Find
+            </Button>
+          </div>
         </TabPanel>
 
         {/* Location Panel */}
@@ -769,44 +802,39 @@ const Filters: React.FC<Props> = props => {
               />
             </div>
           </div>
+
+          {/* Filter submission only for location panel*/}
+          <div className={styles.filterSubmit}>
+            <Button
+              size="small"
+              className={styles.filterSubmit__reset}
+              onClick={() => {
+                localStorage.removeItem('showSellerDatabaseData');
+                setState('');
+                fetchSellersDatabase({ resetFilters: true });
+              }}
+            >
+              Reset
+            </Button>
+            <Button
+              size="small"
+              disabled={isFilterInputError}
+              className={styles.filterSubmit__find}
+              onClick={() => {
+                localStorage.setItem('showSellerDatabaseData', 'true');
+                fetchSellersDatabase({ resetFilters: true });
+                fetchSellersDatabase({
+                  filters: true,
+                  sort: 'seller_id',
+                  state,
+                });
+              }}
+            >
+              Find
+            </Button>
+          </div>
         </TabPanel>
       </Tabs>
-
-      {/* Filter submission */}
-      <div className={styles.filterSubmit}>
-        <Button
-          size="small"
-          className={styles.filterSubmit__reset}
-          onClick={() => {
-            localStorage.removeItem('showSellerDatabaseData');
-            setAsins('');
-            setBrands('');
-            setSellerIds('');
-            setState('');
-            fetchSellersDatabase({ resetFilters: true });
-          }}
-        >
-          Reset
-        </Button>
-        <Button
-          size="small"
-          disabled={isFilterInputError}
-          className={styles.filterSubmit__find}
-          onClick={() => {
-            localStorage.setItem('showSellerDatabaseData', 'true');
-            fetchSellersDatabase({
-              filters: true,
-              sort: 'seller_id',
-              asins,
-              brands,
-              sellerIds,
-              state,
-            });
-          }}
-        >
-          Find
-        </Button>
-      </div>
     </section>
   );
 };
