@@ -319,7 +319,7 @@
     }
 
     i.fab.fa-youtube {
-      font-size: 50px / $size;
+      font-size: math.div(50px, $size);
     }
   }
 
@@ -327,61 +327,61 @@
     $size: 1.5;
 
     .Onboarding__playlist.related {
-      font-size: 20px / $size !important;
+      font-size: math.div(20px, $size) !important;
     }
 
     .Onboarding__playlist.back {
-      font-size: 35px / $size;
-      margin-bottom: 30px / $size;
+      font-size: math.div(35px, $size);
+      margin-bottom: math.div(30px, $size);
     }
 
     .column.row {
       .Onboarding__player {
         .header {
-          font-size: 30px / $size;
-          padding-top: 20px / $size;
+          font-size: math.div(30px, $size);
+          padding-top: math.div(20px, $size);
 
           &.sub.header {
-            font-size: 20px / $size !important;
-            padding-top: 10px / $size !important;
+            font-size: math.div(20px, $size) !important;
+            padding-top: math.div(10px, $size) !important;
           }
         }
       }
 
       .Onboarding__playlist.title {
-        font-size: 50px / $size;
-        padding-left: 40px / $size;
-        margin-bottom: 15px / $size;
+        font-size: math.div(50px, $size);
+        padding-left: math.div(40px, $size);
+        margin-bottom: math.div(15px, $size);
       }
 
       .VideoDetail__frame {
-        width: 1174px / $size;
-        height: 666px / $size;
+        width: math.div(1174px, $size);
+        height: math.div(666px, $size);
       }
 
       .VideoList__container {
-        height: 1000px / $size;
+        height: math.div(1000px, $size);
 
         .ui.card {
-          width: 450px / $size;
-          min-height: 366px / $size;
-          border-radius: 11px / $size;
+          width: math.div(450px, $size);
+          min-height: math.div(366px, $size);
+          border-radius: math.div(11px, $size);
 
           img {
-            height: 255px / $size;
+            height: math.div(255px, $size);
           }
 
           i.fab.fa-youtube {
-            font-size: 50px / $size;
-            top: 132px / $size;
+            font-size: math.div(50px, $size);
+            top: math.div(132px, $size);
           }
 
           .VideoItem__title {
-            font-size: 20px / $size !important;
+            font-size: math.div(20px, $size) !important;
           }
 
           .VideoItem__description {
-            font-size: 15px / $size;
+            font-size: math.div(15px, $size);
           }
         }
       }
