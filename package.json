@@ -137,5 +137,8 @@
     "*.{css,scss}": "stylelint --fix",
     "*.{js,ts,tsx}": "eslint --fix",
     "*.{js,ts,tsx,json,css,scss}": "prettier --write"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.2"
   }
 }
