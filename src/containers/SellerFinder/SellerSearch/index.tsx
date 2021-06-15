@@ -14,7 +14,6 @@ const SellerSearch = (props: Props) => {
   const [search, setSearch] = React.useState<any>('');
 
   const handleSellerSearch = () => {
-    console.log('True');
     fetchSellers({ enableLoader: true, query: `&search=${search}` });
   };
 
@@ -27,8 +26,10 @@ const SellerSearch = (props: Props) => {
           icon={'search'}
           placeholder="Find in your Seller Finder List"
           onChange={(evt: any) => setSearch(evt.target.value)}
-          onKeyDown={(evt: any) => (evt.key === 'Enter' ? handleSellerSearch() : undefined)}
         />
+        <Button primary className="search-btn" onClick={() => handleSellerSearch()}>
+          Find
+        </Button>
         <span className="or">or</span>
         <Input
           size="small"
@@ -38,7 +39,7 @@ const SellerSearch = (props: Props) => {
           onChange={(evt: any) => setSearch(evt.target.value)}
         />
         <Button primary className="search-btn" onClick={() => onSearch(search)}>
-          Find
+          Search
         </Button>
       </div>
     </div>
