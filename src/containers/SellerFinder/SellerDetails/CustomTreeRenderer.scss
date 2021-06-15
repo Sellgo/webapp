@@ -1,5 +1,7 @@
 $row-padding: 10px;
 
+@import '../../../design-system/colors.scss';
+
 .rowWrapper {
   //padding: $row-padding $row-padding $row-padding 0;
   height: 100%;
@@ -199,5 +201,15 @@ $row-padding: 10px;
     left: 50%;
     bottom: 0;
     height: $row-padding;
+  }
+}
+
+// disable the expansion plus icon
+.product-tree {
+  .rst__node {
+    i.disabledExpansionIcon {
+      color: $sellgo-disabled !important;
+      cursor: unset !important;
+    }
   }
 }

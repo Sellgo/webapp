@@ -195,6 +195,31 @@ const InnerTree = ({
     }
   }, [pageSize]);
 
+  useEffect(() => {
+    const productTree = document.querySelector('.product-tree');
+
+    if (productTree) {
+      const allProductsList = productTree.querySelectorAll('.rst__node');
+
+      if (allProductsList) {
+        for (let i = 0; i < allProductsList.length; i++) {
+          const productItem = allProductsList[i];
+          const expansionPlusIcon = productItem.querySelector('i.square.outline.icon');
+          const sellerCount = productItem.querySelector('.buy-box-count');
+
+          if (sellerCount) {
+            const sellerCountValue = sellerCount.textContent;
+            if (sellerCountValue === '' || sellerCountValue === '0') {
+              if (expansionPlusIcon) {
+                expansionPlusIcon.classList.add('disabledExpansionIcon');
+              }
+            }
+          }
+        }
+      }
+    }
+  });
+
   return (
     <div>
       {loadingSellerProducts ? (

@@ -13,6 +13,7 @@ import {
 } from '../../../../actions/SellerFinder';
 import { connect } from 'react-redux';
 import { SEARCH_STATUS } from '../../../../constants/SellerFinder';
+
 interface Props {
   activeProductSellerStatus?: any;
   setActiveProduct?: (data: any) => void;
@@ -33,6 +34,7 @@ const CheckMerchants = (props: Props) => {
         <Button
           className={`reload-merchant`}
           onClick={() => (props.setActiveProduct ? props.setActiveProduct(props.data) : undefined)}
+          disabled={Boolean(props.data.num_sellers) || props.data.num_sellers === 0}
         >
           {loading && <Icon name="refresh" loading={loading} />}
           <span className="tracking-label">Check Sellers</span>

@@ -5,7 +5,7 @@ import { loadingInventory } from '../../../selectors/SellerFinder';
 import { connect } from 'react-redux';
 import { SEARCH_STATUS } from '../../../constants/SellerFinder';
 import { copyToClipboard } from '../../../utils/file';
-import { getHours } from '../../../utils/date';
+// import { getHours } from '../../../utils/date';
 interface SellerInformationProps {
   details: any;
   onCheckInventory: (data: any) => void;
@@ -77,12 +77,24 @@ const SellerInformation = (props: SellerInformationProps) => {
     setTimeout(() => setCopied(false), 500);
   };
 
-  let noInventory = false;
-  if (showNAIfZeroOrNull(details.inventory_count, details.inventory_count) === '-') {
-    noInventory = true;
-  } else if (getHours(details.last_check_inventory) <= 24) {
-    noInventory = true;
-  }
+  // remove the 24 hour condition for now
+
+  // let noInventory = false;
+  // if (showNAIfZeroOrNull(details.inventory_count, details.inventory_count) === '-') {
+  //   noInventory = true;
+  // } else if (getHours(details.last_check_inventory) <= 24) {
+  //   noInventory = true;
+  // }
+
+  // if the inventory exists disbaled the check inventory button
+  const noInventory = details.has_inventory;
+
+  const handleCheckInventory = () => {
+    props.onCheckInventory({
+      payload: JSON.stringify({ merchant_ids: `${details.merchant_id}` }),
+      merchant: details,
+    });
+  };
 
   return (
     <div className="seller-information">
@@ -91,12 +103,7 @@ const SellerInformation = (props: SellerInformationProps) => {
           <Button
             basic
             className={`check-inventory ${noInventory ? 'check-inventory-disabled' : ''}`}
-            onClick={() =>
-              props.onCheckInventory({
-                payload: JSON.stringify({ merchant_ids: `${details.merchant_id}` }),
-                merchant: details,
-              })
-            }
+            onClick={handleCheckInventory}
           >
             <Icon
               name={'refresh'}
