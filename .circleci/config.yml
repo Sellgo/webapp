@@ -5,7 +5,7 @@ orbs:
 jobs:
   build-prod:
     docker:
-      - image: circleci/node:14
+      - image: cimg/node:12.13.0
     steps:
       - checkout
       - run:
@@ -19,12 +19,12 @@ jobs:
           paths: .
   build-dev:
     docker:
-      - image: circleci/node:14
+      - image: cimg/node:12.13.0
     steps:
       - checkout
       - run:
           name: install-npm
-          command: npm install -f
+          command: npm install
       - run:
           name: build
           command: CI=false REACT_APP_ENV=development npm run build
@@ -47,23 +47,23 @@ jobs:
           command: aws cloudfront create-invalidation --distribution-id ${WEBAPP_AWS_CLOUDFRONT_DISTRIBUTION_ID} --paths "/*"
   run-lint:
     docker:
-      - image: circleci/node:14
+      - image: cimg/node:12.13.0
     steps:
       - checkout
       - run:
           name: install-npm
-          command: npm install -f
+          command: npm install
       - run:
           name: run-lint
           command: npm run lint
   run-test:
     docker:
-      - image: circleci/node:14
+      - image: cimg/node:12.13.0
     steps:
       - checkout
       - run:
           name: install-npm
-          command: npm install -f
+          command: npm install
       - run:
           name: run-test
           command: CI=true npm run test
