@@ -22,7 +22,7 @@ import {
 } from '../../../actions/SellerDatabase';
 import { connect } from 'react-redux';
 import PageLoader from '../../../components/PageLoader';
-import { showNAIfZeroOrNull } from '../../../utils/format';
+import { showNAIfZeroOrNull, truncateString } from '../../../utils/format';
 import CopyToClipboard from '../../../components/CopyToClipboard';
 export interface CheckedRowDictionary {
   [index: number]: boolean;
@@ -78,7 +78,7 @@ const SellerDatabaseTable = (props: Props) => {
     return (
       <p className="sd-seller-details">
         <span className="name">
-          {row.business_name}{' '}
+          {truncateString(row.business_name || '', 13)}
           <Icon name={'external'} onClick={() => window.open(row.seller_link, '_blank')} />
         </span>
         <span className="seller-id">
