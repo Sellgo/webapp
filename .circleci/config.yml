@@ -5,7 +5,7 @@ orbs:
 jobs:
   build-prod:
     docker:
-      - image: cimg/node:12.0.0
+      - image: cimg/node:12.13.0
     steps:
       - checkout
       - run:
@@ -19,7 +19,7 @@ jobs:
           paths: .
   build-dev:
     docker:
-      - image: cimg/node:12.0.0
+      - image: cimg/node:12.13.0
     steps:
       - checkout
       - run:
@@ -47,7 +47,7 @@ jobs:
           command: aws cloudfront create-invalidation --distribution-id ${WEBAPP_AWS_CLOUDFRONT_DISTRIBUTION_ID} --paths "/*"
   run-lint:
     docker:
-      - image: cimg/node:12.0.0
+      - image: cimg/node:12.13.0
     steps:
       - checkout
       - run:
@@ -58,7 +58,7 @@ jobs:
           command: npm run lint
   run-test:
     docker:
-      - image: cimg/node:12.0.0
+      - image: cimg/node:12.13.0
     steps:
       - checkout
       - run:
