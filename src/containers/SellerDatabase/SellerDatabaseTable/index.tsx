@@ -24,6 +24,7 @@ import { connect } from 'react-redux';
 import PageLoader from '../../../components/PageLoader';
 import { showNAIfZeroOrNull, truncateString } from '../../../utils/format';
 import CopyToClipboard from '../../../components/CopyToClipboard';
+import { copyToClipboard } from '../../../utils/file';
 export interface CheckedRowDictionary {
   [index: number]: boolean;
 }
@@ -56,7 +57,9 @@ const SellerDatabaseTable = (props: Props) => {
     loadingDatabase,
     targetSeller,
   } = props;
+
   const [checkedRows, setCheckedRows] = useState<any>({});
+  const [copied, setCopied] = useState(false);
 
   const fetchDatabase = (payload: SellerDatabasePayload) => {
     fetchSellersDatabase(payload);
@@ -74,6 +77,11 @@ const SellerDatabaseTable = (props: Props) => {
     }
   }, []);
 
+  const copyText = (text: string) => {
+    copyToClipboard(text.trim().replace(/,/g, '\n')).then(() => setCopied(true));
+    setTimeout(() => setCopied(false), 500);
+  };
+
   const renderSellerInformation = (row: any) => {
     return (
       <p className="sd-seller-details">
@@ -83,6 +91,20 @@ const SellerDatabaseTable = (props: Props) => {
         </span>
         <span className="seller-id">
           <CopyToClipboard data={row.merchant_id} className={''} />
+        </span>
+      </p>
+    );
+  };
+
+  const renderBrands = (row: any) => {
+    return (
+      <p className="brands-list">
+        <span>{truncateString(row.brands.join(','), 10)}</span>
+        <span className="tooltip">
+          <span className="tooltiptext" id="myTooltip">
+            {copied ? 'Copied' : 'Copy to clipboard'}
+          </span>
+          <Icon name={'copy outline'} onClick={() => copyText(row.brands.join(','))} />
         </span>
       </p>
     );
@@ -234,6 +256,14 @@ const SellerDatabaseTable = (props: Props) => {
       type: 'string',
       show: true,
       render: renderSellerInformation,
+    },
+    {
+      label: 'Brands',
+      dataKey: 'brands',
+      sortable: false,
+      type: 'string',
+      show: true,
+      render: renderBrands,
     },
     // Inventory
     {
