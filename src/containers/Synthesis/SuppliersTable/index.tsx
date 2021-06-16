@@ -440,7 +440,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
               floated="right"
               className={'wdt100 ipad-wdth100'}
               style={{ flex: '0 0 auto', width: 'auto' }}
-            ></Grid.Column>
+            />
           </Grid>
           <GenericTable
             currentActiveColumn={currentActiveColumn}
