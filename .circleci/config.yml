@@ -50,9 +50,6 @@ jobs:
       - image: cimage/node:12
     steps:
       - checkout
-       - run:
-          name: check-version
-          command: node --version
       - run:
           name: install-npm
           command: npm install
@@ -64,9 +61,6 @@ jobs:
       - image: cimage/node:12
     steps:
       - checkout
-       - run:
-          name: check-version
-          command: node --version
       - run:
           name: install-npm
           command: npm install
