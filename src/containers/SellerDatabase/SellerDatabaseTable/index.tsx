@@ -97,6 +97,10 @@ const SellerDatabaseTable = (props: Props) => {
   };
 
   const renderBrands = (row: any) => {
+    if (!row.brands || !row.brands.length) {
+      return <p>-</p>;
+    }
+
     return (
       <p className="brands-list">
         <span>{truncateString(row.brands.join(','), 10)}</span>
