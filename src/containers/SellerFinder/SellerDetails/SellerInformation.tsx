@@ -14,7 +14,8 @@ interface SellerInformationProps {
 
 const SellerInformation = (props: SellerInformationProps) => {
   const { details, loadingInventory } = props;
-  const [copied, setCopied] = React.useState(false);
+  const [copyAsins, setCopiedAsins] = React.useState(false);
+  const [copyBrands, setCopiedBrands] = React.useState(false);
 
   const getTotal30DaysReview = () => {
     let review = 0;
@@ -72,9 +73,18 @@ const SellerInformation = (props: SellerInformationProps) => {
     return review;
   };
 
-  const copyText = (text: string) => {
-    copyToClipboard(text.trim().replace(/,/g, '\n')).then(() => setCopied(true));
-    setTimeout(() => setCopied(false), 500);
+  const copyText = (text: string, type: 'asins' | 'brands') => {
+    if (type === 'asins') {
+      copyToClipboard(text.trim().replace(/,/g, '\n')).then(() => setCopiedAsins(true));
+      setTimeout(() => setCopiedAsins(false), 1000);
+      return;
+    }
+
+    if (type === 'brands') {
+      copyToClipboard(text.trim().replace(/,/g, '\n')).then(() => setCopiedBrands(true));
+      setTimeout(() => setCopiedBrands(false), 1000);
+      return;
+    }
   };
 
   // remove the 24 hour condition for now
@@ -180,14 +190,22 @@ const SellerInformation = (props: SellerInformationProps) => {
             {removeSpecialChars(details.brands)}
           </span>
           {formatString(details.brands) !== '-' && (
-            <span className="tooltip">
-              <span className="tooltiptext" id="myTooltip">
-                {copied ? 'Copied !' : 'Copy to clipboard'}
-              </span>
-              <Icon
-                name={'copy outline'}
-                onClick={() => copyText(removeSpecialChars(details.brands))}
-              />
+            <span>
+              {!copyBrands ? (
+                <Icon
+                  name="copy outline"
+                  className="tooltipIcon"
+                  data-title="Copy"
+                  onClick={() => copyText(removeSpecialChars(details.brands), 'brands')}
+                />
+              ) : (
+                <Icon
+                  name="check circle"
+                  className="tooltipIcon"
+                  data-title="Copied"
+                  color="green"
+                />
+              )}
             </span>
           )}
         </p>
@@ -197,14 +215,22 @@ const SellerInformation = (props: SellerInformationProps) => {
             {removeSpecialChars(details.asins)}
           </span>
           {formatString(details.asins) !== '-' && (
-            <span className="tooltip">
-              <span className="tooltiptext" id="myTooltip">
-                {copied ? 'Copied !' : 'Copy to clipboard'}
-              </span>
-              <Icon
-                name={'copy outline'}
-                onClick={() => copyText(removeSpecialChars(details.asins))}
-              />
+            <span>
+              {!copyAsins ? (
+                <Icon
+                  name="copy outline"
+                  className="tooltipIcon"
+                  data-title="Copy"
+                  onClick={() => copyText(removeSpecialChars(details.asins), 'asins')}
+                />
+              ) : (
+                <Icon
+                  name="check circle"
+                  className="tooltipIcon"
+                  data-title="Copied"
+                  color="green"
+                />
+              )}
             </span>
           )}
         </p>
