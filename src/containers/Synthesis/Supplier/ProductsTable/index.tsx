@@ -55,6 +55,7 @@ import PageLoader from '../../../../components/PageLoader';
 import ChargesInputSummary from '../../../../components/FilterContainer/ChargesInputFilter/ChargesInputSummary';
 import { ProfitFinderFilters } from '../../../../interfaces/Filters';
 import EditCostModal from '../../../../components/EditCostModal';
+import { copyToClipboard } from '../../../../utils/file';
 
 interface ProductsTableProps {
   currentActiveColumn: string;
@@ -123,6 +124,7 @@ interface ProductsTableState {
   product_cost: any;
   editCost: boolean;
   productDetails: any;
+  copyAsin: { id: number; copied: false };
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -152,6 +154,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     isValidCostValue: false,
     product_cost: 0,
     productDetails: {},
+    copyAsin: { id: 0, copied: false },
   };
 
   updateCheckedRows = (checkedRows: CheckedRowDictionary) => {
@@ -179,7 +182,46 @@ class ProductsTable extends React.Component<ProductsTableProps> {
 
   renderProductInfo = (row: Product) => <ProductDescription item={row} />;
 
-  renderASIN = (row: Product) => <p className="stat">{showNAIfZeroOrNull(row.asin, row.asin)}</p>;
+  copyText = (text: string, id: number) => {
+    console.log(true);
+    copyToClipboard(text).then(() => {
+      this.setState({ copyAsin: { id, copied: true } });
+    });
+
+    setTimeout(() => {
+      this.setState({ copyAsin: { id, copied: false } });
+    }, 1000);
+  };
+
+  renderASIN = (row: Product) => {
+    const {
+      copyAsin: { id, copied },
+    } = this.state;
+    return (
+      <>
+        <p className="stat">
+          {showNAIfZeroOrNull(row.asin, row.asin)}
+          <span>
+            {!copied ? (
+              <Icon
+                name="copy outline"
+                data-title="Copy"
+                onClick={() => this.copyText(row.asin || '', row.id)}
+              />
+            ) : row.id === id && copied ? (
+              <Icon name="check circle" data-title="Copied" color="green" />
+            ) : (
+              <Icon
+                name="copy outline"
+                data-title="Copy"
+                onClick={() => this.copyText(row.asin || '', row.id)}
+              />
+            )}
+          </span>
+        </p>
+      </>
+    );
+  };
 
   renderUPC = (row: Product) => <p className="stat">{showNAIfZeroOrNull(row.upc, row.upc)}</p>;
 
