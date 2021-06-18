@@ -176,6 +176,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     }
     return <ProductCheckBox item={row} checked={checked} onClick={this.handleItemSelect} />;
   };
+
   renderProductInfo = (row: Product) => <ProductDescription item={row} />;
 
   renderASIN = (row: Product) => <p className="stat">{showNAIfZeroOrNull(row.asin, row.asin)}</p>;
@@ -198,27 +199,29 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     );
   };
 
-  renderProfit = (row: Product) => (
-    <>
-      <Popup
-        trigger={
-          <p className="stat">
-            {showNAIfZeroOrNull(row.multipack_profit, formatCurrency(row.multipack_profit))}
-          </p>
-        }
-        on={'hover'}
-        className="charges-input-popup-container"
-        position="top left"
-        hoverable
-        hideOnScroll={false}
-        content={
-          <ChargesInputSummary summaryDetails={{ ...row, filters: this.getSavedPresetFilters() }} />
-        }
-        positionFixed
-        offset="50px"
-      />
-    </>
-  );
+  renderProfit = (row: Product) => {
+    const isPrice = showNAIfZeroOrNull(row.price, formatCurrency(row.price));
+
+    return (
+      <>
+        <Popup
+          trigger={<p className="stat">{isPrice !== '-' ? formatCurrency(row.profit) : '?'}</p>}
+          on={'hover'}
+          className="charges-input-popup-container"
+          position="top left"
+          hoverable
+          hideOnScroll={false}
+          content={
+            <ChargesInputSummary
+              summaryDetails={{ ...row, filters: this.getSavedPresetFilters() }}
+            />
+          }
+          positionFixed
+          offset="50px"
+        />
+      </>
+    );
+  };
 
   renderMargin = (row: Product) => (
     <p className="stat">
@@ -235,60 +238,74 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       {showNAIfZeroOrNull(row.monthly_revenue, '$' + formatNumber(row.monthly_revenue))}
     </p>
   );
+
   renderRoi = (row: Product) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.multipack_roi, formatPercent(row.multipack_roi))}
     </p>
   );
+
   renderRank = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.rank, '#' + formatNumber(row.rank))}</p>
   );
   renderMonthlySalesEst = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.sales_monthly, formatNumber(row.sales_monthly))}</p>
   );
+
   renderCategory = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.amazon_category_name, row.amazon_category_name)}</p>
   );
+
   renderMultipackQuantity = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.multipack_quantity, row.multipack_quantity)}</p>
   );
+
   renderSizeTiers = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.size_tier, row.size_tier)}</p>
   );
+
   renderLastRun = (row: Product) => (
     <p className="stat">{formatCompletedDate(new Date(row.last_syn))}</p>
   );
+
   renderFbaFee = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.fba_fee, formatCurrency(row.fba_fee))}</p>
   );
+
   renderReferralFee = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.referral_fee, formatCurrency(row.referral_fee))}</p>
   );
+
   renderVariableClosingFee = (row: Product) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.variable_closing_fee, formatCurrency(row.variable_closing_fee))}
     </p>
   );
+
   renderNumFbaNewOffers = (row: Product) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.num_fba_new_offers, formatNumber(row.num_fba_new_offers))}
     </p>
   );
+
   renderNumFbmNewOffers = (row: Product) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.num_fbm_new_offers, formatNumber(row.num_fbm_new_offers))}
     </p>
   );
+
   renderLowNewFbaPrice = (row: Product) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.low_new_fba_price, formatCurrency(row.low_new_fba_price))}
     </p>
   );
+
   renderLowNewFbmPrice = (row: Product) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.low_new_fbm_price, formatCurrency(row.low_new_fbm_price))}
     </p>
   );
+
   renderReviews = (row: Product) => (
     <p className="stat">
       {row.data_buster_status === 'completed'
@@ -296,6 +313,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
     </p>
   );
+
   renderRating = (row: Product) => (
     <p className="stat">
       {row.data_buster_status === 'completed'
@@ -303,6 +321,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
     </p>
   );
+
   renderBestSeller = (row: Product) => {
     return (
       <p className="stat">
