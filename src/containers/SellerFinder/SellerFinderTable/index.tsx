@@ -905,7 +905,7 @@ const SellerFinderTable = (props: Props) => {
     },
     {
       label: `Review \nL365D`,
-      dataKey: 'count_356_days',
+      dataKey: 'count_12_month',
       type: 'string',
       sortable: true,
       show: true,
@@ -933,7 +933,7 @@ const SellerFinderTable = (props: Props) => {
     },
     {
       label: `Processed on`,
-      dataKey: 'processed',
+      dataKey: 'udate',
       type: 'string',
       sortable: true,
       show: true,
