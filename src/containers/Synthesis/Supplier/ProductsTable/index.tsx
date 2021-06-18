@@ -205,14 +205,16 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             {!copied ? (
               <Icon
                 name="copy outline"
+                className="tooltipIcon"
                 data-title="Copy"
                 onClick={() => this.copyText(row.asin || '', row.id)}
               />
             ) : row.id === id && copied ? (
-              <Icon name="check circle" data-title="Copied" color="green" />
+              <Icon name="check circle" className="tooltipIcon" data-title="Copied" color="green" />
             ) : (
               <Icon
                 name="copy outline"
+                className="tooltipIcon"
                 data-title="Copy"
                 onClick={() => this.copyText(row.asin || '', row.id)}
               />
