@@ -354,9 +354,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       </div>
     );
   };
+
   renderProductInfo = (row: ProductTrackerDetails) => {
     return <ProductDescription item={row} renderDV={this.renderDV} />;
   };
+
   renderAvgProfit = (row: ProductTrackerDetails) => (
     <p className="stat">
       {showNAIfZeroOrNull(
@@ -365,16 +367,19 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       )}
     </p>
   );
+
   renderAvgPrice = (row: ProductTrackerDetails) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.avg_price && row.avg_price !== '0.00', `$${row.avg_price}`)}
     </p>
   );
+
   renderAvgMargin = (row: ProductTrackerDetails) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.avg_margin && row.avg_margin !== '0.00', `${row.avg_margin}%`)}
     </p>
   );
+
   renderAvgUnitSold = (row: ProductTrackerDetails) => {
     return (
       <>
