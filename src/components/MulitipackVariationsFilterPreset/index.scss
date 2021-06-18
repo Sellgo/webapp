@@ -52,6 +52,8 @@
     .item {
       padding: 0 10px;
       color: $filter-text-color;
+      font-size: 14px !important;
+      color: #2E3B4A !important;
 
       &:hover {
         background: $dropdown-hover;

@@ -138,12 +138,18 @@ $new_black: #3b4557;
     .track-wrap {
       width: 120px;
       display: flex !important;
-      border: 1px solid $sellgo-blue !important;
+      border: 1px solid $accent_orange !important;
       padding: 5px 7px 7px 12px;
-      background: #349af8;
+      background: $prim_white;
+
+      .fingerprint {
+        path {
+          fill: $accent_orange;
+        }
+      }
 
       span {
-        color: #fff !important;
+        color: $accent_orange !important;
         font-size: 12px;
         font-weight: 500 !important;
         margin: 0 auto;
@@ -164,18 +170,18 @@ $new_black: #3b4557;
     .track-wrap:hover {
       width: 120px;
       display: flex !important;
-      border: 1px solid $sellgo-blue !important;
+      border: 1px solid $accent_orange !important;
       padding: 5px 7px 7px 12px;
-      background: #fff;
+      background: $accent_orange;
 
       .fingerprint {
         path {
-          fill: $sellgo-blue;
+          fill: $prim_white;
         }
       }
 
       span {
-        color: $sellgo-blue !important;
+        color: $prim_white !important;
         font-weight: 600 !important;
         margin: 0 auto;
       }
@@ -278,12 +284,13 @@ $new_black: #3b4557;
         span.description-text {
           line-height: 24px;
           color: $table-special-kpi;
-          text-decoration: underline;
+
           font-weight: 500 !important;
 
           &:hover {
             color: $table-special-kpi-hover !important;
             font-weight: 600 !important;
+            text-decoration: underline;
           }
         }
       }
@@ -635,6 +642,15 @@ $new_black: #3b4557;
           display: block;
           margin-top: -15px !important;
           color: $icon-color !important;
+
+          &.column-filter-ic {
+            color: $icon-color !important;
+
+            &:hover {
+              color: #2E3B4A !important;
+              font-size: 16px !important;
+            }
+          }
 
           &.ellipsis {
             margin: 0 !important;

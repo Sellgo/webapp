@@ -6,7 +6,7 @@ export default ({ productRatings, period, xMin, xMax }: any) => {
     {
       type: 'line',
       name: 'Rating',
-      color: '#F3A9CA',
+      color: '#AE8BE7',
       data: productRatings,
       tooltip: {
         valueDecimals: 1,

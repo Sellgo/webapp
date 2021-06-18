@@ -699,12 +699,13 @@
           h2 {
             color: $table-special-kpi;
             font-weight: 500;
-            text-decoration: underline;
+            font-size: 14px;
             margin-bottom: 0;
 
             &:hover {
               color: $table-special-kpi-hover !important;
               font-weight: 600;
+              text-decoration: underline;
             }
           }
         }

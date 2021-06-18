@@ -315,10 +315,10 @@
 
         &__filter-name {
           font-weight: 600;
-          color: $text-color;
-          font-size: 16px;
+          font-size: 14px;
           line-height: 1;
           margin-bottom: 5px;
+          color: #757575 !important;
         }
 
         &__close-btn {
@@ -345,10 +345,10 @@
     &__content {
       &__filter-name {
         font-weight: 600;
-        color: $text-color;
-        font-size: 16px;
+        font-size: 14px;
         line-height: 1;
         margin-bottom: 5px;
+        color: #757575 !important;
       }
 
       &__filter-item {
@@ -386,6 +386,7 @@
             font-size: 12px;
             font-weight: 500;
             font-family: 'Work Sans', sans-serif;
+            color: #dededf !important;
           }
         }
 
@@ -419,10 +420,11 @@
       }
 
       label {
-        color: $text-color;
-        font-size: 14px;
+        font-size: 12px;
         display: unset !important;
         cursor: pointer;
+        color: $table-title-text-color !important;
+        font-weight: 400 !important;
       }
 
       input:checked ~ .box::before,
@@ -442,9 +444,14 @@
 /* Export button on the right side of page */
 .export-button {
   color: $text-color;
-  font-weight: 600;
-  text-decoration: underline;
+  font-weight: 400;
   cursor: pointer;
+
+  &:hover{
+    font-weight: 500;
+    text-decoration: underline;
+    color: #2E3B4A;
+  }
 
   i.icon.download {
     color: $icon-color;

@@ -214,7 +214,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         <Icon
           name="thumbs up"
           onClick={() => favourite(row.id, row.tag === 'like' ? '' : 'like')}
-          style={row.tag === 'like' ? { color: '#349AF8' } : { color: '#DEDEDF' }}
+          style={row.tag === 'like' ? { color: '#2f8ddf' } : { color: '#DEDEDF' }}
         />
         <Icon
           name="thumbs down"
