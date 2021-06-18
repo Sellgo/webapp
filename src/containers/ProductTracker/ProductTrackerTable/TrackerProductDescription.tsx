@@ -8,6 +8,11 @@ import bestSellerImage from '../../../assets/images/best-seller.png';
 const ProductDescription = (props: any) => {
   const { item } = props;
 
+  const pidInfo =
+    PRODUCT_ID_TYPES.filter(pidType => pidType !== 'ASIN')
+      .filter(pidType => pidType.toLowerCase() in item)
+      .map(pidType => item[pidType.toLowerCase()])[0] || '';
+
   return (
     <div className="inner-product-info">
       <div className="product-tracker-description" title={item.title}>
@@ -22,13 +27,9 @@ const ProductDescription = (props: any) => {
             <div className="information">
               <img className="flag-img" src={COUNTRY_IMAGE} alt="product_img" />
               <div className="asin-pid-wrapper">
-                <span className="asin-content">{item.asin}</span>
+                <span className="asin-content">ASIN:{item.asin}</span>
 
-                <span className="pid-content">
-                  {PRODUCT_ID_TYPES.filter(pidType => pidType !== 'ASIN')
-                    .filter(pidType => pidType.toLowerCase() in item)
-                    .map(pidType => item[pidType.toLowerCase()])[0] || ''}
-                </span>
+                <span className="pid-content">{pidInfo ? `UPC: ${pidInfo}` : null}</span>
               </div>
               <div className="product-labels-container">
                 {!_.isEmpty(item.best_seller) && <img src={bestSellerImage} alt="best_seller" />}
