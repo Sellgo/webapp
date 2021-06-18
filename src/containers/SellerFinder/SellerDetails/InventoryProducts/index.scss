@@ -133,6 +133,8 @@ $blue: #349af8;
       .product-info {
         display: flex;
         flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start !important;
 
         .product-name {
           font-size: 14px;
@@ -145,20 +147,15 @@ $blue: #349af8;
         }
 
         .asin {
-          margin: 0;
+          margin: 0 !important;
           font-size: 12px;
-          font-weight: 400;
+          font-weight: 400 !important;
           padding-left: 5px;
+          text-align: left !important;
 
-          > .icon {
-            font-size: 10px;
-          }
-
-          .copy-clipboard {
-            z-index: 999;
-            position: absolute;
-            padding: 5px;
-            background: transparent;
+          i {
+            cursor: pointer !important;
+            font-size: 14px !important;
           }
         }
       }
