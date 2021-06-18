@@ -55,6 +55,7 @@ import {
 import { returnWithRenderMethod } from '../../../utils/tableColumn';
 import EditCostModal from '../../../components/EditCostModal';
 import { getOOS90, loadingOOS90 } from '../../../selectors/ProductTracker';
+import { Link } from 'react-router-dom';
 
 interface TrackerProps {
   loadingTrackerFilter: boolean;
@@ -514,7 +515,16 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   };
 
   renderSource = (row: ProductTrackerDetails) => {
-    return <p>{truncateString(row.source, 25)}</p>;
+    const supplierId = row.supplier_id;
+    if (supplierId) {
+      const pfLink = `/profit-finder/${supplierId}`;
+      return (
+        <Link to={pfLink} className="pf-link">
+          <p>{truncateString(row.source, 15)}</p>
+        </Link>
+      );
+    }
+    return <p>{truncateString(row.source, 20)}</p>;
   };
 
   renderSubScribeSave = (row: ProductTrackerDetails) => {

@@ -1,5 +1,7 @@
 @import '../../../design-system/colors';
 
+/* stylelint-disable */
+
 .tracker-table .bottom-img img {
   margin-left: 1rem;
 }
@@ -461,7 +463,21 @@
       }
 
       .source {
-        min-width: 116px !important;
+        min-width: 115px !important;
+
+        a.pf-link {
+          p {
+            color: $table-special-kpi;
+            text-align: left !important;
+            text-decoration: underline;
+            margin-bottom: 0;
+
+            &:hover {
+              color: $table-special-kpi-hover !important;
+              font-weight: 600;
+            }
+          }
+        }
 
         .stat {
           text-align: left !important;
@@ -646,16 +662,6 @@
       .ui.checkbox input:checked ~ label::after {
         background: #fff !important;
         color: $text-color !important;
-      }
-    }
-
-    a {
-      color: $text-color !important;
-      font-weight: 500;
-
-      &:hover {
-        color: $sellgo-blue;
-        font-weight: 600;
       }
     }
 
@@ -1555,7 +1561,6 @@
   height: 85px !important;
 }
 
-/* stylelint-disable */
 .ui.fitted.checkbox {
   input:checked ~ .box::before,
   input:checked ~ label::before {
