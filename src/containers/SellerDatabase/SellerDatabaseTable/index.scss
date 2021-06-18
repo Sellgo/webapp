@@ -101,21 +101,6 @@
 
     .brands {
       min-width: 150px !important;
-
-      #myTooltip {
-        height: max-content !important;
-        bottom: 20px !important;
-        border-radius: 6px !important;
-        z-index: 99999999 !important;
-        font-size: 12px !important;
-      }
-
-      i.copy.outline.icon {
-        font-size: 10px !important;
-        padding-left: 5px !important;
-        cursor: pointer !important;
-        color: $filter-text-color !important;
-      }
     }
 
     .inventory_count {

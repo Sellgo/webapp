@@ -59,7 +59,7 @@ const SellerDatabaseTable = (props: Props) => {
   } = props;
 
   const [checkedRows, setCheckedRows] = useState<any>({});
-  const [copied, setCopied] = useState(false);
+  const [copyBrands, setCopiedBrands] = useState({ id: 0, copied: false });
 
   const fetchDatabase = (payload: SellerDatabasePayload) => {
     fetchSellersDatabase(payload);
@@ -77,11 +77,6 @@ const SellerDatabaseTable = (props: Props) => {
     }
   }, []);
 
-  const copyText = (text: string) => {
-    copyToClipboard(text.trim().replace(/,/g, '\n')).then(() => setCopied(true));
-    setTimeout(() => setCopied(false), 500);
-  };
-
   const renderSellerInformation = (row: any) => {
     return (
       <p className="sd-seller-details">
@@ -96,7 +91,16 @@ const SellerDatabaseTable = (props: Props) => {
     );
   };
 
+  const copyText = (text: string, id: number) => {
+    copyToClipboard(text.trim().replace(/,/g, '\n')).then(() =>
+      setCopiedBrands({ id, copied: true })
+    );
+    setTimeout(() => setCopiedBrands({ id, copied: false }), 1000);
+  };
+
   const renderBrands = (row: any) => {
+    const { copied, id } = copyBrands;
+
     if (!row.brands || !row.brands.length) {
       return <p>-</p>;
     }
@@ -104,11 +108,24 @@ const SellerDatabaseTable = (props: Props) => {
     return (
       <p className="brands-list">
         <span>{truncateString(row.brands.join(','), 10)}</span>
-        <span className="tooltip">
-          <span className="tooltiptext" id="myTooltip">
-            {copied ? 'Copied' : 'Copy to clipboard'}
-          </span>
-          <Icon name={'copy outline'} onClick={() => copyText(row.brands.join(','))} />
+        <span>
+          {!copied ? (
+            <Icon
+              name="copy outline"
+              className="tooltipIcon"
+              data-title="Copy"
+              onClick={() => copyText(row.brands.join(',') || '', row.id)}
+            />
+          ) : row.id === id && copied ? (
+            <Icon name="check circle" className="tooltipIcon" data-title="Copied" color="green" />
+          ) : (
+            <Icon
+              name="copy outline"
+              className="tooltipIcon"
+              data-title="Copy"
+              onClick={() => copyText(row.brands.join(',') || '', row.id)}
+            />
+          )}
         </span>
       </p>
     );
