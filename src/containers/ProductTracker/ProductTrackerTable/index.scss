@@ -30,28 +30,6 @@
     font-weight: 500 !important;
     padding: 0.28571429em 0 0.58571429em !important;
   }
-
-  a.item.amazon-link,
-  a.item.untrack-link {
-    width: 200px;
-    display: flex !important;
-
-    img {
-      margin-right: 10px !important;
-    }
-  }
-
-  a.item.amazon-link {
-    color: $sellgo-blue !important;
-  }
-
-  a.edit-cost {
-    display: flex !important;
-
-    .icon {
-      margin: 0 0.25rem 0 0 !important;
-    }
-  }
 }
 
 .ui.small.modal.transition.visible.active.confirmation-box {
