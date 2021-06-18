@@ -458,11 +458,11 @@ i.tooltipIcon.check.circle {
   cursor: unset;
 }
 
-[data-title] {
+.tooltipIcon[data-title] {
   position: relative;
 }
 
-[data-title]::after {
+.tooltipIcon[data-title]::after {
   position: absolute;
   content: attr(data-title);
   background-color: #555;
@@ -482,7 +482,7 @@ i.tooltipIcon.check.circle {
   min-height: 10px !important;
 }
 
-[data-title]:hover::after {
+.tooltipIcon[data-title]:hover::after {
   opacity: 1;
   transition: all 0.1s ease 0.5s;
   visibility: visible;
