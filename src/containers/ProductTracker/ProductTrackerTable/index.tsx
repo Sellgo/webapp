@@ -387,12 +387,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       </>
     );
   };
+
   renderDailyRevenue = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
         {showNAIfZeroOrNull(
           row.avg_daily_revenue && row.avg_daily_revenue !== '0.00',
-          `$${row.avg_daily_revenue}`
+          `$${parseFloat(row.avg_daily_revenue).toLocaleString()}`
         )}
       </p>
     );
@@ -441,7 +442,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       <p className="stat">
         {showNAIfZeroOrNull(
           row.customer_reviews && row.customer_reviews !== 0,
-          row.customer_reviews
+          row.customer_reviews.toLocaleString()
         )}
       </p>
     );
@@ -464,7 +465,10 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   renderAvgInventory = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
-        {showNAIfZeroOrNull(row.avg_inventory && row.avg_inventory !== 0, `${row.avg_inventory}`)}
+        {showNAIfZeroOrNull(
+          row.avg_inventory && row.avg_inventory !== 0,
+          `${row.avg_inventory && row.avg_inventory.toLocaleString()}`
+        )}
       </p>
     );
   };
