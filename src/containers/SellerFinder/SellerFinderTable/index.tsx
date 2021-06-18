@@ -56,7 +56,7 @@ import {
 } from '../../../actions/SellerFinder';
 
 import { SEARCH_STATUS, SELLER_DETAILS_URL } from '../../../constants/SellerFinder';
-import { showNAIfZeroOrNull } from '../../../utils/format';
+import { showNAIfZeroOrNull, truncateString } from '../../../utils/format';
 import PageLoader from '../../../components/PageLoader';
 import { Merchant } from '../../../interfaces/Seller';
 import ExportResultAs from '../../../components/ExportResultAs';
@@ -706,7 +706,7 @@ const SellerFinderTable = (props: Props) => {
           alt={'expand icon'}
         />
         <span className="name">
-          {row.merchant_name}
+          {truncateString(row.merchant_name, 13)}
           <Icon
             name="external"
             onClick={() => window.open(`${SELLER_DETAILS_URL}&seller=${row.merchant_id}`, '_blank')}

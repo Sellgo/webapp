@@ -16,7 +16,7 @@ const renderProductInventory = (row: any) => {
         </span>
         <span className="product-info">
           <span className="product-name"> {row.product_name}</span>
-          <CopyToClipboard data={row.asin} className={'asin'} />
+          <CopyToClipboard data={row.asin} className="asin" />
         </span>
       </span>
     </p>
