@@ -22,8 +22,9 @@ import {
 } from '../../../actions/SellerDatabase';
 import { connect } from 'react-redux';
 import PageLoader from '../../../components/PageLoader';
-import { showNAIfZeroOrNull } from '../../../utils/format';
+import { showNAIfZeroOrNull, truncateString } from '../../../utils/format';
 import CopyToClipboard from '../../../components/CopyToClipboard';
+import { copyToClipboard } from '../../../utils/file';
 export interface CheckedRowDictionary {
   [index: number]: boolean;
 }
@@ -56,7 +57,9 @@ const SellerDatabaseTable = (props: Props) => {
     loadingDatabase,
     targetSeller,
   } = props;
+
   const [checkedRows, setCheckedRows] = useState<any>({});
+  const [copyBrands, setCopiedBrands] = useState({ id: 0, copied: false });
 
   const fetchDatabase = (payload: SellerDatabasePayload) => {
     fetchSellersDatabase(payload);
@@ -78,11 +81,51 @@ const SellerDatabaseTable = (props: Props) => {
     return (
       <p className="sd-seller-details">
         <span className="name">
-          {row.business_name}{' '}
+          {truncateString(row.business_name || '', 13)}
           <Icon name={'external'} onClick={() => window.open(row.seller_link, '_blank')} />
         </span>
         <span className="seller-id">
           <CopyToClipboard data={row.merchant_id} className={''} />
+        </span>
+      </p>
+    );
+  };
+
+  const copyText = (text: string, id: number) => {
+    copyToClipboard(text.trim().replace(/,/g, '\n')).then(() =>
+      setCopiedBrands({ id, copied: true })
+    );
+    setTimeout(() => setCopiedBrands({ id, copied: false }), 1000);
+  };
+
+  const renderBrands = (row: any) => {
+    const { copied, id } = copyBrands;
+
+    if (!row.brands || !row.brands.length) {
+      return <p>-</p>;
+    }
+
+    return (
+      <p className="brands-list">
+        <span>{truncateString(row.brands.join(','), 10)}</span>
+        <span>
+          {!copied ? (
+            <Icon
+              name="copy outline"
+              className="tooltipIcon"
+              data-title="Copy"
+              onClick={() => copyText(row.brands.join(',') || '', row.id)}
+            />
+          ) : row.id === id && copied ? (
+            <Icon name="check circle" className="tooltipIcon" data-title="Copied" color="green" />
+          ) : (
+            <Icon
+              name="copy outline"
+              className="tooltipIcon"
+              data-title="Copy"
+              onClick={() => copyText(row.brands.join(',') || '', row.id)}
+            />
+          )}
         </span>
       </p>
     );
@@ -234,6 +277,14 @@ const SellerDatabaseTable = (props: Props) => {
       type: 'string',
       show: true,
       render: renderSellerInformation,
+    },
+    {
+      label: 'Brands',
+      dataKey: 'brands',
+      sortable: false,
+      type: 'string',
+      show: true,
+      render: renderBrands,
     },
     // Inventory
     {

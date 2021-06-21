@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import COUNTRY_IMAGE from '../../../assets/images/flag_icon.svg';
 import _ from 'lodash';
 import AMAZON_IMAGE from '../../../assets/images/amazon_choice.svg';
 import { PRODUCT_ID_TYPES } from '../../../constants/UploadSupplier';
 import bestSellerImage from '../../../assets/images/best-seller.png';
+import { copyToClipboard } from '../../../utils/file';
+import { Icon } from 'semantic-ui-react';
 
 const ProductDescription = (props: any) => {
   const { item } = props;
+
+  const [copied, setCopied] = useState(false);
+
+  const pidInfo =
+    PRODUCT_ID_TYPES.filter(pidType => pidType !== 'ASIN')
+      .filter(pidType => pidType.toLowerCase() in item)
+      .map(pidType => item[pidType.toLowerCase()])[0] || '';
+
+  const copyText = (text: string) => {
+    copyToClipboard(text).then(() => setCopied(true));
+    setTimeout(() => {
+      setCopied(false);
+    }, 1000);
+  };
 
   return (
     <div className="inner-product-info">
@@ -22,13 +38,28 @@ const ProductDescription = (props: any) => {
             <div className="information">
               <img className="flag-img" src={COUNTRY_IMAGE} alt="product_img" />
               <div className="asin-pid-wrapper">
-                <span className="asin-content">{item.asin}</span>
-
-                <span className="pid-content">
-                  {PRODUCT_ID_TYPES.filter(pidType => pidType !== 'ASIN')
-                    .filter(pidType => pidType.toLowerCase() in item)
-                    .map(pidType => item[pidType.toLowerCase()])[0] || ''}
+                <span className="asin-content">
+                  ASIN:{item.asin}
+                  <span>
+                    {!copied ? (
+                      <Icon
+                        name="copy outline"
+                        data-title="Copy"
+                        className="tooltipIcon"
+                        onClick={() => copyText(item.asin)}
+                      />
+                    ) : (
+                      <Icon
+                        name="check circle"
+                        className="tooltipIcon"
+                        color="green"
+                        data-title="Copied"
+                      />
+                    )}
+                  </span>
                 </span>
+
+                <span className="pid-content">{pidInfo ? `UPC: ${pidInfo}` : null}</span>
               </div>
               <div className="product-labels-container">
                 {!_.isEmpty(item.best_seller) && <img src={bestSellerImage} alt="best_seller" />}

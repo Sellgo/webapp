@@ -286,6 +286,7 @@ i.icon.filter::before {
   line-height: 1.4;
   color: $table-header-text-color;
   font-size: $table-header-label-size;
+  font-weight: 600 !important;
 }
 
 .ui.sortable.table thead th.sorted::after {

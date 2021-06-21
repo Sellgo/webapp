@@ -56,7 +56,7 @@ import {
 } from '../../../actions/SellerFinder';
 
 import { SEARCH_STATUS, SELLER_DETAILS_URL } from '../../../constants/SellerFinder';
-import { showNAIfZeroOrNull } from '../../../utils/format';
+import { showNAIfZeroOrNull, truncateString } from '../../../utils/format';
 import PageLoader from '../../../components/PageLoader';
 import { Merchant } from '../../../interfaces/Seller';
 import ExportResultAs from '../../../components/ExportResultAs';
@@ -234,10 +234,13 @@ const SellerFinderTable = (props: Props) => {
   const [exportFormat, setExportFormat] = useState('csv');
   const [viewFilterDialog, setViewFilterDialog] = useState(false);
   const [activeColumnFilter, setActiveColumnFilter] = useState('');
-  const [copied, setCopied] = useState(false);
   const [sellerProgress, setSellerProgress] = useState(0);
   const [sellerProgressError, setSellerProgressError] = useState(false);
   const [exportMerchantID, setExportMerchantID] = useState(0);
+  const [copySellerId, setCopiedSellerId] = useState<{ id: number; copied: boolean }>({
+    id: 0,
+    copied: false,
+  });
 
   const expandRow = (row: any) => {
     setExpandedRow(expandedRow && expandedRow === row.id ? null : row.id);
@@ -640,15 +643,6 @@ const SellerFinderTable = (props: Props) => {
     setDeleteGroup(false);
   };
 
-  const copyText = (text: string) => {
-    copyToClipboard(text).then(() => {
-      setCopied(true);
-    });
-    setTimeout(() => {
-      setCopied(false);
-    }, 200);
-  };
-
   const exportMerchantProducts = (merchantId: number) => {
     setExportMerchantID(merchantId);
     setExportType('products');
@@ -680,42 +674,69 @@ const SellerFinderTable = (props: Props) => {
     }
   };
 
-  const renderSellerInformation = (row: any) => (
-    <p className="sf-seller-details" ref={expandedRow === row.id ? expandRef : null}>
-      <img
-        className={'expand-btn'}
-        src={expandedRow === row.id ? MINUS_ICON : PLUS_ICON}
-        style={{
-          position: 'absolute',
-          left: '70px',
-          cursor: 'pointer',
-        }}
-        onClick={() => {
-          expandRow(row);
-          setActiveProductIndex(-1);
-          setTimeout(() => {
-            showSellerInformation();
-            scrollToCurrent();
-          }, 50);
-        }}
-        alt={'expand icon'}
-      />
-      <span className="name">{row.merchant_name}</span>
-      <span className="seller-id">
-        <span className="merchant-id">{row.merchant_id}</span>
-        <span className="tooltip">
-          <span className="tooltiptext" id="myTooltip">
-            {copied ? 'Copied !' : 'Copy to clipboard'}
-          </span>
-          <Icon name={'copy outline'} onClick={() => copyText(row.merchant_id)} />
-        </span>
-        <Icon
-          name={'external'}
-          onClick={() => window.open(`${SELLER_DETAILS_URL}&seller=${row.merchant_id}`, '_blank')}
+  const copyText = (text: string, id: number) => {
+    copyToClipboard(text).then(() => {
+      setCopiedSellerId({ id, copied: true });
+    });
+    setTimeout(() => {
+      setCopiedSellerId({ id, copied: false });
+    }, 1000);
+  };
+
+  const renderSellerInformation = (row: any) => {
+    const { id, copied } = copySellerId;
+    return (
+      <p className="sf-seller-details" ref={expandedRow === row.id ? expandRef : null}>
+        <img
+          className={'expand-btn'}
+          src={expandedRow === row.id ? MINUS_ICON : PLUS_ICON}
+          style={{
+            position: 'absolute',
+            left: '70px',
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            expandRow(row);
+            setActiveProductIndex(-1);
+            setTimeout(() => {
+              showSellerInformation();
+              scrollToCurrent();
+            }, 50);
+          }}
+          alt={'expand icon'}
         />
-      </span>
-    </p>
-  );
+        <span className="name">
+          {truncateString(row.merchant_name, 13)}
+          <Icon
+            name="external"
+            onClick={() => window.open(`${SELLER_DETAILS_URL}&seller=${row.merchant_id}`, '_blank')}
+          />
+        </span>
+        <span className="seller-id">
+          <span className="merchant-id">{row.merchant_id}</span>
+          <span>
+            {!copied ? (
+              <Icon
+                name="copy outline"
+                className="tooltipIcon"
+                data-title="Copy"
+                onClick={() => copyText(row.merchant_id || '', row.id)}
+              />
+            ) : row.id === id && copied ? (
+              <Icon name="check circle" className="tooltipIcon" data-title="Copied" color="green" />
+            ) : (
+              <Icon
+                name="copy outline"
+                className="tooltipIcon"
+                data-title="Copy"
+                onClick={() => copyText(row.merchant_id || '', row.id)}
+              />
+            )}
+          </span>
+        </span>
+      </p>
+    );
+  };
 
   const renderInventory = (row: any) => (
     <p className={row.has_inventory ? 'inventory-active' : 'inventory-details'}>
@@ -905,7 +926,7 @@ const SellerFinderTable = (props: Props) => {
     },
     {
       label: `Review \nL365D`,
-      dataKey: 'count_356_days',
+      dataKey: 'count_12_month',
       type: 'string',
       sortable: true,
       show: true,
@@ -933,7 +954,7 @@ const SellerFinderTable = (props: Props) => {
     },
     {
       label: `Processed on`,
-      dataKey: 'processed',
+      dataKey: 'udate',
       type: 'string',
       sortable: true,
       show: true,

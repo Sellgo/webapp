@@ -402,6 +402,12 @@ $new_black: #3b4557;
         flex-direction: column;
         justify-content: center;
 
+        .icon.external {
+          font-size: 11px;
+          cursor: pointer;
+          margin-left: 7px;
+        }
+
         .icon {
           color: #757575;
         }
@@ -417,14 +423,8 @@ $new_black: #3b4557;
         .seller-id {
           font-size: 12px;
           display: flex;
-          justify-content: space-between;
+          justify-content: flex-start;
           width: 50%;
-
-          .icon {
-            font-size: 11px;
-            cursor: pointer;
-            margin-left: 7px;
-          }
         }
       }
 

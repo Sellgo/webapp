@@ -1,31 +1,41 @@
-import { Button, Icon } from 'semantic-ui-react';
 import React, { useState } from 'react';
+import { Icon } from 'semantic-ui-react';
 import { copyToClipboard } from '../../utils/file';
 
 interface Props {
   data: any;
-  className: string;
+  className?: string;
 }
 
-const CopyToClipboard = ({ data, className = '' }: Props) => {
-  const [copyText, setCopyText] = useState('Copy to clipboard');
-  const copyTo = () => {
-    copyToClipboard(data).then(() => {
-      setCopyText('Copied');
+const CopyToClipboard: React.FC<Props> = props => {
+  const { data, className } = props;
+  const [copied, setCopied] = useState(false);
+
+  const copyText = (text: string) => {
+    copyToClipboard(text).then(() => {
+      setCopied(true);
     });
+
     setTimeout(() => {
-      setCopyText('Copy to clipboard');
-    }, 500);
+      setCopied(false);
+    }, 1000);
   };
+
   return (
-    <span className={`${className} tooltip`}>
-      <span className="tooltiptext" id="myTooltip">
-        <span className="text-class">{copyText}</span>
-      </span>
+    <span className={className}>
       {data}
-      <Button icon className="copy-clipboard">
-        <Icon name="copy outline" onClick={copyTo} />
-      </Button>
+      <span>
+        {!copied ? (
+          <Icon
+            name="copy outline"
+            className="tooltipIcon"
+            data-title="Copy"
+            onClick={() => copyText(data)}
+          />
+        ) : (
+          <Icon name="check circle" className="tooltipIcon" data-title="Copied" color="green" />
+        )}
+      </span>
     </span>
   );
 };
