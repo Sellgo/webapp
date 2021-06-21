@@ -30,7 +30,7 @@ const ProductDescription = (props: any) => {
         <div className="product-image" style={{ backgroundImage: `url(${item.image_url})` }} />
         <div>
           <div className="description-text">
-            <a href={item.amazon_url} target="_blank" rel="noopener noreferrer">
+            <a href={item.amazon_url} target="_blank" rel="noopener noreferrer" title="">
               <h2>{item.title}</h2>
             </a>
           </div>

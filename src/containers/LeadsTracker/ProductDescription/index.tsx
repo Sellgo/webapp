@@ -31,7 +31,7 @@ const ProductDescription = (props: any) => {
       />
 
       <img src={COUNTRY_IMAGE} alt="product_img" className="flag-img" />
-      <a href={item.amazon_url} target="_blank" rel="noopener noreferrer">
+      <a href={item.amazon_url} target="_blank" rel="noopener noreferrer" title="">
         <span className="lt-description-text">{item.title}</span>
       </a>
     </div>

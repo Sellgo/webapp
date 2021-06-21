@@ -52,7 +52,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           trigger={
             <img
               src={!group.length ? GrayedFolder : Folder}
-              title={group && !group.length ? 'No Groups Available' : 'Move to a Different Group'}
+              title={''}
               style={{
                 cursor: group && !group.length ? 'default' : 'pointer',
               }}
