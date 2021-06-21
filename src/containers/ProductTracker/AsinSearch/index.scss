@@ -87,13 +87,13 @@
             width: 100%;
             color: $text-color !important;
 
-            &:focus::placeholder {
-              color: #313a4c !important;
+            &::placeholder {
+              color: #cacaca !important;
             }
-          }
 
-          input::placeholder {
-            color: #cacaca;
+            &:focus::placeholder {
+              color: #737373de !important;
+            }
           }
         }
       }

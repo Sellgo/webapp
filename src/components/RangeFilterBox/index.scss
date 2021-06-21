@@ -53,45 +53,24 @@
       display: flex;
       justify-content: space-between;
 
-      .min-wrapper {
-        width: 85px;
-
-        .ui.input {
-          > input {
-            height: 30px;
-            width: 80px;
-            color: #757575 !important;
-            
-
-            &::placeholder{
-              color: #dededf !important;
-            }
-
-            &:focus {
-              color: $table-title-text-color !important;
-              font-weight: 400 !important;  
-            }
-          }
-        }
-      }
-
+      .max-wrapper,
       .max-wrapper {
         width: 85px;
 
         .ui.input {
+          /* stylelint-disable no-descending-specificty */
           > input {
             height: 30px;
             width: 80px;
             color: #757575 !important;
 
-            &::placeholder{
+            &::placeholder {
               color: #dededf !important;
             }
 
-
             &:focus {
               color: $table-title-text-color !important;
-              font-weight: 400 !important;  
+              font-weight: 400 !important;
             }
           }
         }
@@ -120,7 +99,7 @@
       font-family: inherit;
 
       &:hover {
-        color: #ffffff !important;
+        color: #fff !important;
         box-shadow: none;
         background: $accent_orange !important;
         font-weight: 600;

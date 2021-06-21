@@ -187,7 +187,6 @@
     }
 
     &__content {
-
       display: flex;
       flex-direction: column;
       padding: 0 10px;
@@ -201,14 +200,12 @@
         margin-bottom: 5px;
       }
 
-     &.amazon-choice-preset {
+      &.amazon-choice-preset {
         label {
           color: $table-title-text-color !important;
           font-weight: 400 !important;
         }
       }
-
-      
 
       &__filter-item {
         margin-bottom: 5px;
