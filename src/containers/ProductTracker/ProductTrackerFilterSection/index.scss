@@ -187,6 +187,11 @@
     }
 
     &__content {
+      display: flex;
+      flex-direction: column;
+      padding: 0 10px;
+      margin-bottom: 10px;
+
       &__filter-name {
         font-weight: 600;
         color: $text-color;
@@ -195,10 +200,12 @@
         margin-bottom: 5px;
       }
 
-      display: flex;
-      flex-direction: column;
-      padding: 0 10px;
-      margin-bottom: 10px;
+      &.amazon-choice-preset {
+        label {
+          color: $table-title-text-color !important;
+          font-weight: 400 !important;
+        }
+      }
 
       &__filter-item {
         margin-bottom: 5px;
@@ -211,7 +218,8 @@
           color: $text-color;
 
           &__label {
-            font-weight: 500;
+            color: $table-title-text-color !important;
+            font-weight: 400 !important;
           }
 
           .input {
@@ -227,7 +235,7 @@
               font-size: 12px !important;
               font-weight: 500;
               font-family: 'Work Sans', sans-serif;
-              color: $text-color;
+              color: #dededf;
             }
           }
 
