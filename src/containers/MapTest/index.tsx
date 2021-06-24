@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import React, { useEffect, useState } from 'react';
 
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
@@ -18,11 +19,12 @@ const WORLD_MAP_BOUNDS: Location[] = [
   [90, 180],
 ];
 
-const SellerDetailsCard = () => {
+const SellerDetailsCard = (props: any) => {
+  const { merchantId } = props;
   return (
     <>
       <article className={styles.sellerCard}>
-        <h1>Seller Name</h1>
+        <h1>Merchant ID :{merchantId}</h1>
         <p>Sales Estimate</p>
       </article>
     </>
@@ -34,6 +36,7 @@ const PlotAllMarkers = (props: any) => {
   const { sellersData } = props;
 
   const [showSellerCard, setShowSellerCard] = useState(false);
+  const [merchantId, setMerchantId] = useState('');
 
   return (
     <>
@@ -41,18 +44,20 @@ const PlotAllMarkers = (props: any) => {
         const center: Location = [data.latitude, data.longitude];
         return (
           <Marker
-            position={center}
             key={data.merchant_id}
+            data-id={data.merchant_id}
+            position={center}
             eventHandlers={{
-              click: e => {
+              click: (e: any) => {
                 console.log('marker clicked', e);
                 setShowSellerCard(true);
+                setMerchantId(e.target.options['data-id']);
               },
             }}
           />
         );
       })}
-      {showSellerCard && <SellerDetailsCard />}
+      {showSellerCard && <SellerDetailsCard merchantId={merchantId} />}
     </>
   );
 };
