@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
+import { success } from '../../utils/notifications';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -70,7 +71,13 @@ const MapTest = () => {
   useEffect(() => {
     axios
       .get('http://18.207.105.104/api/sellers/1000000002/merchantmaps/search?max_count=1000')
-      .then(resp => setMapData(resp.data));
+      .then(resp => {
+        setMapData(resp.data);
+        success(`Found ${resp.data.length} sellers`);
+      })
+      .catch(err => {
+        console.error('Error fetching data', err.response);
+      });
   }, []);
 
   return (
