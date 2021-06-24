@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import React, { useEffect, useState } from 'react';
 
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import { success } from '../../utils/notifications';
 
@@ -55,7 +55,11 @@ const PlotAllMarkers = (props: any) => {
                 setMerchantId(e.target.options['data-id']);
               },
             }}
-          />
+          >
+            <Tooltip direction="top" offset={[-15, -10]}>
+              Click for more details
+            </Tooltip>
+          </Marker>
         );
       })}
       {showSellerCard && <SellerDetailsCard merchantId={merchantId} />}
