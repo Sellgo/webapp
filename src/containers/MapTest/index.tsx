@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-import { MapContainer, TileLayer, Marker, Circle, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Circle, Popup, useMap } from 'react-leaflet';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -9,6 +9,35 @@ import styles from './index.module.scss';
 type Location = [number, number];
 const center: Location = [37.09024, -95.712891];
 const zoom = 5;
+
+const UseHooksComponent = () => {
+  const map = useMap();
+  console.log('map center:', map.getCenter());
+
+  // return null on hooks
+  return null;
+};
+
+// plot sellers markers
+const PlotAllMarkers = (props: any) => {
+  const { sellersData } = props;
+
+  return (
+    <>
+      {sellersData.map((data: any) => {
+        const center: Location = [data.latitude, data.longitude];
+        return (
+          <Marker position={center} key={data.merchant_id}>
+            <Circle center={center} radius={10000} fillColor="red" fillOpacity={0.8} />
+            <Popup>Clicked merchant {data.merchant_id}</Popup>
+          </Marker>
+        );
+      })}
+    </>
+  );
+};
+
+/* Main Container COmponent */
 
 const MapTest = () => {
   const [mapData, setMapData] = useState([]);
@@ -28,25 +57,14 @@ const MapTest = () => {
         minZoom={2}
         maxZoom={10}
         closePopupOnClick
-        // maxBounds={[
-        //   [40.712, -74.227],
-        //   [40.774, -74.125],
-        // ]}
         className={styles.map}
       >
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {mapData.map((data: any) => {
-          const center: Location = [data.latitude, data.longitude];
-          return (
-            <Marker position={center} key={data.merchant_id}>
-              <Circle center={center} radius={10000} fillColor="red" fillOpacity={0.8} />
-              <Popup>Clicked merchant {data.merchant_id}</Popup>
-            </Marker>
-          );
-        })}
+        <UseHooksComponent />
+        <PlotAllMarkers sellersData={mapData} />
       </MapContainer>
     </section>
   );
