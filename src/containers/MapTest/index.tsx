@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-import { MapContainer, TileLayer, Marker, Circle, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import MarkerClusterGroup from 'react-leaflet-markercluster';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -10,7 +11,7 @@ type Location = [number, number];
 
 const INITIAL_CENTER: Location = [37.09024, -95.712891];
 const INITIAL_ZOOM = 4.8;
-const MIN_ZOOM = 2.5;
+const MIN_ZOOM = 1;
 const MAX_ZOOM = 8.7;
 const WORLD_MAP_BOUNDS: Location[] = [
   [-90, -180],
@@ -26,14 +27,6 @@ const SellerDetailsCard = () => {
       </article>
     </>
   );
-};
-
-const UseHooksComponent = () => {
-  const map = useMap();
-  console.log('Map is', map);
-
-  // return null on hooks
-  return null;
 };
 
 // plot sellers markers
@@ -56,10 +49,7 @@ const PlotAllMarkers = (props: any) => {
                 setShowSellerCard(true);
               },
             }}
-          >
-            <Circle center={center} radius={10000} fillColor="red" fillOpacity={0.8} />
-            <Popup>Clicked merchant {data.merchant_id}</Popup>
-          </Marker>
+          />
         );
       })}
       {showSellerCard && <SellerDetailsCard />}
@@ -96,8 +86,9 @@ const MapTest = () => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           noWrap
         />
-        <UseHooksComponent />
-        <PlotAllMarkers sellersData={mapData} />
+        <MarkerClusterGroup>
+          <PlotAllMarkers sellersData={mapData} />
+        </MarkerClusterGroup>
       </MapContainer>
     </section>
   );
