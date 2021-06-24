@@ -13,7 +13,7 @@ type Location = [number, number];
 
 const INITIAL_CENTER: Location = [37.09024, -95.712891];
 const INITIAL_ZOOM = 4.8;
-const MIN_ZOOM = 1;
+const MIN_ZOOM = 2.5;
 const MAX_ZOOM = 8.7;
 const WORLD_MAP_BOUNDS: Location[] = [
   [-90, -180],
