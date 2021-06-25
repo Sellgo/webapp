@@ -28,9 +28,17 @@
   padding: 20px 40px !important;
   z-index: 999999999999 !important;
   background: #fff;
+  display: flex;
+  flex-direction: column;
 
   h1 {
     font-size: 16px !important;
     color: $sellgo-text;
+  }
+
+  div {
+    max-width: 150px;
+    font-size: 10px;
+    word-wrap: break-word;
   }
 }

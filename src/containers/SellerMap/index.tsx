@@ -4,6 +4,9 @@ import React, { useEffect, useState } from 'react';
 
 import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
+import { setLoadingData } from '../../actions/LeadsTracker';
+// import { AppConfig } from '../../config';
+// import { sellerIDSelector } from '../../selectors/Seller';
 import { success } from '../../utils/notifications';
 
 /* Styling */
@@ -22,13 +25,38 @@ const WORLD_MAP_BOUNDS: Location[] = [
 
 const SellerDetailsCard = (props: any) => {
   const { merchantId } = props;
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [merchantInfo, setMerchantInfo] = useState({ asin: '' });
+
+  useEffect(() => {
+    const sellerId = 1000000002;
+    setLoadingData(true);
+    // eslint-disable-next-line max-len
+    const URL = `http://18.207.105.104/api/sellers/${sellerId}/merchants-database?page=1&per_page=1&marketplace_id=ATVPDKIKX0DE&merchant_ids=${merchantId}`;
+
+    if (sellerId && merchantId) {
+      axios.get(URL).then(resp => {
+        const { data } = resp;
+        if (data && data.results) {
+          setIsLoading(false);
+          setMerchantInfo(data.results[0]);
+        }
+      });
+    }
+  }, [merchantId]);
+
   return (
-    <>
-      <article className={styles.sellerCard}>
-        <h1>Merchant ID :{merchantId}</h1>
-        <p>Sales Estimate</p>
-      </article>
-    </>
+    <article className={styles.sellerCard}>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <h1>Merchant ID :{merchantId}</h1>
+          <p>Sales Estimate :{merchantInfo.asin}</p>
+        </>
+      )}
+    </article>
   );
 };
 
@@ -50,7 +78,6 @@ const PlotAllMarkers = (props: any) => {
             position={center}
             eventHandlers={{
               click: (e: any) => {
-                console.log('marker clicked', e);
                 setShowSellerCard(true);
                 setMerchantId(e.target.options['data-id']);
               },
