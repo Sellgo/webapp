@@ -1,0 +1,46 @@
+@import '../../design-system/colors.scss';
+
+.sellerMapInfoCard {
+  position: fixed !important;
+  max-width: 500px !important;
+  min-height: 300px !important;
+  top: 0 !important;
+  right: 5px !important;
+  border: 1px solid #cecece;
+  border-radius: 5px;
+  padding: 20px !important;
+  z-index: 999999 !important;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  cursor: unset !important;
+}
+
+.sellerCardDetails {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.sellerDetail {
+  flex: 0 0 33.33%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  margin-bottom: 20px !important;
+
+  h2 {
+    font-size: 14px;
+    color: $sellgo-light-gray-100;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  p {
+    font-size: 12px;
+    color: $sellgo-text;
+    margin: 0;
+  }
+}

@@ -1,16 +1,15 @@
-import axios from 'axios';
-
 import React, { useEffect, useState } from 'react';
-
 import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
-import { setLoadingData } from '../../actions/LeadsTracker';
-// import { AppConfig } from '../../config';
-// import { sellerIDSelector } from '../../selectors/Seller';
+import axios from 'axios';
+
 import { success } from '../../utils/notifications';
 
 /* Styling */
 import styles from './index.module.scss';
+
+/* Components */
+import SellerMapInfoCard from '../../components/SellerMapInfoCard';
 
 type Location = [number, number];
 
@@ -23,49 +22,12 @@ const WORLD_MAP_BOUNDS: Location[] = [
   [90, 180],
 ];
 
-const SellerDetailsCard = (props: any) => {
-  const { merchantId } = props;
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [merchantInfo, setMerchantInfo] = useState({ asin: '' });
-
-  useEffect(() => {
-    const sellerId = 1000000002;
-    setLoadingData(true);
-    // eslint-disable-next-line max-len
-    const URL = `http://18.207.105.104/api/sellers/${sellerId}/merchants-database?page=1&per_page=1&marketplace_id=ATVPDKIKX0DE&merchant_ids=${merchantId}`;
-
-    if (sellerId && merchantId) {
-      axios.get(URL).then(resp => {
-        const { data } = resp;
-        if (data && data.results) {
-          setIsLoading(false);
-          setMerchantInfo(data.results[0]);
-        }
-      });
-    }
-  }, [merchantId]);
-
-  return (
-    <article className={styles.sellerCard}>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          <h1>Merchant ID :{merchantId}</h1>
-          <p>Sales Estimate :{merchantInfo.asin}</p>
-        </>
-      )}
-    </article>
-  );
-};
-
 // plot sellers markers
 const PlotAllMarkers = (props: any) => {
   const { sellersData } = props;
 
-  const [showSellerCard, setShowSellerCard] = useState(false);
-  const [merchantId, setMerchantId] = useState('');
+  const [showSellerCard, setShowSellerCard] = useState(true);
+  const [internalId, setInternalId] = useState('');
 
   return (
     <>
@@ -73,13 +35,13 @@ const PlotAllMarkers = (props: any) => {
         const center: Location = [data.latitude, data.longitude];
         return (
           <Marker
-            key={data.merchant_id}
-            data-id={data.merchant_id}
+            key={data.id}
+            data-id={data.id}
             position={center}
             eventHandlers={{
               click: (e: any) => {
                 setShowSellerCard(true);
-                setMerchantId(e.target.options['data-id']);
+                setInternalId(e.target.options['data-id']);
               },
             }}
           >
@@ -89,14 +51,13 @@ const PlotAllMarkers = (props: any) => {
           </Marker>
         );
       })}
-      {showSellerCard && <SellerDetailsCard merchantId={merchantId} />}
+      {<SellerMapInfoCard internalId={internalId} showSellerCard={showSellerCard} />}
     </>
   );
 };
 
-/* Main Container COmponent */
-
-const MapTest = () => {
+/* Main Container Component */
+const SellerMap = () => {
   const [mapData, setMapData] = useState([]);
 
   useEffect(() => {
@@ -137,4 +98,4 @@ const MapTest = () => {
   );
 };
 
-export default MapTest;
+export default SellerMap;

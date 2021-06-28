@@ -5,10 +5,11 @@ import { copyToClipboard } from '../../utils/file';
 interface Props {
   data: any;
   className?: string;
+  displayData?: string;
 }
 
 const CopyToClipboard: React.FC<Props> = props => {
-  const { data, className } = props;
+  const { data, displayData, className } = props;
   const [copied, setCopied] = useState(false);
 
   const copyText = (text: string) => {
@@ -23,7 +24,7 @@ const CopyToClipboard: React.FC<Props> = props => {
 
   return (
     <span className={className}>
-      {data}
+      {displayData ? displayData : data}
       <span>
         {!copied ? (
           <Icon
