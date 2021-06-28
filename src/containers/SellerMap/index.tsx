@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Tooltip, useMap } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
+import { GeoSearchControl, EsriProvider } from 'leaflet-geosearch';
 import axios from 'axios';
 
 import { success } from '../../utils/notifications';
 
 /* Styling */
 import styles from './index.module.scss';
+import './globals.scss';
 
 /* Components */
 import SellerMapInfoCard from '../../components/SellerMapInfoCard';
@@ -56,6 +58,57 @@ const PlotAllMarkers = (props: any) => {
   );
 };
 
+// add the geo search on the map
+const MapSearch = () => {
+  const map = useMap();
+  const provider = new EsriProvider();
+
+  // @ts-ignore
+  const searchControl = new GeoSearchControl({
+    provider: provider,
+    style: 'bar',
+    classNames: {
+      container: 'mapSearchContainer',
+      button: 'mapSearchButton',
+      resetButton: 'mapSearchResetButton',
+      msgbox: 'mapSearchMsgBox',
+      form: 'mapSearchForm',
+      input: 'mapSearchInput',
+    },
+    searchLabel: 'Enter a location',
+    keepResult: false,
+    updateMap: true,
+    maxSuggestions: 5,
+  });
+
+  useEffect(() => {
+    map.addControl(searchControl);
+
+    console.log(map.getCenter());
+
+    const handleResetButtonClick = () => {
+      map.setView(INITIAL_CENTER, INITIAL_ZOOM);
+      map.setMinZoom(MIN_ZOOM);
+      map.setMaxZoom(MAX_ZOOM);
+      map.setMaxBounds(WORLD_MAP_BOUNDS);
+    };
+
+    const resetButton = document.querySelector('.mapSearchResetButton');
+    if (resetButton) {
+      resetButton.addEventListener('click', handleResetButtonClick);
+    }
+
+    return () => {
+      map.removeControl(searchControl);
+      if (resetButton) {
+        resetButton.removeEventListener('click', handleResetButtonClick);
+      }
+    };
+  }, []);
+
+  return null;
+};
+
 /* Main Container Component */
 const SellerMap = () => {
   const [mapData, setMapData] = useState([]);
@@ -85,6 +138,7 @@ const SellerMap = () => {
         doubleClickZoom={false}
         maxBounds={WORLD_MAP_BOUNDS}
       >
+        <MapSearch />
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

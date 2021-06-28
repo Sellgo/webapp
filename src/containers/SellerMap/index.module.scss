@@ -2,7 +2,7 @@
 
 .mapContainer {
   height: 100vh !important;
-  width: 100vw !important;
+  width: 100vw;
   position: fixed;
   top: 0;
   right: 0;
@@ -11,8 +11,9 @@
 }
 
 .map {
-  width: 100vw;
+  width: calc(100% - 55px) !important;
   height: 100vh;
   z-index: 9999 !important;
+  margin-left: auto;
   background-color: #fff !important;
 }
