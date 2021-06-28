@@ -28,7 +28,7 @@ const WORLD_MAP_BOUNDS: Location[] = [
 const PlotAllMarkers = (props: any) => {
   const { sellersData } = props;
 
-  const [showSellerCard, setShowSellerCard] = useState(true);
+  const [showSellerCard, setShowSellerCard] = useState(false);
   const [internalId, setInternalId] = useState('');
 
   return (
