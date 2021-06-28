@@ -1,6 +1,14 @@
 @import '../../../design-system/colors';
 
 .seller-database-table {
+  &.disabled {
+    thead,
+    tbody {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+  }
+
   .ui.table {
     // border-collapse: separate;
     border-spacing: 0;
