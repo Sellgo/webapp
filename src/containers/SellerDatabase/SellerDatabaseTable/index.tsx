@@ -22,7 +22,7 @@ import {
 } from '../../../actions/SellerDatabase';
 import { connect } from 'react-redux';
 import PageLoader from '../../../components/PageLoader';
-import { showNAIfZeroOrNull, truncateString } from '../../../utils/format';
+import { removeSpecialChars, showNAIfZeroOrNull, truncateString } from '../../../utils/format';
 import CopyToClipboard from '../../../components/CopyToClipboard';
 import { copyToClipboard } from '../../../utils/file';
 export interface CheckedRowDictionary {
@@ -101,20 +101,20 @@ const SellerDatabaseTable = (props: Props) => {
   const renderBrands = (row: any) => {
     const { copied, id } = copyBrands;
 
-    if (!row.brands || !row.brands.length) {
+    if (!row.brands || !row.brands.length || !removeSpecialChars(row.brands)) {
       return <p>-</p>;
     }
 
     return (
       <p className="brands-list">
-        <span>{truncateString(row.brands.join(','), 10)}</span>
+        <span>{truncateString(removeSpecialChars(row.brands), 10)}</span>
         <span>
           {!copied ? (
             <Icon
               name="copy outline"
               className="tooltipIcon"
               data-title="Copy"
-              onClick={() => copyText(row.brands.join(',') || '', row.id)}
+              onClick={() => copyText(removeSpecialChars(row.brands) || '', row.id)}
             />
           ) : row.id === id && copied ? (
             <Icon name="check circle" className="tooltipIcon" data-title="Copied" color="green" />
@@ -123,7 +123,7 @@ const SellerDatabaseTable = (props: Props) => {
               name="copy outline"
               className="tooltipIcon"
               data-title="Copy"
-              onClick={() => copyText(row.brands.join(',') || '', row.id)}
+              onClick={() => copyText(removeSpecialChars(row.brands) || '', row.id)}
             />
           )}
         </span>
