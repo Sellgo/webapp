@@ -53,25 +53,24 @@
       display: flex;
       justify-content: space-between;
 
-      .max-wrapper,
+      .min-wrapper {
+        width: 85px;
+
+        .ui.input {
+          > input {
+            height: 30px;
+            width: 80px;
+          }
+        }
+      }
+
       .max-wrapper {
         width: 85px;
 
         .ui.input {
-          /* stylelint-disable no-descending-specificty */
           > input {
             height: 30px;
             width: 80px;
-            color: #757575 !important;
-
-            &::placeholder {
-              color: #dededf !important;
-            }
-
-            &:focus {
-              color: $table-title-text-color !important;
-              font-weight: 400 !important;
-            }
           }
         }
       }

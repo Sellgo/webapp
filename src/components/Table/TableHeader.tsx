@@ -304,8 +304,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   }
 
   return (
-    <Table.HeaderCell key={dataKey || Date.now()} {...otherProps}>
-      {' '}
+    <Table.HeaderCell key={dataKey || Date.now()} {...otherProps} style={{ background: '#fff' }}>
       <div className={`table-cell-container ${(icon && popUp) || check ? 'popup-cell' : ''}`}>
         {filter && searchIconPosition === 'left' && ColumnFilter}
         {sortable && sortIconPosition === 'left' && Sort}
