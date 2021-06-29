@@ -22,7 +22,6 @@ const SellerSearch = (props: Props) => {
   useEffect(() => {
     if (clearSearchInput) {
       setRightSeachValue('');
-      console.log('This is triggered!');
     }
   });
 
