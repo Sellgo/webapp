@@ -635,12 +635,13 @@ $new_black: #3b4557;
       display: flex;
       align-items: center;
       justify-content: flex-start;
+      margin-left: 180px;
 
       .search-message {
         color: $sellgo-text-color;
         font-size: 16px;
         font-weight: 500;
-        margin-left: 25px;
+        margin-left: 40px;
       }
 
       .searching-error {
