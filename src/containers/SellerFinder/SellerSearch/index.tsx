@@ -23,7 +23,7 @@ const SellerSearch = (props: Props) => {
     if (clearSearchInput) {
       setRightSeachValue('');
     }
-  });
+  }, [clearSearchInput]);
 
   return (
     <div className="seller-finder-search">
