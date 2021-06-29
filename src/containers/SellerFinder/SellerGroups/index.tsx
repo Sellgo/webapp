@@ -62,7 +62,12 @@ class SellerGroups extends Component<SellerGroupsProps> {
         ? this.props.groups.find((data: any) => data.id === this.props.activeGroupId)
         : null;
 
-    const existingItems = items;
+    const allGroupsCount = items.length;
+    const unGroupedCount =
+      items && items.length > 0
+        ? items.filter((data: any) => data.merchant_group === null).length
+        : 0;
+
     return (
       <div className="sf-menu-bar">
         <Menu pointing={true} stackable={true} secondary={true} color={'grey'} className="wdt100">
@@ -76,7 +81,10 @@ class SellerGroups extends Component<SellerGroupsProps> {
               }
             }}
           >
-            <Header as="h4">{'All Groups'}</Header>
+            <Header as="h4">
+              {'All Groups'}
+              <GroupBadgeCount count={allGroupsCount} />
+            </Header>
           </Menu.Item>
 
           <Menu.Item
@@ -88,7 +96,10 @@ class SellerGroups extends Component<SellerGroupsProps> {
               }
             }}
           >
-            <Header as="h4">{'Ungrouped'}</Header>
+            <Header as="h4">
+              {'Ungrouped'}
+              <GroupBadgeCount count={unGroupedCount} />
+            </Header>
           </Menu.Item>
           {groups &&
             groups
@@ -96,9 +107,8 @@ class SellerGroups extends Component<SellerGroupsProps> {
               .sort((group: any, other: any) => (group.id > other.id ? 1 : -1))
               .map((data: any) => {
                 const isActiveGroup = data.id === this.props.activeGroupId;
-                const groupBadgeCount = existingItems.filter(
-                  (d: any) => d.product_track_group_id === data.id
-                ).length;
+                const groupBadgeCount = items.filter((d: any) => d.merchant_group === data.id)
+                  .length;
 
                 return (
                   <Menu.Item
