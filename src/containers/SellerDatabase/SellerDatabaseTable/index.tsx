@@ -25,6 +25,7 @@ import PageLoader from '../../../components/PageLoader';
 import { removeSpecialChars, showNAIfZeroOrNull, truncateString } from '../../../utils/format';
 import CopyToClipboard from '../../../components/CopyToClipboard';
 import { copyToClipboard } from '../../../utils/file';
+
 export interface CheckedRowDictionary {
   [index: number]: boolean;
 }
@@ -382,7 +383,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `Positive \n Review L30D`,
       dataKey: 'positive_30_days',
-      // sortable: true,
+      sortable: true,
       type: 'number',
       show: true,
       render: renderPositiveReview30D,
@@ -390,7 +391,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `Positive \n Review L90D`,
       dataKey: 'positive_90_days',
-      // sortable: true,
+      sortable: true,
       type: 'number',
       show: true,
       render: renderPositiveReview90D,
@@ -398,7 +399,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `Positive \n Review L365D`,
       dataKey: 'positive_12_month',
-      // sortable: true,
+      sortable: true,
       type: 'number',
       show: true,
       render: renderPositiveReview365D,
@@ -406,7 +407,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `Positive\n Review Lifetime`,
       dataKey: 'positive_lifetime',
-      // sortable: true,
+      sortable: true,
       type: 'string',
       show: true,
       render: renderPositiveLifetime,
@@ -415,7 +416,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `Neutral \n Review L30D`,
       dataKey: 'neutral_30_days',
-      // sortable: true,
+      sortable: true,
       type: 'number',
       show: true,
       render: renderNeutralReview30D,
@@ -423,7 +424,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `Neutral \n Review L90D`,
       dataKey: 'neutral_90_days',
-      // sortable: true,
+      sortable: true,
       type: 'number',
       show: true,
       render: renderNeutralReview90D,
@@ -431,7 +432,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `Neutral \n Review L365D`,
       dataKey: 'neutral_12_month',
-      // sortable: true,
+      sortable: true,
       type: 'number',
       show: true,
       render: renderNeutralReview365D,
@@ -439,7 +440,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `Neutral\n Review Lifetime`,
       dataKey: 'neutral_lifetime',
-      // sortable: true,
+      sortable: true,
       type: 'number',
       show: true,
       render: renderNeutralLifetime,
@@ -448,7 +449,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `Launched`,
       dataKey: 'launched',
-      // sortable: true,
+      sortable: true,
       type: 'string',
       show: true,
       render: renderLauched,
@@ -457,7 +458,7 @@ const SellerDatabaseTable = (props: Props) => {
     {
       label: `State`,
       dataKey: 'state',
-      // sortable: true,
+      sortable: true,
       type: 'string',
       show: true,
       render: renderState,
@@ -472,56 +473,58 @@ const SellerDatabaseTable = (props: Props) => {
   ];
 
   return (
-    <div className="seller-database-table">
+    <>
       {loading ? (
         <PageLoader pageLoading={true} />
       ) : (
-        <GenericTable
-          middleScroll
-          leftFixedColumns={1}
-          rightFixedColumns={1}
-          currentActiveColumn={''}
-          stickyChartSelector={false}
-          scrollTopSelector={false}
-          data={database}
-          checkedRows={checkedRows}
-          columns={Columns}
-          name="seller-database"
-          singlePageItemsCount={singlePageItemsCount}
-          currentPage={pageNo}
-          pageCount={pageCount}
-          count={databaseCount}
-          loading={loadingDatabase}
-          setPage={(page: number) => {
-            if (page !== pageNo) {
+        <div className={`seller-database-table ${loadingDatabase && 'disabled'}`}>
+          <GenericTable
+            middleScroll
+            leftFixedColumns={1}
+            rightFixedColumns={1}
+            currentActiveColumn={''}
+            stickyChartSelector={false}
+            scrollTopSelector={false}
+            data={database}
+            checkedRows={checkedRows}
+            columns={Columns}
+            name="seller-database"
+            singlePageItemsCount={singlePageItemsCount}
+            currentPage={pageNo}
+            pageCount={pageCount}
+            count={databaseCount}
+            loading={loadingDatabase}
+            setPage={(page: number) => {
+              if (page !== pageNo) {
+                fetchDatabase({
+                  pageNo: page,
+                  pageSize: pageSize,
+                  enableLoader: false,
+                });
+              }
+            }}
+            setSinglePageItemsCount={(pageSize: number) => {
               fetchDatabase({
-                pageNo: page,
-                pageSize: pageSize,
+                pageNo: 1,
+                pageSize,
                 enableLoader: false,
               });
-            }
-          }}
-          setSinglePageItemsCount={(pageSize: number) => {
-            fetchDatabase({
-              pageNo: 1,
-              pageSize,
-              enableLoader: false,
-            });
-            setSinglePageItemsCount(pageSize);
-          }}
-          onSort={(sortDirection, sort) => {
-            fetchDatabase({
-              pageNo: 1,
-              pageSize: pageSize,
-              enableLoader: false,
-              sort,
-              sortDirection,
-            });
-          }}
-          updateCheckedRows={rows => setCheckedRows(rows)}
-        />
+              setSinglePageItemsCount(pageSize);
+            }}
+            onSort={(sortDirection, sort) => {
+              fetchDatabase({
+                pageNo: 1,
+                pageSize: pageSize,
+                enableLoader: false,
+                sort,
+                sortDirection,
+              });
+            }}
+            updateCheckedRows={rows => setCheckedRows(rows)}
+          />
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
