@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Tooltip, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Tooltip, useMap, ZoomControl } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import { GeoSearchControl, EsriProvider } from 'leaflet-geosearch';
 import axios from 'axios';
@@ -137,7 +137,9 @@ const SellerMap = () => {
         className={styles.map}
         doubleClickZoom={false}
         maxBounds={WORLD_MAP_BOUNDS}
+        zoomControl={false}
       >
+        <ZoomControl position="bottomright" />
         <MapSearch />
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
