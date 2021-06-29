@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Input } from 'semantic-ui-react';
 import './index.scss';
 
@@ -7,15 +7,24 @@ import { SellersPayload } from '../../../actions/SellerFinder';
 interface Props {
   onSearch: (input: string) => void;
   fetchSellers: (payload: SellersPayload) => void;
+  clearSearchInput: boolean;
 }
 const SellerSearch = (props: Props) => {
-  const { onSearch, fetchSellers } = props;
+  const { onSearch, fetchSellers, clearSearchInput } = props;
 
-  const [search, setSearch] = React.useState<any>('');
+  const [leftSearchValue, setLeatSearchValue] = useState<string>('');
+  const [rightSearchValue, setRightSeachValue] = useState<string>('');
 
   const handleSellerSearch = () => {
-    fetchSellers({ enableLoader: true, query: `&search=${search}` });
+    fetchSellers({ enableLoader: true, query: `&search=${leftSearchValue}` });
   };
+
+  useEffect(() => {
+    if (clearSearchInput) {
+      setRightSeachValue('');
+      console.log('This is triggered!');
+    }
+  });
 
   return (
     <div className="seller-finder-search">
@@ -24,8 +33,9 @@ const SellerSearch = (props: Props) => {
           size="small"
           className="input-1"
           icon={'search'}
+          value={leftSearchValue}
           placeholder="Find in your Seller Finder List"
-          onChange={(evt: any) => setSearch(evt.target.value)}
+          onChange={(evt: any) => setLeatSearchValue(evt.target.value)}
         />
         <Button primary className="search-btn" onClick={() => handleSellerSearch()}>
           Find
@@ -35,10 +45,11 @@ const SellerSearch = (props: Props) => {
           size="small"
           className="input-2"
           icon={'search'}
+          value={rightSearchValue}
           placeholder="Insert ASINs or Seller IDs ..."
-          onChange={(evt: any) => setSearch(evt.target.value)}
+          onChange={(evt: any) => setRightSeachValue(evt.target.value)}
         />
-        <Button primary className="search-btn" onClick={() => onSearch(search)}>
+        <Button primary className="search-btn" onClick={() => onSearch(rightSearchValue)}>
           Search
         </Button>
       </div>

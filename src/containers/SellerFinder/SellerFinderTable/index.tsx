@@ -242,6 +242,8 @@ const SellerFinderTable = (props: Props) => {
     copied: false,
   });
 
+  const [clearSearchInput, setClearSearchInput] = useState(false);
+
   const expandRow = (row: any) => {
     setExpandedRow(expandedRow && expandedRow === row.id ? null : row.id);
     setActiveMerchant(row);
@@ -368,6 +370,10 @@ const SellerFinderTable = (props: Props) => {
 
           if (data.merchants_count) {
             success(`${data.merchants_count} Sellers Found!`);
+            setClearSearchInput(true);
+            setTimeout(() => {
+              setClearSearchInput(false);
+            }, 1000);
           }
           setRefreshing('');
           fetchAmazonSellers({ enableLoader: false, sort: 'udate', sortDirection: 'descending' });
@@ -985,7 +991,11 @@ const SellerFinderTable = (props: Props) => {
         </Card.Content>
         <Card.Content className="search-content">
           <div className="search-input-container">
-            <SellerSearch onSearch={value => search(value)} fetchSellers={fetchSellers} />
+            <SellerSearch
+              onSearch={value => search(value)}
+              fetchSellers={fetchSellers}
+              clearSearchInput={clearSearchInput}
+            />
             {searching && (
               <div className="search-progress-container">
                 <Progress
