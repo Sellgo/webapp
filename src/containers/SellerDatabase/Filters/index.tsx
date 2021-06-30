@@ -383,7 +383,6 @@ const Filters: React.FC<Props> = props => {
                     alt="Seller Ratings"
                     className={styles.filterGroups__icon}
                   />
-
                   <Input
                     className={styles.formInput}
                     placeholder="Min Seller Ratings"
@@ -396,6 +395,7 @@ const Filters: React.FC<Props> = props => {
                     }}
                     error={sellerRatingsError.min}
                   />
+
                   <img src={filterRightArrow} alt="Right Arrow" />
                   <Input
                     className={styles.formInput}
