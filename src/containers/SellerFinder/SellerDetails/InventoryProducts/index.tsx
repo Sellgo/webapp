@@ -32,9 +32,9 @@ const renderFBA = (row: any) => {
   return <p>{formatBoolean(row.fba)}</p>;
 };
 
-const renderFBM = (row: any) => {
-  return <p>{formatBoolean(row.fbm)}</p>;
-};
+// const renderFBM = (row: any) => {
+//   return <p>{formatBoolean(row.fbm)}</p>;
+// };
 
 const renderPrice = (row: any) => {
   return <p>{row.current_price ? `$${row.current_price}` : '-'}</p>;
@@ -105,12 +105,12 @@ const columns = [
     className: 'fba',
     render: renderFBA,
   },
-  {
-    label: `FBM`,
-    dataKey: 'fbm',
-    className: 'fbm',
-    render: renderFBM,
-  },
+  // {
+  //   label: `FBM`,
+  //   dataKey: 'fbm',
+  //   className: 'fbm',
+  //   render: renderFBM,
+  // },
   {
     label: `Rating L365D`,
     dataKey: 'review_stars',
