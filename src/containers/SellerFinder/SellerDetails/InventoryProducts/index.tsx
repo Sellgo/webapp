@@ -3,7 +3,7 @@ import './index.scss';
 import Rating from 'react-rating';
 import { Icon } from 'semantic-ui-react';
 import { formatCompletedDate } from '../../../../utils/date';
-import { formatBoolean } from '../../../../utils/format';
+import { formatBoolean, truncateString } from '../../../../utils/format';
 import CheckMerchants from '../CheckMerchants';
 import CopyToClipboard from '../../../../components/CopyToClipboard';
 
@@ -15,7 +15,12 @@ const renderProductInventory = (row: any) => {
           <img src={row.image_url} alt={'product-image'} className="product-image" />
         </span>
         <span className="product-info">
-          <span className="product-name"> {row.product_name}</span>
+          <span className="product-name">
+            {truncateString(row.product_name, 15)}
+            {row.inventory_link && (
+              <Icon name="external" onClick={() => window.open(row.inventory_link, '_blank')} />
+            )}
+          </span>
           <CopyToClipboard data={row.asin} className="asin" />
         </span>
       </span>
@@ -27,12 +32,8 @@ const renderFBA = (row: any) => {
   return <p>{formatBoolean(row.fba)}</p>;
 };
 
-const renderFBM = (row: any) => {
-  return <p>{formatBoolean(row.fbm)}</p>;
-};
-
 const renderPrice = (row: any) => {
-  return <p>{row.current_price}</p>;
+  return <p>{row.current_price ? `$${row.current_price}` : '-'}</p>;
 };
 
 const renderRating = (row: any) => {
@@ -99,12 +100,6 @@ const columns = [
     dataKey: 'fba',
     className: 'fba',
     render: renderFBA,
-  },
-  {
-    label: `FBM`,
-    dataKey: 'fbm',
-    className: 'fbm',
-    render: renderFBM,
   },
   {
     label: `Rating L365D`,
@@ -174,6 +169,7 @@ export const InventoryProductsRow = (props: any) => {
       product_track_id: 'product_track_id',
       image_url: 'image_url',
       num_sellers: 'num_sellers',
+      inventory_link: 'inventroy_link',
     };
 
     let data: any = row;
