@@ -156,6 +156,17 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
 export const setSellerDatabaseSinglePageItemsCount = (count: number) => async (dispatch: any) =>
   dispatch(fetchSellerDatabaseSingelPageItemsCount(count));
 
+// Reset the seller databse filters to default values
+export const resetToDefaultFilter = () => async (dispatch: any) => {
+  console.log('This is called');
+  try {
+    localStorage.setItem('seller-database-filters', JSON.stringify(defaultFilters));
+    dispatch(setFilters(defaultFilters));
+  } catch (err) {
+    console.error('Error resetting to default seller datababse filters');
+  }
+};
+
 export const updateSellerDatabaseFilters = (filter: SellerDatabaseFilter) => async (
   dispatch: any,
   getState: any

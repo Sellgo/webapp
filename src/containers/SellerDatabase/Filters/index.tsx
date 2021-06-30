@@ -16,6 +16,7 @@ import { sellerDatabaseFilters, sellerDatabaseMarket } from '../../../selectors/
 import {
   fetchSellersDatabase,
   loadFilters,
+  resetToDefaultFilter,
   SellerDatabaseFilter,
   SellerDatabasePayload,
   updateMarketplace,
@@ -44,6 +45,7 @@ interface Props {
   fetchSellersDatabase: (payload: SellerDatabasePayload) => void;
   updateMarketplace: (market: string) => void;
   market: string;
+  resetToDefaultFilters: () => void;
 }
 
 const Filters: React.FC<Props> = props => {
@@ -54,6 +56,7 @@ const Filters: React.FC<Props> = props => {
     market,
     updateMarketplace,
     fetchSellersDatabase,
+    resetToDefaultFilters,
   } = props;
 
   const [asins, setAsins] = useState<string>('');
@@ -106,6 +109,11 @@ const Filters: React.FC<Props> = props => {
   /* Load Filters on load */
   useEffect(() => {
     loadFilters();
+
+    return () => {
+      // reset the filter to default state when unmounted
+      resetToDefaultFilters();
+    };
   }, []);
 
   // Filters without time period
@@ -908,6 +916,7 @@ const mapDispatchToProps = {
   updateFilter: (filter: SellerDatabaseFilter) => updateSellerDatabaseFilters(filter),
   fetchSellersDatabase: (payload: SellerDatabasePayload) => fetchSellersDatabase(payload),
   updateMarketplace: (market: string) => updateMarketplace(market),
+  resetToDefaultFilters: () => resetToDefaultFilter(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filters);
