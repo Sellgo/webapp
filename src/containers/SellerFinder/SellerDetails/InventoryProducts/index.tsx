@@ -37,7 +37,7 @@ const renderFBM = (row: any) => {
 };
 
 const renderPrice = (row: any) => {
-  return <p>{row.current_price}</p>;
+  return <p>{row.current_price ? `$${row.current_price}` : '-'}</p>;
 };
 
 const renderRating = (row: any) => {
