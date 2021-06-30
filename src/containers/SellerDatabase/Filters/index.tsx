@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Button, Checkbox, Dropdown, Input } from 'semantic-ui-react';
+import { Button, Checkbox, Dropdown, Icon, Input } from 'semantic-ui-react';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
+import Rating from 'react-rating';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -391,7 +392,7 @@ const Filters: React.FC<Props> = props => {
                     alt="Seller Ratings"
                     className={styles.filterGroups__icon}
                   />
-                  <Input
+                  {/* <Input
                     className={styles.formInput}
                     placeholder="Min Seller Ratings"
                     value={ratings.min > 0 ? ratings.min : ''}
@@ -402,20 +403,70 @@ const Filters: React.FC<Props> = props => {
                       });
                     }}
                     error={sellerRatingsError.min}
+                  /> */}
+                  <Rating
+                    className={styles.ratingsSelector}
+                    initialRating={ratings.min || 0}
+                    emptySymbol={
+                      <Icon
+                        name="star outline"
+                        color={'grey'}
+                        className={sellerRatingsError.min ? 'errorRatings' : ''}
+                      />
+                    }
+                    fullSymbol={
+                      <Icon
+                        name="star"
+                        color={'grey'}
+                        className={sellerRatingsError.min ? 'errorRatings' : ''}
+                      />
+                    }
+                    placeholderSymbol={
+                      <Icon
+                        name="star"
+                        color={'grey'}
+                        className={sellerRatingsError.min ? 'errorRatings' : ''}
+                      />
+                    }
+                    onClick={value => {
+                      updateInputFilterValue({
+                        ...ratings,
+                        min: value,
+                      });
+                    }}
                   />
 
                   <img src={filterRightArrow} alt="Right Arrow" />
-                  <Input
-                    className={styles.formInput}
-                    placeholder="Max Seller Ratings"
-                    value={ratings.max > 0 ? ratings.max : ''}
-                    onChange={evt => {
+                  <Rating
+                    className={styles.ratingsSelector}
+                    initialRating={ratings.max || 0}
+                    emptySymbol={
+                      <Icon
+                        name="star outline"
+                        color={'grey'}
+                        className={sellerRatingsError.min ? 'errorRatings' : ''}
+                      />
+                    }
+                    fullSymbol={
+                      <Icon
+                        name="star"
+                        color={'grey'}
+                        className={sellerRatingsError.min ? 'errorRatings' : ''}
+                      />
+                    }
+                    placeholderSymbol={
+                      <Icon
+                        name="star"
+                        color={'grey'}
+                        className={sellerRatingsError.min ? 'errorRatings' : ''}
+                      />
+                    }
+                    onClick={value => {
                       updateInputFilterValue({
                         ...ratings,
-                        max: +evt.target.value,
+                        max: value,
                       });
                     }}
-                    error={sellerRatingsError.max}
                   />
                 </div>
 
