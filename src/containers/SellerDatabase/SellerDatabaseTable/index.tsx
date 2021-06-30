@@ -25,6 +25,7 @@ import PageLoader from '../../../components/PageLoader';
 import { removeSpecialChars, showNAIfZeroOrNull, truncateString } from '../../../utils/format';
 import CopyToClipboard from '../../../components/CopyToClipboard';
 import { copyToClipboard } from '../../../utils/file';
+import { columnFilter } from '../../../constants/SellerDatabase';
 
 export interface CheckedRowDictionary {
   [index: number]: boolean;
@@ -61,6 +62,8 @@ const SellerDatabaseTable = (props: Props) => {
 
   const [checkedRows, setCheckedRows] = useState<any>({});
   const [copyBrands, setCopiedBrands] = useState({ id: 0, copied: false });
+  const [columnFilterBox, setColumnFilterBox] = useState(false);
+  const [columnFilterData] = useState(columnFilter);
 
   const fetchDatabase = (payload: SellerDatabasePayload) => {
     fetchSellersDatabase(payload);
@@ -465,12 +468,38 @@ const SellerDatabaseTable = (props: Props) => {
     },
     // Actions
     {
-      label: ``,
+      label: `Tracking`,
       dataKey: 'actions',
       show: true,
       render: renderActions,
     },
+    {
+      label: '',
+      icon: 'ellipsis horizontal ellipsis-ic',
+      dataKey: 'ellipsis horizontal',
+      show: true,
+      popUp: true,
+      fixed: 'right',
+    },
   ];
+
+  const handleClick = () => {
+    setColumnFilterBox(prevState => {
+      return !prevState;
+    });
+  };
+
+  const handleColumnChange = () => {
+    console.log('Handle Column Change');
+  };
+
+  const handleColumnReorder = () => {
+    console.log('Handle Column Re-order');
+  };
+
+  const handleColumnDrop = () => {
+    console.log('Handle Column Drop');
+  };
 
   return (
     <>
@@ -521,6 +550,15 @@ const SellerDatabaseTable = (props: Props) => {
               });
             }}
             updateCheckedRows={rows => setCheckedRows(rows)}
+            // Toggle filter columns
+            columnDnD={true}
+            toggleColumnCheckbox={handleClick}
+            columnFilterBox={columnFilterBox}
+            columnFilterData={columnFilterData}
+            activeColumnFilters={'ellipsis horizontal'}
+            handleColumnChange={handleColumnChange}
+            handleColumnDrop={handleColumnDrop}
+            reorderColumns={handleColumnReorder}
           />
         </div>
       )}
