@@ -22,9 +22,7 @@ const renderSellerName = (row: any) => {
           />
         )}
       </span>
-      <span className="asin">
-        <CopyToClipboard data={row.merchant_id || ''} />
-      </span>
+      <CopyToClipboard data={row.merchant_id || ''} className="asin" />
     </p>
   );
 };
