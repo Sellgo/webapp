@@ -84,7 +84,6 @@ const SellerDatabaseTable = (props: Props) => {
   }, []);
 
   const renderSellerInformation = (row: any) => {
-    console.log(row);
     return (
       <p className="sd-seller-details">
         <span className="name">
