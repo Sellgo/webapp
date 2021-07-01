@@ -185,7 +185,8 @@ const SellerDatabaseTable = (props: Props) => {
   };
 
   const renderNegativeReview90D = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.negative_90_days, row.negative_90_days)}</p>;
+    const formattedNumber = formatNumber(row.negative_90_days);
+    return <p>{showNAIfZeroOrNull(row.negative_90_days, formattedNumber)}</p>;
   };
 
   const renderNegativeReview365D = (row: any) => {
