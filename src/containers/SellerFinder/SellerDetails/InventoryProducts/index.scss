@@ -160,6 +160,10 @@ $blue: #349af8;
           padding-left: 5px;
           text-align: left !important;
           font-weight: 400 !important;
+
+          i.copy.tooltipIcon {
+            z-index: 99999999 !important;
+          }
         }
       }
     }
