@@ -361,6 +361,7 @@ export const updateSellerTrackerGroup = (group: any) => async (dispatch: any) =>
       if (group.status === 'inactive') {
         dispatch(fetchSellers({ enableLoader: false }));
         success(`Tracker group successfully deleted!`);
+        dispatch(setMenuItem(null));
       } else {
         success(`Tracker group successfully updated`);
       }
