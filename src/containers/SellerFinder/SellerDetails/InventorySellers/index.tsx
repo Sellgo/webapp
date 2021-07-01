@@ -3,7 +3,6 @@ import './index.scss';
 import Rating from 'react-rating';
 import { Button, Icon } from 'semantic-ui-react';
 import { truncateString } from '../../../../utils/format';
-import { formatCompletedDate } from '../../../../utils/date';
 import TrackSeller from '../TrackSeller';
 import CopyToClipboard from '../../../../components/CopyToClipboard';
 import { generateSellerAmazonLink } from '../../../../constants/SellerFinder';
@@ -47,10 +46,6 @@ const renderRatingPercentage = (row: any) => {
   return <p>{row.review_ratings}</p>;
 };
 
-const renderProcessedOn = (row: any) => {
-  return <p>{formatCompletedDate(row.udate)}</p>;
-};
-
 const renderTrackSeller = (row: any) => {
   return <TrackSeller data={row} type={'seller'} />;
 };
@@ -73,12 +68,6 @@ const columns = [
     dataKey: 'review_ratings',
     className: 'product-rating',
     render: renderRatingPercentage,
-  },
-  {
-    renderLabel: () => <p>Processed on</p>,
-    dataKey: 'udate',
-    className: 'processed-on',
-    render: renderProcessedOn,
   },
   {
     renderLabel: () => <Button primary>{'+ Track All Sellers'}</Button>,
