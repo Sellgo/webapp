@@ -84,15 +84,14 @@ const SellerDatabaseTable = (props: Props) => {
   }, []);
 
   const renderSellerInformation = (row: any) => {
+    console.log(row);
     return (
       <p className="sd-seller-details">
         <span className="name">
           {truncateString(row.business_name || '', 13)}
           <Icon name={'external'} onClick={() => window.open(row.seller_link, '_blank')} />
         </span>
-        <span className="seller-id">
-          <CopyToClipboard data={row.merchant_id} className={''} />
-        </span>
+        <CopyToClipboard data={row.merchant_id} className={'seller_id'} />
       </p>
     );
   };
@@ -145,10 +144,10 @@ const SellerDatabaseTable = (props: Props) => {
   const renderSellerRating = (row: any) => {
     return (
       <Rating
-        placeholderRating={parseFloat(row.seller_rating) || 0}
         emptySymbol={<Icon name="star outline" color={'grey'} />}
         fullSymbol={<Icon name="star" color={'grey'} />}
         placeholderSymbol={<Icon name="star" color={'grey'} />}
+        initialRating={Math.round(parseFloat(row.seller_rating || 0))}
         readonly
       />
     );
@@ -248,8 +247,16 @@ const SellerDatabaseTable = (props: Props) => {
 
   // State
   const renderState = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.state, row.state)}</p>;
+    const data = row.state ? row.state : '';
+    const displayData = truncateString(row.state ? row.state : '', 7);
+
+    return (
+      <p>
+        <CopyToClipboard displayData={displayData} data={data} className="state" />
+      </p>
+    );
   };
+
   // Actions
   const renderActions = (row: any) => {
     // true of false value
@@ -486,7 +493,7 @@ const SellerDatabaseTable = (props: Props) => {
     },
     // Actions
     {
-      label: ``,
+      label: `Tracking`,
       dataKey: 'actions',
       show: true,
       render: renderActions,
