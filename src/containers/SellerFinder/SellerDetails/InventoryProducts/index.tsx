@@ -3,7 +3,12 @@ import './index.scss';
 import Rating from 'react-rating';
 import { Icon } from 'semantic-ui-react';
 import { formatCompletedDate } from '../../../../utils/date';
-import { formatBoolean, truncateString } from '../../../../utils/format';
+import {
+  formatBoolean,
+  formatNumber,
+  showNAIfZeroOrNull,
+  truncateString,
+} from '../../../../utils/format';
 import CheckMerchants from '../CheckMerchants';
 import CopyToClipboard from '../../../../components/CopyToClipboard';
 import { generateProductAmazonLink } from '../../../../constants/SellerFinder';
@@ -54,7 +59,8 @@ const renderRating = (row: any) => {
 };
 
 const renderProductReview = (row: any) => {
-  return <p>{row.reviews_count}</p>;
+  const formattedNumber = formatNumber(row.reviews_count);
+  return <p>{showNAIfZeroOrNull(row.reviews_count, formattedNumber)}</p>;
 };
 
 const renderLastUpdate = (row: any) => {
