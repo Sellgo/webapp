@@ -72,3 +72,8 @@ export const generateSellerAmazonLink = (sellerID: string) => {
   const BASE_URL = `https://www.amazon.com/sp?_encoding=UTF8&asin=&isAmazonFulfilled=&ref_=olp_merch_name_3`;
   return `${BASE_URL}&seller=${sellerID}`;
 };
+
+export const generateProductAmazonLink = (asin: string) => {
+  const BASE_URL = `https://www.amazon.com/dp`;
+  return `${BASE_URL}/${asin}`;
+};
