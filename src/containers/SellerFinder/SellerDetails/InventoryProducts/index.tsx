@@ -2,7 +2,7 @@ import React from 'react';
 import './index.scss';
 import Rating from 'react-rating';
 import { Icon } from 'semantic-ui-react';
-import { formatCompletedDate } from '../../../../utils/date';
+
 import {
   formatBoolean,
   formatNumber,
@@ -63,9 +63,9 @@ const renderProductReview = (row: any) => {
   return <p>{showNAIfZeroOrNull(row.reviews_count, formattedNumber)}</p>;
 };
 
-const renderLastUpdate = (row: any) => {
-  return <p>{formatCompletedDate(row.udate)}</p>;
-};
+// const renderLastUpdate = (row: any) => {
+//   return <p>{formatCompletedDate(row.udate)}</p>;
+// };
 
 // const renderTrackProducts = (row: any) => {
 //   return (
@@ -123,12 +123,12 @@ const columns = [
     className: 'product-review',
     render: renderProductReview,
   },
-  {
-    label: `Last Update`,
-    dataKey: 'udate',
-    className: 'last-update',
-    render: renderLastUpdate,
-  },
+  // {
+  //   label: `Last Update`,
+  //   dataKey: 'udate',
+  //   className: 'last-update',
+  //   render: renderLastUpdate,
+  // },
   // {
   //   label: `Track Products`,
   //   dataKey: 'tracking',

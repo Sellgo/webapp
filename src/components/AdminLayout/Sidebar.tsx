@@ -11,6 +11,7 @@ import get from 'lodash/get';
 import { LogoWithoutText } from '../Logo/index';
 import sellerFinderIcon from '../../assets/images/sellerFinder.svg';
 import sellerDatabaseIcon from '../../assets/images/sellerDatabase.svg';
+import BetaLabel from '../BetaLabel';
 
 interface IconD {
   id: number;
@@ -132,6 +133,7 @@ class SidebarCollapsible extends Component<
                         src={icon.id === 5 ? sellerDatabaseIcon : sellerFinderIcon}
                         alt="Icons"
                       />
+                      <BetaLabel />
                     </>
                   ) : (
                     <i

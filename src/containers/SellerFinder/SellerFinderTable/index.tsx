@@ -64,6 +64,7 @@ import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Suppliers';
 import { success, error as errorMessage } from '../../../utils/notifications';
 import { copyToClipboard, download } from '../../../utils/file';
 import moment from 'moment';
+import BetaLabel from '../../../components/BetaLabel';
 
 interface Props {
   sellers: any[];
@@ -991,7 +992,9 @@ const SellerFinderTable = (props: Props) => {
     <div className="seller-finder-table">
       <Card className="search-card">
         <Card.Content>
-          <Card.Header className="card-title">SELLER FINDER</Card.Header>
+          <Card.Header className="card-title">
+            SELLER FINDER <BetaLabel />
+          </Card.Header>
         </Card.Content>
         <Card.Content className="search-content">
           <div className="search-input-container">
