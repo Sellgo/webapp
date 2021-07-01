@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Button, Checkbox, Dropdown, Input } from 'semantic-ui-react';
+import { Button, Checkbox, Dropdown, Icon, Input } from 'semantic-ui-react';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
+import Rating from 'react-rating';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -16,6 +17,7 @@ import { sellerDatabaseFilters, sellerDatabaseMarket } from '../../../selectors/
 import {
   fetchSellersDatabase,
   loadFilters,
+  resetToDefaultFilter,
   SellerDatabaseFilter,
   SellerDatabasePayload,
   updateMarketplace,
@@ -44,6 +46,7 @@ interface Props {
   fetchSellersDatabase: (payload: SellerDatabasePayload) => void;
   updateMarketplace: (market: string) => void;
   market: string;
+  resetToDefaultFilters: () => void;
 }
 
 const Filters: React.FC<Props> = props => {
@@ -54,6 +57,7 @@ const Filters: React.FC<Props> = props => {
     market,
     updateMarketplace,
     fetchSellersDatabase,
+    resetToDefaultFilters,
   } = props;
 
   const [asins, setAsins] = useState<string>('');
@@ -106,6 +110,11 @@ const Filters: React.FC<Props> = props => {
   /* Load Filters on load */
   useEffect(() => {
     loadFilters();
+
+    return () => {
+      // reset the filter to default state when unmounted
+      resetToDefaultFilters();
+    };
   }, []);
 
   // Filters without time period
@@ -145,11 +154,11 @@ const Filters: React.FC<Props> = props => {
   useEffect(() => {
     const minError =
       Boolean(inventory.min && inventory.max && Number(inventory.min) > Number(inventory.max)) ||
-      Number.isNaN(inventory.min);
+      inventory.min < 0;
 
     const maxError =
       Boolean(inventory.min && inventory.max && Number(inventory.max) < Number(inventory.min)) ||
-      Number.isNaN(inventory.max);
+      inventory.max < 0;
 
     setInventoryError({ min: minError, max: maxError });
   }, [inventory.min, inventory.max]);
@@ -173,12 +182,10 @@ const Filters: React.FC<Props> = props => {
   /* Effect to check brands  values error*/
   useEffect(() => {
     const minError =
-      Boolean(brand.min && brand.max && Number(brand.min) > Number(brand.max)) ||
-      Number.isNaN(brand.min);
+      Boolean(brand.min && brand.max && Number(brand.min) > Number(brand.max)) || brand.min < 0;
 
     const maxError =
-      Boolean(brand.min && brand.max && Number(brand.max) < Number(brand.min)) ||
-      Number.isNaN(brand.max);
+      Boolean(brand.min && brand.max && Number(brand.max) < Number(brand.min)) || brand.max < 0;
 
     setBrandError({ min: minError, max: maxError });
   }, [brand.min, brand.max]);
@@ -190,14 +197,14 @@ const Filters: React.FC<Props> = props => {
         reviewRatings.min &&
           reviewRatings.max &&
           Number(reviewRatings.min) > Number(reviewRatings.max)
-      ) || Number.isNaN(reviewRatings.min);
+      ) || reviewRatings.min < 0;
 
     const maxError =
       Boolean(
         reviewRatings.min &&
           reviewRatings.max &&
           Number(reviewRatings.max) < Number(reviewRatings.min)
-      ) || Number.isNaN(reviewRatings.max);
+      ) || reviewRatings.max < 0;
 
     setReviewRatingsError({
       min: minError,
@@ -210,12 +217,12 @@ const Filters: React.FC<Props> = props => {
     const minError =
       Boolean(
         reviewCount.min && reviewCount.max && Number(reviewCount.min) > Number(reviewCount.max)
-      ) || Number.isNaN(reviewCount.min);
+      ) || reviewCount.min < 0;
 
     const maxError =
       Boolean(
         reviewCount.min && reviewCount.max && Number(reviewCount.max) < Number(reviewCount.min)
-      ) || Number.isNaN(reviewCount.max);
+      ) || reviewCount.max < 0;
 
     setReviewCountError({ min: minError, max: maxError });
   }, [reviewCount.min, reviewCount.max]);
@@ -227,14 +234,14 @@ const Filters: React.FC<Props> = props => {
         positiveReview.min &&
           positiveReview.max &&
           Number(positiveReview.min) > Number(positiveReview.max)
-      ) || Number.isNaN(positiveReview.min);
+      ) || positiveReview.min < 0;
 
     const maxError =
       Boolean(
         positiveReview.min &&
           positiveReview.max &&
           Number(positiveReview.max) < Number(positiveReview.min)
-      ) || Number.isNaN(positiveReview.max);
+      ) || positiveReview.max < 0;
 
     setPositiveReviewError({
       min: minError,
@@ -249,14 +256,14 @@ const Filters: React.FC<Props> = props => {
         negativeReview.min &&
           negativeReview.max &&
           Number(negativeReview.min) > Number(negativeReview.max)
-      ) || Number.isNaN(negativeReview.min);
+      ) || negativeReview.min < 0;
 
     const maxError =
       Boolean(
         negativeReview.min &&
           negativeReview.max &&
           Number(negativeReview.max) < Number(negativeReview.min)
-      ) || Number.isNaN(negativeReview.max);
+      ) || negativeReview.max < 0;
 
     setNegativeReviewError({
       min: minError,
@@ -271,14 +278,14 @@ const Filters: React.FC<Props> = props => {
         neutralReview.min &&
           neutralReview.max &&
           Number(neutralReview.min) > Number(neutralReview.max)
-      ) || Number.isNaN(neutralReview.min);
+      ) || neutralReview.min < 0;
 
     const maxError =
       Boolean(
         neutralReview.min &&
           neutralReview.max &&
           Number(neutralReview.max) < Number(neutralReview.min)
-      ) || Number.isNaN(neutralReview.max);
+      ) || neutralReview.max < 0;
 
     setNeutralReviewError({
       min: minError,
@@ -350,6 +357,7 @@ const Filters: React.FC<Props> = props => {
                   <img src={InventoryIcon} alt="Inventory" className={styles.filterGroups__icon} />
                   <Input
                     className={styles.formInput}
+                    type="number"
                     placeholder="Min # of Inventory"
                     value={inventory.min ? inventory.min : ''}
                     onChange={evt => {
@@ -364,6 +372,7 @@ const Filters: React.FC<Props> = props => {
                   <img src={filterRightArrow} alt="Right Arrow" />
                   <Input
                     className={styles.formInput}
+                    type="number"
                     placeholder="Max # of Inventory"
                     value={inventory.max ? inventory.max : ''}
                     onChange={evt => {
@@ -383,31 +392,69 @@ const Filters: React.FC<Props> = props => {
                     alt="Seller Ratings"
                     className={styles.filterGroups__icon}
                   />
-
-                  <Input
-                    className={styles.formInput}
-                    placeholder="Min Seller Ratings"
-                    value={ratings.min > 0 ? ratings.min : ''}
-                    onChange={evt => {
+                  <Rating
+                    className={styles.ratingsSelector}
+                    initialRating={ratings.min || 0}
+                    emptySymbol={
+                      <Icon
+                        name="star outline"
+                        color={'grey'}
+                        className={sellerRatingsError.min ? 'errorRatings' : ''}
+                      />
+                    }
+                    fullSymbol={
+                      <Icon
+                        name="star"
+                        color={'grey'}
+                        className={sellerRatingsError.min ? 'errorRatings' : ''}
+                      />
+                    }
+                    placeholderSymbol={
+                      <Icon
+                        name="star"
+                        color={'grey'}
+                        className={sellerRatingsError.min ? 'errorRatings' : ''}
+                      />
+                    }
+                    onClick={value => {
                       updateInputFilterValue({
                         ...ratings,
-                        min: +evt.target.value,
+                        min: value,
                       });
                     }}
-                    error={sellerRatingsError.min}
                   />
+
                   <img src={filterRightArrow} alt="Right Arrow" />
-                  <Input
-                    className={styles.formInput}
-                    placeholder="Max Seller Ratings"
-                    value={ratings.max > 0 ? ratings.max : ''}
-                    onChange={evt => {
+                  <Rating
+                    className={styles.ratingsSelector}
+                    initialRating={ratings.max || 0}
+                    emptySymbol={
+                      <Icon
+                        name="star outline"
+                        color={'grey'}
+                        className={sellerRatingsError.min ? 'errorRatings' : ''}
+                      />
+                    }
+                    fullSymbol={
+                      <Icon
+                        name="star"
+                        color={'grey'}
+                        className={sellerRatingsError.min ? 'errorRatings' : ''}
+                      />
+                    }
+                    placeholderSymbol={
+                      <Icon
+                        name="star"
+                        color={'grey'}
+                        className={sellerRatingsError.min ? 'errorRatings' : ''}
+                      />
+                    }
+                    onClick={value => {
                       updateInputFilterValue({
                         ...ratings,
-                        max: +evt.target.value,
+                        max: value,
                       });
                     }}
-                    error={sellerRatingsError.max}
                   />
                 </div>
 
@@ -417,6 +464,7 @@ const Filters: React.FC<Props> = props => {
 
                   <Input
                     className={styles.formInput}
+                    type="number"
                     placeholder="Min # of Brand"
                     value={brand.min > 0 ? brand.min : ''}
                     onChange={evt => {
@@ -430,6 +478,7 @@ const Filters: React.FC<Props> = props => {
                   <img src={filterRightArrow} alt="Right Arrow" />
                   <Input
                     className={styles.formInput}
+                    type="number"
                     placeholder="Max # of Brand"
                     value={brand.max > 0 ? brand.max : ''}
                     onChange={evt => {
@@ -452,6 +501,7 @@ const Filters: React.FC<Props> = props => {
 
                   <Input
                     className={styles.formInput}
+                    type="number"
                     placeholder="Min Review Ratings"
                     value={reviewRatings.min ? reviewRatings.min : ''}
                     onChange={evt => {
@@ -465,6 +515,7 @@ const Filters: React.FC<Props> = props => {
                   <img src={filterRightArrow} alt="Right Arrow" />
                   <Input
                     className={styles.formInput}
+                    type="number"
                     placeholder="Max Review Ratings"
                     value={reviewRatings.max ? reviewRatings.max : ''}
                     onChange={evt => {
@@ -485,6 +536,7 @@ const Filters: React.FC<Props> = props => {
                   <img src={reviewCountIcon} className={styles.filterGroups__icon} />
                   <Input
                     className={styles.formInput}
+                    type="number"
                     placeholder="Min Review Count"
                     value={reviewCount.min > 0 ? reviewCount.min : ''}
                     onChange={evt => {
@@ -498,6 +550,7 @@ const Filters: React.FC<Props> = props => {
                   <img src={filterRightArrow} alt="Right Arrow" />
                   <Input
                     className={styles.formInput}
+                    type="number"
                     placeholder="Max Review Count"
                     value={reviewCount.max > 0 ? reviewCount.max : ''}
                     onChange={evt => {
@@ -531,6 +584,7 @@ const Filters: React.FC<Props> = props => {
 
                   <Input
                     className={styles.formInput}
+                    type="number"
                     placeholder="Min Positive Review"
                     value={positiveReview.min > 0 ? positiveReview.min : ''}
                     onChange={evt => {
@@ -544,6 +598,7 @@ const Filters: React.FC<Props> = props => {
                   <img src={filterRightArrow} alt="Right Arrow" />
                   <Input
                     className={styles.formInput}
+                    type="number"
                     placeholder="Max Positive Review"
                     value={positiveReview.max > 0 ? positiveReview.max : ''}
                     onChange={evt => {
@@ -577,6 +632,7 @@ const Filters: React.FC<Props> = props => {
 
                   <Input
                     className={styles.formInput}
+                    type="number"
                     placeholder="Min Neutral Review"
                     value={neutralReview.min > 0 ? neutralReview.min : ''}
                     onChange={evt => {
@@ -590,6 +646,7 @@ const Filters: React.FC<Props> = props => {
                   <img src={filterRightArrow} alt="Right Arrow" />
                   <Input
                     className={styles.formInput}
+                    type="number"
                     placeholder="Max Neutral Review"
                     value={neutralReview.max > 0 ? neutralReview.max : ''}
                     onChange={evt => {
@@ -623,6 +680,7 @@ const Filters: React.FC<Props> = props => {
 
                   <Input
                     className={styles.formInput}
+                    type="number"
                     placeholder="Min Negative Review"
                     value={negativeReview.min > 0 ? negativeReview.min : ''}
                     onChange={evt => {
@@ -636,6 +694,7 @@ const Filters: React.FC<Props> = props => {
                   <img src={filterRightArrow} alt="Right Arrow" />
                   <Input
                     className={styles.formInput}
+                    type="number"
                     placeholder="Max Negative Review"
                     value={negativeReview.max > 0 ? negativeReview.max : ''}
                     onChange={evt => {
@@ -908,6 +967,7 @@ const mapDispatchToProps = {
   updateFilter: (filter: SellerDatabaseFilter) => updateSellerDatabaseFilters(filter),
   fetchSellersDatabase: (payload: SellerDatabasePayload) => fetchSellersDatabase(payload),
   updateMarketplace: (market: string) => updateMarketplace(market),
+  resetToDefaultFilters: () => resetToDefaultFilter(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filters);

@@ -67,3 +67,8 @@ export const selectItemsCountList = [
     value: '100',
   },
 ];
+
+export const generateSellerAmazonLink = (sellerID: string) => {
+  const BASE_URL = `https://www.amazon.com/sp?_encoding=UTF8&asin=&isAmazonFulfilled=&ref_=olp_merch_name_3`;
+  return `${BASE_URL}&seller=${sellerID}`;
+};

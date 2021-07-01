@@ -1,5 +1,17 @@
 @import '../../design-system/colors.scss';
 
+.ui.input.error > input {
+  background-color: #fff;
+  border: 2px solid $system-red !important;
+  color: $system-red !important;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+i.icon.errorRatings {
+  color: $system-red !important;
+}
+
 .ui.dropdown.formDropdown {
   color: $sellgo-text !important;
   border: 1px solid $sellgo-light-gray-100 !important;

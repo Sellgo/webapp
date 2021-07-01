@@ -5,12 +5,24 @@ import { Button, Icon } from 'semantic-ui-react';
 import { truncateString } from '../../../../utils/format';
 import { formatCompletedDate } from '../../../../utils/date';
 import TrackSeller from '../TrackSeller';
+import CopyToClipboard from '../../../../components/CopyToClipboard';
+import { generateSellerAmazonLink } from '../../../../constants/SellerFinder';
 
 const renderSellerName = (row: any) => {
   return (
     <p>
-      <span className="name">{truncateString(row.merchant_name, 20)}</span>
-      <span className="asin">{row.merchant_id}</span>
+      <span className="name">
+        {truncateString(row.merchant_name, 15)}
+        {row.merchant_id && (
+          <Icon
+            name="external"
+            onClick={() => {
+              window.open(generateSellerAmazonLink(row.merchant_id) || '', '_blank');
+            }}
+          />
+        )}
+      </span>
+      <CopyToClipboard data={row.merchant_id || ''} className="asin" />
     </p>
   );
 };
@@ -115,6 +127,7 @@ export const SellersRow = ({ row }: any) => {
       merchant_id: 'merchant_id',
       seller_merchant_id: 'seller_merchant_id',
       tracking_status: 'tracking_status',
+      inventory_link: 'inventory_link',
     };
     let data: any = row;
     dataKeys.forEach((obj: any) => {
