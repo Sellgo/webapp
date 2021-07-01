@@ -496,7 +496,7 @@ export const trackProductSeller = (merchantId: any) => async (dispatch: any, get
     const { response } = err;
     if (response) {
       const { status, data } = response;
-      if (status === 400 && data?.message?.length > 0) {
+      if (status === 400 && data && data.message && data.message.length > 0) {
         info(data.message);
         dispatch(setProductSellerTrackStatus({ seller_merchant_id: null }));
       }
