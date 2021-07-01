@@ -977,11 +977,11 @@ const SellerFinderTable = (props: Props) => {
   ];
 
   const filteredProductsByGroups =
-    activeGroupID === null || activeGroupID === -1
+    activeGroupID === null
       ? sellers
-      : sellers.filter((seller: any) => {
-          return seller.merchant_group === activeGroupID;
-        });
+      : activeGroupID === -1
+      ? sellers.filter((data: any) => data.merchant_group === null)
+      : sellers.filter((seller: any) => seller.merchant_group === activeGroupID);
 
   return (
     <div className="seller-finder-table">
