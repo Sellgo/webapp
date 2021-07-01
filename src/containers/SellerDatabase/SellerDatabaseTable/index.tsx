@@ -247,7 +247,14 @@ const SellerDatabaseTable = (props: Props) => {
 
   // State
   const renderState = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.state, row.state)}</p>;
+    const data = row.state ? row.state : '';
+    const displayData = truncateString(row.state ? row.state : '', 7);
+
+    return (
+      <p>
+        <CopyToClipboard displayData={displayData} data={data} className="state" />
+      </p>
+    );
   };
 
   // Actions
