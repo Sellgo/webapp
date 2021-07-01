@@ -6,18 +6,18 @@ import { truncateString } from '../../../../utils/format';
 import { formatCompletedDate } from '../../../../utils/date';
 import TrackSeller from '../TrackSeller';
 import CopyToClipboard from '../../../../components/CopyToClipboard';
+import { generateSellerAmazonLink } from '../../../../constants/SellerFinder';
 
 const renderSellerName = (row: any) => {
-  console.log(row.inventory_link);
   return (
     <p>
       <span className="name">
         {truncateString(row.merchant_name, 15)}
-        {row.inventory_link && (
+        {row.merchant_id && (
           <Icon
             name="external"
             onClick={() => {
-              window.open(row.inventory_link || '', '_blank');
+              window.open(generateSellerAmazonLink(row.merchant_id) || '', '_blank');
             }}
           />
         )}
