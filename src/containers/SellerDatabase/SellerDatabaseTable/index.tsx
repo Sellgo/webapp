@@ -549,11 +549,12 @@ const SellerDatabaseTable = (props: Props) => {
 
   // function for column change on active column filters
   const handleColumnChange = (e: any, data: any) => {
-    console.log(data);
+    // data is the column info/state which is toggled
     e.stopPropagation();
     setTimeout(() => {
       setColumnFilterBox(true);
     }, 10);
+
     const checkedData = columnFilterData;
     // if select all is pressed, toggle all state w.r.t select all expect first and last column
     if (data.label === 'Select All') {
@@ -588,12 +589,16 @@ const SellerDatabaseTable = (props: Props) => {
 
   // function for columnDrop on active columns filters
   const handleColumnDrop = (e: any, data: any) => {
+    // data means all the columns order data (see constant for initial order)
+
     localStorage.setItem('sellerDatabaseColumnFilterState', JSON.stringify(data));
     setColumnFilterData(data);
   };
 
   // function for reOrder  on active columns filters
   const reorderColumns = (columns: Column[]) => {
+    // columns means all the columns database
+
     const columnsWithRender = returnWithRenderMethod(Columns, columns);
     // columnState is the current columns which are shown or needs to be shown  (passed to table as columns)
     localStorage.setItem('sellerDatabaseColumnState', JSON.stringify(columns));
