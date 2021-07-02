@@ -29,7 +29,7 @@ import {
   truncateString,
 } from '../../../utils/format';
 import CopyToClipboard from '../../../components/CopyToClipboard';
-import { copyToClipboard } from '../../../utils/file';
+
 import { columnFilter } from '../../../constants/SellerDatabase';
 import { returnWithRenderMethod } from '../../../utils/tableColumn';
 import _ from 'lodash';
@@ -68,10 +68,6 @@ const SellerDatabaseTable = (props: Props) => {
   } = props;
 
   const [checkedRows, setCheckedRows] = useState<any>({});
-  const [copyBrands, setCopiedBrands] = useState({
-    id: 0,
-    copied: false,
-  });
   const [columnFilterBox, setColumnFilterBox] = useState(false);
   const [columnFilterData, setColumnFilterData] = useState(columnFilter);
   const [columns, setColumns] = useState<any>([]);
@@ -105,42 +101,19 @@ const SellerDatabaseTable = (props: Props) => {
     );
   };
 
-  const copyText = (text: string, id: number) => {
-    copyToClipboard(text.trim().replace(/,/g, '\n')).then(() =>
-      setCopiedBrands({ id, copied: true })
-    );
-    setTimeout(() => setCopiedBrands({ id, copied: false }), 1000);
-  };
-
   const renderBrands = (row: any) => {
-    const { copied, id } = copyBrands;
-
     if (!row.brands || !row.brands.length || !removeSpecialChars(row.brands)) {
       return <p>-</p>;
     }
 
+    const formattedBrands = truncateString(removeSpecialChars(row.brands), 10);
+    const copyForClipBoard = removeSpecialChars(row.brands)
+      .trim()
+      .replace(/,/g, '\n');
+
     return (
       <p className="brands-list">
-        <span>{truncateString(removeSpecialChars(row.brands), 10)}</span>
-        <span>
-          {!copied ? (
-            <Icon
-              name="copy outline"
-              className="tooltipIcon"
-              data-title="Copy"
-              onClick={() => copyText(removeSpecialChars(row.brands) || '', row.id)}
-            />
-          ) : row.id === id && copied ? (
-            <Icon name="check circle" className="tooltipIcon" data-title="Copied" color="green" />
-          ) : (
-            <Icon
-              name="copy outline"
-              className="tooltipIcon"
-              data-title="Copy"
-              onClick={() => copyText(removeSpecialChars(row.brands) || '', row.id)}
-            />
-          )}
-        </span>
+        <CopyToClipboard displayData={formattedBrands} data={copyForClipBoard} />
       </p>
     );
   };
