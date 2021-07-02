@@ -289,6 +289,16 @@
       padding-left: 10px !important;
     }
 
+    th.pf-header-cell.ellipsis.horizontal {
+      max-width: 20px !important;
+      width: 20px !important;
+      min-width: 20px !important;
+
+      .table-cell-container.popup-cell {
+        margin-right: 0 !important;
+      }
+    }
+
     .target-btn {
       display: flex;
       align-items: center;

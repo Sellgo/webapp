@@ -29,7 +29,10 @@ import {
   truncateString,
 } from '../../../utils/format';
 import CopyToClipboard from '../../../components/CopyToClipboard';
-import { copyToClipboard } from '../../../utils/file';
+
+import { columnFilter } from '../../../constants/SellerDatabase';
+import { returnWithRenderMethod } from '../../../utils/tableColumn';
+import _ from 'lodash';
 
 export interface CheckedRowDictionary {
   [index: number]: boolean;
@@ -65,7 +68,10 @@ const SellerDatabaseTable = (props: Props) => {
   } = props;
 
   const [checkedRows, setCheckedRows] = useState<any>({});
-  const [copyBrands, setCopiedBrands] = useState({ id: 0, copied: false });
+  const [columnFilterBox, setColumnFilterBox] = useState(false);
+  const [columnFilterData, setColumnFilterData] = useState(columnFilter);
+  const [columns, setColumns] = useState<any>([]);
+  const [activeColumnFilters, setActiveColumnFIlters] = useState<any>('');
 
   const fetchDatabase = (payload: SellerDatabasePayload) => {
     fetchSellersDatabase(payload);
@@ -95,42 +101,19 @@ const SellerDatabaseTable = (props: Props) => {
     );
   };
 
-  const copyText = (text: string, id: number) => {
-    copyToClipboard(text.trim().replace(/,/g, '\n')).then(() =>
-      setCopiedBrands({ id, copied: true })
-    );
-    setTimeout(() => setCopiedBrands({ id, copied: false }), 1000);
-  };
-
   const renderBrands = (row: any) => {
-    const { copied, id } = copyBrands;
-
     if (!row.brands || !row.brands.length || !removeSpecialChars(row.brands)) {
       return <p>-</p>;
     }
 
+    const formattedBrands = truncateString(removeSpecialChars(row.brands), 10);
+    const copyForClipBoard = removeSpecialChars(row.brands)
+      .trim()
+      .replace(/,/g, '\n');
+
     return (
       <p className="brands-list">
-        <span>{truncateString(removeSpecialChars(row.brands), 10)}</span>
-        <span>
-          {!copied ? (
-            <Icon
-              name="copy outline"
-              className="tooltipIcon"
-              data-title="Copy"
-              onClick={() => copyText(removeSpecialChars(row.brands) || '', row.id)}
-            />
-          ) : row.id === id && copied ? (
-            <Icon name="check circle" className="tooltipIcon" data-title="Copied" color="green" />
-          ) : (
-            <Icon
-              name="copy outline"
-              className="tooltipIcon"
-              data-title="Copy"
-              onClick={() => copyText(removeSpecialChars(row.brands) || '', row.id)}
-            />
-          )}
-        </span>
+        <CopyToClipboard displayData={formattedBrands} data={copyForClipBoard} />
       </p>
     );
   };
@@ -497,7 +480,109 @@ const SellerDatabaseTable = (props: Props) => {
       show: true,
       render: renderActions,
     },
+    {
+      label: '',
+      icon: 'ellipsis horizontal ellipsis-ic',
+      dataKey: 'ellipsis horizontal',
+      show: true,
+      popUp: true,
+      fixed: 'right',
+    },
   ];
+
+  // effect to handle active column filter state
+  useEffect(() => {
+    const currentFilterOrder = JSON.parse(
+      localStorage.getItem('sellerDatabaseColumnFilterState') || '[]'
+    );
+    const currentColumnState = JSON.parse(
+      localStorage.getItem('sellerDatabaseColumnState') || '[]'
+    );
+    if (currentFilterOrder.length >= 1) {
+      setColumnFilterData(currentFilterOrder);
+    }
+
+    if (currentColumnState.length >= 1) {
+      const columnsWithRender = returnWithRenderMethod(Columns, currentColumnState);
+      setColumns(columnsWithRender);
+    } else {
+      // initial set of columns passed to table if nothing present on local storage
+      setColumns(Columns);
+    }
+  }, []);
+
+  // Toggle function to open active column filter
+  const handleClick = () => {
+    setColumnFilterBox(prevState => {
+      return !prevState;
+    });
+    // needed for the conditional check done on table header (legacy code implication)
+    setActiveColumnFIlters('ellipsis horizontal');
+  };
+
+  // function for column change on active column filters
+  const handleColumnChange = (e: any, data: any) => {
+    // data is the column info/state which is toggled
+    e.stopPropagation();
+    setTimeout(() => {
+      setColumnFilterBox(true);
+    }, 10);
+
+    const checkedData = columnFilterData;
+    // if select all is pressed, toggle all state w.r.t select all expect first and last column
+    if (data.label === 'Select All') {
+      checkedData.forEach((element: any) => {
+        if (element.key !== 'Seller Information' || element.key !== '') {
+          element.value = data.checked;
+        }
+      });
+    } else {
+      checkedData[checkedData.findIndex((element: any) => element.key === data.label)].value =
+        data.checked;
+      const ckArray: boolean[] = [];
+      _.each(checkedData, (ckData: any) => {
+        if (
+          ckData.key !== 'Seller Information' &&
+          ckData.key !== '' &&
+          ckData.key !== 'Select All'
+        ) {
+          ckArray.push(ckData.value);
+        }
+      });
+      checkedData[
+        checkedData.findIndex((element: any) => element.key === 'Select All')
+      ].value = ckArray.every((val: boolean) => {
+        return val;
+      });
+    }
+    // column filter state changes the columns order (see initial order on constants)
+    localStorage.setItem('sellerDatabaseColumnFilterState', JSON.stringify([...checkedData]));
+    setColumnFilterData([...checkedData]);
+  };
+
+  // function for columnDrop on active columns filters
+  const handleColumnDrop = (e: any, data: any) => {
+    // data means all the columns order data (see constant for initial order)
+
+    localStorage.setItem('sellerDatabaseColumnFilterState', JSON.stringify(data));
+    setColumnFilterData(data);
+  };
+
+  // function for reOrder  on active columns filters
+  const reorderColumns = (columns: Column[]) => {
+    // columns means all the columns database
+
+    const columnsWithRender = returnWithRenderMethod(Columns, columns);
+    // columnState is the current columns which are shown or needs to be shown  (passed to table as columns)
+    localStorage.setItem('sellerDatabaseColumnState', JSON.stringify(columns));
+
+    const currentColumnState = JSON.parse(
+      localStorage.getItem('sellerDatabaseColumnState') || '[]'
+    );
+    if (currentColumnState.length >= 1) {
+      setColumns(columnsWithRender);
+    }
+  };
 
   return (
     <>
@@ -514,7 +599,7 @@ const SellerDatabaseTable = (props: Props) => {
             scrollTopSelector={false}
             data={database}
             checkedRows={checkedRows}
-            columns={Columns}
+            columns={columns}
             name="seller-database"
             singlePageItemsCount={singlePageItemsCount}
             currentPage={pageNo}
@@ -548,6 +633,15 @@ const SellerDatabaseTable = (props: Props) => {
               });
             }}
             updateCheckedRows={rows => setCheckedRows(rows)}
+            // Toggle filter columns
+            columnDnD={true}
+            toggleColumnCheckbox={handleClick}
+            columnFilterBox={columnFilterBox}
+            columnFilterData={columnFilterData}
+            activeColumnFilters={activeColumnFilters}
+            handleColumnChange={handleColumnChange}
+            handleColumnDrop={handleColumnDrop}
+            reorderColumns={reorderColumns}
           />
         </div>
       )}
