@@ -286,6 +286,7 @@ i.icon.filter::before {
   line-height: 1.4;
   color: $table-header-text-color;
   font-size: $table-header-label-size;
+  font-weight: 600 !important;
 }
 
 .ui.sortable.table thead th.sorted::after {
@@ -935,12 +936,17 @@ i.icon.filter::before {
 
 .range-filters {
   padding: 0 !important;
-  border-radius: 20px !important;
+  overflow: hidden !important;
 }
 
 .column-filter-ic {
   margin-top: -12px !important;
-  color: $icon-color;
+  color: $icon-color !important;
+
+  &:hover {
+    color: #2e3b4a !important;
+    font-size: 16px !important;
+  }
 }
 
 .column-filter-ic-active {

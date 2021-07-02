@@ -52,7 +52,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           trigger={
             <img
               src={!group.length ? GrayedFolder : Folder}
-              title={group && !group.length ? 'No Groups Available' : 'Move to a Different Group'}
+              title={''}
               style={{
                 cursor: group && !group.length ? 'default' : 'pointer',
               }}
@@ -101,24 +101,30 @@ class OtherSort extends React.Component<OtherSortProps> {
           open={otherOptionsOpen}
         >
           <Menu fluid={true} vertical={true}>
-            <Menu.Item className="amazon-link" as="a" href={row.amazon_url} target="_blank">
-              <img src={Amazon} alt="Amazon" />
+            <Menu.Item
+              className="amazon-link"
+              as="a"
+              href={row.amazon_url}
+              target="_blank"
+              style={{ display: 'flex' }}
+            >
               {`View on Amazon`}
+              <img src={Amazon} alt="Amazon" style={{ marginLeft: '10px' }} />
             </Menu.Item>
             <Menu.Item className={'edit-cost'} onClick={() => onEditCost()}>
-              <Icon className="pencil" />
               {`Edit`}
+              <Icon className="pencil" />
             </Menu.Item>
             <Menu.Item
               className="untrack-link"
-              style={{ color: 'red' }}
+              style={{ color: 'red', display: 'flex' }}
               onClick={() => {
                 this.setOtherOptionsOpen(false);
                 handleConfirmMessage(row);
               }}
             >
-              <img src={Untrack} alt="Untrack" />
               {`Untrack Product`}
+              <img src={Untrack} alt="Untrack" style={{ marginLeft: '10px' }} />
             </Menu.Item>
           </Menu>
         </Popup>

@@ -12,13 +12,17 @@
       width: 180px;
       overflow: hidden;
       text-overflow: ellipsis;
-      text-decoration: underline;
+      font-size: 14px !important;
+      font-weight: 500;
 
       a {
         color: $table-title-text-color !important;
 
         &:hover {
           color: $table-title-text-color-hover !important;
+          text-decoration: underline;
+          font-size: 14px !important;
+          font-weight: 600;
         }
       }
     }

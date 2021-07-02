@@ -1,0 +1,59 @@
+@import '../../design-system/colors.scss';
+
+.ui.input.error > input {
+  background-color: #fff;
+  border: 2px solid $system-red !important;
+  color: $system-red !important;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+i.icon.errorRatings {
+  color: $system-red !important;
+}
+
+.ui.dropdown.formDropdown {
+  color: $sellgo-text !important;
+  border: 1px solid $sellgo-light-gray-100 !important;
+  max-height: 35px !important;
+  min-height: 35px !important;
+  width: 65px !important;
+  font-size: 12px;
+  font-weight: 500;
+
+  .menu.transition {
+    border: 1px solid $sellgo-light-gray-100 !important;
+    width: 65px !important;
+    font-size: 12px !important;
+
+    .item {
+      span {
+        font-size: 14px !important;
+      }
+    }
+  }
+}
+
+.ui.dropdown.formDropdown__marketplace,
+.ui.dropdown.formDropdown__state {
+  @extend .ui.dropdown.formDropdown;
+
+  font-size: 14px !important;
+  width: 200px !important;
+
+  @media only screen and(max-width: 1550px) {
+    width: 100px !important;
+  }
+
+  .menu.transition {
+    max-height: 200px !important;
+    width: 100%;
+  }
+}
+
+.ui.checked.radio.checkbox {
+  > label {
+    font-weight: 500 !important;
+    color: $sellgo-text !important;
+  }
+}

@@ -405,3 +405,85 @@ label,
 button {
   font-family: 'Work Sans', sans-serif !important;
 }
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 140px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 999;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -75px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Custom tooltips */
+
+i.tooltipIcon.copy.outline {
+  font-size: 10px !important;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+i.tooltipIcon.check.circle {
+  font-size: 10px !important;
+  margin-left: 5px;
+  cursor: unset;
+}
+
+.tooltipIcon[data-title] {
+  position: relative;
+}
+
+.tooltipIcon[data-title]::after {
+  position: absolute;
+  content: attr(data-title);
+  background-color: #555;
+  color: #fff;
+  font-size: 12px;
+  padding: 3px 10px !important;
+  top: -25px;
+  left: -20px !important;
+  left: 100%;
+  white-space: nowrap;
+  opacity: 0;
+  border-radius: 5px !important;
+  border: 1px solid #555;
+  z-index: 99999;
+  visibility: hidden;
+  min-width: 50px !important;
+  min-height: 10px !important;
+}
+
+.tooltipIcon[data-title]:hover::after {
+  opacity: 1;
+  transition: all 0.1s ease 0.5s;
+  visibility: visible;
+}

@@ -44,8 +44,8 @@ export const LegendTooltip = function(H) {
       for (let i = 0; i < legends.length; i++) {
         legends[i].addEventListener('mouseover', function() {
           const dataPoint = isLegendReversed
-            ? chart.series[0].data[legends.length - i - 1]
-            : chart.series[0].data[i];
+            ? chart.series && chart.series[0].data[legends.length - i - 1]
+            : chart.series && chart.series[0].data[i];
           chart.tooltip.refresh(dataPoint);
         });
 

@@ -14,7 +14,13 @@ export const SET_SELLER_QUOTA = 'SET_SELLER_QUOTA';
 export const SET_COUPON_APPLIED = 'SET_COUPON_APPLIED';
 
 export const defaultMarketplaces = [
-  { name: 'US', code: 'US', link: 'amazon.com', id: 'ATVPDKIKX0DER', disabled: false },
+  {
+    name: 'Unites States',
+    code: 'US',
+    link: 'amazon.com',
+    id: 'ATVPDKIKX0DER',
+    disabled: false,
+  },
   { name: 'Brazil', code: 'BR', link: 'amazon.com', id: 'A2Q3Y263D00KWC', disabled: true },
   { name: 'Canada', code: 'CA', link: 'amazon.ca', id: 'A2EUQ1WTGCTBG2', disabled: true },
   { name: 'Mexico', code: 'MX', link: 'amazon.com.mx', id: 'A1AM78C64UM0Y8', disabled: true },

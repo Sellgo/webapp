@@ -138,12 +138,18 @@ $new_black: #3b4557;
     .track-wrap {
       width: 120px;
       display: flex !important;
-      border: 1px solid $sellgo-blue !important;
+      border: 1px solid $accent_orange !important;
       padding: 5px 7px 7px 12px;
-      background: #349af8;
+      background: $prim_white;
+
+      .fingerprint {
+        path {
+          fill: $accent_orange;
+        }
+      }
 
       span {
-        color: #fff !important;
+        color: $accent_orange !important;
         font-size: 12px;
         font-weight: 500 !important;
         margin: 0 auto;
@@ -164,18 +170,18 @@ $new_black: #3b4557;
     .track-wrap:hover {
       width: 120px;
       display: flex !important;
-      border: 1px solid $sellgo-blue !important;
+      border: 1px solid $accent_orange !important;
       padding: 5px 7px 7px 12px;
-      background: #fff;
+      background: $accent_orange;
 
       .fingerprint {
         path {
-          fill: $sellgo-blue;
+          fill: $prim_white;
         }
       }
 
       span {
-        color: $sellgo-blue !important;
+        color: $prim_white !important;
         font-weight: 600 !important;
         margin: 0 auto;
       }
@@ -278,15 +284,19 @@ $new_black: #3b4557;
         span.description-text {
           line-height: 24px;
           color: $table-special-kpi;
-          text-decoration: underline;
           font-weight: 500 !important;
 
           &:hover {
             color: $table-special-kpi-hover !important;
             font-weight: 600 !important;
+            text-decoration: underline;
           }
         }
       }
+    }
+
+    .asin {
+      min-width: 140px !important;
     }
 
     .price {
@@ -323,7 +333,6 @@ $new_black: #3b4557;
         margin-bottom: 0 !important;
         text-align: left !important;
         color: $table-special-kpi !important;
-        text-decoration: underline;
 
         &:hover {
           font-weight: 600;
@@ -636,6 +645,15 @@ $new_black: #3b4557;
           margin-top: -15px !important;
           color: $icon-color !important;
 
+          &.column-filter-ic {
+            color: $icon-color !important;
+
+            &:hover {
+              color: #2e3b4a !important;
+              font-size: 16px !important;
+            }
+          }
+
           &.ellipsis {
             margin: 0 !important;
             color: $icon-color !important;
@@ -897,36 +915,57 @@ $new_black: #3b4557;
   margin: -10px 5px !important;
 
   .header-checkbox-menu {
-    border-radius: 11px !important;
+    border-radius: 4px !important;
     opacity: 1 !important;
-    box-shadow: 0 3px 20px #00000029 !important;
-    border: 1px solid #98aeca;
+    // box-shadow: 0 3px 20px #00000029 !important;
+    border: 1px solid #707070;
 
     .checkbox-menu-item {
       cursor: auto;
-      width: 63px;
-      height: 40px;
-      display: flex !important;
+      width: 114px;
+      height: 77px;
       padding: 0;
       justify-content: space-evenly;
+      display: flex !important;
+      flex-direction: column !important;
 
-      .fingerprint-track {
+      .track-all-option {
+        font-size: 13px !important;
+        color: $text-color !important;
         cursor: pointer;
-        width: 15px !important;
+        display: flex;
+        justify-content: flex-start;
+        margin: 0 10px;
 
-        &.disabled {
-          pointer-events: none;
-          opacity: 0.3;
+        .fingerprint-track {
+          cursor: pointer;
+          width: 15px !important;
+          margin-right: 5px !important;
+
+          &.disabled {
+            pointer-events: none;
+            opacity: 0.8;
+          }
         }
       }
 
-      .fingerprint-untrack {
+      .untrack-all-option {
+        font-size: 13px !important;
+        color: $text-color !important;
         cursor: pointer;
-        width: 10px !important;
+        display: flex;
+        justify-content: flex-start;
+        margin: 0 10px;
 
-        &.disabled {
-          pointer-events: none;
-          opacity: 0.3;
+        .fingerprint-untrack {
+          cursor: pointer;
+          width: 15px !important;
+          margin-right: 5px !important;
+
+          &.disabled {
+            pointer-events: none;
+            opacity: 0.8;
+          }
         }
       }
     }

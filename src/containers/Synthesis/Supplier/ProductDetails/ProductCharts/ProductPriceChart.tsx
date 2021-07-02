@@ -6,7 +6,7 @@ export default ({ productPrices, period, xMin, xMax }: any) => {
     {
       type: 'line',
       name: 'Price($)',
-      color: '#779ADE',
+      color: '#FC7900',
       data: productPrices,
       tooltip: {
         valueDecimals: 2,

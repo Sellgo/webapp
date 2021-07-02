@@ -55,6 +55,7 @@ import {
 import { returnWithRenderMethod } from '../../../utils/tableColumn';
 import EditCostModal from '../../../components/EditCostModal';
 import { getOOS90, loadingOOS90 } from '../../../selectors/ProductTracker';
+import { Link } from 'react-router-dom';
 
 interface TrackerProps {
   loadingTrackerFilter: boolean;
@@ -353,9 +354,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       </div>
     );
   };
+
   renderProductInfo = (row: ProductTrackerDetails) => {
     return <ProductDescription item={row} renderDV={this.renderDV} />;
   };
+
   renderAvgProfit = (row: ProductTrackerDetails) => (
     <p className="stat">
       {showNAIfZeroOrNull(
@@ -364,16 +367,19 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       )}
     </p>
   );
+
   renderAvgPrice = (row: ProductTrackerDetails) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.avg_price && row.avg_price !== '0.00', `$${row.avg_price}`)}
     </p>
   );
+
   renderAvgMargin = (row: ProductTrackerDetails) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.avg_margin && row.avg_margin !== '0.00', `${row.avg_margin}%`)}
     </p>
   );
+
   renderAvgUnitSold = (row: ProductTrackerDetails) => {
     return (
       <>
@@ -386,12 +392,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       </>
     );
   };
+
   renderDailyRevenue = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
         {showNAIfZeroOrNull(
           row.avg_daily_revenue && row.avg_daily_revenue !== '0.00',
-          `$${row.avg_daily_revenue}`
+          `$${parseFloat(row.avg_daily_revenue).toLocaleString()}`
         )}
       </p>
     );
@@ -440,7 +447,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       <p className="stat">
         {showNAIfZeroOrNull(
           row.customer_reviews && row.customer_reviews !== 0,
-          row.customer_reviews
+          row.customer_reviews.toLocaleString()
         )}
       </p>
     );
@@ -463,7 +470,10 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   renderAvgInventory = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
-        {showNAIfZeroOrNull(row.avg_inventory && row.avg_inventory !== 0, `${row.avg_inventory}`)}
+        {showNAIfZeroOrNull(
+          row.avg_inventory && row.avg_inventory !== 0,
+          `${row.avg_inventory && row.avg_inventory.toLocaleString()}`
+        )}
       </p>
     );
   };
@@ -514,7 +524,16 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   };
 
   renderSource = (row: ProductTrackerDetails) => {
-    return <p>{truncateString(row.source, 25)}</p>;
+    const supplierId = row.supplier_id;
+    if (supplierId) {
+      const pfLink = `/profit-finder/${supplierId}`;
+      return (
+        <Link to={pfLink} className="pf-link">
+          <p>{truncateString(row.source, 15)}</p>
+        </Link>
+      );
+    }
+    return <p>{truncateString(row.source, 20)}</p>;
   };
 
   renderSubScribeSave = (row: ProductTrackerDetails) => {

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Checkbox, Icon, Menu, Popup } from 'semantic-ui-react';
 import { CheckedRowDictionary } from './index';
-import Thumb from '../../../../assets/images/fingerprint-4.svg';
-import SlashThumb from '../../../../assets/images/fingerprint-5.svg';
+import Thumb from '../../../../assets/images/trackAllFingerprint.svg';
+import SlashThumb from '../../../../assets/images/untrackAllFingerPrint.svg';
 import {
   requestProductBulkTracking,
   requestProductBulkUnTracking,
@@ -103,20 +103,26 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
       >
         <Menu fluid={true} vertical={true} className="header-checkbox-menu">
           <Menu.Item className="checkbox-menu-item">
-            <img
-              className={`fingerprint-track ${(_.isEmpty(checkedRows) ||
-                Object.values(checkedRows).indexOf(true) === -1) &&
-                'disabled'}`}
-              src={Thumb}
-              onClick={() => handleBulkClick('track')}
-            />
-            <img
-              className={`fingerprint-untrack ${(_.isEmpty(checkedRows) ||
-                Object.values(checkedRows).indexOf(true) === -1) &&
-                'disabled'}`}
-              src={SlashThumb}
-              onClick={() => handleBulkClick('untrack')}
-            />
+            <span className="track-all-option">
+              <img
+                className={`fingerprint-track ${(_.isEmpty(checkedRows) ||
+                  Object.values(checkedRows).indexOf(true) === -1) &&
+                  'disabled'}`}
+                src={Thumb}
+                onClick={() => handleBulkClick('track')}
+              />
+              Track All
+            </span>
+            <span className="untrack-all-option">
+              <img
+                className={`fingerprint-untrack ${(_.isEmpty(checkedRows) ||
+                  Object.values(checkedRows).indexOf(true) === -1) &&
+                  'disabled'}`}
+                src={SlashThumb}
+                onClick={() => handleBulkClick('untrack')}
+              />
+              Untrack All
+            </span>
           </Menu.Item>
         </Menu>
       </Popup>
