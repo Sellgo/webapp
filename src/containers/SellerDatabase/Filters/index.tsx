@@ -38,6 +38,7 @@ import reviewCountIcon from '../../../assets/images/reviewCount.svg';
 import positiveCountIcon from '../../../assets/images/positiveCount.svg';
 import neutralCountIcon from '../../../assets/images/neutralCount.svg';
 import negativeCountIcon from '../../../assets/images/negativeCount.svg';
+import BetaLabel from '../../../components/BetaLabel';
 
 interface Props {
   updateFilter: (filter: SellerDatabaseFilter) => void;
@@ -335,7 +336,9 @@ const Filters: React.FC<Props> = props => {
   return (
     <>
       <section className={styles.filterContainerWrapper}>
-        <h1>SELLER DATABASE</h1>
+        <h1>
+          SELLER DATABASE <BetaLabel />
+        </h1>
 
         <Tabs
           className={styles.filterTabs}

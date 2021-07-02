@@ -2,10 +2,16 @@ import React from 'react';
 import './index.scss';
 import Rating from 'react-rating';
 import { Icon } from 'semantic-ui-react';
-import { formatCompletedDate } from '../../../../utils/date';
-import { formatBoolean, truncateString } from '../../../../utils/format';
+
+import {
+  formatBoolean,
+  formatNumber,
+  showNAIfZeroOrNull,
+  truncateString,
+} from '../../../../utils/format';
 import CheckMerchants from '../CheckMerchants';
 import CopyToClipboard from '../../../../components/CopyToClipboard';
+import { generateProductAmazonLink } from '../../../../constants/SellerFinder';
 
 const renderProductInventory = (row: any) => {
   return (
@@ -17,8 +23,11 @@ const renderProductInventory = (row: any) => {
         <span className="product-info">
           <span className="product-name">
             {truncateString(row.product_name, 15)}
-            {row.inventory_link && (
-              <Icon name="external" onClick={() => window.open(row.inventory_link, '_blank')} />
+            {row.asin && (
+              <Icon
+                name="external"
+                onClick={() => window.open(generateProductAmazonLink(row.asin), '_blank')}
+              />
             )}
           </span>
           <CopyToClipboard data={row.asin} className="asin" />
@@ -50,12 +59,13 @@ const renderRating = (row: any) => {
 };
 
 const renderProductReview = (row: any) => {
-  return <p>{row.reviews_count}</p>;
+  const formattedNumber = formatNumber(row.reviews_count);
+  return <p>{showNAIfZeroOrNull(row.reviews_count, formattedNumber)}</p>;
 };
 
-const renderLastUpdate = (row: any) => {
-  return <p>{formatCompletedDate(row.udate)}</p>;
-};
+// const renderLastUpdate = (row: any) => {
+//   return <p>{formatCompletedDate(row.udate)}</p>;
+// };
 
 // const renderTrackProducts = (row: any) => {
 //   return (
@@ -113,12 +123,12 @@ const columns = [
     className: 'product-review',
     render: renderProductReview,
   },
-  {
-    label: `Last Update`,
-    dataKey: 'udate',
-    className: 'last-update',
-    render: renderLastUpdate,
-  },
+  // {
+  //   label: `Last Update`,
+  //   dataKey: 'udate',
+  //   className: 'last-update',
+  //   render: renderLastUpdate,
+  // },
   // {
   //   label: `Track Products`,
   //   dataKey: 'tracking',

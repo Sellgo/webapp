@@ -22,7 +22,12 @@ import {
 } from '../../../actions/SellerDatabase';
 import { connect } from 'react-redux';
 import PageLoader from '../../../components/PageLoader';
-import { removeSpecialChars, showNAIfZeroOrNull, truncateString } from '../../../utils/format';
+import {
+  formatNumber,
+  removeSpecialChars,
+  showNAIfZeroOrNull,
+  truncateString,
+} from '../../../utils/format';
 import CopyToClipboard from '../../../components/CopyToClipboard';
 import { copyToClipboard } from '../../../utils/file';
 import { columnFilter } from '../../../constants/SellerDatabase';
@@ -88,9 +93,7 @@ const SellerDatabaseTable = (props: Props) => {
           {truncateString(row.business_name || '', 13)}
           <Icon name={'external'} onClick={() => window.open(row.seller_link, '_blank')} />
         </span>
-        <span className="seller-id">
-          <CopyToClipboard data={row.merchant_id} className={''} />
-        </span>
+        <CopyToClipboard data={row.merchant_id} className={'seller_id'} />
       </p>
     );
   };
@@ -143,10 +146,10 @@ const SellerDatabaseTable = (props: Props) => {
   const renderSellerRating = (row: any) => {
     return (
       <Rating
-        placeholderRating={parseFloat(row.seller_rating) || 0}
         emptySymbol={<Icon name="star outline" color={'grey'} />}
         fullSymbol={<Icon name="star" color={'grey'} />}
         placeholderSymbol={<Icon name="star" color={'grey'} />}
+        initialRating={Math.round(parseFloat(row.seller_rating || 0))}
         readonly
       />
     );
@@ -157,70 +160,86 @@ const SellerDatabaseTable = (props: Props) => {
   };
 
   const renderSellerReview30D = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.count_30_days, row.count_30_days)}</p>;
+    const formattedNumber = formatNumber(row.count_30_days);
+    return <p>{showNAIfZeroOrNull(row.count_30_days, formattedNumber)}</p>;
   };
 
   const renderSellerReview90D = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.count_90_days, row.count_90_days)}</p>;
+    const formattedNumber = formatNumber(row.count_90_days);
+    return <p>{showNAIfZeroOrNull(row.count_90_days, formattedNumber)}</p>;
   };
 
   const renderSellerReview365D = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.count_12_month, row.count_12_month)}</p>;
+    const formattedNumber = formatNumber(row.count_12_month);
+    return <p>{showNAIfZeroOrNull(row.count_12_month, formattedNumber)}</p>;
   };
 
   const renderSellerReviewLifetime = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.count_lifetime, row.count_lifetime)}</p>;
+    const formattedNumber = formatNumber(row.count_lifetime);
+    return <p>{showNAIfZeroOrNull(row.count_lifetime, formattedNumber)}</p>;
   };
 
   // Negative Reviews
   const renderNegativeReview30D = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.negative_30_days, row.negative_30_days)}</p>;
+    const formattedNumber = formatNumber(row.negative_30_days);
+    return <p>{showNAIfZeroOrNull(row.negative_30_days, formattedNumber)}</p>;
   };
 
   const renderNegativeReview90D = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.negative_90_days, row.negative_90_days)}</p>;
+    const formattedNumber = formatNumber(row.negative_90_days);
+    return <p>{showNAIfZeroOrNull(row.negative_90_days, formattedNumber)}</p>;
   };
 
   const renderNegativeReview365D = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.negative_12_month, row.negative_12_month)}</p>;
+    const formattedNumber = formatNumber(row.negative_12_month);
+    return <p>{showNAIfZeroOrNull(row.negative_12_month, formattedNumber)}</p>;
   };
 
   const renderNegativeLifetime = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.negative_lifetime, row.negative_lifetime)}</p>;
+    const formattedNumber = formatNumber(row.negative_lifetime);
+    return <p>{showNAIfZeroOrNull(row.negative_lifetime, formattedNumber)}</p>;
   };
 
   // Positive Reviews
   const renderPositiveReview30D = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.positive_30_days, row.positive_30_days)}</p>;
+    const formattedNumber = formatNumber(row.positive_30_days);
+    return <p>{showNAIfZeroOrNull(row.positive_30_days, formattedNumber)}</p>;
   };
 
   const renderPositiveReview90D = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.positive_90_days, row.positive_90_days)}</p>;
+    const formattedNumber = formatNumber(row.positive_90_days);
+    return <p>{showNAIfZeroOrNull(row.positive_90_days, formattedNumber)}</p>;
   };
 
   const renderPositiveReview365D = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.positive_12_month, row.positive_12_month)}</p>;
+    const formattedNumber = formatNumber(row.positive_12_month);
+    return <p>{showNAIfZeroOrNull(row.positive_12_month, formattedNumber)}</p>;
   };
 
   const renderPositiveLifetime = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.positive_lifetime, row.positive_lifetime)}</p>;
+    const formattedNumber = formatNumber(row.positive_lifetime);
+    return <p>{showNAIfZeroOrNull(row.positive_lifetime, formattedNumber)}</p>;
   };
 
   // Neutral Reviews
   const renderNeutralReview30D = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.neutral_30_days, row.neutral_30_days)}</p>;
+    const formattedNumber = formatNumber(row.neutral_30_days);
+    return <p>{showNAIfZeroOrNull(row.neutral_30_days, formattedNumber)}</p>;
   };
 
   const renderNeutralReview90D = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.neutral_90_days, row.neutral_90_days)}</p>;
+    const formattedNumber = formatNumber(row.neutral_90_days);
+    return <p>{showNAIfZeroOrNull(row.neutral_90_days, formattedNumber)}</p>;
   };
 
   const renderNeutralReview365D = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.neutral_12_month, row.neutral_12_month)}</p>;
+    const formattedNumber = formatNumber(row.neutral_12_month);
+    return <p>{showNAIfZeroOrNull(row.neutral_12_month, formattedNumber)}</p>;
   };
 
   const renderNeutralLifetime = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.neutral_lifetime, row.neutral_lifetime)}</p>;
+    const formattedNumber = formatNumber(row.neutral_lifetime);
+    return <p>{showNAIfZeroOrNull(row.neutral_lifetime, formattedNumber)}</p>;
   };
 
   // Launched
@@ -230,8 +249,16 @@ const SellerDatabaseTable = (props: Props) => {
 
   // State
   const renderState = (row: any) => {
-    return <p>{showNAIfZeroOrNull(row.state, row.state)}</p>;
+    const data = row.state ? row.state : '';
+    const displayData = truncateString(row.state ? row.state : '', 7);
+
+    return (
+      <p>
+        <CopyToClipboard displayData={displayData} data={data} className="state" />
+      </p>
+    );
   };
+
   // Actions
   const renderActions = (row: any) => {
     // true of false value

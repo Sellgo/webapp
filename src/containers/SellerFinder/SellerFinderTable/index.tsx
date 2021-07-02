@@ -56,15 +56,15 @@ import {
 } from '../../../actions/SellerFinder';
 
 import { SEARCH_STATUS, SELLER_DETAILS_URL } from '../../../constants/SellerFinder';
-import { showNAIfZeroOrNull, truncateString } from '../../../utils/format';
+import { formatNumber, showNAIfZeroOrNull, truncateString } from '../../../utils/format';
 import PageLoader from '../../../components/PageLoader';
 import { Merchant } from '../../../interfaces/Seller';
 import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Suppliers';
 import { success, error as errorMessage } from '../../../utils/notifications';
 import { copyToClipboard, download } from '../../../utils/file';
-import { formatCompletedDate } from '../../../utils/date';
 import moment from 'moment';
+import BetaLabel from '../../../components/BetaLabel';
 
 interface Props {
   sellers: any[];
@@ -134,6 +134,7 @@ export const showSellerInformation = () => {
     sellerCard.classList.add('seller-card-active');
   }
 };
+
 const SellerFinderTable = (props: Props) => {
   const {
     ws,
@@ -776,25 +777,29 @@ const SellerFinderTable = (props: Props) => {
     return <p>{fbmValue ? `${fbmValue}%` : '-'}</p>;
   };
 
-  const renderReviewL30D = (row: any) => (
-    <p>{showNAIfZeroOrNull(row.count_30_days, row.count_30_days)}</p>
-  );
+  const renderReviewL30D = (row: any) => {
+    const formattedNumber = formatNumber(row.count_30_days);
+    return <p>{showNAIfZeroOrNull(row.count_30_days, formattedNumber)}</p>;
+  };
 
-  const renderReviewL90D = (row: any) => (
-    <p>{showNAIfZeroOrNull(row.count_90_days, row.count_90_days)}</p>
-  );
+  const renderReviewL90D = (row: any) => {
+    const formattedNumber = formatNumber(row.count_90_days);
+    return <p>{showNAIfZeroOrNull(row.count_90_days, formattedNumber)}</p>;
+  };
 
-  const renderReviewL365D = (row: any) => (
-    <p>{showNAIfZeroOrNull(row.count_12_month, row.count_12_month)}</p>
-  );
+  const renderReviewL365D = (row: any) => {
+    const formattedNumber = formatNumber(row.count_12_month);
+    return <p>{showNAIfZeroOrNull(row.count_12_month, formattedNumber)}</p>;
+  };
 
-  const renderReviewLifeTime = (row: any) => (
-    <p>{showNAIfZeroOrNull(row.count_lifetime, row.count_lifetime)}</p>
-  );
+  const renderReviewLifeTime = (row: any) => {
+    const formattedNumber = formatNumber(row.count_lifetime);
+    return <p>{showNAIfZeroOrNull(row.count_lifetime, formattedNumber)}</p>;
+  };
 
   // const renderProductReview = () => <p>{'-'}</p>;
 
-  const renderProcessedOn = (row: any) => <p>{formatCompletedDate(row.udate)}</p>;
+  // const renderProcessedOn = (row: any) => <p>{formatCompletedDate(row.udate)}</p>;
 
   const renderActions = (row: any) => {
     const { sellerTrackGroups } = props;
@@ -958,15 +963,15 @@ const SellerFinderTable = (props: Props) => {
       filterLabel: 'Review Lifetime',
       render: renderReviewLifeTime,
     },
-    {
-      label: `Processed on`,
-      dataKey: 'udate',
-      type: 'string',
-      sortable: true,
-      show: true,
-      className: ``,
-      render: renderProcessedOn,
-    },
+    // {
+    //   label: `Processed on`,
+    //   dataKey: 'udate',
+    //   type: 'string',
+    //   sortable: true,
+    //   show: true,
+    //   className: ``,
+    //   render: renderProcessedOn,
+    // },
     {
       dataKey: 'actions',
       type: 'string',
@@ -977,17 +982,19 @@ const SellerFinderTable = (props: Props) => {
   ];
 
   const filteredProductsByGroups =
-    activeGroupID === null || activeGroupID === -1
+    activeGroupID === null
       ? sellers
-      : sellers.filter((seller: any) => {
-          return seller.merchant_group === activeGroupID;
-        });
+      : activeGroupID === -1
+      ? sellers.filter((data: any) => data.merchant_group === null)
+      : sellers.filter((seller: any) => seller.merchant_group === activeGroupID);
 
   return (
     <div className="seller-finder-table">
       <Card className="search-card">
         <Card.Content>
-          <Card.Header className="card-title">SELLER FINDER</Card.Header>
+          <Card.Header className="card-title">
+            SELLER FINDER <BetaLabel />
+          </Card.Header>
         </Card.Content>
         <Card.Content className="search-content">
           <div className="search-input-container">
