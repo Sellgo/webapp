@@ -20,7 +20,6 @@ const SellerSearch = (props: Props) => {
   };
 
   useEffect(() => {
-    console.log('This is running', clearSearchInput);
     if (clearSearchInput) {
       setRightSeachValue('');
     }

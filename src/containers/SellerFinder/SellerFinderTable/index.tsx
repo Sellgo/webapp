@@ -357,6 +357,7 @@ const SellerFinderTable = (props: Props) => {
       ws.onmessage = (res: any) => {
         const data: SearchResponse = JSON.parse(res.data);
 
+        // seller limit exceeded condition
         if (data.status === SEARCH_STATUS.FAILED) {
           if (data.message === SELLER_LIMIT_MESSAGE) {
             setSearching(false);
@@ -396,7 +397,11 @@ const SellerFinderTable = (props: Props) => {
             }, 1000);
           }
           setRefreshing('');
-          fetchAmazonSellers({ enableLoader: false, sort: 'udate', sortDirection: 'descending' });
+          fetchAmazonSellers({
+            enableLoader: false,
+            sort: 'udate',
+            sortDirection: 'descending',
+          });
         }
       };
     }
