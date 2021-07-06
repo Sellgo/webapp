@@ -846,7 +846,6 @@ const Filters: React.FC<Props> = props => {
                   setAsins('');
                   setBrands('');
                   setSellerIds('');
-                  // resetSellerDatabaseAndFilters();
                   fetchSellersDatabase({ resetFilters: true });
                 }}
               >
