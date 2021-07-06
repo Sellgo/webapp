@@ -905,7 +905,6 @@ const Filters: React.FC<Props> = props => {
                   setShowErrorAlertBoxDetails({ show: false, message: '' });
                   setState('');
                   fetchSellersDatabase({ resetFilters: true });
-                  // resetSellerDatabaseAndFilters();
                 }}
               >
                 Reset
