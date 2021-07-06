@@ -53,10 +53,7 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-top: 15px;
-
-  @media only screen and(max-width: 1550px) {
-    justify-content: flex-start;
-  }
+  width: 100%;
 }
 
 .locationContainer {
@@ -98,7 +95,7 @@
 }
 
 .ratingsSelector {
-  margin: 0 25px !important;
+  margin: 0 32px !important;
 }
 
 .formInput {
@@ -117,11 +114,18 @@
     color: $sellgo-text !important;
     border-radius: 3px;
     font-size: 12px !important;
-    width: 140px;
+    width: 155px;
+    padding: 0 !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
 
     &::placeholder {
       color: $sellgo-placeholder-color !important;
       font-weight: 300 !important;
+    }
+
+    @media only screen and(max-width: 1500px) {
+      width: 140px;
     }
   }
 }
@@ -151,7 +155,7 @@
   margin: 0 !important;
 
   input {
-    width: 340px !important;
+    width: 300px !important;
 
     @media only screen and(max-width: 1550px) {
       width: 200px !important;
