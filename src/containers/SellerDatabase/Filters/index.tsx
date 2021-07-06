@@ -918,7 +918,6 @@ const Filters: React.FC<Props> = props => {
                       show: false,
                       message: '',
                     });
-                    localStorage.setItem('showSellerDatabaseData', 'true');
                     fetchSellersDatabase({ resetFilters: true });
                     fetchSellersDatabase({
                       filters: true,
