@@ -16,11 +16,12 @@ import {
   defaultFilters,
   SET_MARKETPLACE,
 } from '../../constants/SellerDatabase';
+import { selectItemsCountList } from '../../constants';
 
 const initialState = {
   database: [],
   loadingSellerDatabase: false,
-  pageSize: 50,
+  pageSize: localStorage.getItem('sellerDatabasePageSize') || Number(selectItemsCountList[0].value),
   pageNo: 1,
   pageCount: 0,
   databaseCount: 0,
@@ -52,6 +53,7 @@ export default (state = initialState, action: AnyAction) => {
     }
 
     case SET_SELLER_DATABASE_PAGE_SIZE: {
+      localStorage.setItem('sellerDatabasePageSize', action.data);
       return setIn(state, 'pageSize', action.data);
     }
 

@@ -57,12 +57,10 @@ const SellerDatabaseTable = (props: Props) => {
     fetchSellersDatabase,
     loading,
     database,
-    setSinglePageItemsCount,
     pageCount,
     pageSize,
     pageNo,
     databaseCount,
-    singlePageItemsCount,
     loadingDatabase,
     targetSeller,
   } = props;
@@ -73,14 +71,10 @@ const SellerDatabaseTable = (props: Props) => {
   const [columns, setColumns] = useState<any>([]);
   const [activeColumnFilters, setActiveColumnFIlters] = useState<any>('');
 
-  const fetchDatabase = (payload: SellerDatabasePayload) => {
-    fetchSellersDatabase(payload);
-  };
-
   useEffect(() => {
     const shouldShowSellerDatabaseData = Boolean(localStorage.getItem('showSellerDatabaseData'));
     if (shouldShowSellerDatabaseData) {
-      fetchDatabase({
+      fetchSellersDatabase({
         pageNo,
         pageSize,
         sort: 'seller_id',
@@ -606,30 +600,29 @@ const SellerDatabaseTable = (props: Props) => {
             checkedRows={checkedRows}
             columns={columns}
             name="seller-database"
-            singlePageItemsCount={singlePageItemsCount}
+            singlePageItemsCount={pageSize}
             currentPage={pageNo}
             pageCount={pageCount}
             count={databaseCount}
             loading={loadingDatabase}
             setPage={(page: number) => {
               if (page !== pageNo) {
-                fetchDatabase({
-                  pageNo: page,
+                fetchSellersDatabase({
+                  pageNo: page || 1,
                   pageSize: pageSize,
                   enableLoader: false,
                 });
               }
             }}
-            setSinglePageItemsCount={(pageSize: number) => {
-              fetchDatabase({
+            setSinglePageItemsCount={(per_page: number) => {
+              fetchSellersDatabase({
                 pageNo: 1,
-                pageSize,
+                pageSize: per_page,
                 enableLoader: false,
               });
-              setSinglePageItemsCount(pageSize);
             }}
             onSort={(sortDirection, sort) => {
-              fetchDatabase({
+              fetchSellersDatabase({
                 pageNo: 1,
                 pageSize: pageSize,
                 enableLoader: false,
@@ -665,10 +658,14 @@ const mapStateToProps = (state: any) => ({
   loadingDatabase: loadingDatabase(state),
 });
 
-const mapDispatchToProps = {
-  fetchSellersDatabase: (payload: SellerDatabasePayload) => fetchSellersDatabase(payload),
-  setSinglePageItemsCount: (count: number) => setSellerDatabaseSinglePageItemsCount(count),
-  targetSeller: (merchantId: string) => trackDatabaseSeller(merchantId),
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchSellersDatabase: (payload: SellerDatabasePayload) =>
+      dispatch(fetchSellersDatabase(payload)),
+    setSinglePageItemsCount: (count: number) =>
+      dispatch(setSellerDatabaseSinglePageItemsCount(count)),
+    targetSeller: (merchantId: string) => dispatch(trackDatabaseSeller(merchantId)),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SellerDatabaseTable);

@@ -56,6 +56,7 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
   dispatch: any,
   getState: any
 ) => {
+  console.log('Called');
   try {
     const defaultSort = databaseSort(getState());
     const defaultSortDirection = databaseSortDirection(getState());
@@ -76,22 +77,23 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
       state,
     } = payload;
 
-    if (filters) {
-      localStorage.setItem('seller-database-filters', JSON.stringify(sellerDBFilters));
-    }
-
-    let queryFilters = '';
-
-    if (!resetFilters) {
-      localStorage.setItem('showSellerDatabaseData', 'true');
-      queryFilters = parseFilters(sellerDBFilters);
-    } else {
+    if (resetFilters) {
       localStorage.removeItem('seller-database-filters');
       localStorage.removeItem('showSellerDatabaseData');
       dispatch(setFilters(defaultFilters));
       dispatch(fetchSellerDatabaseSuccess([]));
       return;
     }
+
+    let queryFilters = '';
+
+    if (filters) {
+      localStorage.setItem('seller-database-filters', JSON.stringify(sellerDBFilters));
+    }
+
+    // reset the reset local Storage Condition
+    localStorage.setItem('showSellerDatabaseData', 'true');
+    queryFilters = parseFilters(sellerDBFilters);
 
     if (state) {
       queryFilters += `&state=${state}`;
@@ -119,24 +121,25 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
       // eslint-disable-next-line max-len
       `sellers/${sellerID}/merchants-database?${pagination}&${sorting}${queryFilters}&marketplace_id=${defaultMarketplace}`;
 
-    dispatch(setLoadingDatabase(!enableLoader));
-
     if (enableLoader) {
-      await dispatch(fetchSellerDatabase(true));
+      dispatch(fetchSellerDatabase(true));
     }
+
+    dispatch(setLoadingDatabase(!enableLoader));
 
     const res = await Axios.get(url);
     if (res.data) {
       const { results, count, per_page, current_page, total_pages } = res.data;
-      dispatch(fetchSellerDatabaseSuccess(results));
-      dispatch(fetchSellerDatabasePageNo(current_page));
       dispatch(fetchSellerDatabasePageSize(per_page));
+      dispatch(fetchSellerDatabasePageNo(current_page));
       dispatch(fetchSellerDatabasePageCount(total_pages));
       dispatch(fetchSellerDatabaseCount(count));
       dispatch(setDatabaseSort(sort));
       dispatch(setDatabaseSortDirection(sortDirection));
       dispatch(fetchSellerDatabase(false));
       dispatch(setLoadingDatabase(false));
+      dispatch(fetchSellerDatabaseSuccess(results));
+      return;
     }
   } catch (e) {
     dispatch(fetchSellerDatabaseError(e));
