@@ -17,7 +17,6 @@ import { sellerDatabaseFilters, sellerDatabaseMarket } from '../../../selectors/
 import {
   fetchSellersDatabase,
   loadFilters,
-  resetToDefaultFilter,
   SellerDatabaseFilter,
   SellerDatabasePayload,
   updateMarketplace,
@@ -47,7 +46,6 @@ interface Props {
   fetchSellersDatabase: (payload: SellerDatabasePayload) => void;
   updateMarketplace: (market: string) => void;
   market: string;
-  resetToDefaultFilters: () => void;
 }
 
 const Filters: React.FC<Props> = props => {
@@ -58,7 +56,6 @@ const Filters: React.FC<Props> = props => {
     market,
     updateMarketplace,
     fetchSellersDatabase,
-    resetToDefaultFilters,
   } = props;
 
   const [asins, setAsins] = useState<string>('');
@@ -111,11 +108,6 @@ const Filters: React.FC<Props> = props => {
   /* Load Filters on load */
   useEffect(() => {
     loadFilters();
-
-    return () => {
-      // reset the filter to default state when unmounted
-      resetToDefaultFilters();
-    };
   }, []);
 
   // Filters without time period
@@ -851,10 +843,10 @@ const Filters: React.FC<Props> = props => {
                 className={styles.filterSubmit__reset}
                 onClick={() => {
                   setShowErrorAlertBoxDetails({ show: false, message: '' });
-                  localStorage.removeItem('showSellerDatabaseData');
                   setAsins('');
                   setBrands('');
                   setSellerIds('');
+                  // resetSellerDatabaseAndFilters();
                   fetchSellersDatabase({ resetFilters: true });
                 }}
               >
@@ -867,7 +859,6 @@ const Filters: React.FC<Props> = props => {
                 onClick={() => {
                   if (!isFilterEmpty) {
                     setShowErrorAlertBoxDetails({ show: false, message: '' });
-                    localStorage.setItem('showSellerDatabaseData', 'true');
                     fetchSellersDatabase({
                       filters: true,
                       sort: 'seller_id',
@@ -912,9 +903,9 @@ const Filters: React.FC<Props> = props => {
                 className={styles.filterSubmit__reset}
                 onClick={() => {
                   setShowErrorAlertBoxDetails({ show: false, message: '' });
-                  localStorage.removeItem('showSellerDatabaseData');
                   setState('');
                   fetchSellersDatabase({ resetFilters: true });
+                  // resetSellerDatabaseAndFilters();
                 }}
               >
                 Reset
@@ -929,7 +920,6 @@ const Filters: React.FC<Props> = props => {
                       show: false,
                       message: '',
                     });
-                    localStorage.setItem('showSellerDatabaseData', 'true');
                     fetchSellersDatabase({ resetFilters: true });
                     fetchSellersDatabase({
                       filters: true,
@@ -970,7 +960,6 @@ const mapDispatchToProps = {
   updateFilter: (filter: SellerDatabaseFilter) => updateSellerDatabaseFilters(filter),
   fetchSellersDatabase: (payload: SellerDatabasePayload) => fetchSellersDatabase(payload),
   updateMarketplace: (market: string) => updateMarketplace(market),
-  resetToDefaultFilters: () => resetToDefaultFilter(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filters);

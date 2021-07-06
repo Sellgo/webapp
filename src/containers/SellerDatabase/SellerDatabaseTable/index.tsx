@@ -87,6 +87,13 @@ const SellerDatabaseTable = (props: Props) => {
         sortDirection: 'ascending',
       });
     }
+
+    return () => {
+      // reset the filter to default state when unmounted
+      fetchSellersDatabase({
+        resetFilters: true,
+      });
+    };
   }, []);
 
   const renderSellerInformation = (row: any) => {
