@@ -878,7 +878,7 @@ const Filters: React.FC<Props> = props => {
                   } else {
                     setShowErrorAlertBoxDetails({
                       show: true,
-                      message: 'Please use atleast one filter',
+                      message: 'Please use at least one filter',
                     });
                   }
                 }}
@@ -939,7 +939,7 @@ const Filters: React.FC<Props> = props => {
                   } else {
                     setShowErrorAlertBoxDetails({
                       show: true,
-                      message: 'Please filter by atleast one state',
+                      message: 'Please filter by at least one state',
                     });
                   }
                 }}

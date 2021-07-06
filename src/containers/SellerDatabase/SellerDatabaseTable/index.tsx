@@ -93,7 +93,7 @@ const SellerDatabaseTable = (props: Props) => {
     return (
       <p className="sd-seller-details">
         <span className="name">
-          {truncateString(row.business_name || '', 13)}
+          {truncateString(row.business_name || '', 23)}
           <Icon name={'external'} onClick={() => window.open(row.seller_link, '_blank')} />
         </span>
         <CopyToClipboard data={row.merchant_id} className={'seller_id'} />
@@ -106,7 +106,7 @@ const SellerDatabaseTable = (props: Props) => {
       return <p>-</p>;
     }
 
-    const formattedBrands = truncateString(removeSpecialChars(row.brands), 10);
+    const formattedBrands = truncateString(removeSpecialChars(row.brands), 30);
     const copyForClipBoard = removeSpecialChars(row.brands)
       .trim()
       .replace(/,/g, '\n');
