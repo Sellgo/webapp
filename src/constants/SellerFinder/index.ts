@@ -48,7 +48,10 @@ export const SEARCH_STATUS = {
   DONE: 'done',
   SUCCESS: 'success',
   ERROR: 'error',
+  FAILED: 'failed',
 };
+
+export const SELLER_LIMIT_MESSAGE = 'Seller limit exceeded';
 
 export const selectItemsCountList = [
   {

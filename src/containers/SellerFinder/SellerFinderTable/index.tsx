@@ -55,13 +55,17 @@ import {
   updateSellers,
 } from '../../../actions/SellerFinder';
 
-import { SEARCH_STATUS, SELLER_DETAILS_URL } from '../../../constants/SellerFinder';
+import {
+  SEARCH_STATUS,
+  SELLER_DETAILS_URL,
+  SELLER_LIMIT_MESSAGE,
+} from '../../../constants/SellerFinder';
 import { formatNumber, showNAIfZeroOrNull, truncateString } from '../../../utils/format';
 import PageLoader from '../../../components/PageLoader';
 import { Merchant } from '../../../interfaces/Seller';
 import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Suppliers';
-import { success, error as errorMessage } from '../../../utils/notifications';
+import { success, error as errorMessage, info } from '../../../utils/notifications';
 import { copyToClipboard, download } from '../../../utils/file';
 import moment from 'moment';
 import BetaLabel from '../../../components/BetaLabel';
@@ -347,16 +351,31 @@ const SellerFinderTable = (props: Props) => {
     return query;
   };
 
+  // seller search by ID socket
   useEffect(() => {
     if (ws.OPEN && !ws.CONNECTING) {
       ws.onmessage = (res: any) => {
         const data: SearchResponse = JSON.parse(res.data);
+
+        if (data.status === SEARCH_STATUS.FAILED) {
+          if (data.message === SELLER_LIMIT_MESSAGE) {
+            setSearching(false);
+            setClearSearchInput(true);
+            info(data.message);
+            setSellerProgress(0);
+            return;
+          }
+        }
+
         if (data.status !== SEARCH_STATUS.SUCCESS) {
           setSearchMessage(data.message);
         }
+
         if (searchText) {
+          setSearching(true);
           setSellerProgressError(false);
           setSearching(true);
+          info('Searching for ' + searchText);
         }
 
         if (data.error_status) {
@@ -423,12 +442,23 @@ const SellerFinderTable = (props: Props) => {
     }
   }, [activeProduct]);
 
+  // asin search socket
   useEffect(() => {
     if (sellersSocket.OPEN && !sellersSocket.CONNECTING) {
       sellersSocket.onmessage = (res: any) => {
         const data: SearchResponse = JSON.parse(res.data);
 
         if (data.message && searchText && data.status !== SEARCH_STATUS.SUCCESS) {
+          // seller limit exceeded condition
+          if (data.status === SEARCH_STATUS.FAILED) {
+            if (data.message === SELLER_LIMIT_MESSAGE) {
+              setSellerProgress(0);
+              setSearching(false);
+              setClearSearchInput(true);
+              info(data.message);
+              return;
+            }
+          }
           setSearching(true);
           setSellerProgressError(false);
           setSearchMessage(data.message);
@@ -513,13 +543,11 @@ const SellerFinderTable = (props: Props) => {
     const data = value.trim();
     if (data) {
       setSearchText(data);
-      setSearching(true);
       if (data.length === 10) {
         sellersSocket.send(JSON.stringify({ asins: data }));
       } else {
         ws.send(JSON.stringify({ merchant_ids: data }));
       }
-      success('Searching for ' + data);
     }
   };
 

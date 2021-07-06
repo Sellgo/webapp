@@ -12,7 +12,7 @@ interface Props {
 const SellerSearch = (props: Props) => {
   const { onSearch, fetchSellers, clearSearchInput } = props;
 
-  const [leftSearchValue, setLeatSearchValue] = useState<string>('');
+  const [leftSearchValue, setLeftSearchValue] = useState<string>('');
   const [rightSearchValue, setRightSeachValue] = useState<string>('');
 
   const handleSellerSearch = () => {
@@ -20,6 +20,7 @@ const SellerSearch = (props: Props) => {
   };
 
   useEffect(() => {
+    console.log('This is running', clearSearchInput);
     if (clearSearchInput) {
       setRightSeachValue('');
     }
@@ -34,7 +35,7 @@ const SellerSearch = (props: Props) => {
           icon={'search'}
           value={leftSearchValue}
           placeholder="Find in your Seller Finder List"
-          onChange={(evt: any) => setLeatSearchValue(evt.target.value)}
+          onChange={(evt: any) => setLeftSearchValue(evt.target.value)}
         />
         <Button primary className="search-btn" onClick={() => handleSellerSearch()}>
           Find

@@ -244,6 +244,14 @@ export const trackDatabaseSeller = (merchantId: any) => async (dispatch: any, ge
     }
   } catch (err) {
     console.log('Error Tracking Seller', err);
+    if (err.response) {
+      const { status, data } = err.response;
+      if (status === 400) {
+        if (data && data.message) {
+          info(data.message);
+        }
+      }
+    }
   }
 };
 
