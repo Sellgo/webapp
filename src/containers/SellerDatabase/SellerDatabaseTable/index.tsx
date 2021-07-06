@@ -114,9 +114,7 @@ const SellerDatabaseTable = (props: Props) => {
     }
 
     const formattedBrands = truncateString(removeSpecialChars(row.brands), 30);
-    const copyForClipBoard = removeSpecialChars(row.brands)
-      .trim()
-      .replace(/,/g, '\n');
+    const copyForClipBoard = removeSpecialChars(row.brands).trim();
 
     return (
       <p className="brands-list">
