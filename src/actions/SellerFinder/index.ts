@@ -158,10 +158,10 @@ export const fetchSellerProducts = (payload: SellersProductsPayload) => async (d
     }
     const res = await Axios.get(url);
     if (res) {
-      const { results, count, per_page, total_pages } = res.data;
+      const { results, count, per_page, num_pages } = res.data;
       await dispatch(setSellerProducts(results));
       await dispatch(setProductsCount(count));
-      await dispatch(setProductsPageCount(total_pages));
+      await dispatch(setProductsPageCount(num_pages));
       await dispatch(setProductsPageSize(per_page));
       await dispatch(setProductsPageNo(pageNo));
     }
@@ -361,6 +361,7 @@ export const updateSellerTrackerGroup = (group: any) => async (dispatch: any) =>
       if (group.status === 'inactive') {
         dispatch(fetchSellers({ enableLoader: false }));
         success(`Tracker group successfully deleted!`);
+        dispatch(setMenuItem(null));
       } else {
         success(`Tracker group successfully updated`);
       }
@@ -492,8 +493,17 @@ export const trackProductSeller = (merchantId: any) => async (dispatch: any, get
     }
   } catch (err) {
     console.log('Error Tracking Seller', err);
+    const { response } = err;
+    if (response) {
+      const { status, data } = response;
+      if (status === 400 && data && data.message && data.message.length > 0) {
+        info(data.message);
+        dispatch(setProductSellerTrackStatus({ seller_merchant_id: null }));
+      }
+    }
   }
 };
+
 export const setSellersSinglePageItemsCount = (count: number) => async (dispatch: any) => {
   dispatch(updateSellersSinglePageItemsCount(count));
 };

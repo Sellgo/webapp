@@ -80,23 +80,14 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
       localStorage.setItem('seller-database-filters', JSON.stringify(sellerDBFilters));
     }
 
-    const shouldShowSellerDatabaseData = Boolean(localStorage.getItem('showSellerDatabaseData'));
-
-    // make request only if showSellerDatabaseData flag in localStorage is set to true
-    // : when user click find on filters first
-
-    if (!shouldShowSellerDatabaseData) {
-      dispatch(fetchSellerDatabaseSuccess([]));
-      dispatch(setFilters(defaultFilters));
-      return;
-    }
-
     let queryFilters = '';
 
     if (!resetFilters) {
+      localStorage.setItem('showSellerDatabaseData', 'true');
       queryFilters = parseFilters(sellerDBFilters);
     } else {
       localStorage.removeItem('seller-database-filters');
+      localStorage.removeItem('showSellerDatabaseData');
       dispatch(setFilters(defaultFilters));
       dispatch(fetchSellerDatabaseSuccess([]));
       return;

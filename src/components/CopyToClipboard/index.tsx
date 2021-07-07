@@ -9,7 +9,7 @@ interface Props {
 }
 
 const CopyToClipboard: React.FC<Props> = props => {
-  const { data, displayData, className } = props;
+  const { data, className, displayData } = props;
   const [copied, setCopied] = useState(false);
 
   const copyText = (text: string) => {

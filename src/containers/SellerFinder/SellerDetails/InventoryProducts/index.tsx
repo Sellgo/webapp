@@ -2,10 +2,16 @@ import React from 'react';
 import './index.scss';
 import Rating from 'react-rating';
 import { Icon } from 'semantic-ui-react';
-import { formatCompletedDate } from '../../../../utils/date';
-import { formatBoolean } from '../../../../utils/format';
+
+import {
+  formatBoolean,
+  formatNumber,
+  showNAIfZeroOrNull,
+  truncateString,
+} from '../../../../utils/format';
 import CheckMerchants from '../CheckMerchants';
 import CopyToClipboard from '../../../../components/CopyToClipboard';
+import { generateProductAmazonLink } from '../../../../constants/SellerFinder';
 
 const renderProductInventory = (row: any) => {
   return (
@@ -15,7 +21,15 @@ const renderProductInventory = (row: any) => {
           <img src={row.image_url} alt={'product-image'} className="product-image" />
         </span>
         <span className="product-info">
-          <span className="product-name"> {row.product_name}</span>
+          <span className="product-name">
+            {truncateString(row.product_name, 15)}
+            {row.asin && (
+              <Icon
+                name="external"
+                onClick={() => window.open(generateProductAmazonLink(row.asin), '_blank')}
+              />
+            )}
+          </span>
           <CopyToClipboard data={row.asin} className="asin" />
         </span>
       </span>
@@ -27,12 +41,8 @@ const renderFBA = (row: any) => {
   return <p>{formatBoolean(row.fba)}</p>;
 };
 
-const renderFBM = (row: any) => {
-  return <p>{formatBoolean(row.fbm)}</p>;
-};
-
 const renderPrice = (row: any) => {
-  return <p>{row.current_price}</p>;
+  return <p>{row.current_price ? `$${row.current_price}` : '-'}</p>;
 };
 
 const renderRating = (row: any) => {
@@ -49,12 +59,13 @@ const renderRating = (row: any) => {
 };
 
 const renderProductReview = (row: any) => {
-  return <p>{row.reviews_count}</p>;
+  const formattedNumber = formatNumber(row.reviews_count);
+  return <p>{showNAIfZeroOrNull(row.reviews_count, formattedNumber)}</p>;
 };
 
-const renderLastUpdate = (row: any) => {
-  return <p>{formatCompletedDate(row.udate)}</p>;
-};
+// const renderLastUpdate = (row: any) => {
+//   return <p>{formatCompletedDate(row.udate)}</p>;
+// };
 
 // const renderTrackProducts = (row: any) => {
 //   return (
@@ -101,12 +112,6 @@ const columns = [
     render: renderFBA,
   },
   {
-    label: `FBM`,
-    dataKey: 'fbm',
-    className: 'fbm',
-    render: renderFBM,
-  },
-  {
     label: `Rating L365D`,
     dataKey: 'review_stars',
     className: 'review_stars',
@@ -118,12 +123,12 @@ const columns = [
     className: 'product-review',
     render: renderProductReview,
   },
-  {
-    label: `Last Update`,
-    dataKey: 'udate',
-    className: 'last-update',
-    render: renderLastUpdate,
-  },
+  // {
+  //   label: `Last Update`,
+  //   dataKey: 'udate',
+  //   className: 'last-update',
+  //   render: renderLastUpdate,
+  // },
   // {
   //   label: `Track Products`,
   //   dataKey: 'tracking',
@@ -174,6 +179,7 @@ export const InventoryProductsRow = (props: any) => {
       product_track_id: 'product_track_id',
       image_url: 'image_url',
       num_sellers: 'num_sellers',
+      inventory_link: 'inventroy_link',
     };
 
     let data: any = row;
