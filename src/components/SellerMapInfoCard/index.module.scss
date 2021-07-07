@@ -2,6 +2,7 @@
 
 .sellerMapInfoCard {
   position: fixed !important;
+  min-width: 500px;
   max-width: 500px !important;
   min-height: 300px !important;
   top: 0 !important;
@@ -17,6 +18,8 @@
 }
 
 .sellerCardDetails {
+  min-width: 500px;
+  min-height: 300px !important;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { Loader, Dimmer, Icon } from 'semantic-ui-react';
+import { Loader, Dimmer } from 'semantic-ui-react';
 import { truncateString } from '../../utils/format';
 
 import CopyToClipBoard from '../CopyToClipboard';
@@ -13,19 +13,39 @@ interface Props {
   showSellerCard: boolean;
 }
 
+interface SellerData {
+  business_name: string;
+  city: string;
+  id: string;
+  merchant_id: string;
+  seller_link: string;
+  seller_name: string;
+  state: string;
+  zip_code: string;
+}
+
+const defaultSellerInfo = {
+  business_name: '',
+  city: '',
+  id: '',
+  merchant_id: '',
+  seller_link: '',
+  seller_name: '',
+  state: '',
+  zip_code: '',
+};
+
 const SellerMapInfoCard: React.FC<Props> = props => {
   const { internalId, showSellerCard } = props;
   const [isLoading, setIsLoading] = useState(false);
-  const [sellerInfo, setSellerInfo] = useState({
-    business_name: '',
-    zip_code: '',
-    merchant_id: '',
-  });
+  const [sellerInfo, setSellerInfo] = useState<SellerData>(defaultSellerInfo);
 
   useEffect(() => {
     if (!internalId) {
       return;
     }
+
+    setIsLoading(true);
     axios
       .get(`http://18.207.105.104/api/sellers/1000000002/merchants/search?id=${internalId}`)
       .then(resp => {
@@ -36,15 +56,9 @@ const SellerMapInfoCard: React.FC<Props> = props => {
       })
       .catch(() => {
         setIsLoading(false);
-        setSellerInfo({
-          business_name: '',
-          zip_code: '',
-          merchant_id: '',
-        });
+        setSellerInfo(defaultSellerInfo);
       });
   }, [internalId]);
-
-  console.log(sellerInfo);
 
   if (!showSellerCard) {
     return null;
@@ -65,32 +79,22 @@ const SellerMapInfoCard: React.FC<Props> = props => {
             <p>
               <CopyToClipBoard
                 data="chongqinglingmaoyunkejiyouxiangongsi"
-                displayData={truncateString('chongqinglingmaoyunkejiyouxiangongsi', 15)}
+                displayData={truncateString(sellerInfo.business_name, 15)}
               />
             </p>
           </div>
           <div className={styles.sellerDetail}>
             <h2>Seller ID:</h2>
             <p>
-              <CopyToClipBoard data={'A2OMAQX8BED4EL'} />
+              <CopyToClipBoard data={sellerInfo.merchant_id || ''} />
             </p>
           </div>
+
           <div className={styles.sellerDetail}>
-            <h2>Seller Link</h2>
-            <p>
-              <Icon
-                name="external"
-                onCLick={() => window.open('https://www.amazon.in', '_blank')}
-              />
-            </p>
-          </div>
-          <div className={styles.sellerDetail}>
-            <h2>Seller Name</h2>
-            <p>Fari Ash</p>
-          </div>
-          <div className={styles.sellerDetail}>
-            <h2>Seller Name</h2>
-            <p>Fari Ash</p>
+            <h2>{sellerInfo.seller_name}</h2>
+            <p>{sellerInfo.seller_link}</p>
+            <p>{sellerInfo.state}</p>
+            <p>{sellerInfo.zip_code}</p>
           </div>
         </div>
       )}
