@@ -326,3 +326,153 @@ export const STATES = [
     code: 'WY',
   },
 ];
+
+export const columnFilter = [
+  {
+    value: true,
+    key: 'Select All',
+    dataKey: 'select_all',
+    visible: true,
+    fixed: 'left',
+  },
+  {
+    value: true,
+    key: 'Brands',
+    dataKey: 'brands',
+    visible: true,
+  },
+  // Inventory
+  {
+    value: true,
+    key: 'Inventory',
+    dataKey: 'inventory_count',
+    visible: true,
+  },
+  // Ratings
+  {
+    value: true,
+    key: `Rating \nL365D`,
+    dataKey: 'seller_rating',
+    visible: true,
+  },
+  {
+    value: true,
+    key: `Rating% \nL365D`,
+    dataKey: 'review_ratings',
+    visible: true,
+  },
+  // Review
+  {
+    value: true,
+    key: `Review \nL30D`,
+    dataKey: 'count_30_days',
+    visible: true,
+  },
+  {
+    value: true,
+    key: `Review \nL90D`,
+    dataKey: 'count_90_days',
+    visible: true,
+  },
+  {
+    value: true,
+    key: `Review \nL365D`,
+    dataKey: 'count_12_month',
+    visible: true,
+  },
+  {
+    value: true,
+    key: `Review \nLifetime`,
+    dataKey: 'count_lifetime',
+    visible: true,
+  },
+  // Negative Reviews
+  {
+    value: true,
+    key: `Negative \n Review L30D`,
+    dataKey: 'negative_30_days',
+    visible: true,
+  },
+  {
+    value: true,
+    key: `Negative \n Review L90D`,
+    dataKey: 'negative_90_days',
+    visible: true,
+  },
+  {
+    value: true,
+    key: `Negative \n Review L365D`,
+    dataKey: 'negative_12_month',
+    visible: true,
+  },
+  {
+    value: true,
+    key: `Negative \n Review Lifetime`,
+    dataKey: 'negative_lifetime',
+    visible: true,
+  },
+  // Positive Review
+  {
+    value: true,
+    key: `Positive \n Review L30D`,
+    dataKey: 'positive_30_days',
+    visible: true,
+  },
+  {
+    value: true,
+    key: `Positive \n Review L90D`,
+    dataKey: 'positive_90_days',
+    visible: true,
+  },
+  {
+    value: true,
+    key: `Positive \n Review L365D`,
+    dataKey: 'positive_12_month',
+    visible: true,
+  },
+  {
+    value: true,
+    key: `Positive\n Review Lifetime`,
+    dataKey: 'positive_lifetime',
+    visible: true,
+  },
+  // Neutral Reviews
+  {
+    value: true,
+    key: `Neutral \n Review L30D`,
+    dataKey: 'neutral_30_days',
+    visible: true,
+  },
+  {
+    value: true,
+    key: `Neutral \n Review L90D`,
+    dataKey: 'neutral_90_days',
+    visible: true,
+  },
+  {
+    value: true,
+    key: `Neutral \n Review L365D`,
+    dataKey: 'neutral_12_month',
+    visible: true,
+  },
+  {
+    value: true,
+    key: `Neutral\n Review Lifetime`,
+    dataKey: 'neutral_lifetime',
+    visible: true,
+  },
+  // Launched Year
+  {
+    value: true,
+    key: `Launched`,
+    dataKey: 'launched',
+    visible: true,
+  },
+  // State
+  {
+    value: true,
+    key: `State`,
+    dataKey: 'state',
+    visible: true,
+  },
+];
