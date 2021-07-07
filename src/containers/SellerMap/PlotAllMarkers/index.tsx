@@ -9,7 +9,7 @@ import { Location } from '../../../interfaces/SellerMap';
 const PlotAllMarkers = (props: any) => {
   const { sellersData } = props;
 
-  const [showSellerCard, setShowSellerCard] = useState(false);
+  const [showSellerCard, setShowSellerCard] = useState(true);
   const [internalId, setInternalId] = useState('');
 
   return (
