@@ -14,7 +14,7 @@
   background: #fff;
   display: flex;
   flex-direction: column;
-  cursor: unset !important;
+  cursor: default !important;
 }
 
 .sellerCardDetails {
@@ -46,4 +46,14 @@
     color: $sellgo-text;
     margin: 0;
   }
+}
+
+.sellerMapCloseIcon {
+  background: #fff !important;
+  border: 0 !important;
+  outline: 0 !important;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }

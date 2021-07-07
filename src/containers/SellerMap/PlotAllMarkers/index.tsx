@@ -34,7 +34,13 @@ const PlotAllMarkers = (props: any) => {
           </Marker>
         );
       })}
-      {<SellerMapInfoCard internalId={internalId} showSellerCard={showSellerCard} />}
+      {
+        <SellerMapInfoCard
+          internalId={internalId}
+          showSellerCard={showSellerCard}
+          hideSellerCard={() => setShowSellerCard(false)}
+        />
+      }
     </>
   );
 };

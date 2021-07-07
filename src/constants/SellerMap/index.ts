@@ -8,3 +8,14 @@ export const WORLD_MAP_BOUNDS: Location[] = [
   [-90, -180],
   [90, 180],
 ];
+
+export const DEFAULT_SELLER_INFO = {
+  business_name: '',
+  city: '',
+  id: '',
+  merchant_id: '',
+  seller_link: '',
+  seller_name: '',
+  state: '',
+  zip_code: '',
+};

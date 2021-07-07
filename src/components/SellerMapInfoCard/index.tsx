@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { Loader, Dimmer } from 'semantic-ui-react';
+import { Loader, Dimmer, Icon } from 'semantic-ui-react';
+import { DEFAULT_SELLER_INFO } from '../../constants/SellerMap';
+import { SellerData } from '../../interfaces/SellerMap';
 import { truncateString } from '../../utils/format';
 
 import CopyToClipBoard from '../CopyToClipboard';
@@ -11,34 +13,13 @@ import styles from './index.module.scss';
 interface Props {
   internalId: string;
   showSellerCard: boolean;
+  hideSellerCard: () => void;
 }
-
-interface SellerData {
-  business_name: string;
-  city: string;
-  id: string;
-  merchant_id: string;
-  seller_link: string;
-  seller_name: string;
-  state: string;
-  zip_code: string;
-}
-
-const defaultSellerInfo = {
-  business_name: '',
-  city: '',
-  id: '',
-  merchant_id: '',
-  seller_link: '',
-  seller_name: '',
-  state: '',
-  zip_code: '',
-};
 
 const SellerMapInfoCard: React.FC<Props> = props => {
-  const { internalId, showSellerCard } = props;
+  const { internalId, showSellerCard, hideSellerCard } = props;
   const [isLoading, setIsLoading] = useState(false);
-  const [sellerInfo, setSellerInfo] = useState<SellerData>(defaultSellerInfo);
+  const [sellerInfo, setSellerInfo] = useState<SellerData>(DEFAULT_SELLER_INFO);
 
   useEffect(() => {
     if (!internalId) {
@@ -56,7 +37,7 @@ const SellerMapInfoCard: React.FC<Props> = props => {
       })
       .catch(() => {
         setIsLoading(false);
-        setSellerInfo(defaultSellerInfo);
+        setSellerInfo(DEFAULT_SELLER_INFO);
       });
   }, [internalId]);
 
@@ -66,6 +47,9 @@ const SellerMapInfoCard: React.FC<Props> = props => {
 
   return (
     <article className={styles.sellerMapInfoCard}>
+      <button className={styles.sellerMapCloseIcon} onClick={hideSellerCard}>
+        <Icon name="close" color="black" />
+      </button>
       {isLoading ? (
         <>
           <Dimmer active inverted>
