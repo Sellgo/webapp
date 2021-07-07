@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Tooltip, useMap, ZoomControl } from 'react-leaflet';
+import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
-import { GeoSearchControl, EsriProvider } from 'leaflet-geosearch';
+
 import axios from 'axios';
 
 import { success } from '../../utils/notifications';
@@ -10,104 +10,17 @@ import { success } from '../../utils/notifications';
 import styles from './index.module.scss';
 import './globals.scss';
 
+/* Constants */
+import {
+  INITIAL_CENTER,
+  INITIAL_ZOOM,
+  MAX_ZOOM,
+  MIN_ZOOM,
+  WORLD_MAP_BOUNDS,
+} from '../../constants/SellerMap';
+
 /* Components */
-import SellerMapInfoCard from '../../components/SellerMapInfoCard';
-
-type Location = [number, number];
-
-const INITIAL_CENTER: Location = [37.09024, -95.712891];
-const INITIAL_ZOOM = 4.8;
-const MIN_ZOOM = 2.5;
-const MAX_ZOOM = 8.7;
-const WORLD_MAP_BOUNDS: Location[] = [
-  [-90, -180],
-  [90, 180],
-];
-
-// plot sellers markers
-const PlotAllMarkers = (props: any) => {
-  const { sellersData } = props;
-
-  const [showSellerCard, setShowSellerCard] = useState(false);
-  const [internalId, setInternalId] = useState('');
-
-  return (
-    <>
-      {sellersData.map((data: any) => {
-        const center: Location = [data.latitude, data.longitude];
-        return (
-          <Marker
-            key={data.id}
-            data-id={data.id}
-            position={center}
-            eventHandlers={{
-              click: (e: any) => {
-                setShowSellerCard(true);
-                setInternalId(e.target.options['data-id']);
-              },
-            }}
-          >
-            <Tooltip direction="top" offset={[-15, -10]}>
-              Click for more details
-            </Tooltip>
-          </Marker>
-        );
-      })}
-      {<SellerMapInfoCard internalId={internalId} showSellerCard={showSellerCard} />}
-    </>
-  );
-};
-
-// add the geo search on the map
-const MapSearch = () => {
-  const map = useMap();
-  const provider = new EsriProvider();
-
-  // @ts-ignore
-  const searchControl = new GeoSearchControl({
-    provider: provider,
-    style: 'bar',
-    classNames: {
-      container: 'mapSearchContainer',
-      button: 'mapSearchButton',
-      resetButton: 'mapSearchResetButton',
-      msgbox: 'mapSearchMsgBox',
-      form: 'mapSearchForm',
-      input: 'mapSearchInput',
-    },
-    searchLabel: 'Enter a location',
-    keepResult: false,
-    updateMap: true,
-    maxSuggestions: 5,
-  });
-
-  useEffect(() => {
-    map.addControl(searchControl);
-
-    console.log(map.getCenter());
-
-    const handleResetButtonClick = () => {
-      map.setView(INITIAL_CENTER, INITIAL_ZOOM);
-      map.setMinZoom(MIN_ZOOM);
-      map.setMaxZoom(MAX_ZOOM);
-      map.setMaxBounds(WORLD_MAP_BOUNDS);
-    };
-
-    const resetButton = document.querySelector('.mapSearchResetButton');
-    if (resetButton) {
-      resetButton.addEventListener('click', handleResetButtonClick);
-    }
-
-    return () => {
-      map.removeControl(searchControl);
-      if (resetButton) {
-        resetButton.removeEventListener('click', handleResetButtonClick);
-      }
-    };
-  }, []);
-
-  return null;
-};
+import PlotAllMarkers from './PlotAllMarkers';
 
 /* Main Container Component */
 const SellerMap = () => {
@@ -140,7 +53,6 @@ const SellerMap = () => {
         zoomControl={false}
       >
         <ZoomControl position="bottomright" />
-        <MapSearch />
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
