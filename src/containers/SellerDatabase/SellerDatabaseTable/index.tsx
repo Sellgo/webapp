@@ -17,7 +17,6 @@ import {
 import {
   fetchSellersDatabase,
   SellerDatabasePayload,
-  setSellerDatabaseSinglePageItemsCount,
   trackDatabaseSeller,
 } from '../../../actions/SellerDatabase';
 import { connect } from 'react-redux';
@@ -48,7 +47,6 @@ interface Props {
   databaseCount: number;
   singlePageItemsCount: number;
   fetchSellersDatabase: (payload: SellerDatabasePayload) => void;
-  setSinglePageItemsCount: (count: number) => void;
   targetSeller: (merchantId: string) => void;
 }
 
@@ -615,11 +613,13 @@ const SellerDatabaseTable = (props: Props) => {
               }
             }}
             setSinglePageItemsCount={(per_page: number) => {
-              fetchSellersDatabase({
-                pageNo: 1,
-                pageSize: per_page,
-                enableLoader: false,
-              });
+              if (per_page !== pageSize) {
+                fetchSellersDatabase({
+                  pageNo: 1,
+                  pageSize: per_page,
+                  enableLoader: false,
+                });
+              }
             }}
             onSort={(sortDirection, sort) => {
               fetchSellersDatabase({
@@ -662,8 +662,6 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchSellersDatabase: (payload: SellerDatabasePayload) =>
       dispatch(fetchSellersDatabase(payload)),
-    setSinglePageItemsCount: (count: number) =>
-      dispatch(setSellerDatabaseSinglePageItemsCount(count)),
     targetSeller: (merchantId: string) => dispatch(trackDatabaseSeller(merchantId)),
   };
 };

@@ -28,7 +28,7 @@ const initialState = {
   error: null,
   singlePageItemsCount: 50,
   loadingDatabase: false,
-  sort: 'id',
+  sort: 'seller_id',
   sortDirection: 'descending',
   filters: defaultFilters,
   market: 'ATVPDKIKX0DER',

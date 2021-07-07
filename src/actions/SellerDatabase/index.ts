@@ -9,7 +9,6 @@ import {
   SET_SELLER_DATABASE_PAGE_SIZE,
   SET_SELLER_DATABASE_PAGE_COUNT,
   SET_SELLER_DATABASE_COUNT,
-  SET_SELLER_DATABASE_SINGLE_PAGE_ITEMS_COUNT,
   LOADING_DATABASE,
   SET_SELLER_DATABASE_SORT,
   SET_SELLER_DATABASE_SORT_DIRECTION,
@@ -56,7 +55,6 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
   dispatch: any,
   getState: any
 ) => {
-  console.log('Called');
   try {
     const defaultSort = databaseSort(getState());
     const defaultSortDirection = databaseSortDirection(getState());
@@ -76,6 +74,8 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
       sellerIds,
       state,
     } = payload;
+
+    const sellerID = sellerIDSelector();
 
     if (resetFilters) {
       localStorage.removeItem('seller-database-filters');
@@ -114,8 +114,6 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
     const pagination = `page=${pageNo}&per_page=${pageSize}`;
     const sorting = `ordering=${sortDirection === 'descending' ? `-${sort}` : sort}`;
 
-    const sellerID = sellerIDSelector();
-
     const url =
       AppConfig.BASE_URL_API +
       // eslint-disable-next-line max-len
@@ -147,8 +145,8 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
   }
 };
 
-export const setSellerDatabaseSinglePageItemsCount = (count: number) => async (dispatch: any) =>
-  dispatch(fetchSellerDatabaseSingelPageItemsCount(count));
+// export const setSellerDatabaseSinglePageItemsCount = (count: number) => async (dispatch: any) =>
+//   dispatch(fetchSellerDatabaseSingelPageItemsCount(count));
 
 export const updateSellerDatabaseFilters = (filter: SellerDatabaseFilter) => async (
   dispatch: any,
@@ -282,11 +280,6 @@ const fetchSellerDatabasePageCount = (pageCount: number) => ({
 
 const fetchSellerDatabaseCount = (count: number) => ({
   type: SET_SELLER_DATABASE_COUNT,
-  data: count,
-});
-
-const fetchSellerDatabaseSingelPageItemsCount = (count: number) => ({
-  type: SET_SELLER_DATABASE_SINGLE_PAGE_ITEMS_COUNT,
   data: count,
 });
 
