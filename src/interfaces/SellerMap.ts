@@ -4,6 +4,7 @@ export interface SellerMapPayload {
   resetMap?: boolean;
   state?: string;
   zipCode?: string;
+  maxCount?: number;
 }
 
 export interface SellerData {

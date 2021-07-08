@@ -43,7 +43,7 @@ export const setSellerDetailsForMap = (payload: any) => {
 export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch: any) => {
   const sellerId = sellerIDSelector();
 
-  const { resetMap = false, state = '', zipCode = '' } = payload;
+  const { resetMap = false, state = '', zipCode = '', maxCount = 1000 } = payload;
 
   try {
     // if reset map is hit
@@ -63,7 +63,7 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
       queryString += `&zip_code=${zipCode}`;
     }
 
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchantmaps/search?max_count=1000${queryString}`;
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchantmaps/search?max_count=${maxCount}${queryString}`;
     dispatch(setLoadingSellersForMap(true));
     const response = await axios.get(URL);
     if (response && response.data) {

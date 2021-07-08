@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import { connect } from 'react-redux';
@@ -26,9 +26,26 @@ import SellerMapFilter from './SellerMapFilters';
 /* Selectors */
 import { getIsLoadingSellerForMap, getSellerDataForMap } from '../../selectors/SellerMap';
 
+/* Interfaces */
+import { SellerMapPayload } from '../../interfaces/SellerMap';
+
+/* Actions */
+import { fetchSellersForMap } from '../../actions/SellerMap';
+
+interface Props {
+  match: any;
+  isLoadingSellersForMap: boolean;
+  sellerDataForMap: any;
+  fetchSellersForMap: (payload: SellerMapPayload) => void;
+}
+
 /* Main Container Component */
-const SellerMap = (props: any) => {
-  const { match, isLoadingSellersForMap, sellerDataForMap } = props;
+const SellerMap = (props: Props) => {
+  const { match, isLoadingSellersForMap, sellerDataForMap, fetchSellersForMap } = props;
+
+  useEffect(() => {
+    fetchSellersForMap({ maxCount: 1000 });
+  }, []);
 
   return (
     <main className={styles.sellerMap}>
@@ -90,4 +107,10 @@ const mapStateToProps = (state: any) => ({
   sellerDataForMap: getSellerDataForMap(state),
 });
 
-export default connect(mapStateToProps)(SellerMap);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchSellersForMap: (payload: SellerMapPayload) => dispatch(fetchSellersForMap(payload)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SellerMap);

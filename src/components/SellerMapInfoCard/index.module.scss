@@ -40,6 +40,10 @@
   justify-content: space-evenly;
   margin-bottom: 20px !important;
 
+  &__long {
+    max-width: 300px !important;
+  }
+
   h2 {
     font-size: 10px;
     color: $sellgo-light-gray-100;
@@ -105,4 +109,11 @@
       fill: currentColor;
     }
   }
+}
+
+.checkInventoryActive {
+  @extend .checkInventory;
+
+  border: 1px solid $sellgo-green !important;
+  color: $sellgo-green !important;
 }

@@ -19,8 +19,12 @@ import {
 
 /* Actions */
 import { fetchSellerDetailsForMap } from '../../actions/SellerMap';
+import { trackDatabaseSeller } from '../../actions/SellerDatabase';
+
+/* Utils */
 import { removeSpecialChars, showNAIfZeroOrNull, truncateString } from '../../utils/format';
 import history from '../../history';
+import { timeout } from '../../utils/timeout';
 
 const SellerMapInfoCard = (props: any) => {
   const {
@@ -30,6 +34,7 @@ const SellerMapInfoCard = (props: any) => {
     isLoadingSellerDetailsForMap,
     sellerDetailsForMap,
     fetchSellerDetailsForMap,
+    trackDatabaseSeller,
   } = props;
 
   useEffect(() => {
@@ -50,13 +55,19 @@ const SellerMapInfoCard = (props: any) => {
     business_name = '',
     state = '',
     country = '',
-    sales_estimate_n5p = 0,
     brands = [],
+    merchant_id = '',
     inventory_count = 0,
-    fba_percent_n5p = 0,
   } = sellerDetailsForMap;
 
   const prettyBrands = brands.length > 0 ? removeSpecialChars(brands) : '-';
+
+  /* Handle click inventory button */
+  const handleClickInventory = async () => {
+    trackDatabaseSeller(merchant_id);
+    await timeout(1500);
+    history.push('/seller-finder');
+  };
 
   return (
     <div className={styles.sellerMapInfoCard}>
@@ -87,7 +98,7 @@ const SellerMapInfoCard = (props: any) => {
               <p>
                 <CopyToClipboard
                   data={business_name}
-                  displayData={truncateString(business_name, 25)}
+                  displayData={truncateString(business_name, 15)}
                   className={styles.copyBrands}
                 />
               </p>
@@ -104,7 +115,7 @@ const SellerMapInfoCard = (props: any) => {
 
           {/* Lower Details Section */}
           <div className={styles.sellerCardDetails}>
-            <div className={styles.sellerDetail}>
+            {/* <div className={styles.sellerDetail}>
               <h2>Monthly Revenue</h2>
               <p>
                 {showNAIfZeroOrNull(
@@ -112,13 +123,13 @@ const SellerMapInfoCard = (props: any) => {
                   `$${sales_estimate_n5p && sales_estimate_n5p.toLocaleString()}`
                 )}
               </p>
-            </div>
-            <div className={styles.sellerDetail}>
-              <h2>Brand</h2>
+            </div> */}
+            <div className={`${styles.sellerDetail} ${styles.sellerDetail__long}`}>
+              <h2>Brands</h2>
               <p>
                 <CopyToClipboard
                   data={prettyBrands}
-                  displayData={truncateString(prettyBrands, 8)}
+                  displayData={truncateString(prettyBrands, 40)}
                 />
               </p>
             </div>
@@ -131,14 +142,14 @@ const SellerMapInfoCard = (props: any) => {
                 )}
               </p>
             </div>
-            <div className={styles.sellerDetail}>
+            {/* <div className={styles.sellerDetail}>
               <h2>FBA</h2>
               <p>{showNAIfZeroOrNull(fba_percent_n5p, `${fba_percent_n5p && fba_percent_n5p}%`)}</p>
-            </div>
+            </div> */}
           </div>
 
           {/* Check Inventory Button */}
-          <button className={styles.checkInventory} onClick={() => history.push('/seller-finder')}>
+          <button className={styles.checkInventory} onClick={handleClickInventory}>
             <SellerFinderIcon />
             <span>Inventory</span>
           </button>
@@ -159,6 +170,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchSellerDetailsForMap: (internalID: string) =>
       dispatch(fetchSellerDetailsForMap(internalID)),
+    trackDatabaseSeller: (merchantId: string) => dispatch(trackDatabaseSeller(merchantId)),
   };
 };
 
