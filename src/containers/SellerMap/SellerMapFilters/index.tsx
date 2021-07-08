@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Dropdown, Input } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import validator from 'validator';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -11,7 +12,6 @@ import { STATES } from '../../../constants/SellerDatabase';
 import { fetchSellersForMap } from '../../../actions/SellerMap';
 import { SellerMapPayload } from '../../../interfaces/SellerMap';
 
-// State Options
 // State Options
 const states = STATES.map((state: any) => ({
   key: state.code,
@@ -26,9 +26,12 @@ interface Props {
 const SellerMapFilter: React.FC<Props> = props => {
   const { fetchSellersForMap } = props;
 
-  const [state, setState] = useState('');
-  const [zipCode, setZipCode] = useState('');
-  const [isFilterEmpty, setIsFilterEmpty] = useState(false);
+  const [state, setState] = useState<string>('');
+  const [zipCode, setZipCode] = useState<string>('');
+  const [isFilterEmpty, setIsFilterEmpty] = useState<boolean>(false);
+
+  /* Error States */
+  const [zipCodeError, setZipCodeError] = useState<boolean>(false);
 
   /* Clear Filter State */
   const clearFilters = () => {
@@ -37,14 +40,14 @@ const SellerMapFilter: React.FC<Props> = props => {
   };
 
   /* Handle reset */
-  const handleReset = React.useCallback(() => {
+  const handleReset = useCallback(() => {
     clearFilters();
     fetchSellersForMap({ resetMap: true });
     setIsFilterEmpty(false);
   }, []);
 
   /* Handle Submit */
-  const handleSubmit = React.useCallback(() => {
+  const handleSubmit = useCallback(() => {
     if (!state && !zipCode) {
       setIsFilterEmpty(true);
       return;
@@ -53,6 +56,15 @@ const SellerMapFilter: React.FC<Props> = props => {
     setIsFilterEmpty(false);
     fetchSellersForMap({ state, zipCode });
   }, [state, zipCode]);
+
+  /* Effect to handle errroron zipcodes */
+  useEffect(() => {
+    if (zipCode.length) {
+      setZipCodeError(!validator.isNumeric(zipCode));
+    } else {
+      setZipCodeError(false);
+    }
+  }, [zipCode]);
 
   return (
     <>
@@ -83,6 +95,7 @@ const SellerMapFilter: React.FC<Props> = props => {
               className={styles.formInput__long}
               placeholder="Enter Zip Code seperated by commas"
               value={zipCode}
+              error={zipCodeError}
               onChange={evt => {
                 const val = evt.target.value;
                 setZipCode(val);
