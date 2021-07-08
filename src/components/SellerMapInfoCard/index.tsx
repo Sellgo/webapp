@@ -19,7 +19,7 @@ import {
 
 /* Actions */
 import { fetchSellerDetailsForMap } from '../../actions/SellerMap';
-import { truncateString } from '../../utils/format';
+import { removeSpecialChars, showNAIfZeroOrNull, truncateString } from '../../utils/format';
 import history from '../../history';
 
 const SellerMapInfoCard = (props: any) => {
@@ -45,12 +45,18 @@ const SellerMapInfoCard = (props: any) => {
   }
 
   const {
-    business_name = '',
-    city = '',
-    seller_link = '',
     seller_name = '',
+    seller_link = '',
+    business_name = '',
     state = '',
+    country = '',
+    sales_estimate_n5p = 0,
+    brands = [],
+    inventory_count = 0,
+    fba_percent_n5p = 0,
   } = sellerDetailsForMap;
+
+  const prettyBrands = brands.length > 0 ? removeSpecialChars(brands) : '-';
 
   return (
     <div className={styles.sellerMapInfoCard}>
@@ -92,7 +98,7 @@ const SellerMapInfoCard = (props: any) => {
             </div>
             <div className={styles.sellerDetail}>
               <h2>Country</h2>
-              <p>{city}</p>
+              <p>{country ? country : '-'}</p>
             </div>
           </div>
 
@@ -100,21 +106,34 @@ const SellerMapInfoCard = (props: any) => {
           <div className={styles.sellerCardDetails}>
             <div className={styles.sellerDetail}>
               <h2>Monthly Revenue</h2>
-              <p>$1,234,658</p>
+              <p>
+                {showNAIfZeroOrNull(
+                  sales_estimate_n5p,
+                  `$${sales_estimate_n5p && sales_estimate_n5p.toLocaleString()}`
+                )}
+              </p>
             </div>
             <div className={styles.sellerDetail}>
               <h2>Brand</h2>
               <p>
-                <CopyToClipboard data={'Brandsssss'} />
+                <CopyToClipboard
+                  data={prettyBrands}
+                  displayData={truncateString(prettyBrands, 8)}
+                />
               </p>
             </div>
             <div className={styles.sellerDetail}>
               <h2>Products</h2>
-              <p>#</p>
+              <p>
+                {showNAIfZeroOrNull(
+                  inventory_count,
+                  `#${inventory_count && inventory_count.toLocaleString()}`
+                )}
+              </p>
             </div>
             <div className={styles.sellerDetail}>
               <h2>FBA</h2>
-              <p>100%</p>
+              <p>{showNAIfZeroOrNull(fba_percent_n5p, `${fba_percent_n5p && fba_percent_n5p}%`)}</p>
             </div>
           </div>
 

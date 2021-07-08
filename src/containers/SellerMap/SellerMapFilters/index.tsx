@@ -28,7 +28,6 @@ const SellerMapFilter: React.FC<Props> = props => {
 
   const [state, setState] = useState<string>('');
   const [zipCode, setZipCode] = useState<string>('');
-  const [isFilterEmpty, setIsFilterEmpty] = useState<boolean>(false);
 
   /* Error States */
   const [zipCodeError, setZipCodeError] = useState<boolean>(false);
@@ -43,17 +42,10 @@ const SellerMapFilter: React.FC<Props> = props => {
   const handleReset = useCallback(() => {
     clearFilters();
     fetchSellersForMap({ resetMap: true });
-    setIsFilterEmpty(false);
   }, []);
 
   /* Handle Submit */
   const handleSubmit = useCallback(() => {
-    if (!state && !zipCode) {
-      setIsFilterEmpty(true);
-      return;
-    }
-
-    setIsFilterEmpty(false);
     fetchSellersForMap({ state, zipCode });
   }, [state, zipCode]);
 
@@ -113,12 +105,6 @@ const SellerMapFilter: React.FC<Props> = props => {
           </div>
         </div>
       </section>
-
-      {isFilterEmpty && (
-        <section className={styles.filterAlertBox}>
-          <p>Please use at least one filter.</p>
-        </section>
-      )}
     </>
   );
 };
