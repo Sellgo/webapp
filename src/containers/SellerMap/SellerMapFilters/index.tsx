@@ -28,60 +28,85 @@ const SellerMapFilter: React.FC<Props> = props => {
 
   const [state, setState] = useState('');
   const [zipCode, setZipCode] = useState('');
+  const [isFilterEmpty, setIsFilterEmpty] = useState(false);
+
+  /* Clear Filter State */
+  const clearFilters = () => {
+    setState('');
+    setZipCode('');
+  };
+
+  /* Handle reset */
+  const handleReset = React.useCallback(() => {
+    clearFilters();
+    fetchSellersForMap({ resetMap: true });
+    setIsFilterEmpty(false);
+  }, []);
+
+  /* Handle Submit */
+  const handleSubmit = React.useCallback(() => {
+    if (!state && !zipCode) {
+      setIsFilterEmpty(true);
+      return;
+    }
+
+    setIsFilterEmpty(false);
+    fetchSellersForMap({ state, zipCode });
+  }, [state, zipCode]);
 
   return (
-    <section className={styles.sellerMapFilterContainer}>
-      <div className={styles.sellerMapFilterHeading}>
-        <h1>SELLER MAP</h1>
-      </div>
-
-      <div className={styles.sellermapFilterWrapper}>
-        <div className={styles.filterGroup}>
-          <p>State</p>
-          <Dropdown
-            placeholder="State"
-            fluid
-            className="formDropdown__state"
-            value={state}
-            onChange={(evt, { value }: any) => setState(value)}
-            selection
-            options={states}
-          />
+    <>
+      <section className={styles.sellerMapFilterContainer}>
+        <div className={styles.sellerMapFilterHeading}>
+          <h1>SELLER MAP</h1>
         </div>
 
-        <span className={styles.orSeperator}>or</span>
+        <div className={styles.sellermapFilterWrapper}>
+          <div className={styles.filterGroup}>
+            <p>State</p>
+            <Dropdown
+              placeholder="State"
+              fluid
+              className="formDropdown__state"
+              value={state}
+              onChange={(evt, { value }: any) => setState(value)}
+              selection
+              options={states}
+            />
+          </div>
 
-        <div className={styles.filterGroup}>
-          <p>Zip</p>
-          <Input
-            className={styles.formInput__long}
-            placeholder="Enter Zip Code seperated by commas"
-            value={zipCode}
-            onChange={evt => {
-              const val = evt.target.value;
-              setZipCode(val);
-            }}
-          />
-        </div>
+          <span className={styles.orSeperator}>or</span>
 
-        <div className={styles.filterSubmit}>
-          <Button
-            size="small"
-            className={styles.filterSubmit__reset}
-            onClick={() => fetchSellersForMap({ resetMap: true })}
-          >
-            Reset
-          </Button>
-          <Button
-            size="small"
-            className={styles.filterSubmit__find}
-            onClick={() => fetchSellersForMap({ state, zipCode })}
-          >
-            Find
-          </Button>
+          <div className={styles.filterGroup}>
+            <p>Zip</p>
+            <Input
+              className={styles.formInput__long}
+              placeholder="Enter Zip Code seperated by commas"
+              value={zipCode}
+              onChange={evt => {
+                const val = evt.target.value;
+                setZipCode(val);
+              }}
+            />
+          </div>
+
+          <div className={styles.filterSubmit}>
+            <Button size="small" className={styles.filterSubmit__reset} onClick={handleReset}>
+              Reset
+            </Button>
+            <Button size="small" className={styles.filterSubmit__find} onClick={handleSubmit}>
+              Find
+            </Button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {isFilterEmpty && (
+        <section className={styles.filterAlertBox}>
+          <p>Please use at least one filter.</p>
+        </section>
+      )}
+    </>
   );
 };
 

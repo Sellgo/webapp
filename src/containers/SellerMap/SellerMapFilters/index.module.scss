@@ -113,3 +113,20 @@
     border: 1px solid $sellgo-orange !important;
   }
 }
+
+.filterAlertBox {
+  background: rgba($system_red, 0.2);
+  border-radius: 4px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 20px auto;
+
+  p {
+    color: $system_red;
+    font-weight: 600;
+    text-align: center;
+  }
+}
