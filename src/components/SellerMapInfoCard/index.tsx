@@ -81,7 +81,7 @@ const SellerMapInfoCard = (props: any) => {
               <p>
                 <CopyToClipboard
                   data={business_name}
-                  displayData={truncateString(business_name, 8)}
+                  displayData={truncateString(business_name, 25)}
                   className={styles.copyBrands}
                 />
               </p>
