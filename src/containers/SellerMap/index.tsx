@@ -71,6 +71,7 @@ const SellerMap = (props: any) => {
             </Segment>
           ) : (
             <>
+              {/* Force hide clusters markers group when no sellers exists to reove clustered nodes from map */}
               {sellerDataForMap.length > 0 && (
                 <MarkerClusterGroup>
                   <PlotAllMarkers sellersData={sellerDataForMap || []} />
