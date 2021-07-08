@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { AppConfig } from '../../config';
 import { actionTypes } from '../../constants/SellerMap';
+import { SellerMapPayload } from '../../interfaces/SellerMap';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { success } from '../../utils/notifications';
 
@@ -39,9 +40,19 @@ export const setSellerDetailsForMap = (payload: any) => {
 /* ================= Async actions =========================== */
 
 /* Action for fetching sellers for map */
-export const fetchSellersForMap = () => async (dispatch: any) => {
+export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch: any) => {
   const sellerId = sellerIDSelector();
+
+  const { resetMap = false } = payload;
+
   try {
+    // if reset map is hit
+    if (resetMap) {
+      dispatch(setSellersForMap([]));
+      dispatch(setLoadingSellersForMap(false));
+      return;
+    }
+
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchantmaps/search?max_count=1000`;
     dispatch(setLoadingSellersForMap(true));
     const response = await axios.get(URL);

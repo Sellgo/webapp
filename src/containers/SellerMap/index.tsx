@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import { connect } from 'react-redux';
@@ -25,15 +25,10 @@ import SellerMapFilter from './SellerMapFilters';
 
 /* Selectors */
 import { getIsLoadingSellerForMap, getSellerDataForMap } from '../../selectors/SellerMap';
-import { fetchSellersForMap } from '../../actions/SellerMap';
 
 /* Main Container Component */
 const SellerMap = (props: any) => {
-  const { match, isLoadingSellersForMap, sellerDataForMap, fetchSellersForMap } = props;
-
-  useEffect(() => {
-    fetchSellersForMap();
-  }, []);
+  const { match, isLoadingSellersForMap, sellerDataForMap } = props;
 
   return (
     <main className={styles.sellerMap}>
@@ -71,13 +66,17 @@ const SellerMap = (props: any) => {
               <Loader
                 active={isLoadingSellersForMap}
                 size="large"
-                content="Populatng sellers on map"
+                content="Populating sellers on map..."
               />
             </Segment>
           ) : (
-            <MarkerClusterGroup>
-              <PlotAllMarkers sellersData={sellerDataForMap || []} />
-            </MarkerClusterGroup>
+            <>
+              {sellerDataForMap.length > 0 && (
+                <MarkerClusterGroup>
+                  <PlotAllMarkers sellersData={sellerDataForMap || []} />
+                </MarkerClusterGroup>
+              )}
+            </>
           )}
         </MapContainer>
       </section>
@@ -90,10 +89,4 @@ const mapStateToProps = (state: any) => ({
   sellerDataForMap: getSellerDataForMap(state),
 });
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    fetchSellersForMap: () => dispatch(fetchSellersForMap()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SellerMap);
+export default connect(mapStateToProps)(SellerMap);

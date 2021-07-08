@@ -151,7 +151,7 @@ class SidebarCollapsible extends Component<
                 {icon.imageType ? (
                   <>
                     <img src={icon.icon} alt="Icons" />
-                    {(icon.id === 5 || icon.id === 6) && <BetaLabel />}
+                    {(icon.id === 5 || icon.id === 6 || icon.id === 7) && <BetaLabel />}
                   </>
                 ) : (
                   <i

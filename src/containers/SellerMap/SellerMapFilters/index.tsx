@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Dropdown, Input } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -7,6 +8,8 @@ import '../globals.scss';
 
 /* Constants */
 import { STATES } from '../../../constants/SellerDatabase';
+import { fetchSellersForMap } from '../../../actions/SellerMap';
+import { SellerMapPayload } from '../../../interfaces/SellerMap';
 
 // State Options
 // State Options
@@ -16,7 +19,13 @@ const states = STATES.map((state: any) => ({
   text: state.name,
 }));
 
-const SellerMapFilter = () => {
+interface Props {
+  fetchSellersForMap: (payload: SellerMapPayload) => void;
+}
+
+const SellerMapFilter: React.FC<Props> = props => {
+  const { fetchSellersForMap } = props;
+
   const [state, setState] = useState('');
   const [zipCode, setZipCode] = useState('');
 
@@ -56,10 +65,18 @@ const SellerMapFilter = () => {
         </div>
 
         <div className={styles.filterSubmit}>
-          <Button size="small" className={styles.filterSubmit__reset}>
+          <Button
+            size="small"
+            className={styles.filterSubmit__reset}
+            onClick={() => fetchSellersForMap({ resetMap: true })}
+          >
             Reset
           </Button>
-          <Button size="small" className={styles.filterSubmit__find}>
+          <Button
+            size="small"
+            className={styles.filterSubmit__find}
+            onClick={() => fetchSellersForMap({ state, zipCode })}
+          >
             Find
           </Button>
         </div>
@@ -68,4 +85,10 @@ const SellerMapFilter = () => {
   );
 };
 
-export default SellerMapFilter;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchSellersForMap: (payload: SellerMapPayload) => dispatch(fetchSellersForMap(payload)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SellerMapFilter);

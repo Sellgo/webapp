@@ -1,5 +1,11 @@
 export type Location = [number, number];
 
+export interface SellerMapPayload {
+  resetMap?: boolean;
+  state?: string;
+  zipCode?: string;
+}
+
 export interface SellerData {
   business_name: string;
   city: string;
