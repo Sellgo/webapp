@@ -14,6 +14,7 @@ import leadsReducer from './LeadsTracker';
 import notificationReducer from './Notification';
 import sellerFinderReducer from './SellerFinder';
 import sellerDatabaseReducer from './SellerDatabase';
+import sellerMapReducer from './SellerMap';
 
 const rootReducer = combineReducers({
   settings: settingsReducer,
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   notification: notificationReducer,
   sellerFinder: sellerFinderReducer,
   sellerDatabase: sellerDatabaseReducer,
+  sellerMap: sellerMapReducer,
 });
 
 export default rootReducer;

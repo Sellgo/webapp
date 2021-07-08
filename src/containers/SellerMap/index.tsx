@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
-
-import axios from 'axios';
-
-import { success } from '../../utils/notifications';
+import { connect } from 'react-redux';
+import { Loader, Segment } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -25,22 +23,18 @@ import PageHeader from '../../components/PageHeader';
 import PlotAllMarkers from './PlotAllMarkers';
 import SellerMapFilter from './SellerMapFilters';
 
+/* Selectors */
+import { getIsLoadingSellerForMap, getSellerDataForMap } from '../../selectors/SellerMap';
+import { fetchSellersForMap } from '../../actions/SellerMap';
+
 /* Main Container Component */
 const SellerMap = (props: any) => {
-  const { match } = props;
+  const { match, isLoadingSellersForMap, sellerDataForMap, fetchSellersForMap } = props;
 
-  const [mapData, setMapData] = useState([]);
+  console.log(isLoadingSellersForMap, sellerDataForMap);
 
   useEffect(() => {
-    axios
-      .get('http://18.207.105.104/api/sellers/1000000002/merchantmaps/search?max_count=1000')
-      .then(resp => {
-        setMapData(resp.data);
-        success(`Found ${resp.data.length} sellers`);
-      })
-      .catch(err => {
-        console.error('Error fetching data', err.response);
-      });
+    fetchSellersForMap();
   }, []);
 
   return (
@@ -74,13 +68,34 @@ const SellerMap = (props: any) => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             noWrap
           />
-          <MarkerClusterGroup>
-            <PlotAllMarkers sellersData={mapData} />
-          </MarkerClusterGroup>
+          {isLoadingSellersForMap ? (
+            <Segment className={styles.sellerMapLoader}>
+              <Loader
+                active={isLoadingSellersForMap}
+                size="large"
+                content="Populatng sellers on map"
+              />
+            </Segment>
+          ) : (
+            <MarkerClusterGroup>
+              <PlotAllMarkers sellersData={sellerDataForMap || []} />
+            </MarkerClusterGroup>
+          )}
         </MapContainer>
       </section>
     </main>
   );
 };
 
-export default SellerMap;
+const mapStateToProps = (state: any) => ({
+  isLoadingSellersForMap: getIsLoadingSellerForMap(state),
+  sellerDataForMap: getSellerDataForMap(state),
+});
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchSellersForMap: () => dispatch(fetchSellersForMap()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SellerMap);

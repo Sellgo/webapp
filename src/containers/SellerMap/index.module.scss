@@ -15,3 +15,14 @@
   z-index: inherit;
   background-color: #fff !important;
 }
+
+.sellerMapLoader {
+  background: #fff;
+  z-index: 999999 !important;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.8;
+  margin: 0 !important;
+}
