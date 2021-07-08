@@ -3,13 +3,14 @@ import { Marker, Tooltip } from 'react-leaflet';
 
 /* Components */
 import SellerMapInfoCard from '../../../components/SellerMapInfoCard';
+
 /* Interfaces */
 import { Location } from '../../../interfaces/SellerMap';
 
 const PlotAllMarkers = (props: any) => {
   const { sellersData } = props;
 
-  const [showSellerCard, setShowSellerCard] = useState(true);
+  const [showSellerCard, setShowSellerCard] = useState(false);
   const [internalId, setInternalId] = useState('');
 
   return (
@@ -34,13 +35,12 @@ const PlotAllMarkers = (props: any) => {
           </Marker>
         );
       })}
-      {
-        <SellerMapInfoCard
-          internalId={internalId}
-          showSellerCard={showSellerCard}
-          hideSellerCard={() => setShowSellerCard(false)}
-        />
-      }
+
+      <SellerMapInfoCard
+        internalId={internalId}
+        showSellerCard={showSellerCard}
+        hideSellerCard={() => setShowSellerCard(false)}
+      />
     </>
   );
 };

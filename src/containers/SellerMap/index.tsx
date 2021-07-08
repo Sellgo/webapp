@@ -31,8 +31,6 @@ import { fetchSellersForMap } from '../../actions/SellerMap';
 const SellerMap = (props: any) => {
   const { match, isLoadingSellersForMap, sellerDataForMap, fetchSellersForMap } = props;
 
-  console.log(isLoadingSellersForMap, sellerDataForMap);
-
   useEffect(() => {
     fetchSellersForMap();
   }, []);

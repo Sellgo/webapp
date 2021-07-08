@@ -12,7 +12,7 @@ export const getSellerDataForMap = (state: any) => {
 
 /* Selector for the seller details loading state */
 export const getIsLoadingSellerDetailsForMap = (state: any) => {
-  get(state, 'sellerMap.isLoadingSellerDetails');
+  return get(state, 'sellerMap.isLoadingSellerDetails');
 };
 
 /* Selector for seller details data on map */

@@ -1,5 +1,5 @@
-import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Loader, Dimmer, Icon } from 'semantic-ui-react';
 
 /* Assets */
@@ -8,57 +8,61 @@ import { ReactComponent as SellerFinderIcon } from '../../assets/images/sellerFi
 /* Styles */
 import styles from './index.module.scss';
 
-/* Constants */
-import { DEFAULT_SELLER_INFO } from '../../constants/SellerMap';
-
-/* Interfaces */
-import { SellerData } from '../../interfaces/SellerMap';
+/* Components */
 import CopyToClipboard from '../CopyToClipboard';
 
-interface Props {
-  internalId: string;
-  showSellerCard: boolean;
-  hideSellerCard: () => void;
-}
+/* Selectors */
+import {
+  getIsLoadingSellerDetailsForMap,
+  getSellerDetailsDataForMap,
+} from '../../selectors/SellerMap';
 
-const SellerMapInfoCard: React.FC<Props> = props => {
-  const { internalId, showSellerCard, hideSellerCard } = props;
-  const [isLoading, setIsLoading] = useState(false);
-  const [, setSellerInfo] = useState<SellerData>(DEFAULT_SELLER_INFO);
+/* Actions */
+import { fetchSellerDetailsForMap } from '../../actions/SellerMap';
+import { truncateString } from '../../utils/format';
+import history from '../../history';
+
+const SellerMapInfoCard = (props: any) => {
+  const {
+    internalId,
+    showSellerCard,
+    hideSellerCard,
+    isLoadingSellerDetailsForMap,
+    sellerDetailsForMap,
+    fetchSellerDetailsForMap,
+  } = props;
 
   useEffect(() => {
     if (!internalId) {
       return;
     }
 
-    setIsLoading(true);
-    axios
-      .get(`http://18.207.105.104/api/sellers/1000000002/merchants/search?id=${internalId}`)
-      .then(resp => {
-        if (resp.data) {
-          setSellerInfo(resp.data[0] || {});
-          setIsLoading(false);
-        }
-      })
-      .catch(() => {
-        setIsLoading(false);
-        setSellerInfo(DEFAULT_SELLER_INFO);
-      });
+    fetchSellerDetailsForMap(internalId);
   }, [internalId]);
 
   if (!showSellerCard) {
     return null;
   }
 
+  const {
+    business_name = '',
+    city = '',
+    seller_link = '',
+    seller_name = '',
+    state = '',
+  } = sellerDetailsForMap;
+
   return (
     <div className={styles.sellerMapInfoCard}>
       <button className={styles.sellerMapCloseIcon} onClick={hideSellerCard}>
         <Icon name="close" color="black" />
       </button>
-      {isLoading ? (
+      {isLoadingSellerDetailsForMap ? (
         <>
           <Dimmer active inverted>
-            <Loader inverted>Fetching Seller Data...</Loader>
+            <Loader inverted active={isLoadingSellerDetailsForMap}>
+              Fetching Seller Data...
+            </Loader>
           </Dimmer>
         </>
       ) : (
@@ -68,23 +72,27 @@ const SellerMapInfoCard: React.FC<Props> = props => {
             <div className={styles.sellerDetail}>
               <h2>Name</h2>
               <p>
-                <span>Seller Names new Seller</span>
-                <Icon name="external" />
+                <span>{truncateString(seller_name, 10)}</span>
+                <Icon name="external" onClick={() => window.open(seller_link, '_blank')} />
               </p>
             </div>
             <div className={styles.sellerDetail}>
               <h2>Business Name</h2>
               <p>
-                <CopyToClipboard data={'Businesssss Name'} className={styles.copyBrands} />
+                <CopyToClipboard
+                  data={business_name}
+                  displayData={truncateString(business_name, 8)}
+                  className={styles.copyBrands}
+                />
               </p>
             </div>
             <div className={styles.sellerDetail}>
               <h2>State</h2>
-              <p>AA</p>
+              <p>{state.toUpperCase()}</p>
             </div>
             <div className={styles.sellerDetail}>
               <h2>Country</h2>
-              <p>AA</p>
+              <p>{city}</p>
             </div>
           </div>
 
@@ -111,7 +119,7 @@ const SellerMapInfoCard: React.FC<Props> = props => {
           </div>
 
           {/* Check Inventory Button */}
-          <button className={styles.checkInventory}>
+          <button className={styles.checkInventory} onClick={() => history.push('/seller-finder')}>
             <SellerFinderIcon />
             <span>Inventory</span>
           </button>
@@ -121,4 +129,18 @@ const SellerMapInfoCard: React.FC<Props> = props => {
   );
 };
 
-export default SellerMapInfoCard;
+const mapStateToProps = (state: any) => {
+  return {
+    isLoadingSellerDetailsForMap: getIsLoadingSellerDetailsForMap(state),
+    sellerDetailsForMap: getSellerDetailsDataForMap(state),
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchSellerDetailsForMap: (internalID: string) =>
+      dispatch(fetchSellerDetailsForMap(internalID)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SellerMapInfoCard);

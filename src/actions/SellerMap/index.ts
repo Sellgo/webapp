@@ -56,3 +56,22 @@ export const fetchSellersForMap = () => async (dispatch: any) => {
     dispatch(setLoadingSellersForMap(false));
   }
 };
+
+/* Action for fetching seller details on marker click */
+export const fetchSellerDetailsForMap = (sellerInternalID: string) => async (dispatch: any) => {
+  const sellerId = sellerIDSelector();
+  try {
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchants/search?id=${sellerInternalID}`;
+    dispatch(setLoadingSellerDetailsForMap(true));
+    const response = await axios.get(URL);
+    if (response && response.data) {
+      const sellerDetails = response.data[0];
+      dispatch(setSellerDetailsForMap(sellerDetails));
+      dispatch(setLoadingSellerDetailsForMap(false));
+    }
+  } catch (err) {
+    console.error('Error Fetching seller details for map', err.response);
+    dispatch(setSellerDetailsForMap({}));
+    dispatch(setLoadingSellerDetailsForMap(false));
+  }
+};
