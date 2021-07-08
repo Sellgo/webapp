@@ -11,6 +11,7 @@ import get from 'lodash/get';
 import { LogoWithoutText } from '../Logo/index';
 import sellerFinderIcon from '../../assets/images/sellerFinder.svg';
 import sellerDatabaseIcon from '../../assets/images/sellerDatabase.svg';
+import sellerMapIcon from '../../assets/images/sellerMapIcon.svg';
 import BetaLabel from '../BetaLabel';
 
 interface IconD {
@@ -41,6 +42,7 @@ class SidebarCollapsible extends Component<
         icon: 'fas fa-clipboard-list',
         path: '/synthesis',
         notifyId: 1,
+        imageType: false,
       },
       {
         id: 2,
@@ -48,6 +50,7 @@ class SidebarCollapsible extends Component<
         icon: 'fas fa-search-dollar',
         path: '/profit-finder',
         notifyId: 1,
+        imageType: false,
       },
       {
         id: 3,
@@ -55,6 +58,7 @@ class SidebarCollapsible extends Component<
         icon: 'fas fa-fingerprint',
         path: '/product-tracker',
         notifyId: 2,
+        imageType: false,
       },
       {
         id: 4,
@@ -62,25 +66,36 @@ class SidebarCollapsible extends Component<
         icon: 'fas fa-user-ninja',
         path: '/leads-tracker',
         notifyId: 2,
+        imageType: false,
       },
       {
         id: 5,
         label: 'Seller Database',
-        icon: 'fas fa-user-unlocked',
+        icon: sellerDatabaseIcon,
         path: '/seller-database',
         notifyId: 4,
+        imageType: true,
       },
       {
         id: 6,
         label: 'Seller Finder',
-        icon: 'fas fa-scanner',
+        icon: sellerFinderIcon,
         path: '/seller-finder',
         notifyId: 4,
+        imageType: true,
+      },
+      {
+        id: 7,
+        label: 'Seller Map',
+        icon: sellerMapIcon,
+        path: '/seller-map',
+        notifyId: 4,
+        imageType: true,
       },
 
-      { id: 7, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
+      { id: 8, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
       {
-        id: 8,
+        id: 9,
         label: 'Onboarding',
         icon: 'far fa-question-circle',
         path: '/onboarding',
@@ -96,79 +111,75 @@ class SidebarCollapsible extends Component<
   render() {
     const { visible, sidebarIcon } = this.state;
     const { children, currentNotifyId } = this.props;
+
+    const upperNavbar = this.state.sidebarIcon.filter(icon => icon.id < 8);
+    const lowerNavbar = this.state.sidebarIcon.filter(icon => icon.id >= 8);
+
     let supplier_id = '';
+
     const latest = getLatestSupplier();
     if (latest) {
       supplier_id = latest.supplier_id;
     }
+
     const currentPath = window.location.pathname;
     const links = sidebarIcon.map((link: any) =>
       link.id === 2 ? `${link.path}/${supplier_id}` : link.path
     );
+
     const sidebarMenu = (
       <>
         <Link to="/" className="sidebar-menu__logo">
           <LogoWithoutText />
         </Link>
+        {/* Upper portion of sidebar */}
         <Menu.Menu>
-          {this.state.sidebarIcon.map(icon => {
-            if (icon.id <= 6) {
-              return (
-                <Menu.Item
-                  onClick={() => {
-                    visible && this.handleAnimationChange();
-                  }}
-                  as={icon.id === 2 && !supplier_id ? 'div' : Link}
-                  disabled={!!(icon.id === 2 && !supplier_id)}
-                  to={icon.id === 2 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path}
-                  name={icon.icon}
-                  active={links[icon.id - 1] === currentPath}
-                  className={'sidebar-menu__items'}
-                  key={icon.id}
-                >
-                  {icon.id === 5 || icon.id === 6 ? (
-                    <>
-                      {' '}
-                      <img
-                        src={icon.id === 5 ? sellerDatabaseIcon : sellerFinderIcon}
-                        alt="Icons"
-                      />
-                      <BetaLabel />
-                    </>
-                  ) : (
-                    <i
-                      className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
-                        'forward'} ${icon.id === 2 && !supplier_id ? 'disabled-link' : ''}`}
-                    />
-                  )}
-                </Menu.Item>
-              );
-            } else {
-              return null;
-            }
-          })}
-        </Menu.Menu>
-        <Menu.Menu className="sidebar-bottom-icon">
-          {this.state.sidebarIcon.map(icon => {
-            if (icon.id >= 7) {
-              return (
-                <Menu.Item
-                  key={icon.id}
-                  as={Link}
-                  to={icon.path}
-                  name={icon.icon}
-                  active={links[icon.id - 1] === currentPath}
-                  className={'sidebar-menu__items'}
-                >
+          {upperNavbar.map(icon => {
+            return (
+              <Menu.Item
+                onClick={() => {
+                  visible && this.handleAnimationChange();
+                }}
+                as={icon.id === 2 && !supplier_id ? 'div' : Link}
+                disabled={!!(icon.id === 2 && !supplier_id)}
+                to={icon.id === 2 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path}
+                name={icon.icon}
+                active={links[icon.id - 1] === currentPath}
+                className={'sidebar-menu__items'}
+                key={icon.id}
+              >
+                {icon.imageType ? (
+                  <>
+                    <img src={icon.icon} alt="Icons" />
+                    {(icon.id === 5 || icon.id === 6 || icon.id === 7) && <BetaLabel />}
+                  </>
+                ) : (
                   <i
                     className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
-                      'forward'} `}
+                      'forward'} ${icon.id === 2 && !supplier_id ? 'disabled-link' : ''}`}
                   />
-                </Menu.Item>
-              );
-            } else {
-              return null;
-            }
+                )}
+              </Menu.Item>
+            );
+          })}
+        </Menu.Menu>
+        {/* Lower portion os sidebar */}
+        <Menu.Menu className="sidebar-bottom-icon">
+          {lowerNavbar.map(icon => {
+            return (
+              <Menu.Item
+                key={icon.id}
+                as={Link}
+                to={icon.path}
+                name={icon.icon}
+                active={links[icon.id - 1] === currentPath}
+                className={'sidebar-menu__items'}
+              >
+                <i
+                  className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId && 'forward'} `}
+                />
+              </Menu.Item>
+            );
           })}
         </Menu.Menu>
       </>
