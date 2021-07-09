@@ -58,9 +58,14 @@ const SellerMapInfoCard = (props: any) => {
     brands = [],
     merchant_id = '',
     inventory_count = 0,
+    tracking_status = false,
   } = sellerDetailsForMap;
 
   const prettyBrands = brands.length > 0 ? removeSpecialChars(brands) : '-';
+
+  const inventoryButtonStyles = tracking_status
+    ? styles.checkInventoryActive
+    : styles.checkInventory;
 
   /* Handle click inventory button */
   const handleClickInventory = async () => {
@@ -149,7 +154,7 @@ const SellerMapInfoCard = (props: any) => {
           </div>
 
           {/* Check Inventory Button */}
-          <button className={styles.checkInventory} onClick={handleClickInventory}>
+          <button className={inventoryButtonStyles} onClick={handleClickInventory}>
             <SellerFinderIcon />
             <span>Inventory</span>
           </button>
