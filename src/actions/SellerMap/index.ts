@@ -3,7 +3,7 @@ import { AppConfig } from '../../config';
 import { actionTypes } from '../../constants/SellerMap';
 import { SellerMapPayload } from '../../interfaces/SellerMap';
 import { sellerIDSelector } from '../../selectors/Seller';
-import { success } from '../../utils/notifications';
+import { error, success } from '../../utils/notifications';
 
 /* Action Creator for setting loading state for sellers on map */
 export const setLoadingSellersForMap = (payload: boolean) => {
@@ -82,6 +82,7 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
 export const fetchSellerDetailsForMap = (sellerInternalID: string) => async (dispatch: any) => {
   const sellerId = sellerIDSelector();
   try {
+    sellerInternalID = encodeURI(sellerInternalID);
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchants/search?id=${sellerInternalID}`;
     dispatch(setLoadingSellerDetailsForMap(true));
     const response = await axios.get(URL);
@@ -91,7 +92,13 @@ export const fetchSellerDetailsForMap = (sellerInternalID: string) => async (dis
       dispatch(setLoadingSellerDetailsForMap(false));
     }
   } catch (err) {
-    console.error('Error Fetching seller details for map', err.response);
+    const { response } = err;
+    if (response) {
+      const { status } = err;
+      if (status === 400) {
+        error('Your Session Has Expired, Please Refresh and Try Again');
+      }
+    }
     dispatch(setSellerDetailsForMap({}));
     dispatch(setLoadingSellerDetailsForMap(false));
   }
