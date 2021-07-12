@@ -10,7 +10,6 @@ import { Location } from '../../../interfaces/SellerMap';
 const PlotAllMarkers = (props: any) => {
   const { sellersData } = props;
 
-  const [showSellerCard, setShowSellerCard] = useState(false);
   const [internalId, setInternalId] = useState('');
 
   return (
@@ -24,7 +23,6 @@ const PlotAllMarkers = (props: any) => {
             position={center}
             eventHandlers={{
               click: (e: any) => {
-                setShowSellerCard(true);
                 setInternalId(e.target.options['data-id']);
               },
             }}
@@ -36,11 +34,7 @@ const PlotAllMarkers = (props: any) => {
         );
       })}
 
-      <SellerMapInfoCard
-        internalId={internalId}
-        showSellerCard={showSellerCard}
-        hideSellerCard={() => setShowSellerCard(false)}
-      />
+      <SellerMapInfoCard internalId={internalId} />
     </>
   );
 };

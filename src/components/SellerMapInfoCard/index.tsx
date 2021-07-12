@@ -15,10 +15,11 @@ import CopyToClipboard from '../CopyToClipboard';
 import {
   getIsLoadingSellerDetailsForMap,
   getSellerDetailsDataForMap,
+  getShowSellerDetailsCardForMap,
 } from '../../selectors/SellerMap';
 
 /* Actions */
-import { fetchSellerDetailsForMap } from '../../actions/SellerMap';
+import { fetchSellerDetailsForMap, setShowSellerDetailsCard } from '../../actions/SellerMap';
 import { trackDatabaseSeller } from '../../actions/SellerDatabase';
 
 /* Utils */
@@ -26,14 +27,24 @@ import { removeSpecialChars, showNAIfZeroOrNull, truncateString } from '../../ut
 import history from '../../history';
 import { timeout } from '../../utils/timeout';
 
-const SellerMapInfoCard = (props: any) => {
+interface Props {
+  internalId: string;
+  isLoadingSellerDetailsForMap: boolean;
+  sellerDetailsForMap: any;
+  showSellerDetailsCardForMap: boolean;
+  fetchSellerDetailsForMap: (internalId: string) => void;
+  setShowSellerDetailsCard: (payload: boolean) => void;
+  trackDatabaseSeller: (merhcnatId: string) => void;
+}
+
+const SellerMapInfoCard = (props: Props) => {
   const {
     internalId,
-    showSellerCard,
-    hideSellerCard,
     isLoadingSellerDetailsForMap,
     sellerDetailsForMap,
+    showSellerDetailsCardForMap,
     fetchSellerDetailsForMap,
+    setShowSellerDetailsCard,
     trackDatabaseSeller,
   } = props;
 
@@ -42,10 +53,11 @@ const SellerMapInfoCard = (props: any) => {
       return;
     }
 
+    setShowSellerDetailsCard(true);
     fetchSellerDetailsForMap(internalId);
   }, [internalId]);
 
-  if (!showSellerCard) {
+  if (!showSellerDetailsCardForMap) {
     return null;
   }
 
@@ -76,7 +88,7 @@ const SellerMapInfoCard = (props: any) => {
 
   return (
     <div className={styles.sellerMapInfoCard}>
-      <button className={styles.sellerMapCloseIcon} onClick={hideSellerCard}>
+      <button className={styles.sellerMapCloseIcon} onClick={() => setShowSellerDetailsCard(false)}>
         <Icon name="close" color="black" />
       </button>
       {isLoadingSellerDetailsForMap ? (
@@ -168,6 +180,7 @@ const mapStateToProps = (state: any) => {
   return {
     isLoadingSellerDetailsForMap: getIsLoadingSellerDetailsForMap(state),
     sellerDetailsForMap: getSellerDetailsDataForMap(state),
+    showSellerDetailsCardForMap: getShowSellerDetailsCardForMap(state),
   };
 };
 
@@ -176,6 +189,7 @@ const mapDispatchToProps = (dispatch: any) => {
     fetchSellerDetailsForMap: (internalID: string) =>
       dispatch(fetchSellerDetailsForMap(internalID)),
     trackDatabaseSeller: (merchantId: string) => dispatch(trackDatabaseSeller(merchantId)),
+    setShowSellerDetailsCard: (payload: boolean) => dispatch(setShowSellerDetailsCard(payload)),
   };
 };
 

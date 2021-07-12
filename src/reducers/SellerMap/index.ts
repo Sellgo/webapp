@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   sellersForMap: [],
   isLoadingSellerDetails: false,
   sellerDetails: [],
+  showSellerDetailsCard: false,
 };
 
 const sellerMapReducer = (state = INITIAL_STATE, action: AnyAction) => {
@@ -22,6 +23,9 @@ const sellerMapReducer = (state = INITIAL_STATE, action: AnyAction) => {
     }
     case actionTypes.SET_SELLER_DETAILS_FOR_MAP: {
       return setIn(state, 'sellerDetails', action.payload);
+    }
+    case actionTypes.SHOW_SELLER_DETAILS_CARD: {
+      return setIn(state, 'showSellerDetailsCard', action.payload);
     }
     default: {
       return state;

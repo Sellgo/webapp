@@ -37,6 +37,14 @@ export const setSellerDetailsForMap = (payload: any) => {
   };
 };
 
+/* Action creator for setting show seller detals card state */
+export const setShowSellerDetailsCard = (payload: boolean) => {
+  return {
+    type: actionTypes.SHOW_SELLER_DETAILS_CARD,
+    payload,
+  };
+};
+
 /* ================= Async actions =========================== */
 
 /* Action for fetching sellers for map */
@@ -99,6 +107,7 @@ export const fetchSellerDetailsForMap = (sellerInternalID: string) => async (dis
         error('Your Session Has Expired, Please Refresh and Try Again');
       }
     }
+    dispatch(setShowSellerDetailsCard(false));
     dispatch(setSellerDetailsForMap({}));
     dispatch(setLoadingSellerDetailsForMap(false));
   }
