@@ -11,6 +11,7 @@ import '../globals.scss';
 import { STATES } from '../../../constants/SellerDatabase';
 import { fetchSellersForMap } from '../../../actions/SellerMap';
 import { SellerMapPayload } from '../../../interfaces/SellerMap';
+import { SELLER_LIMIT_OPTIONS } from '../../../constants/SellerMap';
 
 // State Options
 const states = STATES.map((state: any) => ({
@@ -28,6 +29,7 @@ const SellerMapFilter: React.FC<Props> = props => {
 
   const [state, setState] = useState<string>('');
   const [zipCode, setZipCode] = useState<string>('');
+  const [sellerLimit, setSellerLimit] = useState<number>(1000);
 
   /* Error States */
   const [zipCodeError, setZipCodeError] = useState<boolean>(false);
@@ -46,8 +48,8 @@ const SellerMapFilter: React.FC<Props> = props => {
 
   /* Handle Submit */
   const handleSubmit = useCallback(() => {
-    fetchSellersForMap({ state, zipCode });
-  }, [state, zipCode]);
+    fetchSellersForMap({ state, zipCode, maxCount: sellerLimit });
+  }, [state, zipCode, sellerLimit]);
 
   /* Effect to handle errroron zipcodes */
   useEffect(() => {
@@ -63,6 +65,15 @@ const SellerMapFilter: React.FC<Props> = props => {
       <section className={styles.sellerMapFilterContainer}>
         <div className={styles.sellerMapFilterHeading}>
           <h1>SELLER MAP</h1>
+          <Dropdown
+            placeholder="Seller Limit"
+            fluid
+            className="formDropdown__sellerLimit"
+            value={sellerLimit}
+            onChange={(evt, { value }: any) => setSellerLimit(value)}
+            selection
+            options={SELLER_LIMIT_OPTIONS}
+          />
         </div>
 
         <div className={styles.sellermapFilterWrapper}>

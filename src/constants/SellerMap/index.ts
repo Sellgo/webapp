@@ -29,3 +29,37 @@ export const DEFAULT_SELLER_INFO = {
   state: '',
   zip_code: '',
 };
+
+// Seller Limit Options
+export const SELLER_LIMIT_OPTIONS = [
+  {
+    key: '1000',
+    value: 1000,
+    text: '1k',
+  },
+  {
+    key: '2000',
+    value: 2000,
+    text: '2k',
+  },
+  {
+    key: '5000',
+    value: 5000,
+    text: '5k',
+  },
+  {
+    key: '10000',
+    value: 10000,
+    text: '10k',
+  },
+  {
+    key: '20000',
+    value: 20000,
+    text: '20k',
+  },
+  {
+    key: '50000',
+    value: 50000,
+    text: '50k',
+  },
+];

@@ -61,6 +61,7 @@ const SellerMap = (props: Props) => {
       <SellerMapFilter />
       <section className={styles.mapContainer}>
         <MapContainer
+          preferCanvas
           animate
           center={INITIAL_CENTER}
           zoom={INITIAL_ZOOM}
