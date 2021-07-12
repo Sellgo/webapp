@@ -102,7 +102,7 @@ export const fetchSellerDetailsForMap = (sellerInternalID: string) => async (dis
   } catch (err) {
     const { response } = err;
     if (response) {
-      const { status } = err;
+      const { status } = response;
       if (status === 400) {
         error('Your Session Has Expired, Please Refresh and Try Again');
       }
