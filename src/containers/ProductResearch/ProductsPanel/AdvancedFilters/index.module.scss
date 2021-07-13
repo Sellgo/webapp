@@ -1,12 +1,6 @@
 @import '../../../../design-system/colors.scss';
 
 .advancedFiltersOptions {
-  // align-items: flex-start;
-  // flex-wrap: wrap;
-  // justify-content: space-between;
-  // min-height: 250px;
-  // column-gap: 50px;
-  // column-count: 6;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(auto, 1fr);
