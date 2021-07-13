@@ -1,5 +1,11 @@
 @import '../../../../design-system/colors.scss';
 
-.advancedFilterOptions {
+.advancedFiltersOptions {
   background: white;
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  min-height: 180px;
+  column-gap: 20px;
 }

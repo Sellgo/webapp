@@ -9,7 +9,7 @@ import AdvancedFilters from './AdvancedFilters';
 import styles from './index.module.scss';
 
 const ProductPanel = () => {
-  const [showAdvancedFilter, setShowAdvancedFilter] = useState<boolean>(false);
+  const [showAdvancedFilter, setShowAdvancedFilter] = useState<boolean>(true);
 
   return (
     <>
