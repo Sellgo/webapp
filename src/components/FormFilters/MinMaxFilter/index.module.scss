@@ -1,7 +1,7 @@
 @import '../../../design-system/colors.scss';
 
 .minMaxFilter {
-  width: max-content !important;
+  min-width: 225px;
 
   p {
     margin: 0;
@@ -13,13 +13,8 @@
 
 .inputWrapper {
   display: flex;
-  justify-content: center;
+  justify-content: space-between !important;
   align-items: center;
-  width: max-content !important;
-
-  svg {
-    margin: 0 4px !important;
-  }
 
   input {
     border: 1px solid $grey_6 !important;
@@ -30,6 +25,7 @@
     width: 100px !important;
     height: 35px !important;
     padding: 10px !important;
+    margin: 0;
 
     &::placeholder {
       color: $sellgo-placeholder-color;
