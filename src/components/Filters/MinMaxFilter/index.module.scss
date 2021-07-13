@@ -1,0 +1,41 @@
+@import '../../../design-system/colors.scss';
+
+.minMaxFilter {
+  p {
+    margin: 0;
+    color: $sellgo-text;
+    font-size: 16px;
+    font-weight: 500;
+    width: max-content;
+  }
+}
+
+.inputWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: max-content !important;
+
+  svg {
+    margin: 0 4px !important;
+  }
+
+  input {
+    border: 1px solid $grey_6 !important;
+    outline: 0 !important;
+    border-radius: 3px;
+    font-size: 12px;
+    color: $sellgo-text !important;
+    width: 100px !important;
+    height: 35px !important;
+    padding: 10px !important;
+
+    &::placeholder {
+      color: $sellgo-placeholder-color;
+    }
+
+    &:focus {
+      border: 1px solid $grey_6 !important;
+    }
+  }
+}

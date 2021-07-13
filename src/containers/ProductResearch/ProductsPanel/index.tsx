@@ -1,5 +1,8 @@
 import React from 'react';
 
+/* Components */
+import BasicFilters from './BasicFilters';
+
 /* Styling */
 import styles from './index.module.scss';
 
@@ -7,9 +10,7 @@ const ProductPanel = () => {
   return (
     <>
       <section className={styles.filterSection}>
-        <div className={styles.basicFilters}>
-          <p>Basic Filters will go here</p>
-        </div>
+        <BasicFilters />
         <div className={styles.advancedFilter}>
           <p>Advanced Filter will go here</p>
         </div>

@@ -1,0 +1,11 @@
+@import '../../../../design-system/colors.scss';
+
+.basicFilter {
+  border: 1px solid red !important;
+}
+
+.basicFilters {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
