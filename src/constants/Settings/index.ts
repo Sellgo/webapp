@@ -85,3 +85,17 @@ export const countryList = [
   { name: 'Kingdom', code: 'GB', id: 'GB' },
   { name: 'United States', code: 'US', id: 'US' },
 ];
+
+export const MARKETPLACE_DROPDOWN_OPTIONS = defaultMarketplaces.map((marketplace: any) => {
+  return {
+    ...marketplace,
+    key: marketplace.code,
+    text: marketplace.name,
+    value: marketplace.id,
+    flag: marketplace.code.toLowerCase(),
+  };
+});
+
+export const DEFAULT_US_MARKETPLACE = MARKETPLACE_DROPDOWN_OPTIONS.find(
+  (marketplace: any) => marketplace.code === 'US'
+).id;
