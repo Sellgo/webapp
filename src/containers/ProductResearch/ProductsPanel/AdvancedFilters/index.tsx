@@ -6,6 +6,7 @@ import styles from './index.module.scss';
 /* Components */
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
+import InputFilter from '../../../../components/FormFilters/InputFilter';
 
 const options = [
   {
@@ -36,6 +37,12 @@ const AdvancedFilters = () => {
       <MinMaxFilter label="Variation Count" />
       <MinMaxFilter label="Weight(lbs)" />
       <MinMaxFilter label="Weight(lbs)" />
+      <InputFilter label="Include Title Keywords" placeholder="Enter keywords" />
+      <InputFilter label="Exclude Title Keywords" placeholder="Enter keywords" />
+      <InputFilter label="Include Brands" placeholder="Enter brands" />
+      <InputFilter label="Exclude Brands" placeholder="Enter brands" />
+      <InputFilter label="Include Sellers" placeholder="Enter sellers" />
+      <InputFilter label="Exclude Sellers" placeholder="Enter sellers" />
     </div>
   );
 };
