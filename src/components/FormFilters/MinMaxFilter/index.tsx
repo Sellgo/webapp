@@ -7,7 +7,7 @@ import styles from './index.module.scss';
 import { ReactComponent as FilterRightArrow } from '../../../assets/images/filterRightArrow.svg';
 
 interface Props {
-  label: string;
+  label?: string;
 }
 const MinMaxFilter: React.FC<Props> = props => {
   const { label } = props;

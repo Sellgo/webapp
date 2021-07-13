@@ -1,12 +1,13 @@
 @import '../../../design-system/colors.scss';
 
 .minMaxFilter {
+  width: max-content !important;
+
   p {
     margin: 0;
     color: $sellgo-text;
     font-size: 16px;
     font-weight: 500;
-    width: max-content;
   }
 }
 
