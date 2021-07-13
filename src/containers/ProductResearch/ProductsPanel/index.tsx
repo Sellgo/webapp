@@ -7,6 +7,7 @@ import AdvancedFilters from './AdvancedFilters';
 
 /* Styling */
 import styles from './index.module.scss';
+import FormFilterActions from '../../../components/FormFilters/FormFilterActions';
 
 const ProductPanel = () => {
   const [showAdvancedFilter, setShowAdvancedFilter] = useState<boolean>(true);
@@ -18,7 +19,6 @@ const ProductPanel = () => {
         <div className={styles.showbasicFilters}>
           <BasicFilters />
         </div>
-
         {/* Advanced Filter */}
         <div className={styles.advancedFilterWrapper}>
           <div
@@ -37,6 +37,10 @@ const ProductPanel = () => {
             </div>
           )}
         </div>
+        <FormFilterActions
+          onFind={() => console.log('Find')}
+          onReset={() => console.log('Reset')}
+        />
       </section>
 
       <section style={{ marginTop: '50px' }}>
