@@ -101,6 +101,19 @@
   }
 }
 
+// extend styles for country list dropdown
+.ui.dropdown.formDropdown__countryList {
+  @extend .ui.dropdown.formDropdown;
+
+  font-size: 14px !important;
+  width: 250px !important;
+
+  .menu.transition {
+    max-height: 200px !important;
+    width: 100%;
+  }
+}
+
 // extend styles for state dropdown
 .ui.dropdown.formDropdown__sellerLimit {
   @extend .ui.dropdown.formDropdown;

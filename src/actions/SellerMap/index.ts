@@ -51,7 +51,7 @@ export const setShowSellerDetailsCard = (payload: boolean) => {
 export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch: any) => {
   const sellerId = sellerIDSelector();
 
-  const { resetMap = false, state = '', zipCode = '', maxCount = 1000 } = payload;
+  const { resetMap = false, state = '', zipCode = '', maxCount = 1000, country = 'US' } = payload;
 
   try {
     // if reset map is hit
@@ -69,6 +69,10 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
 
     if (zipCode) {
       queryString += `&zip_code=${zipCode}`;
+    }
+
+    if (country) {
+      queryString += `&country=${country}`;
     }
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchantmaps/search?max_count=${maxCount}${queryString}`;
