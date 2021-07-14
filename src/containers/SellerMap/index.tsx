@@ -89,11 +89,13 @@ const SellerMap = (props: Props) => {
             </Segment>
           ) : (
             <>
-              {/* Force hide clusters markers group when no sellers exists to reove clustered nodes from map */}
-              {sellerDataForMap.length > 0 && (
+              {/* Perform clustering only if count > 50 */}
+              {sellerDataForMap.length > 50 ? (
                 <MarkerClusterGroup>
                   <PlotAllMarkers sellersData={sellerDataForMap || []} />
                 </MarkerClusterGroup>
+              ) : (
+                <PlotAllMarkers sellersData={sellerDataForMap || []} />
               )}
             </>
           )}
