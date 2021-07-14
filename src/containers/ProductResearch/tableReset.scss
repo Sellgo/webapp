@@ -1,0 +1,13 @@
+.rs-table-cell-header-sort-wrapper {
+  display: none !important;
+}
+
+.rs-table-scrollbar-pressed.rs-table-scrollbar-horizontal:hover,
+.rs-table-scrollbar-horizontal:hover {
+  transform: scaleY(1);
+}
+
+.rs-table-scrollbar-pressed.rs-table-scrollbar-vertical:hover,
+.rs-table-scrollbar-vertical:hover {
+  transform: scaleY(1);
+}

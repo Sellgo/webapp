@@ -8,9 +8,10 @@ import AdvancedFilters from './AdvancedFilters';
 /* Styling */
 import styles from './index.module.scss';
 import FormFilterActions from '../../../components/FormFilters/FormFilterActions';
+import ProductsDatabaseTable from './Table';
 
 const ProductPanel = () => {
-  const [showAdvancedFilter, setShowAdvancedFilter] = useState<boolean>(true);
+  const [showAdvancedFilter, setShowAdvancedFilter] = useState<boolean>(false);
 
   return (
     <>
@@ -43,9 +44,7 @@ const ProductPanel = () => {
         />
       </section>
 
-      <section style={{ marginTop: '50px' }}>
-        <p>Table will go here</p>
-      </section>
+      <ProductsDatabaseTable />
     </>
   );
 };
