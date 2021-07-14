@@ -11,6 +11,7 @@ import '../globals.scss';
 import { STATES } from '../../../constants/SellerDatabase';
 import { fetchSellersForMap } from '../../../actions/SellerMap';
 import { SellerMapPayload } from '../../../interfaces/SellerMap';
+import { COUNTRY_DROPDOWN_LIST, SELLER_LIMIT_OPTIONS } from '../../../constants/SellerMap';
 
 // State Options
 const states = STATES.map((state: any) => ({
@@ -28,6 +29,8 @@ const SellerMapFilter: React.FC<Props> = props => {
 
   const [state, setState] = useState<string>('');
   const [zipCode, setZipCode] = useState<string>('');
+  const [sellerLimit, setSellerLimit] = useState<number>(1000);
+  const [country, setCountry] = useState<string>('US');
 
   /* Error States */
   const [zipCodeError, setZipCodeError] = useState<boolean>(false);
@@ -46,8 +49,8 @@ const SellerMapFilter: React.FC<Props> = props => {
 
   /* Handle Submit */
   const handleSubmit = useCallback(() => {
-    fetchSellersForMap({ state, zipCode });
-  }, [state, zipCode]);
+    fetchSellersForMap({ state, zipCode, maxCount: sellerLimit, country });
+  }, [state, zipCode, sellerLimit, country]);
 
   /* Effect to handle errroron zipcodes */
   useEffect(() => {
@@ -67,7 +70,21 @@ const SellerMapFilter: React.FC<Props> = props => {
 
         <div className={styles.sellermapFilterWrapper}>
           <div className={styles.filterGroup}>
-            <p>State</p>
+            <p>Country</p>
+            <Dropdown
+              placeholder="Country"
+              search
+              fluid
+              className="formDropdown__countryList"
+              value={country}
+              onChange={(evt, { value }: any) => setCountry(value)}
+              selection
+              options={COUNTRY_DROPDOWN_LIST}
+            />
+          </div>
+
+          <div className={styles.filterGroup}>
+            <p>U.S. State</p>
             <Dropdown
               placeholder="State"
               fluid
@@ -76,13 +93,12 @@ const SellerMapFilter: React.FC<Props> = props => {
               onChange={(evt, { value }: any) => setState(value)}
               selection
               options={states}
+              disabled={country !== 'US'}
             />
           </div>
 
-          <span className={styles.orSeperator}>or</span>
-
           <div className={styles.filterGroup}>
-            <p>Zip</p>
+            <p>U.S. Zip</p>
             <Input
               className={styles.formInput__long}
               placeholder="Enter Zip Code seperated by commas"
@@ -92,17 +108,32 @@ const SellerMapFilter: React.FC<Props> = props => {
                 const val = evt.target.value;
                 setZipCode(val);
               }}
+              disabled={country !== 'US'}
             />
           </div>
 
-          <div className={styles.filterSubmit}>
-            <Button size="small" className={styles.filterSubmit__reset} onClick={handleReset}>
-              Reset
-            </Button>
-            <Button size="small" className={styles.filterSubmit__find} onClick={handleSubmit}>
-              Find
-            </Button>
+          <div className={styles.filterGroup}>
+            <p>View</p>
+            <Dropdown
+              placeholder="Seller Limit"
+              fluid
+              className="formDropdown__sellerLimit"
+              value={sellerLimit}
+              onChange={(evt, { value }: any) => setSellerLimit(value)}
+              selection
+              options={SELLER_LIMIT_OPTIONS}
+            />
           </div>
+        </div>
+
+        {/* Filter Submit */}
+        <div className={styles.filterSubmit}>
+          <Button size="small" className={styles.filterSubmit__reset} onClick={handleReset}>
+            Reset
+          </Button>
+          <Button size="small" className={styles.filterSubmit__find} onClick={handleSubmit}>
+            Find
+          </Button>
         </div>
       </section>
     </>

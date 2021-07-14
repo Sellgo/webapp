@@ -19,3 +19,8 @@ export const getIsLoadingSellerDetailsForMap = (state: any) => {
 export const getSellerDetailsDataForMap = (state: any) => {
   return get(state, 'sellerMap.sellerDetails');
 };
+
+/* Selector for getting the show state for seller card */
+export const getShowSellerDetailsCardForMap = (state: any) => {
+  return get(state, 'sellerMap.showSellerDetailsCard');
+};

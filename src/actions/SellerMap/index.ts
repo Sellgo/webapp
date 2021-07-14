@@ -3,7 +3,7 @@ import { AppConfig } from '../../config';
 import { actionTypes } from '../../constants/SellerMap';
 import { SellerMapPayload } from '../../interfaces/SellerMap';
 import { sellerIDSelector } from '../../selectors/Seller';
-import { success } from '../../utils/notifications';
+import { error, success } from '../../utils/notifications';
 
 /* Action Creator for setting loading state for sellers on map */
 export const setLoadingSellersForMap = (payload: boolean) => {
@@ -37,13 +37,21 @@ export const setSellerDetailsForMap = (payload: any) => {
   };
 };
 
+/* Action creator for setting show seller detals card state */
+export const setShowSellerDetailsCard = (payload: boolean) => {
+  return {
+    type: actionTypes.SHOW_SELLER_DETAILS_CARD,
+    payload,
+  };
+};
+
 /* ================= Async actions =========================== */
 
 /* Action for fetching sellers for map */
 export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch: any) => {
   const sellerId = sellerIDSelector();
 
-  const { resetMap = false, state = '', zipCode = '', maxCount = 1000 } = payload;
+  const { resetMap = false, state = '', zipCode = '', maxCount = 1000, country = 'US' } = payload;
 
   try {
     // if reset map is hit
@@ -61,6 +69,10 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
 
     if (zipCode) {
       queryString += `&zip_code=${zipCode}`;
+    }
+
+    if (country) {
+      queryString += `&country=${country}`;
     }
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchantmaps/search?max_count=${maxCount}${queryString}`;
@@ -82,6 +94,7 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
 export const fetchSellerDetailsForMap = (sellerInternalID: string) => async (dispatch: any) => {
   const sellerId = sellerIDSelector();
   try {
+    sellerInternalID = encodeURI(sellerInternalID);
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchants/search?id=${sellerInternalID}`;
     dispatch(setLoadingSellerDetailsForMap(true));
     const response = await axios.get(URL);
@@ -91,7 +104,14 @@ export const fetchSellerDetailsForMap = (sellerInternalID: string) => async (dis
       dispatch(setLoadingSellerDetailsForMap(false));
     }
   } catch (err) {
-    console.error('Error Fetching seller details for map', err.response);
+    const { response } = err;
+    if (response) {
+      const { status, data } = response;
+      if (status === 400 && data && data.detail) {
+        error(data.detail);
+      }
+    }
+    dispatch(setShowSellerDetailsCard(false));
     dispatch(setSellerDetailsForMap({}));
     dispatch(setLoadingSellerDetailsForMap(false));
   }
