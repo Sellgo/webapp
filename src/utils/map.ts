@@ -6,6 +6,7 @@ import {
   INITIAL_ZOOM,
 } from '../constants/SellerMap';
 
+/* Static offset ampper */
 const offsetMapper = {
   STATE: {
     MIN_LAT_OFFSET: +10,
