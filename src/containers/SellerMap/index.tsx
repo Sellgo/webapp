@@ -21,6 +21,7 @@ import {
 import {
   getCenterLocationForMap,
   getIsLoadingSellerForMap,
+  getMapBounds,
   getSellerDataForMap,
 } from '../../selectors/SellerMap';
 
@@ -43,6 +44,7 @@ interface Props {
   sellerDataForMap: any;
   fetchSellersForMap: (payload: SellerMapPayload) => void;
   centerForMap: Location;
+  mapBounds: Location[];
 }
 
 /* Main Container Component */
@@ -53,6 +55,7 @@ const SellerMap = (props: Props) => {
     sellerDataForMap,
     fetchSellersForMap,
     centerForMap,
+    mapBounds,
   } = props;
 
   // Effect to run on first load
@@ -97,7 +100,7 @@ const SellerMap = (props: Props) => {
           {/* Place map utils here before map is prepared */}
 
           {/* Center based on location */}
-          <CenterMapAndZoom centerLocation={centerForMap} />
+          <CenterMapAndZoom centerLocation={centerForMap} mapBounds={mapBounds} />
 
           {/* ============================================ */}
 
@@ -131,6 +134,7 @@ const mapStateToProps = (state: any) => ({
   isLoadingSellersForMap: getIsLoadingSellerForMap(state),
   sellerDataForMap: getSellerDataForMap(state),
   centerForMap: getCenterLocationForMap(state),
+  mapBounds: getMapBounds(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {
