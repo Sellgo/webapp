@@ -8,17 +8,30 @@ import {
 
 const offsetMapper = {
   STATE: {
-    MIN_LAT_OFFSET: +2,
-    MIN_LONG_OFFSET: +2,
-    MAX_LAT_OFFSET: -2,
-    MAX_LONG_OFFSET: -2,
+    MIN_LAT_OFFSET: +10,
+    MIN_LONG_OFFSET: +10,
+    MAX_LAT_OFFSET: +10,
+    MAX_LONG_OFFSET: +10,
   },
   COUNTRY: {
-    MIN_LAT_OFFSET: +5,
-    MIN_LONG_OFFSET: +3,
-    MAX_LAT_OFFSET: -3,
-    MAX_LONG_OFFSET: -5,
+    MIN_LAT_OFFSET: +2,
+    MIN_LONG_OFFSET: +10,
+    MAX_LAT_OFFSET: +10,
+    MAX_LONG_OFFSET: 0,
   },
+};
+
+/* Generate the offset values for the map based on state/country */
+const generateOffsetValues = (country: string, state: string) => {
+  if (state === '' && country === 'US') {
+    return offsetMapper.COUNTRY;
+  }
+
+  if (state !== '') {
+    return offsetMapper.STATE;
+  }
+
+  return offsetMapper.COUNTRY;
 };
 
 /* Utility to calculate the center for the map */
@@ -52,6 +65,9 @@ export const calculateCenterForMap = (country: string, state: string) => {
 /* Utility to calculate the zoom for map*/
 export const calculateZoomForMap = (country: string, state: string) => {
   if (state && country === 'US') {
+    if (state === '') {
+      return INITIAL_ZOOM;
+    }
     return INITIAL_ZOOM + 1.7;
   }
 
@@ -69,7 +85,6 @@ export const calculateBoundsForMap = (
   const mapZoom = calculateZoomForMap(country, state);
 
   if (!box.ne && !box.sw) {
-    console.log('This is true');
     return {
       mapCenter,
       newMapBounds: WORLD_MAP_BOUNDS,
@@ -77,7 +92,7 @@ export const calculateBoundsForMap = (
     };
   }
 
-  const OFFSET = offsetMapper[state ? 'STATE' : 'COUNTRY'];
+  const OFFSET = generateOffsetValues(country, state);
   const [MIN_LAT, MIN_LONG] = box.ne || [];
   const [MAX_LAT, MAX_LONG] = box.sw || [];
 
