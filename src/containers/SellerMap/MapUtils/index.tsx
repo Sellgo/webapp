@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
+import { MIN_ZOOM, WORLD_MAP_BOUNDS } from '../../../constants/SellerMap';
 
 /* Interfaces */
 import { Location } from '../../../interfaces/SellerMap';
@@ -17,6 +18,10 @@ export const CenterMapAndZoom = (props: CenterMapProps) => {
   useEffect(() => {
     map.setView(centerLocation, mapZoom);
     map.setMaxBounds(mapBounds);
+    if (mapBounds === WORLD_MAP_BOUNDS) {
+      map.setMinZoom(MIN_ZOOM);
+    }
+    map.setMinZoom(mapZoom - 0.5);
   }, [centerLocation, mapZoom, mapBounds]);
 
   return null;

@@ -18,7 +18,7 @@ import { SellerMapPayload, Location } from '../../interfaces/SellerMap';
 import { sellerIDSelector } from '../../selectors/Seller';
 
 /* Utils */
-import { calculateBoundsForMap } from '../../utils/map';
+import { calculateBoundsForMap, calculateCenterForMap } from '../../utils/map';
 
 /* Notifications */
 import { error, success } from '../../utils/notifications';
@@ -64,7 +64,7 @@ export const setShowSellerDetailsCard = (payload: boolean) => {
 };
 
 /* Action to set country center */
-export const setCountryCenter = (payload: Location) => {
+export const setMapCenter = (payload: Location) => {
   return {
     type: actionTypes.SET_COUNTRY_CENTER,
     payload,
@@ -100,7 +100,7 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
     if (resetMap) {
       dispatch(setSellersForMap([]));
       dispatch(setLoadingSellersForMap(false));
-      dispatch(setCountryCenter(INITIAL_CENTER));
+      dispatch(setMapCenter(INITIAL_CENTER));
       return;
     }
 
@@ -125,20 +125,24 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
     if (response && response.data) {
       const { coordinates, box } = response.data;
 
-      const { mapCenter, newMapBounds, mapZoom } = calculateBoundsForMap(country, state, box);
+      if (!box || !box.ne || !box.sw) {
+        dispatch(setMapZoom(INITIAL_ZOOM));
+        dispatch(setMapBounds(WORLD_MAP_BOUNDS));
+        dispatch(setMapCenter(calculateCenterForMap(country, state)));
+      } else {
+        const { mapCenter, newMapBounds, mapZoom } = calculateBoundsForMap(country, state, box);
 
-      console.log(mapCenter, mapZoom, newMapBounds);
-
-      dispatch(setCountryCenter(mapCenter));
-      dispatch(setMapZoom(mapZoom));
-      dispatch(setMapBounds(newMapBounds));
+        dispatch(setMapCenter(mapCenter));
+        dispatch(setMapZoom(mapZoom));
+        dispatch(setMapBounds(newMapBounds));
+      }
 
       success(`Found ${coordinates.length} sellers`);
       dispatch(setSellersForMap(coordinates));
       dispatch(setLoadingSellersForMap(false));
     }
   } catch (err) {
-    dispatch(setCountryCenter(INITIAL_CENTER));
+    dispatch(setMapCenter(INITIAL_CENTER));
     dispatch(setMapZoom(INITIAL_ZOOM));
     dispatch(setMapBounds(WORLD_MAP_BOUNDS));
 

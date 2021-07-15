@@ -6,10 +6,20 @@ import {
   INITIAL_ZOOM,
 } from '../constants/SellerMap';
 
-const MIN_LAT_OFFSET = +10;
-const MIN_LONG_OFFSET = +3;
-const MAX_LAT_OFFSET = -3;
-const MAX_LONG_OFFSET = -10;
+const offsetMapper = {
+  STATE: {
+    MIN_LAT_OFFSET: +2,
+    MIN_LONG_OFFSET: +2,
+    MAX_LAT_OFFSET: -2,
+    MAX_LONG_OFFSET: -2,
+  },
+  COUNTRY: {
+    MIN_LAT_OFFSET: +5,
+    MIN_LONG_OFFSET: +3,
+    MAX_LAT_OFFSET: -3,
+    MAX_LONG_OFFSET: -5,
+  },
+};
 
 /* Utility to calculate the center for the map */
 export const calculateCenterForMap = (country: string, state: string) => {
@@ -39,9 +49,10 @@ export const calculateCenterForMap = (country: string, state: string) => {
   }
 };
 
+/* Utility to calculate the zoom for map*/
 export const calculateZoomForMap = (country: string, state: string) => {
   if (state && country === 'US') {
-    return INITIAL_ZOOM + 0.7;
+    return INITIAL_ZOOM + 1.7;
   }
 
   return INITIAL_ZOOM;
@@ -58,17 +69,20 @@ export const calculateBoundsForMap = (
   const mapZoom = calculateZoomForMap(country, state);
 
   if (!box.ne && !box.sw) {
+    console.log('This is true');
     return {
       mapCenter,
-      WORLD_MAP_BOUNDS,
+      newMapBounds: WORLD_MAP_BOUNDS,
       mapZoom,
     };
   }
+
+  const OFFSET = offsetMapper[state ? 'STATE' : 'COUNTRY'];
   const [MIN_LAT, MIN_LONG] = box.ne || [];
   const [MAX_LAT, MAX_LONG] = box.sw || [];
 
-  const NE = [Number(MIN_LAT + MIN_LAT_OFFSET), Number(MIN_LONG + MIN_LONG_OFFSET)];
-  const SW = [Number(MAX_LAT - MAX_LAT_OFFSET), Number(MAX_LONG - MAX_LONG_OFFSET)];
+  const NE = [Number(MIN_LAT + OFFSET.MIN_LAT_OFFSET), Number(MIN_LONG + OFFSET.MIN_LONG_OFFSET)];
+  const SW = [Number(MAX_LAT - OFFSET.MAX_LAT_OFFSET), Number(MAX_LONG - OFFSET.MAX_LONG_OFFSET)];
 
   const newMapBounds = [NE, SW];
 
