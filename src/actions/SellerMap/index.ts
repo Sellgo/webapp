@@ -4,7 +4,12 @@ import axios from 'axios';
 import { AppConfig } from '../../config';
 
 /* Constants */
-import { actionTypes, INITIAL_CENTER } from '../../constants/SellerMap';
+import {
+  actionTypes,
+  INITIAL_CENTER,
+  INITIAL_ZOOM,
+  WORLD_MAP_BOUNDS,
+} from '../../constants/SellerMap';
 
 /* Interfaces */
 import { SellerMapPayload, Location } from '../../interfaces/SellerMap';
@@ -120,18 +125,23 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
     if (response && response.data) {
       const { coordinates, box } = response.data;
 
-      const { mapCenter, newMapBounds } = calculateBoundsForMap(country, state, box);
-      console.log(mapCenter, newMapBounds);
+      const { mapCenter, newMapBounds, mapZoom } = calculateBoundsForMap(country, state, box);
 
-      success(`Found ${coordinates.length} sellers`);
+      console.log(mapCenter, mapZoom, newMapBounds);
+
       dispatch(setCountryCenter(mapCenter));
+      dispatch(setMapZoom(mapZoom));
       dispatch(setMapBounds(newMapBounds));
 
+      success(`Found ${coordinates.length} sellers`);
       dispatch(setSellersForMap(coordinates));
       dispatch(setLoadingSellersForMap(false));
     }
   } catch (err) {
     dispatch(setCountryCenter(INITIAL_CENTER));
+    dispatch(setMapZoom(INITIAL_ZOOM));
+    dispatch(setMapBounds(WORLD_MAP_BOUNDS));
+
     console.error('Error fetching merchants for map', err);
     dispatch(setSellersForMap([]));
     dispatch(setLoadingSellersForMap(false));
