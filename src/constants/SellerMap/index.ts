@@ -1,7 +1,9 @@
-import { Location, Country } from '../../interfaces/SellerMap';
+/* eslint-disable @typescript-eslint/no-var-requires */
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+import { Location, Country, USState } from '../../interfaces/SellerMap';
+
 const allCountriesList = require('../../assets/countriesList.json');
+const allUsStatesList = require('../../assets/usStatesList.json');
 
 /* Actions */
 export const actionTypes = {
@@ -98,4 +100,19 @@ export const COUNTRY_DROPDOWN_LIST = [
     center: INITIAL_CENTER,
   },
   ...INCLUDED_COUNTRY_LIST,
+];
+
+export const ALL_US_STATES = allUsStatesList.map((usState: USState) => {
+  return {
+    code: usState.state,
+    center: [usState.latitude, usState.longitude],
+    key: usState.state,
+    text: usState.name,
+    value: usState.state,
+  };
+});
+
+export const STATES_DROPDOWN_LIST = [
+  { code: '', center: INITIAL_CENTER, key: 'All States', text: 'All States', value: '' },
+  ...ALL_US_STATES,
 ];

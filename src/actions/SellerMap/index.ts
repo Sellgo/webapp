@@ -4,7 +4,12 @@ import axios from 'axios';
 import { AppConfig } from '../../config';
 
 /* Constants */
-import { actionTypes, INITIAL_CENTER, COUNTRY_DROPDOWN_LIST } from '../../constants/SellerMap';
+import {
+  actionTypes,
+  INITIAL_CENTER,
+  COUNTRY_DROPDOWN_LIST,
+  STATES_DROPDOWN_LIST,
+} from '../../constants/SellerMap';
 
 /* Interfaces */
 import { SellerMapPayload, Location } from '../../interfaces/SellerMap';
@@ -98,15 +103,29 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
     dispatch(setLoadingSellersForMap(true));
     const response = await axios.get(URL);
 
-    // find the center for the country selected and dispatch the center
-    const findCenterForCountry = COUNTRY_DROPDOWN_LIST.find((countryDetails: any) => {
-      return countryDetails.code === country;
-    }).center;
+    // if us state is present
+    if (state && country === 'US') {
+      const findCenterForState = STATES_DROPDOWN_LIST.find((usState: any) => {
+        return usState.code === state;
+      }).center;
 
-    if (findCenterForCountry) {
-      dispatch(setCountryCenter(findCenterForCountry));
-    } else {
-      dispatch(setCountryCenter([0, 0]));
+      if (findCenterForState) {
+        dispatch(setCountryCenter(findCenterForState));
+      } else {
+        dispatch(setCountryCenter(INITIAL_CENTER));
+      }
+    }
+    // non-us states only filter by country
+    else {
+      // find the center for the country selected and dispatch the center
+      const findCenterForCountry = COUNTRY_DROPDOWN_LIST.find((countryDetails: any) => {
+        return countryDetails.code === country;
+      }).center;
+      if (findCenterForCountry) {
+        dispatch(setCountryCenter(findCenterForCountry));
+      } else {
+        dispatch(setCountryCenter(INITIAL_CENTER));
+      }
     }
 
     if (response && response.data) {

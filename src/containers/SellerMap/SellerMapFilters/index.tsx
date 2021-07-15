@@ -8,21 +8,17 @@ import styles from './index.module.scss';
 import '../globals.scss';
 
 /* Constants */
-import { STATES } from '../../../constants/SellerDatabase';
 import { fetchSellersForMap } from '../../../actions/SellerMap';
 import { SellerMapPayload } from '../../../interfaces/SellerMap';
-import { COUNTRY_DROPDOWN_LIST, SELLER_LIMIT_OPTIONS } from '../../../constants/SellerMap';
+import {
+  COUNTRY_DROPDOWN_LIST,
+  SELLER_LIMIT_OPTIONS,
+  STATES_DROPDOWN_LIST,
+} from '../../../constants/SellerMap';
 import {
   getIsLoadingSellerDetailsForMap,
   getIsLoadingSellerForMap,
 } from '../../../selectors/SellerMap';
-
-// State Options
-const states = STATES.map((state: any) => ({
-  key: state.code,
-  value: state.code,
-  text: state.name,
-}));
 
 interface Props {
   fetchSellersForMap: (payload: SellerMapPayload) => void;
@@ -89,7 +85,10 @@ const SellerMapFilter: React.FC<Props> = props => {
               fluid
               className="formDropdown__countryList"
               value={country}
-              onChange={(evt, { value }: any) => setCountry(value)}
+              onChange={(evt, { value }: any) => {
+                setCountry(value);
+                setState('');
+              }}
               selection
               options={COUNTRY_DROPDOWN_LIST}
             />
@@ -100,13 +99,13 @@ const SellerMapFilter: React.FC<Props> = props => {
             <Dropdown
               loading={isLoadingMapDetails}
               disabled={isLoadingMapDetails || country !== 'US'}
-              placeholder="State"
+              placeholder="All States"
               fluid
               className="formDropdown__state"
               value={state}
               onChange={(evt, { value }: any) => setState(value)}
               selection
-              options={states}
+              options={STATES_DROPDOWN_LIST}
             />
           </div>
 
