@@ -25,3 +25,10 @@ export interface Country {
   longitude: number;
   name: string;
 }
+
+export interface USState {
+  state: string;
+  latitude: number;
+  longitude: number;
+  name: string;
+}
