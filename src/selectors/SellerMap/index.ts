@@ -24,3 +24,8 @@ export const getSellerDetailsDataForMap = (state: any) => {
 export const getShowSellerDetailsCardForMap = (state: any) => {
   return get(state, 'sellerMap.showSellerDetailsCard');
 };
+
+/* Selector for getting the map center based on country */
+export const getCenterLocationForMap = (state: any) => {
+  return get(state, 'sellerMap.mapCenter');
+};

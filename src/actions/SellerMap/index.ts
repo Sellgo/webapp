@@ -1,8 +1,18 @@
 import axios from 'axios';
+
+/* Config */
 import { AppConfig } from '../../config';
-import { actionTypes } from '../../constants/SellerMap';
-import { SellerMapPayload } from '../../interfaces/SellerMap';
+
+/* Constants */
+import { actionTypes, INITIAL_CENTER, COUNTRY_DROPDOWN_LIST } from '../../constants/SellerMap';
+
+/* Interfaces */
+import { SellerMapPayload, Location } from '../../interfaces/SellerMap';
+
+/* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
+
+/* Notifications */
 import { error, success } from '../../utils/notifications';
 
 /* Action Creator for setting loading state for sellers on map */
@@ -45,6 +55,14 @@ export const setShowSellerDetailsCard = (payload: boolean) => {
   };
 };
 
+/* Action to set country center */
+export const setCountryCenter = (payload: Location) => {
+  return {
+    type: actionTypes.SET_COUNTRY_CENTER,
+    payload,
+  };
+};
+
 /* ================= Async actions =========================== */
 
 /* Action for fetching sellers for map */
@@ -58,6 +76,7 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
     if (resetMap) {
       dispatch(setSellersForMap([]));
       dispatch(setLoadingSellersForMap(false));
+      dispatch(setCountryCenter(INITIAL_CENTER));
       return;
     }
 
@@ -78,12 +97,25 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchantmaps/search?max_count=${maxCount}${queryString}`;
     dispatch(setLoadingSellersForMap(true));
     const response = await axios.get(URL);
+
+    // find the center for the country selected and dispatch the center
+    const findCenterForCountry = COUNTRY_DROPDOWN_LIST.find((countryDetails: any) => {
+      return countryDetails.code === country;
+    }).center;
+
+    if (findCenterForCountry) {
+      dispatch(setCountryCenter(findCenterForCountry));
+    } else {
+      dispatch(setCountryCenter([0, 0]));
+    }
+
     if (response && response.data) {
       success(`Found ${response.data.length} sellers`);
       dispatch(setSellersForMap(response.data));
       dispatch(setLoadingSellersForMap(false));
     }
   } catch (err) {
+    dispatch(setCountryCenter(INITIAL_CENTER));
     console.error('Error fetching merchants for map', err);
     dispatch(setSellersForMap([]));
     dispatch(setLoadingSellersForMap(false));

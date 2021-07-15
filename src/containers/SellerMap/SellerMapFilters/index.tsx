@@ -12,6 +12,10 @@ import { STATES } from '../../../constants/SellerDatabase';
 import { fetchSellersForMap } from '../../../actions/SellerMap';
 import { SellerMapPayload } from '../../../interfaces/SellerMap';
 import { COUNTRY_DROPDOWN_LIST, SELLER_LIMIT_OPTIONS } from '../../../constants/SellerMap';
+import {
+  getIsLoadingSellerDetailsForMap,
+  getIsLoadingSellerForMap,
+} from '../../../selectors/SellerMap';
 
 // State Options
 const states = STATES.map((state: any) => ({
@@ -22,10 +26,12 @@ const states = STATES.map((state: any) => ({
 
 interface Props {
   fetchSellersForMap: (payload: SellerMapPayload) => void;
+  isLoadingSellersForMap: boolean;
+  isLoadingSellerDetailsForMap: boolean;
 }
 
 const SellerMapFilter: React.FC<Props> = props => {
-  const { fetchSellersForMap } = props;
+  const { fetchSellersForMap, isLoadingSellerDetailsForMap, isLoadingSellersForMap } = props;
 
   const [state, setState] = useState<string>('');
   const [zipCode, setZipCode] = useState<string>('');
@@ -39,6 +45,8 @@ const SellerMapFilter: React.FC<Props> = props => {
   const clearFilters = () => {
     setState('');
     setZipCode('');
+    setCountry('US');
+    setSellerLimit(1000);
   };
 
   /* Handle reset */
@@ -61,6 +69,8 @@ const SellerMapFilter: React.FC<Props> = props => {
     }
   }, [zipCode]);
 
+  const isLoadingMapDetails = isLoadingSellerDetailsForMap || isLoadingSellersForMap;
+
   return (
     <>
       <section className={styles.sellerMapFilterContainer}>
@@ -72,6 +82,8 @@ const SellerMapFilter: React.FC<Props> = props => {
           <div className={styles.filterGroup}>
             <p>Country</p>
             <Dropdown
+              loading={isLoadingMapDetails}
+              disabled={isLoadingMapDetails}
               placeholder="Country"
               search
               fluid
@@ -86,6 +98,8 @@ const SellerMapFilter: React.FC<Props> = props => {
           <div className={styles.filterGroup}>
             <p>U.S. State</p>
             <Dropdown
+              loading={isLoadingMapDetails}
+              disabled={isLoadingMapDetails || country !== 'US'}
               placeholder="State"
               fluid
               className="formDropdown__state"
@@ -93,7 +107,6 @@ const SellerMapFilter: React.FC<Props> = props => {
               onChange={(evt, { value }: any) => setState(value)}
               selection
               options={states}
-              disabled={country !== 'US'}
             />
           </div>
 
@@ -101,6 +114,7 @@ const SellerMapFilter: React.FC<Props> = props => {
             <p>U.S. Zip</p>
             <Input
               className={styles.formInput__long}
+              disabled={isLoadingMapDetails || country !== 'US'}
               placeholder="Enter Zip Code seperated by commas"
               value={zipCode}
               error={zipCodeError}
@@ -108,13 +122,14 @@ const SellerMapFilter: React.FC<Props> = props => {
                 const val = evt.target.value;
                 setZipCode(val);
               }}
-              disabled={country !== 'US'}
             />
           </div>
 
           <div className={styles.filterGroup}>
             <p>View</p>
             <Dropdown
+              loading={isLoadingMapDetails}
+              disabled={isLoadingMapDetails}
               placeholder="Seller Limit"
               fluid
               className="formDropdown__sellerLimit"
@@ -131,7 +146,12 @@ const SellerMapFilter: React.FC<Props> = props => {
           <Button size="small" className={styles.filterSubmit__reset} onClick={handleReset}>
             Reset
           </Button>
-          <Button size="small" className={styles.filterSubmit__find} onClick={handleSubmit}>
+          <Button
+            size="small"
+            className={styles.filterSubmit__find}
+            onClick={handleSubmit}
+            disabled={zipCodeError}
+          >
             Find
           </Button>
         </div>
@@ -140,10 +160,15 @@ const SellerMapFilter: React.FC<Props> = props => {
   );
 };
 
+const mapStateToProps = (state: any) => ({
+  isLoadingSellersForMap: getIsLoadingSellerForMap(state),
+  isLoadingSellerDetailsForMap: getIsLoadingSellerDetailsForMap(state),
+});
+
 const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchSellersForMap: (payload: SellerMapPayload) => dispatch(fetchSellersForMap(payload)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(SellerMapFilter);
+export default connect(mapStateToProps, mapDispatchToProps)(SellerMapFilter);

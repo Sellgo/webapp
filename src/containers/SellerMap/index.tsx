@@ -17,32 +17,45 @@ import {
   WORLD_MAP_BOUNDS,
 } from '../../constants/SellerMap';
 
+/* Selectors */
+import {
+  getCenterLocationForMap,
+  getIsLoadingSellerForMap,
+  getSellerDataForMap,
+} from '../../selectors/SellerMap';
+
+/* Interfaces */
+import { SellerMapPayload, Location } from '../../interfaces/SellerMap';
+
+/* Actions */
+import { fetchSellersForMap } from '../../actions/SellerMap';
+
 /* Components */
 import QuotaMeter from '../../components/QuotaMeter';
 import PageHeader from '../../components/PageHeader';
 import PlotAllMarkers from './PlotAllMarkers';
 import SellerMapFilter from './SellerMapFilters';
-
-/* Selectors */
-import { getIsLoadingSellerForMap, getSellerDataForMap } from '../../selectors/SellerMap';
-
-/* Interfaces */
-import { SellerMapPayload } from '../../interfaces/SellerMap';
-
-/* Actions */
-import { fetchSellersForMap } from '../../actions/SellerMap';
+import { CenterMapAndZoom } from './MapUtils';
 
 interface Props {
   match: any;
   isLoadingSellersForMap: boolean;
   sellerDataForMap: any;
   fetchSellersForMap: (payload: SellerMapPayload) => void;
+  centerForMap: Location;
 }
 
 /* Main Container Component */
 const SellerMap = (props: Props) => {
-  const { match, isLoadingSellersForMap, sellerDataForMap, fetchSellersForMap } = props;
+  const {
+    match,
+    isLoadingSellersForMap,
+    sellerDataForMap,
+    fetchSellersForMap,
+    centerForMap,
+  } = props;
 
+  // Effect to run on first load
   useEffect(() => {
     fetchSellersForMap({ maxCount: 1000 });
   }, []);
@@ -79,6 +92,15 @@ const SellerMap = (props: Props) => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             noWrap
           />
+
+          {/* ============================================ */}
+          {/* Place map utils here before map is prepared */}
+
+          {/* Center based on location */}
+          <CenterMapAndZoom centerLocation={centerForMap} />
+
+          {/* ============================================ */}
+
           {isLoadingSellersForMap ? (
             <Segment className={styles.sellerMapLoader}>
               <Loader
@@ -89,11 +111,13 @@ const SellerMap = (props: Props) => {
             </Segment>
           ) : (
             <>
-              {/* Force hide clusters markers group when no sellers exists to reove clustered nodes from map */}
-              {sellerDataForMap.length > 0 && (
+              {/* Perform clustering only if count > 50 */}
+              {sellerDataForMap.length > 50 ? (
                 <MarkerClusterGroup>
                   <PlotAllMarkers sellersData={sellerDataForMap || []} />
                 </MarkerClusterGroup>
+              ) : (
+                <PlotAllMarkers sellersData={sellerDataForMap || []} />
               )}
             </>
           )}
@@ -106,6 +130,7 @@ const SellerMap = (props: Props) => {
 const mapStateToProps = (state: any) => ({
   isLoadingSellersForMap: getIsLoadingSellerForMap(state),
   sellerDataForMap: getSellerDataForMap(state),
+  centerForMap: getCenterLocationForMap(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {
