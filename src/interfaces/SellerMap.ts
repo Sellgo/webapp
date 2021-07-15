@@ -18,3 +18,10 @@ export interface SellerData {
   state: string;
   zip_code: string;
 }
+
+export interface Country {
+  country: string;
+  latitude: number;
+  longitude: number;
+  name: string;
+}

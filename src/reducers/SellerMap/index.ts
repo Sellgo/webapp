@@ -1,10 +1,11 @@
-import { actionTypes } from '../../constants/SellerMap';
+import { actionTypes, INITIAL_CENTER } from '../../constants/SellerMap';
 import { AnyAction } from 'redux';
 import { setIn } from '../../utils/immutablity';
 
 const INITIAL_STATE = {
   isLoadingSellers: false,
   sellersForMap: [],
+  mapCenter: INITIAL_CENTER,
   isLoadingSellerDetails: false,
   sellerDetails: [],
   showSellerDetailsCard: false,
@@ -26,6 +27,9 @@ const sellerMapReducer = (state = INITIAL_STATE, action: AnyAction) => {
     }
     case actionTypes.SHOW_SELLER_DETAILS_CARD: {
       return setIn(state, 'showSellerDetailsCard', action.payload);
+    }
+    case actionTypes.SET_COUNTRY_CENTER: {
+      return setIn(state, 'mapCenter', action.payload);
     }
     default: {
       return state;

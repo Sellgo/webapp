@@ -1,9 +1,14 @@
-import { Location } from '../../interfaces/SellerMap';
+import { Location, Country } from '../../interfaces/SellerMap';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const allCountriesList = require('../../assets/countriesList.json');
 
 /* Actions */
 export const actionTypes = {
   LOADING_SELLERS_FOR_MAP: 'LOADING_SELLERS_FOR_MAP',
   SET_SELLERS_FOR_MAP: 'SET_SELLERS_FOR_MAP',
+  // Centering of map
+  SET_COUNTRY_CENTER: 'SET_COUNTRY_CENTER',
   // Sellers details for cards
   LOADING_SELLER_DETAILS_FOR_MAP: 'LOADING_SELLER_DETAILS_FOR_MAP',
   SET_SELLER_DETAILS_FOR_MAP: 'SET_SELLER_DETAILS_FOR_MAP',
@@ -64,127 +69,33 @@ export const SELLER_LIMIT_OPTIONS = [
   },
 ];
 
-export const mapCountryKeyValuePair: { [key: string]: string } = {
-  AE: 'United Arab Emirates',
-  AL: 'Albania',
-  AM: 'Armenia',
-  AR: 'Argentina',
-  AS: 'American Samoa',
-  AT: 'Austria',
-  AU: 'Australia',
-  AZ: 'Azerbaijan',
-  BB: 'Barbados',
-  BD: 'Bangladesh',
-  BE: 'Belgium',
-  BG: 'Bulgaria',
-  BO: 'Bolivia, Plurinational State of',
-  BR: 'Brazil',
-  BY: 'Belarus',
-  CA: 'Canada',
-  CH: 'Switzerland',
-  CL: 'Chile',
-  CM: 'Cameroon',
-  CN: 'China',
-  CO: 'Colombia',
-  CR: 'Costa Rica',
-  CY: 'Cyprus',
-  CZ: 'Czech Republic',
-  DE: 'Germany',
-  DK: 'Denmark',
-  DO: 'Dominican Republic',
-  DZ: 'Algeria',
-  EC: 'Ecuador',
-  EE: 'Estonia',
-  EG: 'Egypt',
-  ES: 'Spain',
-  FI: 'Finland',
-  FR: 'France',
-  GB: 'United Kingdom',
-  GE: 'Georgia',
-  GG: 'Guernsey',
-  GI: 'Gibraltar',
-  GR: 'Greece',
-  HK: 'Hong Kong',
-  HN: 'Honduras',
-  HR: 'Croatia',
-  HT: 'Haiti',
-  HU: 'Hungary',
-  ID: 'Indonesia',
-  IE: 'Ireland',
-  IL: 'Israel',
-  IM: 'Isle of Man',
-  IN: 'India',
-  IS: 'Iceland',
-  IT: 'Italy',
-  JO: 'Jordan',
-  JP: 'Japan',
-  KE: 'Kenya',
-  KH: 'Cambodia',
-  KR: 'Korea, Republic of',
-  KZ: 'Kazakhstan',
-  LI: 'Liechtenstein',
-  LK: 'Sri Lanka',
-  LT: 'Lithuania',
-  LU: 'Luxembourg',
-  LV: 'Latvia',
-  MA: 'Morocco',
-  MD: 'Moldova, Republic of',
-  MK: 'Macedonia, the Former Yugoslav Republic of',
-  MO: 'Macao',
-  MT: 'Malta',
-  MU: 'Mauritius',
-  MX: 'Mexico',
-  MY: 'Malaysia',
-  MZ: 'Mozambique',
-  NC: 'New Caledonia',
-  NL: 'Netherlands',
-  NO: 'Norway',
-  NP: 'Nepal',
-  NZ: 'New Zealand',
-  OM: 'Oman',
-  PA: 'Panama',
-  PE: 'Peru',
-  PH: 'Philippines',
-  PK: 'Pakistan',
-  PL: 'Poland',
-  PR: 'Puerto Rico',
-  PT: 'Portugal',
-  PY: 'Paraguay',
-  RO: 'Romania',
-  RS: 'Serbia',
-  RU: 'Russian Federation',
-  SA: 'Saudi Arabia',
-  SE: 'Sweden',
-  SG: 'Singapore',
-  SI: 'Slovenia',
-  SK: 'Slovakia',
-  SV: 'El Salvador',
-  SX: 'Sint Maarten (Dutch part)',
-  TD: 'Chad',
-  TH: 'Thailand',
-  TL: 'Timor-Leste',
-  TR: 'Turkey',
-  TT: 'Trinidad and Tobago',
-  TW: 'Taiwan, Province of China',
-  UA: 'Ukraine',
-  UG: 'Uganda',
-  UM: 'United States Minor Outlying Islands',
-  US: 'United States',
-  VE: 'Venezuela, Bolivarian Republic of',
-  VG: 'Virgin Islands, British',
-  VI: 'Virgin Islands, U.S.',
-  VN: 'Viet Nam',
-  ZA: 'South Africa',
-};
+// Exclude countries based on https://sellercentral.amazon.com/gp/help/external/G201575280?language=en_US
+// filter us so we we can add it on top
+export const EXCLUDE_COUNTRY_CODE = ['US', 'CU', 'IR', 'KP', 'SY', 'SD'];
 
-export const COUNTRY_DROPDOWN_LIST = Object.keys(mapCountryKeyValuePair).map(
-  (countryKey: string) => {
+export const INCLUDED_COUNTRY_LIST = allCountriesList
+  .filter((countryDetails: Country) => {
+    return !EXCLUDE_COUNTRY_CODE.includes(countryDetails.country);
+  })
+  .map((includedCountries: Country) => {
     return {
-      text: mapCountryKeyValuePair[countryKey],
-      code: countryKey,
-      value: countryKey,
-      flag: countryKey.toLocaleLowerCase(),
-      key: countryKey,
+      code: includedCountries.country,
+      flag: includedCountries.country.toLocaleLowerCase(),
+      text: includedCountries.name,
+      key: includedCountries.country,
+      value: includedCountries.country,
+      center: [includedCountries.latitude, includedCountries.longitude],
     };
-  }
-);
+  });
+
+export const COUNTRY_DROPDOWN_LIST = [
+  {
+    code: 'US',
+    flag: 'us',
+    text: 'United States',
+    key: 'US',
+    value: 'US',
+    center: INITIAL_CENTER,
+  },
+  ...INCLUDED_COUNTRY_LIST,
+];
