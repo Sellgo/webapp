@@ -146,7 +146,12 @@ const SellerMapFilter: React.FC<Props> = props => {
           <Button size="small" className={styles.filterSubmit__reset} onClick={handleReset}>
             Reset
           </Button>
-          <Button size="small" className={styles.filterSubmit__find} onClick={handleSubmit}>
+          <Button
+            size="small"
+            className={styles.filterSubmit__find}
+            onClick={handleSubmit}
+            disabled={zipCodeError}
+          >
             Find
           </Button>
         </div>
