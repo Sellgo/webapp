@@ -98,6 +98,13 @@ export const INCLUDED_COUNTRY_LIST = allCountriesList
 
 export const COUNTRY_DROPDOWN_LIST = [
   {
+    code: 'All Countries',
+    text: 'All Countries',
+    key: 'All Countries',
+    value: 'All Countries',
+    center: [0, 0],
+  },
+  {
     code: 'US',
     flag: 'us',
     text: 'United States',
@@ -106,13 +113,6 @@ export const COUNTRY_DROPDOWN_LIST = [
     center: INITIAL_CENTER,
   },
   ...INCLUDED_COUNTRY_LIST,
-  {
-    code: 'All Countries',
-    text: 'All Countries',
-    key: 'All Countries',
-    value: 'All Countries',
-    center: [0, 0],
-  },
 ];
 
 export const ALL_US_STATES = allUsStatesList.map((usState: USState) => {
@@ -126,6 +126,12 @@ export const ALL_US_STATES = allUsStatesList.map((usState: USState) => {
 });
 
 export const STATES_DROPDOWN_LIST = [
-  { code: '', center: INITIAL_CENTER, key: 'All States', text: 'All States', value: '' },
+  {
+    code: 'All States',
+    center: INITIAL_CENTER,
+    key: 'All States',
+    text: 'All States',
+    value: 'All States',
+  },
   ...ALL_US_STATES,
 ];

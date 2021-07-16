@@ -101,7 +101,8 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
 
     let queryString = '';
 
-    if (state) {
+    // skip all states since all states means no states filter
+    if (state && state !== 'All States') {
       queryString += `&state=${state}`;
     }
 
@@ -109,6 +110,7 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
       queryString += `&zip_code=${zipCode}`;
     }
 
+    // skip all countries since all countries means no countries filter
     if (country && country !== 'All Countries') {
       queryString += `&country=${country}`;
     }

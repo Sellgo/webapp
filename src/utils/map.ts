@@ -67,17 +67,20 @@ export const calculateCenterForMap = (country: string, state: string) => {
 export const calculateZoomForMap = (country: string, state: string) => {
   // when state is applied and country is US
   if (state && country === 'US') {
-    if (state === '') {
+    if (state === 'All States') {
       return INITIAL_ZOOM;
     }
-    return INITIAL_ZOOM + 1.7;
+    return INITIAL_ZOOM + 1.9;
   }
 
   // only countries
   if (country === 'All Countries') {
     return MIN_ZOOM;
   } else {
-    return INITIAL_ZOOM;
+    if (country === 'US') {
+      return INITIAL_ZOOM;
+    }
+    return INITIAL_ZOOM + 0.7;
   }
 };
 
