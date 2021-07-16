@@ -100,6 +100,13 @@ export const COUNTRY_DROPDOWN_LIST = [
     center: INITIAL_CENTER,
   },
   ...INCLUDED_COUNTRY_LIST,
+  {
+    code: '',
+    text: 'All Countries',
+    key: 'All Countries',
+    value: '',
+    center: [0, 0],
+  },
 ];
 
 export const ALL_US_STATES = allUsStatesList.map((usState: USState) => {
