@@ -4,12 +4,7 @@ import axios from 'axios';
 import { AppConfig } from '../../config';
 
 /* Constants */
-import {
-  actionTypes,
-  INITIAL_CENTER,
-  INITIAL_ZOOM,
-  WORLD_MAP_BOUNDS,
-} from '../../constants/SellerMap';
+import { actionTypes, INITIAL_CENTER, INITIAL_ZOOM } from '../../constants/SellerMap';
 
 /* Interfaces */
 import { SellerMapPayload, Location } from '../../interfaces/SellerMap';
@@ -18,7 +13,7 @@ import { SellerMapPayload, Location } from '../../interfaces/SellerMap';
 import { sellerIDSelector } from '../../selectors/Seller';
 
 /* Utils */
-import { calculateBoundsForMap, calculateCenterForMap } from '../../utils/map';
+import { calculateBoundsForMap } from '../../utils/map';
 
 /* Notifications */
 import { error, success } from '../../utils/notifications';
@@ -114,7 +109,7 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
       queryString += `&zip_code=${zipCode}`;
     }
 
-    if (country) {
+    if (country && country !== 'All Countries') {
       queryString += `&country=${country}`;
     }
 
@@ -123,29 +118,19 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
     const response = await axios.get(URL);
 
     if (response && response.data) {
-      const { coordinates, box } = response.data;
+      const { data } = response;
+      const { mapCenter, mapZoom } = calculateBoundsForMap(country, state);
 
-      if (!box || !box.ne || !box.sw) {
-        dispatch(setMapZoom(INITIAL_ZOOM));
-        dispatch(setMapBounds(WORLD_MAP_BOUNDS));
-        dispatch(setMapCenter(calculateCenterForMap(country, state)));
-      } else {
-        const { mapCenter, newMapBounds, mapZoom } = calculateBoundsForMap(country, state, box);
+      dispatch(setMapCenter(mapCenter));
+      dispatch(setMapZoom(mapZoom));
 
-        dispatch(setMapCenter(mapCenter));
-        dispatch(setMapZoom(mapZoom));
-        dispatch(setMapBounds(newMapBounds));
-      }
-
-      success(`Found ${coordinates.length} sellers`);
-      dispatch(setSellersForMap(coordinates));
+      success(`Found ${data.length} sellers`);
+      dispatch(setSellersForMap(data));
       dispatch(setLoadingSellersForMap(false));
     }
   } catch (err) {
     dispatch(setMapCenter(INITIAL_CENTER));
     dispatch(setMapZoom(INITIAL_ZOOM));
-    dispatch(setMapBounds(WORLD_MAP_BOUNDS));
-
     console.error('Error fetching merchants for map', err);
     dispatch(setSellersForMap([]));
     dispatch(setLoadingSellersForMap(false));

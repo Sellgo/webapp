@@ -2,8 +2,8 @@ import {
   INITIAL_CENTER,
   STATES_DROPDOWN_LIST,
   COUNTRY_DROPDOWN_LIST,
-  WORLD_MAP_BOUNDS,
   INITIAL_ZOOM,
+  MIN_ZOOM,
 } from '../constants/SellerMap';
 
 /* Static offset ampper */
@@ -23,7 +23,7 @@ const offsetMapper = {
 };
 
 /* Generate the offset values for the map based on state/country */
-const generateOffsetValues = (country: string, state: string) => {
+export const generateOffsetValues = (country: string, state: string) => {
   if (state === '' && country === 'US') {
     return offsetMapper.COUNTRY;
   }
@@ -65,6 +65,7 @@ export const calculateCenterForMap = (country: string, state: string) => {
 
 /* Utility to calculate the zoom for map*/
 export const calculateZoomForMap = (country: string, state: string) => {
+  // when state is applied and country is US
   if (state && country === 'US') {
     if (state === '') {
       return INITIAL_ZOOM;
@@ -72,38 +73,21 @@ export const calculateZoomForMap = (country: string, state: string) => {
     return INITIAL_ZOOM + 1.7;
   }
 
-  return INITIAL_ZOOM;
+  // only countries
+  if (country === 'All Countries') {
+    return MIN_ZOOM;
+  } else {
+    return INITIAL_ZOOM;
+  }
 };
 
 /* Utility to calculate the bounds for map */
-export const calculateBoundsForMap = (
-  country: string,
-  state: string,
-  box: { ne: number[] | null; sw: number[] | null }
-) => {
+export const calculateBoundsForMap = (country: string, state: string) => {
   // calculate center for map
   const mapCenter = calculateCenterForMap(country, state);
   const mapZoom = calculateZoomForMap(country, state);
 
-  if (!box.ne && !box.sw) {
-    return {
-      mapCenter,
-      newMapBounds: WORLD_MAP_BOUNDS,
-      mapZoom,
-    };
-  }
-
-  const OFFSET = generateOffsetValues(country, state);
-  const [MIN_LAT, MIN_LONG] = box.ne || [];
-  const [MAX_LAT, MAX_LONG] = box.sw || [];
-
-  const NE = [Number(MIN_LAT + OFFSET.MIN_LAT_OFFSET), Number(MIN_LONG + OFFSET.MIN_LONG_OFFSET)];
-  const SW = [Number(MAX_LAT - OFFSET.MAX_LAT_OFFSET), Number(MAX_LONG - OFFSET.MAX_LONG_OFFSET)];
-
-  const newMapBounds = [NE, SW];
-
   return {
-    newMapBounds,
     mapCenter,
     mapZoom,
   };

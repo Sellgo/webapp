@@ -57,7 +57,6 @@ const SellerMap = (props: Props) => {
     sellerDataForMap,
     fetchSellersForMap,
     mapCenter,
-    mapBounds,
     mapZoom,
   } = props;
 
@@ -103,7 +102,7 @@ const SellerMap = (props: Props) => {
           {/* Place map utils here before map is prepared */}
 
           {/* Center based on location */}
-          <CenterMapAndZoom mapCenter={mapCenter} mapBounds={mapBounds} mapZoom={mapZoom} />
+          <CenterMapAndZoom mapCenter={mapCenter} mapZoom={mapZoom} />
 
           {/* ============================================ */}
 

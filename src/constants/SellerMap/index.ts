@@ -107,10 +107,10 @@ export const COUNTRY_DROPDOWN_LIST = [
   },
   ...INCLUDED_COUNTRY_LIST,
   {
-    code: '',
+    code: 'All Countries',
     text: 'All Countries',
     key: 'All Countries',
-    value: '',
+    value: 'All Countries',
     center: [0, 0],
   },
 ];
