@@ -7,8 +7,8 @@ import { AppConfig } from '../../config';
 import {
   actionTypes,
   INITIAL_CENTER,
-  COUNTRY_DROPDOWN_LIST,
-  STATES_DROPDOWN_LIST,
+  INITIAL_ZOOM,
+  WORLD_MAP_BOUNDS,
 } from '../../constants/SellerMap';
 
 /* Interfaces */
@@ -16,6 +16,9 @@ import { SellerMapPayload, Location } from '../../interfaces/SellerMap';
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
+
+/* Utils */
+import { calculateBoundsForMap, calculateCenterForMap } from '../../utils/map';
 
 /* Notifications */
 import { error, success } from '../../utils/notifications';
@@ -61,9 +64,25 @@ export const setShowSellerDetailsCard = (payload: boolean) => {
 };
 
 /* Action to set country center */
-export const setCountryCenter = (payload: Location) => {
+export const setMapCenter = (payload: Location) => {
   return {
     type: actionTypes.SET_COUNTRY_CENTER,
+    payload,
+  };
+};
+
+/* Action to set the map bounds */
+export const setMapBounds = (payload: any) => {
+  return {
+    type: actionTypes.SET_MAP_BOUNDS,
+    payload,
+  };
+};
+
+/* Action to set the map bounds */
+export const setMapZoom = (payload: number) => {
+  return {
+    type: actionTypes.SET_ZOOM_FOR_MAP,
     payload,
   };
 };
@@ -81,7 +100,7 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
     if (resetMap) {
       dispatch(setSellersForMap([]));
       dispatch(setLoadingSellersForMap(false));
-      dispatch(setCountryCenter(INITIAL_CENTER));
+      dispatch(setMapCenter(INITIAL_CENTER));
       return;
     }
 
@@ -103,38 +122,30 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
     dispatch(setLoadingSellersForMap(true));
     const response = await axios.get(URL);
 
-    // if us state is present
-    if (state && country === 'US') {
-      const findCenterForState = STATES_DROPDOWN_LIST.find((usState: any) => {
-        return usState.code === state;
-      }).center;
-
-      if (findCenterForState) {
-        dispatch(setCountryCenter(findCenterForState));
-      } else {
-        dispatch(setCountryCenter(INITIAL_CENTER));
-      }
-    }
-    // non-us states only filter by country
-    else {
-      // find the center for the country selected and dispatch the center
-      const findCenterForCountry = COUNTRY_DROPDOWN_LIST.find((countryDetails: any) => {
-        return countryDetails.code === country;
-      }).center;
-      if (findCenterForCountry) {
-        dispatch(setCountryCenter(findCenterForCountry));
-      } else {
-        dispatch(setCountryCenter(INITIAL_CENTER));
-      }
-    }
-
     if (response && response.data) {
-      success(`Found ${response.data.length} sellers`);
-      dispatch(setSellersForMap(response.data));
+      const { coordinates, box } = response.data;
+
+      if (!box || !box.ne || !box.sw) {
+        dispatch(setMapZoom(INITIAL_ZOOM));
+        dispatch(setMapBounds(WORLD_MAP_BOUNDS));
+        dispatch(setMapCenter(calculateCenterForMap(country, state)));
+      } else {
+        const { mapCenter, newMapBounds, mapZoom } = calculateBoundsForMap(country, state, box);
+
+        dispatch(setMapCenter(mapCenter));
+        dispatch(setMapZoom(mapZoom));
+        dispatch(setMapBounds(newMapBounds));
+      }
+
+      success(`Found ${coordinates.length} sellers`);
+      dispatch(setSellersForMap(coordinates));
       dispatch(setLoadingSellersForMap(false));
     }
   } catch (err) {
-    dispatch(setCountryCenter(INITIAL_CENTER));
+    dispatch(setMapCenter(INITIAL_CENTER));
+    dispatch(setMapZoom(INITIAL_ZOOM));
+    dispatch(setMapBounds(WORLD_MAP_BOUNDS));
+
     console.error('Error fetching merchants for map', err);
     dispatch(setSellersForMap([]));
     dispatch(setLoadingSellersForMap(false));

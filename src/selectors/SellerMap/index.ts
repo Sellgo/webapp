@@ -29,3 +29,13 @@ export const getShowSellerDetailsCardForMap = (state: any) => {
 export const getCenterLocationForMap = (state: any) => {
   return get(state, 'sellerMap.mapCenter');
 };
+
+/* Selector for getting the map bounds based on data */
+export const getMapBounds = (state: any) => {
+  return get(state, 'sellerMap.mapBounds');
+};
+
+/* Selector for getting the map zoom based on data */
+export const getMapZoom = (state: any) => {
+  return get(state, 'sellerMap.mapZoom');
+};
