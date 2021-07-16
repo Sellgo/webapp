@@ -1,0 +1,119 @@
+@import '../../design-system/colors.scss';
+
+.sellerMapInfoCard {
+  position: fixed !important;
+  bottom: 40px !important;
+  right: 35px !important;
+  border: 1px solid #a2a2a2;
+  border-radius: 7px;
+  padding: 20px 20px !important;
+  min-width: 410px !important;
+  max-width: 410px !important;
+  min-height: 225px !important;
+  max-height: 225px !important;
+  z-index: 999999999 !important;
+  background: #f9f9fa;
+  display: flex;
+  flex-direction: column;
+  cursor: default !important;
+}
+
+.sellerCard {
+  display: flex;
+  flex-direction: column;
+}
+
+.sellerCardDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.sellerDetail {
+  width: max-content;
+  max-width: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  margin-bottom: 20px !important;
+
+  &__long {
+    max-width: 300px !important;
+  }
+
+  h2 {
+    font-size: 10px;
+    color: $sellgo-light-gray-100;
+    font-weight: 300;
+    margin: 0;
+  }
+
+  p {
+    font-size: 12px;
+    color: $sellgo-text;
+    margin: 0;
+    font-weight: 400;
+    display: flex;
+    word-wrap: pre;
+
+    i {
+      font-size: 10px !important;
+      color: $icon-color;
+      margin-left: 2px !important;
+      cursor: pointer;
+    }
+  }
+}
+
+.copyBrands {
+  display: flex;
+  word-wrap: pre;
+}
+
+.sellerMapCloseIcon {
+  background: #fff !important;
+  border: 0 !important;
+  outline: 0 !important;
+  cursor: pointer;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+
+.checkInventory {
+  align-self: flex-end;
+  border: 1px solid $sellgo-orange;
+  color: $sellgo-orange;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  height: 30px;
+  width: 110px;
+  cursor: pointer;
+  font-weight: 600;
+
+  span {
+    margin-left: 10px;
+  }
+
+  svg {
+    width: 12px;
+    height: auto;
+
+    path {
+      fill: currentColor;
+    }
+  }
+}
+
+.checkInventoryActive {
+  @extend .checkInventory;
+
+  border: 1px solid $sellgo-green !important;
+  color: $sellgo-green !important;
+}
