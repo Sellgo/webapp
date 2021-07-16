@@ -96,6 +96,7 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
       dispatch(setSellersForMap([]));
       dispatch(setLoadingSellersForMap(false));
       dispatch(setMapCenter(INITIAL_CENTER));
+      dispatch(setMapZoom(INITIAL_ZOOM));
       return;
     }
 
