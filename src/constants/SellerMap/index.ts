@@ -9,16 +9,22 @@ const allUsStatesList = require('../../assets/usStatesList.json');
 export const actionTypes = {
   LOADING_SELLERS_FOR_MAP: 'LOADING_SELLERS_FOR_MAP',
   SET_SELLERS_FOR_MAP: 'SET_SELLERS_FOR_MAP',
-  // Centering of map
-  SET_COUNTRY_CENTER: 'SET_COUNTRY_CENTER',
+
   // Sellers details for cards
   LOADING_SELLER_DETAILS_FOR_MAP: 'LOADING_SELLER_DETAILS_FOR_MAP',
   SET_SELLER_DETAILS_FOR_MAP: 'SET_SELLER_DETAILS_FOR_MAP',
   SHOW_SELLER_DETAILS_CARD: 'SHOW_SELLER_DETAILS_CARD',
+
+  // Centering of map
+  SET_COUNTRY_CENTER: 'SET_COUNTRY_CENTER',
+  // Bound the apn state for map
+  SET_MAP_BOUNDS: 'SET_MAP_BOUNDS',
+  // Set zoom for map
+  SET_ZOOM_FOR_MAP: 'SET_ZOOM_FOR_MAP',
 };
 
 export const INITIAL_CENTER: Location = [37.09024, -95.712891];
-export const INITIAL_ZOOM = 4.8;
+export const INITIAL_ZOOM = 4.6;
 export const MIN_ZOOM = 2.5;
 export const MAX_ZOOM = 18;
 export const WORLD_MAP_BOUNDS: Location[] = [
@@ -92,6 +98,13 @@ export const INCLUDED_COUNTRY_LIST = allCountriesList
 
 export const COUNTRY_DROPDOWN_LIST = [
   {
+    code: 'All Countries',
+    text: 'All Countries',
+    key: 'All Countries',
+    value: 'All Countries',
+    center: [0, 0],
+  },
+  {
     code: 'US',
     flag: 'us',
     text: 'United States',
@@ -113,6 +126,12 @@ export const ALL_US_STATES = allUsStatesList.map((usState: USState) => {
 });
 
 export const STATES_DROPDOWN_LIST = [
-  { code: '', center: INITIAL_CENTER, key: 'All States', text: 'All States', value: '' },
+  {
+    code: 'All States',
+    center: INITIAL_CENTER,
+    key: 'All States',
+    text: 'All States',
+    value: 'All States',
+  },
   ...ALL_US_STATES,
 ];

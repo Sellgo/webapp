@@ -1,14 +1,23 @@
-import { actionTypes, INITIAL_CENTER } from '../../constants/SellerMap';
+import {
+  actionTypes,
+  INITIAL_CENTER,
+  INITIAL_ZOOM,
+  WORLD_MAP_BOUNDS,
+} from '../../constants/SellerMap';
 import { AnyAction } from 'redux';
 import { setIn } from '../../utils/immutablity';
 
 const INITIAL_STATE = {
   isLoadingSellers: false,
   sellersForMap: [],
-  mapCenter: INITIAL_CENTER,
+
   isLoadingSellerDetails: false,
   sellerDetails: [],
   showSellerDetailsCard: false,
+
+  mapCenter: INITIAL_CENTER,
+  mapBounds: WORLD_MAP_BOUNDS,
+  mapZoom: INITIAL_ZOOM,
 };
 
 const sellerMapReducer = (state = INITIAL_STATE, action: AnyAction) => {
@@ -30,6 +39,12 @@ const sellerMapReducer = (state = INITIAL_STATE, action: AnyAction) => {
     }
     case actionTypes.SET_COUNTRY_CENTER: {
       return setIn(state, 'mapCenter', action.payload);
+    }
+    case actionTypes.SET_MAP_BOUNDS: {
+      return setIn(state, 'mapBounds', action.payload);
+    }
+    case actionTypes.SET_ZOOM_FOR_MAP: {
+      return setIn(state, 'mapZoom', action.payload);
     }
     default: {
       return state;

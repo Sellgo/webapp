@@ -100,6 +100,7 @@ const SellerMapFilter: React.FC<Props> = props => {
               loading={isLoadingMapDetails}
               disabled={isLoadingMapDetails || country !== 'US'}
               placeholder="All States"
+              search
               fluid
               className="formDropdown__state"
               value={state}
