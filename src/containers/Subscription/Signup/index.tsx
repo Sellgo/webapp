@@ -198,12 +198,22 @@ const Signup = (props: Props, state: State) => {
             setVerifySignupError(true);
             setErrorMessage(err.description);
           } else {
-            const data = {
+            let data: any = {
               email: email.trim(), // trim out white spaces to prevent 500
               name: firstName + ' ' + lastName,
               first_name: firstName,
               last_name: lastName,
             };
+
+            // @ts-ignore
+            const referralID = typeof window !== 'undefined' && window.Rewardful.referral;
+
+            if (referralID) {
+              data = {
+                ...data,
+                referral: referralID,
+              };
+            }
             auth.getSellerID(data);
           }
         }

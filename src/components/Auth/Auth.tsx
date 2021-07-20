@@ -99,6 +99,10 @@ export default class Auth {
     formData.append('last_name', data.last_name);
     formData.append('origin', origin);
 
+    if (data.referral) {
+      formData.append('referral', data.referral);
+    }
+
     Axios.post(AppConfig.BASE_URL_API + 'sellers/register', formData)
       .then((response: any) => {
         const data = response.data[0] ? response.data[0] : response.data;
