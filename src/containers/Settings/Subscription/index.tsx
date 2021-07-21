@@ -160,12 +160,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     bodyFormData.append('payment_mode', paymentMode);
     bodyFormData.append('email', profile.email);
 
-    // Include affiliate referral
-    const referral = this.getReferral();
-    if (referral) {
-      bodyFormData.append('referral', referral);
-    }
-
     return Axios.post(
       AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/create-checkout-session`,
       bodyFormData
@@ -185,11 +179,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         // using `result.error.message`.
         error(`There was an error: ${result.error.message}`);
       });
-  }
-
-  getReferral() {
-    // @ts-ignore
-    return typeof window.Rewardful !== 'undefined' && window.Rewardful.referral;
   }
 
   redeem() {
