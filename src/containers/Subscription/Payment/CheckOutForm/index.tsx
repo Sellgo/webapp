@@ -168,7 +168,6 @@ function CheckoutForm(props: MyProps) {
           payment_method_id: paymentMethodId,
           payment_mode: paymentMode,
         };
-        console.log(data);
         Axios.defaults.headers.common.Authorization = ``;
         createSubscriptionData(data);
       }
