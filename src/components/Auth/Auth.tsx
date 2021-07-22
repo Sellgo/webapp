@@ -98,7 +98,6 @@ export default class Auth {
     formData.append('first_name', data.first_name);
     formData.append('last_name', data.last_name);
     formData.append('origin', origin);
-    console.log(origin);
     if (data.referral) {
       formData.append('referral', data.referral);
     }
