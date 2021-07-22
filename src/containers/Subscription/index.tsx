@@ -12,7 +12,7 @@ import Signup from './Signup';
 
 /* Components */
 import Auth from '../../components/Auth/Auth';
-import { subscriptionPlans, paymentModes } from './data';
+import { subscriptionPlans, paymentModes, subscriptionDetails } from './data';
 
 /* Assets */
 import newSellgoLogo from '../../assets/images/sellgoNewLogo.png';
@@ -42,8 +42,10 @@ const SubscriptionPage: React.FC<Props> = props => {
 
   /* Get valid subscription name from URL */
   const getSubscriptionNameAndPaymentMode = (search: string) => {
-    // Parsing to obtain plan type
+    /* Parsing to obtain plan type */
     const LENGTH_OF_SEARCH_STRING = 5; // Length of "type=", and "mode="
+    const DEFAULT_PLAN = 'professional';
+    const DEFAULT_PAYMENT_MODE = 'monthly';
     const startTypeIndex = search.indexOf('type=') + LENGTH_OF_SEARCH_STRING;
     let endTypeIndex = search.indexOf('&', startTypeIndex);
     if (endTypeIndex === -1) {
@@ -52,10 +54,10 @@ const SubscriptionPage: React.FC<Props> = props => {
 
     let subscriptionName = search.substring(startTypeIndex, endTypeIndex);
     if (!subscriptionPlans[subscriptionName]) {
-      subscriptionName = 'professional';
+      subscriptionName = DEFAULT_PLAN;
     }
 
-    // Parsing to obtain payment mode
+    /* Parsing to obtain payment mode */
     const startModeIndex = search.indexOf('mode=') + LENGTH_OF_SEARCH_STRING;
     let endModeIndex = search.indexOf('&', startModeIndex);
     if (endModeIndex === -1) {
@@ -64,13 +66,24 @@ const SubscriptionPage: React.FC<Props> = props => {
 
     let paymentMode = search.substring(startModeIndex, endModeIndex);
     if (!paymentModes.includes(paymentMode)) {
-      paymentMode = 'monthly';
+      paymentMode = DEFAULT_PAYMENT_MODE;
     }
 
-    return {
-      subscriptionName,
-      paymentMode,
-    };
+    /* If plan mode does not match an available payment method, return default plan
+    e.g. type=Seller Scout Pro, with mode=daily */
+    //@ts-ignore
+    const planCost = subscriptionDetails[subscriptionName][paymentMode];
+    if (planCost === -1) {
+      return {
+        subscriptionName: DEFAULT_PLAN,
+        paymentMode: DEFAULT_PAYMENT_MODE,
+      };
+    } else {
+      return {
+        subscriptionName,
+        paymentMode,
+      };
+    }
   };
 
   useEffect(() => {
