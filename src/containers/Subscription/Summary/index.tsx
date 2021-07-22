@@ -29,9 +29,13 @@ const Summary: React.FC<Props> = props => {
             <p className={styles.planDetails__pricing}>
               ${summaryDetails.annualPrice} billed yearly
             </p>
-          ) : (
+          ) : paymentMode === 'monthly' ? (
             <p className={styles.planDetails__pricing}>
               ${summaryDetails.monthlyPrice} /mo billed monthly
+            </p>
+          ) : (
+            <p className={styles.planDetails__pricing}>
+              ${summaryDetails.dailyPrice} /day billed daily
             </p>
           )}
         </div>

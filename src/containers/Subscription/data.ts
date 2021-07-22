@@ -5,6 +5,7 @@ export interface SummaryDetails {
   id: number;
   monthlyPrice: number;
   annualPrice: number;
+  dailyPrice: number;
 }
 
 export const subscriptionDetails: { [key: string]: SummaryDetails } = {
@@ -13,6 +14,7 @@ export const subscriptionDetails: { [key: string]: SummaryDetails } = {
     id: 3,
     monthlyPrice: 49,
     annualPrice: 348,
+    dailyPrice: -1,
     subDescription: '14-Days Money Back Guarantee',
     benefits: [
       'Manage your supplier files in Supplier Management',
@@ -24,8 +26,9 @@ export const subscriptionDetails: { [key: string]: SummaryDetails } = {
   wholesalearbitrage$1: {
     name: 'Wholesale Arbitrage $1',
     id: 7,
-    monthlyPrice: 1,
-    annualPrice: 1,
+    monthlyPrice: -1,
+    annualPrice: -1,
+    dailyPrice: 1,
     subDescription: '14-Days Money Back Guarantee',
     benefits: [
       'Manage your supplier files in Supplier Management',
@@ -37,8 +40,9 @@ export const subscriptionDetails: { [key: string]: SummaryDetails } = {
   privatelabel$1: {
     name: 'Private Label $1',
     id: 9,
-    monthlyPrice: 1,
-    annualPrice: 1,
+    monthlyPrice: -1,
+    annualPrice: -1,
+    dailyPrice: 1,
     subDescription: '14-Days Money Back Guarantee',
     benefits: [
       'Manage your supplier files in Supplier Management',
@@ -52,6 +56,7 @@ export const subscriptionDetails: { [key: string]: SummaryDetails } = {
     id: 6,
     monthlyPrice: 37,
     annualPrice: 323,
+    dailyPrice: -1,
     subDescription: '14-Days Money Back Guarantee',
     benefits: [
       'Manage your supplier files in Supplier Management',
@@ -65,6 +70,7 @@ export const subscriptionDetails: { [key: string]: SummaryDetails } = {
     id: 2,
     monthlyPrice: 97,
     annualPrice: 971,
+    dailyPrice: -1,
     subDescription: '14-Days Money Back Guarantee',
     benefits: [
       'Manage your supplier files in Supplier Management',
@@ -78,6 +84,7 @@ export const subscriptionDetails: { [key: string]: SummaryDetails } = {
     id: 8,
     monthlyPrice: 117,
     annualPrice: 995,
+    dailyPrice: -1,
     subDescription: '14-Days Money Back Guarantee',
     benefits: [
       'Manage your supplier files in Supplier Management',
@@ -91,6 +98,7 @@ export const subscriptionDetails: { [key: string]: SummaryDetails } = {
     id: 1,
     monthlyPrice: 177,
     annualPrice: 1763,
+    dailyPrice: -1,
     subDescription: '14-Days Money Back Guarantee',
     benefits: [
       'Manage your supplier files in Supplier Management',
