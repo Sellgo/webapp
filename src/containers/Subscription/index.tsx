@@ -71,8 +71,17 @@ const SubscriptionPage: React.FC<Props> = props => {
 
     /* If plan mode does not match an available payment method, return default plan
     e.g. type=Seller Scout Pro, with mode=daily */
-    //@ts-ignore
-    const planCost = subscriptionDetails[subscriptionName][paymentMode];
+
+    const subscriptionDetail = subscriptionDetails[subscriptionName];
+    let planCost;
+    if (paymentMode === 'daily') {
+      planCost = subscriptionDetail.dailyPrice;
+    } else if (paymentMode === 'monthly') {
+      planCost = subscriptionDetail.monthlyPrice;
+    } else {
+      planCost = subscriptionDetail.annualPrice;
+    }
+
     if (planCost === -1) {
       return {
         subscriptionName: DEFAULT_PLAN,
