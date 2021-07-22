@@ -199,12 +199,22 @@ function Signup(props: any, state: State) {
           if (err) {
             error(err);
           } else {
-            const data = {
+            let data = {
               email: email,
               name: firstname + ' ' + lastname,
               first_name: firstname,
               last_name: lastname,
             };
+            // @ts-ignore
+            const referralID = typeof window !== 'undefined' && window.Rewardful.referral;
+
+            if (referralID) {
+              data = {
+                // @ts-ignore
+                referral: referralID,
+                ...data,
+              };
+            }
             auth.getSellerID(data, null);
 
             localStorage.setItem('accountType', accountType);
