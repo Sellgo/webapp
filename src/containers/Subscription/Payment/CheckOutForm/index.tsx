@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import {
@@ -23,6 +23,7 @@ import {
   createSubscription,
   retryInvoiceWithNewPaymentMethod,
   setStripeLoading,
+  fetchSubscriptions,
 } from '../../../../actions/Settings/Subscription';
 
 /* Hooks */
@@ -61,12 +62,13 @@ interface MyProps {
   handlePaymentError: (data: any) => void;
   setStripeLoad: (data: boolean) => void;
   stripeLoading: boolean;
+  subscriptions: any;
 }
 
 function CheckoutForm(props: MyProps) {
   const stripe: any = useStripe();
   const elements = useElements();
-  const { stripeLoading } = props;
+  const { stripeLoading, subscriptions } = props;
   const { value: name, bind: bindName } = useInput('');
   const { value: address, bind: bindAddress } = useInput('');
   const { value: city, bind: bindCity } = useInput('');
@@ -86,9 +88,25 @@ function CheckoutForm(props: MyProps) {
   };
   const trigger = <span className="country-label">{selectedCountry.name}</span>;
 
+  const getSubscriptionID = (subscriptions: any[], planName: string) => {
+    for (let i = 0; i < subscriptions.length; i++) {
+      const name = subscriptions[i].name.toLowerCase();
+      const subscriptionName = name.replaceAll(' ', '');
+      if (planName === subscriptionName) {
+        return subscriptions[i].id;
+      }
+    }
+    return -1;
+  };
+
+  useEffect(() => {
+    fetchSubscriptions();
+  });
+
   const handleSubmit = async (event: any) => {
     // Block native form submission.
     event.preventDefault();
+
     const {
       accountType,
       paymentMode,
@@ -141,51 +159,6 @@ function CheckoutForm(props: MyProps) {
       setStripeLoad(false);
     } else {
       const paymentMethodId = paymentMethod.id;
-      const getSubscriptionId = (): number => {
-        let id = 1;
-        switch (accountType) {
-          case 'enterprise':
-            {
-              id = 3;
-            }
-            break;
-          case 'wholesalearbitrage$1':
-            {
-              id = 7;
-            }
-            break;
-          case 'privatelabel$1':
-            {
-              id = 9;
-            }
-            break;
-          case 'starter':
-            {
-              id = 6;
-            }
-            break;
-          case 'professional':
-            {
-              id = 2;
-            }
-            break;
-          case 'sellerscoutpro':
-            {
-              id = 8;
-            }
-            break;
-          case 'team':
-            {
-              id = 1;
-            }
-            break;
-          default: {
-            id = 6;
-          }
-        }
-        return id;
-      };
-
       if (latestInvoicePaymentIntentStatus === 'requires_payment_method') {
         // Update the payment method and retry invoice payment
         const invoiceId = localStorage.getItem('latestInvoiceId');
@@ -194,8 +167,12 @@ function CheckoutForm(props: MyProps) {
           invoiceId,
         });
       } else {
+        const subscription_id = getSubscriptionID(subscriptions, accountType);
+        if (subscription_id === -1) {
+          console.error('Subscription ID was unable to be retrieved.');
+        }
         const data = {
-          subscription_id: getSubscriptionId(),
+          subscription_id,
           payment_method_id: paymentMethodId,
           payment_mode: paymentMode,
         };
@@ -341,10 +318,12 @@ function CheckoutForm(props: MyProps) {
 const mapStateToProps = (state: {}) => ({
   sellerSubscription: get(state, 'subscription.sellerSubscription'),
   stripeLoading: get(state, 'subscription.stripeLoading'),
+  subscriptions: get(state, 'subscription.subscriptions'),
 });
 const mapDispatchToProps = {
   createSubscriptionData: (data: any) => createSubscription(data),
   retryInvoice: (data: any) => retryInvoiceWithNewPaymentMethod(data),
   setStripeLoad: (data: boolean) => setStripeLoading(data),
+  fetchSubscriptions: () => fetchSubscriptions(),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm);

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -12,16 +14,19 @@ import Signup from './Signup';
 
 /* Components */
 import Auth from '../../components/Auth/Auth';
+import { fetchSubscriptions } from '../../actions/Settings/Subscription';
 
 /* Assets */
 import newSellgoLogo from '../../assets/images/sellgoNewLogo.png';
 
 interface Props {
   auth: Auth;
+  subscriptions: any;
+  fetchSubscriptions: () => void;
 }
 
 const SubscriptionPage: React.FC<Props> = props => {
-  const { auth } = props;
+  const { auth, subscriptions, fetchSubscriptions } = props;
 
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [isSignup, setIsSignup] = useState<boolean>(true);
@@ -39,32 +44,33 @@ const SubscriptionPage: React.FC<Props> = props => {
     setIsSignup(false);
   };
 
+  /* Get valid subscription name from URL */
+  const getSubscriptionName = (subscriptions: any[], search: string) => {
+    for (let i = 0; i < subscriptions.length; i++) {
+      const name = subscriptions[i].name.toLowerCase();
+      const subscriptionName = name.replaceAll(' ', '');
+      if (search.includes(subscriptionName)) {
+        return subscriptionName;
+      }
+    }
+    return '';
+  };
+
   useEffect(() => {
+    // Load subscriptions into redux.
+    fetchSubscriptions();
+
     if (localStorage.getItem('isLoggedIn') === 'true') {
       setLogin();
       localStorage.setItem('isLoggedIn', 'false');
     } else if (window.location.search.indexOf('-unverified') !== -1) {
       setLogin();
     }
-    const search = window.location.search.toLowerCase();
 
-    // To refactor to use API calls instead
-    let plan: string;
-    if (search.includes('enterprise')) {
-      plan = 'enterprise';
-    } else if (search.includes('wholesalearbitrage$1')) {
-      plan = 'wholesalearbitrage$1';
-    } else if (search.includes('privatelabel$1')) {
-      plan = 'privatelabel$1';
-    } else if (search.includes('starter')) {
-      plan = 'starter';
-    } else if (search.includes('professional')) {
-      plan = 'professional';
-    } else if (search.includes('sellerscoutpro')) {
-      plan = 'sellerscoutpro';
-    } else {
-      plan = 'team';
-    }
+    const search = window.location.search.toLowerCase();
+    const plan = getSubscriptionName(subscriptions, search);
+    setAccountType(plan);
+    localStorage.setItem('planType', plan);
 
     let paymentMode: string;
     if (search.includes('daily')) {
@@ -75,11 +81,9 @@ const SubscriptionPage: React.FC<Props> = props => {
       paymentMode = 'yearly';
     }
 
-    setAccountType(plan);
     setPaymentMode(paymentMode);
-    localStorage.setItem('planType', plan);
     localStorage.setItem('paymentMode', paymentMode);
-  }, []);
+  }, [subscriptions]);
 
   return (
     <>
@@ -100,4 +104,12 @@ const SubscriptionPage: React.FC<Props> = props => {
   );
 };
 
-export default SubscriptionPage;
+const mapStateToProps = (state: {}) => ({
+  subscriptions: get(state, 'subscription.subscriptions'),
+});
+
+const mapDispatchToProps = {
+  fetchSubscriptions: () => fetchSubscriptions(),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SubscriptionPage);
