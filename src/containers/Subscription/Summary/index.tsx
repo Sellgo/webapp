@@ -3,7 +3,7 @@ import React from 'react';
 /* Styling */
 import styles from './index.module.scss';
 
-import { generateSubscriptionDetails, SummaryDetails } from './data';
+import { generateSubscriptionDetails, SummaryDetails } from '../data';
 
 interface Props {
   planType: string;

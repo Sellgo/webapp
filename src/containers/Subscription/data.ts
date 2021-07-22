@@ -113,3 +113,14 @@ export const generateSubscriptionDetails = (planType: string) => {
   }
   return planDetails;
 };
+
+export const subscriptionPlans: { [key: string]: number } = {
+  starter: 6,
+  professional: 2,
+  sellerscoutpro: 8,
+  team: 1,
+  wholesalearbitrage$1: 7,
+  privatelabel$1: 9,
+};
+
+export const paymentModes = ['daily', 'monthly', 'yearly'];

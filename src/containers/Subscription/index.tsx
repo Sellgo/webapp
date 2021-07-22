@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import get from 'lodash/get';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -14,19 +12,17 @@ import Signup from './Signup';
 
 /* Components */
 import Auth from '../../components/Auth/Auth';
-import { fetchSubscriptions } from '../../actions/Settings/Subscription';
+import { subscriptionPlans, paymentModes } from './data';
 
 /* Assets */
 import newSellgoLogo from '../../assets/images/sellgoNewLogo.png';
 
 interface Props {
   auth: Auth;
-  subscriptions: any;
-  fetchSubscriptions: () => void;
 }
 
 const SubscriptionPage: React.FC<Props> = props => {
-  const { auth, subscriptions, fetchSubscriptions } = props;
+  const { auth } = props;
 
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [isSignup, setIsSignup] = useState<boolean>(true);
@@ -45,21 +41,39 @@ const SubscriptionPage: React.FC<Props> = props => {
   };
 
   /* Get valid subscription name from URL */
-  const getSubscriptionName = (subscriptions: any[], search: string) => {
-    for (let i = 0; i < subscriptions.length; i++) {
-      const name = subscriptions[i].name.toLowerCase();
-      const subscriptionName = name.replaceAll(' ', '');
-      if (search.includes(subscriptionName)) {
-        return subscriptionName;
-      }
+  const getSubscriptionNameAndPaymentMode = (search: string) => {
+    // Parsing to obtain plan type
+    const LENGTH_OF_SEARCH_STRING = 5; // Length of "type=", and "mode="
+    const startTypeIndex = search.indexOf('type=') + LENGTH_OF_SEARCH_STRING;
+    let endTypeIndex = search.indexOf('&', startTypeIndex);
+    if (endTypeIndex === -1) {
+      endTypeIndex = search.length;
     }
-    return '';
+
+    let subscriptionName = search.substring(startTypeIndex, endTypeIndex);
+    if (!subscriptionPlans[subscriptionName]) {
+      subscriptionName = 'professional';
+    }
+
+    // Parsing to obtain payment mode
+    const startModeIndex = search.indexOf('mode=') + LENGTH_OF_SEARCH_STRING;
+    let endModeIndex = search.indexOf('&', startModeIndex);
+    if (endModeIndex === -1) {
+      endModeIndex = search.length;
+    }
+
+    let paymentMode = search.substring(startModeIndex, endModeIndex);
+    if (!paymentModes.includes(paymentMode)) {
+      paymentMode = 'monthly';
+    }
+
+    return {
+      subscriptionName,
+      paymentMode,
+    };
   };
 
   useEffect(() => {
-    // Load subscriptions into redux.
-    fetchSubscriptions();
-
     if (localStorage.getItem('isLoggedIn') === 'true') {
       setLogin();
       localStorage.setItem('isLoggedIn', 'false');
@@ -68,22 +82,13 @@ const SubscriptionPage: React.FC<Props> = props => {
     }
 
     const search = window.location.search.toLowerCase();
-    const plan = getSubscriptionName(subscriptions, search);
-    setAccountType(plan);
-    localStorage.setItem('planType', plan);
+    const { subscriptionName, paymentMode } = getSubscriptionNameAndPaymentMode(search);
 
-    let paymentMode: string;
-    if (search.includes('daily')) {
-      paymentMode = 'daily';
-    } else if (search.includes('monthly')) {
-      paymentMode = 'monthly';
-    } else {
-      paymentMode = 'yearly';
-    }
-
+    setAccountType(subscriptionName);
+    localStorage.setItem('planType', subscriptionName);
     setPaymentMode(paymentMode);
     localStorage.setItem('paymentMode', paymentMode);
-  }, [subscriptions]);
+  }, []);
 
   return (
     <>
@@ -104,12 +109,4 @@ const SubscriptionPage: React.FC<Props> = props => {
   );
 };
 
-const mapStateToProps = (state: {}) => ({
-  subscriptions: get(state, 'subscription.subscriptions'),
-});
-
-const mapDispatchToProps = {
-  fetchSubscriptions: () => fetchSubscriptions(),
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SubscriptionPage);
+export default SubscriptionPage;

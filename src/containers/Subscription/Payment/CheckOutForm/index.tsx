@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import {
@@ -23,7 +23,6 @@ import {
   createSubscription,
   retryInvoiceWithNewPaymentMethod,
   setStripeLoading,
-  fetchSubscriptions,
 } from '../../../../actions/Settings/Subscription';
 
 /* Hooks */
@@ -32,6 +31,9 @@ import { useInput } from '../../../../hooks/useInput';
 /* Assets */
 import cardIcons from '../../../../assets/images/4_Card_color_horizontal.svg';
 import stripeIcon from '../../../../assets/images/powered_by_stripe.svg';
+
+/* Data */
+import { subscriptionPlans } from '../../data';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -62,13 +64,12 @@ interface MyProps {
   handlePaymentError: (data: any) => void;
   setStripeLoad: (data: boolean) => void;
   stripeLoading: boolean;
-  subscriptions: any;
 }
 
 function CheckoutForm(props: MyProps) {
   const stripe: any = useStripe();
   const elements = useElements();
-  const { stripeLoading, subscriptions } = props;
+  const { stripeLoading } = props;
   const { value: name, bind: bindName } = useInput('');
   const { value: address, bind: bindAddress } = useInput('');
   const { value: city, bind: bindCity } = useInput('');
@@ -88,20 +89,15 @@ function CheckoutForm(props: MyProps) {
   };
   const trigger = <span className="country-label">{selectedCountry.name}</span>;
 
-  const getSubscriptionID = (subscriptions: any[], planName: string) => {
-    for (let i = 0; i < subscriptions.length; i++) {
-      const name = subscriptions[i].name.toLowerCase();
-      const subscriptionName = name.replaceAll(' ', '');
-      if (planName === subscriptionName) {
-        return subscriptions[i].id;
-      }
+  const getSubscriptionID = (planName: string) => {
+    const DEFAULT_PROFESSIONAL_PLAN_ID = 2;
+    const id = subscriptionPlans[planName];
+    if (id) {
+      return id;
+    } else {
+      return DEFAULT_PROFESSIONAL_PLAN_ID;
     }
-    return -1;
   };
-
-  useEffect(() => {
-    fetchSubscriptions();
-  });
 
   const handleSubmit = async (event: any) => {
     // Block native form submission.
@@ -167,15 +163,12 @@ function CheckoutForm(props: MyProps) {
           invoiceId,
         });
       } else {
-        const subscription_id = getSubscriptionID(subscriptions, accountType);
-        if (subscription_id === -1) {
-          console.error('Subscription ID was unable to be retrieved.');
-        }
         const data = {
-          subscription_id,
+          subscription_id: getSubscriptionID(accountType),
           payment_method_id: paymentMethodId,
           payment_mode: paymentMode,
         };
+        console.log(data);
         Axios.defaults.headers.common.Authorization = ``;
         createSubscriptionData(data);
       }
@@ -318,12 +311,10 @@ function CheckoutForm(props: MyProps) {
 const mapStateToProps = (state: {}) => ({
   sellerSubscription: get(state, 'subscription.sellerSubscription'),
   stripeLoading: get(state, 'subscription.stripeLoading'),
-  subscriptions: get(state, 'subscription.subscriptions'),
 });
 const mapDispatchToProps = {
   createSubscriptionData: (data: any) => createSubscription(data),
   retryInvoice: (data: any) => retryInvoiceWithNewPaymentMethod(data),
   setStripeLoad: (data: boolean) => setStripeLoading(data),
-  fetchSubscriptions: () => fetchSubscriptions(),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm);
