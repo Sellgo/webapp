@@ -27,9 +27,9 @@ export default (state = initialState, action: AnyAction) => {
       const sellerSubscriptionData = action.payload;
       const plan =
         sellerSubscriptionData.subscription_id === 1
-          ? 'Suite Plan' // Suite Plan
+          ? 'Team Plan'
           : sellerSubscriptionData.subscription_id === 2
-          ? 'Professional Plan' // Professional Plan
+          ? 'Professional Plan'
           : sellerSubscriptionData.subscription_id === 3
           ? 'Enterprise'
           : sellerSubscriptionData.subscription_id === 4
@@ -37,7 +37,13 @@ export default (state = initialState, action: AnyAction) => {
           : sellerSubscriptionData.subscription_id === 5
           ? 'Free Account'
           : sellerSubscriptionData.subscription_id === 6
-          ? 'Starter Plan' // Starter Plan
+          ? 'Starter Plan'
+          : sellerSubscriptionData.subscription_id === 7
+          ? 'Wholesale Arbitrage $1 Plan'
+          : sellerSubscriptionData.subscription_id === 8
+          ? 'Seller Scout Pro Plan'
+          : sellerSubscriptionData.subscription_id === 9
+          ? 'Private Label $1 Plan'
           : '';
       const type =
         sellerSubscriptionData.subscription_id <= 3

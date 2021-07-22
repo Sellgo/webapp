@@ -46,18 +46,34 @@ const SubscriptionPage: React.FC<Props> = props => {
     } else if (window.location.search.indexOf('-unverified') !== -1) {
       setLogin();
     }
-    const search = window.location.search;
+    const search = window.location.search.toLowerCase();
 
-    let plan: any = 'professional';
-    if (search.includes('starter') || search.includes('Starter')) {
+    // To refactor to use API calls instead
+    let plan: string;
+    if (search.includes('enterprise')) {
+      plan = 'enterprise';
+    } else if (search.includes('wholesalearbitrage$1')) {
+      plan = 'wholesalearbitrage$1';
+    } else if (search.includes('privatelabel$1')) {
+      plan = 'privatelabel$1';
+    } else if (search.includes('starter')) {
       plan = 'starter';
-    } else if (search.includes('suite') || search.includes('Suite')) {
-      plan = 'suite';
-    } else {
+    } else if (search.includes('professional')) {
       plan = 'professional';
+    } else if (search.includes('sellerscoutpro')) {
+      plan = 'sellerscoutpro';
+    } else {
+      plan = 'team';
     }
 
-    const paymentMode = window.location.search.indexOf('yearly') !== -1 ? 'yearly' : 'monthly';
+    let paymentMode: string;
+    if (search.includes('daily')) {
+      paymentMode = 'daily';
+    } else if (search.includes('monthly')) {
+      paymentMode = 'monthly';
+    } else {
+      paymentMode = 'yearly';
+    }
 
     setAccountType(plan);
     setPaymentMode(paymentMode);

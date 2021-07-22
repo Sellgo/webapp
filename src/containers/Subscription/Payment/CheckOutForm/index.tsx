@@ -144,9 +144,19 @@ function CheckoutForm(props: MyProps) {
       const getSubscriptionId = (): number => {
         let id = 1;
         switch (accountType) {
-          case 'suite':
+          case 'enterprise':
             {
-              id = 1;
+              id = 3;
+            }
+            break;
+          case 'wholesalearbitrage$1':
+            {
+              id = 7;
+            }
+            break;
+          case 'privatelabel$1':
+            {
+              id = 9;
             }
             break;
           case 'starter':
@@ -154,8 +164,23 @@ function CheckoutForm(props: MyProps) {
               id = 6;
             }
             break;
+          case 'professional':
+            {
+              id = 2;
+            }
+            break;
+          case 'sellerscoutpro':
+            {
+              id = 8;
+            }
+            break;
+          case 'team':
+            {
+              id = 1;
+            }
+            break;
           default: {
-            id = 2;
+            id = 6;
           }
         }
         return id;
