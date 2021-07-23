@@ -146,11 +146,11 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
       if (status === 429 && data && data.message) {
         error(data.message);
         dispatch(fetchSellerDatabaseError(data.message));
-        dispatch(setLoadingDatabase(false));
+        dispatch(fetchSellerDatabase(false));
       }
     } else {
       dispatch(fetchSellerDatabaseError(e));
-      dispatch(setLoadingDatabase(false));
+      dispatch(fetchSellerDatabase(false));
     }
   }
 };
