@@ -26,6 +26,7 @@ import UserPilotReload from '../../components/UserPilotReload';
 import SellerDatabase from '../SellerDatabase';
 import SellerFinder from '../SellerFinder';
 import MapTest from '../SellerMap';
+import ChurnFlow from '../ChurnFlow';
 
 export const auth = new Auth();
 
@@ -228,6 +229,13 @@ function App() {
             path="/seller-map"
             component={MapTest}
             requireSubscription={true}
+          />
+
+          <Route
+            exact={true}
+            path="/churnflow"
+            component={ChurnFlow}
+            // requireSubscription={true}
           />
 
           <Route component={NotFound} />
