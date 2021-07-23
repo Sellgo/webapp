@@ -29,6 +29,7 @@
     "query-string": "^6.11.0",
     "rc-steps": "^3.5.0",
     "react": "^16.13.1",
+    "react-accessible-accordion": "^3.3.4",
     "react-chip-input": "^1.0.5",
     "react-dnd-html5-backend": "^14.0.0",
     "react-dom": "^16.13.1",

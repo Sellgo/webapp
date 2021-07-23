@@ -43,8 +43,9 @@ import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
 /* Types */
 import { Subscription } from '../../../interfaces/Seller';
 import PricingPlansSummary from '../../../components/PricingCardsSummary';
-import { subscriptionPlans, SubscriptionPlan } from './data';
+import { subscriptionPlans, SubscriptionPlan, FAQdetails } from './data';
 import { DAILY_SUBSCRIPTION_PLANS } from '../../../constants/Settings';
+import FAQSection from './FaqSection';
 
 interface SubscriptionProps {
   getSeller: () => void;
@@ -361,6 +362,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <p>We offer 7-day money back guarantee.</p>
             </div>
           </section>
+
+          <FAQSection faqData={FAQdetails} />
         </main>
       </>
     );

@@ -43,3 +43,30 @@ export const subscriptionPlans: SubscriptionPlan[] = [
     isDailyPlan: false,
   },
 ];
+
+export const FAQdetails = [
+  {
+    question: 'Question 1',
+    answer: 'Answer1',
+  },
+  {
+    question: 'Question 1',
+    answer: 'Answer1',
+  },
+  {
+    question: 'Question 1',
+    answer: 'Answer1',
+  },
+  {
+    question: 'Question 1',
+    answer: 'Answer1',
+  },
+  {
+    question: 'Question 1',
+    answer: 'Answer1',
+  },
+  {
+    question: 'Question 1',
+    answer: 'Answer1',
+  },
+];
