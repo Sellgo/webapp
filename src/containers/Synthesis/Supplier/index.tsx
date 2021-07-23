@@ -28,7 +28,7 @@ import {
 } from '../../../selectors/Supplier';
 import './index.scss';
 import { dismiss, info } from '../../../utils/notifications';
-import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
+
 import { Product } from '../../../interfaces/Product';
 import { Supplier as SupplierInterface } from '../../../interfaces/Supplier';
 import history from '../../../history';
@@ -209,7 +209,6 @@ export class Supplier extends React.Component<SupplierProps, any> {
 
     return (
       <>
-        <SubscriptionMessage page={'profit-finder'} />
         <PageHeader
           title={`Profit Finder of ${supplierDetails.search || 'Search'}`}
           breadcrumb={[

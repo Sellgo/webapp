@@ -11,7 +11,13 @@ export const isSubscriptionNotPaid = (type: string) => !isSubscriptionPaid(type)
 
 export const isPlanStarter = (plan: string) => plan === 'Starter Plan';
 
-export const isPlanSuite = (plan: string) => plan === 'Suite Plan';
+export const isPlanTeam = (plan: string) => plan === 'Team Plan';
+
+export const isPlanSellerScoutPro = (plan: string) => plan === 'Seller Scout Pro Plan';
+
+export const isPlanWholesaleArbitrage = (plan: string) => plan === 'Wholesale Arbitrage $1 Plan';
+
+export const isPlanPrivateLabel = (plan: string) => plan === 'Private Label $1 Plan';
 
 export const isPlanProfessional = (plan: string) => plan === 'Professional Plan';
 

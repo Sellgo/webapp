@@ -1,10 +1,10 @@
 import React from 'react';
-import { Confirm } from 'semantic-ui-react';
+import { Confirm, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
-import { v4 as uuid } from 'uuid';
 import Axios from 'axios';
 import _ from 'lodash';
+import Carousel from 'react-multi-carousel';
 
 import stripe from '../../../stripe';
 
@@ -30,22 +30,22 @@ import Stripe from '../../../assets/images/powered_by_stripe.svg';
 
 /* Styling */
 import styles from './index.module.scss';
+import 'react-multi-carousel/lib/styles.css';
 
 /* Components */
-import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
-import PageHeader from '../../../components/PageHeader';
-import PricePlanToggleButton from '../../../components/PricePlanToggleButton';
-import PricingInfoAlert from '../../../components/PricingInfoAlert';
-import PricingPlansCard from '../../../components/PricingPlansCard';
-import AllFeaturesTable from '../../../components/AllFeaturesTable';
-import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
 
-/* Data */
-import { plansAndProductsDetails } from './data/index';
-import { getAllFeaturesForPlans } from './data/table';
+import PageHeader from '../../../components/PageHeader';
+
+import PricingInfoAlert from '../../../components/PricingInfoAlert';
+
+import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
 
 /* Types */
 import { Subscription } from '../../../interfaces/Seller';
+import PricingPlansSummary from '../../../components/PricingCardsSummary';
+import { subscriptionPlans, SubscriptionPlan } from './data';
+import { DAILY_SUBSCRIPTION_PLANS } from '../../../constants/Settings';
+import FAQSection from './FaqSection';
 
 interface SubscriptionProps {
   getSeller: () => void;
@@ -90,7 +90,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     getSeller();
     fetchSubscriptions();
-    console.log(sellerSubscription.payment_mode);
 
     this.setState({
       isMonthly: sellerSubscription.payment_mode === 'monthly' ? true : false,
@@ -191,10 +190,16 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     this.setState({ promptCancelSubscription: true });
   };
 
-  getNewPlan(subscriptionDetails: any) {
+  getNewPlan = (subscriptionDetails: any) => {
+    if (DAILY_SUBSCRIPTION_PLANS.includes(subscriptionDetails.id)) {
+      this.chooseSubscription(subscriptionDetails, 'daily');
+      return;
+    }
+
     const { isMonthly } = this.state;
     this.chooseSubscription(subscriptionDetails, isMonthly ? 'monthly' : 'yearly');
-  }
+    return;
+  };
 
   render() {
     const { match, sellerSubscription, subscriptions, subscriptionType } = this.props;
@@ -208,20 +213,13 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       isMonthly,
     } = this.state;
 
-    const infoAlertDetails = isMonthly
-      ? plansAndProductsDetails.infoAlertMessage.monthly
-      : plansAndProductsDetails.infoAlertMessage.yearly;
-
     // Find the subscribed subscription
     const subscribedSubscription = subscriptions
-      ? subscriptions.filter(e => e.id === sellerSubscription.subscription_id)[0]
+      ? subscriptions.find(e => e.id === sellerSubscription.subscription_id)
       : undefined;
-
-    const comparisionTableData = getAllFeaturesForPlans('Monthly and Annual Pricing Plans');
 
     return (
       <>
-        <SubscriptionMessage page={'subscription'} />
         <PageHeader
           title={'Pricing Plans'}
           breadcrumb={[
@@ -272,67 +270,99 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         <main className={styles.subscriptionPage}>
           <section className={styles.subscriptionPageWrapper}>
             <div className={styles.planName}>
-              <span />
-              <h2>{plansAndProductsDetails.planName}</h2>
+              <h2>Sellgo Subscription Plans</h2>
             </div>
 
             <div className={styles.planShortSummary}>
-              <p>{plansAndProductsDetails.summary}</p>
+              <p>Pay Less On Software, Invest More In Your Business.</p>
             </div>
 
-            <PricePlanToggleButton
-              isMonthly={isMonthly}
-              handleChange={() => this.setState({ isMonthly: !isMonthly })}
-              className={styles.paymentModeToggle}
+            <PricingInfoAlert
+              head="For new members register with Amazon Seller Central Account. Risk free 7-day money back guarantee."
+              navigateLabel="Learn More"
+              navigateTo=""
+              background="#F2EFE4"
             />
+          </section>
 
-            <PricingInfoAlert {...infoAlertDetails} background="#F2EFE4" />
-
-            <section className={styles.pricingPlanCardsWrapper}>
-              {plansAndProductsDetails.productsIncluded.map(product => {
+          <section className={styles.carouselWrapper}>
+            <Carousel
+              ssr
+              partialVisbile
+              deviceType={'desktop'}
+              itemClass="image-item"
+              responsive={{
+                desktop: {
+                  breakpoint: { max: 3000, min: 1024 },
+                  items: 3,
+                  paritialVisibilityGutter: 60,
+                },
+                tablet: {
+                  breakpoint: { max: 1024, min: 464 },
+                  items: 2,
+                  paritialVisibilityGutter: 50,
+                },
+                mobile: {
+                  breakpoint: { max: 464, min: 0 },
+                  items: 1,
+                  paritialVisibilityGutter: 30,
+                },
+              }}
+            >
+              {subscriptionPlans.map((subscriptionPlan: SubscriptionPlan) => {
+                const {
+                  subscriptionId,
+                  monthlyPrice,
+                  annualPrice,
+                  name,
+                  isDailyPlan,
+                } = subscriptionPlan;
                 return (
-                  <PricingPlansCard
-                    key={uuid()}
-                    subscriptionId={product.id}
-                    name={product.name}
-                    productsDatabase={product.productsDatabase}
-                    salesEstimateCount={product.salesEstimateCount}
-                    monthlyPrice={product.monthlyPrice}
-                    annualPrice={product.annualPrice}
-                    desc={product.desc}
-                    featureSubName={product.featureSubName}
-                    featuresLists={product.featuresLists}
-                    // plan type details
+                  <PricingPlansSummary
+                    key={subscriptionId}
+                    subscriptionId={subscriptionId}
+                    name={name}
                     isMonthly={isMonthly}
+                    monthlyPrice={monthlyPrice}
+                    annualPrice={annualPrice}
+                    isDailyPlan={isDailyPlan}
+                    handleChange={() => this.setState({ isMonthly: !isMonthly })}
+                    // seller subscriptions
                     subscribedSubscription={subscribedSubscription}
                     subscriptionType={subscriptionType}
                     sellerSubscription={sellerSubscription}
+                    // subscription details
                     // action on subscriptions
                     promptCancelSubscription={this.promptCancelSubscriptionPlan.bind(this)}
                     changePlan={(subscriptionDetails: any) => this.getNewPlan(subscriptionDetails)}
                   />
                 );
               })}
-            </section>
-
-            <section className={styles.allFeaturesSection}>
-              {comparisionTableData.map((feature: any) => {
-                return (
-                  <AllFeaturesTable key={uuid()} header={feature.header} body={feature.body} />
-                );
-              })}
-            </section>
-
-            <section className={styles.paymentMeta}>
-              <div className={styles.paymentMeta__images}>
-                <img src={Setcard} alt="Different card payment options" />
-                <img src={Stripe} alt="Protected by stripe logo" />
-              </div>
-              <div className={styles.paymentMeta__text}>
-                <p>We offer 7-day money back guarantee.</p>
-              </div>
-            </section>
+            </Carousel>
           </section>
+
+          <p className={styles.comparisionLink}>
+            More detail comparision
+            <span>
+              <Icon
+                name="external"
+                className={styles.externalLinkIcon}
+                onClick={() => window.open('https://sellgo.com/pricing', '_target')}
+              />
+            </span>
+          </p>
+
+          <section className={styles.paymentMeta}>
+            <div className={styles.paymentMeta__images}>
+              <img src={Setcard} alt="Different card payment options" />
+              <img src={Stripe} alt="Protected by stripe logo" />
+            </div>
+            <div className={styles.paymentMeta__text}>
+              <p>We offer 7-day money back guarantee.</p>
+            </div>
+          </section>
+
+          <FAQSection />
         </main>
       </>
     );
