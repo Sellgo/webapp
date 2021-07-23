@@ -16,7 +16,7 @@ import { sellerIDSelector } from '../../selectors/Seller';
 import { calculateBoundsForMap } from '../../utils/map';
 
 /* Notifications */
-import { error, info, success } from '../../utils/notifications';
+import { error, success } from '../../utils/notifications';
 
 /* Action Creator for setting loading state for sellers on map */
 export const setLoadingSellersForMap = (payload: boolean) => {
@@ -159,7 +159,7 @@ export const fetchSellerDetailsForMap = (sellerInternalID: string) => async (dis
       if (status === 400 && data && data.detail) {
         error(data.detail);
       } else if (status === 429 && data && data.message) {
-        info(data.message);
+        error(data.message);
       }
     }
     dispatch(setShowSellerDetailsCard(false));

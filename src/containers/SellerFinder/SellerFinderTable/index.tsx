@@ -61,7 +61,7 @@ import PageLoader from '../../../components/PageLoader';
 import { Merchant } from '../../../interfaces/Seller';
 import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Suppliers';
-import { success, error as errorMessage, info } from '../../../utils/notifications';
+import { success, error as errorMessage } from '../../../utils/notifications';
 import { copyToClipboard, download } from '../../../utils/file';
 import moment from 'moment';
 import BetaLabel from '../../../components/BetaLabel';
@@ -379,7 +379,7 @@ const SellerFinderTable = (props: Props) => {
           setRefreshing('');
           fetchAmazonSellers({ enableLoader: false, sort: 'udate', sortDirection: 'descending' });
         } else if (data.status === SEARCH_STATUS.FAILED && data.message) {
-          info(data.message);
+          errorMessage(data.message);
         }
       };
     }
@@ -408,7 +408,7 @@ const SellerFinderTable = (props: Props) => {
             success(`${data.products_count} Products Found!`);
           }
         } else if (data.status === SEARCH_STATUS.FAILED && data.message) {
-          info(data.message);
+          errorMessage(data.message);
         }
       };
     }
@@ -453,7 +453,7 @@ const SellerFinderTable = (props: Props) => {
           }
           fetchAmazonSellers({ enableLoader: false });
         } else if (data.status === SEARCH_STATUS.FAILED && data.message) {
-          info(data.message);
+          errorMessage(data.message);
         }
       };
     }
