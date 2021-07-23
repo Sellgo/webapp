@@ -109,7 +109,10 @@ const PricingPlansSummary = (props: Props) => {
           <button
             className={`${styles.button} ${styles.button__changePlan}`}
             onClick={() =>
-              changePlan({ name, id: subscriptionId }, isMonthly ? 'monthly' : 'yearly')
+              changePlan(
+                { name, id: subscriptionId },
+                isDailyPlan ? 'daily' : isMonthly ? 'monthly' : 'yearly'
+              )
             }
           >
             Change Plan
@@ -120,7 +123,10 @@ const PricingPlansSummary = (props: Props) => {
           <button
             className={`${styles.button} ${styles.button__buyPlan}`}
             onClick={() =>
-              changePlan({ name, id: subscriptionId }, isMonthly ? 'monthly' : 'yearly')
+              changePlan(
+                { name, id: subscriptionId },
+                isDailyPlan ? 'daily' : isMonthly ? 'monthly' : 'yearly'
+              )
             }
           >
             Buy this now

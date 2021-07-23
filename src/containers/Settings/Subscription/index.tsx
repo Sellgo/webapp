@@ -29,6 +29,7 @@ import Stripe from '../../../assets/images/powered_by_stripe.svg';
 
 /* Styling */
 import styles from './index.module.scss';
+import 'react-alice-carousel/lib/alice-carousel.css';
 
 /* Components */
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
@@ -206,8 +207,10 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     // Find the subscribed subscription
     const subscribedSubscription = subscriptions
-      ? subscriptions.filter(e => e.id === sellerSubscription.subscription_id)[0]
+      ? subscriptions.find(e => e.id === sellerSubscription.subscription_id)
       : undefined;
+
+    console.log(subscribedSubscription);
 
     return (
       <>
@@ -319,6 +322,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               />
             </span>
           </p>
+
           <section className={styles.paymentMeta}>
             <div className={styles.paymentMeta__images}>
               <img src={Setcard} alt="Different card payment options" />
