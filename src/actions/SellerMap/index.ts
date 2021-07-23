@@ -119,16 +119,15 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchantmaps/search?max_count=${maxCount}${queryString}`;
     dispatch(setLoadingSellersForMap(true));
     const response = await axios.get(URL);
-    /* TO CLARIFY CHANGE , adding of coordinates */
-    if (response && response.data && response.data.coordinates) {
+    if (response && response.data) {
       const { data } = response;
       const { mapCenter, mapZoom } = calculateBoundsForMap(country, state);
 
       dispatch(setMapCenter(mapCenter));
       dispatch(setMapZoom(mapZoom));
 
-      success(`Found ${data.coordinates.length} sellers`);
-      dispatch(setSellersForMap(data.coordinates));
+      success(`Found ${data.length} sellers`);
+      dispatch(setSellersForMap(data));
       dispatch(setLoadingSellersForMap(false));
     }
   } catch (err) {
