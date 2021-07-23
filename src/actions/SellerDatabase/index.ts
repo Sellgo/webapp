@@ -146,7 +146,7 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
       if (status === 429 && data && data.message) {
         error(data.message);
         dispatch(fetchSellerDatabaseError(data.message));
-        dispatch(fetchSellerDatabase(false));
+        dispatch(clearSellerDatabase());
       }
     } else {
       dispatch(fetchSellerDatabaseError(e));
@@ -256,6 +256,14 @@ export const trackDatabaseSeller = (merchantId: any) => async (dispatch: any, ge
   } catch (err) {
     console.log('Error Tracking Seller', err);
   }
+};
+
+const clearSellerDatabase = () => async (dispatch: any) => {
+  dispatch(fetchSellerDatabase(false));
+  dispatch(fetchSellerDatabaseSuccess([]));
+  dispatch(fetchSellerDatabasePageSize(0));
+  dispatch(fetchSellerDatabasePageCount(0));
+  dispatch(fetchSellerDatabaseCount(0));
 };
 
 const fetchSellerDatabase = (loading: boolean) => ({
