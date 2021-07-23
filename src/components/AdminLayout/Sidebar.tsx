@@ -177,14 +177,17 @@ class SidebarCollapsible extends Component<
             return (
               <Menu.Item
                 key={icon.id}
-                as={Link}
+                as={isNotSubscribedAccount && icon.id === 9 ? 'div' : Link}
                 to={icon.path}
                 name={icon.icon}
                 active={links[icon.id - 1] === currentPath}
                 className={'sidebar-menu__items'}
+                disabled={isNotSubscribedAccount && icon.id === 9}
               >
                 <i
-                  className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId && 'forward'} `}
+                  className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId && 'forward'} ${
+                    isNotSubscribedAccount && icon.id === 9 ? 'disabled-link' : ''
+                  } `}
                 />
               </Menu.Item>
             );
