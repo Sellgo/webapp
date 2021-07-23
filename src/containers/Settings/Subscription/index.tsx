@@ -43,6 +43,7 @@ import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
 import { Subscription } from '../../../interfaces/Seller';
 import PricingPlansSummary from '../../../components/PricingCardsSummary';
 import { subscriptionPlans, SubscriptionPlan } from './data';
+import { DAILY_SUBSCRIPTION_PLANS } from '../../../constants/Settings';
 
 interface SubscriptionProps {
   getSeller: () => void;
@@ -87,7 +88,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     getSeller();
     fetchSubscriptions();
-    console.log(sellerSubscription.payment_mode);
 
     this.setState({
       isMonthly: sellerSubscription.payment_mode === 'monthly' ? true : false,
@@ -188,10 +188,16 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     this.setState({ promptCancelSubscription: true });
   };
 
-  getNewPlan(subscriptionDetails: any) {
+  getNewPlan = (subscriptionDetails: any) => {
+    if (DAILY_SUBSCRIPTION_PLANS.includes(subscriptionDetails.id)) {
+      this.chooseSubscription(subscriptionDetails, 'daily');
+      return;
+    }
+
     const { isMonthly } = this.state;
     this.chooseSubscription(subscriptionDetails, isMonthly ? 'monthly' : 'yearly');
-  }
+    return;
+  };
 
   render() {
     const { match, sellerSubscription, subscriptions, subscriptionType } = this.props;
@@ -209,8 +215,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     const subscribedSubscription = subscriptions
       ? subscriptions.find(e => e.id === sellerSubscription.subscription_id)
       : undefined;
-
-    console.log(subscribedSubscription);
 
     return (
       <>

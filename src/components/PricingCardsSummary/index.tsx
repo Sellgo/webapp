@@ -21,8 +21,22 @@ interface Props {
 
   // subscription actions
   promptCancelSubscription: any;
-  changePlan: any;
+  changePlan: (subscriptionDetails: any) => void;
 }
+
+export const setPaymentMode = (isDaily: boolean, isMonthly: boolean) => {
+  console.log('This is called');
+  if (isDaily) {
+    console.log('Daily Plan');
+    return 'daily';
+  }
+
+  if (isMonthly && !isDaily) {
+    return 'monthly';
+  }
+
+  return 'yearly';
+};
 
 const PricingPlansSummary = (props: Props) => {
   const {
@@ -108,12 +122,7 @@ const PricingPlansSummary = (props: Props) => {
         {!isSubscribed && isSubscriptionPaid(subscriptionType) && (
           <button
             className={`${styles.button} ${styles.button__changePlan}`}
-            onClick={() =>
-              changePlan(
-                { name, id: subscriptionId },
-                isDailyPlan ? 'daily' : isMonthly ? 'monthly' : 'yearly'
-              )
-            }
+            onClick={() => changePlan({ name, subscriptionId })}
           >
             Change Plan
           </button>
@@ -122,12 +131,7 @@ const PricingPlansSummary = (props: Props) => {
         {!isSubscribed && isSubscriptionNotPaid(subscriptionType) && (
           <button
             className={`${styles.button} ${styles.button__buyPlan}`}
-            onClick={() =>
-              changePlan(
-                { name, id: subscriptionId },
-                isDailyPlan ? 'daily' : isMonthly ? 'monthly' : 'yearly'
-              )
-            }
+            onClick={() => changePlan({ name, subscriptionId })}
           >
             Buy this now
           </button>
