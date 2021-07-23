@@ -129,11 +129,7 @@ class SidebarCollapsible extends Component<
       link.id === 2 ? `${link.path}/${supplier_id}` : link.path
     );
 
-    console.log(this.props.subscriptionType);
-
     const isNotSubscribedAccount = isSubscriptionNotPaid(this.props.subscriptionType);
-
-    console.log(isNotSubscribedAccount);
 
     const sidebarMenu = (
       <>
