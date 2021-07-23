@@ -1,22 +1,32 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 /* Components */
 import FAQAccordion from '../../../../components/FAQAccordion';
-import { FAQData } from '../../../../interfaces/FaqDetail';
 
 import styles from './index.module.scss';
-interface Props {
-  faqData: FAQData[];
-}
 
-const FAQSection: React.FC<Props> = props => {
-  const { faqData } = props;
+const FAQSection = () => {
+  const [faqData, setFaqData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`https://sellgo-website-dev.s3.amazonaws.com/faqDetails/webappPricing.json`)
+      .then(resp => {
+        setFaqData(resp.data.data);
+      })
+      .catch(() => setFaqData([]));
+  }, []);
 
   return (
-    <section className={`big-page-container ${styles.faqSection}`}>
-      <h2 className="secondary-heading">Frequently Asked Questions</h2>
-      <FAQAccordion data={faqData} horizontalFocus />
-    </section>
+    <>
+      {faqData && faqData.length > 0 ? (
+        <section className={`big-page-container ${styles.faqSection}`}>
+          <h2 className="secondary-heading">Frequently Asked Questions</h2>
+          <FAQAccordion data={faqData} horizontalFocus />
+        </section>
+      ) : null}
+    </>
   );
 };
 

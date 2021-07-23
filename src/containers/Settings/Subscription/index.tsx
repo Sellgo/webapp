@@ -43,7 +43,7 @@ import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
 /* Types */
 import { Subscription } from '../../../interfaces/Seller';
 import PricingPlansSummary from '../../../components/PricingCardsSummary';
-import { subscriptionPlans, SubscriptionPlan, FAQdetails } from './data';
+import { subscriptionPlans, SubscriptionPlan } from './data';
 import { DAILY_SUBSCRIPTION_PLANS } from '../../../constants/Settings';
 import FAQSection from './FaqSection';
 
@@ -363,7 +363,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             </div>
           </section>
 
-          <FAQSection faqData={FAQdetails} />
+          <FAQSection />
         </main>
       </>
     );

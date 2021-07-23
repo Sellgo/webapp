@@ -1,4 +1,5 @@
 import React from 'react';
+import { DAILY_SUBSCRIPTION_PLANS } from '../../constants/Settings';
 import { isSubscriptionNotPaid, isSubscriptionPaid } from '../../utils/subscriptions';
 import PricePlanToggleButton from '../PricePlanToggleButton';
 
@@ -38,11 +39,22 @@ const PricingPlansSummary = (props: Props) => {
     promptCancelSubscription,
 
     // subscription details
+    sellerSubscription,
     subscribedSubscription,
     subscriptionType,
   } = props;
 
-  const isSubscribed = subscribedSubscription && subscribedSubscription.id === subscriptionId;
+  let isSubscribed;
+  if (DAILY_SUBSCRIPTION_PLANS.includes(subscriptionId)) {
+    isSubscribed = subscribedSubscription && subscribedSubscription.id === subscriptionId;
+  } else {
+    isSubscribed =
+      subscribedSubscription &&
+      subscribedSubscription.id === subscriptionId &&
+      (isMonthly
+        ? sellerSubscription.payment_mode === 'monthly'
+        : sellerSubscription.payment_mode === 'yearly');
+  }
 
   return (
     <div
