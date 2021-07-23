@@ -436,7 +436,6 @@ export const trackProduct = (payload: TrackProductPayload) => async (
 export const trackProductSeller = (merchantId: any) => async (dispatch: any, getState: any) => {
   try {
     const sellerID = sellerIDSelector();
-
     const url = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants/track`;
     let amazonSellers = productSellers(getState());
     const topLevelSellers = sellers(getState());

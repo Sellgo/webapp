@@ -126,7 +126,7 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
     }
 
     const res = await Axios.get(url);
-    if (res.data) {
+    if (res.status === 200 && res.data) {
       const { results, count, per_page, current_page, total_pages } = res.data;
       dispatch(fetchSellerDatabaseSuccess(results));
       dispatch(fetchSellerDatabasePageNo(current_page));
@@ -139,8 +139,17 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
       dispatch(setLoadingDatabase(false));
     }
   } catch (e) {
-    dispatch(fetchSellerDatabaseError(e));
-    console.log(e);
+    /* Seller limit exceeded */
+    const { response } = e;
+    if (response) {
+      const { status, data } = response;
+      if (status === 429 && data && data.message) {
+        info(data.message);
+        dispatch(fetchSellerDatabaseError(data.message));
+      }
+    } else {
+      dispatch(fetchSellerDatabaseError(e));
+    }
   }
 };
 

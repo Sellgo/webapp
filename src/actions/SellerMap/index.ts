@@ -16,7 +16,7 @@ import { sellerIDSelector } from '../../selectors/Seller';
 import { calculateBoundsForMap } from '../../utils/map';
 
 /* Notifications */
-import { error, success } from '../../utils/notifications';
+import { error, info, success } from '../../utils/notifications';
 
 /* Action Creator for setting loading state for sellers on map */
 export const setLoadingSellersForMap = (payload: boolean) => {
@@ -119,7 +119,6 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchantmaps/search?max_count=${maxCount}${queryString}`;
     dispatch(setLoadingSellersForMap(true));
     const response = await axios.get(URL);
-
     if (response && response.data) {
       const { data } = response;
       const { mapCenter, mapZoom } = calculateBoundsForMap(country, state);
@@ -159,6 +158,8 @@ export const fetchSellerDetailsForMap = (sellerInternalID: string) => async (dis
       const { status, data } = response;
       if (status === 400 && data && data.detail) {
         error(data.detail);
+      } else if (status === 429 && data && data.message) {
+        info(data.message);
       }
     }
     dispatch(setShowSellerDetailsCard(false));
