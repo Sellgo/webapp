@@ -21,6 +21,7 @@ export interface Subscription {
   name: string;
   monthly_price: number;
   yearly_price: number;
+  monthly_price: number;
 }
 
 export interface SellerSubscription {

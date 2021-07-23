@@ -431,7 +431,6 @@ const SellerFinderTable = (props: Props) => {
     if (sellersSocket.OPEN && !sellersSocket.CONNECTING) {
       sellersSocket.onmessage = (res: any) => {
         const data: SearchResponse = JSON.parse(res.data);
-        console.log(data);
         if (data.message && searchText && data.status !== SEARCH_STATUS.SUCCESS) {
           setSearching(true);
           setSellerProgressError(false);
