@@ -99,6 +99,11 @@ const PrivateRoute = connect(
           localStorage.setItem('accountType', '');
           history.push('/synthesis');
         }
+      } else {
+        const subscriptionId = sellerSubscription.subscription_id;
+        if (requireSubscription && (subscriptionId === 4 || subscriptionId === 5)) {
+          history.push('settings/pricing');
+        }
       }
     }, [
       userIsAuthenticated,
