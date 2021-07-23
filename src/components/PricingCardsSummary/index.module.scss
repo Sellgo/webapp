@@ -11,6 +11,10 @@
   justify-content: space-between;
 }
 
+.subscribedPlan {
+  background: #f2efe4;
+}
+
 .cardHead {
   color: $prim_dark_2;
   padding-top: 20px;
@@ -82,7 +86,7 @@
 
   &__cancelPlan {
     border: 1px solid $second_silver;
-    background: transparent;
+    background: white;
     color: $second_silver;
   }
 }

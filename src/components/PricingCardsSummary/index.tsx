@@ -24,20 +24,6 @@ interface Props {
   changePlan: (subscriptionDetails: any) => void;
 }
 
-export const setPaymentMode = (isDaily: boolean, isMonthly: boolean) => {
-  console.log('This is called');
-  if (isDaily) {
-    console.log('Daily Plan');
-    return 'daily';
-  }
-
-  if (isMonthly && !isDaily) {
-    return 'monthly';
-  }
-
-  return 'yearly';
-};
-
 const PricingPlansSummary = (props: Props) => {
   const {
     subscriptionId,
@@ -53,19 +39,19 @@ const PricingPlansSummary = (props: Props) => {
 
     // subscription details
     subscribedSubscription,
-    sellerSubscription,
     subscriptionType,
   } = props;
 
-  const isSubscribed =
-    subscribedSubscription &&
-    subscribedSubscription.id === subscriptionId &&
-    (isMonthly
-      ? sellerSubscription.payment_mode === 'monthly'
-      : sellerSubscription.payment_mode === 'yearly');
+  const isSubscribed = subscribedSubscription && subscribedSubscription.id === subscriptionId;
+
+  console.log(isSubscribed);
 
   return (
-    <div className={styles.pricingCardsSummaryWrapper}>
+    <div
+      className={`${styles.pricingCardsSummaryWrapper} ${
+        isSubscribed ? styles.subscribedPlan : ''
+      }`}
+    >
       {/* Pricing Details */}
       <div className={styles.pricingCardsSummaryDetails}>
         <div className={styles.cardHead}>
@@ -122,7 +108,7 @@ const PricingPlansSummary = (props: Props) => {
         {!isSubscribed && isSubscriptionPaid(subscriptionType) && (
           <button
             className={`${styles.button} ${styles.button__changePlan}`}
-            onClick={() => changePlan({ name, subscriptionId })}
+            onClick={() => changePlan({ name, id: subscriptionId })}
           >
             Change Plan
           </button>
@@ -131,7 +117,7 @@ const PricingPlansSummary = (props: Props) => {
         {!isSubscribed && isSubscriptionNotPaid(subscriptionType) && (
           <button
             className={`${styles.button} ${styles.button__buyPlan}`}
-            onClick={() => changePlan({ name, subscriptionId })}
+            onClick={() => changePlan({ name, id: subscriptionId })}
           >
             Buy this now
           </button>

@@ -52,7 +52,7 @@ export default (state = initialState, action: AnyAction) => {
           ? 'trial'
           : sellerSubscriptionData.subscription_id === 5
           ? 'free'
-          : sellerSubscriptionData.subscription_id === 6
+          : sellerSubscriptionData.subscription_id >= 6
           ? 'paid'
           : '';
       const newStateWithPlan = setIn(state, 'plan', plan);
