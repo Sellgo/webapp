@@ -3,9 +3,6 @@ import React from 'react';
 /* Styling */
 import styles from './index.module.scss';
 
-/* Components */
-import GemGenerator from '../../GemGenerator';
-
 /* Utils */
 import { isSubscriptionNotPaid, isSubscriptionPaid } from '../../../utils/subscriptions';
 
@@ -15,7 +12,6 @@ const GenericPriceCardHead = (props: any) => {
     name,
     monthlyPrice,
     annualPrice,
-    desc,
     isMonthly,
     subscribedSubscription,
     subscriptionType,
@@ -36,11 +32,7 @@ const GenericPriceCardHead = (props: any) => {
     <div>
       <div className={styles.pricingCardHead}>
         <div className={styles.pricingCardHead__Left}>
-          <div className={styles.planGems}>
-            <GemGenerator name={name} />
-          </div>
           <h2>{name}</h2>
-          <p>{desc}</p>
         </div>
       </div>
 

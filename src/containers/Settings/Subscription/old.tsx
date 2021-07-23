@@ -1,7 +1,8 @@
 import React from 'react';
-import { Confirm, Icon } from 'semantic-ui-react';
+import { Confirm } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
+import { v4 as uuid } from 'uuid';
 import Axios from 'axios';
 import _ from 'lodash';
 
@@ -40,8 +41,7 @@ import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
 
 /* Types */
 import { Subscription } from '../../../interfaces/Seller';
-import PricingPlansSummary from '../../../components/PricingCardsSummary';
-import { subscriptionPlans, SubscriptionPlan } from './data';
+import GenericPriceCardHead from '../../../components/PricingPlansCard/GenericPlanCardHead';
 
 interface SubscriptionProps {
   getSeller: () => void;
@@ -275,58 +275,34 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               navigateTo=""
               background="#F2EFE4"
             />
-          </section>
 
-          <section className={styles.pricingPlanCardsWrapper}>
-            {subscriptionPlans.map((subscriptionPlan: SubscriptionPlan) => {
-              const {
-                subscriptionId,
-                monthlyPrice,
-                annualPrice,
-                name,
-                isDailyPlan,
-              } = subscriptionPlan;
-              return (
-                <PricingPlansSummary
-                  key={subscriptionId}
-                  subscriptionId={subscriptionId}
-                  name={name}
-                  isMonthly={isMonthly}
-                  monthlyPrice={monthlyPrice}
-                  annualPrice={annualPrice}
-                  isDailyPlan={isDailyPlan}
-                  handleChange={() => this.setState({ isMonthly: !isMonthly })}
-                  // seller subscriptions
-                  subscribedSubscription={subscribedSubscription}
-                  subscriptionType={subscriptionType}
-                  sellerSubscription={sellerSubscription}
-                  // subscription details
-                  // action on subscriptions
-                  promptCancelSubscription={this.promptCancelSubscriptionPlan.bind(this)}
-                  changePlan={(subscriptionDetails: any) => this.getNewPlan(subscriptionDetails)}
-                />
-              );
-            })}
-          </section>
-
-          <p className={styles.comparisionLink}>
-            More detail comparision
-            <span>
-              <Icon
-                name="external"
-                className={styles.externalLinkIcon}
-                onClick={() => window.open('https://sellgo.com/pricing', '_target')}
+            <section className={styles.pricingPlanCardsWrapper}>
+              <GenericPriceCardHead
+                key={uuid()}
+                name={'Starter'}
+                monthlyPrice={49}
+                annualPrice={500}
+                // plan type details
+                isMonthly={isMonthly}
+                handleChange={() => this.setState({ isMonthly: !isMonthly })}
+                subscribedSubscription={subscribedSubscription}
+                subscriptionType={subscriptionType}
+                sellerSubscription={sellerSubscription}
+                // action on subscriptions
+                promptCancelSubscription={this.promptCancelSubscriptionPlan.bind(this)}
+                changePlan={(subscriptionDetails: any) => this.getNewPlan(subscriptionDetails)}
               />
-            </span>
-          </p>
-          <section className={styles.paymentMeta}>
-            <div className={styles.paymentMeta__images}>
-              <img src={Setcard} alt="Different card payment options" />
-              <img src={Stripe} alt="Protected by stripe logo" />
-            </div>
-            <div className={styles.paymentMeta__text}>
-              <p>We offer 7-day money back guarantee.</p>
-            </div>
+            </section>
+
+            <section className={styles.paymentMeta}>
+              <div className={styles.paymentMeta__images}>
+                <img src={Setcard} alt="Different card payment options" />
+                <img src={Stripe} alt="Protected by stripe logo" />
+              </div>
+              <div className={styles.paymentMeta__text}>
+                <p>We offer 7-day money back guarantee.</p>
+              </div>
+            </section>
           </section>
         </main>
       </>

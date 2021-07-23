@@ -1,0 +1,88 @@
+@import '../../design-system/new-colors';
+
+.pricingCardsSummaryWrapper {
+  min-width: 300px;
+  min-height: 370px;
+  border-radius: 3px;
+  border: 1px solid $second_silver;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardHead {
+  color: $prim_dark_2;
+  padding-top: 20px;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0 auto;
+    text-align: center;
+  }
+}
+
+.pricingCardsSummaryActions {
+  margin-bottom: 30px;
+}
+
+.startingAt {
+  font-size: 12px;
+  margin-top: 20px;
+  text-align: center;
+  min-height: 90px;
+
+  h3 {
+    color: $blue_7;
+    font-size: 32px;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+
+.billedAtPrice {
+  margin: 0;
+
+  span {
+    margin: 0 6px;
+  }
+}
+
+.strikeText {
+  text-decoration: line-through;
+}
+
+.priceToogleWrapper {
+  margin-top: 30px;
+}
+
+.button {
+  margin: 30px auto;
+  width: 240px;
+  height: 50px;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  border-radius: 7px;
+  font-weight: 600;
+  display: inline-block;
+
+  &__buyPlan {
+    border: 1px solid $accent-orange;
+    color: $prim_white;
+    background: $accent-orange;
+  }
+
+  &__changePlan {
+    border: 1px solid $accent-orange;
+    color: $accent-orange;
+    background: #fff;
+  }
+
+  &__cancelPlan {
+    border: 1px solid $second_silver;
+    background: transparent;
+    color: $second_silver;
+  }
+}
