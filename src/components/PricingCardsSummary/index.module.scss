@@ -3,6 +3,8 @@
 .pricingCardsSummaryWrapper {
   min-width: 300px;
   min-height: 370px;
+  max-width: 300px;
+  max-height: 370px;
   border-radius: 3px;
   border: 1px solid $second_silver;
   display: flex;

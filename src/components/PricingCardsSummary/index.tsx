@@ -44,8 +44,6 @@ const PricingPlansSummary = (props: Props) => {
 
   const isSubscribed = subscribedSubscription && subscribedSubscription.id === subscriptionId;
 
-  console.log(isSubscribed);
-
   return (
     <div
       className={`${styles.pricingCardsSummaryWrapper} ${

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import queryString from 'query-string';
 import Axios from 'axios';
 import _ from 'lodash';
+import Carousel from 'react-multi-carousel';
 
 import stripe from '../../../stripe';
 
@@ -29,7 +30,7 @@ import Stripe from '../../../assets/images/powered_by_stripe.svg';
 
 /* Styling */
 import styles from './index.module.scss';
-import 'react-alice-carousel/lib/alice-carousel.css';
+import 'react-multi-carousel/lib/styles.css';
 
 /* Components */
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
@@ -284,36 +285,60 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             />
           </section>
 
-          <section className={styles.pricingPlanCardsWrapper}>
-            {subscriptionPlans.map((subscriptionPlan: SubscriptionPlan) => {
-              const {
-                subscriptionId,
-                monthlyPrice,
-                annualPrice,
-                name,
-                isDailyPlan,
-              } = subscriptionPlan;
-              return (
-                <PricingPlansSummary
-                  key={subscriptionId}
-                  subscriptionId={subscriptionId}
-                  name={name}
-                  isMonthly={isMonthly}
-                  monthlyPrice={monthlyPrice}
-                  annualPrice={annualPrice}
-                  isDailyPlan={isDailyPlan}
-                  handleChange={() => this.setState({ isMonthly: !isMonthly })}
-                  // seller subscriptions
-                  subscribedSubscription={subscribedSubscription}
-                  subscriptionType={subscriptionType}
-                  sellerSubscription={sellerSubscription}
-                  // subscription details
-                  // action on subscriptions
-                  promptCancelSubscription={this.promptCancelSubscriptionPlan.bind(this)}
-                  changePlan={(subscriptionDetails: any) => this.getNewPlan(subscriptionDetails)}
-                />
-              );
-            })}
+          <section className={styles.carouselWrapper}>
+            <Carousel
+              ssr
+              partialVisbile
+              deviceType={'desktop'}
+              itemClass="image-item"
+              responsive={{
+                desktop: {
+                  breakpoint: { max: 3000, min: 1024 },
+                  items: 3,
+                  paritialVisibilityGutter: 60,
+                },
+                tablet: {
+                  breakpoint: { max: 1024, min: 464 },
+                  items: 2,
+                  paritialVisibilityGutter: 50,
+                },
+                mobile: {
+                  breakpoint: { max: 464, min: 0 },
+                  items: 1,
+                  paritialVisibilityGutter: 30,
+                },
+              }}
+            >
+              {subscriptionPlans.map((subscriptionPlan: SubscriptionPlan) => {
+                const {
+                  subscriptionId,
+                  monthlyPrice,
+                  annualPrice,
+                  name,
+                  isDailyPlan,
+                } = subscriptionPlan;
+                return (
+                  <PricingPlansSummary
+                    key={subscriptionId}
+                    subscriptionId={subscriptionId}
+                    name={name}
+                    isMonthly={isMonthly}
+                    monthlyPrice={monthlyPrice}
+                    annualPrice={annualPrice}
+                    isDailyPlan={isDailyPlan}
+                    handleChange={() => this.setState({ isMonthly: !isMonthly })}
+                    // seller subscriptions
+                    subscribedSubscription={subscribedSubscription}
+                    subscriptionType={subscriptionType}
+                    sellerSubscription={sellerSubscription}
+                    // subscription details
+                    // action on subscriptions
+                    promptCancelSubscription={this.promptCancelSubscriptionPlan.bind(this)}
+                    changePlan={(subscriptionDetails: any) => this.getNewPlan(subscriptionDetails)}
+                  />
+                );
+              })}
+            </Carousel>
           </section>
 
           <p className={styles.comparisionLink}>

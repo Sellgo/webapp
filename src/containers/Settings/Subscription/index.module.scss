@@ -66,6 +66,12 @@
   flex-wrap: wrap;
 }
 
+.carouselWrapper {
+  display: flex;
+  max-width: 1200px;
+  margin: 100px auto;
+}
+
 .comparisionLink {
   text-align: center;
   color: $prim_dark_2;
