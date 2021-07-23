@@ -33,7 +33,7 @@ import styles from './index.module.scss';
 import 'react-multi-carousel/lib/styles.css';
 
 /* Components */
-import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
+
 import PageHeader from '../../../components/PageHeader';
 
 import PricingInfoAlert from '../../../components/PricingInfoAlert';
@@ -220,7 +220,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     return (
       <>
-        <SubscriptionMessage page={'subscription'} />
         <PageHeader
           title={'Pricing Plans'}
           breadcrumb={[
