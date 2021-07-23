@@ -26,7 +26,7 @@ import {
   sellerDatabaseMarket,
 } from '../../selectors/SellerDatabase';
 
-import { info } from '../../utils/notifications';
+import { error, info } from '../../utils/notifications';
 
 export interface SellerDatabasePayload {
   pageNo?: number;
@@ -144,11 +144,13 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
     if (response) {
       const { status, data } = response;
       if (status === 429 && data && data.message) {
-        info(data.message);
+        error(data.message);
         dispatch(fetchSellerDatabaseError(data.message));
+        dispatch(fetchSellerDatabase(false));
       }
     } else {
       dispatch(fetchSellerDatabaseError(e));
+      dispatch(fetchSellerDatabase(false));
     }
   }
 };
