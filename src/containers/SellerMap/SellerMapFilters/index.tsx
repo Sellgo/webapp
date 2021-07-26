@@ -12,22 +12,36 @@ import { fetchSellersForMap } from '../../../actions/SellerMap';
 import { SellerMapPayload } from '../../../interfaces/SellerMap';
 import {
   COUNTRY_DROPDOWN_LIST,
-  SELLER_LIMIT_OPTIONS,
+  getMapLimitOptions,
   STATES_DROPDOWN_LIST,
 } from '../../../constants/SellerMap';
+
+/* Selectors */
 import {
   getIsLoadingSellerDetailsForMap,
   getIsLoadingSellerForMap,
 } from '../../../selectors/SellerMap';
+import { getSellerSubscriptionLimits } from '../../../selectors/Subscription';
 
+/* Interfaces */
+import { SellerSubscriptionLimits } from '../../../interfaces/Subscription';
+
+/* Props */
 interface Props {
   fetchSellersForMap: (payload: SellerMapPayload) => void;
   isLoadingSellersForMap: boolean;
   isLoadingSellerDetailsForMap: boolean;
+  sellerSubscriptionLimits: SellerSubscriptionLimits;
 }
 
+/* Main component */
 const SellerMapFilter: React.FC<Props> = props => {
-  const { fetchSellersForMap, isLoadingSellerDetailsForMap, isLoadingSellersForMap } = props;
+  const {
+    fetchSellersForMap,
+    isLoadingSellerDetailsForMap,
+    isLoadingSellersForMap,
+    sellerSubscriptionLimits,
+  } = props;
 
   const [state, setState] = useState<string>('');
   const [zipCode, setZipCode] = useState<string>('');
@@ -136,7 +150,7 @@ const SellerMapFilter: React.FC<Props> = props => {
               value={sellerLimit}
               onChange={(evt, { value }: any) => setSellerLimit(value)}
               selection
-              options={SELLER_LIMIT_OPTIONS}
+              options={getMapLimitOptions(sellerSubscriptionLimits.sellerMapDropdownLimit)}
             />
           </div>
         </div>
@@ -163,6 +177,7 @@ const SellerMapFilter: React.FC<Props> = props => {
 const mapStateToProps = (state: any) => ({
   isLoadingSellersForMap: getIsLoadingSellerForMap(state),
   isLoadingSellerDetailsForMap: getIsLoadingSellerDetailsForMap(state),
+  sellerSubscriptionLimits: getSellerSubscriptionLimits(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {
