@@ -454,7 +454,6 @@ const SellerFinderTable = (props: Props) => {
           }
           fetchAmazonSellers({ enableLoader: false });
         } else if (data.status === SEARCH_STATUS.FAILED && data.message) {
-          setSearching(false);
           errorMessage(data.message);
         }
       };
