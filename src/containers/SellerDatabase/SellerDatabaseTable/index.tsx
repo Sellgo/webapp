@@ -59,7 +59,6 @@ const SellerDatabaseTable = (props: Props) => {
     database,
     setSinglePageItemsCount,
     pageCount,
-    pageSize,
     pageNo,
     databaseCount,
     singlePageItemsCount,
@@ -82,7 +81,6 @@ const SellerDatabaseTable = (props: Props) => {
     if (shouldShowSellerDatabaseData) {
       fetchDatabase({
         pageNo,
-        pageSize,
         sort: 'seller_id',
         sortDirection: 'ascending',
       });
@@ -615,7 +613,6 @@ const SellerDatabaseTable = (props: Props) => {
               if (page !== pageNo) {
                 fetchDatabase({
                   pageNo: page,
-                  pageSize: pageSize,
                   enableLoader: false,
                 });
               }
@@ -623,7 +620,6 @@ const SellerDatabaseTable = (props: Props) => {
             setSinglePageItemsCount={(pageSize: number) => {
               fetchDatabase({
                 pageNo: 1,
-                pageSize,
                 enableLoader: false,
               });
               setSinglePageItemsCount(pageSize);
@@ -631,7 +627,6 @@ const SellerDatabaseTable = (props: Props) => {
             onSort={(sortDirection, sort) => {
               fetchDatabase({
                 pageNo: 1,
-                pageSize: pageSize,
                 enableLoader: false,
                 sort,
                 sortDirection,

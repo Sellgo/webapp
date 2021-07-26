@@ -23,6 +23,7 @@ export const actionTypes = {
   SET_ZOOM_FOR_MAP: 'SET_ZOOM_FOR_MAP',
 };
 
+/* Map defaults */
 export const INITIAL_CENTER: Location = [37.09024, -95.712891];
 export const INITIAL_ZOOM = 4.6;
 export const MIN_ZOOM = 2.5;
@@ -32,19 +33,8 @@ export const WORLD_MAP_BOUNDS: Location[] = [
   [90, 180],
 ];
 
-export const DEFAULT_SELLER_INFO = {
-  business_name: '',
-  city: '',
-  id: '',
-  merchant_id: '',
-  seller_link: '',
-  seller_name: '',
-  state: '',
-  zip_code: '',
-};
-
 // Seller Limit Options
-export const SELLER_LIMIT_OPTIONS = [
+export const DEFAULLT_SELLER_LIMIT_OPTIONS = [
   {
     key: '1000',
     value: 1000,
@@ -76,6 +66,16 @@ export const SELLER_LIMIT_OPTIONS = [
     text: 'Top 50,000',
   },
 ];
+
+// Get the seller map option list
+export const getMapLimitOptions = (maxLimitCount: number) => {
+  return DEFAULLT_SELLER_LIMIT_OPTIONS.map((option: any) => {
+    return {
+      ...option,
+      disabled: option.value > maxLimitCount,
+    };
+  });
+};
 
 // Exclude countries based on https://sellercentral.amazon.com/gp/help/external/G201575280?language=en_US
 // filter us so we we can add it on top

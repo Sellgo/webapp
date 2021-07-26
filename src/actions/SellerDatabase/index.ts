@@ -30,7 +30,6 @@ import { error, info } from '../../utils/notifications';
 
 export interface SellerDatabasePayload {
   pageNo?: number;
-  pageSize?: number;
   enableLoader?: boolean;
   sort?: string;
   sortDirection?: string;
@@ -64,7 +63,6 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
 
     const {
       pageNo = 1,
-      pageSize = 50,
       enableLoader = true,
       sort = defaultSort,
       sortDirection = defaultSortDirection,
@@ -109,7 +107,7 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
       queryFilters += `&merchant_ids=${sellerIds}`;
     }
 
-    const pagination = `page=${pageNo}&per_page=${pageSize}`;
+    const pagination = `page=${pageNo}`;
     const sorting = `ordering=${sortDirection === 'descending' ? `-${sort}` : sort}`;
 
     const sellerID = sellerIDSelector();

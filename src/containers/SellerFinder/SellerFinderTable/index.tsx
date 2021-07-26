@@ -351,6 +351,14 @@ const SellerFinderTable = (props: Props) => {
     if (ws.OPEN && !ws.CONNECTING) {
       ws.onmessage = (res: any) => {
         const data: SearchResponse = JSON.parse(res.data);
+
+        if (data.status === SEARCH_STATUS.FAILED && data.message) {
+          setSearching(false);
+          errorMessage(data.message);
+          setClearSearchInput(true);
+          return;
+        }
+
         if (data.status !== SEARCH_STATUS.SUCCESS) {
           setSearchMessage(data.message);
         }
@@ -378,8 +386,6 @@ const SellerFinderTable = (props: Props) => {
           }
           setRefreshing('');
           fetchAmazonSellers({ enableLoader: false, sort: 'udate', sortDirection: 'descending' });
-        } else if (data.status === SEARCH_STATUS.FAILED && data.message) {
-          errorMessage(data.message);
         }
       };
     }
@@ -431,6 +437,14 @@ const SellerFinderTable = (props: Props) => {
     if (sellersSocket.OPEN && !sellersSocket.CONNECTING) {
       sellersSocket.onmessage = (res: any) => {
         const data: SearchResponse = JSON.parse(res.data);
+
+        if (data.status === SEARCH_STATUS.FAILED && data.message) {
+          errorMessage(data.message);
+          setClearSearchInput(true);
+          setSearching(false);
+          return;
+        }
+
         if (data.message && searchText && data.status !== SEARCH_STATUS.SUCCESS) {
           setSearching(true);
           setSellerProgressError(false);
@@ -452,8 +466,6 @@ const SellerFinderTable = (props: Props) => {
             success(`${data.merchants_count} Sellers Found!`);
           }
           fetchAmazonSellers({ enableLoader: false });
-        } else if (data.status === SEARCH_STATUS.FAILED && data.message) {
-          errorMessage(data.message);
         }
       };
     }
@@ -474,6 +486,10 @@ const SellerFinderTable = (props: Props) => {
             reconnectExportSocket();
           });
         }
+
+        if (data.status === SEARCH_STATUS.FAILED) {
+          errorMessage(data.message);
+        }
       };
     }
   });
@@ -488,6 +504,11 @@ const SellerFinderTable = (props: Props) => {
         if (data.status === SEARCH_STATUS.ERROR) {
           errorMessage(data.message);
         }
+
+        if (data.status === SEARCH_STATUS.FAILED) {
+          errorMessage(data.message);
+        }
+
         if (data.status === SEARCH_STATUS.SUCCESS && !!data.excel_path) {
           success('File Exported Successfully!');
           const fileUrl = exportFormat === 'csv' ? data.csv_path : data.excel_path;
@@ -518,7 +539,6 @@ const SellerFinderTable = (props: Props) => {
     const data = value.trim();
     if (data) {
       setSearchText(data);
-      setSearching(true);
       if (data.length === 10) {
         sellersSocket.send(JSON.stringify({ asins: data }));
       } else {

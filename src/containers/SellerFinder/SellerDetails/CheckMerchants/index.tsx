@@ -40,7 +40,7 @@ const CheckMerchants = (props: Props) => {
           <span className="tracking-label">Check Sellers</span>
         </Button>
       </div>
-      {![SEARCH_STATUS.SUCCESS, SEARCH_STATUS.DONE].includes(
+      {![SEARCH_STATUS.SUCCESS, SEARCH_STATUS.DONE, SEARCH_STATUS.FAILED].includes(
         props.activeProductSellerStatus.status
       ) &&
         props.activeProductSellerStatus.asin === props.data.asin && (
