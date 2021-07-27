@@ -198,6 +198,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   }
 
   render() {
+    console.log(this.props);
     const { match, sellerSubscription, subscriptions, subscriptionType } = this.props;
 
     const {

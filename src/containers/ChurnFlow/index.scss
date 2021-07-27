@@ -11,33 +11,8 @@
   }
 }
 
-.churnFlowContent {
-  height: 70vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-
-  .sellgoLogo {
-    width: 15rem;
-  }
-
-  .churnFlowTitle {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    font-size: 20px;
-    color: $prim_dark_2;
-    font-weight: 600;
-  }
-
-  .churnFlowOrangeButton {
-    margin-top: 2rem;
-  }
-}
-
 .goBackButton {
-  margin-bottom: 2vh;
+  margin-top: -25px;
   background: none;
   border: none;
   display: flex;
@@ -45,4 +20,8 @@
   align-items: center;
   font-size: 14px;
   color: $prim_dark_2;
+
+  &:hover {
+    text-decoration: none;
+  }
 }
