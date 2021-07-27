@@ -9,6 +9,9 @@ import 'rsuite/dist/styles/rsuite-default.css';
 import styles from './index.module.scss';
 import '../../tableReset.scss';
 
+/* Components */
+import AnalyticsGrid from '../TableDetails/AnalyticsGrid';
+
 const dataList = [
   {
     id: 1,
@@ -66,38 +69,42 @@ const dataList = [
   },
 ];
 
-const rowKey = 'id';
-
+const ROW_KEY = 'id';
+/* Icon to be clicked to expand row (the plus icon) */
 // @ts-ignore
-const ExpandCell = ({ rowData, onChange, ...props }) => (
+const ExpandCell = ({ rowData, dataKey, onChange, ...props }) => (
   <Table.Cell {...props}>
     <p
       onClick={() => {
-        onChange(rowData);
+        onChange(rowData, dataKey);
       }}
     >
-      {' '}
-      ICON{' '}
+      ICON
     </p>
   </Table.Cell>
 );
 
+/* Div that appears if you click the ICON to expand the row, to be replaced. */
 const ExpandedCell = (rowData: any) => {
   return <div>{rowData.firstName}</div>;
 };
+
 const ProductsDatabaseTable = () => {
   const [sortColumn, setSortColumn] = React.useState<string>('');
   const [sortType, setSortType] = React.useState<'asc' | 'desc' | undefined>(undefined);
   const [expandedRowKeys, setExpandedRowKeys] = React.useState<any[]>([]);
 
   const handleExpanded = (rowData: any, dataKey: any) => {
-    if (dataKey === rowKey) {
-      setExpandedRowKeys([rowData[rowKey]]);
+    if (dataKey === ROW_KEY) {
+      if (expandedRowKeys[0] && expandedRowKeys[0] === rowData[ROW_KEY]) {
+        setExpandedRowKeys([]);
+      } else {
+        setExpandedRowKeys([rowData[ROW_KEY]]);
+      }
     }
   };
 
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
-    console.log(sortColumn);
     setSortColumn(sortColumn);
     setSortType(sortType);
   };
@@ -107,7 +114,8 @@ const ProductsDatabaseTable = () => {
       <Table
         data={dataList}
         hover
-        height={700}
+        height={1000}
+        rowHeight={250}
         onSortColumn={handleSortColumn}
         sortType={sortType}
         sortColumn={sortColumn}
@@ -119,13 +127,19 @@ const ProductsDatabaseTable = () => {
       >
         <Table.Column width={80} fixed>
           <Table.HeaderCell>ID</Table.HeaderCell>
-          {/* <Table.Cell dataKey="id" /> */}
           <ExpandCell
             rowData="id"
             dataKey="id"
             expandedRowKeys={expandedRowKeys}
             onChange={handleExpanded}
           />
+        </Table.Column>
+
+        <Table.Column width={250} fixed>
+          <Table.HeaderCell>grid</Table.HeaderCell>
+          <Table.Cell dataKey="id">
+            <AnalyticsGrid />
+          </Table.Cell>
         </Table.Column>
 
         <Table.Column width={200} fixed sortable>
