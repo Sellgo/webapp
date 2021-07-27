@@ -32,6 +32,9 @@ import { useInput } from '../../../../hooks/useInput';
 import cardIcons from '../../../../assets/images/4_Card_color_horizontal.svg';
 import stripeIcon from '../../../../assets/images/powered_by_stripe.svg';
 
+/* Data */
+import { subscriptionPlans } from '../../data';
+
 /* Styling */
 import styles from './index.module.scss';
 
@@ -86,9 +89,20 @@ function CheckoutForm(props: MyProps) {
   };
   const trigger = <span className="country-label">{selectedCountry.name}</span>;
 
+  const getSubscriptionID = (planName: string) => {
+    const DEFAULT_PROFESSIONAL_PLAN_ID = 2;
+    const id = subscriptionPlans[planName];
+    if (id) {
+      return id;
+    } else {
+      return DEFAULT_PROFESSIONAL_PLAN_ID;
+    }
+  };
+
   const handleSubmit = async (event: any) => {
     // Block native form submission.
     event.preventDefault();
+
     const {
       accountType,
       paymentMode,
@@ -141,26 +155,6 @@ function CheckoutForm(props: MyProps) {
       setStripeLoad(false);
     } else {
       const paymentMethodId = paymentMethod.id;
-      const getSubscriptionId = (): number => {
-        let id = 1;
-        switch (accountType) {
-          case 'suite':
-            {
-              id = 1;
-            }
-            break;
-          case 'starter':
-            {
-              id = 6;
-            }
-            break;
-          default: {
-            id = 2;
-          }
-        }
-        return id;
-      };
-
       if (latestInvoicePaymentIntentStatus === 'requires_payment_method') {
         // Update the payment method and retry invoice payment
         const invoiceId = localStorage.getItem('latestInvoiceId');
@@ -170,7 +164,7 @@ function CheckoutForm(props: MyProps) {
         });
       } else {
         const data = {
-          subscription_id: getSubscriptionId(),
+          subscription_id: getSubscriptionID(accountType),
           payment_method_id: paymentMethodId,
           payment_mode: paymentMode,
         };

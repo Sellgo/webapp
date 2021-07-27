@@ -26,7 +26,7 @@ import {
   sellerDatabaseMarket,
 } from '../../selectors/SellerDatabase';
 
-import { info } from '../../utils/notifications';
+import { error, info } from '../../utils/notifications';
 
 export interface SellerDatabasePayload {
   pageNo?: number;
@@ -126,7 +126,7 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
     }
 
     const res = await Axios.get(url);
-    if (res.data) {
+    if (res.status === 200 && res.data) {
       const { results, count, per_page, current_page, total_pages } = res.data;
       dispatch(fetchSellerDatabaseSuccess(results));
       dispatch(fetchSellerDatabasePageNo(current_page));
@@ -139,8 +139,19 @@ export const fetchSellersDatabase = (payload: SellerDatabasePayload) => async (
       dispatch(setLoadingDatabase(false));
     }
   } catch (e) {
-    dispatch(fetchSellerDatabaseError(e));
-    console.log(e);
+    /* Seller limit exceeded */
+    const { response } = e;
+    if (response) {
+      const { status, data } = response;
+      if (status === 429 && data && data.message) {
+        error(data.message);
+        dispatch(fetchSellerDatabaseError(data.message));
+        dispatch(clearSellerDatabase());
+      }
+    } else {
+      dispatch(fetchSellerDatabaseError(e));
+      dispatch(fetchSellerDatabase(false));
+    }
   }
 };
 
@@ -245,6 +256,14 @@ export const trackDatabaseSeller = (merchantId: any) => async (dispatch: any, ge
   } catch (err) {
     console.log('Error Tracking Seller', err);
   }
+};
+
+const clearSellerDatabase = () => async (dispatch: any) => {
+  dispatch(fetchSellerDatabase(false));
+  dispatch(fetchSellerDatabaseSuccess([]));
+  dispatch(fetchSellerDatabasePageSize(0));
+  dispatch(fetchSellerDatabasePageCount(0));
+  dispatch(fetchSellerDatabaseCount(0));
 };
 
 const fetchSellerDatabase = (loading: boolean) => ({

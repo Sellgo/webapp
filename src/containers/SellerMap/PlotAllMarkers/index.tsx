@@ -14,25 +14,26 @@ const PlotAllMarkers = (props: any) => {
 
   return (
     <>
-      {sellersData.map((data: any) => {
-        const center: Location = [data.latitude, data.longitude];
-        return (
-          <Marker
-            key={data.id}
-            data-id={data.id}
-            position={center}
-            eventHandlers={{
-              click: (e: any) => {
-                setInternalId(e.target.options['data-id']);
-              },
-            }}
-          >
-            <Tooltip direction="top" offset={[-15, -10]}>
-              Click for more details
-            </Tooltip>
-          </Marker>
-        );
-      })}
+      {sellersData.length > 0 &&
+        sellersData.map((data: any) => {
+          const center: Location = [data.latitude, data.longitude];
+          return (
+            <Marker
+              key={data.id}
+              data-id={data.id}
+              position={center}
+              eventHandlers={{
+                click: (e: any) => {
+                  setInternalId(e.target.options['data-id']);
+                },
+              }}
+            >
+              <Tooltip direction="top" offset={[-15, -10]}>
+                Click for more details
+              </Tooltip>
+            </Marker>
+          );
+        })}
 
       <SellerMapInfoCard internalId={internalId} />
     </>

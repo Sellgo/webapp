@@ -76,6 +76,10 @@
 
     img {
       margin-left: 10px;
+
+      &[data-disabled='true'] {
+        opacity: 0.2;
+      }
     }
 
     .label {

@@ -1,106 +1,45 @@
-export const plansAndProductsDetails = {
-  planName: 'Monthly and Annual Pricing Plans',
-  summary: 'Try Our Premium Tools and Access Real-Data for $1!',
-  infoAlertMessage: {
-    monthly: {
-      head: `For new members register with Amazon Seller Central Account. Risk free 14-day money back guarantee.`,
-      desc: `Want to try our advanced Amazon tools? Review our FBA tools and pricing packages.`,
-      navigateTo: '/',
-      navigateLabel: 'Learn More',
-    },
-    yearly: {
-      head: `For new members register with Amazon Seller Central Account. Risk free 14-day money back guarantee.`,
-      desc: `Want to try our advanced Amazon tools? Review our FBA tools and pricing packages.`,
-      navigateTo: '/',
-      navigateLabel: 'Learn More',
-    },
+export interface SubscriptionPlan {
+  subscriptionId: number;
+  name: string;
+  monthlyPrice: number;
+  annualPrice: number;
+  isDailyPlan: boolean;
+}
+
+export const subscriptionPlans: SubscriptionPlan[] = [
+  {
+    subscriptionId: 7, // subscriptionID if needed
+    name: 'Wholesale Arbitrage $1',
+    monthlyPrice: 0,
+    annualPrice: 0,
+    isDailyPlan: true,
   },
-  productsIncluded: [
-    {
-      id: 6, // subscriptionID if needed
-      name: 'Starter',
-      productsDatabase: 0,
-      salesEstimateCount: 1000,
-      monthlyPrice: 49,
-      annualPrice: 348,
-      desc: `The toolbox for beginner sellers. \n Get access to our tools and chrome extension!`,
-      featureSubName: 'Start with',
-      featuresLists: [
-        {
-          title: 'Discover Best Selling',
-          featuresIncluded: [
-            'Full access to the Chrome extension',
-            'Profit Finder FBA bulk calculation',
-            'Data input as UPC, EAN, ASIN, ISBN',
-          ],
-        },
-        {
-          title: 'Understand Your Leads',
-          featuresIncluded: ['Supplier analytics', 'Product Tracker', 'Historical Data'],
-        },
-      ],
-    },
-    {
-      id: 1,
-      name: 'Suite',
-      productsDatabase: 0,
-      salesEstimateCount: 1500,
-      monthlyPrice: 69,
-      annualPrice: 588,
-      featureSubName: 'Starter Plan Plus',
-      desc: `For experienced sellers looking to grow \n their businesses and maximize their earnings.`,
-      featuresLists: [
-        {
-          title: 'Advanced profit scout',
-          featuresIncluded: [
-            'Full access to Profit Finder Web App',
-            'Instant analytics with Data Buster',
-            'Advanced filter preset',
-            'Bulk product error analysis',
-            'Bulk filtered data export',
-          ],
-        },
-        {
-          title: 'Optimize your leads',
-          featuresIncluded: [
-            'Product analysis',
-            'Bulk variation analysis',
-            'Competitive seller analysis',
-            'Inventory insight',
-            'Market share insight',
-          ],
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: 'Professional',
-      productsDatabase: 0,
-      salesEstimateCount: 2500,
-      monthlyPrice: 129,
-      annualPrice: 996,
-      featureSubName: 'Suite Plan Plus',
-      desc: `For professional sellers and businesses who need \nthe best tools. 
-				Track more products, obtain more data, \nand optimize your entire Amazon business.`,
-      featuresLists: [
-        {
-          title: 'Advance your leads',
-          featuresIncluded: [
-            'Full access to Leads Tracker',
-            'Bulk multipack analysis',
-            'Process up to 1,000,000 ASINs monthly',
-            'Track up to 1,000 ASINs daily',
-          ],
-        },
-        {
-          title: 'Seller Reverse Research',
-          featuresIncluded: ['Seller Finder', 'Check sellers inventory', 'Brand finder'],
-        },
-        {
-          title: 'Advanced access',
-          featuresIncluded: ['7 users included', 'Priority onboarding'],
-        },
-      ],
-    },
-  ],
-};
+  {
+    subscriptionId: 6, // subscriptionID if needed
+    name: 'Starter',
+    monthlyPrice: 37,
+    annualPrice: 323,
+    isDailyPlan: false,
+  },
+  {
+    subscriptionId: 2, // subscriptionID if needed
+    name: 'Professional',
+    monthlyPrice: 97,
+    annualPrice: 971,
+    isDailyPlan: false,
+  },
+  {
+    subscriptionId: 1, // subscriptionID if needed
+    name: 'Team',
+    monthlyPrice: 177,
+    annualPrice: 1763,
+    isDailyPlan: false,
+  },
+  {
+    subscriptionId: 8, // subscriptionID if needed
+    name: 'Seller Scout Pro',
+    monthlyPrice: 117,
+    annualPrice: 995,
+    isDailyPlan: false,
+  },
+];

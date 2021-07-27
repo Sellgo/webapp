@@ -21,10 +21,7 @@ export interface Subscription {
   name: string;
   monthly_price: number;
   yearly_price: number;
-  synthesis_limit: number;
-  track_limit: number;
-  leads_track_limit: number;
-  synthesis_period: string;
+  daily_price: number;
 }
 
 export interface SellerSubscription {

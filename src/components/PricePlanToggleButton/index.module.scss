@@ -1,9 +1,9 @@
 @import '../../design-system/new-colors';
 
 .pricePlanToggleWrapper {
-  width: 310px;
-  height: 40px;
-  background: $grey-3;
+  width: 240px;
+  height: 38px !important;
+  background: $grey_1;
   color: $prim_dark_2;
   display: flex;
   justify-content: space-between;
@@ -23,7 +23,7 @@
   align-items: center;
   justify-content: center;
   text-align: start;
-  width: 160px;
+  width: 150px;
   height: 100%;
 
   p {

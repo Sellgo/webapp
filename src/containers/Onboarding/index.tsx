@@ -5,7 +5,6 @@ import { Header, Grid } from 'semantic-ui-react';
 import { Videos } from './Interfaces';
 import './index.scss';
 import PageHeader from '../../components/PageHeader';
-import SubscriptionMessage from '../../components/FreeTrialMessageDisplay';
 
 interface OnboardingProps {
   match: any;
@@ -81,7 +80,6 @@ class Onboarding extends React.Component<OnboardingProps> {
     });
     return (
       <>
-        <SubscriptionMessage page={'onboarding'} />
         <PageHeader
           title={`Onboarding`}
           breadcrumb={[

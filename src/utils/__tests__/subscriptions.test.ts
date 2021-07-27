@@ -32,9 +32,9 @@ describe('Testing subscription plans', () => {
     expect(subscriptions.isPlanStarter('any other')).not.toBeTruthy();
   });
 
-  test('Testing Basic Plan', () => {
-    expect(subscriptions.isPlanSuite('Suite Plan')).toBeTruthy();
-    expect(subscriptions.isPlanSuite('any other')).not.toBeTruthy();
+  test('Testing Team Plan', () => {
+    expect(subscriptions.isPlanTeam('Team Plan')).toBeTruthy();
+    expect(subscriptions.isPlanTeam('any other')).not.toBeTruthy();
   });
 
   test('Testing Pro Plan', () => {

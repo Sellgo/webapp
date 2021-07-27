@@ -378,6 +378,8 @@ const SellerFinderTable = (props: Props) => {
           }
           setRefreshing('');
           fetchAmazonSellers({ enableLoader: false, sort: 'udate', sortDirection: 'descending' });
+        } else if (data.status === SEARCH_STATUS.FAILED && data.message) {
+          errorMessage(data.message);
         }
       };
     }
@@ -405,6 +407,8 @@ const SellerFinderTable = (props: Props) => {
             });
             success(`${data.products_count} Products Found!`);
           }
+        } else if (data.status === SEARCH_STATUS.FAILED && data.message) {
+          errorMessage(data.message);
         }
       };
     }
@@ -427,7 +431,6 @@ const SellerFinderTable = (props: Props) => {
     if (sellersSocket.OPEN && !sellersSocket.CONNECTING) {
       sellersSocket.onmessage = (res: any) => {
         const data: SearchResponse = JSON.parse(res.data);
-
         if (data.message && searchText && data.status !== SEARCH_STATUS.SUCCESS) {
           setSearching(true);
           setSellerProgressError(false);
@@ -449,6 +452,8 @@ const SellerFinderTable = (props: Props) => {
             success(`${data.merchants_count} Sellers Found!`);
           }
           fetchAmazonSellers({ enableLoader: false });
+        } else if (data.status === SEARCH_STATUS.FAILED && data.message) {
+          errorMessage(data.message);
         }
       };
     }
