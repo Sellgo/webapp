@@ -46,11 +46,55 @@ const dataList = [
     stars: 1200,
     followers: 170,
   },
+  {
+    id: 3,
+    avartar: 'https://s3.amazonaws.com/uifaces/faces/twitter/thaisselenator_/128.jpg',
+    city: 'New Gust',
+    email: 'Mose_Gerhold51@yahoo.com',
+    firstName: 'Janis',
+    lastName: 'Vandervort',
+    street: 'Dickinson Keys',
+    zipCode: '43767',
+    date: '2017-03-06T09:59:12.551Z',
+    bs: 'e-business maximize bandwidth',
+    catchPhrase: 'De-engineered discrete secured line',
+    companyName: 'Glover - Hermiston',
+    words: 'deleniti dolor nihil',
+    sentence: 'Illo quidem libero corporis laborum.',
+    stars: 1200,
+    followers: 170,
+  },
 ];
 
+const rowKey = 'id';
+
+// @ts-ignore
+const ExpandCell = ({ rowData, onChange, ...props }) => (
+  <Table.Cell {...props}>
+    <p
+      onClick={() => {
+        onChange(rowData);
+      }}
+    >
+      {' '}
+      ICON{' '}
+    </p>
+  </Table.Cell>
+);
+
+const ExpandedCell = (rowData: any) => {
+  return <div>{rowData.firstName}</div>;
+};
 const ProductsDatabaseTable = () => {
   const [sortColumn, setSortColumn] = React.useState<string>('');
   const [sortType, setSortType] = React.useState<'asc' | 'desc' | undefined>(undefined);
+  const [expandedRowKeys, setExpandedRowKeys] = React.useState<any[]>([]);
+
+  const handleExpanded = (rowData: any, dataKey: any) => {
+    if (dataKey === rowKey) {
+      setExpandedRowKeys([rowData[rowKey]]);
+    }
+  };
 
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     console.log(sortColumn);
@@ -63,14 +107,25 @@ const ProductsDatabaseTable = () => {
       <Table
         data={dataList}
         hover
-        height={150}
+        height={700}
         onSortColumn={handleSortColumn}
         sortType={sortType}
         sortColumn={sortColumn}
+        /* Expandable row settings */
+        expandedRowKeys={expandedRowKeys}
+        renderRowExpanded={ExpandedCell}
+        rowExpandedHeight={100}
+        rowKey="id"
       >
         <Table.Column width={80} fixed>
           <Table.HeaderCell>ID</Table.HeaderCell>
-          <Table.Cell dataKey="id" />
+          {/* <Table.Cell dataKey="id" /> */}
+          <ExpandCell
+            rowData="id"
+            dataKey="id"
+            expandedRowKeys={expandedRowKeys}
+            onChange={handleExpanded}
+          />
         </Table.Column>
 
         <Table.Column width={200} fixed sortable>
