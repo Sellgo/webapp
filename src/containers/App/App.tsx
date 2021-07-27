@@ -231,11 +231,11 @@ function App() {
             requireSubscription={true}
           />
 
-          <Route
+          <PrivateRoute
             exact={true}
             path="/churnflow"
             component={ChurnFlow}
-            // requireSubscription={true}
+            requireSubscription={true}
           />
 
           <Route component={NotFound} />

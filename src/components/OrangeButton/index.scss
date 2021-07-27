@@ -1,0 +1,49 @@
+/* Style Guide for cta button */
+.ctabutton {
+  color: #fff;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+
+  &--primary {
+    background: #fc7900;
+    color: #fff;
+    border: 1px solid #fc7900;
+  }
+
+  &--secondary {
+    background: #fff;
+    color: #fc7900;
+    border: 1px solid #fc7900;
+  }
+
+  &--grey {
+    background: #808080;
+    color: #fff;
+    border: 1px solid #808080;
+  }
+
+  &--medium {
+    width: max-content;
+    padding: 0 3rem;
+    font-size: 14px;
+    height: 50px;
+    font-weight: 600;
+  }
+
+  &--small {
+    width: max-content;
+    padding: 0 2rem;
+    font-size: 14px;
+    height: 35px;
+    font-weight: 600;
+  }
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+  }
+}
