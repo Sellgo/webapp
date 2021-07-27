@@ -3,6 +3,7 @@ import React from 'react';
 /* Styling */
 import './index.scss';
 
+/* Components */
 import OrangeButton from '../../../components/OrangeButton';
 
 interface Props {

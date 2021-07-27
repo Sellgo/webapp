@@ -1,6 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 // @ts-ignore
 import { Widget } from '@typeform/embed-react';
@@ -13,6 +14,7 @@ import { AppConfig } from '../../config';
 
 /* Utils */
 import { success, error } from '../../utils/notifications';
+import history from '../../history';
 
 /* Actions */
 import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
@@ -24,10 +26,11 @@ import sellgoLogo from '../../assets/images/SellgoNewestLogo.png';
 import TofuAndSoybean from '../../assets/images/TofuAndSoybean.png';
 import Tofu from '../../assets/images/Tofu.png';
 
-import { Link } from 'react-router-dom';
-import history from '../../history';
+/* Components */
 import PageHeader from '../../components/PageHeader';
 import ChurnFlowContent from './ChurnFlowContent';
+
+/* Constants */
 import { PRE_SURVEY, IN_SURVEY, POST_SURVEY_1, POST_SURVEY_2 } from '../../constants/Churnflow';
 
 interface Props {
@@ -40,7 +43,7 @@ interface Props {
 
 class ChurnFlow extends React.Component<Props> {
   state = {
-    surveyPhase: POST_SURVEY_2,
+    surveyPhase: PRE_SURVEY,
   };
 
   componentDidMount() {
