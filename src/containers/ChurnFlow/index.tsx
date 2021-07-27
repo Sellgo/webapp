@@ -15,10 +15,7 @@ import { AppConfig } from '../../config';
 import { success, error } from '../../utils/notifications';
 
 /* Actions */
-import {
-  fetchSellerSubscription,
-  setSellerSubscription,
-} from '../../actions/Settings/Subscription';
+import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
 import { getSellerInfo } from '../../actions/Settings';
 
 /* Images */
@@ -37,14 +34,13 @@ interface Props {
   match: any;
   profile: any;
   sellerSubscription: any;
-  setSellerSubscription: (data: any) => void;
   fetchSellerSubscription: () => void;
   getSeller: () => void;
 }
 
 class ChurnFlow extends React.Component<Props> {
   state = {
-    surveyPhase: PRE_SURVEY,
+    surveyPhase: POST_SURVEY_2,
   };
 
   componentDidMount() {
@@ -58,10 +54,10 @@ class ChurnFlow extends React.Component<Props> {
   };
 
   cancelSubscription = () => {
-    const { profile, setSellerSubscription, fetchSellerSubscription } = this.props;
+    const { profile, fetchSellerSubscription, getSeller } = this.props;
     Axios.post(AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/cancel`)
       .then(() => {
-        setSellerSubscription(false);
+        getSeller();
         fetchSellerSubscription();
         success(`Your subscription has been cancelled`);
         history.push('./settings/pricing');
@@ -150,7 +146,6 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = {
   getSeller: () => getSellerInfo(),
   fetchSellerSubscription: () => fetchSellerSubscription(),
-  setSellerSubscription: (data: any) => setSellerSubscription(data),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChurnFlow);
