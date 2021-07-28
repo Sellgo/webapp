@@ -15,23 +15,13 @@ import { updateProductsDatabaseFilter } from '../../../../actions/ProductsResear
 import { getProductsDatabaseFilters } from '../../../../selectors/ProductResearch/ProductsDatabase';
 
 /* Constants */
-import { PRODUCTS_DATABASE_FILTER } from '../../../../constants/ProductResearch/ProductsDatabase';
+import {
+  PRODUCTS_DATABASE_CATEGORIES,
+  PRODUCTS_DATABASE_FILTER,
+} from '../../../../constants/ProductResearch/ProductsDatabase';
 
 /* Interfaces */
 import { ProductsDatabaseFilters } from '../../../../interfaces/ProductResearch/ProductsDatabase';
-
-const options = [
-  {
-    key: 'Justen Kitsune',
-    text: 'Justen Kitsune',
-    value: 'Justen Kitsune',
-  },
-  {
-    key: 'Matt',
-    text: 'Matt',
-    value: 'Matt',
-  },
-];
 
 interface Props {
   productsDatabaseFilters: ProductsDatabaseFilters[];
@@ -50,10 +40,22 @@ const BasicFilters = (props: Props) => {
   const price = getFilterValues(PRODUCTS_DATABASE_FILTER.PRICE);
   const reviewCount = getFilterValues(PRODUCTS_DATABASE_FILTER.REVIEW_COUNT);
   const reviewRating = getFilterValues(PRODUCTS_DATABASE_FILTER.REVIEW_RATING);
+  const category = getFilterValues(PRODUCTS_DATABASE_FILTER.CATEGORIES);
 
   return (
     <div className={styles.basicFilters}>
-      <SelectionFilter filterOptions={options} label="Categories" placeholder="Categories" />
+      <SelectionFilter
+        filterOptions={PRODUCTS_DATABASE_CATEGORIES}
+        label="Categories"
+        placeholder="Categories"
+        value={category?.value}
+        handleChange={(value: string) => {
+          updateProductsDatabaseFilter({
+            ...category,
+            value,
+          });
+        }}
+      />
 
       <MinMaxFilter
         label="Monthly Revenue"
@@ -103,7 +105,7 @@ const BasicFilters = (props: Props) => {
         }}
       />
 
-      <SelectionFilter filterOptions={options} label="Shipping Size Tier" placeholder="Size Tier" />
+      {/* <SelectionFilter filterOptions={[]} label="Shipping Size Tier" placeholder="Size Tier" /> */}
     </div>
   );
 };
