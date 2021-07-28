@@ -62,8 +62,8 @@ const dataList = {
     {
       asin: 'B01ee9Y9R6E0',
       upc: 'PLACEHOLDER',
-      img: `https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-
-        id1147544807?k=6&m=1147544807&s=612x612&w=0&h=8CXEtGfDlt7oFx7UyEZClHojvDjZR91U-mAU8UlFF4Y=`,
+      img: `https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector
+      -id1147544807?k=6&m=1147544807&s=612x612&w=0&h=8CXEtGfDlt7oFx7UyEZClHojvDjZR91U-mAU8UlFF4Y=`,
 
       title: 'Dammit Doll',
       category: 'PLACEHOLDER',
@@ -110,6 +110,7 @@ const ProductsDatabaseTable = () => {
   const [selectedRows, setSelectedRows] = React.useState<string[]>([]);
   const [sortColumn, setSortColumn] = React.useState<string>('');
   const [sortType, setSortType] = React.useState<'asc' | 'desc' | undefined>(undefined);
+  const [pageNum, setPageNum] = React.useState<number>(1);
 
   /* Table column width settings */
   const SMALL_WIDTH = 150;
@@ -119,6 +120,15 @@ const ProductsDatabaseTable = () => {
     align: 'center',
   };
 
+  const handleChangePage = (dataKey: number) => {
+    setPageNum(dataKey);
+  };
+  // handleChangeLength(dataKey) {
+  //   this.setState({
+  //     page: 1,
+  //     displayLength: dataKey
+  //   });
+  // }
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
     setSortType(sortType);
@@ -363,6 +373,15 @@ const ProductsDatabaseTable = () => {
           <EllipsisCell dataKey="asin" rowData="asin" />
         </Table.Column>
       </Table>
+
+      <Table.Pagination
+        activePage={pageNum}
+        displayLength={dataList.results.length}
+        /* Total num of data ENTRIES, e.g. 200 entries with 10 display length = 20 pages */
+        total={dataList.results.length * dataList.page_info.total_pages}
+        onChangePage={handleChangePage}
+        showLengthMenu={false}
+      />
     </section>
   );
 };
