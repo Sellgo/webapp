@@ -13,8 +13,12 @@ import { getProductsDatabaseFilters } from '../../../../selectors/ProductResearc
 
 /* Actions */
 import { updateProductsDatabaseFilter } from '../../../../actions/ProductsResearch/ProductsDatabase';
-import { ProductsDatabaseFilters } from '../../../../interfaces/ProductResearch/ProductsDatabase';
+
+/* Constants */
 import { PRODUCTS_DATABASE_FILTER } from '../../../../constants/ProductResearch/ProductsDatabase';
+
+/* Interfaces */
+import { ProductsDatabaseFilters } from '../../../../interfaces/ProductResearch/ProductsDatabase';
 
 interface Props {
   productsDatabaseFilters: ProductsDatabaseFilters[];
@@ -28,25 +32,16 @@ const AdvancedFilters = (props: Props) => {
     return productsDatabaseFilters.find((f: ProductsDatabaseFilters) => f.name === filterName);
   };
 
+  /* Get filter states */
   const numberOfSellers = getFilterValues(PRODUCTS_DATABASE_FILTER.SELLER_COUNT);
   const weight = getFilterValues(PRODUCTS_DATABASE_FILTER.WEIGHT_LBS);
-  // const includeTitle = getFilterValues(PRODUCTS_DATABASE_FILTER.INCLUDE_KEYWORDS);
-  // const excludeTitle = getFilterValues(PRODUCTS_DATABASE_FILTER.EXCLUDE_KEYWORDS);
-  // const includeBrands = getFilterValues(PRODUCTS_DATABASE_FILTER.INCLUDE_BRANDS);
-  // const excludeBrands = getFilterValues(PRODUCTS_DATABASE_FILTER.EXCLUDE_BRANDS);
+  const includeTitle = getFilterValues(PRODUCTS_DATABASE_FILTER.INCLUDE_KEYWORDS);
+  const excludeTitle = getFilterValues(PRODUCTS_DATABASE_FILTER.EXCLUDE_KEYWORDS);
+  const includeBrands = getFilterValues(PRODUCTS_DATABASE_FILTER.INCLUDE_BRANDS);
+  const excludeBrands = getFilterValues(PRODUCTS_DATABASE_FILTER.EXCLUDE_BRANDS);
 
   return (
     <div className={styles.advancedFiltersOptions}>
-      {/* First Row */}
-      {/* <MinMaxFilter label="Sales Year Over Year (%)" /> */}
-      {/* <MinMaxFilter label="Price Change (%)" /> */}
-      {/* <MinMaxFilter label="Sales Change (%)" /> */}
-      {/* <SelectionFilter filterOptions={options} label="Best Sales Period" placeholder="Month" /> */}
-      {/* <MinMaxFilter label="Sales to Reviews" /> */}
-      {/* <MinMaxFilter label="Monthly Sales (units)" /> */}
-
-      {/* Second Row */}
-      {/* <MinMaxFilter label="BSR" /> */}
       <MinMaxFilter
         label="# of Sellers"
         minValue={numberOfSellers?.min || ''}
@@ -58,9 +53,9 @@ const AdvancedFilters = (props: Props) => {
           });
         }}
       />
-      {/* <MinMaxFilter label="# of Images" /> */}
+
       {/* <CheckboxListFilter label="Fulfillment" /> */}
-      {/* <MinMaxFilter label="Variation Count" /> */}
+
       <MinMaxFilter
         label="Weight(lbs)"
         minValue={weight?.min || ''}
@@ -73,13 +68,53 @@ const AdvancedFilters = (props: Props) => {
         }}
       />
 
-      {/* last Row*/}
-      <InputFilter label="Include Title Keywords" placeholder="Enter keywords" />
-      <InputFilter label="Exclude Title Keywords" placeholder="Enter keywords" />
-      <InputFilter label="Include Brands" placeholder="Enter brands" />
-      <InputFilter label="Exclude Brands" placeholder="Enter brands" />
-      {/* <InputFilter label="Include Sellers" placeholder="Enter sellers" /> */}
-      {/* <InputFilter label="Exclude Sellers" placeholder="Enter sellers" /> */}
+      <InputFilter
+        label="Include Title Keywords"
+        placeholder="Enter keywords"
+        value={includeTitle?.value || ''}
+        handleChange={(value: string) => {
+          updateProductsDatabaseFilter({
+            ...includeTitle,
+            value,
+          });
+        }}
+      />
+
+      <InputFilter
+        label="Exclude Title Keywords"
+        placeholder="Enter keywords"
+        value={excludeTitle?.value || ''}
+        handleChange={(value: string) => {
+          updateProductsDatabaseFilter({
+            ...excludeTitle,
+            value,
+          });
+        }}
+      />
+
+      <InputFilter
+        label="Include Brands"
+        placeholder="Enter brands"
+        value={includeBrands?.value || ''}
+        handleChange={(value: string) => {
+          updateProductsDatabaseFilter({
+            ...includeBrands,
+            value,
+          });
+        }}
+      />
+
+      <InputFilter
+        label="Exclude Brands"
+        placeholder="Enter brands"
+        value={excludeBrands?.value || ''}
+        handleChange={(value: string) => {
+          updateProductsDatabaseFilter({
+            ...excludeBrands,
+            value,
+          });
+        }}
+      />
     </div>
   );
 };
