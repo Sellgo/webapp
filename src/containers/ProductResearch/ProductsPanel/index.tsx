@@ -11,7 +11,7 @@ import FormFilterActions from '../../../components/FormFilters/FormFilterActions
 import ProductsDatabaseTable from './Table';
 
 const ProductPanel = () => {
-  const [showAdvancedFilter, setShowAdvancedFilter] = useState<boolean>(false);
+  const [showAdvancedFilter, setShowAdvancedFilter] = useState<boolean>(true);
 
   return (
     <>

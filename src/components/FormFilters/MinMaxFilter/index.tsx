@@ -1,4 +1,5 @@
 import React from 'react';
+import { Input } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -8,17 +9,45 @@ import { ReactComponent as FilterRightArrow } from '../../../assets/images/filte
 
 interface Props {
   label?: string;
+  minValue?: string;
+  maxValue?: string;
+  handleChange?: (type: string, value: string) => void;
 }
+
 const MinMaxFilter: React.FC<Props> = props => {
-  const { label } = props;
+  const { label, minValue, maxValue, handleChange } = props;
+
+  const isError = React.useMemo(() => {
+    return Boolean(
+      minValue && maxValue && Number.parseFloat(minValue) > Number.parseFloat(maxValue)
+    );
+  }, [minValue, maxValue]);
 
   return (
     <div className={styles.minMaxFilter}>
       {label && <p>{label}</p>}
       <div className={styles.inputWrapper}>
-        <input type="number" placeholder="Min" />
+        <Input
+          type="number"
+          placeholder="Min"
+          value={minValue}
+          data-filter="min"
+          onChange={(e: any) => {
+            handleChange && handleChange('min', e.target.value);
+          }}
+          error={isError}
+        />
         <FilterRightArrow />
-        <input type="number" placeholder="Max" />
+        <Input
+          type="number"
+          placeholder="Max"
+          value={maxValue}
+          data-filter="max"
+          onChange={(e: any) => {
+            handleChange && handleChange('max', e.target.value);
+          }}
+          error={isError}
+        />
       </div>
     </div>
   );

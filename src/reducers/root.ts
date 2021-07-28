@@ -16,6 +16,9 @@ import sellerFinderReducer from './SellerFinder';
 import sellerDatabaseReducer from './SellerDatabase';
 import sellerMapReducer from './SellerMap';
 
+/* Prooducts Research */
+import productsDatabaseReducer from './ProductResearch/ProductsDatabase';
+
 const rootReducer = combineReducers({
   settings: settingsReducer,
   subscription: subscriptionReducer,
@@ -32,6 +35,7 @@ const rootReducer = combineReducers({
   sellerFinder: sellerFinderReducer,
   sellerDatabase: sellerDatabaseReducer,
   sellerMap: sellerMapReducer,
+  productsDatabase: productsDatabaseReducer,
 });
 
 export default rootReducer;
