@@ -5,10 +5,16 @@ import { AppConfig } from '../../config';
 
 /* Constants */
 import { actionTypes } from '../../constants/ProductResearch/ProductsDatabase';
-import { ProductsDatabasePayload } from '../../interfaces/ProductResearch/ProductsDatabase';
+
+/* Interfaces */
+import {
+  ProductsDatabaseFilters,
+  ProductsDatabasePayload,
+} from '../../interfaces/ProductResearch/ProductsDatabase';
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
+import { getProductsDatabaseFilters } from '../../selectors/ProductResearch/ProductsDatabase';
 
 /* Action to update filters */
 export const updateProductsDatabaseFilter = (payload: any) => {
@@ -19,7 +25,7 @@ export const updateProductsDatabaseFilter = (payload: any) => {
 };
 
 /* Action to set loading state for  products database */
-export const isLoadingProductsDatabase = (payload: any) => {
+export const isLoadingProductsDatabase = (payload: boolean) => {
   return {
     type: actionTypes.IS_LOADING_PRODUCTS_DATABASE,
     payload,
@@ -34,35 +40,98 @@ export const setProductsDatabase = (payload: any) => {
   };
 };
 
-/* 
+/* Action to set products database pagination info */
+export const setProductsDatabasePaginationInfo = (payload: any) => {
+  return {
+    type: actionTypes.SET_PRODUCTS_DATABASE_PAGINATION_INFO,
+    payload,
+  };
+};
 
+/* Parse the filter payload for reuqest */
+export const parseFilterPayload = (filter: ProductsDatabaseFilters[]) => {
+  return filter.reduce((acc: any, f: ProductsDatabaseFilters) => {
+    if (f.type === 'text' && f.value) {
+      return {
+        ...acc,
+        [f.name]: f.value,
+      };
+    }
+
+    if (f.type === 'min_max') {
+      if (f.min || f.max) {
+        return {
+          ...acc,
+          [`min_${f.name}`]: Number(f.min) || null,
+          [`max_${f.name}`]: Number(f.max) || null,
+        };
+      }
+    }
+
+    if (f.type === 'input' && f.value?.length) {
+      return {
+        ...acc,
+        [f.name]: f.value?.split(',') || [],
+      };
+    }
+
+    return acc;
+  }, {});
+};
 /*********** Async Actions ************************ */
 
 /* Action to fetch products database */
 export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async (
-  dispatch: any
+  dispatch: any,
+  getState: any
 ) => {
-  const { resetFilters = false } = payload;
+  try {
+    const { resetFilters = false, page = 1, sort, withoutLoader = false } = payload;
 
-  const sellerId = sellerIDSelector();
+    const sellerId = sellerIDSelector();
 
-  // if passed with reset filters
-  if (resetFilters) {
+    // if passed with reset filters
+    if (resetFilters) {
+      dispatch(isLoadingProductsDatabase(false));
+      dispatch(setProductsDatabase([]));
+      return;
+    }
+
+    // if fetch with filteres
+
+    const productsDatabaseFilters = getProductsDatabaseFilters(getState());
+
+    const filterPayload = parseFilterPayload(productsDatabaseFilters);
+
+    let requestPayload = {
+      ...filterPayload,
+      page,
+    };
+
+    // add the sorting payload if applicable
+    if (sort && sort.by && sort.field) {
+      requestPayload = {
+        ...requestPayload,
+        sort,
+      };
+    }
+
+    console.log('Request Payload', requestPayload);
+
+    const URL = `${AppConfig.BASE_URL_API}${sellerId}/products`;
+
+    dispatch(isLoadingProductsDatabase(!withoutLoader));
+
+    const { data } = await axios.post(URL, requestPayload);
+
+    if (data) {
+      console.log('Fetch from API', data);
+      dispatch(setProductsDatabase(data.results));
+      dispatch(setProductsDatabasePaginationInfo(data.page_info));
+      dispatch(isLoadingProductsDatabase(false));
+    }
+  } catch (err) {
     dispatch(isLoadingProductsDatabase(false));
-    dispatch(setProductsDatabase([]));
-    return;
+    setProductsDatabase([]);
   }
-
-  // if fetch with filteres
-
-  const URL = `${AppConfig.BASE_URL_API}${sellerId}/products`;
-
-  const response = await axios.post(URL);
-
-  if (response && response.data) {
-    console.log(response.data);
-  }
-
-  dispatch(isLoadingProductsDatabase(false));
-  dispatch(setProductsDatabase([]));
 };

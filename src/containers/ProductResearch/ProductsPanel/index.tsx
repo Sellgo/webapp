@@ -56,7 +56,7 @@ const ProductPanel = (props: Props) => {
           )}
         </div>
         <FormFilterActions
-          onFind={() => console.log('Find')}
+          onFind={() => fetchProductsDatabase({})}
           onReset={() => console.log('Reset')}
         />
       </section>

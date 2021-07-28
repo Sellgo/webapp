@@ -11,4 +11,10 @@ export interface ProductsDatabaseFilters {
 
 export interface ProductsDatabasePayload {
   resetFilters?: boolean;
+  page?: number;
+  withoutLoader?: boolean;
+  sort?: {
+    field: string;
+    by: 'ascending' | 'descending';
+  };
 }

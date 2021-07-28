@@ -10,6 +10,10 @@ const INITIAL_STATE = {
   productsDatabaseFilters: DEFAULT_PRODUCTS_DATABASE_FILTERS,
   isLoadingProductsDatabase: false,
   productsDatabaseResult: [],
+  paginationInfo: {
+    current_page: 0,
+    total_pages: 0,
+  },
 };
 
 const productsDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
@@ -20,6 +24,10 @@ const productsDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_PRODUCTS_DATABASE: {
       return setIn(state, 'productsDatabaseResult', action.payload);
+    }
+
+    case actionTypes.SET_PRODUCTS_DATABASE_PAGINATION_INFO: {
+      return setIn(state, 'paginationInfo', action.payload);
     }
 
     case actionTypes.UPDATE_PRODUCTS_DATABASE_FILTER: {
