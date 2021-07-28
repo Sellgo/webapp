@@ -7,10 +7,18 @@ import styles from './index.module.scss';
 /* Components */
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
-import { getProductsDatabaseFilters } from '../../../../selectors/ProductResearch/ProductsDatabase';
-import { ProductsDatabaseFilters } from '../../../../interfaces/ProductResearch/ProductsDatabase';
-import { PRODUCTS_DATABASE_FILTER } from '../../../../constants/ProductResearch/ProductsDatabase';
+
+/* Actions */
 import { updateProductsDatabaseFilter } from '../../../../actions/ProductsResearch/ProductsDatabase';
+
+/* Selectors */
+import { getProductsDatabaseFilters } from '../../../../selectors/ProductResearch/ProductsDatabase';
+
+/* Constants */
+import { PRODUCTS_DATABASE_FILTER } from '../../../../constants/ProductResearch/ProductsDatabase';
+
+/* Interfaces */
+import { ProductsDatabaseFilters } from '../../../../interfaces/ProductResearch/ProductsDatabase';
 
 const options = [
   {
