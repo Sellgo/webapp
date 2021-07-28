@@ -1,0 +1,26 @@
+@import '../../../../../design-system/colors.scss';
+
+.productTitle {
+  height: 100%;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.productTitleText {
+  margin: 0;
+  color: $prim_dark_1;
+  font-size: 12px;
+}
+
+.productImage {
+  height: 90%;
+  width: 90%;
+  object-fit: contain;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
