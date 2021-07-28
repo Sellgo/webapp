@@ -1,17 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icon } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+
+/* Styling */
+import styles from './index.module.scss';
 
 /* Components */
 import BasicFilters from './BasicFilters';
 import AdvancedFilters from './AdvancedFilters';
-
-/* Styling */
-import styles from './index.module.scss';
-import FormFilterActions from '../../../components/FormFilters/FormFilterActions';
 import ProductsDatabaseTable from './Table';
+import FormFilterActions from '../../../components/FormFilters/FormFilterActions';
 
-const ProductPanel = () => {
+/* Actions */
+import { fetchProductsDatabase } from '../../../actions/ProductsResearch/ProductsDatabase';
+
+/* Interfaces */
+import { ProductsDatabasePayload } from '../../../interfaces/ProductResearch/ProductsDatabase';
+
+interface Props {
+  fetchProductsDatabase: (payload: ProductsDatabasePayload) => void;
+}
+
+const ProductPanel = (props: Props) => {
+  const { fetchProductsDatabase } = props;
+
   const [showAdvancedFilter, setShowAdvancedFilter] = useState<boolean>(true);
+
+  useEffect(() => {
+    fetchProductsDatabase({});
+  }, []);
 
   return (
     <>
@@ -48,4 +65,12 @@ const ProductPanel = () => {
     </>
   );
 };
-export default ProductPanel;
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchProductsDatabase: (payload: ProductsDatabasePayload) =>
+      dispatch(fetchProductsDatabase(payload)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ProductPanel);

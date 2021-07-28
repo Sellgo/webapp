@@ -8,3 +8,7 @@ export interface ProductsDatabaseFilters {
   max?: string;
   active: boolean;
 }
+
+export interface ProductsDatabasePayload {
+  resetFilters?: boolean;
+}

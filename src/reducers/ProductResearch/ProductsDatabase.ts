@@ -8,10 +8,20 @@ import {
 
 const INITIAL_STATE = {
   productsDatabaseFilters: DEFAULT_PRODUCTS_DATABASE_FILTERS,
+  isLoadingProductsDatabase: false,
+  productsDatabaseResult: [],
 };
 
 const productsDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
   switch (action.type) {
+    case actionTypes.IS_LOADING_PRODUCTS_DATABASE: {
+      return setIn(state, 'isLoadingProductsDatabase', action.payload);
+    }
+
+    case actionTypes.SET_PRODUCTS_DATABASE: {
+      return setIn(state, 'productsDatabaseResult', action.payload);
+    }
+
     case actionTypes.UPDATE_PRODUCTS_DATABASE_FILTER: {
       const updatedFilters = state.productsDatabaseFilters.map((f: any) => {
         if (f.name === action.payload.name) {

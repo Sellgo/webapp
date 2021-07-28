@@ -3,6 +3,9 @@ import { ProductsDatabaseFilters } from '../../interfaces/ProductResearch/Produc
 /* All action types */
 export const actionTypes = {
   UPDATE_PRODUCTS_DATABASE_FILTER: 'UPDATE_PRODUCTS_DATABASE_FILTER',
+  IS_LOADING_PRODUCTS_DATABASE: 'IS_LOADING_PRODUCTS_DATABASE',
+  SET_PRODUCTS_DATABASE: 'SET_PRODUCTS_DATABASE',
+  FETCH_PRODUCTS_DATABASE: 'FETCH_PRODUCTS_DATABASE',
 };
 
 /* All filters for products database */
