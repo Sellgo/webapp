@@ -8,11 +8,16 @@
 }
 
 .sellerMapFilterHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+
   h1 {
     color: $sellgo-text-color;
     font-weight: bold;
     font-size: 16px;
-    margin-bottom: 2rem;
+    margin: 0 !important;
   }
 }
 
@@ -21,14 +26,9 @@
   align-items: center;
 }
 
-.orSeperator {
-  margin: 0 50px;
-}
-
 // Filter Groups Styles
 .filterGroup {
-  display: flex;
-  align-items: center;
+  margin-right: 20px;
 
   p {
     color: $sellgo-text-color;
@@ -78,11 +78,7 @@
   margin: 0 !important;
 
   input {
-    width: 300px !important;
-
-    @media only screen and(max-width: 1550px) {
-      width: 200px !important;
-    }
+    width: 250px !important;
   }
 }
 

@@ -13,6 +13,8 @@ export const SET_AMAZON_MWS_AUTHORIZED = 'SET_AMAZON_MWS_AUTHORIZED';
 export const SET_SELLER_QUOTA = 'SET_SELLER_QUOTA';
 export const SET_COUPON_APPLIED = 'SET_COUPON_APPLIED';
 
+export const DAILY_SUBSCRIPTION_PLANS = [7];
+
 export const defaultMarketplaces = [
   {
     name: 'Unites States',

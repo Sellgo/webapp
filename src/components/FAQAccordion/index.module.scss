@@ -1,0 +1,60 @@
+@import '../../design-system/new-colors';
+
+.faqAccordion {
+  width: 100%;
+
+  &__HorizontalFocus {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 40px;
+  }
+}
+
+.faqAccordionItem {
+  cursor: pointer;
+  margin: 20px 0;
+  width: 100%;
+
+  &__HorizontalFocus {
+    flex: 0 0 45%;
+    margin-bottom: 30px;
+    cursor: pointer;
+  }
+}
+
+.faqAccordionHeading {
+  font-size: $fontsize_content_16;
+  font-weight: $fontweight_medium;
+  color: $prim_dark_2;
+  border: 1px solid $grey_2;
+  padding: 15px 20px;
+}
+
+.faqAccordionButton {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  span {
+    color: $blue_8;
+    font-size: 20px;
+    margin-right: 10px;
+    font-weight: 600;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.faqAccordionPanel {
+  font-size: $fontsize_content_16;
+  font-weight: $fontweight_regular;
+  color: $prim_dark_2;
+  padding: 10px 20px;
+  border: 1px solid $grey_2;
+  border-top: 0;
+}

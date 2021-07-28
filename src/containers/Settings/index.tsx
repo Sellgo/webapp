@@ -17,7 +17,6 @@ import {
 import './settings.scss';
 import { Seller, AmazonMWS } from '../../interfaces/Seller';
 import PageHeader from '../../components/PageHeader';
-import SubscriptionMessage from '../../components/FreeTrialMessageDisplay';
 
 interface SettingsProps {
   updateAmazonMWSAuth: (data: AmazonMWS) => void;
@@ -57,7 +56,6 @@ class Settings extends React.Component<SettingsProps> {
     } = this.props;
     return (
       <>
-        <SubscriptionMessage page={'settings'} />
         <PageHeader
           title="Settings"
           breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Settings' }]}

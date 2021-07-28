@@ -19,3 +19,23 @@ export const getIsLoadingSellerDetailsForMap = (state: any) => {
 export const getSellerDetailsDataForMap = (state: any) => {
   return get(state, 'sellerMap.sellerDetails');
 };
+
+/* Selector for getting the show state for seller card */
+export const getShowSellerDetailsCardForMap = (state: any) => {
+  return get(state, 'sellerMap.showSellerDetailsCard');
+};
+
+/* Selector for getting the map center based on country */
+export const getCenterLocationForMap = (state: any) => {
+  return get(state, 'sellerMap.mapCenter');
+};
+
+/* Selector for getting the map bounds based on data */
+export const getMapBounds = (state: any) => {
+  return get(state, 'sellerMap.mapBounds');
+};
+
+/* Selector for getting the map zoom based on data */
+export const getMapZoom = (state: any) => {
+  return get(state, 'sellerMap.mapZoom');
+};

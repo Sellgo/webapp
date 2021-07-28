@@ -21,7 +21,6 @@ import {
 } from '../../selectors/UploadSupplier';
 import { setProgressShow, setConfirmationShow } from '../../actions/UploadSupplier';
 import { setProgress } from '../../actions/Suppliers';
-import SubscriptionMessage from '../../components/FreeTrialMessageDisplay';
 
 import SearchFilter from '../../components/SearchFilter/';
 
@@ -139,7 +138,6 @@ class Synthesis extends Component<SynthesisProps> {
 
     return (
       <>
-        <SubscriptionMessage page={'search-management'} />
         <PageHeader
           title="Search Management"
           breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Search Management' }]}

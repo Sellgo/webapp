@@ -5,6 +5,7 @@ export interface SellerMapPayload {
   state?: string;
   zipCode?: string;
   maxCount?: number;
+  country?: string;
 }
 
 export interface SellerData {
@@ -16,4 +17,18 @@ export interface SellerData {
   seller_name: string;
   state: string;
   zip_code: string;
+}
+
+export interface Country {
+  country: string;
+  latitude: number;
+  longitude: number;
+  name: string;
+}
+
+export interface USState {
+  state: string;
+  latitude: number;
+  longitude: number;
+  name: string;
 }

@@ -780,7 +780,7 @@ const Filters: React.FC<Props> = props => {
 
                 {/* Size Tier Filters */}
                 <div className={styles.groupedFilters}>
-                  <p>Size Tier</p>
+                  <p>Seller Launched</p>
                   <div className={styles.inputGroups__sizeTier}>
                     <Checkbox
                       radio
