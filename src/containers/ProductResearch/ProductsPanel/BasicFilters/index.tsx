@@ -48,7 +48,7 @@ const BasicFilters = (props: Props) => {
         filterOptions={PRODUCTS_DATABASE_CATEGORIES}
         label="Categories"
         placeholder="Categories"
-        value={category?.value}
+        value={category?.value || ''}
         handleChange={(value: string) => {
           updateProductsDatabaseFilter({
             ...category,
@@ -59,8 +59,8 @@ const BasicFilters = (props: Props) => {
 
       <MinMaxFilter
         label="Monthly Revenue"
-        minValue={monthlyRevenue?.min}
-        maxValue={monthlyRevenue?.max}
+        minValue={monthlyRevenue?.min || ''}
+        maxValue={monthlyRevenue?.max || ''}
         handleChange={(type: string, value: string) => {
           updateProductsDatabaseFilter({
             ...monthlyRevenue,
@@ -71,8 +71,8 @@ const BasicFilters = (props: Props) => {
 
       <MinMaxFilter
         label="Price"
-        minValue={price?.min}
-        maxValue={price?.max}
+        minValue={price?.min || ''}
+        maxValue={price?.max || ''}
         handleChange={(type: string, value: string) => {
           updateProductsDatabaseFilter({
             ...price,
@@ -83,8 +83,8 @@ const BasicFilters = (props: Props) => {
 
       <MinMaxFilter
         label="Review Count"
-        minValue={reviewCount?.min}
-        maxValue={reviewCount?.max}
+        minValue={reviewCount?.min || ''}
+        maxValue={reviewCount?.max || ''}
         handleChange={(type: string, value: string) => {
           updateProductsDatabaseFilter({
             ...reviewCount,
@@ -95,8 +95,8 @@ const BasicFilters = (props: Props) => {
 
       <MinMaxFilter
         label="Review Rating"
-        minValue={reviewRating?.min}
-        maxValue={reviewRating?.max}
+        minValue={reviewRating?.min || ''}
+        maxValue={reviewRating?.max || ''}
         handleChange={(type: string, value: string) => {
           updateProductsDatabaseFilter({
             ...reviewRating,

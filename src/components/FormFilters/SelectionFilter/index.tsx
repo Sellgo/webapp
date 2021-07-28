@@ -14,8 +14,8 @@ interface Props {
   label?: string;
   filterOptions: IOption[];
   placeholder: string;
-  value?: string;
-  handleChange?: (value: string) => void;
+  value: string;
+  handleChange: (value: string) => void;
 }
 
 const SelectionFilter: React.FC<Props> = props => {

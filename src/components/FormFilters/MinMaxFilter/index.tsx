@@ -9,9 +9,9 @@ import { ReactComponent as FilterRightArrow } from '../../../assets/images/filte
 
 interface Props {
   label?: string;
-  minValue?: string;
-  maxValue?: string;
-  handleChange?: (type: string, value: string) => void;
+  minValue: string;
+  maxValue: string;
+  handleChange: (type: string, value: string) => void;
 }
 
 const MinMaxFilter: React.FC<Props> = props => {
