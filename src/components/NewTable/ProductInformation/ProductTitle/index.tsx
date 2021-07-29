@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './index.module.scss';
 
 /* Components */
-import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipboard';
+import CopyAndLocateClipboard from '../../../CopyAndLocateClipboard';
 
 interface Props {
   asin: string;
@@ -15,7 +15,12 @@ const ProductTitle = (props: Props) => {
   return (
     <div className={styles.productTitle}>
       <p className={styles.productTitleText}>
-        ASIN: <CopyAndLocateClipboard data={asin} link={`http://www.amazon.com/dp/${props.asin}`} />
+        ASIN:{' '}
+        {asin.length > 0 ? (
+          <CopyAndLocateClipboard data={asin} link={`http://www.amazon.com/dp/${props.asin}`} />
+        ) : (
+          '-'
+        )}
       </p>
     </div>
   );

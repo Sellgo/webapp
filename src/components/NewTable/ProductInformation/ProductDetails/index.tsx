@@ -1,5 +1,5 @@
 import React from 'react';
-import { truncateString } from '../../../../../utils/format';
+import { truncateString } from '../../../../utils/format';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -14,8 +14,10 @@ const ProductDetails = (props: Props) => {
 
   return (
     <div className={styles.productDetails}>
-      <h3 className={styles.productDetailsHeading}>{truncateString(title, 20)}</h3>
-      <p className={styles.productDetailsText}>Brand: {brand}</p>
+      <h3 className={styles.productDetailsHeading}>{truncateString(title, 15)}</h3>
+      {brand.length > 0 && (
+        <p className={styles.productDetailsText}>Brand: {truncateString(brand, 25)}</p>
+      )}
     </div>
   );
 };

@@ -1,3 +1,5 @@
+@import '../../design-system/new-colors.scss';
+
 .rs-table-cell-header-sort-wrapper {
   display: none !important;
 }
@@ -16,7 +18,39 @@
   justify-content: flex-end;
 }
 
+.rs-table-row-header {
+  border: 1px solid $grey_3;
+}
+
+.rs-table-body-row-wrapper {
+  margin-top: 1rem;
+}
+
 /* Hide the total records count */
 .rs-table-pagination-start {
   display: none;
+}
+
+/* Pagination styling */
+.rs-pagination-btn {
+  a {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid $grey_3;
+    border-radius: 3px;
+    font-family: 'Work Sans', sans-serif !important;
+    font-size: 10px !important;
+    font-weight: normal !important;
+  }
+}
+
+.rs-pagination-btn-active {
+  a {
+    background-color: $accent_blue !important;
+    color: $prim_white !important;
+    border: 1px solid $accent_blue;
+  }
 }

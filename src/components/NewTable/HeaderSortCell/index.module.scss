@@ -1,0 +1,16 @@
+@import '../../../design-system/new-colors.scss';
+
+.headerCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+
+  .headerText {
+    text-align: center;
+  }
+
+  .sortIcon {
+    margin-left: 7px;
+  }
+}
