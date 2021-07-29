@@ -18,6 +18,9 @@ import CompetitorsPanel from './CompetitorsPanel';
 interface Props {
   match: any;
 }
+
+const productResearchMapper = ['Products', 'Brands', 'Category', 'Competitors'];
+
 const ProductResearch: React.FC<Props> = props => {
   const { match } = props;
 
@@ -41,7 +44,7 @@ const ProductResearch: React.FC<Props> = props => {
       <main className={styles.productResearchPage}>
         {/* Filter meta data */}
         <section className={styles.filterMetaData}>
-          <h1>Product Research: Products</h1>
+          <h1>Product Research: {productResearchMapper[selectedTabList]}</h1>
           <MarketplaceDropdown />
         </section>
 

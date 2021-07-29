@@ -24,7 +24,7 @@ interface Props {
 const ProductPanel = (props: Props) => {
   const { fetchProductsDatabase } = props;
 
-  const [showAdvancedFilter, setShowAdvancedFilter] = useState<boolean>(true);
+  const [showAdvancedFilter, setShowAdvancedFilter] = useState<boolean>(false);
 
   useEffect(() => {
     fetchProductsDatabase({});
