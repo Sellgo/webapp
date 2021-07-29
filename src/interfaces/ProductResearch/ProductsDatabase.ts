@@ -11,6 +11,7 @@ export interface ProductsDatabaseFilters {
 
 export interface ProductsDatabasePayload {
   resetFilters?: boolean;
+  clearFiltersAfterSuccess?: boolean;
   page?: number;
   withoutLoader?: boolean;
   sort?: {

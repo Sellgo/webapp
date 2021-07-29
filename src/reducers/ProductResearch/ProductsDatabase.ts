@@ -30,6 +30,10 @@ const productsDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
       return setIn(state, 'productsDatabasePaginationInfo', action.payload);
     }
 
+    case actionTypes.SET_PRODUCTS_DATABASE_FILTERS: {
+      return setIn(state, 'productsDatabaseFilters', action.payload);
+    }
+
     case actionTypes.UPDATE_PRODUCTS_DATABASE_FILTER: {
       const updatedFilters = state.productsDatabaseFilters.map((f: any) => {
         if (f.name === action.payload.name) {

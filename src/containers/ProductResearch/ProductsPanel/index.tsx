@@ -27,7 +27,7 @@ const ProductPanel = (props: Props) => {
   const [showAdvancedFilter, setShowAdvancedFilter] = useState<boolean>(false);
 
   useEffect(() => {
-    fetchProductsDatabase({});
+    fetchProductsDatabase({ resetFilters: true });
   }, []);
 
   return (
@@ -56,8 +56,8 @@ const ProductPanel = (props: Props) => {
           )}
         </div>
         <FormFilterActions
-          onFind={() => fetchProductsDatabase({})}
-          onReset={() => console.log('Reset')}
+          onFind={() => fetchProductsDatabase({ clearFiltersAfterSuccess: true })}
+          onReset={() => fetchProductsDatabase({ resetFilters: true })}
         />
       </section>
 

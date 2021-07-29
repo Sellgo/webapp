@@ -4,7 +4,10 @@ import axios from 'axios';
 import { AppConfig } from '../../config';
 
 /* Constants */
-import { actionTypes } from '../../constants/ProductResearch/ProductsDatabase';
+import {
+  actionTypes,
+  DEFAULT_PRODUCTS_DATABASE_FILTERS,
+} from '../../constants/ProductResearch/ProductsDatabase';
 
 /* Interfaces */
 import {
@@ -48,6 +51,14 @@ export const setProductsDatabasePaginationInfo = (payload: any) => {
   };
 };
 
+/* Action to set filter state */
+export const setProductsDatabaseFilters = (payload: ProductsDatabaseFilters[]) => {
+  return {
+    type: actionTypes.SET_PRODUCTS_DATABASE_FILTERS,
+    payload,
+  };
+};
+
 /* Parse the filter payload for reuqest */
 export const parseFilterPayload = (filter: ProductsDatabaseFilters[]) => {
   return filter.reduce((acc: any, f: ProductsDatabaseFilters) => {
@@ -86,7 +97,13 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
   getState: any
 ) => {
   try {
-    const { resetFilters = false, page = 1, sort, withoutLoader = false } = payload;
+    const {
+      resetFilters = false,
+      page = 1,
+      sort,
+      withoutLoader = false,
+      clearFiltersAfterSuccess = false,
+    } = payload;
 
     const sellerId = sellerIDSelector();
 
@@ -94,6 +111,7 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
     if (resetFilters) {
       dispatch(isLoadingProductsDatabase(false));
       dispatch(setProductsDatabase([]));
+      dispatch(setProductsDatabaseFilters(DEFAULT_PRODUCTS_DATABASE_FILTERS));
       return;
     }
 
@@ -123,6 +141,9 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
     const { data } = await axios.post(URL, requestPayload);
 
     if (data) {
+      if (clearFiltersAfterSuccess) {
+        dispatch(setProductsDatabaseFilters(DEFAULT_PRODUCTS_DATABASE_FILTERS));
+      }
       dispatch(setProductsDatabase(data.results));
       dispatch(setProductsDatabasePaginationInfo(data.page_info));
       dispatch(isLoadingProductsDatabase(false));

@@ -7,6 +7,7 @@ export const actionTypes = {
   SET_PRODUCTS_DATABASE: 'SET_PRODUCTS_DATABASE',
   SET_PRODUCTS_DATABASE_PAGINATION_INFO: 'SET_PRODUCTS_DATABASE_PAGINATION_INFO',
   FETCH_PRODUCTS_DATABASE: 'FETCH_PRODUCTS_DATABASE',
+  SET_PRODUCTS_DATABASE_FILTERS: 'SET_PRPDUCTS_DATABASE_FILTERS',
 };
 
 /* All filters for products database */
@@ -65,7 +66,7 @@ export const DEFAULT_BASIC_FILTERS: ProductsDatabaseFilters[] = [
 ];
 
 /* Default advanced filters */
-export const DEFAULT_ADVANCED_FILTERS = [
+export const DEFAULT_ADVANCED_FILTERS: ProductsDatabaseFilters[] = [
   {
     type: 'min_max',
     name: PRODUCTS_DATABASE_FILTER.SELLER_COUNT,

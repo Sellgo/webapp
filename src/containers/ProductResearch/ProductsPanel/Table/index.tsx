@@ -79,10 +79,10 @@ const ProductsDatabaseTable = (props: Props) => {
   };
 
   /* Handler, selects one row, used in CheckboxCell */
-  const handleSelect = (rowData: any, e: any) => {
+  const handleSelect = (rowData: any, checked: boolean) => {
     const currentRowASIN = rowData.asin;
     let newSelectedRows;
-    if (e.target.checked) {
+    if (checked) {
       newSelectedRows = selectedRows.filter(rowASIN => rowASIN !== currentRowASIN);
       newSelectedRows.push(currentRowASIN);
     } else {
@@ -92,9 +92,9 @@ const ProductsDatabaseTable = (props: Props) => {
   };
 
   /* Handler, selects all rows */
-  const handleSelectAll = (e: any) => {
+  const handleSelectAll = (e: any, data: any) => {
     const allSelectedRows: string[] = [];
-    if (e.target.checked) {
+    if (data.checked) {
       productsDatabaseResults.map(row => allSelectedRows.push(row.asin));
     }
     setSelectedRows(allSelectedRows);
@@ -109,9 +109,11 @@ const ProductsDatabaseTable = (props: Props) => {
   const CheckboxCell = ({ rowData, ...props }: any) => {
     return (
       <GenericRowCell {...props}>
-        <input
-          type="checkbox"
-          onChange={e => handleSelect(rowData, e)}
+        <Checkbox
+          label=""
+          onChange={(e: any, data: any) => {
+            handleSelect(rowData, data.checked);
+          }}
           checked={selectedRows.includes(rowData.asin)}
         />
       </GenericRowCell>
@@ -194,6 +196,7 @@ const ProductsDatabaseTable = (props: Props) => {
             <Table.HeaderCell>
               <div className={styles.headerSelectRow}>
                 <Checkbox
+                  label=""
                   onChange={handleSelectAll}
                   checked={Boolean(
                     !isLoadingProductsDatabase &&
@@ -202,7 +205,7 @@ const ProductsDatabaseTable = (props: Props) => {
                   )}
                 />
                 <div className={styles.headerSelectIcon}>
-                  <Icon name="ellipsis vertical" size="small" />
+                  <Icon name="ellipsis vertical" size="small" style={{ cursor: 'pointer' }} />
                 </div>
               </div>
             </Table.HeaderCell>
