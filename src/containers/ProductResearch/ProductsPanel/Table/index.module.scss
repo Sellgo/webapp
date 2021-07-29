@@ -1,9 +1,12 @@
 @import '../../../../design-system/new-colors.scss';
 
+.productDatabaseWrapper {
+  padding-bottom: 50px;
+}
+
 .productsDatabaseTable {
   background-color: inherit;
-  margin: 30px auto !important;
-  margin-bottom: 100px;
+  margin-top: 20px;
 }
 
 .tableRow {
@@ -64,6 +67,7 @@
   color: $prim_dark_2;
   background: none;
   text-decoration: underline;
+  font-weight: 600;
 }
 
 .ellipsisButton {

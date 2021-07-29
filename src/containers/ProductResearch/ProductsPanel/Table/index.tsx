@@ -171,7 +171,7 @@ const ProductsDatabaseTable = (props: Props) => {
 
   return (
     <>
-      <section>
+      <section className={styles.productDatabaseWrapper}>
         <div className={styles.informationRow}>
           <button className={styles.exportButton} onClick={handleExport}>
             <Icon size="small" name="download" />
@@ -282,19 +282,21 @@ const ProductsDatabaseTable = (props: Props) => {
             <ActionCell dataKey="asin" rowData="asin" />
           </Table.Column>
         </Table>
-      </section>
 
-      {productsDatabasePaginationInfo.total_pages > 0 && (
-        <Table.Pagination
-          showInfo={false}
-          activePage={pageNum}
-          displayLength={productsDatabaseResults.length || 0}
-          /* Total num of data ENTRIES, e.g. 200 entries with 10 display length = 20 pages */
-          total={productsDatabaseResults.length * productsDatabasePaginationInfo.total_pages}
-          onChangePage={handleChangePage}
-          showLengthMenu={false}
-        />
-      )}
+        {productsDatabasePaginationInfo.total_pages > 0 && (
+          <footer>
+            <Table.Pagination
+              showInfo={false}
+              activePage={pageNum}
+              displayLength={productsDatabaseResults.length || 0}
+              /* Total num of data ENTRIES, e.g. 200 entries with 10 display length = 20 pages */
+              total={productsDatabaseResults.length * productsDatabasePaginationInfo.total_pages}
+              onChangePage={handleChangePage}
+              showLengthMenu={false}
+            />
+          </footer>
+        )}
+      </section>
     </>
   );
 };

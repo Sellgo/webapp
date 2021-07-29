@@ -36,7 +36,15 @@
 /* Customise the default pagination */
 .rs-table-pagination-toolbar {
   justify-content: flex-end;
-  margin-bottom: 20px !important;
+  padding: 10px 40px;
+  box-shadow: 0 -3px 6px 0 rgba(0, 0, 9, 0.25);
+  background: #fff;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  z-index: 9999999 !important;
 }
 
 .rs-table-row-header {
