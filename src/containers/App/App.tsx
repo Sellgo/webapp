@@ -240,7 +240,7 @@ function App() {
             exact={true}
             path="/product-research"
             component={ProductResearch}
-            requireSubscription={true}
+            requireSubscription={false}
           />
 
           <Route component={NotFound} />
