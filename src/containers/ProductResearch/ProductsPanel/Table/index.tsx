@@ -12,101 +12,44 @@ import '../../tableReset.scss';
 /* Components */
 import ProductTitle from '../TableDetails/ProductTitle';
 import ProductDetails from '../TableDetails/ProductDetails';
-import ProductStats from '../TableDetails/ProductStats';
 
 /* Table */
 import { TableAlignmentSettings } from '../../../../interfaces/Table';
+import {
+  getIsLoadingProductsDatabase,
+  getProductsDatabasePaginationInfo,
+  getProductsDatabaseResults,
+} from '../../../../selectors/ProductResearch/ProductsDatabase';
+import { connect } from 'react-redux';
+import {
+  ProductsDatabasePayload,
+  ProductsDatabaseRow,
+} from '../../../../interfaces/ProductResearch/ProductsDatabase';
+import { fetchProductsDatabase } from '../../../../actions/ProductsResearch/ProductsDatabase';
+import { formatNumber, showNAIfZeroOrNull } from '../../../../utils/format';
 
-const dataList = {
-  results: [
-    {
-      asin: 'B019Y9R6E0',
-      upc: 'PLACEHOLDER',
-      img: `https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector
-        -id1147544807?k=6&m=1147544807&s=612x612&w=0&h=8CXEtGfDlt7oFx7UyEZClHojvDjZR91U-mAU8UlFF4Y=`,
+interface Props {
+  // States
+  isLoadingProductsDatabase: boolean;
+  productsDatabaseResults: ProductsDatabaseRow[];
+  productsDatabasePaginationInfo: {
+    current_page: number;
+    total_pages: number;
+  };
 
-      title: 'Dammit Doll',
-      category: 'PLACEHOLDER',
-      brand: 'Dammit Doll',
-      fulfilment: 'PLACEHOLDER',
-      size_tier: 'PLACEHOLDER',
-      number_of_images: 'PLACEHOLDER',
-      variation_count: 'PLACEHOLDER',
-      multipack: 'PLACEHOLDER',
-      weight_lbs: 0,
-      package_dimensions: 'PLACEHOLDER',
-      storage_fees: 'PLACEHOLDER',
-      listing_age: 'PLACEHOLDER',
-      kpi_1: 'PLACEHOLDER',
-      kpi_2: 'PLACEHOLDER',
-      kpi_3: 'PLACEHOLDER',
+  /* Actions */
+  fetchProductsDatabase: (payload: ProductsDatabasePayload) => void;
+}
 
-      ly_sales: -1,
-      sales_yoy: -1,
-      sales_l90d: -1,
-      price_90d: -1,
-      best_sales: -1,
-      sales_to_reviews: -1,
-      kpi_4: -1,
-      kpi_5: -1,
-      kpi_6: -1,
+/* Main component */
+const ProductsDatabaseTable = (props: Props) => {
+  const {
+    isLoadingProductsDatabase,
+    productsDatabaseResults,
+    productsDatabasePaginationInfo,
+    fetchProductsDatabase,
+  } = props;
 
-      monthly_revenue: 17.87,
-      price: 17.87,
-      rating: 4.7,
-      review_count: 518,
-      seller_count: 1,
-      monthly_sales: 'PLACEHOLDER',
-      bsr: 'PLACEHOLDER',
-    },
-    {
-      asin: 'B01ee9Y9R6E0',
-      upc: 'PLACEHOLDER',
-      img: `https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector
-      -id1147544807?k=6&m=1147544807&s=612x612&w=0&h=8CXEtGfDlt7oFx7UyEZClHojvDjZR91U-mAU8UlFF4Y=`,
-
-      title: 'Dammit Doll',
-      category: 'PLACEHOLDER',
-      brand: 'Dammit Doll',
-      fulfilment: 'PLACEHOLDER',
-      size_tier: 'PLACEHOLDER',
-      number_of_images: 'PLACEHOLDER',
-      variation_count: 'PLACEHOLDER',
-      multipack: 'PLACEHOLDER',
-      weight_lbs: 0,
-      package_dimensions: 'PLACEHOLDER',
-      storage_fees: 'PLACEHOLDER',
-      listing_age: 'PLACEHOLDER',
-      kpi_1: 'PLACEHOLDER',
-      kpi_2: 'PLACEHOLDER',
-      kpi_3: 'PLACEHOLDER',
-
-      ly_sales: -1,
-      sales_yoy: -1,
-      sales_l90d: -1,
-      price_90d: -1,
-      best_sales: -1,
-      sales_to_reviews: -1,
-      kpi_4: -1,
-      kpi_5: -1,
-      kpi_6: -1,
-
-      monthly_revenue: 17.87,
-      price: 17.87,
-      rating: 4.7,
-      review_count: 518,
-      seller_count: 1,
-      monthly_sales: 'PLACEHOLDER',
-      bsr: 'PLACEHOLDER',
-    },
-  ],
-  page_info: {
-    current_page: 1,
-    total_pages: 1,
-  },
-};
-
-const ProductsDatabaseTable = () => {
   const [selectedRows, setSelectedRows] = React.useState<string[]>([]);
   const [sortColumn, setSortColumn] = React.useState<string>('');
   const [sortType, setSortType] = React.useState<'asc' | 'desc' | undefined>(undefined);
@@ -122,16 +65,20 @@ const ProductsDatabaseTable = () => {
 
   const handleChangePage = (dataKey: number) => {
     setPageNum(dataKey);
+    fetchProductsDatabase({
+      page: dataKey,
+    });
   };
-  // handleChangeLength(dataKey) {
-  //   this.setState({
-  //     page: 1,
-  //     displayLength: dataKey
-  //   });
-  // }
+
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
     setSortType(sortType);
+    fetchProductsDatabase({
+      sort: {
+        field: sortColumn,
+        by: sortType === 'asc' ? 'ascending' : 'descending',
+      },
+    });
   };
 
   /* Handler, selects one row, used in CheckboxCell */
@@ -151,7 +98,7 @@ const ProductsDatabaseTable = () => {
   const handleSelectAll = (e: any) => {
     const allSelectedRows: string[] = [];
     if (e.target.checked) {
-      dataList.results.map(row => allSelectedRows.push(row.asin));
+      productsDatabaseResults.map(row => allSelectedRows.push(row.asin));
     }
     setSelectedRows(allSelectedRows);
   };
@@ -193,82 +140,48 @@ const ProductsDatabaseTable = () => {
     );
   };
 
-  /* Header cell, used to select all rows */
-  const SelectAllCheckboxCell = (
-    <input
-      type="checkbox"
-      onChange={handleSelectAll}
-      checked={selectedRows.length === dataList.results.length}
-    />
-  );
-
   /* Row cell, Cell with checkbox to select row */
-  // @ts-ignore
-  const CheckboxCell = ({ rowData, ...props }) => (
-    <Table.Cell {...props}>
-      <input
-        type="checkbox"
-        onChange={e => handleSelect(rowData, e)}
-        checked={selectedRows.includes(rowData.asin)}
-      />
-    </Table.Cell>
-  );
+  const CheckboxCell = ({ rowData, ...props }: any) => {
+    return (
+      <Table.Cell {...props}>
+        <input
+          type="checkbox"
+          onChange={e => handleSelect(rowData, e)}
+          checked={selectedRows.includes(rowData.asin)}
+        />
+      </Table.Cell>
+    );
+  };
 
   /* Row cell, combines product information */
-  // @ts-ignore
-  const ProductInformationCell = ({ rowData, ...props }) => (
-    <Table.Cell {...props}>
-      <div className={styles.headerCell}>
-        <ProductTitle asin={rowData.asin} upc={rowData.upc} img={rowData.img} />
-        <ProductDetails
-          title={rowData.title}
-          category={rowData.category}
-          brand={rowData.brand}
-          fulfilment={rowData.fulfilment}
-          size_tier={rowData.size_tier}
-          number_of_images={rowData.number_of_images}
-          variation_count={rowData.variation_count}
-          multipack={rowData.multipack}
-          weight_lbs={rowData.weight_lbs}
-          package_dimensions={rowData.package_dimensions}
-          storage_fees={rowData.storage_fees}
-          listing_age={rowData.listing_age}
-          kpi_1={rowData.kpi_1}
-          kpi_2={rowData.kpi_2}
-          kpi_3={rowData.kpi_3}
-        />
-        <ProductStats
-          ly_sales={rowData.ly_sales}
-          sales_yoy={rowData.sales_yoy}
-          sales_l90d={rowData.sales_l90d}
-          price_90d={rowData.price_90d}
-          best_sales={rowData.best_sales}
-          sales_to_reviews={rowData.sales_to_reviews}
-          kpi_4={rowData.kpi_4}
-          kpi_5={rowData.kpi_5}
-          kpi_6={rowData.kpi_6}
-        />
-      </div>
-    </Table.Cell>
-  );
+  const ProductInformationCell = ({ rowData, ...props }: any) => {
+    return (
+      <Table.Cell {...props}>
+        <div className={styles.headerCell}>
+          <ProductTitle asin={rowData.asin} />
+          <ProductDetails title={rowData.title} brand={rowData.brand} />
+        </div>
+      </Table.Cell>
+    );
+  };
 
   /* Row cell, Appends $ sign infront of monetary cells */
-  // @ts-ignore
-  const DollarCell = ({ rowData, dataKey, ...props }) => (
-    <Table.Cell {...props}>${rowData[dataKey]}</Table.Cell>
-  );
+  const DollarCell = ({ rowData, dataKey, ...props }: any) => {
+    const displayPrice = formatNumber(rowData[dataKey]);
+    return (
+      <Table.Cell {...props}>{showNAIfZeroOrNull(rowData[dataKey], `$${displayPrice}`)}</Table.Cell>
+    );
+  };
 
   /* Row Cell, for review stars */
-  // @ts-ignore
-  const RatingCell = ({ rowData, ...props }) => (
+  const RatingCell = ({ rowData, ...props }: any) => (
     <Table.Cell {...props}>
-      <Rating defaultRating={rowData.rating} maxRating={5} disabled />
+      <Rating defaultRating={rowData.rating} maxRating={5} disabled fractions={2} />
     </Table.Cell>
   );
 
   /* Row cell */
-  // @ts-ignore
-  const EllipsisCell = ({ rowData, ...props }) => (
+  const EllipsisCell = ({ rowData, ...props }: any) => (
     <Table.Cell {...props}>
       <Popup
         /* Ellipsis icon */
@@ -313,22 +226,31 @@ const ProductsDatabaseTable = () => {
         </button>
       </div>
       <Table
-        data={dataList.results}
+        loading={isLoadingProductsDatabase}
+        data={productsDatabaseResults}
         hover
-        height={1000}
-        rowHeight={320}
+        height={800}
+        rowHeight={100}
         onSortColumn={handleSortColumn}
         sortType={sortType}
         sortColumn={sortColumn}
       >
         <Table.Column width={35} fixed {...CENTER_ALIGN_SETTINGS}>
-          <Table.HeaderCell> {SelectAllCheckboxCell} </Table.HeaderCell>
-          <CheckboxCell dataKey="productInformation" rowData="productInformation" />
+          <Table.HeaderCell>
+            <input
+              type="checkbox"
+              onChange={handleSelectAll}
+              checked={
+                selectedRows.length === productsDatabaseResults.length && !isLoadingProductsDatabase
+              }
+            />
+          </Table.HeaderCell>
+          <CheckboxCell dataKey="checkbox" />
         </Table.Column>
 
-        <Table.Column width={BIG_WIDTH} verticalAlign="middle">
+        <Table.Column width={BIG_WIDTH} verticalAlign="middle" fixed>
           <Table.HeaderCell>Product Information</Table.HeaderCell>
-          <ProductInformationCell dataKey="title" rowData="title" />
+          <ProductInformationCell dataKey="productInformation" />
         </Table.Column>
 
         <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
@@ -338,12 +260,7 @@ const ProductsDatabaseTable = () => {
 
         <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
           <Table.HeaderCell>{HeaderSortCell('Price', 'price')}</Table.HeaderCell>
-          <DollarCell dataKey="price" rowData="seller-count" />
-        </Table.Column>
-
-        <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
-          <Table.HeaderCell>{HeaderSortCell('Monthly Sales', 'monthly_sales')}</Table.HeaderCell>
-          <DollarCell dataKey="monthly_sales" rowData="monthly_sales" />
+          <DollarCell dataKey="price" rowData="price" />
         </Table.Column>
 
         <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
@@ -351,11 +268,6 @@ const ProductsDatabaseTable = () => {
             {HeaderSortCell('Monthly Revenue', 'monthly_revenue')}
           </Table.HeaderCell>
           <DollarCell dataKey="monthly_revenue" rowData="monthly_revenue" />
-        </Table.Column>
-
-        <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
-          <Table.HeaderCell>{HeaderSortCell('BSR', 'bsr')}</Table.HeaderCell>
-          <Table.Cell dataKey="bsr" />
         </Table.Column>
 
         <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
@@ -376,9 +288,9 @@ const ProductsDatabaseTable = () => {
 
       <Table.Pagination
         activePage={pageNum}
-        displayLength={dataList.results.length}
+        displayLength={productsDatabaseResults.length || 0}
         /* Total num of data ENTRIES, e.g. 200 entries with 10 display length = 20 pages */
-        total={dataList.results.length * dataList.page_info.total_pages}
+        total={productsDatabaseResults.length * productsDatabasePaginationInfo.total_pages}
         onChangePage={handleChangePage}
         showLengthMenu={false}
       />
@@ -386,4 +298,19 @@ const ProductsDatabaseTable = () => {
   );
 };
 
-export default ProductsDatabaseTable;
+const mapStateToProps = (state: any) => {
+  return {
+    productsDatabaseResults: getProductsDatabaseResults(state),
+    productsDatabasePaginationInfo: getProductsDatabasePaginationInfo(state),
+    isLoadingProductsDatabase: getIsLoadingProductsDatabase(state),
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchProductsDatabase: (payload: ProductsDatabasePayload) =>
+      dispatch(fetchProductsDatabase(payload)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductsDatabaseTable);

@@ -11,3 +11,12 @@
 .rs-table-scrollbar-vertical:hover {
   transform: scaleY(1);
 }
+
+.rs-table-pagination-toolbar {
+  justify-content: flex-end;
+}
+
+/* Hide the total records count */
+.rs-table-pagination-start {
+  display: none;
+}

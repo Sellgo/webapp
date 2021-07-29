@@ -10,7 +10,7 @@ const INITIAL_STATE = {
   productsDatabaseFilters: DEFAULT_PRODUCTS_DATABASE_FILTERS,
   isLoadingProductsDatabase: false,
   productsDatabaseResult: [],
-  paginationInfo: {
+  productsDatabasePaginationInfo: {
     current_page: 0,
     total_pages: 0,
   },
@@ -27,7 +27,7 @@ const productsDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
     }
 
     case actionTypes.SET_PRODUCTS_DATABASE_PAGINATION_INFO: {
-      return setIn(state, 'paginationInfo', action.payload);
+      return setIn(state, 'productsDatabasePaginationInfo', action.payload);
     }
 
     case actionTypes.UPDATE_PRODUCTS_DATABASE_FILTER: {

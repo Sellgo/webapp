@@ -9,7 +9,13 @@ export const getProductsDatabaseFilters = (state: any) => {
 export const getIsLoadingProductsDatabase = (state: any) => {
   return get(state, 'productsDatabase.isLoadingProductsDatabase');
 };
+
 /* Selector to get  products database results */
 export const getProductsDatabaseResults = (state: any) => {
   return get(state, 'productsDatabase.productsDatabaseResult');
+};
+
+/* Selector to get  products database results */
+export const getProductsDatabasePaginationInfo = (state: any) => {
+  return get(state, 'productsDatabase.productsDatabasePaginationInfo');
 };

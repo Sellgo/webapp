@@ -116,8 +116,6 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
       };
     }
 
-    console.log('Request Payload', requestPayload);
-
     const URL = `${AppConfig.BASE_URL_API}${sellerId}/products`;
 
     dispatch(isLoadingProductsDatabase(!withoutLoader));
@@ -125,7 +123,6 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
     const { data } = await axios.post(URL, requestPayload);
 
     if (data) {
-      console.log('Fetch from API', data);
       dispatch(setProductsDatabase(data.results));
       dispatch(setProductsDatabasePaginationInfo(data.page_info));
       dispatch(isLoadingProductsDatabase(false));
