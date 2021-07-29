@@ -229,11 +229,12 @@ const ProductsDatabaseTable = (props: Props) => {
         loading={isLoadingProductsDatabase}
         data={productsDatabaseResults}
         hover
-        height={800}
+        autoHeight
         rowHeight={100}
         onSortColumn={handleSortColumn}
         sortType={sortType}
         sortColumn={sortColumn}
+        affixHorizontalScrollbar
       >
         <Table.Column width={35} fixed {...CENTER_ALIGN_SETTINGS}>
           <Table.HeaderCell>
@@ -286,14 +287,16 @@ const ProductsDatabaseTable = (props: Props) => {
         </Table.Column>
       </Table>
 
-      <Table.Pagination
-        activePage={pageNum}
-        displayLength={productsDatabaseResults.length || 0}
-        /* Total num of data ENTRIES, e.g. 200 entries with 10 display length = 20 pages */
-        total={productsDatabaseResults.length * productsDatabasePaginationInfo.total_pages}
-        onChangePage={handleChangePage}
-        showLengthMenu={false}
-      />
+      {productsDatabasePaginationInfo.total_pages > 0 && (
+        <Table.Pagination
+          activePage={pageNum}
+          displayLength={productsDatabaseResults.length || 0}
+          /* Total num of data ENTRIES, e.g. 200 entries with 10 display length = 20 pages */
+          total={productsDatabaseResults.length * productsDatabasePaginationInfo.total_pages}
+          onChangePage={handleChangePage}
+          showLengthMenu={false}
+        />
+      )}
     </section>
   );
 };
