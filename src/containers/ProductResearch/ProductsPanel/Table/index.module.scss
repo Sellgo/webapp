@@ -1,6 +1,58 @@
-@import '../../../../design-system/colors.scss';
+@import '../../../../design-system/new-colors.scss';
 
 .productsDatabaseTable {
   background-color: inherit;
   margin: 50px auto !important;
+}
+
+.informationRow {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.headerCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+
+  .headerText {
+    text-align: center;
+  }
+
+  .sortIcon {
+    margin-left: 7px;
+  }
+}
+
+.popupRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.popupText {
+  font-size: 14px;
+  color: $prim_dark_2;
+  margin-left: 5px;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+/* Buttons */
+.exportButton {
+  font-size: 14px;
+  color: $prim_dark_2;
+  background: none;
+  text-decoration: underline;
+}
+
+.ellipsisButton {
+  background: none;
 }
