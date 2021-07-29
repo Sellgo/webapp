@@ -15,58 +15,47 @@ interface Props {
   newTarget?: boolean;
 }
 
-class OrangeButton extends React.Component<Props> {
-  render() {
-    const {
-      navigateTo,
-      type,
-      size,
-      children,
-      className,
-      asExternal,
-      newTarget,
-      onClick,
-    } = this.props;
+const OrangeButton = (props: Props) => {
+  const { navigateTo, type, size, children, className, asExternal, newTarget, onClick } = props;
 
-    const baseClassName = `ctabutton`;
-    const sizeClassName = `ctabutton--${size}`;
-    const typeClassName = `ctabutton--${type}`;
+  const baseClassName = `ctabutton`;
+  const sizeClassName = `ctabutton--${size}`;
+  const typeClassName = `ctabutton--${type}`;
 
-    // render as normal <a> tag
-    if (navigateTo && asExternal) {
-      return (
+  // render as normal <a> tag
+  if (navigateTo && asExternal) {
+    return (
+      <a
+        className={`${baseClassName} ${typeClassName} ${sizeClassName} ${className}`}
+        href={navigateTo}
+        target={newTarget ? '_blank' : ''}
+        rel="noreferrer noopener"
+        onClick={onClick}
+      >
+        {children}
+      </a>
+    );
+  } else if (navigateTo) {
+    return (
+      <Link to={navigateTo} onClick={onClick}>
         <a
-          className={`${baseClassName} ${typeClassName} ${sizeClassName} ${className}`}
           href={navigateTo}
-          target={newTarget ? '_blank' : ''}
-          rel="noreferrer noopener"
-          onClick={onClick}
+          className={`${baseClassName} ${typeClassName} ${sizeClassName} ${className}`}
         >
           {children}
         </a>
-      );
-    } else if (navigateTo) {
-      return (
-        <Link to={navigateTo} onClick={onClick}>
-          <a
-            href={navigateTo}
-            className={`${baseClassName} ${typeClassName} ${sizeClassName} ${className}`}
-          >
-            {children}
-          </a>
-        </Link>
-      );
-      // If button is created with a onclick prop only
-    } else {
-      return (
-        <div onClick={onClick}>
-          <p className={`${baseClassName} ${typeClassName} ${sizeClassName} ${className}`}>
-            {children}
-          </p>
-        </div>
-      );
-    }
+      </Link>
+    );
+    // If button is created with a onclick prop only
+  } else {
+    return (
+      <div onClick={onClick}>
+        <p className={`${baseClassName} ${typeClassName} ${sizeClassName} ${className}`}>
+          {children}
+        </p>
+      </div>
+    );
   }
-}
+};
 
 export default OrangeButton;

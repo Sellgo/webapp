@@ -1,7 +1,7 @@
 import React from 'react';
 
 /* Styling */
-import './index.scss';
+import styles from './index.module.scss';
 
 /* Components */
 import OrangeButton from '../../../components/OrangeButton';
@@ -15,22 +15,20 @@ interface Props {
   isButtonGrey?: boolean;
 }
 
-class ChurnFlowContent extends React.Component<Props> {
-  render() {
-    const { title, desc, buttonText, onClick, img, isButtonGrey } = this.props;
-    const buttonType = isButtonGrey ? 'grey' : 'primary';
+const ChurnFlowContent = (props: Props) => {
+  const { title, desc, buttonText, onClick, img, isButtonGrey } = props;
+  const buttonType = isButtonGrey ? 'grey' : 'primary';
 
-    return (
-      <div className="churnFlowContent">
-        <img className="churnFlowContent__img" src={img} />
-        <h2 className="churnFlowContent__title">{title}</h2>
-        <p className="churnFlowContent__desc">{desc}</p>
-        <OrangeButton type={buttonType} size="medium" onClick={onClick}>
-          {buttonText}
-        </OrangeButton>
-      </div>
-    );
-  }
-}
+  return (
+    <div className={styles.churnFlowContent}>
+      <img className={styles.churnFlowContent__img} src={img} />
+      <h2 className={styles.churnFlowContent__title}>{title}</h2>
+      <p className={styles.churnFlowContent__desc}>{desc}</p>
+      <OrangeButton type={buttonType} size="medium" onClick={onClick}>
+        {buttonText}
+      </OrangeButton>
+    </div>
+  );
+};
 
 export default ChurnFlowContent;

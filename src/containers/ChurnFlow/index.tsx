@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { Widget } from '@typeform/embed-react';
 
 /* Styling */
-import './index.scss';
+import styles from './index.module.scss';
 
 /* Config */
 import { AppConfig } from '../../config';
@@ -36,28 +36,25 @@ import { PRE_SURVEY, IN_SURVEY, POST_SURVEY_1, POST_SURVEY_2 } from '../../const
 interface Props {
   match: any;
   profile: any;
-  sellerSubscription: any;
   fetchSellerSubscription: () => void;
   getSeller: () => void;
 }
 
-class ChurnFlow extends React.Component<Props> {
-  state = {
-    surveyPhase: PRE_SURVEY,
-  };
+const ChurnFlow = (props: Props) => {
+  const { match, profile, fetchSellerSubscription, getSeller } = props;
 
-  componentDidMount() {
-    const { getSeller, fetchSellerSubscription } = this.props;
+  const [surveyPhase, setSurveyPhase] = useState(PRE_SURVEY);
+
+  useEffect(() => {
     getSeller();
     fetchSellerSubscription();
-  }
+  }, []);
 
-  handleChangeSurveyPhase = (newPhase: string) => {
-    this.setState({ surveyPhase: newPhase });
+  const handleChangeSurveyPhase = (newPhase: string) => {
+    setSurveyPhase(newPhase);
   };
 
-  cancelSubscription = () => {
-    const { profile, fetchSellerSubscription, getSeller } = this.props;
+  const cancelSubscription = () => {
     Axios.post(AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/cancel`)
       .then(() => {
         getSeller();
@@ -71,12 +68,12 @@ class ChurnFlow extends React.Component<Props> {
   };
 
   /* Generates churn flow content dependant on phase of survey */
-  generateTypeFormContent = () => {
-    switch (this.state.surveyPhase) {
+  const generateTypeFormContent = () => {
+    switch (surveyPhase) {
       case PRE_SURVEY:
         return (
           <ChurnFlowContent
-            onClick={() => this.handleChangeSurveyPhase(IN_SURVEY)}
+            onClick={() => handleChangeSurveyPhase(IN_SURVEY)}
             title={`We're sorry to see you go`}
             desc={`In order to process your cancellation,
              we need you to answer 3 quick questions. Your insights can help us improve the product for others.`}
@@ -89,15 +86,15 @@ class ChurnFlow extends React.Component<Props> {
         return (
           <Widget
             id="Lb8og4j8"
-            className="typeFormBox"
-            onSubmit={() => this.handleChangeSurveyPhase(POST_SURVEY_1)}
+            className={styles.typeFormBox}
+            onSubmit={() => handleChangeSurveyPhase(POST_SURVEY_1)}
           />
         );
 
       case POST_SURVEY_1:
         return (
           <ChurnFlowContent
-            onClick={() => this.handleChangeSurveyPhase(POST_SURVEY_2)}
+            onClick={() => handleChangeSurveyPhase(POST_SURVEY_2)}
             title="Thanks for your help"
             desc="Your opinion is really important to us, one more step to finalize."
             buttonText="Next"
@@ -109,7 +106,7 @@ class ChurnFlow extends React.Component<Props> {
       case POST_SURVEY_2:
         return (
           <ChurnFlowContent
-            onClick={this.cancelSubscription}
+            onClick={cancelSubscription}
             title="About Your Subscription"
             desc="We will let you know if we need more information."
             buttonText="Submit Cancellation Request"
@@ -119,31 +116,28 @@ class ChurnFlow extends React.Component<Props> {
         );
     }
   };
-  render() {
-    return (
-      <main>
-        <PageHeader
-          title={`Churnflow`}
-          breadcrumb={[
-            { content: 'Home', to: '/' },
-            { content: 'Settings', to: '/settings' },
-            { content: 'Pricing', to: '/settings/pricing' },
-            { content: 'Churn Flow', to: '/churnflow' },
-          ]}
-          auth={this.props.match.params.auth}
-        />
-        <Link to="/settings/pricing" className="goBackButton">
-          <img src={leftArrow} />
-          <p>Cancel and go back to subscription</p>
-        </Link>
-        {this.generateTypeFormContent()}
-      </main>
-    );
-  }
-}
+  return (
+    <main>
+      <PageHeader
+        title={`Churnflow`}
+        breadcrumb={[
+          { content: 'Home', to: '/' },
+          { content: 'Settings', to: '/settings' },
+          { content: 'Pricing', to: '/settings/pricing' },
+          { content: 'Churn Flow', to: '/churnflow' },
+        ]}
+        auth={match.params.auth}
+      />
+      <Link to="/settings/pricing" className={styles.goBackButton}>
+        <img src={leftArrow} />
+        <p>Cancel and go back to subscription</p>
+      </Link>
+      {generateTypeFormContent()}
+    </main>
+  );
+};
 const mapStateToProps = (state: any) => ({
   profile: state.settings.profile,
-  sellerSubscription: state.subscription.sellerSubscription,
 });
 
 const mapDispatchToProps = {
