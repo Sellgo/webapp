@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon, Popup } from 'semantic-ui-react';
+import { Checkbox, Icon, Popup } from 'semantic-ui-react';
 import { Table } from 'rsuite';
 
 /* import default style */
@@ -168,117 +168,122 @@ const ProductsDatabaseTable = (props: Props) => {
   );
 
   return (
-    <section className={styles.productsDatabaseTable}>
-      <div className={styles.informationRow}>
-        <button className={styles.exportButton} onClick={handleExport}>
-          <Icon size="small" name="download" />
-          Export
-        </button>
-      </div>
-      <Table
-        loading={isLoadingProductsDatabase}
-        data={productsDatabaseResults}
-        hover
-        autoHeight
-        rowHeight={100}
-        onSortColumn={handleSortColumn}
-        sortType={sortType}
-        sortColumn={sortColumn}
-        rowClassName={styles.tableRow}
-        affixHorizontalScrollbar
-      >
-        <Table.Column width={35} fixed {...CENTER_ALIGN_SETTINGS}>
-          <Table.HeaderCell>
-            <div className={styles.headerSelectRow}>
-              <input
-                type="checkbox"
-                onChange={handleSelectAll}
-                checked={
-                  selectedRows.length === productsDatabaseResults.length &&
-                  !isLoadingProductsDatabase
-                }
-              />
-              <div className={styles.headerSelectIcon}>
-                <Icon name="ellipsis vertical" size="small" />
+    <>
+      <section>
+        <div className={styles.informationRow}>
+          <button className={styles.exportButton} onClick={handleExport}>
+            <Icon size="small" name="download" />
+            Export
+          </button>
+        </div>
+        <Table
+          loading={isLoadingProductsDatabase}
+          data={productsDatabaseResults}
+          hover={false}
+          autoHeight
+          rowHeight={100}
+          headerHeight={50}
+          onSortColumn={handleSortColumn}
+          sortType={sortType}
+          sortColumn={sortColumn}
+          rowClassName={styles.tableRow}
+          affixHorizontalScrollbar
+          className={styles.productsDatabaseTable}
+        >
+          <Table.Column width={35} fixed {...CENTER_ALIGN_SETTINGS}>
+            <Table.HeaderCell>
+              <div className={styles.headerSelectRow}>
+                <Checkbox
+                  onChange={handleSelectAll}
+                  checked={Boolean(
+                    !isLoadingProductsDatabase &&
+                      productsDatabaseResults.length &&
+                      selectedRows.length === productsDatabaseResults.length
+                  )}
+                />
+                <div className={styles.headerSelectIcon}>
+                  <Icon name="ellipsis vertical" size="small" />
+                </div>
               </div>
-            </div>
-          </Table.HeaderCell>
-          <CheckboxCell dataKey="checkbox" />
-        </Table.Column>
+            </Table.HeaderCell>
+            <CheckboxCell dataKey="checkbox" />
+          </Table.Column>
 
-        <Table.Column width={BIG_WIDTH} verticalAlign="middle" fixed>
-          <Table.HeaderCell>Product Information</Table.HeaderCell>
-          <ProductInformationCell dataKey="productInformation" />
-        </Table.Column>
+          <Table.Column width={BIG_WIDTH} verticalAlign="middle" fixed>
+            <Table.HeaderCell>Product Information</Table.HeaderCell>
+            <ProductInformationCell dataKey="productInformation" />
+          </Table.Column>
 
-        <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
-          <Table.HeaderCell>
-            <HeaderSortCell
-              title="Sellers"
-              dataKey="seller_count"
-              currentSortColumn={sortColumn}
-              currentSortType={sortType}
-            />
-          </Table.HeaderCell>
-          <GenericRowCell dataKey="seller_count" />
-        </Table.Column>
+          <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title="Sellers"
+                dataKey="seller_count"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <GenericRowCell dataKey="seller_count" />
+          </Table.Column>
 
-        <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
-          <Table.HeaderCell>
-            <HeaderSortCell
-              title="Price"
-              dataKey="price"
-              currentSortColumn={sortColumn}
-              currentSortType={sortType}
-            />
-          </Table.HeaderCell>
-          <PricingCell dataKey="price" />
-        </Table.Column>
+          <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title="Price"
+                dataKey="price"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <PricingCell dataKey="price" />
+          </Table.Column>
 
-        <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
-          <Table.HeaderCell>
-            <HeaderSortCell
-              title="Monthly Revenue"
-              dataKey="monthly_revenue"
-              currentSortColumn={sortColumn}
-              currentSortType={sortType}
-            />
-          </Table.HeaderCell>
-          <PricingCell dataKey="monthly_revenue" />
-        </Table.Column>
+          <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title="Monthly Revenue"
+                dataKey="monthly_revenue"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <PricingCell dataKey="monthly_revenue" />
+          </Table.Column>
 
-        <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
-          <Table.HeaderCell>
-            <HeaderSortCell
-              title="Reviews"
-              dataKey="rating"
-              currentSortColumn={sortColumn}
-              currentSortType={sortType}
-            />
-          </Table.HeaderCell>
-          <RatingCell dataKey="rating" rowData="rating" />
-        </Table.Column>
+          <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title="Reviews"
+                dataKey="rating"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <RatingCell dataKey="rating" rowData="rating" />
+          </Table.Column>
 
-        <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
-          <Table.HeaderCell>
-            <HeaderSortCell
-              title="Review Count"
-              dataKey="review_count"
-              currentSortColumn={sortColumn}
-              currentSortType={sortType}
-            />
-          </Table.HeaderCell>
-          <GenericRowCell dataKey="review_count" />
-        </Table.Column>
+          <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title="Review Count"
+                dataKey="review_count"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <GenericRowCell dataKey="review_count" />
+          </Table.Column>
 
-        <Table.Column width={50} {...CENTER_ALIGN_SETTINGS}>
-          <Table.HeaderCell></Table.HeaderCell>
-          <ActionCell dataKey="asin" rowData="asin" />
-        </Table.Column>
-      </Table>
+          <Table.Column width={50} {...CENTER_ALIGN_SETTINGS}>
+            <Table.HeaderCell></Table.HeaderCell>
+            <ActionCell dataKey="asin" rowData="asin" />
+          </Table.Column>
+        </Table>
+      </section>
 
       {productsDatabasePaginationInfo.total_pages > 0 && (
         <Table.Pagination
+          showInfo={false}
           activePage={pageNum}
           displayLength={productsDatabaseResults.length || 0}
           /* Total num of data ENTRIES, e.g. 200 entries with 10 display length = 20 pages */
@@ -287,7 +292,7 @@ const ProductsDatabaseTable = (props: Props) => {
           showLengthMenu={false}
         />
       )}
-    </section>
+    </>
   );
 };
 

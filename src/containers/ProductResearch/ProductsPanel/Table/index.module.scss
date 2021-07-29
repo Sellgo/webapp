@@ -2,7 +2,8 @@
 
 .productsDatabaseTable {
   background-color: inherit;
-  margin: 50px auto !important;
+  margin: 30px auto !important;
+  margin-bottom: 100px;
 }
 
 .tableRow {
@@ -17,6 +18,7 @@
   flex-direction: row;
   align-items: flex-end;
   justify-content: flex-end;
+  margin-top: 30px;
 }
 
 /* Header select cell */

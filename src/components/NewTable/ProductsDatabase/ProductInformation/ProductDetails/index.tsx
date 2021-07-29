@@ -1,5 +1,5 @@
 import React from 'react';
-import { truncateString } from '../../../../utils/format';
+import { truncateString } from '../../../../../utils/format';
 
 /* Styling */
 import styles from './index.module.scss';

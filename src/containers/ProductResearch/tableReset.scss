@@ -1,21 +1,42 @@
 @import '../../design-system/new-colors.scss';
 
+/* stylelint-disable */
+
+/* Hide the default sort icons */
 .rs-table-cell-header-sort-wrapper {
   display: none !important;
+  visibility: none;
 }
 
+/* Customize the horizontal scrollbar */
 .rs-table-scrollbar-pressed.rs-table-scrollbar-horizontal:hover,
 .rs-table-scrollbar-horizontal:hover {
   transform: scaleY(1);
 }
 
+/* Customize the vertical scrollbar */
 .rs-table-scrollbar-pressed.rs-table-scrollbar-vertical:hover,
 .rs-table-scrollbar-vertical:hover {
   transform: scaleY(1);
 }
 
+/* Generic table header */
+.rs-table-cell-header {
+  .rs-table-cell-content {
+    color: $prim_dark_2;
+    font-weight: 600;
+    font-size: 14px !important;
+  }
+}
+
+.rs-table-row {
+  border-bottom: none;
+}
+
+/* Customise the default pagination */
 .rs-table-pagination-toolbar {
   justify-content: flex-end;
+  margin-bottom: 20px !important;
 }
 
 .rs-table-row-header {
@@ -43,14 +64,35 @@
     border-radius: 3px;
     font-family: 'Work Sans', sans-serif !important;
     font-size: 10px !important;
-    font-weight: normal !important;
+    font-weight: 500 !important;
+    color: $prim_dark_2 !important;
+    margin: 0 5px;
+    animation: none !important;
+
+    &:hover {
+      color: $prim_dark_2 !important;
+    }
   }
 }
 
 .rs-pagination-btn-active {
+  animation: none !important;
+
   a {
     background-color: $accent_blue !important;
     color: $prim_white !important;
     border: 1px solid $accent_blue;
+
+    span.rs-ripple-pond {
+      display: none !important;
+    }
   }
+}
+
+.rs-pagination > li.rs-pagination-btn-active > a:hover,
+.rs-pagination > li.rs-pagination-btn-active > a:focus,
+.rs-pagination > li.rs-pagination-btn-active > a.focus {
+  background-color: $accent_blue !important;
+  color: $prim_white !important;
+  border: 1px solid $accent_blue;
 }
