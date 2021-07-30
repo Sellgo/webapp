@@ -99,6 +99,11 @@ const PrivateRoute = connect(
           localStorage.setItem('accountType', '');
           history.push('/synthesis');
         }
+      } else {
+        const subscriptionId = sellerSubscription.subscription_id;
+        if (requireSubscription && (subscriptionId === 4 || subscriptionId === 5)) {
+          history.push('settings/pricing');
+        }
       }
     }, [
       userIsAuthenticated,
@@ -178,6 +183,12 @@ function App() {
             render={renderProps => <Payment auth={auth} {...renderProps} />}
           />
           <PrivateRoute exact={true} path="/settings" component={Settings} />
+          <PrivateRoute
+            exact={true}
+            path="/onboarding"
+            component={Onboarding}
+            requireSubscription={true}
+          />
           <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />
           <PrivateRoute
             exact={true}
@@ -201,12 +212,6 @@ function App() {
             exact={true}
             path="/leads-tracker"
             component={LeadsTracker}
-            requireSubscription={true}
-          />
-          <PrivateRoute
-            exact={true}
-            path="/onboarding"
-            component={Onboarding}
             requireSubscription={true}
           />
 

@@ -1,50 +1,43 @@
-@import '../../../design-system/new-colors';
+@import '../../design-system/new-colors';
 
-.pricingCardHead {
+.pricingCardsSummaryWrapper {
+  min-width: 300px;
+  min-height: 370px;
+  max-width: 300px;
+  max-height: 370px;
+  border-radius: 3px;
+  border: 1px solid $second_silver;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  padding-top: 10px;
+  justify-content: space-between;
+}
 
-  &__Left {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
+.subscribedPlan {
+  background: #f2efe4;
+}
 
-    h2 {
-      font-size: 20px;
-      font-weight: 500;
-      margin: 0 auto;
-    }
+.cardHead {
+  color: $prim_dark_2;
+  padding-top: 20px;
 
-    p {
-      font-size: 10px;
-      font-weight: 400;
-      color: $grey_5;
-      max-width: 300px;
-      text-align: center;
-      white-space: pre-line;
-      min-height: 60px;
-    }
+  h2 {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0 auto;
+    text-align: center;
   }
 }
 
-.planGems {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  svg {
-    margin-right: 5px;
-  }
+.pricingCardsSummaryActions {
+  margin-bottom: 30px;
 }
 
 .startingAt {
   font-size: 12px;
   margin-top: 20px;
   text-align: center;
+  min-height: 90px;
 
   h3 {
     color: $blue_7;
@@ -62,9 +55,17 @@
   }
 }
 
+.strikeText {
+  text-decoration: line-through;
+}
+
+.priceToogleWrapper {
+  margin-top: 30px;
+}
+
 .button {
   margin: 30px auto;
-  width: 100%;
+  width: 240px;
   height: 50px;
   outline: 0;
   border: 0;
@@ -87,12 +88,7 @@
 
   &__cancelPlan {
     border: 1px solid $second_silver;
-    background: transparent;
+    background: white;
     color: $second_silver;
   }
-}
-
-.tableCardCTA {
-  width: 100%;
-  margin: 0;
 }

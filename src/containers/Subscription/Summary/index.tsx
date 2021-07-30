@@ -3,7 +3,7 @@ import React from 'react';
 /* Styling */
 import styles from './index.module.scss';
 
-import { generateSubscriptionDetails, SummaryDetails } from './data';
+import { generateSubscriptionDetails, SummaryDetails } from '../data';
 
 interface Props {
   planType: string;
@@ -29,9 +29,13 @@ const Summary: React.FC<Props> = props => {
             <p className={styles.planDetails__pricing}>
               ${summaryDetails.annualPrice} billed yearly
             </p>
-          ) : (
+          ) : paymentMode === 'monthly' ? (
             <p className={styles.planDetails__pricing}>
               ${summaryDetails.monthlyPrice} /mo billed monthly
+            </p>
+          ) : (
+            <p className={styles.planDetails__pricing}>
+              ${summaryDetails.dailyPrice} /day billed daily
             </p>
           )}
         </div>

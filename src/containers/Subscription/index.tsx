@@ -12,6 +12,7 @@ import Signup from './Signup';
 
 /* Components */
 import Auth from '../../components/Auth/Auth';
+import { subscriptionPlans, paymentModes, subscriptionDetails } from './data';
 
 /* Assets */
 import newSellgoLogo from '../../assets/images/sellgoNewLogo.png';
@@ -39,6 +40,61 @@ const SubscriptionPage: React.FC<Props> = props => {
     setIsSignup(false);
   };
 
+  /* Get valid subscription name from URL */
+  const getSubscriptionNameAndPaymentMode = (search: string) => {
+    /* Parsing to obtain plan type */
+    const LENGTH_OF_SEARCH_STRING = 5; // Length of "type=", and "mode="
+    const DEFAULT_PLAN = 'professional';
+    const DEFAULT_PAYMENT_MODE = 'monthly';
+    const startTypeIndex = search.indexOf('type=') + LENGTH_OF_SEARCH_STRING;
+    let endTypeIndex = search.indexOf('&', startTypeIndex);
+    if (endTypeIndex === -1) {
+      endTypeIndex = search.length;
+    }
+
+    let subscriptionName = search.substring(startTypeIndex, endTypeIndex);
+    if (!subscriptionPlans[subscriptionName]) {
+      subscriptionName = DEFAULT_PLAN;
+    }
+
+    /* Parsing to obtain payment mode */
+    const startModeIndex = search.indexOf('mode=') + LENGTH_OF_SEARCH_STRING;
+    let endModeIndex = search.indexOf('&', startModeIndex);
+    if (endModeIndex === -1) {
+      endModeIndex = search.length;
+    }
+
+    let paymentMode = search.substring(startModeIndex, endModeIndex);
+    if (!paymentModes.includes(paymentMode)) {
+      paymentMode = DEFAULT_PAYMENT_MODE;
+    }
+
+    /* If plan mode does not match an available payment method, return default plan
+    e.g. type=Seller Scout Pro, with mode=daily */
+
+    const subscriptionDetail = subscriptionDetails[subscriptionName];
+    let planCost;
+    if (paymentMode === 'daily') {
+      planCost = subscriptionDetail.dailyPrice;
+    } else if (paymentMode === 'monthly') {
+      planCost = subscriptionDetail.monthlyPrice;
+    } else {
+      planCost = subscriptionDetail.annualPrice;
+    }
+
+    if (planCost === -1) {
+      return {
+        subscriptionName: DEFAULT_PLAN,
+        paymentMode: DEFAULT_PAYMENT_MODE,
+      };
+    } else {
+      return {
+        subscriptionName,
+        paymentMode,
+      };
+    }
+  };
+
   useEffect(() => {
     if (localStorage.getItem('isLoggedIn') === 'true') {
       setLogin();
@@ -46,22 +102,13 @@ const SubscriptionPage: React.FC<Props> = props => {
     } else if (window.location.search.indexOf('-unverified') !== -1) {
       setLogin();
     }
-    const search = window.location.search;
 
-    let plan: any = 'professional';
-    if (search.includes('starter') || search.includes('Starter')) {
-      plan = 'starter';
-    } else if (search.includes('suite') || search.includes('Suite')) {
-      plan = 'suite';
-    } else {
-      plan = 'professional';
-    }
+    const search = window.location.search.toLowerCase();
+    const { subscriptionName, paymentMode } = getSubscriptionNameAndPaymentMode(search);
 
-    const paymentMode = window.location.search.indexOf('yearly') !== -1 ? 'yearly' : 'monthly';
-
-    setAccountType(plan);
+    setAccountType(subscriptionName);
+    localStorage.setItem('planType', subscriptionName);
     setPaymentMode(paymentMode);
-    localStorage.setItem('planType', plan);
     localStorage.setItem('paymentMode', paymentMode);
   }, []);
 

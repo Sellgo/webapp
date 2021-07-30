@@ -4,20 +4,18 @@ import { useMap } from 'react-leaflet';
 /* Interfaces */
 import { Location } from '../../../interfaces/SellerMap';
 
-/* Constants */
-import { INITIAL_ZOOM } from '../../../constants/SellerMap';
-
 interface CenterMapProps {
-  centerLocation: Location;
+  mapCenter: Location;
+  mapZoom: number;
 }
 
 export const CenterMapAndZoom = (props: CenterMapProps) => {
-  const { centerLocation } = props;
+  const { mapCenter, mapZoom } = props;
   const map = useMap();
 
   useEffect(() => {
-    map.setView(centerLocation, INITIAL_ZOOM);
-  }, [centerLocation]);
+    map.setView(mapCenter, mapZoom);
+  }, [mapCenter, mapZoom]);
 
   return null;
 };

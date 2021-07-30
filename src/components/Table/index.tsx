@@ -534,7 +534,7 @@ export const GenericTable = (props: GenericTableProps) => {
                       }
                       totalRecords={totalItemsCount}
                       pageSize={singlePageItemsCount}
-                      showPageSize
+                      showPageSize={name !== 'seller-database'}
                       loading={!!loading}
                     />
                   </div>
