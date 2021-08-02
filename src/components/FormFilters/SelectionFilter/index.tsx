@@ -27,7 +27,8 @@ const SelectionFilter: React.FC<Props> = props => {
     <div className="selectionFilterWrapper">
       {label && <p>{label}</p>}
       <Dropdown
-        floating
+        search
+        fluid
         className="selectionFilter"
         options={filterOptions}
         placeholder={placeholder}

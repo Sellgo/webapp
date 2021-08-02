@@ -3,10 +3,9 @@
 /* Basic Filter Styles */
 .basicFilters {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   margin-bottom: 40px !important;
   height: max-content;
-  column-gap: 120px;
 }
 
 /* Advanced Filter Styles */
