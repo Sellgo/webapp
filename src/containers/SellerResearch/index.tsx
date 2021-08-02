@@ -17,7 +17,7 @@ interface Props {
   match: any;
 }
 
-const SellerResearchMapper = ['Maps', 'Sellers', 'Inventories'];
+const SellerResearchMapper = ['Sellers', 'Maps', 'Inventories'];
 
 const SellerResearch = (props: Props) => {
   const { match } = props;
@@ -62,11 +62,11 @@ const SellerResearch = (props: Props) => {
             </TabList>
 
             <TabPanel>
-              <MapPanel />
+              <h1>Sellers</h1>
             </TabPanel>
 
             <TabPanel>
-              <h1>Sellers</h1>
+              <MapPanel />
             </TabPanel>
 
             <TabPanel>
