@@ -37,32 +37,32 @@ export const WORLD_MAP_BOUNDS: Location[] = [
 export const DEFAULLT_SELLER_LIMIT_OPTIONS = [
   {
     key: '1000',
-    value: 1000,
+    value: '1000',
     text: 'Top 1,000',
   },
   {
     key: '2000',
-    value: 2000,
+    value: '2000',
     text: 'Top 2,000',
   },
   {
     key: '5000',
-    value: 5000,
+    value: '5000',
     text: 'Top 5,000',
   },
   {
     key: '10000',
-    value: 10000,
+    value: '10000',
     text: 'Top 10,000',
   },
   {
     key: '20000',
-    value: 20000,
+    value: '20000',
     text: 'Top 20,000',
   },
   {
     key: '50000',
-    value: 50000,
+    value: '50000',
     text: 'Top 50,000',
   },
 ];

@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 
+import { TabList, TabPanel, Tabs, Tab } from 'react-tabs';
+
 /* Components */
 import styles from './index.module.scss';
 
+/* Components */
 import PageHeader from '../../components/PageHeader';
 import QuotaMeter from '../../components/QuotaMeter';
 import MarketplaceDropdown from '../../components/MarketplaceDropdown';
-import { TabList, TabPanel, Tabs } from 'react-tabs';
-import { Tab } from 'semantic-ui-react';
+
+/* Containers */
+import MapPanel from './MapsPanel';
 
 interface Props {
   match: any;
@@ -58,7 +62,15 @@ const SellerResearch = (props: Props) => {
             </TabList>
 
             <TabPanel>
-              <h1>Hi</h1>
+              <MapPanel />
+            </TabPanel>
+
+            <TabPanel>
+              <h1>Sellers</h1>
+            </TabPanel>
+
+            <TabPanel>
+              <h1>Inventories</h1>
             </TabPanel>
           </Tabs>
         </section>

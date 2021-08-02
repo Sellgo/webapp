@@ -16,10 +16,12 @@ interface Props {
   placeholder: string;
   value: string;
   handleChange: (value: string) => void;
+  disabled?: boolean;
+  loading?: boolean;
 }
 
 const SelectionFilter: React.FC<Props> = props => {
-  const { label, filterOptions, placeholder, value, handleChange } = props;
+  const { label, filterOptions, placeholder, value, handleChange, ...otherProps } = props;
 
   return (
     <div className="selectionFilterWrapper">
@@ -32,6 +34,7 @@ const SelectionFilter: React.FC<Props> = props => {
         scrolling
         value={value}
         onChange={(e: any, data: any) => handleChange && handleChange(data.value)}
+        {...otherProps}
       />
     </div>
   );
