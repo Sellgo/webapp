@@ -12,6 +12,7 @@ import MarketplaceDropdown from '../../components/MarketplaceDropdown';
 
 /* Containers */
 import SellerMaps from './SellerMaps';
+import SellerDatabase from './SellerDatabase';
 
 interface Props {
   match: any;
@@ -62,7 +63,7 @@ const SellerResearch = (props: Props) => {
             </TabList>
 
             <TabPanel>
-              <h1>Sellers</h1>
+              <SellerDatabase />
             </TabPanel>
 
             <TabPanel>
