@@ -27,6 +27,7 @@ import SellerDatabase from '../SellerDatabase';
 import SellerFinder from '../SellerFinder';
 import MapTest from '../SellerMap';
 import ProductResearch from '../ProductResearch';
+import SellerResearch from '../SellerResearch';
 
 export const auth = new Auth();
 
@@ -238,9 +239,15 @@ function App() {
 
           <PrivateRoute
             exact={true}
+            path="/seller-research"
+            component={SellerResearch}
+            requireSubscription={true}
+          />
+          <PrivateRoute
+            exact={true}
             path="/product-research"
             component={ProductResearch}
-            requireSubscription={false}
+            requireSubscription={true}
           />
 
           <Route component={NotFound} />
