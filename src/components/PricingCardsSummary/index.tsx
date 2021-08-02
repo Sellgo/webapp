@@ -56,6 +56,12 @@ const PricingPlansSummary = (props: Props) => {
         : sellerSubscription.payment_mode === 'yearly');
   }
 
+  const isPending =
+    subscribedSubscription &&
+    subscriptionId === subscribedSubscription.id &&
+    sellerSubscription &&
+    sellerSubscription.status === 'pending';
+
   return (
     <div
       className={`${styles.pricingCardsSummaryWrapper} ${
@@ -106,13 +112,19 @@ const PricingPlansSummary = (props: Props) => {
           </div>
         )}
 
-        {isSubscribed && (
+        {isSubscribed && !isPending && (
           <button
             className={`${styles.button} ${styles.button__cancelPlan}`}
             onClick={promptCancelSubscription}
           >
             Cancel
           </button>
+        )}
+
+        {isSubscribed && isPending && (
+          <div className={`${styles.button} ${styles.button__pendingPlan}`}>
+            Plan expiring at the end of the month.
+          </div>
         )}
 
         {!isSubscribed && isSubscriptionPaid(subscriptionType) && (
