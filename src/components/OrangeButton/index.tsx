@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 
 /* Styling */
-import './index.scss';
+import styles from './index.module.scss';
 
 interface Props {
   type: 'primary' | 'secondary' | 'grey';
@@ -18,9 +19,17 @@ interface Props {
 const OrangeButton = (props: Props) => {
   const { navigateTo, type, size, children, className, asExternal, newTarget, onClick } = props;
 
-  const baseClassName = `ctabutton`;
-  const sizeClassName = `ctabutton--${size}`;
-  const typeClassName = `ctabutton--${type}`;
+  const baseClassName = styles.ctabutton;
+  const sizeClassName = classNames(
+    { [styles.ctabutton__small]: size === 'small' },
+    { [styles.ctabutton__medium]: size === 'medium' },
+    { [styles.ctabutton__large]: size === 'large' }
+  );
+  const typeClassName = classNames(
+    { [styles.ctabutton__primary]: type === 'primary' },
+    { [styles.ctabutton__secondary]: type === 'secondary' },
+    { [styles.ctabutton__grey]: type === 'grey' }
+  );
 
   // render as normal <a> tag
   if (navigateTo && asExternal) {
@@ -49,11 +58,12 @@ const OrangeButton = (props: Props) => {
     // If button is created with a onclick prop only
   } else {
     return (
-      <div onClick={onClick}>
-        <p className={`${baseClassName} ${typeClassName} ${sizeClassName} ${className}`}>
-          {children}
-        </p>
-      </div>
+      <button
+        onClick={onClick}
+        className={`${baseClassName} ${typeClassName} ${sizeClassName} ${className}`}
+      >
+        {children}
+      </button>
     );
   }
 };

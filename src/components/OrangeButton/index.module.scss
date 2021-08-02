@@ -7,25 +7,33 @@
   align-items: center;
   border-radius: 7px;
 
-  &--primary {
+  &__primary {
     background: #fc7900;
     color: #fff;
     border: 1px solid #fc7900;
   }
 
-  &--secondary {
+  &__secondary {
     background: #fff;
     color: #fc7900;
     border: 1px solid #fc7900;
   }
 
-  &--grey {
+  &__grey {
     background: #808080;
     color: #fff;
     border: 1px solid #808080;
   }
 
-  &--medium {
+  &__large {
+    width: max-content;
+    padding: 0 4rem;
+    font-size: 14px;
+    height: 65px;
+    font-weight: 600;
+  }
+
+  &__medium {
     width: max-content;
     padding: 0 3rem;
     font-size: 14px;
@@ -33,7 +41,7 @@
     font-weight: 600;
   }
 
-  &--small {
+  &__small {
     width: max-content;
     padding: 0 2rem;
     font-size: 14px;

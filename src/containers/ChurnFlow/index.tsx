@@ -85,7 +85,7 @@ const ChurnFlow = (props: Props) => {
       case IN_SURVEY:
         return (
           <Widget
-            id="Lb8og4j8"
+            id={AppConfig.CHURNFLOW_SURVEY_ID}
             className={styles.typeFormBox}
             onSubmit={() => handleChangeSurveyPhase(POST_SURVEY_1)}
           />
