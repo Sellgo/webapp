@@ -43,7 +43,7 @@ const SellerResearch = (props: Props) => {
       <main>
         {/* Filter meta data */}
         <section className={styles.filterMetaData}>
-          <h1>Product Research: {SellerResearchMapper[selectedTabList]}</h1>
+          <h1>Seller Research: {SellerResearchMapper[selectedTabList]}</h1>
           <MarketplaceDropdown />
         </section>
 
