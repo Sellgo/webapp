@@ -11,7 +11,7 @@ import QuotaMeter from '../../components/QuotaMeter';
 import MarketplaceDropdown from '../../components/MarketplaceDropdown';
 
 /* Containers */
-import MapPanel from './MapsPanel';
+import SellerMaps from './SellerMaps';
 
 interface Props {
   match: any;
@@ -66,7 +66,7 @@ const SellerResearch = (props: Props) => {
             </TabPanel>
 
             <TabPanel>
-              <MapPanel />
+              <SellerMaps />
             </TabPanel>
 
             <TabPanel>
