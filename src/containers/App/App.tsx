@@ -25,7 +25,6 @@ import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
 import SellerDatabase from '../SellerDatabase';
 import SellerFinder from '../SellerFinder';
-import MapTest from '../SellerMap';
 import ProductResearch from '../ProductResearch';
 import SellerResearch from '../SellerResearch';
 
@@ -227,13 +226,6 @@ function App() {
             exact={true}
             path="/seller-finder"
             component={SellerFinder}
-            requireSubscription={true}
-          />
-
-          <PrivateRoute
-            exact={true}
-            path="/seller-map"
-            component={MapTest}
             requireSubscription={true}
           />
 

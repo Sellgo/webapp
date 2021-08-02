@@ -90,7 +90,7 @@ class SidebarCollapsible extends Component<
         id: 7,
         label: 'Seller Map',
         icon: sellerMapIcon,
-        path: '/seller-map',
+        path: '/seller-research',
         notifyId: 4,
         imageType: true,
       },

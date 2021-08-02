@@ -6,6 +6,11 @@
   grid-template-columns: repeat(6, 1fr);
   margin-bottom: 40px !important;
   height: max-content;
+
+  @media only screen and (max-width: 1550px) {
+    grid-column-gap: 120px;
+    grid-template-rows: repeat(auto, 1fr);
+  }
 }
 
 /* Advanced Filter Styles */
