@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Icon } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -17,7 +16,7 @@ import InputFilter from '../../../../components/FormFilters/InputFilter';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
 
 const MapFilters = () => {
-  const [showAdvancedFilter, setShowAdvancedFilter] = useState(true);
+  // const [showAdvancedFilter, setShowAdvancedFilter] = useState(true);
 
   /* Basic Filters */
   const [country, setCountry] = useState<string>('US');
@@ -25,12 +24,9 @@ const MapFilters = () => {
   const [zipCode, setZipCode] = useState<string>('');
   const [sellerLimit, setSellerLimit] = useState<string>('1000');
 
-  /* Handler Functions and Utilities */
-
   return (
     <>
       {/* Basic Filter */}
-
       <div className={styles.basicFilters}>
         <SelectionFilter
           label="Country"
@@ -65,7 +61,7 @@ const MapFilters = () => {
       </div>
 
       {/* Advanced Filter */}
-      <div className={styles.advancedFilterWrapper}>
+      {/* <div className={styles.advancedFilterWrapper}>
         <div
           className={styles.advancedFilterToggle}
           onClick={() => setShowAdvancedFilter(prevState => !prevState)}
@@ -77,7 +73,7 @@ const MapFilters = () => {
         </div>
 
         {showAdvancedFilter && <div className={styles.showAdvancedFilter}>Advanced Filters</div>}
-      </div>
+      </div> */}
 
       <FormFilterActions onFind={() => console.log('Find')} onReset={() => console.log('Reset')} />
     </>
