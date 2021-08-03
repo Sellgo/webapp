@@ -64,11 +64,16 @@ const SellerDatabase = () => {
     max: '',
     period: '30_days',
   });
+  const [sellerRatings, setSellerRatings] = useState({
+    min: '',
+    max: '',
+  });
 
   return (
     <>
       <section className={styles.filterSection}>
         <div className={styles.basicFilters}>
+          {/* Merchant Name */}
           <InputFilter
             label="Merchant Name"
             placeholder="Name"
@@ -76,6 +81,7 @@ const SellerDatabase = () => {
             handleChange={(value: string) => setMerchantName(value)}
           />
 
+          {/* Include ASINS */}
           <InputFilter
             label="Include ASINs"
             placeholder="seperated by comma"
@@ -84,6 +90,8 @@ const SellerDatabase = () => {
               setAsins(prevState => ({ ...prevState, include: value }))
             }
           />
+
+          {/* Exclude ASINS Name */}
           <InputFilter
             label="Exclude ASINs"
             placeholder="seperated by comma"
@@ -93,6 +101,7 @@ const SellerDatabase = () => {
             }
           />
 
+          {/* Include Seller IDs */}
           <InputFilter
             label="Include Seller IDs"
             placeholder="seperated by comma"
@@ -102,6 +111,7 @@ const SellerDatabase = () => {
             }
           />
 
+          {/* Exclude Seller IDS */}
           <InputFilter
             label="Exclude Seller IDs"
             placeholder="seperated by comma"
@@ -153,6 +163,26 @@ const SellerDatabase = () => {
                 }
               />
 
+              {/* Review Ratings */}
+              <MinMaxRatingsFilter
+                label="Review Ratings"
+                minValue={reviewRatings.min}
+                maxValue={reviewRatings.max}
+                handleChange={(type: string, value: string) =>
+                  setReviewRatings(prevState => ({ ...prevState, [type]: value }))
+                }
+              />
+
+              {/* Seller Ratings */}
+              <MinMaxRatingsFilter
+                label="Seller Ratings"
+                minValue={sellerRatings.min}
+                maxValue={sellerRatings.max}
+                handleChange={(type: string, value: string) =>
+                  setSellerRatings(prevState => ({ ...prevState, [type]: value }))
+                }
+              />
+
               {/* # of inventory */}
               <MinMaxFilter
                 label="# of Inventory"
@@ -170,15 +200,6 @@ const SellerDatabase = () => {
                 maxValue={numBrands.max}
                 handleChange={(type: string, value: string) =>
                   setNumBrands(prevState => ({ ...prevState, [type]: value }))
-                }
-              />
-
-              <MinMaxRatingsFilter
-                label="Review Ratings"
-                minValue={reviewRatings.min}
-                maxValue={reviewRatings.max}
-                handleChange={(type: string, value: string) =>
-                  setReviewRatings(prevState => ({ ...prevState, [type]: value }))
                 }
               />
 
