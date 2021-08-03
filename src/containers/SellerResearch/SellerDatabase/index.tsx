@@ -167,26 +167,6 @@ const SellerDatabase = () => {
                 }
               />
 
-              {/* Review Ratings */}
-              <MinMaxRatingsFilter
-                label="Review Ratings"
-                minValue={reviewRatings.min}
-                maxValue={reviewRatings.max}
-                handleChange={(type: string, value: string) =>
-                  setReviewRatings(prevState => ({ ...prevState, [type]: value }))
-                }
-              />
-
-              {/* Seller Ratings */}
-              <MinMaxRatingsFilter
-                label="Seller Ratings"
-                minValue={sellerRatings.min}
-                maxValue={sellerRatings.max}
-                handleChange={(type: string, value: string) =>
-                  setSellerRatings(prevState => ({ ...prevState, [type]: value }))
-                }
-              />
-
               {/* Review Count */}
               <div className={styles.groupFilters}>
                 <MinMaxFilter
@@ -286,12 +266,33 @@ const SellerDatabase = () => {
                   setNumBrands(prevState => ({ ...prevState, [type]: value }))
                 }
               />
+
               {/* Seller Launched */}
               <RadioListFilters
                 label="Seller Launched"
                 filterOptions={LAUNCHED_DURATIONS}
                 value={launched}
                 handleChange={(value: string) => setLaunched(value)}
+              />
+
+              {/* Review Ratings */}
+              <MinMaxRatingsFilter
+                label="Review Ratings"
+                minValue={reviewRatings.min}
+                maxValue={reviewRatings.max}
+                handleChange={(type: string, value: string) =>
+                  setReviewRatings(prevState => ({ ...prevState, [type]: value }))
+                }
+              />
+
+              {/* Seller Ratings */}
+              <MinMaxRatingsFilter
+                label="Seller Ratings"
+                minValue={sellerRatings.min}
+                maxValue={sellerRatings.max}
+                handleChange={(type: string, value: string) =>
+                  setSellerRatings(prevState => ({ ...prevState, [type]: value }))
+                }
               />
             </div>
           )}
