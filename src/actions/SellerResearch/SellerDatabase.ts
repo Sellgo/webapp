@@ -30,19 +30,45 @@ export const setSellerDatabaseFilterMessage = (payload: ShowFilterMessage) => {
   };
 };
 
+/* Action to prepare the payload for query */
+export const parseFilters = (sellerDatabaseFilter: any) => {
+  console.log('Filter given', sellerDatabaseFilter);
+};
+
 /* =========================== Async actions ======================= */
 export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (dispatch: any) => {
   const sellerID = sellerIDSelector();
 
   try {
-    const { resetFilter } = payload;
+    const {
+      resetFilter = false,
+      filterPayload,
+      page = 1,
+      sort = 'seller_id',
+      sortDir = 'asc',
+    } = payload;
 
+    // if filter request is passed
     if (resetFilter) {
       dispatch(setIsLoadingSellerDatabase(false));
       dispatch(setSellerDatabaseResults([]));
+      dispatch(
+        setSellerDatabaseFilterMessage({
+          type: 'info',
+          show: true,
+          message: 'Please specify atleast one filter to view the data',
+        })
+      );
+      return;
     }
 
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database?`;
+    const pagination = `page=${page}`;
+    const sorting = `ordering=${sortDir === 'desc' ? `-${sort}` : sort}`;
+
+    const filtersQueryString = parseFilters(filterPayload);
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database?
+    ${pagination}&${sorting}${filtersQueryString}`;
 
     console.log('Fetching URL', URL);
   } catch (err) {

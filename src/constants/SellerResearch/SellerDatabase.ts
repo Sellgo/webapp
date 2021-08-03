@@ -20,6 +20,22 @@ export const FILTER_LAUNCHED_DURATIONS = [
   { label: 'All', value: '' },
 ];
 
+/* Filter Types */
+export const DEFAULT_MIN_MAX_FILTER = {
+  min: '',
+  max: '',
+};
+
+export const DEFAULT_MIN_MAX_PERIOD_FILTER = {
+  ...DEFAULT_MIN_MAX_FILTER,
+  period: '30_days',
+};
+
+export const DEFAULT_INCLUDE_EXCLUDE_FILTER = {
+  include: '',
+  exclude: '',
+};
+
 export const F_TYPES = {
   TEXT: 'TEXT',
   INPUT_INCLUDE_EXCLUDE: 'INPUT_INCLUDE_EXCLUDE',

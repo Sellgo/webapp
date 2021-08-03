@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icon } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -15,62 +16,44 @@ import PeriodFilter from '../../../../components/FormFilters/PeriodFilter';
 import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
 import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
 
-const SellerDatabaseFilters = () => {
+/* Actions */
+import { fetchSellerDatabase } from '../../../../actions/SellerResearch/SellerDatabase';
+
+/* Interfaces */
+import { SellerDatabasePayload } from '../../../../interfaces/SellerResearch/SellerDatabase';
+
+/* Constants */
+import {
+  DEFAULT_INCLUDE_EXCLUDE_FILTER,
+  DEFAULT_MIN_MAX_FILTER,
+  DEFAULT_MIN_MAX_PERIOD_FILTER,
+} from '../../../../constants/SellerResearch/SellerDatabase';
+
+interface Props {
+  fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
+}
+
+const SellerDatabaseFilters = (props: Props) => {
+  const { fetchSellerDatabase } = props;
+
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(true);
 
   /* Basic Filters */
   const [merchantName, setMerchantName] = useState<string>('');
-  const [asins, setAsins] = useState({
-    include: '',
-    exclude: '',
-  });
-  const [sellerIds, setSellerIds] = useState({
-    include: '',
-    exclude: '',
-  });
+  const [asins, setAsins] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+  const [sellerIds, setSellerIds] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
   /* Advanced Filters */
   const [businessName, setBusinessName] = useState<string>('');
-  const [brands, setBrands] = useState({
-    include: '',
-    exclude: '',
-  });
-  const [numInventory, setNumInventory] = useState({
-    min: '',
-    max: '',
-  });
-  const [numBrands, setNumBrands] = useState({
-    min: '',
-    max: '',
-  });
-  const [reviewRatings, setReviewRatings] = useState({
-    min: '',
-    max: '',
-  });
-  const [reviewCount, setReviewCount] = useState({
-    min: '',
-    max: '',
-    period: '30_days',
-  });
-  const [neutralReview, setNeutralReview] = useState({
-    min: '',
-    max: '',
-    period: '30_days',
-  });
-  const [positiveReview, setPositiveReview] = useState({
-    min: '',
-    max: '',
-    period: '30_days',
-  });
-  const [negativeReview, setNegativeReview] = useState({
-    min: '',
-    max: '',
-    period: '30_days',
-  });
-  const [sellerRatings, setSellerRatings] = useState({
-    min: '',
-    max: '',
-  });
+  const [brands, setBrands] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+  const [numInventory, setNumInventory] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [numBrands, setNumBrands] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [reviewRatings, setReviewRatings] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [reviewCount, setReviewCount] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
+  const [neutralReview, setNeutralReview] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
+  const [positiveReview, setPositiveReview] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
+  const [negativeReview, setNegativeReview] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
+  const [sellerRatings, setSellerRatings] = useState(DEFAULT_MIN_MAX_FILTER);
   const [launched, setLaunched] = useState<string>('');
 
   /* Handlers */
@@ -92,8 +75,31 @@ const SellerDatabaseFilters = () => {
   };
 
   const handleReset = () => {
-    console.log('Filter Reset');
+    fetchSellerDatabase({ resetFilter: true });
+    setMerchantName('');
+    setAsins(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+    setSellerIds(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+    setBusinessName('');
+    setBrands(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+    setNumInventory(DEFAULT_MIN_MAX_FILTER);
+    setNumBrands(DEFAULT_MIN_MAX_FILTER);
+    setReviewRatings(DEFAULT_MIN_MAX_FILTER);
+    setReviewCount(DEFAULT_MIN_MAX_PERIOD_FILTER);
+    setNeutralReview(DEFAULT_MIN_MAX_PERIOD_FILTER);
+    setPositiveReview(DEFAULT_MIN_MAX_PERIOD_FILTER);
+    setNegativeReview(DEFAULT_MIN_MAX_PERIOD_FILTER);
+    setSellerRatings(DEFAULT_MIN_MAX_FILTER);
+    setLaunched('');
   };
+
+  /* Effect on component mount */
+  useEffect(() => {
+    handleReset();
+
+    return () => {
+      handleReset();
+    };
+  }, []);
 
   return (
     <>
@@ -186,6 +192,26 @@ const SellerDatabaseFilters = () => {
                 value={brands.exclude}
                 handleChange={(value: string) =>
                   setBrands(prevState => ({ ...prevState, exclude: value }))
+                }
+              />
+
+              {/* Review Ratings */}
+              <MinMaxRatingsFilter
+                label="Review Ratings"
+                minValue={reviewRatings.min}
+                maxValue={reviewRatings.max}
+                handleChange={(type: string, value: string) =>
+                  setReviewRatings(prevState => ({ ...prevState, [type]: value }))
+                }
+              />
+
+              {/* Seller Ratings */}
+              <MinMaxRatingsFilter
+                label="Seller Ratings"
+                minValue={sellerRatings.min}
+                maxValue={sellerRatings.max}
+                handleChange={(type: string, value: string) =>
+                  setSellerRatings(prevState => ({ ...prevState, [type]: value }))
                 }
               />
 
@@ -296,26 +322,6 @@ const SellerDatabaseFilters = () => {
                 value={launched}
                 handleChange={(value: string) => setLaunched(value)}
               />
-
-              {/* Review Ratings */}
-              <MinMaxRatingsFilter
-                label="Review Ratings"
-                minValue={reviewRatings.min}
-                maxValue={reviewRatings.max}
-                handleChange={(type: string, value: string) =>
-                  setReviewRatings(prevState => ({ ...prevState, [type]: value }))
-                }
-              />
-
-              {/* Seller Ratings */}
-              <MinMaxRatingsFilter
-                label="Seller Ratings"
-                minValue={sellerRatings.min}
-                maxValue={sellerRatings.max}
-                handleChange={(type: string, value: string) =>
-                  setSellerRatings(prevState => ({ ...prevState, [type]: value }))
-                }
-              />
             </div>
           )}
         </div>
@@ -326,4 +332,10 @@ const SellerDatabaseFilters = () => {
   );
 };
 
-export default SellerDatabaseFilters;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchSellerDatabase: (payload: SellerDatabasePayload) => dispatch(fetchSellerDatabase(payload)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SellerDatabaseFilters);
