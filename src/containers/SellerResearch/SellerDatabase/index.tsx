@@ -4,13 +4,16 @@ import { Icon } from 'semantic-ui-react';
 /* Styling */
 import styles from './index.module.scss';
 
+/* Constants */
+import { DURATIONS, LAUNCHED_DURATIONS } from '../../../constants/SellerDatabase';
+
 /* Components */
 import InputFilter from '../../../components/FormFilters/InputFilter';
 import FormFilterActions from '../../../components/FormFilters/FormFilterActions';
 import MinMaxFilter from '../../../components/FormFilters/MinMaxFilter';
 import PeriodFilter from '../../../components/FormFilters/PeriodFilter';
-import { DURATIONS } from '../../../constants/SellerDatabase';
 import MinMaxRatingsFilter from '../../../components/FormFilters/MinMaxRatingsFilter';
+import RadioListFilters from '../../../components/FormFilters/RadioListFilters';
 
 const SellerDatabase = () => {
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(true);
@@ -68,6 +71,7 @@ const SellerDatabase = () => {
     min: '',
     max: '',
   });
+  const [launched, setLaunched] = useState<string>('');
 
   return (
     <>
@@ -183,26 +187,6 @@ const SellerDatabase = () => {
                 }
               />
 
-              {/* # of inventory */}
-              <MinMaxFilter
-                label="# of Inventory"
-                minValue={numInventory.min}
-                maxValue={numInventory.max}
-                handleChange={(type: string, value: string) =>
-                  setNumInventory(prevState => ({ ...prevState, [type]: value }))
-                }
-              />
-
-              {/* # of brands */}
-              <MinMaxFilter
-                label="# of Brands"
-                minValue={numBrands.min}
-                maxValue={numBrands.max}
-                handleChange={(type: string, value: string) =>
-                  setNumBrands(prevState => ({ ...prevState, [type]: value }))
-                }
-              />
-
               {/* Review Count */}
               <div className={styles.groupFilters}>
                 <MinMaxFilter
@@ -282,6 +266,33 @@ const SellerDatabase = () => {
                   }}
                 />
               </div>
+
+              {/* # of inventory */}
+              <MinMaxFilter
+                label="# of Inventory"
+                minValue={numInventory.min}
+                maxValue={numInventory.max}
+                handleChange={(type: string, value: string) =>
+                  setNumInventory(prevState => ({ ...prevState, [type]: value }))
+                }
+              />
+
+              {/* # of brands */}
+              <MinMaxFilter
+                label="# of Brands"
+                minValue={numBrands.min}
+                maxValue={numBrands.max}
+                handleChange={(type: string, value: string) =>
+                  setNumBrands(prevState => ({ ...prevState, [type]: value }))
+                }
+              />
+              {/* Seller Launched */}
+              <RadioListFilters
+                label="Seller Launched"
+                filterOptions={LAUNCHED_DURATIONS}
+                value={launched}
+                handleChange={(value: string) => setLaunched(value)}
+              />
             </div>
           )}
         </div>

@@ -37,6 +37,12 @@ export const DURATIONS = [
   { key: 'All', text: 'All', value: 'lifetime' },
 ];
 
+export const LAUNCHED_DURATIONS = [
+  { label: '<1-yr', value: '<1-yr' },
+  { label: '>1-yr', value: '>1-yr' },
+  { label: 'All', value: '' },
+];
+
 export const defaultFilters = [
   {
     type: FILTERS.INVENTORY,
