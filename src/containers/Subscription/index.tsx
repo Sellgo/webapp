@@ -103,7 +103,12 @@ const SubscriptionPage: React.FC<Props> = props => {
       setLogin();
     }
 
-    const search = window.location.search.toLowerCase();
+    // unverified email
+    let search = window.location.search.toLowerCase();
+    if (search.includes('-unverified')) {
+      search = search.split('-unverified')[0];
+    }
+
     const { subscriptionName, paymentMode } = getSubscriptionNameAndPaymentMode(search);
 
     setAccountType(subscriptionName);
