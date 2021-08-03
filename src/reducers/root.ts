@@ -39,7 +39,7 @@ const rootReducer = combineReducers({
   sellerDatabase: sellerDatabaseReducer,
   sellerMap: sellerMapReducer,
   productsDatabase: productsDatabaseReducer,
-  newSellerDatabaseReducer: newSellerDatabaseReducer,
+  newSellerDatabase: newSellerDatabaseReducer,
 });
 
 export default rootReducer;
