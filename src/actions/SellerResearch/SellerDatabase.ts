@@ -1,5 +1,10 @@
+import axios from 'axios';
 import { AppConfig } from '../../config';
-import { actionTypes } from '../../constants/SellerResearch/SellerDatabase';
+import {
+  actionTypes,
+  FILTER_QUERY_KEY_MAPPER,
+  F_TYPES,
+} from '../../constants/SellerResearch/SellerDatabase';
 import {
   SellerDatabasePayload,
   ShowFilterMessage,
@@ -32,7 +37,44 @@ export const setSellerDatabaseFilterMessage = (payload: ShowFilterMessage) => {
 
 /* Action to prepare the payload for query */
 export const parseFilters = (sellerDatabaseFilter: any) => {
-  console.log('Filter given', sellerDatabaseFilter);
+  const filterPayloadKeys = Object.keys(sellerDatabaseFilter);
+
+  let filterQuery = '';
+
+  filterPayloadKeys.forEach((key: string) => {
+    const filter = sellerDatabaseFilter[key];
+
+    const { keyName, type } = FILTER_QUERY_KEY_MAPPER[key];
+
+    if (type === F_TYPES.TEXT) {
+      if (filter) {
+        filterQuery += `&${keyName}=${filter}`;
+      }
+    }
+
+    if (type === F_TYPES.INPUT_INCLUDE_EXCLUDE) {
+      const includes = filter.includes ? `&${keyName}_includes=${filter.includes}` : '';
+      const excludes = filter.excludes ? `&${keyName}_excludes=${filter.excludes}` : '';
+      filterQuery += `${includes}${excludes}`;
+    }
+
+    if (type === F_TYPES.MIN_MAX) {
+      const min = filter.min ? `&${keyName}_min=${filter.min}` : '';
+      const max = filter.max ? `&${keyName}_max=${filter.max}` : '';
+      filterQuery += `${min}${max}`;
+    }
+
+    if (type === F_TYPES.MIN_MAX_PERIOD) {
+      if (filter.period) {
+        const min = filter.min ? `&${keyName}_${filter.period}_min=${filter.min}` : '';
+        const max = filter.max ? `&${keyName}_${filter.period}_max=${filter.max}` : '';
+
+        filterQuery += `${min}${max}`;
+      }
+    }
+  });
+
+  return filterQuery;
 };
 
 /* =========================== Async actions ======================= */
@@ -46,6 +88,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
       page = 1,
       sort = 'seller_id',
       sortDir = 'asc',
+      enabledLoader = true,
     } = payload;
 
     // if filter request is passed
@@ -67,11 +110,30 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
 
     const filtersQueryString = parseFilters(filterPayload);
 
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database?
-    ${pagination}&${sorting}${filtersQueryString}`;
+    dispatch(setIsLoadingSellerDatabase(enabledLoader));
 
-    console.log('Fetching URL', URL);
+    const URL = `sellers/${sellerID}/merchants-database?${pagination}&${sorting}${filtersQueryString}`;
+
+    const { data } = await axios.get(`${AppConfig.BASE_URL_API}${URL}`);
+    if (data) {
+      dispatch(setSellerDatabaseResults(data));
+      dispatch(setSellerDatabaseFilterMessage({ show: false, message: '', type: 'info' }));
+      setIsLoadingSellerDatabase(false);
+    }
   } catch (err) {
-    console.error('Error fetching seller databse', err);
+    dispatch(setIsLoadingSellerDatabase(false));
+    dispatch(setSellerDatabaseResults([]));
+
+    const { status, data } = err.response;
+
+    dispatch(
+      setSellerDatabaseFilterMessage({
+        show: status === 400,
+        message: data.message || '',
+        type: 'error',
+      })
+    );
+
+    console.error('Error fetching seller database', err);
   }
 };

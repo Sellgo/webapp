@@ -44,17 +44,17 @@ export const F_TYPES = {
 };
 
 /* Map the payload keys to query keys for API */
-export const FILTER_QUERY_KEY_MAPPER = {
+export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: string } } = {
   // simple
   merchantName: { keyName: 'merchant_name', type: F_TYPES.TEXT },
-  businessName: { keyName: 'merchant_name', type: F_TYPES.TEXT },
+  businessName: { keyName: 'business_name', type: F_TYPES.TEXT },
   launched: { keyName: 'launched', type: F_TYPES.TEXT },
-  asin: { keyName: 'asin', type: F_TYPES.TEXT },
-  brands: { keyName: 'brands', type: F_TYPES.TEXT },
-  sellerIds: { keyName: 'seller_ids', type: F_TYPES.TEXT },
+  asins: { keyName: 'asin', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
+  brands: { keyName: 'brands', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
+  sellerIds: { keyName: 'seller_ids', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
 
   // min max based
-  sellerRating: { keyName: 'seller_rating', type: F_TYPES.MIN_MAX },
+  sellerRatings: { keyName: 'seller_rating', type: F_TYPES.MIN_MAX },
   reviewRatings: { keyName: 'review_ratings', type: F_TYPES.MIN_MAX },
   numBrands: { keyName: 'number_brands', type: F_TYPES.MIN_MAX },
   numInventory: { keyName: 'inventory_count', type: F_TYPES.MIN_MAX },

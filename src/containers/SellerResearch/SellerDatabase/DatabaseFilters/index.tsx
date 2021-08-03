@@ -58,20 +58,24 @@ const SellerDatabaseFilters = (props: Props) => {
 
   /* Handlers */
   const handleSubmit = () => {
-    const payload = {
+    const filterPayload = {
       merchantName,
-      businessName,
-      launched,
       asins,
       sellerIds,
+      businessName,
       brands,
+      numInventory,
+      numBrands,
+      reviewRatings,
       reviewCount,
       neutralReview,
-      reviewRatings,
+      positiveReview,
+      negativeReview,
       sellerRatings,
+      launched,
     };
 
-    console.log(payload);
+    fetchSellerDatabase({ filterPayload });
   };
 
   const handleReset = () => {
