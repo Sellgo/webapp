@@ -10,6 +10,7 @@ import FormFilterActions from '../../../components/FormFilters/FormFilterActions
 import MinMaxFilter from '../../../components/FormFilters/MinMaxFilter';
 import PeriodFilter from '../../../components/FormFilters/PeriodFilter';
 import { DURATIONS } from '../../../constants/SellerDatabase';
+import MinMaxRatingsFilter from '../../../components/FormFilters/MinMaxRatingsFilter';
 
 const SellerDatabase = () => {
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(true);
@@ -124,6 +125,7 @@ const SellerDatabase = () => {
 
           {showAdvancedFilter && (
             <div className={styles.showAdvancedFilter}>
+              {/* Business name */}
               <InputFilter
                 label="Business Name"
                 placeholder="Name"
@@ -131,6 +133,7 @@ const SellerDatabase = () => {
                 handleChange={(value: string) => setBusinessName(value)}
               />
 
+              {/*  Include brands */}
               <InputFilter
                 label="Include Brands"
                 placeholder="seperated by comma"
@@ -140,6 +143,7 @@ const SellerDatabase = () => {
                 }
               />
 
+              {/* Exclude brands */}
               <InputFilter
                 label="Exclude Brands"
                 placeholder="seperated by comma"
@@ -149,6 +153,7 @@ const SellerDatabase = () => {
                 }
               />
 
+              {/* # of inventory */}
               <MinMaxFilter
                 label="# of Inventory"
                 minValue={numInventory.min}
@@ -158,6 +163,7 @@ const SellerDatabase = () => {
                 }
               />
 
+              {/* # of brands */}
               <MinMaxFilter
                 label="# of Brands"
                 minValue={numBrands.min}
@@ -167,7 +173,7 @@ const SellerDatabase = () => {
                 }
               />
 
-              <MinMaxFilter
+              <MinMaxRatingsFilter
                 label="Review Ratings"
                 minValue={reviewRatings.min}
                 maxValue={reviewRatings.max}
@@ -176,6 +182,7 @@ const SellerDatabase = () => {
                 }
               />
 
+              {/* Review Count */}
               <div className={styles.groupFilters}>
                 <MinMaxFilter
                   label="Review Count"
@@ -195,6 +202,7 @@ const SellerDatabase = () => {
                 />
               </div>
 
+              {/* Neutral Reviews */}
               <div className={styles.groupFilters}>
                 <MinMaxFilter
                   label="Neutral Review"
@@ -214,6 +222,7 @@ const SellerDatabase = () => {
                 />
               </div>
 
+              {/* Positive Reviews */}
               <div className={styles.groupFilters}>
                 <MinMaxFilter
                   label="Positive Review"
@@ -233,6 +242,7 @@ const SellerDatabase = () => {
                 />
               </div>
 
+              {/* Negative Reviews */}
               <div className={styles.groupFilters}>
                 <MinMaxFilter
                   label="Negative Review"
