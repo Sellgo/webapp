@@ -14,3 +14,8 @@ export const getFilterMessage = (state: any) => {
 export const getSellerDatabaseResults = (state: any) => {
   return get(state, 'newSellerDatabase.sellerDatabaseResults');
 };
+
+/* Selector to get seller database pagination info */
+export const getSellerDatabasePaginationInfo = (state: any) => {
+  return get(state, 'newSellerDatabase.sellerDatabasePaginationInfo');
+};

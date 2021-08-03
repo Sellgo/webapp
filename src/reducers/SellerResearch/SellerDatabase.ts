@@ -11,6 +11,7 @@ const INITIAL_STATE = {
     type: 'info',
   },
   sellerDatabaseResults: [],
+  sellerDatabasePaginationInfo: null,
 };
 
 const newSellerDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
@@ -25,6 +26,10 @@ const newSellerDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_SELLER_DATABASE_RESULTS: {
       return setIn(state, 'sellerDatabaseResults', action.payload);
+    }
+
+    case actionTypes.SET_SELLER_DATABASE_PAGINATION_INFO: {
+      return setIn(state, 'sellerDatabasePaginationInfo', action.payload);
     }
     default: {
       return state;

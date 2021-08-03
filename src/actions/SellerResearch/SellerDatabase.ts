@@ -6,6 +6,7 @@ import {
   F_TYPES,
 } from '../../constants/SellerResearch/SellerDatabase';
 import {
+  SellerDatabasePaginationInfo,
   SellerDatabasePayload,
   ShowFilterMessage,
 } from '../../interfaces/SellerResearch/SellerDatabase';
@@ -31,6 +32,14 @@ export const setSellerDatabaseResults = (payload: any) => {
 export const setSellerDatabaseFilterMessage = (payload: ShowFilterMessage) => {
   return {
     type: actionTypes.SHOW_FILTER_MESSAGE,
+    payload,
+  };
+};
+
+/* Action to set pagination info for seller database */
+export const setSellerDatabasePaginationInfo = (payload: SellerDatabasePaginationInfo) => {
+  return {
+    type: actionTypes.SET_SELLER_DATABASE_PAGINATION_INFO,
     payload,
   };
 };
@@ -115,8 +124,11 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
     const URL = `sellers/${sellerID}/merchants-database?${pagination}&${sorting}${filtersQueryString}`;
 
     const { data } = await axios.get(`${AppConfig.BASE_URL_API}${URL}`);
+
+    const { results, ...paginationInfo } = data;
     if (data) {
-      dispatch(setSellerDatabaseResults(data));
+      dispatch(setSellerDatabaseResults(results));
+      dispatch(setSellerDatabasePaginationInfo(paginationInfo));
       dispatch(setSellerDatabaseFilterMessage({ show: false, message: '', type: 'info' }));
       setIsLoadingSellerDatabase(false);
     }

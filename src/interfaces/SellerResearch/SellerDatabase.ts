@@ -12,3 +12,12 @@ export interface ShowFilterMessage {
   message: string;
   show: boolean;
 }
+
+export interface SellerDatabasePaginationInfo {
+  count: number;
+  current_page: number;
+  next: string;
+  per_page: number;
+  previous: string;
+  total_pages: number;
+}
