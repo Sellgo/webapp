@@ -6,6 +6,7 @@ import styles from './index.module.scss';
 
 /* Containers */
 import SellerDatabaseFilters from './DatabaseFilters';
+import SellerDatabaseTable from './DatabaseTable';
 
 /* Components */
 import FilterMessage from '../../../components/FilterMessage';
@@ -32,6 +33,7 @@ const SellerDatabase = (props: Props) => {
         type={showFilterMessage.type}
         className={styles.filterMessage}
       />
+      <SellerDatabaseTable />
     </main>
   );
 };

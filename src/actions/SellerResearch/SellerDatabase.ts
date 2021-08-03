@@ -130,7 +130,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
       dispatch(setSellerDatabaseResults(results));
       dispatch(setSellerDatabasePaginationInfo(paginationInfo));
       dispatch(setSellerDatabaseFilterMessage({ show: false, message: '', type: 'info' }));
-      setIsLoadingSellerDatabase(false);
+      dispatch(setIsLoadingSellerDatabase(false));
     }
   } catch (err) {
     dispatch(setIsLoadingSellerDatabase(false));
