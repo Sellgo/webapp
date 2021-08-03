@@ -73,6 +73,28 @@ const SellerDatabase = () => {
   });
   const [launched, setLaunched] = useState<string>('');
 
+  /* Handlers */
+  const handleSubmit = () => {
+    const payload = {
+      merchantName,
+      businessName,
+      launched,
+      asins,
+      sellerIds,
+      brands,
+      reviewCount,
+      neutralReview,
+      reviewRatings,
+      sellerRatings,
+    };
+
+    console.log(payload);
+  };
+
+  const handleReset = () => {
+    console.log('Filter Reset');
+  };
+
   return (
     <>
       <section className={styles.filterSection}>
@@ -298,10 +320,7 @@ const SellerDatabase = () => {
           )}
         </div>
 
-        <FormFilterActions
-          onFind={() => console.log('Find')}
-          onReset={() => console.log('Reset')}
-        />
+        <FormFilterActions onFind={handleSubmit} onReset={handleReset} />
       </section>
     </>
   );
