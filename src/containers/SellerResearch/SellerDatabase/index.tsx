@@ -8,24 +8,28 @@ import styles from './index.module.scss';
 import SellerDatabaseFilters from './DatabaseFilters';
 
 /* Components */
-import EmptyFilterMessage from '../../../components/EmptyFilterMessage';
+import FilterMessage from '../../../components/FilterMessage';
 
 /* Selectors */
-import { getIsFilterEmptyMessage } from '../../../selectors/SellerResearch/SellerDatabase';
+import { getFilterMessage } from '../../../selectors/SellerResearch/SellerDatabase';
+
+/* Interface */
+import { ShowFilterMessage } from '../../../interfaces/SellerResearch/SellerDatabase';
 
 interface Props {
-  showEmptyFilterMessage: { show: boolean; message: string };
+  showFilterMessage: ShowFilterMessage;
 }
 
 const SellerDatabase = (props: Props) => {
-  const { showEmptyFilterMessage } = props;
+  const { showFilterMessage } = props;
 
   return (
     <main className={styles.sellerDatbasePage}>
       <SellerDatabaseFilters />
-      <EmptyFilterMessage
-        active={showEmptyFilterMessage.show}
-        message={showEmptyFilterMessage.message}
+      <FilterMessage
+        active={showFilterMessage.show}
+        message={showFilterMessage.message}
+        type={showFilterMessage.type}
         className={styles.filterMessage}
       />
     </main>
@@ -34,7 +38,7 @@ const SellerDatabase = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    showEmptyFilterMessage: getIsFilterEmptyMessage(state),
+    showFilterMessage: getFilterMessage(state),
   };
 };
 

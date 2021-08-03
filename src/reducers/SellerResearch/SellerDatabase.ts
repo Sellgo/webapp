@@ -5,9 +5,10 @@ import { actionTypes } from '../../constants/SellerResearch/SellerDatabase';
 
 const INITIAL_STATE = {
   isLoadingSellerDatabase: false,
-  showEmptyFilterMessage: {
+  showFilterMessage: {
     show: false,
     message: 'Please specify atleast one filter',
+    type: 'info',
   },
   sellerDatabaseResults: [],
 };
@@ -18,8 +19,8 @@ const newSellerDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
       return setIn(state, 'isLoadingSellerDatabase', action.payload);
     }
 
-    case actionTypes.SHOW_EMPTY_FILTER_MESSAGE: {
-      return setIn(state, 'showEmptyFilterMessage', action.payload);
+    case actionTypes.SHOW_FILTER_MESSAGE: {
+      return setIn(state, 'showFilterMessage', action.payload);
     }
 
     case actionTypes.SET_SELLER_DATABASE_RESULTS: {

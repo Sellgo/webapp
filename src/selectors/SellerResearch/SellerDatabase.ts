@@ -6,8 +6,8 @@ export const getIsLoadingSellerDatabase = (state: any) => {
 };
 
 /* Selector to get the empty filter messages */
-export const getIsFilterEmptyMessage = (state: any) => {
-  return get(state, 'newSellerDatabase.showEmptyFilterMessage');
+export const getFilterMessage = (state: any) => {
+  return get(state, 'newSellerDatabase.showFilterMessage');
 };
 
 /* Selector to get the empty filter messages */

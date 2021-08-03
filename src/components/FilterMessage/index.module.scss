@@ -16,3 +16,13 @@
     text-align: center;
   }
 }
+
+.filterInfoBox {
+  @extend .filterAlertBox;
+
+  background: rgba($system-blue, 0.2);
+
+  p {
+    color: $system_blue;
+  }
+}

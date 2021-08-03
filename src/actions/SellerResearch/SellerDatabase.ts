@@ -1,4 +1,10 @@
+import { AppConfig } from '../../config';
 import { actionTypes } from '../../constants/SellerResearch/SellerDatabase';
+import {
+  SellerDatabasePayload,
+  ShowFilterMessage,
+} from '../../interfaces/SellerResearch/SellerDatabase';
+import { sellerIDSelector } from '../../selectors/Seller';
 
 /* Action to set loading state for seller database */
 export const setIsLoadingSellerDatabase = (payload: boolean) => {
@@ -17,11 +23,29 @@ export const setSellerDatabaseResults = (payload: any) => {
 };
 
 /* Action to set and show filter messages */
-export const setSellerDatabaseFilterMessage = (payload: { show: boolean; message: string }) => {
+export const setSellerDatabaseFilterMessage = (payload: ShowFilterMessage) => {
   return {
-    type: actionTypes.SHOW_EMPTY_FILTER_MESSAGE,
+    type: actionTypes.SHOW_FILTER_MESSAGE,
     payload,
   };
 };
 
 /* =========================== Async actions ======================= */
+export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (dispatch: any) => {
+  const sellerID = sellerIDSelector();
+
+  try {
+    const { resetFilter } = payload;
+
+    if (resetFilter) {
+      dispatch(setIsLoadingSellerDatabase(false));
+      dispatch(setSellerDatabaseResults([]));
+    }
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database?`;
+
+    console.log('Fetching URL', URL);
+  } catch (err) {
+    console.error('Error fetching seller databse', err);
+  }
+};

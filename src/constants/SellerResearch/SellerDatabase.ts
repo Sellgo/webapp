@@ -2,7 +2,7 @@
 export const actionTypes = {
   IS_LOADING_SELLER_DATABASE: 'IS_LOADING_SELLER_DATABASE',
   SET_SELLER_DATABASE_RESULTS: 'SET_SELLER_DATABASE_RESULTS',
-  SHOW_EMPTY_FILTER_MESSAGE: 'SHOW_EMPTY_FILTER_MESSAGE',
+  SHOW_FILTER_MESSAGE: 'SHOW_FILTER_MESSAGE',
 };
 
 /* Period Durations for filters */
@@ -20,20 +20,32 @@ export const FILTER_LAUNCHED_DURATIONS = [
   { label: 'All', value: '' },
 ];
 
+export const F_TYPES = {
+  TEXT: 'TEXT',
+  INPUT_INCLUDE_EXCLUDE: 'INPUT_INCLUDE_EXCLUDE',
+  MIN_MAX: 'MIN_MAX',
+  MIN_MAX_PERIOD: 'MIN_MAX_PERIOD',
+};
+
 /* Map the payload keys to query keys for API */
 export const FILTER_QUERY_KEY_MAPPER = {
-  merchantName: 'merchant_name',
-  businessName: 'business_name',
-  asin: 'asin',
-  brands: 'brands',
-  sellerIds: 'seller_ids',
-  launched: 'launched',
-  sellerRating: 'seller_rating',
-  reviewRatings: 'review_ratings',
-  numBrands: 'number_brands',
-  numInventory: 'inventory_count',
-  reviewCount: 'count',
-  positiveReview: 'positive',
-  negativeReview: 'negative',
-  neutralReview: 'neutral',
+  // simple
+  merchantName: { keyName: 'merchant_name', type: F_TYPES.TEXT },
+  businessName: { keyName: 'merchant_name', type: F_TYPES.TEXT },
+  launched: { keyName: 'launched', type: F_TYPES.TEXT },
+  asin: { keyName: 'asin', type: F_TYPES.TEXT },
+  brands: { keyName: 'brands', type: F_TYPES.TEXT },
+  sellerIds: { keyName: 'seller_ids', type: F_TYPES.TEXT },
+
+  // min max based
+  sellerRating: { keyName: 'seller_rating', type: F_TYPES.MIN_MAX },
+  reviewRatings: { keyName: 'review_ratings', type: F_TYPES.MIN_MAX },
+  numBrands: { keyName: 'number_brands', type: F_TYPES.MIN_MAX },
+  numInventory: { keyName: 'inventory_count', type: F_TYPES.MIN_MAX },
+
+  // Period based
+  reviewCount: { keyName: 'count', type: F_TYPES.MIN_MAX_PERIOD },
+  positiveReview: { keyName: 'positive', type: F_TYPES.MIN_MAX_PERIOD },
+  negativeReview: { keyName: 'negative', type: F_TYPES.MIN_MAX_PERIOD },
+  neutralReview: { keyName: 'neutral', type: F_TYPES.MIN_MAX_PERIOD },
 };
