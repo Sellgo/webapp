@@ -33,6 +33,7 @@ import ExtendedReviewsCell from '../../../../components/NewTable/ExtendedReviews
 
 /* COntainers */
 import SellerInformation from './SellerInformation';
+import SellerActions from './SellerActions';
 
 interface Props {
   isLoadingSellerDatabase: boolean;
@@ -77,7 +78,7 @@ const SellerDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <Table.Cell>Information</Table.Cell>
+            <SellerActions dataKey="sellerActions" />
           </Table.Column>
 
           {/* Brands */}
