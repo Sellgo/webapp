@@ -8,12 +8,14 @@ import CopyAndLocateClipboard from '../../../CopyAndLocateClipboard';
 
 interface Props {
   asin: string;
+  image: string;
 }
 
 const ProductTitle = (props: Props) => {
-  const { asin } = props;
+  const { asin, image } = props;
   return (
     <div className={styles.productTitle}>
+      <img src={image} className={styles.productImage} />
       <p className={styles.productTitleText}>
         ASIN:{' '}
         {asin.length > 0 ? (
