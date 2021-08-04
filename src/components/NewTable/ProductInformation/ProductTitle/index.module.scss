@@ -16,9 +16,10 @@
 }
 
 .productImage {
-  height: 90%;
-  width: 90%;
+  height: 50%;
+  width: 50%;
   object-fit: contain;
+  object-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
