@@ -143,10 +143,10 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <ExtendedReviewsCell
-              mainreviewkey="count_30_days"
-              positivereviewkey="positive_30_days"
-              negativereviewkey="negative_30_days"
-              neutralreviewkey="neutral_30_days"
+              mainReviewKey="count_30_days"
+              positiveReviewKey="positive_30_days"
+              negativeReviewKey="negative_30_days"
+              neutralReviewKey="neutral_30_days"
               dataKey=""
             />
           </Table.Column>
@@ -162,10 +162,10 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <ExtendedReviewsCell
-              mainreviewkey="count_90_days"
-              positivereviewkey="positive_90_days"
-              negativereviewkey="negative_90_days"
-              neutralreviewkey="neutral_90_days"
+              mainReviewKey="count_90_days"
+              positiveReviewKey="positive_90_days"
+              negativeReviewKey="negative_90_days"
+              neutralReviewKey="neutral_90_days"
               dataKey=""
             />
           </Table.Column>
@@ -181,10 +181,10 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <ExtendedReviewsCell
-              mainreviewkey="count_12_month"
-              positivereviewkey="positive_12_month"
-              negativereviewkey="negative_12_month"
-              neutralreviewkey="neutral_12_month"
+              mainReviewKey="count_12_month"
+              positiveReviewKey="positive_12_month"
+              negativeReviewKey="negative_12_month"
+              neutralReviewKey="neutral_12_month"
               dataKey=""
             />
           </Table.Column>
@@ -200,10 +200,10 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <ExtendedReviewsCell
-              mainreviewkey="count_lifetime"
-              positivereviewkey="positive_lifetime"
-              negativereviewkey="negative_lifetime"
-              neutralreviewkey="neutral_lifetime"
+              mainReviewKey="count_lifetime"
+              positiveReviewKey="positive_lifetime"
+              negativeReviewKey="negative_lifetime"
+              neutralReviewKey="neutral_lifetime"
               dataKey=""
             />
           </Table.Column>

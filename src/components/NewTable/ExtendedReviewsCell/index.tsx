@@ -16,23 +16,31 @@ import { ReactComponent as NeutralReview } from '../../../assets/images/neutralR
 import { RowCell } from '../../../interfaces/Table';
 
 interface Props extends RowCell {
-  mainreviewkey: string;
-  positivereviewkey: string;
-  neutralreviewkey: string;
-  negativereviewkey: string;
+  mainReviewKey: string;
+  positiveReviewKey: string;
+  neutralReviewKey: string;
+  negativeReviewKey: string;
 }
 
 /* Row cell, Appends $ sign infront of monetary cells */
 const ExtendedReviewsCell = (props: Props) => {
-  const { rowData, mainreviewkey, positivereviewkey, neutralreviewkey, negativereviewkey } = props;
+  const {
+    mainReviewKey,
+    positiveReviewKey,
+    neutralReviewKey,
+    negativeReviewKey,
+    ...otherProps
+  } = props;
 
-  const mainReviewCount = formatNumber(rowData[mainreviewkey]);
-  const positiveReviewCount = rowData[positivereviewkey];
-  const neutralReviewCount = rowData[neutralreviewkey];
-  const negativeReviewCount = rowData[negativereviewkey];
+  const { rowData } = otherProps;
+
+  const mainReviewCount = formatNumber(rowData[mainReviewKey]);
+  const positiveReviewCount = rowData[positiveReviewKey];
+  const neutralReviewCount = rowData[neutralReviewKey];
+  const negativeReviewCount = rowData[negativeReviewKey];
 
   return (
-    <Table.Cell {...props}>
+    <Table.Cell {...otherProps}>
       <div className={styles.extendedReviewsCell}>
         <p>{showNAIfZeroOrNull(mainReviewCount, mainReviewCount)}</p>
 
