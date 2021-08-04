@@ -16,6 +16,7 @@ import PricingCell from '../../../../components/NewTable/PricingCell';
 import RatingCell from '../../../../components/NewTable/RatingCell';
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import GenericRowCell from '../../../../components/NewTable/GenericRowCell';
+import NumberCell from '../../../../components/NewTable/NumberCell';
 
 /* Table */
 import {
@@ -125,8 +126,17 @@ const ProductsDatabaseTable = (props: Props) => {
     return (
       <GenericRowCell {...props}>
         <div className={styles.productInformationCell}>
-          <ProductTitle asin={rowData.asin} />
-          <ProductDetails title={rowData.title} brand={rowData.brand} />
+          <ProductTitle asin={rowData.asin} image={rowData.image} />
+          <ProductDetails
+            title={rowData.title}
+            brand={rowData.brand}
+            sizeTier={rowData.size_tier}
+            numberOfImages={rowData.number_of_images}
+            packageDimension={rowData.package_dimension}
+            storageFee={rowData.storage_fee}
+            listingAge={rowData.listing_age_months}
+            category={rowData.category}
+          />
         </div>
       </GenericRowCell>
     );
@@ -183,7 +193,7 @@ const ProductsDatabaseTable = (props: Props) => {
           data={productsDatabaseResults}
           hover={false}
           autoHeight
-          rowHeight={100}
+          rowHeight={200}
           headerHeight={50}
           onSortColumn={handleSortColumn}
           sortType={sortType}
@@ -251,6 +261,18 @@ const ProductsDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <PricingCell dataKey="monthly_revenue" />
+          </Table.Column>
+
+          <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title="BSR"
+                dataKey="bsr"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <NumberCell dataKey="bsr" />
           </Table.Column>
 
           <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
