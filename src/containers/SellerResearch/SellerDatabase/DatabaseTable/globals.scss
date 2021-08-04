@@ -9,11 +9,18 @@
   // body section
   .rs-table-body-row-wrapper {
     .rs-table-body-wheel-area {
+      background: #fff;
       // should be rowheight - 10px
       .rs-table-row {
         height: 190px !important;
         border: 1px solid $grey_3;
         border-radius: 7px;
+        background: rgba($grey_3, 0.2) !important;
+
+        .rs-table-cell-content {
+          background: rgba($grey_3, 0.2) !important;
+          color: $prim_dark_2 !important;
+        }
       }
     }
   }
