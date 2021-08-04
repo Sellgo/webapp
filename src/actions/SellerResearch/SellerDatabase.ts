@@ -88,6 +88,18 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
   return filterQuery;
 };
 
+export const storeSellerDatabaseFilters = (sellerDatabaseFilter: any) => {
+  localStorage.setItem('newSellerDatabaseFilters', JSON.stringify(sellerDatabaseFilter));
+};
+
+export const removeSellerDatabaseFilters = () => {
+  localStorage.removeItem('newSellerDatabaseFilters');
+};
+
+export const extractSellerDatabaseFilters = () => {
+  const storedFilters = JSON.parse(localStorage.getItem('newSellerDatabaseFilters') || '{}');
+  return storedFilters;
+};
 /* =========================== Async actions ======================= */
 
 /* Main seller databse fetcher */
@@ -115,13 +127,27 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
           message: 'Please specify atleast one filter to view the data',
         })
       );
+      removeSellerDatabaseFilters();
       return;
     }
 
     const pagination = `page=${page}`;
     const sorting = `ordering=${sortDir === 'desc' ? `-${sort}` : sort}`;
 
-    const filtersQueryString = parseFilters(filterPayload);
+    let filterPayloadData: any;
+
+    if (!filterPayload) {
+      filterPayloadData = extractSellerDatabaseFilters();
+    } else {
+      storeSellerDatabaseFilters(filterPayload);
+      filterPayloadData = filterPayload;
+    }
+
+    let filtersQueryString: string = parseFilters(filterPayloadData);
+
+    if (!filtersQueryString) {
+      filtersQueryString = parseFilters(extractSellerDatabaseFilters());
+    }
 
     dispatch(setIsLoadingSellerDatabase(enabledLoader));
 
@@ -137,6 +163,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
       dispatch(setIsLoadingSellerDatabase(false));
     }
   } catch (err) {
+    console.error('Error fetching ', err);
     dispatch(setIsLoadingSellerDatabase(false));
     dispatch(setSellerDatabaseResults([]));
 

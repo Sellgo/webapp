@@ -43,10 +43,19 @@ interface Props {
 }
 
 const SellerDatabaseTable = (props: Props) => {
-  const { isLoadingSellerDatabase, sellerDatabaseResults } = props;
+  const { isLoadingSellerDatabase, sellerDatabaseResults, fetchSellerDatabase } = props;
 
-  const [sortColumn] = useState<string>('');
-  const [sortType] = useState<'asc' | 'desc' | undefined>(undefined);
+  const [sortColumn, setSortColumn] = useState<string>('');
+  const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
+
+  const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
+    setSortColumn(sortColumn);
+    setSortType(sortType);
+    fetchSellerDatabase({
+      sort: sortColumn,
+      sortDir: sortType === undefined ? 'asc' : sortType,
+    });
+  };
 
   return (
     <>
@@ -61,6 +70,7 @@ const SellerDatabaseTable = (props: Props) => {
           sortColumn={sortColumn}
           sortType={sortType}
           id="newSellerDatabaseTable"
+          onSortColumn={handleSortColumn}
         >
           {/* Seller Information */}
           <Table.Column width={600} verticalAlign="middle" fixed>
@@ -69,7 +79,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* ASIN */}
-          <Table.Column width={150} verticalAlign="middle" sortable align="center">
+          <Table.Column width={150} verticalAlign="middle" align="center">
             <Table.HeaderCell>ASIN</Table.HeaderCell>
             <SellerActions dataKey="sellerActions" />
           </Table.Column>
@@ -85,7 +95,7 @@ const SellerDatabaseTable = (props: Props) => {
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Inventory#`}
-                dataKey=""
+                dataKey="inventory_count"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
               />
@@ -98,7 +108,7 @@ const SellerDatabaseTable = (props: Props) => {
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Rating\nL365D`}
-                dataKey=""
+                dataKey="seller_rating"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
               />
@@ -111,7 +121,7 @@ const SellerDatabaseTable = (props: Props) => {
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Rating%\nL365D`}
-                dataKey=""
+                dataKey="review_ratings"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
               />
@@ -124,7 +134,7 @@ const SellerDatabaseTable = (props: Props) => {
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Review\nL30D`}
-                dataKey=""
+                dataKey="count_30_days"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
               />
@@ -134,7 +144,7 @@ const SellerDatabaseTable = (props: Props) => {
               positiveReviewKey="positive_30_days"
               negativeReviewKey="negative_30_days"
               neutralReviewKey="neutral_30_days"
-              dataKey=""
+              dataKey="count_30_days"
             />
           </Table.Column>
 
@@ -143,7 +153,7 @@ const SellerDatabaseTable = (props: Props) => {
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Review\nL90D`}
-                dataKey=""
+                dataKey="count_90_days"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
               />
@@ -153,7 +163,7 @@ const SellerDatabaseTable = (props: Props) => {
               positiveReviewKey="positive_90_days"
               negativeReviewKey="negative_90_days"
               neutralReviewKey="neutral_90_days"
-              dataKey=""
+              dataKey="count_90_days"
             />
           </Table.Column>
 
@@ -162,7 +172,7 @@ const SellerDatabaseTable = (props: Props) => {
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Review\nL365D`}
-                dataKey=""
+                dataKey="count_12_month"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
               />
@@ -172,7 +182,7 @@ const SellerDatabaseTable = (props: Props) => {
               positiveReviewKey="positive_12_month"
               negativeReviewKey="negative_12_month"
               neutralReviewKey="neutral_12_month"
-              dataKey=""
+              dataKey="count_12_month"
             />
           </Table.Column>
 
@@ -181,7 +191,7 @@ const SellerDatabaseTable = (props: Props) => {
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Review\nLifetime`}
-                dataKey=""
+                dataKey="count_lifetime"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
               />
@@ -191,7 +201,7 @@ const SellerDatabaseTable = (props: Props) => {
               positiveReviewKey="positive_lifetime"
               negativeReviewKey="negative_lifetime"
               neutralReviewKey="neutral_lifetime"
-              dataKey=""
+              dataKey="count_lifetime"
             />
           </Table.Column>
         </Table>
