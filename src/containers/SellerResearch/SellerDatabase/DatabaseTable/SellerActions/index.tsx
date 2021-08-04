@@ -19,7 +19,10 @@ const SellerActions = (props: RowCell) => {
 
   const [isOpen, setIsOpen] = useState(false);
 
+  const asinList = rowData.asins;
   const isSellerTracked = rowData.tracking_status === true ? true : false;
+
+  const parsedAsinList = JSON.parse(JSON.stringify(asinList));
 
   const handleOpenPopup = () => {
     setIsOpen(true);
@@ -36,8 +39,6 @@ const SellerActions = (props: RowCell) => {
 
   /* Copy Asins */
   const handleCopyAsins = () => {
-    const asinList = rowData.asins;
-    const parsedAsinList = JSON.parse(JSON.stringify(asinList));
     const prepareAsinStringCopy = removeSpecialChars(parsedAsinList);
     copyToClipboard(prepareAsinStringCopy).then(() => {
       success('ASINs successfully copied');
@@ -50,7 +51,7 @@ const SellerActions = (props: RowCell) => {
       <Table.Cell {...props}>
         <div className={`${isSellerTracked ? styles.actionCellActive : styles.actionCellInActive}`}>
           <button className={styles.actionButton} onClick={handleSellerTrack}>
-            77
+            {parsedAsinList.length}
           </button>
           <Popup
             open={isOpen}
