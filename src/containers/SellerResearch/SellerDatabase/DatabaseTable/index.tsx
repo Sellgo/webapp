@@ -70,27 +70,13 @@ const SellerDatabaseTable = (props: Props) => {
 
           {/* ASIN */}
           <Table.Column width={150} verticalAlign="middle" sortable align="center">
-            <Table.HeaderCell>
-              <HeaderSortCell
-                title="ASIN"
-                dataKey=""
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
-              />
-            </Table.HeaderCell>
+            <Table.HeaderCell>ASIN</Table.HeaderCell>
             <SellerActions dataKey="sellerActions" />
           </Table.Column>
 
           {/* Brands */}
-          <Table.Column width={80} verticalAlign="middle" sortable align="center">
-            <Table.HeaderCell>
-              <HeaderSortCell
-                title="Brands"
-                dataKey="brands"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
-              />
-            </Table.HeaderCell>
+          <Table.Column width={80} verticalAlign="middle" align="center">
+            <Table.HeaderCell>Brands</Table.HeaderCell>
             <BrandsListCell dataKey={'brands'} />
           </Table.Column>
 

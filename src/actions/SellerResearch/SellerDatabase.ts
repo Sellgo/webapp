@@ -11,6 +11,8 @@ import {
   ShowFilterMessage,
 } from '../../interfaces/SellerResearch/SellerDatabase';
 import { sellerIDSelector } from '../../selectors/Seller';
+import { getSellerDatabaseResults } from '../../selectors/SellerResearch/SellerDatabase';
+import { info } from '../../utils/notifications';
 
 /* Action to set loading state for seller database */
 export const setIsLoadingSellerDatabase = (payload: boolean) => {
@@ -87,6 +89,8 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
 };
 
 /* =========================== Async actions ======================= */
+
+/* Main seller databse fetcher */
 export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (dispatch: any) => {
   const sellerID = sellerIDSelector();
 
@@ -147,5 +151,49 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
     );
 
     console.error('Error fetching seller database', err);
+  }
+};
+
+/* Tracker Merchant from database */
+export const trackMerchantFromDatabase = (merchantId: string) => async (
+  dispatch: any,
+  getState: any
+) => {
+  try {
+    const sellerID = sellerIDSelector();
+
+    const url = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants/track`;
+    const sellers = getSellerDatabaseResults(getState());
+    const payload = new FormData();
+
+    payload.set('amazon_merchant_id', merchantId);
+
+    const res = await axios.post(url, payload);
+
+    const data = res.data;
+
+    if (data) {
+      const { tracking_status } = data.object;
+
+      const updatedSellersList = sellers.map((seller: any) => {
+        if (seller.merchant_id === data.object.merchant_id) {
+          return {
+            ...seller,
+            ...data.object,
+          };
+        } else {
+          return seller;
+        }
+      });
+
+      info(
+        `Seller ${
+          tracking_status === 'active' || tracking_status === true ? 'Tracking' : 'Untracking'
+        }`
+      );
+      dispatch(setSellerDatabaseResults(updatedSellersList));
+    }
+  } catch (err) {
+    console.log('Error Tracking Seller', err);
   }
 };
