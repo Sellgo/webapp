@@ -10,14 +10,22 @@ import { formatNumber, showNAIfZeroOrNull } from '../../../utils/format';
 /* Types */
 import { RowCell } from '../../../interfaces/Table';
 
-/* Row cell, Appends $ sign infront of monetary cells */
-const StatsCell = (props: RowCell) => {
-  const { rowData, dataKey } = props;
+interface Props extends RowCell {
+  appendWith?: string;
+  prependWith?: string;
+}
+
+const StatsCell = (props: Props) => {
+  const { appendWith = '', prependWith = '', ...otherProps } = props;
+
+  const { rowData, dataKey } = otherProps;
+
   const displayStat = formatNumber(rowData[dataKey]);
+
   return (
-    <Table.Cell {...props}>
+    <Table.Cell {...otherProps}>
       <div className={styles.statsCell}>
-        {showNAIfZeroOrNull(rowData[dataKey], `${displayStat}`)}
+        {showNAIfZeroOrNull(rowData[dataKey], `${prependWith}${displayStat}${appendWith}`)}
       </div>
     </Table.Cell>
   );

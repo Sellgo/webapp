@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
-import { Popup, Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import { copyToClipboard } from '../../utils/file';
+
+/* Components */
+import CopyToClipboard from '../CopyToClipboard';
+
+/* Styling */
+import styles from './index.module.scss';
 
 interface Props {
   data: any;
@@ -10,7 +16,8 @@ interface Props {
 }
 
 const CopyAndLocateClipboard: React.FC<Props> = props => {
-  const { data, className, displayData, link } = props;
+  const { link, displayData, data, className } = props;
+
   const [copied, setCopied] = useState(false);
 
   const copyText = (text: string) => {
@@ -23,34 +30,28 @@ const CopyAndLocateClipboard: React.FC<Props> = props => {
     }, 1000);
   };
 
+  if (!link) {
+    return <CopyToClipboard displayData={displayData} data={data} />;
+  }
+
   return (
-    <Popup
-      trigger={
-        <span className={className}>
-          {displayData ? displayData : data}
-          <span>
-            {!copied ? (
-              <Icon
-                name="copy outline"
-                className="tooltipIcon"
-                data-title="Copy"
-                onClick={() => copyText(data)}
-              />
-            ) : (
-              <Icon name="check circle" className="tooltipIcon" data-title="Copied" color="green" />
-            )}
-          </span>
+    <a href={link} className={styles.navigateLink}>
+      <span className={`${styles.copyData} ${className}`}>
+        {displayData ? displayData : data}
+        <span>
+          {!copied ? (
+            <Icon
+              name="copy outline"
+              className="tooltipIcon"
+              data-title="Copy"
+              onClick={() => copyText(data)}
+            />
+          ) : (
+            <Icon name="check circle" className="tooltipIcon" data-title="Copied" color="green" />
+          )}
         </span>
-      }
-      content={
-        <a href={link} target="_blank" rel="noopener noreferrer">
-          {' '}
-          {link}{' '}
-        </a>
-      }
-      on="hover"
-      mouseLeaveDelay={1500}
-    />
+      </span>
+    </a>
   );
 };
 

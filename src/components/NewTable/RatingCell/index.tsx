@@ -15,8 +15,6 @@ const RatingCell = (props: RowCell) => {
 
   const ratingValue = Math.round(parseFloat(rowData[dataKey] || 0));
 
-  console.log(ratingValue);
-
   return (
     <Table.Cell {...props}>
       <div className={styles.ratingCell}>

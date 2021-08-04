@@ -23,13 +23,16 @@ import {
   SellerDatabasePayload,
 } from '../../../../interfaces/SellerResearch/SellerDatabase';
 
-/* COmponents */
+/* Components */
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
-import GenericRowCell from '../../../../components/NewTable/GenericRowCell';
+
 import BrandsListCell from '../../../../components/NewTable/BrandsListCell';
 import RatingCell from '../../../../components/NewTable/RatingCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import ExtendedReviewsCell from '../../../../components/NewTable/ExtendedReviewsCell';
+
+/* COntainers */
+import SellerInformation from './SellerInformation';
 
 interface Props {
   isLoadingSellerDatabase: boolean;
@@ -43,22 +46,6 @@ const SellerDatabaseTable = (props: Props) => {
 
   const [sortColumn] = useState<string>('');
   const [sortType] = useState<'asc' | 'desc' | undefined>(undefined);
-
-  const SellerInformation = ({ rowData, ...props }: any) => {
-    console.log(rowData);
-    return (
-      <>
-        <GenericRowCell {...props}>
-          <div className={styles.sellerInformation}>
-            <div className={styles.sellerInformationLeft}>Asin</div>
-            <div className={styles.sellerInformationRight}>
-              <h2>Kikkoman</h2>
-            </div>
-          </div>
-        </GenericRowCell>
-      </>
-    );
-  };
 
   return (
     <>
@@ -77,7 +64,7 @@ const SellerDatabaseTable = (props: Props) => {
           {/* Seller Information */}
           <Table.Column width={600} verticalAlign="middle" fixed>
             <Table.HeaderCell>Seller Information</Table.HeaderCell>
-            <SellerInformation dataKey="sellerInformation" />
+            <SellerInformation dataKey={'sellerInformation'} />
           </Table.Column>
 
           {/* ASIN */}
@@ -142,7 +129,7 @@ const SellerDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="review_ratings" />
+            <StatsCell dataKey="review_ratings" appendWith="%" />
           </Table.Column>
 
           {/* Review L30D */}
