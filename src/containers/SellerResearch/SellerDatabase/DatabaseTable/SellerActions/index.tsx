@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Table } from 'rsuite';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 import { connect } from 'react-redux';
@@ -27,8 +27,6 @@ interface Props extends RowCell {
 const SellerActions = (props: Props) => {
   const { trackMerchantFromDatabase, ...otherProps } = props;
 
-  const [isOpen, setIsOpen] = useState(false);
-
   const { rowData } = otherProps;
 
   const asinList = rowData.asins;
@@ -38,18 +36,9 @@ const SellerActions = (props: Props) => {
 
   const parsedAsinList = JSON.parse(JSON.stringify(asinList));
 
-  const handleOpenPopup = () => {
-    setIsOpen(true);
-  };
-
-  const handleClosePopup = () => {
-    setIsOpen(false);
-  };
-
   /* Track seller */
   const handleSellerTrack = () => {
     trackMerchantFromDatabase(merchantId);
-    handleClosePopup();
   };
 
   /* Copy Asins */
@@ -57,7 +46,6 @@ const SellerActions = (props: Props) => {
     const prepareAsinStringCopy = removeSpecialChars(parsedAsinList);
     copyToClipboard(prepareAsinStringCopy).then(() => {
       success('ASINs successfully copied');
-      handleClosePopup();
     });
   };
 
@@ -69,10 +57,11 @@ const SellerActions = (props: Props) => {
             {parsedAsinList.length}
           </button>
           <Popup
-            open={isOpen}
             on="click"
             position="bottom left"
             offset="-40"
+            closeOnDocumentClick
+            closeOnEscape
             className={styles.actionsPopover}
             content={
               <>
@@ -93,9 +82,7 @@ const SellerActions = (props: Props) => {
                 </div>
               </>
             }
-            trigger={
-              <Button icon="chevron down" className={styles.iconButton} onClick={handleOpenPopup} />
-            }
+            trigger={<Button icon="chevron down" className={styles.iconButton} />}
           />
         </div>
       </Table.Cell>

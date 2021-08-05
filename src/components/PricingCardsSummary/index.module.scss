@@ -91,4 +91,19 @@
     background: white;
     color: $second_silver;
   }
+
+  &__pendingPlan {
+    border: 1px solid $second_silver;
+    background: white;
+    color: $second_silver;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+    line-height: 20px;
+
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
 }

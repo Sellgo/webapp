@@ -66,8 +66,6 @@ const Login: React.FC<Props> = props => {
     );
   };
 
-  console.log('IsSignUp Success', isSignupSuccess);
-
   return (
     <section className={styles.loginContainer}>
       <StepsContent contentType={'login'} loggedIn={true} />

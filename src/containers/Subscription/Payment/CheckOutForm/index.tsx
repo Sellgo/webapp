@@ -81,8 +81,6 @@ function CheckoutForm(props: MyProps) {
     code: 'US',
     value: 'US',
   });
-  const [zipCodeError, setZipCodeError] = useState(false);
-  const [cardNameError, setNameCardError] = useState(false);
 
   const handleCountry = (data: any) => {
     setSelectedCountry(data);
@@ -119,14 +117,14 @@ function CheckoutForm(props: MyProps) {
 
     if (!name) {
       handlePaymentError({ message: 'Please fill out Name on Card field' });
-      setNameCardError(true);
+
       return;
     }
     if (!postalCode(zipCode, selectedCountry.code.split(','))) {
-      setZipCodeError(true);
       handlePaymentError({ message: 'Zipcode is invalid' });
       return;
     }
+
     setStripeLoad(true);
     const cardElement = elements.getElement(CardNumberElement);
 
@@ -173,6 +171,7 @@ function CheckoutForm(props: MyProps) {
       }
     }
   };
+
   return (
     <div className={styles.checkoutContainer}>
       <h2>Secure Credit Card Payment</h2>
@@ -189,7 +188,7 @@ function CheckoutForm(props: MyProps) {
 
         <Form.Group className={styles.formGroup}>
           <Form.Input
-            className={`${styles.formInput} ${cardNameError ? styles.formInput__error : ''}`}
+            className={styles.formInput}
             size="huge"
             label="Name on Card"
             type="text"
@@ -268,7 +267,7 @@ function CheckoutForm(props: MyProps) {
           </Form.Field>
 
           <Form.Input
-            className={`${styles.formInput} ${zipCodeError ? styles.formInput__error : ''}`}
+            className={styles.formInput}
             size="huge"
             label="Zipcode"
             type="text"
@@ -293,7 +292,7 @@ function CheckoutForm(props: MyProps) {
               Cancel
             </button>
             <button
-              disabled={!stripe || stripeLoading || cardNameError || zipCodeError}
+              disabled={!stripe || stripeLoading}
               type="submit"
               className={styles.completeButton}
             >
