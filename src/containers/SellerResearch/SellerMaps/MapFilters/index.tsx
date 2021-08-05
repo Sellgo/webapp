@@ -10,17 +10,17 @@ import {
   COUNTRY_DROPDOWN_LIST,
   getMapLimitOptions,
   STATES_DROPDOWN_LIST,
-} from '../../../../constants/SellerMap';
+} from '../../../../constants/SellerResearch/SellerMap';
 
 /* Selectors */
 import {
   getIsLoadingSellerDetailsForMap,
   getIsLoadingSellerForMap,
-} from '../../../../selectors/SellerMap';
+} from '../../../../selectors/SellerResearch/SellerMap';
 import { getSellerSubscriptionLimits } from '../../../../selectors/Subscription';
 
 /* Actions */
-import { fetchSellersForMap } from '../../../../actions/SellerMap';
+import { fetchSellersForMap } from '../../../../actions/SellerResearch/SellerMap';
 
 /* Components */
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
@@ -28,7 +28,7 @@ import InputFilter from '../../../../components/FormFilters/InputFilter';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
 
 /* Interfaces */
-import { SellerMapPayload } from '../../../../interfaces/SellerMap';
+import { SellerMapPayload } from '../../../../interfaces/SellerResearch/SellerMap';
 import { SellerSubscriptionLimits } from '../../../../interfaces/Subscription';
 
 /* Props */

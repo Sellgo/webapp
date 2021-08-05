@@ -4,10 +4,14 @@ import axios from 'axios';
 import { AppConfig } from '../../config';
 
 /* Constants */
-import { actionTypes, INITIAL_CENTER, INITIAL_ZOOM } from '../../constants/SellerMap';
+import {
+  actionTypes,
+  INITIAL_CENTER,
+  INITIAL_ZOOM,
+} from '../../constants/SellerResearch/SellerMap';
 
 /* Interfaces */
-import { SellerMapPayload, Location } from '../../interfaces/SellerMap';
+import { SellerMapPayload, Location } from '../../interfaces/SellerResearch/SellerMap';
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';

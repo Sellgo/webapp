@@ -14,10 +14,10 @@ import {
   getMapBounds,
   getMapZoom,
   getSellerDataForMap,
-} from '../../../selectors/SellerMap';
+} from '../../../selectors/SellerResearch/SellerMap';
 
 /* Actions */
-import { fetchSellersForMap } from '../../../actions/SellerMap';
+import { fetchSellersForMap } from '../../../actions/SellerResearch/SellerMap';
 
 /* Containers */
 import MapFilters from './MapFilters';
@@ -25,7 +25,7 @@ import PlotAllMarkers from './PlotAllMarkers';
 import CenterMapAndZoom from './CenterMapAndZoom';
 
 /* Interfaces */
-import { SellerMapPayload, Location } from '../../../interfaces/SellerMap';
+import { SellerMapPayload, Location } from '../../../interfaces/SellerResearch/SellerMap';
 
 import {
   INITIAL_CENTER,
@@ -33,7 +33,7 @@ import {
   MAX_ZOOM,
   MIN_ZOOM,
   WORLD_MAP_BOUNDS,
-} from '../../../constants/SellerMap';
+} from '../../../constants/SellerResearch/SellerMap';
 
 interface Props {
   isLoadingSellersForMap: boolean;

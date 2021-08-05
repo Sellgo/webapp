@@ -16,10 +16,13 @@ import {
   getIsLoadingSellerDetailsForMap,
   getSellerDetailsDataForMap,
   getShowSellerDetailsCardForMap,
-} from '../../selectors/SellerMap';
+} from '../../selectors/SellerResearch/SellerMap';
 
 /* Actions */
-import { fetchSellerDetailsForMap, setShowSellerDetailsCard } from '../../actions/SellerMap';
+import {
+  fetchSellerDetailsForMap,
+  setShowSellerDetailsCard,
+} from '../../actions/SellerResearch/SellerMap';
 import { trackDatabaseSeller } from '../../actions/SellerDatabase';
 
 /* Utils */

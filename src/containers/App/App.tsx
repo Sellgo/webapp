@@ -23,7 +23,6 @@ import Subscription from '../Settings/Subscription';
 import Payment from '../Subscription/Payment';
 import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
-import SellerDatabase from '../SellerDatabase';
 import SellerFinder from '../SellerFinder';
 import ProductResearch from '../ProductResearch';
 import SellerResearch from '../SellerResearch';
@@ -218,10 +217,11 @@ function App() {
 
           <PrivateRoute
             exact={true}
-            path="/seller-database"
-            component={SellerDatabase}
+            path="/seller-research"
+            component={SellerResearch}
             requireSubscription={true}
           />
+
           <PrivateRoute
             exact={true}
             path="/seller-finder"

@@ -3,7 +3,7 @@ import {
   INITIAL_CENTER,
   INITIAL_ZOOM,
   WORLD_MAP_BOUNDS,
-} from '../../constants/SellerMap';
+} from '../../constants/SellerResearch/SellerMap';
 import { AnyAction } from 'redux';
 import { setIn } from '../../utils/immutablity';
 

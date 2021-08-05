@@ -5,7 +5,7 @@ import { Marker, Tooltip } from 'react-leaflet';
 import SellerMapInfoCard from '../../../../components/SellerMapInfoCard';
 
 /* Interfaces */
-import { Location } from '../../../../interfaces/SellerMap';
+import { Location } from '../../../../interfaces/SellerResearch/SellerMap';
 
 const PlotAllMarkers = (props: any) => {
   const { sellersData } = props;

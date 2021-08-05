@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
 
 /* Interfaces */
-import { Location } from '../../../../interfaces/SellerMap';
+import { Location } from '../../../../interfaces/SellerResearch/SellerMap';
 
 interface CenterMapProps {
   mapCenter: Location;

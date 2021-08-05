@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-import { Location, Country, USState } from '../../interfaces/SellerMap';
+import { Location, Country, USState } from '../../interfaces/SellerResearch/SellerMap';
 
 const allCountriesList = require('../../assets/countriesList.json');
 const allUsStatesList = require('../../assets/usStatesList.json');

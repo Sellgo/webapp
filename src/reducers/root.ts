@@ -14,13 +14,13 @@ import leadsReducer from './LeadsTracker';
 import notificationReducer from './Notification';
 import sellerFinderReducer from './SellerFinder';
 import sellerDatabaseReducer from './SellerDatabase';
-import sellerMapReducer from './SellerMap';
 
 /* Products Research */
 import productsDatabaseReducer from './ProductResearch/ProductsDatabase';
 
 /* Seller Research */
 import newSellerDatabaseReducer from './SellerResearch/SellerDatabase';
+import sellerMapReducer from './SellerResearch/SellerMap';
 
 const rootReducer = combineReducers({
   settings: settingsReducer,
@@ -37,9 +37,12 @@ const rootReducer = combineReducers({
   notification: notificationReducer,
   sellerFinder: sellerFinderReducer,
   sellerDatabase: sellerDatabaseReducer,
-  sellerMap: sellerMapReducer,
-  productsDatabase: productsDatabaseReducer,
+  // seller research
   newSellerDatabase: newSellerDatabaseReducer,
+  sellerMap: sellerMapReducer,
+
+  // product research
+  productsDatabase: productsDatabaseReducer,
 });
 
 export default rootReducer;
