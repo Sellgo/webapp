@@ -3,6 +3,7 @@ import Rating from 'react-rating';
 
 /* Styling */
 import styles from './index.module.scss';
+import './globals.scss';
 
 /* Assets */
 import { ReactComponent as FilterRightArrow } from '../../../assets/images/filterRightArrow.svg';
@@ -32,11 +33,17 @@ const MinMaxRatingsFilter: React.FC<Props> = props => {
           className={styles.ratingsSelector}
           initialRating={Number(minValue) || 0}
           emptySymbol={
-            <Icon name="star outline" color={'grey'} className={isError ? 'errorRatings' : ''} />
+            <Icon
+              name="star outline"
+              color={'grey'}
+              className={isError ? 'minMaxErrorRatings' : ''}
+            />
           }
-          fullSymbol={<Icon name="star" color={'grey'} className={isError ? 'errorRatings' : ''} />}
+          fullSymbol={
+            <Icon name="star" color={'grey'} className={isError ? 'minMaxErrorRatings' : ''} />
+          }
           placeholderSymbol={
-            <Icon name="star" color={'grey'} className={isError ? 'errorRatings' : ''} />
+            <Icon name="star" color={'grey'} className={isError ? 'minMaxErrorRatings' : ''} />
           }
           onChange={(value: number) => {
             handleChange && handleChange('min', String(value));
@@ -47,11 +54,17 @@ const MinMaxRatingsFilter: React.FC<Props> = props => {
           className={styles.ratingsSelector}
           initialRating={Number(maxValue) || 0}
           emptySymbol={
-            <Icon name="star outline" color={'grey'} className={isError ? 'errorRatings' : ''} />
+            <Icon
+              name="star outline"
+              color={'grey'}
+              className={isError ? 'minMaxErrorRatings' : ''}
+            />
           }
-          fullSymbol={<Icon name="star" color={'grey'} className={isError ? 'errorRatings' : ''} />}
+          fullSymbol={
+            <Icon name="star" color={'grey'} className={isError ? 'minMaxErrorRatings' : ''} />
+          }
           placeholderSymbol={
-            <Icon name="star" color={'grey'} className={isError ? 'errorRatings' : ''} />
+            <Icon name="star" color={'grey'} className={isError ? 'minMaxErrorRatings' : ''} />
           }
           onChange={(value: number) => {
             handleChange && handleChange('max', String(value));

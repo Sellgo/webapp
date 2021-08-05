@@ -119,7 +119,7 @@ const SellerDatabaseFilters = (props: Props) => {
           {/* Include ASINS */}
           <InputFilter
             label="Include ASINs"
-            placeholder="seperated by comma"
+            placeholder="Enter separated by comma"
             value={asins.include}
             handleChange={(value: string) =>
               setAsins(prevState => ({ ...prevState, include: value }))
@@ -129,7 +129,7 @@ const SellerDatabaseFilters = (props: Props) => {
           {/* Exclude ASINS Name */}
           <InputFilter
             label="Exclude ASINs"
-            placeholder="seperated by comma"
+            placeholder="Enter separated by comma"
             value={asins.exclude}
             handleChange={(value: string) =>
               setAsins(prevState => ({ ...prevState, exclude: value }))
@@ -139,7 +139,7 @@ const SellerDatabaseFilters = (props: Props) => {
           {/* Include Seller IDs */}
           <InputFilter
             label="Include Seller IDs"
-            placeholder="seperated by comma"
+            placeholder="Enter separated by comma"
             value={sellerIds.include}
             handleChange={(value: string) =>
               setSellerIds(prevState => ({ ...prevState, include: value }))
@@ -149,7 +149,7 @@ const SellerDatabaseFilters = (props: Props) => {
           {/* Exclude Seller IDS */}
           <InputFilter
             label="Exclude Seller IDs"
-            placeholder="seperated by comma"
+            placeholder="Enter separated by comma"
             value={sellerIds.exclude}
             handleChange={(value: string) =>
               setSellerIds(prevState => ({ ...prevState, exclude: value }))
@@ -181,7 +181,7 @@ const SellerDatabaseFilters = (props: Props) => {
               {/*  Include brands */}
               <InputFilter
                 label="Include Brands"
-                placeholder="seperated by comma"
+                placeholder="Enter separated by comma"
                 value={brands.include}
                 handleChange={(value: string) =>
                   setBrands(prevState => ({ ...prevState, include: value }))
@@ -191,7 +191,7 @@ const SellerDatabaseFilters = (props: Props) => {
               {/* Exclude brands */}
               <InputFilter
                 label="Exclude Brands"
-                placeholder="seperated by comma"
+                placeholder="Enter separated by comma"
                 value={brands.exclude}
                 handleChange={(value: string) =>
                   setBrands(prevState => ({ ...prevState, exclude: value }))

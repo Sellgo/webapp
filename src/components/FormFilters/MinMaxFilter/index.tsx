@@ -3,6 +3,7 @@ import { Input } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
+import './globals.scss';
 
 /* Assets */
 import { ReactComponent as FilterRightArrow } from '../../../assets/images/filterRightArrow.svg';
@@ -32,6 +33,7 @@ const MinMaxFilter: React.FC<Props> = props => {
           placeholder="Min"
           value={minValue}
           data-filter="min"
+          className="minMaxFilters"
           onChange={(e: any) => {
             handleChange && handleChange('min', e.target.value);
           }}
@@ -43,6 +45,7 @@ const MinMaxFilter: React.FC<Props> = props => {
           placeholder="Max"
           value={maxValue}
           data-filter="max"
+          className="minMaxFilters"
           onChange={(e: any) => {
             handleChange && handleChange('max', e.target.value);
           }}
