@@ -34,7 +34,7 @@ const PricePlanToggleButton: React.FC<Props> = props => {
       </div>
 
       <div className={annualToggleTextClass}>
-        <p>Pay Anually</p>
+        <p>Pay Annually</p>
         {/* <small>Commit Anually</small> */}
       </div>
     </div>

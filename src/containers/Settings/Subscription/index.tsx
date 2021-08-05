@@ -192,7 +192,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   };
 
   render() {
-    console.log(this.props);
     const { match, sellerSubscription, subscriptions, subscriptionType } = this.props;
 
     const {
@@ -299,6 +298,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                   paritialVisibilityGutter: 30,
                 },
               }}
+              className={styles.carouselListWrappewr}
             >
               {subscriptionPlans.map((subscriptionPlan: SubscriptionPlan) => {
                 const {
