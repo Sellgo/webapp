@@ -112,7 +112,7 @@ const SellerDatabaseFilters = (props: Props) => {
           {/* Merchant Name */}
           <InputFilter
             label="Merchant Name"
-            placeholder="Name"
+            placeholder="Merchant Name"
             value={merchantName}
             handleChange={(value: string) => setMerchantName(value)}
           />
@@ -174,7 +174,7 @@ const SellerDatabaseFilters = (props: Props) => {
               {/* Business name */}
               <InputFilter
                 label="Business Name"
-                placeholder="Name"
+                placeholder="Business Name"
                 value={businessName}
                 handleChange={(value: string) => setBusinessName(value)}
               />

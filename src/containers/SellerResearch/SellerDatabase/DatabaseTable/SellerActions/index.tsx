@@ -82,10 +82,10 @@ const SellerActions = (props: Props) => {
                     <img src={CheckInventory} alt="CheckInventory" />
                     <span>Check Inventory</span>
                   </button>
-                  <button>
+                  {/* <button>
                     <Icon name="download" />
                     <span>Export</span>
-                  </button>
+                  </button> */}
                   <button onClick={handleCopyAsins}>
                     <Icon name="copy outline" />
                     <span>Copy ASINs</span>
