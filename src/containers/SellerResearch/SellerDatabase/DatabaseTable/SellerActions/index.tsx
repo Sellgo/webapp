@@ -82,7 +82,12 @@ const SellerActions = (props: Props) => {
                 </div>
               </>
             }
-            trigger={<Button icon="chevron down" className={styles.iconButton} />}
+            trigger={
+              <Button
+                icon="chevron down"
+                className={`${styles.iconButton} iconButtonResetGlobal`}
+              />
+            }
           />
         </div>
       </Table.Cell>
