@@ -298,6 +298,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                   paritialVisibilityGutter: 30,
                 },
               }}
+              className={styles.carouselListWrappewr}
             >
               {subscriptionPlans.map((subscriptionPlan: SubscriptionPlan) => {
                 const {
