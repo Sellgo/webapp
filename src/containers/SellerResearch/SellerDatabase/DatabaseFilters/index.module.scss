@@ -11,10 +11,10 @@
 /* Basic Filter Styles */
 .basicFilters {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   margin-bottom: 40px !important;
   height: max-content;
-  grid-column-gap: 50px;
+  grid-column-gap: 30px;
 
   @media only screen and (max-width: 1550px) {
     grid-template-rows: repeat(auto, 1fr);
