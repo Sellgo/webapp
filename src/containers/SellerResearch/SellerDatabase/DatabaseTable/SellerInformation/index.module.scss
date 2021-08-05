@@ -20,11 +20,13 @@
 }
 
 .sellerInformationRight {
-  margin-left: 20px;
+  margin-left: 10px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  max-width: 450px;
+  flex: 1;
 
   h2 {
     font-size: 16px;
@@ -40,7 +42,7 @@
   font-size: 14px !important;
   color: $prim_dark_2;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 5px;
   word-wrap: pre;
 
@@ -52,6 +54,7 @@
 
   p {
     margin-left: 10px;
+    flex: 1;
   }
 
   img {
@@ -59,5 +62,18 @@
     margin-left: 10px;
     width: 15px;
     height: 15px;
+  }
+}
+
+.address {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 10px;
+
+  p {
+    max-width: 2800px;
+    word-wrap: break-all;
+    margin: 0;
   }
 }

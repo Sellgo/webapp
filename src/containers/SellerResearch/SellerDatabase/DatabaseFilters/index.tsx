@@ -78,7 +78,7 @@ const SellerDatabaseFilters = (props: Props) => {
   };
 
   const handleReset = () => {
-    fetchSellerDatabase({ resetFilter: true });
+    fetchSellerDatabase({ filterPayload: { reviewRatings: { min: '1' } } });
     setMerchantName('');
     setAsins(DEFAULT_INCLUDE_EXCLUDE_FILTER);
     setSellerIds(DEFAULT_INCLUDE_EXCLUDE_FILTER);

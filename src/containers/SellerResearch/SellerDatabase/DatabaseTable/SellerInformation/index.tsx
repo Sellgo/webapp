@@ -26,6 +26,9 @@ const SellerInformation = (props: RowCell) => {
   const merchantName = rowData.merchant_name;
   const businessAddress = rowData.address;
   const launched = rowData.launched;
+  const businessCity = rowData.city;
+  const businessZipCode = rowData.zip_code;
+  const businessCountry = rowData.country;
 
   return (
     <Table.Cell {...props}>
@@ -42,7 +45,10 @@ const SellerInformation = (props: RowCell) => {
           </div>
           <div className={styles.sellerBusinessDetails}>
             <h3>Business Address:</h3>
-            <p>{businessAddress ? truncateString(businessAddress, 26) : '-'}</p>
+            <div className={styles.address}>
+              <p>{businessAddress ? businessAddress : '-'}</p>
+              <p>{`${businessCity}, ${businessZipCode}, ${businessCountry}`}</p>
+            </div>
           </div>
           <div className={styles.sellerBusinessDetails}>
             <h3>Marketplace:</h3>
