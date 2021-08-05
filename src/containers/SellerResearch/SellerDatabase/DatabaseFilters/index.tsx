@@ -36,7 +36,7 @@ interface Props {
 const SellerDatabaseFilters = (props: Props) => {
   const { fetchSellerDatabase } = props;
 
-  const [showAdvancedFilter, setShowAdvancedFilter] = useState(true);
+  const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
 
   /* Basic Filters */
   const [merchantName, setMerchantName] = useState<string>('');

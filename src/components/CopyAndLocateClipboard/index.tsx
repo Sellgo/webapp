@@ -35,23 +35,25 @@ const CopyAndLocateClipboard: React.FC<Props> = props => {
   }
 
   return (
-    <a href={link} className={styles.navigateLink}>
-      <span className={`${styles.copyData} ${className}`}>
-        {displayData ? displayData : data}
-        <span>
-          {!copied ? (
-            <Icon
-              name="copy outline"
-              className="tooltipIcon"
-              data-title="Copy"
-              onClick={() => copyText(data)}
-            />
-          ) : (
-            <Icon name="check circle" className="tooltipIcon" data-title="Copied" color="green" />
-          )}
+    <span className={styles.navigateLinkWrapper}>
+      <a href={link} className={styles.navigateLink} target="_blank" rel="noreferrer noopener">
+        <span className={`${styles.copyData} ${className}`}>
+          {displayData ? displayData : data}
         </span>
+      </a>
+      <span>
+        {!copied ? (
+          <Icon
+            name="copy outline"
+            className="tooltipIcon"
+            data-title="Copy"
+            onClick={() => copyText(data)}
+          />
+        ) : (
+          <Icon name="check circle" className="tooltipIcon" data-title="Copied" color="green" />
+        )}
       </span>
-    </a>
+    </span>
   );
 };
 

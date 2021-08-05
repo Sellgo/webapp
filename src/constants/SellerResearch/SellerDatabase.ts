@@ -6,6 +6,8 @@ export const actionTypes = {
   SET_SELLER_DATABASE_PAGINATION_INFO: 'SET_SELLER_DATABASE_PAGINATION_INFO',
 };
 
+export const INFO_FILTER_MESSAGE = `Enter at least one filter and click 'Find' to get started!`;
+
 /* Period Durations for filters */
 export const FILTER_PERIOD_DURATIONS = [
   { key: '30D', text: '30D', value: '30_days' },

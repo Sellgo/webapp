@@ -1,5 +1,10 @@
 @import '../../design-system/new-colors';
 
+.navigateLinkWrapper {
+  display: flex;
+  align-items: flex-end;
+}
+
 .navigateLink {
   color: $prim_dark_2 !important;
   margin-top: 10px;

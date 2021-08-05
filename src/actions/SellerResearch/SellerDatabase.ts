@@ -4,6 +4,7 @@ import {
   actionTypes,
   FILTER_QUERY_KEY_MAPPER,
   F_TYPES,
+  INFO_FILTER_MESSAGE,
 } from '../../constants/SellerResearch/SellerDatabase';
 import {
   SellerDatabasePaginationInfo,
@@ -64,8 +65,8 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
     }
 
     if (type === F_TYPES.INPUT_INCLUDE_EXCLUDE) {
-      const includes = filter.include ? `&${keyName}_include=${filter.include}` : '';
-      const excludes = filter.exclude ? `&${keyName}_exclude=${filter.exclude}` : '';
+      const includes = filter.include ? `&include_${keyName}=${filter.include}` : '';
+      const excludes = filter.exclude ? `&exclude_${keyName}=${filter.exclude}` : '';
       filterQuery += `${includes}${excludes}`;
     }
 
@@ -88,14 +89,17 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
   return filterQuery;
 };
 
+/* Store filter in local storage */
 export const storeSellerDatabaseFilters = (sellerDatabaseFilter: any) => {
   localStorage.setItem('newSellerDatabaseFilters', JSON.stringify(sellerDatabaseFilter));
 };
 
+/* Remove filter from local storage */
 export const removeSellerDatabaseFilters = () => {
   localStorage.removeItem('newSellerDatabaseFilters');
 };
 
+/* Extract and parse filter from local storage */
 export const extractSellerDatabaseFilters = () => {
   const storedFilters = JSON.parse(localStorage.getItem('newSellerDatabaseFilters') || '{}');
   return storedFilters;
@@ -124,14 +128,12 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
         setSellerDatabaseFilterMessage({
           type: 'info',
           show: true,
-          message: 'Please specify atleast one filter to view the data',
+          message: INFO_FILTER_MESSAGE,
         })
       );
       removeSellerDatabaseFilters();
       return;
     }
-
-    console.log(payload);
 
     const pagination = `page=${page}`;
     const sorting = `ordering=${sortDir === 'desc' ? `-${sort}` : sort}`;
