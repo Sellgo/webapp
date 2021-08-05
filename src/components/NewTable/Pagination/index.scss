@@ -1,0 +1,46 @@
+@import '../../../design-system/new-colors';
+
+.ui.pagination.newSellgoPagination {
+  height: 10px !important;
+  border-radius: 5px;
+  border: 1px solid $grey_3;
+
+  a.item {
+    width: max-content;
+    height: 100%;
+    font-size: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $prim_dark_2;
+    border: 0 !important;
+    border: 1px solid $grey_3;
+    background: #fff;
+
+    &:hover {
+      color: $prim_dark_2 !important;
+      background: #fff;
+    }
+
+    &.active {
+      background: $accent_blue;
+      color: #fff !important;
+
+      &:hover {
+        background: $accent_blue;
+        color: #fff !important;
+      }
+    }
+  }
+
+  .controlIcon {
+    color: $accent_blue !important;
+    font-size: 14px !important;
+
+    &.disabled {
+      pointer-events: none;
+      color: rgba($accent_blue, 0.4);
+      cursor: disabled !important;
+    }
+  }
+}

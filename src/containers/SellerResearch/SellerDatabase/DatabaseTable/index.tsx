@@ -30,8 +30,9 @@ import BrandsListCell from '../../../../components/NewTable/BrandsListCell';
 import RatingCell from '../../../../components/NewTable/RatingCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import ExtendedReviewsCell from '../../../../components/NewTable/ExtendedReviewsCell';
+import TablePagination from '../../../../components/NewTable/Pagination';
 
-/* COntainers */
+/* Containers */
 import SellerInformation from './SellerInformation';
 import SellerActions from './SellerActions';
 
@@ -43,7 +44,12 @@ interface Props {
 }
 
 const SellerDatabaseTable = (props: Props) => {
-  const { isLoadingSellerDatabase, sellerDatabaseResults, fetchSellerDatabase } = props;
+  const {
+    isLoadingSellerDatabase,
+    sellerDatabaseResults,
+    fetchSellerDatabase,
+    sellerDatabaPaginationInfo,
+  } = props;
 
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
@@ -54,6 +60,12 @@ const SellerDatabaseTable = (props: Props) => {
     fetchSellerDatabase({
       sort: sortColumn,
       sortDir: sortType === undefined ? 'asc' : sortType,
+    });
+  };
+
+  const handlePageChange = (pageNo: number) => {
+    fetchSellerDatabase({
+      page: pageNo,
     });
   };
 
@@ -205,6 +217,17 @@ const SellerDatabaseTable = (props: Props) => {
             />
           </Table.Column>
         </Table>
+
+        {sellerDatabaPaginationInfo && (
+          <footer className={styles.sellerDatabasePagination}>
+            <TablePagination
+              totalPages={sellerDatabaPaginationInfo.total_pages}
+              currentPage={sellerDatabaPaginationInfo.current_page}
+              onPageChange={handlePageChange}
+              showSiblingsCount={5}
+            />
+          </footer>
+        )}
       </section>
     </>
   );
