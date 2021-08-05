@@ -18,7 +18,7 @@ interface Props {
   match: any;
 }
 
-const SellerResearchMapper = ['Sellers', 'Maps', 'Inventories'];
+const SellerResearchMapper = ['Database', 'Maps', 'Inventories'];
 
 const SellerResearch = (props: Props) => {
   const { match } = props;
@@ -57,9 +57,9 @@ const SellerResearch = (props: Props) => {
             selectedIndex={selectedTabList}
           >
             <TabList className={styles.productTablist}>
-              {SellerResearchMapper.map((product: string, index: number) => {
-                return <Tab key={index}>{product}</Tab>;
-              })}
+              <Tab>Sellers</Tab>
+              <Tab>Maps</Tab>
+              <Tab>Inventory</Tab>
             </TabList>
 
             <TabPanel>
