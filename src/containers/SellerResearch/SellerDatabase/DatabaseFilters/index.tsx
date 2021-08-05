@@ -5,9 +5,6 @@ import { connect } from 'react-redux';
 /* Styling */
 import styles from './index.module.scss';
 
-/* Constants */
-import { DURATIONS, LAUNCHED_DURATIONS } from '../../../../constants/SellerDatabase';
-
 /* Components */
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
@@ -27,6 +24,8 @@ import {
   DEFAULT_INCLUDE_EXCLUDE_FILTER,
   DEFAULT_MIN_MAX_FILTER,
   DEFAULT_MIN_MAX_PERIOD_FILTER,
+  FILTER_LAUNCHED_DURATIONS,
+  FILTER_PERIOD_DURATIONS,
 } from '../../../../constants/SellerResearch/SellerDatabase';
 
 interface Props {
@@ -232,7 +231,7 @@ const SellerDatabaseFilters = (props: Props) => {
                 <PeriodFilter
                   placeholder="30D"
                   value={reviewCount.period}
-                  filterOptions={DURATIONS}
+                  filterOptions={FILTER_PERIOD_DURATIONS}
                   handleChange={(period: string) => {
                     setReviewCount(prevState => ({ ...prevState, period }));
                   }}
@@ -252,7 +251,7 @@ const SellerDatabaseFilters = (props: Props) => {
                 <PeriodFilter
                   placeholder="30D"
                   value={neutralReview.period}
-                  filterOptions={DURATIONS}
+                  filterOptions={FILTER_PERIOD_DURATIONS}
                   handleChange={(period: string) => {
                     setNeutralReview(prevState => ({ ...prevState, period }));
                   }}
@@ -272,7 +271,7 @@ const SellerDatabaseFilters = (props: Props) => {
                 <PeriodFilter
                   placeholder="30D"
                   value={positiveReview.period}
-                  filterOptions={DURATIONS}
+                  filterOptions={FILTER_PERIOD_DURATIONS}
                   handleChange={(period: string) => {
                     setPositiveReview(prevState => ({ ...prevState, period }));
                   }}
@@ -292,7 +291,7 @@ const SellerDatabaseFilters = (props: Props) => {
                 <PeriodFilter
                   placeholder="30D"
                   value={negativeReview.period}
-                  filterOptions={DURATIONS}
+                  filterOptions={FILTER_PERIOD_DURATIONS}
                   handleChange={(period: string) => {
                     setNegativeReview(prevState => ({ ...prevState, period }));
                   }}
@@ -322,7 +321,7 @@ const SellerDatabaseFilters = (props: Props) => {
               {/* Seller Launched */}
               <RadioListFilters
                 label="Seller Launched"
-                filterOptions={LAUNCHED_DURATIONS}
+                filterOptions={FILTER_LAUNCHED_DURATIONS}
                 value={launched}
                 handleChange={(value: string) => setLaunched(value)}
               />

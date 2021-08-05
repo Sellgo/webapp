@@ -13,7 +13,6 @@ import userOnboardingReducer from './UserOnboarding';
 import leadsReducer from './LeadsTracker';
 import notificationReducer from './Notification';
 import sellerFinderReducer from './SellerFinder';
-import sellerDatabaseReducer from './SellerDatabase';
 
 /* Products Research */
 import productsDatabaseReducer from './ProductResearch/ProductsDatabase';
@@ -36,7 +35,7 @@ const rootReducer = combineReducers({
   leads: leadsReducer,
   notification: notificationReducer,
   sellerFinder: sellerFinderReducer,
-  sellerDatabase: sellerDatabaseReducer,
+
   // seller research
   newSellerDatabase: newSellerDatabaseReducer,
   sellerMap: sellerMapReducer,

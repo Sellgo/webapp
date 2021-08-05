@@ -12,7 +12,6 @@ import './index.scss';
 import { Column, getColumnLabel, getColumnClass } from './index';
 import { setActiveColumn, setSortColumn } from '../../actions/Suppliers';
 import RangeFilterBox from '../RangeFilterBox';
-import SellerCheckBoxHeader from '../../containers/SellerDatabase/SellerDatabaseTable/sellerCheckBoxHeader';
 
 interface Shared {
   setSort: (e: any, clickedColumn: string) => void;
@@ -336,14 +335,6 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
           />
         )}
 
-        {check && checkedRows && updateCheckedRows && type === 'seller-database' && (
-          <SellerCheckBoxHeader
-            currentPage={currentPage}
-            currentPageRows={rows}
-            checkedRows={checkedRows}
-            updateCheckedRows={updateCheckedRows}
-          />
-        )}
         {icon && popUp ? (
           <Popup
             on="click"
