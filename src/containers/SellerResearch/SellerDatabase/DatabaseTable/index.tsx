@@ -218,7 +218,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
         </Table>
 
-        {sellerDatabaPaginationInfo && (
+        {sellerDatabaPaginationInfo && sellerDatabaPaginationInfo.total_pages > 0 && (
           <footer className={styles.sellerDatabasePagination}>
             <TablePagination
               totalPages={sellerDatabaPaginationInfo.total_pages}

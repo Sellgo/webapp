@@ -118,6 +118,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
       sort = 'seller_id',
       sortDir = 'asc',
       enabledLoader = true,
+      marketplaceId = 'ATVPDKIKX0DER',
     } = payload;
 
     // if filter request is passed
@@ -131,12 +132,14 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
           message: INFO_FILTER_MESSAGE,
         })
       );
+      dispatch(setSellerDatabasePaginationInfo({ count: 0, total_pages: 0, current_page: 0 }));
       removeSellerDatabaseFilters();
       return;
     }
 
     const pagination = `page=${page}`;
     const sorting = `ordering=${sortDir === 'desc' ? `-${sort}` : sort}`;
+    const marketplace = `marketplace_id=${marketplaceId}`;
 
     let filterPayloadData: any;
 
@@ -155,9 +158,11 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
 
     dispatch(setIsLoadingSellerDatabase(enabledLoader));
 
-    const URL = `sellers/${sellerID}/merchants-database?${pagination}&${sorting}${filtersQueryString}`;
+    const resourcePath = `?${pagination}&${sorting}&${marketplace}${filtersQueryString}`;
 
-    const { data } = await axios.get(`${AppConfig.BASE_URL_API}${URL}`);
+    const { data } = await axios.get(
+      `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database${resourcePath}`
+    );
 
     const { results, ...paginationInfo } = data;
     if (data) {

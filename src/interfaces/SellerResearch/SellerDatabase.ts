@@ -5,6 +5,7 @@ export interface SellerDatabasePayload {
   page?: number;
   sort?: string;
   sortDir?: 'asc' | 'desc';
+  marketplaceId?: string;
 }
 
 export interface ShowFilterMessage {
@@ -16,8 +17,8 @@ export interface ShowFilterMessage {
 export interface SellerDatabasePaginationInfo {
   count: number;
   current_page: number;
-  next: string;
-  per_page: number;
-  previous: string;
   total_pages: number;
+  next?: string;
+  per_page?: number;
+  previous?: string;
 }
