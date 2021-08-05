@@ -3,6 +3,7 @@
 .navigateLinkWrapper {
   display: flex;
   align-items: flex-end;
+  width: 100%;
 }
 
 .navigateLink {
@@ -10,9 +11,9 @@
   margin-top: 10px;
 
   &:hover {
-    color: $prim_dark_2 !important;
+    color: $accent_blue !important;
     text-decoration: underline;
-    font-weight: 400 !important;
+    font-weight: 500 !important;
   }
 }
 
