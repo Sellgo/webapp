@@ -81,7 +81,7 @@ const SellerDatabaseTable = (props: Props) => {
           headerHeight={55}
           sortColumn={sortColumn}
           sortType={sortType}
-          id="newSellerDatabaseTable"
+          id="sellerDatabaseTable"
           onSortColumn={handleSortColumn}
         >
           {/* Seller Information */}

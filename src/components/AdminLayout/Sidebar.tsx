@@ -74,7 +74,7 @@ class SidebarCollapsible extends Component<
         id: 5,
         label: 'Seller Database',
         icon: sellerDatabaseIcon,
-        path: '/seller-database',
+        path: '/seller-research',
         notifyId: 4,
         imageType: true,
       },

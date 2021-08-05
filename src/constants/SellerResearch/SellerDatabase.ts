@@ -18,8 +18,8 @@ export const FILTER_PERIOD_DURATIONS = [
 
 /* Launched Durations for filters */
 export const FILTER_LAUNCHED_DURATIONS = [
-  { label: '<1-yr', value: '<1-yr' },
-  { label: '>1-yr', value: '>1-yr' },
+  { label: '<1-yr', value: '<1Y' },
+  { label: '>1-yr', value: '>1Y' },
   { label: 'All', value: '' },
 ];
 

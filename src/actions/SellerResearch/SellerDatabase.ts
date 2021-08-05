@@ -91,17 +91,17 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
 
 /* Store filter in local storage */
 export const storeSellerDatabaseFilters = (sellerDatabaseFilter: any) => {
-  localStorage.setItem('newSellerDatabaseFilters', JSON.stringify(sellerDatabaseFilter));
+  localStorage.setItem('sellerDatabaseFilters', JSON.stringify(sellerDatabaseFilter));
 };
 
 /* Remove filter from local storage */
 export const removeSellerDatabaseFilters = () => {
-  localStorage.removeItem('newSellerDatabaseFilters');
+  localStorage.removeItem('sellerDatabaseFilters');
 };
 
 /* Extract and parse filter from local storage */
 export const extractSellerDatabaseFilters = () => {
-  const storedFilters = JSON.parse(localStorage.getItem('newSellerDatabaseFilters') || '{}');
+  const storedFilters = JSON.parse(localStorage.getItem('sellerDatabaseFilters') || '{}');
   return storedFilters;
 };
 /* =========================== Async actions ======================= */

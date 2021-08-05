@@ -14,7 +14,7 @@ const INITIAL_STATE = {
   sellerDatabasePaginationInfo: null,
 };
 
-const newSellerDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
+const sellerDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
   switch (action.type) {
     case actionTypes.IS_LOADING_SELLER_DATABASE: {
       return setIn(state, 'isLoadingSellerDatabase', action.payload);
@@ -37,4 +37,4 @@ const newSellerDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
   }
 };
 
-export default newSellerDatabaseReducer;
+export default sellerDatabaseReducer;
