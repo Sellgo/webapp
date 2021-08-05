@@ -18,7 +18,7 @@ interface Props {
   match: any;
 }
 
-const SellerResearchMapper = ['Database', 'Maps', 'Inventories'];
+const SellerResearchMapper = ['Database', 'Map', 'Inventories'];
 
 const SellerResearch = (props: Props) => {
   const { match } = props;
@@ -58,8 +58,7 @@ const SellerResearch = (props: Props) => {
           >
             <TabList className={styles.productTablist}>
               <Tab>Sellers</Tab>
-              <Tab>Maps</Tab>
-              <Tab>Inventory</Tab>
+              <Tab>Map</Tab>
             </TabList>
 
             <TabPanel>
@@ -68,10 +67,6 @@ const SellerResearch = (props: Props) => {
 
             <TabPanel>
               <SellerMaps />
-            </TabPanel>
-
-            <TabPanel>
-              <h1>Inventories</h1>
             </TabPanel>
           </Tabs>
         </section>
