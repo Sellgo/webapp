@@ -64,8 +64,8 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
     }
 
     if (type === F_TYPES.INPUT_INCLUDE_EXCLUDE) {
-      const includes = filter.includes ? `&${keyName}_includes=${filter.includes}` : '';
-      const excludes = filter.excludes ? `&${keyName}_excludes=${filter.excludes}` : '';
+      const includes = filter.include ? `&${keyName}_include=${filter.include}` : '';
+      const excludes = filter.exclude ? `&${keyName}_exclude=${filter.exclude}` : '';
       filterQuery += `${includes}${excludes}`;
     }
 
@@ -130,6 +130,8 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
       removeSellerDatabaseFilters();
       return;
     }
+
+    console.log(payload);
 
     const pagination = `page=${page}`;
     const sorting = `ordering=${sortDir === 'desc' ? `-${sort}` : sort}`;

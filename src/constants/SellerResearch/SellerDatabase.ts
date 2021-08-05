@@ -50,9 +50,9 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   merchantName: { keyName: 'merchant_name', type: F_TYPES.TEXT },
   businessName: { keyName: 'business_name', type: F_TYPES.TEXT },
   launched: { keyName: 'launched', type: F_TYPES.TEXT },
-  asins: { keyName: 'asin', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
+  asins: { keyName: 'asins', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
   brands: { keyName: 'brands', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
-  sellerIds: { keyName: 'seller_ids', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
+  sellerIds: { keyName: 'merchant_ids', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
 
   // min max based
   sellerRatings: { keyName: 'seller_rating', type: F_TYPES.MIN_MAX },
