@@ -16,8 +16,8 @@ import PricingCell from '../../../../components/NewTable/PricingCell';
 import RatingCell from '../../../../components/NewTable/RatingCell';
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import GenericRowCell from '../../../../components/NewTable/GenericRowCell';
-import NumberCell from '../../../../components/NewTable/NumberCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
+import TruncatedTextCell from '../../../../components/NewTable/TruncatedTextCell';
 
 /* Table */
 import {
@@ -129,12 +129,13 @@ const ProductsDatabaseTable = (props: Props) => {
           <ProductDetails
             title={rowData.title}
             brand={rowData.brand}
-            sizeTier={rowData.size_tier}
-            numberOfImages={rowData.number_of_images}
+            sizeTier={rowData.size_tier || '-'}
+            numberOfImages={rowData.image_count}
             packageDimension={rowData.package_dimension}
             storageFee={rowData.storage_fee}
             listingAge={rowData.listing_age_months}
             category={rowData.category}
+            variationCount={rowData.variation_count}
           />
         </div>
       </GenericRowCell>
@@ -270,7 +271,7 @@ const ProductsDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <NumberCell dataKey="bsr" />
+            <TruncatedTextCell dataKey="bsr" />
           </Table.Column>
 
           <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
