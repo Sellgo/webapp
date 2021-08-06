@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Pagination, Icon } from 'semantic-ui-react';
 
 /* Styling */
@@ -25,6 +25,9 @@ const TablePagination = (props: Props) => {
     showfirstItem = false,
   } = props;
 
+  const isFirstPage = useMemo(() => currentPage === 1, [totalPages, currentPage]);
+  const isLastPage = useMemo(() => currentPage === totalPages, [totalPages, currentPage]);
+
   return (
     <Pagination
       size="mini"
@@ -35,17 +38,11 @@ const TablePagination = (props: Props) => {
       firstItem={showfirstItem ? { content: <Icon name="angle double left" />, icon: true } : null}
       lastItem={showLastItem ? { content: <Icon name="angle double right" />, icon: true } : null}
       prevItem={{
-        content: <Icon name="caret left" className={'controlIcon'} disabled={currentPage === 1} />,
+        content: <Icon name="caret left" className={'controlIcon'} disabled={isFirstPage} />,
         icon: true,
       }}
       nextItem={{
-        content: (
-          <Icon
-            name="caret right"
-            className={'controlIcon'}
-            disabled={currentPage === totalPages}
-          />
-        ),
+        content: <Icon name="caret right" className={'controlIcon'} disabled={isLastPage} />,
         icon: true,
       }}
       activePage={currentPage}
