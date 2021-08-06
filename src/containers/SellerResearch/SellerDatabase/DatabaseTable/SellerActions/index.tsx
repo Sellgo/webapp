@@ -53,7 +53,14 @@ const SellerActions = (props: Props) => {
     <>
       <Table.Cell {...otherProps}>
         <div className={`${isSellerTracked ? styles.actionCellActive : styles.actionCellInActive}`}>
-          <button className={styles.actionButton} onClick={handleSellerTrack}>
+          <button
+            className={styles.actionButton}
+            onClick={handleSellerTrack}
+            style={{
+              color: isSellerTracked ? '#2F8DDF' : '#2E3B4A',
+              fontWeight: isSellerTracked ? 500 : 400,
+            }}
+          >
             {parsedAsinList.length}
           </button>
           <Popup
