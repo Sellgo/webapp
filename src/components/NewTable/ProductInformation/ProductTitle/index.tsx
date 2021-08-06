@@ -16,14 +16,14 @@ const ProductTitle = (props: Props) => {
   return (
     <div className={styles.productTitle}>
       <img src={image} className={styles.productImage} />
-      <p className={styles.productTitleText}>
-        ASIN:{' '}
+      <div className={styles.productTitleTextBox}>
+        <p className={styles.productTitleText}>ASIN:</p>
         {asin.length > 0 ? (
           <CopyAndLocateClipboard data={asin} link={`http://www.amazon.com/dp/${props.asin}`} />
         ) : (
           '-'
         )}
-      </p>
+      </div>
     </div>
   );
 };

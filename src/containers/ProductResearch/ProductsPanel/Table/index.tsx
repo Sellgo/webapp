@@ -17,6 +17,7 @@ import RatingCell from '../../../../components/NewTable/RatingCell';
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import GenericRowCell from '../../../../components/NewTable/GenericRowCell';
 import NumberCell from '../../../../components/NewTable/NumberCell';
+import TablePagination from '../../../../components/NewTable/Pagination';
 
 /* Table */
 import {
@@ -59,12 +60,10 @@ const ProductsDatabaseTable = (props: Props) => {
   const [selectedRows, setSelectedRows] = React.useState<string[]>([]);
   const [sortColumn, setSortColumn] = React.useState<string>('');
   const [sortType, setSortType] = React.useState<'asc' | 'desc' | undefined>(undefined);
-  const [pageNum, setPageNum] = React.useState<number>(1);
 
-  const handleChangePage = (dataKey: number) => {
-    setPageNum(dataKey);
+  const handleChangePage = (pageNo: number) => {
     fetchProductsDatabase({
-      page: dataKey,
+      page: pageNo,
     });
   };
 
@@ -198,7 +197,6 @@ const ProductsDatabaseTable = (props: Props) => {
           onSortColumn={handleSortColumn}
           sortType={sortType}
           sortColumn={sortColumn}
-          rowClassName={styles.tableRow}
           affixHorizontalScrollbar
           className={styles.productsDatabaseTable}
         >
@@ -305,16 +303,13 @@ const ProductsDatabaseTable = (props: Props) => {
           </Table.Column>
         </Table>
 
-        {productsDatabasePaginationInfo.total_pages > 0 && (
-          <footer>
-            <Table.Pagination
-              showInfo={false}
-              activePage={pageNum}
-              displayLength={productsDatabaseResults.length || 0}
-              /* Total num of data ENTRIES, e.g. 200 entries with 10 display length = 20 pages */
-              total={productsDatabaseResults.length * productsDatabasePaginationInfo.total_pages}
-              onChangePage={handleChangePage}
-              showLengthMenu={false}
+        {productsDatabasePaginationInfo && productsDatabasePaginationInfo.total_pages > 0 && (
+          <footer className={styles.productDatabasePagination}>
+            <TablePagination
+              totalPages={productsDatabasePaginationInfo.total_pages}
+              currentPage={productsDatabasePaginationInfo.current_page}
+              showSiblingsCount={2}
+              onPageChange={handleChangePage}
             />
           </footer>
         )}

@@ -3,25 +3,35 @@
 .productTitle {
   height: 100%;
   width: 50%;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
+}
+
+.productTitleTextBox {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
 }
 
 .productTitleText {
   margin: 0;
   color: $prim_dark_1;
   font-size: 12px;
+  margin-right: 3px;
+}
+
+.productImageBox {
+  width: 100%;
 }
 
 .productImage {
-  height: 50%;
-  width: 50%;
+  background-color: red;
+  max-width: 90%;
+  height: 110px;
   object-fit: contain;
-  object-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin-bottom: 10px;
 }
