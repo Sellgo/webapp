@@ -91,7 +91,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* ASIN */}
-          <Table.Column width={200} verticalAlign="middle" align="center">
+          <Table.Column width={200} verticalAlign="middle" align="left">
             <Table.HeaderCell>ASIN</Table.HeaderCell>
             <SellerActions dataKey="sellerActions" />
           </Table.Column>
