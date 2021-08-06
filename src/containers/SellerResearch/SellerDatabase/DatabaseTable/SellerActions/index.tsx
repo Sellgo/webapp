@@ -42,8 +42,8 @@ const SellerActions = (props: Props) => {
   };
 
   /* Copy Asins */
-  const handleCopyAsins = () => {
-    const prepareAsinStringCopy = removeSpecialChars(parsedAsinList);
+  const handleCopyAsins = (deliminator?: string) => {
+    const prepareAsinStringCopy = removeSpecialChars(parsedAsinList, deliminator);
     copyToClipboard(prepareAsinStringCopy).then(() => {
       success('ASINs successfully copied');
     });
@@ -82,9 +82,14 @@ const SellerActions = (props: Props) => {
                     <Icon name="download" />
                     <span>Export</span>
                   </button> */}
-                  <button onClick={handleCopyAsins}>
+                  <button onClick={() => handleCopyAsins(',')}>
                     <Icon name="copy outline" />
-                    <span>Copy ASINs</span>
+                    <span>Copy ASINs in rows with comma</span>
+                  </button>
+
+                  <button onClick={() => handleCopyAsins('\n')}>
+                    <Icon name="copy outline" />
+                    <span>Copy ASINs in columns</span>
                   </button>
                 </div>
               </>

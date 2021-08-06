@@ -75,8 +75,8 @@
 .actionOptions {
   display: flex;
   flex-direction: column;
-  min-width: 170px;
-  min-height: 80px;
+  min-width: 275px;
+  min-height: 130px;
   justify-content: space-between;
   align-items: stretch;
 
@@ -98,11 +98,11 @@
     font-size: 14px !important;
 
     span {
-      margin-left: 10px;
+      margin-left: 2px;
     }
 
-    svg {
-      width: 15px;
+    img {
+      min-width: 20px;
       height: 12px;
 
       path {
