@@ -15,9 +15,15 @@ import { fetchSellerDatabase } from '../../../../actions/SellerResearch/SellerDa
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../../constants/SellerResearch/SellerDatabase';
 
 /* Interface */
-import { SellerDatabasePayload } from '../../../../interfaces/SellerResearch/SellerDatabase';
 import {
+  SellerDatabasePaginationInfo,
+  SellerDatabasePayload,
+  ShowFilterMessage,
+} from '../../../../interfaces/SellerResearch/SellerDatabase';
+import {
+  getFilterMessage,
   getIsLoadingSellerDatabase,
+  getSellerDatabasePaginationInfo,
   getSellerDatabaseResults,
 } from '../../../../selectors/SellerResearch/SellerDatabase';
 
@@ -25,10 +31,18 @@ interface Props {
   sellerDatabaseResults: any;
   isLoadingSellerDatabase: boolean;
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
+  sellerDatabaseFilterMessage: ShowFilterMessage;
+  sellerDatabasePaginationInfo: SellerDatabasePaginationInfo;
 }
 
 const DatabaseExport = (props: Props) => {
-  const { fetchSellerDatabase, sellerDatabaseResults, isLoadingSellerDatabase } = props;
+  const {
+    fetchSellerDatabase,
+    sellerDatabaseResults,
+    isLoadingSellerDatabase,
+    sellerDatabaseFilterMessage,
+    sellerDatabasePaginationInfo,
+  } = props;
 
   const [openExports, setOpenExports] = useState(false);
 
@@ -45,13 +59,17 @@ const DatabaseExport = (props: Props) => {
   return (
     <>
       <div className={styles.exportsContainer}>
-        {/* <h2>
-          Results note is described here, please explain in concise yet short, not longer than this
-          line.
-        </h2> */}
+        {!sellerDatabaseFilterMessage.show && sellerDatabasePaginationInfo && (
+          <h2>
+            {sellerDatabaseResults.length * sellerDatabasePaginationInfo.total_pages} sellers found,
+            please add additional filters for a more target search.
+          </h2>
+        )}
         <div
           onClick={() => (shouldEnableExport ? setOpenExports(true) : 0)}
-          className={`${shouldEnableExport ? 'export-button' : 'export-button-disabled'}`}
+          className={`${styles.exportButton} ${
+            shouldEnableExport ? 'export-button' : 'export-button-disabled'
+          }`}
         >
           <Icon name="download" />
           <span>Export</span>
@@ -75,6 +93,8 @@ const DatabaseExport = (props: Props) => {
 const mapStateToProps = (state: any) => ({
   sellerDatabaseResults: getSellerDatabaseResults(state),
   isLoadingSellerDatabase: getIsLoadingSellerDatabase(state),
+  sellerDatabaseFilterMessage: getFilterMessage(state),
+  sellerDatabasePaginationInfo: getSellerDatabasePaginationInfo(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {
