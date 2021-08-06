@@ -17,7 +17,7 @@ export interface ShowFilterMessage {
 }
 
 export interface SellerDatabasePaginationInfo {
-  count: number;
+  count?: number;
   current_page: number;
   total_pages: number;
   next?: string;

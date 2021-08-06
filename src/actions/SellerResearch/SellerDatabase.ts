@@ -161,7 +161,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
           message: INFO_FILTER_MESSAGE,
         })
       );
-      dispatch(setSellerDatabasePaginationInfo({ count: 0, total_pages: 0, current_page: 0 }));
+      dispatch(setSellerDatabasePaginationInfo({ total_pages: 0, current_page: 0 }));
 
       return;
     }
@@ -211,6 +211,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
     console.error('Error fetching ', err);
     dispatch(setIsLoadingSellerDatabase(false));
     dispatch(setSellerDatabaseResults([]));
+    dispatch(setSellerDatabasePaginationInfo({ total_pages: 0, current_page: 0 }));
 
     const { status, data } = err.response;
 
