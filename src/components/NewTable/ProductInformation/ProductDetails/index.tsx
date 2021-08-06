@@ -6,13 +6,14 @@ import styles from './index.module.scss';
 
 interface Props {
   title: string;
-  category: string[];
+  category: string;
   brand: string;
   sizeTier: string;
   numberOfImages: number;
   packageDimension: string;
   storageFee: number;
   listingAge: number;
+  variationCount: number;
 }
 
 const ProductDetails = (props: Props) => {
@@ -25,21 +26,22 @@ const ProductDetails = (props: Props) => {
     packageDimension,
     storageFee,
     listingAge,
+    variationCount,
   } = props;
-  const categoryString = category.join(',');
 
   return (
     <div className={styles.productDetails}>
       <h3 className={styles.productDetailsHeading}>{truncateString(title, 15)}</h3>
       {brand && brand.length > 0 && (
         <span>
-          <p className={styles.productDetailsText}>
-            Category: {truncateString(categoryString, 20)}
-          </p>
+          <p className={styles.productDetailsText}>Category: {truncateString(category, 20)}</p>
           <p className={styles.productDetailsText}>Brand: {truncateString(brand, 20)}</p>
           <p className={styles.productDetailsText}>Size Tier: {truncateString(sizeTier, 20)}</p>
           <p className={styles.productDetailsText}>
             Number of Images: {formatNumber(numberOfImages)}
+          </p>
+          <p className={styles.productDetailsText}>
+            Variation Count: {formatNumber(variationCount)}
           </p>
           <p className={styles.productDetailsText}>
             Package Dimensions: {truncateString(packageDimension, 20)}
