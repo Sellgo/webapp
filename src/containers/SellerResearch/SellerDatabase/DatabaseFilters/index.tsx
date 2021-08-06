@@ -218,6 +218,26 @@ const SellerDatabaseFilters = (props: Props) => {
                 }
               />
 
+              {/* # of inventory */}
+              <MinMaxFilter
+                label="# of Inventory"
+                minValue={numInventory.min}
+                maxValue={numInventory.max}
+                handleChange={(type: string, value: string) =>
+                  setNumInventory(prevState => ({ ...prevState, [type]: value }))
+                }
+              />
+
+              {/* # of brands */}
+              <MinMaxFilter
+                label="# of Brands"
+                minValue={numBrands.min}
+                maxValue={numBrands.max}
+                handleChange={(type: string, value: string) =>
+                  setNumBrands(prevState => ({ ...prevState, [type]: value }))
+                }
+              />
+
               {/* Review Count */}
               <div className={styles.groupFilters}>
                 <MinMaxFilter
@@ -297,26 +317,6 @@ const SellerDatabaseFilters = (props: Props) => {
                   }}
                 />
               </div>
-
-              {/* # of inventory */}
-              <MinMaxFilter
-                label="# of Inventory"
-                minValue={numInventory.min}
-                maxValue={numInventory.max}
-                handleChange={(type: string, value: string) =>
-                  setNumInventory(prevState => ({ ...prevState, [type]: value }))
-                }
-              />
-
-              {/* # of brands */}
-              <MinMaxFilter
-                label="# of Brands"
-                minValue={numBrands.min}
-                maxValue={numBrands.max}
-                handleChange={(type: string, value: string) =>
-                  setNumBrands(prevState => ({ ...prevState, [type]: value }))
-                }
-              />
 
               {/* Seller Launched */}
               <RadioListFilters
