@@ -15,11 +15,23 @@
         height: 190px !important;
         border: 1px solid $grey_3;
         border-radius: 7px;
-        background: rgba($grey_3, 0.2) !important;
 
-        .rs-table-cell-content {
-          background: rgba($grey_3, 0.2) !important;
-          color: $prim_dark_2 !important;
+        &:nth-child(2n) {
+          background-color: #fff !important;
+
+          .rs-table-cell-content {
+            color: $prim_dark_2 !important;
+            background-color: #fff !important;
+          }
+        }
+
+        &:nth-child(2n + 1) {
+          background-color: rgba($grey_3, 0.2) !important;
+
+          .rs-table-cell-content {
+            color: $prim_dark_2 !important;
+            background-color: rgba($grey_3, 0.2) !important;
+          }
         }
       }
     }
