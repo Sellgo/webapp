@@ -14,7 +14,7 @@ import {
 import { sellerIDSelector } from '../../selectors/Seller';
 import { getSellerDatabaseResults } from '../../selectors/SellerResearch/SellerDatabase';
 import { downloadFile } from '../../utils/download';
-import { info, success } from '../../utils/notifications';
+import { error, info, success } from '../../utils/notifications';
 
 /* Action to set loading state for seller database */
 export const setIsLoadingSellerDatabase = (payload: boolean) => {
@@ -124,7 +124,11 @@ export const exportSellerDatabaseTable = (resourcePath: string) => async () => {
       }
     }
   } catch (err) {
-    console.error('Error exporting seller database', err);
+    const { status, data } = err.response;
+
+    if (status === 403) {
+      error(data.message);
+    }
   }
 };
 
@@ -209,6 +213,10 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
     dispatch(setSellerDatabaseResults([]));
 
     const { status, data } = err.response;
+
+    if (status === 429) {
+      error(data.message);
+    }
 
     dispatch(
       setSellerDatabaseFilterMessage({

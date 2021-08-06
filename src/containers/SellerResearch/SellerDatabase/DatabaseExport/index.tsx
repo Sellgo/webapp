@@ -33,8 +33,6 @@ const DatabaseExport = (props: Props) => {
   const [openExports, setOpenExports] = useState(false);
 
   const hanleOnExport = async (details: any) => {
-    console.log('Run export with', details);
-
     await fetchSellerDatabase({ isExport: true, fileFormat: details.format });
     setOpenExports(false);
   };
