@@ -1,0 +1,118 @@
+@import '../../../../../design-system/new-colors';
+
+.btnReset {
+  background: transparent !important;
+  max-height: 100%;
+  width: max-content !important;
+  border: 0 !important;
+  outline: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.actionCellWrapper {
+  min-width: 50px;
+  max-width: 65px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0 auto !important;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background: $blue_1 !important;
+  }
+}
+
+.actionCellInActive {
+  @extend .actionCellWrapper;
+
+  background: transparent !important;
+}
+
+.actionCellActive {
+  @extend .actionCellWrapper;
+
+  background: $blue_1 !important;
+}
+
+.actionButton {
+  @extend .btnReset;
+
+  flex: 1;
+  height: 100%;
+  cursor: pointer;
+  margin-right: 5px !important;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.iconButton {
+  @extend .btnReset;
+
+  margin-right: 5px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > i.chevron.up.icon {
+    font-size: 10px !important;
+  }
+}
+
+.actionsPopover {
+  padding: 10px !important;
+  z-index: 99999 !important;
+
+  &::before {
+    display: none !important;
+  }
+}
+
+.actionOptions {
+  display: flex;
+  flex-direction: column;
+  min-width: 275px;
+  min-height: 130px;
+  justify-content: space-between;
+  align-items: stretch;
+
+  p {
+    color: $grey_3;
+    font-size: 12px;
+  }
+
+  button {
+    @extend .btnReset;
+
+    color: $prim_dark_2;
+    font-weight: 500;
+    margin: 5px 0;
+    width: 100% !important;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 14px !important;
+
+    span {
+      margin-left: 2px;
+    }
+
+    img {
+      min-width: 20px;
+      height: 12px;
+
+      path {
+        fill: $prim_dark_2;
+      }
+    }
+  }
+}
+
+.icon {
+  font-size: 14px !important;
+  color: #000 !important;
+}

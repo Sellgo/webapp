@@ -1,0 +1,23 @@
+@import '../../design-system/new-colors';
+
+.navigateLinkWrapper {
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.navigateLink {
+  color: $prim_dark_2 !important;
+  margin-top: 10px;
+  font-weight: 500 !important;
+
+  &:hover {
+    color: $prim_dark_2 !important;
+    text-decoration: underline;
+    font-weight: 600 !important;
+  }
+}
+
+.copyData {
+  font-size: 12px !important;
+}

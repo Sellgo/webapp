@@ -1,0 +1,27 @@
+@import '../../design-system/colors.scss';
+
+.typeFormBox {
+  width: 100%;
+  height: 80vh;
+  overflow: hidden;
+  overscroll-behavior: contain;
+
+  &__hidden {
+    width: 0;
+  }
+}
+
+.goBackButton {
+  margin-top: -25px;
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 14px;
+  color: $prim_dark_2;
+
+  &:hover {
+    text-decoration: none;
+  }
+}

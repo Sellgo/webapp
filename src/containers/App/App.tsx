@@ -23,10 +23,11 @@ import Subscription from '../Settings/Subscription';
 import Payment from '../Subscription/Payment';
 import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
-import SellerDatabase from '../SellerDatabase';
+import ChurnFlow from '../ChurnFlow';
+
 import SellerFinder from '../SellerFinder';
-import MapTest from '../SellerMap';
 import ProductResearch from '../ProductResearch';
+import SellerResearch from '../SellerResearch';
 
 export const auth = new Auth();
 
@@ -218,10 +219,11 @@ function App() {
 
           <PrivateRoute
             exact={true}
-            path="/seller-database"
-            component={SellerDatabase}
+            path="/seller-research"
+            component={SellerResearch}
             requireSubscription={true}
           />
+
           <PrivateRoute
             exact={true}
             path="/seller-finder"
@@ -231,16 +233,16 @@ function App() {
 
           <PrivateRoute
             exact={true}
-            path="/seller-map"
-            component={MapTest}
+            path="/product-research"
+            component={ProductResearch}
             requireSubscription={true}
           />
 
           <PrivateRoute
             exact={true}
-            path="/product-research"
-            component={ProductResearch}
-            requireSubscription={false}
+            path="/churnflow"
+            component={ChurnFlow}
+            requireSubscription={true}
           />
 
           <Route component={NotFound} />

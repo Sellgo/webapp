@@ -4,7 +4,7 @@ import {
   COUNTRY_DROPDOWN_LIST,
   INITIAL_ZOOM,
   MIN_ZOOM,
-} from '../constants/SellerMap';
+} from '../constants/SellerResearch/SellerMap';
 
 /* Static offset ampper */
 const offsetMapper = {

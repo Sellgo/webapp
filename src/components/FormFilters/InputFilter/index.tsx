@@ -1,4 +1,5 @@
 import React from 'react';
+import { Input } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -8,18 +9,22 @@ interface Props {
   placeholder: string;
   value: string;
   handleChange: (value: string) => void;
+  disabled?: boolean;
+  error?: boolean;
 }
 const InputFilter: React.FC<Props> = props => {
-  const { label, placeholder, value, handleChange } = props;
+  const { label, placeholder, value, handleChange, ...otherProps } = props;
 
   return (
     <div className={styles.inputFilter}>
       {label && <p>{label}</p>}
-      <input
+      <Input
+        className={styles.inputWrapper}
         type="text"
         placeholder={placeholder}
         value={value}
         onChange={(e: any) => handleChange(e.target.value)}
+        {...otherProps}
       />
     </div>
   );

@@ -16,11 +16,15 @@ import {
   getIsLoadingSellerDetailsForMap,
   getSellerDetailsDataForMap,
   getShowSellerDetailsCardForMap,
-} from '../../selectors/SellerMap';
+} from '../../selectors/SellerResearch/SellerMap';
 
 /* Actions */
-import { fetchSellerDetailsForMap, setShowSellerDetailsCard } from '../../actions/SellerMap';
-import { trackDatabaseSeller } from '../../actions/SellerDatabase';
+import {
+  fetchSellerDetailsForMap,
+  setShowSellerDetailsCard,
+} from '../../actions/SellerResearch/SellerMap';
+
+import { trackMerchantFromDatabase } from '../../actions/SellerResearch/SellerDatabase';
 
 /* Utils */
 import { removeSpecialChars, showNAIfZeroOrNull, truncateString } from '../../utils/format';
@@ -34,7 +38,7 @@ interface Props {
   showSellerDetailsCardForMap: boolean;
   fetchSellerDetailsForMap: (internalId: string) => void;
   setShowSellerDetailsCard: (payload: boolean) => void;
-  trackDatabaseSeller: (merhcnatId: string) => void;
+  trackMerchantFromDatabase: (merhcnatId: string) => void;
 }
 
 const SellerMapInfoCard = (props: Props) => {
@@ -45,7 +49,7 @@ const SellerMapInfoCard = (props: Props) => {
     showSellerDetailsCardForMap,
     fetchSellerDetailsForMap,
     setShowSellerDetailsCard,
-    trackDatabaseSeller,
+    trackMerchantFromDatabase,
   } = props;
 
   useEffect(() => {
@@ -81,7 +85,7 @@ const SellerMapInfoCard = (props: Props) => {
 
   /* Handle click inventory button */
   const handleClickInventory = async () => {
-    trackDatabaseSeller(merchant_id);
+    trackMerchantFromDatabase(merchant_id);
     await timeout(1500);
     history.push('/seller-finder');
   };
@@ -188,7 +192,8 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchSellerDetailsForMap: (internalID: string) =>
       dispatch(fetchSellerDetailsForMap(internalID)),
-    trackDatabaseSeller: (merchantId: string) => dispatch(trackDatabaseSeller(merchantId)),
+    trackMerchantFromDatabase: (merchantId: string) =>
+      dispatch(trackMerchantFromDatabase(merchantId)),
     setShowSellerDetailsCard: (payload: boolean) => dispatch(setShowSellerDetailsCard(payload)),
   };
 };

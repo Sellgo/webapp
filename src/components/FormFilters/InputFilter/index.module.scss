@@ -1,7 +1,7 @@
 @import '../../../design-system/colors.scss';
 
 .inputFilter {
-  min-width: 225px;
+  width: max-content;
 
   p {
     margin: 0;
@@ -9,6 +9,10 @@
     font-size: 16px;
     font-weight: 500;
   }
+}
+
+.inputWrapper {
+  min-width: 225px;
 
   input {
     border: 1px solid $grey_6 !important;

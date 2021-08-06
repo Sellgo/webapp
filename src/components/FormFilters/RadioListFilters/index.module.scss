@@ -1,0 +1,26 @@
+@import '../../../design-system/colors.scss';
+
+.radioBoxFilters {
+  min-width: 250px;
+
+  p {
+    margin: 0;
+    color: $sellgo-text;
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+
+.radioboxWrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.checkbox {
+  margin-right: 10px;
+
+  label {
+    padding-left: 18px !important;
+  }
+}
