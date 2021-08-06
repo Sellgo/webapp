@@ -13,7 +13,8 @@ import {
 } from '../../interfaces/SellerResearch/SellerDatabase';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { getSellerDatabaseResults } from '../../selectors/SellerResearch/SellerDatabase';
-import { info } from '../../utils/notifications';
+import { downloadFile } from '../../utils/download';
+import { info, success } from '../../utils/notifications';
 
 /* Action to set loading state for seller database */
 export const setIsLoadingSellerDatabase = (payload: boolean) => {
@@ -106,6 +107,27 @@ export const extractSellerDatabaseFilters = () => {
 };
 /* =========================== Async actions ======================= */
 
+/* Export seller database table */
+export const exportSellerDatabaseTable = (resourcePath: string) => async () => {
+  try {
+    const sellerID = sellerIDSelector();
+
+    const { data } = await axios.get(
+      `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database${resourcePath}`
+    );
+
+    if (data) {
+      const { url } = data;
+      if (url) {
+        await downloadFile(url);
+        success('File successfully exported');
+      }
+    }
+  } catch (err) {
+    console.error('Error exporting seller database', err);
+  }
+};
+
 /* Main seller databse fetcher */
 export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (dispatch: any) => {
   const sellerID = sellerIDSelector();
@@ -119,10 +141,13 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
       sortDir = 'asc',
       enabledLoader = true,
       marketplaceId = 'ATVPDKIKX0DER',
+      isExport = false,
+      fileFormat = 'csv',
     } = payload;
 
     // if filter request is passed
     if (resetFilter) {
+      removeSellerDatabaseFilters();
       dispatch(setIsLoadingSellerDatabase(false));
       dispatch(setSellerDatabaseResults([]));
       dispatch(
@@ -133,7 +158,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
         })
       );
       dispatch(setSellerDatabasePaginationInfo({ count: 0, total_pages: 0, current_page: 0 }));
-      removeSellerDatabaseFilters();
+
       return;
     }
 
@@ -156,9 +181,16 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
       filtersQueryString = parseFilters(extractSellerDatabaseFilters());
     }
 
-    dispatch(setIsLoadingSellerDatabase(enabledLoader));
-
     const resourcePath = `?${pagination}&${sorting}&${marketplace}${filtersQueryString}`;
+
+    if (isExport && fileFormat) {
+      dispatch(
+        exportSellerDatabaseTable(`${resourcePath}&is_export=${isExport}&file_format=${fileFormat}`)
+      );
+      return;
+    }
+
+    dispatch(setIsLoadingSellerDatabase(enabledLoader));
 
     const { data } = await axios.get(
       `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database${resourcePath}`

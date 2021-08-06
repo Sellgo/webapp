@@ -6,6 +6,8 @@ export interface SellerDatabasePayload {
   sort?: string;
   sortDir?: 'asc' | 'desc';
   marketplaceId?: string;
+  isExport?: boolean;
+  fileFormat?: 'csv' | 'xlsx';
 }
 
 export interface ShowFilterMessage {
