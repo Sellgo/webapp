@@ -9,11 +9,12 @@
 .navigateLink {
   color: $prim_dark_2 !important;
   margin-top: 10px;
+  font-weight: 500 !important;
 
   &:hover {
-    color: $accent_blue !important;
+    color: $prim_dark_2 !important;
     text-decoration: underline;
-    font-weight: 500 !important;
+    font-weight: 600 !important;
   }
 }
 
