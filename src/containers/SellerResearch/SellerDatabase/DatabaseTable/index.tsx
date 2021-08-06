@@ -85,13 +85,13 @@ const SellerDatabaseTable = (props: Props) => {
           onSortColumn={handleSortColumn}
         >
           {/* Seller Information */}
-          <Table.Column width={600} verticalAlign="middle" fixed>
+          <Table.Column width={650} verticalAlign="middle" fixed>
             <Table.HeaderCell>Seller Information</Table.HeaderCell>
             <SellerInformation dataKey={'sellerInformation'} />
           </Table.Column>
 
           {/* ASIN */}
-          <Table.Column width={150} verticalAlign="middle" align="center">
+          <Table.Column width={200} verticalAlign="middle" align="center">
             <Table.HeaderCell>ASIN</Table.HeaderCell>
             <SellerActions dataKey="sellerActions" />
           </Table.Column>
@@ -100,19 +100,6 @@ const SellerDatabaseTable = (props: Props) => {
           <Table.Column width={80} verticalAlign="middle" align="center">
             <Table.HeaderCell>Brands</Table.HeaderCell>
             <BrandsListCell dataKey={'brands'} />
-          </Table.Column>
-
-          {/* Total Inventory */}
-          <Table.Column width={130} verticalAlign="middle" sortable align="center">
-            <Table.HeaderCell>
-              <HeaderSortCell
-                title={`Inventory#`}
-                dataKey="inventory_count"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
-              />
-            </Table.HeaderCell>
-            <StatsCell dataKey="inventory_count" />
           </Table.Column>
 
           {/* Rating L365D */}

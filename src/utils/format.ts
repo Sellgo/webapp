@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import numeral from 'numeral';
 
 export const formatCurrency = (num: any) =>
   Number(num).toLocaleString('en-US', {
@@ -60,4 +61,15 @@ export const removeSpecialChars = (str: any, deliminater?: string) => {
     return str.join(`${deliminater ? deliminater : ','}`);
   }
   return str.trim().replace(/[" ' [\]/]/gi, '');
+};
+
+export const prettyPrintNumber = (num: number) => {
+  const formattedNumber = numeral(num).format('0a');
+
+  if (num < 9999) {
+    const firstResult = formatNumber(num);
+    return firstResult;
+  }
+
+  return formattedNumber;
 };

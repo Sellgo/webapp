@@ -11,13 +11,19 @@
 }
 
 .actionCellWrapper {
+  display: flex;
+  justify-content: flex-end !important;
+  align-items: center;
+  margin-right: 40px !important;
+}
+
+.actionCell {
   min-width: 50px;
   max-width: 65px;
   height: 30px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin: 0 auto !important;
   border-radius: 5px;
   cursor: pointer;
 
@@ -27,13 +33,13 @@
 }
 
 .actionCellInActive {
-  @extend .actionCellWrapper;
+  @extend .actionCell;
 
   background: transparent !important;
 }
 
 .actionCellActive {
-  @extend .actionCellWrapper;
+  @extend .actionCell;
 
   background: $blue_1 !important;
 }
