@@ -68,3 +68,11 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   negativeReview: { keyName: 'negative', type: F_TYPES.MIN_MAX_PERIOD },
   neutralReview: { keyName: 'neutral', type: F_TYPES.MIN_MAX_PERIOD },
 };
+
+/* Exports data */
+export const EXPORT_FORMATS = [
+  { key: 'csv', value: 'csv', text: '.CSV' },
+  { key: 'xlsx', value: 'xlsx', text: '.XLSX' },
+];
+
+export const EXPORT_DATA = [{ key: 'all', value: 'all', text: 'All Results' }];

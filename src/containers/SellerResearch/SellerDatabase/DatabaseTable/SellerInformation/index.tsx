@@ -15,6 +15,7 @@ import { truncateString } from '../../../../../utils/format';
 
 /* Assets */
 import USFlag from '../../../../../assets/images/USFlag.png';
+import placeholderImage from '../../../../../assets/images/placeholderImage.svg';
 
 const SellerInformation = (props: RowCell) => {
   const { rowData } = props;
@@ -34,7 +35,7 @@ const SellerInformation = (props: RowCell) => {
     <Table.Cell {...props}>
       <div className={styles.sellerInformation}>
         <div className={styles.sellerInformationLeft}>
-          {sellerLogo && <img src={sellerLogo} alt={businessName} />}
+          <img src={sellerLogo ? sellerLogo : placeholderImage} alt={businessName} />
           <CopyAndLocateClipboard data={merchantId} link={sellerLink} />
         </div>
         <div className={styles.sellerInformationRight}>
