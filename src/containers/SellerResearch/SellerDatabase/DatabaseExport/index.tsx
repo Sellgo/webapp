@@ -62,7 +62,7 @@ const DatabaseExport = (props: Props) => {
         {!sellerDatabaseFilterMessage.show && sellerDatabasePaginationInfo && (
           <h2>
             {sellerDatabaseResults.length * sellerDatabasePaginationInfo.total_pages} sellers found,
-            please add additional filters for a more target search.
+            please add additional filters for a more targeted search.
           </h2>
         )}
         <div
