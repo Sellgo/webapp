@@ -109,7 +109,7 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
       page = 1,
       sort,
       withoutLoader = false,
-      clearFiltersAfterSuccess = false,
+      // clearFiltersAfterSuccess = false,
     } = payload;
 
     const sellerId = sellerIDSelector();
@@ -147,9 +147,9 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
     const { data } = await axios.post(URL, requestPayload);
 
     if (data) {
-      if (clearFiltersAfterSuccess) {
-        dispatch(setProductsDatabaseFilters(DEFAULT_PRODUCTS_DATABASE_FILTERS));
-      }
+      // if (clearFiltersAfterSuccess) {
+      //   dispatch(setProductsDatabaseFilters(DEFAULT_PRODUCTS_DATABASE_FILTERS));
+      // }
       dispatch(setProductsDatabase(data.results));
       dispatch(setProductsDatabasePaginationInfo(data.page_info));
       dispatch(isLoadingProductsDatabase(false));
