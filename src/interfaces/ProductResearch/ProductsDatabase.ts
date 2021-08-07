@@ -1,4 +1,4 @@
-export type ProductsDatabaseFilterTypes = 'min_max' | 'text' | 'input';
+export type ProductsDatabaseFilterTypes = 'min_max' | 'text' | 'input' | 'checkbox';
 
 export interface ProductsDatabaseFilters {
   type: ProductsDatabaseFilterTypes;
@@ -6,6 +6,7 @@ export interface ProductsDatabaseFilters {
   value?: string;
   min?: string;
   max?: string;
+  checkedItems?: any;
   active: boolean;
 }
 
