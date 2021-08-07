@@ -86,6 +86,13 @@ export const parseFilterPayload = (filter: ProductsDatabaseFilters[]) => {
       };
     }
 
+    if (f.type === 'checkbox') {
+      return {
+        ...acc,
+        [f.name]: f.checkedItems,
+      };
+    }
+
     return acc;
   }, {});
 };
@@ -133,7 +140,6 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
         sort,
       };
     }
-
     const URL = `${AppConfig.BASE_URL_API}${sellerId}/products`;
 
     dispatch(isLoadingProductsDatabase(!withoutLoader));
