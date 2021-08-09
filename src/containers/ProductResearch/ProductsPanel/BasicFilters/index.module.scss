@@ -2,7 +2,7 @@
 
 .basicFilters {
   display: grid;
-  grid-template-columns: repeat(4, 0);
+  grid-template-columns: repeat(4, 1fr);
   row-gap: 20px;
   padding: 30px 0 !important;
   height: max-content;
