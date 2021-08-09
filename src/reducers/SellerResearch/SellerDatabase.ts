@@ -11,7 +11,11 @@ const INITIAL_STATE = {
     type: 'info',
   },
   sellerDatabaseResults: [],
-  sellerDatabasePaginationInfo: null,
+  sellerDatabasePaginationInfo: {
+    count: 0,
+    total_pages: 0,
+    current_page: 0,
+  },
 };
 
 const sellerDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
