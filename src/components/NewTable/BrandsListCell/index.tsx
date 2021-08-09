@@ -55,12 +55,12 @@ const BrandsListCell = (props: RowCell) => {
 
                     <button onClick={() => handleCopyBrands(',')}>
                       <Icon name="copy outline" />
-                      <span>Copy ASINs in rows with comma</span>
+                      <span>Copy Brands in rows with comma</span>
                     </button>
 
                     <button onClick={() => handleCopyBrands('\n')}>
                       <Icon name="copy outline" />
-                      <span>Copy ASINs in columns</span>
+                      <span>Copy Brands in columns</span>
                     </button>
                   </div>
                 </>
