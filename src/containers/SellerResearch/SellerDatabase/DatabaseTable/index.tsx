@@ -102,7 +102,7 @@ const SellerDatabaseTable = (props: Props) => {
             <BrandsListCell dataKey={'brands'} />
           </Table.Column>
 
-          {/* Sales Est. */}
+          {/* Monthly Revenue = Sales Est. */}
           <Table.Column width={150} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
