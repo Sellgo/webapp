@@ -61,6 +61,7 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   reviewRatings: { keyName: 'review_ratings', type: F_TYPES.MIN_MAX },
   numBrands: { keyName: 'number_brands', type: F_TYPES.MIN_MAX },
   numInventory: { keyName: 'inventory_count', type: F_TYPES.MIN_MAX },
+  salesEstimate: { keyName: 'sales_estimate', type: F_TYPES.MIN_MAX },
 
   // Period based
   reviewCount: { keyName: 'count', type: F_TYPES.MIN_MAX_PERIOD },

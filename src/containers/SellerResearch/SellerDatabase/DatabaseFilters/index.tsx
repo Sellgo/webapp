@@ -53,6 +53,8 @@ const SellerDatabaseFilters = (props: Props) => {
   const [positiveReview, setPositiveReview] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
   const [negativeReview, setNegativeReview] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
   const [sellerRatings, setSellerRatings] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [salesEstimate, setSalesEstimate] = useState(DEFAULT_MIN_MAX_FILTER);
+
   const [launched, setLaunched] = useState<string>('');
 
   /* Handlers */
@@ -71,6 +73,7 @@ const SellerDatabaseFilters = (props: Props) => {
       positiveReview,
       negativeReview,
       sellerRatings,
+      salesEstimate,
       launched,
     };
 
@@ -92,6 +95,7 @@ const SellerDatabaseFilters = (props: Props) => {
     setPositiveReview(DEFAULT_MIN_MAX_PERIOD_FILTER);
     setNegativeReview(DEFAULT_MIN_MAX_PERIOD_FILTER);
     setSellerRatings(DEFAULT_MIN_MAX_FILTER);
+    setSalesEstimate(DEFAULT_MIN_MAX_FILTER);
     setLaunched('');
   };
 
@@ -235,6 +239,16 @@ const SellerDatabaseFilters = (props: Props) => {
                 maxValue={numBrands.max}
                 handleChange={(type: string, value: string) =>
                   setNumBrands(prevState => ({ ...prevState, [type]: value }))
+                }
+              />
+
+              {/* Monthly Revenue */}
+              <MinMaxFilter
+                label="Sales Estimate"
+                minValue={salesEstimate.min}
+                maxValue={salesEstimate.max}
+                handleChange={(type: string, value: string) =>
+                  setSalesEstimate(prevState => ({ ...prevState, [type]: value }))
                 }
               />
 
