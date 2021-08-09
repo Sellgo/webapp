@@ -242,9 +242,9 @@ const SellerDatabaseFilters = (props: Props) => {
                 }
               />
 
-              {/* Monthly Revenue */}
+              {/* Monthly Revenue = Sales Estimate */}
               <MinMaxFilter
-                label="Sales Estimate"
+                label="Monthly Revenue"
                 minValue={salesEstimate.min}
                 maxValue={salesEstimate.max}
                 handleChange={(type: string, value: string) =>
