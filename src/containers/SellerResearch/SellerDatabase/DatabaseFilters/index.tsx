@@ -222,6 +222,16 @@ const SellerDatabaseFilters = (props: Props) => {
                 }
               />
 
+              {/* Monthly Revenue = Sales Estimate */}
+              <MinMaxFilter
+                label="Monthly Revenue"
+                minValue={salesEstimate.min}
+                maxValue={salesEstimate.max}
+                handleChange={(type: string, value: string) =>
+                  setSalesEstimate(prevState => ({ ...prevState, [type]: value }))
+                }
+              />
+
               {/* # of inventory */}
               <MinMaxFilter
                 label="# of Inventory"
@@ -239,16 +249,6 @@ const SellerDatabaseFilters = (props: Props) => {
                 maxValue={numBrands.max}
                 handleChange={(type: string, value: string) =>
                   setNumBrands(prevState => ({ ...prevState, [type]: value }))
-                }
-              />
-
-              {/* Monthly Revenue = Sales Estimate */}
-              <MinMaxFilter
-                label="Monthly Revenue"
-                minValue={salesEstimate.min}
-                maxValue={salesEstimate.max}
-                handleChange={(type: string, value: string) =>
-                  setSalesEstimate(prevState => ({ ...prevState, [type]: value }))
                 }
               />
 

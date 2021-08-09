@@ -4,7 +4,6 @@ import {
   actionTypes,
   FILTER_QUERY_KEY_MAPPER,
   F_TYPES,
-  INFO_FILTER_MESSAGE,
 } from '../../constants/SellerResearch/SellerDatabase';
 import {
   SellerDatabasePaginationInfo,
@@ -158,7 +157,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
         setSellerDatabaseFilterMessage({
           type: 'info',
           show: true,
-          message: INFO_FILTER_MESSAGE,
+          message: '',
         })
       );
       dispatch(setSellerDatabasePaginationInfo({ total_pages: 0, current_page: 0 }));

@@ -13,7 +13,7 @@ interface Props {
 const FilterMessage = (props: Props) => {
   const { active, message, className, type } = props;
 
-  if (!active) {
+  if (!active || !message) {
     return null;
   }
 
