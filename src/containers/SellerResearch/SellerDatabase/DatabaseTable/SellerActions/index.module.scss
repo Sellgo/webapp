@@ -17,14 +17,15 @@
 }
 
 .actionCell {
-  min-width: 50px;
+  min-width: max-content;
   max-width: 65px;
   height: 30px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   border-radius: 5px;
   cursor: pointer;
+  padding-left: 5px;
 
   &:hover {
     background: $blue_1 !important;
@@ -51,7 +52,7 @@
   cursor: pointer;
   margin-right: 5px !important;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
 }
 

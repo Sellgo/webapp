@@ -2,13 +2,15 @@
 
 .navigateLinkWrapper {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   width: 100%;
+  width: max-content;
+  margin-top: 5px;
 }
 
 .navigateLink {
   color: $prim_dark_2 !important;
-  margin-top: 10px;
+  // margin-top: 10px;
   font-weight: 500 !important;
 
   &:hover {

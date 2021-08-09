@@ -91,7 +91,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* ASIN */}
-          <Table.Column width={200} verticalAlign="middle" align="left">
+          <Table.Column width={150} verticalAlign="middle" align="left">
             <Table.HeaderCell>ASIN</Table.HeaderCell>
             <SellerActions dataKey="sellerActions" />
           </Table.Column>
@@ -100,6 +100,19 @@ const SellerDatabaseTable = (props: Props) => {
           <Table.Column width={80} verticalAlign="middle" align="center">
             <Table.HeaderCell>Brands</Table.HeaderCell>
             <BrandsListCell dataKey={'brands'} />
+          </Table.Column>
+
+          {/* Sales Est. */}
+          <Table.Column width={130} sortable verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Sales\nEst.`}
+                dataKey="sales_estimate"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <StatsCell dataKey={'sales_estimate'} prependWith="$" />
           </Table.Column>
 
           {/* Rating L365D */}
