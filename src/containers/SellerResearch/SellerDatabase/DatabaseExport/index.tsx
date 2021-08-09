@@ -65,7 +65,9 @@ const DatabaseExport = (props: Props) => {
       return formatNumber(count);
     }
 
-    return numeral(count).format('0.0a');
+    return numeral(count)
+      .format('0.0a')
+      .toUpperCase();
   }, [sellerDatabasePaginationInfo]);
 
   return (
