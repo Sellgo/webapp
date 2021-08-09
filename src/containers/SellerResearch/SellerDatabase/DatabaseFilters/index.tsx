@@ -11,7 +11,7 @@ import FormFilterActions from '../../../../components/FormFilters/FormFilterActi
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
 import PeriodFilter from '../../../../components/FormFilters/PeriodFilter';
 import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
-import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
+// import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
 
 /* Actions */
 import { fetchSellerDatabase } from '../../../../actions/SellerResearch/SellerDatabase';
@@ -24,7 +24,6 @@ import {
   DEFAULT_INCLUDE_EXCLUDE_FILTER,
   DEFAULT_MIN_MAX_FILTER,
   DEFAULT_MIN_MAX_PERIOD_FILTER,
-  FILTER_LAUNCHED_DURATIONS,
   FILTER_PERIOD_DURATIONS,
 } from '../../../../constants/SellerResearch/SellerDatabase';
 
@@ -54,8 +53,7 @@ const SellerDatabaseFilters = (props: Props) => {
   const [negativeReview, setNegativeReview] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
   const [sellerRatings, setSellerRatings] = useState(DEFAULT_MIN_MAX_FILTER);
   const [salesEstimate, setSalesEstimate] = useState(DEFAULT_MIN_MAX_FILTER);
-
-  const [launched, setLaunched] = useState<string>('');
+  // const [launched, setLaunched] = useState<string>('');
 
   /* Handlers */
   const handleSubmit = () => {
@@ -74,7 +72,6 @@ const SellerDatabaseFilters = (props: Props) => {
       negativeReview,
       sellerRatings,
       salesEstimate,
-      launched,
     };
 
     fetchSellerDatabase({ filterPayload });
@@ -96,7 +93,6 @@ const SellerDatabaseFilters = (props: Props) => {
     setNegativeReview(DEFAULT_MIN_MAX_PERIOD_FILTER);
     setSellerRatings(DEFAULT_MIN_MAX_FILTER);
     setSalesEstimate(DEFAULT_MIN_MAX_FILTER);
-    setLaunched('');
   };
 
   /* Effect on component mount */
@@ -333,12 +329,12 @@ const SellerDatabaseFilters = (props: Props) => {
               </div>
 
               {/* Seller Launched */}
-              <RadioListFilters
+              {/* <RadioListFilters
                 label="Seller Launched"
                 filterOptions={FILTER_LAUNCHED_DURATIONS}
                 value={launched}
                 handleChange={(value: string) => setLaunched(value)}
-              />
+              /> */}
             </div>
           )}
         </div>
