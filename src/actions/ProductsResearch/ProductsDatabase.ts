@@ -18,6 +18,8 @@ import {
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
 import { getProductsDatabaseFilters } from '../../selectors/ProductResearch/ProductsDatabase';
+import { error, success } from '../../utils/notifications';
+import { downloadFile } from '../../utils/download';
 
 /* Action to update filters */
 export const updateProductsDatabaseFilter = (payload: any) => {
@@ -98,6 +100,34 @@ export const parseFilterPayload = (filter: ProductsDatabaseFilters[]) => {
 };
 /*********** Async Actions ************************ */
 
+/* Export seller database table */
+export const exportProductDatabaseTable = (requestPayload: any) => async () => {
+  try {
+    const sellerID = sellerIDSelector();
+
+    const { data } = await axios.post(
+      `${AppConfig.BASE_URL_API}${sellerID}/products`,
+      requestPayload
+    );
+
+    if (data) {
+      const { url } = data;
+      if (url) {
+        await downloadFile(url);
+        success('File successfully exported');
+      } else {
+        error('Export not available.');
+      }
+    }
+  } catch (err) {
+    const { status, data } = err.response;
+
+    if (status === 403) {
+      error(data.message);
+    }
+  }
+};
+
 /* Action to fetch products database */
 export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async (
   dispatch: any,
@@ -109,7 +139,8 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
       page = 1,
       sort,
       withoutLoader = false,
-      // clearFiltersAfterSuccess = false,
+      isExport = false,
+      fileFormat = 'csv',
     } = payload;
 
     const sellerId = sellerIDSelector();
@@ -141,6 +172,11 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
       };
     }
     const URL = `${AppConfig.BASE_URL_API}${sellerId}/products`;
+
+    if (isExport && fileFormat) {
+      dispatch(exportProductDatabaseTable(requestPayload));
+      return;
+    }
 
     dispatch(isLoadingProductsDatabase(!withoutLoader));
 

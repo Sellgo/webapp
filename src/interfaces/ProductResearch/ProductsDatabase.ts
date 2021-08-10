@@ -19,6 +19,8 @@ export interface ProductsDatabasePayload {
     field: string;
     by: 'ascending' | 'descending';
   };
+  isExport?: boolean;
+  fileFormat?: string;
 }
 
 export interface ProductsDatabaseRow {
