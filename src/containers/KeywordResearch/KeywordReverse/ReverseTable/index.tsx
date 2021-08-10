@@ -6,7 +6,7 @@ import './global.scss';
 
 const ReverseTable = () => {
   return (
-    <section className={styles.reverseKeywordTableWraaper}>
+    <section className={styles.keywordReverseTableWrapper}>
       <p>Table will go here</p>
     </section>
   );
