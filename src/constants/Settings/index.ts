@@ -27,7 +27,7 @@ export const defaultMarketplaces = [
   { name: 'Canada', code: 'CA', link: 'amazon.ca', id: 'A2EUQ1WTGCTBG2', disabled: true },
   { name: 'Mexico', code: 'MX', link: 'amazon.com.mx', id: 'A1AM78C64UM0Y8', disabled: true },
   {
-    name: 'United Arab Emirates (U.A.E.)',
+    name: 'United Arab Emirates',
     code: 'AE',
     link: 'amazon.ae',
     id: 'A2VIGQ35RCS4UG',
@@ -100,4 +100,4 @@ export const MARKETPLACE_DROPDOWN_OPTIONS = defaultMarketplaces.map((marketplace
 
 export const DEFAULT_US_MARKETPLACE = MARKETPLACE_DROPDOWN_OPTIONS.find(
   (marketplace: any) => marketplace.code === 'US'
-).id;
+);
