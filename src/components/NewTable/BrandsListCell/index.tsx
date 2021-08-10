@@ -6,7 +6,7 @@ import { Button, Icon, Popup } from 'semantic-ui-react';
 import styles from './index.module.scss';
 
 /* Utils */
-import { removeSpecialChars, showNAIfZeroOrNull } from '../../../utils/format';
+import { parseKpiLists, removeSpecialChars, showNAIfZeroOrNull } from '../../../utils/format';
 import { copyToClipboard } from '../../../utils/file';
 import { success } from '../../../utils/notifications';
 
@@ -22,7 +22,7 @@ const BrandsListCell = (props: RowCell) => {
 
   const brands = rowData[dataKey];
 
-  const parsedBrands = JSON.parse(JSON.stringify(brands));
+  const parsedBrands = parseKpiLists(brands);
 
   /* Copy Asins */
   const handleCopyBrands = (deliminator?: string) => {

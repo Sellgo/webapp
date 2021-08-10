@@ -73,3 +73,11 @@ export const prettyPrintNumber = (num: number) => {
 
   return formattedNumber;
 };
+
+export const parseKpiLists = (kpiList: any) => {
+  return JSON.parse(JSON.stringify(kpiList))
+    .toString()
+    .trim()
+    .replace(/[" ' [\]/]/gi, '')
+    .split(',');
+};

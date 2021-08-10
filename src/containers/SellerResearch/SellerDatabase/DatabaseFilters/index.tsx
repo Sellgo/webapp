@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
@@ -21,11 +21,14 @@ import { SellerDatabasePayload } from '../../../../interfaces/SellerResearch/Sel
 
 /* Constants */
 import {
+  DEFAULT_INCLUDE_EXCLUDE_ERROR,
   DEFAULT_INCLUDE_EXCLUDE_FILTER,
   DEFAULT_MIN_MAX_FILTER,
   DEFAULT_MIN_MAX_PERIOD_FILTER,
   FILTER_PERIOD_DURATIONS,
 } from '../../../../constants/SellerResearch/SellerDatabase';
+
+import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
 
 interface Props {
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
@@ -54,6 +57,10 @@ const SellerDatabaseFilters = (props: Props) => {
   const [sellerRatings, setSellerRatings] = useState(DEFAULT_MIN_MAX_FILTER);
   const [salesEstimate, setSalesEstimate] = useState(DEFAULT_MIN_MAX_FILTER);
   // const [launched, setLaunched] = useState<string>('');
+
+  /* Error States */
+  const [asinsError, setAsinsError] = useState(DEFAULT_INCLUDE_EXCLUDE_ERROR);
+  const [sellerIdsError, setSellerIdsError] = useState(DEFAULT_INCLUDE_EXCLUDE_ERROR);
 
   /* Handlers */
   const handleSubmit = () => {
@@ -93,6 +100,9 @@ const SellerDatabaseFilters = (props: Props) => {
     setNegativeReview(DEFAULT_MIN_MAX_PERIOD_FILTER);
     setSellerRatings(DEFAULT_MIN_MAX_FILTER);
     setSalesEstimate(DEFAULT_MIN_MAX_FILTER);
+
+    /* Reset Error States */
+    setAsinsError(DEFAULT_INCLUDE_EXCLUDE_ERROR);
   };
 
   /* Effect on component mount */
@@ -103,6 +113,86 @@ const SellerDatabaseFilters = (props: Props) => {
       handleReset();
     };
   }, []);
+
+  /* Include Asin validation check */
+  useEffect(() => {
+    if (asins.include) {
+      const asinList = asins.include.split(',');
+      const isValidAsinList = asinList.every((asin: string) => isValidAsin(asin));
+      setAsinsError(prevState => ({
+        ...prevState,
+        include: !isValidAsinList,
+      }));
+    } else {
+      setAsinsError(prevState => ({
+        ...prevState,
+        include: false,
+      }));
+    }
+  }, [asins.include]);
+
+  /* Exclude Asin validation check */
+  useEffect(() => {
+    if (asins.exclude) {
+      const asinList = asins.exclude.split(',');
+      const isValidAsinList = asinList.every((asin: string) => isValidAsin(asin));
+      setAsinsError(prevState => ({
+        ...prevState,
+        exclude: !isValidAsinList,
+      }));
+    } else {
+      setAsinsError(prevState => ({
+        ...prevState,
+        exclude: false,
+      }));
+    }
+  }, [asins.exclude]);
+
+  /* Include Seller ID validation check */
+  useEffect(() => {
+    if (sellerIds.include) {
+      const sellerIdList = sellerIds.include.split(',');
+      const isValidSellerIdsList = sellerIdList.every((sellerid: string) =>
+        isValidAmazonSellerId(sellerid)
+      );
+      setSellerIdsError(prevState => ({
+        ...prevState,
+        include: !isValidSellerIdsList,
+      }));
+    } else {
+      setSellerIdsError(prevState => ({
+        ...prevState,
+        include: false,
+      }));
+    }
+  }, [sellerIds.include]);
+
+  /* Include Seller ID validation check */
+  useEffect(() => {
+    if (sellerIds.exclude) {
+      const sellerIdList = sellerIds.exclude.split(',');
+      const isVliadSellerIdsList = sellerIdList.every((sellerid: string) =>
+        isValidAmazonSellerId(sellerid)
+      );
+      setSellerIdsError(prevState => ({
+        ...prevState,
+        exclude: !isVliadSellerIdsList,
+      }));
+    } else {
+      setSellerIdsError(prevState => ({
+        ...prevState,
+        exclude: false,
+      }));
+    }
+  }, [sellerIds.exclude]);
+
+  /* Overall form submit diable condition */
+  const disableFormSubmit = useMemo(() => {
+    const shouldDisabledFormSubmit =
+      asinsError.include || asinsError.exclude || sellerIdsError.include || sellerIdsError.exclude;
+
+    return shouldDisabledFormSubmit;
+  }, [asinsError.include, asinsError.exclude, sellerIdsError.include, sellerIdsError.exclude]);
 
   return (
     <>
@@ -118,42 +208,58 @@ const SellerDatabaseFilters = (props: Props) => {
 
           {/* Include ASINS */}
           <InputFilter
-            label="Include ASINs"
+            label="Include ASINs or ISBNs"
             placeholder="Enter separated by comma"
-            value={asins.include}
+            value={asins.include.toUpperCase()}
             handleChange={(value: string) =>
-              setAsins(prevState => ({ ...prevState, include: value }))
+              setAsins(prevState => ({
+                ...prevState,
+                include: value,
+              }))
             }
+            error={asinsError.include}
           />
 
           {/* Exclude ASINS Name */}
           <InputFilter
-            label="Exclude ASINs"
+            label="Exclude ASINs or ISBNs"
             placeholder="Enter separated by comma"
-            value={asins.exclude}
+            value={asins.exclude.toUpperCase()}
             handleChange={(value: string) =>
-              setAsins(prevState => ({ ...prevState, exclude: value }))
+              setAsins(prevState => ({
+                ...prevState,
+                exclude: value,
+              }))
             }
+            error={asinsError.exclude}
           />
 
           {/* Include Seller IDs */}
           <InputFilter
             label="Include Seller IDs"
             placeholder="Enter separated by comma"
-            value={sellerIds.include}
+            value={sellerIds.include.toUpperCase()}
             handleChange={(value: string) =>
-              setSellerIds(prevState => ({ ...prevState, include: value }))
+              setSellerIds(prevState => ({
+                ...prevState,
+                include: value,
+              }))
             }
+            error={sellerIdsError.include}
           />
 
           {/* Exclude Seller IDS */}
           <InputFilter
             label="Exclude Seller IDs"
             placeholder="Enter separated by comma"
-            value={sellerIds.exclude}
+            value={sellerIds.exclude.toUpperCase()}
             handleChange={(value: string) =>
-              setSellerIds(prevState => ({ ...prevState, exclude: value }))
+              setSellerIds(prevState => ({
+                ...prevState,
+                exclude: value,
+              }))
             }
+            error={sellerIdsError.exclude}
           />
         </div>
 
@@ -184,7 +290,10 @@ const SellerDatabaseFilters = (props: Props) => {
                 placeholder="Enter separated by comma"
                 value={brands.include}
                 handleChange={(value: string) =>
-                  setBrands(prevState => ({ ...prevState, include: value }))
+                  setBrands(prevState => ({
+                    ...prevState,
+                    include: value,
+                  }))
                 }
               />
 
@@ -194,7 +303,10 @@ const SellerDatabaseFilters = (props: Props) => {
                 placeholder="Enter separated by comma"
                 value={brands.exclude}
                 handleChange={(value: string) =>
-                  setBrands(prevState => ({ ...prevState, exclude: value }))
+                  setBrands(prevState => ({
+                    ...prevState,
+                    exclude: value,
+                  }))
                 }
               />
 
@@ -204,7 +316,10 @@ const SellerDatabaseFilters = (props: Props) => {
                 minValue={reviewRatings.min}
                 maxValue={reviewRatings.max}
                 handleChange={(type: string, value: string) =>
-                  setReviewRatings(prevState => ({ ...prevState, [type]: value }))
+                  setReviewRatings(prevState => ({
+                    ...prevState,
+                    [type]: value,
+                  }))
                 }
               />
 
@@ -214,7 +329,10 @@ const SellerDatabaseFilters = (props: Props) => {
                 minValue={sellerRatings.min}
                 maxValue={sellerRatings.max}
                 handleChange={(type: string, value: string) =>
-                  setSellerRatings(prevState => ({ ...prevState, [type]: value }))
+                  setSellerRatings(prevState => ({
+                    ...prevState,
+                    [type]: value,
+                  }))
                 }
               />
 
@@ -224,7 +342,10 @@ const SellerDatabaseFilters = (props: Props) => {
                 minValue={salesEstimate.min}
                 maxValue={salesEstimate.max}
                 handleChange={(type: string, value: string) =>
-                  setSalesEstimate(prevState => ({ ...prevState, [type]: value }))
+                  setSalesEstimate(prevState => ({
+                    ...prevState,
+                    [type]: value,
+                  }))
                 }
               />
 
@@ -234,7 +355,10 @@ const SellerDatabaseFilters = (props: Props) => {
                 minValue={numInventory.min}
                 maxValue={numInventory.max}
                 handleChange={(type: string, value: string) =>
-                  setNumInventory(prevState => ({ ...prevState, [type]: value }))
+                  setNumInventory(prevState => ({
+                    ...prevState,
+                    [type]: value,
+                  }))
                 }
               />
 
@@ -244,7 +368,10 @@ const SellerDatabaseFilters = (props: Props) => {
                 minValue={numBrands.min}
                 maxValue={numBrands.max}
                 handleChange={(type: string, value: string) =>
-                  setNumBrands(prevState => ({ ...prevState, [type]: value }))
+                  setNumBrands(prevState => ({
+                    ...prevState,
+                    [type]: value,
+                  }))
                 }
               />
 
@@ -255,7 +382,10 @@ const SellerDatabaseFilters = (props: Props) => {
                   minValue={reviewCount.min}
                   maxValue={reviewCount.max}
                   handleChange={(type: string, value: string) =>
-                    setReviewCount(prevState => ({ ...prevState, [type]: value }))
+                    setReviewCount(prevState => ({
+                      ...prevState,
+                      [type]: value,
+                    }))
                   }
                 />
                 <PeriodFilter
@@ -263,7 +393,10 @@ const SellerDatabaseFilters = (props: Props) => {
                   value={reviewCount.period}
                   filterOptions={FILTER_PERIOD_DURATIONS}
                   handleChange={(period: string) => {
-                    setReviewCount(prevState => ({ ...prevState, period }));
+                    setReviewCount(prevState => ({
+                      ...prevState,
+                      period,
+                    }));
                   }}
                 />
               </div>
@@ -275,7 +408,10 @@ const SellerDatabaseFilters = (props: Props) => {
                   minValue={neutralReview.min}
                   maxValue={neutralReview.max}
                   handleChange={(type: string, value: string) =>
-                    setNeutralReview(prevState => ({ ...prevState, [type]: value }))
+                    setNeutralReview(prevState => ({
+                      ...prevState,
+                      [type]: value,
+                    }))
                   }
                 />
                 <PeriodFilter
@@ -283,7 +419,10 @@ const SellerDatabaseFilters = (props: Props) => {
                   value={neutralReview.period}
                   filterOptions={FILTER_PERIOD_DURATIONS}
                   handleChange={(period: string) => {
-                    setNeutralReview(prevState => ({ ...prevState, period }));
+                    setNeutralReview(prevState => ({
+                      ...prevState,
+                      period,
+                    }));
                   }}
                 />
               </div>
@@ -295,7 +434,10 @@ const SellerDatabaseFilters = (props: Props) => {
                   minValue={positiveReview.min}
                   maxValue={positiveReview.max}
                   handleChange={(type: string, value: string) =>
-                    setPositiveReview(prevState => ({ ...prevState, [type]: value }))
+                    setPositiveReview(prevState => ({
+                      ...prevState,
+                      [type]: value,
+                    }))
                   }
                 />
                 <PeriodFilter
@@ -303,7 +445,10 @@ const SellerDatabaseFilters = (props: Props) => {
                   value={positiveReview.period}
                   filterOptions={FILTER_PERIOD_DURATIONS}
                   handleChange={(period: string) => {
-                    setPositiveReview(prevState => ({ ...prevState, period }));
+                    setPositiveReview(prevState => ({
+                      ...prevState,
+                      period,
+                    }));
                   }}
                 />
               </div>
@@ -315,7 +460,10 @@ const SellerDatabaseFilters = (props: Props) => {
                   minValue={negativeReview.min}
                   maxValue={negativeReview.max}
                   handleChange={(type: string, value: string) =>
-                    setNegativeReview(prevState => ({ ...prevState, [type]: value }))
+                    setNegativeReview(prevState => ({
+                      ...prevState,
+                      [type]: value,
+                    }))
                   }
                 />
                 <PeriodFilter
@@ -323,7 +471,10 @@ const SellerDatabaseFilters = (props: Props) => {
                   value={negativeReview.period}
                   filterOptions={FILTER_PERIOD_DURATIONS}
                   handleChange={(period: string) => {
-                    setNegativeReview(prevState => ({ ...prevState, period }));
+                    setNegativeReview(prevState => ({
+                      ...prevState,
+                      period,
+                    }));
                   }}
                 />
               </div>
@@ -339,7 +490,11 @@ const SellerDatabaseFilters = (props: Props) => {
           )}
         </div>
 
-        <FormFilterActions onFind={handleSubmit} onReset={handleReset} />
+        <FormFilterActions
+          onFind={handleSubmit}
+          onReset={handleReset}
+          disabled={disableFormSubmit}
+        />
       </section>
     </>
   );

@@ -3,6 +3,7 @@ import { Input } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
+import './global.scss';
 
 interface Props {
   label?: string;
@@ -19,7 +20,7 @@ const InputFilter: React.FC<Props> = props => {
     <div className={styles.inputFilter}>
       {label && <p>{label}</p>}
       <Input
-        className={styles.inputWrapper}
+        className={`${styles.inputWrapper} textInputFilter`}
         type="text"
         placeholder={placeholder}
         value={value}

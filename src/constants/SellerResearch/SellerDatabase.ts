@@ -39,6 +39,11 @@ export const DEFAULT_INCLUDE_EXCLUDE_FILTER = {
   exclude: '',
 };
 
+export const DEFAULT_INCLUDE_EXCLUDE_ERROR = {
+  include: false,
+  exclude: false,
+};
+
 export const F_TYPES = {
   TEXT: 'TEXT',
   INPUT_INCLUDE_EXCLUDE: 'INPUT_INCLUDE_EXCLUDE',

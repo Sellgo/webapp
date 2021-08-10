@@ -2,6 +2,7 @@ import React from 'react';
 import { Table } from 'rsuite';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import numeral from 'numeral';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -13,13 +14,14 @@ import { RowCell } from '../../../../../interfaces/Table';
 import CheckInventory from '../../../../../assets/images/checkInventory.svg';
 
 /* Utils */
-import { prettyPrintNumber, removeSpecialChars } from '../../../../../utils/format';
+import { parseKpiLists, prettyPrintNumber, removeSpecialChars } from '../../../../../utils/format';
 import { copyToClipboard } from '../../../../../utils/file';
 import { success } from '../../../../../utils/notifications';
 
 /*Actions */
 import { trackMerchantFromDatabase } from '../../../../../actions/SellerResearch/SellerDatabase';
-import numeral from 'numeral';
+import history from '../../../../../history';
+import { timeout } from '../../../../../utils/timeout';
 
 interface Props extends RowCell {
   trackMerchantFromDatabase: (payload: string) => void;
@@ -36,11 +38,15 @@ const SellerActions = (props: Props) => {
   const merchantId = rowData.merchant_id;
   const inventoryCount = rowData.inventory_count;
 
-  const parsedAsinList = JSON.parse(JSON.stringify(asinList));
+  const parsedAsinList = parseKpiLists(asinList);
 
   /* Track seller */
-  const handleSellerTrack = () => {
+  const handleSellerTrack = async (newTab: boolean) => {
     trackMerchantFromDatabase(merchantId);
+    if (newTab) {
+      await timeout(500);
+      history.push('/seller-finder');
+    }
   };
 
   /* Copy Asins */
@@ -60,7 +66,7 @@ const SellerActions = (props: Props) => {
           >
             <button
               className={styles.actionButton}
-              onClick={handleSellerTrack}
+              onClick={() => handleSellerTrack(false)}
               style={{
                 color: isSellerTracked ? '#2F8DDF' : '#2E3B4A',
                 fontWeight: isSellerTracked ? 500 : 400,
@@ -79,7 +85,7 @@ const SellerActions = (props: Props) => {
                 <>
                   <div className={styles.actionOptions}>
                     <p>ASIN</p>
-                    <button onClick={handleSellerTrack}>
+                    <button onClick={() => handleSellerTrack(true)}>
                       <img src={CheckInventory} alt="CheckInventory" />
                       <span>Check More Inventory</span>
                     </button>
