@@ -2,11 +2,9 @@ import React from 'react';
 import { Icon, Popup } from 'semantic-ui-react';
 import { Table } from 'rsuite';
 
-/* import default style */
-import 'rsuite/dist/styles/rsuite-default.css';
-
 /* Styling */
 import styles from './index.module.scss';
+import 'rsuite/dist/styles/rsuite-default.css';
 import './tableReset.scss';
 
 /* Components */
