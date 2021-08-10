@@ -17,7 +17,7 @@ export const DAILY_SUBSCRIPTION_PLANS = [7];
 
 export const defaultMarketplaces = [
   {
-    name: 'Unites States',
+    name: 'United States',
     code: 'US',
     link: 'amazon.com',
     id: 'ATVPDKIKX0DER',
