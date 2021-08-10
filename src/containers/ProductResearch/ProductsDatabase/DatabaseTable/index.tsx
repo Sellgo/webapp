@@ -100,11 +100,6 @@ const ProductsDatabaseTable = (props: Props) => {
     setSelectedRows(allSelectedRows);
   };
 
-  const handleExport = () => {
-    /* TO HANDLE EXPORTS HERE */
-    console.log(selectedRows);
-  };
-
   /* Row cell, Cell with checkbox to select row */
   const CheckboxCell = ({ rowData, ...props }: any) => {
     return (
@@ -182,12 +177,6 @@ const ProductsDatabaseTable = (props: Props) => {
   return (
     <>
       <section className={styles.productDatabaseWrapper}>
-        <div className={styles.informationRow}>
-          <button className={styles.exportButton} onClick={handleExport}>
-            <Icon size="small" name="download" />
-            Export
-          </button>
-        </div>
         <Table
           loading={isLoadingProductsDatabase}
           data={productsDatabaseResults}

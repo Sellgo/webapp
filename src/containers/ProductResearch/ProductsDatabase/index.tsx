@@ -8,7 +8,8 @@ import styles from './index.module.scss';
 /* Components */
 import BasicFilters from './BasicFilters';
 import AdvancedFilters from './AdvancedFilters';
-import ProductsDatabaseTable from './Table';
+import ProductsDatabaseTable from './DatabaseTable';
+import DatabaseExport from './DatabaseExport';
 import FormFilterActions from '../../../components/FormFilters/FormFilterActions';
 
 /* Actions */
@@ -60,7 +61,7 @@ const ProductPanel = (props: Props) => {
           onReset={() => fetchProductsDatabase({ resetFilters: true })}
         />
       </section>
-
+      <DatabaseExport />
       <ProductsDatabaseTable />
     </>
   );
