@@ -1,3 +1,5 @@
+import validator from 'validator';
+
 export const OPEN = 'OPEN';
 export const CLOSE = 'CLOSE';
 
@@ -32,4 +34,28 @@ export const tableKeys = {
   SUPPLIERS: 'supplier_list',
   PRODUCTS: 'product_list',
   LEADS: 'leads_list',
+};
+
+/* Asin validations */
+export const asinRegex = RegExp('([A-Z0-9]{10})');
+
+export const isValidAsin = (asin: string) => {
+  return asinRegex.test(asin) && validator.isAlphanumeric(asin) && asin.length === 10;
+};
+
+/* Amazon Seller ID validation */
+export const isValidAmazonSellerId = (sellerId: string) => {
+  const formatSellerId = sellerId.toUpperCase();
+
+  /* Always starts with a */
+  const startsWithValidation = formatSellerId.startsWith('A');
+
+  /* Length>=14 and <=21 */
+  const length = formatSellerId.length;
+  const lengthValidation = length >= 14 && length <= 21;
+
+  /* Only alphanumeric chacters */
+  const alphaNumericValidation = validator.isAlphanumeric(formatSellerId);
+
+  return startsWithValidation && lengthValidation && alphaNumericValidation;
 };
