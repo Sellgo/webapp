@@ -6,7 +6,8 @@ import { AppConfig } from '../../config';
 /* Constants */
 import {
   actionTypes,
-  DEFAULT_PRODUCTS_DATABASE_FILTERS,
+  FILTER_QUERY_KEY_MAPPER,
+  F_TYPES,
 } from '../../constants/ProductResearch/ProductsDatabase';
 
 /* Interfaces */
@@ -17,7 +18,6 @@ import {
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
-import { getProductsDatabaseFilters } from '../../selectors/ProductResearch/ProductsDatabase';
 import { error, success } from '../../utils/notifications';
 import { downloadFile } from '../../utils/download';
 
@@ -62,36 +62,50 @@ export const setProductsDatabaseFilters = (payload: ProductsDatabaseFilters[]) =
 };
 
 /* Parse the filter payload for reuqest */
-export const parseFilterPayload = (filter: ProductsDatabaseFilters[]) => {
-  return filter.reduce((acc: any, f: ProductsDatabaseFilters) => {
-    if (f.type === 'text' && f.value) {
+export const parseFilterPayload = (productFilters: any) => {
+  const filterPayloadKeys = Object.keys(productFilters);
+  return filterPayloadKeys.reduce((acc: any, key: string) => {
+    const f: any = productFilters[key];
+    const { keyName, type } = FILTER_QUERY_KEY_MAPPER[key];
+    if (type === F_TYPES.TEXT && f) {
       return {
         ...acc,
-        [f.name]: f.value,
+        [keyName]: f,
       };
     }
 
-    if (f.type === 'min_max') {
+    if (type === F_TYPES.MIN_MAX) {
       if (f.min || f.max) {
         return {
           ...acc,
-          [`min_${f.name}`]: Number(f.min) || null,
-          [`max_${f.name}`]: Number(f.max) || null,
+          [`min_${keyName}`]: Number(f.min) || null,
+          [`max_${keyName}`]: Number(f.max) || null,
         };
       }
     }
 
-    if (f.type === 'input' && f.value?.length) {
-      return {
-        ...acc,
-        [f.name]: f.value?.split(',') || [],
-      };
+    if (type === F_TYPES.INPUT_INCLUDE_EXCLUDE) {
+      let newAcc = acc;
+      if (f.include) {
+        newAcc = {
+          ...acc,
+          [`include_${keyName}`]: f.include.split(','),
+        };
+      }
+
+      if (f.exclude) {
+        newAcc = {
+          ...acc,
+          [`exclude_${keyName}`]: f.exclude.split(','),
+        };
+      }
+      return newAcc;
     }
 
-    if (f.type === 'checkbox') {
+    if (type === F_TYPES.CHECK_BOX && f.checkedItems) {
       return {
         ...acc,
-        [f.name]: f.checkedItems,
+        [keyName]: f.checkedItems,
       };
     }
 
@@ -130,8 +144,7 @@ export const exportProductDatabaseTable = (requestPayload: any) => async () => {
 
 /* Action to fetch products database */
 export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async (
-  dispatch: any,
-  getState: any
+  dispatch: any
 ) => {
   try {
     const {
@@ -141,6 +154,7 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
       withoutLoader = false,
       isExport = false,
       fileFormat = 'csv',
+      filterPayload,
     } = payload;
 
     const sellerId = sellerIDSelector();
@@ -149,18 +163,14 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
     if (resetFilters) {
       dispatch(isLoadingProductsDatabase(false));
       dispatch(setProductsDatabase([]));
-      dispatch(setProductsDatabaseFilters(DEFAULT_PRODUCTS_DATABASE_FILTERS));
       return;
     }
 
     // if fetch with filteres
-
-    const productsDatabaseFilters = getProductsDatabaseFilters(getState());
-
-    const filterPayload = parseFilterPayload(productsDatabaseFilters);
+    const productsDatabaseFilters = parseFilterPayload(filterPayload);
 
     let requestPayload = {
-      ...filterPayload,
+      ...productsDatabaseFilters,
       page,
     };
 
@@ -183,9 +193,6 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
     const { data } = await axios.post(URL, requestPayload);
 
     if (data) {
-      // if (clearFiltersAfterSuccess) {
-      //   dispatch(setProductsDatabaseFilters(DEFAULT_PRODUCTS_DATABASE_FILTERS));
-      // }
       dispatch(setProductsDatabase(data.results));
       dispatch(setProductsDatabasePaginationInfo(data.page_info));
       dispatch(isLoadingProductsDatabase(false));

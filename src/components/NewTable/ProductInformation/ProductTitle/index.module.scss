@@ -2,7 +2,7 @@
 
 .productTitle {
   height: 100%;
-  width: 50%;
+  margin: 0 18px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -29,7 +29,6 @@
 }
 
 .productImage {
-  background-color: red;
   max-width: 90%;
   height: 110px;
   object-fit: contain;

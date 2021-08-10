@@ -30,10 +30,10 @@ const ProductResearch: React.FC<Props> = props => {
   return (
     <>
       <PageHeader
-        title={`Seller Database`}
+        title={`Product Research`}
         breadcrumb={[
           { content: 'Home', to: '/' },
-          { content: 'Seller Map', to: '/seller-map' },
+          { content: 'Product Research', to: '/product-research' },
         ]}
         callToAction={<QuotaMeter />}
         auth={match.params.auth}

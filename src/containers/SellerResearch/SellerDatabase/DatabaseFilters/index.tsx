@@ -80,7 +80,6 @@ const SellerDatabaseFilters = (props: Props) => {
       sellerRatings,
       salesEstimate,
     };
-
     fetchSellerDatabase({ filterPayload });
   };
 

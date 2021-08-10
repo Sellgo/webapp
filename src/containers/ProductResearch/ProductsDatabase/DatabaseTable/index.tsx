@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, Icon, Popup } from 'semantic-ui-react';
+import { Icon, Popup } from 'semantic-ui-react';
 import { Table } from 'rsuite';
 
 /* import default style */
@@ -7,7 +7,7 @@ import 'rsuite/dist/styles/rsuite-default.css';
 
 /* Styling */
 import styles from './index.module.scss';
-import '../../tableReset.scss';
+import './tableReset.scss';
 
 /* Components */
 import ProductTitle from '../../../../components/NewTable/ProductInformation/ProductTitle';
@@ -57,7 +57,7 @@ const ProductsDatabaseTable = (props: Props) => {
     fetchProductsDatabase,
   } = props;
 
-  const [selectedRows, setSelectedRows] = React.useState<string[]>([]);
+  // const [selectedRows, setSelectedRows] = React.useState<string[]>([]);
   const [sortColumn, setSortColumn] = React.useState<string>('');
   const [sortType, setSortType] = React.useState<'asc' | 'desc' | undefined>(undefined);
 
@@ -78,42 +78,42 @@ const ProductsDatabaseTable = (props: Props) => {
     });
   };
 
-  /* Handler, selects one row, used in CheckboxCell */
-  const handleSelect = (rowData: any, checked: boolean) => {
-    const currentRowASIN = rowData.asin;
-    let newSelectedRows;
-    if (checked) {
-      newSelectedRows = selectedRows.filter(rowASIN => rowASIN !== currentRowASIN);
-      newSelectedRows.push(currentRowASIN);
-    } else {
-      newSelectedRows = selectedRows.filter(rowASIN => rowASIN !== currentRowASIN);
-    }
-    setSelectedRows(newSelectedRows);
-  };
+  // /* Handler, selects one row, used in CheckboxCell */
+  // const handleSelect = (rowData: any, checked: boolean) => {
+  //   const currentRowASIN = rowData.asin;
+  //   let newSelectedRows;
+  //   if (checked) {
+  //     newSelectedRows = selectedRows.filter(rowASIN => rowASIN !== currentRowASIN);
+  //     newSelectedRows.push(currentRowASIN);
+  //   } else {
+  //     newSelectedRows = selectedRows.filter(rowASIN => rowASIN !== currentRowASIN);
+  //   }
+  //   setSelectedRows(newSelectedRows);
+  // };
 
-  /* Handler, selects all rows */
-  const handleSelectAll = (e: any, data: any) => {
-    const allSelectedRows: string[] = [];
-    if (data.checked) {
-      productsDatabaseResults.map(row => allSelectedRows.push(row.asin));
-    }
-    setSelectedRows(allSelectedRows);
-  };
+  // /* Handler, selects all rows */
+  // const handleSelectAll = (e: any, data: any) => {
+  //   const allSelectedRows: string[] = [];
+  //   if (data.checked) {
+  //     productsDatabaseResults.map(row => allSelectedRows.push(row.asin));
+  //   }
+  //   setSelectedRows(allSelectedRows);
+  // };
 
-  /* Row cell, Cell with checkbox to select row */
-  const CheckboxCell = ({ rowData, ...props }: any) => {
-    return (
-      <GenericRowCell {...props}>
-        <Checkbox
-          label=""
-          onChange={(e: any, data: any) => {
-            handleSelect(rowData, data.checked);
-          }}
-          checked={selectedRows.includes(rowData.asin)}
-        />
-      </GenericRowCell>
-    );
-  };
+  // /* Row cell, Cell with checkbox to select row */
+  // const CheckboxCell = ({ rowData, ...props }: any) => {
+  //   return (
+  //     <GenericRowCell {...props}>
+  //       <Checkbox
+  //         label=""
+  //         onChange={(e: any, data: any) => {
+  //           handleSelect(rowData, data.checked);
+  //         }}
+  //         checked={selectedRows.includes(rowData.asin)}
+  //       />
+  //     </GenericRowCell>
+  //   );
+  // };
 
   /* Row cell, combines product information */
   const ProductInformationCell = ({ rowData, ...props }: any) => {
@@ -176,21 +176,22 @@ const ProductsDatabaseTable = (props: Props) => {
 
   return (
     <>
-      <section className={styles.productDatabaseWrapper}>
+      <section id={styles.productDatabaseTable}>
         <Table
           loading={isLoadingProductsDatabase}
           data={productsDatabaseResults}
           hover={false}
           autoHeight
           rowHeight={200}
-          headerHeight={50}
+          headerHeight={55}
           onSortColumn={handleSortColumn}
           sortType={sortType}
           sortColumn={sortColumn}
           affixHorizontalScrollbar
+          id="productDatabaseTable"
           className={styles.productsDatabaseTable}
         >
-          <Table.Column width={35} fixed {...CENTER_ALIGN_SETTINGS}>
+          {/* <Table.Column width={35} fixed {...CENTER_ALIGN_SETTINGS}>
             <Table.HeaderCell>
               <div className={styles.headerSelectRow}>
                 <Checkbox
@@ -208,7 +209,7 @@ const ProductsDatabaseTable = (props: Props) => {
               </div>
             </Table.HeaderCell>
             <CheckboxCell dataKey="checkbox" />
-          </Table.Column>
+          </Table.Column> */}
 
           <Table.Column width={BIG_WIDTH} verticalAlign="middle" fixed>
             <Table.HeaderCell>Product Information</Table.HeaderCell>

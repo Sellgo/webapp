@@ -31,7 +31,7 @@ const ProductDetails = (props: Props) => {
 
   return (
     <div className={styles.productDetails}>
-      <h3 className={styles.productDetailsHeading}>{truncateString(title, 15)}</h3>
+      <p className={styles.productDetailsHeading}>{truncateString(title, 25)}</p>
       {brand && brand.length > 0 && (
         <span>
           <p className={styles.productDetailsText}>Category: {truncateString(category, 20)}</p>

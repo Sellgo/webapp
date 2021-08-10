@@ -39,7 +39,13 @@ const CheckboxListFilter: React.FC<Props> = props => {
       <div className={styles.checkboxWrapper}>
         {options.map(f => {
           return (
-            <Checkbox key={f.key} label={f.text} value={f.value} onChange={handleCheckboxTick} />
+            <Checkbox
+              className={styles.checkboxOption}
+              key={f.key}
+              label={f.text}
+              value={f.value}
+              onChange={handleCheckboxTick}
+            />
           );
         })}
       </div>

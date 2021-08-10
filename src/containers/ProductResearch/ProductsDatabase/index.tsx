@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Icon } from 'semantic-ui-react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
 
 /* Components */
-import BasicFilters from './BasicFilters';
-import AdvancedFilters from './AdvancedFilters';
+import DatabaseFilters from './DatabaseFilters';
 import ProductsDatabaseTable from './DatabaseTable';
 import DatabaseExport from './DatabaseExport';
-import FormFilterActions from '../../../components/FormFilters/FormFilterActions';
 
 /* Actions */
 import { fetchProductsDatabase } from '../../../actions/ProductsResearch/ProductsDatabase';
@@ -25,45 +22,16 @@ interface Props {
 const ProductPanel = (props: Props) => {
   const { fetchProductsDatabase } = props;
 
-  const [showAdvancedFilter, setShowAdvancedFilter] = useState<boolean>(false);
-
   useEffect(() => {
     fetchProductsDatabase({ resetFilters: true });
   }, []);
 
   return (
-    <>
-      <section className={styles.filterSection}>
-        {/* Basic Filter */}
-        <div className={styles.showbasicFilters}>
-          <BasicFilters />
-        </div>
-        {/* Advanced Filter */}
-        <div className={styles.advancedFilterWrapper}>
-          <div
-            className={styles.advancedFilterToggle}
-            onClick={() => setShowAdvancedFilter(prevState => !prevState)}
-          >
-            <span>Advanced Filters</span>
-            <span>
-              {showAdvancedFilter ? <Icon name="chevron up" /> : <Icon name="chevron down" />}
-            </span>
-          </div>
-
-          {showAdvancedFilter && (
-            <div className={styles.showAdvancedFilter}>
-              <AdvancedFilters />
-            </div>
-          )}
-        </div>
-        <FormFilterActions
-          onFind={() => fetchProductsDatabase({ clearFiltersAfterSuccess: true })}
-          onReset={() => fetchProductsDatabase({ resetFilters: true })}
-        />
-      </section>
+    <main className={styles.productDatabasePage}>
+      <DatabaseFilters />
       <DatabaseExport />
       <ProductsDatabaseTable />
-    </>
+    </main>
   );
 };
 

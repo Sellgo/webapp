@@ -3,18 +3,20 @@
 .productDetails {
   background-color: inherit;
   height: 100%;
-  width: 70%;
+  width: 100%;
   display: flex;
   align-items: flex-start;
-  justify-content: flex-start;
+  justify-content: center;
   flex-direction: column;
   overflow: auto;
 }
 
 .productDetailsHeading {
+  padding: 0;
   font-size: 18px;
   font-weight: 600;
   color: $prim_dark_2;
+  margin: 0;
 }
 
 .productDetailsText {

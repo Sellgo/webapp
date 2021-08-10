@@ -4,11 +4,6 @@
   padding-bottom: 60px !important;
 }
 
-.productsDatabaseTable {
-  background-color: inherit;
-  margin-top: 20px;
-}
-
 /* Header select cell */
 .headerSelectRow {
   display: flex;
@@ -23,8 +18,10 @@
 
 /* Row cell */
 .productInformationCell {
+  width: 100%;
+  height: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   flex-direction: row;
 }
@@ -57,4 +54,19 @@
 
 .ellipsisButton {
   background: none;
+}
+
+.productDatabasePagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px 40px;
+  box-shadow: 0 -3px 6px 0 rgba(0, 0, 9, 0.25);
+  background: #fff;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  z-index: 9999999 !important;
 }

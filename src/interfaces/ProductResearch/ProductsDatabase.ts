@@ -21,6 +21,7 @@ export interface ProductsDatabasePayload {
   };
   isExport?: boolean;
   fileFormat?: string;
+  filterPayload?: any;
 }
 
 export interface ProductsDatabaseRow {
