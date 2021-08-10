@@ -7,9 +7,10 @@ import styles from './index.module.scss';
 /* Components */
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
+import InputFilter from '../../../../components/FormFilters/InputFilter';
 
 const ReverseFilters = () => {
-  const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
+  const [showAdvancedFilter, setShowAdvancedFilter] = useState(true);
 
   const handleSubmit = () => {
     console.log('Find');
@@ -77,7 +78,6 @@ const ReverseFilters = () => {
                 console.log('Hello World');
               }}
             />
-
             {/* Sponsored Rank count */}
             <MinMaxFilter
               label="Sponsored Rank (count)"
@@ -87,7 +87,6 @@ const ReverseFilters = () => {
                 console.log('Hello World');
               }}
             />
-
             {/* Amz. Recommeneded Rank avg */}
             <MinMaxFilter
               label="Amz Recommended Rank (avg)"
@@ -97,7 +96,6 @@ const ReverseFilters = () => {
                 console.log('Hello World');
               }}
             />
-
             {/* Amz. Recommeneded Rank count */}
             <MinMaxFilter
               label="Amz Recommended Rank (count)"
@@ -106,6 +104,76 @@ const ReverseFilters = () => {
               handleChange={() => {
                 console.log('Hello World');
               }}
+            />
+            {/* Relative Rank */}
+            <MinMaxFilter
+              label="Relative Rank"
+              minValue="0"
+              maxValue="1"
+              handleChange={() => {
+                console.log('Hello World');
+              }}
+            />
+            {/* Competitor Rank */}
+            <MinMaxFilter
+              label="Competitor Rank"
+              minValue="0"
+              maxValue="1"
+              handleChange={() => {
+                console.log('Hello World');
+              }}
+            />
+            {/* Ranking Competitors */}
+            <MinMaxFilter
+              label="Ranking Competitors"
+              minValue="0"
+              maxValue="1"
+              handleChange={() => {
+                console.log('Hello World');
+              }}
+            />
+            {/* Competitor Performance */}
+            <MinMaxFilter
+              label="Competitor Performance"
+              minValue="0"
+              maxValue="1"
+              handleChange={() => {
+                console.log('Hello World');
+              }}
+            />
+            {/* Competing Products */}
+            <MinMaxFilter
+              label="Competing Products"
+              minValue="0"
+              maxValue="1"
+              handleChange={() => {
+                console.log('Hello World');
+              }}
+            />
+            {/* Search Volumn Trends (30D)  */}
+            <MinMaxFilter
+              label="Search Volumn Trends (30D)"
+              minValue="0"
+              maxValue="1"
+              handleChange={() => {
+                console.log('Hello World');
+              }}
+            />
+
+            {/* Include Search Terms)  */}
+            <InputFilter
+              label="Include Search Term"
+              value=""
+              handleChange={() => console.log('Hello')}
+              placeholder="Enter Search Term"
+            />
+
+            {/* Exclude Search Terms)  */}
+            <InputFilter
+              label="Exclude Search Terms"
+              value=""
+              handleChange={() => console.log('Hello')}
+              placeholder="Enter Search Term"
             />
           </div>
         )}
