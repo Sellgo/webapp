@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Input } from 'semantic-ui-react';
 
 /* Styling */
@@ -30,4 +30,4 @@ const InputFilter: React.FC<Props> = props => {
     </div>
   );
 };
-export default InputFilter;
+export default memo(InputFilter);

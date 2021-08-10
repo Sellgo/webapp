@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import Rating from 'react-rating';
 
 /* Styling */
@@ -75,4 +75,4 @@ const MinMaxRatingsFilter: React.FC<Props> = props => {
   );
 };
 
-export default MinMaxRatingsFilter;
+export default memo(MinMaxRatingsFilter);

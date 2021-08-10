@@ -28,6 +28,7 @@ import ChurnFlow from '../ChurnFlow';
 import SellerFinder from '../SellerFinder';
 import ProductResearch from '../ProductResearch';
 import SellerResearch from '../SellerResearch';
+import KeywordResearch from '../KeywordResearch';
 
 export const auth = new Auth();
 
@@ -219,13 +220,6 @@ function App() {
 
           <PrivateRoute
             exact={true}
-            path="/seller-research"
-            component={SellerResearch}
-            requireSubscription={true}
-          />
-
-          <PrivateRoute
-            exact={true}
             path="/seller-finder"
             component={SellerFinder}
             requireSubscription={true}
@@ -233,8 +227,22 @@ function App() {
 
           <PrivateRoute
             exact={true}
+            path="/seller-research"
+            component={SellerResearch}
+            requireSubscription={true}
+          />
+
+          <PrivateRoute
+            exact={true}
             path="/product-research"
             component={ProductResearch}
+            requireSubscription={true}
+          />
+
+          <PrivateRoute
+            exact={true}
+            path="/keyword-research"
+            component={KeywordResearch}
             requireSubscription={true}
           />
 
