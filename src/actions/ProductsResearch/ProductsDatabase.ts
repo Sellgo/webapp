@@ -167,18 +167,23 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
     }
 
     // if fetch with filteres
-    const productsDatabaseFilters = parseFilterPayload(filterPayload);
+    let productsDatabaseFilters;
+    if (filterPayload) {
+      productsDatabaseFilters = parseFilterPayload(filterPayload);
+    } else {
+      productsDatabaseFilters = {};
+    }
 
     let requestPayload = {
       ...productsDatabaseFilters,
-      page,
+      page: page,
     };
 
     // add the sorting payload if applicable
     if (sort && sort.by && sort.field) {
       requestPayload = {
         ...requestPayload,
-        sort,
+        sort: sort,
       };
     }
     const URL = `${AppConfig.BASE_URL_API}${sellerId}/products`;

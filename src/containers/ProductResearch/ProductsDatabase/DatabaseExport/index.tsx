@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import numeral from 'numeral';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -18,17 +19,27 @@ import { EXPORT_DATA, EXPORT_FORMATS } from '../../../../constants/SellerResearc
 import { ProductsDatabasePayload } from '../../../../interfaces/ProductResearch/ProductsDatabase';
 import {
   getIsLoadingProductsDatabase,
+  getProductsDatabasePaginationInfo,
   getProductsDatabaseResults,
 } from '../../../../selectors/ProductResearch/ProductsDatabase';
+
+/* Utils */
+import { formatNumber } from '../../../../utils/format';
 
 interface Props {
   productDatabaseResults: any;
   isLoadingProductDatabase: boolean;
   fetchProductsDatabase: (payload: ProductsDatabasePayload) => void;
+  productDatabasePaginationInfo: any;
 }
 
 const DatabaseExport = (props: Props) => {
-  const { fetchProductsDatabase, productDatabaseResults, isLoadingProductDatabase } = props;
+  const {
+    fetchProductsDatabase,
+    productDatabaseResults,
+    isLoadingProductDatabase,
+    productDatabasePaginationInfo,
+  } = props;
 
   const [openExports, setOpenExports] = useState(false);
 
@@ -42,13 +53,27 @@ const DatabaseExport = (props: Props) => {
     [isLoadingProductDatabase, productDatabaseResults]
   );
 
+  const totalProductsFound = useMemo(() => {
+    const count = productDatabasePaginationInfo.count;
+
+    if (count < 49_999) {
+      return formatNumber(count);
+    }
+
+    return numeral(count)
+      .format('0.0a')
+      .toUpperCase();
+  }, [productDatabasePaginationInfo]);
+
   return (
     <>
       <div className={styles.exportsContainer}>
-        {/* <h2>
-          Results note is described here, please explain in concise yet short, not longer than this
-          line.
-        </h2> */}
+        {totalProductsFound !== '0' && totalProductsFound !== '0.0' && (
+          <h2>
+            {totalProductsFound} products found, please add additional filters for a more targeted
+            search.
+          </h2>
+        )}
         <div
           onClick={() => (shouldEnableExport ? setOpenExports(true) : 0)}
           className={`${shouldEnableExport ? 'export-button' : 'export-button-disabled'}`}
@@ -75,6 +100,7 @@ const DatabaseExport = (props: Props) => {
 const mapStateToProps = (state: any) => ({
   productDatabaseResults: getProductsDatabaseResults(state),
   isLoadingProductDatabase: getIsLoadingProductsDatabase(state),
+  productDatabasePaginationInfo: getProductsDatabasePaginationInfo(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {

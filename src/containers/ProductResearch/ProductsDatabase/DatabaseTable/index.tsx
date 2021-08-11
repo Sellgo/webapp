@@ -59,6 +59,7 @@ const ProductsDatabaseTable = (props: Props) => {
   const [sortType, setSortType] = React.useState<'asc' | 'desc' | undefined>(undefined);
 
   const handleChangePage = (pageNo: number) => {
+    console.log(pageNo);
     fetchProductsDatabase({
       page: pageNo,
     });
