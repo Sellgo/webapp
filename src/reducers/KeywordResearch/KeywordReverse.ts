@@ -7,7 +7,7 @@ const INITIAL_STATE: { [key: string]: any } = {
   [makeOrGetUniqueTabID()]: {
     // keyword request id state
     isFetchingKeywordReverseRequestId: false,
-    keywordReverseRequestId: '25',
+    keywordReverseRequestId: '',
 
     // table state
     isLoadingKeywordReverseTable: false,

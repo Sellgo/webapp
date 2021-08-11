@@ -130,6 +130,34 @@ export const parseFilters = (keywordReverseFilter: any) => {
 };
 /* ========================= Async actions ======================*/
 
+/* Action to fetch keyword reverse request id using asins */
+export const fetchKeywordReverseRequestId = (asinList: string) => async (dispatch: any) => {
+  try {
+    const sellerID = sellerIDSelector();
+
+    const payload = {
+      asins: asinList,
+    };
+
+    const { data } = await axios.post(
+      `${AppConfig.BASE_URL_API}sellers/${sellerID}/keywords/request`,
+      payload
+    );
+
+    dispatch(isFetchingKeywordReverseRequestId(true));
+
+    if (data) {
+      const { keyword_request_id: keywordRequestId } = data;
+      dispatch(setKeywordReverseRequestId(keywordRequestId));
+      dispatch(isFetchingKeywordReverseRequestId(false));
+    }
+  } catch (err) {
+    console.log('Error fetching the keyword request Id', err.response);
+    dispatch(setKeywordReverseRequestId(''));
+    dispatch(isFetchingKeywordReverseRequestId(false));
+  }
+};
+
 /* Action to fetch the keyword reverse table information */
 export const fetchKeywordReverseTableInformation = (payload: KeywordReverseTablePayload) => async (
   dispatch: any,

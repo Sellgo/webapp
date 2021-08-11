@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TabList, TabPanel, Tabs, Tab } from 'react-tabs';
-import { decode } from 'qss';
 
 /* Components */
 import styles from './index.module.scss';
@@ -12,10 +11,6 @@ import MarketplaceDropdown from '../../components/MarketplaceDropdown';
 
 /* Containers */
 import KeywordReverse from './KeywordReverse';
-import history from '../../history';
-import { decodeBase64 } from '../../utils/format';
-import { sellerIDSelector } from '../../selectors/Seller';
-import { error } from '../../utils/notifications';
 
 interface Props {
   match: any;
@@ -31,26 +26,6 @@ const KeywordResearch = (props: Props) => {
   const handleTabChange = (index: number) => {
     setSelectedTabList(index);
   };
-
-  useEffect(() => {
-    const searchString = history.location.search;
-
-    const decodedString = decodeBase64(searchString.split('?query=')[1]);
-    const { sellerId, asins } = decode(decodedString) as any;
-
-    if (String(sellerId) !== sellerIDSelector()) {
-      console.log('Unauthorized user');
-      error('Unauthorized user');
-      return;
-    }
-
-    if (asins.split(',').length >= 10) {
-      error('Asin size has exceeded');
-      return;
-    }
-
-    console.log('Everything is fine here');
-  }, []);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Table } from 'rsuite';
 import { connect } from 'react-redux';
 
@@ -58,11 +58,6 @@ const ReverseTable = (props: Props) => {
   const handlePageChange = (pageNo: number) => {
     fetchKeywordReverseTableInformation({ page: pageNo });
   };
-
-  // remove this later
-  useEffect(() => {
-    fetchKeywordReverseTableInformation({});
-  }, []);
 
   return (
     <section className={styles.keywordReverseTableWrapper}>

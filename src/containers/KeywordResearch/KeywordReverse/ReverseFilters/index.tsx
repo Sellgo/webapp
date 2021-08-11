@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Icon } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -14,9 +15,12 @@ import {
   DEFAULT_INCLUDE_EXCLUDE_FILTER,
   DEFAULT_MIN_MAX_FILTER,
 } from '../../../../constants/KeywordResearch/KeywordReverse';
-import { KeywordReverseTablePayload } from '../../../../interfaces/KeywordResearch/KeywordReverse';
+
+/* Actions */
 import { fetchKeywordReverseTableInformation } from '../../../../actions/KeywordResearch/KeywordReverse';
-import { connect } from 'react-redux';
+
+/* Interfaces */
+import { KeywordReverseTablePayload } from '../../../../interfaces/KeywordResearch/KeywordReverse';
 
 interface Props {
   fetchKeywordReverseTableInfo: (payload: KeywordReverseTablePayload) => void;
@@ -175,6 +179,7 @@ const ReverseFilters = (props: Props) => {
           </div>
         )}
       </div>
+
       <FormFilterActions onFind={handleSubmit} onReset={handleReset} />
     </section>
   );
