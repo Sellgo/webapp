@@ -10,3 +10,13 @@ export const actionTypes = {
   SET_KEYWORD_REVERSE_TABLE_RESULTS: 'SET_KEYWORD_REVERSE_TABLE_RESULTS',
   SET_KEYWORD_REVERSE_TABLE_PAGINATION_INFO: 'SET_KEYWORD_REVERSE_TABLE_PAGINATION_INFO',
 };
+
+export const DEFAULT_INCLUDE_EXCLUDE_FILTER = {
+  include: '',
+  exclude: '',
+};
+
+export const DEFAULT_MIN_MAX_FILTER = {
+  min: '',
+  max: '',
+};

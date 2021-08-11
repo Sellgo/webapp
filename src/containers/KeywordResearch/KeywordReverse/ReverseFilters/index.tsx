@@ -9,15 +9,42 @@ import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 
+/* Constants */
+import {
+  DEFAULT_INCLUDE_EXCLUDE_FILTER,
+  DEFAULT_MIN_MAX_FILTER,
+} from '../../../../constants/KeywordResearch/KeywordReverse';
+
 const ReverseFilters = () => {
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(true);
 
+  /* Basic Filters */
+  const [searchVolume, setSearchVolume] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [positionRank, setPositionRank] = useState(DEFAULT_MIN_MAX_FILTER);
+
+  /* Advanced Filters */
+  const [sponsoredAsins, setSponsoredAsins] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [competingProducts, setCompetitingProducts] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [relativeRank, setRelativeRank] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [competitorRank, setCompetitorRank] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [rankingCompetitors, setRankingCompetitors] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [searchTerm, setSearchTerm] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+
+  /* Handle Submit */
   const handleSubmit = () => {
     console.log('Find');
   };
 
+  /* Handle Reset */
   const handleReset = () => {
-    console.log('Reset');
+    setSearchVolume(DEFAULT_MIN_MAX_FILTER);
+    setPositionRank(DEFAULT_MIN_MAX_FILTER);
+    setSponsoredAsins(DEFAULT_MIN_MAX_FILTER);
+    setRelativeRank(DEFAULT_MIN_MAX_FILTER);
+    setCompetitorRank(DEFAULT_MIN_MAX_FILTER);
+    setRankingCompetitors(DEFAULT_MIN_MAX_FILTER);
+    setCompetitingProducts(DEFAULT_MIN_MAX_FILTER);
+    setSearchTerm(DEFAULT_INCLUDE_EXCLUDE_FILTER);
   };
 
   return (
@@ -27,30 +54,20 @@ const ReverseFilters = () => {
         {/* Search Volume */}
         <MinMaxFilter
           label="Search Volume"
-          minValue="0"
-          maxValue="1"
-          handleChange={() => {
-            console.log('Hello World');
+          minValue={searchVolume.min}
+          maxValue={searchVolume.max}
+          handleChange={(type, value) => {
+            setSearchVolume(prevState => ({ ...prevState, [type]: value }));
           }}
         />
 
         {/* Position Rank  */}
         <MinMaxFilter
           label="Position Rank"
-          minValue="0"
-          maxValue="1"
-          handleChange={() => {
-            console.log('Hello World');
-          }}
-        />
-
-        {/* Word  Count  */}
-        <MinMaxFilter
-          label="Word Count"
-          minValue="0"
-          maxValue="1"
-          handleChange={() => {
-            console.log('Hello World');
+          minValue={positionRank.min}
+          maxValue={positionRank.max}
+          handleChange={(type, value) => {
+            setPositionRank(prevState => ({ ...prevState, [type]: value }));
           }}
         />
       </div>
@@ -69,110 +86,69 @@ const ReverseFilters = () => {
 
         {showAdvancedFilter && (
           <div className={styles.showAdvancedFilter}>
-            {/* Sponsored Rank avg*/}
-            <MinMaxFilter
-              label="Sponsored Rank (avg)"
-              minValue="0"
-              maxValue="1"
-              handleChange={() => {
-                console.log('Hello World');
-              }}
-            />
             {/* Sponsored Rank count */}
             <MinMaxFilter
-              label="Sponsored Rank (count)"
-              minValue="0"
-              maxValue="1"
-              handleChange={() => {
-                console.log('Hello World');
+              label="Sponsored ASINs"
+              minValue={sponsoredAsins.min}
+              maxValue={sponsoredAsins.max}
+              handleChange={(type, value) => {
+                setSponsoredAsins(prevState => ({ ...prevState, [type]: value }));
               }}
             />
-            {/* Amz. Recommeneded Rank avg */}
-            <MinMaxFilter
-              label="Amz Recommended Rank (avg)"
-              minValue="0"
-              maxValue="1"
-              handleChange={() => {
-                console.log('Hello World');
-              }}
-            />
-            {/* Amz. Recommeneded Rank count */}
-            <MinMaxFilter
-              label="Amz Recommended Rank (count)"
-              minValue="0"
-              maxValue="1"
-              handleChange={() => {
-                console.log('Hello World');
-              }}
-            />
+
             {/* Relative Rank */}
             <MinMaxFilter
               label="Relative Rank"
-              minValue="0"
-              maxValue="1"
-              handleChange={() => {
-                console.log('Hello World');
+              minValue={relativeRank.min}
+              maxValue={relativeRank.max}
+              handleChange={(type, value) => {
+                setRelativeRank(prevState => ({ ...prevState, [type]: value }));
               }}
             />
+
             {/* Competitor Rank */}
             <MinMaxFilter
               label="Competitor Rank"
-              minValue="0"
-              maxValue="1"
-              handleChange={() => {
-                console.log('Hello World');
+              minValue={competitorRank.min}
+              maxValue={competitorRank.max}
+              handleChange={(type, value) => {
+                setCompetitorRank(prevState => ({ ...prevState, [type]: value }));
               }}
             />
+
             {/* Ranking Competitors */}
             <MinMaxFilter
               label="Ranking Competitors"
-              minValue="0"
-              maxValue="1"
-              handleChange={() => {
-                console.log('Hello World');
+              minValue={rankingCompetitors.min}
+              maxValue={rankingCompetitors.max}
+              handleChange={(type, value) => {
+                setRankingCompetitors(prevState => ({ ...prevState, [type]: value }));
               }}
             />
-            {/* Competitor Performance */}
-            <MinMaxFilter
-              label="Competitor Performance"
-              minValue="0"
-              maxValue="1"
-              handleChange={() => {
-                console.log('Hello World');
-              }}
-            />
+
             {/* Competing Products */}
             <MinMaxFilter
               label="Competing Products"
-              minValue="0"
-              maxValue="1"
-              handleChange={() => {
-                console.log('Hello World');
-              }}
-            />
-            {/* Search Volumn Trends (30D)  */}
-            <MinMaxFilter
-              label="Search Volumn Trends (30D)"
-              minValue="0"
-              maxValue="1"
-              handleChange={() => {
-                console.log('Hello World');
+              minValue={competingProducts.min}
+              maxValue={competingProducts.max}
+              handleChange={(type, value) => {
+                setCompetitingProducts(prevState => ({ ...prevState, [type]: value }));
               }}
             />
 
             {/* Include Search Terms)  */}
             <InputFilter
               label="Include Search Term"
-              value=""
-              handleChange={() => console.log('Hello')}
+              value={searchTerm.include}
+              handleChange={value => setSearchTerm(prevState => ({ ...prevState, include: value }))}
               placeholder="Enter Search Term"
             />
 
             {/* Exclude Search Terms)  */}
             <InputFilter
               label="Exclude Search Terms"
-              value=""
-              handleChange={() => console.log('Hello')}
+              value={searchTerm.exclude}
+              handleChange={value => setSearchTerm(prevState => ({ ...prevState, exclude: value }))}
               placeholder="Enter Search Term"
             />
           </div>
