@@ -47,17 +47,17 @@ const ExtendedReviewsCell = (props: Props) => {
         <div className={styles.groupedReviewCategory}>
           <div className={styles.reviewCategory}>
             <PositiveReview />
-            <span>{showNAIfZeroOrNull(positiveReviewCount, `${positiveReviewCount}%`)}</span>
+            <span>{showNAIfZeroOrNull(positiveReviewCount, `${positiveReviewCount}`)}</span>
           </div>
 
           <div className={styles.reviewCategory}>
             <NeutralReview />
-            <span>{showNAIfZeroOrNull(neutralReviewCount, `${neutralReviewCount}%`)}</span>
+            <span>{showNAIfZeroOrNull(neutralReviewCount, `${neutralReviewCount}`)}</span>
           </div>
 
           <div className={styles.reviewCategory}>
             <NegativeReview />
-            <span>{showNAIfZeroOrNull(negativeReviewCount, `${negativeReviewCount}%`)}</span>
+            <span>{showNAIfZeroOrNull(negativeReviewCount, `${negativeReviewCount}`)}</span>
           </div>
         </div>
       </div>

@@ -20,14 +20,17 @@ import {
   SellerDatabasePayload,
   ShowFilterMessage,
 } from '../../../../interfaces/SellerResearch/SellerDatabase';
+
+/* Selectors */
 import {
   getFilterMessage,
   getIsLoadingSellerDatabase,
   getSellerDatabasePaginationInfo,
   getSellerDatabaseResults,
 } from '../../../../selectors/SellerResearch/SellerDatabase';
+
+/* Utils */
 import { formatNumber } from '../../../../utils/format';
-import numeral from 'numeral';
 
 interface Props {
   sellerDatabaseResults: any;
@@ -60,14 +63,7 @@ const DatabaseExport = (props: Props) => {
 
   const totalSellersFound = useMemo(() => {
     const count = sellerDatabasePaginationInfo.count;
-
-    if (count < 49_999) {
-      return formatNumber(count);
-    }
-
-    return numeral(count)
-      .format('0.0a')
-      .toUpperCase();
+    return formatNumber(count);
   }, [sellerDatabasePaginationInfo]);
 
   return (

@@ -224,7 +224,7 @@ const SellerDatabaseTable = (props: Props) => {
               totalPages={sellerDatabaPaginationInfo.total_pages}
               currentPage={sellerDatabaPaginationInfo.current_page}
               onPageChange={handlePageChange}
-              showSiblingsCount={2}
+              showSiblingsCount={3}
             />
           </footer>
         )}
