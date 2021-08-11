@@ -31,7 +31,7 @@ const KeywordResearch = (props: Props) => {
   return (
     <>
       <PageHeader
-        title={`Seller Research`}
+        title={`Keyword Research`}
         breadcrumb={[
           { content: 'Home', to: '/' },
           { content: 'Keyword Research', to: '/keyword-research' },

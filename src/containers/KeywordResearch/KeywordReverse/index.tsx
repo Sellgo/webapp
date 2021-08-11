@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 /* Styling */
@@ -15,13 +15,7 @@ interface Props {
   keywordReverseRequestId: string;
 }
 
-const KeywordReverse = (props: Props) => {
-  const { keywordReverseRequestId } = props;
-
-  useEffect(() => {
-    console.log('Request ID is', keywordReverseRequestId);
-  }, []);
-
+const KeywordReverse = () => {
   return (
     <main className={styles.keywordReversePage}>
       <ReverseFilters />

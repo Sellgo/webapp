@@ -85,8 +85,6 @@ export const extractKeywordReverseFilters = () => {
 
 /* Action to parse the  keyword reverse filters */
 export const parseFilters = (keywordReverseFilter: any) => {
-  console.log('Filter payload send for parsing is', keywordReverseFilter);
-
   const filterPayloadKeys = Object.keys(keywordReverseFilter);
 
   let filterQuery = '';
@@ -193,8 +191,6 @@ export const fetchKeywordReverseTableInformation = (payload: KeywordReverseTable
 
     // full resource path
     const resourcePath = `?${pagination}&${perPage}&${sortingValue}&${sortDirection}${filtersQueryString}`;
-
-    console.log('Resource path is', resourcePath);
 
     dispatch(isLoadingKeywordReverseTable(enableLoader));
 
