@@ -18,6 +18,26 @@ export const makeOrGetUniqueTabID = () => {
   return value;
 };
 
+/* ============== KEYWORD REQUEST ================== */
+
+/* Action for setting fetching state for keyword request id */
+export const isFetchingKeywordReverseRequestId = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_FETCHING_KEYWORD_REVERSE_REQUEST_ID,
+    payload,
+  };
+};
+
+/* Action for setting  keyword request id */
+export const setKeywordReverseRequestId = (payload: string) => {
+  return {
+    type: actionTypes.SET_KEYWORD_REVERSE_REQUEST_ID,
+    payload,
+  };
+};
+
+/* ============== KEYWORD REVERSE TABLE ================== */
+
 /* Action to set loading state for keyword reverse  */
 export const isLoadingKeywordReverseTable = (payload: boolean) => {
   return {

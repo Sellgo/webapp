@@ -8,6 +8,11 @@ import { makeOrGetUniqueTabID } from '../../actions/KeywordResearch/KeywordRever
 
 const INITIAL_STATE: { [key: string]: any } = {
   [makeOrGetUniqueTabID()]: {
+    // keyword request id state
+    isFetchingKeywordReverseRequestId: false,
+    keywordReverseRequestId: '',
+
+    // table state
     isLoadingKeywordReverseTable: false,
     keywordReverseTableResults: [],
     keywordReverseTablePaginationInfo: {
@@ -25,6 +30,31 @@ const keywordReverseReducer = (state = INITIAL_STATE, action: AnyAction) => {
   const sessionStateChunk = state[sessionTab];
 
   switch (action.type) {
+    /* ======================================================= */
+    /* Keyword Request Reducers */
+    case actionTypes.IS_FETCHING_KEYWORD_REVERSE_REQUEST_ID: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          isFetchingKeywordReverseRequestId: action.payload,
+        },
+      };
+    }
+
+    case actionTypes.SET_KEYWORD_REVERSE_REQUEST_ID: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          keywordReverseRequestId: action.payload,
+        },
+      };
+    }
+
+    /* ============================================== */
+
+    /* Table Reducers */
     // Set loading state
     case actionTypes.IS_LOADING_KEYWORD_REVERSE_TABLE: {
       return {
