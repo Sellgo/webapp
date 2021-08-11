@@ -27,7 +27,7 @@ export const getIsLoadingKeywordReverseTable = (state: any) => {
   const sessionTabId = makeOrGetUniqueTabID();
 
   const stateChunk = get(state, `keywordReverse[${sessionTabId}]`);
-  return get(stateChunk, 'getisLoadingKeywordReverseTable');
+  return get(stateChunk, 'isLoadingKeywordReverseTable');
 };
 
 /* Selector to get keyword reverse table results */

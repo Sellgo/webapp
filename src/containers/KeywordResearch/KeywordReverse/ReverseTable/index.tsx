@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table } from 'rsuite';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -7,10 +8,39 @@ import './global.scss';
 
 /* Components */
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
+import {
+  getIsLoadingKeywordReverseTable,
+  getKeywordReverseTablePaginationInfo,
+  getKeywordReverseTableResults,
+} from '../../../../selectors/KeywordResearch/KeywordReverse';
 
-const fakeData = [{ name: 'Hello' }, { name: 'Hello' }];
+/* Actions */
 
-const ReverseTable = () => {
+import { fetchKeywordReverseTableInformation } from '../../../../actions/KeywordResearch/KeywordReverse';
+
+/* Interfaces */
+import {
+  KeywordReversePaginationInfo,
+  KeywordReverseTablePayload,
+} from '../../../../interfaces/KeywordResearch/KeywordReverse';
+import TablePagination from '../../../../components/NewTable/Pagination';
+
+interface Props {
+  isLoadingKeywordReverseTable: boolean;
+  keywordReverseTableResults: any[];
+  keywordReverseTablePaginationInfo: KeywordReversePaginationInfo;
+
+  fetchKeywordReverseTableInfo: (payload: KeywordReverseTablePayload) => void;
+}
+
+const ReverseTable = (props: Props) => {
+  const {
+    isLoadingKeywordReverseTable,
+    keywordReverseTableResults,
+    keywordReverseTablePaginationInfo,
+    fetchKeywordReverseTableInfo,
+  } = props;
+
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
 
@@ -19,11 +49,20 @@ const ReverseTable = () => {
     setSortType(sortType);
   };
 
+  const handlePageChange = (pageNo: number) => {
+    console.log(pageNo);
+  };
+
+  // remove this later
+  useEffect(() => {
+    fetchKeywordReverseTableInfo({});
+  }, []);
+
   return (
     <section className={styles.keywordReverseTableWrapper}>
       <Table
-        loading={false}
-        data={fakeData}
+        loading={isLoadingKeywordReverseTable}
+        data={keywordReverseTableResults}
         autoHeight
         hover={false}
         rowHeight={60}
@@ -134,8 +173,34 @@ const ReverseTable = () => {
           <Table.Cell>4</Table.Cell>
         </Table.Column>
       </Table>
+
+      {keywordReverseTablePaginationInfo && keywordReverseTablePaginationInfo.total_pages > 0 && (
+        <footer className={styles.keywordReversePaginationContainer}>
+          <TablePagination
+            totalPages={keywordReverseTablePaginationInfo.total_pages}
+            currentPage={keywordReverseTablePaginationInfo.current_page}
+            onPageChange={handlePageChange}
+            showSiblingsCount={3}
+          />
+        </footer>
+      )}
     </section>
   );
 };
 
-export default ReverseTable;
+const mapStateToProps = (state: any) => {
+  return {
+    isLoadingKeywordReverseTable: getIsLoadingKeywordReverseTable(state),
+    keywordReverseTableResults: getKeywordReverseTableResults(state),
+    keywordReverseTablePaginationInfo: getKeywordReverseTablePaginationInfo(state),
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchKeywordReverseTableInfo: (payload: KeywordReverseTablePayload) =>
+      dispatch(fetchKeywordReverseTableInformation(payload)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReverseTable);

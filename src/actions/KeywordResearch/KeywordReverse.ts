@@ -13,6 +13,8 @@ import {
   KeywordReversePaginationInfo,
   KeywordReverseTablePayload,
 } from '../../interfaces/KeywordResearch/KeywordReverse';
+
+/* Selectors */
 import { getKeywordReverseRequestId } from '../../selectors/KeywordResearch/KeywordReverse';
 
 /* Selectors */
@@ -82,15 +84,15 @@ export const extractKeywordReverseFilters = () => {
 /* =============== Filter Parsing====================== */
 
 /* Action to parse the  keyword reverse filters */
-export const parseFilters = (keywordResearchFilter: any) => {
-  console.log('Filter payload send for parsing is', keywordResearchFilter);
+export const parseFilters = (keywordReverseFilter: any) => {
+  console.log('Filter payload send for parsing is', keywordReverseFilter);
 
-  const filterPayloadKeys = Object.keys(keywordResearchFilter);
+  const filterPayloadKeys = Object.keys(keywordReverseFilter);
 
   let filterQuery = '';
 
   filterPayloadKeys.forEach((key: string) => {
-    const filter = keywordResearchFilter[key];
+    const filter = keywordReverseFilter[key];
 
     const { keyName, type } = FILTER_QUERY_KEY_MAPPER[key];
 
