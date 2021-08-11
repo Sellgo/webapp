@@ -3,7 +3,9 @@ export interface KeywordReverseTablePayload {
   per_page?: number;
   sort?: string;
   sortDir?: 'asc' | 'desc';
+  resetFilter?: boolean;
   filterPayload?: any;
+  enableLoader?: boolean;
 }
 
 export interface KeywordReversePaginationInfo {

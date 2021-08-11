@@ -1,16 +1,13 @@
 import { AnyAction } from 'redux';
 
 /* Constants */
-import { actionTypes } from '../../constants/KeywordResearch/KeywordReverse';
-
-/* Actions */
-import { makeOrGetUniqueTabID } from '../../actions/KeywordResearch/KeywordReverse';
+import { actionTypes, makeOrGetUniqueTabID } from '../../constants/KeywordResearch/KeywordReverse';
 
 const INITIAL_STATE: { [key: string]: any } = {
   [makeOrGetUniqueTabID()]: {
     // keyword request id state
     isFetchingKeywordReverseRequestId: false,
-    keywordReverseRequestId: '',
+    keywordReverseRequestId: '25',
 
     // table state
     isLoadingKeywordReverseTable: false,

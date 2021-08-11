@@ -14,8 +14,18 @@ import {
   DEFAULT_INCLUDE_EXCLUDE_FILTER,
   DEFAULT_MIN_MAX_FILTER,
 } from '../../../../constants/KeywordResearch/KeywordReverse';
+import { KeywordReverseTablePayload } from '../../../../interfaces/KeywordResearch/KeywordReverse';
+import { fetchKeywordReverseTableInformation } from '../../../../actions/KeywordResearch/KeywordReverse';
+import { connect } from 'react-redux';
 
-const ReverseFilters = () => {
+interface Props {
+  fetchKeywordReverseTableInfo: (payload: KeywordReverseTablePayload) => void;
+}
+
+const ReverseFilters = (props: Props) => {
+  /* Props */
+  const { fetchKeywordReverseTableInfo } = props;
+
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(true);
 
   /* Basic Filters */
@@ -32,11 +42,22 @@ const ReverseFilters = () => {
 
   /* Handle Submit */
   const handleSubmit = () => {
-    console.log('Find');
+    const filterPayload = {
+      searchVolume,
+      positionRank,
+      sponsoredAsins,
+      competingProducts,
+      relativeRank,
+      competitorRank,
+      rankingCompetitors,
+      searchTerm,
+    };
+    fetchKeywordReverseTableInfo({ filterPayload });
   };
 
   /* Handle Reset */
   const handleReset = () => {
+    fetchKeywordReverseTableInfo({ resetFilter: true });
     setSearchVolume(DEFAULT_MIN_MAX_FILTER);
     setPositionRank(DEFAULT_MIN_MAX_FILTER);
     setSponsoredAsins(DEFAULT_MIN_MAX_FILTER);
@@ -159,4 +180,11 @@ const ReverseFilters = () => {
   );
 };
 
-export default ReverseFilters;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchKeywordReverseTableInfo: (payload: KeywordReverseTablePayload) =>
+      dispatch(fetchKeywordReverseTableInformation(payload)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ReverseFilters);
