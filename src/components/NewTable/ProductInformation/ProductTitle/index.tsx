@@ -18,7 +18,7 @@ interface Props {
 
 const ProductTitle = (props: Props) => {
   const { asin, image, upc } = props;
-  const upcString = truncateString(upc.join(','), 9);
+  const upcString = upc && upc.join(',');
 
   return (
     <div className={styles.productTitle}>
@@ -33,7 +33,15 @@ const ProductTitle = (props: Props) => {
       </div>
       <div className={styles.productTitleTextBox}>
         <p className={styles.productTitleText}>UPC:</p>
-        {upcString.length > 0 ? <CopyToClipboard data={upcString} displayData={upcString} /> : '-'}
+        {upcString && upcString.length > 0 ? (
+          <CopyToClipboard
+            data={upcString}
+            displayData={truncateString(upcString, 9)}
+            className={styles.productTitleText}
+          />
+        ) : (
+          '-'
+        )}
       </div>
     </div>
   );

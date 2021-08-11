@@ -28,6 +28,7 @@ const ProductPanel = (props: Props) => {
   return (
     <main className={styles.productDatabasePage}>
       <DatabaseFilters />
+      <div className={styles.emptyRow} />
       <ProductsDatabaseTable />
     </main>
   );

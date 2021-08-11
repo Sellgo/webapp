@@ -11,10 +11,9 @@
 /* Basic Filter Styles */
 .basicFilters {
   display: grid;
-  grid-template-columns: repeat(4, 20%);
+  grid-template-columns: repeat(7, 1fr);
   padding: 30px 0 !important;
   height: max-content;
-  row-gap: 20px;
   grid-column-gap: 30px;
 
   @media only screen and (max-width: 1550px) {
@@ -28,6 +27,7 @@
   box-shadow: 0 3px 6px #00000029;
   border-radius: 7px;
   height: max-content !important;
+  user-select: none;
 }
 
 .advancedFilterToggle {

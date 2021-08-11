@@ -1,5 +1,4 @@
 import React from 'react';
-import { Icon, Popup } from 'semantic-ui-react';
 import { Table } from 'rsuite';
 
 /* Styling */
@@ -136,41 +135,41 @@ const ProductsDatabaseTable = (props: Props) => {
   };
 
   /* Row cell */
-  const ActionCell = ({ rowData, ...props }: any) => (
-    <GenericRowCell {...props}>
-      <Popup
-        /* Ellipsis icon */
-        trigger={
-          <button className={styles.ellipsisButton}>
-            <Icon name="ellipsis vertical" size="small" />
-          </button>
-        }
-        /* Ellipsis popup content */
-        content={
-          <span>
-            <div className={styles.actionPopupRow}>
-              <Icon name="external alternate" size="small" />
-              <a
-                href={`http://amazon.com/dp/${rowData.asin}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.actionPopupText}
-              >
-                View on Amazon
-              </a>
-            </div>
-            <div className={styles.actionPopupRow}>
-              <Icon name="download" size="small" />
-              <p className={styles.actionPopupText}> Export </p>
-            </div>
-          </span>
-        }
-        on="click"
-        position="top right"
-        offset={5}
-      />
-    </GenericRowCell>
-  );
+  // const ActionCell = ({ rowData, ...props }: any) => (
+  //   <GenericRowCell {...props}>
+  //     <Popup
+  //       /* Ellipsis icon */
+  //       trigger={
+  //         <button className={styles.ellipsisButton}>
+  //           <Icon name="ellipsis vertical" size="small" />
+  //         </button>
+  //       }
+  //       /* Ellipsis popup content */
+  //       content={
+  //         <span>
+  //           <div className={styles.actionPopupRow}>
+  //             <Icon name="external alternate" size="small" />
+  //             <a
+  //               href={`http://amazon.com/dp/${rowData.asin}`}
+  //               target="_blank"
+  //               rel="noopener noreferrer"
+  //               className={styles.actionPopupText}
+  //             >
+  //               View on Amazon
+  //             </a>
+  //           </div>
+  //           <div className={styles.actionPopupRow}>
+  //             <Icon name="download" size="small" />
+  //             <p className={styles.actionPopupText}> Export </p>
+  //           </div>
+  //         </span>
+  //       }
+  //       on="click"
+  //       position="top right"
+  //       offset={5}
+  //     />
+  //   </GenericRowCell>
+  // );
 
   return (
     <>
@@ -272,10 +271,10 @@ const ProductsDatabaseTable = (props: Props) => {
             <RatingWithCountCell dataKey="rating" rowData="rating" />
           </Table.Column>
 
-          <Table.Column width={50} {...CENTER_ALIGN_SETTINGS}>
+          {/* <Table.Column width={50} {...CENTER_ALIGN_SETTINGS}>
             <Table.HeaderCell></Table.HeaderCell>
             <ActionCell dataKey="asin" rowData="asin" />
-          </Table.Column>
+          </Table.Column> */}
         </Table>
 
         {productsDatabasePaginationInfo && productsDatabasePaginationInfo.total_pages > 0 && (

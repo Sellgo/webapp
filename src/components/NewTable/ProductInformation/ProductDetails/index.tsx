@@ -31,12 +31,12 @@ const ProductDetails = (props: Props) => {
 
   return (
     <div className={styles.productDetails}>
-      <p className={styles.productDetailsHeading}>{truncateString(title, 25)}</p>
+      <p className={styles.productDetailsHeading}>{truncateString(title, 28)}</p>
       {brand && brand.length > 0 && (
         <span>
-          <p className={styles.productDetailsText}>Category: {truncateString(category, 20)}</p>
-          <p className={styles.productDetailsText}>Brand: {truncateString(brand, 20)}</p>
-          <p className={styles.productDetailsText}>Size Tier: {truncateString(sizeTier, 20)}</p>
+          <p className={styles.productDetailsText}>Category: {truncateString(category, 30)}</p>
+          <p className={styles.productDetailsText}>Brand: {truncateString(brand, 30)}</p>
+          <p className={styles.productDetailsText}>Size Tier: {truncateString(sizeTier, 30)}</p>
           <p className={styles.productDetailsText}>
             Number of Images: {formatNumber(numberOfImages)}
           </p>
@@ -44,7 +44,7 @@ const ProductDetails = (props: Props) => {
             Variation Count: {formatNumber(variationCount)}
           </p>
           <p className={styles.productDetailsText}>
-            Package Dimensions: {truncateString(packageDimension, 20)}
+            Package Dimensions: {truncateString(packageDimension, 30)}
           </p>
           <p className={styles.productDetailsText}>
             Storage Fee (1,000 units/month): {formatNumber(storageFee)}

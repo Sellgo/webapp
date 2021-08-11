@@ -2,6 +2,7 @@
 
 .productTitle {
   height: 100%;
+  width: 30%;
   margin: 0 18px;
   position: relative;
   display: flex;
@@ -14,12 +15,14 @@
   display: flex;
   flex-direction: row;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .productTitleText {
   margin: 0;
+  width: 100%;
   color: $prim_dark_1;
+  font-weight: 500 !important;
   font-size: 12px;
   margin-right: 3px;
 }
