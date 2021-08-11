@@ -24,6 +24,7 @@ import {
   KeywordReverseTablePayload,
 } from '../../../../interfaces/KeywordResearch/KeywordReverse';
 import TablePagination from '../../../../components/NewTable/Pagination';
+import StatsCell from '../../../../components/NewTable/StatsCell';
 
 interface Props {
   isLoadingKeywordReverseTable: boolean;
@@ -73,13 +74,13 @@ const ReverseTable = (props: Props) => {
         onSortColumn={handleSortColumn}
       >
         {/* Search Term */}
-        <Table.Column width={400} verticalAlign="middle" fixed align="left">
+        <Table.Column width={600} verticalAlign="middle" fixed align="left">
           <Table.HeaderCell>Search Term</Table.HeaderCell>
           <Table.Cell>Search Term</Table.Cell>
         </Table.Column>
 
         {/* Search Volume */}
-        <Table.Column width={150} verticalAlign="middle" fixed align="left">
+        <Table.Column width={130} verticalAlign="middle" fixed align="left">
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Search\nVolume`}
@@ -88,12 +89,11 @@ const ReverseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-
-          <Table.Cell>125,234</Table.Cell>
+          <StatsCell dataKey="search_volume" align="center" />
         </Table.Column>
 
         {/* Sponsored ASINS */}
-        <Table.Column width={150} verticalAlign="middle" fixed align="left">
+        <Table.Column width={130} verticalAlign="middle" fixed align="left">
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Sponsored\nASINs`}
@@ -102,11 +102,11 @@ const ReverseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <Table.Cell>321</Table.Cell>
+          <StatsCell dataKey="sponsored_asins" align="center" />
         </Table.Column>
 
         {/* Competing Products  */}
-        <Table.Column width={150} verticalAlign="middle" fixed align="left">
+        <Table.Column width={130} verticalAlign="middle" fixed align="left">
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Competing\nProducts`}
@@ -115,12 +115,11 @@ const ReverseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-
-          <Table.Cell> &gt;1,000</Table.Cell>
+          <StatsCell dataKey="competing_products" prependWith="> " align="center" />
         </Table.Column>
 
         {/* Position  */}
-        <Table.Column width={150} verticalAlign="middle" fixed align="left">
+        <Table.Column width={130} verticalAlign="middle" fixed align="left">
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Position\nRank`}
@@ -129,11 +128,11 @@ const ReverseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <Table.Cell>1</Table.Cell>
+          <StatsCell dataKey="position_rank" align="center" />
         </Table.Column>
 
         {/* Position  */}
-        <Table.Column width={150} verticalAlign="middle" fixed align="left">
+        <Table.Column width={130} verticalAlign="middle" fixed align="left">
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Relative\nRank`}
@@ -142,11 +141,11 @@ const ReverseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <Table.Cell>1</Table.Cell>
+          <StatsCell dataKey="relative_rank" align="center" />
         </Table.Column>
 
         {/* Competitor Rank  */}
-        <Table.Column width={150} verticalAlign="middle" fixed align="left">
+        <Table.Column width={130} verticalAlign="middle" fixed align="left">
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Competitor\nRank(avg)`}
@@ -155,12 +154,11 @@ const ReverseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-
-          <Table.Cell>6</Table.Cell>
+          <StatsCell dataKey="competitor_rank_avg" align="center" />
         </Table.Column>
 
         {/* Ranking Competitors  */}
-        <Table.Column width={150} verticalAlign="middle" fixed align="left">
+        <Table.Column width={130} verticalAlign="middle" fixed align="left">
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Ranking\nCompetitors`}
@@ -169,8 +167,7 @@ const ReverseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-
-          <Table.Cell>4</Table.Cell>
+          <StatsCell dataKey="ranking_competitors_count" align="center" />
         </Table.Column>
       </Table>
 
