@@ -4,10 +4,13 @@
   // header section
   .rs-table-row-header {
     border-radius: 7px;
+    border: 1px solid #ced4d9;
   }
 
   // body section
   .rs-table-body-row-wrapper {
+    margin-top: 1rem;
+
     .rs-table-body-wheel-area {
       background: #fff;
       // should be rowheight - 10px

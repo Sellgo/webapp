@@ -5,13 +5,13 @@ import { Table } from 'rsuite';
 /* Styling */
 import styles from './index.module.scss';
 import 'rsuite/dist/styles/rsuite-default.css';
-import './tableReset.scss';
+import './globals.scss';
 
 /* Components */
 import ProductTitle from '../../../../components/NewTable/ProductInformation/ProductTitle';
 import ProductDetails from '../../../../components/NewTable/ProductInformation/ProductDetails';
 import PricingCell from '../../../../components/NewTable/PricingCell';
-import RatingCell from '../../../../components/NewTable/RatingCell';
+import RatingWithCountCell from '../../../../components/NewTable/RatingWithCountCell';
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import GenericRowCell from '../../../../components/NewTable/GenericRowCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
@@ -118,7 +118,7 @@ const ProductsDatabaseTable = (props: Props) => {
     return (
       <GenericRowCell {...props}>
         <div className={styles.productInformationCell}>
-          <ProductTitle asin={rowData.asin} image={rowData.image} />
+          <ProductTitle asin={rowData.asin} image={rowData.image} upc={rowData.upc} />
           <ProductDetails
             title={rowData.title}
             brand={rowData.brand}
@@ -174,7 +174,7 @@ const ProductsDatabaseTable = (props: Props) => {
 
   return (
     <>
-      <section id={styles.productDatabaseTable}>
+      <section className={styles.productDatabaseWrapper}>
         <Table
           loading={isLoadingProductsDatabase}
           data={productsDatabaseResults}
@@ -185,9 +185,7 @@ const ProductsDatabaseTable = (props: Props) => {
           onSortColumn={handleSortColumn}
           sortType={sortType}
           sortColumn={sortColumn}
-          affixHorizontalScrollbar
           id="productDatabaseTable"
-          className={styles.productsDatabaseTable}
         >
           {/* <Table.Column width={35} fixed {...CENTER_ALIGN_SETTINGS}>
             <Table.HeaderCell>
@@ -271,19 +269,7 @@ const ProductsDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <RatingCell dataKey="rating" rowData="rating" />
-          </Table.Column>
-
-          <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
-            <Table.HeaderCell>
-              <HeaderSortCell
-                title="Review Count"
-                dataKey="review_count"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
-              />
-            </Table.HeaderCell>
-            <GenericRowCell dataKey="review_count" />
+            <RatingWithCountCell dataKey="rating" rowData="rating" />
           </Table.Column>
 
           <Table.Column width={50} {...CENTER_ALIGN_SETTINGS}>

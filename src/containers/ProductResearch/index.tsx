@@ -55,6 +55,7 @@ const ProductResearch: React.FC<Props> = props => {
           >
             <TabList className={styles.productTablist}>
               <Tab>Products</Tab>
+              <Tab />
             </TabList>
 
             <TabPanel>
