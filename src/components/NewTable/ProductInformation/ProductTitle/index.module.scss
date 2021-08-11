@@ -18,9 +18,15 @@
   justify-content: flex-start;
 }
 
+.productTextWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
 .productTitleText {
   margin: 0;
-  width: 100%;
   color: $prim_dark_1;
   font-weight: 500 !important;
   font-size: 12px;
@@ -37,3 +43,9 @@
   object-fit: contain;
   margin-bottom: 10px;
 }
+
+// .asin {
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: flex-start;
+// }

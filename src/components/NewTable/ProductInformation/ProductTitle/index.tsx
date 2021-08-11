@@ -20,28 +20,39 @@ const ProductTitle = (props: Props) => {
   const { asin, image, upc } = props;
   const upcString = upc && upc.join(',');
 
+  let upcDisplayString;
+  if (upcString && upc.length === 1) {
+    upcDisplayString = upcString;
+  } else if (upcString && upc.length > 0) {
+    upcDisplayString = truncateString(upcString, 9);
+  } else {
+    upcDisplayString = '';
+  }
+
   return (
     <div className={styles.productTitle}>
       <img src={image} className={styles.productImage} />
-      <div className={styles.productTitleTextBox}>
-        <p className={styles.productTitleText}>ASIN:</p>
-        {asin.length > 0 ? (
-          <CopyAndLocateClipboard data={asin} link={`http://www.amazon.com/dp/${props.asin}`} />
-        ) : (
-          '-'
-        )}
-      </div>
-      <div className={styles.productTitleTextBox}>
-        <p className={styles.productTitleText}>UPC:</p>
-        {upcString && upcString.length > 0 ? (
-          <CopyToClipboard
-            data={upcString}
-            displayData={truncateString(upcString, 9)}
-            className={styles.productTitleText}
-          />
-        ) : (
-          '-'
-        )}
+      <div className={styles.productTextWrapper}>
+        <div className={styles.productTitleTextBox}>
+          <p className={styles.productTitleText}>ASIN:</p>
+          {asin.length > 0 ? (
+            <CopyAndLocateClipboard data={asin} link={`http://www.amazon.com/dp/${props.asin}`} />
+          ) : (
+            '-'
+          )}
+        </div>
+        <div className={styles.productTitleTextBox}>
+          <p className={styles.productTitleText}>UPC:</p>
+          {upcString && upcString.length > 0 ? (
+            <CopyToClipboard
+              data={upcString}
+              displayData={upcDisplayString}
+              className={styles.productTitleText}
+            />
+          ) : (
+            '-'
+          )}
+        </div>
       </div>
     </div>
   );
