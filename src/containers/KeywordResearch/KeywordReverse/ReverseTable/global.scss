@@ -28,6 +28,7 @@
         &:nth-child(2n + 1) {
           background-color: rgba($grey_3, 0.2) !important;
 
+          // stylelint-disable no-descending-specificity
           .rs-table-cell-content {
             color: $prim_dark_2 !important;
             background-color: rgba($grey_3, 0.2) !important;

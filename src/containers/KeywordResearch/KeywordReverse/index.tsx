@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -7,7 +8,20 @@ import styles from './index.module.scss';
 import ReverseFilters from './ReverseFilters';
 import ReverseTable from './ReverseTable';
 
-const KeywordReverse = () => {
+/* Selectors */
+import { getKeywordReverseRequestId } from '../../../selectors/KeywordResearch/KeywordReverse';
+
+interface Props {
+  keywordReverseRequestId: string;
+}
+
+const KeywordReverse = (props: Props) => {
+  const { keywordReverseRequestId } = props;
+
+  useEffect(() => {
+    console.log('Request ID is', keywordReverseRequestId);
+  }, []);
+
   return (
     <main className={styles.keywordReversePage}>
       <ReverseFilters />
@@ -16,4 +30,10 @@ const KeywordReverse = () => {
   );
 };
 
-export default KeywordReverse;
+const mapStateToProps = (state: any) => {
+  return {
+    keywordReverseRequestId: getKeywordReverseRequestId(state),
+  };
+};
+
+export default connect(mapStateToProps)(KeywordReverse);
