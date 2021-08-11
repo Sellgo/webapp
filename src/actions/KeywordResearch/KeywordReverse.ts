@@ -1,6 +1,11 @@
 import { v4 as uuid } from 'uuid';
 
-/* Action to generate to give the unique session based tab id */
+import { actionTypes } from '../../constants/KeywordResearch/KeywordReverse';
+
+/* Interfaces */
+import { KeywordReversePaginationInfo } from '../../interfaces/KeywordResearch/KeywordReverse';
+
+/* Action to generate or give the unique session based on open tab  */
 export const makeOrGetUniqueTabID = () => {
   let value = window.sessionStorage.getItem('unique-session-tab-id');
 
@@ -12,3 +17,29 @@ export const makeOrGetUniqueTabID = () => {
   window.name = value;
   return value;
 };
+
+/* Action to set loading state for keyword reverse  */
+export const isLoadingKeywordReverseTable = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_LOADING_KEYWORD_REVERSE_TABLE,
+    payload,
+  };
+};
+
+/* Action to set the keyword reverse table results */
+export const setKeywordReverseTableResults = (payload: any) => {
+  return {
+    type: actionTypes.SET_KEYWORD_REVERSE_TABLE_RESULTS,
+    payload,
+  };
+};
+
+/* Action to set keyword reverse table pagination info */
+export const setKeywordReverseTablePaginationInfo = (payload: KeywordReversePaginationInfo) => {
+  return {
+    type: actionTypes.SET_KEYWORD_REVERSE_TABLE_PAGINATION_INFO,
+    payload,
+  };
+};
+
+/* ========================= Async actions ======================*/
