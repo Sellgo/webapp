@@ -102,7 +102,7 @@ export const parseFilterPayload = (productFilters: any) => {
       return newAcc;
     }
 
-    if (type === F_TYPES.CHECK_BOX && f) {
+    if (type === F_TYPES.CHECK_BOX && Object.keys(f).length > 0) {
       return {
         ...acc,
         [keyName]: f,
