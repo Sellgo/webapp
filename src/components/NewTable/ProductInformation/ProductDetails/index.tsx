@@ -1,5 +1,10 @@
 import React from 'react';
-import { truncateString, formatNumber } from '../../../../utils/format';
+import {
+  truncateString,
+  formatNumber,
+  showNAIfZeroOrNull,
+  formatDecimal,
+} from '../../../../utils/format';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -8,12 +13,14 @@ interface Props {
   title: string;
   category: string;
   brand: string;
+  weight: number;
   sizeTier: string;
   numberOfImages: number;
   packageDimension: string;
   storageFee: number;
   listingAge: number;
   variationCount: number;
+  fulfillment: any;
 }
 
 const ProductDetails = (props: Props) => {
@@ -21,33 +28,73 @@ const ProductDetails = (props: Props) => {
     title,
     category,
     brand,
+    weight,
     sizeTier,
     numberOfImages,
     packageDimension,
     storageFee,
     listingAge,
     variationCount,
+    fulfillment,
   } = props;
+
+  const getFulfillmentString = (fulfillment: any) => {
+    let fulfillmentString = '';
+    if (fulfillment.is_fba) {
+      fulfillmentString += 'FBA, ';
+    }
+
+    if (fulfillment.is_fbm) {
+      fulfillmentString += 'FBM, ';
+    }
+
+    if (fulfillment.is_amazon) {
+      fulfillmentString += 'Amazon, ';
+    }
+
+    if (fulfillmentString.length > 0) {
+      /* Remove trailing comma and space on last item */
+      fulfillmentString = fulfillmentString.substring(0, fulfillmentString.length - 2);
+    }
+
+    return fulfillmentString;
+  };
+
+  const fulfilmentString = fulfillment && getFulfillmentString(fulfillment);
 
   return (
     <div className={styles.productDetails}>
       <p className={styles.productDetailsHeading}>{truncateString(title, 28)}</p>
       {brand && brand.length > 0 && (
         <span>
-          <p className={styles.productDetailsText}>Category: {truncateString(category, 30)}</p>
-          <p className={styles.productDetailsText}>Brand: {truncateString(brand, 30)}</p>
-          <p className={styles.productDetailsText}>Size Tier: {truncateString(sizeTier, 30)}</p>
+          <p className={styles.productDetailsText}>
+            Category: {truncateString(showNAIfZeroOrNull(category, category), 30)}
+          </p>
+          <p className={styles.productDetailsText}>
+            Brand: {truncateString(showNAIfZeroOrNull(brand, brand), 30)}
+          </p>
+          <p className={styles.productDetailsText}>
+            Fulfillment: {showNAIfZeroOrNull(fulfilmentString, fulfilmentString)}
+          </p>
+          <p className={styles.productDetailsText}>
+            Size Tier: {truncateString(showNAIfZeroOrNull(sizeTier, sizeTier), 30)}
+          </p>
           <p className={styles.productDetailsText}>
             Number of Images: {formatNumber(numberOfImages)}
           </p>
           <p className={styles.productDetailsText}>
-            Variation Count: {formatNumber(variationCount)}
+            Variation Count: {showNAIfZeroOrNull(variationCount, formatNumber(variationCount))}
           </p>
           <p className={styles.productDetailsText}>
-            Package Dimensions: {truncateString(packageDimension, 30)}
+            Weight (lbs): {showNAIfZeroOrNull(weight, formatDecimal(weight))}
           </p>
           <p className={styles.productDetailsText}>
-            Storage Fee (1,000 units/month): {formatNumber(storageFee)}
+            Package Dimensions:{' '}
+            {truncateString(showNAIfZeroOrNull(packageDimension, packageDimension), 30)}
+          </p>
+          <p className={styles.productDetailsText}>
+            Storage Fee (1,000 units/month):{' '}
+            {showNAIfZeroOrNull(storageFee, formatNumber(storageFee))}
           </p>
           <p className={styles.productDetailsText}>
             Listing Age (months): {formatNumber(listingAge)}

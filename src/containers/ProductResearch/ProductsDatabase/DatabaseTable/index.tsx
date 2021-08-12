@@ -14,7 +14,6 @@ import RatingWithCountCell from '../../../../components/NewTable/RatingWithCount
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import GenericRowCell from '../../../../components/NewTable/GenericRowCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
-import TruncatedTextCell from '../../../../components/NewTable/TruncatedTextCell';
 
 /* Table */
 import {
@@ -31,6 +30,7 @@ import { fetchProductsDatabase } from '../../../../actions/ProductsResearch/Prod
 
 /* Constants */
 import { SMALL_WIDTH, BIG_WIDTH, CENTER_ALIGN_SETTINGS } from '../../../../constants/Table';
+import BSRCell from '../../../../components/NewTable/BSRCell';
 
 interface Props {
   // States
@@ -120,6 +120,8 @@ const ProductsDatabaseTable = (props: Props) => {
         <div className={styles.productInformationCell}>
           <ProductTitle asin={rowData.asin} image={rowData.image} upc={rowData.upc} />
           <ProductDetails
+            weight={rowData.weight_lbs}
+            fulfillment={rowData.fulfillment}
             title={rowData.title}
             brand={rowData.brand}
             sizeTier={rowData.size_tier || '-'}
@@ -180,7 +182,7 @@ const ProductsDatabaseTable = (props: Props) => {
           data={productsDatabaseResults}
           hover={false}
           autoHeight
-          rowHeight={200}
+          rowHeight={230}
           headerHeight={55}
           onSortColumn={handleSortColumn}
           sortType={sortType}
@@ -257,7 +259,7 @@ const ProductsDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <TruncatedTextCell dataKey="bsr" />
+            <BSRCell dataKey="bsr" />
           </Table.Column>
 
           <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>

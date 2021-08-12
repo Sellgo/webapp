@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-/* Styling */
-import styles from './index.module.scss';
-
 /* Components */
 import DatabaseFilters from './DatabaseFilters';
 import ProductsDatabaseTable from './DatabaseTable';
+import DatabaseExport from './DatabaseExport';
 
 /* Actions */
 import { fetchProductsDatabase } from '../../../actions/ProductsResearch/ProductsDatabase';
@@ -26,10 +24,9 @@ const ProductPanel = (props: Props) => {
   }, []);
 
   return (
-    <main className={styles.productDatabasePage}>
+    <main>
       <DatabaseFilters />
-      {/* <DatabaseExport/> */}
-      <div className={styles.emptyRow} />
+      <DatabaseExport />
       <ProductsDatabaseTable />
     </main>
   );

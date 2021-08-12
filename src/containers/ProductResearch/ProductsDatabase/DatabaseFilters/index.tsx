@@ -11,6 +11,7 @@ import FormFilterActions from '../../../../components/FormFilters/FormFilterActi
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
 import CheckboxListFilter from '../../../../components/FormFilters/CheckboxListFilter';
+import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
 
 /* Actions */
 import { fetchProductsDatabase } from '../../../../actions/ProductsResearch/ProductsDatabase';
@@ -154,7 +155,7 @@ const ProductDatabaseFilters = (props: Props) => {
             }
           />
 
-          <MinMaxFilter
+          <MinMaxRatingsFilter
             label="Review Rating"
             minValue={reviewRating?.min || ''}
             maxValue={reviewRating?.max || ''}

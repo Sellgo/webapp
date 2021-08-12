@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { Icon } from 'semantic-ui-react';
+import React, { useMemo } from 'react';
+// import { Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import numeral from 'numeral';
 
@@ -7,51 +7,51 @@ import numeral from 'numeral';
 import styles from './index.module.scss';
 
 /* Components */
-import ExportResultAs from '../../../../components/ExportResultAs';
+// import ExportResultAs from '../../../../components/ExportResultAs';
 
 /* Actions */
 import { fetchProductsDatabase } from '../../../../actions/ProductsResearch/ProductsDatabase';
 
 /* Constants */
-import { EXPORT_DATA, EXPORT_FORMATS } from '../../../../constants/SellerResearch/SellerDatabase';
+// import { EXPORT_DATA, EXPORT_FORMATS } from '../../../../constants/SellerResearch/SellerDatabase';
 
 /* Interface */
 import { ProductsDatabasePayload } from '../../../../interfaces/ProductResearch/ProductsDatabase';
 import {
-  getIsLoadingProductsDatabase,
+  // getIsLoadingProductsDatabase,
   getProductsDatabasePaginationInfo,
-  getProductsDatabaseResults,
+  // getProductsDatabaseResults,
 } from '../../../../selectors/ProductResearch/ProductsDatabase';
 
 /* Utils */
 import { formatNumber } from '../../../../utils/format';
 
 interface Props {
-  productDatabaseResults: any;
-  isLoadingProductDatabase: boolean;
-  fetchProductsDatabase: (payload: ProductsDatabasePayload) => void;
+  // productDatabaseResults: any;
+  // isLoadingProductDatabase: boolean;
+  // fetchProductsDatabase: (payload: ProductsDatabasePayload) => void;
   productDatabasePaginationInfo: any;
 }
 
 const DatabaseExport = (props: Props) => {
   const {
-    fetchProductsDatabase,
-    productDatabaseResults,
-    isLoadingProductDatabase,
+    // fetchProductsDatabase,
+    // productDatabaseResults,
+    // isLoadingProductDatabase,
     productDatabasePaginationInfo,
   } = props;
 
-  const [openExports, setOpenExports] = useState(false);
+  // const [openExports, setOpenExports] = useState(false);
 
-  const hanleOnExport = async (details: any) => {
-    await fetchProductsDatabase({ isExport: true, fileFormat: details.format });
-    setOpenExports(false);
-  };
+  // const hanleOnExport = async (details: any) => {
+  //   await fetchProductsDatabase({ isExport: true, fileFormat: details.format });
+  //   setOpenExports(false);
+  // };
 
-  const shouldEnableExport = useMemo(
-    () => !isLoadingProductDatabase && productDatabaseResults.length > 0,
-    [isLoadingProductDatabase, productDatabaseResults]
-  );
+  // const shouldEnableExport = useMemo(
+  //   () => !isLoadingProductDatabase && productDatabaseResults.length > 0,
+  //   [isLoadingProductDatabase, productDatabaseResults]
+  // );
 
   const totalProductsFound = useMemo(() => {
     const count = productDatabasePaginationInfo.count;
@@ -74,17 +74,17 @@ const DatabaseExport = (props: Props) => {
             search.
           </h2>
         )}
-        <div
+        {/* <div
           onClick={() => (shouldEnableExport ? setOpenExports(true) : 0)}
           className={`${shouldEnableExport ? 'export-button' : 'export-button-disabled'}`}
         >
           <Icon name="download" />
           <span>Export</span>
-        </div>
+        </div> */}
       </div>
 
       {/* Export modal */}
-      <ExportResultAs
+      {/* <ExportResultAs
         open={openExports}
         formats={EXPORT_FORMATS}
         data={EXPORT_DATA}
@@ -92,14 +92,14 @@ const DatabaseExport = (props: Props) => {
         loading={false}
         onExport={hanleOnExport}
         format={'csv'}
-      />
+      /> */}
     </>
   );
 };
 
 const mapStateToProps = (state: any) => ({
-  productDatabaseResults: getProductsDatabaseResults(state),
-  isLoadingProductDatabase: getIsLoadingProductsDatabase(state),
+  // productDatabaseResults: getProductsDatabaseResults(state),
+  // isLoadingProductDatabase: getIsLoadingProductsDatabase(state),
   productDatabasePaginationInfo: getProductsDatabasePaginationInfo(state),
 });
 
