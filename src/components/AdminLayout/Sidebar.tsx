@@ -105,8 +105,8 @@ class SidebarCollapsible extends Component<
     const { visible, sidebarIcon } = this.state;
     const { children, currentNotifyId } = this.props;
 
-    const upperNavbar = this.state.sidebarIcon.filter(icon => icon.id < 8);
-    const lowerNavbar = this.state.sidebarIcon.filter(icon => icon.id >= 8);
+    const upperNavbar = this.state.sidebarIcon.filter(icon => icon.id < 7);
+    const lowerNavbar = this.state.sidebarIcon.filter(icon => icon.id >= 7);
 
     let supplier_id = '';
 
