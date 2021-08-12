@@ -183,7 +183,7 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
       dispatch(removeProductDatabaseFilters());
       return;
     }
-    console.log(filterPayload);
+
     // if fetch with filteres
     let productsDatabaseFilters;
     if (filterPayload) {
@@ -205,7 +205,7 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
         sort: sort,
       };
     }
-    console.log(localStorage);
+
     const URL = `${AppConfig.BASE_URL_API}${sellerId}/products`;
 
     if (isExport && fileFormat) {
@@ -218,7 +218,6 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
     const { data } = await axios.post(URL, requestPayload);
 
     if (data) {
-      console.log(data);
       dispatch(setProductsDatabase(data.results));
       dispatch(setProductsDatabasePaginationInfo(data.page_info));
       dispatch(isLoadingProductsDatabase(false));
