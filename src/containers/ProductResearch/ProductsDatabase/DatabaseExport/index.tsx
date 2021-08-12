@@ -69,7 +69,9 @@ const DatabaseExport = (props: Props) => {
     <>
       <div className={styles.exportsContainer}>
         {totalProductsFound !== '0' && totalProductsFound !== '0.0' && (
-          <h2>Viewing {totalProductsFound} products.</h2>
+          <p className={styles.messageText}>
+            Viewing <span className={styles.productCount}>{totalProductsFound}</span> products.
+          </p>
         )}
         {/* <div
           onClick={() => (shouldEnableExport ? setOpenExports(true) : 0)}
