@@ -88,14 +88,14 @@ export const parseFilterPayload = (productFilters: any) => {
       let newAcc = acc;
       if (f.include) {
         newAcc = {
-          ...acc,
+          ...newAcc,
           [`include_${keyName}`]: f.include.split(','),
         };
       }
 
       if (f.exclude) {
         newAcc = {
-          ...acc,
+          ...newAcc,
           [`exclude_${keyName}`]: f.exclude.split(','),
         };
       }

@@ -4,6 +4,9 @@ import { Checkbox } from 'semantic-ui-react';
 /* Styling */
 import styles from './index.module.scss';
 
+/* Constants */
+import { DEFAULT_FULFILMENT_FILTER } from '../../../constants/ProductResearch/ProductsDatabase';
+
 interface Props {
   label?: string;
   options: any[];
@@ -21,7 +24,7 @@ const CheckboxListFilter: React.FC<Props> = props => {
       newTickedCheckBoxes = newTickedCheckBoxes.filter(f => f !== data.value);
     }
 
-    let fulfilment = {};
+    let fulfilment = DEFAULT_FULFILMENT_FILTER;
     newTickedCheckBoxes.map(
       filterValue =>
         (fulfilment = {

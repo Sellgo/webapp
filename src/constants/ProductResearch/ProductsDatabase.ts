@@ -53,7 +53,7 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   titleKeywords: { keyName: 'title_keywords', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
   brands: { keyName: 'brands', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
   bsr: { keyName: 'bsr', type: F_TYPES.MIN_MAX },
-  sizeTier: { keyName: 'size_tier', type: F_TYPES.MIN_MAX },
+  sizeTier: { keyName: 'size_tier', type: F_TYPES.TEXT },
   imageCount: { keyName: 'image_count', type: F_TYPES.MIN_MAX },
   variationCount: { keyName: 'variation_count', type: F_TYPES.MIN_MAX },
   fulfillment: { keyName: 'fulfillment', type: F_TYPES.CHECK_BOX },
@@ -73,6 +73,8 @@ export const FULFILMENT_TYPES = [
   { key: 'is_fbm', value: 'is_fbm', text: 'FBM' },
   { key: 'is_amazon', value: 'is_amazon', text: 'Amazon' },
 ];
+
+export const DEFAULT_FULFILMENT_FILTER = { is_fba: false, is_fbm: false, is_amazon: false };
 
 /* Categories dropdown values for filter */
 export const PRODUCTS_DATABASE_CATEGORIES = [
