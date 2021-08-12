@@ -10,7 +10,6 @@ import get from 'lodash/get';
 
 import { LogoWithoutText } from '../Logo/index';
 import sellerFinderIcon from '../../assets/images/sellerFinder.svg';
-import sellerDatabaseIcon from '../../assets/images/sellerDatabase.svg';
 import sellerMapIcon from '../../assets/images/sellerMapIcon.svg';
 import BetaLabel from '../BetaLabel';
 import { isSubscriptionNotPaid } from '../../utils/subscriptions';
@@ -70,16 +69,16 @@ class SidebarCollapsible extends Component<
         notifyId: 2,
         imageType: false,
       },
+      // {
+      //   id: 5,
+      //   label: 'Seller Database',
+      //   icon: sellerDatabaseIcon,
+      //   path: '/seller-research',
+      //   notifyId: 4,
+      //   imageType: true,
+      // },
       {
         id: 5,
-        label: 'Seller Database',
-        icon: sellerDatabaseIcon,
-        path: '/seller-research',
-        notifyId: 4,
-        imageType: true,
-      },
-      {
-        id: 6,
         label: 'Seller Finder',
         icon: sellerFinderIcon,
         path: '/seller-finder',
@@ -87,7 +86,7 @@ class SidebarCollapsible extends Component<
         imageType: true,
       },
       {
-        id: 7,
+        id: 6,
         label: 'Seller Map',
         icon: sellerMapIcon,
         path: '/seller-research',
@@ -95,9 +94,9 @@ class SidebarCollapsible extends Component<
         imageType: true,
       },
 
-      { id: 8, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
+      { id: 7, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
       {
-        id: 9,
+        id: 8,
         label: 'Onboarding',
         icon: 'far fa-question-circle',
         path: '/onboarding',
@@ -155,7 +154,7 @@ class SidebarCollapsible extends Component<
                 {icon.imageType ? (
                   <>
                     <img src={icon.icon} alt="Icons" data-disabled={isNotSubscribedAccount} />
-                    {(icon.id === 5 || icon.id === 6 || icon.id === 7) && <BetaLabel />}
+                    {(icon.id === 5 || icon.id === 6) && <BetaLabel />}
                   </>
                 ) : (
                   <i
