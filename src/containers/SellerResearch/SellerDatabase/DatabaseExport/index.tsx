@@ -70,9 +70,10 @@ const DatabaseExport = (props: Props) => {
     <>
       <div className={styles.exportsContainer}>
         {!sellerDatabaseFilterMessage.show && totalSellersFound !== '0' && (
-          <p className={styles.messageText}>
-            Viewing <span className={styles.sellerCount}>{totalSellersFound}</span> sellers.
-          </p>
+          <h2>
+            {totalSellersFound} sellers found, please add additional filters for a more targeted
+            search.
+          </h2>
         )}
         <div
           onClick={() => (shouldEnableExport ? setOpenExports(true) : 0)}
