@@ -142,6 +142,22 @@ export const exportProductDatabaseTable = (requestPayload: any) => async () => {
   }
 };
 
+/* Store filter in local storage */
+export const storeProductDatabaseFilter = (sellerDatabaseFilter: any) => {
+  localStorage.setItem('productDatabaseFilters', JSON.stringify(sellerDatabaseFilter));
+};
+
+/* Remove filter from local storage */
+export const removeProductDatabaseFilters = () => {
+  localStorage.removeItem('productDatabaseFilters');
+};
+
+/* Extract and parse filter from local storage */
+export const extractProductDatabaseFilters = () => {
+  const storedFilters = JSON.parse(localStorage.getItem('productDatabaseFilters') || '{}');
+  return storedFilters;
+};
+
 /* Action to fetch products database */
 export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async (
   dispatch: any
@@ -163,6 +179,8 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
     if (resetFilters) {
       dispatch(isLoadingProductsDatabase(false));
       dispatch(setProductsDatabase([]));
+      dispatch(setProductsDatabasePaginationInfo({ total_pages: 0, current_page: 0, count: 0 }));
+      dispatch(removeProductDatabaseFilters());
       return;
     }
 
@@ -170,8 +188,9 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
     let productsDatabaseFilters;
     if (filterPayload) {
       productsDatabaseFilters = parseFilterPayload(filterPayload);
+      storeProductDatabaseFilter(filterPayload);
     } else {
-      productsDatabaseFilters = {};
+      productsDatabaseFilters = extractProductDatabaseFilters();
     }
 
     let requestPayload = {
