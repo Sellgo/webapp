@@ -93,7 +93,7 @@ const ProductDatabaseFilters = (props: Props) => {
     setSizeTier('');
     setImageCount(DEFAULT_MIN_MAX_FILTER);
     setVariationCount(DEFAULT_MIN_MAX_FILTER);
-    setFulfillment(DEFAULT_MIN_MAX_FILTER);
+    setFulfillment(DEFAULT_CHECKBOX_FILTER);
   };
 
   /* Effect on component mount */
@@ -196,11 +196,9 @@ const ProductDatabaseFilters = (props: Props) => {
               <CheckboxListFilter
                 label="Fulfillment"
                 options={FULFILMENT_TYPES}
+                fulfillmentValue={fulfillment}
                 handleChange={(type: string, value: string) => {
-                  setFulfillment({
-                    ...fulfillment,
-                    [type]: value,
-                  });
+                  setFulfillment(value);
                 }}
               />
 

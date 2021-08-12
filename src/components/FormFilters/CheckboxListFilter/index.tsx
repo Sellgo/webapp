@@ -10,10 +10,11 @@ import { DEFAULT_FULFILMENT_FILTER } from '../../../constants/ProductResearch/Pr
 interface Props {
   label?: string;
   options: any[];
+  fulfillmentValue: any;
   handleChange: (type: string, value: any) => void;
 }
 const CheckboxListFilter: React.FC<Props> = props => {
-  const { label, handleChange, options } = props;
+  const { label, handleChange, options, fulfillmentValue } = props;
   const [tickedCheckBoxes, setTickedCheckBoxes] = React.useState<string[]>([]);
 
   const handleCheckboxTick = (e: any, data: any) => {
@@ -34,7 +35,7 @@ const CheckboxListFilter: React.FC<Props> = props => {
     );
 
     setTickedCheckBoxes(newTickedCheckBoxes);
-    handleChange('checkedItems', fulfilment);
+    handleChange('fulfillment', fulfilment);
   };
   return (
     <div className={styles.checkBoxFilters}>
@@ -48,6 +49,7 @@ const CheckboxListFilter: React.FC<Props> = props => {
               label={f.text}
               value={f.value}
               onChange={handleCheckboxTick}
+              checked={fulfillmentValue[f.value] === true}
             />
           );
         })}

@@ -102,10 +102,10 @@ export const parseFilterPayload = (productFilters: any) => {
       return newAcc;
     }
 
-    if (type === F_TYPES.CHECK_BOX && f.checkedItems) {
+    if (type === F_TYPES.CHECK_BOX && f) {
       return {
         ...acc,
-        [keyName]: f.checkedItems,
+        [keyName]: f,
       };
     }
 
