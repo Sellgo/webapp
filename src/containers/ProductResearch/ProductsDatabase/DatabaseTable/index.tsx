@@ -285,7 +285,7 @@ const ProductsDatabaseTable = (props: Props) => {
             <TablePagination
               totalPages={productsDatabasePaginationInfo.total_pages}
               currentPage={productsDatabasePaginationInfo.current_page}
-              showSiblingsCount={2}
+              showSiblingsCount={3}
               onPageChange={handleChangePage}
             />
           </footer>
