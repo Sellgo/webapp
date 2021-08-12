@@ -10,9 +10,6 @@ import styles from './index.module.scss';
 /* Types */
 import { RowCell } from '../../../../../interfaces/Table';
 
-/* Assets */
-import CheckInventory from '../../../../../assets/images/checkInventory.svg';
-
 /* Utils */
 import { parseKpiLists, prettyPrintNumber, removeSpecialChars } from '../../../../../utils/format';
 import { copyToClipboard } from '../../../../../utils/file';
@@ -85,10 +82,10 @@ const SellerActions = (props: Props) => {
                 <>
                   <div className={styles.actionOptions}>
                     <p>ASIN</p>
-                    <button onClick={() => handleSellerTrack(true)}>
+                    {/* <button onClick={() => handleSellerTrack(true)}>
                       <img src={CheckInventory} alt="CheckInventory" />
                       <span>Check More Inventory</span>
-                    </button>
+                    </button> */}
                     {/* <button>
                     <Icon name="download" />
                     <span>Export</span>

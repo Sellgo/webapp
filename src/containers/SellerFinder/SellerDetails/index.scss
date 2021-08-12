@@ -403,6 +403,11 @@ $darkgary: #dfe8f329;
         }
 
         .seller-products-container {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-evenly;
+          padding: 5px 0;
+
           @media only screen and (min-width: 1920px) and (max-width: 2500px) {
             width: 375px;
           }
@@ -414,7 +419,7 @@ $darkgary: #dfe8f329;
           .seller-product-label {
             font-size: 14px;
             color: $black;
-            padding: 5px 0;
+            // padding: 5px 0;
             max-width: 370px;
 
             .seller-product-value {
