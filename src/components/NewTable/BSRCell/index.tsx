@@ -2,7 +2,7 @@ import React from 'react';
 import { Table } from 'rsuite';
 
 /* Utils */
-import { formatNumber, truncateString } from '../../../utils/format';
+import { formatNumber, truncateIntoTwoLines } from '../../../utils/format';
 
 /* Types */
 import { RowCell } from '../../../interfaces/Table';
@@ -41,12 +41,14 @@ const BSRCell = (props: RowCell) => {
   const bsrToDisplay =
     rowData[dataKey] && rowData[dataKey].length > 0 && getLowestBsr(rowData[dataKey]);
 
+  const categoryString = bsrToDisplay && truncateIntoTwoLines(bsrToDisplay.category, 25, 50);
   return (
     <Table.Cell {...props}>
       {bsrToDisplay ? (
         <span className={styles.bsrCell}>
           <span>{formatNumber(bsrToDisplay.rank)}</span>
-          <span>{truncateString(bsrToDisplay.category, 25)}</span>
+          <span> {categoryString && categoryString[0]} </span>
+          <span> {categoryString && categoryString[1]} </span>
         </span>
       ) : (
         '-'

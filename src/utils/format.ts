@@ -27,6 +27,34 @@ export const showNAIfZeroOrNull = (expression: any, value: any) =>
 export const truncateString = (text: string, maxLength: number, trailing = '…') =>
   text && text.length > maxLength ? text.substring(0, maxLength) + trailing : text;
 
+export const truncateIntoTwoLines = (text: string, lineLength: number, maxLength: number) => {
+  const sentence = text.split(' ');
+  let exceededMaxLength = false;
+  let wentToNextLine = false;
+  let line1 = '';
+  let line2 = '';
+  sentence.map(word => {
+    if (line1.length + word.length <= lineLength && !wentToNextLine && !exceededMaxLength) {
+      line1 += `${word} `;
+    } else if (
+      line1.length + word.length + line2.length <= maxLength &&
+      !exceededMaxLength &&
+      line2.length + word.length <= lineLength
+    ) {
+      /* First time word enters into next line */
+      wentToNextLine = true;
+      line2 += `${word} `;
+    } else {
+      exceededMaxLength = true;
+    }
+    return word;
+  });
+  if (exceededMaxLength) {
+    line2 += '...';
+  }
+
+  return [line1, line2];
+};
 export const formatDimensionForSorting = (dimension: string): number => {
   return dimension
     .replace(/"/g, '')

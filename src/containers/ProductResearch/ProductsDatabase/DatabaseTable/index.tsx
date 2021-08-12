@@ -182,7 +182,7 @@ const ProductsDatabaseTable = (props: Props) => {
           data={productsDatabaseResults}
           hover={false}
           autoHeight
-          rowHeight={230}
+          rowHeight={280}
           headerHeight={55}
           onSortColumn={handleSortColumn}
           sortType={sortType}

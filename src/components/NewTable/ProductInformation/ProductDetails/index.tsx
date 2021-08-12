@@ -4,6 +4,7 @@ import {
   formatNumber,
   showNAIfZeroOrNull,
   formatDecimal,
+  truncateIntoTwoLines,
 } from '../../../../utils/format';
 
 /* Styling */
@@ -61,10 +62,13 @@ const ProductDetails = (props: Props) => {
   };
 
   const fulfilmentString = fulfillment && getFulfillmentString(fulfillment);
-
+  const titleString = title && truncateIntoTwoLines(title, 38, 76);
   return (
     <div className={styles.productDetails}>
-      <p className={styles.productDetailsHeading}>{truncateString(title, 28)}</p>
+      <p className={styles.productDetailsHeading}>{titleString[0]}</p>
+      <p className={`${styles.productDetailsHeading} ${styles.productDetailsHeading__bottom}`}>
+        {titleString[1]}
+      </p>
       {brand && brand.length > 0 && (
         <span>
           <p className={styles.productDetailsText}>
