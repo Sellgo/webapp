@@ -114,7 +114,7 @@ export const parseFilterPayload = (productFilters: any) => {
 };
 /*********** Async Actions ************************ */
 
-/* Export seller database table */
+/* Export product database table */
 export const exportProductDatabaseTable = (requestPayload: any) => async () => {
   try {
     const sellerID = sellerIDSelector();

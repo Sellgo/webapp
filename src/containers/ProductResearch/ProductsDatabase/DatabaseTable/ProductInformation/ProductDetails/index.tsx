@@ -5,7 +5,7 @@ import {
   showNAIfZeroOrNull,
   formatDecimal,
   truncateIntoTwoLines,
-} from '../../../../utils/format';
+} from '../../../../../../utils/format';
 
 /* Styling */
 import styles from './index.module.scss';

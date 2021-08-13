@@ -4,11 +4,11 @@ import React from 'react';
 import styles from './index.module.scss';
 
 /* Components */
-import CopyAndLocateClipboard from '../../../CopyAndLocateClipboard';
-import CopyToClipboard from '../../../CopyToClipboard';
+import CopyAndLocateClipboard from '../../../../../../components/CopyAndLocateClipboard';
+import CopyToClipboard from '../../../../../../components/CopyToClipboard';
 
 /* Utils */
-import { truncateString } from '../../../../utils/format';
+import { truncateString } from '../../../../../../utils/format';
 
 interface Props {
   asin: string;

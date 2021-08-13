@@ -7,8 +7,8 @@ import 'rsuite/dist/styles/rsuite-default.css';
 import './globals.scss';
 
 /* Components */
-import ProductTitle from '../../../../components/NewTable/ProductInformation/ProductTitle';
-import ProductDetails from '../../../../components/NewTable/ProductInformation/ProductDetails';
+import ProductTitle from './ProductInformation/ProductTitle';
+import ProductDetails from './ProductInformation/ProductDetails';
 import PricingCell from '../../../../components/NewTable/PricingCell';
 import RatingWithCountCell from '../../../../components/NewTable/RatingWithCountCell';
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
