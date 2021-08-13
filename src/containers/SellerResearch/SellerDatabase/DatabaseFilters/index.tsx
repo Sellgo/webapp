@@ -49,7 +49,7 @@ const SellerDatabaseFilters = (props: Props) => {
   const [brands, setBrands] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
   const [numInventory, setNumInventory] = useState(DEFAULT_MIN_MAX_FILTER);
   const [numBrands, setNumBrands] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [reviewRatings, setReviewRatings] = useState(DEFAULT_MIN_MAX_FILTER);
+  // const [reviewRatings, setReviewRatings] = useState(DEFAULT_MIN_MAX_FILTER);
   const [reviewCount, setReviewCount] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
   const [neutralReview, setNeutralReview] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
   const [positiveReview, setPositiveReview] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
@@ -72,7 +72,6 @@ const SellerDatabaseFilters = (props: Props) => {
       brands,
       numInventory,
       numBrands,
-      reviewRatings,
       reviewCount,
       neutralReview,
       positiveReview,
@@ -92,13 +91,14 @@ const SellerDatabaseFilters = (props: Props) => {
     setBrands(DEFAULT_INCLUDE_EXCLUDE_FILTER);
     setNumInventory(DEFAULT_MIN_MAX_FILTER);
     setNumBrands(DEFAULT_MIN_MAX_FILTER);
-    setReviewRatings(DEFAULT_MIN_MAX_FILTER);
+    // setReviewRatings(DEFAULT_MIN_MAX_FILTER);
     setReviewCount(DEFAULT_MIN_MAX_PERIOD_FILTER);
     setNeutralReview(DEFAULT_MIN_MAX_PERIOD_FILTER);
     setPositiveReview(DEFAULT_MIN_MAX_PERIOD_FILTER);
     setNegativeReview(DEFAULT_MIN_MAX_PERIOD_FILTER);
     setSellerRatings(DEFAULT_MIN_MAX_FILTER);
     setSalesEstimate(DEFAULT_MIN_MAX_FILTER);
+    // setLaunched('')
 
     /* Reset Error States */
     setAsinsError(DEFAULT_INCLUDE_EXCLUDE_ERROR);
@@ -310,7 +310,7 @@ const SellerDatabaseFilters = (props: Props) => {
               />
 
               {/* Review Ratings */}
-              <MinMaxRatingsFilter
+              {/* <MinMaxRatingsFilter
                 label="Review Ratings"
                 minValue={reviewRatings.min}
                 maxValue={reviewRatings.max}
@@ -320,7 +320,7 @@ const SellerDatabaseFilters = (props: Props) => {
                     [type]: value,
                   }))
                 }
-              />
+              /> */}
 
               {/* Seller Ratings */}
               <MinMaxRatingsFilter
