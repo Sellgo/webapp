@@ -1,0 +1,8 @@
+@import '../../../design-system/new-colors';
+
+.ui.error.input.textInputFilter {
+  > input {
+    border: 1px solid $system-red !important;
+    background: #fff !important;
+  }
+}

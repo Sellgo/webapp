@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import numeral from 'numeral';
 
 export const formatCurrency = (num: any) =>
   Number(num).toLocaleString('en-US', {
@@ -55,9 +56,28 @@ export const extractAsinFromUrl = (data: string) => {
   return asinData.join();
 };
 
-export const removeSpecialChars = (str: string) => {
+export const removeSpecialChars = (str: any, deliminater?: string) => {
   if (Array.isArray(str)) {
-    return str.join(',');
+    return str.join(`${deliminater ? deliminater : ','}`);
   }
   return str.trim().replace(/[" ' [\]/]/gi, '');
+};
+
+export const prettyPrintNumber = (num: number) => {
+  const formattedNumber = numeral(num).format('0a');
+
+  if (num < 9999) {
+    const firstResult = formatNumber(num);
+    return firstResult;
+  }
+
+  return formattedNumber;
+};
+
+export const parseKpiLists = (kpiList: any) => {
+  return JSON.parse(JSON.stringify(kpiList))
+    .toString()
+    .trim()
+    .replace(/[" ' [\]/]/gi, '')
+    .split(',');
 };

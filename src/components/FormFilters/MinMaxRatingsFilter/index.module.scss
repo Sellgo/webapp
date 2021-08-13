@@ -1,0 +1,22 @@
+@import '../../../design-system/colors.scss';
+
+.minMaxRatingsFilter {
+  width: max-content;
+
+  p {
+    margin: 0;
+    color: $sellgo-text;
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+
+.inputWrapper {
+  display: flex;
+  justify-content: space-between !important;
+  align-items: center;
+
+  svg {
+    margin: 0 10px;
+  }
+}

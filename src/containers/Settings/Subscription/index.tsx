@@ -128,18 +128,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       });
   }
 
-  cancelSubscription() {
-    const { profile, setSellerSubscription, fetchSellerSubscription } = this.props;
-
-    Axios.post(AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/cancel`)
-      .then(() => {
-        setSellerSubscription(false);
-        fetchSellerSubscription();
-        success(`Your subscription has been cancelled`);
-      })
-      .catch(() => {
-        error(`There was an error cancelling your subscription`);
-      });
+  launchChurnflow() {
+    history.push('/churnflow');
   }
 
   checkout(subscriptionId: any, paymentMode: string) {
@@ -238,7 +228,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
           }}
           onConfirm={() => {
             this.setState({ promptCancelSubscription: false });
-            this.cancelSubscription();
+            this.launchChurnflow();
           }}
         />
 
@@ -308,6 +298,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                   paritialVisibilityGutter: 30,
                 },
               }}
+              className={styles.carouselListWrappewr}
             >
               {subscriptionPlans.map((subscriptionPlan: SubscriptionPlan) => {
                 const {

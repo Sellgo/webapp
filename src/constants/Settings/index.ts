@@ -17,7 +17,7 @@ export const DAILY_SUBSCRIPTION_PLANS = [7];
 
 export const defaultMarketplaces = [
   {
-    name: 'Unites States',
+    name: 'United States',
     code: 'US',
     link: 'amazon.com',
     id: 'ATVPDKIKX0DER',
@@ -27,7 +27,7 @@ export const defaultMarketplaces = [
   { name: 'Canada', code: 'CA', link: 'amazon.ca', id: 'A2EUQ1WTGCTBG2', disabled: true },
   { name: 'Mexico', code: 'MX', link: 'amazon.com.mx', id: 'A1AM78C64UM0Y8', disabled: true },
   {
-    name: 'United Arab Emirates (U.A.E.)',
+    name: 'United Arab Emirates',
     code: 'AE',
     link: 'amazon.ae',
     id: 'A2VIGQ35RCS4UG',
@@ -87,3 +87,17 @@ export const countryList = [
   { name: 'Kingdom', code: 'GB', id: 'GB' },
   { name: 'United States', code: 'US', id: 'US' },
 ];
+
+export const MARKETPLACE_DROPDOWN_OPTIONS = defaultMarketplaces.map((marketplace: any) => {
+  return {
+    ...marketplace,
+    key: marketplace.code,
+    text: marketplace.name,
+    value: marketplace.id,
+    flag: marketplace.code.toLowerCase(),
+  };
+});
+
+export const DEFAULT_US_MARKETPLACE = MARKETPLACE_DROPDOWN_OPTIONS.find(
+  (marketplace: any) => marketplace.code === 'US'
+);
