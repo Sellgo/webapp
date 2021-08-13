@@ -43,6 +43,7 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   // simple
   category: { keyName: 'category', type: F_TYPES.TEXT },
   monthlyRevenue: { keyName: 'monthly_revenue', type: F_TYPES.MIN_MAX },
+  monthlySales: { keyName: 'monthly_sales', type: F_TYPES.MIN_MAX },
   price: { keyName: 'price', type: F_TYPES.MIN_MAX },
   reviewCount: { keyName: 'review_count', type: F_TYPES.MIN_MAX },
   reviewRating: { keyName: 'rating', type: F_TYPES.MIN_MAX },

@@ -40,6 +40,7 @@ const ProductDatabaseFilters = (props: Props) => {
 
   /* Basic Filters */
   const [category, setCategoryName] = useState<string>('');
+  const [monthlySales, setMonthlySales] = useState(DEFAULT_MIN_MAX_FILTER);
   const [monthlyRevenue, setMonthlyRevenue] = useState(DEFAULT_MIN_MAX_FILTER);
   const [price, setPrice] = useState(DEFAULT_MIN_MAX_FILTER);
   const [reviewCount, setReviewCount] = useState(DEFAULT_MIN_MAX_FILTER);
@@ -60,6 +61,7 @@ const ProductDatabaseFilters = (props: Props) => {
   const handleSubmit = () => {
     const filterPayload = {
       category,
+      monthlySales,
       monthlyRevenue,
       price,
       reviewCount,
@@ -81,6 +83,7 @@ const ProductDatabaseFilters = (props: Props) => {
   const handleReset = () => {
     fetchProductsDatabase({ resetFilters: true });
     setCategoryName('');
+    setMonthlySales(DEFAULT_MIN_MAX_FILTER);
     setMonthlyRevenue(DEFAULT_MIN_MAX_FILTER);
     setPrice(DEFAULT_MIN_MAX_FILTER);
     setReviewCount(DEFAULT_MIN_MAX_FILTER);
@@ -182,6 +185,18 @@ const ProductDatabaseFilters = (props: Props) => {
           {showAdvancedFilter && (
             <div className={styles.showAdvancedFilter}>
               <MinMaxFilter
+                label="Monthly Sales"
+                minValue={monthlySales?.min || ''}
+                maxValue={monthlySales?.max || ''}
+                handleChange={(type: string, value: string) =>
+                  setMonthlySales(prevState => ({
+                    ...prevState,
+                    [type]: value,
+                  }))
+                }
+              />
+
+              <MinMaxFilter
                 label="# of Sellers"
                 minValue={sellerCount?.min || ''}
                 maxValue={sellerCount?.max || ''}
@@ -196,8 +211,8 @@ const ProductDatabaseFilters = (props: Props) => {
               <CheckboxListFilter
                 label="Fulfillment"
                 options={FULFILMENT_TYPES}
-                fulfillmentValue={fulfillment}
-                handleChange={(type: string, value: string) => {
+                currentFilterObject={fulfillment}
+                handleChange={(value: string) => {
                   setFulfillment(value);
                 }}
               />

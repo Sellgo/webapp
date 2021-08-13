@@ -31,6 +31,7 @@ import { fetchProductsDatabase } from '../../../../actions/ProductsResearch/Prod
 /* Constants */
 import { SMALL_WIDTH, BIG_WIDTH, CENTER_ALIGN_SETTINGS } from '../../../../constants/Table';
 import BSRCell from '../../../../components/NewTable/BSRCell';
+import NumberCell from '../../../../components/NewTable/NumberCell';
 
 interface Props {
   // States
@@ -236,6 +237,18 @@ const ProductsDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <PricingCell dataKey="price" />
+          </Table.Column>
+
+          <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title="Monthly Sales"
+                dataKey="monthly_sales"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <NumberCell dataKey="monthly_sales" />
           </Table.Column>
 
           <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>

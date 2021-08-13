@@ -4,20 +4,27 @@ import { Checkbox } from 'semantic-ui-react';
 /* Styling */
 import styles from './index.module.scss';
 
-/* Constants */
-import { DEFAULT_FULFILMENT_FILTER } from '../../../constants/ProductResearch/ProductsDatabase';
-
 interface Props {
   label?: string;
   options: any[];
-  fulfillmentValue: any;
-  handleChange: (type: string, value: any) => void;
+  currentFilterObject: any;
+  handleChange: (value: any) => void;
 }
 const CheckboxListFilter: React.FC<Props> = props => {
-  const { label, handleChange, options, fulfillmentValue } = props;
+  const { label, handleChange, options, currentFilterObject } = props;
   const [tickedCheckBoxes, setTickedCheckBoxes] = React.useState<string[]>([]);
 
+  let DEFAULT_FILTER = {};
+  options.map(option => {
+    DEFAULT_FILTER = {
+      ...DEFAULT_FILTER,
+      [option.key]: false,
+    };
+    return option;
+  });
+
   const handleCheckboxTick = (e: any, data: any) => {
+    /* Updating local state */
     let newTickedCheckBoxes = tickedCheckBoxes;
     if (data.checked) {
       newTickedCheckBoxes.push(data.value);
@@ -25,17 +32,18 @@ const CheckboxListFilter: React.FC<Props> = props => {
       newTickedCheckBoxes = newTickedCheckBoxes.filter(f => f !== data.value);
     }
 
-    let fulfilment = DEFAULT_FULFILMENT_FILTER;
+    /* Handling change */
+    let filterObject = DEFAULT_FILTER;
     newTickedCheckBoxes.map(
       filterValue =>
-        (fulfilment = {
-          ...fulfilment,
+        (filterObject = {
+          ...filterObject,
           [filterValue]: true,
         })
     );
 
     setTickedCheckBoxes(newTickedCheckBoxes);
-    handleChange('fulfillment', fulfilment);
+    handleChange(filterObject);
   };
   return (
     <div className={styles.checkBoxFilters}>
@@ -49,7 +57,7 @@ const CheckboxListFilter: React.FC<Props> = props => {
               label={f.text}
               value={f.value}
               onChange={handleCheckboxTick}
-              checked={fulfillmentValue[f.value] === true}
+              checked={currentFilterObject[f.key] === true}
             />
           );
         })}
