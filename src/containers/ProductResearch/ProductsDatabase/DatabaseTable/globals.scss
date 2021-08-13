@@ -15,7 +15,6 @@
       background: #fff;
       // should be rowheight - 10px
       .rs-table-row {
-        // height: 190px !important; //
         border: 1px solid $grey_3;
         border-radius: 7px;
 
@@ -42,13 +41,13 @@
 
   // scrollbar
   div[role='scrollbar'] {
-    bottom: 60px !important;
+    bottom: 58px !important;
     background: $grey_3;
     border-radius: 4px;
     position: fixed !important;
-    opacity: 0;
-    height: 10px;
-    max-width: 90vw !important;
+    // opacity: 1;
+    height: 6px;
+    max-width: 95vw !important;
     margin-left: auto !important;
 
     &.rs-table-scrollbar.rs-table-scrollbar-pressed {

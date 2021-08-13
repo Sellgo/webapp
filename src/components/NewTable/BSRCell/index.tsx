@@ -41,7 +41,7 @@ const BSRCell = (props: RowCell) => {
   const bsrToDisplay =
     rowData[dataKey] && rowData[dataKey].length > 0 && getLowestBsr(rowData[dataKey]);
 
-  const categoryString = bsrToDisplay && truncateIntoTwoLines(bsrToDisplay.category, 25, 50);
+  const categoryString = bsrToDisplay && truncateIntoTwoLines(bsrToDisplay.category, 20, 40);
   return (
     <Table.Cell {...props}>
       {bsrToDisplay ? (

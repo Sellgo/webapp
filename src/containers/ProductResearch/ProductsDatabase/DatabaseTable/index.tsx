@@ -180,6 +180,7 @@ const ProductsDatabaseTable = (props: Props) => {
       <section className={styles.productDatabaseWrapper}>
         <Table
           loading={isLoadingProductsDatabase}
+          affixHorizontalScrollbar={0}
           data={productsDatabaseResults}
           hover={false}
           autoHeight

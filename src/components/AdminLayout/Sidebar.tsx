@@ -10,7 +10,7 @@ import get from 'lodash/get';
 
 import { LogoWithoutText } from '../Logo/index';
 import sellerFinderIcon from '../../assets/images/sellerFinder.svg';
-import sellerDatabaseIcon from '../../assets/images/sellerDatabase.svg';
+import productResearchIcon from '../../assets/images/product-research.svg';
 import sellerMapIcon from '../../assets/images/sellerMapIcon.svg';
 import BetaLabel from '../BetaLabel';
 import { isSubscriptionNotPaid } from '../../utils/subscriptions';
@@ -72,14 +72,6 @@ class SidebarCollapsible extends Component<
       },
       {
         id: 5,
-        label: 'Seller Database',
-        icon: sellerDatabaseIcon,
-        path: '/seller-research',
-        notifyId: 4,
-        imageType: true,
-      },
-      {
-        id: 6,
         label: 'Seller Finder',
         icon: sellerFinderIcon,
         path: '/seller-finder',
@@ -87,10 +79,18 @@ class SidebarCollapsible extends Component<
         imageType: true,
       },
       {
-        id: 7,
-        label: 'Seller Map',
+        id: 6,
+        label: 'Seller Research',
         icon: sellerMapIcon,
         path: '/seller-research',
+        notifyId: 4,
+        imageType: true,
+      },
+      {
+        id: 7,
+        label: 'Product Research',
+        icon: productResearchIcon,
+        path: '/product-research',
         notifyId: 4,
         imageType: true,
       },
