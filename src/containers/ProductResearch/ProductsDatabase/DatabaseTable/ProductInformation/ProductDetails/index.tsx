@@ -21,7 +21,7 @@ interface Props {
   storageFee: number;
   listingAge: number;
   variationCount: number;
-  fulfillment: any;
+  fulfillment?: any;
 }
 
 const ProductDetails = (props: Props) => {
@@ -36,32 +36,32 @@ const ProductDetails = (props: Props) => {
     storageFee,
     listingAge,
     variationCount,
-    fulfillment,
+    // fulfillment,
   } = props;
 
-  const getFulfillmentString = (fulfillment: any) => {
-    let fulfillmentString = '';
-    if (fulfillment.is_fba) {
-      fulfillmentString += 'FBA, ';
-    }
+  // const getFulfillmentString = (fulfillment: any) => {
+  //   let fulfillmentString = '';
+  //   if (fulfillment.is_fba) {
+  //     fulfillmentString += 'FBA, ';
+  //   }
 
-    if (fulfillment.is_fbm) {
-      fulfillmentString += 'FBM, ';
-    }
+  //   if (fulfillment.is_fbm) {
+  //     fulfillmentString += 'FBM, ';
+  //   }
 
-    if (fulfillment.is_amazon) {
-      fulfillmentString += 'Amazon, ';
-    }
+  //   if (fulfillment.is_amazon) {
+  //     fulfillmentString += 'Amazon, ';
+  //   }
 
-    if (fulfillmentString.length > 0) {
-      /* Remove trailing comma and space on last item */
-      fulfillmentString = fulfillmentString.substring(0, fulfillmentString.length - 2);
-    }
+  //   if (fulfillmentString.length > 0) {
+  //     /* Remove trailing comma and space on last item */
+  //     fulfillmentString = fulfillmentString.substring(0, fulfillmentString.length - 2);
+  //   }
 
-    return fulfillmentString;
-  };
+  //   return fulfillmentString;
+  // };
 
-  const fulfilmentString = fulfillment && getFulfillmentString(fulfillment);
+  // const fulfilmentString = fulfillment && getFulfillmentString(fulfillment);
   const titleString = title && truncateIntoTwoLines(title, 38, 76);
   return (
     <div className={styles.productDetails}>
@@ -77,9 +77,9 @@ const ProductDetails = (props: Props) => {
           <p className={styles.productDetailsText}>
             Brand: {truncateString(showNAIfZeroOrNull(brand, brand), 30)}
           </p>
-          <p className={styles.productDetailsText}>
+          {/* <p className={styles.productDetailsText}>
             Fulfillment: {showNAIfZeroOrNull(fulfilmentString, fulfilmentString)}
-          </p>
+          </p> */}
           <p className={styles.productDetailsText}>
             Size Tier: {truncateString(showNAIfZeroOrNull(sizeTier, sizeTier), 30)}
           </p>

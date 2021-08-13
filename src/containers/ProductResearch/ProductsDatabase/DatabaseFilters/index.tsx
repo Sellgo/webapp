@@ -10,7 +10,7 @@ import InputFilter from '../../../../components/FormFilters/InputFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
-import CheckboxListFilter from '../../../../components/FormFilters/CheckboxListFilter';
+// import CheckboxListFilter from '../../../../components/FormFilters/CheckboxListFilter';
 import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
 
 /* Actions */
@@ -25,7 +25,7 @@ import {
   DEFAULT_MIN_MAX_FILTER,
   DEFAULT_CHECKBOX_FILTER,
   PRODUCTS_DATABASE_SIZE_TIERS,
-  FULFILMENT_TYPES,
+  // FULFILMENT_TYPES,
   PRODUCTS_DATABASE_CATEGORIES,
 } from '../../../../constants/ProductResearch/ProductsDatabase';
 
@@ -184,7 +184,7 @@ const ProductDatabaseFilters = (props: Props) => {
 
           {showAdvancedFilter && (
             <div className={styles.showAdvancedFilter}>
-              <MinMaxFilter
+              {/* <MinMaxFilter
                 label="Monthly Sales"
                 minValue={monthlySales?.min || ''}
                 maxValue={monthlySales?.max || ''}
@@ -194,7 +194,7 @@ const ProductDatabaseFilters = (props: Props) => {
                     [type]: value,
                   }))
                 }
-              />
+              /> */}
 
               <MinMaxFilter
                 label="# of Sellers"
@@ -207,7 +207,7 @@ const ProductDatabaseFilters = (props: Props) => {
                   }))
                 }
               />
-
+              {/* 
               <CheckboxListFilter
                 label="Fulfillment"
                 options={FULFILMENT_TYPES}
@@ -215,7 +215,7 @@ const ProductDatabaseFilters = (props: Props) => {
                 handleChange={(value: string) => {
                   setFulfillment(value);
                 }}
-              />
+              /> */}
 
               <MinMaxFilter
                 label="Weight (lbs)"
