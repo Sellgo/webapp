@@ -10,6 +10,7 @@ import get from 'lodash/get';
 
 import { LogoWithoutText } from '../Logo/index';
 import sellerFinderIcon from '../../assets/images/sellerFinder.svg';
+import productResearchIcon from '../../assets/images/product-research.svg';
 import sellerMapIcon from '../../assets/images/sellerMapIcon.svg';
 import BetaLabel from '../BetaLabel';
 import { isSubscriptionNotPaid } from '../../utils/subscriptions';
@@ -71,6 +72,14 @@ class SidebarCollapsible extends Component<
       },
       {
         id: 5,
+        label: 'Seller Research',
+        icon: sellerMapIcon,
+        path: '/seller-research',
+        notifyId: 4,
+        imageType: true,
+      },
+      {
+        id: 6,
         label: 'Seller Finder',
         icon: sellerFinderIcon,
         path: '/seller-finder',
@@ -78,17 +87,17 @@ class SidebarCollapsible extends Component<
         imageType: true,
       },
       {
-        id: 6,
-        label: 'Seller Map',
-        icon: sellerMapIcon,
-        path: '/seller-research',
+        id: 7,
+        label: 'Product Research',
+        icon: productResearchIcon,
+        path: '/product-research',
         notifyId: 4,
         imageType: true,
       },
 
-      { id: 7, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
+      { id: 8, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
       {
-        id: 8,
+        id: 9,
         label: 'Onboarding',
         icon: 'far fa-question-circle',
         path: '/onboarding',
@@ -105,8 +114,8 @@ class SidebarCollapsible extends Component<
     const { visible, sidebarIcon } = this.state;
     const { children, currentNotifyId } = this.props;
 
-    const upperNavbar = this.state.sidebarIcon.filter(icon => icon.id < 7);
-    const lowerNavbar = this.state.sidebarIcon.filter(icon => icon.id >= 7);
+    const upperNavbar = this.state.sidebarIcon.filter(icon => icon.id < 8);
+    const lowerNavbar = this.state.sidebarIcon.filter(icon => icon.id >= 8);
 
     let supplier_id = '';
 
@@ -146,7 +155,7 @@ class SidebarCollapsible extends Component<
                 {icon.imageType ? (
                   <>
                     <img src={icon.icon} alt="Icons" data-disabled={isNotSubscribedAccount} />
-                    {(icon.id === 5 || icon.id === 6) && <BetaLabel />}
+                    {(icon.id === 5 || icon.id === 6 || icon.id === 7) && <BetaLabel />}
                   </>
                 ) : (
                   <i
