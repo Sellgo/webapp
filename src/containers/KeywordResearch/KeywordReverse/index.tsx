@@ -45,13 +45,12 @@ const KeywordReverse = (props: Props) => {
       const { sellerId, asins } = decode(decodedString) as any;
 
       if (String(sellerId) !== sellerIDSelector()) {
-        console.log('Unauthorized user');
         error('Unauthorized user');
         return;
       }
 
       if (asins.split(',').length >= 10) {
-        error('Asin size has exceeded');
+        error('Asin size has exceeded max size of 10');
         return;
       }
       success('Trigerring the reverse keyword request process');

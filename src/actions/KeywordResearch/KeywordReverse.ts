@@ -224,12 +224,16 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (dispatc
 
     if (data) {
       const { keyword_request_id: keywordRequestId } = data;
+      // set keyword request id
       dispatch(setKeywordReverseRequestId(keywordRequestId));
+      // set the asin list for future use
       dispatch(setAsinListForKeywordReverse(asinList));
       dispatch(isFetchingKeywordReverseRequestId(false));
+
+      // wait to 2 seconds
       await timeout(2000);
       success('Fetching of the progress has started');
-
+      // dispatch the keyword request progress process
       dispatch(shouldFetchKeywordReverseProgress(true));
     } else {
       dispatch(setKeywordReverseRequestId(''));
