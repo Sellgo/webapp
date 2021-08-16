@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Icon } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -13,22 +14,26 @@ import { EXPORT_DATA, EXPORT_FORMATS } from '../../../../constants/KeywordResear
 /* Selectors */
 import {
   getKeywordReverseProgressData,
-  getKeywordReverseTableResults,
+  getKeywordReverseTablePaginationInfo,
 } from '../../../../selectors/KeywordResearch/KeywordReverse';
 
 /* Interfaces */
-import { ReverseKeywordProgressData } from '../../../../interfaces/KeywordResearch/KeywordReverse';
-import { connect } from 'react-redux';
+import {
+  ReverseKeywordProgressData,
+  KeywordReversePaginationInfo,
+} from '../../../../interfaces/KeywordResearch/KeywordReverse';
+
+/* Utils */
 import { downloadFile } from '../../../../utils/download';
 import { success } from '../../../../utils/notifications';
 
 interface Props {
-  reverseKeywordDatabaseTable: any;
   reverseKeywordProgressData: ReverseKeywordProgressData;
+  reverseKeywordTablePaginationInfo: KeywordReversePaginationInfo;
 }
 
 const ReverseExport = (props: Props) => {
-  const { reverseKeywordDatabaseTable, reverseKeywordProgressData } = props;
+  const { reverseKeywordProgressData, reverseKeywordTablePaginationInfo } = props;
 
   const [openExports, setOpenExports] = useState(false);
 
@@ -36,6 +41,7 @@ const ReverseExport = (props: Props) => {
     if (reverseKeywordProgressData.report_xlsx_url) {
       await downloadFile(reverseKeywordProgressData.report_xlsx_url);
       success('File successfully downloaded');
+      setOpenExports(false);
     }
   };
 
@@ -44,10 +50,10 @@ const ReverseExport = (props: Props) => {
   return (
     <>
       <section className={styles.exportsContainer}>
-        {reverseKeywordDatabaseTable.length > 0 && (
+        {reverseKeywordTablePaginationInfo.total_pages > 0 && (
           <h2>
-            {reverseKeywordDatabaseTable.length} keywords found, please add additional filters for a
-            more targeted search.
+            {reverseKeywordTablePaginationInfo.count} keywords found, please add additional filters
+            for a more targeted search.
           </h2>
         )}
         <div
@@ -76,8 +82,8 @@ const ReverseExport = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    reverseKeywordDatabaseTable: getKeywordReverseTableResults(state),
     reverseKeywordProgressData: getKeywordReverseProgressData(state),
+    reverseKeywordTablePaginationInfo: getKeywordReverseTablePaginationInfo(state),
   };
 };
 

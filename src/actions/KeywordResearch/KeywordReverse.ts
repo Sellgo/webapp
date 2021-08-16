@@ -238,8 +238,17 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (dispatc
 
       // wait to 2 seconds
       await timeout(2000);
-      success('Fetching of the progress has started');
+      success('Fetching keywords');
       // dispatch the keyword request progress process
+      dispatch(
+        setKeywordReverseProgressData({
+          seller: 0,
+          status: '',
+          progress: '',
+          id: 0,
+          report_xlsx_url: '',
+        })
+      );
       dispatch(shouldFetchKeywordReverseProgress(true));
     } else {
       dispatch(setKeywordReverseRequestId(''));
