@@ -10,6 +10,16 @@ const INITIAL_STATE: { [key: string]: any } = {
     keywordReverseRequestId: '',
     asinListForKeywordReverse: '',
 
+    // keyword request progress state
+    shouldFetchKeywordReverseProgress: false,
+    keywordReverseProgressData: {
+      id: 0,
+      seller: 0,
+      progress: '0',
+      status: '',
+      report_xlsx_url: '',
+    },
+
     // table state
     isLoadingKeywordReverseTable: false,
     keywordReverseTableResults: [],
@@ -56,6 +66,27 @@ const keywordReverseReducer = (state = INITIAL_STATE, action: AnyAction) => {
         [sessionTab]: {
           ...sessionStateChunk,
           asinListForKeywordReverse: action.payload,
+        },
+      };
+    }
+
+    /* ============================================== */
+    case actionTypes.SHOULD_FETCH_KEYWORD_REVERSE_PROGRESS: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          shouldFetchKeywordReverseProgress: action.payload,
+        },
+      };
+    }
+
+    case actionTypes.SET_KEYWORD_REVERSE_PROGRESS_DATA: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          keywordReverseProgressData: action.payload,
         },
       };
     }

@@ -28,6 +28,24 @@ export const getKeywordReverseAsinList = (state: any) => {
   return get(stateChunk, 'asinListForKeywordReverse');
 };
 
+/* =================== KEYWORD REVERSE PROGRESS =============== */
+
+/* Selector to get should fetch keyword progress data */
+export const getShouldFetchKeywordReverseProgress = (state: any) => {
+  const sessionTabId = makeOrGetUniqueTabID();
+
+  const stateChunk = get(state, `keywordReverse[${sessionTabId}]`);
+  return get(stateChunk, 'shouldFetchKeywordReverseProgress');
+};
+
+/* Selector to get should fetch keyword progress data */
+export const getKeywordReverseProgressData = (state: any) => {
+  const sessionTabId = makeOrGetUniqueTabID();
+
+  const stateChunk = get(state, `keywordReverse[${sessionTabId}]`);
+  return get(stateChunk, 'keywordReverseProgressData');
+};
+
 /* =================== KEYWORD REVERSE TABLE =============== */
 
 /* Selector to get loading state for keyword reverse table */

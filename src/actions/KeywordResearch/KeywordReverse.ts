@@ -46,6 +46,23 @@ export const setAsinListForKeywordReverse = (payload: string) => {
   };
 };
 
+/* ============== KEYWORD REQUEST ================== */
+
+/* Action to set if progress needs to be called */
+export const shouldFetchKeywordReverseProgress = (payload: boolean) => {
+  return {
+    type: actionTypes.SHOULD_FETCH_KEYWORD_REVERSE_PROGRESS,
+    payload,
+  };
+};
+
+export const setKeywordReverseProgressData = (payload: any) => {
+  return {
+    type: actionTypes,
+    payload,
+  };
+};
+
 /* ============== KEYWORD REVERSE TABLE ================== */
 
 /* Action to set loading state for keyword reverse  */
@@ -136,7 +153,38 @@ export const parseFilters = (keywordReverseFilter: any) => {
 
   return filterQuery;
 };
+
 /* ========================= Async actions ======================*/
+
+/* ============== KEYWORD PROGRESS ================== */
+export const fetchKeywordReverseProgress = () => async (dispatch: any, getState: any) => {
+  try {
+    const sellerID = sellerIDSelector();
+
+    const keywordRequestId = getKeywordReverseRequestId(getState());
+
+    if (!keywordRequestId) {
+      console.log('No request Id returning');
+      return;
+    }
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/keywords/progress?keyword_request_id=${keywordRequestId}`;
+
+    const { data } = await axios.get(URL);
+    dispatch(setKeywordReverseProgressData(data));
+
+    console.log('Progress data is', data);
+
+    if (data) {
+      dispatch(setKeywordReverseProgressData(data));
+    }
+
+    console.log('Progress Result', data);
+  } catch (err) {
+    console.error('Error fetching keyword progress');
+    dispatch();
+  }
+};
 
 /* Action to fetch keyword reverse request id using asins */
 export const fetchKeywordReverseRequestId = (asinList: string) => async (dispatch: any) => {
