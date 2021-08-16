@@ -8,7 +8,7 @@ const INITIAL_STATE: { [key: string]: any } = {
     // keyword request id state
     isFetchingKeywordReverseRequestId: false,
     keywordReverseRequestId: '',
-    asinListForKeywordReverse: `B08T7KL55S,B09BYJCCP2,B08M5NXQRF,B093H46C1H,B011KDSZFC`,
+    asinListForKeywordReverse: ``,
 
     // keyword request progress state
     shouldFetchKeywordReverseProgress: false,

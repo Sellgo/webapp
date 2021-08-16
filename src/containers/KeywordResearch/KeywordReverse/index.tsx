@@ -24,6 +24,9 @@ import { decodeBase64 } from '../../../utils/format';
 
 import history from '../../../history';
 
+/* Constants */
+import { MAX_ASINS_ALLOWED } from '../../../constants/KeywordResearch/KeywordReverse';
+
 interface Props {
   fetchKeywordReverseRequestId: (payload: string) => void;
 }
@@ -50,7 +53,7 @@ const KeywordReverse = (props: Props) => {
         return;
       }
 
-      if (asins.split(',').length >= 10) {
+      if (asins.split(',').length > MAX_ASINS_ALLOWED) {
         error('Asin size has exceeded max size of 10');
         return;
       }

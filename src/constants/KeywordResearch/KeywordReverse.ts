@@ -71,3 +71,5 @@ export const EXPORT_FORMATS = [
 ];
 
 export const EXPORT_DATA = [{ key: 'all', value: 'all', text: 'All Results' }];
+
+export const MAX_ASINS_ALLOWED = 10;
