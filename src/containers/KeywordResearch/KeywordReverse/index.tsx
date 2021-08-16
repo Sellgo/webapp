@@ -20,6 +20,7 @@ import { error, success } from '../../../utils/notifications';
 import { decodeBase64 } from '../../../utils/format';
 
 import history from '../../../history';
+import ReverseProgress from './ReverseProgress';
 
 interface Props {
   fetchKeywordReverseRequestId: (payload: string) => void;
@@ -60,6 +61,7 @@ const KeywordReverse = (props: Props) => {
   return (
     <main className={styles.keywordReversePage}>
       <ReverseFilters />
+      <ReverseProgress />
       <ReverseTable />
     </main>
   );

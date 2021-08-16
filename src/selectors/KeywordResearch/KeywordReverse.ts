@@ -20,6 +20,14 @@ export const getKeywordReverseRequestId = (state: any) => {
   return get(stateChunk, 'keywordReverseRequestId');
 };
 
+/* Selector to get current asins for keyword reverse */
+export const getKeywordReverseAsinList = (state: any) => {
+  const sessionTabId = makeOrGetUniqueTabID();
+
+  const stateChunk = get(state, `keywordReverse[${sessionTabId}]`);
+  return get(stateChunk, 'asinListForKeywordReverse');
+};
+
 /* =================== KEYWORD REVERSE TABLE =============== */
 
 /* Selector to get loading state for keyword reverse table */

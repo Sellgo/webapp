@@ -38,6 +38,14 @@ export const setKeywordReverseRequestId = (payload: string) => {
   };
 };
 
+/* Action to set asin list for keyword reverse */
+export const setAsinListForKeywordReverse = (payload: string) => {
+  return {
+    type: actionTypes.SET_ASIN_LIST_FOR_KEYWORD_REVERSE,
+    payload,
+  };
+};
+
 /* ============== KEYWORD REVERSE TABLE ================== */
 
 /* Action to set loading state for keyword reverse  */
@@ -149,6 +157,7 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (dispatc
     if (data) {
       const { keyword_request_id: keywordRequestId } = data;
       dispatch(setKeywordReverseRequestId(keywordRequestId));
+      dispatch(setAsinListForKeywordReverse(asinList));
       dispatch(isFetchingKeywordReverseRequestId(false));
     }
   } catch (err) {

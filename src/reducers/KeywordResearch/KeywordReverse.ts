@@ -8,6 +8,7 @@ const INITIAL_STATE: { [key: string]: any } = {
     // keyword request id state
     isFetchingKeywordReverseRequestId: false,
     keywordReverseRequestId: '',
+    asinListForKeywordReverse: '',
 
     // table state
     isLoadingKeywordReverseTable: false,
@@ -45,6 +46,16 @@ const keywordReverseReducer = (state = INITIAL_STATE, action: AnyAction) => {
         [sessionTab]: {
           ...sessionStateChunk,
           keywordReverseRequestId: action.payload,
+        },
+      };
+    }
+
+    case actionTypes.SET_ASIN_LIST_FOR_KEYWORD_REVERSE: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          asinListForKeywordReverse: action.payload,
         },
       };
     }
