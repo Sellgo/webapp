@@ -5,15 +5,12 @@ import { Tabs, Tab, TabList, TabPanel } from 'react-tabs';
 import styles from './index.module.scss';
 
 /* Containers */
-import ProductPanel from './ProductsPanel';
+import ProductsDatabase from './ProductsDatabase';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
 import QuotaMeter from '../../components/QuotaMeter';
 import MarketplaceDropdown from '../../components/MarketplaceDropdown';
-import BrandsPanel from './BrandsPanel';
-import CategoryPanel from './CategoryPanel';
-import CompetitorsPanel from './CompetitorsPanel';
 
 interface Props {
   match: any;
@@ -33,10 +30,10 @@ const ProductResearch: React.FC<Props> = props => {
   return (
     <>
       <PageHeader
-        title={`Seller Database`}
+        title={`Product Research`}
         breadcrumb={[
           { content: 'Home', to: '/' },
-          { content: 'Seller Map', to: '/seller-map' },
+          { content: 'Product Research', to: '/product-research' },
         ]}
         callToAction={<QuotaMeter />}
         auth={match.params.auth}
@@ -58,25 +55,10 @@ const ProductResearch: React.FC<Props> = props => {
           >
             <TabList className={styles.productTablist}>
               <Tab>Products</Tab>
-              <Tab>Brands</Tab>
-              <Tab>Category</Tab>
-              <Tab>Competitors</Tab>
             </TabList>
 
             <TabPanel>
-              <ProductPanel />
-            </TabPanel>
-
-            <TabPanel>
-              <BrandsPanel />
-            </TabPanel>
-
-            <TabPanel>
-              <CategoryPanel />
-            </TabPanel>
-
-            <TabPanel>
-              <CompetitorsPanel />
+              <ProductsDatabase />
             </TabPanel>
           </Tabs>
         </section>

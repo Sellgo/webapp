@@ -1,0 +1,51 @@
+@import '../../../../../../design-system/new-colors.scss';
+
+.productTitle {
+  height: 100%;
+  width: 30%;
+  margin: 0 18px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.productTitleTextBox {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.productTextWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.productTitleText {
+  margin: 0;
+  color: $prim_dark_1;
+  font-weight: 500 !important;
+  font-size: 12px;
+  margin-right: 3px;
+}
+
+.productImageBox {
+  width: 100%;
+}
+
+.productImage {
+  max-width: 90%;
+  height: 140px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+// .asin {
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: flex-start;
+// }
