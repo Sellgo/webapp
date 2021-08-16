@@ -63,3 +63,11 @@ export const makeOrGetUniqueTabID = () => {
   window.name = value;
   return value;
 };
+
+/* Exports data */
+export const EXPORT_FORMATS = [
+  // { key: 'csv', value: 'csv', text: '.CSV' },
+  { key: 'xlsx', value: 'xlsx', text: '.XLSX' },
+];
+
+export const EXPORT_DATA = [{ key: 'all', value: 'all', text: 'All Results' }];

@@ -20,3 +20,11 @@ export interface KeywordReversePaginationInfo {
 export interface KeywordReverseProgressPayload {
   keepFetching: boolean;
 }
+
+export interface ReverseKeywordProgressData {
+  id: number;
+  seller: number;
+  progress: string;
+  status: string;
+  report_xlsx_url?: string;
+}
