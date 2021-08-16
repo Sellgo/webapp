@@ -54,8 +54,9 @@ const KeywordReverse = (props: Props) => {
         error('Asin size has exceeded max size of 10');
         return;
       }
-      success('Trigerring the reverse keyword request process');
+      success('Fetching keywwords for the products');
       fetchKeywordReverseRequestId(asins);
+      history.replace('/keyword-research');
     }
   }, []);
 
@@ -63,8 +64,8 @@ const KeywordReverse = (props: Props) => {
     <main className={styles.keywordReversePage}>
       <ReverseFilters />
       <ReverseProgress />
-      <ReverseExport />
       <ReverseAsinsList />
+      <ReverseExport />
       <ReverseTable />
     </main>
   );

@@ -8,7 +8,7 @@ const INITIAL_STATE: { [key: string]: any } = {
     // keyword request id state
     isFetchingKeywordReverseRequestId: false,
     keywordReverseRequestId: '',
-    asinListForKeywordReverse: '',
+    asinListForKeywordReverse: `B08T7KL55S,B09BYJCCP2,B08M5NXQRF,B093H46C1H,B011KDSZFC`,
 
     // keyword request progress state
     shouldFetchKeywordReverseProgress: false,
@@ -38,7 +38,7 @@ const keywordReverseReducer = (state = INITIAL_STATE, action: AnyAction) => {
   const sessionStateChunk = state[sessionTab];
 
   switch (action.type) {
-    /* ======================================================= */
+    /* ================= KEYWORD REQUEST ==================== */
     /* Keyword Request Reducers */
     case actionTypes.IS_FETCHING_KEYWORD_REVERSE_REQUEST_ID: {
       return {
@@ -70,7 +70,7 @@ const keywordReverseReducer = (state = INITIAL_STATE, action: AnyAction) => {
       };
     }
 
-    /* ============================================== */
+    /* ================= KEYWORD PROGRESS =============== */
     case actionTypes.SHOULD_FETCH_KEYWORD_REVERSE_PROGRESS: {
       return {
         ...state,
@@ -91,9 +91,7 @@ const keywordReverseReducer = (state = INITIAL_STATE, action: AnyAction) => {
       };
     }
 
-    /* ============================================== */
-
-    /* Table Reducers */
+    /* =================== REVERSE TABLE =================== */
     // Set loading state
     case actionTypes.IS_LOADING_KEYWORD_REVERSE_TABLE: {
       return {

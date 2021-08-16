@@ -1,11 +1,14 @@
 @import '../../../../design-system/new-colors';
 
 .asinList {
-  padding: 5px 10px;
+  padding: 10px;
+  display: flex;
   justify-content: flex-start;
   align-items: center;
-  border-radius: 3px;
+  border-radius: 5px;
   border: 1px solid $grey_3;
+  user-select: none;
+  margin-top: 30px;
 }
 
 .asinPill {
@@ -14,4 +17,21 @@
   border: 1px solid $grey_3;
   margin-right: 10px;
   padding: 3px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.asinInput {
+  outline: 0;
+  flex: 1;
+  border: 0;
+  border: 1px solid $grey_3;
+  height: 20px;
+  padding-left: 10px;
+}
+
+.infoDetail {
+  margin-left: 10px;
 }

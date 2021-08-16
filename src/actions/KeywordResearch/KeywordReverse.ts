@@ -12,13 +12,14 @@ import {
 import {
   KeywordReversePaginationInfo,
   KeywordReverseTablePayload,
+  ReverseKeywordProgressData,
 } from '../../interfaces/KeywordResearch/KeywordReverse';
 
 /* Selectors */
 import { getKeywordReverseRequestId } from '../../selectors/KeywordResearch/KeywordReverse';
-
-/* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
+
+/* Utils */
 import { error, success } from '../../utils/notifications';
 import { timeout } from '../../utils/timeout';
 
@@ -58,7 +59,8 @@ export const shouldFetchKeywordReverseProgress = (payload: boolean) => {
   };
 };
 
-export const setKeywordReverseProgressData = (payload: any) => {
+/* Action to set the progress data for keyword reverse */
+export const setKeywordReverseProgressData = (payload: ReverseKeywordProgressData) => {
   return {
     type: actionTypes.SET_KEYWORD_REVERSE_PROGRESS_DATA,
     payload,
@@ -182,27 +184,31 @@ export const fetchKeywordReverseProgress = () => async (dispatch: any, getState:
     if (isFailedStatus) {
       dispatch(shouldFetchKeywordReverseProgress(false));
       dispatch(setKeywordReverseProgressData(data));
-      error('Progress fetching has failed');
+      error('Error: Failed on progress');
       return;
     }
 
     if (!isFailedStatus) {
       dispatch(setKeywordReverseProgressData(data));
-
-      if (!isCompleted) {
-        console.log('Still in pending state');
-        dispatch(shouldFetchKeywordReverseProgress(true));
-        return;
-      }
+      // if not completed should fetch again else not
+      dispatch(shouldFetchKeywordReverseProgress(!isCompleted));
 
       if (isCompleted) {
-        console.log('Progress is completed');
-        dispatch(shouldFetchKeywordReverseProgress(false));
-        return;
+        dispatch(fetchKeywordReverseTableInformation({ enableLoader: true }));
       }
     }
   } catch (err) {
     console.error('Error fetching keyword progress');
+    dispatch(shouldFetchKeywordReverseProgress(false));
+    dispatch(
+      setKeywordReverseProgressData({
+        status: 'failed',
+        progress: '',
+        id: 0,
+        seller: 0,
+        report_xlsx_url: '',
+      })
+    );
   }
 };
 

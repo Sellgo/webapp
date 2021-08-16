@@ -10,6 +10,9 @@ import {
 /* Hooks */
 import { useInterval } from '../../../../hooks/useInterval';
 
+/* Inerfaces */
+import { ReverseKeywordProgressData } from '../../../../interfaces/KeywordResearch/KeywordReverse';
+
 import {
   getKeywordReverseProgressData,
   getShouldFetchKeywordReverseProgress,
@@ -20,7 +23,7 @@ import './index.scss';
 
 interface Props {
   shouldFetchKeywordReverseProgressState: boolean;
-  keywordReverseProgressData: any;
+  keywordReverseProgressData: ReverseKeywordProgressData;
   fetchKeywordReverseProgress: () => void;
   shouldFetchKeywordReverseProgressAction: (payload: boolean) => void;
 }
@@ -41,13 +44,13 @@ const ReverseProgress = (props: Props) => {
     isFailedStatus,
   });
 
-  useInterval(
-    () => {
+  useInterval(() => {
+    if (shouldFetchKeywordReverseProgressState) {
       fetchKeywordReverseProgress();
-    },
-    5000,
-    shouldFetchKeywordReverseProgressState
-  );
+      return;
+    }
+    return;
+  }, 5000);
 
   return (
     <>
