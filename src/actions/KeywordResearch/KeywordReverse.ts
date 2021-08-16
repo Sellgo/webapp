@@ -19,6 +19,8 @@ import { getKeywordReverseRequestId } from '../../selectors/KeywordResearch/Keyw
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
+import { error, success } from '../../utils/notifications';
+import { timeout } from '../../utils/timeout';
 
 /* ============== KEYWORD REQUEST ================== */
 
@@ -58,7 +60,7 @@ export const shouldFetchKeywordReverseProgress = (payload: boolean) => {
 
 export const setKeywordReverseProgressData = (payload: any) => {
   return {
-    type: actionTypes,
+    type: actionTypes.SET_KEYWORD_REVERSE_PROGRESS_DATA,
     payload,
   };
 };
@@ -157,6 +159,7 @@ export const parseFilters = (keywordReverseFilter: any) => {
 /* ========================= Async actions ======================*/
 
 /* ============== KEYWORD PROGRESS ================== */
+
 export const fetchKeywordReverseProgress = () => async (dispatch: any, getState: any) => {
   try {
     const sellerID = sellerIDSelector();
@@ -168,21 +171,38 @@ export const fetchKeywordReverseProgress = () => async (dispatch: any, getState:
       return;
     }
 
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/keywords/progress?keyword_request_id=${keywordRequestId}`;
+    const resourcePath = `keywords/progress?keyword_request_id=${keywordRequestId}`;
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/${resourcePath}`;
 
     const { data } = await axios.get(URL);
-    dispatch(setKeywordReverseProgressData(data));
 
-    console.log('Progress data is', data);
+    const isFailedStatus = data.status === 'failed';
+    const isCompleted = data.status === 'completed';
 
-    if (data) {
+    if (isFailedStatus) {
+      dispatch(shouldFetchKeywordReverseProgress(false));
       dispatch(setKeywordReverseProgressData(data));
+      error('Progress fetching has failed');
+      return;
     }
 
-    console.log('Progress Result', data);
+    if (!isFailedStatus) {
+      dispatch(setKeywordReverseProgressData(data));
+
+      if (!isCompleted) {
+        console.log('Still in pending state');
+        dispatch(shouldFetchKeywordReverseProgress(true));
+        return;
+      }
+
+      if (isCompleted) {
+        console.log('Progress is completed');
+        dispatch(shouldFetchKeywordReverseProgress(false));
+        return;
+      }
+    }
   } catch (err) {
     console.error('Error fetching keyword progress');
-    dispatch();
   }
 };
 
@@ -207,6 +227,15 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (dispatc
       dispatch(setKeywordReverseRequestId(keywordRequestId));
       dispatch(setAsinListForKeywordReverse(asinList));
       dispatch(isFetchingKeywordReverseRequestId(false));
+      await timeout(2000);
+      success('Fetching of the progress has started');
+
+      dispatch(shouldFetchKeywordReverseProgress(true));
+    } else {
+      dispatch(setKeywordReverseRequestId(''));
+      dispatch(setAsinListForKeywordReverse(asinList));
+      dispatch(isFetchingKeywordReverseRequestId(false));
+      dispatch(shouldFetchKeywordReverseProgress(false));
     }
   } catch (err) {
     console.log('Error fetching the keyword request Id', err.response);

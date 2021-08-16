@@ -16,3 +16,7 @@ export interface KeywordReversePaginationInfo {
   next?: string;
   previous?: string;
 }
+
+export interface KeywordReverseProgressPayload {
+  keepFetching: boolean;
+}
