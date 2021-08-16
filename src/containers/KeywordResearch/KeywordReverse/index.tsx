@@ -8,6 +8,9 @@ import styles from './index.module.scss';
 /* Containers */
 import ReverseFilters from './ReverseFilters';
 import ReverseTable from './ReverseTable';
+import ReverseProgress from './ReverseProgress';
+import ReverseExport from './ReverseExport';
+import ReverseAsinsList from './ReverseAsinsList';
 
 /* Selectors */
 import { sellerIDSelector } from '../../../selectors/Seller';
@@ -20,8 +23,6 @@ import { error, success } from '../../../utils/notifications';
 import { decodeBase64 } from '../../../utils/format';
 
 import history from '../../../history';
-import ReverseProgress from './ReverseProgress';
-import ReverseExport from './ReverseExport';
 
 interface Props {
   fetchKeywordReverseRequestId: (payload: string) => void;
@@ -63,6 +64,7 @@ const KeywordReverse = (props: Props) => {
       <ReverseFilters />
       <ReverseProgress />
       <ReverseExport />
+      <ReverseAsinsList />
       <ReverseTable />
     </main>
   );

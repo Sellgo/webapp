@@ -1,0 +1,17 @@
+@import '../../../../design-system/new-colors';
+
+.asinList {
+  padding: 5px 10px;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 3px;
+  border: 1px solid $grey_3;
+}
+
+.asinPill {
+  border-radius: 3px;
+  font-size: 12px;
+  border: 1px solid $grey_3;
+  margin-right: 10px;
+  padding: 3px;
+}
