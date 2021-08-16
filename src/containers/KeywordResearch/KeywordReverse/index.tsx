@@ -57,7 +57,7 @@ const KeywordReverse = (props: Props) => {
         error('Asin size has exceeded max size of 10');
         return;
       }
-      success('Fetching keywwords for the products');
+      success('Fetching keywords');
       fetchKeywordReverseRequestId(asins);
       history.replace('/keyword-research');
     }
