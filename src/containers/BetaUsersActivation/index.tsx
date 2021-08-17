@@ -46,7 +46,7 @@ const BetaUsersActivationForm = (props: Props) => {
         window.location.reload();
       })
       .catch(() => {
-        console.error('Error activating beta accut');
+        console.error('Error activating beta account');
       });
   };
 
