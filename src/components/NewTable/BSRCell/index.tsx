@@ -23,23 +23,7 @@ const BSRCell = (props: RowCell) => {
     };
   };
 
-  const getLowestBsr = (bsr: any) => {
-    let topRankedBsr = {
-      rank: Number.POSITIVE_INFINITY,
-      category: '',
-    };
-    bsr.map((currentBsr: any) => {
-      const currentParsedBsr = parseBsr(currentBsr);
-      if (currentParsedBsr.rank < topRankedBsr.rank) {
-        topRankedBsr = currentParsedBsr;
-      }
-      return currentBsr;
-    });
-    return topRankedBsr;
-  };
-
-  const bsrToDisplay =
-    rowData[dataKey] && rowData[dataKey].length > 0 && getLowestBsr(rowData[dataKey]);
+  const bsrToDisplay = rowData[dataKey] && parseBsr(rowData[dataKey]);
 
   const categoryString = bsrToDisplay && truncateIntoTwoLines(bsrToDisplay.category, 20, 40);
   return (
