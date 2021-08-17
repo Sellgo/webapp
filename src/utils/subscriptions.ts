@@ -57,3 +57,9 @@ export const isTrialExpired = (sellerSubscription: SellerSubscription) => {
 
   return expireDateMinutes <= 0;
 };
+
+/* Util to cheeck if it is beta account */
+export const isBetaAccount = (sellerSubscription: SellerSubscription) => {
+  // if id==5 and is_beta=true
+  return isSubscriptionIdFreeAccount(sellerSubscription.seller_id) && sellerSubscription.is_beta;
+};

@@ -28,6 +28,7 @@ import ChurnFlow from '../ChurnFlow';
 import SellerFinder from '../SellerFinder';
 import ProductResearch from '../ProductResearch';
 import SellerResearch from '../SellerResearch';
+import BetaUsersActivationForm from '../BetaUsersActivation';
 
 export const auth = new Auth();
 
@@ -102,9 +103,15 @@ const PrivateRoute = connect(
           history.push('/synthesis');
         }
       } else {
-        const subscriptionId = sellerSubscription.subscription_id;
-        if (requireSubscription && (subscriptionId === 4 || subscriptionId === 5)) {
-          history.push('settings/pricing');
+        if (requireSubscription && sellerSubscription.id === 5) {
+          // id==5 and is_beta=true
+          if (sellerSubscription.is_beta) {
+            history.push('/activate-beta-account');
+            return;
+          }
+          // id=5 and is_beta=false
+          history.push('/settings/pricing');
+          return;
         }
       }
     }, [
@@ -242,6 +249,13 @@ function App() {
             exact={true}
             path="/churnflow"
             component={ChurnFlow}
+            requireSubscription={true}
+          />
+
+          <PrivateRoute
+            exact={true}
+            path="/activate-beta-account"
+            component={BetaUsersActivationForm}
             requireSubscription={true}
           />
 
