@@ -29,6 +29,7 @@ import SellerFinder from '../SellerFinder';
 import ProductResearch from '../ProductResearch';
 import SellerResearch from '../SellerResearch';
 import BetaUsersActivationForm from '../BetaUsersActivation';
+import { isBetaAccount } from '../../utils/subscriptions';
 
 export const auth = new Auth();
 
@@ -93,9 +94,14 @@ const PrivateRoute = connect(
         return;
       }
 
-      // If user does not have a subscription and this route requires one
-      // then redirect to pricing page.
+      // if beta user account then deny access to settings
+      if (location.pathname.includes('/settings') && isBetaAccount(sellerSubscription)) {
+        history.push('/activate-beta-account');
+      }
+
       if (requireSubscription && localStorage.getItem('accountType') !== '') {
+        // If user does not have a subscription and this route requires one
+        // then redirect to pricing page.
         if (localStorage.getItem('accountType') === 'trial') {
           history.push('/settings/#amazon-mws');
         } else {
@@ -103,15 +109,15 @@ const PrivateRoute = connect(
           history.push('/synthesis');
         }
       } else {
-        if (requireSubscription && sellerSubscription.id === 5) {
-          // id==5 and is_beta=true
-          if (sellerSubscription.is_beta) {
+        const subscriptionId = sellerSubscription.subscription_id;
+        const isBetaLabel = sellerSubscription.is_beta;
+
+        if (requireSubscription && subscriptionId === 5) {
+          if (isBetaLabel) {
             history.push('/activate-beta-account');
-            return;
+          } else {
+            history.push('/settings/pricing');
           }
-          // id=5 and is_beta=false
-          history.push('/settings/pricing');
-          return;
         }
       }
     }, [
@@ -256,7 +262,7 @@ function App() {
             exact={true}
             path="/activate-beta-account"
             component={BetaUsersActivationForm}
-            requireSubscription={true}
+            requireSubscription={false}
           />
 
           <Route component={NotFound} />

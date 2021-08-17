@@ -12,9 +12,13 @@ import { activeExportFiles } from '../../selectors/Products';
 import { fetchActiveExportFiles } from '../../actions/Products';
 
 import { FileExport } from '../../interfaces/FileExport';
+import { SellerSubscription } from '../../interfaces/Seller';
+
 import { toggleNotification } from '../../actions/Notification';
 
 import { selectIsNotificationOpen } from '../../selectors/Notification';
+import { getSellerSubscription } from '../../selectors/Subscription';
+import { isBetaAccount } from '../../utils/subscriptions';
 
 interface AdminProps {
   auth: any;
@@ -23,6 +27,7 @@ interface AdminProps {
   toggleNotification: (toggleState: boolean) => void;
   fetchActiveExportFiles: (payload: boolean) => void;
   isNotificationOpen: boolean;
+  sellerSubscription: SellerSubscription;
 }
 
 class AdminHeader extends React.Component<AdminProps> {
@@ -43,15 +48,18 @@ class AdminHeader extends React.Component<AdminProps> {
   openConfirm = (text: boolean) => this.setState({ openConfirm: text });
 
   render() {
-    const { auth, currentNotifyId } = this.props;
+    const { auth, currentNotifyId, sellerSubscription } = this.props;
 
     return (
       <div className="admin-header">
         <Grid className={`${currentNotifyId > 0 && 'custom-dimmer'}`} />
 
-        <Menu.Item as={Link} to="/settings">
-          <Icon name="setting" color={'black'} size={'large'} className={'setting-icon'} />
-        </Menu.Item>
+        {/* Show settings icon only if not a beta user account */}
+        {!isBetaAccount(sellerSubscription) && (
+          <Menu.Item as={Link} to="/settings">
+            <Icon name="setting" color={'black'} size={'large'} className={'setting-icon'} />
+          </Menu.Item>
+        )}
 
         <Menu.Item>
           <Dropdown
@@ -75,7 +83,6 @@ class AdminHeader extends React.Component<AdminProps> {
             </Dropdown.Menu>
           </Dropdown>
         </Menu.Item>
-
         <LogoutConfirm auth={auth} open={this.state.openConfirm} openFunc={this.openConfirm} />
       </div>
     );
@@ -87,6 +94,7 @@ const mapStateToProps = (state: any) => {
     currentNotifyId: notifyIdSelector(state),
     activeExportFiles: activeExportFiles(state),
     isNotificationOpen: selectIsNotificationOpen(state),
+    sellerSubscription: getSellerSubscription(state),
   };
 };
 

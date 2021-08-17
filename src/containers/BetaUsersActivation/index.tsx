@@ -18,9 +18,12 @@ import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
 
 /* Interfaces */
 import { SellerSubscription } from '../../interfaces/Seller';
+
+/* Config */
 import { AppConfig } from '../../config';
 import history from '../../history';
-import { timeout } from '../../utils/timeout';
+
+/* Utils*/
 import { isBetaAccount } from '../../utils/subscriptions';
 
 interface Props {
@@ -34,16 +37,20 @@ const BetaUsersActivationForm = (props: Props) => {
 
   const handleActiveBetaAccount = () => {
     const sellerId = sellerIDSelector();
-    axios.post(`${AppConfig.BASE_URL_API}sellers/${sellerId}/activate-beta`).then(async () => {
-      fetchSellerSubscription();
-      await timeout(500);
-      history.replace('/synthesis');
-    });
+    axios
+      .post(`${AppConfig.BASE_URL_API}sellers/${sellerId}/activate-beta`)
+      .then(() => {
+        fetchSellerSubscription();
+        history.push('/synthesis');
+      })
+      .catch(() => {
+        console.error('Error activating beta accut');
+      });
   };
 
   useEffect(() => {
     if (!isBetaAccount(sellerSubscription)) {
-      history.replace('/synthesis');
+      history.push('/synthesis');
     }
   }, []);
 
@@ -57,7 +64,7 @@ const BetaUsersActivationForm = (props: Props) => {
         ]}
         auth={match.params.auth}
       />
-      <h2>Wlecome beta users!</h2>
+      <h2>Welcome beta users!</h2>
       <p>Please activate your account</p>
 
       <button onClick={handleActiveBetaAccount}>Click here to active</button>
