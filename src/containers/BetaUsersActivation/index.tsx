@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-/* Styling */
+// @ts-ignore
+import { Widget } from '@typeform/embed-react';
 
+/* Styling */
 import styles from './index.module.scss';
 
 /* Components */
@@ -41,7 +43,7 @@ const BetaUsersActivationForm = (props: Props) => {
       .post(`${AppConfig.BASE_URL_API}sellers/${sellerId}/activate-beta`)
       .then(() => {
         fetchSellerSubscription();
-        history.push('/synthesis');
+        window.location.reload();
       })
       .catch(() => {
         console.error('Error activating beta accut');
@@ -64,10 +66,12 @@ const BetaUsersActivationForm = (props: Props) => {
         ]}
         auth={match.params.auth}
       />
-      <h2>Welcome beta users!</h2>
-      <p>Please activate your account</p>
 
-      <button onClick={handleActiveBetaAccount}>Click here to active</button>
+      <Widget
+        id={AppConfig.BETA_FORM_ID}
+        className={styles.typeFormBox}
+        onSubmit={() => handleActiveBetaAccount()}
+      />
     </main>
   );
 };

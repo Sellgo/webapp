@@ -22,6 +22,7 @@ const DEV_KEYS = {
   ELEVIO_ID: '5f21ef059e2e7',
   CHROME_EXT_ID: 'akkneemdhjpifmcbpcdanajpihknagbf',
   CHURNFLOW_SURVEY_ID: 'Lb8og4j8',
+  BETA_FORM_ID: 'QPo3I51o',
 };
 
 const PROD_KEYS = {
@@ -30,6 +31,7 @@ const PROD_KEYS = {
   ELEVIO_ID: '5f21ef059e2e7',
   CHROME_EXT_ID: 'gldmigoakdolonchebfnmcfbjihelcec',
   CHURNFLOW_SURVEY_ID: 'Lb8og4j8',
+  BETA_FORM_ID: 'QPo3I51o',
 };
 
 const DEV_AUTH_CONFIG = {
