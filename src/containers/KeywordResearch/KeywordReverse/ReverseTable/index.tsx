@@ -74,7 +74,7 @@ const ReverseTable = (props: Props) => {
         onSortColumn={handleSortColumn}
       >
         {/* Search Term */}
-        <Table.Column width={600} verticalAlign="middle" fixed align="left">
+        <Table.Column verticalAlign="middle" fixed align="left" flexGrow={1}>
           <Table.HeaderCell>Search Term</Table.HeaderCell>
           <SearchTerm dataKey="searchTerm" />
         </Table.Column>
