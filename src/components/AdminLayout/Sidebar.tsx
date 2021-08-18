@@ -10,7 +10,7 @@ import get from 'lodash/get';
 
 import { LogoWithoutText } from '../Logo/index';
 import sellerFinderIcon from '../../assets/images/sellerFinder.svg';
-import productResearchIcon from '../../assets/images/product-research.svg';
+// import productResearchIcon from '../../assets/images/product-research.svg';
 import sellerMapIcon from '../../assets/images/sellerMapIcon.svg';
 import BetaLabel from '../BetaLabel';
 import { isBetaAccount, isSubscriptionIdFreeAccount } from '../../utils/subscriptions';
@@ -89,14 +89,14 @@ class SidebarCollapsible extends Component<
         notifyId: 4,
         imageType: true,
       },
-      {
-        id: 7,
-        label: 'Product Research',
-        icon: productResearchIcon,
-        path: '/product-research',
-        notifyId: 4,
-        imageType: true,
-      },
+      // {
+      //   id: 7,
+      //   label: 'Product Research',
+      //   icon: productResearchIcon,
+      //   path: '/product-research',
+      //   notifyId: 4,
+      //   imageType: true,
+      // },
 
       { id: 8, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
       {

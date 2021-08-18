@@ -26,7 +26,7 @@ import UserPilotReload from '../../components/UserPilotReload';
 import ChurnFlow from '../ChurnFlow';
 
 import SellerFinder from '../SellerFinder';
-import ProductResearch from '../ProductResearch';
+// import ProductResearch from '../ProductResearch';
 import SellerResearch from '../SellerResearch';
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import { isBetaAccount } from '../../utils/subscriptions';
@@ -244,12 +244,12 @@ function App() {
             requireSubscription={true}
           />
 
-          <PrivateRoute
+          {/* <PrivateRoute
             exact={true}
             path="/product-research"
             component={ProductResearch}
             requireSubscription={true}
-          />
+          /> */}
 
           <PrivateRoute
             exact={true}
