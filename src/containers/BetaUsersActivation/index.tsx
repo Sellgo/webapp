@@ -67,11 +67,13 @@ const BetaUsersActivationForm = (props: Props) => {
         auth={match.params.auth}
       />
 
-      <Widget
-        id={AppConfig.BETA_FORM_ID}
-        className={styles.typeFormBox}
-        onSubmit={() => handleActiveBetaAccount()}
-      />
+      <div className={styles.widgetWrapper}>
+        <Widget
+          id={AppConfig.BETA_FORM_ID}
+          className={styles.typeFormBox}
+          onSubmit={() => handleActiveBetaAccount()}
+        />
+      </div>
     </main>
   );
 };
