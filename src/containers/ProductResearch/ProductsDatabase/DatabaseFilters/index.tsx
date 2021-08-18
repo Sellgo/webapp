@@ -40,7 +40,7 @@ const ProductDatabaseFilters = (props: Props) => {
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
 
   /* Basic Filters */
-  const [category, setCategoryName] = useState<string>('');
+  const [categories, setCategories] = useState<string[]>([]);
   const [monthlySales, setMonthlySales] = useState(DEFAULT_MIN_MAX_FILTER);
   const [monthlyRevenue, setMonthlyRevenue] = useState(DEFAULT_MIN_MAX_FILTER);
   const [price, setPrice] = useState(DEFAULT_MIN_MAX_FILTER);
@@ -61,7 +61,7 @@ const ProductDatabaseFilters = (props: Props) => {
   /* Handlers */
   const handleSubmit = () => {
     const filterPayload = {
-      category,
+      categories,
       monthlySales,
       monthlyRevenue,
       price,
@@ -83,7 +83,7 @@ const ProductDatabaseFilters = (props: Props) => {
 
   const handleReset = () => {
     fetchProductsDatabase({ resetFilters: true });
-    setCategoryName('');
+    setCategories([]);
     setMonthlySales(DEFAULT_MIN_MAX_FILTER);
     setMonthlyRevenue(DEFAULT_MIN_MAX_FILTER);
     setPrice(DEFAULT_MIN_MAX_FILTER);
@@ -116,9 +116,9 @@ const ProductDatabaseFilters = (props: Props) => {
           <CheckboxDropdown
             filterOptions={PRODUCTS_DATABASE_CATEGORIES}
             label="Categories"
-            currentFilterObject={category}
+            selectedValues={categories}
             handleChange={(value: string) => {
-              setCategoryName(value);
+              setCategories(value ? value.split(';') : []);
             }}
           />
 

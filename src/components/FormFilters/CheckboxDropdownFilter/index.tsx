@@ -7,67 +7,45 @@ import styles from './index.module.scss';
 interface Props {
   label?: string;
   filterOptions: any[];
-  currentFilterObject: any;
+  selectedValues: string[];
   handleChange: (value: any) => void;
 }
 const CheckboxDropdown: React.FC<Props> = props => {
-  const { label, handleChange, filterOptions, currentFilterObject } = props;
-  const [tickedCheckBoxes, setTickedCheckBoxes] = React.useState<string[]>([]);
-
-  let DEFAULT_FILTER = {};
-  filterOptions.map(option => {
-    DEFAULT_FILTER = {
-      ...DEFAULT_FILTER,
-      [option.key]: false,
-    };
-    return option;
-  });
+  const { label, handleChange, filterOptions, selectedValues } = props;
 
   const handleCheckboxTick = (e: any, data: any) => {
-    /* Updating local state */
-    let newTickedCheckBoxes = tickedCheckBoxes;
+    let newSelectedValues = selectedValues;
     if (data.checked) {
-      newTickedCheckBoxes.push(data.value);
+      newSelectedValues.push(data.value);
     } else {
-      newTickedCheckBoxes = newTickedCheckBoxes.filter(f => f !== data.value);
+      newSelectedValues = newSelectedValues.filter(f => f !== data.value);
     }
-
-    /* Handling change */
-    let filterObject = DEFAULT_FILTER;
-    newTickedCheckBoxes.map(
-      filterValue =>
-        (filterObject = {
-          ...filterObject,
-          [filterValue]: true,
-        })
-    );
-
-    setTickedCheckBoxes(newTickedCheckBoxes);
-    handleChange(newTickedCheckBoxes.join(', '));
+    handleChange(newSelectedValues.join(';'));
   };
+
+  const trigger = (
+    <button className={styles.buttonWrapper}>
+      <Input
+        className={`${styles.inputWrapper} textInputFilter`}
+        type="text"
+        placeholder={label}
+        value={selectedValues}
+        icon={{ name: 'dropdown', className: styles.dropdownArrow }}
+      />
+    </button>
+  );
   return (
-    <div className={styles.checkBoxFilters}>
+    <div className={styles.checkBoxDropdownFilters}>
       {label && <p>{label}</p>}
-      <div className={styles.checkboxWrapper}>
-        <Popup
-          className="popup"
-          on="click"
-          position="bottom left"
-          basic
-          /* Button */
-          trigger={
-            <button className={styles.buttonWrapper}>
-              <Input
-                className={`${styles.inputWrapper} textInputFilter`}
-                type="text"
-                placeholder={label}
-                value={currentFilterObject}
-                icon={{ name: 'dropdown', className: styles.dropdownArrow }}
-              />
-            </button>
-          }
-          /* Dropdown content */
-          content={
+      <Popup
+        className="popup"
+        on="click"
+        position="bottom left"
+        basic
+        trigger={trigger}
+        /* Dropdown content */
+        content={
+          <div className={styles.dropdownWrapper}>
             <div className={styles.checkboxListWrapper}>
               {filterOptions.map(f => {
                 return (
@@ -77,14 +55,14 @@ const CheckboxDropdown: React.FC<Props> = props => {
                     label={f.text}
                     value={f.value}
                     onChange={handleCheckboxTick}
-                    checked={currentFilterObject.includes(f.value)}
+                    checked={selectedValues.includes(f.value)}
                   />
                 );
               })}
             </div>
-          }
-        />
-      </div>
+          </div>
+        }
+      />
     </div>
   );
 };

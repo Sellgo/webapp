@@ -36,12 +36,13 @@ export const F_TYPES = {
   INPUT_INCLUDE_EXCLUDE: 'INPUT_INCLUDE_EXCLUDE',
   MIN_MAX: 'MIN_MAX',
   CHECK_BOX: 'CHECK_BOX',
+  MULTIPLE_CHECK_BOX: 'MULTIPLE_CHECK_BOX',
 };
 
 /* Map the payload keys to query keys for API */
 export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: string } } = {
   // simple
-  category: { keyName: 'category', type: F_TYPES.TEXT },
+  categories: { keyName: 'categories', type: F_TYPES.MULTIPLE_CHECK_BOX },
   monthlyRevenue: { keyName: 'monthly_revenue', type: F_TYPES.MIN_MAX },
   monthlySales: { keyName: 'monthly_sales', type: F_TYPES.MIN_MAX },
   price: { keyName: 'price', type: F_TYPES.MIN_MAX },

@@ -1,6 +1,6 @@
 @import '../../../design-system/colors.scss';
 
-.checkBoxFilters {
+.checkBoxDropdownFilters {
   min-width: 250px;
 
   p {
@@ -12,7 +12,8 @@
 }
 
 .dropdownWrapper {
-  padding: 18px 10px;
+  padding-top: 18px;
+  padding-left: 10px;
 }
 
 .dropdownTitle {
@@ -28,18 +29,13 @@
   width: 60rem;
   flex-wrap: wrap;
 
-  .checkboxWrapper {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-  }
-
   .checkboxOption {
     margin-bottom: 18px;
     width: 20rem;
   }
 }
 
+/* Styling for the input button */
 .buttonWrapper {
   background: none;
   padding: 0;
@@ -63,6 +59,7 @@
     height: 35px !important;
     padding: 10px !important;
     width: 100%;
+    caret-color: transparent !important;
 
     &::placeholder {
       color: $sellgo-placeholder-color;

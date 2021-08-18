@@ -25,7 +25,7 @@ const RatingWithCountCell = (props: RowCell) => {
           initialRating={ratingValue}
           readonly
         />
-        <p>{rowData.review_count}</p>
+        <p className={styles.reviewCount}>{rowData.review_count}</p>
       </div>
     </Table.Cell>
   );

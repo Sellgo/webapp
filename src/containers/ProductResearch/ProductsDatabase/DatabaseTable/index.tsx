@@ -60,7 +60,6 @@ const ProductsDatabaseTable = (props: Props) => {
   const [sortType, setSortType] = React.useState<'asc' | 'desc' | undefined>(undefined);
 
   const handleChangePage = (pageNo: number) => {
-    console.log(pageNo);
     fetchProductsDatabase({
       page: pageNo,
     });
@@ -119,7 +118,13 @@ const ProductsDatabaseTable = (props: Props) => {
     return (
       <GenericRowCell {...props}>
         <div className={styles.productInformationCell}>
-          <ProductTitle asin={rowData.asin} image={rowData.image} upc={rowData.upc} />
+          <ProductTitle
+            asin={rowData.asin}
+            image={rowData.image}
+            upc={rowData.upc}
+            isAmazonsChoice={rowData.amazonsChoice}
+            isBestSeller={rowData.bestSeller}
+          />
           <ProductDetails
             weight={rowData.weight_lbs}
             fulfillment={rowData.fulfillment}
