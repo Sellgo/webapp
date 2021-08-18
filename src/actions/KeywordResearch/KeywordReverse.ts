@@ -323,7 +323,14 @@ export const fetchKeywordReverseTableInformation = (payload: KeywordReverseTable
     const sortingValue = `sort=${sort}`;
     const perPage = `per_page=${per_page}`;
 
-    const keywordRequestId = `keyword_request_id=${getKeywordReverseRequestId(getState())}`;
+    const keywordRequestId = getKeywordReverseRequestId(getState());
+
+    // if no keyword ID return
+    if (!keywordRequestId) {
+      return;
+    }
+
+    const keywordRequestIdQuery = `keyword_request_id=${keywordRequestId}`;
 
     // full resource path
     const resourcePath = `?${pagination}&${perPage}&${sortingValue}&${sortDirection}${filtersQueryString}`;
@@ -331,7 +338,7 @@ export const fetchKeywordReverseTableInformation = (payload: KeywordReverseTable
     dispatch(isLoadingKeywordReverseTable(enableLoader));
 
     const { data } = await axios.get(
-      `${AppConfig.BASE_URL_API}sellers/${sellerID}/keywords${resourcePath}&${keywordRequestId}`
+      `${AppConfig.BASE_URL_API}sellers/${sellerID}/keywords${resourcePath}&${keywordRequestIdQuery}`
     );
 
     const { results, ...paginationInfo } = data;
