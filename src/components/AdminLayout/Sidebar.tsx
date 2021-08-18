@@ -11,8 +11,11 @@ import get from 'lodash/get';
 import { LogoWithoutText } from '../Logo/index';
 import sellerFinderIcon from '../../assets/images/sellerFinder.svg';
 import sellerMapIcon from '../../assets/images/sellerMapIcon.svg';
+
 import BetaLabel from '../BetaLabel';
-import { isSubscriptionNotPaid } from '../../utils/subscriptions';
+import { isBetaAccount, isSubscriptionIdFreeAccount } from '../../utils/subscriptions';
+import { getSellerSubscription } from '../../selectors/Subscription';
+import { SellerSubscription } from '../../interfaces/Seller';
 
 interface IconD {
   id: number;
@@ -31,6 +34,7 @@ class SidebarCollapsible extends Component<
     currentNotifyId: number;
     subscriptionPlan: any;
     subscriptionType: string;
+    sellerSubscription: SellerSubscription;
   },
   { visible: boolean; openConfirm: boolean },
   State
@@ -71,17 +75,17 @@ class SidebarCollapsible extends Component<
       },
       {
         id: 5,
-        label: 'Seller Finder',
-        icon: sellerFinderIcon,
-        path: '/seller-finder',
+        label: 'Seller Research',
+        icon: sellerMapIcon,
+        path: '/seller-research',
         notifyId: 4,
         imageType: true,
       },
       {
         id: 6,
-        label: 'Seller Map',
-        icon: sellerMapIcon,
-        path: '/seller-research',
+        label: 'Seller Finder',
+        icon: sellerFinderIcon,
+        path: '/seller-finder',
         notifyId: 4,
         imageType: true,
       },
@@ -103,7 +107,7 @@ class SidebarCollapsible extends Component<
 
   render() {
     const { visible, sidebarIcon } = this.state;
-    const { children, currentNotifyId } = this.props;
+    const { children, currentNotifyId, sellerSubscription } = this.props;
 
     const upperNavbar = this.state.sidebarIcon.filter(icon => icon.id < 7);
     const lowerNavbar = this.state.sidebarIcon.filter(icon => icon.id >= 7);
@@ -120,7 +124,8 @@ class SidebarCollapsible extends Component<
       link.id === 2 ? `${link.path}/${supplier_id}` : link.path
     );
 
-    const isNotSubscribedAccount = isSubscriptionNotPaid(this.props.subscriptionType);
+    const isFreeeAccount = isSubscriptionIdFreeAccount(sellerSubscription.subscription_id);
+    const isBetaUser = isBetaAccount(sellerSubscription);
 
     const sidebarMenu = (
       <>
@@ -135,8 +140,8 @@ class SidebarCollapsible extends Component<
                 onClick={() => {
                   visible && this.handleAnimationChange();
                 }}
-                as={isNotSubscribedAccount || (icon.id === 2 && !supplier_id) ? 'div' : Link}
-                disabled={isNotSubscribedAccount || !!(icon.id === 2 && !supplier_id)}
+                as={isFreeeAccount || (icon.id === 2 && !supplier_id) ? 'div' : Link}
+                disabled={isFreeeAccount || !!(icon.id === 2 && !supplier_id)}
                 to={icon.id === 2 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path}
                 name={icon.icon}
                 active={links[icon.id - 1] === currentPath}
@@ -145,16 +150,14 @@ class SidebarCollapsible extends Component<
               >
                 {icon.imageType ? (
                   <>
-                    <img src={icon.icon} alt="Icons" data-disabled={isNotSubscribedAccount} />
-                    {(icon.id === 5 || icon.id === 6) && <BetaLabel />}
+                    <img src={icon.icon} alt="Icons" data-disabled={isFreeeAccount} />
+                    {(icon.id === 5 || icon.id === 6 || icon.id === 7) && <BetaLabel />}
                   </>
                 ) : (
                   <i
                     className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
                       'forward'} ${
-                      (icon.id === 2 && !supplier_id) || isNotSubscribedAccount
-                        ? 'disabled-link'
-                        : ''
+                      (icon.id === 2 && !supplier_id) || isFreeeAccount ? 'disabled-link' : ''
                     }`}
                   />
                 )}
@@ -168,16 +171,22 @@ class SidebarCollapsible extends Component<
             return (
               <Menu.Item
                 key={icon.id}
-                as={isNotSubscribedAccount && icon.id === 9 ? 'div' : Link}
+                as={
+                  (isFreeeAccount && icon.id === 9) || (isBetaUser && icon.path === '/settings')
+                    ? 'div'
+                    : Link
+                }
                 to={icon.path}
                 name={icon.icon}
                 active={links[icon.id - 1] === currentPath}
                 className={'sidebar-menu__items'}
-                disabled={isNotSubscribedAccount && icon.id === 9}
+                disabled={isFreeeAccount && icon.id === 9}
               >
                 <i
                   className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId && 'forward'} ${
-                    isNotSubscribedAccount && icon.id === 9 ? 'disabled-link' : ''
+                    (isFreeeAccount && icon.id === 9) || (isBetaUser && icon.path === '/settings')
+                      ? 'disabled-link'
+                      : ''
                   } `}
                 />
               </Menu.Item>
@@ -222,6 +231,7 @@ const mapStateToProps = (state: any) => ({
   currentNotifyId: notifyIdSelector(state),
   subscriptionPlan: get(state, 'subscription.plan'),
   subscriptionType: get(state, 'subscription.subscriptionType'),
+  sellerSubscription: getSellerSubscription(state),
 });
 
 export default connect(mapStateToProps)(SidebarCollapsible);
