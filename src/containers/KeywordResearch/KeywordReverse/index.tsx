@@ -77,8 +77,6 @@ const KeywordReverse = (props: Props) => {
         history.replace('/keyword-research');
       }
     } else {
-      console.log('Make judgement here');
-
       const keywordId = sessionStorage.getItem('keywordRequestId') || '';
       const asinList = sessionStorage.getItem('asinListForKeywords') || '';
       if (keywordId && asinList) {
