@@ -10,6 +10,7 @@ import InputFilter from '../../../../components/FormFilters/InputFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
+import CheckboxDropdown from '../../../../components/FormFilters/CheckboxDropdownFilter';
 // import CheckboxListFilter from '../../../../components/FormFilters/CheckboxListFilter';
 import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
 
@@ -112,11 +113,10 @@ const ProductDatabaseFilters = (props: Props) => {
     <>
       <section className={styles.filterSection}>
         <div className={styles.basicFilters}>
-          <SelectionFilter
+          <CheckboxDropdown
             filterOptions={PRODUCTS_DATABASE_CATEGORIES}
             label="Categories"
-            placeholder="Categories"
-            value={category || ''}
+            currentFilterObject={category}
             handleChange={(value: string) => {
               setCategoryName(value);
             }}

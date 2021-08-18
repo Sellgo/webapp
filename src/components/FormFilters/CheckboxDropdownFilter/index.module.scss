@@ -1,0 +1,79 @@
+@import '../../../design-system/colors.scss';
+
+.checkBoxFilters {
+  min-width: 250px;
+
+  p {
+    margin: 0;
+    color: $sellgo-text;
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+
+.dropdownWrapper {
+  padding: 18px 10px;
+}
+
+.dropdownTitle {
+  font-size: 16px;
+  color: $prim_dark_1;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.checkboxListWrapper {
+  display: flex;
+  flex-direction: row;
+  width: 60rem;
+  flex-wrap: wrap;
+
+  .checkboxWrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .checkboxOption {
+    margin-bottom: 18px;
+    width: 20rem;
+  }
+}
+
+.buttonWrapper {
+  background: none;
+  padding: 0;
+}
+
+.inputWrapper {
+  min-width: 225px;
+
+  .dropdownArrow {
+    color: $prim_dark_2 !important;
+    opacity: 1 !important;
+    height: 1em;
+  }
+
+  input {
+    border: 1px solid $grey_6 !important;
+    outline: 0 !important;
+    border-radius: 3px;
+    font-size: 12px;
+    color: $sellgo-text !important;
+    height: 35px !important;
+    padding: 10px !important;
+    width: 100%;
+
+    &::placeholder {
+      color: $sellgo-placeholder-color;
+    }
+
+    &:focus {
+      border: 1px solid $grey_6 !important;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
