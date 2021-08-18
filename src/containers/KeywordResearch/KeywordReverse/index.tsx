@@ -16,7 +16,10 @@ import ReverseAsinsList from './ReverseAsinsList';
 import { sellerIDSelector } from '../../../selectors/Seller';
 
 /* Actions */
-import { fetchKeywordReverseRequestId } from '../../../actions/KeywordResearch/KeywordReverse';
+import {
+  fetchKeywordReverseRequestId,
+  fetchKeywordReverseTableInformation,
+} from '../../../actions/KeywordResearch/KeywordReverse';
 
 /* Utils */
 import { error, success } from '../../../utils/notifications';
@@ -26,40 +29,62 @@ import history from '../../../history';
 
 /* Constants */
 import { MAX_ASINS_ALLOWED } from '../../../constants/KeywordResearch/KeywordReverse';
+import { KeywordReverseTablePayload } from '../../../interfaces/KeywordResearch/KeywordReverse';
 
 interface Props {
   fetchKeywordReverseRequestId: (payload: string) => void;
+  fetchKeywordReverseTableInformation: (payload: KeywordReverseTablePayload) => void;
 }
 
 const KeywordReverse = (props: Props) => {
-  const { fetchKeywordReverseRequestId } = props;
+  const { fetchKeywordReverseRequestId, fetchKeywordReverseTableInformation } = props;
 
   useEffect(() => {
     const searchString = history.location.search;
 
-    if (searchString && searchString.includes('?query=')) {
-      const encodedQuery = searchString.split('?query=')[1] || '';
+    if (searchString) {
+      // query triggered from chrome extension
+      if (searchString.includes('?query=')) {
+        const encodedQuery = searchString.split('?query=')[1] || '';
 
-      if (!encodedQuery) {
+        if (!encodedQuery) {
+          return;
+        }
+
+        const decodedString = decodeBase64(encodedQuery);
+
+        if (!decodedString) {
+          return;
+        }
+
+        const { sellerId, asins } = decode(decodedString) as any;
+
+        if (!sellerId || !asins) {
+          return;
+        }
+
+        if (String(sellerId) !== sellerIDSelector()) {
+          error('Unauthorized user');
+          return;
+        }
+
+        if (asins.split(',').length > MAX_ASINS_ALLOWED) {
+          error('Asin size has exceeded max size of 10');
+          return;
+        }
+        success('Fetching keywords');
+        fetchKeywordReverseRequestId(asins);
+        history.replace('/keyword-research');
+      }
+    } else {
+      console.log('Make judgement here');
+
+      const keywordId = sessionStorage.getItem('keywordRequestId') || '';
+      const asinList = sessionStorage.getItem('asinListForKeywords') || '';
+      if (keywordId && asinList) {
+        fetchKeywordReverseTableInformation({});
         return;
       }
-
-      const decodedString = decodeBase64(encodedQuery);
-
-      const { sellerId, asins } = decode(decodedString) as any;
-
-      if (String(sellerId) !== sellerIDSelector()) {
-        error('Unauthorized user');
-        return;
-      }
-
-      if (asins.split(',').length > MAX_ASINS_ALLOWED) {
-        error('Asin size has exceeded max size of 10');
-        return;
-      }
-      success('Fetching keywords');
-      fetchKeywordReverseRequestId(asins);
-      history.replace('/keyword-research');
     }
   }, []);
 
@@ -78,6 +103,8 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchKeywordReverseRequestId: (payload: string) =>
       dispatch(fetchKeywordReverseRequestId(payload)),
+    fetchKeywordReverseTableInformation: (payload: KeywordReverseTablePayload) =>
+      dispatch(fetchKeywordReverseTableInformation(payload)),
   };
 };
 

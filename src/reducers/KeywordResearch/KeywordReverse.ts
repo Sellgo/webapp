@@ -7,18 +7,21 @@ const INITIAL_STATE: { [key: string]: any } = {
   [makeOrGetUniqueTabID()]: {
     // keyword request id state
     isFetchingKeywordReverseRequestId: false,
-    keywordReverseRequestId: '',
-    asinListForKeywordReverse: ``,
+    keywordReverseRequestId: sessionStorage.getItem('keywordRequestId') || '',
+    asinListForKeywordReverse: sessionStorage.getItem('asinListForKeywords') || '',
 
     // keyword request progress state
     shouldFetchKeywordReverseProgress: false,
-    keywordReverseProgressData: {
-      id: 0,
-      seller: 0,
-      progress: '0',
-      status: '',
-      report_xlsx_url: '',
-    },
+    keywordReverseProgressData: JSON.parse(
+      sessionStorage.getItem('keywordReverseProgressData') ||
+        JSON.stringify({
+          id: 0,
+          seller: 0,
+          progress: '0',
+          status: '',
+          report_xlsx_url: '',
+        })
+    ),
 
     // table state
     isLoadingKeywordReverseTable: false,
