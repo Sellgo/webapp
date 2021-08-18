@@ -78,8 +78,8 @@ const KeywordReverse = (props: Props) => {
       }
     } else {
       const keywordId = sessionStorage.getItem('keywordRequestId') || '';
-      const asinList = sessionStorage.getItem('asinListForKeywords') || '';
-      if (keywordId && asinList) {
+
+      if (keywordId) {
         fetchKeywordReverseTableInformation({});
         return;
       }
