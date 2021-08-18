@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Segment } from 'semantic-ui-react';
 import Sidebar from './Sidebar';
 import './index.scss';
-import { isSubscriptionNotPaid } from '../../utils/subscriptions';
 
 interface Props {
   subscriptionType: string;
@@ -11,17 +10,12 @@ interface Props {
 
 class AdminLayout extends React.Component<Props> {
   public render() {
-    const { children, subscriptionType } = this.props;
+    const { children } = this.props;
 
     return (
       <React.Fragment>
         <Sidebar>
-          <Segment
-            className={`admin-layout ${
-              isSubscriptionNotPaid(subscriptionType) ? 'message-active' : ''
-            } `}
-            basic={true}
-          >
+          <Segment className={`admin-layout`} basic={true}>
             <>{children}</>
           </Segment>
         </Sidebar>
