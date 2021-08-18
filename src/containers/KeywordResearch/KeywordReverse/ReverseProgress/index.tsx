@@ -36,13 +36,6 @@ const ReverseProgress = (props: Props) => {
   } = props;
 
   const progressPercent = Number.parseFloat(keywordReverseProgressData.progress);
-  const isFailedStatus = keywordReverseProgressData.status === 'failed';
-
-  console.log('From components', {
-    shouldFetchKeywordReverseProgressState,
-    progressPercent,
-    isFailedStatus,
-  });
 
   useInterval(() => {
     if (shouldFetchKeywordReverseProgressState) {

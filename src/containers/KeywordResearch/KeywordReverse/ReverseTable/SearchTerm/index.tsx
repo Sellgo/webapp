@@ -17,7 +17,7 @@ import { RowCell } from '../../../../../interfaces/Table';
 const SearchTerm = (props: RowCell) => {
   const { rowData } = props;
 
-  const { phrase } = rowData;
+  const { phrase, amazon_choice_asins, best_seller_asins } = rowData;
 
   return (
     <Table.Cell {...props}>
@@ -29,8 +29,10 @@ const SearchTerm = (props: RowCell) => {
           link={`https://www.amazon.com/s?k=${phrase}`}
         />
         <div className={styles.labels}>
-          <AmazonChoiceLabel />
-          <img src={bestSellerLabel} alt="Amazon Best Seller Label" />
+          {amazon_choice_asins > 0 ? <AmazonChoiceLabel /> : null}
+          {best_seller_asins > 0 ? (
+            <img src={bestSellerLabel} alt="Amazon Best Seller Label" />
+          ) : null}
         </div>
       </div>
     </Table.Cell>
