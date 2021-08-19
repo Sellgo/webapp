@@ -10,31 +10,11 @@ import './global.scss';
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import SearchTerm from './SearchTerm';
 import TablePagination from '../../../../components/NewTable/Pagination';
+
+/* Constants */
 import { DEFAULT_PAGES_LIST } from '../../../../constants/KeywordResearch/KeywordDatabase';
 
-const fakeData = [
-  {
-    title: 'name',
-  },
-  {
-    title: 'name',
-  },
-  {
-    title: 'name',
-  },
-  {
-    title: 'name',
-  },
-  {
-    title: 'name',
-  },
-  {
-    title: 'name',
-  },
-  {
-    title: 'name',
-  },
-];
+const fakeData = Array(10).fill({ title: 'sample' });
 
 const DatabaseTable = () => {
   const [sortColumn, setSortColumn] = useState<string>('');
