@@ -37,12 +37,13 @@ const DatabaseFilters = () => {
     <section className={styles.filterSection}>
       {/* Basic Filters */}
       <div className={styles.basicFilters}>
-        {/* Search Volume */}
+        {/* Keywords */}
         <InputFilter
-          label="Search Volume"
+          label="Keywords"
           placeholder="Enter Keywords seperated by comma"
           value={keywords}
           handleChange={value => setKeywords(value)}
+          className={styles.longInput}
         />
       </div>
 
