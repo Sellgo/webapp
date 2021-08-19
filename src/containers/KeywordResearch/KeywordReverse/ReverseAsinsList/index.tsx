@@ -83,7 +83,7 @@ const ReverseAsinsList = (props: Props) => {
           placeholder="Enter asins spearted by comma"
           value={toAddAsins.toUpperCase()}
           onChange={handleAddNewAsins}
-          disabled={asinList.length === 10}
+          disabled={asinList.length === MAX_ASINS_ALLOWED}
         />
         <span className={styles.infoDetail}>
           {MAX_ASINS_ALLOWED - asinList.length || MAX_ASINS_ALLOWED} more ASINs allowed.
