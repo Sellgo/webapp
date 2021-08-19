@@ -8,15 +8,17 @@ interface Props {
   onFind: () => void;
   onReset: () => void;
   disabled?: boolean;
+  resetLabel?: string;
+  submitLabel?: string;
 }
 
 const FormFilterActions: React.FC<Props> = props => {
-  const { onFind, onReset, disabled } = props;
+  const { onFind, onReset, disabled = false, resetLabel = 'Reset', submitLabel = 'Find' } = props;
 
   return (
     <div className={styles.formFilterActions}>
       <Button className={styles.formFilterActions__reset} onClick={onReset} size="small">
-        Reset
+        {resetLabel}
       </Button>
       <Button
         className={styles.formFilterActions__find}
@@ -24,7 +26,7 @@ const FormFilterActions: React.FC<Props> = props => {
         size="small"
         disabled={disabled}
       >
-        Find
+        {submitLabel}
       </Button>
     </div>
   );
