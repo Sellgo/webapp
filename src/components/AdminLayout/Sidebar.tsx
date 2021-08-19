@@ -188,7 +188,9 @@ class SidebarCollapsible extends Component<
                 name={icon.icon}
                 active={links[icon.id - 1] === currentPath}
                 className={'sidebar-menu__items'}
-                disabled={isFreeeAccount && icon.id === 9}
+                disabled={
+                  (isFreeeAccount && icon.id === 9) || (isBetaUser && icon.path === '/settings')
+                }
               >
                 <i
                   className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId && 'forward'} ${
