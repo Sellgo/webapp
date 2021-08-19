@@ -13,10 +13,11 @@ import { RowCell } from '../../../interfaces/Table';
 interface Props extends RowCell {
   appendWith?: string;
   prependWith?: string;
+  align?: 'left' | 'right' | 'center';
 }
 
 const StatsCell = (props: Props) => {
-  const { appendWith = '', prependWith = '', ...otherProps } = props;
+  const { appendWith = '', prependWith = '', align = 'left', ...otherProps } = props;
 
   const { rowData, dataKey } = otherProps;
 
@@ -24,7 +25,7 @@ const StatsCell = (props: Props) => {
 
   return (
     <Table.Cell {...otherProps}>
-      <div className={styles.statsCell}>
+      <div className={styles.statsCell} style={{ textAlign: align }}>
         {showNAIfZeroOrNull(rowData[dataKey], `${prependWith}${displayStat}${appendWith}`)}
       </div>
     </Table.Cell>

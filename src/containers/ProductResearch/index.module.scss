@@ -1,6 +1,7 @@
 @import '../../design-system/colors.scss';
 
 .filterMetaData {
+  position: relative;
   padding: 0 20px !important;
   border: 1px solid $sellgo-disabled;
   border-radius: 7px;
@@ -23,6 +24,7 @@
   display: flex;
   list-style: none;
   padding: 15px 20px;
+  padding-bottom: 0;
   margin: 0;
   width: 100%;
   border-left: 1px solid $sellgo-disabled;
@@ -33,7 +35,7 @@
     font-size: 16px !important;
     min-width: 110px !important;
     padding: 4px 10px;
-    border-bottom: 1px solid $grey_6 !important;
+    // border-bottom: 1px solid $grey_6 !important;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,5 +48,6 @@
   color: $sellgo-text !important;
   font-weight: 500 !important;
   border: 1px solid $grey_6 !important;
+  border-bottom: none !important;
   border-radius: 4px 4px 0 0;
 }

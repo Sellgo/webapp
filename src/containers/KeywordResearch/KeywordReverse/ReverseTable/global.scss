@@ -1,0 +1,79 @@
+@import '../../../../styles/tableReset';
+
+#keywordReverseTable {
+  // header section
+  .rs-table-row-header {
+    border-radius: 7px;
+    border: 1px solid $grey_3 !important;
+  }
+
+  // body section
+  .rs-table-body-row-wrapper {
+    margin-top: 18px !important;
+
+    .rs-table-body-wheel-area {
+      background: #fff;
+      // should be rowheight - 10px
+      .rs-table-row {
+        // height: 190px !important; //
+        border: 1px solid $grey_3;
+        border-radius: 7px;
+
+        &:nth-child(2n) {
+          background-color: #fff !important;
+
+          .rs-table-cell-content {
+            color: $prim_dark_2 !important;
+            background-color: #fff !important;
+            padding: 3px 10px !important;
+          }
+        }
+
+        &:nth-child(2n + 1) {
+          background-color: rgba($grey_3, 0.2) !important;
+
+          // stylelint-disable no-descending-specificity
+          .rs-table-cell-content {
+            color: $prim_dark_2 !important;
+            background-color: rgba($grey_3, 0.2) !important;
+            padding: 3px 10px !important;
+          }
+        }
+      }
+    }
+  }
+
+  // scrollbar
+  div[role='scrollbar'] {
+    bottom: 60px !important;
+    background: $grey_3;
+    border-radius: 4px;
+    position: fixed !important;
+    opacity: 0;
+    height: 10px;
+    max-width: 90vw !important;
+    margin-left: auto !important;
+
+    &.rs-table-scrollbar.rs-table-scrollbar-pressed {
+      opacity: 1 !important;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+
+    > .rs-table-scrollbar-handle {
+      background-color: #98aeca !important;
+      opacity: 1 !important;
+      height: 8px;
+      max-width: 100% !important;
+    }
+  }
+}
+
+.iconButtonResetGlobal {
+  i.chevron.down.icon {
+    font-size: 10px !important;
+    margin-top: 4px;
+  }
+}

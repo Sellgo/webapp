@@ -1,0 +1,12 @@
+@import '../../../design-system/new-colors';
+
+.ratingCell {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  flex-direction: column;
+}
+
+.ratingIcon {
+  font-size: 12px !important;
+}

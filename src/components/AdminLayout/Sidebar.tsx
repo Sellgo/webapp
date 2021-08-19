@@ -10,6 +10,7 @@ import get from 'lodash/get';
 
 import { LogoWithoutText } from '../Logo/index';
 import sellerFinderIcon from '../../assets/images/sellerFinder.svg';
+import productResearchIcon from '../../assets/images/product-research.svg';
 import sellerMapIcon from '../../assets/images/sellerMapIcon.svg';
 
 import BetaLabel from '../BetaLabel';
@@ -89,10 +90,18 @@ class SidebarCollapsible extends Component<
         notifyId: 4,
         imageType: true,
       },
-
-      { id: 7, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
       {
-        id: 8,
+        id: 7,
+        label: 'Product Research',
+        icon: productResearchIcon,
+        path: '/product-research',
+        notifyId: 4,
+        imageType: true,
+      },
+
+      { id: 8, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
+      {
+        id: 9,
         label: 'Onboarding',
         icon: 'far fa-question-circle',
         path: '/onboarding',
@@ -109,8 +118,8 @@ class SidebarCollapsible extends Component<
     const { visible, sidebarIcon } = this.state;
     const { children, currentNotifyId, sellerSubscription } = this.props;
 
-    const upperNavbar = this.state.sidebarIcon.filter(icon => icon.id < 7);
-    const lowerNavbar = this.state.sidebarIcon.filter(icon => icon.id >= 7);
+    const upperNavbar = this.state.sidebarIcon.filter(icon => icon.id < 8);
+    const lowerNavbar = this.state.sidebarIcon.filter(icon => icon.id >= 8);
 
     let supplier_id = '';
 
@@ -180,7 +189,9 @@ class SidebarCollapsible extends Component<
                 name={icon.icon}
                 active={links[icon.id - 1] === currentPath}
                 className={'sidebar-menu__items'}
-                disabled={isFreeeAccount && icon.id === 8}
+                disabled={
+                  (isFreeeAccount && icon.id === 8) || (isBetaUser && icon.path === '/settings')
+                }
               >
                 <i
                   className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId && 'forward'} ${
