@@ -10,6 +10,7 @@ import './global.scss';
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import SearchTerm from './SearchTerm';
 import TablePagination from '../../../../components/NewTable/Pagination';
+import { DEFAULT_PAGES_LIST } from '../../../../constants/KeywordResearch/KeywordDatabase';
 
 const fakeData = [
   {
@@ -38,14 +39,18 @@ const fakeData = [
 const DatabaseTable = () => {
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [perPage, setPerPage] = useState<number>(50);
 
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
     setSortType(sortType);
   };
 
-  const handlePageChange = (pageNo: number) => {
-    console.log(pageNo);
+  const handlePageChange = (pageNo: number, perPageNo?: number) => {
+    console.log('Calling This', pageNo, perPageNo);
+    setCurrentPage(prevState => (pageNo ? pageNo : prevState));
+    setPerPage(prevState => (perPageNo ? perPageNo : prevState));
   };
 
   return (
@@ -125,9 +130,12 @@ const DatabaseTable = () => {
       <footer className={styles.keywordDatabasePaginationContainer}>
         <TablePagination
           totalPages={10}
-          currentPage={1}
+          currentPage={currentPage}
           onPageChange={handlePageChange}
           showSiblingsCount={3}
+          showPerPage={true}
+          perPage={perPage}
+          perPageList={DEFAULT_PAGES_LIST}
         />
       </footer>
     </section>
