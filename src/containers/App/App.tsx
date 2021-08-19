@@ -24,11 +24,14 @@ import Payment from '../Subscription/Payment';
 import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
 import ChurnFlow from '../ChurnFlow';
-
 import SellerFinder from '../SellerFinder';
-import ProductResearch from '../ProductResearch';
+
 import SellerResearch from '../SellerResearch';
 import KeywordResearch from '../KeywordResearch';
+import ProductResearch from '../ProductResearch';
+
+import BetaUsersActivationForm from '../BetaUsersActivation';
+import { isBetaAccount } from '../../utils/subscriptions';
 
 export const auth = new Auth();
 
@@ -93,9 +96,14 @@ const PrivateRoute = connect(
         return;
       }
 
-      // If user does not have a subscription and this route requires one
-      // then redirect to pricing page.
+      // if beta user account then deny access to settings
+      if (location.pathname.includes('/settings') && isBetaAccount(sellerSubscription)) {
+        history.push('/activate-beta-account');
+      }
+
       if (requireSubscription && localStorage.getItem('accountType') !== '') {
+        // If user does not have a subscription and this route requires one
+        // then redirect to pricing page.
         if (localStorage.getItem('accountType') === 'trial') {
           history.push('/settings/#amazon-mws');
         } else {
@@ -104,8 +112,14 @@ const PrivateRoute = connect(
         }
       } else {
         const subscriptionId = sellerSubscription.subscription_id;
-        if (requireSubscription && (subscriptionId === 4 || subscriptionId === 5)) {
-          history.push('settings/pricing');
+        const isBetaLabel = sellerSubscription.is_beta;
+
+        if (requireSubscription && subscriptionId === 5) {
+          if (isBetaLabel) {
+            history.push('/activate-beta-account');
+          } else {
+            history.push('/settings/pricing');
+          }
         }
       }
     }, [
@@ -234,6 +248,13 @@ function App() {
 
           <PrivateRoute
             exact={true}
+            path="/churnflow"
+            component={ChurnFlow}
+            requireSubscription={true}
+          />
+
+          <PrivateRoute
+            exact={true}
             path="/product-research"
             component={ProductResearch}
             requireSubscription={true}
@@ -248,9 +269,9 @@ function App() {
 
           <PrivateRoute
             exact={true}
-            path="/churnflow"
-            component={ChurnFlow}
-            requireSubscription={true}
+            path="/activate-beta-account"
+            component={BetaUsersActivationForm}
+            requireSubscription={false}
           />
 
           <Route component={NotFound} />
