@@ -12,6 +12,7 @@ import { LogoWithoutText } from '../Logo/index';
 import sellerFinderIcon from '../../assets/images/sellerFinder.svg';
 import productResearchIcon from '../../assets/images/product-research.svg';
 import sellerMapIcon from '../../assets/images/sellerMapIcon.svg';
+
 import BetaLabel from '../BetaLabel';
 import { isBetaAccount, isSubscriptionIdFreeAccount } from '../../utils/subscriptions';
 import { getSellerSubscription } from '../../selectors/Subscription';
@@ -97,7 +98,6 @@ class SidebarCollapsible extends Component<
         notifyId: 4,
         imageType: true,
       },
-
       { id: 8, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
       {
         id: 9,

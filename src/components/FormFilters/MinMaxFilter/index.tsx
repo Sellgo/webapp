@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Input } from 'semantic-ui-react';
 
 /* Styling */
@@ -56,4 +56,4 @@ const MinMaxFilter: React.FC<Props> = props => {
   );
 };
 
-export default MinMaxFilter;
+export default memo(MinMaxFilter);
