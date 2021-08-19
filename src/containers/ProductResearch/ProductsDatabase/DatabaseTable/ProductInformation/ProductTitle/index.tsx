@@ -14,9 +14,6 @@ import { truncateString } from '../../../../../../utils/format';
 import amazonsChoiceImg from '../../../../../../assets/images/amazon_choice.svg';
 import bestSellerImg from '../../../../../../assets/images/best-seller.png';
 
-/* Market place constants */
-import { DEFAULT_US_MARKETPLACE } from '../../../../../../constants/Settings';
-
 interface Props {
   asin: string;
   image: string;
@@ -47,10 +44,7 @@ const ProductTitle = (props: Props) => {
       </div>
 
       <div className={styles.flagAndTitleRow}>
-        <img
-          className={styles.flagIcon}
-          src={require(`../../../../../../assets/flags/${DEFAULT_US_MARKETPLACE.code}.png`)}
-        />
+        <img className={styles.flagIcon} src={require(`../../../../../../assets/flags/US.png`)} />
         <div className={styles.productTitleTextBox}>
           {asin.length > 0 ? (
             <CopyAndLocateClipboard data={asin} link={`http://www.amazon.com/dp/${props.asin}`} />
