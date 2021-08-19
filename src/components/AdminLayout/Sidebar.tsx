@@ -98,7 +98,6 @@ class SidebarCollapsible extends Component<
         notifyId: 4,
         imageType: true,
       },
-
       { id: 8, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
       {
         id: 9,
@@ -181,7 +180,7 @@ class SidebarCollapsible extends Component<
               <Menu.Item
                 key={icon.id}
                 as={
-                  (isFreeeAccount && icon.id === 8) || (isBetaUser && icon.path === '/settings')
+                  (isFreeeAccount && icon.id === 9) || (isBetaUser && icon.path === '/settings')
                     ? 'div'
                     : Link
                 }
@@ -190,12 +189,12 @@ class SidebarCollapsible extends Component<
                 active={links[icon.id - 1] === currentPath}
                 className={'sidebar-menu__items'}
                 disabled={
-                  (isFreeeAccount && icon.id === 8) || (isBetaUser && icon.path === '/settings')
+                  (isFreeeAccount && icon.id === 9) || (isBetaUser && icon.path === '/settings')
                 }
               >
                 <i
                   className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId && 'forward'} ${
-                    (isFreeeAccount && icon.id === 8) || (isBetaUser && icon.path === '/settings')
+                    (isFreeeAccount && icon.id === 9) || (isBetaUser && icon.path === '/settings')
                       ? 'disabled-link'
                       : ''
                   } `}
