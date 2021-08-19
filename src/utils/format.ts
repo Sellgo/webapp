@@ -111,3 +111,7 @@ export const parseKpiLists = (kpiList: any) => {
     .replace(/[" ' [\]/]/gi, '')
     .split(',');
 };
+
+/* Encode and decode to string (base64) */
+export const encodeBase64 = (payload: string) => window.btoa(payload);
+export const decodeBase64 = (payload: string) => window.atob(payload);

@@ -1,0 +1,14 @@
+@import '../../../../design-system/new-colors';
+
+.keywordReverseProgress {
+  color: #fff !important;
+  background: #e6e6e6;
+
+  .bar {
+    background: #256fb0 !important;
+  }
+
+  .progress {
+    color: #fff;
+  }
+}
