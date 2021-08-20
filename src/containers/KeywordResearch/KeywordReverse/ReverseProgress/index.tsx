@@ -19,7 +19,7 @@ import {
 } from '../../../../selectors/KeywordResearch/KeywordReverse';
 
 /* Styling */
-import './index.scss';
+import '../../../../styles/progressReset.scss';
 
 interface Props {
   shouldFetchKeywordReverseProgressState: boolean;
@@ -52,7 +52,7 @@ const ReverseProgress = (props: Props) => {
           percent={progressPercent || 0}
           progress
           indicating
-          className={'keywordReverseProgress'}
+          className={'defaultProgressBar'}
         />
       )}
     </>
