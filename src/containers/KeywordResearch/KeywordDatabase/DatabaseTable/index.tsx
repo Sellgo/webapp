@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Table } from 'rsuite';
+import { connect } from 'react-redux';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -14,13 +15,36 @@ import TablePagination from '../../../../components/NewTable/Pagination';
 /* Constants */
 import { DEFAULT_PAGES_LIST } from '../../../../constants/KeywordResearch/KeywordDatabase';
 
+/* Selectors */
+import {
+  getIsLoadingkeywordDatabaseTable,
+  getKeywordDatabaseTablePaginationInfo,
+  getKeywordDatabaseTableResults,
+} from '../../../../selectors/KeywordResearch/KeywordDatabase';
+
+/* Actions */
+import { fetchkeywordDatabaseTableInformation } from '../../../../actions/KeywordResearch/KeywordDatabase';
+
+/* Interfaces */
+import {
+  KeywordDatabasePaginationInfo,
+  KeywordDatabaseTablePayload,
+} from '../../../../interfaces/KeywordResearch/KeywordDatabase';
+
 const fakeData = Array(10).fill({ title: 'sample' });
 
-const DatabaseTable = () => {
+interface Props {
+  isLoadingKeywordDatabaseTable: boolean;
+  keywordDatabaseTableResults: any;
+  keywordDatabaseTablePaginationInfo: KeywordDatabasePaginationInfo;
+  fetchKeywordDatabaseTableInformation: (payload: KeywordDatabaseTablePayload) => void;
+}
+
+const DatabaseTable = (props: Props) => {
+  const { isLoadingKeywordDatabaseTable, keywordDatabaseTablePaginationInfo } = props;
+
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [perPage, setPerPage] = useState<number>(50);
 
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
@@ -29,14 +53,12 @@ const DatabaseTable = () => {
 
   const handlePageChange = (pageNo: number, perPageNo?: number) => {
     console.log('Calling This', pageNo, perPageNo);
-    setCurrentPage(prevState => (pageNo ? pageNo : prevState));
-    setPerPage(prevState => (perPageNo ? perPageNo : prevState));
   };
 
   return (
     <section className={styles.keywordDatabaseTableWrapper}>
       <Table
-        loading={false}
+        loading={isLoadingKeywordDatabaseTable}
         data={fakeData}
         autoHeight
         hover={false}
@@ -107,19 +129,37 @@ const DatabaseTable = () => {
       </Table>
 
       {/* Pagination */}
-      <footer className={styles.keywordDatabasePaginationContainer}>
-        <TablePagination
-          totalPages={10}
-          currentPage={currentPage}
-          onPageChange={handlePageChange}
-          showSiblingsCount={3}
-          showPerPage={true}
-          perPage={perPage}
-          perPageList={DEFAULT_PAGES_LIST}
-        />
-      </footer>
+
+      {keywordDatabaseTablePaginationInfo && keywordDatabaseTablePaginationInfo.total_pages > 0 && (
+        <footer className={styles.keywordDatabasePaginationContainer}>
+          <TablePagination
+            totalPages={10}
+            currentPage={keywordDatabaseTablePaginationInfo.current_page}
+            onPageChange={handlePageChange}
+            showSiblingsCount={3}
+            showPerPage={true}
+            perPage={keywordDatabaseTablePaginationInfo.per_page}
+            perPageList={DEFAULT_PAGES_LIST}
+          />
+        </footer>
+      )}
     </section>
   );
 };
 
-export default DatabaseTable;
+const mapStateToProps = (state: any) => {
+  return {
+    isLoadingKeywordDatabaseTable: getIsLoadingkeywordDatabaseTable(state),
+    keywordDatabaseTableResults: getKeywordDatabaseTableResults(state),
+    keywordDatabaseTablePaginationInfo: getKeywordDatabaseTablePaginationInfo(state),
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchKeywordDatabaseTableInformation: (payload: KeywordDatabaseTablePayload) =>
+      dispatch(fetchkeywordDatabaseTableInformation(payload)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DatabaseTable);
