@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icon, TextArea } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -10,11 +11,34 @@ import InputFilter from '../../../../components/FormFilters/InputFilter';
 /* Constants */
 import { MAX_KEYWORDS_ALLOWED } from '../../../../constants/KeywordResearch/KeywordDatabase';
 
-const DatabaseKeywordList = () => {
-  const [keywords, setKeywords] = useState<string>('keyword1,keyword2');
+/* Selectors */
+import { getKeywordDatabaseKeywordList } from '../../../../selectors/KeywordResearch/KeywordDatabase';
+
+/* Actions */
+import { fetchkeywordDatabaseRequestId } from '../../../../actions/KeywordResearch/KeywordDatabase';
+
+interface Props {
+  keywordDatabaseKeywordList: string;
+  fetchKeywordDatabaseRequestId: (payload: string) => void;
+}
+
+const DatabaseKeywordList = (props: Props) => {
+  const { keywordDatabaseKeywordList, fetchKeywordDatabaseRequestId } = props;
+
+  const [keywords, setKeywords] = useState<string>('');
   const [isTextArea, setIsTextArea] = useState<boolean>(false);
 
   const totalKeywords = keywords ? keywords.split(',').length : 0;
+
+  /* Load all keywords from state */
+  useEffect(() => {
+    setKeywords(keywordDatabaseKeywordList);
+  }, []);
+
+  /* Handle fetch keywords */
+  const handleSubmit = () => {
+    fetchKeywordDatabaseRequestId(keywords);
+  };
 
   return (
     <section className={styles.keywordListWrapper}>
@@ -51,7 +75,7 @@ const DatabaseKeywordList = () => {
       <button
         disabled={totalKeywords === 0 || totalKeywords > MAX_KEYWORDS_ALLOWED}
         className={styles.fetchKeywordsButton}
-        onClick={() => console.log('Fetch keywords')}
+        onClick={handleSubmit}
       >
         Fetch keywords
       </button>
@@ -59,4 +83,16 @@ const DatabaseKeywordList = () => {
   );
 };
 
-export default DatabaseKeywordList;
+const mapStateToProps = (state: any) => {
+  return {
+    keywordDatabaseKeywordList: getKeywordDatabaseKeywordList(state),
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchKeywordDatabaseRequestId: (payload: string) =>
+      dispatch(fetchkeywordDatabaseRequestId(payload)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(DatabaseKeywordList);
