@@ -42,8 +42,6 @@ const DatabaseKeywordList = (props: Props) => {
     fetchKeywordDatabaseRequestId(keywords);
   };
 
-  console.log(keywords.split(','));
-
   return (
     <section className={styles.keywordListWrapper}>
       <p>{MAX_KEYWORDS_ALLOWED - totalKeywords} more keywords allowed.</p>
