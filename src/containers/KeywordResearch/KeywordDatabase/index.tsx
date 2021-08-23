@@ -5,13 +5,15 @@ import styles from './index.module.scss';
 
 /* Containers */
 import DatabaseFilters from './DatabaseFilters';
-import DatabaseTable from './DatabaseTable';
 import DatabaseExport from './DatabaseExport';
+import DatabaseKeywordList from './DatabaseKeywordList';
+import DatabaseTable from './DatabaseTable';
 
 const KeywordDatabase = () => {
   return (
     <main className={styles.keywordDatabasePage}>
       <DatabaseFilters />
+      <DatabaseKeywordList />
       <DatabaseExport />
       <DatabaseTable />
     </main>
