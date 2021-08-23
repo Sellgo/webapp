@@ -44,6 +44,7 @@ const DatabaseTable = (props: Props) => {
     isLoadingKeywordDatabaseTable,
     keywordDatabaseTablePaginationInfo,
     keywordDatabaseTableResults,
+    fetchKeywordDatabaseTableInformation,
   } = props;
 
   const [sortColumn, setSortColumn] = useState<string>('');
@@ -52,10 +53,17 @@ const DatabaseTable = (props: Props) => {
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
     setSortType(sortType);
+    fetchKeywordDatabaseTableInformation({
+      sort: sortColumn,
+      sortDir: sortType,
+    });
   };
 
   const handlePageChange = (pageNo: number, perPageNo?: number) => {
-    console.log('Calling This', pageNo, perPageNo);
+    fetchKeywordDatabaseTableInformation({
+      page: pageNo,
+      per_page: perPageNo,
+    });
   };
 
   return (
