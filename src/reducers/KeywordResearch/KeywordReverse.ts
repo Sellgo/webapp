@@ -1,7 +1,10 @@
 import { AnyAction } from 'redux';
 
 /* Constants */
-import { actionTypes, makeOrGetUniqueTabID } from '../../constants/KeywordResearch/KeywordReverse';
+import { actionTypes } from '../../constants/KeywordResearch/KeywordReverse';
+
+/* Utils*/
+import { makeOrGetUniqueTabID } from '../../utils/session';
 
 const INITIAL_STATE: { [key: string]: any } = {
   [makeOrGetUniqueTabID()]: {

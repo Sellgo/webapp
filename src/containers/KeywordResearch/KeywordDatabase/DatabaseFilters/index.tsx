@@ -11,12 +11,13 @@ import FormFilterActions from '../../../../components/FormFilters/FormFilterActi
 
 /* Constants */
 import { DEFAULT_MIN_MAX_FILTER } from '../../../../constants/KeywordResearch/KeywordDatabase';
+import { DEFAULT_INCLUDE_EXCLUDE_FILTER } from '../../../../constants/KeywordResearch/KeywordReverse';
 
 const DatabaseFilters = () => {
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(true);
 
   /* Basic Filters */
-  const [keywords, setKeywords] = useState('');
+  const [searchTerm, setSearchTerm] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
   /* Advanced Filters */
   const [searchVolume, setSearchVolume] = useState(DEFAULT_MIN_MAX_FILTER);
@@ -26,7 +27,11 @@ const DatabaseFilters = () => {
 
   /* Handle Reset */
   const handleReset = () => {
-    console.log('Clicked Reset');
+    setSearchTerm(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+    setSearchVolume(DEFAULT_MIN_MAX_FILTER);
+    setWordCount(DEFAULT_MIN_MAX_FILTER);
+    setCompetingProducts(DEFAULT_MIN_MAX_FILTER);
+    setTitleDensity(DEFAULT_MIN_MAX_FILTER);
   };
 
   const handleSubmit = () => {
@@ -37,13 +42,20 @@ const DatabaseFilters = () => {
     <section className={styles.filterSection}>
       {/* Basic Filters */}
       <div className={styles.basicFilters}>
-        {/* Keywords */}
+        {/* Include Search Term */}
         <InputFilter
-          label="Keywords"
-          placeholder="Enter Keywords seperated by comma"
-          value={keywords}
-          handleChange={value => setKeywords(value)}
-          className={styles.longInput}
+          label="Include Search Term"
+          placeholder="Enter Search Term"
+          value={searchTerm.include}
+          handleChange={value => setSearchTerm(prevState => ({ ...prevState, include: value }))}
+        />
+
+        {/* Exclude Search Term */}
+        <InputFilter
+          label="Exclude Search Term"
+          placeholder="Enter Search Term"
+          value={searchTerm.exclude}
+          handleChange={value => setSearchTerm(prevState => ({ ...prevState, exclude: value }))}
         />
       </div>
 
