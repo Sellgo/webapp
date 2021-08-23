@@ -16,7 +16,7 @@ import { KeywordDatabaseProgressData } from '../../../../interfaces/KeywordResea
 
 /* Selectors */
 import {
-  getKeywordDatabaseRequestId,
+  getKeywordDatabaseProgressData,
   getShouldFetchkeywordDatabaseProgress,
 } from '../../../../selectors/KeywordResearch/KeywordDatabase';
 
@@ -45,7 +45,7 @@ const ReverseProgress = (props: Props) => {
 
   return (
     <>
-      {keywordDatabaseProgressData && (
+      {shouldFetchKeywordDatabaseProgressState && (
         <Progress
           percent={progressPercent || 0}
           progress
@@ -60,7 +60,7 @@ const ReverseProgress = (props: Props) => {
 const mapStateToProps = (state: any) => {
   return {
     shouldFetchKeywordDatabaseProgressState: getShouldFetchkeywordDatabaseProgress(state),
-    keywordDatabaseProgressData: getKeywordDatabaseRequestId(state),
+    keywordDatabaseProgressData: getKeywordDatabaseProgressData(state),
   };
 };
 

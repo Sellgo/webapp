@@ -35,7 +35,7 @@ export const getShouldFetchkeywordDatabaseProgress = (state: any) => {
   const sessionTabId = makeOrGetUniqueTabID();
 
   const stateChunk = get(state, `keywordDatabase[${sessionTabId}]`);
-  return get(stateChunk, 'shouldFetchkeywordDatabaseProgress');
+  return get(stateChunk, 'shouldFetchKeywordDatabaseProgress');
 };
 
 /* Selector to get should fetch keyword progress data */

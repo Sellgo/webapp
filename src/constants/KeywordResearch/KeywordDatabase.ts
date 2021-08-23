@@ -62,6 +62,11 @@ export const MAX_KEYWORDS_ALLOWED = 200;
 /* Default Pages Display List Options */
 export const DEFAULT_PAGES_LIST = [
   {
+    text: '20',
+    value: 20,
+    id: '20',
+  },
+  {
     text: '50',
     value: 50,
     id: '50',

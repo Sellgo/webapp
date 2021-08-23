@@ -133,7 +133,7 @@ const DatabaseTable = (props: Props) => {
       {keywordDatabaseTablePaginationInfo && keywordDatabaseTablePaginationInfo.total_pages > 0 && (
         <footer className={styles.keywordDatabasePaginationContainer}>
           <TablePagination
-            totalPages={10}
+            totalPages={keywordDatabaseTablePaginationInfo.total_pages}
             currentPage={keywordDatabaseTablePaginationInfo.current_page}
             onPageChange={handlePageChange}
             showSiblingsCount={3}
