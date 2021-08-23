@@ -79,9 +79,4 @@ export const DEFAULT_PAGES_LIST = [
     value: 100,
     id: '100',
   },
-  {
-    text: '200',
-    value: 200,
-    id: '200',
-  },
 ];

@@ -238,8 +238,8 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (dispatc
       dispatch(setAsinListForKeywordReverse(asinList));
       dispatch(isFetchingKeywordReverseRequestId(false));
 
-      // wait to 2 seconds
-      await timeout(2000);
+      // wait to 0.5 seconds
+      await timeout(500);
       success('Fetching keywords');
       // dispatch the keyword request progress process
       dispatch(

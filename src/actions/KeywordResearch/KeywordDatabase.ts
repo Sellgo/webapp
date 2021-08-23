@@ -239,8 +239,8 @@ export const fetchKeywordDatabaseRequestId = (keywordList: string) => async (dis
       dispatch(setKeywordListForKeywordDatabase(keywordList));
       dispatch(isFetchingKeywordDatabaseRequestId(false));
 
-      // wait to 2 seconds
-      await timeout(1200);
+      // wait to 0.5 seconds
+      await timeout(500);
       success('Fetching keywords');
       // dispatch the keyword request progress process
       dispatch(

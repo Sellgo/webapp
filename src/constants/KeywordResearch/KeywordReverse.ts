@@ -59,3 +59,22 @@ export const EXPORT_FORMATS = [
 export const EXPORT_DATA = [{ key: 'all', value: 'all', text: 'All Results' }];
 
 export const MAX_ASINS_ALLOWED = 10;
+
+/* Default Pages Display List Options */
+export const DEFAULT_PAGES_LIST = [
+  {
+    text: '20',
+    value: 20,
+    id: '20',
+  },
+  {
+    text: '50',
+    value: 50,
+    id: '50',
+  },
+  {
+    text: '100',
+    value: 100,
+    id: '100',
+  },
+];
