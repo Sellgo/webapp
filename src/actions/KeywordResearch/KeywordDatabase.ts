@@ -26,7 +26,7 @@ import { timeout } from '../../utils/timeout';
 /* ============== KEYWORD DATABASE REQUEST ================== */
 
 /* Action for setting fetching state for keyword request id */
-export const isFetchingkeywordDatabaseRequestId = (payload: boolean) => {
+export const isFetchingKeywordDatabaseRequestId = (payload: boolean) => {
   return {
     type: actionTypes.IS_FETCHING_KEYWORD_DATABASE_REQUEST_ID,
     payload,
@@ -34,7 +34,7 @@ export const isFetchingkeywordDatabaseRequestId = (payload: boolean) => {
 };
 
 /* Action for setting  keyword request id */
-export const setkeywordDatabaseRequestId = (payload: string) => {
+export const setKeywordDatabaseRequestId = (payload: string) => {
   sessionStorage.setItem('keywordDatabaseRequestId', payload);
   return {
     type: actionTypes.SET_KEYWORD_DATABASE_REQUEST_ID,
@@ -43,7 +43,7 @@ export const setkeywordDatabaseRequestId = (payload: string) => {
 };
 
 /* Action to set asin list for keyword database */
-export const setkeywordListForkeywordDatabase = (payload: string) => {
+export const setKeywordListForkeywordDatabase = (payload: string) => {
   sessionStorage.setItem('keywordDatabaseKeywordList', payload);
   return {
     type: actionTypes.SET_KEYWORDS_LIST_FOR_KEYWORD_DATABASE,
@@ -62,7 +62,7 @@ export const shouldFetchkeywordDatabaseProgress = (payload: boolean) => {
 };
 
 /* Action to set the progress data for keyword database */
-export const setkeywordDatabaseProgressData = (payload: KeywordDatabaseProgressData) => {
+export const setKeywordDatabaseProgressData = (payload: KeywordDatabaseProgressData) => {
   sessionStorage.setItem('keywordDatabaseProgressData', JSON.stringify(payload));
   return {
     type: actionTypes.SET_KEYWORD_DATABASE_PROGRESS_DATA,
@@ -73,7 +73,7 @@ export const setkeywordDatabaseProgressData = (payload: KeywordDatabaseProgressD
 /* ============== KEYWORD REVERSE TABLE ================== */
 
 /* Action to set loading state for keyword database  */
-export const isLoadingkeywordDatabaseTable = (payload: boolean) => {
+export const isLoadingKeywordDatabaseTable = (payload: boolean) => {
   return {
     type: actionTypes.IS_LOADING_KEYWORD_DATABASE_TABLE,
     payload,
@@ -81,7 +81,7 @@ export const isLoadingkeywordDatabaseTable = (payload: boolean) => {
 };
 
 /* Action to set the keyword database table results */
-export const setkeywordDatabaseTableResults = (payload: any) => {
+export const setKeywordDatabaseTableResults = (payload: any) => {
   return {
     type: actionTypes.SET_KEYWORD_DATABASE_TABLE_RESULTS,
     payload,
@@ -89,7 +89,7 @@ export const setkeywordDatabaseTableResults = (payload: any) => {
 };
 
 /* Action to set keyword database table pagination info */
-export const setkeywordDatabaseTablePaginationInfo = (payload: KeywordDatabasePaginationInfo) => {
+export const setKeywordDatabaseTablePaginationInfo = (payload: KeywordDatabasePaginationInfo) => {
   return {
     type: actionTypes.SET_KEYWORD_DATABASE_TABLE_PAGINATION_INFO,
     payload,
@@ -185,26 +185,26 @@ export const fetchKeywordDatabaseProgress = () => async (dispatch: any, getState
 
     if (isFailedStatus) {
       dispatch(shouldFetchkeywordDatabaseProgress(false));
-      dispatch(setkeywordDatabaseProgressData(data));
+      dispatch(setKeywordDatabaseProgressData(data));
       error('Error: Failed on progress');
       return;
     }
 
     if (!isFailedStatus) {
-      dispatch(setkeywordDatabaseProgressData(data));
+      dispatch(setKeywordDatabaseProgressData(data));
       // if not completed should fetch again else not
       dispatch(shouldFetchkeywordDatabaseProgress(!isCompleted));
 
       if (isCompleted) {
         // if completed fetch table data and run loader
-        dispatch(fetchkeywordDatabaseTableInformation({ enableLoader: true }));
+        dispatch(fetchKeywordDatabaseTableInformation({ enableLoader: true }));
       }
     }
   } catch (err) {
     console.error('Error fetching keyword progress');
     dispatch(shouldFetchkeywordDatabaseProgress(false));
     dispatch(
-      setkeywordDatabaseProgressData({
+      setKeywordDatabaseProgressData({
         status: 'failed',
         progress: '',
         id: 0,
@@ -216,7 +216,7 @@ export const fetchKeywordDatabaseProgress = () => async (dispatch: any, getState
 };
 
 /* Action to fetch keyword database request id using asins */
-export const fetchkeywordDatabaseRequestId = (keywordList: string) => async (dispatch: any) => {
+export const fetchKeywordDatabaseRequestId = (keywordList: string) => async (dispatch: any) => {
   try {
     const sellerID = sellerIDSelector();
 
@@ -229,22 +229,22 @@ export const fetchkeywordDatabaseRequestId = (keywordList: string) => async (dis
       payload
     );
 
-    dispatch(isFetchingkeywordDatabaseRequestId(true));
+    dispatch(isFetchingKeywordDatabaseRequestId(true));
 
     if (data) {
       const { keyword_request_id: keywordRequestId } = data;
       // set keyword request id
-      dispatch(setkeywordDatabaseRequestId(keywordRequestId));
+      dispatch(setKeywordDatabaseRequestId(keywordRequestId));
       // set the asin list for future use
-      dispatch(setkeywordListForkeywordDatabase(keywordList));
-      dispatch(isFetchingkeywordDatabaseRequestId(false));
+      dispatch(setKeywordListForkeywordDatabase(keywordList));
+      dispatch(isFetchingKeywordDatabaseRequestId(false));
 
       // wait to 2 seconds
       await timeout(1200);
       success('Fetching keywords');
       // dispatch the keyword request progress process
       dispatch(
-        setkeywordDatabaseProgressData({
+        setKeywordDatabaseProgressData({
           seller: 0,
           status: '',
           progress: '',
@@ -254,20 +254,20 @@ export const fetchkeywordDatabaseRequestId = (keywordList: string) => async (dis
       );
       dispatch(shouldFetchkeywordDatabaseProgress(true));
     } else {
-      dispatch(setkeywordDatabaseRequestId(''));
-      dispatch(setkeywordListForkeywordDatabase(keywordList));
-      dispatch(isFetchingkeywordDatabaseRequestId(false));
+      dispatch(setKeywordDatabaseRequestId(''));
+      dispatch(setKeywordListForkeywordDatabase(keywordList));
+      dispatch(isFetchingKeywordDatabaseRequestId(false));
       dispatch(shouldFetchkeywordDatabaseProgress(false));
     }
   } catch (err) {
     console.log('Error fetching the keyword request Id', err.response);
-    dispatch(setkeywordDatabaseRequestId(''));
-    dispatch(isFetchingkeywordDatabaseRequestId(false));
+    dispatch(setKeywordDatabaseRequestId(''));
+    dispatch(isFetchingKeywordDatabaseRequestId(false));
   }
 };
 
 /* Action to fetch the keyword database table information */
-export const fetchkeywordDatabaseTableInformation = (
+export const fetchKeywordDatabaseTableInformation = (
   payload: KeywordDatabaseTablePayload
 ) => async (dispatch: any, getState: any) => {
   // const sellerID = sellerIDSelector();
@@ -288,10 +288,10 @@ export const fetchkeywordDatabaseTableInformation = (
     // reset the filter
     if (resetFilter) {
       removekeywordDatabaseFilters();
-      dispatch(isLoadingkeywordDatabaseTable(false));
-      dispatch(setkeywordDatabaseTableResults([]));
+      dispatch(isLoadingKeywordDatabaseTable(false));
+      dispatch(setKeywordDatabaseTableResults([]));
       dispatch(
-        setkeywordDatabaseTablePaginationInfo({
+        setKeywordDatabaseTablePaginationInfo({
           total_pages: 0,
           current_page: 0,
           count: 0,
@@ -334,7 +334,7 @@ export const fetchkeywordDatabaseTableInformation = (
     // full resource path
     const resourcePath = `?${pagination}&${perPage}&${sortingValue}&${sortDirection}${filtersQueryString}`;
 
-    dispatch(isLoadingkeywordDatabaseTable(enableLoader));
+    dispatch(isLoadingKeywordDatabaseTable(enableLoader));
 
     const { data } = await axios.get(
       `${AppConfig.BASE_URL_API}sellers/${sellerID}/keywords${resourcePath}&${keywordRequestIdQuery}`
@@ -343,22 +343,22 @@ export const fetchkeywordDatabaseTableInformation = (
     const { results, ...paginationInfo } = data;
 
     if (data) {
-      dispatch(setkeywordDatabaseTableResults(results));
-      dispatch(setkeywordDatabaseTablePaginationInfo(paginationInfo));
-      dispatch(isLoadingkeywordDatabaseTable(false));
+      dispatch(setKeywordDatabaseTableResults(results));
+      dispatch(setKeywordDatabaseTablePaginationInfo(paginationInfo));
+      dispatch(isLoadingKeywordDatabaseTable(false));
     }
   } catch (err) {
     console.error('Error fetching keyword database table', err.response);
 
-    dispatch(setkeywordDatabaseTableResults([]));
+    dispatch(setKeywordDatabaseTableResults([]));
     dispatch(
-      setkeywordDatabaseTablePaginationInfo({
+      setKeywordDatabaseTablePaginationInfo({
         count: 0,
         current_page: 0,
         total_pages: 0,
         per_page: 0,
       })
     );
-    dispatch(isLoadingkeywordDatabaseTable(false));
+    dispatch(isLoadingKeywordDatabaseTable(false));
   }
 };

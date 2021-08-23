@@ -23,7 +23,7 @@ import {
 } from '../../../../selectors/KeywordResearch/KeywordDatabase';
 
 /* Actions */
-import { fetchkeywordDatabaseTableInformation } from '../../../../actions/KeywordResearch/KeywordDatabase';
+import { fetchKeywordDatabaseTableInformation } from '../../../../actions/KeywordResearch/KeywordDatabase';
 
 /* Interfaces */
 import {
@@ -158,7 +158,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchKeywordDatabaseTableInformation: (payload: KeywordDatabaseTablePayload) =>
-      dispatch(fetchkeywordDatabaseTableInformation(payload)),
+      dispatch(fetchKeywordDatabaseTableInformation(payload)),
   };
 };
 

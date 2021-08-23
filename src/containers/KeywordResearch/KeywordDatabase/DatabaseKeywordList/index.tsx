@@ -15,7 +15,7 @@ import { MAX_KEYWORDS_ALLOWED } from '../../../../constants/KeywordResearch/Keyw
 import { getKeywordDatabaseKeywordList } from '../../../../selectors/KeywordResearch/KeywordDatabase';
 
 /* Actions */
-import { fetchkeywordDatabaseRequestId } from '../../../../actions/KeywordResearch/KeywordDatabase';
+import { fetchKeywordDatabaseRequestId } from '../../../../actions/KeywordResearch/KeywordDatabase';
 
 interface Props {
   keywordDatabaseKeywordList: string;
@@ -92,7 +92,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchKeywordDatabaseRequestId: (payload: string) =>
-      dispatch(fetchkeywordDatabaseRequestId(payload)),
+      dispatch(fetchKeywordDatabaseRequestId(payload)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DatabaseKeywordList);
