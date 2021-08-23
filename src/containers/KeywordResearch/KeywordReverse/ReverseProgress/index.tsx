@@ -2,6 +2,11 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { Progress } from 'semantic-ui-react';
+
+/* Styling */
+import '../../../../styles/progressReset.scss';
+
+/* Actions */
 import {
   fetchKeywordReverseProgress,
   shouldFetchKeywordReverseProgress,
@@ -13,13 +18,11 @@ import { useInterval } from '../../../../hooks/useInterval';
 /* Inerfaces */
 import { KeywordReverseProgressData } from '../../../../interfaces/KeywordResearch/KeywordReverse';
 
+/* Selectors */
 import {
   getKeywordReverseProgressData,
   getShouldFetchKeywordReverseProgress,
 } from '../../../../selectors/KeywordResearch/KeywordReverse';
-
-/* Styling */
-import '../../../../styles/progressReset.scss';
 
 interface Props {
   shouldFetchKeywordReverseProgressState: boolean;

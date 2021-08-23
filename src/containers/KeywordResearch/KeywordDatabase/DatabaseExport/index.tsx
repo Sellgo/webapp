@@ -11,8 +11,8 @@ import { success } from '../../../../utils/notifications';
 
 /* Selectors */
 import {
-  getkeywordDatabaseProgressData,
-  getkeywordDatabaseTablePaginationInfo,
+  getKeywordDatabaseProgressData,
+  getKeywordDatabaseTablePaginationInfo,
 } from '../../../../selectors/KeywordResearch/KeywordDatabase';
 
 /* Interface */
@@ -83,8 +83,8 @@ const DatabaseExport = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    keywordDatabaseProgressData: getkeywordDatabaseProgressData(state),
-    keywordDatabasePaginationInfo: getkeywordDatabaseTablePaginationInfo(state),
+    keywordDatabaseProgressData: getKeywordDatabaseProgressData(state),
+    keywordDatabasePaginationInfo: getKeywordDatabaseTablePaginationInfo(state),
   };
 };
 

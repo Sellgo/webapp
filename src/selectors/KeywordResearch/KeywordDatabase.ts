@@ -13,7 +13,7 @@ export const getIsFetchingkeywordDatabaseRequestId = (state: any) => {
 };
 
 /* Selector to get current keyword request Id */
-export const getkeywordDatabaseRequestId = (state: any) => {
+export const getKeywordDatabaseRequestId = (state: any) => {
   const sessionTabId = makeOrGetUniqueTabID();
 
   const stateChunk = get(state, `keywordDatabase[${sessionTabId}]`);
@@ -21,7 +21,7 @@ export const getkeywordDatabaseRequestId = (state: any) => {
 };
 
 /* Selector to get current asins for keyword database */
-export const getkeywordDatabaseKeywordList = (state: any) => {
+export const getKeywordDatabaseKeywordList = (state: any) => {
   const sessionTabId = makeOrGetUniqueTabID();
 
   const stateChunk = get(state, `keywordDatabase[${sessionTabId}]`);
@@ -39,7 +39,7 @@ export const getShouldFetchkeywordDatabaseProgress = (state: any) => {
 };
 
 /* Selector to get should fetch keyword progress data */
-export const getkeywordDatabaseProgressData = (state: any) => {
+export const getKeywordDatabaseProgressData = (state: any) => {
   const sessionTabId = makeOrGetUniqueTabID();
 
   const stateChunk = get(state, `keywordDatabase[${sessionTabId}]`);
@@ -57,7 +57,7 @@ export const getIsLoadingkeywordDatabaseTable = (state: any) => {
 };
 
 /* Selector to get keyword database table results */
-export const getkeywordDatabaseTableResults = (state: any) => {
+export const getKeywordDatabaseTableResults = (state: any) => {
   const sessionTabId = makeOrGetUniqueTabID();
 
   const stateChunk = get(state, `keywordDatabase[${sessionTabId}]`);
@@ -65,7 +65,7 @@ export const getkeywordDatabaseTableResults = (state: any) => {
 };
 
 /* Selector to get keyword database table pagination info */
-export const getkeywordDatabaseTablePaginationInfo = (state: any) => {
+export const getKeywordDatabaseTablePaginationInfo = (state: any) => {
   const sessionTabId = makeOrGetUniqueTabID();
 
   const stateChunk = get(state, `keywordDatabase[${sessionTabId}]`);

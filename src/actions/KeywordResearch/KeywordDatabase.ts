@@ -16,7 +16,7 @@ import {
 } from '../../interfaces/KeywordResearch/KeywordDatabase';
 
 /* Selectors */
-import { getkeywordDatabaseRequestId } from '../../selectors/KeywordResearch/KeywordDatabase';
+import { getKeywordDatabaseRequestId } from '../../selectors/KeywordResearch/KeywordDatabase';
 import { sellerIDSelector } from '../../selectors/Seller';
 
 /* Utils */
@@ -165,11 +165,11 @@ export const parseFilters = (keywordDatabaseFilter: any) => {
 
 /* ============== KEYWORD PROGRESS ================== */
 
-export const fetchkeywordDatabaseProgress = () => async (dispatch: any, getState: any) => {
+export const fetchKeywordDatabaseProgress = () => async (dispatch: any, getState: any) => {
   try {
     const sellerID = sellerIDSelector();
 
-    const keywordRequestId = getkeywordDatabaseRequestId(getState());
+    const keywordRequestId = getKeywordDatabaseRequestId(getState());
 
     if (!keywordRequestId) {
       return;
@@ -322,7 +322,7 @@ export const fetchkeywordDatabaseTableInformation = (
     const sortingValue = `sort=${sort}`;
     const perPage = `per_page=${per_page}`;
 
-    const keywordRequestId = getkeywordDatabaseRequestId(getState());
+    const keywordRequestId = getKeywordDatabaseRequestId(getState());
 
     // if no keyword ID return
     if (!keywordRequestId) {
