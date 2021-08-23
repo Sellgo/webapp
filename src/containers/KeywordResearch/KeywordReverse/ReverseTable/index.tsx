@@ -118,7 +118,7 @@ const ReverseTable = (props: Props) => {
           <StatsCell dataKey="competing_products" prependWith="> " align="center" />
         </Table.Column>
 
-        {/* Position  */}
+        {/* Position Rank */}
         <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
@@ -131,7 +131,7 @@ const ReverseTable = (props: Props) => {
           <StatsCell dataKey="position_rank" align="center" />
         </Table.Column>
 
-        {/* Position  */}
+        {/* Relative Rank  */}
         <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell

@@ -9,6 +9,7 @@ import './global.scss';
 
 /* Components */
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
+import StatsCell from '../../../../components/NewTable/StatsCell';
 import SearchTerm from './SearchTerm';
 import TablePagination from '../../../../components/NewTable/Pagination';
 
@@ -31,8 +32,6 @@ import {
   KeywordDatabaseTablePayload,
 } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
 
-const fakeData = Array(10).fill({ title: 'sample' });
-
 interface Props {
   isLoadingKeywordDatabaseTable: boolean;
   keywordDatabaseTableResults: any;
@@ -41,7 +40,11 @@ interface Props {
 }
 
 const DatabaseTable = (props: Props) => {
-  const { isLoadingKeywordDatabaseTable, keywordDatabaseTablePaginationInfo } = props;
+  const {
+    isLoadingKeywordDatabaseTable,
+    keywordDatabaseTablePaginationInfo,
+    keywordDatabaseTableResults,
+  } = props;
 
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
@@ -59,7 +62,7 @@ const DatabaseTable = (props: Props) => {
     <section className={styles.keywordDatabaseTableWrapper}>
       <Table
         loading={isLoadingKeywordDatabaseTable}
-        data={fakeData}
+        data={keywordDatabaseTableResults}
         autoHeight
         hover={false}
         rowHeight={65}
@@ -72,11 +75,11 @@ const DatabaseTable = (props: Props) => {
         {/* Search Term */}
         <Table.Column verticalAlign="middle" fixed align="left" flexGrow={1}>
           <Table.HeaderCell>Search Term</Table.HeaderCell>
-          <SearchTerm dataKey="phrase" />
+          <SearchTerm dataKey="searchTerm" />
         </Table.Column>
 
         {/* Search Volume */}
-        <Table.Column width={150} verticalAlign="middle" fixed align="center" sortable flexGrow={1}>
+        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Search\nVolume`}
@@ -85,24 +88,11 @@ const DatabaseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <Table.Cell>125,235</Table.Cell>
+          <StatsCell dataKey="search_volume" align="center" />
         </Table.Column>
 
-        {/* Search Volume L30D */}
-        <Table.Column width={150} verticalAlign="middle" fixed align="center" sortable flexGrow={1}>
-          <Table.HeaderCell>
-            <HeaderSortCell
-              title={`Search\nVolume L30D`}
-              dataKey="search_volume_30_days"
-              currentSortColumn={sortColumn}
-              currentSortType={sortType}
-            />
-          </Table.HeaderCell>
-          <Table.Cell>+25%</Table.Cell>
-        </Table.Column>
-
-        {/* Sponsored ASINs */}
-        <Table.Column width={150} verticalAlign="middle" fixed align="center" sortable flexGrow={1}>
+        {/* Sponsored ASINS */}
+        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Sponsored\nASINs`}
@@ -111,25 +101,76 @@ const DatabaseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <Table.Cell>321</Table.Cell>
+          <StatsCell dataKey="sponsored_asins" align="center" />
         </Table.Column>
 
-        {/* Competing Products */}
-        <Table.Column width={150} verticalAlign="middle" fixed align="center" sortable flexGrow={1}>
+        {/* Competing Products  */}
+        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Competing\nProducts `}
-              dataKey="competing products"
+              title={`Competing\nProducts`}
+              dataKey="competing_products"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <Table.Cell>{'>1,0000'}</Table.Cell>
+          <StatsCell dataKey="competing_products" prependWith="> " align="center" />
+        </Table.Column>
+
+        {/* Position Rank */}
+        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Position\nRank`}
+              dataKey="position_rank"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="position_rank" align="center" />
+        </Table.Column>
+
+        {/* Relative Rank  */}
+        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Relative\nRank`}
+              dataKey="relative_rank"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="relative_rank" align="center" />
+        </Table.Column>
+
+        {/* Competitor Rank  */}
+        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Competitor\nRank(avg)`}
+              dataKey="competitor_rank_avg"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="competitor_rank_avg" align="center" />
+        </Table.Column>
+
+        {/* Ranking Competitors  */}
+        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Ranking\nCompetitors`}
+              dataKey="ranking_competitors_count"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="ranking_competitors_count" align="center" />
         </Table.Column>
       </Table>
 
       {/* Pagination */}
-
       {keywordDatabaseTablePaginationInfo && keywordDatabaseTablePaginationInfo.total_pages > 0 && (
         <footer className={styles.keywordDatabasePaginationContainer}>
           <TablePagination

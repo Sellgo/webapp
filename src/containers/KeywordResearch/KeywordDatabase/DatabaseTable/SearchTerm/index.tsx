@@ -15,18 +15,23 @@ import bestSellerLabel from '../../../../../assets/images/best-seller.png';
 import { RowCell } from '../../../../../interfaces/Table';
 
 const SearchTerm = (props: RowCell) => {
+  const { rowData } = props;
+
+  const { phrase, amazon_choice_asins, best_seller_asins } = rowData;
   return (
     <Table.Cell {...props}>
       <div className={styles.searchTermContainer}>
         <CopyAndLocateClipboard
-          data={'fidget toys'}
-          displayData={'fidget toys'}
+          data={phrase}
+          displayData={phrase}
           className={styles.searchTerm}
-          link={`https://www.amazon.com/s?k=${''}`}
+          link={`https://www.amazon.com/s?k=${phrase}`}
         />
         <div className={styles.labels}>
-          {<AmazonChoiceLabel />}
-          {<img src={bestSellerLabel} alt="Amazon Best Seller Label" />}
+          {amazon_choice_asins > 0 ? <AmazonChoiceLabel /> : null}
+          {best_seller_asins > 0 ? (
+            <img src={bestSellerLabel} alt="Amazon Best Seller Label" />
+          ) : null}
         </div>
       </div>
     </Table.Cell>
