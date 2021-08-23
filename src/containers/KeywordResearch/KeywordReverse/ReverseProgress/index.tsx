@@ -11,7 +11,7 @@ import {
 import { useInterval } from '../../../../hooks/useInterval';
 
 /* Inerfaces */
-import { ReverseKeywordProgressData } from '../../../../interfaces/KeywordResearch/KeywordReverse';
+import { KeywordReverseProgressData } from '../../../../interfaces/KeywordResearch/KeywordReverse';
 
 import {
   getKeywordReverseProgressData,
@@ -23,7 +23,7 @@ import '../../../../styles/progressReset.scss';
 
 interface Props {
   shouldFetchKeywordReverseProgressState: boolean;
-  keywordReverseProgressData: ReverseKeywordProgressData;
+  keywordReverseProgressData: KeywordReverseProgressData;
   fetchKeywordReverseProgress: () => void;
   shouldFetchKeywordReverseProgressAction: (payload: boolean) => void;
 }

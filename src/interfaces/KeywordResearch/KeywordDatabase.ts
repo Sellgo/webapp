@@ -1,4 +1,4 @@
-export interface KeywordReverseTablePayload {
+export interface KeywordDatabaseTablePayload {
   page?: number;
   per_page?: number;
   sort?: string;
@@ -8,7 +8,7 @@ export interface KeywordReverseTablePayload {
   enableLoader?: boolean;
 }
 
-export interface KeywordReversePaginationInfo {
+export interface KeywordDatabasePaginationInfo {
   count: number;
   total_pages: number;
   per_page: number;
@@ -17,7 +17,7 @@ export interface KeywordReversePaginationInfo {
   previous?: string;
 }
 
-export interface KeywordReverseProgressData {
+export interface KeywordDatabaseProgressData {
   id: number;
   seller: number;
   progress: string;

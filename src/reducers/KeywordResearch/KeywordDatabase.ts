@@ -1,7 +1,7 @@
 import { AnyAction } from 'redux';
 
 /* Constants */
-import { actionTypes } from '../../constants/KeywordResearch/KeywordReverse';
+import { actionTypes } from '../../constants/KeywordResearch/KeywordDatabase';
 
 /* Utils*/
 import { makeOrGetUniqueTabID } from '../../utils/session';
@@ -9,14 +9,14 @@ import { makeOrGetUniqueTabID } from '../../utils/session';
 const INITIAL_STATE: { [key: string]: any } = {
   [makeOrGetUniqueTabID()]: {
     // keyword request id state
-    isFetchingKeywordReverseRequestId: false,
-    keywordReverseRequestId: sessionStorage.getItem('keywordReverseRequestId') || '',
-    asinListForKeywordReverse: sessionStorage.getItem('keywordReverseAsinList') || '',
+    isFetchingKeywordDatabaseRequestId: false,
+    keywordDatabaseRequestId: sessionStorage.getItem('keywordDatabaseRequestId') || '',
+    keywordsListForKeywordDatabase: sessionStorage.getItem('keywordDatabaseKeywordList') || '',
 
     // keyword request progress state
-    shouldFetchKeywordReverseProgress: false,
-    keywordReverseProgressData: JSON.parse(
-      sessionStorage.getItem('keywordReverseProgressData') ||
+    shouldFetchKeywordDatabaseProgress: false,
+    keywordDatabaseProgressData: JSON.parse(
+      sessionStorage.getItem('keywordDatabaseProgressData') ||
         JSON.stringify({
           id: 0,
           seller: 0,
@@ -27,9 +27,9 @@ const INITIAL_STATE: { [key: string]: any } = {
     ),
 
     // table state
-    isLoadingKeywordReverseTable: false,
-    keywordReverseTableResults: [],
-    keywordReverseTablePaginationInfo: {
+    isLoadingKeywordDatabaseTable: false,
+    keywordDatabaseTableResults: [],
+    keywordDatabaseTablePaginationInfo: {
       count: 0,
       total_pages: 0,
       current_page: 0,
@@ -38,7 +38,7 @@ const INITIAL_STATE: { [key: string]: any } = {
   },
 };
 
-const keywordReverseReducer = (state = INITIAL_STATE, action: AnyAction) => {
+const keywordDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
   const sessionTab = makeOrGetUniqueTabID();
 
   const sessionStateChunk = state[sessionTab];
@@ -46,87 +46,87 @@ const keywordReverseReducer = (state = INITIAL_STATE, action: AnyAction) => {
   switch (action.type) {
     /* ================= KEYWORD REQUEST ==================== */
     /* Keyword Request Reducers */
-    case actionTypes.IS_FETCHING_KEYWORD_REVERSE_REQUEST_ID: {
+    case actionTypes.IS_FETCHING_KEYWORD_DATABASE_REQUEST_ID: {
       return {
         ...state,
         [sessionTab]: {
           ...sessionStateChunk,
-          isFetchingKeywordReverseRequestId: action.payload,
+          isFetchingKeywordDatabaseRequestId: action.payload,
         },
       };
     }
 
-    case actionTypes.SET_KEYWORD_REVERSE_REQUEST_ID: {
+    case actionTypes.SET_KEYWORD_DATABASE_REQUEST_ID: {
       return {
         ...state,
         [sessionTab]: {
           ...sessionStateChunk,
-          keywordReverseRequestId: action.payload,
+          keywordDatabaseRequestId: action.payload,
         },
       };
     }
 
-    case actionTypes.SET_ASIN_LIST_FOR_KEYWORD_REVERSE: {
+    case actionTypes.SET_KEYWORDS_LIST_FOR_KEYWORD_DATABASE: {
       return {
         ...state,
         [sessionTab]: {
           ...sessionStateChunk,
-          asinListForKeywordReverse: action.payload,
+          keywordsListForKeywordDatabase: action.payload,
         },
       };
     }
 
     /* ================= KEYWORD PROGRESS =============== */
-    case actionTypes.SHOULD_FETCH_KEYWORD_REVERSE_PROGRESS: {
+    case actionTypes.SHOULD_FETCH_KEYWORD_DATABASE_PROGRESS: {
       return {
         ...state,
         [sessionTab]: {
           ...sessionStateChunk,
-          shouldFetchKeywordReverseProgress: action.payload,
+          shouldFetchKeywordDatabaseProgress: action.payload,
         },
       };
     }
 
-    case actionTypes.SET_KEYWORD_REVERSE_PROGRESS_DATA: {
+    case actionTypes.SET_KEYWORD_DATABASE_PROGRESS_DATA: {
       return {
         ...state,
         [sessionTab]: {
           ...sessionStateChunk,
-          keywordReverseProgressData: action.payload,
+          keywordDatabaseProgressData: action.payload,
         },
       };
     }
 
-    /* =================== REVERSE TABLE =================== */
+    /* =================== DATABASE TABLE =================== */
     // Set loading state
-    case actionTypes.IS_LOADING_KEYWORD_REVERSE_TABLE: {
+    case actionTypes.IS_LOADING_KEYWORD_DATABASE_TABLE: {
       return {
         ...state,
         [sessionTab]: {
           ...sessionStateChunk,
-          isLoadingKeywordReverseTable: action.payload,
+          isLoadingKeywordDatabaseTable: action.payload,
         },
       };
     }
 
     // Set results
-    case actionTypes.SET_KEYWORD_REVERSE_TABLE_RESULTS: {
+    case actionTypes.SET_KEYWORD_DATABASE_TABLE_RESULTS: {
       return {
         ...state,
         [sessionTab]: {
           ...sessionStateChunk,
-          keywordReverseTableResults: action.payload,
+          keywordDatabaseTableResults: action.payload,
         },
       };
     }
 
     // Set pagination results
-    case actionTypes.SET_KEYWORD_REVERSE_TABLE_PAGINATION_INFO: {
+    case actionTypes.SET_KEYWORD_DATABASE_TABLE_PAGINATION_INFO: {
       return {
         ...state,
         [sessionTab]: {
           ...sessionStateChunk,
-          keywordReverseTablePaginationInfo: action.payload,
+          keywordDatabaseTablePaginationInfo: action.payload,
         },
       };
     }
@@ -137,4 +137,4 @@ const keywordReverseReducer = (state = INITIAL_STATE, action: AnyAction) => {
   }
 };
 
-export default keywordReverseReducer;
+export default keywordDatabaseReducer;

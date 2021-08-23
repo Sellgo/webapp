@@ -50,19 +50,6 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   competingProducts: { keyName: 'competing_products', type: F_TYPES.MIN_MAX },
 };
 
-// /* Generate a unique session ID  */
-// export const makeOrGetUniqueTabID = () => {
-//   let value = window.sessionStorage.getItem('unique-session-tab-id');
-
-//   if (!value || !window.name) {
-//     value = uuid();
-//     window.sessionStorage.setItem('unique-session-tab-id', value);
-//   }
-
-//   window.name = value;
-//   return value;
-// };
-
 /* Exports data */
 export const EXPORT_FORMATS = [
   // { key: 'csv', value: 'csv', text: '.CSV' },

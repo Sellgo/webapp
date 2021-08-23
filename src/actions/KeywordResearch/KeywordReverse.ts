@@ -12,7 +12,7 @@ import {
 import {
   KeywordReversePaginationInfo,
   KeywordReverseTablePayload,
-  ReverseKeywordProgressData,
+  KeywordReverseProgressData,
 } from '../../interfaces/KeywordResearch/KeywordReverse';
 
 /* Selectors */
@@ -35,7 +35,7 @@ export const isFetchingKeywordReverseRequestId = (payload: boolean) => {
 
 /* Action for setting  keyword request id */
 export const setKeywordReverseRequestId = (payload: string) => {
-  sessionStorage.setItem('keywordRequestId', payload);
+  sessionStorage.setItem('keywordReverseRequestId', payload);
   return {
     type: actionTypes.SET_KEYWORD_REVERSE_REQUEST_ID,
     payload,
@@ -44,7 +44,7 @@ export const setKeywordReverseRequestId = (payload: string) => {
 
 /* Action to set asin list for keyword reverse */
 export const setAsinListForKeywordReverse = (payload: string) => {
-  sessionStorage.setItem('asinListForKeywords', payload);
+  sessionStorage.setItem('keywordReverseAsinList', payload);
   return {
     type: actionTypes.SET_ASIN_LIST_FOR_KEYWORD_REVERSE,
     payload,
@@ -62,7 +62,7 @@ export const shouldFetchKeywordReverseProgress = (payload: boolean) => {
 };
 
 /* Action to set the progress data for keyword reverse */
-export const setKeywordReverseProgressData = (payload: ReverseKeywordProgressData) => {
+export const setKeywordReverseProgressData = (payload: KeywordReverseProgressData) => {
   sessionStorage.setItem('keywordReverseProgressData', JSON.stringify(payload));
   return {
     type: actionTypes.SET_KEYWORD_REVERSE_PROGRESS_DATA,
