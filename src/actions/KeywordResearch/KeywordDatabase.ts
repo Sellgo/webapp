@@ -6,123 +6,123 @@ import {
   actionTypes,
   FILTER_QUERY_KEY_MAPPER,
   F_TYPES,
-} from '../../constants/KeywordResearch/KeywordReverse';
+} from '../../constants/KeywordResearch/KeywordDatabase';
 
 /* Interfaces */
 import {
-  KeywordReversePaginationInfo,
-  KeywordReverseTablePayload,
-  KeywordReverseProgressData,
-} from '../../interfaces/KeywordResearch/KeywordReverse';
+  KeywordDatabasePaginationInfo,
+  KeywordDatabaseTablePayload,
+  KeywordDatabaseProgressData,
+} from '../../interfaces/KeywordResearch/KeywordDatabase';
 
 /* Selectors */
-import { getKeywordReverseRequestId } from '../../selectors/KeywordResearch/KeywordReverse';
+import { getkeywordDatabaseRequestId } from '../../selectors/KeywordResearch/KeywordDatabase';
 import { sellerIDSelector } from '../../selectors/Seller';
 
 /* Utils */
 import { error, success } from '../../utils/notifications';
 import { timeout } from '../../utils/timeout';
 
-/* ============== KEYWORD REQUEST ================== */
+/* ============== KEYWORD DATABASE REQUEST ================== */
 
 /* Action for setting fetching state for keyword request id */
-export const isFetchingKeywordReverseRequestId = (payload: boolean) => {
+export const isFetchingkeywordDatabaseRequestId = (payload: boolean) => {
   return {
-    type: actionTypes.IS_FETCHING_KEYWORD_REVERSE_REQUEST_ID,
+    type: actionTypes.IS_FETCHING_KEYWORD_DATABASE_REQUEST_ID,
     payload,
   };
 };
 
 /* Action for setting  keyword request id */
-export const setKeywordReverseRequestId = (payload: string) => {
-  sessionStorage.setItem('keywordReverseRequestId', payload);
+export const setkeywordDatabaseRequestId = (payload: string) => {
+  sessionStorage.setItem('keywordDatabaseRequestId', payload);
   return {
-    type: actionTypes.SET_KEYWORD_REVERSE_REQUEST_ID,
+    type: actionTypes.SET_KEYWORD_DATABASE_REQUEST_ID,
     payload,
   };
 };
 
-/* Action to set asin list for keyword reverse */
-export const setAsinListForKeywordReverse = (payload: string) => {
-  sessionStorage.setItem('keywordReverseAsinList', payload);
+/* Action to set asin list for keyword database */
+export const setkeywordListForkeywordDatabase = (payload: string) => {
+  sessionStorage.setItem('keywordDatabaseKeywordList', payload);
   return {
-    type: actionTypes.SET_ASIN_LIST_FOR_KEYWORD_REVERSE,
+    type: actionTypes.SET_KEYWORDS_LIST_FOR_KEYWORD_DATABASE,
     payload,
   };
 };
 
-/* ============== KEYWORD REQUEST ================== */
+/* ============== KEYWORD DATABASE PROGRESS ================== */
 
 /* Action to set if progress needs to be called */
-export const shouldFetchKeywordReverseProgress = (payload: boolean) => {
+export const shouldFetchkeywordDatabaseProgress = (payload: boolean) => {
   return {
-    type: actionTypes.SHOULD_FETCH_KEYWORD_REVERSE_PROGRESS,
+    type: actionTypes.SHOULD_FETCH_KEYWORD_DATABASE_PROGRESS,
     payload,
   };
 };
 
-/* Action to set the progress data for keyword reverse */
-export const setKeywordReverseProgressData = (payload: KeywordReverseProgressData) => {
-  sessionStorage.setItem('keywordReverseProgressData', JSON.stringify(payload));
+/* Action to set the progress data for keyword database */
+export const setkeywordDatabaseProgressData = (payload: KeywordDatabaseProgressData) => {
+  sessionStorage.setItem('keywordDatabaseProgressData', JSON.stringify(payload));
   return {
-    type: actionTypes.SET_KEYWORD_REVERSE_PROGRESS_DATA,
+    type: actionTypes.SET_KEYWORD_DATABASE_PROGRESS_DATA,
     payload,
   };
 };
 
 /* ============== KEYWORD REVERSE TABLE ================== */
 
-/* Action to set loading state for keyword reverse  */
-export const isLoadingKeywordReverseTable = (payload: boolean) => {
+/* Action to set loading state for keyword database  */
+export const isLoadingkeywordDatabaseTable = (payload: boolean) => {
   return {
-    type: actionTypes.IS_LOADING_KEYWORD_REVERSE_TABLE,
+    type: actionTypes.IS_LOADING_KEYWORD_DATABASE_TABLE,
     payload,
   };
 };
 
-/* Action to set the keyword reverse table results */
-export const setKeywordReverseTableResults = (payload: any) => {
+/* Action to set the keyword database table results */
+export const setkeywordDatabaseTableResults = (payload: any) => {
   return {
-    type: actionTypes.SET_KEYWORD_REVERSE_TABLE_RESULTS,
+    type: actionTypes.SET_KEYWORD_DATABASE_TABLE_RESULTS,
     payload,
   };
 };
 
-/* Action to set keyword reverse table pagination info */
-export const setKeywordReverseTablePaginationInfo = (payload: KeywordReversePaginationInfo) => {
+/* Action to set keyword database table pagination info */
+export const setkeywordDatabaseTablePaginationInfo = (payload: KeywordDatabasePaginationInfo) => {
   return {
-    type: actionTypes.SET_KEYWORD_REVERSE_TABLE_PAGINATION_INFO,
+    type: actionTypes.SET_KEYWORD_DATABASE_TABLE_PAGINATION_INFO,
     payload,
   };
 };
 
 /* ======================== Session Storage =================== */
 
-export const storeKeywordReverseFilters = (keywordReverseFilters: any) => {
-  sessionStorage.setItem('keywordReverseFilters', JSON.stringify(keywordReverseFilters));
+export const storekeywordDatabaseFilters = (keywordDatabaseFilters: any) => {
+  sessionStorage.setItem('keywordDatabaseFilters', JSON.stringify(keywordDatabaseFilters));
 };
 
 /* Remove filter from local storage */
-export const removeKeywordReverseFilters = () => {
-  sessionStorage.removeItem('keywordReverseFilters');
+export const removekeywordDatabaseFilters = () => {
+  sessionStorage.removeItem('keywordDatabaseFilters');
 };
 
 /* Extract and parse filter from local storage */
-export const extractKeywordReverseFilters = () => {
-  const storedFilters = JSON.parse(sessionStorage.getItem('keywordReverseFilters') || '{}');
+export const extractkeywordDatabaseFilters = () => {
+  const storedFilters = JSON.parse(sessionStorage.getItem('keywordDatabaseFilters') || '{}');
   return storedFilters;
 };
 
 /* =============== Filter Parsing====================== */
 
-/* Action to parse the  keyword reverse filters */
-export const parseFilters = (keywordReverseFilter: any) => {
-  const filterPayloadKeys = Object.keys(keywordReverseFilter);
+/* Action to parse the  keyword database filters */
+export const parseFilters = (keywordDatabaseFilter: any) => {
+  const filterPayloadKeys = Object.keys(keywordDatabaseFilter);
 
   let filterQuery = '';
 
   filterPayloadKeys.forEach((key: string) => {
-    const filter = keywordReverseFilter[key];
+    const filter = keywordDatabaseFilter[key];
 
     const { keyName, type } = FILTER_QUERY_KEY_MAPPER[key];
 
@@ -165,11 +165,11 @@ export const parseFilters = (keywordReverseFilter: any) => {
 
 /* ============== KEYWORD PROGRESS ================== */
 
-export const fetchKeywordReverseProgress = () => async (dispatch: any, getState: any) => {
+export const fetchkeywordDatabaseProgress = () => async (dispatch: any, getState: any) => {
   try {
     const sellerID = sellerIDSelector();
 
-    const keywordRequestId = getKeywordReverseRequestId(getState());
+    const keywordRequestId = getkeywordDatabaseRequestId(getState());
 
     if (!keywordRequestId) {
       return;
@@ -184,26 +184,27 @@ export const fetchKeywordReverseProgress = () => async (dispatch: any, getState:
     const isCompleted = data.status === 'completed';
 
     if (isFailedStatus) {
-      dispatch(shouldFetchKeywordReverseProgress(false));
-      dispatch(setKeywordReverseProgressData(data));
+      dispatch(shouldFetchkeywordDatabaseProgress(false));
+      dispatch(setkeywordDatabaseProgressData(data));
       error('Error: Failed on progress');
       return;
     }
 
     if (!isFailedStatus) {
-      dispatch(setKeywordReverseProgressData(data));
+      dispatch(setkeywordDatabaseProgressData(data));
       // if not completed should fetch again else not
-      dispatch(shouldFetchKeywordReverseProgress(!isCompleted));
+      dispatch(shouldFetchkeywordDatabaseProgress(!isCompleted));
 
       if (isCompleted) {
-        dispatch(fetchKeywordReverseTableInformation({ enableLoader: true }));
+        // if completed fetch table data and run loader
+        dispatch(fetchkeywordDatabaseTableInformation({ enableLoader: true }));
       }
     }
   } catch (err) {
     console.error('Error fetching keyword progress');
-    dispatch(shouldFetchKeywordReverseProgress(false));
+    dispatch(shouldFetchkeywordDatabaseProgress(false));
     dispatch(
-      setKeywordReverseProgressData({
+      setkeywordDatabaseProgressData({
         status: 'failed',
         progress: '',
         id: 0,
@@ -214,13 +215,13 @@ export const fetchKeywordReverseProgress = () => async (dispatch: any, getState:
   }
 };
 
-/* Action to fetch keyword reverse request id using asins */
-export const fetchKeywordReverseRequestId = (asinList: string) => async (dispatch: any) => {
+/* Action to fetch keyword database request id using asins */
+export const fetchkeywordDatabaseRequestId = (keywordList: string) => async (dispatch: any) => {
   try {
     const sellerID = sellerIDSelector();
 
     const payload = {
-      asins: asinList,
+      phrases: keywordList,
     };
 
     const { data } = await axios.post(
@@ -228,22 +229,22 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (dispatc
       payload
     );
 
-    dispatch(isFetchingKeywordReverseRequestId(true));
+    dispatch(isFetchingkeywordDatabaseRequestId(true));
 
     if (data) {
       const { keyword_request_id: keywordRequestId } = data;
       // set keyword request id
-      dispatch(setKeywordReverseRequestId(keywordRequestId));
+      dispatch(setkeywordDatabaseRequestId(keywordRequestId));
       // set the asin list for future use
-      dispatch(setAsinListForKeywordReverse(asinList));
-      dispatch(isFetchingKeywordReverseRequestId(false));
+      dispatch(setkeywordListForkeywordDatabase(keywordList));
+      dispatch(isFetchingkeywordDatabaseRequestId(false));
 
       // wait to 2 seconds
-      await timeout(2000);
+      await timeout(1200);
       success('Fetching keywords');
       // dispatch the keyword request progress process
       dispatch(
-        setKeywordReverseProgressData({
+        setkeywordDatabaseProgressData({
           seller: 0,
           status: '',
           progress: '',
@@ -251,25 +252,24 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (dispatc
           report_xlsx_url: '',
         })
       );
-      dispatch(shouldFetchKeywordReverseProgress(true));
+      dispatch(shouldFetchkeywordDatabaseProgress(true));
     } else {
-      dispatch(setKeywordReverseRequestId(''));
-      dispatch(setAsinListForKeywordReverse(asinList));
-      dispatch(isFetchingKeywordReverseRequestId(false));
-      dispatch(shouldFetchKeywordReverseProgress(false));
+      dispatch(setkeywordDatabaseRequestId(''));
+      dispatch(setkeywordListForkeywordDatabase(keywordList));
+      dispatch(isFetchingkeywordDatabaseRequestId(false));
+      dispatch(shouldFetchkeywordDatabaseProgress(false));
     }
   } catch (err) {
     console.log('Error fetching the keyword request Id', err.response);
-    dispatch(setKeywordReverseRequestId(''));
-    dispatch(isFetchingKeywordReverseRequestId(false));
+    dispatch(setkeywordDatabaseRequestId(''));
+    dispatch(isFetchingkeywordDatabaseRequestId(false));
   }
 };
 
-/* Action to fetch the keyword reverse table information */
-export const fetchKeywordReverseTableInformation = (payload: KeywordReverseTablePayload) => async (
-  dispatch: any,
-  getState: any
-) => {
+/* Action to fetch the keyword database table information */
+export const fetchkeywordDatabaseTableInformation = (
+  payload: KeywordDatabaseTablePayload
+) => async (dispatch: any, getState: any) => {
   // const sellerID = sellerIDSelector();
 
   try {
@@ -287,11 +287,11 @@ export const fetchKeywordReverseTableInformation = (payload: KeywordReverseTable
 
     // reset the filter
     if (resetFilter) {
-      removeKeywordReverseFilters();
-      dispatch(isLoadingKeywordReverseTable(false));
-      dispatch(setKeywordReverseTableResults([]));
+      removekeywordDatabaseFilters();
+      dispatch(isLoadingkeywordDatabaseTable(false));
+      dispatch(setkeywordDatabaseTableResults([]));
       dispatch(
-        setKeywordReverseTablePaginationInfo({
+        setkeywordDatabaseTablePaginationInfo({
           total_pages: 0,
           current_page: 0,
           count: 0,
@@ -305,16 +305,16 @@ export const fetchKeywordReverseTableInformation = (payload: KeywordReverseTable
     let filterPayloadData: any;
 
     if (!filterPayload) {
-      filterPayloadData = extractKeywordReverseFilters();
+      filterPayloadData = extractkeywordDatabaseFilters();
     } else {
-      storeKeywordReverseFilters(filterPayload);
+      storekeywordDatabaseFilters(filterPayload);
       filterPayloadData = filterPayload;
     }
 
     let filtersQueryString: string = parseFilters(filterPayloadData);
 
     if (!filtersQueryString) {
-      filtersQueryString = parseFilters(extractKeywordReverseFilters());
+      filtersQueryString = parseFilters(extractkeywordDatabaseFilters());
     }
 
     const pagination = `page=${page}`;
@@ -322,7 +322,7 @@ export const fetchKeywordReverseTableInformation = (payload: KeywordReverseTable
     const sortingValue = `sort=${sort}`;
     const perPage = `per_page=${per_page}`;
 
-    const keywordRequestId = getKeywordReverseRequestId(getState());
+    const keywordRequestId = getkeywordDatabaseRequestId(getState());
 
     // if no keyword ID return
     if (!keywordRequestId) {
@@ -334,7 +334,7 @@ export const fetchKeywordReverseTableInformation = (payload: KeywordReverseTable
     // full resource path
     const resourcePath = `?${pagination}&${perPage}&${sortingValue}&${sortDirection}${filtersQueryString}`;
 
-    dispatch(isLoadingKeywordReverseTable(enableLoader));
+    dispatch(isLoadingkeywordDatabaseTable(enableLoader));
 
     const { data } = await axios.get(
       `${AppConfig.BASE_URL_API}sellers/${sellerID}/keywords${resourcePath}&${keywordRequestIdQuery}`
@@ -343,22 +343,22 @@ export const fetchKeywordReverseTableInformation = (payload: KeywordReverseTable
     const { results, ...paginationInfo } = data;
 
     if (data) {
-      dispatch(setKeywordReverseTableResults(results));
-      dispatch(setKeywordReverseTablePaginationInfo(paginationInfo));
-      dispatch(isLoadingKeywordReverseTable(false));
+      dispatch(setkeywordDatabaseTableResults(results));
+      dispatch(setkeywordDatabaseTablePaginationInfo(paginationInfo));
+      dispatch(isLoadingkeywordDatabaseTable(false));
     }
   } catch (err) {
-    console.error('Error fetching keyword reverse table', err.response);
+    console.error('Error fetching keyword database table', err.response);
 
-    dispatch(setKeywordReverseTableResults([]));
+    dispatch(setkeywordDatabaseTableResults([]));
     dispatch(
-      setKeywordReverseTablePaginationInfo({
+      setkeywordDatabaseTablePaginationInfo({
         count: 0,
         current_page: 0,
         total_pages: 0,
         per_page: 0,
       })
     );
-    dispatch(isLoadingKeywordReverseTable(false));
+    dispatch(isLoadingkeywordDatabaseTable(false));
   }
 };
