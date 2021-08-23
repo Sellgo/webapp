@@ -28,7 +28,9 @@ const DatabaseKeywordList = (props: Props) => {
   const [keywords, setKeywords] = useState<string>('');
   const [isTextArea, setIsTextArea] = useState<boolean>(false);
 
-  const totalKeywords = keywords ? keywords.split(',').length : 0;
+  const totalKeywords = keywords
+    ? keywords.split(',').filter(keyword => keyword.trim().length > 0).length
+    : 0;
 
   /* Load all keywords from state */
   useEffect(() => {
@@ -39,6 +41,8 @@ const DatabaseKeywordList = (props: Props) => {
   const handleSubmit = () => {
     fetchKeywordDatabaseRequestId(keywords);
   };
+
+  console.log(keywords.split(','));
 
   return (
     <section className={styles.keywordListWrapper}>
