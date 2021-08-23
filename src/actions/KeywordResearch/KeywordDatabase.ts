@@ -43,7 +43,7 @@ export const setKeywordDatabaseRequestId = (payload: string) => {
 };
 
 /* Action to set asin list for keyword database */
-export const setKeywordListForkeywordDatabase = (payload: string) => {
+export const setKeywordListForKeywordDatabase = (payload: string) => {
   sessionStorage.setItem('keywordDatabaseKeywordList', payload);
   return {
     type: actionTypes.SET_KEYWORDS_LIST_FOR_KEYWORD_DATABASE,
@@ -54,7 +54,7 @@ export const setKeywordListForkeywordDatabase = (payload: string) => {
 /* ============== KEYWORD DATABASE PROGRESS ================== */
 
 /* Action to set if progress needs to be called */
-export const shouldFetchkeywordDatabaseProgress = (payload: boolean) => {
+export const shouldFetchKeywordDatabaseProgress = (payload: boolean) => {
   return {
     type: actionTypes.SHOULD_FETCH_KEYWORD_DATABASE_PROGRESS,
     payload,
@@ -184,7 +184,7 @@ export const fetchKeywordDatabaseProgress = () => async (dispatch: any, getState
     const isCompleted = data.status === 'completed';
 
     if (isFailedStatus) {
-      dispatch(shouldFetchkeywordDatabaseProgress(false));
+      dispatch(shouldFetchKeywordDatabaseProgress(false));
       dispatch(setKeywordDatabaseProgressData(data));
       error('Error: Failed on progress');
       return;
@@ -193,7 +193,7 @@ export const fetchKeywordDatabaseProgress = () => async (dispatch: any, getState
     if (!isFailedStatus) {
       dispatch(setKeywordDatabaseProgressData(data));
       // if not completed should fetch again else not
-      dispatch(shouldFetchkeywordDatabaseProgress(!isCompleted));
+      dispatch(shouldFetchKeywordDatabaseProgress(!isCompleted));
 
       if (isCompleted) {
         // if completed fetch table data and run loader
@@ -202,7 +202,7 @@ export const fetchKeywordDatabaseProgress = () => async (dispatch: any, getState
     }
   } catch (err) {
     console.error('Error fetching keyword progress');
-    dispatch(shouldFetchkeywordDatabaseProgress(false));
+    dispatch(shouldFetchKeywordDatabaseProgress(false));
     dispatch(
       setKeywordDatabaseProgressData({
         status: 'failed',
@@ -236,7 +236,7 @@ export const fetchKeywordDatabaseRequestId = (keywordList: string) => async (dis
       // set keyword request id
       dispatch(setKeywordDatabaseRequestId(keywordRequestId));
       // set the asin list for future use
-      dispatch(setKeywordListForkeywordDatabase(keywordList));
+      dispatch(setKeywordListForKeywordDatabase(keywordList));
       dispatch(isFetchingKeywordDatabaseRequestId(false));
 
       // wait to 2 seconds
@@ -252,12 +252,12 @@ export const fetchKeywordDatabaseRequestId = (keywordList: string) => async (dis
           report_xlsx_url: '',
         })
       );
-      dispatch(shouldFetchkeywordDatabaseProgress(true));
+      dispatch(shouldFetchKeywordDatabaseProgress(true));
     } else {
       dispatch(setKeywordDatabaseRequestId(''));
-      dispatch(setKeywordListForkeywordDatabase(keywordList));
+      dispatch(setKeywordListForKeywordDatabase(keywordList));
       dispatch(isFetchingKeywordDatabaseRequestId(false));
-      dispatch(shouldFetchkeywordDatabaseProgress(false));
+      dispatch(shouldFetchKeywordDatabaseProgress(false));
     }
   } catch (err) {
     console.log('Error fetching the keyword request Id', err.response);

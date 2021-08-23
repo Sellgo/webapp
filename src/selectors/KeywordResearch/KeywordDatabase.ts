@@ -53,7 +53,7 @@ export const getIsLoadingkeywordDatabaseTable = (state: any) => {
   const sessionTabId = makeOrGetUniqueTabID();
 
   const stateChunk = get(state, `keywordDatabase[${sessionTabId}]`);
-  return get(stateChunk, 'isLoadingkeywordDatabaseTable');
+  return get(stateChunk, 'isLoadingKeywordDatabaseTable');
 };
 
 /* Selector to get keyword database table results */
