@@ -68,7 +68,7 @@ const DatabaseKeywordList = (props: Props) => {
   const getSuggestions = useCallback(
     debounce(async (keywords: string) => {
       const data = await askForKeywordSuggestion(keywords);
-      setSuggestions(data);
+      setSuggestions(data || []);
     }, 500),
     []
   );

@@ -385,3 +385,22 @@ export const askForKeywordSuggestion = async (keywords: string) => {
 
   return [];
 };
+
+/* Action to reset keyword database */
+export const resetKeywordDatabase = () => async (dispatch: any) => {
+  dispatch(isFetchingKeywordDatabaseRequestId(false));
+  dispatch(setKeywordDatabaseRequestId(''));
+  dispatch(setKeywordListForKeywordDatabase(''));
+  dispatch(shouldFetchKeywordDatabaseProgress(false));
+  dispatch(
+    setKeywordDatabaseProgressData({
+      id: 0,
+      seller: 0,
+      status: '',
+      progress: '',
+      report_xlsx_url: '',
+    })
+  );
+
+  dispatch(fetchKeywordDatabaseTableInformation({ resetFilter: true }));
+};

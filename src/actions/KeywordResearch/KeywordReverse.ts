@@ -362,3 +362,22 @@ export const fetchKeywordReverseTableInformation = (payload: KeywordReverseTable
     dispatch(isLoadingKeywordReverseTable(false));
   }
 };
+
+/* Action to reset keyword database */
+export const resetKeywordReverse = () => async (dispatch: any) => {
+  dispatch(isFetchingKeywordReverseRequestId(false));
+  dispatch(setKeywordReverseRequestId(''));
+  dispatch(setAsinListForKeywordReverse(''));
+  dispatch(shouldFetchKeywordReverseProgress(false));
+  dispatch(
+    setKeywordReverseProgressData({
+      id: 0,
+      seller: 0,
+      status: '',
+      progress: '',
+      report_xlsx_url: '',
+    })
+  );
+
+  dispatch(fetchKeywordReverseTableInformation({ resetFilter: true }));
+};
