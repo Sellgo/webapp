@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Icon, TextArea } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { debounce } from 'lodash';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -15,7 +16,10 @@ import { MAX_KEYWORDS_ALLOWED } from '../../../../constants/KeywordResearch/Keyw
 import { getKeywordDatabaseKeywordList } from '../../../../selectors/KeywordResearch/KeywordDatabase';
 
 /* Actions */
-import { fetchKeywordDatabaseRequestId } from '../../../../actions/KeywordResearch/KeywordDatabase';
+import {
+  askForKeywordSuggestion,
+  fetchKeywordDatabaseRequestId,
+} from '../../../../actions/KeywordResearch/KeywordDatabase';
 
 interface Props {
   keywordDatabaseKeywordList: string;
@@ -27,6 +31,7 @@ const DatabaseKeywordList = (props: Props) => {
 
   const [keywords, setKeywords] = useState<string>('');
   const [isTextArea, setIsTextArea] = useState<boolean>(false);
+  const [suggestions, setSuggestions] = useState([]);
 
   const totalKeywords = keywords
     ? keywords.split(',').filter(keyword => keyword.trim().length > 0).length
@@ -40,6 +45,39 @@ const DatabaseKeywordList = (props: Props) => {
   /* Handle fetch keywords */
   const handleSubmit = () => {
     fetchKeywordDatabaseRequestId(keywords);
+  };
+
+  /* Handle on suggestion click */
+  const handleSuggestionClick = (e: any) => {
+    e.preventDefault();
+    const selectedSuggestion = e.target.textContent;
+    setKeywords(prevState => {
+      const keywordsArray = prevState.split(',');
+      const removeEmptyKeywords = keywordsArray.filter(keyword => keyword.length > 0) || [];
+      if (removeEmptyKeywords.length === 1) {
+        return `${selectedSuggestion}`;
+      }
+
+      removeEmptyKeywords[removeEmptyKeywords.length - 1] = selectedSuggestion;
+      return `${removeEmptyKeywords.join(',')}`;
+    });
+    setSuggestions([]);
+  };
+
+  /* Always get suggestion for last word entered */
+  const getSuggestions = useCallback(
+    debounce(async (keywords: string) => {
+      const data = await askForKeywordSuggestion(keywords);
+      setSuggestions(data);
+    }, 500),
+    []
+  );
+
+  /* Handle keyword Change */
+  const handleKeywordsChange = (value: string) => {
+    // set current keyword and ask for suggestion
+    setKeywords(value);
+    getSuggestions(value);
   };
 
   return (
@@ -56,9 +94,16 @@ const DatabaseKeywordList = (props: Props) => {
           <InputFilter
             placeholder="Enter keyword seperated by comma"
             value={keywords}
-            handleChange={value => setKeywords(value)}
+            handleChange={handleKeywordsChange}
             className={styles.longInput}
           />
+          {suggestions.length > 0 && (
+            <ul className={styles.keywordSuggestions} onClick={handleSuggestionClick}>
+              {suggestions.map((suggestion: any) => {
+                return <li key={suggestion.search_term}>{suggestion.search_term}</li>;
+              })}
+            </ul>
+          )}
         </div>
       )}
 

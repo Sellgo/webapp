@@ -362,3 +362,26 @@ export const fetchKeywordDatabaseTableInformation = (
     dispatch(isLoadingKeywordDatabaseTable(false));
   }
 };
+
+/* Function to ask for suggestions */
+export const askForKeywordSuggestion = async (keywords: string) => {
+  const keywordArray = keywords.split(',');
+
+  const shouldAskSuggestions = keywordArray.filter((item: string) => item.length > 0) || [];
+
+  if (shouldAskSuggestions.length > 0) {
+    const lastKeywordEntered = keywordArray[keywordArray.length - 1] || '';
+    if (!lastKeywordEntered) {
+      return;
+    }
+
+    const { data } = await axios.get(
+      `${
+        AppConfig.BASE_URL_API
+      }sellers/${sellerIDSelector()}/keywords/search?phrase=${lastKeywordEntered}`
+    );
+    return data || [];
+  }
+
+  return [];
+};

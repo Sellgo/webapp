@@ -54,7 +54,7 @@ const DatabaseExport = (props: Props) => {
           <p className={styles.messageText}>
             Viewing{' '}
             <span className={styles.sellerCount}>{keywordDatabasePaginationInfo.count}</span>{' '}
-            products.
+            keywords.
           </p>
         )}
         <div

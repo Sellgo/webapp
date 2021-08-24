@@ -12,13 +12,13 @@ import MarketplaceDropdown from '../../components/MarketplaceDropdown';
 /* Containers */
 import KeywordReverse from './KeywordReverse';
 import KeywordDatabase from './KeywordDatabase';
-import KeywordTracker from './KeywordTracker';
+// import KeywordTracker from './KeywordTracker';
 
 interface Props {
   match: any;
 }
 
-const keywordResearchMapper = ['Database', 'Tracker', 'Reverse'];
+const keywordResearchMapper = ['Reverse', 'Database', 'Tracker'];
 
 const KeywordResearch = (props: Props) => {
   const { match } = props;
@@ -57,22 +57,24 @@ const KeywordResearch = (props: Props) => {
             selectedIndex={selectedTabList}
           >
             <TabList className={styles.productTablist}>
-              <Tab>Database</Tab>
-              <Tab>Tracker</Tab>
-              <Tab>Reverse</Tab>
+              {keywordResearchMapper
+                .filter(product => product !== 'Tracker')
+                .map((keywordPrdouct: string) => (
+                  <Tab key={keywordPrdouct}>{keywordPrdouct}</Tab>
+                ))}
             </TabList>
+
+            <TabPanel>
+              <KeywordReverse />
+            </TabPanel>
 
             <TabPanel>
               <KeywordDatabase />
             </TabPanel>
 
-            <TabPanel>
+            {/* <TabPanel>
               <KeywordTracker />
-            </TabPanel>
-
-            <TabPanel>
-              <KeywordReverse />
-            </TabPanel>
+            </TabPanel> */}
           </Tabs>
         </section>
       </main>
