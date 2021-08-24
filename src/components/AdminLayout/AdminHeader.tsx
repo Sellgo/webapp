@@ -79,6 +79,9 @@ class AdminHeader extends React.Component<AdminProps> {
               <Dropdown.Item as={Link} to="/settings/pricing">
                 Subscription
               </Dropdown.Item>
+              <Dropdown.Item as={Link} to="/settings/billing">
+                Billing
+              </Dropdown.Item>
               <Dropdown.Item onClick={this.open}>Logout</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
