@@ -26,7 +26,7 @@ interface Props {
   fetchKeywordDatabaseProgress: () => void;
 }
 
-const ReverseProgress = (props: Props) => {
+const DatabaseProgress = (props: Props) => {
   const {
     keywordDatabaseProgressData,
     fetchKeywordDatabaseProgress,
@@ -70,4 +70,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReverseProgress);
+export default connect(mapStateToProps, mapDispatchToProps)(DatabaseProgress);
