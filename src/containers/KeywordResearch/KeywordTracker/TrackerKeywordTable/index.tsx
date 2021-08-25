@@ -29,6 +29,10 @@ const TrackerKeywordTable = () => {
     console.log(pageNo, perPageNo);
   };
 
+  React.useEffect(() => {
+    console.log('Table was mounted');
+  }, []);
+
   return (
     <div className={styles.keywordTableWrapper}>
       <Table

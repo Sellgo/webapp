@@ -4,6 +4,8 @@
   display: flex;
   justify-content: flex-start;
   align-items: stretch;
+  user-select: none;
+  color: $prim_dark_2;
 }
 
 .productImage {

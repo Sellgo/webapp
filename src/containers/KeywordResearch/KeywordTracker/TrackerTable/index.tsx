@@ -40,7 +40,6 @@ const TrackerTable = () => {
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
   const [expandedRowKeys, setExpandedRowkeys] = useState<string[]>([]);
-  const [, setIsRowExpanded] = useState<boolean>(false);
 
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
@@ -52,14 +51,13 @@ const TrackerTable = () => {
   };
 
   const handleExpansion = (rowData: any) => {
-    console.log('Row clicked is', rowData);
+    const rowId = rowData.id;
+    const [currentExpandedRowId] = expandedRowKeys;
 
-    if (expandedRowKeys.length === 0) {
-      setExpandedRowkeys([rowData.id]);
-      setIsRowExpanded(true);
+    if (currentExpandedRowId !== rowId) {
+      setExpandedRowkeys([rowId]);
     } else {
       setExpandedRowkeys([]);
-      setIsRowExpanded(false);
     }
   };
 
