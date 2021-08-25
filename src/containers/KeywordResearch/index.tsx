@@ -13,11 +13,10 @@ import MarketplaceDropdown from '../../components/MarketplaceDropdown';
 /* Containers */
 import KeywordReverse from './KeywordReverse';
 import KeywordDatabase from './KeywordDatabase';
+import KeywordTracker from './KeywordTracker';
 
 /* Actions */
 import { resetKeywordResearch } from '../../actions/KeywordResearch';
-
-// import KeywordTracker from './KeywordTracker';
 
 interface Props {
   match: any;
@@ -29,7 +28,7 @@ const keywordResearchMapper = ['Reverse', 'Database', 'Tracker'];
 const KeywordResearch = (props: Props) => {
   const { match, resetKeywordResearch } = props;
 
-  const [selectedTabList, setSelectedTabList] = useState<number>(0);
+  const [selectedTabList, setSelectedTabList] = useState<number>(2);
 
   const handleTabChange = (index: number) => {
     setSelectedTabList(index);
@@ -69,11 +68,9 @@ const KeywordResearch = (props: Props) => {
             selectedIndex={selectedTabList}
           >
             <TabList className={styles.productTablist}>
-              {keywordResearchMapper
-                .filter(product => product !== 'Tracker')
-                .map((keywordPrdouct: string) => (
-                  <Tab key={keywordPrdouct}>{keywordPrdouct}</Tab>
-                ))}
+              {keywordResearchMapper.map((keywordPrdouct: string) => (
+                <Tab key={keywordPrdouct}>{keywordPrdouct}</Tab>
+              ))}
             </TabList>
 
             <TabPanel>
@@ -84,9 +81,9 @@ const KeywordResearch = (props: Props) => {
               <KeywordDatabase />
             </TabPanel>
 
-            {/* <TabPanel>
+            <TabPanel>
               <KeywordTracker />
-            </TabPanel> */}
+            </TabPanel>
           </Tabs>
         </section>
       </main>
