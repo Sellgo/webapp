@@ -1,0 +1,11 @@
+@import '../../../design-system/new-colors';
+
+.expansionCell {
+  align-self: flex-start !important;
+  padding: 0 !important;
+  margin-top: 25px;
+
+  svg {
+    cursor: pointer !important;
+  }
+}

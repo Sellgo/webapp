@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Table } from 'rsuite';
+import { v4 as uuid } from 'uuid';
 
 /* Styling */
 import './global.scss';
@@ -10,19 +11,36 @@ import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
 import ChangeStatsCell from '../../../../components/NewTable/ChangeStatsCell';
+import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
 
 /* Containers */
 import ProductInfo from './ProductInfo';
+
+/* Child Table */
+import TrackerKeywordTable from '../TrackerKeywordTable';
 
 /* Constants */
 import { DEFAULT_PAGES_LIST } from '../../../../constants/KeywordResearch/KeywordTracker';
 
 /* Fake Data */
-const fakeData = Array(10).fill({ title: 'Demo' });
+const fakeData = [
+  { title: 'Demo', id: '1' },
+  { title: 'Demo', id: uuid() },
+  { title: 'Demo', id: uuid() },
+  { title: 'Demo', id: uuid() },
+  { title: 'Demo', id: uuid() },
+  { title: 'Demo', id: uuid() },
+  { title: 'Demo', id: uuid() },
+  { title: 'Demo', id: uuid() },
+  { title: 'Demo', id: uuid() },
+  { title: 'Demo', id: uuid() },
+];
 
 const TrackerTable = () => {
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
+  const [expandedRowKeys, setExpandedRowkeys] = useState<string[]>([]);
+  const [, setIsRowExpanded] = useState<boolean>(false);
 
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
@@ -33,6 +51,18 @@ const TrackerTable = () => {
     console.log(pageNo, perPageNo);
   };
 
+  const handleExpansion = (rowData: any) => {
+    console.log('Row clicked is', rowData);
+
+    if (expandedRowKeys.length === 0) {
+      setExpandedRowkeys([rowData.id]);
+      setIsRowExpanded(true);
+    } else {
+      setExpandedRowkeys([]);
+      setIsRowExpanded(false);
+    }
+  };
+
   return (
     <section className={styles.keywordTrackerTableWrapper}>
       <Table
@@ -41,20 +71,37 @@ const TrackerTable = () => {
         autoHeight
         hover={false}
         rowHeight={110}
-        headerHeight={60}
+        headerHeight={45}
         sortColumn={sortColumn}
         sortType={sortType}
         id="keywordTrackerTable"
         onSortColumn={handleSortColumn}
+        rowKey={'id'}
+        rowExpandedHeight={900}
+        expandedRowKeys={expandedRowKeys}
+        defaultExpandedRowKeys={['1']}
+        renderRowExpanded={() => {
+          return <TrackerKeywordTable />;
+        }}
       >
+        {/* Expand Cell */}
+        <Table.Column verticalAlign="top" fixed align="left" width={25}>
+          <Table.HeaderCell> </Table.HeaderCell>
+          <ExpansionCell
+            dataKey="expansionCell"
+            expandedRowKeys={expandedRowKeys}
+            onChange={handleExpansion}
+          />
+        </Table.Column>
+
         {/* Product Info */}
-        <Table.Column verticalAlign="middle" fixed align="left" width={500} flexGrow={1}>
+        <Table.Column verticalAlign="top" fixed align="left" width={500} flexGrow={1}>
           <Table.HeaderCell>Product Information</Table.HeaderCell>
           <ProductInfo dataKey="productInfo" />
         </Table.Column>
 
         {/* Tracked Keywords */}
-        <Table.Column width={180} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={180} verticalAlign="top" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Tracked Keywords`}
@@ -67,7 +114,7 @@ const TrackerTable = () => {
         </Table.Column>
 
         {/* Competitors */}
-        <Table.Column width={180} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={180} verticalAlign="top" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Competitors `}
@@ -80,7 +127,7 @@ const TrackerTable = () => {
         </Table.Column>
 
         {/* Search Volume */}
-        <Table.Column width={180} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={180} verticalAlign="top" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Search Volume `}
@@ -98,7 +145,7 @@ const TrackerTable = () => {
         </Table.Column>
 
         {/* Organic */}
-        <Table.Column width={180} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={180} verticalAlign="top" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Organic`}
@@ -111,7 +158,7 @@ const TrackerTable = () => {
         </Table.Column>
 
         {/* Sponsored */}
-        <Table.Column width={180} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={180} verticalAlign="top" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Sponsored`}
