@@ -8,6 +8,10 @@ import styles from './index.module.scss';
 /* Componensts */
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
+import TablePagination from '../../../../components/NewTable/Pagination';
+
+/* Constants */
+import { DEFAULT_PAGES_LIST } from '../../../../constants/KeywordResearch/KeywordTracker';
 
 /* Fake Data */
 const fakeData = Array(10).fill({ title: 'Demo' });
@@ -19,6 +23,10 @@ const TrackerKeywordTable = () => {
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
     setSortType(sortType);
+  };
+
+  const handlePageChange = (pageNo: number, perPageNo?: number) => {
+    console.log(pageNo, perPageNo);
   };
 
   return (
@@ -80,6 +88,18 @@ const TrackerKeywordTable = () => {
           <Table.Cell>{'>306'}</Table.Cell>
         </Table.Column>
       </Table>
+
+      <footer className={styles.trackerKeywordTablePagination}>
+        <TablePagination
+          totalPages={10}
+          currentPage={1}
+          onPageChange={handlePageChange}
+          showSiblingsCount={3}
+          showPerPage={true}
+          perPage={20}
+          perPageList={DEFAULT_PAGES_LIST}
+        />
+      </footer>
     </div>
   );
 };

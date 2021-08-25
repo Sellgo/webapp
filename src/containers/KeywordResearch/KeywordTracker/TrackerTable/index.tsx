@@ -76,13 +76,11 @@ const TrackerTable = () => {
         sortType={sortType}
         id="keywordTrackerTable"
         onSortColumn={handleSortColumn}
+        //  Props for table expansion
         rowKey={'id'}
-        rowExpandedHeight={900}
+        rowExpandedHeight={50 * 14}
         expandedRowKeys={expandedRowKeys}
-        defaultExpandedRowKeys={['1']}
-        renderRowExpanded={() => {
-          return <TrackerKeywordTable />;
-        }}
+        renderRowExpanded={() => <TrackerKeywordTable />}
       >
         {/* Expand Cell */}
         <Table.Column verticalAlign="top" fixed align="left" width={25}>
