@@ -48,7 +48,7 @@ const TrackerTable = () => {
         onSortColumn={handleSortColumn}
       >
         {/* Product Info */}
-        <Table.Column verticalAlign="middle" fixed align="left" width={500}>
+        <Table.Column verticalAlign="middle" fixed align="left" width={500} flexGrow={1}>
           <Table.HeaderCell>Product Information</Table.HeaderCell>
           <ProductInfo dataKey="productInfo" />
         </Table.Column>
