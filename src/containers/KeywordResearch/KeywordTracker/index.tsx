@@ -7,6 +7,7 @@ import styles from './index.module.scss';
 import TrackerFilters from './TrackerFilters';
 import TrackerExport from './TrackerExport';
 import TrackerProgress from './TrackerProgress';
+import TrackerTable from './TrackerTable';
 
 const KeywordTracker = () => {
   return (
@@ -14,6 +15,7 @@ const KeywordTracker = () => {
       <TrackerFilters />
       <TrackerProgress />
       <TrackerExport />
+      <TrackerTable />
     </main>
   );
 };
