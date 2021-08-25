@@ -1,0 +1,26 @@
+@import '../../design-system/colors.scss';
+
+.planTypeButton {
+  color: #fff;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 5px 20px;
+  width: max-content;
+
+  &__professional {
+    background-color: $sellgo-orange;
+  }
+
+  &__basic {
+    background-color: $sellgo-green;
+  }
+
+  &__team {
+    background-color: #ae8be7;
+  }
+}

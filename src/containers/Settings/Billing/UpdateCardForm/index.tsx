@@ -56,6 +56,7 @@ interface MyProps {
 const UpdateCardForm = (props: MyProps) => {
   const stripe: any = useStripe();
   const elements = useElements();
+  const sellerID = localStorage.getItem('userId');
   const { stripeLoading, setStripeLoad } = props;
   const { value: name, bind: bindName } = useInput('');
   const { value: address, bind: bindAddress } = useInput('');
@@ -116,15 +117,15 @@ const UpdateCardForm = (props: MyProps) => {
       return;
     }
 
-    Axios.patch(`${AppConfig.BASE_URL_API}sellers/1000000001/billing/credit-card`, data).then(res =>
-      console.log(res.data)
+    // Axios.patch(`${AppConfig.BASE_URL_API}sellers/1000000001/billing/credit-card`, data).then(res =>
+    Axios.patch(`${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/credit-card`, data).then(() =>
+      setStripeLoad(false)
     );
-    setStripeLoad(false);
   };
 
   return (
     <div className={styles.checkoutContainer}>
-      <h2>Secure Credit Card Payment</h2>
+      <h2>Secure Credit Card Information</h2>
 
       <form onSubmit={handleSubmit}>
         <Form.Field className={styles.formInput}>
