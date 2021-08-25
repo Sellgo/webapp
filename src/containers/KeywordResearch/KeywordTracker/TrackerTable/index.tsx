@@ -7,15 +7,15 @@ import styles from './index.module.scss';
 
 /* Componensts */
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
+import StatsCell from '../../../../components/NewTable/StatsCell';
+import TablePagination from '../../../../components/NewTable/Pagination';
+import ChangeStatsCell from '../../../../components/NewTable/ChangeStatsCell';
 
 /* Containers */
 import ProductInfo from './ProductInfo';
-import StatsCell from '../../../../components/NewTable/StatsCell';
-import TablePagination from '../../../../components/NewTable/Pagination';
 
 /* Constants */
 import { DEFAULT_PAGES_LIST } from '../../../../constants/KeywordResearch/KeywordTracker';
-import ChangeStatsCell from '../../../../components/NewTable/ChangeStatsCell';
 
 /* Fake Data */
 const fakeData = Array(10).fill({ title: 'Demo' });
@@ -40,7 +40,7 @@ const TrackerTable = () => {
         data={fakeData}
         autoHeight
         hover={false}
-        rowHeight={65}
+        rowHeight={110}
         headerHeight={60}
         sortColumn={sortColumn}
         sortType={sortType}

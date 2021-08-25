@@ -2,4 +2,43 @@
 
 .productInfoContainer {
   display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.productImage {
+  width: 70px;
+  height: auto;
+  margin-right: 18px;
+
+  img {
+    max-width: 100%;
+  }
+}
+
+.productDetails {
+  flex: 1;
+  min-height: 100% !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  h2 {
+    font-size: 18px;
+    line-height: 1;
+    display: inline-block;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+}
+
+.productMetaDetails {
+  margin-top: 6px;
+
+  img {
+    margin-right: 10px;
+  }
+
+  font-size: 12px !important;
 }
