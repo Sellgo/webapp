@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Table } from 'rsuite';
-import { v4 as uuid } from 'uuid';
+import { connect } from 'react-redux';
 
 /* Styling */
 import './global.scss';
@@ -20,23 +20,25 @@ import ProductInfo from './ProductInfo';
 import TrackerKeywordTable from '../TrackerKeywordTable';
 
 /* Constants */
-import { DEFAULT_PAGES_LIST } from '../../../../constants/KeywordResearch/KeywordTracker';
+import {
+  DEFAULT_PAGES_LIST,
+  TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY,
+} from '../../../../constants/KeywordResearch/KeywordTracker';
 
-/* Fake Data */
-const fakeData = [
-  { title: 'Demo', id: '1' },
-  { title: 'Demo', id: uuid() },
-  { title: 'Demo', id: uuid() },
-  { title: 'Demo', id: uuid() },
-  { title: 'Demo', id: uuid() },
-  { title: 'Demo', id: uuid() },
-  { title: 'Demo', id: uuid() },
-  { title: 'Demo', id: uuid() },
-  { title: 'Demo', id: uuid() },
-  { title: 'Demo', id: uuid() },
-];
+/* Selectors */
+import {
+  getIsLoadingKeywordTrackerProductsTable,
+  getKeywordTrackerProductsTableResults,
+} from '../../../../selectors/KeywordResearch/KeywordTracker';
 
-const TrackerTable = () => {
+interface Props {
+  isLoadingKeywordTrackerProductsTable: boolean;
+  keywordTrackerProductsTableResults: any[];
+}
+
+const TrackerTable = (props: Props) => {
+  const { isLoadingKeywordTrackerProductsTable, keywordTrackerProductsTableResults } = props;
+
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
   const [expandedRowKeys, setExpandedRowkeys] = useState<string[]>([]);
@@ -51,7 +53,7 @@ const TrackerTable = () => {
   };
 
   const handleExpansion = (rowData: any) => {
-    const rowId = rowData.id;
+    const rowId = rowData[TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY];
     const [currentExpandedRowId] = expandedRowKeys;
 
     if (currentExpandedRowId !== rowId) {
@@ -64,8 +66,8 @@ const TrackerTable = () => {
   return (
     <section className={styles.keywordTrackerTableWrapper}>
       <Table
-        loading={false}
-        data={fakeData}
+        loading={isLoadingKeywordTrackerProductsTable}
+        data={keywordTrackerProductsTableResults}
         autoHeight
         hover={false}
         rowHeight={110}
@@ -75,7 +77,7 @@ const TrackerTable = () => {
         id="keywordTrackerTable"
         onSortColumn={handleSortColumn}
         //  Props for table expansion
-        rowKey={'id'}
+        rowKey={TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY}
         rowExpandedHeight={50 * 14}
         expandedRowKeys={expandedRowKeys}
         renderRowExpanded={() => <TrackerKeywordTable />}
@@ -182,4 +184,15 @@ const TrackerTable = () => {
   );
 };
 
-export default TrackerTable;
+const mapStateToProps = (state: any) => {
+  return {
+    isLoadingKeywordTrackerProductsTable: getIsLoadingKeywordTrackerProductsTable(state),
+    keywordTrackerProductsTableResults: getKeywordTrackerProductsTableResults(state),
+  };
+};
+
+const mapDispatchToProps = () => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TrackerTable);

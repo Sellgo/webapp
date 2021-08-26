@@ -24,6 +24,7 @@ import sellerMapReducer from './SellerResearch/SellerMap';
 /* Keyword Research */
 import keywordReverseReducer from './KeywordResearch/KeywordReverse';
 import keywordDatabaseReducer from './KeywordResearch/KeywordDatabase';
+import keywordTrackerReducer from './KeywordResearch/KeywordTracker';
 
 const rootReducer = combineReducers({
   settings: settingsReducer,
@@ -51,6 +52,8 @@ const rootReducer = combineReducers({
   keywordReverse: keywordReverseReducer,
   // keyword database
   keywordDatabase: keywordDatabaseReducer,
+  // keyword tracker
+  keywordTracker: keywordTrackerReducer,
 });
 
 export default rootReducer;
