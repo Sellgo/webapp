@@ -8,7 +8,8 @@ import styles from './index.module.scss';
 import { RowCell } from '../../../../../interfaces/Table';
 
 /* Components */
-import CopyToClipboard from '../../../../../components/CopyToClipboard';
+// import CopyToClipboard from '../../../../../components/CopyToClipboard';
+import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipboard';
 
 /* Utils */
 import { truncateIntoTwoLines } from '../../../../../utils/format';
@@ -35,7 +36,11 @@ const ProductInfo = (props: RowCell) => {
 
           <div className={styles.productMetaDetails}>
             <img src={require('../../../../../assets/images/USFlag.png')} alt="American Flag" />
-            <CopyToClipboard data={asin} displayData={asin} />
+            <CopyAndLocateClipboard
+              data={asin}
+              displayData={asin}
+              link={`https://www.amazon.com/dp/${asin}`}
+            />
           </div>
         </div>
       </div>
