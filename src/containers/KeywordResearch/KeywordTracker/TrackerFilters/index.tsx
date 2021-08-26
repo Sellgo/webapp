@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { connect } from 'react-redux';
+import { Checkbox } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -6,35 +8,75 @@ import styles from './index.module.scss';
 /* Components */
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
-import { Checkbox } from 'semantic-ui-react';
 
-const TrackerFilters = () => {
+/* Actions */
+import { fetchKeywordTrackerProductsTable } from '../../../../actions/KeywordResearch/KeywordTracker';
+
+/* Interfaces */
+import { TrackProductAndKeywords } from '../../../../interfaces/KeywordResearch/KeywordTracker';
+
+/* Constants */
+import { isValidAsin } from '../../../../constants';
+
+interface Props {
+  fetchKeywordTrackerProductsTable: (payload: TrackProductAndKeywords) => void;
+}
+
+const TrackerFilters = (props: Props) => {
+  const { fetchKeywordTrackerProductsTable } = props;
+
   /* Basic Filters */
-  const [asins, setAsins] = useState('');
+  const [asin, setAsin] = useState('');
   const [keywords, setKeywords] = useState('');
   const [trackParentsAndVariations, setTrackParentsAndVariations] = useState<boolean>(false);
   const [removeSpecialChars, setRemoveSpecialChars] = useState<boolean>(false);
 
+  const [asinError, setAsinError] = useState(false);
+
   /* Handle Reset */
   const handleReset = () => {
-    console.log('Clicked Reset');
+    setAsin('');
+    setKeywords('');
+    setTrackParentsAndVariations(false);
+    setRemoveSpecialChars(false);
   };
 
   /* Handle Submit */
   const handleSubmit = () => {
-    console.log('Handle submit');
+    const payload = {
+      asin,
+      keywords: removeSpecialChars
+        ? keywords.replace(/[&/\\#+()$~%'":*?^<>{}@!_=]/g, '')
+        : keywords,
+    };
+
+    fetchKeywordTrackerProductsTable(payload);
   };
+
+  /* Handle error for asin */
+  useEffect(() => {
+    if (asin.length > 0) {
+      setAsinError(!isValidAsin(asin));
+    } else {
+      setAsinError(false);
+    }
+  }, [asin]);
+
+  const shouldDisableForm = useMemo(() => {
+    return !asin || !keywords || !isValidAsin(asin);
+  }, [asin, keywords]);
 
   return (
     <section className={styles.filterSection}>
       {/* Basic Filters */}
       <div className={styles.basicFilters}>
         <InputFilter
-          label="Add ASINs"
-          placeholder="Enter ASINs seperated by comma"
-          value={asins}
-          handleChange={value => setAsins(value)}
+          label="Add ASIN"
+          placeholder="Enter ASIN for product"
+          value={asin}
+          handleChange={value => setAsin(value)}
           className={styles.longInput}
+          error={asinError}
         />
 
         <InputFilter
@@ -61,9 +103,21 @@ const TrackerFilters = () => {
           className={styles.checkbox}
         />
       </div>
-      <FormFilterActions onFind={handleSubmit} onReset={handleReset} submitLabel="Apply" />
+      <FormFilterActions
+        onFind={handleSubmit}
+        onReset={handleReset}
+        submitLabel="Apply"
+        disabled={shouldDisableForm}
+      />
     </section>
   );
 };
 
-export default TrackerFilters;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchKeywordTrackerProductsTable: (payload: TrackProductAndKeywords) =>
+      dispatch(fetchKeywordTrackerProductsTable(payload)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(TrackerFilters);
