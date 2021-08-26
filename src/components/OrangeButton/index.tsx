@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import styles from './index.module.scss';
 
 interface Props {
-  type: 'primary' | 'secondary' | 'grey' | 'white';
+  type: 'primary' | 'secondary' | 'grey' | 'white' | 'blue';
   size: 'small' | 'medium' | 'large';
   navigateTo?: string;
   onClick?: () => any;
@@ -29,7 +29,8 @@ const OrangeButton = (props: Props) => {
     { [styles.ctabutton__primary]: type === 'primary' },
     { [styles.ctabutton__secondary]: type === 'secondary' },
     { [styles.ctabutton__grey]: type === 'grey' },
-    { [styles.ctabutton__white]: type === 'white' }
+    { [styles.ctabutton__white]: type === 'white' },
+    { [styles.ctabutton__blue]: type === 'blue' }
   );
 
   // render as normal <a> tag

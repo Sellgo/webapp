@@ -1,0 +1,74 @@
+@import '../../../../design-system/new-colors';
+
+.mwsFormGrid {
+  position: relative;
+  background-color: $grey_0;
+  width: 700px;
+  height: max-content;
+  padding: 30px 0;
+  display: grid;
+  grid-template-rows: 40px;
+  row-gap: 18px;
+}
+
+.mwsFormTitle {
+  margin-bottom: 30px;
+  color: $prim_dark_1;
+}
+
+.deleteIcon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &__disabled {
+    cursor: not-allowed;
+
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
+}
+
+.formInput {
+  display: grid;
+  grid-template-columns: 160px 300px;
+  column-gap: 30px;
+  align-items: center;
+  color: $grey_8;
+
+  .authenticateInstructions {
+    grid-column-start: 2;
+    font-size: 12px;
+    color: $system_blue;
+    font-weight: 600;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .formLabel {
+    width: 100%;
+    text-align: right;
+  }
+
+  &__marketplace {
+    grid-template-columns: 160px 250px;
+  }
+}
+
+.buttonsRow {
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  .updateButton {
+    width: 140px;
+  }
+}

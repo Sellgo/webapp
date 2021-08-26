@@ -34,6 +34,11 @@
     font-weight: normal !important;
   }
 
+  &__blue {
+    background: $blue_8;
+    color: #fff;
+  }
+
   &__large {
     width: max-content;
     padding: 0 4rem;

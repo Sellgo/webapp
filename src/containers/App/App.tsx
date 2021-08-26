@@ -21,6 +21,7 @@ import Onboarding from '../Onboarding';
 import SubscriptionPage from '../Subscription';
 import Subscription from '../Settings/Subscription';
 import Billing from '../Settings/Billing';
+import Connectivity from '../Settings/Connectivity';
 import Payment from '../Subscription/Payment';
 import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
@@ -209,6 +210,7 @@ function App() {
           />
           <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />
           <PrivateRoute exact={true} path="/settings/billing" component={Billing} />
+          <PrivateRoute exact={true} path="/settings/connectivity" component={Connectivity} />
           <PrivateRoute
             exact={true}
             path="/synthesis"
