@@ -5,6 +5,9 @@ export const actionTypes = {
   SET_KEYWORD_TRACKER_PRODUCTS_TABLE_RESULTS: 'SET_KEYWORD_TRACKER_PRODUCTS_TABLE_RESULTS',
 };
 
+/* Row height for the product keyword child table */
+export const PRODUCT_KEYWORD_ROW_HEIGHT = 50;
+
 /* Unique key on each row for tracker products table */
 export const TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY = 'id';
 
