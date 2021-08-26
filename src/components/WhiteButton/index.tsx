@@ -17,7 +17,7 @@ interface Props {
   submit?: boolean;
 }
 
-const OrangeButton = (props: Props) => {
+const WhiteButton = (props: Props) => {
   const {
     navigateTo,
     type,
@@ -79,4 +79,4 @@ const OrangeButton = (props: Props) => {
   }
 };
 
-export default OrangeButton;
+export default WhiteButton;

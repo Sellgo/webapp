@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { get } from 'lodash';
 import {
   CardNumberElement,
   CardExpiryElement,
@@ -18,9 +16,6 @@ import { postalCode } from '../../../../constants/Validators';
 /* App Config */
 import { AppConfig } from '../../../../config';
 
-/* Actions */
-import { setStripeLoading } from '../../../../actions/Settings/Subscription';
-
 /* Hooks */
 import { useInput } from '../../../../hooks/useInput';
 
@@ -33,6 +28,9 @@ import WhiteButton from '../../../../components/WhiteButton';
 
 /* Styling */
 import styles from './index.module.scss';
+
+/* Notifications */
+import { success } from '../../../../utils/notifications';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -52,29 +50,34 @@ const CARD_ELEMENT_OPTIONS = {
 };
 
 interface MyProps {
-  setStripeLoad: (data: boolean) => void;
-  stripeLoading: boolean;
   handleCloseModal: () => void;
+  fetchCreditCardInfo: () => void;
 }
 
 const UpdateCardForm = (props: MyProps) => {
+  const { handleCloseModal, fetchCreditCardInfo } = props;
   const stripe: any = useStripe();
   const elements = useElements();
   const sellerID = localStorage.getItem('userId');
-  const { stripeLoading, setStripeLoad, handleCloseModal } = props;
+
   const { value: name, bind: bindName } = useInput('');
   const { value: address, bind: bindAddress } = useInput('');
   const { value: city, bind: bindCity } = useInput('');
   const { value: stateAddress, bind: bindStateAddress } = useInput('');
   const { value: zipCode, bind: bindZipCode } = useInput('');
+
+  /* Country dropdown */
   const [selectedCountry, setSelectedCountry] = useState({
     key: 1,
     name: `United States`,
     code: 'US',
     value: 'US',
   });
-  const [paymentError, setPaymentError] = useState<string>('');
   const trigger = <span className="country-label">{selectedCountry.name}</span>;
+
+  /* Local states */
+  const [paymentError, setPaymentError] = useState<string>('');
+  const [stripeLoading, setStripeLoad] = useState<boolean>(false);
 
   const handleCountry = (data: any) => {
     setSelectedCountry(data);
@@ -124,13 +127,22 @@ const UpdateCardForm = (props: MyProps) => {
       setPaymentError(error);
       return;
     }
-
-    Axios.patch(`${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/credit-card`, data).then(
-      () => {
+    Axios.patch(`${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/credit-card`, data)
+      .then(res => {
+        if (res.status === 200) {
+          fetchCreditCardInfo();
+          success('Payment successfully updated.');
+          setStripeLoad(false);
+          handleCloseModal();
+        } else {
+          setStripeLoad(false);
+          setPaymentError('Failed to update payment. Please check card details.');
+        }
+      })
+      .catch(() => {
         setStripeLoad(false);
-        handleCloseModal();
-      }
-    );
+        setPaymentError('Failed to update payment. Please check card details.');
+      });
   };
 
   return (
@@ -239,14 +251,17 @@ const UpdateCardForm = (props: MyProps) => {
           </div>
 
           <div className={styles.paymentButtons}>
-            <WhiteButton
-              type="secondary"
-              size="medium"
-              onClick={() => handleCloseModal()}
-              className={styles.whiteButton}
-            >
-              Cancel
-            </WhiteButton>
+            <div className={styles.buttonWrapper}>
+              <WhiteButton
+                type="secondary"
+                size="medium"
+                onClick={() => handleCloseModal()}
+                className={styles.whiteButton}
+              >
+                Cancel
+              </WhiteButton>
+              {stripeLoading && <Dimmer blurring inverted active />}
+            </div>
             <div className={styles.buttonWrapper}>
               <WhiteButton submit type="secondary" size="medium" className={styles.whiteButton}>
                 Change Payment
@@ -269,11 +284,4 @@ const UpdateCardForm = (props: MyProps) => {
   );
 };
 
-const mapStateToProps = (state: {}) => ({
-  stripeLoading: get(state, 'subscription.stripeLoading'),
-});
-
-const mapDispatchToProps = {
-  setStripeLoad: (data: boolean) => setStripeLoading(data),
-};
-export default connect(mapStateToProps, mapDispatchToProps)(UpdateCardForm);
+export default UpdateCardForm;

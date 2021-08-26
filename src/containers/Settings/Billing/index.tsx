@@ -14,7 +14,6 @@ import PageHeader from '../../../components/PageHeader';
 import PastTransactionsSection from './PastTransactionsSection';
 
 /* Types */
-import { Subscription } from '../../../interfaces/Seller';
 import { AppConfig } from '../../../config';
 import QuotaAndPaymentsSection from './QuotaAndPaymentsSection';
 
@@ -24,6 +23,7 @@ import {
   StripeSubscriptionInfo,
   Transaction,
   CreditCard,
+  SubscriptionPlanType,
 } from '../../../interfaces/Settings/billing';
 
 import {
@@ -33,19 +33,13 @@ import {
 } from '../../../constants/Settings/billing';
 
 interface Props {
-  getSeller: () => void;
   fetchSellerSubscription: () => void;
-  sellerSubscription: any;
-  location: any;
-
-  subscriptions: Subscription[];
-  profile: any;
-  subscriptionPlan: string;
+  subscriptionPlan: SubscriptionPlanType;
   match: any;
 }
 
 const Billing = (props: Props) => {
-  const { match, fetchSellerSubscription, subscriptionPlan, profile } = props;
+  const { match, fetchSellerSubscription, subscriptionPlan } = props;
   const [isTransactionHistoryLoading, setTransactionHistoryLoading] = React.useState<boolean>(true);
   const [transactionHistory, setTransactionHistory] = React.useState<Transaction[]>([]);
 
@@ -63,6 +57,7 @@ const Billing = (props: Props) => {
   const sellerID = localStorage.getItem('userId');
 
   const fetchSubscriptionStripeInfo = async () => {
+    setSubscriptionStripeLoading(true);
     const res = await axios.get(`
       ${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/current-subscription`);
     if (res.status === 200) {
@@ -72,6 +67,7 @@ const Billing = (props: Props) => {
   };
 
   const fetchCreditCardInfo = async () => {
+    setCreditCardLoading(true);
     const res = await axios.get(`
     ${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/credit-card`);
     if (res.status === 200) {
@@ -81,6 +77,7 @@ const Billing = (props: Props) => {
   };
 
   const fetchQuotas = async () => {
+    setQuotaLoading(true);
     const res = await axios.get(`
     ${AppConfig.BASE_URL_API}sellers/${sellerID}/quota`);
     if (res.status === 200) {
@@ -89,9 +86,20 @@ const Billing = (props: Props) => {
     setQuotaLoading(false);
   };
 
-  const fetchTransactionHistory = async () => {
+  const fetchTransactionHistoryPastYear = async () => {
+    setTransactionHistoryLoading(true);
     const res = await axios.get(`
-    ${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/transactions`);
+    ${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/year/transactions`);
+    if (res.status === 200) {
+      setTransactionHistory(res.data);
+    }
+    setTransactionHistoryLoading(false);
+  };
+
+  const fetchTransactionHistoryAll = async () => {
+    setTransactionHistoryLoading(true);
+    const res = await axios.get(`
+    ${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/all/transactions`);
     if (res.status === 200) {
       setTransactionHistory(res.data);
     }
@@ -104,14 +112,13 @@ const Billing = (props: Props) => {
     fetchSubscriptionStripeInfo();
     fetchCreditCardInfo();
     fetchQuotas();
-    fetchTransactionHistory();
+    fetchTransactionHistoryPastYear();
   }, []);
 
   React.useEffect(() => {
-    console.log('plan', subscriptionPlan);
-    console.log('profile', profile);
-  }, [subscriptionPlan, profile]);
-  console.log(transactionHistory);
+    console.log(subscriptionPlan);
+  }, [subscriptionPlan]);
+
   return (
     <>
       <PageHeader
@@ -126,18 +133,20 @@ const Billing = (props: Props) => {
 
       <main className={styles.billingPageWrapper}>
         <QuotaAndPaymentsSection
-          subscriptionPlan="Professional"
+          subscriptionPlan={subscriptionPlan}
           subscriptionDetails={subscriptionStripeInfo}
           quotas={quotas}
           card={creditCardInfo}
           isQuotaLoading={isQuotaLoading}
           isSubscriptionStripeLoading={isSubscriptionStripeLoading}
           isCreditCardLoading={isCreditCardLoading}
+          fetchCreditCardInfo={fetchCreditCardInfo}
         />
 
         <PastTransactionsSection
           transactionHistory={transactionHistory}
           loading={isTransactionHistoryLoading}
+          fetchTransactionHistoryAll={fetchTransactionHistoryAll}
         />
       </main>
     </>
@@ -145,10 +154,6 @@ const Billing = (props: Props) => {
 };
 
 const mapStateToProps = (state: any) => ({
-  profile: state.settings.profile,
-  sellerSubscription: state.subscription.sellerSubscription,
-  subscriptionType: state.subscription.subscriptionType,
-  subscriptions: state.subscription.subscriptions,
   subscriptionPlan: state.subscription.plan,
 });
 

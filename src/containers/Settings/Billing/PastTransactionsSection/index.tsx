@@ -11,26 +11,35 @@ import PaymentMethodCell from './PaymentMethodCell';
 import PlanDescriptionCell from './PlanDescriptionCell';
 import ReceiptCell from './ReceiptCell';
 import IsSuccessfulTransactionCell from './IsSuccessfulTransactionCell';
+import ProfileBoxHeader from '../../../../components/ProfileBoxHeader';
 
 /* Constants */
 import { CENTER_ALIGN_SETTINGS } from '../../../../constants/Table';
 
 /* Types */
 import { Transaction } from '../../../../interfaces/Settings/billing';
+import { Dimmer, Loader } from 'semantic-ui-react';
 
 interface Props {
   transactionHistory: Transaction[];
   loading: boolean;
+  fetchTransactionHistoryAll: () => void;
 }
 
 /* Main component */
 const PastTransactionsSection = (props: Props) => {
-  const { transactionHistory, loading } = props;
+  const { transactionHistory, loading, fetchTransactionHistoryAll } = props;
+  const [isAllHistoryFetched, setAllHistoryFetched] = React.useState<boolean>(false);
+
+  const handleFetchMoreHistory = () => {
+    fetchTransactionHistoryAll();
+    setAllHistoryFetched(true);
+  };
 
   if (!loading && transactionHistory.length === 0) {
     return (
       <section>
-        <div className={`${styles.transactionHistoryBoxRow}`}>Billing History</div>
+        <ProfileBoxHeader>Billing History</ProfileBoxHeader>
         <div className={styles.transactionHistoryTable}>No past transactions found.</div>
       </section>
     );
@@ -38,10 +47,9 @@ const PastTransactionsSection = (props: Props) => {
   return (
     <>
       <section>
-        <div className={`${styles.transactionHistoryBoxRow}`}>Billing History</div>
+        <ProfileBoxHeader>Billing History</ProfileBoxHeader>
         <div className={styles.transactionHistoryTable}>
           <Table
-            loading={loading}
             data={transactionHistory}
             hover={false}
             autoHeight
@@ -84,6 +92,18 @@ const PastTransactionsSection = (props: Props) => {
               <ReceiptCell dataKey="receipt" />
             </Table.Column>
           </Table>
+
+          {!isAllHistoryFetched && !loading && (
+            <button className={styles.retrieveMoreHistoryButton} onClick={handleFetchMoreHistory}>
+              Look up more billing history
+            </button>
+          )}
+
+          {loading && (
+            <Dimmer blurring inverted active>
+              <Loader />
+            </Dimmer>
+          )}
         </div>
       </section>
     </>

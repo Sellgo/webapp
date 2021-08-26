@@ -15,6 +15,8 @@ import NewQuotaMeter from '../../../../components/NewQuotaMeter';
 import PlanTypeButton from '../../../../components/PlanTypeButton';
 import UpdateCardForm from '../UpdateCardForm';
 import WhiteButton from '../../../../components/WhiteButton';
+import ProfileBoxHeader from '../../../../components/ProfileBoxHeader';
+import ProfileBoxFooter from '../../../../components/ProfileBoxFooter';
 import CreditCardIcon from '../../../../assets/images/credit-card-solid.svg';
 import HelpingHandsIcon from '../../../../assets/images/hands-helping-solid.svg';
 
@@ -23,6 +25,7 @@ import {
   QuotaCollection,
   StripeSubscriptionInfo,
   CreditCard,
+  SubscriptionPlanType,
 } from '../../../../interfaces/Settings/billing';
 
 /* Utils */
@@ -30,13 +33,14 @@ import { capitalizeFirstLetter } from '../../../../utils/format';
 
 const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
 interface Props {
-  subscriptionPlan: 'Professional' | 'Team' | 'Basic';
+  subscriptionPlan: SubscriptionPlanType;
   subscriptionDetails: StripeSubscriptionInfo;
   quotas: QuotaCollection;
   card: CreditCard;
   isQuotaLoading: boolean;
   isSubscriptionStripeLoading: boolean;
   isCreditCardLoading: boolean;
+  fetchCreditCardInfo: () => void;
 }
 
 const QuotaAndPaymentsSection = (props: Props) => {
@@ -48,6 +52,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
     isQuotaLoading,
     isSubscriptionStripeLoading,
     isCreditCardLoading,
+    fetchCreditCardInfo,
   } = props;
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
 
@@ -79,15 +84,9 @@ const QuotaAndPaymentsSection = (props: Props) => {
   };
 
   return (
-    <section>
-      <div className={`${styles.billingBoxRow__heading} ${styles.billingBoxRow}`}>Billing</div>
+    <section className={styles.quotaAndPaymentsWrapper}>
+      <ProfileBoxHeader>Billing</ProfileBoxHeader>
       <div className={styles.billingGrid}>
-        {/* To show dimmer when page is still loading */}
-        {(isQuotaLoading || isSubscriptionStripeLoading || isCreditCardLoading) && (
-          <Dimmer blurring inverted active>
-            <Loader className={styles.loader} />
-          </Dimmer>
-        )}
         <p className={`${styles.boxTitle}`}> Your Plan</p>
         <div>
           <div className={styles.planDetailsRow}>
@@ -162,12 +161,23 @@ const QuotaAndPaymentsSection = (props: Props) => {
             </WhiteButton>
           </div>
         </div>
+        {/* To show dimmer when page is still loading */}
+        {(isQuotaLoading || isSubscriptionStripeLoading || isCreditCardLoading) && (
+          <Dimmer blurring inverted active>
+            <Loader className={styles.loader} />
+          </Dimmer>
+        )}
       </div>
-      <div className={`${styles.billingBoxRow__footer} ${styles.billingBoxRow}`}>
-        <img src={HelpingHandsIcon} alt="helping-hands-icon" />
-        &nbsp;&nbsp; If you have any trouble with the payment setting, you can contact us at&nbsp;
-        <a href="mailto: support@sellgo.com">support@sellgo.com</a>. We Can Help.
-      </div>
+      <ProfileBoxFooter>
+        <div>
+          <img src={HelpingHandsIcon} alt="helping-hands-icon" />
+          &nbsp;&nbsp; If you have any trouble with the payment setting, you can contact us at&nbsp;
+          <a href="mailto: support@sellgo.com" className={styles.mailLink}>
+            support@sellgo.com
+          </a>
+          . We Can Help.
+        </div>
+      </ProfileBoxFooter>
       <Modal
         open={modalOpen}
         onClose={handleModalClose}
@@ -176,7 +186,10 @@ const QuotaAndPaymentsSection = (props: Props) => {
         closeIcon
       >
         <Elements stripe={stripePromise}>
-          <UpdateCardForm handleCloseModal={handleModalClose} />
+          <UpdateCardForm
+            handleCloseModal={handleModalClose}
+            fetchCreditCardInfo={fetchCreditCardInfo}
+          />
         </Elements>
       </Modal>
     </section>

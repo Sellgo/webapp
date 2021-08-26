@@ -32,3 +32,5 @@ export interface CreditCard {
   last4: string;
   exp_date: string;
 }
+
+export type SubscriptionPlanType = 'Professional Plan' | 'Basic Plan' | 'Team Plan';
