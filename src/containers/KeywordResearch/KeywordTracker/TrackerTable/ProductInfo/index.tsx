@@ -14,21 +14,18 @@ import CopyToClipboard from '../../../../../components/CopyToClipboard';
 import { truncateIntoTwoLines } from '../../../../../utils/format';
 
 const ProductInfo = (props: RowCell) => {
-  const [firstPart, secondPart] = truncateIntoTwoLines(
-    'Title of the product Title of the product Title of the product',
-    45,
-    70
-  );
+  const { rowData } = props;
+
+  const { title, asin, image_url } = rowData;
+
+  const [firstPart, secondPart] = truncateIntoTwoLines(title, 45, 70);
 
   return (
     <Table.Cell {...props}>
       <div className={styles.productInfoContainer}>
         {/* Product Image */}
         <div className={styles.productImage}>
-          <img
-            src={require('../../../../../assets/images/Image 37.png')}
-            alt="Product name goes here"
-          />
+          <img src={image_url} alt={title} />
         </div>
 
         {/* Product Meta Details */}
@@ -38,7 +35,7 @@ const ProductInfo = (props: RowCell) => {
 
           <div className={styles.productMetaDetails}>
             <img src={require('../../../../../assets/images/USFlag.png')} alt="American Flag" />
-            <CopyToClipboard data={'B078WLH42J'} displayData={'B078WLH42J'} />
+            <CopyToClipboard data={asin} displayData={asin} />
           </div>
         </div>
       </div>

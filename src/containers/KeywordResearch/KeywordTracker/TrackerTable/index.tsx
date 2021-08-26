@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table } from 'rsuite';
 import { connect } from 'react-redux';
 
@@ -31,13 +31,25 @@ import {
   getKeywordTrackerProductsTableResults,
 } from '../../../../selectors/KeywordResearch/KeywordTracker';
 
+/* Actions */
+import { fetchKeywordTrackerProductsTable } from '../../../../actions/KeywordResearch/KeywordTracker';
+
+/* Interfaces */
+import { TrackerTableProductsPayload } from '../../../../interfaces/KeywordResearch/KeywordTracker';
+
 interface Props {
   isLoadingKeywordTrackerProductsTable: boolean;
   keywordTrackerProductsTableResults: any[];
+
+  fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) => void;
 }
 
 const TrackerTable = (props: Props) => {
-  const { isLoadingKeywordTrackerProductsTable, keywordTrackerProductsTableResults } = props;
+  const {
+    isLoadingKeywordTrackerProductsTable,
+    keywordTrackerProductsTableResults,
+    fetchKeywordTrackerProductsTable,
+  } = props;
 
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
@@ -62,6 +74,10 @@ const TrackerTable = (props: Props) => {
       setExpandedRowkeys([]);
     }
   };
+
+  useEffect(() => {
+    fetchKeywordTrackerProductsTable({});
+  }, []);
 
   return (
     <section className={styles.keywordTrackerTableWrapper}>
@@ -191,8 +207,11 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-const mapDispatchToProps = () => {
-  return {};
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) =>
+      dispatch(fetchKeywordTrackerProductsTable(payload)),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TrackerTable);

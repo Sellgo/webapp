@@ -12,19 +12,17 @@ import FormFilterActions from '../../../../components/FormFilters/FormFilterActi
 /* Actions */
 import { fetchKeywordTrackerProductsTable } from '../../../../actions/KeywordResearch/KeywordTracker';
 
-/* Interfaces */
-import { TrackProductAndKeywords } from '../../../../interfaces/KeywordResearch/KeywordTracker';
-
 /* Constants */
 import { isValidAsin } from '../../../../constants';
 
+/* Interfaces */
+import { TrackerTableProductsPayload } from '../../../../interfaces/KeywordResearch/KeywordTracker';
+
 interface Props {
-  fetchKeywordTrackerProductsTable: (payload: TrackProductAndKeywords) => void;
+  fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) => void;
 }
 
-const TrackerFilters = (props: Props) => {
-  const { fetchKeywordTrackerProductsTable } = props;
-
+const TrackerFilters = () => {
   /* Basic Filters */
   const [asin, setAsin] = useState('');
   const [keywords, setKeywords] = useState('');
@@ -39,6 +37,7 @@ const TrackerFilters = (props: Props) => {
     setKeywords('');
     setTrackParentsAndVariations(false);
     setRemoveSpecialChars(false);
+    fetchKeywordTrackerProductsTable({ resetFilters: true });
   };
 
   /* Handle Submit */
@@ -50,7 +49,11 @@ const TrackerFilters = (props: Props) => {
         : keywords,
     };
 
-    fetchKeywordTrackerProductsTable(payload);
+    setAsin('');
+    setKeywords('');
+    setTrackParentsAndVariations(false);
+    setRemoveSpecialChars(false);
+    console.log(payload);
   };
 
   /* Handle error for asin */
@@ -115,7 +118,7 @@ const TrackerFilters = (props: Props) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchKeywordTrackerProductsTable: (payload: TrackProductAndKeywords) =>
+    fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) =>
       dispatch(fetchKeywordTrackerProductsTable(payload)),
   };
 };

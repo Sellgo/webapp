@@ -1,4 +1,4 @@
-export interface TrackProductAndKeywords {
-  asin: string;
-  keywords: string;
+export interface TrackerTableProductsPayload {
+  resetFilters?: boolean;
+  enableLoader?: boolean;
 }

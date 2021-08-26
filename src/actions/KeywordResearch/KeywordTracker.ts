@@ -4,8 +4,9 @@ import { AppConfig } from '../../config';
 import { actionTypes } from '../../constants/KeywordResearch/KeywordTracker';
 
 /* Interfaces */
-import { TrackProductAndKeywords } from '../../interfaces/KeywordResearch/KeywordTracker';
-import { getKeywordTrackerProductsTableResults } from '../../selectors/KeywordResearch/KeywordTracker';
+import { TrackerTableProductsPayload } from '../../interfaces/KeywordResearch/KeywordTracker';
+
+/* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
 
 /* ================================================= */
@@ -33,30 +34,28 @@ export const setKeywordTrackerProductsTableResults = (payload: any) => {
 /* ================================================= */
 
 /* Action to fetch the keyword tacker products table content */
-export const fetchKeywordTrackerProductsTable = (payload: TrackProductAndKeywords) => async (
-  dispatch: any,
-  getState: any
+export const fetchKeywordTrackerProductsTable = (payload: TrackerTableProductsPayload) => async (
+  dispatch: any
 ) => {
   const sellerId = sellerIDSelector();
-  const currentlyTrackedProducts = getKeywordTrackerProductsTableResults(getState());
 
   try {
-    const { asin, keywords } = payload;
+    const { resetFilters = false, enableLoader = true } = payload;
 
-    const formData = new FormData();
+    if (resetFilters) {
+      dispatch(isLoadingKeywordTrackerProductsTable(false));
+      dispatch(setKeywordTrackerProductsTableResults([]));
+      return;
+    }
 
-    // Prepare the POST payload to track a product with keywords
-    formData.set('asin', asin);
-    formData.set('phrases', keywords);
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/products`;
 
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track`;
+    dispatch(isLoadingKeywordTrackerProductsTable(enableLoader));
 
-    dispatch(isLoadingKeywordTrackerProductsTable(true));
-    const { data } = await axios.post(URL, formData);
+    const { data } = await axios.get(URL);
 
     if (data) {
-      const updatedTrackedProducts = [...currentlyTrackedProducts, data];
-      dispatch(setKeywordTrackerProductsTableResults(updatedTrackedProducts));
+      dispatch(setKeywordTrackerProductsTableResults(data));
       dispatch(isLoadingKeywordTrackerProductsTable(false));
     }
   } catch (err) {
