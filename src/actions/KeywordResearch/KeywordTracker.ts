@@ -6,6 +6,7 @@ import { actionTypes } from '../../constants/KeywordResearch/KeywordTracker';
 /* Interfaces */
 import {
   ProductTrackPayload,
+  TrackerProductKeywordsTablePayload,
   TrackerTableProductsPayload,
 } from '../../interfaces/KeywordResearch/KeywordTracker';
 import { getKeywordTrackerProductsTableResults } from '../../selectors/KeywordResearch/KeywordTracker';
@@ -29,6 +30,26 @@ export const isLoadingKeywordTrackerProductsTable = (payload: boolean) => {
 export const setKeywordTrackerProductsTableResults = (payload: any) => {
   return {
     type: actionTypes.SET_KEYWORD_TRACKER_PRODUCTS_TABLE_RESULTS,
+    payload,
+  };
+};
+
+/* ================================================= */
+/*    KEYWORD TRACKER PRODUCT KEYWORDS TABLE   */
+/* ================================================= */
+
+/* Action to set loading state of keyword tracker product table */
+export const isLoadingTrackerProductKeywordsTable = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_LOADING_TRACKER_PRODUCT_KEYWORDS_TABLE,
+    payload,
+  };
+};
+
+/* Action to set keyword tracker products table results */
+export const setTrackerProductKeywordsTableResults = (payload: any) => {
+  return {
+    type: actionTypes.SET_TRACKER_PRODUCT_KEYWORDS_TABLE_RESULTS,
     payload,
   };
 };
@@ -98,5 +119,33 @@ export const fetchKeywordTrackerProductsTable = (payload: TrackerTableProductsPa
   } catch (err) {
     console.error('Error fetching tracker table products', err);
     dispatch(isLoadingKeywordTrackerProductsTable(false));
+  }
+};
+
+/* Action to fetch the kwyords for the product on tracker table */
+export const fetchTrackerProductKeywordsTable = (
+  payload: TrackerProductKeywordsTablePayload
+) => async (dispatch: any) => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const { keywordTrackProductId, enableLoader = true } = payload;
+
+    const resourcePath = `keyword_track_product_id=${keywordTrackProductId}`;
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track?${resourcePath}`;
+
+    dispatch(isLoadingTrackerProductKeywordsTable(enableLoader));
+
+    const { data } = await axios.get(URL);
+
+    if (data) {
+      dispatch(setTrackerProductKeywordsTableResults(data));
+      dispatch(isLoadingTrackerProductKeywordsTable(false));
+    }
+  } catch (err) {
+    console.error('Error Fetching Tracker');
+    dispatch(setTrackerProductKeywordsTableResults([]));
+    dispatch(isLoadingTrackerProductKeywordsTable(false));
   }
 };
