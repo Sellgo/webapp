@@ -4,7 +4,11 @@ import { AppConfig } from '../../config';
 import { actionTypes } from '../../constants/KeywordResearch/KeywordTracker';
 
 /* Interfaces */
-import { TrackerTableProductsPayload } from '../../interfaces/KeywordResearch/KeywordTracker';
+import {
+  ProductTrackPayload,
+  TrackerTableProductsPayload,
+} from '../../interfaces/KeywordResearch/KeywordTracker';
+import { getKeywordTrackerProductsTableResults } from '../../selectors/KeywordResearch/KeywordTracker';
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
@@ -33,6 +37,39 @@ export const setKeywordTrackerProductsTableResults = (payload: any) => {
 /*   						ASYNC ACTIONS 											 */
 /* ================================================= */
 
+/* Action to track products (asin) and the kwyrods */
+export const trackProductWithAsinAndKeywords = (payload: ProductTrackPayload) => async (
+  dispatch: any,
+  getState: any
+) => {
+  const sellerId = sellerIDSelector();
+  const currentlyTrackedProducts = getKeywordTrackerProductsTableResults(getState());
+
+  try {
+    const { asin, keywords } = payload;
+
+    if (!asin || !keywords) {
+      return;
+    }
+
+    const formData = new FormData();
+
+    formData.set('asin', asin);
+    formData.set('phrases', keywords);
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track`;
+
+    const { data } = await axios.post(URL, formData);
+
+    if (data) {
+      const updatedData = [...currentlyTrackedProducts, data];
+      dispatch(setKeywordTrackerProductsTableResults(updatedData));
+    }
+  } catch (err) {
+    console.error('Error tracking product with keyword', err);
+  }
+};
+
 /* Action to fetch the keyword tacker products table content */
 export const fetchKeywordTrackerProductsTable = (payload: TrackerTableProductsPayload) => async (
   dispatch: any
@@ -59,7 +96,7 @@ export const fetchKeywordTrackerProductsTable = (payload: TrackerTableProductsPa
       dispatch(isLoadingKeywordTrackerProductsTable(false));
     }
   } catch (err) {
-    console.error('Error try to track product and keyword on main tale', err);
+    console.error('Error fetching tracker table products', err);
     dispatch(isLoadingKeywordTrackerProductsTable(false));
   }
 };

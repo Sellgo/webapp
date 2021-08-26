@@ -10,19 +10,28 @@ import InputFilter from '../../../../components/FormFilters/InputFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 
 /* Actions */
-import { fetchKeywordTrackerProductsTable } from '../../../../actions/KeywordResearch/KeywordTracker';
+import {
+  fetchKeywordTrackerProductsTable,
+  trackProductWithAsinAndKeywords,
+} from '../../../../actions/KeywordResearch/KeywordTracker';
 
 /* Constants */
 import { isValidAsin } from '../../../../constants';
 
 /* Interfaces */
-import { TrackerTableProductsPayload } from '../../../../interfaces/KeywordResearch/KeywordTracker';
+import {
+  ProductTrackPayload,
+  TrackerTableProductsPayload,
+} from '../../../../interfaces/KeywordResearch/KeywordTracker';
 
 interface Props {
   fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) => void;
+  trackProductWithAsinAndKeywords: (payload: ProductTrackPayload) => void;
 }
 
-const TrackerFilters = () => {
+const TrackerFilters = (props: Props) => {
+  const { fetchKeywordTrackerProductsTable, trackProductWithAsinAndKeywords } = props;
+
   /* Basic Filters */
   const [asin, setAsin] = useState('');
   const [keywords, setKeywords] = useState('');
@@ -53,7 +62,7 @@ const TrackerFilters = () => {
     setKeywords('');
     setTrackParentsAndVariations(false);
     setRemoveSpecialChars(false);
-    console.log(payload);
+    trackProductWithAsinAndKeywords(payload);
   };
 
   /* Handle error for asin */
@@ -120,6 +129,8 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) =>
       dispatch(fetchKeywordTrackerProductsTable(payload)),
+    trackProductWithAsinAndKeywords: (payload: ProductTrackPayload) =>
+      dispatch(trackProductWithAsinAndKeywords(payload)),
   };
 };
 
