@@ -12,21 +12,7 @@ const INITIAL_STATE = {
 
   // State for the keyword table for each product on keyword tracker
   isLoadingTrackerProductKeywordsTable: false,
-  trackerProductKeywordsTableResults: [
-    {
-      keyword_track_id: 4,
-      seller: 1000000002,
-      keyword_track_product_id: 2,
-      phrase: '',
-      search_volume: 20,
-      competing_products: 350,
-      position_rank: 2000,
-      relative_rank: 547,
-      average_rank: 100,
-      ranking_asins: null,
-      status: 'active',
-    },
-  ],
+  trackerProductKeywordsTableResults: [],
 };
 
 const keywordTrackerReducer = (state = INITIAL_STATE, action: AnyAction) => {

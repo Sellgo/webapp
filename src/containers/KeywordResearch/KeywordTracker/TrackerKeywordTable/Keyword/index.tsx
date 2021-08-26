@@ -5,7 +5,7 @@ import { Table } from 'rsuite';
 import styles from './index.module.scss';
 
 /* Component */
-import CopyToClipboard from '../../../../../components/CopyToClipboard';
+import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipboard';
 
 /* Interface */
 import { RowCell } from '../../../../../interfaces/Table';
@@ -21,7 +21,11 @@ const Keyword = (props: RowCell) => {
   return (
     <Table.Cell {...props}>
       <div className={styles.keyword}>
-        <CopyToClipboard data={phrase} displayData={truncateString(phrase, 100)} />
+        <CopyAndLocateClipboard
+          data={phrase}
+          displayData={truncateString(phrase, 100)}
+          link={`https://www.amazon.com/s?k=${phrase}`}
+        />
       </div>
     </Table.Cell>
   );

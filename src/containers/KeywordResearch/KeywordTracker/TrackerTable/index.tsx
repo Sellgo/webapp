@@ -21,8 +21,8 @@ import TrackerKeywordTable from '../TrackerKeywordTable';
 
 /* Constants */
 import {
+  calculateKeywordsTableHeight,
   DEFAULT_PAGES_LIST,
-  PRODUCT_KEYWORD_ROW_HEIGHT,
   TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY,
 } from '../../../../constants/KeywordResearch/KeywordTracker';
 
@@ -30,19 +30,29 @@ import {
 import {
   getIsLoadingKeywordTrackerProductsTable,
   getKeywordTrackerProductsTableResults,
+  getTrackerProductKeywordsTableResults,
 } from '../../../../selectors/KeywordResearch/KeywordTracker';
 
 /* Actions */
-import { fetchKeywordTrackerProductsTable } from '../../../../actions/KeywordResearch/KeywordTracker';
+import {
+  fetchKeywordTrackerProductsTable,
+  fetchTrackerProductKeywordsTable,
+} from '../../../../actions/KeywordResearch/KeywordTracker';
 
 /* Interfaces */
-import { TrackerTableProductsPayload } from '../../../../interfaces/KeywordResearch/KeywordTracker';
+import {
+  TrackerProductKeywordsTablePayload,
+  TrackerTableProductsPayload,
+} from '../../../../interfaces/KeywordResearch/KeywordTracker';
 
 interface Props {
   isLoadingKeywordTrackerProductsTable: boolean;
+  // chore: need to add typescript here
   keywordTrackerProductsTableResults: any[];
+  trackerProductKeywordsTableResults: any[];
 
   fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) => void;
+  fetchTrackerProductKeywordsTable: (payload: TrackerProductKeywordsTablePayload) => void;
 }
 
 const TrackerTable = (props: Props) => {
@@ -50,6 +60,9 @@ const TrackerTable = (props: Props) => {
     isLoadingKeywordTrackerProductsTable,
     keywordTrackerProductsTableResults,
     fetchKeywordTrackerProductsTable,
+
+    trackerProductKeywordsTableResults,
+    fetchTrackerProductKeywordsTable,
   } = props;
 
   const [sortColumn, setSortColumn] = useState<string>('');
@@ -76,6 +89,7 @@ const TrackerTable = (props: Props) => {
     }
   };
 
+  /* Load contents for keyword tracker products table */
   useEffect(() => {
     fetchKeywordTrackerProductsTable({});
   }, []);
@@ -95,9 +109,14 @@ const TrackerTable = (props: Props) => {
         onSortColumn={handleSortColumn}
         //  Props for table expansion
         rowKey={TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY}
-        rowExpandedHeight={PRODUCT_KEYWORD_ROW_HEIGHT * 14}
+        rowExpandedHeight={calculateKeywordsTableHeight(trackerProductKeywordsTableResults.length)}
         expandedRowKeys={expandedRowKeys}
-        renderRowExpanded={() => <TrackerKeywordTable />}
+        renderRowExpanded={(rowData: any) => {
+          fetchTrackerProductKeywordsTable({
+            keywordTrackProductId: rowData.keyword_track_product_id,
+          });
+          return <TrackerKeywordTable />;
+        }}
       >
         {/* Expand Cell */}
         <Table.Column verticalAlign="top" fixed align="left" width={25}>
@@ -205,6 +224,7 @@ const mapStateToProps = (state: any) => {
   return {
     isLoadingKeywordTrackerProductsTable: getIsLoadingKeywordTrackerProductsTable(state),
     keywordTrackerProductsTableResults: getKeywordTrackerProductsTableResults(state),
+    trackerProductKeywordsTableResults: getTrackerProductKeywordsTableResults(state),
   };
 };
 
@@ -212,6 +232,8 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) =>
       dispatch(fetchKeywordTrackerProductsTable(payload)),
+    fetchTrackerProductKeywordsTable: (payload: TrackerProductKeywordsTablePayload) =>
+      dispatch(fetchTrackerProductKeywordsTable(payload)),
   };
 };
 
