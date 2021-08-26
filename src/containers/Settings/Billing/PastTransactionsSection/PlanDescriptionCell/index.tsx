@@ -6,7 +6,7 @@ import { RowCell } from '../../../../../interfaces/Table';
 import { SubscriptionPlanType } from '../../../../../interfaces/Settings/billing';
 
 /* Components */
-import PlanTypeButton from '../../../../../components/PlanTypeButton';
+import PlanTypeRectangle from '../../../../../components/PlanTypeRectangle';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -32,7 +32,7 @@ const PlanDescriptionCell = (props: RowCell) => {
   return (
     <Table.Cell {...props}>
       <div className={styles.planDescriptionWrapper}>
-        <PlanTypeButton plan={planName} small />
+        <PlanTypeRectangle plan={planName} isSmall />
       </div>
     </Table.Cell>
   );

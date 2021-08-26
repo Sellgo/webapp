@@ -12,9 +12,9 @@ import './modalReset.scss';
 
 /* Components */
 import NewQuotaMeter from '../../../../components/NewQuotaMeter';
-import PlanTypeButton from '../../../../components/PlanTypeButton';
+import PlanTypeRectangle from '../../../../components/PlanTypeRectangle';
 import UpdateCardForm from '../UpdateCardForm';
-import WhiteButton from '../../../../components/WhiteButton';
+import OrangeButton from '../../../../components/OrangeButton';
 import ProfileBoxHeader from '../../../../components/ProfileBoxHeader';
 import ProfileBoxFooter from '../../../../components/ProfileBoxFooter';
 import CreditCardIcon from '../../../../assets/images/credit-card-solid.svg';
@@ -90,7 +90,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
         <p className={`${styles.boxTitle}`}> Your Plan</p>
         <div>
           <div className={styles.planDetailsRow}>
-            <PlanTypeButton plan={subscriptionPlan} />
+            <PlanTypeRectangle plan={subscriptionPlan} />
             <span>&nbsp; - You have used {getTotalUsedQuota()} of the available quota.</span>
           </div>
           <div className={styles.quotaBarsWrapper}>
@@ -125,15 +125,15 @@ const QuotaAndPaymentsSection = (props: Props) => {
 
           <div className={styles.innerGrid}>
             <p className={styles.actionLabel}> Action </p>
-            <WhiteButton
+            <OrangeButton
               asExternal
-              type="secondary"
+              type="white"
               size="small"
-              navigateTo="/"
+              navigateTo="/settings/pricing"
               className={styles.actionButton}
             >
               Change Plan
-            </WhiteButton>
+            </OrangeButton>
           </div>
         </div>
 
@@ -150,15 +150,14 @@ const QuotaAndPaymentsSection = (props: Props) => {
             <p className={styles.paymentDetailsLabel}> Amount </p>
             <p className={styles.paymentDetailsContent}> {subscriptionDetails.payment_amount} </p>
             <p className={styles.actionLabel}> Action </p>
-            <WhiteButton
-              asExternal
-              type="secondary"
+            <OrangeButton
+              type="white"
               size="small"
               onClick={handleModalOpen}
               className={styles.actionButton}
             >
               Change Payment
-            </WhiteButton>
+            </OrangeButton>
           </div>
         </div>
         {/* To show dimmer when page is still loading */}

@@ -158,7 +158,6 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
-  getSeller: () => getSellerInfo(),
   fetchSellerSubscription: () => fetchSellerSubscription(),
 };
 

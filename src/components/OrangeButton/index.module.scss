@@ -1,3 +1,5 @@
+@import '../../design-system/new-colors';
+
 /* Style Guide for cta button */
 .ctabutton {
   color: #fff;
@@ -23,6 +25,13 @@
     background: #808080;
     color: #fff;
     border: 1px solid #808080;
+  }
+
+  &__white {
+    background: #fff;
+    color: $grey_8;
+    border: 1px solid $grey_6;
+    font-weight: normal !important;
   }
 
   &__large {
@@ -52,6 +61,5 @@
   &:hover {
     cursor: pointer;
     text-decoration: none;
-    color: #fff;
   }
 }

@@ -8,11 +8,11 @@ import { SubscriptionPlanType } from '../../interfaces/Settings/billing';
 
 interface Props {
   plan: SubscriptionPlanType;
-  small?: boolean;
+  isSmall?: boolean;
 }
 
-const PlanTypeButton = (props: Props) => {
-  const { plan, small } = props;
+const PlanTypeRectangle = (props: Props) => {
+  const { plan, isSmall } = props;
 
   const className = classNames(
     { [styles.planTypeButton__professional]: plan === 'Professional Plan' },
@@ -23,7 +23,7 @@ const PlanTypeButton = (props: Props) => {
   // Removing the word ' Plan' to display
   const displayPlanText = plan.substring(0, plan.length - 5);
 
-  const sizeClassName = small ? styles.planTypeButton__small : '';
+  const sizeClassName = isSmall ? styles.planTypeButton__small : '';
 
   return (
     <div className={`${styles.planTypeButton} ${className} ${sizeClassName}`}>
@@ -32,4 +32,4 @@ const PlanTypeButton = (props: Props) => {
   );
 };
 
-export default PlanTypeButton;
+export default PlanTypeRectangle;

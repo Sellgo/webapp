@@ -24,7 +24,7 @@ import cardIcons from '../../../../assets/images/4_Card_color_horizontal.svg';
 import stripeIcon from '../../../../assets/images/powered_by_stripe.svg';
 
 /* Components */
-import WhiteButton from '../../../../components/WhiteButton';
+import OrangeButton from '../../../../components/OrangeButton';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -252,20 +252,20 @@ const UpdateCardForm = (props: MyProps) => {
 
           <div className={styles.paymentButtons}>
             <div className={styles.buttonWrapper}>
-              <WhiteButton
-                type="secondary"
+              <OrangeButton
+                type="white"
                 size="medium"
                 onClick={() => handleCloseModal()}
                 className={styles.whiteButton}
               >
                 Cancel
-              </WhiteButton>
+              </OrangeButton>
               {stripeLoading && <Dimmer blurring inverted active />}
             </div>
             <div className={styles.buttonWrapper}>
-              <WhiteButton submit type="secondary" size="medium" className={styles.whiteButton}>
+              <OrangeButton type="white" size="medium" className={styles.whiteButton}>
                 Change Payment
-              </WhiteButton>
+              </OrangeButton>
               {stripeLoading && (
                 <Dimmer blurring inverted active>
                   <Loader className={styles.loader} size="mini" />
