@@ -51,7 +51,16 @@ const defaultShowCredentials = {
   authToken: false,
 };
 
-const Connectivity = (props: any) => {
+interface Props {
+  amazonMWSAuth: any;
+  updateAmazonMWSAuth: (data: any) => void;
+  deleteMWSAuth: (mwsId: any) => void;
+  subscriptionType: any;
+  getSeller: () => void;
+  getAmazonMWSAuth: () => void;
+}
+
+const Connectivity = (props: Props) => {
   const {
     amazonMWSAuth,
     updateAmazonMWSAuth,
