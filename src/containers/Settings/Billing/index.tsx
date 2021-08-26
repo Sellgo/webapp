@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
+import axios from 'axios';
 
 /* Actions */
 import { fetchSellerSubscription } from '../../../actions/Settings/Subscription';
@@ -12,15 +11,26 @@ import styles from './index.module.scss';
 
 /* Components */
 import PageHeader from '../../../components/PageHeader';
-import UpdateCardForm from './UpdateCardForm';
-import PlanTypeButton from '../../../components/PlanTypeButton';
-import NewQuotaMeter from '../../../components/NewQuotaMeter';
+import PastTransactionsSection from './PastTransactionsSection';
 
 /* Types */
 import { Subscription } from '../../../interfaces/Seller';
 import { AppConfig } from '../../../config';
+import QuotaAndPaymentsSection from './QuotaAndPaymentsSection';
 
-const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
+/* Interfaces */
+import {
+  QuotaCollection,
+  StripeSubscriptionInfo,
+  Transaction,
+  CreditCard,
+} from '../../../interfaces/Settings/billing';
+
+import {
+  DEFAULT_CREDIT_CARD,
+  DEFAULT_QUOTA_COLLECTION,
+  DEFAULT_STRIPE_SUBSCRIPTION_INFO,
+} from '../../../constants/Settings/billing';
 
 interface Props {
   getSeller: () => void;
@@ -30,20 +40,78 @@ interface Props {
 
   subscriptions: Subscription[];
   profile: any;
-  subscriptionType: string;
   subscriptionPlan: string;
   match: any;
 }
 
 const Billing = (props: Props) => {
-  // const { subscriptions, profile, location, subscriptionPlan,
-  // subscriptionType, match, getSeller, fetchSellerSubscription } = props;
-  const { match, fetchSellerSubscription } = props;
+  const { match, fetchSellerSubscription, subscriptionPlan, profile } = props;
+  const [isTransactionHistoryLoading, setTransactionHistoryLoading] = React.useState<boolean>(true);
+  const [transactionHistory, setTransactionHistory] = React.useState<Transaction[]>([]);
+
+  const [isQuotaLoading, setQuotaLoading] = React.useState<boolean>(true);
+  const [quotas, setQuotas] = React.useState<QuotaCollection>(DEFAULT_QUOTA_COLLECTION);
+
+  const [isSubscriptionStripeLoading, setSubscriptionStripeLoading] = React.useState<boolean>(true);
+  const [subscriptionStripeInfo, setSubscriptionStripeInfo] = React.useState<
+    StripeSubscriptionInfo
+  >(DEFAULT_STRIPE_SUBSCRIPTION_INFO);
+
+  const [isCreditCardLoading, setCreditCardLoading] = React.useState<boolean>(true);
+  const [creditCardInfo, setCreditCardInfo] = React.useState<CreditCard>(DEFAULT_CREDIT_CARD);
+
+  const sellerID = localStorage.getItem('userId');
+
+  const fetchSubscriptionStripeInfo = async () => {
+    const res = await axios.get(`
+      ${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/current-subscription`);
+    if (res.status === 200) {
+      setSubscriptionStripeInfo(res.data);
+    }
+    setSubscriptionStripeLoading(false);
+  };
+
+  const fetchCreditCardInfo = async () => {
+    const res = await axios.get(`
+    ${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/credit-card`);
+    if (res.status === 200) {
+      setCreditCardInfo(res.data);
+    }
+    setCreditCardLoading(false);
+  };
+
+  const fetchQuotas = async () => {
+    const res = await axios.get(`
+    ${AppConfig.BASE_URL_API}sellers/${sellerID}/quota`);
+    if (res.status === 200) {
+      setQuotas(res.data);
+    }
+    setQuotaLoading(false);
+  };
+
+  const fetchTransactionHistory = async () => {
+    const res = await axios.get(`
+    ${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/transactions`);
+    if (res.status === 200) {
+      setTransactionHistory(res.data);
+    }
+    setTransactionHistoryLoading(false);
+  };
+
   React.useEffect(() => {
     getSellerInfo();
     fetchSellerSubscription();
+    fetchSubscriptionStripeInfo();
+    fetchCreditCardInfo();
+    fetchQuotas();
+    fetchTransactionHistory();
   }, []);
 
+  React.useEffect(() => {
+    console.log('plan', subscriptionPlan);
+    console.log('profile', profile);
+  }, [subscriptionPlan, profile]);
+  console.log(transactionHistory);
   return (
     <>
       <PageHeader
@@ -57,47 +125,20 @@ const Billing = (props: Props) => {
       />
 
       <main className={styles.billingPageWrapper}>
-        <section>
-          <div className={styles.wrapperHeading}>Billing</div>
-          <div className={styles.billingWrapper}>
-            <div className={styles.quotaBox}>
-              <p className={styles.planTitle}> Your Plan</p>
-              <div className={styles.quotaContent}>
-                <PlanTypeButton plan="Professional" />
-                <div className={styles.quotaBarsWrapper}>
-                  <NewQuotaMeter type="productTracker" quota={{ used: 50, available: 100 }} />
-                  <NewQuotaMeter type="productTracker" quota={{ used: 50, available: 100 }} />
-                  <NewQuotaMeter type="productTracker" quota={{ used: 50, available: 100 }} />
-                  <NewQuotaMeter type="productTracker" quota={{ used: 50, available: 100 }} />
-                </div>
-                <div className={styles.actionRow}>
-                  <p> Action </p>
-                  <button> Change Plan</button>
-                </div>
-              </div>
-            </div>
+        <QuotaAndPaymentsSection
+          subscriptionPlan="Professional"
+          subscriptionDetails={subscriptionStripeInfo}
+          quotas={quotas}
+          card={creditCardInfo}
+          isQuotaLoading={isQuotaLoading}
+          isSubscriptionStripeLoading={isSubscriptionStripeLoading}
+          isCreditCardLoading={isCreditCardLoading}
+        />
 
-            <div className={styles.paymentBox}>
-              <p className={styles.paymentTitle}> Payment Method</p>
-              <div className={styles.paymentContent}>moshi</div>
-            </div>
-          </div>
-          <div className={styles.wrapperFooter}>
-            If you have trouble with the payment setting, you can contact us at support@sellgo.com.
-            We Can Help.
-          </div>
-        </section>
-
-        <section>
-          <div className={`${styles.wrapperHeading} ${styles.wrapperHeading_billingHistory}`}>
-            Billing History
-          </div>
-          <div className={styles.billingHistoryBox}>Helo!</div>
-        </section>
-
-        <Elements stripe={stripePromise}>
-          <UpdateCardForm />
-        </Elements>
+        <PastTransactionsSection
+          transactionHistory={transactionHistory}
+          loading={isTransactionHistoryLoading}
+        />
       </main>
     </>
   );

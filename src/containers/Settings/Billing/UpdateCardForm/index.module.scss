@@ -1,10 +1,15 @@
 .checkoutContainer {
-  margin: 40px auto;
+  padding: 0 25px;
+  padding-bottom: 30px;
   width: max-content;
 
   h2 {
+    margin-top: 30px;
+    margin-bottom: 20px;
     color: #3b4557;
     font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
   }
 }
 
@@ -20,12 +25,13 @@
   flex-direction: column;
   text-align: left;
   width: 400px;
-  margin: 15px 0;
-  margin-right: 10px;
+  margin: 8px 0;
+  margin-right: 18px;
 
   label {
     font-size: 16px;
     font-weight: 500;
+    margin-bottom: 5px;
     color: #3b4557;
   }
 
@@ -44,6 +50,23 @@
 
   &__cvv {
     width: 75px;
+  }
+
+  &__city {
+    width: 250px;
+  }
+
+  &__state {
+    width: 150px;
+  }
+
+  &__zipCode {
+    margin: 0;
+    width: 100px;
+  }
+
+  &__dropDown {
+    width: 250px;
   }
 
   &__error {
@@ -77,6 +100,7 @@
 
 .dropdown {
   height: 40px;
+  width: 250px;
   background: #fff;
   font-size: 14px;
   color: #808080 !important;
@@ -89,7 +113,7 @@
   padding: 0 20px;
 
   &__menu {
-    width: 100%;
+    width: 250px;
     position: absolute;
     top: 41px !important;
     background: #fff !important;
@@ -126,36 +150,31 @@
   align-items: center;
   margin-left: 50px;
 
-  button {
-    height: 50px;
-    border: 0;
-    outline: 0;
-    font-family: 'Work Sans', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .whiteButton {
     width: 200px;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-
-    &:disabled {
-      opacity: 0.6;
-      cursor: unset;
-    }
+    height: 50px;
+    padding: 0;
   }
 
-  .cancelButton {
-    color: #808080;
-    border: 1px solid #808080;
-    background: #fff;
-    margin: 0 20px;
+  .buttonWrapper {
+    position: relative;
+    width: 200px;
+    border-radius: 7px;
+    margin-left: 18px;
   }
+}
 
-  .completeButton {
-    color: #fff;
-    border: 1px solid #fc7900;
-    background: #fc7900;
-    margin-right: 10px;
-  }
+.paymentErrorMessage {
+  background: #eb675e;
+  color: #fff;
+  border-radius: 8px;
+  width: 500px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-top: 20px;
+  font-size: 14px;
+  padding: 15px 0;
 }

@@ -8,7 +8,7 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
-import { Form, Dropdown, Loader } from 'semantic-ui-react';
+import { Form, Dropdown, Loader, Dimmer } from 'semantic-ui-react';
 import Axios from 'axios';
 
 /* Constants */
@@ -27,6 +27,9 @@ import { useInput } from '../../../../hooks/useInput';
 /* Assets */
 import cardIcons from '../../../../assets/images/4_Card_color_horizontal.svg';
 import stripeIcon from '../../../../assets/images/powered_by_stripe.svg';
+
+/* Components */
+import WhiteButton from '../../../../components/WhiteButton';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -51,13 +54,14 @@ const CARD_ELEMENT_OPTIONS = {
 interface MyProps {
   setStripeLoad: (data: boolean) => void;
   stripeLoading: boolean;
+  handleCloseModal: () => void;
 }
 
 const UpdateCardForm = (props: MyProps) => {
   const stripe: any = useStripe();
   const elements = useElements();
   const sellerID = localStorage.getItem('userId');
-  const { stripeLoading, setStripeLoad } = props;
+  const { stripeLoading, setStripeLoad, handleCloseModal } = props;
   const { value: name, bind: bindName } = useInput('');
   const { value: address, bind: bindAddress } = useInput('');
   const { value: city, bind: bindCity } = useInput('');
@@ -69,6 +73,7 @@ const UpdateCardForm = (props: MyProps) => {
     code: 'US',
     value: 'US',
   });
+  const [paymentError, setPaymentError] = useState<string>('');
   const trigger = <span className="country-label">{selectedCountry.name}</span>;
 
   const handleCountry = (data: any) => {
@@ -86,10 +91,12 @@ const UpdateCardForm = (props: MyProps) => {
     }
 
     if (!name) {
+      setPaymentError('Please fill out Name on Card field');
       return;
     }
 
     if (!postalCode(zipCode, selectedCountry.code.split(','))) {
+      setPaymentError('Zipcode is invalid');
       return;
     }
 
@@ -114,18 +121,21 @@ const UpdateCardForm = (props: MyProps) => {
 
     if (error) {
       setStripeLoad(false);
+      setPaymentError(error);
       return;
     }
 
-    // Axios.patch(`${AppConfig.BASE_URL_API}sellers/1000000001/billing/credit-card`, data).then(res =>
-    Axios.patch(`${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/credit-card`, data).then(() =>
-      setStripeLoad(false)
+    Axios.patch(`${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/credit-card`, data).then(
+      () => {
+        setStripeLoad(false);
+        handleCloseModal();
+      }
     );
   };
 
   return (
     <div className={styles.checkoutContainer}>
-      <h2>Secure Credit Card Information</h2>
+      <h2>Adding Credit Card Payment</h2>
 
       <form onSubmit={handleSubmit}>
         <Form.Field className={styles.formInput}>
@@ -178,25 +188,21 @@ const UpdateCardForm = (props: MyProps) => {
 
         <Form.Group className={styles.formGroup}>
           <Form.Input
-            className={styles.formInput}
-            size="huge"
+            className={`${styles.formInput} ${styles.formInput__city}`}
             label="City"
             type="text"
             placeholder="City"
             {...bindCity}
           />
           <Form.Input
-            className={styles.formInput}
-            size="huge"
+            className={`${styles.formInput} ${styles.formInput__state}`}
             label="State"
             type="text"
             placeholder="eg. California"
             {...bindStateAddress}
           />
-        </Form.Group>
 
-        <Form.Group className={styles.formGroup}>
-          <Form.Field className={styles.formInput}>
+          <Form.Field className={`${styles.formInput} ${styles.formInput__dropDown}`}>
             <label htmlFor="Country">Country</label>
             <Dropdown id="Country" className={styles.dropdown} openOnFocus trigger={trigger}>
               <Dropdown.Menu className={styles.dropdown__menu}>
@@ -218,8 +224,7 @@ const UpdateCardForm = (props: MyProps) => {
           </Form.Field>
 
           <Form.Input
-            className={styles.formInput}
-            size="huge"
+            className={`${styles.formInput} ${styles.formInput__zipCode}`}
             label="Zipcode"
             type="text"
             placeholder="eg. 97201"
@@ -234,25 +239,32 @@ const UpdateCardForm = (props: MyProps) => {
           </div>
 
           <div className={styles.paymentButtons}>
-            <button
-              onClick={() => {
-                window.location.href = AppConfig.WEB_URL + '/pricing';
-              }}
-              className={styles.cancelButton}
+            <WhiteButton
+              type="secondary"
+              size="medium"
+              onClick={() => handleCloseModal()}
+              className={styles.whiteButton}
             >
               Cancel
-            </button>
-            <button
-              disabled={!stripe || stripeLoading}
-              type="submit"
-              className={styles.completeButton}
-            >
-              Update Payment
-              {stripeLoading && <Loader active inline size="mini" inverted />}
-            </button>
+            </WhiteButton>
+            <div className={styles.buttonWrapper}>
+              <WhiteButton submit type="secondary" size="medium" className={styles.whiteButton}>
+                Change Payment
+              </WhiteButton>
+              {stripeLoading && (
+                <Dimmer blurring inverted active>
+                  <Loader className={styles.loader} size="mini" />
+                </Dimmer>
+              )}
+            </div>
           </div>
         </div>
       </form>
+      {paymentError && (
+        <div className={styles.paymentErrorMessage}>
+          <p>{paymentError}</p>
+        </div>
+      )}
     </div>
   );
 };

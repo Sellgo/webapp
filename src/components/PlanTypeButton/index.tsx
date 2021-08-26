@@ -6,10 +6,11 @@ import styles from './index.module.scss';
 
 interface Props {
   plan: 'Professional' | 'Basic' | 'Team';
+  small?: boolean;
 }
 
 const PlanTypeButton = (props: Props) => {
-  const { plan } = props;
+  const { plan, small } = props;
 
   const className = classNames(
     { [styles.planTypeButton__professional]: plan === 'Professional' },
@@ -17,7 +18,9 @@ const PlanTypeButton = (props: Props) => {
     { [styles.planTypeButton__team]: plan === 'Team' }
   );
 
-  return <div className={`${styles.planTypeButton} ${className}`}>{plan}</div>;
+  const sizeClassName = small ? styles.planTypeButton__small : '';
+
+  return <div className={`${styles.planTypeButton} ${className} ${sizeClassName}`}>{plan}</div>;
 };
 
 export default PlanTypeButton;

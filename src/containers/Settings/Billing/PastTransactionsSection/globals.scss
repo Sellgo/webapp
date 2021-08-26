@@ -1,0 +1,25 @@
+@import '../../../../styles/tableReset';
+
+#pastTransactionsTable {
+  // header section
+  .rs-table-row-header {
+    border-bottom: 1px solid #ced4d9;
+
+    .rs-table-cell-content {
+      font-size: 14px !important;
+      color: #636d76 !important;
+      font-weight: 500 !important;
+    }
+  }
+
+  // body section
+  .rs-table-body-row-wrapper {
+    .rs-table-body-wheel-area {
+      background: #fff;
+      // should be rowheight - 10px
+      .rs-table-row {
+        border-bottom: 1px solid $grey_3;
+      }
+    }
+  }
+}
