@@ -26,7 +26,7 @@ const ActionsCell = (props: RowCell) => {
   };
 
   return (
-    <Table.Cell {...props}>
+    <Table.Cell {...props} style={{ padding: 0 }}>
       <Popup
         className="keywordTrackerActionsCell"
         trigger={<Icon name="ellipsis vertical" className="keywordTrackerActionsCellTrigger" />}

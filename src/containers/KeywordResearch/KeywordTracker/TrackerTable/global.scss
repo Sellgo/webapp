@@ -10,7 +10,6 @@
     .rs-table-cell-content {
       padding: 0 !important;
       display: flex !important;
-      justify-content: flex-start !important;
       align-items: center !important;
     }
   }
@@ -30,6 +29,13 @@
           .rs-table-cell {
             // independent cells on each row
 
+            // all other cell content
+            .rs-table-cell-content {
+              display: flex !important;
+              justify-content: flex-start !important;
+              align-items: flex-start !important;
+            }
+
             // first cell treat specially if needed
             &.rs-table-cell-first {
               // first cell (expansioon cell)
@@ -38,6 +44,12 @@
               .rs-table-cell-content {
                 padding: 0 !important;
               }
+            }
+
+            // last cell treat specially if needed
+            &.rs-table-cell-last {
+              // first cell (expansioon cell)
+              border: 0 !important;
             }
           }
         }

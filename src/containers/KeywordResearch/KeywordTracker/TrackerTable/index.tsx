@@ -162,7 +162,7 @@ const TrackerTable = (props: Props) => {
         </Table.Column>
 
         {/* Search Volume */}
-        <Table.Column width={180} verticalAlign="top" align="left" sortable>
+        <Table.Column width={160} verticalAlign="top" align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Search Volume `}
@@ -180,7 +180,7 @@ const TrackerTable = (props: Props) => {
         </Table.Column>
 
         {/* Organic */}
-        <Table.Column width={180} verticalAlign="top" align="left" sortable>
+        <Table.Column width={150} verticalAlign="top" align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Organic`}
@@ -193,7 +193,7 @@ const TrackerTable = (props: Props) => {
         </Table.Column>
 
         {/* Sponsored */}
-        <Table.Column width={180} verticalAlign="top" align="left" sortable>
+        <Table.Column width={150} verticalAlign="top" align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Sponsored`}
@@ -206,7 +206,7 @@ const TrackerTable = (props: Props) => {
         </Table.Column>
 
         {/* Actions Cell */}
-        <Table.Column width={50} verticalAlign="top" fixed align="left">
+        <Table.Column width={40} verticalAlign="top" fixed align="left">
           <Table.HeaderCell>{''}</Table.HeaderCell>
           <ActionsCell dataKey={TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY} />
         </Table.Column>
