@@ -7,5 +7,9 @@
 
   svg {
     cursor: pointer !important;
+
+    path {
+      fill: $grey_6 !important;
+    }
   }
 }

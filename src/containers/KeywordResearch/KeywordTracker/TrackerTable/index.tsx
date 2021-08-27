@@ -29,6 +29,7 @@ import {
 /* Selectors */
 import {
   getIsLoadingKeywordTrackerProductsTable,
+  getKeywordTrackerProductsTablePaginationInfo,
   getKeywordTrackerProductsTableResults,
   getTrackerProductKeywordsTableResults,
 } from '../../../../selectors/KeywordResearch/KeywordTracker';
@@ -41,6 +42,7 @@ import {
 
 /* Interfaces */
 import {
+  KeywordTrackerProductsTablePaginationInfo,
   TrackerProductKeywordsTablePayload,
   TrackerTableProductsPayload,
 } from '../../../../interfaces/KeywordResearch/KeywordTracker';
@@ -48,11 +50,11 @@ import ActionsCell from './ActionsCell';
 
 interface Props {
   isLoadingKeywordTrackerProductsTable: boolean;
-  // chore: need to add typescript here
   keywordTrackerProductsTableResults: any[];
-  trackerProductKeywordsTableResults: any[];
-
+  keywordTrackerProductsTablePaginationInfo: KeywordTrackerProductsTablePaginationInfo;
   fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) => void;
+
+  trackerProductKeywordsTableResults: any[];
   fetchTrackerProductKeywordsTable: (payload: TrackerProductKeywordsTablePayload) => void;
 }
 
@@ -60,6 +62,7 @@ const TrackerTable = (props: Props) => {
   const {
     isLoadingKeywordTrackerProductsTable,
     keywordTrackerProductsTableResults,
+    keywordTrackerProductsTablePaginationInfo,
     fetchKeywordTrackerProductsTable,
 
     trackerProductKeywordsTableResults,
@@ -73,10 +76,11 @@ const TrackerTable = (props: Props) => {
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
     setSortType(sortType);
+    fetchKeywordTrackerProductsTable({ sort: sortColumn, sortDir: sortType });
   };
 
   const handlePageChange = (pageNo: number, perPageNo?: number) => {
-    console.log(pageNo, perPageNo);
+    fetchKeywordTrackerProductsTable({ page: pageNo, perPage: perPageNo });
   };
 
   const handleExpansion = (rowData: any) => {
@@ -212,17 +216,20 @@ const TrackerTable = (props: Props) => {
         </Table.Column>
       </Table>
 
-      <footer className={styles.keywordTrackerPaginationContainer}>
-        <TablePagination
-          totalPages={10}
-          currentPage={1}
-          onPageChange={handlePageChange}
-          showSiblingsCount={3}
-          showPerPage={true}
-          perPage={20}
-          perPageList={DEFAULT_PAGES_LIST}
-        />
-      </footer>
+      {/* Table Pagination */}
+      {keywordTrackerProductsTablePaginationInfo.total_pages > 0 && (
+        <footer className={styles.keywordTrackerPaginationContainer}>
+          <TablePagination
+            totalPages={keywordTrackerProductsTablePaginationInfo.total_pages}
+            currentPage={keywordTrackerProductsTablePaginationInfo.current_page}
+            onPageChange={handlePageChange}
+            showSiblingsCount={3}
+            showPerPage={true}
+            perPage={keywordTrackerProductsTablePaginationInfo.per_page}
+            perPageList={DEFAULT_PAGES_LIST}
+          />
+        </footer>
+      )}
     </section>
   );
 };
@@ -231,6 +238,7 @@ const mapStateToProps = (state: any) => {
   return {
     isLoadingKeywordTrackerProductsTable: getIsLoadingKeywordTrackerProductsTable(state),
     keywordTrackerProductsTableResults: getKeywordTrackerProductsTableResults(state),
+    keywordTrackerProductsTablePaginationInfo: getKeywordTrackerProductsTablePaginationInfo(state),
     trackerProductKeywordsTableResults: getTrackerProductKeywordsTableResults(state),
   };
 };

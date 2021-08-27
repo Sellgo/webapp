@@ -14,6 +14,11 @@ export const getKeywordTrackerProductsTableResults = (state: any) => {
   return get(state, 'keywordTracker.keywordTrackerProductsTableResults');
 };
 
+/* Selector to get the keyword tracker products  table pagination info */
+export const getKeywordTrackerProductsTablePaginationInfo = (state: any) => {
+  return get(state, 'keywordTracker.keywordTrackerProductsTablePaginationInfo');
+};
+
 /* ================================================================= */
 /*    KEYWORD TRACKER PRODUCTS KEYWORDS MAIN TABLE (PRODUCTS)  */
 /* ================================================================= */

@@ -9,6 +9,12 @@ const INITIAL_STATE = {
   // State for keyword tracker main products table
   isLoadingKeywordTrackerProductsTable: false,
   keywordTrackerProductsTableResults: [],
+  keywordTrackerProductsTablePaginationInfo: {
+    count: 0,
+    current_page: 0,
+    total_pages: 0,
+    per_page: 20,
+  },
 
   // State for the keyword table for each product on keyword tracker
   isLoadingTrackerProductKeywordsTable: false,
@@ -32,7 +38,14 @@ const keywordTrackerReducer = (state = INITIAL_STATE, action: AnyAction) => {
       return setIn(state, 'keywordTrackerProductsTableResults', action.payload);
     }
 
-    // reducers for the keyword tracker products -> keywords table
+    case actionTypes.SET_KEYWORD_TRACKER_PRODUCTS_TABLE_PAGINATION_INFO: {
+      return setIn(state, 'keywordTrackerProductsTablePaginationInfo', action.payload);
+    }
+
+    /* ========================================================== */
+    /*                   PRODUCTS KEYWORD TABLE                   */
+    /* ========================================================== */
+
     case actionTypes.IS_LOADING_TRACKER_PRODUCT_KEYWORDS_TABLE: {
       return setIn(state, 'isLoadingTrackerProductKeywordsTable', action.payload);
     }
@@ -44,6 +57,7 @@ const keywordTrackerReducer = (state = INITIAL_STATE, action: AnyAction) => {
     case actionTypes.SET_TRACKER_PRODUCT_KEYWORDS_TABLE_PAGINATION_INFO: {
       return setIn(state, 'trackerProductKeywordsTablePaginationInfo', action.payload);
     }
+
     default: {
       return state;
     }

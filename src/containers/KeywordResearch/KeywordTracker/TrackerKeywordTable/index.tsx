@@ -84,7 +84,7 @@ const TrackerKeywordTable = (props: Props) => {
     fetchTrackerProductKeywordsTable({
       keywordTrackProductId: firstItem[TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY],
       page: pageNo,
-      per_page: perPageNo,
+      perPage: perPageNo,
     });
   };
 
