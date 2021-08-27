@@ -6,14 +6,24 @@
 
 .billingGrid {
   position: relative;
-  display: grid;
+  // display: grid;
   grid-template-columns: 200px 800px;
   grid-template-rows: max-content;
   row-gap: 50px;
-  width: 1000px;
-  min-height: 525px;
   border: 1px solid $grey_3;
   padding: 40px 0;
+
+  .quotaSection,
+  .paymentsSection {
+    display: grid;
+    grid-template-columns: 200px 800px;
+    grid-template-rows: max-content;
+    position: relative;
+  }
+
+  .quotaSection {
+    margin-bottom: 50px;
+  }
 }
 
 .innerGrid {
@@ -31,6 +41,7 @@
   text-align: right;
   padding-right: 18px;
   margin-top: 5px !important;
+  grid-column-start: 1;
 
   &_payment {
     margin-top: 10px !important;
@@ -50,6 +61,34 @@
   font-weight: normal !important;
   font-size: 14px !important;
   padding: 0 !important;
+}
+
+.dimmerWrapper {
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #3b4557 !important;
+  font-weight: 500;
+  font-size: 16px;
+
+  a,
+  button {
+    color: #3b4557 !important;
+    font-weight: 600 !important;
+  }
+
+  .buttonsRow {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    justify-content: center;
+  }
+
+  .dimmerButton {
+    margin-left: 18px;
+  }
 }
 
 /* Quota section */

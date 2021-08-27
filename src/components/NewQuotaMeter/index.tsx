@@ -63,7 +63,7 @@ const NewQuotaMeter = (props: Props) => {
     <div className={`quota-meter-new ${className}`}>
       <div className="quota-description">
         <p className="quota-title">{type}</p>
-        <p className="quota-usage">{`${quota.used | 0} / ${quota.available}`}</p>
+        <p className="quota-usage">{`${quota.used | 0} / ${quota.available | 0}`}</p>
       </div>
       <Progress percent={percent} size="tiny" color={color} />
     </div>

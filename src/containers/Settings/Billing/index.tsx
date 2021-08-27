@@ -40,6 +40,9 @@ interface Props {
 
 const Billing = (props: Props) => {
   const { match, fetchSellerSubscription, subscriptionPlan } = props;
+
+  const [hasActivePlan, setHasActivePlan] = React.useState<boolean>(true);
+  const [hasPaymentMethod, setHasPaymentMethod] = React.useState<boolean>(true);
   const [isTransactionHistoryLoading, setTransactionHistoryLoading] = React.useState<boolean>(true);
   const [transactionHistory, setTransactionHistory] = React.useState<Transaction[]>([]);
 
@@ -58,50 +61,70 @@ const Billing = (props: Props) => {
 
   const fetchSubscriptionStripeInfo = async () => {
     setSubscriptionStripeLoading(true);
-    const res = await axios.get(`
-      ${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/current-subscription`);
-    if (res.status === 200) {
-      setSubscriptionStripeInfo(res.data);
+    try {
+      const res = await axios.get(`
+        ${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/current-subscription`);
+      if (res.status === 200) {
+        setSubscriptionStripeInfo(res.data);
+      }
+    } catch (err) {
+      setHasActivePlan(false);
     }
     setSubscriptionStripeLoading(false);
   };
 
   const fetchCreditCardInfo = async () => {
     setCreditCardLoading(true);
-    const res = await axios.get(`
-    ${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/credit-card`);
-    if (res.status === 200) {
-      setCreditCardInfo(res.data);
+    try {
+      const res = await axios.get(`
+      ${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/credit-card`);
+      if (res.status === 200) {
+        setCreditCardInfo(res.data);
+      }
+    } catch (err) {
+      setHasPaymentMethod(false);
     }
     setCreditCardLoading(false);
   };
 
   const fetchQuotas = async () => {
     setQuotaLoading(true);
-    const res = await axios.get(`
-    ${AppConfig.BASE_URL_API}sellers/${sellerID}/quota`);
-    if (res.status === 200) {
-      setQuotas(res.data);
+    try {
+      const res = await axios.get(`
+      ${AppConfig.BASE_URL_API}sellers/${sellerID}/quota`);
+      if (res.status === 200) {
+        setQuotas(res.data);
+      }
+    } catch (err) {
+      setQuotas(DEFAULT_QUOTA_COLLECTION);
     }
     setQuotaLoading(false);
   };
 
   const fetchTransactionHistoryPastYear = async () => {
     setTransactionHistoryLoading(true);
-    const res = await axios.get(`
-    ${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/year/transactions`);
-    if (res.status === 200) {
-      setTransactionHistory(res.data);
+    try {
+      const res = await axios.get(`
+      ${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/year/transactions`);
+      if (res.status === 200) {
+        setTransactionHistory(res.data);
+      }
+    } catch (err) {
+      setTransactionHistory([]);
     }
     setTransactionHistoryLoading(false);
   };
 
   const fetchTransactionHistoryAll = async () => {
     setTransactionHistoryLoading(true);
-    const res = await axios.get(`
-    ${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/all/transactions`);
-    if (res.status === 200) {
-      setTransactionHistory(res.data);
+    try {
+      const res = await axios.get(`
+      ${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/all/transactions`);
+      if (res.status === 200) {
+        setTransactionHistory(res.data);
+      }
+    } catch (err) {
+      setTransactionHistory([]);
     }
     setTransactionHistoryLoading(false);
   };
@@ -114,10 +137,6 @@ const Billing = (props: Props) => {
     fetchQuotas();
     fetchTransactionHistoryPastYear();
   }, []);
-
-  React.useEffect(() => {
-    console.log(subscriptionPlan);
-  }, [subscriptionPlan]);
 
   return (
     <>
@@ -141,6 +160,8 @@ const Billing = (props: Props) => {
           isSubscriptionStripeLoading={isSubscriptionStripeLoading}
           isCreditCardLoading={isCreditCardLoading}
           fetchCreditCardInfo={fetchCreditCardInfo}
+          hasActivePlan={hasActivePlan}
+          hasPaymentMethod={hasPaymentMethod}
         />
 
         <PastTransactionsSection
