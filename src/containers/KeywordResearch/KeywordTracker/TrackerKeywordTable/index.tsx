@@ -17,6 +17,7 @@ import Keyword from './Keyword';
 /* Constants */
 import {
   DEFAULT_PAGES_LIST,
+  PRODUCT_KEYWORD_ROW_HEIGHT,
   TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY,
 } from '../../../../constants/KeywordResearch/KeywordTracker';
 
@@ -81,7 +82,7 @@ const TrackerKeywordTable = (props: Props) => {
         data={trackerProductKeywordsTableResults}
         autoHeight
         hover={false}
-        rowHeight={50}
+        rowHeight={PRODUCT_KEYWORD_ROW_HEIGHT}
         headerHeight={50}
         sortColumn={sortColumn}
         sortType={sortType}
@@ -98,7 +99,7 @@ const TrackerKeywordTable = (props: Props) => {
         </Table.Column>
 
         {/* Search Volume */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={130} verticalAlign="middle" align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Search\nVolume`}
@@ -111,7 +112,7 @@ const TrackerKeywordTable = (props: Props) => {
         </Table.Column>
 
         {/* Competing Products  */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={130} verticalAlign="middle" align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Competing\nProducts`}
@@ -124,7 +125,7 @@ const TrackerKeywordTable = (props: Props) => {
         </Table.Column>
 
         {/* Competing Products  */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={130} verticalAlign="middle" align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Position\nRank`}
@@ -137,7 +138,7 @@ const TrackerKeywordTable = (props: Props) => {
         </Table.Column>
 
         {/* Relative Rank */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={130} verticalAlign="middle" align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Relative\nRank`}
@@ -150,7 +151,7 @@ const TrackerKeywordTable = (props: Props) => {
         </Table.Column>
 
         {/* Average Rank  */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={130} verticalAlign="middle" align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Rank\nAvg`}
@@ -163,7 +164,7 @@ const TrackerKeywordTable = (props: Props) => {
         </Table.Column>
 
         {/* Ranking Asins   */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={130} verticalAlign="middle" align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Ranking\nASIN's`}
