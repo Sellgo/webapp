@@ -148,7 +148,7 @@ export const fetchKeywordTrackerProductsTable = (payload: TrackerTableProductsPa
       return;
     }
 
-    const sorting = `sort=${sort}&sort_dir=${sortDir}`;
+    const sorting = `sort=${sort}&sort_direction=${sortDir}`;
     const pagination = `page=${page}&per_page=${perPage}`;
     const resourcePath = `${sorting}&${pagination}`;
 
@@ -158,12 +158,25 @@ export const fetchKeywordTrackerProductsTable = (payload: TrackerTableProductsPa
 
     const { data } = await axios.get(URL);
 
+    const { results, ...paginationInfo } = data;
+
     if (data) {
-      dispatch(setKeywordTrackerProductsTableResults(data));
+      dispatch(setKeywordTrackerProductsTableResults(results));
+      dispatch(setKeywordTrackerProductsTablePaginationInfo(paginationInfo));
       dispatch(isLoadingKeywordTrackerProductsTable(false));
     }
   } catch (err) {
     console.error('Error fetching tracker table products', err);
+    dispatch(setKeywordTrackerProductsTableResults([]));
+    dispatch(
+      setKeywordTrackerProductsTablePaginationInfo({
+        count: 0,
+        total_pages: 0,
+        per_page: 0,
+        current_page: 0,
+      })
+    );
+
     dispatch(isLoadingKeywordTrackerProductsTable(false));
   }
 };
@@ -233,7 +246,7 @@ export const fetchTrackerProductKeywordsTable = (
     }
 
     const pagination = `page=${page}&per_page=${perPage}`;
-    const sorting = `sort=${sort}&sort_dir=${sortDir}`;
+    const sorting = `sort=${sort}&sort_direction=${sortDir}`;
 
     const resourcePath = `keyword_track_product_id=${keywordTrackProductId}&${pagination}&${sorting}`;
 
