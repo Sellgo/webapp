@@ -215,13 +215,13 @@ const QuotaAndPaymentsSection = (props: Props) => {
             </div>
           </span>
         )}
+        {/* To show dimmer when page is still loading */}
+        {(isQuotaLoading || isSubscriptionStripeLoading || isCreditCardLoading) && (
+          <Dimmer blurring inverted active>
+            <Loader className={styles.loader} />
+          </Dimmer>
+        )}
       </div>
-      {/* To show dimmer when page is still loading */}
-      {(isQuotaLoading || isSubscriptionStripeLoading || isCreditCardLoading) && (
-        <Dimmer blurring inverted active>
-          <Loader className={styles.loader} />
-        </Dimmer>
-      )}
       <ProfileBoxFooter>
         <div>
           <img src={HelpingHandsIcon} alt="helping-hands-icon" />
