@@ -17,6 +17,9 @@ export const PRODUCT_KEYWORD_ROW_HEIGHT = 50;
 /* Unique key on each row for tracker products table */
 export const TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY = 'keyword_track_product_id';
 
+/* Unique key on the product keyword table */
+export const TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY = 'keyword_track_id';
+
 /* Pagination info */
 export const DEFAULT_PAGES_LIST = [
   {

@@ -1,7 +1,11 @@
 /* Import Action Types */
 import axios from 'axios';
 import { AppConfig } from '../../config';
-import { actionTypes } from '../../constants/KeywordResearch/KeywordTracker';
+import {
+  actionTypes,
+  TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY,
+  TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY,
+} from '../../constants/KeywordResearch/KeywordTracker';
 
 /* Interfaces */
 import {
@@ -9,11 +13,16 @@ import {
   TrackerProductKeywordsTablePaginationInfo,
   TrackerProductKeywordsTablePayload,
   TrackerTableProductsPayload,
+  UnTrackKeywordTrackerTableProduct,
+  UnTrackProductsTableKeyword,
 } from '../../interfaces/KeywordResearch/KeywordTracker';
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
-import { getKeywordTrackerProductsTableResults } from '../../selectors/KeywordResearch/KeywordTracker';
+import {
+  getKeywordTrackerProductsTableResults,
+  getTrackerProductKeywordsTableResults,
+} from '../../selectors/KeywordResearch/KeywordTracker';
 
 /* ================================================= */
 /*    KEYWORD TRACK MAIN TABLE (PRODUCTS)  */
@@ -133,6 +142,40 @@ export const fetchKeywordTrackerProductsTable = (payload: TrackerTableProductsPa
   }
 };
 
+/* Action to untrack/delete product from the keywords tracker products table */
+export const unTrackKeywordTrackerTableProduct = (
+  payload: UnTrackKeywordTrackerTableProduct
+) => async (dispatch: any, getState: any) => {
+  const sellerId = sellerIDSelector();
+
+  const currentlyAvailableProducts = getKeywordTrackerProductsTableResults(getState());
+
+  try {
+    const { keywordTrackProductId } = payload;
+
+    const formData = new FormData();
+    formData.set(TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY, String(keywordTrackProductId));
+    formData.set('status', 'inactive');
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/products`;
+
+    const { data } = await axios.patch(URL, formData);
+
+    if (data) {
+      // Remove the keyword from the keywords table
+      const updatedProductsOnTable = currentlyAvailableProducts.filter(
+        (productData: any) =>
+          productData[TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY] !==
+          data[TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY]
+      );
+
+      dispatch(setKeywordTrackerProductsTableResults(updatedProductsOnTable));
+    }
+  } catch (err) {
+    console.error('Error Untracking/Deleting keyword from tracker product table', err);
+  }
+};
+
 /* Action to fetch the kwyords for the product on tracker table */
 export const fetchTrackerProductKeywordsTable = (
   payload: TrackerProductKeywordsTablePayload
@@ -185,5 +228,40 @@ export const fetchTrackerProductKeywordsTable = (
     );
 
     dispatch(isLoadingTrackerProductKeywordsTable(false));
+  }
+};
+
+/* Action to untrack the kewyord from tracker products table */
+export const unTrackTrackerProductsTableKeyword = (payload: UnTrackProductsTableKeyword) => async (
+  dispatch: any,
+  getState: any
+) => {
+  const sellerId = sellerIDSelector();
+
+  const currentlyAvailableKeywords = getTrackerProductKeywordsTableResults(getState());
+
+  try {
+    const { keywordTrackId } = payload;
+
+    const formData = new FormData();
+    formData.set(TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY, String(keywordTrackId));
+    formData.set('status', 'inactive');
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track`;
+
+    const { data } = await axios.patch(URL, formData);
+
+    if (data) {
+      // Remove the keyword from the keywords table
+      const updatedKeywordsOnTable = currentlyAvailableKeywords.filter(
+        (keywordData: any) =>
+          keywordData[TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY] !==
+          data[TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY]
+      );
+
+      dispatch(setTrackerProductKeywordsTableResults(updatedKeywordsOnTable));
+    }
+  } catch (err) {
+    console.error('Error Untracking/Deleting keyword from tracker product table', err);
   }
 };

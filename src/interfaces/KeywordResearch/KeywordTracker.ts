@@ -3,6 +3,7 @@ export interface ProductTrackPayload {
   keywords: string;
 }
 
+/* Keyword Tracker Products  Table Interfaces */
 export interface TrackerTableProductsPayload {
   resetFilters?: boolean;
   enableLoader?: boolean;
@@ -12,6 +13,12 @@ export interface TrackerTableProductsPayload {
   sortDir?: 'asc' | 'desc';
 }
 
+/* Untrack/ delete payload for product on keyword tracker product table */
+export interface UnTrackKeywordTrackerTableProduct {
+  keywordTrackProductId: number;
+}
+
+/* Tracker Products Keyword Table Interfaces */
 export interface TrackerProductKeywordsTablePayload {
   keywordTrackProductId: number;
   enableLoader?: boolean;
@@ -28,4 +35,8 @@ export interface TrackerProductKeywordsTablePaginationInfo {
   current_page: number;
   next?: string;
   previous?: string;
+}
+
+export interface UnTrackProductsTableKeyword {
+  keywordTrackId: number;
 }
