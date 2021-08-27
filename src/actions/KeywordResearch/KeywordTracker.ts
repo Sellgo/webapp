@@ -187,7 +187,14 @@ export const fetchTrackerProductKeywordsTable = (
   const sellerId = sellerIDSelector();
 
   try {
-    const { keywordTrackProductId, enableLoader = true, per_page = 20, page = 1 } = payload;
+    const {
+      keywordTrackProductId,
+      enableLoader = true,
+      per_page = 20,
+      page = 1,
+      sort = 'id',
+      sortDir = 'asc',
+    } = payload;
 
     if (!keywordTrackProductId) {
       dispatch(setTrackerProductKeywordsTableResults([]));
@@ -203,8 +210,9 @@ export const fetchTrackerProductKeywordsTable = (
     }
 
     const pagination = `page=${page}&per_page=${per_page}`;
+    const sorting = `sort=${sort}&sort_dir=${sortDir}`;
 
-    const resourcePath = `keyword_track_product_id=${keywordTrackProductId}&${pagination}`;
+    const resourcePath = `keyword_track_product_id=${keywordTrackProductId}&${pagination}&${sorting}`;
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track?${resourcePath}`;
 

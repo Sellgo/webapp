@@ -58,8 +58,19 @@ const TrackerKeywordTable = (props: Props) => {
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
 
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
+    const tableResults = trackerProductKeywordsTableResults;
+    const [firstItem] = tableResults;
+    if (!firstItem) {
+      return;
+    }
     setSortColumn(sortColumn);
     setSortType(sortType);
+
+    fetchTrackerProductKeywordsTable({
+      keywordTrackProductId: firstItem[TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY],
+      sort: sortColumn,
+      sortDir: sortType,
+    });
   };
 
   const handlePageChange = (pageNo: number, perPageNo?: number) => {

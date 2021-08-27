@@ -86,7 +86,7 @@ const TrackerFilters = (props: Props) => {
           label="Add ASIN"
           placeholder="Enter ASIN for product"
           value={asin}
-          handleChange={value => setAsin(value)}
+          handleChange={value => setAsin(value.toUpperCase())}
           className={styles.longInput}
           error={asinError}
         />
