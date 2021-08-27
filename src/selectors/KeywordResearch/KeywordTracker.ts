@@ -27,3 +27,8 @@ export const getIsLoadingTrackerProductKeywordsTable = (state: any) => {
 export const getTrackerProductKeywordsTableResults = (state: any) => {
   return get(state, 'keywordTracker.trackerProductKeywordsTableResults');
 };
+
+/* Selector to get the keyword tracker product keywords table results */
+export const getTrackerProductKeywordsTablePaginationInfo = (state: any) => {
+  return get(state, 'keywordTracker.trackerProductKeywordsTablePaginationInfo');
+};

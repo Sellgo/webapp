@@ -15,21 +15,41 @@ import TablePagination from '../../../../components/NewTable/Pagination';
 import Keyword from './Keyword';
 
 /* Constants */
-import { DEFAULT_PAGES_LIST } from '../../../../constants/KeywordResearch/KeywordTracker';
+import {
+  DEFAULT_PAGES_LIST,
+  TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY,
+} from '../../../../constants/KeywordResearch/KeywordTracker';
 
 /* Selectors */
 import {
   getIsLoadingTrackerProductKeywordsTable,
+  getTrackerProductKeywordsTablePaginationInfo,
   getTrackerProductKeywordsTableResults,
 } from '../../../../selectors/KeywordResearch/KeywordTracker';
+
+/* Actions */
+import { fetchTrackerProductKeywordsTable } from '../../../../actions/KeywordResearch/KeywordTracker';
+
+/* Interfaces */
+import {
+  TrackerProductKeywordsTablePaginationInfo,
+  TrackerProductKeywordsTablePayload,
+} from '../../../../interfaces/KeywordResearch/KeywordTracker';
 
 interface Props {
   isLoadingTrackerProductKeywordsTable: boolean;
   trackerProductKeywordsTableResults: any[];
+  trackerProductKeywordsTablePaginationInfo: TrackerProductKeywordsTablePaginationInfo;
+  fetchTrackerProductKeywordsTable: (payload: TrackerProductKeywordsTablePayload) => void;
 }
 
 const TrackerKeywordTable = (props: Props) => {
-  const { isLoadingTrackerProductKeywordsTable, trackerProductKeywordsTableResults } = props;
+  const {
+    isLoadingTrackerProductKeywordsTable,
+    trackerProductKeywordsTableResults,
+    trackerProductKeywordsTablePaginationInfo,
+    fetchTrackerProductKeywordsTable,
+  } = props;
 
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
@@ -40,7 +60,18 @@ const TrackerKeywordTable = (props: Props) => {
   };
 
   const handlePageChange = (pageNo: number, perPageNo?: number) => {
-    console.log(pageNo, perPageNo);
+    const tableResults = trackerProductKeywordsTableResults;
+    const [firstItem] = tableResults;
+
+    if (!firstItem) {
+      return;
+    }
+
+    fetchTrackerProductKeywordsTable({
+      keywordTrackProductId: firstItem[TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY],
+      page: pageNo,
+      per_page: perPageNo,
+    });
   };
 
   return (
@@ -56,6 +87,9 @@ const TrackerKeywordTable = (props: Props) => {
         sortType={sortType}
         id="trackerKeywordTable"
         onSortColumn={handleSortColumn}
+        renderEmpty={() => {
+          return <h1>Add something here for no data cases</h1>;
+        }}
       >
         {/* Keyword Info */}
         <Table.Column verticalAlign="middle" fixed align="left" width={500} flexGrow={1}>
@@ -64,10 +98,10 @@ const TrackerKeywordTable = (props: Props) => {
         </Table.Column>
 
         {/* Search Volume */}
-        <Table.Column width={180} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Search Volume`}
+              title={`Search\nVolume`}
               dataKey="search_volume"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
@@ -77,10 +111,10 @@ const TrackerKeywordTable = (props: Props) => {
         </Table.Column>
 
         {/* Competing Products  */}
-        <Table.Column width={180} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Competing Products`}
+              title={`Competing\nProducts`}
               dataKey="competing_products"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
@@ -89,11 +123,24 @@ const TrackerKeywordTable = (props: Props) => {
           <StatsCell dataKey="competing_products" align="center" prependWith={'>'} />
         </Table.Column>
 
-        {/* Relative Rank */}
-        <Table.Column width={180} verticalAlign="middle" fixed align="left" sortable>
+        {/* Competing Products  */}
+        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Relative Rank`}
+              title={`Position\nRank`}
+              dataKey="position_rank"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="position_rank" align="center" />
+        </Table.Column>
+
+        {/* Relative Rank */}
+        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Relative\nRank`}
               dataKey="relative_rank"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
@@ -103,10 +150,10 @@ const TrackerKeywordTable = (props: Props) => {
         </Table.Column>
 
         {/* Average Rank  */}
-        <Table.Column width={180} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Average Rank`}
+              title={`Rank\nAvg`}
               dataKey="average_rank"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
@@ -116,10 +163,10 @@ const TrackerKeywordTable = (props: Props) => {
         </Table.Column>
 
         {/* Ranking Asins   */}
-        <Table.Column width={180} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Ranking ASIN's`}
+              title={`Ranking\nASIN's`}
               dataKey="ranking_asins"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
@@ -129,17 +176,20 @@ const TrackerKeywordTable = (props: Props) => {
         </Table.Column>
       </Table>
 
-      <footer className={styles.trackerKeywordTablePagination}>
-        <TablePagination
-          totalPages={10}
-          currentPage={1}
-          onPageChange={handlePageChange}
-          showSiblingsCount={3}
-          showPerPage={true}
-          perPage={20}
-          perPageList={DEFAULT_PAGES_LIST}
-        />
-      </footer>
+      {/* Table Pagination */}
+      {trackerProductKeywordsTablePaginationInfo.total_pages > 0 && (
+        <footer className={styles.trackerKeywordTablePagination}>
+          <TablePagination
+            totalPages={trackerProductKeywordsTablePaginationInfo.total_pages}
+            currentPage={trackerProductKeywordsTablePaginationInfo.current_page}
+            onPageChange={handlePageChange}
+            showSiblingsCount={3}
+            showPerPage={true}
+            perPage={trackerProductKeywordsTablePaginationInfo.per_page}
+            perPageList={DEFAULT_PAGES_LIST}
+          />
+        </footer>
+      )}
     </div>
   );
 };
@@ -148,7 +198,15 @@ const mapStateToProps = (state: any) => {
   return {
     isLoadingTrackerProductKeywordsTable: getIsLoadingTrackerProductKeywordsTable(state),
     trackerProductKeywordsTableResults: getTrackerProductKeywordsTableResults(state),
+    trackerProductKeywordsTablePaginationInfo: getTrackerProductKeywordsTablePaginationInfo(state),
   };
 };
 
-export default connect(mapStateToProps)(TrackerKeywordTable);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchTrackerProductKeywordsTable: (payload: TrackerProductKeywordsTablePayload) =>
+      dispatch(fetchTrackerProductKeywordsTable(payload)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TrackerKeywordTable);

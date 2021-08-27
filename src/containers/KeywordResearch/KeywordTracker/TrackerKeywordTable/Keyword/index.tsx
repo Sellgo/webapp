@@ -20,11 +20,12 @@ const Keyword = (props: RowCell) => {
 
   return (
     <Table.Cell {...props}>
-      <div className={styles.keyword}>
+      <div className={styles.keywordWrapper}>
         <CopyAndLocateClipboard
           data={phrase}
           displayData={truncateString(phrase, 100)}
           link={`https://www.amazon.com/s?k=${phrase}`}
+          className={styles.keyword}
         />
       </div>
     </Table.Cell>

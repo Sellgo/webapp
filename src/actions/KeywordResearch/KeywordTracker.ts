@@ -6,13 +6,14 @@ import { actionTypes } from '../../constants/KeywordResearch/KeywordTracker';
 /* Interfaces */
 import {
   ProductTrackPayload,
+  TrackerProductKeywordsTablePaginationInfo,
   TrackerProductKeywordsTablePayload,
   TrackerTableProductsPayload,
 } from '../../interfaces/KeywordResearch/KeywordTracker';
-import { getKeywordTrackerProductsTableResults } from '../../selectors/KeywordResearch/KeywordTracker';
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
+import { getKeywordTrackerProductsTableResults } from '../../selectors/KeywordResearch/KeywordTracker';
 
 /* ================================================= */
 /*    KEYWORD TRACK MAIN TABLE (PRODUCTS)  */
@@ -50,6 +51,16 @@ export const isLoadingTrackerProductKeywordsTable = (payload: boolean) => {
 export const setTrackerProductKeywordsTableResults = (payload: any) => {
   return {
     type: actionTypes.SET_TRACKER_PRODUCT_KEYWORDS_TABLE_RESULTS,
+    payload,
+  };
+};
+
+/* Action to set pagination info details fr the tracker product keyword table */
+export const setTrackerProductKeywordsTablePaginationInfo = (
+  payload: TrackerProductKeywordsTablePaginationInfo
+) => {
+  return {
+    type: actionTypes.SET_TRACKER_PRODUCT_KEYWORDS_TABLE_PAGINATION_INFO,
     payload,
   };
 };
@@ -129,9 +140,24 @@ export const fetchTrackerProductKeywordsTable = (
   const sellerId = sellerIDSelector();
 
   try {
-    const { keywordTrackProductId, enableLoader = true } = payload;
+    const { keywordTrackProductId, enableLoader = true, per_page = 20, page = 1 } = payload;
 
-    const resourcePath = `keyword_track_product_id=${keywordTrackProductId}`;
+    if (!keywordTrackProductId) {
+      dispatch(setTrackerProductKeywordsTableResults([]));
+      dispatch(
+        setTrackerProductKeywordsTablePaginationInfo({
+          count: 0,
+          current_page: 0,
+          total_pages: 0,
+          per_page: 20,
+        })
+      );
+      return;
+    }
+
+    const pagination = `page=${page}&per_page=${per_page}`;
+
+    const resourcePath = `keyword_track_product_id=${keywordTrackProductId}&${pagination}`;
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track?${resourcePath}`;
 
@@ -139,13 +165,25 @@ export const fetchTrackerProductKeywordsTable = (
 
     const { data } = await axios.get(URL);
 
+    const { results, ...paginationInfo } = data;
+
     if (data) {
-      dispatch(setTrackerProductKeywordsTableResults(data));
+      dispatch(setTrackerProductKeywordsTableResults(results));
+      dispatch(setTrackerProductKeywordsTablePaginationInfo(paginationInfo));
       dispatch(isLoadingTrackerProductKeywordsTable(false));
     }
   } catch (err) {
     console.error('Error Fetching Tracker');
     dispatch(setTrackerProductKeywordsTableResults([]));
+    dispatch(
+      setTrackerProductKeywordsTablePaginationInfo({
+        count: 0,
+        current_page: 0,
+        total_pages: 0,
+        per_page: 20,
+      })
+    );
+
     dispatch(isLoadingTrackerProductKeywordsTable(false));
   }
 };

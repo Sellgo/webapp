@@ -83,6 +83,9 @@ const TrackerTable = (props: Props) => {
     const [currentExpandedRowId] = expandedRowKeys;
 
     if (currentExpandedRowId !== rowId) {
+      fetchTrackerProductKeywordsTable({
+        keywordTrackProductId: rowId,
+      });
       setExpandedRowkeys([rowId]);
     } else {
       setExpandedRowkeys([]);
@@ -109,20 +112,17 @@ const TrackerTable = (props: Props) => {
         onSortColumn={handleSortColumn}
         //  Props for table expansion
         rowKey={TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY}
-        rowExpandedHeight={calculateKeywordsTableHeight(trackerProductKeywordsTableResults.length)}
+        rowExpandedHeight={calculateKeywordsTableHeight(
+          (trackerProductKeywordsTableResults && trackerProductKeywordsTableResults.length) || 4
+        )}
         expandedRowKeys={expandedRowKeys}
-        renderRowExpanded={(rowData: any) => {
-          fetchTrackerProductKeywordsTable({
-            keywordTrackProductId: rowData.keyword_track_product_id,
-          });
-          return <TrackerKeywordTable />;
-        }}
+        renderRowExpanded={() => <TrackerKeywordTable />}
       >
         {/* Expand Cell */}
         <Table.Column verticalAlign="top" fixed align="left" width={25}>
           <Table.HeaderCell> </Table.HeaderCell>
           <ExpansionCell
-            dataKey="expansionCell"
+            dataKey={TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY}
             expandedRowKeys={expandedRowKeys}
             onChange={handleExpansion}
           />

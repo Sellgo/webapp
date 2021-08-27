@@ -18,9 +18,9 @@ interface Props extends RowCell {
 
 const ExpansionCell = (props: Props) => {
   const { expandedRowKeys, onChange, ...otherProps } = props;
-  const { rowData } = otherProps;
+  const { rowData, dataKey } = otherProps;
 
-  const isExpandedRow = expandedRowKeys.find((rowKey: any) => rowKey === rowData.id);
+  const isExpandedRow = expandedRowKeys.find((rowKey: any) => rowKey === rowData[dataKey]);
 
   return (
     <Table.Cell {...otherProps}>

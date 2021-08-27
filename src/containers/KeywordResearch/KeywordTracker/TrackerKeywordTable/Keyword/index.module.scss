@@ -1,5 +1,14 @@
 @import '../../../../../design-system/new-colors';
 
+.keywordWrapper {
+  color: $prim_dark_2 !important;
+}
+
 .keyword {
-  color: $grey_8 !important;
+  font-size: 14px !important;
+
+  span,
+  a {
+    font-size: 14px !important;
+  }
 }
