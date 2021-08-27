@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table } from 'rsuite';
 import { Icon, Popup } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import './index.scss';
@@ -9,13 +10,25 @@ import './index.scss';
 import { downloadFile } from '../../../../../utils/download';
 import { success } from '../../../../../utils/notifications';
 
+/* Actions */
+import { unTrackKeywordTrackerTableProduct } from '../../../../../actions/KeywordResearch/KeywordTracker';
+
 /* Interfaces */
 import { RowCell } from '../../../../../interfaces/Table';
+import { UnTrackKeywordTrackerTableProduct } from '../../../../../interfaces/KeywordResearch/KeywordTracker';
 
-const ActionsCell = (props: RowCell) => {
-  const { rowData } = props;
+interface Props extends RowCell {
+  unTrackKeywordTrackerTableProduct: (payload: UnTrackKeywordTrackerTableProduct) => void;
+}
+
+const ActionsCell = (props: Props) => {
+  const { unTrackKeywordTrackerTableProduct, ...otherProps } = props;
+
+  const { rowData, dataKey } = otherProps;
 
   const exportXlsxReport = rowData.report_xlsx_url;
+
+  const keywordTrackProductId = rowData[dataKey];
 
   /* Handle All Exports */
   const handleExport = async (type: 'xlsx' | 'csv') => {
@@ -25,8 +38,12 @@ const ActionsCell = (props: RowCell) => {
     }
   };
 
+  const handleUntrackProduct = () => {
+    unTrackKeywordTrackerTableProduct({ keywordTrackProductId });
+  };
+
   return (
-    <Table.Cell {...props} style={{ padding: 0 }}>
+    <Table.Cell {...otherProps}>
       <Popup
         className="keywordTrackerActionsCell"
         trigger={<Icon name="ellipsis vertical" className="keywordTrackerActionsCellTrigger" />}
@@ -34,7 +51,7 @@ const ActionsCell = (props: RowCell) => {
         position="bottom right"
         content={
           <div className="keywordTrackerActionsCellContent">
-            <button>
+            <button onClick={handleUntrackProduct}>
               <Icon name="trash" className="keywordTrackerActionIcon" />
               Delete Product
             </button>
@@ -50,4 +67,11 @@ const ActionsCell = (props: RowCell) => {
   );
 };
 
-export default ActionsCell;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    unTrackKeywordTrackerTableProduct: (payload: UnTrackKeywordTrackerTableProduct) =>
+      dispatch(unTrackKeywordTrackerTableProduct(payload)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ActionsCell);
