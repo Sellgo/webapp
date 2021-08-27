@@ -6,10 +6,6 @@
 
 .billingGrid {
   position: relative;
-  // display: grid;
-  grid-template-columns: 200px 800px;
-  grid-template-rows: max-content;
-  row-gap: 50px;
   border: 1px solid $grey_3;
   padding: 40px 0;
 
