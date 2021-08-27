@@ -24,6 +24,9 @@ import {
   getTrackerProductKeywordsTableResults,
 } from '../../selectors/KeywordResearch/KeywordTracker';
 
+/* Utils */
+import { success } from '../../utils/notifications';
+
 /* ================================================= */
 /*    KEYWORD TRACK MAIN TABLE (PRODUCTS)  */
 /* ================================================= */
@@ -170,6 +173,7 @@ export const unTrackKeywordTrackerTableProduct = (
       );
 
       dispatch(setKeywordTrackerProductsTableResults(updatedProductsOnTable));
+      success('Successfully deleted product');
     }
   } catch (err) {
     console.error('Error Untracking/Deleting keyword from tracker product table', err);
@@ -243,6 +247,8 @@ export const unTrackTrackerProductsTableKeyword = (payload: UnTrackProductsTable
   try {
     const { keywordTrackId } = payload;
 
+    console.log('This action is called');
+
     const formData = new FormData();
     formData.set(TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY, String(keywordTrackId));
     formData.set('status', 'inactive');
@@ -260,6 +266,7 @@ export const unTrackTrackerProductsTableKeyword = (payload: UnTrackProductsTable
       );
 
       dispatch(setTrackerProductKeywordsTableResults(updatedKeywordsOnTable));
+      success('Successfully deleted keyword');
     }
   } catch (err) {
     console.error('Error Untracking/Deleting keyword from tracker product table', err);

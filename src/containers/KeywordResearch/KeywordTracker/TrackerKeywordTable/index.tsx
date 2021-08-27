@@ -13,12 +13,14 @@ import TablePagination from '../../../../components/NewTable/Pagination';
 
 /* Containers */
 import Keyword from './Keyword';
+import ActionsCell from './ActionsCell';
 
 /* Constants */
 import {
   DEFAULT_PAGES_LIST,
   PRODUCT_KEYWORD_ROW_HEIGHT,
   TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY,
+  TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY,
 } from '../../../../constants/KeywordResearch/KeywordTracker';
 
 /* Selectors */
@@ -174,6 +176,12 @@ const TrackerKeywordTable = (props: Props) => {
             />
           </Table.HeaderCell>
           <StatsCell dataKey="ranking_asins" align="center" prependWith={'>'} />
+        </Table.Column>
+
+        {/* Actions Cell */}
+        <Table.Column width={40} verticalAlign="top" fixed align="left">
+          <Table.HeaderCell>{''}</Table.HeaderCell>
+          <ActionsCell dataKey={TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY} />
         </Table.Column>
       </Table>
 

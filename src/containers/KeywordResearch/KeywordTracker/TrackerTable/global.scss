@@ -48,8 +48,14 @@
 
             // last cell treat specially if needed
             &.rs-table-cell-last {
-              // first cell (expansioon cell)
+              // last cell (actions)
               border: 0 !important;
+
+              .rs-table-cell-content {
+                padding-left: 0 !important;
+                display: flex;
+                justify-content: flex-start !important;
+              }
             }
           }
         }
