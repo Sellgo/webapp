@@ -65,6 +65,7 @@ const Billing = (props: Props) => {
       const res = await axios.get(`
         ${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/current-subscription`);
       if (res.status === 200) {
+        setHasActivePlan(true);
         setSubscriptionStripeInfo(res.data);
       }
     } catch (err) {
@@ -79,6 +80,7 @@ const Billing = (props: Props) => {
       const res = await axios.get(`
       ${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/credit-card`);
       if (res.status === 200) {
+        setHasPaymentMethod(true);
         setCreditCardInfo(res.data);
       }
     } catch (err) {
