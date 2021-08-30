@@ -65,7 +65,7 @@ export const KeywordHistoryChart = (props: Props) => {
       stickOnContact: true,
     },
     legend: {
-      enaabled: false,
+      enabled: false,
     },
     plotOptions: {
       series: {
