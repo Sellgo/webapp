@@ -176,7 +176,7 @@ const TrackerTable = (props: Props) => {
         <Table.Column width={160} verticalAlign="top" align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Search Volume `}
+              title={`Search Vol. `}
               dataKey="search_volume"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
