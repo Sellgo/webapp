@@ -10,11 +10,11 @@ import styles from './index.module.scss';
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
-import ChangeStatsCell from '../../../../components/NewTable/ChangeStatsCell';
 import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
 
 /* Containers */
 import ProductInfo from './ProductInfo';
+import ChangeStats from './ChangeStats';
 
 /* Child Table */
 import TrackerKeywordTable from '../TrackerKeywordTable';
@@ -175,12 +175,7 @@ const TrackerTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <ChangeStatsCell
-            dataKey="search_volume"
-            align="center"
-            statsCount={23_563}
-            changePercent={3.69}
-          />
+          <ChangeStats dataKey="search_volume" align="center" />
         </Table.Column>
 
         {/* Organic */}
@@ -193,7 +188,7 @@ const TrackerTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <ChangeStatsCell dataKey="organic" align="center" statsCount={50} changePercent={-6.69} />
+          <ChangeStats dataKey="organic_asins" align="center" />
         </Table.Column>
 
         {/* Sponsored */}
@@ -206,7 +201,7 @@ const TrackerTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <ChangeStatsCell dataKey="organic" align="center" statsCount={10} changePercent={5.89} />
+          <ChangeStats dataKey="sponsored_asins" align="center" />
         </Table.Column>
 
         {/* Actions Cell */}
