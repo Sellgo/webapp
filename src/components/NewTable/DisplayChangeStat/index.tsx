@@ -20,8 +20,6 @@ const ChangeStatsCell = (props: Props) => {
 
   const isNegative = statsChange !== '-' && statsChange.startsWith('-') ? true : false;
 
-  console.log(changePercent, statsChange, isNegative);
-
   return (
     <div className={styles.displayStatChange}>
       {/*  Show the actual stat */}
