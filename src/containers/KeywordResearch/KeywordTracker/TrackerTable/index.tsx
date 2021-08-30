@@ -167,9 +167,9 @@ const TrackerTable = (props: Props) => {
         </Table.Column>
 
         {/* Change Sats Period */}
-        <Table.Column width={160} verticalAlign="top" align="center">
+        <Table.Column width={130} verticalAlign="top" align="center">
           <Table.HeaderCell>{''}</Table.HeaderCell>
-          <ChangeStatPeriod dataKey="search_volume" />
+          <ChangeStatPeriod dataKey="change_stat_period" />
         </Table.Column>
 
         {/* Search Volume */}
