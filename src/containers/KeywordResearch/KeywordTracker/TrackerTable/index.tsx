@@ -15,6 +15,8 @@ import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
 /* Containers */
 import ProductInfo from './ProductInfo';
 import ChangeStats from './ChangeStats';
+import ActionsCell from './ActionsCell';
+import ChangeStatPeriod from './ChangeStatPeriod';
 
 /* Child Table */
 import TrackerKeywordTable from '../TrackerKeywordTable';
@@ -46,7 +48,6 @@ import {
   TrackerProductKeywordsTablePayload,
   TrackerTableProductsPayload,
 } from '../../../../interfaces/KeywordResearch/KeywordTracker';
-import ActionsCell from './ActionsCell';
 
 interface Props {
   isLoadingKeywordTrackerProductsTable: boolean;
@@ -163,6 +164,12 @@ const TrackerTable = (props: Props) => {
             />
           </Table.HeaderCell>
           <StatsCell dataKey="competitors" align="center" />
+        </Table.Column>
+
+        {/* Change Sats Period */}
+        <Table.Column width={160} verticalAlign="top" align="center">
+          <Table.HeaderCell>{''}</Table.HeaderCell>
+          <ChangeStatPeriod dataKey="search_volume" />
         </Table.Column>
 
         {/* Search Volume */}
