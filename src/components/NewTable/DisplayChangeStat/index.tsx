@@ -32,11 +32,11 @@ const ChangeStatsCell = (props: Props) => {
         <span>{'-'}</span>
       ) : isNegative ? (
         <span className={styles.changeNegative}>
-          {showNAIfZeroOrNull(changePercent, `${changePercent} %`)}
+          {showNAIfZeroOrNull(changePercent, `${changePercent}%`)}
         </span>
       ) : (
         <span className={styles.changePositive}>
-          {showNAIfZeroOrNull(changePercent, `+${changePercent} %`)}
+          {showNAIfZeroOrNull(changePercent, `+${changePercent}%`)}
         </span>
       )}
     </div>
