@@ -8,5 +8,13 @@
 }
 
 .stat {
-  margin-right: 10px;
+  margin-right: 5px;
+}
+
+.changeNegative {
+  color: $system_red !important;
+}
+
+.changePositive {
+  color: $system_green !important;
 }

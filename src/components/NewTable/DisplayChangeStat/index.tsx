@@ -16,18 +16,29 @@ const ChangeStatsCell = (props: Props) => {
 
   const displayStat = formatNumber(statsCount);
 
-  const statsChange = Number.parseFloat(String(changePercent));
+  const statsChange = String(showNAIfZeroOrNull(changePercent, changePercent));
+
+  const isNegative = statsChange !== '-' && statsChange.startsWith('-') ? true : false;
+
+  console.log(changePercent, statsChange, isNegative);
 
   return (
     <div className={styles.displayStatChange}>
       {/*  Show the actual stat */}
-      <span className={styles.stat}>{showNAIfZeroOrNull(displayStat, displayStat)} / </span>
+      <span className={styles.stat}>{showNAIfZeroOrNull(displayStat, displayStat)} /</span>
 
       {/* Show the change percent */}
-
-      <span className={styles.changePercent}>
-        {showNAIfZeroOrNull(Number(statsChange), `${changePercent}`)}
-      </span>
+      {statsChange === '-' ? (
+        <span>{'-'}</span>
+      ) : isNegative ? (
+        <span className={styles.changeNegative}>
+          {showNAIfZeroOrNull(changePercent, `${changePercent} %`)}
+        </span>
+      ) : (
+        <span className={styles.changePositive}>
+          {showNAIfZeroOrNull(changePercent, `+${changePercent} %`)}
+        </span>
+      )}
     </div>
   );
 };

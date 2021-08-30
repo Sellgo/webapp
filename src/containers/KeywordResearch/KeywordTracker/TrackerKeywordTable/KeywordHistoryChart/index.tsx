@@ -19,9 +19,11 @@ export const KeywordHistoryChart = (props: Props) => {
 
   const formattedHistoryData =
     chartingData &&
-    chartingData.map((data: any) => {
-      return [new Date(data.udate).getTime(), data.position_rank];
-    });
+    chartingData
+      .sort((a: any, b: any) => Number(new Date(a.udate)) - Number(new Date(b.udate)))
+      .map((data: any) => {
+        return [new Date(data.udate).getTime(), data.position_rank];
+      });
 
   const chartOptions = {
     chart: {
@@ -74,7 +76,7 @@ export const KeywordHistoryChart = (props: Props) => {
     },
     series: [
       {
-        step: true,
+        type: 'line',
         name: '',
         label: {
           enabled: false,
@@ -105,7 +107,9 @@ export const KeywordHistoryChart = (props: Props) => {
           <Loader inverted>Loading</Loader>
         </Dimmer>
       ) : (
-        <HighchartsReact highcharts={Highcharts} options={chartOptions} />
+        <div id="keywordHistory">
+          <HighchartsReact highcharts={Highcharts} options={chartOptions} />
+        </div>
       )}
     </div>
   );
