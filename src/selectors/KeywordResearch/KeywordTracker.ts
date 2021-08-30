@@ -37,3 +37,17 @@ export const getTrackerProductKeywordsTableResults = (state: any) => {
 export const getTrackerProductKeywordsTablePaginationInfo = (state: any) => {
   return get(state, 'keywordTracker.trackerProductKeywordsTablePaginationInfo');
 };
+
+/* ================================================================= */
+/*                        KEYWORDS HISTORY                            */
+/* ================================================================= */
+
+/* Selector to get loading state for tracker product keywords history */
+export const getIsLoadingTrackerProductKeywordsHistory = (state: any) => {
+  return get(state, 'keywordTracker.isLoadingTrackerProductKeywordsHistory');
+};
+
+/* Selector to get state for tracker product keywords history data results */
+export const getTrackerProductKeywordsHistoryResult = (state: any) => {
+  return get(state, 'keywordTracker.trackerProductKeywordsHistoryResult');
+};

@@ -11,6 +11,7 @@ import {
 import {
   KeywordTrackerProductsTablePaginationInfo,
   ProductTrackPayload,
+  TrackerProductKeywordsHistory,
   TrackerProductKeywordsTablePaginationInfo,
   TrackerProductKeywordsTablePayload,
   TrackerTableProductsPayload,
@@ -84,6 +85,26 @@ export const setTrackerProductKeywordsTablePaginationInfo = (
 ) => {
   return {
     type: actionTypes.SET_TRACKER_PRODUCT_KEYWORDS_TABLE_PAGINATION_INFO,
+    payload,
+  };
+};
+
+/* ================================================= */
+/*   						KEYWORD HISTORY											 */
+/* ================================================= */
+
+/* Action to set loading state for tracker product keyword history */
+export const isLoadingTrackerProductKeywordsHistory = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_LOADING_TRACKER_PRODUCT_KEYWORDS_HISTORY,
+    payload,
+  };
+};
+
+/* Action to set tracker product keyword history */
+export const setTrackerProductKeywordsHistoryResult = (payload: any[]) => {
+  return {
+    type: actionTypes.SET_TRACKER_PRODUCT_KEYWORDS_HISTORY_RESULT,
     payload,
   };
 };
@@ -280,7 +301,7 @@ export const fetchTrackerProductKeywordsTable = (
 };
 
 /* Action to untrack the kewyord from tracker products table */
-export const unTrackTrackerProductsTableKeyword = (payload: UnTrackProductsTableKeyword) => async (
+export const unTrackTrackerProductTableKeyword = (payload: UnTrackProductsTableKeyword) => async (
   dispatch: any,
   getState: any
 ) => {
@@ -314,5 +335,41 @@ export const unTrackTrackerProductsTableKeyword = (payload: UnTrackProductsTable
     }
   } catch (err) {
     console.error('Error Untracking/Deleting keyword from tracker product table', err);
+  }
+};
+
+/* Action to fetch tracker product keywords history */
+export const fetchTrackerProductKeywordsHistory = (
+  payload: TrackerProductKeywordsHistory
+) => async (dispatch: any) => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const { keywordTrackId } = payload;
+
+    if (!keywordTrackId) {
+      dispatch(isLoadingTrackerProductKeywordsHistory(false));
+      dispatch(setTrackerProductKeywordsHistoryResult([]));
+      return;
+    }
+
+    const resourcePath = `keyword_track_id=${keywordTrackId}`;
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/history?${resourcePath}`;
+    dispatch(isLoadingTrackerProductKeywordsHistory(true));
+
+    const { data } = await axios.get(URL);
+
+    if (data) {
+      dispatch(isLoadingTrackerProductKeywordsHistory(false));
+      dispatch(setTrackerProductKeywordsHistoryResult(data));
+    } else {
+      dispatch(isLoadingTrackerProductKeywordsHistory(false));
+      dispatch(setTrackerProductKeywordsHistoryResult([]));
+    }
+  } catch (err) {
+    console.error('Error fetching keywords history');
+    dispatch(isLoadingTrackerProductKeywordsHistory(false));
+    dispatch(setTrackerProductKeywordsHistoryResult([]));
   }
 };

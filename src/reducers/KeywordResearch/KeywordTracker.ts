@@ -25,6 +25,10 @@ const INITIAL_STATE = {
     total_pages: 0,
     per_page: 20,
   },
+
+  //keyword histry chart
+  isLoadingTrackerProductKeywordsHistory: false,
+  trackerProductKeywordsHistoryResult: [],
 };
 
 const keywordTrackerReducer = (state = INITIAL_STATE, action: AnyAction) => {
@@ -56,6 +60,17 @@ const keywordTrackerReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_TRACKER_PRODUCT_KEYWORDS_TABLE_PAGINATION_INFO: {
       return setIn(state, 'trackerProductKeywordsTablePaginationInfo', action.payload);
+    }
+
+    /* ========================================================== */
+    /*                 KEYWORDS HISTORY TABLE                    */
+    /* ========================================================== */
+    case actionTypes.IS_LOADING_TRACKER_PRODUCT_KEYWORDS_HISTORY: {
+      return setIn(state, 'isLoadingTrackerProductKeywordsHistory', action.payload);
+    }
+
+    case actionTypes.SET_TRACKER_PRODUCT_KEYWORDS_HISTORY_RESULT: {
+      return setIn(state, 'trackerProductKeywordsHistoryResult', action.payload);
     }
 
     default: {

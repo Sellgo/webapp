@@ -38,6 +38,7 @@ export interface TrackerProductKeywordsTablePayload {
   sortDir?: 'asc' | 'desc';
 }
 
+/* Tracker Product Keywords Table Pagination */
 export interface TrackerProductKeywordsTablePaginationInfo {
   count: number;
   total_pages: number;
@@ -47,6 +48,12 @@ export interface TrackerProductKeywordsTablePaginationInfo {
   previous?: string;
 }
 
+/* Untrack keyword from products table*/
 export interface UnTrackProductsTableKeyword {
+  keywordTrackId: number;
+}
+
+/* Keywords History */
+export interface TrackerProductKeywordsHistory {
   keywordTrackId: number;
 }
