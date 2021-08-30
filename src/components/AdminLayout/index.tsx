@@ -12,10 +12,15 @@ class AdminLayout extends React.Component<Props> {
   public render() {
     const { children } = this.props;
 
+    const path = window.location.pathname;
+
     return (
       <React.Fragment>
         <Sidebar>
-          <Segment className={`admin-layout`} basic={true}>
+          <Segment
+            className={`admin-layout ${path === '/keyword-research' ? 'new-layout' : ''}`}
+            basic={true}
+          >
             <>{children}</>
           </Segment>
         </Sidebar>

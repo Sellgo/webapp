@@ -11,12 +11,15 @@
 
       .rs-table-cell {
         // add styles for first cell
+        background: $light_gray_background !important;
+
         &.rs-table-cell-first {
           padding-left: 10px !important;
         }
 
         .rs-table-cell-content {
           color: $grey_8 !important;
+          font-size: 12px;
         }
       }
     }
@@ -28,13 +31,13 @@
     margin-top: 0 !important;
 
     .rs-table-body-wheel-area {
-      background: #fff;
-
       // row wrapper for body
       .rs-table-row {
         border-bottom: 1px solid $grey_3 !important;
 
         .rs-table-cell {
+          background: $light_gray_background !important;
+
           // add styles fro first cell
           &.rs-table-cell-first {
             padding-left: 10px !important;
@@ -44,6 +47,15 @@
             color: $grey_8 !important;
           }
         }
+      }
+    }
+
+    // Loader wrapper
+    .rs-table-loader-wrapper {
+      background: $light_gray_background !important;
+
+      .rs-table-loader {
+        background: $light_gray_background !important;
       }
     }
   }

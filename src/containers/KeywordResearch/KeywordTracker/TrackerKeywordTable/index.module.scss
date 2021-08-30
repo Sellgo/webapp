@@ -1,7 +1,16 @@
 @import '../../../../design-system/new-colors';
 
+.keywordTableWrapper {
+  padding-left: 20px;
+  padding-right: 20px !important;
+  background: $light_gray_background;
+  width: 100%;
+  color: $grey_6 !important;
+  padding-top: 40px;
+}
+
 .trackerKeywordTablePagination {
   display: flex;
   justify-content: flex-end;
-  margin: 20px 0;
+  margin-top: 20px;
 }

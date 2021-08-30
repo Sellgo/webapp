@@ -1,17 +1,18 @@
-@import '../../design-system/colors.scss';
+@import '../../design-system/new-colors.scss';
+
+.keywordTrackerPage {
+  background: $light-gray_background;
+}
 
 .filterMetaData {
   padding: 0 20px !important;
-  border: 1px solid $sellgo-disabled;
-  border-radius: 7px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid $grey_3;
 
   h1 {
-    color: $sellgo-text !important;
+    color: $prim_dark_2 !important;
     font-size: 16px !important;
     font-weight: 600 !important;
     text-transform: uppercase;
@@ -26,15 +27,13 @@
   padding: 0 20px;
   padding-top: 18px !important;
   width: 100%;
-  border-left: 1px solid $sellgo-disabled;
-  border-right: 1px solid $sellgo-disabled;
 
   li {
     color: $grey_8 !important;
     font-size: 16px !important;
     min-width: 110px !important;
     padding: 4px 10px;
-    border-bottom: 1px solid $grey_6;
+    border-bottom: 1px solid $grey_3;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,10 +42,10 @@
 }
 
 .activeProductTab {
-  background: $grey_1 !important;
-  color: $sellgo-text !important;
-  font-weight: 600 !important;
-  border: 1px solid $grey_6 !important;
+  background: transparent !important;
+  color: $prim_dark_2 !important;
+  font-weight: 500 !important;
+  border: 1px solid $grey_3 !important;
   border-radius: 4px 4px 0 0;
   border-bottom: transparent !important;
 }

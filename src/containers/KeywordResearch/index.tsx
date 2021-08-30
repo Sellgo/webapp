@@ -52,7 +52,7 @@ const KeywordResearch = (props: Props) => {
         auth={match.params.auth}
       />
 
-      <main>
+      <main className={styles.keywordTrackerPage}>
         {/* Filter meta data */}
         <section className={styles.filterMetaData}>
           <h1>Keyword Research: {keywordResearchMapper[selectedTabList]}</h1>

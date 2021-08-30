@@ -119,7 +119,7 @@ const TrackerTable = (props: Props) => {
         //  Props for table expansion
         rowKey={TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY}
         rowExpandedHeight={calculateKeywordsTableHeight(
-          (trackerProductKeywordsTableResults && trackerProductKeywordsTableResults.length) || 4
+          trackerProductKeywordsTableResults && trackerProductKeywordsTableResults.length
         )}
         expandedRowKeys={expandedRowKeys}
         renderRowExpanded={() => <TrackerKeywordTable />}

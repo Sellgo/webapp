@@ -5,12 +5,13 @@
   align-items: center;
   justify-content: center;
   flex-direction: row;
+  color: $grey_6 !important;
 
   .headerText {
     text-align: center;
-    font-size: 14px;
-    color: inherit;
-    font-weight: 600;
+    font-size: 12px !important;
+    color: $grey_6 !important;
+    font-weight: 500;
     white-space: pre-wrap;
   }
 
