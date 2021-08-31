@@ -13,6 +13,7 @@ import { RowCell } from '../../../../../interfaces/Table';
 import {
   unTrackTrackerProductTableKeyword,
   fetchTrackerProductKeywordsHistory,
+  triggerTrackerProductKeywordsHistoryExport,
 } from '../../../../../actions/KeywordResearch/KeywordTracker';
 
 /* Interfaces */
@@ -33,6 +34,7 @@ import { KeywordHistoryChart } from '../KeywordHistoryChart';
 interface Props extends RowCell {
   unTrackTrackerProductTableKeyword: (payload: UnTrackProductsTableKeyword) => void;
   fetchTrackerProductKeywordsHistory: (payload: TrackerProductKeywordsHistory) => void;
+  triggerTrackerProductKeywordsHistoryExport: (payload: TrackerProductKeywordsHistory) => void;
   trackerProductKeywordsHistoryResults: any[];
   isLoadingTrackerProductKeywordsHistory: boolean;
 }
@@ -43,6 +45,7 @@ const ActionsCell = (props: Props) => {
     fetchTrackerProductKeywordsHistory,
     trackerProductKeywordsHistoryResults,
     isLoadingTrackerProductKeywordsHistory,
+    triggerTrackerProductKeywordsHistoryExport,
     ...otherProps
   } = props;
 
@@ -60,6 +63,10 @@ const ActionsCell = (props: Props) => {
   const handleHistory = () => {
     setShowModal(true);
     fetchTrackerProductKeywordsHistory({ keywordTrackId });
+  };
+
+  const handleExport = () => {
+    triggerTrackerProductKeywordsHistoryExport({ keywordTrackId });
   };
 
   return (
@@ -80,6 +87,10 @@ const ActionsCell = (props: Props) => {
               <button onClick={handleHistory}>
                 <Icon name="chart line" className="productKeywordActionIcon" />
                 History
+              </button>
+              <button onClick={handleExport}>
+                <Icon name="download" className="productKeywordActionIcon" />
+                Export XLSX
               </button>
             </div>
           }
@@ -117,6 +128,8 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(unTrackTrackerProductTableKeyword(payload)),
     fetchTrackerProductKeywordsHistory: (payload: TrackerProductKeywordsHistory) =>
       dispatch(fetchTrackerProductKeywordsHistory(payload)),
+    triggerTrackerProductKeywordsHistoryExport: (payload: TrackerProductKeywordsHistory) =>
+      dispatch(triggerTrackerProductKeywordsHistoryExport(payload)),
   };
 };
 
