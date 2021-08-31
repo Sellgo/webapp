@@ -57,3 +57,10 @@ export interface UnTrackProductsTableKeyword {
 export interface TrackerProductKeywordsHistory {
   keywordTrackId: number;
 }
+
+export interface TrackerProductsKeywordsHistoryExportProgress {
+  keyword_track_id: number;
+  export_progress: string;
+  export_status: string;
+  report_xlsx_url: string;
+}

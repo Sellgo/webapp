@@ -29,6 +29,15 @@ const INITIAL_STATE = {
   //keyword histry chart
   isLoadingTrackerProductKeywordsHistory: false,
   trackerProductKeywordsHistoryResult: [],
+
+  // keyword history export
+  shouldFetchTrackerProductKeywordsHistoryExportProgress: false,
+  trackerProductKeywordsHistoryExportProgress: {
+    export_progress: '',
+    keyword_track_id: 0,
+    export_status: '',
+    report_xlsx_url: '',
+  },
 };
 
 const keywordTrackerReducer = (state = INITIAL_STATE, action: AnyAction) => {
@@ -63,7 +72,7 @@ const keywordTrackerReducer = (state = INITIAL_STATE, action: AnyAction) => {
     }
 
     /* ========================================================== */
-    /*                 KEYWORDS HISTORY TABLE                    */
+    /*                 KEYWORDS HISTORY GRAPH                    */
     /* ========================================================== */
     case actionTypes.IS_LOADING_TRACKER_PRODUCT_KEYWORDS_HISTORY: {
       return setIn(state, 'isLoadingTrackerProductKeywordsHistory', action.payload);
@@ -73,6 +82,16 @@ const keywordTrackerReducer = (state = INITIAL_STATE, action: AnyAction) => {
       return setIn(state, 'trackerProductKeywordsHistoryResult', action.payload);
     }
 
+    /* ========================================================== */
+    /*                 KEYWORDS HISTORY EXPORT                    */
+    /* ========================================================== */
+    case actionTypes.SHOULD_FETCH_TRACKER_PRODUCT_KEYWORDS_HISTORY_EXPORT_PROGRESS: {
+      return setIn(state, 'shouldFetchTrackerProductKeywordsHistoryExportProgress', action.payload);
+    }
+
+    case actionTypes.SET_TRACKER_PRODUCT_KEYWORDS_HISTORY_EXPORT_PROGRESS: {
+      return setIn(state, 'trackerProductKeywordsHistoryExportProgress', action.payload);
+    }
     default: {
       return state;
     }

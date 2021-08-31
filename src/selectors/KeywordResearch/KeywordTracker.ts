@@ -51,3 +51,13 @@ export const getIsLoadingTrackerProductKeywordsHistory = (state: any) => {
 export const getTrackerProductKeywordsHistoryResult = (state: any) => {
   return get(state, 'keywordTracker.trackerProductKeywordsHistoryResult');
 };
+
+/* Selector to check if the keyword export progress API should be hit again */
+export const shouldFetchTrackerProductKeywordsHistoryExportProgress = (state: any) => {
+  return get(state, 'keywordTracker.shouldFetchTrackerProductKeywordsHistoryExportProgress');
+};
+
+/* Selector to get the tracker product keyword histry progress data */
+export const getTrackerProductKeywordsHistoryExportProgress = (state: any) => {
+  return get(state, 'keywordTracker.trackerProductKeywordsHistoryExportProgress');
+};

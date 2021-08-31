@@ -14,6 +14,7 @@ import {
   TrackerProductKeywordsHistory,
   TrackerProductKeywordsTablePaginationInfo,
   TrackerProductKeywordsTablePayload,
+  TrackerProductsKeywordsHistoryExportProgress,
   TrackerTableProductsPayload,
   UnTrackKeywordTrackerTableProduct,
   UnTrackProductsTableKeyword,
@@ -27,7 +28,8 @@ import {
 } from '../../selectors/KeywordResearch/KeywordTracker';
 
 /* Utils */
-import { success } from '../../utils/notifications';
+import { error, success } from '../../utils/notifications';
+import { downloadFile } from '../../utils/download';
 
 /* ================================================= */
 /*    KEYWORD TRACK MAIN TABLE (PRODUCTS)  */
@@ -105,6 +107,28 @@ export const isLoadingTrackerProductKeywordsHistory = (payload: boolean) => {
 export const setTrackerProductKeywordsHistoryResult = (payload: any[]) => {
   return {
     type: actionTypes.SET_TRACKER_PRODUCT_KEYWORDS_HISTORY_RESULT,
+    payload,
+  };
+};
+
+/* ================================================= */
+/*   		   KEYWORD HISTORY	PROGRESS								 */
+/* ================================================= */
+
+/* Action to set if progress needs to be called */
+export const shouldFetchTrackerProductKeywordsHistoryExportProgress = (payload: boolean) => {
+  return {
+    type: actionTypes.SHOULD_FETCH_TRACKER_PRODUCT_KEYWORDS_HISTORY_EXPORT_PROGRESS,
+    payload,
+  };
+};
+
+/* Action to set keyword history export progress data */
+export const setTrackerProductKeywordsHistoryExportProgress = (
+  payload: TrackerProductsKeywordsHistoryExportProgress
+) => {
+  return {
+    type: actionTypes.SET_TRACKER_PRODUCT_KEYWORDS_HISTORY_EXPORT_PROGRESS,
     payload,
   };
 };
@@ -312,8 +336,6 @@ export const unTrackTrackerProductTableKeyword = (payload: UnTrackProductsTableK
   try {
     const { keywordTrackId } = payload;
 
-    console.log('This action is called');
-
     const formData = new FormData();
     formData.set(TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY, String(keywordTrackId));
     formData.set('status', 'inactive');
@@ -371,5 +393,125 @@ export const fetchTrackerProductKeywordsHistory = (
     console.error('Error fetching keywords history');
     dispatch(isLoadingTrackerProductKeywordsHistory(false));
     dispatch(setTrackerProductKeywordsHistoryResult([]));
+  }
+};
+
+/* Action to fetch the keyword history progress */
+export const fetchTrackerProductKeywordsHistoryExportProgress = () => async (dispatch: any) => {
+  try {
+    const sellerID = sellerIDSelector();
+
+    const keywordTrackId = localStorage.getItem('trackerProductExportKeywordTrackId');
+
+    if (!keywordTrackId) {
+      dispatch(shouldFetchTrackerProductKeywordsHistoryExportProgress(false));
+      dispatch(
+        setTrackerProductKeywordsHistoryExportProgress({
+          export_progress: '',
+          keyword_track_id: 0,
+          export_status: '',
+          report_xlsx_url: '',
+        })
+      );
+      return;
+    }
+
+    const resourcePath = `keyword_track_id=${keywordTrackId}`;
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/keywords/track/history/export?${resourcePath}`;
+
+    const { data } = await axios.get(URL);
+
+    const isFailedStatus = data.export_status === 'failed';
+    const isCompleted = data.export_status === 'completed';
+
+    if (isFailedStatus) {
+      dispatch(shouldFetchTrackerProductKeywordsHistoryExportProgress(false));
+      dispatch(
+        setTrackerProductKeywordsHistoryExportProgress({
+          export_progress: '',
+          keyword_track_id: 0,
+          export_status: '',
+          report_xlsx_url: '',
+        })
+      );
+      error('Error: Failed during export in progress');
+      return;
+    }
+
+    if (!isFailedStatus) {
+      dispatch(setTrackerProductKeywordsHistoryExportProgress(data));
+      // if not completed should fetch again else not
+      dispatch(shouldFetchTrackerProductKeywordsHistoryExportProgress(!isCompleted));
+
+      if (isCompleted) {
+        const { report_xlsx_url } = data;
+
+        if (report_xlsx_url) {
+          await downloadFile(report_xlsx_url);
+          success('Keyword history sucessfully exported');
+        }
+      }
+    }
+  } catch (err) {
+    console.error('Error fetching keyword progress');
+    dispatch(shouldFetchTrackerProductKeywordsHistoryExportProgress(false));
+    dispatch(
+      setTrackerProductKeywordsHistoryExportProgress({
+        export_progress: '',
+        keyword_track_id: 0,
+        export_status: '',
+        report_xlsx_url: '',
+      })
+    );
+  }
+};
+
+/* Action to trigger export for keywords history */
+export const triggerTrackerProductKeywordsHistoryExport = (
+  payload: TrackerProductKeywordsHistory
+) => async (dispatch: any) => {
+  const sellerId = sellerIDSelector();
+
+  const { keywordTrackId } = payload;
+
+  // keep the keywordTrackId undergoingexport in localStorage
+  localStorage.setItem('trackerProductExportKeywordTrackId', String(keywordTrackId));
+
+  try {
+    const formData = new FormData();
+    formData.set(TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY, String(keywordTrackId));
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/history/export`;
+
+    const { status, statusText } = await axios.post(URL, formData);
+
+    if (status === 200 && statusText === 'OK') {
+      // reset any previous export results
+      dispatch(
+        setTrackerProductKeywordsHistoryExportProgress({
+          export_progress: '',
+          keyword_track_id: 0,
+          export_status: '',
+          report_xlsx_url: '',
+        })
+      );
+
+      dispatch(shouldFetchTrackerProductKeywordsHistoryExportProgress(true));
+      return;
+    } else {
+      dispatch(shouldFetchTrackerProductKeywordsHistoryExportProgress(false));
+      error('Error while exporting the keyword history');
+      dispatch(
+        setTrackerProductKeywordsHistoryExportProgress({
+          export_progress: '',
+          keyword_track_id: 0,
+          export_status: '',
+          report_xlsx_url: '',
+        })
+      );
+      return;
+    }
+  } catch (err) {
+    console.error('Error starting the export for keyword');
   }
 };
