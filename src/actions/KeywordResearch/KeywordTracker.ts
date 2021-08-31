@@ -498,18 +498,6 @@ export const triggerTrackerProductKeywordsHistoryExport = (
 
       dispatch(shouldFetchTrackerProductKeywordsHistoryExportProgress(true));
       return;
-    } else {
-      dispatch(shouldFetchTrackerProductKeywordsHistoryExportProgress(false));
-      error('Error while exporting the keyword history');
-      dispatch(
-        setTrackerProductKeywordsHistoryExportProgress({
-          export_progress: '',
-          keyword_track_id: 0,
-          export_status: '',
-          report_xlsx_url: '',
-        })
-      );
-      return;
     }
   } catch (err) {
     console.error('Error starting the export for keyword');
