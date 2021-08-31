@@ -101,9 +101,6 @@ const TrackerKeywordTable = (props: Props) => {
         sortType={sortType}
         id="trackerKeywordTable"
         onSortColumn={handleSortColumn}
-        renderEmpty={() => {
-          return <h1>Add something here for no data cases</h1>;
-        }}
       >
         {/* Keyword Info */}
         <Table.Column verticalAlign="middle" fixed align="left" width={500} flexGrow={1}>
