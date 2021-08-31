@@ -11,11 +11,25 @@ interface Props {
   focusInput: any;
   blurInput: any;
   subscriptionRegister?: boolean;
+  className?: string;
+  disabled?: boolean;
+  showOnRight?: boolean;
   id?: any;
 }
 
 const StepsInfo = (props: Props) => {
-  const { stepsData, onChange, isFocusPW, focusInput, blurInput, subscriptionRegister, id } = props;
+  const {
+    showOnRight,
+    disabled,
+    className,
+    stepsData,
+    onChange,
+    isFocusPW,
+    focusInput,
+    blurInput,
+    subscriptionRegister,
+    id,
+  } = props;
 
   const [isPassword, setPassword] = useState(true);
 
@@ -48,7 +62,10 @@ const StepsInfo = (props: Props) => {
       className="StepsInfo__container"
       open={isFocusPW}
       trigger={
-        <div className={`ui icon input field passwordInput ${subscriptionRegister && 'huge'}`}>
+        <div
+          className={`ui icon input field passwordInput ${subscriptionRegister &&
+            'huge'} ${className}`}
+        >
           <input
             id={id}
             autoFocus={isFocusPW}
@@ -59,14 +76,14 @@ const StepsInfo = (props: Props) => {
             minLength={8}
             placeholder="Password"
             onChange={onChange}
-            // className={className}
+            disabled={disabled}
           />
           <Icon name={isPassword ? 'eye slash' : 'eye'} onClick={handleClickPassword} />
         </div>
       }
       on="focus"
       size="huge"
-      position="left center"
+      position={showOnRight ? 'right center' : 'left center'}
       wide="very"
     >
       <Step.Group size="mini" vertical={true}>

@@ -5,12 +5,13 @@ import styles from './index.module.scss';
 
 interface Props {
   children: React.ReactNode;
+  className?: string;
 }
 
 const ProfileBoxContainer = (props: Props) => {
-  const { children } = props;
+  const { children, className } = props;
 
-  return <div className={styles.profileBoxContainer}>{children}</div>;
+  return <div className={`${styles.profileBoxContainer} ${className}`}>{children}</div>;
 };
 
 export default ProfileBoxContainer;

@@ -5,12 +5,13 @@ import styles from './index.module.scss';
 
 interface Props {
   children: React.ReactNode;
+  className?: string;
 }
 
 const ProfileBoxFooter = (props: Props) => {
-  const { children } = props;
+  const { children, className } = props;
 
-  return <div className={styles.profileBoxFooter}>{children}</div>;
+  return <div className={`${styles.profileBoxFooter} ${className}`}>{children}</div>;
 };
 
 export default ProfileBoxFooter;

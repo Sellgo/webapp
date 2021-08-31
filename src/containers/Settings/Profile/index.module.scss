@@ -1,7 +1,145 @@
 @import '../../../design-system/new-colors';
 
-.billingPageWrapper {
+.profilePageWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.profileBox {
+  width: 1088px;
+}
+
+.profileInformationRow {
+  flex-direction: column;
+  align-items: center;
+  display: grid;
+  grid-template-columns: 70px max-content;
+  margin-bottom: 30px;
+
+  .profilePic {
+    width: 70px;
+    height: 70px;
+    border: 1px solid $border-color-1;
+    border-radius: 7px;
+  }
+
+  p {
+    margin: 0;
+    margin-left: 18px;
+    color: $prim_dark_1;
+  }
+
+  .name {
+    color: $prim_dark_1;
+    font-size: 20px;
+    font-weight: 500;
+  }
+}
+
+.updateSettingsForm {
+  display: grid;
+  grid-template-columns: 500px 588px;
+  grid-template-rows: max-content;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.innerGrid {
+  width: 500px;
+  display: grid;
+  column-gap: 30px;
+  row-gap: 18px;
+  grid-template-columns: 170px 300px;
+}
+
+.formActionRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .changeButton {
+    font-size: 14px;
+    font-weight: normal;
+    color: $prim_dark_1;
+    margin: 0;
+    background: none;
+    padding: 0;
+    margin-left: 18px;
+
+    span {
+      color: $blue_8;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.error {
+  grid-column-start: 2;
+  color: $system_red;
+}
+
+.formLabel {
+  text-align: right;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  margin-top: 8px;
+  color: $prim_dark_1;
+}
+
+.formInput {
+  width: 200px;
+  margin: 0 !important;
+
+  &__disabled {
+    opacity: 0.18;
+    cursor: default;
+
+    &:hover {
+      cursor: default;
+    }
+  }
+}
+
+.formFooter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .updateButton {
+    position: relative;
+    align-self: flex-end;
+
+    &__disabled,
+    &__disabled:hover {
+      cursor: not-allowed;
+      opacity: 0.18;
+    }
+  }
+}
+
+.mailLink {
+  color: $accent-blue;
+}
+
+.paymentErrorMessage {
+  background: #eb675e;
+  color: #fff;
+  border-radius: 8px;
+  width: 500px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-top: 20px;
+  font-size: 14px;
+  padding: 15px 0;
+  font-weight: 500 !important;
 }
