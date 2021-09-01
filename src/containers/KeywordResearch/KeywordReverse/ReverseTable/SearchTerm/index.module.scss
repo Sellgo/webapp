@@ -11,6 +11,21 @@
 
 .searchTerm {
   font-size: 14px !important;
+  color: $prim_dark_1 !important;
+  font-weight: 600 !important;
+
+  &:hover {
+    color: $prim_dark_1 !important;
+  }
+
+  span {
+    color: $prim_dark_1 !important;
+    font-weight: 600 !important;
+
+    &:hover {
+      color: $prim_dark_1 !important;
+    }
+  }
 }
 
 .labels {

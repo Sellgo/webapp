@@ -26,6 +26,7 @@ import {
 /* Utils */
 import { downloadFile } from '../../../../utils/download';
 import { success } from '../../../../utils/notifications';
+import { formatNumber } from '../../../../utils/format';
 
 interface Props {
   reverseKeywordProgressData: KeywordReverseProgressData;
@@ -51,10 +52,13 @@ const ReverseExport = (props: Props) => {
     <>
       <section className={styles.exportsContainer}>
         {reverseKeywordTablePaginationInfo.total_pages > 0 && (
-          <h2>
-            {reverseKeywordTablePaginationInfo.count} keywords found, please add additional filters
-            for a more targeted search.
-          </h2>
+          <p className={styles.messageText}>
+            Viewing{' '}
+            <span className={styles.sellerCount}>
+              {formatNumber(reverseKeywordTablePaginationInfo.count)}
+            </span>{' '}
+            keywords.
+          </p>
         )}
         <div
           onClick={() => (shouldEnableExport ? setOpenExports(true) : 0)}

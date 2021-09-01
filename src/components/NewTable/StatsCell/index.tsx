@@ -14,10 +14,17 @@ interface Props extends RowCell {
   appendWith?: string;
   prependWith?: string;
   align?: 'left' | 'right' | 'center';
+  specialKpi?: boolean;
 }
 
 const StatsCell = (props: Props) => {
-  const { appendWith = '', prependWith = '', align = 'left', ...otherProps } = props;
+  const {
+    appendWith = '',
+    prependWith = '',
+    align = 'left',
+    specialKpi = false,
+    ...otherProps
+  } = props;
 
   const { rowData, dataKey } = otherProps;
 
@@ -25,7 +32,10 @@ const StatsCell = (props: Props) => {
 
   return (
     <Table.Cell {...otherProps}>
-      <div className={styles.statsCell} style={{ textAlign: align }}>
+      <div
+        className={styles.statsCell}
+        style={{ textAlign: align, color: specialKpi ? '#3B4557' : '#95A1AC' }}
+      >
         {showNAIfZeroOrNull(rowData[dataKey], `${prependWith}${displayStat}${appendWith}`)}
       </div>
     </Table.Cell>

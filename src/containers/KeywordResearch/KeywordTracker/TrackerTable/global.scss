@@ -22,11 +22,10 @@
   // body section
   .rs-table-body-row-wrapper {
     padding-top: 10px !important;
-    background: $light_gray_background;
+    background: $light_gray_background !important;
 
     .rs-table-body-wheel-area {
       .rs-table-row {
-        // non expandec row
         border-bottom: 1px solid $grey_3;
 
         // &:nth-child(2n) {
@@ -94,10 +93,14 @@
 
     // Loader wrapper
     .rs-table-loader-wrapper {
-      background: $light_gray_background;
+      background: $light_gray_background !important;
 
       .rs-table-loader {
-        background: $light_gray_background;
+        background: $light_gray_background !important;
+      }
+
+      .rs-table-body-info {
+        background: $light_gray_background !important;
       }
     }
   }

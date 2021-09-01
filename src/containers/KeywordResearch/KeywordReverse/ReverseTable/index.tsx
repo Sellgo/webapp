@@ -92,7 +92,7 @@ const ReverseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="search_volume" align="center" />
+          <StatsCell dataKey="search_volume" align="center" specialKpi />
         </Table.Column>
 
         {/* Sponsored ASINS */}
