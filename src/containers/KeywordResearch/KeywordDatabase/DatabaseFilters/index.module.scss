@@ -22,17 +22,17 @@
   width: 100% !important;
 }
 
-/* Advanced Filter Styles */
 .advancedFilterWrapper {
-  background: $grey_0;
+  background: $grey_10;
   box-shadow: 0 3px 6px #00000029;
+  border: 1px solid $grey_3;
   border-radius: 7px;
   height: max-content !important;
   user-select: none;
 }
 
 .advancedFilterToggle {
-  background: $grey_10;
+  background: $grey_0;
   color: $grey_8;
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;

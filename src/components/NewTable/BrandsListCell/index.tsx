@@ -40,6 +40,7 @@ const BrandsListCell = (props: RowCell) => {
             <CopyToClipboard
               displayData={showNAIfZeroOrNull(parsedBrands.length, parsedBrands.length)}
               data={removeSpecialChars(parsedBrands)}
+              className={styles.brandsCount}
             />
             <Popup
               on="click"

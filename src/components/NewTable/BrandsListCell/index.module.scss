@@ -16,6 +16,10 @@
   margin: 0 !important;
 }
 
+.brandsCount {
+  color: $grey_8 !important;
+}
+
 .iconButton {
   @extend .btnReset;
 
@@ -23,6 +27,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  color: $grey_8 !important;
 
   > i.chevron.up.icon {
     font-size: 10px !important;
