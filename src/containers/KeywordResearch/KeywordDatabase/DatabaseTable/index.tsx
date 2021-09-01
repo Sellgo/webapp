@@ -81,7 +81,7 @@ const DatabaseTable = (props: Props) => {
         onSortColumn={handleSortColumn}
       >
         {/* Search Term */}
-        <Table.Column verticalAlign="middle" fixed align="left" flexGrow={1}>
+        <Table.Column verticalAlign="middle" fixed align="left" width={800}>
           <Table.HeaderCell>Search Term</Table.HeaderCell>
           <SearchTerm dataKey="searchTerm" />
         </Table.Column>
@@ -123,58 +123,6 @@ const DatabaseTable = (props: Props) => {
             />
           </Table.HeaderCell>
           <StatsCell dataKey="competing_products" prependWith="> " align="center" />
-        </Table.Column>
-
-        {/* Position Rank */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
-          <Table.HeaderCell>
-            <HeaderSortCell
-              title={`Position\nRank`}
-              dataKey="position_rank"
-              currentSortColumn={sortColumn}
-              currentSortType={sortType}
-            />
-          </Table.HeaderCell>
-          <StatsCell dataKey="position_rank" align="center" />
-        </Table.Column>
-
-        {/* Relative Rank  */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
-          <Table.HeaderCell>
-            <HeaderSortCell
-              title={`Relative\nRank`}
-              dataKey="relative_rank"
-              currentSortColumn={sortColumn}
-              currentSortType={sortType}
-            />
-          </Table.HeaderCell>
-          <StatsCell dataKey="relative_rank" align="center" />
-        </Table.Column>
-
-        {/* Competitor Rank  */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
-          <Table.HeaderCell>
-            <HeaderSortCell
-              title={`Competitor\nRank(avg)`}
-              dataKey="competitor_rank_avg"
-              currentSortColumn={sortColumn}
-              currentSortType={sortType}
-            />
-          </Table.HeaderCell>
-          <StatsCell dataKey="competitor_rank_avg" align="center" />
-        </Table.Column>
-
-        {/* Ranking Competitors  */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
-          <Table.HeaderCell>
-            <HeaderSortCell
-              title={`Ranking\nCompetitors`}
-              dataKey="ranking_competitors_count"
-              currentSortColumn={sortColumn}
-              currentSortType={sortType}
-            />
-          </Table.HeaderCell>
-          <StatsCell dataKey="ranking_competitors_count" align="center" />
         </Table.Column>
       </Table>
 
