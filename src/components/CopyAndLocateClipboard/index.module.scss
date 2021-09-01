@@ -9,13 +9,13 @@
 }
 
 .navigateLink {
+  font-weight: 500 !important;
   color: $grey_6 !important;
-  font-weight: 400 !important;
 
   &:hover {
-    color: $grey_6 !important;
     text-decoration: underline;
-    font-weight: 500 !important;
+    font-weight: 600 !important;
+    color: $grey_6 !important;
   }
 }
 
