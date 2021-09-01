@@ -86,7 +86,7 @@ const ReverseAsinsList = (props: Props) => {
           disabled={asinList.length === MAX_ASINS_ALLOWED}
         />
         <span className={styles.infoDetail}>
-          {MAX_ASINS_ALLOWED - asinList.length || MAX_ASINS_ALLOWED} more ASINs allowed.
+          {MAX_ASINS_ALLOWED - asinList.length} more ASINs allowed.
         </span>
       </div>
 

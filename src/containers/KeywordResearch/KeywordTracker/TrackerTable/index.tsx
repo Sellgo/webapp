@@ -110,7 +110,7 @@ const TrackerTable = (props: Props) => {
         data={keywordTrackerProductsTableResults}
         autoHeight
         hover={false}
-        rowHeight={110}
+        rowHeight={120}
         headerHeight={55}
         sortColumn={sortColumn}
         sortType={sortType}

@@ -36,10 +36,15 @@
     align-items: stretch;
     margin-bottom: 5px;
 
+    &:hover {
+      background: $grey_1 !important;
+    }
+
     .keywordTrackerActionIcon {
       margin-right: 5px;
       font-size: 12px !important;
       color: inherit !important;
+      color: $grey_8 !important;
     }
 
     &:disabled {

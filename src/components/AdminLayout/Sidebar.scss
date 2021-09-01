@@ -1,3 +1,5 @@
+@import '../../design-system/new-colors.scss';
+
 .sidebar-container {
   z-index: 900;
   padding-right: 0 !important;
@@ -10,6 +12,11 @@
   .Sidebar__pusher.pusher.container {
     overflow-y: scroll;
     background: #fff;
+  }
+
+  .newSidebar__pusher.pusher.container {
+    overflow-y: scroll;
+    background: $light-gray_background;
   }
 
   .forward {
