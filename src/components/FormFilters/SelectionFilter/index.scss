@@ -28,6 +28,14 @@
   justify-content: space-between;
   align-items: center;
 
+  .text {
+    color: $grey_8 !important;
+
+    &::placeholder {
+      color: $grey_6 !important;
+    }
+  }
+
   .menu.transition {
     border: 1px solid $grey_3 !important;
     width: 100% !important;
@@ -36,7 +44,7 @@
     z-index: 999;
 
     .item {
-      color: $grey_8;
+      color: $grey_8 !important;
       font-weight: 400;
 
       &:hover {
