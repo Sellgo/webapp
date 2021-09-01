@@ -8,7 +8,7 @@
   p {
     margin: 0 !important;
     color: $grey_8;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
   }
 }
@@ -20,7 +20,7 @@
   min-height: 35px !important;
   height: 35px;
   min-width: 65px !important;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400 !important;
   padding: 8px 10px !important;
   border-radius: 4px !important;
@@ -40,6 +40,7 @@
     .item {
       color: $grey_8;
       font-weight: 400;
+      font-size: 12px;
 
       &:hover {
         background: $grey_1 !important;
