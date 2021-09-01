@@ -1,11 +1,11 @@
-@import '../../../design-system/colors.scss';
+@import '../../../design-system/new-colors.scss';
 
 .checkBoxFilters {
   min-width: 250px;
 
   p {
     margin: 0;
-    color: $sellgo-text;
+    color: $grey_8 !important;
     font-size: 16px;
     font-weight: 500;
   }

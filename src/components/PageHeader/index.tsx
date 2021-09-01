@@ -6,6 +6,8 @@ import AdminHeader from '../AdminLayout/AdminHeader';
 import Auth from '../Auth/Auth';
 import './index.scss';
 
+import { newProductDesignPathNames } from '../../constants';
+
 interface Props {
   title?: string;
   callToAction?: any;
@@ -17,13 +19,15 @@ class PageHeader extends React.Component<Props> {
   render() {
     const { title, callToAction, breadcrumb, auth } = this.props;
 
+    const isNewProduct = newProductDesignPathNames.includes(window.location.pathname);
+
     return (
       <>
         <Helmet>
           <title>Sellgo - {title}</title>
         </Helmet>
 
-        <div className="page-header">
+        <div className={`page-header ${isNewProduct ? 'new-page-header' : ''}`}>
           {breadcrumb && breadcrumb.length > 0 && <BreadCrumb sections={breadcrumb} />}
           <div className="page-header__left">
             <Header as="h2">

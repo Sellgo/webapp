@@ -10,6 +10,7 @@
     width: 140px !important;
     color: $grey_6 !important;
     height: 34px !important;
+    padding: 0 !important;
     border-radius: 7px !important;
     display: flex;
     justify-content: center;
@@ -17,6 +18,8 @@
     background: #fff !important;
     border: 1px solid $grey_3 !important;
     margin: 0 !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
   }
 
   &__find {

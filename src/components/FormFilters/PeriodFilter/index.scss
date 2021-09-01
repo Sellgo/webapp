@@ -1,4 +1,4 @@
-@import '../../../design-system/colors.scss';
+@import '../../../design-system/new-colors.scss';
 
 .periodFilterWrapper {
   width: max-content !important;
@@ -7,15 +7,15 @@
 
   p {
     margin: 0 !important;
-    color: $sellgo-text;
+    color: $grey_8;
     font-size: 16px;
     font-weight: 500;
   }
 }
 
 .ui.dropdown.periodFilter {
-  color: $sellgo-text !important;
-  border: 1px solid $sellgo-light-gray-100 !important;
+  color: $grey_8 !important;
+  border: 1px solid $grey_3 !important;
   max-height: 35px !important;
   min-height: 35px !important;
   height: 35px;
@@ -30,7 +30,7 @@
   background: #fff;
 
   .menu.transition {
-    border: 1px solid $sellgo-light-gray-100 !important;
+    border: 1px solid $grey_3 !important;
     width: 100% !important;
     font-size: 12px !important;
     max-height: 250px !important;
