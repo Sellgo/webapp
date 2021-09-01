@@ -26,9 +26,10 @@
 }
 
 .activeSort {
-  color: $prim_dark_1 !important;
+  color: $grey_8 !important;
 }
 
 .inActiveSort {
-  color: $grey_6 !important;
+  color: $grey_3 !important;
+  margin-top: -6px !important;
 }

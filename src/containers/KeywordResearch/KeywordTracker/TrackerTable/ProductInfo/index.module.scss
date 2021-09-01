@@ -27,13 +27,13 @@
 
   h2 {
     font-size: 14px;
-    font-weight: normal;
     line-height: 1;
     display: inline-block;
     overflow-wrap: break-word;
     word-wrap: break-word;
     hyphens: auto;
     color: $prim_dark_1 !important;
+    font-weight: 500;
   }
 }
 
