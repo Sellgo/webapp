@@ -18,7 +18,7 @@ const ProductInfo = (props: RowCell) => {
 
   const { title, asin, image_url } = rowData;
 
-  const [firstPart, secondPart] = truncateIntoTwoLines(title, 45, 85);
+  const [firstPart, secondPart] = truncateIntoTwoLines(title, 55, 105);
 
   return (
     <Table.Cell {...props}>

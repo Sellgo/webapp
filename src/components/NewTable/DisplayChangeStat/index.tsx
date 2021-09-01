@@ -23,7 +23,7 @@ const ChangeStatsCell = (props: Props) => {
   return (
     <div className={styles.displayStatChange}>
       {/*  Show the actual stat */}
-      <span className={styles.stat}>{showNAIfZeroOrNull(displayStat, displayStat)} /</span>
+      <span className={styles.stat}>{showNAIfZeroOrNull(displayStat, displayStat)}</span>
 
       {/* Show the change percent */}
       {statsChange === '-' ? (
