@@ -25,7 +25,6 @@ import {
   specialCharacters,
   Length,
   passwordPolicy,
-  validateEmail,
 } from '../../../constants/Validators';
 
 /* Hooks */
@@ -44,9 +43,6 @@ interface Props {
 
 const Profile = (props: Props) => {
   const { match, getSeller, profile } = props;
-  // Email states
-  const { value: newEmail, bind: bindNewEmail, reset: resetNewEmail } = useInput('');
-  const { value: newEmail2, bind: bindNewEmail2, reset: resetNewEmail2 } = useInput('');
 
   // Password states
   const [isFocusPW, setFocusPassword] = useState<boolean>(false);
@@ -57,7 +53,6 @@ const Profile = (props: Props) => {
   const { value: newPassword2, bind: bindNewPassword2, reset: resetNewPassword2 } = useInput('');
 
   // Is editing states
-  const [isEditingEmail, setIsEditingEmail] = useState<boolean>(false);
   const [isEditingPassword, setIsEditingPassword] = useState<boolean>(false);
 
   // Error states
@@ -65,11 +60,10 @@ const Profile = (props: Props) => {
 
   // Class names
   const passwordClassName = isEditingPassword ? '' : styles.formInput__disabled;
-  const emailClassName = isEditingEmail ? '' : styles.formInput__disabled;
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { email, first_name, last_name, sellerId } = profile;
+  const { email, first_name, last_name, id } = profile;
   const creationDate = profile.cdate ? profile.cdate.substring(0, 10) : '-';
   const pic = localStorage.getItem('userPicture') || '';
 
@@ -129,23 +123,9 @@ const Profile = (props: Props) => {
   }
 
   const handleSubmit = async () => {
+    console.log(profile);
     let payload = {};
     setError('');
-
-    if (isEditingEmail) {
-      if (!validateEmail(newEmail)) {
-        setError('New email is invalid.');
-        return;
-      } else if (newEmail !== newEmail2) {
-        setError('Emails do not match.');
-        return;
-      } else {
-        payload = {
-          ...payload,
-          new_email: newEmail,
-        };
-      }
-    }
 
     if (isEditingPassword) {
       if (!passwordPolicy.validate(newPassword)) {
@@ -168,16 +148,13 @@ const Profile = (props: Props) => {
     setLoading(true);
     try {
       const res = await axios.patch(
-        `${AppConfig.BASE_URL_API}sellers/${sellerId}/profile`,
+        `${AppConfig.BASE_URL_API}sellers/${id}/profile/password`,
         payload
       );
       getSeller();
       if (res.status === 200) {
         setIsEditingPassword(false);
-        setIsEditingEmail(false);
         success('Successfully updated profile.');
-        resetNewEmail();
-        resetNewEmail2();
         resetPassword();
         resetNewPassword();
         resetNewPassword2();
@@ -217,42 +194,6 @@ const Profile = (props: Props) => {
           </div>
 
           <Form className={styles.updateSettingsForm} onSubmit={handleSubmit}>
-            <div className={styles.innerGrid}>
-              <label className={styles.formLabel}>Email</label>
-              <span className={styles.formActionRow}>
-                <Form.Input
-                  className={styles.formInput}
-                  type="text"
-                  placeholder="Email"
-                  readOnly
-                  value={email || ''}
-                />
-                <div
-                  className={styles.changeButton}
-                  onClick={() => setIsEditingEmail(!isEditingEmail)}
-                >
-                  (<span>{isEditingEmail ? 'Cancel' : 'Change'}</span>)
-                </div>
-              </span>
-
-              <label className={`${styles.formLabel} ${emailClassName}`}>New Email</label>
-              <Form.Input
-                className={`${styles.formInput} ${emailClassName}`}
-                type="text"
-                placeholder="Email"
-                {...bindNewEmail}
-                disabled={!isEditingEmail}
-              />
-
-              <label className={`${styles.formLabel} ${emailClassName}`}>Confirm New Email</label>
-              <Form.Input
-                className={`${styles.formInput} ${emailClassName}`}
-                type="text"
-                placeholder="Email"
-                {...bindNewEmail2}
-                disabled={!isEditingEmail}
-              />
-            </div>
             <div className={styles.innerGrid}>
               <label className={styles.formLabel}>Password</label>
               <span className={styles.formActionRow}>
@@ -317,12 +258,11 @@ const Profile = (props: Props) => {
             {error && <div className={styles.paymentErrorMessage}>{error}</div>}
             <OrangeButton
               className={`${styles.updateButton} ${!isEditingPassword &&
-                !isEditingEmail &&
                 styles.updateButton__disabled}`}
               type="blue"
               size="small"
               onClick={() => {
-                !loading && (isEditingPassword || isEditingEmail) && handleSubmit();
+                !loading && isEditingPassword && handleSubmit();
               }}
             >
               Update
