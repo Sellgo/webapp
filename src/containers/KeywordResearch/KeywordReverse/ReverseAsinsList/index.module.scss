@@ -68,10 +68,6 @@
   &::placeholder {
     color: $grey_5 !important;
   }
-
-  &:focus {
-    border: 1px solid $grey_3 !important;
-  }
 }
 
 .infoDetail {
