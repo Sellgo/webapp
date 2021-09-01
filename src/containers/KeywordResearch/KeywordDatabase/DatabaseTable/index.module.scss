@@ -4,16 +4,18 @@
   margin-top: 18px !important;
   padding-bottom: 65px !important;
   width: 100%;
+  background: $light_gray_background;
 }
 
 .keywordDatabasePaginationContainer {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 10px 40px;
-  box-shadow: 0 -3px 6px 0 rgba(0, 0, 9, 0.25);
+  height: 40px;
+  box-shadow: 0 -3px 6px 0 rgba($grey_3, 0.25);
   background: #fff;
   position: fixed;
+  padding: 0 30px;
   bottom: 0;
   left: 0;
   right: 0;

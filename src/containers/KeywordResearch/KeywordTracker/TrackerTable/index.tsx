@@ -150,7 +150,7 @@ const TrackerTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="tracked_keywords" align="center" />
+          <StatsCell dataKey="tracked_keywords" align="center" specialKpi />
         </Table.Column>
 
         {/* Competitors */}

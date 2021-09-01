@@ -81,13 +81,13 @@ const DatabaseTable = (props: Props) => {
         onSortColumn={handleSortColumn}
       >
         {/* Search Term */}
-        <Table.Column verticalAlign="middle" fixed align="left" width={800}>
+        <Table.Column verticalAlign="middle" fixed align="left" width={800} flexGrow={1}>
           <Table.HeaderCell>Search Term</Table.HeaderCell>
           <SearchTerm dataKey="searchTerm" />
         </Table.Column>
 
         {/* Search Volume */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={200} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Search\nVolume`}
@@ -96,11 +96,24 @@ const DatabaseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="search_volume" align="center" />
+          <StatsCell dataKey="search_volume" align="center" specialKpi />
+        </Table.Column>
+
+        {/* Word Count  */}
+        <Table.Column width={200} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Word Count`}
+              dataKey="word_count"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="word_count" align="center" />
         </Table.Column>
 
         {/* Sponsored ASINS */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={200} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Sponsored\nASINs`}
@@ -113,7 +126,7 @@ const DatabaseTable = (props: Props) => {
         </Table.Column>
 
         {/* Competing Products  */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={200} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Competing\nProducts`}

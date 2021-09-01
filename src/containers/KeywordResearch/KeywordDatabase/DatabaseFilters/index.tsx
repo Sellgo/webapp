@@ -28,6 +28,7 @@ const DatabaseFilters = (props: Props) => {
   /* Basic Filters */
   const [searchVolume, setSearchVolume] = useState(DEFAULT_MIN_MAX_FILTER);
   const [positionRank, setPositionRank] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [wordCount, setWordCount] = useState(DEFAULT_MIN_MAX_FILTER);
 
   /* Advanced Filters */
   const [sponsoredAsins, setSponsoredAsins] = useState(DEFAULT_MIN_MAX_FILTER);
@@ -42,6 +43,7 @@ const DatabaseFilters = (props: Props) => {
     fetchKeywordDatabaseTableInfo({ resetFilter: true });
     setSearchVolume(DEFAULT_MIN_MAX_FILTER);
     setPositionRank(DEFAULT_MIN_MAX_FILTER);
+    setWordCount(DEFAULT_MIN_MAX_FILTER);
     setSponsoredAsins(DEFAULT_MIN_MAX_FILTER);
     setRelativeRank(DEFAULT_MIN_MAX_FILTER);
     setCompetitorRank(DEFAULT_MIN_MAX_FILTER);
@@ -88,6 +90,19 @@ const DatabaseFilters = (props: Props) => {
           maxValue={positionRank.max}
           handleChange={(type, value) => {
             setPositionRank(prevState => ({
+              ...prevState,
+              [type]: value,
+            }));
+          }}
+        />
+
+        {/* Word Count  */}
+        <MinMaxFilter
+          label="Word Count"
+          minValue={wordCount.min}
+          maxValue={wordCount.max}
+          handleChange={(type, value) => {
+            setWordCount(prevState => ({
               ...prevState,
               [type]: value,
             }));
