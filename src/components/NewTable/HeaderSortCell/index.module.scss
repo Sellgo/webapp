@@ -23,6 +23,10 @@
   flex-direction: column;
   justify-items: flex-start;
   align-items: flex-start;
+
+  i:last-child {
+    margin-top: -5px;
+  }
 }
 
 .activeSort {
@@ -31,5 +35,4 @@
 
 .inActiveSort {
   color: $grey_3 !important;
-  margin-top: -6px !important;
 }
