@@ -90,7 +90,7 @@ const DatabaseTable = (props: Props) => {
         <Table.Column width={200} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Search\nVolume`}
+              title={`Search Volume`}
               dataKey="search_volume"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
@@ -116,7 +116,7 @@ const DatabaseTable = (props: Props) => {
         <Table.Column width={200} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Sponsored\nASINs`}
+              title={`Sponsored ASINs`}
               dataKey="sponsored_asins"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
@@ -129,7 +129,7 @@ const DatabaseTable = (props: Props) => {
         <Table.Column width={200} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Competing\nProducts`}
+              title={`Competing Products`}
               dataKey="competing_products"
               currentSortColumn={sortColumn}
               currentSortType={sortType}

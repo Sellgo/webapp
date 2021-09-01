@@ -7,7 +7,7 @@
     border: none !important;
     border-bottom: 1px solid $grey_3 !important;
 
-    // column heder cell
+    // column header cell
     .rs-table-cell-content {
       padding: 0 !important;
       display: flex !important;
@@ -17,6 +17,15 @@
       background: $light_gray_background;
       font-weight: 500 !important;
     }
+
+    // .rs-table-cell-header-sortable {
+    //   user-select: unset !important;
+
+    //   .rs-table-cell-content {
+    //     user-select: unset !important;
+    //     cursor: default !important;
+    //   }
+    // }
   }
 
   // body section

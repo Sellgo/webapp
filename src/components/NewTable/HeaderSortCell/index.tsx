@@ -15,33 +15,30 @@ interface Props {
 const HeaderSortCell = (props: Props) => {
   const { title, dataKey, currentSortColumn, currentSortType } = props;
   /* Generating sort icon */
-  let sortIcon;
-  if (currentSortColumn === dataKey && currentSortType === 'asc') {
-    sortIcon = (
-      <div className={styles.sortIcon}>
-        <Icon size="large" name="sort up" />
-      </div>
-    );
-  } else if (currentSortColumn === dataKey && currentSortType === 'desc') {
-    sortIcon = (
-      <div className={styles.sortIcon}>
-        <Icon size="large" name="sort down" />
-      </div>
-    );
-  } else {
-    sortIcon = (
-      <div className={styles.sortIcon}>
-        <Icon size="large" name="sort" />
-      </div>
-    );
-  }
+
+  const isCurrentlySorted = currentSortColumn === dataKey;
+  const isAscendingSorted = currentSortType === 'asc' && isCurrentlySorted;
+  const isDescendingSorted = currentSortType === 'desc' && isCurrentlySorted;
 
   return (
     <div className={styles.headerCell}>
-      <p className={styles.headerText}>{title}</p>
-      {sortIcon}
+      <p className={styles.headerText} style={{ color: isCurrentlySorted ? '#3b4557' : '#95A1AC' }}>
+        {title}
+      </p>
+      <div className={styles.sortIconGroup}>
+        <Icon
+          size="large"
+          name="triangle up"
+          className={isAscendingSorted ? styles.activeSort : ''}
+        />
+        <Icon
+          size="large"
+          name="triangle down"
+          className={isDescendingSorted ? styles.activeSort : ''}
+        />
+      </div>
     </div>
   );
 };
 
-export default HeaderSortCell;
+export default React.memo(HeaderSortCell);

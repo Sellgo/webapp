@@ -5,19 +5,26 @@
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  color: $grey_6 !important;
+}
 
-  .headerText {
-    text-align: center;
-    font-size: 12px !important;
-    color: $grey_6 !important;
-    font-weight: 500;
-    white-space: pre-wrap;
-  }
+.headerText {
+  text-align: center;
+  font-size: 12px !important;
+  font-weight: 500;
+  white-space: pre-wrap;
+  cursor: pointer;
+}
 
-  .sortIcon {
-    margin-left: 10px;
-    color: inherit;
-    font-size: 10px !important;
-  }
+.sortIconGroup {
+  margin-left: 10px;
+  color: inherit;
+  font-size: 10px !important;
+  display: flex;
+  flex-direction: column;
+  justify-items: flex-start;
+  align-items: flex-start;
+}
+
+.activeSort {
+  color: $prim_dark_1 !important;
 }
