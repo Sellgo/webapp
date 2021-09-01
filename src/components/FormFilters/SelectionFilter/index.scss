@@ -1,4 +1,4 @@
-@import '../../../design-system/colors.scss';
+@import '../../../design-system/new-colors';
 
 .selectionFilterWrapper {
   width: max-content !important;
@@ -6,16 +6,16 @@
 
   p {
     margin: 0;
-    color: $sellgo-text;
+    color: $grey_8;
     font-size: 16px;
     font-weight: 500;
   }
 }
 
 .ui.dropdown.selectionFilter {
-  color: $sellgo-text !important;
+  color: $grey_8 !important;
   background-color: $prim_white;
-  border: 1px solid $sellgo-light-gray-100 !important;
+  border: 1px solid $grey_3 !important;
   max-height: 35px !important;
   min-height: 35px !important;
   height: 35px;
@@ -29,15 +29,22 @@
   align-items: center;
 
   .menu.transition {
-    border: 1px solid $sellgo-light-gray-100 !important;
+    border: 1px solid $grey_3 !important;
     width: 100% !important;
     font-size: 12px !important;
     max-height: 250px !important;
     z-index: 999;
 
     .item {
-      span {
-        font-size: 14px !important;
+      color: $grey_8;
+      font-weight: 400;
+
+      &:hover {
+        background: $grey_1 !important;
+      }
+
+      &.active {
+        font-weight: 500 !important;
       }
     }
   }

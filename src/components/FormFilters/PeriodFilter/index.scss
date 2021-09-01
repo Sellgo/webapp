@@ -28,6 +28,7 @@
   justify-content: space-between;
   align-items: center;
   background: #fff;
+  cursor: pointer !important;
 
   .menu.transition {
     border: 1px solid $grey_3 !important;
@@ -37,8 +38,15 @@
     z-index: 999;
 
     .item {
-      span {
-        font-size: 14px !important;
+      color: $grey_8;
+      font-weight: 400;
+
+      &:hover {
+        background: $grey_1 !important;
+      }
+
+      &.active {
+        font-weight: 500 !important;
       }
     }
   }

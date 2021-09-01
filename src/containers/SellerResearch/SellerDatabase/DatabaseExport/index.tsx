@@ -1,18 +1,12 @@
-import React, { useState, useMemo } from 'react';
-import { Icon } from 'semantic-ui-react';
+import React, { useMemo } from 'react';
+import { Icon, Popup } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
 
-/* Components */
-import ExportResultAs from '../../../../components/ExportResultAs';
-
 /* Actions */
 import { fetchSellerDatabase } from '../../../../actions/SellerResearch/SellerDatabase';
-
-/* Constants */
-import { EXPORT_DATA, EXPORT_FORMATS } from '../../../../constants/SellerResearch/SellerDatabase';
 
 /* Interface */
 import {
@@ -32,6 +26,10 @@ import {
 /* Utils */
 import { formatNumber } from '../../../../utils/format';
 
+/* Assets */
+import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
+import { ReactComponent as CSVExportImage } from '../../../../assets/images/csvExportImage.svg';
+
 interface Props {
   sellerDatabaseResults: any;
   isLoadingSellerDatabase: boolean;
@@ -49,11 +47,8 @@ const DatabaseExport = (props: Props) => {
     sellerDatabasePaginationInfo,
   } = props;
 
-  const [openExports, setOpenExports] = useState(false);
-
-  const hanleOnExport = async (details: any) => {
-    await fetchSellerDatabase({ isExport: true, fileFormat: details.format });
-    setOpenExports(false);
+  const handleOnExport = (fileFormat: 'csv' | 'xlsx') => {
+    fetchSellerDatabase({ isExport: true, fileFormat });
   };
 
   const shouldEnableExport = useMemo(
@@ -74,27 +69,45 @@ const DatabaseExport = (props: Props) => {
             Viewing <span className={styles.sellerCount}>{totalSellersFound}</span> sellers.
           </p>
         )}
-        <div
-          onClick={() => (shouldEnableExport ? setOpenExports(true) : 0)}
-          className={`${styles.exportButton} ${
-            shouldEnableExport ? 'export-button' : 'export-button-disabled'
-          }`}
-        >
-          <Icon name="download" />
-          <span>Export</span>
+        <div className={styles.exportButtonContainer}>
+          <Icon name="download" className={styles.downloadIcon} />
+          <Popup
+            className={styles.exportPopup}
+            on="click"
+            position="bottom right"
+            offset="-5"
+            trigger={
+              <Icon
+                name="angle down"
+                className={styles.caretDownIcon}
+                style={{ cursor: 'pointer' }}
+              />
+            }
+            content={
+              <>
+                <div className={styles.exportOptions}>
+                  <span>Export As</span>
+                  <button
+                    className={styles.exportOption}
+                    onClick={() => handleOnExport('xlsx')}
+                    disabled={!shouldEnableExport}
+                  >
+                    <XLSXExportImage /> .XLSX
+                  </button>
+
+                  <button
+                    className={styles.exportOption}
+                    onClick={() => handleOnExport('csv')}
+                    disabled={!shouldEnableExport}
+                  >
+                    <CSVExportImage /> .CSV
+                  </button>
+                </div>
+              </>
+            }
+          />
         </div>
       </div>
-
-      {/* Export modal */}
-      <ExportResultAs
-        open={openExports}
-        formats={EXPORT_FORMATS}
-        data={EXPORT_DATA}
-        onClose={() => setOpenExports(false)}
-        loading={false}
-        onExport={hanleOnExport}
-        format={'csv'}
-      />
     </>
   );
 };

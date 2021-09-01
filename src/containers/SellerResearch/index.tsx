@@ -41,7 +41,7 @@ const SellerResearch = (props: Props) => {
         auth={match.params.auth}
       />
 
-      <main>
+      <main className={styles.sellerResearchPage}>
         {/* Filter meta data */}
         <section className={styles.filterMetaData}>
           <h1>Seller Research: {SellerResearchMapper[selectedTabList]}</h1>

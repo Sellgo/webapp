@@ -106,7 +106,7 @@ const SellerDatabaseFilters = (props: Props) => {
 
   /* Effect on component mount */
   useEffect(() => {
-    handleReset();
+    // handleReset();
 
     return () => {
       handleReset();

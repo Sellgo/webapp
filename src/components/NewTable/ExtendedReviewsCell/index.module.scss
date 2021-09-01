@@ -26,4 +26,10 @@
     margin: 0 !important;
     margin-left: 5px !important;
   }
+
+  svg {
+    path {
+      fill: $grey_8 !important;
+    }
+  }
 }

@@ -103,16 +103,16 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Monthly Revenue = Sales Est. */}
-          <Table.Column width={150} sortable verticalAlign="middle" align="center">
+          <Table.Column width={180} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title={`Monthly\nRevenue.`}
+                title={`Monthly Revenue.`}
                 dataKey="sales_estimate"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey={'sales_estimate'} prependWith="$" />
+            <StatsCell dataKey={'sales_estimate'} prependWith="$" align="left" />
           </Table.Column>
 
           {/* Rating L365D */}

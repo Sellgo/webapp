@@ -65,7 +65,7 @@ const SellerActions = (props: Props) => {
               className={styles.actionButton}
               onClick={() => handleSellerTrack(false)}
               style={{
-                color: isSellerTracked ? '#2F8DDF' : '#2E3B4A',
+                color: isSellerTracked ? '#2F8DDF' : '#3b4557',
                 fontWeight: isSellerTracked ? 500 : 400,
               }}
             >
@@ -82,14 +82,6 @@ const SellerActions = (props: Props) => {
                 <>
                   <div className={styles.actionOptions}>
                     <p>ASIN</p>
-                    {/* <button onClick={() => handleSellerTrack(true)}>
-                      <img src={CheckInventory} alt="CheckInventory" />
-                      <span>Check More Inventory</span>
-                    </button> */}
-                    {/* <button>
-                    <Icon name="download" />
-                    <span>Export</span>
-                  </button> */}
                     <button onClick={() => handleCopyAsins(',')}>
                       <Icon name="copy outline" />
                       <span>Copy ASINs in rows with comma</span>
@@ -110,7 +102,7 @@ const SellerActions = (props: Props) => {
               }
             />
           </div>
-          <span>out of {prettyPrintNumber(inventoryCount)}</span>
+          <span style={{ marginLeft: '10px' }}>out of {prettyPrintNumber(inventoryCount)}</span>
         </div>
       </Table.Cell>
     </>
