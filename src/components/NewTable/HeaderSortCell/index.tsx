@@ -11,6 +11,16 @@ interface Props {
   currentSortType: 'asc' | 'desc' | undefined;
 }
 
+const sortedStyles = {
+  color: '#3b4557',
+  fontWeight: 600,
+};
+
+const defaultStyles = {
+  color: '#95A1AC',
+  fontWeight: 500,
+};
+
 /* Header cell, Adds a sort icon beside the heading. */
 const HeaderSortCell = (props: Props) => {
   const { title, dataKey, currentSortColumn, currentSortType } = props;
@@ -22,19 +32,19 @@ const HeaderSortCell = (props: Props) => {
 
   return (
     <div className={styles.headerCell}>
-      <p className={styles.headerText} style={{ color: isCurrentlySorted ? '#3b4557' : '#95A1AC' }}>
+      <p className={styles.headerText} style={isCurrentlySorted ? sortedStyles : defaultStyles}>
         {title}
       </p>
       <div className={styles.sortIconGroup}>
         <Icon
           size="large"
           name="triangle up"
-          className={isAscendingSorted ? styles.activeSort : ''}
+          className={isAscendingSorted ? styles.activeSort : styles.inActiveSort}
         />
         <Icon
           size="large"
           name="triangle down"
-          className={isDescendingSorted ? styles.activeSort : ''}
+          className={isDescendingSorted ? styles.activeSort : styles.inActiveSort}
         />
       </div>
     </div>

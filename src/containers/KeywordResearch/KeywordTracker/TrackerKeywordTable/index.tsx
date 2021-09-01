@@ -120,7 +120,7 @@ const TrackerKeywordTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="search_volume" align="center" />
+            <StatsCell dataKey="search_volume" align="center" specialKpi />
           </Table.Column>
 
           {/* Competing Products  */}
@@ -136,7 +136,7 @@ const TrackerKeywordTable = (props: Props) => {
             <StatsCell dataKey="competing_products" align="center" prependWith={'>'} />
           </Table.Column>
 
-          {/* Competing Products  */}
+          {/* Position Rank  */}
           <Table.Column width={130} verticalAlign="middle" align="left" sortable>
             <Table.HeaderCell>
               <HeaderSortCell
@@ -186,6 +186,19 @@ const TrackerKeywordTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <StatsCell dataKey="ranking_asins" align="center" prependWith={'>'} />
+          </Table.Column>
+
+          {/* Sponsored Rank  */}
+          <Table.Column width={130} verticalAlign="middle" align="left" sortable>
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Sponsored\nRank`}
+                dataKey="sponsored_rank"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <StatsCell dataKey="sponsored_rank" align="center" prependWith={'>'} />
           </Table.Column>
 
           {/* Actions Cell */}
