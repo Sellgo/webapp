@@ -61,4 +61,8 @@ export const isValidAmazonSellerId = (sellerId: string) => {
 };
 
 /* New products following design */
-export const newProductDesignPathNames = ['/keyword-research', '/seller-research'];
+export const newProductDesignPathNames = [
+  '/keyword-research',
+  '/seller-research',
+  '/product-research',
+];

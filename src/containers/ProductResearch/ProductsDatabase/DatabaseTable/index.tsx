@@ -1,37 +1,39 @@
 import React from 'react';
 import { Table } from 'rsuite';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
 import 'rsuite/dist/styles/rsuite-default.css';
 import './globals.scss';
 
-/* Components */
+/* Containers */
 import ProductTitle from './ProductInformation/ProductTitle';
 import ProductDetails from './ProductInformation/ProductDetails';
-import PricingCell from '../../../../components/NewTable/PricingCell';
+
+/* Components */
+
 import RatingWithCountCell from '../../../../components/NewTable/RatingWithCountCell';
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import GenericRowCell from '../../../../components/NewTable/GenericRowCell';
+import StatsCell from '../../../../components/NewTable/StatsCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
 
-/* Table */
+/* Selectors  */
 import {
   getIsLoadingProductsDatabase,
   getProductsDatabasePaginationInfo,
   getProductsDatabaseResults,
 } from '../../../../selectors/ProductResearch/ProductsDatabase';
-import { connect } from 'react-redux';
+
+/* Interfaces */
 import {
   ProductsDatabasePayload,
   ProductsDatabaseRow,
 } from '../../../../interfaces/ProductResearch/ProductsDatabase';
-import { fetchProductsDatabase } from '../../../../actions/ProductsResearch/ProductsDatabase';
 
-/* Constants */
-import { SMALL_WIDTH, BIG_WIDTH, CENTER_ALIGN_SETTINGS } from '../../../../constants/Table';
-import BSRCell from '../../../../components/NewTable/BSRCell';
-import NumberCell from '../../../../components/NewTable/NumberCell';
+/* Actions */
+import { fetchProductsDatabase } from '../../../../actions/ProductsResearch/ProductsDatabase';
 
 interface Props {
   // States
@@ -77,43 +79,6 @@ const ProductsDatabaseTable = (props: Props) => {
     });
   };
 
-  // /* Handler, selects one row, used in CheckboxCell */
-  // const handleSelect = (rowData: any, checked: boolean) => {
-  //   const currentRowASIN = rowData.asin;
-  //   let newSelectedRows;
-  //   if (checked) {
-  //     newSelectedRows = selectedRows.filter(rowASIN => rowASIN !== currentRowASIN);
-  //     newSelectedRows.push(currentRowASIN);
-  //   } else {
-  //     newSelectedRows = selectedRows.filter(rowASIN => rowASIN !== currentRowASIN);
-  //   }
-  //   setSelectedRows(newSelectedRows);
-  // };
-
-  // /* Handler, selects all rows */
-  // const handleSelectAll = (e: any, data: any) => {
-  //   const allSelectedRows: string[] = [];
-  //   if (data.checked) {
-  //     productsDatabaseResults.map(row => allSelectedRows.push(row.asin));
-  //   }
-  //   setSelectedRows(allSelectedRows);
-  // };
-
-  // /* Row cell, Cell with checkbox to select row */
-  // const CheckboxCell = ({ rowData, ...props }: any) => {
-  //   return (
-  //     <GenericRowCell {...props}>
-  //       <Checkbox
-  //         label=""
-  //         onChange={(e: any, data: any) => {
-  //           handleSelect(rowData, data.checked);
-  //         }}
-  //         checked={selectedRows.includes(rowData.asin)}
-  //       />
-  //     </GenericRowCell>
-  //   );
-  // };
-
   /* Row cell, combines product information */
   const ProductInformationCell = ({ rowData, ...props }: any) => {
     return (
@@ -138,43 +103,6 @@ const ProductsDatabaseTable = (props: Props) => {
     );
   };
 
-  /* Row cell */
-  // const ActionCell = ({ rowData, ...props }: any) => (
-  //   <GenericRowCell {...props}>
-  //     <Popup
-  //       /* Ellipsis icon */
-  //       trigger={
-  //         <button className={styles.ellipsisButton}>
-  //           <Icon name="ellipsis vertical" size="small" />
-  //         </button>
-  //       }
-  //       /* Ellipsis popup content */
-  //       content={
-  //         <span>
-  //           <div className={styles.actionPopupRow}>
-  //             <Icon name="external alternate" size="small" />
-  //             <a
-  //               href={`http://amazon.com/dp/${rowData.asin}`}
-  //               target="_blank"
-  //               rel="noopener noreferrer"
-  //               className={styles.actionPopupText}
-  //             >
-  //               View on Amazon
-  //             </a>
-  //           </div>
-  //           <div className={styles.actionPopupRow}>
-  //             <Icon name="download" size="small" />
-  //             <p className={styles.actionPopupText}> Export </p>
-  //           </div>
-  //         </span>
-  //       }
-  //       on="click"
-  //       position="top right"
-  //       offset={5}
-  //     />
-  //   </GenericRowCell>
-  // );
-
   return (
     <>
       <section className={styles.productDatabaseWrapper}>
@@ -191,32 +119,12 @@ const ProductsDatabaseTable = (props: Props) => {
           sortColumn={sortColumn}
           id="productDatabaseTable"
         >
-          {/* <Table.Column width={35} fixed {...CENTER_ALIGN_SETTINGS}>
-            <Table.HeaderCell>
-              <div className={styles.headerSelectRow}>
-                <Checkbox
-                  label=""
-                  onChange={handleSelectAll}
-                  checked={Boolean(
-                    !isLoadingProductsDatabase &&
-                      productsDatabaseResults.length &&
-                      selectedRows.length === productsDatabaseResults.length
-                  )}
-                />
-                <div className={styles.headerSelectIcon}>
-                  <Icon name="ellipsis vertical" size="small" style={{ cursor: 'pointer' }} />
-                </div>
-              </div>
-            </Table.HeaderCell>
-            <CheckboxCell dataKey="checkbox" />
-          </Table.Column> */}
-
-          <Table.Column width={BIG_WIDTH} verticalAlign="middle" fixed>
+          <Table.Column width={600} verticalAlign="middle" fixed flexGrow={1} align="center">
             <Table.HeaderCell>Product Information</Table.HeaderCell>
             <ProductInformationCell dataKey="productInformation" />
           </Table.Column>
 
-          <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
+          <Table.Column width={130} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title="Sellers"
@@ -225,10 +133,10 @@ const ProductsDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <GenericRowCell dataKey="seller_count" />
+            <StatsCell dataKey="seller_count" align="left" specialKpi />
           </Table.Column>
 
-          <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
+          <Table.Column width={130} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title="Price"
@@ -237,10 +145,10 @@ const ProductsDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <PricingCell dataKey="price" />
+            <StatsCell dataKey="price" prependWith="$" />
           </Table.Column>
 
-          <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
+          <Table.Column width={150} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title="Monthly Sales"
@@ -249,10 +157,10 @@ const ProductsDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <NumberCell dataKey="monthly_sales" />
+            <StatsCell dataKey="monthly_sales" align="left" />
           </Table.Column>
 
-          <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
+          <Table.Column width={170} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title="Monthly Revenue"
@@ -261,10 +169,10 @@ const ProductsDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <PricingCell dataKey="monthly_revenue" />
+            <StatsCell dataKey="monthly_revenue" prependWith="$" align="left" />
           </Table.Column>
 
-          <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
+          <Table.Column width={100} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title="BSR"
@@ -273,10 +181,10 @@ const ProductsDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <BSRCell dataKey="bsr" />
+            <StatsCell dataKey="bsr" />
           </Table.Column>
 
-          <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>
+          <Table.Column width={120} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title="Reviews"
@@ -287,11 +195,6 @@ const ProductsDatabaseTable = (props: Props) => {
             </Table.HeaderCell>
             <RatingWithCountCell dataKey="rating" rowData="rating" />
           </Table.Column>
-
-          {/* <Table.Column width={50} {...CENTER_ALIGN_SETTINGS}>
-            <Table.HeaderCell></Table.HeaderCell>
-            <ActionCell dataKey="asin" rowData="asin" />
-          </Table.Column> */}
         </Table>
 
         {productsDatabasePaginationInfo && productsDatabasePaginationInfo.total_pages > 0 && (

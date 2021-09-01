@@ -103,7 +103,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Monthly Revenue = Sales Est. */}
-          <Table.Column width={180} sortable verticalAlign="middle" align="center">
+          <Table.Column width={150} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Monthly Revenue.`}
@@ -119,7 +119,7 @@ const SellerDatabaseTable = (props: Props) => {
           <Table.Column width={130} verticalAlign="middle" sortable align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title={`Rating\nL365D`}
+                title={`Rating L365D`}
                 dataKey="seller_rating"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
@@ -129,7 +129,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Rating % L365D */}
-          <Table.Column width={130} verticalAlign="middle" sortable align="center">
+          <Table.Column width={100} verticalAlign="middle" sortable align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Rating%\nL365D`}

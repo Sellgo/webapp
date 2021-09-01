@@ -34,7 +34,7 @@ const StatsCell = (props: Props) => {
     <Table.Cell {...otherProps}>
       <div
         className={styles.statsCell}
-        style={{ textAlign: align, color: specialKpi ? '#3B4557' : '#636d76' }}
+        style={{ alignSelf: align, color: specialKpi ? '#3B4557' : '#636d76' }}
       >
         {showNAIfZeroOrNull(rowData[dataKey], `${prependWith}${displayStat}${appendWith}`)}
       </div>
