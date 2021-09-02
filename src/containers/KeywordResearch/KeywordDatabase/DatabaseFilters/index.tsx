@@ -13,15 +13,19 @@ import FormFilterActions from '../../../../components/FormFilters/FormFilterActi
 import { DEFAULT_MIN_MAX_FILTER } from '../../../../constants/KeywordResearch/KeywordDatabase';
 import { DEFAULT_INCLUDE_EXCLUDE_FILTER } from '../../../../constants/KeywordResearch/KeywordReverse';
 import { KeywordDatabaseTablePayload } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
-import { fetchKeywordDatabaseTableInformation } from '../../../../actions/KeywordResearch/KeywordDatabase';
+import {
+  fetchKeywordDatabaseTableInformation,
+  resetKeywordDatabase,
+} from '../../../../actions/KeywordResearch/KeywordDatabase';
 import { connect } from 'react-redux';
 
 interface Props {
   fetchKeywordDatabaseTableInfo: (payload: KeywordDatabaseTablePayload) => void;
+  resetKeywordDatabase: () => void;
 }
 
 const DatabaseFilters = (props: Props) => {
-  const { fetchKeywordDatabaseTableInfo } = props;
+  const { fetchKeywordDatabaseTableInfo, resetKeywordDatabase } = props;
 
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(true);
 
@@ -40,7 +44,6 @@ const DatabaseFilters = (props: Props) => {
 
   /* Handle Reset */
   const handleReset = () => {
-    fetchKeywordDatabaseTableInfo({ resetFilter: true });
     setSearchVolume(DEFAULT_MIN_MAX_FILTER);
     setPositionRank(DEFAULT_MIN_MAX_FILTER);
     setWordCount(DEFAULT_MIN_MAX_FILTER);
@@ -50,6 +53,7 @@ const DatabaseFilters = (props: Props) => {
     setRankingCompetitors(DEFAULT_MIN_MAX_FILTER);
     setCompetitingProducts(DEFAULT_MIN_MAX_FILTER);
     setSearchTerm(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+    resetKeywordDatabase();
   };
 
   const handleSubmit = () => {
@@ -227,6 +231,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchKeywordDatabaseTableInfo: (payload: KeywordDatabaseTablePayload) =>
       dispatch(fetchKeywordDatabaseTableInformation(payload)),
+    resetKeywordDatabase: () => dispatch(resetKeywordDatabase()),
   };
 };
 
