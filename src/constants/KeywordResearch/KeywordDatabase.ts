@@ -61,7 +61,7 @@ export const EXPORT_FORMATS = [
 
 export const EXPORT_DATA = [{ key: 'all', value: 'all', text: 'All Results' }];
 
-export const MAX_KEYWORDS_ALLOWED = 200;
+export const MAX_KEYWORDS_ALLOWED = 5;
 
 /* Default Pages Display List Options */
 export const DEFAULT_PAGES_LIST = [
