@@ -28,7 +28,17 @@
 .checkbox {
   font-size: 14px !important;
 
-  > label {
+  label {
     color: $grey_6 !important;
+  }
+
+  label::before {
+    border-radius: 4px !important;
+    border: 1px solid $grey_3 !important;
+  }
+
+  input:checked ~ .box::after,
+  input:checked ~ label::after {
+    color: $grey_8 !important;
   }
 }
