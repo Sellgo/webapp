@@ -76,7 +76,7 @@ const SellerDatabaseTable = (props: Props) => {
           loading={isLoadingSellerDatabase}
           data={sellerDatabaseResults}
           autoHeight
-          hover={false}
+          hover={true}
           rowHeight={200}
           headerHeight={55}
           sortColumn={sortColumn}

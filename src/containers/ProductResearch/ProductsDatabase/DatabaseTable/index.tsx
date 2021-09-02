@@ -82,7 +82,7 @@ const ProductsDatabaseTable = (props: Props) => {
           loading={isLoadingProductsDatabase}
           affixHorizontalScrollbar={0}
           data={productsDatabaseResults}
-          hover={false}
+          hover={true}
           autoHeight
           rowHeight={280}
           headerHeight={55}

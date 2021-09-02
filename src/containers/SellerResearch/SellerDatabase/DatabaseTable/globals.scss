@@ -26,6 +26,7 @@
     .rs-table-body-wheel-area {
       background: $light_gray_background;
 
+      //  Table row property
       .rs-table-row {
         // height: 190px !important; //
         border-bottom: 1px solid $grey_3;
@@ -36,19 +37,25 @@
 
           .rs-table-cell-content {
             background: $light_gray_background !important;
-            color: $grey_6;
             padding: 3px 10px !important;
           }
         }
 
         &:nth-child(2n + 1) {
-          background-color: $grey_1 !important;
+          background: $grey_1 !important;
 
-          // stylelint-disable no-descending-specificity
           .rs-table-cell-content {
-            color: $grey_6 !important;
-            background-color: $grey_1 !important;
+            background: $grey_1 !important;
             padding: 3px 10px !important;
+          }
+        }
+
+        /* ============== ROW HOVER  =============== */
+        &:hover {
+          background: $grey_2 !important;
+
+          .rs-table-cell-content {
+            background: $grey_2 !important;
           }
         }
       }
