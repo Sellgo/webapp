@@ -71,30 +71,32 @@ const ActionsCell = (props: Props) => {
 
   return (
     <>
-      <Table.Cell {...otherProps} style={{ padding: 0 }}>
-        <Popup
-          className="productKeywordActionsCell"
-          trigger={<Icon name="ellipsis vertical" className="productKeywordActionsCellTrigger" />}
-          on="click"
-          position="bottom right"
-          closeOnDocumentClick
-          content={
-            <div className="productKeywordActionsCellContent">
-              <button onClick={handleUnTrackKeyword}>
-                <Icon name="trash" className="productKeywordActionIcon" />
-                Delete Keyword
-              </button>
-              <button onClick={handleHistory}>
-                <Icon name="chart line" className="productKeywordActionIcon" />
-                History
-              </button>
-              <button onClick={handleExport}>
-                <Icon name="download" className="productKeywordActionIcon" />
-                Export XLSX
-              </button>
-            </div>
-          }
-        />
+      <Table.Cell {...otherProps}>
+        <div className="productTrackerKeywordActionsCellWrapper">
+          <Popup
+            className="productKeywordActionsCell"
+            trigger={<Icon name="ellipsis vertical" className="productKeywordActionsCellTrigger" />}
+            on="click"
+            position="bottom right"
+            closeOnDocumentClick
+            content={
+              <div className="productKeywordActionsCellContent">
+                <button onClick={handleUnTrackKeyword}>
+                  <Icon name="trash" className="productKeywordActionIcon" />
+                  Delete Keyword
+                </button>
+                <button onClick={handleHistory}>
+                  <Icon name="chart line" className="productKeywordActionIcon" />
+                  History
+                </button>
+                <button onClick={handleExport}>
+                  <Icon name="download" className="productKeywordActionIcon" />
+                  Export XLSX
+                </button>
+              </div>
+            }
+          />
+        </div>
       </Table.Cell>
 
       {/* Chart Modal  */}
