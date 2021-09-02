@@ -4,7 +4,6 @@
   // header section
   .rs-table-row-header {
     border-radius: 0 !important;
-    border: none !important;
     border-bottom: 1px solid $grey_3 !important;
 
     // column header cell
@@ -17,15 +16,6 @@
       background: $light_gray_background;
       font-weight: 500 !important;
     }
-
-    // .rs-table-cell-header-sortable {
-    //   user-select: unset !important;
-
-    //   .rs-table-cell-content {
-    //     user-select: unset !important;
-    //     cursor: default !important;
-    //   }
-    // }
   }
 
   // body section
@@ -37,7 +27,7 @@
       // should be rowheight - 10px
       .rs-table-row {
         // height: 190px !important; //
-        border-bottom: 1px solid $grey_3;
+        border-bottom: 1px solid $grey_3 !important;
 
         /* ============== ZEBRA PATTERN  =============== */
         &:nth-child(2n) {

@@ -4,7 +4,7 @@
   // header section
   .rs-table-row-header {
     border-radius: 0 !important;
-    border: none !important;
+    border: 0 !important;
     border-bottom: 1px solid $grey_3 !important;
 
     // column heder cell
@@ -27,6 +27,7 @@
 
       .rs-table-row {
         // height: 190px !important; // should be rowheight - 10px i gap between rows is needed
+        border: 0 !important;
         border-bottom: 1px solid $grey_3 !important;
 
         /* ============== ZEBRA PATTERN  =============== */
