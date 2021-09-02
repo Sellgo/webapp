@@ -3,21 +3,9 @@ import { Table } from 'rsuite';
 import { connect } from 'react-redux';
 
 /* Styling */
-import styles from './index.module.scss';
 import 'rsuite/dist/styles/rsuite-default.css';
 import './globals.scss';
-
-/* Containers */
-import ProductTitle from './ProductInformation/ProductTitle';
-import ProductDetails from './ProductInformation/ProductDetails';
-
-/* Components */
-
-import RatingWithCountCell from '../../../../components/NewTable/RatingWithCountCell';
-import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
-import GenericRowCell from '../../../../components/NewTable/GenericRowCell';
-import StatsCell from '../../../../components/NewTable/StatsCell';
-import TablePagination from '../../../../components/NewTable/Pagination';
+import styles from './index.module.scss';
 
 /* Selectors  */
 import {
@@ -34,6 +22,15 @@ import {
 
 /* Actions */
 import { fetchProductsDatabase } from '../../../../actions/ProductsResearch/ProductsDatabase';
+
+/* Containers */
+import ProductInformation from './ProductInformation';
+
+/* Components */
+import RatingWithCountCell from '../../../../components/NewTable/RatingWithCountCell';
+import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
+import StatsCell from '../../../../components/NewTable/StatsCell';
+import TablePagination from '../../../../components/NewTable/Pagination';
 
 interface Props {
   // States
@@ -62,7 +59,6 @@ const ProductsDatabaseTable = (props: Props) => {
   const [sortType, setSortType] = React.useState<'asc' | 'desc' | undefined>(undefined);
 
   const handleChangePage = (pageNo: number) => {
-    console.log(pageNo);
     fetchProductsDatabase({
       page: pageNo,
     });
@@ -77,30 +73,6 @@ const ProductsDatabaseTable = (props: Props) => {
         by: sortType === 'asc' ? 'ascending' : 'descending',
       },
     });
-  };
-
-  /* Row cell, combines product information */
-  const ProductInformationCell = ({ rowData, ...props }: any) => {
-    return (
-      <GenericRowCell {...props}>
-        <div className={styles.productInformationCell}>
-          <ProductTitle asin={rowData.asin} image={rowData.image} upc={rowData.upc} />
-          <ProductDetails
-            weight={rowData.weight_lbs}
-            fulfillment={rowData.fulfillment}
-            title={rowData.title}
-            brand={rowData.brand}
-            sizeTier={rowData.size_tier || '-'}
-            numberOfImages={rowData.image_count}
-            packageDimension={rowData.package_dimension}
-            storageFee={rowData.storage_fee}
-            listingAge={rowData.listing_age_months}
-            category={rowData.category}
-            variationCount={rowData.variation_count}
-          />
-        </div>
-      </GenericRowCell>
-    );
   };
 
   return (
@@ -119,11 +91,12 @@ const ProductsDatabaseTable = (props: Props) => {
           sortColumn={sortColumn}
           id="productDatabaseTable"
         >
+          {/* Product Information  */}
           <Table.Column width={600} verticalAlign="middle" fixed flexGrow={1} align="center">
             <Table.HeaderCell>Product Information</Table.HeaderCell>
-            <ProductInformationCell dataKey="productInformation" />
+            <ProductInformation dataKey="productInformation" />
           </Table.Column>
-
+          {/* # Sellers */}
           <Table.Column width={130} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
@@ -135,7 +108,7 @@ const ProductsDatabaseTable = (props: Props) => {
             </Table.HeaderCell>
             <StatsCell dataKey="seller_count" align="left" specialKpi />
           </Table.Column>
-
+          {/* Price */}
           <Table.Column width={130} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
@@ -147,7 +120,7 @@ const ProductsDatabaseTable = (props: Props) => {
             </Table.HeaderCell>
             <StatsCell dataKey="price" prependWith="$" />
           </Table.Column>
-
+          {/* Monthly Sales */}
           <Table.Column width={150} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
@@ -159,7 +132,7 @@ const ProductsDatabaseTable = (props: Props) => {
             </Table.HeaderCell>
             <StatsCell dataKey="monthly_sales" align="left" />
           </Table.Column>
-
+          {/* Monthly Revenue */}
           <Table.Column width={170} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
@@ -171,7 +144,7 @@ const ProductsDatabaseTable = (props: Props) => {
             </Table.HeaderCell>
             <StatsCell dataKey="monthly_revenue" prependWith="$" align="left" />
           </Table.Column>
-
+          {/* BSR */}
           <Table.Column width={100} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
@@ -184,6 +157,7 @@ const ProductsDatabaseTable = (props: Props) => {
             <StatsCell dataKey="bsr" />
           </Table.Column>
 
+          {/* Reviews */}
           <Table.Column width={120} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell

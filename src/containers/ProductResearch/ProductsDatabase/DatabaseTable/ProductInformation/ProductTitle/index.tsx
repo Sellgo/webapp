@@ -33,14 +33,20 @@ const ProductTitle = (props: Props) => {
     <div className={styles.productTitle}>
       <img src={image} className={styles.productImage} />
       <div className={styles.productTextWrapper}>
+        {/* ASIN */}
         <div className={styles.productTitleTextBox}>
           <p className={styles.productTitleText}>ASIN:</p>
           {asin.length > 0 ? (
-            <CopyAndLocateClipboard data={asin} link={`http://www.amazon.com/dp/${props.asin}`} />
+            <CopyAndLocateClipboard
+              data={asin}
+              link={`http://www.amazon.com/dp/${props.asin}`}
+              className={styles.productAsin}
+            />
           ) : (
             '-'
           )}
         </div>
+        {/* UPC */}
         <div className={styles.productTitleTextBox}>
           <p className={styles.productTitleText}>UPC:</p>
           {upcString && upcString.length > 0 ? (
