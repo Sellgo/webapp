@@ -260,7 +260,7 @@ export const fetchKeywordDatabaseRequestId = (keywordList: string) => async (dis
       dispatch(shouldFetchKeywordDatabaseProgress(false));
     }
   } catch (err) {
-    console.log('Error fetching the keyword request Id', err.response);
+    console.log('Error fetching the keyword request Id', err);
     dispatch(setKeywordDatabaseRequestId(''));
     dispatch(isFetchingKeywordDatabaseRequestId(false));
   }
@@ -348,7 +348,7 @@ export const fetchKeywordDatabaseTableInformation = (
       dispatch(isLoadingKeywordDatabaseTable(false));
     }
   } catch (err) {
-    console.error('Error fetching keyword database table', err.response);
+    console.error('Error fetching keyword database table', err);
 
     dispatch(setKeywordDatabaseTableResults([]));
     dispatch(
@@ -363,27 +363,44 @@ export const fetchKeywordDatabaseTableInformation = (
   }
 };
 
+let cancelToken: any;
+
 /* Function to ask for suggestions */
 export const askForKeywordSuggestion = async (keywords: string) => {
-  const keywordArray = keywords.split(',');
+  try {
+    const keywordArray = keywords.split(',');
 
-  const shouldAskSuggestions = keywordArray.filter((item: string) => item.length > 0) || [];
+    const shouldAskSuggestions = keywordArray.filter((item: string) => item.length > 0) || [];
 
-  if (shouldAskSuggestions.length > 0) {
-    const lastKeywordEntered = keywordArray[keywordArray.length - 1] || '';
-    if (!lastKeywordEntered) {
-      return;
-    }
+    if (shouldAskSuggestions.length > 0) {
+      const lastKeywordEntered = keywordArray[keywordArray.length - 1] || '';
+      if (!lastKeywordEntered) {
+        return [];
+      }
 
-    const { data } = await axios.get(
-      `${
+      if (typeof cancelToken !== typeof undefined) {
+        // cancel last pending auto suggestions requests
+        cancelToken.cancel();
+      }
+
+      //Save the cancel token for the current request
+      cancelToken = axios.CancelToken.source();
+
+      const URL = `${
         AppConfig.BASE_URL_API
-      }sellers/${sellerIDSelector()}/keywords/search?phrase=${lastKeywordEntered}`
-    );
-    return data || [];
-  }
+      }sellers/${sellerIDSelector()}/keywords/search?phrase=${lastKeywordEntered}`;
 
-  return [];
+      const { data } = await axios.get(URL, {
+        cancelToken: cancelToken.token,
+      });
+
+      return data || [];
+    } else {
+      return [];
+    }
+  } catch (err) {
+    console.error('Error in autosuggestion');
+  }
 };
 
 /* Action to reset keyword database */

@@ -259,7 +259,7 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (dispatc
       dispatch(shouldFetchKeywordReverseProgress(false));
     }
   } catch (err) {
-    console.log('Error fetching the keyword request Id', err.response);
+    console.log('Error fetching the keyword request Id', err);
     dispatch(setKeywordReverseRequestId(''));
     dispatch(isFetchingKeywordReverseRequestId(false));
   }
@@ -348,7 +348,7 @@ export const fetchKeywordReverseTableInformation = (payload: KeywordReverseTable
       dispatch(isLoadingKeywordReverseTable(false));
     }
   } catch (err) {
-    console.error('Error fetching keyword reverse table', err.response);
+    console.error('Error fetching keyword reverse table', err);
 
     dispatch(setKeywordReverseTableResults([]));
     dispatch(
