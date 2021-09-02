@@ -28,7 +28,12 @@ const StatsCell = (props: Props) => {
 
   const { rowData, dataKey } = otherProps;
 
-  const displayStat = formatNumber(rowData[dataKey]);
+  let displayStat = formatNumber(rowData[dataKey]);
+
+  // format position rank KPI seperately
+  if (dataKey === 'position_rank' && !rowData[dataKey]) {
+    displayStat = '>300';
+  }
 
   return (
     <Table.Cell {...otherProps}>
@@ -36,7 +41,7 @@ const StatsCell = (props: Props) => {
         className={styles.statsCell}
         style={{ alignSelf: align, color: specialKpi ? '#3B4557' : '#636d76' }}
       >
-        {showNAIfZeroOrNull(rowData[dataKey], `${prependWith}${displayStat}${appendWith}`)}
+        {showNAIfZeroOrNull(displayStat, `${prependWith}${displayStat}${appendWith}`)}
       </div>
     </Table.Cell>
   );
