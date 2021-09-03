@@ -71,6 +71,7 @@ function CheckoutForm(props: MyProps) {
   const elements = useElements();
   const { stripeLoading } = props;
   const { value: name, bind: bindName } = useInput('');
+  const { value: promoCode, bind: bindPromoCode } = useInput('');
   const { value: address, bind: bindAddress } = useInput('');
   const { value: city, bind: bindCity } = useInput('');
   const { value: stateAddress, bind: bindStateAddress } = useInput('');
@@ -165,6 +166,7 @@ function CheckoutForm(props: MyProps) {
           subscription_id: getSubscriptionID(accountType),
           payment_method_id: paymentMethodId,
           payment_mode: paymentMode,
+          promo_code: promoCode,
         };
         Axios.defaults.headers.common.Authorization = ``;
         createSubscriptionData(data);
@@ -273,6 +275,18 @@ function CheckoutForm(props: MyProps) {
             type="text"
             placeholder="eg. 97201"
             {...bindZipCode}
+          />
+        </Form.Group>
+
+        <h2>Promo Code</h2>
+        <Form.Group className={styles.formGroup}>
+          <Form.Input
+            className={styles.formInput}
+            size="huge"
+            label="Promo Code"
+            type="text"
+            placeholder="SELLGO100"
+            {...bindPromoCode}
           />
         </Form.Group>
 
