@@ -1,5 +1,4 @@
 /* Actions types for keywords reverse */
-import { v4 as uuid } from 'uuid';
 
 export const actionTypes = {
   /* Actions for keyword request */
@@ -51,19 +50,6 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   competingProducts: { keyName: 'competing_products', type: F_TYPES.MIN_MAX },
 };
 
-/* Generate a unique session ID  */
-export const makeOrGetUniqueTabID = () => {
-  let value = window.sessionStorage.getItem('unique-session-tab-id');
-
-  if (!value || !window.name) {
-    value = uuid();
-    window.sessionStorage.setItem('unique-session-tab-id', value);
-  }
-
-  window.name = value;
-  return value;
-};
-
 /* Exports data */
 export const EXPORT_FORMATS = [
   // { key: 'csv', value: 'csv', text: '.CSV' },
@@ -73,3 +59,22 @@ export const EXPORT_FORMATS = [
 export const EXPORT_DATA = [{ key: 'all', value: 'all', text: 'All Results' }];
 
 export const MAX_ASINS_ALLOWED = 10;
+
+/* Default Pages Display List Options */
+export const DEFAULT_PAGES_LIST = [
+  {
+    text: '20',
+    value: 20,
+    id: '20',
+  },
+  {
+    text: '50',
+    value: 50,
+    id: '50',
+  },
+  {
+    text: '100',
+    value: 100,
+    id: '100',
+  },
+];

@@ -1,0 +1,14 @@
+@import '../design-system/new-colors';
+
+.defaultProgressBar {
+  color: #fff !important;
+  background: #e6e6e6;
+
+  .bar {
+    background: $blue_8 !important;
+  }
+
+  .progress {
+    color: #fff;
+  }
+}

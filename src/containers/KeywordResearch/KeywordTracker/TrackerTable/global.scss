@@ -1,0 +1,108 @@
+@import '../../../../styles/tableReset';
+
+#keywordTrackerTable {
+  // header section
+  .rs-table-row-header {
+    border-radius: 7px;
+    border: 1px solid $grey_3 !important;
+
+    // column heder cell
+    .rs-table-cell-content {
+      padding: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+    }
+  }
+
+  // body section
+  .rs-table-body-row-wrapper {
+    margin-top: 18px !important;
+
+    .rs-table-body-wheel-area {
+      background: #fff !important;
+
+      .rs-table-row {
+        // non expandec row
+
+        .rs-table-cell-group {
+          // row group
+          .rs-table-cell {
+            // independent cells on each row
+
+            // all other cell content
+            .rs-table-cell-content {
+              display: flex !important;
+              justify-content: flex-start !important;
+              align-items: flex-start !important;
+            }
+
+            // first cell treat specially if needed
+            &.rs-table-cell-first {
+              // first cell (expansioon cell)
+              border: 0 !important;
+
+              .rs-table-cell-content {
+                padding: 0 !important;
+              }
+            }
+
+            // last cell treat specially if needed
+            &.rs-table-cell-last {
+              // last cell (actions)
+              border: 0 !important;
+
+              .rs-table-cell-content {
+                padding-left: 0 !important;
+                display: flex;
+                justify-content: flex-start !important;
+              }
+            }
+          }
+        }
+
+        // expanded rows
+        .rs-table-row-expanded {
+          // has border-top by default
+          border: 0 !important;
+          padding-top: 18px !important;
+          padding-left: 20px !important;
+          padding-right: 20px !important;
+        }
+      }
+    }
+  }
+
+  // scrollbar
+  div[role='scrollbar'] {
+    bottom: 60px !important;
+    background: $grey_3;
+    border-radius: 4px;
+    position: fixed !important;
+    opacity: 0;
+    height: 10px;
+    max-width: 90vw !important;
+    margin-left: auto !important;
+
+    &.rs-table-scrollbar.rs-table-scrollbar-pressed {
+      opacity: 1 !important;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+
+    > .rs-table-scrollbar-handle {
+      background-color: #98aeca !important;
+      opacity: 1 !important;
+      height: 8px;
+      max-width: 100% !important;
+    }
+  }
+}
+
+.iconButtonResetGlobal {
+  i.chevron.down.icon {
+    font-size: 10px !important;
+    margin-top: 4px;
+  }
+}

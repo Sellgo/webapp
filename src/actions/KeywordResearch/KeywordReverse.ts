@@ -12,7 +12,7 @@ import {
 import {
   KeywordReversePaginationInfo,
   KeywordReverseTablePayload,
-  ReverseKeywordProgressData,
+  KeywordReverseProgressData,
 } from '../../interfaces/KeywordResearch/KeywordReverse';
 
 /* Selectors */
@@ -35,7 +35,7 @@ export const isFetchingKeywordReverseRequestId = (payload: boolean) => {
 
 /* Action for setting  keyword request id */
 export const setKeywordReverseRequestId = (payload: string) => {
-  sessionStorage.setItem('keywordRequestId', payload);
+  sessionStorage.setItem('keywordReverseRequestId', payload);
   return {
     type: actionTypes.SET_KEYWORD_REVERSE_REQUEST_ID,
     payload,
@@ -44,7 +44,7 @@ export const setKeywordReverseRequestId = (payload: string) => {
 
 /* Action to set asin list for keyword reverse */
 export const setAsinListForKeywordReverse = (payload: string) => {
-  sessionStorage.setItem('asinListForKeywords', payload);
+  sessionStorage.setItem('keywordReverseAsinList', payload);
   return {
     type: actionTypes.SET_ASIN_LIST_FOR_KEYWORD_REVERSE,
     payload,
@@ -62,7 +62,7 @@ export const shouldFetchKeywordReverseProgress = (payload: boolean) => {
 };
 
 /* Action to set the progress data for keyword reverse */
-export const setKeywordReverseProgressData = (payload: ReverseKeywordProgressData) => {
+export const setKeywordReverseProgressData = (payload: KeywordReverseProgressData) => {
   sessionStorage.setItem('keywordReverseProgressData', JSON.stringify(payload));
   return {
     type: actionTypes.SET_KEYWORD_REVERSE_PROGRESS_DATA,
@@ -172,7 +172,6 @@ export const fetchKeywordReverseProgress = () => async (dispatch: any, getState:
     const keywordRequestId = getKeywordReverseRequestId(getState());
 
     if (!keywordRequestId) {
-      console.log('No request Id returning');
       return;
     }
 
@@ -239,8 +238,8 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (dispatc
       dispatch(setAsinListForKeywordReverse(asinList));
       dispatch(isFetchingKeywordReverseRequestId(false));
 
-      // wait to 2 seconds
-      await timeout(2000);
+      // wait to 0.5 seconds
+      await timeout(500);
       success('Fetching keywords');
       // dispatch the keyword request progress process
       dispatch(
@@ -362,4 +361,23 @@ export const fetchKeywordReverseTableInformation = (payload: KeywordReverseTable
     );
     dispatch(isLoadingKeywordReverseTable(false));
   }
+};
+
+/* Action to reset keyword database */
+export const resetKeywordReverse = () => async (dispatch: any) => {
+  dispatch(isFetchingKeywordReverseRequestId(false));
+  dispatch(setKeywordReverseRequestId(''));
+  dispatch(setAsinListForKeywordReverse(''));
+  dispatch(shouldFetchKeywordReverseProgress(false));
+  dispatch(
+    setKeywordReverseProgressData({
+      id: 0,
+      seller: 0,
+      status: '',
+      progress: '',
+      report_xlsx_url: '',
+    })
+  );
+
+  dispatch(fetchKeywordReverseTableInformation({ resetFilter: true }));
 };

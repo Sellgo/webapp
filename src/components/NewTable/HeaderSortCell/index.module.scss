@@ -9,14 +9,14 @@
   .headerText {
     text-align: center;
     font-size: 14px;
-    color: $prim_dark_2;
+    color: inherit;
     font-weight: 600;
     white-space: pre-wrap;
   }
 
   .sortIcon {
     margin-left: 10px;
-    color: $prim_dark_2;
+    color: inherit;
     font-size: 10px !important;
   }
 }

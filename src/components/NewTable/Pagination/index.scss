@@ -1,5 +1,37 @@
 @import '../../../design-system/new-colors';
 
+.perPageWrapper {
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-right: 10px;
+    color: $prim_dark_2;
+    font-size: 12px;
+    font-weight: 500;
+  }
+}
+
+.perPageDropdown {
+  border: 1px solid $grey_3;
+  color: $prim_dark_2;
+  border-radius: 5px;
+  min-width: 65px;
+  height: 25px;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  font-size: 12px;
+  font-weight: 500;
+
+  .menu.transition {
+    border-bottom-left-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+    width: 60px !important;
+  }
+}
+
 .ui.pagination.newSellgoPagination {
   height: max-content;
   border: 0;
