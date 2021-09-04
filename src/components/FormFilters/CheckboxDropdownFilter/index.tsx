@@ -20,7 +20,7 @@ const CheckboxDropdown: React.FC<Props> = props => {
     } else {
       newSelectedValues = newSelectedValues.filter(f => f !== data.value);
     }
-    handleChange(newSelectedValues.join(';'));
+    handleChange(newSelectedValues);
   };
 
   const trigger = (

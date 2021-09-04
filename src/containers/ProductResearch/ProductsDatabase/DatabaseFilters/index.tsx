@@ -11,7 +11,6 @@ import FormFilterActions from '../../../../components/FormFilters/FormFilterActi
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
 import CheckboxDropdown from '../../../../components/FormFilters/CheckboxDropdownFilter';
-// import CheckboxListFilter from '../../../../components/FormFilters/CheckboxListFilter';
 import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
 
 /* Actions */
@@ -26,7 +25,6 @@ import {
   DEFAULT_MIN_MAX_FILTER,
   DEFAULT_CHECKBOX_FILTER,
   PRODUCTS_DATABASE_SIZE_TIERS,
-  // FULFILMENT_TYPES,
   PRODUCTS_DATABASE_CATEGORIES,
 } from '../../../../constants/ProductResearch/ProductsDatabase';
 
@@ -117,8 +115,8 @@ const ProductDatabaseFilters = (props: Props) => {
             filterOptions={PRODUCTS_DATABASE_CATEGORIES}
             label="Categories"
             selectedValues={categories}
-            handleChange={(value: string) => {
-              setCategories(value ? value.split(';') : []);
+            handleChange={(newCategories: string[]) => {
+              setCategories([...newCategories]);
             }}
           />
 

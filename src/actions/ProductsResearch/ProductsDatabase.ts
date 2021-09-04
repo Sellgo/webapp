@@ -63,7 +63,6 @@ export const setProductsDatabaseFilters = (payload: ProductsDatabaseFilters[]) =
 
 /* Parse the filter payload for reuqest */
 export const parseFilterPayload = (productFilters: any) => {
-  console.log(productFilters);
   const filterPayloadKeys = Object.keys(productFilters);
   return filterPayloadKeys.reduce((acc: any, key: string) => {
     const f: any = productFilters[key];
