@@ -55,5 +55,5 @@ export const DEFAULT_PAGES_LIST = [
 export const calculateKeywordsTableHeight = (noOfItems: number) => {
   const OFFSET_ROWS = 5;
 
-  return PRODUCT_KEYWORD_ROW_HEIGHT * ((noOfItems || 20) + OFFSET_ROWS);
+  return PRODUCT_KEYWORD_ROW_HEIGHT * (noOfItems + OFFSET_ROWS);
 };

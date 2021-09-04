@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Sidebar } from 'semantic-ui-react';
 import { setScrollTop } from '../../actions/Suppliers';
+import { newProductDesignPathNames } from '../../constants';
 
 const SidebarPusher = ({
   children,
@@ -39,13 +40,17 @@ const SidebarPusher = ({
     setScrollValue(e.currentTarget.scrollTop);
   }, []);
 
+  const isNewProduct = newProductDesignPathNames.includes(window.location.pathname);
+
   return (
     <Sidebar.Pusher
       dimmed={dimmed}
       onClick={() => {
         visible && handleAnimationChange();
       }}
-      className={`container Sidebar__pusher ${visible ? '' : 'pusher-scroll-x'}`}
+      className={`container Sidebar__pusher ${visible ? '' : 'pusher-scroll-x'} ${
+        isNewProduct ? 'newSidebar__pusher' : ''
+      }`}
     >
       {children}
     </Sidebar.Pusher>

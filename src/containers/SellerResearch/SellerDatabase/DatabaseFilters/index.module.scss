@@ -1,11 +1,7 @@
 @import '../../../../design-system/new-colors';
 
 .filterSection {
-  border: 1px solid $grey_3;
-  border-top: 0;
-  padding: 0 20px !important;
-  border-bottom-left-radius: 7px;
-  border-bottom-right-radius: 7px;
+  padding: 0;
 }
 
 /* Basic Filter Styles */
@@ -23,16 +19,17 @@
 
 /* Advanced Filter Styles */
 .advancedFilterWrapper {
-  background: $grey_0;
+  background: $grey_10;
   box-shadow: 0 3px 6px #00000029;
+  border: 1px solid $grey_3;
   border-radius: 7px;
   height: max-content !important;
   user-select: none;
 }
 
 .advancedFilterToggle {
-  background: $grey_1;
-  color: $prim_dark_2;
+  background: $grey_0;
+  color: $grey_8;
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
   width: 100%;
@@ -42,9 +39,10 @@
   cursor: pointer;
   height: 30px;
   text-transform: uppercase;
-  font-size: 16px;
+  font-size: 14px;
   padding: 0 20px;
   box-shadow: 0 3px 6px #00000029;
+  font-weight: normal;
 
   span {
     flex: 1;

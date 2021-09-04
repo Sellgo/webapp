@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Popup } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -21,11 +21,8 @@ import {
   KeywordDatabasePaginationInfo,
 } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
 
-/* Constants */
-import { EXPORT_DATA, EXPORT_FORMATS } from '../../../../constants/KeywordResearch/KeywordDatabase';
-
-/* Components */
-import ExportResultAs from '../../../../components/ExportResultAs';
+/* Assets */
+import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
 
 interface Props {
   keywordDatabaseProgressData: KeywordDatabaseProgressData;
@@ -35,17 +32,14 @@ interface Props {
 const DatabaseExport = (props: Props) => {
   const { keywordDatabaseProgressData, keywordDatabasePaginationInfo } = props;
 
-  const [openExports, setOpenExports] = useState(false);
-
   const handleOnExport = async () => {
     if (keywordDatabaseProgressData.report_xlsx_url) {
       await downloadFile(keywordDatabaseProgressData.report_xlsx_url);
       success('File successfully downloaded');
-      setOpenExports(false);
     }
   };
 
-  const shouldEnableExport = keywordDatabaseProgressData.report_xlsx_url;
+  const shouldEnableXlsxExport = keywordDatabaseProgressData.report_xlsx_url;
 
   return (
     <>
@@ -57,26 +51,37 @@ const DatabaseExport = (props: Props) => {
             keywords.
           </p>
         )}
-        <div
-          onClick={() => (shouldEnableExport ? setOpenExports(true) : 0)}
-          className={`${styles.exportButton} ${
-            shouldEnableExport ? 'export-button' : 'export-button-disabled'
-          }`}
-        >
-          <Icon name="download" />
-          <span>Export</span>
+        <div className={styles.exportButtonContainer}>
+          <Icon name="download" className={styles.downloadIcon} />
+          <Popup
+            className={styles.exportPopup}
+            on="click"
+            position="bottom right"
+            offset="-5"
+            trigger={
+              <Icon
+                name="angle down"
+                className={styles.caretDownIcon}
+                style={{ cursor: 'pointer' }}
+              />
+            }
+            content={
+              <>
+                <div className={styles.exportOptions}>
+                  <span>Export As</span>
+                  <button
+                    className={styles.exportOption}
+                    onClick={handleOnExport}
+                    disabled={!shouldEnableXlsxExport}
+                  >
+                    <XLSXExportImage /> .XLSX
+                  </button>
+                </div>
+              </>
+            }
+          />
         </div>
       </section>
-
-      <ExportResultAs
-        open={openExports}
-        formats={EXPORT_FORMATS}
-        data={EXPORT_DATA}
-        onClose={() => setOpenExports(false)}
-        loading={false}
-        onExport={handleOnExport}
-        format={'xlsx'}
-      />
     </>
   );
 };

@@ -25,6 +25,8 @@ const MinMaxRatingsFilter: React.FC<Props> = props => {
     );
   }, [minValue, maxValue]);
 
+  const iconClassName = `ratingsIconFilter ${isError ? 'minMaxErrorRatings' : ''}`;
+
   return (
     <div className={styles.minMaxRatingsFilter}>
       {label && <p>{label}</p>}
@@ -32,19 +34,9 @@ const MinMaxRatingsFilter: React.FC<Props> = props => {
         <Rating
           className={styles.ratingsSelector}
           initialRating={Number(minValue) || 0}
-          emptySymbol={
-            <Icon
-              name="star outline"
-              color={'grey'}
-              className={isError ? 'minMaxErrorRatings' : ''}
-            />
-          }
-          fullSymbol={
-            <Icon name="star" color={'grey'} className={isError ? 'minMaxErrorRatings' : ''} />
-          }
-          placeholderSymbol={
-            <Icon name="star" color={'grey'} className={isError ? 'minMaxErrorRatings' : ''} />
-          }
+          emptySymbol={<Icon name="star outline" className={iconClassName} />}
+          fullSymbol={<Icon name="star" className={iconClassName} />}
+          placeholderSymbol={<Icon name="star" className={iconClassName} />}
           onChange={(value: number) => {
             handleChange && handleChange('min', String(value));
           }}
@@ -53,19 +45,9 @@ const MinMaxRatingsFilter: React.FC<Props> = props => {
         <Rating
           className={styles.ratingsSelector}
           initialRating={Number(maxValue) || 0}
-          emptySymbol={
-            <Icon
-              name="star outline"
-              color={'grey'}
-              className={isError ? 'minMaxErrorRatings' : ''}
-            />
-          }
-          fullSymbol={
-            <Icon name="star" color={'grey'} className={isError ? 'minMaxErrorRatings' : ''} />
-          }
-          placeholderSymbol={
-            <Icon name="star" color={'grey'} className={isError ? 'minMaxErrorRatings' : ''} />
-          }
+          emptySymbol={<Icon name="star outline" className={iconClassName} />}
+          fullSymbol={<Icon name="star" className={iconClassName} />}
+          placeholderSymbol={<Icon name="star" className={iconClassName} />}
           onChange={(value: number) => {
             handleChange && handleChange('max', String(value));
           }}

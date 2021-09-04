@@ -1,11 +1,8 @@
 @import '../../../../design-system/new-colors';
 
 .filterSection {
-  border: 1px solid $grey_3;
   border-top: 0;
   padding: 0 20px !important;
-  border-bottom-left-radius: 7px;
-  border-bottom-right-radius: 7px;
 }
 
 /* Basic Filter Styles */
@@ -31,7 +28,17 @@
 .checkbox {
   font-size: 14px !important;
 
-  > label {
-    color: #757575 !important;
+  label {
+    color: $grey_6 !important;
+  }
+
+  label::before {
+    border-radius: 4px !important;
+    border: 1px solid $grey_3 !important;
+  }
+
+  input:checked ~ .box::after,
+  input:checked ~ label::after {
+    color: $grey_8 !important;
   }
 }

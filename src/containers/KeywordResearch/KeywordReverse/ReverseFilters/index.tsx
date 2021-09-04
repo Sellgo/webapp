@@ -17,18 +17,22 @@ import {
 } from '../../../../constants/KeywordResearch/KeywordReverse';
 
 /* Actions */
-import { fetchKeywordReverseTableInformation } from '../../../../actions/KeywordResearch/KeywordReverse';
+import {
+  fetchKeywordReverseTableInformation,
+  resetKeywordReverse,
+} from '../../../../actions/KeywordResearch/KeywordReverse';
 
 /* Interfaces */
 import { KeywordReverseTablePayload } from '../../../../interfaces/KeywordResearch/KeywordReverse';
 
 interface Props {
   fetchKeywordReverseTableInfo: (payload: KeywordReverseTablePayload) => void;
+  resetKeywordReverse: () => void;
 }
 
 const ReverseFilters = (props: Props) => {
   /* Props */
-  const { fetchKeywordReverseTableInfo } = props;
+  const { fetchKeywordReverseTableInfo, resetKeywordReverse } = props;
 
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(true);
 
@@ -61,7 +65,6 @@ const ReverseFilters = (props: Props) => {
 
   /* Handle Reset */
   const handleReset = () => {
-    fetchKeywordReverseTableInfo({ resetFilter: true });
     setSearchVolume(DEFAULT_MIN_MAX_FILTER);
     setPositionRank(DEFAULT_MIN_MAX_FILTER);
     setSponsoredAsins(DEFAULT_MIN_MAX_FILTER);
@@ -70,6 +73,7 @@ const ReverseFilters = (props: Props) => {
     setRankingCompetitors(DEFAULT_MIN_MAX_FILTER);
     setCompetitingProducts(DEFAULT_MIN_MAX_FILTER);
     setSearchTerm(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+    resetKeywordReverse();
   };
 
   return (
@@ -189,6 +193,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchKeywordReverseTableInfo: (payload: KeywordReverseTablePayload) =>
       dispatch(fetchKeywordReverseTableInformation(payload)),
+    resetKeywordReverse: () => dispatch(resetKeywordReverse()),
   };
 };
 

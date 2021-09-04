@@ -14,19 +14,34 @@ interface Props extends RowCell {
   appendWith?: string;
   prependWith?: string;
   align?: 'left' | 'right' | 'center';
+  specialKpi?: boolean;
 }
 
 const StatsCell = (props: Props) => {
-  const { appendWith = '', prependWith = '', align = 'left', ...otherProps } = props;
+  const {
+    appendWith = '',
+    prependWith = '',
+    align = 'left',
+    specialKpi = false,
+    ...otherProps
+  } = props;
 
   const { rowData, dataKey } = otherProps;
 
-  const displayStat = formatNumber(rowData[dataKey]);
+  let displayStat = formatNumber(rowData[dataKey]);
+
+  // format position rank KPI seperately
+  if (dataKey === 'position_rank' && !rowData[dataKey]) {
+    displayStat = '>300';
+  }
 
   return (
     <Table.Cell {...otherProps}>
-      <div className={styles.statsCell} style={{ textAlign: align }}>
-        {showNAIfZeroOrNull(rowData[dataKey], `${prependWith}${displayStat}${appendWith}`)}
+      <div
+        className={styles.statsCell}
+        style={{ alignSelf: align, color: specialKpi ? '#3B4557' : '#636d76' }}
+      >
+        {showNAIfZeroOrNull(displayStat, `${prependWith}${displayStat}${appendWith}`)}
       </div>
     </Table.Cell>
   );

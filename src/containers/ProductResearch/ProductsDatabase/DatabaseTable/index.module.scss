@@ -4,66 +4,15 @@
   padding-bottom: 60px !important;
 }
 
-/* Header select cell */
-.headerSelectRow {
-  display: flex;
-  flex-direction: row;
-}
-
-.headerSelectIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Row cell */
-.productInformationCell {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  flex-direction: row;
-}
-
-/* Styling for action popup */
-.actionPopupRow {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.actionPopupText {
-  font-size: 14px;
-  color: $prim_dark_2;
-  margin-left: 5px;
-
-  &:hover {
-    text-decoration: none;
-  }
-}
-
-/* Buttons */
-.exportButton {
-  font-size: 14px;
-  color: $prim_dark_2;
-  background: none;
-  text-decoration: underline;
-  font-weight: 600;
-}
-
-.ellipsisButton {
-  background: none;
-}
-
 .productDatabasePagination {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 10px 40px;
-  box-shadow: 0 -3px 6px 0 rgba(0, 0, 9, 0.25);
+  height: 40px;
+  box-shadow: 0 -3px 6px 0 rgba($grey_3, 0.25);
   background: #fff;
   position: fixed;
+  padding: 0 30px;
   bottom: 0;
   left: 0;
   right: 0;

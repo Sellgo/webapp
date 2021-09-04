@@ -28,7 +28,7 @@ const keywordResearchMapper = ['Reverse', 'Database', 'Tracker'];
 const KeywordResearch = (props: Props) => {
   const { match, resetKeywordResearch } = props;
 
-  const [selectedTabList, setSelectedTabList] = useState<number>(2);
+  const [selectedTabList, setSelectedTabList] = useState<number>(0);
 
   const handleTabChange = (index: number) => {
     setSelectedTabList(index);
@@ -52,7 +52,7 @@ const KeywordResearch = (props: Props) => {
         auth={match.params.auth}
       />
 
-      <main>
+      <main className={styles.keywordTrackerPage}>
         {/* Filter meta data */}
         <section className={styles.filterMetaData}>
           <h1>Keyword Research: {keywordResearchMapper[selectedTabList]}</h1>

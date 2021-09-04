@@ -5,7 +5,7 @@
   justify-content: flex-start;
   align-items: stretch;
   user-select: none;
-  color: $prim_dark_2;
+  color: $prim_dark_1;
 }
 
 .productImage {
@@ -26,12 +26,14 @@
   justify-content: space-between;
 
   h2 {
-    font-size: 18px;
+    font-size: 14px;
     line-height: 1;
     display: inline-block;
     overflow-wrap: break-word;
     word-wrap: break-word;
     hyphens: auto;
+    color: $prim_dark_1 !important;
+    font-weight: 500;
   }
 }
 

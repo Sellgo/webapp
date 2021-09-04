@@ -13,21 +13,26 @@ import FormFilterActions from '../../../../components/FormFilters/FormFilterActi
 import { DEFAULT_MIN_MAX_FILTER } from '../../../../constants/KeywordResearch/KeywordDatabase';
 import { DEFAULT_INCLUDE_EXCLUDE_FILTER } from '../../../../constants/KeywordResearch/KeywordReverse';
 import { KeywordDatabaseTablePayload } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
-import { fetchKeywordDatabaseTableInformation } from '../../../../actions/KeywordResearch/KeywordDatabase';
+import {
+  fetchKeywordDatabaseTableInformation,
+  resetKeywordDatabase,
+} from '../../../../actions/KeywordResearch/KeywordDatabase';
 import { connect } from 'react-redux';
 
 interface Props {
   fetchKeywordDatabaseTableInfo: (payload: KeywordDatabaseTablePayload) => void;
+  resetKeywordDatabase: () => void;
 }
 
 const DatabaseFilters = (props: Props) => {
-  const { fetchKeywordDatabaseTableInfo } = props;
+  const { fetchKeywordDatabaseTableInfo, resetKeywordDatabase } = props;
 
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(true);
 
   /* Basic Filters */
   const [searchVolume, setSearchVolume] = useState(DEFAULT_MIN_MAX_FILTER);
   const [positionRank, setPositionRank] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [wordCount, setWordCount] = useState(DEFAULT_MIN_MAX_FILTER);
 
   /* Advanced Filters */
   const [sponsoredAsins, setSponsoredAsins] = useState(DEFAULT_MIN_MAX_FILTER);
@@ -39,15 +44,16 @@ const DatabaseFilters = (props: Props) => {
 
   /* Handle Reset */
   const handleReset = () => {
-    fetchKeywordDatabaseTableInfo({ resetFilter: true });
     setSearchVolume(DEFAULT_MIN_MAX_FILTER);
     setPositionRank(DEFAULT_MIN_MAX_FILTER);
+    setWordCount(DEFAULT_MIN_MAX_FILTER);
     setSponsoredAsins(DEFAULT_MIN_MAX_FILTER);
     setRelativeRank(DEFAULT_MIN_MAX_FILTER);
     setCompetitorRank(DEFAULT_MIN_MAX_FILTER);
     setRankingCompetitors(DEFAULT_MIN_MAX_FILTER);
     setCompetitingProducts(DEFAULT_MIN_MAX_FILTER);
     setSearchTerm(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+    resetKeywordDatabase();
   };
 
   const handleSubmit = () => {
@@ -88,6 +94,19 @@ const DatabaseFilters = (props: Props) => {
           maxValue={positionRank.max}
           handleChange={(type, value) => {
             setPositionRank(prevState => ({
+              ...prevState,
+              [type]: value,
+            }));
+          }}
+        />
+
+        {/* Word Count  */}
+        <MinMaxFilter
+          label="Word Count"
+          minValue={wordCount.min}
+          maxValue={wordCount.max}
+          handleChange={(type, value) => {
+            setWordCount(prevState => ({
               ...prevState,
               [type]: value,
             }));
@@ -212,6 +231,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchKeywordDatabaseTableInfo: (payload: KeywordDatabaseTablePayload) =>
       dispatch(fetchKeywordDatabaseTableInformation(payload)),
+    resetKeywordDatabase: () => dispatch(resetKeywordDatabase()),
   };
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Dropdown } from 'semantic-ui-react';
 
 /* Styling */
@@ -41,4 +41,4 @@ const PeriodFilter: React.FC<Props> = props => {
   );
 };
 
-export default PeriodFilter;
+export default memo(PeriodFilter);

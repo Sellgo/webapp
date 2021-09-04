@@ -76,7 +76,7 @@ const SellerDatabaseTable = (props: Props) => {
           loading={isLoadingSellerDatabase}
           data={sellerDatabaseResults}
           autoHeight
-          hover={false}
+          hover={true}
           rowHeight={200}
           headerHeight={55}
           sortColumn={sortColumn}
@@ -85,7 +85,7 @@ const SellerDatabaseTable = (props: Props) => {
           onSortColumn={handleSortColumn}
         >
           {/* Seller Information */}
-          <Table.Column width={650} verticalAlign="middle" fixed>
+          <Table.Column width={650} verticalAlign="middle" fixed flexGrow={1}>
             <Table.HeaderCell>Seller Information</Table.HeaderCell>
             <SellerInformation dataKey={'sellerInformation'} />
           </Table.Column>
@@ -106,20 +106,20 @@ const SellerDatabaseTable = (props: Props) => {
           <Table.Column width={150} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title={`Monthly\nRevenue.`}
+                title={`Monthly Revenue.`}
                 dataKey="sales_estimate"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey={'sales_estimate'} prependWith="$" />
+            <StatsCell dataKey={'sales_estimate'} prependWith="$" align="left" />
           </Table.Column>
 
           {/* Rating L365D */}
           <Table.Column width={130} verticalAlign="middle" sortable align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title={`Rating\nL365D`}
+                title={`Rating L365D`}
                 dataKey="seller_rating"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
@@ -129,7 +129,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Rating % L365D */}
-          <Table.Column width={130} verticalAlign="middle" sortable align="center">
+          <Table.Column width={100} verticalAlign="middle" sortable align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Rating%\nL365D`}

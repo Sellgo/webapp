@@ -1,17 +1,37 @@
 @import '../../../../../design-system/new-colors';
 
-.keywordWrapper {
-  color: $prim_dark_2 !important;
-  height: 100% !important;
+.searchTermContainer {
   display: flex;
-  align-self: center !important;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 100% !important;
+  margin-left: 4px !important;
 }
 
-.keyword {
+.searchTerm {
   font-size: 14px !important;
+  font-weight: 500 !important;
+  color: $grey_8 !important;
 
-  span,
-  a {
-    font-size: 14px !important;
+  &:hover {
+    text-decoration-color: $grey_8 !important;
+    font-weight: 600 !important;
+  }
+}
+
+.labels {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 24px;
+
+  svg {
+    margin-right: 10px;
+  }
+
+  p {
+    margin: 0 !important;
+    margin-right: 10px !important;
   }
 }

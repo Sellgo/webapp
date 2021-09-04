@@ -110,7 +110,7 @@ const TrackerTable = (props: Props) => {
         data={keywordTrackerProductsTableResults}
         autoHeight
         hover={false}
-        rowHeight={110}
+        rowHeight={120}
         headerHeight={55}
         sortColumn={sortColumn}
         sortType={sortType}
@@ -119,13 +119,13 @@ const TrackerTable = (props: Props) => {
         //  Props for table expansion
         rowKey={TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY}
         rowExpandedHeight={calculateKeywordsTableHeight(
-          (trackerProductKeywordsTableResults && trackerProductKeywordsTableResults.length) || 4
+          trackerProductKeywordsTableResults && trackerProductKeywordsTableResults.length
         )}
         expandedRowKeys={expandedRowKeys}
         renderRowExpanded={() => <TrackerKeywordTable />}
       >
         {/* Expand Cell */}
-        <Table.Column verticalAlign="top" fixed align="left" width={25}>
+        <Table.Column verticalAlign="top" fixed align="left" width={30}>
           <Table.HeaderCell> </Table.HeaderCell>
           <ExpansionCell
             dataKey={TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY}
@@ -135,7 +135,7 @@ const TrackerTable = (props: Props) => {
         </Table.Column>
 
         {/* Product Info */}
-        <Table.Column verticalAlign="top" fixed align="left" width={500} flexGrow={1}>
+        <Table.Column width={500} verticalAlign="top" fixed align="left" flexGrow={1}>
           <Table.HeaderCell>Product Information</Table.HeaderCell>
           <ProductInfo dataKey="productInfo" />
         </Table.Column>
@@ -150,7 +150,7 @@ const TrackerTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="tracked_keywords" align="center" />
+          <StatsCell dataKey="tracked_keywords" align="center" specialKpi />
         </Table.Column>
 
         {/* Competitors */}

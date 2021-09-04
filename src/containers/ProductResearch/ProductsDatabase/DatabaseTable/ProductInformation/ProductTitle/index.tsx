@@ -10,6 +10,9 @@ import CopyToClipboard from '../../../../../../components/CopyToClipboard';
 /* Utils */
 import { truncateString } from '../../../../../../utils/format';
 
+/* Assets */
+import placeholderImage from '../../../../../../assets/images/placeholderImage.svg';
+
 interface Props {
   asin: string;
   image: string;
@@ -29,18 +32,27 @@ const ProductTitle = (props: Props) => {
     upcDisplayString = '';
   }
 
+  // use image with size 140
+  const productImage = image ? image.replace('SL75', 'SL140') : placeholderImage;
+
   return (
     <div className={styles.productTitle}>
-      <img src={image} className={styles.productImage} />
+      {/* Product Image */}
+      <img src={productImage} className={styles.productImage} />
+
+      {/* ASIN and UPC Details */}
       <div className={styles.productTextWrapper}>
+        {/* ASIN */}
         <div className={styles.productTitleTextBox}>
           <p className={styles.productTitleText}>ASIN:</p>
-          {asin.length > 0 ? (
-            <CopyAndLocateClipboard data={asin} link={`http://www.amazon.com/dp/${props.asin}`} />
-          ) : (
-            '-'
-          )}
+          <CopyAndLocateClipboard
+            data={asin}
+            link={`http://www.amazon.com/dp/${asin}`}
+            className={styles.productAsin}
+          />
         </div>
+
+        {/* UPC */}
         <div className={styles.productTitleTextBox}>
           <p className={styles.productTitleText}>UPC:</p>
           {upcString && upcString.length > 0 ? (

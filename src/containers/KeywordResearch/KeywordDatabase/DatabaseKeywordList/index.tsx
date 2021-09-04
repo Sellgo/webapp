@@ -80,9 +80,15 @@ const DatabaseKeywordList = (props: Props) => {
     getSuggestions(value);
   };
 
+  const keywordsRemaining = MAX_KEYWORDS_ALLOWED - totalKeywords;
+
   return (
     <section className={styles.keywordListWrapper}>
-      <p>{MAX_KEYWORDS_ALLOWED - totalKeywords} more keywords allowed.</p>
+      <p>
+        {keywordsRemaining < 0
+          ? 'keywords limit exceeded'
+          : `${keywordsRemaining} more keywords allowed.`}
+      </p>
       <Icon
         name={isTextArea ? 'chevron down' : 'chevron right'}
         className={styles.toggleInputIcon}

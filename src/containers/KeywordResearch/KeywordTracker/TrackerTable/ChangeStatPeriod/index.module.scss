@@ -9,10 +9,11 @@
     align-self: center !important;
     width: 28px;
     height: 28px;
-    margin-bottom: 10px;
     user-select: none;
 
     &:first-child {
+      margin-bottom: 25px;
+
       path {
         fill: $blue_8;
       }

@@ -3,51 +3,75 @@
 #keywordDatabaseTable {
   // header section
   .rs-table-row-header {
-    border-radius: 7px;
-    border: 1px solid $grey_3 !important;
+    border-radius: 0 !important;
+    border-bottom: 1px solid $grey_3 !important;
+
+    // column header cell
+    .rs-table-cell-content {
+      padding: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      font-size: 12px !important;
+      color: $grey_6 !important;
+      background: $light_gray_background;
+      font-weight: 500 !important;
+    }
   }
 
   // body section
   .rs-table-body-row-wrapper {
-    margin-top: 18px !important;
+    background: $light_gray_background !important;
 
     .rs-table-body-wheel-area {
-      background: #fff;
+      background: $light_gray_background;
       // should be rowheight - 10px
       .rs-table-row {
         // height: 190px !important; //
-        border: 1px solid $grey_3;
-        border-radius: 7px;
+        border-bottom: 1px solid $grey_3 !important;
 
+        /* ============== ZEBRA PATTERN  =============== */
         &:nth-child(2n) {
-          background-color: #fff !important;
+          background: $light_gray_background !important;
 
           .rs-table-cell-content {
-            color: $prim_dark_2 !important;
-            background-color: #fff !important;
+            background: $light_gray_background !important;
             padding: 3px 10px !important;
-            // text-align: center !important;
           }
         }
 
         &:nth-child(2n + 1) {
-          background-color: rgba($grey_3, 0.2) !important;
+          background: $grey_1 !important;
 
-          // stylelint-disable no-descending-specificity
           .rs-table-cell-content {
-            color: $prim_dark_2 !important;
-            background-color: rgba($grey_3, 0.2) !important;
+            background: $grey_1 !important;
             padding: 3px 10px !important;
-            // text-align: center !important;
           }
         }
+
+        /* ============== ROW HOVER  =============== */
+        &:hover {
+          background: $grey_2 !important;
+
+          .rs-table-cell-content {
+            background: $grey_2 !important;
+          }
+        }
+      }
+    }
+
+    // Loader wrapper
+    .rs-table-loader-wrapper {
+      background: $light_gray_background;
+
+      .rs-table-loader {
+        background: $light_gray_background;
       }
     }
   }
 
   // scrollbar
   div[role='scrollbar'] {
-    bottom: 60px !important;
+    bottom: 40px !important;
     background: $grey_3;
     border-radius: 4px;
     position: fixed !important;
@@ -65,7 +89,7 @@
     }
 
     > .rs-table-scrollbar-handle {
-      background-color: #98aeca !important;
+      background-color: $grey_6 !important;
       opacity: 1 !important;
       height: 8px;
       max-width: 100% !important;

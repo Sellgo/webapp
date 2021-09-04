@@ -44,25 +44,28 @@ const ActionsCell = (props: Props) => {
 
   return (
     <Table.Cell {...otherProps}>
-      <Popup
-        className="keywordTrackerActionsCell"
-        trigger={<Icon name="ellipsis vertical" className="keywordTrackerActionsCellTrigger" />}
-        on="click"
-        position="bottom right"
-        content={
-          <div className="keywordTrackerActionsCellContent">
-            <button onClick={handleUntrackProduct}>
-              <Icon name="trash" className="keywordTrackerActionIcon" />
-              Delete Product
-            </button>
+      <div className="keywordTrackerActionCellWrapper">
+        <Popup
+          className="keywordTrackerActionsCell"
+          trigger={<Icon name="ellipsis vertical" className="keywordTrackerActionsCellTrigger" />}
+          on="click"
+          position="bottom right"
+          offset="-15"
+          content={
+            <div className="keywordTrackerActionsCellContent">
+              <button onClick={handleUntrackProduct}>
+                <Icon name="trash" className="keywordTrackerActionIcon" />
+                Delete Product
+              </button>
 
-            <button disabled={!exportXlsxReport} onClick={() => handleExport('xlsx')}>
-              <Icon name="download" className="keywordTrackerActionIcon" />
-              Export XLSX
-            </button>
-          </div>
-        }
-      />
+              <button disabled={!exportXlsxReport} onClick={() => handleExport('xlsx')}>
+                <Icon name="download" className="keywordTrackerActionIcon" />
+                Export XLSX
+              </button>
+            </div>
+          }
+        />
+      </div>
     </Table.Cell>
   );
 };
