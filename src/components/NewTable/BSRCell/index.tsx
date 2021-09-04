@@ -12,7 +12,6 @@ import styles from './index.module.scss';
 
 const BSRCell = (props: RowCell) => {
   const { rowData, dataKey } = props;
-  console.log(rowData[dataKey]);
 
   const parseBsr = (bsrStr: any) => {
     const bsrArr = bsrStr.split('in');
