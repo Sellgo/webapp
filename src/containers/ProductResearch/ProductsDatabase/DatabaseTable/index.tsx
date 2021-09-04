@@ -14,6 +14,8 @@ import RatingWithCountCell from '../../../../components/NewTable/RatingWithCount
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import GenericRowCell from '../../../../components/NewTable/GenericRowCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
+import BSRCell from '../../../../components/NewTable/BSRCell';
+import NumberCell from '../../../../components/NewTable/NumberCell';
 
 /* Table */
 import {
@@ -30,8 +32,6 @@ import { fetchProductsDatabase } from '../../../../actions/ProductsResearch/Prod
 
 /* Constants */
 import { SMALL_WIDTH, BIG_WIDTH, CENTER_ALIGN_SETTINGS } from '../../../../constants/Table';
-import BSRCell from '../../../../components/NewTable/BSRCell';
-import NumberCell from '../../../../components/NewTable/NumberCell';
 
 interface Props {
   // States
@@ -230,7 +230,7 @@ const ProductsDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <GenericRowCell dataKey="seller_count" />
+            <NumberCell dataKey="seller_count" />
           </Table.Column>
 
           <Table.Column width={SMALL_WIDTH} sortable {...CENTER_ALIGN_SETTINGS}>

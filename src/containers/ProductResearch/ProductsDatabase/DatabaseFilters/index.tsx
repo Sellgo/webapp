@@ -26,7 +26,9 @@ import {
   DEFAULT_CHECKBOX_FILTER,
   PRODUCTS_DATABASE_SIZE_TIERS,
   PRODUCTS_DATABASE_CATEGORIES,
+  FULFILMENT_TYPES,
 } from '../../../../constants/ProductResearch/ProductsDatabase';
+import CheckboxListFilter from '../../../../components/FormFilters/CheckboxListFilter';
 
 interface Props {
   fetchProductsDatabase: (payload: ProductsDatabasePayload) => void;
@@ -205,7 +207,7 @@ const ProductDatabaseFilters = (props: Props) => {
                   }))
                 }
               />
-              {/* 
+
               <CheckboxListFilter
                 label="Fulfillment"
                 options={FULFILMENT_TYPES}
@@ -213,7 +215,7 @@ const ProductDatabaseFilters = (props: Props) => {
                 handleChange={(value: string) => {
                   setFulfillment(value);
                 }}
-              /> */}
+              />
 
               <MinMaxFilter
                 label="Weight (lbs)"
