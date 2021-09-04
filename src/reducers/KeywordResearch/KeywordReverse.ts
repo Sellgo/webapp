@@ -1,14 +1,17 @@
 import { AnyAction } from 'redux';
 
 /* Constants */
-import { actionTypes, makeOrGetUniqueTabID } from '../../constants/KeywordResearch/KeywordReverse';
+import { actionTypes } from '../../constants/KeywordResearch/KeywordReverse';
+
+/* Utils*/
+import { makeOrGetUniqueTabID } from '../../utils/session';
 
 const INITIAL_STATE: { [key: string]: any } = {
   [makeOrGetUniqueTabID()]: {
     // keyword request id state
     isFetchingKeywordReverseRequestId: false,
-    keywordReverseRequestId: sessionStorage.getItem('keywordRequestId') || '',
-    asinListForKeywordReverse: sessionStorage.getItem('asinListForKeywords') || '',
+    keywordReverseRequestId: sessionStorage.getItem('keywordReverseRequestId') || '',
+    asinListForKeywordReverse: sessionStorage.getItem('keywordReverseAsinList') || '',
 
     // keyword request progress state
     shouldFetchKeywordReverseProgress: false,

@@ -19,7 +19,7 @@ import {
 
 /* Interfaces */
 import {
-  ReverseKeywordProgressData,
+  KeywordReverseProgressData,
   KeywordReversePaginationInfo,
 } from '../../../../interfaces/KeywordResearch/KeywordReverse';
 
@@ -28,7 +28,7 @@ import { downloadFile } from '../../../../utils/download';
 import { success } from '../../../../utils/notifications';
 
 interface Props {
-  reverseKeywordProgressData: ReverseKeywordProgressData;
+  reverseKeywordProgressData: KeywordReverseProgressData;
   reverseKeywordTablePaginationInfo: KeywordReversePaginationInfo;
 }
 

@@ -1,0 +1,17 @@
+@import '../../../../../design-system/new-colors';
+
+.keywordWrapper {
+  color: $prim_dark_2 !important;
+  height: 100% !important;
+  display: flex;
+  align-self: center !important;
+}
+
+.keyword {
+  font-size: 14px !important;
+
+  span,
+  a {
+    font-size: 14px !important;
+  }
+}
