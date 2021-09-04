@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 
-/* Actions */
-import { makeOrGetUniqueTabID } from '../../constants/KeywordResearch/KeywordReverse';
+/* Utils */
+import { makeOrGetUniqueTabID } from '../../utils/session';
 
 /* =================== KEYWORD REQUEST ID =============== */
 /* Selector to get current keyword request Id */

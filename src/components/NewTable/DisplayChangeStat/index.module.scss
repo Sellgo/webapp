@@ -1,0 +1,20 @@
+@import '../../../design-system/new-colors';
+
+.displayStatChange {
+  font-size: 14px !important;
+  color: $prim_dark_2;
+  display: flex;
+  align-items: flex-start;
+}
+
+.stat {
+  margin-right: 5px;
+}
+
+.changeNegative {
+  color: $system_red !important;
+}
+
+.changePositive {
+  color: $system_green !important;
+}
