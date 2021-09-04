@@ -21,9 +21,6 @@ import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 
-/* Constants */
-import { DEFAULT_PAGES_LIST } from '../../../../constants/KeywordResearch/KeywordReverse';
-
 /* Containers */
 import SearchTerm from './SearchTerm';
 
@@ -58,8 +55,8 @@ const ReverseTable = (props: Props) => {
     fetchKeywordReverseTableInformation({ sort: sortColumn, sortDir: sortType });
   };
 
-  const handlePageChange = (pageNo: number, perPageNo?: number) => {
-    fetchKeywordReverseTableInformation({ page: pageNo, per_page: perPageNo });
+  const handlePageChange = (pageNo: number) => {
+    fetchKeywordReverseTableInformation({ page: pageNo });
   };
 
   return (
@@ -121,7 +118,7 @@ const ReverseTable = (props: Props) => {
           <StatsCell dataKey="competing_products" prependWith="> " align="center" />
         </Table.Column>
 
-        {/* Position Rank */}
+        {/* Position  */}
         <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
@@ -134,7 +131,7 @@ const ReverseTable = (props: Props) => {
           <StatsCell dataKey="position_rank" align="center" />
         </Table.Column>
 
-        {/* Relative Rank  */}
+        {/* Position  */}
         <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
@@ -181,9 +178,6 @@ const ReverseTable = (props: Props) => {
             currentPage={keywordReverseTablePaginationInfo.current_page}
             onPageChange={handlePageChange}
             showSiblingsCount={3}
-            showPerPage={true}
-            perPage={keywordReverseTablePaginationInfo.per_page}
-            perPageList={DEFAULT_PAGES_LIST}
           />
         </footer>
       )}

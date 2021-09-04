@@ -12,16 +12,15 @@ interface Props {
   handleChange: (value: string) => void;
   disabled?: boolean;
   error?: boolean;
-  className?: string;
 }
 const InputFilter: React.FC<Props> = props => {
-  const { label, placeholder, value, handleChange, className, ...otherProps } = props;
+  const { label, placeholder, value, handleChange, ...otherProps } = props;
 
   return (
     <div className={styles.inputFilter}>
       {label && <p>{label}</p>}
       <Input
-        className={`${styles.inputWrapper} ${className} textInputFilter`}
+        className={`${styles.inputWrapper} textInputFilter`}
         type="text"
         placeholder={placeholder}
         value={value}

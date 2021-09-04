@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { TabList, TabPanel, Tabs, Tab } from 'react-tabs';
-import { connect } from 'react-redux';
 
 /* Components */
 import styles from './index.module.scss';
@@ -12,33 +11,21 @@ import MarketplaceDropdown from '../../components/MarketplaceDropdown';
 
 /* Containers */
 import KeywordReverse from './KeywordReverse';
-import KeywordDatabase from './KeywordDatabase';
-import KeywordTracker from './KeywordTracker';
-
-/* Actions */
-import { resetKeywordResearch } from '../../actions/KeywordResearch';
 
 interface Props {
   match: any;
-  resetKeywordResearch: () => void;
 }
 
-const keywordResearchMapper = ['Reverse', 'Database', 'Tracker'];
+const keywordResearchMapper = ['Reverse', 'Keywords', 'Reverse', 'Targeting'];
 
 const KeywordResearch = (props: Props) => {
-  const { match, resetKeywordResearch } = props;
+  const { match } = props;
 
-  const [selectedTabList, setSelectedTabList] = useState<number>(2);
+  const [selectedTabList, setSelectedTabList] = useState<number>(0);
 
   const handleTabChange = (index: number) => {
     setSelectedTabList(index);
   };
-
-  useEffect(() => {
-    return () => {
-      resetKeywordResearch();
-    };
-  }, []);
 
   return (
     <>
@@ -68,21 +55,11 @@ const KeywordResearch = (props: Props) => {
             selectedIndex={selectedTabList}
           >
             <TabList className={styles.productTablist}>
-              {keywordResearchMapper.map((keywordPrdouct: string) => (
-                <Tab key={keywordPrdouct}>{keywordPrdouct}</Tab>
-              ))}
+              <Tab>Reverse</Tab>
             </TabList>
 
             <TabPanel>
               <KeywordReverse />
-            </TabPanel>
-
-            <TabPanel>
-              <KeywordDatabase />
-            </TabPanel>
-
-            <TabPanel>
-              <KeywordTracker />
             </TabPanel>
           </Tabs>
         </section>
@@ -91,9 +68,4 @@ const KeywordResearch = (props: Props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    resetKeywordResearch: () => dispatch(resetKeywordResearch()),
-  };
-};
-export default connect(null, mapDispatchToProps)(KeywordResearch);
+export default KeywordResearch;

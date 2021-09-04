@@ -1,6 +1,8 @@
 @import '../../../design-system/colors.scss';
 
 .inputFilter {
+  width: max-content;
+
   p {
     margin: 0;
     color: $sellgo-text;
@@ -10,7 +12,7 @@
 }
 
 .inputWrapper {
-  min-width: 230px;
+  min-width: 225px;
 
   input {
     border: 1px solid $grey_6 !important;

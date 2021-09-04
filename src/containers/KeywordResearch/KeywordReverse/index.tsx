@@ -77,7 +77,7 @@ const KeywordReverse = (props: Props) => {
         history.replace('/keyword-research');
       }
     } else {
-      const keywordId = sessionStorage.getItem('keywordReverseRequestId') || '';
+      const keywordId = sessionStorage.getItem('keywordRequestId') || '';
 
       if (keywordId) {
         fetchKeywordReverseTableInformation({});

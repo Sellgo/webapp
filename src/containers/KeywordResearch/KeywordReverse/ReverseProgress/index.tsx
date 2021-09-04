@@ -2,11 +2,6 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { Progress } from 'semantic-ui-react';
-
-/* Styling */
-import '../../../../styles/progressReset.scss';
-
-/* Actions */
 import {
   fetchKeywordReverseProgress,
   shouldFetchKeywordReverseProgress,
@@ -16,17 +11,19 @@ import {
 import { useInterval } from '../../../../hooks/useInterval';
 
 /* Inerfaces */
-import { KeywordReverseProgressData } from '../../../../interfaces/KeywordResearch/KeywordReverse';
+import { ReverseKeywordProgressData } from '../../../../interfaces/KeywordResearch/KeywordReverse';
 
-/* Selectors */
 import {
   getKeywordReverseProgressData,
   getShouldFetchKeywordReverseProgress,
 } from '../../../../selectors/KeywordResearch/KeywordReverse';
 
+/* Styling */
+import './index.scss';
+
 interface Props {
   shouldFetchKeywordReverseProgressState: boolean;
-  keywordReverseProgressData: KeywordReverseProgressData;
+  keywordReverseProgressData: ReverseKeywordProgressData;
   fetchKeywordReverseProgress: () => void;
   shouldFetchKeywordReverseProgressAction: (payload: boolean) => void;
 }
@@ -55,7 +52,7 @@ const ReverseProgress = (props: Props) => {
           percent={progressPercent || 0}
           progress
           indicating
-          className={'defaultProgressBar'}
+          className={'keywordReverseProgress'}
         />
       )}
     </>
