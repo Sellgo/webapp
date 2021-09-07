@@ -1,0 +1,44 @@
+@import '../../../../design-system/new-colors';
+
+.filterSection {
+  border-top: 0;
+  padding: 0 20px !important;
+}
+
+/* Basic Filter Styles */
+.basicFilters {
+  display: grid;
+  grid-template-columns: 500px 1fr;
+  padding: 30px 0 !important;
+  padding-bottom: 0 !important;
+  height: max-content;
+  grid-column-gap: 30px;
+  grid-row-gap: 20px;
+
+  @media only screen and (max-width: 1550px) {
+    grid-template-rows: repeat(auto, 1fr);
+  }
+}
+
+.longInput {
+  min-width: 100% !important;
+  width: 100% !important;
+}
+
+.checkbox {
+  font-size: 14px !important;
+
+  label {
+    color: $grey_6 !important;
+  }
+
+  label::before {
+    border-radius: 4px !important;
+    border: 1px solid $grey_3 !important;
+  }
+
+  input:checked ~ .box::after,
+  input:checked ~ label::after {
+    color: $grey_8 !important;
+  }
+}

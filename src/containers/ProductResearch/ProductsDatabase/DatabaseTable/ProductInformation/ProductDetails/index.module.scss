@@ -1,32 +1,35 @@
 @import '../../../../../../design-system/new-colors.scss';
 
 .productDetails {
-  position: relative;
   background-color: inherit;
   height: 100%;
-  width: 70%;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
+  flex: 1;
 }
 
 .productDetailsHeading {
   padding: 0;
-  width: 100px !important;
-  font-size: 18px;
-  font-weight: 600;
-  color: $prim_dark_2;
+  width: max-content;
+  font-size: 14px;
+  font-weight: 500;
+  color: $prim_dark_1;
   margin: 0;
+  line-height: 1;
+}
 
-  &__bottom {
-    margin-bottom: 8px;
-  }
+.otherProductDetails {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
 .productDetailsText {
   font-size: 12px;
-  font-weight: normal;
-  color: $prim_dark_2;
+  color: $grey_8 !important;
   margin: 0;
 }

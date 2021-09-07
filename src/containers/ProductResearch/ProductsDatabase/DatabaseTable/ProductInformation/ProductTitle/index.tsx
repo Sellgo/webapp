@@ -13,6 +13,7 @@ import { truncateString } from '../../../../../../utils/format';
 /* Images */
 import amazonsChoiceImg from '../../../../../../assets/images/amazon_choice.svg';
 import bestSellerImg from '../../../../../../assets/images/best-seller.png';
+import placeholderImage from '../../../../../../assets/images/placeholderImage.svg';
 
 interface Props {
   asin: string;
@@ -35,9 +36,12 @@ const ProductTitle = (props: Props) => {
     upcDisplayString = '';
   }
 
+  // use image with size 140
+  const productImage = image ? image.replace('SL75', 'SL140') : placeholderImage;
+
   return (
     <div className={styles.productTitle}>
-      <img src={image} className={styles.productImage} />
+      <img src={productImage} className={styles.productImage} />
       <div className={styles.amazonsChoiceOrBestSellerRow}>
         {isBestSeller && <img src={bestSellerImg} className={styles.amazonsChoiceImg} />}
         {isAmazonsChoice && <img src={amazonsChoiceImg} className={styles.amazonsChoiceImg} />}

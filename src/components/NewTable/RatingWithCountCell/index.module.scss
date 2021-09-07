@@ -2,16 +2,17 @@
 
 .ratingCell {
   display: flex;
-  align-items: center;
-  justify-self: center;
+  align-items: flex-start;
+  justify-items: flex-start;
   flex-direction: column;
+  color: $grey_8 !important;
+
+  p {
+    align-self: center;
+  }
 }
 
 .ratingIcon {
   font-size: 12px !important;
-}
-
-.reviewCount {
-  font-size: 18px;
-  font-weight: normal;
+  color: $grey_8 !important;
 }

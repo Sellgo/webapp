@@ -1,0 +1,22 @@
+@import '../../../../../design-system/new-colors.scss';
+
+.changeStatPeriod {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  svg {
+    align-self: center !important;
+    width: 28px;
+    height: 28px;
+    user-select: none;
+
+    &:first-child {
+      margin-bottom: 25px;
+
+      path {
+        fill: $blue_8;
+      }
+    }
+  }
+}

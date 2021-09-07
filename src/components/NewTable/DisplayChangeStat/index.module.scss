@@ -1,0 +1,24 @@
+@import '../../../design-system/new-colors';
+
+.displayStatChange {
+  font-size: 14px !important;
+  color: $grey_8;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: max-content !important;
+}
+
+.stat {
+  font-size: 14px;
+}
+
+.changeNegative {
+  color: $system_red !important;
+  font-size: 12px;
+}
+
+.changePositive {
+  color: $system_green !important;
+  font-size: 12px;
+}

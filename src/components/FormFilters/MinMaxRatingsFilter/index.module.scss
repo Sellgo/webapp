@@ -5,8 +5,8 @@
 
   p {
     margin: 0;
-    color: $sellgo-text;
-    font-size: 16px;
+    color: $grey_8;
+    font-size: 14px;
     font-weight: 500;
   }
 }
@@ -18,5 +18,9 @@
 
   svg {
     margin: 0 10px;
+
+    path {
+      fill: $grey_6 !important;
+    }
   }
 }

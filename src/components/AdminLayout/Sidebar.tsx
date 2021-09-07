@@ -12,6 +12,7 @@ import { LogoWithoutText } from '../Logo/index';
 import sellerFinderIcon from '../../assets/images/sellerFinder.svg';
 import productResearchIcon from '../../assets/images/product-research.svg';
 import sellerMapIcon from '../../assets/images/sellerMapIcon.svg';
+import placeholderIcon from '../../assets/placeholder.svg';
 
 import BetaLabel from '../BetaLabel';
 import { isBetaAccount, isSubscriptionIdFreeAccount } from '../../utils/subscriptions';
@@ -81,6 +82,7 @@ class SidebarCollapsible extends Component<
         path: '/seller-research',
         notifyId: 4,
         imageType: true,
+        isBeta: true,
       },
       {
         id: 6,
@@ -89,6 +91,7 @@ class SidebarCollapsible extends Component<
         path: '/seller-finder',
         notifyId: 4,
         imageType: true,
+        isBeta: true,
       },
       {
         id: 7,
@@ -97,10 +100,20 @@ class SidebarCollapsible extends Component<
         path: '/product-research',
         notifyId: 4,
         imageType: true,
+        isBeta: true,
       },
-      { id: 8, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
       {
-        id: 9,
+        id: 8,
+        label: 'Keyword Research',
+        icon: placeholderIcon,
+        path: '/keyword-research',
+        notifyId: 4,
+        imageType: true,
+        isBeta: true,
+      },
+      { id: 9, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
+      {
+        id: 10,
         label: 'Onboarding',
         icon: 'far fa-question-circle',
         path: '/onboarding',
@@ -117,8 +130,8 @@ class SidebarCollapsible extends Component<
     const { visible, sidebarIcon } = this.state;
     const { children, currentNotifyId, sellerSubscription } = this.props;
 
-    const upperNavbar = this.state.sidebarIcon.filter(icon => icon.id < 8);
-    const lowerNavbar = this.state.sidebarIcon.filter(icon => icon.id >= 8);
+    const upperNavbar = this.state.sidebarIcon.filter(icon => icon.id < 9);
+    const lowerNavbar = this.state.sidebarIcon.filter(icon => icon.id >= 9);
 
     let supplier_id = '';
 
@@ -159,7 +172,7 @@ class SidebarCollapsible extends Component<
                 {icon.imageType ? (
                   <>
                     <img src={icon.icon} alt="Icons" data-disabled={isFreeeAccount} />
-                    {(icon.id === 5 || icon.id === 6 || icon.id === 7) && <BetaLabel />}
+                    {icon.isBeta && <BetaLabel />}
                   </>
                 ) : (
                   <i
@@ -180,7 +193,7 @@ class SidebarCollapsible extends Component<
               <Menu.Item
                 key={icon.id}
                 as={
-                  (isFreeeAccount && icon.id === 9) || (isBetaUser && icon.path === '/settings')
+                  (isFreeeAccount && icon.id === 10) || (isBetaUser && icon.path === '/settings')
                     ? 'div'
                     : Link
                 }
@@ -189,12 +202,12 @@ class SidebarCollapsible extends Component<
                 active={links[icon.id - 1] === currentPath}
                 className={'sidebar-menu__items'}
                 disabled={
-                  (isFreeeAccount && icon.id === 9) || (isBetaUser && icon.path === '/settings')
+                  (isFreeeAccount && icon.id === 10) || (isBetaUser && icon.path === '/settings')
                 }
               >
                 <i
                   className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId && 'forward'} ${
-                    (isFreeeAccount && icon.id === 9) || (isBetaUser && icon.path === '/settings')
+                    (isFreeeAccount && icon.id === 10) || (isBetaUser && icon.path === '/settings')
                       ? 'disabled-link'
                       : ''
                   } `}
