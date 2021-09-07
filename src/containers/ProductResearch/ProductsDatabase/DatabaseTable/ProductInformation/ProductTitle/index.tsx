@@ -41,15 +41,21 @@ const ProductTitle = (props: Props) => {
 
   return (
     <div className={styles.productTitle}>
+      {/* Product Image */}
       <img src={productImage} className={styles.productImage} />
+
       <div className={styles.flagAndTitleRow}>
         <img className={styles.flagIcon} src={require(`../../../../../../assets/flags/US.png`)} />
+        {/* ASIN and UPC details */}
         <div className={styles.productTitleTextBox}>
+          {/* ASIN */}
           {asin.length > 0 ? (
             <CopyAndLocateClipboard data={asin} link={`http://www.amazon.com/dp/${props.asin}`} />
           ) : (
             '-'
           )}
+
+          {/* UPC */}
           <span className={styles.upcText}>
             {upcString && upcString.length > 0 ? (
               <CopyToClipboard
@@ -63,6 +69,8 @@ const ProductTitle = (props: Props) => {
           </span>
         </div>
       </div>
+
+      {/* Best seller or amazon's choice images */}
       <div className={styles.amazonsChoiceOrBestSellerRow}>
         {isBestSeller && <img src={bestSellerImg} className={styles.amazonsChoiceImg} />}
         {isAmazonsChoice && <img src={amazonsChoiceImg} className={styles.amazonsChoiceImg} />}
