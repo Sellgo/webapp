@@ -29,7 +29,7 @@ const CheckboxDropdown: React.FC<Props> = props => {
         className={`${styles.inputWrapper} textInputFilter`}
         type="text"
         placeholder={label}
-        value={selectedValues}
+        value={selectedValues && selectedValues.join(', ')}
         icon={{ name: 'dropdown', className: styles.dropdownArrow }}
       />
     </button>
