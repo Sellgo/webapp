@@ -18,6 +18,7 @@ import {
   resetKeywordDatabase,
 } from '../../../../actions/KeywordResearch/KeywordDatabase';
 import { connect } from 'react-redux';
+import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
 
 interface Props {
   fetchKeywordDatabaseTableInfo: (payload: KeywordDatabaseTablePayload) => void;
@@ -31,40 +32,42 @@ const DatabaseFilters = (props: Props) => {
 
   /* Basic Filters */
   const [searchVolume, setSearchVolume] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [positionRank, setPositionRank] = useState(DEFAULT_MIN_MAX_FILTER);
   const [wordCount, setWordCount] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [competingProducts, setCompetitingProducts] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [titleDensity, setTitleDensity] = useState(DEFAULT_MIN_MAX_FILTER);
+
+  const [amazonChoice, setAmazonChoice] = useState<boolean>(false);
 
   /* Advanced Filters */
-  const [sponsoredAsins, setSponsoredAsins] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [competingProducts, setCompetitingProducts] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [relativeRank, setRelativeRank] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [competitorRank, setCompetitorRank] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [rankingCompetitors, setRankingCompetitors] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [searchVolumeTrend30D, setSearchVolumeVolumeTrend30D] = useState(DEFAULT_MIN_MAX_FILTER);
   const [searchTerm, setSearchTerm] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
   /* Handle Reset */
   const handleReset = () => {
+    /* Basic Filters */
     setSearchVolume(DEFAULT_MIN_MAX_FILTER);
-    setPositionRank(DEFAULT_MIN_MAX_FILTER);
     setWordCount(DEFAULT_MIN_MAX_FILTER);
-    setSponsoredAsins(DEFAULT_MIN_MAX_FILTER);
-    setRelativeRank(DEFAULT_MIN_MAX_FILTER);
-    setCompetitorRank(DEFAULT_MIN_MAX_FILTER);
-    setRankingCompetitors(DEFAULT_MIN_MAX_FILTER);
     setCompetitingProducts(DEFAULT_MIN_MAX_FILTER);
+    setTitleDensity(DEFAULT_MIN_MAX_FILTER);
+
+    /* Advanced Filters */
+    setSearchVolumeVolumeTrend30D(DEFAULT_MIN_MAX_FILTER);
     setSearchTerm(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+
     resetKeywordDatabase();
   };
 
   const handleSubmit = () => {
     const filterPayload = {
+      /* Basic Filters */
       searchVolume,
-      positionRank,
-      sponsoredAsins,
+      wordCount,
       competingProducts,
-      relativeRank,
-      competitorRank,
-      rankingCompetitors,
+      titleDensity,
+      amazonChoice,
+
+      /* Advanced Filters */
+      searchVolumeTrend30D,
       searchTerm,
     };
     fetchKeywordDatabaseTableInfo({ filterPayload });
@@ -87,19 +90,6 @@ const DatabaseFilters = (props: Props) => {
           }}
         />
 
-        {/* Position Rank  */}
-        <MinMaxFilter
-          label="Position Rank"
-          minValue={positionRank.min}
-          maxValue={positionRank.max}
-          handleChange={(type, value) => {
-            setPositionRank(prevState => ({
-              ...prevState,
-              [type]: value,
-            }));
-          }}
-        />
-
         {/* Word Count  */}
         <MinMaxFilter
           label="Word Count"
@@ -110,6 +100,41 @@ const DatabaseFilters = (props: Props) => {
               ...prevState,
               [type]: value,
             }));
+          }}
+        />
+
+        {/* Competing Products */}
+        <MinMaxFilter
+          label="Competing Products"
+          minValue={competingProducts.min}
+          maxValue={competingProducts.max}
+          handleChange={(type, value) => {
+            setCompetitingProducts(prevState => ({
+              ...prevState,
+              [type]: value,
+            }));
+          }}
+        />
+
+        {/* Title Density */}
+        <MinMaxFilter
+          label="Title Density"
+          minValue={titleDensity.min}
+          maxValue={titleDensity.max}
+          handleChange={(type, value) => {
+            setTitleDensity(prevState => ({
+              ...prevState,
+              [type]: value,
+            }));
+          }}
+        />
+
+        <CheckboxFilter
+          label="Amazon Choice"
+          checkboxLabel="Amazon Choice"
+          checked={amazonChoice}
+          handleChange={(data: boolean) => {
+            setAmazonChoice(data);
           }}
         />
       </div>
@@ -128,74 +153,21 @@ const DatabaseFilters = (props: Props) => {
 
         {showAdvancedFilter && (
           <div className={styles.showAdvancedFilter}>
-            {/* Sponsored Rank count */}
+            {/* Search Volume Trend */}
             <MinMaxFilter
-              label="Sponsored ASINs"
-              minValue={sponsoredAsins.min}
-              maxValue={sponsoredAsins.max}
+              label="Search Volume Trend (30-day)"
+              minValue={searchVolumeTrend30D.min}
+              maxValue={searchVolumeTrend30D.max}
               handleChange={(type, value) => {
-                setSponsoredAsins(prevState => ({
+                setSearchVolumeVolumeTrend30D(prevState => ({
                   ...prevState,
                   [type]: value,
                 }));
               }}
             />
-
-            {/* Relative Rank */}
-            <MinMaxFilter
-              label="Relative Rank"
-              minValue={relativeRank.min}
-              maxValue={relativeRank.max}
-              handleChange={(type, value) => {
-                setRelativeRank(prevState => ({
-                  ...prevState,
-                  [type]: value,
-                }));
-              }}
-            />
-
-            {/* Competitor Rank */}
-            <MinMaxFilter
-              label="Competitor Rank"
-              minValue={competitorRank.min}
-              maxValue={competitorRank.max}
-              handleChange={(type, value) => {
-                setCompetitorRank(prevState => ({
-                  ...prevState,
-                  [type]: value,
-                }));
-              }}
-            />
-
-            {/* Ranking Competitors */}
-            <MinMaxFilter
-              label="Ranking Competitors"
-              minValue={rankingCompetitors.min}
-              maxValue={rankingCompetitors.max}
-              handleChange={(type, value) => {
-                setRankingCompetitors(prevState => ({
-                  ...prevState,
-                  [type]: value,
-                }));
-              }}
-            />
-
-            {/* Competing Products */}
-            <MinMaxFilter
-              label="Competing Products"
-              minValue={competingProducts.min}
-              maxValue={competingProducts.max}
-              handleChange={(type, value) => {
-                setCompetitingProducts(prevState => ({
-                  ...prevState,
-                  [type]: value,
-                }));
-              }}
-            />
-
             {/* Include Search Terms)  */}
             <InputFilter
-              label="Include Search Term"
+              label="Include Search Terms that contain"
               value={searchTerm.include}
               handleChange={value =>
                 setSearchTerm(prevState => ({
@@ -203,12 +175,13 @@ const DatabaseFilters = (props: Props) => {
                   include: value,
                 }))
               }
-              placeholder="Enter Search Term"
+              placeholder="Enter words"
+              className={styles.longInput}
             />
 
             {/* Exclude Search Terms)  */}
             <InputFilter
-              label="Exclude Search Terms"
+              label="Exclude Search Terms that contain"
               value={searchTerm.exclude}
               handleChange={value =>
                 setSearchTerm(prevState => ({
@@ -216,7 +189,8 @@ const DatabaseFilters = (props: Props) => {
                   exclude: value,
                 }))
               }
-              placeholder="Enter Search Term"
+              placeholder="Enter words"
+              className={styles.longInput}
             />
           </div>
         )}
