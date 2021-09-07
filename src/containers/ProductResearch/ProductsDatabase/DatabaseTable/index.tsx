@@ -158,7 +158,7 @@ const ProductsDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Reviews */}
-          <Table.Column width={120} sortable verticalAlign="middle" align="center">
+          <Table.Column width={120} sortable verticalAlign="middle" align="left" flexGrow={1}>
             <Table.HeaderCell>
               <HeaderSortCell
                 title="Reviews"
