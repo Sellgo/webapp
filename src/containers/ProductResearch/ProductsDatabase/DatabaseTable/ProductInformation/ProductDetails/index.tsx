@@ -4,6 +4,7 @@ import {
   formatNumber,
   showNAIfZeroOrNull,
   formatDecimal,
+  truncateIntoTwoLines,
 } from '../../../../../../utils/format';
 
 /* Styling */
@@ -37,10 +38,13 @@ const ProductDetails = (props: Props) => {
     variationCount,
   } = props;
 
+  const [firstPart, secondPart] = truncateIntoTwoLines(title, 50, 86);
+
   return (
     <div className={styles.productDetails}>
       {/* Heading */}
-      <h2 className={styles.productDetailsHeading}>{showNAIfZeroOrNull(title, title)}</h2>
+      <h2 className={styles.productDetailsHeading}>{firstPart}</h2>
+      <h2 className={styles.productDetailsHeading}>{secondPart}</h2>
 
       {/* Other Product Details */}
       {brand && brand.length > 0 && (

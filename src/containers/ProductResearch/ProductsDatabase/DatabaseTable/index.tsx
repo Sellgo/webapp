@@ -92,7 +92,7 @@ const ProductsDatabaseTable = (props: Props) => {
           id="productDatabaseTable"
         >
           {/* Product Information  */}
-          <Table.Column minWidth={450} verticalAlign="middle" fixed flexGrow={1} align="center">
+          <Table.Column width={600} verticalAlign="middle" fixed align="center">
             <Table.HeaderCell>Product Information</Table.HeaderCell>
             <ProductInformation dataKey="productInformation" />
           </Table.Column>
