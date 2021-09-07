@@ -7,9 +7,6 @@ import { formatNumber, truncateIntoTwoLines } from '../../../utils/format';
 /* Types */
 import { RowCell } from '../../../interfaces/Table';
 
-/* Styles */
-import styles from './index.module.scss';
-
 const BSRCell = (props: RowCell) => {
   const { rowData, dataKey } = props;
 
@@ -29,7 +26,7 @@ const BSRCell = (props: RowCell) => {
   return (
     <Table.Cell {...props}>
       {bsrToDisplay ? (
-        <span className={styles.bsrCell}>
+        <span>
           <span>{formatNumber(bsrToDisplay.rank)}</span>
           <span> {categoryString && categoryString[0]} </span>
           <span> {categoryString && categoryString[1]} </span>

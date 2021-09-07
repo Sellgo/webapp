@@ -110,10 +110,13 @@ export const parseFilterPayload = (productFilters: any) => {
     }
 
     if (type === F_TYPES.CHECK_BOX && Object.keys(f).length > 0) {
-      return {
-        ...acc,
-        [keyName]: f,
-      };
+      // At least one checkbox is selected
+      if (Object.keys(f).find(key => f[key])) {
+        return {
+          ...acc,
+          [keyName]: f,
+        };
+      }
     }
 
     return acc;

@@ -30,6 +30,16 @@
       font-size: 12px !important;
       color: $grey_8 !important;
     }
+
+    label::before {
+      border-radius: 4px !important;
+      border: 1px solid $grey_3 !important;
+    }
+
+    input:checked ~ .box::after,
+    input:checked ~ label::after {
+      color: $grey_8 !important;
+    }
   }
 }
 
