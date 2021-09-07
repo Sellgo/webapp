@@ -26,11 +26,15 @@ import {
 /* Actions */
 import { fetchKeywordDatabaseTableInformation } from '../../../../actions/KeywordResearch/KeywordDatabase';
 
+/* Assets */
+import amazonChoiceLabel from '../../../../assets/amazonLabels/amazonChoiceLabel.png';
+
 /* Interfaces */
 import {
   KeywordDatabasePaginationInfo,
   KeywordDatabaseTablePayload,
 } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
+import MatchTypeCell from '../../../../components/NewTable/MatchTypeCell';
 
 interface Props {
   isLoadingKeywordDatabaseTable: boolean;
@@ -73,24 +77,41 @@ const DatabaseTable = (props: Props) => {
         data={keywordDatabaseTableResults}
         autoHeight
         hover={false}
-        rowHeight={65}
-        headerHeight={60}
+        rowHeight={50}
+        headerHeight={65}
         sortColumn={sortColumn}
         sortType={sortType}
         id="keywordDatabaseTable"
         onSortColumn={handleSortColumn}
       >
         {/* Search Term */}
-        <Table.Column verticalAlign="middle" fixed align="left" width={800} flexGrow={1}>
+        <Table.Column width={800} verticalAlign="middle" fixed align="left" flexGrow={1}>
           <Table.HeaderCell>Search Term</Table.HeaderCell>
-          <SearchTerm dataKey="searchTerm" />
+          <SearchTerm dataKey="phrase" />
+        </Table.Column>
+
+        {/* Amzon Choice */}
+        <Table.Column width={140} verticalAlign="middle" align="left">
+          <Table.HeaderCell>Amazon Choice</Table.HeaderCell>
+          <Table.Cell>
+            {(rowData: any) => {
+              const { amazon_choice_asins } = rowData;
+              return (
+                <div className={styles.amazonChoiceLabel}>
+                  {amazon_choice_asins > 0 ? (
+                    <img src={amazonChoiceLabel} alt="Amazon Choice Lable" />
+                  ) : null}
+                </div>
+              );
+            }}
+          </Table.Cell>
         </Table.Column>
 
         {/* Search Volume */}
-        <Table.Column width={200} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={120} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Search Volume`}
+              title={`Search\nVolume`}
               dataKey="search_volume"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
@@ -99,24 +120,24 @@ const DatabaseTable = (props: Props) => {
           <StatsCell dataKey="search_volume" align="center" specialKpi />
         </Table.Column>
 
-        {/* Word Count  */}
-        <Table.Column width={200} verticalAlign="middle" fixed align="left" sortable>
+        {/* Search Volume L30D */}
+        <Table.Column width={120} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Word Count`}
-              dataKey="word_count"
+              title={`Search\nVolume\nL30D`}
+              dataKey="search_volume"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="word_count" align="center" />
+          <StatsCell dataKey="search_volume" align="center" specialKpi />
         </Table.Column>
 
         {/* Sponsored ASINS */}
-        <Table.Column width={200} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={120} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Sponsored ASINs`}
+              title={`Sponsored\nASINs`}
               dataKey="sponsored_asins"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
@@ -125,17 +146,56 @@ const DatabaseTable = (props: Props) => {
           <StatsCell dataKey="sponsored_asins" align="center" />
         </Table.Column>
 
-        {/* Competing Products  */}
-        <Table.Column width={200} verticalAlign="middle" fixed align="left" sortable>
+        {/* Word Count  */}
+        <Table.Column width={120} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Competing Products`}
+              title={`Word\nCount`}
+              dataKey="word_count"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="word_count" align="center" />
+        </Table.Column>
+
+        {/* Competing Products  */}
+        <Table.Column width={120} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Competing\nProducts`}
               dataKey="competing_products"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
             />
           </Table.HeaderCell>
           <StatsCell dataKey="competing_products" prependWith="> " align="center" />
+        </Table.Column>
+
+        {/* Match Type  */}
+        <Table.Column width={120} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Match`}
+              dataKey="match"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <MatchTypeCell dataKey="match" />
+        </Table.Column>
+
+        {/* Title Density */}
+        <Table.Column width={120} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Title\nDensity`}
+              dataKey="title_density"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="search_volume" />
         </Table.Column>
       </Table>
 

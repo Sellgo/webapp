@@ -8,6 +8,7 @@ import styles from './index.module.scss';
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
+import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
 
 /* Constants */
 import { DEFAULT_MIN_MAX_FILTER } from '../../../../constants/KeywordResearch/KeywordDatabase';
@@ -18,7 +19,6 @@ import {
   resetKeywordDatabase,
 } from '../../../../actions/KeywordResearch/KeywordDatabase';
 import { connect } from 'react-redux';
-import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
 
 interface Props {
   fetchKeywordDatabaseTableInfo: (payload: KeywordDatabaseTablePayload) => void;
@@ -35,7 +35,6 @@ const DatabaseFilters = (props: Props) => {
   const [wordCount, setWordCount] = useState(DEFAULT_MIN_MAX_FILTER);
   const [competingProducts, setCompetitingProducts] = useState(DEFAULT_MIN_MAX_FILTER);
   const [titleDensity, setTitleDensity] = useState(DEFAULT_MIN_MAX_FILTER);
-
   const [amazonChoice, setAmazonChoice] = useState<boolean>(false);
 
   /* Advanced Filters */
@@ -129,6 +128,7 @@ const DatabaseFilters = (props: Props) => {
           }}
         />
 
+        {/* Amazon Choice */}
         <CheckboxFilter
           label="Amazon Choice"
           checkboxLabel="Amazon Choice"
