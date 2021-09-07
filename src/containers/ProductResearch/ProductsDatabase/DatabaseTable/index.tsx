@@ -92,12 +92,12 @@ const ProductsDatabaseTable = (props: Props) => {
           id="productDatabaseTable"
         >
           {/* Product Information  */}
-          <Table.Column width={600} verticalAlign="middle" fixed align="center">
+          <Table.Column verticalAlign="middle" fixed align="center" flexGrow={5}>
             <Table.HeaderCell>Product Information</Table.HeaderCell>
             <ProductInformation dataKey="productInformation" />
           </Table.Column>
           {/* # Sellers */}
-          <Table.Column width={130} sortable verticalAlign="middle" align="center">
+          <Table.Column width={130} sortable verticalAlign="middle" align="center" flexGrow={1}>
             <Table.HeaderCell>
               <HeaderSortCell
                 title="Sellers"
@@ -109,7 +109,7 @@ const ProductsDatabaseTable = (props: Props) => {
             <StatsCell dataKey="seller_count" align="right" specialKpi />
           </Table.Column>
           {/* Price */}
-          <Table.Column width={130} sortable verticalAlign="middle" align="center">
+          <Table.Column width={130} sortable verticalAlign="middle" align="center" flexGrow={1}>
             <Table.HeaderCell>
               <HeaderSortCell
                 title="Price"
@@ -121,7 +121,7 @@ const ProductsDatabaseTable = (props: Props) => {
             <StatsCell dataKey="price" prependWith="$" align="right" />
           </Table.Column>
           {/* Monthly Sales */}
-          <Table.Column width={150} sortable verticalAlign="middle" align="center">
+          <Table.Column width={150} sortable verticalAlign="middle" align="center" flexGrow={1}>
             <Table.HeaderCell>
               <HeaderSortCell
                 title="Monthly Sales"
@@ -133,7 +133,7 @@ const ProductsDatabaseTable = (props: Props) => {
             <StatsCell dataKey="monthly_sales" align="right" />
           </Table.Column>
           {/* Monthly Revenue */}
-          <Table.Column width={170} sortable verticalAlign="middle" align="center">
+          <Table.Column width={170} sortable verticalAlign="middle" align="center" flexGrow={1}>
             <Table.HeaderCell>
               <HeaderSortCell
                 title="Monthly Revenue"
@@ -145,7 +145,7 @@ const ProductsDatabaseTable = (props: Props) => {
             <StatsCell dataKey="monthly_revenue" prependWith="$" align="right" />
           </Table.Column>
           {/* BSR */}
-          <Table.Column width={100} sortable verticalAlign="middle" align="center">
+          <Table.Column width={100} sortable verticalAlign="middle" align="center" flexGrow={1}>
             <Table.HeaderCell>
               <HeaderSortCell
                 title="BSR"
