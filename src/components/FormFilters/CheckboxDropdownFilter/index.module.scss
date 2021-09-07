@@ -5,8 +5,8 @@
 
   p {
     margin: 0;
-    color: $sellgo-text;
-    font-size: 16px;
+    color: $grey_8 !important;
+    font-size: 14px;
     font-weight: 500;
   }
 }
@@ -14,13 +14,6 @@
 .dropdownWrapper {
   padding-top: 18px;
   padding-left: 10px;
-}
-
-.dropdownTitle {
-  font-size: 16px;
-  color: $prim_dark_1;
-  font-weight: 500;
-  margin-bottom: 20px;
 }
 
 .checkboxListWrapper {
@@ -32,6 +25,11 @@
   .checkboxOption {
     margin-bottom: 18px;
     width: 20rem;
+
+    label {
+      font-size: 12px !important;
+      color: $grey_8 !important;
+    }
   }
 }
 
@@ -45,8 +43,9 @@
   min-width: 225px;
 
   .dropdownArrow {
-    color: $prim_dark_2 !important;
     opacity: 1 !important;
+    color: $grey_8 !important;
+    font-size: 11px !important;
     height: 1em;
   }
 
@@ -54,8 +53,8 @@
     border: 1px solid $grey_3 !important;
     outline: 0 !important;
     border-radius: 3px;
-    font-size: 12px;
-    color: $sellgo-text !important;
+    font-size: 12px !important;
+    color: $grey_8 !important;
     height: 35px !important;
     padding: 10px !important;
     width: 100%;
