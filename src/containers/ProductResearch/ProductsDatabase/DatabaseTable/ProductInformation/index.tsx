@@ -21,8 +21,8 @@ const ProductInformation = (props: RowCell) => {
           asin={rowData.asin}
           image={rowData.image}
           upc={rowData.upc}
-          isAmazonsChoice={rowData.amazons_choice}
-          isBestSeller={rowData.bestseller}
+          isAmazonsChoice={false} // Data not available yet
+          isBestSeller={false} //Data not available yet
         />
         <ProductDetails
           weight={rowData.weight_lbs}

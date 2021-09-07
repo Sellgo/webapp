@@ -42,11 +42,6 @@ const ProductTitle = (props: Props) => {
   return (
     <div className={styles.productTitle}>
       <img src={productImage} className={styles.productImage} />
-      <div className={styles.amazonsChoiceOrBestSellerRow}>
-        {isBestSeller && <img src={bestSellerImg} className={styles.amazonsChoiceImg} />}
-        {isAmazonsChoice && <img src={amazonsChoiceImg} className={styles.amazonsChoiceImg} />}
-      </div>
-
       <div className={styles.flagAndTitleRow}>
         <img className={styles.flagIcon} src={require(`../../../../../../assets/flags/US.png`)} />
         <div className={styles.productTitleTextBox}>
@@ -67,6 +62,10 @@ const ProductTitle = (props: Props) => {
             )}
           </span>
         </div>
+      </div>
+      <div className={styles.amazonsChoiceOrBestSellerRow}>
+        {isBestSeller && <img src={bestSellerImg} className={styles.amazonsChoiceImg} />}
+        {isAmazonsChoice && <img src={amazonsChoiceImg} className={styles.amazonsChoiceImg} />}
       </div>
     </div>
   );

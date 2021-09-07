@@ -45,10 +45,12 @@
 }
 
 .amazonsChoiceOrBestSellerRow {
+  margin-top: 5px;
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: flex-start;
+  align-items: center;
 
   .amazonsChoiceImg {
     max-width: 50%;
