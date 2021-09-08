@@ -26,6 +26,9 @@ import { KeywordReverseAsinProduct } from '../../../../interfaces/KeywordResearc
 /* Utils */
 import { formatNumber, showNAIfZeroOrNull, truncateString } from '../../../../utils/format';
 
+/* Constants */
+import { MAX_ASINS_ALLOWED } from '../../../../constants/KeywordResearch/KeywordReverse';
+
 interface Props {
   isLoadingKeywordReverseProductsList: boolean;
   keywordReverseProductsList: KeywordReverseAsinProduct[];
@@ -33,6 +36,8 @@ interface Props {
 
 const ReverseAsinDisplay = (props: Props) => {
   const { keywordReverseProductsList } = props;
+
+  const totalProducts = keywordReverseProductsList.length;
 
   return (
     <div className={styles.reverseAsinDisplay}>
@@ -66,6 +71,12 @@ const ReverseAsinDisplay = (props: Props) => {
               </>
             );
           })}
+
+        {totalProducts < MAX_ASINS_ALLOWED && (
+          <div className={styles.addAsinCard}>
+            <p>Add ASin</p>
+          </div>
+        )}
       </div>
     </div>
   );
