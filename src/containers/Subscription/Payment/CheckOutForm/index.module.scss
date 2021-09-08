@@ -27,6 +27,7 @@
     font-size: 16px;
     font-weight: 500;
     color: #3b4557;
+    line-height: 20px;
   }
 
   input {
@@ -157,5 +158,25 @@
     border: 1px solid #fc7900;
     background: #fc7900;
     margin-right: 10px;
+  }
+}
+
+.redeemButton {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-top: 20px;
+  height: 40px !important;
+  color: #fc7900;
+  border: 1px solid #fc7900;
+  background: #fff;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: unset;
   }
 }

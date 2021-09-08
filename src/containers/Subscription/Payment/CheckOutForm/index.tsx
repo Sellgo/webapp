@@ -23,6 +23,7 @@ import {
   createSubscription,
   retryInvoiceWithNewPaymentMethod,
   setStripeLoading,
+  checkPromoCode,
 } from '../../../../actions/Settings/Subscription';
 
 /* Hooks */
@@ -37,6 +38,9 @@ import { subscriptionPlans } from '../../data';
 
 /* Styling */
 import styles from './index.module.scss';
+
+/* Types */
+import { PromoCode } from '../../../../interfaces/Subscription';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -63,13 +67,17 @@ interface MyProps {
   retryInvoice: (data: any) => void;
   handlePaymentError: (data: any) => void;
   setStripeLoad: (data: boolean) => void;
+  checkPromoCode: (data: string) => void;
   stripeLoading: boolean;
+  promoLoading: boolean;
+  redeemedPromoCode: PromoCode;
+  promoError: string;
 }
 
 function CheckoutForm(props: MyProps) {
   const stripe: any = useStripe();
   const elements = useElements();
-  const { stripeLoading } = props;
+  const { stripeLoading, checkPromoCode, redeemedPromoCode, promoError, promoLoading } = props;
   const { value: name, bind: bindName } = useInput('');
   const { value: promoCode, bind: bindPromoCode } = useInput('');
   const { value: address, bind: bindAddress } = useInput('');
@@ -96,6 +104,11 @@ function CheckoutForm(props: MyProps) {
     } else {
       return DEFAULT_PROFESSIONAL_PLAN_ID;
     }
+  };
+
+  const handleCheckPromoCode = async (event: any) => {
+    event.preventDefault();
+    checkPromoCode(promoCode);
   };
 
   const handleSubmit = async (event: any) => {
@@ -285,10 +298,20 @@ function CheckoutForm(props: MyProps) {
             size="huge"
             label="Promo Code"
             type="text"
-            placeholder="SELLGO100"
+            placeholder="PROMO"
             {...bindPromoCode}
           />
+          <button
+            disabled={!promoCode || promoLoading}
+            className={styles.redeemButton}
+            onClick={handleCheckPromoCode}
+          >
+            Redeem
+            {promoLoading && <Loader active size="mini" />}
+          </button>
         </Form.Group>
+        {redeemedPromoCode && redeemedPromoCode.message}
+        {promoError}
 
         <div className={styles.paymentMeta}>
           <div className={styles.cardsWrapper}>
@@ -323,10 +346,14 @@ function CheckoutForm(props: MyProps) {
 const mapStateToProps = (state: {}) => ({
   sellerSubscription: get(state, 'subscription.sellerSubscription'),
   stripeLoading: get(state, 'subscription.stripeLoading'),
+  redeemedPromoCode: get(state, 'subscription.promoCode'),
+  promoLoading: get(state, 'subscription.promoLoading'),
+  promoError: get(state, 'subscription.promoError'),
 });
 const mapDispatchToProps = {
   createSubscriptionData: (data: any) => createSubscription(data),
   retryInvoice: (data: any) => retryInvoiceWithNewPaymentMethod(data),
   setStripeLoad: (data: boolean) => setStripeLoading(data),
+  checkPromoCode: (data: string) => checkPromoCode(data),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm);

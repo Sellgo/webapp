@@ -5,6 +5,9 @@ import {
   SET_STRIPE_ERROR,
   SET_STRIPE_LOADING,
   SET_COUPON_APPLIED,
+  SET_PROMO_CODE,
+  SET_PROMO_ERROR,
+  SET_PROMO_LOADING,
 } from '../../../constants/Settings';
 import { AnyAction } from 'redux';
 import { setIn } from '../../../utils/immutablity';
@@ -17,6 +20,9 @@ const initialState = {
   stripeErrorMessage: undefined,
   stripeLoading: false,
   isCouponApplied: false,
+  promoCode: null,
+  promoLoading: false,
+  promoError: '',
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -71,6 +77,19 @@ export default (state = initialState, action: AnyAction) => {
     case SET_COUPON_APPLIED: {
       return setIn(state, 'isCouponApplied', action.payload);
     }
+
+    case SET_PROMO_CODE: {
+      return setIn(state, 'promoCode', action.payload);
+    }
+
+    case SET_PROMO_LOADING: {
+      return setIn(state, 'promoLoading', action.payload);
+    }
+
+    case SET_PROMO_ERROR: {
+      return setIn(state, 'promoError', action.payload);
+    }
+
     default:
       return state;
   }
