@@ -30,6 +30,7 @@ import history from '../../../history';
 /* Constants */
 import { MAX_ASINS_ALLOWED } from '../../../constants/KeywordResearch/KeywordReverse';
 import { KeywordReverseTablePayload } from '../../../interfaces/KeywordResearch/KeywordReverse';
+import ReverseAsinDisplay from './ReverseAsinDisplay';
 
 interface Props {
   fetchKeywordReverseRequestId: (payload: string) => void;
@@ -91,6 +92,7 @@ const KeywordReverse = (props: Props) => {
       <ReverseFilters />
       <ReverseProgress />
       <ReverseAsinsList />
+      <ReverseAsinDisplay />
       <ReverseExport />
       <ReverseTable />
     </main>
