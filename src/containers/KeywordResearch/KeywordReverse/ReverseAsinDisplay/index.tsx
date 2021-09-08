@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -6,137 +7,82 @@ import styles from './index.module.scss';
 /* Components */
 import CopyToClipboard from '../../../../components/CopyToClipboard';
 
+/* Selectors */
+import {
+  getIsLoadingKeywordReverseProductsList,
+  getKeywordReverseProductsList,
+} from '../../../../selectors/KeywordResearch/KeywordReverse';
+
+/* Actions */
+import { fetchKeywordReverseRequestId } from '../../../../actions/KeywordResearch/KeywordReverse';
+
 /* Assets */
 import { ReactComponent as RemoveCrossIcon } from '../../../../assets/images/removeCross.svg';
+import placeholderImage from '../../../../assets/images/placeholderImage.svg';
 
-const ReverseAsinDisplay = () => {
+/* Interfaces */
+import { KeywordReverseAsinProduct } from '../../../../interfaces/KeywordResearch/KeywordReverse';
+
+/* Utils */
+import { formatNumber, showNAIfZeroOrNull, truncateString } from '../../../../utils/format';
+
+interface Props {
+  isLoadingKeywordReverseProductsList: boolean;
+  keywordReverseProductsList: KeywordReverseAsinProduct[];
+}
+
+const ReverseAsinDisplay = (props: Props) => {
+  const { keywordReverseProductsList } = props;
+
   return (
     <div className={styles.reverseAsinDisplay}>
       <h2>Asin-Keyword Reversal Results</h2>
 
       <div className={styles.reverseAsinCardsWrapper}>
-        <div className={styles.reverseAsinCard}>
-          <RemoveCrossIcon className={styles.removeAsinIcon} />
-          <p className={styles.title}>Title Title Title Title</p>
+        {keywordReverseProductsList &&
+          keywordReverseProductsList.map(keywordProduct => {
+            const { asin, image_url, title, sales_monthly, id } = keywordProduct;
 
-          <CopyToClipboard data={'B08NW8FP7V'} className={styles.asin} />
+            const monthlySales = showNAIfZeroOrNull(sales_monthly, formatNumber(sales_monthly));
+            const productTitle = title ? truncateString(title, 20) : '-';
 
-          <p className={styles.salesPerMonth}>
-            <span>1,500</span> <br />
-            Sales/mo
-          </p>
-        </div>
+            return (
+              <>
+                <div className={styles.reverseAsinCard} key={id}>
+                  <RemoveCrossIcon className={styles.removeAsinIcon} />
+                  <p className={styles.title}>{productTitle}</p>
 
-        <div className={styles.reverseAsinCard}>
-          <RemoveCrossIcon className={styles.removeAsinIcon} />
-          <p className={styles.title}>Title Title Title Title</p>
+                  <CopyToClipboard data={asin} className={styles.asin} />
 
-          <CopyToClipboard data={'B08NW8FP7V'} className={styles.asin} />
+                  <p className={styles.salesPerMonth}>
+                    <span>{monthlySales}</span> <br />
+                    Sales/mo
+                  </p>
 
-          <p className={styles.salesPerMonth}>
-            <span>1,500</span> <br />
-            Sales/mo
-          </p>
-        </div>
-
-        <div className={styles.reverseAsinCard}>
-          <RemoveCrossIcon className={styles.removeAsinIcon} />
-          <p className={styles.title}>Title Title Title Title</p>
-
-          <CopyToClipboard data={'B08NW8FP7V'} className={styles.asin} />
-
-          <p className={styles.salesPerMonth}>
-            <span>1,500</span> <br />
-            Sales/mo
-          </p>
-        </div>
-
-        <div className={styles.reverseAsinCard}>
-          <RemoveCrossIcon className={styles.removeAsinIcon} />
-          <p className={styles.title}>Title Title Title Title</p>
-
-          <CopyToClipboard data={'B08NW8FP7V'} className={styles.asin} />
-
-          <p className={styles.salesPerMonth}>
-            <span>1,500</span> <br />
-            Sales/mo
-          </p>
-        </div>
-
-        <div className={styles.reverseAsinCard}>
-          <RemoveCrossIcon className={styles.removeAsinIcon} />
-          <p className={styles.title}>Title Title Title Title</p>
-
-          <CopyToClipboard data={'B08NW8FP7V'} className={styles.asin} />
-
-          <p className={styles.salesPerMonth}>
-            <span>1,500</span> <br />
-            Sales/mo
-          </p>
-        </div>
-
-        <div className={styles.reverseAsinCard}>
-          <RemoveCrossIcon className={styles.removeAsinIcon} />
-          <p className={styles.title}>Title Title Title Title</p>
-
-          <CopyToClipboard data={'B08NW8FP7V'} className={styles.asin} />
-
-          <p className={styles.salesPerMonth}>
-            <span>1,500</span> <br />
-            Sales/mo
-          </p>
-        </div>
-
-        <div className={styles.reverseAsinCard}>
-          <RemoveCrossIcon className={styles.removeAsinIcon} />
-          <p className={styles.title}>Title Title Title Title</p>
-
-          <CopyToClipboard data={'B08NW8FP7V'} className={styles.asin} />
-
-          <p className={styles.salesPerMonth}>
-            <span>1,500</span> <br />
-            Sales/mo
-          </p>
-        </div>
-
-        <div className={styles.reverseAsinCard}>
-          <RemoveCrossIcon className={styles.removeAsinIcon} />
-          <p className={styles.title}>Title Title Title Title</p>
-
-          <CopyToClipboard data={'B08NW8FP7V'} className={styles.asin} />
-
-          <p className={styles.salesPerMonth}>
-            <span>1,500</span> <br />
-            Sales/mo
-          </p>
-        </div>
-
-        <div className={styles.reverseAsinCard}>
-          <RemoveCrossIcon className={styles.removeAsinIcon} />
-          <p className={styles.title}>Title Title Title Title</p>
-
-          <CopyToClipboard data={'B08NW8FP7V'} className={styles.asin} />
-
-          <p className={styles.salesPerMonth}>
-            <span>1,500</span> <br />
-            Sales/mo
-          </p>
-        </div>
-
-        <div className={styles.reverseAsinCard}>
-          <RemoveCrossIcon className={styles.removeAsinIcon} />
-          <p className={styles.title}>Title Title Title Title</p>
-
-          <CopyToClipboard data={'B08NW8FP7V'} className={styles.asin} />
-
-          <p className={styles.salesPerMonth}>
-            <span>1,500</span> <br />
-            Sales/mo
-          </p>
-        </div>
+                  <div className={styles.productImage}>
+                    <img src={image_url ? image_url : placeholderImage} alt={title} />
+                  </div>
+                </div>
+              </>
+            );
+          })}
       </div>
     </div>
   );
 };
 
-export default ReverseAsinDisplay;
+const mapStateToProps = (state: any) => {
+  return {
+    isLoadingKeywordReverseProductsList: getIsLoadingKeywordReverseProductsList(state),
+    keywordReverseProductsList: getKeywordReverseProductsList(state),
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchKeywordReverseRequestId: (payload: string) =>
+      dispatch(fetchKeywordReverseRequestId(payload)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReverseAsinDisplay);

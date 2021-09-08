@@ -27,8 +27,6 @@ export interface KeywordReverseProgressData {
 
 export interface KeywordReverseAsinProduct {
   id: number;
-  keyword_request: number;
-  seller: number;
   asin: string;
   title: string;
   rank: number;
