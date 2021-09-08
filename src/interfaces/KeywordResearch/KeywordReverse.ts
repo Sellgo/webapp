@@ -24,3 +24,15 @@ export interface KeywordReverseProgressData {
   status: string;
   report_xlsx_url?: string;
 }
+
+export interface KeywordReverseAsinProduct {
+  id: number;
+  keyword_request: number;
+  seller: number;
+  asin: string;
+  title: string;
+  rank: number;
+  sales_monthly: number;
+  image_url: string;
+  position: number;
+}

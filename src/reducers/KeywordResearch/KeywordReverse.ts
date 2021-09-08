@@ -13,6 +13,10 @@ const INITIAL_STATE: { [key: string]: any } = {
     keywordReverseRequestId: sessionStorage.getItem('keywordReverseRequestId') || '',
     asinListForKeywordReverse: sessionStorage.getItem('keywordReverseAsinList') || '',
 
+    // keyword reverse products list
+    isLoadingKeywordReverseProductsList: false,
+    keywordReverseProductsList: [],
+
     // keyword request progress state
     shouldFetchKeywordReverseProgress: false,
     keywordReverseProgressData: JSON.parse(
@@ -72,6 +76,27 @@ const keywordReverseReducer = (state = INITIAL_STATE, action: AnyAction) => {
         [sessionTab]: {
           ...sessionStateChunk,
           asinListForKeywordReverse: action.payload,
+        },
+      };
+    }
+
+    /* ================= KEYWORD PRODUCTS =============== */
+    case actionTypes.IS_LOADING_KEYWORD_REVERSE_PRODUCTS_LIST: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          isLoadingKeywordReverseProductsList: action.payload,
+        },
+      };
+    }
+
+    case actionTypes.SET_KEYWORD_REVERSE_PRODUCTS_LIST: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          keywordReverseProductsList: action.payload,
         },
       };
     }
