@@ -1,7 +1,7 @@
 @import '../../../../design-system/new-colors.scss';
 
 .reverseAsinDisplay {
-  margin: 18px 0;
+  padding: 18px 0;
 
   > h2 {
     color: $grey_8;
@@ -20,7 +20,7 @@
 
 .reverseAsinCard {
   width: 160px;
-  height: max-content;
+  height: 240px;
   background: #fff;
   display: flex;
   flex-direction: column;
@@ -51,6 +51,7 @@
   color: inherit;
   font-weight: 400;
   line-height: 1;
+  min-height: 24px;
 }
 
 .asin {
@@ -88,7 +89,7 @@
 
 .addAsinCard {
   width: 160px;
-  // height: max-content;
+  height: 240px;
   padding: 8px;
   padding-left: 12px;
   padding-right: 8px;
@@ -96,8 +97,7 @@
   background: #fff;
   display: flex;
   justify-content: center;
-  align-self: center;
+  align-items: center;
   user-select: none;
   border: 1px solid $grey_3;
-  height: 100%;
 }

@@ -14,6 +14,7 @@ import {
   KeywordReverseTablePayload,
   KeywordReverseProgressData,
   KeywordReverseAsinProduct,
+  KeywordReverseProductListPayload,
 } from '../../interfaces/KeywordResearch/KeywordReverse';
 
 /* Selectors */
@@ -266,6 +267,7 @@ export const fetchKeywordReverseProgress = () => async (dispatch: any, getState:
       dispatch(shouldFetchKeywordReverseProgress(!isCompleted));
 
       if (isCompleted) {
+        dispatch(fetchKeywordReverseProductsList({ enableLoader: true }));
         dispatch(fetchKeywordReverseTableInformation({ enableLoader: true }));
       }
     }
@@ -285,13 +287,17 @@ export const fetchKeywordReverseProgress = () => async (dispatch: any, getState:
 };
 
 /* Action to fetch keyword reverse prodyct list */
-export const fetchKeywordReverseProductsList = () => async (dispatch: any, getState: any) => {
+export const fetchKeywordReverseProductsList = (
+  payload: KeywordReverseProductListPayload
+) => async (dispatch: any, getState: any) => {
   const sellerId = sellerIDSelector();
+
+  const { enableLoader = true, resetProducts = false } = payload;
 
   try {
     const keywordRequestId = getKeywordReverseRequestId(getState());
 
-    if (!keywordRequestId) {
+    if (!keywordRequestId || resetProducts) {
       dispatch(isLoadingKeywordReverseProductsList(false));
       dispatch(setKeywordReverseProductsList([]));
       return;
@@ -301,12 +307,15 @@ export const fetchKeywordReverseProductsList = () => async (dispatch: any, getSt
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/products?${resourcePath}`;
 
-    dispatch(isLoadingKeywordReverseProductsList(true));
+    dispatch(isLoadingKeywordReverseProductsList(enableLoader));
 
     const { data } = await axios.get(URL);
 
     if (data) {
       dispatch(setKeywordReverseProductsList(data));
+      dispatch(isLoadingKeywordReverseProductsList(false));
+    } else {
+      dispatch(setKeywordReverseProductsList([]));
       dispatch(isLoadingKeywordReverseProductsList(false));
     }
   } catch (err) {
@@ -429,6 +438,6 @@ export const resetKeywordReverse = () => async (dispatch: any) => {
       report_xlsx_url: '',
     })
   );
-
+  dispatch(fetchKeywordReverseProductsList({ resetProducts: true }));
   dispatch(fetchKeywordReverseTableInformation({ resetFilter: true }));
 };

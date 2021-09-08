@@ -25,6 +25,11 @@ export interface KeywordReverseProgressData {
   report_xlsx_url?: string;
 }
 
+export interface KeywordReverseProductListPayload {
+  enableLoader?: boolean;
+  resetProducts?: boolean;
+}
+
 export interface KeywordReverseAsinProduct {
   id: number;
   asin: string;

@@ -6,53 +6,6 @@ import { actionTypes } from '../../constants/KeywordResearch/KeywordReverse';
 /* Utils*/
 import { makeOrGetUniqueTabID } from '../../utils/session';
 
-const DEFAULT_PRODUCTS_LIST = [
-  {
-    id: 7,
-    keyword_request: 4,
-    seller: 1000000001,
-    asin: 'B07ZFM7DTQ',
-    title: 'PartyWoo Pink Balloons 20 pcs 12 Inch Pink Confetti Balloons',
-    rank: null,
-    sales_monthly: Math.random() * 100000,
-    image_url: 'https://m.media-amazon.com/images/I/51K1EdW8y4L._SL75_.jpg',
-    position: 1,
-  },
-  {
-    id: 7,
-    keyword_request: 4,
-    seller: 1000000001,
-    asin: 'B07ZFM7DTQ',
-    title: 'PartyWoo Pink Balloons 20 pcs 12 Inch Pink Confetti Balloons',
-    rank: null,
-    sales_monthly: Math.random() * 100000,
-    image_url: 'https://m.media-amazon.com/images/I/51K1EdW8y4L._SL75_.jpg',
-    position: 1,
-  },
-  {
-    id: 7,
-    keyword_request: 4,
-    seller: 1000000001,
-    asin: 'B07ZFM7DTQ',
-    title: '',
-    rank: null,
-    sales_monthly: Math.random() * 100000,
-    image_url: 'https://m.media-amazon.com/images/I/51K1EdW8y4L._SL75_.jpg',
-    position: 1,
-  },
-  {
-    id: 7,
-    keyword_request: 4,
-    seller: 1000000001,
-    asin: 'B07ZSFM7DTQ',
-    title: 'PartyWoo Pink Balloons 20 pcs 12 Inch Pink Confetti Balloons',
-    rank: null,
-    sales_monthly: null,
-    image_url: '',
-    position: 1,
-  },
-];
-
 const INITIAL_STATE: { [key: string]: any } = {
   [makeOrGetUniqueTabID()]: {
     // keyword request id state
@@ -62,7 +15,7 @@ const INITIAL_STATE: { [key: string]: any } = {
 
     // keyword reverse products list
     isLoadingKeywordReverseProductsList: false,
-    keywordReverseProductsList: DEFAULT_PRODUCTS_LIST,
+    keywordReverseProductsList: [],
 
     // keyword request progress state
     shouldFetchKeywordReverseProgress: false,

@@ -17,6 +17,7 @@ import { sellerIDSelector } from '../../../selectors/Seller';
 
 /* Actions */
 import {
+  fetchKeywordReverseProductsList,
   fetchKeywordReverseRequestId,
   fetchKeywordReverseTableInformation,
 } from '../../../actions/KeywordResearch/KeywordReverse';
@@ -29,16 +30,24 @@ import history from '../../../history';
 
 /* Constants */
 import { MAX_ASINS_ALLOWED } from '../../../constants/KeywordResearch/KeywordReverse';
-import { KeywordReverseTablePayload } from '../../../interfaces/KeywordResearch/KeywordReverse';
+import {
+  KeywordReverseProductListPayload,
+  KeywordReverseTablePayload,
+} from '../../../interfaces/KeywordResearch/KeywordReverse';
 import ReverseAsinDisplay from './ReverseAsinDisplay';
 
 interface Props {
   fetchKeywordReverseRequestId: (payload: string) => void;
+  fetchKeywordReverseProductsList: (payload: KeywordReverseProductListPayload) => void;
   fetchKeywordReverseTableInformation: (payload: KeywordReverseTablePayload) => void;
 }
 
 const KeywordReverse = (props: Props) => {
-  const { fetchKeywordReverseRequestId, fetchKeywordReverseTableInformation } = props;
+  const {
+    fetchKeywordReverseRequestId,
+    fetchKeywordReverseTableInformation,
+    fetchKeywordReverseProductsList,
+  } = props;
 
   useEffect(() => {
     const searchString = history.location.search;
@@ -81,7 +90,8 @@ const KeywordReverse = (props: Props) => {
       const keywordId = sessionStorage.getItem('keywordReverseRequestId') || '';
 
       if (keywordId) {
-        fetchKeywordReverseTableInformation({});
+        fetchKeywordReverseProductsList({ enableLoader: true });
+        fetchKeywordReverseTableInformation({ enableLoader: true });
         return;
       }
     }
@@ -91,8 +101,8 @@ const KeywordReverse = (props: Props) => {
     <main className={styles.keywordReversePage}>
       <ReverseFilters />
       <ReverseProgress />
-      <ReverseAsinsList />
       <ReverseAsinDisplay />
+      <ReverseAsinsList />
       <ReverseExport />
       <ReverseTable />
     </main>
@@ -103,6 +113,8 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchKeywordReverseRequestId: (payload: string) =>
       dispatch(fetchKeywordReverseRequestId(payload)),
+    fetchKeywordReverseProductsList: (payload: KeywordReverseProductListPayload) =>
+      dispatch(fetchKeywordReverseProductsList(payload)),
     fetchKeywordReverseTableInformation: (payload: KeywordReverseTablePayload) =>
       dispatch(fetchKeywordReverseTableInformation(payload)),
   };

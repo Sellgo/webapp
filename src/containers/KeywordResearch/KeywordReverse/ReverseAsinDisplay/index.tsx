@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { v4 as uuid } from 'uuid';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -14,7 +15,10 @@ import {
 } from '../../../../selectors/KeywordResearch/KeywordReverse';
 
 /* Actions */
-import { fetchKeywordReverseRequestId } from '../../../../actions/KeywordResearch/KeywordReverse';
+import {
+  fetchKeywordReverseRequestId,
+  setKeywordReverseProductsList,
+} from '../../../../actions/KeywordResearch/KeywordReverse';
 
 /* Assets */
 import { ReactComponent as RemoveCrossIcon } from '../../../../assets/images/removeCross.svg';
@@ -32,38 +36,61 @@ import { MAX_ASINS_ALLOWED } from '../../../../constants/KeywordResearch/Keyword
 interface Props {
   isLoadingKeywordReverseProductsList: boolean;
   keywordReverseProductsList: KeywordReverseAsinProduct[];
+  setKeywordReverseProductsList: (payload: KeywordReverseAsinProduct[]) => void;
 }
 
 const ReverseAsinDisplay = (props: Props) => {
-  const { keywordReverseProductsList } = props;
+  const {
+    keywordReverseProductsList,
+    isLoadingKeywordReverseProductsList,
+    setKeywordReverseProductsList,
+  } = props;
 
   const totalProducts = keywordReverseProductsList.length;
 
+  // Handle a proudtc removal
+  const removeProduct = (asinToRemove: string) => {
+    const currentProducts = keywordReverseProductsList;
+
+    const updatedProducts =
+      currentProducts &&
+      currentProducts.filter(product => {
+        return product.asin !== asinToRemove;
+      });
+
+    setKeywordReverseProductsList(updatedProducts);
+  };
+
   return (
-    <div className={styles.reverseAsinDisplay}>
+    <section className={styles.reverseAsinDisplay}>
       <h2>Asin-Keyword Reversal Results</h2>
 
       <div className={styles.reverseAsinCardsWrapper}>
         {keywordReverseProductsList &&
           keywordReverseProductsList.map(keywordProduct => {
-            const { asin, image_url, title, sales_monthly, id } = keywordProduct;
+            const { asin, image_url, title, sales_monthly } = keywordProduct;
 
             const monthlySales = showNAIfZeroOrNull(sales_monthly, formatNumber(sales_monthly));
             const productTitle = title ? truncateString(title, 20) : '-';
 
             return (
               <>
-                <div className={styles.reverseAsinCard} key={id}>
-                  <RemoveCrossIcon className={styles.removeAsinIcon} />
+                <div
+                  className={styles.reverseAsinCard}
+                  style={{ opacity: isLoadingKeywordReverseProductsList ? 0.5 : 1 }}
+                  key={uuid()}
+                >
+                  <RemoveCrossIcon
+                    className={styles.removeAsinIcon}
+                    onClick={() => removeProduct(asin)}
+                  />
                   <p className={styles.title}>{productTitle}</p>
 
                   <CopyToClipboard data={asin} className={styles.asin} />
-
                   <p className={styles.salesPerMonth}>
                     <span>{monthlySales}</span> <br />
                     Sales/mo
                   </p>
-
                   <div className={styles.productImage}>
                     <img src={image_url ? image_url : placeholderImage} alt={title} />
                   </div>
@@ -78,7 +105,7 @@ const ReverseAsinDisplay = (props: Props) => {
           </div>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 
@@ -93,6 +120,8 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchKeywordReverseRequestId: (payload: string) =>
       dispatch(fetchKeywordReverseRequestId(payload)),
+    setKeywordReverseProductsList: (payload: KeywordReverseAsinProduct[]) =>
+      dispatch(setKeywordReverseProductsList(payload)),
   };
 };
 
