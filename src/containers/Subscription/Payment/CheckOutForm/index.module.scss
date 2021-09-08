@@ -1,3 +1,5 @@
+@import '../../../../design-system/colors.scss';
+
 .checkoutContainer {
   margin: 40px auto;
   width: max-content;
@@ -13,6 +15,11 @@
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+
+  &__promo {
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
 }
 
 .formInput {
@@ -51,6 +58,10 @@
     input {
       border: 1px solid #eb675e !important;
     }
+  }
+
+  &__promo {
+    margin-bottom: 0;
   }
 }
 
@@ -166,17 +177,33 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
+  width: 125px;
   border-radius: 5px;
   font-size: 14px;
-  margin-top: 20px;
   height: 40px !important;
   color: #fc7900;
   border: 1px solid #fc7900;
   background: #fff;
+  margin-top: 15px;
 
   &:disabled {
     opacity: 0.6;
     cursor: unset;
+  }
+}
+
+.redemptionMessage {
+  &__success {
+    width: 100%;
+    margin-top: 8px;
+    font-size: 14px;
+    color: $system_green;
+  }
+
+  &__error {
+    width: 100%;
+    margin-top: 8px;
+    font-size: 14px;
+    color: $system_red;
   }
 }

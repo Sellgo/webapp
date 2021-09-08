@@ -37,15 +37,17 @@ export const setPromoError = (error: string) => ({
   payload: error,
 });
 
+export const setPromoCode = (promoCode: any) => ({
+  type: SET_PROMO_CODE,
+  payload: promoCode,
+});
+
 export const checkPromoCode = (promoCode: string) => (dispatch: any) => {
   dispatch(setPromoLoading(true));
   const sellerID = localStorage.getItem('userId');
   return Axios.get(AppConfig.BASE_URL_API + `promo-code/${sellerID}/${promoCode}`)
     .then(res => {
-      dispatch({
-        type: SET_PROMO_CODE,
-        payload: res.data,
-      });
+      dispatch(setPromoCode(res.data));
       dispatch(setPromoError(''));
       dispatch(setPromoLoading(false));
     })
@@ -53,10 +55,7 @@ export const checkPromoCode = (promoCode: string) => (dispatch: any) => {
       if (err.response && err.response.data && err.response.data.message) {
         dispatch(setPromoError(err.response.data.message));
       }
-      dispatch({
-        type: SET_PROMO_CODE,
-        payload: {},
-      });
+      dispatch(setPromoCode({}));
       dispatch(setPromoLoading(false));
     });
 };

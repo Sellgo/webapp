@@ -24,6 +24,8 @@ import {
   retryInvoiceWithNewPaymentMethod,
   setStripeLoading,
   checkPromoCode,
+  setPromoError,
+  setPromoCode,
 } from '../../../../actions/Settings/Subscription';
 
 /* Hooks */
@@ -70,16 +72,28 @@ interface MyProps {
   checkPromoCode: (data: string) => void;
   stripeLoading: boolean;
   promoLoading: boolean;
+  setRedeemedPromoCode: (promoCode: any) => void;
   redeemedPromoCode: PromoCode;
+  setPromoError: (err: string) => void;
   promoError: string;
 }
 
 function CheckoutForm(props: MyProps) {
   const stripe: any = useStripe();
   const elements = useElements();
-  const { stripeLoading, checkPromoCode, redeemedPromoCode, promoError, promoLoading } = props;
+  const {
+    stripeLoading,
+    checkPromoCode,
+    redeemedPromoCode,
+    promoError,
+    promoLoading,
+    setRedeemedPromoCode,
+    setPromoError,
+  } = props;
+  const [isPromoCodeVerified, setPromoCodeVerified] = useState<boolean>(false);
+  const [promoCode, setPromoCode] = useState<string>('');
   const { value: name, bind: bindName } = useInput('');
-  const { value: promoCode, bind: bindPromoCode } = useInput('');
+  // const { value: promoCode, bind: bindPromoCode } = useInput('');
   const { value: address, bind: bindAddress } = useInput('');
   const { value: city, bind: bindCity } = useInput('');
   const { value: stateAddress, bind: bindStateAddress } = useInput('');
@@ -106,9 +120,26 @@ function CheckoutForm(props: MyProps) {
     }
   };
 
+  // Upon retrieving the updated promo code details, set the status to be verified.
+  React.useEffect(() => {
+    if (
+      (redeemedPromoCode && redeemedPromoCode.message && redeemedPromoCode.message.length > 0) ||
+      promoError.length > 0
+    ) {
+      setPromoCodeVerified(true);
+    }
+  }, [redeemedPromoCode, promoError]);
+
   const handleCheckPromoCode = async (event: any) => {
     event.preventDefault();
     checkPromoCode(promoCode);
+  };
+
+  const handlePromoCodeChange = (event: any) => {
+    setPromoCode(event.target.value.toUpperCase());
+    setPromoCodeVerified(false);
+    setRedeemedPromoCode({});
+    setPromoError('');
   };
 
   const handleSubmit = async (event: any) => {
@@ -291,15 +322,15 @@ function CheckoutForm(props: MyProps) {
           />
         </Form.Group>
 
-        <h2>Promo Code</h2>
-        <Form.Group className={styles.formGroup}>
+        <h2>Redeem Coupon</h2>
+        <Form.Group className={`${styles.formGroup} ${styles.formGroup__promo}`}>
           <Form.Input
-            className={styles.formInput}
+            className={`${styles.formInput} ${styles.formInput__promo}`}
             size="huge"
-            label="Promo Code"
             type="text"
-            placeholder="PROMO"
-            {...bindPromoCode}
+            placeholder="Coupon Code"
+            value={promoCode}
+            onChange={handlePromoCodeChange}
           />
           <button
             disabled={!promoCode || promoLoading}
@@ -307,11 +338,12 @@ function CheckoutForm(props: MyProps) {
             onClick={handleCheckPromoCode}
           >
             Redeem
-            {promoLoading && <Loader active size="mini" />}
           </button>
+          <p className={styles.redemptionMessage__success}>
+            {isPromoCodeVerified && redeemedPromoCode && redeemedPromoCode.message}
+          </p>
+          <p className={styles.redemptionMessage__error}>{isPromoCodeVerified && promoError}</p>
         </Form.Group>
-        {redeemedPromoCode && redeemedPromoCode.message}
-        {promoError}
 
         <div className={styles.paymentMeta}>
           <div className={styles.cardsWrapper}>
@@ -355,5 +387,7 @@ const mapDispatchToProps = {
   retryInvoice: (data: any) => retryInvoiceWithNewPaymentMethod(data),
   setStripeLoad: (data: boolean) => setStripeLoading(data),
   checkPromoCode: (data: string) => checkPromoCode(data),
+  setRedeemedPromoCode: (data: any) => setPromoCode(data),
+  setPromoError: (data: string) => setPromoError(data),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm);
