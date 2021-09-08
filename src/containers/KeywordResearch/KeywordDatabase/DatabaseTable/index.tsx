@@ -130,7 +130,7 @@ const DatabaseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="search_volume" align="center" specialKpi />
+          <StatsCell dataKey="search_volume" align="center" appendWith="%" />
         </Table.Column>
 
         {/* Sponsored ASINS */}

@@ -196,7 +196,7 @@ const DatabaseFilters = (props: Props) => {
         )}
       </div>
 
-      <FormFilterActions onFind={handleSubmit} onReset={handleReset} submitLabel="Search" />
+      <FormFilterActions onFind={handleSubmit} onReset={handleReset} submitLabel="Apply" />
     </section>
   );
 };
