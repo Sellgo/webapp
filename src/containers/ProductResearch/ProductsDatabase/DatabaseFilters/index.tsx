@@ -23,10 +23,11 @@ import { ProductsDatabasePayload } from '../../../../interfaces/ProductResearch/
 import {
   DEFAULT_INCLUDE_EXCLUDE_FILTER,
   DEFAULT_MIN_MAX_FILTER,
-  DEFAULT_CHECKBOX_FILTER,
+  // DEFAULT_CHECKBOX_FILTER,
   PRODUCTS_DATABASE_SIZE_TIERS,
   PRODUCTS_DATABASE_CATEGORIES,
   FULFILMENT_TYPES,
+  DEFAULT_FULFILMENT_FILTER,
 } from '../../../../constants/ProductResearch/ProductsDatabase';
 import CheckboxListFilter from '../../../../components/FormFilters/CheckboxListFilter';
 
@@ -56,7 +57,7 @@ const ProductDatabaseFilters = (props: Props) => {
   const [sizeTier, setSizeTier] = useState<string>('');
   const [imageCount, setImageCount] = useState(DEFAULT_MIN_MAX_FILTER);
   const [variationCount, setVariationCount] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [fulfillment, setFulfillment] = useState(DEFAULT_CHECKBOX_FILTER);
+  const [fulfillment, setFulfillment] = useState(DEFAULT_FULFILMENT_FILTER);
 
   /* Handlers */
   const handleSubmit = () => {
@@ -97,7 +98,7 @@ const ProductDatabaseFilters = (props: Props) => {
     setSizeTier('');
     setImageCount(DEFAULT_MIN_MAX_FILTER);
     setVariationCount(DEFAULT_MIN_MAX_FILTER);
-    setFulfillment(DEFAULT_CHECKBOX_FILTER);
+    setFulfillment(DEFAULT_FULFILMENT_FILTER);
   };
 
   /* Effect on component mount */
@@ -184,7 +185,7 @@ const ProductDatabaseFilters = (props: Props) => {
 
           {showAdvancedFilter && (
             <div className={styles.showAdvancedFilter}>
-              {/* <MinMaxFilter
+              <MinMaxFilter
                 label="Monthly Sales"
                 minValue={monthlySales?.min || ''}
                 maxValue={monthlySales?.max || ''}
@@ -194,7 +195,7 @@ const ProductDatabaseFilters = (props: Props) => {
                     [type]: value,
                   }))
                 }
-              /> */}
+              />
 
               <MinMaxFilter
                 label="# of Sellers"
@@ -211,9 +212,9 @@ const ProductDatabaseFilters = (props: Props) => {
               <CheckboxListFilter
                 label="Fulfillment"
                 options={FULFILMENT_TYPES}
-                currentFilterObject={fulfillment}
-                handleChange={(value: string) => {
-                  setFulfillment(value);
+                selectedOptions={fulfillment}
+                handleChange={(value: any) => {
+                  setFulfillment({ ...value });
                 }}
               />
 

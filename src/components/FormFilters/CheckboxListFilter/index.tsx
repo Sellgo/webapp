@@ -7,44 +7,20 @@ import styles from './index.module.scss';
 interface Props {
   label?: string;
   options: any[];
-  currentFilterObject: any;
+  selectedOptions: any;
   handleChange: (value: any) => void;
 }
 const CheckboxListFilter: React.FC<Props> = props => {
-  const { label, handleChange, options, currentFilterObject } = props;
-  const [tickedCheckBoxes, setTickedCheckBoxes] = React.useState<string[]>([]);
-
-  let DEFAULT_FILTER = {};
-  options.map(option => {
-    DEFAULT_FILTER = {
-      ...DEFAULT_FILTER,
-      [option.key]: false,
-    };
-    return option;
-  });
+  const { label, handleChange, options, selectedOptions } = props;
 
   const handleCheckboxTick = (e: any, data: any) => {
-    /* Updating local state */
-    let newTickedCheckBoxes = tickedCheckBoxes;
     if (data.checked) {
-      newTickedCheckBoxes.push(data.value);
+      handleChange({ ...selectedOptions, [data.value]: true });
     } else {
-      newTickedCheckBoxes = newTickedCheckBoxes.filter(f => f !== data.value);
+      handleChange({ ...selectedOptions, [data.value]: false });
     }
-
-    /* Handling change */
-    let filterObject = DEFAULT_FILTER;
-    newTickedCheckBoxes.map(
-      filterValue =>
-        (filterObject = {
-          ...filterObject,
-          [filterValue]: true,
-        })
-    );
-
-    setTickedCheckBoxes(newTickedCheckBoxes);
-    handleChange(filterObject);
   };
+
   return (
     <div className={styles.checkBoxFilters}>
       {label && <p>{label}</p>}
@@ -57,7 +33,7 @@ const CheckboxListFilter: React.FC<Props> = props => {
               label={f.text}
               value={f.value}
               onChange={handleCheckboxTick}
-              checked={currentFilterObject[f.key] === true}
+              checked={selectedOptions[f.key] === true}
             />
           );
         })}
