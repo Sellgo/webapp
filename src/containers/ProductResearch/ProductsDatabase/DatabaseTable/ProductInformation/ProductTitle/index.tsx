@@ -10,17 +10,21 @@ import CopyToClipboard from '../../../../../../components/CopyToClipboard';
 /* Utils */
 import { truncateString } from '../../../../../../utils/format';
 
-/* Assets */
+/* Images */
+import amazonsChoiceImg from '../../../../../../assets/images/amazon_choice.svg';
+import bestSellerImg from '../../../../../../assets/images/best-seller.png';
 import placeholderImage from '../../../../../../assets/images/placeholderImage.svg';
 
 interface Props {
   asin: string;
   image: string;
   upc: string[];
+  isAmazonsChoice: boolean;
+  isBestSeller: boolean;
 }
 
 const ProductTitle = (props: Props) => {
-  const { asin, image, upc } = props;
+  const { asin, image, upc, isAmazonsChoice, isBestSeller } = props;
   const upcString = upc && upc.join(',');
 
   let upcDisplayString;
@@ -40,31 +44,36 @@ const ProductTitle = (props: Props) => {
       {/* Product Image */}
       <img src={productImage} className={styles.productImage} />
 
-      {/* ASIN and UPC Details */}
-      <div className={styles.productTextWrapper}>
-        {/* ASIN */}
+      <div className={styles.flagAndTitleRow}>
+        <img className={styles.flagIcon} src={require(`../../../../../../assets/flags/US.png`)} />
+        {/* ASIN and UPC details */}
         <div className={styles.productTitleTextBox}>
-          <p className={styles.productTitleText}>ASIN:</p>
-          <CopyAndLocateClipboard
-            data={asin}
-            link={`http://www.amazon.com/dp/${asin}`}
-            className={styles.productAsin}
-          />
-        </div>
-
-        {/* UPC */}
-        <div className={styles.productTitleTextBox}>
-          <p className={styles.productTitleText}>UPC:</p>
-          {upcString && upcString.length > 0 ? (
-            <CopyToClipboard
-              data={upcString}
-              displayData={upcDisplayString}
-              className={styles.productTitleText}
-            />
+          {/* ASIN */}
+          {asin.length > 0 ? (
+            <CopyAndLocateClipboard data={asin} link={`http://www.amazon.com/dp/${props.asin}`} />
           ) : (
             '-'
           )}
+
+          {/* UPC */}
+          <span className={styles.upcText}>
+            {upcString && upcString.length > 0 ? (
+              <CopyToClipboard
+                data={upcString}
+                displayData={upcDisplayString}
+                className={styles.upcText}
+              />
+            ) : (
+              '-'
+            )}
+          </span>
         </div>
+      </div>
+
+      {/* Best seller or amazon's choice images */}
+      <div className={styles.amazonsChoiceOrBestSellerRow}>
+        {isBestSeller && <img src={bestSellerImg} className={styles.amazonsChoiceImg} />}
+        {isAmazonsChoice && <img src={amazonsChoiceImg} className={styles.amazonsChoiceImg} />}
       </div>
     </div>
   );

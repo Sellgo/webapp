@@ -28,6 +28,21 @@ const StatsCell = (props: Props) => {
 
   const { rowData, dataKey } = otherProps;
 
+  let alignSettings;
+  switch (align) {
+    case 'right':
+      alignSettings = 'flex-end';
+      break;
+
+    case 'left':
+      alignSettings = 'flex-start';
+      break;
+
+    case 'center':
+      alignSettings = 'center';
+      break;
+  }
+
   let displayStat = formatNumber(rowData[dataKey]);
 
   // format position rank KPI seperately
@@ -39,7 +54,7 @@ const StatsCell = (props: Props) => {
     <Table.Cell {...otherProps}>
       <div
         className={styles.statsCell}
-        style={{ alignSelf: align, color: specialKpi ? '#3B4557' : '#636d76' }}
+        style={{ alignSelf: alignSettings, color: specialKpi ? '#3B4557' : '#636d76' }}
       >
         {showNAIfZeroOrNull(displayStat, `${prependWith}${displayStat}${appendWith}`)}
       </div>

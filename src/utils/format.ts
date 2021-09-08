@@ -28,6 +28,10 @@ export const truncateString = (text: string, maxLength: number, trailing = '…'
   text && text.length > maxLength ? text.substring(0, maxLength) + trailing : text;
 
 export const truncateIntoTwoLines = (text: string, lineLength: number, maxLength: number) => {
+  if (!text) {
+    return ['-', ''];
+  }
+
   const sentence = text.split(' ');
   let exceededMaxLength = false;
   let wentToNextLine = false;

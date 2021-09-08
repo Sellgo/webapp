@@ -10,7 +10,7 @@ import InputFilter from '../../../../components/FormFilters/InputFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
-// import CheckboxListFilter from '../../../../components/FormFilters/CheckboxListFilter';
+import CheckboxDropdown from '../../../../components/FormFilters/CheckboxDropdownFilter';
 import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
 
 /* Actions */
@@ -23,11 +23,13 @@ import { ProductsDatabasePayload } from '../../../../interfaces/ProductResearch/
 import {
   DEFAULT_INCLUDE_EXCLUDE_FILTER,
   DEFAULT_MIN_MAX_FILTER,
-  DEFAULT_CHECKBOX_FILTER,
+  // DEFAULT_CHECKBOX_FILTER,
   PRODUCTS_DATABASE_SIZE_TIERS,
-  // FULFILMENT_TYPES,
   PRODUCTS_DATABASE_CATEGORIES,
+  FULFILMENT_TYPES,
+  DEFAULT_FULFILMENT_FILTER,
 } from '../../../../constants/ProductResearch/ProductsDatabase';
+import CheckboxListFilter from '../../../../components/FormFilters/CheckboxListFilter';
 
 interface Props {
   fetchProductsDatabase: (payload: ProductsDatabasePayload) => void;
@@ -39,7 +41,7 @@ const ProductDatabaseFilters = (props: Props) => {
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
 
   /* Basic Filters */
-  const [category, setCategoryName] = useState<string>('');
+  const [categories, setCategories] = useState<string[]>([]);
   const [monthlySales, setMonthlySales] = useState(DEFAULT_MIN_MAX_FILTER);
   const [monthlyRevenue, setMonthlyRevenue] = useState(DEFAULT_MIN_MAX_FILTER);
   const [price, setPrice] = useState(DEFAULT_MIN_MAX_FILTER);
@@ -55,12 +57,12 @@ const ProductDatabaseFilters = (props: Props) => {
   const [sizeTier, setSizeTier] = useState<string>('');
   const [imageCount, setImageCount] = useState(DEFAULT_MIN_MAX_FILTER);
   const [variationCount, setVariationCount] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [fulfillment, setFulfillment] = useState(DEFAULT_CHECKBOX_FILTER);
+  const [fulfillment, setFulfillment] = useState(DEFAULT_FULFILMENT_FILTER);
 
   /* Handlers */
   const handleSubmit = () => {
     const filterPayload = {
-      category,
+      categories,
       monthlySales,
       monthlyRevenue,
       price,
@@ -82,7 +84,7 @@ const ProductDatabaseFilters = (props: Props) => {
 
   const handleReset = () => {
     fetchProductsDatabase({ resetFilters: true });
-    setCategoryName('');
+    setCategories([]);
     setMonthlySales(DEFAULT_MIN_MAX_FILTER);
     setMonthlyRevenue(DEFAULT_MIN_MAX_FILTER);
     setPrice(DEFAULT_MIN_MAX_FILTER);
@@ -96,7 +98,7 @@ const ProductDatabaseFilters = (props: Props) => {
     setSizeTier('');
     setImageCount(DEFAULT_MIN_MAX_FILTER);
     setVariationCount(DEFAULT_MIN_MAX_FILTER);
-    setFulfillment(DEFAULT_CHECKBOX_FILTER);
+    setFulfillment(DEFAULT_FULFILMENT_FILTER);
   };
 
   /* Effect on component mount */
@@ -112,13 +114,12 @@ const ProductDatabaseFilters = (props: Props) => {
     <>
       <section className={styles.filterSection}>
         <div className={styles.basicFilters}>
-          <SelectionFilter
+          <CheckboxDropdown
             filterOptions={PRODUCTS_DATABASE_CATEGORIES}
             label="Categories"
-            placeholder="Categories"
-            value={category || ''}
-            handleChange={(value: string) => {
-              setCategoryName(value);
+            selectedValues={categories}
+            handleChange={(newCategories: string[]) => {
+              setCategories([...newCategories]);
             }}
           />
 
@@ -184,7 +185,7 @@ const ProductDatabaseFilters = (props: Props) => {
 
           {showAdvancedFilter && (
             <div className={styles.showAdvancedFilter}>
-              {/* <MinMaxFilter
+              <MinMaxFilter
                 label="Monthly Sales"
                 minValue={monthlySales?.min || ''}
                 maxValue={monthlySales?.max || ''}
@@ -194,7 +195,7 @@ const ProductDatabaseFilters = (props: Props) => {
                     [type]: value,
                   }))
                 }
-              /> */}
+              />
 
               <MinMaxFilter
                 label="# of Sellers"
@@ -207,15 +208,15 @@ const ProductDatabaseFilters = (props: Props) => {
                   }))
                 }
               />
-              {/* 
+
               <CheckboxListFilter
                 label="Fulfillment"
                 options={FULFILMENT_TYPES}
-                currentFilterObject={fulfillment}
-                handleChange={(value: string) => {
-                  setFulfillment(value);
+                selectedOptions={fulfillment}
+                handleChange={(value: any) => {
+                  setFulfillment({ ...value });
                 }}
-              /> */}
+              />
 
               <MinMaxFilter
                 label="Weight (lbs)"
