@@ -9,6 +9,7 @@ import styles from './index.module.scss';
 import {
   getIsLoadingKeywordReverseProductsList,
   getKeywordReverseProductsList,
+  getShouldFetchKeywordReverseProgress,
 } from '../../../../selectors/KeywordResearch/KeywordReverse';
 
 /* Actions */
@@ -32,6 +33,7 @@ import { MAX_ASINS_ALLOWED } from '../../../../constants/KeywordResearch/Keyword
 
 interface Props {
   isLoadingKeywordReverseProductsList: boolean;
+  shouldFetchKeywordReverseProgress: boolean;
   keywordReverseProductsList: KeywordReverseAsinProduct[];
   setKeywordReverseProductsList: (payload: KeywordReverseAsinProduct[]) => void;
 }
@@ -40,6 +42,7 @@ const ReverseAsinDisplay = (props: Props) => {
   const {
     keywordReverseProductsList,
     isLoadingKeywordReverseProductsList,
+    shouldFetchKeywordReverseProgress,
     setKeywordReverseProductsList,
   } = props;
 
@@ -60,6 +63,9 @@ const ReverseAsinDisplay = (props: Props) => {
     setKeywordReverseProductsList(updatedProducts);
   };
 
+  const dontShowAddAsinCard =
+    totalProducts >= MAX_ASINS_ALLOWED || (totalProducts === 9 && showAddAsin);
+
   return (
     <section className={styles.reverseAsinDisplay}>
       <h2>Asin-Keyword Reversal Results</h2>
@@ -71,15 +77,20 @@ const ReverseAsinDisplay = (props: Props) => {
               <ReverseAsinCard
                 key={uuid()}
                 data={keywordProduct}
-                isLoading={isLoadingKeywordReverseProductsList}
+                isLoading={isLoadingKeywordReverseProductsList || shouldFetchKeywordReverseProgress}
                 handleRemoveProduct={asin => removeProduct(asin)}
               />
             );
           })}
 
-        {showAddAsin && <ReverseAsinCardOverlay hideOverlay={() => setShowAddAsin(false)} />}
+        {showAddAsin && MAX_ASINS_ALLOWED > totalProducts && (
+          <ReverseAsinCardOverlay
+            hideOverlay={() => setShowAddAsin(false)}
+            isLoading={isLoadingKeywordReverseProductsList || shouldFetchKeywordReverseProgress}
+          />
+        )}
 
-        {totalProducts < MAX_ASINS_ALLOWED && (
+        {!dontShowAddAsinCard && (
           <>
             <div className={styles.addAsinCard}>
               <AddAsinPlusIcon style={{ cursor: 'pointer' }} onClick={() => setShowAddAsin(true)} />
@@ -95,6 +106,7 @@ const mapStateToProps = (state: any) => {
   return {
     isLoadingKeywordReverseProductsList: getIsLoadingKeywordReverseProductsList(state),
     keywordReverseProductsList: getKeywordReverseProductsList(state),
+    shouldFetchKeywordReverseProgress: getShouldFetchKeywordReverseProgress(state),
   };
 };
 

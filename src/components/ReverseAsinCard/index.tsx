@@ -15,6 +15,7 @@ import { KeywordReverseAsinProduct } from '../../interfaces/KeywordResearch/Keyw
 /* Assets */
 import { ReactComponent as RemoveCrossIcon } from '../../assets/images/removeCross.svg';
 import placeholderImage from '../../assets/images/placeholderImage.svg';
+import loadingAnimation from '../../assets/images/sellgo-loading-animation-450-1.gif';
 
 interface Props {
   isLoading: boolean;
@@ -31,7 +32,7 @@ const ReverseAsinCard = (props: Props) => {
   const productTitle = title ? truncateString(title, 20) : '-';
 
   return (
-    <div className={styles.reverseAsinCard} style={{ opacity: isLoading ? 0.1 : 1 }}>
+    <div className={styles.reverseAsinCard}>
       <RemoveCrossIcon
         className={styles.removeAsinIcon}
         onClick={() => handleRemoveProduct(asin)}
@@ -48,6 +49,12 @@ const ReverseAsinCard = (props: Props) => {
       <div className={styles.productImage}>
         <img src={image_url ? image_url : placeholderImage} alt={title} />
       </div>
+
+      {isLoading && (
+        <div className={styles.loader}>
+          <img src={loadingAnimation} alt="" />
+        </div>
+      )}
     </div>
   );
 };

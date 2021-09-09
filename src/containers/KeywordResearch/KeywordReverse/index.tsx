@@ -10,7 +10,6 @@ import ReverseFilters from './ReverseFilters';
 import ReverseTable from './ReverseTable';
 import ReverseProgress from './ReverseProgress';
 import ReverseExport from './ReverseExport';
-import ReverseAsinsList from './ReverseAsinsList';
 
 /* Selectors */
 import { sellerIDSelector } from '../../../selectors/Seller';
@@ -102,7 +101,6 @@ const KeywordReverse = (props: Props) => {
       <ReverseFilters />
       <ReverseProgress />
       <ReverseAsinDisplay />
-      <ReverseAsinsList />
       <ReverseExport />
       <ReverseTable />
     </main>

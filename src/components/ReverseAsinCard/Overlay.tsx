@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
+
+/* Selectors */
+import { getKeywordReverseProductsList } from '../../selectors/KeywordResearch/KeywordReverse';
+
+/* Actions */
+import { fetchKeywordReverseRequestId } from '../../actions/KeywordResearch/KeywordReverse';
 
 /* Components */
 import CopyToClipboard from '../CopyToClipboard';
@@ -9,19 +16,32 @@ import CopyToClipboard from '../CopyToClipboard';
 /* Assets */
 import { ReactComponent as RemoveCrossIcon } from '../../assets/images/removeCross.svg';
 import placeholderImage from '../../assets/images/placeholderImage.svg';
+import loadingAnimation from '../../assets/images/sellgo-loading-animation-450-1.gif';
 
-/* COnstants */
+/* Constants */
 import { isValidAsin } from '../../constants';
 
 /* Utils */
 import { error } from '../../utils/notifications';
 
+/* Interfaces */
+import { KeywordReverseAsinProduct } from '../../interfaces/KeywordResearch/KeywordReverse';
+
 interface Props {
+  isLoading: boolean;
+  keywordReverseProductsList: KeywordReverseAsinProduct[];
+
+  fetchKeywordReverseRequestId: (asinList: string) => void;
   hideOverlay: () => void;
 }
 
 const ReverseAsinCardOverlay = (props: Props) => {
-  const { hideOverlay } = props;
+  const {
+    isLoading,
+    keywordReverseProductsList,
+    fetchKeywordReverseRequestId,
+    hideOverlay,
+  } = props;
 
   const [asin, setAsin] = useState<string>('');
 
@@ -35,16 +55,21 @@ const ReverseAsinCardOverlay = (props: Props) => {
     }
   }, [asin]);
 
-  const handleAddAsin = (e: any) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
-    e.stopPropagation();
 
     if (asinError) {
-      error(`ASIN: ${asin} format is invalid`);
+      error(`Invalid format for asin: ${asin}`);
       return;
     }
 
-    console.log('Add asin and start trigger process');
+    const currentKeywordReverseProductAsins =
+      (keywordReverseProductsList && keywordReverseProductsList.map(product => product.asin)) || [];
+
+    const newAsinList = [...currentKeywordReverseProductAsins, asin].join(',');
+
+    fetchKeywordReverseRequestId(newAsinList);
+    setAsin('');
   };
 
   const inputClassName = `${styles.addAsin} ${asinError ? styles.addAsin__error : ''}`;
@@ -73,7 +98,7 @@ const ReverseAsinCardOverlay = (props: Props) => {
         {/* Icon to remove overlay */}
         <RemoveCrossIcon className={styles.removeOverlayIcon} onClick={hideOverlay} />
 
-        <form action="" onSubmit={handleAddAsin}>
+        <form onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Enter ASIN"
@@ -82,9 +107,28 @@ const ReverseAsinCardOverlay = (props: Props) => {
             onChange={(e: any) => setAsin(e.target.value)}
           />
         </form>
+
+        {isLoading && (
+          <div className={styles.loader}>
+            <img src={loadingAnimation} alt="" />
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default ReverseAsinCardOverlay;
+const mapStateToProps = (state: any) => {
+  return {
+    keywordReverseProductsList: getKeywordReverseProductsList(state),
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchKeywordReverseRequestId: (asinList: string) =>
+      dispatch(fetchKeywordReverseRequestId(asinList)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReverseAsinCardOverlay);
