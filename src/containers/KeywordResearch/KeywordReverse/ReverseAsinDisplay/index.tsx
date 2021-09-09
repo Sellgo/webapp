@@ -74,28 +74,26 @@ const ReverseAsinDisplay = (props: Props) => {
             const productTitle = title ? truncateString(title, 20) : '-';
 
             return (
-              <>
-                <div
-                  className={styles.reverseAsinCard}
-                  style={{ opacity: isLoadingKeywordReverseProductsList ? 0.5 : 1 }}
-                  key={uuid()}
-                >
-                  <RemoveCrossIcon
-                    className={styles.removeAsinIcon}
-                    onClick={() => removeProduct(asin)}
-                  />
-                  <p className={styles.title}>{productTitle}</p>
+              <div
+                className={styles.reverseAsinCard}
+                style={{ opacity: isLoadingKeywordReverseProductsList ? 0.5 : 1 }}
+                key={uuid()}
+              >
+                <RemoveCrossIcon
+                  className={styles.removeAsinIcon}
+                  onClick={() => removeProduct(asin)}
+                />
+                <p className={styles.title}>{productTitle}</p>
 
-                  <CopyToClipboard data={asin} className={styles.asin} />
-                  <p className={styles.salesPerMonth}>
-                    <span>{monthlySales}</span> <br />
-                    Sales/mo
-                  </p>
-                  <div className={styles.productImage}>
-                    <img src={image_url ? image_url : placeholderImage} alt={title} />
-                  </div>
+                <CopyToClipboard data={asin} className={styles.asin} />
+                <p className={styles.salesPerMonth}>
+                  <span>{monthlySales}</span> <br />
+                  Sales/mo
+                </p>
+                <div className={styles.productImage}>
+                  <img src={image_url ? image_url : placeholderImage} alt={title} />
                 </div>
-              </>
+              </div>
             );
           })}
 

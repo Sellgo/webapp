@@ -8,13 +8,9 @@ import styles from './index.module.scss';
 /* Components */
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
-import InputFilter from '../../../../components/FormFilters/InputFilter';
 
 /* Constants */
-import {
-  DEFAULT_INCLUDE_EXCLUDE_FILTER,
-  DEFAULT_MIN_MAX_FILTER,
-} from '../../../../constants/KeywordResearch/KeywordReverse';
+import { DEFAULT_MIN_MAX_FILTER } from '../../../../constants/KeywordResearch/KeywordReverse';
 
 /* Actions */
 import {
@@ -42,23 +38,21 @@ const ReverseFilters = (props: Props) => {
 
   /* Advanced Filters */
   const [sponsoredAsins, setSponsoredAsins] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [competingProducts, setCompetitingProducts] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [relativeRank, setRelativeRank] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [competitorRank, setCompetitorRank] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [rankingCompetitors, setRankingCompetitors] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [searchTerm, setSearchTerm] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+  const [sponsoredRank, setSponsoredRank] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [competingProducts, setCompetingProducts] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [titleDensity, setTitleDensity] = useState(DEFAULT_MIN_MAX_FILTER);
 
   /* Handle Submit */
   const handleSubmit = () => {
     const filterPayload = {
       searchVolume,
       positionRank,
+
+      /* Advanced Filters */
       sponsoredAsins,
+      sponsoredRank,
       competingProducts,
-      relativeRank,
-      competitorRank,
-      rankingCompetitors,
-      searchTerm,
+      titleDensity,
     };
     fetchKeywordReverseTableInfo({ filterPayload });
   };
@@ -67,12 +61,13 @@ const ReverseFilters = (props: Props) => {
   const handleReset = () => {
     setSearchVolume(DEFAULT_MIN_MAX_FILTER);
     setPositionRank(DEFAULT_MIN_MAX_FILTER);
+
+    /* Advanced Filters */
     setSponsoredAsins(DEFAULT_MIN_MAX_FILTER);
-    setRelativeRank(DEFAULT_MIN_MAX_FILTER);
-    setCompetitorRank(DEFAULT_MIN_MAX_FILTER);
-    setRankingCompetitors(DEFAULT_MIN_MAX_FILTER);
-    setCompetitingProducts(DEFAULT_MIN_MAX_FILTER);
-    setSearchTerm(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+    setSponsoredRank(DEFAULT_MIN_MAX_FILTER);
+    setCompetingProducts(DEFAULT_MIN_MAX_FILTER);
+    setTitleDensity(DEFAULT_MIN_MAX_FILTER);
+
     resetKeywordReverse();
   };
 
@@ -115,7 +110,7 @@ const ReverseFilters = (props: Props) => {
 
         {showAdvancedFilter && (
           <div className={styles.showAdvancedFilter}>
-            {/* Sponsored Rank count */}
+            {/* Sponsored ASINs */}
             <MinMaxFilter
               label="Sponsored ASINs"
               minValue={sponsoredAsins.min}
@@ -125,60 +120,34 @@ const ReverseFilters = (props: Props) => {
               }}
             />
 
-            {/* Relative Rank */}
+            {/* Sponsored Rank */}
             <MinMaxFilter
-              label="Relative Rank"
-              minValue={relativeRank.min}
-              maxValue={relativeRank.max}
+              label="Sponsored Rank"
+              minValue={sponsoredRank.min}
+              maxValue={sponsoredRank.max}
               handleChange={(type, value) => {
-                setRelativeRank(prevState => ({ ...prevState, [type]: value }));
+                setSponsoredRank(prevState => ({ ...prevState, [type]: value }));
               }}
             />
 
-            {/* Competitor Rank */}
-            <MinMaxFilter
-              label="Competitor Rank"
-              minValue={competitorRank.min}
-              maxValue={competitorRank.max}
-              handleChange={(type, value) => {
-                setCompetitorRank(prevState => ({ ...prevState, [type]: value }));
-              }}
-            />
-
-            {/* Ranking Competitors */}
-            <MinMaxFilter
-              label="Ranking Competitors"
-              minValue={rankingCompetitors.min}
-              maxValue={rankingCompetitors.max}
-              handleChange={(type, value) => {
-                setRankingCompetitors(prevState => ({ ...prevState, [type]: value }));
-              }}
-            />
-
-            {/* Competing Products */}
+            {/* Competing Products  */}
             <MinMaxFilter
               label="Competing Products"
               minValue={competingProducts.min}
               maxValue={competingProducts.max}
               handleChange={(type, value) => {
-                setCompetitingProducts(prevState => ({ ...prevState, [type]: value }));
+                setCompetingProducts(prevState => ({ ...prevState, [type]: value }));
               }}
             />
 
-            {/* Include Search Terms)  */}
-            <InputFilter
-              label="Include Search Term"
-              value={searchTerm.include}
-              handleChange={value => setSearchTerm(prevState => ({ ...prevState, include: value }))}
-              placeholder="Enter Search Term"
-            />
-
-            {/* Exclude Search Terms)  */}
-            <InputFilter
-              label="Exclude Search Terms"
-              value={searchTerm.exclude}
-              handleChange={value => setSearchTerm(prevState => ({ ...prevState, exclude: value }))}
-              placeholder="Enter Search Term"
+            {/* Title Density  */}
+            <MinMaxFilter
+              label="Title Density"
+              minValue={titleDensity.min}
+              maxValue={titleDensity.max}
+              handleChange={(type, value) => {
+                setTitleDensity(prevState => ({ ...prevState, [type]: value }));
+              }}
             />
           </div>
         )}

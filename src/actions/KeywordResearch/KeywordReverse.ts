@@ -166,16 +166,6 @@ export const parseFilters = (keywordReverseFilter: any) => {
       const max = filter.max ? `&${keyName}_max=${filter.max}` : '';
       filterQuery += `${min}${max}`;
     }
-
-    // min max with period
-    if (type === F_TYPES.MIN_MAX_PERIOD) {
-      if (filter.period) {
-        const min = filter.min ? `&${keyName}_${filter.period}_min=${filter.min}` : '';
-        const max = filter.max ? `&${keyName}_${filter.period}_max=${filter.max}` : '';
-
-        filterQuery += `${min}${max}`;
-      }
-    }
   });
 
   return filterQuery;

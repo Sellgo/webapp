@@ -41,17 +41,13 @@ export const F_TYPES = {
 /* Filter Query Key Mapper */
 /* Map the payload keys to query keys for API */
 export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: string } } = {
-  // include exclude
-  searchTerm: { keyName: 'phrases', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
-
   // min max based
   searchVolume: { keyName: 'search_volume', type: F_TYPES.MIN_MAX },
   positionRank: { keyName: 'position_rank', type: F_TYPES.MIN_MAX },
   sponsoredAsins: { keyName: 'sponsored_asins', type: F_TYPES.MIN_MAX },
-  relativeRank: { keyName: 'relative_rank', type: F_TYPES.MIN_MAX },
-  competitorRank: { keyName: 'competitor_rank_avg', type: F_TYPES.MIN_MAX },
-  rankingCompetitors: { keyName: 'ranking_competitors_count', type: F_TYPES.MIN_MAX },
+  sponsoredARank: { keyName: 'sponsored_rank', type: F_TYPES.MIN_MAX },
   competingProducts: { keyName: 'competing_products', type: F_TYPES.MIN_MAX },
+  titleDensity: { keyName: 'title_density', type: F_TYPES.MIN_MAX },
 };
 
 /* Exports data */

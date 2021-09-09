@@ -83,7 +83,7 @@ const ReverseTable = (props: Props) => {
         </Table.Column>
 
         {/* Search Volume */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Search\nVolume`}
@@ -92,37 +92,11 @@ const ReverseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="search_volume" align="center" specialKpi />
-        </Table.Column>
-
-        {/* Sponsored ASINS */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
-          <Table.HeaderCell>
-            <HeaderSortCell
-              title={`Sponsored\nASINs`}
-              dataKey="sponsored_asins"
-              currentSortColumn={sortColumn}
-              currentSortType={sortType}
-            />
-          </Table.HeaderCell>
-          <StatsCell dataKey="sponsored_asins" align="center" />
-        </Table.Column>
-
-        {/* Competing Products  */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
-          <Table.HeaderCell>
-            <HeaderSortCell
-              title={`Competing\nProducts`}
-              dataKey="competing_products"
-              currentSortColumn={sortColumn}
-              currentSortType={sortType}
-            />
-          </Table.HeaderCell>
-          <StatsCell dataKey="competing_products" prependWith="> " align="center" />
+          <StatsCell dataKey="search_volume" align="left" specialKpi />
         </Table.Column>
 
         {/* Position Rank */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Position\nRank`}
@@ -131,46 +105,111 @@ const ReverseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="position_rank" align="center" />
+          <StatsCell dataKey="position_rank" align="left" />
         </Table.Column>
 
-        {/* Relative Rank  */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        {/* Sponsored ASINS */}
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Relative\nRank`}
-              dataKey="relative_rank"
+              title={`Sponsored\nASINs`}
+              dataKey="sponsored_asins"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="relative_rank" align="center" />
+          <StatsCell dataKey="sponsored_asins" align="left" />
         </Table.Column>
 
-        {/* Competitor Rank  */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        {/* Competing Products  */}
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Competitor\nRank(avg)`}
-              dataKey="competitor_rank_avg"
+              title={`Competing\nProducts`}
+              dataKey="competing_products"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="competitor_rank_avg" align="center" />
+          <StatsCell dataKey="competing_products" prependWith=">" align="left" />
         </Table.Column>
 
-        {/* Ranking Competitors  */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        {/* Title Density  */}
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Ranking\nCompetitors`}
-              dataKey="ranking_competitors_count"
+              title={`Title\nDensity`}
+              dataKey="title_density"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="ranking_competitors_count" align="center" />
+          <StatsCell dataKey="title_density" align="left" />
+        </Table.Column>
+
+        {/* Sponsored Rank  */}
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Sponsored\nRank`}
+              dataKey="sponsored_rank"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="sponsored_rank" align="left" />
+        </Table.Column>
+
+        {/* Sponsored Rank (avg)  */}
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Sponsored\nRank (avg)`}
+              dataKey="sponsored_rank_avg"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="sponsored_rank_avg" align="left" />
+        </Table.Column>
+
+        {/* Sponsored Rank (count)  */}
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Sponsored\nRank (#)`}
+              dataKey="sponsored_rank_count"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="sponsored_rank_count" align="left" />
+        </Table.Column>
+
+        {/* Count Top 10  */}
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Count\nTop 10`}
+              dataKey="count_top_10"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="count_top_10" align="left" />
+        </Table.Column>
+
+        {/* Count Top 50  */}
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Count\nTop 50`}
+              dataKey="count_top_50"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="count_top_50" align="left" />
         </Table.Column>
       </Table>
 

@@ -34,7 +34,6 @@ import {
   KeywordDatabasePaginationInfo,
   KeywordDatabaseTablePayload,
 } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
-import MatchTypeCell from '../../../../components/NewTable/MatchTypeCell';
 
 interface Props {
   isLoadingKeywordDatabaseTable: boolean;
@@ -173,7 +172,7 @@ const DatabaseTable = (props: Props) => {
         </Table.Column>
 
         {/* Match Type  */}
-        <Table.Column width={120} verticalAlign="middle" fixed align="left" sortable>
+        {/* <Table.Column width={120} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Match`}
@@ -183,7 +182,7 @@ const DatabaseTable = (props: Props) => {
             />
           </Table.HeaderCell>
           <MatchTypeCell dataKey="match" />
-        </Table.Column>
+        </Table.Column> */}
 
         {/* Title Density */}
         <Table.Column width={120} verticalAlign="middle" fixed align="left" sortable>
