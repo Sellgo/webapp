@@ -1,12 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { v4 as uuid } from 'uuid';
 
 /* Styling */
 import styles from './index.module.scss';
-
-/* Components */
-import CopyToClipboard from '../../../../components/CopyToClipboard';
 
 /* Selectors */
 import {
@@ -20,15 +17,15 @@ import {
   setKeywordReverseProductsList,
 } from '../../../../actions/KeywordResearch/KeywordReverse';
 
+/* Components */
+import ReverseAsinCard from '../../../../components/ReverseAsinCard';
+import ReverseAsinCardOverlay from '../../../../components/ReverseAsinCard/Overlay';
+
 /* Assets */
-import { ReactComponent as RemoveCrossIcon } from '../../../../assets/images/removeCross.svg';
-import placeholderImage from '../../../../assets/images/placeholderImage.svg';
+import { ReactComponent as AddAsinPlusIcon } from '../../../../assets/images/addAsinPlusIcon.svg';
 
 /* Interfaces */
 import { KeywordReverseAsinProduct } from '../../../../interfaces/KeywordResearch/KeywordReverse';
-
-/* Utils */
-import { formatNumber, showNAIfZeroOrNull, truncateString } from '../../../../utils/format';
 
 /* Constants */
 import { MAX_ASINS_ALLOWED } from '../../../../constants/KeywordResearch/KeywordReverse';
@@ -45,6 +42,8 @@ const ReverseAsinDisplay = (props: Props) => {
     isLoadingKeywordReverseProductsList,
     setKeywordReverseProductsList,
   } = props;
+
+  const [showAddAsin, setShowAddAsin] = useState(false);
 
   const totalProducts = keywordReverseProductsList.length;
 
@@ -68,39 +67,24 @@ const ReverseAsinDisplay = (props: Props) => {
       <div className={styles.reverseAsinCardsWrapper}>
         {keywordReverseProductsList &&
           keywordReverseProductsList.map(keywordProduct => {
-            const { asin, image_url, title, sales_monthly } = keywordProduct;
-
-            const monthlySales = showNAIfZeroOrNull(sales_monthly, formatNumber(sales_monthly));
-            const productTitle = title ? truncateString(title, 20) : '-';
-
             return (
-              <div
-                className={styles.reverseAsinCard}
-                style={{ opacity: isLoadingKeywordReverseProductsList ? 0.5 : 1 }}
+              <ReverseAsinCard
                 key={uuid()}
-              >
-                <RemoveCrossIcon
-                  className={styles.removeAsinIcon}
-                  onClick={() => removeProduct(asin)}
-                />
-                <p className={styles.title}>{productTitle}</p>
-
-                <CopyToClipboard data={asin} className={styles.asin} />
-                <p className={styles.salesPerMonth}>
-                  <span>{monthlySales}</span> <br />
-                  Sales/mo
-                </p>
-                <div className={styles.productImage}>
-                  <img src={image_url ? image_url : placeholderImage} alt={title} />
-                </div>
-              </div>
+                data={keywordProduct}
+                isLoading={isLoadingKeywordReverseProductsList}
+                handleRemoveProduct={asin => removeProduct(asin)}
+              />
             );
           })}
 
+        {showAddAsin && <ReverseAsinCardOverlay hideOverlay={() => setShowAddAsin(false)} />}
+
         {totalProducts < MAX_ASINS_ALLOWED && (
-          <div className={styles.addAsinCard}>
-            <p>Add ASin</p>
-          </div>
+          <>
+            <div className={styles.addAsinCard}>
+              <AddAsinPlusIcon style={{ cursor: 'pointer' }} onClick={() => setShowAddAsin(true)} />
+            </div>
+          </>
         )}
       </div>
     </section>
