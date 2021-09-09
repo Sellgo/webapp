@@ -17,18 +17,45 @@
   margin-bottom: 10px;
 }
 
-.productTextWrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-
-.productTitleTextBox {
+.flagAndTitleRow {
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
+
+  .flagIcon {
+    width: 20px;
+    margin-right: 8px;
+    object-fit: contain;
+  }
+
+  .productTitleTextBox {
+    margin-top: -5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .upcText {
+    margin-top: -2px;
+    font-weight: 500 !important;
+    font-size: 10px;
+    color: $grey_8;
+  }
+}
+
+.amazonsChoiceOrBestSellerRow {
+  margin-top: 5px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
   justify-content: flex-start;
+  align-items: center;
+
+  .amazonsChoiceImg {
+    max-width: 50%;
+    object-fit: contain;
+  }
 }
 
 .productTitleText {

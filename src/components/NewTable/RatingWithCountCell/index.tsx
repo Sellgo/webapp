@@ -26,7 +26,7 @@ const RatingWithCountCell = (props: RowCell) => {
           readonly
           className={styles.ratingIcon}
         />
-        <p>{rowData.review_count}</p>
+        <p className={styles.reviewCount}>{rowData.review_count}</p>
       </div>
     </Table.Cell>
   );

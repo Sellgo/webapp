@@ -17,7 +17,13 @@ const ProductInformation = (props: RowCell) => {
   return (
     <Table.Cell {...props}>
       <div className={styles.productInformationCell}>
-        <ProductTitle asin={rowData.asin} image={rowData.image} upc={rowData.upc} />
+        <ProductTitle
+          asin={rowData.asin}
+          image={rowData.image}
+          upc={rowData.upc}
+          isAmazonsChoice={false} // Data not available yet
+          isBestSeller={false} //Data not available yet
+        />
         <ProductDetails
           weight={rowData.weight_lbs}
           fulfillment={rowData.fulfillment}

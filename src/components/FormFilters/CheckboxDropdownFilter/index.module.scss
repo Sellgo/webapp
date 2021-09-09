@@ -1,0 +1,85 @@
+@import '../../../design-system/colors.scss';
+
+.checkBoxDropdownFilters {
+  min-width: 250px;
+
+  p {
+    margin: 0;
+    color: $grey_8 !important;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+.dropdownWrapper {
+  padding-top: 18px;
+  padding-left: 10px;
+}
+
+.checkboxListWrapper {
+  display: flex;
+  flex-direction: row;
+  width: 60rem;
+  flex-wrap: wrap;
+
+  .checkboxOption {
+    margin-bottom: 18px;
+    width: 20rem;
+
+    label {
+      font-size: 12px !important;
+      color: $grey_8 !important;
+    }
+
+    label::before {
+      border-radius: 4px !important;
+      border: 1px solid $grey_3 !important;
+    }
+
+    input:checked ~ .box::after,
+    input:checked ~ label::after {
+      color: $grey_8 !important;
+    }
+  }
+}
+
+/* Styling for the input button */
+.buttonWrapper {
+  background: none;
+  padding: 0;
+}
+
+.inputWrapper {
+  min-width: 225px;
+
+  .dropdownArrow {
+    opacity: 1 !important;
+    color: $grey_8 !important;
+    font-size: 11px !important;
+    height: 1em;
+  }
+
+  input {
+    border: 1px solid $grey_3 !important;
+    outline: 0 !important;
+    border-radius: 3px;
+    font-size: 12px !important;
+    color: $grey_8 !important;
+    height: 35px !important;
+    padding: 10px !important;
+    width: 100%;
+    caret-color: transparent !important;
+
+    &::placeholder {
+      color: $sellgo-placeholder-color;
+    }
+
+    &:focus {
+      border: 1px solid $grey_3 !important;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

@@ -1,6 +1,7 @@
 @import '../../../design-system/new-colors';
 
 .ratingCell {
+  width: max-content;
   display: flex;
   align-items: flex-start;
   justify-items: flex-start;
