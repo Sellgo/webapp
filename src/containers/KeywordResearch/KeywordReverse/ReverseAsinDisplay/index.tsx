@@ -64,7 +64,7 @@ const ReverseAsinDisplay = (props: Props) => {
   };
 
   const dontShowAddAsinCard =
-    totalProducts >= MAX_ASINS_ALLOWED || (totalProducts === 9 && showAddAsin);
+    totalProducts >= MAX_ASINS_ALLOWED || (totalProducts === MAX_ASINS_ALLOWED - 1 && showAddAsin);
 
   return (
     <section className={styles.reverseAsinDisplay}>
