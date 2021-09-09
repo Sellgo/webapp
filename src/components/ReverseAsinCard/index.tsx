@@ -4,7 +4,7 @@ import React, { memo } from 'react';
 import styles from './index.module.scss';
 
 /* Components */
-import CopyToClipboard from '../CopyToClipboard';
+import CopyAndLocateClipboard from '../CopyAndLocateClipboard';
 
 /* Utils */
 import { formatNumber, showNAIfZeroOrNull, truncateString } from '../../utils/format';
@@ -39,7 +39,11 @@ const ReverseAsinCard = (props: Props) => {
       />
       <p className={styles.title}>{productTitle}</p>
 
-      <CopyToClipboard data={asin} className={styles.asin} />
+      <CopyAndLocateClipboard
+        data={asin}
+        className={styles.asin}
+        link={`https://www.amazon.com/dp/${asin}`}
+      />
 
       <p className={styles.salesPerMonth}>
         <span>{monthlySales}</span> <br />
