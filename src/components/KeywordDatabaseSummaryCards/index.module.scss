@@ -46,3 +46,17 @@
     background: $grey_6 !important;
   }
 }
+
+.sellgoLoader {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}

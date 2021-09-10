@@ -6,7 +6,6 @@ import styles from './index.module.scss';
 
 /* Components */
 import KeywordDatabaseSummaryCards from '../../../../components/KeywordDatabaseSummaryCards';
-
 import WordFreqContent from './WordFreqContent/WordFreqContent';
 
 const DatabaseSummary = () => {
@@ -22,6 +21,7 @@ const DatabaseSummary = () => {
           </h3>
         }
         content={<WordFreqContent />}
+        isLoading={false}
       />
 
       {/* Word Analysis */}
@@ -34,8 +34,10 @@ const DatabaseSummary = () => {
           </h3>
         }
         content={<WordFreqContent />}
+        isLoading={false}
       />
     </section>
   );
 };
+
 export default DatabaseSummary;
