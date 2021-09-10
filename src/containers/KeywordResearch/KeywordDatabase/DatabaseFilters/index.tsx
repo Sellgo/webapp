@@ -8,7 +8,6 @@ import styles from './index.module.scss';
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
-import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
 
 /* Constants */
 import { DEFAULT_MIN_MAX_FILTER } from '../../../../constants/KeywordResearch/KeywordDatabase';
@@ -35,10 +34,9 @@ const DatabaseFilters = (props: Props) => {
   const [wordCount, setWordCount] = useState(DEFAULT_MIN_MAX_FILTER);
   const [competingProducts, setCompetitingProducts] = useState(DEFAULT_MIN_MAX_FILTER);
   const [titleDensity, setTitleDensity] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [amazonChoice, setAmazonChoice] = useState<boolean>(false);
+  // const [amazonChoice, setAmazonChoice] = useState<boolean>(false);
 
   /* Advanced Filters */
-  const [searchVolumeTrend30D, setSearchVolumeVolumeTrend30D] = useState(DEFAULT_MIN_MAX_FILTER);
   const [searchTerm, setSearchTerm] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
   /* Handle Reset */
@@ -50,7 +48,6 @@ const DatabaseFilters = (props: Props) => {
     setTitleDensity(DEFAULT_MIN_MAX_FILTER);
 
     /* Advanced Filters */
-    setSearchVolumeVolumeTrend30D(DEFAULT_MIN_MAX_FILTER);
     setSearchTerm(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
     resetKeywordDatabase();
@@ -63,10 +60,8 @@ const DatabaseFilters = (props: Props) => {
       wordCount,
       competingProducts,
       titleDensity,
-      amazonChoice,
 
       /* Advanced Filters */
-      searchVolumeTrend30D,
       searchTerm,
     };
     fetchKeywordDatabaseTableInfo({ filterPayload });
@@ -88,7 +83,6 @@ const DatabaseFilters = (props: Props) => {
             }));
           }}
         />
-
         {/* Word Count  */}
         <MinMaxFilter
           label="Word Count"
@@ -101,7 +95,6 @@ const DatabaseFilters = (props: Props) => {
             }));
           }}
         />
-
         {/* Competing Products */}
         <MinMaxFilter
           label="Competing Products"
@@ -114,7 +107,6 @@ const DatabaseFilters = (props: Props) => {
             }));
           }}
         />
-
         {/* Title Density */}
         <MinMaxFilter
           label="Title Density"
@@ -128,7 +120,7 @@ const DatabaseFilters = (props: Props) => {
           }}
         />
 
-        {/* Amazon Choice */}
+        {/* Amazon Choice
         <CheckboxFilter
           label="Amazon Choice"
           checkboxLabel="Amazon Choice"
@@ -136,7 +128,7 @@ const DatabaseFilters = (props: Props) => {
           handleChange={(data: boolean) => {
             setAmazonChoice(data);
           }}
-        />
+        /> */}
       </div>
 
       {/* Advanced Filters */}
@@ -153,18 +145,6 @@ const DatabaseFilters = (props: Props) => {
 
         {showAdvancedFilter && (
           <div className={styles.showAdvancedFilter}>
-            {/* Search Volume Trend */}
-            <MinMaxFilter
-              label="Search Volume Trend (30-day)"
-              minValue={searchVolumeTrend30D.min}
-              maxValue={searchVolumeTrend30D.max}
-              handleChange={(type, value) => {
-                setSearchVolumeVolumeTrend30D(prevState => ({
-                  ...prevState,
-                  [type]: value,
-                }));
-              }}
-            />
             {/* Include Search Terms)  */}
             <InputFilter
               label="Include Search Terms that contain"

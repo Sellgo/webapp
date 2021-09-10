@@ -107,7 +107,7 @@ const DatabaseTable = (props: Props) => {
         </Table.Column>
 
         {/* Search Volume */}
-        <Table.Column width={120} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={150} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Search\nVolume`}
@@ -119,21 +119,8 @@ const DatabaseTable = (props: Props) => {
           <StatsCell dataKey="search_volume" align="center" specialKpi />
         </Table.Column>
 
-        {/* Search Volume L30D */}
-        <Table.Column width={120} verticalAlign="middle" fixed align="left" sortable>
-          <Table.HeaderCell>
-            <HeaderSortCell
-              title={`Search\nVolume\nL30D`}
-              dataKey="search_volume"
-              currentSortColumn={sortColumn}
-              currentSortType={sortType}
-            />
-          </Table.HeaderCell>
-          <StatsCell dataKey="search_volume" align="center" appendWith="%" />
-        </Table.Column>
-
         {/* Sponsored ASINS */}
-        <Table.Column width={120} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={150} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Sponsored\nASINs`}
@@ -145,21 +132,8 @@ const DatabaseTable = (props: Props) => {
           <StatsCell dataKey="sponsored_asins" align="center" />
         </Table.Column>
 
-        {/* Word Count  */}
-        <Table.Column width={120} verticalAlign="middle" fixed align="left" sortable>
-          <Table.HeaderCell>
-            <HeaderSortCell
-              title={`Word\nCount`}
-              dataKey="word_count"
-              currentSortColumn={sortColumn}
-              currentSortType={sortType}
-            />
-          </Table.HeaderCell>
-          <StatsCell dataKey="word_count" align="center" />
-        </Table.Column>
-
         {/* Competing Products  */}
-        <Table.Column width={120} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={150} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Competing\nProducts`}
@@ -169,6 +143,19 @@ const DatabaseTable = (props: Props) => {
             />
           </Table.HeaderCell>
           <StatsCell dataKey="competing_products" prependWith="> " align="center" />
+        </Table.Column>
+
+        {/* Word Count  */}
+        <Table.Column width={150} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Word\nCount`}
+              dataKey="word_count"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="word_count" align="center" />
         </Table.Column>
 
         {/* Match Type  */}
@@ -185,7 +172,7 @@ const DatabaseTable = (props: Props) => {
         </Table.Column> */}
 
         {/* Title Density */}
-        <Table.Column width={120} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={150} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Title\nDensity`}
