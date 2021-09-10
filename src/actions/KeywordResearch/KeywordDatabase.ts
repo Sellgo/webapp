@@ -13,6 +13,7 @@ import {
   KeywordDatabasePaginationInfo,
   KeywordDatabaseTablePayload,
   KeywordDatabaseProgressData,
+  KeywordDatabaseWordFreqSummary,
 } from '../../interfaces/KeywordResearch/KeywordDatabase';
 
 /* Selectors */
@@ -66,6 +67,24 @@ export const setKeywordDatabaseProgressData = (payload: KeywordDatabaseProgressD
   sessionStorage.setItem('keywordDatabaseProgressData', JSON.stringify(payload));
   return {
     type: actionTypes.SET_KEYWORD_DATABASE_PROGRESS_DATA,
+    payload,
+  };
+};
+
+/* ============== KEYWORD REVERSE TABLE ================== */
+
+/* Action to set loading state for keyword database word freq summary */
+export const isLoadingKeywordDatabaseWordFreqSummary = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_LOADING_KEYWORD_DATABASE_WORD_FREQ_SUMMARY,
+    payload,
+  };
+};
+
+/* Action to set  for keyword database word freq summary */
+export const setKeywordDatabaseWordFreqSummary = (payload: KeywordDatabaseWordFreqSummary[]) => {
+  return {
+    type: actionTypes.SET_KEYWORD_DATABASE_WORD_FREQ_SUMMARY,
     payload,
   };
 };
@@ -165,56 +184,6 @@ export const parseFilters = (keywordDatabaseFilter: any) => {
 
 /* ============== KEYWORD PROGRESS ================== */
 
-export const fetchKeywordDatabaseProgress = () => async (dispatch: any, getState: any) => {
-  try {
-    const sellerID = sellerIDSelector();
-
-    const keywordRequestId = getKeywordDatabaseRequestId(getState());
-
-    if (!keywordRequestId) {
-      return;
-    }
-
-    const resourcePath = `keywords/progress?keyword_request_id=${keywordRequestId}`;
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/${resourcePath}`;
-
-    const { data } = await axios.get(URL);
-
-    const isFailedStatus = data.status === 'failed';
-    const isCompleted = data.status === 'completed';
-
-    if (isFailedStatus) {
-      dispatch(shouldFetchKeywordDatabaseProgress(false));
-      dispatch(setKeywordDatabaseProgressData(data));
-      error('Error: Failed on progress');
-      return;
-    }
-
-    if (!isFailedStatus) {
-      dispatch(setKeywordDatabaseProgressData(data));
-      // if not completed should fetch again else not
-      dispatch(shouldFetchKeywordDatabaseProgress(!isCompleted));
-
-      if (isCompleted) {
-        // if completed fetch table data and run loader
-        dispatch(fetchKeywordDatabaseTableInformation({ enableLoader: true }));
-      }
-    }
-  } catch (err) {
-    console.error('Error fetching keyword progress');
-    dispatch(shouldFetchKeywordDatabaseProgress(false));
-    dispatch(
-      setKeywordDatabaseProgressData({
-        status: 'failed',
-        progress: '',
-        id: 0,
-        seller: 0,
-        report_xlsx_url: '',
-      })
-    );
-  }
-};
-
 /* Action to fetch keyword database request id using asins */
 export const fetchKeywordDatabaseRequestId = (keywordList: string) => async (dispatch: any) => {
   try {
@@ -263,6 +232,57 @@ export const fetchKeywordDatabaseRequestId = (keywordList: string) => async (dis
     console.log('Error fetching the keyword request Id', err);
     dispatch(setKeywordDatabaseRequestId(''));
     dispatch(isFetchingKeywordDatabaseRequestId(false));
+  }
+};
+
+export const fetchKeywordDatabaseProgress = () => async (dispatch: any, getState: any) => {
+  try {
+    const sellerID = sellerIDSelector();
+
+    const keywordRequestId = getKeywordDatabaseRequestId(getState());
+
+    if (!keywordRequestId) {
+      return;
+    }
+
+    const resourcePath = `keywords/progress?keyword_request_id=${keywordRequestId}`;
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/${resourcePath}`;
+
+    const { data } = await axios.get(URL);
+
+    const isFailedStatus = data.status === 'failed';
+    const isCompleted = data.status === 'completed';
+
+    if (isFailedStatus) {
+      dispatch(shouldFetchKeywordDatabaseProgress(false));
+      dispatch(setKeywordDatabaseProgressData(data));
+      error('Error: Failed on progress');
+      return;
+    }
+
+    if (!isFailedStatus) {
+      dispatch(setKeywordDatabaseProgressData(data));
+      // if not completed should fetch again else not
+      dispatch(shouldFetchKeywordDatabaseProgress(!isCompleted));
+
+      if (isCompleted) {
+        // if completed fetch table data and run loader
+        dispatch(fetchKeywordDatabaseWordFreqSummary());
+        dispatch(fetchKeywordDatabaseTableInformation({ enableLoader: true }));
+      }
+    }
+  } catch (err) {
+    console.error('Error fetching keyword progress');
+    dispatch(shouldFetchKeywordDatabaseProgress(false));
+    dispatch(
+      setKeywordDatabaseProgressData({
+        status: 'failed',
+        progress: '',
+        id: 0,
+        seller: 0,
+        report_xlsx_url: '',
+      })
+    );
   }
 };
 
@@ -360,6 +380,35 @@ export const fetchKeywordDatabaseTableInformation = (
       })
     );
     dispatch(isLoadingKeywordDatabaseTable(false));
+  }
+};
+
+/* Action to fetch keyword database word freq summary */
+export const fetchKeywordDatabaseWordFreqSummary = () => async (dispatch: any, getState: any) => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const keywordRequestId = getKeywordDatabaseRequestId(getState());
+
+    const resourcePath = `keyword_request_id=${keywordRequestId}`;
+
+    dispatch(isLoadingKeywordDatabaseWordFreqSummary(true));
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/word-freq?${resourcePath}`;
+
+    const { data } = await axios.get(URL);
+
+    if (data) {
+      dispatch(setKeywordDatabaseWordFreqSummary(data));
+      dispatch(isLoadingKeywordDatabaseWordFreqSummary(false));
+    } else {
+      dispatch(setKeywordDatabaseWordFreqSummary([]));
+      dispatch(isLoadingKeywordDatabaseWordFreqSummary(false));
+    }
+  } catch (err) {
+    console.error('Error fetching keyword database word freq summary', err);
+    dispatch(setKeywordDatabaseWordFreqSummary([]));
+    dispatch(isLoadingKeywordDatabaseWordFreqSummary(false));
   }
 };
 

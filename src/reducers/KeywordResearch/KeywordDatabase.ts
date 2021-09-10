@@ -26,6 +26,10 @@ const INITIAL_STATE: { [key: string]: any } = {
         })
     ),
 
+    // keyword database summary state
+    isLoadingKeywordDatabaseWordFreqSummary: false,
+    keywordDatabaseWordFreqSummary: [],
+
     // table state
     isLoadingKeywordDatabaseTable: false,
     keywordDatabaseTableResults: [],
@@ -93,6 +97,27 @@ const keywordDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
         [sessionTab]: {
           ...sessionStateChunk,
           keywordDatabaseProgressData: action.payload,
+        },
+      };
+    }
+
+    /* ================= DATABASE TABLE SUMMARY ==================== */
+    case actionTypes.IS_LOADING_KEYWORD_DATABASE_WORD_FREQ_SUMMARY: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          isLoadingKeywordDatabaseWordFreqSummary: action.payload,
+        },
+      };
+    }
+
+    case actionTypes.SET_KEYWORD_DATABASE_WORD_FREQ_SUMMARY: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          keywordDatabaseWordFreqSummary: action.payload,
         },
       };
     }

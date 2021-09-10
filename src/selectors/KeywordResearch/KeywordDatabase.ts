@@ -46,6 +46,20 @@ export const getKeywordDatabaseProgressData = (state: any) => {
   return get(stateChunk, 'keywordDatabaseProgressData');
 };
 
+/* =================== KEYWORD DATABASE SUMMARY =============== */
+export const getIsLoadingKeywordDatabaseWordFreqSummary = (state: any) => {
+  const sessionTabId = makeOrGetUniqueTabID();
+
+  const stateChunk = get(state, `keywordDatabase[${sessionTabId}]`);
+  return get(stateChunk, 'isLoadingKeywordDatabaseWordFreqSummary');
+};
+
+export const getKeywordDatabaseWordFreqSummary = (state: any) => {
+  const sessionTabId = makeOrGetUniqueTabID();
+
+  const stateChunk = get(state, `keywordDatabase[${sessionTabId}]`);
+  return get(stateChunk, 'keywordDatabaseWordFreqSummary');
+};
 /* =================== KEYWORD DATABASE TABLE =============== */
 
 /* Selector to get loading state for keyword database table */

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icon } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -8,7 +9,23 @@ import styles from './index.module.scss';
 import KeywordDatabaseSummaryCards from '../../../../components/KeywordDatabaseSummaryCards';
 import WordFreqContent from './WordFreqContent/WordFreqContent';
 
-const DatabaseSummary = () => {
+/* Selectors */
+import {
+  getIsLoadingKeywordDatabaseWordFreqSummary,
+  getKeywordDatabaseWordFreqSummary,
+} from '../../../../selectors/KeywordResearch/KeywordDatabase';
+
+/* Interfaces */
+import { KeywordDatabaseWordFreqSummary } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
+
+interface Props {
+  isLoadingKeywordDatabaseWordFreqSummary: boolean;
+  keywordDatabaseWordFreqSummary: KeywordDatabaseWordFreqSummary[];
+}
+
+const DatabaseSummary = (props: Props) => {
+  const { isLoadingKeywordDatabaseWordFreqSummary, keywordDatabaseWordFreqSummary } = props;
+
   return (
     <section className={styles.databaseSummarySection}>
       {/* Keyword Distribution */}
@@ -20,7 +37,7 @@ const DatabaseSummary = () => {
             Total Keywords
           </h3>
         }
-        content={<WordFreqContent />}
+        content={<WordFreqContent data={[]} />}
         isLoading={false}
       />
 
@@ -33,11 +50,18 @@ const DatabaseSummary = () => {
             Word Frequency
           </h3>
         }
-        content={<WordFreqContent />}
-        isLoading={false}
+        content={<WordFreqContent data={keywordDatabaseWordFreqSummary} />}
+        isLoading={isLoadingKeywordDatabaseWordFreqSummary}
       />
     </section>
   );
 };
 
-export default DatabaseSummary;
+const mapStateToProps = (state: any) => {
+  return {
+    isLoadingKeywordDatabaseWordFreqSummary: getIsLoadingKeywordDatabaseWordFreqSummary(state),
+    keywordDatabaseWordFreqSummary: getKeywordDatabaseWordFreqSummary(state),
+  };
+};
+
+export default connect(mapStateToProps)(DatabaseSummary);

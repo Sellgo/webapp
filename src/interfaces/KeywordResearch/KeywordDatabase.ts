@@ -24,3 +24,8 @@ export interface KeywordDatabaseProgressData {
   status: string;
   report_xlsx_url?: string;
 }
+
+export interface KeywordDatabaseWordFreqSummary {
+  word: string;
+  frequency: number;
+}

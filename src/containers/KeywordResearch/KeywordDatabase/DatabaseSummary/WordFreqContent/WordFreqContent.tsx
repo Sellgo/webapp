@@ -1,42 +1,35 @@
-import React from 'react';
+import React, { memo } from 'react';
+import { v4 as uuid } from 'uuid';
 
 /* Styling */
 import styles from './index.module.scss';
 
-const WordFreqContent = () => {
+/* Interfaces */
+import { KeywordDatabaseWordFreqSummary } from '../../../../../interfaces/KeywordResearch/KeywordDatabase';
+
+/* Utils */
+import { formatNumber } from '../../../../../utils/format';
+
+interface Props {
+  data: KeywordDatabaseWordFreqSummary[];
+}
+
+const WordFreqContent = (props: Props) => {
+  const { data } = props;
+
   return (
     <ul className={styles.wordFreqList}>
-      <li>
-        <span>Word 1</span>
-        <span>6,3567</span>
-      </li>
-
-      <li>
-        <span>Word 2 </span>
-        <span>6,3567</span>
-      </li>
-
-      <li>
-        <span>Word 3</span>
-        <span>6,3567</span>
-      </li>
-
-      <li>
-        <span>Word 4</span>
-        <span>6,3567</span>
-      </li>
-
-      <li>
-        <span>Word 5</span>
-        <span>6,3567</span>
-      </li>
-
-      <li>
-        <span>Word 6</span>
-        <span>6,3567</span>
-      </li>
+      {data &&
+        data.map(summary => {
+          return (
+            <li key={uuid()}>
+              <span>{summary.word}</span>
+              <span>{formatNumber(summary.frequency)}</span>
+            </li>
+          );
+        })}
     </ul>
   );
 };
 
-export default WordFreqContent;
+export default memo(WordFreqContent);
