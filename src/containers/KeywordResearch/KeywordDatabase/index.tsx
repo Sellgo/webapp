@@ -7,6 +7,7 @@ import styles from './index.module.scss';
 /* Containers */
 import DatabaseFilters from './DatabaseFilters';
 import DatabaseProgress from './DatabaseProgress';
+import DatabaseSummary from './DatabaseSummary';
 import DatabaseKeywordList from './DatabaseKeywordList';
 import DatabaseExport from './DatabaseExport';
 import DatabaseTable from './DatabaseTable';
@@ -41,6 +42,7 @@ const KeywordDatabase = (props: Props) => {
       <DatabaseKeywordList />
       {keywordDatabaseTrackId && <DatabaseFilters />}
       <DatabaseProgress />
+      <DatabaseSummary />
       <DatabaseExport />
       <DatabaseTable />
     </main>
