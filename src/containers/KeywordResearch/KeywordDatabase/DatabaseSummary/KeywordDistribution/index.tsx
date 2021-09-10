@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { cloneDeep, merge } from 'lodash';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -8,12 +9,15 @@ import Chart from '../../../../../components/Chart/Chart';
 
 /* Interfaces */
 import { KeywordDatabaseAggSummary } from '../../../../../interfaces/KeywordResearch/KeywordDatabase';
-import { cloneDeep, merge } from 'lodash';
+
+/* Utils */
+import { graphColors } from '../../../../../utils/colors';
 
 const chartOptions = {
   lang: {
-    noData: 'No aggregation results found',
+    noData: '',
   },
+
   title: {
     text: '',
   },
@@ -32,17 +36,7 @@ const chartOptions = {
   },
 
   tooltip: {
-    headerFormat:
-      '<span style="font-size: 18px;color:{point.color}">●</span>' +
-      '<span style="font-size: 12px;font-weight:bold;">{point.key}</span><br/>',
-    style: {
-      color: 'white',
-      opacity: 0.9,
-    },
-    backgroundColor: '#F9FAFC',
-    shadow: false,
-    borderWidth: 0,
-    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+    enabled: false,
   },
 
   plotOptions: {
@@ -56,7 +50,16 @@ const chartOptions = {
       allowPointSelect: false,
       cursor: 'pointer',
       borderColor: '#F9FAFC',
+      colors: graphColors,
     },
+  },
+  legend: {
+    enabled: true,
+    layout: 'vertical',
+    backgroundColor: '#FFFFFF',
+    floating: true,
+    align: 'right',
+    verticalAlign: 'top',
   },
 };
 
@@ -67,23 +70,24 @@ interface Props {
 const KeywordDistribution = (props: Props) => {
   const { data } = props;
 
-  const plotData =
-    data &&
-    Object.entries(data).map(dataPoint => {
-      return {
-        name: dataPoint[0],
-        y: dataPoint[1],
-      };
-    });
-
   const pieChartOptions = merge(cloneDeep(chartOptions), {
-    series: {
-      innerSize: '50%',
-      animation: false,
-      name: 'name',
-      colorByPoint: true,
-      data: plotData,
-    },
+    series: [
+      {
+        type: 'pie',
+        innerSize: '60%',
+        animation: false,
+        name: 'name',
+        colorByPoint: true,
+        data:
+          data &&
+          Object.entries(data).map(dataPoint => {
+            return {
+              name: dataPoint[0],
+              y: dataPoint[1],
+            };
+          }),
+      },
+    ],
   });
 
   return (

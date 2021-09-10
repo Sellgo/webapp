@@ -8,7 +8,6 @@ import styles from './index.module.scss';
 /* Components */
 import KeywordDatabaseSummaryCards from '../../../../components/KeywordDatabaseSummaryCards';
 import WordFreqContent from './WordFreqContent/WordFreqContent';
-import KeywordDistribution from './KeywordDistribution';
 
 /* Selectors */
 import {
@@ -32,28 +31,10 @@ interface Props {
 }
 
 const DatabaseSummary = (props: Props) => {
-  const {
-    isLoadingKeywordDatabaseWordFreqSummary,
-    keywordDatabaseWordFreqSummary,
-    isLoadingKeywordDatabaseAggSummary,
-    keywordDatabaseAggSummary,
-  } = props;
+  const { isLoadingKeywordDatabaseWordFreqSummary, keywordDatabaseWordFreqSummary } = props;
 
   return (
     <section className={styles.databaseSummarySection}>
-      {/* Keyword Distribution */}
-      <KeywordDatabaseSummaryCards
-        title="Keyword Distribution"
-        subTitle={
-          <h3 className={styles.subTitle}>
-            <Icon name="circle" className={styles.circleBlue} />
-            Total Keywords
-          </h3>
-        }
-        content={<KeywordDistribution data={keywordDatabaseAggSummary} />}
-        isLoading={isLoadingKeywordDatabaseAggSummary}
-      />
-
       {/* Word Analysis */}
       <KeywordDatabaseSummaryCards
         title="Word Analysis"
