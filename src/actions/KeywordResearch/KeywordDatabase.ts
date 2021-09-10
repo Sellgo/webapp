@@ -14,6 +14,7 @@ import {
   KeywordDatabaseTablePayload,
   KeywordDatabaseProgressData,
   KeywordDatabaseWordFreqSummary,
+  KeywordDatabaseAggSummary,
 } from '../../interfaces/KeywordResearch/KeywordDatabase';
 
 /* Selectors */
@@ -71,7 +72,7 @@ export const setKeywordDatabaseProgressData = (payload: KeywordDatabaseProgressD
   };
 };
 
-/* ============== KEYWORD REVERSE TABLE ================== */
+/* ============== KEYWORD REVERSE TABLE SUMMARY ================== */
 
 /* Action to set loading state for keyword database word freq summary */
 export const isLoadingKeywordDatabaseWordFreqSummary = (payload: boolean) => {
@@ -87,6 +88,24 @@ export const setKeywordDatabaseWordFreqSummary = (payload: KeywordDatabaseWordFr
 
   return {
     type: actionTypes.SET_KEYWORD_DATABASE_WORD_FREQ_SUMMARY,
+    payload,
+  };
+};
+
+/* Action to set loading state for keyword database aggregation  summary */
+export const isLoadingKeywordDatabaseAggSummary = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_LOADING_KEYWORD_DATABASE_AGG_SUMMARY,
+    payload,
+  };
+};
+
+/* Action to set  keyword database aggregation summary */
+export const setKeywordDatabaseAggSummary = (payload: KeywordDatabaseAggSummary) => {
+  sessionStorage.setItem('keywordDatabaseAggSummary', JSON.stringify(payload));
+
+  return {
+    type: actionTypes.SET_KEYWORD_DATABASE_AGG_SUMMARY,
     payload,
   };
 };
@@ -270,6 +289,7 @@ export const fetchKeywordDatabaseProgress = () => async (dispatch: any, getState
       if (isCompleted) {
         // if completed fetch table data and run loader
         dispatch(fetchKeywordDatabaseWordFreqSummary());
+        dispatch(fetchKeywordDatabaseAggSummary());
         dispatch(fetchKeywordDatabaseTableInformation({ enableLoader: true }));
       }
     }
@@ -414,6 +434,51 @@ export const fetchKeywordDatabaseWordFreqSummary = () => async (dispatch: any, g
   }
 };
 
+/* Action to fetch keyword ditribution/aggregation on keyword database */
+export const fetchKeywordDatabaseAggSummary = () => async (dispatch: any, getState: any) => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const keywordRequestId = getKeywordDatabaseRequestId(getState());
+
+    const resourcePath = `keyword_request_id=${keywordRequestId}`;
+
+    dispatch(isLoadingKeywordDatabaseAggSummary(true));
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/aggregation?${resourcePath}`;
+
+    const { data } = await axios.get(URL);
+
+    console.log(data);
+
+    if (data) {
+      dispatch(setKeywordDatabaseAggSummary(data));
+      dispatch(isLoadingKeywordDatabaseAggSummary(false));
+    } else {
+      dispatch(
+        setKeywordDatabaseAggSummary({
+          total_keywords: 0,
+          total_search_volume: 0,
+          avg_competing_products: 0,
+          avg_search_volume: 0,
+        })
+      );
+      dispatch(isLoadingKeywordDatabaseAggSummary(false));
+    }
+  } catch (err) {
+    console.error('Error fetching keyword database aggregation summary', err);
+    dispatch(
+      setKeywordDatabaseAggSummary({
+        total_keywords: 0,
+        total_search_volume: 0,
+        avg_competing_products: 0,
+        avg_search_volume: 0,
+      })
+    );
+    dispatch(isLoadingKeywordDatabaseAggSummary(false));
+  }
+};
+
 let cancelToken: any;
 
 /* Function to ask for suggestions */
@@ -470,5 +535,13 @@ export const resetKeywordDatabase = () => async (dispatch: any) => {
     })
   );
   dispatch(setKeywordDatabaseWordFreqSummary([]));
+  dispatch(
+    setKeywordDatabaseAggSummary({
+      total_keywords: 0,
+      total_search_volume: 0,
+      avg_competing_products: 0,
+      avg_search_volume: 0,
+    })
+  );
   dispatch(fetchKeywordDatabaseTableInformation({ resetFilter: true }));
 };

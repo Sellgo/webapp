@@ -29,3 +29,10 @@ export interface KeywordDatabaseWordFreqSummary {
   word: string;
   frequency: number;
 }
+
+export interface KeywordDatabaseAggSummary {
+  total_keywords: number;
+  total_search_volume: number;
+  avg_search_volume: number;
+  avg_competing_products: number;
+}

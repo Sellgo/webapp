@@ -8,23 +8,36 @@ import styles from './index.module.scss';
 /* Components */
 import KeywordDatabaseSummaryCards from '../../../../components/KeywordDatabaseSummaryCards';
 import WordFreqContent from './WordFreqContent/WordFreqContent';
+import KeywordDistribution from './KeywordDistribution';
 
 /* Selectors */
 import {
+  getIsLoadingKeywordDatabaseAggSummary,
   getIsLoadingKeywordDatabaseWordFreqSummary,
+  getKeywordDatabaseAggSummary,
   getKeywordDatabaseWordFreqSummary,
 } from '../../../../selectors/KeywordResearch/KeywordDatabase';
 
 /* Interfaces */
-import { KeywordDatabaseWordFreqSummary } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
+import {
+  KeywordDatabaseAggSummary,
+  KeywordDatabaseWordFreqSummary,
+} from '../../../../interfaces/KeywordResearch/KeywordDatabase';
 
 interface Props {
   isLoadingKeywordDatabaseWordFreqSummary: boolean;
   keywordDatabaseWordFreqSummary: KeywordDatabaseWordFreqSummary[];
+  isLoadingKeywordDatabaseAggSummary: boolean;
+  keywordDatabaseAggSummary: KeywordDatabaseAggSummary;
 }
 
 const DatabaseSummary = (props: Props) => {
-  const { isLoadingKeywordDatabaseWordFreqSummary, keywordDatabaseWordFreqSummary } = props;
+  const {
+    isLoadingKeywordDatabaseWordFreqSummary,
+    keywordDatabaseWordFreqSummary,
+    isLoadingKeywordDatabaseAggSummary,
+    keywordDatabaseAggSummary,
+  } = props;
 
   return (
     <section className={styles.databaseSummarySection}>
@@ -37,8 +50,8 @@ const DatabaseSummary = (props: Props) => {
             Total Keywords
           </h3>
         }
-        content={<WordFreqContent data={[]} />}
-        isLoading={false}
+        content={<KeywordDistribution data={keywordDatabaseAggSummary} />}
+        isLoading={isLoadingKeywordDatabaseAggSummary}
       />
 
       {/* Word Analysis */}
@@ -61,6 +74,8 @@ const mapStateToProps = (state: any) => {
   return {
     isLoadingKeywordDatabaseWordFreqSummary: getIsLoadingKeywordDatabaseWordFreqSummary(state),
     keywordDatabaseWordFreqSummary: getKeywordDatabaseWordFreqSummary(state),
+    isLoadingKeywordDatabaseAggSummary: getIsLoadingKeywordDatabaseAggSummary(state),
+    keywordDatabaseAggSummary: getKeywordDatabaseAggSummary(state),
   };
 };
 
