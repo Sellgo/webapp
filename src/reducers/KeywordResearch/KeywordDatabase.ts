@@ -28,8 +28,9 @@ const INITIAL_STATE: { [key: string]: any } = {
 
     // keyword database summary state
     isLoadingKeywordDatabaseWordFreqSummary: false,
-    keywordDatabaseWordFreqSummary: [],
-
+    keywordDatabaseWordFreqSummary: JSON.parse(
+      sessionStorage.getItem('keywordDatabaseWordFreqSummary') || '[]'
+    ),
     // table state
     isLoadingKeywordDatabaseTable: false,
     keywordDatabaseTableResults: [],

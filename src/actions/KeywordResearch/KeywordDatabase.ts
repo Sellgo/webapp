@@ -83,6 +83,8 @@ export const isLoadingKeywordDatabaseWordFreqSummary = (payload: boolean) => {
 
 /* Action to set  for keyword database word freq summary */
 export const setKeywordDatabaseWordFreqSummary = (payload: KeywordDatabaseWordFreqSummary[]) => {
+  sessionStorage.setItem('keywordDatabaseWordFreqSummary', JSON.stringify(payload));
+
   return {
     type: actionTypes.SET_KEYWORD_DATABASE_WORD_FREQ_SUMMARY,
     payload,
@@ -467,6 +469,6 @@ export const resetKeywordDatabase = () => async (dispatch: any) => {
       report_xlsx_url: '',
     })
   );
-
+  dispatch(setKeywordDatabaseWordFreqSummary([]));
   dispatch(fetchKeywordDatabaseTableInformation({ resetFilter: true }));
 };
