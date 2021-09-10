@@ -3,7 +3,7 @@ import { graphColors, hexToRgbA } from '../colors';
 /* Testing graph colors values */
 describe('Testing constant graph colors', () => {
   test('testing total graph colors', () => {
-    expect(graphColors.length).toEqual(13);
+    expect(graphColors.length).toEqual(15);
   });
 });
 
