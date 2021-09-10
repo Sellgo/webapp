@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Icon } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -12,12 +13,15 @@ import FormFilterActions from '../../../../components/FormFilters/FormFilterActi
 /* Constants */
 import { DEFAULT_MIN_MAX_FILTER } from '../../../../constants/KeywordResearch/KeywordDatabase';
 import { DEFAULT_INCLUDE_EXCLUDE_FILTER } from '../../../../constants/KeywordResearch/KeywordReverse';
-import { KeywordDatabaseTablePayload } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
+
+/* Actions */
 import {
   fetchKeywordDatabaseTableInformation,
   resetKeywordDatabase,
 } from '../../../../actions/KeywordResearch/KeywordDatabase';
-import { connect } from 'react-redux';
+
+/* Interfaces */
+import { KeywordDatabaseTablePayload } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
 
 interface Props {
   fetchKeywordDatabaseTableInfo: (payload: KeywordDatabaseTablePayload) => void;
