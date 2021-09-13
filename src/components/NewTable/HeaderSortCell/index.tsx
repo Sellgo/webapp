@@ -53,6 +53,8 @@ const HeaderSortCell = (props: Props) => {
   const isAscendingSorted = currentSortType === 'asc' && isCurrentlySorted;
   const isDescendingSorted = currentSortType === 'desc' && isCurrentlySorted;
 
+  // user onboardng logic
+
   const showOnboarding = userOnboarding && userOnboardingResources.length > 0;
 
   const tableKpiOnboardingDetails = userOnboardingResources[TABLE_KPI_ONBOARDING_INDEX] || {};
@@ -70,7 +72,13 @@ const HeaderSortCell = (props: Props) => {
           <OnboardingTooltip
             trigger={
               youtubeLink ? (
-                <YoutubeLogo className={styles.youtubeLogoTrigger} />
+                <YoutubeLogo
+                  className={styles.youtubeLogoTrigger}
+                  onClick={(e: any) => {
+                    e.preventDefault();
+                    window.open(youtubeLink, '_blank');
+                  }}
+                />
               ) : (
                 <Icon name="info circle" className={styles.infoCircleTrigger} />
               )
@@ -79,8 +87,6 @@ const HeaderSortCell = (props: Props) => {
           />
         )}
       </p>
-
-      {/*  */}
 
       <div className={styles.sortIconGroup}>
         <Icon

@@ -20,7 +20,10 @@ import { resetKeywordResearch } from '../../actions/KeywordResearch';
 import { setUserOnboardingResources } from '../../actions/UserOnboarding';
 
 /* Onboarding Resources */
-import databaseOnBoardingResources from '../../assets/keywordDatabaseOnboarding.json';
+import reverseOnBoardingResources from '../../assets/onboardingResources/KeywordResearch/keywordReverseOnboarding.json';
+// eslint-disable-next-line max-len
+import databaseOnBoardingResources from '../../assets/onboardingResources/KeywordResearch/keywordDatabaseOnboarding.json';
+import trackerOnBoardingResources from '../../assets/onboardingResources/KeywordResearch/keywordTrackerOnboarding.json';
 
 interface Props {
   match: any;
@@ -36,8 +39,12 @@ const KeywordResearch = (props: Props) => {
   const [selectedTabList, setSelectedTabList] = useState<number>(1);
 
   const handleTabChange = (index: number) => {
-    if (index === 1) {
+    if (index === 0) {
+      setUserOnboardingResources(reverseOnBoardingResources);
+    } else if (index === 1) {
       setUserOnboardingResources(databaseOnBoardingResources);
+    } else if (index === 2) {
+      setUserOnboardingResources(trackerOnBoardingResources);
     }
 
     setSelectedTabList(index);
@@ -45,12 +52,17 @@ const KeywordResearch = (props: Props) => {
 
   useEffect(() => {
     // set resources for keyword database
-    if (selectedTabList === 1) {
+    if (selectedTabList === 0) {
+      setUserOnboardingResources(reverseOnBoardingResources);
+    } else if (selectedTabList === 1) {
       setUserOnboardingResources(databaseOnBoardingResources);
+    } else if (selectedTabList === 2) {
+      setUserOnboardingResources(trackerOnBoardingResources);
     }
 
     return () => {
       resetKeywordResearch();
+      setUserOnboardingResources([]);
     };
   }, []);
 
