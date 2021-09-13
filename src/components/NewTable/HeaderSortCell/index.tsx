@@ -4,6 +4,12 @@ import { Icon } from 'semantic-ui-react';
 /* Styling */
 import styles from './index.module.scss';
 
+/* Assets */
+import { ReactComponent as YoutubeLogo } from '../../../assets/images/youtubeLogo.svg';
+
+/* Component */
+import OnboardingTooltip from '../../OnboardingTooltip';
+
 interface Props {
   title: string;
   dataKey: string;
@@ -24,8 +30,8 @@ const defaultStyles = {
 /* Header cell, Adds a sort icon beside the heading. */
 const HeaderSortCell = (props: Props) => {
   const { title, dataKey, currentSortColumn, currentSortType } = props;
-  /* Generating sort icon */
 
+  /* Generating sort icon */
   const isCurrentlySorted = currentSortColumn === dataKey;
   const isAscendingSorted = currentSortType === 'asc' && isCurrentlySorted;
   const isDescendingSorted = currentSortType === 'desc' && isCurrentlySorted;
@@ -34,7 +40,14 @@ const HeaderSortCell = (props: Props) => {
     <div className={styles.headerCell}>
       <p className={styles.headerText} style={isCurrentlySorted ? sortedStyles : defaultStyles}>
         {title}
+        <OnboardingTooltip
+          trigger={<YoutubeLogo className={styles.youtubeLogoTrigger} />}
+          tooltipMessage={`${dataKey} | 1 min watch`}
+        />
       </p>
+
+      {/* <Icon name="info circle" className={styles.infoCircleTrigger} /> */}
+
       <div className={styles.sortIconGroup}>
         <Icon
           size="large"
