@@ -12,7 +12,6 @@
 
       // column heder cell
       .rs-table-cell-content {
-        padding: 0 !important;
         display: flex !important;
         align-items: center !important;
         font-size: 12px !important;
@@ -20,6 +19,14 @@
         background: $light_gray_background !important;
         border: 0 !important;
         font-weight: 500 !important;
+        padding: 3px 10px !important;
+      }
+
+      // first column special styles
+      .rs-table-cell-first {
+        .rs-table-cell-content {
+          padding: 0 !important;
+        }
       }
     }
 

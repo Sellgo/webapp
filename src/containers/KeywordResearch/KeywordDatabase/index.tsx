@@ -7,6 +7,7 @@ import styles from './index.module.scss';
 /* Containers */
 import DatabaseFilters from './DatabaseFilters';
 import DatabaseProgress from './DatabaseProgress';
+import DatabaseSummary from './DatabaseSummary';
 import DatabaseKeywordList from './DatabaseKeywordList';
 import DatabaseExport from './DatabaseExport';
 import DatabaseTable from './DatabaseTable';
@@ -17,11 +18,15 @@ import { KeywordDatabaseTablePayload } from '../../../interfaces/KeywordResearch
 /* Actions */
 import { fetchKeywordDatabaseTableInformation } from '../../../actions/KeywordResearch/KeywordDatabase';
 
+/* Selectors */
+import { getKeywordDatabaseRequestId } from '../../../selectors/KeywordResearch/KeywordDatabase';
+
 interface Props {
   fetchKeywordDatabaseTableInformation: (paylaod: KeywordDatabaseTablePayload) => void;
+  keywordDatabaseTrackId: string;
 }
 const KeywordDatabase = (props: Props) => {
-  const { fetchKeywordDatabaseTableInformation } = props;
+  const { fetchKeywordDatabaseTableInformation, keywordDatabaseTrackId } = props;
 
   useEffect(() => {
     const keywordId = sessionStorage.getItem('keywordDatabaseRequestId') || '';
@@ -34,9 +39,10 @@ const KeywordDatabase = (props: Props) => {
 
   return (
     <main className={styles.keywordDatabasePage}>
-      <DatabaseFilters />
-      <DatabaseProgress />
       <DatabaseKeywordList />
+      {keywordDatabaseTrackId && <DatabaseFilters />}
+      <DatabaseProgress />
+      <DatabaseSummary />
       <DatabaseExport />
       <DatabaseTable />
     </main>
@@ -50,4 +56,10 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(KeywordDatabase);
+const mapStateToProps = (state: any) => {
+  return {
+    keywordDatabaseTrackId: getKeywordDatabaseRequestId(state),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(KeywordDatabase);

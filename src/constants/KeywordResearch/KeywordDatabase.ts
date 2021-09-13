@@ -10,6 +10,12 @@ export const actionTypes = {
   SHOULD_FETCH_KEYWORD_DATABASE_PROGRESS: 'SHOULD_FETCH_KEYWORD_DATABASE_PROGRESS',
   SET_KEYWORD_DATABASE_PROGRESS_DATA: 'SET_KEYWORD_DATABASE_PROGRESS_DATA',
 
+  /* Action Types for table aggregation summary */
+  IS_LOADING_KEYWORD_DATABASE_WORD_FREQ_SUMMARY: 'IS_LOADING_KEYWORD_DATABASE_WORD_FREQ_SUMMARY',
+  SET_KEYWORD_DATABASE_WORD_FREQ_SUMMARY: 'SET_KEYWORD_DATABASE_WORD_FREQ_SUMMARY',
+  IS_LOADING_KEYWORD_DATABASE_AGG_SUMMARY: 'IS_LOADING_KEYWORD_DATABASE_AGG_SUMMARY',
+  SET_KEYWORD_DATABASE_AGG_SUMMARY: 'SET_KEYWORD_DATABASE_AGG_SUMMARY',
+
   /* Actions for the main table */
   IS_LOADING_KEYWORD_DATABASE_TABLE: 'IS_LOADING_KEYWORD_DATABASE_TABLE',
   SET_KEYWORD_DATABASE_TABLE_RESULTS: 'SET_KEYWORD_DATABASE_TABLE_RESULTS',
@@ -44,13 +50,13 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
 
   // min max based
   searchVolume: { keyName: 'search_volume', type: F_TYPES.MIN_MAX },
-  positionRank: { keyName: 'position_rank', type: F_TYPES.MIN_MAX },
   wordCount: { keyName: 'word_count', type: F_TYPES.MIN_MAX },
-  sponsoredAsins: { keyName: 'sponsored_asins', type: F_TYPES.MIN_MAX },
-  relativeRank: { keyName: 'relative_rank', type: F_TYPES.MIN_MAX },
-  competitorRank: { keyName: 'competitor_rank_avg', type: F_TYPES.MIN_MAX },
-  rankingCompetitors: { keyName: 'ranking_competitors_count', type: F_TYPES.MIN_MAX },
   competingProducts: { keyName: 'competing_products', type: F_TYPES.MIN_MAX },
+  titleDensity: { keyName: 'title_density', type: F_TYPES.MIN_MAX },
+  searchVolumeTrend30D: { keyName: 'search_volume_30_days', type: F_TYPES.MIN_MAX },
+
+  // checkbox filters
+  amazonChoice: { keyName: 'amazon_choice', type: F_TYPES.TEXT },
 };
 
 /* Exports data */

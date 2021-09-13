@@ -26,6 +26,23 @@ const INITIAL_STATE: { [key: string]: any } = {
         })
     ),
 
+    // keyword database summary state
+    isLoadingKeywordDatabaseWordFreqSummary: false,
+    keywordDatabaseWordFreqSummary: JSON.parse(
+      sessionStorage.getItem('keywordDatabaseWordFreqSummary') || '[]'
+    ),
+
+    isLoadingKeywordDatabaseAggSummary: false,
+    keywordDatabaseAggSummary: JSON.parse(
+      sessionStorage.getItem('keywordDatabaseAggSummary') ||
+        JSON.stringify({
+          total_keywords: 0,
+          total_search_volume: 0,
+          avg_competing_products: 0,
+          avg_search_volume: 0,
+        })
+    ),
+
     // table state
     isLoadingKeywordDatabaseTable: false,
     keywordDatabaseTableResults: [],
@@ -93,6 +110,47 @@ const keywordDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
         [sessionTab]: {
           ...sessionStateChunk,
           keywordDatabaseProgressData: action.payload,
+        },
+      };
+    }
+
+    /* ================= DATABASE TABLE SUMMARY ==================== */
+    case actionTypes.IS_LOADING_KEYWORD_DATABASE_WORD_FREQ_SUMMARY: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          isLoadingKeywordDatabaseWordFreqSummary: action.payload,
+        },
+      };
+    }
+
+    case actionTypes.SET_KEYWORD_DATABASE_WORD_FREQ_SUMMARY: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          keywordDatabaseWordFreqSummary: action.payload,
+        },
+      };
+    }
+
+    case actionTypes.IS_LOADING_KEYWORD_DATABASE_AGG_SUMMARY: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          isLoadingKeywordDatabaseAggSummary: action.payload,
+        },
+      };
+    }
+
+    case actionTypes.SET_KEYWORD_DATABASE_AGG_SUMMARY: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          keywordDatabaseAggSummary: action.payload,
         },
       };
     }

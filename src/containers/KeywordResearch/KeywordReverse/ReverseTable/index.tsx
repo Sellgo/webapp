@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Table } from 'rsuite';
 import { connect } from 'react-redux';
+import { v4 as uuid } from 'uuid';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -9,6 +10,7 @@ import './global.scss';
 /* Selectors */
 import {
   getIsLoadingKeywordReverseTable,
+  getKeywordReverseProductsList,
   getKeywordReverseTablePaginationInfo,
   getKeywordReverseTableResults,
 } from '../../../../selectors/KeywordResearch/KeywordReverse';
@@ -29,6 +31,7 @@ import SearchTerm from './SearchTerm';
 
 /* Interfaces */
 import {
+  KeywordReverseAsinProduct,
   KeywordReversePaginationInfo,
   KeywordReverseTablePayload,
 } from '../../../../interfaces/KeywordResearch/KeywordReverse';
@@ -37,6 +40,7 @@ interface Props {
   isLoadingKeywordReverseTable: boolean;
   keywordReverseTableResults: any[];
   keywordReverseTablePaginationInfo: KeywordReversePaginationInfo;
+  keywordReverseProductsList: KeywordReverseAsinProduct[];
 
   fetchKeywordReverseTableInformation: (payload: KeywordReverseTablePayload) => void;
 }
@@ -46,6 +50,7 @@ const ReverseTable = (props: Props) => {
     isLoadingKeywordReverseTable,
     keywordReverseTableResults,
     keywordReverseTablePaginationInfo,
+    keywordReverseProductsList,
     fetchKeywordReverseTableInformation,
   } = props;
 
@@ -61,6 +66,8 @@ const ReverseTable = (props: Props) => {
   const handlePageChange = (pageNo: number, perPageNo?: number) => {
     fetchKeywordReverseTableInformation({ page: pageNo, per_page: perPageNo });
   };
+
+  const singleAsinOnReverse = keywordReverseProductsList && keywordReverseProductsList.length === 1;
 
   return (
     <section className={styles.keywordReverseTableWrapper}>
@@ -83,7 +90,7 @@ const ReverseTable = (props: Props) => {
         </Table.Column>
 
         {/* Search Volume */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Search\nVolume`}
@@ -92,11 +99,11 @@ const ReverseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="search_volume" align="center" specialKpi />
+          <StatsCell dataKey="search_volume" align="left" specialKpi />
         </Table.Column>
 
         {/* Sponsored ASINS */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Sponsored\nASINs`}
@@ -105,11 +112,11 @@ const ReverseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="sponsored_asins" align="center" />
+          <StatsCell dataKey="sponsored_asins" align="left" />
         </Table.Column>
 
         {/* Competing Products  */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Competing\nProducts`}
@@ -118,59 +125,131 @@ const ReverseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="competing_products" prependWith="> " align="center" />
+          <StatsCell dataKey="competing_products" prependWith=">" align="left" />
         </Table.Column>
 
-        {/* Position Rank */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        {/* Title Density  */}
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Position\nRank`}
-              dataKey="position_rank"
+              title={`Title\nDensity`}
+              dataKey="title_density"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="position_rank" align="center" />
+          <StatsCell dataKey="title_density" align="left" />
         </Table.Column>
 
-        {/* Relative Rank  */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        {/* Dynamic Columns for the tbale based on asin count */}
+        {singleAsinOnReverse
+          ? [
+              /* Organic Rank */
+              <Table.Column
+                width={100}
+                verticalAlign="middle"
+                fixed
+                align="left"
+                sortable
+                key={uuid()}
+              >
+                <Table.HeaderCell>
+                  <HeaderSortCell
+                    title={`Organic\nRank`}
+                    dataKey="organic_rank"
+                    currentSortColumn={sortColumn}
+                    currentSortType={sortType}
+                  />
+                </Table.HeaderCell>
+                <StatsCell dataKey="organic_rank" align="left" />
+              </Table.Column>,
+            ]
+          : [
+              /* Sponsored Rank (avg) */
+              <Table.Column
+                width={100}
+                verticalAlign="middle"
+                fixed
+                align="left"
+                sortable
+                key={uuid()}
+              >
+                <Table.HeaderCell>
+                  <HeaderSortCell
+                    title={`Sponsored\nRank (avg)`}
+                    dataKey="sponsored_rank_avg"
+                    currentSortColumn={sortColumn}
+                    currentSortType={sortType}
+                  />
+                </Table.HeaderCell>
+                <StatsCell dataKey="sponsored_rank_avg" align="left" />
+              </Table.Column>,
+
+              /* Sponsored Rank (count) */
+              <Table.Column
+                width={100}
+                verticalAlign="middle"
+                fixed
+                align="left"
+                sortable
+                key={uuid()}
+              >
+                <Table.HeaderCell>
+                  <HeaderSortCell
+                    title={`Sponsored\nRank (#)`}
+                    dataKey="sponsored_rank_count"
+                    currentSortColumn={sortColumn}
+                    currentSortType={sortType}
+                  />
+                </Table.HeaderCell>
+                <StatsCell dataKey="sponsored_rank_count" align="left" />
+              </Table.Column>,
+
+              /* Position Rank  */
+              <Table.Column
+                width={100}
+                verticalAlign="middle"
+                fixed
+                align="left"
+                sortable
+                key={uuid()}
+              >
+                <Table.HeaderCell>
+                  <HeaderSortCell
+                    title={`Position\nRank`}
+                    dataKey="position_rank"
+                    currentSortColumn={sortColumn}
+                    currentSortType={sortType}
+                  />
+                </Table.HeaderCell>
+                <StatsCell dataKey="position_rank" align="left" />
+              </Table.Column>,
+            ]}
+
+        {/* Count Top 10  */}
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Relative\nRank`}
-              dataKey="relative_rank"
+              title={`Count\nTop 10`}
+              dataKey="count_top_10"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="relative_rank" align="center" />
+          <StatsCell dataKey="count_top_10" align="left" />
         </Table.Column>
 
-        {/* Competitor Rank  */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
+        {/* Count Top 50  */}
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Competitor\nRank(avg)`}
-              dataKey="competitor_rank_avg"
+              title={`Count\nTop 50`}
+              dataKey="count_top_50"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="competitor_rank_avg" align="center" />
-        </Table.Column>
-
-        {/* Ranking Competitors  */}
-        <Table.Column width={130} verticalAlign="middle" fixed align="left" sortable>
-          <Table.HeaderCell>
-            <HeaderSortCell
-              title={`Ranking\nCompetitors`}
-              dataKey="ranking_competitors_count"
-              currentSortColumn={sortColumn}
-              currentSortType={sortType}
-            />
-          </Table.HeaderCell>
-          <StatsCell dataKey="ranking_competitors_count" align="center" />
+          <StatsCell dataKey="count_top_50" align="left" />
         </Table.Column>
       </Table>
 
@@ -196,6 +275,7 @@ const mapStateToProps = (state: any) => {
     isLoadingKeywordReverseTable: getIsLoadingKeywordReverseTable(state),
     keywordReverseTableResults: getKeywordReverseTableResults(state),
     keywordReverseTablePaginationInfo: getKeywordReverseTablePaginationInfo(state),
+    keywordReverseProductsList: getKeywordReverseProductsList(state),
   };
 };
 

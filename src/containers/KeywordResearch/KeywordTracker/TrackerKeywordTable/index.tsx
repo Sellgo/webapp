@@ -8,12 +8,15 @@ import styles from './index.module.scss';
 
 /* Componensts */
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
+import CheckBoxCell from '../../../../components/NewTable/CheckboxCell';
+import HeaderCheckboxCell from '../../../../components/NewTable/HeaderCheckboxCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
 
 /* Containers */
 import Keyword from './Keyword';
 import ActionsCell from './ActionsCell';
+import HeaderActionsCell from './HeaderActionsCell';
 
 /* Constants */
 import {
@@ -57,6 +60,7 @@ const TrackerKeywordTable = (props: Props) => {
 
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
+  const [checkedRows, setCheckedRows] = useState<any>([]);
 
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     const tableResults = trackerProductKeywordsTableResults;
@@ -89,6 +93,43 @@ const TrackerKeywordTable = (props: Props) => {
     });
   };
 
+  const handleCheckboxClick = (rowData: any) => {
+    const doesAlreadyExists = checkedRows.some(
+      (row: any) =>
+        row[TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY] ===
+        rowData[TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY]
+    );
+
+    // if row does not exist from before add in checked rows state
+    if (!doesAlreadyExists) {
+      setCheckedRows((prevState: any) => {
+        return [...prevState, rowData];
+      });
+    }
+    // if already exisat from before remove from checked rows
+    else {
+      const filteredRows = checkedRows.filter((row: any) => {
+        return (
+          row[TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY] !==
+          rowData[TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY]
+        );
+      });
+
+      setCheckedRows(filteredRows);
+    }
+  };
+
+  const handleHeaderCheckboxClick = (e: any, data: any) => {
+    const isCheked = Boolean(data.checked);
+
+    if (!isCheked) {
+      setCheckedRows([]);
+    } else {
+      const allRows = new Set([...trackerProductKeywordsTableResults]);
+      setCheckedRows(Array.from(allRows));
+    }
+  };
+
   return (
     <>
       <div className={styles.keywordTableWrapper}>
@@ -103,7 +144,22 @@ const TrackerKeywordTable = (props: Props) => {
           sortType={sortType}
           id="trackerKeywordTable"
           onSortColumn={handleSortColumn}
+          rowKey={TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY}
         >
+          {/* Check Box Action Cell */}
+          <Table.Column verticalAlign="middle" fixed align="left" width={40}>
+            <HeaderCheckboxCell
+              handleCheckboxClick={handleHeaderCheckboxClick}
+              dataKey={'headerActions'}
+              actionsCell={<HeaderActionsCell checkedRows={checkedRows} />}
+            />
+            <CheckBoxCell
+              checkedRows={checkedRows}
+              dataKey={TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY}
+              handleCheckboxClick={handleCheckboxClick}
+            />
+          </Table.Column>
+
           {/* Keyword Info */}
           <Table.Column verticalAlign="middle" fixed align="left" width={500} flexGrow={1}>
             <Table.HeaderCell>Keyword</Table.HeaderCell>

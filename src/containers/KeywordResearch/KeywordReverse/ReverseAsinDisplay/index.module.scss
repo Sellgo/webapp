@@ -1,0 +1,46 @@
+@import '../../../../design-system/new-colors.scss';
+
+.reverseAsinDisplay {
+  padding: 18px 0;
+
+  > h2 {
+    color: $grey_8;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+}
+
+.reverseAsinCardsWrapper {
+  margin: 8px 0;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+}
+
+.addAsinCard {
+  border: 1px solid $grey_3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 160px;
+  height: 240px;
+  border-radius: 5px;
+  background: #fff;
+
+  svg {
+    path {
+      fill: $grey_6;
+    }
+  }
+
+  &:hover {
+    background: $grey_3;
+
+    svg {
+      path {
+        fill: $grey_8;
+      }
+    }
+  }
+}

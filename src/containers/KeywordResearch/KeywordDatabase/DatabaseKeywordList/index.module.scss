@@ -5,23 +5,30 @@
   user-select: none;
   margin-top: 30px;
   position: relative;
+}
 
-  p {
-    margin-left: auto;
-    text-align: right;
-    font-weight: 500;
-    margin-bottom: 5px;
-    color: $prim_dark_1;
+.toggleReset {
+  position: absolute;
+  z-index: 99999;
+  cursor: pointer !important;
+
+  path {
+    fill: $grey_8;
   }
 }
 
-.toggleInputIcon {
-  position: absolute;
-  z-index: 99999;
-  top: 32px;
-  right: 30px !important;
-  cursor: pointer !important;
-  color: $grey_8 !important;
+.toggleChevronRight {
+  @extend .toggleReset;
+
+  top: 30px !important;
+  right: 20px !important;
+}
+
+.toggleChevronDown {
+  @extend .toggleReset;
+
+  top: 10px;
+  right: 20px;
 }
 
 /* Comma seperated input conatiner wrapper */
@@ -91,17 +98,40 @@
   }
 }
 
-.fetchKeywordsButton {
-  color: #fff;
-  background: $blue_8;
-  height: 30px;
-  margin-top: 5px;
+/* Search keywords button */
+.resetBtn {
+  height: 33px;
+  width: 140px;
+  border-radius: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  border: 1px solid $accent_orange;
+  margin-top: 30px;
 
-  &:disabled {
-    opacity: 0.7;
-  }
+  // &:disabled {
+  //   opacity: 0.7;
+  // }
 }
 
+/* In Active State for fetch keywords button */
+.fetchKeywordsInActive {
+  @extend .resetBtn;
+
+  color: #fff;
+  background: $accent_orange;
+}
+
+/* Active State for fetch keywords button */
+.fetchKeywordsActive {
+  @extend .resetBtn;
+
+  color: $accent_orange;
+  background: #fff;
+}
+
+/* Keyword Suggestions List */
 .keywordSuggestions {
   list-style: none;
   width: 100%;

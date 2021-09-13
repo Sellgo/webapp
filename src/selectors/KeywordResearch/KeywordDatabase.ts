@@ -46,6 +46,40 @@ export const getKeywordDatabaseProgressData = (state: any) => {
   return get(stateChunk, 'keywordDatabaseProgressData');
 };
 
+/* =================== KEYWORD DATABASE SUMMARY =============== */
+
+/* Selector to get loading state for word freq summary */
+export const getIsLoadingKeywordDatabaseWordFreqSummary = (state: any) => {
+  const sessionTabId = makeOrGetUniqueTabID();
+
+  const stateChunk = get(state, `keywordDatabase[${sessionTabId}]`);
+  return get(stateChunk, 'isLoadingKeywordDatabaseWordFreqSummary');
+};
+
+/* Selector to get word freq summary */
+export const getKeywordDatabaseWordFreqSummary = (state: any) => {
+  const sessionTabId = makeOrGetUniqueTabID();
+
+  const stateChunk = get(state, `keywordDatabase[${sessionTabId}]`);
+  return get(stateChunk, 'keywordDatabaseWordFreqSummary');
+};
+
+/* Selector to get loading state for word freq summary */
+export const getIsLoadingKeywordDatabaseAggSummary = (state: any) => {
+  const sessionTabId = makeOrGetUniqueTabID();
+
+  const stateChunk = get(state, `keywordDatabase[${sessionTabId}]`);
+  return get(stateChunk, 'isLoadingKeywordDatabaseAggSummary');
+};
+
+/* Selector to get word freq summary */
+export const getKeywordDatabaseAggSummary = (state: any) => {
+  const sessionTabId = makeOrGetUniqueTabID();
+
+  const stateChunk = get(state, `keywordDatabase[${sessionTabId}]`);
+  return get(stateChunk, 'keywordDatabaseAggSummary');
+};
+
 /* =================== KEYWORD DATABASE TABLE =============== */
 
 /* Selector to get loading state for keyword database table */

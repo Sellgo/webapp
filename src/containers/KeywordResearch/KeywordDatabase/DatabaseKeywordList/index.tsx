@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Icon, TextArea } from 'semantic-ui-react';
+import { TextArea } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { debounce } from 'lodash';
 
@@ -13,7 +13,10 @@ import InputFilter from '../../../../components/FormFilters/InputFilter';
 import { MAX_KEYWORDS_ALLOWED } from '../../../../constants/KeywordResearch/KeywordDatabase';
 
 /* Selectors */
-import { getKeywordDatabaseKeywordList } from '../../../../selectors/KeywordResearch/KeywordDatabase';
+import {
+  getKeywordDatabaseKeywordList,
+  getKeywordDatabaseRequestId,
+} from '../../../../selectors/KeywordResearch/KeywordDatabase';
 
 /* Actions */
 import {
@@ -21,13 +24,22 @@ import {
   fetchKeywordDatabaseRequestId,
 } from '../../../../actions/KeywordResearch/KeywordDatabase';
 
+/* Assets */
+import { ReactComponent as ChevronRight } from '../../../../assets/images/chevronRight.svg';
+import { ReactComponent as ChevronDown } from '../../../../assets/images/chevronDown.svg';
+
 interface Props {
   keywordDatabaseKeywordList: string;
+  keywordDatabaseRequestId: string;
   fetchKeywordDatabaseRequestId: (payload: string) => void;
 }
 
 const DatabaseKeywordList = (props: Props) => {
-  const { keywordDatabaseKeywordList, fetchKeywordDatabaseRequestId } = props;
+  const {
+    keywordDatabaseKeywordList,
+    keywordDatabaseRequestId,
+    fetchKeywordDatabaseRequestId,
+  } = props;
 
   const [keywords, setKeywords] = useState<string>('');
   const [isTextArea, setIsTextArea] = useState<boolean>(false);
@@ -44,6 +56,7 @@ const DatabaseKeywordList = (props: Props) => {
 
   /* Handle fetch keywords */
   const handleSubmit = () => {
+    setSuggestions([]);
     fetchKeywordDatabaseRequestId(keywords);
   };
 
@@ -80,45 +93,52 @@ const DatabaseKeywordList = (props: Props) => {
     getSuggestions(value);
   };
 
-  const keywordsRemaining = MAX_KEYWORDS_ALLOWED - totalKeywords;
-
   return (
     <section className={styles.keywordListWrapper}>
-      <p>
-        {keywordsRemaining < 0
-          ? 'keywords limit exceeded'
-          : `${keywordsRemaining} more keywords allowed.`}
-      </p>
-      <Icon
-        name={isTextArea ? 'chevron down' : 'chevron right'}
-        className={styles.toggleInputIcon}
-        onClick={() => setIsTextArea(prevState => !prevState)}
-      />
+      {/* Toggle Icon  */}
+      {isTextArea ? (
+        <ChevronDown
+          className={styles.toggleChevronDown}
+          onClick={() => setIsTextArea(prevState => !prevState)}
+        />
+      ) : (
+        <ChevronRight
+          className={styles.toggleChevronRight}
+          onClick={() => setIsTextArea(prevState => !prevState)}
+        />
+      )}
 
+      {/* Input type wih auto suggestions */}
       {!isTextArea && (
         <div className={styles.commaSeperatedInput}>
+          {/* Togle Icons */}
           <InputFilter
             placeholder="Enter keyword seperated by comma"
             value={keywords}
             handleChange={handleKeywordsChange}
             className={styles.longInput}
+            label="Add Keywords"
           />
           {suggestions.length > 0 && (
             <ul className={styles.keywordSuggestions} onClick={handleSuggestionClick}>
-              {suggestions.map((suggestion: any) => {
-                return <li key={suggestion.search_term}>{suggestion.search_term}</li>;
+              {suggestions.map((suggestion: any, index: number) => {
+                return <li key={suggestion.search_term + index}>{suggestion.search_term}</li>;
               })}
             </ul>
           )}
         </div>
       )}
 
+      {/* Text Area  */}
       {isTextArea && (
         <div className={styles.newLineSeperatedInput}>
           <TextArea
             placeholder="Enter upto 200 keywords (1 per line) ..."
             className={styles.textInput}
-            value={keywords.split(',').join('\n')}
+            value={keywords
+              .split(',')
+              .map(k => k.trim())
+              .join('\n')}
             onChange={(e: any, { value }: any) => setKeywords(value.split('\n').join(','))}
           />
         </div>
@@ -127,10 +147,12 @@ const DatabaseKeywordList = (props: Props) => {
       {/* Fetch keywords button */}
       <button
         disabled={totalKeywords === 0 || totalKeywords > MAX_KEYWORDS_ALLOWED}
-        className={styles.fetchKeywordsButton}
+        className={
+          keywordDatabaseRequestId ? styles.fetchKeywordsActive : styles.fetchKeywordsInActive
+        }
         onClick={handleSubmit}
       >
-        Fetch keywords
+        Search
       </button>
     </section>
   );
@@ -139,6 +161,7 @@ const DatabaseKeywordList = (props: Props) => {
 const mapStateToProps = (state: any) => {
   return {
     keywordDatabaseKeywordList: getKeywordDatabaseKeywordList(state),
+    keywordDatabaseRequestId: getKeywordDatabaseRequestId(state),
   };
 };
 

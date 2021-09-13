@@ -8,13 +8,12 @@ import styles from './index.module.scss';
 /* Components */
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
-import InputFilter from '../../../../components/FormFilters/InputFilter';
 
 /* Constants */
-import {
-  DEFAULT_INCLUDE_EXCLUDE_FILTER,
-  DEFAULT_MIN_MAX_FILTER,
-} from '../../../../constants/KeywordResearch/KeywordReverse';
+import { DEFAULT_MIN_MAX_FILTER } from '../../../../constants/KeywordResearch/KeywordReverse';
+
+/* Selectors */
+import { getKeywordReverseProductsList } from '../../../../selectors/KeywordResearch/KeywordReverse';
 
 /* Actions */
 import {
@@ -23,42 +22,55 @@ import {
 } from '../../../../actions/KeywordResearch/KeywordReverse';
 
 /* Interfaces */
-import { KeywordReverseTablePayload } from '../../../../interfaces/KeywordResearch/KeywordReverse';
+import {
+  KeywordReverseAsinProduct,
+  KeywordReverseTablePayload,
+} from '../../../../interfaces/KeywordResearch/KeywordReverse';
 
 interface Props {
+  keywordReverseProductsList: KeywordReverseAsinProduct[];
+
   fetchKeywordReverseTableInfo: (payload: KeywordReverseTablePayload) => void;
   resetKeywordReverse: () => void;
 }
 
 const ReverseFilters = (props: Props) => {
   /* Props */
-  const { fetchKeywordReverseTableInfo, resetKeywordReverse } = props;
+  const { fetchKeywordReverseTableInfo, resetKeywordReverse, keywordReverseProductsList } = props;
 
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(true);
 
   /* Basic Filters */
   const [searchVolume, setSearchVolume] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [organicRank, setOrganicRank] = useState(DEFAULT_MIN_MAX_FILTER);
   const [positionRank, setPositionRank] = useState(DEFAULT_MIN_MAX_FILTER);
 
   /* Advanced Filters */
   const [sponsoredAsins, setSponsoredAsins] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [competingProducts, setCompetitingProducts] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [relativeRank, setRelativeRank] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [competitorRank, setCompetitorRank] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [rankingCompetitors, setRankingCompetitors] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [searchTerm, setSearchTerm] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+  const [competingProducts, setCompetingProducts] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [titleDensity, setTitleDensity] = useState(DEFAULT_MIN_MAX_FILTER);
+
+  const [sponsoredRank, setSponsoredRank] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [sponsoredRankAvg, setSponsoredRankAvg] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [sponsoredRankCount, setSponsoredRankCount] = useState(DEFAULT_MIN_MAX_FILTER);
+
+  const singleAsinOnReverse = keywordReverseProductsList && keywordReverseProductsList.length === 1;
 
   /* Handle Submit */
   const handleSubmit = () => {
     const filterPayload = {
       searchVolume,
+      organicRank,
       positionRank,
+
+      /* Advanced Filters */
       sponsoredAsins,
       competingProducts,
-      relativeRank,
-      competitorRank,
-      rankingCompetitors,
-      searchTerm,
+      titleDensity,
+
+      sponsoredRank,
+      sponsoredRankAvg,
+      sponsoredRankCount,
     };
     fetchKeywordReverseTableInfo({ filterPayload });
   };
@@ -66,13 +78,18 @@ const ReverseFilters = (props: Props) => {
   /* Handle Reset */
   const handleReset = () => {
     setSearchVolume(DEFAULT_MIN_MAX_FILTER);
+    setOrganicRank(DEFAULT_MIN_MAX_FILTER);
     setPositionRank(DEFAULT_MIN_MAX_FILTER);
+
+    /* Advanced Filters */
     setSponsoredAsins(DEFAULT_MIN_MAX_FILTER);
-    setRelativeRank(DEFAULT_MIN_MAX_FILTER);
-    setCompetitorRank(DEFAULT_MIN_MAX_FILTER);
-    setRankingCompetitors(DEFAULT_MIN_MAX_FILTER);
-    setCompetitingProducts(DEFAULT_MIN_MAX_FILTER);
-    setSearchTerm(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+    setCompetingProducts(DEFAULT_MIN_MAX_FILTER);
+    setTitleDensity(DEFAULT_MIN_MAX_FILTER);
+
+    setSponsoredRank(DEFAULT_MIN_MAX_FILTER);
+    setSponsoredRankAvg(DEFAULT_MIN_MAX_FILTER);
+    setSponsoredRankCount(DEFAULT_MIN_MAX_FILTER);
+
     resetKeywordReverse();
   };
 
@@ -90,15 +107,33 @@ const ReverseFilters = (props: Props) => {
           }}
         />
 
-        {/* Position Rank  */}
-        <MinMaxFilter
-          label="Position Rank"
-          minValue={positionRank.min}
-          maxValue={positionRank.max}
-          handleChange={(type, value) => {
-            setPositionRank(prevState => ({ ...prevState, [type]: value }));
-          }}
-        />
+        {/* Show different filters based on asin count */}
+
+        {singleAsinOnReverse ? (
+          <>
+            {/* Organic Rank */}
+            <MinMaxFilter
+              label="Organic Rank"
+              minValue={organicRank.min}
+              maxValue={organicRank.max}
+              handleChange={(type, value) => {
+                setOrganicRank(prevState => ({ ...prevState, [type]: value }));
+              }}
+            />
+          </>
+        ) : (
+          <>
+            {/* Position Rank */}
+            <MinMaxFilter
+              label="Position Rank"
+              minValue={positionRank.min}
+              maxValue={positionRank.max}
+              handleChange={(type, value) => {
+                setPositionRank(prevState => ({ ...prevState, [type]: value }));
+              }}
+            />
+          </>
+        )}
       </div>
 
       {/* Advanced Filters */}
@@ -115,7 +150,7 @@ const ReverseFilters = (props: Props) => {
 
         {showAdvancedFilter && (
           <div className={styles.showAdvancedFilter}>
-            {/* Sponsored Rank count */}
+            {/* Sponsored ASINs */}
             <MinMaxFilter
               label="Sponsored ASINs"
               minValue={sponsoredAsins.min}
@@ -125,61 +160,61 @@ const ReverseFilters = (props: Props) => {
               }}
             />
 
-            {/* Relative Rank */}
-            <MinMaxFilter
-              label="Relative Rank"
-              minValue={relativeRank.min}
-              maxValue={relativeRank.max}
-              handleChange={(type, value) => {
-                setRelativeRank(prevState => ({ ...prevState, [type]: value }));
-              }}
-            />
-
-            {/* Competitor Rank */}
-            <MinMaxFilter
-              label="Competitor Rank"
-              minValue={competitorRank.min}
-              maxValue={competitorRank.max}
-              handleChange={(type, value) => {
-                setCompetitorRank(prevState => ({ ...prevState, [type]: value }));
-              }}
-            />
-
-            {/* Ranking Competitors */}
-            <MinMaxFilter
-              label="Ranking Competitors"
-              minValue={rankingCompetitors.min}
-              maxValue={rankingCompetitors.max}
-              handleChange={(type, value) => {
-                setRankingCompetitors(prevState => ({ ...prevState, [type]: value }));
-              }}
-            />
-
-            {/* Competing Products */}
+            {/* Competing Products  */}
             <MinMaxFilter
               label="Competing Products"
               minValue={competingProducts.min}
               maxValue={competingProducts.max}
               handleChange={(type, value) => {
-                setCompetitingProducts(prevState => ({ ...prevState, [type]: value }));
+                setCompetingProducts(prevState => ({ ...prevState, [type]: value }));
               }}
             />
 
-            {/* Include Search Terms)  */}
-            <InputFilter
-              label="Include Search Term"
-              value={searchTerm.include}
-              handleChange={value => setSearchTerm(prevState => ({ ...prevState, include: value }))}
-              placeholder="Enter Search Term"
+            {/* Title Density  */}
+            <MinMaxFilter
+              label="Title Density"
+              minValue={titleDensity.min}
+              maxValue={titleDensity.max}
+              handleChange={(type, value) => {
+                setTitleDensity(prevState => ({ ...prevState, [type]: value }));
+              }}
             />
 
-            {/* Exclude Search Terms)  */}
-            <InputFilter
-              label="Exclude Search Terms"
-              value={searchTerm.exclude}
-              handleChange={value => setSearchTerm(prevState => ({ ...prevState, exclude: value }))}
-              placeholder="Enter Search Term"
-            />
+            {singleAsinOnReverse ? (
+              <>
+                {/* Sponsored Rank */}
+                <MinMaxFilter
+                  label="Sponsored Rank"
+                  minValue={sponsoredRank.min}
+                  maxValue={sponsoredRank.max}
+                  handleChange={(type, value) => {
+                    setSponsoredRank(prevState => ({ ...prevState, [type]: value }));
+                  }}
+                />
+              </>
+            ) : (
+              <>
+                {/* Sponsored Rank  (avg) */}
+                <MinMaxFilter
+                  label="Sponsored Rank (avg)"
+                  minValue={sponsoredRankAvg.min}
+                  maxValue={sponsoredRankAvg.max}
+                  handleChange={(type, value) => {
+                    setSponsoredRankAvg(prevState => ({ ...prevState, [type]: value }));
+                  }}
+                />
+
+                {/* Sponsored Rank  (#) */}
+                <MinMaxFilter
+                  label="Sponsored Rank (#)"
+                  minValue={sponsoredRankCount.min}
+                  maxValue={sponsoredRankCount.max}
+                  handleChange={(type, value) => {
+                    setSponsoredRankCount(prevState => ({ ...prevState, [type]: value }));
+                  }}
+                />
+              </>
+            )}
           </div>
         )}
       </div>
@@ -187,6 +222,12 @@ const ReverseFilters = (props: Props) => {
       <FormFilterActions onFind={handleSubmit} onReset={handleReset} />
     </section>
   );
+};
+
+const mapStateToProps = (state: any) => {
+  return {
+    keywordReverseProductsList: getKeywordReverseProductsList(state),
+  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -197,4 +238,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(ReverseFilters);
+export default connect(mapStateToProps, mapDispatchToProps)(ReverseFilters);

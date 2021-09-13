@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Icon } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -12,12 +13,15 @@ import FormFilterActions from '../../../../components/FormFilters/FormFilterActi
 /* Constants */
 import { DEFAULT_MIN_MAX_FILTER } from '../../../../constants/KeywordResearch/KeywordDatabase';
 import { DEFAULT_INCLUDE_EXCLUDE_FILTER } from '../../../../constants/KeywordResearch/KeywordReverse';
-import { KeywordDatabaseTablePayload } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
+
+/* Actions */
 import {
   fetchKeywordDatabaseTableInformation,
   resetKeywordDatabase,
 } from '../../../../actions/KeywordResearch/KeywordDatabase';
-import { connect } from 'react-redux';
+
+/* Interfaces */
+import { KeywordDatabaseTablePayload } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
 
 interface Props {
   fetchKeywordDatabaseTableInfo: (payload: KeywordDatabaseTablePayload) => void;
@@ -31,40 +35,37 @@ const DatabaseFilters = (props: Props) => {
 
   /* Basic Filters */
   const [searchVolume, setSearchVolume] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [positionRank, setPositionRank] = useState(DEFAULT_MIN_MAX_FILTER);
   const [wordCount, setWordCount] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [competingProducts, setCompetitingProducts] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [titleDensity, setTitleDensity] = useState(DEFAULT_MIN_MAX_FILTER);
+  // const [amazonChoice, setAmazonChoice] = useState<boolean>(false);
 
   /* Advanced Filters */
-  const [sponsoredAsins, setSponsoredAsins] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [competingProducts, setCompetitingProducts] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [relativeRank, setRelativeRank] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [competitorRank, setCompetitorRank] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [rankingCompetitors, setRankingCompetitors] = useState(DEFAULT_MIN_MAX_FILTER);
   const [searchTerm, setSearchTerm] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
   /* Handle Reset */
   const handleReset = () => {
+    /* Basic Filters */
     setSearchVolume(DEFAULT_MIN_MAX_FILTER);
-    setPositionRank(DEFAULT_MIN_MAX_FILTER);
     setWordCount(DEFAULT_MIN_MAX_FILTER);
-    setSponsoredAsins(DEFAULT_MIN_MAX_FILTER);
-    setRelativeRank(DEFAULT_MIN_MAX_FILTER);
-    setCompetitorRank(DEFAULT_MIN_MAX_FILTER);
-    setRankingCompetitors(DEFAULT_MIN_MAX_FILTER);
     setCompetitingProducts(DEFAULT_MIN_MAX_FILTER);
+    setTitleDensity(DEFAULT_MIN_MAX_FILTER);
+
+    /* Advanced Filters */
     setSearchTerm(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+
     resetKeywordDatabase();
   };
 
   const handleSubmit = () => {
     const filterPayload = {
+      /* Basic Filters */
       searchVolume,
-      positionRank,
-      sponsoredAsins,
+      wordCount,
       competingProducts,
-      relativeRank,
-      competitorRank,
-      rankingCompetitors,
+      titleDensity,
+
+      /* Advanced Filters */
       searchTerm,
     };
     fetchKeywordDatabaseTableInfo({ filterPayload });
@@ -86,20 +87,6 @@ const DatabaseFilters = (props: Props) => {
             }));
           }}
         />
-
-        {/* Position Rank  */}
-        <MinMaxFilter
-          label="Position Rank"
-          minValue={positionRank.min}
-          maxValue={positionRank.max}
-          handleChange={(type, value) => {
-            setPositionRank(prevState => ({
-              ...prevState,
-              [type]: value,
-            }));
-          }}
-        />
-
         {/* Word Count  */}
         <MinMaxFilter
           label="Word Count"
@@ -112,6 +99,40 @@ const DatabaseFilters = (props: Props) => {
             }));
           }}
         />
+        {/* Competing Products */}
+        <MinMaxFilter
+          label="Competing Products"
+          minValue={competingProducts.min}
+          maxValue={competingProducts.max}
+          handleChange={(type, value) => {
+            setCompetitingProducts(prevState => ({
+              ...prevState,
+              [type]: value,
+            }));
+          }}
+        />
+        {/* Title Density */}
+        <MinMaxFilter
+          label="Title Density"
+          minValue={titleDensity.min}
+          maxValue={titleDensity.max}
+          handleChange={(type, value) => {
+            setTitleDensity(prevState => ({
+              ...prevState,
+              [type]: value,
+            }));
+          }}
+        />
+
+        {/* Amazon Choice
+        <CheckboxFilter
+          label="Amazon Choice"
+          checkboxLabel="Amazon Choice"
+          checked={amazonChoice}
+          handleChange={(data: boolean) => {
+            setAmazonChoice(data);
+          }}
+        /> */}
       </div>
 
       {/* Advanced Filters */}
@@ -128,74 +149,9 @@ const DatabaseFilters = (props: Props) => {
 
         {showAdvancedFilter && (
           <div className={styles.showAdvancedFilter}>
-            {/* Sponsored Rank count */}
-            <MinMaxFilter
-              label="Sponsored ASINs"
-              minValue={sponsoredAsins.min}
-              maxValue={sponsoredAsins.max}
-              handleChange={(type, value) => {
-                setSponsoredAsins(prevState => ({
-                  ...prevState,
-                  [type]: value,
-                }));
-              }}
-            />
-
-            {/* Relative Rank */}
-            <MinMaxFilter
-              label="Relative Rank"
-              minValue={relativeRank.min}
-              maxValue={relativeRank.max}
-              handleChange={(type, value) => {
-                setRelativeRank(prevState => ({
-                  ...prevState,
-                  [type]: value,
-                }));
-              }}
-            />
-
-            {/* Competitor Rank */}
-            <MinMaxFilter
-              label="Competitor Rank"
-              minValue={competitorRank.min}
-              maxValue={competitorRank.max}
-              handleChange={(type, value) => {
-                setCompetitorRank(prevState => ({
-                  ...prevState,
-                  [type]: value,
-                }));
-              }}
-            />
-
-            {/* Ranking Competitors */}
-            <MinMaxFilter
-              label="Ranking Competitors"
-              minValue={rankingCompetitors.min}
-              maxValue={rankingCompetitors.max}
-              handleChange={(type, value) => {
-                setRankingCompetitors(prevState => ({
-                  ...prevState,
-                  [type]: value,
-                }));
-              }}
-            />
-
-            {/* Competing Products */}
-            <MinMaxFilter
-              label="Competing Products"
-              minValue={competingProducts.min}
-              maxValue={competingProducts.max}
-              handleChange={(type, value) => {
-                setCompetitingProducts(prevState => ({
-                  ...prevState,
-                  [type]: value,
-                }));
-              }}
-            />
-
             {/* Include Search Terms)  */}
             <InputFilter
-              label="Include Search Term"
+              label="Include Search Terms that contain"
               value={searchTerm.include}
               handleChange={value =>
                 setSearchTerm(prevState => ({
@@ -203,12 +159,13 @@ const DatabaseFilters = (props: Props) => {
                   include: value,
                 }))
               }
-              placeholder="Enter Search Term"
+              placeholder="Enter words"
+              className={styles.longInput}
             />
 
             {/* Exclude Search Terms)  */}
             <InputFilter
-              label="Exclude Search Terms"
+              label="Exclude Search Terms that contain"
               value={searchTerm.exclude}
               handleChange={value =>
                 setSearchTerm(prevState => ({
@@ -216,13 +173,14 @@ const DatabaseFilters = (props: Props) => {
                   exclude: value,
                 }))
               }
-              placeholder="Enter Search Term"
+              placeholder="Enter words"
+              className={styles.longInput}
             />
           </div>
         )}
       </div>
 
-      <FormFilterActions onFind={handleSubmit} onReset={handleReset} />
+      <FormFilterActions onFind={handleSubmit} onReset={handleReset} submitLabel="Apply" />
     </section>
   );
 };
