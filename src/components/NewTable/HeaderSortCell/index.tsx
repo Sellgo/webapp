@@ -9,12 +9,16 @@ import { ReactComponent as YoutubeLogo } from '../../../assets/images/youtubeLog
 
 /* Component */
 import OnboardingTooltip from '../../OnboardingTooltip';
+import { getUserOnboarding, getUserOnboardingResources } from '../../../selectors/UserOnboarding';
+import { connect } from 'react-redux';
 
 interface Props {
   title: string;
   dataKey: string;
   currentSortColumn: string;
   currentSortType: 'asc' | 'desc' | undefined;
+  userOnboarding: boolean;
+  userOnboardingResources: any[];
 }
 
 const sortedStyles = {
@@ -29,7 +33,7 @@ const defaultStyles = {
 
 /* Header cell, Adds a sort icon beside the heading. */
 const HeaderSortCell = (props: Props) => {
-  const { title, dataKey, currentSortColumn, currentSortType } = props;
+  const { title, dataKey, currentSortColumn, currentSortType, userOnboarding } = props;
 
   /* Generating sort icon */
   const isCurrentlySorted = currentSortColumn === dataKey;
@@ -40,10 +44,14 @@ const HeaderSortCell = (props: Props) => {
     <div className={styles.headerCell}>
       <p className={styles.headerText} style={isCurrentlySorted ? sortedStyles : defaultStyles}>
         {title}
-        <OnboardingTooltip
-          trigger={<YoutubeLogo className={styles.youtubeLogoTrigger} />}
-          tooltipMessage={`${dataKey} | 1 min watch`}
-        />
+
+        {/* Youtube On boarding Icon */}
+        {userOnboarding && (
+          <OnboardingTooltip
+            trigger={<YoutubeLogo className={styles.youtubeLogoTrigger} />}
+            tooltipMessage={`${dataKey} | 1 min watch`}
+          />
+        )}
       </p>
 
       {/* <Icon name="info circle" className={styles.infoCircleTrigger} /> */}
@@ -64,4 +72,11 @@ const HeaderSortCell = (props: Props) => {
   );
 };
 
-export default React.memo(HeaderSortCell);
+const mapStateToProps = (state: any) => {
+  return {
+    userOnboarding: getUserOnboarding(state),
+    userOnboardingResources: getUserOnboardingResources(state),
+  };
+};
+
+export default connect(mapStateToProps)(HeaderSortCell);
