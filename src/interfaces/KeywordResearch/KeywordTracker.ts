@@ -11,6 +11,7 @@ export interface TrackerTableProductsPayload {
   page?: number;
   sort?: string;
   sortDir?: 'asc' | 'desc';
+  search?: string;
 }
 
 /* Keyword Tracker Products table pagination */

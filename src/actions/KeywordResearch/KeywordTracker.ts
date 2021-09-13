@@ -185,6 +185,7 @@ export const fetchKeywordTrackerProductsTable = (payload: TrackerTableProductsPa
       sort = 'id',
       page = 1,
       perPage = 20,
+      search = '',
     } = payload;
 
     if (resetFilters) {
@@ -195,7 +196,9 @@ export const fetchKeywordTrackerProductsTable = (payload: TrackerTableProductsPa
 
     const sorting = `sort=${sort}&sort_direction=${sortDir}`;
     const pagination = `page=${page}&per_page=${perPage}`;
-    const resourcePath = `${sorting}&${pagination}`;
+    const searchTerm = `search=${search}`;
+
+    const resourcePath = `${sorting}&${pagination}&${searchTerm}`;
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/products?${resourcePath}`;
 

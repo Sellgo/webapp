@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { Icon, Input } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -10,15 +11,32 @@ import { formatNumber } from '../../../../utils/format';
 /* Selectors */
 import { getKeywordTrackerProductsTablePaginationInfo } from '../../../../selectors/KeywordResearch/KeywordTracker';
 
+/* Actions */
+import { fetchKeywordTrackerProductsTable } from '../../../../actions/KeywordResearch/KeywordTracker';
+
 /* Interfaces */
-import { KeywordTrackerProductsTablePaginationInfo } from '../../../../interfaces/KeywordResearch/KeywordTracker';
+import {
+  KeywordTrackerProductsTablePaginationInfo,
+  TrackerTableProductsPayload,
+} from '../../../../interfaces/KeywordResearch/KeywordTracker';
 
 interface Props {
   keywordTrackerProductsTablePaginationInfo: KeywordTrackerProductsTablePaginationInfo;
+  fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) => void;
 }
 
 const TrackerExport = (props: Props) => {
-  const { keywordTrackerProductsTablePaginationInfo } = props;
+  const { keywordTrackerProductsTablePaginationInfo, fetchKeywordTrackerProductsTable } = props;
+
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+
+    fetchKeywordTrackerProductsTable({
+      search: searchTerm,
+    });
+  };
 
   return (
     <div className={styles.exportsContainer}>
@@ -31,6 +49,17 @@ const TrackerExport = (props: Props) => {
           products.
         </p>
       )}
+
+      <form onSubmit={handleSubmit}>
+        <Input
+          icon={<Icon name="search" className={styles.searchIcon} />}
+          iconPosition="left"
+          placeholder="Search"
+          className={styles.searchInput}
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+        />
+      </form>
     </div>
   );
 };
@@ -41,4 +70,11 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default connect(mapStateToProps)(TrackerExport);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) =>
+      dispatch(fetchKeywordTrackerProductsTable(payload)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TrackerExport);
