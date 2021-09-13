@@ -2,6 +2,12 @@ export const SET_TOS = 'SET_TOS';
 export const SET_PP = 'SET_PP';
 export const SET_NOTIFY_ID = 'SET_NOTIFY_ID';
 
+/* Action types for onboarding */
+export const actionTypes = {
+  SET_USER_ONBOARDING: 'SET_USER_ONBOARDING',
+  SET_USER_ONBOARDING_RESOURCES: 'TOGGLE_USER_BOARDING',
+};
+
 export const userOnboarding = [
   {
     title: 'Supplier Management Tutorial',

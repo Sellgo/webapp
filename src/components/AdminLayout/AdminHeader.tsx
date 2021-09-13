@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Icon, Image, Menu, Dropdown, Grid } from 'semantic-ui-react';
+import { Icon, Image, Menu, Dropdown, Grid, Checkbox } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LogoutConfirm from '../LogoutConfirm';
 
-import { notifyIdSelector } from '../../selectors/UserOnboarding';
+import { getUserOnboarding, notifyIdSelector } from '../../selectors/UserOnboarding';
 
 import './AdminHeader.scss';
 
@@ -19,6 +19,7 @@ import { toggleNotification } from '../../actions/Notification';
 import { selectIsNotificationOpen } from '../../selectors/Notification';
 import { getSellerSubscription } from '../../selectors/Subscription';
 import { isBetaAccount } from '../../utils/subscriptions';
+import { setUserOnboarding } from '../../actions/UserOnboarding';
 
 interface AdminProps {
   auth: any;
@@ -28,6 +29,8 @@ interface AdminProps {
   fetchActiveExportFiles: (payload: boolean) => void;
   isNotificationOpen: boolean;
   sellerSubscription: SellerSubscription;
+  setUserOnboarding: (payload: boolean) => void;
+  userOnboarding: boolean;
 }
 
 class AdminHeader extends React.Component<AdminProps> {
@@ -48,11 +51,27 @@ class AdminHeader extends React.Component<AdminProps> {
   openConfirm = (text: boolean) => this.setState({ openConfirm: text });
 
   render() {
-    const { auth, currentNotifyId, sellerSubscription } = this.props;
+    const {
+      auth,
+      currentNotifyId,
+      sellerSubscription,
+      userOnboarding,
+      setUserOnboarding,
+    } = this.props;
 
     return (
       <div className="admin-header">
         <Grid className={`${currentNotifyId > 0 && 'custom-dimmer'}`} />
+
+        <Checkbox
+          toggle
+          label="Quick Learning"
+          className="userOnboardingToogle"
+          checked={userOnboarding}
+          onChange={(e: any, data) => {
+            setUserOnboarding(Boolean(data.checked));
+          }}
+        />
 
         {/* Show settings icon only if not a beta user account */}
         {!isBetaAccount(sellerSubscription) && (
@@ -95,12 +114,14 @@ const mapStateToProps = (state: any) => {
     activeExportFiles: activeExportFiles(state),
     isNotificationOpen: selectIsNotificationOpen(state),
     sellerSubscription: getSellerSubscription(state),
+    userOnboarding: getUserOnboarding(state),
   };
 };
 
 const mapDispatchToProps = {
   fetchActiveExportFiles: (isLoading: boolean) => fetchActiveExportFiles(isLoading),
   toggleNotification: (toggleState: boolean) => toggleNotification(toggleState),
+  setUserOnboarding: (payload: boolean) => setUserOnboarding(payload),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminHeader);

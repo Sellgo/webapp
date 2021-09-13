@@ -2,7 +2,7 @@ import Axios from 'axios';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig } from '../../config';
-import { SET_TOS, SET_PP, SET_NOTIFY_ID } from '../../constants/UserOnboarding/index';
+import { SET_TOS, SET_PP, SET_NOTIFY_ID, actionTypes } from '../../constants/UserOnboarding/index';
 
 export const setNotifyId = (notifyId: number) => ({
   type: SET_NOTIFY_ID,
@@ -31,4 +31,20 @@ export const fetchPP = () => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) 
   if (response.data.length) {
     dispatch(setPP(response.data));
   }
+};
+
+/* Action to to toggle user onboarding */
+export const setUserOnboarding = (payload: boolean) => {
+  return {
+    type: actionTypes.SET_USER_ONBOARDING,
+    payload,
+  };
+};
+
+/* Action to set user onboarding resources */
+export const setUserOnboardingResources = (payload: any) => {
+  return {
+    type: actionTypes.SET_USER_ONBOARDING_RESOURCES,
+    payload,
+  };
 };

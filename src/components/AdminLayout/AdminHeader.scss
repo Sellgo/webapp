@@ -44,3 +44,46 @@
     }
   }
 }
+
+.resetToggleCheckbox {
+  margin: 0 30px;
+
+  label {
+    color: $grey_8 !important;
+    font-size: 12px !important;
+
+    &::before {
+      height: 20px !important;
+    }
+
+    &::after {
+      height: 20px;
+      width: 20px;
+      top: 0 !important;
+    }
+  }
+}
+
+.ui.toggle.checkbox.userOnboardingToogle {
+  @extend .resetToggleCheckbox;
+
+  label {
+    &::before {
+      background: $grey_3 !important;
+    }
+  }
+
+  &.checked {
+    label {
+      color: $grey_8 !important;
+
+      &::before {
+        background: $blue_7 !important;
+      }
+
+      &::after {
+        background: #fff !important;
+      }
+    }
+  }
+}
