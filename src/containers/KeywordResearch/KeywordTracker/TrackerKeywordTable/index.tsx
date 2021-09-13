@@ -16,6 +16,7 @@ import TablePagination from '../../../../components/NewTable/Pagination';
 /* Containers */
 import Keyword from './Keyword';
 import ActionsCell from './ActionsCell';
+import HeaderActionsCell from './HeaderActionsCell';
 
 /* Constants */
 import {
@@ -146,10 +147,11 @@ const TrackerKeywordTable = (props: Props) => {
           rowKey={TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY}
         >
           {/* Check Box Action Cell */}
-          <Table.Column verticalAlign="middle" fixed align="left" width={30}>
+          <Table.Column verticalAlign="middle" fixed align="left" width={40}>
             <HeaderCheckboxCell
               handleCheckboxClick={handleHeaderCheckboxClick}
               dataKey={'headerActions'}
+              actionsCell={<HeaderActionsCell checkedRows={checkedRows} />}
             />
             <CheckBoxCell
               checkedRows={checkedRows}

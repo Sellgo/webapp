@@ -24,3 +24,20 @@
     color: $grey_8 !important;
   }
 }
+
+.actionCellTrigger {
+  cursor: pointer !important;
+  color: $grey_6 !important;
+}
+
+.actionsCellPopup {
+  padding: 0 !important;
+
+  &::before {
+    display: none !important;
+    border-radius: 0 !important;
+    height: max-content !important;
+    border: none !important;
+    width: max-content !important;
+  }
+}
