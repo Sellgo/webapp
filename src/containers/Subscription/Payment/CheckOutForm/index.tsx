@@ -93,7 +93,6 @@ function CheckoutForm(props: MyProps) {
   const [isPromoCodeVerified, setPromoCodeVerified] = useState<boolean>(false);
   const [promoCode, setPromoCode] = useState<string>('');
   const { value: name, bind: bindName } = useInput('');
-  // const { value: promoCode, bind: bindPromoCode } = useInput('');
   const { value: address, bind: bindAddress } = useInput('');
   const { value: city, bind: bindCity } = useInput('');
   const { value: stateAddress, bind: bindStateAddress } = useInput('');
