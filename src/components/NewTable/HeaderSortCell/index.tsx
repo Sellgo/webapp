@@ -12,14 +12,11 @@ import OnboardingTooltip from '../../OnboardingTooltip';
 import { getUserOnboarding, getUserOnboardingResources } from '../../../selectors/UserOnboarding';
 import { connect } from 'react-redux';
 
-interface Props {
-  title: string;
-  dataKey: string;
-  currentSortColumn: string;
-  currentSortType: 'asc' | 'desc' | undefined;
-  userOnboarding: boolean;
-  userOnboardingResources: any[];
-}
+/* Constants */
+import {
+  FALLBACK_TABLE_KPI_DETAILS,
+  TABLE_KPI_ONBOARDING_INDEX,
+} from '../../../constants/KeywordResearch/KeywordDatabase';
 
 const sortedStyles = {
   color: '#3b4557',
@@ -31,14 +28,37 @@ const defaultStyles = {
   fontWeight: 500,
 };
 
+interface Props {
+  title: string;
+  dataKey: string;
+  currentSortColumn: string;
+  currentSortType: 'asc' | 'desc' | undefined;
+  userOnboarding: boolean;
+  userOnboardingResources: any[];
+}
+
 /* Header cell, Adds a sort icon beside the heading. */
 const HeaderSortCell = (props: Props) => {
-  const { title, dataKey, currentSortColumn, currentSortType, userOnboarding } = props;
+  const {
+    title,
+    dataKey,
+    currentSortColumn,
+    currentSortType,
+    userOnboarding,
+    userOnboardingResources,
+  } = props;
 
   /* Generating sort icon */
   const isCurrentlySorted = currentSortColumn === dataKey;
   const isAscendingSorted = currentSortType === 'asc' && isCurrentlySorted;
   const isDescendingSorted = currentSortType === 'desc' && isCurrentlySorted;
+
+  const showOnboarding = userOnboarding && userOnboardingResources.length > 0;
+
+  const tableKpiOnboardingDetails = userOnboardingResources[TABLE_KPI_ONBOARDING_INDEX] || {};
+
+  const { youtubeLink, tooltipText } =
+    tableKpiOnboardingDetails[dataKey] || FALLBACK_TABLE_KPI_DETAILS;
 
   return (
     <div className={styles.headerCell}>
@@ -46,15 +66,21 @@ const HeaderSortCell = (props: Props) => {
         {title}
 
         {/* Youtube On boarding Icon */}
-        {userOnboarding && (
+        {showOnboarding && (youtubeLink || tooltipText) && (
           <OnboardingTooltip
-            trigger={<YoutubeLogo className={styles.youtubeLogoTrigger} />}
-            tooltipMessage={`${dataKey} | 1 min watch`}
+            trigger={
+              youtubeLink ? (
+                <YoutubeLogo className={styles.youtubeLogoTrigger} />
+              ) : (
+                <Icon name="info circle" className={styles.infoCircleTrigger} />
+              )
+            }
+            tooltipMessage={tooltipText}
           />
         )}
       </p>
 
-      {/* <Icon name="info circle" className={styles.infoCircleTrigger} /> */}
+      {/*  */}
 
       <div className={styles.sortIconGroup}>
         <Icon

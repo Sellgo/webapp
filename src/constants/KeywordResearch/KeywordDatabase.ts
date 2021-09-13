@@ -87,3 +87,13 @@ export const DEFAULT_PAGES_LIST = [
     id: '100',
   },
 ];
+
+/* Onboarding indexes */
+export const TABLE_KPI_ONBOARDING_INDEX = 0;
+export const FILTER_KPI_ONBOARDING_INDEX = 1;
+
+/* Fallback for table KPI details */
+export const FALLBACK_TABLE_KPI_DETAILS = {
+  youtubeLink: '',
+  tooltipText: '',
+};

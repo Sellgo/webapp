@@ -17,24 +17,38 @@ import KeywordTracker from './KeywordTracker';
 
 /* Actions */
 import { resetKeywordResearch } from '../../actions/KeywordResearch';
+import { setUserOnboardingResources } from '../../actions/UserOnboarding';
+
+/* Onboarding Resources */
+import databaseOnBoardingResources from '../../assets/keywordDatabaseOnboarding.json';
 
 interface Props {
   match: any;
   resetKeywordResearch: () => void;
+  setUserOnboardingResources: (payload: any) => void;
 }
 
 const keywordResearchMapper = ['Reverse', 'Database', 'Tracker'];
 
 const KeywordResearch = (props: Props) => {
-  const { match, resetKeywordResearch } = props;
+  const { match, resetKeywordResearch, setUserOnboardingResources } = props;
 
-  const [selectedTabList, setSelectedTabList] = useState<number>(2);
+  const [selectedTabList, setSelectedTabList] = useState<number>(1);
 
   const handleTabChange = (index: number) => {
+    if (index === 1) {
+      setUserOnboardingResources(databaseOnBoardingResources);
+    }
+
     setSelectedTabList(index);
   };
 
   useEffect(() => {
+    // set resources for keyword database
+    if (selectedTabList === 1) {
+      setUserOnboardingResources(databaseOnBoardingResources);
+    }
+
     return () => {
       resetKeywordResearch();
     };
@@ -94,6 +108,7 @@ const KeywordResearch = (props: Props) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     resetKeywordResearch: () => dispatch(resetKeywordResearch()),
+    setUserOnboardingResources: (payload: any) => dispatch(setUserOnboardingResources(payload)),
   };
 };
 export default connect(null, mapDispatchToProps)(KeywordResearch);

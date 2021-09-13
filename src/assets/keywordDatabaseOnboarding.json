@@ -1,0 +1,24 @@
+[
+  {
+    "search_volume": {
+      "youtubeLink": "",
+      "tooltipText": "Search Volume | 1 min watch"
+    },
+    "sponsored_asins": {
+      "youtubeLink": "https://www.youtube.com/watch?v=DVQTGidS1yk",
+      "tooltipText": "Competitors | 2 min watch"
+    },
+    "competing_products": {
+      "youtubeLink": "https://www.youtube.com/watch?v=DVQTGidS1yk",
+      "tooltipText": "Competing Products | 2 min watch"
+    },
+    "word_count": {
+      "youtubeLink": "https://www.youtube.com/watch?v=DVQTGidS1yk",
+      "tooltipText": "Word Count | 2 min watch"
+    },
+    "title_density": {
+      "youtubeLink": "",
+      "tooltipText": ""
+    }
+  }
+]
