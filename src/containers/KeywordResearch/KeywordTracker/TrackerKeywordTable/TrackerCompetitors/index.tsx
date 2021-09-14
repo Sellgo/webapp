@@ -20,6 +20,7 @@ const fakeData = [
   { asin: 'B08HRJ3V5B' },
   { asin: 'B091MNZSBM' },
   { asin: 'B0899J7918' },
+  { asin: 'B0899J7918' },
 ];
 
 const TrackerCompetitors = () => {
@@ -40,7 +41,11 @@ const TrackerCompetitors = () => {
           })}
         </div>
 
-        <button className={styles.addCompetitor} onClick={() => setAddCompetitors(true)}>
+        <button
+          className={styles.addCompetitor}
+          onClick={() => setAddCompetitors(true)}
+          disabled={fakeData.length >= MAX_COMPETITORS_ALLOWED}
+        >
           <AddCirecleIcon />
           <span>Add Competitor's ASIN</span>
         </button>
