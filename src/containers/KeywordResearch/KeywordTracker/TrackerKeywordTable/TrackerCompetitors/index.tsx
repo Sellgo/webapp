@@ -23,11 +23,15 @@ const fakeData = [
   { asin: 'B0899J7918' },
 ];
 
+const currentCompetitorsCount = fakeData.length;
+
 const TrackerCompetitors = () => {
   const [addCompetitors, setAddCompetitors] = useState(false);
+
   return (
     <>
       <section className={styles.competitorsSection}>
+        {/* Competitors Count */}
         <div className={styles.totalCompetitors}>
           <p>Competitors:</p>
           <span>
@@ -35,6 +39,7 @@ const TrackerCompetitors = () => {
           </span>
         </div>
 
+        {/* Competitors Display  */}
         <div className={styles.competitorsAsinsWrapper}>
           {fakeData.map(d => {
             return <TrackerCompetitorDetails asin={d.asin} key={uuid()} />;
@@ -51,11 +56,19 @@ const TrackerCompetitors = () => {
         </button>
       </section>
 
+      {/* Add Competitors Modal */}
       <Modal
         open={addCompetitors}
         className={styles.addCompetitorsModal}
         onClose={() => setAddCompetitors(false)}
-        content={<AddCompetitorsModal />}
+        content={
+          <AddCompetitorsModal
+            currentCompetitorsCount={currentCompetitorsCount}
+            onSubmit={() => {
+              console.log('Submitted');
+            }}
+          />
+        }
       />
     </>
   );

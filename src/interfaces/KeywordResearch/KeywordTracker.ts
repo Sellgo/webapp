@@ -14,17 +14,20 @@ export interface TrackerTableProductsPayload {
   search?: string;
 }
 
-/* Keyword Tracker Table COmpetitors */
+/* Keyword Tracker Table Competitors  */
 export interface KeywordTrackerTableCompetitors {
   keyword_track_competitor_id: number;
   asin: string;
   status: string;
 }
 
+/* Add Competitors */
 export interface AddCompetitorsPayload {
   keywordTrackProductId: number;
   asins: string;
 }
+
+/* Remove Competitors */
 export interface RemoveCompetitorPayload {
   keywordTrackCompetitorId: number;
   asin: string;

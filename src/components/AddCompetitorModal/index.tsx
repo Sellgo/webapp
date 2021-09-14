@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
+
+/* Styling */
+import styles from './index.module.scss';
 
 /* Components */
 import FormFilterActions from '../FormFilters/FormFilterActions';
@@ -6,19 +9,34 @@ import InputFilter from '../FormFilters/InputFilter';
 import TextAreaInput from '../FormFilters/TextAreaInput';
 import MarketplaceDropdown from '../MarketplaceDropdown';
 
-/* Styling */
-import styles from './index.module.scss';
+/* Constants */
+import { MAX_COMPETITORS_ALLOWED } from '../../constants/KeywordResearch/KeywordTracker';
 
-const AddCompetitorsModal = () => {
+interface Props {
+  currentCompetitorsCount: number;
+  onSubmit: () => void;
+}
+
+const AddCompetitorsModal = (props: Props) => {
+  const { currentCompetitorsCount, onSubmit } = props;
+
   const [competitorsAsins, setCompetitorsAsins] = useState('');
+  const [newlyAddedCompetitorsCount, setNewlyAddedCompetitorsCount] = useState(0);
 
   const handleReset = () => {
-    console.log('Log Reset');
+    setCompetitorsAsins('');
   };
 
-  const handleSubmit = () => {
-    console.log('Log Find');
-  };
+  const leftCompetitors =
+    MAX_COMPETITORS_ALLOWED - (currentCompetitorsCount + newlyAddedCompetitorsCount);
+
+  const shouldDisabledSubmit =
+    currentCompetitorsCount + newlyAddedCompetitorsCount > MAX_COMPETITORS_ALLOWED;
+
+  useEffect(() => {
+    const addedAsins = competitorsAsins.split('\n').filter(a => a.trim().length > 0).length;
+    setNewlyAddedCompetitorsCount(addedAsins);
+  }, [competitorsAsins]);
 
   return (
     <div className={styles.addCompetitorModal}>
@@ -44,7 +62,7 @@ const AddCompetitorsModal = () => {
         <TextAreaInput
           label="Add Comepetitor's ASIN's"
           placeholder="Enter ASIN's (1 per line)..."
-          value={competitorsAsins.split(',').join('\n')}
+          value={competitorsAsins}
           handleChange={(value: string) => {
             setCompetitorsAsins(value.toUpperCase());
           }}
@@ -52,19 +70,23 @@ const AddCompetitorsModal = () => {
         />
 
         <p className={styles.leftOverMessage}>
-          Total ASIN's left :<span>10/10</span>
+          Total ASIN's left :
+          <span>
+            {leftCompetitors}/{MAX_COMPETITORS_ALLOWED}
+          </span>
         </p>
 
         <FormFilterActions
           resetLabel="Reset"
           submitLabel="Track"
           onReset={handleReset}
-          onFind={handleSubmit}
+          onFind={onSubmit}
           withSecondarySubmit
+          disabled={shouldDisabledSubmit}
         />
       </div>
     </div>
   );
 };
 
-export default AddCompetitorsModal;
+export default memo(AddCompetitorsModal);
