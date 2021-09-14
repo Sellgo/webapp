@@ -29,6 +29,9 @@ export const actionTypes = {
 /* Row height for the product keyword child table */
 export const PRODUCT_KEYWORD_ROW_HEIGHT = 50;
 
+/* Maximum number of competiros allowed */
+export const MAX_COMPETITORS_ALLOWED = 10;
+
 /* Unique key on each row for tracker products table */
 export const TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY = 'keyword_track_product_id';
 

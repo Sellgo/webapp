@@ -12,12 +12,12 @@ import CheckBoxCell from '../../../../components/NewTable/CheckboxCell';
 import HeaderCheckboxCell from '../../../../components/NewTable/HeaderCheckboxCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
-import TrackerCompetitorAsin from '../../../../components/TrackerCompetitorAsin';
 
 /* Containers */
 import Keyword from './Keyword';
 import ActionsCell from './ActionsCell';
 import HeaderActionsCell from './HeaderActionsCell';
+import TrackerCompetitors from './TrackerCompetitors';
 
 /* Constants */
 import {
@@ -63,6 +63,7 @@ const TrackerKeywordTable = (props: Props) => {
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
   const [checkedRows, setCheckedRows] = useState<any>([]);
 
+  /* Handle Column Sorting */
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     const tableResults = trackerProductKeywordsTableResults;
     const [firstItem] = tableResults;
@@ -79,6 +80,7 @@ const TrackerKeywordTable = (props: Props) => {
     });
   };
 
+  /* Handle pagination */
   const handlePageChange = (pageNo: number, perPageNo?: number) => {
     const tableResults = trackerProductKeywordsTableResults;
     const [firstItem] = tableResults;
@@ -94,6 +96,7 @@ const TrackerKeywordTable = (props: Props) => {
     });
   };
 
+  /* Handle single row check box click */
   const handleCheckboxClick = (rowData: any) => {
     const doesAlreadyExists = checkedRows.some(
       (row: any) =>
@@ -120,6 +123,7 @@ const TrackerKeywordTable = (props: Props) => {
     }
   };
 
+  /* Handle Header checkbox click */
   const handleHeaderCheckboxClick = (e: any, data: any) => {
     const isCheked = Boolean(data.checked);
 
@@ -133,26 +137,10 @@ const TrackerKeywordTable = (props: Props) => {
 
   return (
     <>
-      <section className={styles.competitorsSection}>
-        <div className={styles.totalCompetitors}>
-          <p>Competitors:</p>
-          <span>8/10</span>
-        </div>
+      {/* Competitors Section */}
+      <TrackerCompetitors />
 
-        <div className={styles.competitorsAsinsWrapper}>
-          <TrackerCompetitorAsin />
-          <TrackerCompetitorAsin />
-          <TrackerCompetitorAsin />
-          <TrackerCompetitorAsin />
-          <TrackerCompetitorAsin />
-          <TrackerCompetitorAsin />
-          <TrackerCompetitorAsin />
-          <TrackerCompetitorAsin />
-          <TrackerCompetitorAsin />
-          <TrackerCompetitorAsin />
-        </div>
-      </section>
-
+      {/* Table Section */}
       <section className={styles.keywordTableWrapper}>
         <Table
           loading={isLoadingTrackerProductKeywordsTable}
