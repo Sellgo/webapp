@@ -37,3 +37,37 @@
   grid-template-columns: repeat(10, 1fr);
   overflow-y: auto !important;
 }
+
+.addCompetitor {
+  background: #fff;
+  color: $grey_8 !important;
+  height: 30px;
+  border-radius: 7px;
+  border: 1px solid $grey_3;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 400;
+  margin-right: 20px;
+
+  svg {
+    width: 12px;
+    height: 12px;
+    margin-right: 10px;
+
+    path {
+      fill: $grey_8 !important;
+    }
+  }
+
+  span {
+    color: $grey_6 !important;
+  }
+}
+
+.addCompetitorsModal {
+  border: 0 !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
+}

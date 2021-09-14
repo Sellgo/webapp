@@ -6,3 +6,12 @@
     background: #fff !important;
   }
 }
+
+.ui.disabled.input.textInputFilter {
+  cursor: not-allowed !important;
+
+  > input {
+    background: #fff !important;
+    cursor: not-allowed !important;
+  }
+}
