@@ -56,7 +56,7 @@ export const DEFAULT_PAGES_LIST = [
 
 /* Calulate height for the keyword child table */
 export const calculateKeywordsTableHeight = (noOfItems: number) => {
-  const OFFSET_ROWS = 5;
+  const OFFSET_ROWS = 7;
 
   return PRODUCT_KEYWORD_ROW_HEIGHT * (noOfItems + OFFSET_ROWS);
 };

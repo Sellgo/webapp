@@ -12,6 +12,7 @@ import CheckBoxCell from '../../../../components/NewTable/CheckboxCell';
 import HeaderCheckboxCell from '../../../../components/NewTable/HeaderCheckboxCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
+import TrackerCompetitorAsin from '../../../../components/TrackerCompetitorAsin';
 
 /* Containers */
 import Keyword from './Keyword';
@@ -42,7 +43,6 @@ import {
   TrackerProductKeywordsTablePaginationInfo,
   TrackerProductKeywordsTablePayload,
 } from '../../../../interfaces/KeywordResearch/KeywordTracker';
-import TrackerCompetitorAsin from '../../../../components/TrackerCompetitorAsin';
 
 interface Props {
   isLoadingTrackerProductKeywordsTable: boolean;
@@ -157,7 +157,7 @@ const TrackerKeywordTable = (props: Props) => {
         <Table
           loading={isLoadingTrackerProductKeywordsTable}
           data={trackerProductKeywordsTableResults}
-          height={calculateKeywordsTableHeight(trackerProductKeywordsTableResults.length - 3)}
+          height={calculateKeywordsTableHeight(trackerProductKeywordsTableResults.length - 5)}
           hover={false}
           rowHeight={PRODUCT_KEYWORD_ROW_HEIGHT}
           headerHeight={50}
