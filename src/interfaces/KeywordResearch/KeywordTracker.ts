@@ -25,6 +25,10 @@ export interface AddCompetitorsPayload {
   keywordTrackProductId: number;
   asins: string;
 }
+export interface RemoveCompetitorPayload {
+  keywordTrackCompetitorId: number;
+  asin: string;
+}
 
 /* Keyword Tracker Products table pagination */
 export interface KeywordTrackerProductsTablePaginationInfo {

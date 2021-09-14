@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -31,4 +31,4 @@ const TrackerCompetitorDetails = (props: Props) => {
   );
 };
 
-export default TrackerCompetitorDetails;
+export default memo(TrackerCompetitorDetails);

@@ -13,6 +13,7 @@ import {
   KeywordTrackerProductsTablePaginationInfo,
   KeywordTrackerTableCompetitors,
   ProductTrackPayload,
+  RemoveCompetitorPayload,
   TrackerProductKeywordsHistory,
   TrackerProductKeywordsTablePaginationInfo,
   TrackerProductKeywordsTablePayload,
@@ -284,6 +285,9 @@ export const unTrackKeywordTrackerTableProduct = (
   }
 };
 
+/* ================================================= */
+/*   					KEYWORD TRACKER COMPETITORS							*/
+/* ================================================= */
 /* Action to add the competitors for a product in the keyword tracker products table */
 
 export const addCompetitorsToKeywordTrackerProductsTable = (
@@ -309,10 +313,42 @@ export const addCompetitorsToKeywordTrackerProductsTable = (
     const { data } = await axios.post(URL, formData);
 
     if (data) {
-      console.log('Adding for competitors successful');
+      success(`${data.length} ASIN's added as competitors`);
     }
   } catch (err) {
-    console.error('Error adding competitors to table');
+    console.error('Error adding competitors to table', err);
+  }
+};
+
+/* Action to remove competitors from a product */
+export const removeCompetitorsFromKeywordTrackerProductsTable = (
+  payload: RemoveCompetitorPayload
+) => async () => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const { asin, keywordTrackCompetitorId } = payload;
+
+    if (!keywordTrackCompetitorId) {
+      return;
+    }
+
+    // prepare the patch payload
+    const formData = new FormData();
+
+    formData.set('keyword_track_competitor_id', String(keywordTrackCompetitorId));
+    formData.set('asins', asin);
+    formData.set('status', 'inactive');
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/competitors`;
+
+    const { data } = await axios.patch(URL);
+
+    if (data) {
+      success(`${asin} removed from competitors`);
+    }
+  } catch (err) {
+    console.error('Error removing competitor from product', err);
   }
 };
 
