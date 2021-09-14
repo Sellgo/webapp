@@ -9,7 +9,9 @@ import {
 
 /* Interfaces */
 import {
+  AddCompetitorsPayload,
   KeywordTrackerProductsTablePaginationInfo,
+  KeywordTrackerTableCompetitors,
   ProductTrackPayload,
   TrackerProductKeywordsHistory,
   TrackerProductKeywordsTablePaginationInfo,
@@ -57,6 +59,20 @@ export const setKeywordTrackerProductsTablePaginationInfo = (
 ) => {
   return {
     type: actionTypes.SET_KEYWORD_TRACKER_PRODUCTS_TABLE_PAGINATION_INFO,
+    payload,
+  };
+};
+
+/* ================================================= */
+/*    KEYWORD TRACKER COMPETITORS  */
+/* ================================================= */
+
+/* Action to set the competitors */
+export const setKeywordTrackerProductsTableCompetitors = (
+  payload: KeywordTrackerTableCompetitors[]
+) => {
+  return {
+    type: actionTypes.SET_KEYWORD_TRACKER_PRODUCTS_TABLE_COMPETITORS,
     payload,
   };
 };
@@ -135,6 +151,10 @@ export const setTrackerProductKeywordsHistoryExportProgress = (
 
 /* ================================================= */
 /*   						ASYNC ACTIONS 											 */
+/* ================================================= */
+
+/* ================================================= */
+/*   					KEYWORD TRACKER MAIN TABLE							*/
 /* ================================================= */
 
 /* Action to track products (asin) and the kwyrods */
@@ -263,6 +283,42 @@ export const unTrackKeywordTrackerTableProduct = (
     console.error('Error Untracking/Deleting keyword from tracker product table', err);
   }
 };
+
+/* Action to add the competitors for a product in the keyword tracker products table */
+
+export const addCompetitorsToKeywordTrackerProductsTable = (
+  payload: AddCompetitorsPayload
+) => async () => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const { keywordTrackProductId, asins } = payload;
+
+    if (!keywordTrackProductId || !asins) {
+      return;
+    }
+
+    // prepare the payload
+    const formData = new FormData();
+
+    formData.set('keyword_track_product_id', String(keywordTrackProductId));
+    formData.set(asins, 'asins');
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/competitors`;
+
+    const { data } = await axios.post(URL, formData);
+
+    if (data) {
+      console.log('Adding for competitors successful');
+    }
+  } catch (err) {
+    console.error('Error adding competitors to table');
+  }
+};
+
+/* ================================================= */
+/*   	KEYWORD TRACKER PRODUCTS KEYWORDS  TABLE			 */
+/* ================================================= */
 
 /* Action to fetch the kwyords for the product on tracker table */
 export const fetchTrackerProductKeywordsTable = (
