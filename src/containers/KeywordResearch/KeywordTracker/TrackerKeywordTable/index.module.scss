@@ -1,5 +1,42 @@
 @import '../../../../design-system/new-colors';
 
+/* Competitors Section */
+.competitorsSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 30px;
+  padding-top: 10px;
+}
+
+.totalCompetitors {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-right: 30px;
+
+  p {
+    color: $grey_6;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  span {
+    color: $grey_8;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+.competitorsAsinsWrapper {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  overflow-y: auto !important;
+}
+
+/* Table Styles */
 .keywordTableWrapper {
   padding-left: 20px;
   padding-right: 20px !important;

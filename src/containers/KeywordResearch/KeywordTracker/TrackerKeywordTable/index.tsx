@@ -42,6 +42,7 @@ import {
   TrackerProductKeywordsTablePaginationInfo,
   TrackerProductKeywordsTablePayload,
 } from '../../../../interfaces/KeywordResearch/KeywordTracker';
+import TrackerCompetitorAsin from '../../../../components/TrackerCompetitorAsin';
 
 interface Props {
   isLoadingTrackerProductKeywordsTable: boolean;
@@ -132,7 +133,27 @@ const TrackerKeywordTable = (props: Props) => {
 
   return (
     <>
-      <div className={styles.keywordTableWrapper}>
+      <section className={styles.competitorsSection}>
+        <div className={styles.totalCompetitors}>
+          <p>Competitors:</p>
+          <span>8/10</span>
+        </div>
+
+        <div className={styles.competitorsAsinsWrapper}>
+          <TrackerCompetitorAsin />
+          <TrackerCompetitorAsin />
+          <TrackerCompetitorAsin />
+          <TrackerCompetitorAsin />
+          <TrackerCompetitorAsin />
+          <TrackerCompetitorAsin />
+          <TrackerCompetitorAsin />
+          <TrackerCompetitorAsin />
+          <TrackerCompetitorAsin />
+          <TrackerCompetitorAsin />
+        </div>
+      </section>
+
+      <section className={styles.keywordTableWrapper}>
         <Table
           loading={isLoadingTrackerProductKeywordsTable}
           data={trackerProductKeywordsTableResults}
@@ -278,7 +299,7 @@ const TrackerKeywordTable = (props: Props) => {
             />
           </footer>
         )}
-      </div>
+      </section>
     </>
   );
 };
