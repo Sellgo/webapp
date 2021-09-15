@@ -11,6 +11,7 @@ import {
 import {
   AddCompetitorsPayload,
   KeywordTrackerProductsTablePaginationInfo,
+  KeywordTrackerTableCompetitors,
   ProductTrackPayload,
   RemoveCompetitorPayload,
   TrackerProductKeywordsHistory,
@@ -25,6 +26,7 @@ import {
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
 import {
+  getKeywordTrackerProductsExpandedRow,
   getKeywordTrackerProductsTableResults,
   getTrackerProductKeywordsTableResults,
 } from '../../selectors/KeywordResearch/KeywordTracker';
@@ -315,7 +317,7 @@ export const addCompetitorsToKeywordTrackerProductsTable = (
 /* Action to remove competitors from a product */
 export const removeCompetitorFromKeywordTrackerProductsTable = (
   payload: RemoveCompetitorPayload
-) => async (dispatch: any) => {
+) => async (dispatch: any, getState: any) => {
   const sellerId = sellerIDSelector();
 
   try {
@@ -337,6 +339,21 @@ export const removeCompetitorFromKeywordTrackerProductsTable = (
 
     if (data) {
       // filter out the removed ASIN competitor
+
+      const currentExpandedRow = getKeywordTrackerProductsExpandedRow(getState());
+
+      const currentCompetitors = currentExpandedRow.competitors || [];
+
+      const updatedCompetitors = currentCompetitors.filter(
+        (d: KeywordTrackerTableCompetitors) => d.asin !== data.asin
+      );
+
+      dispatch(
+        setKeywordTrackerProductsExpandedRow({
+          ...currentExpandedRow,
+          competitors: updatedCompetitors,
+        })
+      );
 
       dispatch(fetchKeywordTrackerProductsTable({ enableLoader: false }));
 
