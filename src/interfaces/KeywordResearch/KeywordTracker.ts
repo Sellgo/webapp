@@ -32,7 +32,7 @@ export interface AddCompetitorsPayload {
 /* Remove Competitors */
 export interface RemoveCompetitorPayload {
   keywordTrackCompetitorId: number;
-  asin: string;
+  status: 'active' | 'inactive';
 }
 
 /* Keyword Tracker Products table pagination */

@@ -26,6 +26,7 @@ import {
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
 import {
+  getKeywordTrackerProductsTableCompetitors,
   getKeywordTrackerProductsTableResults,
   getTrackerProductKeywordsTableResults,
 } from '../../selectors/KeywordResearch/KeywordTracker';
@@ -321,13 +322,13 @@ export const addCompetitorsToKeywordTrackerProductsTable = (
 };
 
 /* Action to remove competitors from a product */
-export const removeCompetitorsFromKeywordTrackerProductsTable = (
+export const removeCompetitorFromKeywordTrackerProductsTable = (
   payload: RemoveCompetitorPayload
-) => async () => {
+) => async (dispatch: any, getState: any) => {
   const sellerId = sellerIDSelector();
 
   try {
-    const { asin, keywordTrackCompetitorId } = payload;
+    const { keywordTrackCompetitorId } = payload;
 
     if (!keywordTrackCompetitorId) {
       return;
@@ -337,15 +338,24 @@ export const removeCompetitorsFromKeywordTrackerProductsTable = (
     const formData = new FormData();
 
     formData.set('keyword_track_competitor_id', String(keywordTrackCompetitorId));
-    formData.set('asins', asin);
     formData.set('status', 'inactive');
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/competitors`;
 
-    const { data } = await axios.patch(URL);
+    const { data } = await axios.patch(URL, formData);
+
+    const currentCompetitors = getKeywordTrackerProductsTableCompetitors(getState());
 
     if (data) {
-      success(`${asin} removed from competitors`);
+      // filter out the removed ASIN competitor
+      const updatedCompetitorsList = currentCompetitors.filter(
+        (d: KeywordTrackerTableCompetitors) => d.asin !== data.asin
+      );
+
+      dispatch(fetchKeywordTrackerProductsTable({ enableLoader: false }));
+
+      dispatch(setKeywordTrackerProductsTableCompetitors(updatedCompetitorsList));
+      success(`${data.asin} removed from competitors`);
     }
   } catch (err) {
     console.error('Error removing competitor from product', err);

@@ -8,17 +8,23 @@ import placeholderImage from '../../assets/images/placeholderImage.svg';
 import { ReactComponent as RemoveCrossIcon } from '../../assets/images/removeCross.svg';
 
 /* Interface */
-import { KeywordTrackerTableCompetitors } from '../../interfaces/KeywordResearch/KeywordTracker';
+import {
+  KeywordTrackerTableCompetitors,
+  RemoveCompetitorPayload,
+} from '../../interfaces/KeywordResearch/KeywordTracker';
+
+/* Utils */
 import { truncateString } from '../../utils/format';
 
 interface Props {
   data: KeywordTrackerTableCompetitors;
+  removeCompetitor: (payload: RemoveCompetitorPayload) => void;
 }
 
 const TrackerCompetitorDetails = (props: Props) => {
-  const { data } = props;
+  const { data, removeCompetitor } = props;
 
-  const { asin, image_url, title } = data;
+  const { asin, image_url, title, keyword_track_competitor_id } = data;
 
   return (
     <div className={styles.competitorAsin}>
@@ -33,7 +39,16 @@ const TrackerCompetitorDetails = (props: Props) => {
         </p>
       </div>
 
-      <RemoveCrossIcon className={styles.removeIcon} style={{ cursor: 'pointer' }} />
+      <RemoveCrossIcon
+        className={styles.removeIcon}
+        style={{ cursor: 'pointer' }}
+        onClick={() =>
+          removeCompetitor({
+            keywordTrackCompetitorId: keyword_track_competitor_id,
+            status: 'inactive',
+          })
+        }
+      />
     </div>
   );
 };
