@@ -11,7 +11,6 @@ import {
 import {
   AddCompetitorsPayload,
   KeywordTrackerProductsTablePaginationInfo,
-  KeywordTrackerTableCompetitors,
   ProductTrackPayload,
   RemoveCompetitorPayload,
   TrackerProductKeywordsHistory,
@@ -26,7 +25,6 @@ import {
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
 import {
-  getKeywordTrackerProductsTableCompetitors,
   getKeywordTrackerProductsTableResults,
   getTrackerProductKeywordsTableResults,
 } from '../../selectors/KeywordResearch/KeywordTracker';
@@ -65,16 +63,9 @@ export const setKeywordTrackerProductsTablePaginationInfo = (
   };
 };
 
-/* ================================================= */
-/*    KEYWORD TRACKER COMPETITORS  */
-/* ================================================= */
-
-/* Action to set the competitors */
-export const setKeywordTrackerProductsTableCompetitors = (
-  payload: KeywordTrackerTableCompetitors[]
-) => {
+export const setKeywordTrackerProductsExpandedRow = (payload: any) => {
   return {
-    type: actionTypes.SET_KEYWORD_TRACKER_PRODUCTS_TABLE_COMPETITORS,
+    type: actionTypes.SET_KEYWORD_TRACKER_PRODUCTS_EXPANDED_ROW,
     payload,
   };
 };
@@ -324,7 +315,7 @@ export const addCompetitorsToKeywordTrackerProductsTable = (
 /* Action to remove competitors from a product */
 export const removeCompetitorFromKeywordTrackerProductsTable = (
   payload: RemoveCompetitorPayload
-) => async (dispatch: any, getState: any) => {
+) => async (dispatch: any) => {
   const sellerId = sellerIDSelector();
 
   try {
@@ -344,17 +335,11 @@ export const removeCompetitorFromKeywordTrackerProductsTable = (
 
     const { data } = await axios.patch(URL, formData);
 
-    const currentCompetitors = getKeywordTrackerProductsTableCompetitors(getState());
-
     if (data) {
       // filter out the removed ASIN competitor
-      const updatedCompetitorsList = currentCompetitors.filter(
-        (d: KeywordTrackerTableCompetitors) => d.asin !== data.asin
-      );
 
       dispatch(fetchKeywordTrackerProductsTable({ enableLoader: false }));
 
-      dispatch(setKeywordTrackerProductsTableCompetitors(updatedCompetitorsList));
       success(`${data.asin} removed from competitors`);
     }
   } catch (err) {

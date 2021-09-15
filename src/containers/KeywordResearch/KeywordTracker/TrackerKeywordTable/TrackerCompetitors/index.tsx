@@ -14,13 +14,17 @@ import TrackerCompetitorDetails from '../../../../../components/TrackerCompetito
 import AddCompetitorsModal from '../../../../../components/AddCompetitorModal';
 
 /* Selectors */
-import { getKeywordTrackerProductsTableCompetitors } from '../../../../../selectors/KeywordResearch/KeywordTracker';
+import { getKeywordTrackerProductsExpandedRow } from '../../../../../selectors/KeywordResearch/KeywordTracker';
 
 /* Actions */
-import { removeCompetitorFromKeywordTrackerProductsTable } from '../../../../../actions/KeywordResearch/KeywordTracker';
+import {
+  addCompetitorsToKeywordTrackerProductsTable,
+  removeCompetitorFromKeywordTrackerProductsTable,
+} from '../../../../../actions/KeywordResearch/KeywordTracker';
 
 /* Interfaces */
 import {
+  AddCompetitorsPayload,
   KeywordTrackerTableCompetitors,
   RemoveCompetitorPayload,
 } from '../../../../../interfaces/KeywordResearch/KeywordTracker';
@@ -29,24 +33,32 @@ import {
 import { ReactComponent as AddCirecleIcon } from '../../../../../assets/images/addAsinPlusIcon.svg';
 
 interface Props {
-  keywordTrackerProductsTableCompetitors: KeywordTrackerTableCompetitors[];
+  keywordTrackerProductsExpandedRow: any;
+  addCompetitorsToKeywordTrackerProductsTable: (payload: AddCompetitorsPayload) => void;
   removeCompetitorFromKeywordTrackerProductsTable: (payload: RemoveCompetitorPayload) => void;
 }
 
 const TrackerCompetitors = (props: Props) => {
   const {
-    keywordTrackerProductsTableCompetitors,
+    keywordTrackerProductsExpandedRow,
+    addCompetitorsToKeywordTrackerProductsTable,
     removeCompetitorFromKeywordTrackerProductsTable,
   } = props;
 
   const [addCompetitors, setAddCompetitors] = useState(false);
 
   // Total length of the competitors
-  const totalCurrentCompetitors = keywordTrackerProductsTableCompetitors.length;
+  const expandedRowCompetitors = keywordTrackerProductsExpandedRow.competitors || [];
+  const totalCurrentCompetitors = expandedRowCompetitors.length;
 
   // Remove the competitor from the product */
   const handleRemoveCompetitor = (payload: RemoveCompetitorPayload) => {
     removeCompetitorFromKeywordTrackerProductsTable(payload);
+  };
+
+  // Add Competitors ASIN's on the product
+  const handleAddCompetitors = (payload: AddCompetitorsPayload) => {
+    addCompetitorsToKeywordTrackerProductsTable(payload);
   };
 
   return (
@@ -62,7 +74,7 @@ const TrackerCompetitors = (props: Props) => {
 
         {/* Competitors Display  */}
         <div className={styles.competitorsAsinsWrapper}>
-          {keywordTrackerProductsTableCompetitors.map(d => {
+          {expandedRowCompetitors.map((d: KeywordTrackerTableCompetitors) => {
             return (
               <TrackerCompetitorDetails
                 data={d}
@@ -91,9 +103,9 @@ const TrackerCompetitors = (props: Props) => {
         content={
           <AddCompetitorsModal
             currentCompetitorsCount={totalCurrentCompetitors}
-            onSubmit={() => {
-              console.log('Submitted');
-            }}
+            onSubmit={handleAddCompetitors}
+            parentAsin={keywordTrackerProductsExpandedRow.asin}
+            keywordTrackProductId={keywordTrackerProductsExpandedRow.keyword_track_product_id}
           />
         }
       />
@@ -103,12 +115,14 @@ const TrackerCompetitors = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    keywordTrackerProductsTableCompetitors: getKeywordTrackerProductsTableCompetitors(state),
+    keywordTrackerProductsExpandedRow: getKeywordTrackerProductsExpandedRow(state),
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    addCompetitorsToKeywordTrackerProductsTable: (payload: AddCompetitorsPayload) =>
+      dispatch(addCompetitorsToKeywordTrackerProductsTable(payload)),
     removeCompetitorFromKeywordTrackerProductsTable: (payload: RemoveCompetitorPayload) =>
       dispatch(removeCompetitorFromKeywordTrackerProductsTable(payload)),
   };

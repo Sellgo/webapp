@@ -19,13 +19,9 @@ export const getKeywordTrackerProductsTablePaginationInfo = (state: any) => {
   return get(state, 'keywordTracker.keywordTrackerProductsTablePaginationInfo');
 };
 
-/* ================================================================= */
-/*               KEYWORD TRACKER PRODUCTS COMPETITORS                */
-/* ================================================================= */
-
 /* Selector to get the keyword tracker products competitors */
-export const getKeywordTrackerProductsTableCompetitors = (state: any) => {
-  return get(state, 'keywordTracker.keywordTrackerProductsTableCompetitors');
+export const getKeywordTrackerProductsExpandedRow = (state: any) => {
+  return get(state, 'keywordTracker.keywordTrackerProductsExpandedRow');
 };
 
 /* ================================================================= */

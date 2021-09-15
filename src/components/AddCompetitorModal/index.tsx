@@ -12,19 +12,30 @@ import MarketplaceDropdown from '../MarketplaceDropdown';
 /* Constants */
 import { MAX_COMPETITORS_ALLOWED } from '../../constants/KeywordResearch/KeywordTracker';
 
+/* Interfaces */
+import { AddCompetitorsPayload } from '../../interfaces/KeywordResearch/KeywordTracker';
+
 interface Props {
   currentCompetitorsCount: number;
-  onSubmit: () => void;
+  onSubmit: (payload: AddCompetitorsPayload) => void;
+  parentAsin: string;
+  keywordTrackProductId: string;
 }
 
 const AddCompetitorsModal = (props: Props) => {
-  const { currentCompetitorsCount, onSubmit } = props;
+  const { currentCompetitorsCount, parentAsin, keywordTrackProductId } = props;
 
   const [competitorsAsins, setCompetitorsAsins] = useState('');
   const [newlyAddedCompetitorsCount, setNewlyAddedCompetitorsCount] = useState(0);
 
+  // Handle Reset
   const handleReset = () => {
     setCompetitorsAsins('');
+  };
+
+  const handleSubmit = () => {
+    console.log(competitorsAsins.split('\n').join(','));
+    console.log('Keyword track ID', keywordTrackProductId);
   };
 
   const leftCompetitors =
@@ -48,7 +59,7 @@ const AddCompetitorsModal = (props: Props) => {
       <div className={styles.filterForm}>
         <InputFilter
           placeholder="Parent Product ASIN"
-          value="B07YKPJJYN"
+          value={parentAsin}
           disabled
           label="Parent ASIN"
           handleChange={() => {
@@ -80,7 +91,7 @@ const AddCompetitorsModal = (props: Props) => {
           resetLabel="Reset"
           submitLabel="Track"
           onReset={handleReset}
-          onFind={onSubmit}
+          onFind={handleSubmit}
           withSecondarySubmit
           disabled={shouldDisabledSubmit}
         />
