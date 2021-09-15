@@ -38,7 +38,8 @@ const InputFilter: React.FC<Props> = props => {
     className,
     userOnboardingResources,
     userOnboarding,
-    ...otherProps
+    disabled,
+    error,
   } = props;
 
   /* Onboarding logic */
@@ -71,7 +72,8 @@ const InputFilter: React.FC<Props> = props => {
         placeholder={placeholder}
         value={value}
         onChange={(e: any) => handleChange(e.target.value)}
-        {...otherProps}
+        disabled={disabled}
+        error={error}
       />
     </div>
   );

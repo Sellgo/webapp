@@ -1,5 +1,16 @@
 [
   {
+    "Add ASIN": {
+      "youtubeLink": "",
+      "tooltipText": "Sponsored  | 2 min watch"
+    },
+    "Add Keywords": {
+      "youtubeLink": "",
+      "tooltipText": "Sponsored  | 2 min watch"
+    }
+  },
+
+  {
     "tracked_keywords": {
       "youtubeLink": "",
       "tooltipText": "Search Volume | 1 min watch"
@@ -18,17 +29,6 @@
     },
     "sponsored": {
       "youtubeLink": "https://www.youtube.com/watch?v=DVQTGidS1yk",
-      "tooltipText": "Sponsored  | 2 min watch"
-    }
-  },
-
-  {
-    "Add ASIN": {
-      "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
-    },
-    "Add Keywords": {
-      "youtubeLink": "",
       "tooltipText": "Sponsored  | 2 min watch"
     }
   }

@@ -39,14 +39,6 @@ const KeywordResearch = (props: Props) => {
   const [selectedTabList, setSelectedTabList] = useState<number>(0);
 
   const handleTabChange = (index: number) => {
-    if (index === 0) {
-      setUserOnboardingResources(reverseOnBoardingResources);
-    } else if (index === 1) {
-      setUserOnboardingResources(databaseOnBoardingResources);
-    } else if (index === 2) {
-      setUserOnboardingResources(trackerOnBoardingResources);
-    }
-
     setSelectedTabList(index);
   };
 
@@ -64,7 +56,7 @@ const KeywordResearch = (props: Props) => {
       resetKeywordResearch();
       setUserOnboardingResources([]);
     };
-  }, []);
+  }, [selectedTabList]);
 
   return (
     <>

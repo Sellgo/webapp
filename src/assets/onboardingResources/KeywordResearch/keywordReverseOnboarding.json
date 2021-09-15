@@ -1,5 +1,28 @@
 [
   {
+    "Search Volume": {
+      "youtubeLink": "https://www.youtube.com/watch?v=DVQTGidS1yk",
+      "tooltipText": "This is search volume"
+    },
+    "Position Rank": {
+      "youtubeLink": "",
+      "tooltipText": "This is position rank"
+    },
+    "Sponsored ASINs": {
+      "youtubeLink": "",
+      "tooltipText": "This is sponsored ASINS"
+    },
+    "Competing Products": {
+      "youtubeLink": "",
+      "tooltipText": "This is competing products"
+    },
+    "Title Density": {
+      "youtubeLink": "",
+      "tooltipText": "This is title desnity "
+    }
+  },
+
+  {
     "search_volume": {
       "youtubeLink": "",
       "tooltipText": "Search Volume | 1 min watch"
@@ -43,29 +66,6 @@
     "count_top_50": {
       "youtubeLink": "https://www.youtube.com/watch?v=DVQTGidS1yk",
       "tooltipText": "Count 50 | 1 min watch"
-    }
-  },
-
-  {
-    "Search Volume": {
-      "youtubeLink": "https://www.youtube.com/watch?v=DVQTGidS1yk",
-      "tooltipText": "This is search volume"
-    },
-    "Position Rank": {
-      "youtubeLink": "",
-      "tooltipText": "This is position rank"
-    },
-    "Sponsored ASINs": {
-      "youtubeLink": "",
-      "tooltipText": "This is sponsored ASINS"
-    },
-    "Competing Products": {
-      "youtubeLink": "",
-      "tooltipText": "This is competing products"
-    },
-    "Title Density": {
-      "youtubeLink": "",
-      "tooltipText": "This is title desnity "
     }
   }
 ]

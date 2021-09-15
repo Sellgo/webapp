@@ -1,5 +1,12 @@
 [
   {
+    "Add Keywords": {
+      "youtubeLink": "",
+      "tooltipText": "Sponsored  | 2 min watch"
+    }
+  },
+
+  {
     "search_volume": {
       "youtubeLink": "",
       "tooltipText": "Search Volume | 1 min watch"
@@ -19,13 +26,6 @@
     "title_density": {
       "youtubeLink": "",
       "tooltipText": ""
-    }
-  },
-
-  {
-    "Add Keywords": {
-      "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
     }
   }
 ]

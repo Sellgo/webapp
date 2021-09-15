@@ -1,26 +1,21 @@
 [
   {
-    "count_30_days": {
-      "youtubeLink": "https://www.youtube.com/watch?v=DVQTGidS1yk",
-      "tooltipText": "Word Count | 2 min watch"
-    },
-    "count_90_days": {
-      "youtubeLink": "https://www.youtube.com/watch?v=DVQTGidS1yk",
-      "tooltipText": "Competing Products | 2 min watch"
-    },
-    "count_12_month": {
-      "youtubeLink": "https://www.youtube.com/watch?v=DVQTGidS1yk",
-      "tooltipText": "Word Count | 2 min watch"
-    }
-  },
-
-  {
-    "Merchant Name": {
+    "Country": {
       "youtubeLink": "",
       "tooltipText": "Sponsored  | 2 min watch"
     },
 
-    "Negative Review": {
+    "U.S. States": {
+      "youtubeLink": "",
+      "tooltipText": "Sponsored  | 2 min watch"
+    },
+
+    "Zipcode": {
+      "youtubeLink": "",
+      "tooltipText": "Sponsored  | 2 min watch"
+    },
+
+    "View": {
       "youtubeLink": "",
       "tooltipText": "Sponsored  | 2 min watch"
     }

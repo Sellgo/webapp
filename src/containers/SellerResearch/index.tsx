@@ -29,7 +29,7 @@ interface Props {
 const SellerResearchMapper = ['Database', 'Map', 'Inventories'];
 
 const SellerResearch = (props: Props) => {
-  const { match } = props;
+  const { match, setUserOnboardingResources } = props;
 
   const [selectedTabList, setSelectedTabList] = useState<number>(0);
 
