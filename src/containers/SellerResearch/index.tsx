@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
 import { TabList, TabPanel, Tabs, Tab } from 'react-tabs';
+import { connect } from 'react-redux';
 
 /* Components */
 import styles from './index.module.scss';
@@ -14,8 +14,16 @@ import MarketplaceDropdown from '../../components/MarketplaceDropdown';
 import SellerMaps from './SellerMaps';
 import SellerDatabase from './SellerDatabase';
 
+/* Actions */
+import { setUserOnboardingResources } from '../../actions/UserOnboarding';
+
+/* Assets */
+import sellerDatabaseOnborading from '../../assets/onboardingResources/SellerResearch/sellerDatabaseOnboarding.json';
+import sellerMapOnborading from '../../assets/onboardingResources/SellerResearch/sellerMapOnboarding.json';
+
 interface Props {
   match: any;
+  setUserOnboardingResources: (payload: any) => void;
 }
 
 const SellerResearchMapper = ['Database', 'Map', 'Inventories'];
@@ -28,6 +36,14 @@ const SellerResearch = (props: Props) => {
   const handleTabChange = (index: number) => {
     setSelectedTabList(index);
   };
+
+  useEffect(() => {
+    if (selectedTabList === 0) {
+      setUserOnboardingResources(sellerDatabaseOnborading);
+    } else if (selectedTabList === 1) {
+      setUserOnboardingResources(sellerMapOnborading);
+    }
+  }, [selectedTabList]);
 
   return (
     <>
@@ -75,4 +91,10 @@ const SellerResearch = (props: Props) => {
   );
 };
 
-export default SellerResearch;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setUserOnboardingResources: (payload: any) => dispatch(setUserOnboardingResources(payload)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SellerResearch);
