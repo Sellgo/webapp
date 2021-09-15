@@ -20,7 +20,16 @@ export const getKeywordTrackerProductsTablePaginationInfo = (state: any) => {
 };
 
 /* ================================================================= */
-/*    KEYWORD TRACKER PRODUCTS KEYWORDS MAIN TABLE (PRODUCTS)  */
+/*               KEYWORD TRACKER PRODUCTS COMPETITORS                */
+/* ================================================================= */
+
+/* Selector to get the keyword tracker products competitors */
+export const getKeywordTrackerProductsTableCompetitors = (state: any) => {
+  return get(state, 'keywordTracker.keywordTrackerProductsTableCompetitors');
+};
+
+/* ================================================================= */
+/*    KEYWORD TRACKER PRODUCTS KEYWORDS TABLE */
 /* ================================================================= */
 
 /* Selector to find the loading state for keyword tracker product keywords table */

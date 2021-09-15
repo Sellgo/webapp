@@ -40,11 +40,13 @@ import {
 import {
   fetchKeywordTrackerProductsTable,
   fetchTrackerProductKeywordsTable,
+  setKeywordTrackerProductsTableCompetitors,
 } from '../../../../actions/KeywordResearch/KeywordTracker';
 
 /* Interfaces */
 import {
   KeywordTrackerProductsTablePaginationInfo,
+  KeywordTrackerTableCompetitors,
   TrackerProductKeywordsTablePayload,
   TrackerTableProductsPayload,
 } from '../../../../interfaces/KeywordResearch/KeywordTracker';
@@ -55,17 +57,25 @@ interface Props {
   keywordTrackerProductsTablePaginationInfo: KeywordTrackerProductsTablePaginationInfo;
   fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) => void;
 
+  /* Competitors */
+  setKeywordTrackerProductsTableCompetitors: (payload: KeywordTrackerTableCompetitors[]) => void;
+
   trackerProductKeywordsTableResults: any[];
   fetchTrackerProductKeywordsTable: (payload: TrackerProductKeywordsTablePayload) => void;
 }
 
 const TrackerTable = (props: Props) => {
   const {
+    /* Main products taale */
     isLoadingKeywordTrackerProductsTable,
     keywordTrackerProductsTableResults,
     keywordTrackerProductsTablePaginationInfo,
     fetchKeywordTrackerProductsTable,
 
+    /* Competitors*/
+    setKeywordTrackerProductsTableCompetitors,
+
+    /* Keywords Table */
     trackerProductKeywordsTableResults,
     fetchTrackerProductKeywordsTable,
   } = props;
@@ -89,6 +99,9 @@ const TrackerTable = (props: Props) => {
     const [currentExpandedRowId] = expandedRowKeys;
 
     if (currentExpandedRowId !== rowId) {
+      // set the competitors on store
+      setKeywordTrackerProductsTableCompetitors(rowData.competitors);
+      // fetch keywords table data
       fetchTrackerProductKeywordsTable({
         keywordTrackProductId: rowId,
       });
@@ -247,6 +260,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    setKeywordTrackerProductsTableCompetitors: (payload: KeywordTrackerTableCompetitors[]) =>
+      dispatch(setKeywordTrackerProductsTableCompetitors(payload)),
     fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) =>
       dispatch(fetchKeywordTrackerProductsTable(payload)),
     fetchTrackerProductKeywordsTable: (payload: TrackerProductKeywordsTablePayload) =>

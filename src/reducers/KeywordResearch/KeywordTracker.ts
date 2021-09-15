@@ -16,6 +16,9 @@ const INITIAL_STATE = {
     per_page: 20,
   },
 
+  // tracker table products competitors
+  keywordTrackerProductsTableCompetitors: [],
+
   // State for the keyword table for each product on keyword tracker
   isLoadingTrackerProductKeywordsTable: false,
   trackerProductKeywordsTableResults: [],
@@ -26,7 +29,7 @@ const INITIAL_STATE = {
     per_page: 20,
   },
 
-  //keyword histry chart
+  //keyword history chart
   isLoadingTrackerProductKeywordsHistory: false,
   trackerProductKeywordsHistoryResult: [],
 
@@ -53,6 +56,13 @@ const keywordTrackerReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_KEYWORD_TRACKER_PRODUCTS_TABLE_PAGINATION_INFO: {
       return setIn(state, 'keywordTrackerProductsTablePaginationInfo', action.payload);
+    }
+
+    /* ========================================================== */
+    /*           TRACKER PRODUCTS TABLE COMPETITORS               */
+    /* ========================================================== */
+    case actionTypes.SET_KEYWORD_TRACKER_PRODUCTS_TABLE_COMPETITORS: {
+      return setIn(state, 'keywordTrackerProductsTableCompetitors', action.payload);
     }
 
     /* ========================================================== */

@@ -7,19 +7,26 @@ import styles from './index.module.scss';
 import placeholderImage from '../../assets/images/placeholderImage.svg';
 import { ReactComponent as RemoveCrossIcon } from '../../assets/images/removeCross.svg';
 
+/* Interface */
+import { KeywordTrackerTableCompetitors } from '../../interfaces/KeywordResearch/KeywordTracker';
+import { truncateString } from '../../utils/format';
+
 interface Props {
-  asin: string;
+  data: KeywordTrackerTableCompetitors;
 }
 
 const TrackerCompetitorDetails = (props: Props) => {
-  const { asin } = props;
+  const { data } = props;
+
+  const { asin, image_url, title } = data;
+
   return (
     <div className={styles.competitorAsin}>
       <div className={styles.productImage}>
-        <img src={placeholderImage} alt="Placeholder Image" />
+        <img src={image_url ? image_url : placeholderImage} alt="Placeholder Image" />
       </div>
       <div className={styles.productDetails}>
-        <p className={styles.productTitle}>title Title Title....</p>
+        <p className={styles.productTitle}>{title ? truncateString(title, 15) : '-'}</p>
         <p className={styles.productMeta}>
           <img src={require('../../assets/flags/US.png')} alt="US Marketplace flag" />
           <span>{asin}</span>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { Modal } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -11,6 +12,12 @@ import { MAX_COMPETITORS_ALLOWED } from '../../../../../constants/KeywordResearc
 /* Components */
 import TrackerCompetitorDetails from '../../../../../components/TrackerCompetitorDetails';
 import AddCompetitorsModal from '../../../../../components/AddCompetitorModal';
+
+/* Selectors */
+import { getKeywordTrackerProductsTableCompetitors } from '../../../../../selectors/KeywordResearch/KeywordTracker';
+
+/* Interfaces */
+import { KeywordTrackerTableCompetitors } from '../../../../../interfaces/KeywordResearch/KeywordTracker';
 
 /* Assets */
 import { ReactComponent as AddCirecleIcon } from '../../../../../assets/images/addAsinPlusIcon.svg';
@@ -25,8 +32,16 @@ const fakeData = [
 
 const currentCompetitorsCount = fakeData.length;
 
-const TrackerCompetitors = () => {
+interface Props {
+  keywordTrackerProductsTableCompetitors: KeywordTrackerTableCompetitors[];
+}
+
+const TrackerCompetitors = (props: Props) => {
+  const { keywordTrackerProductsTableCompetitors } = props;
+
   const [addCompetitors, setAddCompetitors] = useState(false);
+
+  const totalCurrentCompetitors = keywordTrackerProductsTableCompetitors.length;
 
   return (
     <>
@@ -35,14 +50,14 @@ const TrackerCompetitors = () => {
         <div className={styles.totalCompetitors}>
           <p>Competitors:</p>
           <span>
-            {fakeData.length} / {MAX_COMPETITORS_ALLOWED}
+            {totalCurrentCompetitors} / {MAX_COMPETITORS_ALLOWED}
           </span>
         </div>
 
         {/* Competitors Display  */}
         <div className={styles.competitorsAsinsWrapper}>
-          {fakeData.map(d => {
-            return <TrackerCompetitorDetails asin={d.asin} key={uuid()} />;
+          {keywordTrackerProductsTableCompetitors.map(d => {
+            return <TrackerCompetitorDetails data={d} key={uuid()} />;
           })}
         </div>
 
@@ -74,4 +89,10 @@ const TrackerCompetitors = () => {
   );
 };
 
-export default TrackerCompetitors;
+const mapStateToProps = (state: any) => {
+  return {
+    keywordTrackerProductsTableCompetitors: getKeywordTrackerProductsTableCompetitors(state),
+  };
+};
+
+export default connect(mapStateToProps)(TrackerCompetitors);

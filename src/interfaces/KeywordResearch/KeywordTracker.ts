@@ -18,7 +18,9 @@ export interface TrackerTableProductsPayload {
 export interface KeywordTrackerTableCompetitors {
   keyword_track_competitor_id: number;
   asin: string;
-  status: string;
+  title: string;
+  image_url: string;
+  status: 'active' | 'inactive';
 }
 
 /* Add Competitors */
