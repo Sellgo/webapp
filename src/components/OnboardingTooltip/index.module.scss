@@ -5,6 +5,7 @@
   width: max-content;
   height: max-content;
   background: $grey_8 !important;
+  z-index: 99999 !important;
 
   &::before {
     display: none;

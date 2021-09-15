@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Icon } from 'semantic-ui-react';
+import { Input } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 /* Styling */
@@ -21,7 +21,6 @@ import OnboardingTooltip from '../../OnboardingTooltip';
 
 /* Assets */
 import { ReactComponent as FilterRightArrow } from '../../../assets/images/filterRightArrow.svg';
-import { ReactComponent as YoutubeLogo } from '../../../assets/images/youtubeLogo.svg';
 
 interface Props {
   label?: string;
@@ -63,21 +62,10 @@ const MinMaxFilter: React.FC<Props> = props => {
           {/* Youtube On boarding Icon */}
           {enableFilterOnboarding && (youtubeLink || tooltipText) && (
             <OnboardingTooltip
-              trigger={
-                youtubeLink ? (
-                  <YoutubeLogo
-                    className={'youtubeOnboarding'}
-                    onClick={(e: any) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      window.open(youtubeLink, '_blank');
-                    }}
-                  />
-                ) : (
-                  <Icon name="info circle" className={'infoOnboardingIcon'} />
-                )
-              }
+              youtubeLink={youtubeLink}
               tooltipMessage={tooltipText}
+              infoIconClassName="infoOnboardingIcon"
+              youtubeIconClassName="youtubeOnboarding"
             />
           )}
         </p>

@@ -6,7 +6,7 @@
     },
     "sponsored_asins": {
       "youtubeLink": "https://www.youtube.com/watch?v=DVQTGidS1yk",
-      "tooltipText": "Competitors | 2 min watch"
+      "tooltipText": "Sponsored ASIN's | 2 min watch"
     },
     "competing_products": {
       "youtubeLink": "https://www.youtube.com/watch?v=DVQTGidS1yk",
@@ -19,6 +19,13 @@
     "title_density": {
       "youtubeLink": "",
       "tooltipText": ""
+    }
+  },
+
+  {
+    "Add Keywords": {
+      "youtubeLink": "",
+      "tooltipText": "Sponsored  | 2 min watch"
     }
   }
 ]

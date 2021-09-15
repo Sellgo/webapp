@@ -1,16 +1,15 @@
 import React from 'react';
 import { Icon } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
 
-/* Assets */
-import { ReactComponent as YoutubeLogo } from '../../../assets/images/youtubeLogo.svg';
+/* Selectors */
+import { getUserOnboarding, getUserOnboardingResources } from '../../../selectors/UserOnboarding';
 
 /* Component */
 import OnboardingTooltip from '../../OnboardingTooltip';
-import { getUserOnboarding, getUserOnboardingResources } from '../../../selectors/UserOnboarding';
-import { connect } from 'react-redux';
 
 /* Constants */
 import {
@@ -37,7 +36,6 @@ interface Props {
   userOnboardingResources: any[];
 }
 
-/* Header cell, Adds a sort icon beside the heading. */
 const HeaderSortCell = (props: Props) => {
   const {
     title,
@@ -73,21 +71,10 @@ const HeaderSortCell = (props: Props) => {
         {/* Youtube On boarding Icon */}
         {showTableKpiOnboarding && (youtubeLink || tooltipText) && (
           <OnboardingTooltip
-            trigger={
-              youtubeLink ? (
-                <YoutubeLogo
-                  className={styles.youtubeLogoTrigger}
-                  onClick={(e: any) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    window.open(youtubeLink, '_blank');
-                  }}
-                />
-              ) : (
-                <Icon name="info circle" className={styles.infoCircleTrigger} />
-              )
-            }
+            youtubeLink={youtubeLink}
             tooltipMessage={tooltipText}
+            infoIconClassName={styles.infoCircleTrigger}
+            youtubeIconClassName={styles.youtubeLogoTrigger}
           />
         )}
       </p>
