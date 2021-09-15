@@ -76,6 +76,7 @@ const HeaderSortCell = (props: Props) => {
                   className={styles.youtubeLogoTrigger}
                   onClick={(e: any) => {
                     e.preventDefault();
+                    e.stopPropagation();
                     window.open(youtubeLink, '_blank');
                   }}
                 />
