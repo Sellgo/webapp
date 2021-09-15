@@ -178,7 +178,7 @@ const TrackerTable = (props: Props) => {
             {(rowData: any) => {
               const { competitors } = rowData;
               return (
-                <div className={styles.competitorsCOunt}>
+                <div className={styles.competitorsCount}>
                   {competitors ? competitors.length : '-'}
                 </div>
               );
