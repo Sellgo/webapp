@@ -96,7 +96,6 @@ const TrackerTable = (props: Props) => {
     const [currentExpandedRowId] = expandedRowKeys;
 
     if (currentExpandedRowId !== rowId) {
-      console.log(rowData);
       // set the expanded row in state
       setKeywordTrackerProductsExpandedRow(rowData);
       // fetch keywords table data

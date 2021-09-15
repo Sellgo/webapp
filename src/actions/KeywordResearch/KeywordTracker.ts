@@ -286,7 +286,7 @@ export const unTrackKeywordTrackerTableProduct = (
 
 export const addCompetitorsToKeywordTrackerProductsTable = (
   payload: AddCompetitorsPayload
-) => async () => {
+) => async (dispatch: any, getState: any) => {
   const sellerId = sellerIDSelector();
 
   try {
@@ -300,13 +300,24 @@ export const addCompetitorsToKeywordTrackerProductsTable = (
     const formData = new FormData();
 
     formData.set('keyword_track_product_id', String(keywordTrackProductId));
-    formData.set(asins, 'asins');
+    formData.set('asins', asins);
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/competitors`;
 
     const { data } = await axios.post(URL, formData);
 
+    const currentExpandedRow = getKeywordTrackerProductsExpandedRow(getState());
+
     if (data) {
+      dispatch(
+        setKeywordTrackerProductsExpandedRow({
+          ...currentExpandedRow,
+          competitors: [...currentExpandedRow.competitors, ...data],
+        })
+      );
+
+      dispatch(fetchKeywordTrackerProductsTable({ enableLoader: false }));
+
       success(`${data.length} ASIN's added as competitors`);
     }
   } catch (err) {

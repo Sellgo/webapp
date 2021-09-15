@@ -31,6 +31,7 @@ import {
 
 /* Assets */
 import { ReactComponent as AddCirecleIcon } from '../../../../../assets/images/addAsinPlusIcon.svg';
+import { timeout } from '../../../../../utils/timeout';
 
 interface Props {
   keywordTrackerProductsExpandedRow: any;
@@ -45,7 +46,7 @@ const TrackerCompetitors = (props: Props) => {
     removeCompetitorFromKeywordTrackerProductsTable,
   } = props;
 
-  const [addCompetitors, setAddCompetitors] = useState(false);
+  const [addCompetitorsModal, setAddCompetitorsModal] = useState(false);
 
   // Total length of the competitors
   const expandedRowCompetitors = keywordTrackerProductsExpandedRow.competitors || [];
@@ -57,8 +58,10 @@ const TrackerCompetitors = (props: Props) => {
   };
 
   // Add Competitors ASIN's on the product
-  const handleAddCompetitors = (payload: AddCompetitorsPayload) => {
+  const handleAddCompetitors = async (payload: AddCompetitorsPayload) => {
     addCompetitorsToKeywordTrackerProductsTable(payload);
+    await timeout(1000);
+    setAddCompetitorsModal(false);
   };
 
   return (
@@ -87,7 +90,7 @@ const TrackerCompetitors = (props: Props) => {
 
         <button
           className={styles.addCompetitor}
-          onClick={() => setAddCompetitors(true)}
+          onClick={() => setAddCompetitorsModal(true)}
           disabled={totalCurrentCompetitors >= MAX_COMPETITORS_ALLOWED}
         >
           <AddCirecleIcon />
@@ -97,9 +100,9 @@ const TrackerCompetitors = (props: Props) => {
 
       {/* Add Competitors Modal */}
       <Modal
-        open={addCompetitors}
+        open={addCompetitorsModal}
         className={styles.addCompetitorsModal}
-        onClose={() => setAddCompetitors(false)}
+        onClose={() => setAddCompetitorsModal(false)}
         content={
           <AddCompetitorsModal
             currentCompetitorsCount={totalCurrentCompetitors}

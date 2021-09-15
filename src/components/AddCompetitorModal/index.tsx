@@ -19,11 +19,11 @@ interface Props {
   currentCompetitorsCount: number;
   onSubmit: (payload: AddCompetitorsPayload) => void;
   parentAsin: string;
-  keywordTrackProductId: string;
+  keywordTrackProductId: number;
 }
 
 const AddCompetitorsModal = (props: Props) => {
-  const { currentCompetitorsCount, parentAsin, keywordTrackProductId } = props;
+  const { currentCompetitorsCount, parentAsin, keywordTrackProductId, onSubmit } = props;
 
   const [competitorsAsins, setCompetitorsAsins] = useState('');
   const [newlyAddedCompetitorsCount, setNewlyAddedCompetitorsCount] = useState(0);
@@ -33,9 +33,17 @@ const AddCompetitorsModal = (props: Props) => {
     setCompetitorsAsins('');
   };
 
+  // Submit Modal */
   const handleSubmit = () => {
-    console.log(competitorsAsins.split('\n').join(','));
-    console.log('Keyword track ID', keywordTrackProductId);
+    const newCompetitorsAsins = competitorsAsins
+      .split('\n')
+      .filter(a => a.length > 0)
+      .join(',');
+
+    onSubmit({
+      asins: newCompetitorsAsins,
+      keywordTrackProductId,
+    });
   };
 
   const leftCompetitors =
