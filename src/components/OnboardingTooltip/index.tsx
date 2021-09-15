@@ -1,5 +1,5 @@
-import React, { memo, SyntheticEvent } from 'react';
-import { Icon, Popup } from 'semantic-ui-react';
+import React, { memo, SyntheticEvent, useState } from 'react';
+import { Icon, Popup, Modal } from 'semantic-ui-react';
 
 /* Assets */
 import { ReactComponent as YoutubeLogo } from '../../assets/images/youtubeLogo.svg';
@@ -17,26 +17,48 @@ interface Props {
 const OnboardingTooltip = (props: Props) => {
   const { tooltipMessage, youtubeLink, youtubeIconClassName, infoIconClassName } = props;
 
+  const [openEmbedModal, setOpenEmbedModal] = useState(false);
   const handleClick = (e: SyntheticEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
-    window.open(youtubeLink, '_blank');
+    setOpenEmbedModal(true);
   };
 
   return (
-    <Popup
-      on="hover"
-      className={styles.onboardingTooltipPopup}
-      trigger={
-        youtubeLink ? (
-          <YoutubeLogo className={youtubeIconClassName} onClick={handleClick} />
-        ) : (
-          <Icon name="info circle" className={infoIconClassName} />
-        )
-      }
-      content={<p className={styles.tooltipMessage}>{tooltipMessage}</p>}
-    />
+    <>
+      <Popup
+        on="hover"
+        className={styles.onboardingTooltipPopup}
+        trigger={
+          youtubeLink ? (
+            <YoutubeLogo className={youtubeIconClassName} onClick={handleClick} />
+          ) : (
+            <Icon name="info circle" className={infoIconClassName} />
+          )
+        }
+        content={<p className={styles.tooltipMessage}>{tooltipMessage}</p>}
+      />
+
+      {/* YOutube Embed Vidoes */}
+      <Modal
+        open={openEmbedModal}
+        className={styles.youtubeEmbedModal}
+        onClose={() => setOpenEmbedModal(false)}
+        content={
+          <div className={styles.youtubeEmbedContainer}>
+            <iframe
+              width="560"
+              height="500"
+              src={youtubeLink}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        }
+      />
+    </>
   );
 };
 

@@ -13,15 +13,15 @@
 
   {
     "count_30_days": {
-      "youtubeLink": "https://www.youtube.com/watch?v=DVQTGidS1yk",
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
       "tooltipText": "Word Count | 2 min watch"
     },
     "count_90_days": {
-      "youtubeLink": "https://www.youtube.com/watch?v=DVQTGidS1yk",
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
       "tooltipText": "Competing Products | 2 min watch"
     },
     "count_12_month": {
-      "youtubeLink": "https://www.youtube.com/watch?v=DVQTGidS1yk",
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
       "tooltipText": "Word Count | 2 min watch"
     }
   }

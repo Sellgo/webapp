@@ -42,15 +42,15 @@
       "tooltipText": "Search Volume | 1 min watch"
     },
     "price": {
-      "youtubeLink": "https://www.youtube.com/watch?v=DVQTGidS1yk",
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
       "tooltipText": "Sponsored ASIN's | 2 min watch"
     },
     "monthly_sales": {
-      "youtubeLink": "https://www.youtube.com/watch?v=DVQTGidS1yk",
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
       "tooltipText": "Competing Products | 2 min watch"
     },
     "monthly_revenue": {
-      "youtubeLink": "https://www.youtube.com/watch?v=DVQTGidS1yk",
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
       "tooltipText": "Word Count | 2 min watch"
     }
   }
