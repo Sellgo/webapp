@@ -90,7 +90,7 @@ function CheckoutForm(props: MyProps) {
     setRedeemedPromoCode,
     setPromoError,
   } = props;
-  const [isPromoCodeVerified, setPromoCodeVerified] = useState<boolean>(false);
+  const [isPromoCodeChecked, setPromoCodeChecked] = useState<boolean>(false);
   const [promoCode, setPromoCode] = useState<string>('');
   const { value: name, bind: bindName } = useInput('');
   const { value: address, bind: bindAddress } = useInput('');
@@ -119,13 +119,15 @@ function CheckoutForm(props: MyProps) {
     }
   };
 
-  // Upon retrieving the updated promo code details, set the status to be verified.
+  /* Upon successful checking of the entered promo code, either a valid redeemedPromoCode code 
+  is returned, or an error message is returned. Upon completion of promo code check, set status 
+  to verified and display success/error msg. */
   React.useEffect(() => {
     if (
       (redeemedPromoCode && redeemedPromoCode.message && redeemedPromoCode.message.length > 0) ||
       promoError.length > 0
     ) {
-      setPromoCodeVerified(true);
+      setPromoCodeChecked(true);
     }
   }, [redeemedPromoCode, promoError]);
 
@@ -136,7 +138,7 @@ function CheckoutForm(props: MyProps) {
 
   const handlePromoCodeChange = (event: any) => {
     setPromoCode(event.target.value.toUpperCase());
-    setPromoCodeVerified(false);
+    setPromoCodeChecked(false);
     setRedeemedPromoCode({});
     setPromoError('');
   };
@@ -339,9 +341,9 @@ function CheckoutForm(props: MyProps) {
             Redeem
           </button>
           <p className={styles.redemptionMessage__success}>
-            {isPromoCodeVerified && redeemedPromoCode && redeemedPromoCode.message}
+            {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message}
           </p>
-          <p className={styles.redemptionMessage__error}>{isPromoCodeVerified && promoError}</p>
+          <p className={styles.redemptionMessage__error}>{isPromoCodeChecked && promoError}</p>
         </Form.Group>
 
         <div className={styles.paymentMeta}>

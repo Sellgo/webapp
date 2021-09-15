@@ -6,7 +6,7 @@ import {
   SET_STRIPE_LOADING,
   SET_COUPON_APPLIED,
   SET_PROMO_CODE,
-  SET_PROMO_ERROR,
+  SET_PROMO_ERROR_MESSAGE,
   SET_PROMO_LOADING,
 } from '../../../constants/Settings';
 import { AnyAction } from 'redux';
@@ -86,7 +86,7 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'promoLoading', action.payload);
     }
 
-    case SET_PROMO_ERROR: {
+    case SET_PROMO_ERROR_MESSAGE: {
       return setIn(state, 'promoError', action.payload);
     }
 
