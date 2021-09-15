@@ -14,6 +14,7 @@ import { DEFAULT_MIN_MAX_FILTER } from '../../../../constants/KeywordResearch/Ke
 
 /* Selectors */
 import { getKeywordReverseProductsList } from '../../../../selectors/KeywordResearch/KeywordReverse';
+import { getUserOnboardingResources } from '../../../../selectors/UserOnboarding';
 
 /* Actions */
 import {
@@ -227,6 +228,7 @@ const ReverseFilters = (props: Props) => {
 const mapStateToProps = (state: any) => {
   return {
     keywordReverseProductsList: getKeywordReverseProductsList(state),
+    userOnboardingResources: getUserOnboardingResources(state),
   };
 };
 

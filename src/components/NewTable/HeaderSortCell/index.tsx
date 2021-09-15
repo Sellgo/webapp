@@ -14,9 +14,9 @@ import { connect } from 'react-redux';
 
 /* Constants */
 import {
-  FALLBACK_TABLE_KPI_DETAILS,
+  FALLBACK_ONBOARDING_DETAILS,
   TABLE_KPI_ONBOARDING_INDEX,
-} from '../../../constants/KeywordResearch/KeywordDatabase';
+} from '../../../constants/UserOnboarding';
 
 const sortedStyles = {
   color: '#3b4557',
@@ -53,14 +53,17 @@ const HeaderSortCell = (props: Props) => {
   const isAscendingSorted = currentSortType === 'asc' && isCurrentlySorted;
   const isDescendingSorted = currentSortType === 'desc' && isCurrentlySorted;
 
-  // user onboardng logic
-
-  const showOnboarding = userOnboarding && userOnboardingResources.length > 0;
+  /* ====================================================== */
+  // maybe needs refactor later into better version
+  /* ================== USER ONBOARDING LOGIC  ============ */
+  /* ====================================================== */
 
   const tableKpiOnboardingDetails = userOnboardingResources[TABLE_KPI_ONBOARDING_INDEX] || {};
+  const showTableKpiOnboarding =
+    userOnboarding && Object.keys(tableKpiOnboardingDetails).length > 0;
 
   const { youtubeLink, tooltipText } =
-    tableKpiOnboardingDetails[dataKey] || FALLBACK_TABLE_KPI_DETAILS;
+    tableKpiOnboardingDetails[dataKey] || FALLBACK_ONBOARDING_DETAILS;
 
   return (
     <div className={styles.headerCell}>
@@ -68,7 +71,7 @@ const HeaderSortCell = (props: Props) => {
         {title}
 
         {/* Youtube On boarding Icon */}
-        {showOnboarding && (youtubeLink || tooltipText) && (
+        {showTableKpiOnboarding && (youtubeLink || tooltipText) && (
           <OnboardingTooltip
             trigger={
               youtubeLink ? (

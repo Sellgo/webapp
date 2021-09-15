@@ -61,3 +61,13 @@ export const onboardingVideos = [
     ],
   },
 ];
+
+/* Onboarding indexes */
+export const TABLE_KPI_ONBOARDING_INDEX = 0;
+export const FILTER_KPI_ONBOARDING_INDEX = 1;
+
+/* Fallback for table KPI details */
+export const FALLBACK_ONBOARDING_DETAILS = {
+  youtubeLink: '',
+  tooltipText: '',
+};
