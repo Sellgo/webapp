@@ -121,7 +121,7 @@ function CheckoutForm(props: MyProps) {
 
   /* Upon successful checking of the entered promo code, either a valid redeemedPromoCode code 
   is returned, or an error message is returned. Upon completion of promo code check, set status 
-  to verified and display success/error msg. */
+  to checked and display success/error msg. */
   React.useEffect(() => {
     if (
       (redeemedPromoCode && redeemedPromoCode.message && redeemedPromoCode.message.length > 0) ||
