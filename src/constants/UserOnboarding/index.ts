@@ -65,6 +65,10 @@ export const onboardingVideos = [
 /* Onboarding indexes */
 export const FILTER_KPI_ONBOARDING_INDEX = 0;
 export const TABLE_KPI_ONBOARDING_INDEX = 1;
+export const TABLE_SPECIAL_ONBOARDING_INDEX = 2;
+
+export const EXPANDED_TABLE_CELL_KEY = 'expandedCell';
+export const COLLAPSE_TABLE_CELL_KEY = 'collapseCell';
 
 /* Fallback for table KPI details */
 export const FALLBACK_ONBOARDING_DETAILS = {

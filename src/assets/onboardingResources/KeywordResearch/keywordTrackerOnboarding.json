@@ -31,5 +31,22 @@
       "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
       "tooltipText": "Sponsored  | 2 min watch"
     }
+  },
+
+  {
+    "expandedCell": {
+      "youtubeLink": "",
+      "tooltipText": "You can expanded this"
+    },
+
+    "collapseCell": {
+      "youtubeLink": "",
+      "tooltipText": "You can collapse this"
+    },
+
+    "competitors": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "Sponsored  | 2 min watch"
+    }
   }
 ]
