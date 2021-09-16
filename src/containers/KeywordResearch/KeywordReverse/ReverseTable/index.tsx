@@ -125,7 +125,7 @@ const ReverseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="competing_products" prependWith=">" align="left" />
+          <StatsCell dataKey="competing_products" align="left" />
         </Table.Column>
 
         {/* Title Density  */}
