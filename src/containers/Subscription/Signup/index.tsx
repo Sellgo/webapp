@@ -52,6 +52,7 @@ const Signup = (props: Props, state: State) => {
 
   const [verifySignupError, setVerifySignupError] = useState(false);
 
+  const [loading, setLoading] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [fnameError, setFnameError] = useState(false);
   const [lnameError, setLnameError] = useState(false);
@@ -186,6 +187,9 @@ const Signup = (props: Props, state: State) => {
       setVerifySignupError(true);
       setLnameError(true);
     } else {
+      /* Disable register button for awhile after submission */
+      setLoading(true);
+      setTimeout(() => setLoading(false), 1000);
       auth.webAuth.signup(
         {
           connection: 'Username-Password-Authentication',
@@ -278,7 +282,7 @@ const Signup = (props: Props, state: State) => {
           {verifySignupError ? <span>{errorMessage}</span> : <span />}
         </div>
 
-        <button className={styles.submitButton} type="submit">
+        <button className={styles.submitButton} type="submit" disabled={loading}>
           Register
         </button>
 
