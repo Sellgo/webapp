@@ -11,6 +11,28 @@ export interface TrackerTableProductsPayload {
   page?: number;
   sort?: string;
   sortDir?: 'asc' | 'desc';
+  search?: string;
+}
+
+/* Keyword Tracker Table Competitors  */
+export interface KeywordTrackerTableCompetitors {
+  keyword_track_competitor_id: number;
+  asin: string;
+  title: string;
+  image_url: string;
+  status: 'active' | 'inactive';
+}
+
+/* Add Competitors */
+export interface AddCompetitorsPayload {
+  keywordTrackProductId: number;
+  asins: string;
+}
+
+/* Remove Competitors */
+export interface RemoveCompetitorPayload {
+  keywordTrackCompetitorId: number;
+  status: 'active' | 'inactive';
 }
 
 /* Keyword Tracker Products table pagination */

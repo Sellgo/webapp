@@ -30,6 +30,8 @@ const ActionsCell = (props: Props) => {
 
   const keywordTrackProductId = rowData[dataKey];
 
+  const asin = rowData.asin;
+
   /* Handle All Exports */
   const handleExport = async (type: 'xlsx' | 'csv') => {
     if (type === 'xlsx') {
@@ -40,6 +42,12 @@ const ActionsCell = (props: Props) => {
 
   const handleUntrackProduct = () => {
     unTrackKeywordTrackerTableProduct({ keywordTrackProductId });
+  };
+
+  const handleViewOnAmazon = () => {
+    const amazonLink = `https://www.amazon.com/dp/${asin}`;
+
+    window.open(amazonLink, '_blank');
   };
 
   return (
@@ -53,6 +61,11 @@ const ActionsCell = (props: Props) => {
           offset="-15"
           content={
             <div className="keywordTrackerActionsCellContent">
+              <button disabled={!asin} onClick={handleViewOnAmazon}>
+                <Icon name="amazon" className="keywordTrackerActionIcon" />
+                View on Amazon
+              </button>
+
               <button onClick={handleUntrackProduct}>
                 <Icon name="trash" className="keywordTrackerActionIcon" />
                 Delete Product

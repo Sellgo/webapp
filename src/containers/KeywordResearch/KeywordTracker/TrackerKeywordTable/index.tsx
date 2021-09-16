@@ -17,6 +17,7 @@ import TablePagination from '../../../../components/NewTable/Pagination';
 import Keyword from './Keyword';
 import ActionsCell from './ActionsCell';
 import HeaderActionsCell from './HeaderActionsCell';
+import TrackerCompetitors from './TrackerCompetitors';
 
 /* Constants */
 import {
@@ -62,6 +63,7 @@ const TrackerKeywordTable = (props: Props) => {
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
   const [checkedRows, setCheckedRows] = useState<any>([]);
 
+  /* Handle Column Sorting */
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     const tableResults = trackerProductKeywordsTableResults;
     const [firstItem] = tableResults;
@@ -78,6 +80,7 @@ const TrackerKeywordTable = (props: Props) => {
     });
   };
 
+  /* Handle pagination */
   const handlePageChange = (pageNo: number, perPageNo?: number) => {
     const tableResults = trackerProductKeywordsTableResults;
     const [firstItem] = tableResults;
@@ -93,6 +96,7 @@ const TrackerKeywordTable = (props: Props) => {
     });
   };
 
+  /* Handle single row check box click */
   const handleCheckboxClick = (rowData: any) => {
     const doesAlreadyExists = checkedRows.some(
       (row: any) =>
@@ -119,6 +123,7 @@ const TrackerKeywordTable = (props: Props) => {
     }
   };
 
+  /* Handle Header checkbox click */
   const handleHeaderCheckboxClick = (e: any, data: any) => {
     const isCheked = Boolean(data.checked);
 
@@ -132,11 +137,15 @@ const TrackerKeywordTable = (props: Props) => {
 
   return (
     <>
-      <div className={styles.keywordTableWrapper}>
+      {/* Competitors Section */}
+      <TrackerCompetitors />
+
+      {/* Table Section */}
+      <section className={styles.keywordTableWrapper}>
         <Table
           loading={isLoadingTrackerProductKeywordsTable}
           data={trackerProductKeywordsTableResults}
-          height={calculateKeywordsTableHeight(trackerProductKeywordsTableResults.length - 3)}
+          height={calculateKeywordsTableHeight(trackerProductKeywordsTableResults.length - 5)}
           hover={false}
           rowHeight={PRODUCT_KEYWORD_ROW_HEIGHT}
           headerHeight={50}
@@ -278,7 +287,7 @@ const TrackerKeywordTable = (props: Props) => {
             />
           </footer>
         )}
-      </div>
+      </section>
     </>
   );
 };

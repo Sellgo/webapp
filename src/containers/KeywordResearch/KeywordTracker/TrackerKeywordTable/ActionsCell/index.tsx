@@ -69,6 +69,11 @@ const ActionsCell = (props: Props) => {
     triggerTrackerProductKeywordsHistoryExport({ keywordTrackId });
   };
 
+  const handleSearchOnAmazon = () => {
+    const searchLink = `https://www.amazon.com/s?k=${phrase}`;
+    window.open(searchLink, '_blank');
+  };
+
   return (
     <>
       <Table.Cell {...otherProps}>
@@ -81,14 +86,21 @@ const ActionsCell = (props: Props) => {
             closeOnDocumentClick
             content={
               <div className="productKeywordActionsCellContent">
+                <button onClick={handleSearchOnAmazon} disabled={!phrase}>
+                  <Icon name="amazon" className="productKeywordActionIcon" />
+                  Search On Amazon
+                </button>
+
                 <button onClick={handleUnTrackKeyword}>
                   <Icon name="trash" className="productKeywordActionIcon" />
                   Delete Keyword
                 </button>
+
                 <button onClick={handleHistory}>
                   <Icon name="chart line" className="productKeywordActionIcon" />
                   History
                 </button>
+
                 <button onClick={handleExport}>
                   <Icon name="download" className="productKeywordActionIcon" />
                   Export XLSX

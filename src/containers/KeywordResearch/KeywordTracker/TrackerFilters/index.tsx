@@ -105,6 +105,7 @@ const TrackerFilters = (props: Props) => {
           checked={trackParentsAndVariations}
           onChange={() => setTrackParentsAndVariations(prevState => !prevState)}
           className={styles.checkbox}
+          style={{ opacity: 0 }}
         />
 
         <Checkbox

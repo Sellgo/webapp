@@ -40,6 +40,7 @@ import {
 import {
   fetchKeywordTrackerProductsTable,
   fetchTrackerProductKeywordsTable,
+  setKeywordTrackerProductsExpandedRow,
 } from '../../../../actions/KeywordResearch/KeywordTracker';
 
 /* Interfaces */
@@ -55,17 +56,23 @@ interface Props {
   keywordTrackerProductsTablePaginationInfo: KeywordTrackerProductsTablePaginationInfo;
   fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) => void;
 
+  setKeywordTrackerProductsExpandedRow: (payload: any) => void;
+
   trackerProductKeywordsTableResults: any[];
   fetchTrackerProductKeywordsTable: (payload: TrackerProductKeywordsTablePayload) => void;
 }
 
 const TrackerTable = (props: Props) => {
   const {
+    /* Main products taale */
     isLoadingKeywordTrackerProductsTable,
     keywordTrackerProductsTableResults,
     keywordTrackerProductsTablePaginationInfo,
     fetchKeywordTrackerProductsTable,
 
+    setKeywordTrackerProductsExpandedRow,
+
+    /* Keywords Table */
     trackerProductKeywordsTableResults,
     fetchTrackerProductKeywordsTable,
   } = props;
@@ -89,12 +96,16 @@ const TrackerTable = (props: Props) => {
     const [currentExpandedRowId] = expandedRowKeys;
 
     if (currentExpandedRowId !== rowId) {
+      // set the expanded row in state
+      setKeywordTrackerProductsExpandedRow(rowData);
+      // fetch keywords table data
       fetchTrackerProductKeywordsTable({
         keywordTrackProductId: rowId,
       });
       setExpandedRowkeys([rowId]);
     } else {
       setExpandedRowkeys([]);
+      setKeywordTrackerProductsExpandedRow({});
     }
   };
 
@@ -163,7 +174,16 @@ const TrackerTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="competitors" align="center" />
+          <Table.Cell>
+            {(rowData: any) => {
+              const { competitors } = rowData;
+              return (
+                <div className={styles.competitorsCount}>
+                  {competitors ? competitors.length : '-'}
+                </div>
+              );
+            }}
+          </Table.Cell>
         </Table.Column>
 
         {/* Change Sats Period */}
@@ -247,8 +267,12 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    setKeywordTrackerProductsExpandedRow: (payload: any) =>
+      dispatch(setKeywordTrackerProductsExpandedRow(payload)),
+
     fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) =>
       dispatch(fetchKeywordTrackerProductsTable(payload)),
+
     fetchTrackerProductKeywordsTable: (payload: TrackerProductKeywordsTablePayload) =>
       dispatch(fetchTrackerProductKeywordsTable(payload)),
   };

@@ -1,0 +1,99 @@
+@import '../../../../../design-system/new-colors.scss';
+
+/* Competitors Section */
+.competitorsSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 30px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid $grey_3;
+}
+
+.totalCompetitors {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-right: 30px;
+
+  p {
+    color: $grey_6;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  span {
+    color: $grey_8;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+.competitorsAsinsWrapper {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  overflow-y: auto !important;
+  grid-column-gap: 20px;
+  padding-bottom: 5px;
+
+  /* width */
+  &::-webkit-scrollbar {
+    height: 5px !important;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: $grey_1 !important;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $grey_6 !important;
+    border-radius: 3px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: $grey_6 !important;
+  }
+}
+
+.addCompetitor {
+  background: #fff;
+  color: $grey_8 !important;
+  height: 30px;
+  border-radius: 7px;
+  border: 1px solid $grey_3;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 400;
+  margin-right: 20px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+
+  svg {
+    width: 12px;
+    height: 12px;
+    margin-right: 10px;
+
+    path {
+      fill: $grey_8 !important;
+    }
+  }
+
+  span {
+    color: $grey_6 !important;
+  }
+}
+
+.addCompetitorsModal {
+  border: 0 !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
+}
