@@ -9,8 +9,11 @@ import {
 
 /* Interfaces */
 import {
+  AddCompetitorsPayload,
   KeywordTrackerProductsTablePaginationInfo,
+  KeywordTrackerTableCompetitors,
   ProductTrackPayload,
+  RemoveCompetitorPayload,
   TrackerProductKeywordsHistory,
   TrackerProductKeywordsTablePaginationInfo,
   TrackerProductKeywordsTablePayload,
@@ -23,6 +26,7 @@ import {
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
 import {
+  getKeywordTrackerProductsExpandedRow,
   getKeywordTrackerProductsTableResults,
   getTrackerProductKeywordsTableResults,
 } from '../../selectors/KeywordResearch/KeywordTracker';
@@ -57,6 +61,13 @@ export const setKeywordTrackerProductsTablePaginationInfo = (
 ) => {
   return {
     type: actionTypes.SET_KEYWORD_TRACKER_PRODUCTS_TABLE_PAGINATION_INFO,
+    payload,
+  };
+};
+
+export const setKeywordTrackerProductsExpandedRow = (payload: any) => {
+  return {
+    type: actionTypes.SET_KEYWORD_TRACKER_PRODUCTS_EXPANDED_ROW,
     payload,
   };
 };
@@ -137,6 +148,10 @@ export const setTrackerProductKeywordsHistoryExportProgress = (
 /*   						ASYNC ACTIONS 											 */
 /* ================================================= */
 
+/* ================================================= */
+/*   					KEYWORD TRACKER MAIN TABLE							*/
+/* ================================================= */
+
 /* Action to track products (asin) and the kwyrods */
 export const trackProductWithAsinAndKeywords = (payload: ProductTrackPayload) => async (
   dispatch: any,
@@ -185,6 +200,7 @@ export const fetchKeywordTrackerProductsTable = (payload: TrackerTableProductsPa
       sort = 'id',
       page = 1,
       perPage = 20,
+      search = '',
     } = payload;
 
     if (resetFilters) {
@@ -195,7 +211,9 @@ export const fetchKeywordTrackerProductsTable = (payload: TrackerTableProductsPa
 
     const sorting = `sort=${sort}&sort_direction=${sortDir}`;
     const pagination = `page=${page}&per_page=${perPage}`;
-    const resourcePath = `${sorting}&${pagination}`;
+    const searchTerm = `search=${search}`;
+
+    const resourcePath = `${sorting}&${pagination}&${searchTerm}`;
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/products?${resourcePath}`;
 
@@ -260,6 +278,106 @@ export const unTrackKeywordTrackerTableProduct = (
     console.error('Error Untracking/Deleting keyword from tracker product table', err);
   }
 };
+
+/* ================================================= */
+/*   					KEYWORD TRACKER COMPETITORS							*/
+/* ================================================= */
+/* Action to add the competitors for a product in the keyword tracker products table */
+
+export const addCompetitorsToKeywordTrackerProductsTable = (
+  payload: AddCompetitorsPayload
+) => async (dispatch: any, getState: any) => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const { keywordTrackProductId, asins } = payload;
+
+    if (!keywordTrackProductId || !asins) {
+      return;
+    }
+
+    // prepare the payload
+    const formData = new FormData();
+
+    formData.set('keyword_track_product_id', String(keywordTrackProductId));
+    formData.set('asins', asins);
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/competitors`;
+
+    const { data } = await axios.post(URL, formData);
+
+    const currentExpandedRow = getKeywordTrackerProductsExpandedRow(getState());
+
+    if (data) {
+      dispatch(
+        setKeywordTrackerProductsExpandedRow({
+          ...currentExpandedRow,
+          competitors: [...currentExpandedRow.competitors, ...data],
+        })
+      );
+
+      dispatch(fetchKeywordTrackerProductsTable({ enableLoader: false }));
+
+      success(`${data.length} ASIN's added as competitors`);
+    }
+  } catch (err) {
+    console.error('Error adding competitors to table', err);
+  }
+};
+
+/* Action to remove competitors from a product */
+export const removeCompetitorFromKeywordTrackerProductsTable = (
+  payload: RemoveCompetitorPayload
+) => async (dispatch: any, getState: any) => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const { keywordTrackCompetitorId } = payload;
+
+    if (!keywordTrackCompetitorId) {
+      return;
+    }
+
+    // prepare the patch payload
+    const formData = new FormData();
+
+    formData.set('keyword_track_competitor_id', String(keywordTrackCompetitorId));
+    formData.set('status', 'inactive');
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/competitors`;
+
+    const { data } = await axios.patch(URL, formData);
+
+    if (data) {
+      // filter out the removed ASIN competitor
+
+      const currentExpandedRow = getKeywordTrackerProductsExpandedRow(getState());
+
+      const currentCompetitors = currentExpandedRow.competitors || [];
+
+      const updatedCompetitors = currentCompetitors.filter(
+        (d: KeywordTrackerTableCompetitors) => d.asin !== data.asin
+      );
+
+      dispatch(
+        setKeywordTrackerProductsExpandedRow({
+          ...currentExpandedRow,
+          competitors: updatedCompetitors,
+        })
+      );
+
+      dispatch(fetchKeywordTrackerProductsTable({ enableLoader: false }));
+
+      success(`${data.asin} removed from competitors`);
+    }
+  } catch (err) {
+    console.error('Error removing competitor from product', err);
+  }
+};
+
+/* ================================================= */
+/*   	KEYWORD TRACKER PRODUCTS KEYWORDS  TABLE			 */
+/* ================================================= */
 
 /* Action to fetch the kwyords for the product on tracker table */
 export const fetchTrackerProductKeywordsTable = (

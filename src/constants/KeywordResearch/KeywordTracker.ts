@@ -6,6 +6,11 @@ export const actionTypes = {
   SET_KEYWORD_TRACKER_PRODUCTS_TABLE_PAGINATION_INFO:
     'SET_KEYWORD_TRACKER_PRODUCTS_TABLE_PAGINATION_INFO',
 
+  SET_KEYWORD_TRACKER_PRODUCTS_EXPANDED_ROW: 'SET_KEYWORD_TRACKER_PRODUCTS_EXPANDED_ROW',
+
+  // Action types for asetting competitors in keywords products table
+  SET_KEYWORD_TRACKER_PRODUCTS_TABLE_COMPETITORS: 'SET_KEYWORD_TRACKER_PRODUCTS_TABLE_COMPETITORS',
+
   // Action types for the product keyword table
   IS_LOADING_TRACKER_PRODUCT_KEYWORDS_TABLE: 'IS_LOADING_TRACKER_PRODUCT_KEYWORDS_TABLE',
   SET_TRACKER_PRODUCT_KEYWORDS_TABLE_RESULTS: 'SET_TRACKER_PRODUCT_KEYWORDS_TABLE_RESULTS',
@@ -25,6 +30,9 @@ export const actionTypes = {
 
 /* Row height for the product keyword child table */
 export const PRODUCT_KEYWORD_ROW_HEIGHT = 50;
+
+/* Maximum number of competiros allowed */
+export const MAX_COMPETITORS_ALLOWED = 10;
 
 /* Unique key on each row for tracker products table */
 export const TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY = 'keyword_track_product_id';
@@ -53,7 +61,7 @@ export const DEFAULT_PAGES_LIST = [
 
 /* Calulate height for the keyword child table */
 export const calculateKeywordsTableHeight = (noOfItems: number) => {
-  const OFFSET_ROWS = 5;
+  const OFFSET_ROWS = 7;
 
   return PRODUCT_KEYWORD_ROW_HEIGHT * (noOfItems + OFFSET_ROWS);
 };

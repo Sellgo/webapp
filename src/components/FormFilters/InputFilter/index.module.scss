@@ -29,5 +29,9 @@
     &:focus {
       border: 1px solid $grey_3 !important;
     }
+
+    &:disabled {
+      cursor: not-allowed !important;
+    }
   }
 }
