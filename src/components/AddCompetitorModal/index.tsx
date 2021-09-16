@@ -79,7 +79,7 @@ const AddCompetitorsModal = (props: Props) => {
         <div style={{ marginTop: '30px' }} />
 
         <TextAreaInput
-          label="Add Comepetitor's ASIN's"
+          label="Add Competitor ASIN's"
           placeholder="Enter ASIN's (1 per line)..."
           value={competitorsAsins}
           handleChange={(value: string) => {
