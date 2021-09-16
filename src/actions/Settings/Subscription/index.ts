@@ -47,7 +47,9 @@ export const checkPromoCode = (promoCode: string) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   const fetchPromoCode = async () => {
     try {
-      const res = await Axios.get(AppConfig.BASE_URL_API + `promo-code/${sellerID}/${promoCode}`);
+      const res = await Axios.get(
+        AppConfig.BASE_URL_API + `sellers/${sellerID}/promo-code/${promoCode}`
+      );
       dispatch(setPromoCode(res.data));
       dispatch(setPromoError(''));
       dispatch(setPromoLoading(false));
