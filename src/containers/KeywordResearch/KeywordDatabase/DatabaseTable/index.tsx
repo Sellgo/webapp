@@ -142,7 +142,7 @@ const DatabaseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="competing_products" prependWith="> " align="center" />
+          <StatsCell dataKey="competing_products" align="center" />
         </Table.Column>
 
         {/* Word Count  */}
