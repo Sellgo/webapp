@@ -36,7 +36,7 @@ const keywordResearchMapper = ['Reverse', 'Database', 'Tracker'];
 const KeywordResearch = (props: Props) => {
   const { match, resetKeywordResearch, setUserOnboardingResources } = props;
 
-  const [selectedTabList, setSelectedTabList] = useState<number>(2);
+  const [selectedTabList, setSelectedTabList] = useState<number>(0);
 
   const handleTabChange = (index: number) => {
     setSelectedTabList(index);

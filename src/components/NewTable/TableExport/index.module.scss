@@ -1,0 +1,27 @@
+@import '../../../design-system/new-colors.scss';
+
+.exportButtonContainer {
+  margin-left: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $grey_8 !important;
+  margin-right: 10px;
+}
+
+.exportLabel {
+  color: $grey_8 !important;
+}
+
+.exportPopup {
+  padding: 0 !important;
+
+  &::before {
+    display: none;
+  }
+}
+
+.caretDownIcon,
+.downloadIcon {
+  color: $grey_8 !important;
+}
