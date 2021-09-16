@@ -13,6 +13,7 @@ import MarketplaceDropdown from '../../components/MarketplaceDropdown';
 /* Containers */
 import SellerMaps from './SellerMaps';
 import SellerDatabase from './SellerDatabase';
+import SellerInventory from './SellerInventory';
 
 interface Props {
   match: any;
@@ -23,7 +24,7 @@ const SellerResearchMapper = ['Database', 'Map', 'Inventories'];
 const SellerResearch = (props: Props) => {
   const { match } = props;
 
-  const [selectedTabList, setSelectedTabList] = useState<number>(0);
+  const [selectedTabList, setSelectedTabList] = useState<number>(2);
 
   const handleTabChange = (index: number) => {
     setSelectedTabList(index);
@@ -59,6 +60,7 @@ const SellerResearch = (props: Props) => {
             <TabList className={styles.productTablist}>
               <Tab>Sellers</Tab>
               <Tab>Map</Tab>
+              <Tab>Inventory</Tab>
             </TabList>
 
             <TabPanel>
@@ -67,6 +69,10 @@ const SellerResearch = (props: Props) => {
 
             <TabPanel>
               <SellerMaps />
+            </TabPanel>
+
+            <TabPanel>
+              <SellerInventory />
             </TabPanel>
           </Tabs>
         </section>
