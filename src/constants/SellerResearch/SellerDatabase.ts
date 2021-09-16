@@ -16,13 +16,6 @@ export const FILTER_PERIOD_DURATIONS = [
   { key: 'All', text: 'All', value: 'lifetime' },
 ];
 
-/* Launched Durations for filters */
-export const FILTER_LAUNCHED_DURATIONS = [
-  { label: '<1-yr', value: '<1Y' },
-  { label: '>1-yr', value: '>1Y' },
-  { label: 'All', value: '' },
-];
-
 /* Filter Types */
 export const DEFAULT_MIN_MAX_FILTER = {
   min: '',
@@ -74,11 +67,3 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   negativeReview: { keyName: 'negative', type: F_TYPES.MIN_MAX_PERIOD },
   neutralReview: { keyName: 'neutral', type: F_TYPES.MIN_MAX_PERIOD },
 };
-
-/* Exports data */
-export const EXPORT_FORMATS = [
-  { key: 'csv', value: 'csv', text: '.CSV' },
-  { key: 'xlsx', value: 'xlsx', text: '.XLSX' },
-];
-
-export const EXPORT_DATA = [{ key: 'all', value: 'all', text: 'All Results' }];
