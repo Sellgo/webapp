@@ -24,5 +24,12 @@
       "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
       "tooltipText": "Word Count | 2 min watch"
     }
+  },
+
+  {
+    "All Sellers": {
+      "youtubeLink": "",
+      "tooltipText": "Export all the table results"
+    }
   }
 ]

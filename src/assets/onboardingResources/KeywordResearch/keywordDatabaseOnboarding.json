@@ -27,5 +27,12 @@
       "youtubeLink": "",
       "tooltipText": ""
     }
+  },
+
+  {
+    "All Keywords": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "Sponsored  | 2 min watch"
+    }
   }
 ]

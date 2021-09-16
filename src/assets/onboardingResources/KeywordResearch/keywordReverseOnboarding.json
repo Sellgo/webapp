@@ -67,5 +67,12 @@
       "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
       "tooltipText": "Count 50 | 1 min watch"
     }
+  },
+
+  {
+    "All Keywords": {
+      "youtubeLink": "",
+      "tooltipText": "Export all the table results"
+    }
   }
 ]

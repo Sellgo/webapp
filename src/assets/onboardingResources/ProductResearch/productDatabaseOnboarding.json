@@ -53,5 +53,12 @@
       "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
       "tooltipText": "Word Count | 2 min watch"
     }
+  },
+
+  {
+    "All Products": {
+      "youtubeLink": "",
+      "tooltipText": "Export all the table results"
+    }
   }
 ]

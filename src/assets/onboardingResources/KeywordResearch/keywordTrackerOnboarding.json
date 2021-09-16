@@ -47,6 +47,16 @@
     "competitors": {
       "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
       "tooltipText": "Sponsored  | 2 min watch"
+    },
+
+    "All Keywords": {
+      "youtubeLink": "",
+      "tooltipText": "Export all the table results"
+    },
+
+    "All Products": {
+      "youtubeLink": "",
+      "tooltipText": "Export all the table results"
     }
   }
 ]

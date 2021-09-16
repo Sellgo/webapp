@@ -11,6 +11,7 @@
 
 .exportLabel {
   color: $grey_8 !important;
+  position: relative;
 }
 
 .exportPopup {
@@ -24,4 +25,21 @@
 .caretDownIcon,
 .downloadIcon {
   color: $grey_8 !important;
+}
+
+.youtubeLogo {
+  fill: $youtube-red !important;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  z-index: 9999;
+  cursor: pointer;
+}
+
+.infoCircle {
+  position: absolute;
+  color: $grey_8 !important;
+  top: -7px;
+  right: -12px;
+  font-size: 10px !important;
 }
