@@ -1,4 +1,5 @@
 @import '../../design-system/colors.scss';
+@import '../../design-system/new-colors.scss';
 
 .track-wrap {
   img {
@@ -62,6 +63,24 @@
       top: 0 !important;
     }
   }
+}
+
+.enableLearningPopup {
+  padding: 0 !important;
+  width: max-content;
+  height: max-content;
+  background: $grey_8 !important;
+  z-index: 99999 !important;
+
+  &::before {
+    display: none;
+  }
+}
+
+.enableLearningTooltipMessage {
+  color: #fff !important;
+  font-size: 12px;
+  padding: 0 8px;
 }
 
 .ui.toggle.checkbox.userOnboardingToogle {

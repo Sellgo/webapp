@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Icon, Image, Menu, Dropdown, Grid, Checkbox } from 'semantic-ui-react';
+import { Icon, Image, Menu, Dropdown, Grid, Checkbox, Popup } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LogoutConfirm from '../LogoutConfirm';
@@ -63,14 +63,20 @@ class AdminHeader extends React.Component<AdminProps> {
       <div className="admin-header">
         <Grid className={`${currentNotifyId > 0 && 'custom-dimmer'}`} />
 
-        <Checkbox
-          toggle
-          label="Quick Learning"
-          className="userOnboardingToogle"
-          checked={userOnboarding}
-          onChange={(e: any, data) => {
-            setUserOnboarding(Boolean(data.checked));
-          }}
+        <Popup
+          className="enableLearningPopup"
+          trigger={
+            <Checkbox
+              toggle
+              label="Quick Learning"
+              className="userOnboardingToogle"
+              checked={userOnboarding}
+              onChange={(e: any, data) => {
+                setUserOnboarding(Boolean(data.checked));
+              }}
+            />
+          }
+          content={<p className="enableLearningTooltipMessage">Toggle to enable learning mode</p>}
         />
 
         {/* Show settings icon only if not a beta user account */}
