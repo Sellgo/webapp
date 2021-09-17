@@ -43,15 +43,17 @@ export const SELLER_INVENTORY_PRODUCTS_TABLE_UNIQUE_KEY = 'id';
 export const SELLER_INVENTORY_TABLE_ROW_HEIGHT = 200;
 
 /* Seller Inventory Products Table Row hight */
-export const SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT = 50;
+export const SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT = 70;
 
 export const calculateSellerInventoryTableHeight = (
   numOfProducts: number,
   numOfSellers: number
 ) => {
+  const OFFSET_ROWS = 7;
   console.log(numOfProducts, numOfSellers);
 
-  const productsTableHeight = (numOfProducts || 10) * SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT;
+  const productsTableHeight =
+    (numOfProducts + OFFSET_ROWS) * SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT;
 
   return productsTableHeight;
 };

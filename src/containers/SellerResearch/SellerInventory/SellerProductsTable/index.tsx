@@ -1,5 +1,4 @@
-/* eslint-disable max-len */
-import React from 'react';
+import React, { useState } from 'react';
 import { Table } from 'rsuite';
 import { connect } from 'react-redux';
 
@@ -32,6 +31,10 @@ import {
 import RatingCell from '../../../../components/NewTable/RatingCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import Pagination from '../../../../components/NewTable/Pagination';
+import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
+
+/* Containers */
+import ProductInformation from './ProductInformation';
 
 /* Interfaces */
 import {
@@ -54,9 +57,23 @@ const SellerProductsTable = (props: Props) => {
     sellerInventoryProductsTablePaginationInfo,
   } = props;
 
+  const [expandedRowKeys, setExpandedRowkeys] = useState<string[]>([]);
+
   /* Handle pagination */
   const handlePageChange = (pageNo: number, perPageNo?: number) => {
     console.log(pageNo, perPageNo);
+  };
+
+  /* Handle expansion logic */
+  const handleExpansion = (rowData: any) => {
+    const rowId = rowData[SELLER_INVENTORY_PRODUCTS_TABLE_UNIQUE_KEY];
+    const [currentExpandedRowId] = expandedRowKeys;
+
+    if (currentExpandedRowId !== rowId) {
+      setExpandedRowkeys([rowId]);
+    } else {
+      setExpandedRowkeys([]);
+    }
   };
 
   return (
@@ -65,7 +82,7 @@ const SellerProductsTable = (props: Props) => {
         loading={isLoadingSellerInventoryProductsTable}
         data={sellerInventoryProductsTableResults}
         height={calculateSellerInventoryTableHeight(
-          sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length,
+          sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length - 2,
           0
         )}
         hover={false}
@@ -73,40 +90,61 @@ const SellerProductsTable = (props: Props) => {
         rowHeight={SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT}
         id="sellerProductsTable"
         rowKey={SELLER_INVENTORY_PRODUCTS_TABLE_UNIQUE_KEY}
+        // Expansion
+        rowExpandedHeight={calculateSellerInventoryTableHeight(
+          sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length,
+          0
+        )}
+        expandedRowKeys={expandedRowKeys}
+        renderRowExpanded={() => (
+          <div>
+            <p>This is expanded table</p>
+          </div>
+        )}
       >
+        {/* Expand Cell */}
+        <Table.Column width={30} verticalAlign="top" fixed align="left">
+          <Table.HeaderCell></Table.HeaderCell>
+          <ExpansionCell
+            dataKey={SELLER_INVENTORY_PRODUCTS_TABLE_UNIQUE_KEY}
+            expandedRowKeys={expandedRowKeys}
+            onChange={handleExpansion}
+          />
+        </Table.Column>
+
         {/* Product Information  */}
-        <Table.Column width={130} verticalAlign="top" align="left" flexGrow={2}>
+        <Table.Column width={130} verticalAlign="top" align="left" flexGrow={1}>
           <Table.HeaderCell>Product Name</Table.HeaderCell>
-          <Table.Cell>Product Name </Table.Cell>
+          <ProductInformation dataKey="productInformation" />
         </Table.Column>
 
         {/* Price  */}
-        <Table.Column width={130} verticalAlign="top" align="left" flexGrow={1}>
+        <Table.Column width={130} verticalAlign="top" align="left">
           <Table.HeaderCell>Price</Table.HeaderCell>
           <StatsCell dataKey="current_price" align="center" prependWith="$" />
         </Table.Column>
 
         {/* Rating L365D */}
-        <Table.Column width={130} verticalAlign="top" align="left" flexGrow={1}>
+        <Table.Column width={130} verticalAlign="top" align="left">
           <Table.HeaderCell>Rating L356D</Table.HeaderCell>
           <RatingCell dataKey="review_stars" />
         </Table.Column>
 
         {/* Rating % L365D */}
-        <Table.Column width={130} verticalAlign="top" align="left" flexGrow={1}>
+        <Table.Column width={130} verticalAlign="top" align="left">
           <Table.HeaderCell>Rating L356D</Table.HeaderCell>
           <StatsCell dataKey="review_stars" />
         </Table.Column>
 
         {/* Product Review */}
-        <Table.Column width={130} verticalAlign="top" align="left" flexGrow={1}>
+        <Table.Column width={130} verticalAlign="top" align="left">
           <Table.HeaderCell>Product Review #</Table.HeaderCell>
           <StatsCell dataKey="reviews_count" />
         </Table.Column>
       </Table>
 
       {sellerInventoryProductsTablePaginationInfo.num_pages > 0 && (
-        <footer>
+        <footer className={styles.sellerProductsTablePagination}>
           <Pagination
             totalPages={10}
             currentPage={2}
