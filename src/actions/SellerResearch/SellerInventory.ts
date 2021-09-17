@@ -45,6 +45,14 @@ export const setSellerInventoryTablePagintionInfo = (
   };
 };
 
+/* Action to set seller inventory expanded row */
+export const setSellerInventoryTableExpandedRow = (payload: any) => {
+  return {
+    type: actionTypes.SET_SELLER_INVENTORY_TABLE_EXPANDED_ROW,
+    payload,
+  };
+};
+
 /* ============================================ */
 /* ================= ASYNC ACIONS ========== */
 /* ============================================ */

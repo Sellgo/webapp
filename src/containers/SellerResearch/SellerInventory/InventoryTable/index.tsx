@@ -21,7 +21,10 @@ import {
 } from '../../../../selectors/SellerResearch/SellerInventory';
 
 /* Actions */
-import { fetchSellerInventoryTableResults } from '../../../../actions/SellerResearch/SellerInventory';
+import {
+  fetchSellerInventoryTableResults,
+  setSellerInventoryTableExpandedRow,
+} from '../../../../actions/SellerResearch/SellerInventory';
 
 /* Components */
 import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
@@ -49,6 +52,7 @@ interface Props {
   sellerInventoryTablePaginationInfo: SellerInventoryTablePaginationInfo;
 
   fetchSellerInventoryTableResults: (payload: SellerInventoryTablePayload) => void;
+  setSellerInventoryTableExpandedRow: (payload: any) => void;
 }
 
 const InventoryTable = (props: Props) => {
@@ -57,6 +61,7 @@ const InventoryTable = (props: Props) => {
     sellerInventoryTableResults,
     sellerInventoryTablePaginationInfo,
     fetchSellerInventoryTableResults,
+    setSellerInventoryTableExpandedRow,
   } = props;
 
   const [sortColumn, setSortColumn] = useState<string>('');
@@ -86,8 +91,10 @@ const InventoryTable = (props: Props) => {
 
     if (currentExpandedRowId !== rowId) {
       setExpandedRowkeys([rowId]);
+      setSellerInventoryTableExpandedRow(rowData);
     } else {
       setExpandedRowkeys([]);
+      setSellerInventoryTableExpandedRow({});
     }
   };
 
@@ -272,6 +279,8 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchSellerInventoryTableResults: (payload: SellerInventoryTablePayload) =>
       dispatch(fetchSellerInventoryTableResults(payload)),
+    setSellerInventoryTableExpandedRow: (payload: any) =>
+      dispatch(setSellerInventoryTableExpandedRow(payload)),
   };
 };
 

@@ -18,3 +18,8 @@ export const getSellerInventoryTableResults = (state: any) => {
 export const getSellerInventoryTablePaginationInfo = (state: any) => {
   return get(state, 'sellerInventory.sellerInventoryTablePaginationInfo');
 };
+
+/* Selector to get seller inventory table expanded row */
+export const getSellerInventoryTableExpandedRow = (state: any) => {
+  return get(state, 'sellerInventoryTablePaginationInfo.sellerInventoryTableExpandedRow');
+};

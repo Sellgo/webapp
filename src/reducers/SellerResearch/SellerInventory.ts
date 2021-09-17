@@ -12,6 +12,7 @@ const INITIAL_STATE = {
     current_page: 0,
     per_page: 0,
   },
+  sellerInventoryTableExpandedRow: {},
 };
 
 const sellerInventoryReducer = (state = INITIAL_STATE, action: AnyAction) => {
@@ -29,6 +30,10 @@ const sellerInventoryReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_SELLER_INVENTORY_TABLE_PAGINATION_INFO: {
       return setIn(state, 'sellerInventoryTablePaginationInfo', action.payload);
+    }
+
+    case actionTypes.SET_SELLER_INVENTORY_TABLE_EXPANDED_ROW: {
+      return setIn(state, 'sellerInventoryTableExpandedRow', action.payload);
     }
 
     default: {
