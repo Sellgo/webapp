@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Table } from 'rsuite';
 
 /* Utils */
@@ -14,4 +14,4 @@ const TruncatedTextCell = (props: RowCell) => {
   return <Table.Cell {...props}>{truncateString(rowContent, 20)}</Table.Cell>;
 };
 
-export default TruncatedTextCell;
+export default memo(TruncatedTextCell);
