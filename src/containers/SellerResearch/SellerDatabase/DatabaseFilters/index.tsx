@@ -49,8 +49,8 @@ const SellerDatabaseFilters = (props: Props) => {
 
   /* Basic Filters */
   const [marketPlace, setMarketPlace] = useState<MarketplaceOption>(DEFAULT_US_MARKET);
-  const [merchantName, setMerchantName] = useState<string>('');
 
+  const [merchantName, setMerchantName] = useState<string>('');
   const [asins, setAsins] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
   const [sellerIds, setSellerIds] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
@@ -59,7 +59,6 @@ const SellerDatabaseFilters = (props: Props) => {
   const [brands, setBrands] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
   const [monthlyRevenue, setMonthlyRevenue] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [numOfAsins, setNumOfAsins] = useState(DEFAULT_MIN_MAX_FILTER);
 
   const [growthPercent, setGrowthPercent] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
   const [growthCount, setGrowthCount] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
@@ -79,31 +78,46 @@ const SellerDatabaseFilters = (props: Props) => {
       merchantName,
       asins,
       sellerIds,
+
+      /* Advanced Filters */
       businessName,
       brands,
+      monthlyRevenue,
+      growthPercent,
+      growthCount,
       reviewCount,
       sellerRatings,
-      monthlyRevenue,
+      review,
     };
 
-    fetchSellerDatabase({ filterPayload });
+    fetchSellerDatabase({ filterPayload, marketplaceId: marketPlace.value });
   };
 
   const handleReset = () => {
-    fetchSellerDatabase({ resetFilter: true });
+    setMarketPlace(DEFAULT_US_MARKET);
 
     setMerchantName('');
     setAsins(DEFAULT_INCLUDE_EXCLUDE_FILTER);
     setSellerIds(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+
+    /* Advaced Filters */
     setBusinessName('');
     setBrands(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
+    setMonthlyRevenue(DEFAULT_MIN_MAX_FILTER);
+
+    setGrowthPercent(DEFAULT_MIN_MAX_PERIOD_FILTER);
+    setGrowthCount(DEFAULT_MIN_MAX_PERIOD_FILTER);
+
     setReviewCount(DEFAULT_MIN_MAX_PERIOD_FILTER);
     setSellerRatings(DEFAULT_MIN_MAX_FILTER);
-    setMonthlyRevenue(DEFAULT_MIN_MAX_FILTER);
+
+    setReview(DEFAULT_MIN_MAX_PERIOD_REVIEW);
 
     /* Reset Error States */
     setAsinsError(DEFAULT_INCLUDE_EXCLUDE_ERROR);
+
+    fetchSellerDatabase({ resetFilter: true });
   };
 
   /* Effect on component mount */
@@ -328,19 +342,6 @@ const SellerDatabaseFilters = (props: Props) => {
                 maxValue={monthlyRevenue.max}
                 handleChange={(type: string, value: string) =>
                   setMonthlyRevenue(prevState => ({
-                    ...prevState,
-                    [type]: value,
-                  }))
-                }
-              />
-
-              {/* Nuber of ASINs */}
-              <MinMaxFilter
-                label="Number of ASINs"
-                minValue={numOfAsins.min}
-                maxValue={numOfAsins.max}
-                handleChange={(type: string, value: string) =>
-                  setNumOfAsins(prevState => ({
                     ...prevState,
                     [type]: value,
                   }))

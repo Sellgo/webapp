@@ -68,30 +68,29 @@ export const F_TYPES = {
   INPUT_INCLUDE_EXCLUDE: 'INPUT_INCLUDE_EXCLUDE',
   MIN_MAX: 'MIN_MAX',
   MIN_MAX_PERIOD: 'MIN_MAX_PERIOD',
+  MIN_MAX_PERIOD_REVIEW: 'MIN_MAX_PERIOD_REVIEW',
 };
 
 /* Map the payload keys to query keys for API */
 export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: string } } = {
-  // simple
   merchantName: { keyName: 'merchant_name', type: F_TYPES.TEXT },
-  businessName: { keyName: 'business_name', type: F_TYPES.TEXT },
-  launched: { keyName: 'launched', type: F_TYPES.TEXT },
   asins: { keyName: 'asins', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
-  brands: { keyName: 'brands', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
   sellerIds: { keyName: 'merchant_ids', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
 
-  // min max based
-  sellerRatings: { keyName: 'seller_rating', type: F_TYPES.MIN_MAX },
-  reviewRatings: { keyName: 'review_ratings', type: F_TYPES.MIN_MAX },
-  numBrands: { keyName: 'number_brands', type: F_TYPES.MIN_MAX },
-  numInventory: { keyName: 'inventory_count', type: F_TYPES.MIN_MAX },
-  salesEstimate: { keyName: 'sales_estimate', type: F_TYPES.MIN_MAX },
+  businessName: { keyName: 'business_name', type: F_TYPES.TEXT },
+  brands: { keyName: 'brands', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
 
-  // Period based
+  monthlyRevenue: { keyName: 'sales_estimate', type: F_TYPES.MIN_MAX },
+  numOfAsins: { keyName: 'asins', type: F_TYPES.MIN_MAX },
+  numOfBrands: { keyName: 'brands', type: F_TYPES.MIN_MAX },
+
+  growthPercent: { keyName: 'growth_percent', type: F_TYPES.MIN_MAX },
+  growthCount: { keyName: 'growth_count', type: F_TYPES.MIN_MAX },
+
   reviewCount: { keyName: 'count', type: F_TYPES.MIN_MAX_PERIOD },
-  positiveReview: { keyName: 'positive', type: F_TYPES.MIN_MAX_PERIOD },
-  negativeReview: { keyName: 'negative', type: F_TYPES.MIN_MAX_PERIOD },
-  neutralReview: { keyName: 'neutral', type: F_TYPES.MIN_MAX_PERIOD },
+  sellerRatings: { keyName: 'seller_rating', type: F_TYPES.MIN_MAX },
+
+  review: { keyName: 'review', type: F_TYPES.MIN_MAX_PERIOD_REVIEW },
 };
 
 /* Exports data */
