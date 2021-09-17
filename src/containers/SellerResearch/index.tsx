@@ -37,8 +37,6 @@ interface Props {
   userOnboardingResources: any[];
 }
 
-const SellerResearchMapper = ['Database', 'Map', 'Inventories'];
-
 const SellerResearch = (props: Props) => {
   const { match, setUserOnboardingResources, userOnboardingResources, userOnboarding } = props;
 
@@ -78,7 +76,10 @@ const SellerResearch = (props: Props) => {
       <main className={styles.sellerResearchPage}>
         {/* Filter meta data */}
         <section className={styles.filterMetaData}>
-          <h1>Seller Research: {SellerResearchMapper[selectedTabList]}</h1>
+          <h1>
+            <span className={styles.upper}>{SELLER_RESEARCH_FEATURES[selectedTabList].name}: </span>
+            {SELLER_RESEARCH_FEATURES[selectedTabList].desc}
+          </h1>
           {showTutorialOnboarding && (
             <OnboardingButton displayMessage={displayText} youtubeLink={youtubeLink} isNew />
           )}
