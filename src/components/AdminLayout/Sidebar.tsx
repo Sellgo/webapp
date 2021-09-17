@@ -9,6 +9,7 @@ import { getLatestSupplier } from '../../actions/Suppliers';
 import get from 'lodash/get';
 
 import sellerMapIcon from '../../assets/images/sellerMapIcon.svg';
+import sellerFinderIcon from '../../assets/images/sellerFinder.svg';
 
 import BetaLabel from '../BetaLabel';
 import { isBetaAccount, isSubscriptionIdFreeAccount } from '../../utils/subscriptions';
@@ -73,9 +74,26 @@ class SidebarCollapsible extends Component<
       },
       {
         id: 5,
+        label: 'Leads Tracker',
+        icon: 'fas fa-user-ninja',
+        path: '/leads-tracker',
+        notifyId: 2,
+        imageType: false,
+      },
+      {
+        id: 6,
         label: 'Seller Research',
         icon: sellerMapIcon,
         path: '/seller-research',
+        notifyId: 4,
+        imageType: true,
+        isBeta: false,
+      },
+      {
+        id: 7,
+        label: 'Seller Finder',
+        icon: sellerFinderIcon,
+        path: '/seller-finder',
         notifyId: 4,
         imageType: true,
         isBeta: false,
