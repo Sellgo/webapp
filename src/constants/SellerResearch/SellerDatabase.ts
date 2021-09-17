@@ -25,6 +25,33 @@ export const FILTER_REVIEW_OPTIONS = [
   { key: 'Neutral', text: 'Neutral', value: 'neutral' },
 ];
 
+/* Growth * Period values */
+export const GROWTH_PERCENT_PERIOD_OPTIONS = [
+  { key: '30D', text: '30D', value: 'growth_month' },
+  { key: '90D', text: '90D', value: 'growth_L90D' },
+  { key: '180D', text: '180D', value: 'growth_L180D' },
+  { key: '365D', text: '365D', value: 'growth_year' },
+];
+
+export const GROWTH_COUNT_PERIOD_OPTIONS = [
+  { key: '30D', text: '30D', value: 'growth_month_count' },
+  { key: '180D', text: '180D', value: 'growth_count_L180D' },
+];
+
+export const REVERSE_GROWTH_PERCENT_MAPPER = {};
+
+export const DEFAULT_GROWTH_PERCENT_FILTER = {
+  min: '',
+  max: '',
+  period: 'growth_month',
+};
+
+export const DEFAULT_GROWTH_COUNT_FILTER = {
+  min: '',
+  max: '',
+  period: 'growth_month_count',
+};
+
 /* Launched Durations for filters */
 export const FILTER_LAUNCHED_DURATIONS = [
   { label: '<1-yr', value: '<1Y' },
@@ -81,18 +108,21 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   brands: { keyName: 'brands', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
 
   monthlyRevenue: { keyName: 'sales_estimate', type: F_TYPES.MIN_MAX },
-  numOfAsins: { keyName: 'asins', type: F_TYPES.MIN_MAX },
-  numOfBrands: { keyName: 'brands', type: F_TYPES.MIN_MAX },
 
-  growthPercent: { keyName: 'growth_percent', type: F_TYPES.MIN_MAX },
-  growthCount: { keyName: 'growth_count', type: F_TYPES.MIN_MAX },
+  growthPercent: { keyName: 'growth_percent', type: F_TYPES.MIN_MAX_PERIOD },
+  growthCount: { keyName: 'growth_count', type: F_TYPES.MIN_MAX_PERIOD },
 
   reviewCount: { keyName: 'count', type: F_TYPES.MIN_MAX_PERIOD },
+  fbaPercent: { keyName: 'fba_percent', type: F_TYPES.MIN_MAX_PERIOD_REVIEW },
   sellerRatings: { keyName: 'seller_rating', type: F_TYPES.MIN_MAX },
 
   review: { keyName: 'review', type: F_TYPES.MIN_MAX_PERIOD_REVIEW },
 };
 
+export const GROWTH_PERCENT_FILTER_KEY_MAPPER = {
+  '30_days': 'growth_month',
+  '90_days': 'growth_L180D',
+};
 /* Exports data */
 export const EXPORT_FORMATS = [
   { key: 'csv', value: 'csv', text: '.CSV' },

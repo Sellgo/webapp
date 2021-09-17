@@ -49,8 +49,6 @@ export const setSellerDatabasePaginationInfo = (payload: SellerDatabasePaginatio
 
 /* Action to prepare the payload for query */
 export const parseFilters = (sellerDatabaseFilter: any) => {
-  console.log('Filter Payload', sellerDatabaseFilter);
-
   const filterPayloadKeys = Object.keys(sellerDatabaseFilter);
 
   let filterQuery = '';
@@ -80,10 +78,19 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
 
     if (type === F_TYPES.MIN_MAX_PERIOD) {
       if (filter.period) {
-        const min = filter.min ? `&${keyName}_${filter.period}_min=${filter.min}` : '';
-        const max = filter.max ? `&${keyName}_${filter.period}_max=${filter.max}` : '';
-
-        filterQuery += `${min}${max}`;
+        if (keyName === 'growth_percent') {
+          const min = filter.min ? `&${filter.period}_min=${filter.min}` : '';
+          const max = filter.max ? `&${filter.period}_max=${filter.max}` : '';
+          filterQuery += `${min}${max}`;
+        } else if (keyName === 'growth_count') {
+          const min = filter.min ? `&${filter.period}_min=${filter.min}` : '';
+          const max = filter.max ? `&${filter.period}_max=${filter.max}` : '';
+          filterQuery += `${min}${max}`;
+        } else {
+          const min = filter.min ? `&${keyName}_${filter.period}_min=${filter.min}` : '';
+          const max = filter.max ? `&${keyName}_${filter.period}_max=${filter.max}` : '';
+          filterQuery += `${min}${max}`;
+        }
       }
     }
 
@@ -190,15 +197,9 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
 
     let filtersQueryString: string = parseFilters(filterPayloadData);
 
-    console.log('Filter Query String', filtersQueryString);
-
-    // return;
-
     if (!filtersQueryString) {
       filtersQueryString = parseFilters(extractSellerDatabaseFilters());
     }
-
-    console.log('Filter Query String', filtersQueryString);
 
     const resourcePath = `?${pagination}&${sorting}&${marketplace}${filtersQueryString}`;
 

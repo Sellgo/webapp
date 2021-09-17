@@ -19,8 +19,6 @@ const TruncatedTextCell = (props: Props) => {
 
   const rawContent = rowData[dataKey] || '-';
 
-  console.log(rawContent);
-
   if (Array.isArray(rawContent)) {
     displayText = rawContent.join(',');
   } else if (typeof rawContent === 'string') {

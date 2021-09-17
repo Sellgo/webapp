@@ -25,6 +25,10 @@ import {
   SELLER_DB_MARKETPLACE,
   FILTER_REVIEW_OPTIONS,
   DEFAULT_MIN_MAX_PERIOD_REVIEW,
+  GROWTH_COUNT_PERIOD_OPTIONS,
+  GROWTH_PERCENT_PERIOD_OPTIONS,
+  DEFAULT_GROWTH_PERCENT_FILTER,
+  DEFAULT_GROWTH_COUNT_FILTER,
 } from '../../../../constants/SellerResearch/SellerDatabase';
 
 import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
@@ -60,12 +64,13 @@ const SellerDatabaseFilters = (props: Props) => {
 
   const [monthlyRevenue, setMonthlyRevenue] = useState(DEFAULT_MIN_MAX_FILTER);
 
-  const [growthPercent, setGrowthPercent] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
-  const [growthCount, setGrowthCount] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
+  const [growthPercent, setGrowthPercent] = useState(DEFAULT_GROWTH_PERCENT_FILTER);
+  const [growthCount, setGrowthCount] = useState(DEFAULT_GROWTH_COUNT_FILTER);
 
   const [reviewCount, setReviewCount] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
-  const [sellerRatings, setSellerRatings] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [fbaPercent, setFbaPercent] = useState(DEFAULT_MIN_MAX_FILTER);
 
+  const [sellerRatings, setSellerRatings] = useState(DEFAULT_MIN_MAX_FILTER);
   const [review, setReview] = useState(DEFAULT_MIN_MAX_PERIOD_REVIEW);
 
   /* Error States */
@@ -74,6 +79,8 @@ const SellerDatabaseFilters = (props: Props) => {
 
   /* Handlers */
   const handleSubmit = () => {
+    console.log(growthCount);
+
     const filterPayload = {
       merchantName,
       asins,
@@ -86,6 +93,7 @@ const SellerDatabaseFilters = (props: Props) => {
       growthPercent,
       growthCount,
       reviewCount,
+      fbaPercent,
       sellerRatings,
       review,
     };
@@ -106,10 +114,12 @@ const SellerDatabaseFilters = (props: Props) => {
 
     setMonthlyRevenue(DEFAULT_MIN_MAX_FILTER);
 
-    setGrowthPercent(DEFAULT_MIN_MAX_PERIOD_FILTER);
-    setGrowthCount(DEFAULT_MIN_MAX_PERIOD_FILTER);
+    setGrowthPercent(DEFAULT_GROWTH_PERCENT_FILTER);
+    setGrowthCount(DEFAULT_GROWTH_COUNT_FILTER);
 
     setReviewCount(DEFAULT_MIN_MAX_PERIOD_FILTER);
+    setFbaPercent(DEFAULT_MIN_MAX_FILTER);
+
     setSellerRatings(DEFAULT_MIN_MAX_FILTER);
 
     setReview(DEFAULT_MIN_MAX_PERIOD_REVIEW);
@@ -366,7 +376,7 @@ const SellerDatabaseFilters = (props: Props) => {
                   label="Period"
                   className={styles.filterPeriod}
                   value={growthPercent.period}
-                  filterOptions={FILTER_PERIOD_DURATIONS}
+                  filterOptions={GROWTH_PERCENT_PERIOD_OPTIONS}
                   handleChange={(period: string) => {
                     setGrowthPercent(prevState => ({
                       ...prevState,
@@ -394,7 +404,7 @@ const SellerDatabaseFilters = (props: Props) => {
                   label="Period"
                   className={styles.filterPeriod}
                   value={growthCount.period}
-                  filterOptions={FILTER_PERIOD_DURATIONS}
+                  filterOptions={GROWTH_COUNT_PERIOD_OPTIONS}
                   handleChange={(period: string) => {
                     setGrowthCount(prevState => ({
                       ...prevState,
@@ -431,6 +441,19 @@ const SellerDatabaseFilters = (props: Props) => {
                   }}
                 />
               </div>
+
+              {/* Monthly Revenue = Sales Estimate */}
+              <MinMaxFilter
+                label="FBA %"
+                minValue={fbaPercent.min}
+                maxValue={fbaPercent.max}
+                handleChange={(type: string, value: string) =>
+                  setFbaPercent(prevState => ({
+                    ...prevState,
+                    [type]: value,
+                  }))
+                }
+              />
 
               {/* Seller Ratings */}
               <MinMaxRatingsFilter
