@@ -45,7 +45,7 @@ const SellerDatabaseFilters = (props: Props) => {
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
 
   /* Basic Filters */
-  const [marketplace, setMarketPlace] = useState<MarketplaceOption>(DEFAULT_US_MARKET);
+  const [marketPlace, setMarketPlace] = useState<MarketplaceOption>(DEFAULT_US_MARKET);
   const [merchantName, setMerchantName] = useState<string>('');
   const [asins, setAsins] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
   const [sellerIds, setSellerIds] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
@@ -55,7 +55,6 @@ const SellerDatabaseFilters = (props: Props) => {
   const [brands, setBrands] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
   const [numInventory, setNumInventory] = useState(DEFAULT_MIN_MAX_FILTER);
   const [numBrands, setNumBrands] = useState(DEFAULT_MIN_MAX_FILTER);
-  // const [reviewRatings, setReviewRatings] = useState(DEFAULT_MIN_MAX_FILTER);
   const [reviewCount, setReviewCount] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
   const [neutralReview, setNeutralReview] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
   const [positiveReview, setPositiveReview] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
@@ -205,7 +204,7 @@ const SellerDatabaseFilters = (props: Props) => {
           {/* Marketplace */}
           <MarketPlaceFilter
             label="Choose Marketplace"
-            marketplaceDetails={marketplace}
+            marketplaceDetails={marketPlace}
             marketPlaceChoices={SELLER_DB_MARKETPLACE}
             handleChange={(option: MarketplaceOption) => {
               setMarketPlace(option);
@@ -323,19 +322,6 @@ const SellerDatabaseFilters = (props: Props) => {
                   }))
                 }
               />
-
-              {/* Review Ratings */}
-              {/* <MinMaxRatingsFilter
-                label="Review Ratings"
-                minValue={reviewRatings.min}
-                maxValue={reviewRatings.max}
-                handleChange={(type: string, value: string) =>
-                  setReviewRatings(prevState => ({
-                    ...prevState,
-                    [type]: value,
-                  }))
-                }
-              /> */}
 
               {/* Seller Ratings */}
               <MinMaxRatingsFilter
