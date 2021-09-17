@@ -18,6 +18,13 @@ export const FILTER_PERIOD_DURATIONS = [
   { key: 'All', text: 'All', value: 'lifetime' },
 ];
 
+/* Revivew Filter Type Durations */
+export const FILTER_REVIEW_OPTIONS = [
+  { key: 'Positive', text: 'Positive', value: 'positive' },
+  { key: 'Negative', text: 'Negative', value: 'negative' },
+  { key: 'Neutral', text: 'Neutral', value: 'neutral' },
+];
+
 /* Launched Durations for filters */
 export const FILTER_LAUNCHED_DURATIONS = [
   { label: '<1-yr', value: '<1Y' },
@@ -25,27 +32,37 @@ export const FILTER_LAUNCHED_DURATIONS = [
   { label: 'All', value: '' },
 ];
 
+/* Default include exclude filters */
+export const DEFAULT_INCLUDE_EXCLUDE_FILTER = {
+  include: '',
+  exclude: '',
+};
+
 /* Filter Types */
 export const DEFAULT_MIN_MAX_FILTER = {
   min: '',
   max: '',
 };
 
+/* Default min max with period filters */
 export const DEFAULT_MIN_MAX_PERIOD_FILTER = {
   ...DEFAULT_MIN_MAX_FILTER,
   period: '30_days',
 };
 
-export const DEFAULT_INCLUDE_EXCLUDE_FILTER = {
-  include: '',
-  exclude: '',
-};
-
+/* Include exclude error */
 export const DEFAULT_INCLUDE_EXCLUDE_ERROR = {
   include: false,
   exclude: false,
 };
 
+export const DEFAULT_MIN_MAX_PERIOD_REVIEW = {
+  ...DEFAULT_MIN_MAX_FILTER,
+  period: '30_days',
+  type: '',
+};
+
+/* Filter types */
 export const F_TYPES = {
   TEXT: 'TEXT',
   INPUT_INCLUDE_EXCLUDE: 'INPUT_INCLUDE_EXCLUDE',

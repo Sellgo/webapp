@@ -23,6 +23,8 @@ import {
   FILTER_PERIOD_DURATIONS,
   DEFAULT_US_MARKET,
   SELLER_DB_MARKETPLACE,
+  FILTER_REVIEW_OPTIONS,
+  DEFAULT_MIN_MAX_PERIOD_REVIEW,
 } from '../../../../constants/SellerResearch/SellerDatabase';
 
 import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
@@ -34,6 +36,7 @@ import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
 import PeriodFilter from '../../../../components/FormFilters/PeriodFilter';
 import MarketPlaceFilter from '../../../../components/FormFilters/MarketPlaceFilter';
 import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
+import ReviewTypeFilter from '../../../../components/FormFilters/ReviewTypeFilter';
 
 interface Props {
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
@@ -47,20 +50,24 @@ const SellerDatabaseFilters = (props: Props) => {
   /* Basic Filters */
   const [marketPlace, setMarketPlace] = useState<MarketplaceOption>(DEFAULT_US_MARKET);
   const [merchantName, setMerchantName] = useState<string>('');
+
   const [asins, setAsins] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
   const [sellerIds, setSellerIds] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
   /* Advanced Filters */
   const [businessName, setBusinessName] = useState<string>('');
   const [brands, setBrands] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
-  const [numInventory, setNumInventory] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [numBrands, setNumBrands] = useState(DEFAULT_MIN_MAX_FILTER);
+
+  const [monthlyRevenue, setMonthlyRevenue] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [numOfAsins, setNumOfAsins] = useState(DEFAULT_MIN_MAX_FILTER);
+
+  const [growthPercent, setGrowthPercent] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
+  const [growthCount, setGrowthCount] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
+
   const [reviewCount, setReviewCount] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
-  const [neutralReview, setNeutralReview] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
-  const [positiveReview, setPositiveReview] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
-  const [negativeReview, setNegativeReview] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
   const [sellerRatings, setSellerRatings] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [salesEstimate, setSalesEstimate] = useState(DEFAULT_MIN_MAX_FILTER);
+
+  const [review, setReview] = useState(DEFAULT_MIN_MAX_PERIOD_REVIEW);
 
   /* Error States */
   const [asinsError, setAsinsError] = useState(DEFAULT_INCLUDE_EXCLUDE_ERROR);
@@ -74,35 +81,26 @@ const SellerDatabaseFilters = (props: Props) => {
       sellerIds,
       businessName,
       brands,
-      numInventory,
-      numBrands,
       reviewCount,
-      neutralReview,
-      positiveReview,
-      negativeReview,
       sellerRatings,
-      salesEstimate,
+      monthlyRevenue,
     };
+
     fetchSellerDatabase({ filterPayload });
   };
 
   const handleReset = () => {
     fetchSellerDatabase({ resetFilter: true });
+
     setMerchantName('');
     setAsins(DEFAULT_INCLUDE_EXCLUDE_FILTER);
     setSellerIds(DEFAULT_INCLUDE_EXCLUDE_FILTER);
     setBusinessName('');
     setBrands(DEFAULT_INCLUDE_EXCLUDE_FILTER);
-    setNumInventory(DEFAULT_MIN_MAX_FILTER);
-    setNumBrands(DEFAULT_MIN_MAX_FILTER);
-    // setReviewRatings(DEFAULT_MIN_MAX_FILTER);
+
     setReviewCount(DEFAULT_MIN_MAX_PERIOD_FILTER);
-    setNeutralReview(DEFAULT_MIN_MAX_PERIOD_FILTER);
-    setPositiveReview(DEFAULT_MIN_MAX_PERIOD_FILTER);
-    setNegativeReview(DEFAULT_MIN_MAX_PERIOD_FILTER);
     setSellerRatings(DEFAULT_MIN_MAX_FILTER);
-    setSalesEstimate(DEFAULT_MIN_MAX_FILTER);
-    // setLaunched('')
+    setMonthlyRevenue(DEFAULT_MIN_MAX_FILTER);
 
     /* Reset Error States */
     setAsinsError(DEFAULT_INCLUDE_EXCLUDE_ERROR);
@@ -323,57 +321,87 @@ const SellerDatabaseFilters = (props: Props) => {
                 }
               />
 
-              {/* Seller Ratings */}
-              <MinMaxRatingsFilter
-                label="Seller Ratings"
-                minValue={sellerRatings.min}
-                maxValue={sellerRatings.max}
-                handleChange={(type: string, value: string) =>
-                  setSellerRatings(prevState => ({
-                    ...prevState,
-                    [type]: value,
-                  }))
-                }
-              />
-
               {/* Monthly Revenue = Sales Estimate */}
               <MinMaxFilter
                 label="Monthly Revenue"
-                minValue={salesEstimate.min}
-                maxValue={salesEstimate.max}
+                minValue={monthlyRevenue.min}
+                maxValue={monthlyRevenue.max}
                 handleChange={(type: string, value: string) =>
-                  setSalesEstimate(prevState => ({
+                  setMonthlyRevenue(prevState => ({
                     ...prevState,
                     [type]: value,
                   }))
                 }
               />
 
-              {/* # of inventory */}
+              {/* Nuber of ASINs */}
               <MinMaxFilter
-                label="# of Inventory"
-                minValue={numInventory.min}
-                maxValue={numInventory.max}
+                label="Number of ASINs"
+                minValue={numOfAsins.min}
+                maxValue={numOfAsins.max}
                 handleChange={(type: string, value: string) =>
-                  setNumInventory(prevState => ({
+                  setNumOfAsins(prevState => ({
                     ...prevState,
                     [type]: value,
                   }))
                 }
               />
 
-              {/* # of brands */}
-              <MinMaxFilter
-                label="# of Brands"
-                minValue={numBrands.min}
-                maxValue={numBrands.max}
-                handleChange={(type: string, value: string) =>
-                  setNumBrands(prevState => ({
-                    ...prevState,
-                    [type]: value,
-                  }))
-                }
-              />
+              {/* Growth % */}
+              <div className={styles.groupFilters}>
+                <MinMaxFilter
+                  label="Growth %"
+                  minValue={growthPercent.min}
+                  maxValue={growthPercent.max}
+                  handleChange={(type: string, value: string) =>
+                    setGrowthPercent(prevState => ({
+                      ...prevState,
+                      [type]: value,
+                    }))
+                  }
+                />
+                <PeriodFilter
+                  placeholder="30D"
+                  label="Period"
+                  className={styles.filterPeriod}
+                  value={growthPercent.period}
+                  filterOptions={FILTER_PERIOD_DURATIONS}
+                  handleChange={(period: string) => {
+                    setGrowthPercent(prevState => ({
+                      ...prevState,
+                      period,
+                    }));
+                  }}
+                />
+              </div>
+
+              {/* Growth Count */}
+              <div className={styles.groupFilters}>
+                <MinMaxFilter
+                  label="Growth Count"
+                  minValue={growthCount.min}
+                  maxValue={growthCount.max}
+                  handleChange={(type: string, value: string) =>
+                    setGrowthCount(prevState => ({
+                      ...prevState,
+                      [type]: value,
+                    }))
+                  }
+                />
+                <PeriodFilter
+                  placeholder="30D"
+                  label="Period"
+                  className={styles.filterPeriod}
+                  value={growthCount.period}
+                  filterOptions={FILTER_PERIOD_DURATIONS}
+                  handleChange={(period: string) => {
+                    setGrowthCount(prevState => ({
+                      ...prevState,
+                      period,
+                    }));
+                  }}
+                />
+              </div>
 
               {/* Review Count */}
               <div className={styles.groupFilters}>
@@ -390,7 +418,9 @@ const SellerDatabaseFilters = (props: Props) => {
                 />
                 <PeriodFilter
                   placeholder="30D"
+                  label="Period"
                   value={reviewCount.period}
+                  className={styles.filterPeriod}
                   filterOptions={FILTER_PERIOD_DURATIONS}
                   handleChange={(period: string) => {
                     setReviewCount(prevState => ({
@@ -401,91 +431,58 @@ const SellerDatabaseFilters = (props: Props) => {
                 />
               </div>
 
-              {/* Neutral Reviews */}
-              <div className={styles.groupFilters}>
-                <MinMaxFilter
-                  label="Neutral Review"
-                  minValue={neutralReview.min}
-                  maxValue={neutralReview.max}
-                  handleChange={(type: string, value: string) =>
-                    setNeutralReview(prevState => ({
+              {/* Seller Ratings */}
+              <MinMaxRatingsFilter
+                label="Seller Ratings"
+                minValue={sellerRatings.min}
+                maxValue={sellerRatings.max}
+                handleChange={(type: string, value: string) =>
+                  setSellerRatings(prevState => ({
+                    ...prevState,
+                    [type]: value,
+                  }))
+                }
+              />
+
+              {/*  Review Filter */}
+              <div className={styles.reviewGroupedFilter}>
+                <ReviewTypeFilter
+                  placeholder="Positive"
+                  label="Review"
+                  filterOptions={FILTER_REVIEW_OPTIONS}
+                  value={review.type}
+                  handleChange={(type: string) => {
+                    setReview(prevState => ({
                       ...prevState,
-                      [type]: value,
-                    }))
-                  }
-                />
-                <PeriodFilter
-                  placeholder="30D"
-                  value={neutralReview.period}
-                  filterOptions={FILTER_PERIOD_DURATIONS}
-                  handleChange={(period: string) => {
-                    setNeutralReview(prevState => ({
-                      ...prevState,
-                      period,
+                      type,
                     }));
                   }}
                 />
+                <div className={styles.groupFilters}>
+                  <MinMaxFilter
+                    label=""
+                    minValue={review.min}
+                    maxValue={review.max}
+                    handleChange={(type: string, value: string) =>
+                      setReview(prevState => ({
+                        ...prevState,
+                        [type]: value,
+                      }))
+                    }
+                  />
+                  <PeriodFilter
+                    placeholder="30D"
+                    value={review.period}
+                    filterOptions={FILTER_PERIOD_DURATIONS}
+                    handleChange={(period: string) => {
+                      setReview(prevState => ({
+                        ...prevState,
+                        period,
+                      }));
+                    }}
+                  />
+                </div>
               </div>
-
-              {/* Positive Reviews */}
-              <div className={styles.groupFilters}>
-                <MinMaxFilter
-                  label="Positive Review"
-                  minValue={positiveReview.min}
-                  maxValue={positiveReview.max}
-                  handleChange={(type: string, value: string) =>
-                    setPositiveReview(prevState => ({
-                      ...prevState,
-                      [type]: value,
-                    }))
-                  }
-                />
-                <PeriodFilter
-                  placeholder="30D"
-                  value={positiveReview.period}
-                  filterOptions={FILTER_PERIOD_DURATIONS}
-                  handleChange={(period: string) => {
-                    setPositiveReview(prevState => ({
-                      ...prevState,
-                      period,
-                    }));
-                  }}
-                />
-              </div>
-
-              {/* Negative Reviews */}
-              <div className={styles.groupFilters}>
-                <MinMaxFilter
-                  label="Negative Review"
-                  minValue={negativeReview.min}
-                  maxValue={negativeReview.max}
-                  handleChange={(type: string, value: string) =>
-                    setNegativeReview(prevState => ({
-                      ...prevState,
-                      [type]: value,
-                    }))
-                  }
-                />
-                <PeriodFilter
-                  placeholder="30D"
-                  value={negativeReview.period}
-                  filterOptions={FILTER_PERIOD_DURATIONS}
-                  handleChange={(period: string) => {
-                    setNegativeReview(prevState => ({
-                      ...prevState,
-                      period,
-                    }));
-                  }}
-                />
-              </div>
-
-              {/* Seller Launched */}
-              {/* <RadioListFilters
-                label="Seller Launched"
-                filterOptions={FILTER_LAUNCHED_DURATIONS}
-                value={launched}
-                handleChange={(value: string) => setLaunched(value)}
-              /> */}
             </div>
           )}
         </div>

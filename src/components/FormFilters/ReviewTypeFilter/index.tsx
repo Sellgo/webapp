@@ -18,36 +18,27 @@ interface Props {
   handleChange: (value: string) => void;
   disabled?: boolean;
   loading?: boolean;
-  className?: string;
 }
 
-const PeriodFilter: React.FC<Props> = props => {
-  const {
-    label,
-    filterOptions,
-    placeholder,
-    value,
-    className,
-    handleChange,
-    ...otherProps
-  } = props;
+const ReviewTypeFilter = (props: Props) => {
+  const { label, filterOptions, placeholder, value, handleChange, ...otherProps } = props;
 
   return (
-    <div className={`periodFilterWrapper ${className}`}>
-      <p>{label}</p>
+    <div className="reviewTypeFilterWrapper">
       <Dropdown
         search
         fluid
-        className="periodFilter"
+        className="reviewType"
         options={filterOptions}
         placeholder={placeholder}
         scrolling
         value={value}
-        onChange={(e: any, data: any) => handleChange && handleChange(data.value)}
+        onChange={(e: any, data: any) => handleChange(data.value)}
         {...otherProps}
       />
+      <p>{label}</p>
     </div>
   );
 };
 
-export default memo(PeriodFilter);
+export default memo(ReviewTypeFilter);

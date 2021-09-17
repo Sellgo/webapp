@@ -62,7 +62,19 @@
   }
 }
 
+.filterPeriod {
+  p {
+    opacity: 0 !important;
+  }
+}
+
 .groupFilters {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+}
+
+.reviewGroupedFilter {
+  .groupFilters {
+    margin-top: 10px;
+  }
 }
