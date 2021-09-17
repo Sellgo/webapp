@@ -9,6 +9,7 @@ import styles from './index.module.scss';
 /* Constants */
 import {
   DEFAULT_PAGES_LIST,
+  SELLER_INVENTORY_TABLE_ROW_HEIGHT,
   SELLER_INVENTORY_UNIQUE_KEY,
 } from '../../../../constants/SellerResearch/SellerInventory';
 
@@ -170,7 +171,7 @@ const InventoryTable = () => {
         data={fakeData}
         autoHeight
         hover={false}
-        rowHeight={200}
+        rowHeight={SELLER_INVENTORY_TABLE_ROW_HEIGHT}
         headerHeight={55}
         sortColumn={sortColumn}
         sortType={sortType}

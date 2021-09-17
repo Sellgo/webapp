@@ -21,3 +21,6 @@ export const DEFAULT_PAGES_LIST = [
 
 /* Unique key for the row in seller inventiory main table */
 export const SELLER_INVENTORY_UNIQUE_KEY = 'merchant_id';
+
+/* Seller Inventory table row height */
+export const SELLER_INVENTORY_TABLE_ROW_HEIGHT = 200;
