@@ -10,9 +10,7 @@ import get from 'lodash/get';
 
 import { LogoWithoutText } from '../Logo/index';
 import sellerFinderIcon from '../../assets/images/sellerFinder.svg';
-import productResearchIcon from '../../assets/images/product-research.svg';
 import sellerMapIcon from '../../assets/images/sellerMapIcon.svg';
-import placeholderIcon from '../../assets/placeholder.svg';
 
 import BetaLabel from '../BetaLabel';
 import { isBetaAccount, isSubscriptionIdFreeAccount } from '../../utils/subscriptions';
@@ -89,24 +87,6 @@ class SidebarCollapsible extends Component<
         label: 'Seller Finder',
         icon: sellerFinderIcon,
         path: '/seller-finder',
-        notifyId: 4,
-        imageType: true,
-        isBeta: true,
-      },
-      {
-        id: 7,
-        label: 'Product Research',
-        icon: productResearchIcon,
-        path: '/product-research',
-        notifyId: 4,
-        imageType: true,
-        isBeta: true,
-      },
-      {
-        id: 8,
-        label: 'Keyword Research',
-        icon: placeholderIcon,
-        path: '/keyword-research',
         notifyId: 4,
         imageType: true,
         isBeta: true,
