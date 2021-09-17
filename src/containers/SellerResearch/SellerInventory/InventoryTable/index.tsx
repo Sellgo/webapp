@@ -8,6 +8,7 @@ import styles from './index.module.scss';
 
 /* Constants */
 import {
+  calculateSellerInventoryTableHeight,
   DEFAULT_PAGES_LIST,
   SELLER_INVENTORY_TABLE_ROW_HEIGHT,
   SELLER_INVENTORY_UNIQUE_KEY,
@@ -16,12 +17,14 @@ import {
 /* Selectors */
 import {
   getIsLoadingSellerInventoryTable,
+  getSellerInventoryProductsTableResults,
   getSellerInventoryTablePaginationInfo,
   getSellerInventoryTableResults,
 } from '../../../../selectors/SellerResearch/SellerInventory';
 
 /* Actions */
 import {
+  fetchSellerInventoryProductsTableResults,
   fetchSellerInventoryTableResults,
   setSellerInventoryTableExpandedRow,
 } from '../../../../actions/SellerResearch/SellerInventory';
@@ -44,6 +47,7 @@ import SellerProductsTable from '../SellerProductsTable';
 import {
   SellerInventoryTablePayload,
   SellerInventoryTablePaginationInfo,
+  SellerInventoryProductsTablePayload,
 } from '../../../../interfaces/SellerResearch/SellerInventory';
 
 interface Props {
@@ -51,8 +55,12 @@ interface Props {
   sellerInventoryTableResults: any[];
   sellerInventoryTablePaginationInfo: SellerInventoryTablePaginationInfo;
 
-  fetchSellerInventoryTableResults: (payload: SellerInventoryTablePayload) => void;
+  sellerInventoryProductsTableResults: any[];
+
   setSellerInventoryTableExpandedRow: (payload: any) => void;
+
+  fetchSellerInventoryTableResults: (payload: SellerInventoryTablePayload) => void;
+  fetchSellerInventoryProductsTable: (payload: SellerInventoryProductsTablePayload) => void;
 }
 
 const InventoryTable = (props: Props) => {
@@ -60,8 +68,12 @@ const InventoryTable = (props: Props) => {
     isLoadingSellerInventoryTable,
     sellerInventoryTableResults,
     sellerInventoryTablePaginationInfo,
-    fetchSellerInventoryTableResults,
+
     setSellerInventoryTableExpandedRow,
+    fetchSellerInventoryTableResults,
+    fetchSellerInventoryProductsTable,
+
+    sellerInventoryProductsTableResults,
   } = props;
 
   const [sortColumn, setSortColumn] = useState<string>('');
@@ -92,6 +104,7 @@ const InventoryTable = (props: Props) => {
     if (currentExpandedRowId !== rowId) {
       setExpandedRowkeys([rowId]);
       setSellerInventoryTableExpandedRow(rowData);
+      fetchSellerInventoryProductsTable({ rowId });
     } else {
       setExpandedRowkeys([]);
       setSellerInventoryTableExpandedRow({});
@@ -114,7 +127,10 @@ const InventoryTable = (props: Props) => {
         id="sellerInventoryTable"
         //  Props for table expansion
         rowKey={SELLER_INVENTORY_UNIQUE_KEY}
-        rowExpandedHeight={100}
+        rowExpandedHeight={calculateSellerInventoryTableHeight(
+          sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length,
+          0
+        )}
         expandedRowKeys={expandedRowKeys}
         renderRowExpanded={() => <SellerProductsTable />}
       >
@@ -272,15 +288,19 @@ const mapStateToProps = (state: any) => {
     isLoadingSellerInventoryTable: getIsLoadingSellerInventoryTable(state),
     sellerInventoryTableResults: getSellerInventoryTableResults(state),
     sellerInventoryTablePaginationInfo: getSellerInventoryTablePaginationInfo(state),
+
+    sellerInventoryProductsTableResults: getSellerInventoryProductsTableResults(state),
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchSellerInventoryTableResults: (payload: SellerInventoryTablePayload) =>
-      dispatch(fetchSellerInventoryTableResults(payload)),
     setSellerInventoryTableExpandedRow: (payload: any) =>
       dispatch(setSellerInventoryTableExpandedRow(payload)),
+    fetchSellerInventoryTableResults: (payload: SellerInventoryTablePayload) =>
+      dispatch(fetchSellerInventoryTableResults(payload)),
+    fetchSellerInventoryProductsTable: (payload: SellerInventoryProductsTablePayload) =>
+      dispatch(fetchSellerInventoryProductsTableResults(payload)),
   };
 };
 

@@ -21,5 +21,29 @@ export const getSellerInventoryTablePaginationInfo = (state: any) => {
 
 /* Selector to get seller inventory table expanded row */
 export const getSellerInventoryTableExpandedRow = (state: any) => {
-  return get(state, 'sellerInventoryTablePaginationInfo.sellerInventoryTableExpandedRow');
+  return get(state, 'sellerInventory.sellerInventoryTableExpandedRow');
+};
+
+/* ============================================ */
+/* ====== SELLER INVENTORY PRODUCTS TABLE ========= */
+/* ============================================ */
+
+/* Selector to get the loading state for seller inventory products table */
+export const getIsLoadingSellerInventoryProductsTable = (state: any) => {
+  return get(state, 'sellerInventory.isLoadingSellerInventoryProductsTable');
+};
+
+/* Selector to get the seller inventory table results */
+export const getSellerInventoryProductsTableResults = (state: any) => {
+  return get(state, 'sellerInventory.sellerInventoryProductsTableResults');
+};
+
+/* Selector to get seller inventory table pagination info */
+export const getSellerInventoryProductsTablePaginationInfo = (state: any) => {
+  return get(state, 'sellerInventory.sellerInventoryProductsTablePaginationInfo');
+};
+
+/* Selector to get seller inventory table expanded row */
+export const getSellerInventoryProductsTableExpandedRow = (state: any) => {
+  return get(state, 'sellerInventory.sellerInventoryProductsTableExpandedRow');
 };

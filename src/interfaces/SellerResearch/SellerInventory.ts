@@ -19,3 +19,21 @@ export interface SellerInventoryTablePaginationInfo {
   previous?: string;
   next?: string;
 }
+
+/* ============================================ */
+/* ====== SELLER INVENTORY PRODUCTS TABLE ====== */
+/* ============================================ */
+
+export interface SellerInventoryProductsTablePayload {
+  rowId: number;
+  page?: number;
+  perPage?: number;
+  enableLoader?: boolean;
+}
+
+export interface SellerInventoryProductsTablePaginationInfo {
+  count: number;
+  num_pages: number;
+  per_page: number;
+  min_max?: any;
+}
