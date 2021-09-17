@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table } from 'rsuite';
+import { connect } from 'react-redux';
 
 /* Styling */
 import './global.scss';
@@ -12,6 +13,16 @@ import {
   SELLER_INVENTORY_TABLE_ROW_HEIGHT,
   SELLER_INVENTORY_UNIQUE_KEY,
 } from '../../../../constants/SellerResearch/SellerInventory';
+
+/* Selectors */
+import {
+  getIsLoadingSellerInventoryTable,
+  getSellerInventoryTablePaginationInfo,
+  getSellerInventoryTableResults,
+} from '../../../../selectors/SellerResearch/SellerInventory';
+
+/* Actions */
+import { fetchSellerInventoryTableResults } from '../../../../actions/SellerResearch/SellerInventory';
 
 /* Components */
 import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
@@ -26,129 +37,46 @@ import ExtendedReviewsCell from '../../../../components/NewTable/ExtendedReviews
 import SellerInformation from './SellerInformation';
 import ActionsCell from './ActionsCell';
 
-const fakeData = [
-  {
-    seller_merchant_id: 10,
-    seller_id: 1000000005,
-    merchant_id: 'A00038802J7X43YTW44TD',
-    merchant_group: null,
-    status: 'active',
-    tracking_status: 'active',
-    udate: '2021-09-16T18:19:33.651808Z',
-    parent_asin: null,
-    id: 10,
-    merchant_name: 'Custom Auto Crews',
-    merchant_logo: 'https://images-na.ssl-images-amazon.com/images/I/41ZcgctOVhL.jpg',
-    business_name: 'MOTORBOX INC',
-    inventory_link: 'https://www.amazon.com/shops/A00038802J7X43YTW44TD?ref_=v_sp_storefront',
-    address: '1457 Glenn Curtiss st.',
-    city: 'Carson',
-    state: 'CA',
-    country: 'US',
-    seller_rating: '4.5',
-    review_ratings: 84,
-    positive_30_days: 86,
-    positive_90_days: 86,
-    positive_12_month: 84,
-    neutral_30_days: 6,
-    neutral_90_days: 3,
-    neutral_12_month: 4,
-    neutral_lifetime: 1,
-    negative_30_days: 9,
-    negative_90_days: 11,
-    negative_12_month: 13,
-    negative_lifetime: 5,
-    count_30_days: 90,
-    count_90_days: 312,
-    count_12_month: 2097,
-    count_lifetime: 52266,
-    inventory_count: 695,
-    feedback:
-      '[{"stars": "4.5 out of 5 stars", "comment": null, "comment_by": "\\n        By Richard on September 16, 2021.\\n    "}, {"stars": "4.5 out of 5 stars", "comment": "No problems with product", "comment_by": "\\n        By Richard on September 16, 2021.\\n    "}, {"stars": "4.5 out of 5 stars", "comment": "Very good item", "comment_by": "\\n        By Richard on September 16, 2021.\\n    "}, {"stars": "4.5 out of 5 stars", "comment": "Thank you for solving this issue for me so fast. I\'ll be waiting for the other curtain. ", "comment_by": "\\n        By Richard on September 16, 2021.\\n    "}, {"stars": "4.5 out of 5 stars", "comment": "Good product good seller.", "comment_by": "\\n        By Richard on September 16, 2021.\\n    "}, {"stars": "4.5 out of 5 stars", "comment": null, "comment_by": "\\n        By Richard on September 16, 2021.\\n    "}]',
-    brands:
-      '["BDK", "Motor Trend", "BDKUSA", "Caterpillar", "Unique Imports", "ACDelco", "Hubcaps Plus", "U.A.A. INC.", "Unknown", "PILOT", "Luxury Driver"]',
-    asins:
-      '["B07GK712Q1", "B07BLDHL2B", "B07VQWTFGM", "B017AI3BWS", "B08MT852WW", "B08MQQZQ7Y", "B01EW0BEAS", "B01CFZ5HE6", "B00TZ43BLC", "B08ZNXRDH9", "B08P55KSQ7", "B07FN4FMJX", "B08J8D43DW", "B07FN4L7LB", "B073ZNVD7L", "B07VQWVN99"]',
-    asin: null,
-    positive_lifetime: 94,
-    launched: '>1Y',
-    marketplace_id: 'ATVPDKIKX0DER',
-    has_inventory: true,
-    fba_count: 778,
-    fbm_count: 4,
-    fba_perc: '99.49',
-    fbm_perc: '0.51',
-    last_check_inventory: '2021-06-16T18:24:46.222504Z',
-    scrapy_job_id: 188,
-  },
-  {
-    seller_merchant_id: 66,
-    seller_id: 1000000005,
-    merchant_id: 'A101LJ8PTOEM9T',
-    merchant_group: null,
-    status: 'active',
-    tracking_status: 'inactive',
-    udate: '2021-08-31T07:38:27.163942Z',
-    parent_asin: null,
-    id: 170,
-    merchant_name: 'AZ Specialty Deals',
-    merchant_logo: null,
-    business_name: 'Ted Keith Joffs',
-    inventory_link: 'https://www.amazon.com/shops/A101LJ8PTOEM9T?ref_=v_sp_storefront',
-    address: '1713 E. Wesleyan Drive',
-    city: 'Tempe',
-    state: 'AZ',
-    country: 'US',
-    seller_rating: null,
-    review_ratings: null,
-    positive_30_days: null,
-    positive_90_days: null,
-    positive_12_month: null,
-    neutral_30_days: null,
-    neutral_90_days: null,
-    neutral_12_month: null,
-    neutral_lifetime: null,
-    negative_30_days: null,
-    negative_90_days: null,
-    negative_12_month: null,
-    negative_lifetime: null,
-    count_30_days: null,
-    count_90_days: null,
-    count_12_month: null,
-    count_lifetime: null,
-    inventory_count: 8,
-    feedback: '[]',
-    brands:
-      '["Miracle-Gro", "L\'Oreal Paris", "MGA Entertainment", "Monopoly", "Rubie\'s", "Estee Lauder", "Penn", "DENOVO"]',
-    asins:
-      '["B0071E1YJO", "B002LKCMJO", "B085B23RX2", "B07VVLQ9VN", "B002QKHPHS", "B08JH7FKQT", "B07VTXJZL8", "B09DJVX78Q"]',
-    asin: null,
-    positive_lifetime: null,
-    launched: '<30D',
-    marketplace_id: 'ATVPDKIKX0DER',
-    has_inventory: null,
-    fba_count: null,
-    fbm_count: null,
-    fba_perc: null,
-    fbm_perc: null,
-    last_check_inventory: null,
-    scrapy_job_id: 186,
-  },
-];
+/* Interfaces */
+import {
+  SellerInventoryTablePayload,
+  SellerInventoryTablePaginationInfo,
+} from '../../../../interfaces/SellerResearch/SellerInventory';
 
-const InventoryTable = () => {
+interface Props {
+  isLoadingSellerInventoryTable: boolean;
+  sellerInventoryTableResults: any[];
+  sellerInventoryTablePaginationInfo: SellerInventoryTablePaginationInfo;
+
+  fetchSellerInventoryTableResults: (payload: SellerInventoryTablePayload) => void;
+}
+
+const InventoryTable = (props: Props) => {
+  const {
+    isLoadingSellerInventoryTable,
+    sellerInventoryTableResults,
+    sellerInventoryTablePaginationInfo,
+    fetchSellerInventoryTableResults,
+  } = props;
+
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
   const [expandedRowKeys, setExpandedRowkeys] = useState<string[]>([]);
 
+  useEffect(() => {
+    fetchSellerInventoryTableResults({});
+  }, []);
+
   /* Handle Page change*/
   const handlePageChange = (pageNo: number, perPageNo?: number) => {
-    console.log({ page: pageNo, perPage: perPageNo });
+    fetchSellerInventoryTableResults({ page: pageNo, perPage: perPageNo });
   };
 
+  /* Handle table srt */
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
     setSortType(sortType);
+    fetchSellerInventoryTableResults({ sort: sortColumn, sortDir: sortType });
   };
 
   /* Handle expansion logic */
@@ -167,8 +95,8 @@ const InventoryTable = () => {
     <section className={styles.sellerInventoryTableWrapper}>
       {/* Main table wrapper */}
       <Table
-        loading={false}
-        data={fakeData}
+        loading={isLoadingSellerInventoryTable}
+        data={sellerInventoryTableResults}
         autoHeight
         hover={false}
         rowHeight={SELLER_INVENTORY_TABLE_ROW_HEIGHT}
@@ -210,7 +138,7 @@ const InventoryTable = () => {
         </Table.Column>
 
         {/* Rating L365D */}
-        <Table.Column width={130} verticalAlign="top" fixed align="left">
+        <Table.Column width={130} verticalAlign="top" sortable align="left">
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Rating\nL365D`}
@@ -319,19 +247,36 @@ const InventoryTable = () => {
       </Table>
 
       {/* Pagination */}
-      <footer className={styles.sellerInventoryPaginationContainer}>
-        <Pagination
-          totalPages={20}
-          currentPage={2}
-          onPageChange={handlePageChange}
-          showSiblingsCount={3}
-          showPerPage={true}
-          perPage={20}
-          perPageList={DEFAULT_PAGES_LIST}
-        />
-      </footer>
+      {sellerInventoryTablePaginationInfo.total_pages > 0 && (
+        <footer className={styles.sellerInventoryPaginationContainer}>
+          <Pagination
+            totalPages={sellerInventoryTablePaginationInfo.total_pages}
+            currentPage={sellerInventoryTablePaginationInfo.current_page}
+            onPageChange={handlePageChange}
+            showSiblingsCount={3}
+            showPerPage={true}
+            perPage={sellerInventoryTablePaginationInfo.per_page}
+            perPageList={DEFAULT_PAGES_LIST}
+          />
+        </footer>
+      )}
     </section>
   );
 };
 
-export default InventoryTable;
+const mapStateToProps = (state: any) => {
+  return {
+    isLoadingSellerInventoryTable: getIsLoadingSellerInventoryTable(state),
+    sellerInventoryTableResults: getSellerInventoryTableResults(state),
+    sellerInventoryTablePaginationInfo: getSellerInventoryTablePaginationInfo(state),
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchSellerInventoryTableResults: (payload: SellerInventoryTablePayload) =>
+      dispatch(fetchSellerInventoryTableResults(payload)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(InventoryTable);

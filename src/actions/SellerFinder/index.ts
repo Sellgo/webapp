@@ -131,7 +131,7 @@ export const fetchSellerFilters = (query: string) => async (dispatch: any) => {
       dispatch(fetchingSellersFilters(false));
     }
   } catch (err) {
-    console.log('Filters Fetching Error', err.response);
+    console.log('Filters Fetching Error', err);
   }
 };
 export const fetchInventory = (data: any) => async (dispatch: any) => {
@@ -258,7 +258,7 @@ export const handleDeleteSeller = (merchantID: number) => {
         dispatch(fetchSellers({ enableLoader: false }));
       }
     } catch (err) {
-      console.error('Error Deleting Seller', err.response);
+      console.error('Error Deleting Seller', err);
       error('Oops! The Seller could not be deleted');
     }
   };
@@ -283,7 +283,7 @@ export const getAllSellerTrackGroups = () => {
         dispatch(setSellerTrackGroups(response.data));
       }
     } catch (err) {
-      console.error('Error loading track groups for seller', err.response);
+      console.error('Error loading track groups for seller', err);
     }
   };
 };
@@ -338,7 +338,7 @@ export const deleteSellerTrackGroup = (groupID: number) => async (dispatch: any)
       success(`Tracker group successfully deleted!`);
     }
   } catch (err) {
-    console.error('Error deleting a group', err.response);
+    console.error('Error deleting a group', err);
     error(`Failed to delete tracker group`);
   }
 };
@@ -368,7 +368,7 @@ export const updateSellerTrackerGroup = (group: any) => async (dispatch: any) =>
       dispatch(getAllSellerTrackGroups());
     }
   } catch (err) {
-    console.error('Error updating group', err.response);
+    console.error('Error updating group', err);
   }
 };
 
@@ -391,7 +391,7 @@ export const moveMerchantToSellerTrackGroup = (merchantId: number, groupID: numb
       success(`Merchant successfully moved to group`);
     }
   } catch (err) {
-    console.error('Error updating group', err.response);
+    console.error('Error updating group', err);
   }
 };
 
@@ -492,7 +492,7 @@ export const trackProductSeller = (merchantId: any) => async (dispatch: any, get
     }
   } catch (err) {
     console.log('Error Tracking Seller', err);
-    const { response } = err;
+    const { response } = err as any;
     if (response) {
       const { status, data } = response;
       if (status === 400 && data && data.message && data.message.length > 0) {
