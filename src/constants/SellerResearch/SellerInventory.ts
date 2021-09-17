@@ -26,7 +26,7 @@ export const DEFAULT_PAGES_LIST = [
 ];
 
 /* Unique key for the row in seller inventiory main table */
-export const SELLER_INVENTORY_UNIQUE_KEY = 'merchant_id';
+export const SELLER_INVENTORY_UNIQUE_KEY = 'id';
 
 /* Unique key for the Seller Inventory Products Table */
 export const SELLER_INVENTORY_PRODUCTS_TABLE_UNIQUE_KEY = 'id';
