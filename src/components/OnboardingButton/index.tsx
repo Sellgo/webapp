@@ -12,10 +12,11 @@ interface Props {
   youtubeLink: string;
   youtubeIconClassName?: string;
   className?: string;
+  isNew?: boolean;
 }
 
 const OnboardingTooltip = (props: Props) => {
-  const { displayMessage, youtubeLink, youtubeIconClassName, className } = props;
+  const { displayMessage, youtubeLink, youtubeIconClassName, className, isNew } = props;
 
   const [openEmbedModal, setOpenEmbedModal] = useState(false);
   const handleClick = (e: SyntheticEvent) => {
@@ -30,6 +31,7 @@ const OnboardingTooltip = (props: Props) => {
       <div onClick={handleClick} className={`${styles.onboardingButton} ${className}`}>
         <YoutubeLogo className={youtubeIconClassName} onClick={handleClick} />
         <p className={styles.displayMessage}> {displayMessage} </p>
+        {isNew && <p className={styles.new}>New</p>}
       </div>
 
       {/* YOutube Embed Vidoes */}

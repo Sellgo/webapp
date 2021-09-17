@@ -80,7 +80,7 @@ const SellerResearch = (props: Props) => {
         <section className={styles.filterMetaData}>
           <h1>Seller Research: {SellerResearchMapper[selectedTabList]}</h1>
           {showTutorialOnboarding && (
-            <OnboardingButton displayMessage={displayText} youtubeLink={youtubeLink} />
+            <OnboardingButton displayMessage={displayText} youtubeLink={youtubeLink} isNew />
           )}
         </section>
 
