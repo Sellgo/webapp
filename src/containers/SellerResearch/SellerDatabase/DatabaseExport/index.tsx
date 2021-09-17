@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import { Icon, Popup } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 /* Styling */
@@ -22,6 +21,9 @@ import {
   getSellerDatabasePaginationInfo,
   getSellerDatabaseResults,
 } from '../../../../selectors/SellerResearch/SellerDatabase';
+
+/* Components */
+import TableExport from '../../../../components/NewTable/TableExport';
 
 /* Utils */
 import { formatNumber } from '../../../../utils/format';
@@ -69,44 +71,32 @@ const DatabaseExport = (props: Props) => {
             Viewing <span className={styles.sellerCount}>{totalSellersFound}</span> sellers.
           </p>
         )}
-        <div className={styles.exportButtonContainer}>
-          <Icon name="download" className={styles.downloadIcon} />
-          <Popup
-            className={styles.exportPopup}
-            on="click"
-            position="bottom right"
-            offset="-5"
-            trigger={
-              <Icon
-                name="angle down"
-                className={styles.caretDownIcon}
-                style={{ cursor: 'pointer' }}
-              />
-            }
-            content={
-              <>
-                <div className={styles.exportOptions}>
-                  <span>Export As</span>
-                  <button
-                    className={styles.exportOption}
-                    onClick={() => handleOnExport('xlsx')}
-                    disabled={!shouldEnableExport}
-                  >
-                    <XLSXExportImage /> .XLSX
-                  </button>
 
-                  <button
-                    className={styles.exportOption}
-                    onClick={() => handleOnExport('csv')}
-                    disabled={!shouldEnableExport}
-                  >
-                    <CSVExportImage /> .CSV
-                  </button>
-                </div>
-              </>
-            }
-          />
-        </div>
+        <TableExport
+          label="All Sellers"
+          exportContent={
+            <>
+              <div className={styles.exportOptions}>
+                <span>Export As</span>
+                <button
+                  className={styles.exportOption}
+                  onClick={() => handleOnExport('xlsx')}
+                  disabled={!shouldEnableExport}
+                >
+                  <XLSXExportImage /> .XLSX
+                </button>
+
+                <button
+                  className={styles.exportOption}
+                  onClick={() => handleOnExport('csv')}
+                  disabled={!shouldEnableExport}
+                >
+                  <CSVExportImage /> .CSV
+                </button>
+              </div>
+            </>
+          }
+        />
       </div>
     </>
   );
