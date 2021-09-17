@@ -11,8 +11,8 @@
   border-bottom: 1px solid $grey_3;
 
   h1 {
-    color: $grey_8 !important;
-    font-size: 14px !important;
+    color: $prim_dark_1 !important;
+    font-size: 16px !important;
     font-weight: 500 !important;
     text-transform: uppercase;
     margin: 0 !important;
@@ -27,9 +27,19 @@
   padding-top: 18px !important;
   width: 100%;
 
+  .activeProductTab {
+    background: $active-color !important;
+    color: $prim_dark_1 !important;
+    font-weight: 600 !important;
+    border: 1px solid $grey_3 !important;
+    border-radius: 4px 4px 0 0;
+    border-bottom: transparent !important;
+  }
+
   li {
     color: $grey_8 !important;
-    font-size: 14px !important;
+    height: 45px !important;
+    font-size: 16px !important;
     min-width: 110px !important;
     padding: 4px 10px;
     border-bottom: 1px solid $grey_3;
@@ -38,13 +48,4 @@
     align-items: center;
     cursor: pointer !important;
   }
-}
-
-.activeProductTab {
-  background: $grey_10 !important;
-  color: $grey_8 !important;
-  font-weight: 600 !important;
-  border: 1px solid $grey_3 !important;
-  border-radius: 4px 4px 0 0;
-  border-bottom: transparent !important;
 }

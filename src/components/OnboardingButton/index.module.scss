@@ -1,0 +1,24 @@
+@import '../../design-system/new-colors.scss';
+
+.onboardingButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  .displayMessage {
+    margin-left: 10px;
+    color: $grey_8;
+    font-size: 12px;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.youtubeEmbedContainer {
+  iframe {
+    min-width: 100% !important;
+  }
+}
