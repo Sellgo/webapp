@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import { Table } from 'rsuite';
 import { connect } from 'react-redux';
@@ -36,6 +35,7 @@ import ExtendedReviewsCell from '../../../../components/NewTable/ExtendedReviews
 /* Containers */
 import SellerInformation from './SellerInformation';
 import ActionsCell from './ActionsCell';
+import SellerProductsTable from '../SellerProductsTable';
 
 /* Interfaces */
 import {
@@ -109,11 +109,7 @@ const InventoryTable = (props: Props) => {
         rowKey={SELLER_INVENTORY_UNIQUE_KEY}
         rowExpandedHeight={100}
         expandedRowKeys={expandedRowKeys}
-        renderRowExpanded={() => (
-          <div>
-            <p>This is the expanded row</p>
-          </div>
-        )}
+        renderRowExpanded={() => <SellerProductsTable />}
       >
         {/* Expand Cell */}
         <Table.Column width={30} verticalAlign="top" fixed align="left">
