@@ -16,7 +16,7 @@ const ChangeStatPeriod = (props: RowCell) => {
     <Table.Cell {...props}>
       <div className={styles.changeStatPeriod}>
         <Top10Icon />
-        <Top50Icon />
+        <Top50Icon className={styles.top50Icon} />
       </div>
     </Table.Cell>
   );

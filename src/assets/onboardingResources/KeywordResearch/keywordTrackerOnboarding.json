@@ -1,0 +1,62 @@
+[
+  {
+    "Add ASIN": {
+      "youtubeLink": "",
+      "tooltipText": "Sponsored  | 2 min watch"
+    },
+    "Add Keywords": {
+      "youtubeLink": "",
+      "tooltipText": "Sponsored  | 2 min watch"
+    }
+  },
+
+  {
+    "tracked_keywords": {
+      "youtubeLink": "",
+      "tooltipText": "Search Volume | 1 min watch"
+    },
+    "competitors": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "Competitors | 2 min watch"
+    },
+    "search_volume": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "Search Volume | 2 min watch"
+    },
+    "organic": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "Organic  | 2 min watch"
+    },
+    "sponsored": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "Sponsored  | 2 min watch"
+    }
+  },
+
+  {
+    "expandedCell": {
+      "youtubeLink": "",
+      "tooltipText": "You can expanded this"
+    },
+
+    "collapseCell": {
+      "youtubeLink": "",
+      "tooltipText": "You can collapse this"
+    },
+
+    "competitors": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "Sponsored  | 2 min watch"
+    },
+
+    "All Keywords": {
+      "youtubeLink": "",
+      "tooltipText": "Export all the table results"
+    },
+
+    "All Products": {
+      "youtubeLink": "",
+      "tooltipText": "Export all the table results"
+    }
+  }
+]

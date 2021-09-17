@@ -20,28 +20,6 @@
   }
 }
 
-.exportButtonContainer {
-  margin-left: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: $grey_8 !important;
-  margin-right: 10px;
-}
-
-.caretDownIcon,
-.downloadIcon {
-  color: $grey_8 !important;
-}
-
-.exportPopup {
-  padding: 0 !important;
-
-  &::before {
-    display: none;
-  }
-}
-
 .exportOptions {
   min-width: 115px;
   min-height: max-content;

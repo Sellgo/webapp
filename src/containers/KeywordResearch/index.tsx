@@ -17,16 +17,24 @@ import KeywordTracker from './KeywordTracker';
 
 /* Actions */
 import { resetKeywordResearch } from '../../actions/KeywordResearch';
+import { setUserOnboardingResources } from '../../actions/UserOnboarding';
+
+/* Onboarding Resources */
+import reverseOnBoardingResources from '../../assets/onboardingResources/KeywordResearch/keywordReverseOnboarding.json';
+// eslint-disable-next-line max-len
+import databaseOnBoardingResources from '../../assets/onboardingResources/KeywordResearch/keywordDatabaseOnboarding.json';
+import trackerOnBoardingResources from '../../assets/onboardingResources/KeywordResearch/keywordTrackerOnboarding.json';
 
 interface Props {
   match: any;
   resetKeywordResearch: () => void;
+  setUserOnboardingResources: (payload: any) => void;
 }
 
 const keywordResearchMapper = ['Reverse', 'Database', 'Tracker'];
 
 const KeywordResearch = (props: Props) => {
-  const { match, resetKeywordResearch } = props;
+  const { match, resetKeywordResearch, setUserOnboardingResources } = props;
 
   const [selectedTabList, setSelectedTabList] = useState<number>(2);
 
@@ -35,10 +43,20 @@ const KeywordResearch = (props: Props) => {
   };
 
   useEffect(() => {
+    // set resources for keyword database
+    if (selectedTabList === 0) {
+      setUserOnboardingResources(reverseOnBoardingResources);
+    } else if (selectedTabList === 1) {
+      setUserOnboardingResources(databaseOnBoardingResources);
+    } else if (selectedTabList === 2) {
+      setUserOnboardingResources(trackerOnBoardingResources);
+    }
+
     return () => {
       resetKeywordResearch();
+      setUserOnboardingResources([]);
     };
-  }, []);
+  }, [selectedTabList]);
 
   return (
     <>
@@ -94,6 +112,7 @@ const KeywordResearch = (props: Props) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     resetKeywordResearch: () => dispatch(resetKeywordResearch()),
+    setUserOnboardingResources: (payload: any) => dispatch(setUserOnboardingResources(payload)),
   };
 };
 export default connect(null, mapDispatchToProps)(KeywordResearch);

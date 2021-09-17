@@ -1,5 +1,4 @@
 import React from 'react';
-import { Icon, Popup } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 /* Styling */
@@ -16,6 +15,9 @@ import {
   KeywordReverseProgressData,
   KeywordReversePaginationInfo,
 } from '../../../../interfaces/KeywordResearch/KeywordReverse';
+
+/* Componensts*/
+import TableExport from '../../../../components/NewTable/TableExport';
 
 /* Utils */
 import { downloadFile } from '../../../../utils/download';
@@ -55,36 +57,23 @@ const ReverseExport = (props: Props) => {
           </p>
         )}
 
-        <div className={styles.exportButtonContainer}>
-          <Icon name="download" className={styles.downloadIcon} />
-          <Popup
-            className={styles.exportPopup}
-            on="click"
-            position="bottom right"
-            offset="-5"
-            trigger={
-              <Icon
-                name="angle down"
-                className={styles.caretDownIcon}
-                style={{ cursor: 'pointer' }}
-              />
-            }
-            content={
-              <>
-                <div className={styles.exportOptions}>
-                  <span>Export As</span>
-                  <button
-                    className={styles.exportOption}
-                    onClick={handleOnExport}
-                    disabled={!shouldEnableXlsxExport}
-                  >
-                    <XLSXExportImage /> .XLSX
-                  </button>
-                </div>
-              </>
-            }
-          />
-        </div>
+        <TableExport
+          label="All Keywords"
+          exportContent={
+            <>
+              <div className={styles.exportOptions}>
+                <span>Export As</span>
+                <button
+                  className={styles.exportOption}
+                  onClick={handleOnExport}
+                  disabled={!shouldEnableXlsxExport}
+                >
+                  <XLSXExportImage /> .XLSX
+                </button>
+              </div>
+            </>
+          }
+        />
       </section>
     </>
   );
