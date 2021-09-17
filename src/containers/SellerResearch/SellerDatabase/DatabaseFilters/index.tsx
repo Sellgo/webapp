@@ -5,19 +5,14 @@ import { connect } from 'react-redux';
 /* Styling */
 import styles from './index.module.scss';
 
-/* Components */
-import InputFilter from '../../../../components/FormFilters/InputFilter';
-import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
-import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
-import PeriodFilter from '../../../../components/FormFilters/PeriodFilter';
-import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
-// import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
-
 /* Actions */
 import { fetchSellerDatabase } from '../../../../actions/SellerResearch/SellerDatabase';
 
 /* Interfaces */
-import { SellerDatabasePayload } from '../../../../interfaces/SellerResearch/SellerDatabase';
+import {
+  MarketplaceOption,
+  SellerDatabasePayload,
+} from '../../../../interfaces/SellerResearch/SellerDatabase';
 
 /* Constants */
 import {
@@ -26,9 +21,19 @@ import {
   DEFAULT_MIN_MAX_FILTER,
   DEFAULT_MIN_MAX_PERIOD_FILTER,
   FILTER_PERIOD_DURATIONS,
+  DEFAULT_US_MARKET,
+  SELLER_DB_MARKETPLACE,
 } from '../../../../constants/SellerResearch/SellerDatabase';
 
 import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
+
+/* Components */
+import InputFilter from '../../../../components/FormFilters/InputFilter';
+import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
+import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
+import PeriodFilter from '../../../../components/FormFilters/PeriodFilter';
+import MarketPlaceFilter from '../../../../components/FormFilters/MarketPlaceFilter';
+import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
 
 interface Props {
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
@@ -40,6 +45,7 @@ const SellerDatabaseFilters = (props: Props) => {
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
 
   /* Basic Filters */
+  const [marketplace, setMarketPlace] = useState<MarketplaceOption>(DEFAULT_US_MARKET);
   const [merchantName, setMerchantName] = useState<string>('');
   const [asins, setAsins] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
   const [sellerIds, setSellerIds] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
@@ -56,7 +62,6 @@ const SellerDatabaseFilters = (props: Props) => {
   const [negativeReview, setNegativeReview] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
   const [sellerRatings, setSellerRatings] = useState(DEFAULT_MIN_MAX_FILTER);
   const [salesEstimate, setSalesEstimate] = useState(DEFAULT_MIN_MAX_FILTER);
-  // const [launched, setLaunched] = useState<string>('');
 
   /* Error States */
   const [asinsError, setAsinsError] = useState(DEFAULT_INCLUDE_EXCLUDE_ERROR);
@@ -197,6 +202,16 @@ const SellerDatabaseFilters = (props: Props) => {
     <>
       <section className={styles.filterSection}>
         <div className={styles.basicFilters}>
+          {/* Marketplace */}
+          <MarketPlaceFilter
+            label="Choose Marketplace"
+            marketplaceDetails={marketplace}
+            marketPlaceChoices={SELLER_DB_MARKETPLACE}
+            handleChange={(option: MarketplaceOption) => {
+              setMarketPlace(option);
+            }}
+          />
+
           {/* Merchant Name */}
           <InputFilter
             label="Merchant Name"

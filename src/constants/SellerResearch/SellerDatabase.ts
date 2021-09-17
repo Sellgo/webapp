@@ -1,3 +1,5 @@
+import { defaultMarketplaces } from '../../constants/Settings/index';
+
 /* Actions Types */
 export const actionTypes = {
   IS_LOADING_SELLER_DATABASE: 'IS_LOADING_SELLER_DATABASE',
@@ -82,3 +84,25 @@ export const EXPORT_FORMATS = [
 ];
 
 export const EXPORT_DATA = [{ key: 'all', value: 'all', text: 'All Results' }];
+
+export const DONT_DISABLE = ['US', 'GB'];
+
+/* Marketplace options for seller DB */
+export const SELLER_DB_MARKETPLACE = defaultMarketplaces.map((marketplace: any) => {
+  return {
+    text: marketplace.name,
+    code: marketplace.code,
+    key: marketplace.code,
+    value: marketplace.id,
+    disabled: !DONT_DISABLE.includes(marketplace.code),
+  };
+});
+
+/* Default US Marketplace */
+export const DEFAULT_US_MARKET = {
+  text: 'United States',
+  code: 'US',
+  value: 'ATVPDKIKX0DER',
+  disabled: false,
+  key: 'US',
+};
