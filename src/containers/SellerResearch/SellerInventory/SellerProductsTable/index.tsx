@@ -82,7 +82,7 @@ const SellerProductsTable = (props: Props) => {
         loading={isLoadingSellerInventoryProductsTable}
         data={sellerInventoryProductsTableResults}
         height={calculateSellerInventoryTableHeight(
-          sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length - 2,
+          sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length - 4,
           0
         )}
         hover={false}
@@ -113,31 +113,31 @@ const SellerProductsTable = (props: Props) => {
         </Table.Column>
 
         {/* Product Information  */}
-        <Table.Column width={130} verticalAlign="top" align="left" flexGrow={1}>
-          <Table.HeaderCell>Product Name</Table.HeaderCell>
+        <Table.Column width={130} verticalAlign="top" align="left" flexGrow={4}>
+          <Table.HeaderCell>Product Inventory Information</Table.HeaderCell>
           <ProductInformation dataKey="productInformation" />
         </Table.Column>
 
         {/* Price  */}
-        <Table.Column width={130} verticalAlign="top" align="left">
+        <Table.Column width={130} verticalAlign="top" align="left" flexGrow={1}>
           <Table.HeaderCell>Price</Table.HeaderCell>
           <StatsCell dataKey="current_price" align="center" prependWith="$" />
         </Table.Column>
 
         {/* Rating L365D */}
-        <Table.Column width={130} verticalAlign="top" align="left">
+        <Table.Column width={130} verticalAlign="top" align="left" flexGrow={1}>
           <Table.HeaderCell>Rating L356D</Table.HeaderCell>
           <RatingCell dataKey="review_stars" />
         </Table.Column>
 
         {/* Rating % L365D */}
-        <Table.Column width={130} verticalAlign="top" align="left">
+        <Table.Column width={130} verticalAlign="top" align="left" flexGrow={1}>
           <Table.HeaderCell>Rating L356D</Table.HeaderCell>
           <StatsCell dataKey="review_stars" />
         </Table.Column>
 
         {/* Product Review */}
-        <Table.Column width={130} verticalAlign="top" align="left">
+        <Table.Column width={130} verticalAlign="top" align="left" flexGrow={1}>
           <Table.HeaderCell>Product Review #</Table.HeaderCell>
           <StatsCell dataKey="reviews_count" />
         </Table.Column>
@@ -146,12 +146,12 @@ const SellerProductsTable = (props: Props) => {
       {sellerInventoryProductsTablePaginationInfo.num_pages > 0 && (
         <footer className={styles.sellerProductsTablePagination}>
           <Pagination
-            totalPages={10}
-            currentPage={2}
+            totalPages={sellerInventoryProductsTablePaginationInfo.num_pages}
+            currentPage={1}
             onPageChange={handlePageChange}
             showSiblingsCount={3}
             showPerPage={true}
-            perPage={20}
+            perPage={sellerInventoryProductsTablePaginationInfo.per_page}
             perPageList={DEFAULT_PAGES_LIST}
           />
         </footer>

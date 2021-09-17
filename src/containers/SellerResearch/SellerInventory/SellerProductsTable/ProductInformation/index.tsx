@@ -4,12 +4,17 @@ import { Table } from 'rsuite';
 /* Styling */
 import styles from './index.module.scss';
 
+/* Components */
+import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipboard';
+
+/* Utils */
+import { truncateString } from '../../../../../utils/format';
+
 /* Assets */
 import placeholderImage from '../../../../../assets/images/placeholderImage.svg';
 
 /* Interfaces */
 import { RowCell } from '../../../../../interfaces/Table';
-import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipboard';
 
 const ProductInformation = (props: RowCell) => {
   const { rowData } = props;
@@ -27,7 +32,7 @@ const ProductInformation = (props: RowCell) => {
         </div>
 
         <div className={styles.productInfo}>
-          <h2>{productName}</h2>
+          <h2>{truncateString(productName, 80)}</h2>
           <CopyAndLocateClipboard data={asin} link={productLink} />
         </div>
       </div>
