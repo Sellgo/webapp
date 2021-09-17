@@ -9,6 +9,7 @@ import styles from './index.module.scss';
 
 /* Constants */
 import {
+  calculateSellerInventoryTableHeight,
   DEFAULT_PAGES_LIST,
   SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT,
   SELLER_INVENTORY_PRODUCTS_TABLE_UNIQUE_KEY,
@@ -63,7 +64,10 @@ const SellerProductsTable = (props: Props) => {
       <Table
         loading={isLoadingSellerInventoryProductsTable}
         data={sellerInventoryProductsTableResults}
-        height={400}
+        height={calculateSellerInventoryTableHeight(
+          sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length,
+          0
+        )}
         hover={false}
         headerHeight={50}
         rowHeight={SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT}

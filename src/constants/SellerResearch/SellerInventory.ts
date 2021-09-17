@@ -50,5 +50,8 @@ export const calculateSellerInventoryTableHeight = (
   numOfSellers: number
 ) => {
   console.log(numOfProducts, numOfSellers);
-  return 1000;
+
+  const productsTableHeight = (numOfProducts || 10) * SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT;
+
+  return productsTableHeight;
 };
