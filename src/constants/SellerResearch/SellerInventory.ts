@@ -18,3 +18,6 @@ export const DEFAULT_PAGES_LIST = [
     id: '100',
   },
 ];
+
+/* Unique key for the row in seller inventiory main table */
+export const SELLER_INVENTORY_UNIQUE_KEY = 'merchant_id';

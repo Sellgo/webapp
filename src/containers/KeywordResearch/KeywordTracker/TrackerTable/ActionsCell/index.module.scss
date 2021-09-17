@@ -1,20 +1,13 @@
 @import '../../../../../design-system/new-colors';
 
-.productTrackerKeywordActionsCellWrapper {
+.actionCellWrapper {
   display: flex;
   min-height: 100%;
   justify-content: flex-start;
   align-items: flex-start;
 }
 
-.productKeywordActionsCellTrigger {
-  cursor: pointer !important;
-  color: $grey_6 !important;
-  align-self: flex-start;
-  padding-top: 10px;
-}
-
-.productKeywordActionsCell {
+.actionCellPopup {
   padding: 0 !important;
 
   &::before {
@@ -22,9 +15,16 @@
   }
 }
 
-.productKeywordActionsCellContent {
+.actionCellTrigger {
+  cursor: pointer !important;
+  color: $grey_6 !important;
+  align-self: flex-start;
+  padding-top: 40px;
+}
+
+.actionCellContent {
   min-width: 160px;
-  min-height: 50px;
+  min-height: 75px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -46,23 +46,18 @@
     margin-bottom: 5px;
 
     &:hover {
-      background: $grey_1;
+      background: $grey_1 !important;
     }
 
-    .productKeywordActionIcon {
+    .actionCellIcon {
       margin-right: 5px;
       font-size: 12px !important;
       color: inherit !important;
+      color: $grey_8 !important;
     }
 
     &:disabled {
       color: $grey_3 !important;
     }
   }
-}
-
-.keywordHistoryModal {
-  border-radius: 0 !important;
-  min-height: 500px;
-  min-width: 500px;
 }
