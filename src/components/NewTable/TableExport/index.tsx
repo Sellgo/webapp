@@ -4,6 +4,7 @@ import { Icon, Popup } from 'semantic-ui-react';
 
 /* Constants */
 import {
+  EXPORT_KEY,
   FALLBACK_ONBOARDING_DETAILS,
   TABLE_SPECIAL_ONBOARDING_INDEX,
 } from '../../../constants/UserOnboarding';
@@ -23,10 +24,18 @@ interface Props {
   className?: string;
   userOnboarding: boolean;
   userOnboardingResources: any;
+  onButtonClick?: () => void;
 }
 
 const TableExport = (props: Props) => {
-  const { label, className, exportContent, userOnboarding, userOnboardingResources } = props;
+  const {
+    label,
+    className,
+    exportContent,
+    userOnboarding,
+    userOnboardingResources,
+    onButtonClick,
+  } = props;
 
   /* On Boarding Logic */
   const specialCellOnboardingDetails =
@@ -34,12 +43,12 @@ const TableExport = (props: Props) => {
   const showOnboarding = userOnboarding && Object.keys(specialCellOnboardingDetails).length > 0;
 
   const { youtubeLink, tooltipText } =
-    specialCellOnboardingDetails[label] || FALLBACK_ONBOARDING_DETAILS;
+    specialCellOnboardingDetails[EXPORT_KEY] || FALLBACK_ONBOARDING_DETAILS;
 
   return (
     <div className={`${styles.exportButtonContainer} ${className}`}>
-      <p className={styles.exportLabel}>
-        <Icon name="download" className={styles.downloadIcon} />
+      <p className={styles.exportLabel} onClick={() => onButtonClick && onButtonClick()}>
+        <Icon name="download" className={styles.downloadIcon} style={{ cursor: 'pointer' }} />
         {label}
 
         {/* Youtube On boarding Icon */}

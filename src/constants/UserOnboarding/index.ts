@@ -70,6 +70,7 @@ export const TABLE_SPECIAL_ONBOARDING_INDEX = 3;
 
 export const EXPANDED_TABLE_CELL_KEY = 'expandedCell';
 export const COLLAPSE_TABLE_CELL_KEY = 'collapseCell';
+export const EXPORT_KEY = 'Export';
 
 /* Fallback for table KPI details */
 export const FALLBACK_ONBOARDING_DETAILS = {
