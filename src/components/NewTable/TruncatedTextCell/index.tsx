@@ -4,14 +4,28 @@ import { Table } from 'rsuite';
 /* Utils */
 import { truncateString } from '../../../utils/format';
 
-/* Types */
+/* Interface */
 import { RowCell } from '../../../interfaces/Table';
 
-const TruncatedTextCell = (props: RowCell) => {
-  const { rowData, dataKey } = props;
-  const rowContent = rowData[dataKey].join(',') || '-';
+/* Interface */
+interface Props extends RowCell {
+  maxLength?: number;
+}
 
-  return <Table.Cell {...props}>{truncateString(rowContent, 20)}</Table.Cell>;
+const TruncatedTextCell = (props: Props) => {
+  const { rowData, dataKey, maxLength = 20 } = props;
+
+  let displayText = '';
+
+  const rawContent = rowData[dataKey] || '-';
+
+  if (Array.isArray(rawContent)) {
+    displayText = rawContent.join(',');
+  } else if (typeof rawContent === 'string') {
+    displayText = rawContent;
+  }
+
+  return <Table.Cell {...props}>{truncateString(displayText, maxLength)}</Table.Cell>;
 };
 
 export default TruncatedTextCell;

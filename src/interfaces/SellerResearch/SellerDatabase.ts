@@ -24,3 +24,11 @@ export interface SellerDatabasePaginationInfo {
   per_page?: number;
   previous?: string;
 }
+
+export interface MarketplaceOption {
+  text: string;
+  code: string;
+  value: string;
+  disabled: boolean;
+  key: string;
+}

@@ -15,7 +15,7 @@ interface Props {
   isNew?: boolean;
 }
 
-const OnboardingTooltip = (props: Props) => {
+const OnboardingButton = (props: Props) => {
   const { displayMessage, youtubeLink, youtubeIconClassName, className, isNew } = props;
 
   const [openEmbedModal, setOpenEmbedModal] = useState(false);
@@ -56,4 +56,4 @@ const OnboardingTooltip = (props: Props) => {
   );
 };
 
-export default memo(OnboardingTooltip);
+export default memo(OnboardingButton);

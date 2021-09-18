@@ -44,3 +44,18 @@
     }
   }
 }
+
+.append,
+.prepend {
+  color: $prim_dark_1;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.append {
+  margin-right: 10px;
+}
+
+.prepend {
+  margin-left: 10px;
+}
