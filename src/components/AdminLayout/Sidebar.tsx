@@ -41,20 +41,13 @@ class SidebarCollapsible extends Component<
   state = {
     sidebarIcon: [
       {
-        id: 1,
-        label: 'Dashboard',
-        icon: 'far fa-chart-bar',
-        path: '/',
-        notifyId: 2,
-        imageType: false,
-      },
-      {
         id: 2,
         label: 'Search Management',
         icon: 'fas fa-clipboard-list',
         path: '/synthesis',
         notifyId: 1,
         imageType: false,
+        tooltip: 'Search Management',
       },
       {
         id: 3,
@@ -63,6 +56,7 @@ class SidebarCollapsible extends Component<
         path: '/profit-finder',
         notifyId: 1,
         imageType: false,
+        tooltip: 'Profit Finder',
       },
       {
         id: 4,
@@ -71,6 +65,7 @@ class SidebarCollapsible extends Component<
         path: '/product-tracker',
         notifyId: 2,
         imageType: false,
+        tooltip: 'Product Tracker',
       },
       {
         id: 5,
@@ -79,6 +74,7 @@ class SidebarCollapsible extends Component<
         path: '/leads-tracker',
         notifyId: 2,
         imageType: false,
+        tooltip: 'Leads Tracker',
       },
       {
         id: 6,
@@ -88,6 +84,7 @@ class SidebarCollapsible extends Component<
         notifyId: 4,
         imageType: true,
         isBeta: false,
+        tooltip: 'Seller Research',
       },
       {
         id: 7,
@@ -97,8 +94,16 @@ class SidebarCollapsible extends Component<
         notifyId: 4,
         imageType: true,
         isBeta: false,
+        tooltip: 'Seller Finder',
       },
-      { id: 9, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
+      {
+        id: 9,
+        label: 'Settings',
+        icon: 'fas fa-cog',
+        path: '/settings',
+        notifyId: 4,
+        tooltip: 'Setting',
+      },
     ],
     visible: false,
     openConfirm: false,
