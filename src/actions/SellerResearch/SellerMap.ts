@@ -144,7 +144,7 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
 
     // add the categories
     if (categories) {
-      queryString += `&category=${categories}`;
+      queryString += `&categories=${categories}`;
     }
 
     // min monthly revenue
