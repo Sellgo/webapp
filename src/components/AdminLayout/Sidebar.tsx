@@ -138,7 +138,7 @@ class SidebarCollapsible extends Component<
                 onClick={() => {
                   visible && this.handleAnimationChange();
                 }}
-                as={isFreeeAccount || (icon.id === 2 && !supplier_id) ? 'div' : Link}
+                as={isFreeeAccount || (icon.id === 3 && !supplier_id) ? 'div' : Link}
                 disabled={isFreeeAccount || !!(icon.id === 3 && !supplier_id)}
                 to={icon.id === 3 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path}
                 name={icon.icon}
@@ -155,7 +155,7 @@ class SidebarCollapsible extends Component<
                   <i
                     className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
                       'forward'} ${
-                      (icon.id === 2 && !supplier_id) || isFreeeAccount ? 'disabled-link' : ''
+                      (icon.id === 3 && !supplier_id) || isFreeeAccount ? 'disabled-link' : ''
                     }`}
                   />
                 )}
@@ -169,24 +169,16 @@ class SidebarCollapsible extends Component<
             return (
               <Menu.Item
                 key={icon.id}
-                as={
-                  (isFreeeAccount && icon.id === 10) || (isBetaUser && icon.path === '/settings')
-                    ? 'div'
-                    : Link
-                }
+                as={isBetaUser && icon.path === '/settings' ? 'div' : Link}
                 to={icon.path}
                 name={icon.icon}
                 active={links[icon.id - 1] === currentPath}
                 className={'sidebar-menu__items'}
-                disabled={
-                  (isFreeeAccount && icon.id === 10) || (isBetaUser && icon.path === '/settings')
-                }
+                disabled={isBetaUser && icon.path === '/settings'}
               >
                 <i
                   className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId && 'forward'} ${
-                    (isFreeeAccount && icon.id === 10) || (isBetaUser && icon.path === '/settings')
-                      ? 'disabled-link'
-                      : ''
+                    isBetaUser && icon.path === '/settings' ? 'disabled-link' : ''
                   } `}
                 />
               </Menu.Item>
