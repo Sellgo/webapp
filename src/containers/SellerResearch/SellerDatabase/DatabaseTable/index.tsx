@@ -86,7 +86,7 @@ const SellerDatabaseTable = (props: Props) => {
           onSortColumn={handleSortColumn}
         >
           {/* Seller Information */}
-          <Table.Column width={560} verticalAlign="middle" fixed>
+          <Table.Column width={590} verticalAlign="middle" fixed>
             <Table.HeaderCell>Seller Information</Table.HeaderCell>
             <SellerInformation dataKey={'sellerInformation'} />
           </Table.Column>
