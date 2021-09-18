@@ -99,6 +99,7 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
     state = '',
     zipCode = '',
     merchantName,
+    categories = '',
     minMonthlyRevenue = '',
     maxMonthlyRevenue = '',
     maxCount = 1000,
@@ -141,8 +142,14 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
       queryString += `&merchant_name=${merchantName}`;
     }
 
-    // add the monthly revenue
+    // add the categories
+    if (categories) {
+      queryString += `&categories=${categories}`;
+    }
+
+    // min monthly revenue
     if (minMonthlyRevenue) {
+      // add the monthly revenue
       queryString += `&monthly_revenue_min=${minMonthlyRevenue}`;
     }
 

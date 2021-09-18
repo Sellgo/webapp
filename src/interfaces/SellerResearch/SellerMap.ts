@@ -7,6 +7,7 @@ export interface SellerMapPayload {
   state?: string;
   zipCode?: string;
   merchantName?: string;
+  categories?: string;
   minMonthlyRevenue?: string;
   maxMonthlyRevenue?: string;
   maxCount?: number;

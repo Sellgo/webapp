@@ -1,8 +1,22 @@
 import React from 'react';
 import { Dropdown } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
+import '../globalReset.scss';
+
+/* Constanta */
+import {
+  FALLBACK_ONBOARDING_DETAILS,
+  FILTER_KPI_ONBOARDING_INDEX,
+} from '../../../constants/UserOnboarding';
+
+/* Selectors */
+import { getUserOnboarding, getUserOnboardingResources } from '../../../selectors/UserOnboarding';
+
+/* Components */
+import OnboardingTooltip from '../../OnboardingTooltip';
 
 /* Interface */
 import { MarketplaceOption } from '../../../interfaces/SellerResearch/SellerDatabase';
@@ -12,10 +26,19 @@ interface Props {
   marketplaceDetails: MarketplaceOption;
   marketPlaceChoices: MarketplaceOption[];
   handleChange: (option: MarketplaceOption) => void;
+  userOnboarding: boolean;
+  userOnboardingResources: any;
 }
 
 const MarketPlaceFilter = (props: Props) => {
-  const { label, marketplaceDetails, marketPlaceChoices, handleChange } = props;
+  const {
+    label,
+    marketplaceDetails,
+    marketPlaceChoices,
+    handleChange,
+    userOnboarding,
+    userOnboardingResources,
+  } = props;
 
   const trigger = (
     <>
@@ -29,9 +52,26 @@ const MarketPlaceFilter = (props: Props) => {
     </>
   );
 
+  /* Onboarding logic */
+  const filterOnboarding = userOnboardingResources[FILTER_KPI_ONBOARDING_INDEX] || {};
+  const enableFilterOnboarding = userOnboarding && Object.keys(filterOnboarding).length > 0;
+
+  const { youtubeLink, tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
+
   return (
     <div className={styles.marketplaceFilter}>
-      <p>{label}</p>
+      <p>
+        {label}
+        {/* Onboarding */}
+        {enableFilterOnboarding && (youtubeLink || tooltipText) && (
+          <OnboardingTooltip
+            youtubeLink={youtubeLink}
+            tooltipMessage={tooltipText}
+            infoIconClassName="infoOnboardingIcon"
+            youtubeIconClassName="youtubeOnboarding"
+          />
+        )}
+      </p>
 
       <Dropdown className={styles.marketplaceDropdown} floating scrolling trigger={trigger}>
         <Dropdown.Menu className={styles.marketplaceMenu}>
@@ -57,4 +97,11 @@ const MarketPlaceFilter = (props: Props) => {
   );
 };
 
-export default MarketPlaceFilter;
+const mapStateToProps = (state: any) => {
+  return {
+    userOnboarding: getUserOnboarding(state),
+    userOnboardingResources: getUserOnboardingResources(state),
+  };
+};
+
+export default connect(mapStateToProps)(MarketPlaceFilter);

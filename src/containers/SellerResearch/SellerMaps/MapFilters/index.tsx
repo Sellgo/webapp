@@ -15,6 +15,8 @@ import {
   DEFAULT_MIN_MAX_FILTER,
 } from '../../../../constants/SellerResearch/SellerMap';
 
+import { PRODUCTS_DATABASE_CATEGORIES } from '../../../../constants/ProductResearch/ProductsDatabase';
+
 /* Selectors */
 import {
   getIsLoadingSellerDetailsForMap,
@@ -31,6 +33,7 @@ import InputFilter from '../../../../components/FormFilters/InputFilter';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
 import MarketPlaceFilter from '../../../../components/FormFilters/MarketPlaceFilter';
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
+import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxDropdownFilter';
 
 /* Interfaces */
 import { SellerMapPayload } from '../../../../interfaces/SellerResearch/SellerMap';
@@ -59,6 +62,7 @@ const MapFilters = (props: Props) => {
   const [state, setState] = useState<string>('');
   const [zipCode, setZipCode] = useState<string>('');
   const [merchantName, setMerchantName] = useState<string>('');
+  const [categories, setCategories] = useState<string[]>([]);
   const [monthlyRevenue, setMonthlyRevenue] = useState(DEFAULT_MIN_MAX_FILTER);
   const [sellerLimit, setSellerLimit] = useState<string>('1000');
 
@@ -77,6 +81,7 @@ const MapFilters = (props: Props) => {
     setState('');
     setZipCode('');
     setMerchantName('');
+    setCategories([]);
     setMonthlyRevenue(DEFAULT_MIN_MAX_FILTER);
     setSellerLimit('1000');
   };
@@ -94,6 +99,7 @@ const MapFilters = (props: Props) => {
       state,
       zipCode,
       merchantName,
+      categories: categories.join(','),
       minMonthlyRevenue: monthlyRevenue.min,
       maxMonthlyRevenue: monthlyRevenue.max,
       maxCount: Number(sellerLimit),
@@ -162,6 +168,16 @@ const MapFilters = (props: Props) => {
           placeholder="Enter Merchant Name"
           value={merchantName}
           handleChange={value => setMerchantName(value)}
+        />
+
+        {/* Categories */}
+        <CheckboxDropdownFilter
+          filterOptions={PRODUCTS_DATABASE_CATEGORIES}
+          label="Categories"
+          selectedValues={categories}
+          handleChange={(newCategories: string[]) => {
+            setCategories([...newCategories]);
+          }}
         />
 
         {/* Monthly Revenue */}
