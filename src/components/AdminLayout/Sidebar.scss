@@ -77,12 +77,13 @@
 
     i {
       padding-left: 0;
-      font-size: 20px;
+      font-size: 25px;
       min-width: 48px;
     }
 
     img {
       margin-left: 10px;
+      width: 28px;
 
       &[data-disabled='true'] {
         opacity: 0.2;

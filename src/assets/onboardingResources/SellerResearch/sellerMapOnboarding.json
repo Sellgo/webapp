@@ -1,5 +1,12 @@
 [
   {
+    "Tutorial": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "displayText": "Tutorial | 5-min watch"
+    }
+  },
+
+  {
     "Choose Marketplace": {
       "youtubeLink": "",
       "tooltipText": "Sponsored  | 2 min watch"

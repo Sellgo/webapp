@@ -8,9 +8,8 @@ import './Sidebar.scss';
 import { getLatestSupplier } from '../../actions/Suppliers';
 import get from 'lodash/get';
 
-import { LogoWithoutText } from '../Logo/index';
-import sellerFinderIcon from '../../assets/images/sellerFinder.svg';
 import sellerMapIcon from '../../assets/images/sellerMapIcon.svg';
+import sellerFinderIcon from '../../assets/images/sellerFinder.svg';
 
 import BetaLabel from '../BetaLabel';
 import { isBetaAccount, isSubscriptionIdFreeAccount } from '../../utils/subscriptions';
@@ -43,6 +42,14 @@ class SidebarCollapsible extends Component<
     sidebarIcon: [
       {
         id: 1,
+        label: 'Dashboard',
+        icon: 'far fa-chart-bar',
+        path: '/',
+        notifyId: 2,
+        imageType: false,
+      },
+      {
+        id: 2,
         label: 'Search Management',
         icon: 'fas fa-clipboard-list',
         path: '/synthesis',
@@ -50,7 +57,7 @@ class SidebarCollapsible extends Component<
         imageType: false,
       },
       {
-        id: 2,
+        id: 3,
         label: 'Profit Finder',
         icon: 'fas fa-search-dollar',
         path: '/profit-finder',
@@ -58,7 +65,7 @@ class SidebarCollapsible extends Component<
         imageType: false,
       },
       {
-        id: 3,
+        id: 4,
         label: 'Product Tracker',
         icon: 'fas fa-fingerprint',
         path: '/product-tracker',
@@ -66,7 +73,7 @@ class SidebarCollapsible extends Component<
         imageType: false,
       },
       {
-        id: 4,
+        id: 5,
         label: 'Leads Tracker',
         icon: 'fas fa-user-ninja',
         path: '/leads-tracker',
@@ -74,31 +81,24 @@ class SidebarCollapsible extends Component<
         imageType: false,
       },
       {
-        id: 5,
+        id: 6,
         label: 'Seller Research',
         icon: sellerMapIcon,
         path: '/seller-research',
         notifyId: 4,
         imageType: true,
-        isBeta: true,
+        isBeta: false,
       },
       {
-        id: 6,
+        id: 7,
         label: 'Seller Finder',
         icon: sellerFinderIcon,
         path: '/seller-finder',
         notifyId: 4,
         imageType: true,
-        isBeta: true,
+        isBeta: false,
       },
       { id: 9, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
-      {
-        id: 10,
-        label: 'Onboarding',
-        icon: 'far fa-question-circle',
-        path: '/onboarding',
-        notifyId: 3,
-      },
     ],
     visible: false,
     openConfirm: false,
@@ -122,7 +122,7 @@ class SidebarCollapsible extends Component<
 
     const currentPath = window.location.pathname;
     const links = sidebarIcon.map((link: any) =>
-      link.id === 2 ? `${link.path}/${supplier_id}` : link.path
+      link.id === 3 ? `${link.path}/${supplier_id}` : link.path
     );
 
     const isFreeeAccount = isSubscriptionIdFreeAccount(sellerSubscription.subscription_id);
@@ -130,9 +130,6 @@ class SidebarCollapsible extends Component<
 
     const sidebarMenu = (
       <>
-        <Link to="/" className="sidebar-menu__logo">
-          <LogoWithoutText />
-        </Link>
         {/* Upper portion of sidebar */}
         <Menu.Menu>
           {upperNavbar.map(icon => {
@@ -142,8 +139,8 @@ class SidebarCollapsible extends Component<
                   visible && this.handleAnimationChange();
                 }}
                 as={isFreeeAccount || (icon.id === 2 && !supplier_id) ? 'div' : Link}
-                disabled={isFreeeAccount || !!(icon.id === 2 && !supplier_id)}
-                to={icon.id === 2 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path}
+                disabled={isFreeeAccount || !!(icon.id === 3 && !supplier_id)}
+                to={icon.id === 3 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path}
                 name={icon.icon}
                 active={links[icon.id - 1] === currentPath}
                 className={'sidebar-menu__items'}
