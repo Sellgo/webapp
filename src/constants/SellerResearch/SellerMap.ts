@@ -153,6 +153,7 @@ export const SELLER_MAP_MARKETPLACE = defaultMarketplaces.map((marketplace: any)
     key: marketplace.code,
     value: marketplace.id,
     disabled: !DONT_DISABLE.includes(marketplace.code),
+    currency: marketplace.currency,
   };
 });
 
@@ -163,4 +164,5 @@ export const DEFAULT_US_MARKET = {
   value: 'ATVPDKIKX0DER',
   disabled: false,
   key: 'US',
+  currency: '$',
 };

@@ -29,7 +29,7 @@ const SellerResearchMapper = ['Database', 'Map', 'Inventories'];
 const SellerResearch = (props: Props) => {
   const { match, setUserOnboardingResources } = props;
 
-  const [selectedTabList, setSelectedTabList] = useState<number>(0);
+  const [selectedTabList, setSelectedTabList] = useState<number>(1);
 
   const handleTabChange = (index: number) => {
     setSelectedTabList(index);

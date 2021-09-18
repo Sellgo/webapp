@@ -45,6 +45,7 @@
   width: 100% !important;
   font-size: 12px !important;
   max-height: 250px !important;
+  z-index: 999999 !important;
 
   /* width */
   &::-webkit-scrollbar {

@@ -59,7 +59,7 @@ const MapFilters = (props: Props) => {
   const [state, setState] = useState<string>('');
   const [zipCode, setZipCode] = useState<string>('');
   const [merchantName, setMerchantName] = useState<string>('');
-  const [monthlyRevenue, setMonthluRevenue] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [monthlyRevenue, setMonthlyRevenue] = useState(DEFAULT_MIN_MAX_FILTER);
   const [sellerLimit, setSellerLimit] = useState<string>('1000');
 
   /* Error States */
@@ -72,9 +72,12 @@ const MapFilters = (props: Props) => {
 
   /* ==================== Handlers ==================== */
   const clearFilters = () => {
+    setMarketPlace(DEFAULT_US_MARKET);
+    setCountry('US');
     setState('');
     setZipCode('');
-    setCountry('US');
+    setMerchantName('');
+    setMonthlyRevenue(DEFAULT_MIN_MAX_FILTER);
     setSellerLimit('1000');
   };
 
@@ -86,10 +89,14 @@ const MapFilters = (props: Props) => {
   /* Handle Submit */
   const handleSubmit = () => {
     fetchSellersForMap({
+      marketplaceId: marketPlace.value,
+      country,
       state,
       zipCode,
+      merchantName,
+      minMonthlyRevenue: monthlyRevenue.min,
+      maxMonthlyRevenue: monthlyRevenue.max,
       maxCount: Number(sellerLimit),
-      country,
     });
   };
 
@@ -157,13 +164,14 @@ const MapFilters = (props: Props) => {
           handleChange={value => setMerchantName(value)}
         />
 
-        {/* Merchant Name */}
+        {/* Monthly Revenue */}
         <MinMaxFilter
           label="Monthly Revenue"
+          prependWith={marketPlace.currency}
           minValue={monthlyRevenue.min}
           maxValue={monthlyRevenue.max}
           handleChange={(type: string, value: string) =>
-            setMonthluRevenue(prevState => ({
+            setMonthlyRevenue(prevState => ({
               ...prevState,
               [type]: value,
             }))
