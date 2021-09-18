@@ -79,8 +79,6 @@ const SellerDatabaseFilters = (props: Props) => {
 
   /* Handlers */
   const handleSubmit = () => {
-    console.log(growthCount);
-
     const filterPayload = {
       merchantName,
       asins,
@@ -356,7 +354,7 @@ const SellerDatabaseFilters = (props: Props) => {
                     [type]: value,
                   }))
                 }
-                prependWith="$"
+                prependWith={marketPlace.currency}
               />
 
               {/* Growth % */}

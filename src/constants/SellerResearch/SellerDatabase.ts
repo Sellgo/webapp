@@ -96,6 +96,8 @@ export const F_TYPES = {
   MIN_MAX: 'MIN_MAX',
   MIN_MAX_PERIOD: 'MIN_MAX_PERIOD',
   MIN_MAX_PERIOD_REVIEW: 'MIN_MAX_PERIOD_REVIEW',
+  GROWTH_PERCENT_FILTER: 'GROWTH_PERCENT_FILTER',
+  GROWTH_COUNT_FILTER: 'GROWTH_COUNT_FILTER',
 };
 
 /* Map the payload keys to query keys for API */
@@ -109,8 +111,8 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
 
   monthlyRevenue: { keyName: 'sales_estimate', type: F_TYPES.MIN_MAX },
 
-  growthPercent: { keyName: 'growth_percent', type: F_TYPES.MIN_MAX_PERIOD },
-  growthCount: { keyName: 'growth_count', type: F_TYPES.MIN_MAX_PERIOD },
+  growthPercent: { keyName: 'growth_percent', type: F_TYPES.GROWTH_PERCENT_FILTER },
+  growthCount: { keyName: 'growth_count', type: F_TYPES.GROWTH_COUNT_FILTER },
 
   reviewCount: { keyName: 'count', type: F_TYPES.MIN_MAX_PERIOD },
   fbaPercent: { keyName: 'fba_percent', type: F_TYPES.MIN_MAX_PERIOD_REVIEW },
@@ -141,6 +143,7 @@ export const SELLER_DB_MARKETPLACE = defaultMarketplaces.map((marketplace: any) 
     key: marketplace.code,
     value: marketplace.id,
     disabled: !DONT_DISABLE.includes(marketplace.code),
+    currency: marketplace.currency,
   };
 });
 
@@ -151,4 +154,5 @@ export const DEFAULT_US_MARKET = {
   value: 'ATVPDKIKX0DER',
   disabled: false,
   key: 'US',
+  currency: '$',
 };

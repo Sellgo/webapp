@@ -25,8 +25,16 @@ export const defaultMarketplaces = [
     link: 'amazon.com',
     id: 'ATVPDKIKX0DER',
     disabled: false,
+    currency: '$',
   },
-  { name: 'UK', code: 'GB', link: 'amazon.com', id: 'A1F83G8C2ARO7P', disabled: true },
+  {
+    name: 'UK',
+    code: 'GB',
+    link: 'amazon.uk',
+    id: 'A1F83G8C2ARO7P',
+    disabled: true,
+    currency: '£',
+  },
   { name: 'Canada', code: 'CA', link: 'amazon.ca', id: 'A2EUQ1WTGCTBG2', disabled: true },
   { name: 'Brazil', code: 'BR', link: 'amazon.com', id: 'A2Q3Y263D00KWC', disabled: true },
   {
@@ -123,3 +131,19 @@ export const MARKETPLACE_DROPDOWN_OPTIONS = defaultMarketplaces.map((marketplace
 export const DEFAULT_US_MARKETPLACE = MARKETPLACE_DROPDOWN_OPTIONS.find(
   (marketplace: any) => marketplace.code === 'US'
 );
+
+export const marketplaceflagMapper: any = {
+  ATVPDKIKX0DER: require('../../assets/flags/US.png'),
+  A1F83G8C2ARO7P: require('../../assets/flags/GB.png'),
+};
+
+/* Get flags based on marketplace */
+export const getMarketplaceFlag = (marketplaceId: string) => {
+  const flagUrl = marketplaceflagMapper[marketplaceId];
+
+  if (!flagUrl) {
+    return marketplaceflagMapper.ATVPDKIKX0DER;
+  }
+
+  return flagUrl;
+};

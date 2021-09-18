@@ -31,4 +31,5 @@ export interface MarketplaceOption {
   value: string;
   disabled: boolean;
   key: string;
+  currency?: string;
 }

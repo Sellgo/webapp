@@ -1,6 +1,9 @@
 import React from 'react';
 import { Table } from 'rsuite';
 
+/* Styling */
+import styles from './index.module.scss';
+
 /* Utils */
 import { truncateString } from '../../../utils/format';
 
@@ -25,7 +28,11 @@ const TruncatedTextCell = (props: Props) => {
     displayText = rawContent;
   }
 
-  return <Table.Cell {...props}>{truncateString(displayText, maxLength)}</Table.Cell>;
+  return (
+    <Table.Cell {...props}>
+      <div className={styles.truncatedTextCell}>{truncateString(displayText, maxLength)}</div>
+    </Table.Cell>
+  );
 };
 
 export default TruncatedTextCell;

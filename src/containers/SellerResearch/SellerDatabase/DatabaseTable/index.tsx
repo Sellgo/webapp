@@ -98,7 +98,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Top ASIN */}
-          <Table.Column width={100} verticalAlign="middle" align="left">
+          <Table.Column width={100} sortable verticalAlign="middle" align="left">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Top\nASIN`}
@@ -117,7 +117,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Category */}
-          <Table.Column width={150} verticalAlign="middle" align="center">
+          <Table.Column width={150} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Category`}
@@ -143,7 +143,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* FBA Percent */}
-          <Table.Column width={100} sortable verticalAlign="middle" align="center">
+          <Table.Column width={120} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`FBA Percent`}
@@ -155,8 +155,34 @@ const SellerDatabaseTable = (props: Props) => {
             <StatsCell dataKey="fba_percent" appendWith="%" align="left" asRounded={false} />
           </Table.Column>
 
+          {/* State */}
+          <Table.Column width={120} sortable verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`State`}
+                dataKey="state"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <TruncatedTextCell dataKey="state" maxLength={20} />
+          </Table.Column>
+
+          {/* Country */}
+          <Table.Column width={120} sortable verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Country`}
+                dataKey="country"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <TruncatedTextCell dataKey="country" maxLength={20} />
+          </Table.Column>
+
           {/* 1 Month Growth % */}
-          <Table.Column width={100} sortable verticalAlign="middle" align="center">
+          <Table.Column width={120} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`1 Month\nGrowth %`}
@@ -169,7 +195,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* 3 Month Growth % */}
-          <Table.Column width={100} sortable verticalAlign="middle" align="center">
+          <Table.Column width={120} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`3 Month\nGrowth %`}
@@ -182,7 +208,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* 6 Month Growth % */}
-          <Table.Column width={100} sortable verticalAlign="middle" align="center">
+          <Table.Column width={120} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`6 Month\nGrowth %`}
@@ -195,7 +221,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* 12 Month Growth % */}
-          <Table.Column width={100} sortable verticalAlign="middle" align="center">
+          <Table.Column width={120} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`12 Month\nGrowth %`}
@@ -208,7 +234,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* 1 Month Growth Count*/}
-          <Table.Column width={100} sortable verticalAlign="middle" align="center">
+          <Table.Column width={120} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`1 Month\nGrowth #`}
@@ -221,7 +247,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* 6 Month Growth Count*/}
-          <Table.Column width={100} sortable verticalAlign="middle" align="center">
+          <Table.Column width={120} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`6 Month\nGrowth #`}
@@ -247,7 +273,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Rating % L365D */}
-          <Table.Column width={100} verticalAlign="middle" sortable align="center">
+          <Table.Column width={120} verticalAlign="middle" sortable align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Rating%\nL365D`}
@@ -333,6 +359,19 @@ const SellerDatabaseTable = (props: Props) => {
               neutralReviewKey="neutral_lifetime"
               dataKey="count_lifetime"
             />
+          </Table.Column>
+
+          {/* Seller Launched  */}
+          <Table.Column width={100} sortable verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Seller Launched`}
+                dataKey="launched"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <TruncatedTextCell dataKey="launched" maxLength={20} />
           </Table.Column>
         </Table>
 

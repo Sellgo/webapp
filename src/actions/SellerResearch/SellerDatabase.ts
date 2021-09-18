@@ -78,19 +78,17 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
 
     if (type === F_TYPES.MIN_MAX_PERIOD) {
       if (filter.period) {
-        if (keyName === 'growth_percent') {
-          const min = filter.min ? `&${filter.period}_min=${filter.min}` : '';
-          const max = filter.max ? `&${filter.period}_max=${filter.max}` : '';
-          filterQuery += `${min}${max}`;
-        } else if (keyName === 'growth_count') {
-          const min = filter.min ? `&${filter.period}_min=${filter.min}` : '';
-          const max = filter.max ? `&${filter.period}_max=${filter.max}` : '';
-          filterQuery += `${min}${max}`;
-        } else {
-          const min = filter.min ? `&${keyName}_${filter.period}_min=${filter.min}` : '';
-          const max = filter.max ? `&${keyName}_${filter.period}_max=${filter.max}` : '';
-          filterQuery += `${min}${max}`;
-        }
+        const min = filter.min ? `&${keyName}_${filter.period}_min=${filter.min}` : '';
+        const max = filter.max ? `&${keyName}_${filter.period}_max=${filter.max}` : '';
+        filterQuery += `${min}${max}`;
+      }
+    }
+
+    if (type === F_TYPES.GROWTH_COUNT_FILTER || type === F_TYPES.GROWTH_PERCENT_FILTER) {
+      if (filter.period) {
+        const min = filter.min ? `&${filter.period}_min=${filter.min}` : '';
+        const max = filter.max ? `&${filter.period}_max=${filter.max}` : '';
+        filterQuery += `${min}${max}`;
       }
     }
 
