@@ -65,7 +65,7 @@ const SellerActions = (props: Props) => {
               className={styles.actionButton}
               onClick={() => handleSellerTrack(false)}
               style={{
-                color: isSellerTracked ? '#2F8DDF' : '#3b4557',
+                color: isSellerTracked ? '#2F8DDF' : '#636d76',
                 fontWeight: isSellerTracked ? 500 : 400,
               }}
             >

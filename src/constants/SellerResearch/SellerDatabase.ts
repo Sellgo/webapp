@@ -137,16 +137,18 @@ export const EXPORT_DATA = [{ key: 'all', value: 'all', text: 'All Results' }];
 export const DONT_DISABLE = ['US', 'GB'];
 
 /* Marketplace options for seller DB */
-export const SELLER_DB_MARKETPLACE = defaultMarketplaces.map((marketplace: any) => {
-  return {
-    text: marketplace.name,
-    code: marketplace.code,
-    key: marketplace.code,
-    value: marketplace.id,
-    disabled: !DONT_DISABLE.includes(marketplace.code),
-    currency: marketplace.currency,
-  };
-});
+export const SELLER_DB_MARKETPLACE = defaultMarketplaces
+  .filter(m => DONT_DISABLE.includes(m.code))
+  .map((marketplace: any) => {
+    return {
+      text: marketplace.name,
+      code: marketplace.code,
+      key: marketplace.code,
+      value: marketplace.id,
+      disabled: !DONT_DISABLE.includes(marketplace.code),
+      currency: marketplace.currency,
+    };
+  });
 
 /* Default US Marketplace */
 export const DEFAULT_US_MARKET = {
