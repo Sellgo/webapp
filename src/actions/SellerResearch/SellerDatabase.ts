@@ -138,7 +138,8 @@ export const exportSellerDatabaseTable = (resourcePath: string) => async () => {
       }
     }
   } catch (err) {
-    const { status, data } = err.response;
+    const { response } = err as any;
+    const { status, data } = response;
 
     if (status === 403) {
       error(data.message);
@@ -227,7 +228,8 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
     dispatch(setSellerDatabaseResults([]));
     dispatch(setSellerDatabasePaginationInfo({ total_pages: 0, current_page: 0, count: 0 }));
 
-    const { status, data } = err.response;
+    const { response } = err as any;
+    const { status, data } = response;
 
     if (status === 429) {
       error(data.message);

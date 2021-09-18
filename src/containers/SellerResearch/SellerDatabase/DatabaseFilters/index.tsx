@@ -41,6 +41,8 @@ import PeriodFilter from '../../../../components/FormFilters/PeriodFilter';
 import MarketPlaceFilter from '../../../../components/FormFilters/MarketPlaceFilter';
 import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
 import ReviewTypeFilter from '../../../../components/FormFilters/ReviewTypeFilter';
+import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxDropdownFilter';
+import { PRODUCTS_DATABASE_CATEGORIES } from '../../../../constants/ProductResearch/ProductsDatabase';
 
 interface Props {
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
@@ -62,6 +64,7 @@ const SellerDatabaseFilters = (props: Props) => {
   const [businessName, setBusinessName] = useState<string>('');
   const [brands, setBrands] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
+  const [categories, setCategories] = useState<string[]>([]);
   const [monthlyRevenue, setMonthlyRevenue] = useState(DEFAULT_MIN_MAX_FILTER);
 
   const [growthPercent, setGrowthPercent] = useState(DEFAULT_GROWTH_PERCENT_FILTER);
@@ -87,11 +90,16 @@ const SellerDatabaseFilters = (props: Props) => {
       /* Advanced Filters */
       businessName,
       brands,
+
+      categories,
       monthlyRevenue,
+
       growthPercent,
       growthCount,
+
       reviewCount,
       fbaPercent,
+
       sellerRatings,
       review,
     };
@@ -110,6 +118,7 @@ const SellerDatabaseFilters = (props: Props) => {
     setBusinessName('');
     setBrands(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
+    setCategories([]);
     setMonthlyRevenue(DEFAULT_MIN_MAX_FILTER);
 
     setGrowthPercent(DEFAULT_GROWTH_PERCENT_FILTER);
@@ -341,6 +350,16 @@ const SellerDatabaseFilters = (props: Props) => {
                     exclude: value,
                   }))
                 }
+              />
+
+              {/* Categories */}
+              <CheckboxDropdownFilter
+                filterOptions={PRODUCTS_DATABASE_CATEGORIES}
+                label="Categories"
+                selectedValues={categories}
+                handleChange={(newCategories: string[]) => {
+                  setCategories([...newCategories]);
+                }}
               />
 
               {/* Monthly Revenue = Sales Estimate */}

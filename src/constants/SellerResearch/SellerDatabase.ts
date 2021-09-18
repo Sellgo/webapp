@@ -109,6 +109,7 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   businessName: { keyName: 'business_name', type: F_TYPES.TEXT },
   brands: { keyName: 'brands', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
 
+  categories: { keyName: 'category', type: F_TYPES.TEXT },
   monthlyRevenue: { keyName: 'sales_estimate', type: F_TYPES.MIN_MAX },
 
   growthPercent: { keyName: 'growth_percent', type: F_TYPES.GROWTH_PERCENT_FILTER },
