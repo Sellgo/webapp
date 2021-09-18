@@ -309,6 +309,7 @@ const SellerDatabaseFilters = (props: Props) => {
           <div
             className={styles.advancedFilterToggle}
             onClick={() => setShowAdvancedFilter(prevState => !prevState)}
+            style={{ background: !showAdvancedFilter ? '#F9F9FA' : ' #F2EFE4' }}
           >
             <span>Advanced Filters</span>
             <span>
