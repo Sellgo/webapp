@@ -91,7 +91,7 @@ const SellerDatabaseFilters = (props: Props) => {
       businessName,
       brands,
 
-      categories,
+      categories: categories.join(','),
       monthlyRevenue,
 
       growthPercent,
