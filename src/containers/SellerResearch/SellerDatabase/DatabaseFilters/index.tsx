@@ -356,6 +356,7 @@ const SellerDatabaseFilters = (props: Props) => {
                     [type]: value,
                   }))
                 }
+                prependWith="$"
               />
 
               {/* Growth % */}
@@ -370,7 +371,9 @@ const SellerDatabaseFilters = (props: Props) => {
                       [type]: value,
                     }))
                   }
+                  appendWith="%"
                 />
+
                 <PeriodFilter
                   placeholder="30D"
                   label="Period"
@@ -453,6 +456,7 @@ const SellerDatabaseFilters = (props: Props) => {
                     [type]: value,
                   }))
                 }
+                appendWith="%"
               />
 
               {/* Seller Ratings */}
