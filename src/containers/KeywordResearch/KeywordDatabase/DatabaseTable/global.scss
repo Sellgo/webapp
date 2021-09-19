@@ -1,0 +1,105 @@
+@import '../../../../styles/tableReset';
+
+#keywordDatabaseTable {
+  // header section
+  .rs-table-row-header {
+    border-radius: 0 !important;
+    border-bottom: 1px solid $grey_3 !important;
+
+    // column header cell
+    .rs-table-cell-content {
+      padding: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      font-size: 12px !important;
+      color: $grey_6 !important;
+      background: $light_gray_background;
+      font-weight: 500 !important;
+    }
+  }
+
+  // body section
+  .rs-table-body-row-wrapper {
+    background: $light_gray_background !important;
+
+    .rs-table-body-wheel-area {
+      background: $light_gray_background;
+      // should be rowheight - 10px
+      .rs-table-row {
+        // height: 190px !important; //
+        border-bottom: 1px solid $grey_3 !important;
+
+        /* ============== ZEBRA PATTERN  =============== */
+        &:nth-child(2n) {
+          background: $light_gray_background !important;
+
+          .rs-table-cell-content {
+            background: $light_gray_background !important;
+            padding: 3px 10px !important;
+          }
+        }
+
+        &:nth-child(2n + 1) {
+          background: $grey_1 !important;
+
+          .rs-table-cell-content {
+            background: $grey_1 !important;
+            padding: 3px 10px !important;
+          }
+        }
+
+        /* ============== ROW HOVER  =============== */
+        &:hover {
+          background: $orange_10 !important;
+
+          .rs-table-cell-content {
+            background: $orange_10 !important;
+          }
+        }
+      }
+    }
+
+    // Loader wrapper
+    .rs-table-loader-wrapper {
+      background: $light_gray_background;
+
+      .rs-table-loader {
+        background: $light_gray_background;
+      }
+    }
+  }
+
+  // scrollbar
+  div[role='scrollbar'] {
+    bottom: 40px !important;
+    background: $grey_3;
+    border-radius: 4px;
+    position: fixed !important;
+    opacity: 0;
+    height: 10px;
+    max-width: 90vw !important;
+    margin-left: auto !important;
+
+    &.rs-table-scrollbar.rs-table-scrollbar-pressed {
+      opacity: 1 !important;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+
+    > .rs-table-scrollbar-handle {
+      background-color: $grey_6 !important;
+      opacity: 1 !important;
+      height: 8px;
+      max-width: 100% !important;
+    }
+  }
+}
+
+.iconButtonResetGlobal {
+  i.chevron.down.icon {
+    font-size: 10px !important;
+    margin-top: 4px;
+  }
+}

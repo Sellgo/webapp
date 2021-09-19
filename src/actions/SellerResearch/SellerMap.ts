@@ -92,7 +92,18 @@ export const setMapZoom = (payload: number) => {
 export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch: any) => {
   const sellerId = sellerIDSelector();
 
-  const { resetMap = false, state = '', zipCode = '', maxCount = 1000, country = 'US' } = payload;
+  const {
+    resetMap = false,
+    marketplaceId = 'ATVPDKIKX0DER',
+    country = 'US',
+    state = '',
+    zipCode = '',
+    merchantName,
+    categories = '',
+    minMonthlyRevenue = '',
+    maxMonthlyRevenue = '',
+    maxCount = 1000,
+  } = payload;
 
   try {
     // if reset map is hit
@@ -106,13 +117,9 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
 
     let queryString = '';
 
-    // skip all states since all states means no states filter
-    if (state && state !== 'All States') {
-      queryString += `&state=${state}`;
-    }
-
-    if (zipCode) {
-      queryString += `&zip_code=${zipCode}`;
+    // add the marketplace
+    if (marketplaceId) {
+      queryString += `&marketplace_id=${marketplaceId}`;
     }
 
     // skip all countries since all countries means no countries filter
@@ -120,8 +127,41 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
       queryString += `&country=${country}`;
     }
 
+    // skip all states since all states means no states filter
+    if (state && state !== 'All States') {
+      queryString += `&state=${state}`;
+    }
+
+    // add the zip code if us state
+    if (zipCode) {
+      queryString += `&zip_code=${zipCode}`;
+    }
+
+    // add the merchant name
+    if (merchantName) {
+      queryString += `&merchant_name=${merchantName}`;
+    }
+
+    // add the categories
+    if (categories) {
+      queryString += `&categories=${categories}`;
+    }
+
+    // min monthly revenue
+    if (minMonthlyRevenue) {
+      // add the monthly revenue
+      queryString += `&sales_estimate_min=${minMonthlyRevenue}`;
+    }
+
+    // add max monthly revenue
+    if (maxMonthlyRevenue) {
+      queryString += `&sales_estimate_max=${maxMonthlyRevenue}`;
+    }
+
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchantmaps/search?max_count=${maxCount}${queryString}`;
+
     dispatch(setLoadingSellersForMap(true));
+
     const response = await axios.get(URL);
     if (response && response.data) {
       const { data } = response;
@@ -157,7 +197,7 @@ export const fetchSellerDetailsForMap = (sellerInternalID: string) => async (dis
       dispatch(setLoadingSellerDetailsForMap(false));
     }
   } catch (err) {
-    const { response } = err;
+    const { response } = err as any;
     if (response) {
       const { status, data } = response;
       if (status === 400 && data && data.detail) {

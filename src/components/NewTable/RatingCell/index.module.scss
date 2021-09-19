@@ -1,5 +1,11 @@
 @import '../../../design-system/new-colors';
 
+.ratingCell {
+  display: flex;
+  justify-content: flex-start;
+}
+
 .ratingIcon {
   font-size: 12px !important;
+  color: $grey_8 !important;
 }

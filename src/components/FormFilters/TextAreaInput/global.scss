@@ -1,0 +1,16 @@
+@import '../../../design-system/new-colors.scss';
+
+.textAreaInput {
+  &.error {
+    textarea {
+      border: 1px solid $system_red !important;
+    }
+  }
+
+  &.disabled {
+    textarea {
+      cursor: not-allowed !important;
+      background: #fff !important;
+    }
+  }
+}

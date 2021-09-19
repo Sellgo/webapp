@@ -19,9 +19,9 @@ const RatingCell = (props: RowCell) => {
     <Table.Cell {...props}>
       <div className={styles.ratingCell}>
         <Rating
-          emptySymbol={<Icon name="star outline" color={'grey'} className={styles.ratingIcon} />}
-          fullSymbol={<Icon name="star" color={'grey'} className={styles.ratingIcon} />}
-          placeholderSymbol={<Icon name="star" color={'grey'} className={styles.ratingIcon} />}
+          emptySymbol={<Icon name="star outline" className={styles.ratingIcon} />}
+          fullSymbol={<Icon name="star" className={styles.ratingIcon} />}
+          placeholderSymbol={<Icon name="star" className={styles.ratingIcon} />}
           initialRating={ratingValue}
           readonly
         />

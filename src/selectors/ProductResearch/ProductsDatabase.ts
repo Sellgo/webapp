@@ -19,3 +19,8 @@ export const getProductsDatabaseResults = (state: any) => {
 export const getProductsDatabasePaginationInfo = (state: any) => {
   return get(state, 'productsDatabase.productsDatabasePaginationInfo');
 };
+
+/* Selector to get the empty filter messages */
+export const getFilterMessage = (state: any) => {
+  return get(state, 'productsDatabase.showFilterMessage');
+};

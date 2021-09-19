@@ -8,9 +8,8 @@ import './Sidebar.scss';
 import { getLatestSupplier } from '../../actions/Suppliers';
 import get from 'lodash/get';
 
-import { LogoWithoutText } from '../Logo/index';
-import sellerFinderIcon from '../../assets/images/sellerFinder.svg';
 import sellerMapIcon from '../../assets/images/sellerMapIcon.svg';
+import sellerFinderIcon from '../../assets/images/sellerFinder.svg';
 
 import BetaLabel from '../BetaLabel';
 import { isBetaAccount, isSubscriptionIdFreeAccount } from '../../utils/subscriptions';
@@ -42,61 +41,68 @@ class SidebarCollapsible extends Component<
   state = {
     sidebarIcon: [
       {
-        id: 1,
+        id: 2,
         label: 'Search Management',
         icon: 'fas fa-clipboard-list',
         path: '/synthesis',
         notifyId: 1,
         imageType: false,
+        tooltip: '',
       },
       {
-        id: 2,
+        id: 3,
         label: 'Profit Finder',
         icon: 'fas fa-search-dollar',
         path: '/profit-finder',
         notifyId: 1,
         imageType: false,
+        tooltip: '',
       },
       {
-        id: 3,
+        id: 4,
         label: 'Product Tracker',
         icon: 'fas fa-fingerprint',
         path: '/product-tracker',
         notifyId: 2,
         imageType: false,
+        tooltip: '',
       },
       {
-        id: 4,
+        id: 5,
         label: 'Leads Tracker',
         icon: 'fas fa-user-ninja',
         path: '/leads-tracker',
         notifyId: 2,
         imageType: false,
+        tooltip: '',
       },
       {
-        id: 5,
+        id: 6,
         label: 'Seller Research',
         icon: sellerMapIcon,
         path: '/seller-research',
         notifyId: 4,
         imageType: true,
+        isBeta: false,
+        tooltip: '',
       },
       {
-        id: 6,
+        id: 7,
         label: 'Seller Finder',
         icon: sellerFinderIcon,
         path: '/seller-finder',
         notifyId: 4,
         imageType: true,
+        isBeta: false,
+        tooltip: '',
       },
-
-      { id: 7, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
       {
-        id: 8,
-        label: 'Onboarding',
-        icon: 'far fa-question-circle',
-        path: '/onboarding',
-        notifyId: 3,
+        id: 9,
+        label: 'Settings',
+        icon: 'fas fa-cog',
+        path: '/settings',
+        notifyId: 4,
+        tooltip: '',
       },
     ],
     visible: false,
@@ -109,8 +115,8 @@ class SidebarCollapsible extends Component<
     const { visible, sidebarIcon } = this.state;
     const { children, currentNotifyId, sellerSubscription } = this.props;
 
-    const upperNavbar = this.state.sidebarIcon.filter(icon => icon.id < 7);
-    const lowerNavbar = this.state.sidebarIcon.filter(icon => icon.id >= 7);
+    const upperNavbar = this.state.sidebarIcon.filter(icon => icon.id < 9);
+    const lowerNavbar = this.state.sidebarIcon.filter(icon => icon.id >= 9);
 
     let supplier_id = '';
 
@@ -121,7 +127,7 @@ class SidebarCollapsible extends Component<
 
     const currentPath = window.location.pathname;
     const links = sidebarIcon.map((link: any) =>
-      link.id === 2 ? `${link.path}/${supplier_id}` : link.path
+      link.id === 3 ? `${link.path}/${supplier_id}` : link.path
     );
 
     const isFreeeAccount = isSubscriptionIdFreeAccount(sellerSubscription.subscription_id);
@@ -129,9 +135,6 @@ class SidebarCollapsible extends Component<
 
     const sidebarMenu = (
       <>
-        <Link to="/" className="sidebar-menu__logo">
-          <LogoWithoutText />
-        </Link>
         {/* Upper portion of sidebar */}
         <Menu.Menu>
           {upperNavbar.map(icon => {
@@ -140,9 +143,9 @@ class SidebarCollapsible extends Component<
                 onClick={() => {
                   visible && this.handleAnimationChange();
                 }}
-                as={isFreeeAccount || (icon.id === 2 && !supplier_id) ? 'div' : Link}
-                disabled={isFreeeAccount || !!(icon.id === 2 && !supplier_id)}
-                to={icon.id === 2 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path}
+                as={isFreeeAccount || (icon.id === 3 && !supplier_id) ? 'div' : Link}
+                disabled={isFreeeAccount || !!(icon.id === 3 && !supplier_id)}
+                to={icon.id === 3 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path}
                 name={icon.icon}
                 active={links[icon.id - 1] === currentPath}
                 className={'sidebar-menu__items'}
@@ -151,16 +154,17 @@ class SidebarCollapsible extends Component<
                 {icon.imageType ? (
                   <>
                     <img src={icon.icon} alt="Icons" data-disabled={isFreeeAccount} />
-                    {(icon.id === 5 || icon.id === 6 || icon.id === 7) && <BetaLabel />}
+                    {icon.isBeta && <BetaLabel />}
                   </>
                 ) : (
                   <i
                     className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
                       'forward'} ${
-                      (icon.id === 2 && !supplier_id) || isFreeeAccount ? 'disabled-link' : ''
+                      (icon.id === 3 && !supplier_id) || isFreeeAccount ? 'disabled-link' : ''
                     }`}
                   />
                 )}
+                {/* <span className="sidebarTooltip">Tooltip placeholder</span> */}
               </Menu.Item>
             );
           })}
@@ -171,22 +175,16 @@ class SidebarCollapsible extends Component<
             return (
               <Menu.Item
                 key={icon.id}
-                as={
-                  (isFreeeAccount && icon.id === 8) || (isBetaUser && icon.path === '/settings')
-                    ? 'div'
-                    : Link
-                }
+                as={isBetaUser && icon.path === '/settings' ? 'div' : Link}
                 to={icon.path}
                 name={icon.icon}
                 active={links[icon.id - 1] === currentPath}
                 className={'sidebar-menu__items'}
-                disabled={isFreeeAccount && icon.id === 8}
+                disabled={isBetaUser && icon.path === '/settings'}
               >
                 <i
                   className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId && 'forward'} ${
-                    (isFreeeAccount && icon.id === 8) || (isBetaUser && icon.path === '/settings')
-                      ? 'disabled-link'
-                      : ''
+                    isBetaUser && icon.path === '/settings' ? 'disabled-link' : ''
                   } `}
                 />
               </Menu.Item>

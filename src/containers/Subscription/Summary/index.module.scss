@@ -35,8 +35,14 @@
   }
 
   &__pricing {
+    margin-top: 0;
     color: #256fb0;
     margin-left: 20px;
+  }
+
+  .strikeThrough {
+    text-decoration: line-through;
+    font-weight: 400;
   }
 }
 

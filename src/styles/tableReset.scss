@@ -21,19 +21,3 @@
   transform: none !important;
   background: $grey_3 !important;
 }
-
-/* General Scroll bar handle color */
-div.rs-table-scrollbar-handle {
-  color: red !important;
-  position: relative !important;
-  bottom: 15px;
-}
-
-/* Generic table header */
-.rs-table-cell-header {
-  .rs-table-cell-content {
-    color: $prim_dark_2;
-    font-weight: 600;
-    font-size: 14px !important;
-  }
-}

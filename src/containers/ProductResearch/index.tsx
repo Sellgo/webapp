@@ -1,28 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tabs, Tab, TabList, TabPanel } from 'react-tabs';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
 
 /* Containers */
-import ProductPanel from './ProductsPanel';
+import ProductsDatabase from './ProductsDatabase';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
-import QuotaMeter from '../../components/QuotaMeter';
 import MarketplaceDropdown from '../../components/MarketplaceDropdown';
-import BrandsPanel from './BrandsPanel';
-import CategoryPanel from './CategoryPanel';
-import CompetitorsPanel from './CompetitorsPanel';
+
+/*Actions */
+import { setUserOnboardingResources } from '../../actions/UserOnboarding';
+
+/* Assets */
+import databaseOnboarding from '../../assets/onboardingResources/ProductResearch/productDatabaseOnboarding.json';
 
 interface Props {
   match: any;
+  setUserOnboardingResources: (payload: any) => void;
 }
 
 const productResearchMapper = ['Products', 'Brands', 'Category', 'Competitors'];
 
 const ProductResearch: React.FC<Props> = props => {
-  const { match } = props;
+  const { match, setUserOnboardingResources } = props;
 
   const [selectedTabList, setSelectedTabList] = useState<number>(0);
 
@@ -30,15 +34,20 @@ const ProductResearch: React.FC<Props> = props => {
     setSelectedTabList(index);
   };
 
+  useEffect(() => {
+    if (selectedTabList === 0) {
+      setUserOnboardingResources(databaseOnboarding);
+    }
+  }, [selectedTabList]);
+
   return (
     <>
       <PageHeader
-        title={`Seller Database`}
+        title={`Product Research`}
         breadcrumb={[
           { content: 'Home', to: '/' },
-          { content: 'Seller Map', to: '/seller-map' },
+          { content: 'Product Research', to: '/product-research' },
         ]}
-        callToAction={<QuotaMeter />}
         auth={match.params.auth}
       />
       <main className={styles.productResearchPage}>
@@ -58,25 +67,10 @@ const ProductResearch: React.FC<Props> = props => {
           >
             <TabList className={styles.productTablist}>
               <Tab>Products</Tab>
-              <Tab>Brands</Tab>
-              <Tab>Category</Tab>
-              <Tab>Competitors</Tab>
             </TabList>
 
             <TabPanel>
-              <ProductPanel />
-            </TabPanel>
-
-            <TabPanel>
-              <BrandsPanel />
-            </TabPanel>
-
-            <TabPanel>
-              <CategoryPanel />
-            </TabPanel>
-
-            <TabPanel>
-              <CompetitorsPanel />
+              <ProductsDatabase />
             </TabPanel>
           </Tabs>
         </section>
@@ -85,4 +79,10 @@ const ProductResearch: React.FC<Props> = props => {
   );
 };
 
-export default ProductResearch;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setUserOnboardingResources: (payload: any) => dispatch(setUserOnboardingResources(payload)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ProductResearch);

@@ -21,6 +21,11 @@ import productsDatabaseReducer from './ProductResearch/ProductsDatabase';
 import sellerDatabaseReducer from './SellerResearch/SellerDatabase';
 import sellerMapReducer from './SellerResearch/SellerMap';
 
+/* Keyword Research */
+import keywordReverseReducer from './KeywordResearch/KeywordReverse';
+import keywordDatabaseReducer from './KeywordResearch/KeywordDatabase';
+import keywordTrackerReducer from './KeywordResearch/KeywordTracker';
+
 const rootReducer = combineReducers({
   settings: settingsReducer,
   subscription: subscriptionReducer,
@@ -42,6 +47,13 @@ const rootReducer = combineReducers({
 
   // product research
   productsDatabase: productsDatabaseReducer,
+
+  // keyword reverse
+  keywordReverse: keywordReverseReducer,
+  // keyword database
+  keywordDatabase: keywordDatabaseReducer,
+  // keyword tracker
+  keywordTracker: keywordTrackerReducer,
 });
 
 export default rootReducer;

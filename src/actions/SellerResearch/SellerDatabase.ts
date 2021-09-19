@@ -80,7 +80,22 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
       if (filter.period) {
         const min = filter.min ? `&${keyName}_${filter.period}_min=${filter.min}` : '';
         const max = filter.max ? `&${keyName}_${filter.period}_max=${filter.max}` : '';
+        filterQuery += `${min}${max}`;
+      }
+    }
 
+    if (type === F_TYPES.GROWTH_COUNT_FILTER || type === F_TYPES.GROWTH_PERCENT_FILTER) {
+      if (filter.period) {
+        const min = filter.min ? `&${filter.period}_min=${filter.min}` : '';
+        const max = filter.max ? `&${filter.period}_max=${filter.max}` : '';
+        filterQuery += `${min}${max}`;
+      }
+    }
+
+    if (type === F_TYPES.MIN_MAX_PERIOD_REVIEW) {
+      if (filter.type) {
+        const min = filter.min ? `&${filter.type}_${filter.period}_min=${filter.min}` : '';
+        const max = filter.max ? `&${filter.type}_${filter.period}_max=${filter.max}` : '';
         filterQuery += `${min}${max}`;
       }
     }
@@ -123,7 +138,8 @@ export const exportSellerDatabaseTable = (resourcePath: string) => async () => {
       }
     }
   } catch (err) {
-    const { status, data } = err.response;
+    const { response } = err as any;
+    const { status, data } = response;
 
     if (status === 403) {
       error(data.message);
@@ -212,7 +228,8 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
     dispatch(setSellerDatabaseResults([]));
     dispatch(setSellerDatabasePaginationInfo({ total_pages: 0, current_page: 0, count: 0 }));
 
-    const { status, data } = err.response;
+    const { response } = err as any;
+    const { status, data } = response;
 
     if (status === 429) {
       error(data.message);

@@ -1,5 +1,3 @@
-import { ProductsDatabaseFilters } from '../../interfaces/ProductResearch/ProductsDatabase';
-
 /* All action types */
 export const actionTypes = {
   UPDATE_PRODUCTS_DATABASE_FILTER: 'UPDATE_PRODUCTS_DATABASE_FILTER',
@@ -10,108 +8,75 @@ export const actionTypes = {
   SET_PRODUCTS_DATABASE_FILTERS: 'SET_PRODUCTS_DATABASE_FILTERS',
 };
 
-/* All filters for products database */
-export const PRODUCTS_DATABASE_FILTER = {
-  CATEGORIES: 'category',
-  MONTHLY_REVENUE: 'monthly_revenue',
-  PRICE: 'price',
-  REVIEW_COUNT: 'review_count',
-  REVIEW_RATING: 'review_rating',
-
-  // advanced
-  SELLER_COUNT: 'seller_count',
-  WEIGHT_LBS: 'weight_lbs',
-  INCLUDE_KEYWORDS: 'include_title_keywords',
-  EXCLUDE_KEYWORDS: 'exclude_title_keywords',
-  INCLUDE_BRANDS: 'include_brands',
-  EXCLUDE_BRANDS: 'exclude_brands',
+/* Filter Types */
+export const DEFAULT_MIN_MAX_FILTER = {
+  min: '',
+  max: '',
 };
 
-/* Default basic filters */
-export const DEFAULT_BASIC_FILTERS: ProductsDatabaseFilters[] = [
-  {
-    type: 'text',
-    name: PRODUCTS_DATABASE_FILTER.CATEGORIES,
-    value: '',
-    active: false,
-  },
-  {
-    type: 'min_max',
-    name: PRODUCTS_DATABASE_FILTER.MONTHLY_REVENUE,
-    min: '',
-    max: '',
-    active: false,
-  },
-  {
-    type: 'min_max',
-    name: PRODUCTS_DATABASE_FILTER.PRICE,
-    min: '',
-    max: '',
-    active: false,
-  },
-  {
-    type: 'min_max',
-    name: PRODUCTS_DATABASE_FILTER.REVIEW_COUNT,
-    min: '',
-    max: '',
-    active: false,
-  },
-  {
-    type: 'min_max',
-    name: PRODUCTS_DATABASE_FILTER.REVIEW_RATING,
-    min: '',
-    max: '',
-    active: false,
-  },
+export const DEFAULT_MIN_MAX_PERIOD_FILTER = {
+  ...DEFAULT_MIN_MAX_FILTER,
+  period: '30_days',
+};
+
+export const DEFAULT_INCLUDE_EXCLUDE_FILTER = {
+  include: '',
+  exclude: '',
+};
+
+export const DEFAULT_INCLUDE_EXCLUDE_ERROR = {
+  include: false,
+  exclude: false,
+};
+
+export const DEFAULT_CHECKBOX_FILTER = {};
+
+export const F_TYPES = {
+  TEXT: 'TEXT',
+  INPUT_INCLUDE_EXCLUDE: 'INPUT_INCLUDE_EXCLUDE',
+  MIN_MAX: 'MIN_MAX',
+  CHECK_BOX: 'CHECK_BOX',
+  MULTIPLE_CHECK_BOX: 'MULTIPLE_CHECK_BOX',
+};
+
+/* Map the payload keys to query keys for API */
+export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: string } } = {
+  // simple
+  categories: { keyName: 'categories', type: F_TYPES.MULTIPLE_CHECK_BOX },
+  monthlyRevenue: { keyName: 'monthly_revenue', type: F_TYPES.MIN_MAX },
+  monthlySales: { keyName: 'monthly_sales', type: F_TYPES.MIN_MAX },
+  price: { keyName: 'price', type: F_TYPES.MIN_MAX },
+  reviewCount: { keyName: 'review_count', type: F_TYPES.MIN_MAX },
+  reviewRating: { keyName: 'rating', type: F_TYPES.MIN_MAX },
+
+  // Advanced
+  sellerCount: { keyName: 'seller_count', type: F_TYPES.MIN_MAX },
+  weight: { keyName: 'weight_lbs', type: F_TYPES.MIN_MAX },
+  titleKeywords: { keyName: 'title_keywords', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
+  brands: { keyName: 'brands', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
+  bsr: { keyName: 'bsr', type: F_TYPES.MIN_MAX },
+  sizeTier: { keyName: 'size_tier', type: F_TYPES.TEXT },
+  imageCount: { keyName: 'image_count', type: F_TYPES.MIN_MAX },
+  variationCount: { keyName: 'variation_count', type: F_TYPES.MIN_MAX },
+  fulfillment: { keyName: 'fulfillment', type: F_TYPES.CHECK_BOX },
+};
+
+export const PRODUCTS_DATABASE_SIZE_TIERS = [
+  { key: 'Small standard-size', value: 'Small standard-size', text: 'Small standard-size' },
+  { key: 'Small oversize', value: 'Small oversize', text: 'Small oversize' },
+  { key: 'Medium oversize', value: 'Medium oversize', text: 'Medium oversize' },
+  { key: 'Large standard-size', value: 'Large standard-size', text: 'Large standard-size' },
+  { key: 'large oversize', value: 'large oversize', text: 'large oversize' },
+  { key: 'Special oversize', value: 'Special oversize', text: 'Special oversize' },
 ];
 
-/* Default advanced filters */
-export const DEFAULT_ADVANCED_FILTERS: ProductsDatabaseFilters[] = [
-  {
-    type: 'min_max',
-    name: PRODUCTS_DATABASE_FILTER.SELLER_COUNT,
-    min: '',
-    max: '',
-    active: false,
-  },
-  {
-    type: 'min_max',
-    name: PRODUCTS_DATABASE_FILTER.WEIGHT_LBS,
-    min: '',
-    max: '',
-    active: false,
-  },
-  {
-    type: 'input',
-    name: PRODUCTS_DATABASE_FILTER.INCLUDE_KEYWORDS,
-    value: '',
-    active: false,
-  },
-  {
-    type: 'input',
-    name: PRODUCTS_DATABASE_FILTER.EXCLUDE_KEYWORDS,
-    value: '',
-    active: false,
-  },
-  {
-    type: 'input',
-    name: PRODUCTS_DATABASE_FILTER.INCLUDE_BRANDS,
-    value: '',
-    active: false,
-  },
-  {
-    type: 'input',
-    name: PRODUCTS_DATABASE_FILTER.EXCLUDE_BRANDS,
-    value: '',
-    active: false,
-  },
+export const FULFILMENT_TYPES = [
+  { key: 'is_fba', value: 'is_fba', text: 'FBA' },
+  { key: 'is_fbm', value: 'is_fbm', text: 'FBM' },
+  { key: 'is_amazon', value: 'is_amazon', text: 'Amazon' },
 ];
 
-/* Products Database Filters */
-export const DEFAULT_PRODUCTS_DATABASE_FILTERS = [
-  ...DEFAULT_BASIC_FILTERS,
-  ...DEFAULT_ADVANCED_FILTERS,
-];
+export const DEFAULT_FULFILMENT_FILTER = { is_fba: false, is_fbm: false, is_amazon: false };
 
 /* Categories dropdown values for filter */
 export const PRODUCTS_DATABASE_CATEGORIES = [

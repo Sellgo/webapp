@@ -6,6 +6,9 @@ import {
   SET_STRIPE_ERROR,
   SET_STRIPE_LOADING,
   SET_COUPON_APPLIED,
+  SET_PROMO_CODE,
+  SET_PROMO_LOADING,
+  SET_PROMO_ERROR_MESSAGE,
 } from '../../../constants/Settings';
 import { AppConfig } from '../../../config';
 import { error, success, warn } from '../../../utils/notifications';
@@ -22,6 +25,43 @@ export const fetchSubscriptions = () => (dispatch: any) => {
     .catch(() => {
       //display error
     });
+};
+
+export const setPromoLoading = (isPromoLoading: boolean) => ({
+  type: SET_PROMO_LOADING,
+  payload: isPromoLoading,
+});
+
+export const setPromoError = (error: string) => ({
+  type: SET_PROMO_ERROR_MESSAGE,
+  payload: error,
+});
+
+export const setPromoCode = (promoCode: any) => ({
+  type: SET_PROMO_CODE,
+  payload: promoCode,
+});
+
+export const checkPromoCode = (promoCode: string) => (dispatch: any) => {
+  dispatch(setPromoLoading(true));
+  const sellerID = localStorage.getItem('userId');
+  const fetchPromoCode = async () => {
+    try {
+      const res = await Axios.get(
+        AppConfig.BASE_URL_API + `sellers/${sellerID}/promo-code/${promoCode}`
+      );
+      dispatch(setPromoCode(res.data));
+      dispatch(setPromoError(''));
+      dispatch(setPromoLoading(false));
+    } catch (err) {
+      if (err.response && err.response.data && err.response.data.message) {
+        dispatch(setPromoError(err.response.data.message));
+      }
+      dispatch(setPromoCode({}));
+      dispatch(setPromoLoading(false));
+    }
+  };
+  fetchPromoCode();
 };
 
 export const fetchSellerSubscription = () => (dispatch: any) => {

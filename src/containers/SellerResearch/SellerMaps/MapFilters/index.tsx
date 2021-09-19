@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
 import validator from 'validator';
 
@@ -10,7 +10,12 @@ import {
   COUNTRY_DROPDOWN_LIST,
   getMapLimitOptions,
   STATES_DROPDOWN_LIST,
+  DEFAULT_US_MARKET,
+  SELLER_MAP_MARKETPLACE,
+  DEFAULT_MIN_MAX_FILTER,
 } from '../../../../constants/SellerResearch/SellerMap';
+
+import { PRODUCTS_DATABASE_CATEGORIES } from '../../../../constants/ProductResearch/ProductsDatabase';
 
 /* Selectors */
 import {
@@ -26,10 +31,14 @@ import { fetchSellersForMap } from '../../../../actions/SellerResearch/SellerMap
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
+import MarketPlaceFilter from '../../../../components/FormFilters/MarketPlaceFilter';
+import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
+import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxDropdownFilter';
 
 /* Interfaces */
 import { SellerMapPayload } from '../../../../interfaces/SellerResearch/SellerMap';
 import { SellerSubscriptionLimits } from '../../../../interfaces/Subscription';
+import { MarketplaceOption } from '../../../../interfaces/SellerResearch/SellerDatabase';
 
 /* Props */
 interface Props {
@@ -48,9 +57,13 @@ const MapFilters = (props: Props) => {
   } = props;
 
   /* Basic Filters */
+  const [marketPlace, setMarketPlace] = useState<MarketplaceOption>(DEFAULT_US_MARKET);
   const [country, setCountry] = useState<string>('US');
   const [state, setState] = useState<string>('');
   const [zipCode, setZipCode] = useState<string>('');
+  const [merchantName, setMerchantName] = useState<string>('');
+  const [categories, setCategories] = useState<string[]>([]);
+  const [monthlyRevenue, setMonthlyRevenue] = useState(DEFAULT_MIN_MAX_FILTER);
   const [sellerLimit, setSellerLimit] = useState<string>('1000');
 
   /* Error States */
@@ -63,28 +76,35 @@ const MapFilters = (props: Props) => {
 
   /* ==================== Handlers ==================== */
   const clearFilters = () => {
+    setMarketPlace(DEFAULT_US_MARKET);
+    setCountry('US');
     setState('');
     setZipCode('');
-    setCountry('US');
+    setMerchantName('');
+    setCategories([]);
+    setMonthlyRevenue(DEFAULT_MIN_MAX_FILTER);
     setSellerLimit('1000');
   };
 
-  const handleReset = useCallback(() => {
+  const handleReset = () => {
     clearFilters();
     fetchSellersForMap({ resetMap: true });
-  }, []);
+  };
 
   /* Handle Submit */
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = () => {
     fetchSellersForMap({
+      marketplaceId: marketPlace.value,
+      country,
       state,
       zipCode,
+      merchantName,
+      categories: categories.join(','),
+      minMonthlyRevenue: monthlyRevenue.min,
+      maxMonthlyRevenue: monthlyRevenue.max,
       maxCount: Number(sellerLimit),
-      country,
     });
-  }, [state, zipCode, sellerLimit, country]);
-
-  /* =================================== */
+  };
 
   /* Effect to handle errroron zipcodes */
   useEffect(() => {
@@ -99,8 +119,17 @@ const MapFilters = (props: Props) => {
     <>
       {/* Basic Filter */}
       <div className={styles.basicFilters}>
+        {/* Marketplace */}
+        <MarketPlaceFilter
+          label="Choose Marketplace"
+          marketPlaceChoices={SELLER_MAP_MARKETPLACE}
+          marketplaceDetails={marketPlace}
+          handleChange={(option: MarketplaceOption) => setMarketPlace(option)}
+        />
+
+        {/* Country */}
         <SelectionFilter
-          label="Country"
+          label="Seller Country"
           placeholder="Country"
           filterOptions={COUNTRY_DROPDOWN_LIST}
           value={country}
@@ -112,6 +141,7 @@ const MapFilters = (props: Props) => {
           disabled={isLoadingMapDetails}
         />
 
+        {/* All States */}
         <SelectionFilter
           label="U.S. States"
           placeholder="All States"
@@ -122,6 +152,7 @@ const MapFilters = (props: Props) => {
           loading={isLoadingMapDetails}
         />
 
+        {/* Zip code */}
         <InputFilter
           label="Zipcode"
           placeholder="Enter U.S Zip code"
@@ -131,6 +162,39 @@ const MapFilters = (props: Props) => {
           error={zipCodeError}
         />
 
+        {/* Merchant Name */}
+        <InputFilter
+          label="Merchant Name"
+          placeholder="Enter Merchant Name"
+          value={merchantName}
+          handleChange={value => setMerchantName(value)}
+        />
+
+        {/* Categories */}
+        <CheckboxDropdownFilter
+          filterOptions={PRODUCTS_DATABASE_CATEGORIES}
+          label="Categories"
+          selectedValues={categories}
+          handleChange={(newCategories: string[]) => {
+            setCategories([...newCategories]);
+          }}
+        />
+
+        {/* Monthly Revenue */}
+        <MinMaxFilter
+          label="Monthly Revenue"
+          prependWith={marketPlace.currency}
+          minValue={monthlyRevenue.min}
+          maxValue={monthlyRevenue.max}
+          handleChange={(type: string, value: string) =>
+            setMonthlyRevenue(prevState => ({
+              ...prevState,
+              [type]: value,
+            }))
+          }
+        />
+
+        {/* Seller Limit */}
         <SelectionFilter
           label="View"
           placeholder="Seller Limit"
@@ -141,21 +205,6 @@ const MapFilters = (props: Props) => {
           loading={isLoadingMapDetails}
         />
       </div>
-
-      {/* Advanced Filter */}
-      {/* <div className={styles.advancedFilterWrapper}>
-        <div
-          className={styles.advancedFilterToggle}
-          onClick={() => setShowAdvancedFilter(prevState => !prevState)}
-        >
-          <span>Advanced Filters</span>
-          <span>
-            {showAdvancedFilter ? <Icon name="chevron up" /> : <Icon name="chevron down" />}
-          </span>
-        </div>
-
-        {showAdvancedFilter && <div className={styles.showAdvancedFilter}>Advanced Filters</div>}
-      </div> */}
 
       <FormFilterActions onFind={handleSubmit} onReset={handleReset} />
     </>

@@ -13,19 +13,52 @@ import { RowCell } from '../../../interfaces/Table';
 interface Props extends RowCell {
   appendWith?: string;
   prependWith?: string;
+  align?: 'left' | 'right' | 'center';
+  specialKpi?: boolean;
+  asRounded?: boolean;
 }
 
 const StatsCell = (props: Props) => {
-  const { appendWith = '', prependWith = '', ...otherProps } = props;
+  const {
+    appendWith = '',
+    prependWith = '',
+    align = 'left',
+    specialKpi = false,
+    asRounded = true,
+    ...otherProps
+  } = props;
 
   const { rowData, dataKey } = otherProps;
 
-  const displayStat = formatNumber(rowData[dataKey]);
+  let alignSettings;
+  switch (align) {
+    case 'right':
+      alignSettings = 'flex-end';
+      break;
+
+    case 'left':
+      alignSettings = 'flex-start';
+      break;
+
+    case 'center':
+      alignSettings = 'center';
+      break;
+  }
+
+  let displayStat = asRounded ? formatNumber(rowData[dataKey]) : rowData[dataKey];
+
+  // format position rank KPI seperately
+  if (dataKey === 'position_rank' && !rowData[dataKey]) {
+    displayStat = '>300';
+  }
 
   return (
     <Table.Cell {...otherProps}>
-      <div className={styles.statsCell}>
-        {showNAIfZeroOrNull(rowData[dataKey], `${prependWith}${displayStat}${appendWith}`)}
+      <div
+        className={styles.statsCell}
+        style={{ alignSelf: alignSettings, color: specialKpi ? '#3B4557' : '#636d76' }}
+      >
+        {showNAIfZeroOrNull(displayStat, `${prependWith}${displayStat}${appendWith}`)}
       </div>
     </Table.Cell>
   );

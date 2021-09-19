@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import { Icon } from 'semantic-ui-react';
 import { copyToClipboard } from '../../utils/file';
 
-/* Components */
-import CopyToClipboard from '../CopyToClipboard';
-
 /* Styling */
 import styles from './index.module.scss';
 
@@ -30,13 +27,14 @@ const CopyAndLocateClipboard: React.FC<Props> = props => {
     }, 1000);
   };
 
-  if (!link) {
-    return <CopyToClipboard displayData={displayData} data={data} />;
-  }
-
   return (
     <span className={styles.navigateLinkWrapper}>
-      <a href={link} className={styles.navigateLink} target="_blank" rel="noreferrer noopener">
+      <a
+        href={link}
+        className={`${styles.navigateLink} ${className}`}
+        target="_blank"
+        rel="noreferrer noopener"
+      >
         <span className={`${styles.copyData} ${className}`}>
           {displayData ? displayData : data}
         </span>

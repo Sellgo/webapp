@@ -1,0 +1,19 @@
+@import '../../../design-system/new-colors';
+
+.ratingCell {
+  width: max-content;
+  display: flex;
+  align-items: flex-start;
+  justify-items: flex-start;
+  flex-direction: column;
+  color: $grey_8 !important;
+
+  p {
+    align-self: center;
+  }
+}
+
+.ratingIcon {
+  font-size: 12px !important;
+  color: $grey_8 !important;
+}

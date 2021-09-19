@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 import { Location, Country, USState } from '../../interfaces/SellerResearch/SellerMap';
+import { defaultMarketplaces } from '../Settings';
 
 const allCountriesList = require('../../assets/countriesList.json');
 const allUsStatesList = require('../../assets/usStatesList.json');
@@ -32,6 +33,12 @@ export const WORLD_MAP_BOUNDS: Location[] = [
   [-90, -180],
   [90, 180],
 ];
+
+/* Filter Types */
+export const DEFAULT_MIN_MAX_FILTER = {
+  min: '',
+  max: '',
+};
 
 // Seller Limit Options
 export const DEFAULLT_SELLER_LIMIT_OPTIONS = [
@@ -135,3 +142,29 @@ export const STATES_DROPDOWN_LIST = [
   },
   ...ALL_US_STATES,
 ];
+
+export const DONT_DISABLE = ['US', 'GB'];
+
+/* Marketplace options for seller DB */
+export const SELLER_MAP_MARKETPLACE = defaultMarketplaces
+  .filter(m => DONT_DISABLE.includes(m.code))
+  .map((marketplace: any) => {
+    return {
+      text: marketplace.name,
+      code: marketplace.code,
+      key: marketplace.code,
+      value: marketplace.id,
+      disabled: !DONT_DISABLE.includes(marketplace.code),
+      currency: marketplace.currency,
+    };
+  });
+
+/* Default US Marketplace */
+export const DEFAULT_US_MARKET = {
+  text: 'United States',
+  code: 'US',
+  value: 'ATVPDKIKX0DER',
+  disabled: false,
+  key: 'US',
+  currency: '$',
+};

@@ -1,0 +1,37 @@
+@import '../../../design-system/new-colors';
+
+.expansionCell {
+  align-self: flex-start !important;
+  padding: 0 !important;
+  margin-top: 50px;
+  position: relative;
+}
+
+.expansionIcon {
+  cursor: pointer;
+
+  path {
+    fill: $grey_6 !important;
+  }
+}
+
+.youtubeLogo {
+  position: absolute;
+  z-index: 9999999 !important;
+  top: -10px !important;
+  right: 5px !important;
+
+  path {
+    fill: $youtube-red !important;
+    cursor: pointer;
+  }
+}
+
+.infoCircle {
+  font-size: 10px !important;
+  color: $grey_6 !important;
+  position: absolute;
+  z-index: 9999999 !important;
+  top: -10px !important;
+  right: 0 !important;
+}

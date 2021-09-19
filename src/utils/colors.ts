@@ -18,7 +18,9 @@ export function hexToRgbA(hex: string, opacity: number) {
 }
 
 export const graphColors = [
+  '#45A5F9',
   '#55D8FD',
+  '#AE8BE7',
   '#A3A0FB',
   '#FEDA83',
   '#FD8373',
