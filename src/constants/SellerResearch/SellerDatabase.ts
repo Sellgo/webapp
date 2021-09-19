@@ -116,7 +116,7 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   growthCount: { keyName: 'growth_count', type: F_TYPES.GROWTH_COUNT_FILTER },
 
   reviewCount: { keyName: 'count', type: F_TYPES.MIN_MAX_PERIOD },
-  fbaPercent: { keyName: 'fba_percent', type: F_TYPES.MIN_MAX_PERIOD_REVIEW },
+  fbaPercent: { keyName: 'fba_percent', type: F_TYPES.MIN_MAX },
   sellerRatings: { keyName: 'seller_rating', type: F_TYPES.MIN_MAX },
 
   review: { keyName: 'review', type: F_TYPES.MIN_MAX_PERIOD_REVIEW },

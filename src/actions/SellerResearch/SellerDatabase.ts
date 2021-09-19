@@ -51,6 +51,8 @@ export const setSellerDatabasePaginationInfo = (payload: SellerDatabasePaginatio
 export const parseFilters = (sellerDatabaseFilter: any) => {
   const filterPayloadKeys = Object.keys(sellerDatabaseFilter);
 
+  console.log('Seller DatabaseFilter', sellerDatabaseFilter);
+
   let filterQuery = '';
 
   filterPayloadKeys.forEach((key: string) => {
