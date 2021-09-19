@@ -150,12 +150,12 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
     // min monthly revenue
     if (minMonthlyRevenue) {
       // add the monthly revenue
-      queryString += `&monthly_revenue_min=${minMonthlyRevenue}`;
+      queryString += `&sales_estimate_min=${minMonthlyRevenue}`;
     }
 
     // add max monthly revenue
     if (maxMonthlyRevenue) {
-      queryString += `&monthly_revenue_max=${maxMonthlyRevenue}`;
+      queryString += `&sales_estimate_max=${maxMonthlyRevenue}`;
     }
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchantmaps/search?max_count=${maxCount}${queryString}`;

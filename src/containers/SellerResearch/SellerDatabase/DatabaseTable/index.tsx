@@ -243,7 +243,7 @@ const SellerDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="growth_month_count" appendWith="%" align="left" asRounded={false} />
+            <StatsCell dataKey="growth_month_count" align="left" asRounded={false} />
           </Table.Column>
 
           {/* 6 Month Growth Count*/}
@@ -256,7 +256,7 @@ const SellerDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="growth_count_L180D" appendWith="%" align="left" asRounded={false} />
+            <StatsCell dataKey="growth_count_L180D" align="left" asRounded={false} />
           </Table.Column>
 
           {/* Rating L365D */}
