@@ -172,3 +172,18 @@ export const DEFAULT_US_MARKET = {
   key: 'US',
   currency: '$',
 };
+
+export const sellerTypeMapper: { [key: string]: string } = {
+  private_label: 'Private Lable',
+  wholesale: 'Wholesale',
+};
+
+export const prettyPrintSeller = (sellerType: string) => {
+  const seller = sellerTypeMapper[sellerType];
+
+  if (!seller) {
+    return '-';
+  }
+
+  return seller;
+};

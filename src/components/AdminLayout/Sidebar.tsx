@@ -41,7 +41,7 @@ class SidebarCollapsible extends Component<
   state = {
     sidebarIcon: [
       {
-        id: 2,
+        id: 1,
         label: 'Search Management',
         icon: 'fas fa-clipboard-list',
         path: '/synthesis',
@@ -50,7 +50,7 @@ class SidebarCollapsible extends Component<
         tooltip: '',
       },
       {
-        id: 3,
+        id: 2,
         label: 'Profit Finder',
         icon: 'fas fa-search-dollar',
         path: '/profit-finder',
@@ -59,7 +59,7 @@ class SidebarCollapsible extends Component<
         tooltip: '',
       },
       {
-        id: 4,
+        id: 3,
         label: 'Product Tracker',
         icon: 'fas fa-fingerprint',
         path: '/product-tracker',
@@ -68,7 +68,7 @@ class SidebarCollapsible extends Component<
         tooltip: '',
       },
       {
-        id: 5,
+        id: 4,
         label: 'Leads Tracker',
         icon: 'fas fa-user-ninja',
         path: '/leads-tracker',
@@ -77,7 +77,7 @@ class SidebarCollapsible extends Component<
         tooltip: '',
       },
       {
-        id: 6,
+        id: 5,
         label: 'Seller Research',
         icon: sellerMapIcon,
         path: '/seller-research',
@@ -87,7 +87,7 @@ class SidebarCollapsible extends Component<
         tooltip: '',
       },
       {
-        id: 7,
+        id: 6,
         label: 'Seller Finder',
         icon: sellerFinderIcon,
         path: '/seller-finder',

@@ -388,7 +388,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Seller Phone  */}
-          <Table.Column width={100} sortable verticalAlign="middle" align="center">
+          <Table.Column width={180} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Seller Phone`}
