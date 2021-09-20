@@ -168,3 +168,15 @@ export const DEFAULT_US_MARKET = {
   key: 'US',
   currency: '$',
 };
+
+/* Launched Durations for filters */
+export const LAUNCHED_FILTER_OPTIONS = [
+  { label: '>1Y', value: '>1Y' },
+  { label: '90D - <1Y', value: '90D-<1Y' },
+];
+
+/* Seller Type filter options */
+export const SELLER_TYPE_FILTER_OPTIONS = [
+  { label: 'Private Label', value: 'private_label' },
+  { label: 'Wholesale', value: 'wholesale' },
+];

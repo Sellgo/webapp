@@ -373,6 +373,32 @@ const SellerDatabaseTable = (props: Props) => {
             </Table.HeaderCell>
             <TruncatedTextCell dataKey="launched" maxLength={20} />
           </Table.Column>
+
+          {/* Seller Type */}
+          <Table.Column width={100} sortable verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Seller Type`}
+                dataKey="seller_type"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <TruncatedTextCell dataKey="seller_type" maxLength={20} />
+          </Table.Column>
+
+          {/* Seller Phone  */}
+          <Table.Column width={100} sortable verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Seller Phone`}
+                dataKey="phone"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <TruncatedTextCell dataKey="phone" maxLength={20} />
+          </Table.Column>
         </Table>
 
         {sellerDatabaPaginationInfo && sellerDatabaPaginationInfo.total_pages > 0 && (
