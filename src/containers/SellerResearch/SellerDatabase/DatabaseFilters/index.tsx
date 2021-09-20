@@ -57,15 +57,14 @@ const SellerDatabaseFilters = (props: Props) => {
   const [marketPlace, setMarketPlace] = useState<MarketplaceOption>(DEFAULT_US_MARKET);
 
   const [merchantName, setMerchantName] = useState<string>('');
-  const [asins, setAsins] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
-  const [sellerIds, setSellerIds] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [monthlyRevenue, setMonthlyRevenue] = useState(DEFAULT_MIN_MAX_FILTER);
 
   /* Advanced Filters */
   const [businessName, setBusinessName] = useState<string>('');
+  const [asins, setAsins] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+  const [sellerIds, setSellerIds] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
   const [brands, setBrands] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
-
-  const [categories, setCategories] = useState<string[]>([]);
-  const [monthlyRevenue, setMonthlyRevenue] = useState(DEFAULT_MIN_MAX_FILTER);
 
   const [growthPercent, setGrowthPercent] = useState(DEFAULT_GROWTH_PERCENT_FILTER);
   const [growthCount, setGrowthCount] = useState(DEFAULT_GROWTH_COUNT_FILTER);
@@ -84,15 +83,14 @@ const SellerDatabaseFilters = (props: Props) => {
   const handleSubmit = () => {
     const filterPayload = {
       merchantName,
-      asins,
-      sellerIds,
+      categories: categories.join(','),
+      monthlyRevenue,
 
       /* Advanced Filters */
       businessName,
+      asins,
+      sellerIds,
       brands,
-
-      categories: categories.join(','),
-      monthlyRevenue,
 
       growthPercent,
       growthCount,
@@ -109,17 +107,16 @@ const SellerDatabaseFilters = (props: Props) => {
 
   const handleReset = () => {
     setMarketPlace(DEFAULT_US_MARKET);
-
     setMerchantName('');
-    setAsins(DEFAULT_INCLUDE_EXCLUDE_FILTER);
-    setSellerIds(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+    setCategories([]);
+    setMonthlyRevenue(DEFAULT_MIN_MAX_FILTER);
 
     /* Advaced Filters */
     setBusinessName('');
-    setBrands(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+    setAsins(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+    setSellerIds(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
-    setCategories([]);
-    setMonthlyRevenue(DEFAULT_MIN_MAX_FILTER);
+    setBrands(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
     setGrowthPercent(DEFAULT_GROWTH_PERCENT_FILTER);
     setGrowthCount(DEFAULT_GROWTH_COUNT_FILTER);
@@ -248,60 +245,28 @@ const SellerDatabaseFilters = (props: Props) => {
             handleChange={(value: string) => setMerchantName(value)}
           />
 
-          {/* Include ASINS */}
-          <InputFilter
-            label="Include ASINs or ISBNs"
-            placeholder="Enter separated by comma"
-            value={asins.include.toUpperCase()}
-            handleChange={(value: string) =>
-              setAsins(prevState => ({
-                ...prevState,
-                include: value,
-              }))
-            }
-            error={asinsError.include}
+          {/* Categories */}
+          <CheckboxDropdownFilter
+            filterOptions={PRODUCTS_DATABASE_CATEGORIES}
+            label="Categories"
+            selectedValues={categories}
+            handleChange={(newCategories: string[]) => {
+              setCategories([...newCategories]);
+            }}
           />
 
-          {/* Exclude ASINS Name */}
-          <InputFilter
-            label="Exclude ASINs or ISBNs"
-            placeholder="Enter separated by comma"
-            value={asins.exclude.toUpperCase()}
-            handleChange={(value: string) =>
-              setAsins(prevState => ({
+          {/* Monthly Revenue = Sales Estimate */}
+          <MinMaxFilter
+            label="Monthly Revenue"
+            minValue={monthlyRevenue.min}
+            maxValue={monthlyRevenue.max}
+            handleChange={(type: string, value: string) =>
+              setMonthlyRevenue(prevState => ({
                 ...prevState,
-                exclude: value,
+                [type]: value,
               }))
             }
-            error={asinsError.exclude}
-          />
-
-          {/* Include Seller IDs */}
-          <InputFilter
-            label="Include Seller IDs"
-            placeholder="Enter separated by comma"
-            value={sellerIds.include.toUpperCase()}
-            handleChange={(value: string) =>
-              setSellerIds(prevState => ({
-                ...prevState,
-                include: value,
-              }))
-            }
-            error={sellerIdsError.include}
-          />
-
-          {/* Exclude Seller IDS */}
-          <InputFilter
-            label="Exclude Seller IDs"
-            placeholder="Enter separated by comma"
-            value={sellerIds.exclude.toUpperCase()}
-            handleChange={(value: string) =>
-              setSellerIds(prevState => ({
-                ...prevState,
-                exclude: value,
-              }))
-            }
-            error={sellerIdsError.exclude}
+            prependWith={marketPlace.currency}
           />
         </div>
 
@@ -325,6 +290,62 @@ const SellerDatabaseFilters = (props: Props) => {
                 placeholder="Business Name"
                 value={businessName}
                 handleChange={(value: string) => setBusinessName(value)}
+              />
+
+              {/* Include ASINS */}
+              <InputFilter
+                label="Include ASINs or ISBNs"
+                placeholder="Enter separated by comma"
+                value={asins.include.toUpperCase()}
+                handleChange={(value: string) =>
+                  setAsins(prevState => ({
+                    ...prevState,
+                    include: value,
+                  }))
+                }
+                error={asinsError.include}
+              />
+
+              {/* Exclude ASINS Name */}
+              <InputFilter
+                label="Exclude ASINs or ISBNs"
+                placeholder="Enter separated by comma"
+                value={asins.exclude.toUpperCase()}
+                handleChange={(value: string) =>
+                  setAsins(prevState => ({
+                    ...prevState,
+                    exclude: value,
+                  }))
+                }
+                error={asinsError.exclude}
+              />
+
+              {/* Include Seller IDs */}
+              <InputFilter
+                label="Include Seller IDs"
+                placeholder="Enter separated by comma"
+                value={sellerIds.include.toUpperCase()}
+                handleChange={(value: string) =>
+                  setSellerIds(prevState => ({
+                    ...prevState,
+                    include: value,
+                  }))
+                }
+                error={sellerIdsError.include}
+              />
+
+              {/* Exclude Seller IDS */}
+              <InputFilter
+                label="Exclude Seller IDs"
+                placeholder="Enter separated by comma"
+                value={sellerIds.exclude.toUpperCase()}
+                handleChange={(value: string) =>
+                  setSellerIds(prevState => ({
+                    ...prevState,
+                    exclude: value,
+                  }))
+                }
+                error={sellerIdsError.exclude}
               />
 
               {/*  Include brands */}
@@ -351,30 +372,6 @@ const SellerDatabaseFilters = (props: Props) => {
                     exclude: value,
                   }))
                 }
-              />
-
-              {/* Categories */}
-              <CheckboxDropdownFilter
-                filterOptions={PRODUCTS_DATABASE_CATEGORIES}
-                label="Categories"
-                selectedValues={categories}
-                handleChange={(newCategories: string[]) => {
-                  setCategories([...newCategories]);
-                }}
-              />
-
-              {/* Monthly Revenue = Sales Estimate */}
-              <MinMaxFilter
-                label="Monthly Revenue"
-                minValue={monthlyRevenue.min}
-                maxValue={monthlyRevenue.max}
-                handleChange={(type: string, value: string) =>
-                  setMonthlyRevenue(prevState => ({
-                    ...prevState,
-                    [type]: value,
-                  }))
-                }
-                prependWith={marketPlace.currency}
               />
 
               {/* Growth % */}
@@ -463,7 +460,7 @@ const SellerDatabaseFilters = (props: Props) => {
                 />
               </div>
 
-              {/* Monthly Revenue = Sales Estimate */}
+              {/* FBA Percent */}
               <MinMaxFilter
                 label="FBA %"
                 minValue={fbaPercent.min}
