@@ -13,6 +13,8 @@ import {
   DEFAULT_US_MARKET,
   SELLER_MAP_MARKETPLACE,
   DEFAULT_MIN_MAX_FILTER,
+  LAUNCHED_FILTER_OPTIONS,
+  SELLER_TYPE_FILTER_OPTIONS,
 } from '../../../../constants/SellerResearch/SellerMap';
 
 import { PRODUCTS_DATABASE_CATEGORIES } from '../../../../constants/ProductResearch/ProductsDatabase';
@@ -39,6 +41,7 @@ import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxD
 import { SellerMapPayload } from '../../../../interfaces/SellerResearch/SellerMap';
 import { SellerSubscriptionLimits } from '../../../../interfaces/Subscription';
 import { MarketplaceOption } from '../../../../interfaces/SellerResearch/SellerDatabase';
+import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
 
 /* Props */
 interface Props {
@@ -64,6 +67,8 @@ const MapFilters = (props: Props) => {
   const [merchantName, setMerchantName] = useState<string>('');
   const [categories, setCategories] = useState<string[]>([]);
   const [monthlyRevenue, setMonthlyRevenue] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [launched, setLaunched] = useState('');
+  const [sellerType, setSellerType] = useState('');
   const [sellerLimit, setSellerLimit] = useState<string>('1000');
 
   /* Error States */
@@ -83,6 +88,8 @@ const MapFilters = (props: Props) => {
     setMerchantName('');
     setCategories([]);
     setMonthlyRevenue(DEFAULT_MIN_MAX_FILTER);
+    setLaunched('');
+    setSellerType('');
     setSellerLimit('1000');
   };
 
@@ -102,6 +109,8 @@ const MapFilters = (props: Props) => {
       categories: categories.join(','),
       minMonthlyRevenue: monthlyRevenue.min,
       maxMonthlyRevenue: monthlyRevenue.max,
+      launched,
+      sellerType,
       maxCount: Number(sellerLimit),
     });
   };
@@ -192,6 +201,22 @@ const MapFilters = (props: Props) => {
               [type]: value,
             }))
           }
+        />
+
+        {/* Launched FIlter */}
+        <RadioListFilters
+          filterOptions={LAUNCHED_FILTER_OPTIONS}
+          label="Seller Launched"
+          value={launched}
+          handleChange={(value: string) => setLaunched(value)}
+        />
+
+        {/* Seller Type FIlter */}
+        <RadioListFilters
+          label="Seller Type"
+          filterOptions={SELLER_TYPE_FILTER_OPTIONS}
+          value={sellerType}
+          handleChange={(value: string) => setSellerType(value)}
         />
 
         {/* Seller Limit */}
