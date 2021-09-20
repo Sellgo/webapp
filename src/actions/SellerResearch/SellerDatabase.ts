@@ -60,7 +60,8 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
 
     if (type === F_TYPES.TEXT) {
       if (filter) {
-        filterQuery += `&${keyName}=${filter}`;
+        // encode URI is necessary to escape '&' in values for categories
+        filterQuery = `&${keyName}=${encodeURIComponent(filter)}`;
       }
     }
 
@@ -200,20 +201,20 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
       filtersQueryString = parseFilters(extractSellerDatabaseFilters());
     }
 
-    const resourcePath = `?${pagination}&${sorting}&${marketplace}${filtersQueryString}`;
+    const resourcePath = `${pagination}&${sorting}&${marketplace}${filtersQueryString}`;
 
     if (isExport && fileFormat) {
-      dispatch(
-        exportSellerDatabaseTable(`${resourcePath}&is_export=${isExport}&file_format=${fileFormat}`)
-      );
+      const exportResource = `${resourcePath}&is_export=${isExport}&file_format=${fileFormat}`;
+
+      dispatch(exportSellerDatabaseTable(exportResource));
       return;
     }
 
     dispatch(setIsLoadingSellerDatabase(enabledLoader));
 
-    const { data } = await axios.get(
-      `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database${resourcePath}`
-    );
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database?${resourcePath}`;
+
+    const { data } = await axios.get(URL);
 
     const { results, ...paginationInfo } = data;
     if (data) {
