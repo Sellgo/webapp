@@ -28,7 +28,6 @@ const SellerInformation = (props: RowCell) => {
   const sellerLink = rowData.seller_link;
   const merchantName = rowData.merchant_name;
   const businessAddress = rowData.address;
-  const launched = rowData.launched;
   const businessCity = rowData.city;
   const businessZipCode = rowData.zip_code;
   const businessCountry = rowData.country;
@@ -67,12 +66,6 @@ const SellerInformation = (props: RowCell) => {
           <div className={styles.sellerBusinessDetails}>
             <h3>Marketplace:</h3>
             <img src={getMarketplaceFlag(marketplaceId)} alt="Marketplace Flags" />
-          </div>
-
-          {/* Launched Details */}
-          <div className={styles.sellerBusinessDetails}>
-            <h3>Launched:</h3>
-            <p>{launched ? launched : '-'}</p>
           </div>
         </div>
       </div>
