@@ -29,9 +29,15 @@ import {
   GROWTH_PERCENT_PERIOD_OPTIONS,
   DEFAULT_GROWTH_PERCENT_FILTER,
   DEFAULT_GROWTH_COUNT_FILTER,
+  LAUNCHED_FILTER_OPTIONS,
 } from '../../../../constants/SellerResearch/SellerDatabase';
-
+import { PRODUCTS_DATABASE_CATEGORIES } from '../../../../constants/ProductResearch/ProductsDatabase';
 import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
+
+import {
+  COUNTRY_DROPDOWN_LIST,
+  STATES_DROPDOWN_LIST,
+} from '../../../../constants/SellerResearch/SellerMap';
 
 /* Components */
 import InputFilter from '../../../../components/FormFilters/InputFilter';
@@ -42,7 +48,8 @@ import MarketPlaceFilter from '../../../../components/FormFilters/MarketPlaceFil
 import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
 import ReviewTypeFilter from '../../../../components/FormFilters/ReviewTypeFilter';
 import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxDropdownFilter';
-import { PRODUCTS_DATABASE_CATEGORIES } from '../../../../constants/ProductResearch/ProductsDatabase';
+import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
+import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
 
 interface Props {
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
@@ -75,6 +82,11 @@ const SellerDatabaseFilters = (props: Props) => {
   const [sellerRatings, setSellerRatings] = useState(DEFAULT_MIN_MAX_FILTER);
   const [review, setReview] = useState(DEFAULT_MIN_MAX_PERIOD_REVIEW);
 
+  const [country, setCountry] = useState('US');
+  const [state, setState] = useState('');
+
+  const [launched, setLaunched] = useState('');
+
   /* Error States */
   const [asinsError, setAsinsError] = useState(DEFAULT_INCLUDE_EXCLUDE_ERROR);
   const [sellerIdsError, setSellerIdsError] = useState(DEFAULT_INCLUDE_EXCLUDE_ERROR);
@@ -100,6 +112,11 @@ const SellerDatabaseFilters = (props: Props) => {
 
       sellerRatings,
       review,
+
+      country: country === 'All Countries' ? '' : country,
+      state: state === 'All States' ? '' : state,
+
+      launched,
     };
 
     fetchSellerDatabase({ filterPayload, marketplaceId: marketPlace.value });
@@ -115,7 +132,6 @@ const SellerDatabaseFilters = (props: Props) => {
     setBusinessName('');
     setAsins(DEFAULT_INCLUDE_EXCLUDE_FILTER);
     setSellerIds(DEFAULT_INCLUDE_EXCLUDE_FILTER);
-
     setBrands(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
     setGrowthPercent(DEFAULT_GROWTH_PERCENT_FILTER);
@@ -125,11 +141,15 @@ const SellerDatabaseFilters = (props: Props) => {
     setFbaPercent(DEFAULT_MIN_MAX_FILTER);
 
     setSellerRatings(DEFAULT_MIN_MAX_FILTER);
-
     setReview(DEFAULT_MIN_MAX_PERIOD_REVIEW);
+
+    setCountry('US');
+    setState('');
+    setLaunched('');
 
     /* Reset Error States */
     setAsinsError(DEFAULT_INCLUDE_EXCLUDE_ERROR);
+    setSellerIdsError(DEFAULT_INCLUDE_EXCLUDE_ERROR);
 
     fetchSellerDatabase({ resetFilter: true });
   };
@@ -526,6 +546,36 @@ const SellerDatabaseFilters = (props: Props) => {
                   />
                 </div>
               </div>
+
+              {/* Country */}
+              <SelectionFilter
+                label="Seller Country"
+                placeholder="Country"
+                filterOptions={COUNTRY_DROPDOWN_LIST}
+                value={country}
+                handleChange={(value: string) => {
+                  setCountry(value);
+                  setState('');
+                }}
+              />
+
+              {/* All States */}
+              <SelectionFilter
+                label="U.S. States"
+                placeholder="All States"
+                filterOptions={STATES_DROPDOWN_LIST}
+                value={state}
+                handleChange={(value: string) => setState(value)}
+                disabled={country !== 'US'}
+              />
+
+              {/* Launched FIlter */}
+              <RadioListFilters
+                filterOptions={LAUNCHED_FILTER_OPTIONS}
+                label="Seller Launched"
+                value={launched}
+                handleChange={(value: string) => setLaunched(value)}
+              />
             </div>
           )}
         </div>

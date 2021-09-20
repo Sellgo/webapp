@@ -42,9 +42,10 @@ const SelectionFilter: React.FC<Props> = props => {
     placeholder,
     value,
     handleChange,
+    disabled = false,
+    loading = false,
     userOnboardingResources,
     userOnboarding,
-    ...otherProps
   } = props;
 
   /* Onboarding logic */
@@ -78,8 +79,9 @@ const SelectionFilter: React.FC<Props> = props => {
         placeholder={placeholder}
         scrolling
         value={value}
-        onChange={(e: any, data: any) => handleChange && handleChange(data.value)}
-        {...otherProps}
+        onChange={(e: any, data: any) => handleChange(data.value)}
+        disabled={disabled}
+        loading={loading}
       />
     </div>
   );

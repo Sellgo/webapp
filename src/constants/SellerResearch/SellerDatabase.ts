@@ -53,11 +53,13 @@ export const DEFAULT_GROWTH_COUNT_FILTER = {
 };
 
 /* Launched Durations for filters */
-export const FILTER_LAUNCHED_DURATIONS = [
-  { label: '<1-yr', value: '<1Y' },
-  { label: '>1-yr', value: '>1Y' },
-  { label: 'All', value: '' },
+export const LAUNCHED_FILTER_OPTIONS = [
+  { label: '>1Y', value: '>1Y' },
+  { label: '90D - <1Y', value: '90D-<1Y' },
 ];
+
+/* Default Launched Filter */
+export const DEFAULT_LAUNCHED_FILTER = { label: 'All', value: '' };
 
 /* Default include exclude filters */
 export const DEFAULT_INCLUDE_EXCLUDE_FILTER = {
@@ -117,9 +119,14 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
 
   reviewCount: { keyName: 'count', type: F_TYPES.MIN_MAX_PERIOD },
   fbaPercent: { keyName: 'fba_percent', type: F_TYPES.MIN_MAX },
-  sellerRatings: { keyName: 'seller_rating', type: F_TYPES.MIN_MAX },
 
+  sellerRatings: { keyName: 'seller_rating', type: F_TYPES.MIN_MAX },
   review: { keyName: 'review', type: F_TYPES.MIN_MAX_PERIOD_REVIEW },
+
+  country: { keyName: 'country', type: F_TYPES.TEXT },
+  state: { keyName: 'state', type: F_TYPES.TEXT },
+
+  launched: { keyName: 'launched', type: F_TYPES.TEXT },
 };
 
 export const GROWTH_PERCENT_FILTER_KEY_MAPPER = {

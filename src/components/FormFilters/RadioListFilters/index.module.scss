@@ -21,6 +21,17 @@
   margin-right: 10px;
 
   label {
+    color: $grey_6 !important;
     padding-left: 18px !important;
+  }
+
+  label::before {
+    border: 1px solid $grey_3 !important;
+    color: red !important;
+  }
+
+  input:checked ~ .box::after,
+  input:checked ~ label::after {
+    color: $grey_8 !important;
   }
 }
