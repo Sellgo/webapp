@@ -149,7 +149,10 @@ export const exportSellerDatabaseTable = (resourcePath: string) => async () => {
 };
 
 /* Main seller databse fetcher */
-export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (dispatch: any) => {
+export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
+  dispatch: any,
+  getState: any
+) => {
   const sellerID = sellerIDSelector();
 
   try {
@@ -210,6 +213,10 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
       return;
     }
 
+    // set to empty results to remove table height (if data already exists)
+    if (getSellerDatabaseResults(getState()).length > 0) {
+      dispatch(setSellerDatabaseResults([]));
+    }
     dispatch(setIsLoadingSellerDatabase(enabledLoader));
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database?${resourcePath}`;
