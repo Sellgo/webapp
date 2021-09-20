@@ -56,12 +56,20 @@ export const DEFAULT_GROWTH_COUNT_FILTER = {
 export const LAUNCHED_FILTER_OPTIONS = [
   { label: '>1Y', value: '>1Y' },
   { label: '90D - <1Y', value: '90D-<1Y' },
+  { label: 'All', value: '' },
 ];
 
 /* Seller Type filter options */
 export const SELLER_TYPE_FILTER_OPTIONS = [
   { label: 'Private Label', value: 'private_label' },
   { label: 'Wholesale', value: 'wholesale' },
+  { label: 'All', value: '' },
+];
+
+export const SELLER_REACHABILITY = [
+  { label: 'Sellers with Phone', value: 'true' },
+  { label: 'Sellers Without Phone', value: 'false' },
+  { label: 'All', value: '' },
 ];
 
 /* Default include exclude filters */
@@ -133,6 +141,7 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   sellerType: { keyName: 'seller_type', type: F_TYPES.TEXT },
 
   hasPhone: { keyName: 'has_phone', type: F_TYPES.TEXT },
+  sellerReachability: { keyName: 'has_phone', type: F_TYPES.TEXT },
 };
 
 export const GROWTH_PERCENT_FILTER_KEY_MAPPER = {

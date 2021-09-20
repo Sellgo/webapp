@@ -31,6 +31,7 @@ import {
   DEFAULT_GROWTH_COUNT_FILTER,
   LAUNCHED_FILTER_OPTIONS,
   SELLER_TYPE_FILTER_OPTIONS,
+  SELLER_REACHABILITY,
 } from '../../../../constants/SellerResearch/SellerDatabase';
 import { PRODUCTS_DATABASE_CATEGORIES } from '../../../../constants/ProductResearch/ProductsDatabase';
 import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
@@ -51,7 +52,6 @@ import ReviewTypeFilter from '../../../../components/FormFilters/ReviewTypeFilte
 import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxDropdownFilter';
 import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
-import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
 
 interface Props {
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
@@ -90,7 +90,7 @@ const SellerDatabaseFilters = (props: Props) => {
   const [launched, setLaunched] = useState('');
   const [sellerType, setSellerType] = useState('');
 
-  const [hasPhone, setHasPhone] = useState(false);
+  const [sellerReachability, setSellerReachability] = useState('');
 
   /* Error States */
   const [asinsError, setAsinsError] = useState(DEFAULT_INCLUDE_EXCLUDE_ERROR);
@@ -124,7 +124,7 @@ const SellerDatabaseFilters = (props: Props) => {
       launched,
       sellerType,
 
-      hasPhone,
+      sellerReachability,
     };
 
     fetchSellerDatabase({ filterPayload, marketplaceId: marketPlace.value });
@@ -157,7 +157,7 @@ const SellerDatabaseFilters = (props: Props) => {
     setLaunched('');
     setSellerType('');
 
-    setHasPhone(false);
+    setSellerReachability('');
 
     /* Reset Error States */
     setAsinsError(DEFAULT_INCLUDE_EXCLUDE_ERROR);
@@ -269,14 +269,6 @@ const SellerDatabaseFilters = (props: Props) => {
             }}
           />
 
-          {/* Merchant Name */}
-          <InputFilter
-            label="Merchant Name"
-            placeholder="Merchant Name"
-            value={merchantName}
-            handleChange={(value: string) => setMerchantName(value)}
-          />
-
           {/* Categories */}
           <CheckboxDropdownFilter
             filterOptions={PRODUCTS_DATABASE_CATEGORIES}
@@ -300,6 +292,42 @@ const SellerDatabaseFilters = (props: Props) => {
             }
             prependWith={marketPlace.currency}
           />
+
+          {/* Merchant Name */}
+          <InputFilter
+            label="Merchant Name"
+            placeholder="Merchant Name"
+            value={merchantName}
+            handleChange={(value: string) => setMerchantName(value)}
+          />
+
+          {/* Include ASINS */}
+          <InputFilter
+            label="Include ASINs or ISBNs"
+            placeholder="Enter separated by comma"
+            value={asins.include.toUpperCase()}
+            handleChange={(value: string) =>
+              setAsins(prevState => ({
+                ...prevState,
+                include: value,
+              }))
+            }
+            error={asinsError.include}
+          />
+
+          {/* Include Seller IDs */}
+          <InputFilter
+            label="Include Seller IDs"
+            placeholder="Enter separated by comma"
+            value={sellerIds.include.toUpperCase()}
+            handleChange={(value: string) =>
+              setSellerIds(prevState => ({
+                ...prevState,
+                include: value,
+              }))
+            }
+            error={sellerIdsError.include}
+          />
         </div>
 
         <div className={styles.advancedFilterWrapper}>
@@ -322,62 +350,6 @@ const SellerDatabaseFilters = (props: Props) => {
                 placeholder="Business Name"
                 value={businessName}
                 handleChange={(value: string) => setBusinessName(value)}
-              />
-
-              {/* Include ASINS */}
-              <InputFilter
-                label="Include ASINs or ISBNs"
-                placeholder="Enter separated by comma"
-                value={asins.include.toUpperCase()}
-                handleChange={(value: string) =>
-                  setAsins(prevState => ({
-                    ...prevState,
-                    include: value,
-                  }))
-                }
-                error={asinsError.include}
-              />
-
-              {/* Exclude ASINS Name */}
-              <InputFilter
-                label="Exclude ASINs or ISBNs"
-                placeholder="Enter separated by comma"
-                value={asins.exclude.toUpperCase()}
-                handleChange={(value: string) =>
-                  setAsins(prevState => ({
-                    ...prevState,
-                    exclude: value,
-                  }))
-                }
-                error={asinsError.exclude}
-              />
-
-              {/* Include Seller IDs */}
-              <InputFilter
-                label="Include Seller IDs"
-                placeholder="Enter separated by comma"
-                value={sellerIds.include.toUpperCase()}
-                handleChange={(value: string) =>
-                  setSellerIds(prevState => ({
-                    ...prevState,
-                    include: value,
-                  }))
-                }
-                error={sellerIdsError.include}
-              />
-
-              {/* Exclude Seller IDS */}
-              <InputFilter
-                label="Exclude Seller IDs"
-                placeholder="Enter separated by comma"
-                value={sellerIds.exclude.toUpperCase()}
-                handleChange={(value: string) =>
-                  setSellerIds(prevState => ({
-                    ...prevState,
-                    exclude: value,
-                  }))
-                }
-                error={sellerIdsError.exclude}
               />
 
               {/*  Include brands */}
@@ -405,6 +377,67 @@ const SellerDatabaseFilters = (props: Props) => {
                   }))
                 }
               />
+
+              {/* Exclude ASINS Name */}
+              <InputFilter
+                label="Exclude ASINs or ISBNs"
+                placeholder="Enter separated by comma"
+                value={asins.exclude.toUpperCase()}
+                handleChange={(value: string) =>
+                  setAsins(prevState => ({
+                    ...prevState,
+                    exclude: value,
+                  }))
+                }
+                error={asinsError.exclude}
+              />
+
+              {/* Exclude Seller IDS */}
+              <InputFilter
+                label="Exclude Seller IDs"
+                placeholder="Enter separated by comma"
+                value={sellerIds.exclude.toUpperCase()}
+                handleChange={(value: string) =>
+                  setSellerIds(prevState => ({
+                    ...prevState,
+                    exclude: value,
+                  }))
+                }
+                error={sellerIdsError.exclude}
+              />
+
+              {/* Country */}
+              <SelectionFilter
+                label="Seller Country"
+                placeholder="Country"
+                filterOptions={COUNTRY_DROPDOWN_LIST}
+                value={country}
+                handleChange={(value: string) => {
+                  setCountry(value);
+                  setState('');
+                }}
+              />
+
+              {/* All States */}
+              <SelectionFilter
+                label="U.S. States"
+                placeholder="All States"
+                filterOptions={STATES_DROPDOWN_LIST}
+                value={state}
+                handleChange={(value: string) => setState(value)}
+                disabled={country !== 'US'}
+              />
+
+              {/* Seller Reachability */}
+              <RadioListFilters
+                label="Seller Reachability"
+                filterOptions={SELLER_REACHABILITY}
+                value={sellerReachability}
+                handleChange={value => setSellerReachability(value)}
+              />
+
+              <div className={styles.spacers} />
+              <div className={styles.spacers} />
 
               {/* Growth % */}
               <div className={styles.groupFilters}>
@@ -506,41 +539,6 @@ const SellerDatabaseFilters = (props: Props) => {
                 appendWith="%"
               />
 
-              {/* Seller Ratings */}
-              <MinMaxRatingsFilter
-                label="Seller Ratings"
-                minValue={sellerRatings.min}
-                maxValue={sellerRatings.max}
-                handleChange={(type: string, value: string) =>
-                  setSellerRatings(prevState => ({
-                    ...prevState,
-                    [type]: value,
-                  }))
-                }
-              />
-
-              {/* Country */}
-              <SelectionFilter
-                label="Seller Country"
-                placeholder="Country"
-                filterOptions={COUNTRY_DROPDOWN_LIST}
-                value={country}
-                handleChange={(value: string) => {
-                  setCountry(value);
-                  setState('');
-                }}
-              />
-
-              {/* All States */}
-              <SelectionFilter
-                label="U.S. States"
-                placeholder="All States"
-                filterOptions={STATES_DROPDOWN_LIST}
-                value={state}
-                handleChange={(value: string) => setState(value)}
-                disabled={country !== 'US'}
-              />
-
               {/*  Review Filter */}
               <div className={styles.reviewGroupedFilter}>
                 <ReviewTypeFilter
@@ -597,12 +595,17 @@ const SellerDatabaseFilters = (props: Props) => {
                 handleChange={(value: string) => setSellerType(value)}
               />
 
-              {/* Has Phone */}
-              <CheckboxFilter
-                label="Phone Details"
-                checkboxLabel="Yes"
-                checked={hasPhone}
-                handleChange={value => setHasPhone(value)}
+              {/* Seller Ratings */}
+              <MinMaxRatingsFilter
+                label="Seller Ratings"
+                minValue={sellerRatings.min}
+                maxValue={sellerRatings.max}
+                handleChange={(type: string, value: string) =>
+                  setSellerRatings(prevState => ({
+                    ...prevState,
+                    [type]: value,
+                  }))
+                }
               />
             </div>
           )}

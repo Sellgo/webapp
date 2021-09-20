@@ -117,7 +117,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Category */}
-          <Table.Column width={150} sortable verticalAlign="middle" align="center">
+          <Table.Column width={180} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Category`}
@@ -126,7 +126,7 @@ const SellerDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <TruncatedTextCell dataKey="category" maxLength={50} />
+            <TruncatedTextCell dataKey="category" maxLength={20} />
           </Table.Column>
 
           {/* Monthly Revenue = Sales Est. */}
