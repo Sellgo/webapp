@@ -55,7 +55,7 @@ export const DEFAULT_GROWTH_COUNT_FILTER = {
 /* Launched Durations for filters */
 export const LAUNCHED_FILTER_OPTIONS = [
   { label: 'Longer than a year', value: '>1Y' },
-  { label: 'Less than a year', value: '90D-<1Y' },
+  { label: '90D - 1 year', value: '90D-1Y' },
 ];
 
 /* Seller Type filter options */
@@ -132,7 +132,6 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   launched: { keyName: 'launched', type: F_TYPES.TEXT },
   sellerType: { keyName: 'seller_type', type: F_TYPES.TEXT },
 
-  hasPhone: { keyName: 'has_phone', type: F_TYPES.TEXT },
   sellerReachability: { keyName: 'has_phone', type: F_TYPES.TEXT },
 };
 
