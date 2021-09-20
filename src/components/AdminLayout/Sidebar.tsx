@@ -97,7 +97,7 @@ class SidebarCollapsible extends Component<
         tooltip: '',
       },
       {
-        id: 9,
+        id: 7,
         label: 'Settings',
         icon: 'fas fa-cog',
         path: '/settings',
@@ -115,8 +115,8 @@ class SidebarCollapsible extends Component<
     const { visible, sidebarIcon } = this.state;
     const { children, currentNotifyId, sellerSubscription } = this.props;
 
-    const upperNavbar = this.state.sidebarIcon.filter(icon => icon.id < 9);
-    const lowerNavbar = this.state.sidebarIcon.filter(icon => icon.id >= 9);
+    const upperNavbar = this.state.sidebarIcon.filter(icon => icon.id < 7);
+    const lowerNavbar = this.state.sidebarIcon.filter(icon => icon.id >= 7);
 
     let supplier_id = '';
 
@@ -127,7 +127,7 @@ class SidebarCollapsible extends Component<
 
     const currentPath = window.location.pathname;
     const links = sidebarIcon.map((link: any) =>
-      link.id === 3 ? `${link.path}/${supplier_id}` : link.path
+      link.id === 2 ? `${link.path}/${supplier_id}` : link.path
     );
 
     const isFreeeAccount = isSubscriptionIdFreeAccount(sellerSubscription.subscription_id);
@@ -143,8 +143,8 @@ class SidebarCollapsible extends Component<
                 onClick={() => {
                   visible && this.handleAnimationChange();
                 }}
-                as={isFreeeAccount || (icon.id === 3 && !supplier_id) ? 'div' : Link}
-                disabled={isFreeeAccount || !!(icon.id === 3 && !supplier_id)}
+                as={isFreeeAccount || (icon.id === 2 && !supplier_id) ? 'div' : Link}
+                disabled={isFreeeAccount || !!(icon.id === 2 && !supplier_id)}
                 to={icon.id === 3 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path}
                 name={icon.icon}
                 active={links[icon.id - 1] === currentPath}
@@ -160,7 +160,7 @@ class SidebarCollapsible extends Component<
                   <i
                     className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
                       'forward'} ${
-                      (icon.id === 3 && !supplier_id) || isFreeeAccount ? 'disabled-link' : ''
+                      (icon.id === 2 && !supplier_id) || isFreeeAccount ? 'disabled-link' : ''
                     }`}
                   />
                 )}
