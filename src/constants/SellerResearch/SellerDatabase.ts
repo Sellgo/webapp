@@ -58,8 +58,11 @@ export const LAUNCHED_FILTER_OPTIONS = [
   { label: '90D - <1Y', value: '90D-<1Y' },
 ];
 
-/* Default Launched Filter */
-export const DEFAULT_LAUNCHED_FILTER = { label: 'All', value: '' };
+/* Seller Type filter options */
+export const SELLER_TYPE_FILTER_OPTIONS = [
+  { label: 'Private Label', value: 'private_label' },
+  { label: 'Wholesale', value: 'wholesale' },
+];
 
 /* Default include exclude filters */
 export const DEFAULT_INCLUDE_EXCLUDE_FILTER = {
@@ -127,6 +130,9 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   state: { keyName: 'state', type: F_TYPES.TEXT },
 
   launched: { keyName: 'launched', type: F_TYPES.TEXT },
+  sellerType: { keyName: 'seller_type', type: F_TYPES.TEXT },
+
+  hasPhone: { keyName: 'has_phone', type: F_TYPES.TEXT },
 };
 
 export const GROWTH_PERCENT_FILTER_KEY_MAPPER = {
