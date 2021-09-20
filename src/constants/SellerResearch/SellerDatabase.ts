@@ -54,15 +54,15 @@ export const DEFAULT_GROWTH_COUNT_FILTER = {
 
 /* Launched Durations for filters */
 export const LAUNCHED_FILTER_OPTIONS = [
-  { label: '>1Y', value: '>1Y' },
-  { label: '90D - <1Y', value: '90D-<1Y' },
+  { label: 'Longer than a year', value: '>1Y' },
+  { label: 'Less than a year', value: '90D-<1Y' },
   { label: 'All', value: '' },
 ];
 
 /* Seller Type filter options */
 export const SELLER_TYPE_FILTER_OPTIONS = [
-  { label: 'Private Label', value: 'private_label' },
-  { label: 'Wholesale', value: 'wholesale' },
+  { label: 'Private Label Seller', value: 'private_label' },
+  { label: 'Wholesale Reseller', value: 'wholesale' },
   { label: 'All', value: '' },
 ];
 
