@@ -31,7 +31,6 @@ import {
   DEFAULT_GROWTH_COUNT_FILTER,
   LAUNCHED_FILTER_OPTIONS,
   SELLER_TYPE_FILTER_OPTIONS,
-  SELLER_REACHABILITY,
 } from '../../../../constants/SellerResearch/SellerDatabase';
 import { PRODUCTS_DATABASE_CATEGORIES } from '../../../../constants/ProductResearch/ProductsDatabase';
 import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
@@ -52,6 +51,7 @@ import ReviewTypeFilter from '../../../../components/FormFilters/ReviewTypeFilte
 import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxDropdownFilter';
 import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
+import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
 
 interface Props {
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
@@ -90,7 +90,7 @@ const SellerDatabaseFilters = (props: Props) => {
   const [launched, setLaunched] = useState('');
   const [sellerType, setSellerType] = useState('');
 
-  const [sellerReachability, setSellerReachability] = useState('');
+  const [sellerReachability, setSellerReachability] = useState(false);
 
   /* Error States */
   const [asinsError, setAsinsError] = useState(DEFAULT_INCLUDE_EXCLUDE_ERROR);
@@ -157,7 +157,7 @@ const SellerDatabaseFilters = (props: Props) => {
     setLaunched('');
     setSellerType('');
 
-    setSellerReachability('');
+    setSellerReachability(false);
 
     /* Reset Error States */
     setAsinsError(DEFAULT_INCLUDE_EXCLUDE_ERROR);
@@ -429,10 +429,10 @@ const SellerDatabaseFilters = (props: Props) => {
               />
 
               {/* Seller Reachability */}
-              <RadioListFilters
+              <CheckboxFilter
                 label="Seller Reachability"
-                filterOptions={SELLER_REACHABILITY}
-                value={sellerReachability}
+                checkboxLabel="Sellers with Phone"
+                checked={sellerReachability}
                 handleChange={value => setSellerReachability(value)}
               />
 

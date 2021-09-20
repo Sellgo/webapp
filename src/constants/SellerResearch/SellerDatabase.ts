@@ -64,11 +64,6 @@ export const SELLER_TYPE_FILTER_OPTIONS = [
   { label: 'Wholesale Reseller', value: 'wholesale' },
 ];
 
-export const SELLER_REACHABILITY = [
-  { label: 'Sellers with Phone', value: 'true' },
-  { label: 'Sellers Without Phone', value: 'false' },
-];
-
 /* Default include exclude filters */
 export const DEFAULT_INCLUDE_EXCLUDE_FILTER = {
   include: '',

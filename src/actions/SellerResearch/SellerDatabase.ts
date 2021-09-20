@@ -59,7 +59,7 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
     const { keyName, type } = FILTER_QUERY_KEY_MAPPER[key];
 
     if (type === F_TYPES.TEXT) {
-      if (filter && filter !== 'false') {
+      if (filter) {
         // encode URI is necessary to escape '&' in values for categories
         filterQuery = `&${keyName}=${encodeURIComponent(filter)}`;
       }
