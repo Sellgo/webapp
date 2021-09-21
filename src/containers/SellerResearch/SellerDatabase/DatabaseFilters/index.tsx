@@ -178,7 +178,11 @@ const SellerDatabaseFilters = (props: Props) => {
   useEffect(() => {
     if (asins.include) {
       const asinList = asins.include.split(',');
-      const isValidAsinList = asinList.every((asin: string) => isValidAsin(asin));
+
+      const isValidAsinList = asinList
+        .filter(a => a.trim().length > 0)
+        .every((asin: string) => isValidAsin(asin));
+
       setAsinsError(prevState => ({
         ...prevState,
         include: !isValidAsinList,
@@ -195,7 +199,11 @@ const SellerDatabaseFilters = (props: Props) => {
   useEffect(() => {
     if (asins.exclude) {
       const asinList = asins.exclude.split(',');
-      const isValidAsinList = asinList.every((asin: string) => isValidAsin(asin));
+
+      const isValidAsinList = asinList
+        .filter(a => a.trim().length > 0)
+        .every((asin: string) => isValidAsin(asin));
+
       setAsinsError(prevState => ({
         ...prevState,
         exclude: !isValidAsinList,
