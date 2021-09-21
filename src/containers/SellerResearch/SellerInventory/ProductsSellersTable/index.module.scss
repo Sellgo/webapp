@@ -1,0 +1,15 @@
+@import '../../../../design-system/new-colors.scss';
+
+.productsSellersTableWrapper {
+  padding-left: 30px;
+  padding-right: 20px !important;
+  background: $light_gray_background;
+  width: 100%;
+  color: $grey_8 !important;
+  padding-top: 15px;
+}
+
+.sellerTablePagination {
+  display: flex;
+  justify-content: flex-end;
+}

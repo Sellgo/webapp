@@ -45,6 +45,7 @@ import {
   SellerInventoryProductsTablePaginationInfo,
   SellerInventoryProductsTableSellersPayload,
 } from '../../../../interfaces/SellerResearch/SellerInventory';
+import ProductsSellersTable from '../ProductsSellersTable';
 
 interface Props {
   isLoadingSellerInventoryProductsTable: boolean;
@@ -115,11 +116,7 @@ const SellerProductsTable = (props: Props) => {
             sellerInventoryProductsTableSellersResults.length
         )}
         expandedRowKeys={expandedRowKeys}
-        renderRowExpanded={() => (
-          <div>
-            <p>This is expanded table</p>
-          </div>
-        )}
+        renderRowExpanded={() => <ProductsSellersTable />}
       >
         {/* Expand Cell */}
         <Table.Column width={30} verticalAlign="top" fixed align="left">
