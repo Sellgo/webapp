@@ -35,6 +35,7 @@ import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
 
 /* Containers */
 import ProductInformation from './ProductInformation';
+import BuyboxCompetition from './BuyboxCompetition';
 
 /* Interfaces */
 import {
@@ -91,10 +92,7 @@ const SellerProductsTable = (props: Props) => {
         id="sellerProductsTable"
         rowKey={SELLER_INVENTORY_PRODUCTS_TABLE_UNIQUE_KEY}
         // Expansion
-        rowExpandedHeight={calculateSellerInventoryTableHeight(
-          sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length,
-          0
-        )}
+        rowExpandedHeight={20}
         expandedRowKeys={expandedRowKeys}
         renderRowExpanded={() => (
           <div>
@@ -110,6 +108,14 @@ const SellerProductsTable = (props: Props) => {
             expandedRowKeys={expandedRowKeys}
             onChange={handleExpansion}
           />
+        </Table.Column>
+
+        {/* Buy box Competition */}
+        <Table.Column width={100} verticalAlign="top" align="left">
+          <Table.HeaderCell>
+            Buybox <br /> Competition
+          </Table.HeaderCell>
+          <BuyboxCompetition dataKey="buyboxCompetition" />
         </Table.Column>
 
         {/* Product Information  */}

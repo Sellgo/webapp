@@ -1,0 +1,10 @@
+@import '../../../../../design-system/new-colors.scss';
+
+.buyBoxCompetition {
+  color: $prim_dark_1;
+  font-size: 14px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 10px;
+}
