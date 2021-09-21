@@ -74,6 +74,7 @@ const DatabaseExport = (props: Props) => {
 
         <TableExport
           label=""
+          disableExport={!shouldEnableExport}
           onButtonClick={() => handleOnExport('xlsx')}
           exportContent={
             <>
