@@ -149,7 +149,10 @@ export const exportSellerDatabaseTable = (resourcePath: string) => async () => {
 };
 
 /* Main seller databse fetcher */
-export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (dispatch: any) => {
+export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
+  dispatch: any,
+  getState: any
+) => {
   const sellerID = sellerIDSelector();
 
   try {
@@ -208,6 +211,13 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
 
       dispatch(exportSellerDatabaseTable(exportResource));
       return;
+    }
+
+    // set the table to empty results if data already exists to show loader
+    // on top of table instead of center until custom loader is built
+    const currentSellerDatabaseResults = getSellerDatabaseResults(getState());
+    if (currentSellerDatabaseResults && currentSellerDatabaseResults.length > 0) {
+      dispatch(setSellerDatabaseResults([]));
     }
 
     dispatch(setIsLoadingSellerDatabase(enabledLoader));

@@ -68,29 +68,28 @@ const SellerDatabaseFilters = (props: Props) => {
   const [brands, setBrands] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
   const [monthlyRevenue, setMonthlyRevenue] = useState(DEFAULT_MIN_MAX_FILTER);
 
-  const [merchantName, setMerchantName] = useState<string>('');
-
   /* Advanced Filters */
   const [businessName, setBusinessName] = useState<string>('');
+  const [merchantName, setMerchantName] = useState<string>('');
   const [asins, setAsins] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
   const [sellerIds, setSellerIds] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
+  const [country, setCountry] = useState('All Countries');
+  const [state, setState] = useState('');
+  const [sellerReachability, setSellerReachability] = useState(false);
+
+  const [numOfInventory, setNumOfInventory] = useState(DEFAULT_MIN_MAX_FILTER);
   const [growthPercent, setGrowthPercent] = useState(DEFAULT_GROWTH_PERCENT_FILTER);
   const [growthCount, setGrowthCount] = useState(DEFAULT_GROWTH_COUNT_FILTER);
 
   const [reviewCount, setReviewCount] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
   const [fbaPercent, setFbaPercent] = useState(DEFAULT_MIN_MAX_FILTER);
 
-  const [sellerRatings, setSellerRatings] = useState(DEFAULT_MIN_MAX_FILTER);
   const [review, setReview] = useState(DEFAULT_MIN_MAX_PERIOD_REVIEW);
-
-  const [country, setCountry] = useState('All Countries');
-  const [state, setState] = useState('');
-
   const [launched, setLaunched] = useState('');
   const [sellerType, setSellerType] = useState('');
 
-  const [sellerReachability, setSellerReachability] = useState(false);
+  const [sellerRatings, setSellerRatings] = useState(DEFAULT_MIN_MAX_FILTER);
 
   /* Error States */
   const [asinsError, setAsinsError] = useState(DEFAULT_INCLUDE_EXCLUDE_ERROR);
@@ -99,32 +98,31 @@ const SellerDatabaseFilters = (props: Props) => {
   /* Handlers */
   const handleSubmit = () => {
     const filterPayload = {
-      merchantName,
       categories: categories.join('|'),
       monthlyRevenue,
+      brands,
 
       /* Advanced Filters */
       businessName,
+      merchantName,
       asins,
       sellerIds,
-      brands,
 
+      country: country === 'All Countries' ? '' : country,
+      state: state === 'All States' ? '' : state,
+      sellerReachability,
+
+      numOfInventory,
       growthPercent,
       growthCount,
 
       reviewCount,
       fbaPercent,
 
-      sellerRatings,
       review,
-
-      country: country === 'All Countries' ? '' : country,
-      state: state === 'All States' ? '' : state,
-
       launched,
       sellerType,
-
-      sellerReachability,
+      sellerRatings,
     };
 
     fetchSellerDatabase({ filterPayload, marketplaceId: marketPlace.value });
@@ -142,6 +140,7 @@ const SellerDatabaseFilters = (props: Props) => {
     setSellerIds(DEFAULT_INCLUDE_EXCLUDE_FILTER);
     setBrands(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
+    setNumOfInventory(DEFAULT_MIN_MAX_FILTER);
     setGrowthPercent(DEFAULT_GROWTH_PERCENT_FILTER);
     setGrowthCount(DEFAULT_GROWTH_COUNT_FILTER);
 
@@ -434,6 +433,19 @@ const SellerDatabaseFilters = (props: Props) => {
                 checkboxLabel="Sellers with Phone"
                 checked={sellerReachability}
                 handleChange={value => setSellerReachability(value)}
+              />
+
+              {/* # of Inventory */}
+              <MinMaxFilter
+                label="# of Inventory"
+                minValue={numOfInventory.min}
+                maxValue={numOfInventory.max}
+                handleChange={(type: string, value: string) =>
+                  setNumOfInventory(prevState => ({
+                    ...prevState,
+                    [type]: value,
+                  }))
+                }
               />
 
               {/* Growth % */}
