@@ -106,7 +106,7 @@ const MapFilters = (props: Props) => {
       state,
       zipCode,
       merchantName,
-      categories: categories.join(','),
+      categories: categories.join('|'),
       minMonthlyRevenue: monthlyRevenue.min,
       maxMonthlyRevenue: monthlyRevenue.max,
       launched,
