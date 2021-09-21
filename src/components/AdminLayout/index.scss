@@ -1,6 +1,8 @@
 @import '../../design-system/new-colors.scss';
 
 .admin-layout {
+  margin-left: 100px !important;
+
   &.ui.segment {
     background-color: #fff;
     height: 100%;

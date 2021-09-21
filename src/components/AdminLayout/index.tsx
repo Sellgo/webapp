@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Segment } from 'semantic-ui-react';
-import Sidebar from './Sidebar';
+import Sidebar from '../Nav';
 import './index.scss';
 import { newProductDesignPathNames } from '../../constants';
 
@@ -17,14 +17,13 @@ class AdminLayout extends React.Component<Props> {
 
     return (
       <React.Fragment>
-        <Sidebar>
+        <Sidebar/>
           <Segment
             className={`admin-layout ${isNewProduct ? 'new-admin-layout' : ''}`}
             basic={true}
           >
             <>{children}</>
           </Segment>
-        </Sidebar>
       </React.Fragment>
     );
   }

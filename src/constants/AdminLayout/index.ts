@@ -1,0 +1,11 @@
+export const DASHBOARD_ID = 0;
+export const SEARCH_MANAGEMENT_ID = 1;
+export const PROFIT_FINDER_ID = 2;
+export const PRODUCT_TRACKER_ID = 3;
+export const LEADS_TRACKER_ID = 4;
+export const SELLER_RESEARCH_ID = 5;
+export const SELLER_FINDER_ID = 6;
+export const PRODUCT_RESEARCH_ID = 7;
+export const KEYWORD_RESEARCH_ID = 8;
+export const SETTINGS_ID = 9;
+export const ONBOARDING_ID = 10;
