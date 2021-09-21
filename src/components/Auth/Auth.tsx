@@ -67,17 +67,26 @@ export default class Auth {
             sellerID: localStorage.getItem('userId'),
           };
 
-          if (navigator.userAgent.indexOf('Chrome') !== -1) {
+          // if chrome extension redirect then
+          if (
+            navigator.userAgent.indexOf('Chrome') !== -1 &&
+            decodedRedirectURL.length > 0 &&
+            isURL(decodedRedirectURL)
+          ) {
+            if (chrome && chrome.runtime) {
+              chrome.runtime.sendMessage(chromeID, {
+                status: 'loginWithRedirect',
+                payload: userData,
+              });
+              window.location.href = decodedRedirectURL;
+              localStorage.setItem('chromeRedirectURL', '');
+              return;
+            }
+            // if chrome extension is open, but no redirect notice was issued
+          } else if (navigator.userAgent.indexOf('Chrome') !== -1) {
             if (chrome && chrome.runtime) {
               chrome.runtime.sendMessage(chromeID, { status: 'login', payload: userData });
             }
-          }
-
-          // if chrome extension redirect then
-          if (decodedRedirectURL.length > 0 && isURL(decodedRedirectURL)) {
-            window.location.href = decodedRedirectURL;
-            localStorage.setItem('chromeRedirectURL', '');
-            return;
           }
 
           // normal app workflow
