@@ -64,16 +64,16 @@ const SellerDatabaseFilters = (props: Props) => {
 
   /* Basic Filters */
   const [marketPlace, setMarketPlace] = useState<MarketplaceOption>(DEFAULT_US_MARKET);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [brands, setBrands] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+  const [monthlyRevenue, setMonthlyRevenue] = useState(DEFAULT_MIN_MAX_FILTER);
 
   const [merchantName, setMerchantName] = useState<string>('');
-  const [categories, setCategories] = useState<string[]>([]);
-  const [monthlyRevenue, setMonthlyRevenue] = useState(DEFAULT_MIN_MAX_FILTER);
 
   /* Advanced Filters */
   const [businessName, setBusinessName] = useState<string>('');
   const [asins, setAsins] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
   const [sellerIds, setSellerIds] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
-  const [brands, setBrands] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
   const [growthPercent, setGrowthPercent] = useState(DEFAULT_GROWTH_PERCENT_FILTER);
   const [growthCount, setGrowthCount] = useState(DEFAULT_GROWTH_COUNT_FILTER);
@@ -279,6 +279,19 @@ const SellerDatabaseFilters = (props: Props) => {
             }}
           />
 
+          {/*  Include brands */}
+          <InputFilter
+            label="Include Brands"
+            placeholder="Enter separated by comma"
+            value={brands.include}
+            handleChange={(value: string) =>
+              setBrands(prevState => ({
+                ...prevState,
+                include: value,
+              }))
+            }
+          />
+
           {/* Monthly Revenue = Sales Estimate */}
           <MinMaxFilter
             label="Monthly Revenue"
@@ -291,42 +304,6 @@ const SellerDatabaseFilters = (props: Props) => {
               }))
             }
             prependWith={marketPlace.currency}
-          />
-
-          {/* Merchant Name */}
-          <InputFilter
-            label="Merchant Name"
-            placeholder="Merchant Name"
-            value={merchantName}
-            handleChange={(value: string) => setMerchantName(value)}
-          />
-
-          {/* Include ASINS */}
-          <InputFilter
-            label="Include ASINs or ISBNs"
-            placeholder="Enter separated by comma"
-            value={asins.include.toUpperCase()}
-            handleChange={(value: string) =>
-              setAsins(prevState => ({
-                ...prevState,
-                include: value,
-              }))
-            }
-            error={asinsError.include}
-          />
-
-          {/* Include Seller IDs */}
-          <InputFilter
-            label="Include Seller IDs"
-            placeholder="Enter separated by comma"
-            value={sellerIds.include.toUpperCase()}
-            handleChange={(value: string) =>
-              setSellerIds(prevState => ({
-                ...prevState,
-                include: value,
-              }))
-            }
-            error={sellerIdsError.include}
           />
         </div>
 
@@ -352,19 +329,6 @@ const SellerDatabaseFilters = (props: Props) => {
                 handleChange={(value: string) => setBusinessName(value)}
               />
 
-              {/*  Include brands */}
-              <InputFilter
-                label="Include Brands"
-                placeholder="Enter separated by comma"
-                value={brands.include}
-                handleChange={(value: string) =>
-                  setBrands(prevState => ({
-                    ...prevState,
-                    include: value,
-                  }))
-                }
-              />
-
               {/* Exclude brands */}
               <InputFilter
                 label="Exclude Brands"
@@ -376,6 +340,28 @@ const SellerDatabaseFilters = (props: Props) => {
                     exclude: value,
                   }))
                 }
+              />
+
+              {/* Merchant Name */}
+              <InputFilter
+                label="Merchant Name"
+                placeholder="Merchant Name"
+                value={merchantName}
+                handleChange={(value: string) => setMerchantName(value)}
+              />
+
+              {/* Include ASINS */}
+              <InputFilter
+                label="Include ASINs or ISBNs"
+                placeholder="Enter separated by comma"
+                value={asins.include.toUpperCase()}
+                handleChange={(value: string) =>
+                  setAsins(prevState => ({
+                    ...prevState,
+                    include: value,
+                  }))
+                }
+                error={asinsError.include}
               />
 
               {/* Exclude ASINS Name */}
@@ -390,6 +376,20 @@ const SellerDatabaseFilters = (props: Props) => {
                   }))
                 }
                 error={asinsError.exclude}
+              />
+
+              {/* Include Seller IDs */}
+              <InputFilter
+                label="Include Seller IDs"
+                placeholder="Enter separated by comma"
+                value={sellerIds.include.toUpperCase()}
+                handleChange={(value: string) =>
+                  setSellerIds(prevState => ({
+                    ...prevState,
+                    include: value,
+                  }))
+                }
+                error={sellerIdsError.include}
               />
 
               {/* Exclude Seller IDS */}
@@ -435,9 +435,6 @@ const SellerDatabaseFilters = (props: Props) => {
                 checked={sellerReachability}
                 handleChange={value => setSellerReachability(value)}
               />
-
-              <div className={styles.spacers} />
-              <div className={styles.spacers} />
 
               {/* Growth % */}
               <div className={styles.groupFilters}>
