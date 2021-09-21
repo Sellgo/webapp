@@ -266,7 +266,7 @@ const InventoryTable = (props: Props) => {
       </Table>
 
       {/* Pagination */}
-      {sellerInventoryTablePaginationInfo.total_pages > 0 && (
+      {sellerInventoryTablePaginationInfo && sellerInventoryTablePaginationInfo.total_pages > 0 && (
         <footer className={styles.sellerInventoryPaginationContainer}>
           <Pagination
             totalPages={sellerInventoryTablePaginationInfo.total_pages}

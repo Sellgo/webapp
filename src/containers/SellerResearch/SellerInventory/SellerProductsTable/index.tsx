@@ -24,6 +24,7 @@ import {
 /* Actions */
 import {
   fetchSellerInventoryProductsTableResults,
+  fetchSellerInventoryProductsTableSellers,
   setSellerInventoryProductsTableExpandedRow,
 } from '../../../../actions/SellerResearch/SellerInventory';
 
@@ -41,14 +42,20 @@ import BuyboxCompetition from './BuyboxCompetition';
 import {
   SellerInventoryProductsTablePayload,
   SellerInventoryProductsTablePaginationInfo,
+  SellerInventoryProductsTableSellersPayload,
 } from '../../../../interfaces/SellerResearch/SellerInventory';
 
 interface Props {
   isLoadingSellerInventoryProductsTable: boolean;
   sellerInventoryProductsTableResults: any;
   sellerInventoryProductsTablePaginationInfo: SellerInventoryProductsTablePaginationInfo;
+
   fetchSellerInventoryProductsTableResults: (payload: SellerInventoryProductsTablePayload) => void;
   setSellerInventoryProductsTableExpandedRow: (payload: any) => void;
+
+  fetchSellerInventoryProductsTableSellers: (
+    payload: SellerInventoryProductsTableSellersPayload
+  ) => void;
 }
 
 const SellerProductsTable = (props: Props) => {
@@ -56,6 +63,8 @@ const SellerProductsTable = (props: Props) => {
     isLoadingSellerInventoryProductsTable,
     sellerInventoryProductsTableResults,
     sellerInventoryProductsTablePaginationInfo,
+    setSellerInventoryProductsTableExpandedRow,
+    fetchSellerInventoryProductsTableSellers,
   } = props;
 
   const [expandedRowKeys, setExpandedRowkeys] = useState<string[]>([]);
@@ -72,8 +81,11 @@ const SellerProductsTable = (props: Props) => {
 
     if (currentExpandedRowId !== rowId) {
       setExpandedRowkeys([rowId]);
+      setSellerInventoryProductsTableExpandedRow(rowData);
+      fetchSellerInventoryProductsTableSellers({ parentAsin: rowData.asin });
     } else {
       setExpandedRowkeys([]);
+      setSellerInventoryProductsTableExpandedRow({});
     }
   };
 
@@ -149,19 +161,20 @@ const SellerProductsTable = (props: Props) => {
         </Table.Column>
       </Table>
 
-      {sellerInventoryProductsTablePaginationInfo.num_pages > 0 && (
-        <footer className={styles.sellerProductsTablePagination}>
-          <Pagination
-            totalPages={sellerInventoryProductsTablePaginationInfo.num_pages}
-            currentPage={1}
-            onPageChange={handlePageChange}
-            showSiblingsCount={3}
-            showPerPage={true}
-            perPage={sellerInventoryProductsTablePaginationInfo.per_page}
-            perPageList={DEFAULT_PAGES_LIST}
-          />
-        </footer>
-      )}
+      {sellerInventoryProductsTablePaginationInfo &&
+        sellerInventoryProductsTablePaginationInfo.num_pages > 0 && (
+          <footer className={styles.sellerProductsTablePagination}>
+            <Pagination
+              totalPages={sellerInventoryProductsTablePaginationInfo.num_pages}
+              currentPage={1}
+              onPageChange={handlePageChange}
+              showSiblingsCount={3}
+              showPerPage={true}
+              perPage={sellerInventoryProductsTablePaginationInfo.per_page}
+              perPageList={DEFAULT_PAGES_LIST}
+            />
+          </footer>
+        )}
     </section>
   );
 };
@@ -182,6 +195,11 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(setSellerInventoryProductsTableExpandedRow(payload)),
     fetchSellerInventoryProductsTableResults: (payload: SellerInventoryProductsTablePayload) => {
       dispatch(fetchSellerInventoryProductsTableResults(payload));
+    },
+    fetchSellerInventoryProductsTableSellers: (
+      payload: SellerInventoryProductsTableSellersPayload
+    ) => {
+      dispatch(fetchSellerInventoryProductsTableSellers(payload));
     },
   };
 };

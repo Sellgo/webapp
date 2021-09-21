@@ -47,3 +47,22 @@ export const getSellerInventoryProductsTablePaginationInfo = (state: any) => {
 export const getSellerInventoryProductsTableExpandedRow = (state: any) => {
   return get(state, 'sellerInventory.sellerInventoryProductsTableExpandedRow');
 };
+
+/* ======================================================== */
+/* ====== SELLER INVENTORY PRODUCTS TABLE SELLERS ========= */
+/* ========================================================= */
+
+/* Selector to get the loading state for products sellers table */
+export const getIsLoadingSellerInventoryProductsTableSellers = (state: any) => {
+  return get(state, 'sellerInventory.isLoadingSellerInventoryProductsTableSellers');
+};
+
+/* Selector to get the results state for products sellers table */
+export const getSellerInventoryProductsTableSellersResults = (state: any) => {
+  return get(state, 'sellerInventory.sellerInventoryProductsTableSellersResults');
+};
+
+/* Selector to get the pagination state for products sellers table */
+export const getSellerInventoryProductsTableSellersPaginationInfo = (state: any) => {
+  return get(state, 'sellerInventory.sellerInventoryProductsTableSellersPaginationInfo');
+};

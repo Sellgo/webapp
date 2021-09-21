@@ -37,3 +37,22 @@ export interface SellerInventoryProductsTablePaginationInfo {
   per_page: number;
   min_max?: any;
 }
+
+/* ==================================================== */
+/* ====== SELLER INVENTORY PRODUCTS SELLER TABLE ====== */
+/* ===================================================== */
+export interface SellerInventoryProductsTableSellersPayload {
+  parentAsin: string;
+  enableLoader?: boolean;
+  page?: number;
+  perPage?: number;
+}
+
+export interface SellerInventoryProductsTableSellersPaginationInfo {
+  count: number;
+  current_page: number;
+  per_page: number;
+  total_pages: number;
+  next?: string;
+  prev?: string;
+}

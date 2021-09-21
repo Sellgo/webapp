@@ -20,6 +20,16 @@ const INITIAL_STATE = {
   sellerInventoryProductsTableResults: [],
   sellerInventoryProductsTablePaginationInfo: { count: 0, num_pages: 0, per_page: 20 },
   sellerInventoryProductsTableExpandedRow: {},
+
+  // seller inventory products table sellers
+  isLoadingSellerInventoryProductsTableSellers: false,
+  sellerInventoryProductsTableSellersResults: [],
+  sellerInventoryProductsTableSellersPaginationInfo: {
+    count: 0,
+    total_pages: 0,
+    current_page: 0,
+    per_page: 0,
+  },
 };
 
 const sellerInventoryReducer = (state = INITIAL_STATE, action: AnyAction) => {
@@ -62,6 +72,23 @@ const sellerInventoryReducer = (state = INITIAL_STATE, action: AnyAction) => {
     case actionTypes.SET_SELLER_INVENTORY_PRODUCTS_TABLE_EXPANDED_ROW: {
       return setIn(state, 'sellerInventoryProductsTableExpandedRow', action.payload);
     }
+
+    /* ============================================ */
+    /* ====== SELLER INVENTORY PRODUCTS SELLERS TABLE ===== */
+    /* ============================================ */
+
+    case actionTypes.IS_LOADING_SELLER_INVENTORY_PRODUCTS_TABLE_SELLERS: {
+      return setIn(state, 'isLoadingSellerInventoryProductsTableSellers', action.payload);
+    }
+
+    case actionTypes.SET_SELLER_INVENTORY_PRODUCTS_TABLE_SELLERS_RESULTS: {
+      return setIn(state, 'sellerInventoryProductsTableSellersResults', action.payload);
+    }
+
+    case actionTypes.SET_SELLER_INVENTORY_PRODUCTS_TABLE_SELLERS_PAGINATION_INFO: {
+      return setIn(state, 'sellerInventoryProductsTableSellersPaginationInfo', action.payload);
+    }
+
     default: {
       return state;
     }

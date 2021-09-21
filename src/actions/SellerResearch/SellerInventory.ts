@@ -13,6 +13,8 @@ import { sellerIDSelector } from '../../selectors/Seller';
 import {
   SellerInventoryProductsTablePaginationInfo,
   SellerInventoryProductsTablePayload,
+  SellerInventoryProductsTableSellersPaginationInfo,
+  SellerInventoryProductsTableSellersPayload,
   SellerInventoryTablePaginationInfo,
   SellerInventoryTablePayload,
 } from '../../interfaces/SellerResearch/SellerInventory';
@@ -38,7 +40,7 @@ export const setSellerInventoryTableResults = (payload: any[]) => {
 };
 
 /* Action to set the seller inventory pagination info results */
-export const setSellerInventoryTablePagintionInfo = (
+export const setSellerInventoryTablePaginationInfo = (
   payload: SellerInventoryTablePaginationInfo
 ) => {
   return {
@@ -93,6 +95,36 @@ export const setSellerInventoryProductsTableExpandedRow = (payload: any) => {
   };
 };
 
+/* ====================================================== */
+/* ====== SELLER INVENTORY PRODUCTS SELLERS TABLE ========= */
+/* ====================================================== */
+
+/* Action to set loading state for seller inventory products table sellers */
+export const isLoadingSellerInventoryProductsTableSellers = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_LOADING_SELLER_INVENTORY_PRODUCTS_TABLE_SELLERS,
+    payload,
+  };
+};
+
+/* Action to set seller inventory products table sllers results */
+export const setSellerInventoryProductsTableSellersResults = (payload: any) => {
+  return {
+    type: actionTypes.SET_SELLER_INVENTORY_PRODUCTS_TABLE_SELLERS_RESULTS,
+    payload,
+  };
+};
+
+/* Action to set seller inventory products table sellers pagination info */
+export const setSellerInventoryProductsTableSellersPaginationInfo = (
+  payload: SellerInventoryProductsTableSellersPaginationInfo
+) => {
+  return {
+    type: actionTypes.SET_SELLER_INVENTORY_PRODUCTS_TABLE_SELLERS_PAGINATION_INFO,
+    payload,
+  };
+};
+
 /* ============================================ */
 /* ================= ASYNC ACIONS ========== */
 /* ============================================ */
@@ -124,13 +156,13 @@ export const fetchSellerInventoryTableResults = (payload: SellerInventoryTablePa
     if (data) {
       const { results, ...paginationInfo } = data;
       dispatch(setSellerInventoryTableResults(results));
-      dispatch(setSellerInventoryTablePagintionInfo(paginationInfo));
+      dispatch(setSellerInventoryTablePaginationInfo(paginationInfo));
       dispatch(isLoadingSellerInventoryTable(false));
     } else {
       dispatch(isLoadingSellerInventoryTable(false));
       dispatch(setSellerInventoryTableResults([]));
       dispatch(
-        setSellerInventoryTablePagintionInfo({
+        setSellerInventoryTablePaginationInfo({
           per_page: 20,
           total_pages: 0,
           count: 0,
@@ -143,7 +175,7 @@ export const fetchSellerInventoryTableResults = (payload: SellerInventoryTablePa
     dispatch(isLoadingSellerInventoryTable(false));
     dispatch(setSellerInventoryTableResults([]));
     dispatch(
-      setSellerInventoryTablePagintionInfo({
+      setSellerInventoryTablePaginationInfo({
         per_page: 20,
         total_pages: 0,
         count: 0,
@@ -195,5 +227,64 @@ export const fetchSellerInventoryProductsTableResults = (
       setSellerInventoryProductsTablePagintionInfo({ count: 0, num_pages: 0, per_page: 20 })
     );
     dispatch(isLoadingSellerInventoryProductsTable(false));
+  }
+};
+
+/* ====================================================== */
+/* ====== SELLER INVENTORY PRODUCTS SELLERS TABLE ========= */
+/* ====================================================== */
+
+/* Action to fetch seller inventory products table sellers */
+export const fetchSellerInventoryProductsTableSellers = (
+  payload: SellerInventoryProductsTableSellersPayload
+) => async (dispatch: any) => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const { enableLoader = true, page = 1, perPage = 20, parentAsin } = payload;
+
+    if (!parentAsin) {
+      return;
+    }
+
+    const pagination = `page=${page}&per_page=${perPage}`;
+
+    const resourcePath = `${pagination}&parent_asin=${parentAsin}`;
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchants?${resourcePath}`;
+
+    dispatch(isLoadingSellerInventoryProductsTableSellers(enableLoader));
+
+    const { data } = await axios.get(URL);
+
+    if (data) {
+      const { results, ...paginationInfo } = data;
+      dispatch(setSellerInventoryProductsTableSellersResults(results));
+      dispatch(setSellerInventoryProductsTableSellersPaginationInfo(paginationInfo));
+      dispatch(isLoadingSellerInventoryProductsTableSellers(false));
+    } else {
+      dispatch(setSellerInventoryProductsTableSellersResults([]));
+      dispatch(
+        setSellerInventoryProductsTableSellersPaginationInfo({
+          count: 0,
+          total_pages: 0,
+          current_page: 0,
+          per_page: 0,
+        })
+      );
+      dispatch(isLoadingSellerInventoryProductsTableSellers(false));
+    }
+  } catch (err) {
+    console.error('Error fetching seller inventory products table sellers', err);
+    dispatch(setSellerInventoryProductsTableSellersResults([]));
+    dispatch(
+      setSellerInventoryProductsTableSellersPaginationInfo({
+        count: 0,
+        total_pages: 0,
+        current_page: 0,
+        per_page: 0,
+      })
+    );
+    dispatch(isLoadingSellerInventoryProductsTableSellers(false));
   }
 };
