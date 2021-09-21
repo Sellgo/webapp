@@ -100,7 +100,7 @@ const SellerDatabaseFilters = (props: Props) => {
   const handleSubmit = () => {
     const filterPayload = {
       merchantName,
-      categories: categories.join(','),
+      categories: categories.join('|'),
       monthlyRevenue,
 
       /* Advanced Filters */
