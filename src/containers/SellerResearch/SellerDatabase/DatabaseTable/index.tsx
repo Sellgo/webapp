@@ -117,7 +117,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Category */}
-          <Table.Column width={150} sortable verticalAlign="middle" align="center">
+          <Table.Column width={180} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Category`}
@@ -126,7 +126,7 @@ const SellerDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <TruncatedTextCell dataKey="category" maxLength={50} />
+            <TruncatedTextCell dataKey="category" maxLength={20} />
           </Table.Column>
 
           {/* Monthly Revenue = Sales Est. */}
@@ -372,6 +372,32 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <TruncatedTextCell dataKey="launched" maxLength={20} />
+          </Table.Column>
+
+          {/* Seller Type */}
+          <Table.Column width={100} sortable verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Seller Type`}
+                dataKey="seller_type"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <TruncatedTextCell dataKey="seller_type" maxLength={20} />
+          </Table.Column>
+
+          {/* Seller Phone  */}
+          <Table.Column width={180} sortable verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Seller Phone`}
+                dataKey="phone"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <TruncatedTextCell dataKey="phone" maxLength={20} />
           </Table.Column>
         </Table>
 

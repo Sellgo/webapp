@@ -11,6 +11,8 @@ export interface SellerMapPayload {
   minMonthlyRevenue?: string;
   maxMonthlyRevenue?: string;
   maxCount?: number;
+  launched?: string;
+  sellerType?: string;
 }
 
 export interface SellerData {

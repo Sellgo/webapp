@@ -53,10 +53,15 @@ export const DEFAULT_GROWTH_COUNT_FILTER = {
 };
 
 /* Launched Durations for filters */
-export const FILTER_LAUNCHED_DURATIONS = [
-  { label: '<1-yr', value: '<1Y' },
-  { label: '>1-yr', value: '>1Y' },
-  { label: 'All', value: '' },
+export const LAUNCHED_FILTER_OPTIONS = [
+  { label: 'Longer than a year', value: '>1Y' },
+  { label: '90D - 1 year', value: '90D-1Y' },
+];
+
+/* Seller Type filter options */
+export const SELLER_TYPE_FILTER_OPTIONS = [
+  { label: 'Private Label Seller', value: 'private_label' },
+  { label: 'Wholesale Reseller', value: 'wholesale' },
 ];
 
 /* Default include exclude filters */
@@ -117,9 +122,17 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
 
   reviewCount: { keyName: 'count', type: F_TYPES.MIN_MAX_PERIOD },
   fbaPercent: { keyName: 'fba_percent', type: F_TYPES.MIN_MAX },
-  sellerRatings: { keyName: 'seller_rating', type: F_TYPES.MIN_MAX },
 
+  sellerRatings: { keyName: 'seller_rating', type: F_TYPES.MIN_MAX },
   review: { keyName: 'review', type: F_TYPES.MIN_MAX_PERIOD_REVIEW },
+
+  country: { keyName: 'country', type: F_TYPES.TEXT },
+  state: { keyName: 'state', type: F_TYPES.TEXT },
+
+  launched: { keyName: 'launched', type: F_TYPES.TEXT },
+  sellerType: { keyName: 'seller_type', type: F_TYPES.TEXT },
+
+  sellerReachability: { keyName: 'has_phone', type: F_TYPES.TEXT },
 };
 
 export const GROWTH_PERCENT_FILTER_KEY_MAPPER = {
@@ -158,4 +171,19 @@ export const DEFAULT_US_MARKET = {
   disabled: false,
   key: 'US',
   currency: '$',
+};
+
+export const sellerTypeMapper: { [key: string]: string } = {
+  private_label: 'Private Lable',
+  wholesale: 'Wholesale',
+};
+
+export const prettyPrintSeller = (sellerType: string) => {
+  const seller = sellerTypeMapper[sellerType];
+
+  if (!seller) {
+    return '-';
+  }
+
+  return seller;
 };

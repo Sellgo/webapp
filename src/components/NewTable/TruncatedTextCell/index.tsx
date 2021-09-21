@@ -9,6 +9,7 @@ import { truncateString } from '../../../utils/format';
 
 /* Interface */
 import { RowCell } from '../../../interfaces/Table';
+import { prettyPrintSeller } from '../../../constants/SellerResearch/SellerDatabase';
 
 /* Interface */
 interface Props extends RowCell {
@@ -26,6 +27,10 @@ const TruncatedTextCell = (props: Props) => {
     displayText = rawContent.join(',');
   } else if (typeof rawContent === 'string') {
     displayText = rawContent;
+  }
+
+  if (dataKey === 'seller_type') {
+    displayText = prettyPrintSeller(displayText);
   }
 
   return (

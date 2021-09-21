@@ -102,6 +102,8 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
     categories = '',
     minMonthlyRevenue = '',
     maxMonthlyRevenue = '',
+    launched = '',
+    sellerType = '',
     maxCount = 1000,
   } = payload;
 
@@ -144,7 +146,7 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
 
     // add the categories
     if (categories) {
-      queryString += `&categories=${categories}`;
+      queryString += `&categories=${encodeURIComponent(categories)}`;
     }
 
     // min monthly revenue
@@ -156,6 +158,14 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
     // add max monthly revenue
     if (maxMonthlyRevenue) {
       queryString += `&sales_estimate_max=${maxMonthlyRevenue}`;
+    }
+
+    if (launched) {
+      queryString += `&launched=${launched}`;
+    }
+
+    if (sellerType) {
+      queryString += `&seller_type=${sellerType}`;
     }
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchantmaps/search?max_count=${maxCount}${queryString}`;
