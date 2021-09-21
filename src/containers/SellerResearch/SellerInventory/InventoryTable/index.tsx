@@ -128,7 +128,7 @@ const InventoryTable = (props: Props) => {
         //  Props for table expansion
         rowKey={SELLER_INVENTORY_UNIQUE_KEY}
         rowExpandedHeight={calculateSellerInventoryTableHeight(
-          sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length,
+          sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length + 1,
           0
         )}
         expandedRowKeys={expandedRowKeys}

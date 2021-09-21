@@ -82,7 +82,7 @@ const SellerProductsTable = (props: Props) => {
         loading={isLoadingSellerInventoryProductsTable}
         data={sellerInventoryProductsTableResults}
         height={calculateSellerInventoryTableHeight(
-          sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length - 4,
+          sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length,
           0
         )}
         hover={false}

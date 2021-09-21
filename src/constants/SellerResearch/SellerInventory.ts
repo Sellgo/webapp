@@ -47,13 +47,17 @@ export const SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT = 70;
 
 export const calculateSellerInventoryTableHeight = (
   numOfProducts: number,
-  numOfSellers: number
+  numofSellers: number
 ) => {
-  const OFFSET_ROWS = 7;
-  console.log(numOfProducts, numOfSellers);
+  const OFFSET_ROWS = 2;
+
+  console.log(numOfProducts, numofSellers);
 
   const productsTableHeight =
-    (numOfProducts + OFFSET_ROWS) * SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT;
+    (numOfProducts === 0 ? 2 : numOfProducts + OFFSET_ROWS) *
+    SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT;
+
+  console.log('Products Table Height', productsTableHeight);
 
   return productsTableHeight;
 };
