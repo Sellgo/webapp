@@ -53,6 +53,9 @@ export const SELLER_INVENTORY_TABLE_ROW_HEIGHT = 200;
 /* Seller Inventory Products Table Row hight */
 export const SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT = 70;
 
+/* Seller Inventory Products Sellers Table Row Height */
+export const SELLER_INVENTORY_PRODUCTS_TABLE_SELLER_ROW_HEIGHT = 50;
+
 export const calculateSellerInventoryTableHeight = (
   numOfProducts: number,
   numofSellers: number
@@ -65,7 +68,12 @@ export const calculateSellerInventoryTableHeight = (
     (numOfProducts === 0 ? 2 : numOfProducts + OFFSET_ROWS) *
     SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT;
 
-  console.log('Products Table Height', productsTableHeight);
+  const sellersTableHeight =
+    (numofSellers === 0 ? 2 : numofSellers + OFFSET_ROWS) *
+    SELLER_INVENTORY_PRODUCTS_TABLE_SELLER_ROW_HEIGHT;
 
-  return productsTableHeight;
+  console.log('Products Table Height', productsTableHeight);
+  console.log('Sellers Table Height', sellersTableHeight);
+
+  return productsTableHeight + sellersTableHeight;
 };

@@ -18,6 +18,7 @@ import {
 import {
   getIsLoadingSellerInventoryTable,
   getSellerInventoryProductsTableResults,
+  getSellerInventoryProductsTableSellersResults,
   getSellerInventoryTablePaginationInfo,
   getSellerInventoryTableResults,
 } from '../../../../selectors/SellerResearch/SellerInventory';
@@ -56,6 +57,7 @@ interface Props {
   sellerInventoryTablePaginationInfo: SellerInventoryTablePaginationInfo;
 
   sellerInventoryProductsTableResults: any[];
+  sellerInventoryProductsTableSellersResults: any[];
 
   setSellerInventoryTableExpandedRow: (payload: any) => void;
 
@@ -74,6 +76,7 @@ const InventoryTable = (props: Props) => {
     fetchSellerInventoryProductsTable,
 
     sellerInventoryProductsTableResults,
+    sellerInventoryProductsTableSellersResults,
   } = props;
 
   const [sortColumn, setSortColumn] = useState<string>('');
@@ -129,7 +132,9 @@ const InventoryTable = (props: Props) => {
         rowKey={SELLER_INVENTORY_UNIQUE_KEY}
         rowExpandedHeight={calculateSellerInventoryTableHeight(
           sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length + 1,
-          0
+          (sellerInventoryProductsTableSellersResults &&
+            sellerInventoryProductsTableSellersResults.length + 1) ||
+            0
         )}
         expandedRowKeys={expandedRowKeys}
         renderRowExpanded={() => <SellerProductsTable />}
@@ -290,6 +295,9 @@ const mapStateToProps = (state: any) => {
     sellerInventoryTablePaginationInfo: getSellerInventoryTablePaginationInfo(state),
 
     sellerInventoryProductsTableResults: getSellerInventoryProductsTableResults(state),
+    sellerInventoryProductsTableSellersResults: getSellerInventoryProductsTableSellersResults(
+      state
+    ),
   };
 };
 

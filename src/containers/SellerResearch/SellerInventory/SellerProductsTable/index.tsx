@@ -19,6 +19,7 @@ import {
   getIsLoadingSellerInventoryProductsTable,
   getSellerInventoryProductsTablePaginationInfo,
   getSellerInventoryProductsTableResults,
+  getSellerInventoryProductsTableSellersResults,
 } from '../../../../selectors/SellerResearch/SellerInventory';
 
 /* Actions */
@@ -47,7 +48,7 @@ import {
 
 interface Props {
   isLoadingSellerInventoryProductsTable: boolean;
-  sellerInventoryProductsTableResults: any;
+  sellerInventoryProductsTableResults: any[];
   sellerInventoryProductsTablePaginationInfo: SellerInventoryProductsTablePaginationInfo;
 
   fetchSellerInventoryProductsTableResults: (payload: SellerInventoryProductsTablePayload) => void;
@@ -56,6 +57,8 @@ interface Props {
   fetchSellerInventoryProductsTableSellers: (
     payload: SellerInventoryProductsTableSellersPayload
   ) => void;
+
+  sellerInventoryProductsTableSellersResults: any[];
 }
 
 const SellerProductsTable = (props: Props) => {
@@ -64,7 +67,9 @@ const SellerProductsTable = (props: Props) => {
     sellerInventoryProductsTableResults,
     sellerInventoryProductsTablePaginationInfo,
     setSellerInventoryProductsTableExpandedRow,
+
     fetchSellerInventoryProductsTableSellers,
+    sellerInventoryProductsTableSellersResults,
   } = props;
 
   const [expandedRowKeys, setExpandedRowkeys] = useState<string[]>([]);
@@ -104,7 +109,11 @@ const SellerProductsTable = (props: Props) => {
         id="sellerProductsTable"
         rowKey={SELLER_INVENTORY_PRODUCTS_TABLE_UNIQUE_KEY}
         // Expansion
-        rowExpandedHeight={20}
+        rowExpandedHeight={calculateSellerInventoryTableHeight(
+          sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length,
+          sellerInventoryProductsTableSellersResults &&
+            sellerInventoryProductsTableSellersResults.length
+        )}
         expandedRowKeys={expandedRowKeys}
         renderRowExpanded={() => (
           <div>
@@ -184,6 +193,9 @@ const mapStateToProps = (state: any) => {
     isLoadingSellerInventoryProductsTable: getIsLoadingSellerInventoryProductsTable(state),
     sellerInventoryProductsTableResults: getSellerInventoryProductsTableResults(state),
     sellerInventoryProductsTablePaginationInfo: getSellerInventoryProductsTablePaginationInfo(
+      state
+    ),
+    sellerInventoryProductsTableSellersResults: getSellerInventoryProductsTableSellersResults(
       state
     ),
   };
