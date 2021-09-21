@@ -3,16 +3,29 @@ import queryString from 'query-string';
 import history from '../../history';
 import { success } from '../../utils/notifications';
 import Login from '../Login';
+import Auth from '../../components/Auth/Auth';
 
+const auth = new Auth();
 export default class Home extends React.Component<any> {
   componentDidMount() {
     const { location } = this.props;
     let redirectPath = localStorage.getItem('loginRedirectPath');
-    if (location.search.includes('?res=')) {
+
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    // If logging in from chrome extension, and user is already logged into webapp
+    if (location.search.includes('?res=') && isLoggedIn) {
       localStorage.setItem('chromeRedirectURL', location.search.split('?res=')[1]);
+      auth.authenticateChromeExtension();
+
+      // If logging in from chrome extension, but user is not logged in from webapp
+    } else if (location.search.includes('?res=')) {
+      localStorage.setItem('chromeRedirectURL', location.search.split('?res=')[1]);
+
+      // User is not logging in from chrome extension
     } else {
       localStorage.setItem('chromeRedirectURL', '');
     }
+
     if (redirectPath && redirectPath !== '/') {
       history.replace(redirectPath);
     } else if (localStorage.getItem('isLoggedIn') === 'true') {
