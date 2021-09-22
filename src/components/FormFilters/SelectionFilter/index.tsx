@@ -72,7 +72,6 @@ const SelectionFilter: React.FC<Props> = props => {
       )}
 
       <Dropdown
-        search
         fluid
         className="selectionFilter"
         options={filterOptions}

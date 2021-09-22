@@ -328,6 +328,14 @@ const SellerDatabaseFilters = (props: Props) => {
 
           {showAdvancedFilter && (
             <div className={styles.showAdvancedFilter}>
+              {/* Merchant Name */}
+              <InputFilter
+                label="Merchant Name"
+                placeholder="Merchant Name"
+                value={merchantName}
+                handleChange={(value: string) => setMerchantName(value)}
+              />
+
               {/* Business name */}
               <InputFilter
                 label="Business Name"
@@ -347,14 +355,6 @@ const SellerDatabaseFilters = (props: Props) => {
                     exclude: value,
                   }))
                 }
-              />
-
-              {/* Merchant Name */}
-              <InputFilter
-                label="Merchant Name"
-                placeholder="Merchant Name"
-                value={merchantName}
-                handleChange={(value: string) => setMerchantName(value)}
               />
 
               {/* Include ASINS */}
