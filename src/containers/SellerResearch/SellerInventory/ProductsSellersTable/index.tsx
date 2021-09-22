@@ -73,13 +73,13 @@ const ProductsSellersTable = (props: Props) => {
       >
         {/* Price */}
         <Table.Column verticalAlign="middle" align="left" flexGrow={1}>
-          <Table.HeaderCell>Price</Table.HeaderCell>
+          <Table.HeaderCell>Seller Name</Table.HeaderCell>
           <StatsCell dataKey="fba_count" align="center" />
         </Table.Column>
 
-        {/* Price */}
+        {/* ASIN */}
         <Table.Column verticalAlign="middle" align="left" flexGrow={1}>
-          <Table.HeaderCell>Price</Table.HeaderCell>
+          <Table.HeaderCell>ASIN</Table.HeaderCell>
           <StatsCell dataKey="fba_count" align="center" />
         </Table.Column>
 

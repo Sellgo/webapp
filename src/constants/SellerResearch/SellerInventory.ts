@@ -65,44 +65,34 @@ export const calculateSellerInventoryTableExpandedHeight = (
 ) => {
   /* When no products and no sellers */
   if (numOfProducts <= 0 && numofSellers <= 0) {
-    return 300;
+    return 230;
   }
 
   /* When sellers have products */
   if (numOfProducts > 0 && numofSellers <= 0) {
-    const PRODUCTS_ROWS_OFFSET = 5;
+    const PRODUCTS_ROWS_OFFSET = 8;
 
     const sellerInventoryTableExpandedHeight =
       (numOfProducts + PRODUCTS_ROWS_OFFSET) * SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT;
-
-    console.log({
-      name: 'Seller Inventorty Expanded Height',
-      numOfProducts,
-      numofSellers: 0,
-      value: sellerInventoryTableExpandedHeight,
-    });
 
     return sellerInventoryTableExpandedHeight;
   }
 
   /* When seller has both products and product has sellers */
   if (numOfProducts > 0 && numofSellers > 0) {
-    const PRODUCTS_ROWS_OFFSET = 3;
-    const SELLERS_ROWS_OFFSET = 3;
-
-    const sellerInventoryProductsTable =
-      (numOfProducts + PRODUCTS_ROWS_OFFSET) * SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT;
+    const OFFSET_SPACING = 100;
+    const sellerInventoryProductsTable = numOfProducts * SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT;
 
     const sellerInventorySellersTable =
-      (numOfProducts + SELLERS_ROWS_OFFSET) * SELLER_INVENTORY_PRODUCTS_TABLE_SELLER_ROW_HEIGHT;
+      numOfProducts * SELLER_INVENTORY_PRODUCTS_TABLE_SELLER_ROW_HEIGHT;
 
-    const totalHeight = sellerInventoryProductsTable + sellerInventorySellersTable;
+    const totalHeight = sellerInventoryProductsTable + sellerInventorySellersTable + OFFSET_SPACING;
 
     console.log({
       name: 'Seller Inventorty Expanded Height',
       numOfProducts,
       numofSellers: 0,
-      value: sellerInventoryProductsTable + sellerInventorySellersTable,
+      value: totalHeight,
     });
 
     return totalHeight;
@@ -112,73 +102,49 @@ export const calculateSellerInventoryTableExpandedHeight = (
 export const calculateProductsTableHeight = (numOfProducts: number, numOfSellers: number) => {
   /* When no products and no sellers */
   if (numOfProducts <= 0 && numOfSellers <= 0) {
-    console.log({
-      name: 'Products Table Height',
-      numOfProducts,
-      numOfSellers,
-      value: 240,
-    });
-
-    return 240;
+    return 150;
   }
 
   /* When products exists */
   if (numOfProducts > 0 && numOfSellers <= 0) {
-    const PRODUCTS_ROW_OFFSET = 1;
+    const EMPTY_SPACE_OFFSET = 320;
 
     const productsTableHeight =
-      (numOfProducts + PRODUCTS_ROW_OFFSET) * SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT;
-
-    console.log({
-      name: 'Products Table Height',
-      numOfProducts,
-      numOfSellers,
-      value: productsTableHeight,
-    });
+      numOfProducts * SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT + EMPTY_SPACE_OFFSET;
 
     return productsTableHeight;
   }
 
   /* When seller has both products and product has sellers */
   if (numOfProducts > 0 && numOfSellers > 0) {
-    const PRODUCTS_ROWS_OFFSET = 2;
-    const SELLERS_ROWS_OFFSET = 2;
-
-    const sellerInventoryProductsTable =
-      (numOfProducts + PRODUCTS_ROWS_OFFSET) * SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT;
+    const sellerInventoryProductsTable = numOfProducts * SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT;
 
     const sellerInventorySellersTable =
-      (numOfProducts + SELLERS_ROWS_OFFSET) * SELLER_INVENTORY_PRODUCTS_TABLE_SELLER_ROW_HEIGHT;
+      numOfSellers * SELLER_INVENTORY_PRODUCTS_TABLE_SELLER_ROW_HEIGHT;
 
     const totalHeight = sellerInventoryProductsTable + sellerInventorySellersTable;
 
     console.log({
-      name: 'Products Table',
+      name: 'Products Table Height',
       numOfProducts,
       numofSellers: 0,
-      value: sellerInventoryProductsTable + sellerInventorySellersTable,
+      value: totalHeight,
     });
 
     return totalHeight;
   }
 };
 
+/* Calculate products table expanded hieght */
 export const calculateProductsTableExpandedHeight = (numOfSellers: number) => {
   if (numOfSellers <= 0) {
-    console.log({
-      name: 'Products Expanded Height',
-      numOfSellers,
-      value: 200,
-    });
     return 200;
   }
 
   /* If products has sellers */
   if (numOfSellers > 0) {
-    const SELLERS_ROWS_OFFSET = 1;
-
-    const value =
-      (numOfSellers + SELLERS_ROWS_OFFSET) * SELLER_INVENTORY_PRODUCTS_TABLE_SELLER_ROW_HEIGHT;
+    const OFFSET_ROWS = 4;
+    const value = (numOfSellers + OFFSET_ROWS) * SELLER_INVENTORY_PRODUCTS_TABLE_SELLER_ROW_HEIGHT;
     console.log({
       name: 'Products Expanded Height',
       numOfSellers,
@@ -189,17 +155,23 @@ export const calculateProductsTableExpandedHeight = (numOfSellers: number) => {
   }
 };
 
+/* Calculate sellers table height */
 export const calculateSellerInventorySellersTableHeight = (numOfSellers: number) => {
+  // if there are no sellers for products
   if (numOfSellers <= 0) {
-    console.log({
-      name: 'Sellers Table Height',
-      numOfSellers,
-      value: 120,
-    });
     return 120;
   }
 
+  // if there are sellers for products
   if (numOfSellers > 0) {
-    return numOfSellers * SELLER_INVENTORY_PRODUCTS_TABLE_SELLER_ROW_HEIGHT;
+    const OFFSET_ROWS = 2;
+    const height = (numOfSellers + OFFSET_ROWS) * SELLER_INVENTORY_PRODUCTS_TABLE_SELLER_ROW_HEIGHT;
+
+    console.log({
+      name: 'Sellers Table Height',
+      value: height,
+    });
+
+    return height;
   }
 };
