@@ -16,7 +16,7 @@ class AdminLayout extends React.Component<Props> {
     const isNewProduct = newProductDesignPathNames.includes(window.location.pathname);
 
     return (
-      <React.Fragment>
+      <main id="admin-layout-wrapper">
         <Sidebar/>
           <Segment
             className={`admin-layout ${isNewProduct ? 'new-admin-layout' : ''}`}
@@ -24,7 +24,7 @@ class AdminLayout extends React.Component<Props> {
           >
             <>{children}</>
           </Segment>
-      </React.Fragment>
+      </main>
     );
   }
 }

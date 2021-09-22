@@ -1,0 +1,93 @@
+@import '../../../design-system/new-colors.scss';
+
+.mainOption {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  white-space: nowrap;
+  height: 50px;
+
+  .navLabel {
+    margin-left: 18px;
+    font-size: 14px;
+    color: $prim_white;
+    font-weight: normal;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: $blue_8;
+  }
+}
+
+.subOption {
+  color: $prim_white !important;
+  text-decoration: none !important;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  white-space: nowrap;
+  padding: 10px 0;
+  padding-left: 30px;
+  height: 50px;
+  width: 100%;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $blue_8;
+    text-decoration: none !important;
+  }
+}
+
+.navSubOptionText {
+  height: 100%;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-decoration: none !important;
+
+
+  .label {
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 12px;
+    font-weight: normal;
+
+    &:hover {
+      text-decoration: none !important;
+    }
+  }
+
+  .desc {
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 10px;
+    font-weight: lighter;
+    &:hover {
+      text-decoration: none !important;
+    }
+  }
+}
+
+.navIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 15px;
+
+  img {
+    width: 25px;
+  }
+}
+
+.accordionContent {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.active {
+  background-color: $blue_8;
+}
