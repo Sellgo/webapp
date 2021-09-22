@@ -51,7 +51,7 @@
             .rs-table-cell-content {
               background: $light_gray_background !important;
               padding: 0 10px !important;
-              padding-top: 20px !important;
+              padding-top: 5px !important;
 
               // add border-top on each cell for each row
               border-top: 1px solid $grey_3 !important;
@@ -64,7 +64,7 @@
             .rs-table-cell-content {
               background: $grey_1 !important;
               padding: 0 10px !important;
-              padding-top: 20px !important;
+              padding-top: 5px !important;
 
               // add border-top on each cell for each row
               border-top: 1px solid $grey_3 !important;
@@ -87,7 +87,7 @@
               background: $light_gray_background !important;
               // remove any borders from cell to show it's outside tbale
               border: 0 !important;
-              padding-top: 30px !important;
+              padding-top: 15px !important;
             }
           }
 

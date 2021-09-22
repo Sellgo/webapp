@@ -54,7 +54,7 @@ export const SELLER_INVENTORY_PRODUCTS_SELLERS_TABLE_UNIQUE_KEY = 'id';
 export const SELLER_INVENTORY_TABLE_ROW_HEIGHT = 200;
 
 /* Seller Inventory Products Table Row hight */
-export const SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT = 70;
+export const SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT = 50;
 
 /* Seller Inventory Products Sellers Table Row Height */
 export const SELLER_INVENTORY_PRODUCTS_TABLE_SELLER_ROW_HEIGHT = 40;
