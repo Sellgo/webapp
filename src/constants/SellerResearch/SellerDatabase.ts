@@ -91,7 +91,7 @@ export const DEFAULT_INCLUDE_EXCLUDE_ERROR = {
 export const DEFAULT_MIN_MAX_PERIOD_REVIEW = {
   ...DEFAULT_MIN_MAX_FILTER,
   period: '30_days',
-  type: '',
+  type: 'positive',
 };
 
 /* Filter types */
