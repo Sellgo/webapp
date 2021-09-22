@@ -172,7 +172,7 @@ export const DEFAULT_US_MARKET = {
 /* Launched Durations for filters */
 export const LAUNCHED_FILTER_OPTIONS = [
   { label: 'Longer than a year', value: '>1Y' },
-  { label: '90D - 1 year', value: '90D-1Y' },
+  { label: 'Less than a year', value: '90D-1Y' },
 ];
 
 /* Seller Type filter options */

@@ -145,7 +145,7 @@ class SidebarCollapsible extends Component<
                 }}
                 as={isFreeeAccount || (icon.id === 2 && !supplier_id) ? 'div' : Link}
                 disabled={isFreeeAccount || !!(icon.id === 2 && !supplier_id)}
-                to={icon.id === 3 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path}
+                to={icon.id === 2 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path}
                 name={icon.icon}
                 active={links[icon.id - 1] === currentPath}
                 className={'sidebar-menu__items'}
