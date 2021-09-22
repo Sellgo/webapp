@@ -128,7 +128,7 @@ export const exportSellerDatabaseTable = (resourcePath: string) => async () => {
     const sellerID = sellerIDSelector();
 
     const { data } = await axios.get(
-      `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database${resourcePath}`
+      `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database?${resourcePath}`
     );
 
     if (data) {
