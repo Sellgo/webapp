@@ -269,7 +269,7 @@ const SellerDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <RatingCell dataKey="seller_rating" />
+            <RatingCell dataKey="seller_rating" asRounded={false} />
           </Table.Column>
 
           {/* Rating % L365D */}

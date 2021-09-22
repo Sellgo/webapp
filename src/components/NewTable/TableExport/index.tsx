@@ -25,6 +25,7 @@ interface Props {
   userOnboarding: boolean;
   userOnboardingResources: any;
   onButtonClick?: () => void;
+  disableExport?: boolean;
 }
 
 const TableExport = (props: Props) => {
@@ -34,6 +35,7 @@ const TableExport = (props: Props) => {
     exportContent,
     userOnboarding,
     userOnboardingResources,
+    disableExport,
     onButtonClick,
   } = props;
 
@@ -47,8 +49,12 @@ const TableExport = (props: Props) => {
 
   return (
     <div className={`${styles.exportButtonContainer} ${className}`}>
-      <p className={styles.exportLabel} onClick={() => onButtonClick && onButtonClick()}>
-        <Icon name="download" className={styles.downloadIcon} style={{ cursor: 'pointer' }} />
+      <button
+        className={styles.exportBtn}
+        onClick={() => onButtonClick && onButtonClick()}
+        disabled={disableExport}
+      >
+        <Icon name="download" className={styles.downloadIcon} />
         {label}
 
         {/* Youtube On boarding Icon */}
@@ -60,7 +66,7 @@ const TableExport = (props: Props) => {
             youtubeIconClassName={styles.youtubeLogo}
           />
         )}
-      </p>
+      </button>
 
       <Popup
         className={styles.exportPopup}
