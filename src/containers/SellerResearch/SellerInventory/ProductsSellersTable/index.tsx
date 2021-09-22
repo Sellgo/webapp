@@ -18,6 +18,7 @@ import { fetchSellerInventoryProductsTableSellers } from '../../../../actions/Se
 
 /* Constants */
 import {
+  calculateSellerInventorySellersTableHeight,
   DEFAULT_PAGES_LIST,
   SELLER_INVENTORY_PRODUCTS_SELLERS_TABLE_UNIQUE_KEY,
   SELLER_INVENTORY_PRODUCTS_TABLE_SELLER_ROW_HEIGHT,
@@ -35,7 +36,7 @@ import {
 
 interface Props {
   isLoadingSellerInventoryProductsSellers: boolean;
-  sellerInventoryProductsTableSellers: any;
+  sellerInventoryProductsTableSellersResults: any;
   sellerInventoryProductsTableSellersPaginationInfo: SellerInventoryProductsTableSellersPaginationInfo;
 
   fetchSellerInventoryProductsTableSellers: (
@@ -46,7 +47,7 @@ interface Props {
 const ProductsSellersTable = (props: Props) => {
   const {
     isLoadingSellerInventoryProductsSellers,
-    sellerInventoryProductsTableSellers,
+    sellerInventoryProductsTableSellersResults,
     sellerInventoryProductsTableSellersPaginationInfo,
   } = props;
 
@@ -59,8 +60,11 @@ const ProductsSellersTable = (props: Props) => {
     <section className={styles.productsSellersTableWrapper}>
       <Table
         loading={isLoadingSellerInventoryProductsSellers}
-        data={sellerInventoryProductsTableSellers}
-        height={200}
+        data={sellerInventoryProductsTableSellersResults}
+        height={calculateSellerInventorySellersTableHeight(
+          sellerInventoryProductsTableSellersResults &&
+            sellerInventoryProductsTableSellersResults.length
+        )}
         hover={false}
         headerHeight={50}
         rowHeight={SELLER_INVENTORY_PRODUCTS_TABLE_SELLER_ROW_HEIGHT}
@@ -113,7 +117,9 @@ const ProductsSellersTable = (props: Props) => {
 const mapStateToProps = (state: any) => {
   return {
     isLoadingSellerInventoryProductsSellers: getIsLoadingSellerInventoryProductsTableSellers(state),
-    sellerInventoryProductsTableSellers: getSellerInventoryProductsTableSellersResults(state),
+    sellerInventoryProductsTableSellersResults: getSellerInventoryProductsTableSellersResults(
+      state
+    ),
     sellerInventoryProductsTableSellersPaginationInfo: getSellerInventoryProductsTableSellersPaginationInfo(
       state
     ),

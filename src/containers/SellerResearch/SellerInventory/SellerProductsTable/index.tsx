@@ -8,7 +8,8 @@ import styles from './index.module.scss';
 
 /* Constants */
 import {
-  calculateSellerInventoryTableHeight,
+  calculateProductsTableHeight,
+  calculateProductsTableExpandedHeight,
   DEFAULT_PAGES_LIST,
   SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT,
   SELLER_INVENTORY_PRODUCTS_TABLE_UNIQUE_KEY,
@@ -100,9 +101,10 @@ const SellerProductsTable = (props: Props) => {
       <Table
         loading={isLoadingSellerInventoryProductsTable}
         data={sellerInventoryProductsTableResults}
-        height={calculateSellerInventoryTableHeight(
+        height={calculateProductsTableHeight(
           sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length,
-          0
+          sellerInventoryProductsTableSellersResults &&
+            sellerInventoryProductsTableSellersResults.length
         )}
         hover={false}
         headerHeight={50}
@@ -110,8 +112,7 @@ const SellerProductsTable = (props: Props) => {
         id="sellerProductsTable"
         rowKey={SELLER_INVENTORY_PRODUCTS_TABLE_UNIQUE_KEY}
         // Expansion
-        rowExpandedHeight={calculateSellerInventoryTableHeight(
-          sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length,
+        rowExpandedHeight={calculateProductsTableExpandedHeight(
           sellerInventoryProductsTableSellersResults &&
             sellerInventoryProductsTableSellersResults.length
         )}

@@ -8,7 +8,7 @@ import styles from './index.module.scss';
 
 /* Constants */
 import {
-  calculateSellerInventoryTableHeight,
+  calculateSellerInventoryTableExpandedHeight,
   DEFAULT_PAGES_LIST,
   SELLER_INVENTORY_TABLE_ROW_HEIGHT,
   SELLER_INVENTORY_UNIQUE_KEY,
@@ -130,11 +130,10 @@ const InventoryTable = (props: Props) => {
         id="sellerInventoryTable"
         //  Props for table expansion
         rowKey={SELLER_INVENTORY_UNIQUE_KEY}
-        rowExpandedHeight={calculateSellerInventoryTableHeight(
-          sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length + 1,
-          (sellerInventoryProductsTableSellersResults &&
-            sellerInventoryProductsTableSellersResults.length + 1) ||
-            0
+        rowExpandedHeight={calculateSellerInventoryTableExpandedHeight(
+          sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length,
+          sellerInventoryProductsTableSellersResults &&
+            sellerInventoryProductsTableSellersResults.length
         )}
         expandedRowKeys={expandedRowKeys}
         renderRowExpanded={() => <SellerProductsTable />}
