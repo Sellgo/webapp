@@ -7,17 +7,18 @@ import { newProductDesignPathNames } from '../../constants';
 
 interface Props {
   subscriptionType: string;
+  match: any;
 }
 
 class AdminLayout extends React.Component<Props> {
   public render() {
-    const { children } = this.props;
+    const { children, match } = this.props;
 
     const isNewProduct = newProductDesignPathNames.includes(window.location.pathname);
 
     return (
       <main id="admin-layout-wrapper">
-        <Sidebar />
+        <Sidebar match={match} />
         <Segment className={`admin-layout ${isNewProduct ? 'new-admin-layout' : ''}`} basic={true}>
           <>{children}</>
         </Segment>

@@ -30,13 +30,14 @@ import { SellerSubscription } from '../../interfaces/Seller';
 
 interface Props {
   sellerSubscription: SellerSubscription;
+  match: any;
 }
 
 const NavBar = (props: Props) => {
-  const { sellerSubscription } = props;
+  const { sellerSubscription, match } = props;
 
   const [navOptions, setNavOptions] = React.useState<NavOptions>(OPTIONS);
-  const [currentPath, setCurrentPath] = React.useState<string>(window.location.pathname);
+  const [currentPath, setCurrentPath] = React.useState<string>(match.path);
 
   const activePageIndex = getActiveIndex(currentPath);
   const [expandedIndex, setExpandedIndex] = React.useState<number>(activePageIndex);
@@ -67,6 +68,11 @@ const NavBar = (props: Props) => {
 
     setNavOptions(newNavOptions);
   }, []);
+
+  /* Update path on changes */
+  React.useEffect(() => {
+    setCurrentPath(match.path);
+  }, [match]);
 
   const handleSetExpandedIndex = (e: any, titleProps: any) => {
     const { index } = titleProps;
