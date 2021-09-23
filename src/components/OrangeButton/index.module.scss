@@ -13,18 +13,30 @@
     background: #fc7900;
     color: #fff;
     border: 1px solid #fc7900;
+
+    &:hover {
+      color: #fff !important;
+    }
   }
 
   &__secondary {
     background: #fff;
     color: #fc7900;
     border: 1px solid #fc7900;
+
+    &:hover {
+      color: #fc7900 !important;
+    }
   }
 
   &__grey {
     background: #808080;
     color: #fff;
     border: 1px solid #808080;
+
+    &:hover {
+      color: #fff !important;
+    }
   }
 
   &__white {
@@ -32,11 +44,19 @@
     color: $grey_8;
     border: 1px solid $grey_6;
     font-weight: normal !important;
+
+    &:hover {
+      color: $grey_8 !important;
+    }
   }
 
   &__blue {
     background: $blue_8;
     color: #fff;
+
+    &:hover {
+      color: #fff !important;
+    }
   }
 
   &__large {

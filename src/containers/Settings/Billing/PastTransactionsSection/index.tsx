@@ -41,7 +41,9 @@ const PastTransactionsSection = (props: Props) => {
     return (
       <section>
         <ProfileBoxHeader>Billing History</ProfileBoxHeader>
-        <div className={styles.transactionHistoryTable}>No past transactions found.</div>
+        <ProfileBoxContainer>
+          <div className={styles.transactionHistoryTable}>No past transactions found.</div>
+        </ProfileBoxContainer>
       </section>
     );
   }

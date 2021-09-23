@@ -100,7 +100,8 @@ const Connectivity = (props: Props) => {
   useEffect(() => {
     getSeller();
     getAmazonMWSAuth();
-  });
+  }, []);
+
   useEffect(() => {
     handleMarketPlaceLocalChange(marketplaceLocal.id);
   }, [amazonMWSAuth]);

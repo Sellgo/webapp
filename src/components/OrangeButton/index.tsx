@@ -42,6 +42,7 @@ const OrangeButton = (props: Props) => {
         target={newTarget ? '_blank' : ''}
         rel="noreferrer noopener"
         onClick={onClick}
+        style={{ color: 'inherit' }}
       >
         {children}
       </a>

@@ -123,7 +123,6 @@ const Profile = (props: Props) => {
   }
 
   const handleSubmit = async () => {
-    console.log(profile);
     let payload = {};
     setError('');
 
