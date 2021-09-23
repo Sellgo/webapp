@@ -63,3 +63,9 @@ export interface SellerInventoryProductsTableSellersPaginationInfo {
   next?: string;
   prev?: string;
 }
+
+/* Track un track products for sellers */
+export interface TrackUntrackProductSeller {
+  sellerMerchantId: number;
+  amazonMerchantId: number;
+}

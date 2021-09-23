@@ -26,18 +26,18 @@ import {
 
 /* Components */
 import StatsCell from '../../../../components/NewTable/StatsCell';
-// import Pagination from '../../../../components/NewTable/Pagination';
+import RatingCell from '../../../../components/NewTable/RatingCell';
+import BrandsListCell from '../../../../components/NewTable/BrandsListCell';
 
 /* Containers */
 import SellerInformation from './SellerInformation';
+import TrackSeller from './TrackSeller';
 
 /* Interfaces */
 import {
   SellerInventoryProductsTableSellersPaginationInfo,
   SellerInventoryProductsTableSellersPayload,
 } from '../../../../interfaces/SellerResearch/SellerInventory';
-import RatingCell from '../../../../components/NewTable/RatingCell';
-import BrandsListCell from '../../../../components/NewTable/BrandsListCell';
 
 interface Props {
   isLoadingSellerInventoryProductsSellers: boolean;
@@ -83,21 +83,27 @@ const ProductsSellersTable = (props: Props) => {
         </Table.Column>
 
         {/* Brands */}
-        <Table.Column verticalAlign="middle" align="left" flexGrow={1}>
+        <Table.Column width={130} verticalAlign="middle" align="left" flexGrow={1}>
           <Table.HeaderCell>Brands</Table.HeaderCell>
           <BrandsListCell dataKey="brands" />
         </Table.Column>
 
         {/* Rating L365D*/}
-        <Table.Column verticalAlign="middle" align="left" flexGrow={1}>
+        <Table.Column width={130} verticalAlign="middle" align="left" flexGrow={1}>
           <Table.HeaderCell>Rating L365D</Table.HeaderCell>
           <RatingCell dataKey="seller_rating" />
         </Table.Column>
 
-        {/* Ratings Percentage */}
-        <Table.Column verticalAlign="middle" align="left" flexGrow={1}>
+        {/* Ratings % */}
+        <Table.Column width={130} verticalAlign="middle" align="left" flexGrow={1}>
           <Table.HeaderCell>Rating % L365D</Table.HeaderCell>
           <StatsCell dataKey="review_ratings" appendWith="%" />
+        </Table.Column>
+
+        {/* Track Seller */}
+        <Table.Column width={180} verticalAlign="top" align="left">
+          <Table.HeaderCell></Table.HeaderCell>
+          <TrackSeller dataKey="trackSeller" />
         </Table.Column>
       </Table>
 

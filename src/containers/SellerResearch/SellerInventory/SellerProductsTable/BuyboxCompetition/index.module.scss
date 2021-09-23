@@ -13,7 +13,7 @@
 .actionCellWrapper {
   display: flex;
   justify-content: flex-start !important;
-  align-items: center;
+  align-items: flex-start;
   color: $grey_8 !important;
   height: 100%;
 }

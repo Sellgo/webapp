@@ -8,7 +8,17 @@ import { actionTypes } from '../../constants/SellerResearch/SellerInventory';
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
-import { getSellerInventoryProductsTableResults } from '../../selectors/SellerResearch/SellerInventory';
+import {
+  getSellerInventoryProductsTableResults,
+  getSellerInventoryProductsTableSellersResults,
+  getSellerInventoryTableResults,
+} from '../../selectors/SellerResearch/SellerInventory';
+
+/* Actions */
+import { getSellerQuota } from '../Settings';
+
+/* Utils */
+import { error, info, success } from '../../utils/notifications';
 
 /* Interfaces */
 import {
@@ -19,9 +29,8 @@ import {
   SellerInventoryTablePaginationInfo,
   SellerInventoryTablePayload,
   TrackUntrackProduct,
+  TrackUntrackProductSeller,
 } from '../../interfaces/SellerResearch/SellerInventory';
-import { success } from '../../utils/notifications';
-import { getSellerQuota } from '../Settings';
 
 /* ============================================ */
 /* ====== SELLER INVENTORY MAIN TABLE ========= */
@@ -346,5 +355,89 @@ export const fetchSellerInventoryProductsTableSellers = (
       })
     );
     dispatch(isLoadingSellerInventoryProductsTableSellers(false));
+  }
+};
+
+/* Action to track untrack sellers */
+export const trackUntrackProductSeller = (payload: TrackUntrackProductSeller) => async (
+  dispatch: any,
+  getState: any
+) => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const { amazonMerchantId, sellerMerchantId } = payload;
+
+    const formData = new FormData();
+
+    if (!sellerMerchantId || !amazonMerchantId) {
+      return error('Seller cannot be tracked');
+    }
+
+    if (sellerMerchantId) {
+      formData.set('seller_merchant_id', String(sellerMerchantId));
+    }
+
+    if (amazonMerchantId) {
+      formData.set('amazon_merchant_id', String(amazonMerchantId));
+    }
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchants/track`;
+
+    const { data } = await axios.post(URL, formData);
+
+    if (data) {
+      const { object: trackedObj } = data;
+
+      // get current product sellers
+      const currentProductSellers = getSellerInventoryProductsTableSellersResults(getState());
+      const currentSellerInventoryTable = getSellerInventoryTableResults(getState());
+
+      // update the tracking_status on it which is satus from respone
+      const updatedProductSellers = currentProductSellers.map((s: any) => {
+        if (s.id === trackedObj.id) {
+          return {
+            ...s,
+            ...trackedObj,
+          };
+        } else {
+          return s;
+        }
+      });
+
+      dispatch(setSellerInventoryProductsTableSellersResults(updatedProductSellers));
+
+      success(
+        `Seller successfully ${trackedObj.tracking_status === 'active' ? 'tracked' : 'untracked'}`
+      );
+
+      // if the tracking status is active shift the tracked seller to top
+      if (trackedObj.tracking_status === 'active') {
+        const sellerExistAsParent = currentSellerInventoryTable.find((s: any) => {
+          return s.id === trackedObj.id;
+        });
+
+        // if exist on parent filter it out and add to top to avoid duplicates
+        if (sellerExistAsParent) {
+          const filterOutTrackedSeller = currentSellerInventoryTable.filter((s: any) => {
+            return s.id !== trackedObj.id;
+          });
+
+          dispatch(setSellerInventoryTableResults([trackedObj, ...filterOutTrackedSeller]));
+        } else {
+          // just simply add to top
+          dispatch(setSellerInventoryTableResults([trackedObj, ...currentSellerInventoryTable]));
+        }
+      }
+    }
+  } catch (err) {
+    console.error('Error Tracking Product Seller', err);
+    const { response } = err as any;
+    if (response) {
+      const { status, data } = response;
+      if (status === 400 && data && data.message && data.message.length > 0) {
+        info(data.message);
+      }
+    }
   }
 };
