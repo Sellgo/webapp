@@ -42,13 +42,21 @@ const NavbarDropdown = (props: Props) => {
   } = props;
   const isMainOptionActive = getActiveIndex(currentPath) === optionIndex;
 
+  const handleLinkClick = (e: any, subOption: SubNavOption | MainNavOption) => {
+    if (subOption.disabled) {
+      e.preventDefault();
+    } else {
+      setCurrentPath(subOption.path);
+    }
+  };
+
   /* If nav has no sub options */
   if (option.subOptions.length === 0) {
     return (
       <Link
         to={option.path}
-        onClick={() => {
-          setCurrentPath(option.path);
+        onClick={(e: any) => {
+          handleLinkClick(e, option);
         }}
         className={option.disabled ? styles.disabled : ''}
         style={{ textDecoration: 'none' }}
@@ -76,7 +84,11 @@ const NavbarDropdown = (props: Props) => {
         active={!option.disabled && expandedIndex === optionIndex}
         index={optionIndex}
         onClick={!option.disabled ? setExpandedIndex : () => null}
-        className={styles.accordionContent}
+        className={
+          option.disabled
+            ? `${styles.disabled} ${styles.accordionContent}`
+            : styles.accordionContent
+        }
       >
         <div
           className={`${styles.mainOption} 
@@ -103,9 +115,7 @@ const NavbarDropdown = (props: Props) => {
               <Link
                 key={subOption.label}
                 to={subOption.path}
-                onClick={() => {
-                  setCurrentPath(subOption.path);
-                }}
+                onClick={(e: any) => handleLinkClick(e, subOption)}
                 className={subOption.disabled ? styles.disabled : ''}
                 style={{ textDecoration: 'none', fontWeight: 'lighter' }}
               >

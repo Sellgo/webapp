@@ -91,6 +91,10 @@
 .disabled {
   opacity: 0.2;
   pointer-events: none !important;
+
+  &:hover {
+    cursor: default !important;
+  }
 }
 
 /* Used to reset padding and margin of default accordion */
