@@ -248,6 +248,20 @@ function App() {
 
           <PrivateRoute
             exact={true}
+            path="/seller-research/database"
+            component={SellerResearch}
+            requireSubscription={true}
+          />
+
+          <PrivateRoute
+            exact={true}
+            path="/seller-research/map"
+            component={SellerResearch}
+            requireSubscription={true}
+          />
+
+          <PrivateRoute
+            exact={true}
             path="/churnflow"
             component={ChurnFlow}
             requireSubscription={true}

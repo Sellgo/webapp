@@ -20,61 +20,63 @@ import { SellerSubscription } from '../../interfaces/Seller';
 
 import {getActiveIndex, OPTIONS} from '../../constants/AdminLayout';
 import NavbarDropdown from './NavbarSuboptions';
+import {disableNavOption, updateNavPath} from '../../utils/nav';
+
 
 // https://medium.com/@9cv9official/create-a-beautiful-hover-triggered-expandable-sidebar-with-simple-html-css-and-javascript-9f5f80a908d1
 
 
 const NavBar = (props:any) => {
-  const [currentPage, setCurrentPage] = React.useState<string>(window.location.pathname);
-  const startingActiveIndex = getActiveIndex(currentPage);
-
-  const [activeIndex, setActiveIndex] = React.useState<number>(startingActiveIndex);
+  const [navOptions, setNavOptions] = React.useState<any[]>(OPTIONS);
+  const [currentPath, setCurrentPath] = React.useState<string>(window.location.pathname+window.location.search);
+  const startingExpandedIndex = getActiveIndex(currentPath);
+  const [expandedIndex, setExpandedIndex] = React.useState<number>(startingExpandedIndex);
   const [isExpanded, setExpanded] = React.useState<boolean>(false);
   const {subscriptionPlan, subscriptionType, sellerSubscription} = props;
-
-  let supplier_id = '';
-  const latest = getLatestSupplier();
-  if (latest) {
-    supplier_id = latest.supplier_id;
-  }
+  
   React.useEffect(() => {
-    setCurrentPage(window.location.pathname);
-
-  }, [window.location.pathname])
-
-  const currentPath = window.location.pathname;
-  // const links = sidebarIcon.map((link: any) =>
-  //   link.id === 2 ? `${link.path}/${supplier_id}` : link.path
-  // );
+      /* Adding supplier id to profit-finder path parameter */
+      let supplier_id = '';
+      const latest = getLatestSupplier();
+      if (latest) {
+        supplier_id = latest.supplier_id;
+      }
+      const newNavOptions = [...navOptions]
+      updateNavPath('/profit-finder', `/profit-finder/${supplier_id}`, newNavOptions);
+      disableNavOption('Product Research', newNavOptions);
+      setNavOptions(newNavOptions);
+  }, [])
 
   const isFreeeAccount = isSubscriptionIdFreeAccount(0); //Subscription iD
   // const isBetaUser = isBetaAccount(null); //subscription
 
-  const handleClick = (e:any, titleProps:any) => {
+  const handleSetExpandedIndex = (e:any, titleProps:any) => {
     const { index } = titleProps
-    const newIndex = activeIndex === index ? -1 : index
-    setActiveIndex(newIndex)
+    const newIndex = expandedIndex === index ? -1 : index
+    setExpandedIndex(newIndex)
   }
 
   const handleOnHoverIn = () => {
-    setActiveIndex(startingActiveIndex);
+    setExpandedIndex(startingExpandedIndex);
     setExpanded(true);
   }
 
   const handleOnHoverOut = () => {
     setExpanded(false);
   }
+
   return (
       <div className={styles.navbarWrapper}> 
           <Accordion className={styles.navBar} onMouseEnter={handleOnHoverIn} onMouseOut={handleOnHoverOut}>
-              {OPTIONS.map((option:any, index: number) => {
+              {navOptions.map((option:any, index: number) => {
                   return (
                     <NavbarDropdown
-                      currentPage={currentPage}
+                      currentPath={currentPath}
+                      setCurrentPath={setCurrentPath}
                       option={option}
                       optionIndex={index}
-                      activeIndex={activeIndex}
-                      onSetIndex={handleClick}
+                      expandedIndex={expandedIndex}
+                      setExpandedIndex={handleSetExpandedIndex}
                       mainOptionClassName={styles.mainNavOption}
                       subOptionClassName={styles.subNavOptions}
                     />

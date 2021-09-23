@@ -3,48 +3,63 @@ import { Link } from 'react-router-dom';
 import { Accordion, Transition, Menu } from 'semantic-ui-react'
 import NavIcon from '../../Icons/NavIcon';
 import styles from './index.module.scss';
+import { getActiveIndex } from '../../../constants/AdminLayout';
 
 
 interface Props {
-    currentPage: string;
-    activeIndex: number;
+    currentPath: string;
+    setCurrentPath: (path: string) => void;
     option: any;
     optionIndex: number;
-    onSetIndex: (e:any, index:any) => void;
+    expandedIndex: number;
+    setExpandedIndex: (e:any, index:any) => void;
     mainOptionClassName: string;
-    subOptionClassName: string;
-    
+    subOptionClassName: string;   
 }
-const NavbarDropdown = (props:Props) => {
-    
-    const {currentPage, option, optionIndex, onSetIndex, activeIndex, mainOptionClassName, subOptionClassName} = props;
-    const isActive = currentPage === (option.path);
 
+const NavbarDropdown = (props:Props) => {
+    const {currentPath, setCurrentPath, option, optionIndex, setExpandedIndex, expandedIndex, mainOptionClassName, subOptionClassName} = props;
+    const isMainOptionActive = getActiveIndex(currentPath) === optionIndex;
     return (
         <React.Fragment>
+            {/* Main Nav Option */}
             <Accordion.Title
-                active={activeIndex === optionIndex}
+                active={!option.disabled && expandedIndex === optionIndex}
                 index={optionIndex}
-                onClick={onSetIndex}
+                onClick={!option.disabled ? setExpandedIndex : () => null}
                 className={styles.accordionContent}
             >
-            <div className={`${styles.mainOption} ${mainOptionClassName} ${isActive ? styles.active : ''}`}>
+            <div 
+                className={`${styles.mainOption} 
+                ${mainOptionClassName} 
+                ${isMainOptionActive ? styles.active : ''}`}
+            >
                 <div className={styles.navIcon}>
                     <NavIcon iconName={option.icon}/>
                 </div>
                 <p className={styles.navLabel}>{option.label}</p>
             </div>
             </Accordion.Title>
+
+            {/* Sub Nav Options */}
             <Accordion.Content 
-                active={activeIndex === optionIndex} 
+                active={!option.disabled && expandedIndex === optionIndex} 
                 className={`${styles.accordionContent}`}
             >
                     <div className={`${subOptionClassName}`}>
                         {option.subOptions.map((subOption:any) => {
-                            console.log(subOption.path);
                             return (
-                                <Menu.Item link active to={subOption.path} as ={Link}>
-                                <div className={styles.subOption}>
+                                <Menu.Item 
+                                    link 
+                                    active 
+                                    to={subOption.path} 
+                                    as ={Link} 
+                                    onClick={() => {
+                                        setCurrentPath(subOption.path)
+                                    }}
+                                    disabled={subOption.disabled}
+                                >
+                                <div className={`${styles.subOption} ${currentPath === subOption.path ? styles.active : ''}`}>
                                     <div className={styles.navIcon}>
                                         <NavIcon iconName={subOption.icon}/>
                                     </div>
