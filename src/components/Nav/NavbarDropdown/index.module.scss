@@ -41,7 +41,7 @@
   }
 }
 
-.navSubOptionText {
+.subOptionText {
   height: 100%;
   margin-left: 10px;
   display: flex;
@@ -49,45 +49,52 @@
   justify-content: center;
   text-decoration: none !important;
 
-
   .label {
     padding: 0 !important;
     margin: 0 !important;
     font-size: 12px;
-    font-weight: normal;
-
-    &:hover {
-      text-decoration: none !important;
-    }
+    font-weight: normal !important;
   }
 
   .desc {
     padding: 0 !important;
     margin: 0 !important;
     font-size: 10px;
-    font-weight: lighter;
-    &:hover {
-      text-decoration: none !important;
-    }
+    font-weight: lighter !important;
   }
 }
 
+/* Icons */
 .navIcon {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   margin-left: 15px;
 
   img {
     width: 25px;
+    height: 25px;
   }
 }
 
+.downArrow {
+  position: absolute;
+  left: 232px;
+}
+
+/* States */
+.active {
+  background-color: $blue_8;
+}
+
+.disabled {
+  opacity: 0.2;
+  pointer-events: none !important;
+}
+
+/* Used to reset padding and margin of default accordion */
 .accordionContent {
   padding: 0 !important;
   margin: 0 !important;
-}
-
-.active {
-  background-color: $blue_8;
 }

@@ -20,7 +20,7 @@ import { setUserOnboardingResources } from '../../actions/UserOnboarding';
 import databaseOnboarding from '../../assets/onboardingResources/ProductResearch/productDatabaseOnboarding.json';
 
 /* Constants */
-import {PRODUCT_RESEARCH_PAGES} from '../../constants/ProductResearch';
+import { PRODUCT_RESEARCH_PAGES } from '../../constants/ProductResearch';
 
 interface Props {
   history: any;
@@ -42,7 +42,9 @@ const ProductResearch: React.FC<Props> = props => {
 
   /* To update tab based on url */
   useEffect(() => {
-    const currentIndex = PRODUCT_RESEARCH_PAGES.findIndex((path:string) => path === window.location.pathname);
+    const currentIndex = PRODUCT_RESEARCH_PAGES.findIndex(
+      (path: string) => path === window.location.pathname
+    );
     /* If on a different tab, redirect to correct tab */
     if (currentIndex !== selectedTabList) {
       if (currentIndex === -1) {
@@ -51,7 +53,7 @@ const ProductResearch: React.FC<Props> = props => {
         handleTabChange(currentIndex);
       }
     }
-  }, [match])
+  }, [match]);
 
   useEffect(() => {
     if (selectedTabList === 0) {

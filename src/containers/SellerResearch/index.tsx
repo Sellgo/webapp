@@ -22,7 +22,7 @@ import sellerDatabaseOnborading from '../../assets/onboardingResources/SellerRes
 import sellerMapOnborading from '../../assets/onboardingResources/SellerResearch/sellerMapOnboarding.json';
 
 /* Constants */
-import { SELLER_RESEARCH_PAGES } from '../../constants/SellerResearch'
+import { SELLER_RESEARCH_PAGES } from '../../constants/SellerResearch';
 
 interface Props {
   match: any;
@@ -44,7 +44,9 @@ const SellerResearch = (props: Props) => {
 
   /* To update tab based on url */
   useEffect(() => {
-    const currentIndex = SELLER_RESEARCH_PAGES.findIndex((path:string) => path === window.location.pathname);
+    const currentIndex = SELLER_RESEARCH_PAGES.findIndex(
+      (path: string) => path === window.location.pathname
+    );
     /* If on a different tab, redirect to correct tab */
     if (currentIndex !== selectedTabList) {
       if (currentIndex === -1) {
@@ -53,7 +55,7 @@ const SellerResearch = (props: Props) => {
         handleTabChange(currentIndex);
       }
     }
-  }, [match])
+  }, [match]);
 
   useEffect(() => {
     if (selectedTabList === 0) {

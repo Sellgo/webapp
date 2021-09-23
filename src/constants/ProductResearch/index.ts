@@ -1,3 +1,1 @@
-export const PRODUCT_RESEARCH_PAGES = [
-    '/product-research?=database'
-]
+export const PRODUCT_RESEARCH_PAGES = ['/product-research/database'];

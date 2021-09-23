@@ -17,13 +17,10 @@ class AdminLayout extends React.Component<Props> {
 
     return (
       <main id="admin-layout-wrapper">
-        <Sidebar/>
-          <Segment
-            className={`admin-layout ${isNewProduct ? 'new-admin-layout' : ''}`}
-            basic={true}
-          >
-            <>{children}</>
-          </Segment>
+        <Sidebar />
+        <Segment className={`admin-layout ${isNewProduct ? 'new-admin-layout' : ''}`} basic={true}>
+          <>{children}</>
+        </Segment>
       </main>
     );
   }

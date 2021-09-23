@@ -276,7 +276,35 @@ function App() {
 
           <PrivateRoute
             exact={true}
+            path="/product-research/database"
+            component={ProductResearch}
+            requireSubscription={true}
+          />
+
+          <PrivateRoute
+            exact={true}
             path="/keyword-research"
+            component={KeywordResearch}
+            requireSubscription={true}
+          />
+
+          <PrivateRoute
+            exact={true}
+            path="/keyword-research/reverse"
+            component={KeywordResearch}
+            requireSubscription={true}
+          />
+
+          <PrivateRoute
+            exact={true}
+            path="/keyword-research/database"
+            component={KeywordResearch}
+            requireSubscription={true}
+          />
+
+          <PrivateRoute
+            exact={true}
+            path="/keyword-research/tracker"
             component={KeywordResearch}
             requireSubscription={true}
           />

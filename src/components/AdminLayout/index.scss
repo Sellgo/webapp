@@ -13,7 +13,8 @@
     height: 100%;
     margin-top: 6rem;
     min-height: 100vh;
-    padding: 0 25px 0 100px;
+    width: 100%;
+    padding: 0 25px 0 25px;
 
     @media only screen and (max-width: 1450px) {
       padding: 0 25px 0 70px;
@@ -29,8 +30,8 @@
   }
 
   &.ui.segment.new-admin-layout {
-    background-color: $light-gray-background;
-    margin-top: 72px;
+    background-color: $light-gray-background !important;
+    margin-top: 50px;
   }
 }
 

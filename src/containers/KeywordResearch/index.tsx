@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TabList, TabPanel, Tabs, Tab } from 'react-tabs';
 import { connect } from 'react-redux';
 
-/* Components */
+/* Styles */
 import styles from './index.module.scss';
 
 /* Components */
@@ -25,8 +25,12 @@ import reverseOnBoardingResources from '../../assets/onboardingResources/Keyword
 import databaseOnBoardingResources from '../../assets/onboardingResources/KeywordResearch/keywordDatabaseOnboarding.json';
 import trackerOnBoardingResources from '../../assets/onboardingResources/KeywordResearch/keywordTrackerOnboarding.json';
 
+/* Constants */
+import { KEYWORD_RESEARCH_PAGES } from '../../constants/KeywordResearch';
+
 interface Props {
   match: any;
+  history: any;
   resetKeywordResearch: () => void;
   setUserOnboardingResources: (payload: any) => void;
 }
@@ -34,13 +38,29 @@ interface Props {
 const keywordResearchMapper = ['Reverse', 'Database', 'Tracker'];
 
 const KeywordResearch = (props: Props) => {
-  const { match, resetKeywordResearch, setUserOnboardingResources } = props;
+  const { match, resetKeywordResearch, setUserOnboardingResources, history } = props;
 
   const [selectedTabList, setSelectedTabList] = useState<number>(2);
 
   const handleTabChange = (index: number) => {
     setSelectedTabList(index);
+    history.push(KEYWORD_RESEARCH_PAGES[index]);
   };
+
+  /* To update tab based on url */
+  useEffect(() => {
+    const currentIndex = KEYWORD_RESEARCH_PAGES.findIndex(
+      (path: string) => path === window.location.pathname
+    );
+    /* If on a different tab, redirect to correct tab */
+    if (currentIndex !== selectedTabList) {
+      if (currentIndex === -1) {
+        handleTabChange(0);
+      } else {
+        handleTabChange(currentIndex);
+      }
+    }
+  }, [match]);
 
   useEffect(() => {
     // set resources for keyword database
