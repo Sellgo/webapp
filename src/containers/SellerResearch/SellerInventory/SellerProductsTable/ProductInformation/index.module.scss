@@ -20,13 +20,17 @@
 .productInfo {
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
   margin-left: 15px;
+  height: max-content;
 
   h2 {
     font-size: 14px;
     color: $prim_dark-1;
     font-weight: 500;
-    line-height: 1px;
-    margin-bottom: 4px;
+    line-height: 1;
+    margin: 0;
+    margin-bottom: 0 !important;
   }
 }

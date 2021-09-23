@@ -19,20 +19,25 @@ import { fetchSellerInventoryProductsTableSellers } from '../../../../actions/Se
 /* Constants */
 import {
   calculateSellerInventorySellersTableHeight,
-  DEFAULT_PAGES_LIST,
+  // DEFAULT_PAGES_LIST,
   SELLER_INVENTORY_PRODUCTS_SELLERS_TABLE_UNIQUE_KEY,
   SELLER_INVENTORY_PRODUCTS_TABLE_SELLER_ROW_HEIGHT,
 } from '../../../../constants/SellerResearch/SellerInventory';
 
 /* Components */
 import StatsCell from '../../../../components/NewTable/StatsCell';
-import Pagination from '../../../../components/NewTable/Pagination';
+// import Pagination from '../../../../components/NewTable/Pagination';
+
+/* Containers */
+import SellerInformation from './SellerInformation';
 
 /* Interfaces */
 import {
   SellerInventoryProductsTableSellersPaginationInfo,
   SellerInventoryProductsTableSellersPayload,
 } from '../../../../interfaces/SellerResearch/SellerInventory';
+import RatingCell from '../../../../components/NewTable/RatingCell';
+import BrandsListCell from '../../../../components/NewTable/BrandsListCell';
 
 interface Props {
   isLoadingSellerInventoryProductsSellers: boolean;
@@ -48,13 +53,13 @@ const ProductsSellersTable = (props: Props) => {
   const {
     isLoadingSellerInventoryProductsSellers,
     sellerInventoryProductsTableSellersResults,
-    sellerInventoryProductsTableSellersPaginationInfo,
+    // sellerInventoryProductsTableSellersPaginationInfo,
   } = props;
 
-  /* Handle pagination */
-  const handlePageChange = (pageNo: number, perPageNo?: number) => {
-    console.log(pageNo, perPageNo);
-  };
+  // /* Handle pagination */
+  // const handlePageChange = (pageNo: number, perPageNo?: number) => {
+  //   console.log(pageNo, perPageNo);
+  // };
 
   return (
     <section className={styles.productsSellersTableWrapper}>
@@ -71,33 +76,33 @@ const ProductsSellersTable = (props: Props) => {
         id="productsSellersTable"
         rowKey={SELLER_INVENTORY_PRODUCTS_SELLERS_TABLE_UNIQUE_KEY}
       >
-        {/* Price */}
-        <Table.Column verticalAlign="middle" align="left" flexGrow={1}>
+        {/* Seller Name */}
+        <Table.Column verticalAlign="middle" align="left" flexGrow={4}>
           <Table.HeaderCell>Seller Name</Table.HeaderCell>
-          <StatsCell dataKey="fba_count" align="center" />
+          <SellerInformation dataKey="sellerInformation" />
         </Table.Column>
 
-        {/* ASIN */}
+        {/* Brands */}
         <Table.Column verticalAlign="middle" align="left" flexGrow={1}>
-          <Table.HeaderCell>ASIN</Table.HeaderCell>
-          <StatsCell dataKey="fba_count" align="center" />
+          <Table.HeaderCell>Brands</Table.HeaderCell>
+          <BrandsListCell dataKey="brands" />
         </Table.Column>
 
-        {/* Price */}
+        {/* Rating L365D*/}
         <Table.Column verticalAlign="middle" align="left" flexGrow={1}>
-          <Table.HeaderCell>Price</Table.HeaderCell>
-          <StatsCell dataKey="fba_count" align="center" />
+          <Table.HeaderCell>Rating L365D</Table.HeaderCell>
+          <RatingCell dataKey="seller_rating" />
         </Table.Column>
 
-        {/* Price */}
+        {/* Ratings Percentage */}
         <Table.Column verticalAlign="middle" align="left" flexGrow={1}>
-          <Table.HeaderCell>Price</Table.HeaderCell>
-          <StatsCell dataKey="fba_count" align="center" />
+          <Table.HeaderCell>Rating % L365D</Table.HeaderCell>
+          <StatsCell dataKey="review_ratings" appendWith="%" />
         </Table.Column>
       </Table>
 
       {/* Table Pagination */}
-      {sellerInventoryProductsTableSellersPaginationInfo.total_pages > 0 && (
+      {/* {sellerInventoryProductsTableSellersPaginationInfo.total_pages > 0 && (
         <footer className={styles.sellerTablePagination}>
           <Pagination
             totalPages={sellerInventoryProductsTableSellersPaginationInfo.total_pages}
@@ -109,7 +114,7 @@ const ProductsSellersTable = (props: Props) => {
             perPageList={DEFAULT_PAGES_LIST}
           />
         </footer>
-      )}
+      )} */}
     </section>
   );
 };

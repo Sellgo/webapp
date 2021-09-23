@@ -1,6 +1,8 @@
 import React from 'react';
 import { Table } from 'rsuite';
+import { Popup, Icon } from 'semantic-ui-react';
 
+/* Styling */
 import styles from './index.module.scss';
 
 /* Utils */
@@ -18,6 +20,7 @@ const BuyboxCompetition = (props: RowCell) => {
     <Table.Cell {...props}>
       <div className={styles.buyBoxCompetition}>
         <span>{showNAIfZeroOrNull(numOfSellers, numOfSellers)}</span>
+        <Popup trigger={<Icon name="chevron down" />} on="click" />
       </div>
     </Table.Cell>
   );

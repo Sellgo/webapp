@@ -8,9 +8,9 @@ import styles from './index.module.scss';
 
 /* Constants */
 import {
-  calculateProductsTableHeight,
   calculateProductsTableExpandedHeight,
-  DEFAULT_PAGES_LIST,
+  calculateProductsTableHeight,
+  // DEFAULT_PAGES_LIST,
   SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT,
   SELLER_INVENTORY_PRODUCTS_TABLE_UNIQUE_KEY,
 } from '../../../../constants/SellerResearch/SellerInventory';
@@ -33,7 +33,7 @@ import {
 /* Components */
 import RatingCell from '../../../../components/NewTable/RatingCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
-import Pagination from '../../../../components/NewTable/Pagination';
+// import Pagination from '../../../../components/NewTable/Pagination';
 import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
 
 /* Containers */
@@ -67,7 +67,7 @@ const SellerProductsTable = (props: Props) => {
   const {
     isLoadingSellerInventoryProductsTable,
     sellerInventoryProductsTableResults,
-    sellerInventoryProductsTablePaginationInfo,
+    // sellerInventoryProductsTablePaginationInfo,
     setSellerInventoryProductsTableExpandedRow,
 
     fetchSellerInventoryProductsTableSellers,
@@ -76,10 +76,10 @@ const SellerProductsTable = (props: Props) => {
 
   const [expandedRowKeys, setExpandedRowkeys] = useState<string[]>([]);
 
-  /* Handle pagination */
-  const handlePageChange = (pageNo: number, perPageNo?: number) => {
-    console.log(pageNo, perPageNo);
-  };
+  // /* Handle pagination */
+  // const handlePageChange = (pageNo: number, perPageNo?: number) => {
+  //   console.log(pageNo, perPageNo);
+  // };
 
   /* Handle expansion logic */
   const handleExpansion = (rowData: any) => {
@@ -138,37 +138,37 @@ const SellerProductsTable = (props: Props) => {
         </Table.Column>
 
         {/* Product Information  */}
-        <Table.Column width={130} verticalAlign="top" align="left" flexGrow={4}>
+        <Table.Column width={130} verticalAlign="top" align="left" flexGrow={1}>
           <Table.HeaderCell>Product Inventory Information</Table.HeaderCell>
           <ProductInformation dataKey="productInformation" />
         </Table.Column>
 
         {/* Price  */}
-        <Table.Column width={130} verticalAlign="top" align="left" flexGrow={1}>
+        <Table.Column width={130} verticalAlign="top" align="left">
           <Table.HeaderCell>Price</Table.HeaderCell>
           <StatsCell dataKey="current_price" align="center" prependWith="$" />
         </Table.Column>
 
         {/* Rating L365D */}
-        <Table.Column width={130} verticalAlign="top" align="left" flexGrow={1}>
+        <Table.Column width={130} verticalAlign="top" align="left">
           <Table.HeaderCell>Rating L356D</Table.HeaderCell>
           <RatingCell dataKey="review_stars" />
         </Table.Column>
 
         {/* Rating % L365D */}
-        <Table.Column width={130} verticalAlign="top" align="left" flexGrow={1}>
+        <Table.Column width={130} verticalAlign="top" align="left">
           <Table.HeaderCell>Rating L356D</Table.HeaderCell>
           <StatsCell dataKey="review_stars" />
         </Table.Column>
 
         {/* Product Review */}
-        <Table.Column width={130} verticalAlign="top" align="left" flexGrow={1}>
+        <Table.Column width={130} verticalAlign="top" align="left">
           <Table.HeaderCell>Product Review #</Table.HeaderCell>
           <StatsCell dataKey="reviews_count" />
         </Table.Column>
       </Table>
 
-      {sellerInventoryProductsTablePaginationInfo &&
+      {/* {sellerInventoryProductsTablePaginationInfo &&
         sellerInventoryProductsTablePaginationInfo.num_pages > 0 && (
           <footer className={styles.sellerProductsTablePagination}>
             <Pagination
@@ -181,7 +181,7 @@ const SellerProductsTable = (props: Props) => {
               perPageList={DEFAULT_PAGES_LIST}
             />
           </footer>
-        )}
+        )} */}
     </section>
   );
 };
