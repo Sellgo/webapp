@@ -1,7 +1,6 @@
 import React from 'react';
 import { Table } from 'rsuite';
 import { Button, Icon, Popup } from 'semantic-ui-react';
-import { connect } from 'react-redux';
 import numeral from 'numeral';
 
 /* Styling */
@@ -15,37 +14,23 @@ import { parseKpiLists, prettyPrintNumber, removeSpecialChars } from '../../../.
 import { copyToClipboard } from '../../../../../utils/file';
 import { success } from '../../../../../utils/notifications';
 
-/*Actions */
-import { trackMerchantFromDatabase } from '../../../../../actions/SellerResearch/SellerDatabase';
+/* Assets */
+import { ReactComponent as CheckInventoryIcon } from '../../../../../assets/images/sellerFinder.svg';
 
-/* Utils */
-import history from '../../../../../history';
-import { timeout } from '../../../../../utils/timeout';
-
-interface Props extends RowCell {
-  trackMerchantFromDatabase: (payload: string) => void;
-}
-
-const SellerActions = (props: Props) => {
-  const { trackMerchantFromDatabase, ...otherProps } = props;
-
-  const { rowData } = otherProps;
+const SellerActions = (props: RowCell) => {
+  const { rowData } = props;
 
   const asinList = rowData.asins;
-  const isSellerTracked =
-    rowData.tracking_status === true || rowData.tracking_status === 'active' ? true : false;
-  const merchantId = rowData.merchant_id;
+
+  const hasInventory = rowData.has_inventory || false;
+
   const inventoryCount = rowData.inventory_count;
 
   const parsedAsinList = parseKpiLists(asinList);
 
   /* Track seller */
-  const handleSellerTrack = async (newTab: boolean) => {
-    trackMerchantFromDatabase(merchantId);
-    if (newTab) {
-      await timeout(500);
-      history.push('/seller-finder');
-    }
+  const handleCheckInventory = () => {
+    console.log('Check Inventory Clicked');
   };
 
   /* Copy Asins */
@@ -58,17 +43,15 @@ const SellerActions = (props: Props) => {
 
   return (
     <>
-      <Table.Cell {...otherProps}>
+      <Table.Cell {...props}>
         <div className={styles.actionCellWrapper}>
-          <div
-            className={`${isSellerTracked ? styles.actionCellActive : styles.actionCellInActive}`}
-          >
+          <div className={styles.actionCell}>
             <button
               className={styles.actionButton}
-              onClick={() => handleSellerTrack(false)}
+              onClick={handleCheckInventory}
               style={{
-                color: isSellerTracked ? '#2F8DDF' : '#3b4557',
-                fontWeight: isSellerTracked ? 500 : 400,
+                color: hasInventory ? '#3b4557' : '#636d76',
+                fontWeight: hasInventory ? 500 : 400,
               }}
             >
               {numeral(parsedAsinList.length).format('00')}
@@ -80,10 +63,21 @@ const SellerActions = (props: Props) => {
               closeOnDocumentClick
               closeOnEscape
               className={styles.actionsPopover}
+              trigger={
+                <Button
+                  icon="chevron down"
+                  className={`${styles.iconButton} iconButtonResetGlobal`}
+                />
+              }
               content={
                 <>
                   <div className={styles.actionOptions}>
                     <p>ASIN</p>
+                    <button onClick={handleCheckInventory}>
+                      <CheckInventoryIcon />
+                      <span>Check Inventory</span>
+                    </button>
+
                     <button onClick={() => handleCopyAsins(',')}>
                       <Icon name="copy outline" />
                       <span>Copy ASINs in rows with comma</span>
@@ -96,12 +90,6 @@ const SellerActions = (props: Props) => {
                   </div>
                 </>
               }
-              trigger={
-                <Button
-                  icon="chevron down"
-                  className={`${styles.iconButton} iconButtonResetGlobal`}
-                />
-              }
             />
           </div>
           <span style={{ marginLeft: '10px' }}>out of {prettyPrintNumber(inventoryCount)}</span>
@@ -111,10 +99,4 @@ const SellerActions = (props: Props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    trackMerchantFromDatabase: (payload: string) => dispatch(trackMerchantFromDatabase(payload)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(SellerActions);
+export default SellerActions;

@@ -42,6 +42,9 @@ import ExtendedReviewsCell from '../../../../components/NewTable/ExtendedReviews
 /* Containers */
 import SellerInformation from './SellerInformation';
 import ActionsCell from './ActionsCell';
+import SellerActions from './SellerActions';
+
+/* Nested Table */
 import SellerProductsTable from '../SellerProductsTable';
 
 /* Interfaces */
@@ -152,6 +155,12 @@ const InventoryTable = (props: Props) => {
         <Table.Column width={650} verticalAlign="top" fixed flexGrow={1}>
           <Table.HeaderCell>Seller Information</Table.HeaderCell>
           <SellerInformation dataKey="seller_information" />
+        </Table.Column>
+
+        {/* ASIN */}
+        <Table.Column width={150} verticalAlign="top" align="left">
+          <Table.HeaderCell>ASIN</Table.HeaderCell>
+          <SellerActions dataKey="sellerActions" />
         </Table.Column>
 
         {/* Brands */}
