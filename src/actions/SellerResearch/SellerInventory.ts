@@ -271,7 +271,6 @@ export const trackUntrackSellerProduct = (payload: TrackUntrackProduct) => async
         if (p.product_id === trackedObj.product_id) {
           return {
             ...p,
-            ...trackedObj,
             // tracking_status===status
             tracking_status: trackedObj.status,
             // product_track_id===id
