@@ -47,6 +47,7 @@ import {
   SellerInventoryProductsTableSellersPayload,
 } from '../../../../interfaces/SellerResearch/SellerInventory';
 import ProductsSellersTable from '../ProductsSellersTable';
+import TrackProduct from './TrackProduct';
 
 interface Props {
   isLoadingSellerInventoryProductsTable: boolean;
@@ -165,6 +166,12 @@ const SellerProductsTable = (props: Props) => {
         <Table.Column width={130} verticalAlign="top" align="left">
           <Table.HeaderCell>Product Review #</Table.HeaderCell>
           <StatsCell dataKey="reviews_count" />
+        </Table.Column>
+
+        {/* Track Product */}
+        <Table.Column width={180} verticalAlign="top" align="left">
+          <Table.HeaderCell></Table.HeaderCell>
+          <TrackProduct dataKey="trackProduct" />
         </Table.Column>
       </Table>
 

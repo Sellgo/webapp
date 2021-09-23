@@ -38,6 +38,13 @@ export interface SellerInventoryProductsTablePaginationInfo {
   min_max?: any;
 }
 
+/* Track un track products for sellers */
+export interface TrackUntrackProduct {
+  status: string;
+  productId: number;
+  productTrackId: null | number;
+}
+
 /* ==================================================== */
 /* ====== SELLER INVENTORY PRODUCTS SELLER TABLE ====== */
 /* ===================================================== */

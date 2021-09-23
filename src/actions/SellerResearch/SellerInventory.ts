@@ -8,6 +8,7 @@ import { actionTypes } from '../../constants/SellerResearch/SellerInventory';
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
+import { getSellerInventoryProductsTableResults } from '../../selectors/SellerResearch/SellerInventory';
 
 /* Interfaces */
 import {
@@ -17,7 +18,10 @@ import {
   SellerInventoryProductsTableSellersPayload,
   SellerInventoryTablePaginationInfo,
   SellerInventoryTablePayload,
+  TrackUntrackProduct,
 } from '../../interfaces/SellerResearch/SellerInventory';
+import { success } from '../../utils/notifications';
+import { getSellerQuota } from '../Settings';
 
 /* ============================================ */
 /* ====== SELLER INVENTORY MAIN TABLE ========= */
@@ -227,6 +231,63 @@ export const fetchSellerInventoryProductsTableResults = (
       setSellerInventoryProductsTablePagintionInfo({ count: 0, num_pages: 0, per_page: 20 })
     );
     dispatch(isLoadingSellerInventoryProductsTable(false));
+  }
+};
+
+/* Action to track and untrack seller inventory products */
+export const trackUntrackSellerProduct = (payload: TrackUntrackProduct) => async (
+  dispatch: any,
+  getState: any
+) => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const { status, productId, productTrackId = null } = payload;
+
+    const formData = new FormData();
+
+    formData.set('status', status);
+    formData.set('product_id', String(productId));
+
+    if (productTrackId) {
+      formData.set('id', String(productTrackId));
+    }
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/track/product`;
+
+    // if product track id exists use patch else use post (first time only)
+    const { data } = productTrackId
+      ? await axios.patch(URL, formData)
+      : await axios.post(URL, formData);
+
+    if (data) {
+      const currentSellerProducts = getSellerInventoryProductsTableResults(getState());
+
+      const { object: trackedObj } = data;
+
+      // from the retuned tracked object updated the necessary field for UI
+      // and spread rest of the info
+      const updatedSellerProducts = currentSellerProducts.map((p: any) => {
+        if (p.product_id === trackedObj.product_id) {
+          return {
+            ...p,
+            ...trackedObj,
+            // tracking_status===status
+            tracking_status: trackedObj.status,
+            // product_track_id===id
+            product_track_id: trackedObj.id,
+          };
+        } else {
+          return p;
+        }
+      });
+
+      dispatch(setSellerInventoryProductsTableResults(updatedSellerProducts));
+      dispatch(getSellerQuota());
+      success(`Product successfully ${status === 'active' ? 'tracked' : 'untracked'}`);
+    }
+  } catch (err) {
+    console.error('Error tracking/untracking product', err);
   }
 };
 
