@@ -10,37 +10,15 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+}
 
-  .notifications-wrapper {
-    position: relative !important;
-  }
+.dropdownMenu {
+  width: 275px;
+  border-radius: 7px;
+  border: 1px solid $grey_3;
 
-  .item {
-    height: 70%;
-    padding: 4px 0 5px 5px;
-    text-decoration: none;
-
-    i.setting-icon,
-    i.notification-icon {
-      font-size: 18px !important;
-      color: $icon-color !important;
-      margin-top: none;
-      cursor: pointer;
-
-      &:hover {
-        color: $icon-hover-color !important;
-        transform: scale(1.05);
-      }
-    }
-
-    .ui.dropdown {
-      z-index: inherit;
-
-      img {
-        width: 25px;
-        height: 25px;
-        margin: 0;
-      }
-    }
+  .profileBox {
+    height: 90px;
+    background-color: $blue_0;
   }
 }

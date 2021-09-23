@@ -18,7 +18,7 @@ import { toggleNotification } from '../../actions/Notification';
 
 import { selectIsNotificationOpen } from '../../selectors/Notification';
 import { getSellerSubscription } from '../../selectors/Subscription';
-import { isBetaAccount } from '../../utils/subscriptions';
+// import { isBetaAccount } from '../../utils/subscriptions';
 
 interface AdminProps {
   auth: any;
@@ -48,19 +48,11 @@ class AdminHeader extends React.Component<AdminProps> {
   openConfirm = (text: boolean) => this.setState({ openConfirm: text });
 
   render() {
-    const { auth, currentNotifyId, sellerSubscription } = this.props;
+    const { auth, currentNotifyId } = this.props;
 
     return (
       <div className="admin-header">
         <Grid className={`${currentNotifyId > 0 && 'custom-dimmer'}`} />
-
-        {/* Show settings icon only if not a beta user account */}
-        {!isBetaAccount(sellerSubscription) && (
-          <Menu.Item as={Link} to="/settings">
-            <Icon name="setting" color={'black'} size={'large'} className={'setting-icon'} />
-          </Menu.Item>
-        )}
-
         <Menu.Item>
           <Dropdown
             trigger={
@@ -75,17 +67,18 @@ class AdminHeader extends React.Component<AdminProps> {
             pointing="top right"
             icon={null}
           >
-            <Dropdown.Menu style={{ width: '100%' }}>
-              <Dropdown.Item as={Link} to="/settings/pricing">
+            <Dropdown.Menu className="dropdownMenu">
+              <div className="profileBox">PEEKA BOO!</div>
+              <Dropdown.Item as={Link} to="/settings/pricing" styles={{ color: '#636d76' }}>
                 Subscription
               </Dropdown.Item>
-              <Dropdown.Item as={Link} to="/settings/profile">
+              <Dropdown.Item as={Link} to="/settings/profile" styles={{ color: '#636d76' }}>
                 Profile
               </Dropdown.Item>
-              <Dropdown.Item as={Link} to="/settings/billing">
+              <Dropdown.Item as={Link} to="/settings/billing" styles={{ color: '#636d76' }}>
                 Billing
               </Dropdown.Item>
-              <Dropdown.Item as={Link} to="/settings/connectivity">
+              <Dropdown.Item as={Link} to="/settings/connectivity" styles={{ color: '#636d76' }}>
                 Connectivity
               </Dropdown.Item>
               <Dropdown.Item onClick={this.open}>Logout</Dropdown.Item>
