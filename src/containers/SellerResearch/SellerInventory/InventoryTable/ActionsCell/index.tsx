@@ -1,33 +1,47 @@
 import React from 'react';
 import { Table } from 'rsuite';
 import { Icon, Popup } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
 
+/* Actions */
+import { deleteSellerFromTable } from '../../../../../actions/SellerResearch/SellerInventory';
+
 /* Interfaces */
 import { RowCell } from '../../../../../interfaces/Table';
+import { DeleteSellerPayload } from '../../../../../interfaces/SellerResearch/SellerInventory';
 
-const ActionsCell = (props: RowCell) => {
-  const { rowData } = props;
+interface Props extends RowCell {
+  deleteSellerFromTable: (payload: DeleteSellerPayload) => void;
+}
+
+const ActionsCell = (props: Props) => {
+  const { deleteSellerFromTable, ...otherProps } = props;
+
+  const { rowData } = otherProps;
 
   const merchantId = rowData.merchant_id;
+  const id = rowData.id;
   const sellerLink = `https://www.amazon.com/sp?seller=${merchantId}`;
 
   const handleViewOnAmazon = () => {
     window.open(sellerLink, '_blank');
   };
 
+  /* Refresh seller from table */
   const handleRefresh = () => {
     console.log('Handle Refresh');
   };
 
+  /* Delete seller from table */
   const handleDelete = () => {
-    console.log('Delete Seller');
+    deleteSellerFromTable({ id });
   };
 
   return (
-    <Table.Cell {...props}>
+    <Table.Cell {...otherProps}>
       <div className={styles.actionCellWrapper}>
         <Popup
           className={styles.actionCellPopup}
@@ -49,7 +63,7 @@ const ActionsCell = (props: RowCell) => {
 
               <button onClick={handleDelete}>
                 <Icon name="trash" className={styles.actionCellIcon} />
-                Delete Product
+                Delete Seller
               </button>
             </div>
           }
@@ -59,4 +73,11 @@ const ActionsCell = (props: RowCell) => {
   );
 };
 
-export default ActionsCell;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    deleteSellerFromTable: (payload: DeleteSellerPayload) =>
+      dispatch(deleteSellerFromTable(payload)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ActionsCell);

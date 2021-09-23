@@ -22,6 +22,7 @@ import { error, info, success } from '../../utils/notifications';
 
 /* Interfaces */
 import {
+  DeleteSellerPayload,
   SellerInventoryProductsTablePaginationInfo,
   SellerInventoryProductsTablePayload,
   SellerInventoryProductsTableSellersPaginationInfo,
@@ -195,6 +196,26 @@ export const fetchSellerInventoryTableResults = (payload: SellerInventoryTablePa
         current_page: 0,
       })
     );
+  }
+};
+
+/* Action to delete seller from table */
+export const deleteSellerFromTable = (payload: DeleteSellerPayload) => async (dispatch: any) => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const { id } = payload;
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchants/${id}`;
+
+    const { data } = await axios.delete(URL);
+
+    if (data) {
+      dispatch(fetchSellerInventoryTableResults({ enableLoader: false }));
+      success('Seller successfully deleted');
+    }
+  } catch (err) {
+    console.error('Error deleting seler from table', err);
   }
 };
 

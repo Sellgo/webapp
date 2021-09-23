@@ -20,6 +20,11 @@ export interface SellerInventoryTablePaginationInfo {
   next?: string;
 }
 
+/* Delete seller from table */
+export interface DeleteSellerPayload {
+  id: number;
+}
+
 /* ============================================ */
 /* ====== SELLER INVENTORY PRODUCTS TABLE ====== */
 /* ============================================ */
