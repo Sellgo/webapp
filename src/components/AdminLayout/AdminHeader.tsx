@@ -1,108 +1,123 @@
 import * as React from 'react';
-import { Icon, Image, Menu, Dropdown, Grid } from 'semantic-ui-react';
+import { Icon, Image, Menu, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import LogoutConfirm from '../LogoutConfirm';
 
-import { notifyIdSelector } from '../../selectors/UserOnboarding';
+/* Styles */
 
 import './AdminHeader.scss';
 
-import { activeExportFiles } from '../../selectors/Products';
-import { fetchActiveExportFiles } from '../../actions/Products';
+/* Components */
+import LogoutConfirm from '../LogoutConfirm';
 
-import { FileExport } from '../../interfaces/FileExport';
+/* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
 
-import { toggleNotification } from '../../actions/Notification';
-
-import { selectIsNotificationOpen } from '../../selectors/Notification';
+/* Selectors */
 import { getSellerSubscription } from '../../selectors/Subscription';
-// import { isBetaAccount } from '../../utils/subscriptions';
 
-interface AdminProps {
+/* Utils */
+import { isBetaAccount } from '../../utils/subscriptions';
+
+/* Icons */
+import SettingsIcon from '../../assets/images/settingsIcon.svg';
+import PlansIcon from '../../assets/images/plansIcon.svg';
+import BillingIcon from '../../assets/images/billingIcon.svg';
+import ConnectivityIcon from '../../assets/images/connectivityIcon.svg';
+import LogoutIcon from '../../assets/images/logoutIcon.svg';
+
+interface Props {
   auth: any;
-  currentNotifyId: number;
-  activeExportFiles: FileExport[];
-  toggleNotification: (toggleState: boolean) => void;
-  fetchActiveExportFiles: (payload: boolean) => void;
-  isNotificationOpen: boolean;
+  profile: any;
   sellerSubscription: SellerSubscription;
 }
 
-class AdminHeader extends React.Component<AdminProps> {
-  userName = localStorage.getItem('userName');
-  userPicture = localStorage.getItem('userPicture');
-  state = {
-    isVisible: false,
-    openConfirm: false,
-  };
+const AdminHeader = (props: Props) => {
+  const { auth, profile, sellerSubscription } = props;
+  const { email, first_name, last_name } = profile;
+  const isBeta = isBetaAccount(sellerSubscription);
+  const userPicture = localStorage.getItem('userPicture');
+  const [openConfirm, setOpenConfirm] = React.useState<boolean>(false);
 
-  toggleMenu = () => {
-    this.setState({
-      isVisible: !this.state.isVisible,
-    });
-  };
+  const open = () => setOpenConfirm(true);
 
-  open = () => this.setState({ openConfirm: true });
-  openConfirm = (text: boolean) => this.setState({ openConfirm: text });
-
-  render() {
-    const { auth, currentNotifyId } = this.props;
-
-    return (
-      <div className="admin-header">
-        <Grid className={`${currentNotifyId > 0 && 'custom-dimmer'}`} />
-        <Menu.Item>
-          <Dropdown
-            trigger={
-              <>
-                {this.userPicture ? (
-                  <Image src={this.userPicture} avatar={true} />
-                ) : (
-                  <Icon name="user circle" style={{ fontSize: 18 }} />
-                )}
-              </>
-            }
-            pointing="top right"
-            icon={null}
-          >
-            <Dropdown.Menu className="dropdownMenu">
-              <div className="profileBox">PEEKA BOO!</div>
-              <Dropdown.Item as={Link} to="/settings/pricing" styles={{ color: '#636d76' }}>
-                Subscription
-              </Dropdown.Item>
-              <Dropdown.Item as={Link} to="/settings/profile" styles={{ color: '#636d76' }}>
-                Profile
-              </Dropdown.Item>
-              <Dropdown.Item as={Link} to="/settings/billing" styles={{ color: '#636d76' }}>
-                Billing
-              </Dropdown.Item>
-              <Dropdown.Item as={Link} to="/settings/connectivity" styles={{ color: '#636d76' }}>
-                Connectivity
-              </Dropdown.Item>
-              <Dropdown.Item onClick={this.open}>Logout</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </Menu.Item>
-        <LogoutConfirm auth={auth} open={this.state.openConfirm} openFunc={this.openConfirm} />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="admin-header">
+      <Menu.Item>
+        <Dropdown
+          trigger={
+            <>
+              {userPicture ? (
+                <Image src={userPicture} avatar={true} />
+              ) : (
+                <Icon name="user circle" style={{ fontSize: 18 }} />
+              )}
+            </>
+          }
+          pointing="top right"
+          basic
+          icon={null}
+        >
+          <Dropdown.Menu className="dropdownMenu">
+            <div className="profileBox">
+              {userPicture && <img src={userPicture} alt="user circle" className="userIcon" />}
+              <div>
+                <p className="name">
+                  {' '}
+                  {first_name} {last_name}
+                </p>
+                <p className="email"> {email}</p>
+              </div>
+            </div>
+            <Dropdown.Item as={Link} to="/settings/profile" className="dropdownItem">
+              <img src={SettingsIcon} alt="settings-icon" />
+              Settings
+            </Dropdown.Item>
+            <Dropdown.Item
+              as={Link}
+              to="/settings/pricing"
+              className="dropdownItem"
+              disabled={isBeta}
+            >
+              <img src={PlansIcon} alt="plans-icon" />
+              Plans
+            </Dropdown.Item>
+            <Dropdown.Item
+              as={Link}
+              to="/settings/billing"
+              className="dropdownItem"
+              disabled={isBeta}
+            >
+              <img src={BillingIcon} alt="billing-icon" />
+              Billing
+            </Dropdown.Item>
+            <Dropdown.Item
+              as={Link}
+              to="/settings/connectivity"
+              className="dropdownItem"
+              disabled={isBeta}
+            >
+              <img src={ConnectivityIcon} alt="connectivity-icon" />
+              Connectivity
+            </Dropdown.Item>
+            <div className="line" />
+            <Dropdown.Item className="dropdownItem" onClick={open}>
+              <img src={LogoutIcon} alt="logout-icon" />
+              Logout
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </Menu.Item>
+      <LogoutConfirm auth={auth} open={openConfirm} openFunc={setOpenConfirm} />
+    </div>
+  );
+};
 
 const mapStateToProps = (state: any) => {
   return {
-    currentNotifyId: notifyIdSelector(state),
-    activeExportFiles: activeExportFiles(state),
-    isNotificationOpen: selectIsNotificationOpen(state),
+    profile: state.settings.profile,
     sellerSubscription: getSellerSubscription(state),
   };
 };
 
-const mapDispatchToProps = {
-  fetchActiveExportFiles: (isLoading: boolean) => fetchActiveExportFiles(isLoading),
-  toggleNotification: (toggleState: boolean) => toggleNotification(toggleState),
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AdminHeader);
+export default connect(mapStateToProps)(AdminHeader);

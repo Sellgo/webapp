@@ -14,11 +14,61 @@
 
 .dropdownMenu {
   width: 275px;
-  border-radius: 7px;
+  border-radius: 7px !important;
   border: 1px solid $grey_3;
 
+  .dropdownItem {
+    color: $grey_8 !important;
+    text-decoration: none;
+    display: flex !important;
+    justify-content: flex-start !important;
+    flex-direction: row;
+    align-items: center;
+
+    img {
+      margin-left: 18px !important;
+    }
+
+    &:hover {
+      color: $grey_8 !important;
+      text-decoration: none;
+      font-weight: 600 !important;
+    }
+  }
+
+  .line {
+    width: 100%;
+    border-top: 1px solid $grey_3;
+  }
+
   .profileBox {
-    height: 90px;
+    padding: 30px;
+    height: 110px;
     background-color: $blue_0;
+    display: flex;
+    flex-direction: row;
+    border-radius: 7px !important;
+
+    .name {
+      margin-left: 18px;
+      font-size: 16px;
+      font-weight: 500;
+      color: $prim_dark_1;
+    }
+
+    .email {
+      margin: 0;
+      margin-left: 18px;
+      font-size: 14px;
+      font-weight: normal;
+      color: $prim_dark_1;
+    }
+
+    .userIcon {
+      width: 50px;
+      height: 50px;
+      border-radius: 7px;
+      border: 1px solid $grey_3;
+    }
   }
 }
