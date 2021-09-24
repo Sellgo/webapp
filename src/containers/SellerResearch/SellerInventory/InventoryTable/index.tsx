@@ -44,7 +44,6 @@ import ExtendedReviewsCell from '../../../../components/NewTable/ExtendedReviews
 import SellerInformation from './SellerInformation';
 import ActionsCell from './ActionsCell';
 import SellerActions from './SellerActions';
-import InventoryTableGroups from '../InventoryTableGroups';
 
 /* Nested Table */
 import SellerProductsTable from '../SellerProductsTable';
@@ -134,11 +133,6 @@ const InventoryTable = (props: Props) => {
 
   return (
     <section className={styles.sellerInventoryTableWrapper}>
-      <div className={styles.tableMetaInformation}>
-        {/* Seller Groups */}
-        <InventoryTableGroups />
-      </div>
-
       {/* Main table wrapper */}
       <Table
         loading={isLoadingSellerInventoryTable}
