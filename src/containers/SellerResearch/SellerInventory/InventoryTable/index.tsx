@@ -19,6 +19,7 @@ import {
   getIsLoadingSellerInventoryTable,
   getSellerInventoryProductsTableResults,
   getSellerInventoryProductsTableSellersResults,
+  getSellerInventoryTableActiveGroupId,
   getSellerInventoryTablePaginationInfo,
   getSellerInventoryTableResults,
 } from '../../../../selectors/SellerResearch/SellerInventory';
@@ -52,6 +53,7 @@ import {
   SellerInventoryTablePayload,
   SellerInventoryTablePaginationInfo,
   SellerInventoryProductsTablePayload,
+  SellerInventoryTableActiveGroupId,
 } from '../../../../interfaces/SellerResearch/SellerInventory';
 import TableGroups from './TableGroups';
 
@@ -59,6 +61,7 @@ interface Props {
   isLoadingSellerInventoryTable: boolean;
   sellerInventoryTableResults: any[];
   sellerInventoryTablePaginationInfo: SellerInventoryTablePaginationInfo;
+  sellerInventoryTableActiveGroupId: SellerInventoryTableActiveGroupId;
 
   sellerInventoryProductsTableResults: any[];
   sellerInventoryProductsTableSellersResults: any[];
@@ -74,6 +77,7 @@ const InventoryTable = (props: Props) => {
     isLoadingSellerInventoryTable,
     sellerInventoryTableResults,
     sellerInventoryTablePaginationInfo,
+    sellerInventoryTableActiveGroupId,
 
     setSellerInventoryTableExpandedRow,
     fetchSellerInventoryTableResults,
@@ -118,6 +122,16 @@ const InventoryTable = (props: Props) => {
     }
   };
 
+  /* WIP : Sell if any bugs exist on the logic */
+  const filteredSellersByGroup =
+    sellerInventoryTableActiveGroupId === null
+      ? sellerInventoryTableResults
+      : sellerInventoryTableActiveGroupId === -1
+      ? sellerInventoryTableResults.filter((data: any) => data.merchant_group === null)
+      : sellerInventoryTableResults.filter(
+          (seller: any) => seller.merchant_group === sellerInventoryTableActiveGroupId
+        );
+
   return (
     <section className={styles.sellerInventoryTableWrapper}>
       {/* Seller Groups */}
@@ -126,7 +140,7 @@ const InventoryTable = (props: Props) => {
       {/* Main table wrapper */}
       <Table
         loading={isLoadingSellerInventoryTable}
-        data={sellerInventoryTableResults}
+        data={filteredSellersByGroup}
         autoHeight
         hover={false}
         rowHeight={SELLER_INVENTORY_TABLE_ROW_HEIGHT}
@@ -304,6 +318,8 @@ const mapStateToProps = (state: any) => {
     isLoadingSellerInventoryTable: getIsLoadingSellerInventoryTable(state),
     sellerInventoryTableResults: getSellerInventoryTableResults(state),
     sellerInventoryTablePaginationInfo: getSellerInventoryTablePaginationInfo(state),
+
+    sellerInventoryTableActiveGroupId: getSellerInventoryTableActiveGroupId(state),
 
     sellerInventoryProductsTableResults: getSellerInventoryProductsTableResults(state),
     sellerInventoryProductsTableSellersResults: getSellerInventoryProductsTableSellersResults(
