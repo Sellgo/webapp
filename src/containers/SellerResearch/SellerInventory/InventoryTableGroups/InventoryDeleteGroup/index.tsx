@@ -9,22 +9,22 @@ import styles from './index.module.scss';
 import {
   deleteSellerInventoryTableGroup,
   updateSellerInventoryTableGroup,
-} from '../../../../actions/SellerResearch/SellerInventory';
+} from '../../../../../actions/SellerResearch/SellerInventory';
 
 /* Selectors */
-import { getSellerInventoryTableResults } from '../../../../selectors/SellerResearch/SellerInventory';
+import { getSellerInventoryTableResults } from '../../../../../selectors/SellerResearch/SellerInventory';
 
 /* Utils */
-import { timeout } from '../../../../utils/timeout';
+import { timeout } from '../../../../../utils/timeout';
 
 /* Components */
-import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
+import FormFilterActions from '../../../../../components/FormFilters/FormFilterActions';
 
 /* Interfaces */
 import {
   DeleteSellergroup,
   UpdateSellerGroup,
-} from '../../../../interfaces/SellerResearch/SellerInventory';
+} from '../../../../../interfaces/SellerResearch/SellerInventory';
 
 interface Props {
   currentGroupId: number;

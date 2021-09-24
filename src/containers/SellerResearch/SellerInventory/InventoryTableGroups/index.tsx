@@ -25,9 +25,9 @@ import {
 } from '../../../../constants/SellerResearch/SellerInventory';
 
 /* Containers */
-import InventoryCreateGroup from '../InventoryCreateGroup';
-import InventoryEditGroup from '../InventoryEditGroup';
-import InventoryDeleteGroup from '../InventoryDeleteGroup';
+import InventoryCreateGroup from './InventoryCreateGroup';
+import InventoryEditGroup from './InventoryEditGroup';
+import InventoryDeleteGroup from './InventoryDeleteGroup';
 
 /* Interfaces */
 import {

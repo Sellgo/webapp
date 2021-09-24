@@ -134,8 +134,10 @@ const InventoryTable = (props: Props) => {
 
   return (
     <section className={styles.sellerInventoryTableWrapper}>
-      {/* Seller Groups */}
-      <InventoryTableGroups />
+      <div className={styles.tableMetaInformation}>
+        {/* Seller Groups */}
+        <InventoryTableGroups />
+      </div>
 
       {/* Main table wrapper */}
       <Table
