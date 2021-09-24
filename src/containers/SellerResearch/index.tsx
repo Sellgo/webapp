@@ -7,7 +7,6 @@ import styles from './index.module.scss';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
-import QuotaMeter from '../../components/QuotaMeter';
 import MarketplaceDropdown from '../../components/MarketplaceDropdown';
 
 /* Containers */
@@ -54,7 +53,6 @@ const SellerResearch = (props: Props) => {
           { content: 'Home', to: '/' },
           { content: 'Seller Research', to: '/seller-research' },
         ]}
-        callToAction={<QuotaMeter />}
         auth={match.params.auth}
       />
 
