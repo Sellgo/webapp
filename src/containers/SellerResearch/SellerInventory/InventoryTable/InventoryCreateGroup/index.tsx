@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { createSellerInventoryTableGroup } from '../../../../../actions/SellerResearch/SellerInventory';
-import FormFilterActions from '../../../../../components/FormFilters/FormFilterActions';
-import InputFilter from '../../../../../components/FormFilters/InputFilter';
-import { CreateSellerGroup } from '../../../../../interfaces/SellerResearch/SellerInventory';
-import { timeout } from '../../../../../utils/timeout';
 
 /* Styling */
 import styles from './index.module.scss';
+
+/* Actions */
+import { createSellerInventoryTableGroup } from '../../../../../actions/SellerResearch/SellerInventory';
+
+/* Utils */
+import { timeout } from '../../../../../utils/timeout';
+
+/* Components */
+import FormFilterActions from '../../../../../components/FormFilters/FormFilterActions';
+import InputFilter from '../../../../../components/FormFilters/InputFilter';
+
+/* Interfaces */
+import { CreateSellerGroup } from '../../../../../interfaces/SellerResearch/SellerInventory';
 
 interface Props {
   createSellerInventoryTableGroup: (payload: CreateSellerGroup) => void;

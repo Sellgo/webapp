@@ -34,6 +34,7 @@ import {
   TrackUntrackProductSeller,
   SellerInventoryTableActiveGroupId,
   CreateSellerGroup,
+  UpdateSellerGroup,
 } from '../../interfaces/SellerResearch/SellerInventory';
 
 /* ============================================ */
@@ -295,7 +296,44 @@ export const createSellerInventoryTableGroup = (payload: CreateSellerGroup) => a
   }
 };
 
-/* Action to fetch all seller inventory groups */
+/* Action to update a seller inventory groups */
+export const updateSellerInventoryTableGroup = (payload: UpdateSellerGroup) => async (
+  dispatch: any
+) => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const { id, name, status, merchantIds } = payload;
+
+    const formData = new FormData();
+
+    if (name) {
+      formData.set('name', name);
+    }
+
+    if (status) {
+      formData.set('status', status);
+    }
+
+    if (merchantIds) {
+      formData.set('merchant_ids', merchantIds);
+    }
+
+    const resourcePath = `id=${id}`;
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchants/group?${resourcePath}`;
+
+    const { data } = await axios.patch(URL, formData);
+
+    if (data) {
+      await dispatch(fetchSellerInventoryTableGroups());
+      dispatch(setSellerInventoryTableActiveGroupId(id));
+      success(data.message);
+    }
+  } catch (err) {
+    console.error('Error updating seller group', err);
+  }
+};
 
 /* ============================================ */
 /* ====== SELLER INVENTORY PRODUCTS TABLE ===== */

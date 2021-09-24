@@ -43,6 +43,13 @@ export interface CreateSellerGroup {
   name: string;
 }
 
+export interface UpdateSellerGroup {
+  id: number;
+  name?: string;
+  status?: string;
+  merchantIds?: string;
+}
+
 /* ============================================ */
 /* ====== SELLER INVENTORY PRODUCTS TABLE ====== */
 /* ============================================ */

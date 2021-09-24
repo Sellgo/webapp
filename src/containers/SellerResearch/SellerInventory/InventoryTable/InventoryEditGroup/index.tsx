@@ -1,22 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { createSellerInventoryTableGroup } from '../../../../../actions/SellerResearch/SellerInventory';
-import FormFilterActions from '../../../../../components/FormFilters/FormFilterActions';
-import InputFilter from '../../../../../components/FormFilters/InputFilter';
-import { CreateSellerGroup } from '../../../../../interfaces/SellerResearch/SellerInventory';
-import { timeout } from '../../../../../utils/timeout';
 
 /* Styling */
 import styles from './index.module.scss';
 
+/* Actions */
+import { updateSellerInventoryTableGroup } from '../../../../../actions/SellerResearch/SellerInventory';
+
+/* Utils */
+import { timeout } from '../../../../../utils/timeout';
+
+/* Components */
+import FormFilterActions from '../../../../../components/FormFilters/FormFilterActions';
+import InputFilter from '../../../../../components/FormFilters/InputFilter';
+
+/* Interfaces */
+import { UpdateSellerGroup } from '../../../../../interfaces/SellerResearch/SellerInventory';
+
 interface Props {
-  closeModal: () => void;
   currentGroupName: string;
   currentGroupId: number;
+
+  updateSellerInventoryTableGroup: (payload: UpdateSellerGroup) => void;
+  closeModal: () => void;
 }
 
 const InventoryEditGroup = (props: Props) => {
-  const { closeModal, currentGroupName, currentGroupId } = props;
+  const { updateSellerInventoryTableGroup, closeModal, currentGroupName, currentGroupId } = props;
 
   const [groupName, setGroupName] = useState<string>('');
 
@@ -25,10 +35,11 @@ const InventoryEditGroup = (props: Props) => {
   }, []);
 
   const handleSubmit = async () => {
-    console.log({
+    updateSellerInventoryTableGroup({
       name: groupName,
       id: currentGroupId,
     });
+
     await timeout(500);
     closeModal();
   };
@@ -60,8 +71,8 @@ const InventoryEditGroup = (props: Props) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    createSellerInventoryTableGroup: (payload: CreateSellerGroup) =>
-      dispatch(createSellerInventoryTableGroup(payload)),
+    updateSellerInventoryTableGroup: (payload: UpdateSellerGroup) =>
+      dispatch(updateSellerInventoryTableGroup(payload)),
   };
 };
 
