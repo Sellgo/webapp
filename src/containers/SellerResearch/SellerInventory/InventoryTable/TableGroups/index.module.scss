@@ -18,8 +18,9 @@
   li {
     color: $grey_8 !important;
     font-size: 16px !important;
-    min-width: 102px !important;
+    min-width: 112px !important;
     height: 43px;
+    padding: 0 5px;
     border-bottom: 1px solid $grey_3;
     display: flex;
     justify-content: center;
@@ -68,6 +69,16 @@
   /* Handle on hover */
   &::-webkit-scrollbar-thumb:hover {
     background: $grey_6 !important;
+  }
+}
+
+.groupActions {
+  margin-left: 5px;
+
+  .updateGroupIcon,
+  .deleteGroupIcon {
+    font-size: 12px !important;
+    color: $grey_8 !important;
   }
 }
 

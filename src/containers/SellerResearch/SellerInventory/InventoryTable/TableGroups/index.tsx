@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { v4 as uuid } from 'uuid';
-import { Modal } from 'semantic-ui-react';
+import { Icon, Modal } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -25,7 +25,8 @@ import {
 } from '../../../../../constants/SellerResearch/SellerInventory';
 
 /* Containers */
-import CreateGroup from '../CreateGroup';
+import InventoryCreateGroup from '../InventoryCreateGroup';
+import InventoryEditGroup from '../InventoryEditGroup';
 
 /* Interfaces */
 import {
@@ -51,6 +52,11 @@ const TableGroups = (props: Props) => {
 
   /* State for creating a group modal */
   const [openCreateGroup, setOpenCreateGroup] = useState(false);
+  const [openEditGroup, setOpenEditGroup] = useState({
+    open: false,
+    currentGroupName: '',
+    currentGroupId: 0,
+  });
 
   /* Is all groups active */
   const allGroupsClassName = `${styles.groupListTab} ${
@@ -97,14 +103,28 @@ const TableGroups = (props: Props) => {
           <div className={styles.preventOverflow}>
             {sellerInventoryTableGroups &&
               sellerInventoryTableGroups.map(g => {
-                const groupdActive = g.id === sellerInventoryTableActiveGroupId;
+                const groupActive = g.id === sellerInventoryTableActiveGroupId;
                 return (
                   <li
                     key={uuid()}
-                    className={groupdActive ? styles.activeTab : ''}
+                    className={groupActive ? styles.activeTab : ''}
                     onClick={() => handleActiveGroupChange(g.id)}
                   >
                     {g.name}
+                    <span className={styles.groupActions}>
+                      <Icon
+                        name="pencil"
+                        className={styles.updateGroupIcon}
+                        onClick={() =>
+                          setOpenEditGroup({
+                            open: true,
+                            currentGroupName: g.name,
+                            currentGroupId: g.id,
+                          })
+                        }
+                      />
+                      <Icon name="trash" className={styles.deleteGroupIcon} />
+                    </span>
                   </li>
                 );
               })}
@@ -124,7 +144,27 @@ const TableGroups = (props: Props) => {
         className={styles.modalReset}
         open={openCreateGroup}
         closeOnEscape
-        content={<CreateGroup closeModal={() => setOpenCreateGroup(false)} />}
+        content={<InventoryCreateGroup closeModal={() => setOpenCreateGroup(false)} />}
+      />
+
+      {/* Edit group Modal */}
+      <Modal
+        className={styles.modalReset}
+        open={openEditGroup.open}
+        closeOnEscape
+        content={
+          <InventoryEditGroup
+            closeModal={() =>
+              setOpenEditGroup({
+                open: false,
+                currentGroupName: '',
+                currentGroupId: 0,
+              })
+            }
+            currentGroupName={openEditGroup.currentGroupName}
+            currentGroupId={openEditGroup.currentGroupId}
+          />
+        }
       />
     </>
   );

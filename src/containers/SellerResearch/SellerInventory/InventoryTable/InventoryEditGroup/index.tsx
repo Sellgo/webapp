@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { createSellerInventoryTableGroup } from '../../../../../actions/SellerResearch/SellerInventory';
 import FormFilterActions from '../../../../../components/FormFilters/FormFilterActions';
@@ -10,28 +10,35 @@ import { timeout } from '../../../../../utils/timeout';
 import styles from './index.module.scss';
 
 interface Props {
-  createSellerInventoryTableGroup: (payload: CreateSellerGroup) => void;
   closeModal: () => void;
+  currentGroupName: string;
+  currentGroupId: number;
 }
 
-const CreateGroup = (props: Props) => {
-  const { closeModal, createSellerInventoryTableGroup } = props;
+const InventoryEditGroup = (props: Props) => {
+  const { closeModal, currentGroupName, currentGroupId } = props;
 
   const [groupName, setGroupName] = useState<string>('');
 
+  useEffect(() => {
+    setGroupName(currentGroupName);
+  }, []);
+
   const handleSubmit = async () => {
-    createSellerInventoryTableGroup({ name: groupName });
+    console.log({
+      name: groupName,
+      id: currentGroupId,
+    });
     await timeout(500);
     closeModal();
   };
 
   const handleCancel = () => {
-    setGroupName('');
     closeModal();
   };
 
   return (
-    <div className={styles.createGroupForm}>
+    <div className={styles.editGroupForm}>
       <InputFilter
         label="Group Name"
         placeholder="Enter a group name"
@@ -40,7 +47,7 @@ const CreateGroup = (props: Props) => {
         className={styles.longInput}
       />
       <FormFilterActions
-        submitLabel="Create"
+        submitLabel="Edit"
         resetLabel="Cancel"
         onFind={handleSubmit}
         onReset={handleCancel}
@@ -58,4 +65,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(CreateGroup);
+export default connect(null, mapDispatchToProps)(InventoryEditGroup);
