@@ -27,6 +27,7 @@ import {
 /* Containers */
 import InventoryCreateGroup from '../InventoryCreateGroup';
 import InventoryEditGroup from '../InventoryEditGroup';
+import InventoryDeleteGroup from '../InventoryDeleteGroup';
 
 /* Interfaces */
 import {
@@ -52,10 +53,19 @@ const TableGroups = (props: Props) => {
 
   /* State for creating a group modal */
   const [openCreateGroup, setOpenCreateGroup] = useState(false);
+
+  /* State for editing a group modal */
   const [openEditGroup, setOpenEditGroup] = useState({
     open: false,
     currentGroupName: '',
     currentGroupId: 0,
+  });
+
+  /* State for deleting a group modal */
+  const [openDeleteGroup, setOpenDeleteGroup] = useState({
+    open: false,
+    currentGroupId: 0,
+    currentGroupName: '',
   });
 
   /* Is all groups active */
@@ -111,20 +121,32 @@ const TableGroups = (props: Props) => {
                     onClick={() => handleActiveGroupChange(g.id)}
                   >
                     {g.name}
-                    <span className={styles.groupActions}>
-                      <Icon
-                        name="pencil"
-                        className={styles.updateGroupIcon}
-                        onClick={() =>
-                          setOpenEditGroup({
-                            open: true,
-                            currentGroupName: g.name,
-                            currentGroupId: g.id,
-                          })
-                        }
-                      />
-                      <Icon name="trash" className={styles.deleteGroupIcon} />
-                    </span>
+                    {groupActive && (
+                      <span className={styles.groupActions}>
+                        <Icon
+                          name="pencil"
+                          className={styles.updateGroupIcon}
+                          onClick={() =>
+                            setOpenEditGroup({
+                              open: true,
+                              currentGroupName: g.name,
+                              currentGroupId: g.id,
+                            })
+                          }
+                        />
+                        <Icon
+                          name="trash"
+                          className={styles.deleteGroupIcon}
+                          onClick={() =>
+                            setOpenDeleteGroup({
+                              open: true,
+                              currentGroupId: g.id,
+                              currentGroupName: g.name,
+                            })
+                          }
+                        />
+                      </span>
+                    )}
                   </li>
                 );
               })}
@@ -163,6 +185,26 @@ const TableGroups = (props: Props) => {
             }
             currentGroupName={openEditGroup.currentGroupName}
             currentGroupId={openEditGroup.currentGroupId}
+          />
+        }
+      />
+
+      {/* Delete group modal */}
+      <Modal
+        className={styles.modalReset}
+        open={openDeleteGroup.open}
+        closeOnEscape
+        content={
+          <InventoryDeleteGroup
+            closeModal={() =>
+              setOpenDeleteGroup({
+                open: false,
+                currentGroupId: 0,
+                currentGroupName: '',
+              })
+            }
+            currentGroupId={openDeleteGroup.currentGroupId}
+            currentGroupName={openDeleteGroup.currentGroupName}
           />
         }
       />

@@ -50,6 +50,11 @@ export interface UpdateSellerGroup {
   merchantIds?: string;
 }
 
+export interface DeleteSellergroup {
+  id: number;
+  refreshTable?: boolean;
+}
+
 /* ============================================ */
 /* ====== SELLER INVENTORY PRODUCTS TABLE ====== */
 /* ============================================ */

@@ -35,6 +35,7 @@ import {
   SellerInventoryTableActiveGroupId,
   CreateSellerGroup,
   UpdateSellerGroup,
+  DeleteSellergroup,
 } from '../../interfaces/SellerResearch/SellerInventory';
 
 /* ============================================ */
@@ -326,12 +327,50 @@ export const updateSellerInventoryTableGroup = (payload: UpdateSellerGroup) => a
     const { data } = await axios.patch(URL, formData);
 
     if (data) {
+      // delete the group but keep its content
+      if (status && status === 'inactive') {
+        await dispatch(fetchSellerInventoryTableGroups());
+        await dispatch(setSellerInventoryTableActiveGroupId(null));
+        await dispatch(fetchSellerInventoryTableResults({ enableLoader: false }));
+        success(data.message);
+        return;
+      }
+
       await dispatch(fetchSellerInventoryTableGroups());
       dispatch(setSellerInventoryTableActiveGroupId(id));
       success(data.message);
     }
   } catch (err) {
     console.error('Error updating seller group', err);
+  }
+};
+
+/* Action to delete a seller inventory groups */
+export const deleteSellerInventoryTableGroup = (payload: DeleteSellergroup) => async (
+  dispatch: any
+) => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const { id, refreshTable = false } = payload;
+
+    const resourcePath = `id=${id}`;
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchants/group?${resourcePath}`;
+
+    const { data } = await axios.delete(URL);
+
+    if (data) {
+      await dispatch(fetchSellerInventoryTableGroups());
+      dispatch(setSellerInventoryTableActiveGroupId(null));
+      success(data.message);
+
+      if (refreshTable) {
+        await dispatch(fetchSellerInventoryTableResults({ enableLoader: false }));
+      }
+    }
+  } catch (err) {
+    console.error('Error deleting seller group', err);
   }
 };
 
