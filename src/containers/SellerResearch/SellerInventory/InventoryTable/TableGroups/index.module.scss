@@ -1,0 +1,81 @@
+@import '../../../../../design-system/new-colors';
+
+.tableGroupsWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.groupList {
+  display: flex;
+  list-style: none;
+  margin: 0 !important;
+  padding: 0;
+  padding-top: 18px !important;
+  width: max-content;
+
+  li {
+    color: $grey_8 !important;
+    font-size: 16px !important;
+    min-width: 102px !important;
+    height: 43px;
+    border-bottom: 1px solid $grey_3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer !important;
+
+    &.addGroupIconWrapper {
+      min-width: unset !important;
+      width: max-content !important;
+    }
+  }
+}
+
+.activeTab {
+  background: $orange_10 !important;
+  color: $grey_8 !important;
+  font-weight: 600 !important;
+  border: 1px solid $grey_3 !important;
+  border-radius: 4px 4px 0 0;
+  border-bottom: transparent !important;
+}
+
+.preventOverflow {
+  max-width: 800px;
+  overflow-x: auto !important;
+  display: flex;
+
+  /* width */
+  &::-webkit-scrollbar {
+    height: 5px !important;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: $grey_1 !important;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $grey_6 !important;
+    border-radius: 3px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: $grey_6 !important;
+  }
+}
+
+.addGroupIconWrapper {
+  min-width: unset !important;
+}
+
+.addGroupIcon {
+  align-self: center;
+  cursor: pointer;
+  height: 100%;
+}

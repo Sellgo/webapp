@@ -53,6 +53,7 @@ import {
   SellerInventoryTablePaginationInfo,
   SellerInventoryProductsTablePayload,
 } from '../../../../interfaces/SellerResearch/SellerInventory';
+import TableGroups from './TableGroups';
 
 interface Props {
   isLoadingSellerInventoryTable: boolean;
@@ -119,6 +120,9 @@ const InventoryTable = (props: Props) => {
 
   return (
     <section className={styles.sellerInventoryTableWrapper}>
+      {/* Seller Groups */}
+      <TableGroups />
+
       {/* Main table wrapper */}
       <Table
         loading={isLoadingSellerInventoryTable}
@@ -277,7 +281,6 @@ const InventoryTable = (props: Props) => {
           <ActionsCell dataKey={SELLER_INVENTORY_UNIQUE_KEY} />
         </Table.Column>
       </Table>
-
       {/* Pagination */}
       {sellerInventoryTablePaginationInfo && sellerInventoryTablePaginationInfo.total_pages > 0 && (
         <footer className={styles.sellerInventoryPaginationContainer}>
