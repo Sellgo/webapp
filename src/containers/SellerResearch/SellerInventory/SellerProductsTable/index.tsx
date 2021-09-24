@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table } from 'rsuite';
 import { connect } from 'react-redux';
 
@@ -96,6 +96,47 @@ const SellerProductsTable = (props: Props) => {
       setSellerInventoryProductsTableExpandedRow({});
     }
   };
+
+  /* Custom scroll logic */
+  const handleCustomTableScroll = (e: any) => {
+    const verticalScrollRef = document.querySelector(
+      '#sellerInventoryTable  #sellerProductsTable  .rs-table-body-wheel-area'
+    );
+
+    const bodyWheelAreaForChildTable = document.querySelector(
+      '#sellerInventoryTable  #sellerProductsTable #productsSellersTable  .rs-table-body-wheel-area'
+    );
+
+    // 🔥 (gotta love this logic if no bugs are found- pushing scrollbar here to limits)
+    // scroll the table only when child is not open
+    // if child is oprn scroll only child
+    if (verticalScrollRef && !bodyWheelAreaForChildTable) {
+      const newScrollY = verticalScrollRef.scrollTop + e.deltaY;
+      verticalScrollRef.scrollTo({
+        top: newScrollY,
+        behavior: 'auto',
+      });
+    }
+  };
+
+  /* Need to overide the custom scroll behavior on mount */
+  useEffect(() => {
+    // way to be specific 🤣
+    const bodyWheelArea = document.querySelector(
+      '#sellerInventoryTable  #sellerProductsTable  .rs-table-body-wheel-area'
+    );
+
+    if (bodyWheelArea) {
+      bodyWheelArea.addEventListener('wheel', handleCustomTableScroll);
+    }
+
+    return () => {
+      // run cleanup
+      if (bodyWheelArea) {
+        bodyWheelArea.addEventListener('wheel', handleCustomTableScroll);
+      }
+    };
+  }, []);
 
   return (
     <section className={styles.sellerProductsTableWrapper}>

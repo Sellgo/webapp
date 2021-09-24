@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'rsuite';
 
@@ -19,7 +19,6 @@ import { fetchSellerInventoryProductsTableSellers } from '../../../../actions/Se
 /* Constants */
 import {
   calculateSellerInventorySellersTableHeight,
-  // DEFAULT_PAGES_LIST,
   SELLER_INVENTORY_PRODUCTS_SELLERS_TABLE_UNIQUE_KEY,
   SELLER_INVENTORY_PRODUCTS_TABLE_SELLER_ROW_HEIGHT,
 } from '../../../../constants/SellerResearch/SellerInventory';
@@ -60,6 +59,40 @@ const ProductsSellersTable = (props: Props) => {
   // const handlePageChange = (pageNo: number, perPageNo?: number) => {
   //   console.log(pageNo, perPageNo);
   // };
+
+  /* Custom scroll logic */
+  const handleCustomTableScroll = (e: any) => {
+    // way to be specific 🤣
+    const verticalScrollRef = document.querySelector(
+      '#sellerInventoryTable  #sellerProductsTable #productsSellersTable  .rs-table-body-wheel-area'
+    );
+
+    if (verticalScrollRef) {
+      const newScrollY = verticalScrollRef.scrollTop + e.deltaY;
+      verticalScrollRef.scrollTo({
+        top: newScrollY,
+        behavior: 'auto',
+      });
+    }
+  };
+
+  /* Need to overide the custom scroll behavior on mount */
+  useEffect(() => {
+    const bodyWheelArea = document.querySelector(
+      '#sellerInventoryTable  #sellerProductsTable  .rs-table-body-wheel-area'
+    );
+
+    if (bodyWheelArea) {
+      bodyWheelArea.addEventListener('wheel', handleCustomTableScroll);
+    }
+
+    return () => {
+      // run cleanup
+      if (bodyWheelArea) {
+        bodyWheelArea.addEventListener('wheel', handleCustomTableScroll);
+      }
+    };
+  }, []);
 
   return (
     <section className={styles.productsSellersTableWrapper}>
