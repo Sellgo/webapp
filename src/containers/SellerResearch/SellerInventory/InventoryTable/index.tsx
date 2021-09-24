@@ -44,6 +44,7 @@ import ExtendedReviewsCell from '../../../../components/NewTable/ExtendedReviews
 import SellerInformation from './SellerInformation';
 import ActionsCell from './ActionsCell';
 import SellerActions from './SellerActions';
+import GroupCell from './GroupCell';
 
 /* Nested Table */
 import SellerProductsTable from '../SellerProductsTable';
@@ -283,6 +284,12 @@ const InventoryTable = (props: Props) => {
             neutralReviewKey="neutral_lifetime"
             dataKey="count_lifetime"
           />
+        </Table.Column>
+
+        {/* Group Cell */}
+        <Table.Column width={40} verticalAlign="top" fixed align="left">
+          <Table.HeaderCell>{''}</Table.HeaderCell>
+          <GroupCell dataKey="merchant_group" />
         </Table.Column>
 
         {/* Actions Cell */}
