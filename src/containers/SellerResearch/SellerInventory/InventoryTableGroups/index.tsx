@@ -10,19 +10,19 @@ import styles from './index.module.scss';
 import {
   fetchSellerInventoryTableGroups,
   setSellerInventoryTableActiveGroupId,
-} from '../../../../../actions/SellerResearch/SellerInventory';
+} from '../../../../actions/SellerResearch/SellerInventory';
 
 /* Selectors */
 import {
   getSellerInventoryTableActiveGroupId,
   getSellerInventoryTableGroups,
-} from '../../../../../selectors/SellerResearch/SellerInventory';
+} from '../../../../selectors/SellerResearch/SellerInventory';
 
 /* Constants */
 import {
   DEFAULT_ALLGROUPS_ID,
   DEFAULT_UNGROUPED_ID,
-} from '../../../../../constants/SellerResearch/SellerInventory';
+} from '../../../../constants/SellerResearch/SellerInventory';
 
 /* Containers */
 import InventoryCreateGroup from '../InventoryCreateGroup';
@@ -32,7 +32,7 @@ import InventoryEditGroup from '../InventoryEditGroup';
 import {
   SellerInventoryTableGroup,
   SellerInventoryTableActiveGroupId,
-} from '../../../../../interfaces/SellerResearch/SellerInventory';
+} from '../../../../interfaces/SellerResearch/SellerInventory';
 
 interface Props {
   sellerInventoryTableGroups: SellerInventoryTableGroup[];

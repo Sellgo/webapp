@@ -44,6 +44,7 @@ import ExtendedReviewsCell from '../../../../components/NewTable/ExtendedReviews
 import SellerInformation from './SellerInformation';
 import ActionsCell from './ActionsCell';
 import SellerActions from './SellerActions';
+import InventoryTableGroups from '../InventoryTableGroups';
 
 /* Nested Table */
 import SellerProductsTable from '../SellerProductsTable';
@@ -55,7 +56,6 @@ import {
   SellerInventoryProductsTablePayload,
   SellerInventoryTableActiveGroupId,
 } from '../../../../interfaces/SellerResearch/SellerInventory';
-import TableGroups from './TableGroups';
 
 interface Props {
   isLoadingSellerInventoryTable: boolean;
@@ -135,7 +135,7 @@ const InventoryTable = (props: Props) => {
   return (
     <section className={styles.sellerInventoryTableWrapper}>
       {/* Seller Groups */}
-      <TableGroups />
+      <InventoryTableGroups />
 
       {/* Main table wrapper */}
       <Table

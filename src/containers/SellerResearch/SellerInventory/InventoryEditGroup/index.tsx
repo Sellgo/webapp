@@ -5,17 +5,17 @@ import { connect } from 'react-redux';
 import styles from './index.module.scss';
 
 /* Actions */
-import { updateSellerInventoryTableGroup } from '../../../../../actions/SellerResearch/SellerInventory';
+import { updateSellerInventoryTableGroup } from '../../../../actions/SellerResearch/SellerInventory';
 
 /* Utils */
-import { timeout } from '../../../../../utils/timeout';
+import { timeout } from '../../../../utils/timeout';
 
 /* Components */
-import FormFilterActions from '../../../../../components/FormFilters/FormFilterActions';
-import InputFilter from '../../../../../components/FormFilters/InputFilter';
+import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
+import InputFilter from '../../../../components/FormFilters/InputFilter';
 
 /* Interfaces */
-import { UpdateSellerGroup } from '../../../../../interfaces/SellerResearch/SellerInventory';
+import { UpdateSellerGroup } from '../../../../interfaces/SellerResearch/SellerInventory';
 
 interface Props {
   currentGroupName: string;

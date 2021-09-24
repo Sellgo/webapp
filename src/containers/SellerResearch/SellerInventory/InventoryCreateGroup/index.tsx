@@ -5,17 +5,17 @@ import { connect } from 'react-redux';
 import styles from './index.module.scss';
 
 /* Actions */
-import { createSellerInventoryTableGroup } from '../../../../../actions/SellerResearch/SellerInventory';
+import { createSellerInventoryTableGroup } from '../../../../actions/SellerResearch/SellerInventory';
 
 /* Utils */
-import { timeout } from '../../../../../utils/timeout';
+import { timeout } from '../../../../utils/timeout';
 
 /* Components */
-import FormFilterActions from '../../../../../components/FormFilters/FormFilterActions';
-import InputFilter from '../../../../../components/FormFilters/InputFilter';
+import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
+import InputFilter from '../../../../components/FormFilters/InputFilter';
 
 /* Interfaces */
-import { CreateSellerGroup } from '../../../../../interfaces/SellerResearch/SellerInventory';
+import { CreateSellerGroup } from '../../../../interfaces/SellerResearch/SellerInventory';
 
 interface Props {
   createSellerInventoryTableGroup: (payload: CreateSellerGroup) => void;
