@@ -64,7 +64,9 @@ const TableGroups = (props: Props) => {
 
   return (
     <div className={styles.tableGroupsWrapper}>
+      {/* Seller groups */}
       <ul className={styles.groupList}>
+        {/* All groups */}
         <li
           className={allGroupsClassName}
           onClick={() => handleActiveGroupChange(DEFAULT_ALLGROUPS_ID)}
@@ -72,6 +74,7 @@ const TableGroups = (props: Props) => {
           All Groups
         </li>
 
+        {/* Un grouped */}
         <li
           className={unGroupedClassName}
           onClick={() => handleActiveGroupChange(DEFAULT_UNGROUPED_ID)}
@@ -79,6 +82,7 @@ const TableGroups = (props: Props) => {
           Ungrouped
         </li>
 
+        {/* Custom groups created from users */}
         <div className={styles.preventOverflow}>
           {sellerInventoryTableGroups &&
             sellerInventoryTableGroups.map(g => {
@@ -96,6 +100,8 @@ const TableGroups = (props: Props) => {
         </div>
         <li className={styles.addGroupIconWrapper}>+</li>
       </ul>
+
+      {/* Search by seller/merchant IDs */}
     </div>
   );
 };
