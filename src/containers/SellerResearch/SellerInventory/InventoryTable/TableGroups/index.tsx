@@ -72,12 +72,6 @@ const TableGroups = (props: Props) => {
     setSellerInventoryTableActiveGroupId(id);
   };
 
-  /* Create new group */
-  const handleCreateGroup = () => {
-    console.log('Create group requested');
-    setOpenCreateGroup(true);
-  };
-
   return (
     <>
       <div className={styles.tableGroupsWrapper}>
@@ -117,7 +111,7 @@ const TableGroups = (props: Props) => {
           </div>
 
           {/* Create group icon */}
-          <li className={styles.addGroupIconWrapper} onClick={handleCreateGroup}>
+          <li className={styles.addGroupIconWrapper} onClick={() => setOpenCreateGroup(true)}>
             +
           </li>
         </ul>
