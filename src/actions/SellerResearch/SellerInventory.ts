@@ -180,13 +180,24 @@ export const fetchSellerInventoryTableResults = (payload: SellerInventoryTablePa
 ) => {
   const sellerId = sellerIDSelector();
 
-  const { enableLoader = true, sort = 'udate', sortDir = 'desc', page = 1, perPage = 20 } = payload;
+  const {
+    enableLoader = true,
+    sort = 'udate',
+    sortDir = 'desc',
+    page = 1,
+    perPage = 20,
+    search = '',
+  } = payload;
 
   try {
     const pagination = `page=${page}&per_page=${perPage}`;
     const sorting = `ordering=${sortDir === 'desc' ? `-${sort}` : sort}`;
 
-    const resourcePath = `${sorting}&${pagination}`;
+    let resourcePath = `${sorting}&${pagination}`;
+
+    if (search) {
+      resourcePath = `${resourcePath}&search=${search}`;
+    }
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchants?${resourcePath}`;
 

@@ -1,14 +1,30 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { Icon, Input } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
 
-const InventoryTableSearch = () => {
-  const [merchantIds, setMerchantIds] = useState('');
+/* Actions */
+import { fetchSellerInventoryTableResults } from '../../../../actions/SellerResearch/SellerInventory';
 
-  const handleSubmit = () => {
-    console.log('Search the table ');
+/* Interfaces */
+import { SellerInventoryTablePayload } from '../../../../interfaces/SellerResearch/SellerInventory';
+
+interface Props {
+  fetchSellerInventoryTableResults: (payload: SellerInventoryTablePayload) => void;
+}
+
+const InventoryTableSearch = (props: Props) => {
+  const { fetchSellerInventoryTableResults } = props;
+
+  const [merchantId, setMerchantId] = useState('');
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    fetchSellerInventoryTableResults({
+      search: merchantId,
+    });
   };
 
   return (
@@ -16,13 +32,20 @@ const InventoryTableSearch = () => {
       <Input
         icon={<Icon name="search" className={styles.searchIcon} />}
         iconPosition="left"
-        placeholder="Search"
+        placeholder="Search Merchant using ID"
         className={styles.searchInput}
-        value={merchantIds}
-        onChange={e => setMerchantIds(e.target.value)}
+        value={merchantId}
+        onChange={e => setMerchantId(e.target.value)}
       />
     </form>
   );
 };
 
-export default InventoryTableSearch;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchSellerInventoryTableResults: (payload: SellerInventoryTablePayload) =>
+      dispatch(fetchSellerInventoryTableResults(payload)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(InventoryTableSearch);

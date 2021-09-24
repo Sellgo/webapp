@@ -9,6 +9,7 @@ export interface SellerInventoryTablePayload {
   sort?: string;
   sortDir?: 'asc' | 'desc';
   marketplaceId?: string;
+  search?: string;
 }
 
 export interface SellerInventoryTablePaginationInfo {
