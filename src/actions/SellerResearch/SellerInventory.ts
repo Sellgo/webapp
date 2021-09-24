@@ -29,8 +29,10 @@ import {
   SellerInventoryProductsTableSellersPayload,
   SellerInventoryTablePaginationInfo,
   SellerInventoryTablePayload,
+  SellerInventoryTableGroup,
   TrackUntrackProduct,
   TrackUntrackProductSeller,
+  SellerInventoryTableActiveGroupId,
 } from '../../interfaces/SellerResearch/SellerInventory';
 
 /* ============================================ */
@@ -67,6 +69,28 @@ export const setSellerInventoryTablePaginationInfo = (
 export const setSellerInventoryTableExpandedRow = (payload: any) => {
   return {
     type: actionTypes.SET_SELLER_INVENTORY_TABLE_EXPANDED_ROW,
+    payload,
+  };
+};
+
+/* ============================================ */
+/* ====== SELLER INVENTORY  TABLE GROUPS ===== */
+/* ============================================ */
+
+/* Action to set seller inventory groups */
+export const setSellerInventoryTableGroups = (payload: SellerInventoryTableGroup[]) => {
+  return {
+    type: actionTypes.SET_SELLER_INVENTORY_TABLE_GROUPS,
+    payload,
+  };
+};
+
+/* Action to set the active seller inventory table group */
+export const setSellerInventoryTableActiveGroupId = (
+  payload: SellerInventoryTableActiveGroupId
+) => {
+  return {
+    type: actionTypes.SET_SELLER_INVENTORY_TABLE_ACTIVE_GROUP_ID,
     payload,
   };
 };
@@ -218,6 +242,32 @@ export const deleteSellerFromTable = (payload: DeleteSellerPayload) => async (di
     console.error('Error deleting seler from table', err);
   }
 };
+
+/* ============================================ */
+/* ====== SELLER INVENTORY  TABLE GROUPS ===== */
+/* ============================================ */
+
+/* Action to fetch all active seller inventiry table groups */
+export const fetchSellerInventoryTableGroups = () => async (dispatch: any) => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchants/group`;
+
+    const { data } = await axios.get(URL);
+
+    if (data) {
+      dispatch(setSellerInventoryTableGroups(data));
+    } else {
+      dispatch(setSellerInventoryTableGroups([]));
+    }
+  } catch (err) {
+    console.error('Error fetching seller inventory table groups', err);
+    dispatch(setSellerInventoryTableGroups([]));
+  }
+};
+
+/* Action to fetch all seller inventory groups */
 
 /* ============================================ */
 /* ====== SELLER INVENTORY PRODUCTS TABLE ===== */

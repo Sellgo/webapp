@@ -26,6 +26,20 @@ export interface DeleteSellerPayload {
 }
 
 /* ============================================ */
+/* ====== SELLER INVENTORY  TABLE GROUPS ====== */
+/* ============================================ */
+export interface SellerInventoryTableGroup {
+  id: number;
+  name: string;
+  status: string;
+  seller_id?: number;
+  udate?: string;
+  cdate?: string;
+}
+
+export type SellerInventoryTableActiveGroupId = number | null;
+
+/* ============================================ */
 /* ====== SELLER INVENTORY PRODUCTS TABLE ====== */
 /* ============================================ */
 

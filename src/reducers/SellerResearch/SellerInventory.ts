@@ -15,6 +15,10 @@ const INITIAL_STATE = {
   },
   sellerInventoryTableExpandedRow: {},
 
+  // Seller inventory table groups
+  sellerInventoryTableGroups: [],
+  sellerInventoryTableActiveGroupId: null,
+
   // Seller Inventory Products Table
   isLoadingSellerInventoryProductsTable: false,
   sellerInventoryProductsTableResults: [],
@@ -51,6 +55,17 @@ const sellerInventoryReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_SELLER_INVENTORY_TABLE_EXPANDED_ROW: {
       return setIn(state, 'sellerInventoryTableExpandedRow', action.payload);
+    }
+
+    /* ============================================ */
+    /* ====== SELLER INVENTORY  TABLE GROUPS ========= */
+    /* ============================================ */
+    case actionTypes.SET_SELLER_INVENTORY_TABLE_GROUPS: {
+      return setIn(state, 'sellerInventoryTableGroups', action.payload);
+    }
+
+    case actionTypes.SET_SELLER_INVENTORY_TABLE_ACTIVE_GROUP_ID: {
+      return setIn(state, 'sellerInventoryTableActiveGroupId', action.payload);
     }
 
     /* ============================================ */

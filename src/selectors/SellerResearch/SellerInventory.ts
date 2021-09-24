@@ -25,6 +25,20 @@ export const getSellerInventoryTableExpandedRow = (state: any) => {
 };
 
 /* ============================================ */
+/* ====== SELLER INVENTORY  TABLE GROUPS ========= */
+/* ============================================ */
+
+/* Selector to get all seller inventory table groups*/
+export const getSellerInventoryTableGroups = (state: any) => {
+  return get(state, 'sellerInventory.sellerInventoryTableGroups');
+};
+
+/* Selector to get the active seller inventory table group id */
+export const getSellerInventoryTableActiveGroupId = (state: any) => {
+  return get(state, 'sellerInventory.sellerInventoryTableActiveGroupId');
+};
+
+/* ============================================ */
 /* ====== SELLER INVENTORY PRODUCTS TABLE ========= */
 /* ============================================ */
 
