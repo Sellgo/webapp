@@ -39,6 +39,10 @@ export interface SellerInventoryTableGroup {
 
 export type SellerInventoryTableActiveGroupId = number | null;
 
+export interface CreateSellerGroup {
+  name: string;
+}
+
 /* ============================================ */
 /* ====== SELLER INVENTORY PRODUCTS TABLE ====== */
 /* ============================================ */

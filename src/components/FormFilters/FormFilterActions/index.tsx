@@ -11,6 +11,7 @@ interface Props {
   resetLabel?: string;
   submitLabel?: string;
   withSecondarySubmit?: boolean;
+  className?: string;
 }
 
 const FormFilterActions: React.FC<Props> = props => {
@@ -20,11 +21,12 @@ const FormFilterActions: React.FC<Props> = props => {
     disabled = false,
     resetLabel = 'Reset',
     submitLabel = 'Find',
+    className,
     withSecondarySubmit = false,
   } = props;
 
   return (
-    <div className={styles.formFilterActions}>
+    <div className={`${styles.formFilterActions} ${className}`}>
       <Button className={styles.formFilterActions__reset} onClick={onReset} size="small">
         {resetLabel}
       </Button>

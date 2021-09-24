@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { v4 as uuid } from 'uuid';
+import { Modal } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -17,15 +18,20 @@ import {
   getSellerInventoryTableGroups,
 } from '../../../../../selectors/SellerResearch/SellerInventory';
 
+/* Constants */
+import {
+  DEFAULT_ALLGROUPS_ID,
+  DEFAULT_UNGROUPED_ID,
+} from '../../../../../constants/SellerResearch/SellerInventory';
+
+/* Containers */
+import CreateGroup from '../CreateGroup';
+
 /* Interfaces */
 import {
   SellerInventoryTableGroup,
   SellerInventoryTableActiveGroupId,
 } from '../../../../../interfaces/SellerResearch/SellerInventory';
-import {
-  DEFAULT_ALLGROUPS_ID,
-  DEFAULT_UNGROUPED_ID,
-} from '../../../../../constants/SellerResearch/SellerInventory';
 
 interface Props {
   sellerInventoryTableGroups: SellerInventoryTableGroup[];
@@ -43,6 +49,9 @@ const TableGroups = (props: Props) => {
     fetchSellerInventoryTableGroups,
   } = props;
 
+  /* State for creating a group modal */
+  const [openCreateGroup, setOpenCreateGroup] = useState(false);
+
   /* Is all groups active */
   const allGroupsClassName = `${styles.groupListTab} ${
     sellerInventoryTableActiveGroupId === DEFAULT_ALLGROUPS_ID ? styles.activeTab : ''
@@ -58,51 +67,72 @@ const TableGroups = (props: Props) => {
     fetchSellerInventoryTableGroups();
   }, []);
 
+  /* Change the active group id */
   const handleActiveGroupChange = (id: SellerInventoryTableActiveGroupId) => {
     setSellerInventoryTableActiveGroupId(id);
   };
 
+  /* Create new group */
+  const handleCreateGroup = () => {
+    console.log('Create group requested');
+    setOpenCreateGroup(true);
+  };
+
   return (
-    <div className={styles.tableGroupsWrapper}>
-      {/* Seller groups */}
-      <ul className={styles.groupList}>
-        {/* All groups */}
-        <li
-          className={allGroupsClassName}
-          onClick={() => handleActiveGroupChange(DEFAULT_ALLGROUPS_ID)}
-        >
-          All Groups
-        </li>
+    <>
+      <div className={styles.tableGroupsWrapper}>
+        {/* Seller groups */}
+        <ul className={styles.groupList}>
+          {/* All groups */}
+          <li
+            className={allGroupsClassName}
+            onClick={() => handleActiveGroupChange(DEFAULT_ALLGROUPS_ID)}
+          >
+            All Groups
+          </li>
 
-        {/* Un grouped */}
-        <li
-          className={unGroupedClassName}
-          onClick={() => handleActiveGroupChange(DEFAULT_UNGROUPED_ID)}
-        >
-          Ungrouped
-        </li>
+          {/* Un grouped */}
+          <li
+            className={unGroupedClassName}
+            onClick={() => handleActiveGroupChange(DEFAULT_UNGROUPED_ID)}
+          >
+            Ungrouped
+          </li>
 
-        {/* Custom groups created from users */}
-        <div className={styles.preventOverflow}>
-          {sellerInventoryTableGroups &&
-            sellerInventoryTableGroups.map(g => {
-              const groupdActive = g.id === sellerInventoryTableActiveGroupId;
-              return (
-                <li
-                  key={uuid()}
-                  className={groupdActive ? styles.activeTab : ''}
-                  onClick={() => handleActiveGroupChange(g.id)}
-                >
-                  {g.name}
-                </li>
-              );
-            })}
-        </div>
-        <li className={styles.addGroupIconWrapper}>+</li>
-      </ul>
+          {/* Custom groups created from users */}
+          <div className={styles.preventOverflow}>
+            {sellerInventoryTableGroups &&
+              sellerInventoryTableGroups.map(g => {
+                const groupdActive = g.id === sellerInventoryTableActiveGroupId;
+                return (
+                  <li
+                    key={uuid()}
+                    className={groupdActive ? styles.activeTab : ''}
+                    onClick={() => handleActiveGroupChange(g.id)}
+                  >
+                    {g.name}
+                  </li>
+                );
+              })}
+          </div>
 
-      {/* Search by seller/merchant IDs */}
-    </div>
+          {/* Create group icon */}
+          <li className={styles.addGroupIconWrapper} onClick={handleCreateGroup}>
+            +
+          </li>
+        </ul>
+
+        {/* Search by seller/merchant IDs */}
+      </div>
+
+      {/* Create group modal */}
+      <Modal
+        className={styles.modalReset}
+        open={openCreateGroup}
+        closeOnEscape
+        content={<CreateGroup closeModal={() => setOpenCreateGroup(false)} />}
+      />
+    </>
   );
 };
 

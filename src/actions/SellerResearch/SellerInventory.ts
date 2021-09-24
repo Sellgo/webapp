@@ -33,6 +33,7 @@ import {
   TrackUntrackProduct,
   TrackUntrackProductSeller,
   SellerInventoryTableActiveGroupId,
+  CreateSellerGroup,
 } from '../../interfaces/SellerResearch/SellerInventory';
 
 /* ============================================ */
@@ -264,6 +265,33 @@ export const fetchSellerInventoryTableGroups = () => async (dispatch: any) => {
   } catch (err) {
     console.error('Error fetching seller inventory table groups', err);
     dispatch(setSellerInventoryTableGroups([]));
+  }
+};
+
+/* Action to create a seller inventory table group */
+export const createSellerInventoryTableGroup = (payload: CreateSellerGroup) => async (
+  dispatch: any
+) => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const { name } = payload;
+
+    /* Prepare payload */
+    const formData = new FormData();
+    formData.set('name', name);
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchants/group`;
+
+    const { data } = await axios.post(URL, formData);
+
+    if (data) {
+      await dispatch(fetchSellerInventoryTableGroups());
+      dispatch(setSellerInventoryTableActiveGroupId(data.id));
+      success(`Created ${data.name} `);
+    }
+  } catch (err) {
+    console.error('Error creating seller group');
   }
 };
 
