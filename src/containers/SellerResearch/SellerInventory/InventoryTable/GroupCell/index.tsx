@@ -9,8 +9,14 @@ import { getSellerInventoryTableGroups } from '../../../../../selectors/SellerRe
 /* Assets */
 import { ReactComponent as GroupFolderIcon } from '../../../../../assets/images/folder-plus.svg';
 
+/* Actions */
+import { moveMerchantToSellerInventoryTableGroup } from '../../../../../actions/SellerResearch/SellerInventory';
+
 /* Interfaces */
-import { SellerInventoryTableGroup } from '../../../../../interfaces/SellerResearch/SellerInventory';
+import {
+  MoveMerchantToGroup,
+  SellerInventoryTableGroup,
+} from '../../../../../interfaces/SellerResearch/SellerInventory';
 import { RowCell } from '../../../../../interfaces/Table';
 
 /* Styling */
@@ -18,10 +24,15 @@ import styles from './index.module.scss';
 
 interface Props extends RowCell {
   sellerInventoryTableGroups: SellerInventoryTableGroup[];
+  moveMerchantToSellerInventoryTableGroup: (payload: MoveMerchantToGroup) => void;
 }
 
 const GroupCell = (props: Props) => {
-  const { sellerInventoryTableGroups, ...otherProps } = props;
+  const {
+    sellerInventoryTableGroups,
+    moveMerchantToSellerInventoryTableGroup,
+    ...otherProps
+  } = props;
 
   const { rowData, dataKey } = otherProps;
 
@@ -35,9 +46,14 @@ const GroupCell = (props: Props) => {
 
   const groupsAvailable = filterOutGroups.length > 0;
 
-  const handleClick = (e: any) => {
-    e.preventDefault();
-    console.log('Update groups here');
+  const handleClick = (groupId: number) => {
+    const payload = {
+      id: groupId,
+      merchantId: rowData.id,
+    };
+
+    moveMerchantToSellerInventoryTableGroup(payload);
+    console.log(payload);
   };
 
   return (
@@ -62,7 +78,7 @@ const GroupCell = (props: Props) => {
                 filterOutGroups &&
                 filterOutGroups.map(g => {
                   return (
-                    <button key={g.id} onClick={handleClick}>
+                    <button key={g.id} onClick={() => handleClick(g.id)}>
                       {g.name}
                     </button>
                   );
@@ -84,4 +100,10 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default connect(mapStateToProps)(GroupCell);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    moveMerchantToSellerInventoryTableGroup: (payload: MoveMerchantToGroup) =>
+      dispatch(moveMerchantToSellerInventoryTableGroup(payload)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(GroupCell);

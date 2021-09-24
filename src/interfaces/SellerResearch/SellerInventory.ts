@@ -48,12 +48,16 @@ export interface UpdateSellerGroup {
   id: number;
   name?: string;
   status?: string;
-  merchantIds?: string;
 }
 
 export interface DeleteSellergroup {
   id: number;
   refreshTable?: boolean;
+}
+
+export interface MoveMerchantToGroup {
+  id: number;
+  merchantId: number;
 }
 
 /* ============================================ */

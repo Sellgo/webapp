@@ -36,6 +36,7 @@ import {
   CreateSellerGroup,
   UpdateSellerGroup,
   DeleteSellergroup,
+  MoveMerchantToGroup,
 } from '../../interfaces/SellerResearch/SellerInventory';
 
 /* ============================================ */
@@ -315,7 +316,7 @@ export const updateSellerInventoryTableGroup = (payload: UpdateSellerGroup) => a
   const sellerId = sellerIDSelector();
 
   try {
-    const { id, name, status, merchantIds } = payload;
+    const { id, name, status } = payload;
 
     const formData = new FormData();
 
@@ -325,10 +326,6 @@ export const updateSellerInventoryTableGroup = (payload: UpdateSellerGroup) => a
 
     if (status) {
       formData.set('status', status);
-    }
-
-    if (merchantIds) {
-      formData.set('merchant_ids', merchantIds);
     }
 
     const resourcePath = `id=${id}`;
@@ -382,6 +379,32 @@ export const deleteSellerInventoryTableGroup = (payload: DeleteSellergroup) => a
     }
   } catch (err) {
     console.error('Error deleting seller group', err);
+  }
+};
+
+/* Action to move merchant to group */
+export const moveMerchantToSellerInventoryTableGroup = (payload: MoveMerchantToGroup) => async (
+  dispatch: any
+) => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const { id, merchantId } = payload;
+
+    const resourcePath = `id=${id}&merchant_ids=${merchantId}`;
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchants/group?${resourcePath}`;
+
+    const { data } = await axios.patch(URL);
+
+    if (data) {
+      await dispatch(fetchSellerInventoryTableGroups());
+      dispatch(setSellerInventoryTableActiveGroupId(id));
+      await dispatch(fetchSellerInventoryTableResults({ enableLoader: false }));
+      success(data.message);
+    }
+  } catch (err) {
+    console.error('Error moving merchant to seller group', err);
   }
 };
 
