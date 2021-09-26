@@ -48,6 +48,7 @@ import {
 } from '../../../../interfaces/SellerResearch/SellerInventory';
 import ProductsSellersTable from '../ProductsSellersTable';
 import TrackProduct from './TrackProduct';
+import ProductsExport from './ProductsExport';
 
 interface Props {
   isLoadingSellerInventoryProductsTable: boolean;
@@ -140,6 +141,10 @@ const SellerProductsTable = (props: Props) => {
 
   return (
     <section className={styles.sellerProductsTableWrapper}>
+      {/* Export seller products */}
+      <ProductsExport />
+
+      {/* Products Table */}
       <Table
         loading={isLoadingSellerInventoryProductsTable}
         data={sellerInventoryProductsTableResults}

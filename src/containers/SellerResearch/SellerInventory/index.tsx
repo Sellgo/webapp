@@ -13,6 +13,7 @@ import InventoryTable from './InventoryTable';
 
 /* Providers */
 import SellerInventoryExportProvider from './InventoryExport/InventoryExportProvider';
+import SellerInventoryProductsTableExportProvider from './SellerProductsTable/ProductsExport/ProductsExportProvider';
 
 const SellerInventory = () => {
   return (
@@ -21,14 +22,19 @@ const SellerInventory = () => {
 
       {/* Unified progress for all exports */}
       <AllExportProgress />
+
+      {/* Seller Table meta info */}
       <section className={styles.sellerInventoryMeta}>
         <InventoryTableGroups />
         <InventoryTableSearch />
       </section>
+
       <SellerInventoryExportProvider>
-        <InventoryExport />
+        <SellerInventoryProductsTableExportProvider>
+          <InventoryExport />
+          <InventoryTable />
+        </SellerInventoryProductsTableExportProvider>
       </SellerInventoryExportProvider>
-      <InventoryTable />
     </div>
   );
 };
