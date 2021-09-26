@@ -24,6 +24,11 @@ export const getSellerInventoryTableExpandedRow = (state: any) => {
   return get(state, 'sellerInventory.sellerInventoryTableExpandedRow');
 };
 
+/* Selector t fet seller inventory table export */
+export const getSellerInventoryTableExport = (state: any) => {
+  return get(state, 'sellerInventory.sellerInventoryTableExport');
+};
+
 /* ============================================ */
 /* ====== SELLER INVENTORY  TABLE GROUPS ========= */
 /* ============================================ */

@@ -4,6 +4,7 @@ export const actionTypes = {
   SET_SELLER_INVENTORY_TABLE_RESULTS: 'SET_SELLER_INVENTORY_TABLE_RESULTS',
   SET_SELLER_INVENTORY_TABLE_PAGINATION_INFO: 'SET_SELLER_INVENTORY_TABLE_PAGINATION_INFO',
   SET_SELLER_INVENTORY_TABLE_EXPANDED_ROW: 'SET_SELLER_INVENTORY_TABLE_EXPANDED_ROW',
+  SET_SELLER_INVENTORY_TABLE_EXPORT: 'SET_SELLER_INVENTORY_TABLE_EXPORT',
 
   /* Seller Inventory table groups */
   SET_SELLER_INVENTORY_TABLE_GROUPS: 'SET_SELLER_INVENTORY_TABLE_GROUPS',
@@ -137,3 +138,16 @@ export const calculateSellerInventorySellersTableHeight = (numOfSellers: number)
 /* Default details for All groups and Ungrouped */
 export const DEFAULT_ALLGROUPS_ID = null;
 export const DEFAULT_UNGROUPED_ID = -1;
+
+/* Default State for seller inventory table export */
+export const SELLER_INVENTORY_EXPORT_SOCKET_STATUS = {
+  SUCCESS: 'success',
+  PENDING: 'pending',
+  FAILED: 'failed',
+};
+
+/* Possible Export types */
+export const SELLER_INVENTORY_EXPORT_FILE_TYPES = {
+  CSV: 'csv',
+  XLSX: 'xlsx',
+};

@@ -14,6 +14,15 @@ const INITIAL_STATE = {
     per_page: 0,
   },
   sellerInventoryTableExpandedRow: {},
+  sellerInventoryTableExport: {
+    showProgress: false,
+    csv_path: '',
+    excel_path: '',
+    message: '',
+    progress: 0,
+    status: '',
+    type: 'merchant-export',
+  },
 
   // Seller inventory table groups
   sellerInventoryTableGroups: [],
@@ -55,6 +64,10 @@ const sellerInventoryReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_SELLER_INVENTORY_TABLE_EXPANDED_ROW: {
       return setIn(state, 'sellerInventoryTableExpandedRow', action.payload);
+    }
+
+    case actionTypes.SET_SELLER_INVENTORY_TABLE_EXPORT: {
+      return setIn(state, 'sellerInventoryTableExport', action.payload);
     }
 
     /* ============================================ */

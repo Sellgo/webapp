@@ -37,6 +37,7 @@ import {
   UpdateSellerGroup,
   DeleteSellergroup,
   MoveMerchantToGroup,
+  SellerInventoryTableExportPayload,
 } from '../../interfaces/SellerResearch/SellerInventory';
 
 /* ============================================ */
@@ -77,6 +78,13 @@ export const setSellerInventoryTableExpandedRow = (payload: any) => {
   };
 };
 
+/* Action to set seller inventory table export */
+export const setSellerInventoryTableExport = (payload: SellerInventoryTableExportPayload) => {
+  return {
+    type: actionTypes.SET_SELLER_INVENTORY_TABLE_EXPORT,
+    payload,
+  };
+};
 /* ============================================ */
 /* ====== SELLER INVENTORY  TABLE GROUPS ===== */
 /* ============================================ */

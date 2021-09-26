@@ -38,6 +38,16 @@ export interface SellerInventoryTableGroup {
   cdate?: string;
 }
 
+export interface SellerInventoryTableExportPayload {
+  showProgress: boolean;
+  csv_path?: string;
+  excel_path?: string;
+  message: string;
+  progress: number;
+  status: string;
+  type: 'merchant-export';
+}
+
 export type SellerInventoryTableActiveGroupId = number | null;
 
 export interface CreateSellerGroup {
