@@ -1,6 +1,15 @@
 import get from 'lodash/get';
 
 /* ============================================ */
+/* ====== CENTRAL EXPORT PROGRESS ========= */
+/* ============================================ */
+
+/* Selector t fet seller inventory table export */
+export const getCentralExportProgress = (state: any) => {
+  return get(state, 'sellerInventory.centralExportProgress');
+};
+
+/* ============================================ */
 /* ====== SELLER INVENTORY MAIN TABLE ========= */
 /* ============================================ */
 
@@ -22,11 +31,6 @@ export const getSellerInventoryTablePaginationInfo = (state: any) => {
 /* Selector to get seller inventory table expanded row */
 export const getSellerInventoryTableExpandedRow = (state: any) => {
   return get(state, 'sellerInventory.sellerInventoryTableExpandedRow');
-};
-
-/* Selector t fet seller inventory table export */
-export const getSellerInventoryTableExport = (state: any) => {
-  return get(state, 'sellerInventory.sellerInventoryTableExport');
 };
 
 /* ============================================ */

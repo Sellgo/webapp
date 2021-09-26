@@ -1,4 +1,15 @@
 /* ============================================ */
+/* ====== CENTRAL EXPORT PROGRESS ====== */
+/* ============================================ */
+export interface CentralExportProgress {
+  showProgress: boolean;
+  progress: number;
+  status: string;
+  csv_path?: string;
+  excel_path?: string;
+}
+
+/* ============================================ */
 /* ====== SELLER INVENTORY MAIN TABLE ========= */
 /* ============================================ */
 export interface SellerInventoryTablePayload {
@@ -36,16 +47,6 @@ export interface SellerInventoryTableGroup {
   seller_id?: number;
   udate?: string;
   cdate?: string;
-}
-
-export interface SellerInventoryTableExportPayload {
-  showProgress: boolean;
-  csv_path?: string;
-  excel_path?: string;
-  message: string;
-  progress: number;
-  status: string;
-  type: 'merchant-export';
 }
 
 export type SellerInventoryTableActiveGroupId = number | null;

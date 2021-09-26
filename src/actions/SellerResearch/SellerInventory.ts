@@ -37,7 +37,7 @@ import {
   UpdateSellerGroup,
   DeleteSellergroup,
   MoveMerchantToGroup,
-  SellerInventoryTableExportPayload,
+  CentralExportProgress,
 } from '../../interfaces/SellerResearch/SellerInventory';
 
 /* ============================================ */
@@ -78,10 +78,14 @@ export const setSellerInventoryTableExpandedRow = (payload: any) => {
   };
 };
 
-/* Action to set seller inventory table export */
-export const setSellerInventoryTableExport = (payload: SellerInventoryTableExportPayload) => {
+/* ============================================== */
+/* ====== UNIFIED CENTRAL EXPORT PROGRESS BAR ===== */
+/* ============================================ */
+
+/* Action to set central export progress  */
+export const setCentralExportProgress = (payload: CentralExportProgress) => {
   return {
-    type: actionTypes.SET_SELLER_INVENTORY_TABLE_EXPORT,
+    type: actionTypes.SET_CENTRAL_EXPORT_PROGRESS,
     payload,
   };
 };

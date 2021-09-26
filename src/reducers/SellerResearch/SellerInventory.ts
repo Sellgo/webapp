@@ -14,14 +14,14 @@ const INITIAL_STATE = {
     per_page: 0,
   },
   sellerInventoryTableExpandedRow: {},
-  sellerInventoryTableExport: {
+
+  // Central Export progress
+  centralExportProgress: {
     showProgress: false,
-    csv_path: '',
-    excel_path: '',
-    message: '',
     progress: 0,
     status: '',
-    type: 'merchant-export',
+    csv_path: '',
+    excel_path: '',
   },
 
   // Seller inventory table groups
@@ -48,6 +48,13 @@ const INITIAL_STATE = {
 const sellerInventoryReducer = (state = INITIAL_STATE, action: AnyAction) => {
   switch (action.type) {
     /* ============================================ */
+    /* ======CENTRAL EXPORT PROGRESS ========= */
+    /* ============================================ */
+    case actionTypes.SET_CENTRAL_EXPORT_PROGRESS: {
+      return setIn(state, 'centralExportProgress', action.payload);
+    }
+
+    /* ============================================ */
     /* ====== SELLER INVENTORY MAIN TABLE ========= */
     /* ============================================ */
     case actionTypes.IS_LOADING_SELLER_INVENTORY_TABLE: {
@@ -64,10 +71,6 @@ const sellerInventoryReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_SELLER_INVENTORY_TABLE_EXPANDED_ROW: {
       return setIn(state, 'sellerInventoryTableExpandedRow', action.payload);
-    }
-
-    case actionTypes.SET_SELLER_INVENTORY_TABLE_EXPORT: {
-      return setIn(state, 'sellerInventoryTableExport', action.payload);
     }
 
     /* ============================================ */

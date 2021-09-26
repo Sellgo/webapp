@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 /* Actions */
-import { setSellerInventoryTableExport } from '../../../../actions/SellerResearch/SellerInventory';
+import { setCentralExportProgress } from '../../../../actions/SellerResearch/SellerInventory';
 
 /* COnstansts */
 import {
@@ -16,7 +16,7 @@ import { downloadFile } from '../../../../utils/download';
 import { error, success } from '../../../../utils/notifications';
 
 /* Interfaces */
-import { SellerInventoryTableExportPayload } from '../../../../interfaces/SellerResearch/SellerInventory';
+import { CentralExportProgress } from '../../../../interfaces/SellerResearch/SellerInventory';
 
 interface Props {
   children: React.ReactNode;
@@ -29,12 +29,12 @@ export const SellerInventoryExportContext = createContext<any>(null);
 export const useExportSocket = () => useContext(SellerInventoryExportContext);
 
 interface Props {
-  setSellerInventoryTableExport: (payload: SellerInventoryTableExportPayload) => void;
+  setCentralExportProgress: (payload: CentralExportProgress) => void;
   children: React.ReactNode;
 }
 
 const SellerInventoryExportProvider = (props: Props) => {
-  const { children, setSellerInventoryTableExport } = props;
+  const { children, setCentralExportProgress } = props;
 
   const [exportSocket, setExportSocket] = useState<WebSocket>();
 
@@ -68,7 +68,7 @@ const SellerInventoryExportProvider = (props: Props) => {
         exportSocket.onmessage = async e => {
           const payload = JSON.parse(e.data);
 
-          const { status } = payload;
+          const { status, progress } = payload;
 
           const isCompleted = status === SELLER_INVENTORY_EXPORT_SOCKET_STATUS.SUCCESS;
           const isPending = status === SELLER_INVENTORY_EXPORT_SOCKET_STATUS.PENDING;
@@ -76,12 +76,10 @@ const SellerInventoryExportProvider = (props: Props) => {
 
           // if the export send failed message (subscription)
           if (isFailed) {
-            setSellerInventoryTableExport({
-              progress: 0,
-              message: '',
-              status: '',
-              type: 'merchant-export',
+            setCentralExportProgress({
               showProgress: false,
+              progress: 0,
+              status: '',
             });
 
             if (payload.message) {
@@ -93,9 +91,10 @@ const SellerInventoryExportProvider = (props: Props) => {
 
           // if the export is pending
           if (isPending) {
-            setSellerInventoryTableExport({
-              ...payload,
+            setCentralExportProgress({
               showProgress: true,
+              progress,
+              status,
             });
             return;
           }
@@ -127,12 +126,10 @@ const SellerInventoryExportProvider = (props: Props) => {
 
       // when exportSocket connection is closed
       exportSocket.onclose = () => {
-        setSellerInventoryTableExport({
-          progress: 0,
-          message: '',
-          status: '',
-          type: 'merchant-export',
+        setCentralExportProgress({
           showProgress: false,
+          progress: 0,
+          status: '',
         });
       };
     }
@@ -164,8 +161,8 @@ const SellerInventoryExportProvider = (props: Props) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    setSellerInventoryTableExport: (payload: SellerInventoryTableExportPayload) =>
-      dispatch(setSellerInventoryTableExport(payload)),
+    setCentralExportProgress: (payload: CentralExportProgress) =>
+      dispatch(setCentralExportProgress(payload)),
   };
 };
 
