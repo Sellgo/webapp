@@ -14,6 +14,8 @@ import CentralScrapingProgress from './CentralScrapingProgress';
 
 /* Providers */
 import FindRefreshSellerProvider from './SocketProviders/FindRefreshSeller';
+import CheckInventoryProvider from './SocketProviders/CheckInventory';
+
 import SellerInventoryExportProvider from './InventoryExport/InventoryExportProvider';
 import SellerInventoryProductsTableExportProvider from './SellerProductsTable/ProductsExport/ProductsExportProvider';
 
@@ -35,13 +37,17 @@ const SellerInventory = () => {
       </section>
 
       <FindRefreshSellerProvider>
-        <SellerInventoryProductsTableExportProvider>
-          <SellerInventoryExportProvider>
-            <InventoryExport />
-          </SellerInventoryExportProvider>
+        <CheckInventoryProvider>
+          <SellerInventoryProductsTableExportProvider>
+            {/* Seller Export */}
+            <SellerInventoryExportProvider>
+              <InventoryExport />
+            </SellerInventoryExportProvider>
 
-          <InventoryTable />
-        </SellerInventoryProductsTableExportProvider>
+            {/* Seller table */}
+            <InventoryTable />
+          </SellerInventoryProductsTableExportProvider>
+        </CheckInventoryProvider>
       </FindRefreshSellerProvider>
     </div>
   );

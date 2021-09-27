@@ -13,67 +13,68 @@ import { SELLER_INVENTORY_EXPORT_SOCKET_STATUS } from '../../../../constants/Sel
 
 /* Interfaces */
 import {
-  FindRefreshSellerSocketMessage,
+  CheckInventorySocketMessage,
   SellerInventoryTablePayload,
 } from '../../../../interfaces/SellerResearch/SellerInventory';
+import { formatNumber } from '../../../../utils/format';
 
-/* Find/Refresh Seller Context */
-export const FindRefreshSellerContext = createContext<any>(null);
-
-interface FindRefreshSellerFn {
-  handleFindOrRefresh: (type: 'find' | 'refresh', merchantIds: string) => void;
+interface CheckInventoryFn {
+  handleCheckInventory: (merchantIds: string) => void;
 }
 
+/* Find/Refresh Seller Context */
+export const CheckInventoryContext = createContext<any>(null);
+
 /* Find/Refresh Seller COnsume */
-export const useFindRefreshSeller = (): FindRefreshSellerFn => useContext(FindRefreshSellerContext);
+export const useCheckInventory = (): CheckInventoryFn => useContext(CheckInventoryContext);
 
 interface Props {
   children: React.ReactNode;
   fetchSellerInventoryTableResults: (payload: SellerInventoryTablePayload) => void;
 }
 
-const FindRefreshSellerProvider = (props: Props) => {
+const CheckInventoryProvider = (props: Props) => {
   const { children, fetchSellerInventoryTableResults } = props;
 
-  const [findRefreshSocket, setFindRefreshSocket] = useState<WebSocket>();
+  const [checkInventorySocket, setCheckInventrorySocket] = useState<WebSocket>();
 
   const sellerId = localStorage.getItem('userId') || '';
   const idToken = localStorage.getItem('idToken') || '';
-  const URL = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/search?token=${idToken}`;
+  const URL = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/inventory/search?token=${idToken}`;
 
   useEffect(() => {
     const socketConnection = new WebSocket(URL);
     socketConnection.onopen = () => {
-      setFindRefreshSocket(socketConnection);
+      setCheckInventrorySocket(socketConnection);
     };
 
     return () => {
-      if (findRefreshSocket) {
-        findRefreshSocket.close();
+      if (checkInventorySocket) {
+        checkInventorySocket.close();
       }
     };
   }, []);
 
   useEffect(() => {
-    if (!findRefreshSocket) {
+    if (!checkInventorySocket) {
       return;
     }
 
     // execute only if the export socket exists
-    if (findRefreshSocket) {
+    if (checkInventorySocket) {
       // if findRefreshSocket is open and not in connecting state
-      if (findRefreshSocket.OPEN && !findRefreshSocket.CONNECTING) {
+      if (checkInventorySocket.OPEN && !checkInventorySocket.CONNECTING) {
         // wehn incoming message is present from server
-        findRefreshSocket.onmessage = async e => {
+        checkInventorySocket.onmessage = async e => {
           const payload = JSON.parse(e.data);
 
           const {
             message,
             status,
-            merchants_count = null,
+            products_count = null,
             is_top_level = null,
             error_status = false,
-          } = payload as FindRefreshSellerSocketMessage;
+          } = payload as CheckInventorySocketMessage;
 
           const isDone = status === SELLER_INVENTORY_EXPORT_SOCKET_STATUS.DONE;
           const isFailed = status === SELLER_INVENTORY_EXPORT_SOCKET_STATUS.FAILED;
@@ -96,31 +97,29 @@ const FindRefreshSellerProvider = (props: Props) => {
           if (isDone) {
             // for top level just refresh the table
             if (is_top_level) {
-              if (merchants_count && merchants_count > 0) {
-                fetchSellerInventoryTableResults({ enableLoader: false });
-                success('Seller data updated');
-                return;
-              }
+              success(`Found ${formatNumber(products_count)} products for seller.`);
+              fetchSellerInventoryTableResults({ enableLoader: false });
+              return;
             }
           }
         };
       }
 
       // when findRefreshSocket connection is closed
-      findRefreshSocket.onclose = () => {
-        console.log('Find or refresh socket closed');
+      checkInventorySocket.onclose = () => {
+        console.log('Check Inventory socket closed');
       };
     }
-  }, [findRefreshSocket]);
+  }, [checkInventorySocket]);
 
   /* Main handle export function to send payload to sockets */
-  const handleFindOrRefresh = (type: 'find' | 'refresh', merchantIds: string) => {
+  const handleCheckInventory = (merchantIds: string) => {
     const payload = JSON.stringify({
       merchant_ids: merchantIds,
     });
-    if (findRefreshSocket) {
-      if (findRefreshSocket.OPEN) {
-        findRefreshSocket.send(payload);
+    if (checkInventorySocket) {
+      if (checkInventorySocket.OPEN) {
+        checkInventorySocket.send(payload);
       }
     }
   };
@@ -128,13 +127,13 @@ const FindRefreshSellerProvider = (props: Props) => {
   /* Handle re-connection after exportSocket closes */
   // const handleReconnectSocket = () => {
   //   const findRefreshSocket = new WebSocket(URL);
-  //   setFindRefreshSocket(findRefreshSocket);
+  //   setCheckInventrorySocket(findRefreshSocket);
   // };
 
   return (
-    <FindRefreshSellerContext.Provider value={{ handleFindOrRefresh }}>
+    <CheckInventoryContext.Provider value={{ handleCheckInventory }}>
       {children}
-    </FindRefreshSellerContext.Provider>
+    </CheckInventoryContext.Provider>
   );
 };
 
@@ -145,4 +144,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(FindRefreshSellerProvider);
+export default connect(null, mapDispatchToProps)(CheckInventoryProvider);

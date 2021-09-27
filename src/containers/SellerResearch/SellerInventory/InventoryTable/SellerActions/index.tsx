@@ -17,10 +17,17 @@ import { success } from '../../../../../utils/notifications';
 /* Assets */
 import { ReactComponent as CheckInventoryIcon } from '../../../../../assets/images/sellerFinder.svg';
 
+/* Hooks */
+import { useCheckInventory } from '../../SocketProviders/CheckInventory';
+
 const SellerActions = (props: RowCell) => {
   const { rowData } = props;
 
+  const { handleCheckInventory } = useCheckInventory();
+
   const asinList = rowData.asins;
+
+  const merchantId = rowData.merchant_id;
 
   const hasInventory = rowData.has_inventory || false;
 
@@ -29,8 +36,9 @@ const SellerActions = (props: RowCell) => {
   const parsedAsinList = parseKpiLists(asinList);
 
   /* Track seller */
-  const handleCheckInventory = () => {
-    console.log('Check Inventory Clicked');
+  const checkInventory = () => {
+    handleCheckInventory(merchantId);
+    console.log('Called progress API, check inventory');
   };
 
   /* Copy Asins */
@@ -48,7 +56,7 @@ const SellerActions = (props: RowCell) => {
           <div className={styles.actionCell}>
             <button
               className={styles.actionButton}
-              onClick={handleCheckInventory}
+              onClick={checkInventory}
               style={{
                 color: hasInventory ? '#3b4557' : '#636d76',
                 fontWeight: hasInventory ? 500 : 400,
@@ -73,7 +81,7 @@ const SellerActions = (props: RowCell) => {
                 <>
                   <div className={styles.actionOptions}>
                     <p>ASIN</p>
-                    <button onClick={handleCheckInventory}>
+                    <button onClick={checkInventory}>
                       <CheckInventoryIcon />
                       <span>Check Inventory</span>
                     </button>

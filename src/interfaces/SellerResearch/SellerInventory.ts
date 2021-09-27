@@ -38,13 +38,24 @@ export interface DeleteSellerPayload {
 }
 
 /* Find/Refresh Seller */
-export interface FindRefreshSeller {
+export interface FindRefreshSellerSocketMessage {
   message: string;
   status: string;
   progress?: number;
   merchants_count?: number;
-  is_top_level?: true;
-  error_status?: false;
+  is_top_level?: boolean;
+  error_status?: boolean;
+  job_id?: string;
+}
+
+/* Check Inventory */
+export interface CheckInventorySocketMessage {
+  message: string;
+  status: string;
+  progress?: number;
+  products_count?: number;
+  is_top_level?: boolean;
+  error_status?: boolean;
   job_id?: string;
 }
 /* ============================================ */

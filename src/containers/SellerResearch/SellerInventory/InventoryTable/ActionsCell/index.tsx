@@ -12,6 +12,8 @@ import { deleteSellerFromTable } from '../../../../../actions/SellerResearch/Sel
 /* Interfaces */
 import { RowCell } from '../../../../../interfaces/Table';
 import { DeleteSellerPayload } from '../../../../../interfaces/SellerResearch/SellerInventory';
+
+/* Hooks */
 import { useFindRefreshSeller } from '../../SocketProviders/FindRefreshSeller';
 
 interface Props extends RowCell {
