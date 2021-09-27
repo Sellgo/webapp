@@ -4,6 +4,19 @@ import { setIn } from '../../utils/immutablity';
 import { actionTypes } from '../../constants/SellerResearch/SellerInventory';
 
 const INITIAL_STATE = {
+  // Central Export progress
+  centralExportProgress: {
+    showProgress: false,
+    progress: 0,
+    status: '',
+    csv_path: '',
+    excel_path: '',
+  },
+
+  // Central Scraping Progress
+  showCentralScrapingProgress: false,
+  centralScrapingProgress: {},
+
   // Seller Inventory  Table
   isLoadingSellerInventoryTable: false,
   sellerInventoryTableResults: [],
@@ -14,15 +27,6 @@ const INITIAL_STATE = {
     per_page: 0,
   },
   sellerInventoryTableExpandedRow: {},
-
-  // Central Export progress
-  centralExportProgress: {
-    showProgress: false,
-    progress: 0,
-    status: '',
-    csv_path: '',
-    excel_path: '',
-  },
 
   // Seller inventory table groups
   sellerInventoryTableGroups: [],
@@ -52,6 +56,16 @@ const sellerInventoryReducer = (state = INITIAL_STATE, action: AnyAction) => {
     /* ============================================ */
     case actionTypes.SET_CENTRAL_EXPORT_PROGRESS: {
       return setIn(state, 'centralExportProgress', action.payload);
+    }
+
+    /* ============================================ */
+    /* ======CENTRAL SCRAPING PROGRESS ========= */
+    /* ============================================ */
+    case actionTypes.SET_SHOW_CENTRAL_SCRAPING_PROGRESS: {
+      return setIn(state, 'showCentralScrapingProgress', action.payload);
+    }
+    case actionTypes.SET_CENTRAL_SCRAPING_PROGRESS: {
+      return setIn(state, 'centralScrapingProgress', action.payload);
     }
 
     /* ============================================ */

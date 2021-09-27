@@ -4,10 +4,26 @@ import get from 'lodash/get';
 /* ====== CENTRAL EXPORT PROGRESS ========= */
 /* ============================================ */
 
-/* Selector t fet seller inventory table export */
+/* Selector to get seller inventory table export */
 export const getCentralExportProgress = (state: any) => {
   return get(state, 'sellerInventory.centralExportProgress');
 };
+
+/* ============================================ */
+/* ====== CENTRAL SCRAPING PROGRESS ========= */
+/* ============================================ */
+
+/* Selector to get show central scraping progress */
+export const getShowCentralScrapingProgress = (state: any) => {
+  return get(state, 'sellerInventory.showCentralScrapingProgress');
+};
+
+/* Selector to get central scraping progresses */
+export const getCentralScrapingProgress = (state: any) => {
+  return get(state, 'sellerInventory.centralScrapingProgress');
+};
+
+/* Selector to get show state for central scraping prgress */
 
 /* ============================================ */
 /* ====== SELLER INVENTORY MAIN TABLE ========= */

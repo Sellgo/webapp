@@ -10,33 +10,17 @@ export interface CentralExportProgress {
 }
 
 /* ============================================ */
-/* ====== SELLER INVENTORY MAIN TABLE ========= */
+/* ====== CENTRAL SCRAPING PROGRESS ====== */
 /* ============================================ */
-export interface SellerInventoryTablePayload {
-  resetFilter?: boolean;
-  enableLoader?: boolean;
-  page?: number;
-  perPage?: number;
-  sort?: string;
-  sortDir?: 'asc' | 'desc';
-  marketplaceId?: string;
-  search?: string;
+export interface CentralScrapingProgress {
+  job_id: string;
+  status: 'string';
+  progress: number;
 }
 
-export interface SellerInventoryTablePaginationInfo {
-  count: number;
-  current_page: number;
-  per_page: number;
-  total_pages: number;
-  previous?: string;
-  next?: string;
-}
-
-/* Delete seller from table */
-export interface DeleteSellerPayload {
-  id: number;
-}
-
+/* ============================================ */
+/* =================== SOCKETS============== */
+/* ============================================ */
 /* Socket Interfaces */
 export interface ExportSocketMessage {
   message: string;
@@ -67,6 +51,34 @@ export interface FindRefreshSellerSocketMessage {
   is_top_level?: boolean;
   error_status?: boolean;
   job_id?: string;
+}
+
+/* ============================================ */
+/* ====== SELLER INVENTORY MAIN TABLE ========= */
+/* ============================================ */
+export interface SellerInventoryTablePayload {
+  resetFilter?: boolean;
+  enableLoader?: boolean;
+  page?: number;
+  perPage?: number;
+  sort?: string;
+  sortDir?: 'asc' | 'desc';
+  marketplaceId?: string;
+  search?: string;
+}
+
+export interface SellerInventoryTablePaginationInfo {
+  count: number;
+  current_page: number;
+  per_page: number;
+  total_pages: number;
+  previous?: string;
+  next?: string;
+}
+
+/* Delete seller from table */
+export interface DeleteSellerPayload {
+  id: number;
 }
 
 /* ============================================ */

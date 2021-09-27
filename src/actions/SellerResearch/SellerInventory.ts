@@ -38,7 +38,40 @@ import {
   DeleteSellergroup,
   MoveMerchantToGroup,
   CentralExportProgress,
+  CentralScrapingProgress,
 } from '../../interfaces/SellerResearch/SellerInventory';
+
+/* ============================================== */
+/* ====== UNIFIED CENTRAL EXPORT PROGRESS BAR ===== */
+/* ============================================ */
+
+/* Action to set central export progress  */
+export const setCentralExportProgress = (payload: CentralExportProgress) => {
+  return {
+    type: actionTypes.SET_CENTRAL_EXPORT_PROGRESS,
+    payload,
+  };
+};
+
+/* ============================================== */
+/* ====== UNIFIED CENTRAL EXPORT PROGRESS BAR ===== */
+/* ============================================ */
+
+/* Action to state wheter to show central scraping progress */
+export const setShowCentralScrapingProgress = (payload: boolean) => {
+  return {
+    type: actionTypes.SET_CENTRAL_SCRAPING_PROGRESS,
+    payload,
+  };
+};
+
+/* Action to set all scraping progresses */
+export const setCentralScrapingProgress = (payload: CentralScrapingProgress[]) => {
+  return {
+    type: actionTypes.SET_CENTRAL_SCRAPING_PROGRESS,
+    payload,
+  };
+};
 
 /* ============================================ */
 /* ====== SELLER INVENTORY MAIN TABLE ========= */
@@ -78,17 +111,6 @@ export const setSellerInventoryTableExpandedRow = (payload: any) => {
   };
 };
 
-/* ============================================== */
-/* ====== UNIFIED CENTRAL EXPORT PROGRESS BAR ===== */
-/* ============================================ */
-
-/* Action to set central export progress  */
-export const setCentralExportProgress = (payload: CentralExportProgress) => {
-  return {
-    type: actionTypes.SET_CENTRAL_EXPORT_PROGRESS,
-    payload,
-  };
-};
 /* ============================================ */
 /* ====== SELLER INVENTORY  TABLE GROUPS ===== */
 /* ============================================ */
@@ -182,6 +204,35 @@ export const setSellerInventoryProductsTableSellersPaginationInfo = (
 /* ============================================ */
 /* ================= ASYNC ACIONS ========== */
 /* ============================================ */
+
+/* ============================================== */
+/* ====== UNIFIED CENTRAL EXPORT PROGRESS BAR ===== */
+/* ============================================ */
+export const fetchCentralScrapingProgress = () => async (dispatch: any) => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchants/search/progress`;
+
+    const { data } = await axios.get(URL);
+    if (data) {
+      const isPendingProgress = data.length > 0;
+
+      if (isPendingProgress) {
+        dispatch(setShowCentralScrapingProgress(true));
+        dispatch(setCentralScrapingProgress(data));
+      } else {
+        dispatch(setShowCentralScrapingProgress(false));
+        dispatch(setCentralScrapingProgress([]));
+      }
+    } else {
+      dispatch(setShowCentralScrapingProgress(false));
+      dispatch(setCentralScrapingProgress([]));
+    }
+  } catch (err) {
+    console.error('Error fetching central scraping progress');
+  }
+};
 
 /* ============================================ */
 /* ========== SELLER INVENTORY TABLE =========== */

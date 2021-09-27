@@ -6,11 +6,11 @@ import styles from './index.module.scss';
 /* Containers */
 import InventoryFilters from './InventoryFilter';
 import AllExportProgress from './AllExportProgress';
+import CentralScrapingProgressBar from './CentralScrapingProgress';
 import InventoryTableGroups from './InventoryTableGroups';
 import InventoryTableSearch from './InventoryTableSearch';
 import InventoryExport from './InventoryExport';
 import InventoryTable from './InventoryTable';
-import CentralScrapingProgress from './CentralScrapingProgress';
 
 /* Providers */
 import FindRefreshSellerProvider from './SocketProviders/FindRefreshSeller';
@@ -25,7 +25,7 @@ const SellerInventory = () => {
       <InventoryFilters />
 
       {/* Unified centraal scraping progress*/}
-      <CentralScrapingProgress />
+      <CentralScrapingProgressBar />
 
       {/* Unified progress for all exports */}
       <AllExportProgress />
