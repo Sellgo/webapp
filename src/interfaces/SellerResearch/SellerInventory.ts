@@ -37,6 +37,17 @@ export interface DeleteSellerPayload {
   id: number;
 }
 
+/* Check Inventory */
+export interface CheckInventorySocketMessage {
+  message: string;
+  status: string;
+  progress?: number;
+  products_count?: number;
+  is_top_level?: boolean;
+  error_status?: boolean;
+  job_id?: string;
+}
+
 /* Find/Refresh Seller */
 export interface FindRefreshSellerSocketMessage {
   message: string;
@@ -48,16 +59,6 @@ export interface FindRefreshSellerSocketMessage {
   job_id?: string;
 }
 
-/* Check Inventory */
-export interface CheckInventorySocketMessage {
-  message: string;
-  status: string;
-  progress?: number;
-  products_count?: number;
-  is_top_level?: boolean;
-  error_status?: boolean;
-  job_id?: string;
-}
 /* ============================================ */
 /* ====== SELLER INVENTORY  TABLE GROUPS ====== */
 /* ============================================ */

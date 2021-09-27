@@ -20,6 +20,9 @@ import { trackUntrackSellerProduct } from '../../../../../actions/SellerResearch
 import { RowCell } from '../../../../../interfaces/Table';
 import { TrackUntrackProduct } from '../../../../../interfaces/SellerResearch/SellerInventory';
 
+/* Hooks */
+import { useFindRefreshSellerByAsin } from '../../SocketProviders/FindRefreshSellerByAsin';
+
 interface Props extends RowCell {
   trackUntrackSellerProduct: (payload: TrackUntrackProduct) => void;
 }
@@ -27,17 +30,30 @@ interface Props extends RowCell {
 const BuyboxCompetition = (props: Props) => {
   const { trackUntrackSellerProduct, ...otherProps } = props;
 
+  const { handleFindOrRefreshByAsin } = useFindRefreshSellerByAsin();
+
   const { rowData } = otherProps;
 
   const numOfSellers = rowData.num_sellers ? formatNumber(rowData.num_sellers) : false;
   const productId = rowData.product_id;
   const status = rowData.tracking_status;
   const productTrackId = rowData.product_track_id;
+  const productAsin = rowData.asin;
+  const merchantId = rowData.merchant_id;
 
   const isProductTracked = status === 'active' || status === true ? true : false;
 
+  /* Handle Check Sellers button */
   const handleCheckSellers = () => {
-    console.log('Check Sellers');
+    const sendPayload = {
+      asins: productAsin,
+      merchantIds: merchantId,
+      parentAsin: true,
+    };
+    console.log('Send payload', sendPayload);
+
+    handleFindOrRefreshByAsin(sendPayload);
+    console.log('Call global progress event');
   };
 
   const handleExport = () => {
