@@ -137,7 +137,6 @@ const FindRefreshSellerByAsinProvider = (props: Props) => {
                   });
                 }
                 success(`Found ${formatNumber(merchants_count)} sellers for product`);
-                localStorage.removeItem('sellerInventoryTableExpandedRowId');
 
                 return;
               }
