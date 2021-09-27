@@ -99,6 +99,8 @@ const InventoryFilters = (props: Props) => {
     }
   }, [searchChoice, searchInput]);
 
+  // const totalSearhTerms = searchInput.split(',').filter(s => s.trim().length);
+
   const disableSearch = searchInput.length === 0 || searchError;
 
   return (

@@ -2,11 +2,15 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 /* Actions */
-import { fetchSellerInventoryTableResults } from '../../../../actions/SellerResearch/SellerInventory';
+import {
+  fetchSellerInventoryProductsTableResults,
+  fetchSellerInventoryTableResults,
+} from '../../../../actions/SellerResearch/SellerInventory';
 
 /* Config and Utils */
 import { AppConfig } from '../../../../config';
 import { error, success } from '../../../../utils/notifications';
+import { formatNumber } from '../../../../utils/format';
 
 /* Constants */
 import { SELLER_INVENTORY_EXPORT_SOCKET_STATUS } from '../../../../constants/SellerResearch/SellerInventory';
@@ -14,9 +18,9 @@ import { SELLER_INVENTORY_EXPORT_SOCKET_STATUS } from '../../../../constants/Sel
 /* Interfaces */
 import {
   FindRefreshSellerSocketMessage,
+  SellerInventoryProductsTablePayload,
   SellerInventoryTablePayload,
 } from '../../../../interfaces/SellerResearch/SellerInventory';
-import { formatNumber } from '../../../../utils/format';
 
 /* Find/Refresh Seller Context */
 export const FindRefreshSellerByAsinContext = createContext<any>(null);
@@ -25,6 +29,7 @@ interface SendPayload {
   asins: string;
   parentAsin: boolean;
   merchantId?: number;
+  sellerInventoryTableExpandedRowId?: number;
 }
 
 interface FindRefreshSellerByAsinFn {
@@ -38,10 +43,15 @@ export const useFindRefreshSellerByAsin = (): FindRefreshSellerByAsinFn =>
 interface Props {
   children: React.ReactNode;
   fetchSellerInventoryTableResults: (payload: SellerInventoryTablePayload) => void;
+  fetchSellerInventoryProductsTableResults: (payload: SellerInventoryProductsTablePayload) => void;
 }
 
 const FindRefreshSellerByAsinProvider = (props: Props) => {
-  const { children, fetchSellerInventoryTableResults } = props;
+  const {
+    fetchSellerInventoryProductsTableResults,
+    fetchSellerInventoryTableResults,
+    children,
+  } = props;
 
   const [findRefreshByAsinSocket, setFindRefreshByAsinSocket] = useState<WebSocket>();
 
@@ -115,8 +125,20 @@ const FindRefreshSellerByAsinProvider = (props: Props) => {
             if (is_top_level === false) {
               // fetch the products table of the merchant, ask back for merhcnat id send
               if (merchants_count && merchants_count > 0) {
-                fetchSellerInventoryTableResults({ enableLoader: false });
-                success(`Found ${formatNumber(merchants_count)} sellers for product}`);
+                //get the expanded the row ID from local storage
+                const rowId = Number.parseFloat(
+                  localStorage.getItem('sellerInventoryTableExpandedRowId') || '0'
+                );
+
+                if (rowId && rowId !== 0) {
+                  fetchSellerInventoryProductsTableResults({
+                    enableLoader: false,
+                    rowId,
+                  });
+                }
+                success(`Found ${formatNumber(merchants_count)} sellers for product`);
+                localStorage.removeItem('sellerInventoryTableExpandedRowId');
+
                 return;
               }
             }
@@ -126,14 +148,14 @@ const FindRefreshSellerByAsinProvider = (props: Props) => {
 
       // when findRefreshByAsinSocket connection is closed
       findRefreshByAsinSocket.onclose = () => {
-        console.log('Find or refresh socket closed');
+        console.log('Find or refresh socket by asin closed');
       };
     }
   }, [findRefreshByAsinSocket]);
 
   /* Main handle export function to send payload to sockets */
   const handleFindOrRefreshByAsin = (payload: SendPayload) => {
-    const { asins, merchantId, parentAsin } = payload;
+    const { asins, merchantId, parentAsin, sellerInventoryTableExpandedRowId } = payload;
 
     let payloadInfo;
 
@@ -151,6 +173,12 @@ const FindRefreshSellerByAsinProvider = (props: Props) => {
         parent_asin: parentAsin,
       };
     }
+
+    //store the expanded row ID in local storage
+    localStorage.setItem(
+      'sellerInventoryTableExpandedRowId',
+      String(sellerInventoryTableExpandedRowId)
+    );
 
     const sendPayload = JSON.stringify(payloadInfo);
 
@@ -178,6 +206,8 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchSellerInventoryTableResults: (payload: SellerInventoryTablePayload) =>
       dispatch(fetchSellerInventoryTableResults(payload)),
+    fetchSellerInventoryProductsTableResults: (payload: SellerInventoryProductsTablePayload) =>
+      dispatch(fetchSellerInventoryProductsTableResults(payload)),
   };
 };
 

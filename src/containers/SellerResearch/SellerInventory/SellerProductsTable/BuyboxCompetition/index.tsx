@@ -25,10 +25,14 @@ import { TrackUntrackProduct } from '../../../../../interfaces/SellerResearch/Se
 
 /* Hooks */
 import { useFindRefreshSellerByAsin } from '../../SocketProviders/FindRefreshSellerByAsin';
-import { getAllowLiveScraping } from '../../../../../selectors/SellerResearch/SellerInventory';
+import {
+  getAllowLiveScraping,
+  getSellerInventoryTableExpandedRow,
+} from '../../../../../selectors/SellerResearch/SellerInventory';
 
 interface Props extends RowCell {
   allowLiveScraping: boolean;
+  sellerInventoryExpandedTableRow: any;
   trackUntrackSellerProduct: (payload: TrackUntrackProduct) => void;
   fetchCentralScrapingProgress: () => void;
 }
@@ -36,6 +40,7 @@ interface Props extends RowCell {
 const BuyboxCompetition = (props: Props) => {
   const {
     allowLiveScraping,
+    sellerInventoryExpandedTableRow,
     trackUntrackSellerProduct,
     fetchCentralScrapingProgress,
     ...otherProps
@@ -61,6 +66,7 @@ const BuyboxCompetition = (props: Props) => {
       merchantId,
       //parentAsin true means it's a nested variant (means it has a parent asin as well)
       parentAsin: true,
+      sellerInventoryTableExpandedRowId: sellerInventoryExpandedTableRow.id,
     };
 
     handleFindOrRefreshByAsin(sendPayload);
@@ -131,6 +137,7 @@ const BuyboxCompetition = (props: Props) => {
 const mapStateToProps = (state: any) => {
   return {
     allowLiveScraping: getAllowLiveScraping(state),
+    sellerInventoryExpandedTableRow: getSellerInventoryTableExpandedRow(state),
   };
 };
 
