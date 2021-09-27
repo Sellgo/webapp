@@ -37,7 +37,10 @@ const ActionsCell = (props: Props) => {
 
   /* Refresh seller from table */
   const handleRefresh = () => {
-    handleFindOrRefresh('refresh', merchantId);
+    handleFindOrRefresh({
+      type: 'refresh',
+      merchantIds: merchantId,
+    });
     console.log('Call global progress action');
   };
 

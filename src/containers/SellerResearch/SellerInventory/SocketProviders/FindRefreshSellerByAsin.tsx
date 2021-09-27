@@ -23,7 +23,7 @@ export const FindRefreshSellerByAsinContext = createContext<any>(null);
 
 interface SendPayload {
   asins: string;
-  merchantIds: number;
+  merchantId: number;
   parentAsin: boolean;
 }
 
@@ -133,11 +133,11 @@ const FindRefreshSellerByAsinProvider = (props: Props) => {
 
   /* Main handle export function to send payload to sockets */
   const handleFindOrRefreshByAsin = (payload: SendPayload) => {
-    const { asins, merchantIds, parentAsin } = payload;
+    const { asins, merchantId, parentAsin } = payload;
 
     const sendPayload = JSON.stringify({
       asins,
-      merchant_id: merchantIds,
+      merchant_id: merchantId,
       parent_asin: parentAsin,
     });
 

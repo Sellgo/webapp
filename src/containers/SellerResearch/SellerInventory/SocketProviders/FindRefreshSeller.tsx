@@ -20,8 +20,13 @@ import {
 /* Find/Refresh Seller Context */
 export const FindRefreshSellerContext = createContext<any>(null);
 
+interface SendPayload {
+  type: 'find' | 'refresh';
+  merchantIds: string;
+}
+
 interface FindRefreshSellerFn {
-  handleFindOrRefresh: (type: 'find' | 'refresh', merchantIds: string) => void;
+  handleFindOrRefresh: (payload: SendPayload) => void;
 }
 
 /* Find/Refresh Seller COnsume */
@@ -114,13 +119,16 @@ const FindRefreshSellerProvider = (props: Props) => {
   }, [findRefreshSocket]);
 
   /* Main handle export function to send payload to sockets */
-  const handleFindOrRefresh = (type: 'find' | 'refresh', merchantIds: string) => {
-    const payload = JSON.stringify({
+  const handleFindOrRefresh = (payload: SendPayload) => {
+    const { merchantIds } = payload;
+
+    const sendPayload = JSON.stringify({
       merchant_ids: merchantIds,
     });
+
     if (findRefreshSocket) {
       if (findRefreshSocket.OPEN) {
-        findRefreshSocket.send(payload);
+        findRefreshSocket.send(sendPayload);
       }
     }
   };

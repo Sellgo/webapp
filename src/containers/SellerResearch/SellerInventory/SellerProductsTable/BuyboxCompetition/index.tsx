@@ -47,10 +47,9 @@ const BuyboxCompetition = (props: Props) => {
   const handleCheckSellers = () => {
     const sendPayload = {
       asins: productAsin,
-      merchantIds: merchantId,
+      merchantId,
       parentAsin: true,
     };
-    console.log('Send payload', sendPayload);
 
     handleFindOrRefreshByAsin(sendPayload);
     console.log('Call global progress event');
