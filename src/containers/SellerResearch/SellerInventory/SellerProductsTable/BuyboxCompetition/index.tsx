@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table } from 'rsuite';
-import { Popup, Icon, Button } from 'semantic-ui-react';
+import { Popup, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 /* Styling */
@@ -48,6 +48,7 @@ const BuyboxCompetition = (props: Props) => {
     const sendPayload = {
       asins: productAsin,
       merchantId,
+      //parentAsin true means it's a nested variant (means it has a parent asin as well)
       parentAsin: true,
     };
 
@@ -55,10 +56,7 @@ const BuyboxCompetition = (props: Props) => {
     console.log('Call global progress event');
   };
 
-  const handleExport = () => {
-    console.log('Handle Export');
-  };
-
+  /* Handle Prpduct tracking */
   const handleTrackProduct = () => {
     const payload = {
       status: isProductTracked ? 'inactive' : 'active',
@@ -103,11 +101,6 @@ const BuyboxCompetition = (props: Props) => {
                   <button onClick={handleCheckSellers}>
                     <CheckSellerIcon />
                     <span>Check Sellers</span>
-                  </button>
-
-                  <button onClick={handleExport}>
-                    <Icon name="download" />
-                    <span>Export</span>
                   </button>
 
                   <button onClick={handleTrackProduct}>

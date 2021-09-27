@@ -23,8 +23,8 @@ export const FindRefreshSellerByAsinContext = createContext<any>(null);
 
 interface SendPayload {
   asins: string;
-  merchantId: number;
   parentAsin: boolean;
+  merchantId?: number;
 }
 
 interface FindRefreshSellerByAsinFn {
@@ -135,11 +135,24 @@ const FindRefreshSellerByAsinProvider = (props: Props) => {
   const handleFindOrRefreshByAsin = (payload: SendPayload) => {
     const { asins, merchantId, parentAsin } = payload;
 
-    const sendPayload = JSON.stringify({
-      asins,
-      merchant_id: merchantId,
-      parent_asin: parentAsin,
-    });
+    let payloadInfo;
+
+    // if top level asin search/find
+    if (!parentAsin) {
+      payloadInfo = {
+        asins,
+      };
+    }
+    // if nested varaint just back asins, merchantId and parent_asin=true
+    else {
+      payloadInfo = {
+        asins,
+        merchant_id: merchantId,
+        parent_asin: parentAsin,
+      };
+    }
+
+    const sendPayload = JSON.stringify(payloadInfo);
 
     if (findRefreshByAsinSocket) {
       if (findRefreshByAsinSocket.OPEN) {
