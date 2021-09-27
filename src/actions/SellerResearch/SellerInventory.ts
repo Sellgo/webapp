@@ -60,7 +60,7 @@ export const setCentralExportProgress = (payload: CentralExportProgress) => {
 /* Action to state wheter to show central scraping progress */
 export const setShowCentralScrapingProgress = (payload: boolean) => {
   return {
-    type: actionTypes.SET_CENTRAL_SCRAPING_PROGRESS,
+    type: actionTypes.SET_SHOW_CENTRAL_SCRAPING_PROGRESS,
     payload,
   };
 };

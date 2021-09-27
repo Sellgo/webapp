@@ -14,6 +14,7 @@ import {
 /* Actions */
 import { fetchCentralScrapingProgress } from '../../../../actions/SellerResearch/SellerInventory';
 import { CentralScrapingProgress } from '../../../../interfaces/SellerResearch/SellerInventory';
+import { useInterval } from '../../../../hooks/useInterval';
 
 interface Props {
   showCentralScrapingProgress: boolean;
@@ -22,18 +23,31 @@ interface Props {
 }
 
 const CentralScrapingProgressBar = (props: Props) => {
-  const { showCentralScrapingProgress, fetchCentralScrapingProgress } = props;
+  const {
+    showCentralScrapingProgress,
+    fetchCentralScrapingProgress,
+    centralScrapingProgress,
+  } = props;
 
-  const progressPercent = Number.parseFloat(String('50' || '0'));
+  const pendingProcess = centralScrapingProgress && centralScrapingProgress[0];
 
   useEffect(() => {
     fetchCentralScrapingProgress();
   }, []);
+
+  useInterval(() => {
+    if (showCentralScrapingProgress) {
+      fetchCentralScrapingProgress();
+      return;
+    }
+    return;
+  }, 5000);
+
   return (
     <>
       {showCentralScrapingProgress && (
         <Progress
-          percent={progressPercent || 0}
+          percent={(pendingProcess && pendingProcess.progress) || 0}
           progress
           indicating
           className={'defaultProgressBar'}
