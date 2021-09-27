@@ -10,7 +10,6 @@ import ProductsDatabase from './ProductsDatabase';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
-import QuotaMeter from '../../components/QuotaMeter';
 import MarketplaceDropdown from '../../components/MarketplaceDropdown';
 
 /*Actions */
@@ -49,7 +48,6 @@ const ProductResearch: React.FC<Props> = props => {
           { content: 'Home', to: '/' },
           { content: 'Product Research', to: '/product-research' },
         ]}
-        callToAction={<QuotaMeter />}
         auth={match.params.auth}
       />
       <main className={styles.productResearchPage}>

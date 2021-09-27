@@ -4,7 +4,6 @@ import get from 'lodash/get';
 import PageHeader from '../../components/PageHeader';
 import ProductTrackerTable from './ProductTrackerTable';
 import './index.scss';
-import QuotaMeter from '../../components/QuotaMeter';
 import { connect } from 'react-redux';
 import {
   setMenuItem,
@@ -176,7 +175,6 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
             { content: 'Product Tracker', to: '/product-tracker' },
             { content: `${currentGroupName}` },
           ]}
-          callToAction={<QuotaMeter />}
           auth={match.params.auth}
         />
         <Segment basic={true} className="tracker-setting">

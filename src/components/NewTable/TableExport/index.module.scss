@@ -9,9 +9,22 @@
   margin-right: 10px;
 }
 
-.exportLabel {
+.exportBtn {
   color: $grey_8 !important;
   position: relative;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  width: max-content !important;
+  padding: 0;
+
+  &:disabled {
+    color: $grey_6 !important;
+
+    i {
+      color: $grey_6 !important;
+    }
+  }
 }
 
 .exportPopup {
@@ -22,8 +35,7 @@
   }
 }
 
-.caretDownIcon,
-.downloadIcon {
+.caretDownIcon {
   color: $grey_8 !important;
 }
 

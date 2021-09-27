@@ -1,6 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Dropdown } from 'semantic-ui-react';
+
+/* Styling */
+import './index.scss';
+
+/* Selectors */
+import { getUserOnboarding, getUserOnboardingResources } from '../../../selectors/UserOnboarding';
 
 /* Constants */
 import {
@@ -8,14 +14,8 @@ import {
   FILTER_KPI_ONBOARDING_INDEX,
 } from '../../../constants/UserOnboarding';
 
-/* Selectors */
-import { getUserOnboarding, getUserOnboardingResources } from '../../../selectors/UserOnboarding';
-
 /* Components */
 import OnboardingTooltip from '../../OnboardingTooltip';
-
-/* Styling */
-import './index.scss';
 
 type IOption = {
   key: string;
@@ -31,19 +31,19 @@ interface Props {
   handleChange: (value: string) => void;
   disabled?: boolean;
   loading?: boolean;
-  userOnboardingResources: any;
   userOnboarding: boolean;
+  userOnboardingResources: any[];
 }
 
-const SelectionFilter: React.FC<Props> = props => {
+const ReviewTypeFilter = (props: Props) => {
   const {
     label,
     filterOptions,
     placeholder,
     value,
     handleChange,
-    disabled = false,
-    loading = false,
+    disabled,
+    loading,
     userOnboardingResources,
     userOnboarding,
   } = props;
@@ -54,23 +54,23 @@ const SelectionFilter: React.FC<Props> = props => {
 
   const { youtubeLink, tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
 
-  useEffect(() => {
-    const allSelectionDropdown = document.querySelectorAll('.selectionFilterWrapper');
-    if (allSelectionDropdown) {
-      allSelectionDropdown.forEach(dropdown => {
-        const inputBox = dropdown.querySelector('input.search');
-        if (inputBox) {
-          inputBox.setAttribute('autocomplete', 'chrome-off');
-        }
-      });
-    }
-  }, []);
   return (
-    <div className="selectionFilterWrapper">
+    <div className="reviewTypeFilterWrapper">
+      <Dropdown
+        search
+        fluid
+        className="reviewType"
+        options={filterOptions}
+        placeholder={placeholder}
+        scrolling
+        value={value}
+        onChange={(e: any, data: any) => handleChange(data.value)}
+        disabled={disabled}
+        loading={loading}
+      />
       {label && (
         <p>
           {label}
-          {/* Youtube On boarding Icon */}
           {enableFilterOnboarding && (youtubeLink || tooltipText) && (
             <OnboardingTooltip
               youtubeLink={youtubeLink}
@@ -81,29 +81,14 @@ const SelectionFilter: React.FC<Props> = props => {
           )}
         </p>
       )}
-
-      <Dropdown
-        fluid
-        search
-        className="selectionFilter"
-        options={filterOptions}
-        placeholder={placeholder}
-        scrolling
-        value={value}
-        onChange={(e: any, data: any) => handleChange(data.value)}
-        disabled={disabled}
-        loading={loading}
-        autoComplete={'chrome-off'}
-      />
     </div>
   );
 };
 
 const mapStateToProps = (state: any) => {
   return {
-    userOnboardingResources: getUserOnboardingResources(state),
     userOnboarding: getUserOnboarding(state),
+    userOnboardingResources: getUserOnboardingResources(state),
   };
 };
-
-export default connect(mapStateToProps)(SelectionFilter);
+export default connect(mapStateToProps)(ReviewTypeFilter);
