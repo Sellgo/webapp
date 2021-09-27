@@ -143,6 +143,7 @@ export const DEFAULT_UNGROUPED_ID = -1;
 
 /* Default State for seller inventory table export */
 export const SELLER_INVENTORY_EXPORT_SOCKET_STATUS = {
+  DONE: 'done',
   SUCCESS: 'success',
   PENDING: 'pending',
   FAILED: 'failed',

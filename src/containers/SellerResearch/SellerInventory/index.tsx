@@ -10,8 +10,10 @@ import InventoryTableGroups from './InventoryTableGroups';
 import InventoryTableSearch from './InventoryTableSearch';
 import InventoryExport from './InventoryExport';
 import InventoryTable from './InventoryTable';
+import CentralScrapingProgress from './CentralScrapingProgress';
 
 /* Providers */
+import FindRefreshSellerProvider from './SocketProviders/FindRefreshSeller';
 import SellerInventoryExportProvider from './InventoryExport/InventoryExportProvider';
 import SellerInventoryProductsTableExportProvider from './SellerProductsTable/ProductsExport/ProductsExportProvider';
 
@@ -19,6 +21,9 @@ const SellerInventory = () => {
   return (
     <div className={styles.sellerInventory}>
       <InventoryFilters />
+
+      {/* Unified centraal scraping progress*/}
+      <CentralScrapingProgress />
 
       {/* Unified progress for all exports */}
       <AllExportProgress />
@@ -29,12 +34,15 @@ const SellerInventory = () => {
         <InventoryTableSearch />
       </section>
 
-      <SellerInventoryExportProvider>
+      <FindRefreshSellerProvider>
         <SellerInventoryProductsTableExportProvider>
-          <InventoryExport />
+          <SellerInventoryExportProvider>
+            <InventoryExport />
+          </SellerInventoryExportProvider>
+
           <InventoryTable />
         </SellerInventoryProductsTableExportProvider>
-      </SellerInventoryExportProvider>
+      </FindRefreshSellerProvider>
     </div>
   );
 };

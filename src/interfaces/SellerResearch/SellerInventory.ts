@@ -37,6 +37,16 @@ export interface DeleteSellerPayload {
   id: number;
 }
 
+/* Find/Refresh Seller */
+export interface FindRefreshSeller {
+  message: string;
+  status: string;
+  progress?: number;
+  merchants_count?: number;
+  is_top_level?: true;
+  error_status?: false;
+  job_id?: string;
+}
 /* ============================================ */
 /* ====== SELLER INVENTORY  TABLE GROUPS ====== */
 /* ============================================ */

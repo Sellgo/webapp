@@ -12,6 +12,7 @@ import { deleteSellerFromTable } from '../../../../../actions/SellerResearch/Sel
 /* Interfaces */
 import { RowCell } from '../../../../../interfaces/Table';
 import { DeleteSellerPayload } from '../../../../../interfaces/SellerResearch/SellerInventory';
+import { useFindRefreshSeller } from '../../SocketProviders/FindRefreshSeller';
 
 interface Props extends RowCell {
   deleteSellerFromTable: (payload: DeleteSellerPayload) => void;
@@ -19,6 +20,8 @@ interface Props extends RowCell {
 
 const ActionsCell = (props: Props) => {
   const { deleteSellerFromTable, ...otherProps } = props;
+
+  const { handleFindOrRefresh } = useFindRefreshSeller();
 
   const { rowData } = otherProps;
 
@@ -32,7 +35,8 @@ const ActionsCell = (props: Props) => {
 
   /* Refresh seller from table */
   const handleRefresh = () => {
-    console.log('Handle Refresh');
+    handleFindOrRefresh('refresh', merchantId);
+    console.log('Call global progress action');
   };
 
   /* Delete seller from table */
