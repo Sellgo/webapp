@@ -19,9 +19,17 @@ import { ReactComponent as CheckInventoryIcon } from '../../../../../assets/imag
 
 /* Hooks */
 import { useCheckInventory } from '../../SocketProviders/CheckInventory';
+import { connect } from 'react-redux';
+import { fetchCentralScrapingProgress } from '../../../../../actions/SellerResearch/SellerInventory';
 
-const SellerActions = (props: RowCell) => {
-  const { rowData } = props;
+interface Props extends RowCell {
+  fetchCentralScrapingProgress: () => void;
+}
+
+const SellerActions = (props: Props) => {
+  const { fetchCentralScrapingProgress, ...otherProps } = props;
+
+  const { rowData } = otherProps;
 
   const { handleCheckInventory } = useCheckInventory();
 
@@ -38,7 +46,7 @@ const SellerActions = (props: RowCell) => {
   /* Track seller */
   const checkInventory = () => {
     handleCheckInventory(merchantId);
-    console.log('Called progress API, check inventory');
+    fetchCentralScrapingProgress();
   };
 
   /* Copy Asins */
@@ -51,7 +59,7 @@ const SellerActions = (props: RowCell) => {
 
   return (
     <>
-      <Table.Cell {...props}>
+      <Table.Cell {...otherProps}>
         <div className={styles.actionCellWrapper}>
           <div className={styles.actionCell}>
             <button
@@ -107,4 +115,10 @@ const SellerActions = (props: RowCell) => {
   );
 };
 
-export default SellerActions;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchCentralScrapingProgress: () => dispatch(fetchCentralScrapingProgress()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SellerActions);

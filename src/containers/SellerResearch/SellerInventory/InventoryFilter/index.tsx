@@ -1,23 +1,39 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
+
+/* Constanst */
+import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
+
+/* Utils */
+import { success } from '../../../../utils/notifications';
+
+/* Actions */
+import { fetchCentralScrapingProgress } from '../../../../actions/SellerResearch/SellerInventory';
 
 /* Components */
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
+
+/* Hooks */
 import { useFindRefreshSeller } from '../SocketProviders/FindRefreshSeller';
 import { useFindRefreshSellerByAsin } from '../SocketProviders/FindRefreshSellerByAsin';
-import { success } from '../../../../utils/notifications';
-import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
 
 export const searchChoices = [
   { label: 'Using Seller IDs', value: 'sellerId' },
   { label: 'Using Product ASINs', value: 'asins' },
 ];
 
-const InventoryFilters = () => {
+interface Props {
+  fetchCentralScrapingProgress: () => void;
+}
+
+const InventoryFilters = (props: Props) => {
+  const { fetchCentralScrapingProgress } = props;
+
   const [searchInput, setSearchInput] = useState('');
   const [searchChoice, setSearchChoice] = useState('sellerId');
   const [searchError, setSearchError] = useState(false);
@@ -45,6 +61,7 @@ const InventoryFilters = () => {
       });
     }
     success('Search for seller started');
+    fetchCentralScrapingProgress();
     handleReset();
   };
 
@@ -114,4 +131,10 @@ const InventoryFilters = () => {
   );
 };
 
-export default InventoryFilters;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchCentralScrapingProgress: () => dispatch(fetchCentralScrapingProgress()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(InventoryFilters);

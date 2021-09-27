@@ -7,7 +7,10 @@ import { connect } from 'react-redux';
 import styles from './index.module.scss';
 
 /* Actions */
-import { deleteSellerFromTable } from '../../../../../actions/SellerResearch/SellerInventory';
+import {
+  deleteSellerFromTable,
+  fetchCentralScrapingProgress,
+} from '../../../../../actions/SellerResearch/SellerInventory';
 
 /* Interfaces */
 import { RowCell } from '../../../../../interfaces/Table';
@@ -18,10 +21,11 @@ import { useFindRefreshSeller } from '../../SocketProviders/FindRefreshSeller';
 
 interface Props extends RowCell {
   deleteSellerFromTable: (payload: DeleteSellerPayload) => void;
+  fetchCentralScrapingProgress: () => void;
 }
 
 const ActionsCell = (props: Props) => {
-  const { deleteSellerFromTable, ...otherProps } = props;
+  const { deleteSellerFromTable, fetchCentralScrapingProgress, ...otherProps } = props;
 
   const { handleFindOrRefresh } = useFindRefreshSeller();
 
@@ -41,7 +45,7 @@ const ActionsCell = (props: Props) => {
       type: 'refresh',
       merchantIds: merchantId,
     });
-    console.log('Call global progress action');
+    fetchCentralScrapingProgress();
   };
 
   /* Delete seller from table */
@@ -86,6 +90,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     deleteSellerFromTable: (payload: DeleteSellerPayload) =>
       dispatch(deleteSellerFromTable(payload)),
+    fetchCentralScrapingProgress: () => dispatch(fetchCentralScrapingProgress()),
   };
 };
 

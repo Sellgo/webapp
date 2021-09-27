@@ -14,7 +14,10 @@ import { ReactComponent as CheckSellerIcon } from '../../../../../assets/images/
 import { ReactComponent as TrackProductIcon } from '../../../../../assets/images/fingerprint-4.svg';
 
 /* Actions */
-import { trackUntrackSellerProduct } from '../../../../../actions/SellerResearch/SellerInventory';
+import {
+  fetchCentralScrapingProgress,
+  trackUntrackSellerProduct,
+} from '../../../../../actions/SellerResearch/SellerInventory';
 
 /* Interfaces */
 import { RowCell } from '../../../../../interfaces/Table';
@@ -25,10 +28,11 @@ import { useFindRefreshSellerByAsin } from '../../SocketProviders/FindRefreshSel
 
 interface Props extends RowCell {
   trackUntrackSellerProduct: (payload: TrackUntrackProduct) => void;
+  fetchCentralScrapingProgress: () => void;
 }
 
 const BuyboxCompetition = (props: Props) => {
-  const { trackUntrackSellerProduct, ...otherProps } = props;
+  const { trackUntrackSellerProduct, fetchCentralScrapingProgress, ...otherProps } = props;
 
   const { handleFindOrRefreshByAsin } = useFindRefreshSellerByAsin();
 
@@ -53,7 +57,7 @@ const BuyboxCompetition = (props: Props) => {
     };
 
     handleFindOrRefreshByAsin(sendPayload);
-    console.log('Call global progress event');
+    fetchCentralScrapingProgress();
   };
 
   /* Handle Prpduct tracking */
@@ -121,6 +125,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     trackUntrackSellerProduct: (payload: TrackUntrackProduct) =>
       dispatch(trackUntrackSellerProduct(payload)),
+    fetchCentralScrapingProgress: () => dispatch(fetchCentralScrapingProgress()),
   };
 };
 
