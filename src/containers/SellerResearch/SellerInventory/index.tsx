@@ -22,22 +22,22 @@ import SellerInventoryProductsTableExportProvider from './SocketProviders/Produc
 const SellerInventory = () => {
   return (
     <div className={styles.sellerInventory}>
-      <InventoryFilters />
-
-      {/* Unified centraal scraping progress*/}
-      <CentralScrapingProgressBar />
-
-      {/* Unified progress for all exports */}
-      <AllExportProgress />
-
-      {/* Seller Table meta info */}
-      <section className={styles.sellerInventoryMeta}>
-        <InventoryTableGroups />
-        <InventoryTableSearch />
-      </section>
-
       <FindRefreshSellerProvider>
         <FindRefreshSellerByAsin>
+          <InventoryFilters />
+
+          {/* Unified centraal scraping progress*/}
+          <CentralScrapingProgressBar />
+
+          {/* Unified progress for all exports */}
+          <AllExportProgress />
+
+          {/* Seller Table meta info */}
+          <section className={styles.sellerInventoryMeta}>
+            <InventoryTableGroups />
+            <InventoryTableSearch />
+          </section>
+
           <CheckInventoryProvider>
             <SellerInventoryProductsTableExportProvider>
               {/* Seller Export */}

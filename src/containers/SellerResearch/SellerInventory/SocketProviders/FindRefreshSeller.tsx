@@ -16,6 +16,7 @@ import {
   FindRefreshSellerSocketMessage,
   SellerInventoryTablePayload,
 } from '../../../../interfaces/SellerResearch/SellerInventory';
+import { formatNumber } from '../../../../utils/format';
 
 /* Find/Refresh Seller Context */
 export const FindRefreshSellerContext = createContext<any>(null);
@@ -93,7 +94,7 @@ const FindRefreshSellerProvider = (props: Props) => {
 
           // if there is error status
           if (error_status && message) {
-            error(payload.message);
+            error(message);
             return;
           }
 
@@ -103,7 +104,7 @@ const FindRefreshSellerProvider = (props: Props) => {
             if (is_top_level) {
               if (merchants_count && merchants_count > 0) {
                 fetchSellerInventoryTableResults({ enableLoader: false });
-                success('Seller data updated');
+                success(`Found ${formatNumber(merchants_count)} sellers`);
                 return;
               }
             }
