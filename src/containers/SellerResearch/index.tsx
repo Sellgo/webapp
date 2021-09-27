@@ -7,7 +7,6 @@ import styles from './index.module.scss';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
-import MarketplaceDropdown from '../../components/MarketplaceDropdown';
 
 /* Containers */
 import SellerMaps from './SellerMaps';
@@ -60,7 +59,6 @@ const SellerResearch = (props: Props) => {
         {/* Filter meta data */}
         <section className={styles.filterMetaData}>
           <h1>Seller Research: {SellerResearchMapper[selectedTabList]}</h1>
-          <MarketplaceDropdown />
         </section>
 
         {/* Filter product selection */}
