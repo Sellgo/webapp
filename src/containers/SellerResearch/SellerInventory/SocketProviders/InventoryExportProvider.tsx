@@ -22,11 +22,17 @@ interface Props {
   children: React.ReactNode;
 }
 
+type ExportFile = 'xlsx' | 'csv';
+
+interface InventoryExportFn {
+  handleExport: (type: ExportFile) => void;
+}
+
 /* Seller Inventory Export context */
 export const SellerInventoryExportContext = createContext<any>(null);
 
 /* Seller Inventory Export Consumer as hook */
-export const useExportSocket = () => useContext(SellerInventoryExportContext);
+export const useExportSocket = (): InventoryExportFn => useContext(SellerInventoryExportContext);
 
 interface Props {
   setCentralExportProgress: (payload: CentralExportProgress) => void;
@@ -136,7 +142,7 @@ const SellerInventoryExportProvider = (props: Props) => {
   }, [exportSocket]);
 
   /* Main handle export function to send payload to sockets */
-  const handleExport = (type: 'xlsx' | 'csv') => {
+  const handleExport = (type: ExportFile) => {
     localStorage.setItem('sellerInventoryTableExportFile', type);
     const payload = JSON.stringify({ start_report: true });
     if (exportSocket) {
@@ -153,7 +159,7 @@ const SellerInventoryExportProvider = (props: Props) => {
   };
 
   return (
-    <SellerInventoryExportContext.Provider value={{ exportSocket, handleExport }}>
+    <SellerInventoryExportContext.Provider value={{ handleExport }}>
       {children}
     </SellerInventoryExportContext.Provider>
   );

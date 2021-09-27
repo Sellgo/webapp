@@ -16,8 +16,7 @@ import CentralScrapingProgress from './CentralScrapingProgress';
 import FindRefreshSellerProvider from './SocketProviders/FindRefreshSeller';
 import FindRefreshSellerByAsin from './SocketProviders/FindRefreshSellerByAsin';
 import CheckInventoryProvider from './SocketProviders/CheckInventory';
-
-import SellerInventoryExportProvider from './InventoryExport/InventoryExportProvider';
+import SellerInventoryExportProvider from './SocketProviders/InventoryExportProvider';
 import SellerInventoryProductsTableExportProvider from './SellerProductsTable/ProductsExport/ProductsExportProvider';
 
 const SellerInventory = () => {

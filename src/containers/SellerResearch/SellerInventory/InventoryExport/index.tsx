@@ -15,7 +15,7 @@ import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xls
 import { ReactComponent as CSVExportImage } from '../../../../assets/images/csvExportImage.svg';
 
 /* Hooks */
-import { useExportSocket } from './InventoryExportProvider';
+import { useExportSocket } from '../SocketProviders/InventoryExportProvider';
 
 /* Interfaces */
 import { SellerSubscription } from '../../../../interfaces/Seller';
