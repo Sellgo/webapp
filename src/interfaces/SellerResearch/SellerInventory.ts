@@ -37,6 +37,16 @@ export interface DeleteSellerPayload {
   id: number;
 }
 
+/* Socket Interfaces */
+export interface ExportSocketMessage {
+  message: string;
+  status: string;
+  progress: number;
+  job_id?: string;
+  excel_path?: string;
+  csv_path?: string;
+}
+
 /* Check Inventory */
 export interface CheckInventorySocketMessage {
   message: string;

@@ -6,6 +6,7 @@ import styles from './index.module.scss';
 
 /* Selectors */
 import { getSellerSubscription } from '../../../../../selectors/Subscription';
+import { getSellerInventoryTableExpandedRow } from '../../../../../selectors/SellerResearch/SellerInventory';
 
 /* Components */
 import TableExport from '../../../../../components/NewTable/TableExport';
@@ -18,8 +19,7 @@ import { ReactComponent as CSVExportImage } from '../../../../../assets/images/c
 import { SellerSubscription } from '../../../../../interfaces/Seller';
 
 /* Hooks */
-import { useExportSocket } from './ProductsExportProvider';
-import { getSellerInventoryTableExpandedRow } from '../../../../../selectors/SellerResearch/SellerInventory';
+import { useProductsExportSocket } from '../../SocketProviders/ProductsExportProvider';
 
 interface Props {
   sellerSubscription: SellerSubscription;
@@ -29,13 +29,19 @@ interface Props {
 const ProductsExport = (props: Props) => {
   const { sellerSubscription, sellerInventoryTableExpandedRow } = props;
 
-  const { handleExport } = useExportSocket();
+  const { handleProductsExport } = useProductsExportSocket();
 
   const merchantId = sellerInventoryTableExpandedRow && sellerInventoryTableExpandedRow.id;
 
   /* Disable export if month based subscription */
   const shouldDisableExport = sellerSubscription && sellerSubscription.payment_mode === 'monthly';
 
+  const handleExport = (type: 'xlsx' | 'csv') => {
+    handleProductsExport({
+      type,
+      merchantId,
+    });
+  };
   return (
     <section className={styles.exportsContainer}>
       <TableExport
@@ -46,7 +52,7 @@ const ProductsExport = (props: Props) => {
               <span>Export As</span>
               <button
                 className={styles.exportOption}
-                onClick={() => handleExport('xlsx', merchantId)}
+                onClick={() => handleExport('xlsx')}
                 disabled={shouldDisableExport}
               >
                 <XLSXExportImage /> .XLSX
@@ -54,7 +60,7 @@ const ProductsExport = (props: Props) => {
 
               <button
                 className={styles.exportOption}
-                onClick={() => handleExport('csv', merchantId)}
+                onClick={() => handleExport('csv')}
                 disabled={shouldDisableExport}
               >
                 <CSVExportImage /> .CSV

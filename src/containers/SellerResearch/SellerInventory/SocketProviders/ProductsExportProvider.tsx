@@ -2,31 +2,44 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 /* Actions */
-import { setCentralExportProgress } from '../../../../../actions/SellerResearch/SellerInventory';
+import { setCentralExportProgress } from '../../../../actions/SellerResearch/SellerInventory';
 
 /* COnstansts */
 import {
   SELLER_INVENTORY_EXPORT_FILE_TYPES,
   SELLER_INVENTORY_EXPORT_SOCKET_STATUS,
-} from '../../../../../constants/SellerResearch/SellerInventory';
+} from '../../../../constants/SellerResearch/SellerInventory';
 
 /* Config & utils */
-import { AppConfig } from '../../../../../config';
-import { downloadFile } from '../../../../../utils/download';
-import { error, success } from '../../../../../utils/notifications';
+import { AppConfig } from '../../../../config';
+import { downloadFile } from '../../../../utils/download';
+import { error, success } from '../../../../utils/notifications';
 
 /* Interfaces */
-import { CentralExportProgress } from '../../../../../interfaces/SellerResearch/SellerInventory';
+import {
+  CentralExportProgress,
+  ExportSocketMessage,
+} from '../../../../interfaces/SellerResearch/SellerInventory';
 
 interface Props {
   children: React.ReactNode;
+}
+
+interface SendPayload {
+  type: 'xlsx' | 'csv';
+  merchantId: number;
+}
+
+interface ProductsExportFn {
+  handleProductsExport: (payload: SendPayload) => void;
 }
 
 /* Seller Inventory Export context */
 export const SellerInventoryProductsTableExportContext = createContext<any>(null);
 
 /* Seller Inventory Export Consumer as hook */
-export const useExportSocket = () => useContext(SellerInventoryProductsTableExportContext);
+export const useProductsExportSocket = (): ProductsExportFn =>
+  useContext(SellerInventoryProductsTableExportContext);
 
 interface Props {
   setCentralExportProgress: (payload: CentralExportProgress) => void;
@@ -68,7 +81,13 @@ const SellerInventoryProductsTableExportProvider = (props: Props) => {
         exportSocket.onmessage = async e => {
           const payload = JSON.parse(e.data);
 
-          const { status, progress } = payload;
+          const {
+            status,
+            progress,
+            message,
+            excel_path = '',
+            csv_path = '',
+          } = payload as ExportSocketMessage;
 
           const isCompleted = status === SELLER_INVENTORY_EXPORT_SOCKET_STATUS.SUCCESS;
           const isPending = status === SELLER_INVENTORY_EXPORT_SOCKET_STATUS.PENDING;
@@ -82,8 +101,8 @@ const SellerInventoryProductsTableExportProvider = (props: Props) => {
               status: '',
             });
 
-            if (payload.message) {
-              error(payload.message);
+            if (message) {
+              error(message);
             }
 
             return;
@@ -104,16 +123,16 @@ const SellerInventoryProductsTableExportProvider = (props: Props) => {
             const fileType = localStorage.getItem('sellerInventoryProductsTableExportFile');
 
             if (fileType) {
-              if (fileType === SELLER_INVENTORY_EXPORT_FILE_TYPES.XLSX && payload.excel_path) {
-                await downloadFile(payload.excel_path);
+              if (fileType === SELLER_INVENTORY_EXPORT_FILE_TYPES.XLSX && excel_path) {
+                await downloadFile(excel_path);
                 success('File successfully downloaded');
                 localStorage.removeItem('sellerInventoryProductsTableExportFile');
                 handleReconnectSocket();
                 return;
               }
 
-              if (fileType === SELLER_INVENTORY_EXPORT_FILE_TYPES.CSV && payload.csv_path) {
-                await downloadFile(payload.csv_path);
+              if (fileType === SELLER_INVENTORY_EXPORT_FILE_TYPES.CSV && csv_path) {
+                await downloadFile(csv_path);
                 success('File downloaded successfully');
                 localStorage.removeItem('sellerInventoryProductsTableExportFile');
                 handleReconnectSocket();
@@ -136,12 +155,15 @@ const SellerInventoryProductsTableExportProvider = (props: Props) => {
   }, [exportSocket]);
 
   /* Main handle export function to send payload to sockets */
-  const handleExport = (type: 'xlsx' | 'csv', merchantId: number) => {
+  const handleProductsExport = (payload: SendPayload) => {
+    const { merchantId, type } = payload;
     localStorage.setItem('sellerInventoryProductsTableExportFile', type);
-    const payload = JSON.stringify({ start_report: true, merchant_id: merchantId });
+
+    const sendPayload = JSON.stringify({ start_report: true, merchant_id: merchantId });
+
     if (exportSocket) {
       if (exportSocket.OPEN) {
-        exportSocket.send(payload);
+        exportSocket.send(sendPayload);
       }
     }
   };
@@ -153,7 +175,7 @@ const SellerInventoryProductsTableExportProvider = (props: Props) => {
   };
 
   return (
-    <SellerInventoryProductsTableExportContext.Provider value={{ exportSocket, handleExport }}>
+    <SellerInventoryProductsTableExportContext.Provider value={{ handleProductsExport }}>
       {children}
     </SellerInventoryProductsTableExportContext.Provider>
   );
