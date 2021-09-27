@@ -15,7 +15,8 @@ const INITIAL_STATE = {
 
   // Central Scraping Progress
   showCentralScrapingProgress: false,
-  centralScrapingProgress: {},
+  centralScrapingProgress: [],
+  allowLiveScraping: true,
 
   // Seller Inventory  Table
   isLoadingSellerInventoryTable: false,
@@ -66,6 +67,9 @@ const sellerInventoryReducer = (state = INITIAL_STATE, action: AnyAction) => {
     }
     case actionTypes.SET_CENTRAL_SCRAPING_PROGRESS: {
       return setIn(state, 'centralScrapingProgress', action.payload);
+    }
+    case actionTypes.SET_ALLOW_LIVE_SCRAPING: {
+      return setIn(state, 'allowLiveScraping', action.payload);
     }
 
     /* ============================================ */

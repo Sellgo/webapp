@@ -25,14 +25,21 @@ import { TrackUntrackProduct } from '../../../../../interfaces/SellerResearch/Se
 
 /* Hooks */
 import { useFindRefreshSellerByAsin } from '../../SocketProviders/FindRefreshSellerByAsin';
+import { getAllowLiveScraping } from '../../../../../selectors/SellerResearch/SellerInventory';
 
 interface Props extends RowCell {
+  allowLiveScraping: boolean;
   trackUntrackSellerProduct: (payload: TrackUntrackProduct) => void;
   fetchCentralScrapingProgress: () => void;
 }
 
 const BuyboxCompetition = (props: Props) => {
-  const { trackUntrackSellerProduct, fetchCentralScrapingProgress, ...otherProps } = props;
+  const {
+    allowLiveScraping,
+    trackUntrackSellerProduct,
+    fetchCentralScrapingProgress,
+    ...otherProps
+  } = props;
 
   const { handleFindOrRefreshByAsin } = useFindRefreshSellerByAsin();
 
@@ -102,7 +109,7 @@ const BuyboxCompetition = (props: Props) => {
               <>
                 <div className={styles.actionOptions}>
                   <p>Buybox Competition</p>
-                  <button onClick={handleCheckSellers}>
+                  <button onClick={handleCheckSellers} disabled={!allowLiveScraping}>
                     <CheckSellerIcon />
                     <span>Check Sellers</span>
                   </button>
@@ -121,6 +128,12 @@ const BuyboxCompetition = (props: Props) => {
   );
 };
 
+const mapStateToProps = (state: any) => {
+  return {
+    allowLiveScraping: getAllowLiveScraping(state),
+  };
+};
+
 const mapDispatchToProps = (dispatch: any) => {
   return {
     trackUntrackSellerProduct: (payload: TrackUntrackProduct) =>
@@ -129,4 +142,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(BuyboxCompetition);
+export default connect(mapStateToProps, mapDispatchToProps)(BuyboxCompetition);

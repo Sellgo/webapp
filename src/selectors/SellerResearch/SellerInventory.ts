@@ -23,7 +23,10 @@ export const getCentralScrapingProgress = (state: any) => {
   return get(state, 'sellerInventory.centralScrapingProgress');
 };
 
-/* Selector to get show state for central scraping prgress */
+/* Selector to get the current scraping progress count */
+export const getAllowLiveScraping = (state: any) => {
+  return get(state, 'sellerInventory.allowLiveScraping');
+};
 
 /* ============================================ */
 /* ====== SELLER INVENTORY MAIN TABLE ========= */

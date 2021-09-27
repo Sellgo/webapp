@@ -2,32 +2,39 @@ import React from 'react';
 import { Table } from 'rsuite';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 import numeral from 'numeral';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
 
-/* Types */
-import { RowCell } from '../../../../../interfaces/Table';
+/* Selectors */
+import { getAllowLiveScraping } from '../../../../../selectors/SellerResearch/SellerInventory';
+
+/* Actions */
+import { fetchCentralScrapingProgress } from '../../../../../actions/SellerResearch/SellerInventory';
 
 /* Utils */
 import { parseKpiLists, prettyPrintNumber, removeSpecialChars } from '../../../../../utils/format';
 import { copyToClipboard } from '../../../../../utils/file';
 import { success } from '../../../../../utils/notifications';
+import { isLessThan24Hours } from '../../../../../utils/date';
 
 /* Assets */
 import { ReactComponent as CheckInventoryIcon } from '../../../../../assets/images/sellerFinder.svg';
 
+/* Interfaces */
+import { RowCell } from '../../../../../interfaces/Table';
+
 /* Hooks */
 import { useCheckInventory } from '../../SocketProviders/CheckInventory';
-import { connect } from 'react-redux';
-import { fetchCentralScrapingProgress } from '../../../../../actions/SellerResearch/SellerInventory';
 
 interface Props extends RowCell {
+  allowLiveScraping: boolean;
   fetchCentralScrapingProgress: () => void;
 }
 
 const SellerActions = (props: Props) => {
-  const { fetchCentralScrapingProgress, ...otherProps } = props;
+  const { fetchCentralScrapingProgress, allowLiveScraping, ...otherProps } = props;
 
   const { rowData } = otherProps;
 
@@ -42,6 +49,11 @@ const SellerActions = (props: Props) => {
   const inventoryCount = rowData.inventory_count;
 
   const parsedAsinList = parseKpiLists(asinList);
+
+  const lastCheckInventory = rowData.last_check_inventory;
+
+  /* Logic to disbale check inventory */
+  const disableCheckInventory = isLessThan24Hours(lastCheckInventory) || !allowLiveScraping;
 
   /* Track seller */
   const checkInventory = () => {
@@ -69,6 +81,7 @@ const SellerActions = (props: Props) => {
                 color: hasInventory ? '#3b4557' : '#636d76',
                 fontWeight: hasInventory ? 500 : 400,
               }}
+              disabled={disableCheckInventory}
             >
               {numeral(parsedAsinList.length).format('00')}
             </button>
@@ -89,7 +102,7 @@ const SellerActions = (props: Props) => {
                 <>
                   <div className={styles.actionOptions}>
                     <p>ASIN</p>
-                    <button onClick={checkInventory}>
+                    <button onClick={checkInventory} disabled={disableCheckInventory}>
                       <CheckInventoryIcon />
                       <span>Check Inventory</span>
                     </button>
@@ -115,10 +128,16 @@ const SellerActions = (props: Props) => {
   );
 };
 
+const mapStateToProps = (state: any) => {
+  return {
+    allowLiveScraping: getAllowLiveScraping(state),
+  };
+};
+
 const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchCentralScrapingProgress: () => dispatch(fetchCentralScrapingProgress()),
   };
 };
 
-export default connect(null, mapDispatchToProps)(SellerActions);
+export default connect(mapStateToProps, mapDispatchToProps)(SellerActions);

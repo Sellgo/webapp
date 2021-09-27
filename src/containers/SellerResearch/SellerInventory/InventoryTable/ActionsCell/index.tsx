@@ -12,6 +12,9 @@ import {
   fetchCentralScrapingProgress,
 } from '../../../../../actions/SellerResearch/SellerInventory';
 
+/* Selectors */
+import { getAllowLiveScraping } from '../../../../../selectors/SellerResearch/SellerInventory';
+
 /* Interfaces */
 import { RowCell } from '../../../../../interfaces/Table';
 import { DeleteSellerPayload } from '../../../../../interfaces/SellerResearch/SellerInventory';
@@ -20,12 +23,18 @@ import { DeleteSellerPayload } from '../../../../../interfaces/SellerResearch/Se
 import { useFindRefreshSeller } from '../../SocketProviders/FindRefreshSeller';
 
 interface Props extends RowCell {
+  allowLiveScraping: boolean;
   deleteSellerFromTable: (payload: DeleteSellerPayload) => void;
   fetchCentralScrapingProgress: () => void;
 }
 
 const ActionsCell = (props: Props) => {
-  const { deleteSellerFromTable, fetchCentralScrapingProgress, ...otherProps } = props;
+  const {
+    allowLiveScraping,
+    deleteSellerFromTable,
+    fetchCentralScrapingProgress,
+    ...otherProps
+  } = props;
 
   const { handleFindOrRefresh } = useFindRefreshSeller();
 
@@ -70,7 +79,11 @@ const ActionsCell = (props: Props) => {
               </button>
 
               <button onClick={handleRefresh}>
-                <Icon name="refresh" className={styles.actionCellIcon} />
+                <Icon
+                  name="refresh"
+                  className={styles.actionCellIcon}
+                  disabled={!allowLiveScraping}
+                />
                 Refresh
               </button>
 
@@ -86,6 +99,12 @@ const ActionsCell = (props: Props) => {
   );
 };
 
+const mapStateToProps = (state: any) => {
+  return {
+    allowLiveScraping: getAllowLiveScraping(state),
+  };
+};
+
 const mapDispatchToProps = (dispatch: any) => {
   return {
     deleteSellerFromTable: (payload: DeleteSellerPayload) =>
@@ -94,4 +113,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(ActionsCell);
+export default connect(mapStateToProps, mapDispatchToProps)(ActionsCell);

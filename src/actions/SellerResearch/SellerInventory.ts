@@ -4,7 +4,10 @@ import axios from 'axios';
 import { AppConfig } from '../../config';
 
 /* Action Types */
-import { actionTypes } from '../../constants/SellerResearch/SellerInventory';
+import {
+  actionTypes,
+  MAX_LIVE_SCRAPING_ALLOWED,
+} from '../../constants/SellerResearch/SellerInventory';
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
@@ -69,6 +72,14 @@ export const setShowCentralScrapingProgress = (payload: boolean) => {
 export const setCentralScrapingProgress = (payload: CentralScrapingProgress[]) => {
   return {
     type: actionTypes.SET_CENTRAL_SCRAPING_PROGRESS,
+    payload,
+  };
+};
+
+/* Action to st current number of scrapping count */
+export const setAllowLiveScraping = (payload: boolean) => {
+  return {
+    type: actionTypes.SET_ALLOW_LIVE_SCRAPING,
     payload,
   };
 };
@@ -218,15 +229,20 @@ export const fetchCentralScrapingProgress = () => async (dispatch: any) => {
     if (data) {
       const isPendingProgress = data.length > 0;
 
+      const allowLiveScrapping = MAX_LIVE_SCRAPING_ALLOWED > data.length;
+
       if (isPendingProgress) {
         dispatch(setShowCentralScrapingProgress(true));
+        dispatch(setAllowLiveScraping(allowLiveScrapping));
         dispatch(setCentralScrapingProgress(data));
       } else {
         dispatch(setShowCentralScrapingProgress(false));
+        dispatch(setAllowLiveScraping(true));
         dispatch(setCentralScrapingProgress([]));
       }
     } else {
       dispatch(setShowCentralScrapingProgress(false));
+      dispatch(setAllowLiveScraping(true));
       dispatch(setCentralScrapingProgress([]));
     }
   } catch (err) {
