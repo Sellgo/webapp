@@ -7,6 +7,7 @@ import styles from './index.module.scss';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
+import ProductMetaInformation from '../../components/ProductMetaInformation';
 
 /* Containers */
 import SellerMaps from './SellerMaps';
@@ -23,8 +24,7 @@ import sellerDatabaseOnborading from '../../assets/onboardingResources/SellerRes
 import sellerMapOnborading from '../../assets/onboardingResources/SellerResearch/sellerMapOnboarding.json';
 
 /* Constants */
-import { SELLER_RESEARCH_FEATURES } from '../../constants/SellerResearch/SellerResearch';
-import OnboardingButton from '../../components/OnboardingButton';
+import { SELLER_RESEARCH_PRODUCT_DETAILS } from '../../constants/SellerResearch';
 import {
   FALLBACK_ONBOARDING_DETAILS,
   GENERAL_TUTORIAL_INDEX,
@@ -68,22 +68,24 @@ const SellerResearch = (props: Props) => {
         breadcrumb={[
           { content: 'Home', to: '/' },
           { content: 'Seller Research', to: '/seller-research' },
-          { content: SELLER_RESEARCH_FEATURES[selectedTabList].name, to: '/seller-research' },
+          {
+            content: SELLER_RESEARCH_PRODUCT_DETAILS[selectedTabList].name,
+            to: '/seller-research',
+          },
         ]}
         auth={match.params.auth}
       />
 
       <main className={styles.sellerResearchPage}>
-        {/* Filter meta data */}
-        <section className={styles.filterMetaData}>
-          <h1>
-            <span className={styles.upper}>{SELLER_RESEARCH_FEATURES[selectedTabList].name}: </span>
-            {SELLER_RESEARCH_FEATURES[selectedTabList].desc}
-          </h1>
-          {showTutorialOnboarding && (
-            <OnboardingButton displayMessage={displayText} youtubeLink={youtubeLink} isNew />
-          )}
-        </section>
+        {/* Product Meta Information */}
+        <ProductMetaInformation
+          selectedIndex={selectedTabList}
+          informationDetails={SELLER_RESEARCH_PRODUCT_DETAILS}
+          showTutorialOnboarding={showTutorialOnboarding}
+          onboardingDisplayText={displayText}
+          onboardingYoutubeLink={youtubeLink}
+          isNewTutorial={true}
+        />
 
         {/* Filter product selection */}
         <section className={styles.productSelectionList}>

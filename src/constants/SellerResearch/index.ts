@@ -1,4 +1,4 @@
-export const SELLER_RESEARCH_FEATURES = [
+export const SELLER_RESEARCH_PRODUCT_DETAILS = [
   {
     index: 0,
     name: 'Seller Database',
