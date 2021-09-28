@@ -55,14 +55,8 @@ const ProductsSellersTable = (props: Props) => {
     // sellerInventoryProductsTableSellersPaginationInfo,
   } = props;
 
-  // /* Handle pagination */
-  // const handlePageChange = (pageNo: number, perPageNo?: number) => {
-  //   console.log(pageNo, perPageNo);
-  // };
-
   /* Custom scroll logic */
   const handleCustomTableScroll = (e: any) => {
-    // way to be specific 🤣
     const verticalScrollRef = document.querySelector(
       '#sellerInventoryTable  #sellerProductsTable #productsSellersTable  .rs-table-body-wheel-area'
     );
@@ -89,7 +83,7 @@ const ProductsSellersTable = (props: Props) => {
     return () => {
       // run cleanup
       if (bodyWheelArea) {
-        bodyWheelArea.addEventListener('wheel', handleCustomTableScroll);
+        bodyWheelArea.removeEventListener('wheel', handleCustomTableScroll);
       }
     };
   }, []);

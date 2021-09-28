@@ -18,9 +18,9 @@ import {
 /* Selectors */
 import {
   getIsLoadingSellerInventoryProductsTable,
-  getSellerInventoryProductsTablePaginationInfo,
   getSellerInventoryProductsTableResults,
   getSellerInventoryProductsTableSellersResults,
+  getSellerInventoryTableExpandedRow,
 } from '../../../../selectors/SellerResearch/SellerInventory';
 
 /* Actions */
@@ -33,27 +33,26 @@ import {
 /* Components */
 import RatingCell from '../../../../components/NewTable/RatingCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
-// import Pagination from '../../../../components/NewTable/Pagination';
 import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
 
 /* Containers */
 import ProductInformation from './ProductInformation';
 import BuyboxCompetition from './BuyboxCompetition';
-
-/* Interfaces */
-import {
-  SellerInventoryProductsTablePayload,
-  SellerInventoryProductsTablePaginationInfo,
-  SellerInventoryProductsTableSellersPayload,
-} from '../../../../interfaces/SellerResearch/SellerInventory';
 import ProductsSellersTable from '../ProductsSellersTable';
 import TrackProduct from './TrackProduct';
 import ProductsExport from './ProductsExport';
 
+/* Interfaces */
+import {
+  SellerInventoryProductsTablePayload,
+  SellerInventoryProductsTableSellersPayload,
+} from '../../../../interfaces/SellerResearch/SellerInventory';
+
 interface Props {
+  sellerInventoryTableExpandedRow: any;
+
   isLoadingSellerInventoryProductsTable: boolean;
   sellerInventoryProductsTableResults: any[];
-  sellerInventoryProductsTablePaginationInfo: SellerInventoryProductsTablePaginationInfo;
 
   fetchSellerInventoryProductsTableResults: (payload: SellerInventoryProductsTablePayload) => void;
   setSellerInventoryProductsTableExpandedRow: (payload: any) => void;
@@ -67,21 +66,18 @@ interface Props {
 
 const SellerProductsTable = (props: Props) => {
   const {
+    sellerInventoryTableExpandedRow,
     isLoadingSellerInventoryProductsTable,
     sellerInventoryProductsTableResults,
-    // sellerInventoryProductsTablePaginationInfo,
     setSellerInventoryProductsTableExpandedRow,
 
+    // fetchSellerInventoryProductsTableResults,
     fetchSellerInventoryProductsTableSellers,
+
     sellerInventoryProductsTableSellersResults,
   } = props;
 
   const [expandedRowKeys, setExpandedRowkeys] = useState<string[]>([]);
-
-  // /* Handle pagination */
-  // const handlePageChange = (pageNo: number, perPageNo?: number) => {
-  //   console.log(pageNo, perPageNo);
-  // };
 
   /* Handle expansion logic */
   const handleExpansion = (rowData: any) => {
@@ -108,11 +104,19 @@ const SellerProductsTable = (props: Props) => {
       '#sellerInventoryTable  #sellerProductsTable #productsSellersTable  .rs-table-body-wheel-area'
     );
 
-    // 🔥 (gotta love this logic if no bugs are found- pushing scrollbar here to limits)
-    // scroll the table only when child is not open
-    // if child is oprn scroll only child
+    // if child table is not expanded only allow scroll for parent table
     if (verticalScrollRef && !bodyWheelAreaForChildTable) {
       const newScrollY = verticalScrollRef.scrollTop + e.deltaY;
+      const scrollingHeight = verticalScrollRef.scrollHeight;
+
+      const totalHeight = newScrollY + verticalScrollRef.clientHeight;
+
+      if (scrollingHeight < totalHeight) {
+        console.log('Fetch more products');
+        console.log(sellerInventoryTableExpandedRow);
+        // fetchSellerInventoryProductsTableResults({ rowId: sellerInventoryTableExpandedRow.id });
+      }
+
       verticalScrollRef.scrollTo({
         top: newScrollY,
         behavior: 'auto',
@@ -122,7 +126,6 @@ const SellerProductsTable = (props: Props) => {
 
   /* Need to overide the custom scroll behavior on mount */
   useEffect(() => {
-    // way to be specific 🤣
     const bodyWheelArea = document.querySelector(
       '#sellerInventoryTable  #sellerProductsTable  .rs-table-body-wheel-area'
     );
@@ -134,7 +137,7 @@ const SellerProductsTable = (props: Props) => {
     return () => {
       // run cleanup
       if (bodyWheelArea) {
-        bodyWheelArea.addEventListener('wheel', handleCustomTableScroll);
+        bodyWheelArea.removeEventListener('wheel', handleCustomTableScroll);
       }
     };
   }, []);
@@ -220,32 +223,15 @@ const SellerProductsTable = (props: Props) => {
           <TrackProduct dataKey="trackProduct" />
         </Table.Column>
       </Table>
-
-      {/* {sellerInventoryProductsTablePaginationInfo &&
-        sellerInventoryProductsTablePaginationInfo.num_pages > 0 && (
-          <footer className={styles.sellerProductsTablePagination}>
-            <Pagination
-              totalPages={sellerInventoryProductsTablePaginationInfo.num_pages}
-              currentPage={1}
-              onPageChange={handlePageChange}
-              showSiblingsCount={3}
-              showPerPage={true}
-              perPage={sellerInventoryProductsTablePaginationInfo.per_page}
-              perPageList={DEFAULT_PAGES_LIST}
-            />
-          </footer>
-        )} */}
     </section>
   );
 };
 
 const mapStateToProps = (state: any) => {
   return {
+    sellerInventoryTableExpandedRow: getSellerInventoryTableExpandedRow(state),
     isLoadingSellerInventoryProductsTable: getIsLoadingSellerInventoryProductsTable(state),
     sellerInventoryProductsTableResults: getSellerInventoryProductsTableResults(state),
-    sellerInventoryProductsTablePaginationInfo: getSellerInventoryProductsTablePaginationInfo(
-      state
-    ),
     sellerInventoryProductsTableSellersResults: getSellerInventoryProductsTableSellersResults(
       state
     ),
