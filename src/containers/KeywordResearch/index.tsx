@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { TabList, TabPanel, Tabs, Tab } from 'react-tabs';
 import { connect } from 'react-redux';
 
-/* Components */
+/* Styles */
 import styles from './index.module.scss';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
-import QuotaMeter from '../../components/QuotaMeter';
-import MarketplaceDropdown from '../../components/MarketplaceDropdown';
 
 /* Containers */
 import KeywordReverse from './KeywordReverse';
@@ -36,7 +34,7 @@ const keywordResearchMapper = ['Reverse', 'Database', 'Tracker'];
 const KeywordResearch = (props: Props) => {
   const { match, resetKeywordResearch, setUserOnboardingResources } = props;
 
-  const [selectedTabList, setSelectedTabList] = useState<number>(2);
+  const [selectedTabList, setSelectedTabList] = useState<number>(0);
 
   const handleTabChange = (index: number) => {
     setSelectedTabList(index);
@@ -66,7 +64,6 @@ const KeywordResearch = (props: Props) => {
           { content: 'Home', to: '/' },
           { content: 'Keyword Research', to: '/keyword-research' },
         ]}
-        callToAction={<QuotaMeter />}
         auth={match.params.auth}
       />
 
@@ -74,7 +71,6 @@ const KeywordResearch = (props: Props) => {
         {/* Filter meta data */}
         <section className={styles.filterMetaData}>
           <h1>Keyword Research: {keywordResearchMapper[selectedTabList]}</h1>
-          <MarketplaceDropdown />
         </section>
 
         {/* Filter product selection */}
