@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -24,7 +25,7 @@ import { useFindRefreshSellerByAsin } from '../SocketProviders/FindRefreshSeller
 
 export const searchChoices = [
   { label: 'Using Seller IDs', value: 'sellerId' },
-  { label: 'Using Product ASINs', value: 'asins' },
+  { label: 'Using Product ASINs/Links', value: 'asins' },
 ];
 
 interface Props {
@@ -35,7 +36,7 @@ const InventoryFilters = (props: Props) => {
   const { fetchCentralScrapingProgress } = props;
 
   const [searchInput, setSearchInput] = useState('');
-  const [searchChoice, setSearchChoice] = useState('sellerId');
+  const [searchChoice, setSearchChoice] = useState('asins');
   const [searchError, setSearchError] = useState(false);
 
   const { handleFindOrRefresh } = useFindRefreshSeller();
@@ -63,6 +64,19 @@ const InventoryFilters = (props: Props) => {
     success('Search for seller started');
     fetchCentralScrapingProgress();
     handleReset();
+  };
+
+  /* Get ASIN from link */
+  const convertAsinLinks = (data: string) => {
+    const regex = RegExp('(?:[/dp/]|$)([A-Z0-9]{10})');
+    const asinData = data.split(' ');
+    _.each(asinData, (item, index) => {
+      const res = item.match(regex);
+      if (res) {
+        asinData[index] = res[1];
+      }
+    });
+    return asinData.join();
   };
 
   useEffect(() => {
@@ -103,6 +117,14 @@ const InventoryFilters = (props: Props) => {
 
   const disableSearch = searchInput.length === 0 || searchError;
 
+  const handleOnPaste = (value: string) => {
+    const convertedData = convertAsinLinks(value);
+    setSearchInput(prevState => {
+      const prevStateArray = prevState.split(',').filter((s: string) => s.trim().length > 0);
+      return [...prevStateArray, convertedData].join(',');
+    });
+  };
+
   return (
     <section className={styles.filterSection}>
       <div className={styles.basicFilters}>
@@ -114,6 +136,7 @@ const InventoryFilters = (props: Props) => {
           handleChange={value => setSearchInput(value.toUpperCase())}
           className={styles.longInput}
           error={searchError}
+          handleOnPaste={handleOnPaste}
         />
 
         <RadioListFilters
