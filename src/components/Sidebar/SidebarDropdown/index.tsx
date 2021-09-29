@@ -28,7 +28,7 @@ interface Props {
   subOptionClassName: string;
 }
 
-const NavbarDropdown = (props: Props) => {
+const SidebarDropdown = (props: Props) => {
   const {
     currentPath,
     setCurrentPath,
@@ -143,4 +143,4 @@ const NavbarDropdown = (props: Props) => {
     </React.Fragment>
   );
 };
-export default NavbarDropdown;
+export default SidebarDropdown;
