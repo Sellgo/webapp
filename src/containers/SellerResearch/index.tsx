@@ -7,6 +7,7 @@ import styles from './index.module.scss';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
+import ProductMetaInformation from '../../components/ProductMetaInformation';
 
 /* Containers */
 import SellerMaps from './SellerMaps';
@@ -16,19 +17,29 @@ import SellerInventory from './SellerInventory';
 /* Actions */
 import { setUserOnboardingResources } from '../../actions/UserOnboarding';
 
+/* Selectors */
+import { getUserOnboarding, getUserOnboardingResources } from '../../selectors/UserOnboarding';
+
 /* Assets */
 import sellerDatabaseOnborading from '../../assets/onboardingResources/SellerResearch/sellerDatabaseOnboarding.json';
 import sellerMapOnborading from '../../assets/onboardingResources/SellerResearch/sellerMapOnboarding.json';
 
+/* Constants */
+import { SELLER_RESEARCH_PRODUCT_DETAILS } from '../../constants/SellerResearch';
+import {
+  FALLBACK_ONBOARDING_DETAILS,
+  GENERAL_TUTORIAL_INDEX,
+} from '../../constants/UserOnboarding';
+
 interface Props {
   match: any;
   setUserOnboardingResources: (payload: any) => void;
+  userOnboarding: boolean;
+  userOnboardingResources: any[];
 }
 
-const SellerResearchMapper = ['Database', 'Map', 'Inventories'];
-
 const SellerResearch = (props: Props) => {
-  const { match, setUserOnboardingResources } = props;
+  const { match, setUserOnboardingResources, userOnboardingResources, userOnboarding } = props;
 
   const [selectedTabList, setSelectedTabList] = useState<number>(2);
 
@@ -44,6 +55,13 @@ const SellerResearch = (props: Props) => {
     }
   }, [selectedTabList]);
 
+  /* User onboarding logic */
+  const tutorialOnboardingDetails = userOnboardingResources[GENERAL_TUTORIAL_INDEX] || {};
+  const showTutorialOnboarding =
+    userOnboarding && Object.keys(tutorialOnboardingDetails).length > 0;
+  const { youtubeLink, displayText } =
+    tutorialOnboardingDetails.Tutorial || FALLBACK_ONBOARDING_DETAILS;
+
   return (
     <>
       <PageHeader
@@ -51,15 +69,24 @@ const SellerResearch = (props: Props) => {
         breadcrumb={[
           { content: 'Home', to: '/' },
           { content: 'Seller Research', to: '/seller-research' },
+          {
+            content: SELLER_RESEARCH_PRODUCT_DETAILS[selectedTabList].name,
+            to: '/seller-research',
+          },
         ]}
         auth={match.params.auth}
       />
 
       <main className={styles.sellerResearchPage}>
-        {/* Filter meta data */}
-        <section className={styles.filterMetaData}>
-          <h1>Seller Research: {SellerResearchMapper[selectedTabList]}</h1>
-        </section>
+        {/* Product Meta Information */}
+        <ProductMetaInformation
+          selectedIndex={selectedTabList}
+          informationDetails={SELLER_RESEARCH_PRODUCT_DETAILS}
+          showTutorialOnboarding={showTutorialOnboarding}
+          onboardingDisplayText={displayText}
+          onboardingYoutubeLink={youtubeLink}
+          isNewTutorial={true}
+        />
 
         {/* Filter product selection */}
         <section className={styles.productSelectionList}>
@@ -99,4 +126,11 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(SellerResearch);
+const mapStateToProps = (state: any) => {
+  return {
+    userOnboarding: getUserOnboarding(state),
+    userOnboardingResources: getUserOnboardingResources(state),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SellerResearch);

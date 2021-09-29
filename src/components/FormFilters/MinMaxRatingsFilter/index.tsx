@@ -81,6 +81,7 @@ const MinMaxRatingsFilter: React.FC<Props> = props => {
           emptySymbol={<Icon name="star outline" className={iconClassName} />}
           fullSymbol={<Icon name="star" className={iconClassName} />}
           placeholderSymbol={<Icon name="star" className={iconClassName} />}
+          fractions={2}
           onChange={(value: number) => {
             handleChange && handleChange('min', String(value));
           }}
@@ -92,6 +93,7 @@ const MinMaxRatingsFilter: React.FC<Props> = props => {
           emptySymbol={<Icon name="star outline" className={iconClassName} />}
           fullSymbol={<Icon name="star" className={iconClassName} />}
           placeholderSymbol={<Icon name="star" className={iconClassName} />}
+          fractions={2}
           onChange={(value: number) => {
             handleChange && handleChange('max', String(value));
           }}

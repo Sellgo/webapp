@@ -15,6 +15,7 @@ interface Props extends RowCell {
   prependWith?: string;
   align?: 'left' | 'right' | 'center';
   specialKpi?: boolean;
+  asRounded?: boolean;
 }
 
 const StatsCell = (props: Props) => {
@@ -23,6 +24,7 @@ const StatsCell = (props: Props) => {
     prependWith = '',
     align = 'left',
     specialKpi = false,
+    asRounded = true,
     ...otherProps
   } = props;
 
@@ -43,7 +45,7 @@ const StatsCell = (props: Props) => {
       break;
   }
 
-  let displayStat = formatNumber(rowData[dataKey]);
+  let displayStat = asRounded ? formatNumber(rowData[dataKey]) : rowData[dataKey];
 
   // format position rank KPI seperately
   if (dataKey === 'position_rank' && !rowData[dataKey]) {

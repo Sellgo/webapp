@@ -13,14 +13,31 @@
 
 .radioboxWrapper {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
   margin-top: 8px;
 }
 
 .checkbox {
-  margin-right: 10px;
+  margin-bottom: 8px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 
   label {
+    color: $grey_6 !important;
     padding-left: 18px !important;
+  }
+
+  label::before {
+    border: 1px solid $grey_3 !important;
+    color: red !important;
+  }
+
+  input:checked ~ .box::after,
+  input:checked ~ label::after {
+    color: $grey_8 !important;
   }
 }

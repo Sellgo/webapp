@@ -29,6 +29,8 @@ interface Props {
   handleChange: (type: string, value: string) => void;
   userOnboardingResources: any;
   userOnboarding: boolean;
+  appendWith?: string;
+  prependWith?: string;
 }
 
 const MinMaxFilter: React.FC<Props> = props => {
@@ -39,6 +41,8 @@ const MinMaxFilter: React.FC<Props> = props => {
     handleChange,
     userOnboardingResources,
     userOnboarding,
+    appendWith,
+    prependWith,
   } = props;
 
   const isError = React.useMemo(() => {
@@ -72,6 +76,7 @@ const MinMaxFilter: React.FC<Props> = props => {
       )}
 
       <div className={styles.inputWrapper}>
+        {prependWith && <span className={styles.append}>{prependWith}</span>}
         <Input
           type="number"
           placeholder="Min"
@@ -95,6 +100,7 @@ const MinMaxFilter: React.FC<Props> = props => {
           }}
           error={isError}
         />
+        {appendWith && <span className={styles.prepend}>{appendWith}</span>}
       </div>
     </div>
   );

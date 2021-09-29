@@ -86,13 +86,6 @@ export const calculateSellerInventoryTableExpandedHeight = (
 
   /* When sellers have products */
   if (numOfProducts > 0 && numofSellers <= 0) {
-    // const PRODUCTS_ROWS_OFFSET = 8;
-
-    // const sellerInventoryTableExpandedHeight =
-    //   (numOfProducts + PRODUCTS_ROWS_OFFSET) * SELLER_INVENTORY_PRODUCTS_TABLE_ROW_HEIGHT;
-
-    // console.log(sellerInventoryTableExpandedHeight);
-    // 820
     return 600;
   }
 

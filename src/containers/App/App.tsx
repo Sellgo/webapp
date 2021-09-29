@@ -27,8 +27,8 @@ import ChurnFlow from '../ChurnFlow';
 import SellerFinder from '../SellerFinder';
 
 import SellerResearch from '../SellerResearch';
-import KeywordResearch from '../KeywordResearch';
 import ProductResearch from '../ProductResearch';
+import KeywordResearch from '../KeywordResearch';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import { isBetaAccount } from '../../utils/subscriptions';
@@ -248,13 +248,6 @@ function App() {
 
           <PrivateRoute
             exact={true}
-            path="/churnflow"
-            component={ChurnFlow}
-            requireSubscription={true}
-          />
-
-          <PrivateRoute
-            exact={true}
             path="/product-research"
             component={ProductResearch}
             requireSubscription={true}
@@ -264,6 +257,13 @@ function App() {
             exact={true}
             path="/keyword-research"
             component={KeywordResearch}
+            requireSubscription={true}
+          />
+
+          <PrivateRoute
+            exact={true}
+            path="/churnflow"
+            component={ChurnFlow}
             requireSubscription={true}
           />
 

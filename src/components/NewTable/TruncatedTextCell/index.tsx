@@ -1,17 +1,43 @@
 import React, { memo } from 'react';
 import { Table } from 'rsuite';
 
+/* Styling */
+import styles from './index.module.scss';
+
 /* Utils */
 import { truncateString } from '../../../utils/format';
 
-/* Types */
+/* Interface */
 import { RowCell } from '../../../interfaces/Table';
+import { prettyPrintSeller } from '../../../constants/SellerResearch/SellerDatabase';
 
-const TruncatedTextCell = (props: RowCell) => {
-  const { rowData, dataKey } = props;
-  const rowContent = rowData[dataKey].join(',') || '-';
+/* Interface */
+interface Props extends RowCell {
+  maxLength?: number;
+}
 
-  return <Table.Cell {...props}>{truncateString(rowContent, 20)}</Table.Cell>;
+const TruncatedTextCell = (props: Props) => {
+  const { rowData, dataKey, maxLength = 20 } = props;
+
+  let displayText = '';
+
+  const rawContent = rowData[dataKey] || '-';
+
+  if (Array.isArray(rawContent)) {
+    displayText = rawContent.join(',');
+  } else if (typeof rawContent === 'string') {
+    displayText = rawContent;
+  }
+
+  if (dataKey === 'seller_type') {
+    displayText = prettyPrintSeller(displayText);
+  }
+
+  return (
+    <Table.Cell {...props}>
+      <div className={styles.truncatedTextCell}>{truncateString(displayText, maxLength)}</div>
+    </Table.Cell>
+  );
 };
 
 export default memo(TruncatedTextCell);

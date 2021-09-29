@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Dropdown } from 'semantic-ui-react';
 
@@ -42,9 +42,10 @@ const SelectionFilter: React.FC<Props> = props => {
     placeholder,
     value,
     handleChange,
+    disabled = false,
+    loading = false,
     userOnboardingResources,
     userOnboarding,
-    ...otherProps
   } = props;
 
   /* Onboarding logic */
@@ -53,6 +54,17 @@ const SelectionFilter: React.FC<Props> = props => {
 
   const { youtubeLink, tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
 
+  useEffect(() => {
+    const allSelectionDropdown = document.querySelectorAll('.selectionFilterWrapper');
+    if (allSelectionDropdown) {
+      allSelectionDropdown.forEach(dropdown => {
+        const inputBox = dropdown.querySelector('input.search');
+        if (inputBox) {
+          inputBox.setAttribute('autocomplete', 'chrome-off');
+        }
+      });
+    }
+  }, []);
   return (
     <div className="selectionFilterWrapper">
       {label && (
@@ -71,15 +83,17 @@ const SelectionFilter: React.FC<Props> = props => {
       )}
 
       <Dropdown
-        search
         fluid
+        search
         className="selectionFilter"
         options={filterOptions}
         placeholder={placeholder}
         scrolling
         value={value}
-        onChange={(e: any, data: any) => handleChange && handleChange(data.value)}
-        {...otherProps}
+        onChange={(e: any, data: any) => handleChange(data.value)}
+        disabled={disabled}
+        loading={loading}
+        autoComplete={'chrome-off'}
       />
     </div>
   );

@@ -82,7 +82,6 @@ class SidebarCollapsible extends Component<
         path: '/seller-research',
         notifyId: 4,
         imageType: true,
-        isBeta: true,
       },
       {
         id: 6,
@@ -112,13 +111,6 @@ class SidebarCollapsible extends Component<
         isBeta: true,
       },
       { id: 9, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
-      {
-        id: 10,
-        label: 'Onboarding',
-        icon: 'far fa-question-circle',
-        path: '/onboarding',
-        notifyId: 3,
-      },
     ],
     visible: false,
     openConfirm: false,
@@ -192,24 +184,16 @@ class SidebarCollapsible extends Component<
             return (
               <Menu.Item
                 key={icon.id}
-                as={
-                  (isFreeeAccount && icon.id === 10) || (isBetaUser && icon.path === '/settings')
-                    ? 'div'
-                    : Link
-                }
+                as={isBetaUser && icon.path === '/settings' ? 'div' : Link}
                 to={icon.path}
                 name={icon.icon}
                 active={links[icon.id - 1] === currentPath}
                 className={'sidebar-menu__items'}
-                disabled={
-                  (isFreeeAccount && icon.id === 10) || (isBetaUser && icon.path === '/settings')
-                }
+                disabled={isBetaUser && icon.path === '/settings'}
               >
                 <i
                   className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId && 'forward'} ${
-                    (isFreeeAccount && icon.id === 10) || (isBetaUser && icon.path === '/settings')
-                      ? 'disabled-link'
-                      : ''
+                    isBetaUser && icon.path === '/settings' ? 'disabled-link' : ''
                   } `}
                 />
               </Menu.Item>
