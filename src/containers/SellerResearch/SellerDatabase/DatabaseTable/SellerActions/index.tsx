@@ -60,14 +60,12 @@ const SellerActions = (props: Props) => {
     <>
       <Table.Cell {...otherProps}>
         <div className={styles.actionCellWrapper}>
-          <div
-            className={`${isSellerTracked ? styles.actionCellActive : styles.actionCellInActive}`}
-          >
+          <div className={styles.actionCell}>
             <button
               className={styles.actionButton}
               onClick={() => handleSellerTrack(false)}
               style={{
-                color: isSellerTracked ? '#2F8DDF' : '#636d76',
+                color: isSellerTracked ? '#3b4557' : '#636d76',
                 fontWeight: isSellerTracked ? 500 : 400,
               }}
             >
