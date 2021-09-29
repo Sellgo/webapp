@@ -23,6 +23,9 @@ import {
   createSubscription,
   retryInvoiceWithNewPaymentMethod,
   setStripeLoading,
+  checkPromoCode,
+  setPromoError,
+  setPromoCode,
 } from '../../../../actions/Settings/Subscription';
 
 /* Hooks */
@@ -37,6 +40,9 @@ import { subscriptionPlans } from '../../data';
 
 /* Styling */
 import styles from './index.module.scss';
+
+/* Types */
+import { PromoCode } from '../../../../interfaces/Subscription';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -64,12 +70,28 @@ interface MyProps {
   handlePaymentError: (data: any) => void;
   setStripeLoad: (data: boolean) => void;
   stripeLoading: boolean;
+  checkPromoCode: (data: string) => void;
+  promoLoading: boolean;
+  setRedeemedPromoCode: (promoCode: any) => void;
+  redeemedPromoCode: PromoCode;
+  setPromoError: (err: string) => void;
+  promoError: string;
 }
 
 function CheckoutForm(props: MyProps) {
   const stripe: any = useStripe();
   const elements = useElements();
-  const { stripeLoading } = props;
+  const {
+    stripeLoading,
+    checkPromoCode,
+    redeemedPromoCode,
+    promoError,
+    promoLoading,
+    setRedeemedPromoCode,
+    setPromoError,
+  } = props;
+  const [isPromoCodeChecked, setPromoCodeChecked] = useState<boolean>(false);
+  const [promoCode, setPromoCode] = useState<string>('');
   const { value: name, bind: bindName } = useInput('');
   const { value: address, bind: bindAddress } = useInput('');
   const { value: city, bind: bindCity } = useInput('');
@@ -81,6 +103,30 @@ function CheckoutForm(props: MyProps) {
     code: 'US',
     value: 'US',
   });
+
+  /* Upon successful checking of the entered promo code, either a valid redeemedPromoCode code 
+  is returned, or an error message is returned. Upon completion of promo code check, set status 
+  to checked and display success/error msg. */
+  React.useEffect(() => {
+    if (
+      (redeemedPromoCode && redeemedPromoCode.message && redeemedPromoCode.message.length > 0) ||
+      promoError.length > 0
+    ) {
+      setPromoCodeChecked(true);
+    }
+  }, [redeemedPromoCode, promoError]);
+
+  const handleCheckPromoCode = async (event: any) => {
+    event.preventDefault();
+    checkPromoCode(promoCode);
+  };
+
+  const handlePromoCodeChange = (event: any) => {
+    setPromoCode(event.target.value.toUpperCase());
+    setPromoCodeChecked(false);
+    setRedeemedPromoCode({});
+    setPromoError('');
+  };
 
   const handleCountry = (data: any) => {
     setSelectedCountry(data);
@@ -165,6 +211,7 @@ function CheckoutForm(props: MyProps) {
           subscription_id: getSubscriptionID(accountType),
           payment_method_id: paymentMethodId,
           payment_mode: paymentMode,
+          promo_code: promoCode,
         };
         Axios.defaults.headers.common.Authorization = ``;
         createSubscriptionData(data);
@@ -276,6 +323,29 @@ function CheckoutForm(props: MyProps) {
           />
         </Form.Group>
 
+        <h2>Redeem Coupon</h2>
+        <Form.Group className={`${styles.formGroup} ${styles.formGroup__promo}`}>
+          <Form.Input
+            className={`${styles.formInput} ${styles.formInput__promo}`}
+            size="huge"
+            type="text"
+            placeholder="Coupon Code"
+            value={promoCode}
+            onChange={handlePromoCodeChange}
+          />
+          <button
+            disabled={!promoCode || promoLoading}
+            className={styles.redeemButton}
+            onClick={handleCheckPromoCode}
+          >
+            Redeem
+          </button>
+          <p className={styles.redemptionMessage__success}>
+            {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message}
+          </p>
+          <p className={styles.redemptionMessage__error}>{isPromoCodeChecked && promoError}</p>
+        </Form.Group>
+
         <div className={styles.paymentMeta}>
           <div className={styles.cardsWrapper}>
             <img className={styles.cardsWrapper__cards} src={cardIcons} alt="cards" />
@@ -309,10 +379,16 @@ function CheckoutForm(props: MyProps) {
 const mapStateToProps = (state: {}) => ({
   sellerSubscription: get(state, 'subscription.sellerSubscription'),
   stripeLoading: get(state, 'subscription.stripeLoading'),
+  redeemedPromoCode: get(state, 'subscription.promoCode'),
+  promoLoading: get(state, 'subscription.promoLoading'),
+  promoError: get(state, 'subscription.promoError'),
 });
 const mapDispatchToProps = {
   createSubscriptionData: (data: any) => createSubscription(data),
   retryInvoice: (data: any) => retryInvoiceWithNewPaymentMethod(data),
   setStripeLoad: (data: boolean) => setStripeLoading(data),
+  checkPromoCode: (data: string) => checkPromoCode(data),
+  setRedeemedPromoCode: (data: any) => setPromoCode(data),
+  setPromoError: (data: string) => setPromoError(data),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm);
