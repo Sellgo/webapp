@@ -250,7 +250,7 @@ export const fetchKeywordDatabaseRequestId = (keywordList: string) => async (dis
       dispatch(shouldFetchKeywordDatabaseProgress(false));
     }
   } catch (err) {
-    console.log('Error fetching the keyword request Id', err);
+    console.error('Error fetching the keyword request Id', err);
     dispatch(setKeywordDatabaseRequestId(''));
     dispatch(isFetchingKeywordDatabaseRequestId(false));
   }
@@ -448,8 +448,6 @@ export const fetchKeywordDatabaseAggSummary = () => async (dispatch: any, getSta
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/aggregation?${resourcePath}`;
 
     const { data } = await axios.get(URL);
-
-    console.log(data);
 
     if (data) {
       dispatch(setKeywordDatabaseAggSummary(data));
