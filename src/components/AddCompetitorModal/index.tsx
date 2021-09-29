@@ -5,26 +5,42 @@ import styles from './index.module.scss';
 
 /* Components */
 import FormFilterActions from '../FormFilters/FormFilterActions';
-import InputFilter from '../FormFilters/InputFilter';
 import TextAreaInput from '../FormFilters/TextAreaInput';
-import MarketplaceDropdown from '../MarketplaceDropdown';
 
 /* Constants */
 import { MAX_COMPETITORS_ALLOWED } from '../../constants/KeywordResearch/KeywordTracker';
+import { isValidAsin } from '../../constants';
+
+/* Utils */
+import { truncateString } from '../../utils/format';
+
+/* Assets */
+import placeholderImage from '../../assets/images/placeholderImage.svg';
 
 /* Interfaces */
 import { AddCompetitorsPayload } from '../../interfaces/KeywordResearch/KeywordTracker';
-import { isValidAsin } from '../../constants';
+
+interface ProductDetails {
+  title: string;
+  image: string;
+}
 
 interface Props {
   currentCompetitorsCount: number;
   onSubmit: (payload: AddCompetitorsPayload) => void;
   parentAsin: string;
   keywordTrackProductId: number;
+  productDetails: ProductDetails;
 }
 
 const AddCompetitorsModal = (props: Props) => {
-  const { currentCompetitorsCount, parentAsin, keywordTrackProductId, onSubmit } = props;
+  const {
+    currentCompetitorsCount,
+    parentAsin,
+    keywordTrackProductId,
+    onSubmit,
+    productDetails,
+  } = props;
 
   const [competitorsAsins, setCompetitorsAsins] = useState('');
   const [newlyAddedCompetitorsCount, setNewlyAddedCompetitorsCount] = useState(0);
@@ -70,24 +86,27 @@ const AddCompetitorsModal = (props: Props) => {
     setNewlyAddedCompetitorsCount(addedAsinLength);
   }, [competitorsAsins]);
 
+  const { image, title } = productDetails;
+
   return (
     <div className={styles.addCompetitorModal}>
       <div className={styles.metaData}>
         <h1>ADD COMPETITORS</h1>
-        <MarketplaceDropdown />
       </div>
 
       <div className={styles.filterForm}>
-        <InputFilter
-          placeholder="Product ASIN"
-          value={parentAsin}
-          disabled
-          label="Product ASIN"
-          handleChange={() => {
-            return;
-          }}
-          className={styles.longInput}
-        />
+        <div className={styles.productDetails}>
+          <div className={styles.productImage}>
+            <img src={image ? image : placeholderImage} alt={title} />
+          </div>
+          <div className={styles.productInfo}>
+            <h3>{truncateString(title, 110)}</h3>
+            <div className={styles.marketplaceInfo}>
+              <img src={require(`../../assets/flags/US.png`)} alt="American Flag" />
+              <span>{parentAsin}</span>
+            </div>
+          </div>
+        </div>
 
         <div style={{ marginTop: '30px' }} />
 

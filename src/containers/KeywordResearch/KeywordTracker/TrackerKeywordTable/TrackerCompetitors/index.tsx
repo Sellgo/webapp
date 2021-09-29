@@ -109,6 +109,10 @@ const TrackerCompetitors = (props: Props) => {
             onSubmit={handleAddCompetitors}
             parentAsin={keywordTrackerProductsExpandedRow.asin}
             keywordTrackProductId={keywordTrackerProductsExpandedRow.keyword_track_product_id}
+            productDetails={{
+              image: keywordTrackerProductsExpandedRow.image_url,
+              title: keywordTrackerProductsExpandedRow.title,
+            }}
           />
         }
       />

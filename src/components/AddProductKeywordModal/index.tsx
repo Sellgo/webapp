@@ -18,7 +18,7 @@ import CheckboxFilter from '../FormFilters/CheckboxFilter';
 import { removeSpecialCharctersFromKeywords, truncateString } from '../../utils/format';
 
 /* Assets */
-import placeholderImage from '../../assets/placeholder.svg';
+import placeholderImage from '../../assets/images/placeholderImage.svg';
 
 /* Interfaces */
 import { isValidAsin } from '../../constants';
