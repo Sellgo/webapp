@@ -4,7 +4,7 @@ const DEV_URLS = {
   BASE_URL_API: 'https://api.sellgo-dev.com/api/',
   CHANGE_PASS_API_URL: 'https://sellgo-dev.auth0.com/dbconnections/change_password',
   WEB_URL: 'https://sellgo-dev.com',
-  WEBSOCKET_URL: 'wss://api.sellgo-dev.com/ws',
+  WEBSOCKET_URL: 'ws://18.207.105.104/ws',
 };
 
 const PROD_URLS = {

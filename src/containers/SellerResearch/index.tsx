@@ -12,6 +12,7 @@ import ProductMetaInformation from '../../components/ProductMetaInformation';
 /* Containers */
 import SellerMaps from './SellerMaps';
 import SellerDatabase from './SellerDatabase';
+import SellerInventory from './SellerInventory';
 
 /* Actions */
 import { setUserOnboardingResources } from '../../actions/UserOnboarding';
@@ -96,8 +97,9 @@ const SellerResearch = (props: Props) => {
             selectedIndex={selectedTabList}
           >
             <TabList className={styles.productTablist}>
-              <Tab>DATABASE</Tab>
-              <Tab>MAP</Tab>
+              <Tab>Sellers</Tab>
+              <Tab>Map</Tab>
+              <Tab>Inventory</Tab>
             </TabList>
 
             <TabPanel>
@@ -106,6 +108,10 @@ const SellerResearch = (props: Props) => {
 
             <TabPanel>
               <SellerMaps />
+            </TabPanel>
+
+            <TabPanel>
+              <SellerInventory />
             </TabPanel>
           </Tabs>
         </section>

@@ -1,0 +1,127 @@
+@import '../../../../styles/tableReset';
+@import '../../../../design-system/new-colors';
+
+#sellerInventoryTable {
+  #sellerProductsTable {
+    #productsSellersTable {
+      // header section
+      .rs-table-row-header {
+        border-radius: 0 !important;
+        border: 0 !important;
+        background: $light_gray_background;
+
+        // column heder cell
+        .rs-table-cell-content {
+          display: flex !important;
+          align-items: center !important;
+          font-size: 12px !important;
+          color: $grey_6 !important;
+          background: $light_gray_background !important;
+          border: 0 !important;
+          font-weight: 500 !important;
+          padding: 3px 10px !important;
+        }
+      }
+
+      // body section
+      .rs-table-body-row-wrapper {
+        background: $light_gray_background !important;
+
+        .rs-table-body-wheel-area {
+          transform: none !important;
+          overflow-x: hidden !important;
+          overflow-y: auto !important;
+          min-height: 0 !important;
+          height: calc(100% - 55px) !important;
+
+          /* width */
+          &::-webkit-scrollbar {
+            width: 8px !important;
+            height: 10px !important;
+          }
+
+          /* Track */
+          &::-webkit-scrollbar-track {
+            border-radius: 5px;
+            background-color: $grey_1 !important;
+          }
+
+          /* Handle */
+          &::-webkit-scrollbar-thumb {
+            background: $grey_6 !important;
+            border-radius: 3px;
+          }
+
+          /* Handle on hover */
+          &::-webkit-scrollbar-thumb:hover {
+            background: $grey_6 !important;
+          }
+
+          .rs-table-row {
+            // height: 190px !important; // should be rowheight - 10px i gap between rows is needed
+
+            // remove residue from parent if any
+            // add border-top on each row and remove other border's
+            border: 0 !important;
+            border-top: 1px solid $grey_3 !important;
+
+            &:last-child {
+              border-bottom: 1px solid $grey_3 !important;
+            }
+
+            /* ============== ZEBRA PATTERN  =============== */
+            &:nth-child(2n) {
+              background: $light_gray_background !important;
+
+              .rs-table-cell-content {
+                background: $light_gray_background !important;
+                padding: 3px 10px !important;
+
+                // remove residue from parent (if any)
+                border: 0 !important;
+              }
+            }
+
+            &:nth-child(2n + 1) {
+              background: $grey_1 !important;
+
+              .rs-table-cell-content {
+                background: $grey_1 !important;
+                padding: 3px 10px !important;
+
+                // remove residue from parent (if any)
+                border: 0 !important;
+              }
+            }
+
+            /* ============== ROW HOVER  =============== */
+            &:hover {
+              background: $orange_10 !important;
+
+              .rs-table-cell-content {
+                background: $orange_10 !important;
+              }
+            }
+          }
+        }
+
+        // Loader wrapper
+        .rs-table-loader-wrapper {
+          background: $light_gray_background !important;
+
+          .rs-table-loader {
+            background: $light_gray_background !important;
+          }
+        }
+      }
+    }
+
+    .rs-table-scrollbar-horizontal {
+      display: none !important;
+    }
+
+    .rs-table-scrollbar-vertical {
+      display: none !important;
+    }
+  }
+}

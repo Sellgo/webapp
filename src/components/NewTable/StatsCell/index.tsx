@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Table } from 'rsuite';
 
 /* Styling */
@@ -64,4 +64,4 @@ const StatsCell = (props: Props) => {
   );
 };
 
-export default StatsCell;
+export default memo(StatsCell);

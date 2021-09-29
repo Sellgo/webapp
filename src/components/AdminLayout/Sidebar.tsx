@@ -9,7 +9,6 @@ import { getLatestSupplier } from '../../actions/Suppliers';
 import get from 'lodash/get';
 
 import { LogoWithoutText } from '../Logo/index';
-import sellerFinderIcon from '../../assets/images/sellerFinder.svg';
 import productResearchIcon from '../../assets/images/product-research.svg';
 import sellerMapIcon from '../../assets/images/sellerMapIcon.svg';
 import placeholderIcon from '../../assets/placeholder.svg';
@@ -85,15 +84,6 @@ class SidebarCollapsible extends Component<
       },
       {
         id: 6,
-        label: 'Seller Finder',
-        icon: sellerFinderIcon,
-        path: '/seller-finder',
-        notifyId: 4,
-        imageType: true,
-        isBeta: true,
-      },
-      {
-        id: 7,
         label: 'Product Research',
         icon: productResearchIcon,
         path: '/product-research',
@@ -102,7 +92,7 @@ class SidebarCollapsible extends Component<
         isBeta: true,
       },
       {
-        id: 8,
+        id: 7,
         label: 'Keyword Research',
         icon: placeholderIcon,
         path: '/keyword-research',
@@ -110,7 +100,7 @@ class SidebarCollapsible extends Component<
         imageType: true,
         isBeta: true,
       },
-      { id: 9, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
+      { id: 8, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
     ],
     visible: false,
     openConfirm: false,
@@ -122,8 +112,8 @@ class SidebarCollapsible extends Component<
     const { visible, sidebarIcon } = this.state;
     const { children, currentNotifyId, sellerSubscription } = this.props;
 
-    const upperNavbar = this.state.sidebarIcon.filter(icon => icon.id < 9);
-    const lowerNavbar = this.state.sidebarIcon.filter(icon => icon.id >= 9);
+    const upperNavbar = this.state.sidebarIcon.filter(icon => icon.id < 8);
+    const lowerNavbar = this.state.sidebarIcon.filter(icon => icon.id >= 8);
 
     let supplier_id = '';
 
