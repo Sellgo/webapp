@@ -128,7 +128,7 @@ const SidebarDropdown = (props: Props) => {
                   >
                     <div className={styles.navIcon}>
                       {subOption.isBeta && <BetaLabel isNav />}
-                      <img src={option.icon} alt="nav-icon" />
+                      <img src={subOption.icon} alt="nav-icon" />
                     </div>
                     <div className={styles.subOptionText}>
                       <p className={styles.label}>{subOption.label}</p>

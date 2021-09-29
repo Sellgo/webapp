@@ -39,8 +39,6 @@ const Sidebar = (props: Props) => {
   const [currentPath, setCurrentPath] = React.useState<string>(match.url);
 
   const activePageIndex = getActiveIndex(currentPath);
-  console.log(currentPath);
-  console.log(activePageIndex);
   const [expandedIndex, setExpandedIndex] = React.useState<number>(activePageIndex);
 
   const handleDisableNavOption = (label: string, options: NavOptions) => {
