@@ -1,22 +1,30 @@
 @import '../../../../design-system/new-colors';
 
-.exportsContainer {
+.trackerTableMeta {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   margin-top: 30px;
   margin-bottom: 8px;
+}
 
-  .messageText {
-    font-size: 14px;
-    color: $prim_dark_1 !important;
-    margin: 0;
-    font-weight: normal;
-    line-height: 1;
-  }
+.addNewProduct {
+  background: $accent_orange;
+  height: 34px;
+  color: #fff;
+  border-radius: 7px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 170px;
+  font-size: 14px;
 
-  .sellerCount {
-    font-weight: 500;
+  svg {
+    margin: 0 5px;
+
+    path {
+      color: #fff !important;
+    }
   }
 }
 
@@ -25,7 +33,7 @@
 }
 
 .searchInput {
-  margin-left: 10px;
+  margin-left: 30px;
 
   input {
     border: 1px solid $grey_3 !important;
@@ -52,6 +60,8 @@
   }
 }
 
-.exportButton {
-  margin-left: auto;
+.addProductModal {
+  border: 0 !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
 }

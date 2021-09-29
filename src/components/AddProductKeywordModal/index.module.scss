@@ -1,0 +1,51 @@
+@import '../../design-system/new-colors.scss';
+
+.addProductKeywordModal {
+  border-radius: 7px !important;
+  background: #fff;
+  border: 1px solid $grey_3 !important;
+}
+
+.metaData {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid $grey_3;
+
+  h1 {
+    color: $grey_8;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+.filterForm {
+  padding: 0 20px;
+  margin-top: 30px;
+}
+
+.longInput {
+  min-width: 100% !important;
+  width: 100% !important;
+}
+
+.addKeywordTextArea {
+  textarea {
+    min-height: 200px !important;
+    line-height: 1.5 !important;
+  }
+}
+
+.leftOverMessage {
+  color: $grey_6 !important;
+  font-size: 12px;
+  text-align: right;
+  margin-right: 20px;
+
+  span {
+    color: $grey_8 !important;
+    font-weight: 500;
+    margin-left: 10px;
+  }
+}

@@ -1,35 +1,40 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Icon, Input } from 'semantic-ui-react';
+import { Icon, Input, Modal } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
 
-/* Utils */
-import { formatNumber } from '../../../../utils/format';
-
-/* Selectors */
-import { getKeywordTrackerProductsTablePaginationInfo } from '../../../../selectors/KeywordResearch/KeywordTracker';
-
 /* Actions */
-import { fetchKeywordTrackerProductsTable } from '../../../../actions/KeywordResearch/KeywordTracker';
+import {
+  fetchKeywordTrackerProductsTable,
+  trackProductWithAsinAndKeywords,
+} from '../../../../actions/KeywordResearch/KeywordTracker';
+
+/* Components */
+import AddProductKeywordModal from '../../../../components/AddProductKeywordModal';
 
 /* Interfaces */
 import {
-  KeywordTrackerProductsTablePaginationInfo,
+  ProductTrackPayload,
   TrackerTableProductsPayload,
 } from '../../../../interfaces/KeywordResearch/KeywordTracker';
 
+/* Assets */
+import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
+
 interface Props {
-  keywordTrackerProductsTablePaginationInfo: KeywordTrackerProductsTablePaginationInfo;
   fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) => void;
+  trackProductWithAsinAndKeywords: (payload: ProductTrackPayload) => void;
 }
 
 const TrackerExport = (props: Props) => {
-  const { keywordTrackerProductsTablePaginationInfo, fetchKeywordTrackerProductsTable } = props;
+  const { trackProductWithAsinAndKeywords, fetchKeywordTrackerProductsTable } = props;
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [addProductModal, setAddProductModal] = useState(false);
 
+  /* Handle submit after search */
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
@@ -38,18 +43,25 @@ const TrackerExport = (props: Props) => {
     });
   };
 
-  return (
-    <div className={styles.exportsContainer}>
-      {keywordTrackerProductsTablePaginationInfo.total_pages > 0 && (
-        <p className={styles.messageText}>
-          Viewing{' '}
-          <span className={styles.sellerCount}>
-            {formatNumber(keywordTrackerProductsTablePaginationInfo.count)}
-          </span>{' '}
-          products.
-        </p>
-      )}
+  /* Track new product or ASIN */
+  const handleTrackProduct = (payload: any) => {
+    const sendPayload = {
+      asin: payload.asin,
+      keywords: payload.keywords,
+      trackParentsAndVariations: payload.trackParentsAndVariations,
+    };
+    trackProductWithAsinAndKeywords(sendPayload);
+  };
 
+  return (
+    <div className={styles.trackerTableMeta}>
+      {/* Track product and keywords */}
+      <button className={styles.addNewProduct} onClick={() => setAddProductModal(true)}>
+        <ThinAddIcon />
+        Add New Product
+      </button>
+
+      {/* Search keywords on child table */}
       <form onSubmit={handleSubmit}>
         <Input
           icon={<Icon name="search" className={styles.searchIcon} />}
@@ -60,21 +72,32 @@ const TrackerExport = (props: Props) => {
           onChange={e => setSearchTerm(e.target.value)}
         />
       </form>
+
+      {/* Add Products Modal */}
+      <Modal
+        open={addProductModal}
+        className={styles.addProductModal}
+        onClose={() => setAddProductModal(false)}
+        content={
+          <AddProductKeywordModal
+            parentAsin=""
+            currentKeywordsCount={0}
+            onSubmit={handleTrackProduct}
+            closeModal={() => setAddProductModal(false)}
+          />
+        }
+      />
     </div>
   );
-};
-
-const mapStateToProps = (state: any) => {
-  return {
-    keywordTrackerProductsTablePaginationInfo: getKeywordTrackerProductsTablePaginationInfo(state),
-  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) =>
       dispatch(fetchKeywordTrackerProductsTable(payload)),
+    trackProductWithAsinAndKeywords: (payload: ProductTrackPayload) =>
+      dispatch(trackProductWithAsinAndKeywords(payload)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TrackerExport);
+export default connect(null, mapDispatchToProps)(TrackerExport);

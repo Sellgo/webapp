@@ -4,17 +4,15 @@ import React from 'react';
 import styles from './index.module.scss';
 
 /* Containers */
-import TrackerFilters from './TrackerFilters';
-import TrackerProgress from './TrackerProgress';
 import TrackerTableMeta from './TrackerTableMeta';
+import TrackerProgress from './TrackerProgress';
 import TrackerTable from './TrackerTable';
 
 const KeywordTracker = () => {
   return (
     <main className={styles.keywordDatabasePage}>
-      <TrackerFilters />
-      <TrackerProgress />
       <TrackerTableMeta />
+      <TrackerProgress />
       <TrackerTable />
     </main>
   );
