@@ -65,7 +65,7 @@ const SellerActions = (props: Props) => {
               className={styles.actionButton}
               onClick={() => handleSellerTrack(false)}
               style={{
-                color: isSellerTracked ? '#2F8DDF' : '#3b4557',
+                color: isSellerTracked ? '#2F8DDF' : '#636d76',
                 fontWeight: isSellerTracked ? 500 : 400,
               }}
             >
@@ -82,12 +82,12 @@ const SellerActions = (props: Props) => {
                 <>
                   <div className={styles.actionOptions}>
                     <p>ASIN</p>
-                    <button onClick={() => handleCopyAsins(',')}>
+                    <button onClick={() => handleCopyAsins(',')} disabled={!parsedAsinList.length}>
                       <Icon name="copy outline" />
                       <span>Copy ASINs in rows with comma</span>
                     </button>
 
-                    <button onClick={() => handleCopyAsins('\n')}>
+                    <button onClick={() => handleCopyAsins('\n')} disabled={!parsedAsinList.length}>
                       <Icon name="copy outline" />
                       <span>Copy ASINs in columns</span>
                     </button>

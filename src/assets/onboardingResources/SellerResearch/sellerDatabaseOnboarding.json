@@ -1,5 +1,16 @@
 [
   {
+    "Tutorial": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "displayText": "Tutorial | 5-min watch"
+    }
+  },
+
+  {
+    "Choose Marketplace": {
+      "youtubeLink": "",
+      "tooltipText": "Sponsored  | 2 min watch"
+    },
     "Merchant Name": {
       "youtubeLink": "",
       "tooltipText": "Sponsored  | 2 min watch"
@@ -27,7 +38,7 @@
   },
 
   {
-    "All Sellers": {
+    "Export": {
       "youtubeLink": "",
       "tooltipText": "Export all the table results"
     }

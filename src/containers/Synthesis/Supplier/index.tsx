@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Grid, Segment, Modal, Icon, Popup, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PageHeader from '../../../components/PageHeader';
-import QuotaMeter from '../../../components/QuotaMeter';
 import ProductsTable from './ProductsTable';
 import get from 'lodash/get';
 import ProductDetails from './ProductDetails';
@@ -216,7 +215,6 @@ export class Supplier extends React.Component<SupplierProps, any> {
             { content: `Profit Finder` },
             { content: isLoadingSupplierProducts ? '' : renderSupplierPopup() || 'Search' },
           ]}
-          callToAction={<QuotaMeter />}
           auth={match.params.auth}
         />
 

@@ -4,7 +4,6 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import SellerFinderTable from './SellerFinderTable';
 import './index.scss';
 import PageHeader from '../../components/PageHeader';
-import QuotaMeter from '../../components/QuotaMeter';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { AppConfig } from '../../config';
 interface SellerFinderProps {
@@ -77,7 +76,6 @@ const SellerFinder = (props: SellerFinderProps) => {
             { content: 'Home', to: '/' },
             { content: 'Seller Finder', to: '/seller-finder' },
           ]}
-          callToAction={<QuotaMeter />}
           auth={match.params.auth}
         />
         <SellerFinderTable

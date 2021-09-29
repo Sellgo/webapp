@@ -59,7 +59,6 @@ const HeaderSortCell = (props: Props) => {
   const tableKpiOnboardingDetails = userOnboardingResources[TABLE_KPI_ONBOARDING_INDEX] || {};
   const showTableKpiOnboarding =
     userOnboarding && Object.keys(tableKpiOnboardingDetails).length > 0;
-
   const { youtubeLink, tooltipText } =
     tableKpiOnboardingDetails[dataKey] || FALLBACK_ONBOARDING_DETAILS;
 

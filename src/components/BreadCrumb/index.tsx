@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Breadcrumb, Icon } from 'semantic-ui-react';
+import { Breadcrumb } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 import './index.scss';
@@ -14,12 +14,7 @@ export default function BreadCrumb(props: Props) {
     // Object of props for each <Breadcrumb.Section>
     return {
       key: section.content,
-      content:
-        section.content === 'Home' ? (
-          <Icon name="home" size={'large'} className={'home-icon'} />
-        ) : (
-          section.content
-        ),
+      content: section.content,
       // If "to" specified then it is a link and
       // should be rendered as a React Router link
       link: section.to ? true : false,
