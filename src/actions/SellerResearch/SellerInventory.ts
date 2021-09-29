@@ -498,7 +498,7 @@ export const fetchSellerInventoryProductsTableResults = (
   const sellerId = sellerIDSelector();
 
   try {
-    const { enableLoader = true, page = 1, perPage = 50, rowId } = payload;
+    const { enableLoader = true, page = 1, perPage = 100, rowId } = payload;
 
     const pagination = `page=${page}&per_page=${perPage}`;
 
@@ -599,7 +599,7 @@ export const fetchSellerInventoryProductsTableSellers = (
   const sellerId = sellerIDSelector();
 
   try {
-    const { enableLoader = true, page = 1, perPage = 20, parentAsin } = payload;
+    const { enableLoader = true, page = 1, perPage = 100, parentAsin } = payload;
 
     if (!parentAsin) {
       return;
