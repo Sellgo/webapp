@@ -9,6 +9,6 @@ export const KEYWORD_RESEARCH_PRODUCT_DETAILS = [
   },
   {
     name: 'Keyword Tracker',
-    desc: 'Need product summary from Richard for this one',
+    desc: 'Dominate Your Keywords and Get to #1 Spot of Search Results',
   },
 ];
