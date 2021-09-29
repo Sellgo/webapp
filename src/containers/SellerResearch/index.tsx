@@ -41,7 +41,7 @@ interface Props {
 const SellerResearch = (props: Props) => {
   const { match, setUserOnboardingResources, userOnboardingResources, userOnboarding } = props;
 
-  const [selectedTabList, setSelectedTabList] = useState<number>(2);
+  const [selectedTabList, setSelectedTabList] = useState<number>(0);
 
   const handleTabChange = (index: number) => {
     setSelectedTabList(index);
