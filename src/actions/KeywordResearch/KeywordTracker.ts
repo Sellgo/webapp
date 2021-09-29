@@ -10,6 +10,7 @@ import {
 /* Interfaces */
 import {
   AddCompetitorsPayload,
+  AddTrackerProductKeyword,
   KeywordTrackerProductsTablePaginationInfo,
   KeywordTrackerTableCompetitors,
   ProductTrackPayload,
@@ -34,6 +35,7 @@ import {
 /* Utils */
 import { error, success } from '../../utils/notifications';
 import { downloadFile } from '../../utils/download';
+import { formatNumber } from '../../utils/format';
 
 /* ================================================= */
 /*    KEYWORD TRACK MAIN TABLE (PRODUCTS)  */
@@ -478,6 +480,41 @@ export const unTrackTrackerProductTableKeyword = (payload: UnTrackProductsTableK
     console.error('Error Untracking/Deleting keyword from tracker product table', err);
   }
 };
+
+/* Action to add more keywords in tracker product */
+export const addTrackerProductKeywords = (payload: AddTrackerProductKeyword) => async (
+  dispatch: any,
+  getState: any
+) => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const { keywordTrackProductId, keywords } = payload;
+
+    const formData = new FormData();
+
+    formData.set('keyword_track_product_id', String(keywordTrackProductId));
+    formData.set('phrases', keywords);
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/add-phrases`;
+
+    const { data } = await axios.patch(URL, formData);
+
+    if (data) {
+      const currentKeywordsForProduct = getTrackerProductKeywordsTableResults(getState());
+
+      const updatedKeywords = [...currentKeywordsForProduct, ...data];
+      dispatch(setTrackerProductKeywordsTableResults(updatedKeywords));
+      success(`${formatNumber(data.length)} new keywords added`);
+    }
+  } catch (err) {
+    console.error('Error adding more keywords to product', err);
+  }
+};
+
+/* ================================================= */
+/*   	KEYWORD TRACKER PRODUCTS KEYWORDS  HISTORY			 */
+/* ================================================= */
 
 /* Action to fetch tracker product keywords history */
 export const fetchTrackerProductKeywordsHistory = (

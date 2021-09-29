@@ -11,25 +11,47 @@ import {
   getTrackerProductKeywordsTablePaginationInfo,
 } from '../../../../../selectors/KeywordResearch/KeywordTracker';
 
-/* <Components*/
+/* Actions */
+import { addTrackerProductKeywords } from '../../../../../actions/KeywordResearch/KeywordTracker';
+
+/* Components*/
 import AddProductKeywordModal from '../../../../../components/AddProductKeywordModal';
 
 /* Assets */
 import { ReactComponent as ThinAddIcon } from '../../../../../assets/images/thinAddIcon.svg';
-import { TrackerProductKeywordsTablePaginationInfo } from '../../../../../interfaces/KeywordResearch/KeywordTracker';
+
+/* Interfaces */
+import {
+  AddTrackerProductKeyword,
+  TrackerProductKeywordsTablePaginationInfo,
+} from '../../../../../interfaces/KeywordResearch/KeywordTracker';
+import { TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY } from '../../../../../constants/KeywordResearch/KeywordTracker';
 
 interface Props {
   keywordTrackerTableExpandedRow: any;
   trackerProductKeywordsTablePaginationInfo: TrackerProductKeywordsTablePaginationInfo;
+  addTrackerProductKeywords: (payload: AddTrackerProductKeyword) => void;
 }
 
 const AddEditKeywords = (props: Props) => {
-  const { keywordTrackerTableExpandedRow, trackerProductKeywordsTablePaginationInfo } = props;
+  const {
+    keywordTrackerTableExpandedRow,
+    trackerProductKeywordsTablePaginationInfo,
+    addTrackerProductKeywords,
+  } = props;
 
   const [addEditKeywords, setAddEditKeywords] = useState(false);
 
+  /* Handle add more keywords to product here */
   const handleAddKeywords = (payload: any) => {
-    console.log(payload);
+    const { keywords } = payload;
+
+    const sendPayload = {
+      keywords,
+      keywordTrackProductId: keywordTrackerTableExpandedRow[TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY],
+    };
+
+    addTrackerProductKeywords(sendPayload);
   };
 
   return (
@@ -68,4 +90,11 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default connect(mapStateToProps)(AddEditKeywords);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    addTrackerProductKeywords: (payload: AddTrackerProductKeyword) =>
+      dispatch(addTrackerProductKeywords(payload)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddEditKeywords);

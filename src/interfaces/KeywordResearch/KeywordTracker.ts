@@ -76,6 +76,12 @@ export interface UnTrackProductsTableKeyword {
   keywordTrackId: number;
 }
 
+/* Add more keywords to keyword tracker table */
+export interface AddTrackerProductKeyword {
+  keywordTrackProductId: number;
+  keywords: string;
+}
+
 /* Keywords History */
 export interface TrackerProductKeywordsHistory {
   keywordTrackId: number;

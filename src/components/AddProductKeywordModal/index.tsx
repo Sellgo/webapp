@@ -62,7 +62,7 @@ const AddProductKeywordModal = (props: Props) => {
 
     const formattedKeywords = removeSpecialChars
       ? removeSpecialCharctersFromKeywords(addedKeywords)
-      : keywords;
+      : addedKeywords;
 
     onSubmit({
       asin: parentAsin ? parentAsin : productAsin,
