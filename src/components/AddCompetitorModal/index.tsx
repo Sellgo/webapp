@@ -14,6 +14,7 @@ import { MAX_COMPETITORS_ALLOWED } from '../../constants/KeywordResearch/Keyword
 
 /* Interfaces */
 import { AddCompetitorsPayload } from '../../interfaces/KeywordResearch/KeywordTracker';
+import { isValidAsin } from '../../constants';
 
 interface Props {
   currentCompetitorsCount: number;
@@ -27,6 +28,7 @@ const AddCompetitorsModal = (props: Props) => {
 
   const [competitorsAsins, setCompetitorsAsins] = useState('');
   const [newlyAddedCompetitorsCount, setNewlyAddedCompetitorsCount] = useState(0);
+  const [competitorsAsinsError, setCompetitorsAsinsError] = useState(false);
 
   // Handle Reset
   const handleReset = () => {
@@ -49,11 +51,23 @@ const AddCompetitorsModal = (props: Props) => {
   const leftCompetitors = currentCompetitorsCount + newlyAddedCompetitorsCount;
 
   const shouldDisabledSubmit =
-    currentCompetitorsCount + newlyAddedCompetitorsCount > MAX_COMPETITORS_ALLOWED;
+    currentCompetitorsCount + newlyAddedCompetitorsCount > MAX_COMPETITORS_ALLOWED ||
+    competitorsAsinsError;
 
   useEffect(() => {
-    const addedAsins = competitorsAsins.split('\n').filter(a => a.trim().length > 0).length;
-    setNewlyAddedCompetitorsCount(addedAsins);
+    const addedAsins = competitorsAsins.split('\n').filter(a => a.trim().length > 0);
+
+    const addedAsinLength = addedAsins.length;
+
+    const allValidAsins = addedAsins.every(a => isValidAsin(a));
+
+    if (addedAsins.length > 0) {
+      setCompetitorsAsinsError(!allValidAsins);
+    } else {
+      setCompetitorsAsinsError(false);
+    }
+
+    setNewlyAddedCompetitorsCount(addedAsinLength);
   }, [competitorsAsins]);
 
   return (
@@ -65,10 +79,10 @@ const AddCompetitorsModal = (props: Props) => {
 
       <div className={styles.filterForm}>
         <InputFilter
-          placeholder="Parent Product ASIN"
+          placeholder="Product ASIN"
           value={parentAsin}
           disabled
-          label="Parent ASIN"
+          label="Product ASIN"
           handleChange={() => {
             return;
           }}
@@ -78,13 +92,14 @@ const AddCompetitorsModal = (props: Props) => {
         <div style={{ marginTop: '30px' }} />
 
         <TextAreaInput
-          label="Add Competitor ASIN's"
+          label="Add Competitor ASINs"
           placeholder="Enter ASIN's (1 per line)..."
           value={competitorsAsins}
           handleChange={(value: string) => {
             setCompetitorsAsins(value.toUpperCase());
           }}
           className={styles.addAsinTextArea}
+          error={competitorsAsinsError}
         />
 
         <p className={styles.leftOverMessage}>
