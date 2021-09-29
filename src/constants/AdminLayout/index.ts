@@ -38,7 +38,7 @@ export const OPTIONS: NavOptions = [
     icon: require(`../../assets/images/${NAV_ICONS.HOME}`),
     path: '/',
     disabled: false,
-    isBeta: true,
+    isBeta: false,
     subOptions: [],
   },
   {
@@ -54,7 +54,7 @@ export const OPTIONS: NavOptions = [
         icon: require(`../../assets/images/${NAV_ICONS.SEARCH_MANAGEMENT}`),
         path: '/synthesis',
         disabled: false,
-        isBeta: true,
+        isBeta: false,
       },
       {
         label: 'Profit Finder',
