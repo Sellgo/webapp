@@ -173,6 +173,11 @@ export const parseFilters = (keywordDatabaseFilter: any) => {
       }
     }
 
+    // checkbox filter
+    if (type === F_TYPES.CHECKBOX) {
+      filterQuery += `&${keyName}=${filter}`;
+    }
+
     // include exclude
     if (type === F_TYPES.INPUT_INCLUDE_EXCLUDE) {
       const includes = filter.include ? `&include_${keyName}=${filter.include}` : '';
