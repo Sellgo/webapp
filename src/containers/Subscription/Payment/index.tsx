@@ -91,11 +91,7 @@ const Payment = (props: PaymentProps) => {
       </div>
 
       <section>
-        <Summary
-          planType={accountType}
-          paymentMode={paymentMode}
-          showCoupon={true && !isSubscriptionPaid(subscriptionType) && !successPayment}
-        />
+        <Summary planType={accountType} paymentMode={paymentMode} />
 
         <StepsContent contentType={'payment'} loggedIn={loggedIn} />
         {!successPayment && isSubscriptionNotPaid(subscriptionType) && paymentError && (

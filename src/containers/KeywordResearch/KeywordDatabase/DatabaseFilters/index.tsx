@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import { Icon } from 'semantic-ui-react';
+
 import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
-
-/* Components */
-import InputFilter from '../../../../components/FormFilters/InputFilter';
-import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
-import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 
 /* Constants */
 import { DEFAULT_MIN_MAX_FILTER } from '../../../../constants/KeywordResearch/KeywordDatabase';
@@ -19,6 +14,12 @@ import {
   fetchKeywordDatabaseTableInformation,
   resetKeywordDatabase,
 } from '../../../../actions/KeywordResearch/KeywordDatabase';
+
+/* Components */
+import AdvanceFilterToggle from '../../../../components/AdvanceFilterToggle';
+import InputFilter from '../../../../components/FormFilters/InputFilter';
+import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
+import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 
 /* Interfaces */
 import { KeywordDatabaseTablePayload } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
@@ -137,15 +138,10 @@ const DatabaseFilters = (props: Props) => {
 
       {/* Advanced Filters */}
       <div className={styles.advancedFilterWrapper}>
-        <div
-          className={styles.advancedFilterToggle}
-          onClick={() => setShowAdvancedFilter(prevState => !prevState)}
-        >
-          <span>Advanced Filters</span>
-          <span>
-            {showAdvancedFilter ? <Icon name="chevron up" /> : <Icon name="chevron down" />}
-          </span>
-        </div>
+        <AdvanceFilterToggle
+          handleClick={() => setShowAdvancedFilter(prevState => !prevState)}
+          showAdvancedFilter={showAdvancedFilter}
+        />
 
         {showAdvancedFilter && (
           <div className={styles.showAdvancedFilter}>

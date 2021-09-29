@@ -13,8 +13,10 @@ import { RowCell } from '../../../../../interfaces/Table';
 /* Utils */
 import { truncateString } from '../../../../../utils/format';
 
+/* Constants */
+import { getMarketplaceFlag } from '../../../../../constants/Settings';
+
 /* Assets */
-import USFlag from '../../../../../assets/images/USFlag.png';
 import placeholderImage from '../../../../../assets/images/placeholderImage.svg';
 
 const SellerInformation = (props: RowCell) => {
@@ -26,10 +28,10 @@ const SellerInformation = (props: RowCell) => {
   const sellerLink = rowData.seller_link;
   const merchantName = rowData.merchant_name;
   const businessAddress = rowData.address;
-  const launched = rowData.launched;
   const businessCity = rowData.city;
   const businessZipCode = rowData.zip_code;
   const businessCountry = rowData.country;
+  const marketplaceId = rowData.marketplace;
 
   return (
     <Table.Cell {...props}>
@@ -63,13 +65,7 @@ const SellerInformation = (props: RowCell) => {
           {/* Marketplace Details  */}
           <div className={styles.sellerBusinessDetails}>
             <h3>Marketplace:</h3>
-            <img src={USFlag} alt="American Flag" />
-          </div>
-
-          {/* Launched Details */}
-          <div className={styles.sellerBusinessDetails}>
-            <h3>Launched:</h3>
-            <p>{launched ? launched : '-'}</p>
+            <img src={getMarketplaceFlag(marketplaceId)} alt="Marketplace Flags" />
           </div>
         </div>
       </div>
