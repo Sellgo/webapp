@@ -12,13 +12,9 @@
   }
 }
 
-.reverseAsinCardsWrapper {
-  margin: 8px 0;
-  display: flex;
-  justify-content: flex-start;
-}
-
+/* Add asin trigger */
 .addAsinCard {
+  user-select: none;
   border: 1px solid $blue_8;
   display: flex;
   justify-content: center;
@@ -48,4 +44,66 @@
       }
     }
   }
+}
+
+.actionsPopover {
+  padding: 0 !important;
+  z-index: 99999 !important;
+
+  &::before {
+    display: none !important;
+  }
+}
+
+.actionOptions {
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  min-height: 30;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 10px 0;
+
+  button {
+    background: transparent !important;
+    outline: 0 !important;
+    color: $grey_8 !important;
+    width: 100% !important;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 14px !important;
+    height: 25px;
+
+    span {
+      margin-left: 2px;
+    }
+
+    // stylelint-disable no-descending-specificity
+    svg {
+      min-width: 20px;
+      height: 12px;
+      margin-left: 5px;
+
+      path {
+        fill: $grey_8 !important;
+      }
+    }
+
+    &:hover {
+      background: $grey_1 !important;
+    }
+  }
+}
+
+.reverseAsinCardsWrapper {
+  margin: 8px 0;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.addBulkAsins {
+  border: 0 !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
 }

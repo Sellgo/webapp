@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { v4 as uuid } from 'uuid';
+import { Icon, Modal, Popup } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -23,7 +24,7 @@ import ReverseAsinCard from '../../../../components/ReverseAsinCard';
 import ReverseAsinCardOverlay from '../../../../components/ReverseAsinCard/Overlay';
 
 /* Assets */
-// import { ReactComponent as CirclePlusIcon } from '../../../../assets/images/plus-circle-regular.svg';
+import { ReactComponent as CirclePlusIcon } from '../../../../assets/images/plus-circle-regular.svg';
 import { ReactComponent as ThinPlusIcon } from '../../../../assets/images/thinAddIcon.svg';
 
 /* Interfaces */
@@ -31,6 +32,7 @@ import { KeywordReverseAsinProduct } from '../../../../interfaces/KeywordResearc
 
 /* Constants */
 import { MAX_ASINS_ALLOWED } from '../../../../constants/KeywordResearch/KeywordReverse';
+import AddReverseBulkAsins from '../../../../components/AddReverseBulkAsins';
 
 interface Props {
   isLoadingKeywordReverseProductsList: boolean;
@@ -48,10 +50,11 @@ const ReverseAsinDisplay = (props: Props) => {
   } = props;
 
   const [showAddAsin, setShowAddAsin] = useState(false);
+  const [showAddBulkAsin, setShowAddBulkAsin] = useState(false);
 
   const totalProducts = keywordReverseProductsList.length;
 
-  // Handle a proudtc removal
+  // Handle a product removal
   const removeProduct = (asinToRemove: string) => {
     const currentProducts = keywordReverseProductsList;
 
@@ -62,6 +65,18 @@ const ReverseAsinDisplay = (props: Props) => {
       });
 
     setKeywordReverseProductsList(updatedProducts);
+  };
+
+  // Handle Add single ASIN
+  const handleAddSingleAsin = () => {
+    setShowAddBulkAsin(false);
+    setShowAddAsin(true);
+  };
+
+  // Handle Add bulk Asin
+  const handleAddbulkAsin = () => {
+    setShowAddAsin(false);
+    setShowAddBulkAsin(true);
   };
 
   const dontShowAddAsinCard =
@@ -76,8 +91,36 @@ const ReverseAsinDisplay = (props: Props) => {
         {!dontShowAddAsinCard && (
           <>
             <div className={styles.addAsinCard}>
-              <ThinPlusIcon style={{ cursor: 'pointer' }} onClick={() => setShowAddAsin(true)} />
-              <p>Add ASIN</p>
+              <ThinPlusIcon style={{ cursor: 'pointer' }} onClick={handleAddSingleAsin} />
+              <div>
+                Add ASIN
+                <Popup
+                  on="click"
+                  className={styles.actionsPopover}
+                  position="bottom center"
+                  offset="40"
+                  trigger={
+                    <Icon
+                      name="chevron down"
+                      className={`iconButtonResetGlobal`}
+                      style={{ cursor: 'pointer' }}
+                    />
+                  }
+                  content={
+                    <div className={styles.actionOptions}>
+                      <button onClick={handleAddSingleAsin}>
+                        <ThinPlusIcon />
+                        <span>Add 1 ASIN</span>
+                      </button>
+
+                      <button onClick={handleAddbulkAsin}>
+                        <CirclePlusIcon />
+                        <span>Add Bulk ASINs</span>
+                      </button>
+                    </div>
+                  }
+                />
+              </div>
             </div>
           </>
         )}
@@ -104,6 +147,14 @@ const ReverseAsinDisplay = (props: Props) => {
           />
         )}
       </div>
+
+      {/* Add Competitors Modal */}
+      <Modal
+        open={showAddBulkAsin}
+        className={styles.addBulkAsins}
+        onClose={() => setShowAddBulkAsin(false)}
+        content={<AddReverseBulkAsins />}
+      />
     </section>
   );
 };

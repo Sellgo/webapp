@@ -13,7 +13,7 @@ import { formatNumber, showNAIfZeroOrNull, truncateString } from '../../utils/fo
 import { KeywordReverseAsinProduct } from '../../interfaces/KeywordResearch/KeywordReverse';
 
 /* Assets */
-import { ReactComponent as RemoveCrossIcon } from '../../assets/images/removeCross.svg';
+import crossIcon from '../../assets/images/removeCross.svg';
 import placeholderImage from '../../assets/images/placeholderImage.svg';
 import loadingAnimation from '../../assets/images/sellgo-loading-animation-450-1.gif';
 
@@ -36,7 +36,8 @@ const ReverseAsinCard = (props: Props) => {
 
   return (
     <div className={asinCardClasses}>
-      <RemoveCrossIcon
+      <img
+        src={crossIcon}
         className={styles.removeAsinIcon}
         onClick={() => handleRemoveProduct(asin)}
       />
