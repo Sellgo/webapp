@@ -1,6 +1,7 @@
 export interface ProductTrackPayload {
   asin: string;
   keywords: string;
+  trackParentsAndVariations: boolean;
 }
 
 /* Keyword Tracker Products  Table Interfaces */

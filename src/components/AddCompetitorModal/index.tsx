@@ -46,8 +46,7 @@ const AddCompetitorsModal = (props: Props) => {
     });
   };
 
-  const leftCompetitors =
-    MAX_COMPETITORS_ALLOWED - (currentCompetitorsCount + newlyAddedCompetitorsCount);
+  const leftCompetitors = currentCompetitorsCount + newlyAddedCompetitorsCount;
 
   const shouldDisabledSubmit =
     currentCompetitorsCount + newlyAddedCompetitorsCount > MAX_COMPETITORS_ALLOWED;
@@ -89,7 +88,7 @@ const AddCompetitorsModal = (props: Props) => {
         />
 
         <p className={styles.leftOverMessage}>
-          Total ASIN's left :
+          Total ASINs:
           <span>
             {leftCompetitors}/{MAX_COMPETITORS_ALLOWED}
           </span>

@@ -6,7 +6,7 @@ import styles from './index.module.scss';
 /* Containers */
 import TrackerFilters from './TrackerFilters';
 import TrackerProgress from './TrackerProgress';
-import TrackerExport from './TrackerExport';
+import TrackerTableMeta from './TrackerTableMeta';
 import TrackerTable from './TrackerTable';
 
 const KeywordTracker = () => {
@@ -14,7 +14,7 @@ const KeywordTracker = () => {
     <main className={styles.keywordDatabasePage}>
       <TrackerFilters />
       <TrackerProgress />
-      <TrackerExport />
+      <TrackerTableMeta />
       <TrackerTable />
     </main>
   );

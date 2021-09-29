@@ -161,7 +161,7 @@ export const trackProductWithAsinAndKeywords = (payload: ProductTrackPayload) =>
   const currentlyTrackedProducts = getKeywordTrackerProductsTableResults(getState());
 
   try {
-    const { asin, keywords } = payload;
+    const { asin, keywords, trackParentsAndVariations } = payload;
 
     if (!asin || !keywords) {
       return;
@@ -171,6 +171,7 @@ export const trackProductWithAsinAndKeywords = (payload: ProductTrackPayload) =>
 
     formData.set('asin', asin);
     formData.set('phrases', keywords);
+    formData.set('track_parent_and_variations', String(trackParentsAndVariations));
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track`;
 

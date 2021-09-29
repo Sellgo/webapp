@@ -75,6 +75,15 @@ const TrackerCompetitors = (props: Props) => {
           </span>
         </div>
 
+        <button
+          className={styles.addCompetitor}
+          onClick={() => setAddCompetitorsModal(true)}
+          disabled={totalCurrentCompetitors >= MAX_COMPETITORS_ALLOWED}
+        >
+          <AddCirecleIcon />
+          <span>Add ASINs</span>
+        </button>
+
         {/* Competitors Display  */}
         <div className={styles.competitorsAsinsWrapper}>
           {expandedRowCompetitors.map((d: KeywordTrackerTableCompetitors) => {
@@ -87,15 +96,6 @@ const TrackerCompetitors = (props: Props) => {
             );
           })}
         </div>
-
-        <button
-          className={styles.addCompetitor}
-          onClick={() => setAddCompetitorsModal(true)}
-          disabled={totalCurrentCompetitors >= MAX_COMPETITORS_ALLOWED}
-        >
-          <AddCirecleIcon />
-          <span>Add Competitor's ASIN</span>
-        </button>
       </section>
 
       {/* Add Competitors Modal */}
