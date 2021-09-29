@@ -43,6 +43,7 @@ import {
   TrackerProductKeywordsTablePaginationInfo,
   TrackerProductKeywordsTablePayload,
 } from '../../../../interfaces/KeywordResearch/KeywordTracker';
+import AddEditKeywords from './AddEditKeywords';
 
 interface Props {
   isLoadingTrackerProductKeywordsTable: boolean;
@@ -139,6 +140,9 @@ const TrackerKeywordTable = (props: Props) => {
     <>
       {/* Competitors Section */}
       <TrackerCompetitors />
+
+      {/* Add Edit Keywords Section */}
+      <AddEditKeywords />
 
       {/* Table Section */}
       <section className={styles.keywordTableWrapper}>
