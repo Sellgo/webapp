@@ -23,7 +23,7 @@ import ReverseAsinCard from '../../../../components/ReverseAsinCard';
 import ReverseAsinCardOverlay from '../../../../components/ReverseAsinCard/Overlay';
 
 /* Assets */
-import { ReactComponent as AddAsinPlusIcon } from '../../../../assets/images/addAsinPlusIcon.svg';
+import { ReactComponent as CirclePlusIcon } from '../../../../assets/images/addAsinPlusIcon.svg';
 
 /* Interfaces */
 import { KeywordReverseAsinProduct } from '../../../../interfaces/KeywordResearch/KeywordReverse';
@@ -71,14 +71,24 @@ const ReverseAsinDisplay = (props: Props) => {
       <h2>Asin-Keyword Reversal Results</h2>
 
       <div className={styles.reverseAsinCardsWrapper}>
+        {/* Add new ASIN card */}
+        {!dontShowAddAsinCard && (
+          <>
+            <div className={styles.addAsinCard}>
+              <CirclePlusIcon style={{ cursor: 'pointer' }} onClick={() => setShowAddAsin(true)} />
+            </div>
+          </>
+        )}
+
         {keywordReverseProductsList &&
-          keywordReverseProductsList.map(keywordProduct => {
+          keywordReverseProductsList.map((keywordProduct, index: number) => {
             return (
               <ReverseAsinCard
                 key={uuid()}
                 data={keywordProduct}
                 isLoading={isLoadingKeywordReverseProductsList || shouldFetchKeywordReverseProgress}
                 handleRemoveProduct={asin => removeProduct(asin)}
+                isActive={index === 0}
               />
             );
           })}
@@ -88,14 +98,6 @@ const ReverseAsinDisplay = (props: Props) => {
             hideOverlay={() => setShowAddAsin(false)}
             isLoading={isLoadingKeywordReverseProductsList || shouldFetchKeywordReverseProgress}
           />
-        )}
-
-        {!dontShowAddAsinCard && (
-          <>
-            <div className={styles.addAsinCard}>
-              <AddAsinPlusIcon style={{ cursor: 'pointer' }} onClick={() => setShowAddAsin(true)} />
-            </div>
-          </>
         )}
       </div>
     </section>

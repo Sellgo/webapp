@@ -51,7 +51,7 @@ const KeywordResearch = (props: Props) => {
     userOnboarding,
   } = props;
 
-  const [selectedTabList, setSelectedTabList] = useState<number>(1);
+  const [selectedTabList, setSelectedTabList] = useState<number>(0);
 
   const handleTabChange = (index: number) => {
     setSelectedTabList(index);

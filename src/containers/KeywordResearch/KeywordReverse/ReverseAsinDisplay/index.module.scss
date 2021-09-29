@@ -14,32 +14,33 @@
 
 .reverseAsinCardsWrapper {
   margin: 8px 0;
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  display: flex;
+  justify-content: flex-start;
 }
 
 .addAsinCard {
-  border: 1px solid $grey_3;
+  border: 1px solid $blue_8;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 160px;
+  width: 93px;
   height: 240px;
   border-radius: 5px;
   background: #fff;
+  margin-right: 10px;
 
   svg {
     path {
-      fill: $grey_6;
+      fill: $blue_8;
     }
   }
 
   &:hover {
-    background: $grey_3;
+    background: $orange_10;
 
     svg {
       path {
-        fill: $grey_8;
+        fill: $blue_8;
       }
     }
   }
