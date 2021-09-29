@@ -25,6 +25,45 @@
   margin-top: 30px;
 }
 
+.productDetails {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.productImage {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+
+  img {
+    max-width: 100%;
+  }
+}
+
+.productInfo {
+  h3 {
+    line-height: 1;
+    font-size: 14px;
+    color: $grey_8 !important;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+}
+
+.marketplaceInfo {
+  img {
+    width: 15px;
+    height: 15px;
+  }
+
+  span {
+    font-size: 10px;
+    color: $grey_8 !important;
+    margin-left: 10px;
+  }
+}
+
 .longInput {
   min-width: 100% !important;
   width: 100% !important;

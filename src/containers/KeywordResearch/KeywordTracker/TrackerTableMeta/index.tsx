@@ -84,6 +84,10 @@ const TrackerExport = (props: Props) => {
             currentKeywordsCount={0}
             onSubmit={handleTrackProduct}
             closeModal={() => setAddProductModal(false)}
+            productDetails={{
+              image: '',
+              title: '',
+            }}
           />
         }
       />

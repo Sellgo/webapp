@@ -50,6 +50,10 @@ const AddEditKeywords = (props: Props) => {
             currentKeywordsCount={trackerProductKeywordsTablePaginationInfo.count}
             onSubmit={handleAddKeywords}
             closeModal={() => setAddEditKeywords(false)}
+            productDetails={{
+              image: keywordTrackerTableExpandedRow.image_url,
+              title: keywordTrackerTableExpandedRow.title,
+            }}
           />
         }
       />

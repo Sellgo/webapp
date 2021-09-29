@@ -270,6 +270,19 @@ const TrackerKeywordTable = (props: Props) => {
             <StatsCell dataKey="sponsored_rank" align="center" />
           </Table.Column>
 
+          {/* True Rank Performace Index */}
+          <Table.Column width={150} verticalAlign="top" align="left" sortable>
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Drop/Raise Index`}
+                dataKey="index"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <StatsCell dataKey="index" align="center" appendWith="%" asRounded={false} />
+          </Table.Column>
+
           {/* Actions Cell */}
           <Table.Column width={40} verticalAlign="top" fixed align="left">
             <Table.HeaderCell>{''}</Table.HeaderCell>

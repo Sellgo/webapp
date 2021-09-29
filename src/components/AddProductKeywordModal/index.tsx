@@ -15,7 +15,10 @@ import MarketplaceDropdown from '../MarketplaceDropdown';
 import CheckboxFilter from '../FormFilters/CheckboxFilter';
 
 /* Utils */
-import { removeSpecialCharctersFromKeywords } from '../../utils/format';
+import { removeSpecialCharctersFromKeywords, truncateString } from '../../utils/format';
+
+/* Assets */
+import placeholderImage from '../../assets/placeholder.svg';
 
 /* Interfaces */
 import { isValidAsin } from '../../constants';
@@ -26,15 +29,21 @@ interface GenericSubmitPayload {
   trackParentsAndVariations: boolean;
 }
 
+interface ProductDetails {
+  title: string;
+  image: string;
+}
+
 interface Props {
   parentAsin: string;
   currentKeywordsCount: number;
   onSubmit: (payload: GenericSubmitPayload) => void;
   closeModal: () => void;
+  productDetails: ProductDetails;
 }
 
 const AddProductKeywordModal = (props: Props) => {
-  const { parentAsin, currentKeywordsCount, onSubmit, closeModal } = props;
+  const { parentAsin, currentKeywordsCount, onSubmit, closeModal, productDetails } = props;
 
   const [productAsin, setProductAsin] = useState<string>('');
   const [keywords, setKeywords] = useState('');
@@ -103,25 +112,44 @@ const AddProductKeywordModal = (props: Props) => {
   const shouldDisabledSubmit =
     currentKeywordsCount + newlyAddedKeywordsCount > MAX_KEYWORDS_ALLOWED;
 
+  const { image, title } = productDetails;
+
   return (
     <div className={styles.addProductKeywordModal}>
       <div className={styles.metaData}>
         <h1>ADD NEW KEYWORDS</h1>
-        <MarketplaceDropdown />
+        {!parentAsin && <MarketplaceDropdown />}
       </div>
 
       <div className={styles.filterForm}>
         {/* If parent asin exists it means it only for adding new keywords/edit */}
-        <InputFilter
-          label="Enter Amazon Product Link or ASIN"
-          placeholder="Enter Amazon Product Link or ASIN"
-          value={parentAsin ? parentAsin : productAsin}
-          handleChange={handleAsinChange}
-          className={styles.longInput}
-          error={productAsin.length > 0 ? !isValidAsin(productAsin) : false}
-          disabled={parentAsin.length > 0}
-          handleOnPaste={handleAsinChange}
-        />
+        {!parentAsin && (
+          <InputFilter
+            label="Enter Amazon Product Link or ASIN"
+            placeholder="Enter Amazon Product Link or ASIN"
+            value={parentAsin ? parentAsin : productAsin}
+            handleChange={handleAsinChange}
+            className={styles.longInput}
+            error={productAsin.length > 0 ? !isValidAsin(productAsin) : false}
+            disabled={parentAsin.length > 0}
+            handleOnPaste={handleAsinChange}
+          />
+        )}
+
+        {parentAsin && (
+          <div className={styles.productDetails}>
+            <div className={styles.productImage}>
+              <img src={image ? image : placeholderImage} alt={title} />
+            </div>
+            <div className={styles.productInfo}>
+              <h3>{truncateString(title, 110)}</h3>
+              <div className={styles.marketplaceInfo}>
+                <img src={require(`../../assets/flags/US.png`)} alt="American Flag" />
+                <span>{parentAsin}</span>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div style={{ marginTop: '30px' }} />
 
