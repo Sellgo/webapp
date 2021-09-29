@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Segment } from 'semantic-ui-react';
-import Sidebar from '../Nav';
+import Sidebar from '../Sidebar';
 import './index.scss';
-import { newProductDesignPathNames } from '../../constants';
+import { NEW_PRODUCT_DESIGN_PATH_NAMES } from '../../constants/AdminLayout';
 
 interface Props {
   subscriptionType: string;
@@ -14,10 +14,10 @@ class AdminLayout extends React.Component<Props> {
   public render() {
     const { children, match } = this.props;
 
-    const isNewProduct = newProductDesignPathNames.includes(window.location.pathname);
+    const isNewProduct = NEW_PRODUCT_DESIGN_PATH_NAMES.includes(window.location.pathname);
 
     return (
-      <main id="admin-layout-wrapper">
+      <main className="admin-layout-wrapper">
         <Sidebar match={match} />
         <Segment className={`admin-layout ${isNewProduct ? 'new-admin-layout' : ''}`} basic={true}>
           <>{children}</>

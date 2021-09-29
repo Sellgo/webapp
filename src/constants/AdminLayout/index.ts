@@ -1,28 +1,41 @@
-import { NavOptions, NavIcons } from '../../interfaces/Admin';
+import { NavOptions } from '../../interfaces/Admin';
 
-export const NAV_ICONS: NavIcons = {
-  HOME: 'HOME',
-  WHOLESALE_BULK_ANALYSIS: 'WHOLESALE_BULK_ANALYSIS',
-  SEARCH_MANAGEMENT: 'SEARCH_MANAGEMENT',
-  PROFIT_FINDER: 'PROFIT_FINDER',
-  LEADS_TRACKER: 'LEADS_TRACKER',
-  PRODUCT_RESEARCH: 'PRODUCT_RESEARCH',
-  PRODUCT_DATABASE: 'PRODUCT_DATABASE',
-  PRODUCT_TRACKER: 'PRODUCT_TRACKER',
-  SELLER_RESEARCH: 'SELLER_RESEARCH',
-  SELLER_DATABASE: 'SELLER_DATABASE',
-  SELLER_MAP: 'SELLER_MAP',
-  SELLER_INVENTORY: 'SELLER_INVENTORY',
-  KEYWORD_RESEARCH: 'KEYWORD_RESEARCH',
-  KEYWORD_REVERSE: 'KEYWORD_REVERSE',
-  KEYWORD_DATABASE: 'KEYWORD_DATABASE',
-  KEYWORD_TRACKER: 'KEYWORD_TRACKER',
+/* New products following design */
+export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
+  '/keyword-research',
+  '/keyword-research/reverse',
+  '/keyword-research/database',
+  '/keyword-research/tracker',
+  '/seller-research',
+  '/seller-research/database',
+  '/seller-research/map',
+  '/product-research',
+  '/product-research/database',
+];
+
+export const NAV_ICONS = {
+  HOME: 'homeIcon.svg',
+  WHOLESALE_BULK_ANALYSIS: 'wholesaleIcon.svg',
+  SEARCH_MANAGEMENT: 'searchManagementIcon.svg',
+  PROFIT_FINDER: 'profitFinderIcon.svg',
+  LEADS_TRACKER: 'leadsTrackerIcon.svg',
+  PRODUCT_RESEARCH: 'productResearchIcon.svg',
+  PRODUCT_DATABASE: 'productDatabaseIcon.svg',
+  PRODUCT_TRACKER: 'productTrackerIcon.svg',
+  SELLER_RESEARCH: 'sellerResearchIcon.svg',
+  SELLER_DATABASE: 'sellerDatabaseIcon.svg',
+  SELLER_MAP: 'sellerMapIcon.svg',
+  SELLER_INVENTORY: 'sellerFinder.svg',
+  KEYWORD_RESEARCH: 'keywordResearchIcon.svg',
+  KEYWORD_REVERSE: 'keywordReverseIcon.svg',
+  KEYWORD_DATABASE: 'keywordDatabaseIcon.svg',
+  KEYWORD_TRACKER: 'keywordTrackerIcon.svg',
 };
 
 export const OPTIONS: NavOptions = [
   {
     label: 'Home',
-    icon: NAV_ICONS.HOME,
+    icon: require(`../../assets/images/${NAV_ICONS.HOME}`),
     path: '/',
     disabled: false,
     isBeta: false,
@@ -30,7 +43,7 @@ export const OPTIONS: NavOptions = [
   },
   {
     label: 'Wholesale Bulk Analysis',
-    icon: NAV_ICONS.WHOLESALE_BULK_ANALYSIS,
+    icon: require(`../../assets/images/${NAV_ICONS.WHOLESALE_BULK_ANALYSIS}`),
     path: '/',
     disabled: false,
     isBeta: false,
@@ -38,7 +51,7 @@ export const OPTIONS: NavOptions = [
       {
         label: 'Search Management',
         description: 'The 1st Step to Wholesale Sourcing',
-        icon: NAV_ICONS.SEARCH_MANAGEMENT,
+        icon: require(`../../assets/images/${NAV_ICONS.SEARCH_MANAGEMENT}`),
         path: '/synthesis',
         disabled: false,
         isBeta: false,
@@ -46,7 +59,7 @@ export const OPTIONS: NavOptions = [
       {
         label: 'Profit Finder',
         description: 'Wholesale Bulk Calculation',
-        icon: NAV_ICONS.PROFIT_FINDER,
+        icon: require(`../../assets/images/${NAV_ICONS.PROFIT_FINDER}`),
         path: '/profit-finder',
         disabled: false,
         isBeta: false,
@@ -54,7 +67,7 @@ export const OPTIONS: NavOptions = [
       {
         label: 'Leads Tracker',
         description: 'Intelligent Leads Tracking',
-        icon: NAV_ICONS.LEADS_TRACKER,
+        icon: require(`../../assets/images/${NAV_ICONS.LEADS_TRACKER}`),
         path: '/leads-tracker',
         disabled: false,
         isBeta: false,
@@ -63,7 +76,7 @@ export const OPTIONS: NavOptions = [
   },
   {
     label: 'Product Research',
-    icon: NAV_ICONS.PRODUCT_RESEARCH,
+    icon: require(`../../assets/images/${NAV_ICONS.PRODUCT_RESEARCH}`),
     path: '/product-research',
     disabled: false,
     isBeta: false,
@@ -71,7 +84,7 @@ export const OPTIONS: NavOptions = [
       {
         label: 'Product Database',
         description: 'Amazon Product Catalogue',
-        icon: NAV_ICONS.PRODUCT_DATABASE,
+        icon: require(`../../assets/images/${NAV_ICONS.PRODUCT_DATABASE}`),
         path: '/product-research/database',
         disabled: false,
         isBeta: false,
@@ -79,7 +92,7 @@ export const OPTIONS: NavOptions = [
       {
         label: 'Product Tracker',
         description: 'Track Favorite Products',
-        icon: NAV_ICONS.PRODUCT_TRACKER,
+        icon: require(`../../assets/images/${NAV_ICONS.PRODUCT_TRACKER}`),
         path: '/product-tracker',
         disabled: false,
         isBeta: false,
@@ -88,7 +101,7 @@ export const OPTIONS: NavOptions = [
   },
   {
     label: 'Seller Research',
-    icon: NAV_ICONS.SELLER_RESEARCH,
+    icon: require(`../../assets/images/${NAV_ICONS.SELLER_RESEARCH}`),
     path: '/seller-research',
     disabled: false,
     isBeta: false,
@@ -96,7 +109,7 @@ export const OPTIONS: NavOptions = [
       {
         label: 'Seller Database',
         description: 'Seller Database',
-        icon: NAV_ICONS.SELLER_DATABASE,
+        icon: require(`../../assets/images/${NAV_ICONS.SELLER_DATABASE}`),
         path: '/seller-research/database',
         disabled: false,
         isBeta: false,
@@ -104,7 +117,7 @@ export const OPTIONS: NavOptions = [
       {
         label: 'Seller Map',
         description: 'Seller Map',
-        icon: NAV_ICONS.SELLER_MAP,
+        icon: require(`../../assets/images/${NAV_ICONS.SELLER_MAP}`),
         path: '/seller-research/map',
         disabled: false,
         isBeta: false,
@@ -112,7 +125,7 @@ export const OPTIONS: NavOptions = [
       {
         label: 'Seller Inventory',
         description: 'Seller Inventory',
-        icon: NAV_ICONS.SELLER_INVENTORY,
+        icon: require(`../../assets/images/${NAV_ICONS.SELLER_INVENTORY}`),
         path: '/seller-finder',
         disabled: false,
         isBeta: false,
@@ -121,7 +134,7 @@ export const OPTIONS: NavOptions = [
   },
   {
     label: 'Keyword Research',
-    icon: NAV_ICONS.KEYWORD_RESEARCH,
+    icon: require(`../../assets/images/${NAV_ICONS.KEYWORD_RESEARCH}`),
     path: '/keyword-research',
     disabled: false,
     isBeta: false,
@@ -129,7 +142,7 @@ export const OPTIONS: NavOptions = [
       {
         label: 'Keyword Reverse',
         description: 'Reveal Competitor Keywords',
-        icon: NAV_ICONS.KEYWORD_REVERSE,
+        icon: require(`../../assets/images/${NAV_ICONS.KEYWORD_REVERSE}`),
         path: '/keyword-research/reverse',
         disabled: false,
         isBeta: false,
@@ -137,7 +150,7 @@ export const OPTIONS: NavOptions = [
       {
         label: 'Keyword Database',
         description: 'Check High-Volume Keywords',
-        icon: NAV_ICONS.KEYWORD_DATABASE,
+        icon: require(`../../assets/images/${NAV_ICONS.KEYWORD_DATABASE}`),
         path: '/keyword-research/database',
         disabled: false,
         isBeta: false,
@@ -145,7 +158,7 @@ export const OPTIONS: NavOptions = [
       {
         label: 'Keyword Tracker',
         description: 'Get to #1 Search Results',
-        icon: NAV_ICONS.KEYWORD_TRACKER,
+        icon: require(`../../assets/images/${NAV_ICONS.KEYWORD_TRACKER}`),
         path: '/keyword-research/tracker',
         disabled: false,
         isBeta: false,
@@ -156,6 +169,16 @@ export const OPTIONS: NavOptions = [
 
 export const getActiveIndex: (currentPath: string) => number = (currentPath: string) => {
   return OPTIONS.findIndex(option => {
-    return option.subOptions.find((subOption: any) => subOption.path === currentPath);
+    return (
+      option.subOptions &&
+      option.subOptions.find((subOption: any) => {
+        /* Path matching for profit finder should be matched to /profit-finder/{supplier_id} */
+        if (subOption.path.includes('/profit-finder')) {
+          return currentPath.includes('/profit-finder');
+        } else {
+          return subOption.path === currentPath;
+        }
+      })
+    );
   });
 };

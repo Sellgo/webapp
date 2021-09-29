@@ -47,11 +47,14 @@ const SellerResearch = (props: Props) => {
     const currentIndex = SELLER_RESEARCH_PAGES.findIndex(
       (path: string) => path === window.location.pathname
     );
+
     /* If on a different tab, redirect to correct tab */
     if (currentIndex !== selectedTabList) {
       if (currentIndex === -1) {
+        /* If is on any other page, e.g. /seller-research, or /seller-research/asd, redirect to first product */
         handleTabChange(0);
       } else {
+        /* Update tab according to page */
         handleTabChange(currentIndex);
       }
     }

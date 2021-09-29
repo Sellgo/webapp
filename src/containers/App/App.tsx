@@ -241,21 +241,7 @@ function App() {
 
           <PrivateRoute
             exact={true}
-            path="/seller-research"
-            component={SellerResearch}
-            requireSubscription={true}
-          />
-
-          <PrivateRoute
-            exact={true}
-            path="/seller-research/database"
-            component={SellerResearch}
-            requireSubscription={true}
-          />
-
-          <PrivateRoute
-            exact={true}
-            path="/seller-research/map"
+            path="/seller-research/:productName"
             component={SellerResearch}
             requireSubscription={true}
           />
@@ -269,42 +255,14 @@ function App() {
 
           <PrivateRoute
             exact={true}
-            path="/product-research"
+            path="/product-research/:productName"
             component={ProductResearch}
             requireSubscription={true}
           />
 
           <PrivateRoute
             exact={true}
-            path="/product-research/database"
-            component={ProductResearch}
-            requireSubscription={true}
-          />
-
-          <PrivateRoute
-            exact={true}
-            path="/keyword-research"
-            component={KeywordResearch}
-            requireSubscription={true}
-          />
-
-          <PrivateRoute
-            exact={true}
-            path="/keyword-research/reverse"
-            component={KeywordResearch}
-            requireSubscription={true}
-          />
-
-          <PrivateRoute
-            exact={true}
-            path="/keyword-research/database"
-            component={KeywordResearch}
-            requireSubscription={true}
-          />
-
-          <PrivateRoute
-            exact={true}
-            path="/keyword-research/tracker"
+            path="/keyword-research/:productName"
             component={KeywordResearch}
             requireSubscription={true}
           />

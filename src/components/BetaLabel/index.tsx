@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { Label } from 'semantic-ui-react';
-import './index.scss';
+import styles from './index.module.scss';
 
-export default (props: any) => (
-  <Label className={props.isNav ? 'beta-label-nav' : 'beta-label'}>BETA</Label>
+interface Props {
+  isNav?: boolean;
+}
+
+export default (props: Props) => (
+  <Label className={props.isNav ? styles.betaLabelNav : styles.betaLabel}>BETA</Label>
 );
