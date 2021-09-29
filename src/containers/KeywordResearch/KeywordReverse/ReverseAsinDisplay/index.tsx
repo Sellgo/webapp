@@ -23,7 +23,8 @@ import ReverseAsinCard from '../../../../components/ReverseAsinCard';
 import ReverseAsinCardOverlay from '../../../../components/ReverseAsinCard/Overlay';
 
 /* Assets */
-import { ReactComponent as CirclePlusIcon } from '../../../../assets/images/addAsinPlusIcon.svg';
+// import { ReactComponent as CirclePlusIcon } from '../../../../assets/images/plus-circle-regular.svg';
+import { ReactComponent as ThinPlusIcon } from '../../../../assets/images/thinAddIcon.svg';
 
 /* Interfaces */
 import { KeywordReverseAsinProduct } from '../../../../interfaces/KeywordResearch/KeywordReverse';
@@ -75,11 +76,13 @@ const ReverseAsinDisplay = (props: Props) => {
         {!dontShowAddAsinCard && (
           <>
             <div className={styles.addAsinCard}>
-              <CirclePlusIcon style={{ cursor: 'pointer' }} onClick={() => setShowAddAsin(true)} />
+              <ThinPlusIcon style={{ cursor: 'pointer' }} onClick={() => setShowAddAsin(true)} />
+              <p>Add ASIN</p>
             </div>
           </>
         )}
 
+        {/* Show the ASIN reverse card list */}
         {keywordReverseProductsList &&
           keywordReverseProductsList.map((keywordProduct, index: number) => {
             return (
@@ -93,6 +96,7 @@ const ReverseAsinDisplay = (props: Props) => {
             );
           })}
 
+        {/* Show the ASIN reverse card overlay hwhere you can add new asin */}
         {showAddAsin && MAX_ASINS_ALLOWED > totalProducts && (
           <ReverseAsinCardOverlay
             hideOverlay={() => setShowAddAsin(false)}
