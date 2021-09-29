@@ -24,7 +24,6 @@ import Payment from '../Subscription/Payment';
 import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
 import ChurnFlow from '../ChurnFlow';
-import SellerFinder from '../SellerFinder';
 
 import SellerResearch from '../SellerResearch';
 import ProductResearch from '../ProductResearch';
@@ -229,13 +228,6 @@ function App() {
             exact={true}
             path="/leads-tracker"
             component={LeadsTracker}
-            requireSubscription={true}
-          />
-
-          <PrivateRoute
-            exact={true}
-            path="/seller-finder"
-            component={SellerFinder}
             requireSubscription={true}
           />
 
