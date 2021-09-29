@@ -35,7 +35,7 @@ const ProductMetaInformation = (props: Props) => {
   return (
     <section className={styles.productMetaInformation}>
       <h1>
-        {name.toUpperCase()}: {desc}
+        {name.toUpperCase()}: <span>{desc}</span>
       </h1>
 
       {showTutorialOnboarding && (
