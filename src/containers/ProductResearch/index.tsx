@@ -10,28 +10,43 @@ import ProductsDatabase from './ProductsDatabase';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
-import QuotaMeter from '../../components/QuotaMeter';
-import MarketplaceDropdown from '../../components/MarketplaceDropdown';
+import ProductMetaInformation from '../../components/ProductMetaInformation';
+
+/* Selectors */
+import { getUserOnboarding, getUserOnboardingResources } from '../../selectors/UserOnboarding';
 
 /*Actions */
 import { setUserOnboardingResources } from '../../actions/UserOnboarding';
 
+/* COnstansts */
+import {
+  PRODUCT_RESEARCH_PRODUCT_DETAILS,
+  PRODUCT_RESEARCH_PAGES,
+} from '../../constants/ProductResearch';
+import {
+  FALLBACK_ONBOARDING_DETAILS,
+  GENERAL_TUTORIAL_INDEX,
+} from '../../constants/UserOnboarding';
+
 /* Assets */
 import databaseOnboarding from '../../assets/onboardingResources/ProductResearch/productDatabaseOnboarding.json';
-
-/* Constants */
-import { PRODUCT_RESEARCH_PAGES } from '../../constants/ProductResearch';
 
 interface Props {
   history: any;
   match: any;
   setUserOnboardingResources: (payload: any) => void;
+  userOnboarding: boolean;
+  userOnboardingResources: any[];
 }
 
-const productResearchMapper = ['Products', 'Brands', 'Category', 'Competitors'];
-
 const ProductResearch: React.FC<Props> = props => {
-  const { match, setUserOnboardingResources, history } = props;
+  const {
+    match,
+    setUserOnboardingResources,
+    userOnboardingResources,
+    userOnboarding,
+    history,
+  } = props;
 
   const [selectedTabList, setSelectedTabList] = useState<number>(0);
 
@@ -64,24 +79,36 @@ const ProductResearch: React.FC<Props> = props => {
     }
   }, [selectedTabList]);
 
+  /* User onboarding logic */
+  const tutorialOnboardingDetails = userOnboardingResources[GENERAL_TUTORIAL_INDEX] || {};
+  const showTutorialOnboarding =
+    userOnboarding && Object.keys(tutorialOnboardingDetails).length > 0;
+  const { youtubeLink, displayText } =
+    tutorialOnboardingDetails.Tutorial || FALLBACK_ONBOARDING_DETAILS;
+
   return (
     <>
       <PageHeader
         title={`Product Research`}
         breadcrumb={[
           { content: 'Home', to: '/' },
-          { content: 'Product Research', to: '/product-research' },
+          {
+            content: 'Product Research',
+            to: '/product-research',
+          },
         ]}
-        callToAction={<QuotaMeter />}
         auth={match.params.auth}
       />
       <main className={styles.productResearchPage}>
-        {/* Filter meta data */}
-        <section className={styles.filterMetaData}>
-          <h1>Product Research: {productResearchMapper[selectedTabList]}</h1>
-          <MarketplaceDropdown />
-        </section>
-
+        {/* Product Meta Information */}
+        <ProductMetaInformation
+          selectedIndex={selectedTabList}
+          informationDetails={PRODUCT_RESEARCH_PRODUCT_DETAILS}
+          showTutorialOnboarding={showTutorialOnboarding}
+          onboardingDisplayText={displayText}
+          onboardingYoutubeLink={youtubeLink}
+          isNewTutorial={true}
+        />
         {/* Filter product selection */}
         <section className={styles.productSelectionList}>
           <Tabs
@@ -104,10 +131,17 @@ const ProductResearch: React.FC<Props> = props => {
   );
 };
 
+const mapStateToProps = (state: any) => {
+  return {
+    userOnboarding: getUserOnboarding(state),
+    userOnboardingResources: getUserOnboardingResources(state),
+  };
+};
+
 const mapDispatchToProps = (dispatch: any) => {
   return {
     setUserOnboardingResources: (payload: any) => dispatch(setUserOnboardingResources(payload)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(ProductResearch);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductResearch);

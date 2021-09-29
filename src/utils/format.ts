@@ -113,7 +113,8 @@ export const parseKpiLists = (kpiList: any) => {
     .toString()
     .trim()
     .replace(/[" ' [\]/]/gi, '')
-    .split(',');
+    .split(',')
+    .filter((k: string) => k.length > 0);
 };
 
 /* Encode and decode to string (base64) */

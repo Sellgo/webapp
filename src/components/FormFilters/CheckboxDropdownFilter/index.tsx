@@ -39,11 +39,27 @@ const CheckboxDropdown: React.FC<Props> = props => {
 
   const handleCheckboxTick = (e: any, data: any) => {
     let newSelectedValues = selectedValues;
+
+    // if checked state
     if (data.checked) {
-      newSelectedValues.push(data.value);
-    } else {
-      newSelectedValues = newSelectedValues.filter(f => f !== data.value);
+      // if select all is clicked
+      if (data.value === 'Select All') {
+        newSelectedValues = filterOptions.map(f => f.value);
+      }
+      // else normal selected
+      else {
+        newSelectedValues.push(data.value);
+      }
     }
+    // if unchecked state
+    else {
+      if (data.value === 'Select All') {
+        newSelectedValues = [];
+      } else {
+        newSelectedValues = newSelectedValues.filter(f => f !== data.value);
+      }
+    }
+
     handleChange(newSelectedValues);
   };
 
@@ -96,6 +112,15 @@ const CheckboxDropdown: React.FC<Props> = props => {
         content={
           <div className={styles.dropdownWrapper}>
             <div className={styles.checkboxListWrapper}>
+              <Checkbox
+                className={styles.checkboxOption}
+                key="Select All"
+                label="Select All"
+                value="Select All"
+                onChange={handleCheckboxTick}
+                checked={selectedValues.length === filterOptions.length}
+              />
+
               {filterOptions.map(f => {
                 return (
                   <Checkbox

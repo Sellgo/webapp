@@ -18,14 +18,23 @@ interface Props {
   handleChange: (value: string) => void;
   disabled?: boolean;
   loading?: boolean;
+  className?: string;
 }
 
 const PeriodFilter: React.FC<Props> = props => {
-  const { filterOptions, placeholder, value, handleChange, ...otherProps } = props;
+  const {
+    label,
+    filterOptions,
+    placeholder,
+    value,
+    className,
+    handleChange,
+    ...otherProps
+  } = props;
 
   return (
-    <div className="periodFilterWrapper">
-      <p style={{ opacity: 0 }}>Period</p>
+    <div className={`periodFilterWrapper ${className}`}>
+      <p>{label}</p>
       <Dropdown
         search
         fluid

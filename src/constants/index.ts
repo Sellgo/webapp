@@ -40,7 +40,13 @@ export const tableKeys = {
 export const asinRegex = RegExp('([A-Z0-9]{10})');
 
 export const isValidAsin = (asin: string) => {
-  return asinRegex.test(asin.toUpperCase()) && validator.isAlphanumeric(asin) && asin.length === 10;
+  const formattedAsin = asin.trim().toUpperCase();
+
+  return (
+    asinRegex.test(formattedAsin) &&
+    validator.isAlphanumeric(formattedAsin) &&
+    formattedAsin.length === 10
+  );
 };
 
 /* Amazon Seller ID validation */

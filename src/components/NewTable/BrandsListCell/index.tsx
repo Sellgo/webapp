@@ -28,7 +28,7 @@ const BrandsListCell = (props: RowCell) => {
   const handleCopyBrands = (deliminator?: string) => {
     const prepareAsinStringCopy = removeSpecialChars(parsedBrands, deliminator);
     copyToClipboard(prepareAsinStringCopy).then(() => {
-      success('ASINs successfully copied');
+      success('Brands successfully copied');
     });
   };
 
