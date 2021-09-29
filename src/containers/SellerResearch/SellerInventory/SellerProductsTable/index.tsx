@@ -114,6 +114,7 @@ const SellerProductsTable = (props: Props) => {
       if (scrollingHeight < totalHeight) {
         console.log('Fetch more products');
         console.log(sellerInventoryTableExpandedRow);
+        // Ask Victor for API changes on it, otherwise it will be slow
         // fetchSellerInventoryProductsTableResults({ rowId: sellerInventoryTableExpandedRow.id });
       }
 
