@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import validator from 'validator';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -10,6 +11,7 @@ import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
 
 /* Utils */
 import { success } from '../../../../utils/notifications';
+import { getDomain } from '../../../../utils/amazonStore';
 
 /* Actions */
 import { fetchCentralScrapingProgress } from '../../../../actions/SellerResearch/SellerInventory';
@@ -38,6 +40,7 @@ const InventoryFilters = (props: Props) => {
   const [searchInput, setSearchInput] = useState('');
   const [searchChoice, setSearchChoice] = useState('asins');
   const [searchError, setSearchError] = useState(false);
+  const [notSupportedMarketplace, setNonSupportedMarketplace] = useState(false);
 
   const { handleFindOrRefresh } = useFindRefreshSeller();
   const { handleFindOrRefreshByAsin } = useFindRefreshSellerByAsin();
@@ -76,7 +79,7 @@ const InventoryFilters = (props: Props) => {
         asinData[index] = res[1];
       }
     });
-    return asinData.join();
+    return asinData.join('');
   };
 
   useEffect(() => {
@@ -92,6 +95,7 @@ const InventoryFilters = (props: Props) => {
         setSearchError(!isValidSellerIdsList);
       } else {
         setSearchError(false);
+        setNonSupportedMarketplace(false);
       }
       return;
     }
@@ -101,28 +105,47 @@ const InventoryFilters = (props: Props) => {
       if (searchInput.length) {
         const asinList = searchInput.split(',');
 
-        const isValidAsinList = asinList
-          .filter(a => a.trim().length > 0)
-          .every((a: string) => isValidAsin(a.trim()));
+        const filteredAsin = asinList.filter(a => a.trim().length > 0);
+
+        const hasURL = filteredAsin.some(a => validator.isURL(a) || a.includes('htttp://'));
+
+        setNonSupportedMarketplace(hasURL);
+
+        const isValidAsinList = filteredAsin.every((a: string) => isValidAsin(a.trim()));
 
         setSearchError(!isValidAsinList);
       } else {
         setSearchError(false);
+        setNonSupportedMarketplace(false);
       }
       return;
     }
   }, [searchChoice, searchInput]);
 
-  // const totalSearhTerms = searchInput.split(',').filter(s => s.trim().length);
-
   const disableSearch = searchInput.length === 0 || searchError;
 
   const handleOnPaste = (value: string) => {
-    const convertedData = convertAsinLinks(value);
-    setSearchInput(prevState => {
-      const prevStateArray = prevState.split(',').filter((s: string) => s.trim().length > 0);
-      return [...prevStateArray, convertedData].join(',');
-    });
+    const supportedStores = /(amazon.com(.?)$)/i;
+
+    if (validator.isURL(value)) {
+      const isSupportedStore = supportedStores.test(getDomain(value));
+      const convertedData = isSupportedStore ? convertAsinLinks(value) : value;
+
+      if (!isSupportedStore) {
+        setNonSupportedMarketplace(true);
+      }
+
+      setSearchInput(prevState => {
+        const prevStateArray = prevState.split(',').filter((s: string) => s.trim().length > 0);
+        return [...prevStateArray, convertedData].join(',');
+      });
+    } else {
+      const convertedData = convertAsinLinks(value);
+      setSearchInput(prevState => {
+        const prevStateArray = prevState.split(',').filter((s: string) => s.trim().length > 0);
+        return [...prevStateArray, convertedData].join('');
+      });
+    }
   };
 
   return (
@@ -138,12 +161,14 @@ const InventoryFilters = (props: Props) => {
           error={searchError}
           handleOnPaste={handleOnPaste}
         />
-
         <RadioListFilters
           filterOptions={searchChoices}
           value={searchChoice}
           handleChange={value => setSearchChoice(value)}
         />
+        {notSupportedMarketplace && (
+          <p className={styles.nonSupportedMarketplaceMessage}>We only suuport U.S. Marketplace</p>
+        )}
       </div>
 
       <FormFilterActions

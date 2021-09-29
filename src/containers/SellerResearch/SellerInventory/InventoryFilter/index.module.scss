@@ -16,3 +16,9 @@
   min-width: 100%;
   width: 100%;
 }
+
+.nonSupportedMarketplaceMessage {
+  color: $system_red !important;
+  font-size: 14px;
+  margin-top: 10px;
+}
