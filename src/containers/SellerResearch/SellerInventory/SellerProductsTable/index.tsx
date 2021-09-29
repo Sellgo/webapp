@@ -176,6 +176,7 @@ const SellerProductsTable = (props: Props) => {
             dataKey={SELLER_INVENTORY_PRODUCTS_TABLE_UNIQUE_KEY}
             expandedRowKeys={expandedRowKeys}
             onChange={handleExpansion}
+            type="buyBox"
           />
         </Table.Column>
 

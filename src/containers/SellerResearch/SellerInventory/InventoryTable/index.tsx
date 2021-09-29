@@ -163,6 +163,7 @@ const InventoryTable = (props: Props) => {
             dataKey={SELLER_INVENTORY_UNIQUE_KEY}
             expandedRowKeys={expandedRowKeys}
             onChange={handleExpansion}
+            type="sellerInventoryTable"
           />
         </Table.Column>
 

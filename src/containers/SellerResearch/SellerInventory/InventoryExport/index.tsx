@@ -36,6 +36,8 @@ const InventoryExport = (props: Props) => {
     <section className={styles.exportsContainer}>
       <TableExport
         label=""
+        disableExport={shouldDisableExport}
+        onButtonClick={() => handleExport('xlsx')}
         exportContent={
           <>
             <div className={styles.exportOptions}>
