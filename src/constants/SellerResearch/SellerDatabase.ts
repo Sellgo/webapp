@@ -141,13 +141,6 @@ export const GROWTH_PERCENT_FILTER_KEY_MAPPER = {
   '30_days': 'growth_month',
   '90_days': 'growth_L180D',
 };
-/* Exports data */
-export const EXPORT_FORMATS = [
-  { key: 'csv', value: 'csv', text: '.CSV' },
-  { key: 'xlsx', value: 'xlsx', text: '.XLSX' },
-];
-
-export const EXPORT_DATA = [{ key: 'all', value: 'all', text: 'All Results' }];
 
 export const DONT_DISABLE = ['US'];
 
