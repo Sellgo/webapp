@@ -2,13 +2,19 @@ import { NavOptions } from '../../interfaces/Admin';
 
 /* New products following design */
 export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
+  /* Seller Research */
+  '/seller-research',
+  '/seller-research/database',
+  '/seller-research/map',
+  '/seller-research/inventory',
+
+  /* Keyword Research */
   '/keyword-research',
   '/keyword-research/reverse',
   '/keyword-research/database',
   '/keyword-research/tracker',
-  '/seller-research',
-  '/seller-research/database',
-  '/seller-research/map',
+
+  /* Product Research */
   '/product-research',
   '/product-research/database',
 ];
@@ -126,7 +132,7 @@ export const OPTIONS: NavOptions = [
         label: 'Seller Inventory',
         description: 'Seller Inventory',
         icon: require(`../../assets/images/${NAV_ICONS.SELLER_INVENTORY}`),
-        path: '/seller-finder',
+        path: '/seller-research/inventory',
         disabled: false,
         isBeta: false,
       },

@@ -23,6 +23,7 @@ import { getUserOnboarding, getUserOnboardingResources } from '../../selectors/U
 /* Assets */
 import sellerDatabaseOnborading from '../../assets/onboardingResources/SellerResearch/sellerDatabaseOnboarding.json';
 import sellerMapOnborading from '../../assets/onboardingResources/SellerResearch/sellerMapOnboarding.json';
+import sellerInventoryOnboarding from '../../assets/onboardingResources/SellerResearch/sellerInventoryOnboarding.json';
 
 /* Constants */
 import {
@@ -82,6 +83,8 @@ const SellerResearch = (props: Props) => {
       setUserOnboardingResources(sellerDatabaseOnborading);
     } else if (selectedTabList === 1) {
       setUserOnboardingResources(sellerMapOnborading);
+    } else if (selectedTabList === 2) {
+      setUserOnboardingResources(sellerInventoryOnboarding);
     }
   }, [selectedTabList]);
 
@@ -98,10 +101,10 @@ const SellerResearch = (props: Props) => {
         title={`Seller Research`}
         breadcrumb={[
           { content: 'Home', to: '/' },
-          { content: 'Seller Research', to: '/seller-research' },
+          { content: 'Seller Research', to: '/seller-research/database' },
           {
             content: SELLER_RESEARCH_PRODUCT_DETAILS[selectedTabList].name,
-            to: '/seller-research',
+            to: SELLER_RESEARCH_PAGES[selectedTabList],
           },
         ]}
         auth={match.params.auth}

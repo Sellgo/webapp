@@ -117,7 +117,11 @@ const KeywordResearch = (props: Props) => {
           { content: 'Home', to: '/' },
           {
             content: 'Keyword Research',
-            to: '/keyword-research',
+            to: '/keyword-research/reverse',
+          },
+          {
+            content: KEYWORD_RESEARCH_PRODUCT_DETAILS[selectedTabList].name,
+            to: KEYWORD_RESEARCH_PAGES[selectedTabList],
           },
         ]}
         auth={match.params.auth}
