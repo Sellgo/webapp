@@ -1,5 +1,6 @@
 import React, { memo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
+import validator from 'validator';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -11,6 +12,7 @@ import { isValidAsin } from '../../constants';
 /* Components */
 import AsinPill from '../AsinPill';
 import InputFilter from '../FormFilters/InputFilter';
+import { convertAsinLinks } from '../../utils/amazonStore';
 
 const AddReverseBulkAsins = () => {
   const [reverseAsins, setReverseAsins] = useState<string>('');
@@ -18,17 +20,31 @@ const AddReverseBulkAsins = () => {
 
   /* When user enteres something */
   const handleAsinInputChange = (value: string) => {
-    const convertedValue = value.replace(/[ ,]+/g, ',');
+    const convertedValue = value.replace(/[ ,]+/g, '|').toUpperCase();
 
-    if (convertedValue.includes(',')) {
-      const convertedValueArray = convertedValue.split(',').filter(a => a.trim().length > 0);
+    if (convertedValue.includes('|')) {
+      const convertedValueArray = convertedValue.split('|').filter(a => a.trim().length > 0);
       setReverseAsinsArray(prevState => {
         const groupedAsins = [...prevState, ...convertedValueArray];
         return Array.from(new Set(groupedAsins));
       });
       setReverseAsins('');
     } else {
-      setReverseAsins(value);
+      setReverseAsins(validator.isURL(value) ? value : value.toUpperCase());
+    }
+  };
+
+  /* When user pasted a amazon link */
+  const handlePastedInput = (value: string) => {
+    if (validator.isURL(value)) {
+      const convertedValues = convertAsinLinks(value);
+      setReverseAsinsArray(prevState => {
+        const groupedAsins = [...prevState, ...[convertedValues]];
+        return Array.from(new Set(groupedAsins));
+      });
+      setReverseAsins('');
+    } else {
+      setReverseAsins(validator.isURL(value) ? value : value.toUpperCase());
     }
   };
 
@@ -64,11 +80,11 @@ const AddReverseBulkAsins = () => {
 
         <InputFilter
           label=""
-          placeholder="Enter ASINs seperated by space"
+          placeholder="Enter ASINs seperated by space or paste product URL"
           value={reverseAsins}
           handleChange={handleAsinInputChange}
           className={styles.formInput}
-          handleOnPaste={handleAsinInputChange}
+          handleOnPaste={handlePastedInput}
         />
       </div>
 
