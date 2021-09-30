@@ -1,0 +1,26 @@
+@import '../../design-system/new-colors';
+
+.addReverseBulkAsinsModal {
+  border-radius: 7px !important;
+  background: #fff;
+  border: 1px solid $grey_3 !important;
+}
+
+.metaData {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid $grey_3;
+
+  h1 {
+    color: $grey_8;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+.filterForm {
+  padding: 0 20px;
+  margin-top: 30px;
+}

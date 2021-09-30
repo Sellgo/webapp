@@ -43,6 +43,7 @@ import {
   TrackerProductKeywordsTablePaginationInfo,
   TrackerProductKeywordsTablePayload,
 } from '../../../../interfaces/KeywordResearch/KeywordTracker';
+import AddEditKeywords from './AddEditKeywords';
 
 interface Props {
   isLoadingTrackerProductKeywordsTable: boolean;
@@ -139,6 +140,9 @@ const TrackerKeywordTable = (props: Props) => {
     <>
       {/* Competitors Section */}
       <TrackerCompetitors />
+
+      {/* Add Edit Keywords Section */}
+      <AddEditKeywords />
 
       {/* Table Section */}
       <section className={styles.keywordTableWrapper}>
@@ -264,6 +268,19 @@ const TrackerKeywordTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <StatsCell dataKey="sponsored_rank" align="center" />
+          </Table.Column>
+
+          {/* True Rank Performace Index */}
+          <Table.Column width={150} verticalAlign="top" align="left" sortable>
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Drop/Raise Index`}
+                dataKey="index"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <StatsCell dataKey="index" align="center" appendWith="%" asRounded={false} />
           </Table.Column>
 
           {/* Actions Cell */}

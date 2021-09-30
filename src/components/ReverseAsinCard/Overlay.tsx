@@ -14,7 +14,7 @@ import { fetchKeywordReverseRequestId } from '../../actions/KeywordResearch/Keyw
 import CopyToClipboard from '../CopyToClipboard';
 
 /* Assets */
-import { ReactComponent as RemoveCrossIcon } from '../../assets/images/removeCross.svg';
+import crossIcon from '../../assets/images/removeCross.svg';
 import placeholderImage from '../../assets/images/placeholderImage.svg';
 import loadingAnimation from '../../assets/images/sellgo-loading-animation-450-1.gif';
 
@@ -78,7 +78,7 @@ const ReverseAsinCardOverlay = (props: Props) => {
     <div className={styles.overlayContainer}>
       <div className={styles.reverseAsinCard}>
         {/* Hide the background remove icon */}
-        <RemoveCrossIcon className={styles.removeAsinIcon} style={{ opacity: 0 }} />
+        <img src={crossIcon} className={styles.removeAsinIcon} style={{ opacity: 0 }} />
 
         <p className={styles.title}>Title of the pro...</p>
 
@@ -96,7 +96,7 @@ const ReverseAsinCardOverlay = (props: Props) => {
       {/* Asin input overlay */}
       <div className={styles.asinInput}>
         {/* Icon to remove overlay */}
-        <RemoveCrossIcon className={styles.removeOverlayIcon} onClick={hideOverlay} />
+        <img src={crossIcon} className={styles.removeOverlayIcon} onClick={hideOverlay} />
 
         <form onSubmit={handleSubmit}>
           <input

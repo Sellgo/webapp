@@ -43,3 +43,14 @@ export const getHours = (startDate: string) => {
   const duration = moment.duration(end.diff(moment(startDate)));
   return duration.asHours();
 };
+
+export const isLessThan24Hours = (time: string | null) => {
+  if (!time) {
+    return false;
+  }
+
+  const endTime = new Date().getHours();
+  const startTime = new Date(time).getHours();
+
+  return endTime - startTime <= 24 ? true : false;
+};

@@ -12,7 +12,6 @@ import productTrackerReducer from './ProductTracker';
 import userOnboardingReducer from './UserOnboarding';
 import leadsReducer from './LeadsTracker';
 import notificationReducer from './Notification';
-import sellerFinderReducer from './SellerFinder';
 
 /* Products Research */
 import productsDatabaseReducer from './ProductResearch/ProductsDatabase';
@@ -20,6 +19,7 @@ import productsDatabaseReducer from './ProductResearch/ProductsDatabase';
 /* Seller Research */
 import sellerDatabaseReducer from './SellerResearch/SellerDatabase';
 import sellerMapReducer from './SellerResearch/SellerMap';
+import sellerInventoryReducer from './SellerResearch/SellerInventory';
 
 /* Keyword Research */
 import keywordReverseReducer from './KeywordResearch/KeywordReverse';
@@ -39,20 +39,18 @@ const rootReducer = combineReducers({
   userOnboarding: userOnboardingReducer,
   leads: leadsReducer,
   notification: notificationReducer,
-  sellerFinder: sellerFinderReducer,
 
   // seller research
   sellerDatabase: sellerDatabaseReducer,
   sellerMap: sellerMapReducer,
+  sellerInventory: sellerInventoryReducer,
 
   // product research
   productsDatabase: productsDatabaseReducer,
 
-  // keyword reverse
+  // keyword Research
   keywordReverse: keywordReverseReducer,
-  // keyword database
   keywordDatabase: keywordDatabaseReducer,
-  // keyword tracker
   keywordTracker: keywordTrackerReducer,
 });
 
