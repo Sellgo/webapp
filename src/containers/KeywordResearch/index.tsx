@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TabList, TabPanel, Tabs, Tab } from 'react-tabs';
 import { connect } from 'react-redux';
 
-/* Components */
+/* Styles */
 import styles from './index.module.scss';
 
 /* Selectors */
@@ -68,10 +68,15 @@ const KeywordResearch = (props: Props) => {
     }
 
     return () => {
-      resetKeywordResearch();
       setUserOnboardingResources([]);
     };
   }, [selectedTabList]);
+
+  useEffect(() => {
+    return () => {
+      resetKeywordResearch();
+    };
+  }, []);
 
   /* User onboarding logic */
   const tutorialOnboardingDetails = userOnboardingResources[GENERAL_TUTORIAL_INDEX] || {};

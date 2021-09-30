@@ -1,0 +1,35 @@
+@import '../../../../../design-system/new-colors';
+
+.addEditKeywordsWrapper {
+  margin: 0;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.addEditKeywords {
+  background: #fff;
+  margin-left: 30px;
+  height: 34px;
+  color: $accent_orange;
+  border-radius: 7px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: max-content;
+  font-size: 14px;
+  border: 1px solid $accent_orange;
+
+  svg {
+    margin: 0 5px;
+
+    path {
+      fill: $accent_orange !important;
+    }
+  }
+}
+
+.addEditKeywordsModal {
+  border: 0 !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
+}

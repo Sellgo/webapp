@@ -87,10 +87,14 @@ const DatabaseKeywordList = (props: Props) => {
   );
 
   /* Handle keyword Change */
-  const handleKeywordsChange = (value: string) => {
+  const handleKeywordsChange = (value: string, clipboardValue = false) => {
     // set current keyword and ask for suggestion
     setKeywords(value);
-    getSuggestions(value);
+
+    // get suggestion only when user is typing not when the values are pasted from clipboard
+    if (!clipboardValue) {
+      getSuggestions(value);
+    }
   };
 
   return (
@@ -115,9 +119,10 @@ const DatabaseKeywordList = (props: Props) => {
           <InputFilter
             placeholder="Enter keyword seperated by comma"
             value={keywords}
-            handleChange={handleKeywordsChange}
+            handleChange={value => handleKeywordsChange(value, false)}
             className={styles.longInput}
             label="Add Keywords"
+            handleOnPaste={value => handleKeywordsChange(value, true)}
           />
           {suggestions.length > 0 && (
             <ul className={styles.keywordSuggestions} onClick={handleSuggestionClick}>

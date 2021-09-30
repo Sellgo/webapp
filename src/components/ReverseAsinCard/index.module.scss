@@ -18,16 +18,19 @@
   user-select: none;
   border: 1px solid transparent;
   overflow: hiddden;
+  margin-right: 10px;
+  box-shadow: 0 3px 10px rgba(#000, 0.1);
+}
 
-  &:first-child {
-    background: $grey_1;
-  }
+.activeCard {
+  background: $orange_10 !important;
 }
 
 /* Remove Asin Icon */
 .removeAsinIcon {
   align-self: flex-end;
   cursor: pointer;
+  color: $grey_8 !important;
 }
 
 /* Product Title */

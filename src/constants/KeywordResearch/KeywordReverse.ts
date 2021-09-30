@@ -55,14 +55,6 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   sponsoredRankCount: { keyName: 'sponsored_rank_count', type: F_TYPES.MIN_MAX },
 };
 
-/* Exports data */
-export const EXPORT_FORMATS = [
-  // { key: 'csv', value: 'csv', text: '.CSV' },
-  { key: 'xlsx', value: 'xlsx', text: '.XLSX' },
-];
-
-export const EXPORT_DATA = [{ key: 'all', value: 'all', text: 'All Results' }];
-
 export const MAX_ASINS_ALLOWED = 10;
 
 /* Default Pages Display List Options */

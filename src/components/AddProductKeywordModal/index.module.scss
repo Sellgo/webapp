@@ -1,6 +1,6 @@
 @import '../../design-system/new-colors.scss';
 
-.addCompetitorModal {
+.addProductKeywordModal {
   border-radius: 7px !important;
   background: #fff;
   border: 1px solid $grey_3 !important;
@@ -69,7 +69,7 @@
   width: 100% !important;
 }
 
-.addAsinTextArea {
+.addKeywordTextArea {
   textarea {
     min-height: 200px !important;
     line-height: 1.5 !important;
