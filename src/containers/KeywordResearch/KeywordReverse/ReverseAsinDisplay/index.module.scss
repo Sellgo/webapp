@@ -1,5 +1,7 @@
 @import '../../../../design-system/new-colors.scss';
+@import '../../../../styles/modalReset.scss';
 
+/* Main wrapper */
 .reverseAsinDisplay {
   padding: 18px 0;
 
@@ -15,94 +17,52 @@
 /* Add asin trigger */
 .addAsinCard {
   user-select: none;
-  border: 1px solid $blue_8;
+  border: 1px solid $accent_orange;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 93px;
+  width: 100px;
   height: 240px;
   border-radius: 5px;
   background: #fff;
   margin-right: 10px;
-  color: $blue_8 !important;
+  color: $accent_orange !important;
   font-size: 12px;
   font-weight: 500;
 
+  p {
+    margin-top: 10px;
+  }
+
   svg {
+    cursor: pointer;
+
     path {
-      fill: $blue_8;
+      fill: $accent_orange;
     }
   }
 
   &:hover {
-    background: $orange_10;
+    background: $accent_orange;
+    color: #fff !important;
 
     svg {
       path {
-        fill: $blue_8;
+        fill: #fff !important;
       }
     }
   }
 }
 
-.actionsPopover {
-  padding: 0 !important;
-
-  &::before {
-    display: none !important;
-  }
-}
-
-.actionOptions {
-  display: flex;
-  flex-direction: column;
-  min-width: 180px;
-  min-height: 30;
-  justify-content: space-between;
-  align-items: stretch;
-  padding: 10px 0;
-
-  button {
-    background: transparent !important;
-    outline: 0 !important;
-    color: $grey_8 !important;
-    width: 100% !important;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    font-size: 14px !important;
-    height: 25px;
-
-    span {
-      margin-left: 2px;
-    }
-
-    // stylelint-disable no-descending-specificity
-    svg {
-      min-width: 20px;
-      height: 12px;
-      margin-left: 5px;
-
-      path {
-        fill: $grey_8 !important;
-      }
-    }
-
-    &:hover {
-      background: $grey_1 !important;
-    }
-  }
-}
-
+/* Asin cards wrapper */
 .reverseAsinCardsWrapper {
   margin: 8px 0;
   display: flex;
   justify-content: flex-start;
 }
 
-.addBulkAsins {
-  border: 0 !important;
-  border-radius: 0 !important;
-  overflow: hidden !important;
+/* Modal reset */
+.addBulkAsinsModal {
+  @include resetGloablModals;
 }

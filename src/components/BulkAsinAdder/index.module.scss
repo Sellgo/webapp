@@ -3,8 +3,8 @@
 .addReverseBulkAsinsModal {
   border-radius: 7px !important;
   background: #fff;
-  border: 1px solid $grey_3 !important;
   padding: 20px;
+  border: none !important;
 }
 
 .label {
@@ -51,24 +51,5 @@
     color: $grey_8 !important;
     font-weight: 500;
     margin-left: 10px;
-  }
-}
-
-.applyButton {
-  height: 34px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #fff;
-  color: $accent_orange;
-  border: 1px solid $accent_orange;
-  margin-left: auto;
-  width: 140px;
-  border-radius: 7px;
-  margin-top: 30px;
-  margin-bottom: 10px;
-
-  &:disabled {
-    opacity: 0.7;
   }
 }
