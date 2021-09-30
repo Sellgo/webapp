@@ -33,10 +33,10 @@
 
 .addCompetitor {
   background: #fff;
-  color: $blue_8 !important;
+  color: $accent_orange !important;
   height: 30px;
   border-radius: 7px;
-  border: 1px solid $blue_8;
+  border: 1px solid $accent_orange;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -44,18 +44,33 @@
   font-weight: 400;
   margin-right: 20px;
 
+  span {
+    color: $accent_orange !important;
+  }
+
   svg {
     width: 12px;
     height: 12px;
     margin-right: 10px;
 
     path {
-      fill: $blue_8 !important;
+      fill: $accent_orange !important;
     }
   }
 
-  span {
-    color: $blue_8 !important;
+  &:hover {
+    background: $accent_orange;
+    color: #fff !important;
+
+    span {
+      color: #fff !important;
+    }
+
+    svg {
+      path {
+        fill: #fff !important;
+      }
+    }
   }
 }
 
