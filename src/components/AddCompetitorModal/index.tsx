@@ -42,7 +42,7 @@ const AddCompetitorsModal = (props: Props) => {
     addCompetitorsToKeywordTrackerProductsTable,
   } = props;
 
-  const { image, title, asin, competitors } = keywordTrackerProductsExpandedRow;
+  const { image_url: image, title, asin, competitors } = keywordTrackerProductsExpandedRow;
   const keywordTrackProductId =
     keywordTrackerProductsExpandedRow[TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY];
 
@@ -70,7 +70,7 @@ const AddCompetitorsModal = (props: Props) => {
       {/* Produict Details */}
       <div className={styles.productDetails}>
         <div className={styles.productImage}>
-          <img src={image ? image : placeholderImage} alt={title} />
+          <img src={image ? image.replace('SL75', 'SL50') : placeholderImage} alt={title} />
         </div>
 
         <div className={styles.productInfo}>
