@@ -1,0 +1,35 @@
+@import '../../design-system/new-colors';
+
+.asinPill {
+  margin: 8px;
+  display: flex;
+  margin-bottom: 0;
+  color: $grey_8 !important;
+  height: 25px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 7px;
+  align-items: center;
+  width: max-content;
+  justify-content: flex-start;
+  min-width: 90px;
+  padding: 0 5px;
+}
+
+.validAsinPill {
+  @extend .asinPill;
+
+  border: 1px solid $blue_6;
+}
+
+.inValidAsinPill {
+  @extend .asinPill;
+
+  border: 1px solid $system_red;
+}
+
+.removeIcon {
+  margin-left: 10px;
+  color: $grey_8 !important;
+  cursor: pointer;
+}

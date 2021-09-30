@@ -50,7 +50,7 @@ const ReverseAsinDisplay = (props: Props) => {
   } = props;
 
   const [showAddAsin, setShowAddAsin] = useState(false);
-  const [showAddBulkAsin, setShowAddBulkAsin] = useState(false);
+  const [showAddBulkAsin, setShowAddBulkAsin] = useState(true);
 
   const totalProducts = keywordReverseProductsList.length;
 
@@ -151,8 +151,8 @@ const ReverseAsinDisplay = (props: Props) => {
       {/* Add Competitors Modal */}
       <Modal
         open={showAddBulkAsin}
-        className={styles.addBulkAsins}
-        onClose={() => setShowAddBulkAsin(false)}
+        className={styles.addBulkAsinsModal}
+        onClose={() => setShowAddBulkAsin(true)}
         content={<AddReverseBulkAsins />}
       />
     </section>

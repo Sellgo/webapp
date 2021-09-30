@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import validator from 'validator';
 
 /* Styling */
@@ -11,7 +10,7 @@ import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
 
 /* Utils */
 import { success } from '../../../../utils/notifications';
-import { getDomain } from '../../../../utils/amazonStore';
+import { getDomain, convertAsinLinks } from '../../../../utils/amazonStore';
 
 /* Actions */
 import { fetchCentralScrapingProgress } from '../../../../actions/SellerResearch/SellerInventory';
@@ -67,19 +66,6 @@ const InventoryFilters = (props: Props) => {
     success('Search for seller started');
     fetchCentralScrapingProgress();
     handleReset();
-  };
-
-  /* Get ASIN from link */
-  const convertAsinLinks = (data: string) => {
-    const regex = RegExp('(?:[/dp/]|$)([A-Z0-9]{10})');
-    const asinData = data.split(' ');
-    _.each(asinData, (item, index) => {
-      const res = item.match(regex);
-      if (res) {
-        asinData[index] = res[1];
-      }
-    });
-    return asinData.join('');
   };
 
   useEffect(() => {
