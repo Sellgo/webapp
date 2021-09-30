@@ -28,17 +28,16 @@
 }
 
 .subNavOptions {
-  transition: 0.3s;
+  transition: 0.3s !important;
   max-height: 0 !important;
-  width: 100% !important;
+  width: 100%;
   overflow: hidden;
 }
 
 .navBar:hover {
-  width: 260px;
+  width: 260px !important;
 
   .subNavOptions {
-    width: 260px;
     max-height: 500px !important;
   }
 }
