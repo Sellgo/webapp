@@ -10,8 +10,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
   border-bottom: 1px solid $grey_3;
+  padding: 0 20px;
 
   h1 {
     color: $grey_8;
@@ -20,15 +20,12 @@
   }
 }
 
-.filterForm {
-  padding: 0 20px;
-  margin-top: 30px;
-}
-
 .productDetails {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  margin-top: 30px;
+  padding: 0 20px;
 }
 
 .productImage {
@@ -60,31 +57,6 @@
   span {
     font-size: 10px;
     color: $grey_8 !important;
-    margin-left: 10px;
-  }
-}
-
-.longInput {
-  min-width: 100% !important;
-  width: 100% !important;
-}
-
-.addAsinTextArea {
-  textarea {
-    min-height: 200px !important;
-    line-height: 1.5 !important;
-  }
-}
-
-.leftOverMessage {
-  color: $grey_6 !important;
-  font-size: 12px;
-  text-align: right;
-  margin-right: 20px;
-
-  span {
-    color: $grey_8 !important;
-    font-weight: 500;
     margin-left: 10px;
   }
 }

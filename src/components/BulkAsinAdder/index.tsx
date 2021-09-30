@@ -78,16 +78,22 @@ const AddReverseBulkAsins = (props: Props) => {
     }
   };
 
-  /* When apply button is clicked */
-  const handleApply = () => {
-    const sendPayload = asinsArray.join(',');
-    onSubmit({ asins: sendPayload });
-  };
-
   /* When asin needs to be removed */
   const handleRemoveAsin = (asin: string) => {
     const updatedAsins = asinsArray.filter(a => a !== asin);
     setAsinsArray(updatedAsins);
+  };
+
+  /* When reset is pressed */
+  const handleReset = () => {
+    setUserInputAsins('');
+    setAsinsArray(currentAsins.split(',').filter(a => a.trim().length > 0));
+  };
+
+  /* When apply button is clicked */
+  const handleApply = () => {
+    const sendPayload = asinsArray.join(',');
+    onSubmit({ asins: sendPayload });
   };
 
   const totalAsinsCount = asinsArray.length;
@@ -130,9 +136,7 @@ const AddReverseBulkAsins = (props: Props) => {
         submitLabel={submitLabel ? submitLabel : 'Apply'}
         resetLabel={resetLabel ? resetLabel : 'Reset'}
         onFind={handleApply}
-        onReset={() => {
-          return;
-        }}
+        onReset={handleReset}
         withSecondarySubmit
         hideReset={hideReset}
         disabled={shouldDisableSubmit}

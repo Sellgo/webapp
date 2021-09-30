@@ -292,6 +292,8 @@ export const addCompetitorsToKeywordTrackerProductsTable = (
 ) => async (dispatch: any, getState: any) => {
   const sellerId = sellerIDSelector();
 
+  console.log('Calling this here!!!');
+
   try {
     const { keywordTrackProductId, asins } = payload;
 
