@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 /* Styling */
@@ -41,6 +40,7 @@ import {
 } from '../../../../constants/SellerResearch/SellerMap';
 
 /* Components */
+import AdvanceFilterToggle from '../../../../components/AdvanceFilterToggle';
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
@@ -315,16 +315,10 @@ const SellerDatabaseFilters = (props: Props) => {
         </div>
 
         <div className={styles.advancedFilterWrapper}>
-          <div
-            className={styles.advancedFilterToggle}
-            onClick={() => setShowAdvancedFilter(prevState => !prevState)}
-            style={{ background: !showAdvancedFilter ? '#F9F9FA' : ' #F2EFE4' }}
-          >
-            <span>Advanced Filters</span>
-            <span>
-              {showAdvancedFilter ? <Icon name="chevron up" /> : <Icon name="chevron down" />}
-            </span>
-          </div>
+          <AdvanceFilterToggle
+            handleClick={() => setShowAdvancedFilter(prevState => !prevState)}
+            showAdvancedFilter={showAdvancedFilter}
+          />
 
           {showAdvancedFilter && (
             <div className={styles.showAdvancedFilter}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Table } from 'rsuite';
 
 /* Styling */
@@ -40,4 +40,4 @@ const TruncatedTextCell = (props: Props) => {
   );
 };
 
-export default TruncatedTextCell;
+export default memo(TruncatedTextCell);

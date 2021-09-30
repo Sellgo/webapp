@@ -4,7 +4,7 @@ import { Icon, Popup, Modal } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 /* Styling */
-import './index.scss';
+import styles from './index.module.scss';
 
 /* Interfaces */
 import { RowCell } from '../../../../../interfaces/Table';
@@ -77,32 +77,32 @@ const ActionsCell = (props: Props) => {
   return (
     <>
       <Table.Cell {...otherProps}>
-        <div className="productTrackerKeywordActionsCellWrapper">
+        <div className={styles.actionCellWrapper}>
           <Popup
-            className="productKeywordActionsCell"
-            trigger={<Icon name="ellipsis vertical" className="productKeywordActionsCellTrigger" />}
+            className={styles.actionCellPopup}
+            trigger={<Icon name="ellipsis vertical" className={styles.actionCellTrigger} />}
             on="click"
             position="bottom right"
             closeOnDocumentClick
             content={
-              <div className="productKeywordActionsCellContent">
+              <div className={styles.actionCellContent}>
                 <button onClick={handleSearchOnAmazon} disabled={!phrase}>
-                  <Icon name="amazon" className="productKeywordActionIcon" />
+                  <Icon name="amazon" className={styles.actionCellIcon} />
                   Search On Amazon
                 </button>
 
                 <button onClick={handleUnTrackKeyword}>
-                  <Icon name="trash" className="productKeywordActionIcon" />
+                  <Icon name="trash" className={styles.actionCellIcon} />
                   Delete Keyword
                 </button>
 
                 <button onClick={handleHistory}>
-                  <Icon name="chart line" className="productKeywordActionIcon" />
+                  <Icon name="chart line" className={styles.actionCellIcon} />
                   History
                 </button>
 
                 <button onClick={handleExport}>
-                  <Icon name="download" className="productKeywordActionIcon" />
+                  <Icon name="download" className={styles.actionCellIcon} />
                   Export XLSX
                 </button>
               </div>

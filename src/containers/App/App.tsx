@@ -24,9 +24,10 @@ import Payment from '../Subscription/Payment';
 import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
 import ChurnFlow from '../ChurnFlow';
-import SellerFinder from '../SellerFinder';
 
 import SellerResearch from '../SellerResearch';
+import ProductResearch from '../ProductResearch';
+import KeywordResearch from '../KeywordResearch';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import { isBetaAccount } from '../../utils/subscriptions';
@@ -232,15 +233,22 @@ function App() {
 
           <PrivateRoute
             exact={true}
-            path="/seller-finder"
-            component={SellerFinder}
+            path="/seller-research"
+            component={SellerResearch}
             requireSubscription={true}
           />
 
           <PrivateRoute
             exact={true}
-            path="/seller-research"
-            component={SellerResearch}
+            path="/product-research"
+            component={ProductResearch}
+            requireSubscription={true}
+          />
+
+          <PrivateRoute
+            exact={true}
+            path="/keyword-research"
+            component={KeywordResearch}
             requireSubscription={true}
           />
 

@@ -4,7 +4,7 @@ import { Icon, Popup } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 /* Styling */
-import './index.scss';
+import styles from './index.module.scss';
 
 /* Utils */
 import { downloadFile } from '../../../../../utils/download';
@@ -52,27 +52,27 @@ const ActionsCell = (props: Props) => {
 
   return (
     <Table.Cell {...otherProps}>
-      <div className="keywordTrackerActionCellWrapper">
+      <div className={styles.actionCellWrapper}>
         <Popup
-          className="keywordTrackerActionsCell"
-          trigger={<Icon name="ellipsis vertical" className="keywordTrackerActionsCellTrigger" />}
+          className={styles.actionCellPopup}
+          trigger={<Icon name="ellipsis vertical" className={styles.actionCellTrigger} />}
           on="click"
           position="bottom right"
           offset="-15"
           content={
-            <div className="keywordTrackerActionsCellContent">
+            <div className={styles.actionCellContent}>
               <button disabled={!asin} onClick={handleViewOnAmazon}>
-                <Icon name="amazon" className="keywordTrackerActionIcon" />
+                <Icon name="amazon" className={styles.actionCellIcon} />
                 View on Amazon
               </button>
 
               <button onClick={handleUntrackProduct}>
-                <Icon name="trash" className="keywordTrackerActionIcon" />
+                <Icon name="trash" className={styles.actionCellIcon} />
                 Delete Product
               </button>
 
               <button disabled={!exportXlsxReport} onClick={() => handleExport('xlsx')}>
-                <Icon name="download" className="keywordTrackerActionIcon" />
+                <Icon name="download" className={styles.actionCellIcon} />
                 Export XLSX
               </button>
             </div>

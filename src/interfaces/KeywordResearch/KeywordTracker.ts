@@ -1,6 +1,7 @@
 export interface ProductTrackPayload {
   asin: string;
   keywords: string;
+  trackParentsAndVariations: boolean;
 }
 
 /* Keyword Tracker Products  Table Interfaces */
@@ -73,6 +74,12 @@ export interface TrackerProductKeywordsTablePaginationInfo {
 /* Untrack keyword from products table*/
 export interface UnTrackProductsTableKeyword {
   keywordTrackId: number;
+}
+
+/* Add more keywords to keyword tracker table */
+export interface AddTrackerProductKeyword {
+  keywordTrackProductId: number;
+  keywords: string;
 }
 
 /* Keywords History */

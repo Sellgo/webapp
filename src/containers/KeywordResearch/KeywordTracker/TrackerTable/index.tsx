@@ -231,6 +231,24 @@ const TrackerTable = (props: Props) => {
           <ChangeStats dataKey="sponsored_asins" align="center" />
         </Table.Column>
 
+        {/* True Rank Performace Index */}
+        <Table.Column width={150} verticalAlign="top" align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`True Rank\nPerformace Index`}
+              dataKey="true_rank_performance"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell
+            dataKey="true_rank_performance"
+            align="center"
+            appendWith="%"
+            asRounded={false}
+          />
+        </Table.Column>
+
         {/* Actions Cell */}
         <Table.Column width={40} verticalAlign="top" fixed align="left">
           <Table.HeaderCell>{''}</Table.HeaderCell>

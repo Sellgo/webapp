@@ -1,5 +1,11 @@
 [
   {
+    "Tutorial": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "displayText": "Tutorial | 5-min watch"
+    }
+  },
+  {
     "Categories": {
       "youtubeLink": "",
       "tooltipText": "Sponsored  | 2 min watch"

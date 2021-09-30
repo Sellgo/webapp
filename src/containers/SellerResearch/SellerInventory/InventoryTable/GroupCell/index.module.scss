@@ -1,0 +1,76 @@
+@import '../../../../../design-system/new-colors';
+
+.groupCell {
+  padding-top: 30px;
+  color: $grey_8 !important;
+}
+
+.activeIcon {
+  cursor: pointer !important;
+
+  path {
+    fill: $grey_8 !important;
+  }
+}
+
+.inActiveIcon {
+  cursor: unset !important;
+
+  path {
+    fill: $grey_6 !important;
+  }
+}
+
+.groupCellPopup {
+  &::before {
+    display: none;
+  }
+
+  padding: 0 !important;
+}
+
+.sellerGroupOptions {
+  min-width: 130px;
+  min-height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 5px;
+  padding-top: 10px;
+
+  p {
+    color: $grey_6 !important;
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+
+  button {
+    background: #fff;
+    color: $grey_8 !important;
+    border: 0;
+    outline: 0;
+    width: 100%;
+    font-weight: 500 !important;
+    font-size: 14px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    margin-bottom: 5px;
+
+    &:hover {
+      background: $grey_1 !important;
+    }
+
+    .actionCellIcon {
+      margin-right: 5px;
+      font-size: 12px !important;
+      color: inherit !important;
+      color: $grey_8 !important;
+    }
+
+    &:disabled {
+      color: $grey_3 !important;
+    }
+  }
+}

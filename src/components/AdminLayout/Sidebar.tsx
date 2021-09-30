@@ -8,8 +8,10 @@ import './Sidebar.scss';
 import { getLatestSupplier } from '../../actions/Suppliers';
 import get from 'lodash/get';
 
+import { LogoWithoutText } from '../Logo/index';
+import productResearchIcon from '../../assets/images/product-research.svg';
 import sellerMapIcon from '../../assets/images/sellerMapIcon.svg';
-import sellerFinderIcon from '../../assets/images/sellerFinder.svg';
+import placeholderIcon from '../../assets/placeholder.svg';
 
 import BetaLabel from '../BetaLabel';
 import { isBetaAccount, isSubscriptionIdFreeAccount } from '../../utils/subscriptions';
@@ -47,7 +49,6 @@ class SidebarCollapsible extends Component<
         path: '/synthesis',
         notifyId: 1,
         imageType: false,
-        tooltip: '',
       },
       {
         id: 2,
@@ -56,7 +57,6 @@ class SidebarCollapsible extends Component<
         path: '/profit-finder',
         notifyId: 1,
         imageType: false,
-        tooltip: '',
       },
       {
         id: 3,
@@ -65,7 +65,6 @@ class SidebarCollapsible extends Component<
         path: '/product-tracker',
         notifyId: 2,
         imageType: false,
-        tooltip: '',
       },
       {
         id: 4,
@@ -74,7 +73,6 @@ class SidebarCollapsible extends Component<
         path: '/leads-tracker',
         notifyId: 2,
         imageType: false,
-        tooltip: '',
       },
       {
         id: 5,
@@ -83,27 +81,26 @@ class SidebarCollapsible extends Component<
         path: '/seller-research',
         notifyId: 4,
         imageType: true,
-        isBeta: false,
-        tooltip: '',
       },
       {
         id: 6,
-        label: 'Seller Finder',
-        icon: sellerFinderIcon,
-        path: '/seller-finder',
+        label: 'Product Research',
+        icon: productResearchIcon,
+        path: '/product-research',
         notifyId: 4,
         imageType: true,
-        isBeta: false,
-        tooltip: '',
+        isBeta: true,
       },
       {
         id: 7,
-        label: 'Settings',
-        icon: 'fas fa-cog',
-        path: '/settings',
+        label: 'Keyword Research',
+        icon: placeholderIcon,
+        path: '/keyword-research',
         notifyId: 4,
-        tooltip: '',
+        imageType: true,
+        isBeta: true,
       },
+      { id: 8, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
     ],
     visible: false,
     openConfirm: false,
@@ -115,8 +112,8 @@ class SidebarCollapsible extends Component<
     const { visible, sidebarIcon } = this.state;
     const { children, currentNotifyId, sellerSubscription } = this.props;
 
-    const upperNavbar = this.state.sidebarIcon.filter(icon => icon.id < 7);
-    const lowerNavbar = this.state.sidebarIcon.filter(icon => icon.id >= 7);
+    const upperNavbar = this.state.sidebarIcon.filter(icon => icon.id < 8);
+    const lowerNavbar = this.state.sidebarIcon.filter(icon => icon.id >= 8);
 
     let supplier_id = '';
 
@@ -135,6 +132,9 @@ class SidebarCollapsible extends Component<
 
     const sidebarMenu = (
       <>
+        <Link to="/" className="sidebar-menu__logo">
+          <LogoWithoutText />
+        </Link>
         {/* Upper portion of sidebar */}
         <Menu.Menu>
           {upperNavbar.map(icon => {
@@ -164,7 +164,6 @@ class SidebarCollapsible extends Component<
                     }`}
                   />
                 )}
-                {/* <span className="sidebarTooltip">Tooltip placeholder</span> */}
               </Menu.Item>
             );
           })}
