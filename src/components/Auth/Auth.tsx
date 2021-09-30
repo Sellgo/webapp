@@ -21,6 +21,41 @@ export default class Auth {
     redirectUri: AppConfig.callbackUrl,
   });
 
+  public authenticateChromeExtension = () => {
+    const chromeRedirectURL = localStorage.getItem('chromeRedirectURL') || '';
+    const decodedRedirectURL = atob(chromeRedirectURL);
+    const userData = {
+      name: localStorage.getItem('userName'),
+      email: localStorage.getItem('userEmail'),
+      idToken: localStorage.getItem('idToken'),
+      expiresAt: localStorage.getItem('idTokenExpires'),
+      sellerID: localStorage.getItem('userId'),
+    };
+
+    // If chrome extension requires redirect then:
+    if (
+      navigator.userAgent.indexOf('Chrome') !== -1 &&
+      decodedRedirectURL.length > 0 &&
+      isURL(decodedRedirectURL)
+    ) {
+      if (chrome && chrome.runtime) {
+        chrome.runtime.sendMessage(chromeID, {
+          status: 'login',
+          payload: userData,
+        });
+        window.location.href = decodedRedirectURL;
+        localStorage.setItem('chromeRedirectURL', '');
+        return;
+      }
+      // If chrome extension is open, but no redirect notice was issued, so just send login signal
+    } else if (navigator.userAgent.indexOf('Chrome') !== -1) {
+      if (chrome && chrome.runtime) {
+        chrome.runtime.sendMessage(chromeID, { status: 'loginWithoutRedirect', payload: userData });
+      }
+    }
+    history.replace('/');
+  };
+
   public auth0Lock = new Auth0Lock(AppConfig.clientID, AppConfig.domain, {
     auth: {
       redirectUrl: AppConfig.callbackUrl,
@@ -34,9 +69,6 @@ export default class Auth {
   registerSeller = () => {
     const headers = { Authorization: `Bearer ${this.idToken}`, 'Content-Type': 'application/json' };
     const formData = new FormData();
-
-    const chromeRedirectURL = localStorage.getItem('chromeRedirectURL') || '';
-    const decodedRedirectURL = atob(chromeRedirectURL);
 
     formData.append('email', this.userProfile.email);
     formData.append('name', `${this.userProfile.name}`);
@@ -59,24 +91,8 @@ export default class Auth {
             email: data.email,
           });
 
-          const userData = {
-            name: this.userProfile.name,
-            email: this.userProfile.email,
-            idToken: localStorage.getItem('idToken'),
-            expiresAt: localStorage.getItem('idTokenExpires'),
-            sellerID: localStorage.getItem('userId'),
-          };
-
           if (navigator.userAgent.indexOf('Chrome') !== -1) {
-            if (chrome && chrome.runtime) {
-              chrome.runtime.sendMessage(chromeID, { status: 'login', payload: userData });
-            }
-          }
-
-          // if chrome extension redirect then
-          if (decodedRedirectURL.length > 0 && isURL(decodedRedirectURL)) {
-            window.location.href = decodedRedirectURL;
-            localStorage.setItem('chromeRedirectURL', '');
+            this.authenticateChromeExtension();
             return;
           }
 
