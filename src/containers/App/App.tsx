@@ -149,7 +149,7 @@ const PrivateRoute = connect(
           props.match.params.auth = auth;
 
           return (
-            <AdminLayout>
+            <AdminLayout {...props}>
               <Component {...props} />
             </AdminLayout>
           );
@@ -233,21 +233,21 @@ function App() {
 
           <PrivateRoute
             exact={true}
-            path="/seller-research"
+            path="/seller-research/:productName"
             component={SellerResearch}
             requireSubscription={true}
           />
 
           <PrivateRoute
             exact={true}
-            path="/product-research"
+            path="/product-research/:productName"
             component={ProductResearch}
             requireSubscription={true}
           />
 
           <PrivateRoute
             exact={true}
-            path="/keyword-research"
+            path="/keyword-research/:productName"
             component={KeywordResearch}
             requireSubscription={true}
           />

@@ -65,10 +65,3 @@ export const isValidAmazonSellerId = (sellerId: string) => {
 
   return startsWithValidation && lengthValidation && alphaNumericValidation;
 };
-
-/* New products following design */
-export const newProductDesignPathNames = [
-  '/keyword-research',
-  '/seller-research',
-  '/product-research',
-];

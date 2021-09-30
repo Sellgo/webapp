@@ -19,7 +19,10 @@ import { getUserOnboarding, getUserOnboardingResources } from '../../selectors/U
 import { setUserOnboardingResources } from '../../actions/UserOnboarding';
 
 /* COnstansts */
-import { PRODUCT_RESEARCH_PRODUCT_DETAILS } from '../../constants/ProductResearch';
+import {
+  PRODUCT_RESEARCH_PRODUCT_DETAILS,
+  PRODUCT_RESEARCH_PAGES,
+} from '../../constants/ProductResearch';
 import {
   FALLBACK_ONBOARDING_DETAILS,
   GENERAL_TUTORIAL_INDEX,
@@ -29,6 +32,7 @@ import {
 import databaseOnboarding from '../../assets/onboardingResources/ProductResearch/productDatabaseOnboarding.json';
 
 interface Props {
+  history: any;
   match: any;
   setUserOnboardingResources: (payload: any) => void;
   userOnboarding: boolean;
@@ -36,13 +40,38 @@ interface Props {
 }
 
 const ProductResearch: React.FC<Props> = props => {
-  const { match, setUserOnboardingResources, userOnboardingResources, userOnboarding } = props;
+  const {
+    match,
+    setUserOnboardingResources,
+    userOnboardingResources,
+    userOnboarding,
+    history,
+  } = props;
 
   const [selectedTabList, setSelectedTabList] = useState<number>(0);
 
   const handleTabChange = (index: number) => {
     setSelectedTabList(index);
+    history.push(PRODUCT_RESEARCH_PAGES[index]);
   };
+
+  /* To update tab based on url */
+  useEffect(() => {
+    const currentIndex = PRODUCT_RESEARCH_PAGES.findIndex(
+      (path: string) => path === window.location.pathname
+    );
+
+    /* If on a different tab, redirect to correct tab */
+    if (currentIndex !== selectedTabList) {
+      if (currentIndex === -1) {
+        /* If is on any other page, e.g. /seller-research, or /seller-research/asd, redirect to first product */
+        handleTabChange(0);
+      } else {
+        /* Update tab according to page */
+        handleTabChange(currentIndex);
+      }
+    }
+  }, [match]);
 
   useEffect(() => {
     if (selectedTabList === 0) {
@@ -63,9 +92,10 @@ const ProductResearch: React.FC<Props> = props => {
         title={`Product Research`}
         breadcrumb={[
           { content: 'Home', to: '/' },
+          { content: 'Product Research', to: '/product-research/database' },
           {
-            content: 'Product Research',
-            to: '/product-research',
+            content: PRODUCT_RESEARCH_PRODUCT_DETAILS[selectedTabList].name,
+            to: PRODUCT_RESEARCH_PAGES[selectedTabList],
           },
         ]}
         auth={match.params.auth}

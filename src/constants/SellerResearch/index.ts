@@ -1,3 +1,9 @@
+export const SELLER_RESEARCH_PAGES = [
+  '/seller-research/database',
+  '/seller-research/map',
+  '/seller-research/inventory',
+];
+
 export const SELLER_RESEARCH_PRODUCT_DETAILS = [
   {
     name: 'Seller Database',

@@ -13,7 +13,10 @@ import {
   FALLBACK_ONBOARDING_DETAILS,
   GENERAL_TUTORIAL_INDEX,
 } from '../../constants/UserOnboarding';
-import { KEYWORD_RESEARCH_PRODUCT_DETAILS } from '../../constants/KeywordResearch';
+import {
+  KEYWORD_RESEARCH_PRODUCT_DETAILS,
+  KEYWORD_RESEARCH_PAGES,
+} from '../../constants/KeywordResearch';
 
 /* Actions */
 import { resetKeywordResearch } from '../../actions/KeywordResearch';
@@ -36,6 +39,7 @@ import trackerOnBoardingResources from '../../assets/onboardingResources/Keyword
 
 interface Props {
   match: any;
+  history: any;
   userOnboarding: boolean;
   userOnboardingResources: any[];
   resetKeywordResearch: () => void;
@@ -49,13 +53,33 @@ const KeywordResearch = (props: Props) => {
     setUserOnboardingResources,
     userOnboardingResources,
     userOnboarding,
+    history,
   } = props;
 
   const [selectedTabList, setSelectedTabList] = useState<number>(0);
 
   const handleTabChange = (index: number) => {
     setSelectedTabList(index);
+    history.push(KEYWORD_RESEARCH_PAGES[index]);
   };
+
+  /* To update tab based on url */
+  useEffect(() => {
+    const currentIndex = KEYWORD_RESEARCH_PAGES.findIndex(
+      (path: string) => path === window.location.pathname
+    );
+
+    /* If on a different tab, redirect to correct tab */
+    if (currentIndex !== selectedTabList) {
+      if (currentIndex === -1) {
+        /* If is on any other page, e.g. /seller-research, or /seller-research/asd, redirect to first product */
+        handleTabChange(0);
+      } else {
+        /* Update tab according to page */
+        handleTabChange(currentIndex);
+      }
+    }
+  }, [match]);
 
   useEffect(() => {
     // set resources for keyword database
@@ -93,7 +117,11 @@ const KeywordResearch = (props: Props) => {
           { content: 'Home', to: '/' },
           {
             content: 'Keyword Research',
-            to: '/keyword-research',
+            to: '/keyword-research/reverse',
+          },
+          {
+            content: KEYWORD_RESEARCH_PRODUCT_DETAILS[selectedTabList].name,
+            to: KEYWORD_RESEARCH_PAGES[selectedTabList],
           },
         ]}
         auth={match.params.auth}
