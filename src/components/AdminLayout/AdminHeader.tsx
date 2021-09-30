@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Icon, Image, Menu, Dropdown, Grid } from 'semantic-ui-react';
+import { Icon, Image, Menu, Dropdown, Grid, Checkbox } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LogoutConfirm from '../LogoutConfirm';
@@ -51,12 +51,24 @@ class AdminHeader extends React.Component<AdminProps> {
   openConfirm = (text: boolean) => this.setState({ openConfirm: text });
 
   render() {
-    const { auth, currentNotifyId, sellerSubscription } = this.props;
+    const {
+      auth,
+      currentNotifyId,
+      sellerSubscription,
+      setUserOnboarding,
+      userOnboarding,
+    } = this.props;
 
     return (
       <div className="admin-header">
         <Grid className={`${currentNotifyId > 0 && 'custom-dimmer'}`} />
 
+        <Checkbox
+          toggle
+          checked={userOnboarding}
+          className="userOnboardingToogle"
+          onClick={() => setUserOnboarding(!userOnboarding)}
+        />
         {/* Show settings icon only if not a beta user account */}
         {!isBetaAccount(sellerSubscription) && (
           <Menu.Item as={Link} to="/settings">

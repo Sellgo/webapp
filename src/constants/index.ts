@@ -58,7 +58,7 @@ export const isValidAmazonSellerId = (sellerId: string) => {
 
   /* Length>=14 and <=21 */
   const length = formatSellerId.length;
-  const lengthValidation = length >= 14 && length <= 21;
+  const lengthValidation = length >= 12 && length <= 21;
 
   /* Only alphanumeric chacters */
   const alphaNumericValidation = validator.isAlphanumeric(formatSellerId);

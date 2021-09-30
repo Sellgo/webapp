@@ -23,6 +23,7 @@ import FormFilterActions from '../../../../components/FormFilters/FormFilterActi
 
 /* Interfaces */
 import { KeywordDatabaseTablePayload } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
+import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
 
 interface Props {
   fetchKeywordDatabaseTableInfo: (payload: KeywordDatabaseTablePayload) => void;
@@ -39,10 +40,10 @@ const DatabaseFilters = (props: Props) => {
   const [wordCount, setWordCount] = useState(DEFAULT_MIN_MAX_FILTER);
   const [competingProducts, setCompetitingProducts] = useState(DEFAULT_MIN_MAX_FILTER);
   const [titleDensity, setTitleDensity] = useState(DEFAULT_MIN_MAX_FILTER);
-  // const [amazonChoice, setAmazonChoice] = useState<boolean>(false);
 
   /* Advanced Filters */
   const [searchTerm, setSearchTerm] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+  const [matchKeywords, setMatchKeywords] = useState(false);
 
   /* Handle Reset */
   const handleReset = () => {
@@ -54,6 +55,7 @@ const DatabaseFilters = (props: Props) => {
 
     /* Advanced Filters */
     setSearchTerm(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+    setMatchKeywords(false);
 
     resetKeywordDatabase();
   };
@@ -68,6 +70,7 @@ const DatabaseFilters = (props: Props) => {
 
       /* Advanced Filters */
       searchTerm,
+      matchKeywords,
     };
     fetchKeywordDatabaseTableInfo({ filterPayload });
   };
@@ -88,6 +91,7 @@ const DatabaseFilters = (props: Props) => {
             }));
           }}
         />
+
         {/* Word Count  */}
         <MinMaxFilter
           label="Word Count"
@@ -100,6 +104,7 @@ const DatabaseFilters = (props: Props) => {
             }));
           }}
         />
+
         {/* Competing Products */}
         <MinMaxFilter
           label="Competing Products"
@@ -124,16 +129,6 @@ const DatabaseFilters = (props: Props) => {
             }));
           }}
         />
-
-        {/* Amazon Choice
-        <CheckboxFilter
-          label="Amazon Choice"
-          checkboxLabel="Amazon Choice"
-          checked={amazonChoice}
-          handleChange={(data: boolean) => {
-            setAmazonChoice(data);
-          }}
-        /> */}
       </div>
 
       {/* Advanced Filters */}
@@ -146,18 +141,26 @@ const DatabaseFilters = (props: Props) => {
         {showAdvancedFilter && (
           <div className={styles.showAdvancedFilter}>
             {/* Include Search Terms)  */}
-            <InputFilter
-              label="Include Search Terms that contain"
-              value={searchTerm.include}
-              handleChange={value =>
-                setSearchTerm(prevState => ({
-                  ...prevState,
-                  include: value,
-                }))
-              }
-              placeholder="Enter words"
-              className={styles.longInput}
-            />
+            <div>
+              <InputFilter
+                label="Include Search Terms that contain"
+                value={searchTerm.include}
+                handleChange={value =>
+                  setSearchTerm(prevState => ({
+                    ...prevState,
+                    include: value,
+                  }))
+                }
+                placeholder="Enter words"
+                className={styles.longInput}
+              />
+
+              <CheckboxFilter
+                checkboxLabel="Match keyword"
+                checked={matchKeywords}
+                handleChange={value => setMatchKeywords(value)}
+              />
+            </div>
 
             {/* Exclude Search Terms)  */}
             <InputFilter

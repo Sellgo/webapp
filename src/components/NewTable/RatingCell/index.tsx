@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Table } from 'rsuite';
 import Rating from 'react-rating';
 import { Icon } from 'semantic-ui-react';
@@ -38,4 +38,4 @@ const RatingCell = (props: Props) => {
   );
 };
 
-export default RatingCell;
+export default memo(RatingCell);

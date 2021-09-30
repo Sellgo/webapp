@@ -2,13 +2,19 @@ import { NavOptions } from '../../interfaces/Admin';
 
 /* New products following design */
 export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
+  /* Seller Research */
+  '/seller-research',
+  '/seller-research/database',
+  '/seller-research/map',
+  '/seller-research/inventory',
+
+  /* Keyword Research */
   '/keyword-research',
   '/keyword-research/reverse',
   '/keyword-research/database',
   '/keyword-research/tracker',
-  '/seller-research',
-  '/seller-research/database',
-  '/seller-research/map',
+
+  /* Product Research */
   '/product-research',
   '/product-research/database',
 ];
@@ -87,7 +93,7 @@ export const OPTIONS: NavOptions = [
         icon: require(`../../assets/images/${NAV_ICONS.PRODUCT_DATABASE}`),
         path: '/product-research/database',
         disabled: false,
-        isBeta: false,
+        isBeta: true,
       },
       {
         label: 'Product Tracker',
@@ -126,7 +132,7 @@ export const OPTIONS: NavOptions = [
         label: 'Seller Inventory',
         description: 'Seller Inventory',
         icon: require(`../../assets/images/${NAV_ICONS.SELLER_INVENTORY}`),
-        path: '/seller-finder',
+        path: '/seller-research/inventory',
         disabled: false,
         isBeta: false,
       },
@@ -137,15 +143,15 @@ export const OPTIONS: NavOptions = [
     icon: require(`../../assets/images/${NAV_ICONS.KEYWORD_RESEARCH}`),
     path: '/keyword-research',
     disabled: false,
-    isBeta: false,
+    isBeta: true,
     subOptions: [
       {
-        label: 'Keyword Reverse',
+        label: 'Keyword Finder',
         description: 'Reveal Competitor Keywords',
         icon: require(`../../assets/images/${NAV_ICONS.KEYWORD_REVERSE}`),
         path: '/keyword-research/reverse',
         disabled: false,
-        isBeta: false,
+        isBeta: true,
       },
       {
         label: 'Keyword Database',
@@ -153,7 +159,7 @@ export const OPTIONS: NavOptions = [
         icon: require(`../../assets/images/${NAV_ICONS.KEYWORD_DATABASE}`),
         path: '/keyword-research/database',
         disabled: false,
-        isBeta: false,
+        isBeta: true,
       },
       {
         label: 'Keyword Tracker',
@@ -161,7 +167,7 @@ export const OPTIONS: NavOptions = [
         icon: require(`../../assets/images/${NAV_ICONS.KEYWORD_TRACKER}`),
         path: '/keyword-research/tracker',
         disabled: false,
-        isBeta: false,
+        isBeta: true,
       },
     ],
   },

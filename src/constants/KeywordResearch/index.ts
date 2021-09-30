@@ -6,15 +6,15 @@ export const KEYWORD_RESEARCH_PAGES = [
 
 export const KEYWORD_RESEARCH_PRODUCT_DETAILS = [
   {
-    name: 'Keyword Reverse',
-    desc: 'Add info for Reverse',
+    name: 'Keyword Finder',
+    desc: 'Reveal the Best Keywords and Make Them Your Own',
   },
   {
     name: 'Keyword Database',
-    desc: 'Add info database',
+    desc: 'Enter a Seed Keyword and Get Back a Whole List of High-Volume Relevant Keywords',
   },
   {
     name: 'Keyword Tracker',
-    desc: 'Add info for tracker',
+    desc: 'Dominate Your Keywords and Get to #1 Spot of Search Results',
   },
 ];

@@ -92,9 +92,10 @@ const ProductResearch: React.FC<Props> = props => {
         title={`Product Research`}
         breadcrumb={[
           { content: 'Home', to: '/' },
+          { content: 'Product Research', to: '/product-research/database' },
           {
-            content: 'Product Research',
-            to: '/product-research',
+            content: PRODUCT_RESEARCH_PRODUCT_DETAILS[selectedTabList].name,
+            to: PRODUCT_RESEARCH_PAGES[selectedTabList],
           },
         ]}
         auth={match.params.auth}

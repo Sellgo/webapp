@@ -1,0 +1,12 @@
+@import '../../../../../design-system/new-colors';
+
+.sellerInformation {
+  display: flex;
+}
+
+.sellerName {
+  color: $prim_dark_1;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+}
