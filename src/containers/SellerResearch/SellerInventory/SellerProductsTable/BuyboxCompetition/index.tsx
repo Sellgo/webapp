@@ -6,8 +6,15 @@ import { connect } from 'react-redux';
 /* Styling */
 import styles from './index.module.scss';
 
+/* Selectors */
+import {
+  getAllowLiveScraping,
+  getSellerInventoryTableExpandedRow,
+} from '../../../../../selectors/SellerResearch/SellerInventory';
+
 /* Utils */
 import { formatNumber, showNAIfZeroOrNull } from '../../../../../utils/format';
+import { isLessThan24Hours } from '../../../../../utils/date';
 
 /* Assets */
 import { ReactComponent as CheckSellerIcon } from '../../../../../assets/images/userUnlockedIcon.svg';
@@ -25,10 +32,6 @@ import { TrackUntrackProduct } from '../../../../../interfaces/SellerResearch/Se
 
 /* Hooks */
 import { useFindRefreshSellerByAsin } from '../../SocketProviders/FindRefreshSellerByAsin';
-import {
-  getAllowLiveScraping,
-  getSellerInventoryTableExpandedRow,
-} from '../../../../../selectors/SellerResearch/SellerInventory';
 
 interface Props extends RowCell {
   allowLiveScraping: boolean;
@@ -57,7 +60,12 @@ const BuyboxCompetition = (props: Props) => {
   const productAsin = rowData.asin;
   const merchantId = rowData.merchant_id;
 
+  const lastCheckSellers = rowData.last_check_sellers;
+
   const isProductTracked = status === 'active' || status === true ? true : false;
+
+  /* Logic to disbale check inventory */
+  const disableCheckSellers = isLessThan24Hours(lastCheckSellers) || !allowLiveScraping;
 
   /* Handle Check Sellers button */
   const handleCheckSellers = () => {
@@ -91,6 +99,7 @@ const BuyboxCompetition = (props: Props) => {
           <button
             className={styles.actionButton}
             onClick={handleCheckSellers}
+            disabled={disableCheckSellers}
             style={{
               color: numOfSellers ? '#3b4557' : '#636d76',
               fontWeight: numOfSellers ? 500 : 400,
@@ -115,7 +124,7 @@ const BuyboxCompetition = (props: Props) => {
               <>
                 <div className={styles.actionOptions}>
                   <p>Buybox Competition</p>
-                  <button onClick={handleCheckSellers} disabled={!allowLiveScraping}>
+                  <button onClick={handleCheckSellers} disabled={disableCheckSellers}>
                     <CheckSellerIcon />
                     <span>Check Sellers</span>
                   </button>

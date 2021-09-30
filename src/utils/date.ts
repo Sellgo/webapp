@@ -44,13 +44,10 @@ export const getHours = (startDate: string) => {
   return duration.asHours();
 };
 
-export const isLessThan24Hours = (time: string | null) => {
-  if (!time) {
+export const isLessThan24Hours = (date: string | null) => {
+  if (!date) {
     return false;
   }
 
-  const endTime = new Date().getHours();
-  const startTime = new Date(time).getHours();
-
-  return endTime - startTime <= 24 ? true : false;
+  return getHours(date) <= 24 ? true : false;
 };
