@@ -28,7 +28,10 @@
   border-radius: 5px;
   cursor: pointer;
   padding-left: 5px;
-  background: $grey_0 !important;
+
+  &:hover {
+    background: $grey_0 !important;
+  }
 }
 
 .actionButton {

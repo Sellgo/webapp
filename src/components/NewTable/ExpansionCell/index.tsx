@@ -70,7 +70,6 @@ const ExpansionCell = (props: Props) => {
     isDisabled = !rowData.has_inventory;
   } else if (type === 'buyBox') {
     isDisabled = !rowData.num_sellers;
-    console.log(isDisabled);
   } else {
     isDisabled = false;
   }
