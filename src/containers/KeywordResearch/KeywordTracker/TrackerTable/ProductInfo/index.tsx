@@ -24,9 +24,7 @@ const ProductInfo = (props: RowCell) => {
     <Table.Cell {...props}>
       <div className={styles.productInfoContainer}>
         {/* Product Image */}
-        <div className={styles.productImage}>
-          <img src={image_url} alt={title} />
-        </div>
+        <div className={styles.productImage} style={{ backgroundImage: `url(${image_url})` }} />
 
         {/* Product Meta Details */}
         <div className={styles.productDetails}>
