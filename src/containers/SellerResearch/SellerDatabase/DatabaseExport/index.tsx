@@ -24,9 +24,7 @@ import {
 
 /* Components */
 import TableExport from '../../../../components/NewTable/TableExport';
-
-/* Utils */
-import { formatNumber } from '../../../../utils/format';
+import TableResultsMessage from '../../../../components/TableResultsMessage';
 
 /* Assets */
 import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
@@ -58,18 +56,15 @@ const DatabaseExport = (props: Props) => {
     [isLoadingSellerDatabase, sellerDatabaseResults]
   );
 
-  const totalSellersFound = useMemo(() => {
-    const count = sellerDatabasePaginationInfo.count;
-    return formatNumber(count);
-  }, [sellerDatabasePaginationInfo]);
-
   return (
     <>
       <div className={styles.exportsContainer}>
-        {!sellerDatabaseFilterMessage.show && totalSellersFound !== '0' && (
-          <p className={styles.messageText}>
-            Viewing <span className={styles.sellerCount}>{totalSellersFound}</span> sellers.
-          </p>
+        {!sellerDatabaseFilterMessage.show && sellerDatabasePaginationInfo.total_pages > 0 && (
+          <TableResultsMessage
+            prependMessage="Viewing"
+            count={sellerDatabasePaginationInfo.count}
+            appendMessage="sellers."
+          />
         )}
 
         <TableExport

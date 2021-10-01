@@ -16,6 +16,7 @@ import {
 
 /* Components */
 import TableExport from '../../../../components/NewTable/TableExport';
+import TableResultsMessage from '../../../../components/TableResultsMessage';
 
 /* Interface */
 import {
@@ -47,11 +48,11 @@ const DatabaseExport = (props: Props) => {
     <>
       <section className={styles.exportsContainer}>
         {keywordDatabasePaginationInfo.total_pages > 0 && (
-          <p className={styles.messageText}>
-            Viewing{' '}
-            <span className={styles.sellerCount}>{keywordDatabasePaginationInfo.count}</span>{' '}
-            keywords.
-          </p>
+          <TableResultsMessage
+            prependMessage="Viewing"
+            count={keywordDatabasePaginationInfo.count}
+            appendMessage="keywords."
+          />
         )}
 
         <TableExport

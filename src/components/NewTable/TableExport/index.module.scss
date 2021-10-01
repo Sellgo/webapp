@@ -18,6 +18,12 @@
   width: max-content !important;
   padding: 0;
 
+  &:hover {
+    color: $prim_dark_1 !important;
+    background: $grey_1 !important;
+    border-radius: 1px !important;
+  }
+
   &:disabled {
     color: $grey_6 !important;
 
