@@ -1,12 +1,14 @@
 import React from 'react';
+import { Modal, Radio } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
 
 /* Data */
 import { subscriptionList, SummaryDetails } from '../../data';
+
+/* Components */
 import OrangeButton from '../../../../components/OrangeButton';
-import { Modal, Radio } from 'semantic-ui-react';
 
 interface Props {
   setPlanType: (planType: string) => any;
@@ -39,6 +41,7 @@ const Summary = (props: Props) => {
     const planTypeWithoutSpaces = planType.split(' ').join('');
     return planTypeWithoutSpaces.toLowerCase();
   };
+
   const handleChange = (e: any, data: any) => {
     const plan = data.value.split(',');
     const updatedPlanType = plan[0];

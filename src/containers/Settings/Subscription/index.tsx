@@ -136,13 +136,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     localStorage.setItem('planType', subscription.name.split(' ').join(''));
     localStorage.setItem('paymentMode', paymentMode);
     history.push(`/subscription/payment`);
-    // this.createCheckoutSession(subscriptionId, paymentMode)
-    //   .then((checkoutSessionId: any) => {
-    //     this.redirectToCheckout(checkoutSessionId);
-    //   })
-    //   .catch(() => {
-    //     error(`There was an error redirecting you to Stripe`);
-    //   });
   }
 
   createCheckoutSession(subscriptionId: any, paymentMode: string) {

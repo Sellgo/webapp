@@ -14,6 +14,7 @@ import { generateSubscriptionDetails, SummaryDetails } from '../data';
 /* Types */
 import { PromoCode } from '../../../interfaces/Subscription';
 
+/* Components */
 import OrangeButton from '../../../components/OrangeButton';
 import ChangePlanModal from './ChangePlanModal';
 
