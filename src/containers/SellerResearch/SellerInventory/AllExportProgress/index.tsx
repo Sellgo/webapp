@@ -20,7 +20,7 @@ const AllExportProgress = (props: Props) => {
 
   const { showProgress, progress } = centralExportProgress;
 
-  const progressPercent = Number.parseFloat(String(progress || '0'));
+  const progressPercent = Math.floor(Number.parseFloat(String(progress || '0')));
 
   return (
     <>

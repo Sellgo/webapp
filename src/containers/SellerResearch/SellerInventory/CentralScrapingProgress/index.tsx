@@ -43,11 +43,13 @@ const CentralScrapingProgressBar = (props: Props) => {
     return;
   }, 5000);
 
+  const progressPercent = Math.floor((pendingProcess && pendingProcess.progress) || 0);
+
   return (
     <>
       {showCentralScrapingProgress && (
         <Progress
-          percent={(pendingProcess && pendingProcess.progress) || 0}
+          percent={progressPercent || 0}
           progress
           indicating
           className={'defaultProgressBar'}

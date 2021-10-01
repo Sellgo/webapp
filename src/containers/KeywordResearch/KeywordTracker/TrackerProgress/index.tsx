@@ -33,8 +33,8 @@ const TrackerProgress = (props: Props) => {
     shouldFetchTrackerProductKeywordsHistoryExportProgress,
   } = props;
 
-  const progressPercent = Number.parseFloat(
-    trackerProductKeywordsHistoryExportProgress.export_progress
+  const progressPercent = Math.floor(
+    Number.parseFloat(trackerProductKeywordsHistoryExportProgress.export_progress)
   );
 
   useInterval(() => {
