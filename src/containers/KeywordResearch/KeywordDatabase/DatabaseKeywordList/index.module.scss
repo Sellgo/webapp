@@ -99,40 +99,8 @@
 }
 
 /* Search keywords button */
-.resetBtn {
-  height: 33px;
-  width: 140px;
-  border-radius: 7px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 14px;
-  border: 1px solid $accent_orange;
+.searchKeywordBtn {
   margin-top: 30px;
-  font-weight: 400;
-}
-
-/* In Active State for fetch keywords button */
-.fetchKeywordsInActive {
-  @extend .resetBtn;
-
-  color: #fff;
-  background: $accent_orange;
-}
-
-/* Active State for fetch keywords button */
-.fetchKeywordsActive {
-  @extend .resetBtn;
-
-  color: $accent_orange;
-  background: #fff;
-  font-weight: 400;
-
-  &:hover {
-    background: $accent_orange;
-    color: #fff;
-    font-weight: 500 !important;
-  }
 }
 
 /* Keyword Suggestions List */
