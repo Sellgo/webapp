@@ -10,6 +10,7 @@ import SupplierDetail from '../Synthesis/Supplier';
 import Auth from '../../components/Auth/Auth';
 import PageLoader from '../../components/PageLoader';
 import NotFound from '../../components/NotFound';
+import QuickWin from '../../containers/QuickWin';
 import history from '../../history';
 import { connect } from 'react-redux';
 import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
@@ -75,7 +76,8 @@ const PrivateRoute = connect(
     ...rest
   }: any) => {
     const userIsAuthenticated = isAuthenticated();
-
+    const isFirstTimeUserLoggedIn =
+      sellerSubscription && sellerSubscription.is_first_time_logged_in;
     // This effect will run if there is a change in sellerSubscription,
     // auth status, or route so that we can take the appropriate action.
     // TODO: Hoist this logic up to an AuthProvider that includes user's subscription as part
@@ -150,6 +152,7 @@ const PrivateRoute = connect(
 
           return (
             <AdminLayout {...props}>
+              {isFirstTimeUserLoggedIn && <QuickWin />}
               <Component {...props} />
             </AdminLayout>
           );

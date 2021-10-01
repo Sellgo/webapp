@@ -69,7 +69,6 @@ export const fetchSellerSubscription = () => (dispatch: any) => {
   return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/subscription`)
     .then(json => {
       const subscription = json.data || false;
-
       dispatch(setSellerSubscription(subscription));
       if (subscription) {
         if (navigator.userAgent.indexOf('Chrome') !== -1) {

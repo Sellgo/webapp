@@ -1,7 +1,8 @@
 const DEV_URLS = {
   BASE_URL: 'https://app.sellgo-dev.com',
   BASE_URL_AUTH: 'sellgo-dev.auth0.com',
-  BASE_URL_API: 'https://api.sellgo-dev.com/api/',
+  // BASE_URL_API: 'https://api.sellgo-dev.com/api/',
+  BASE_URL_API: 'http://localhost:8000/api/',
   CHANGE_PASS_API_URL: 'https://sellgo-dev.auth0.com/dbconnections/change_password',
   WEB_URL: 'https://sellgo-dev.com',
   WEBSOCKET_URL: 'wss://api.sellgo-dev.com/ws',
@@ -22,6 +23,7 @@ const DEV_KEYS = {
   ELEVIO_ID: '5f21ef059e2e7',
   CHROME_EXT_ID: 'akkneemdhjpifmcbpcdanajpihknagbf',
   CHURNFLOW_SURVEY_ID: 'Lb8og4j8',
+  QUICK_WIN_SURVEY_ID: 'IjxdqPK3',
   BETA_FORM_ID: 'pvnHf0f6',
 };
 
@@ -31,6 +33,7 @@ const PROD_KEYS = {
   ELEVIO_ID: '5f21ef059e2e7',
   CHROME_EXT_ID: 'gldmigoakdolonchebfnmcfbjihelcec',
   CHURNFLOW_SURVEY_ID: 'Lb8og4j8',
+  QUICK_WIN_SURVEY_ID: 'IjxdqPK3',
   BETA_FORM_ID: 'pvnHf0f6',
 };
 
