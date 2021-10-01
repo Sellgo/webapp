@@ -109,7 +109,7 @@ const SellerActions = (props: Props) => {
 
                     <button onClick={() => handleCopyAsins(',')}>
                       <Icon name="copy outline" />
-                      <span>Copy ASINs in rows with comma</span>
+                      <span>Copy ASINs in rows</span>
                     </button>
 
                     <button onClick={() => handleCopyAsins('\n')}>
