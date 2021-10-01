@@ -134,7 +134,7 @@ const SellerResearch = (props: Props) => {
               <Tab>Sellers</Tab>
               <Tab>Map</Tab>
               <Tab>
-                Inventory <BetaLabel isNav={true} className={styles.productBeta} />
+                Finder <BetaLabel isNav={true} className={styles.productBeta} />
               </Tab>
             </TabList>
 

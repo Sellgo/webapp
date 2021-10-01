@@ -6,7 +6,7 @@ export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
   '/seller-research',
   '/seller-research/database',
   '/seller-research/map',
-  '/seller-research/inventory',
+  '/seller-research/finder',
 
   /* Keyword Research */
   '/keyword-research',
@@ -129,10 +129,10 @@ export const OPTIONS: NavOptions = [
         isBeta: false,
       },
       {
-        label: 'Seller Inventory',
-        description: 'Seller Inventory',
+        label: 'Seller Finder',
+        description: 'Seller Finder',
         icon: require(`../../assets/images/${NAV_ICONS.SELLER_INVENTORY}`),
-        path: '/seller-research/inventory',
+        path: '/seller-research/finder',
         disabled: false,
         isBeta: true,
       },
