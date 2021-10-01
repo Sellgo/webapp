@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table } from 'rsuite';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 import numeral from 'numeral';
@@ -18,6 +18,7 @@ import { parseKpiLists, prettyPrintNumber, removeSpecialChars } from '../../../.
 import { copyToClipboard } from '../../../../../utils/file';
 import { success } from '../../../../../utils/notifications';
 import { isLessThan24Hours } from '../../../../../utils/date';
+import { timeout } from '../../../../../utils/timeout';
 
 /* Assets */
 import { ReactComponent as CheckInventoryIcon } from '../../../../../assets/images/sellerFinder.svg';
@@ -34,6 +35,8 @@ interface Props extends RowCell {
 }
 
 const SellerActions = (props: Props) => {
+  const [openPopup, setOpenPopup] = useState(false);
+
   const { fetchCentralScrapingProgress, allowLiveScraping, ...otherProps } = props;
 
   const { rowData } = otherProps;
@@ -55,10 +58,18 @@ const SellerActions = (props: Props) => {
   /* Logic to disbale check inventory */
   const disableCheckInventory = isLessThan24Hours(lastCheckInventory) || !allowLiveScraping;
 
+  /* Handle close popup */
+  const handleClosePopup = () => {
+    setOpenPopup(false);
+  };
+
   /* Track seller */
-  const checkInventory = () => {
+  const checkInventory = async () => {
     handleCheckInventory(merchantId);
-    fetchCentralScrapingProgress();
+    handleClosePopup();
+    success(`Started Inventory check for ${merchantId}. Check the progress for latest updates`);
+    await timeout(2000);
+    await fetchCentralScrapingProgress();
   };
 
   /* Copy Asins */
@@ -67,6 +78,7 @@ const SellerActions = (props: Props) => {
     copyToClipboard(prepareAsinStringCopy).then(() => {
       success('ASINs successfully copied');
     });
+    handleClosePopup();
   };
 
   return (
@@ -87,6 +99,8 @@ const SellerActions = (props: Props) => {
             </button>
             <Popup
               on="click"
+              open={openPopup}
+              onClose={handleClosePopup}
               position="bottom left"
               offset="-40"
               closeOnDocumentClick
@@ -96,6 +110,7 @@ const SellerActions = (props: Props) => {
                 <Button
                   icon="chevron down"
                   className={`${styles.iconButton} iconButtonResetGlobal`}
+                  onClick={() => setOpenPopup(true)}
                 />
               }
               content={
