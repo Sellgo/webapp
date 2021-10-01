@@ -10,6 +10,9 @@ import { subscriptionList, SummaryDetails } from '../../data';
 /* Components */
 import OrangeButton from '../../../../components/OrangeButton';
 
+/* utils */
+import { convertPlanNameToKey } from '../../../../utils/subscriptions';
+
 interface Props {
   setPlanType: (planType: string) => any;
   setPaymentMode: (paymentMode: string) => any;
@@ -32,22 +35,18 @@ const Summary = (props: Props) => {
   const [newPlanType, setNewPlanType] = React.useState<string>('');
   const [newPaymentMode, setNewPaymentMode] = React.useState<string>('');
 
+  /* Reset newPlanType and newPaymentMode to default */
   React.useEffect(() => {
     setNewPlanType(planType);
     setNewPaymentMode(paymentMode);
   }, [planType, paymentMode]);
-
-  const formatPlanName = (planType: string) => {
-    const planTypeWithoutSpaces = planType.split(' ').join('');
-    return planTypeWithoutSpaces.toLowerCase();
-  };
 
   const handleChange = (e: any, data: any) => {
     const plan = data.value.split(',');
     const updatedPlanType = plan[0];
     const updatedPaymentMode = plan[1];
 
-    setNewPlanType(formatPlanName(updatedPlanType));
+    setNewPlanType(convertPlanNameToKey(updatedPlanType));
     setNewPaymentMode(updatedPaymentMode);
   };
 
@@ -74,13 +73,15 @@ const Summary = (props: Props) => {
                   {plan.dailyPrice !== -1 && (
                     <Radio
                       checked={
-                        formatPlanName(plan.name) === newPlanType && newPaymentMode === 'daily'
+                        convertPlanNameToKey(plan.name) === newPlanType &&
+                        newPaymentMode === 'daily'
                       }
                       label={`${plan.name} $${plan.dailyPrice} /day billed daily`}
                       name="plan"
                       value={`${plan.name},daily`}
                       className={
-                        formatPlanName(plan.name) === newPlanType && newPaymentMode === 'daily'
+                        convertPlanNameToKey(plan.name) === newPlanType &&
+                        newPaymentMode === 'daily'
                           ? `${styles.planOption} ${styles.planOption__selected}`
                           : styles.planOption
                       }
@@ -90,10 +91,12 @@ const Summary = (props: Props) => {
                   {plan.monthlyPrice !== -1 && (
                     <Radio
                       checked={
-                        formatPlanName(plan.name) === newPlanType && newPaymentMode === 'monthly'
+                        convertPlanNameToKey(plan.name) === newPlanType &&
+                        newPaymentMode === 'monthly'
                       }
                       className={
-                        formatPlanName(plan.name) === newPlanType && newPaymentMode === 'monthly'
+                        convertPlanNameToKey(plan.name) === newPlanType &&
+                        newPaymentMode === 'monthly'
                           ? `${styles.planOption} ${styles.planOption__selected}`
                           : styles.planOption
                       }
@@ -106,10 +109,12 @@ const Summary = (props: Props) => {
                   {plan.annualPrice !== -1 && (
                     <Radio
                       checked={
-                        formatPlanName(plan.name) === newPlanType && newPaymentMode === 'yearly'
+                        convertPlanNameToKey(plan.name) === newPlanType &&
+                        newPaymentMode === 'yearly'
                       }
                       className={
-                        formatPlanName(plan.name) === newPlanType && newPaymentMode === 'yearly'
+                        convertPlanNameToKey(plan.name) === newPlanType &&
+                        newPaymentMode === 'yearly'
                           ? `${styles.planOption} ${styles.planOption__selected}`
                           : styles.planOption
                       }

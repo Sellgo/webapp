@@ -6,11 +6,10 @@ import Axios from 'axios';
 import _ from 'lodash';
 import Carousel from 'react-multi-carousel';
 
-import stripe from '../../../stripe';
-
 /* Utils */
 import { success, error } from '../../../utils/notifications';
 import history from '../../../history';
+import { convertPlanNameToKey, isSubscriptionNotPaid } from '../../../utils/subscriptions';
 
 /* Config */
 import { AppConfig } from '../../../config';
@@ -19,7 +18,6 @@ import { AppConfig } from '../../../config';
 import {
   fetchSellerSubscription,
   fetchSubscriptions,
-  redeemCoupon,
   setSellerSubscription,
 } from '../../../actions/Settings/Subscription';
 import { getSellerInfo } from '../../../actions/Settings';
@@ -37,8 +35,6 @@ import 'react-multi-carousel/lib/styles.css';
 import PageHeader from '../../../components/PageHeader';
 
 import PricingInfoAlert from '../../../components/PricingInfoAlert';
-
-import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
 
 /* Types */
 import { Subscription } from '../../../interfaces/Seller';
@@ -59,7 +55,6 @@ interface SubscriptionProps {
   subscriptionType: string;
   subscriptionPlan: string;
   match: any;
-  redeemCoupon: (value: any, id: any) => void;
 }
 
 class SubscriptionPricing extends React.Component<SubscriptionProps> {
@@ -133,43 +128,9 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   }
 
   checkout(subscription: Subscription, paymentMode: string) {
-    localStorage.setItem('planType', subscription.name.split(' ').join(''));
+    localStorage.setItem('planType', convertPlanNameToKey(subscription.name));
     localStorage.setItem('paymentMode', paymentMode);
     history.push(`/subscription/payment`);
-  }
-
-  createCheckoutSession(subscriptionId: any, paymentMode: string) {
-    const { profile } = this.props;
-    const bodyFormData = new FormData();
-    bodyFormData.append('subscription_id', subscriptionId);
-    bodyFormData.append('payment_mode', paymentMode);
-    bodyFormData.append('email', profile.email);
-
-    return Axios.post(
-      AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/create-checkout-session`,
-      bodyFormData
-    ).then(response => {
-      return response.data;
-    });
-  }
-
-  redirectToCheckout(checkoutSessionId: any) {
-    stripe
-      .redirectToCheckout({
-        sessionId: checkoutSessionId,
-      })
-      .then((result: any) => {
-        // If `redirectToCheckout` fails due to a browser or network
-        // error, display the localized error message to your customer
-        // using `result.error.message`.
-        error(`There was an error: ${result.error.message}`);
-      });
-  }
-
-  redeem() {
-    const { couponVal } = this.state;
-    const { profile, redeemCoupon } = this.props;
-    redeemCoupon(couponVal, profile.id);
   }
 
   promptCancelSubscriptionPlan = () => {
@@ -369,7 +330,6 @@ const mapDispatchToProps = {
   fetchSubscriptions: () => fetchSubscriptions(),
   fetchSellerSubscription: () => fetchSellerSubscription(),
   setSellerSubscription: (data: any) => setSellerSubscription(data),
-  redeemCoupon: (value: any, id: any) => redeemCoupon(value, id),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubscriptionPricing);

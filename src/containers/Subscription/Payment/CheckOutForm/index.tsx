@@ -89,8 +89,6 @@ function CheckoutForm(props: MyProps) {
     promoLoading,
     setRedeemedPromoCode,
     setPromoError,
-    accountType,
-    paymentMode,
   } = props;
   const [isPromoCodeChecked, setPromoCodeChecked] = useState<boolean>(false);
   const [promoCode, setPromoCode] = useState<string>('');
@@ -105,6 +103,8 @@ function CheckoutForm(props: MyProps) {
     code: 'US',
     value: 'US',
   });
+  const accountType = localStorage.getItem('planType') || '';
+  const paymentMode = localStorage.getItem('paymentMode') || '';
 
   /* Upon successful checking of the entered promo code, either a valid redeemedPromoCode code 
   is returned, or an error message is returned. Upon completion of promo code check, set status 
