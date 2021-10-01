@@ -25,6 +25,7 @@ import { setUserOnboardingResources } from '../../actions/UserOnboarding';
 /* Components */
 import PageHeader from '../../components/PageHeader';
 import ProductMetaInformation from '../../components/ProductMetaInformation';
+import BetaLabel from '../../components/BetaLabel';
 
 /* Containers */
 import KeywordReverse from './KeywordReverse';
@@ -147,9 +148,15 @@ const KeywordResearch = (props: Props) => {
             selectedIndex={selectedTabList}
           >
             <TabList className={styles.productTablist}>
-              <Tab>Reverse</Tab>
-              <Tab>Database</Tab>
-              <Tab>Tracker</Tab>
+              <Tab>
+                Reverse <BetaLabel isNav={true} className={styles.productBeta} />
+              </Tab>
+              <Tab>
+                Database <BetaLabel isNav={true} className={styles.productBeta} />
+              </Tab>
+              <Tab>
+                Tracker <BetaLabel isNav={true} className={styles.productBeta} />
+              </Tab>
             </TabList>
 
             <TabPanel>

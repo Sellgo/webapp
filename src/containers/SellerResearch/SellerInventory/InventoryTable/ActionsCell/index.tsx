@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table } from 'rsuite';
 import { Icon, Popup } from 'semantic-ui-react';
 import { connect } from 'react-redux';
@@ -11,6 +11,10 @@ import {
   deleteSellerFromTable,
   fetchCentralScrapingProgress,
 } from '../../../../../actions/SellerResearch/SellerInventory';
+
+/* Utils */
+import { timeout } from '../../../../../utils/timeout';
+import { success } from '../../../../../utils/notifications';
 
 /* Selectors */
 import { getAllowLiveScraping } from '../../../../../selectors/SellerResearch/SellerInventory';
@@ -36,6 +40,8 @@ const ActionsCell = (props: Props) => {
     ...otherProps
   } = props;
 
+  const [openPopup, setOpenPopup] = useState(false);
+
   const { handleFindOrRefresh } = useFindRefreshSeller();
 
   const { rowData } = otherProps;
@@ -44,22 +50,33 @@ const ActionsCell = (props: Props) => {
   const id = rowData.id;
   const sellerLink = `https://www.amazon.com/sp?seller=${merchantId}`;
 
+  /* Handle close popup */
+  const handleClosePopup = () => {
+    setOpenPopup(false);
+  };
+
+  /* View on Amazon */
   const handleViewOnAmazon = () => {
     window.open(sellerLink, '_blank');
+    handleClosePopup();
   };
 
   /* Refresh seller from table */
-  const handleRefresh = () => {
+  const handleRefresh = async () => {
     handleFindOrRefresh({
       type: 'refresh',
       merchantIds: merchantId,
     });
-    fetchCentralScrapingProgress();
+    handleClosePopup();
+    success(`Refetching ${merchantId}. Check the progress for latest updates`);
+    await timeout(2000);
+    await fetchCentralScrapingProgress();
   };
 
   /* Delete seller from table */
   const handleDelete = () => {
     deleteSellerFromTable({ id });
+    handleClosePopup();
   };
 
   return (
@@ -67,8 +84,16 @@ const ActionsCell = (props: Props) => {
       <div className={styles.actionCellWrapper}>
         <Popup
           className={styles.actionCellPopup}
-          trigger={<Icon name="ellipsis vertical" className={styles.actionCellTrigger} />}
+          trigger={
+            <Icon
+              name="ellipsis vertical"
+              className={styles.actionCellTrigger}
+              onClick={() => setOpenPopup(true)}
+            />
+          }
           on="click"
+          open={openPopup}
+          onClose={handleClosePopup}
           position="bottom right"
           offset="-15"
           content={

@@ -53,7 +53,6 @@ const GroupCell = (props: Props) => {
     };
 
     moveMerchantToSellerInventoryTableGroup(payload);
-    console.log(payload);
   };
 
   return (

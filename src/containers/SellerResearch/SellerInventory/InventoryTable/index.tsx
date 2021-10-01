@@ -168,7 +168,7 @@ const InventoryTable = (props: Props) => {
         </Table.Column>
 
         {/* Seller Information */}
-        <Table.Column width={650} verticalAlign="top" fixed flexGrow={1}>
+        <Table.Column minWidth={500} verticalAlign="top" fixed="left" flexGrow={1}>
           <Table.HeaderCell>Seller Information</Table.HeaderCell>
           <SellerInformation dataKey="seller_information" />
         </Table.Column>
@@ -288,13 +288,13 @@ const InventoryTable = (props: Props) => {
         </Table.Column>
 
         {/* Group Cell */}
-        <Table.Column width={40} verticalAlign="top" fixed align="left">
+        <Table.Column width={40} verticalAlign="top" align="left" fixed="right">
           <Table.HeaderCell>{''}</Table.HeaderCell>
           <GroupCell dataKey="merchant_group" />
         </Table.Column>
 
         {/* Actions Cell */}
-        <Table.Column width={40} verticalAlign="top" fixed align="left">
+        <Table.Column width={40} verticalAlign="top" align="left" fixed="right">
           <Table.HeaderCell>{''}</Table.HeaderCell>
           <ActionsCell dataKey={SELLER_INVENTORY_UNIQUE_KEY} />
         </Table.Column>

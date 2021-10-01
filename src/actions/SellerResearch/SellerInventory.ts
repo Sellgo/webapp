@@ -43,6 +43,7 @@ import {
   CentralExportProgress,
   CentralScrapingProgress,
 } from '../../interfaces/SellerResearch/SellerInventory';
+import { timeout } from '../../utils/timeout';
 
 /* ============================================== */
 /* ====== UNIFIED CENTRAL EXPORT PROGRESS BAR ===== */
@@ -479,8 +480,9 @@ export const moveMerchantToSellerInventoryTableGroup = (payload: MoveMerchantToG
     if (data) {
       await dispatch(fetchSellerInventoryTableGroups());
       dispatch(setSellerInventoryTableActiveGroupId(id));
+      await timeout(1000);
       await dispatch(fetchSellerInventoryTableResults({ enableLoader: false }));
-      success(data.message);
+      await success(data.message);
     }
   } catch (err) {
     console.error('Error moving merchant to seller group', err);

@@ -136,7 +136,7 @@ const TrackerTable = (props: Props) => {
         renderRowExpanded={() => <TrackerKeywordTable />}
       >
         {/* Expand Cell */}
-        <Table.Column verticalAlign="top" fixed align="left" width={30}>
+        <Table.Column verticalAlign="top" fixed="left" align="left" width={30}>
           <Table.HeaderCell> </Table.HeaderCell>
           <ExpansionCell
             dataKey={TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY}
@@ -146,7 +146,7 @@ const TrackerTable = (props: Props) => {
         </Table.Column>
 
         {/* Product Info */}
-        <Table.Column width={500} verticalAlign="top" fixed align="left" flexGrow={1}>
+        <Table.Column minWidth={500} verticalAlign="top" fixed="left" align="left" flexGrow={1}>
           <Table.HeaderCell>Product Information</Table.HeaderCell>
           <ProductInfo dataKey="productInfo" />
         </Table.Column>
@@ -250,7 +250,7 @@ const TrackerTable = (props: Props) => {
         </Table.Column>
 
         {/* Actions Cell */}
-        <Table.Column width={40} verticalAlign="top" fixed align="left">
+        <Table.Column width={40} verticalAlign="top" fixed="right" align="left">
           <Table.HeaderCell>{''}</Table.HeaderCell>
           <ActionsCell dataKey={TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY} />
         </Table.Column>

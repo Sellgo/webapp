@@ -11,12 +11,12 @@
     font-size: 14px;
     color: $prim_dark_1 !important;
     margin: 0;
-    font-weight: normal;
     line-height: 1;
+    font-weight: 500;
   }
 
   .sellerCount {
-    font-weight: 500;
+    font-weight: 700;
   }
 }
 
@@ -53,6 +53,7 @@
 
   &:hover {
     background: $grey_1;
+    font-weight: 500 !important;
   }
 
   svg {

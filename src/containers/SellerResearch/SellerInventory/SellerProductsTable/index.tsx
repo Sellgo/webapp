@@ -190,7 +190,7 @@ const SellerProductsTable = (props: Props) => {
         </Table.Column>
 
         {/* Product Information  */}
-        <Table.Column width={130} verticalAlign="top" align="left" flexGrow={1}>
+        <Table.Column minWidth={600} verticalAlign="top" align="left" flexGrow={1}>
           <Table.HeaderCell>Product Inventory Information</Table.HeaderCell>
           <ProductInformation dataKey="productInformation" />
         </Table.Column>
@@ -220,7 +220,7 @@ const SellerProductsTable = (props: Props) => {
         </Table.Column>
 
         {/* Track Product */}
-        <Table.Column width={180} verticalAlign="top" align="left">
+        <Table.Column width={200} verticalAlign="top" align="left">
           <Table.HeaderCell></Table.HeaderCell>
           <TrackProduct dataKey="trackProduct" />
         </Table.Column>

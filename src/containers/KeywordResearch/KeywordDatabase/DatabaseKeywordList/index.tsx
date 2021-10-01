@@ -27,6 +27,7 @@ import {
 /* Assets */
 import { ReactComponent as ChevronRight } from '../../../../assets/images/chevronRight.svg';
 import { ReactComponent as ChevronDown } from '../../../../assets/images/chevronDown.svg';
+import ActionButton from '../../../../components/ActionButton';
 
 interface Props {
   keywordDatabaseKeywordList: string;
@@ -150,15 +151,16 @@ const DatabaseKeywordList = (props: Props) => {
       )}
 
       {/* Fetch keywords button */}
-      <button
+      <ActionButton
         disabled={totalKeywords === 0 || totalKeywords > MAX_KEYWORDS_ALLOWED}
-        className={
-          keywordDatabaseRequestId ? styles.fetchKeywordsActive : styles.fetchKeywordsInActive
-        }
+        variant={keywordDatabaseRequestId ? 'secondary' : 'primary'}
+        type="orange"
+        size="md"
         onClick={handleSubmit}
+        className={styles.searchKeywordBtn}
       >
         Search
-      </button>
+      </ActionButton>
     </section>
   );
 };
