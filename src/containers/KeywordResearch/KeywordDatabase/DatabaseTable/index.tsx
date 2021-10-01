@@ -181,7 +181,7 @@ const DatabaseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="search_volume" />
+          <StatsCell dataKey="title_density" />
         </Table.Column>
       </Table>
 
