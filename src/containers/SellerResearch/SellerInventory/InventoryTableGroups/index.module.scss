@@ -32,6 +32,17 @@
   }
 }
 
+.groupActions {
+  display: none !important;
+  margin-left: 5px;
+
+  .updateGroupIcon,
+  .deleteGroupIcon {
+    font-size: 12px !important;
+    color: $grey_8 !important;
+  }
+}
+
 .activeTab {
   background: $orange_10 !important;
   color: $grey_8 !important;
@@ -39,6 +50,12 @@
   border: 1px solid $grey_3 !important;
   border-radius: 4px 4px 0 0;
   border-bottom: transparent !important;
+
+  &:hover {
+    .groupActions {
+      display: block !important;
+    }
+  }
 }
 
 .preventOverflow {
@@ -66,16 +83,6 @@
   /* Handle on hover */
   &::-webkit-scrollbar-thumb:hover {
     background: $grey_6 !important;
-  }
-}
-
-.groupActions {
-  margin-left: 5px;
-
-  .updateGroupIcon,
-  .deleteGroupIcon {
-    font-size: 12px !important;
-    color: $grey_8 !important;
   }
 }
 
