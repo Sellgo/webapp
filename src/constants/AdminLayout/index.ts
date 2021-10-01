@@ -134,7 +134,7 @@ export const OPTIONS: NavOptions = [
         icon: require(`../../assets/images/${NAV_ICONS.SELLER_INVENTORY}`),
         path: '/seller-research/inventory',
         disabled: false,
-        isBeta: false,
+        isBeta: true,
       },
     ],
   },

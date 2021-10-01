@@ -47,5 +47,12 @@
     margin-right: 30px;
     font-weight: 400;
     text-transform: uppercase;
+    position: relative;
+  }
+
+  .productBeta {
+    position: absolute;
+    right: -10px;
+    top: -10px;
   }
 }

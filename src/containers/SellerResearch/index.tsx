@@ -2,23 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { TabList, TabPanel, Tabs, Tab } from 'react-tabs';
 import { connect } from 'react-redux';
 
-/* Components */
+/* Styling */
 import styles from './index.module.scss';
-
-/* Components */
-import PageHeader from '../../components/PageHeader';
-import ProductMetaInformation from '../../components/ProductMetaInformation';
-
-/* Containers */
-import SellerMaps from './SellerMaps';
-import SellerDatabase from './SellerDatabase';
-import SellerInventory from './SellerInventory';
 
 /* Actions */
 import { setUserOnboardingResources } from '../../actions/UserOnboarding';
 
 /* Selectors */
 import { getUserOnboarding, getUserOnboardingResources } from '../../selectors/UserOnboarding';
+
+/* Components */
+import PageHeader from '../../components/PageHeader';
+import ProductMetaInformation from '../../components/ProductMetaInformation';
+import BetaLabel from '../../components/BetaLabel';
+
+/* Containers */
+import SellerMaps from './SellerMaps';
+import SellerDatabase from './SellerDatabase';
+import SellerInventory from './SellerInventory';
 
 /* Assets */
 import sellerDatabaseOnborading from '../../assets/onboardingResources/SellerResearch/sellerDatabaseOnboarding.json';
@@ -132,7 +133,9 @@ const SellerResearch = (props: Props) => {
             <TabList className={styles.productTablist}>
               <Tab>Sellers</Tab>
               <Tab>Map</Tab>
-              <Tab>Inventory</Tab>
+              <Tab>
+                Inventory <BetaLabel isNav={true} className={styles.productBeta} />
+              </Tab>
             </TabList>
 
             <TabPanel>
