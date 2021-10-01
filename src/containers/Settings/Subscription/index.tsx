@@ -99,7 +99,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   chooseSubscription(subscription: any, paymentMode: string) {
     const { subscriptionType } = this.props;
     if (isSubscriptionNotPaid(subscriptionType)) {
-      this.checkout(subscription.id, paymentMode);
+      this.checkout(subscription, paymentMode);
     } else {
       this.setState({
         pendingSubscription: true,
@@ -132,14 +132,17 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     history.push('/churnflow');
   }
 
-  checkout(subscriptionId: any, paymentMode: string) {
-    this.createCheckoutSession(subscriptionId, paymentMode)
-      .then((checkoutSessionId: any) => {
-        this.redirectToCheckout(checkoutSessionId);
-      })
-      .catch(() => {
-        error(`There was an error redirecting you to Stripe`);
-      });
+  checkout(subscription: Subscription, paymentMode: string) {
+    localStorage.setItem('planType', subscription.name.split(' ').join(''));
+    localStorage.setItem('paymentMode', paymentMode);
+    history.push(`/subscription/payment`);
+    // this.createCheckoutSession(subscriptionId, paymentMode)
+    //   .then((checkoutSessionId: any) => {
+    //     this.redirectToCheckout(checkoutSessionId);
+    //   })
+    //   .catch(() => {
+    //     error(`There was an error redirecting you to Stripe`);
+    //   });
   }
 
   createCheckoutSession(subscriptionId: any, paymentMode: string) {
