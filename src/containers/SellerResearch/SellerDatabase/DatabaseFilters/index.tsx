@@ -313,7 +313,6 @@ const SellerDatabaseFilters = (props: Props) => {
             prependWith={marketPlace.currency}
           />
         </div>
-
         <div className={styles.advancedFilterWrapper}>
           <AdvanceFilterToggle
             handleClick={() => setShowAdvancedFilter(prevState => !prevState)}
@@ -621,7 +620,6 @@ const SellerDatabaseFilters = (props: Props) => {
             </div>
           )}
         </div>
-
         <FormFilterActions
           onFind={handleSubmit}
           onReset={handleReset}

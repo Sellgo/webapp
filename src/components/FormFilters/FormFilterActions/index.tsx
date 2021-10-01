@@ -1,8 +1,10 @@
 import React from 'react';
-import { Button } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
+
+/* Components */
+import ActionButton from '../../ActionButton';
 
 interface Props {
   onFind: () => void;
@@ -30,23 +32,20 @@ const FormFilterActions: React.FC<Props> = props => {
   return (
     <div className={`${styles.formFilterActions} ${className}`}>
       {!hideReset && (
-        <Button className={styles.formFilterActions__reset} onClick={onReset} size="small">
+        <ActionButton variant="reset" size="md" onClick={onReset}>
           {resetLabel}
-        </Button>
+        </ActionButton>
       )}
 
-      <Button
-        className={`${
-          withSecondarySubmit
-            ? styles.formFilterActions__find__secondary
-            : styles.formFilterActions__find
-        }`}
-        onClick={onFind}
-        size="small"
+      <ActionButton
+        variant={withSecondarySubmit ? 'secondary' : 'primary'}
+        type="orange"
         disabled={disabled}
+        size="md"
+        onClick={onFind}
       >
         {submitLabel}
-      </Button>
+      </ActionButton>
     </div>
   );
 };
