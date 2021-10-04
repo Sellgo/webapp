@@ -18,9 +18,9 @@ import ProductTracker from '../ProductTracker';
 import Signup from '../Signup';
 import ResetPassword from '../ResetPassword';
 import Onboarding from '../Onboarding';
-import SubscriptionPage from '../Subscription';
+import NewSubscriptionPage from '../NewSubscription';
 import Subscription from '../Settings/Subscription';
-import Payment from '../Subscription/Payment';
+import Payment from '../NewSubscription/Payment';
 import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
 import ChurnFlow from '../ChurnFlow';
@@ -191,7 +191,7 @@ function App() {
           <Route
             exact={true}
             path="/subscription"
-            render={renderProps => <SubscriptionPage auth={auth} {...renderProps} />}
+            render={renderProps => <NewSubscriptionPage auth={auth} {...renderProps} />}
           />
           <Route
             exact={true}

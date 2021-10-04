@@ -1,0 +1,73 @@
+@import '../../../design-system/new-colors.scss';
+
+.summaryContainer {
+  width: 920px;
+  margin-bottom: 30px;
+  padding: 30px 40px;
+
+  h1 {
+    color: $prim_dark_1;
+    font-size: 32px;
+    font-weight: 600;
+  }
+}
+
+.subDescription {
+  margin-top: 10px;
+  color: $grey_6;
+  font-size: 14px;
+}
+
+.priceInformation {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+
+  p {
+    font-size: 14px;
+    color: $prim_dark_1;
+    margin: 0;
+  }
+
+  .price {
+    margin: 0 10px;
+    font-size: 24px;
+    color: $blue_7;
+    font-weight: 600;
+  }
+
+  .bold {
+    font-weight: 600;
+  }
+
+  .strikeThrough {
+    text-decoration: line-through;
+    font-weight: 400;
+    color: $prim_dark_1;
+    margin-right: 0;
+
+    &__blue {
+      margin: 0 10px;
+      font-size: 24px;
+      color: $blue_7;
+      font-weight: 500;
+    }
+  }
+}
+
+.planName {
+  margin-top: 20px;
+  color: $prim_dark_1;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.benefitsWrapper {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
