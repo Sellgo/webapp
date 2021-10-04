@@ -18,24 +18,24 @@ interface Props {
   setPaymentMode: (paymentMode: string) => any;
   planType: string;
   paymentMode: string;
-  isChangingPlan: any;
-  setChangingPlan: any;
+  isChangingPlanModalOpen: any;
+  setChangingPlanModalOpen: any;
 }
 
 const Summary = (props: Props) => {
   const {
     planType,
     paymentMode,
-    isChangingPlan,
-    setChangingPlan,
+    isChangingPlanModalOpen,
+    setChangingPlanModalOpen,
     setPlanType,
     setPaymentMode,
   } = props;
 
-  const [newPlanType, setNewPlanType] = React.useState<string>('');
-  const [newPaymentMode, setNewPaymentMode] = React.useState<string>('');
+  const [newPlanType, setNewPlanType] = React.useState<string>(planType);
+  const [newPaymentMode, setNewPaymentMode] = React.useState<string>(paymentMode);
 
-  /* Reset newPlanType and newPaymentMode to default */
+  /* Update default plan type and payment mode when changes occur */
   React.useEffect(() => {
     setNewPlanType(planType);
     setNewPaymentMode(paymentMode);
@@ -55,14 +55,14 @@ const Summary = (props: Props) => {
     localStorage.setItem('paymentMode', newPaymentMode);
     setPlanType(newPlanType);
     setPaymentMode(newPaymentMode);
-    setChangingPlan(false);
+    setChangingPlanModalOpen(false);
   };
 
   return (
     <Modal
-      open={isChangingPlan}
+      open={isChangingPlanModalOpen}
       className={styles.changePlanModal}
-      onClose={() => setChangingPlan(false)}
+      onClose={() => setChangingPlanModalOpen(false)}
       content={
         <div className={styles.changePlanModal}>
           <h2 className={styles.title}>Change Subscription Plan</h2>
@@ -132,7 +132,7 @@ const Summary = (props: Props) => {
             <OrangeButton type="primary" size="small" onClick={handleSave}>
               Change Plan
             </OrangeButton>
-            <button className={styles.cancelButton} onClick={() => setChangingPlan(false)}>
+            <button className={styles.cancelButton} onClick={() => setChangingPlanModalOpen(false)}>
               Cancel
             </button>
           </div>

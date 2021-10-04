@@ -31,7 +31,7 @@ interface Props {
 
 const Summary = (props: Props) => {
   const { planType, paymentMode, promoCode, setPlanType, setPaymentMode } = props;
-  const [isChangingPlan, setChangingPlan] = React.useState<boolean>(false);
+  const [isChangingPlanModalOpen, setChangingPlanModalOpen] = React.useState<boolean>(false);
   const displayAnnualPrice = () => {
     if (promoCode && promoCode.percent_off) {
       return (
@@ -153,7 +153,7 @@ const Summary = (props: Props) => {
           <OrangeButton
             type="secondary"
             size="small"
-            onClick={() => setChangingPlan(!isChangingPlan)}
+            onClick={() => setChangingPlanModalOpen(!isChangingPlanModalOpen)}
           >
             Change Plan
           </OrangeButton>
@@ -179,8 +179,8 @@ const Summary = (props: Props) => {
           setPaymentMode={setPaymentMode}
           planType={planType}
           paymentMode={paymentMode}
-          isChangingPlan={isChangingPlan}
-          setChangingPlan={setChangingPlan}
+          isChangingPlanModalOpen={isChangingPlanModalOpen}
+          setChangingPlanModalOpen={setChangingPlanModalOpen}
         />
       </div>
     </>
