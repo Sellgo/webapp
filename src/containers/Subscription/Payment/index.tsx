@@ -92,6 +92,7 @@ const Payment = (props: PaymentProps) => {
 
       <section>
         <Summary
+          hideChangePlan={successPayment}
           setPlanType={setAccountType}
           setPaymentMode={setPaymentMode}
           planType={accountType}
