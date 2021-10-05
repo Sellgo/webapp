@@ -162,7 +162,11 @@ const VariationModal = (props: Props) => {
             {!isVariationsFullyUpdated ? (
               <button
                 className={styles.updateVariationsButton}
-                disabled={isLoadingKeywordTrackerProductVariations}
+                /* Disable update variations if no variations are found */
+                disabled={
+                  isLoadingKeywordTrackerProductVariations ||
+                  keywordTrackerProductVariationResultsWithIndex.length === 0
+                }
                 onClick={handleUpdateVariations}
               >
                 Update Variations
