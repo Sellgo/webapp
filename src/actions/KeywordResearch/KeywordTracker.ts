@@ -23,6 +23,8 @@ import {
   UnTrackKeywordTrackerTableProduct,
   UnTrackProductsTableKeyword,
   TrackBoostProductsTableKeyword,
+  TrackerTableProductVariationsPayload,
+  TrackerTableUpdateProductVariationsPayload,
 } from '../../interfaces/KeywordResearch/KeywordTracker';
 
 /* Selectors */
@@ -71,6 +73,25 @@ export const setKeywordTrackerProductsTablePaginationInfo = (
 export const setKeywordTrackerProductsExpandedRow = (payload: any) => {
   return {
     type: actionTypes.SET_KEYWORD_TRACKER_PRODUCTS_EXPANDED_ROW,
+    payload,
+  };
+};
+
+/* ================================================= */
+/*    KEYWORD TRACKER PRODUCT VARIATIONS   */
+/* ================================================= */
+/* Action to set loading state of keyword tracker product variations */
+export const isLoadingKeywordTrackerProductVariations = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_LOADING_KEYWORD_TRACKER_PRODUCT_VARIATIONS,
+    payload,
+  };
+};
+
+/* Action to set keyword tracker products table results */
+export const setKeywordTrackerVariationsResults = (payload: any) => {
+  return {
+    type: actionTypes.SET_KEYWORD_TRACKER_PRODUCT_VARIATIONS,
     payload,
   };
 };
@@ -280,6 +301,61 @@ export const unTrackKeywordTrackerTableProduct = (
     }
   } catch (err) {
     console.error('Error Untracking/Deleting keyword from tracker product table', err);
+  }
+};
+/* ================================================= */
+/*   					KEYWORD TRACKER VARIATIONS							*/
+/* ================================================= */
+/* Action to fetch the keyword tacker products table content */
+export const fetchKeywordTrackerProductVariation = (
+  payload: TrackerTableProductVariationsPayload
+) => async (dispatch: any) => {
+  const sellerId = sellerIDSelector();
+  dispatch(isLoadingKeywordTrackerProductVariations(true));
+  try {
+    const { keywordTrackProductId } = payload;
+
+    const URL =
+      `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/` +
+      `variations?keyword_track_product_id=${keywordTrackProductId}`;
+    const { data } = await axios.get(URL);
+
+    if (data) {
+      dispatch(setKeywordTrackerVariationsResults(data));
+      dispatch(isLoadingKeywordTrackerProductVariations(false));
+    }
+  } catch (err) {
+    console.error('Error fetching product variations', err);
+    dispatch(setKeywordTrackerVariationsResults([]));
+    dispatch(isLoadingKeywordTrackerProductVariations(false));
+  }
+};
+
+/* Action to fetch the updated keyword tacker products table content */
+export const fetchUpdateKeywordTrackerProductVariations = (
+  payload: TrackerTableUpdateProductVariationsPayload
+) => async (dispatch: any) => {
+  const sellerId = sellerIDSelector();
+  dispatch(isLoadingKeywordTrackerProductVariations(true));
+  try {
+    const { asin } = payload;
+    const formData = new FormData();
+
+    formData.set('is_update_variations', 'true');
+    formData.set('track_parent_and_variations', 'true');
+    formData.set('asin', asin);
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track`;
+    const { data } = await axios.post(URL, formData);
+
+    if (data) {
+      dispatch(setKeywordTrackerVariationsResults(data));
+      dispatch(isLoadingKeywordTrackerProductVariations(false));
+    }
+  } catch (err) {
+    console.error('Error fetching product variations', err);
+    dispatch(setKeywordTrackerVariationsResults([]));
+    dispatch(isLoadingKeywordTrackerProductVariations(false));
   }
 };
 
