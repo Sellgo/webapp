@@ -22,6 +22,7 @@ import {
   TrackerTableProductsPayload,
   UnTrackKeywordTrackerTableProduct,
   UnTrackProductsTableKeyword,
+  TrackBoostProductsTableKeyword,
 } from '../../interfaces/KeywordResearch/KeywordTracker';
 
 /* Selectors */
@@ -478,6 +479,46 @@ export const unTrackTrackerProductTableKeyword = (payload: UnTrackProductsTableK
     }
   } catch (err) {
     console.error('Error Untracking/Deleting keyword from tracker product table', err);
+  }
+};
+
+/* Action to track/untrack with boost for the keyword from tracker products table */
+export const trackBoostProductTableKeyword = (payload: TrackBoostProductsTableKeyword) => async (
+  dispatch: any,
+  getState: any
+) => {
+  const sellerId = sellerIDSelector();
+
+  const currentlyAvailableKeywords = getTrackerProductKeywordsTableResults(getState());
+
+  try {
+    const { keywordTrackId, is_boost } = payload;
+
+    const formData = new FormData();
+    formData.set(TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY, String(keywordTrackId));
+    formData.set('is_boost', String(is_boost));
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track`;
+
+    const { data } = await axios.patch(URL, formData);
+
+    if (data) {
+      // Update track status on keywrods table
+      const updatedKeywordsOnTable = currentlyAvailableKeywords.map((keywordData: any) => {
+        const newKeywordData = { ...keywordData };
+        if (
+          keywordData[TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY] ===
+          data[TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY]
+        ) {
+          newKeywordData.is_boost = data.is_boost;
+        }
+        return newKeywordData;
+      });
+      dispatch(setTrackerProductKeywordsTableResults(updatedKeywordsOnTable));
+      success(`Successfully ${is_boost === 'true' ? 'tracked' : 'untracked'} keyword on Boost.`);
+    }
+  } catch (err) {
+    console.error('Error tracking/untracking keyword on boost from tracker product table', err);
   }
 };
 

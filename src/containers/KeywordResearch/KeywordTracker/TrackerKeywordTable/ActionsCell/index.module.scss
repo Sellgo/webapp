@@ -54,6 +54,10 @@
       font-size: 12px !important;
       color: inherit !important;
       color: $grey_8 !important;
+
+      &__boostTrackIcon {
+        margin-top: 1px;
+      }
     }
 
     &:disabled {
