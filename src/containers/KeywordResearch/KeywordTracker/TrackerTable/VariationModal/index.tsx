@@ -30,6 +30,9 @@ import { Table } from 'rsuite';
 import StatsCell from '../../../../../components/NewTable/StatsCell';
 import TruncatedTextCell from '../../../../../components/NewTable/TruncatedTextCell';
 
+/* Utils */
+import { truncateString } from '../../../../../utils/format';
+
 interface Props {
   keywordTrackProductId: number;
   title: string;
@@ -115,7 +118,7 @@ const VariationModal = (props: Props) => {
 
               {/* Product Meta Details */}
               <div className={styles.productDetails}>
-                {<h2> {title} </h2>}
+                {<h2> {truncateString(title, 145)} </h2>}
 
                 <div className={styles.productMetaDetails}>
                   <img
