@@ -25,6 +25,19 @@ export const getKeywordTrackerProductsExpandedRow = (state: any) => {
 };
 
 /* ================================================================= */
+/*    KEYWORD TRACKER PRODUCT VARIATIONS TABLE */
+/* ================================================================= */
+/* Selector to get the keyword tracker products  table pagination info */
+export const getIsLoadingKeywordTrackerProductVariation = (state: any) => {
+  return get(state, 'keywordTracker.isLoadingKeywordTrackerProductVariations');
+};
+
+/* Selector to get the keyword tracker products competitors */
+export const getKeywordTrackerProductVariationsResults = (state: any) => {
+  return get(state, 'keywordTracker.keywordTrackerProductVariationsResults');
+};
+
+/* ================================================================= */
 /*    KEYWORD TRACKER PRODUCTS KEYWORDS TABLE */
 /* ================================================================= */
 

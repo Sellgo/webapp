@@ -15,6 +15,15 @@ export interface TrackerTableProductsPayload {
   search?: string;
 }
 
+/* Keyword Tracker Product Variation  */
+export interface TrackerTableProductVariationsPayload {
+  keywordTrackProductId: number;
+}
+
+export interface TrackerTableUpdateProductVariationsPayload {
+  asin: string;
+}
+
 /* Keyword Tracker Table Competitors  */
 export interface KeywordTrackerTableCompetitors {
   keyword_track_competitor_id: number;
