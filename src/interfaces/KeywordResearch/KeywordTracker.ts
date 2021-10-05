@@ -76,6 +76,12 @@ export interface UnTrackProductsTableKeyword {
   keywordTrackId: number;
 }
 
+/* Track/untrack in BOOST keyword from products table*/
+export interface TrackBoostProductsTableKeyword {
+  keywordTrackId: number;
+  is_boost: 'true' | 'false';
+}
+
 /* Add more keywords to keyword tracker table */
 export interface AddTrackerProductKeyword {
   keywordTrackProductId: number;

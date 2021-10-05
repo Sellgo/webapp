@@ -14,12 +14,14 @@ import {
   unTrackTrackerProductTableKeyword,
   fetchTrackerProductKeywordsHistory,
   triggerTrackerProductKeywordsHistoryExport,
+  trackBoostProductTableKeyword,
 } from '../../../../../actions/KeywordResearch/KeywordTracker';
 
 /* Interfaces */
 import {
   TrackerProductKeywordsHistory,
   UnTrackProductsTableKeyword,
+  TrackBoostProductsTableKeyword,
 } from '../../../../../interfaces/KeywordResearch/KeywordTracker';
 
 /* Selectors */
@@ -31,10 +33,14 @@ import {
 /* Components */
 import { KeywordHistoryChart } from '../KeywordHistoryChart';
 
+/* Icons */
+import KeywordBoostTrackIcon from '../../../../../components/Icons/KeywordResearch/KeywordBoostTrack';
+
 interface Props extends RowCell {
   unTrackTrackerProductTableKeyword: (payload: UnTrackProductsTableKeyword) => void;
   fetchTrackerProductKeywordsHistory: (payload: TrackerProductKeywordsHistory) => void;
   triggerTrackerProductKeywordsHistoryExport: (payload: TrackerProductKeywordsHistory) => void;
+  trackBoostProductTableKeyword: (payload: TrackBoostProductsTableKeyword) => void;
   trackerProductKeywordsHistoryResults: any[];
   isLoadingTrackerProductKeywordsHistory: boolean;
 }
@@ -46,6 +52,7 @@ const ActionsCell = (props: Props) => {
     trackerProductKeywordsHistoryResults,
     isLoadingTrackerProductKeywordsHistory,
     triggerTrackerProductKeywordsHistoryExport,
+    trackBoostProductTableKeyword,
     ...otherProps
   } = props;
 
@@ -55,6 +62,7 @@ const ActionsCell = (props: Props) => {
 
   const keywordTrackId = rowData[dataKey];
   const phrase = rowData.phrase;
+  const isBoostTracked = rowData.is_boost;
 
   const handleUnTrackKeyword = () => {
     unTrackTrackerProductTableKeyword({ keywordTrackId });
@@ -72,6 +80,13 @@ const ActionsCell = (props: Props) => {
   const handleSearchOnAmazon = () => {
     const searchLink = `https://www.amazon.com/s?k=${phrase}`;
     window.open(searchLink, '_blank');
+  };
+
+  const handleTrackUntrackBoostKeyword = () => {
+    trackBoostProductTableKeyword({
+      keywordTrackId: keywordTrackId,
+      is_boost: isBoostTracked ? 'false' : 'true',
+    });
   };
 
   return (
@@ -104,6 +119,15 @@ const ActionsCell = (props: Props) => {
                 <button onClick={handleExport}>
                   <Icon name="download" className={styles.actionCellIcon} />
                   Export XLSX
+                </button>
+
+                <button onClick={handleTrackUntrackBoostKeyword}>
+                  <div
+                    className={`${styles.actionCellIcon} ${styles.actionCellIcon__boostTrackIcon}`}
+                  >
+                    <KeywordBoostTrackIcon fill={isBoostTracked ? '#FC7900' : '#636d76'} />
+                  </div>
+                  {isBoostTracked ? 'Untrack Buster' : 'Track Buster'}
                 </button>
               </div>
             }
@@ -144,6 +168,8 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(fetchTrackerProductKeywordsHistory(payload)),
     triggerTrackerProductKeywordsHistoryExport: (payload: TrackerProductKeywordsHistory) =>
       dispatch(triggerTrackerProductKeywordsHistoryExport(payload)),
+    trackBoostProductTableKeyword: (payload: TrackBoostProductsTableKeyword) =>
+      dispatch(trackBoostProductTableKeyword(payload)),
   };
 };
 
