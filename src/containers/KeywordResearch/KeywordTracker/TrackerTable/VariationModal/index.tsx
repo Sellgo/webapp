@@ -139,7 +139,7 @@ const VariationModal = (props: Props) => {
               id="keywordTrackerProductVariationsTable"
             >
               {/* # */}
-              <Table.Column width={130} verticalAlign="top" align="left">
+              <Table.Column width={50} verticalAlign="top" align="left">
                 <Table.HeaderCell>#</Table.HeaderCell>
                 <StatsCell dataKey="index" align="left" />
               </Table.Column>
@@ -151,7 +151,7 @@ const VariationModal = (props: Props) => {
               </Table.Column>
 
               {/* Description */}
-              <Table.Column width={130} verticalAlign="top" align="left" flexGrow={1}>
+              <Table.Column verticalAlign="top" align="left" flexGrow={1}>
                 <Table.HeaderCell>Description</Table.HeaderCell>
                 <TruncatedTextCell dataKey="description" maxLength={100} />
               </Table.Column>
