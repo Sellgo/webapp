@@ -88,7 +88,7 @@ export const isLoadingKeywordTrackerProductVariations = (payload: boolean) => {
   };
 };
 
-/* Action to set keyword tracker products table results */
+/* Action to set keyword tracker product variation results */
 export const setKeywordTrackerVariationsResults = (payload: any) => {
   return {
     type: actionTypes.SET_KEYWORD_TRACKER_PRODUCT_VARIATIONS,

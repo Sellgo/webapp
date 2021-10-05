@@ -13,6 +13,8 @@ import VariationModal from '../VariationModal';
 
 /* Utils */
 import { truncateIntoTwoLines } from '../../../../../utils/format';
+
+/* Constants */
 import { TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY } from '../../../../../constants/KeywordResearch/KeywordTracker';
 
 const ProductInfo = (props: RowCell) => {
