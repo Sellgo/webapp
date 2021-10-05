@@ -2,7 +2,7 @@ import React, { memo, SyntheticEvent, useState } from 'react';
 import { Modal } from 'semantic-ui-react';
 
 /* Assets */
-import { ReactComponent as YoutubeLogo } from '../../assets/images/youtubeLogo.svg';
+import youtubeIcon from '../../assets/images/youtubeLogo.svg';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -29,7 +29,11 @@ const OnboardingButton = (props: Props) => {
   return (
     <>
       <div onClick={handleClick} className={`${styles.onboardingButton} ${className}`}>
-        <YoutubeLogo className={youtubeIconClassName} onClick={handleClick} />
+        <img
+          src={youtubeIcon}
+          className={`${styles.youtubeIcon} ${youtubeIconClassName}`}
+          onClick={handleClick}
+        />
         <p className={styles.displayMessage}> {displayMessage} </p>
         {isNew && <p className={styles.new}>New</p>}
       </div>

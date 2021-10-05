@@ -1,0 +1,91 @@
+@import '../../../../design-system/new-colors';
+
+.tableGroupsWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.groupList {
+  display: flex;
+  list-style: none;
+  margin: 0 !important;
+  padding: 0;
+  width: max-content;
+
+  li {
+    color: $grey_8 !important;
+    font-size: 14px !important;
+    min-width: max-content !important;
+    border-bottom: 1px solid $grey_3;
+    display: flex;
+    height: 43px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer !important;
+    padding: 0 10px;
+
+    &.addGroupIconWrapper {
+      min-width: 50px !important;
+      font-size: 16px;
+    }
+  }
+}
+
+.groupActions {
+  display: none !important;
+  margin-left: 5px;
+
+  .updateGroupIcon,
+  .deleteGroupIcon {
+    font-size: 12px !important;
+    color: $grey_8 !important;
+  }
+}
+
+.activeTab {
+  background: $orange_10 !important;
+  color: $grey_8 !important;
+  font-weight: 600 !important;
+  border: 1px solid $grey_3 !important;
+  border-radius: 4px 4px 0 0;
+  border-bottom: transparent !important;
+
+  &:hover {
+    .groupActions {
+      display: block !important;
+    }
+  }
+}
+
+.preventOverflow {
+  max-width: 800px;
+  overflow-x: auto !important;
+  display: flex;
+
+  /* width */
+  &::-webkit-scrollbar {
+    height: 5px !important;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: $grey_1 !important;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $grey_6 !important;
+    border-radius: 3px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: $grey_6 !important;
+  }
+}
+
+.modalReset {
+  width: max-content !important;
+}

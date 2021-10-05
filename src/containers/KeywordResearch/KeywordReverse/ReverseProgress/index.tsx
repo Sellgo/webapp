@@ -38,7 +38,7 @@ const ReverseProgress = (props: Props) => {
     shouldFetchKeywordReverseProgressState,
   } = props;
 
-  const progressPercent = Number.parseFloat(keywordReverseProgressData.progress);
+  const progressPercent = Math.floor(Number.parseFloat(keywordReverseProgressData.progress));
 
   useInterval(() => {
     if (shouldFetchKeywordReverseProgressState) {

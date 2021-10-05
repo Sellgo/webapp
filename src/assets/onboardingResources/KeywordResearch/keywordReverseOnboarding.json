@@ -1,5 +1,12 @@
 [
   {
+    "Tutorial": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "displayText": "Tutorial | 5-min watch"
+    }
+  },
+
+  {
     "Search Volume": {
       "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
       "tooltipText": "This is search volume"

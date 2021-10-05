@@ -6,7 +6,7 @@ import AdminHeader from '../AdminLayout/AdminHeader';
 import Auth from '../Auth/Auth';
 import './index.scss';
 
-import { newProductDesignPathNames } from '../../constants';
+import { NEW_PRODUCT_DESIGN_PATH_NAMES } from '../../constants/AdminLayout';
 
 interface Props {
   title?: string;
@@ -19,7 +19,7 @@ class PageHeader extends React.Component<Props> {
   render() {
     const { title, callToAction, breadcrumb, auth } = this.props;
 
-    const isNewProduct = newProductDesignPathNames.includes(window.location.pathname);
+    const isNewProduct = NEW_PRODUCT_DESIGN_PATH_NAMES.includes(window.location.pathname);
 
     return (
       <>

@@ -1,5 +1,7 @@
 @import '../../../../design-system/new-colors.scss';
+@import '../../../../styles/modalReset.scss';
 
+/* Main wrapper */
 .reverseAsinDisplay {
   padding: 18px 0;
 
@@ -12,35 +14,55 @@
   }
 }
 
-.reverseAsinCardsWrapper {
-  margin: 8px 0;
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-}
-
+/* Add asin trigger */
 .addAsinCard {
-  border: 1px solid $grey_3;
+  user-select: none;
+  border: 1px solid $accent_orange;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 160px;
+  flex-direction: column;
+  width: 100px;
   height: 240px;
   border-radius: 5px;
   background: #fff;
+  margin-right: 10px;
+  color: $accent_orange !important;
+  font-size: 12px;
+  font-weight: 500;
+
+  p {
+    margin-top: 10px;
+  }
 
   svg {
+    cursor: pointer;
+
     path {
-      fill: $grey_6;
+      fill: $accent_orange;
     }
   }
 
   &:hover {
-    background: $grey_3;
+    background: $accent_orange;
+    color: #fff !important;
 
     svg {
       path {
-        fill: $grey_8;
+        fill: #fff !important;
       }
     }
   }
+}
+
+/* Asin cards wrapper */
+.reverseAsinCardsWrapper {
+  margin: 8px 0;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Modal reset */
+.addBulkAsinsModal {
+  @include resetGloablModals;
 }

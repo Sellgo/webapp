@@ -22,7 +22,6 @@
 
   img {
     max-width: 100%;
-    height: 100%;
   }
 }
 
@@ -47,5 +46,11 @@
   span {
     color: $grey_8 !important;
     margin: 0;
+  }
+}
+
+.removeIcon {
+  path {
+    fill: $grey_8 !important;
   }
 }

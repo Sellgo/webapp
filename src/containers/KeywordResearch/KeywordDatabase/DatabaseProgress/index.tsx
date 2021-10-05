@@ -33,7 +33,7 @@ const DatabaseProgress = (props: Props) => {
     shouldFetchKeywordDatabaseProgressState,
   } = props;
 
-  const progressPercent = Number.parseFloat(keywordDatabaseProgressData.progress);
+  const progressPercent = Math.floor(Number.parseFloat(keywordDatabaseProgressData.progress));
 
   useInterval(() => {
     if (shouldFetchKeywordDatabaseProgressState) {

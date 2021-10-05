@@ -29,7 +29,7 @@ const TrackerCompetitorDetails = (props: Props) => {
   return (
     <div className={styles.competitorAsin}>
       <div className={styles.productImage}>
-        <img src={image_url ? image_url : placeholderImage} alt="Placeholder Image" />
+        <img src={image_url ? image_url.replace('SL75', 'SL30') : placeholderImage} alt={title} />
       </div>
       <div className={styles.productDetails}>
         <p className={styles.productTitle}>{title ? truncateString(title, 15) : '-'}</p>

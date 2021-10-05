@@ -2,15 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { TabList, TabPanel, Tabs, Tab } from 'react-tabs';
 import { connect } from 'react-redux';
 
-/* Components */
+/* Styling */
 import styles from './index.module.scss';
-
-/* Components */
-import PageHeader from '../../components/PageHeader';
-
-/* Containers */
-import SellerMaps from './SellerMaps';
-import SellerDatabase from './SellerDatabase';
 
 /* Actions */
 import { setUserOnboardingResources } from '../../actions/UserOnboarding';
@@ -18,13 +11,27 @@ import { setUserOnboardingResources } from '../../actions/UserOnboarding';
 /* Selectors */
 import { getUserOnboarding, getUserOnboardingResources } from '../../selectors/UserOnboarding';
 
+/* Components */
+import PageHeader from '../../components/PageHeader';
+import ProductMetaInformation from '../../components/ProductMetaInformation';
+import BetaLabel from '../../components/BetaLabel';
+
+/* Containers */
+import SellerMaps from './SellerMaps';
+import SellerDatabase from './SellerDatabase';
+import SellerInventory from './SellerInventory';
+
 /* Assets */
 import sellerDatabaseOnborading from '../../assets/onboardingResources/SellerResearch/sellerDatabaseOnboarding.json';
 import sellerMapOnborading from '../../assets/onboardingResources/SellerResearch/sellerMapOnboarding.json';
+import sellerInventoryOnboarding from '../../assets/onboardingResources/SellerResearch/sellerInventoryOnboarding.json';
 
 /* Constants */
-import { SELLER_RESEARCH_FEATURES } from '../../constants/SellerResearch/SellerResearch';
-import OnboardingButton from '../../components/OnboardingButton';
+import {
+  SELLER_RESEARCH_PAGES,
+  SELLER_RESEARCH_PRODUCT_DETAILS,
+} from '../../constants/SellerResearch';
+
 import {
   FALLBACK_ONBOARDING_DETAILS,
   GENERAL_TUTORIAL_INDEX,
@@ -33,24 +40,52 @@ import {
 interface Props {
   match: any;
   setUserOnboardingResources: (payload: any) => void;
+  history: any;
   userOnboarding: boolean;
   userOnboardingResources: any[];
 }
 
 const SellerResearch = (props: Props) => {
-  const { match, setUserOnboardingResources, userOnboardingResources, userOnboarding } = props;
+  const {
+    match,
+    setUserOnboardingResources,
+    userOnboardingResources,
+    userOnboarding,
+    history,
+  } = props;
 
   const [selectedTabList, setSelectedTabList] = useState<number>(0);
 
   const handleTabChange = (index: number) => {
     setSelectedTabList(index);
+    history.push(SELLER_RESEARCH_PAGES[index]);
   };
+
+  /* To update tab based on url */
+  useEffect(() => {
+    const currentIndex = SELLER_RESEARCH_PAGES.findIndex(
+      (path: string) => path === window.location.pathname
+    );
+
+    /* If on a different tab, redirect to correct tab */
+    if (currentIndex !== selectedTabList) {
+      if (currentIndex === -1) {
+        /* If is on any other page, e.g. /seller-research, or /seller-research/asd, redirect to first product */
+        handleTabChange(0);
+      } else {
+        /* Update tab according to page */
+        handleTabChange(currentIndex);
+      }
+    }
+  }, [match]);
 
   useEffect(() => {
     if (selectedTabList === 0) {
       setUserOnboardingResources(sellerDatabaseOnborading);
     } else if (selectedTabList === 1) {
       setUserOnboardingResources(sellerMapOnborading);
+    } else if (selectedTabList === 2) {
+      setUserOnboardingResources(sellerInventoryOnboarding);
     }
   }, [selectedTabList]);
 
@@ -67,23 +102,25 @@ const SellerResearch = (props: Props) => {
         title={`Seller Research`}
         breadcrumb={[
           { content: 'Home', to: '/' },
-          { content: 'Seller Research', to: '/seller-research' },
-          { content: SELLER_RESEARCH_FEATURES[selectedTabList].name, to: '/seller-research' },
+          { content: 'Seller Research', to: '/seller-research/database' },
+          {
+            content: SELLER_RESEARCH_PRODUCT_DETAILS[selectedTabList].name,
+            to: SELLER_RESEARCH_PAGES[selectedTabList],
+          },
         ]}
         auth={match.params.auth}
       />
 
       <main className={styles.sellerResearchPage}>
-        {/* Filter meta data */}
-        <section className={styles.filterMetaData}>
-          <h1>
-            <span className={styles.upper}>{SELLER_RESEARCH_FEATURES[selectedTabList].name}: </span>
-            {SELLER_RESEARCH_FEATURES[selectedTabList].desc}
-          </h1>
-          {showTutorialOnboarding && (
-            <OnboardingButton displayMessage={displayText} youtubeLink={youtubeLink} isNew />
-          )}
-        </section>
+        {/* Product Meta Information */}
+        <ProductMetaInformation
+          selectedIndex={selectedTabList}
+          informationDetails={SELLER_RESEARCH_PRODUCT_DETAILS}
+          showTutorialOnboarding={showTutorialOnboarding}
+          onboardingDisplayText={displayText}
+          onboardingYoutubeLink={youtubeLink}
+          isNewTutorial={true}
+        />
 
         {/* Filter product selection */}
         <section className={styles.productSelectionList}>
@@ -94,8 +131,11 @@ const SellerResearch = (props: Props) => {
             selectedIndex={selectedTabList}
           >
             <TabList className={styles.productTablist}>
-              <Tab>DATABASE</Tab>
-              <Tab>MAP</Tab>
+              <Tab>Sellers</Tab>
+              <Tab>Map</Tab>
+              <Tab>
+                Finder <BetaLabel isNav={true} className={styles.productBeta} />
+              </Tab>
             </TabList>
 
             <TabPanel>
@@ -104,6 +144,10 @@ const SellerResearch = (props: Props) => {
 
             <TabPanel>
               <SellerMaps />
+            </TabPanel>
+
+            <TabPanel>
+              <SellerInventory />
             </TabPanel>
           </Tabs>
         </section>

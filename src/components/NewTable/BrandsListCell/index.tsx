@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Table } from 'rsuite';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 
@@ -82,4 +82,4 @@ const BrandsListCell = (props: RowCell) => {
   );
 };
 
-export default BrandsListCell;
+export default memo(BrandsListCell);

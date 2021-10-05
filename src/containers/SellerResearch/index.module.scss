@@ -32,24 +32,27 @@
   width: 100%;
 
   .activeProductTab {
-    background: $active-color !important;
     color: $prim_dark_1 !important;
     font-weight: 600 !important;
-    border: 1px solid $grey_3 !important;
-    border-radius: 4px 4px 0 0;
-    border-bottom: transparent !important;
+    border-bottom: 3px solid $accent_orange !important;
   }
 
   li {
     color: $grey_8 !important;
-    height: 45px !important;
-    font-size: 16px !important;
-    min-width: 110px !important;
-    padding: 4px 10px;
-    border-bottom: 1px solid $grey_3;
+    font-size: 14px !important;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer !important;
+    margin-right: 30px;
+    font-weight: 400;
+    text-transform: uppercase;
+    position: relative;
+  }
+
+  .productBeta {
+    position: absolute;
+    right: -10px;
+    top: -10px;
   }
 }

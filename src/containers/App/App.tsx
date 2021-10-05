@@ -24,9 +24,10 @@ import Payment from '../Subscription/Payment';
 import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
 import ChurnFlow from '../ChurnFlow';
-import SellerFinder from '../SellerFinder';
 
 import SellerResearch from '../SellerResearch';
+import ProductResearch from '../ProductResearch';
+import KeywordResearch from '../KeywordResearch';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import { isBetaAccount } from '../../utils/subscriptions';
@@ -148,7 +149,7 @@ const PrivateRoute = connect(
           props.match.params.auth = auth;
 
           return (
-            <AdminLayout>
+            <AdminLayout {...props}>
               <Component {...props} />
             </AdminLayout>
           );
@@ -232,15 +233,22 @@ function App() {
 
           <PrivateRoute
             exact={true}
-            path="/seller-finder"
-            component={SellerFinder}
+            path="/seller-research/:productName"
+            component={SellerResearch}
             requireSubscription={true}
           />
 
           <PrivateRoute
             exact={true}
-            path="/seller-research"
-            component={SellerResearch}
+            path="/product-research/:productName"
+            component={ProductResearch}
+            requireSubscription={true}
+          />
+
+          <PrivateRoute
+            exact={true}
+            path="/keyword-research/:productName"
+            component={KeywordResearch}
             requireSubscription={true}
           />
 

@@ -3,7 +3,6 @@
 .expansionCell {
   align-self: flex-start !important;
   padding: 0 !important;
-  margin-top: 50px;
   position: relative;
 }
 
@@ -12,6 +11,14 @@
 
   path {
     fill: $grey_6 !important;
+  }
+}
+
+.expansionIconDisabled {
+  cursor: not-allowed;
+
+  path {
+    fill: $grey_3 !important;
   }
 }
 
