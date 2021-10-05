@@ -187,7 +187,7 @@ export const trackProductWithAsinAndKeywords = (payload: ProductTrackPayload) =>
   try {
     const { asin, keywords, trackParentsAndVariations } = payload;
 
-    if (!asin || !keywords) {
+    if (!asin) {
       return;
     }
 
