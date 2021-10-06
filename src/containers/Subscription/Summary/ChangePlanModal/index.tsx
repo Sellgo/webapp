@@ -12,6 +12,9 @@ import OrangeButton from '../../../../components/OrangeButton';
 
 /* utils */
 import { convertPlanNameToKey } from '../../../../utils/subscriptions';
+import { connect } from 'react-redux';
+
+import { setPromoCode } from '../../../../actions/Settings/Subscription';
 
 interface Props {
   setPlanType: (planType: string) => any;
@@ -20,9 +23,10 @@ interface Props {
   paymentMode: string;
   isChangingPlanModalOpen: any;
   setChangingPlanModalOpen: any;
+  setPromoCode: (promoCode: any) => void;
 }
 
-const Summary = (props: Props) => {
+const ChangePlanModal = (props: Props) => {
   const {
     planType,
     paymentMode,
@@ -30,6 +34,7 @@ const Summary = (props: Props) => {
     setChangingPlanModalOpen,
     setPlanType,
     setPaymentMode,
+    setPromoCode,
   } = props;
 
   const [newPlanType, setNewPlanType] = React.useState<string>(planType);
@@ -53,6 +58,7 @@ const Summary = (props: Props) => {
   const handleSave = () => {
     localStorage.setItem('planType', newPlanType);
     localStorage.setItem('paymentMode', newPaymentMode);
+    setPromoCode({});
     setPlanType(newPlanType);
     setPaymentMode(newPaymentMode);
     setChangingPlanModalOpen(false);
@@ -142,4 +148,8 @@ const Summary = (props: Props) => {
   );
 };
 
-export default Summary;
+const mapDispatchToProps = (dispatch: any) => ({
+  setPromoCode: (payload: any) => dispatch(setPromoCode(payload)),
+});
+
+export default connect(null, mapDispatchToProps)(ChangePlanModal);
