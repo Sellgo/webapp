@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Radio } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -10,10 +11,10 @@ import { subscriptionList, SummaryDetails } from '../../data';
 /* Components */
 import OrangeButton from '../../../../components/OrangeButton';
 
-/* utils */
+/* Utils */
 import { convertPlanNameToKey } from '../../../../utils/subscriptions';
-import { connect } from 'react-redux';
 
+/* Actions */
 import { setPromoCode, setPromoError } from '../../../../actions/Settings/Subscription';
 
 interface Props {
