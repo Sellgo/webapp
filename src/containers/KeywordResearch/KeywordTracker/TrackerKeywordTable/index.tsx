@@ -151,6 +151,7 @@ const TrackerKeywordTable = (props: Props) => {
       {/* Table Section */}
       <section className={styles.keywordTableWrapper}>
         <Table
+          wordWrap
           loading={isLoadingTrackerProductKeywordsTable}
           data={trackerProductKeywordsTableResults}
           height={calculateKeywordsTableHeight(trackerProductKeywordsTableResults.length - 5)}

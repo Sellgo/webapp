@@ -23,7 +23,7 @@ const Keyword = (props: RowCell) => {
       <div className={styles.searchTermContainer}>
         <CopyAndLocateClipboard
           data={phrase}
-          displayData={truncateString(phrase, 100)}
+          displayData={truncateString(phrase, 50)}
           link={`https://www.amazon.com/s?k=${phrase}`}
           className={styles.searchTerm}
         />

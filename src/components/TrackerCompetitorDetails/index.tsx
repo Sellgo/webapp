@@ -16,6 +16,9 @@ import {
 /* Utils */
 import { truncateString } from '../../utils/format';
 
+/* Components */
+import CopyAndLocateClipboard from '../../components/CopyAndLocateClipboard';
+
 interface Props {
   data: KeywordTrackerTableCompetitors;
   removeCompetitor: (payload: RemoveCompetitorPayload) => void;
@@ -35,7 +38,13 @@ const TrackerCompetitorDetails = (props: Props) => {
         <p className={styles.productTitle}>{title ? truncateString(title, 15) : '-'}</p>
         <p className={styles.productMeta}>
           <img src={require('../../assets/flags/US.png')} alt="US Marketplace flag" />
-          <span>{asin}</span>
+          <CopyAndLocateClipboard
+            data={asin}
+            wrapperClassName={styles.asinWrapper}
+            className={styles.asin}
+            link={`https://www.amazon.com/dp/${asin}`}
+          />
+          {/* <span>{asin}</span> */}
         </p>
       </div>
 
