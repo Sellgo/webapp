@@ -756,9 +756,9 @@ export const triggerTrackerProductKeywordsHistoryExport = (
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/history/export`;
 
-    const { status, statusText } = await axios.post(URL, formData);
+    const { status } = await axios.post(URL, formData);
 
-    if (status === 200 && statusText === 'OK') {
+    if (status === 200) {
       // reset any previous export results
       dispatch(
         setTrackerProductKeywordsHistoryExportProgress({
