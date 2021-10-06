@@ -14,7 +14,7 @@ import OrangeButton from '../../../../components/OrangeButton';
 import { convertPlanNameToKey } from '../../../../utils/subscriptions';
 import { connect } from 'react-redux';
 
-import { setPromoCode } from '../../../../actions/Settings/Subscription';
+import { setPromoCode, setPromoError } from '../../../../actions/Settings/Subscription';
 
 interface Props {
   setPlanType: (planType: string) => any;
@@ -24,6 +24,7 @@ interface Props {
   isChangingPlanModalOpen: any;
   setChangingPlanModalOpen: any;
   setPromoCode: (promoCode: any) => void;
+  setPromoError: (err: string) => void;
 }
 
 const ChangePlanModal = (props: Props) => {
@@ -35,6 +36,7 @@ const ChangePlanModal = (props: Props) => {
     setPlanType,
     setPaymentMode,
     setPromoCode,
+    setPromoError,
   } = props;
 
   const [newPlanType, setNewPlanType] = React.useState<string>(planType);
@@ -42,9 +44,11 @@ const ChangePlanModal = (props: Props) => {
 
   /* Update default plan type and payment mode when changes occur */
   React.useEffect(() => {
-    setNewPlanType(planType);
-    setNewPaymentMode(paymentMode);
-  }, [planType, paymentMode]);
+    if (isChangingPlanModalOpen) {
+      setNewPlanType(planType);
+      setNewPaymentMode(paymentMode);
+    }
+  }, [isChangingPlanModalOpen, planType, paymentMode]);
 
   const handleChange = (e: any, data: any) => {
     const plan = data.value.split(',');
@@ -58,6 +62,7 @@ const ChangePlanModal = (props: Props) => {
   const handleSave = () => {
     localStorage.setItem('planType', newPlanType);
     localStorage.setItem('paymentMode', newPaymentMode);
+    setPromoError('');
     setPromoCode({});
     setPlanType(newPlanType);
     setPaymentMode(newPaymentMode);
@@ -150,6 +155,7 @@ const ChangePlanModal = (props: Props) => {
 
 const mapDispatchToProps = (dispatch: any) => ({
   setPromoCode: (payload: any) => dispatch(setPromoCode(payload)),
+  setPromoError: (err: string) => dispatch(setPromoError(err)),
 });
 
 export default connect(null, mapDispatchToProps)(ChangePlanModal);
