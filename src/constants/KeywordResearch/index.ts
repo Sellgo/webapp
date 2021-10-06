@@ -1,5 +1,5 @@
 export const KEYWORD_RESEARCH_PAGES = [
-  '/keyword-research/reverse',
+  '/keyword-research/finder',
   '/keyword-research/database',
   '/keyword-research/tracker',
 ];
