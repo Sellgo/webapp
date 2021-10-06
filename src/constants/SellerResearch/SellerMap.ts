@@ -143,7 +143,7 @@ export const STATES_DROPDOWN_LIST = [
   ...ALL_US_STATES,
 ];
 
-export const DONT_DISABLE = ['US'];
+export const DONT_DISABLE = ['US', 'GB', 'CA', 'MX', 'IT'];
 
 /* Marketplace options for seller DB */
 export const SELLER_MAP_MARKETPLACE = defaultMarketplaces
