@@ -6,11 +6,11 @@
   height: 100%;
   flex-direction: row;
   min-height: 100vh;
+  background-color: $light_gray_background;
 }
 
 .admin-layout {
   &.ui.segment {
-    background-color: #fff;
     height: 100%;
     margin-top: 6rem;
     min-height: 100vh;
