@@ -292,7 +292,7 @@ const TrackerKeywordTable = (props: Props) => {
           </Table.Column>
 
           {/* True Rank Performace Index */}
-          <Table.Column width={150} verticalAlign="top" align="left" sortable>
+          <Table.Column width={150} verticalAlign="middle" align="left" sortable>
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Drop/Raise Index`}
