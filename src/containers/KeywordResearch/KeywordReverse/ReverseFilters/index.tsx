@@ -39,7 +39,7 @@ const ReverseFilters = (props: Props) => {
   /* Props */
   const { fetchKeywordReverseTableInfo, resetKeywordReverse, keywordReverseProductsList } = props;
 
-  const [showAdvancedFilter, setShowAdvancedFilter] = useState(true);
+  const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
 
   /* Basic Filters */
   const [searchVolume, setSearchVolume] = useState(DEFAULT_MIN_MAX_FILTER);
