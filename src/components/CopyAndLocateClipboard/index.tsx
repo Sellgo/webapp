@@ -4,7 +4,6 @@ import { copyToClipboard } from '../../utils/file';
 
 /* Styling */
 import styles from './index.module.scss';
-import './tooltipReset.scss';
 
 interface Props {
   data: any;

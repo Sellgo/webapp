@@ -44,7 +44,6 @@ const TrackerCompetitorDetails = (props: Props) => {
             className={styles.asin}
             link={`https://www.amazon.com/dp/${asin}`}
           />
-          {/* <span>{asin}</span> */}
         </p>
       </div>
 
