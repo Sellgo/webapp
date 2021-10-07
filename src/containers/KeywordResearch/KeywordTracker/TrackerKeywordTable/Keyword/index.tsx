@@ -22,16 +22,18 @@ const Keyword = (props: RowCell) => {
       <div className={styles.searchTermContainer}>
         <CopyAndLocateClipboard
           data={phrase}
-          displayData={truncateString(phrase, 80)}
+          displayData={truncateString(phrase, 60)}
           link={`https://www.amazon.com/s?k=${phrase}`}
           className={styles.searchTerm}
+          wrapperClassName={styles.searchTermWrapper}
         />
         {asin && (
           <CopyAndLocateClipboard
             data={asin}
             displayData={asin}
             link={`https://www.amazon.com/dp/${asin}/`}
-            wrapperClassName={styles.asin}
+            wrapperClassName={styles.asinWrapper}
+            className={styles.asin}
           />
         )}
       </div>
