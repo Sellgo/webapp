@@ -142,7 +142,7 @@ const TrackerKeywordTable = (props: Props) => {
   };
 
   return (
-    <section className={styles.keywordTableContainer}>
+    <>
       {/* Competitors Section */}
       <TrackerCompetitors />
 
@@ -337,7 +337,7 @@ const TrackerKeywordTable = (props: Props) => {
           </footer>
         )}
       </section>
-    </section>
+    </>
   );
 };
 
