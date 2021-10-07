@@ -499,11 +499,11 @@ export const fetchTrackerProductKeywordsTable = (
 
     const { data } = await axios.get(URL);
 
-    const { results, ...paginationInfo } = data;
+    // const { results, ...paginationInfo } = data;
 
     if (data) {
-      dispatch(setTrackerProductKeywordsTableResults(results));
-      dispatch(setTrackerProductKeywordsTablePaginationInfo(paginationInfo));
+      dispatch(setTrackerProductKeywordsTableResults(data));
+      // dispatch(setTrackerProductKeywordsTablePaginationInfo(paginationInfo));
       dispatch(isLoadingTrackerProductKeywordsTable(false));
     }
   } catch (err) {

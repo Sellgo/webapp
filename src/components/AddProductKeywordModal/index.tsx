@@ -40,13 +40,20 @@ interface Props {
   onSubmit: (payload: GenericSubmitPayload) => void;
   closeModal: () => void;
   productDetails: ProductDetails;
+  currentKeywords?: string[];
 }
 
 const AddProductKeywordModal = (props: Props) => {
-  const { parentAsin, currentKeywordsCount, onSubmit, closeModal, productDetails } = props;
-
+  const {
+    parentAsin,
+    currentKeywordsCount,
+    onSubmit,
+    closeModal,
+    productDetails,
+    currentKeywords,
+  } = props;
   const [productAsin, setProductAsin] = useState<string>('');
-  const [keywords, setKeywords] = useState('');
+  const [keywords, setKeywords] = useState(currentKeywords?.join('\n') || '');
 
   const [trackParentsAndVariations, setTrackParentsAndVariations] = useState<boolean>(false);
   const [removeSpecialChars, setRemoveSpecialChars] = useState<boolean>(false);

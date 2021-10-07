@@ -13,6 +13,7 @@
 }
 
 .keywordTrackerPaginationContainer {
+  overscroll-behavior: auto;
   display: flex;
   align-items: center;
   justify-content: flex-end;
