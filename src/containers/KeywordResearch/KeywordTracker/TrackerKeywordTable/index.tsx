@@ -55,9 +55,6 @@ interface Props {
   trackerProductKeywordsTableResults: any[];
   trackerProductKeywordsTablePaginationInfo: TrackerProductKeywordsTablePaginationInfo;
   fetchTrackerProductKeywordsTable: (payload: TrackerProductKeywordsTablePayload) => void;
-
-  exportUrl?: string;
-  rowData?: any;
 }
 
 const TrackerKeywordTable = (props: Props) => {
@@ -66,10 +63,8 @@ const TrackerKeywordTable = (props: Props) => {
     trackerProductKeywordsTableResults,
     trackerProductKeywordsTablePaginationInfo,
     fetchTrackerProductKeywordsTable,
-    rowData,
   } = props;
 
-  console.log(rowData);
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
   const [checkedRows, setCheckedRows] = useState<any>([]);
