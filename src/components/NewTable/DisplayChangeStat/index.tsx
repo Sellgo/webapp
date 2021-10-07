@@ -30,7 +30,7 @@ const ChangeStatsCell = (props: Props) => {
       {statsChange === '-' ? (
         <span>{'-'}</span>
       ) : isZero ? (
-        <span className={styles.changeNeutral}>{`${changePercent}%`}</span>
+        <span className={styles.changeNeutral}>{`0%`}</span>
       ) : isNegative ? (
         <span className={styles.changeNegative}>{changePercent ? `${changePercent}%` : '-'}</span>
       ) : (
