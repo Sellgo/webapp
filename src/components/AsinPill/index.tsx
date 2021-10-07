@@ -20,12 +20,16 @@ const AsinPill = (props: Props) => {
   const isValid = isValidAsin(asin);
 
   return (
-    <span className={isValid ? styles.validAsinPill : styles.inValidAsinPill}>
-      {asin.toUpperCase()}
-      <ThinCrossIcon
-        className={styles.removeIcon}
+    <span className={styles.pillWrapper}>
+      <span className={isValid ? styles.validAsinPill : styles.inValidAsinPill}>
+        {asin.toUpperCase()}
+      </span>
+      <span
+        className={isValid ? styles.validIconWrapper : styles.inValidIconWrapper}
         onClick={() => handleRemove && handleRemove(asin)}
-      />
+      >
+        <ThinCrossIcon className={styles.removeIcon} />
+      </span>
     </span>
   );
 };

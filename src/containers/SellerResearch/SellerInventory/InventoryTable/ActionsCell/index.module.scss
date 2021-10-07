@@ -19,7 +19,7 @@
   cursor: pointer !important;
   color: $grey_6 !important;
   align-self: flex-start;
-  padding-top: 80px;
+  padding-top: 80px !important;
 }
 
 .actionCellContent {
@@ -47,6 +47,7 @@
 
     &:hover {
       background: $grey_1 !important;
+      font-weight: 600 !important;
     }
 
     .actionCellIcon {

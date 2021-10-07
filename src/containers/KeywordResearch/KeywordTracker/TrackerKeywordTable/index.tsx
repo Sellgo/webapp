@@ -12,6 +12,7 @@ import CheckBoxCell from '../../../../components/NewTable/CheckboxCell';
 import HeaderCheckboxCell from '../../../../components/NewTable/HeaderCheckboxCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
+import TrackerKeywordsExport from './TrackerKeywordsExport';
 
 /* Containers */
 import Keyword from './Keyword';
@@ -54,6 +55,9 @@ interface Props {
   trackerProductKeywordsTableResults: any[];
   trackerProductKeywordsTablePaginationInfo: TrackerProductKeywordsTablePaginationInfo;
   fetchTrackerProductKeywordsTable: (payload: TrackerProductKeywordsTablePayload) => void;
+
+  exportUrl?: string;
+  rowData?: any;
 }
 
 const TrackerKeywordTable = (props: Props) => {
@@ -62,8 +66,10 @@ const TrackerKeywordTable = (props: Props) => {
     trackerProductKeywordsTableResults,
     trackerProductKeywordsTablePaginationInfo,
     fetchTrackerProductKeywordsTable,
+    rowData,
   } = props;
 
+  console.log(rowData);
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
   const [checkedRows, setCheckedRows] = useState<any>([]);
@@ -144,6 +150,9 @@ const TrackerKeywordTable = (props: Props) => {
     <>
       {/* Competitors Section */}
       <TrackerCompetitors />
+
+      {/* Export Section */}
+      <TrackerKeywordsExport />
 
       {/* Add Edit Keywords Section */}
       <AddEditKeywords />

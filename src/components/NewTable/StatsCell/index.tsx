@@ -45,12 +45,7 @@ const StatsCell = (props: Props) => {
       break;
   }
 
-  let displayStat = asRounded ? formatNumber(rowData[dataKey]) : rowData[dataKey];
-
-  // format position rank KPI seperately
-  if (dataKey === 'position_rank' && !rowData[dataKey]) {
-    displayStat = '>300';
-  }
+  const displayStat = asRounded ? formatNumber(rowData[dataKey]) : rowData[dataKey];
 
   return (
     <Table.Cell {...otherProps}>

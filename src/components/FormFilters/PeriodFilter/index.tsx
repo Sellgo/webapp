@@ -31,6 +31,7 @@ const PeriodFilter: React.FC<Props> = props => {
     handleChange,
     ...otherProps
   } = props;
+  const [isFocused, setFocused] = React.useState<boolean>(false);
 
   return (
     <div className={`periodFilterWrapper ${className}`}>
@@ -38,12 +39,14 @@ const PeriodFilter: React.FC<Props> = props => {
       <Dropdown
         search
         fluid
-        className="periodFilter"
+        className={isFocused ? 'periodFilter periodFilter__focused' : 'periodFilter'}
         options={filterOptions}
         placeholder={placeholder}
         scrolling
         value={value}
         onChange={(e: any, data: any) => handleChange && handleChange(data.value)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
         {...otherProps}
       />
     </div>
