@@ -28,13 +28,11 @@
 }
 
 .asinWrapper {
-  /* Hide copy clipboard icon */
-  i {
-    display: none;
-  }
+  margin-top: 0;
 }
 
 .asin {
+  margin-top: 3px;
   font-size: 10px !important;
   font-weight: 400 !important;
   color: $grey_8 !important;

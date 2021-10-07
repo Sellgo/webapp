@@ -7,7 +7,7 @@ import styles from './index.module.scss';
 import { isValidAsin } from '../../constants';
 
 /* Asets */
-import { ReactComponent as ThinCrossIcon } from '.././../assets/images/thinCrossIcon.svg';
+import ThinCrossIcon from '../../components/Icons/ThinCrossIcon';
 
 interface Props {
   asin: string;

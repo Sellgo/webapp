@@ -33,6 +33,10 @@
   border-right: none;
 }
 
+.removeIcon {
+  fill: $grey_8 !important;
+}
+
 .iconWrapper {
   border-radius: 0 7px 7px 0;
   height: 100%;
@@ -45,6 +49,10 @@
     background-color: $system_red;
     border-color: $system_red !important;
     cursor: pointer;
+
+    .removeIcon {
+      fill: $prim_white !important;
+    }
   }
 }
 
@@ -60,8 +68,4 @@
 
   border: 1px solid $system_red;
   border-left: none;
-}
-
-.removeIcon {
-  color: $grey_8 !important;
 }
