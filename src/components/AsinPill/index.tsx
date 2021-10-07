@@ -7,7 +7,7 @@ import styles from './index.module.scss';
 import { isValidAsin } from '../../constants';
 
 /* Asets */
-import { ReactComponent as ThinCrossIcon } from '.././../assets/images/thinCrossIcon.svg';
+import ThinCrossIcon from '../../components/Icons/ThinCrossIcon';
 
 interface Props {
   asin: string;
@@ -20,12 +20,16 @@ const AsinPill = (props: Props) => {
   const isValid = isValidAsin(asin);
 
   return (
-    <span className={isValid ? styles.validAsinPill : styles.inValidAsinPill}>
-      {asin.toUpperCase()}
-      <ThinCrossIcon
-        className={styles.removeIcon}
+    <span className={styles.pillWrapper}>
+      <span className={isValid ? styles.validAsinPill : styles.inValidAsinPill}>
+        {asin.toUpperCase()}
+      </span>
+      <span
+        className={isValid ? styles.validIconWrapper : styles.inValidIconWrapper}
         onClick={() => handleRemove && handleRemove(asin)}
-      />
+      >
+        <ThinCrossIcon className={styles.removeIcon} />
+      </span>
     </span>
   );
 };

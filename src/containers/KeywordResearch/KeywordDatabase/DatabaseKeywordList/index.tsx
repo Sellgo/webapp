@@ -45,6 +45,22 @@ const DatabaseKeywordList = (props: Props) => {
   const [keywords, setKeywords] = useState<string>('');
   const [isTextArea, setIsTextArea] = useState<boolean>(false);
   const [suggestions, setSuggestions] = useState([]);
+  const [isInputKeywordFocused, setInputKeywordFocused] = React.useState(false);
+  const [isSuggestionsOpened, setSuggestionsOpened] = React.useState(false);
+
+  useEffect(() => {
+    if (isInputKeywordFocused) {
+      setSuggestionsOpened(true);
+    } else {
+      /* When unfocusing, close the window after awhile. 
+      The 100s delay is needed incase the user clicks on a suggestion
+      (As time is required to register the onclick event before shutting of the suggestions box)
+      */
+      setTimeout(() => {
+        setSuggestionsOpened(false);
+      }, 100);
+    }
+  }, [isInputKeywordFocused]);
 
   const totalKeywords = keywords
     ? keywords.split(',').filter(keyword => keyword.trim().length > 0).length
@@ -117,18 +133,30 @@ const DatabaseKeywordList = (props: Props) => {
       {!isTextArea && (
         <div className={styles.commaSeperatedInput}>
           {/* Togle Icons */}
-          <InputFilter
-            placeholder="Enter keyword seperated by comma"
-            value={keywords}
-            handleChange={value => handleKeywordsChange(value, false)}
-            className={styles.longInput}
-            label="Add Keywords"
-            handleOnPaste={value => handleKeywordsChange(value, true)}
-          />
-          {suggestions.length > 0 && (
-            <ul className={styles.keywordSuggestions} onClick={handleSuggestionClick}>
+
+          {/* Wrapper for keyword focus */}
+          <div
+            onFocus={() => setInputKeywordFocused(true)}
+            onBlur={() => setInputKeywordFocused(false)}
+          >
+            <InputFilter
+              placeholder="Enter keyword seperated by comma"
+              value={keywords}
+              handleChange={value => handleKeywordsChange(value, false)}
+              className={styles.longInput}
+              label="Add Keywords"
+              handleOnPaste={value => handleKeywordsChange(value, true)}
+            />
+          </div>
+
+          {suggestions.length > 0 && isSuggestionsOpened && (
+            <ul className={styles.keywordSuggestions}>
               {suggestions.map((suggestion: any, index: number) => {
-                return <li key={suggestion.search_term + index}>{suggestion.search_term}</li>;
+                return (
+                  <li onClick={handleSuggestionClick} key={suggestion.search_term + index}>
+                    {suggestion.search_term}
+                  </li>
+                );
               })}
             </ul>
           )}

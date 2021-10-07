@@ -12,6 +12,7 @@ import CheckBoxCell from '../../../../components/NewTable/CheckboxCell';
 import HeaderCheckboxCell from '../../../../components/NewTable/HeaderCheckboxCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
+import TrackerKeywordsExport from './TrackerKeywordsExport';
 
 /* Containers */
 import Keyword from './Keyword';
@@ -145,12 +146,16 @@ const TrackerKeywordTable = (props: Props) => {
       {/* Competitors Section */}
       <TrackerCompetitors />
 
+      {/* Export Section */}
+      <TrackerKeywordsExport />
+
       {/* Add Edit Keywords Section */}
       <AddEditKeywords />
 
       {/* Table Section */}
       <section className={styles.keywordTableWrapper}>
         <Table
+          wordWrap
           loading={isLoadingTrackerProductKeywordsTable}
           data={trackerProductKeywordsTableResults}
           height={calculateKeywordsTableHeight(trackerProductKeywordsTableResults.length - 5)}

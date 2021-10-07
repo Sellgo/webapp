@@ -9,7 +9,7 @@
 }
 
 .addNewProduct {
-  background: $accent_orange;
+  background: $orange_6 !important;
   height: 34px;
   color: #fff;
   border-radius: 7px;
@@ -25,6 +25,11 @@
     path {
       color: #fff !important;
     }
+  }
+
+  &:hover {
+    background: $accent_orange !important;
+    font-weight: $fontweight_semibold !important;
   }
 }
 
