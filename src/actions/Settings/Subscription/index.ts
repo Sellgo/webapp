@@ -94,6 +94,7 @@ export const fetchSellerSubscription = () => (dispatch: any) => {
     });
 };
 
+/* Create subscription for freemium checkout flow */
 export const createSubscription = (data: any) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   const bodyFormData = new FormData();

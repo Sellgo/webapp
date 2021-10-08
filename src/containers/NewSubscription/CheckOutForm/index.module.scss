@@ -1,4 +1,4 @@
-@import '../../../../design-system/colors.scss';
+@import '../../../design-system/colors.scss';
 
 .checkoutContainer {
   margin: 40px auto;
@@ -88,13 +88,6 @@
   }
 }
 
-.paymentMeta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 30px;
-}
-
 .cardsWrapper {
   display: flex;
   justify-content: flex-start;
@@ -110,6 +103,10 @@
 }
 
 .paymentMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
 
   button {
     height: 50px;

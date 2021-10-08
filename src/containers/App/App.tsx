@@ -18,9 +18,10 @@ import ProductTracker from '../ProductTracker';
 import Signup from '../Signup';
 import ResetPassword from '../ResetPassword';
 import Onboarding from '../Onboarding';
-import NewSubscriptionPage from '../NewSubscription';
+import SubscriptionPage from '../Subscription';
 import Subscription from '../Settings/Subscription';
-import Payment from '../NewSubscription/Payment';
+import NewSubscription from '../NewSubscription';
+import OldPayment from '../Subscription/Payment';
 import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
 import ChurnFlow from '../ChurnFlow';
@@ -190,13 +191,19 @@ function App() {
           />
           <Route
             exact={true}
-            path="/subscription"
-            render={renderProps => <NewSubscriptionPage auth={auth} {...renderProps} />}
+            path="/subscription/old"
+            render={renderProps => <SubscriptionPage auth={auth} {...renderProps} />}
           />
+
           <Route
             exact={true}
             path="/subscription/payment"
-            render={renderProps => <Payment auth={auth} {...renderProps} />}
+            render={renderProps => <OldPayment auth={auth} {...renderProps} />}
+          />
+          <Route
+            exact={true}
+            path="/subscription"
+            render={renderProps => <NewSubscription auth={auth} {...renderProps} />}
           />
           <PrivateRoute exact={true} path="/settings" component={Settings} />
           <PrivateRoute
