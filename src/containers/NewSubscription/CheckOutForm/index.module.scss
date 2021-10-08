@@ -94,11 +94,11 @@
   align-items: center;
 
   &__cards {
-    height: 35px;
+    height: 50px;
   }
 
   &__stripe {
-    height: 20px;
+    height: 25px;
   }
 }
 
@@ -133,6 +133,20 @@
       cursor: unset;
     }
   }
+}
+
+.paymentErrorMessage {
+  background: #eb675e;
+  color: #fff;
+  border-radius: 8px;
+  width: 500px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px auto;
+  font-size: 14px;
+  padding: 15px 0;
 }
 
 .redeemButton {

@@ -18,10 +18,9 @@ import ProductTracker from '../ProductTracker';
 import Signup from '../Signup';
 import ResetPassword from '../ResetPassword';
 import Onboarding from '../Onboarding';
-import SubscriptionPage from '../Subscription';
 import Subscription from '../Settings/Subscription';
 import NewSubscription from '../NewSubscription';
-import OldPayment from '../Subscription/Payment';
+import PaymentSuccess from '../NewSubscription/PaymentSuccess';
 import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
 import ChurnFlow from '../ChurnFlow';
@@ -32,6 +31,8 @@ import KeywordResearch from '../KeywordResearch';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import { isBetaAccount } from '../../utils/subscriptions';
+import Activation from '../NewSubscription/Activation';
+import ActivationSuccess from '../NewSubscription/ActivationSuccess';
 
 export const auth = new Auth();
 
@@ -189,22 +190,17 @@ function App() {
             path="/reset-password"
             render={renderProps => <ResetPassword auth={auth} {...renderProps} />}
           />
-          <Route
-            exact={true}
-            path="/subscription/old"
-            render={renderProps => <SubscriptionPage auth={auth} {...renderProps} />}
-          />
 
-          <Route
-            exact={true}
-            path="/subscription/payment"
-            render={renderProps => <OldPayment auth={auth} {...renderProps} />}
-          />
+          <Route exact={true} path="/activation/success" component={ActivationSuccess} />
+          <Route exact={true} path="/activation/:activationCode" component={Activation} />
+
           <Route
             exact={true}
             path="/subscription"
             render={renderProps => <NewSubscription auth={auth} {...renderProps} />}
           />
+          <Route exact={true} path="/subscription/success" component={PaymentSuccess} />
+
           <PrivateRoute exact={true} path="/settings" component={Settings} />
           <PrivateRoute
             exact={true}

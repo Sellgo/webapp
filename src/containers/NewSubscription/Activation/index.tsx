@@ -1,5 +1,8 @@
 import React from 'react';
-// import Axios from 'axios';
+import { Form, Header, Modal, TextArea, Checkbox } from 'semantic-ui-react';
+import axios from 'axios';
+import { get } from 'lodash';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -8,20 +11,293 @@ import styles from './index.module.scss';
 import newSellgoLogo from '../../../assets/images/sellgoNewLogo.png';
 
 /* Config */
-// import { AppConfig } from '../../../config';
+import { AppConfig } from '../../../config';
 
-const Activation = () => {
-  return (
-    <main className={styles.paymentPage}>
-      <div className={styles.logo}>
-        <img src={newSellgoLogo} alt="Sellgo Company Logo" />
+/* Components */
+import StepsInfo from '../../../components/StepsInfo';
+
+/* Hooks */
+import { useInput } from '../../../hooks/useInput';
+
+/* Constants */
+import {
+  passwordPolicy,
+  strong,
+  lowerUpper,
+  alphanumeric,
+  specialCharacters,
+  Length,
+} from '../../../constants/Validators';
+
+/* Actions */
+import { fetchTOS, fetchPP } from '../../../actions/UserOnboarding';
+
+interface Props {
+  match: any;
+  history: any;
+  termsOfService: any;
+  privacyPolicy: any;
+  fetchPP: any;
+  fetchTOS: any;
+}
+
+const Activation = (props: Props) => {
+  const { history, match, termsOfService, privacyPolicy, fetchPP, fetchTOS } = props;
+  const activationCode = match.params.activationCode;
+  const [email, setEmail] = React.useState<string>('');
+  const [name, setName] = React.useState<string>('');
+  const [errorMessage, setErrorMessage] = React.useState<string>('');
+  const [isFocusPW, setFocusPassword] = React.useState<boolean>(false);
+  const { value: password, bind: bindPassword } = useInput('');
+  const { value: password2, bind: bindPassword2 } = useInput('');
+
+  const [openTOS, setOpenTOS] = React.useState<boolean>(false);
+  const [openPP, setOpenPP] = React.useState<boolean>(false);
+  const [isAgreedToTerms, setAgreedToTerms] = React.useState<boolean>(false);
+
+  /* ---------------------------------------- */
+  /* -------------- TOS --------------------- */
+  /* ---------------------------------------- */
+  React.useEffect(() => {
+    fetchTOS();
+    fetchPP();
+  }, [fetchTOS, fetchPP]);
+  const [isLoading, setLoading] = React.useState<boolean>(false);
+
+  const handleTermsChange = (e: any, data: any) => {
+    if (data.checked) {
+      setAgreedToTerms(true);
+    } else {
+      setAgreedToTerms(false);
+    }
+  };
+
+  const onClose = () => {
+    setOpenTOS(false);
+    setOpenPP(false);
+  };
+
+  const TOS = () => {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Header as="h4">Our Terms of Service</Header>
+        <Form>
+          <TextArea rows="20" value={termsOfService} />
+        </Form>
       </div>
+    );
+  };
 
-      <section>
-        <h1> Activate! </h1>
+  const PP = () => {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Header as="h4">Our Privacy Policy</Header>
+        <Form>
+          <TextArea rows="20" value={privacyPolicy} />
+        </Form>
+      </div>
+    );
+  };
+
+  const newUserExperiencePopup = () => {
+    return (
+      <Modal onClose={() => onClose()} size={'small'} open={openTOS || openPP}>
+        <Modal.Content>
+          {openTOS && <TOS />}
+          {openPP && <PP />}
+        </Modal.Content>
+      </Modal>
+    );
+  };
+
+  /* ---------------------------------------- */
+  /* --------- PASSWORD VALIDATION ---------- */
+  /* ---------------------------------------- */
+  const stepsInfo = [
+    {
+      id: 1,
+      stepShow: strong.validate(password) ? true : false,
+      stepClass: 'title-success',
+      stepTitle: 'Password Strength',
+      stepDescription: `strong`,
+      stepIcon: 'check',
+    },
+    {
+      id: 2,
+      stepShow: true,
+      stepClass: lowerUpper.validate(password) ? 'title-success' : 'title-error',
+      stepTitle: 'Lowercase and Uppercase',
+      stepDescription: 'Contains a capital letter and a non capital letter',
+      stepIcon: lowerUpper.validate(password) ? 'check' : 'times',
+    },
+    {
+      id: 3,
+      stepShow: true,
+      stepClass: alphanumeric.validate(password) ? 'title-success' : 'title-error',
+      stepTitle: 'Alphanumeric',
+      stepDescription: 'Contains a number and letter',
+      stepIcon: alphanumeric.validate(password) ? 'check' : 'times',
+    },
+    {
+      id: 4,
+      stepShow: true,
+      stepClass: specialCharacters.validate(password) ? 'title-success' : 'title-error',
+      stepTitle: 'Special Characters',
+      stepDescription: 'Contains at least one special character (e.g. !@#$%^&*,.)',
+      stepIcon: specialCharacters.validate(password) ? 'check' : 'times',
+    },
+    {
+      id: 5,
+      stepShow: true,
+      stepClass: Length.validate(password) ? 'title-success' : 'title-error',
+      stepTitle: 'Length',
+      stepDescription: 'At least 8 characters',
+      stepIcon: Length.validate(password) ? 'check' : 'times',
+    },
+  ];
+
+  /* Obtaining email and name from activation code */
+  React.useEffect(() => {
+    const getUserInfo = async () => {
+      try {
+        const URL = `${AppConfig.BASE_URL_API}checkout/retrieve-user-info/${activationCode}`;
+        const response = await axios.get(URL);
+        const { data } = response;
+        const { email, first_name, last_name } = data;
+        setEmail(email);
+        setName(`${first_name} ${last_name}`);
+      } catch (err) {
+        console.error('Unable to retrieve user information');
+        history.push('/');
+      }
+    };
+
+    getUserInfo();
+  }, []);
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    if (!passwordPolicy.validate(password)) {
+      setFocusPassword(true);
+      setLoading(false);
+      return;
+    } else if (password !== password2) {
+      setErrorMessage(`Passwords do not match.`);
+      setLoading(false);
+      return;
+    } else if (!isAgreedToTerms) {
+      setErrorMessage(`Please agree to the terms and conditons.`);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const payload = {
+        email,
+        password,
+        activation_code: activationCode,
+      };
+      const URL = `${AppConfig.BASE_URL_API}checkout/activate`;
+      const response = await axios.post(URL, payload);
+      const { status } = response;
+      if (status === 200) {
+        history.push('/activation/success');
+      } else {
+        setErrorMessage(`Failed to activate account. Please contact support.`);
+      }
+    } catch (err) {
+      setErrorMessage(`Failed to activate account. Please contact support.`);
+    }
+
+    setLoading(false);
+  };
+
+  return (
+    <main className={styles.activationPage}>
+      {newUserExperiencePopup()}
+      <section className={styles.activationForm}>
+        <div className={styles.logo}>
+          <img src={newSellgoLogo} alt="Sellgo Company Logo" />
+        </div>
+        <Form.Input
+          size="huge"
+          label="Your Name"
+          type="text"
+          placeholder="Your Name"
+          value={name}
+          className={styles.formInput}
+          disabled
+        />
+        <Form.Input
+          size="huge"
+          label="Email"
+          type="mail"
+          placeholder="Email"
+          value={email}
+          className={styles.formInput}
+          disabled
+        />
+        <Form.Field className={`${styles.formInput} ${styles.formInput__password}`}>
+          <label htmlFor="password">Password*</label>
+          <StepsInfo
+            id="password"
+            subscriptionRegister={true}
+            isFocusPW={isFocusPW}
+            focusInput={() => setFocusPassword(true)}
+            blurInput={() => setFocusPassword(false)}
+            stepsData={stepsInfo}
+            {...bindPassword}
+          />
+        </Form.Field>
+        <Form.Input
+          size="huge"
+          label="Confirm Password*"
+          type="password"
+          placeholder="Confirm Password"
+          required
+          {...bindPassword2}
+          className={styles.formInput}
+        />
+
+        <div className={styles.consent}>
+          <Checkbox onChange={handleTermsChange} />
+          <p>
+            By signing up, you’re agreeing to our&nbsp;
+            <span
+              onClick={() => {
+                setOpenTOS(true);
+              }}
+            >
+              terms of service&nbsp;
+            </span>
+            and you have read our&nbsp;
+            <span
+              onClick={() => {
+                setOpenPP(true);
+              }}
+            >
+              data use policy&nbsp;
+            </span>
+            as well as the use of cookies.
+          </p>
+        </div>
+        <p className={styles.error}>{errorMessage}</p>
+        <button className={styles.submitButton} onClick={handleSubmit} disabled={isLoading}>
+          Register
+        </button>
       </section>
     </main>
   );
 };
 
-export default Activation;
+const mapStateToProps = (state: any) => ({
+  termsOfService: get(state, 'userOnboarding.termsOfService'),
+  privacyPolicy: get(state, 'userOnboarding.privacyPolicy'),
+});
+
+const mapDispatchToProps = {
+  fetchTOS: () => fetchTOS(),
+  fetchPP: () => fetchPP(),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Activation);

@@ -13,7 +13,6 @@ import { isSubscriptionNotPaid, isSubscriptionPaid } from '../../utils/subscript
 /* Containers */
 import PaidContent from './PaidContent';
 import Summary from './Summary';
-import SuccessContent from './SuccessContent/SuccessContent';
 import CheckoutForm from './CheckOutForm';
 
 /* Components */
@@ -35,11 +34,10 @@ interface PaymentProps {
   subscriptionType: string;
   successPayment: any;
   auth: Auth;
-  sellerSubscription: any;
 }
 
 const Payment = (props: PaymentProps) => {
-  const { subscriptionType, successPayment, sellerSubscription, auth } = props;
+  const { subscriptionType, successPayment, auth } = props;
 
   const [accountType, setAccountType] = useState<string>('');
   const [paymentMode, setPaymentMode] = useState<string>('');
@@ -130,8 +128,6 @@ const Payment = (props: PaymentProps) => {
           </Elements>
         )}
         {isSubscriptionPaid(subscriptionType) && <PaidContent />}
-
-        {successPayment && <SuccessContent sellerSubscription={sellerSubscription} />}
       </section>
     </main>
   );
@@ -141,7 +137,6 @@ const mapStateToProps = (state: {}) => ({
   subscriptionType: _.get(state, 'subscription.subscriptionType'),
   successPayment: _.get(state, 'subscription.successPayment'),
   stripeErrorMessage: _.get(state, 'subscription.stripeErrorMessage'),
-  sellerSubscription: _.get(state, 'subscription.sellerSubscription'),
 });
 const mapDispatchToProps = {};
 

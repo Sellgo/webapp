@@ -10,6 +10,7 @@ import {
 } from '@stripe/react-stripe-js';
 import { Form, Loader } from 'semantic-ui-react';
 import Axios from 'axios';
+import generator from 'generate-password';
 
 /* Constants */
 import { Name, validateEmail } from '../../../constants/Validators';
@@ -162,12 +163,17 @@ function CheckoutForm(props: MyProps) {
       setLnameError(true);
     }
 
-    /* Verify email */
-    const { status: verifyEmailStatus } = await Axios.get(
-      `${AppConfig.BASE_URL_API}checkout/verify-email/${email}`
-    );
+    try {
+      /* Verify email */
+      const { status: verifyEmailStatus } = await Axios.get(
+        `${AppConfig.BASE_URL_API}checkout/verify-email/${email}`
+      );
 
-    if (verifyEmailStatus !== 200) {
+      if (verifyEmailStatus !== 200) {
+        handleError('This email is already being used.');
+        return;
+      }
+    } catch (e) {
       handleError('This email is already being used.');
       return;
     }
@@ -233,16 +239,24 @@ function CheckoutForm(props: MyProps) {
         const data = new TextEncoder().encode(stripeSubscription.id);
         const hashBuffer = await crypto.subtle.digest('SHA-256', data);
         const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashString = `${email}|${hashArray
+        const hashString = `${btoa(email)}${hashArray
           .map(b => b.toString(16).padStart(2, '0'))
           .join('')}`;
+        const randomPasswordLength = Math.min(12, Math.random() * 32);
+        const randomPassword = generator.generate({
+          length: randomPasswordLength,
+          symbols: true,
+          lowercase: true,
+          uppercase: true,
+          strict: true,
+        });
 
         /* After successful sign up, auth.getSellerID will change the page */
         auth.webAuth.signup(
           {
             connection: 'Username-Password-Authentication',
             email: email,
-            password: 'Passowrd123!',
+            password: randomPassword,
             userMetadata: {
               first_name: firstName,
               last_name: lastName,
@@ -276,13 +290,7 @@ function CheckoutForm(props: MyProps) {
 
   return (
     <div className={styles.checkoutContainer}>
-      {!successPayment && errorMessage.length > 0 && (
-        <div className={styles.paymentErrorMessage}>
-          <p>{errorMessage}</p>
-        </div>
-      )}
       <h2>Secure Credit Card Payment</h2>
-
       <form onSubmit={handleSubmit}>
         <Form.Group className={styles.formGroup}>
           <Form.Input
@@ -381,6 +389,11 @@ function CheckoutForm(props: MyProps) {
           <p className={styles.redemptionMessage__error}>{isPromoCodeChecked && promoError}</p>
         </Form.Group>
 
+        {!successPayment && errorMessage.length > 0 && (
+          <div className={styles.paymentErrorMessage}>
+            <p>{errorMessage}</p>
+          </div>
+        )}
         <div className={styles.paymentMeta}>
           <div className={styles.cardsWrapper}>
             <img className={styles.cardsWrapper__cards} src={cardIcons} alt="cards" />
