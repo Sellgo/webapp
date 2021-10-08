@@ -70,7 +70,7 @@ interface MyProps {
   handlePaymentError: (data: any) => void;
   setStripeLoad: (data: boolean) => void;
   stripeLoading: boolean;
-  checkPromoCode: (data: string) => void;
+  checkPromoCode: (promoCode: string, subscriptionId: number, paymentMode: string) => void;
   promoLoading: boolean;
   setRedeemedPromoCode: (promoCode: any) => void;
   redeemedPromoCode: PromoCode;
@@ -89,6 +89,8 @@ function CheckoutForm(props: MyProps) {
     promoLoading,
     setRedeemedPromoCode,
     setPromoError,
+    accountType,
+    paymentMode,
   } = props;
   const [isPromoCodeChecked, setPromoCodeChecked] = useState<boolean>(false);
   const [promoCode, setPromoCode] = useState<string>('');
@@ -118,7 +120,9 @@ function CheckoutForm(props: MyProps) {
 
   const handleCheckPromoCode = async (event: any) => {
     event.preventDefault();
-    checkPromoCode(promoCode);
+    const subscriptionId = getSubscriptionID(accountType);
+    Axios.defaults.headers.common.Authorization = ``;
+    checkPromoCode(promoCode, subscriptionId, paymentMode);
   };
 
   const handlePromoCodeChange = (event: any) => {
@@ -387,7 +391,8 @@ const mapDispatchToProps = {
   createSubscriptionData: (data: any) => createSubscription(data),
   retryInvoice: (data: any) => retryInvoiceWithNewPaymentMethod(data),
   setStripeLoad: (data: boolean) => setStripeLoading(data),
-  checkPromoCode: (data: string) => checkPromoCode(data),
+  checkPromoCode: (promoCode: string, subscriptionId: number, paymentMode: string) =>
+    checkPromoCode(promoCode, subscriptionId, paymentMode),
   setRedeemedPromoCode: (data: any) => setPromoCode(data),
   setPromoError: (data: string) => setPromoError(data),
 };

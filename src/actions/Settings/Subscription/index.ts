@@ -42,13 +42,16 @@ export const setPromoCode = (promoCode: any) => ({
   payload: promoCode,
 });
 
-export const checkPromoCode = (promoCode: string) => (dispatch: any) => {
+export const checkPromoCode = (promoCode: string, subscriptionId: number, paymentMode: string) => (
+  dispatch: any
+) => {
   dispatch(setPromoLoading(true));
   const sellerID = localStorage.getItem('userId');
   const fetchPromoCode = async () => {
     try {
       const res = await Axios.get(
-        AppConfig.BASE_URL_API + `sellers/${sellerID}/promo-code/${promoCode}`
+        AppConfig.BASE_URL_API +
+          `sellers/${sellerID}/promo-code/${promoCode}/${subscriptionId}/${paymentMode}`
       );
       dispatch(setPromoCode(res.data));
       dispatch(setPromoError(''));
@@ -56,6 +59,8 @@ export const checkPromoCode = (promoCode: string) => (dispatch: any) => {
     } catch (err) {
       if (err.response && err.response.data && err.response.data.message) {
         dispatch(setPromoError(err.response.data.message));
+      } else {
+        dispatch(setPromoError('Failed to retrieve promo code.'));
       }
       dispatch(setPromoCode({}));
       dispatch(setPromoLoading(false));

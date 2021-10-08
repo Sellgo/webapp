@@ -109,6 +109,14 @@ export const subscriptionDetails: { [key: string]: SummaryDetails } = {
   },
 };
 
+export const subscriptionList: SummaryDetails[] = [
+  subscriptionDetails.wholesalearbitrage$1,
+  subscriptionDetails.starter,
+  subscriptionDetails.professional,
+  subscriptionDetails.team,
+  subscriptionDetails.sellerscoutpro,
+];
+
 export const generateSubscriptionDetails = (planType: string) => {
   if (!planType) {
     return subscriptionDetails.starter;

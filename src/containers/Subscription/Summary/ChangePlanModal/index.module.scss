@@ -1,0 +1,45 @@
+@import '../../../../design-system/colors.scss';
+
+.changePlanModal {
+  padding: 1.5rem 2rem;
+  width: 35rem !important;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.plansBox {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.planOption {
+  margin-bottom: 18px;
+
+  label {
+    font-size: 32px;
+    color: $prim_dark_1;
+  }
+
+  &__selected {
+    label {
+      font-weight: 500;
+    }
+  }
+}
+
+.buttonsRow {
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+
+  .cancelButton {
+    margin-left: 18px;
+    background: none;
+    font-weight: 400;
+  }
+}
