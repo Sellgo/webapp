@@ -59,11 +59,11 @@ const PastTransactionsSection = (props: Props) => {
               id="pastTransactionsTable"
             >
               <Table.Column width={30} verticalAlign="middle" align="center">
-                <Table.HeaderCell>#</Table.HeaderCell>
+                <Table.HeaderCell></Table.HeaderCell>
                 <IsSuccessfulTransactionCell dataKey="paid" />
               </Table.Column>
 
-              <Table.Column width={100} verticalAlign="middle" align="center">
+              <Table.Column width={150} verticalAlign="middle" align="center">
                 <Table.HeaderCell>ID</Table.HeaderCell>
                 <Table.Cell dataKey="id" />
               </Table.Column>
