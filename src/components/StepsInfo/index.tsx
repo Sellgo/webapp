@@ -15,6 +15,7 @@ interface Props {
   disabled?: boolean;
   showOnRight?: boolean;
   id?: any;
+  value: string;
 }
 
 const StepsInfo = (props: Props) => {
@@ -29,6 +30,7 @@ const StepsInfo = (props: Props) => {
     blurInput,
     subscriptionRegister,
     id,
+    value,
   } = props;
 
   const [isPassword, setPassword] = useState(true);
@@ -77,6 +79,7 @@ const StepsInfo = (props: Props) => {
             placeholder="Password"
             onChange={onChange}
             disabled={disabled}
+            value={value}
           />
           <Icon name={isPassword ? 'eye slash' : 'eye'} onClick={handleClickPassword} />
         </div>
