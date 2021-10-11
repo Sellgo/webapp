@@ -127,7 +127,12 @@ const SubscriptionPage: React.FC<Props> = props => {
         </div>
 
         <section className={styles.contentSection}>
-          <Summary planType={accountType} paymentMode={paymentMode} />
+          <Summary
+            planType={accountType}
+            paymentMode={paymentMode}
+            setPlanType={setAccountType}
+            setPaymentMode={setPaymentMode}
+          />
           {isLogin && <Login auth={auth} setSignup={setSignUp} />}
           {isSignup && <Signup auth={auth} setLogin={setLogin} />}
         </section>

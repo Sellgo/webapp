@@ -26,6 +26,22 @@
       fill: $accent_orange !important;
     }
   }
+
+  &:hover {
+    background: $accent_orange;
+    font-weight: $fontweight_semibold !important;
+    color: #fff !important;
+
+    span {
+      color: #fff !important;
+    }
+
+    svg {
+      path {
+        fill: #fff !important;
+      }
+    }
+  }
 }
 
 .addEditKeywordsModal {

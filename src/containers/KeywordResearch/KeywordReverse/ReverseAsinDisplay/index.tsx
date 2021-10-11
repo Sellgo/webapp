@@ -78,8 +78,12 @@ const ReverseAsinDisplay = (props: Props) => {
 
       <div className={styles.reverseAsinCardsWrapper}>
         {/* Add new ASIN card */}
-        <div className={styles.addAsinCard} style={{ opacity: disableAddAsinCard ? 0.6 : 1 }}>
-          <CirclePlusIcon onClick={() => !disableAddAsinCard && setShowAddBulkAsin(true)} />
+        <div
+          className={styles.addAsinCard}
+          style={{ opacity: disableAddAsinCard ? 0.6 : 1 }}
+          onClick={() => !disableAddAsinCard && setShowAddBulkAsin(true)}
+        >
+          <CirclePlusIcon />
           <p>Add ASINs</p>
         </div>
 

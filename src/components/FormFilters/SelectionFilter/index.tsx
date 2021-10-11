@@ -48,6 +48,7 @@ const SelectionFilter: React.FC<Props> = props => {
     userOnboarding,
   } = props;
 
+  const [isFocused, setFocused] = React.useState<boolean>(false);
   /* Onboarding logic */
   const filterOnboarding = userOnboardingResources[FILTER_KPI_ONBOARDING_INDEX] || {};
   const enableFilterOnboarding = userOnboarding && Object.keys(filterOnboarding).length > 0;
@@ -85,7 +86,7 @@ const SelectionFilter: React.FC<Props> = props => {
       <Dropdown
         fluid
         search
-        className="selectionFilter"
+        className={isFocused ? 'selectionFilter selectionFilter__focused' : ' selectionFilter'}
         options={filterOptions}
         placeholder={placeholder}
         scrolling
@@ -94,6 +95,8 @@ const SelectionFilter: React.FC<Props> = props => {
         disabled={disabled}
         loading={loading}
         autoComplete={'chrome-off'}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
       />
     </div>
   );

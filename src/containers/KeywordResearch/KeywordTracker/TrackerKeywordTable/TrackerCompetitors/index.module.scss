@@ -59,6 +59,7 @@
   }
 
   &:hover {
+    font-weight: $fontweight_semibold !important;
     background: $accent_orange;
     color: #fff !important;
 

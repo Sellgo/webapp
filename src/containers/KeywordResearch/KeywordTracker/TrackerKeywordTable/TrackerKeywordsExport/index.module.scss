@@ -1,0 +1,65 @@
+@import '../../../../../design-system/new-colors';
+
+.exportsContainer {
+  position: absolute;
+  left: calc(100vw - 290px);
+  margin-top: 15px;
+  margin-bottom: 8px;
+}
+
+.exportText {
+  font-size: 14px;
+  color: $grey_8 !important;
+  font-weight: 400 !important;
+}
+
+.exportOptions {
+  min-width: 115px;
+  min-height: max-content;
+  padding: 0;
+  padding-top: 10px;
+
+  span {
+    color: $grey_6;
+    text-transform: uppercase;
+    font-size: 12px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    display: inline-block;
+  }
+}
+
+.exportOption {
+  color: $grey_8 !important;
+  border: 0;
+  outline: 0;
+  width: 100%;
+  font-weight: 400 !important;
+  font-size: 14px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 10px;
+  margin: 5px 0;
+  background: #fff;
+  height: 25px;
+
+  &:hover {
+    background: $grey_1;
+    font-weight: 500 !important;
+  }
+
+  svg {
+    margin-right: 8px;
+  }
+
+  &:disabled {
+    color: $grey_6 !important;
+
+    svg {
+      path {
+        fill: $grey_6;
+      }
+    }
+  }
+}
