@@ -9,6 +9,9 @@ import styles from './index.module.scss';
 
 /* Assets */
 import newSellgoLogo from '../../../assets/images/sellgoNewLogo.png';
+import chromeExtensionExample from '../../../assets/images/chromeExample.png';
+import chromeExtensionIcon from '../../../assets/images/rainbowChromeLogo.svg';
+import Dots from '../../../assets/images/hex-neural.svg';
 
 /* Config */
 import { AppConfig } from '../../../config';
@@ -25,7 +28,6 @@ import {
   strong,
   lowerUpper,
   alphanumeric,
-  specialCharacters,
   Length,
 } from '../../../constants/Validators';
 
@@ -141,17 +143,9 @@ const Activation = (props: Props) => {
     {
       id: 4,
       stepShow: true,
-      stepClass: specialCharacters.validate(password) ? 'title-success' : 'title-error',
-      stepTitle: 'Special Characters',
-      stepDescription: 'Contains at least one special character (e.g. !@#$%^&*,.)',
-      stepIcon: specialCharacters.validate(password) ? 'check' : 'times',
-    },
-    {
-      id: 5,
-      stepShow: true,
       stepClass: Length.validate(password) ? 'title-success' : 'title-error',
       stepTitle: 'Length',
-      stepDescription: 'At least 8 characters',
+      stepDescription: 'At least 10 characters',
       stepIcon: Length.validate(password) ? 'check' : 'times',
     },
   ];
@@ -215,76 +209,98 @@ const Activation = (props: Props) => {
   return (
     <main className={styles.activationPage}>
       {newUserExperiencePopup()}
-      <section className={styles.activationForm}>
-        <div className={styles.logo}>
-          <img src={newSellgoLogo} alt="Sellgo Company Logo" />
-        </div>
-        <Form.Input
-          size="huge"
-          label="Your Name"
-          type="text"
-          placeholder="Your Name"
-          value={name}
-          className={styles.formInput}
-          disabled
+      <section className={styles.chromeExtensionCTASection}>
+        <img
+          className={styles.chromeExtensionDisplay}
+          src={chromeExtensionExample}
+          alt="chrome-extension-pic"
         />
-        <Form.Input
-          size="huge"
-          label="Email"
-          type="mail"
-          placeholder="Email"
-          value={email}
-          className={styles.formInput}
-          disabled
-        />
-        <Form.Field className={`${styles.formInput} ${styles.formInput__password}`}>
-          <label htmlFor="password">Password*</label>
-          <StepsInfo
-            id="password"
-            subscriptionRegister={true}
-            isFocusPW={isFocusPW}
-            focusInput={() => setFocusPassword(true)}
-            blurInput={() => setFocusPassword(false)}
-            stepsData={stepsInfo}
-            {...bindPassword}
+        <p className={styles.chromeExtensionDesc}>
+          Private Label entrepreneurs, Wholesale resellers, and service providers use our extension
+          to estimate sales &#38; search terms directly from Amazon.
+        </p>
+        <a
+          href="https://chrome.google.com/webstore/detail/sellgo-extension/gldmigoakdolonchebfnmcfbjihelcec"
+          className={styles.chromeExtensionButton}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src={chromeExtensionIcon} alt="chromeExtensionIcon" />
+          Get Sellgo Chrome Extension
+        </a>
+      </section>
+      <section className={styles.activationFormSection}>
+        <img src={newSellgoLogo} className={styles.logo} alt="Sellgo Company Logo" />
+        <div className={styles.activationForm}>
+          <img src={Dots} alt="dots" className={styles.dots} />
+          <p className={styles.formHeader}> Set Name &#38; Password </p>
+          <Form.Input
+            size="huge"
+            label="Your Name"
+            type="text"
+            placeholder="Your Name"
+            value={name}
+            className={styles.formInput}
+            disabled
           />
-        </Form.Field>
-        <Form.Input
-          size="huge"
-          label="Confirm Password*"
-          type="password"
-          placeholder="Confirm Password"
-          required
-          {...bindPassword2}
-          className={styles.formInput}
-        />
+          <Form.Input
+            size="huge"
+            label="Email"
+            type="mail"
+            placeholder="Email"
+            value={email}
+            className={styles.formInput}
+            disabled
+          />
+          <Form.Field className={`${styles.formInput} ${styles.formInput__password}`}>
+            <label htmlFor="password">Password*</label>
+            <StepsInfo
+              id="password"
+              subscriptionRegister={true}
+              isFocusPW={isFocusPW}
+              focusInput={() => setFocusPassword(true)}
+              blurInput={() => setFocusPassword(false)}
+              stepsData={stepsInfo}
+              {...bindPassword}
+            />
+          </Form.Field>
+          <Form.Input
+            size="huge"
+            label="Confirm Password*"
+            type="password"
+            placeholder="Confirm Password"
+            required
+            {...bindPassword2}
+            className={styles.formInput}
+          />
 
-        <div className={styles.consent}>
-          <Checkbox onChange={handleTermsChange} />
-          <p>
-            By signing up, you’re agreeing to our&nbsp;
-            <span
-              onClick={() => {
-                setOpenTOS(true);
-              }}
-            >
-              terms of service&nbsp;
-            </span>
-            and you have read our&nbsp;
-            <span
-              onClick={() => {
-                setOpenPP(true);
-              }}
-            >
-              data use policy&nbsp;
-            </span>
-            as well as the use of cookies.
-          </p>
+          <div className={styles.consent}>
+            <Checkbox onChange={handleTermsChange} />
+            <p>
+              By signing up, you’re agreeing to our&nbsp;
+              <span
+                onClick={() => {
+                  setOpenTOS(true);
+                }}
+              >
+                terms of service&nbsp;
+              </span>
+              and you have read our&nbsp;
+              <span
+                onClick={() => {
+                  setOpenPP(true);
+                }}
+              >
+                data use policy&nbsp;
+              </span>
+              as well as the use of cookies.
+            </p>
+          </div>
+          <p className={styles.error}>{errorMessage}</p>
+          <button className={styles.submitButton} onClick={handleSubmit} disabled={isLoading}>
+            Register
+          </button>
         </div>
-        <p className={styles.error}>{errorMessage}</p>
-        <button className={styles.submitButton} onClick={handleSubmit} disabled={isLoading}>
-          Register
-        </button>
       </section>
     </main>
   );

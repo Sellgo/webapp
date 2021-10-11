@@ -44,6 +44,9 @@ import styles from './index.module.scss';
 /* Types */
 import { PromoCode } from '../../../../interfaces/Subscription';
 
+/* Utils */
+import { getSubscriptionID } from '../../../../utils/subscriptions';
+
 const CARD_ELEMENT_OPTIONS = {
   style: {
     base: {
@@ -120,7 +123,7 @@ function CheckoutForm(props: MyProps) {
 
   const handleCheckPromoCode = async (event: any) => {
     event.preventDefault();
-    const subscriptionId = getSubscriptionID(accountType);
+    const subscriptionId = getSubscriptionID(accountType, subscriptionPlans);
     Axios.defaults.headers.common.Authorization = ``;
     checkPromoCode(promoCode, subscriptionId, paymentMode);
   };
@@ -136,16 +139,6 @@ function CheckoutForm(props: MyProps) {
     setSelectedCountry(data);
   };
   const trigger = <span className="country-label">{selectedCountry.name}</span>;
-
-  const getSubscriptionID = (planName: string) => {
-    const DEFAULT_PROFESSIONAL_PLAN_ID = 2;
-    const id = subscriptionPlans[planName];
-    if (id) {
-      return id;
-    } else {
-      return DEFAULT_PROFESSIONAL_PLAN_ID;
-    }
-  };
 
   const handleSubmit = async (event: any) => {
     // Block native form submission.
@@ -212,7 +205,7 @@ function CheckoutForm(props: MyProps) {
         });
       } else {
         const data = {
-          subscription_id: getSubscriptionID(accountType),
+          subscription_id: getSubscriptionID(accountType, subscriptionPlans),
           payment_method_id: paymentMethodId,
           payment_mode: paymentMode,
           promo_code: promoCode,

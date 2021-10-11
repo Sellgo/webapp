@@ -49,10 +49,10 @@ export const checkPromoCode = (promoCode: string, subscriptionId: number, paymen
   const sellerID = localStorage.getItem('userId');
   const fetchPromoCode = async () => {
     try {
-      const res = await Axios.get(
-        AppConfig.BASE_URL_API +
-          `sellers/${sellerID}/promo-code/${promoCode}/${subscriptionId}/${paymentMode}`
-      );
+      const url = sellerID
+        ? `${AppConfig.BASE_URL_API}sellers/${sellerID}/promo-code/${promoCode}/${subscriptionId}/${paymentMode}`
+        : `${AppConfig.BASE_URL_API}sellers/promo-code/${promoCode}/${subscriptionId}/${paymentMode}`;
+      const res = await Axios.get(url);
       dispatch(setPromoCode(res.data));
       dispatch(setPromoError(''));
       dispatch(setPromoLoading(false));

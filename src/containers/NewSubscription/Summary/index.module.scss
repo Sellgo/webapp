@@ -53,6 +53,14 @@
       font-weight: 500;
     }
   }
+
+  .changePlan {
+    color: $blue_6;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
 
 .planName {

@@ -9,14 +9,14 @@ import styles from './index.module.scss';
 import { formatDecimal } from '../../../utils/format';
 
 /* Data */
-import { generateSubscriptionDetails, SummaryDetails } from '../data';
+import { generateSubscriptionDetails, subscriptionList } from '../data';
 
 /* Types */
-import { PromoCode } from '../../../interfaces/Subscription';
+import { PromoCode, SummaryDetails } from '../../../interfaces/Subscription';
 
 /* Components */
 import OrangeButton from '../../../components/OrangeButton';
-import ChangePlanModal from './ChangePlanModal';
+import ChangePlanModal from '../../../components/ChangePlanModal';
 
 interface Props {
   hideChangePlan?: boolean;
@@ -184,6 +184,7 @@ const Summary = (props: Props) => {
           paymentMode={paymentMode}
           isChangingPlanModalOpen={isChangingPlanModalOpen}
           setChangingPlanModalOpen={setChangingPlanModalOpen}
+          subscriptionList={subscriptionList}
         />
       </div>
     </>

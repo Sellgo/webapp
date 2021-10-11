@@ -12,6 +12,9 @@ import { Form, Loader } from 'semantic-ui-react';
 import Axios from 'axios';
 import generator from 'generate-password';
 
+/* Components */
+import Auth from '../../../components/Auth/Auth';
+
 /* Constants */
 import { Name, validateEmail } from '../../../constants/Validators';
 
@@ -41,7 +44,9 @@ import styles from './index.module.scss';
 
 /* Types */
 import { PromoCode } from '../../../interfaces/Subscription';
-import Auth from '../../../components/Auth/Auth';
+
+/* Utils */
+import { getSubscriptionID } from '../../../utils/subscriptions';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -65,7 +70,7 @@ interface MyProps {
   accountType: string;
   paymentMode: string;
   stripeLoading: boolean;
-  checkPromoCode: (data: string) => void;
+  checkPromoCode: (promoCode: string, subscriptionId: number, paymentMode: string) => void;
   promoLoading: boolean;
   setRedeemedPromoCode: (promoCode: any) => void;
   redeemedPromoCode: PromoCode;
@@ -118,7 +123,9 @@ function CheckoutForm(props: MyProps) {
 
   const handleCheckPromoCode = async (event: any) => {
     event.preventDefault();
-    checkPromoCode(promoCode);
+    const subscriptionId = getSubscriptionID(accountType, subscriptionPlans);
+    Axios.defaults.headers.common.Authorization = ``;
+    checkPromoCode(promoCode, subscriptionId, paymentMode);
   };
 
   const handlePromoCodeChange = (event: any) => {
@@ -126,16 +133,6 @@ function CheckoutForm(props: MyProps) {
     setPromoCodeChecked(false);
     setRedeemedPromoCode({});
     setPromoError('');
-  };
-
-  const getSubscriptionID = (planName: string) => {
-    const DEFAULT_PROFESSIONAL_PLAN_ID = 2;
-    const id = subscriptionPlans[planName];
-    if (id) {
-      return id;
-    } else {
-      return DEFAULT_PROFESSIONAL_PLAN_ID;
-    }
   };
 
   const handleError = (err: string) => {
@@ -202,7 +199,10 @@ function CheckoutForm(props: MyProps) {
       const paymentMethodId = paymentMethod.id;
       const bodyFormData = new FormData();
       bodyFormData.set('email', email);
-      bodyFormData.set('subscription_id', String(getSubscriptionID(accountType)));
+      bodyFormData.set(
+        'subscription_id',
+        String(getSubscriptionID(accountType, subscriptionPlans))
+      );
       bodyFormData.set('payment_method_id', paymentMethodId);
       bodyFormData.set('payment_mode', paymentMode);
       bodyFormData.set('promo_code', promoCode);
@@ -230,6 +230,9 @@ function CheckoutForm(props: MyProps) {
           return;
         }
       } catch (e) {
+        if (e.response && e.response.data && e.response.data.message) {
+          handleError(e.response.data.message);
+        }
         handleError('Failed to make payment.');
         return;
       }
@@ -276,7 +279,7 @@ function CheckoutForm(props: MyProps) {
                 last_name: lastName,
                 stripe_subscription_id: stripeSubscription.id,
                 activation_code: hashString,
-                subscription_id: getSubscriptionID(accountType),
+                subscription_id: getSubscriptionID(accountType, subscriptionPlans),
                 payment_mode: paymentMode,
               };
 
@@ -423,7 +426,8 @@ const mapStateToProps = (state: {}) => ({
 });
 const mapDispatchToProps = {
   setStripeLoad: (data: boolean) => setStripeLoading(data),
-  checkPromoCode: (data: string) => checkPromoCode(data),
+  checkPromoCode: (promoCode: string, subscriptionId: number, paymentMode: string) =>
+    checkPromoCode(promoCode, subscriptionId, paymentMode),
   setRedeemedPromoCode: (data: any) => setPromoCode(data),
   setPromoError: (data: string) => setPromoError(data),
 };

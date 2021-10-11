@@ -1,12 +1,4 @@
-export interface SummaryDetails {
-  name: string;
-  subDescription: string;
-  benefits: string[];
-  id: number;
-  monthlyPrice: number;
-  annualPrice: number;
-  dailyPrice: number;
-}
+import { SummaryDetails } from '../../interfaces/Subscription';
 
 export const subscriptionDetails: { [key: string]: SummaryDetails } = {
   enterprise: {
@@ -132,3 +124,11 @@ export const subscriptionPlans: { [key: string]: number } = {
 };
 
 export const paymentModes = ['daily', 'monthly', 'yearly'];
+
+export const subscriptionList: SummaryDetails[] = [
+  subscriptionDetails.wholesalearbitrage$1,
+  subscriptionDetails.starter,
+  subscriptionDetails.professional,
+  subscriptionDetails.team,
+  subscriptionDetails.sellerscoutpro,
+];

@@ -1,28 +1,35 @@
 import React from 'react';
 import { Modal, Radio } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
 
 /* Data */
-import { subscriptionList, SummaryDetails } from '../../data';
+import { SummaryDetails } from '../../interfaces/Subscription';
 
 /* Components */
-import OrangeButton from '../../../../components/OrangeButton';
+import OrangeButton from '../../components/OrangeButton';
 
 /* utils */
-import { convertPlanNameToKey } from '../../../../utils/subscriptions';
+import { convertPlanNameToKey } from '../../utils/subscriptions';
+
+/* Actions */
+import { setPromoCode, setPromoError } from '../../actions/Settings/Subscription';
 
 interface Props {
+  subscriptionList: SummaryDetails[];
   setPlanType: (planType: string) => any;
   setPaymentMode: (paymentMode: string) => any;
   planType: string;
   paymentMode: string;
   isChangingPlanModalOpen: any;
   setChangingPlanModalOpen: any;
+  setPromoCode: (promoCode: any) => void;
+  setPromoError: (err: string) => void;
 }
 
-const Summary = (props: Props) => {
+const ChangePlanModal = (props: Props) => {
   const {
     planType,
     paymentMode,
@@ -30,6 +37,9 @@ const Summary = (props: Props) => {
     setChangingPlanModalOpen,
     setPlanType,
     setPaymentMode,
+    subscriptionList,
+    setPromoCode,
+    setPromoError,
   } = props;
 
   const [newPlanType, setNewPlanType] = React.useState<string>(planType);
@@ -37,9 +47,11 @@ const Summary = (props: Props) => {
 
   /* Update default plan type and payment mode when changes occur */
   React.useEffect(() => {
-    setNewPlanType(planType);
-    setNewPaymentMode(paymentMode);
-  }, [planType, paymentMode]);
+    if (isChangingPlanModalOpen) {
+      setNewPlanType(planType);
+      setNewPaymentMode(paymentMode);
+    }
+  }, [isChangingPlanModalOpen, planType, paymentMode]);
 
   const handleChange = (e: any, data: any) => {
     const plan = data.value.split(',');
@@ -53,6 +65,8 @@ const Summary = (props: Props) => {
   const handleSave = () => {
     localStorage.setItem('planType', newPlanType);
     localStorage.setItem('paymentMode', newPaymentMode);
+    setPromoError('');
+    setPromoCode({});
     setPlanType(newPlanType);
     setPaymentMode(newPaymentMode);
     setChangingPlanModalOpen(false);
@@ -142,4 +156,9 @@ const Summary = (props: Props) => {
   );
 };
 
-export default Summary;
+const mapDispatchToProps = (dispatch: any) => ({
+  setPromoCode: (payload: any) => dispatch(setPromoCode(payload)),
+  setPromoError: (err: string) => dispatch(setPromoError(err)),
+});
+
+export default connect(null, mapDispatchToProps)(ChangePlanModal);

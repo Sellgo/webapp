@@ -119,7 +119,8 @@ const Payment = (props: PaymentProps) => {
         <Summary
           planType={accountType}
           paymentMode={paymentMode}
-          showCoupon={true && !isSubscriptionPaid(subscriptionType) && !successPayment}
+          setPaymentMode={setPaymentMode}
+          setPlanType={setAccountType}
         />
 
         {!successPayment && isSubscriptionNotPaid(subscriptionType) && (

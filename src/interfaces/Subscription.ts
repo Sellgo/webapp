@@ -8,3 +8,13 @@ export interface PromoCode {
   message: string;
   duration: string;
 }
+
+export interface SummaryDetails {
+  name: string;
+  subDescription: string;
+  benefits: string[];
+  id: number;
+  monthlyPrice: number;
+  annualPrice: number;
+  dailyPrice: number;
+}
