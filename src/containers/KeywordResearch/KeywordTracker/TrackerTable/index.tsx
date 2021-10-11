@@ -164,6 +164,19 @@ const TrackerTable = (props: Props) => {
           <StatsCell dataKey="tracked_keywords" align="center" specialKpi />
         </Table.Column>
 
+        {/* Amazon Choice */}
+        <Table.Column width={130} verticalAlign="top" align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Amazon\nChoice #`}
+              dataKey="amazon_choice_count"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="amazon_choice_count" align="center" />
+        </Table.Column>
+
         {/* Competitors */}
         <Table.Column width={130} verticalAlign="top" align="left" sortable>
           <Table.HeaderCell>

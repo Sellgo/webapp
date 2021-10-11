@@ -15,6 +15,15 @@ export interface TrackerTableProductsPayload {
   search?: string;
 }
 
+/* Keyword Tracker Product Variation  */
+export interface TrackerTableProductVariationsPayload {
+  keywordTrackProductId: number;
+}
+
+export interface TrackerTableUpdateProductVariationsPayload {
+  asin: string;
+}
+
 /* Keyword Tracker Table Competitors  */
 export interface KeywordTrackerTableCompetitors {
   keyword_track_competitor_id: number;
@@ -74,6 +83,12 @@ export interface TrackerProductKeywordsTablePaginationInfo {
 /* Untrack keyword from products table*/
 export interface UnTrackProductsTableKeyword {
   keywordTrackId: number;
+}
+
+/* Track/untrack in BOOST keyword from products table*/
+export interface TrackBoostProductsTableKeyword {
+  keywordTrackId: number;
+  is_boost: 'true' | 'false';
 }
 
 /* Add more keywords to keyword tracker table */
