@@ -239,12 +239,16 @@ function CheckoutForm(props: MyProps) {
 
       /* Create auth0 account */
       if (stripeSubscription) {
-        const data = new TextEncoder().encode(stripeSubscription.id);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashString = `${btoa(email)}${hashArray
-          .map(b => b.toString(16).padStart(2, '0'))
-          .join('')}`;
+        // const data = new TextEncoder().encode(stripeSubscription.id);
+        /* Hash string for https only! */
+        // const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        // const hashArray = Array.from(new Uint8Array(hashBuffer));
+        // const hashString = `${btoa(email)}${hashArray
+        //   .map(b => b.toString(16).padStart(2, '0'))
+        //   .join('')}`;
+
+        /* REMOVE THIS FOR DEV/PROD */
+        const hashString = `${btoa(email)}${generator.generate({ length: 32 })}`;
         const randomPasswordLength = Math.min(12, Math.random() * 32);
         const randomPassword = generator.generate({
           length: randomPasswordLength,
@@ -408,7 +412,7 @@ function CheckoutForm(props: MyProps) {
             className={styles.completeButton}
           >
             Complete Payment
-            {stripeLoading && <Loader active inline size="mini" inverted />}
+            {signupLoading && <Loader active inline size="mini" inverted />}
           </button>
         </div>
       </form>
