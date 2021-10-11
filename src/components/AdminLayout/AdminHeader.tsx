@@ -133,7 +133,13 @@ const AdminHeader = (props: Props) => {
           </Dropdown.Menu>
         </Dropdown>
       </Menu.Item>
-      <LogoutConfirm auth={auth} open={openConfirm} openFunc={open} />
+      <LogoutConfirm
+        auth={auth}
+        open={openConfirm}
+        openFunc={() => {
+          setOpenConfirm(!openConfirm);
+        }}
+      />
     </div>
   );
 };
