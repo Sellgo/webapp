@@ -27,22 +27,36 @@ import BillingIcon from '../../assets/images/billingIcon.svg';
 import ConnectivityIcon from '../../assets/images/connectivityIcon.svg';
 import LogoutIcon from '../../assets/images/logoutIcon.svg';
 
+/* Actions */
+import { getSellerInfo } from '../../actions/Settings';
+
 interface Props {
   auth: any;
   profile: any;
   sellerSubscription: SellerSubscription;
   setUserOnboarding: (payload: boolean) => void;
+  getSellerInfo: () => void;
   userOnboarding: boolean;
 }
 
 const AdminHeader = (props: Props) => {
   const userPicture = localStorage.getItem('userPicture');
-  const { auth, profile, sellerSubscription, setUserOnboarding, userOnboarding } = props;
+  const {
+    auth,
+    profile,
+    sellerSubscription,
+    setUserOnboarding,
+    userOnboarding,
+    getSellerInfo,
+  } = props;
   const { email, first_name, last_name } = profile;
   const isBeta = isBetaAccount(sellerSubscription);
   const [openConfirm, setOpenConfirm] = React.useState<boolean>(false);
   const open = () => setOpenConfirm(true);
 
+  React.useEffect(() => {
+    getSellerInfo();
+  }, []);
   return (
     <div className="admin-header">
       <Popup
@@ -154,6 +168,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = {
   setUserOnboarding: (payload: boolean) => setUserOnboarding(payload),
+  getSellerInfo: () => getSellerInfo(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminHeader);
