@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Table } from 'rsuite';
 
 /* Styling */
@@ -65,4 +65,4 @@ const ExtendedReviewsCell = (props: Props) => {
   );
 };
 
-export default ExtendedReviewsCell;
+export default memo(ExtendedReviewsCell);

@@ -12,7 +12,9 @@ import {
 import {
   KeywordReversePaginationInfo,
   KeywordReverseTablePayload,
-  ReverseKeywordProgressData,
+  KeywordReverseProgressData,
+  KeywordReverseAsinProduct,
+  KeywordReverseProductListPayload,
 } from '../../interfaces/KeywordResearch/KeywordReverse';
 
 /* Selectors */
@@ -23,7 +25,7 @@ import { sellerIDSelector } from '../../selectors/Seller';
 import { error, success } from '../../utils/notifications';
 import { timeout } from '../../utils/timeout';
 
-/* ============== KEYWORD REQUEST ================== */
+/* ============== KEYWORD  REVERSE REQUEST ================== */
 
 /* Action for setting fetching state for keyword request id */
 export const isFetchingKeywordReverseRequestId = (payload: boolean) => {
@@ -35,7 +37,7 @@ export const isFetchingKeywordReverseRequestId = (payload: boolean) => {
 
 /* Action for setting  keyword request id */
 export const setKeywordReverseRequestId = (payload: string) => {
-  sessionStorage.setItem('keywordRequestId', payload);
+  sessionStorage.setItem('keywordReverseRequestId', payload);
   return {
     type: actionTypes.SET_KEYWORD_REVERSE_REQUEST_ID,
     payload,
@@ -44,14 +46,32 @@ export const setKeywordReverseRequestId = (payload: string) => {
 
 /* Action to set asin list for keyword reverse */
 export const setAsinListForKeywordReverse = (payload: string) => {
-  sessionStorage.setItem('asinListForKeywords', payload);
+  sessionStorage.setItem('keywordReverseAsinList', payload);
   return {
     type: actionTypes.SET_ASIN_LIST_FOR_KEYWORD_REVERSE,
     payload,
   };
 };
 
-/* ============== KEYWORD REQUEST ================== */
+/* ============== KEYWORD REVERSE PRODUCTS LIST ================== */
+
+/* Action to set loading state for keyword reverse asin products */
+export const isLoadingKeywordReverseProductsList = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_LOADING_KEYWORD_REVERSE_PRODUCTS_LIST,
+    payload,
+  };
+};
+
+/* Action to set keyword reverse products list */
+export const setKeywordReverseProductsList = (payload: KeywordReverseAsinProduct[]) => {
+  return {
+    type: actionTypes.SET_KEYWORD_REVERSE_PRODUCTS_LIST,
+    payload,
+  };
+};
+
+/* ============== KEYWORD REVERSE PROGRESS ================== */
 
 /* Action to set if progress needs to be called */
 export const shouldFetchKeywordReverseProgress = (payload: boolean) => {
@@ -62,7 +82,7 @@ export const shouldFetchKeywordReverseProgress = (payload: boolean) => {
 };
 
 /* Action to set the progress data for keyword reverse */
-export const setKeywordReverseProgressData = (payload: ReverseKeywordProgressData) => {
+export const setKeywordReverseProgressData = (payload: KeywordReverseProgressData) => {
   sessionStorage.setItem('keywordReverseProgressData', JSON.stringify(payload));
   return {
     type: actionTypes.SET_KEYWORD_REVERSE_PROGRESS_DATA,
@@ -146,16 +166,6 @@ export const parseFilters = (keywordReverseFilter: any) => {
       const max = filter.max ? `&${keyName}_max=${filter.max}` : '';
       filterQuery += `${min}${max}`;
     }
-
-    // min max with period
-    if (type === F_TYPES.MIN_MAX_PERIOD) {
-      if (filter.period) {
-        const min = filter.min ? `&${keyName}_${filter.period}_min=${filter.min}` : '';
-        const max = filter.max ? `&${keyName}_${filter.period}_max=${filter.max}` : '';
-
-        filterQuery += `${min}${max}`;
-      }
-    }
   });
 
   return filterQuery;
@@ -164,56 +174,6 @@ export const parseFilters = (keywordReverseFilter: any) => {
 /* ========================= Async actions ======================*/
 
 /* ============== KEYWORD PROGRESS ================== */
-
-export const fetchKeywordReverseProgress = () => async (dispatch: any, getState: any) => {
-  try {
-    const sellerID = sellerIDSelector();
-
-    const keywordRequestId = getKeywordReverseRequestId(getState());
-
-    if (!keywordRequestId) {
-      console.log('No request Id returning');
-      return;
-    }
-
-    const resourcePath = `keywords/progress?keyword_request_id=${keywordRequestId}`;
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/${resourcePath}`;
-
-    const { data } = await axios.get(URL);
-
-    const isFailedStatus = data.status === 'failed';
-    const isCompleted = data.status === 'completed';
-
-    if (isFailedStatus) {
-      dispatch(shouldFetchKeywordReverseProgress(false));
-      dispatch(setKeywordReverseProgressData(data));
-      error('Error: Failed on progress');
-      return;
-    }
-
-    if (!isFailedStatus) {
-      dispatch(setKeywordReverseProgressData(data));
-      // if not completed should fetch again else not
-      dispatch(shouldFetchKeywordReverseProgress(!isCompleted));
-
-      if (isCompleted) {
-        dispatch(fetchKeywordReverseTableInformation({ enableLoader: true }));
-      }
-    }
-  } catch (err) {
-    console.error('Error fetching keyword progress');
-    dispatch(shouldFetchKeywordReverseProgress(false));
-    dispatch(
-      setKeywordReverseProgressData({
-        status: 'failed',
-        progress: '',
-        id: 0,
-        seller: 0,
-        report_xlsx_url: '',
-      })
-    );
-  }
-};
 
 /* Action to fetch keyword reverse request id using asins */
 export const fetchKeywordReverseRequestId = (asinList: string) => async (dispatch: any) => {
@@ -239,8 +199,8 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (dispatc
       dispatch(setAsinListForKeywordReverse(asinList));
       dispatch(isFetchingKeywordReverseRequestId(false));
 
-      // wait to 2 seconds
-      await timeout(2000);
+      // wait to 0.5 seconds
+      await timeout(500);
       success('Fetching keywords');
       // dispatch the keyword request progress process
       dispatch(
@@ -260,9 +220,98 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (dispatc
       dispatch(shouldFetchKeywordReverseProgress(false));
     }
   } catch (err) {
-    console.log('Error fetching the keyword request Id', err.response);
+    console.log('Error fetching the keyword request Id', err);
     dispatch(setKeywordReverseRequestId(''));
     dispatch(isFetchingKeywordReverseRequestId(false));
+  }
+};
+
+export const fetchKeywordReverseProgress = () => async (dispatch: any, getState: any) => {
+  try {
+    const sellerID = sellerIDSelector();
+
+    const keywordRequestId = getKeywordReverseRequestId(getState());
+
+    if (!keywordRequestId) {
+      return;
+    }
+
+    const resourcePath = `keywords/progress?keyword_request_id=${keywordRequestId}`;
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/${resourcePath}`;
+
+    const { data } = await axios.get(URL);
+
+    const isFailedStatus = data.status === 'failed';
+    const isCompleted = data.status === 'completed';
+
+    if (isFailedStatus) {
+      dispatch(shouldFetchKeywordReverseProgress(false));
+      dispatch(setKeywordReverseProgressData(data));
+      error('Error: Failed on progress');
+      return;
+    }
+
+    if (!isFailedStatus) {
+      dispatch(setKeywordReverseProgressData(data));
+      // if not completed should fetch again else not
+      dispatch(shouldFetchKeywordReverseProgress(!isCompleted));
+
+      if (isCompleted) {
+        dispatch(fetchKeywordReverseProductsList({ enableLoader: true }));
+        dispatch(fetchKeywordReverseTableInformation({ enableLoader: true }));
+      }
+    }
+  } catch (err) {
+    console.error('Error fetching keyword progress');
+    dispatch(shouldFetchKeywordReverseProgress(false));
+    dispatch(
+      setKeywordReverseProgressData({
+        status: 'failed',
+        progress: '',
+        id: 0,
+        seller: 0,
+        report_xlsx_url: '',
+      })
+    );
+  }
+};
+
+/* Action to fetch keyword reverse prodyct list */
+export const fetchKeywordReverseProductsList = (
+  payload: KeywordReverseProductListPayload
+) => async (dispatch: any, getState: any) => {
+  const sellerId = sellerIDSelector();
+
+  const { enableLoader = true, resetProducts = false } = payload;
+
+  try {
+    const keywordRequestId = getKeywordReverseRequestId(getState());
+
+    if (!keywordRequestId || resetProducts) {
+      dispatch(isLoadingKeywordReverseProductsList(false));
+      dispatch(setKeywordReverseProductsList([]));
+      return;
+    }
+
+    const resourcePath = `keyword_request_id=${keywordRequestId}`;
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/products?${resourcePath}`;
+
+    dispatch(isLoadingKeywordReverseProductsList(enableLoader));
+
+    const { data } = await axios.get(URL);
+
+    if (data) {
+      dispatch(setKeywordReverseProductsList(data));
+      dispatch(isLoadingKeywordReverseProductsList(false));
+    } else {
+      dispatch(setKeywordReverseProductsList([]));
+      dispatch(isLoadingKeywordReverseProductsList(false));
+    }
+  } catch (err) {
+    console.error('Error fetching keyword reverse products list', err);
+    dispatch(setKeywordReverseProductsList([]));
+    dispatch(isLoadingKeywordReverseProductsList(false));
   }
 };
 
@@ -349,7 +398,7 @@ export const fetchKeywordReverseTableInformation = (payload: KeywordReverseTable
       dispatch(isLoadingKeywordReverseTable(false));
     }
   } catch (err) {
-    console.error('Error fetching keyword reverse table', err.response);
+    console.error('Error fetching keyword reverse table', err);
 
     dispatch(setKeywordReverseTableResults([]));
     dispatch(
@@ -362,4 +411,23 @@ export const fetchKeywordReverseTableInformation = (payload: KeywordReverseTable
     );
     dispatch(isLoadingKeywordReverseTable(false));
   }
+};
+
+/* Action to reset keyword database */
+export const resetKeywordReverse = () => async (dispatch: any) => {
+  dispatch(isFetchingKeywordReverseRequestId(false));
+  dispatch(setKeywordReverseRequestId(''));
+  dispatch(setAsinListForKeywordReverse(''));
+  dispatch(shouldFetchKeywordReverseProgress(false));
+  dispatch(
+    setKeywordReverseProgressData({
+      id: 0,
+      seller: 0,
+      status: '',
+      progress: '',
+      report_xlsx_url: '',
+    })
+  );
+  dispatch(fetchKeywordReverseProductsList({ resetProducts: true }));
+  dispatch(fetchKeywordReverseTableInformation({ resetFilter: true }));
 };

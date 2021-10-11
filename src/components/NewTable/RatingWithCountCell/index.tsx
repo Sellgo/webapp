@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Table } from 'rsuite';
 import Rating from 'react-rating';
 import { Icon } from 'semantic-ui-react';
@@ -19,16 +19,17 @@ const RatingWithCountCell = (props: RowCell) => {
     <Table.Cell {...props}>
       <div className={styles.ratingCell}>
         <Rating
-          emptySymbol={<Icon name="star outline" color={'grey'} className={styles.ratingIcon} />}
-          fullSymbol={<Icon name="star" color={'grey'} className={styles.ratingIcon} />}
-          placeholderSymbol={<Icon name="star" color={'grey'} className={styles.ratingIcon} />}
+          emptySymbol={<Icon name="star outline" className={styles.ratingIcon} />}
+          fullSymbol={<Icon name="star" className={styles.ratingIcon} />}
+          placeholderSymbol={<Icon name="star" className={styles.ratingIcon} />}
           initialRating={ratingValue}
           readonly
+          className={styles.ratingIcon}
         />
-        <p>{rowData.review_count}</p>
+        <p className={styles.reviewCount}>{rowData.review_count}</p>
       </div>
     </Table.Cell>
   );
 };
 
-export default RatingWithCountCell;
+export default memo(RatingWithCountCell);

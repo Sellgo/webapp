@@ -1,15 +1,8 @@
-import React, { useState } from 'react';
-import { Icon } from 'semantic-ui-react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
-
-/* Components */
-import ExportResultAs from '../../../../components/ExportResultAs';
-
-/* Constants */
-import { EXPORT_DATA, EXPORT_FORMATS } from '../../../../constants/KeywordResearch/KeywordReverse';
 
 /* Selectors */
 import {
@@ -19,63 +12,71 @@ import {
 
 /* Interfaces */
 import {
-  ReverseKeywordProgressData,
+  KeywordReverseProgressData,
   KeywordReversePaginationInfo,
 } from '../../../../interfaces/KeywordResearch/KeywordReverse';
+
+/* Componensts*/
+import TableExport from '../../../../components/NewTable/TableExport';
 
 /* Utils */
 import { downloadFile } from '../../../../utils/download';
 import { success } from '../../../../utils/notifications';
+import { formatNumber } from '../../../../utils/format';
+
+/* Assets */
+import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
 
 interface Props {
-  reverseKeywordProgressData: ReverseKeywordProgressData;
+  reverseKeywordProgressData: KeywordReverseProgressData;
   reverseKeywordTablePaginationInfo: KeywordReversePaginationInfo;
 }
 
 const ReverseExport = (props: Props) => {
   const { reverseKeywordProgressData, reverseKeywordTablePaginationInfo } = props;
 
-  const [openExports, setOpenExports] = useState(false);
-
   const handleOnExport = async () => {
     if (reverseKeywordProgressData.report_xlsx_url) {
       await downloadFile(reverseKeywordProgressData.report_xlsx_url);
       success('File successfully downloaded');
-      setOpenExports(false);
     }
   };
 
-  const shouldEnableExport = reverseKeywordProgressData.report_xlsx_url;
+  const shouldEnableXlsxExport = reverseKeywordProgressData.report_xlsx_url;
 
   return (
     <>
       <section className={styles.exportsContainer}>
         {reverseKeywordTablePaginationInfo.total_pages > 0 && (
-          <h2>
-            {reverseKeywordTablePaginationInfo.count} keywords found, please add additional filters
-            for a more targeted search.
-          </h2>
+          <p className={styles.messageText}>
+            Viewing{' '}
+            <span className={styles.sellerCount}>
+              {formatNumber(reverseKeywordTablePaginationInfo.count)}
+            </span>{' '}
+            keywords.
+          </p>
         )}
-        <div
-          onClick={() => (shouldEnableExport ? setOpenExports(true) : 0)}
-          className={`${styles.exportButton} ${
-            shouldEnableExport ? 'export-button' : 'export-button-disabled'
-          }`}
-        >
-          <Icon name="download" />
-          <span>Export</span>
-        </div>
-      </section>
 
-      <ExportResultAs
-        open={openExports}
-        formats={EXPORT_FORMATS}
-        data={EXPORT_DATA}
-        onClose={() => setOpenExports(false)}
-        loading={false}
-        onExport={handleOnExport}
-        format={'xlsx'}
-      />
+        <TableExport
+          label=""
+          disableExport={!shouldEnableXlsxExport}
+          onButtonClick={handleOnExport}
+          exportContent={
+            <>
+              <div className={styles.exportOptions}>
+                <span>Export As</span>
+                <button
+                  className={styles.exportOption}
+                  onClick={handleOnExport}
+                  disabled={!shouldEnableXlsxExport}
+                >
+                  <XLSXExportImage /> .XLSX
+                </button>
+              </div>
+            </>
+          }
+        />
+      </section>
     </>
   );
 };

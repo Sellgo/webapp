@@ -1,0 +1,63 @@
+@import '../../../design-system/new-colors.scss';
+
+.exportButtonContainer {
+  margin-left: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $grey_8 !important;
+  margin-right: 10px;
+}
+
+.exportBtn {
+  color: $grey_8 !important;
+  position: relative;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  width: max-content !important;
+  padding: 0;
+
+  &:hover {
+    color: $prim_dark_1 !important;
+    background: $grey_1 !important;
+    border-radius: 1px !important;
+  }
+
+  &:disabled {
+    color: $grey_6 !important;
+
+    i {
+      color: $grey_6 !important;
+    }
+  }
+}
+
+.exportPopup {
+  padding: 0 !important;
+
+  &::before {
+    display: none;
+  }
+}
+
+.caretDownIcon {
+  color: $grey_8 !important;
+}
+
+.youtubeLogo {
+  fill: $youtube-red !important;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  z-index: 9999;
+  cursor: pointer;
+}
+
+.infoCircle {
+  position: absolute;
+  color: $grey_6 !important;
+  top: -7px;
+  right: -12px;
+  font-size: 10px !important;
+}

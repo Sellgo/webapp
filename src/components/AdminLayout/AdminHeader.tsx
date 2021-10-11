@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Icon, Image, Menu, Dropdown } from 'semantic-ui-react';
+import { Icon, Image, Menu, Dropdown, Checkbox, Popup } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-/* Styles */
+import { getUserOnboarding } from '../../selectors/UserOnboarding';
 
 import './AdminHeader.scss';
 
@@ -18,6 +18,7 @@ import { getSellerSubscription } from '../../selectors/Subscription';
 
 /* Utils */
 import { isBetaAccount } from '../../utils/subscriptions';
+import { setUserOnboarding } from '../../actions/UserOnboarding';
 
 /* Icons */
 import SettingsIcon from '../../assets/images/settingsIcon.svg';
@@ -30,19 +31,43 @@ interface Props {
   auth: any;
   profile: any;
   sellerSubscription: SellerSubscription;
+  setUserOnboarding: (payload: boolean) => void;
+  userOnboarding: boolean;
 }
 
 const AdminHeader = (props: Props) => {
-  const { auth, profile, sellerSubscription } = props;
+  const userPicture = localStorage.getItem('userPicture');
+  const { auth, profile, sellerSubscription, setUserOnboarding, userOnboarding } = props;
   const { email, first_name, last_name } = profile;
   const isBeta = isBetaAccount(sellerSubscription);
-  const userPicture = localStorage.getItem('userPicture');
   const [openConfirm, setOpenConfirm] = React.useState<boolean>(false);
-
   const open = () => setOpenConfirm(true);
 
   return (
     <div className="admin-header">
+      <Popup
+        className="enableLearningPopup"
+        trigger={
+          <Checkbox
+            toggle
+            label="Quick Learning"
+            className="userOnboardingToogle"
+            checked={userOnboarding}
+            onChange={(e: any, data) => {
+              setUserOnboarding(Boolean(data.checked));
+            }}
+          />
+        }
+        content={<p className="enableLearningTooltipMessage">Toggle to enable learning mode</p>}
+      />
+
+      {/* Show settings icon only if not a beta user account */}
+      {!isBetaAccount(sellerSubscription) && (
+        <Menu.Item as={Link} to="/settings">
+          <Icon name="setting" color={'black'} size={'large'} className={'setting-icon'} />
+        </Menu.Item>
+      )}
+
       <Menu.Item>
         <Dropdown
           trigger={
@@ -108,7 +133,7 @@ const AdminHeader = (props: Props) => {
           </Dropdown.Menu>
         </Dropdown>
       </Menu.Item>
-      <LogoutConfirm auth={auth} open={openConfirm} openFunc={setOpenConfirm} />
+      <LogoutConfirm auth={auth} open={openConfirm} openFunc={open} />
     </div>
   );
 };
@@ -117,7 +142,12 @@ const mapStateToProps = (state: any) => {
   return {
     profile: state.settings.profile,
     sellerSubscription: getSellerSubscription(state),
+    userOnboarding: getUserOnboarding(state),
   };
 };
 
-export default connect(mapStateToProps)(AdminHeader);
+const mapDispatchToProps = {
+  setUserOnboarding: (payload: boolean) => setUserOnboarding(payload),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminHeader);

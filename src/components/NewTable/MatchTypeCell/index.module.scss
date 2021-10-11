@@ -1,0 +1,19 @@
+@import '../../../design-system/new-colors.scss';
+
+.matchTypeCell {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.matchType {
+  border: 1px solid $grey_3;
+  color: $grey_8;
+  border-radius: 50% !important;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+}

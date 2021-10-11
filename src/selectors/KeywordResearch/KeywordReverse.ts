@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 
-/* Actions */
-import { makeOrGetUniqueTabID } from '../../constants/KeywordResearch/KeywordReverse';
+/* Utils */
+import { makeOrGetUniqueTabID } from '../../utils/session';
 
 /* =================== KEYWORD REQUEST ID =============== */
 /* Selector to get current keyword request Id */
@@ -26,6 +26,24 @@ export const getKeywordReverseAsinList = (state: any) => {
 
   const stateChunk = get(state, `keywordReverse[${sessionTabId}]`);
   return get(stateChunk, 'asinListForKeywordReverse');
+};
+
+/* =================== KEYWORD REVERSE PRODUCTS  =============== */
+
+/* Selector to get fetching state for product list*/
+export const getIsLoadingKeywordReverseProductsList = (state: any) => {
+  const sessionTabId = makeOrGetUniqueTabID();
+  const stateChunk = get(state, `keywordReverse[${sessionTabId}]`);
+
+  return get(stateChunk, 'isLoadingKeywordReverseProductsList');
+};
+
+/* Selector to get keyword reverse products list */
+export const getKeywordReverseProductsList = (state: any) => {
+  const sessionTabId = makeOrGetUniqueTabID();
+  const stateChunk = get(state, `keywordReverse[${sessionTabId}]`);
+
+  return get(stateChunk, 'keywordReverseProductsList');
 };
 
 /* =================== KEYWORD REVERSE PROGRESS =============== */

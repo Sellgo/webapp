@@ -1,25 +1,28 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Segment } from 'semantic-ui-react';
-import Sidebar from './Sidebar';
+import Sidebar from '../Sidebar';
 import './index.scss';
+import { NEW_PRODUCT_DESIGN_PATH_NAMES } from '../../constants/AdminLayout';
 
 interface Props {
   subscriptionType: string;
+  match: any;
 }
 
 class AdminLayout extends React.Component<Props> {
   public render() {
-    const { children } = this.props;
+    const { children, match } = this.props;
+
+    const isNewProduct = NEW_PRODUCT_DESIGN_PATH_NAMES.includes(window.location.pathname);
 
     return (
-      <React.Fragment>
-        <Sidebar>
-          <Segment className={`admin-layout`} basic={true}>
-            <>{children}</>
-          </Segment>
-        </Sidebar>
-      </React.Fragment>
+      <main className="admin-layout-wrapper">
+        <Sidebar match={match} />
+        <Segment className={`admin-layout ${isNewProduct ? 'new-admin-layout' : ''}`} basic={true}>
+          <>{children}</>
+        </Segment>
+      </main>
     );
   }
 }

@@ -1,0 +1,31 @@
+@import '../../../../design-system/new-colors.scss';
+
+.databaseSummarySection {
+  margin: 30px 0;
+  margin-bottom: 0 !important;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 40px;
+}
+
+/* Generic Icon Circle Classes */
+.circleGreen {
+  color: $system_green !important;
+}
+
+.circleBlue {
+  color: $accent_blue !important;
+}
+
+.circleRed {
+  color: $system_red !important;
+}
+
+/* Generic subtitle styles */
+.subTitle {
+  color: $grey_8;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  margin-bottom: 10px;
+}

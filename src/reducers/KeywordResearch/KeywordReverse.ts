@@ -1,14 +1,21 @@
 import { AnyAction } from 'redux';
 
 /* Constants */
-import { actionTypes, makeOrGetUniqueTabID } from '../../constants/KeywordResearch/KeywordReverse';
+import { actionTypes } from '../../constants/KeywordResearch/KeywordReverse';
+
+/* Utils*/
+import { makeOrGetUniqueTabID } from '../../utils/session';
 
 const INITIAL_STATE: { [key: string]: any } = {
   [makeOrGetUniqueTabID()]: {
     // keyword request id state
     isFetchingKeywordReverseRequestId: false,
-    keywordReverseRequestId: sessionStorage.getItem('keywordRequestId') || '',
-    asinListForKeywordReverse: sessionStorage.getItem('asinListForKeywords') || '',
+    keywordReverseRequestId: sessionStorage.getItem('keywordReverseRequestId') || '',
+    asinListForKeywordReverse: sessionStorage.getItem('keywordReverseAsinList') || '',
+
+    // keyword reverse products list
+    isLoadingKeywordReverseProductsList: false,
+    keywordReverseProductsList: [],
 
     // keyword request progress state
     shouldFetchKeywordReverseProgress: false,
@@ -69,6 +76,27 @@ const keywordReverseReducer = (state = INITIAL_STATE, action: AnyAction) => {
         [sessionTab]: {
           ...sessionStateChunk,
           asinListForKeywordReverse: action.payload,
+        },
+      };
+    }
+
+    /* ================= KEYWORD PRODUCTS =============== */
+    case actionTypes.IS_LOADING_KEYWORD_REVERSE_PRODUCTS_LIST: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          isLoadingKeywordReverseProductsList: action.payload,
+        },
+      };
+    }
+
+    case actionTypes.SET_KEYWORD_REVERSE_PRODUCTS_LIST: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          keywordReverseProductsList: action.payload,
         },
       };
     }

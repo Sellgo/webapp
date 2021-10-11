@@ -28,6 +28,10 @@ export const truncateString = (text: string, maxLength: number, trailing = '…'
   text && text.length > maxLength ? text.substring(0, maxLength) + trailing : text;
 
 export const truncateIntoTwoLines = (text: string, lineLength: number, maxLength: number) => {
+  if (!text) {
+    return ['-', ''];
+  }
+
   const sentence = text.split(' ');
   let exceededMaxLength = false;
   let wentToNextLine = false;
@@ -109,7 +113,8 @@ export const parseKpiLists = (kpiList: any) => {
     .toString()
     .trim()
     .replace(/[" ' [\]/]/gi, '')
-    .split(',');
+    .split(',')
+    .filter((k: string) => k.length > 0);
 };
 
 export const capitalizeFirstLetter = (str: string) => {
@@ -122,3 +127,8 @@ export const capitalizeFirstLetter = (str: string) => {
 /* Encode and decode to string (base64) */
 export const encodeBase64 = (payload: string) => window.btoa(payload);
 export const decodeBase64 = (payload: string) => window.atob(payload);
+
+/* Remove special charactera freom keywords */
+export const removeSpecialCharctersFromKeywords = (keywords: string) => {
+  return keywords.replace(/[&/\\;#+()$~%'":*?^<>{}@!_=]/g, '');
+};

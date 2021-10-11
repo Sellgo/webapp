@@ -1,0 +1,43 @@
+@import '../../../design-system/new-colors.scss';
+
+.headerCheckBoxCell {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.checkbox {
+  font-size: 14px !important;
+  margin-left: 5px;
+
+  label {
+    color: $grey_6 !important;
+  }
+
+  label::before {
+    border-radius: 4px !important;
+    border: 1px solid $grey_3 !important;
+  }
+
+  input:checked ~ .box::after,
+  input:checked ~ label::after {
+    color: $grey_8 !important;
+  }
+}
+
+.actionCellTrigger {
+  cursor: pointer !important;
+  color: $grey_6 !important;
+}
+
+.actionsCellPopup {
+  padding: 0 !important;
+
+  &::before {
+    display: none !important;
+    border-radius: 0 !important;
+    height: max-content !important;
+    border: none !important;
+    width: max-content !important;
+  }
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Table } from 'rsuite';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 
@@ -28,7 +28,7 @@ const BrandsListCell = (props: RowCell) => {
   const handleCopyBrands = (deliminator?: string) => {
     const prepareAsinStringCopy = removeSpecialChars(parsedBrands, deliminator);
     copyToClipboard(prepareAsinStringCopy).then(() => {
-      success('ASINs successfully copied');
+      success('Brands successfully copied');
     });
   };
 
@@ -40,6 +40,7 @@ const BrandsListCell = (props: RowCell) => {
             <CopyToClipboard
               displayData={showNAIfZeroOrNull(parsedBrands.length, parsedBrands.length)}
               data={removeSpecialChars(parsedBrands)}
+              className={styles.brandsCount}
             />
             <Popup
               on="click"
@@ -81,4 +82,4 @@ const BrandsListCell = (props: RowCell) => {
   );
 };
 
-export default BrandsListCell;
+export default memo(BrandsListCell);

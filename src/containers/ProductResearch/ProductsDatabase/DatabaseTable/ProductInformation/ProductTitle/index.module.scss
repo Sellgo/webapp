@@ -2,50 +2,74 @@
 
 .productTitle {
   height: 100%;
-  width: 30%;
-  margin: 0 18px;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-}
-
-.productTitleTextBox {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: flex-start;
-}
-
-.productTextWrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
   align-items: flex-start;
-}
-
-.productTitleText {
-  margin: 0;
-  color: $prim_dark_1;
-  font-weight: 500 !important;
-  font-size: 12px;
-  margin-right: 3px;
-}
-
-.productImageBox {
-  width: 100%;
+  margin: 0 20px;
 }
 
 .productImage {
-  max-width: 90%;
+  width: 140px;
   height: 140px;
   object-fit: contain;
   margin-bottom: 10px;
 }
 
-// .asin {
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: flex-start;
-// }
+.flagAndTitleRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .flagIcon {
+    width: 20px;
+    margin-right: 8px;
+    object-fit: contain;
+  }
+
+  .productTitleTextBox {
+    margin-top: -5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .upcText {
+    margin-top: -2px;
+    font-weight: 500 !important;
+    font-size: 10px;
+    color: $grey_8;
+  }
+}
+
+.amazonsChoiceOrBestSellerRow {
+  margin-top: 5px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  .amazonsChoiceImg {
+    max-width: 50%;
+    object-fit: contain;
+  }
+}
+
+.productTitleText {
+  margin: 0;
+  color: $grey_8;
+  font-weight: 500 !important;
+  font-size: 12px;
+  margin-right: 3px;
+}
+
+.productAsin {
+  color: $grey_8 !important;
+
+  &:hover {
+    text-decoration-color: $grey_8 !important;
+  }
+}

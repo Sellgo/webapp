@@ -1,0 +1,62 @@
+@import '../../../../../styles/tableReset';
+@import '../../../../../design-system/new-colors.scss';
+
+#keywordTrackerProductVariationsTable {
+  // header section
+  .rs-table-row-header {
+    border-radius: 0 !important;
+
+    // remove any border from rows header, well use body riow to add border-top
+    border: 0 !important;
+
+    // column heder cell
+    .rs-table-cell-content {
+      padding: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      font-size: 12px !important;
+      color: $grey_6 !important;
+      font-weight: 500 !important;
+      border: 0 !important;
+    }
+  }
+
+  // body section
+  .rs-table-body-row-wrapper {
+    .rs-table-body-wheel-area {
+      .rs-table-row {
+        .rs-table-cell-content {
+          padding-top: 12px !important;
+          padding-left: 0 !important;
+
+          // add border-top on each cell for each row
+          border-top: 1px solid $grey_3 !important;
+        }
+      }
+    }
+  }
+
+  // scrollbar
+  div[role='scrollbar'] {
+    background: $grey_3;
+    border-radius: 4px;
+    margin-left: auto !important;
+    opacity: 1 !important;
+    height: 100%;
+
+    &.rs-table-scrollbar.rs-table-scrollbar-pressed {
+      background-color: $grey_3 !important;
+      opacity: 1 !important;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+
+    > .rs-table-scrollbar-handle {
+      background-color: $grey_6 !important;
+      opacity: 1 !important;
+      width: 8px;
+    }
+  }
+}

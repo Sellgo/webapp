@@ -60,7 +60,8 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
 
     if (type === F_TYPES.TEXT) {
       if (filter) {
-        filterQuery += `&${keyName}=${filter}`;
+        // encode URI is necessary to escape '&' in values for categories
+        filterQuery += `&${keyName}=${encodeURIComponent(filter)}`;
       }
     }
 
@@ -80,7 +81,22 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
       if (filter.period) {
         const min = filter.min ? `&${keyName}_${filter.period}_min=${filter.min}` : '';
         const max = filter.max ? `&${keyName}_${filter.period}_max=${filter.max}` : '';
+        filterQuery += `${min}${max}`;
+      }
+    }
 
+    if (type === F_TYPES.GROWTH_COUNT_FILTER || type === F_TYPES.GROWTH_PERCENT_FILTER) {
+      if (filter.period) {
+        const min = filter.min ? `&${filter.period}_min=${filter.min}` : '';
+        const max = filter.max ? `&${filter.period}_max=${filter.max}` : '';
+        filterQuery += `${min}${max}`;
+      }
+    }
+
+    if (type === F_TYPES.MIN_MAX_PERIOD_REVIEW) {
+      if (filter.type) {
+        const min = filter.min ? `&${filter.type}_${filter.period}_min=${filter.min}` : '';
+        const max = filter.max ? `&${filter.type}_${filter.period}_max=${filter.max}` : '';
         filterQuery += `${min}${max}`;
       }
     }
@@ -112,7 +128,7 @@ export const exportSellerDatabaseTable = (resourcePath: string) => async () => {
     const sellerID = sellerIDSelector();
 
     const { data } = await axios.get(
-      `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database${resourcePath}`
+      `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database?${resourcePath}`
     );
 
     if (data) {
@@ -123,7 +139,8 @@ export const exportSellerDatabaseTable = (resourcePath: string) => async () => {
       }
     }
   } catch (err) {
-    const { status, data } = err.response;
+    const { response } = err as any;
+    const { status, data } = response;
 
     if (status === 403) {
       error(data.message);
@@ -132,7 +149,10 @@ export const exportSellerDatabaseTable = (resourcePath: string) => async () => {
 };
 
 /* Main seller databse fetcher */
-export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (dispatch: any) => {
+export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
+  dispatch: any,
+  getState: any
+) => {
   const sellerID = sellerIDSelector();
 
   try {
@@ -184,20 +204,27 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
       filtersQueryString = parseFilters(extractSellerDatabaseFilters());
     }
 
-    const resourcePath = `?${pagination}&${sorting}&${marketplace}${filtersQueryString}`;
+    const resourcePath = `${pagination}&${sorting}&${marketplace}${filtersQueryString}`;
 
     if (isExport && fileFormat) {
-      dispatch(
-        exportSellerDatabaseTable(`${resourcePath}&is_export=${isExport}&file_format=${fileFormat}`)
-      );
+      const exportResource = `${resourcePath}&is_export=${isExport}&file_format=${fileFormat}`;
+
+      dispatch(exportSellerDatabaseTable(exportResource));
       return;
+    }
+
+    // set the table to empty results if data already exists to show loader
+    // on top of table instead of center until custom loader is built
+    const currentSellerDatabaseResults = getSellerDatabaseResults(getState());
+    if (currentSellerDatabaseResults && currentSellerDatabaseResults.length > 0) {
+      dispatch(setSellerDatabaseResults([]));
     }
 
     dispatch(setIsLoadingSellerDatabase(enabledLoader));
 
-    const { data } = await axios.get(
-      `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database${resourcePath}`
-    );
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database?${resourcePath}`;
+
+    const { data } = await axios.get(URL);
 
     const { results, ...paginationInfo } = data;
     if (data) {
@@ -212,7 +239,8 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (di
     dispatch(setSellerDatabaseResults([]));
     dispatch(setSellerDatabasePaginationInfo({ total_pages: 0, current_page: 0, count: 0 }));
 
-    const { status, data } = err.response;
+    const { response } = err as any;
+    const { status, data } = response;
 
     if (status === 429) {
       error(data.message);

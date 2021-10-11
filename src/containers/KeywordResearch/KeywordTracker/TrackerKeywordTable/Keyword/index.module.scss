@@ -1,0 +1,21 @@
+@import '../../../../../design-system/new-colors';
+
+.searchTermContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100% !important;
+  margin-left: 4px !important;
+  margin-bottom: 10px;
+}
+
+.searchTerm {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: $grey_8 !important;
+
+  &:hover {
+    text-decoration-color: $grey_8 !important;
+    font-weight: 600 !important;
+  }
+}

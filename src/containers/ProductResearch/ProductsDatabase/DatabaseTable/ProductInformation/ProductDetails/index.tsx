@@ -36,74 +36,66 @@ const ProductDetails = (props: Props) => {
     storageFee,
     listingAge,
     variationCount,
-    // fulfillment,
   } = props;
 
-  // const getFulfillmentString = (fulfillment: any) => {
-  //   let fulfillmentString = '';
-  //   if (fulfillment.is_fba) {
-  //     fulfillmentString += 'FBA, ';
-  //   }
+  const [firstPart, secondPart] = truncateIntoTwoLines(title, 50, 86);
 
-  //   if (fulfillment.is_fbm) {
-  //     fulfillmentString += 'FBM, ';
-  //   }
-
-  //   if (fulfillment.is_amazon) {
-  //     fulfillmentString += 'Amazon, ';
-  //   }
-
-  //   if (fulfillmentString.length > 0) {
-  //     /* Remove trailing comma and space on last item */
-  //     fulfillmentString = fulfillmentString.substring(0, fulfillmentString.length - 2);
-  //   }
-
-  //   return fulfillmentString;
-  // };
-
-  // const fulfilmentString = fulfillment && getFulfillmentString(fulfillment);
-  const titleString = title && truncateIntoTwoLines(title, 38, 76);
   return (
     <div className={styles.productDetails}>
-      <p className={styles.productDetailsHeading}>{titleString[0]}</p>
-      <p className={`${styles.productDetailsHeading} ${styles.productDetailsHeading__bottom}`}>
-        {titleString[1]}
-      </p>
+      {/* Heading */}
+      <h2 className={styles.productDetailsHeading}>{firstPart}</h2>
+      <h2 className={styles.productDetailsHeading}>{secondPart}</h2>
+
+      {/* Other Product Details */}
       {brand && brand.length > 0 && (
-        <span>
+        <div className={styles.otherProductDetails}>
+          {/* Category */}
           <p className={styles.productDetailsText}>
             Category: {truncateString(showNAIfZeroOrNull(category, category), 30)}
           </p>
+
+          {/* Brands */}
           <p className={styles.productDetailsText}>
             Brand: {truncateString(showNAIfZeroOrNull(brand, brand), 30)}
           </p>
-          {/* <p className={styles.productDetailsText}>
-            Fulfillment: {showNAIfZeroOrNull(fulfilmentString, fulfilmentString)}
-          </p> */}
+
+          {/* Size Tier */}
           <p className={styles.productDetailsText}>
             Size Tier: {truncateString(showNAIfZeroOrNull(sizeTier, sizeTier), 30)}
           </p>
+
+          {/* Number of Images */}
           <p className={styles.productDetailsText}>
             Number of Images: {formatNumber(numberOfImages)}
           </p>
+
+          {/* Variation Count */}
           <p className={styles.productDetailsText}>
             Variation Count: {showNAIfZeroOrNull(variationCount, formatNumber(variationCount))}
           </p>
+
+          {/* Weight  */}
           <p className={styles.productDetailsText}>
             Weight (lbs): {showNAIfZeroOrNull(weight, formatDecimal(weight))}
           </p>
+
+          {/* Package Dimension */}
           <p className={styles.productDetailsText}>
             Package Dimensions:{' '}
             {truncateString(showNAIfZeroOrNull(packageDimension, packageDimension), 30)}
           </p>
+
+          {/* Storage */}
           <p className={styles.productDetailsText}>
             Storage Fee (1,000 units/month):{' '}
             {showNAIfZeroOrNull(storageFee, formatNumber(storageFee))}
           </p>
+
+          {/* Listing Age */}
           <p className={styles.productDetailsText}>
             Listing Age (months): {formatNumber(listingAge)}
           </p>
-        </span>
+        </div>
       )}
     </div>
   );

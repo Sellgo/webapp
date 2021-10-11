@@ -17,14 +17,25 @@ export interface KeywordReversePaginationInfo {
   previous?: string;
 }
 
-export interface KeywordReverseProgressPayload {
-  keepFetching: boolean;
-}
-
-export interface ReverseKeywordProgressData {
+export interface KeywordReverseProgressData {
   id: number;
   seller: number;
   progress: string;
   status: string;
   report_xlsx_url?: string;
+}
+
+export interface KeywordReverseProductListPayload {
+  enableLoader?: boolean;
+  resetProducts?: boolean;
+}
+
+export interface KeywordReverseAsinProduct {
+  id: number;
+  asin: string;
+  title: string;
+  rank: number;
+  sales_monthly: number;
+  image_url: string;
+  position: number;
 }

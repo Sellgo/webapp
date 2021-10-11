@@ -14,9 +14,6 @@ import IsSuccessfulTransactionCell from './IsSuccessfulTransactionCell';
 import ProfileBoxHeader from '../../../../components/ProfileBoxHeader';
 import ProfileBoxContainer from '../../../../components/ProfileBoxContainer';
 
-/* Constants */
-import { CENTER_ALIGN_SETTINGS } from '../../../../constants/Table';
-
 /* Types */
 import { Transaction } from '../../../../interfaces/Settings/billing';
 import { Dimmer, Loader } from 'semantic-ui-react';
@@ -61,27 +58,27 @@ const PastTransactionsSection = (props: Props) => {
               headerHeight={50}
               id="pastTransactionsTable"
             >
-              <Table.Column width={30} {...CENTER_ALIGN_SETTINGS}>
+              <Table.Column width={30} verticalAlign="middle" align="center">
                 <Table.HeaderCell>#</Table.HeaderCell>
                 <IsSuccessfulTransactionCell dataKey="paid" />
               </Table.Column>
 
-              <Table.Column width={100} {...CENTER_ALIGN_SETTINGS}>
+              <Table.Column width={100} verticalAlign="middle" align="center">
                 <Table.HeaderCell>ID</Table.HeaderCell>
                 <Table.Cell dataKey="id" />
               </Table.Column>
 
-              <Table.Column width={150} {...CENTER_ALIGN_SETTINGS}>
+              <Table.Column width={150} verticalAlign="middle" align="center">
                 <Table.HeaderCell>Date</Table.HeaderCell>
                 <Table.Cell dataKey="date" />
               </Table.Column>
 
-              <Table.Column width={100} {...CENTER_ALIGN_SETTINGS}>
+              <Table.Column width={100} verticalAlign="middle" align="center">
                 <Table.HeaderCell>Amount</Table.HeaderCell>
                 <Table.Cell dataKey="price" />
               </Table.Column>
 
-              <Table.Column width={150} {...CENTER_ALIGN_SETTINGS}>
+              <Table.Column width={150} verticalAlign="middle" align="center">
                 <Table.HeaderCell>Description</Table.HeaderCell>
                 <PlanDescriptionCell dataKey="desc" />
               </Table.Column>
@@ -91,7 +88,7 @@ const PastTransactionsSection = (props: Props) => {
                 <PaymentMethodCell dataKey="card_type" />
               </Table.Column>
 
-              <Table.Column width={100} {...CENTER_ALIGN_SETTINGS}>
+              <Table.Column width={100} verticalAlign="middle" align="center">
                 <Table.HeaderCell>Receipt</Table.HeaderCell>
                 <ReceiptCell dataKey="receipt" />
               </Table.Column>

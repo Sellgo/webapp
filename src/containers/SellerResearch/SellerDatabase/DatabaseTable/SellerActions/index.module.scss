@@ -14,6 +14,7 @@
   display: flex;
   justify-content: flex-start !important;
   align-items: center;
+  color: $grey_8 !important;
 }
 
 .actionCell {
@@ -28,20 +29,8 @@
   padding-left: 5px;
 
   &:hover {
-    background: $blue_1 !important;
+    background: $grey_0 !important;
   }
-}
-
-.actionCellInActive {
-  @extend .actionCell;
-
-  background: transparent !important;
-}
-
-.actionCellActive {
-  @extend .actionCell;
-
-  background: $blue_1 !important;
 }
 
 .actionButton {
@@ -81,27 +70,31 @@
 .actionOptions {
   display: flex;
   flex-direction: column;
-  min-width: 275px;
+  min-width: 200px;
   min-height: 80px;
   justify-content: space-between;
   align-items: stretch;
 
   p {
-    color: $grey_3;
+    color: $grey_6 !important;
     font-size: 12px;
   }
 
   button {
     @extend .btnReset;
 
-    color: $prim_dark_2;
-    font-weight: 500;
+    color: $grey_8 !important;
     margin: 5px 0;
     width: 100% !important;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     font-size: 14px !important;
+    height: 25px;
+
+    &:hover {
+      background: $grey_1 !important;
+    }
 
     span {
       margin-left: 2px;
@@ -110,15 +103,16 @@
     img {
       min-width: 20px;
       height: 12px;
+      margin-left: 5px;
 
       path {
-        fill: $prim_dark_2;
+        fill: $grey_8 !important;
       }
     }
-  }
-}
 
-.icon {
-  font-size: 14px !important;
-  color: #000 !important;
+    i.icon.copy.outline {
+      margin-left: 5px !important;
+      color: $grey_8 !important;
+    }
+  }
 }

@@ -1,0 +1,45 @@
+import React, { memo } from 'react';
+
+/* Styling */
+import styles from './index.module.scss';
+
+type Variant = 'primary' | 'secondary' | 'reset';
+type Type = 'orange' | 'blue';
+type Size = 'md';
+
+interface Props {
+  variant: Variant;
+  type?: Type;
+  children: React.ReactNode;
+  disabled?: boolean;
+  size: Size;
+  onClick?: () => void;
+  className?: string;
+}
+
+const ActionButton = (props: Props) => {
+  const { children, variant, className, size = 'md', type, onClick, disabled = false } = props;
+
+  const typeClass = `${type ? styles[type] : ''}`;
+
+  const variantWithType = styles[`${variant}__${type}`];
+
+  const variantClass = `${typeClass ? variantWithType : styles[variant]}`;
+
+  const sizeClass = styles[size];
+
+  const btnClass = `${variantClass} ${sizeClass} ${className ? className : ''}`;
+
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    onClick && onClick();
+  };
+
+  return (
+    <button onClick={handleClick} className={btnClass} disabled={disabled}>
+      {children}
+    </button>
+  );
+};
+
+export default memo(ActionButton);

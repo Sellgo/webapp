@@ -1,53 +1,80 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Checkbox } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
+import '../globalReset.scss';
+
+/* Selectors */
+import { getUserOnboarding, getUserOnboardingResources } from '../../../selectors/UserOnboarding';
+
+/* Contants */
+import {
+  FALLBACK_ONBOARDING_DETAILS,
+  FILTER_KPI_ONBOARDING_INDEX,
+} from '../../../constants/UserOnboarding';
+
+/* Components */
+import OnboardingTooltip from '../../OnboardingTooltip';
 
 interface Props {
   label?: string;
   options: any[];
-  currentFilterObject: any;
+  selectedOptions: any;
   handleChange: (value: any) => void;
+  userOnboardingResources: any;
+  userOnboarding: boolean;
 }
-const CheckboxListFilter: React.FC<Props> = props => {
-  const { label, handleChange, options, currentFilterObject } = props;
-  const [tickedCheckBoxes, setTickedCheckBoxes] = React.useState<string[]>([]);
 
-  let DEFAULT_FILTER = {};
-  options.map(option => {
-    DEFAULT_FILTER = {
-      ...DEFAULT_FILTER,
-      [option.key]: false,
-    };
-    return option;
-  });
+const CheckboxListFilter: React.FC<Props> = props => {
+  const {
+    label,
+    handleChange,
+    options,
+    selectedOptions,
+    userOnboardingResources,
+    userOnboarding,
+  } = props;
 
   const handleCheckboxTick = (e: any, data: any) => {
-    /* Updating local state */
-    let newTickedCheckBoxes = tickedCheckBoxes;
     if (data.checked) {
-      newTickedCheckBoxes.push(data.value);
+      handleChange({
+        ...selectedOptions,
+        [data.value]: true,
+      });
     } else {
-      newTickedCheckBoxes = newTickedCheckBoxes.filter(f => f !== data.value);
+      handleChange({
+        ...selectedOptions,
+        [data.value]: false,
+      });
     }
-
-    /* Handling change */
-    let filterObject = DEFAULT_FILTER;
-    newTickedCheckBoxes.map(
-      filterValue =>
-        (filterObject = {
-          ...filterObject,
-          [filterValue]: true,
-        })
-    );
-
-    setTickedCheckBoxes(newTickedCheckBoxes);
-    handleChange(filterObject);
   };
+
+  /* Onboarding logic */
+  const filterOnboarding = userOnboardingResources[FILTER_KPI_ONBOARDING_INDEX] || {};
+  const enableFilterOnboarding = userOnboarding && Object.keys(filterOnboarding).length > 0;
+
+  const { youtubeLink, tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
+
   return (
     <div className={styles.checkBoxFilters}>
-      {label && <p>{label}</p>}
+      {label && (
+        <p>
+          {label}
+
+          {/* Onboarding */}
+          {enableFilterOnboarding && (youtubeLink || tooltipText) && (
+            <OnboardingTooltip
+              youtubeLink={youtubeLink}
+              tooltipMessage={tooltipText}
+              infoIconClassName="infoOnboardingIcon"
+              youtubeIconClassName="youtubeOnboarding"
+            />
+          )}
+        </p>
+      )}
+
       <div className={styles.checkboxWrapper}>
         {options.map(f => {
           return (
@@ -57,7 +84,7 @@ const CheckboxListFilter: React.FC<Props> = props => {
               label={f.text}
               value={f.value}
               onChange={handleCheckboxTick}
-              checked={currentFilterObject[f.key] === true}
+              checked={selectedOptions[f.key] === true}
             />
           );
         })}
@@ -66,4 +93,11 @@ const CheckboxListFilter: React.FC<Props> = props => {
   );
 };
 
-export default CheckboxListFilter;
+const mapStateToProps = (state: any) => {
+  return {
+    userOnboardingResources: getUserOnboardingResources(state),
+    userOnboarding: getUserOnboarding(state),
+  };
+};
+
+export default connect(mapStateToProps)(CheckboxListFilter);

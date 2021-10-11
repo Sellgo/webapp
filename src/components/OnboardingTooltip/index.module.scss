@@ -1,0 +1,34 @@
+@import '../../design-system/new-colors.scss';
+
+.onboardingTooltipPopup {
+  padding: 0 !important;
+  width: max-content;
+  height: max-content;
+  background: $grey_8 !important;
+  z-index: 99999 !important;
+
+  &::before {
+    display: none;
+  }
+}
+
+.onboardingTooltipPopupEmpty {
+  @extend .onboardingTooltipPopup;
+
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+}
+
+.tooltipMessage {
+  color: #fff !important;
+  font-size: 12px;
+  padding: 0 8px;
+}
+
+.youtubeEmbedContainer {
+  iframe {
+    min-width: 100% !important;
+  }
+}

@@ -1,0 +1,85 @@
+[
+  {
+    "Tutorial": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "displayText": "Tutorial | 5-min watch"
+    }
+  },
+
+  {
+    "Search Volume": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "This is search volume"
+    },
+    "Position Rank": {
+      "youtubeLink": "",
+      "tooltipText": "This is position rank"
+    },
+    "Sponsored ASINs": {
+      "youtubeLink": "",
+      "tooltipText": "This is sponsored ASINS"
+    },
+    "Competing Products": {
+      "youtubeLink": "",
+      "tooltipText": "This is competing products"
+    },
+    "Title Density": {
+      "youtubeLink": "",
+      "tooltipText": "This is title desnity "
+    }
+  },
+
+  {
+    "search_volume": {
+      "youtubeLink": "",
+      "tooltipText": "Search Volume | 1 min watch"
+    },
+    "sponsored_asins": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "Competitors | 2 min watch"
+    },
+    "competing_products": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "Competing Products | 2 min watch"
+    },
+    "title_density": {
+      "youtubeLink": "",
+      "tooltipText": ""
+    },
+    "organic_rank": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "Organic Rank | 2 min watch"
+    },
+    "sponsored_rank": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "Sponsored Rank | 2 min watch"
+    },
+    "position_rank": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "Position Rank | 2 min watch"
+    },
+    "sponsored_rank_avg": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "Sponsored Rank (Avg) | 2 min watch"
+    },
+    "sponsored_rank_count": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "Sponsored Rank (#) | 1 min watch"
+    },
+    "count_top_10": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "Count 10 | 1 min watch"
+    },
+    "count_top_50": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "Count 50 | 1 min watch"
+    }
+  },
+
+  {
+    "All Keywords": {
+      "youtubeLink": "",
+      "tooltipText": "Export all the table results"
+    }
+  }
+]

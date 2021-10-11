@@ -6,3 +6,11 @@
     background-color: #fff !important;
   }
 }
+
+i.ratingsIconFilter.star.icon {
+  color: $grey_8 !important;
+
+  &.minMaxErrorRatings {
+    color: $system_red !important;
+  }
+}

@@ -17,6 +17,8 @@ import { success } from '../../../../../utils/notifications';
 
 /*Actions */
 import { trackMerchantFromDatabase } from '../../../../../actions/SellerResearch/SellerDatabase';
+
+/* Utils */
 import history from '../../../../../history';
 import { timeout } from '../../../../../utils/timeout';
 
@@ -58,14 +60,12 @@ const SellerActions = (props: Props) => {
     <>
       <Table.Cell {...otherProps}>
         <div className={styles.actionCellWrapper}>
-          <div
-            className={`${isSellerTracked ? styles.actionCellActive : styles.actionCellInActive}`}
-          >
+          <div className={styles.actionCell}>
             <button
               className={styles.actionButton}
               onClick={() => handleSellerTrack(false)}
               style={{
-                color: isSellerTracked ? '#2F8DDF' : '#2E3B4A',
+                color: isSellerTracked ? '#3b4557' : '#636d76',
                 fontWeight: isSellerTracked ? 500 : 400,
               }}
             >
@@ -82,20 +82,12 @@ const SellerActions = (props: Props) => {
                 <>
                   <div className={styles.actionOptions}>
                     <p>ASIN</p>
-                    {/* <button onClick={() => handleSellerTrack(true)}>
-                      <img src={CheckInventory} alt="CheckInventory" />
-                      <span>Check More Inventory</span>
-                    </button> */}
-                    {/* <button>
-                    <Icon name="download" />
-                    <span>Export</span>
-                  </button> */}
-                    <button onClick={() => handleCopyAsins(',')}>
+                    <button onClick={() => handleCopyAsins(',')} disabled={!parsedAsinList.length}>
                       <Icon name="copy outline" />
-                      <span>Copy ASINs in rows with comma</span>
+                      <span>Copy ASINs in rows</span>
                     </button>
 
-                    <button onClick={() => handleCopyAsins('\n')}>
+                    <button onClick={() => handleCopyAsins('\n')} disabled={!parsedAsinList.length}>
                       <Icon name="copy outline" />
                       <span>Copy ASINs in columns</span>
                     </button>
@@ -110,7 +102,7 @@ const SellerActions = (props: Props) => {
               }
             />
           </div>
-          <span>out of {prettyPrintNumber(inventoryCount)}</span>
+          <span style={{ marginLeft: '10px' }}>out of {prettyPrintNumber(inventoryCount)}</span>
         </div>
       </Table.Cell>
     </>

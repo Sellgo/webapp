@@ -25,6 +25,8 @@ $grey_6: #95a1ac;
 $grey_7: #7e8b96;
 $grey_8: #636d76;
 $grey_9: #3a4045;
+$grey_10: #f7f7f7;
+$grey_11: #f3f3f3;
 
 /* Blue Colors Scale */
 $blue_0: #f5faff;
@@ -34,8 +36,8 @@ $blue_3: #aed8fc;
 $blue_4: #90cafb;
 $blue_5: #6eb9fa;
 $blue_6: #45a5f9;
-$blue_7: #2f8ddf;
-$blue_8: #256fb0;
+$blue_7: #2f8ddf; //show on cta hover
+$blue_8: #256fb0; // default CTA
 $blue_9: #164268;
 
 /* Orange Color Scales */
@@ -45,19 +47,23 @@ $orange_2: #fddbbd;
 $orange_3: #fcc99e;
 $orange_4: #fab57a;
 $orange_5: #f99e4e;
-$orange_6: #ea8731;
+$orange_6: #ea8731; // default CTA
 $orange_7: #c9742a;
 $orange_8: #9f5b21;
 $orange_9: #5d3614;
+$orange_10: #f2efe4;
 
 /* Systems and Accents */
 $accent_blue: #349af8;
-$accent_orange: #fc7900;
+$accent_orange: #fc7900; //show on cta hover
 $system_orange: #f4aa74;
 $system_red: #eb675e;
 $system_green: #5dc560;
 $system_blue: #5381db;
 $system_cream: #fff2ee;
+
+/* Backgrounds */
+$light_gray_background: #f7f7f7;
 
 /* Font Colors */
 $fontcolor_prim_dark_1: $prim_dark_1;
@@ -112,3 +118,7 @@ $fontlineheight_heading_70: 70px;
 
 $fontlineheight_content_30: 30px;
 $fontlineheight_content_20: 20px;
+
+/* Special colors */
+$youtube-red: #f00;
+$active-color: #f2efe4;

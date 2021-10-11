@@ -1,54 +1,31 @@
 @import '../../../../design-system/new-colors';
 
 .filterSection {
-  border: 1px solid $grey_3;
-  border-top: 0;
-  padding: 0 20px !important;
-  border-bottom-left-radius: 7px;
-  border-bottom-right-radius: 7px;
+  padding: 0;
 }
 
 /* Basic Filter Styles */
 .basicFilters {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   padding: 30px 0 !important;
   height: max-content;
   grid-column-gap: 30px;
+  grid-row-gap: 30px;
 
-  @media only screen and (max-width: 1550px) {
+  @media only screen and (max-width: 1700px) {
+    grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(auto, 1fr);
   }
 }
 
 /* Advanced Filter Styles */
 .advancedFilterWrapper {
-  background: $grey_0;
+  background: $grey_10;
   box-shadow: 0 3px 6px #00000029;
   border-radius: 7px;
   height: max-content !important;
   user-select: none;
-}
-
-.advancedFilterToggle {
-  background: $grey_1;
-  color: $prim_dark_2;
-  border-top-left-radius: 7px;
-  border-top-right-radius: 7px;
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  cursor: pointer;
-  height: 30px;
-  text-transform: uppercase;
-  font-size: 16px;
-  padding: 0 20px;
-  box-shadow: 0 3px 6px #00000029;
-
-  span {
-    flex: 1;
-  }
 }
 
 .showAdvancedFilter {
@@ -56,16 +33,32 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(auto, 1fr);
-  grid-row-gap: 20px;
+  grid-row-gap: 30px;
   justify-content: start;
 
   @media only screen and (max-width: 1550px) {
     grid-template-columns: repeat(4, 1fr);
     grid-column-gap: 30px;
+
+    .spacers {
+      display: none;
+    }
+  }
+}
+
+.filterPeriod {
+  p {
+    opacity: 0 !important;
   }
 }
 
 .groupFilters {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+}
+
+.reviewGroupedFilter {
+  .groupFilters {
+    margin-top: 10px;
+  }
 }

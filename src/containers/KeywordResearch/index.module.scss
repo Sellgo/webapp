@@ -1,19 +1,19 @@
-@import '../../design-system/colors.scss';
+@import '../../design-system/new-colors.scss';
+
+.keywordTrackerPage {
+  background: $light-gray_background;
+}
 
 .filterMetaData {
-  padding: 0 20px !important;
-  border: 1px solid $sellgo-disabled;
-  border-radius: 7px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid $grey_3;
 
   h1 {
-    color: $sellgo-text !important;
-    font-size: 16px !important;
-    font-weight: 600 !important;
+    color: $grey_8 !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
     text-transform: uppercase;
     margin: 0 !important;
   }
@@ -23,30 +23,32 @@
   display: flex;
   list-style: none;
   margin: 0 !important;
-  padding: 0 20px;
+  padding: 0;
   padding-top: 18px !important;
   width: 100%;
-  border-left: 1px solid $sellgo-disabled;
-  border-right: 1px solid $sellgo-disabled;
+
+  .activeProductTab {
+    color: $prim_dark_1 !important;
+    font-weight: 600 !important;
+    border-bottom: 3px solid $accent_orange !important;
+  }
 
   li {
     color: $grey_8 !important;
-    font-size: 16px !important;
-    min-width: 110px !important;
-    padding: 4px 10px;
-    border-bottom: 1px solid $grey_6;
+    font-size: 14px !important;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer !important;
+    margin-right: 30px;
+    font-weight: 400;
+    text-transform: uppercase;
+    position: relative;
   }
-}
 
-.activeProductTab {
-  background: $grey_1 !important;
-  color: $sellgo-text !important;
-  font-weight: 600 !important;
-  border: 1px solid $grey_6 !important;
-  border-radius: 4px 4px 0 0;
-  border-bottom: transparent !important;
+  .productBeta {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+  }
 }

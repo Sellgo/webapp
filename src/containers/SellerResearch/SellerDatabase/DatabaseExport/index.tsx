@@ -1,18 +1,11 @@
-import React, { useState, useMemo } from 'react';
-import { Icon } from 'semantic-ui-react';
+import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
 
-/* Components */
-import ExportResultAs from '../../../../components/ExportResultAs';
-
 /* Actions */
 import { fetchSellerDatabase } from '../../../../actions/SellerResearch/SellerDatabase';
-
-/* Constants */
-import { EXPORT_DATA, EXPORT_FORMATS } from '../../../../constants/SellerResearch/SellerDatabase';
 
 /* Interface */
 import {
@@ -29,8 +22,13 @@ import {
   getSellerDatabaseResults,
 } from '../../../../selectors/SellerResearch/SellerDatabase';
 
-/* Utils */
-import { formatNumber } from '../../../../utils/format';
+/* Components */
+import TableExport from '../../../../components/NewTable/TableExport';
+import TableResultsMessage from '../../../../components/TableResultsMessage';
+
+/* Assets */
+import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
+import { ReactComponent as CSVExportImage } from '../../../../assets/images/csvExportImage.svg';
 
 interface Props {
   sellerDatabaseResults: any;
@@ -49,11 +47,8 @@ const DatabaseExport = (props: Props) => {
     sellerDatabasePaginationInfo,
   } = props;
 
-  const [openExports, setOpenExports] = useState(false);
-
-  const hanleOnExport = async (details: any) => {
-    await fetchSellerDatabase({ isExport: true, fileFormat: details.format });
-    setOpenExports(false);
+  const handleOnExport = (fileFormat: 'csv' | 'xlsx') => {
+    fetchSellerDatabase({ isExport: true, fileFormat });
   };
 
   const shouldEnableExport = useMemo(
@@ -61,40 +56,45 @@ const DatabaseExport = (props: Props) => {
     [isLoadingSellerDatabase, sellerDatabaseResults]
   );
 
-  const totalSellersFound = useMemo(() => {
-    const count = sellerDatabasePaginationInfo.count;
-    return formatNumber(count);
-  }, [sellerDatabasePaginationInfo]);
-
   return (
     <>
       <div className={styles.exportsContainer}>
-        {!sellerDatabaseFilterMessage.show && totalSellersFound !== '0' && (
-          <p className={styles.messageText}>
-            Viewing <span className={styles.sellerCount}>{totalSellersFound}</span> sellers.
-          </p>
+        {!sellerDatabaseFilterMessage.show && sellerDatabasePaginationInfo.total_pages > 0 && (
+          <TableResultsMessage
+            prependMessage="Viewing"
+            count={sellerDatabasePaginationInfo.count}
+            appendMessage="sellers."
+          />
         )}
-        <div
-          onClick={() => (shouldEnableExport ? setOpenExports(true) : 0)}
-          className={`${styles.exportButton} ${
-            shouldEnableExport ? 'export-button' : 'export-button-disabled'
-          }`}
-        >
-          <Icon name="download" />
-          <span>Export</span>
-        </div>
-      </div>
 
-      {/* Export modal */}
-      <ExportResultAs
-        open={openExports}
-        formats={EXPORT_FORMATS}
-        data={EXPORT_DATA}
-        onClose={() => setOpenExports(false)}
-        loading={false}
-        onExport={hanleOnExport}
-        format={'csv'}
-      />
+        <TableExport
+          label=""
+          disableExport={!shouldEnableExport}
+          onButtonClick={() => handleOnExport('xlsx')}
+          exportContent={
+            <>
+              <div className={styles.exportOptions}>
+                <span>Export As</span>
+                <button
+                  className={styles.exportOption}
+                  onClick={() => handleOnExport('xlsx')}
+                  disabled={!shouldEnableExport}
+                >
+                  <XLSXExportImage /> .XLSX
+                </button>
+
+                <button
+                  className={styles.exportOption}
+                  onClick={() => handleOnExport('csv')}
+                  disabled={!shouldEnableExport}
+                >
+                  <CSVExportImage /> .CSV
+                </button>
+              </div>
+            </>
+          }
+        />
+      </div>
     </>
   );
 };

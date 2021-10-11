@@ -10,14 +10,21 @@ import CopyToClipboard from '../../../../../../components/CopyToClipboard';
 /* Utils */
 import { truncateString } from '../../../../../../utils/format';
 
+/* Images */
+import amazonsChoiceImg from '../../../../../../assets/images/amazon_choice.svg';
+import bestSellerImg from '../../../../../../assets/images/best-seller.png';
+import placeholderImage from '../../../../../../assets/images/placeholderImage.svg';
+
 interface Props {
   asin: string;
   image: string;
   upc: string[];
+  isAmazonsChoice: boolean;
+  isBestSeller: boolean;
 }
 
 const ProductTitle = (props: Props) => {
-  const { asin, image, upc } = props;
+  const { asin, image, upc, isAmazonsChoice, isBestSeller } = props;
   const upcString = upc && upc.join(',');
 
   let upcDisplayString;
@@ -29,30 +36,44 @@ const ProductTitle = (props: Props) => {
     upcDisplayString = '';
   }
 
+  // use image with size 140
+  const productImage = image ? image.replace('SL75', 'SL140') : placeholderImage;
+
   return (
     <div className={styles.productTitle}>
-      <img src={image} className={styles.productImage} />
-      <div className={styles.productTextWrapper}>
+      {/* Product Image */}
+      <img src={productImage} className={styles.productImage} />
+
+      <div className={styles.flagAndTitleRow}>
+        <img className={styles.flagIcon} src={require(`../../../../../../assets/flags/US.png`)} />
+        {/* ASIN and UPC details */}
         <div className={styles.productTitleTextBox}>
-          <p className={styles.productTitleText}>ASIN:</p>
+          {/* ASIN */}
           {asin.length > 0 ? (
             <CopyAndLocateClipboard data={asin} link={`http://www.amazon.com/dp/${props.asin}`} />
           ) : (
             '-'
           )}
+
+          {/* UPC */}
+          <span className={styles.upcText}>
+            {upcString && upcString.length > 0 ? (
+              <CopyToClipboard
+                data={upcString}
+                displayData={upcDisplayString}
+                className={styles.upcText}
+              />
+            ) : (
+              '-'
+            )}
+          </span>
         </div>
-        <div className={styles.productTitleTextBox}>
-          <p className={styles.productTitleText}>UPC:</p>
-          {upcString && upcString.length > 0 ? (
-            <CopyToClipboard
-              data={upcString}
-              displayData={upcDisplayString}
-              className={styles.productTitleText}
-            />
-          ) : (
-            '-'
-          )}
-        </div>
+      </div>
+
+      {/* Best seller or amazon's choice images */}
+      <div className={styles.amazonsChoiceOrBestSellerRow}>
+        {isBestSeller && <img src={bestSellerImg} className={styles.amazonsChoiceImg} />}
+        {isAmazonsChoice && <img src={amazonsChoiceImg} className={styles.amazonsChoiceImg} />}
       </div>
     </div>
   );

@@ -40,7 +40,13 @@ export const tableKeys = {
 export const asinRegex = RegExp('([A-Z0-9]{10})');
 
 export const isValidAsin = (asin: string) => {
-  return asinRegex.test(asin) && validator.isAlphanumeric(asin) && asin.length === 10;
+  const formattedAsin = asin.trim().toUpperCase();
+
+  return (
+    asinRegex.test(formattedAsin) &&
+    validator.isAlphanumeric(formattedAsin) &&
+    formattedAsin.length === 10
+  );
 };
 
 /* Amazon Seller ID validation */
@@ -52,7 +58,7 @@ export const isValidAmazonSellerId = (sellerId: string) => {
 
   /* Length>=14 and <=21 */
   const length = formatSellerId.length;
-  const lengthValidation = length >= 14 && length <= 21;
+  const lengthValidation = length >= 12 && length <= 21;
 
   /* Only alphanumeric chacters */
   const alphaNumericValidation = validator.isAlphanumeric(formatSellerId);

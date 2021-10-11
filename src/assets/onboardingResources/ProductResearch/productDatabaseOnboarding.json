@@ -1,0 +1,70 @@
+[
+  {
+    "Tutorial": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "displayText": "Tutorial | 5-min watch"
+    }
+  },
+  {
+    "Categories": {
+      "youtubeLink": "",
+      "tooltipText": "Sponsored  | 2 min watch"
+    },
+
+    "Monthly Revenue": {
+      "youtubeLink": "",
+      "tooltipText": "Sponsored  | 2 min watch"
+    },
+
+    "Price": {
+      "youtubeLink": "",
+      "tooltipText": "Sponsored  | 2 min watch"
+    },
+
+    "Review Count": {
+      "youtubeLink": "",
+      "tooltipText": "Sponsored  | 2 min watch"
+    },
+
+    "Review Rating": {
+      "youtubeLink": "",
+      "tooltipText": "Sponsored  | 2 min watch"
+    },
+
+    "Fulfillment": {
+      "youtubeLink": "",
+      "tooltipText": "Sponsored  | 2 min watch"
+    },
+
+    "Include Brands": {
+      "youtubeLink": "",
+      "tooltipText": "Sponsored  | 2 min watch"
+    }
+  },
+
+  {
+    "sellers": {
+      "youtubeLink": "",
+      "tooltipText": "Search Volume | 1 min watch"
+    },
+    "price": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "Sponsored ASIN's | 2 min watch"
+    },
+    "monthly_sales": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "Competing Products | 2 min watch"
+    },
+    "monthly_revenue": {
+      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
+      "tooltipText": "Word Count | 2 min watch"
+    }
+  },
+
+  {
+    "All Products": {
+      "youtubeLink": "",
+      "tooltipText": "Export all the table results"
+    }
+  }
+]
