@@ -41,8 +41,8 @@ const KeywordDatabase = (props: Props) => {
     <main className={styles.keywordDatabasePage}>
       <DatabaseKeywordList />
       {keywordDatabaseRequestId && <DatabaseSummary />}
-      {keywordDatabaseRequestId && <DatabaseFilters />}
       <DatabaseProgress />
+      {keywordDatabaseRequestId && <DatabaseFilters />}
       <DatabaseExport />
       <DatabaseTable />
     </main>
