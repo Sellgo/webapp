@@ -118,7 +118,7 @@ const KeywordResearch = (props: Props) => {
           { content: 'Home', to: '/' },
           {
             content: 'Keyword Research',
-            to: '/keyword-research/reverse',
+            to: '/keyword-research/finder',
           },
           {
             content: KEYWORD_RESEARCH_PRODUCT_DETAILS[selectedTabList].name,
@@ -149,7 +149,7 @@ const KeywordResearch = (props: Props) => {
           >
             <TabList className={styles.productTablist}>
               <Tab>
-                Reverse <BetaLabel isNav={true} className={styles.productBeta} />
+                Finder <BetaLabel isNav={true} className={styles.productBeta} />
               </Tab>
               <Tab>
                 Database <BetaLabel isNav={true} className={styles.productBeta} />

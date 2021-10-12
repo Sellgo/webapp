@@ -94,6 +94,10 @@
     color: $second_silver;
   }
 
+  &__disableCancel {
+    pointer-events: none !important;
+  }
+
   &__pendingPlan {
     border: 1px solid $second_silver;
     background: white;

@@ -16,8 +16,6 @@ export const SET_PROMO_CODE = 'SET_PROMO_CODE';
 export const SET_PROMO_LOADING = 'SET_PROMO_LOADING';
 export const SET_PROMO_ERROR_MESSAGE = 'SET_PROMO_ERROR_MESSAGE';
 
-export const DAILY_SUBSCRIPTION_PLANS = [7];
-
 export const defaultMarketplaces = [
   {
     name: 'United States',

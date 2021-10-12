@@ -2,14 +2,21 @@
 
 .searchTermContainer {
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
   height: 100% !important;
   margin-left: 4px !important;
   margin-bottom: 10px;
+  width: 100%;
+}
+
+.searchTermWrapper {
+  width: 100%;
 }
 
 .searchTerm {
+  width: max-content;
   font-size: 14px !important;
   font-weight: 500 !important;
   color: $grey_8 !important;
@@ -17,5 +24,21 @@
   &:hover {
     text-decoration-color: $grey_8 !important;
     font-weight: 600 !important;
+  }
+}
+
+.asinWrapper {
+  margin-top: 0;
+}
+
+.asin {
+  margin-top: 3px;
+  font-size: 10px !important;
+  font-weight: 400 !important;
+  color: $grey_8 !important;
+
+  &:hover {
+    text-decoration-color: $grey_8 !important;
+    font-weight: 500 !important;
   }
 }

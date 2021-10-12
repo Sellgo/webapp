@@ -131,7 +131,7 @@ const SellerResearch = (props: Props) => {
             selectedIndex={selectedTabList}
           >
             <TabList className={styles.productTablist}>
-              <Tab>Sellers</Tab>
+              <Tab>Database</Tab>
               <Tab>Map</Tab>
               <Tab>
                 Finder <BetaLabel isNav={true} className={styles.productBeta} />

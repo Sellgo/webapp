@@ -32,21 +32,8 @@
 }
 
 .addCompetitor {
-  background: #fff;
-  color: $accent_orange !important;
-  height: 30px;
-  border-radius: 7px;
-  border: 1px solid $accent_orange;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 400;
   margin-right: 20px;
-
-  span {
-    color: $accent_orange !important;
-  }
+  min-width: 110px !important;
 
   svg {
     width: 12px;
@@ -59,13 +46,6 @@
   }
 
   &:hover {
-    background: $accent_orange;
-    color: #fff !important;
-
-    span {
-      color: #fff !important;
-    }
-
     svg {
       path {
         fill: #fff !important;

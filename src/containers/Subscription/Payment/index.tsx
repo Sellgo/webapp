@@ -55,8 +55,8 @@ const Payment = (props: PaymentProps) => {
   const [paymentError, setPaymentError] = useState(false);
   const [paymentErrorMessage, setPaymentErrorMessage] = useState('');
 
-  const accountType = localStorage.getItem('planType') || '';
-  const paymentMode = localStorage.getItem('paymentMode') || '';
+  const [accountType, setAccountType] = useState<string>(localStorage.getItem('planType') || '');
+  const [paymentMode, setPaymentMode] = useState<string>(localStorage.getItem('paymentMode') || '');
   const sellerID = localStorage.getItem('userId');
 
   const handlePaymentError = (data: any) => {
@@ -92,6 +92,9 @@ const Payment = (props: PaymentProps) => {
 
       <section>
         <Summary
+          hideChangePlan={successPayment}
+          setPlanType={setAccountType}
+          setPaymentMode={setPaymentMode}
           planType={accountType}
           paymentMode={paymentMode}
           showCoupon={true && !isSubscriptionPaid(subscriptionType) && !successPayment}

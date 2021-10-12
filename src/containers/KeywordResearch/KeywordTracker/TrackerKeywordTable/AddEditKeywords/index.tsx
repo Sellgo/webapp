@@ -16,6 +16,7 @@ import { addTrackerProductKeywords } from '../../../../../actions/KeywordResearc
 
 /* Components*/
 import AddProductKeywordModal from '../../../../../components/AddProductKeywordModal';
+import ActionButton from '../../../../../components/ActionButton';
 
 /* Assets */
 import { ReactComponent as ThinAddIcon } from '../../../../../assets/images/thinAddIcon.svg';
@@ -56,10 +57,16 @@ const AddEditKeywords = (props: Props) => {
 
   return (
     <div className={styles.addEditKeywordsWrapper}>
-      <button className={styles.addEditKeywords} onClick={() => setAddEditKeywords(true)}>
+      <ActionButton
+        type="orange"
+        variant="secondary"
+        size="md"
+        className={styles.addEditKeywords}
+        onClick={() => setAddEditKeywords(true)}
+      >
         <ThinAddIcon />
         Add Keywords
-      </button>
+      </ActionButton>
 
       {/* Add Products Modal */}
       <Modal

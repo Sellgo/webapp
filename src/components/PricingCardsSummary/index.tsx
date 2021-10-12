@@ -1,5 +1,5 @@
 import React from 'react';
-import { DAILY_SUBSCRIPTION_PLANS } from '../../constants/Settings';
+import { DAILY_SUBSCRIPTION_PLANS } from '../../constants/Subscription';
 import { isSubscriptionNotPaid, isSubscriptionPaid } from '../../utils/subscriptions';
 import PricePlanToggleButton from '../PricePlanToggleButton';
 
@@ -23,6 +23,8 @@ interface Props {
   // subscription actions
   promptCancelSubscription: any;
   changePlan: (subscriptionDetails: any) => void;
+
+  disableCancelOption?: boolean;
 }
 
 const PricingPlansSummary = (props: Props) => {
@@ -42,6 +44,7 @@ const PricingPlansSummary = (props: Props) => {
     sellerSubscription,
     subscribedSubscription,
     subscriptionType,
+    disableCancelOption,
   } = props;
 
   let isSubscribed;
@@ -114,10 +117,13 @@ const PricingPlansSummary = (props: Props) => {
 
         {isSubscribed && !isPending && (
           <button
-            className={`${styles.button} ${styles.button__cancelPlan}`}
+            className={`${styles.button} 
+              ${styles.button__cancelPlan} 
+              ${disableCancelOption ? styles.button__disableCancel : ''}
+            `}
             onClick={promptCancelSubscription}
           >
-            Cancel
+            {disableCancelOption ? 'Selected' : 'Cancel'}
           </button>
         )}
 

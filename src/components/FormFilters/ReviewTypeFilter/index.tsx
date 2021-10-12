@@ -47,6 +47,7 @@ const ReviewTypeFilter = (props: Props) => {
     userOnboardingResources,
     userOnboarding,
   } = props;
+  const [isFocused, setFocused] = React.useState<boolean>(false);
 
   /* Onboarding logic */
   const filterOnboarding = userOnboardingResources[FILTER_KPI_ONBOARDING_INDEX] || {};
@@ -59,7 +60,7 @@ const ReviewTypeFilter = (props: Props) => {
       <Dropdown
         search
         fluid
-        className="reviewType"
+        className={isFocused ? 'reviewType reviewType__focused' : 'reviewType'}
         options={filterOptions}
         placeholder={placeholder}
         scrolling
@@ -67,6 +68,8 @@ const ReviewTypeFilter = (props: Props) => {
         onChange={(e: any, data: any) => handleChange(data.value)}
         disabled={disabled}
         loading={loading}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
       />
       {label && (
         <p>

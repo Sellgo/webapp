@@ -16,6 +16,15 @@
   }
 }
 
+.headerRow {
+  display: flex;
+  align-items: center;
+
+  h1 {
+    margin-right: 18px;
+  }
+}
+
 .subDescription {
   color: #808080;
   font-size: 14px;

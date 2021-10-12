@@ -78,24 +78,35 @@ const ReverseAsinDisplay = (props: Props) => {
 
       <div className={styles.reverseAsinCardsWrapper}>
         {/* Add new ASIN card */}
-        <div className={styles.addAsinCard} style={{ opacity: disableAddAsinCard ? 0.6 : 1 }}>
-          <CirclePlusIcon onClick={() => !disableAddAsinCard && setShowAddBulkAsin(true)} />
+        <div
+          className={styles.addAsinCard}
+          style={{
+            opacity: disableAddAsinCard ? 0.6 : 1,
+            cursor: disableAddAsinCard ? 'not-allowed' : 'pointer',
+          }}
+          onClick={() => !disableAddAsinCard && setShowAddBulkAsin(true)}
+        >
+          <CirclePlusIcon />
           <p>Add ASINs</p>
         </div>
 
         {/* Show the ASIN reverse card list */}
-        {keywordReverseProductsList &&
-          keywordReverseProductsList.map((keywordProduct, index: number) => {
-            return (
-              <ReverseAsinCard
-                key={uuid()}
-                data={keywordProduct}
-                isLoading={isLoadingKeywordReverseProductsList || shouldFetchKeywordReverseProgress}
-                handleRemoveProduct={asin => removeProduct(asin)}
-                isActive={index === 0}
-              />
-            );
-          })}
+        <div className={styles.overflowWrapper}>
+          {keywordReverseProductsList &&
+            keywordReverseProductsList.map((keywordProduct, index: number) => {
+              return (
+                <ReverseAsinCard
+                  key={uuid()}
+                  data={keywordProduct}
+                  isLoading={
+                    isLoadingKeywordReverseProductsList || shouldFetchKeywordReverseProgress
+                  }
+                  handleRemoveProduct={asin => removeProduct(asin)}
+                  isActive={index === 0}
+                />
+              );
+            })}
+        </div>
       </div>
 
       {/* Add Bulk ASSIN's Modal */}
