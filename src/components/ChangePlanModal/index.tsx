@@ -7,7 +7,7 @@ import Carousel from 'react-multi-carousel';
 import styles from './index.module.scss';
 
 /* Components */
-import OrangeButton from '../../components/OrangeButton';
+import ActionButton from '../../components/ActionButton';
 
 /* utils */
 import {
@@ -105,18 +105,23 @@ const ChangePlanModal = (props: Props) => {
               containerClass={styles.plansBox}
               deviceType={'desktop'}
               responsive={{
+                monitor: {
+                  breakpoint: { max: 3000, min: 2000 },
+                  items: 4,
+                  paritialVisibilityGutter: 60,
+                },
                 desktop: {
-                  breakpoint: { max: 3000, min: 1420 },
+                  breakpoint: { max: 2000, min: 1500 },
                   items: 3,
                   paritialVisibilityGutter: 60,
                 },
                 tablet: {
-                  breakpoint: { max: 1420, min: 950 },
+                  breakpoint: { max: 1500, min: 1000 },
                   items: 2,
                   paritialVisibilityGutter: 50,
                 },
                 mobile: {
-                  breakpoint: { max: 950, min: 0 },
+                  breakpoint: { max: 1000, min: 0 },
                   items: 1,
                   paritialVisibilityGutter: 30,
                 },
@@ -163,9 +168,9 @@ const ChangePlanModal = (props: Props) => {
             <button className={styles.cancelButton} onClick={() => setChangingPlanModalOpen(false)}>
               Cancel
             </button>
-            <OrangeButton type="primary" size="small" onClick={handleSave}>
+            <ActionButton type="orange" variant="primary" size="md" onClick={handleSave}>
               Confirm
-            </OrangeButton>
+            </ActionButton>
           </div>
         </div>
       }
