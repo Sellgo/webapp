@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icon, Divider } from 'semantic-ui-react';
+import './globals.scss';
 
 interface StepsContentProps {
   contentType: string;

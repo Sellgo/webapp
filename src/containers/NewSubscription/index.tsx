@@ -1,47 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import { connect } from 'react-redux';
+import _ from 'lodash';
 
 /* Styling */
 import styles from './index.module.scss';
 
 /* Containers */
 import Summary from './Summary';
-import Login from './Login';
-import Signup from './Signup';
+import CheckoutForm from './CheckOutForm';
 
 /* Components */
 import Auth from '../../components/Auth/Auth';
+import history from '../../history';
+
+/* Assets */
+import newSellgoLogo from '../../assets/images/sellgoNewLogo.png';
+
+/* Config */
+import { AppConfig } from '../../config';
+
+/* Data */
 import {
   subscriptionDetailsMapping,
   PAYMENT_MODES,
   SUBSCRIPTION_DETAILS,
 } from '../../constants/Subscription';
 
-/* Assets */
-import newSellgoLogo from '../../assets/images/sellgoNewLogo.png';
+/* Actions */
+import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
 
-interface Props {
+const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
+
+interface PaymentProps {
+  location: any;
   auth: Auth;
+  sellerSubscription: any;
+  fetchSellerSubscription: () => void;
 }
 
-const SubscriptionPage: React.FC<Props> = props => {
-  const { auth } = props;
+const Payment = (props: PaymentProps) => {
+  const { auth, sellerSubscription, fetchSellerSubscription } = props;
 
-  const [isLogin, setIsLogin] = useState<boolean>(false);
-  const [isSignup, setIsSignup] = useState<boolean>(true);
   const [accountType, setAccountType] = useState<string>('');
   const [paymentMode, setPaymentMode] = useState<string>('');
-
-  const setSignUp = () => {
-    window.location.search = '?type=' + accountType + '&' + 'mode=' + paymentMode;
-    setIsSignup(true);
-    setIsLogin(false);
-  };
-
-  const setLogin = () => {
-    setIsLogin(true);
-    setIsSignup(false);
-  };
 
   /* Get valid subscription name from URL */
   const getSubscriptionNameAndPaymentMode = (search: string) => {
@@ -99,49 +102,56 @@ const SubscriptionPage: React.FC<Props> = props => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('isLoggedIn') === 'true') {
-      setLogin();
-      localStorage.setItem('isLoggedIn', 'false');
-    } else if (window.location.search.indexOf('-unverified') !== -1) {
-      setLogin();
-    }
-
-    // unverified email
-    let search = window.location.search.toLowerCase();
-    if (search.includes('-unverified')) {
-      search = search.split('-unverified')[0];
-    }
-
+    fetchSellerSubscription();
+    const search = window.location.search.toLowerCase();
     const { subscriptionName, paymentMode } = getSubscriptionNameAndPaymentMode(search);
-
     setAccountType(subscriptionName);
     localStorage.setItem('planType', subscriptionName);
     setPaymentMode(paymentMode);
     localStorage.setItem('paymentMode', paymentMode);
   }, []);
 
-  return (
-    <>
-      <main className={styles.subscriptionPage}>
-        <div className={styles.logo}>
-          <Link to="/" replace>
-            <img src={newSellgoLogo} alt="Sellgo Company Logo" />
-          </Link>
-        </div>
+  /* Redirect to app if user is already logged in */
+  useEffect(() => {
+    const loggedIn =
+      sellerSubscription !== undefined || localStorage.getItem('isLoggedIn') === 'true';
 
-        <section className={styles.contentSection}>
-          <Summary
-            planType={accountType}
-            paymentMode={paymentMode}
-            setPlanType={setAccountType}
-            setPaymentMode={setPaymentMode}
-          />
-          {isLogin && <Login auth={auth} setSignup={setSignUp} />}
-          {isSignup && <Signup auth={auth} setLogin={setLogin} />}
-        </section>
-      </main>
-    </>
+    if (loggedIn) {
+      localStorage.setItem('loginRedirectPath', '/');
+      history.push('/');
+    }
+  }, [sellerSubscription]);
+
+  return (
+    <main className={styles.paymentPage}>
+      <div className={styles.logo}>
+        <img src={newSellgoLogo} alt="Sellgo Company Logo" />
+      </div>
+
+      <section>
+        <Summary
+          planType={accountType}
+          paymentMode={paymentMode}
+          setPaymentMode={setPaymentMode}
+          setPlanType={setAccountType}
+        />
+
+        <Elements stripe={stripePromise}>
+          <CheckoutForm accountType={accountType} paymentMode={paymentMode} auth={auth} />
+        </Elements>
+      </section>
+    </main>
   );
 };
 
-export default SubscriptionPage;
+const mapStateToProps = (state: {}) => ({
+  subscriptionType: _.get(state, 'subscription.subscriptionType'),
+  stripeErrorMessage: _.get(state, 'subscription.stripeErrorMessage'),
+  sellerSubscription: _.get(state, 'subscription.sellerSubscription'),
+});
+
+const mapDispatchToProps = {
+  fetchSellerSubscription: () => fetchSellerSubscription(),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Payment);
