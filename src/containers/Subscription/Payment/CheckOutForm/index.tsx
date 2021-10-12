@@ -35,9 +35,6 @@ import { useInput } from '../../../../hooks/useInput';
 import cardIcons from '../../../../assets/images/4_Card_color_horizontal.svg';
 import stripeIcon from '../../../../assets/images/powered_by_stripe.svg';
 
-/* Data */
-import { subscriptionPlans } from '../../data';
-
 /* Styling */
 import styles from './index.module.scss';
 
@@ -45,7 +42,7 @@ import styles from './index.module.scss';
 import { PromoCode } from '../../../../interfaces/Subscription';
 
 /* Utils */
-import { getSubscriptionID } from '../../../../utils/subscriptions';
+import { getSubscriptionID } from '../../../../constants/Subscription';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -123,7 +120,7 @@ function CheckoutForm(props: MyProps) {
 
   const handleCheckPromoCode = async (event: any) => {
     event.preventDefault();
-    const subscriptionId = getSubscriptionID(accountType, subscriptionPlans);
+    const subscriptionId = getSubscriptionID(accountType);
     Axios.defaults.headers.common.Authorization = ``;
     checkPromoCode(promoCode, subscriptionId, paymentMode);
   };
@@ -205,7 +202,7 @@ function CheckoutForm(props: MyProps) {
         });
       } else {
         const data = {
-          subscription_id: getSubscriptionID(accountType, subscriptionPlans),
+          subscription_id: getSubscriptionID(accountType),
           payment_method_id: paymentMethodId,
           payment_mode: paymentMode,
           promo_code: promoCode,

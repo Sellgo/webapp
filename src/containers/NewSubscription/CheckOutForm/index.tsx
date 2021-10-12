@@ -36,9 +36,6 @@ import { useInput } from '../../../hooks/useInput';
 import cardIcons from '../../../assets/images/4_Card_color_horizontal.svg';
 import stripeIcon from '../../../assets/images/powered_by_stripe.svg';
 
-/* Data */
-import { subscriptionPlans } from '../data';
-
 /* Styling */
 import styles from './index.module.scss';
 
@@ -46,7 +43,7 @@ import styles from './index.module.scss';
 import { PromoCode } from '../../../interfaces/Subscription';
 
 /* Utils */
-import { getSubscriptionID } from '../../../utils/subscriptions';
+import { getSubscriptionID } from '../../../constants/Subscription';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -123,7 +120,7 @@ function CheckoutForm(props: MyProps) {
 
   const handleCheckPromoCode = async (event: any) => {
     event.preventDefault();
-    const subscriptionId = getSubscriptionID(accountType, subscriptionPlans);
+    const subscriptionId = getSubscriptionID(accountType);
     Axios.defaults.headers.common.Authorization = ``;
     checkPromoCode(promoCode, subscriptionId, paymentMode);
   };
@@ -199,10 +196,7 @@ function CheckoutForm(props: MyProps) {
       const paymentMethodId = paymentMethod.id;
       const bodyFormData = new FormData();
       bodyFormData.set('email', email);
-      bodyFormData.set(
-        'subscription_id',
-        String(getSubscriptionID(accountType, subscriptionPlans))
-      );
+      bodyFormData.set('subscription_id', String(getSubscriptionID(accountType)));
       bodyFormData.set('payment_method_id', paymentMethodId);
       bodyFormData.set('payment_mode', paymentMode);
       bodyFormData.set('promo_code', promoCode);
@@ -283,7 +277,7 @@ function CheckoutForm(props: MyProps) {
                 last_name: lastName,
                 stripe_subscription_id: stripeSubscription.id,
                 activation_code: hashString,
-                subscription_id: getSubscriptionID(accountType, subscriptionPlans),
+                subscription_id: getSubscriptionID(accountType),
                 payment_mode: paymentMode,
               };
 

@@ -71,13 +71,3 @@ export const convertPlanNameToKey = (planType: string) => {
   const planTypeWithoutSpaces = planType.split(' ').join('');
   return planTypeWithoutSpaces.toLowerCase();
 };
-
-export const getSubscriptionID = (planName: string, subscriptionPlans: any) => {
-  const DEFAULT_PROFESSIONAL_PLAN_ID = 2;
-  const id = subscriptionPlans[planName];
-  if (id) {
-    return id;
-  } else {
-    return DEFAULT_PROFESSIONAL_PLAN_ID;
-  }
-};

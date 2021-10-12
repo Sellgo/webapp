@@ -9,7 +9,7 @@ import styles from './index.module.scss';
 import { formatDecimal } from '../../../utils/format';
 
 /* Data */
-import { generateSubscriptionDetails, subscriptionList } from '../data';
+import { generateSubscriptionDetails } from '../../../constants/Subscription';
 
 /* Types */
 import { PromoCode, SummaryDetails } from '../../../interfaces/Subscription';
@@ -184,7 +184,6 @@ const Summary = (props: Props) => {
           paymentMode={paymentMode}
           isChangingPlanModalOpen={isChangingPlanModalOpen}
           setChangingPlanModalOpen={setChangingPlanModalOpen}
-          subscriptionList={subscriptionList}
         />
       </div>
     </>

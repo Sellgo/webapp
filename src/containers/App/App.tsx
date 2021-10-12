@@ -21,6 +21,7 @@ import Onboarding from '../Onboarding';
 import Subscription from '../Settings/Subscription';
 import NewSubscription from '../NewSubscription';
 import PaymentSuccess from '../NewSubscription/PaymentSuccess';
+import Payment from '../Subscription/Payment';
 import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
 import ChurnFlow from '../ChurnFlow';
@@ -193,7 +194,7 @@ function App() {
 
           <Route exact={true} path="/activation/success" component={ActivationSuccess} />
           <Route exact={true} path="/activation/:activationCode" component={Activation} />
-
+          <Route exact={true} path="/subscription/payment" component={Payment} />
           <Route
             exact={true}
             path="/subscription"

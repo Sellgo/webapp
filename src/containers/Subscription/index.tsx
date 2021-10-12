@@ -12,7 +12,11 @@ import Signup from './Signup';
 
 /* Components */
 import Auth from '../../components/Auth/Auth';
-import { subscriptionPlans, paymentModes, subscriptionDetails } from './data';
+import {
+  subscriptionDetailsMapping,
+  PAYMENT_MODES,
+  SUBSCRIPTION_DETAILS,
+} from '../../constants/Subscription';
 
 /* Assets */
 import newSellgoLogo from '../../assets/images/sellgoNewLogo.png';
@@ -53,7 +57,7 @@ const SubscriptionPage: React.FC<Props> = props => {
     }
 
     let subscriptionName = search.substring(startTypeIndex, endTypeIndex);
-    if (!subscriptionPlans[subscriptionName]) {
+    if (!subscriptionDetailsMapping[subscriptionName]) {
       subscriptionName = DEFAULT_PLAN;
     }
 
@@ -65,14 +69,14 @@ const SubscriptionPage: React.FC<Props> = props => {
     }
 
     let paymentMode = search.substring(startModeIndex, endModeIndex);
-    if (!paymentModes.includes(paymentMode)) {
+    if (!PAYMENT_MODES.includes(paymentMode)) {
       paymentMode = DEFAULT_PAYMENT_MODE;
     }
 
     /* If plan mode does not match an available payment method, return default plan
     e.g. type=Seller Scout Pro, with mode=daily */
 
-    const subscriptionDetail = subscriptionDetails[subscriptionName];
+    const subscriptionDetail = SUBSCRIPTION_DETAILS[subscriptionName];
     let planCost;
     if (paymentMode === 'daily') {
       planCost = subscriptionDetail.dailyPrice;

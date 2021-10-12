@@ -18,3 +18,11 @@ export interface SummaryDetails {
   annualPrice: number;
   dailyPrice: number;
 }
+
+export interface SubscriptionPlan {
+  subscriptionId: number;
+  name: string;
+  monthlyPrice: number;
+  annualPrice: number;
+  isDailyPlan: boolean;
+}
