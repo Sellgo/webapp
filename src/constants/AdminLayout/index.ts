@@ -162,7 +162,7 @@ export const OPTIONS: NavOptions = [
         isBeta: true,
       },
       {
-        label: 'Keyword Tracker',
+        label: 'Product Rank Tracker',
         description: 'Get to #1 Search Results',
         icon: require(`../../assets/images/${NAV_ICONS.KEYWORD_TRACKER}`),
         path: '/keyword-research/tracker',

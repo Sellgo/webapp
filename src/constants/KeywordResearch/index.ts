@@ -14,7 +14,7 @@ export const KEYWORD_RESEARCH_PRODUCT_DETAILS = [
     desc: 'Enter a Seed Keyword and Get Back a Whole List of High-Volume Relevant Keywords',
   },
   {
-    name: 'Keyword Tracker',
+    name: 'Product Rank Tracker',
     desc: 'Dominate Your Keywords and Get to #1 Spot of Search Results',
   },
 ];
