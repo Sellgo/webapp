@@ -26,6 +26,7 @@ import {
   TrackerProductKeywordsTablePaginationInfo,
 } from '../../../../../interfaces/KeywordResearch/KeywordTracker';
 import { TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY } from '../../../../../constants/KeywordResearch/KeywordTracker';
+import ActionButton from '../../../../../components/ActionButton';
 
 interface Props {
   keywordTrackerTableExpandedRow: any;
@@ -56,10 +57,16 @@ const AddEditKeywords = (props: Props) => {
 
   return (
     <div className={styles.addEditKeywordsWrapper}>
-      <button className={styles.addEditKeywords} onClick={() => setAddEditKeywords(true)}>
+      <ActionButton
+        type="orange"
+        variant="secondary"
+        size="md"
+        className={styles.addEditKeywords}
+        onClick={() => setAddEditKeywords(true)}
+      >
         <ThinAddIcon />
         Add Keywords
-      </button>
+      </ActionButton>
 
       {/* Add Products Modal */}
       <Modal
