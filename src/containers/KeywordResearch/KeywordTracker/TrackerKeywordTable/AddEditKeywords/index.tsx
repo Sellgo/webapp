@@ -16,6 +16,7 @@ import { addTrackerProductKeywords } from '../../../../../actions/KeywordResearc
 
 /* Components*/
 import AddProductKeywordModal from '../../../../../components/AddProductKeywordModal';
+import ActionButton from '../../../../../components/ActionButton';
 
 /* Assets */
 import { ReactComponent as ThinAddIcon } from '../../../../../assets/images/thinAddIcon.svg';
@@ -26,7 +27,6 @@ import {
   TrackerProductKeywordsTablePaginationInfo,
 } from '../../../../../interfaces/KeywordResearch/KeywordTracker';
 import { TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY } from '../../../../../constants/KeywordResearch/KeywordTracker';
-import ActionButton from '../../../../../components/ActionButton';
 
 interface Props {
   keywordTrackerTableExpandedRow: any;
