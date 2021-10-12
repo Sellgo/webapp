@@ -13,6 +13,7 @@ import CheckoutForm from './CheckOutForm';
 
 /* Components */
 import Auth from '../../components/Auth/Auth';
+import history from '../../history';
 
 /* Assets */
 import newSellgoLogo from '../../assets/images/sellgoNewLogo.png';
@@ -27,15 +28,20 @@ import {
   SUBSCRIPTION_DETAILS,
 } from '../../constants/Subscription';
 
+/* Actions */
+import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
+
 const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
 
 interface PaymentProps {
   location: any;
   auth: Auth;
+  sellerSubscription: any;
+  fetchSellerSubscription: () => void;
 }
 
 const Payment = (props: PaymentProps) => {
-  const { auth } = props;
+  const { auth, sellerSubscription, fetchSellerSubscription } = props;
 
   const [accountType, setAccountType] = useState<string>('');
   const [paymentMode, setPaymentMode] = useState<string>('');
@@ -96,6 +102,7 @@ const Payment = (props: PaymentProps) => {
   };
 
   useEffect(() => {
+    fetchSellerSubscription();
     const search = window.location.search.toLowerCase();
     const { subscriptionName, paymentMode } = getSubscriptionNameAndPaymentMode(search);
     setAccountType(subscriptionName);
@@ -103,6 +110,17 @@ const Payment = (props: PaymentProps) => {
     setPaymentMode(paymentMode);
     localStorage.setItem('paymentMode', paymentMode);
   }, []);
+
+  /* Redirect to app if user is already logged in */
+  useEffect(() => {
+    const loggedIn =
+      sellerSubscription !== undefined || localStorage.getItem('isLoggedIn') === 'true';
+
+    if (loggedIn) {
+      localStorage.setItem('loginRedirectPath', '/');
+      history.push('/');
+    }
+  }, [sellerSubscription]);
 
   return (
     <main className={styles.paymentPage}>
@@ -129,7 +147,11 @@ const Payment = (props: PaymentProps) => {
 const mapStateToProps = (state: {}) => ({
   subscriptionType: _.get(state, 'subscription.subscriptionType'),
   stripeErrorMessage: _.get(state, 'subscription.stripeErrorMessage'),
+  sellerSubscription: _.get(state, 'subscription.sellerSubscription'),
 });
-const mapDispatchToProps = {};
+
+const mapDispatchToProps = {
+  fetchSellerSubscription: () => fetchSellerSubscription(),
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Payment);
