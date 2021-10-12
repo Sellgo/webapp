@@ -10,8 +10,12 @@
   grid-row-gap: 30px;
   height: max-content;
 
-  @media only screen and (max-width: 1550px) {
-    grid-column-gap: 120px;
+  @media only screen and (max-width: 1690px) {
+    grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(auto, 1fr);
+  }
+
+  @media only screen and(max-width: 1460px) {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
