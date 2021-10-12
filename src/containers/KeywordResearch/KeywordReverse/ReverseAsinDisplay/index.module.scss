@@ -14,6 +14,13 @@
   }
 }
 
+/* Asin cards wrapper */
+.reverseAsinCardsWrapper {
+  margin: 8px 0;
+  display: flex;
+  justify-content: flex-start;
+}
+
 /* Add asin trigger */
 .addAsinCard {
   user-select: none;
@@ -36,8 +43,6 @@
   }
 
   svg {
-    cursor: pointer;
-
     path {
       fill: $accent_orange;
     }
@@ -46,7 +51,6 @@
   &:hover {
     background: $accent_orange;
     color: #fff !important;
-    cursor: pointer;
 
     svg {
       path {
@@ -56,11 +60,33 @@
   }
 }
 
-/* Asin cards wrapper */
-.reverseAsinCardsWrapper {
-  margin: 8px 0;
+.overflowWrapper {
   display: flex;
   justify-content: flex-start;
+  flex: 1;
+  overflow-x: auto;
+
+  /* width */
+  &::-webkit-scrollbar {
+    height: 5px !important;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: $grey_1 !important;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $grey_6 !important;
+    border-radius: 3px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: $grey_6 !important;
+  }
 }
 
 /* Modal reset */
