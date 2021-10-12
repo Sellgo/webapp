@@ -7,11 +7,7 @@ import _ from 'lodash';
 /* Styling */
 import styles from './index.module.scss';
 
-/* Utils */
-import { isSubscriptionNotPaid, isSubscriptionPaid } from '../../utils/subscriptions';
-
 /* Containers */
-import PaidContent from './PaidContent';
 import Summary from './Summary';
 import CheckoutForm from './CheckOutForm';
 
@@ -35,13 +31,11 @@ const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
 
 interface PaymentProps {
   location: any;
-  subscriptionType: string;
-  successPayment: any;
   auth: Auth;
 }
 
 const Payment = (props: PaymentProps) => {
-  const { subscriptionType, successPayment, auth } = props;
+  const { auth } = props;
 
   const [accountType, setAccountType] = useState<string>('');
   const [paymentMode, setPaymentMode] = useState<string>('');
@@ -124,12 +118,9 @@ const Payment = (props: PaymentProps) => {
           setPlanType={setAccountType}
         />
 
-        {!successPayment && isSubscriptionNotPaid(subscriptionType) && (
-          <Elements stripe={stripePromise}>
-            <CheckoutForm accountType={accountType} paymentMode={paymentMode} auth={auth} />
-          </Elements>
-        )}
-        {isSubscriptionPaid(subscriptionType) && <PaidContent />}
+        <Elements stripe={stripePromise}>
+          <CheckoutForm accountType={accountType} paymentMode={paymentMode} auth={auth} />
+        </Elements>
       </section>
     </main>
   );
@@ -137,7 +128,6 @@ const Payment = (props: PaymentProps) => {
 
 const mapStateToProps = (state: {}) => ({
   subscriptionType: _.get(state, 'subscription.subscriptionType'),
-  successPayment: _.get(state, 'subscription.successPayment'),
   stripeErrorMessage: _.get(state, 'subscription.stripeErrorMessage'),
 });
 const mapDispatchToProps = {};
