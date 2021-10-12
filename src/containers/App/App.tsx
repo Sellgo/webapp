@@ -15,7 +15,6 @@ import { connect } from 'react-redux';
 import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
 import '../../analytics';
 import ProductTracker from '../ProductTracker';
-import Signup from '../Signup';
 import ResetPassword from '../ResetPassword';
 import Onboarding from '../Onboarding';
 import Subscription from '../Settings/Subscription';
@@ -183,30 +182,30 @@ function App() {
           />
           <Route
             exact={true}
-            path="/signup"
-            render={renderProps => <Signup auth={auth} {...renderProps} />}
-          />
-          <Route
-            exact={true}
             path="/reset-password"
             render={renderProps => <ResetPassword auth={auth} {...renderProps} />}
           />
 
-          <Route exact={true} path="/activation/success" component={ActivationSuccess} />
-          <Route exact={true} path="/activation/:activationCode" component={Activation} />
-          <Route
-            exact={true}
-            path="/subscription/payment"
-            render={renderProps => <Payment auth={auth} {...renderProps} />}
-          />
           <Route
             exact={true}
             path="/subscription"
             render={renderProps => <NewSubscription auth={auth} {...renderProps} />}
           />
+
           <Route exact={true} path="/subscription/success" component={PaymentSuccess} />
 
+          <Route exact={true} path="/activation/:activationCode" component={Activation} />
+
+          <Route exact={true} path="/activation/success" component={ActivationSuccess} />
+
+          <Route
+            exact={true}
+            path="/subscription/payment"
+            render={renderProps => <Payment auth={auth} {...renderProps} />}
+          />
+
           <PrivateRoute exact={true} path="/settings" component={Settings} />
+
           <PrivateRoute
             exact={true}
             path="/onboarding"
