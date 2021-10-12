@@ -14,12 +14,14 @@ import TableExport from '../../../../components/NewTable/TableExport';
 import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
 import { ReactComponent as CSVExportImage } from '../../../../assets/images/csvExportImage.svg';
 
+/* Utils */
+import { success } from '../../../../utils/notifications';
+
 /* Hooks */
 import { useExportSocket } from '../SocketProviders/InventoryExportProvider';
 
 /* Interfaces */
 import { SellerSubscription } from '../../../../interfaces/Seller';
-import { success } from '../../../../utils/notifications';
 
 interface Props {
   sellerSubscription: SellerSubscription;
