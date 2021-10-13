@@ -278,6 +278,7 @@ const SellerDatabaseFilters = (props: Props) => {
             marketPlaceChoices={SELLER_DB_MARKETPLACE}
             handleChange={(option: MarketplaceOption) => {
               setMarketPlace(option);
+              setSellerDatabaseMarketplace(option);
             }}
           />
 
