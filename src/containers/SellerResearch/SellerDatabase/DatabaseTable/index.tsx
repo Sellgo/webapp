@@ -257,7 +257,13 @@ const SellerDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="growth_year" appendWith="%" align="left" asRounded={false} />
+            <StatsCell
+              dataKey="growth_year"
+              appendWith="%"
+              align="left"
+              asRounded={false}
+              asFloatRounded={true}
+            />
           </Table.Column>
 
           {/* 1 Month Growth Count*/}
