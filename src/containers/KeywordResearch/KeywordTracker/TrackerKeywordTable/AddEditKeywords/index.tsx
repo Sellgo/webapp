@@ -8,7 +8,8 @@ import styles from './index.module.scss';
 /* Selectors */
 import {
   getKeywordTrackerProductsExpandedRow,
-  getTrackerProductKeywordsTablePaginationInfo,
+  getIsLoadingTrackerProductKeywordsTable,
+  getTrackerProductKeywordsTableResults,
 } from '../../../../../selectors/KeywordResearch/KeywordTracker';
 
 /* Actions */
@@ -18,33 +19,34 @@ import { addTrackerProductKeywords } from '../../../../../actions/KeywordResearc
 import AddProductKeywordModal from '../../../../../components/AddProductKeywordModal';
 import ActionButton from '../../../../../components/ActionButton';
 
+/* Constants */
+import { TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY } from '../../../../../constants/KeywordResearch/KeywordTracker';
+
 /* Assets */
 import { ReactComponent as ThinAddIcon } from '../../../../../assets/images/thinAddIcon.svg';
 
 /* Interfaces */
-import {
-  AddTrackerProductKeyword,
-  TrackerProductKeywordsTablePaginationInfo,
-} from '../../../../../interfaces/KeywordResearch/KeywordTracker';
-import { TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY } from '../../../../../constants/KeywordResearch/KeywordTracker';
+import { AddTrackerProductKeyword } from '../../../../../interfaces/KeywordResearch/KeywordTracker';
 
 interface Props {
   keywordTrackerTableExpandedRow: any;
-  trackerProductKeywordsTablePaginationInfo: TrackerProductKeywordsTablePaginationInfo;
+  trackerProductKeywordsTableResults: any[];
+  isLoadingTrackerProductKeywordsTable: boolean;
   addTrackerProductKeywords: (payload: AddTrackerProductKeyword) => void;
 }
 
 const AddEditKeywords = (props: Props) => {
   const {
     keywordTrackerTableExpandedRow,
-    trackerProductKeywordsTablePaginationInfo,
+    trackerProductKeywordsTableResults,
     addTrackerProductKeywords,
+    isLoadingTrackerProductKeywordsTable,
   } = props;
 
   const [addEditKeywords, setAddEditKeywords] = useState(false);
 
   /* Handle add more keywords to product here */
-  const handleAddKeywords = (payload: any) => {
+  const handleAddEditKeywords = (payload: any) => {
     const { keywords } = payload;
 
     const sendPayload = {
@@ -55,6 +57,10 @@ const AddEditKeywords = (props: Props) => {
     addTrackerProductKeywords(sendPayload);
   };
 
+  const currentKeywordsList =
+    trackerProductKeywordsTableResults &&
+    trackerProductKeywordsTableResults.map((k: any) => k.phrase).join('\n');
+
   return (
     <div className={styles.addEditKeywordsWrapper}>
       <ActionButton
@@ -63,9 +69,10 @@ const AddEditKeywords = (props: Props) => {
         size="md"
         className={styles.addEditKeywords}
         onClick={() => setAddEditKeywords(true)}
+        disabled={isLoadingTrackerProductKeywordsTable}
       >
         <ThinAddIcon />
-        Add Keywords
+        Add/Edit Keywords
       </ActionButton>
 
       {/* Add Products Modal */}
@@ -75,9 +82,9 @@ const AddEditKeywords = (props: Props) => {
         onClose={() => setAddEditKeywords(false)}
         content={
           <AddProductKeywordModal
+            currentKeywordsList={currentKeywordsList}
             parentAsin={keywordTrackerTableExpandedRow.asin}
-            currentKeywordsCount={trackerProductKeywordsTablePaginationInfo.count}
-            onSubmit={handleAddKeywords}
+            onSubmit={handleAddEditKeywords}
             closeModal={() => setAddEditKeywords(false)}
             productDetails={{
               image: keywordTrackerTableExpandedRow.image_url,
@@ -93,7 +100,8 @@ const AddEditKeywords = (props: Props) => {
 const mapStateToProps = (state: any) => {
   return {
     keywordTrackerTableExpandedRow: getKeywordTrackerProductsExpandedRow(state),
-    trackerProductKeywordsTablePaginationInfo: getTrackerProductKeywordsTablePaginationInfo(state),
+    trackerProductKeywordsTableResults: getTrackerProductKeywordsTableResults(state),
+    isLoadingTrackerProductKeywordsTable: getIsLoadingTrackerProductKeywordsTable(state),
   };
 };
 

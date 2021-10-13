@@ -87,8 +87,8 @@ const TrackerExport = (props: Props) => {
         onClose={() => setAddProductModal(false)}
         content={
           <AddProductKeywordModal
+            currentKeywordsList=""
             parentAsin=""
-            currentKeywordsCount={0}
             onSubmit={handleTrackProduct}
             closeModal={() => setAddProductModal(false)}
             productDetails={{

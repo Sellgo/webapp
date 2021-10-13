@@ -38,7 +38,6 @@ import {
 /* Utils */
 import { error, success } from '../../utils/notifications';
 import { downloadFile } from '../../utils/download';
-import { formatNumber } from '../../utils/format';
 
 /* ================================================= */
 /*    KEYWORD TRACK MAIN TABLE (PRODUCTS)  */
@@ -499,11 +498,16 @@ export const fetchTrackerProductKeywordsTable = (
 
     const { data } = await axios.get(URL);
 
-    const { results, ...paginationInfo } = data;
-
     if (data) {
-      dispatch(setTrackerProductKeywordsTableResults(results));
-      dispatch(setTrackerProductKeywordsTablePaginationInfo(paginationInfo));
+      dispatch(setTrackerProductKeywordsTableResults(data));
+      dispatch(
+        setTrackerProductKeywordsTablePaginationInfo({
+          count: 0,
+          current_page: 0,
+          total_pages: 0,
+          per_page: 20,
+        })
+      );
       dispatch(isLoadingTrackerProductKeywordsTable(false));
     }
   } catch (err) {
@@ -600,8 +604,7 @@ export const trackBoostProductTableKeyword = (payload: TrackBoostProductsTableKe
 
 /* Action to add more keywords in tracker product */
 export const addTrackerProductKeywords = (payload: AddTrackerProductKeyword) => async (
-  dispatch: any,
-  getState: any
+  dispatch: any
 ) => {
   const sellerId = sellerIDSelector();
 
@@ -618,11 +621,9 @@ export const addTrackerProductKeywords = (payload: AddTrackerProductKeyword) => 
     const { data } = await axios.patch(URL, formData);
 
     if (data) {
-      const currentKeywordsForProduct = getTrackerProductKeywordsTableResults(getState());
-
-      const updatedKeywords = [...currentKeywordsForProduct, ...data];
+      const updatedKeywords = [...data];
       dispatch(setTrackerProductKeywordsTableResults(updatedKeywords));
-      success(`${formatNumber(data.length)} new keywords added`);
+      success(`Keyword List added successfully.`);
     }
   } catch (err) {
     console.error('Error adding more keywords to product', err);
