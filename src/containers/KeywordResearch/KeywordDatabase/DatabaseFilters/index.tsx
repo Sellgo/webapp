@@ -40,6 +40,7 @@ const DatabaseFilters = (props: Props) => {
   const [wordCount, setWordCount] = useState(DEFAULT_MIN_MAX_FILTER);
   const [competingProducts, setCompetitingProducts] = useState(DEFAULT_MIN_MAX_FILTER);
   const [titleDensity, setTitleDensity] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [amazonChoice, setAmazonChoice] = useState(false);
 
   /* Advanced Filters */
   const [searchTerm, setSearchTerm] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
@@ -52,6 +53,7 @@ const DatabaseFilters = (props: Props) => {
     setWordCount(DEFAULT_MIN_MAX_FILTER);
     setCompetitingProducts(DEFAULT_MIN_MAX_FILTER);
     setTitleDensity(DEFAULT_MIN_MAX_FILTER);
+    setAmazonChoice(false);
 
     /* Advanced Filters */
     setSearchTerm(DEFAULT_INCLUDE_EXCLUDE_FILTER);
@@ -67,6 +69,7 @@ const DatabaseFilters = (props: Props) => {
       wordCount,
       competingProducts,
       titleDensity,
+      amazonChoice,
 
       /* Advanced Filters */
       searchTerm,
@@ -117,6 +120,7 @@ const DatabaseFilters = (props: Props) => {
             }));
           }}
         />
+
         {/* Title Density */}
         <MinMaxFilter
           label="Title Density"
@@ -128,6 +132,14 @@ const DatabaseFilters = (props: Props) => {
               [type]: value,
             }));
           }}
+        />
+
+        {/* Amazon choice filter */}
+        <CheckboxFilter
+          label="Amazon Choice"
+          checkboxLabel="Amazon Choice"
+          checked={amazonChoice}
+          handleChange={val => setAmazonChoice(val)}
         />
       </div>
 
