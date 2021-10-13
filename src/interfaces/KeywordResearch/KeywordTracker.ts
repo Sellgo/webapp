@@ -1,6 +1,7 @@
 export interface ProductTrackPayload {
   asin: string;
   keywords: string;
+  trackParentsAndVariations: boolean;
 }
 
 /* Keyword Tracker Products  Table Interfaces */
@@ -12,6 +13,15 @@ export interface TrackerTableProductsPayload {
   sort?: string;
   sortDir?: 'asc' | 'desc';
   search?: string;
+}
+
+/* Keyword Tracker Product Variation  */
+export interface TrackerTableProductVariationsPayload {
+  keywordTrackProductId: number;
+}
+
+export interface TrackerTableUpdateProductVariationsPayload {
+  asin: string;
 }
 
 /* Keyword Tracker Table Competitors  */
@@ -73,6 +83,18 @@ export interface TrackerProductKeywordsTablePaginationInfo {
 /* Untrack keyword from products table*/
 export interface UnTrackProductsTableKeyword {
   keywordTrackId: number;
+}
+
+/* Track/untrack in BOOST keyword from products table*/
+export interface TrackBoostProductsTableKeyword {
+  keywordTrackId: number;
+  is_boost: 'true' | 'false';
+}
+
+/* Add more keywords to keyword tracker table */
+export interface AddTrackerProductKeyword {
+  keywordTrackProductId: number;
+  keywords: string;
 }
 
 /* Keywords History */

@@ -4,7 +4,7 @@ import { Icon, Popup, Modal } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 /* Styling */
-import './index.scss';
+import styles from './index.module.scss';
 
 /* Interfaces */
 import { RowCell } from '../../../../../interfaces/Table';
@@ -14,12 +14,14 @@ import {
   unTrackTrackerProductTableKeyword,
   fetchTrackerProductKeywordsHistory,
   triggerTrackerProductKeywordsHistoryExport,
+  trackBoostProductTableKeyword,
 } from '../../../../../actions/KeywordResearch/KeywordTracker';
 
 /* Interfaces */
 import {
   TrackerProductKeywordsHistory,
   UnTrackProductsTableKeyword,
+  TrackBoostProductsTableKeyword,
 } from '../../../../../interfaces/KeywordResearch/KeywordTracker';
 
 /* Selectors */
@@ -31,10 +33,14 @@ import {
 /* Components */
 import { KeywordHistoryChart } from '../KeywordHistoryChart';
 
+/* Icons */
+import KeywordBoostTrackIcon from '../../../../../components/Icons/KeywordResearch/KeywordBoostTrack';
+
 interface Props extends RowCell {
   unTrackTrackerProductTableKeyword: (payload: UnTrackProductsTableKeyword) => void;
   fetchTrackerProductKeywordsHistory: (payload: TrackerProductKeywordsHistory) => void;
   triggerTrackerProductKeywordsHistoryExport: (payload: TrackerProductKeywordsHistory) => void;
+  trackBoostProductTableKeyword: (payload: TrackBoostProductsTableKeyword) => void;
   trackerProductKeywordsHistoryResults: any[];
   isLoadingTrackerProductKeywordsHistory: boolean;
 }
@@ -46,6 +52,7 @@ const ActionsCell = (props: Props) => {
     trackerProductKeywordsHistoryResults,
     isLoadingTrackerProductKeywordsHistory,
     triggerTrackerProductKeywordsHistoryExport,
+    trackBoostProductTableKeyword,
     ...otherProps
   } = props;
 
@@ -55,6 +62,7 @@ const ActionsCell = (props: Props) => {
 
   const keywordTrackId = rowData[dataKey];
   const phrase = rowData.phrase;
+  const isBoostTracked = rowData.is_boost;
 
   const handleUnTrackKeyword = () => {
     unTrackTrackerProductTableKeyword({ keywordTrackId });
@@ -74,36 +82,52 @@ const ActionsCell = (props: Props) => {
     window.open(searchLink, '_blank');
   };
 
+  const handleTrackUntrackBoostKeyword = () => {
+    trackBoostProductTableKeyword({
+      keywordTrackId: keywordTrackId,
+      is_boost: isBoostTracked ? 'false' : 'true',
+    });
+  };
+
   return (
     <>
       <Table.Cell {...otherProps}>
-        <div className="productTrackerKeywordActionsCellWrapper">
+        <div className={styles.actionCellWrapper}>
           <Popup
-            className="productKeywordActionsCell"
-            trigger={<Icon name="ellipsis vertical" className="productKeywordActionsCellTrigger" />}
+            className={styles.actionCellPopup}
+            trigger={<Icon name="ellipsis vertical" className={styles.actionCellTrigger} />}
             on="click"
             position="bottom right"
             closeOnDocumentClick
             content={
-              <div className="productKeywordActionsCellContent">
+              <div className={styles.actionCellContent}>
                 <button onClick={handleSearchOnAmazon} disabled={!phrase}>
-                  <Icon name="amazon" className="productKeywordActionIcon" />
+                  <Icon name="amazon" className={styles.actionCellIcon} />
                   Search On Amazon
                 </button>
 
                 <button onClick={handleUnTrackKeyword}>
-                  <Icon name="trash" className="productKeywordActionIcon" />
+                  <Icon name="trash" className={styles.actionCellIcon} />
                   Delete Keyword
                 </button>
 
                 <button onClick={handleHistory}>
-                  <Icon name="chart line" className="productKeywordActionIcon" />
+                  <Icon name="chart line" className={styles.actionCellIcon} />
                   History
                 </button>
 
                 <button onClick={handleExport}>
-                  <Icon name="download" className="productKeywordActionIcon" />
+                  <Icon name="download" className={styles.actionCellIcon} />
                   Export XLSX
+                </button>
+
+                <button onClick={handleTrackUntrackBoostKeyword}>
+                  <div
+                    className={`${styles.actionCellIcon} ${styles.actionCellIcon__boostTrackIcon}`}
+                  >
+                    <KeywordBoostTrackIcon fill={isBoostTracked ? '#FC7900' : '#636d76'} />
+                  </div>
+                  {isBoostTracked ? 'Boost Off' : 'Boost On'}
                 </button>
               </div>
             }
@@ -144,6 +168,8 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(fetchTrackerProductKeywordsHistory(payload)),
     triggerTrackerProductKeywordsHistoryExport: (payload: TrackerProductKeywordsHistory) =>
       dispatch(triggerTrackerProductKeywordsHistoryExport(payload)),
+    trackBoostProductTableKeyword: (payload: TrackBoostProductsTableKeyword) =>
+      dispatch(trackBoostProductTableKeyword(payload)),
   };
 };
 

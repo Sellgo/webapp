@@ -136,7 +136,7 @@ const TrackerTable = (props: Props) => {
         renderRowExpanded={() => <TrackerKeywordTable />}
       >
         {/* Expand Cell */}
-        <Table.Column verticalAlign="top" fixed align="left" width={30}>
+        <Table.Column verticalAlign="top" fixed="left" align="left" width={30}>
           <Table.HeaderCell> </Table.HeaderCell>
           <ExpansionCell
             dataKey={TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY}
@@ -146,7 +146,7 @@ const TrackerTable = (props: Props) => {
         </Table.Column>
 
         {/* Product Info */}
-        <Table.Column width={500} verticalAlign="top" fixed align="left" flexGrow={1}>
+        <Table.Column minWidth={500} verticalAlign="top" fixed="left" align="left" flexGrow={1}>
           <Table.HeaderCell>Product Information</Table.HeaderCell>
           <ProductInfo dataKey="productInfo" />
         </Table.Column>
@@ -161,7 +161,20 @@ const TrackerTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="tracked_keywords" align="center" specialKpi />
+          <StatsCell dataKey="tracked_keywords" align="center" />
+        </Table.Column>
+
+        {/* Amazon Choice */}
+        <Table.Column width={130} verticalAlign="top" align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Amazon\nChoice #`}
+              dataKey="amazon_choice_count"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="amazon_choice_count" align="center" />
         </Table.Column>
 
         {/* Competitors */}
@@ -231,8 +244,26 @@ const TrackerTable = (props: Props) => {
           <ChangeStats dataKey="sponsored_asins" align="center" />
         </Table.Column>
 
+        {/* True Rank Performace Index */}
+        <Table.Column width={150} verticalAlign="top" align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`True Rank\nPerformace Index`}
+              dataKey="true_rank_performance"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell
+            dataKey="true_rank_performance"
+            align="center"
+            appendWith="%"
+            asRounded={false}
+          />
+        </Table.Column>
+
         {/* Actions Cell */}
-        <Table.Column width={40} verticalAlign="top" fixed align="left">
+        <Table.Column width={40} verticalAlign="top" fixed="right" align="left">
           <Table.HeaderCell>{''}</Table.HeaderCell>
           <ActionsCell dataKey={TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY} />
         </Table.Column>

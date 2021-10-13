@@ -1,5 +1,4 @@
 /* Actions types for keywords database */
-
 export const actionTypes = {
   /* Actions for keyword request */
   IS_FETCHING_KEYWORD_DATABASE_REQUEST_ID: 'IS_FETCHING_KEYWORD_DATABASE_REQUEST_ID',
@@ -40,6 +39,7 @@ export const F_TYPES = {
   INPUT_INCLUDE_EXCLUDE: 'INPUT_INCLUDE_EXCLUDE',
   MIN_MAX: 'MIN_MAX',
   MIN_MAX_PERIOD: 'MIN_MAX_PERIOD',
+  CHECKBOX: 'CHECKBOX',
 };
 
 /* Filter Query Key Mapper */
@@ -47,6 +47,9 @@ export const F_TYPES = {
 export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: string } } = {
   // include exclude
   searchTerm: { keyName: 'phrases', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
+
+  // checkbox filters
+  matchKeywords: { keyName: 'whole_words', type: F_TYPES.CHECKBOX },
 
   // min max based
   searchVolume: { keyName: 'search_volume', type: F_TYPES.MIN_MAX },
@@ -58,14 +61,6 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   // checkbox filters
   amazonChoice: { keyName: 'amazon_choice', type: F_TYPES.TEXT },
 };
-
-/* Exports data */
-export const EXPORT_FORMATS = [
-  // { key: 'csv', value: 'csv', text: '.CSV' },
-  { key: 'xlsx', value: 'xlsx', text: '.XLSX' },
-];
-
-export const EXPORT_DATA = [{ key: 'all', value: 'all', text: 'All Results' }];
 
 export const MAX_KEYWORDS_ALLOWED = 200;
 

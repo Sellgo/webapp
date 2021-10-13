@@ -12,10 +12,12 @@ import CheckBoxCell from '../../../../components/NewTable/CheckboxCell';
 import HeaderCheckboxCell from '../../../../components/NewTable/HeaderCheckboxCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
+import TrackerKeywordsExport from './TrackerKeywordsExport';
 
 /* Containers */
 import Keyword from './Keyword';
 import ActionsCell from './ActionsCell';
+import ActionsIconCell from './ActionsIconCell';
 import HeaderActionsCell from './HeaderActionsCell';
 import TrackerCompetitors from './TrackerCompetitors';
 
@@ -43,6 +45,10 @@ import {
   TrackerProductKeywordsTablePaginationInfo,
   TrackerProductKeywordsTablePayload,
 } from '../../../../interfaces/KeywordResearch/KeywordTracker';
+import AddEditKeywords from './AddEditKeywords';
+
+/* Assets */
+import amazonChoiceLabel from '../../../../assets/amazonLabels/amazonChoiceLabel.png';
 
 interface Props {
   isLoadingTrackerProductKeywordsTable: boolean;
@@ -140,9 +146,16 @@ const TrackerKeywordTable = (props: Props) => {
       {/* Competitors Section */}
       <TrackerCompetitors />
 
+      {/* Export Section */}
+      <TrackerKeywordsExport />
+
+      {/* Add Edit Keywords Section */}
+      <AddEditKeywords />
+
       {/* Table Section */}
       <section className={styles.keywordTableWrapper}>
         <Table
+          wordWrap
           loading={isLoadingTrackerProductKeywordsTable}
           data={trackerProductKeywordsTableResults}
           height={calculateKeywordsTableHeight(trackerProductKeywordsTableResults.length - 5)}
@@ -173,6 +186,23 @@ const TrackerKeywordTable = (props: Props) => {
           <Table.Column verticalAlign="middle" fixed align="left" width={500} flexGrow={1}>
             <Table.HeaderCell>Keyword</Table.HeaderCell>
             <Keyword dataKey="keyword" />
+          </Table.Column>
+
+          {/* Amazon Choice */}
+          <Table.Column width={140} verticalAlign="middle" align="left">
+            <Table.HeaderCell />
+            <Table.Cell>
+              {(rowData: any) => {
+                const { amazon_choice_asins } = rowData;
+                return (
+                  <div className={styles.amazonChoiceLabel}>
+                    {amazon_choice_asins && amazon_choice_asins > 0 ? (
+                      <img src={amazonChoiceLabel} alt="Amazon Choice Label" />
+                    ) : null}
+                  </div>
+                );
+              }}
+            </Table.Cell>
           </Table.Column>
 
           {/* Search Volume */}
@@ -264,6 +294,25 @@ const TrackerKeywordTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <StatsCell dataKey="sponsored_rank" align="center" />
+          </Table.Column>
+
+          {/* True Rank Performace Index */}
+          <Table.Column width={150} verticalAlign="middle" align="left" sortable>
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Drop/Raise Index`}
+                dataKey="index"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <StatsCell dataKey="index" align="center" appendWith="%" asRounded={false} />
+          </Table.Column>
+
+          {/* Actions Icon Cell */}
+          <Table.Column width={40} verticalAlign="middle" fixed align="left">
+            <Table.HeaderCell>{''}</Table.HeaderCell>
+            <ActionsIconCell dataKey={TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY} />
           </Table.Column>
 
           {/* Actions Cell */}

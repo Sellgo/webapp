@@ -1,0 +1,33 @@
+@import '../../../../../design-system/new-colors';
+
+.addEditKeywordsWrapper {
+  margin: 0;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.addEditKeywords {
+  margin-left: 30px;
+
+  svg {
+    margin: 0 5px;
+
+    path {
+      fill: $accent_orange !important;
+    }
+  }
+
+  &:hover {
+    svg {
+      path {
+        fill: #fff !important;
+      }
+    }
+  }
+}
+
+.addEditKeywordsModal {
+  border: 0 !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
+}

@@ -17,6 +17,8 @@ import { success } from '../../../../../utils/notifications';
 
 /*Actions */
 import { trackMerchantFromDatabase } from '../../../../../actions/SellerResearch/SellerDatabase';
+
+/* Utils */
 import history from '../../../../../history';
 import { timeout } from '../../../../../utils/timeout';
 
@@ -58,14 +60,12 @@ const SellerActions = (props: Props) => {
     <>
       <Table.Cell {...otherProps}>
         <div className={styles.actionCellWrapper}>
-          <div
-            className={`${isSellerTracked ? styles.actionCellActive : styles.actionCellInActive}`}
-          >
+          <div className={styles.actionCell}>
             <button
               className={styles.actionButton}
               onClick={() => handleSellerTrack(false)}
               style={{
-                color: isSellerTracked ? '#2F8DDF' : '#636d76',
+                color: isSellerTracked ? '#3b4557' : '#636d76',
                 fontWeight: isSellerTracked ? 500 : 400,
               }}
             >
@@ -84,7 +84,7 @@ const SellerActions = (props: Props) => {
                     <p>ASIN</p>
                     <button onClick={() => handleCopyAsins(',')} disabled={!parsedAsinList.length}>
                       <Icon name="copy outline" />
-                      <span>Copy ASINs in rows with comma</span>
+                      <span>Copy ASINs in rows</span>
                     </button>
 
                     <button onClick={() => handleCopyAsins('\n')} disabled={!parsedAsinList.length}>

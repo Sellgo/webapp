@@ -10,8 +10,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
   border-bottom: 1px solid $grey_3;
+  padding: 0 20px;
 
   h1 {
     color: $grey_8;
@@ -20,32 +20,43 @@
   }
 }
 
-.filterForm {
-  padding: 0 20px;
+.productDetails {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
   margin-top: 30px;
+  padding: 0 20px;
 }
 
-.longInput {
-  min-width: 100% !important;
-  width: 100% !important;
-}
+.productImage {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
 
-.addAsinTextArea {
-  textarea {
-    min-height: 200px !important;
-    line-height: 1.5 !important;
+  img {
+    max-width: 100%;
   }
 }
 
-.leftOverMessage {
-  color: $grey_6 !important;
-  font-size: 12px;
-  text-align: right;
-  margin-right: 20px;
+.productInfo {
+  h3 {
+    line-height: 1;
+    font-size: 14px;
+    color: $grey_8 !important;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+}
+
+.marketplaceInfo {
+  img {
+    width: 15px;
+    height: 15px;
+  }
 
   span {
+    font-size: 10px;
     color: $grey_8 !important;
-    font-weight: 500;
     margin-left: 10px;
   }
 }

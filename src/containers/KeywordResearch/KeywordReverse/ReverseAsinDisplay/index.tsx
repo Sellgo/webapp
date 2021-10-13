@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { v4 as uuid } from 'uuid';
-
+import { Modal } from 'semantic-ui-react';
 /* Styling */
 import styles from './index.module.scss';
 
@@ -13,17 +13,10 @@ import {
 } from '../../../../selectors/KeywordResearch/KeywordReverse';
 
 /* Actions */
-import {
-  fetchKeywordReverseRequestId,
-  setKeywordReverseProductsList,
-} from '../../../../actions/KeywordResearch/KeywordReverse';
-
-/* Components */
-import ReverseAsinCard from '../../../../components/ReverseAsinCard';
-import ReverseAsinCardOverlay from '../../../../components/ReverseAsinCard/Overlay';
+import { fetchKeywordReverseRequestId } from '../../../../actions/KeywordResearch/KeywordReverse';
 
 /* Assets */
-import { ReactComponent as AddAsinPlusIcon } from '../../../../assets/images/addAsinPlusIcon.svg';
+import { ReactComponent as CirclePlusIcon } from '../../../../assets/images/plus-circle-regular.svg';
 
 /* Interfaces */
 import { KeywordReverseAsinProduct } from '../../../../interfaces/KeywordResearch/KeywordReverse';
@@ -31,11 +24,16 @@ import { KeywordReverseAsinProduct } from '../../../../interfaces/KeywordResearc
 /* Constants */
 import { MAX_ASINS_ALLOWED } from '../../../../constants/KeywordResearch/KeywordReverse';
 
+/* Components */
+import ReverseAsinCard from '../../../../components/ReverseAsinCard';
+import BulkAsinAdder from '../../../../components/BulkAsinAdder';
+import { timeout } from '../../../../utils/timeout';
+
 interface Props {
   isLoadingKeywordReverseProductsList: boolean;
   shouldFetchKeywordReverseProgress: boolean;
   keywordReverseProductsList: KeywordReverseAsinProduct[];
-  setKeywordReverseProductsList: (payload: KeywordReverseAsinProduct[]) => void;
+  fetchKeywordReverseRequestId: (payload: string) => void;
 }
 
 const ReverseAsinDisplay = (props: Props) => {
@@ -43,61 +41,90 @@ const ReverseAsinDisplay = (props: Props) => {
     keywordReverseProductsList,
     isLoadingKeywordReverseProductsList,
     shouldFetchKeywordReverseProgress,
-    setKeywordReverseProductsList,
+    fetchKeywordReverseRequestId,
   } = props;
 
-  const [showAddAsin, setShowAddAsin] = useState(false);
+  const [showAddBulkAsin, setShowAddBulkAsin] = useState(false);
 
-  const totalProducts = keywordReverseProductsList.length;
+  // Handle a product removal
+  const removeProduct = async (asinToRemove: string) => {
+    const updatedAsins =
+      keywordReverseProductsList &&
+      keywordReverseProductsList
+        .filter(product => {
+          return product.asin !== asinToRemove;
+        })
+        .map(a => a.asin)
+        .join(',');
 
-  // Handle a proudtc removal
-  const removeProduct = (asinToRemove: string) => {
-    const currentProducts = keywordReverseProductsList;
-
-    const updatedProducts =
-      currentProducts &&
-      currentProducts.filter(product => {
-        return product.asin !== asinToRemove;
-      });
-
-    setKeywordReverseProductsList(updatedProducts);
+    fetchKeywordReverseRequestId(updatedAsins);
   };
 
-  const dontShowAddAsinCard =
-    totalProducts >= MAX_ASINS_ALLOWED || (totalProducts === MAX_ASINS_ALLOWED - 1 && showAddAsin);
+  // Handle submit and trigger reverse process
+  const handleSubmit = async (payload: any) => {
+    const { asins } = payload;
+    fetchKeywordReverseRequestId(asins);
+    await timeout(1000);
+    setShowAddBulkAsin(false);
+  };
+
+  const currentProductAsins = keywordReverseProductsList.map(a => a.asin).join(',');
+  const totalProducts = keywordReverseProductsList.length;
+  const disableAddAsinCard = totalProducts >= MAX_ASINS_ALLOWED;
 
   return (
     <section className={styles.reverseAsinDisplay}>
       <h2>Asin-Keyword Reversal Results</h2>
 
       <div className={styles.reverseAsinCardsWrapper}>
-        {keywordReverseProductsList &&
-          keywordReverseProductsList.map(keywordProduct => {
-            return (
-              <ReverseAsinCard
-                key={uuid()}
-                data={keywordProduct}
-                isLoading={isLoadingKeywordReverseProductsList || shouldFetchKeywordReverseProgress}
-                handleRemoveProduct={asin => removeProduct(asin)}
-              />
-            );
-          })}
+        {/* Add new ASIN card */}
+        <div
+          className={styles.addAsinCard}
+          style={{
+            opacity: disableAddAsinCard ? 0.6 : 1,
+            cursor: disableAddAsinCard ? 'not-allowed' : 'pointer',
+          }}
+          onClick={() => !disableAddAsinCard && setShowAddBulkAsin(true)}
+        >
+          <CirclePlusIcon />
+          <p>Add ASINs</p>
+        </div>
 
-        {showAddAsin && MAX_ASINS_ALLOWED > totalProducts && (
-          <ReverseAsinCardOverlay
-            hideOverlay={() => setShowAddAsin(false)}
-            isLoading={isLoadingKeywordReverseProductsList || shouldFetchKeywordReverseProgress}
-          />
-        )}
-
-        {!dontShowAddAsinCard && (
-          <>
-            <div className={styles.addAsinCard}>
-              <AddAsinPlusIcon style={{ cursor: 'pointer' }} onClick={() => setShowAddAsin(true)} />
-            </div>
-          </>
-        )}
+        {/* Show the ASIN reverse card list */}
+        <div className={styles.overflowWrapper}>
+          {keywordReverseProductsList &&
+            keywordReverseProductsList.map((keywordProduct, index: number) => {
+              return (
+                <ReverseAsinCard
+                  key={uuid()}
+                  data={keywordProduct}
+                  isLoading={
+                    isLoadingKeywordReverseProductsList || shouldFetchKeywordReverseProgress
+                  }
+                  handleRemoveProduct={asin => removeProduct(asin)}
+                  isActive={index === 0}
+                />
+              );
+            })}
+        </div>
       </div>
+
+      {/* Add Bulk ASSIN's Modal */}
+      <Modal
+        open={showAddBulkAsin}
+        className={styles.addBulkAsinsModal}
+        onClose={() => setShowAddBulkAsin(false)}
+        content={
+          <BulkAsinAdder
+            label="Add Bulk ASINs"
+            maxAsinsAllowed={MAX_ASINS_ALLOWED}
+            currentAsins={currentProductAsins}
+            onSubmit={handleSubmit}
+            submitLabel="Apply"
+            hideReset={true}
+          />
+        }
+      />
     </section>
   );
 };
@@ -114,8 +141,6 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchKeywordReverseRequestId: (payload: string) =>
       dispatch(fetchKeywordReverseRequestId(payload)),
-    setKeywordReverseProductsList: (payload: KeywordReverseAsinProduct[]) =>
-      dispatch(setKeywordReverseProductsList(payload)),
   };
 };
 

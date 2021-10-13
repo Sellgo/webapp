@@ -58,7 +58,9 @@ const ReverseExport = (props: Props) => {
         )}
 
         <TableExport
-          label="All Keywords"
+          label=""
+          disableExport={!shouldEnableXlsxExport}
+          onButtonClick={handleOnExport}
           exportContent={
             <>
               <div className={styles.exportOptions}>

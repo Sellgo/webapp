@@ -1,6 +1,7 @@
 @import '../../design-system/new-colors';
 
 .page-header {
+  background: $light_gray_background !important;
   align-items: center;
   display: flex;
   justify-content: space-between;
@@ -10,7 +11,6 @@
   left: 0;
   z-index: 10000;
   width: 100%;
-  background: #fff;
   min-height: max-content;
   padding-right: 45px !important;
   padding-left: 80px !important;

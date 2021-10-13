@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
 
 /* Components */
+import AdvanceFilterToggle from '../../../../components/AdvanceFilterToggle';
+import CheckboxListFilter from '../../../../components/FormFilters/CheckboxListFilter';
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
@@ -29,7 +30,6 @@ import {
   FULFILMENT_TYPES,
   DEFAULT_FULFILMENT_FILTER,
 } from '../../../../constants/ProductResearch/ProductsDatabase';
-import CheckboxListFilter from '../../../../components/FormFilters/CheckboxListFilter';
 
 interface Props {
   fetchProductsDatabase: (payload: ProductsDatabasePayload) => void;
@@ -173,15 +173,10 @@ const ProductDatabaseFilters = (props: Props) => {
         </div>
 
         <div className={styles.advancedFilterWrapper}>
-          <div
-            className={styles.advancedFilterToggle}
-            onClick={() => setShowAdvancedFilter(prevState => !prevState)}
-          >
-            <span>Advanced Filters</span>
-            <span>
-              {showAdvancedFilter ? <Icon name="chevron up" /> : <Icon name="chevron down" />}
-            </span>
-          </div>
+          <AdvanceFilterToggle
+            handleClick={() => setShowAdvancedFilter(prevState => !prevState)}
+            showAdvancedFilter={showAdvancedFilter}
+          />
 
           {showAdvancedFilter && (
             <div className={styles.showAdvancedFilter}>

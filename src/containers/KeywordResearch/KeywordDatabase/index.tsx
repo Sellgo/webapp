@@ -23,10 +23,10 @@ import { getKeywordDatabaseRequestId } from '../../../selectors/KeywordResearch/
 
 interface Props {
   fetchKeywordDatabaseTableInformation: (paylaod: KeywordDatabaseTablePayload) => void;
-  keywordDatabaseTrackId: string;
+  keywordDatabaseRequestId: string;
 }
 const KeywordDatabase = (props: Props) => {
-  const { fetchKeywordDatabaseTableInformation, keywordDatabaseTrackId } = props;
+  const { fetchKeywordDatabaseTableInformation, keywordDatabaseRequestId } = props;
 
   useEffect(() => {
     const keywordId = sessionStorage.getItem('keywordDatabaseRequestId') || '';
@@ -40,9 +40,9 @@ const KeywordDatabase = (props: Props) => {
   return (
     <main className={styles.keywordDatabasePage}>
       <DatabaseKeywordList />
-      {keywordDatabaseTrackId && <DatabaseFilters />}
+      {keywordDatabaseRequestId && <DatabaseSummary />}
       <DatabaseProgress />
-      <DatabaseSummary />
+      {keywordDatabaseRequestId && <DatabaseFilters />}
       <DatabaseExport />
       <DatabaseTable />
     </main>
@@ -58,7 +58,7 @@ const mapDispatchToProps = (dispatch: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    keywordDatabaseTrackId: getKeywordDatabaseRequestId(state),
+    keywordDatabaseRequestId: getKeywordDatabaseRequestId(state),
   };
 };
 

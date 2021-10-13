@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
-import { Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
-
-/* Components */
-import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
-import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 
 /* Constants */
 import { DEFAULT_MIN_MAX_FILTER } from '../../../../constants/KeywordResearch/KeywordReverse';
@@ -21,6 +16,11 @@ import {
   fetchKeywordReverseTableInformation,
   resetKeywordReverse,
 } from '../../../../actions/KeywordResearch/KeywordReverse';
+
+/* Components */
+import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
+import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
+import AdvanceFilterToggle from '../../../../components/AdvanceFilterToggle';
 
 /* Interfaces */
 import {
@@ -39,7 +39,7 @@ const ReverseFilters = (props: Props) => {
   /* Props */
   const { fetchKeywordReverseTableInfo, resetKeywordReverse, keywordReverseProductsList } = props;
 
-  const [showAdvancedFilter, setShowAdvancedFilter] = useState(true);
+  const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
 
   /* Basic Filters */
   const [searchVolume, setSearchVolume] = useState(DEFAULT_MIN_MAX_FILTER);
@@ -139,15 +139,10 @@ const ReverseFilters = (props: Props) => {
 
       {/* Advanced Filters */}
       <div className={styles.advancedFilterWrapper}>
-        <div
-          className={styles.advancedFilterToggle}
-          onClick={() => setShowAdvancedFilter(prevState => !prevState)}
-        >
-          <span>Advanced Filters</span>
-          <span>
-            {showAdvancedFilter ? <Icon name="chevron up" /> : <Icon name="chevron down" />}
-          </span>
-        </div>
+        <AdvanceFilterToggle
+          handleClick={() => setShowAdvancedFilter(prevState => !prevState)}
+          showAdvancedFilter={showAdvancedFilter}
+        />
 
         {showAdvancedFilter && (
           <div className={styles.showAdvancedFilter}>

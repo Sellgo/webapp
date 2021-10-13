@@ -8,6 +8,10 @@ export const actionTypes = {
 
   SET_KEYWORD_TRACKER_PRODUCTS_EXPANDED_ROW: 'SET_KEYWORD_TRACKER_PRODUCTS_EXPANDED_ROW',
 
+  // Action types for obtaining keyword tracker product variations
+  IS_LOADING_KEYWORD_TRACKER_PRODUCT_VARIATIONS: 'IS_LOADING_KEYWORD_TRACKER_PRODUCT_VARIATIONS',
+  SET_KEYWORD_TRACKER_PRODUCT_VARIATIONS: 'SET_KEYWORD_TRACKER_PRODUCT_VARIATIONS',
+
   // Action types for asetting competitors in keywords products table
   SET_KEYWORD_TRACKER_PRODUCTS_TABLE_COMPETITORS: 'SET_KEYWORD_TRACKER_PRODUCTS_TABLE_COMPETITORS',
 
@@ -33,6 +37,9 @@ export const PRODUCT_KEYWORD_ROW_HEIGHT = 50;
 
 /* Maximum number of competiros allowed */
 export const MAX_COMPETITORS_ALLOWED = 10;
+
+/* Maximum keyword allowed */
+export const MAX_KEYWORDS_ALLOWED = 2000;
 
 /* Unique key on each row for tracker products table */
 export const TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY = 'keyword_track_product_id';

@@ -27,6 +27,7 @@ import {
 /* Assets */
 import { ReactComponent as ChevronRight } from '../../../../assets/images/chevronRight.svg';
 import { ReactComponent as ChevronDown } from '../../../../assets/images/chevronDown.svg';
+import ActionButton from '../../../../components/ActionButton';
 
 interface Props {
   keywordDatabaseKeywordList: string;
@@ -44,6 +45,22 @@ const DatabaseKeywordList = (props: Props) => {
   const [keywords, setKeywords] = useState<string>('');
   const [isTextArea, setIsTextArea] = useState<boolean>(false);
   const [suggestions, setSuggestions] = useState([]);
+  const [isInputKeywordFocused, setInputKeywordFocused] = React.useState(false);
+  const [isSuggestionsOpened, setSuggestionsOpened] = React.useState(false);
+
+  useEffect(() => {
+    if (isInputKeywordFocused) {
+      setSuggestionsOpened(true);
+    } else {
+      /* When unfocusing, close the window after awhile. 
+      The 100s delay is needed incase the user clicks on a suggestion
+      (As time is required to register the onclick event before shutting of the suggestions box)
+      */
+      setTimeout(() => {
+        setSuggestionsOpened(false);
+      }, 100);
+    }
+  }, [isInputKeywordFocused]);
 
   const totalKeywords = keywords
     ? keywords.split(',').filter(keyword => keyword.trim().length > 0).length
@@ -87,10 +104,14 @@ const DatabaseKeywordList = (props: Props) => {
   );
 
   /* Handle keyword Change */
-  const handleKeywordsChange = (value: string) => {
+  const handleKeywordsChange = (value: string, clipboardValue = false) => {
     // set current keyword and ask for suggestion
     setKeywords(value);
-    getSuggestions(value);
+
+    // get suggestion only when user is typing not when the values are pasted from clipboard
+    if (!clipboardValue) {
+      getSuggestions(value);
+    }
   };
 
   return (
@@ -112,17 +133,30 @@ const DatabaseKeywordList = (props: Props) => {
       {!isTextArea && (
         <div className={styles.commaSeperatedInput}>
           {/* Togle Icons */}
-          <InputFilter
-            placeholder="Enter keyword seperated by comma"
-            value={keywords}
-            handleChange={handleKeywordsChange}
-            className={styles.longInput}
-            label="Add Keywords"
-          />
-          {suggestions.length > 0 && (
-            <ul className={styles.keywordSuggestions} onClick={handleSuggestionClick}>
+
+          {/* Wrapper for keyword focus */}
+          <div
+            onFocus={() => setInputKeywordFocused(true)}
+            onBlur={() => setInputKeywordFocused(false)}
+          >
+            <InputFilter
+              placeholder="Enter keyword seperated by comma"
+              value={keywords}
+              handleChange={value => handleKeywordsChange(value, false)}
+              className={styles.longInput}
+              label="Add Keywords"
+              handleOnPaste={value => handleKeywordsChange(value, true)}
+            />
+          </div>
+
+          {suggestions.length > 0 && isSuggestionsOpened && (
+            <ul className={styles.keywordSuggestions}>
               {suggestions.map((suggestion: any, index: number) => {
-                return <li key={suggestion.search_term + index}>{suggestion.search_term}</li>;
+                return (
+                  <li onClick={handleSuggestionClick} key={suggestion.search_term + index}>
+                    {suggestion.search_term}
+                  </li>
+                );
               })}
             </ul>
           )}
@@ -145,15 +179,16 @@ const DatabaseKeywordList = (props: Props) => {
       )}
 
       {/* Fetch keywords button */}
-      <button
+      <ActionButton
         disabled={totalKeywords === 0 || totalKeywords > MAX_KEYWORDS_ALLOWED}
-        className={
-          keywordDatabaseRequestId ? styles.fetchKeywordsActive : styles.fetchKeywordsInActive
-        }
+        variant={keywordDatabaseRequestId ? 'secondary' : 'primary'}
+        type="orange"
+        size="md"
         onClick={handleSubmit}
+        className={styles.searchKeywordBtn}
       >
         Search
-      </button>
+      </ActionButton>
     </section>
   );
 };

@@ -30,6 +30,14 @@
   background: #fff;
   cursor: pointer !important;
 
+  &__focused {
+    border: 2px solid $blue_6 !important;
+  }
+
+  &:hover {
+    background-color: $grey_1 !important;
+  }
+
   .menu.transition {
     border: 1px solid $grey_3 !important;
     width: 100% !important;
@@ -44,6 +52,7 @@
 
       &:hover {
         background: $grey_1 !important;
+        font-weight: 500;
       }
 
       &.active {

@@ -1,8 +1,10 @@
 import React from 'react';
-import { Button } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
+
+/* Components */
+import ActionButton from '../../ActionButton';
 
 interface Props {
   onFind: () => void;
@@ -11,6 +13,8 @@ interface Props {
   resetLabel?: string;
   submitLabel?: string;
   withSecondarySubmit?: boolean;
+  className?: string;
+  hideReset?: boolean;
 }
 
 const FormFilterActions: React.FC<Props> = props => {
@@ -20,26 +24,28 @@ const FormFilterActions: React.FC<Props> = props => {
     disabled = false,
     resetLabel = 'Reset',
     submitLabel = 'Find',
+    className,
     withSecondarySubmit = false,
+    hideReset = false,
   } = props;
 
   return (
-    <div className={styles.formFilterActions}>
-      <Button className={styles.formFilterActions__reset} onClick={onReset} size="small">
-        {resetLabel}
-      </Button>
-      <Button
-        className={`${
-          withSecondarySubmit
-            ? styles.formFilterActions__find__secondary
-            : styles.formFilterActions__find
-        }`}
-        onClick={onFind}
-        size="small"
+    <div className={`${styles.formFilterActions} ${className}`}>
+      {!hideReset && (
+        <ActionButton variant="reset" size="md" onClick={onReset}>
+          {resetLabel}
+        </ActionButton>
+      )}
+
+      <ActionButton
+        variant={withSecondarySubmit ? 'secondary' : 'primary'}
+        type="orange"
         disabled={disabled}
+        size="md"
+        onClick={onFind}
       >
         {submitLabel}
-      </Button>
+      </ActionButton>
     </div>
   );
 };

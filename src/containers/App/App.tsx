@@ -15,21 +15,24 @@ import { connect } from 'react-redux';
 import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
 import '../../analytics';
 import ProductTracker from '../ProductTracker';
-import Signup from '../Signup';
 import ResetPassword from '../ResetPassword';
 import Onboarding from '../Onboarding';
-import SubscriptionPage from '../Subscription';
 import Subscription from '../Settings/Subscription';
+import NewSubscription from '../NewSubscription';
+import PaymentSuccess from '../NewSubscription/PaymentSuccess';
 import Payment from '../Subscription/Payment';
 import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
 import ChurnFlow from '../ChurnFlow';
-import SellerFinder from '../SellerFinder';
 
 import SellerResearch from '../SellerResearch';
+import ProductResearch from '../ProductResearch';
+import KeywordResearch from '../KeywordResearch';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import { isBetaAccount } from '../../utils/subscriptions';
+import Activation from '../NewSubscription/Activation';
+import ActivationSuccess from '../NewSubscription/ActivationSuccess';
 
 export const auth = new Auth();
 
@@ -148,7 +151,7 @@ const PrivateRoute = connect(
           props.match.params.auth = auth;
 
           return (
-            <AdminLayout>
+            <AdminLayout {...props}>
               <Component {...props} />
             </AdminLayout>
           );
@@ -179,25 +182,30 @@ function App() {
           />
           <Route
             exact={true}
-            path="/signup"
-            render={renderProps => <Signup auth={auth} {...renderProps} />}
-          />
-          <Route
-            exact={true}
             path="/reset-password"
             render={renderProps => <ResetPassword auth={auth} {...renderProps} />}
           />
+
           <Route
             exact={true}
             path="/subscription"
-            render={renderProps => <SubscriptionPage auth={auth} {...renderProps} />}
+            render={renderProps => <NewSubscription auth={auth} {...renderProps} />}
           />
+
+          <Route exact={true} path="/subscription/success" component={PaymentSuccess} />
+
+          <Route exact={true} path="/activation/:activationCode" component={Activation} />
+
+          <Route exact={true} path="/activation/success" component={ActivationSuccess} />
+
           <Route
             exact={true}
             path="/subscription/payment"
             render={renderProps => <Payment auth={auth} {...renderProps} />}
           />
+
           <PrivateRoute exact={true} path="/settings" component={Settings} />
+
           <PrivateRoute
             exact={true}
             path="/onboarding"
@@ -232,15 +240,22 @@ function App() {
 
           <PrivateRoute
             exact={true}
-            path="/seller-finder"
-            component={SellerFinder}
+            path="/seller-research/:productName"
+            component={SellerResearch}
             requireSubscription={true}
           />
 
           <PrivateRoute
             exact={true}
-            path="/seller-research"
-            component={SellerResearch}
+            path="/product-research/:productName"
+            component={ProductResearch}
+            requireSubscription={true}
+          />
+
+          <PrivateRoute
+            exact={true}
+            path="/keyword-research/:productName"
+            component={KeywordResearch}
             requireSubscription={true}
           />
 
