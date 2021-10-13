@@ -10,6 +10,7 @@ import './globals.scss';
 /* Selectors */
 import {
   getIsLoadingSellerDatabase,
+  getSellerDatabaseMarketplaceInfo,
   getSellerDatabasePaginationInfo,
   getSellerDatabaseResults,
 } from '../../../../selectors/SellerResearch/SellerDatabase';
@@ -22,10 +23,10 @@ import {
   SellerDatabasePaginationInfo,
   SellerDatabasePayload,
 } from '../../../../interfaces/SellerResearch/SellerDatabase';
+import { MarketPlace } from '../../../../interfaces/Generic';
 
 /* Components */
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
-
 import BrandsListCell from '../../../../components/NewTable/BrandsListCell';
 import RatingCell from '../../../../components/NewTable/RatingCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
@@ -41,6 +42,7 @@ interface Props {
   isLoadingSellerDatabase: boolean;
   sellerDatabaseResults: [];
   sellerDatabaPaginationInfo: SellerDatabasePaginationInfo;
+  sellerMarketplace: MarketPlace;
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
 }
 
@@ -50,6 +52,7 @@ const SellerDatabaseTable = (props: Props) => {
     sellerDatabaseResults,
     fetchSellerDatabase,
     sellerDatabaPaginationInfo,
+    sellerMarketplace,
   } = props;
 
   const [sortColumn, setSortColumn] = useState<string>('');
@@ -61,6 +64,7 @@ const SellerDatabaseTable = (props: Props) => {
     fetchSellerDatabase({
       sort: sortColumn,
       sortDir: sortType === undefined ? 'asc' : sortType,
+      marketplaceId: sellerMarketplace.id,
     });
   };
 
@@ -139,7 +143,11 @@ const SellerDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="sales_estimate" prependWith="$" align="left" />
+            <StatsCell
+              dataKey="sales_estimate"
+              prependWith={sellerMarketplace.currency}
+              align="left"
+            />
           </Table.Column>
 
           {/* FBA Percent */}
@@ -421,6 +429,7 @@ const mapStateToProps = (state: any) => {
     isLoadingSellerDatabase: getIsLoadingSellerDatabase(state),
     sellerDatabaseResults: getSellerDatabaseResults(state),
     sellerDatabaPaginationInfo: getSellerDatabasePaginationInfo(state),
+    sellerMarketplace: getSellerDatabaseMarketplaceInfo(state),
   };
 };
 

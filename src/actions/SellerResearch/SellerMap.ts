@@ -12,6 +12,7 @@ import {
 
 /* Interfaces */
 import { SellerMapPayload, Location } from '../../interfaces/SellerResearch/SellerMap';
+import { MarketplaceOption } from '../../interfaces/SellerResearch/SellerDatabase';
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
@@ -82,6 +83,14 @@ export const setMapBounds = (payload: any) => {
 export const setMapZoom = (payload: number) => {
   return {
     type: actionTypes.SET_ZOOM_FOR_MAP,
+    payload,
+  };
+};
+
+/* Action to set marketplace info for seller map */
+export const setSellerDatabaseMarketplace = (payload: MarketplaceOption) => {
+  return {
+    type: actionTypes.SET_MAP_MARKETPLACE,
     payload,
   };
 };
