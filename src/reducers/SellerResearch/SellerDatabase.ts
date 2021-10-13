@@ -16,6 +16,7 @@ const INITIAL_STATE = {
     total_pages: 0,
     current_page: 0,
   },
+  sellerMarketplace: {},
 };
 
 const sellerDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
@@ -35,6 +36,11 @@ const sellerDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
     case actionTypes.SET_SELLER_DATABASE_PAGINATION_INFO: {
       return setIn(state, 'sellerDatabasePaginationInfo', action.payload);
     }
+
+    case actionTypes.SET_SELLER_DATABASE_MARKETPLACE: {
+      return setIn(state, 'sellerMarketplace', action.payload);
+    }
+
     default: {
       return state;
     }
