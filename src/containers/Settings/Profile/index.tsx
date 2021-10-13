@@ -46,7 +46,6 @@ const Profile = (props: Props) => {
 
   // Password states
   const [isFocusPW, setFocusPassword] = useState<boolean>(false);
-  // const [currentPassword, setCurrentPassword] = useState<string>('')
   const { value: currentPassword, bind: bindPassword, reset: resetPassword } = useInput('');
   const [isShowingCurrentPassword, setShowCurrentPassword] = useState<boolean>(false);
   const { value: newPassword, bind: bindNewPassword, reset: resetNewPassword } = useInput('');
