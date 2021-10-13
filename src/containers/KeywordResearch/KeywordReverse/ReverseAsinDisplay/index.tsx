@@ -28,6 +28,7 @@ import { MAX_ASINS_ALLOWED } from '../../../../constants/KeywordResearch/Keyword
 import ReverseAsinCard from '../../../../components/ReverseAsinCard';
 import BulkAsinAdder from '../../../../components/BulkAsinAdder';
 import { timeout } from '../../../../utils/timeout';
+import AsinReferenceChangeConfirmation from '../../../../components/AsinReferenceChangeConfirmation';
 
 interface Props {
   isLoadingKeywordReverseProductsList: boolean;
@@ -45,6 +46,10 @@ const ReverseAsinDisplay = (props: Props) => {
   } = props;
 
   const [showAddBulkAsin, setShowAddBulkAsin] = useState(false);
+  const [asinReferenceChange, setAsinReferenceChange] = useState({
+    show: false,
+    asin: '',
+  });
 
   // Handle a product removal
   const removeProduct = async (asinToRemove: string) => {
@@ -68,6 +73,7 @@ const ReverseAsinDisplay = (props: Props) => {
     setShowAddBulkAsin(false);
   };
 
+  // Handle Confirm Reference
   const currentProductAsins = keywordReverseProductsList.map(a => a.asin).join(',');
   const totalProducts = keywordReverseProductsList.length;
   const disableAddAsinCard = totalProducts >= MAX_ASINS_ALLOWED;
@@ -101,7 +107,13 @@ const ReverseAsinDisplay = (props: Props) => {
                   isLoading={
                     isLoadingKeywordReverseProductsList || shouldFetchKeywordReverseProgress
                   }
-                  handleRemoveProduct={asin => removeProduct(asin)}
+                  handleRemoveProduct={removeProduct}
+                  handleCardClick={(asin: string) => {
+                    setAsinReferenceChange({
+                      asin,
+                      show: true,
+                    });
+                  }}
                   isActive={index === 0}
                 />
               );
@@ -124,6 +136,13 @@ const ReverseAsinDisplay = (props: Props) => {
             hideReset={true}
           />
         }
+      />
+
+      <Modal
+        className={styles.asinReferenceChangeModal}
+        open={asinReferenceChange.show}
+        onClose={() => setAsinReferenceChange({ show: false, asin: '' })}
+        content={<AsinReferenceChangeConfirmation />}
       />
     </section>
   );

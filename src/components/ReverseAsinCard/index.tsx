@@ -21,11 +21,12 @@ interface Props {
   isLoading: boolean;
   data: KeywordReverseAsinProduct;
   handleRemoveProduct: (asin: string) => void;
+  handleCardClick: (asin: string) => void;
   isActive: boolean;
 }
 
 const ReverseAsinCard = (props: Props) => {
-  const { isLoading, data, handleRemoveProduct, isActive } = props;
+  const { isLoading, data, handleRemoveProduct, isActive, handleCardClick } = props;
 
   const { asin, image_url, title, sales_monthly } = data;
 
@@ -35,11 +36,20 @@ const ReverseAsinCard = (props: Props) => {
   const asinCardClasses = `${styles.reverseAsinCard} ${isActive ? styles.activeCard : ''} `;
 
   return (
-    <div className={asinCardClasses}>
+    <div
+      className={asinCardClasses}
+      onClick={e => {
+        e.preventDefault();
+        handleCardClick(asin);
+      }}
+    >
       <img
         src={crossIcon}
         className={styles.removeAsinIcon}
-        onClick={() => handleRemoveProduct(asin)}
+        onClick={(e: any) => {
+          e.preventDefault();
+          handleRemoveProduct(asin);
+        }}
       />
       <p className={styles.title}>{productTitle}</p>
 

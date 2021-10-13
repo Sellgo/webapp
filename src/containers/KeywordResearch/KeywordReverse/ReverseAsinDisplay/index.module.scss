@@ -93,3 +93,10 @@
 .addBulkAsinsModal {
   @include resetGloablModals;
 }
+
+/* Asin Refence Change Modal */
+.asinReferenceChangeModal {
+  @include resetGloablModals;
+
+  width: max-content !important;
+}
