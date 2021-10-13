@@ -158,7 +158,6 @@ export const SELLER_MAP_MARKETPLACE = defaultMarketplaces
       value: marketplace.id,
       disabled: !DONT_DISABLE.includes(marketplace.code),
       currency: marketplace.currency,
-      id: marketplace.id,
     };
   });
 
