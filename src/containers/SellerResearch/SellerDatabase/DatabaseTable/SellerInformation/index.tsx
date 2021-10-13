@@ -31,7 +31,7 @@ const SellerInformation = (props: RowCell) => {
   const businessCity = rowData.city;
   const businessZipCode = rowData.zip_code;
   const businessCountry = rowData.country;
-  const marketplaceId = rowData.marketplace;
+  const marketplaceId = rowData.marketplace_id;
 
   return (
     <Table.Cell {...props}>

@@ -33,15 +33,16 @@ import 'react-multi-carousel/lib/styles.css';
 /* Components */
 
 import PageHeader from '../../../components/PageHeader';
-
+import PricingPlansSummary from '../../../components/PricingCardsSummary';
 import PricingInfoAlert from '../../../components/PricingInfoAlert';
 
 /* Types */
 import { Subscription } from '../../../interfaces/Seller';
-import PricingPlansSummary from '../../../components/PricingCardsSummary';
-import { subscriptionPlans, SubscriptionPlan } from './data';
-import { DAILY_SUBSCRIPTION_PLANS } from '../../../constants/Settings';
+import { SubscriptionPlan } from '../../../interfaces/Subscription';
 import FAQSection from './FaqSection';
+
+/* Data */
+import { SUBSCRIPTION_PLANS, DAILY_SUBSCRIPTION_PLANS } from '../../../constants/Subscription';
 
 interface SubscriptionProps {
   getSeller: () => void;
@@ -257,7 +258,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               }}
               className={styles.carouselListWrappewr}
             >
-              {subscriptionPlans.map((subscriptionPlan: SubscriptionPlan) => {
+              {SUBSCRIPTION_PLANS.map((subscriptionPlan: SubscriptionPlan) => {
                 const {
                   subscriptionId,
                   monthlyPrice,

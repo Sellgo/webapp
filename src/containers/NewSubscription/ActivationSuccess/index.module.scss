@@ -1,0 +1,69 @@
+@import '../../../design-system/new-colors';
+
+.successPage {
+  background-color: $grey_10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  position: absolute;
+  top: 2rem;
+  left: 15rem;
+
+  img {
+    width: 150px;
+    height: 60px;
+  }
+
+  @media only screen and(max-width: 1600px) {
+    left: 1.5rem;
+  }
+}
+
+.successContainer {
+  padding: 30px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  background: $prim_white;
+  width: 720px;
+  height: 450px;
+  border-radius: 8px;
+  border: 1px solid $grey_3;
+  box-shadow: 0 3px 6px 0 #2e3b4a29;
+
+  h2 {
+    color: $prim_dark_1;
+    font-size: 32px;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 24px;
+    color: $prim_dark_1;
+  }
+
+  button {
+    background: none;
+    width: 400px;
+    border: 1px solid $accent_orange;
+    border-radius: 5px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $accent_orange;
+    outline: 0;
+    font-family: 'Work Sans', sans-serif;
+    cursor: pointer;
+    margin: 0 auto;
+    margin-top: 30px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}

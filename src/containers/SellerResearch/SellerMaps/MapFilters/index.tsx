@@ -133,7 +133,10 @@ const MapFilters = (props: Props) => {
           label="Choose Marketplace"
           marketPlaceChoices={SELLER_MAP_MARKETPLACE}
           marketplaceDetails={marketPlace}
-          handleChange={(option: MarketplaceOption) => setMarketPlace(option)}
+          handleChange={(option: MarketplaceOption) => {
+            setMarketPlace(option);
+            setCountry(option.code);
+          }}
         />
 
         {/* Country */}
