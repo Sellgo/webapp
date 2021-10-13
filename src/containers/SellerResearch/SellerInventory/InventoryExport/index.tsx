@@ -14,6 +14,9 @@ import TableExport from '../../../../components/NewTable/TableExport';
 import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
 import { ReactComponent as CSVExportImage } from '../../../../assets/images/csvExportImage.svg';
 
+/* Utils */
+import { success } from '../../../../utils/notifications';
+
 /* Hooks */
 import { useExportSocket } from '../SocketProviders/InventoryExportProvider';
 
@@ -32,19 +35,25 @@ const InventoryExport = (props: Props) => {
   /* Disable export if month based subscription */
   const shouldDisableExport = sellerSubscription && sellerSubscription.payment_mode === 'monthly';
 
+  /* Export all sellers in table */
+  const handleExportAllSellers = (type: 'xlsx' | 'csv') => {
+    handleExport(type);
+    success('Exporting all seller details. Check progress for updates');
+  };
+
   return (
     <section className={styles.exportsContainer}>
       <TableExport
         label=""
         disableExport={shouldDisableExport}
-        onButtonClick={() => handleExport('xlsx')}
+        onButtonClick={() => handleExportAllSellers('xlsx')}
         exportContent={
           <>
             <div className={styles.exportOptions}>
               <span>Export As</span>
               <button
                 className={styles.exportOption}
-                onClick={() => handleExport('xlsx')}
+                onClick={() => handleExportAllSellers('xlsx')}
                 disabled={shouldDisableExport}
               >
                 <XLSXExportImage /> .XLSX
@@ -52,7 +61,7 @@ const InventoryExport = (props: Props) => {
 
               <button
                 className={styles.exportOption}
-                onClick={() => handleExport('csv')}
+                onClick={() => handleExportAllSellers('csv')}
                 disabled={shouldDisableExport}
               >
                 <CSVExportImage /> .CSV

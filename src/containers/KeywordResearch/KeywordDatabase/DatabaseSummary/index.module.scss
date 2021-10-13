@@ -28,4 +28,29 @@
   font-weight: 500;
   line-height: 1;
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.sortIconGroup {
+  margin-left: 13px;
+  color: inherit;
+  font-size: 10px !important;
+  display: flex;
+  flex-direction: column;
+  justify-items: flex-start;
+  align-items: flex-start;
+
+  i:last-child {
+    margin-top: -5px;
+  }
+}
+
+.activeSort {
+  color: $grey_8 !important;
+}
+
+.inActiveSort {
+  color: $grey_3 !important;
 }

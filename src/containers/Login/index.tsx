@@ -98,7 +98,7 @@ export default function Login(props: Props) {
         <Form.Field control={Button} fluid={true} primary={true} value="Submit">
           Log in
         </Form.Field>
-        <a className="sign-up" href="/signup">
+        <a className="sign-up" href="/subscription">
           <b>Sign up for an account</b>
         </a>
       </Form>

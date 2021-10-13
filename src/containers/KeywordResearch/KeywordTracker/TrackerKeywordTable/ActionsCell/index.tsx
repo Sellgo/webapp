@@ -127,7 +127,7 @@ const ActionsCell = (props: Props) => {
                   >
                     <KeywordBoostTrackIcon fill={isBoostTracked ? '#FC7900' : '#636d76'} />
                   </div>
-                  {isBoostTracked ? 'Untrack Buster' : 'Track Buster'}
+                  {isBoostTracked ? 'Boost Off' : 'Boost On'}
                 </button>
               </div>
             }

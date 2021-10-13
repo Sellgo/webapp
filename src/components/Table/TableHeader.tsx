@@ -303,7 +303,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   }
 
   return (
-    <Table.HeaderCell key={dataKey || Date.now()} {...otherProps} style={{ background: '#fff' }}>
+    <Table.HeaderCell key={dataKey || Date.now()} {...otherProps}>
       <div className={`table-cell-container ${(icon && popUp) || check ? 'popup-cell' : ''}`}>
         {filter && searchIconPosition === 'left' && ColumnFilter}
         {sortable && sortIconPosition === 'left' && Sort}
@@ -444,7 +444,6 @@ const TableHeader = (props: TableHeaderProps) => {
               if (!cell.rows.length) {
                 headerCellProps = {
                   ...headerCellProps,
-                  style: { background: '#fff' },
                 };
                 if (rest.type !== 'trackerTable') {
                   headerCellProps = {

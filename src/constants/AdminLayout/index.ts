@@ -10,7 +10,7 @@ export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
 
   /* Keyword Research */
   '/keyword-research',
-  '/keyword-research/reverse',
+  '/keyword-research/finder',
   '/keyword-research/database',
   '/keyword-research/tracker',
 
@@ -149,7 +149,7 @@ export const OPTIONS: NavOptions = [
         label: 'Keyword Finder',
         description: 'Reveal Competitor Keywords',
         icon: require(`../../assets/images/${NAV_ICONS.KEYWORD_REVERSE}`),
-        path: '/keyword-research/reverse',
+        path: '/keyword-research/finder',
         disabled: false,
         isBeta: true,
       },
@@ -162,7 +162,7 @@ export const OPTIONS: NavOptions = [
         isBeta: true,
       },
       {
-        label: 'Keyword Tracker',
+        label: 'Product Rank Tracker',
         description: 'Get to #1 Search Results',
         icon: require(`../../assets/images/${NAV_ICONS.KEYWORD_TRACKER}`),
         path: '/keyword-research/tracker',

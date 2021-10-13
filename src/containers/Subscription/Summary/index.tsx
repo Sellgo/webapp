@@ -9,12 +9,19 @@ import styles from './index.module.scss';
 import { formatDecimal } from '../../../utils/format';
 
 /* Data */
-import { generateSubscriptionDetails, SummaryDetails } from '../data';
+import { generateSubscriptionDetails } from '../../../constants/Subscription';
 
 /* Types */
-import { PromoCode } from '../../../interfaces/Subscription';
+import { PromoCode, SummaryDetails } from '../../../interfaces/Subscription';
+
+/* Components */
+import OrangeButton from '../../../components/OrangeButton';
+import ChangePlanModal from '../../../components/ChangePlanModal';
 
 interface Props {
+  hideChangePlan?: boolean;
+  setPlanType: (planType: string) => any;
+  setPaymentMode: (paymentMode: string) => any;
   planType: string;
   paymentMode: string;
   promoCode: PromoCode;
@@ -24,7 +31,8 @@ interface Props {
 }
 
 const Summary = (props: Props) => {
-  const { planType, paymentMode, promoCode } = props;
+  const { planType, paymentMode, promoCode, setPlanType, setPaymentMode, hideChangePlan } = props;
+  const [isChangingPlanModalOpen, setChangingPlanModalOpen] = React.useState<boolean>(false);
   const displayAnnualPrice = () => {
     if (promoCode && promoCode.percent_off) {
       return (
@@ -141,7 +149,18 @@ const Summary = (props: Props) => {
   return (
     <>
       <div className={styles.summaryContainer}>
-        <h1>Subscription Summary </h1>
+        <div className={styles.headerRow}>
+          <h1>Subscription Summary </h1>
+          {!hideChangePlan && (
+            <OrangeButton
+              type="secondary"
+              size="small"
+              onClick={() => setChangingPlanModalOpen(!isChangingPlanModalOpen)}
+            >
+              Change Plan
+            </OrangeButton>
+          )}
+        </div>
         <div className={styles.planDetails}>
           <p className={styles.planDetails__planName}>{summaryDetails.name}</p>
 
@@ -158,6 +177,14 @@ const Summary = (props: Props) => {
             return <li key={index}>- {benefit}</li>;
           })}
         </ul>
+        <ChangePlanModal
+          setPlanType={setPlanType}
+          setPaymentMode={setPaymentMode}
+          planType={planType}
+          paymentMode={paymentMode}
+          isChangingPlanModalOpen={isChangingPlanModalOpen}
+          setChangingPlanModalOpen={setChangingPlanModalOpen}
+        />
       </div>
     </>
   );

@@ -45,18 +45,17 @@ const StatsCell = (props: Props) => {
       break;
   }
 
-  let displayStat = asRounded ? formatNumber(rowData[dataKey]) : rowData[dataKey];
-
-  // format position rank KPI seperately
-  if (dataKey === 'position_rank' && !rowData[dataKey]) {
-    displayStat = '>300';
-  }
+  const displayStat = asRounded ? formatNumber(rowData[dataKey]) : rowData[dataKey];
 
   return (
     <Table.Cell {...otherProps}>
       <div
         className={styles.statsCell}
-        style={{ alignSelf: alignSettings, color: specialKpi ? '#3B4557' : '#636d76' }}
+        style={{
+          alignSelf: alignSettings,
+          color: specialKpi ? '#3B4557' : '#636d76',
+          fontWeight: specialKpi ? 500 : 400,
+        }}
       >
         {showNAIfZeroOrNull(displayStat, `${prependWith}${displayStat}${appendWith}`)}
       </div>

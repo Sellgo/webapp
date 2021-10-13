@@ -65,3 +65,9 @@ export const isBetaAccount = (sellerSubscription: SellerSubscription) => {
     isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) && sellerSubscription.is_beta
   );
 };
+
+/* Convert from text readable plan name to key format plan name */
+export const convertPlanNameToKey = (planType: string) => {
+  const planTypeWithoutSpaces = planType.split(' ').join('');
+  return planTypeWithoutSpaces.toLowerCase();
+};

@@ -161,7 +161,7 @@ const TrackerTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="tracked_keywords" align="center" specialKpi />
+          <StatsCell dataKey="tracked_keywords" align="center" />
         </Table.Column>
 
         {/* Amazon Choice */}
