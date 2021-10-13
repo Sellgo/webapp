@@ -19,3 +19,8 @@ export const getSellerDatabaseResults = (state: any) => {
 export const getSellerDatabasePaginationInfo = (state: any) => {
   return get(state, 'sellerDatabase.sellerDatabasePaginationInfo');
 };
+
+/* Selector to get seller database marketplace info */
+export const getSellerDatabaseMarketplaceInfo = (state: any) => {
+  return get(state, 'sellerDatabase.sellerMarketplace');
+};

@@ -10,6 +10,7 @@ import './globals.scss';
 /* Selectors */
 import {
   getIsLoadingSellerDatabase,
+  getSellerDatabaseMarketplaceInfo,
   getSellerDatabasePaginationInfo,
   getSellerDatabaseResults,
 } from '../../../../selectors/SellerResearch/SellerDatabase';
@@ -21,6 +22,7 @@ import { fetchSellerDatabase } from '../../../../actions/SellerResearch/SellerDa
 import {
   SellerDatabasePaginationInfo,
   SellerDatabasePayload,
+  MarketplaceOption,
 } from '../../../../interfaces/SellerResearch/SellerDatabase';
 
 /* Components */
@@ -42,6 +44,7 @@ interface Props {
   sellerDatabaseResults: [];
   sellerDatabaPaginationInfo: SellerDatabasePaginationInfo;
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
+  sellerMarketplace: MarketplaceOption;
 }
 
 const SellerDatabaseTable = (props: Props) => {
@@ -50,6 +53,7 @@ const SellerDatabaseTable = (props: Props) => {
     sellerDatabaseResults,
     fetchSellerDatabase,
     sellerDatabaPaginationInfo,
+    sellerMarketplace,
   } = props;
 
   const [sortColumn, setSortColumn] = useState<string>('');
@@ -61,6 +65,7 @@ const SellerDatabaseTable = (props: Props) => {
     fetchSellerDatabase({
       sort: sortColumn,
       sortDir: sortType === undefined ? 'asc' : sortType,
+      marketplaceId: sellerMarketplace.value,
     });
   };
 
@@ -139,7 +144,11 @@ const SellerDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="sales_estimate" prependWith="$" align="left" />
+            <StatsCell
+              dataKey="sales_estimate"
+              prependWith={sellerMarketplace.currency}
+              align="left"
+            />
           </Table.Column>
 
           {/* FBA Percent */}
@@ -191,7 +200,13 @@ const SellerDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="growth_month" appendWith="%" align="left" asRounded={false} />
+            <StatsCell
+              dataKey="growth_month"
+              appendWith="%"
+              align="left"
+              asRounded={false}
+              asFloatRounded={true}
+            />
           </Table.Column>
 
           {/* 3 Month Growth % */}
@@ -204,7 +219,13 @@ const SellerDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="growth_L90D" appendWith="%" align="left" asRounded={false} />
+            <StatsCell
+              dataKey="growth_L90D"
+              appendWith="%"
+              align="left"
+              asRounded={false}
+              asFloatRounded={true}
+            />
           </Table.Column>
 
           {/* 6 Month Growth % */}
@@ -217,7 +238,13 @@ const SellerDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="growth_L180D" appendWith="%" align="left" asRounded={false} />
+            <StatsCell
+              dataKey="growth_L180D"
+              appendWith="%"
+              align="left"
+              asRounded={false}
+              asFloatRounded={true}
+            />
           </Table.Column>
 
           {/* 12 Month Growth % */}
@@ -230,7 +257,13 @@ const SellerDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="growth_year" appendWith="%" align="left" asRounded={false} />
+            <StatsCell
+              dataKey="growth_year"
+              appendWith="%"
+              align="left"
+              asRounded={false}
+              asFloatRounded={true}
+            />
           </Table.Column>
 
           {/* 1 Month Growth Count*/}
@@ -421,6 +454,7 @@ const mapStateToProps = (state: any) => {
     isLoadingSellerDatabase: getIsLoadingSellerDatabase(state),
     sellerDatabaseResults: getSellerDatabaseResults(state),
     sellerDatabaPaginationInfo: getSellerDatabasePaginationInfo(state),
+    sellerMarketplace: getSellerDatabaseMarketplaceInfo(state),
   };
 };
 

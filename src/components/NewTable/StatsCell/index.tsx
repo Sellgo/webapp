@@ -5,7 +5,7 @@ import { Table } from 'rsuite';
 import styles from './index.module.scss';
 
 /* Utils */
-import { formatNumber, showNAIfZeroOrNull } from '../../../utils/format';
+import { formatNumber, formatDecimal, showNAIfZeroOrNull } from '../../../utils/format';
 
 /* Types */
 import { RowCell } from '../../../interfaces/Table';
@@ -16,6 +16,7 @@ interface Props extends RowCell {
   align?: 'left' | 'right' | 'center';
   specialKpi?: boolean;
   asRounded?: boolean;
+  asFloatRounded?: boolean;
 }
 
 const StatsCell = (props: Props) => {
@@ -25,6 +26,7 @@ const StatsCell = (props: Props) => {
     align = 'left',
     specialKpi = false,
     asRounded = true,
+    asFloatRounded = false,
     ...otherProps
   } = props;
 
@@ -45,7 +47,14 @@ const StatsCell = (props: Props) => {
       break;
   }
 
-  let displayStat = asRounded ? formatNumber(rowData[dataKey]) : rowData[dataKey];
+  let displayStat;
+  if (asRounded) {
+    displayStat = formatNumber(rowData[dataKey]);
+  } else if (asFloatRounded) {
+    displayStat = formatDecimal(rowData[dataKey]);
+  } else {
+    displayStat = rowData[dataKey];
+  }
 
   // format position rank KPI seperately
   if (dataKey === 'position_rank' && !rowData[dataKey]) {
