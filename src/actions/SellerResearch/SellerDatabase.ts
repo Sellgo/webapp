@@ -9,6 +9,7 @@ import {
   SellerDatabasePaginationInfo,
   SellerDatabasePayload,
   ShowFilterMessage,
+  MarketplaceOption,
 } from '../../interfaces/SellerResearch/SellerDatabase';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { getSellerDatabaseResults } from '../../selectors/SellerResearch/SellerDatabase';
@@ -43,6 +44,14 @@ export const setSellerDatabaseFilterMessage = (payload: ShowFilterMessage) => {
 export const setSellerDatabasePaginationInfo = (payload: SellerDatabasePaginationInfo) => {
   return {
     type: actionTypes.SET_SELLER_DATABASE_PAGINATION_INFO,
+    payload,
+  };
+};
+
+/* Action to set marketplace info for seller database */
+export const setSellerDatabaseMarketplace = (payload: MarketplaceOption) => {
+  return {
+    type: actionTypes.SET_SELLER_DATABASE_MARKETPLACE,
     payload,
   };
 };
