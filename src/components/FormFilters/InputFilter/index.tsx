@@ -79,7 +79,7 @@ const InputFilter: React.FC<Props> = props => {
         onPaste={(e: any) => {
           const pastedValue = e.clipboardData;
           const value = pastedValue.getData('Text');
-          handleOnPaste && handleOnPaste(value);
+          handleOnPaste ? handleOnPaste(value) : handleChange(value);
           e.clipboardData.setData('text/plain', '');
           e.preventDefault();
         }}
