@@ -21,3 +21,54 @@
     z-index: 1000 !important;
   }
 }
+
+.StepsInfo__container {
+  padding: 0 !important;
+
+  &::before {
+    z-index: -900 !important;
+  }
+
+  .vertical.steps .title-success,
+  .vertical.steps .description-success {
+    color: #5dc560 !important;
+  }
+
+  .vertical.steps .title-error,
+  .vertical.steps .description-error {
+    color: #eb675e !important;
+    background-color: #f3f4f5;
+  }
+
+  .ui.left.center.popup {
+    left: 575px;
+  }
+
+  .ui.vertical.steps .step {
+    padding: 7px 15px !important;
+
+    .content {
+      padding-left: 10px;
+      width: 180px;
+
+      .description {
+        text-align: left;
+        line-height: initial;
+      }
+    }
+  }
+
+  .ui.steps .step > .icon {
+    font-size: x-large;
+  }
+
+  div.ui.steps {
+    border: 0;
+    width: 260px;
+  }
+
+  .ui.vertical.steps .active.step::after,
+  .ui.vertical.steps .active.step:last-child::after {
+    display: none;
+  }
+}

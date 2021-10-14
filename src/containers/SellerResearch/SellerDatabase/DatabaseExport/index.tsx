@@ -12,6 +12,7 @@ import {
   SellerDatabasePaginationInfo,
   SellerDatabasePayload,
   ShowFilterMessage,
+  MarketplaceOption,
 } from '../../../../interfaces/SellerResearch/SellerDatabase';
 
 /* Selectors */
@@ -19,6 +20,7 @@ import {
   getFilterMessage,
   getIsLoadingSellerDatabase,
   getSellerDatabasePaginationInfo,
+  getSellerDatabaseMarketplaceInfo,
   getSellerDatabaseResults,
 } from '../../../../selectors/SellerResearch/SellerDatabase';
 
@@ -36,6 +38,7 @@ interface Props {
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
   sellerDatabaseFilterMessage: ShowFilterMessage;
   sellerDatabasePaginationInfo: SellerDatabasePaginationInfo;
+  sellerMarketplace: MarketplaceOption;
 }
 
 const DatabaseExport = (props: Props) => {
@@ -45,10 +48,11 @@ const DatabaseExport = (props: Props) => {
     isLoadingSellerDatabase,
     sellerDatabaseFilterMessage,
     sellerDatabasePaginationInfo,
+    sellerMarketplace,
   } = props;
 
   const handleOnExport = (fileFormat: 'csv' | 'xlsx') => {
-    fetchSellerDatabase({ isExport: true, fileFormat });
+    fetchSellerDatabase({ isExport: true, fileFormat, marketplaceId: sellerMarketplace.value });
   };
 
   const shouldEnableExport = useMemo(
@@ -104,6 +108,7 @@ const mapStateToProps = (state: any) => ({
   isLoadingSellerDatabase: getIsLoadingSellerDatabase(state),
   sellerDatabaseFilterMessage: getFilterMessage(state),
   sellerDatabasePaginationInfo: getSellerDatabasePaginationInfo(state),
+  sellerMarketplace: getSellerDatabaseMarketplaceInfo(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {
