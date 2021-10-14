@@ -39,96 +39,6 @@
   }
 }
 
-.dropdownTrigger {
-  display: flex;
-  align-items: center;
-
-  img {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-  }
-
-  span {
-    font-size: 14px !important;
-    font-weight: 600 !important;
-  }
-}
-
-.dropdown {
-  color: $grey_8 !important;
-  border: 1px solid $grey_3 !important;
-  max-height: 40px !important;
-  min-height: 40px !important;
-  width: 300px !important;
-  font-size: 14px;
-  font-weight: 600 !important;
-  display: flex !important;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 10px !important;
-  border-radius: 4px !important;
-  background: #fff !important;
-
-  &:focus {
-    border: 2px solid $blue_6 !important;
-  }
-
-  &:hover {
-    background-color: $grey_1 !important;
-  }
-}
-
-.dropdownMenu {
-  border: 1px solid $grey_3 !important;
-  width: 100% !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  max-height: 250px !important;
-  z-index: 999999 !important;
-
-  /* width */
-  &::-webkit-scrollbar {
-    width: 5px !important;
-  }
-
-  /* Track */
-  &::-webkit-scrollbar-track {
-    border-radius: 5px;
-    background-color: $grey_1 !important;
-  }
-
-  /* Handle */
-  &::-webkit-scrollbar-thumb {
-    background: $grey_6 !important;
-    border-radius: 3px;
-  }
-
-  /* Handle on hover */
-  &::-webkit-scrollbar-thumb:hover {
-    background: $grey_6 !important;
-  }
-}
-
-.dropdownItem {
-  display: flex !important;
-  align-items: center !important;
-
-  img {
-    width: 20px;
-    height: 20px;
-  }
-
-  span {
-    font-size: 14px !important;
-  }
-
-  &:hover {
-    background: $grey_1 !important;
-    font-weight: 500 !important;
-  }
-}
-
 .formInput {
   display: grid;
   grid-template-columns: 160px 300px;
@@ -141,6 +51,15 @@
     margin-top: 10px !important;
   }
 
+  &__apiType {
+    p {
+      margin: 0;
+      color: $prim_dark_1 !important;
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+
   .formLabel {
     width: 100%;
     text-align: right;
@@ -149,16 +68,22 @@
   .formValue {
     margin: 0;
 
-    i {
+    .pencilIcon {
+      font-size: 10px;
       margin-left: 10px;
     }
 
+    /* Zapier icon and key icon */
     img {
       margin-right: 10px;
     }
 
     &__key {
       color: $grey_6;
+    }
+
+    &__showKey {
+      font-weight: 600;
     }
   }
 
@@ -169,6 +94,12 @@
     &:focus {
       border: 2px solid $blue_6 !important;
     }
+  }
+
+  .warningMessage {
+    grid-column-start: 2;
+    color: $system_blue;
+    font-weight: 500;
   }
 }
 

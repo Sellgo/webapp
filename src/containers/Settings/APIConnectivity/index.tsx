@@ -23,7 +23,7 @@ const APIConnectivity = (props: Props) => {
         auth={match.params.auth}
       />
       <main className={styles.connectivityPageWrapper}>
-        <ProfileBoxHeader>Amazon MWS Authorization</ProfileBoxHeader>
+        <ProfileBoxHeader>API Keys</ProfileBoxHeader>
         <ProfileBoxContainer>
           <p className={styles.apiFormTitle}> Please select your API keys below. </p>
           <APIForm />
