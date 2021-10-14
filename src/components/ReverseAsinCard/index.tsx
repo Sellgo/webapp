@@ -42,6 +42,10 @@ const ReverseAsinCard = (props: Props) => {
         e.preventDefault();
         handleCardClick(asin);
       }}
+      onContextMenu={e => {
+        e.preventDefault();
+        handleCardClick(asin);
+      }}
     >
       <img
         src={crossIcon}
