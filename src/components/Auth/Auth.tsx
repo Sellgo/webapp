@@ -118,8 +118,10 @@ export default class Auth {
       data.stripe_subscription_id &&
       data.activation_code &&
       data.subscription_id &&
-      data.payment_mode
+      data.payment_mode &&
+      data.stripe_customer_id
     ) {
+      formData.append('stripe_customer_id', data.stripe_customer_id);
       formData.append('stripe_subscription_id', data.stripe_subscription_id);
       formData.append('activation_code', data.activation_code);
       formData.append('subscription_id', data.subscription_id);
