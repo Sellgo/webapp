@@ -22,6 +22,8 @@ export const actionTypes = {
   SET_MAP_BOUNDS: 'SET_MAP_BOUNDS',
   // Set zoom for map
   SET_ZOOM_FOR_MAP: 'SET_ZOOM_FOR_MAP',
+
+  SET_MAP_MARKETPLACE: 'SET_MAP_MARKETPLACE',
 };
 
 /* Map defaults */
@@ -143,7 +145,7 @@ export const STATES_DROPDOWN_LIST = [
   ...ALL_US_STATES,
 ];
 
-export const DONT_DISABLE = ['US'];
+export const DONT_DISABLE = ['US', 'GB'];
 
 /* Marketplace options for seller DB */
 export const SELLER_MAP_MARKETPLACE = defaultMarketplaces

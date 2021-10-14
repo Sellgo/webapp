@@ -6,6 +6,7 @@ export const actionTypes = {
   SET_SELLER_DATABASE_RESULTS: 'SET_SELLER_DATABASE_RESULTS',
   SHOW_FILTER_MESSAGE: 'SHOW_FILTER_MESSAGE',
   SET_SELLER_DATABASE_PAGINATION_INFO: 'SET_SELLER_DATABASE_PAGINATION_INFO',
+  SET_SELLER_DATABASE_MARKETPLACE: 'SET_SELLER_DATABASE_MARKETPLACE',
 };
 
 export const INFO_FILTER_MESSAGE = `Enter at least one filter and click 'Find' to get started!`;
@@ -149,7 +150,7 @@ export const EXPORT_FORMATS = [
 
 export const EXPORT_DATA = [{ key: 'all', value: 'all', text: 'All Results' }];
 
-export const DONT_DISABLE = ['US'];
+export const DONT_DISABLE = ['US', 'GB'];
 
 /* Marketplace options for seller DB */
 export const SELLER_DB_MARKETPLACE = defaultMarketplaces

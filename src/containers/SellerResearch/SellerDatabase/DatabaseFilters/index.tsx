@@ -6,7 +6,10 @@ import { connect } from 'react-redux';
 import styles from './index.module.scss';
 
 /* Actions */
-import { fetchSellerDatabase } from '../../../../actions/SellerResearch/SellerDatabase';
+import {
+  fetchSellerDatabase,
+  setSellerDatabaseMarketplace,
+} from '../../../../actions/SellerResearch/SellerDatabase';
 
 /* Interfaces */
 import {
@@ -55,10 +58,11 @@ import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
 
 interface Props {
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
+  setSellerDatabaseMarketplace: (payload: MarketplaceOption) => void;
 }
 
 const SellerDatabaseFilters = (props: Props) => {
-  const { fetchSellerDatabase } = props;
+  const { fetchSellerDatabase, setSellerDatabaseMarketplace } = props;
 
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
 
@@ -130,6 +134,7 @@ const SellerDatabaseFilters = (props: Props) => {
 
   const handleReset = () => {
     setMarketPlace(DEFAULT_US_MARKET);
+    setSellerDatabaseMarketplace(DEFAULT_US_MARKET);
     setMerchantName('');
     setCategories([]);
     setMonthlyRevenue(DEFAULT_MIN_MAX_FILTER);
@@ -273,6 +278,7 @@ const SellerDatabaseFilters = (props: Props) => {
             marketPlaceChoices={SELLER_DB_MARKETPLACE}
             handleChange={(option: MarketplaceOption) => {
               setMarketPlace(option);
+              setSellerDatabaseMarketplace(option);
             }}
           />
 
@@ -641,6 +647,8 @@ const SellerDatabaseFilters = (props: Props) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchSellerDatabase: (payload: SellerDatabasePayload) => dispatch(fetchSellerDatabase(payload)),
+    setSellerDatabaseMarketplace: (payload: MarketplaceOption) =>
+      dispatch(setSellerDatabaseMarketplace(payload)),
   };
 };
 
