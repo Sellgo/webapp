@@ -57,12 +57,14 @@ const AddProductKeywordModal = (props: Props) => {
   const handleSubmit = () => {
     const addedKeywords = keywords
       .split('\n')
-      .filter(a => a.length > 0)
+      .filter(a => a.trim().length > 0)
       .join(',');
 
     const formattedKeywords = removeSpecialChars
       ? removeSpecialCharctersFromKeywords(addedKeywords)
       : addedKeywords;
+
+    console.log(formattedKeywords);
 
     onSubmit({
       asin: parentAsin ? parentAsin : productAsin,
@@ -78,7 +80,7 @@ const AddProductKeywordModal = (props: Props) => {
       setProductAsin('');
     }
 
-    setKeywords(currentKeywordsList ? currentKeywordsList : '');
+    setKeywords(currentKeywordsList);
     setRemoveSpecialChars(false);
     setTrackParentsAndVariations(false);
   };
