@@ -241,7 +241,7 @@ function CheckoutForm(props: MyProps) {
           .map(b => b.toString(16).padStart(2, '0'))
           .join('')}`;
 
-        const randomPasswordLength = Math.min(12, Math.random() * 32);
+        const randomPasswordLength = Math.max(20, Math.random() * 32);
         const randomPassword = generator.generate({
           length: randomPasswordLength,
           symbols: true,
