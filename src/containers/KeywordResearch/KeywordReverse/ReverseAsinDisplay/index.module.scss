@@ -93,3 +93,36 @@
 .addBulkAsinsModal {
   @include resetGloablModals;
 }
+
+/* Changing ASIn refernce popup */
+.changeAsinReferencePopup {
+  padding: 0 !important;
+  z-index: 99999999 !important;
+
+  &::before {
+    display: none;
+  }
+}
+
+.changeAsinMessage {
+  background: #fff;
+  padding: 0 !important;
+
+  button {
+    background: #fff;
+    color: $grey_8 !important;
+    border: 0;
+    outline: 0;
+    width: 100%;
+    font-weight: 500 !important;
+    font-size: 14px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    &:hover {
+      background: $grey_1 !important;
+      font-weight: 600 !important;
+    }
+  }
+}
