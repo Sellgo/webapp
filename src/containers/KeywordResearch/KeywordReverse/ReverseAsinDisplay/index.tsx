@@ -27,8 +27,9 @@ import { MAX_ASINS_ALLOWED } from '../../../../constants/KeywordResearch/Keyword
 /* Components */
 import ReverseAsinCard from '../../../../components/ReverseAsinCard';
 import BulkAsinAdder from '../../../../components/BulkAsinAdder';
+
+/* Utils */
 import { timeout } from '../../../../utils/timeout';
-// import AsinReferenceChangeConfirmation from '../../../../components/AsinReferenceChangeConfirmation';
 
 interface Props {
   isLoadingKeywordReverseProductsList: boolean;
