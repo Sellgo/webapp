@@ -15,6 +15,7 @@ import styles from './index.module.scss';
 /* Components */
 import OrangeButton from '../../../../components/OrangeButton';
 import ActionButton from '../../../../components/ActionButton';
+import CopyToClipboard from '../../../../components/CopyToClipboard';
 
 /* Assets */
 import KeyIcon from '../../../../assets/images/key-regular.svg';
@@ -180,7 +181,11 @@ const APIForm = () => {
             `}
             >
               <img src={KeyIcon} alt="key-icon" />
-              {apiKey.length > 0 ? apiKey : '*****************'}
+              {apiKey.length > 0 ? (
+                <CopyToClipboard className={styles.copyToClipboard} data={apiKey} />
+              ) : (
+                '*****************'
+              )}
             </p>
             {apiKey.length > 0 && (
               <p className={styles.warningMessage}>

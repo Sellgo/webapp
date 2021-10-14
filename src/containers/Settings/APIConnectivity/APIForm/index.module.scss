@@ -31,12 +31,8 @@
   }
 }
 
-.pencilIcon {
-  z-index: 99999999;
-
-  &:hover {
-    cursor: pointer;
-  }
+.copyToClipboard {
+  display: flex;
 }
 
 .formInput {
@@ -83,6 +79,7 @@
     }
 
     &__showKey {
+      display: flex;
       font-weight: 600;
     }
   }
