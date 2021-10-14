@@ -194,9 +194,9 @@ function App() {
 
           <Route exact={true} path="/subscription/success" component={PaymentSuccess} />
 
-          <Route exact={true} path="/activation/:activationCode" component={Activation} />
-
           <Route exact={true} path="/activation/success" component={ActivationSuccess} />
+
+          <Route exact={true} path="/activation/:activationCode" component={Activation} />
 
           <Route
             exact={true}
