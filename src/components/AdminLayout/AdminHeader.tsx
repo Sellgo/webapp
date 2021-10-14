@@ -111,7 +111,7 @@ const AdminHeader = (props: Props) => {
             </div>
             <Dropdown.Item as={Link} to="/settings/profile" className="dropdownItem">
               <img src={SettingsIcon} alt="settings-icon" />
-              Settings
+              Profile
             </Dropdown.Item>
             <Dropdown.Item
               as={Link}
