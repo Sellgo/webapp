@@ -69,10 +69,14 @@ export const DEFAULT_PAGES_LIST = [
 /* Calculate tracker product table exanded row height */
 export const calculateTrackerProductTableExpandedHeight = (noOfItems: number) => {
   if (noOfItems <= 0) {
-    return 350;
+    return 320;
   }
 
-  return 500;
+  const heightWithOffset = (noOfItems + 5) * PRODUCT_KEYWORD_ROW_HEIGHT;
+
+  const expandedRowHeight = Math.min(heightWithOffset, 500);
+
+  return expandedRowHeight;
 };
 
 /* Calulate height for the keyword child table */
@@ -81,5 +85,9 @@ export const calculateKeywordsTableHeight = (noOfItems: number) => {
     return 250;
   }
 
-  return 320;
+  const heightWithOffset = (noOfItems + 3) * PRODUCT_KEYWORD_ROW_HEIGHT;
+
+  const expandedRowHeight = Math.min(heightWithOffset, 350);
+
+  return expandedRowHeight;
 };

@@ -494,6 +494,7 @@ export const fetchTrackerProductKeywordsTable = (
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track?${resourcePath}`;
 
+    setTrackerProductKeywordsTableResults([]);
     dispatch(isLoadingTrackerProductKeywordsTable(enableLoader));
 
     const { data } = await axios.get(URL);
