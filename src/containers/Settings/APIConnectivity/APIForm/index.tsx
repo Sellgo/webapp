@@ -131,7 +131,7 @@ const APIForm = () => {
         />
 
         <div className={`${styles.formInput} ${styles.formInput__apiType}`}>
-          <label className={styles.formLabel}> 3rd Party API </label>
+          <label className={styles.formLabel}> 3rd Party </label>
           <p className={`${styles.formValue} ${styles.formValue__key}`}>
             <img src={API_TYPES_LIST[0].icon} alt={API_TYPES_LIST[0].name} />
             Zapier
