@@ -302,7 +302,10 @@ export const fetchKeywordReverseProductsList = (
     const { data } = await axios.get(URL);
 
     if (data) {
-      dispatch(setKeywordReverseProductsList(data));
+      // sort the posotion in ascending order
+      const sortedByPosition = data.sort((a: any, b: any) => a.position - b.position);
+
+      dispatch(setKeywordReverseProductsList(sortedByPosition));
       dispatch(isLoadingKeywordReverseProductsList(false));
     } else {
       dispatch(setKeywordReverseProductsList([]));
