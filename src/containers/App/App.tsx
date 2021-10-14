@@ -3,7 +3,6 @@ import { Route, Router, Switch } from 'react-router-dom';
 import Axios from 'axios';
 import AdminLayout from '../../components/AdminLayout';
 import ScrollToTop from '../../components/ScrollToTop';
-import Settings from '../Settings';
 import Home from '../Home';
 import Synthesis from '../Synthesis';
 import SupplierDetail from '../Synthesis/Supplier';
@@ -207,8 +206,6 @@ function App() {
             path="/subscription/payment"
             render={renderProps => <Payment auth={auth} {...renderProps} />}
           />
-
-          <PrivateRoute exact={true} path="/settings" component={Settings} />
 
           <PrivateRoute
             exact={true}

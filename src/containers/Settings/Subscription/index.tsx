@@ -172,7 +172,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
           title={'Pricing Plans'}
           breadcrumb={[
             { content: 'Home', to: '/' },
-            { content: 'Settings', to: '/settings' },
+            { content: 'Settings' },
             { content: 'Pricing' },
           ]}
           auth={match.params.auth}

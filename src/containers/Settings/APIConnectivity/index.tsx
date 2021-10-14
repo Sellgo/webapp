@@ -17,7 +17,7 @@ const APIConnectivity = (props: Props) => {
         title={'API Keys'}
         breadcrumb={[
           { content: 'Home', to: '/' },
-          { content: 'Settings', to: '/settings' },
+          { content: 'Settings' },
           { content: 'API Keys' },
         ]}
         auth={match.params.auth}

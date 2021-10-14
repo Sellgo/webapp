@@ -144,11 +144,7 @@ const Billing = (props: Props) => {
     <>
       <PageHeader
         title={'Billing'}
-        breadcrumb={[
-          { content: 'Home', to: '/' },
-          { content: 'Settings', to: '/settings' },
-          { content: 'Billing' },
-        ]}
+        breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Settings' }, { content: 'Billing' }]}
         auth={match.params.auth}
       />
 

@@ -14,7 +14,7 @@ const Connectivity = (props: Props) => {
         title={'Connectivity'}
         breadcrumb={[
           { content: 'Home', to: '/' },
-          { content: 'Settings', to: '/settings' },
+          { content: 'Settings' },
           { content: 'Connectivity' },
         ]}
         auth={match.params.auth}

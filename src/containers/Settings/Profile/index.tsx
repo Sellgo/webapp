@@ -162,11 +162,7 @@ const Profile = (props: Props) => {
     <>
       <PageHeader
         title={'Profile'}
-        breadcrumb={[
-          { content: 'Home', to: '/' },
-          { content: 'Settings', to: '/settings' },
-          { content: 'Profile' },
-        ]}
+        breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Settings' }, { content: 'Profile' }]}
         auth={match.params.auth}
       />
 
