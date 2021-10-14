@@ -230,7 +230,7 @@ function CheckoutForm(props: MyProps) {
         handleError('Failed to make payment.');
         return;
       }
-      console.log(stripeSubscription);
+
       /* Create auth0 account */
       if (stripeSubscription) {
         /* Generating Hash */
