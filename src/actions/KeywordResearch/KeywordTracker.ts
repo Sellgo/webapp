@@ -468,7 +468,7 @@ export const fetchTrackerProductKeywordsTable = (
     const {
       keywordTrackProductId,
       enableLoader = true,
-      perPage = 20,
+      perPage = 2000,
       page = 1,
       sort = 'id',
       sortDir = 'asc',
