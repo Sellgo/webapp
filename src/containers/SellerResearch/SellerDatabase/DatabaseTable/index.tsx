@@ -200,7 +200,13 @@ const SellerDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="growth_month" appendWith="%" align="left" asRounded={false} />
+            <StatsCell
+              dataKey="growth_month"
+              appendWith="%"
+              align="left"
+              asRounded={false}
+              asFloatRounded={true}
+            />
           </Table.Column>
 
           {/* 3 Month Growth % */}
@@ -213,7 +219,13 @@ const SellerDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="growth_L90D" appendWith="%" align="left" asRounded={false} />
+            <StatsCell
+              dataKey="growth_L90D"
+              appendWith="%"
+              align="left"
+              asRounded={false}
+              asFloatRounded={true}
+            />
           </Table.Column>
 
           {/* 6 Month Growth % */}
@@ -226,7 +238,13 @@ const SellerDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="growth_L180D" appendWith="%" align="left" asRounded={false} />
+            <StatsCell
+              dataKey="growth_L180D"
+              appendWith="%"
+              align="left"
+              asRounded={false}
+              asFloatRounded={true}
+            />
           </Table.Column>
 
           {/* 12 Month Growth % */}
@@ -239,7 +257,13 @@ const SellerDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="growth_year" appendWith="%" align="left" asRounded={false} />
+            <StatsCell
+              dataKey="growth_year"
+              appendWith="%"
+              align="left"
+              asRounded={false}
+              asFloatRounded={true}
+            />
           </Table.Column>
 
           {/* 1 Month Growth Count*/}

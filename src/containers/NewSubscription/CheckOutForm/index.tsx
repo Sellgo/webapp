@@ -241,7 +241,7 @@ function CheckoutForm(props: MyProps) {
           .map(b => b.toString(16).padStart(2, '0'))
           .join('')}`;
 
-        const randomPasswordLength = Math.min(12, Math.random() * 32);
+        const randomPasswordLength = Math.max(20, Math.random() * 32);
         const randomPassword = generator.generate({
           length: randomPasswordLength,
           symbols: true,
@@ -274,6 +274,7 @@ function CheckoutForm(props: MyProps) {
                 first_name: firstName,
                 last_name: lastName,
                 stripe_subscription_id: stripeSubscription.id,
+                stripe_customer_id: stripeSubscription.customer,
                 activation_code: hashString,
                 subscription_id: getSubscriptionID(accountType),
                 payment_mode: paymentMode,
