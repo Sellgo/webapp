@@ -48,9 +48,11 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   // include exclude
   searchTerm: { keyName: 'phrases', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
 
+  // text based
+  amazonChoice: { keyName: 'is_amazon_choice', type: F_TYPES.TEXT },
+
   // checkbox filters
   matchKeywords: { keyName: 'whole_words', type: F_TYPES.CHECKBOX },
-  amazonChoice: { keyName: 'is_amazon_choice', type: F_TYPES.CHECKBOX },
 
   // min max based
   searchVolume: { keyName: 'search_volume', type: F_TYPES.MIN_MAX },

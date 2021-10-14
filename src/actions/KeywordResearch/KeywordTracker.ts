@@ -499,25 +499,14 @@ export const fetchTrackerProductKeywordsTable = (
 
     const { data } = await axios.get(URL);
 
-    const { results, ...paginationInfo } = data;
-
     if (data) {
-      dispatch(setTrackerProductKeywordsTableResults(results));
-      dispatch(setTrackerProductKeywordsTablePaginationInfo(paginationInfo));
+      dispatch(setTrackerProductKeywordsTableResults(data));
+
       dispatch(isLoadingTrackerProductKeywordsTable(false));
     }
   } catch (err) {
     console.error('Error Fetching Tracker');
     dispatch(setTrackerProductKeywordsTableResults([]));
-    dispatch(
-      setTrackerProductKeywordsTablePaginationInfo({
-        count: 0,
-        current_page: 0,
-        total_pages: 0,
-        per_page: 20,
-      })
-    );
-
     dispatch(isLoadingTrackerProductKeywordsTable(false));
   }
 };

@@ -11,6 +11,7 @@ import './global.scss';
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import SearchTerm from './SearchTerm';
+import AmazonChoiceLabel from '../../KeywordTracker/TrackerTable/AmazonChoiceLabel';
 import TablePagination from '../../../../components/NewTable/Pagination';
 
 /* Constants */
@@ -25,9 +26,6 @@ import {
 
 /* Actions */
 import { fetchKeywordDatabaseTableInformation } from '../../../../actions/KeywordResearch/KeywordDatabase';
-
-/* Assets */
-import amazonChoiceLabel from '../../../../assets/amazonLabels/amazonChoiceLabel.png';
 
 /* Interfaces */
 import {
@@ -54,6 +52,7 @@ const DatabaseTable = (props: Props) => {
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
 
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
+    console.log(sortColumn);
     setSortColumn(sortColumn);
     setSortType(sortType);
     fetchKeywordDatabaseTableInformation({
@@ -90,20 +89,16 @@ const DatabaseTable = (props: Props) => {
         </Table.Column>
 
         {/* Amzon Choice */}
-        <Table.Column width={140} verticalAlign="middle" align="left">
-          <Table.HeaderCell>Amazon Choice</Table.HeaderCell>
-          <Table.Cell>
-            {(rowData: any) => {
-              const { amazon_choice_asins } = rowData;
-              return (
-                <div className={styles.amazonChoiceLabel}>
-                  {amazon_choice_asins > 0 ? (
-                    <img src={amazonChoiceLabel} alt="Amazon Choice Lable" />
-                  ) : null}
-                </div>
-              );
-            }}
-          </Table.Cell>
+        <Table.Column width={140} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Amazon Choice`}
+              dataKey="amazon_choice_asins"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <AmazonChoiceLabel dataKey="amazon_choice_asins" />
         </Table.Column>
 
         {/* Search Volume */}
