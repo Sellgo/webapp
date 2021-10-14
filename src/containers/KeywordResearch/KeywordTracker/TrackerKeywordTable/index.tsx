@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table } from 'rsuite';
 import { connect } from 'react-redux';
 
@@ -11,7 +11,6 @@ import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import CheckBoxCell from '../../../../components/NewTable/CheckboxCell';
 import HeaderCheckboxCell from '../../../../components/NewTable/HeaderCheckboxCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
-import TablePagination from '../../../../components/NewTable/Pagination';
 import TrackerKeywordsExport from './TrackerKeywordsExport';
 
 /* Containers */
@@ -20,11 +19,11 @@ import ActionsCell from './ActionsCell';
 import ActionsIconCell from './ActionsIconCell';
 import HeaderActionsCell from './HeaderActionsCell';
 import TrackerCompetitors from './TrackerCompetitors';
+import AddEditKeywords from './AddEditKeywords';
 
 /* Constants */
 import {
   calculateKeywordsTableHeight,
-  DEFAULT_PAGES_LIST,
   PRODUCT_KEYWORD_ROW_HEIGHT,
   TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY,
   TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY,
@@ -33,7 +32,6 @@ import {
 /* Selectors */
 import {
   getIsLoadingTrackerProductKeywordsTable,
-  getTrackerProductKeywordsTablePaginationInfo,
   getTrackerProductKeywordsTableResults,
 } from '../../../../selectors/KeywordResearch/KeywordTracker';
 
@@ -41,11 +39,7 @@ import {
 import { fetchTrackerProductKeywordsTable } from '../../../../actions/KeywordResearch/KeywordTracker';
 
 /* Interfaces */
-import {
-  TrackerProductKeywordsTablePaginationInfo,
-  TrackerProductKeywordsTablePayload,
-} from '../../../../interfaces/KeywordResearch/KeywordTracker';
-import AddEditKeywords from './AddEditKeywords';
+import { TrackerProductKeywordsTablePayload } from '../../../../interfaces/KeywordResearch/KeywordTracker';
 
 /* Assets */
 import amazonChoiceLabel from '../../../../assets/amazonLabels/amazonChoiceLabel.png';
@@ -53,7 +47,6 @@ import amazonChoiceLabel from '../../../../assets/amazonLabels/amazonChoiceLabel
 interface Props {
   isLoadingTrackerProductKeywordsTable: boolean;
   trackerProductKeywordsTableResults: any[];
-  trackerProductKeywordsTablePaginationInfo: TrackerProductKeywordsTablePaginationInfo;
   fetchTrackerProductKeywordsTable: (payload: TrackerProductKeywordsTablePayload) => void;
 }
 
@@ -61,7 +54,6 @@ const TrackerKeywordTable = (props: Props) => {
   const {
     isLoadingTrackerProductKeywordsTable,
     trackerProductKeywordsTableResults,
-    trackerProductKeywordsTablePaginationInfo,
     fetchTrackerProductKeywordsTable,
   } = props;
 
@@ -83,22 +75,6 @@ const TrackerKeywordTable = (props: Props) => {
       keywordTrackProductId: firstItem[TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY],
       sort: sortColumn,
       sortDir: sortType,
-    });
-  };
-
-  /* Handle pagination */
-  const handlePageChange = (pageNo: number, perPageNo?: number) => {
-    const tableResults = trackerProductKeywordsTableResults;
-    const [firstItem] = tableResults;
-
-    if (!firstItem) {
-      return;
-    }
-
-    fetchTrackerProductKeywordsTable({
-      keywordTrackProductId: firstItem[TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY],
-      page: pageNo,
-      perPage: perPageNo,
     });
   };
 
@@ -141,6 +117,39 @@ const TrackerKeywordTable = (props: Props) => {
     }
   };
 
+  /* Custom scroll logic */
+  const handleCustomTableScroll = (e: any) => {
+    const verticalScrollRef = document.querySelector(
+      '#keywordTrackerTable #trackerKeywordTable .rs-table-body-wheel-area'
+    );
+
+    if (verticalScrollRef) {
+      const newScrollY = verticalScrollRef.scrollTop + e.deltaY;
+      verticalScrollRef.scrollTo({
+        top: newScrollY,
+        behavior: 'auto',
+      });
+    }
+  };
+
+  /* Need to overide the custom scroll behavior on mount */
+  useEffect(() => {
+    const bodyWheelArea = document.querySelector(
+      '#keywordTrackerTable #trackerKeywordTable .rs-table-body-wheel-area'
+    );
+
+    if (bodyWheelArea) {
+      bodyWheelArea.addEventListener('wheel', handleCustomTableScroll);
+    }
+
+    return () => {
+      // run cleanup
+      if (bodyWheelArea) {
+        bodyWheelArea.removeEventListener('wheel', handleCustomTableScroll);
+      }
+    };
+  }, []);
+
   return (
     <>
       {/* Competitors Section */}
@@ -158,7 +167,9 @@ const TrackerKeywordTable = (props: Props) => {
           wordWrap
           loading={isLoadingTrackerProductKeywordsTable}
           data={trackerProductKeywordsTableResults}
-          height={calculateKeywordsTableHeight(trackerProductKeywordsTableResults.length - 5)}
+          height={calculateKeywordsTableHeight(
+            trackerProductKeywordsTableResults && trackerProductKeywordsTableResults.length
+          )}
           hover={false}
           rowHeight={PRODUCT_KEYWORD_ROW_HEIGHT}
           headerHeight={50}
@@ -321,21 +332,6 @@ const TrackerKeywordTable = (props: Props) => {
             <ActionsCell dataKey={TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY} />
           </Table.Column>
         </Table>
-
-        {/* Table Pagination */}
-        {trackerProductKeywordsTablePaginationInfo.total_pages > 0 && (
-          <footer className={styles.trackerKeywordTablePagination}>
-            <TablePagination
-              totalPages={trackerProductKeywordsTablePaginationInfo.total_pages}
-              currentPage={trackerProductKeywordsTablePaginationInfo.current_page}
-              onPageChange={handlePageChange}
-              showSiblingsCount={3}
-              showPerPage={true}
-              perPage={trackerProductKeywordsTablePaginationInfo.per_page}
-              perPageList={DEFAULT_PAGES_LIST}
-            />
-          </footer>
-        )}
       </section>
     </>
   );
@@ -345,7 +341,6 @@ const mapStateToProps = (state: any) => {
   return {
     isLoadingTrackerProductKeywordsTable: getIsLoadingTrackerProductKeywordsTable(state),
     trackerProductKeywordsTableResults: getTrackerProductKeywordsTableResults(state),
-    trackerProductKeywordsTablePaginationInfo: getTrackerProductKeywordsTablePaginationInfo(state),
   };
 };
 

@@ -23,7 +23,7 @@ import TrackerKeywordTable from '../TrackerKeywordTable';
 
 /* Constants */
 import {
-  calculateKeywordsTableHeight,
+  calculateTrackerProductTableExpandedHeight,
   DEFAULT_PAGES_LIST,
   TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY,
 } from '../../../../constants/KeywordResearch/KeywordTracker';
@@ -129,7 +129,7 @@ const TrackerTable = (props: Props) => {
         onSortColumn={handleSortColumn}
         //  Props for table expansion
         rowKey={TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY}
-        rowExpandedHeight={calculateKeywordsTableHeight(
+        rowExpandedHeight={calculateTrackerProductTableExpandedHeight(
           trackerProductKeywordsTableResults && trackerProductKeywordsTableResults.length
         )}
         expandedRowKeys={expandedRowKeys}

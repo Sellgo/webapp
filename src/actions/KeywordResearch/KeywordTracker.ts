@@ -498,16 +498,11 @@ export const fetchTrackerProductKeywordsTable = (
 
     const { data } = await axios.get(URL);
 
+    const { results, ...paginationInfo } = data;
+
     if (data) {
-      dispatch(setTrackerProductKeywordsTableResults(data));
-      dispatch(
-        setTrackerProductKeywordsTablePaginationInfo({
-          count: 0,
-          current_page: 0,
-          total_pages: 0,
-          per_page: 20,
-        })
-      );
+      dispatch(setTrackerProductKeywordsTableResults(results));
+      dispatch(setTrackerProductKeywordsTablePaginationInfo(paginationInfo));
       dispatch(isLoadingTrackerProductKeywordsTable(false));
     }
   } catch (err) {
@@ -619,10 +614,12 @@ export const addTrackerProductKeywords = (payload: AddTrackerProductKeyword) => 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/add-phrases`;
 
     const { data } = await axios.patch(URL, formData);
+    dispatch(isLoadingTrackerProductKeywordsTable(true));
 
     if (data) {
       const updatedKeywords = [...data];
       dispatch(setTrackerProductKeywordsTableResults(updatedKeywords));
+      dispatch(isLoadingTrackerProductKeywordsTable(false));
       success(`Keyword List added successfully.`);
     }
   } catch (err) {
