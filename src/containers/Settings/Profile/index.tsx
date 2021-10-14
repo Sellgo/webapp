@@ -22,7 +22,6 @@ import {
   strong,
   lowerUpper,
   alphanumeric,
-  specialCharacters,
   Length,
   passwordPolicy,
 } from '../../../constants/Validators';
@@ -95,17 +94,9 @@ const Profile = (props: Props) => {
     {
       id: 4,
       stepShow: true,
-      stepClass: specialCharacters.validate(newPassword) ? 'title-success' : 'title-error',
-      stepTitle: 'Special Characters',
-      stepDescription: 'Contains at least one special character (e.g. !@#$%^&*,.)',
-      stepIcon: specialCharacters.validate(newPassword) ? 'check' : 'times',
-    },
-    {
-      id: 5,
-      stepShow: true,
       stepClass: Length.validate(newPassword) ? 'title-success' : 'title-error',
       stepTitle: 'Length',
-      stepDescription: 'At least 8 characters',
+      stepDescription: 'At least 10 characters',
       stepIcon: Length.validate(newPassword) ? 'check' : 'times',
     },
   ];
