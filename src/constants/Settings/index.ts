@@ -147,3 +147,16 @@ export const getMarketplaceFlag = (marketplaceId: string) => {
 
   return flagUrl;
 };
+
+/* Get currency based on marketplace */
+export const getMarketplaceCurrency = (marketplaceId: string) => {
+  const marketplace = defaultMarketplaces.find((marketplace: any) => {
+    return marketplace.id === marketplaceId;
+  });
+
+  if (marketplace && marketplace.currency) {
+    return marketplace.currency;
+  } else {
+    return '$';
+  }
+};
