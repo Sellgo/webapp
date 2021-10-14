@@ -76,13 +76,6 @@ const AdminHeader = (props: Props) => {
         content={<p className="enableLearningTooltipMessage">Toggle to enable learning mode</p>}
       />
 
-      {/* Show settings icon only if not a beta user account */}
-      {!isBetaAccount(sellerSubscription) && (
-        <Menu.Item as={Link} to="/settings">
-          <Icon name="setting" color={'black'} size={'large'} className={'setting-icon'} />
-        </Menu.Item>
-      )}
-
       <Menu.Item>
         <Dropdown
           trigger={
