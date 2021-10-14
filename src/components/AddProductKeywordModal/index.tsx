@@ -40,6 +40,7 @@ interface Props {
   onSubmit: (payload: GenericSubmitPayload) => void;
   closeModal: () => void;
   productDetails: ProductDetails;
+  currentKeywords?: string[];
 }
 
 const AddProductKeywordModal = (props: Props) => {
@@ -63,8 +64,6 @@ const AddProductKeywordModal = (props: Props) => {
     const formattedKeywords = removeSpecialChars
       ? removeSpecialCharctersFromKeywords(addedKeywords)
       : addedKeywords;
-
-    console.log(formattedKeywords);
 
     onSubmit({
       asin: parentAsin ? parentAsin : productAsin,

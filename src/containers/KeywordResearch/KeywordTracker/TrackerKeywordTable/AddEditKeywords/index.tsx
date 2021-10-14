@@ -49,12 +49,11 @@ const AddEditKeywords = (props: Props) => {
   const handleAddEditKeywords = (payload: any) => {
     const { keywords } = payload;
 
-    const sendPayload = {
+    const addKeywordsPayload = {
       keywords,
       keywordTrackProductId: keywordTrackerTableExpandedRow[TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY],
     };
-
-    addTrackerProductKeywords(sendPayload);
+    addTrackerProductKeywords(addKeywordsPayload);
   };
 
   const currentKeywordsList =
