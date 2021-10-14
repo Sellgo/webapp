@@ -52,7 +52,6 @@ const DatabaseTable = (props: Props) => {
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
 
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
-    console.log(sortColumn);
     setSortColumn(sortColumn);
     setSortType(sortType);
     fetchKeywordDatabaseTableInformation({
