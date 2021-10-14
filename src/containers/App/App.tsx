@@ -3,7 +3,6 @@ import { Route, Router, Switch } from 'react-router-dom';
 import Axios from 'axios';
 import AdminLayout from '../../components/AdminLayout';
 import ScrollToTop from '../../components/ScrollToTop';
-import Settings from '../Settings';
 import Home from '../Home';
 import Synthesis from '../Synthesis';
 import SupplierDetail from '../Synthesis/Supplier';
@@ -18,6 +17,10 @@ import ProductTracker from '../ProductTracker';
 import ResetPassword from '../ResetPassword';
 import Onboarding from '../Onboarding';
 import Subscription from '../Settings/Subscription';
+import Billing from '../Settings/Billing';
+import Connectivity from '../Settings/Connectivity';
+import APIConnectivity from '../Settings/APIConnectivity';
+import Profile from '../Settings/Profile';
 import NewSubscription from '../NewSubscription';
 import PaymentSuccess from '../NewSubscription/PaymentSuccess';
 import Payment from '../Subscription/Payment';
@@ -204,8 +207,6 @@ function App() {
             render={renderProps => <Payment auth={auth} {...renderProps} />}
           />
 
-          <PrivateRoute exact={true} path="/settings" component={Settings} />
-
           <PrivateRoute
             exact={true}
             path="/onboarding"
@@ -213,6 +214,10 @@ function App() {
             requireSubscription={true}
           />
           <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />
+          <PrivateRoute exact={true} path="/settings/billing" component={Billing} />
+          <PrivateRoute exact={true} path="/settings/connectivity" component={Connectivity} />
+          <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} />
+          <PrivateRoute exact={true} path="/settings/profile" component={Profile} />
           <PrivateRoute
             exact={true}
             path="/synthesis"

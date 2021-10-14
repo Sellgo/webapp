@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Grid, Segment, Icon, Confirm, List, Header, Popup } from 'semantic-ui-react';
-import { defaultMarketplaces } from '../../constants/Settings';
-import { error } from '../../utils/notifications';
+import { Form, Segment, Icon, Confirm, List, Header } from 'semantic-ui-react';
+import { defaultMarketplaces } from '../../../../constants/Settings';
+import { error } from '../../../../utils/notifications';
 import { connect } from 'react-redux';
-import { AppConfig } from '../../config';
-import { isSubscriptionFree } from '../../utils/subscriptions';
+import { AppConfig } from '../../../../config';
+import { isSubscriptionFree } from '../../../../utils/subscriptions';
+import {
+  updateSellerAmazonMWSAuth,
+  getSellerInfo,
+  getSellerAmazonMWSAuth,
+  deleteSellerAmazonMWSAuth,
+} from '../../../../actions/Settings';
+import { AmazonMWS } from '../../../../interfaces/Seller';
+
+import styles from './index.module.scss';
+import ProfileBoxHeader from '../../../../components/ProfileBoxHeader';
+import ProfileBoxContainer from '../../../../components/ProfileBoxContainer';
+import OrangeButton from '../../../../components/OrangeButton';
 
 const marketplaceOptions = defaultMarketplaces.map(({ name, id, disabled }, key) => {
   return { key, text: name, value: id, disabled };
@@ -17,12 +29,14 @@ const showMeHow = (showMeHowUrl: any) => {
     error('Please choose a Marketplace!');
   }
 };
+
 const defaultMarketplace = {
   id: 'ATVPDKIKX0DER',
   name: 'US',
   link: 'amazon.com',
   code: 'US',
 };
+
 const defaultAmazonMWS = {
   id: '',
   amazon_seller_id: '',
@@ -31,13 +45,30 @@ const defaultAmazonMWS = {
   marketplaceName: '',
   saved: false,
 };
+
 const defaultShowCredentials = {
   amazonSellerID: false,
   authToken: false,
 };
 
-const SellerAmazonMWS = (props: any) => {
-  const { amazonMWSAuth, updateAmazonMWSAuth, deleteMWSAuth, subscriptionType } = props;
+interface Props {
+  amazonMWSAuth: any;
+  updateAmazonMWSAuth: (data: any) => void;
+  deleteMWSAuth: (mwsId: any) => void;
+  subscriptionType: any;
+  getSeller: () => void;
+  getAmazonMWSAuth: () => void;
+}
+
+const Connectivity = (props: Props) => {
+  const {
+    amazonMWSAuth,
+    updateAmazonMWSAuth,
+    deleteMWSAuth,
+    subscriptionType,
+    getSeller,
+    getAmazonMWSAuth,
+  } = props;
   const [marketplaceLocal, setmarketplaceLocal] = useState(defaultMarketplace);
   const [amazonMWSLocal, setamazonMWSLocal] = useState(defaultAmazonMWS);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -65,6 +96,11 @@ const SellerAmazonMWS = (props: any) => {
     setmarketplaceLocal(updatedMarketplaceLocal);
     setamazonMWSLocal(updatedAmazonMWSLocal);
   };
+
+  useEffect(() => {
+    getSeller();
+    getAmazonMWSAuth();
+  }, []);
 
   useEffect(() => {
     handleMarketPlaceLocalChange(marketplaceLocal.id);
@@ -129,27 +165,23 @@ const SellerAmazonMWS = (props: any) => {
   };
 
   return (
-    <>
-      <Grid.Column width={16} id="amazon-mws">
-        <Form>
-          <Header.Subheader>
-            Please grant Amazon MWS and Amazon Seller Central access for each market.
-          </Header.Subheader>
-          <Form.Group className="marketplace-field" unstackable widths={2}>
-            <label className="field-title">
-              <span>Marketplace &nbsp;</span>
-              <Popup
-                basic
-                className="pop-market"
-                trigger={<i className="far fa-question-circle" />}
-                content={
-                  <p>
-                    Marketplace: <br />
-                    Which Amazon region do you sell at
-                  </p>
-                }
-              />
-            </label>
+    <section>
+      <ProfileBoxHeader>Amazon MWS Authorization</ProfileBoxHeader>
+      <ProfileBoxContainer>
+        <p className={styles.mwsFormTitle}>
+          {' '}
+          Please grant Amazon MWS and Amazon Seller Central access for each market.{' '}
+        </p>
+        <Form className={styles.mwsFormGrid}>
+          <Icon
+            name="trash alternate"
+            className={`${styles.deleteIcon} ${!amazonMWSLocal.saved &&
+              styles.deleteIcon__disabled}`}
+            disabled={!amazonMWSLocal.saved}
+            onClick={() => setDeleteConfirmation(true)}
+          />
+          <div className={`${styles.formInput} ${styles.formInput__marketplace}`}>
+            <div className={styles.formLabel}>Marketplace</div>
             <Form.Select
               options={marketplaceOptions}
               placeholder="Marketplace"
@@ -157,27 +189,15 @@ const SellerAmazonMWS = (props: any) => {
               name="marketplace_id"
               onChange={(e: any, field: any) => handleMarketPlaceLocalChange(field.value)}
             />
-          </Form.Group>
+          </div>
           <Form.Input
-            className="seller-field"
+            className={styles.formInput}
             label={
-              <>
+              <div className={styles.formLabel}>
                 <span>Amazon Seller ID &nbsp;</span>
-                <Popup
-                  basic
-                  className="pop-seller"
-                  trigger={<i className="far fa-question-circle" />}
-                  content={
-                    <p>
-                      Amazon Seller ID: <br />
-                      This is given by Amazon in your Amazon seller central
-                    </p>
-                  }
-                />
-                <br />
-              </>
+              </div>
             }
-            placeholder="This will look like A2BTUHOG3JAVRS"
+            placeholder="Looks like A2BTUHOG3JAVRS"
             value={amazonMWSLocal.amazon_seller_id}
             type={amazonMWSLocal.saved === showCredentials.amazonSellerID ? 'text' : 'password'}
             name="amazon_seller_id"
@@ -195,38 +215,27 @@ const SellerAmazonMWS = (props: any) => {
               />
             }
           />
+          <div className={styles.formInput}>
+            <div
+              className={styles.authenticateInstructions}
+              onClick={() => {
+                setConfirmToken(() => !showConfirmToken);
+                if (isHashMWS()) {
+                  window.location.hash = '';
+                }
+              }}
+            >
+              How to authenticate your Seller Account
+            </div>
+          </div>
           <Form.Input
-            className="token-field"
+            className={styles.formInput}
             label={
-              <>
+              <div className={styles.formLabel}>
                 <span>MWS Auth Token &nbsp;</span>
-                <Popup
-                  basic
-                  className="pop-token"
-                  trigger={<i className="far fa-question-circle" />}
-                  content={
-                    <p>
-                      MWS Auth Token: <br />
-                      This is an authorization token given by Amazon so we can pull up data for you
-                    </p>
-                  }
-                />
-                &nbsp; &nbsp;
-                <span
-                  className="auth-seller"
-                  onClick={() => {
-                    setConfirmToken(() => !showConfirmToken);
-                    if (isHashMWS()) {
-                      window.location.hash = '';
-                    }
-                  }}
-                >
-                  Authenticate Your Seller Account
-                </span>
-                <br />
-              </>
+              </div>
             }
-            placeholder="This will look like amzn.mws.9eb48bhd-3e5n-f315-d34d-8dfa825fb711"
+            placeholder="Looks like amzn.mws.9eb48bhd-3e5n-f315-d34d-8dfa825fb711"
             value={amazonMWSLocal.token}
             type={amazonMWSLocal.saved === showCredentials.authToken ? 'text' : 'password'}
             name="token"
@@ -244,22 +253,19 @@ const SellerAmazonMWS = (props: any) => {
               />
             }
           />
-          <Form.Group className="action-container">
-            <Form.Button
-              className="primary-btn"
-              content="Update"
-              disabled={amazonMWSLocal.saved}
-              onClick={handleAmazonMWSAuthUpdate}
-            />
-            <Form.Button
-              className="error-btn"
-              content="Delete"
-              disabled={!amazonMWSLocal.saved}
-              onClick={() => setDeleteConfirmation(true)}
-            />
-          </Form.Group>
         </Form>
-      </Grid.Column>
+        <div className={styles.buttonsRow}>
+          <OrangeButton
+            type="blue"
+            size="small"
+            onClick={handleAmazonMWSAuthUpdate}
+            className={styles.updateButton}
+          >
+            {' '}
+            Update
+          </OrangeButton>
+        </div>
+      </ProfileBoxContainer>
       <Confirm
         className="auth-token-confirm"
         open={showConfirmToken}
@@ -309,13 +315,21 @@ const SellerAmazonMWS = (props: any) => {
           setDeleteConfirmation(false);
         }}
       />
-    </>
+    </section>
   );
 };
 
 const mapStateToProps = (state: any) => ({
   sellerSubscription: state.subscription.sellerSubscription,
   subscriptionType: state.subscription.subscriptionType,
+  amazonMWSAuth: state.settings.amazonMWSAuth,
 });
 
-export default connect(mapStateToProps)(SellerAmazonMWS);
+const mapDispatchToProps = {
+  getAmazonMWSAuth: () => getSellerAmazonMWSAuth(),
+  updateAmazonMWSAuth: (data: AmazonMWS) => updateSellerAmazonMWSAuth(data),
+  deleteMWSAuth: (mwsAuthID: any) => deleteSellerAmazonMWSAuth(mwsAuthID),
+  getSeller: () => getSellerInfo(),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Connectivity);

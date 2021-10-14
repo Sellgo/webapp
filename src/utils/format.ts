@@ -117,6 +117,13 @@ export const parseKpiLists = (kpiList: any) => {
     .filter((k: string) => k.length > 0);
 };
 
+export const capitalizeFirstLetter = (str: string) => {
+  if (!str) {
+    return '-';
+  }
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
 /* Encode and decode to string (base64) */
 export const encodeBase64 = (payload: string) => window.btoa(payload);
 export const decodeBase64 = (payload: string) => window.atob(payload);
