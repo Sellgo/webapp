@@ -1,0 +1,189 @@
+@import '../../../../design-system/new-colors';
+
+.apiFormGrid {
+  position: relative;
+  background-color: $grey_0;
+  width: 700px;
+  height: max-content;
+  padding: 30px 0;
+  display: grid;
+  grid-template-rows: 40px;
+  row-gap: 18px;
+}
+
+.deleteIcon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &__disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.3 !important;
+
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
+}
+
+.pencilIcon {
+  z-index: 99999999;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.dropdownTrigger {
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+
+  span {
+    font-size: 14px !important;
+  }
+}
+
+.dropdown {
+  color: $grey_8 !important;
+  border: 1px solid $grey_3 !important;
+  max-height: 40px !important;
+  min-height: 40px !important;
+  width: 300px !important;
+  font-size: 14px;
+  font-weight: 400 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px !important;
+  border-radius: 4px !important;
+  background: #fff !important;
+
+  &:focus {
+    border: 2px solid $blue_6 !important;
+  }
+
+  &:hover {
+    background-color: $grey_1 !important;
+  }
+}
+
+.dropdownMenu {
+  border: 1px solid $grey_3 !important;
+  width: 100% !important;
+  font-size: 12px !important;
+  max-height: 250px !important;
+  z-index: 999999 !important;
+
+  /* width */
+  &::-webkit-scrollbar {
+    width: 5px !important;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: $grey_1 !important;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $grey_6 !important;
+    border-radius: 3px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: $grey_6 !important;
+  }
+}
+
+.dropdownItem {
+  display: flex !important;
+  align-items: center !important;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+
+  span {
+    font-size: 14px !important;
+  }
+
+  &:hover {
+    background: $grey_1 !important;
+    font-weight: 500 !important;
+  }
+}
+
+.formInput {
+  display: grid;
+  grid-template-columns: 160px 300px;
+  column-gap: 30px;
+  align-items: center;
+  color: $grey_8 !important;
+
+  &__name,
+  &__key {
+    margin-top: 10px !important;
+  }
+
+  .formLabel {
+    width: 100%;
+    text-align: right;
+  }
+
+  .formValue {
+    margin: 0;
+
+    i {
+      margin-left: 10px;
+    }
+
+    img {
+      margin-right: 10px;
+    }
+
+    &__key {
+      color: $grey_6;
+    }
+  }
+
+  input {
+    border: 1px solid $grey_3 !important;
+    color: $grey_8 !important;
+
+    &:focus {
+      border: 2px solid $blue_6 !important;
+    }
+  }
+}
+
+.buttonsRow {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  .updateButton {
+    margin-left: 18px;
+    margin-right: 30px;
+    width: 140px;
+
+    &__disabled {
+      opacity: 0.6 !important;
+      cursor: unset;
+      pointer-events: none;
+    }
+  }
+}
