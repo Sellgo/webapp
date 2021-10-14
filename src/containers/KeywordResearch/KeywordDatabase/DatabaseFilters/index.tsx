@@ -69,7 +69,7 @@ const DatabaseFilters = (props: Props) => {
       wordCount,
       competingProducts,
       titleDensity,
-      amazonChoice,
+      amazonChoice: amazonChoice ? 'true' : '',
 
       /* Advanced Filters */
       searchTerm,

@@ -36,28 +36,29 @@ interface ProductDetails {
 
 interface Props {
   parentAsin: string;
-  currentKeywordsCount: number;
+  currentKeywordsList: string;
   onSubmit: (payload: GenericSubmitPayload) => void;
   closeModal: () => void;
   productDetails: ProductDetails;
+  currentKeywords?: string[];
 }
 
 const AddProductKeywordModal = (props: Props) => {
-  const { parentAsin, currentKeywordsCount, onSubmit, closeModal, productDetails } = props;
+  const { parentAsin, onSubmit, closeModal, productDetails, currentKeywordsList } = props;
 
   const [productAsin, setProductAsin] = useState<string>('');
   const [keywords, setKeywords] = useState('');
 
+  const [keywordsCount, setKeywordsCount] = useState<number>(0);
+
   const [trackParentsAndVariations, setTrackParentsAndVariations] = useState<boolean>(false);
   const [removeSpecialChars, setRemoveSpecialChars] = useState<boolean>(false);
-
-  const [newlyAddedKeywordsCount, setNewlyAddedKeywordsCount] = useState(0);
 
   // Submit Modal */
   const handleSubmit = () => {
     const addedKeywords = keywords
       .split('\n')
-      .filter(a => a.length > 0)
+      .filter(a => a.trim().length > 0)
       .join(',');
 
     const formattedKeywords = removeSpecialChars
@@ -78,7 +79,7 @@ const AddProductKeywordModal = (props: Props) => {
       setProductAsin('');
     }
 
-    setKeywords('');
+    setKeywords(currentKeywordsList);
     setRemoveSpecialChars(false);
     setTrackParentsAndVariations(false);
   };
@@ -104,13 +105,18 @@ const AddProductKeywordModal = (props: Props) => {
 
   useEffect(() => {
     const addedKeywords = keywords.split('\n').filter(a => a.trim().length > 0).length;
-    setNewlyAddedKeywordsCount(addedKeywords);
+    setKeywordsCount(addedKeywords);
   }, [keywords]);
 
-  const leftKeywords = currentKeywordsCount + newlyAddedKeywordsCount;
+  useEffect(() => {
+    const currentKeywordsCount = currentKeywordsList.split('\n').filter(k => k.trim().length > 0)
+      .length;
 
-  const shouldDisabledSubmit =
-    currentKeywordsCount + newlyAddedKeywordsCount > MAX_KEYWORDS_ALLOWED;
+    setKeywordsCount(currentKeywordsCount);
+    setKeywords(currentKeywordsList);
+  }, []);
+
+  const shouldDisabledSubmit = keywordsCount > MAX_KEYWORDS_ALLOWED;
 
   const { image, title } = productDetails;
 
@@ -181,7 +187,7 @@ const AddProductKeywordModal = (props: Props) => {
         <p className={styles.leftOverMessage}>
           Total keywords:
           <span>
-            {leftKeywords}/{MAX_KEYWORDS_ALLOWED}
+            {keywordsCount}/{MAX_KEYWORDS_ALLOWED}
           </span>
         </p>
 

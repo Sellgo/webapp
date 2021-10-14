@@ -23,7 +23,7 @@ import TrackerKeywordTable from '../TrackerKeywordTable';
 
 /* Constants */
 import {
-  calculateKeywordsTableHeight,
+  calculateTrackerProductTableExpandedHeight,
   DEFAULT_PAGES_LIST,
   TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY,
 } from '../../../../constants/KeywordResearch/KeywordTracker';
@@ -129,7 +129,7 @@ const TrackerTable = (props: Props) => {
         onSortColumn={handleSortColumn}
         //  Props for table expansion
         rowKey={TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY}
-        rowExpandedHeight={calculateKeywordsTableHeight(
+        rowExpandedHeight={calculateTrackerProductTableExpandedHeight(
           trackerProductKeywordsTableResults && trackerProductKeywordsTableResults.length
         )}
         expandedRowKeys={expandedRowKeys}
@@ -162,19 +162,6 @@ const TrackerTable = (props: Props) => {
             />
           </Table.HeaderCell>
           <StatsCell dataKey="tracked_keywords" align="center" />
-        </Table.Column>
-
-        {/* Amazon Choice */}
-        <Table.Column width={130} verticalAlign="top" align="left" sortable>
-          <Table.HeaderCell>
-            <HeaderSortCell
-              title={`Amazon\nChoice #`}
-              dataKey="amazon_choice_count"
-              currentSortColumn={sortColumn}
-              currentSortType={sortType}
-            />
-          </Table.HeaderCell>
-          <StatsCell dataKey="amazon_choice_count" align="center" />
         </Table.Column>
 
         {/* Competitors */}
