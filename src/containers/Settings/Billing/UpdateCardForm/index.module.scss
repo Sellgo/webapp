@@ -51,23 +51,6 @@
     width: 75px;
   }
 
-  &__city {
-    width: 250px;
-  }
-
-  &__state {
-    width: 150px;
-  }
-
-  &__zipCode {
-    margin: 0;
-    width: 100px;
-  }
-
-  &__dropDown {
-    width: 250px;
-  }
-
   &__error {
     input {
       border: 1px solid #eb675e !important;
@@ -94,31 +77,6 @@
 
   &__cvv {
     width: 75px;
-  }
-}
-
-.dropdown {
-  height: 40px;
-  width: 250px;
-  background: #fff;
-  font-size: 14px;
-  color: #808080 !important;
-  border: 1px solid #dededf;
-  border-radius: 4px;
-  position: relative !important;
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  padding: 0 20px;
-
-  &__menu {
-    width: 250px;
-    position: absolute;
-    top: 41px !important;
-    background: #fff !important;
-    min-height: 200px;
-    max-height: 200px;
-    overflow: auto;
   }
 }
 
