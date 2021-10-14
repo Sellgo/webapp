@@ -13,15 +13,17 @@ interface Props {
 
 const PlanTypeRectangle = (props: Props) => {
   const { plan, isSmall } = props;
-
   const className = classNames(
     { [styles.planTypeButton__professional]: plan === 'Professional Plan' },
-    { [styles.planTypeButton__basic]: plan === 'Basic Plan' },
-    { [styles.planTypeButton__team]: plan === 'Team Plan' }
+    { [styles.planTypeButton__basic]: plan === 'Starter Plan' },
+    { [styles.planTypeButton__team]: plan === 'Team Plan' },
+    { [styles.planTypeButton__wholesale]: plan === 'Wholesale Arbitrage $1 Plan' },
+    { [styles.planTypeButton__seller]: plan === 'Seller Scout Pro Plan' }
   );
 
   // Removing the word ' Plan' to display
-  const displayPlanText = plan.substring(0, plan.length - 5);
+  const displayPlanText =
+    plan !== 'Wholesale Arbitrage $1 Plan' ? plan.substring(0, plan.length - 5) : 'Wholesale $1';
 
   const sizeClassName = isSmall ? styles.planTypeButton__small : '';
 

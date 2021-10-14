@@ -6,12 +6,8 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
-import { Form, Dropdown, Loader, Dimmer } from 'semantic-ui-react';
+import { Form, Loader, Dimmer } from 'semantic-ui-react';
 import Axios from 'axios';
-
-/* Constants */
-import { countryList } from '../../../../constants/Settings';
-import { postalCode } from '../../../../constants/Validators';
 
 /* App Config */
 import { AppConfig } from '../../../../config';
@@ -61,27 +57,10 @@ const UpdateCardForm = (props: MyProps) => {
   const sellerID = localStorage.getItem('userId');
 
   const { value: name, bind: bindName } = useInput('');
-  const { value: address, bind: bindAddress } = useInput('');
-  const { value: city, bind: bindCity } = useInput('');
-  const { value: stateAddress, bind: bindStateAddress } = useInput('');
-  const { value: zipCode, bind: bindZipCode } = useInput('');
-
-  /* Country dropdown */
-  const [selectedCountry, setSelectedCountry] = useState({
-    key: 1,
-    name: `United States`,
-    code: 'US',
-    value: 'US',
-  });
-  const trigger = <span className="country-label">{selectedCountry.name}</span>;
 
   /* Local states */
   const [paymentError, setPaymentError] = useState<string>('');
   const [stripeLoading, setStripeLoad] = useState<boolean>(false);
-
-  const handleCountry = (data: any) => {
-    setSelectedCountry(data);
-  };
 
   const handleSubmit = async (event: any) => {
     // Block native form submission.
@@ -98,11 +77,6 @@ const UpdateCardForm = (props: MyProps) => {
       return;
     }
 
-    if (!postalCode(zipCode, selectedCountry.code.split(','))) {
-      setPaymentError('Zipcode is invalid');
-      return;
-    }
-
     setStripeLoad(true);
     const cardElement = elements.getElement(CardNumberElement);
 
@@ -111,13 +85,6 @@ const UpdateCardForm = (props: MyProps) => {
       card: cardElement,
       billing_details: {
         name: name,
-        address: {
-          line1: address,
-          city: city,
-          country: selectedCountry.code,
-          state: stateAddress,
-          postal_code: zipCode,
-        },
       },
     });
     const data = { payment_method_id: paymentMethod.id };
@@ -186,62 +153,6 @@ const UpdateCardForm = (props: MyProps) => {
               className={`${styles.stripeInput} ${styles.stripeInput__cvv}`}
             />
           </Form.Field>
-        </Form.Group>
-
-        <h2>Billing Address</h2>
-        <Form.Input
-          className={styles.formInput}
-          size="huge"
-          label="Address"
-          type="text"
-          placeholder="Address"
-          {...bindAddress}
-        />
-
-        <Form.Group className={styles.formGroup}>
-          <Form.Input
-            className={`${styles.formInput} ${styles.formInput__city}`}
-            label="City"
-            type="text"
-            placeholder="City"
-            {...bindCity}
-          />
-          <Form.Input
-            className={`${styles.formInput} ${styles.formInput__state}`}
-            label="State"
-            type="text"
-            placeholder="eg. California"
-            {...bindStateAddress}
-          />
-
-          <Form.Field className={`${styles.formInput} ${styles.formInput__dropDown}`}>
-            <label htmlFor="Country">Country</label>
-            <Dropdown id="Country" className={styles.dropdown} openOnFocus trigger={trigger}>
-              <Dropdown.Menu className={styles.dropdown__menu}>
-                {countryList.map((option, key) => {
-                  return (
-                    <Dropdown.Item
-                      key={key}
-                      className={styles.dropdown__menuItem}
-                      text={option.name}
-                      value={option.id}
-                      onClick={() => {
-                        handleCountry(option);
-                      }}
-                    />
-                  );
-                })}
-              </Dropdown.Menu>
-            </Dropdown>
-          </Form.Field>
-
-          <Form.Input
-            className={`${styles.formInput} ${styles.formInput__zipCode}`}
-            label="Zipcode"
-            type="text"
-            placeholder="eg. 97201"
-            {...bindZipCode}
-          />
         </Form.Group>
 
         <div className={styles.paymentMeta}>

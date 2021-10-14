@@ -10,7 +10,7 @@
   font-size: 14px;
   font-weight: 600;
   padding: 5px 20px;
-  width: max-content;
+  // width: max-content;
 
   &__professional {
     background-color: $sellgo-orange;
@@ -22,6 +22,14 @@
 
   &__team {
     background-color: #ae8be7;
+  }
+
+  &__wholesale {
+    background-color: $blue_6;
+  }
+
+  &__seller {
+    background-color: $prim_dark_1;
   }
 
   &__small {

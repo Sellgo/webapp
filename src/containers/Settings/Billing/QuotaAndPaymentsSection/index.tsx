@@ -30,7 +30,7 @@ import {
 } from '../../../../interfaces/Settings/billing';
 
 /* Utils */
-import { capitalizeFirstLetter } from '../../../../utils/format';
+import { capitalizeFirstLetter, formatDecimal } from '../../../../utils/format';
 
 const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
 interface Props {
@@ -61,6 +61,26 @@ const QuotaAndPaymentsSection = (props: Props) => {
   } = props;
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
 
+  /* Calculation of quotas */
+  const productTrackerAvailable = quotas.product_tracker.available || 1;
+  const salesEstAvailable = quotas.sales_estimation.available || 1;
+  const sellerResearchAvailable = quotas.seller_research.available || 1;
+  const profitFinderAvailable = quotas.profit_finder.available || 1;
+
+  const productTrackerUsed = Math.min(quotas.product_tracker.used || 0, productTrackerAvailable);
+  const salesEstUsed = Math.min(quotas.sales_estimation.used || 0, salesEstAvailable);
+  const sellerResearchUsed = Math.min(quotas.seller_research.used || 0, sellerResearchAvailable);
+  const profitFinderUsed = Math.min(quotas.profit_finder.used || 0, profitFinderAvailable);
+
+  const productTrackerPercent = productTrackerUsed / productTrackerAvailable;
+  const salesEstPercent = salesEstUsed / salesEstAvailable;
+  const sellerResearchPercent = sellerResearchUsed / sellerResearchAvailable;
+  const profitFinderPercent = profitFinderUsed / profitFinderAvailable;
+
+  const totalUsedQuotaPercent =
+    ((productTrackerPercent + salesEstPercent + sellerResearchPercent + profitFinderPercent) / 4) *
+    100;
+
   const handleModalOpen = () => {
     setModalOpen(true);
   };
@@ -69,25 +89,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
     setModalOpen(false);
   };
 
-  const getTotalUsedQuota = () => {
-    let totalUsed = 0;
-    let totalAvailable = 0;
-    totalUsed += quotas.product_tracker.used | 0;
-    totalUsed += quotas.sales_estimation.used | 0;
-    totalUsed += quotas.seller_research.used | 0;
-    totalUsed += quotas.profit_finder.used | 0;
-    totalAvailable += quotas.product_tracker.available | 0;
-    totalAvailable += quotas.sales_estimation.available | 0;
-    totalAvailable += quotas.seller_research.available | 0;
-    totalAvailable += quotas.profit_finder.available | 0;
-
-    // Ensure we dont divide by 0.
-    totalAvailable = Math.max(totalAvailable, 1);
-
-    const percentage = Number((totalUsed / totalAvailable) * 100.0).toFixed(2);
-    return `${percentage}%`;
-  };
-
+  /* Content to show if user has no active plan, and no payment methods */
   const DimmerContent: ReactChild = (
     <Dimmer active={!hasActivePlan} inverted>
       <div className={styles.dimmerWrapper}>
@@ -124,42 +126,44 @@ const QuotaAndPaymentsSection = (props: Props) => {
           <span className={styles.quotaSection}>
             <p className={`${styles.boxTitle}`}> Your Plan</p>
             <div>
-              {/* Show dimmer content to block out subscription information if 
-              user has no active subscription, but has payment method */}
+              {/* Show dimmer content if user has no active subscription, but has payment method */}
               {DimmerContent}
               <div className={styles.planDetailsRow}>
                 <PlanTypeRectangle plan={subscriptionPlan} />
-                <span>&nbsp; - You have used {getTotalUsedQuota()} of the available quota.</span>
+                <span>
+                  &nbsp; - You have used {formatDecimal(totalUsedQuotaPercent)}% of the available
+                  quota.
+                </span>
               </div>
               <div className={styles.quotaBarsWrapper}>
                 <NewQuotaMeter
                   className={styles.quotaBar}
                   type="Profit Finder"
                   quota={{
-                    used: quotas.profit_finder.used,
-                    available: quotas.profit_finder.available,
+                    used: profitFinderUsed,
+                    available: profitFinderAvailable,
                   }}
                 />
                 <NewQuotaMeter
                   type="Product Tracker"
                   quota={{
-                    used: quotas.product_tracker.used,
-                    available: quotas.product_tracker.available,
+                    used: productTrackerUsed,
+                    available: productTrackerAvailable,
                   }}
                 />
                 <NewQuotaMeter
                   className={styles.quotaBar}
                   type="Seller Research"
                   quota={{
-                    used: quotas.seller_research.used,
-                    available: quotas.seller_research.available,
+                    used: sellerResearchUsed,
+                    available: sellerResearchAvailable,
                   }}
                 />
                 <NewQuotaMeter
                   type="Sales Estimation"
                   quota={{
-                    used: quotas.sales_estimation.used,
-                    available: quotas.sales_estimation.available,
+                    used: salesEstUsed,
+                    available: salesEstAvailable,
                   }}
                 />
               </div>

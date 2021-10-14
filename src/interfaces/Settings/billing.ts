@@ -33,4 +33,9 @@ export interface CreditCard {
   exp_date: string;
 }
 
-export type SubscriptionPlanType = 'Professional Plan' | 'Basic Plan' | 'Team Plan';
+export type SubscriptionPlanType =
+  | 'Professional Plan'
+  | 'Starter Plan'
+  | 'Team Plan'
+  | 'Wholesale Arbitrage $1 Plan'
+  | 'Seller Scout Pro Plan';

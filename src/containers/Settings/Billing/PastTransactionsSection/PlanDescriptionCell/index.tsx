@@ -19,10 +19,14 @@ const PlanDescriptionCell = (props: RowCell) => {
     planName = 'Professional Plan';
   } else if (rowData[dataKey].includes('Team')) {
     planName = 'Team Plan';
-  } else if (rowData[dataKey].includes('Basic')) {
-    planName = 'Basic Plan';
+  } else if (rowData[dataKey].includes('Starter')) {
+    planName = 'Starter Plan';
+  } else if (rowData[dataKey].includes('Wholesale')) {
+    planName = 'Wholesale Arbitrage $1 Plan';
+  } else if (rowData[dataKey].includes('Seller Scout')) {
+    planName = 'Seller Scout Pro Plan';
   } else {
-    planName = 'Basic Plan';
+    planName = 'Professional Plan';
   }
 
   if (!rowData[dataKey]) {
