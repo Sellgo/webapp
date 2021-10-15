@@ -35,6 +35,10 @@
     margin-top: 35px;
     min-height: 100vh !important;
     overflow-y: auto;
+
+    &__hide-nav {
+      margin-top: 0;
+    }
   }
 }
 

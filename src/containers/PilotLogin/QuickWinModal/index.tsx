@@ -4,17 +4,17 @@ import { Modal } from 'semantic-ui-react';
 import { Widget } from '@typeform/embed-react';
 
 /* Images */
-import sellgoLogoWhiteWithText from '../../assets/images/sellgoLogoWhiteWithText.png';
-import cross from '../../assets/images/crossIcon.svg';
+import sellgoLogoWhiteWithText from '../../../assets/images/sellgoLogoWhiteWithText.png';
+import cross from '../../../assets/images/crossIcon.svg';
 
 /* Components */
-import OrangeButton from '../../components/OrangeButton';
+import OrangeButton from '../../../components/OrangeButton';
 
 /* Styling */
 import styles from './index.module.scss';
 
 /* Config */
-import { AppConfig } from '../../config';
+import { AppConfig } from '../../../config';
 
 const QuickWin = () => {
   const [isModalOpen, setModalOpen] = React.useState<boolean>(true);

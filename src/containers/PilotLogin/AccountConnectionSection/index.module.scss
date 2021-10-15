@@ -1,0 +1,53 @@
+@import '../../../design-system/new-colors';
+
+.connectAccount {
+  margin-top: 8rem;
+}
+
+.lightbulbLabel {
+  width: 800px;
+  margin-top: 50px;
+  margin-bottom: 10px;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  p {
+    margin-left: 10px;
+  }
+}
+
+.connectRow {
+  display: flex;
+  justify-content: center;
+
+  .connectAccountCard {
+    background-color: $prim_white;
+    border-radius: 7px;
+    width: 160px;
+    height: 175px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-align: center;
+    align-items: center;
+    margin-right: 30px;
+    padding: 18px 0;
+    box-shadow: 0 3px 6px $grey_3;
+  }
+
+  .connectApiLogo {
+    height: 40px;
+    object-fit: contain;
+  }
+
+  .connectApiLabel {
+    margin: 10px 0;
+    font-size: 20px;
+    line-height: 20px;
+    font-weight: 500;
+    color: $prim_dark_1;
+    height: 40px;
+  }
+}

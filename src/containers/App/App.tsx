@@ -9,7 +9,8 @@ import SupplierDetail from '../Synthesis/Supplier';
 import Auth from '../../components/Auth/Auth';
 import PageLoader from '../../components/PageLoader';
 import NotFound from '../../components/NotFound';
-import QuickWin from '../../containers/QuickWin';
+import QuickWin from '../../containers/PilotLogin/QuickWinModal';
+import PilotLogin from '../../containers/PilotLogin';
 import history from '../../history';
 import { connect } from 'react-redux';
 import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
@@ -81,8 +82,8 @@ const PrivateRoute = connect(
     ...rest
   }: any) => {
     const userIsAuthenticated = isAuthenticated();
-    const isFirstTimeUserLoggedIn =
-      sellerSubscription && sellerSubscription.is_first_time_logged_in;
+    const isFirstTimeUserLoggedIn = true;
+    // sellerSubscription && sellerSubscription.is_first_time_logged_in;
     // This effect will run if there is a change in sellerSubscription,
     // auth status, or route so that we can take the appropriate action.
     // TODO: Hoist this logic up to an AuthProvider that includes user's subscription as part
@@ -105,6 +106,17 @@ const PrivateRoute = connect(
       // if beta user account then deny access to settings
       if (location.pathname.includes('/settings') && isBetaAccount(sellerSubscription)) {
         history.push('/activate-beta-account');
+      }
+
+      // Lock user to account set up
+      if (
+        isFirstTimeUserLoggedIn &&
+        !location.pathname.includes('/account-setup') &&
+        !location.pathname.includes('/settings/connectivity') &&
+        !location.pathname.includes('/settings/api-keys')
+      ) {
+        history.push('/account-setup');
+        return;
       }
 
       if (requireSubscription && localStorage.getItem('accountType') !== '') {
@@ -278,6 +290,13 @@ function App() {
             exact={true}
             path="/activate-beta-account"
             component={BetaUsersActivationForm}
+            requireSubscription={false}
+          />
+
+          <PrivateRoute
+            exact={true}
+            path="/account-setup"
+            component={PilotLogin}
             requireSubscription={false}
           />
 

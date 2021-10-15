@@ -17,7 +17,11 @@ export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
   /* Product Research */
   '/product-research',
   '/product-research/database',
+
+  '/account-setup',
 ];
+
+export const HIDE_NAV_BAR_PATH_NAMES = ['/account-setup'];
 
 export const NAV_ICONS = {
   HOME: 'homeIcon.svg',
