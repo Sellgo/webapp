@@ -16,6 +16,7 @@ import {
 import {
   getSellerInventoryTableActiveGroupId,
   getSellerInventoryTableGroups,
+  getSellerInventoryTableResults,
 } from '../../../../selectors/SellerResearch/SellerInventory';
 
 /* Constants */
@@ -36,6 +37,7 @@ import {
 } from '../../../../interfaces/SellerResearch/SellerInventory';
 
 interface Props {
+  sellerInventoryTableResults: any[];
   sellerInventoryTableGroups: SellerInventoryTableGroup[];
   sellerInventoryTableActiveGroupId: SellerInventoryTableActiveGroupId;
 
@@ -45,6 +47,7 @@ interface Props {
 
 const TableGroups = (props: Props) => {
   const {
+    sellerInventoryTableResults,
     sellerInventoryTableGroups,
     sellerInventoryTableActiveGroupId,
     setSellerInventoryTableActiveGroupId,
@@ -78,6 +81,14 @@ const TableGroups = (props: Props) => {
     sellerInventoryTableActiveGroupId === DEFAULT_UNGROUPED_ID ? styles.activeTab : ''
   }`;
 
+  /* WIP : Sell if any bugs exist on the logic */
+
+  const allGroupsSize = sellerInventoryTableResults && sellerInventoryTableResults.length;
+
+  const unGroupedSize =
+    sellerInventoryTableResults &&
+    sellerInventoryTableResults.filter((data: any) => data.merchant_group === null).length;
+
   /* Fetch all groups on mount */
   useEffect(() => {
     fetchSellerInventoryTableGroups();
@@ -98,7 +109,7 @@ const TableGroups = (props: Props) => {
             className={allGroupsClassName}
             onClick={() => handleActiveGroupChange(DEFAULT_ALLGROUPS_ID)}
           >
-            All Groups
+            All Groups ({allGroupsSize})
           </li>
 
           {/* Un grouped */}
@@ -106,7 +117,7 @@ const TableGroups = (props: Props) => {
             className={unGroupedClassName}
             onClick={() => handleActiveGroupChange(DEFAULT_UNGROUPED_ID)}
           >
-            Ungrouped
+            Ungrouped ({unGroupedSize})
           </li>
 
           {/* Custom groups created from users */}
@@ -114,39 +125,47 @@ const TableGroups = (props: Props) => {
             {sellerInventoryTableGroups &&
               sellerInventoryTableGroups.map(g => {
                 const groupActive = g.id === sellerInventoryTableActiveGroupId;
+                const groupSize =
+                  sellerInventoryTableResults &&
+                  sellerInventoryTableResults.filter((data: any) => data.merchant_group === g.id)
+                    .length;
+
                 return (
                   <li
                     key={uuid()}
                     className={groupActive ? styles.activeTab : ''}
                     onClick={() => handleActiveGroupChange(g.id)}
                   >
-                    {g.name}
-                    {groupActive && (
-                      <span className={styles.groupActions}>
-                        <Icon
-                          name="pencil"
-                          className={styles.updateGroupIcon}
-                          onClick={() =>
-                            setOpenEditGroup({
-                              open: true,
-                              currentGroupName: g.name,
-                              currentGroupId: g.id,
-                            })
-                          }
-                        />
-                        <Icon
-                          name="trash"
-                          className={styles.deleteGroupIcon}
-                          onClick={() =>
-                            setOpenDeleteGroup({
-                              open: true,
-                              currentGroupId: g.id,
-                              currentGroupName: g.name,
-                            })
-                          }
-                        />
-                      </span>
-                    )}
+                    {g.name} ({groupSize})
+                    <>
+                      {/* Delete and Edit Icon */}
+                      {groupActive && (
+                        <span className={styles.groupActions}>
+                          <Icon
+                            name="pencil"
+                            className={styles.updateGroupIcon}
+                            onClick={() =>
+                              setOpenEditGroup({
+                                open: true,
+                                currentGroupName: g.name,
+                                currentGroupId: g.id,
+                              })
+                            }
+                          />
+                          <Icon
+                            name="trash"
+                            className={styles.deleteGroupIcon}
+                            onClick={() =>
+                              setOpenDeleteGroup({
+                                open: true,
+                                currentGroupId: g.id,
+                                currentGroupName: g.name,
+                              })
+                            }
+                          />
+                        </span>
+                      )}
+                    </>
                   </li>
                 );
               })}
@@ -214,6 +233,7 @@ const TableGroups = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
   return {
+    sellerInventoryTableResults: getSellerInventoryTableResults(state),
     sellerInventoryTableGroups: getSellerInventoryTableGroups(state),
     sellerInventoryTableActiveGroupId: getSellerInventoryTableActiveGroupId(state),
   };

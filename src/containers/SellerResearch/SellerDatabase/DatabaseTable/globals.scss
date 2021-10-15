@@ -1,6 +1,40 @@
 @import '../../../../styles/tableReset';
 
+.rs-table {
+  background: $light_gray_background !important;
+  overflow-x: auto !important;
+}
+
 #sellerDatabaseTable {
+  /* width */
+  &::-webkit-scrollbar {
+    height: 10px !important;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: $grey_1 !important;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $grey_6 !important;
+    border-radius: 3px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: $grey_6 !important;
+  }
+
+  &.no-scroll {
+    /* width */
+    &::-webkit-scrollbar {
+      display: none !important;
+    }
+  }
+
   // header section
   .rs-table-row-header {
     border-radius: 0 !important;
@@ -22,9 +56,13 @@
   // body section
   .rs-table-body-row-wrapper {
     background: $light_gray_background !important;
+    width: 3440px;
 
     .rs-table-body-wheel-area {
       background: $light_gray_background;
+      transform: none !important;
+      width: 3440px;
+      overflow-x: auto !important;
 
       //  Table row property
       .rs-table-row {
@@ -42,10 +80,10 @@
         }
 
         &:nth-child(2n + 1) {
-          background: $grey_1 !important;
+          background: $grey_11 !important;
 
           .rs-table-cell-content {
-            background: $grey_1 !important;
+            background: $grey_11 !important;
             padding: 3px 10px !important;
           }
         }
@@ -73,6 +111,7 @@
 
   // scrollbar
   div[role='scrollbar'] {
+    display: none !important;
     bottom: 40px !important;
     background: $grey_3;
     border-radius: 4px;

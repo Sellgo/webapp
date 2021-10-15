@@ -15,7 +15,7 @@
 .ui.dropdown.selectionFilter {
   color: $grey_8 !important;
   background-color: $prim_white;
-  border: 1px solid $grey_3 !important;
+  border: 1px solid $grey_3;
   max-height: 35px !important;
   min-height: 35px !important;
   height: 35px;
@@ -37,6 +37,14 @@
     color: $grey_5 !important;
   }
 
+  &__focused {
+    border: 2px solid $blue_6 !important;
+  }
+
+  &:hover {
+    background-color: $grey_1 !important;
+  }
+
   .menu.transition {
     border: 1px solid $grey_3 !important;
     width: 100% !important;
@@ -51,6 +59,7 @@
 
       &:hover {
         background: $grey_1 !important;
+        font-weight: 500 !important;
       }
 
       &.active {

@@ -14,6 +14,13 @@
   }
 }
 
+/* Asin cards wrapper */
+.reverseAsinCardsWrapper {
+  margin: 8px 0;
+  display: flex;
+  justify-content: flex-start;
+}
+
 /* Add asin trigger */
 .addAsinCard {
   user-select: none;
@@ -36,8 +43,6 @@
   }
 
   svg {
-    cursor: pointer;
-
     path {
       fill: $accent_orange;
     }
@@ -55,14 +60,69 @@
   }
 }
 
-/* Asin cards wrapper */
-.reverseAsinCardsWrapper {
-  margin: 8px 0;
+.overflowWrapper {
   display: flex;
   justify-content: flex-start;
+  flex: 1;
+  overflow-x: auto;
+
+  /* width */
+  &::-webkit-scrollbar {
+    height: 5px !important;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: $grey_1 !important;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $grey_6 !important;
+    border-radius: 3px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: $grey_6 !important;
+  }
 }
 
 /* Modal reset */
 .addBulkAsinsModal {
   @include resetGloablModals;
+}
+
+/* Changing ASIn refernce popup */
+.changeAsinReferencePopup {
+  padding: 0 !important;
+  z-index: 99999999 !important;
+
+  &::before {
+    display: none;
+  }
+}
+
+.changeAsinMessage {
+  background: #fff;
+  padding: 0 !important;
+
+  button {
+    background: #fff;
+    color: $grey_8 !important;
+    border: 0;
+    outline: 0;
+    width: 100%;
+    font-weight: 500 !important;
+    font-size: 14px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    &:hover {
+      background: $grey_1 !important;
+      font-weight: 600 !important;
+    }
+  }
 }

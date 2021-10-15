@@ -11,6 +11,7 @@ import ProductsDatabase from './ProductsDatabase';
 /* Components */
 import PageHeader from '../../components/PageHeader';
 import ProductMetaInformation from '../../components/ProductMetaInformation';
+import ProductLabel from '../../components/ProductLabel';
 
 /* Selectors */
 import { getUserOnboarding, getUserOnboardingResources } from '../../selectors/UserOnboarding';
@@ -119,7 +120,13 @@ const ProductResearch: React.FC<Props> = props => {
             selectedIndex={selectedTabList}
           >
             <TabList className={styles.productTablist}>
-              <Tab>Products</Tab>
+              <Tab>
+                <ProductLabel
+                  label="PRODUCTS"
+                  icon="Product Database"
+                  isActive={selectedTabList === 0}
+                />
+              </Tab>
             </TabList>
 
             <TabPanel>

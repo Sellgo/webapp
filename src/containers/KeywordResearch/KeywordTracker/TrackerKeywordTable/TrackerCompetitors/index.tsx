@@ -12,6 +12,7 @@ import { MAX_COMPETITORS_ALLOWED } from '../../../../../constants/KeywordResearc
 /* Components */
 import TrackerCompetitorDetails from '../../../../../components/TrackerCompetitorDetails';
 import AddCompetitorsModal from '../../../../../components/AddCompetitorModal';
+import ActionButton from '../../../../../components/ActionButton';
 
 /* Selectors */
 import { getKeywordTrackerProductsExpandedRow } from '../../../../../selectors/KeywordResearch/KeywordTracker';
@@ -62,14 +63,17 @@ const TrackerCompetitors = (props: Props) => {
           </span>
         </div>
 
-        <button
+        <ActionButton
+          type="orange"
+          variant="secondary"
+          size="md"
           className={styles.addCompetitor}
           onClick={() => setAddCompetitorsModal(true)}
           disabled={totalCurrentCompetitors >= MAX_COMPETITORS_ALLOWED}
         >
           <AddCirecleIcon />
           <span>Add ASINs</span>
-        </button>
+        </ActionButton>
 
         {/* Competitors Display  */}
         <div className={styles.competitorsAsinsWrapper}>

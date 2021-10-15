@@ -9,22 +9,10 @@
 }
 
 .addNewProduct {
-  background: $accent_orange;
-  height: 34px;
-  color: #fff;
-  border-radius: 7px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  width: 170px;
-  font-size: 14px;
+  padding: 0 10px !important;
 
   svg {
-    margin: 0 5px;
-
-    path {
-      color: #fff !important;
-    }
+    margin-right: 5px !important;
   }
 }
 

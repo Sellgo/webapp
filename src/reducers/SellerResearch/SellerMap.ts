@@ -18,6 +18,8 @@ const INITIAL_STATE = {
   mapCenter: INITIAL_CENTER,
   mapBounds: WORLD_MAP_BOUNDS,
   mapZoom: INITIAL_ZOOM,
+
+  mapMarketplace: {},
 };
 
 const sellerMapReducer = (state = INITIAL_STATE, action: AnyAction) => {
@@ -45,6 +47,9 @@ const sellerMapReducer = (state = INITIAL_STATE, action: AnyAction) => {
     }
     case actionTypes.SET_ZOOM_FOR_MAP: {
       return setIn(state, 'mapZoom', action.payload);
+    }
+    case actionTypes.SET_MAP_MARKETPLACE: {
+      return setIn(state, 'mapMarketplace', action.payload);
     }
     default: {
       return state;

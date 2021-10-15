@@ -38,6 +38,14 @@
   padding: 0 10px !important;
   border-radius: 4px !important;
   background: #fff !important;
+
+  &:focus {
+    border: 2px solid $blue_6 !important;
+  }
+
+  &:hover {
+    background-color: $grey_1 !important;
+  }
 }
 
 .marketplaceMenu {
@@ -81,5 +89,10 @@
 
   span {
     font-size: 14px !important;
+  }
+
+  &:hover {
+    background: $grey_1 !important;
+    font-weight: 500 !important;
   }
 }

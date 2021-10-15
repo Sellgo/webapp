@@ -48,6 +48,9 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   // include exclude
   searchTerm: { keyName: 'phrases', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
 
+  // text based
+  amazonChoice: { keyName: 'is_amazon_choice', type: F_TYPES.TEXT },
+
   // checkbox filters
   matchKeywords: { keyName: 'whole_words', type: F_TYPES.CHECKBOX },
 
@@ -57,9 +60,6 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   competingProducts: { keyName: 'competing_products', type: F_TYPES.MIN_MAX },
   titleDensity: { keyName: 'title_density', type: F_TYPES.MIN_MAX },
   searchVolumeTrend30D: { keyName: 'search_volume_30_days', type: F_TYPES.MIN_MAX },
-
-  // checkbox filters
-  amazonChoice: { keyName: 'amazon_choice', type: F_TYPES.TEXT },
 };
 
 export const MAX_KEYWORDS_ALLOWED = 200;

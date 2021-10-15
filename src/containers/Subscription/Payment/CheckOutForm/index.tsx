@@ -8,12 +8,8 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
-import { Form, Dropdown, Loader } from 'semantic-ui-react';
+import { Form, Loader } from 'semantic-ui-react';
 import Axios from 'axios';
-
-/* Constants */
-import { countryList } from '../../../../constants/Settings';
-import { postalCode } from '../../../../constants/Validators';
 
 /* App Config */
 import { AppConfig } from '../../../../config';
@@ -35,14 +31,14 @@ import { useInput } from '../../../../hooks/useInput';
 import cardIcons from '../../../../assets/images/4_Card_color_horizontal.svg';
 import stripeIcon from '../../../../assets/images/powered_by_stripe.svg';
 
-/* Data */
-import { subscriptionPlans } from '../../data';
-
 /* Styling */
 import styles from './index.module.scss';
 
 /* Types */
 import { PromoCode } from '../../../../interfaces/Subscription';
+
+/* Utils */
+import { getSubscriptionID } from '../../../../constants/Subscription';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -70,7 +66,7 @@ interface MyProps {
   handlePaymentError: (data: any) => void;
   setStripeLoad: (data: boolean) => void;
   stripeLoading: boolean;
-  checkPromoCode: (data: string) => void;
+  checkPromoCode: (promoCode: string, subscriptionId: number, paymentMode: string) => void;
   promoLoading: boolean;
   setRedeemedPromoCode: (promoCode: any) => void;
   redeemedPromoCode: PromoCode;
@@ -89,20 +85,12 @@ function CheckoutForm(props: MyProps) {
     promoLoading,
     setRedeemedPromoCode,
     setPromoError,
+    accountType,
+    paymentMode,
   } = props;
   const [isPromoCodeChecked, setPromoCodeChecked] = useState<boolean>(false);
   const [promoCode, setPromoCode] = useState<string>('');
   const { value: name, bind: bindName } = useInput('');
-  const { value: address, bind: bindAddress } = useInput('');
-  const { value: city, bind: bindCity } = useInput('');
-  const { value: stateAddress, bind: bindStateAddress } = useInput('');
-  const { value: zipCode, bind: bindZipCode } = useInput('');
-  const [selectedCountry, setSelectedCountry] = useState({
-    key: 1,
-    name: `United States`,
-    code: 'US',
-    value: 'US',
-  });
 
   /* Upon successful checking of the entered promo code, either a valid redeemedPromoCode code 
   is returned, or an error message is returned. Upon completion of promo code check, set status 
@@ -118,7 +106,9 @@ function CheckoutForm(props: MyProps) {
 
   const handleCheckPromoCode = async (event: any) => {
     event.preventDefault();
-    checkPromoCode(promoCode);
+    const subscriptionId = getSubscriptionID(accountType);
+    Axios.defaults.headers.common.Authorization = ``;
+    checkPromoCode(promoCode, subscriptionId, paymentMode);
   };
 
   const handlePromoCodeChange = (event: any) => {
@@ -126,21 +116,6 @@ function CheckoutForm(props: MyProps) {
     setPromoCodeChecked(false);
     setRedeemedPromoCode({});
     setPromoError('');
-  };
-
-  const handleCountry = (data: any) => {
-    setSelectedCountry(data);
-  };
-  const trigger = <span className="country-label">{selectedCountry.name}</span>;
-
-  const getSubscriptionID = (planName: string) => {
-    const DEFAULT_PROFESSIONAL_PLAN_ID = 2;
-    const id = subscriptionPlans[planName];
-    if (id) {
-      return id;
-    } else {
-      return DEFAULT_PROFESSIONAL_PLAN_ID;
-    }
   };
 
   const handleSubmit = async (event: any) => {
@@ -166,10 +141,6 @@ function CheckoutForm(props: MyProps) {
 
       return;
     }
-    if (!postalCode(zipCode, selectedCountry.code.split(','))) {
-      handlePaymentError({ message: 'Zipcode is invalid' });
-      return;
-    }
 
     setStripeLoad(true);
     const cardElement = elements.getElement(CardNumberElement);
@@ -184,13 +155,6 @@ function CheckoutForm(props: MyProps) {
       card: cardElement,
       billing_details: {
         name: name,
-        address: {
-          line1: address,
-          city: city,
-          country: selectedCountry.code,
-          state: stateAddress,
-          postal_code: zipCode,
-        },
       },
     });
 
@@ -262,67 +226,6 @@ function CheckoutForm(props: MyProps) {
           </Form.Field>
         </Form.Group>
 
-        <h2>Billing Address</h2>
-        <Form.Input
-          className={styles.formInput}
-          size="huge"
-          label="Address"
-          type="text"
-          placeholder="Address"
-          {...bindAddress}
-        />
-
-        <Form.Group className={styles.formGroup}>
-          <Form.Input
-            className={styles.formInput}
-            size="huge"
-            label="City"
-            type="text"
-            placeholder="City"
-            {...bindCity}
-          />
-          <Form.Input
-            className={styles.formInput}
-            size="huge"
-            label="State"
-            type="text"
-            placeholder="eg. California"
-            {...bindStateAddress}
-          />
-        </Form.Group>
-
-        <Form.Group className={styles.formGroup}>
-          <Form.Field className={styles.formInput}>
-            <label htmlFor="Country">Country</label>
-            <Dropdown id="Country" className={styles.dropdown} openOnFocus trigger={trigger}>
-              <Dropdown.Menu className={styles.dropdown__menu}>
-                {countryList.map((option, key) => {
-                  return (
-                    <Dropdown.Item
-                      key={key}
-                      className={styles.dropdown__menuItem}
-                      text={option.name}
-                      value={option.id}
-                      onClick={() => {
-                        handleCountry(option);
-                      }}
-                    />
-                  );
-                })}
-              </Dropdown.Menu>
-            </Dropdown>
-          </Form.Field>
-
-          <Form.Input
-            className={styles.formInput}
-            size="huge"
-            label="Zipcode"
-            type="text"
-            placeholder="eg. 97201"
-            {...bindZipCode}
-          />
-        </Form.Group>
-
         <h2>Redeem Coupon</h2>
         <Form.Group className={`${styles.formGroup} ${styles.formGroup__promo}`}>
           <Form.Input
@@ -387,7 +290,8 @@ const mapDispatchToProps = {
   createSubscriptionData: (data: any) => createSubscription(data),
   retryInvoice: (data: any) => retryInvoiceWithNewPaymentMethod(data),
   setStripeLoad: (data: boolean) => setStripeLoading(data),
-  checkPromoCode: (data: string) => checkPromoCode(data),
+  checkPromoCode: (promoCode: string, subscriptionId: number, paymentMode: string) =>
+    checkPromoCode(promoCode, subscriptionId, paymentMode),
   setRedeemedPromoCode: (data: any) => setPromoCode(data),
   setPromoError: (data: string) => setPromoError(data),
 };

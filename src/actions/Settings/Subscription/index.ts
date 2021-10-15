@@ -42,20 +42,25 @@ export const setPromoCode = (promoCode: any) => ({
   payload: promoCode,
 });
 
-export const checkPromoCode = (promoCode: string) => (dispatch: any) => {
+export const checkPromoCode = (promoCode: string, subscriptionId: number, paymentMode: string) => (
+  dispatch: any
+) => {
   dispatch(setPromoLoading(true));
   const sellerID = localStorage.getItem('userId');
   const fetchPromoCode = async () => {
     try {
-      const res = await Axios.get(
-        AppConfig.BASE_URL_API + `sellers/${sellerID}/promo-code/${promoCode}`
-      );
+      const url = sellerID
+        ? `${AppConfig.BASE_URL_API}sellers/${sellerID}/promo-code/${promoCode}/${subscriptionId}/${paymentMode}`
+        : `${AppConfig.BASE_URL_API}sellers/promo-code/${promoCode}/${subscriptionId}/${paymentMode}`;
+      const res = await Axios.get(url);
       dispatch(setPromoCode(res.data));
       dispatch(setPromoError(''));
       dispatch(setPromoLoading(false));
     } catch (err) {
       if (err.response && err.response.data && err.response.data.message) {
         dispatch(setPromoError(err.response.data.message));
+      } else {
+        dispatch(setPromoError('Failed to retrieve promo code.'));
       }
       dispatch(setPromoCode({}));
       dispatch(setPromoLoading(false));
@@ -94,6 +99,7 @@ export const fetchSellerSubscription = () => (dispatch: any) => {
     });
 };
 
+/* Create subscription for freemium checkout flow */
 export const createSubscription = (data: any) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   const bodyFormData = new FormData();

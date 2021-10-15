@@ -33,6 +33,7 @@
 }
 
 .productMeta {
+  display: flex;
   font-size: 10px;
   line-height: 1;
   margin: 0;
@@ -40,12 +41,25 @@
   img {
     width: 7px;
     height: 7px;
-    margin-right: 5px;
+    margin-right: 10px;
+    margin-top: 2px;
   }
 
-  span {
+  .asinWrapper {
+    position: absolute;
+    margin: 1px 10px !important;
+    z-index: 9999999 !important;
+  }
+
+  .asin {
+    font-size: 10px !important;
     color: $grey_8 !important;
-    margin: 0;
+    margin-right: -2px !important;
+    font-weight: 400;
+
+    &:hover {
+      font-weight: 500;
+    }
   }
 }
 

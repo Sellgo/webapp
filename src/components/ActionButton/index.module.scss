@@ -1,0 +1,99 @@
+@import '../../design-system/new-colors';
+
+/* Global Reset */
+@mixin btnReset {
+  background: none !important;
+  outline: none !important;
+  border: 0 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: $fontweight_medium !important;
+  padding: 0 !important;
+  border-radius: 7px !important;
+}
+
+/* Variants Styles */
+
+.primary {
+  &__orange {
+    @include btnReset;
+
+    background: $orange_6 !important;
+    color: $prim_white !important;
+    border: 1px solid $orange_6 !important;
+
+    &:hover {
+      background: $accent_orange !important;
+      border: 1px solid $accent_orange !important;
+      font-weight: $fontweight_semibold !important;
+    }
+  }
+
+  &__blue {
+    @include btnReset;
+
+    background: $blue_8 !important;
+    color: $prim_white !important;
+    border: 1px solid $blue_8 !important;
+
+    &:hover {
+      background: $blue_7 !important;
+      border: 1px solid $blue_7 !important;
+      font-weight: $fontweight_semibold !important;
+    }
+  }
+}
+
+.secondary {
+  &__orange {
+    @include btnReset;
+
+    background: $prim_white !important;
+    color: $accent_orange !important;
+    border: 1px solid $accent_orange !important;
+    font-weight: 400 !important;
+
+    &:hover {
+      background: $accent_orange !important;
+      border: 1px solid $accent_orange !important;
+      color: $prim_white !important;
+      font-weight: 500 !important;
+    }
+  }
+
+  &__blue {
+    @include btnReset;
+
+    background: $prim_white !important;
+    color: $blue_8 !important;
+    border: 1px solid $blue_8 !important;
+
+    &:hover {
+      background: $blue_8 !important;
+      border: 1px solid $blue_8 !important;
+      color: $prim_white !important;
+      font-weight: 500 !important;
+    }
+  }
+}
+
+.reset {
+  @include btnReset;
+
+  background: transparent !important;
+  color: $grey_6 !important;
+  border: 1px solid transparent !important;
+
+  &:hover {
+    background: $grey_1 !important;
+    border: 1px solid $grey_1 !important;
+  }
+}
+
+/* Sizes */
+.md {
+  min-width: 140px !important;
+  height: 34px !important;
+  width: max-content;
+}

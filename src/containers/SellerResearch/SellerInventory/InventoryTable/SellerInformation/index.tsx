@@ -11,7 +11,7 @@ import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipb
 import { RowCell } from '../../../../../interfaces/Table';
 
 /* Utils */
-import { truncateString } from '../../../../../utils/format';
+import { truncateIntoTwoLines, truncateString } from '../../../../../utils/format';
 
 /* Assets */
 import USFlag from '../../../../../assets/images/USFlag.png';
@@ -27,10 +27,15 @@ const SellerInformation = (props: RowCell) => {
   const businessAddress = rowData.address;
   const launched = rowData.launched;
   const businessCity = rowData.city;
-  const businessZipCode = rowData.zip_code;
   const businessCountry = rowData.country;
 
   const sellerLink = `https://www.amazon.com/sp?seller=${merchantId}`;
+
+  const fullAddress = `${businessAddress ? businessAddress : ''},
+  ${businessCity ? businessCity : ''},
+  ${businessCountry ? businessCountry : ''}`;
+
+  const [firstPart, secondPart] = truncateIntoTwoLines(fullAddress, 25, 50);
 
   return (
     <Table.Cell {...props}>
@@ -56,8 +61,9 @@ const SellerInformation = (props: RowCell) => {
           <div className={styles.sellerBusinessDetails}>
             <h3>Business Address:</h3>
             <div className={styles.address}>
-              <p>{businessAddress ? businessAddress : '-'}</p>
-              <p>{`${businessCity}, ${businessZipCode}, ${businessCountry}`}</p>
+              {/* <p>{businessAddress ? truncateString(businessAddress, 25) : '-'}</p> */}
+              <p>{firstPart}</p>
+              <p>{secondPart}</p>
             </div>
           </div>
 

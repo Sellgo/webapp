@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table } from 'rsuite';
 import { Popup, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
@@ -32,6 +32,8 @@ import { TrackUntrackProduct } from '../../../../../interfaces/SellerResearch/Se
 
 /* Hooks */
 import { useFindRefreshSellerByAsin } from '../../SocketProviders/FindRefreshSellerByAsin';
+import { success } from '../../../../../utils/notifications';
+import { timeout } from '../../../../../utils/timeout';
 
 interface Props extends RowCell {
   allowLiveScraping: boolean;
@@ -48,6 +50,8 @@ const BuyboxCompetition = (props: Props) => {
     fetchCentralScrapingProgress,
     ...otherProps
   } = props;
+
+  const [openPopup, setOpenPopup] = useState(false);
 
   const { handleFindOrRefreshByAsin } = useFindRefreshSellerByAsin();
 
@@ -67,8 +71,13 @@ const BuyboxCompetition = (props: Props) => {
   /* Logic to disbale check inventory */
   const disableCheckSellers = isLessThan24Hours(lastCheckSellers) || !allowLiveScraping;
 
+  /* Handle close popup */
+  const handleClosePopup = () => {
+    setOpenPopup(false);
+  };
+
   /* Handle Check Sellers button */
-  const handleCheckSellers = () => {
+  const handleCheckSellers = async () => {
     const sendPayload = {
       asins: productAsin,
       merchantId,
@@ -78,7 +87,10 @@ const BuyboxCompetition = (props: Props) => {
     };
 
     handleFindOrRefreshByAsin(sendPayload);
-    fetchCentralScrapingProgress();
+    handleClosePopup();
+    success(`Checking sellers for ${productAsin}. Check the progress for latest updates`);
+    await timeout(2000);
+    await fetchCentralScrapingProgress();
   };
 
   /* Handle Prpduct tracking */
@@ -88,7 +100,7 @@ const BuyboxCompetition = (props: Props) => {
       productId,
       productTrackId: productTrackId ? productTrackId : null,
     };
-
+    handleClosePopup();
     trackUntrackSellerProduct(payload);
   };
 
@@ -109,6 +121,8 @@ const BuyboxCompetition = (props: Props) => {
           </button>
           <Popup
             on="click"
+            open={openPopup}
+            onClose={handleClosePopup}
             position="bottom left"
             offset="-40"
             closeOnDocumentClick
@@ -118,6 +132,7 @@ const BuyboxCompetition = (props: Props) => {
               <Button
                 icon="chevron down"
                 className={`${styles.iconButton} iconButtonResetGlobal`}
+                onClick={() => setOpenPopup(true)}
               />
             }
             content={

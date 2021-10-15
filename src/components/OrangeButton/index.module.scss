@@ -1,3 +1,5 @@
+@import '../../design-system/new-colors';
+
 /* Style Guide for cta button */
 .ctabutton {
   color: #fff;
@@ -11,18 +13,50 @@
     background: #fc7900;
     color: #fff;
     border: 1px solid #fc7900;
+
+    &:hover {
+      color: #fff !important;
+    }
   }
 
   &__secondary {
     background: #fff;
     color: #fc7900;
     border: 1px solid #fc7900;
+
+    &:hover {
+      color: #fc7900 !important;
+    }
   }
 
   &__grey {
     background: #808080;
     color: #fff;
     border: 1px solid #808080;
+
+    &:hover {
+      color: #fff !important;
+    }
+  }
+
+  &__white {
+    background: #fff;
+    color: $grey_8;
+    border: 1px solid $grey_6;
+    font-weight: normal !important;
+
+    &:hover {
+      color: $grey_8 !important;
+    }
+  }
+
+  &__blue {
+    background: $blue_8;
+    color: #fff;
+
+    &:hover {
+      color: #fff !important;
+    }
   }
 
   &__large {
@@ -52,6 +86,5 @@
   &:hover {
     cursor: pointer;
     text-decoration: none;
-    color: #fff;
   }
 }

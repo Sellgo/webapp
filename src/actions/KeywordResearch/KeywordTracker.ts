@@ -22,6 +22,9 @@ import {
   TrackerTableProductsPayload,
   UnTrackKeywordTrackerTableProduct,
   UnTrackProductsTableKeyword,
+  TrackBoostProductsTableKeyword,
+  TrackerTableProductVariationsPayload,
+  TrackerTableUpdateProductVariationsPayload,
 } from '../../interfaces/KeywordResearch/KeywordTracker';
 
 /* Selectors */
@@ -35,7 +38,6 @@ import {
 /* Utils */
 import { error, success } from '../../utils/notifications';
 import { downloadFile } from '../../utils/download';
-import { formatNumber } from '../../utils/format';
 
 /* ================================================= */
 /*    KEYWORD TRACK MAIN TABLE (PRODUCTS)  */
@@ -70,6 +72,25 @@ export const setKeywordTrackerProductsTablePaginationInfo = (
 export const setKeywordTrackerProductsExpandedRow = (payload: any) => {
   return {
     type: actionTypes.SET_KEYWORD_TRACKER_PRODUCTS_EXPANDED_ROW,
+    payload,
+  };
+};
+
+/* ================================================= */
+/*    KEYWORD TRACKER PRODUCT VARIATIONS   */
+/* ================================================= */
+/* Action to set loading state of keyword tracker product variations */
+export const isLoadingKeywordTrackerProductVariations = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_LOADING_KEYWORD_TRACKER_PRODUCT_VARIATIONS,
+    payload,
+  };
+};
+
+/* Action to set keyword tracker product variation results */
+export const setKeywordTrackerVariationsResults = (payload: any) => {
+  return {
+    type: actionTypes.SET_KEYWORD_TRACKER_PRODUCT_VARIATIONS,
     payload,
   };
 };
@@ -165,7 +186,7 @@ export const trackProductWithAsinAndKeywords = (payload: ProductTrackPayload) =>
   try {
     const { asin, keywords, trackParentsAndVariations } = payload;
 
-    if (!asin || !keywords) {
+    if (!asin) {
       return;
     }
 
@@ -281,6 +302,61 @@ export const unTrackKeywordTrackerTableProduct = (
     console.error('Error Untracking/Deleting keyword from tracker product table', err);
   }
 };
+/* ================================================= */
+/*   					KEYWORD TRACKER VARIATIONS							*/
+/* ================================================= */
+/* Action to fetch the keyword tacker products table content */
+export const fetchKeywordTrackerProductVariation = (
+  payload: TrackerTableProductVariationsPayload
+) => async (dispatch: any) => {
+  const sellerId = sellerIDSelector();
+  dispatch(isLoadingKeywordTrackerProductVariations(true));
+  try {
+    const { keywordTrackProductId } = payload;
+
+    const URL =
+      `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/` +
+      `variations?keyword_track_product_id=${keywordTrackProductId}`;
+    const { data } = await axios.get(URL);
+
+    if (data) {
+      dispatch(setKeywordTrackerVariationsResults(data));
+      dispatch(isLoadingKeywordTrackerProductVariations(false));
+    }
+  } catch (err) {
+    console.error('Error fetching product variations', err);
+    dispatch(setKeywordTrackerVariationsResults([]));
+    dispatch(isLoadingKeywordTrackerProductVariations(false));
+  }
+};
+
+/* Action to fetch the updated keyword tacker products table content */
+export const fetchUpdateKeywordTrackerProductVariations = (
+  payload: TrackerTableUpdateProductVariationsPayload
+) => async (dispatch: any) => {
+  const sellerId = sellerIDSelector();
+  dispatch(isLoadingKeywordTrackerProductVariations(true));
+  try {
+    const { asin } = payload;
+    const formData = new FormData();
+
+    formData.set('is_update_variations', 'true');
+    formData.set('track_parent_and_variations', 'true');
+    formData.set('asin', asin);
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track`;
+    const { data } = await axios.post(URL, formData);
+
+    if (data) {
+      dispatch(setKeywordTrackerVariationsResults(data));
+      dispatch(isLoadingKeywordTrackerProductVariations(false));
+    }
+  } catch (err) {
+    console.error('Error fetching product variations', err);
+    dispatch(setKeywordTrackerVariationsResults([]));
+    dispatch(isLoadingKeywordTrackerProductVariations(false));
+  }
+};
 
 /* ================================================= */
 /*   					KEYWORD TRACKER COMPETITORS							*/
@@ -392,7 +468,7 @@ export const fetchTrackerProductKeywordsTable = (
     const {
       keywordTrackProductId,
       enableLoader = true,
-      perPage = 20,
+      perPage = 2000,
       page = 1,
       sort = 'id',
       sortDir = 'asc',
@@ -418,29 +494,19 @@ export const fetchTrackerProductKeywordsTable = (
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track?${resourcePath}`;
 
+    setTrackerProductKeywordsTableResults([]);
     dispatch(isLoadingTrackerProductKeywordsTable(enableLoader));
 
     const { data } = await axios.get(URL);
 
-    const { results, ...paginationInfo } = data;
-
     if (data) {
-      dispatch(setTrackerProductKeywordsTableResults(results));
-      dispatch(setTrackerProductKeywordsTablePaginationInfo(paginationInfo));
+      dispatch(setTrackerProductKeywordsTableResults(data));
+
       dispatch(isLoadingTrackerProductKeywordsTable(false));
     }
   } catch (err) {
     console.error('Error Fetching Tracker');
     dispatch(setTrackerProductKeywordsTableResults([]));
-    dispatch(
-      setTrackerProductKeywordsTablePaginationInfo({
-        count: 0,
-        current_page: 0,
-        total_pages: 0,
-        per_page: 20,
-      })
-    );
-
     dispatch(isLoadingTrackerProductKeywordsTable(false));
   }
 };
@@ -481,10 +547,49 @@ export const unTrackTrackerProductTableKeyword = (payload: UnTrackProductsTableK
   }
 };
 
-/* Action to add more keywords in tracker product */
-export const addTrackerProductKeywords = (payload: AddTrackerProductKeyword) => async (
+/* Action to track/untrack with boost for the keyword from tracker products table */
+export const trackBoostProductTableKeyword = (payload: TrackBoostProductsTableKeyword) => async (
   dispatch: any,
   getState: any
+) => {
+  const sellerId = sellerIDSelector();
+
+  const currentlyAvailableKeywords = getTrackerProductKeywordsTableResults(getState());
+
+  try {
+    const { keywordTrackId, is_boost } = payload;
+
+    const formData = new FormData();
+    formData.set(TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY, String(keywordTrackId));
+    formData.set('is_boost', String(is_boost));
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track`;
+
+    const { data } = await axios.patch(URL, formData);
+
+    if (data) {
+      // Update track status on keywrods table
+      const updatedKeywordsOnTable = currentlyAvailableKeywords.map((keywordData: any) => {
+        const newKeywordData = { ...keywordData };
+        if (
+          keywordData[TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY] ===
+          data[TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY]
+        ) {
+          newKeywordData.is_boost = data.is_boost;
+        }
+        return newKeywordData;
+      });
+      dispatch(setTrackerProductKeywordsTableResults(updatedKeywordsOnTable));
+      success(`Successfully ${is_boost === 'true' ? 'tracked' : 'untracked'} keyword on Boost.`);
+    }
+  } catch (err) {
+    console.error('Error tracking/untracking keyword on boost from tracker product table', err);
+  }
+};
+
+/* Action to add more keywords in tracker product */
+export const addTrackerProductKeywords = (payload: AddTrackerProductKeyword) => async (
+  dispatch: any
 ) => {
   const sellerId = sellerIDSelector();
 
@@ -499,13 +604,13 @@ export const addTrackerProductKeywords = (payload: AddTrackerProductKeyword) => 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/add-phrases`;
 
     const { data } = await axios.patch(URL, formData);
+    dispatch(isLoadingTrackerProductKeywordsTable(true));
 
     if (data) {
-      const currentKeywordsForProduct = getTrackerProductKeywordsTableResults(getState());
-
-      const updatedKeywords = [...currentKeywordsForProduct, ...data];
+      const updatedKeywords = [...data];
       dispatch(setTrackerProductKeywordsTableResults(updatedKeywords));
-      success(`${formatNumber(data.length)} new keywords added`);
+      dispatch(isLoadingTrackerProductKeywordsTable(false));
+      success(`Keyword List added successfully.`);
     }
   } catch (err) {
     console.error('Error adding more keywords to product', err);
@@ -639,9 +744,9 @@ export const triggerTrackerProductKeywordsHistoryExport = (
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/history/export`;
 
-    const { status, statusText } = await axios.post(URL, formData);
+    const { status } = await axios.post(URL, formData);
 
-    if (status === 200 && statusText === 'OK') {
+    if (status === 200) {
       // reset any previous export results
       dispatch(
         setTrackerProductKeywordsHistoryExportProgress({

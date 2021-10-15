@@ -12,6 +12,7 @@ import {
   SellerDatabasePaginationInfo,
   SellerDatabasePayload,
   ShowFilterMessage,
+  MarketplaceOption,
 } from '../../../../interfaces/SellerResearch/SellerDatabase';
 
 /* Selectors */
@@ -19,14 +20,13 @@ import {
   getFilterMessage,
   getIsLoadingSellerDatabase,
   getSellerDatabasePaginationInfo,
+  getSellerDatabaseMarketplaceInfo,
   getSellerDatabaseResults,
 } from '../../../../selectors/SellerResearch/SellerDatabase';
 
 /* Components */
 import TableExport from '../../../../components/NewTable/TableExport';
-
-/* Utils */
-import { formatNumber } from '../../../../utils/format';
+import TableResultsMessage from '../../../../components/TableResultsMessage';
 
 /* Assets */
 import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
@@ -38,6 +38,7 @@ interface Props {
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
   sellerDatabaseFilterMessage: ShowFilterMessage;
   sellerDatabasePaginationInfo: SellerDatabasePaginationInfo;
+  sellerMarketplace: MarketplaceOption;
 }
 
 const DatabaseExport = (props: Props) => {
@@ -47,10 +48,11 @@ const DatabaseExport = (props: Props) => {
     isLoadingSellerDatabase,
     sellerDatabaseFilterMessage,
     sellerDatabasePaginationInfo,
+    sellerMarketplace,
   } = props;
 
   const handleOnExport = (fileFormat: 'csv' | 'xlsx') => {
-    fetchSellerDatabase({ isExport: true, fileFormat });
+    fetchSellerDatabase({ isExport: true, fileFormat, marketplaceId: sellerMarketplace.value });
   };
 
   const shouldEnableExport = useMemo(
@@ -58,18 +60,15 @@ const DatabaseExport = (props: Props) => {
     [isLoadingSellerDatabase, sellerDatabaseResults]
   );
 
-  const totalSellersFound = useMemo(() => {
-    const count = sellerDatabasePaginationInfo.count;
-    return formatNumber(count);
-  }, [sellerDatabasePaginationInfo]);
-
   return (
     <>
       <div className={styles.exportsContainer}>
-        {!sellerDatabaseFilterMessage.show && totalSellersFound !== '0' && (
-          <p className={styles.messageText}>
-            Viewing <span className={styles.sellerCount}>{totalSellersFound}</span> sellers.
-          </p>
+        {!sellerDatabaseFilterMessage.show && sellerDatabasePaginationInfo.total_pages > 0 && (
+          <TableResultsMessage
+            prependMessage="Viewing"
+            count={sellerDatabasePaginationInfo.count}
+            appendMessage="sellers."
+          />
         )}
 
         <TableExport
@@ -109,6 +108,7 @@ const mapStateToProps = (state: any) => ({
   isLoadingSellerDatabase: getIsLoadingSellerDatabase(state),
   sellerDatabaseFilterMessage: getFilterMessage(state),
   sellerDatabasePaginationInfo: getSellerDatabasePaginationInfo(state),
+  sellerMarketplace: getSellerDatabaseMarketplaceInfo(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {

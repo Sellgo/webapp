@@ -6,11 +6,10 @@ import Axios from 'axios';
 import _ from 'lodash';
 import Carousel from 'react-multi-carousel';
 
-import stripe from '../../../stripe';
-
 /* Utils */
 import { success, error } from '../../../utils/notifications';
 import history from '../../../history';
+import { convertPlanNameToKey, isSubscriptionNotPaid } from '../../../utils/subscriptions';
 
 /* Config */
 import { AppConfig } from '../../../config';
@@ -19,7 +18,6 @@ import { AppConfig } from '../../../config';
 import {
   fetchSellerSubscription,
   fetchSubscriptions,
-  redeemCoupon,
   setSellerSubscription,
 } from '../../../actions/Settings/Subscription';
 import { getSellerInfo } from '../../../actions/Settings';
@@ -35,17 +33,16 @@ import 'react-multi-carousel/lib/styles.css';
 /* Components */
 
 import PageHeader from '../../../components/PageHeader';
-
+import PricingPlansSummary from '../../../components/PricingCardsSummary';
 import PricingInfoAlert from '../../../components/PricingInfoAlert';
-
-import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
 
 /* Types */
 import { Subscription } from '../../../interfaces/Seller';
-import PricingPlansSummary from '../../../components/PricingCardsSummary';
-import { subscriptionPlans, SubscriptionPlan } from './data';
-import { DAILY_SUBSCRIPTION_PLANS } from '../../../constants/Settings';
+import { SubscriptionPlan } from '../../../interfaces/Subscription';
 import FAQSection from './FaqSection';
+
+/* Data */
+import { SUBSCRIPTION_PLANS, DAILY_SUBSCRIPTION_PLANS } from '../../../constants/Subscription';
 
 interface SubscriptionProps {
   getSeller: () => void;
@@ -59,7 +56,6 @@ interface SubscriptionProps {
   subscriptionType: string;
   subscriptionPlan: string;
   match: any;
-  redeemCoupon: (value: any, id: any) => void;
 }
 
 class SubscriptionPricing extends React.Component<SubscriptionProps> {
@@ -99,7 +95,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   chooseSubscription(subscription: any, paymentMode: string) {
     const { subscriptionType } = this.props;
     if (isSubscriptionNotPaid(subscriptionType)) {
-      this.checkout(subscription.id, paymentMode);
+      this.checkout(subscription, paymentMode);
     } else {
       this.setState({
         pendingSubscription: true,
@@ -132,48 +128,10 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     history.push('/churnflow');
   }
 
-  checkout(subscriptionId: any, paymentMode: string) {
-    this.createCheckoutSession(subscriptionId, paymentMode)
-      .then((checkoutSessionId: any) => {
-        this.redirectToCheckout(checkoutSessionId);
-      })
-      .catch(() => {
-        error(`There was an error redirecting you to Stripe`);
-      });
-  }
-
-  createCheckoutSession(subscriptionId: any, paymentMode: string) {
-    const { profile } = this.props;
-    const bodyFormData = new FormData();
-    bodyFormData.append('subscription_id', subscriptionId);
-    bodyFormData.append('payment_mode', paymentMode);
-    bodyFormData.append('email', profile.email);
-
-    return Axios.post(
-      AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/create-checkout-session`,
-      bodyFormData
-    ).then(response => {
-      return response.data;
-    });
-  }
-
-  redirectToCheckout(checkoutSessionId: any) {
-    stripe
-      .redirectToCheckout({
-        sessionId: checkoutSessionId,
-      })
-      .then((result: any) => {
-        // If `redirectToCheckout` fails due to a browser or network
-        // error, display the localized error message to your customer
-        // using `result.error.message`.
-        error(`There was an error: ${result.error.message}`);
-      });
-  }
-
-  redeem() {
-    const { couponVal } = this.state;
-    const { profile, redeemCoupon } = this.props;
-    redeemCoupon(couponVal, profile.id);
+  checkout(subscription: Subscription, paymentMode: string) {
+    localStorage.setItem('planType', convertPlanNameToKey(subscription.name));
+    localStorage.setItem('paymentMode', paymentMode);
+    history.push(`/subscription/payment`);
   }
 
   promptCancelSubscriptionPlan = () => {
@@ -214,7 +172,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
           title={'Pricing Plans'}
           breadcrumb={[
             { content: 'Home', to: '/' },
-            { content: 'Settings', to: '/settings' },
+            { content: 'Settings' },
             { content: 'Pricing' },
           ]}
           auth={match.params.auth}
@@ -300,7 +258,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               }}
               className={styles.carouselListWrappewr}
             >
-              {subscriptionPlans.map((subscriptionPlan: SubscriptionPlan) => {
+              {SUBSCRIPTION_PLANS.map((subscriptionPlan: SubscriptionPlan) => {
                 const {
                   subscriptionId,
                   monthlyPrice,
@@ -373,7 +331,6 @@ const mapDispatchToProps = {
   fetchSubscriptions: () => fetchSubscriptions(),
   fetchSellerSubscription: () => fetchSellerSubscription(),
   setSellerSubscription: (data: any) => setSellerSubscription(data),
-  redeemCoupon: (value: any, id: any) => redeemCoupon(value, id),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubscriptionPricing);

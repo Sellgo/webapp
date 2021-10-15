@@ -84,7 +84,7 @@ const SellerActions = (props: Props) => {
                     <p>ASIN</p>
                     <button onClick={() => handleCopyAsins(',')} disabled={!parsedAsinList.length}>
                       <Icon name="copy outline" />
-                      <span>Copy ASINs in rows with comma</span>
+                      <span>Copy ASINs in rows</span>
                     </button>
 
                     <button onClick={() => handleCopyAsins('\n')} disabled={!parsedAsinList.length}>

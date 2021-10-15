@@ -31,7 +31,7 @@ const SellerInformation = (props: RowCell) => {
   const businessCity = rowData.city;
   const businessZipCode = rowData.zip_code;
   const businessCountry = rowData.country;
-  const marketplaceId = rowData.marketplace;
+  const marketplaceId = rowData.marketplace_id;
 
   return (
     <Table.Cell {...props}>
@@ -58,7 +58,12 @@ const SellerInformation = (props: RowCell) => {
             <h3>Business Address:</h3>
             <div className={styles.address}>
               <p>{businessAddress ? businessAddress : '-'}</p>
-              <p>{`${businessCity}, ${businessZipCode}, ${businessCountry}`}</p>
+              <p>
+                {businessCity &&
+                  businessZipCode &&
+                  businessCountry &&
+                  `${businessCity}, ${businessZipCode}, ${businessCountry}`}
+              </p>
             </div>
           </div>
 

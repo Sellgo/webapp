@@ -8,6 +8,10 @@ export const actionTypes = {
 
   SET_KEYWORD_TRACKER_PRODUCTS_EXPANDED_ROW: 'SET_KEYWORD_TRACKER_PRODUCTS_EXPANDED_ROW',
 
+  // Action types for obtaining keyword tracker product variations
+  IS_LOADING_KEYWORD_TRACKER_PRODUCT_VARIATIONS: 'IS_LOADING_KEYWORD_TRACKER_PRODUCTS_TABLE',
+  SET_KEYWORD_TRACKER_PRODUCT_VARIATIONS: 'SET_KEYWORD_TRACKER_PRODUCT_VARIATIONS',
+
   // Action types for asetting competitors in keywords products table
   SET_KEYWORD_TRACKER_PRODUCTS_TABLE_COMPETITORS: 'SET_KEYWORD_TRACKER_PRODUCTS_TABLE_COMPETITORS',
 
@@ -62,9 +66,28 @@ export const DEFAULT_PAGES_LIST = [
   },
 ];
 
+/* Calculate tracker product table exanded row height */
+export const calculateTrackerProductTableExpandedHeight = (noOfItems: number) => {
+  if (noOfItems <= 0) {
+    return 320;
+  }
+
+  const heightWithOffset = (noOfItems + 5) * PRODUCT_KEYWORD_ROW_HEIGHT;
+
+  const expandedRowHeight = Math.min(heightWithOffset, 500);
+
+  return expandedRowHeight;
+};
+
 /* Calulate height for the keyword child table */
 export const calculateKeywordsTableHeight = (noOfItems: number) => {
-  const OFFSET_ROWS = 7;
+  if (noOfItems <= 0) {
+    return 250;
+  }
 
-  return PRODUCT_KEYWORD_ROW_HEIGHT * (noOfItems + OFFSET_ROWS);
+  const heightWithOffset = (noOfItems + 3) * PRODUCT_KEYWORD_ROW_HEIGHT;
+
+  const expandedRowHeight = Math.min(heightWithOffset, 350);
+
+  return expandedRowHeight;
 };

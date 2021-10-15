@@ -25,6 +25,7 @@ import { setUserOnboardingResources } from '../../actions/UserOnboarding';
 /* Components */
 import PageHeader from '../../components/PageHeader';
 import ProductMetaInformation from '../../components/ProductMetaInformation';
+import ProductLabel from '../../components/ProductLabel';
 
 /* Containers */
 import KeywordReverse from './KeywordReverse';
@@ -117,7 +118,7 @@ const KeywordResearch = (props: Props) => {
           { content: 'Home', to: '/' },
           {
             content: 'Keyword Research',
-            to: '/keyword-research/reverse',
+            to: '/keyword-research/finder',
           },
           {
             content: KEYWORD_RESEARCH_PRODUCT_DETAILS[selectedTabList].name,
@@ -147,9 +148,30 @@ const KeywordResearch = (props: Props) => {
             selectedIndex={selectedTabList}
           >
             <TabList className={styles.productTablist}>
-              <Tab>Reverse</Tab>
-              <Tab>Database</Tab>
-              <Tab>Tracker</Tab>
+              <Tab>
+                <ProductLabel
+                  label="FINDER"
+                  icon="Keyword Finder"
+                  isActive={selectedTabList === 0}
+                  isBeta
+                />
+              </Tab>
+              <Tab>
+                <ProductLabel
+                  label="DATABASE"
+                  icon="Keyword Database"
+                  isActive={selectedTabList === 1}
+                  isBeta
+                />
+              </Tab>
+              <Tab>
+                <ProductLabel
+                  label="TRACKER"
+                  icon="Keyword Tracker"
+                  isActive={selectedTabList === 2}
+                  isBeta
+                />
+              </Tab>
             </TabList>
 
             <TabPanel>

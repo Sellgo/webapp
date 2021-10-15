@@ -13,6 +13,7 @@ import {
 
 /* Components */
 import AddProductKeywordModal from '../../../../components/AddProductKeywordModal';
+import ActionButton from '../../../../components/ActionButton';
 
 /* Interfaces */
 import {
@@ -56,10 +57,16 @@ const TrackerExport = (props: Props) => {
   return (
     <div className={styles.trackerTableMeta}>
       {/* Track product and keywords */}
-      <button className={styles.addNewProduct} onClick={() => setAddProductModal(true)}>
+      <ActionButton
+        type="orange"
+        variant="primary"
+        size="md"
+        className={styles.addNewProduct}
+        onClick={() => setAddProductModal(true)}
+      >
         <ThinAddIcon />
         Add New Product
-      </button>
+      </ActionButton>
 
       {/* Search keywords on child table */}
       <form onSubmit={handleSubmit}>
@@ -80,8 +87,8 @@ const TrackerExport = (props: Props) => {
         onClose={() => setAddProductModal(false)}
         content={
           <AddProductKeywordModal
+            currentKeywordsList=""
             parentAsin=""
-            currentKeywordsCount={0}
             onSubmit={handleTrackProduct}
             closeModal={() => setAddProductModal(false)}
             productDetails={{

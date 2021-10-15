@@ -47,6 +47,7 @@
 
     &:hover {
       background: $grey_1 !important;
+      font-weight: 600 !important;
     }
 
     .actionCellIcon {
@@ -54,6 +55,10 @@
       font-size: 12px !important;
       color: inherit !important;
       color: $grey_8 !important;
+
+      &__boostTrackIcon {
+        margin-top: 1px;
+      }
     }
 
     &:disabled {

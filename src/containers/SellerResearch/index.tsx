@@ -2,23 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { TabList, TabPanel, Tabs, Tab } from 'react-tabs';
 import { connect } from 'react-redux';
 
-/* Components */
+/* Styling */
 import styles from './index.module.scss';
-
-/* Components */
-import PageHeader from '../../components/PageHeader';
-import ProductMetaInformation from '../../components/ProductMetaInformation';
-
-/* Containers */
-import SellerMaps from './SellerMaps';
-import SellerDatabase from './SellerDatabase';
-import SellerInventory from './SellerInventory';
 
 /* Actions */
 import { setUserOnboardingResources } from '../../actions/UserOnboarding';
 
 /* Selectors */
 import { getUserOnboarding, getUserOnboardingResources } from '../../selectors/UserOnboarding';
+
+/* Components */
+import PageHeader from '../../components/PageHeader';
+import ProductMetaInformation from '../../components/ProductMetaInformation';
+import ProductLabel from '../../components/ProductLabel';
+
+/* Containers */
+import SellerMaps from './SellerMaps';
+import SellerDatabase from './SellerDatabase';
+import SellerInventory from './SellerInventory';
 
 /* Assets */
 import sellerDatabaseOnborading from '../../assets/onboardingResources/SellerResearch/sellerDatabaseOnboarding.json';
@@ -130,9 +131,24 @@ const SellerResearch = (props: Props) => {
             selectedIndex={selectedTabList}
           >
             <TabList className={styles.productTablist}>
-              <Tab>Sellers</Tab>
-              <Tab>Map</Tab>
-              <Tab>Inventory</Tab>
+              <Tab>
+                <ProductLabel
+                  label="DATABASE"
+                  icon="Seller Database"
+                  isActive={selectedTabList === 0}
+                />
+              </Tab>
+              <Tab>
+                <ProductLabel label="MAP" icon="Seller Map" isActive={selectedTabList === 1} />
+              </Tab>
+              <Tab>
+                <ProductLabel
+                  label="FINDER"
+                  icon="Seller Finder"
+                  isActive={selectedTabList === 2}
+                  isBeta
+                />
+              </Tab>
             </TabList>
 
             <TabPanel>

@@ -15,6 +15,9 @@ import TableExport from '../../../../../components/NewTable/TableExport';
 import { ReactComponent as XLSXExportImage } from '../../../../../assets/images/xlsxExportImage.svg';
 import { ReactComponent as CSVExportImage } from '../../../../../assets/images/csvExportImage.svg';
 
+/* Utils */
+import { success } from '../../../../../utils/notifications';
+
 /* Interfaces */
 import { SellerSubscription } from '../../../../../interfaces/Seller';
 
@@ -41,11 +44,16 @@ const ProductsExport = (props: Props) => {
       type,
       merchantId,
     });
+    success(
+      `Exporting products for Merchant ${sellerInventoryTableExpandedRow.merchant_id}. Check progress for updates`
+    );
   };
   return (
     <section className={styles.exportsContainer}>
       <TableExport
         label=""
+        disableExport={shouldDisableExport}
+        onButtonClick={() => handleExport('xlsx')}
         exportContent={
           <>
             <div className={styles.exportOptions}>

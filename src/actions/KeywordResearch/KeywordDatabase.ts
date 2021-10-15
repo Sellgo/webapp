@@ -411,13 +411,18 @@ export const fetchKeywordDatabaseTableInformation = (
 };
 
 /* Action to fetch keyword database word freq summary */
-export const fetchKeywordDatabaseWordFreqSummary = () => async (dispatch: any, getState: any) => {
+export const fetchKeywordDatabaseWordFreqSummary = (sortDir: 'asc' | 'desc' = 'desc') => async (
+  dispatch: any,
+  getState: any
+) => {
   const sellerId = sellerIDSelector();
 
   try {
     const keywordRequestId = getKeywordDatabaseRequestId(getState());
 
-    const resourcePath = `keyword_request_id=${keywordRequestId}`;
+    const sorting = `sort_direction=${sortDir}`;
+
+    const resourcePath = `keyword_request_id=${keywordRequestId}&${sorting}`;
 
     dispatch(isLoadingKeywordDatabaseWordFreqSummary(true));
 

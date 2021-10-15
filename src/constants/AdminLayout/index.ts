@@ -6,11 +6,11 @@ export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
   '/seller-research',
   '/seller-research/database',
   '/seller-research/map',
-  '/seller-research/inventory',
+  '/seller-research/finder',
 
   /* Keyword Research */
   '/keyword-research',
-  '/keyword-research/reverse',
+  '/keyword-research/finder',
   '/keyword-research/database',
   '/keyword-research/tracker',
 
@@ -114,7 +114,7 @@ export const OPTIONS: NavOptions = [
     subOptions: [
       {
         label: 'Seller Database',
-        description: 'Seller Database',
+        description: 'Discover >1M of Amazon Sellers',
         icon: require(`../../assets/images/${NAV_ICONS.SELLER_DATABASE}`),
         path: '/seller-research/database',
         disabled: false,
@@ -122,19 +122,19 @@ export const OPTIONS: NavOptions = [
       },
       {
         label: 'Seller Map',
-        description: 'Seller Map',
+        description: 'Interactive Map of Amazon Sellers',
         icon: require(`../../assets/images/${NAV_ICONS.SELLER_MAP}`),
         path: '/seller-research/map',
         disabled: false,
         isBeta: false,
       },
       {
-        label: 'Seller Inventory',
-        description: 'Seller Inventory',
+        label: 'Seller Finder',
+        description: 'Find More Sellers from Inventories ',
         icon: require(`../../assets/images/${NAV_ICONS.SELLER_INVENTORY}`),
-        path: '/seller-research/inventory',
+        path: '/seller-research/finder',
         disabled: false,
-        isBeta: false,
+        isBeta: true,
       },
     ],
   },
@@ -149,7 +149,7 @@ export const OPTIONS: NavOptions = [
         label: 'Keyword Finder',
         description: 'Reveal Competitor Keywords',
         icon: require(`../../assets/images/${NAV_ICONS.KEYWORD_REVERSE}`),
-        path: '/keyword-research/reverse',
+        path: '/keyword-research/finder',
         disabled: false,
         isBeta: true,
       },

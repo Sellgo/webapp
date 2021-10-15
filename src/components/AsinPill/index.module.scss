@@ -1,14 +1,18 @@
 @import '../../design-system/new-colors';
 
-.asinPill {
-  margin: 8px;
+.pillWrapper {
   display: flex;
+  margin: 8px;
   margin-bottom: 0;
-  color: $grey_8 !important;
   height: 25px;
+}
+
+.asinPill {
+  display: flex;
+  color: $grey_8 !important;
   font-size: 12px;
   font-weight: 600;
-  border-radius: 7px;
+  border-radius: 7px 0 0 7px;
   align-items: center;
   width: max-content;
   justify-content: flex-start;
@@ -19,16 +23,49 @@
   @extend .asinPill;
 
   border: 1px solid $blue_6;
+  border-right: none;
 }
 
 .inValidAsinPill {
   @extend .asinPill;
 
   border: 1px solid $system_red;
+  border-right: none;
 }
 
 .removeIcon {
-  margin-left: 10px;
-  color: $grey_8 !important;
-  cursor: pointer;
+  fill: $grey_8 !important;
+}
+
+.iconWrapper {
+  border-radius: 0 7px 7px 0;
+  height: 100%;
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: $system_red;
+    border-color: $system_red !important;
+    cursor: pointer;
+
+    .removeIcon {
+      fill: $prim_white !important;
+    }
+  }
+}
+
+.validIconWrapper {
+  @extend .iconWrapper;
+
+  border: 1px solid $blue_6;
+  border-left: none;
+}
+
+.inValidIconWrapper {
+  @extend .iconWrapper;
+
+  border: 1px solid $system_red;
+  border-left: none;
 }

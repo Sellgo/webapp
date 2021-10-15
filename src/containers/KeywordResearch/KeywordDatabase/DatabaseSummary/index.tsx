@@ -1,6 +1,6 @@
-import React from 'react';
-import { Icon } from 'semantic-ui-react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { Icon } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -22,16 +22,43 @@ import {
   KeywordDatabaseAggSummary,
   KeywordDatabaseWordFreqSummary,
 } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
+import { fetchKeywordDatabaseWordFreqSummary } from '../../../../actions/KeywordResearch/KeywordDatabase';
 
 interface Props {
   isLoadingKeywordDatabaseWordFreqSummary: boolean;
   keywordDatabaseWordFreqSummary: KeywordDatabaseWordFreqSummary[];
   isLoadingKeywordDatabaseAggSummary: boolean;
   keywordDatabaseAggSummary: KeywordDatabaseAggSummary;
+  fetchKeywordDatabaseWordFreqSummary: (sortDir: 'asc' | 'desc') => void;
 }
 
 const DatabaseSummary = (props: Props) => {
-  const { isLoadingKeywordDatabaseWordFreqSummary, keywordDatabaseWordFreqSummary } = props;
+  const {
+    isLoadingKeywordDatabaseWordFreqSummary,
+    keywordDatabaseWordFreqSummary,
+    fetchKeywordDatabaseWordFreqSummary,
+  } = props;
+
+  const [wordFreqSort, setWordFreqSort] = useState<'asc' | 'desc'>('desc');
+
+  const wordFreqAscSorted = wordFreqSort === 'asc';
+  const wordFreqDescSorted = wordFreqSort === 'desc';
+
+  const handleWordFreqSort = () => {
+    fetchKeywordDatabaseWordFreqSummary(wordFreqSort === 'desc' ? 'asc' : 'desc');
+
+    setWordFreqSort(prevState => {
+      return prevState === 'desc' ? 'asc' : 'desc';
+    });
+  };
+
+  // reset to desc on unmount
+  useEffect(() => {
+    return () => {
+      fetchKeywordDatabaseWordFreqSummary('desc');
+      setWordFreqSort('desc');
+    };
+  }, []);
 
   return (
     <section className={styles.databaseSummarySection}>
@@ -39,9 +66,20 @@ const DatabaseSummary = (props: Props) => {
       <KeywordDatabaseSummaryCards
         title="Word Analysis"
         subTitle={
-          <h3 className={styles.subTitle}>
-            <Icon name="circle" className={styles.circleGreen} />
+          <h3 className={styles.subTitle} onClick={handleWordFreqSort}>
             Word Frequency
+            <span className={styles.sortIconGroup}>
+              <Icon
+                size="large"
+                name="triangle up"
+                className={wordFreqAscSorted ? styles.activeSort : styles.inActiveSort}
+              />
+              <Icon
+                size="large"
+                name="triangle down"
+                className={wordFreqDescSorted ? styles.activeSort : styles.inActiveSort}
+              />
+            </span>
           </h3>
         }
         content={<WordFreqContent data={keywordDatabaseWordFreqSummary} />}
@@ -60,4 +98,11 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default connect(mapStateToProps)(DatabaseSummary);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchKeywordDatabaseWordFreqSummary: (sortDir: 'asc' | 'desc') =>
+      dispatch(fetchKeywordDatabaseWordFreqSummary(sortDir)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DatabaseSummary);

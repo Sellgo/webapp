@@ -17,6 +17,10 @@ const INITIAL_STATE = {
   },
 
   keywordTrackerProductsExpandedRow: {},
+  //State for keyword tracker product variations
+  isLoadingKeywordTrackerProductVariations: false,
+  keywordTrackerProductVariationsResults: [],
+
   // tracker table products competitors
   keywordTrackerProductsTableCompetitors: [],
 
@@ -61,6 +65,17 @@ const keywordTrackerReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_KEYWORD_TRACKER_PRODUCTS_EXPANDED_ROW: {
       return setIn(state, 'keywordTrackerProductsExpandedRow', action.payload);
+    }
+
+    /* ========================================================== */
+    /*           TRACKER PRODUCT VARIATIONS                       */
+    /* ========================================================== */
+    case actionTypes.IS_LOADING_KEYWORD_TRACKER_PRODUCT_VARIATIONS: {
+      return setIn(state, 'isLoadingKeywordTrackerProductVariations', action.payload);
+    }
+
+    case actionTypes.SET_KEYWORD_TRACKER_PRODUCT_VARIATIONS: {
+      return setIn(state, 'keywordTrackerProductVariationsResults', action.payload);
     }
 
     /* ========================================================== */
