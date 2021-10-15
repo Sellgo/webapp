@@ -28,6 +28,13 @@
     background: $grey_6 !important;
   }
 
+  &.no-scroll {
+    /* width */
+    &::-webkit-scrollbar {
+      display: none !important;
+    }
+  }
+
   // header section
   .rs-table-row-header {
     border-radius: 0 !important;
