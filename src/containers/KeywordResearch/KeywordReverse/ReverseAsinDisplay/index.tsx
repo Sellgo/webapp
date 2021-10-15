@@ -13,7 +13,10 @@ import {
 } from '../../../../selectors/KeywordResearch/KeywordReverse';
 
 /* Actions */
-import { fetchKeywordReverseRequestId } from '../../../../actions/KeywordResearch/KeywordReverse';
+import {
+  fetchKeywordReverseRequestId,
+  resetKeywordReverse,
+} from '../../../../actions/KeywordResearch/KeywordReverse';
 
 /* Assets */
 import { ReactComponent as CirclePlusIcon } from '../../../../assets/images/plus-circle-regular.svg';
@@ -36,6 +39,7 @@ interface Props {
   shouldFetchKeywordReverseProgress: boolean;
   keywordReverseProductsList: KeywordReverseAsinProduct[];
   fetchKeywordReverseRequestId: (payload: string) => void;
+  resetKeywordReverse: () => void;
 }
 
 const ReverseAsinDisplay = (props: Props) => {
@@ -44,6 +48,7 @@ const ReverseAsinDisplay = (props: Props) => {
     isLoadingKeywordReverseProductsList,
     shouldFetchKeywordReverseProgress,
     fetchKeywordReverseRequestId,
+    resetKeywordReverse,
   } = props;
 
   const [showAddBulkAsin, setShowAddBulkAsin] = useState(false);
@@ -63,7 +68,13 @@ const ReverseAsinDisplay = (props: Props) => {
         .map(a => a.asin)
         .join(',');
 
-    fetchKeywordReverseRequestId(updatedAsins);
+    const isLastProductAsin = keywordReverseProductsList && keywordReverseProductsList.length === 1;
+
+    if (isLastProductAsin) {
+      resetKeywordReverse();
+    } else {
+      fetchKeywordReverseRequestId(updatedAsins);
+    }
   };
 
   // Handle submit and trigger reverse process
@@ -194,6 +205,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchKeywordReverseRequestId: (payload: string) =>
       dispatch(fetchKeywordReverseRequestId(payload)),
+    resetKeywordReverse: () => dispatch(resetKeywordReverse()),
   };
 };
 

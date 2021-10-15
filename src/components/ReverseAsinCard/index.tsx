@@ -52,6 +52,7 @@ const ReverseAsinCard = (props: Props) => {
         className={styles.removeAsinIcon}
         onClick={(e: any) => {
           e.preventDefault();
+          e.stopPropagation();
           handleRemoveProduct(asin);
         }}
       />
