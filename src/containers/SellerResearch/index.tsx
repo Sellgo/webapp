@@ -14,7 +14,7 @@ import { getUserOnboarding, getUserOnboardingResources } from '../../selectors/U
 /* Components */
 import PageHeader from '../../components/PageHeader';
 import ProductMetaInformation from '../../components/ProductMetaInformation';
-import BetaLabel from '../../components/BetaLabel';
+import ProductLabel from '../../components/ProductLabel';
 
 /* Containers */
 import SellerMaps from './SellerMaps';
@@ -131,10 +131,23 @@ const SellerResearch = (props: Props) => {
             selectedIndex={selectedTabList}
           >
             <TabList className={styles.productTablist}>
-              <Tab>Database</Tab>
-              <Tab>Map</Tab>
               <Tab>
-                Finder <BetaLabel isNav={true} className={styles.productBeta} />
+                <ProductLabel
+                  label="DATABASE"
+                  icon="Seller Database"
+                  isActive={selectedTabList === 0}
+                />
+              </Tab>
+              <Tab>
+                <ProductLabel label="MAP" icon="Seller Map" isActive={selectedTabList === 1} />
+              </Tab>
+              <Tab>
+                <ProductLabel
+                  label="FINDER"
+                  icon="Seller Finder"
+                  isActive={selectedTabList === 2}
+                  isBeta
+                />
               </Tab>
             </TabList>
 

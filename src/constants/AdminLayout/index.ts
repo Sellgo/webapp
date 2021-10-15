@@ -114,7 +114,7 @@ export const OPTIONS: NavOptions = [
     subOptions: [
       {
         label: 'Seller Database',
-        description: 'Seller Database',
+        description: 'Discover >1M of Amazon Sellers',
         icon: require(`../../assets/images/${NAV_ICONS.SELLER_DATABASE}`),
         path: '/seller-research/database',
         disabled: false,
@@ -122,7 +122,7 @@ export const OPTIONS: NavOptions = [
       },
       {
         label: 'Seller Map',
-        description: 'Seller Map',
+        description: 'Interactive Map of Amazon Sellers',
         icon: require(`../../assets/images/${NAV_ICONS.SELLER_MAP}`),
         path: '/seller-research/map',
         disabled: false,
@@ -130,7 +130,7 @@ export const OPTIONS: NavOptions = [
       },
       {
         label: 'Seller Finder',
-        description: 'Seller Finder',
+        description: 'Find More Sellers from Inventories ',
         icon: require(`../../assets/images/${NAV_ICONS.SELLER_INVENTORY}`),
         path: '/seller-research/finder',
         disabled: false,
@@ -162,7 +162,7 @@ export const OPTIONS: NavOptions = [
         isBeta: true,
       },
       {
-        label: 'Product Rank Tracker',
+        label: 'Keyword Tracker',
         description: 'Get to #1 Search Results',
         icon: require(`../../assets/images/${NAV_ICONS.KEYWORD_TRACKER}`),
         path: '/keyword-research/tracker',
