@@ -10,6 +10,17 @@ import ActionButton from '../../../components/ActionButton';
 import Lightbulb from '../../../assets/images/lightbulb.svg';
 
 const ExtensionSection = () => {
+  /* Quick fix for redirecting to extension */
+  const redirectToExtension = () => {
+    /* eslint-disable-next-line max-len */
+    window
+      .open(
+        'https://chrome.google.com/webstore/detail/sellgo-extension/gldmigoakdolonchebfnmcfbjihelcec',
+        '_blank'
+      )
+      ?.focus();
+  };
+
   return (
     <>
       <section className={styles.extensionSection}>
@@ -23,6 +34,7 @@ const ExtensionSection = () => {
           variant="primary"
           size="md"
           className={styles.getExtensionCTA}
+          onClick={redirectToExtension}
         >
           <img src={ExtensionLogo} alt="extension-logo" className={styles.extensionLogo} />
           Get Sellgo Chrome Extension
