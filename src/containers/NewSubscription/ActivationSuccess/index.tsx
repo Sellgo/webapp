@@ -19,6 +19,8 @@ interface Props {
 const ActivationSuccess = (props: Props) => {
   const history = createBrowserHistory({ forceRefresh: true });
   const { auth, location } = props;
+
+  /* Email and password should be passed from history.push in Activation component */
   const { email, password } = location.state;
 
   if (!email || !password) {
