@@ -12,7 +12,6 @@ import Lightbulb from '../../../assets/images/lightbulb.svg';
 const ExtensionSection = () => {
   /* Quick fix for redirecting to extension */
   const redirectToExtension = () => {
-    /* eslint-disable-next-line max-len */
     window
       .open(
         'https://chrome.google.com/webstore/detail/sellgo-extension/gldmigoakdolonchebfnmcfbjihelcec',
