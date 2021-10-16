@@ -8,7 +8,7 @@ import sellgoLogoWhiteWithText from '../../../assets/images/sellgoLogoWhiteWithT
 import cross from '../../../assets/images/crossIcon.svg';
 
 /* Components */
-import OrangeButton from '../../../components/OrangeButton';
+import ActionButton from '../../../components/ActionButton';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -54,20 +54,17 @@ const QuickWin = () => {
                 service you deserve.
               </p>
 
-              <OrangeButton
-                className={styles.startButton}
-                type="primary"
-                size="small"
+              <ActionButton
+                variant="secondary"
+                type="purpleGradient"
+                size="md"
                 onClick={() => setInTypeform(true)}
+                className={styles.startButton}
               >
                 I&apos;m ready to start
-              </OrangeButton>
+              </ActionButton>
             </div>
           )}
-          <div className={styles.footer}>
-            Questions? Check out our&nbsp;<a href="/faq">FAQ</a>. Something not right?&nbsp;
-            <a href="/contact">Contact us.</a> &nbsp;We Can Help.
-          </div>
         </div>
       }
     />

@@ -2,11 +2,5 @@
 
 .connectivityPageWrapper {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.apiFormTitle {
-  margin-bottom: 30px;
-  color: $prim_dark_1;
+  flex-direction: row;
 }

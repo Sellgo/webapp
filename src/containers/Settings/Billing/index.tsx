@@ -12,6 +12,7 @@ import styles from './index.module.scss';
 /* Components */
 import PageHeader from '../../../components/PageHeader';
 import PastTransactionsSection from './PastTransactionsSection';
+import SettingsNav from '../SettingsNav';
 
 /* Types */
 import { AppConfig } from '../../../config';
@@ -36,10 +37,11 @@ interface Props {
   fetchSellerSubscription: () => void;
   subscriptionPlan: SubscriptionPlanType;
   match: any;
+  history: any;
 }
 
 const Billing = (props: Props) => {
-  const { match, fetchSellerSubscription, subscriptionPlan } = props;
+  const { match, fetchSellerSubscription, subscriptionPlan, history } = props;
 
   const [hasActivePlan, setHasActivePlan] = React.useState<boolean>(true);
   const [hasPaymentMethod, setHasPaymentMethod] = React.useState<boolean>(true);
@@ -149,24 +151,27 @@ const Billing = (props: Props) => {
       />
 
       <main className={styles.billingPageWrapper}>
-        <QuotaAndPaymentsSection
-          subscriptionPlan={subscriptionPlan}
-          subscriptionDetails={subscriptionStripeInfo}
-          quotas={quotas}
-          card={creditCardInfo}
-          isQuotaLoading={isQuotaLoading}
-          isSubscriptionStripeLoading={isSubscriptionStripeLoading}
-          isCreditCardLoading={isCreditCardLoading}
-          fetchCreditCardInfo={fetchCreditCardInfo}
-          hasActivePlan={hasActivePlan}
-          hasPaymentMethod={hasPaymentMethod}
-        />
+        <SettingsNav match={match} history={history} />
+        <div className={styles.billingPage}>
+          <QuotaAndPaymentsSection
+            subscriptionPlan={subscriptionPlan}
+            subscriptionDetails={subscriptionStripeInfo}
+            quotas={quotas}
+            card={creditCardInfo}
+            isQuotaLoading={isQuotaLoading}
+            isSubscriptionStripeLoading={isSubscriptionStripeLoading}
+            isCreditCardLoading={isCreditCardLoading}
+            fetchCreditCardInfo={fetchCreditCardInfo}
+            hasActivePlan={hasActivePlan}
+            hasPaymentMethod={hasPaymentMethod}
+          />
 
-        <PastTransactionsSection
-          transactionHistory={transactionHistory}
-          loading={isTransactionHistoryLoading}
-          fetchTransactionHistoryAll={fetchTransactionHistoryAll}
-        />
+          <PastTransactionsSection
+            transactionHistory={transactionHistory}
+            loading={isTransactionHistoryLoading}
+            fetchTransactionHistoryAll={fetchTransactionHistoryAll}
+          />
+        </div>
       </main>
     </>
   );

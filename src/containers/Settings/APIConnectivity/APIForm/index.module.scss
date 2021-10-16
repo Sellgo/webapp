@@ -1,5 +1,9 @@
 @import '../../../../design-system/new-colors';
 
+.apiFormWrapper {
+  margin-top: 50px;
+}
+
 .apiFormGrid {
   position: relative;
   background-color: $grey_0;
@@ -9,6 +13,11 @@
   display: grid;
   grid-template-rows: 40px;
   row-gap: 18px;
+}
+
+.apiFormTitle {
+  margin-bottom: 30px;
+  color: $prim_dark_1;
 }
 
 .deleteIcon {

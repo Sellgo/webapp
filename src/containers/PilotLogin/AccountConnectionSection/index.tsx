@@ -14,11 +14,11 @@ import Lightbulb from '../../../assets/images/lightbulb.svg';
 
 const AccountConnectionSection = () => {
   const handleRedirectToConnectivity = () => {
-    history.push('./settings/connectivity');
+    history.push('./settings/connectivity?first-time-logged-in=true');
   };
 
   const handleRedirectToZapier = () => {
-    history.push('./settings/api-keys');
+    history.push('./settings/api-keys?first-time-logged-in=true');
   };
 
   return (

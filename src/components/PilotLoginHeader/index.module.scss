@@ -1,0 +1,18 @@
+@import '../../design-system/new-colors';
+
+.topBar {
+  /* To account for offset styling in admin layout */
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 50px;
+  background: $prim_white;
+  margin-bottom: 60px;
+}
+
+.sellgoLogo {
+  width: 100px;
+  height: auto;
+  object-fit: contain;
+}

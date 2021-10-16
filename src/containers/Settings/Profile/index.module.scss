@@ -2,12 +2,18 @@
 
 .profilePageWrapper {
   display: flex;
+  flex-direction: row;
+}
+
+.profilePage {
+  margin-top: 50px;
+  display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .profileBox {
-  width: 1088px;
+  width: 100%;
 }
 
 .profileInformationRow {

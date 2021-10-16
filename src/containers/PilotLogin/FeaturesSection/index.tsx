@@ -13,7 +13,7 @@ const FeaturesSection = () => {
         <div className={styles.featuresGrid}>
           {FEATURES.map((feature: any) => {
             return (
-              <div key={feature.name}>
+              <div key={feature.title}>
                 <h3 className={styles.featureTitle}>
                   <img src={feature.icon} alt={`${feature.name}`} />
                   {feature.title}

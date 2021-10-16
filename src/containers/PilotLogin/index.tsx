@@ -7,21 +7,13 @@ import styles from './index.module.scss';
 import AccountConnectionSection from './AccountConnectionSection';
 import ExtensionSection from './ExtensionSection';
 import FeaturesSection from './FeaturesSection';
-import ActionButton from '../../components/ActionButton';
-
-/* Assets */
-import SellgoLogo from '../../assets/images/SellgoNewestLogo.png';
+import PilotLoginHeader from '../../components/PilotLoginHeader';
 
 const PilotLogin = () => {
   return (
     <>
       <main className={styles.pilotLoginPageWrapper}>
-        <div className={styles.topBar}>
-          <img src={SellgoLogo} alt="sellgo-logo" className={styles.sellgoLogo} />
-          <ActionButton type="purpleGradient" variant="primary" size="md">
-            Finish Setup
-          </ActionButton>
-        </div>
+        <PilotLoginHeader />
         <AccountConnectionSection />
         <ExtensionSection />
         <FeaturesSection />

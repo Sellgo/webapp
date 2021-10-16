@@ -21,7 +21,11 @@ export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
   '/account-setup',
 ];
 
-export const HIDE_NAV_BAR_PATH_NAMES = ['/account-setup'];
+export const HIDE_NAV_BAR_PATH_NAMES = [
+  '/account-setup',
+  '/settings/connectivity?first-time-logged-in=true',
+  '/settings/api-keys?first-time-logged-in=true',
+];
 
 export const NAV_ICONS = {
   HOME: 'homeIcon.svg',

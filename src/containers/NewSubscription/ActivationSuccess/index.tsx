@@ -8,9 +8,40 @@ import styles from './index.module.scss';
 /* Assets */
 import newSellgoLogo from '../../../assets/images/sellgoNewLogo.png';
 
-const ActivationSuccess = () => {
-  const history = createBrowserHistory({ forceRefresh: true });
+/* Components */
+import Auth from '../../../components/Auth/Auth';
 
+interface Props {
+  auth: Auth;
+  location: any;
+}
+
+const ActivationSuccess = (props: Props) => {
+  const history = createBrowserHistory({ forceRefresh: true });
+  const { auth, location } = props;
+  const { email, password } = location.state;
+
+  if (!email || !password) {
+    history.push('/');
+  }
+
+  const handleLogin = () => {
+    auth.webAuth.login(
+      {
+        responseType: 'token',
+        realm: 'Username-Password-Authentication',
+        username: email,
+        password: password,
+      },
+      (err: any) => {
+        if (err) {
+          console.log('Error: ', err);
+        } else {
+          console.log('Success!');
+        }
+      }
+    );
+  };
   return (
     <main className={styles.successPage}>
       <div className={styles.logo}>
@@ -30,10 +61,10 @@ const ActivationSuccess = () => {
         <button
           onClick={() => {
             localStorage.setItem('loginRedirectPath', '/');
-            history.push('/');
+            handleLogin();
           }}
         >
-          Go to login page
+          Login
         </button>
       </section>
     </main>

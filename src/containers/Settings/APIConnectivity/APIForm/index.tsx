@@ -16,6 +16,8 @@ import styles from './index.module.scss';
 import OrangeButton from '../../../../components/OrangeButton';
 import ActionButton from '../../../../components/ActionButton';
 import CopyToClipboard from '../../../../components/CopyToClipboard';
+import ProfileBoxHeader from '../../../../components/ProfileBoxHeader';
+import ProfileBoxContainer from '../../../../components/ProfileBoxContainer';
 
 /* Assets */
 import KeyIcon from '../../../../assets/images/key-regular.svg';
@@ -117,114 +119,118 @@ const APIForm = () => {
   };
 
   return (
-    <section>
-      <Form className={`${styles.apiFormGrid} apiForm`}>
-        <Dimmer blurring inverted active={isLoading}>
-          <Loader />
-        </Dimmer>
-        <Icon
-          name="trash alternate"
-          className={
-            isNew ? `${styles.deleteIcon} ${styles.deleteIcon__disabled}` : styles.deleteIcon
-          }
-          onClick={() => setDeleteConfirmation(true)}
-        />
-
-        <div className={`${styles.formInput} ${styles.formInput__apiType}`}>
-          <label className={styles.formLabel}> 3rd Party </label>
-          <p className={`${styles.formValue} ${styles.formValue__key}`}>
-            <img src={API_TYPES_LIST[0].icon} alt={API_TYPES_LIST[0].name} />
-            Zapier
-          </p>
-        </div>
-        {!isNew && !isEditingName && (
-          <div className={`${styles.formInput} ${styles.formInput__name}`}>
-            <p className={styles.formLabel}> Name </p>
-            <p className={styles.formValue}>
-              {apiName}
-              <Icon
-                name="pencil"
-                className={`${styles.pencilIcon}`}
-                onClick={() => setEditingName(!isEditingName)}
-              />
-            </p>
-          </div>
-        )}
-        {(isNew || isEditingName) && (
-          <Form.Input
-            className={`${styles.formInput} ${styles.formInput__name}`}
-            label={
-              <div className={styles.formLabel}>
-                <span>Name &nbsp;</span>
-              </div>
-            }
-            placeholder="API Key Name"
-            value={apiName}
-            name="token"
-            onChange={(e, { value }) => setApiName(value)}
-          />
-        )}
-        {!isNew && (
-          <div className={styles.formInput}>
-            <p className={styles.formLabel}> Prefix </p>
-            <p className={styles.formValue}>{apiPrefix}</p>
-          </div>
-        )}
-        {!isNew && (
-          <div className={`${styles.formInput} ${styles.formInput__key}`}>
-            <p className={styles.formLabel}> API Key</p>
-            <p
-              className={`
-              ${styles.formValue} 
-              ${styles.formValue__key}
-              ${apiKey.length > 0 ? styles.formValue__showKey : ''}
-            `}
-            >
-              <img src={KeyIcon} alt="key-icon" />
-              {apiKey.length > 0 ? (
-                <CopyToClipboard className={styles.copyToClipboard} data={apiKey} />
-              ) : (
-                '*****************'
-              )}
-            </p>
-            {apiKey.length > 0 && (
-              <p className={styles.warningMessage}>
-                Please store this API Key in a secure place. You will not be able to retrieve it
-                upon leaving this page.
-              </p>
-            )}
-          </div>
-        )}
-        <div className={styles.buttonsRow}>
-          {isEditingName && (
-            <ActionButton onClick={() => setEditingName(false)} variant="reset" size="md">
-              Cancel
-            </ActionButton>
-          )}
-          <OrangeButton
-            type="blue"
-            size="small"
-            onClick={handleApiUpdate}
+    <section className={styles.apiFormWrapper}>
+      <ProfileBoxHeader>API Keys</ProfileBoxHeader>
+      <ProfileBoxContainer>
+        <p className={styles.apiFormTitle}> Please select your API keys below. </p>
+        <Form className={`${styles.apiFormGrid} apiForm`}>
+          <Dimmer inverted active={isLoading}>
+            <Loader />
+          </Dimmer>
+          <Icon
+            name="trash alternate"
             className={
-              !isNew && !isEditingName
-                ? `${styles.updateButton} ${styles.updateButton__disabled}`
-                : styles.updateButton
+              isNew ? `${styles.deleteIcon} ${styles.deleteIcon__disabled}` : styles.deleteIcon
             }
-          >
-            {' '}
-            {isNew ? 'Create' : 'Update'}
-          </OrangeButton>
-        </div>
-      </Form>
-      <Confirm
-        content="Do you want to delete your API key?"
-        open={deleteConfirmation}
-        onCancel={() => setDeleteConfirmation(false)}
-        onConfirm={() => {
-          setDeleteConfirmation(false);
-          handleApiDelete();
-        }}
-      />
+            onClick={() => setDeleteConfirmation(true)}
+          />
+
+          <div className={`${styles.formInput} ${styles.formInput__apiType}`}>
+            <label className={styles.formLabel}> 3rd Party </label>
+            <p className={`${styles.formValue} ${styles.formValue__key}`}>
+              <img src={API_TYPES_LIST[0].icon} alt={API_TYPES_LIST[0].name} />
+              Zapier
+            </p>
+          </div>
+          {!isNew && !isEditingName && (
+            <div className={`${styles.formInput} ${styles.formInput__name}`}>
+              <p className={styles.formLabel}> Name </p>
+              <p className={styles.formValue}>
+                {apiName}
+                <Icon
+                  name="pencil"
+                  className={`${styles.pencilIcon}`}
+                  onClick={() => setEditingName(!isEditingName)}
+                />
+              </p>
+            </div>
+          )}
+          {(isNew || isEditingName) && (
+            <Form.Input
+              className={`${styles.formInput} ${styles.formInput__name}`}
+              label={
+                <div className={styles.formLabel}>
+                  <span>Name &nbsp;</span>
+                </div>
+              }
+              placeholder="API Key Name"
+              value={apiName}
+              name="token"
+              onChange={(e, { value }) => setApiName(value)}
+            />
+          )}
+          {!isNew && (
+            <div className={styles.formInput}>
+              <p className={styles.formLabel}> Prefix </p>
+              <p className={styles.formValue}>{apiPrefix}</p>
+            </div>
+          )}
+          {!isNew && (
+            <div className={`${styles.formInput} ${styles.formInput__key}`}>
+              <p className={styles.formLabel}> API Key</p>
+              <p
+                className={`
+                ${styles.formValue} 
+                ${styles.formValue__key}
+                ${apiKey.length > 0 ? styles.formValue__showKey : ''}
+              `}
+              >
+                <img src={KeyIcon} alt="key-icon" />
+                {apiKey.length > 0 ? (
+                  <CopyToClipboard className={styles.copyToClipboard} data={apiKey} />
+                ) : (
+                  '*****************'
+                )}
+              </p>
+              {apiKey.length > 0 && (
+                <p className={styles.warningMessage}>
+                  Please store this API Key in a secure place. You will not be able to retrieve it
+                  upon leaving this page.
+                </p>
+              )}
+            </div>
+          )}
+          <div className={styles.buttonsRow}>
+            {isEditingName && (
+              <ActionButton onClick={() => setEditingName(false)} variant="reset" size="md">
+                Cancel
+              </ActionButton>
+            )}
+            <OrangeButton
+              type="blue"
+              size="small"
+              onClick={handleApiUpdate}
+              className={
+                !isNew && !isEditingName
+                  ? `${styles.updateButton} ${styles.updateButton__disabled}`
+                  : styles.updateButton
+              }
+            >
+              {' '}
+              {isNew ? 'Create' : 'Update'}
+            </OrangeButton>
+          </div>
+        </Form>
+        <Confirm
+          content="Do you want to delete your API key?"
+          open={deleteConfirmation}
+          onCancel={() => setDeleteConfirmation(false)}
+          onConfirm={() => {
+            setDeleteConfirmation(false);
+            handleApiDelete();
+          }}
+        />
+      </ProfileBoxContainer>
     </section>
   );
 };

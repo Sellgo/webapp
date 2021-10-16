@@ -16,6 +16,7 @@ import ProfileBoxContainer from '../../../components/ProfileBoxContainer';
 import OrangeButton from '../../../components/OrangeButton';
 import StepsInfo from '../../../components/StepsInfo';
 import HelpingHandsIcon from '../../../assets/images/hands-helping-solid.svg';
+import SettingsNav from '../SettingsNav';
 
 /* Constants */
 import {
@@ -38,10 +39,11 @@ interface Props {
   getSeller: () => void;
   match: any;
   profile: any;
+  history: any;
 }
 
 const Profile = (props: Props) => {
-  const { match, getSeller, profile } = props;
+  const { match, getSeller, profile, history } = props;
 
   // Password states
   const [isFocusPW, setFocusPassword] = useState<boolean>(false);
@@ -167,109 +169,112 @@ const Profile = (props: Props) => {
       />
 
       <main className={styles.profilePageWrapper}>
-        <ProfileBoxHeader className={styles.profileBox}>Profile</ProfileBoxHeader>
-        <ProfileBoxContainer className={styles.profileBox}>
-          <div className={styles.profileInformationRow}>
-            <img src={pic} className={styles.profilePic} />
-            <div>
-              <p className={styles.name}>
-                {first_name} {last_name}
-              </p>
-              <p>Member since: {creationDate}</p>
+        <SettingsNav match={match} history={history} />
+        <div className={styles.profilePage}>
+          <ProfileBoxHeader className={styles.profileBox}>Profile</ProfileBoxHeader>
+          <ProfileBoxContainer className={styles.profileBox}>
+            <div className={styles.profileInformationRow}>
+              <img src={pic} className={styles.profilePic} />
+              <div>
+                <p className={styles.name}>
+                  {first_name} {last_name}
+                </p>
+                <p>Member since: {creationDate}</p>
+              </div>
             </div>
-          </div>
 
-          <Form className={styles.updateSettingsForm} onSubmit={handleSubmit}>
-            <div className={styles.innerGrid}>
-              <label className={styles.formLabel}>Password</label>
-              <span className={styles.formActionRow}>
+            <Form className={styles.updateSettingsForm} onSubmit={handleSubmit}>
+              <div className={styles.innerGrid}>
+                <label className={styles.formLabel}>Password</label>
+                <span className={styles.formActionRow}>
+                  <Form.Input
+                    className={styles.formInput}
+                    autoComplete="new-password"
+                    type={isShowingCurrentPassword ? 'text' : 'password'}
+                    placeholder="********"
+                    {...bindPassword}
+                    readOnly={!isEditingPassword}
+                    icon={
+                      <Icon
+                        name={isShowingCurrentPassword ? 'eye' : 'eye slash'}
+                        link
+                        onClick={() => setShowCurrentPassword(!isShowingCurrentPassword)}
+                      />
+                    }
+                  />
+
+                  <div
+                    className={styles.changeButton}
+                    onClick={() => setIsEditingPassword(!isEditingPassword)}
+                  >
+                    (<span>{isEditingPassword ? 'Cancel' : 'Change'}</span>)
+                  </div>
+                </span>
+
+                <label className={`${styles.formLabel} ${passwordClassName}`}>New Password</label>
+                <StepsInfo
+                  className={`${styles.formInput} ${passwordClassName}`}
+                  isFocusPW={isFocusPW}
+                  focusInput={onPasswordFocus}
+                  blurInput={onPasswordBlur}
+                  stepsData={stepsInfo}
+                  disabled={!isEditingPassword}
+                  showOnRight
+                  {...bindNewPassword}
+                />
+
+                <label className={`${styles.formLabel} ${passwordClassName}`}>
+                  Confirm New Password
+                </label>
                 <Form.Input
-                  className={styles.formInput}
+                  className={`${styles.formInput} ${passwordClassName}`}
+                  type={isShowingNewPassword2 ? 'text' : 'password'}
                   autoComplete="new-password"
-                  type={isShowingCurrentPassword ? 'text' : 'password'}
-                  placeholder="********"
-                  {...bindPassword}
-                  readOnly={!isEditingPassword}
+                  placeholder="Password"
+                  {...bindNewPassword2}
+                  disabled={!isEditingPassword}
                   icon={
                     <Icon
-                      name={isShowingCurrentPassword ? 'eye' : 'eye slash'}
+                      name={isShowingNewPassword2 ? 'eye' : 'eye slash'}
                       link
-                      onClick={() => setShowCurrentPassword(!isShowingCurrentPassword)}
+                      onClick={() => setShowNewPassword2(!isShowingNewPassword2)}
                     />
                   }
                 />
+              </div>
+            </Form>
 
-                <div
-                  className={styles.changeButton}
-                  onClick={() => setIsEditingPassword(!isEditingPassword)}
-                >
-                  (<span>{isEditingPassword ? 'Cancel' : 'Change'}</span>)
-                </div>
-              </span>
-
-              <label className={`${styles.formLabel} ${passwordClassName}`}>New Password</label>
-              <StepsInfo
-                className={`${styles.formInput} ${passwordClassName}`}
-                isFocusPW={isFocusPW}
-                focusInput={onPasswordFocus}
-                blurInput={onPasswordBlur}
-                stepsData={stepsInfo}
-                disabled={!isEditingPassword}
-                showOnRight
-                {...bindNewPassword}
-              />
-
-              <label className={`${styles.formLabel} ${passwordClassName}`}>
-                Confirm New Password
-              </label>
-              <Form.Input
-                className={`${styles.formInput} ${passwordClassName}`}
-                type={isShowingNewPassword2 ? 'text' : 'password'}
-                autoComplete="new-password"
-                placeholder="Password"
-                {...bindNewPassword2}
-                disabled={!isEditingPassword}
-                icon={
-                  <Icon
-                    name={isShowingNewPassword2 ? 'eye' : 'eye slash'}
-                    link
-                    onClick={() => setShowNewPassword2(!isShowingNewPassword2)}
-                  />
-                }
-              />
+            <div className={styles.formFooter}>
+              {error && <div className={styles.paymentErrorMessage}>{error}</div>}
+              <OrangeButton
+                className={`${styles.updateButton} ${!isEditingPassword &&
+                  styles.updateButton__disabled}`}
+                type="blue"
+                size="small"
+                onClick={() => {
+                  !loading && isEditingPassword && handleSubmit();
+                }}
+              >
+                Update
+                {loading && (
+                  <Dimmer active inverted>
+                    <Loader active size="tiny" />
+                  </Dimmer>
+                )}
+              </OrangeButton>
             </div>
-          </Form>
-
-          <div className={styles.formFooter}>
-            {error && <div className={styles.paymentErrorMessage}>{error}</div>}
-            <OrangeButton
-              className={`${styles.updateButton} ${!isEditingPassword &&
-                styles.updateButton__disabled}`}
-              type="blue"
-              size="small"
-              onClick={() => {
-                !loading && isEditingPassword && handleSubmit();
-              }}
-            >
-              Update
-              {loading && (
-                <Dimmer active inverted>
-                  <Loader active size="tiny" />
-                </Dimmer>
-              )}
-            </OrangeButton>
-          </div>
-        </ProfileBoxContainer>
-        <ProfileBoxFooter className={styles.profileBox}>
-          <div>
-            <img src={HelpingHandsIcon} alt="helping-hands-icon" />
-            &nbsp;&nbsp; If you have trouble with the account, you can contact us at&nbsp;
-            <a href="mailto: support@sellgo.com" className={styles.mailLink}>
-              support@sellgo.com
-            </a>
-            . We Can Help.
-          </div>
-        </ProfileBoxFooter>
+          </ProfileBoxContainer>
+          <ProfileBoxFooter className={styles.profileBox}>
+            <div>
+              <img src={HelpingHandsIcon} alt="helping-hands-icon" />
+              &nbsp;&nbsp; If you have trouble with the account, you can contact us at&nbsp;
+              <a href="mailto: support@sellgo.com" className={styles.mailLink}>
+                support@sellgo.com
+              </a>
+              . We Can Help.
+            </div>
+          </ProfileBoxFooter>
+        </div>
       </main>
     </>
   );

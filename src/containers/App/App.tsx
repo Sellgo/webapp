@@ -82,8 +82,8 @@ const PrivateRoute = connect(
     ...rest
   }: any) => {
     const userIsAuthenticated = isAuthenticated();
-    const isFirstTimeUserLoggedIn = true;
-    // sellerSubscription && sellerSubscription.is_first_time_logged_in;
+    const isFirstTimeUserLoggedIn =
+      sellerSubscription && sellerSubscription.is_first_time_logged_in;
     // This effect will run if there is a change in sellerSubscription,
     // auth status, or route so that we can take the appropriate action.
     // TODO: Hoist this logic up to an AuthProvider that includes user's subscription as part
@@ -116,6 +116,11 @@ const PrivateRoute = connect(
         !location.pathname.includes('/settings/api-keys')
       ) {
         history.push('/account-setup');
+        return;
+      }
+
+      if (!isFirstTimeUserLoggedIn && location.pathname.includes('/account-setup')) {
+        history.push('/');
         return;
       }
 
@@ -212,7 +217,11 @@ function App() {
 
           <Route exact={true} path="/subscription/success" component={PaymentSuccess} />
 
-          <Route exact={true} path="/activation/success" component={ActivationSuccess} />
+          <Route
+            exact={true}
+            path="/activation/success"
+            render={renderProps => <ActivationSuccess auth={auth} {...renderProps} />}
+          />
 
           <Route exact={true} path="/activation/:activationCode" component={Activation} />
 

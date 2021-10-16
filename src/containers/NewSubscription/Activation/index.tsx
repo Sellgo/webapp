@@ -195,14 +195,16 @@ const Activation = (props: Props) => {
       const response = await axios.post(URL, payload);
       const { status } = response;
       if (status === 200) {
-        history.push('/activation/success');
+        history.push({
+          pathname: '/activation/success',
+          state: { email: email, password: password },
+        });
       } else {
         setErrorMessage(`Failed to activate account. Please contact support.`);
       }
     } catch (err) {
       setErrorMessage(`Failed to activate account. Please contact support.`);
     }
-
     setLoading(false);
   };
 

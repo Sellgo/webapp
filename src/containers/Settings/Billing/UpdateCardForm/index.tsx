@@ -178,7 +178,7 @@ const UpdateCardForm = (props: MyProps) => {
                 Change Payment
               </OrangeButton>
               {stripeLoading && (
-                <Dimmer blurring inverted active>
+                <Dimmer inverted active>
                   <Loader className={styles.loader} size="mini" />
                 </Dimmer>
               )}

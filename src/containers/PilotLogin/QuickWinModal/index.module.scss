@@ -28,21 +28,6 @@
   }
 }
 
-.footer {
-  height: 45px;
-  display: flex;
-  align-items: center;
-  border-top: 1px solid $grey_3;
-  padding-left: 40px;
-  font-size: 12px;
-  color: $prim_dark_1;
-
-  a {
-    color: $system_blue;
-    text-decoration: underline;
-  }
-}
-
 .typeFormBox {
   height: 500px;
 }
@@ -66,9 +51,11 @@
 }
 
 .startButton {
-  margin: auto;
   margin-top: 50px;
-  align-self: center;
   width: 160px;
-  padding: 0;
+  align-self: flex-end;
+
+  button {
+    font-weight: 600 !important;
+  }
 }

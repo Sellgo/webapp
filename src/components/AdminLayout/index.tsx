@@ -18,9 +18,13 @@ class AdminLayout extends React.Component<Props> {
     const { children, match } = this.props;
 
     const isNewProduct = NEW_PRODUCT_DESIGN_PATH_NAMES.includes(window.location.pathname);
-    const hideNavbar = HIDE_NAV_BAR_PATH_NAMES.includes(window.location.pathname);
 
-    if (hideNavbar) {
+    const hideNavBar = HIDE_NAV_BAR_PATH_NAMES.includes(
+      window.location.pathname + window.location.search
+    );
+
+    /* If first time logged in, display full page with custom top bar and hide nav bar */
+    if (hideNavBar) {
       return (
         <main className="admin-layout-wrapper">
           <Segment
@@ -34,7 +38,7 @@ class AdminLayout extends React.Component<Props> {
     } else {
       return (
         <main className="admin-layout-wrapper">
-          {!hideNavbar && <Sidebar match={match} />}
+          <Sidebar match={match} />
           <Segment
             className={`admin-layout ${isNewProduct ? 'new-admin-layout' : ''}`}
             basic={true}
