@@ -150,7 +150,9 @@ export const EXPORT_FORMATS = [
 
 export const EXPORT_DATA = [{ key: 'all', value: 'all', text: 'All Results' }];
 
-export const DONT_DISABLE = ['US', 'GB'];
+export const DONT_DISABLE = ['US', 'GB', 'IT', 'MX', 'CA'];
+
+export const DISABLE_CATEGORIES_MARKETPLACES = ['IT', 'MX'];
 
 /* Marketplace options for seller DB */
 export const SELLER_DB_MARKETPLACE = defaultMarketplaces

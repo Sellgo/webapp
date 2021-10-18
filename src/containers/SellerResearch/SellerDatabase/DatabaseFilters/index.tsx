@@ -26,6 +26,7 @@ import {
   FILTER_PERIOD_DURATIONS,
   DEFAULT_US_MARKET,
   SELLER_DB_MARKETPLACE,
+  DISABLE_CATEGORIES_MARKETPLACES,
   FILTER_REVIEW_OPTIONS,
   DEFAULT_MIN_MAX_PERIOD_REVIEW,
   GROWTH_COUNT_PERIOD_OPTIONS,
@@ -279,6 +280,10 @@ const SellerDatabaseFilters = (props: Props) => {
             handleChange={(option: MarketplaceOption) => {
               setMarketPlace(option);
               setSellerDatabaseMarketplace(option);
+
+              if (DISABLE_CATEGORIES_MARKETPLACES.includes(option.code)) {
+                setCategories([]);
+              }
             }}
           />
 
@@ -290,6 +295,7 @@ const SellerDatabaseFilters = (props: Props) => {
             handleChange={(newCategories: string[]) => {
               setCategories([...newCategories]);
             }}
+            disabled={DISABLE_CATEGORIES_MARKETPLACES.includes(marketPlace.code)}
           />
 
           {/*  Include brands */}

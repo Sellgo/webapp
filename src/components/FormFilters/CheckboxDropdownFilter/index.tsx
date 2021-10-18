@@ -25,6 +25,7 @@ interface Props {
   handleChange: (value: any) => void;
   userOnboardingResources: any;
   userOnboarding: boolean;
+  disabled?: boolean;
 }
 
 const CheckboxDropdown: React.FC<Props> = props => {
@@ -35,6 +36,7 @@ const CheckboxDropdown: React.FC<Props> = props => {
     selectedValues,
     userOnboardingResources,
     userOnboarding,
+    disabled,
   } = props;
 
   const handleCheckboxTick = (e: any, data: any) => {
@@ -64,7 +66,7 @@ const CheckboxDropdown: React.FC<Props> = props => {
   };
 
   const trigger = (
-    <button className={styles.buttonWrapper}>
+    <button className={`${styles.buttonWrapper} ${disabled ? styles.buttonWrapper__disabled : ''}`}>
       <Input
         className={`${styles.inputWrapper} textInputFilter`}
         type="text"
@@ -108,6 +110,7 @@ const CheckboxDropdown: React.FC<Props> = props => {
         position="bottom left"
         basic
         trigger={trigger}
+        disabled={disabled}
         /* Dropdown content */
         content={
           <div className={styles.dropdownWrapper}>
