@@ -103,14 +103,9 @@ const MapPanel = (props: Props) => {
             </Segment>
           ) : (
             <>
-              {/* Perform clustering only if count > 50 */}
-              {sellerDataForMap.length > 50 ? (
-                <MarkerClusterGroup>
-                  <PlotAllMarkers sellersData={sellerDataForMap || []} />
-                </MarkerClusterGroup>
-              ) : (
+              <MarkerClusterGroup>
                 <PlotAllMarkers sellersData={sellerDataForMap || []} />
-              )}
+              </MarkerClusterGroup>
             </>
           )}
         </MapContainer>
