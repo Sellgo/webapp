@@ -150,6 +150,9 @@ export const DEFAULT_US_MARKETPLACE = MARKETPLACE_DROPDOWN_OPTIONS.find(
 export const marketplaceflagMapper: any = {
   ATVPDKIKX0DER: require('../../assets/flags/US.png'),
   A1F83G8C2ARO7P: require('../../assets/flags/GB.png'),
+  APJ6JRA9NG5V4: require('../../assets/flags/IT.png'),
+  A1AM78C64UM0Y8: require('../../assets/flags/MX.png'),
+  A2EUQ1WTGCTBG2: require('../../assets/flags/CA.png'),
 };
 
 /* Get flags based on marketplace */
