@@ -1,0 +1,10 @@
+@import '../../../design-system/new-colors.scss';
+
+.tableIcon {
+  color: $grey_6 !important;
+
+  &:hover {
+    background-color: $grey_1;
+    cursor: pointer;
+  }
+}
