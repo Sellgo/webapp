@@ -35,7 +35,14 @@ export const defaultMarketplaces = [
     disabled: true,
     currency: '£',
   },
-  { name: 'Canada', code: 'CA', link: 'amazon.ca', id: 'A2EUQ1WTGCTBG2', disabled: true },
+  {
+    name: 'Canada',
+    code: 'CA',
+    link: 'amazon.ca',
+    id: 'A2EUQ1WTGCTBG2',
+    disabled: true,
+    currency: '$',
+  },
   { name: 'Brazil', code: 'BR', link: 'amazon.com', id: 'A2Q3Y263D00KWC', disabled: true },
   {
     name: 'Mexico',
@@ -43,6 +50,7 @@ export const defaultMarketplaces = [
     link: 'amazon.com.mx',
     id: 'A1AM78C64UM0Y8',
     disabled: true,
+    currency: '$',
   },
   {
     name: 'United Arab Emirates',
@@ -56,7 +64,14 @@ export const defaultMarketplaces = [
   { name: 'France', code: 'FR', link: 'amazon.com', id: 'A13V1IB3VIYZZH', disabled: true },
 
   { name: 'India', code: 'IN', link: 'amazon.in', id: 'A21TJRUUN4KGV', disabled: true },
-  { name: 'Italy', code: 'IT', link: 'amazon.com', id: 'APJ6JRA9NG5V4', disabled: true },
+  {
+    name: 'Italy',
+    code: 'IT',
+    link: 'amazon.com',
+    id: 'APJ6JRA9NG5V4',
+    disabled: true,
+    currency: '€',
+  },
   { name: 'Turkey', code: 'TR', link: 'amazon.com', id: 'A33AVAJ2PDY3EV', disabled: true },
   {
     name: 'Singapore',
