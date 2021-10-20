@@ -13,8 +13,8 @@ import {
 /* Actions */
 import { fetchCentralScrapingProgress } from '../../../../actions/SellerResearch/SellerInventory';
 
-/* Utils */
-import { truncateString } from '../../../../utils/format';
+/* Components */
+import FinderProgressDetails from '../../../../components/FinderProgressDetails';
 
 /* Interfaces */
 import { CentralScrapingProgress } from '../../../../interfaces/SellerResearch/SellerInventory';
@@ -51,26 +51,7 @@ const InventoryProgressBox = (props: Props) => {
     <div className={styles.inventoryProgressBox}>
       {centralScrapingProgress &&
         centralScrapingProgress.map((pdetails: CentralScrapingProgress) => {
-          return (
-            <div className={styles.progressDetails} key={pdetails.job_id}>
-              {/* Type of progress */}
-              <span className={styles.progressType}>Check Sellers</span>
-
-              {/* Additional Product Details */}
-              <span className={styles.productDetails}>
-                {truncateString(pdetails.name ? pdetails.name : 'Processing......', 45)}
-              </span>
-
-              {/* Seller/Product ASIN/ID */}
-              <span className={styles.infoId}>{pdetails.parameter ? pdetails.parameter : '-'}</span>
-
-              {/* Progress Icon */}
-              <span className={styles.progressIcon}>✅</span>
-
-              {/* Progress Status */}
-              <span className={styles.progressStatus}>Completed</span>
-            </div>
-          );
+          return <FinderProgressDetails key={pdetails.job_id} processDetails={pdetails} />;
         })}
     </div>
   );
