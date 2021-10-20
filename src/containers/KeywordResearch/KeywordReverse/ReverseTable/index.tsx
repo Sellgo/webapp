@@ -128,6 +128,32 @@ const ReverseTable = (props: Props) => {
           <StatsCell dataKey="competing_products" align="left" />
         </Table.Column>
 
+        {/* Competitor Rank   */}
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Competitor\nRank (Avg)`}
+              dataKey="competitor_rank_avg"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="competitor_rank_avg" align="left" />
+        </Table.Column>
+
+        {/* Ranking Competitors Count  */}
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Ranking\nCompetitors`}
+              dataKey="ranking_competitors_count"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="ranking_competitors_count" align="left" />
+        </Table.Column>
+
         {/* Title Density  */}
         <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
@@ -223,6 +249,26 @@ const ReverseTable = (props: Props) => {
                   />
                 </Table.HeaderCell>
                 <StatsCell dataKey="position_rank" align="left" />
+              </Table.Column>,
+
+              /* Relative Rank   */
+              <Table.Column
+                width={100}
+                verticalAlign="middle"
+                fixed
+                align="left"
+                sortable
+                key={uuid()}
+              >
+                <Table.HeaderCell>
+                  <HeaderSortCell
+                    title={`Relative\nRank`}
+                    dataKey="relative_rank"
+                    currentSortColumn={sortColumn}
+                    currentSortType={sortType}
+                  />
+                </Table.HeaderCell>
+                <StatsCell dataKey="relative_rank" align="left" />
               </Table.Column>,
             ]}
 
