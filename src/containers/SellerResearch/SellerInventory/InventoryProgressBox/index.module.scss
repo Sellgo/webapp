@@ -55,7 +55,7 @@
   color: $grey_8;
   font-size: 14px;
   font-weight: 500;
-  margin-right: 10px;
+  min-width: 380px;
 }
 
 .infoId {
@@ -63,6 +63,7 @@
   font-size: 12px;
   font-weight: 400;
   margin-right: 10px;
+  min-width: 110px;
 }
 
 .progressIcon {

@@ -15,7 +15,7 @@ export interface CentralExportProgress {
 export interface CentralScrapingProgress {
   channel_name: string;
   job_id: string;
-  name: string;
+  name?: string;
   parameter?: string;
   progress: string;
   status: string;

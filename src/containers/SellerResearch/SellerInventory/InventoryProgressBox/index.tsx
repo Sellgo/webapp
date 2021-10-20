@@ -29,7 +29,11 @@ interface Props {
 }
 
 const InventoryProgressBox = (props: Props) => {
-  const { fetchCentralScrapingProgress, showCentralScrapingProgress } = props;
+  const {
+    fetchCentralScrapingProgress,
+    showCentralScrapingProgress,
+    centralScrapingProgress,
+  } = props;
 
   useEffect(() => {
     fetchCentralScrapingProgress();
@@ -45,24 +49,29 @@ const InventoryProgressBox = (props: Props) => {
 
   return (
     <div className={styles.inventoryProgressBox}>
-      <div className={styles.progressDetails}>
-        {/* Type of progress */}
-        <span className={styles.progressType}>Check Sellers</span>
+      {centralScrapingProgress &&
+        centralScrapingProgress.map((pdetails: CentralScrapingProgress) => {
+          return (
+            <div className={styles.progressDetails} key={pdetails.job_id}>
+              {/* Type of progress */}
+              <span className={styles.progressType}>Check Sellers</span>
 
-        {/* Additional Product Details */}
-        <span className={styles.productDetails}>
-          {truncateString('Big thermos water bottle Insulated with steel… (50 chars)', 50)}
-        </span>
+              {/* Additional Product Details */}
+              <span className={styles.productDetails}>
+                {truncateString(pdetails.name ? pdetails.name : 'Processing......', 45)}
+              </span>
 
-        {/* Seller/Product ASIN/ID */}
-        <span className={styles.infoId}>AU12349G1</span>
+              {/* Seller/Product ASIN/ID */}
+              <span className={styles.infoId}>{pdetails.parameter ? pdetails.parameter : '-'}</span>
 
-        {/* Progress Icon */}
-        <span className={styles.progressIcon}>✅</span>
+              {/* Progress Icon */}
+              <span className={styles.progressIcon}>✅</span>
 
-        {/* Progress Status */}
-        <span className={styles.progressStatus}>Completed</span>
-      </div>
+              {/* Progress Status */}
+              <span className={styles.progressStatus}>Completed</span>
+            </div>
+          );
+        })}
     </div>
   );
 };
