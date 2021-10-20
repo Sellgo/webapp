@@ -164,6 +164,19 @@ const TrackerTable = (props: Props) => {
           <StatsCell dataKey="tracked_keywords" align="center" />
         </Table.Column>
 
+        {/* Amazon Choice Count */}
+        <Table.Column width={130} verticalAlign="top" align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Amazon\nCount (#)`}
+              dataKey="amazon_choice_count"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="amazon_choice_count" align="center" />
+        </Table.Column>
+
         {/* Change Sats Period */}
         <Table.Column width={130} verticalAlign="top" align="center">
           <Table.HeaderCell>{''}</Table.HeaderCell>
