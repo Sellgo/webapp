@@ -1,5 +1,20 @@
 @import '../../../../design-system/new-colors';
 
+.inventorySummarybtn {
+  background: #fff;
+  outline: 0;
+  border: 0;
+  border-radius: 7px;
+  box-shadow: 0 3px 6px #00000029;
+  position: fixed;
+  bottom: 50px;
+  right: 30px;
+  z-index: 9999999 !important;
+  color: $grey_8 !important;
+  height: 40px;
+  width: 90px;
+}
+
 .inventoryProgressBox {
   position: fixed;
   bottom: 50px;
@@ -13,6 +28,8 @@
   padding: 20px;
   box-shadow: 0 3px 6px #00000029;
   border-radius: 7px;
+  display: flex;
+  flex-direction: column;
 
   /* width */
   &::-webkit-scrollbar {
@@ -35,4 +52,10 @@
   &::-webkit-scrollbar-thumb:hover {
     background: $grey_6 !important;
   }
+}
+
+.minimizeBtn {
+  color: $grey_8 !important;
+  cursor: pointer !important;
+  align-self: flex-end;
 }

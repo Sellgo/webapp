@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 /* Styling */
@@ -21,6 +21,7 @@ import { CentralScrapingProgress } from '../../../../interfaces/SellerResearch/S
 
 /* Hooks */
 import { useInterval } from '../../../../hooks/useInterval';
+import { Icon } from 'semantic-ui-react';
 
 interface Props {
   showCentralScrapingProgress: boolean;
@@ -35,6 +36,8 @@ const InventoryProgressBox = (props: Props) => {
     centralScrapingProgress,
   } = props;
 
+  const [minizedProgress, setMinimizeProgress] = useState(false);
+
   useEffect(() => {
     fetchCentralScrapingProgress();
   }, []);
@@ -47,13 +50,38 @@ const InventoryProgressBox = (props: Props) => {
     return;
   }, 5000);
 
+  const firstProgress = centralScrapingProgress && centralScrapingProgress[0];
+
+  const arePendingProgress = centralScrapingProgress && centralScrapingProgress.length > 0;
+
   return (
-    <div className={styles.inventoryProgressBox}>
-      {centralScrapingProgress &&
-        centralScrapingProgress.map((pdetails: CentralScrapingProgress) => {
-          return <FinderProgressDetails key={pdetails.job_id} processDetails={pdetails} />;
-        })}
-    </div>
+    <>
+      {minizedProgress && arePendingProgress && (
+        <button className={styles.inventorySummarybtn} onClick={() => setMinimizeProgress(false)}>
+          <Icon loading name="spinner" />
+          {`${firstProgress && firstProgress.progress} %`}
+        </button>
+      )}
+
+      {!minizedProgress && arePendingProgress && (
+        <div className={styles.inventoryProgressBox}>
+          <Icon
+            name="close"
+            className={styles.minimizeBtn}
+            onClick={() => setMinimizeProgress(true)}
+          />
+
+          <div>
+            {/* Minimize the progress */}
+
+            {centralScrapingProgress &&
+              centralScrapingProgress.map((pdetails: CentralScrapingProgress) => {
+                return <FinderProgressDetails key={pdetails.job_id} processDetails={pdetails} />;
+              })}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
