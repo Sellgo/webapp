@@ -164,28 +164,6 @@ const TrackerTable = (props: Props) => {
           <StatsCell dataKey="tracked_keywords" align="center" />
         </Table.Column>
 
-        {/* Competitors */}
-        <Table.Column width={130} verticalAlign="top" align="left" sortable>
-          <Table.HeaderCell>
-            <HeaderSortCell
-              title={`Competitors `}
-              dataKey="competitors"
-              currentSortColumn={sortColumn}
-              currentSortType={sortType}
-            />
-          </Table.HeaderCell>
-          <Table.Cell>
-            {(rowData: any) => {
-              const { competitors } = rowData;
-              return (
-                <div className={styles.competitorsCount}>
-                  {competitors ? competitors.length : '-'}
-                </div>
-              );
-            }}
-          </Table.Cell>
-        </Table.Column>
-
         {/* Change Sats Period */}
         <Table.Column width={130} verticalAlign="top" align="center">
           <Table.HeaderCell>{''}</Table.HeaderCell>
