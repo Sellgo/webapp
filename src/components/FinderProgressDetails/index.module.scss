@@ -1,0 +1,39 @@
+@import '../../design-system/new-colors';
+
+.progressDetails {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.progressType {
+  color: $grey_8;
+  font-size: 12px;
+  font-weight: 400;
+  margin-right: 10px;
+  min-width: 105px;
+}
+
+.productDetails {
+  color: $grey_8;
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 380px;
+}
+
+.infoId {
+  color: $grey_8;
+  font-size: 12px;
+  font-weight: 400;
+  margin-right: 10px;
+  min-width: 110px;
+}
+
+.progressIcon {
+  margin-right: 10px;
+}
+
+.progressStatus {
+  margin-right: 10px;
+}

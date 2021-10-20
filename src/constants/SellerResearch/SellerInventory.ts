@@ -155,3 +155,10 @@ export const SELLER_INVENTORY_EXPORT_FILE_TYPES = {
   CSV: 'csv',
   XLSX: 'xlsx',
 };
+
+/* Seller Finder Live Scrapping Process type mapper */
+export const FINDER_PROCESS_TYPE_MAPPER: { [key: string]: string } = {
+  cluster_inventory: 'Check Inventories',
+  cluster_merchant: 'Find Seller',
+  cluster_asin: 'Check Sellers',
+};

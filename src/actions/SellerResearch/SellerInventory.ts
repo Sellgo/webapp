@@ -235,7 +235,7 @@ export const fetchCentralScrapingProgress = () => async (dispatch: any) => {
       if (isPendingProgress) {
         dispatch(setShowCentralScrapingProgress(true));
         dispatch(setAllowLiveScraping(allowLiveScrapping));
-        dispatch(setCentralScrapingProgress(data));
+        dispatch(setCentralScrapingProgress(data.reverse()));
       } else {
         dispatch(setShowCentralScrapingProgress(false));
         dispatch(setAllowLiveScraping(true));
