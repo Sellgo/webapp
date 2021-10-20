@@ -57,7 +57,10 @@ const ExpansionCell = (props: Props) => {
     ] || FALLBACK_ONBOARDING_DETAILS;
 
   /* Handle Expansion icon clicks */
-  const handleClick = () => {
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     if (isDisabled) {
       return;
     }

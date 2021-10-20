@@ -103,6 +103,11 @@ const VariationModal = (props: Props) => {
   return (
     <Modal
       open={isModalOpen}
+      onOpen={e => {
+        e.preventDefault();
+        e.stopPropagation();
+        setModalOpen(true);
+      }}
       className={styles.productVariationsModal}
       onClose={() => setModalOpen(false)}
       content={

@@ -46,7 +46,11 @@ const CopyAndLocateClipboard: React.FC<Props> = props => {
             name="copy outline"
             className="tooltipIcon"
             data-title="Copy"
-            onClick={() => copyText(data)}
+            onClick={(e: any) => {
+              e.preventDefault();
+              e.stopPropagation();
+              copyText(data);
+            }}
           />
         ) : (
           <Icon name="check circle" className="tooltipIcon" data-title="Copied" color="green" />

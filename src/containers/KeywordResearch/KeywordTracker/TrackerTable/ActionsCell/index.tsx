@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table } from 'rsuite';
 import { Icon, Popup } from 'semantic-ui-react';
 import { connect } from 'react-redux';
@@ -24,6 +24,8 @@ interface Props extends RowCell {
 const ActionsCell = (props: Props) => {
   const { unTrackKeywordTrackerTableProduct, ...otherProps } = props;
 
+  const [openPopup, setOpenPopup] = useState(false);
+
   const { rowData, dataKey } = otherProps;
 
   const exportXlsxReport = rowData.report_xlsx_url;
@@ -32,22 +34,32 @@ const ActionsCell = (props: Props) => {
 
   const asin = rowData.asin;
 
+  /* Handle Close Popup */
+  const handleClosePopup = () => {
+    setOpenPopup(false);
+  };
   /* Handle All Exports */
   const handleExport = async (type: 'xlsx' | 'csv') => {
     if (type === 'xlsx') {
       await downloadFile(exportXlsxReport);
       success('File Successfully downloaded');
     }
+    handleClosePopup();
   };
 
-  const handleUntrackProduct = () => {
+  const handleUntrackProduct = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
     unTrackKeywordTrackerTableProduct({ keywordTrackProductId });
+    handleClosePopup();
   };
 
-  const handleViewOnAmazon = () => {
+  const handleViewOnAmazon = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
     const amazonLink = `https://www.amazon.com/dp/${asin}`;
-
     window.open(amazonLink, '_blank');
+    handleClosePopup();
   };
 
   return (
@@ -57,8 +69,15 @@ const ActionsCell = (props: Props) => {
           className={styles.actionCellPopup}
           trigger={<Icon name="ellipsis vertical" className={styles.actionCellTrigger} />}
           on="click"
+          onOpen={e => {
+            e.preventDefault();
+            e.stopPropagation();
+            setOpenPopup(true);
+          }}
           position="bottom right"
           offset="-15"
+          onClose={() => setOpenPopup(false)}
+          open={openPopup}
           content={
             <div className={styles.actionCellContent}>
               <button disabled={!asin} onClick={handleViewOnAmazon}>
@@ -71,7 +90,14 @@ const ActionsCell = (props: Props) => {
                 Delete Product
               </button>
 
-              <button disabled={!exportXlsxReport} onClick={() => handleExport('xlsx')}>
+              <button
+                disabled={!exportXlsxReport}
+                onClick={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleExport('xlsx');
+                }}
+              >
                 <Icon name="download" className={styles.actionCellIcon} />
                 Export XLSX
               </button>
