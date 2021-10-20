@@ -11,6 +11,7 @@ import { truncateString } from '../../utils/format';
 
 /* Interfaces */
 import { CentralScrapingProgress } from '../../interfaces/SellerResearch/SellerInventory';
+import { Icon } from 'semantic-ui-react';
 
 interface Props {
   processDetails: CentralScrapingProgress;
@@ -24,12 +25,15 @@ const FinderProgressDetails = (props: Props) => {
   const isCompleted = processDetails.status === 'completed';
   const progress = processDetails.progress;
 
+  const progressType =
+    processDetails.channel_name === 'cluster_asin' && processDetails.is_top_level
+      ? FINDER_PROCESS_TYPE_MAPPER.cluster_merchant
+      : FINDER_PROCESS_TYPE_MAPPER[processDetails.channel_name];
+
   return (
     <div className={styles.progressDetails}>
       {/* Type of progress */}
-      <span className={styles.progressType}>
-        {FINDER_PROCESS_TYPE_MAPPER[processDetails.channel_name]}
-      </span>
+      <span className={styles.progressType}>{progressType}</span>
 
       {/* Additional Product Details */}
       <span className={styles.productDetails}>
@@ -40,10 +44,12 @@ const FinderProgressDetails = (props: Props) => {
       <span className={styles.infoId}>{parameter ? parameter : '-'}</span>
 
       {/* Progress Icon */}
-      <span className={styles.progressIcon}>{isCompleted ? '✅' : '⌛'}</span>
+      <span className={styles.progressIcon}>
+        {isCompleted ? '✅' : <Icon name="spinner" loading />}
+      </span>
 
       {/* Progress Status */}
-      <span className={styles.progressStatus}>{isCompleted ? 'Completed' : progress}</span>
+      <span className={styles.progressStatus}>{isCompleted ? 'Completed' : `${progress}%`}</span>
     </div>
   );
 };
