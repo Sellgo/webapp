@@ -122,6 +122,7 @@ const AddReverseBulkAsins = (props: Props) => {
           handleChange={handleAsinInputChange}
           className={styles.formInput}
           handleOnPaste={handlePastedInput}
+          disabled={totalAsinsCount >= maxAsinsAllowed}
         />
       </div>
 
