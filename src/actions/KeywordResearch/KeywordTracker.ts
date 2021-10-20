@@ -36,7 +36,7 @@ import {
 } from '../../selectors/KeywordResearch/KeywordTracker';
 
 /* Utils */
-import { error, success } from '../../utils/notifications';
+import { error, info, success } from '../../utils/notifications';
 import { downloadFile } from '../../utils/download';
 
 /* ================================================= */
@@ -206,6 +206,16 @@ export const trackProductWithAsinAndKeywords = (payload: ProductTrackPayload) =>
       success('Product successfully tracked');
     }
   } catch (err) {
+    const { response } = err as any;
+
+    if (response) {
+      const { status, data } = response;
+      if (status && data && data.message) {
+        if (status === 429) {
+          info(data.message);
+        }
+      }
+    }
     console.error('Error tracking product with keyword', err);
   }
 };
