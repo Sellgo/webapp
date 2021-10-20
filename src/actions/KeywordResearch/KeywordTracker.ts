@@ -524,7 +524,7 @@ export const unTrackTrackerProductTableKeyword = (payload: UnTrackProductsTableK
     const { keywordTrackId } = payload;
 
     const formData = new FormData();
-    formData.set(TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY, String(keywordTrackId));
+    formData.set('keyword_track_ids', String(keywordTrackId));
     formData.set('status', 'inactive');
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track`;
@@ -533,11 +533,9 @@ export const unTrackTrackerProductTableKeyword = (payload: UnTrackProductsTableK
 
     if (data) {
       // Remove the keyword from the keywords table
-      const updatedKeywordsOnTable = currentlyAvailableKeywords.filter(
-        (keywordData: any) =>
-          keywordData[TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY] !==
-          data[TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY]
-      );
+      const updatedKeywordsOnTable = currentlyAvailableKeywords.filter((keywordData: any) => {
+        return !data.find((item: any) => item.asin === keywordData.asin);
+      });
 
       dispatch(setTrackerProductKeywordsTableResults(updatedKeywordsOnTable));
       success('Successfully deleted keyword');
