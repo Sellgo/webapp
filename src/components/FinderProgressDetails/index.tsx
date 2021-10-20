@@ -1,14 +1,16 @@
 import React, { memo } from 'react';
-import { FINDER_PROCESS_TYPE_MAPPER } from '../../constants/SellerResearch/SellerInventory';
 
-/* Interfaces */
-import { CentralScrapingProgress } from '../../interfaces/SellerResearch/SellerInventory';
+/* Styling */
+import styles from './index.module.scss';
+
+/* Constants */
+import { FINDER_PROCESS_TYPE_MAPPER } from '../../constants/SellerResearch/SellerInventory';
 
 /* Utils */
 import { truncateString } from '../../utils/format';
 
-/* Styling */
-import styles from './index.module.scss';
+/* Interfaces */
+import { CentralScrapingProgress } from '../../interfaces/SellerResearch/SellerInventory';
 
 interface Props {
   processDetails: CentralScrapingProgress;
