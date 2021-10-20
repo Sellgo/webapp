@@ -13,9 +13,12 @@ export interface CentralExportProgress {
 /* ====== CENTRAL SCRAPING PROGRESS ====== */
 /* ============================================ */
 export interface CentralScrapingProgress {
+  channel_name: string;
   job_id: string;
-  status: 'string';
-  progress: number;
+  name: string;
+  parameter?: string;
+  progress: string;
+  status: string;
 }
 
 /* ============================================ */
