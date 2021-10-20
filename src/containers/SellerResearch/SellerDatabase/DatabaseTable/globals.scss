@@ -1,11 +1,9 @@
 @import '../../../../styles/tableReset';
 
-.rs-table {
+#sellerDatabaseTable {
   background: $light_gray_background !important;
   overflow-x: auto !important;
-}
 
-#sellerDatabaseTable {
   /* width */
   &::-webkit-scrollbar {
     height: 10px !important;
