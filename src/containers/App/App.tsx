@@ -9,7 +9,6 @@ import SupplierDetail from '../Synthesis/Supplier';
 import Auth from '../../components/Auth/Auth';
 import PageLoader from '../../components/PageLoader';
 import NotFound from '../../components/NotFound';
-import QuickWin from '../../containers/PilotLogin/QuickWinModal';
 import PilotLogin from '../../containers/PilotLogin';
 import history from '../../history';
 import { connect } from 'react-redux';
@@ -174,7 +173,6 @@ const PrivateRoute = connect(
 
           return (
             <AdminLayout {...props}>
-              {isFirstTimeUserLoggedIn && <QuickWin />}
               <Component {...props} />
             </AdminLayout>
           );

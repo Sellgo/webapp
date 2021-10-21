@@ -8,10 +8,12 @@ import AccountConnectionSection from './AccountConnectionSection';
 import ExtensionSection from './ExtensionSection';
 import FeaturesSection from './FeaturesSection';
 import PilotLoginHeader from '../../components/PilotLoginHeader';
+import QuickWin from '../../containers/PilotLogin/QuickWinModal';
 
 const PilotLogin = () => {
   return (
     <>
+      <QuickWin />
       <main className={styles.pilotLoginPageWrapper}>
         <PilotLoginHeader />
         <AccountConnectionSection />
