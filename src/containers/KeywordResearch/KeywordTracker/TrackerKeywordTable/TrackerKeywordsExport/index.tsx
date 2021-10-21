@@ -52,7 +52,11 @@ const TrackerKeywordsExport = (props: Props) => {
                 <span>Export As</span>
                 <button
                   className={styles.exportOption}
-                  onClick={() => handleExport('xlsx')}
+                  onClick={e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleExport('xlsx');
+                  }}
                   disabled={!shouldEnableXlsxExport}
                 >
                   <XLSXExportImage /> .XLSX
