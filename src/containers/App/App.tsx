@@ -118,6 +118,7 @@ const PrivateRoute = connect(
         return;
       }
 
+      // Dont allow existing users to re-enter into account
       if (!isFirstTimeUserLoggedIn && location.pathname.includes('/account-setup')) {
         history.push('/');
         return;
