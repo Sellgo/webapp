@@ -37,7 +37,7 @@ const SettingsNav = (props: Props) => {
           {SETTINGS_PAGES.map((page: any) => {
             if (!page.disabled) {
               return (
-                <Link to={page.url} style={{ textDecoration: 'none' }}>
+                <Link key={page.url} to={page.url} style={{ textDecoration: 'none' }}>
                   <div
                     className={
                       match.path === page.url
