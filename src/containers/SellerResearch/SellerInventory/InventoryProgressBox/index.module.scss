@@ -12,7 +12,7 @@
   z-index: 9999999 !important;
   color: $grey_8 !important;
   height: 40px;
-  width: 90px;
+  min-width: max-content;
   cursor: all-scroll;
 }
 
@@ -24,8 +24,8 @@
   min-height: max-content !important;
   max-height: 220px;
   overflow-y: auto !important;
-  background: #fff;
-  z-index: 9999999 !important;
+  background: rgba(#fff, 0.8);
+  z-index: 999 !important;
   padding: 20px;
   box-shadow: 0 3px 6px #00000029;
   border-radius: 7px;
@@ -59,4 +59,5 @@
   color: $grey_8 !important;
   cursor: pointer !important;
   align-self: flex-end;
+  transform: translateY(-10px);
 }
