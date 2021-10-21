@@ -164,26 +164,17 @@ const TrackerTable = (props: Props) => {
           <StatsCell dataKey="tracked_keywords" align="center" />
         </Table.Column>
 
-        {/* Competitors */}
+        {/* Amazon Choice Count */}
         <Table.Column width={130} verticalAlign="top" align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Competitors `}
-              dataKey="competitors"
+              title={`Amazon\nCount (#)`}
+              dataKey="amazon_choice_count"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <Table.Cell>
-            {(rowData: any) => {
-              const { competitors } = rowData;
-              return (
-                <div className={styles.competitorsCount}>
-                  {competitors ? competitors.length : '-'}
-                </div>
-              );
-            }}
-          </Table.Cell>
+          <StatsCell dataKey="amazon_choice_count" align="center" />
         </Table.Column>
 
         {/* Change Sats Period */}
@@ -250,7 +241,7 @@ const TrackerTable = (props: Props) => {
         </Table.Column>
 
         {/* Actions Cell */}
-        <Table.Column width={40} verticalAlign="middle" fixed="right" align="left">
+        <Table.Column width={40} verticalAlign="middle" align="left">
           <Table.HeaderCell>{''}</Table.HeaderCell>
           <ActionsCell dataKey={TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY} />
         </Table.Column>

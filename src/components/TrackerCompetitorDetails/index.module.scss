@@ -15,7 +15,8 @@
 
 .productImage {
   width: 25px;
-  height: auto;
+  height: 25px;
+  overflow: hidden !important;
   display: flex;
   justify-content: center;
   align-items: center;

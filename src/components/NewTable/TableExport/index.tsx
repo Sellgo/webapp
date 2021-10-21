@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Icon, Popup } from 'semantic-ui-react';
 
@@ -39,6 +39,8 @@ const TableExport = (props: Props) => {
     onButtonClick,
   } = props;
 
+  const [openPopup, setOpenPopup] = useState(false);
+
   /* On Boarding Logic */
   const specialCellOnboardingDetails =
     userOnboardingResources[TABLE_SPECIAL_ONBOARDING_INDEX] || {};
@@ -51,7 +53,11 @@ const TableExport = (props: Props) => {
     <div className={`${styles.exportButtonContainer} ${className}`}>
       <button
         className={styles.exportBtn}
-        onClick={() => onButtonClick && onButtonClick()}
+        onClick={e => {
+          e.preventDefault();
+          e.stopPropagation();
+          onButtonClick && onButtonClick();
+        }}
         disabled={disableExport}
       >
         <Icon name="download" className={styles.downloadIcon} />
@@ -73,6 +79,13 @@ const TableExport = (props: Props) => {
         on="click"
         position="bottom right"
         offset="-5"
+        open={openPopup}
+        onClose={() => setOpenPopup(false)}
+        onOpen={e => {
+          e.preventDefault();
+          e.stopPropagation();
+          setOpenPopup(true);
+        }}
         trigger={
           <Icon name="angle down" className={styles.caretDownIcon} style={{ cursor: 'pointer' }} />
         }

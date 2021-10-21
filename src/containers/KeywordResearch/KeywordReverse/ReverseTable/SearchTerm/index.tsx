@@ -8,8 +8,8 @@ import styles from './index.module.scss';
 import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipboard';
 
 /* Assets */
-import { ReactComponent as AmazonChoiceLabel } from '../../../../../assets/images/amazon_choice.svg';
-import bestSellerLabel from '../../../../../assets/images/best-seller.png';
+import amazonChoice from '../../../../../assets/amazonLabels/amazonChoiceLabel.png';
+import bestSellerLabel from '../../../../../assets/amazonLabels/bestSellerLabel.png';
 
 /* Interface */
 import { RowCell } from '../../../../../interfaces/Table';
@@ -29,9 +29,15 @@ const SearchTerm = (props: RowCell) => {
           link={`https://www.amazon.com/s?k=${phrase}`}
         />
         <div className={styles.labels}>
-          {amazon_choice_asins > 0 ? <AmazonChoiceLabel /> : null}
+          {amazon_choice_asins > 0 ? (
+            <img src={amazonChoice} alt="Amazon Choice label" className={styles.amazonChoice} />
+          ) : null}
           {best_seller_asins > 0 ? (
-            <img src={bestSellerLabel} alt="Amazon Best Seller Label" />
+            <img
+              src={bestSellerLabel}
+              alt="Amazon Best Seller Label"
+              className={styles.bestSeller}
+            />
           ) : null}
         </div>
       </div>

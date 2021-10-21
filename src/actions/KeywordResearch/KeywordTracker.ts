@@ -36,7 +36,7 @@ import {
 } from '../../selectors/KeywordResearch/KeywordTracker';
 
 /* Utils */
-import { error, success } from '../../utils/notifications';
+import { error, info, success } from '../../utils/notifications';
 import { downloadFile } from '../../utils/download';
 
 /* ================================================= */
@@ -206,6 +206,16 @@ export const trackProductWithAsinAndKeywords = (payload: ProductTrackPayload) =>
       success('Product successfully tracked');
     }
   } catch (err) {
+    const { response } = err as any;
+
+    if (response) {
+      const { status, data } = response;
+      if (status && data && data.message) {
+        if (status === 429) {
+          info(data.message);
+        }
+      }
+    }
     console.error('Error tracking product with keyword', err);
   }
 };
@@ -524,7 +534,7 @@ export const unTrackTrackerProductTableKeyword = (payload: UnTrackProductsTableK
     const { keywordTrackId } = payload;
 
     const formData = new FormData();
-    formData.set(TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY, String(keywordTrackId));
+    formData.set('keyword_track_ids', String(keywordTrackId));
     formData.set('status', 'inactive');
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track`;
@@ -533,11 +543,9 @@ export const unTrackTrackerProductTableKeyword = (payload: UnTrackProductsTableK
 
     if (data) {
       // Remove the keyword from the keywords table
-      const updatedKeywordsOnTable = currentlyAvailableKeywords.filter(
-        (keywordData: any) =>
-          keywordData[TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY] !==
-          data[TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY]
-      );
+      const updatedKeywordsOnTable = currentlyAvailableKeywords.filter((keywordData: any) => {
+        return !data.find((item: any) => item.asin === keywordData.asin);
+      });
 
       dispatch(setTrackerProductKeywordsTableResults(updatedKeywordsOnTable));
       success('Successfully deleted keyword');

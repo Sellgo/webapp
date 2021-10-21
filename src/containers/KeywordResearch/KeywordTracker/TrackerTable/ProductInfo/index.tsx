@@ -55,7 +55,11 @@ const ProductInfo = (props: RowCell) => {
             <img
               src={require('../../../../../assets/images/variationsIcon.svg')}
               alt="sitemap"
-              onClick={() => setVariationModalOpen(true)}
+              onClick={e => {
+                e.preventDefault();
+                e.stopPropagation();
+                setVariationModalOpen(true);
+              }}
               className={styles.variationIcon}
             />
           </div>

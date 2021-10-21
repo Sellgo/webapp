@@ -32,6 +32,7 @@ const ActionButton = (props: Props) => {
 
   const handleClick = (e: any) => {
     e.preventDefault();
+    e.stopPropagation();
     onClick && onClick();
   };
 

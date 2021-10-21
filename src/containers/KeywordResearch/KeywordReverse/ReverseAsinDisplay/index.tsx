@@ -114,7 +114,7 @@ const ReverseAsinDisplay = (props: Props) => {
 
   return (
     <section className={styles.reverseAsinDisplay}>
-      <h2>Asin-Keyword Reversal Results</h2>
+      <h2>ASIN-Keyword Finder Results</h2>
 
       <div className={styles.reverseAsinCardsWrapper}>
         {/* Add new ASIN card */}
