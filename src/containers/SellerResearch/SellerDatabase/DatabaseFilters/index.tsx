@@ -29,10 +29,8 @@ import {
   DISABLE_CATEGORIES_MARKETPLACES,
   FILTER_REVIEW_OPTIONS,
   DEFAULT_MIN_MAX_PERIOD_REVIEW,
-  GROWTH_COUNT_PERIOD_OPTIONS,
   GROWTH_PERCENT_PERIOD_OPTIONS,
   DEFAULT_GROWTH_PERCENT_FILTER,
-  DEFAULT_GROWTH_COUNT_FILTER,
   LAUNCHED_FILTER_OPTIONS,
   SELLER_TYPE_FILTER_OPTIONS,
 } from '../../../../constants/SellerResearch/SellerDatabase';
@@ -85,7 +83,6 @@ const SellerDatabaseFilters = (props: Props) => {
 
   const [numOfInventory, setNumOfInventory] = useState(DEFAULT_MIN_MAX_FILTER);
   const [growthPercent, setGrowthPercent] = useState(DEFAULT_GROWTH_PERCENT_FILTER);
-  const [growthCount, setGrowthCount] = useState(DEFAULT_GROWTH_COUNT_FILTER);
 
   const [reviewCount, setReviewCount] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
   const [fbaPercent, setFbaPercent] = useState(DEFAULT_MIN_MAX_FILTER);
@@ -119,7 +116,6 @@ const SellerDatabaseFilters = (props: Props) => {
 
       numOfInventory,
       growthPercent,
-      growthCount,
 
       reviewCount,
       fbaPercent,
@@ -148,7 +144,6 @@ const SellerDatabaseFilters = (props: Props) => {
 
     setNumOfInventory(DEFAULT_MIN_MAX_FILTER);
     setGrowthPercent(DEFAULT_GROWTH_PERCENT_FILTER);
-    setGrowthCount(DEFAULT_GROWTH_COUNT_FILTER);
 
     setReviewCount(DEFAULT_MIN_MAX_PERIOD_FILTER);
     setFbaPercent(DEFAULT_MIN_MAX_FILTER);
@@ -491,34 +486,6 @@ const SellerDatabaseFilters = (props: Props) => {
                   filterOptions={GROWTH_PERCENT_PERIOD_OPTIONS}
                   handleChange={(period: string) => {
                     setGrowthPercent(prevState => ({
-                      ...prevState,
-                      period,
-                    }));
-                  }}
-                />
-              </div>
-
-              {/* Growth Count */}
-              <div className={styles.groupFilters}>
-                <MinMaxFilter
-                  label="Growth Count"
-                  minValue={growthCount.min}
-                  maxValue={growthCount.max}
-                  handleChange={(type: string, value: string) =>
-                    setGrowthCount(prevState => ({
-                      ...prevState,
-                      [type]: value,
-                    }))
-                  }
-                />
-                <PeriodFilter
-                  placeholder="30D"
-                  label="Period"
-                  className={styles.filterPeriod}
-                  value={growthCount.period}
-                  filterOptions={GROWTH_COUNT_PERIOD_OPTIONS}
-                  handleChange={(period: string) => {
-                    setGrowthCount(prevState => ({
                       ...prevState,
                       period,
                     }));
