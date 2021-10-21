@@ -38,12 +38,16 @@
     }
 
     &:focus {
-      border: 1px solid $grey_3 !important;
+      border: 2px solid $blue_6 !important;
       width: 300px !important;
 
       .searchIcon {
         color: $grey_8 !important;
       }
+    }
+
+    &:hover {
+      background-color: $grey_1 !important;
     }
   }
 }

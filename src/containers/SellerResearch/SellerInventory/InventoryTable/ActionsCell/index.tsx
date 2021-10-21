@@ -25,6 +25,7 @@ import { DeleteSellerPayload } from '../../../../../interfaces/SellerResearch/Se
 
 /* Hooks */
 import { useFindRefreshSeller } from '../../SocketProviders/FindRefreshSeller';
+import TableIcon from '../../../../../components/Icons/TableIcon';
 
 interface Props extends RowCell {
   allowLiveScraping: boolean;
@@ -85,11 +86,9 @@ const ActionsCell = (props: Props) => {
         <Popup
           className={styles.actionCellPopup}
           trigger={
-            <Icon
-              name="ellipsis vertical"
-              className={styles.actionCellTrigger}
-              onClick={() => setOpenPopup(true)}
-            />
+            <div className={styles.actionCellTrigger}>
+              <TableIcon onClick={() => setOpenPopup(true)} name="ellipsis vertical" />
+            </div>
           }
           on="click"
           open={openPopup}

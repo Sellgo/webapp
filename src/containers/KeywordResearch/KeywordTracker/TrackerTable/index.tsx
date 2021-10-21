@@ -241,7 +241,7 @@ const TrackerTable = (props: Props) => {
         </Table.Column>
 
         {/* Actions Cell */}
-        <Table.Column width={40} verticalAlign="top" align="left">
+        <Table.Column width={40} verticalAlign="middle" align="left">
           <Table.HeaderCell>{''}</Table.HeaderCell>
           <ActionsCell dataKey={TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY} />
         </Table.Column>

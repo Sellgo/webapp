@@ -1,9 +1,12 @@
 import React, { memo } from 'react';
 import { Table } from 'rsuite';
-import { Checkbox, Popup, Icon } from 'semantic-ui-react';
+import { Checkbox, Popup } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
+
+/* Components */
+import TableIcon from '../../Icons/TableIcon';
 
 /* Interfaces */
 import { RowCell } from '../../../interfaces/Table';
@@ -25,7 +28,11 @@ const HeaderChekboxCell = (props: Props) => {
           className={styles.actionsCellPopup}
           on="click"
           position="bottom left"
-          trigger={<Icon name="ellipsis vertical" className={styles.actionCellTrigger} />}
+          trigger={
+            <div>
+              <TableIcon name="ellipsis vertical" className={styles.actionCellTrigger} />
+            </div>
+          }
           content={actionsCell}
         />
       </div>

@@ -35,6 +35,7 @@ import { KeywordHistoryChart } from '../KeywordHistoryChart';
 
 /* Icons */
 import KeywordBoostTrackIcon from '../../../../../components/Icons/KeywordResearch/KeywordBoostTrack';
+import TableIcon from '../../../../../components/Icons/TableIcon';
 
 interface Props extends RowCell {
   unTrackTrackerProductTableKeyword: (payload: UnTrackProductsTableKeyword) => void;
@@ -95,7 +96,11 @@ const ActionsCell = (props: Props) => {
         <div className={styles.actionCellWrapper}>
           <Popup
             className={styles.actionCellPopup}
-            trigger={<Icon name="ellipsis vertical" className={styles.actionCellTrigger} />}
+            trigger={
+              <div className={styles.actionCellTrigger}>
+                <TableIcon name="ellipsis vertical" className={styles.actionCellTrigger} />
+              </div>
+            }
             on="click"
             position="bottom right"
             closeOnDocumentClick
