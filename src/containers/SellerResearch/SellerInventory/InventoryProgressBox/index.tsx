@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { Icon } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -19,9 +20,11 @@ import FinderProgressDetails from '../../../../components/FinderProgressDetails'
 /* Interfaces */
 import { CentralScrapingProgress } from '../../../../interfaces/SellerResearch/SellerInventory';
 
+/* Utils */
+import { formatNumber } from '../../../../utils/format';
+
 /* Hooks */
 import { useInterval } from '../../../../hooks/useInterval';
-import { Icon } from 'semantic-ui-react';
 
 interface Props {
   showCentralScrapingProgress: boolean;
@@ -54,12 +57,20 @@ const InventoryProgressBox = (props: Props) => {
 
   const arePendingProgress = centralScrapingProgress && centralScrapingProgress.length > 0;
 
+  useEffect(() => {
+    if (!minizedProgress) {
+      setTimeout(() => {
+        setMinimizeProgress(true);
+      }, 5000);
+    }
+  }, [minizedProgress]);
+
   return (
     <>
       {minizedProgress && arePendingProgress && (
         <button className={styles.inventorySummarybtn} onClick={() => setMinimizeProgress(false)}>
           <Icon loading name="spinner" />
-          {`${firstProgress && firstProgress.progress} %`}
+          {`${formatNumber(firstProgress && firstProgress.progress)} %`}
         </button>
       )}
 
@@ -73,7 +84,6 @@ const InventoryProgressBox = (props: Props) => {
 
           <div>
             {/* Minimize the progress */}
-
             {centralScrapingProgress &&
               centralScrapingProgress.map((pdetails: CentralScrapingProgress) => {
                 return <FinderProgressDetails key={pdetails.job_id} processDetails={pdetails} />;

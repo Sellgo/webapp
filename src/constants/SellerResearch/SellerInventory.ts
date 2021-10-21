@@ -35,7 +35,7 @@ export const actionTypes = {
 };
 
 /* Max live scraping allowed */
-export const MAX_LIVE_SCRAPING_ALLOWED = 5;
+export const MAX_LIVE_SCRAPING_ALLOWED = 10;
 
 /* Pagination info */
 export const DEFAULT_PAGES_LIST = [
