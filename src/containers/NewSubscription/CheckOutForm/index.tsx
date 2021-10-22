@@ -224,8 +224,9 @@ function CheckoutForm(props: MyProps) {
           return;
         }
       } catch (e) {
-        if (e.response && e.response.data && e.response.data.message) {
-          handleError(e.response.data.message);
+        const { response } = e as any;
+        if (response && response.data && response.data.message) {
+          handleError(response.data.message);
         }
         handleError('Failed to make payment.');
         return;
