@@ -50,12 +50,12 @@ const PROD_AUTH_CONFIG = {
 
 const DEV_ANALYTICS = {
   gaTrackingId: 'UA-154653584-1',
-  fullStoryOrgId: '16341N',
+  fullStoryOrgId: 'Q36Y3',
 };
 
 const PROD_ANALYTICS = {
   gaTrackingId: 'UA-154653584-2',
-  fullStoryOrgId: 'Q36Y3',
+  fullStoryOrgId: '16341N',
 };
 
 const DEV_MWS = {
