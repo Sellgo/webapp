@@ -115,6 +115,13 @@ const SidebarDropdown = (props: Props) => {
         <div className={`${subOptionClassName}`}>
           {option.subOptions &&
             option.subOptions.map((subOption: NavbarBarOption) => {
+              let isActive;
+              if (subOption.path.includes('/profit-finder')) {
+                isActive = currentPath.includes('/profit-finder');
+              } else {
+                isActive = currentPath === subOption.path;
+              }
+
               return (
                 <Link
                   key={subOption.label}
@@ -126,7 +133,7 @@ const SidebarDropdown = (props: Props) => {
                   <div
                     className={`
                                     ${styles.subOption}
-                                    ${currentPath === subOption.path ? styles.active : ''}
+                                    ${isActive ? styles.active : ''}
                                     ${subOption.disabled ? styles.disabled : ''}
                                 `}
                   >
