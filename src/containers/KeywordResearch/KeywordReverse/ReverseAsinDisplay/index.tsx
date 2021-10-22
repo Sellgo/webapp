@@ -33,6 +33,7 @@ import BulkAsinAdder from '../../../../components/BulkAsinAdder';
 
 /* Utils */
 import { timeout } from '../../../../utils/timeout';
+import TableResultsMessage from '../../../../components/TableResultsMessage';
 
 interface Props {
   isLoadingKeywordReverseProductsList: boolean;
@@ -114,7 +115,15 @@ const ReverseAsinDisplay = (props: Props) => {
 
   return (
     <section className={styles.reverseAsinDisplay}>
-      <h2>ASIN-Keyword Finder Results</h2>
+      {totalProducts > 0 ? (
+        <TableResultsMessage
+          prependMessage="Analyze"
+          count={totalProducts || 0}
+          appendMessage="ASINs."
+        />
+      ) : (
+        <h2>ASIN-keyword Finder Results</h2>
+      )}
 
       <div className={styles.reverseAsinCardsWrapper}>
         {/* Add new ASIN card */}
