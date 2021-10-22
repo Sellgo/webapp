@@ -168,7 +168,7 @@ const TrackerTable = (props: Props) => {
         <Table.Column width={130} verticalAlign="top" align="left" sortable>
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Amazon\nCount (#)`}
+              title={`Amazon\n Choice #`}
               dataKey="amazon_choice_count"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
