@@ -2,12 +2,18 @@
 
 .profilePageWrapper {
   display: flex;
+  flex-direction: row;
+}
+
+.profilePage {
+  margin-top: 50px;
+  display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .profileBox {
-  width: 1088px;
+  width: 100%;
 }
 
 .profileInformationRow {
@@ -39,7 +45,7 @@
 
 .updateSettingsForm {
   display: grid;
-  grid-template-columns: 500px 588px;
+  grid-template-columns: 400px 600px;
   grid-template-rows: max-content;
   position: relative;
   align-items: center;

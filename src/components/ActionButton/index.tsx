@@ -4,8 +4,8 @@ import React, { memo } from 'react';
 import styles from './index.module.scss';
 
 type Variant = 'primary' | 'secondary' | 'reset';
-type Type = 'orange' | 'blue';
-type Size = 'md';
+type Type = 'orange' | 'blue' | 'purpleGradient' | 'black';
+type Size = 'md' | 'small';
 
 interface Props {
   variant: Variant;
@@ -30,12 +30,23 @@ const ActionButton = (props: Props) => {
 
   const btnClass = `${variantClass} ${sizeClass} ${className ? className : ''}`;
 
+  const isBorderedGradient = variant === 'secondary' && type === 'purpleGradient';
+
   const handleClick = (e: any) => {
     e.preventDefault();
     e.stopPropagation();
     onClick && onClick();
   };
 
+  if (isBorderedGradient) {
+    return (
+      <div className={btnClass}>
+        <button onClick={handleClick} className={styles.innerButton} disabled={disabled}>
+          {children}
+        </button>
+      </div>
+    );
+  }
   return (
     <button onClick={handleClick} className={btnClass} disabled={disabled}>
       {children}

@@ -46,7 +46,7 @@ const PastTransactionsSection = (props: Props) => {
   }
   return (
     <>
-      <section>
+      <section className={styles.billingHistoryWrapper}>
         <ProfileBoxHeader>Billing History</ProfileBoxHeader>
         <ProfileBoxContainer>
           <div className={styles.transactionHistoryTable}>
@@ -68,7 +68,7 @@ const PastTransactionsSection = (props: Props) => {
                 <Table.Cell dataKey="id" />
               </Table.Column>
 
-              <Table.Column width={150} verticalAlign="middle" align="center">
+              <Table.Column width={130} verticalAlign="middle" align="center">
                 <Table.HeaderCell>Date</Table.HeaderCell>
                 <Table.Cell dataKey="date" />
               </Table.Column>
@@ -78,7 +78,7 @@ const PastTransactionsSection = (props: Props) => {
                 <Table.Cell dataKey="price" />
               </Table.Column>
 
-              <Table.Column width={150} verticalAlign="middle" align="center">
+              <Table.Column width={120} verticalAlign="middle" align="center">
                 <Table.HeaderCell>Description</Table.HeaderCell>
                 <PlanDescriptionCell dataKey="desc" />
               </Table.Column>
@@ -101,7 +101,7 @@ const PastTransactionsSection = (props: Props) => {
             )}
 
             {loading && (
-              <Dimmer blurring inverted active>
+              <Dimmer inverted active>
                 <Loader />
               </Dimmer>
             )}

@@ -145,3 +145,41 @@ export const getMarketplaceFlag = (marketplaceId: string) => {
 
   return flagUrl;
 };
+
+export const SETTINGS_PAGES = [
+  {
+    name: 'Profile',
+    disabled: false,
+    url: '/settings/profile',
+  },
+  {
+    name: 'Subscription',
+    disabled: false,
+    url: '/settings/pricing',
+  },
+  {
+    name: 'Billing',
+    disabled: false,
+    url: '/settings/billing',
+  },
+  {
+    name: 'Amazon MWS',
+    disabled: false,
+    url: '/settings/connectivity',
+  },
+  {
+    name: 'API Keys',
+    disabled: false,
+    url: '/settings/api-keys',
+  },
+  {
+    name: 'User Management',
+    disabled: true,
+    url: '/settings/user-management',
+  },
+  {
+    name: 'Notification',
+    disabled: true,
+    url: '/settings/notifications',
+  },
+];

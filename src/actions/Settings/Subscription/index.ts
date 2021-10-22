@@ -77,6 +77,11 @@ export const fetchSellerSubscription = () => (dispatch: any) => {
 
       dispatch(setSellerSubscription(subscription));
       if (subscription) {
+        if (subscription.is_first_time_logged_in) {
+          localStorage.setItem('isFirstTimeLoggedIn', 'true');
+        } else {
+          localStorage.setItem('isFirstTimeLoggedIn', 'false');
+        }
         if (navigator.userAgent.indexOf('Chrome') !== -1) {
           if (chrome && chrome.runtime) {
             chrome.runtime.sendMessage(AppConfig.CHROME_EXT_ID, {

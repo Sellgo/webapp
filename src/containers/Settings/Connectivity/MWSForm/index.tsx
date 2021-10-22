@@ -165,7 +165,7 @@ const Connectivity = (props: Props) => {
   };
 
   return (
-    <section>
+    <section className={styles.mwsFormWrapper}>
       <ProfileBoxHeader>Amazon MWS Authorization</ProfileBoxHeader>
       <ProfileBoxContainer>
         <p className={styles.mwsFormTitle}>

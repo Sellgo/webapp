@@ -223,7 +223,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
           )}
           {/* To show dimmer when page is still loading */}
           {(isQuotaLoading || isSubscriptionStripeLoading || isCreditCardLoading) && (
-            <Dimmer blurring inverted active>
+            <Dimmer inverted active>
               <Loader className={styles.loader} />
             </Dimmer>
           )}
