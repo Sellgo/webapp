@@ -127,6 +127,7 @@ const TrackerTable = (props: Props) => {
         sortType={sortType}
         id="keywordTrackerTable"
         onSortColumn={handleSortColumn}
+        shouldUpdateScroll={false}
         //  Props for table expansion
         rowKey={TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY}
         rowExpandedHeight={calculateTrackerProductTableExpandedHeight(
