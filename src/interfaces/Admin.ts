@@ -5,6 +5,7 @@ export type NavbarBarOption = {
   path: string;
   disabled: boolean;
   isBeta: boolean;
+  isComingSoon?: boolean;
   subOptions?: NavbarBarOption[];
 };
 

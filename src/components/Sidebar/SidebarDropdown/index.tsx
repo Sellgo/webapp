@@ -71,6 +71,8 @@ const SidebarDropdown = (props: Props) => {
             {option.isBeta && <BetaLabel isNav />}
             <img src={option.icon} alt="nav-icon" />
           </div>
+          {/* Display Coming Soon Label */}
+          {option.isComingSoon && <div className={styles.comingSoonLabel}>COMING SOON</div>}
           <p className={styles.navLabel}>{option.label}</p>
         </div>
       </Link>
@@ -98,6 +100,8 @@ const SidebarDropdown = (props: Props) => {
             {option.isBeta && <BetaLabel isNav />}
             <img src={option.icon} alt="nav-icon" />
           </div>
+          {/* Display Coming Soon Label */}
+          {option.isComingSoon && <div className={styles.comingSoonLabel}>COMING SOON</div>}
           <p className={styles.navLabel}>{option.label}</p>
           <img src={NavDownArrow} alt="down-arrow" className={styles.downArrow} />
         </div>

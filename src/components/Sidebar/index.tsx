@@ -108,6 +108,10 @@ const Sidebar = (props: Props) => {
       newNavOptions = handleDisableNavOption('Keyword Research', newNavOptions);
     }
 
+    /* Temporary disable options */
+    newNavOptions = handleDisableNavOption('Product Research', newNavOptions);
+    newNavOptions = handleDisableNavOption('Keyword Research', newNavOptions);
+    newNavOptions = handleDisableNavOption('Product Research', newNavOptions);
     setNavOptions(newNavOptions);
   }, []);
 
