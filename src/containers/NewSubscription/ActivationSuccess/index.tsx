@@ -43,10 +43,10 @@ const ActivationSuccess = (props: Props) => {
       return;
     }
 
-    setTimeout(() => setProgressMessage('Getting all the pieces together...'), 1500);
-    setTimeout(() => setProgressMessage('Personalizing your experience...'), 3000);
-    setTimeout(() => setProgressMessage("You're all set!"), 4500);
-    setTimeout(redirectAndLogin, 5000);
+    setTimeout(() => setProgressMessage('Getting all the pieces together...'), 2500);
+    setTimeout(() => setProgressMessage('Personalizing your experience...'), 4500);
+    setTimeout(() => setProgressMessage("You're all set!"), 6500);
+    setTimeout(redirectAndLogin, 7000);
   }, []);
 
   const redirectAndLogin = () => {
