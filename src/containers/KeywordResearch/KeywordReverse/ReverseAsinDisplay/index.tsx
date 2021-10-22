@@ -30,6 +30,7 @@ import { MAX_ASINS_ALLOWED } from '../../../../constants/KeywordResearch/Keyword
 /* Components */
 import ReverseAsinCard from '../../../../components/ReverseAsinCard';
 import BulkAsinAdder from '../../../../components/BulkAsinAdder';
+import TableResultsMessage from '../../../../components/TableResultsMessage';
 
 /* Utils */
 import { timeout } from '../../../../utils/timeout';
@@ -114,7 +115,15 @@ const ReverseAsinDisplay = (props: Props) => {
 
   return (
     <section className={styles.reverseAsinDisplay}>
-      <h2>ASIN-Keyword Finder Results</h2>
+      {totalProducts > 0 ? (
+        <TableResultsMessage
+          prependMessage="Analyze"
+          count={totalProducts || 0}
+          appendMessage="ASINs."
+        />
+      ) : (
+        <h2>ASIN-keyword Finder Results</h2>
+      )}
 
       <div className={styles.reverseAsinCardsWrapper}>
         {/* Add new ASIN card */}
