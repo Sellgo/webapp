@@ -30,10 +30,10 @@ import { MAX_ASINS_ALLOWED } from '../../../../constants/KeywordResearch/Keyword
 /* Components */
 import ReverseAsinCard from '../../../../components/ReverseAsinCard';
 import BulkAsinAdder from '../../../../components/BulkAsinAdder';
+import TableResultsMessage from '../../../../components/TableResultsMessage';
 
 /* Utils */
 import { timeout } from '../../../../utils/timeout';
-import TableResultsMessage from '../../../../components/TableResultsMessage';
 
 interface Props {
   isLoadingKeywordReverseProductsList: boolean;
