@@ -26,7 +26,6 @@ import {
   FILTER_PERIOD_DURATIONS,
   DEFAULT_US_MARKET,
   SELLER_DB_MARKETPLACE,
-  DISABLE_CATEGORIES_MARKETPLACES,
   FILTER_REVIEW_OPTIONS,
   DEFAULT_MIN_MAX_PERIOD_REVIEW,
   GROWTH_PERCENT_PERIOD_OPTIONS,
@@ -34,7 +33,7 @@ import {
   LAUNCHED_FILTER_OPTIONS,
   SELLER_TYPE_FILTER_OPTIONS,
 } from '../../../../constants/SellerResearch/SellerDatabase';
-import { PRODUCTS_DATABASE_CATEGORIES } from '../../../../constants/ProductResearch/ProductsDatabase';
+import { getProductCategories } from '../../../../constants/ProductResearch/ProductsDatabase';
 import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
 
 import {
@@ -275,8 +274,7 @@ const SellerDatabaseFilters = (props: Props) => {
             handleChange={(option: MarketplaceOption) => {
               setMarketPlace(option);
               setSellerDatabaseMarketplace(option);
-
-              if (DISABLE_CATEGORIES_MARKETPLACES.includes(option.code)) {
+              if (getProductCategories(option.code) !== getProductCategories(marketPlace.code)) {
                 setCategories([]);
               }
             }}
@@ -284,13 +282,12 @@ const SellerDatabaseFilters = (props: Props) => {
 
           {/* Categories */}
           <CheckboxDropdownFilter
-            filterOptions={PRODUCTS_DATABASE_CATEGORIES}
+            filterOptions={getProductCategories(marketPlace.code)}
             label="Categories"
             selectedValues={categories}
             handleChange={(newCategories: string[]) => {
               setCategories([...newCategories]);
             }}
-            disabled={DISABLE_CATEGORIES_MARKETPLACES.includes(marketPlace.code)}
           />
 
           {/*  Include brands */}

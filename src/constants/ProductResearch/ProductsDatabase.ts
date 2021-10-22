@@ -183,3 +183,139 @@ export const PRODUCTS_DATABASE_CATEGORIES = [
     text: 'Industrial & Scientific',
   },
 ];
+
+export const MX_PRODUCTS_DATABASE_CATEGORIES = [
+  { key: 'Belleza', value: 'Belleza', text: 'Belleza' },
+  {
+    key: 'Industria, Empresas y Ciencia',
+    value: 'Industria, Empresas y Ciencia',
+    text: 'Industria, Empresas y Ciencia',
+  },
+  { key: 'Alimentos y Bebidas', value: 'Alimentos y Bebidas', text: 'Alimentos y Bebidas' },
+  { key: 'Productos Handmade', value: 'Productos Handmade', text: 'Productos Handmade' },
+  { key: 'Libros', value: 'Libros', text: 'Libros' },
+  {
+    key: 'Instrumentos Musicales',
+    value: 'Instrumentos Musicales',
+    text: 'Instrumentos Musicales',
+  },
+  {
+    key: 'Automotriz y Motocicletas',
+    value: 'Automotriz y Motocicletas',
+    text: 'Automotriz y Motocicletas',
+  },
+  { key: 'Música', value: 'Música', text: 'Música' },
+  { key: 'Jardín', value: 'Jardín', text: 'Jardín' },
+  { key: 'Bebé', value: 'Bebé', text: 'Bebé' },
+  { key: 'Software', value: 'Software', text: 'Software' },
+  {
+    key: 'Salud y Cuidado Personal',
+    value: 'Salud y Cuidado Personal',
+    text: 'Salud y Cuidado Personal',
+  },
+  { key: 'Electrónicos', value: 'Electrónicos', text: 'Electrónicos' },
+  {
+    key: 'Ropa, Zapatos y Accesorios',
+    value: 'Ropa, Zapatos y Accesorios',
+    text: 'Ropa, Zapatos y Accesorios',
+  },
+  {
+    key: 'Productos para Animales',
+    value: 'Productos para Animales',
+    text: 'Productos para Animales',
+  },
+  {
+    key: 'Herramientas y Mejoras del Hogar',
+    value: 'Herramientas y Mejoras del Hogar',
+    text: 'Herramientas y Mejoras del Hogar',
+  },
+  { key: 'Juguetes y Juegos', value: 'Juguetes y Juegos', text: 'Juguetes y Juegos' },
+  { key: 'Hogar y Cocina', value: 'Hogar y Cocina', text: 'Hogar y Cocina' },
+  { key: 'Deportes y Aire libre', value: 'Deportes y Aire libre', text: 'Deportes y Aire libre' },
+  {
+    key: 'Películas y Series de TV',
+    value: 'Películas y Series de TV',
+    text: 'Películas y Series de TV',
+  },
+  { key: 'Tienda Kindle', value: 'Tienda Kindle', text: 'Tienda Kindle' },
+  { key: 'Videojuegos', value: 'Videojuegos', text: 'Videojuegos' },
+  { key: 'Oficina y Papelería', value: 'Oficina y Papelería', text: 'Oficina y Papelería' },
+];
+
+export const IT_PRODUCTS_DATABASE_CATEGORIES = [
+  {
+    key: 'Salute e cura della persona',
+    value: 'Salute e cura della persona',
+    text: 'Salute e cura della persona',
+  },
+  { key: 'Gioielli', value: 'Gioielli', text: 'Gioielli' },
+  { key: 'Abbigliamento', value: 'Abbigliamento', text: 'Abbigliamento' },
+  { key: 'Orologi', value: 'Orologi', text: 'Orologi' },
+  { key: 'App e Giochi', value: 'App e Giochi', text: 'App e Giochi' },
+  { key: 'Valigeria', value: 'Valigeria', text: 'Valigeria' },
+  { key: 'Illuminazione', value: 'Illuminazione', text: 'Illuminazione' },
+  { key: 'Prodotti Handmade', value: 'Prodotti Handmade', text: 'Prodotti Handmade' },
+  { key: 'Informatica', value: 'Informatica', text: 'Informatica' },
+  { key: 'Prima infanzia', value: 'Prima infanzia', text: 'Prima infanzia' },
+  {
+    key: 'Prodotti per animali domestici',
+    value: 'Prodotti per animali domestici',
+    text: 'Prodotti per animali domestici',
+  },
+  {
+    key: 'Commercio, Industria e Scienza',
+    value: 'Commercio, Industria e Scienza',
+    text: 'Commercio, Industria e Scienza',
+  },
+  { key: 'Elettronica', value: 'Elettronica', text: 'Elettronica' },
+  { key: 'it-spine', value: 'it-spine', text: 'it-spine' },
+  {
+    key: 'Cancelleria e prodotti per ufficio',
+    value: 'Cancelleria e prodotti per ufficio',
+    text: 'Cancelleria e prodotti per ufficio',
+  },
+  { key: 'Strumenti musicali', value: 'Strumenti musicali', text: 'Strumenti musicali' },
+  { key: 'Bellezza', value: 'Bellezza', text: 'Bellezza' },
+  {
+    key: 'Alimentari e cura della casa',
+    value: 'Alimentari e cura della casa',
+    text: 'Alimentari e cura della casa',
+  },
+  { key: 'Casa e cucina', value: 'Casa e cucina', text: 'Casa e cucina' },
+  { key: 'Musica Digitale', value: 'Musica Digitale', text: 'Musica Digitale' },
+  { key: 'Giochi e giocattoli', value: 'Giochi e giocattoli', text: 'Giochi e giocattoli' },
+  { key: 'Kindle Store', value: 'Kindle Store', text: 'Kindle Store' },
+  {
+    key: 'Grandi elettrodomestici',
+    value: 'Grandi elettrodomestici',
+    text: 'Grandi elettrodomestici',
+  },
+  { key: 'Fai da te', value: 'Fai da te', text: 'Fai da te' },
+  {
+    key: 'Giardino e giardinaggio',
+    value: 'Giardino e giardinaggio',
+    text: 'Giardino e giardinaggio',
+  },
+  { key: 'CD e Vinili', value: 'CD e Vinili', text: 'CD e Vinili' },
+  { key: 'Videogiochi', value: 'Videogiochi', text: 'Videogiochi' },
+  { key: 'Moda', value: 'Moda', text: 'Moda' },
+  { key: 'Auto e Moto', value: 'Auto e Moto', text: 'Auto e Moto' },
+  { key: 'Prime Video', value: 'Prime Video', text: 'Prime Video' },
+  { key: 'Film e TV', value: 'Film e TV', text: 'Film e TV' },
+  { key: 'Scarpe e borse', value: 'Scarpe e borse', text: 'Scarpe e borse' },
+  { key: 'Libri', value: 'Libri', text: 'Libri' },
+  { key: 'None', value: 'None', text: 'None' },
+  { key: 'Sport e tempo libero', value: 'Sport e tempo libero', text: 'Sport e tempo libero' },
+  { key: 'Altro', value: 'Altro', text: 'Altro' },
+];
+
+export const getProductCategories = (marketplaceCode: string) => {
+  if (marketplaceCode === 'MX') {
+    return MX_PRODUCTS_DATABASE_CATEGORIES;
+  } else if (marketplaceCode === 'IT') {
+    return IT_PRODUCTS_DATABASE_CATEGORIES;
+  } else {
+    /* Default */
+    return PRODUCTS_DATABASE_CATEGORIES;
+  }
+};
