@@ -89,31 +89,6 @@ export const OPTIONS: NavOptions = [
     ],
   },
   {
-    label: 'Product Research',
-    icon: require(`../../assets/images/${NAV_ICONS.PRODUCT_RESEARCH}`),
-    path: '/product-research',
-    disabled: false,
-    isBeta: false,
-    subOptions: [
-      {
-        label: 'Product Database',
-        description: 'Amazon Product Catalogue',
-        icon: require(`../../assets/images/${NAV_ICONS.PRODUCT_DATABASE}`),
-        path: '/product-research/database',
-        disabled: false,
-        isBeta: true,
-      },
-      {
-        label: 'Product Tracker',
-        description: 'Track Favorite Products',
-        icon: require(`../../assets/images/${NAV_ICONS.PRODUCT_TRACKER}`),
-        path: '/product-tracker',
-        disabled: false,
-        isBeta: false,
-      },
-    ],
-  },
-  {
     label: 'Seller Research',
     icon: require(`../../assets/images/${NAV_ICONS.SELLER_RESEARCH}`),
     path: '/seller-research',
@@ -147,11 +122,38 @@ export const OPTIONS: NavOptions = [
     ],
   },
   {
+    label: 'Product Research',
+    icon: require(`../../assets/images/${NAV_ICONS.PRODUCT_RESEARCH}`),
+    path: '/product-research',
+    isComingSoon: true,
+    disabled: false,
+    isBeta: false,
+    subOptions: [
+      {
+        label: 'Product Database',
+        description: 'Amazon Product Catalogue',
+        icon: require(`../../assets/images/${NAV_ICONS.PRODUCT_DATABASE}`),
+        path: '/product-research/database',
+        disabled: false,
+        isBeta: true,
+      },
+      {
+        label: 'Product Tracker',
+        description: 'Track Favorite Products',
+        icon: require(`../../assets/images/${NAV_ICONS.PRODUCT_TRACKER}`),
+        path: '/product-tracker',
+        disabled: false,
+        isBeta: false,
+      },
+    ],
+  },
+  {
     label: 'Keyword Research',
     icon: require(`../../assets/images/${NAV_ICONS.KEYWORD_RESEARCH}`),
     path: '/keyword-research',
+    isComingSoon: true,
     disabled: false,
-    isBeta: true,
+    isBeta: false,
     subOptions: [
       {
         label: 'Keyword Finder',

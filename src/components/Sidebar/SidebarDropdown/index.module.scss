@@ -8,6 +8,7 @@
   align-items: center;
   white-space: nowrap;
   height: 50px;
+  position: relative;
 
   .navLabel {
     margin-left: 18px;
@@ -101,4 +102,17 @@
 .accordionContent {
   padding: 0 !important;
   margin: 0 !important;
+}
+
+.comingSoonLabel {
+  padding: 2px 3px 2px 3px !important;
+  margin: 0 3px 0 3px !important;
+  background-color: #feda83 !important;
+  color: #3b4557 4557 !important;
+  font-size: 8px !important;
+  vertical-align: middle !important;
+  border-radius: 11px !important;
+  position: absolute;
+  left: 55px;
+  bottom: 0;
 }
