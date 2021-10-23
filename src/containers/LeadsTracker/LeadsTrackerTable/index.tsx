@@ -419,15 +419,15 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       className: 'lt-sm-col lt-low',
       render: this.renderLows,
     },
-    // {
-    //   label: 'Tracking',
-    //   dataKey: 'tracking',
-    //   type: 'number',
-    //   show: true,
-    //   sortable: false,
-    //   className: 'lt-sm-col leads-tracking',
-    //   render: this.renderDetailButtons,
-    // },
+    {
+      label: 'Tracking',
+      dataKey: 'tracking',
+      type: 'number',
+      show: true,
+      sortable: false,
+      className: 'lt-sm-col leads-tracking',
+      render: this.renderDetailButtons,
+    },
   ];
 
   getRightColumns = () => {

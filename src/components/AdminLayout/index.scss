@@ -16,6 +16,7 @@
     min-height: 100vh;
     width: 100%;
     padding: 0 25px 0 25px;
+    overflow-y: auto;
 
     @media only screen and (max-width: 1450px) {
       padding: 0 25px 0 70px;
