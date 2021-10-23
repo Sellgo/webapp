@@ -48,6 +48,11 @@
   background: none;
   padding: 0;
   min-width: 250px;
+
+  &__disabled {
+    pointer-events: none;
+    opacity: 0.6;
+  }
 }
 
 .inputWrapper {

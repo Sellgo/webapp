@@ -143,7 +143,7 @@ export const GROWTH_PERCENT_FILTER_KEY_MAPPER = {
   '90_days': 'growth_L180D',
 };
 
-export const DONT_DISABLE = ['US', 'GB'];
+export const DONT_DISABLE = ['US', 'GB', 'IT', 'MX', 'CA'];
 
 /* Marketplace options for seller DB */
 export const SELLER_DB_MARKETPLACE = defaultMarketplaces

@@ -17,7 +17,7 @@ import {
   SELLER_TYPE_FILTER_OPTIONS,
 } from '../../../../constants/SellerResearch/SellerMap';
 
-import { PRODUCTS_DATABASE_CATEGORIES } from '../../../../constants/ProductResearch/ProductsDatabase';
+import { getProductCategories } from '../../../../constants/ProductResearch/ProductsDatabase';
 
 /* Selectors */
 import {
@@ -136,6 +136,9 @@ const MapFilters = (props: Props) => {
           handleChange={(option: MarketplaceOption) => {
             setMarketPlace(option);
             setCountry(option.code);
+            if (getProductCategories(option.code) !== getProductCategories(marketPlace.code)) {
+              setCategories([]);
+            }
           }}
         />
 
@@ -184,7 +187,7 @@ const MapFilters = (props: Props) => {
 
         {/* Categories */}
         <CheckboxDropdownFilter
-          filterOptions={PRODUCTS_DATABASE_CATEGORIES}
+          filterOptions={getProductCategories(marketPlace.code)}
           label="Categories"
           selectedValues={categories}
           handleChange={(newCategories: string[]) => {
