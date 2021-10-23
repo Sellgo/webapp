@@ -74,7 +74,6 @@ $new_black: #3b4557;
     margin-bottom: 7px;
     line-height: 20px;
     text-align: left;
-    // white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -504,12 +503,26 @@ $new_black: #3b4557;
       }
     }
 
+    /* stylelint-disable no-descending-specificity */
+
     .leads-tracking {
+      display: none;
       min-width: 151px !important;
       width: 151px !important;
 
+      > div {
+        cursor: unset !important;
+        opacity: 0;
+      }
+
+      > span {
+        cursor: unset !important;
+        opacity: 0;
+      }
+
       .table-cell-container {
         justify-content: center !important;
+        cursor: unset !important;
       }
     }
 
