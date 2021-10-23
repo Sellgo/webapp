@@ -39,7 +39,6 @@ import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
 import ProductInformation from './ProductInformation';
 import BuyboxCompetition from './BuyboxCompetition';
 import ProductsSellersTable from '../ProductsSellersTable';
-import TrackProduct from './TrackProduct';
 import ProductsExport from './ProductsExport';
 
 /* Interfaces */
@@ -217,12 +216,6 @@ const SellerProductsTable = (props: Props) => {
         <Table.Column width={130} verticalAlign="top" align="left">
           <Table.HeaderCell>Product Review #</Table.HeaderCell>
           <StatsCell dataKey="reviews_count" />
-        </Table.Column>
-
-        {/* Track Product */}
-        <Table.Column width={200} verticalAlign="top" align="left">
-          <Table.HeaderCell></Table.HeaderCell>
-          <TrackProduct dataKey="trackProduct" />
         </Table.Column>
       </Table>
     </section>

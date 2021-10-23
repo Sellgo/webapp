@@ -14,7 +14,7 @@ import history from '../../history';
 import { connect } from 'react-redux';
 import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
 import '../../analytics';
-import ProductTracker from '../ProductTracker';
+// import ProductTracker from '../ProductTracker';
 import ResetPassword from '../ResetPassword';
 import Onboarding from '../Onboarding';
 import Subscription from '../Settings/Subscription';
@@ -30,8 +30,8 @@ import UserPilotReload from '../../components/UserPilotReload';
 import ChurnFlow from '../ChurnFlow';
 
 import SellerResearch from '../SellerResearch';
-import ProductResearch from '../ProductResearch';
-import KeywordResearch from '../KeywordResearch';
+// import ProductResearch from '../ProductResearch';
+// import KeywordResearch from '../KeywordResearch';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import { isBetaAccount } from '../../utils/subscriptions';
@@ -253,12 +253,12 @@ function App() {
             component={SupplierDetail}
             requireSubscription={true}
           />
-          <PrivateRoute
+          {/* <PrivateRoute
             exact={true}
             path="/product-tracker"
             component={ProductTracker}
             requireSubscription={true}
-          />
+          /> */}
           <PrivateRoute
             exact={true}
             path="/leads-tracker"
@@ -273,7 +273,7 @@ function App() {
             requireSubscription={true}
           />
 
-          <PrivateRoute
+          {/* <PrivateRoute
             exact={true}
             path="/product-research/:productName"
             component={ProductResearch}
@@ -285,7 +285,7 @@ function App() {
             path="/keyword-research/:productName"
             component={KeywordResearch}
             requireSubscription={true}
-          />
+          /> */}
 
           <PrivateRoute
             exact={true}
