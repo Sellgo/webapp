@@ -109,6 +109,9 @@ export const prettyPrintNumber = (num: number) => {
 };
 
 export const parseKpiLists = (kpiList: any) => {
+  if (!kpiList) {
+    return [];
+  }
   return JSON.parse(JSON.stringify(kpiList))
     .toString()
     .trim()

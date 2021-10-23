@@ -6,7 +6,7 @@ import styles from './index.module.scss';
 
 /* Utils */
 import { formatNumber, formatDecimal, showNAIfZeroOrNull } from '../../../utils/format';
-
+import { getMarketplaceCurrency } from '../../../constants/Settings';
 /* Types */
 import { RowCell } from '../../../interfaces/Table';
 
@@ -17,6 +17,7 @@ interface Props extends RowCell {
   specialKpi?: boolean;
   asRounded?: boolean;
   asFloatRounded?: boolean;
+  autoPrependCurrencySign?: boolean;
 }
 
 const StatsCell = (props: Props) => {
@@ -27,10 +28,14 @@ const StatsCell = (props: Props) => {
     specialKpi = false,
     asRounded = true,
     asFloatRounded = false,
+    autoPrependCurrencySign = false,
     ...otherProps
   } = props;
 
   const { rowData, dataKey } = otherProps;
+  const currencySign = autoPrependCurrencySign
+    ? getMarketplaceCurrency(rowData.marketplace_id)
+    : '';
 
   let alignSettings;
   switch (align) {
@@ -66,7 +71,10 @@ const StatsCell = (props: Props) => {
           fontWeight: specialKpi ? 500 : 400,
         }}
       >
-        {showNAIfZeroOrNull(displayStat, `${prependWith}${displayStat}${appendWith}`)}
+        {showNAIfZeroOrNull(
+          displayStat,
+          `${currencySign}${prependWith}${displayStat}${appendWith}`
+        )}
       </div>
     </Table.Cell>
   );

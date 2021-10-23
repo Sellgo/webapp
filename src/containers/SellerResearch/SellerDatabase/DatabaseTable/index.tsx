@@ -145,11 +145,7 @@ const SellerDatabaseTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell
-              dataKey="sales_estimate"
-              prependWith={sellerMarketplace.currency}
-              align="left"
-            />
+            <StatsCell dataKey="sales_estimate" autoPrependCurrencySign align="left" />
           </Table.Column>
 
           {/* FBA Percent */}
@@ -305,7 +301,6 @@ const SellerDatabaseTable = (props: Props) => {
             </Table.HeaderCell>
             <RatingCell dataKey="seller_rating" asRounded={false} />
           </Table.Column>
-
           {/* Rating % L365D */}
           <Table.Column width={120} verticalAlign="middle" sortable align="center">
             <Table.HeaderCell>
