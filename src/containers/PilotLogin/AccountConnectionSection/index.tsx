@@ -8,7 +8,7 @@ import ActionButton from '../../../components/ActionButton';
 import history from '../../../history';
 
 /* Assets */
-import ZapierLogo from '../../../assets/images/zapier.svg';
+// import ZapierLogo from '../../../assets/images/zapier.svg';
 import AmazonLogo from '../../../assets/images/amazonLogo.svg';
 import Lightbulb from '../../../assets/images/lightbulb.svg';
 
@@ -17,9 +17,9 @@ const AccountConnectionSection = () => {
     history.push('./settings/connectivity?first-time-logged-in=true');
   };
 
-  const handleRedirectToZapier = () => {
-    history.push('./settings/api-keys?first-time-logged-in=true');
-  };
+  // const handleRedirectToZapier = () => {
+  //   history.push('./settings/api-keys?first-time-logged-in=true');
+  // };
 
   return (
     <section className={styles.connectAccount}>
@@ -45,7 +45,7 @@ const AccountConnectionSection = () => {
             Connect
           </ActionButton>
         </div>
-        <div className={styles.connectAccountCard}>
+        {/* <div className={styles.connectAccountCard}>
           <img src={ZapierLogo} alt="zapier" className={styles.connectApiLogo} />
           <p className={styles.connectApiLabel}> Zapier </p>
           <ActionButton
@@ -56,7 +56,7 @@ const AccountConnectionSection = () => {
           >
             Connect
           </ActionButton>
-        </div>
+        </div> */}
       </div>
     </section>
   );

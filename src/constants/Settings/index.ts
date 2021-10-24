@@ -187,7 +187,7 @@ export const SETTINGS_PAGES = [
   },
   {
     name: 'API Keys',
-    disabled: false,
+    disabled: true,
     url: '/settings/api-keys',
   },
   {

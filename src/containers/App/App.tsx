@@ -20,7 +20,7 @@ import Onboarding from '../Onboarding';
 import Subscription from '../Settings/Subscription';
 import Billing from '../Settings/Billing';
 import Connectivity from '../Settings/Connectivity';
-import APIConnectivity from '../Settings/APIConnectivity';
+// import APIConnectivity from '../Settings/APIConnectivity';
 import Profile from '../Settings/Profile';
 import NewSubscription from '../NewSubscription';
 import PaymentSuccess from '../NewSubscription/PaymentSuccess';
@@ -239,7 +239,7 @@ function App() {
           <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />
           <PrivateRoute exact={true} path="/settings/billing" component={Billing} />
           <PrivateRoute exact={true} path="/settings/connectivity" component={Connectivity} />
-          <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} />
+          {/* <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} /> */}
           <PrivateRoute exact={true} path="/settings/profile" component={Profile} />
           <PrivateRoute
             exact={true}
