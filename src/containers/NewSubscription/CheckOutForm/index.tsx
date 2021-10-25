@@ -246,6 +246,7 @@ function CheckoutForm(props: MyProps) {
         const randomPassword = generator.generate({
           length: randomPasswordLength,
           symbols: true,
+          numbers: true,
           lowercase: true,
           uppercase: true,
           strict: true,
