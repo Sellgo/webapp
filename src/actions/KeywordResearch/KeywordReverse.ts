@@ -18,7 +18,10 @@ import {
 } from '../../interfaces/KeywordResearch/KeywordReverse';
 
 /* Selectors */
-import { getKeywordReverseRequestId } from '../../selectors/KeywordResearch/KeywordReverse';
+import {
+  getKeywordReverseProductsList,
+  getKeywordReverseRequestId,
+} from '../../selectors/KeywordResearch/KeywordReverse';
 import { sellerIDSelector } from '../../selectors/Seller';
 
 /* Utils */
@@ -176,13 +179,30 @@ export const parseFilters = (keywordReverseFilter: any) => {
 /* ============== KEYWORD PROGRESS ================== */
 
 /* Action to fetch keyword reverse request id using asins */
-export const fetchKeywordReverseRequestId = (asinList: string) => async (dispatch: any) => {
+export const fetchKeywordReverseRequestId = (asinList: string) => async (
+  dispatch: any,
+  getState: any
+) => {
   try {
     const sellerID = sellerIDSelector();
 
     const payload = {
       asins: asinList,
     };
+
+    const currentProductList = getKeywordReverseProductsList(getState());
+
+    const currentAsinList =
+      currentProductList &&
+      currentProductList
+        .map((a: any) => {
+          return a.asin;
+        })
+        .join(',');
+
+    if (currentAsinList === asinList) {
+      return;
+    }
 
     const { data } = await axios.post(
       `${AppConfig.BASE_URL_API}sellers/${sellerID}/keywords/request`,
