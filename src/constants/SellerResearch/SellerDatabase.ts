@@ -119,6 +119,7 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   monthlyRevenue: { keyName: 'sales_estimate', type: F_TYPES.MIN_MAX },
 
   numOfInventory: { keyName: 'inventory_count', type: F_TYPES.MIN_MAX },
+  numOfBrands: { keyName: 'number_brands', type: F_TYPES.MIN_MAX },
 
   growthPercent: { keyName: 'growth_percent', type: F_TYPES.GROWTH_PERCENT_FILTER },
   growthCount: { keyName: 'growth_count', type: F_TYPES.GROWTH_COUNT_FILTER },
