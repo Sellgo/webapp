@@ -6,10 +6,14 @@ import styles from './index.module.scss';
 
 /* Selectors */
 import { getSellerSubscription } from '../../../../../selectors/Subscription';
-import { getSellerInventoryTableExpandedRow } from '../../../../../selectors/SellerResearch/SellerInventory';
+import {
+  getSellerInventoryTableExpandedRow,
+  getSellerInventoryProductsTableResults,
+} from '../../../../../selectors/SellerResearch/SellerInventory';
 
 /* Components */
 import TableExport from '../../../../../components/NewTable/TableExport';
+import TableResultsMessage from '../../../../../components/TableResultsMessage';
 
 /* Assets */
 import { ReactComponent as XLSXExportImage } from '../../../../../assets/images/xlsxExportImage.svg';
@@ -27,11 +31,15 @@ import { useProductsExportSocket } from '../../SocketProviders/ProductsExportPro
 interface Props {
   sellerSubscription: SellerSubscription;
   sellerInventoryTableExpandedRow: any;
+  sellerInventoryProductsTableResults: any[];
 }
 
 const ProductsExport = (props: Props) => {
-  const { sellerSubscription, sellerInventoryTableExpandedRow } = props;
-
+  const {
+    sellerSubscription,
+    sellerInventoryTableExpandedRow,
+    sellerInventoryProductsTableResults,
+  } = props;
   const { handleProductsExport } = useProductsExportSocket();
 
   const merchantId = sellerInventoryTableExpandedRow && sellerInventoryTableExpandedRow.id;
@@ -50,6 +58,15 @@ const ProductsExport = (props: Props) => {
   };
   return (
     <section className={styles.exportsContainer}>
+      {
+        <TableResultsMessage
+          prependMessage="Showing"
+          count={
+            sellerInventoryProductsTableResults ? sellerInventoryProductsTableResults.length : 0
+          }
+          appendMessage="products."
+        />
+      }
       <TableExport
         label=""
         disableExport={shouldDisableExport}
@@ -85,6 +102,7 @@ const mapStateToProps = (state: any) => {
   return {
     sellerSubscription: getSellerSubscription(state),
     sellerInventoryTableExpandedRow: getSellerInventoryTableExpandedRow(state),
+    sellerInventoryProductsTableResults: getSellerInventoryProductsTableResults(state),
   };
 };
 
