@@ -170,6 +170,7 @@ const TrackerKeywordTable = (props: Props) => {
           height={calculateKeywordsTableHeight(
             trackerProductKeywordsTableResults && trackerProductKeywordsTableResults.length
           )}
+          shouldUpdateScroll={false}
           hover={false}
           rowHeight={PRODUCT_KEYWORD_ROW_HEIGHT}
           headerHeight={50}
