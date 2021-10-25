@@ -1,0 +1,67 @@
+@import '../../../../../design-system/new-colors';
+
+.actionCellWrapper {
+  display: flex;
+  min-height: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.actionCellPopup {
+  padding: 0 !important;
+
+  &::before {
+    display: none;
+  }
+}
+
+.actionCellTrigger {
+  cursor: pointer !important;
+  color: $grey_6 !important;
+  align-self: flex-start;
+}
+
+.actionCellContent {
+  min-width: 160px;
+  min-height: 75px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 5px;
+  padding-top: 15px;
+
+  button {
+    background: #fff;
+    color: $grey_8 !important;
+    border: 0;
+    outline: 0;
+    width: 100%;
+    font-weight: 500 !important;
+    font-size: 14px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    margin-bottom: 5px;
+
+    &:hover {
+      background: $grey_1 !important;
+      font-weight: 600 !important;
+    }
+
+    .actionCellIcon {
+      margin-right: 5px;
+      font-size: 12px !important;
+      color: inherit !important;
+      color: $grey_8 !important;
+
+      &__boostTrackIcon {
+        margin-top: 1px;
+      }
+    }
+
+    &:disabled {
+      color: $grey_3 !important;
+    }
+  }
+}

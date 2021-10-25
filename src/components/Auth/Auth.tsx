@@ -114,6 +114,20 @@ export default class Auth {
     formData.append('first_name', data.first_name);
     formData.append('last_name', data.last_name);
     formData.append('origin', origin);
+    if (
+      data.stripe_subscription_id &&
+      data.activation_code &&
+      data.subscription_id &&
+      data.payment_mode &&
+      data.stripe_customer_id
+    ) {
+      formData.append('stripe_customer_id', data.stripe_customer_id);
+      formData.append('stripe_subscription_id', data.stripe_subscription_id);
+      formData.append('activation_code', data.activation_code);
+      formData.append('subscription_id', data.subscription_id);
+      formData.append('payment_mode', data.payment_mode);
+    }
+
     if (data.referral) {
       formData.append('referral', data.referral);
     }
@@ -127,6 +141,8 @@ export default class Auth {
         }
         if (type === 'subscription') {
           history.push('/subscription/payment');
+        } else if (type === 'newSubscription') {
+          history.push('/subscription/success');
         }
       })
       .catch(err => {

@@ -992,15 +992,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       className: 'xl-column',
       render: this.renderLastRun,
     },
-    {
-      label: 'Tracking',
-      dataKey: 'sellgo_score',
-      type: 'number',
-      show: true,
-      sortable: false,
-      render: this.renderDetailButtons,
-      fixed: 'right',
-    },
+    // {
+    //   label: 'Tracking',
+    //   dataKey: 'sellgo_score',
+    //   type: 'number',
+    //   show: true,
+    //   sortable: false,
+    //   render: this.renderDetailButtons,
+    //   fixed: 'right',
+    // },
     {
       label: '',
       icon: 'ellipsis horizontal ellipsis-ic',
@@ -1621,7 +1621,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               reorderColumns={this.reorderColumns}
               columnDnD={true}
               leftFixedColumns={2}
-              rightFixedColumns={2}
+              rightFixedColumns={1}
               loading={loading}
               cancelColumnFilters={() => this.setState({ ColumnFilterBox: false })}
               onSort={this.onSort}

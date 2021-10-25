@@ -4,7 +4,7 @@
 .competitorsSection {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-left: 30px;
   padding-top: 10px;
   padding-bottom: 5px;
@@ -31,12 +31,36 @@
   }
 }
 
+.addCompetitor {
+  margin-right: 20px;
+  min-width: 110px !important;
+
+  svg {
+    width: 12px;
+    height: 12px;
+    margin-right: 10px;
+
+    path {
+      fill: $accent_orange !important;
+    }
+  }
+
+  &:hover {
+    svg {
+      path {
+        fill: #fff !important;
+      }
+    }
+  }
+}
+
 .competitorsAsinsWrapper {
   flex: 1;
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   overflow-y: auto !important;
   grid-column-gap: 20px;
+  align-items: flex-start;
   padding-bottom: 5px;
 
   /* width */
@@ -59,36 +83,6 @@
   /* Handle on hover */
   &::-webkit-scrollbar-thumb:hover {
     background: $grey_6 !important;
-  }
-}
-
-.addCompetitor {
-  background: #fff;
-  color: $grey_8 !important;
-  height: 30px;
-  border-radius: 7px;
-  border: 1px solid $grey_3;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 400;
-  margin-right: 20px;
-  margin-left: 20px;
-  margin-bottom: 10px;
-
-  svg {
-    width: 12px;
-    height: 12px;
-    margin-right: 10px;
-
-    path {
-      fill: $grey_8 !important;
-    }
-  }
-
-  span {
-    color: $grey_6 !important;
   }
 }
 

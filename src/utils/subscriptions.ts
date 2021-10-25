@@ -71,3 +71,10 @@ export const convertPlanNameToKey = (planType: string) => {
   const planTypeWithoutSpaces = planType.split(' ').join('');
   return planTypeWithoutSpaces.toLowerCase();
 };
+
+export const isFirstTimeLoggedIn = () => {
+  return (
+    localStorage.getItem('isFirstTimeLoggedIn') &&
+    localStorage.getItem('isFirstTimeLoggedIn') === 'true'
+  );
+};

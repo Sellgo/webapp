@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import { Icon } from 'semantic-ui-react';
+
 import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
-
-/* Components */
-import InputFilter from '../../../../components/FormFilters/InputFilter';
-import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
-import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 
 /* Constants */
 import { DEFAULT_MIN_MAX_FILTER } from '../../../../constants/KeywordResearch/KeywordDatabase';
@@ -20,8 +15,15 @@ import {
   resetKeywordDatabase,
 } from '../../../../actions/KeywordResearch/KeywordDatabase';
 
+/* Components */
+import AdvanceFilterToggle from '../../../../components/AdvanceFilterToggle';
+import InputFilter from '../../../../components/FormFilters/InputFilter';
+import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
+import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
+
 /* Interfaces */
 import { KeywordDatabaseTablePayload } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
+import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
 
 interface Props {
   fetchKeywordDatabaseTableInfo: (payload: KeywordDatabaseTablePayload) => void;
@@ -38,10 +40,11 @@ const DatabaseFilters = (props: Props) => {
   const [wordCount, setWordCount] = useState(DEFAULT_MIN_MAX_FILTER);
   const [competingProducts, setCompetitingProducts] = useState(DEFAULT_MIN_MAX_FILTER);
   const [titleDensity, setTitleDensity] = useState(DEFAULT_MIN_MAX_FILTER);
-  // const [amazonChoice, setAmazonChoice] = useState<boolean>(false);
+  const [amazonChoice, setAmazonChoice] = useState(false);
 
   /* Advanced Filters */
   const [searchTerm, setSearchTerm] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+  const [matchKeywords, setMatchKeywords] = useState(false);
 
   /* Handle Reset */
   const handleReset = () => {
@@ -50,9 +53,11 @@ const DatabaseFilters = (props: Props) => {
     setWordCount(DEFAULT_MIN_MAX_FILTER);
     setCompetitingProducts(DEFAULT_MIN_MAX_FILTER);
     setTitleDensity(DEFAULT_MIN_MAX_FILTER);
+    setAmazonChoice(false);
 
     /* Advanced Filters */
     setSearchTerm(DEFAULT_INCLUDE_EXCLUDE_FILTER);
+    setMatchKeywords(false);
 
     resetKeywordDatabase();
   };
@@ -64,9 +69,11 @@ const DatabaseFilters = (props: Props) => {
       wordCount,
       competingProducts,
       titleDensity,
+      amazonChoice: amazonChoice ? 'true' : '',
 
       /* Advanced Filters */
       searchTerm,
+      matchKeywords,
     };
     fetchKeywordDatabaseTableInfo({ filterPayload });
   };
@@ -87,6 +94,7 @@ const DatabaseFilters = (props: Props) => {
             }));
           }}
         />
+
         {/* Word Count  */}
         <MinMaxFilter
           label="Word Count"
@@ -99,6 +107,7 @@ const DatabaseFilters = (props: Props) => {
             }));
           }}
         />
+
         {/* Competing Products */}
         <MinMaxFilter
           label="Competing Products"
@@ -111,6 +120,7 @@ const DatabaseFilters = (props: Props) => {
             }));
           }}
         />
+
         {/* Title Density */}
         <MinMaxFilter
           label="Title Density"
@@ -124,44 +134,45 @@ const DatabaseFilters = (props: Props) => {
           }}
         />
 
-        {/* Amazon Choice
+        {/* Amazon choice filter */}
         <CheckboxFilter
           label="Amazon Choice"
           checkboxLabel="Amazon Choice"
           checked={amazonChoice}
-          handleChange={(data: boolean) => {
-            setAmazonChoice(data);
-          }}
-        /> */}
+          handleChange={val => setAmazonChoice(val)}
+        />
       </div>
 
       {/* Advanced Filters */}
       <div className={styles.advancedFilterWrapper}>
-        <div
-          className={styles.advancedFilterToggle}
-          onClick={() => setShowAdvancedFilter(prevState => !prevState)}
-        >
-          <span>Advanced Filters</span>
-          <span>
-            {showAdvancedFilter ? <Icon name="chevron up" /> : <Icon name="chevron down" />}
-          </span>
-        </div>
+        <AdvanceFilterToggle
+          handleClick={() => setShowAdvancedFilter(prevState => !prevState)}
+          showAdvancedFilter={showAdvancedFilter}
+        />
 
         {showAdvancedFilter && (
           <div className={styles.showAdvancedFilter}>
             {/* Include Search Terms)  */}
-            <InputFilter
-              label="Include Search Terms that contain"
-              value={searchTerm.include}
-              handleChange={value =>
-                setSearchTerm(prevState => ({
-                  ...prevState,
-                  include: value,
-                }))
-              }
-              placeholder="Enter words"
-              className={styles.longInput}
-            />
+            <div>
+              <InputFilter
+                label="Include Search Terms that contain"
+                value={searchTerm.include}
+                handleChange={value =>
+                  setSearchTerm(prevState => ({
+                    ...prevState,
+                    include: value,
+                  }))
+                }
+                placeholder="Enter words"
+                className={styles.longInput}
+              />
+
+              <CheckboxFilter
+                checkboxLabel="Match keyword"
+                checked={matchKeywords}
+                handleChange={value => setMatchKeywords(value)}
+              />
+            </div>
 
             {/* Exclude Search Terms)  */}
             <InputFilter

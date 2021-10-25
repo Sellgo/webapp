@@ -3,33 +3,40 @@ import { Route, Router, Switch } from 'react-router-dom';
 import Axios from 'axios';
 import AdminLayout from '../../components/AdminLayout';
 import ScrollToTop from '../../components/ScrollToTop';
-import Settings from '../Settings';
 import Home from '../Home';
 import Synthesis from '../Synthesis';
 import SupplierDetail from '../Synthesis/Supplier';
 import Auth from '../../components/Auth/Auth';
 import PageLoader from '../../components/PageLoader';
 import NotFound from '../../components/NotFound';
+import PilotLogin from '../../containers/PilotLogin';
 import history from '../../history';
 import { connect } from 'react-redux';
 import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
 import '../../analytics';
-import ProductTracker from '../ProductTracker';
-import Signup from '../Signup';
+// import ProductTracker from '../ProductTracker';
 import ResetPassword from '../ResetPassword';
 import Onboarding from '../Onboarding';
-import SubscriptionPage from '../Subscription';
 import Subscription from '../Settings/Subscription';
+import Billing from '../Settings/Billing';
+import Connectivity from '../Settings/Connectivity';
+// import APIConnectivity from '../Settings/APIConnectivity';
+import Profile from '../Settings/Profile';
+import NewSubscription from '../NewSubscription';
+import PaymentSuccess from '../NewSubscription/PaymentSuccess';
 import Payment from '../Subscription/Payment';
 import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
 import ChurnFlow from '../ChurnFlow';
-import SellerFinder from '../SellerFinder';
 
 import SellerResearch from '../SellerResearch';
+// import ProductResearch from '../ProductResearch';
+// import KeywordResearch from '../KeywordResearch';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import { isBetaAccount } from '../../utils/subscriptions';
+import Activation from '../NewSubscription/Activation';
+import ActivationSuccess from '../NewSubscription/ActivationSuccess';
 
 export const auth = new Auth();
 
@@ -74,7 +81,8 @@ const PrivateRoute = connect(
     ...rest
   }: any) => {
     const userIsAuthenticated = isAuthenticated();
-
+    const isFirstTimeUserLoggedIn =
+      sellerSubscription && sellerSubscription.is_first_time_logged_in;
     // This effect will run if there is a change in sellerSubscription,
     // auth status, or route so that we can take the appropriate action.
     // TODO: Hoist this logic up to an AuthProvider that includes user's subscription as part
@@ -97,6 +105,23 @@ const PrivateRoute = connect(
       // if beta user account then deny access to settings
       if (location.pathname.includes('/settings') && isBetaAccount(sellerSubscription)) {
         history.push('/activate-beta-account');
+      }
+
+      // Lock user to account set up
+      if (
+        isFirstTimeUserLoggedIn &&
+        !location.pathname.includes('/account-setup') &&
+        !location.pathname.includes('/settings/connectivity') &&
+        !location.pathname.includes('/settings/api-keys')
+      ) {
+        history.push('/account-setup');
+        return;
+      }
+
+      // Dont allow existing users to re-enter into account
+      if (!isFirstTimeUserLoggedIn && location.pathname.includes('/account-setup')) {
+        history.push('/');
+        return;
       }
 
       if (requireSubscription && localStorage.getItem('accountType') !== '') {
@@ -148,7 +173,7 @@ const PrivateRoute = connect(
           props.match.params.auth = auth;
 
           return (
-            <AdminLayout>
+            <AdminLayout {...props}>
               <Component {...props} />
             </AdminLayout>
           );
@@ -179,25 +204,32 @@ function App() {
           />
           <Route
             exact={true}
-            path="/signup"
-            render={renderProps => <Signup auth={auth} {...renderProps} />}
-          />
-          <Route
-            exact={true}
             path="/reset-password"
             render={renderProps => <ResetPassword auth={auth} {...renderProps} />}
           />
+
           <Route
             exact={true}
             path="/subscription"
-            render={renderProps => <SubscriptionPage auth={auth} {...renderProps} />}
+            render={renderProps => <NewSubscription auth={auth} {...renderProps} />}
           />
+
+          <Route exact={true} path="/subscription/success" component={PaymentSuccess} />
+
+          <Route
+            exact={true}
+            path="/activation/success"
+            render={renderProps => <ActivationSuccess auth={auth} {...renderProps} />}
+          />
+
+          <Route exact={true} path="/activation/:activationCode" component={Activation} />
+
           <Route
             exact={true}
             path="/subscription/payment"
             render={renderProps => <Payment auth={auth} {...renderProps} />}
           />
-          <PrivateRoute exact={true} path="/settings" component={Settings} />
+
           <PrivateRoute
             exact={true}
             path="/onboarding"
@@ -205,6 +237,10 @@ function App() {
             requireSubscription={true}
           />
           <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />
+          <PrivateRoute exact={true} path="/settings/billing" component={Billing} />
+          <PrivateRoute exact={true} path="/settings/connectivity" component={Connectivity} />
+          {/* <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} /> */}
+          <PrivateRoute exact={true} path="/settings/profile" component={Profile} />
           <PrivateRoute
             exact={true}
             path="/synthesis"
@@ -217,12 +253,12 @@ function App() {
             component={SupplierDetail}
             requireSubscription={true}
           />
-          <PrivateRoute
+          {/* <PrivateRoute
             exact={true}
             path="/product-tracker"
             component={ProductTracker}
             requireSubscription={true}
-          />
+          /> */}
           <PrivateRoute
             exact={true}
             path="/leads-tracker"
@@ -232,17 +268,24 @@ function App() {
 
           <PrivateRoute
             exact={true}
-            path="/seller-finder"
-            component={SellerFinder}
+            path="/seller-research/:productName"
+            component={SellerResearch}
+            requireSubscription={true}
+          />
+
+          {/* <PrivateRoute
+            exact={true}
+            path="/product-research/:productName"
+            component={ProductResearch}
             requireSubscription={true}
           />
 
           <PrivateRoute
             exact={true}
-            path="/seller-research"
-            component={SellerResearch}
+            path="/keyword-research/:productName"
+            component={KeywordResearch}
             requireSubscription={true}
-          />
+          /> */}
 
           <PrivateRoute
             exact={true}
@@ -255,6 +298,13 @@ function App() {
             exact={true}
             path="/activate-beta-account"
             component={BetaUsersActivationForm}
+            requireSubscription={false}
+          />
+
+          <PrivateRoute
+            exact={true}
+            path="/account-setup"
+            component={PilotLogin}
             requireSubscription={false}
           />
 

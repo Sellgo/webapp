@@ -5,10 +5,16 @@
   align-items: center;
   justify-content: center;
   flex-direction: row;
+  padding: 0 5px;
+  height: 100%;
+
+  &:hover {
+    background-color: $grey_1;
+  }
 }
 
 .headerText {
-  text-align: center;
+  text-align: left;
   font-size: 12px !important;
   font-weight: 500;
   white-space: pre-wrap;

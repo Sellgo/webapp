@@ -1,0 +1,59 @@
+@import '../../../../design-system/new-colors';
+
+.trackerTableMeta {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 8px;
+}
+
+.addNewProduct {
+  padding: 0 10px !important;
+
+  svg {
+    margin-right: 5px !important;
+  }
+}
+
+.searchIcon {
+  color: $grey_8 !important;
+}
+
+.searchInput {
+  margin-left: 30px;
+
+  input {
+    border: 1px solid $grey_3 !important;
+    outline: 0 !important;
+    border-radius: 3px;
+    font-size: 12px;
+    color: $grey_8 !important;
+    height: 35px !important;
+    padding: 10px !important;
+    width: 100px;
+
+    &::placeholder {
+      color: $grey_5;
+    }
+
+    &:focus {
+      border: 2px solid $blue_6 !important;
+      width: 300px !important;
+
+      .searchIcon {
+        color: $grey_8 !important;
+      }
+    }
+
+    &:hover {
+      background-color: $grey_1 !important;
+    }
+  }
+}
+
+.addProductModal {
+  border: 0 !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
+}

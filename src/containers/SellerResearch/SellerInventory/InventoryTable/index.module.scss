@@ -1,0 +1,25 @@
+@import '../../../../design-system/new-colors.scss';
+
+.sellerInventoryTableWrapper {
+  margin-top: 18px !important;
+  padding-bottom: 65px !important;
+  width: 100%;
+  background: $light_gray_background;
+  color: $grey_6 !important;
+}
+
+.sellerInventoryPaginationContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 40px;
+  box-shadow: 0 -3px 6px 0 rgba($grey_3, 0.25);
+  background: #fff;
+  position: fixed;
+  padding: 0 30px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  z-index: 9999999 !important;
+}

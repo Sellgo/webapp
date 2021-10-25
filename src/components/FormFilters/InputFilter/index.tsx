@@ -27,6 +27,7 @@ interface Props {
   className?: string;
   userOnboardingResources: any;
   userOnboarding: boolean;
+  handleOnPaste?: (value: string) => void;
 }
 
 const InputFilter: React.FC<Props> = props => {
@@ -40,6 +41,7 @@ const InputFilter: React.FC<Props> = props => {
     userOnboarding,
     disabled,
     error,
+    handleOnPaste,
   } = props;
 
   /* Onboarding logic */
@@ -74,6 +76,13 @@ const InputFilter: React.FC<Props> = props => {
         onChange={(e: any) => handleChange(e.target.value)}
         disabled={disabled}
         error={error}
+        onPaste={(e: any) => {
+          const pastedValue = e.clipboardData;
+          const value = pastedValue.getData('Text');
+          handleOnPaste ? handleOnPaste(value) : handleChange(value);
+          e.clipboardData.setData('text/plain', '');
+          e.preventDefault();
+        }}
       />
     </div>
   );

@@ -1,0 +1,19 @@
+@import '../../../../design-system/new-colors.scss';
+
+.transactionHistoryTable {
+  position: relative;
+  padding-bottom: 90px;
+  height: max-content;
+  width: 950px;
+}
+
+.retrieveMoreHistoryButton {
+  position: absolute;
+  padding: 0 30px;
+  right: 0;
+  margin-top: 30px;
+  background: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: $grey_8;
+}

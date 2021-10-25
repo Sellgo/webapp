@@ -1,0 +1,118 @@
+@import '../../../design-system/new-colors.scss';
+
+.mainOption {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  white-space: nowrap;
+  height: 50px;
+  position: relative;
+
+  .navLabel {
+    margin-left: 18px;
+    font-size: 14px;
+    color: $prim_white;
+    font-weight: normal;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: $blue_8;
+  }
+}
+
+.subOption {
+  color: $prim_white !important;
+  text-decoration: none !important;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  white-space: nowrap;
+  padding: 10px 0;
+  padding-left: 30px;
+  height: 50px;
+  width: 100%;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $blue_8;
+    text-decoration: none !important;
+  }
+}
+
+.subOptionText {
+  height: 100%;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-decoration: none !important;
+
+  .label {
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 12px;
+    font-weight: normal !important;
+  }
+
+  .desc {
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 10px;
+    font-weight: lighter !important;
+  }
+}
+
+/* Icons */
+.navIcon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 15px;
+
+  img {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.downArrow {
+  margin-right: 18px;
+  margin-left: auto;
+}
+
+/* States */
+.active {
+  background-color: $blue_8;
+}
+
+.disabled {
+  opacity: 0.2;
+  pointer-events: none !important;
+
+  &:hover {
+    cursor: default !important;
+  }
+}
+
+/* Used to reset padding and margin of default accordion */
+.accordionContent {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.comingSoonLabel {
+  padding: 2px 3px 2px 3px !important;
+  margin: 0 3px 0 3px !important;
+  background-color: #feda83 !important;
+  color: #3b4557 4557 !important;
+  font-size: 8px !important;
+  vertical-align: middle !important;
+  border-radius: 11px !important;
+  position: absolute;
+  left: 55px;
+  bottom: 0;
+}

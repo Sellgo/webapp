@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Table } from 'rsuite';
 
 /* Utils */
@@ -38,4 +38,4 @@ const BSRCell = (props: RowCell) => {
   );
 };
 
-export default BSRCell;
+export default memo(BSRCell);

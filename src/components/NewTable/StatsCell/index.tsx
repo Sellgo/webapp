@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Table } from 'rsuite';
 
 /* Styling */
@@ -61,16 +61,15 @@ const StatsCell = (props: Props) => {
     displayStat = rowData[dataKey];
   }
 
-  // format position rank KPI seperately
-  if (dataKey === 'position_rank' && !rowData[dataKey]) {
-    displayStat = '>300';
-  }
-
   return (
     <Table.Cell {...otherProps}>
       <div
         className={styles.statsCell}
-        style={{ alignSelf: alignSettings, color: specialKpi ? '#3B4557' : '#636d76' }}
+        style={{
+          alignSelf: alignSettings,
+          color: specialKpi ? '#3B4557' : '#636d76',
+          fontWeight: specialKpi ? 500 : 400,
+        }}
       >
         {showNAIfZeroOrNull(
           displayStat,
@@ -81,4 +80,4 @@ const StatsCell = (props: Props) => {
   );
 };
 
-export default StatsCell;
+export default memo(StatsCell);

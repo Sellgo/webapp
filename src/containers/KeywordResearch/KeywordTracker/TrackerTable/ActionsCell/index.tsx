@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table } from 'rsuite';
-import { Icon, Popup } from 'semantic-ui-react';
+import { Popup } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 /* Styling */
-import './index.scss';
+import styles from './index.module.scss';
 
 /* Utils */
 import { downloadFile } from '../../../../../utils/download';
@@ -17,12 +17,17 @@ import { unTrackKeywordTrackerTableProduct } from '../../../../../actions/Keywor
 import { RowCell } from '../../../../../interfaces/Table';
 import { UnTrackKeywordTrackerTableProduct } from '../../../../../interfaces/KeywordResearch/KeywordTracker';
 
+/* Components */
+import TableIcon from '../../../../../components/Icons/TableIcon';
+
 interface Props extends RowCell {
   unTrackKeywordTrackerTableProduct: (payload: UnTrackKeywordTrackerTableProduct) => void;
 }
 
 const ActionsCell = (props: Props) => {
   const { unTrackKeywordTrackerTableProduct, ...otherProps } = props;
+
+  const [openPopup, setOpenPopup] = useState(false);
 
   const { rowData, dataKey } = otherProps;
 
@@ -32,47 +37,75 @@ const ActionsCell = (props: Props) => {
 
   const asin = rowData.asin;
 
+  /* Handle Close Popup */
+  const handleClosePopup = () => {
+    setOpenPopup(false);
+  };
   /* Handle All Exports */
   const handleExport = async (type: 'xlsx' | 'csv') => {
     if (type === 'xlsx') {
       await downloadFile(exportXlsxReport);
       success('File Successfully downloaded');
     }
+    handleClosePopup();
   };
 
-  const handleUntrackProduct = () => {
+  const handleUntrackProduct = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
     unTrackKeywordTrackerTableProduct({ keywordTrackProductId });
+    handleClosePopup();
   };
 
-  const handleViewOnAmazon = () => {
+  const handleViewOnAmazon = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
     const amazonLink = `https://www.amazon.com/dp/${asin}`;
-
     window.open(amazonLink, '_blank');
+    handleClosePopup();
   };
 
   return (
     <Table.Cell {...otherProps}>
-      <div className="keywordTrackerActionCellWrapper">
+      <div className={styles.actionCellWrapper}>
         <Popup
-          className="keywordTrackerActionsCell"
-          trigger={<Icon name="ellipsis vertical" className="keywordTrackerActionsCellTrigger" />}
+          className={styles.actionCellPopup}
+          trigger={
+            <div className={styles.actionCellTrigger}>
+              <TableIcon name="ellipsis vertical" />
+            </div>
+          }
           on="click"
+          onOpen={e => {
+            e.preventDefault();
+            e.stopPropagation();
+            setOpenPopup(true);
+          }}
           position="bottom right"
           offset="-15"
+          onClose={() => setOpenPopup(false)}
+          open={openPopup}
           content={
-            <div className="keywordTrackerActionsCellContent">
+            <div className={styles.actionCellContent}>
               <button disabled={!asin} onClick={handleViewOnAmazon}>
-                <Icon name="amazon" className="keywordTrackerActionIcon" />
+                <TableIcon name="amazon" className={styles.actionCellIcon} />
                 View on Amazon
               </button>
 
               <button onClick={handleUntrackProduct}>
-                <Icon name="trash" className="keywordTrackerActionIcon" />
+                <TableIcon name="trash" className={styles.actionCellIcon} />
                 Delete Product
               </button>
 
-              <button disabled={!exportXlsxReport} onClick={() => handleExport('xlsx')}>
-                <Icon name="download" className="keywordTrackerActionIcon" />
+              <button
+                disabled={!exportXlsxReport}
+                onClick={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleExport('xlsx');
+                }}
+              >
+                <TableIcon name="download" className={styles.actionCellIcon} />
                 Export XLSX
               </button>
             </div>

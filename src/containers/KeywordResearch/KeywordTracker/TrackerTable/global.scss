@@ -49,17 +49,17 @@
             background: $light_gray_background !important;
             padding: 0 10px !important;
             padding-top: 12px !important;
-
+            height: 100%;
             // add border-top on each cell for each row
             border-top: 1px solid $grey_3 !important;
           }
         }
 
         &:nth-child(2n + 1) {
-          background: $grey_1 !important;
+          background: $grey_11 !important;
 
           .rs-table-cell-content {
-            background: $grey_1 !important;
+            background: $grey_11 !important;
             padding: 0 10px !important;
             padding-top: 12px !important;
 
@@ -84,6 +84,7 @@
             background: $light_gray_background !important;
             // remove any borders from cell to show it's outside tbale
             border: 0 !important;
+            padding-top: 50px !important;
           }
         }
 
@@ -100,6 +101,7 @@
           border: 0 !important;
           padding: 0 !important;
           background: $light_gray_background !important;
+          width: 100% !important;
         }
       }
     }

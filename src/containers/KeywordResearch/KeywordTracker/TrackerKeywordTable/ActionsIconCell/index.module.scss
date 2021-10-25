@@ -1,0 +1,12 @@
+@import '../../../../../design-system/new-colors';
+
+.actionIconCellWrapper {
+  display: flex;
+  height: 100%;
+  justify-content: flex-start;
+  align-items: center;
+
+  button {
+    background: none !important;
+  }
+}

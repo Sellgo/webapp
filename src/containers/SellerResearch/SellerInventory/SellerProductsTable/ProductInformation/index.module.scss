@@ -1,0 +1,37 @@
+@import '../../../../../design-system/new-colors.scss';
+
+.productInformation {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.productImage {
+  width: 40px;
+  height: 40px;
+
+  img {
+    width: 40px;
+    height: 40px;
+    max-width: 100%;
+    object-fit: cover;
+  }
+}
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  margin-left: 15px;
+  height: max-content;
+
+  h2 {
+    font-size: 14px;
+    color: $prim_dark-1;
+    font-weight: 500;
+    line-height: 1;
+    margin: 0;
+    margin-bottom: 0 !important;
+  }
+}

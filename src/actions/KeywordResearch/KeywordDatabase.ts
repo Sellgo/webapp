@@ -173,6 +173,11 @@ export const parseFilters = (keywordDatabaseFilter: any) => {
       }
     }
 
+    // checkbox filter
+    if (type === F_TYPES.CHECKBOX) {
+      filterQuery += `&${keyName}=${filter}`;
+    }
+
     // include exclude
     if (type === F_TYPES.INPUT_INCLUDE_EXCLUDE) {
       const includes = filter.include ? `&include_${keyName}=${filter.include}` : '';
@@ -250,7 +255,7 @@ export const fetchKeywordDatabaseRequestId = (keywordList: string) => async (dis
       dispatch(shouldFetchKeywordDatabaseProgress(false));
     }
   } catch (err) {
-    console.log('Error fetching the keyword request Id', err);
+    console.error('Error fetching the keyword request Id', err);
     dispatch(setKeywordDatabaseRequestId(''));
     dispatch(isFetchingKeywordDatabaseRequestId(false));
   }
@@ -406,13 +411,18 @@ export const fetchKeywordDatabaseTableInformation = (
 };
 
 /* Action to fetch keyword database word freq summary */
-export const fetchKeywordDatabaseWordFreqSummary = () => async (dispatch: any, getState: any) => {
+export const fetchKeywordDatabaseWordFreqSummary = (sortDir: 'asc' | 'desc' = 'desc') => async (
+  dispatch: any,
+  getState: any
+) => {
   const sellerId = sellerIDSelector();
 
   try {
     const keywordRequestId = getKeywordDatabaseRequestId(getState());
 
-    const resourcePath = `keyword_request_id=${keywordRequestId}`;
+    const sorting = `sort_direction=${sortDir}`;
+
+    const resourcePath = `keyword_request_id=${keywordRequestId}&${sorting}`;
 
     dispatch(isLoadingKeywordDatabaseWordFreqSummary(true));
 
@@ -448,8 +458,6 @@ export const fetchKeywordDatabaseAggSummary = () => async (dispatch: any, getSta
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/aggregation?${resourcePath}`;
 
     const { data } = await axios.get(URL);
-
-    console.log(data);
 
     if (data) {
       dispatch(setKeywordDatabaseAggSummary(data));

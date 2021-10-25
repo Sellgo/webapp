@@ -16,8 +16,6 @@ export const SET_PROMO_CODE = 'SET_PROMO_CODE';
 export const SET_PROMO_LOADING = 'SET_PROMO_LOADING';
 export const SET_PROMO_ERROR_MESSAGE = 'SET_PROMO_ERROR_MESSAGE';
 
-export const DAILY_SUBSCRIPTION_PLANS = [7];
-
 export const defaultMarketplaces = [
   {
     name: 'United States',
@@ -165,6 +163,44 @@ export const getMarketplaceFlag = (marketplaceId: string) => {
 
   return flagUrl;
 };
+
+export const SETTINGS_PAGES = [
+  {
+    name: 'Profile',
+    disabled: false,
+    url: '/settings/profile',
+  },
+  {
+    name: 'Subscription',
+    disabled: false,
+    url: '/settings/pricing',
+  },
+  {
+    name: 'Billing',
+    disabled: false,
+    url: '/settings/billing',
+  },
+  {
+    name: 'Amazon MWS',
+    disabled: false,
+    url: '/settings/connectivity',
+  },
+  {
+    name: 'API Keys',
+    disabled: true,
+    url: '/settings/api-keys',
+  },
+  {
+    name: 'User Management',
+    disabled: true,
+    url: '/settings/user-management',
+  },
+  {
+    name: 'Notification',
+    disabled: true,
+    url: '/settings/notifications',
+  },
+];
 
 /* Get currency based on marketplace */
 export const getMarketplaceCurrency = (marketplaceId: string) => {

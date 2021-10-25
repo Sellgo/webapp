@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 /* Styling */
@@ -23,6 +22,7 @@ import {
   DEFAULT_INCLUDE_EXCLUDE_FILTER,
   DEFAULT_MIN_MAX_FILTER,
   DEFAULT_MIN_MAX_PERIOD_FILTER,
+  GROWTH_COUNT_PERIOD_OPTIONS,
   FILTER_PERIOD_DURATIONS,
   DEFAULT_US_MARKET,
   SELLER_DB_MARKETPLACE,
@@ -30,6 +30,7 @@ import {
   DEFAULT_MIN_MAX_PERIOD_REVIEW,
   GROWTH_PERCENT_PERIOD_OPTIONS,
   DEFAULT_GROWTH_PERCENT_FILTER,
+  DEFAULT_GROWTH_COUNT_FILTER,
   LAUNCHED_FILTER_OPTIONS,
   SELLER_TYPE_FILTER_OPTIONS,
 } from '../../../../constants/SellerResearch/SellerDatabase';
@@ -42,6 +43,7 @@ import {
 } from '../../../../constants/SellerResearch/SellerMap';
 
 /* Components */
+import AdvanceFilterToggle from '../../../../components/AdvanceFilterToggle';
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
@@ -82,6 +84,7 @@ const SellerDatabaseFilters = (props: Props) => {
 
   const [numOfInventory, setNumOfInventory] = useState(DEFAULT_MIN_MAX_FILTER);
   const [growthPercent, setGrowthPercent] = useState(DEFAULT_GROWTH_PERCENT_FILTER);
+  const [growthCount, setGrowthCount] = useState(DEFAULT_GROWTH_COUNT_FILTER);
 
   const [reviewCount, setReviewCount] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
   const [fbaPercent, setFbaPercent] = useState(DEFAULT_MIN_MAX_FILTER);
@@ -115,6 +118,7 @@ const SellerDatabaseFilters = (props: Props) => {
 
       numOfInventory,
       growthPercent,
+      growthCount,
 
       reviewCount,
       fbaPercent,
@@ -143,6 +147,7 @@ const SellerDatabaseFilters = (props: Props) => {
 
     setNumOfInventory(DEFAULT_MIN_MAX_FILTER);
     setGrowthPercent(DEFAULT_GROWTH_PERCENT_FILTER);
+    setGrowthCount(DEFAULT_GROWTH_COUNT_FILTER);
 
     setReviewCount(DEFAULT_MIN_MAX_PERIOD_FILTER);
     setFbaPercent(DEFAULT_MIN_MAX_FILTER);
@@ -317,18 +322,11 @@ const SellerDatabaseFilters = (props: Props) => {
             prependWith={marketPlace.currency}
           />
         </div>
-
         <div className={styles.advancedFilterWrapper}>
-          <div
-            className={styles.advancedFilterToggle}
-            onClick={() => setShowAdvancedFilter(prevState => !prevState)}
-            style={{ background: !showAdvancedFilter ? '#F9F9FA' : ' #F2EFE4' }}
-          >
-            <span>Advanced Filters</span>
-            <span>
-              {showAdvancedFilter ? <Icon name="chevron up" /> : <Icon name="chevron down" />}
-            </span>
-          </div>
+          <AdvanceFilterToggle
+            handleClick={() => setShowAdvancedFilter(prevState => !prevState)}
+            showAdvancedFilter={showAdvancedFilter}
+          />
 
           {showAdvancedFilter && (
             <div className={styles.showAdvancedFilter}>
@@ -490,6 +488,34 @@ const SellerDatabaseFilters = (props: Props) => {
                 />
               </div>
 
+              {/* Growth Count */}
+              <div className={styles.groupFilters}>
+                <MinMaxFilter
+                  label="Growth Count"
+                  minValue={growthCount.min}
+                  maxValue={growthCount.max}
+                  handleChange={(type: string, value: string) =>
+                    setGrowthCount(prevState => ({
+                      ...prevState,
+                      [type]: value,
+                    }))
+                  }
+                />
+                <PeriodFilter
+                  placeholder="30D"
+                  label="Period"
+                  className={styles.filterPeriod}
+                  value={growthCount.period}
+                  filterOptions={GROWTH_COUNT_PERIOD_OPTIONS}
+                  handleChange={(period: string) => {
+                    setGrowthCount(prevState => ({
+                      ...prevState,
+                      period,
+                    }));
+                  }}
+                />
+              </div>
+
               {/* Review Count */}
               <div className={styles.groupFilters}>
                 <MinMaxFilter
@@ -603,7 +629,6 @@ const SellerDatabaseFilters = (props: Props) => {
             </div>
           )}
         </div>
-
         <FormFilterActions
           onFind={handleSubmit}
           onReset={handleReset}

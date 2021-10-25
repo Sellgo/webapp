@@ -1,0 +1,63 @@
+@import '../../../../design-system/new-colors';
+
+.inventorySummarybtn {
+  background: #fff;
+  outline: 0;
+  border: 0;
+  border-radius: 7px;
+  box-shadow: 0 3px 6px #00000029;
+  position: fixed;
+  bottom: 50px;
+  right: 30px;
+  z-index: 9999999 !important;
+  color: $grey_8 !important;
+  height: 40px;
+  min-width: max-content;
+  cursor: all-scroll;
+}
+
+.inventoryProgressBox {
+  position: fixed;
+  bottom: 50px;
+  right: 30px;
+  min-width: 400px;
+  min-height: max-content !important;
+  max-height: 220px;
+  overflow-y: auto !important;
+  background: rgba(#fff, 0.8);
+  z-index: 999 !important;
+  padding: 20px;
+  box-shadow: 0 3px 6px #00000029;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+
+  /* width */
+  &::-webkit-scrollbar {
+    height: 8px !important;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: $grey_1 !important;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $grey_6 !important;
+    border-radius: 3px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: $grey_6 !important;
+  }
+}
+
+.minimizeBtn {
+  color: $grey_8 !important;
+  cursor: pointer !important;
+  align-self: flex-end;
+  transform: translateY(-10px);
+}

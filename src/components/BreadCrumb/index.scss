@@ -15,11 +15,16 @@
     font-family: 'Work Sans', sans-serif;
     text-decoration: none;
     color: $grey_6 !important;
+    padding: 5px;
 
     &.active {
       color: $prim_dark_1 !important;
       font-size: 14px !important;
       font-weight: 600 !important;
+    }
+
+    &:hover:not(.active) {
+      background: $grey_1 !important;
     }
   }
 

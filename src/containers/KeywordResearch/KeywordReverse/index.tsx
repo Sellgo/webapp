@@ -83,7 +83,7 @@ const KeywordReverse = (props: Props) => {
         }
         success('Fetching keywords');
         fetchKeywordReverseRequestId(asins);
-        history.replace('/keyword-research');
+        history.replace('/keyword-research/finder');
       }
     } else {
       const keywordId = sessionStorage.getItem('keywordReverseRequestId') || '';

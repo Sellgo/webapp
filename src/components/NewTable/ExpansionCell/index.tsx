@@ -30,6 +30,7 @@ interface Props extends RowCell {
   expandedRowKeys: string[];
   userOnboarding: boolean;
   userOnboardingResources: any;
+  type?: 'buyBox' | 'sellerInventoryTable';
 }
 
 const ExpansionCell = (props: Props) => {
@@ -38,6 +39,7 @@ const ExpansionCell = (props: Props) => {
     onChange,
     userOnboarding,
     userOnboardingResources,
+    type,
     ...otherProps
   } = props;
   const { rowData, dataKey } = otherProps;
@@ -54,13 +56,36 @@ const ExpansionCell = (props: Props) => {
       !isExpandedRow ? EXPANDED_TABLE_CELL_KEY : COLLAPSE_TABLE_CELL_KEY
     ] || FALLBACK_ONBOARDING_DETAILS;
 
+  /* Handle Expansion icon clicks */
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (isDisabled) {
+      return;
+    }
+
+    onChange(rowData);
+  };
+
+  let isDisabled = false;
+  if (type === 'sellerInventoryTable') {
+    isDisabled = !rowData.has_inventory;
+  } else if (type === 'buyBox') {
+    isDisabled = !rowData.num_sellers;
+  } else {
+    isDisabled = false;
+  }
+
+  const expanionIconClasses = `${isDisabled ? styles.expansionIconDisabled : styles.expansionIcon}`;
+
   return (
     <Table.Cell {...otherProps}>
       <div className={styles.expansionCell}>
         {isExpandedRow ? (
-          <DeExpandedCellIcon onClick={() => onChange(rowData)} className={styles.expansionIcon} />
+          <DeExpandedCellIcon onClick={handleClick} className={expanionIconClasses} />
         ) : (
-          <ExpandedCellIcon onClick={() => onChange(rowData)} className={styles.expansionIcon} />
+          <ExpandedCellIcon onClick={handleClick} className={expanionIconClasses} />
         )}
 
         {/* Youtube On boarding Icon */}

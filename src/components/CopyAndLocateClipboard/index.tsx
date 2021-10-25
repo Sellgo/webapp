@@ -8,12 +8,13 @@ import styles from './index.module.scss';
 interface Props {
   data: any;
   className?: string;
+  wrapperClassName?: string;
   displayData?: string;
   link: string;
 }
 
 const CopyAndLocateClipboard: React.FC<Props> = props => {
-  const { link, displayData, data, className } = props;
+  const { link, displayData, data, className, wrapperClassName } = props;
 
   const [copied, setCopied] = useState(false);
 
@@ -28,7 +29,7 @@ const CopyAndLocateClipboard: React.FC<Props> = props => {
   };
 
   return (
-    <span className={styles.navigateLinkWrapper}>
+    <span className={`${styles.navigateLinkWrapper} ${wrapperClassName}`}>
       <a
         href={link}
         className={`${styles.navigateLink} ${className}`}
@@ -45,7 +46,11 @@ const CopyAndLocateClipboard: React.FC<Props> = props => {
             name="copy outline"
             className="tooltipIcon"
             data-title="Copy"
-            onClick={() => copyText(data)}
+            onClick={(e: any) => {
+              e.preventDefault();
+              e.stopPropagation();
+              copyText(data);
+            }}
           />
         ) : (
           <Icon name="check circle" className="tooltipIcon" data-title="Copied" color="green" />

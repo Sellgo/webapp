@@ -1,0 +1,156 @@
+@import '../../../../design-system/new-colors';
+
+.quotaAndPaymentsWrapper {
+  margin-bottom: 40px;
+}
+
+.billingGrid {
+  position: relative;
+
+  .quotaSection,
+  .paymentsSection {
+    display: grid;
+    grid-template-columns: 180px 800px;
+    column-gap: 18px;
+    grid-template-rows: max-content;
+    position: relative;
+  }
+
+  .quotaSection {
+    margin-bottom: 50px;
+  }
+}
+
+.innerGrid {
+  display: grid;
+  grid-template-columns: 130px max-content;
+  column-gap: 18px;
+  row-gap: 18px;
+  align-items: center;
+  width: 400px;
+  grid-column-start: 2;
+}
+
+.boxTitle {
+  width: 100%;
+  text-align: right;
+  padding-right: 18px;
+  margin-top: 5px !important;
+  grid-column-start: 1;
+
+  &_payment {
+    margin-top: 10px !important;
+  }
+}
+
+.actionLabel {
+  text-align: right;
+  font-size: 14px;
+  color: $prim_dark_1;
+  font-weight: normal;
+  margin: 0;
+}
+
+.actionButton {
+  width: 140px !important;
+  font-weight: normal !important;
+  font-size: 14px !important;
+  padding: 0 !important;
+}
+
+.dimmerWrapper {
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #3b4557 !important;
+  font-weight: 500;
+  font-size: 16px;
+
+  a,
+  button {
+    color: #3b4557 !important;
+    font-weight: 600 !important;
+  }
+
+  .buttonsRow {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    justify-content: center;
+  }
+
+  .dimmerButton {
+    margin-left: 18px;
+  }
+}
+
+/* Quota section */
+.planDetailsRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: $grey_8;
+  font-size: 14px;
+}
+
+.quotaBarsWrapper {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  height: 100px;
+
+  .quotaBar {
+    margin-right: 90px;
+  }
+}
+
+/* Payments Section */
+.paymentsInformationRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 300px;
+  height: 40px;
+  margin-bottom: 30px;
+
+  .creditCardIcon {
+    width: 25px;
+    height: 20px;
+  }
+
+  .cardNumber {
+    border: 1px solid $grey_3;
+    width: 200px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 18px;
+    margin: 0;
+    border-radius: 4px;
+  }
+}
+
+.paymentDetailsLabel {
+  color: $grey_8;
+  text-align: right;
+  margin: 0;
+}
+
+.paymentDetailsContent {
+  color: $prim_dark_1;
+  text-align: left;
+  margin: 0;
+}
+
+.popupForm {
+  width: 850px !important;
+}
+
+.mailLink {
+  color: $accent-blue;
+}

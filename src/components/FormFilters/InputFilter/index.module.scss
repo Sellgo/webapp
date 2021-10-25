@@ -27,7 +27,11 @@
     }
 
     &:focus {
-      border: 1px solid $grey_3 !important;
+      border: 2px solid $blue_6 !important;
+    }
+
+    &:hover {
+      background-color: $grey_1 !important;
     }
 
     &:disabled {
