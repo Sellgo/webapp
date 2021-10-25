@@ -37,6 +37,7 @@ import {
   SellerInventoryProductsTableSellersPaginationInfo,
   SellerInventoryProductsTableSellersPayload,
 } from '../../../../interfaces/SellerResearch/SellerInventory';
+import CopyAndLocateClipboard from '../../../../components/CopyAndLocateClipboard';
 
 interface Props {
   isLoadingSellerInventoryProductsSellers: boolean;
@@ -104,9 +105,20 @@ const ProductsSellersTable = (props: Props) => {
         rowKey={SELLER_INVENTORY_PRODUCTS_SELLERS_TABLE_UNIQUE_KEY}
       >
         {/* Seller Name */}
-        <Table.Column verticalAlign="middle" align="left" flexGrow={4}>
+        <Table.Column verticalAlign="middle" align="left" flexGrow={3}>
           <Table.HeaderCell>Seller Name</Table.HeaderCell>
           <SellerInformation dataKey="sellerInformation" />
+        </Table.Column>
+
+        {/* Seller ID */}
+        <Table.Column width={130} verticalAlign="middle" align="left" flexGrow={1}>
+          <Table.HeaderCell>Seller ID</Table.HeaderCell>
+          <Table.Cell>
+            {(rowData: any) => {
+              const sellerLink = `https://www.amazon.com/sp?seller=${rowData.merchant_id}`;
+              return <CopyAndLocateClipboard data={rowData.merchant_id} link={sellerLink} />;
+            }}
+          </Table.Cell>
         </Table.Column>
 
         {/* Brands */}
