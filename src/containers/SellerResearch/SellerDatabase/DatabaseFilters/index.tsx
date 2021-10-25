@@ -83,6 +83,8 @@ const SellerDatabaseFilters = (props: Props) => {
   const [sellerReachability, setSellerReachability] = useState(false);
 
   const [numOfInventory, setNumOfInventory] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [numOfBrands, setNumOfBrands] = useState(DEFAULT_MIN_MAX_FILTER);
+
   const [growthPercent, setGrowthPercent] = useState(DEFAULT_GROWTH_PERCENT_FILTER);
   const [growthCount, setGrowthCount] = useState(DEFAULT_GROWTH_COUNT_FILTER);
 
@@ -117,6 +119,7 @@ const SellerDatabaseFilters = (props: Props) => {
       sellerReachability,
 
       numOfInventory,
+      numOfBrands,
       growthPercent,
       growthCount,
 
@@ -146,6 +149,8 @@ const SellerDatabaseFilters = (props: Props) => {
     setBrands(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
     setNumOfInventory(DEFAULT_MIN_MAX_FILTER);
+    setNumOfBrands(DEFAULT_MIN_MAX_FILTER);
+
     setGrowthPercent(DEFAULT_GROWTH_PERCENT_FILTER);
     setGrowthCount(DEFAULT_GROWTH_COUNT_FILTER);
 
@@ -452,6 +457,19 @@ const SellerDatabaseFilters = (props: Props) => {
                 maxValue={numOfInventory.max}
                 handleChange={(type: string, value: string) =>
                   setNumOfInventory(prevState => ({
+                    ...prevState,
+                    [type]: value,
+                  }))
+                }
+              />
+
+              {/* # of Brands */}
+              <MinMaxFilter
+                label="# of Brands"
+                minValue={numOfBrands.min}
+                maxValue={numOfBrands.max}
+                handleChange={(type: string, value: string) =>
+                  setNumOfBrands(prevState => ({
                     ...prevState,
                     [type]: value,
                   }))
