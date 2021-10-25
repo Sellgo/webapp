@@ -465,7 +465,7 @@ const SellerDatabaseFilters = (props: Props) => {
 
               {/* # of Brands */}
               <MinMaxFilter
-                label="Number of Brands"
+                label="# of Brands"
                 minValue={numOfBrands.min}
                 maxValue={numOfBrands.max}
                 handleChange={(type: string, value: string) =>
