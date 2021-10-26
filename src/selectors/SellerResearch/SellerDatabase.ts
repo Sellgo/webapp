@@ -24,3 +24,8 @@ export const getSellerDatabasePaginationInfo = (state: any) => {
 export const getSellerDatabaseMarketplaceInfo = (state: any) => {
   return get(state, 'sellerDatabase.sellerMarketplace');
 };
+
+/* Selector to get seller database limit exceeded info */
+export const getSellerDatabaseQuotaExceeded = (state: any) => {
+  return get(state, 'sellerDatabase.sellerDatabaseQuotaExceeded');
+};

@@ -34,7 +34,7 @@ export interface SellerSubscription {
   status: string;
   stripe_subscription_id: string | null;
   subscription_id: number;
-  seller_map_overview_limit?: number;
+  seller_map_overview_display_limit?: number;
   is_beta?: boolean;
 }
 
