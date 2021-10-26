@@ -62,24 +62,20 @@ const QuotaAndPaymentsSection = (props: Props) => {
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
 
   /* Calculation of quotas */
-  const productTrackerAvailable = quotas.product_tracker.available || 1;
   const salesEstAvailable = quotas.sales_estimation.available || 1;
   const sellerResearchAvailable = quotas.seller_research.available || 1;
   const profitFinderAvailable = quotas.profit_finder.available || 1;
 
-  const productTrackerUsed = Math.min(quotas.product_tracker.used || 0, productTrackerAvailable);
   const salesEstUsed = Math.min(quotas.sales_estimation.used || 0, salesEstAvailable);
   const sellerResearchUsed = Math.min(quotas.seller_research.used || 0, sellerResearchAvailable);
   const profitFinderUsed = Math.min(quotas.profit_finder.used || 0, profitFinderAvailable);
 
-  const productTrackerPercent = productTrackerUsed / productTrackerAvailable;
   const salesEstPercent = salesEstUsed / salesEstAvailable;
   const sellerResearchPercent = sellerResearchUsed / sellerResearchAvailable;
   const profitFinderPercent = profitFinderUsed / profitFinderAvailable;
 
   const totalUsedQuotaPercent =
-    ((productTrackerPercent + salesEstPercent + sellerResearchPercent + profitFinderPercent) / 4) *
-    100;
+    ((salesEstPercent + sellerResearchPercent + profitFinderPercent) / 3) * 100;
 
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -142,13 +138,6 @@ const QuotaAndPaymentsSection = (props: Props) => {
                   quota={{
                     used: profitFinderUsed,
                     available: profitFinderAvailable,
-                  }}
-                />
-                <NewQuotaMeter
-                  type="Product Tracker"
-                  quota={{
-                    used: productTrackerUsed,
-                    available: productTrackerAvailable,
                   }}
                 />
                 <NewQuotaMeter
