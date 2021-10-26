@@ -17,17 +17,17 @@ const INITIAL_STATE = {
     current_page: 0,
   },
   sellerMarketplace: {},
-  sellerDatabaseLimitExceeded: false,
+  sellerDatabaseQuotaExceeded: false,
 };
 
 const sellerDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
   switch (action.type) {
-    case actionTypes.SET_SELLER_DATABASE_QUOTA_EXCEEDED: {
+    case actionTypes.IS_LOADING_SELLER_DATABASE: {
       return setIn(state, 'isLoadingSellerDatabase', action.payload);
     }
 
-    case actionTypes.IS_LOADING_SELLER_DATABASE: {
-      return setIn(state, 'sellerDatabaseLimitExceeded', action.payload);
+    case actionTypes.SET_SELLER_DATABASE_QUOTA_EXCEEDED: {
+      return setIn(state, 'sellerDatabaseQuotaExceeded', action.payload);
     }
 
     case actionTypes.SHOW_FILTER_MESSAGE: {
