@@ -103,19 +103,6 @@ const SellerDatabaseTable = (props: Props) => {
             <SellerActions dataKey="sellerActions" />
           </Table.Column>
 
-          {/* Top ASIN */}
-          <Table.Column width={100} sortable verticalAlign="middle" align="left">
-            <Table.HeaderCell>
-              <HeaderSortCell
-                title={`Top\nASIN`}
-                dataKey="top_asins_count"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
-              />
-            </Table.HeaderCell>
-            <StatsCell dataKey="top_asins_count" />
-          </Table.Column>
-
           {/* Brands */}
           <Table.Column width={80} verticalAlign="middle" align="center">
             <Table.HeaderCell>Brands</Table.HeaderCell>
@@ -261,32 +248,6 @@ const SellerDatabaseTable = (props: Props) => {
               asRounded={false}
               asFloatRounded={true}
             />
-          </Table.Column>
-
-          {/* 1 Month Growth Count*/}
-          <Table.Column width={120} sortable verticalAlign="middle" align="center">
-            <Table.HeaderCell>
-              <HeaderSortCell
-                title={`1 Month\nGrowth #`}
-                dataKey="growth_month_count"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
-              />
-            </Table.HeaderCell>
-            <StatsCell dataKey="growth_month_count" align="left" asRounded={false} />
-          </Table.Column>
-
-          {/* 6 Month Growth Count*/}
-          <Table.Column width={120} sortable verticalAlign="middle" align="center">
-            <Table.HeaderCell>
-              <HeaderSortCell
-                title={`6 Month\nGrowth #`}
-                dataKey="growth_count_L180D"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
-              />
-            </Table.HeaderCell>
-            <StatsCell dataKey="growth_count_L180D" align="left" asRounded={false} />
           </Table.Column>
 
           {/* Rating L365D */}
