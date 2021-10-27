@@ -20,7 +20,7 @@ import {
 import { fetchSellersForMap } from '../../../actions/SellerResearch/SellerMap';
 
 /* Containers */
-import MapFilters from './MapFilters';
+// import MapFilters from './MapFilters';
 import PlotAllMarkers from './PlotAllMarkers';
 import CenterMapAndZoom from './CenterMapAndZoom';
 
@@ -59,12 +59,14 @@ const MapPanel = (props: Props) => {
   }, []);
 
   return (
-    <>
-      <section className={styles.filterSection}>
-        <MapFilters />
-      </section>
+    <section className={styles.sellerMapsContainer}>
+      {/* Filter Section */}
+      <div className={styles.sellerMapFilters}>
+        <p>Filters will go here</p>
+      </div>
 
-      <section className={styles.mapContainer}>
+      {/* Main map display */}
+      <div className={styles.mapContainer}>
         <MapContainer
           preferCanvas
           animate
@@ -109,8 +111,13 @@ const MapPanel = (props: Props) => {
             </>
           )}
         </MapContainer>
-      </section>
-    </>
+      </div>
+
+      {/* Seller Map Sellers list */}
+      <div className={styles.sellerMapSellerList}>
+        <p>Show seller list here</p>
+      </div>
+    </section>
   );
 };
 

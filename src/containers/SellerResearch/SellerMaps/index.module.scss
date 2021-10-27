@@ -1,18 +1,28 @@
 @import '../../../design-system/new-colors.scss';
 
-.filterSection {
-  padding: 0;
+.sellerMapsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  min-height: 100vh;
+  margin-top: 18px;
 }
 
+.sellerMapFilters {
+  min-width: 20%;
+  background: rgba(pink, 0.3);
+}
+
+/* Main map container */
 .mapContainer {
   border: 1px solid $grey_3;
   border-radius: 7px;
-  margin: 10px 0;
-  min-height: 90vh;
   padding: 5px;
-  width: 100%;
+  width: 60%;
+  min-height: 80vh;
   position: relative;
   z-index: 90 !important;
+  margin: 10px;
 }
 
 .map {
@@ -30,4 +40,10 @@
   opacity: 0.8;
   margin: 0 !important;
   min-height: 90vh;
+}
+
+.sellerMapSellerList {
+  min-width: 20%;
+  height: 100%;
+  background: rgba(pink, 0.3);
 }
