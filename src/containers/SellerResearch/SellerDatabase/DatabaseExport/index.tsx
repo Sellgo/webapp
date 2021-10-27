@@ -72,11 +72,16 @@ const DatabaseExport = (props: Props) => {
             count={sellerDatabasePaginationInfo.count}
             actualCount={sellerDatabaseResults ? sellerDatabaseResults.length : 0}
             appendMessage="sellers"
+            limitType="seller_database_display_limit"
           />
         )}
 
         {!sellerDatabaseFilterMessage.show && sellerDatabaseQuotaExceeded && (
-          <TableErrorMessage error="Your quota for seller database has been exceeded." />
+          <TableErrorMessage
+            quotaType="seller_database_limit"
+            prependMessage="You have used up your quota of "
+            appendMessage=" products."
+          />
         )}
 
         <TableExport

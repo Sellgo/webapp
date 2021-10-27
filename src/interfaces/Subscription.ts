@@ -26,3 +26,20 @@ export interface SubscriptionPlan {
   annualPrice: number;
   isDailyPlan: boolean;
 }
+
+export interface SubscriptionDetailsWithQuota {
+  id: number;
+  type: string;
+  name: string;
+
+  seller_database_limit: number;
+  seller_database_display_limit: number;
+
+  seller_map_overview_display_limit: number;
+
+  seller_finder_inventory_limit: number;
+  seller_finder_inventory_display_limit: number;
+
+  seller_finder_seller_limit: number;
+  seller_finder_seller_display_limit: number;
+}

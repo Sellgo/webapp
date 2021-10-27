@@ -92,20 +92,24 @@ const ProductsSellersTable = (props: Props) => {
 
   return (
     <section className={styles.productsSellersTableWrapper}>
-      <TableResultsMessage
-        prependMessage="Showing"
-        count={
-          sellerInventoryProductsTableSellersPaginationInfo
-            ? sellerInventoryProductsTableSellersPaginationInfo.count
-            : 0
-        }
-        actualCount={
-          sellerInventoryProductsTableSellersResults
-            ? sellerInventoryProductsTableSellersResults.length
-            : 0
-        }
-        appendMessage="sellers"
-      />
+      {!isLoadingSellerInventoryProductsSellers && (
+        <TableResultsMessage
+          prependMessage="Showing"
+          count={
+            sellerInventoryProductsTableSellersPaginationInfo
+              ? sellerInventoryProductsTableSellersPaginationInfo.count
+              : 0
+          }
+          actualCount={
+            sellerInventoryProductsTableSellersResults
+              ? sellerInventoryProductsTableSellersResults.length
+              : 0
+          }
+          appendMessage="sellers"
+          limitType="seller_finder_seller_display_limit"
+          hideCTA
+        />
+      )}
       <Table
         loading={isLoadingSellerInventoryProductsSellers}
         data={sellerInventoryProductsTableSellersResults}

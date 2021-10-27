@@ -35,6 +35,7 @@ interface Props {
   onButtonClick?: () => void;
   disableExport?: boolean;
   sellerSubscription: SellerSubscription;
+  hideCTA?: boolean;
 }
 
 const TableExport = (props: Props) => {
@@ -47,6 +48,7 @@ const TableExport = (props: Props) => {
     disableExport,
     onButtonClick,
     sellerSubscription,
+    hideCTA,
   } = props;
 
   const [openPopup, setOpenPopup] = useState(false);
@@ -78,7 +80,7 @@ const TableExport = (props: Props) => {
           <img src={BanIcon} alt="ban-icon" className={styles.banIcon} />
         )}
         {label}
-        {!isExportAllowed && <UpgradeCTA type="Unlock" />}
+        {!isExportAllowed && !hideCTA && <UpgradeCTA type="Unlock" />}
 
         {/* Youtube On boarding Icon */}
         {showOnboarding && (youtubeLink || tooltipText) && (

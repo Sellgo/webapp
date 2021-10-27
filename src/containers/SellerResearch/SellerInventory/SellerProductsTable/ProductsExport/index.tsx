@@ -62,7 +62,7 @@ const ProductsExport = (props: Props) => {
   };
   return (
     <section className={styles.exportsContainer}>
-      {
+      {sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length > 0 && (
         <TableResultsMessage
           prependMessage="Showing"
           count={
@@ -73,13 +73,16 @@ const ProductsExport = (props: Props) => {
           actualCount={
             sellerInventoryProductsTableResults ? sellerInventoryProductsTableResults.length : 0
           }
+          hideCTA
           appendMessage="products"
+          limitType="seller_finder_inventory_display_limit"
         />
-      }
+      )}
       <TableExport
         label=""
         disableExport={shouldDisableExport}
         onButtonClick={() => handleExport('xlsx')}
+        hideCTA
         exportContent={
           <>
             <div className={styles.exportOptions}>

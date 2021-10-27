@@ -1,4 +1,5 @@
 import { SellerSubscription } from '../interfaces/Seller';
+import { SubscriptionDetailsWithQuota } from '../interfaces/Subscription';
 import moment from 'moment';
 
 export const isSubscriptionFree = (type: string) => type === 'free';
@@ -77,4 +78,13 @@ export const isFirstTimeLoggedIn = () => {
     localStorage.getItem('isFirstTimeLoggedIn') &&
     localStorage.getItem('isFirstTimeLoggedIn') === 'true'
   );
+};
+
+export const getSubscriptionDetailsWithQuota = (
+  subscriptions: SubscriptionDetailsWithQuota[],
+  subscriptionId: number
+) => {
+  return subscriptions.find((subscription: SubscriptionDetailsWithQuota) => {
+    return subscription.id === subscriptionId;
+  });
 };
