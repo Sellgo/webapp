@@ -20,16 +20,16 @@
   border-radius: 7px;
   padding: 5px;
   width: 60%;
-  min-height: 80vh;
   position: relative;
   z-index: 90 !important;
   margin: 0 20px;
+  min-height: 90vh;
 }
 
 .map {
   width: 100%;
-  min-height: 90vh;
   z-index: 90 !important;
+  min-height: 90vh;
 }
 
 .sellerMapLoader {
