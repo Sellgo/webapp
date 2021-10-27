@@ -1,6 +1,6 @@
 import { SubscriptionPlan, SummaryDetails } from '../../interfaces/Subscription';
 
-export const DAILY_SUBSCRIPTION_PLANS = [7];
+export const DAILY_SUBSCRIPTION_PLANS = [7, 13];
 export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
     subscriptionId: 13, // subscriptionID if needed
@@ -108,7 +108,7 @@ export const subscriptionDetailsMapping: { [key: string]: number } = {
 };
 
 export const getSubscriptionID = (planName: string) => {
-  const DEFAULT_PROFESSIONAL_PLAN_ID = 2;
+  const DEFAULT_PROFESSIONAL_PLAN_ID = 11;
   const id = subscriptionDetailsMapping[planName];
   if (id) {
     return id;
