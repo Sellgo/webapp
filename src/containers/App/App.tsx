@@ -280,7 +280,9 @@ function App() {
             requireSubscription={true}
           />
 
-          <PrivateRoute
+           */}
+
+          {/* <PrivateRoute
             exact={true}
             path="/keyword-research/:productName"
             component={KeywordResearch}

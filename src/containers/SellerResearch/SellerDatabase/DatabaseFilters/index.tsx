@@ -22,7 +22,6 @@ import {
   DEFAULT_INCLUDE_EXCLUDE_FILTER,
   DEFAULT_MIN_MAX_FILTER,
   DEFAULT_MIN_MAX_PERIOD_FILTER,
-  GROWTH_COUNT_PERIOD_OPTIONS,
   FILTER_PERIOD_DURATIONS,
   DEFAULT_US_MARKET,
   SELLER_DB_MARKETPLACE,
@@ -30,7 +29,6 @@ import {
   DEFAULT_MIN_MAX_PERIOD_REVIEW,
   GROWTH_PERCENT_PERIOD_OPTIONS,
   DEFAULT_GROWTH_PERCENT_FILTER,
-  DEFAULT_GROWTH_COUNT_FILTER,
   LAUNCHED_FILTER_OPTIONS,
   SELLER_TYPE_FILTER_OPTIONS,
 } from '../../../../constants/SellerResearch/SellerDatabase';
@@ -83,8 +81,9 @@ const SellerDatabaseFilters = (props: Props) => {
   const [sellerReachability, setSellerReachability] = useState(false);
 
   const [numOfInventory, setNumOfInventory] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [numOfBrands, setNumOfBrands] = useState(DEFAULT_MIN_MAX_FILTER);
+
   const [growthPercent, setGrowthPercent] = useState(DEFAULT_GROWTH_PERCENT_FILTER);
-  const [growthCount, setGrowthCount] = useState(DEFAULT_GROWTH_COUNT_FILTER);
 
   const [reviewCount, setReviewCount] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
   const [fbaPercent, setFbaPercent] = useState(DEFAULT_MIN_MAX_FILTER);
@@ -117,8 +116,8 @@ const SellerDatabaseFilters = (props: Props) => {
       sellerReachability,
 
       numOfInventory,
+      numOfBrands,
       growthPercent,
-      growthCount,
 
       reviewCount,
       fbaPercent,
@@ -146,8 +145,9 @@ const SellerDatabaseFilters = (props: Props) => {
     setBrands(DEFAULT_INCLUDE_EXCLUDE_FILTER);
 
     setNumOfInventory(DEFAULT_MIN_MAX_FILTER);
+    setNumOfBrands(DEFAULT_MIN_MAX_FILTER);
+
     setGrowthPercent(DEFAULT_GROWTH_PERCENT_FILTER);
-    setGrowthCount(DEFAULT_GROWTH_COUNT_FILTER);
 
     setReviewCount(DEFAULT_MIN_MAX_PERIOD_FILTER);
     setFbaPercent(DEFAULT_MIN_MAX_FILTER);
@@ -458,6 +458,19 @@ const SellerDatabaseFilters = (props: Props) => {
                 }
               />
 
+              {/* # of Brands */}
+              <MinMaxFilter
+                label="# of Brands"
+                minValue={numOfBrands.min}
+                maxValue={numOfBrands.max}
+                handleChange={(type: string, value: string) =>
+                  setNumOfBrands(prevState => ({
+                    ...prevState,
+                    [type]: value,
+                  }))
+                }
+              />
+
               {/* Growth % */}
               <div className={styles.groupFilters}>
                 <MinMaxFilter
@@ -481,34 +494,6 @@ const SellerDatabaseFilters = (props: Props) => {
                   filterOptions={GROWTH_PERCENT_PERIOD_OPTIONS}
                   handleChange={(period: string) => {
                     setGrowthPercent(prevState => ({
-                      ...prevState,
-                      period,
-                    }));
-                  }}
-                />
-              </div>
-
-              {/* Growth Count */}
-              <div className={styles.groupFilters}>
-                <MinMaxFilter
-                  label="Growth Count"
-                  minValue={growthCount.min}
-                  maxValue={growthCount.max}
-                  handleChange={(type: string, value: string) =>
-                    setGrowthCount(prevState => ({
-                      ...prevState,
-                      [type]: value,
-                    }))
-                  }
-                />
-                <PeriodFilter
-                  placeholder="30D"
-                  label="Period"
-                  className={styles.filterPeriod}
-                  value={growthCount.period}
-                  filterOptions={GROWTH_COUNT_PERIOD_OPTIONS}
-                  handleChange={(period: string) => {
-                    setGrowthCount(prevState => ({
                       ...prevState,
                       period,
                     }));
