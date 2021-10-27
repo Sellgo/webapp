@@ -39,6 +39,22 @@ export const setSellersForMap = (payload: any) => {
   };
 };
 
+/* Action to set loaing state for sellers list for map */
+export const isLoadingSellersListForMap = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_LOADING_SELLERS_LIST_FOR_MAP,
+    payload,
+  };
+};
+
+/* Action to set sellers list for map */
+export const setSellersListForMap = (payload: any[]) => {
+  return {
+    type: actionTypes.SET_SELLERS_LIST_FOR_MAP,
+    payload,
+  };
+};
+
 /* Action Creator for setting loading state for sellers details on map */
 export const setLoadingSellerDetailsForMap = (payload: boolean) => {
   return {

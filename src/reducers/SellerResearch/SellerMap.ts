@@ -11,6 +11,9 @@ const INITIAL_STATE = {
   isLoadingSellers: false,
   sellersForMap: [],
 
+  isLoadingSellersListForMap: false,
+  sellersListForMap: [],
+
   isLoadingSellerDetails: false,
   sellerDetails: [],
   showSellerDetailsCard: false,
@@ -24,12 +27,24 @@ const INITIAL_STATE = {
 
 const sellerMapReducer = (state = INITIAL_STATE, action: AnyAction) => {
   switch (action.type) {
+    // State for the seller maps
     case actionTypes.LOADING_SELLERS_FOR_MAP: {
       return setIn(state, 'isLoadingSellers', action.payload);
     }
     case actionTypes.SET_SELLERS_FOR_MAP: {
       return setIn(state, 'sellersForMap', action.payload);
     }
+
+    // State for the sellers list
+    case actionTypes.IS_LOADING_SELLERS_LIST_FOR_MAP: {
+      return setIn(state, 'isLoadingSellersListForMap', action.payload);
+    }
+
+    case actionTypes.SET_SELLERS_LIST_FOR_MAP: {
+      return setIn(state, 'sellersListForMap', action.payload);
+    }
+
+    // State for the loading Seller Details Card
     case actionTypes.LOADING_SELLER_DETAILS_FOR_MAP: {
       return setIn(state, 'isLoadingSellerDetails', action.payload);
     }
@@ -39,6 +54,8 @@ const sellerMapReducer = (state = INITIAL_STATE, action: AnyAction) => {
     case actionTypes.SHOW_SELLER_DETAILS_CARD: {
       return setIn(state, 'showSellerDetailsCard', action.payload);
     }
+
+    // State for setting map meta info
     case actionTypes.SET_COUNTRY_CENTER: {
       return setIn(state, 'mapCenter', action.payload);
     }

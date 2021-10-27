@@ -8,8 +8,13 @@ const allUsStatesList = require('../../assets/usStatesList.json');
 
 /* Actions */
 export const actionTypes = {
+  // Main Sellers Map
   LOADING_SELLERS_FOR_MAP: 'LOADING_SELLERS_FOR_MAP',
   SET_SELLERS_FOR_MAP: 'SET_SELLERS_FOR_MAP',
+
+  // Sellers List for map
+  IS_LOADING_SELLERS_LIST_FOR_MAP: 'IS_LOADING_SELLERS_LIST_FOR_MAP',
+  SET_SELLERS_LIST_FOR_MAP: 'SET_SELLERS_LIST_FOR_MAP',
 
   // Sellers details for cards
   LOADING_SELLER_DETAILS_FOR_MAP: 'LOADING_SELLER_DETAILS_FOR_MAP',
