@@ -114,10 +114,8 @@ const MapPanel = (props: Props) => {
         </MapContainer>
       </div>
 
-      {/* Seller Map Sellers list */}
-      <div className={styles.sellerMapSellerList}>
-        <SellersList />
-      </div>
+      {/* Sellers List */}
+      <SellersList />
     </section>
   );
 };
