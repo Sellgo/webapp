@@ -1,20 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
 
-/* Constansts */
-import { getMarketplaceFlag } from '../../../../constants/Settings';
+/* Actions */
+import { fetchSellersListForMap } from '../../../../actions/SellerResearch/SellerMap';
 
 /* Components */
 import CopyAndLocateClipboard from '../../../../components/CopyAndLocateClipboard';
+import CopyToClipboard from '../../../../components/CopyToClipboard';
 
 /* Assets */
 import placeholderImage from '../../../../assets/images/placeholderImage.svg';
-import CopyToClipboard from '../../../../components/CopyToClipboard';
 
-const SellersList = () => {
-  const marketplaceFlag = getMarketplaceFlag('');
+/* Interfaces */
+import { SellersListPayload } from '../../../../interfaces/SellerResearch/SellerMap';
+import { getMarketplaceFlag } from '../../../../constants/Settings';
+
+interface Props {
+  fetchSellersListForMap: (payload: SellersListPayload) => void;
+}
+
+const SellersList = (props: Props) => {
+  const { fetchSellersListForMap } = props;
+
+  useEffect(() => {
+    fetchSellersListForMap({});
+  }, []);
 
   return (
     <div className={styles.sellersListWrapper}>
@@ -26,7 +39,7 @@ const SellersList = () => {
 
         {/* Seller marketplace Details */}
         <div className={styles.sellerIdDetails}>
-          <img src={marketplaceFlag} alt="Seller Market place Flag" />
+          <img src={getMarketplaceFlag('')} alt="Seller Market place Flag" />
           <CopyAndLocateClipboard data="AU12349G1" link="" className={styles.sellerId} />
         </div>
 
@@ -75,4 +88,11 @@ const SellersList = () => {
   );
 };
 
-export default SellersList;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchSellersListForMap: (payload: SellersListPayload) =>
+      dispatch(fetchSellersListForMap(payload)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SellersList);

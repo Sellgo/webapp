@@ -13,6 +13,11 @@ const INITIAL_STATE = {
 
   isLoadingSellersListForMap: false,
   sellersListForMap: [],
+  sellersListForMapPaginationInfo: {
+    count: 0,
+    current_page: 0,
+    total_pages: 0,
+  },
 
   isLoadingSellerDetails: false,
   sellerDetails: [],
@@ -42,6 +47,10 @@ const sellerMapReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_SELLERS_LIST_FOR_MAP: {
       return setIn(state, 'sellersListForMap', action.payload);
+    }
+
+    case actionTypes.SET_SELLERS_LIST_FOR_MAP_PAGINATION_INFO: {
+      return setIn(state, 'sellersListForMapPaginationInfo', action.payload);
     }
 
     // State for the loading Seller Details Card

@@ -24,6 +24,13 @@ export interface SellersListPayload {
   isWholesale?: boolean;
 }
 
+export interface SellersListPaginationInfo {
+  count: number;
+  current_page: number;
+  total_pages: number;
+  per_page?: number;
+}
+
 export interface SellerData {
   business_name: string;
   city: string;

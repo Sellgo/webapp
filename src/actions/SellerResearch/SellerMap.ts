@@ -15,6 +15,7 @@ import {
   SellerMapPayload,
   Location,
   SellersListPayload,
+  SellersListPaginationInfo,
 } from '../../interfaces/SellerResearch/SellerMap';
 import { MarketplaceOption } from '../../interfaces/SellerResearch/SellerDatabase';
 
@@ -55,6 +56,14 @@ export const isLoadingSellersListForMap = (payload: boolean) => {
 export const setSellersListForMap = (payload: any[]) => {
   return {
     type: actionTypes.SET_SELLERS_LIST_FOR_MAP,
+    payload,
+  };
+};
+
+/* Action to set sellers list for map pagination info */
+export const setSellersListForMapPaginationInfo = (payload: SellersListPaginationInfo) => {
+  return {
+    type: actionTypes.SET_SELLERS_LIST_FOR_MAP_PAGINATION_INFO,
     payload,
   };
 };
@@ -230,6 +239,7 @@ export const fetchSellersListForMap = (payload: SellersListPayload) => async (di
       sort = 'seller_id',
       sortDir = 'asc',
       enableLoader = true,
+      isWholesale = true,
       marketplaceId = 'ATVPDKIKX0DER',
     } = payload;
 
@@ -238,25 +248,30 @@ export const fetchSellersListForMap = (payload: SellersListPayload) => async (di
     const pagination = `page=${page}`;
     const sorting = `ordering=${sortDir === 'desc' ? `-${sort}` : sort}`;
     const marketplace = `marketplace_id=${marketplaceId}`;
+    const sellerType = `seller_type=${isWholesale ? 'wholesale' : 'private_label'}`;
 
-    const resourcePath = `${pagination}&${sorting}&${marketplace}`;
+    const resourcePath = `${pagination}&${sorting}&${marketplace}&${sellerType}`;
 
     dispatch(isLoadingSellersListForMap(enableLoader));
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchants-database?${resourcePath}`;
 
     const { data } = await axios.get(URL);
+    const { results, ...paginationInfo } = data;
 
     if (data) {
-      dispatch(setSellersListForMap(data));
+      dispatch(setSellersListForMap(results));
+      dispatch(setSellersListForMapPaginationInfo(paginationInfo));
       dispatch(isLoadingSellersListForMap(false));
     } else {
       dispatch(setSellersListForMap([]));
+      dispatch(setSellersListForMapPaginationInfo({ total_pages: 0, current_page: 0, count: 0 }));
       dispatch(isLoadingSellersListForMap(false));
     }
   } catch (err) {
     console.error('Unable to fetch sellers list for map', err);
     dispatch(setSellersListForMap([]));
+    dispatch(setSellersListForMapPaginationInfo({ total_pages: 0, current_page: 0, count: 0 }));
     dispatch(isLoadingSellersListForMap(false));
   }
 };
