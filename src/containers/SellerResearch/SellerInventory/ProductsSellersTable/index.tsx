@@ -54,6 +54,7 @@ const ProductsSellersTable = (props: Props) => {
   const {
     isLoadingSellerInventoryProductsSellers,
     sellerInventoryProductsTableSellersResults,
+    sellerInventoryProductsTableSellersPaginationInfo,
   } = props;
 
   /* Custom scroll logic */
@@ -94,11 +95,16 @@ const ProductsSellersTable = (props: Props) => {
       <TableResultsMessage
         prependMessage="Showing"
         count={
+          sellerInventoryProductsTableSellersPaginationInfo
+            ? sellerInventoryProductsTableSellersPaginationInfo.count
+            : 0
+        }
+        actualCount={
           sellerInventoryProductsTableSellersResults
             ? sellerInventoryProductsTableSellersResults.length
             : 0
         }
-        appendMessage="sellers."
+        appendMessage="sellers"
       />
       <Table
         loading={isLoadingSellerInventoryProductsSellers}

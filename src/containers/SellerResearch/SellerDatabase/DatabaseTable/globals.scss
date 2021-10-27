@@ -2,10 +2,11 @@
 
 #sellerDatabaseTable {
   background: $light_gray_background !important;
-  overflow-x: auto !important;
+  overflow-x: scroll !important;
 
   /* width */
   &::-webkit-scrollbar {
+    display: none !important;
     height: 10px !important;
   }
 
@@ -66,7 +67,7 @@
       background: $light_gray_background;
       transform: none !important;
       width: 3440px;
-      overflow-x: auto !important;
+      overflow-x: scroll !important;
 
       //  Table row property
       .rs-table-row {
@@ -115,12 +116,12 @@
 
   // scrollbar
   div[role='scrollbar'] {
-    display: none !important;
+    // display: none !important;
     bottom: 40px !important;
     background: $grey_3;
     border-radius: 4px;
     position: fixed !important;
-    opacity: 0;
+    opacity: 1;
     height: 10px;
     max-width: 90vw !important;
     margin-left: auto !important;

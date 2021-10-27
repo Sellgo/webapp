@@ -9,6 +9,7 @@ import { getSellerSubscription } from '../../../../../selectors/Subscription';
 import {
   getSellerInventoryTableExpandedRow,
   getSellerInventoryProductsTableResults,
+  getSellerInventoryProductsTablePaginationInfo,
 } from '../../../../../selectors/SellerResearch/SellerInventory';
 
 /* Components */
@@ -24,6 +25,7 @@ import { success } from '../../../../../utils/notifications';
 
 /* Interfaces */
 import { SellerSubscription } from '../../../../../interfaces/Seller';
+import { SellerInventoryProductsTablePaginationInfo } from '../../../../../interfaces/SellerResearch/SellerInventory';
 
 /* Hooks */
 import { useProductsExportSocket } from '../../SocketProviders/ProductsExportProvider';
@@ -32,6 +34,7 @@ interface Props {
   sellerSubscription: SellerSubscription;
   sellerInventoryTableExpandedRow: any;
   sellerInventoryProductsTableResults: any[];
+  sellerInventoryProductsTablePaginationInfo: SellerInventoryProductsTablePaginationInfo;
 }
 
 const ProductsExport = (props: Props) => {
@@ -39,6 +42,7 @@ const ProductsExport = (props: Props) => {
     sellerSubscription,
     sellerInventoryTableExpandedRow,
     sellerInventoryProductsTableResults,
+    sellerInventoryProductsTablePaginationInfo,
   } = props;
   const { handleProductsExport } = useProductsExportSocket();
 
@@ -62,9 +66,14 @@ const ProductsExport = (props: Props) => {
         <TableResultsMessage
           prependMessage="Showing"
           count={
+            sellerInventoryProductsTablePaginationInfo
+              ? sellerInventoryProductsTablePaginationInfo.count
+              : 0
+          }
+          actualCount={
             sellerInventoryProductsTableResults ? sellerInventoryProductsTableResults.length : 0
           }
-          appendMessage="products."
+          appendMessage="products"
         />
       }
       <TableExport
@@ -100,6 +109,9 @@ const ProductsExport = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
   return {
+    sellerInventoryProductsTablePaginationInfo: getSellerInventoryProductsTablePaginationInfo(
+      state
+    ),
     sellerSubscription: getSellerSubscription(state),
     sellerInventoryTableExpandedRow: getSellerInventoryTableExpandedRow(state),
     sellerInventoryProductsTableResults: getSellerInventoryProductsTableResults(state),

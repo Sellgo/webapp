@@ -27,9 +27,9 @@ const TableResultsMessage = (props: Props) => {
   } else {
     return (
       <p className={styles.messageText}>
-        {prependMessage} <span className={styles.count}>{formatNumber(actualCount)}</span> of{' '}
+        {prependMessage} <span className={styles.count}>{formatNumber(actualCount)}</span> out of{' '}
         <span className={styles.count}>{formatNumber(count)}</span> {appendMessage}
-        <UpgradeCTA type="Upgrade" />
+        <UpgradeCTA type="Upgrade" showText />
       </p>
     );
   }

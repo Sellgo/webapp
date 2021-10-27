@@ -14,23 +14,27 @@ import { connect } from 'react-redux';
 
 interface Props {
   type: 'Unlock' | 'Upgrade';
+  showText?: boolean;
   className?: string;
   sellerSubscription: SellerSubscription;
 }
 
 const UpgradeCTA = (props: Props) => {
-  const { className, type, sellerSubscription } = props;
+  const { className, type, sellerSubscription, showText } = props;
   if (DAILY_SUBSCRIPTION_PLANS.includes(sellerSubscription.subscription_id)) {
     return (
-      <Link
-        to="/settings/pricing"
-        className={`${styles.upgradeCTA} ${className}`}
-        style={{ color: '#b318f1' }}
-      >
-        <img src={unlockIcon} alt="unlock-icon" className={styles.unlockIcon} />
-        {type}
-        <img src={rightArrow} alt="right-arrow-icon" className={styles.arrowIcon} />
-      </Link>
+      <span>
+        {showText && <span> for $1 plan. </span>}
+        <Link
+          to="/settings/pricing"
+          className={`${styles.upgradeCTA} ${className}`}
+          style={{ color: '#b318f1' }}
+        >
+          <img src={unlockIcon} alt="unlock-icon" className={styles.unlockIcon} />
+          {type}
+          <img src={rightArrow} alt="right-arrow-icon" className={styles.arrowIcon} />
+        </Link>
+      </span>
     );
   } else {
     return null;
