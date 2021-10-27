@@ -22,7 +22,7 @@
   min-height: 80vh;
   position: relative;
   z-index: 90 !important;
-  margin: 10px;
+  margin: 0 20px;
 }
 
 .map {
@@ -45,5 +45,6 @@
 .sellerMapSellerList {
   min-width: 20%;
   height: 100%;
-  background: rgba(pink, 0.3);
+  max-height: 90vh;
+  overflow: auto;
 }

@@ -34,6 +34,7 @@ import {
   MIN_ZOOM,
   WORLD_MAP_BOUNDS,
 } from '../../../constants/SellerResearch/SellerMap';
+import SellersList from './SellersList';
 
 interface Props {
   isLoadingSellersForMap: boolean;
@@ -115,7 +116,7 @@ const MapPanel = (props: Props) => {
 
       {/* Seller Map Sellers list */}
       <div className={styles.sellerMapSellerList}>
-        <p>Show seller list here</p>
+        <SellersList />
       </div>
     </section>
   );
