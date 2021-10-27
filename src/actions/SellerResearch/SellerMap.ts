@@ -235,7 +235,6 @@ export const fetchSellersListForMap = (payload: SellersListPayload) => async (di
   try {
     const {
       page = 1,
-
       sort = 'seller_id',
       sortDir = 'asc',
       enableLoader = true,
