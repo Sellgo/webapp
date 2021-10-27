@@ -31,7 +31,7 @@ import ChurnFlow from '../ChurnFlow';
 
 import SellerResearch from '../SellerResearch';
 // import ProductResearch from '../ProductResearch';
-import KeywordResearch from '../KeywordResearch';
+// import KeywordResearch from '../KeywordResearch';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import { isBetaAccount } from '../../utils/subscriptions';
@@ -282,12 +282,12 @@ function App() {
 
            */}
 
-          <PrivateRoute
+          {/* <PrivateRoute
             exact={true}
             path="/keyword-research/:productName"
             component={KeywordResearch}
             requireSubscription={true}
-          />
+          /> */}
 
           <PrivateRoute
             exact={true}
