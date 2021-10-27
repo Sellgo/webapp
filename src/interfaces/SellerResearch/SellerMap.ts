@@ -15,6 +15,15 @@ export interface SellerMapPayload {
   sellerType?: string;
 }
 
+export interface SellersListPayload {
+  page?: number;
+  sort?: string;
+  enableLoader?: boolean;
+  sortDir?: 'asc' | 'desc';
+  marketplaceId?: string;
+  isWholesale?: boolean;
+}
+
 export interface SellerData {
   business_name: string;
   city: string;

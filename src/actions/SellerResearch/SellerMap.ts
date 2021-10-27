@@ -11,7 +11,11 @@ import {
 } from '../../constants/SellerResearch/SellerMap';
 
 /* Interfaces */
-import { SellerMapPayload, Location } from '../../interfaces/SellerResearch/SellerMap';
+import {
+  SellerMapPayload,
+  Location,
+  SellersListPayload,
+} from '../../interfaces/SellerResearch/SellerMap';
 import { MarketplaceOption } from '../../interfaces/SellerResearch/SellerDatabase';
 
 /* Selectors */
@@ -214,6 +218,46 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
     console.error('Error fetching merchants for map', err);
     dispatch(setSellersForMap([]));
     dispatch(setLoadingSellersForMap(false));
+  }
+};
+
+/* Action to fetch sellers list for map */
+export const fetchSellersListForMap = (payload: SellersListPayload) => async (dispatch: any) => {
+  try {
+    const {
+      page = 1,
+
+      sort = 'seller_id',
+      sortDir = 'asc',
+      enableLoader = true,
+      marketplaceId = 'ATVPDKIKX0DER',
+    } = payload;
+
+    const sellerId = sellerIDSelector();
+
+    const pagination = `page=${page}`;
+    const sorting = `ordering=${sortDir === 'desc' ? `-${sort}` : sort}`;
+    const marketplace = `marketplace_id=${marketplaceId}`;
+
+    const resourcePath = `${pagination}&${sorting}&${marketplace}`;
+
+    dispatch(isLoadingSellersListForMap(enableLoader));
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchants-database?${resourcePath}`;
+
+    const { data } = await axios.get(URL);
+
+    if (data) {
+      dispatch(setSellersListForMap(data));
+      dispatch(isLoadingSellersListForMap(false));
+    } else {
+      dispatch(setSellersListForMap([]));
+      dispatch(isLoadingSellersListForMap(false));
+    }
+  } catch (err) {
+    console.error('Unable to fetch sellers list for map', err);
+    dispatch(setSellersListForMap([]));
+    dispatch(isLoadingSellersListForMap(false));
   }
 };
 
