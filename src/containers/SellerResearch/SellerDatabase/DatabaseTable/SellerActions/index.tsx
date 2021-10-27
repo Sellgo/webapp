@@ -44,7 +44,7 @@ const SellerActions = (props: Props) => {
     trackMerchantFromDatabase(merchantId);
     if (newTab) {
       await timeout(500);
-      history.push('/seller-finder');
+      history.push('/seller-research/finder');
     }
   };
 
