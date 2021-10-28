@@ -4,11 +4,7 @@ import React from 'react';
 import styles from './index.module.scss';
 
 const GlobalMapFilters = () => {
-  return (
-    <div className={styles.globlMapFilters}>
-      <p>Glbal filters will go here</p>
-    </div>
-  );
+  return <div className={styles.globlMapFilters} />;
 };
 
 export default GlobalMapFilters;
