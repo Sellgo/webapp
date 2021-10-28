@@ -22,6 +22,7 @@ export interface SellersListPayload {
   sortDir?: 'asc' | 'desc';
   marketplaceId?: string;
   isWholesale?: boolean;
+  perPage?: number;
 }
 
 export interface SellersListPaginationInfo {

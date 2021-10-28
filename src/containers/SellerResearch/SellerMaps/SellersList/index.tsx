@@ -39,10 +39,14 @@ const SellersList = (props: Props) => {
 
   return (
     <div className={styles.sellersListWrapper}>
-      {sellersListForMap &&
-        sellersListForMap.map((details: any) => {
-          return <SellerListMapCard key={details.merchant_id} />;
-        })}
+      <div className={styles.sellerListFilters}>Filters will go here</div>
+
+      <div className={styles.sellersList}>
+        {sellersListForMap &&
+          sellersListForMap.map((details: any) => {
+            return <SellerListMapCard key={details.merchant_id} sellerDetails={details} />;
+          })}
+      </div>
     </div>
   );
 };

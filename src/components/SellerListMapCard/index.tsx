@@ -13,30 +13,78 @@ import CopyAndLocateClipboard from '../CopyAndLocateClipboard';
 /* Assets */
 import placeholderImage from '../../assets/images/placeholderImage.svg';
 
-const SellerListMapCard = () => {
+/* Utils */
+import {
+  formatNumber,
+  parseKpiLists,
+  removeSpecialChars,
+  showNAIfZeroOrNull,
+  truncateString,
+} from '../../utils/format';
+
+interface Props {
+  sellerDetails: any;
+}
+
+const SellerListMapCard = (props: Props) => {
+  const { sellerDetails } = props;
+
+  const sellerLogo = sellerDetails.seller_logo ? sellerDetails.seller_logo : placeholderImage;
+  const sellerId = sellerDetails.merchant_id;
+  const sellerLink = sellerDetails.seller_link ? sellerDetails.seller_link : '';
+  const marketplaceId = sellerDetails.marketplace_id;
+
+  const salesEstimate = sellerDetails.sales_estimate;
+  const formattedSalesEst = showNAIfZeroOrNull(salesEstimate, `$${formatNumber(salesEstimate)}`);
+
+  /* Location */
+  const country = sellerDetails.country ? sellerDetails.country : '';
+  const city = sellerDetails.city ? `${sellerDetails.city},` : '';
+  const state = sellerDetails.state ? `${sellerDetails.state},` : '';
+  const zipCode = sellerDetails.zip_code ? `${sellerDetails.zip_code}` : '';
+
+  /* Brands */
+  const brands = sellerDetails.brands;
+  const parsedBrands = parseKpiLists(brands);
+  const copyBrandsString = removeSpecialChars(parsedBrands, ',');
+
+  /* ASINs*/
+
+  const asins = sellerDetails.asins;
+  const parsedAsins = parseKpiLists(asins);
+  const currentAsinsCount = formatNumber(parsedAsins.length);
+  const totalInventory = formatNumber(sellerDetails.inventory_count);
+  const copyAsins = removeSpecialChars(parsedAsins, ',');
+
   return (
     <div className={styles.sellerListCard}>
       {/* Seller Logo */}
       <div className={styles.sellerLogo}>
-        <img src={placeholderImage} alt="" />
+        <img src={sellerLogo} alt={sellerId} />
       </div>
 
       {/* Seller marketplace Details */}
       <div className={styles.sellerIdDetails}>
-        <img src={getMarketplaceFlag('')} alt="Seller Market place Flag" />
-        <CopyAndLocateClipboard data="AU12349G1" link="" className={styles.sellerId} />
+        <img
+          src={getMarketplaceFlag(marketplaceId ? marketplaceId : '')}
+          alt="Seller Market place Flag"
+        />
+        <CopyAndLocateClipboard data={sellerId} link={sellerLink} className={styles.sellerId} />
       </div>
 
       <div className={styles.sellerDetails}>
         {/* Sales Estimate */}
-        <h3 className={styles.salesEst}>$1,235,368</h3>
+        <h3 className={styles.salesEst}>{formattedSalesEst}</h3>
 
         {/* Brands */}
         <div className={styles.sellerCopyDetails}>
           <p>
             Brands:
             <span>
-              <CopyToClipboard data="" displayData="xxxx, sgffax, afdadfds, ..." />
+              <CopyToClipboard
+                data={copyBrandsString}
+                displayData={truncateString(copyBrandsString, 20)}
+              />
             </span>
           </p>
         </div>
@@ -46,7 +94,10 @@ const SellerListMapCard = () => {
           <p>
             ASIN:
             <span>
-              <CopyToClipboard data="" displayData="56/1000" />
+              <CopyToClipboard
+                data={copyAsins}
+                displayData={`${currentAsinsCount}/${totalInventory}`}
+              />
             </span>
           </p>
         </div>
@@ -55,7 +106,9 @@ const SellerListMapCard = () => {
         <div className={styles.sellerCopyDetails}>
           <p>
             Address:
-            <span>City, State, Zip Code</span>
+            <span>
+              {city} {state} {zipCode}
+            </span>
           </p>
         </div>
 
@@ -63,7 +116,7 @@ const SellerListMapCard = () => {
         <div className={styles.sellerCopyDetails}>
           <p>
             Country:
-            <span>US</span>
+            <span>{country}</span>
           </p>
         </div>
       </div>

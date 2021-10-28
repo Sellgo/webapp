@@ -239,12 +239,13 @@ export const fetchSellersListForMap = (payload: SellersListPayload) => async (di
       sortDir = 'asc',
       enableLoader = true,
       isWholesale = true,
+      perPage = 20,
       marketplaceId = 'ATVPDKIKX0DER',
     } = payload;
 
     const sellerId = sellerIDSelector();
 
-    const pagination = `page=${page}`;
+    const pagination = `page=${page}&per_page=${perPage}`;
     const sorting = `ordering=${sortDir === 'desc' ? `-${sort}` : sort}`;
     const marketplace = `marketplace_id=${marketplaceId}`;
     const sellerType = `seller_type=${isWholesale ? 'wholesale' : 'private_label'}`;
