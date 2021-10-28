@@ -21,6 +21,9 @@ import { fetchSellersForMap } from '../../../actions/SellerResearch/SellerMap';
 
 /* Containers */
 // import MapFilters from './MapFilters';
+import SellersList from './SellersList';
+import SellerMapFilter from './SellerMapFilter';
+import GlobalMapFilters from './GlobalMapFilters';
 import PlotAllMarkers from './PlotAllMarkers';
 import CenterMapAndZoom from './CenterMapAndZoom';
 
@@ -34,7 +37,6 @@ import {
   MIN_ZOOM,
   WORLD_MAP_BOUNDS,
 } from '../../../constants/SellerResearch/SellerMap';
-import SellersList from './SellersList';
 
 interface Props {
   isLoadingSellersForMap: boolean;
@@ -62,12 +64,14 @@ const MapPanel = (props: Props) => {
   return (
     <section className={styles.sellerMapsContainer}>
       {/* Filter Section */}
-      <div className={styles.sellerMapFilters}>
-        <p>Filters will go here</p>
-      </div>
+      <SellerMapFilter />
 
       {/* Main map display */}
       <div className={styles.mapContainer}>
+        {/* Seller map global filters */}
+        <GlobalMapFilters />
+
+        {/* Main map */}
         <MapContainer
           preferCanvas
           animate
