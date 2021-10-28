@@ -46,6 +46,7 @@ import {
   SellerInventoryProductsTablePayload,
   SellerInventoryProductsTableSellersPayload,
 } from '../../../../interfaces/SellerResearch/SellerInventory';
+import CheckOnKeepa from './CheckOnKeepa';
 
 interface Props {
   sellerInventoryTableExpandedRow: any;
@@ -216,6 +217,12 @@ const SellerProductsTable = (props: Props) => {
         <Table.Column width={130} verticalAlign="top" align="left">
           <Table.HeaderCell>Product Review #</Table.HeaderCell>
           <StatsCell dataKey="reviews_count" />
+        </Table.Column>
+
+        {/* Product Review */}
+        <Table.Column width={30} verticalAlign="top" align="left">
+          <Table.HeaderCell></Table.HeaderCell>
+          <CheckOnKeepa dataKey="keepa_url" />
         </Table.Column>
       </Table>
     </section>
