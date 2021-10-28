@@ -1,17 +1,10 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 /* Styling */
 import styles from './index.module.scss';
 
 /* Constants */
 import { getMarketplaceFlag } from '../../constants/Settings';
-
-/* Components */
-import CopyToClipboard from '../CopyToClipboard';
-import CopyAndLocateClipboard from '../CopyAndLocateClipboard';
-
-/* Assets */
-import placeholderImage from '../../assets/images/placeholderImage.svg';
 
 /* Utils */
 import {
@@ -22,8 +15,33 @@ import {
   truncateString,
 } from '../../utils/format';
 
+/* Components */
+import CopyToClipboard from '../CopyToClipboard';
+import CopyAndLocateClipboard from '../CopyAndLocateClipboard';
+
+/* Assets */
+import placeholderImage from '../../assets/images/placeholderImage.svg';
+
+interface SellerDetails {
+  seller_logo: string;
+  merchant_id: string;
+  seller_link: string;
+  marketplace_id: string;
+
+  sales_estimate: number;
+  inventory_count: number;
+
+  city: string;
+  country: string;
+  state: string;
+  zip_code: string;
+
+  brands: string;
+  asins: string;
+}
+
 interface Props {
-  sellerDetails: any;
+  sellerDetails: SellerDetails;
 }
 
 const SellerListMapCard = (props: Props) => {
@@ -124,4 +142,4 @@ const SellerListMapCard = (props: Props) => {
   );
 };
 
-export default SellerListMapCard;
+export default memo(SellerListMapCard);

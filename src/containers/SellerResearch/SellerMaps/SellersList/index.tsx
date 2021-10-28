@@ -16,6 +16,10 @@ import {
 
 /* Components */
 import SellerListMapCard from '../../../../components/SellerListMapCard';
+import Pagination from '../../../../components/NewTable/Pagination';
+
+/* Assets */
+import sellgoAnimation from '../../../../assets/images/sellgo-loading-animation-450-1.gif';
 
 /* Interfaces */
 import {
@@ -31,21 +35,49 @@ interface Props {
 }
 
 const SellersList = (props: Props) => {
-  const { fetchSellersListForMap, sellersListForMap } = props;
+  const {
+    fetchSellersListForMap,
+    sellersListForMap,
+    sellersListForMapPaginationInfo,
+    isLoadingSellersListForMap,
+  } = props;
 
   useEffect(() => {
     fetchSellersListForMap({});
   }, []);
+
+  const handlePageChange = (pageNo: number) => {
+    fetchSellersListForMap({
+      page: pageNo,
+    });
+  };
 
   return (
     <div className={styles.sellersListWrapper}>
       <div className={styles.sellerListFilters}>Filters will go here</div>
 
       <div className={styles.sellersList}>
-        {sellersListForMap &&
-          sellersListForMap.map((details: any) => {
-            return <SellerListMapCard key={details.merchant_id} sellerDetails={details} />;
-          })}
+        {isLoadingSellersListForMap ? (
+          <img src={sellgoAnimation} alt="" className={styles.sellersListLoader} />
+        ) : (
+          <>
+            {sellersListForMap &&
+              sellersListForMap.map((details: any) => {
+                return <SellerListMapCard key={details.merchant_id} sellerDetails={details} />;
+              })}
+          </>
+        )}
+      </div>
+
+      <div className={styles.sellersListPagination}>
+        {sellersListForMapPaginationInfo && sellersListForMapPaginationInfo.total_pages > 0 && (
+          <Pagination
+            currentPage={sellersListForMapPaginationInfo.current_page}
+            totalPages={sellersListForMapPaginationInfo.total_pages}
+            showSiblingsCount={3}
+            onPageChange={handlePageChange}
+          />
+        )}
       </div>
     </div>
   );
