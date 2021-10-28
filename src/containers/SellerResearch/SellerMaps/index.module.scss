@@ -10,7 +10,7 @@
 }
 
 .sellerMapFilters {
-  min-width: 20%;
+  width: 20vw;
   background: rgba(pink, 0.3);
 }
 
@@ -19,7 +19,7 @@
   border: 1px solid $grey_3;
   border-radius: 7px;
   padding: 5px;
-  width: 60%;
+  flex: 1;
   position: relative;
   z-index: 90 !important;
   margin: 0 20px;
