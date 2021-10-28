@@ -288,7 +288,6 @@ export const fetchSellerInventoryTableResults = (payload: SellerInventoryTablePa
 
     if (data) {
       const { results, ...paginationInfo } = data;
-      console.log(data);
       dispatch(setSellerInventoryTableResults(results));
       dispatch(setSellerInventoryTablePaginationInfo(paginationInfo));
       dispatch(isLoadingSellerInventoryTable(false));
