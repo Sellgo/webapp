@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 /* Styling */
@@ -17,6 +17,7 @@ import {
 /* Components */
 import SellerListMapCard from '../../../../components/SellerListMapCard';
 import Pagination from '../../../../components/NewTable/Pagination';
+import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
 
 /* Assets */
 import sellgoAnimation from '../../../../assets/images/sellgo-loading-animation-450-1.gif';
@@ -26,6 +27,7 @@ import {
   SellersListPaginationInfo,
   SellersListPayload,
 } from '../../../../interfaces/SellerResearch/SellerMap';
+import { SELLERS_LIST_SORTING_OPTIONS } from '../../../../constants/SellerResearch/SellerMap';
 
 interface Props {
   isLoadingSellersListForMap: boolean;
@@ -42,10 +44,24 @@ const SellersList = (props: Props) => {
     isLoadingSellersListForMap,
   } = props;
 
+  const [sortBy, setSortBy] = useState('sales_estimate?desc');
+
   useEffect(() => {
     fetchSellersListForMap({});
   }, []);
 
+  /* Sorting Change */
+  const handleSortingChange = (value: string) => {
+    if (value !== sortBy) {
+      const [sort, sortDir] = value.split('?');
+      fetchSellersListForMap({
+        sort,
+        sortDir: sortDir === 'asc' ? 'asc' : 'desc',
+      });
+      setSortBy(value);
+    }
+  };
+  /* Page Change */
   const handlePageChange = (pageNo: number) => {
     fetchSellersListForMap({
       page: pageNo,
@@ -54,8 +70,20 @@ const SellersList = (props: Props) => {
 
   return (
     <div className={styles.sellersListWrapper}>
-      <div className={styles.sellerListFilters}>Filters will go here</div>
+      {/* Sellers List Filters */}
+      <div className={styles.sellerListFilters}>
+        <SelectionFilter
+          label="Sort By"
+          placeholder="Sort By"
+          filterOptions={SELLERS_LIST_SORTING_OPTIONS}
+          value={sortBy}
+          handleChange={(value: string) => {
+            handleSortingChange(value);
+          }}
+        />
+      </div>
 
+      {/* Main Sellers List */}
       <div className={styles.sellersList}>
         {isLoadingSellersListForMap ? (
           <img src={sellgoAnimation} alt="" className={styles.sellersListLoader} />
@@ -69,6 +97,7 @@ const SellersList = (props: Props) => {
         )}
       </div>
 
+      {/* Sellers List Pagination */}
       <div className={styles.sellersListPagination}>
         {sellersListForMapPaginationInfo && sellersListForMapPaginationInfo.total_pages > 0 && (
           <Pagination

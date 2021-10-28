@@ -188,3 +188,27 @@ export const SELLER_TYPE_FILTER_OPTIONS = [
   { label: 'Private Label Seller', value: 'private_label' },
   { label: 'Wholesale Reseller', value: 'wholesale' },
 ];
+
+/* Sellers List sorting details */
+export const SELLERS_LIST_SORTING_OPTIONS = [
+  {
+    key: 'number_of_asins',
+    value: 'inventory_count?desc',
+    text: '# of ASINS (High to Low)',
+  },
+  {
+    key: 'number_of_asins',
+    value: 'inventory_count?asc',
+    text: '# of ASINS (Low to High)',
+  },
+  {
+    key: 'sales_estimate',
+    value: 'sales_estimate?desc',
+    text: '# Monthly Revenue (High to Low)',
+  },
+  {
+    key: 'sales_estimate',
+    value: 'sales_estimate?asc',
+    text: '# Monthly Revenue (Low to High)',
+  },
+];
