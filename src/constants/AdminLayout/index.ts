@@ -125,7 +125,7 @@ export const OPTIONS: NavOptions = [
     label: 'Product Research',
     icon: require(`../../assets/images/${NAV_ICONS.PRODUCT_RESEARCH}`),
     path: '/product-research',
-    isComingSoon: true,
+    isComingSoon: false,
     disabled: false,
     isBeta: false,
     subOptions: [
@@ -151,7 +151,7 @@ export const OPTIONS: NavOptions = [
     label: 'Keyword Research',
     icon: require(`../../assets/images/${NAV_ICONS.KEYWORD_RESEARCH}`),
     path: '/keyword-research',
-    isComingSoon: true,
+    isComingSoon: false,
     disabled: false,
     isBeta: false,
     subOptions: [
