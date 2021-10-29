@@ -27,6 +27,8 @@ export const F_TYPES = {
   GROWTH_PERCENT_FILTER: 'GROWTH_PERCENT_FILTER',
   GROWTH_COUNT_FILTER: 'GROWTH_COUNT_FILTER',
   MARKETPLACE: 'MARKETPLACE',
+  COUNTRY: 'COUNTRY',
+  STATE: 'STATE',
 };
 
 /* ======================================================= */

@@ -24,10 +24,10 @@ import { MarketplaceOption } from '../../interfaces/SellerResearch/SellerDatabas
 import { sellerIDSelector } from '../../selectors/Seller';
 
 /* Utils */
-// import { calculateBoundsForMap } from '../../utils/map';
+import { calculateBoundsForMap } from '../../utils/map';
 
 /* Notifications */
-import { error } from '../../utils/notifications';
+import { error, success } from '../../utils/notifications';
 import { getSellerMapFilterData } from '../../selectors/SellerResearch/SellerMap';
 import { F_TYPES } from '../../constants/SellerResearch';
 
@@ -174,8 +174,26 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
 
     if (type === F_TYPES.TEXT) {
       if (value) {
-        // encode URI is necessary to escape '&' in values for categories
         filterQuery += `&${keyName}=${encodeURIComponent(value)}`;
+      }
+    }
+
+    if (type === F_TYPES.COUNTRY) {
+      if (value && value !== 'All Countries') {
+        filterQuery += `&${keyName}=${value}`;
+      }
+    }
+
+    if (type === F_TYPES.STATE) {
+      if (value && value !== 'All States') {
+        filterQuery += `&${keyName}=${value}`;
+      }
+    }
+
+    if (type === F_TYPES.MARKETPLACE) {
+      if (value.value) {
+        // encode URI is necessary to escape '&' in values for categories
+        filterQuery += `&${keyName}=${value.value}`;
       }
     }
 
@@ -225,9 +243,9 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (
   dispatch: any,
   getState: any
 ) => {
-  // const sellerId = sellerIDSelector();
+  const sellerId = sellerIDSelector();
 
-  const { resetMap = false } = payload;
+  const { resetMap = false, enableLoader = true } = payload;
 
   try {
     // if reset map is hit
@@ -241,26 +259,28 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (
     }
 
     const allFiltersData = getSellerMapFilterData(getState());
-    const filterQuery = parseFilters(allFiltersData);
-    console.log(filterQuery);
-    return;
+    const resourcePath = parseFilters(allFiltersData);
 
-    // const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchantmaps/search`;
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchantmaps/search?${resourcePath}`;
 
-    // dispatch(setLoadingSellersForMap(enableLoader));
+    dispatch(setLoadingSellersForMap(enableLoader));
 
-    // const response = await axios.get(URL);
-    // if (response && response.data) {
-    //   const { data } = response;
-    //   // const { mapCenter, mapZoom } = calculateBoundsForMap(country, state);
+    const country = allFiltersData && allFiltersData.find((f: any) => f.keyName === 'country');
+    const state = allFiltersData && allFiltersData.find((f: any) => f.keyName === 'state');
 
-    //   // dispatch(setMapCenter(mapCenter));
-    //   // dispatch(setMapZoom(mapZoom));
+    const response = await axios.get(URL);
 
-    //   success(`Found ${data.length} sellers`);
-    //   dispatch(setSellersForMap(data));
-    //   dispatch(setLoadingSellersForMap(false));
-    // }
+    if (response && response.data) {
+      const { data } = response;
+      const { mapCenter, mapZoom } = calculateBoundsForMap(country.value, state.value);
+
+      dispatch(setMapCenter(mapCenter));
+      dispatch(setMapZoom(mapZoom));
+
+      success(`Found ${data.length} sellers`);
+      dispatch(setSellersForMap(data));
+      dispatch(setLoadingSellersForMap(false));
+    }
   } catch (err) {
     dispatch(setMapCenter(INITIAL_CENTER));
     dispatch(setMapZoom(INITIAL_ZOOM));

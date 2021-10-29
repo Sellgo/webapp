@@ -7,4 +7,12 @@
   grid-template-rows: repeat(auto, 1fr);
   grid-column-gap: 18px;
   grid-row-gap: 18px;
+
+  @media only screen and (min-width: 1550px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media only screen and (min-width: 1700px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }

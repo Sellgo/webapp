@@ -209,15 +209,21 @@ export const SELLER_MAP_DEFAULT_FILTER = [
 
   {
     keyName: 'country',
-    type: F_TYPES.TEXT,
+    type: F_TYPES.COUNTRY,
     value: DEFAULT_US_MARKET.code,
   },
 
   {
     keyName: 'state',
-    type: F_TYPES.TEXT,
+    type: F_TYPES.STATE,
     value: '',
   },
+  {
+    keyName: 'max_count',
+    type: F_TYPES.TEXT,
+    value: '1000',
+  },
+
   // Other filters
   { keyName: 'merchant_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
 
