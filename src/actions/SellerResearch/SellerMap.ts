@@ -24,10 +24,12 @@ import { MarketplaceOption } from '../../interfaces/SellerResearch/SellerDatabas
 import { sellerIDSelector } from '../../selectors/Seller';
 
 /* Utils */
-import { calculateBoundsForMap } from '../../utils/map';
+// import { calculateBoundsForMap } from '../../utils/map';
 
 /* Notifications */
-import { error, success } from '../../utils/notifications';
+import { error } from '../../utils/notifications';
+import { getSellerMapFilterData } from '../../selectors/SellerResearch/SellerMap';
+import { F_TYPES } from '../../constants/SellerResearch';
 
 /* =================================================== */
 /* ================ SELLER MAP FILTERS ================*/
@@ -162,26 +164,70 @@ export const setSellerDatabaseMarketplace = (payload: MarketplaceOption) => {
     payload,
   };
 };
+
+/* Action to prepare the payload for query */
+export const parseFilters = (sellerDatabaseFilter: any) => {
+  let filterQuery = '';
+
+  sellerDatabaseFilter.forEach((filterData: any) => {
+    const { keyName, type, value } = filterData;
+
+    if (type === F_TYPES.TEXT) {
+      if (value) {
+        // encode URI is necessary to escape '&' in values for categories
+        filterQuery += `&${keyName}=${encodeURIComponent(value)}`;
+      }
+    }
+
+    if (type === F_TYPES.INPUT_INCLUDE_EXCLUDE) {
+      const includes = value.include ? `&include_${keyName}=${value.include}` : '';
+      const excludes = value.exclude ? `&exclude_${keyName}=${value.exclude}` : '';
+      filterQuery += `${includes}${excludes}`;
+    }
+
+    if (type === F_TYPES.MIN_MAX) {
+      const min = value.min ? `&${keyName}_min=${value.min}` : '';
+      const max = value.max ? `&${keyName}_max=${value.max}` : '';
+      filterQuery += `${min}${max}`;
+    }
+
+    if (type === F_TYPES.MIN_MAX_PERIOD) {
+      if (value.period) {
+        const min = value.min ? `&${keyName}_${value.period}_min=${value.min}` : '';
+        const max = value.max ? `&${keyName}_${value.period}_max=${value.max}` : '';
+        filterQuery += `${min}${max}`;
+      }
+    }
+
+    if (type === F_TYPES.GROWTH_COUNT_FILTER || type === F_TYPES.GROWTH_PERCENT_FILTER) {
+      if (value.period) {
+        const min = value.min ? `&${value.period}_min=${value.min}` : '';
+        const max = value.max ? `&${value.period}_max=${value.max}` : '';
+        filterQuery += `${min}${max}`;
+      }
+    }
+
+    if (type === F_TYPES.MIN_MAX_PERIOD_REVIEW) {
+      if (value.type) {
+        const min = value.min ? `&${value.type}_${value.period}_min=${value.min}` : '';
+        const max = value.max ? `&${value.type}_${value.period}_max=${value.max}` : '';
+        filterQuery += `${min}${max}`;
+      }
+    }
+  });
+
+  return filterQuery;
+};
 /* ================= Async actions =========================== */
 
 /* Action for fetching sellers for map */
-export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch: any) => {
-  const sellerId = sellerIDSelector();
+export const fetchSellersForMap = (payload: SellerMapPayload) => async (
+  dispatch: any,
+  getState: any
+) => {
+  // const sellerId = sellerIDSelector();
 
-  const {
-    resetMap = false,
-    marketplaceId = 'ATVPDKIKX0DER',
-    country = 'US',
-    state = '',
-    zipCode = '',
-    merchantName,
-    categories = '',
-    minMonthlyRevenue = '',
-    maxMonthlyRevenue = '',
-    launched = '',
-    sellerType = '',
-    maxCount = 1000,
-  } = payload;
+  const { resetMap = false } = payload;
 
   try {
     // if reset map is hit
@@ -190,76 +236,31 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
       dispatch(setLoadingSellersForMap(false));
       dispatch(setMapCenter(INITIAL_CENTER));
       dispatch(setMapZoom(INITIAL_ZOOM));
+      dispatch(resetSellerMapFiltersData());
       return;
     }
 
-    let queryString = '';
+    const allFiltersData = getSellerMapFilterData(getState());
+    const filterQuery = parseFilters(allFiltersData);
+    console.log(filterQuery);
+    return;
 
-    // add the marketplace
-    if (marketplaceId) {
-      queryString += `&marketplace_id=${marketplaceId}`;
-    }
+    // const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchantmaps/search`;
 
-    // skip all countries since all countries means no countries filter
-    if (country && country !== 'All Countries') {
-      queryString += `&country=${country}`;
-    }
+    // dispatch(setLoadingSellersForMap(enableLoader));
 
-    // skip all states since all states means no states filter
-    if (state && state !== 'All States') {
-      queryString += `&state=${state}`;
-    }
+    // const response = await axios.get(URL);
+    // if (response && response.data) {
+    //   const { data } = response;
+    //   // const { mapCenter, mapZoom } = calculateBoundsForMap(country, state);
 
-    // add the zip code if us state
-    if (zipCode) {
-      queryString += `&zip_code=${zipCode}`;
-    }
+    //   // dispatch(setMapCenter(mapCenter));
+    //   // dispatch(setMapZoom(mapZoom));
 
-    // add the merchant name
-    if (merchantName) {
-      queryString += `&merchant_name=${merchantName}`;
-    }
-
-    // add the categories
-    if (categories) {
-      queryString += `&categories=${encodeURIComponent(categories)}`;
-    }
-
-    // min monthly revenue
-    if (minMonthlyRevenue) {
-      // add the monthly revenue
-      queryString += `&sales_estimate_min=${minMonthlyRevenue}`;
-    }
-
-    // add max monthly revenue
-    if (maxMonthlyRevenue) {
-      queryString += `&sales_estimate_max=${maxMonthlyRevenue}`;
-    }
-
-    if (launched) {
-      queryString += `&launched=${launched}`;
-    }
-
-    if (sellerType) {
-      queryString += `&seller_type=${sellerType}`;
-    }
-
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchantmaps/search?max_count=${maxCount}${queryString}`;
-
-    dispatch(setLoadingSellersForMap(true));
-
-    const response = await axios.get(URL);
-    if (response && response.data) {
-      const { data } = response;
-      const { mapCenter, mapZoom } = calculateBoundsForMap(country, state);
-
-      dispatch(setMapCenter(mapCenter));
-      dispatch(setMapZoom(mapZoom));
-
-      success(`Found ${data.length} sellers`);
-      dispatch(setSellersForMap(data));
-      dispatch(setLoadingSellersForMap(false));
-    }
+    //   success(`Found ${data.length} sellers`);
+    //   dispatch(setSellersForMap(data));
+    //   dispatch(setLoadingSellersForMap(false));
+    // }
   } catch (err) {
     dispatch(setMapCenter(INITIAL_CENTER));
     dispatch(setMapZoom(INITIAL_ZOOM));

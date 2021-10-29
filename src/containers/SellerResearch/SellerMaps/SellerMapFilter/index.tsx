@@ -17,7 +17,7 @@ import { getSellerMapFilterData } from '../../../../selectors/SellerResearch/Sel
 
 /* Actions */
 import {
-  resetSellerMapFiltersData,
+  fetchSellersForMap,
   updateSellerMapFilterOptions,
 } from '../../../../actions/SellerResearch/SellerMap';
 
@@ -31,16 +31,19 @@ import RadioListFilters from '../../../../components/FormFilters/RadioListFilter
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 
 /* Interfaces */
-import { UpdateSellerMapFilterPayload } from '../../../../interfaces/SellerResearch/SellerMap';
+import {
+  SellerMapPayload,
+  UpdateSellerMapFilterPayload,
+} from '../../../../interfaces/SellerResearch/SellerMap';
 
 interface Props {
   sellerMapFilterData: any[];
   updateSellerMapFilterOptions: (payload: UpdateSellerMapFilterPayload) => void;
-  resetSellerMapFiltersData: () => void;
+  fetchSellersFormap: (payload: SellerMapPayload) => void;
 }
 
 const SellerMapFilter = (props: Props) => {
-  const { sellerMapFilterData, updateSellerMapFilterOptions, resetSellerMapFiltersData } = props;
+  const { sellerMapFilterData, updateSellerMapFilterOptions, fetchSellersFormap } = props;
 
   /* Merchant Name */
   const merchantName = parseSellerMapFilterData(sellerMapFilterData, 'merchant_name');
@@ -62,7 +65,11 @@ const SellerMapFilter = (props: Props) => {
   };
 
   const handleSubmit = () => {
-    console.log('Submit filters');
+    fetchSellersFormap({ enableLoader: true });
+  };
+
+  const handleReset = () => {
+    fetchSellersFormap({ resetMap: true });
   };
 
   return (
@@ -147,7 +154,7 @@ const SellerMapFilter = (props: Props) => {
 
       <FormFilterActions
         onFind={handleSubmit}
-        onReset={resetSellerMapFiltersData}
+        onReset={handleReset}
         className={styles.filtersSubmit}
       />
     </div>
@@ -164,7 +171,7 @@ export const mapDispatchToProps = (dispatch: any) => {
   return {
     updateSellerMapFilterOptions: (payload: UpdateSellerMapFilterPayload) =>
       dispatch(updateSellerMapFilterOptions(payload)),
-    resetSellerMapFiltersData: () => dispatch(resetSellerMapFiltersData()),
+    fetchSellersFormap: (payload: SellerMapPayload) => dispatch(fetchSellersForMap(payload)),
   };
 };
 

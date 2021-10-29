@@ -2,17 +2,7 @@ export type Location = [number, number];
 
 export interface SellerMapPayload {
   resetMap?: boolean;
-  marketplaceId?: string;
-  country?: string;
-  state?: string;
-  zipCode?: string;
-  merchantName?: string;
-  categories?: string;
-  minMonthlyRevenue?: string;
-  maxMonthlyRevenue?: string;
-  maxCount?: number;
-  launched?: string;
-  sellerType?: string;
+  enableLoader?: boolean;
 }
 
 export interface SellersListPayload {
