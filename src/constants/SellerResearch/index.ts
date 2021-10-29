@@ -26,6 +26,7 @@ export const F_TYPES = {
   MIN_MAX_PERIOD_REVIEW: 'MIN_MAX_PERIOD_REVIEW',
   GROWTH_PERCENT_FILTER: 'GROWTH_PERCENT_FILTER',
   GROWTH_COUNT_FILTER: 'GROWTH_COUNT_FILTER',
+  MARKETPLACE: 'MARKETPLACE',
 };
 
 /* ======================================================= */

@@ -5,6 +5,7 @@ import {
   DEFAULT_TEXT_FILTER,
   DEFAULT_MIN_MAX_FILTER,
   DEFAULT_MIN_MAX_PERIOD_REVIEW,
+  DEFAULT_US_MARKET,
 } from '.';
 
 import { defaultMarketplaces } from '../Settings';
@@ -199,6 +200,24 @@ export const SELLERS_LIST_SORTING_OPTIONS = [
 ];
 
 export const SELLER_MAP_DEFAULT_FILTER = [
+  // Global filters
+  {
+    keyName: 'marketplace',
+    type: F_TYPES.MARKETPLACE,
+    value: DEFAULT_US_MARKET,
+  },
+
+  {
+    keyName: 'country',
+    type: F_TYPES.TEXT,
+    value: DEFAULT_US_MARKET.code,
+  },
+
+  {
+    keyName: 'state',
+    type: F_TYPES.TEXT,
+    value: '',
+  },
   // Other filters
   { keyName: 'merchant_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
 

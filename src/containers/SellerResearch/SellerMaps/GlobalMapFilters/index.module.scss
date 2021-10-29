@@ -2,4 +2,9 @@
 
 .globlMapFilters {
   min-height: 50px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(auto, 1fr);
+  grid-column-gap: 18px;
+  grid-row-gap: 18px;
 }
