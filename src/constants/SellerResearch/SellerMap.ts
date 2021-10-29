@@ -1,7 +1,15 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-import { Location, Country, USState } from '../../interfaces/SellerResearch/SellerMap';
+import {
+  F_TYPES,
+  DEFAULT_TEXT_FILTER,
+  DEFAULT_MIN_MAX_FILTER,
+  DEFAULT_MIN_MAX_PERIOD_REVIEW,
+} from '.';
+
 import { defaultMarketplaces } from '../Settings';
+
+import { Location, Country, USState } from '../../interfaces/SellerResearch/SellerMap';
 
 const allCountriesList = require('../../assets/countriesList.json');
 const allUsStatesList = require('../../assets/usStatesList.json');
@@ -164,28 +172,6 @@ export const SELLER_MAP_MARKETPLACE = defaultMarketplaces
     };
   });
 
-/* Default US Marketplace */
-export const DEFAULT_US_MARKET = {
-  text: 'United States',
-  code: 'US',
-  value: 'ATVPDKIKX0DER',
-  disabled: false,
-  key: 'US',
-  currency: '$',
-};
-
-/* Launched Durations for filters */
-export const LAUNCHED_FILTER_OPTIONS = [
-  { label: 'Longer than a year', value: '>1Y' },
-  { label: 'Less than a year', value: '90D-1Y' },
-];
-
-/* Seller Type filter options */
-export const SELLER_TYPE_FILTER_OPTIONS = [
-  { label: 'Private Label Seller', value: 'private_label' },
-  { label: 'Wholesale Reseller', value: 'wholesale' },
-];
-
 /* Sellers List sorting details */
 export const SELLERS_LIST_SORTING_OPTIONS = [
   {
@@ -210,76 +196,16 @@ export const SELLERS_LIST_SORTING_OPTIONS = [
   },
 ];
 
-/* Different filter reset defaultss */
-export const DEFAULT_TEXT_FILTER = '';
-
-export const DEFAULT_INCLUDE_EXCLUDE_FILTER = {
-  include: '',
-  exclude: '',
-};
-
-export const DEFAULT_MIN_MAX_FILTER = {
-  min: '',
-  max: '',
-};
-
-export const DEFAULT_MIN_MAX_PERIOD_FILTER = {
-  ...DEFAULT_MIN_MAX_FILTER,
-  period: '30_days',
-};
-
-export const DEFAULT_MIN_MAX_PERIOD_REVIEW = {
-  ...DEFAULT_MIN_MAX_FILTER,
-  period: '30_days',
-  type: 'positive',
-};
-
-/* Filter types */
-export const F_TYPES = {
-  TEXT: 'TEXT',
-  INPUT_INCLUDE_EXCLUDE: 'INPUT_INCLUDE_EXCLUDE',
-  MIN_MAX: 'MIN_MAX',
-  MIN_MAX_PERIOD: 'MIN_MAX_PERIOD',
-  MIN_MAX_PERIOD_REVIEW: 'MIN_MAX_PERIOD_REVIEW',
-  GROWTH_PERCENT_FILTER: 'GROWTH_PERCENT_FILTER',
-  GROWTH_COUNT_FILTER: 'GROWTH_COUNT_FILTER',
-};
-
 export const SELLER_MAP_DEFAULT_FILTER = [
-  //  Global filters
-  {
-    key: 'marketplace_id',
-    type: F_TYPES.TEXT,
-    value: DEFAULT_US_MARKET,
-  },
-  { keyName: 'country', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
-  { keyName: 'state', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
-  { keyName: 'max_count', type: F_TYPES.TEXT, value: '1000' },
-
   // Other filters
-
-  { keyName: 'categories', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
-
   { keyName: 'merchant_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
 
-  {
-    keyName: 'asins',
-    type: F_TYPES.INPUT_INCLUDE_EXCLUDE,
-    value: DEFAULT_INCLUDE_EXCLUDE_FILTER,
-  },
-
+  { keyName: 'inventory_count', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },
   {
     keyName: 'review',
     type: F_TYPES.MIN_MAX_PERIOD_REVIEW,
     value: DEFAULT_MIN_MAX_PERIOD_REVIEW,
   },
-
-  { keyName: 'inventory_count', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },
-
+  { keyName: 'launched', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
   { keyName: 'seller_rating', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },
 ];
-
-/* Action to get filter data by key name */
-export const parseSellerMapFilterData = (allFilters: any, key: string) => {
-  return allFilters.find((f: any) => f.keyName === key);
-};

@@ -10,12 +10,15 @@ import {
   COUNTRY_DROPDOWN_LIST,
   getMapLimitOptions,
   STATES_DROPDOWN_LIST,
-  DEFAULT_US_MARKET,
   SELLER_MAP_MARKETPLACE,
+} from '../../../../constants/SellerResearch/SellerMap';
+
+import {
   DEFAULT_MIN_MAX_FILTER,
+  DEFAULT_US_MARKET,
   LAUNCHED_FILTER_OPTIONS,
   SELLER_TYPE_FILTER_OPTIONS,
-} from '../../../../constants/SellerResearch/SellerMap';
+} from '../../../../constants/SellerResearch';
 
 import { getProductCategories } from '../../../../constants/ProductResearch/ProductsDatabase';
 

@@ -5,7 +5,12 @@ import { connect } from 'react-redux';
 import styles from './index.module.scss';
 
 /* Constants */
-import { parseSellerMapFilterData } from '../../../../constants/SellerResearch/SellerMap';
+import {
+  FILTER_REVIEW_OPTIONS,
+  FILTER_PERIOD_DURATIONS,
+  parseSellerMapFilterData,
+  LAUNCHED_FILTER_OPTIONS,
+} from '../../../../constants/SellerResearch';
 
 /* Selectors */
 import { getSellerMapFilterData } from '../../../../selectors/SellerResearch/SellerMap';
@@ -17,6 +22,9 @@ import { updateSellerMapFilterOptions } from '../../../../actions/SellerResearch
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
 import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
+import ReviewTypeFilter from '../../../../components/FormFilters/ReviewTypeFilter';
+import PeriodFilter from '../../../../components/FormFilters/PeriodFilter';
+import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
 
 /* Interfaces */
 import { UpdateSellerMapFilterPayload } from '../../../../interfaces/SellerResearch/SellerMap';
@@ -37,6 +45,12 @@ const SellerMapFilter = (props: Props) => {
 
   /* Seller Ratings */
   const sellerRatings = parseSellerMapFilterData(sellerMapFilterData, 'seller_rating');
+
+  /* Review */
+  const review = parseSellerMapFilterData(sellerMapFilterData, 'review');
+
+  /* Seller Type */
+  const sellerLaunched = parseSellerMapFilterData(sellerMapFilterData, 'launched');
 
   const handleFilterChange = (keyName: any, value: any) => {
     updateSellerMapFilterOptions({ keyName, value });
@@ -70,6 +84,54 @@ const SellerMapFilter = (props: Props) => {
         handleChange={(type: string, value: string) => {
           handleFilterChange('inventory_count', { ...numberOfInventory.value, [type]: value });
         }}
+      />
+
+      {/*  Review Filter */}
+      <div className={styles.reviewGroupedFilter}>
+        <ReviewTypeFilter
+          placeholder="Positive"
+          label="Review"
+          filterOptions={FILTER_REVIEW_OPTIONS}
+          value={review.value.type}
+          handleChange={(type: string) => {
+            handleFilterChange('review', {
+              ...review.value,
+              type,
+            });
+          }}
+        />
+        <div className={styles.groupFilters}>
+          <MinMaxFilter
+            label=""
+            minValue={review.value.min}
+            maxValue={review.value.max}
+            handleChange={(type: string, value: string) => {
+              handleFilterChange('review', {
+                ...review.value,
+                [type]: value,
+              });
+            }}
+          />
+          <PeriodFilter
+            placeholder="30D"
+            value={review.value.period}
+            filterOptions={FILTER_PERIOD_DURATIONS}
+            handleChange={(period: string) => {
+              handleFilterChange('review', {
+                ...review.value,
+                period,
+              });
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Launched FIlter */}
+      <RadioListFilters
+        label="Seller Launched"
+        filterOptions={LAUNCHED_FILTER_OPTIONS}
+        value={sellerLaunched.value}
+        handleChange={(value: string) => handleFilterChange('launched', value)}
       />
 
       {/* Seller Ratings */}
