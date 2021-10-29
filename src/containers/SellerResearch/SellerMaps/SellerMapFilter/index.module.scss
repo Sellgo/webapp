@@ -2,5 +2,14 @@
 
 .filterWrapper {
   width: 20vw;
-  background: rgba(pink, 0.3);
+  display: grid;
+  grid-template-columns: 1;
+  grid-template-rows: auto;
+  grid-row-gap: 18px;
+  align-content: flex-start;
+}
+
+.longFilter {
+  min-width: 100% !important;
+  margin-bottom: 18px;
 }

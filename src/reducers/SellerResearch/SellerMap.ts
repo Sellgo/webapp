@@ -57,7 +57,19 @@ const sellerMapReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     // State for setting seller map filter options
     case actionTypes.UPDATE_SELLER_MAP_FILTERS_DATA: {
-      const updatedFilters = [...state.sellerMapFilterData, action.payload];
+      const { keyName, value } = action.payload;
+
+      const updatedFilters = state.sellerMapFilterData.map((f: any) => {
+        if (f.keyName === keyName) {
+          return {
+            ...f,
+            value,
+          };
+        } else {
+          return f;
+        }
+      });
+
       return setIn(state, 'sellerMapFilterData', updatedFilters);
     }
 

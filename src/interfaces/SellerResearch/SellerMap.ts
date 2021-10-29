@@ -56,3 +56,8 @@ export interface USState {
   longitude: number;
   name: string;
 }
+
+export interface UpdateSellerMapFilterPayload {
+  keyName: string;
+  value: any;
+}

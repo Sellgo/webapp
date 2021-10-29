@@ -189,22 +189,22 @@ export const SELLER_TYPE_FILTER_OPTIONS = [
 /* Sellers List sorting details */
 export const SELLERS_LIST_SORTING_OPTIONS = [
   {
-    key: 'number_of_asins',
+    key: 'inventory_count?desc',
     value: 'inventory_count?desc',
     text: '# of ASINS (High to Low)',
   },
   {
-    key: 'number_of_asins',
+    key: 'inventory_count?asc',
     value: 'inventory_count?asc',
     text: '# of ASINS (Low to High)',
   },
   {
-    key: 'sales_estimate',
+    key: 'sales_estimate?desc',
     value: 'sales_estimate?desc',
     text: '# Monthly Revenue (High to Low)',
   },
   {
-    key: 'sales_estimate',
+    key: 'sales_estimate?asc',
     value: 'sales_estimate?asc',
     text: '# Monthly Revenue (Low to High)',
   },
@@ -257,27 +257,29 @@ export const SELLER_MAP_DEFAULT_FILTER = [
   { keyName: 'max_count', type: F_TYPES.TEXT, value: '1000' },
 
   // Other filters
-  { keyName: 'zip_code', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
+
   { keyName: 'categories', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
 
-  {
-    keyName: 'sales_estimate',
-    type: F_TYPES.MIN_MAX,
-    value: DEFAULT_MIN_MAX_FILTER,
-  },
   { keyName: 'merchant_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
-  { keyName: 'business_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
-  {
-    keyName: 'brands',
-    type: F_TYPES.INPUT_INCLUDE_EXCLUDE,
-    value: DEFAULT_INCLUDE_EXCLUDE_FILTER,
-  },
 
   {
     keyName: 'asins',
     type: F_TYPES.INPUT_INCLUDE_EXCLUDE,
     value: DEFAULT_INCLUDE_EXCLUDE_FILTER,
   },
+
+  {
+    keyName: 'review',
+    type: F_TYPES.MIN_MAX_PERIOD_REVIEW,
+    value: DEFAULT_MIN_MAX_PERIOD_REVIEW,
+  },
+
+  { keyName: 'inventory_count', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },
+
   { keyName: 'seller_rating', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },
-  { keyName: 'review', type: F_TYPES.MIN_MAX_PERIOD_REVIEW, value: DEFAULT_MIN_MAX_PERIOD_REVIEW },
 ];
+
+/* Action to get filter data by key name */
+export const parseSellerMapFilterData = (allFilters: any, key: string) => {
+  return allFilters.find((f: any) => f.keyName === key);
+};
