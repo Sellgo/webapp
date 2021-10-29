@@ -225,6 +225,7 @@ export const SELLER_MAP_DEFAULT_FILTER = [
   },
 
   // Other filters
+  { keyName: 'categories', type: F_TYPES.CATEGORIES, value: [] },
   { keyName: 'merchant_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
 
   { keyName: 'inventory_count', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },

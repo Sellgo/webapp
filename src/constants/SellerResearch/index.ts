@@ -29,6 +29,7 @@ export const F_TYPES = {
   MARKETPLACE: 'MARKETPLACE',
   COUNTRY: 'COUNTRY',
   STATE: 'STATE',
+  CATEGORIES: 'CATEGORIES',
 };
 
 /* ======================================================= */
