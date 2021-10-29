@@ -16,7 +16,10 @@ import {
 import { getSellerMapFilterData } from '../../../../selectors/SellerResearch/SellerMap';
 
 /* Actions */
-import { updateSellerMapFilterOptions } from '../../../../actions/SellerResearch/SellerMap';
+import {
+  resetSellerMapFiltersData,
+  updateSellerMapFilterOptions,
+} from '../../../../actions/SellerResearch/SellerMap';
 
 /* Components */
 import InputFilter from '../../../../components/FormFilters/InputFilter';
@@ -25,6 +28,7 @@ import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRating
 import ReviewTypeFilter from '../../../../components/FormFilters/ReviewTypeFilter';
 import PeriodFilter from '../../../../components/FormFilters/PeriodFilter';
 import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
+import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 
 /* Interfaces */
 import { UpdateSellerMapFilterPayload } from '../../../../interfaces/SellerResearch/SellerMap';
@@ -32,10 +36,11 @@ import { UpdateSellerMapFilterPayload } from '../../../../interfaces/SellerResea
 interface Props {
   sellerMapFilterData: any[];
   updateSellerMapFilterOptions: (payload: UpdateSellerMapFilterPayload) => void;
+  resetSellerMapFiltersData: () => void;
 }
 
 const SellerMapFilter = (props: Props) => {
-  const { sellerMapFilterData, updateSellerMapFilterOptions } = props;
+  const { sellerMapFilterData, updateSellerMapFilterOptions, resetSellerMapFiltersData } = props;
 
   /* Merchant Name */
   const merchantName = parseSellerMapFilterData(sellerMapFilterData, 'merchant_name');
@@ -56,13 +61,9 @@ const SellerMapFilter = (props: Props) => {
     updateSellerMapFilterOptions({ keyName, value });
   };
 
-  // const handleSubmit = () => {
-  //   console.log('Submit filters');
-  // };
-
-  // const handleReset = () => {
-  //   console.log('Handle Reset');
-  // };
+  const handleSubmit = () => {
+    console.log('Submit filters');
+  };
 
   return (
     <div className={styles.filterWrapper}>
@@ -143,6 +144,12 @@ const SellerMapFilter = (props: Props) => {
           handleFilterChange('seller_rating', { ...sellerRatings.value, [type]: value });
         }}
       />
+
+      <FormFilterActions
+        onFind={handleSubmit}
+        onReset={resetSellerMapFiltersData}
+        className={styles.filtersSubmit}
+      />
     </div>
   );
 };
@@ -157,6 +164,7 @@ export const mapDispatchToProps = (dispatch: any) => {
   return {
     updateSellerMapFilterOptions: (payload: UpdateSellerMapFilterPayload) =>
       dispatch(updateSellerMapFilterOptions(payload)),
+    resetSellerMapFiltersData: () => dispatch(resetSellerMapFiltersData()),
   };
 };
 

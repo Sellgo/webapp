@@ -34,27 +34,9 @@ const INITIAL_STATE = {
 
 const sellerMapReducer = (state = INITIAL_STATE, action: AnyAction) => {
   switch (action.type) {
-    // State for the seller maps
-    case actionTypes.LOADING_SELLERS_FOR_MAP: {
-      return setIn(state, 'isLoadingSellers', action.payload);
-    }
-    case actionTypes.SET_SELLERS_FOR_MAP: {
-      return setIn(state, 'sellersForMap', action.payload);
-    }
-
-    // State for the sellers list
-    case actionTypes.IS_LOADING_SELLERS_LIST_FOR_MAP: {
-      return setIn(state, 'isLoadingSellersListForMap', action.payload);
-    }
-
-    case actionTypes.SET_SELLERS_LIST_FOR_MAP: {
-      return setIn(state, 'sellersListForMap', action.payload);
-    }
-
-    case actionTypes.SET_SELLERS_LIST_FOR_MAP_PAGINATION_INFO: {
-      return setIn(state, 'sellersListForMapPaginationInfo', action.payload);
-    }
-
+    /* =================================================== */
+    /* ================ SELLER MAP FILTERS ================*/
+    /* =================================================== */
     // State for setting seller map filter options
     case actionTypes.UPDATE_SELLER_MAP_FILTERS_DATA: {
       const { keyName, value } = action.payload;
@@ -73,15 +55,23 @@ const sellerMapReducer = (state = INITIAL_STATE, action: AnyAction) => {
       return setIn(state, 'sellerMapFilterData', updatedFilters);
     }
 
-    // State for the loading Seller Details Card
-    case actionTypes.LOADING_SELLER_DETAILS_FOR_MAP: {
-      return setIn(state, 'isLoadingSellerDetails', action.payload);
+    case actionTypes.RESET_SELLER_MAP_FILTERS_DATA: {
+      return setIn(state, 'sellerMapFilterData', SELLER_MAP_DEFAULT_FILTER);
     }
-    case actionTypes.SET_SELLER_DETAILS_FOR_MAP: {
-      return setIn(state, 'sellerDetails', action.payload);
+
+    case actionTypes.SET_SELLER_MAP_FILTERS_DATA: {
+      return setIn(state, 'sellerMapFilterData', action.payload);
     }
-    case actionTypes.SHOW_SELLER_DETAILS_CARD: {
-      return setIn(state, 'showSellerDetailsCard', action.payload);
+
+    /* =================================================== */
+    /* ================ MAIN MAP DISPLAY ================*/
+    /* =================================================== */
+    // State for the seller maps
+    case actionTypes.LOADING_SELLERS_FOR_MAP: {
+      return setIn(state, 'isLoadingSellers', action.payload);
+    }
+    case actionTypes.SET_SELLERS_FOR_MAP: {
+      return setIn(state, 'sellersForMap', action.payload);
     }
 
     // State for setting map meta info
@@ -94,6 +84,38 @@ const sellerMapReducer = (state = INITIAL_STATE, action: AnyAction) => {
     case actionTypes.SET_ZOOM_FOR_MAP: {
       return setIn(state, 'mapZoom', action.payload);
     }
+
+    /* =================================================== */
+    /* ================ MAIN MAP SELLERS LIST ================*/
+    /* =================================================== */
+    // State for the sellers list
+    case actionTypes.IS_LOADING_SELLERS_LIST_FOR_MAP: {
+      return setIn(state, 'isLoadingSellersListForMap', action.payload);
+    }
+
+    case actionTypes.SET_SELLERS_LIST_FOR_MAP: {
+      return setIn(state, 'sellersListForMap', action.payload);
+    }
+
+    case actionTypes.SET_SELLERS_LIST_FOR_MAP_PAGINATION_INFO: {
+      return setIn(state, 'sellersListForMapPaginationInfo', action.payload);
+    }
+
+    /* =================================================== */
+    /* ================ SELLER DETAILS ON MAP ================*/
+    /* =================================================== */
+
+    // State for the loading Seller Details Card
+    case actionTypes.LOADING_SELLER_DETAILS_FOR_MAP: {
+      return setIn(state, 'isLoadingSellerDetails', action.payload);
+    }
+    case actionTypes.SET_SELLER_DETAILS_FOR_MAP: {
+      return setIn(state, 'sellerDetails', action.payload);
+    }
+    case actionTypes.SHOW_SELLER_DETAILS_CARD: {
+      return setIn(state, 'showSellerDetailsCard', action.payload);
+    }
+
     case actionTypes.SET_MAP_MARKETPLACE: {
       return setIn(state, 'mapMarketplace', action.payload);
     }

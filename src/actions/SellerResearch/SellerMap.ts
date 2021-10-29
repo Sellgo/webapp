@@ -29,6 +29,36 @@ import { calculateBoundsForMap } from '../../utils/map';
 /* Notifications */
 import { error, success } from '../../utils/notifications';
 
+/* =================================================== */
+/* ================ SELLER MAP FILTERS ================*/
+/* =================================================== */
+/* Action to update the seller map filter options */
+export const updateSellerMapFilterOptions = (payload: UpdateSellerMapFilterPayload) => {
+  return {
+    type: actionTypes.UPDATE_SELLER_MAP_FILTERS_DATA,
+    payload,
+  };
+};
+
+/* Action to reset the seller map filters data */
+export const resetSellerMapFiltersData = () => {
+  return {
+    type: actionTypes.RESET_SELLER_MAP_FILTERS_DATA,
+  };
+};
+
+/* Action to set the seller map filters data */
+export const setSellerMapFiltersData = (payload: any) => {
+  return {
+    type: actionTypes.SET_SELLER_MAP_FILTERS_DATA,
+    payload,
+  };
+};
+
+/* =================================================== */
+/* ================ MAIN MAP DISPLAY ================*/
+/* =================================================== */
+
 /* Action Creator for setting loading state for sellers on map */
 export const setLoadingSellersForMap = (payload: boolean) => {
   return {
@@ -44,6 +74,34 @@ export const setSellersForMap = (payload: any) => {
     payload,
   };
 };
+
+/* Action to set country center */
+export const setMapCenter = (payload: Location) => {
+  return {
+    type: actionTypes.SET_COUNTRY_CENTER,
+    payload,
+  };
+};
+
+/* Action to set the map bounds */
+export const setMapBounds = (payload: any) => {
+  return {
+    type: actionTypes.SET_MAP_BOUNDS,
+    payload,
+  };
+};
+
+/* Action to set the map bounds */
+export const setMapZoom = (payload: number) => {
+  return {
+    type: actionTypes.SET_ZOOM_FOR_MAP,
+    payload,
+  };
+};
+
+/* =================================================== */
+/* ================ MAIN MAP SELLERS LIST ================*/
+/* =================================================== */
 
 /* Action to set loaing state for sellers list for map */
 export const isLoadingSellersListForMap = (payload: boolean) => {
@@ -69,13 +127,9 @@ export const setSellersListForMapPaginationInfo = (payload: SellersListPaginatio
   };
 };
 
-/* Action to update the seller map filter options */
-export const updateSellerMapFilterOptions = (payload: UpdateSellerMapFilterPayload) => {
-  return {
-    type: actionTypes.UPDATE_SELLER_MAP_FILTERS_DATA,
-    payload,
-  };
-};
+/* =================================================== */
+/* ================ SELLER DETAILS ON MAP ================*/
+/* =================================================== */
 
 /* Action Creator for setting loading state for sellers details on map */
 export const setLoadingSellerDetailsForMap = (payload: boolean) => {
@@ -97,30 +151,6 @@ export const setSellerDetailsForMap = (payload: any) => {
 export const setShowSellerDetailsCard = (payload: boolean) => {
   return {
     type: actionTypes.SHOW_SELLER_DETAILS_CARD,
-    payload,
-  };
-};
-
-/* Action to set country center */
-export const setMapCenter = (payload: Location) => {
-  return {
-    type: actionTypes.SET_COUNTRY_CENTER,
-    payload,
-  };
-};
-
-/* Action to set the map bounds */
-export const setMapBounds = (payload: any) => {
-  return {
-    type: actionTypes.SET_MAP_BOUNDS,
-    payload,
-  };
-};
-
-/* Action to set the map bounds */
-export const setMapZoom = (payload: number) => {
-  return {
-    type: actionTypes.SET_ZOOM_FOR_MAP,
     payload,
   };
 };

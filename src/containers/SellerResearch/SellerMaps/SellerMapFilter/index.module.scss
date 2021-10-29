@@ -1,7 +1,7 @@
 @import '../../../../design-system/new-colors';
 
 .filterWrapper {
-  width: 20vw;
+  width: 350px;
   display: grid;
   grid-template-columns: 1;
   grid-template-rows: auto;
@@ -23,5 +23,16 @@
 .reviewGroupedFilter {
   .groupFilters {
     margin-top: 10px;
+  }
+}
+
+.filtersSubmit {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: space-evenly !important;
+
+  button {
+    width: max-content !important;
+    margin: 0 !important;
   }
 }
