@@ -68,6 +68,13 @@ export const setSellersListForMapPaginationInfo = (payload: SellersListPaginatio
   };
 };
 
+/* Action to set the seller map filter options */
+export const setSellerMapFilterOptions = (payload: any) => {
+  return {
+    type: actionTypes.UPDATE_SELLER_MAP_FILTERS_DATA,
+    payload,
+  };
+};
 /* Action Creator for setting loading state for sellers details on map */
 export const setLoadingSellerDetailsForMap = (payload: boolean) => {
   return {

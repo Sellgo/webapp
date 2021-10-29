@@ -17,6 +17,9 @@ export const actionTypes = {
   SET_SELLERS_LIST_FOR_MAP: 'SET_SELLERS_LIST_FOR_MAP',
   SET_SELLERS_LIST_FOR_MAP_PAGINATION_INFO: 'SET_SELLERS_LIST_FOR_MAP_PAGINATION_INFO',
 
+  // Seller map filters
+  UPDATE_SELLER_MAP_FILTERS_DATA: 'UPDATE_SELLER_MAP_FILTERS_DATA',
+
   // Sellers details for cards
   LOADING_SELLER_DETAILS_FOR_MAP: 'LOADING_SELLER_DETAILS_FOR_MAP',
   SET_SELLER_DETAILS_FOR_MAP: 'SET_SELLER_DETAILS_FOR_MAP',
@@ -41,12 +44,6 @@ export const WORLD_MAP_BOUNDS: Location[] = [
   [-90, -180],
   [90, 180],
 ];
-
-/* Filter Types */
-export const DEFAULT_MIN_MAX_FILTER = {
-  min: '',
-  max: '',
-};
 
 // Seller Limit Options
 export const DEFAULLT_SELLER_LIMIT_OPTIONS = [
@@ -211,4 +208,76 @@ export const SELLERS_LIST_SORTING_OPTIONS = [
     value: 'sales_estimate?asc',
     text: '# Monthly Revenue (Low to High)',
   },
+];
+
+/* Different filter reset defaultss */
+export const DEFAULT_TEXT_FILTER = '';
+
+export const DEFAULT_INCLUDE_EXCLUDE_FILTER = {
+  include: '',
+  exclude: '',
+};
+
+export const DEFAULT_MIN_MAX_FILTER = {
+  min: '',
+  max: '',
+};
+
+export const DEFAULT_MIN_MAX_PERIOD_FILTER = {
+  ...DEFAULT_MIN_MAX_FILTER,
+  period: '30_days',
+};
+
+export const DEFAULT_MIN_MAX_PERIOD_REVIEW = {
+  ...DEFAULT_MIN_MAX_FILTER,
+  period: '30_days',
+  type: 'positive',
+};
+
+/* Filter types */
+export const F_TYPES = {
+  TEXT: 'TEXT',
+  INPUT_INCLUDE_EXCLUDE: 'INPUT_INCLUDE_EXCLUDE',
+  MIN_MAX: 'MIN_MAX',
+  MIN_MAX_PERIOD: 'MIN_MAX_PERIOD',
+  MIN_MAX_PERIOD_REVIEW: 'MIN_MAX_PERIOD_REVIEW',
+  GROWTH_PERCENT_FILTER: 'GROWTH_PERCENT_FILTER',
+  GROWTH_COUNT_FILTER: 'GROWTH_COUNT_FILTER',
+};
+
+export const SELLER_MAP_DEFAULT_FILTER = [
+  //  Global filters
+  {
+    key: 'marketplace_id',
+    type: F_TYPES.TEXT,
+    value: DEFAULT_US_MARKET,
+  },
+  { keyName: 'country', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
+  { keyName: 'state', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
+  { keyName: 'max_count', type: F_TYPES.TEXT, value: '1000' },
+
+  // Other filters
+  { keyName: 'zip_code', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
+  { keyName: 'categories', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
+
+  {
+    keyName: 'sales_estimate',
+    type: F_TYPES.MIN_MAX,
+    value: DEFAULT_MIN_MAX_FILTER,
+  },
+  { keyName: 'merchant_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
+  { keyName: 'business_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
+  {
+    keyName: 'brands',
+    type: F_TYPES.INPUT_INCLUDE_EXCLUDE,
+    value: DEFAULT_INCLUDE_EXCLUDE_FILTER,
+  },
+
+  {
+    keyName: 'asins',
+    type: F_TYPES.INPUT_INCLUDE_EXCLUDE,
+    value: DEFAULT_INCLUDE_EXCLUDE_FILTER,
+  },
+  { keyName: 'seller_rating', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },
+  { keyName: 'review', type: F_TYPES.MIN_MAX_PERIOD_REVIEW, value: DEFAULT_MIN_MAX_PERIOD_REVIEW },
 ];

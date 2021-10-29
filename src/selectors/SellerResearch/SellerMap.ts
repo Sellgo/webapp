@@ -25,6 +25,11 @@ export const getSellersListForMapPaginationInfo = (state: any) => {
   return get(state, 'sellerMap.sellersListForMapPaginationInfo');
 };
 
+/* Selector to get seller map filter data */
+export const getSellerMapFilterData = (state: any) => {
+  return get(state, 'sellerMap.sellerMapFilterData');
+};
+
 /* Selector for the seller details loading state */
 export const getIsLoadingSellerDetailsForMap = (state: any) => {
   return get(state, 'sellerMap.isLoadingSellerDetails');

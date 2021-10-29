@@ -2,6 +2,7 @@ import {
   actionTypes,
   INITIAL_CENTER,
   INITIAL_ZOOM,
+  SELLER_MAP_DEFAULT_FILTER,
   WORLD_MAP_BOUNDS,
 } from '../../constants/SellerResearch/SellerMap';
 import { AnyAction } from 'redux';
@@ -19,6 +20,7 @@ const INITIAL_STATE = {
     total_pages: 0,
   },
 
+  sellerMapFilterData: SELLER_MAP_DEFAULT_FILTER,
   isLoadingSellerDetails: false,
   sellerDetails: [],
   showSellerDetailsCard: false,
@@ -51,6 +53,12 @@ const sellerMapReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_SELLERS_LIST_FOR_MAP_PAGINATION_INFO: {
       return setIn(state, 'sellersListForMapPaginationInfo', action.payload);
+    }
+
+    // State for setting seller map filter options
+    case actionTypes.UPDATE_SELLER_MAP_FILTERS_DATA: {
+      const updatedFilters = [...state.sellerMapFilterData, action.payload];
+      return setIn(state, 'sellerMapFilterData', updatedFilters);
     }
 
     // State for the loading Seller Details Card
