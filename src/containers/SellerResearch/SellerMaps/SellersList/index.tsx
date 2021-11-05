@@ -12,12 +12,14 @@ import {
   getIsLoadingSellersListForMap,
   getSellersListForMap,
   getSellersListForMapPaginationInfo,
+  getSellerMapFilterData,
 } from '../../../../selectors/SellerResearch/SellerMap';
 
 /* Components */
 import SellerListMapCard from '../../../../components/SellerListMapCard';
 import Pagination from '../../../../components/NewTable/Pagination';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
+import ToggleButton from '../../../../components/ToggleButton';
 
 /* Assets */
 import sellgoAnimation from '../../../../assets/images/sellgo-loading-animation-450-1.gif';
@@ -72,6 +74,7 @@ const SellersList = (props: Props) => {
     <div className={styles.sellersListWrapper}>
       {/* Sellers List Filters */}
       <div className={styles.sellerListFilters}>
+        <ToggleButton isToggled={false} handleChange={() => null} className={styles.toggleButton} />
         <SelectionFilter
           label="Sort By"
           placeholder="Sort By"
@@ -90,8 +93,8 @@ const SellersList = (props: Props) => {
         ) : (
           <>
             {sellersListForMap &&
-              sellersListForMap.map((details: any) => {
-                return <SellerListMapCard key={details.merchant_id} sellerDetails={details} />;
+              sellersListForMap.map((details: any, index: number) => {
+                return <SellerListMapCard key={index} sellerDetails={details} />;
               })}
           </>
         )}
@@ -121,6 +124,7 @@ const mapDispatchToProps = (dispatch: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
+    sellerMapFilterData: getSellerMapFilterData(state),
     isLoadingSellersListForMap: getIsLoadingSellersListForMap(state),
     sellersListForMap: getSellersListForMap(state),
     sellersListForMapPaginationInfo: getSellersListForMapPaginationInfo(state),

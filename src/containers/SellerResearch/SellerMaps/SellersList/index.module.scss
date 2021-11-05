@@ -16,9 +16,19 @@
 
 .sellerListFilters {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: space-evenly;
+  align-items: flex-end;
   flex-wrap: wrap;
+  margin-bottom: 18px;
+
+  .toggleButton {
+    width: 240px;
+    height: 38px;
+
+    @media only screen and(max-width: 2400px) {
+      margin-bottom: 18px;
+    }
+  }
 }
 
 .sellersList {

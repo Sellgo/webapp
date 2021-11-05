@@ -291,7 +291,10 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (
 };
 
 /* Action to fetch sellers list for map */
-export const fetchSellersListForMap = (payload: SellersListPayload) => async (dispatch: any) => {
+export const fetchSellersListForMap = (payload: SellersListPayload) => async (
+  dispatch: any,
+  getState: any
+) => {
   try {
     const {
       page = 1,
@@ -300,17 +303,18 @@ export const fetchSellersListForMap = (payload: SellersListPayload) => async (di
       enableLoader = true,
       isWholesale = true,
       perPage = 20,
-      marketplaceId = 'ATVPDKIKX0DER',
     } = payload;
 
     const sellerId = sellerIDSelector();
 
     const pagination = `page=${page}&per_page=${perPage}`;
     const sorting = `ordering=${sortDir === 'desc' ? `-${sort}` : sort}`;
-    const marketplace = `marketplace_id=${marketplaceId}`;
     const sellerType = `seller_type=${isWholesale ? 'wholesale' : 'private_label'}`;
 
-    const resourcePath = `${pagination}&${sorting}&${marketplace}&${sellerType}`;
+    const allFiltersData = getSellerMapFilterData(getState());
+    const filtersPath = parseFilters(allFiltersData);
+
+    const resourcePath = `${pagination}&${sorting}&${sellerType}${filtersPath}`;
 
     dispatch(isLoadingSellersListForMap(enableLoader));
 
