@@ -4,7 +4,7 @@ export const DAILY_SUBSCRIPTION_PLANS = [7, 13];
 export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
     subscriptionId: 13, // subscriptionID if needed
-    name: 'Wholesale Arbitrage $2',
+    name: 'Wholesale Arbitrage $1.99',
     monthlyPrice: 0,
     annualPrice: 0,
     isDailyPlan: true,
