@@ -131,7 +131,7 @@ function CheckoutForm(props: MyProps) {
       }
     };
 
-    if (promoCampaign === 'beta') {
+    if (promoCampaign === 'beta' && (paymentMode === 'monthly' || paymentMode === 'yearly')) {
       autoApplyPromoCode();
     }
   }, [promoCampaign]);
