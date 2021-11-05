@@ -1,51 +1,44 @@
 import { SubscriptionPlan, SummaryDetails } from '../../interfaces/Subscription';
 
-export const DAILY_SUBSCRIPTION_PLANS = [7];
+export const DAILY_SUBSCRIPTION_PLANS = [7, 13];
 export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
-    subscriptionId: 7, // subscriptionID if needed
-    name: 'Wholesale Arbitrage $1',
+    subscriptionId: 13, // subscriptionID if needed
+    name: 'Wholesale Arbitrage $2',
     monthlyPrice: 0,
     annualPrice: 0,
     isDailyPlan: true,
   },
   {
-    subscriptionId: 6, // subscriptionID if needed
+    subscriptionId: 10, // subscriptionID if needed
     name: 'Starter',
-    monthlyPrice: 37,
-    annualPrice: 323,
+    monthlyPrice: 49,
+    annualPrice: 348,
     isDailyPlan: false,
   },
   {
-    subscriptionId: 2, // subscriptionID if needed
+    subscriptionId: 11, // subscriptionID if needed
     name: 'Professional',
-    monthlyPrice: 97,
-    annualPrice: 971,
+    monthlyPrice: 99,
+    annualPrice: 828,
     isDailyPlan: false,
   },
   {
-    subscriptionId: 1, // subscriptionID if needed
+    subscriptionId: 12, // subscriptionID if needed
     name: 'Team',
-    monthlyPrice: 177,
-    annualPrice: 1763,
-    isDailyPlan: false,
-  },
-  {
-    subscriptionId: 8, // subscriptionID if needed
-    name: 'Seller Scout Pro',
-    monthlyPrice: 117,
-    annualPrice: 995,
+    monthlyPrice: 119,
+    annualPrice: 1068,
     isDailyPlan: false,
   },
 ];
 
 export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
-  wholesalearbitrage$1: {
-    name: 'Wholesale Arbitrage $1',
-    id: 7,
+  wholesalearbitrage$2: {
+    name: 'Wholesale Arbitrage $2',
+    id: 13,
     monthlyPrice: -1,
     annualPrice: -1,
-    dailyPrice: 1,
+    dailyPrice: 1.99,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
       'Manage your supplier files in Supplier Management',
@@ -56,9 +49,9 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   },
   starter: {
     name: 'Starter',
-    id: 6,
-    monthlyPrice: 37,
-    annualPrice: 323,
+    id: 10,
+    monthlyPrice: 49,
+    annualPrice: 348,
     dailyPrice: -1,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
@@ -70,23 +63,9 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   },
   professional: {
     name: 'Professional',
-    id: 2,
-    monthlyPrice: 97,
-    annualPrice: 971,
-    dailyPrice: -1,
-    subDescription: '7-Days Money Back Guarantee',
-    benefits: [
-      'Manage your supplier files in Supplier Management',
-      '1000 Products can be tracked through Product Tracker',
-      'Unlimited access in our Profit Finder',
-      'Sellgo support',
-    ],
-  },
-  sellerscoutpro: {
-    name: 'Seller Scout Pro',
-    id: 8,
-    monthlyPrice: 117,
-    annualPrice: 995,
+    id: 11,
+    monthlyPrice: 99,
+    annualPrice: 828,
     dailyPrice: -1,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
@@ -98,9 +77,9 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   },
   team: {
     name: 'Team',
-    id: 1,
-    monthlyPrice: 177,
-    annualPrice: 1763,
+    id: 12,
+    monthlyPrice: 119,
+    annualPrice: 1068,
     dailyPrice: -1,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
@@ -114,25 +93,27 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
 
 export const PAYMENT_MODES = ['daily', 'monthly', 'yearly'];
 
+export const PROMO_START_DATE = '2021-11-5';
+export const PROMO_CAMPAIGNS = ['beta'];
+export const BETA_FIRST_300 = 'OZGVRR33';
+export const BETA_SECOND_700 = 'L9PHLXY1';
+
 export const SUBSCRIPTION_DETAILS_LIST: SummaryDetails[] = [
-  SUBSCRIPTION_DETAILS.wholesalearbitrage$1,
+  SUBSCRIPTION_DETAILS.wholesalearbitrage$2,
   SUBSCRIPTION_DETAILS.starter,
   SUBSCRIPTION_DETAILS.professional,
   SUBSCRIPTION_DETAILS.team,
-  SUBSCRIPTION_DETAILS.sellerscoutpro,
 ];
 
 export const subscriptionDetailsMapping: { [key: string]: number } = {
-  starter: 6,
-  professional: 2,
-  sellerscoutpro: 8,
-  team: 1,
-  wholesalearbitrage$1: 7,
-  privatelabel$1: 9,
+  starter: 10,
+  professional: 11,
+  team: 12,
+  wholesalearbitrage$2: 13,
 };
 
 export const getSubscriptionID = (planName: string) => {
-  const DEFAULT_PROFESSIONAL_PLAN_ID = 2;
+  const DEFAULT_PROFESSIONAL_PLAN_ID = 11;
   const id = subscriptionDetailsMapping[planName];
   if (id) {
     return id;

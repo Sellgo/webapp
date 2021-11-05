@@ -17,6 +17,12 @@ import Auth from '../../../components/Auth/Auth';
 
 /* Constants */
 import { Name, validateEmail } from '../../../constants/Validators';
+import {
+  BETA_FIRST_300,
+  BETA_SECOND_700,
+  PROMO_START_DATE,
+  getSubscriptionID,
+} from '../../../constants/Subscription';
 
 /* App Config */
 import { AppConfig } from '../../../config';
@@ -41,9 +47,6 @@ import styles from './index.module.scss';
 
 /* Types */
 import { PromoCode } from '../../../interfaces/Subscription';
-
-/* Utils */
-import { getSubscriptionID } from '../../../constants/Subscription';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -75,6 +78,7 @@ interface MyProps {
   promoError: string;
   auth: Auth;
   successPayment: boolean;
+  promoCampaign: string;
 }
 
 function CheckoutForm(props: MyProps) {
@@ -92,6 +96,7 @@ function CheckoutForm(props: MyProps) {
     accountType,
     successPayment,
     auth,
+    promoCampaign,
   } = props;
   const [isPromoCodeChecked, setPromoCodeChecked] = useState<boolean>(false);
   const [promoCode, setPromoCode] = useState<string>('');
@@ -105,6 +110,31 @@ function CheckoutForm(props: MyProps) {
   const [signupLoading, setSignupLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isSignupSuccess, setSignupSuccess] = useState<boolean>(false);
+
+  /* If promo campaign is valid, auto enter and check promo code */
+  React.useEffect(() => {
+    const autoApplyPromoCode = async () => {
+      try {
+        const limitDate = new Date(PROMO_START_DATE).getTime();
+        const response = await Axios.get(
+          `${AppConfig.BASE_URL_API}customer-count?limit_date=${limitDate}`
+        );
+        if (response.data.count < 300) {
+          setPromoCode(BETA_FIRST_300);
+          checkPromoCode(BETA_FIRST_300, getSubscriptionID(accountType), paymentMode);
+        } else if (response.data.count < 1000) {
+          setPromoCode(BETA_SECOND_700);
+          checkPromoCode(BETA_SECOND_700, getSubscriptionID(accountType), paymentMode);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    if (promoCampaign === 'beta') {
+      autoApplyPromoCode();
+    }
+  }, [promoCampaign]);
 
   /* Upon successful checking of the entered promo code, either a valid redeemedPromoCode code 
   is returned, or an error message is returned. Upon completion of promo code check, set status 
