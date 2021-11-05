@@ -34,7 +34,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
 
 export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   wholesalearbitrage$2: {
-    name: 'Wholesale Arbitrage $2',
+    name: 'Wholesale Arbitrage $1.99',
     id: 13,
     monthlyPrice: -1,
     annualPrice: -1,
