@@ -14,7 +14,7 @@ export const getSellerSubscriptionLimits = (state: any): SellerSubscriptionLimit
 
   if (sellerSubscription) {
     return {
-      sellerMapDropdownLimit: sellerSubscription.seller_map_overview_limit || 1000,
+      sellerMapDropdownLimit: sellerSubscription.seller_map_overview_display_limit || 1000,
     };
   }
 
