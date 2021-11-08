@@ -40,7 +40,7 @@ const CheckboxDropdown: React.FC<Props> = props => {
   } = props;
 
   const handleCheckboxTick = (e: any, data: any) => {
-    let newSelectedValues = selectedValues;
+    let newSelectedValues = [...selectedValues];
 
     // if checked state
     if (data.checked) {

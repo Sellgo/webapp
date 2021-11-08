@@ -66,6 +66,7 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
     const filter = sellerDatabaseFilter[key];
 
     const { keyName, type } = FILTER_QUERY_KEY_MAPPER[key];
+    console.log(keyName, type);
 
     if (type === F_TYPES.TEXT) {
       if (filter) {

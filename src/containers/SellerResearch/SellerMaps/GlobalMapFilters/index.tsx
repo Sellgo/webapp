@@ -115,6 +115,7 @@ const GlobalMapFilters = (props: Props) => {
         }}
         loading={isLoadingSellerMap}
         disabled={isLoadingSellerMap}
+        className={styles.countryFilter}
       />
 
       {/* All States */}
@@ -131,6 +132,7 @@ const GlobalMapFilters = (props: Props) => {
         }}
         disabled={country.value !== 'US' || isLoadingSellerMap}
         loading={isLoadingSellerMap}
+        className={styles.countryFilter}
       />
 
       {/* Seller Limit */}
@@ -147,6 +149,7 @@ const GlobalMapFilters = (props: Props) => {
         }}
         disabled={isLoadingSellerMap}
         loading={isLoadingSellerMap}
+        className={styles.limitFilter}
       />
     </div>
   );

@@ -36,6 +36,7 @@ import { F_TYPES } from '../../constants/SellerResearch';
 /* =================================================== */
 /* Action to update the seller map filter options */
 export const updateSellerMapFilterOptions = (payload: UpdateSellerMapFilterPayload) => {
+  console.log(payload);
   return {
     type: actionTypes.UPDATE_SELLER_MAP_FILTERS_DATA,
     payload,
@@ -167,6 +168,7 @@ export const setSellerDatabaseMarketplace = (payload: MarketplaceOption) => {
 
 /* Action to prepare the payload for query */
 export const parseFilters = (sellerDatabaseFilter: any) => {
+  console.log(sellerDatabaseFilter);
   let filterQuery = '';
 
   sellerDatabaseFilter.forEach((filterData: any) => {
@@ -230,6 +232,13 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
         const min = value.min ? `&${value.type}_${value.period}_min=${value.min}` : '';
         const max = value.max ? `&${value.type}_${value.period}_max=${value.max}` : '';
         filterQuery += `${min}${max}`;
+      }
+    }
+
+    if (type === F_TYPES.CATEGORIES) {
+      if (value && value.length > 0) {
+        const categories = value.join('|');
+        filterQuery += `&${categories}`;
       }
     }
   });

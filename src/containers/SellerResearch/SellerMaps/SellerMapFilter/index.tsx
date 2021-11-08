@@ -35,6 +35,8 @@ import {
   SellerMapPayload,
   UpdateSellerMapFilterPayload,
 } from '../../../../interfaces/SellerResearch/SellerMap';
+import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxDropdownFilter';
+import { getProductCategories } from '../../../../constants/ProductResearch/ProductsDatabase';
 
 interface Props {
   sellerMapFilterData: any[];
@@ -44,6 +46,13 @@ interface Props {
 
 const SellerMapFilter = (props: Props) => {
   const { sellerMapFilterData, updateSellerMapFilterOptions, fetchSellersFormap } = props;
+  console.log(sellerMapFilterData);
+
+  /* Get marketplace */
+  const marketplace = parseSellerMapFilterData(sellerMapFilterData, 'marketplace');
+
+  /* Categories */
+  const categories = parseSellerMapFilterData(sellerMapFilterData, 'categories');
 
   /* Merchant Name */
   const merchantName = parseSellerMapFilterData(sellerMapFilterData, 'merchant_name');
@@ -74,6 +83,16 @@ const SellerMapFilter = (props: Props) => {
 
   return (
     <div className={styles.filterWrapper}>
+      {/* Categories */}
+      <CheckboxDropdownFilter
+        filterOptions={getProductCategories(marketplace.value.code)}
+        label="Categories"
+        selectedValues={categories.value}
+        handleChange={(newCategories: string[]) => {
+          handleFilterChange('categories', [...newCategories]);
+        }}
+      />
+
       {/* Merchant Name */}
       <InputFilter
         placeholder="Merchant Name"

@@ -18,3 +18,15 @@
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
+.countryFilter {
+  > div {
+    width: 17rem !important;
+  }
+}
+
+.limitFilter {
+  > div {
+    width: 9rem !important;
+  }
+}

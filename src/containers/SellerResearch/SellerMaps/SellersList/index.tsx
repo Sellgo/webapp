@@ -47,6 +47,7 @@ const SellersList = (props: Props) => {
   } = props;
 
   const [sortBy, setSortBy] = useState('sales_estimate?desc');
+  const [isWholesale, setIsWholesale] = useState<boolean>(false);
 
   useEffect(() => {
     fetchSellersListForMap({});
@@ -63,6 +64,16 @@ const SellersList = (props: Props) => {
       setSortBy(value);
     }
   };
+
+  const handleWholesaleChange = () => {
+    const [sort, sortDir] = sortBy.split('?');
+    fetchSellersListForMap({
+      sort,
+      sortDir: sortDir === 'asc' ? 'asc' : 'desc',
+      isWholesale: !isWholesale,
+    });
+    setIsWholesale(!isWholesale);
+  };
   /* Page Change */
   const handlePageChange = (pageNo: number) => {
     fetchSellersListForMap({
@@ -74,7 +85,12 @@ const SellersList = (props: Props) => {
     <div className={styles.sellersListWrapper}>
       {/* Sellers List Filters */}
       <div className={styles.sellerListFilters}>
-        <ToggleButton isToggled={false} handleChange={() => null} className={styles.toggleButton} />
+        <ToggleButton
+          isToggled={isWholesale}
+          handleChange={handleWholesaleChange}
+          className={styles.toggleButton}
+          options={['Private Label', 'Wholesale']}
+        />
         <SelectionFilter
           label="Sort By"
           placeholder="Sort By"
@@ -83,6 +99,7 @@ const SellersList = (props: Props) => {
           handleChange={(value: string) => {
             handleSortingChange(value);
           }}
+          className={styles.sortByFilter}
         />
       </div>
 

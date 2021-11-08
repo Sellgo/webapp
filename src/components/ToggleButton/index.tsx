@@ -7,10 +7,11 @@ interface Props {
   className?: string;
   isToggled: boolean;
   handleChange: () => void;
+  options: [string, string];
 }
 
 const ToggleButton: React.FC<Props> = props => {
-  const { className, isToggled, handleChange } = props;
+  const { className, isToggled, handleChange, options } = props;
 
   const leftToggleTextClass = `${styles.priceToggleText} ${
     isToggled ? styles.priceToggleText__Active : ''
@@ -28,13 +29,11 @@ const ToggleButton: React.FC<Props> = props => {
       tabIndex={0}
     >
       <div className={leftToggleTextClass}>
-        <p>Pay Monthly</p>
-        {/* <small>Commit Monthly</small> */}
+        <p>{options[0]}</p>
       </div>
 
       <div className={rightToggleTextClass}>
-        <p>Pay Annually</p>
-        {/* <small>Commit Anually</small> */}
+        <p>{options[1]}</p>
       </div>
     </div>
   );
