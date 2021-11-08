@@ -6,6 +6,8 @@ import {
   DEFAULT_MIN_MAX_FILTER,
   DEFAULT_MIN_MAX_PERIOD_REVIEW,
   DEFAULT_US_MARKET,
+  DEFAULT_INCLUDE_EXCLUDE_FILTER,
+  DEFAULT_MIN_MAX_PERIOD_FILTER,
 } from '.';
 
 import { defaultMarketplaces } from '../Settings';
@@ -226,9 +228,26 @@ export const SELLER_MAP_DEFAULT_FILTER = [
 
   // Other filters
   { keyName: 'categories', type: F_TYPES.CATEGORIES, value: [] },
+  { keyName: 'monthly_revenue', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // not added
+  { keyName: 'total_sales', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // not added
   { keyName: 'merchant_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
-
-  { keyName: 'inventory_count', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },
+  { keyName: 'business_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER }, // not added
+  // validated
+  { keyName: 'brands', type: F_TYPES.INPUT_INCLUDE_EXCLUDE, value: DEFAULT_INCLUDE_EXCLUDE_FILTER }, // not added v
+  { keyName: 'asins', type: F_TYPES.INPUT_INCLUDE_EXCLUDE, value: DEFAULT_INCLUDE_EXCLUDE_FILTER }, // not added v
+  { keyName: 'count', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER }, // not added validated
+  { keyName: 'asins_count', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // not added
+  { keyName: 'brands_count', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // not added
+  {
+    keyName: 'growth_percent', // not added validated
+    type: F_TYPES.MIN_MAX_PERIOD,
+    value: DEFAULT_MIN_MAX_PERIOD_FILTER,
+  },
+  {
+    keyName: 'growth_count', // not added validated
+    type: F_TYPES.MIN_MAX_PERIOD,
+    value: DEFAULT_MIN_MAX_PERIOD_FILTER,
+  },
   {
     keyName: 'review',
     type: F_TYPES.MIN_MAX_PERIOD_REVIEW,
