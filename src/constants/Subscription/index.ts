@@ -92,7 +92,7 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
 
 export const PAYMENT_MODES = ['daily', 'monthly', 'yearly'];
 
-export const PROMO_START_DATE = '2021-11-5';
+export const PROMO_START_DATE = '2021-11-10';
 export const PROMO_CAMPAIGNS = ['beta'];
 export const BETA_FIRST_300 = 'OZGVRR33';
 export const BETA_SECOND_700 = 'L9PHLXY1';
