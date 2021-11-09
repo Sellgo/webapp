@@ -26,6 +26,7 @@ interface Props {
   userOnboardingResources: any;
   userOnboarding: boolean;
   disabled?: boolean;
+  popUpPosition?: 'bottom left' | 'bottom right';
 }
 
 const CheckboxDropdown: React.FC<Props> = props => {
@@ -37,6 +38,7 @@ const CheckboxDropdown: React.FC<Props> = props => {
     userOnboardingResources,
     userOnboarding,
     disabled,
+    popUpPosition = 'bottom left',
   } = props;
 
   const handleCheckboxTick = (e: any, data: any) => {
@@ -107,7 +109,7 @@ const CheckboxDropdown: React.FC<Props> = props => {
       <Popup
         className="popup"
         on="click"
-        position="bottom left"
+        position={popUpPosition}
         basic
         trigger={trigger}
         disabled={disabled}

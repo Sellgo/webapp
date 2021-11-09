@@ -59,6 +59,7 @@ const GlobalMapFilters = (props: Props) => {
     fetchSellersForMap,
   } = props;
 
+  console.log(sellerSubscriptionLimits);
   /* Marketplace */
   const marketPlace = parseSellerMapFilterData(sellerMapFilterData, 'marketplace');
 
@@ -79,6 +80,14 @@ const GlobalMapFilters = (props: Props) => {
     await timeout(500);
     fetchSellersForMap({ enableLoader: true });
   };
+
+  let mapDisplayOptions = getMapLimitOptions(sellerSubscriptionLimits.sellerMapDropdownLimit);
+  mapDisplayOptions = mapDisplayOptions.map((option: MarketplaceOption) => {
+    return {
+      ...option,
+      // content: <div>Add upgrade CTA here</div>
+    };
+  });
 
   return (
     <div className={styles.globlMapFilters}>
@@ -140,7 +149,7 @@ const GlobalMapFilters = (props: Props) => {
         label="View"
         placeholder="Seller Limit"
         value={String(sellerLimit.value)}
-        filterOptions={getMapLimitOptions(sellerSubscriptionLimits.sellerMapDropdownLimit)}
+        filterOptions={mapDisplayOptions}
         handleChange={(value: string) => {
           handleFilterChange('max_count', value);
           if (value !== sellerLimit.value) {

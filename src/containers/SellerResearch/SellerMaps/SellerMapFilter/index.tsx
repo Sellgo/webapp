@@ -79,7 +79,7 @@ const SellerMapFilter = (props: Props) => {
   const asins = parseSellerMapFilterData(sellerMapFilterData, 'asin');
 
   /* Fba count */
-  const fbaCount = parseSellerMapFilterData(sellerMapFilterData, 'count');
+  const fbaCount = parseSellerMapFilterData(sellerMapFilterData, 'fba_percent');
 
   /* # of ASINs */
   const numberOfInventory = parseSellerMapFilterData(sellerMapFilterData, 'inventory_count');
@@ -94,7 +94,7 @@ const SellerMapFilter = (props: Props) => {
   const growthCount = parseSellerMapFilterData(sellerMapFilterData, 'growth_count');
 
   /* Review */
-  const review = parseSellerMapFilterData(sellerMapFilterData, 'review');
+  const review = parseSellerMapFilterData(sellerMapFilterData, 'review_ratings');
 
   /* Seller Launched */
   const sellerLaunched = parseSellerMapFilterData(sellerMapFilterData, 'launched');
@@ -167,6 +167,7 @@ const SellerMapFilter = (props: Props) => {
         filterOptions={getProductCategories(marketplace.value.code)}
         label="Categories"
         selectedValues={categories.value}
+        popUpPosition="bottom right"
         handleChange={(newCategories: string[]) => {
           handleFilterChange('categories', [...newCategories]);
         }}
@@ -261,7 +262,7 @@ const SellerMapFilter = (props: Props) => {
         label="FBA %"
         filterOptions={FBA_PERCENT_FILTER_OPTIONS}
         value={fbaCount.value}
-        handleChange={(value: string) => handleFilterChange('count', value)}
+        handleChange={(value: string) => handleFilterChange('fba_percent', value)}
       />
 
       {/* Number of ASINs */}
@@ -345,7 +346,7 @@ const SellerMapFilter = (props: Props) => {
           filterOptions={FILTER_REVIEW_OPTIONS}
           value={review.value.type}
           handleChange={(type: string) => {
-            handleFilterChange('review', {
+            handleFilterChange('review_ratings', {
               ...review.value,
               type,
             });

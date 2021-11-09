@@ -20,7 +20,6 @@ import {
 import { fetchSellersForMap } from '../../../actions/SellerResearch/SellerMap';
 
 /* Containers */
-// import MapFilters from './MapFilters';
 import SellersList from './SellersList';
 import SellerMapFilter from './SellerMapFilter';
 import GlobalMapFilters from './GlobalMapFilters';

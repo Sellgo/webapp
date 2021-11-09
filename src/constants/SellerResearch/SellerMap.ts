@@ -100,11 +100,6 @@ export const DEFAULLT_SELLER_LIMIT_OPTIONS = [
     value: '20000',
     text: 'Top 20,000',
   },
-  {
-    key: '50000',
-    value: '50000',
-    text: 'Top 50,000',
-  },
 ];
 
 // Get the seller map option list
@@ -319,7 +314,7 @@ export const SELLER_MAP_DEFAULT_FILTER = [
   // validated
   { keyName: 'brands', type: F_TYPES.INPUT_INCLUDE_EXCLUDE, value: DEFAULT_INCLUDE_EXCLUDE_FILTER }, // dnot added v
   { keyName: 'asin', type: F_TYPES.INPUT_INCLUDE_EXCLUDE, value: DEFAULT_INCLUDE_EXCLUDE_FILTER }, // dnot added v
-  { keyName: 'count', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // dnot added validated
+  { keyName: 'fba_percent', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // dnot added validated
   { keyName: 'inventory_count', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, //d not added
   { keyName: 'number_brands', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // dnot added
   {
@@ -333,7 +328,7 @@ export const SELLER_MAP_DEFAULT_FILTER = [
     value: DEFAULT_MIN_MAX_PERIOD_FILTER,
   },
   {
-    keyName: 'review',
+    keyName: 'review_ratings',
     type: F_TYPES.MIN_MAX_PERIOD_REVIEW,
     value: DEFAULT_MIN_MAX_PERIOD_REVIEW,
   },
