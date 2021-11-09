@@ -57,6 +57,14 @@ export const LAUNCHED_FILTER_OPTIONS = [
   { label: 'Less than a year', value: '90D-1Y' },
 ];
 
+/* Launched Durations for filters */
+export const FBA_PERCENT_FILTER_OPTIONS = [
+  { label: 'Less than 25%', value: { min: 25 } },
+  { label: '25 - 50%', value: { min: 25, max: 50 } },
+  { label: '50 - 75%', value: { min: 50, max: 75 } },
+  { label: '75 - 100%', value: { min: 75, max: 100 } },
+];
+
 /* Seller Type filter options */
 export const SELLER_TYPE_FILTER_OPTIONS = [
   { label: 'Private Label Seller', value: 'private_label' },

@@ -36,7 +36,6 @@ import { F_TYPES } from '../../constants/SellerResearch';
 /* =================================================== */
 /* Action to update the seller map filter options */
 export const updateSellerMapFilterOptions = (payload: UpdateSellerMapFilterPayload) => {
-  console.log(payload);
   return {
     type: actionTypes.UPDATE_SELLER_MAP_FILTERS_DATA,
     payload,
@@ -168,7 +167,6 @@ export const setSellerDatabaseMarketplace = (payload: MarketplaceOption) => {
 
 /* Action to prepare the payload for query */
 export const parseFilters = (sellerDatabaseFilter: any) => {
-  console.log(sellerDatabaseFilter);
   let filterQuery = '';
 
   sellerDatabaseFilter.forEach((filterData: any) => {

@@ -61,6 +61,21 @@ export const WORLD_MAP_BOUNDS: Location[] = [
 // Seller Limit Options
 export const DEFAULLT_SELLER_LIMIT_OPTIONS = [
   {
+    key: '3',
+    value: '3',
+    text: 'Top 3',
+  },
+  {
+    key: '10',
+    value: '10',
+    text: 'Top 10',
+  },
+  {
+    key: '100',
+    value: '100',
+    text: 'Top 100',
+  },
+  {
     key: '1000',
     value: '1000',
     text: 'Top 1,000',
@@ -228,23 +243,23 @@ export const SELLER_MAP_DEFAULT_FILTER = [
 
   // Other filters
   { keyName: 'categories', type: F_TYPES.CATEGORIES, value: [] },
-  { keyName: 'monthly_revenue', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // not added
-  { keyName: 'total_sales', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // not added
+  { keyName: 'monthly_revenue', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // not added d
+  { keyName: 'sales_estimate', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // not added d
   { keyName: 'merchant_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
-  { keyName: 'business_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER }, // not added
+  { keyName: 'business_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER }, // not added d
   // validated
-  { keyName: 'brands', type: F_TYPES.INPUT_INCLUDE_EXCLUDE, value: DEFAULT_INCLUDE_EXCLUDE_FILTER }, // not added v
-  { keyName: 'asins', type: F_TYPES.INPUT_INCLUDE_EXCLUDE, value: DEFAULT_INCLUDE_EXCLUDE_FILTER }, // not added v
-  { keyName: 'count', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER }, // not added validated
-  { keyName: 'asins_count', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // not added
-  { keyName: 'brands_count', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // not added
+  { keyName: 'brands', type: F_TYPES.INPUT_INCLUDE_EXCLUDE, value: DEFAULT_INCLUDE_EXCLUDE_FILTER }, // dnot added v
+  { keyName: 'asin', type: F_TYPES.INPUT_INCLUDE_EXCLUDE, value: DEFAULT_INCLUDE_EXCLUDE_FILTER }, // dnot added v
+  { keyName: 'count', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // dnot added validated
+  { keyName: 'inventory_count', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, //d not added
+  { keyName: 'number_brands', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // dnot added
   {
-    keyName: 'growth_percent', // not added validated
+    keyName: 'growth_percent', // not added dvalidated
     type: F_TYPES.MIN_MAX_PERIOD,
     value: DEFAULT_MIN_MAX_PERIOD_FILTER,
   },
   {
-    keyName: 'growth_count', // not added validated
+    keyName: 'growth_count', // not added dvalidated
     type: F_TYPES.MIN_MAX_PERIOD,
     value: DEFAULT_MIN_MAX_PERIOD_FILTER,
   },
