@@ -46,7 +46,7 @@ const SellersList = (props: Props) => {
     isLoadingSellersListForMap,
   } = props;
 
-  const [sortBy, setSortBy] = useState('sales_estimate?desc');
+  const [sortBy, setSortBy] = useState('number_brands?desc');
   const [isWholesale, setIsWholesale] = useState<boolean>(false);
 
   useEffect(() => {

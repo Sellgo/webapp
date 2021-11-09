@@ -195,6 +195,16 @@ export const SELLER_MAP_MARKETPLACE = defaultMarketplaces
 /* Sellers List sorting details */
 export const SELLERS_LIST_SORTING_OPTIONS = [
   {
+    key: 'number_brands?desc',
+    value: 'number_brands?desc',
+    text: '# of Brands (High to Low)',
+  },
+  {
+    key: 'number_brands?asc',
+    value: 'number_brands?asc',
+    text: '# of Brands (Low to High)',
+  },
+  {
     key: 'inventory_count?desc',
     value: 'inventory_count?desc',
     text: '# of ASINS (High to Low)',
@@ -207,12 +217,72 @@ export const SELLERS_LIST_SORTING_OPTIONS = [
   {
     key: 'sales_estimate?desc',
     value: 'sales_estimate?desc',
-    text: '# Monthly Revenue (High to Low)',
+    text: 'Revenue (High to Low)',
   },
   {
     key: 'sales_estimate?asc',
     value: 'sales_estimate?asc',
-    text: '# Monthly Revenue (Low to High)',
+    text: 'Revenue (Low to High)',
+  },
+  {
+    key: 'growth_percent?desc',
+    value: 'growth_percent?desc',
+    text: 'Growth % (High to Low)',
+  },
+  {
+    key: 'growth_percent?asc',
+    value: 'growth_percent?asc',
+    text: 'Growth % (Low to High)',
+  },
+  {
+    key: 'growth_count?desc',
+    value: 'growth_count?desc',
+    text: 'Growth # (High to Low)',
+  },
+  {
+    key: 'growth_count?asc',
+    value: 'growth_count?asc',
+    text: 'Growth # (Low to High)',
+  },
+  {
+    key: 'review?desc',
+    value: 'review?desc',
+    text: 'Review # (High to Low)',
+  },
+  {
+    key: 'review?asc',
+    value: 'review?asc',
+    text: 'Review # (Low to High)',
+  },
+  {
+    key: 'seller_rating?desc',
+    value: 'seller_rating?desc',
+    text: 'Rating (High to Low)',
+  },
+  {
+    key: 'seller_rating?asc',
+    value: 'seller_rating?asc',
+    text: 'Rating (Low to High)',
+  },
+  {
+    key: 'launched?desc',
+    value: 'launched?desc',
+    text: 'Launched (High to Low)',
+  },
+  {
+    key: 'launched?asc',
+    value: 'launched?asc',
+    text: 'Launched (Low to High)',
+  },
+  {
+    key: 'count?desc',
+    value: 'count?desc',
+    text: 'FBA % (High to Low)',
+  },
+  {
+    key: 'count?asc',
+    value: 'count?asc',
+    text: 'FBA % (Low to High)',
   },
 ];
 
@@ -243,7 +313,6 @@ export const SELLER_MAP_DEFAULT_FILTER = [
 
   // Other filters
   { keyName: 'categories', type: F_TYPES.CATEGORIES, value: [] },
-  { keyName: 'monthly_revenue', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // not added d
   { keyName: 'sales_estimate', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // not added d
   { keyName: 'merchant_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
   { keyName: 'business_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER }, // not added d

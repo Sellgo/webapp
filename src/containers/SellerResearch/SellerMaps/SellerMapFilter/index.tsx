@@ -67,10 +67,7 @@ const SellerMapFilter = (props: Props) => {
   const categories = parseSellerMapFilterData(sellerMapFilterData, 'categories');
 
   /* Monthly revenue */
-  const monthlyRevenue = parseSellerMapFilterData(sellerMapFilterData, 'monthly_revenue');
-
-  /* Total Sales */
-  const totalSales = parseSellerMapFilterData(sellerMapFilterData, 'sales_estimate');
+  const monthlyRevenue = parseSellerMapFilterData(sellerMapFilterData, 'sales_estimate');
 
   /* Business Name */
   const businessName = parseSellerMapFilterData(sellerMapFilterData, 'business_name');
@@ -182,16 +179,6 @@ const SellerMapFilter = (props: Props) => {
         maxValue={monthlyRevenue.value.max}
         handleChange={(type: string, value: string) => {
           handleFilterChange('monthly_revenue', { ...monthlyRevenue.value, [type]: value });
-        }}
-      />
-
-      {/* Total Sales */}
-      <MinMaxFilter
-        label="Total Sales"
-        minValue={totalSales.value.min}
-        maxValue={totalSales.value.max}
-        handleChange={(type: string, value: string) => {
-          handleFilterChange('sales_estimate', { ...totalSales.value, [type]: value });
         }}
       />
 
