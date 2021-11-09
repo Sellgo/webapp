@@ -12,22 +12,22 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
     subscriptionId: 10, // subscriptionID if needed
     name: 'Starter',
-    monthlyPrice: 49,
-    annualPrice: 348,
+    monthlyPrice: 37,
+    annualPrice: 324,
     isDailyPlan: false,
   },
   {
     subscriptionId: 11, // subscriptionID if needed
     name: 'Professional',
-    monthlyPrice: 99,
-    annualPrice: 828,
+    monthlyPrice: 97,
+    annualPrice: 924,
     isDailyPlan: false,
   },
   {
     subscriptionId: 12, // subscriptionID if needed
     name: 'Team',
-    monthlyPrice: 119,
-    annualPrice: 1068,
+    monthlyPrice: 177,
+    annualPrice: 1764,
     isDailyPlan: false,
   },
 ];
@@ -45,8 +45,8 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   starter: {
     name: 'Starter',
     id: 10,
-    monthlyPrice: 49,
-    annualPrice: 348,
+    monthlyPrice: 37,
+    annualPrice: 324,
     dailyPrice: -1,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
@@ -59,8 +59,8 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   professional: {
     name: 'Professional',
     id: 11,
-    monthlyPrice: 99,
-    annualPrice: 828,
+    monthlyPrice: 97,
+    annualPrice: 924,
     dailyPrice: -1,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
@@ -75,8 +75,8 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   team: {
     name: 'Team',
     id: 12,
-    monthlyPrice: 119,
-    annualPrice: 1068,
+    monthlyPrice: 177,
+    annualPrice: 1764,
     dailyPrice: -1,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
