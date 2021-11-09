@@ -206,7 +206,7 @@ const SellerMapFilter = (props: Props) => {
       <InputFilter
         label="Include Brands"
         placeholder="Enter separated by comma"
-        value={brands.value.include.toUpperCase()}
+        value={brands.value.include}
         handleChange={(value: string) =>
           handleFilterChange('brands', {
             ...brands.value,
@@ -219,7 +219,7 @@ const SellerMapFilter = (props: Props) => {
       <InputFilter
         label="Exclude Brands"
         placeholder="Enter separated by comma"
-        value={brands.value.exclude.toUpperCase()}
+        value={brands.value.exclude}
         handleChange={(value: string) =>
           handleFilterChange('brands', {
             ...brands.value,
