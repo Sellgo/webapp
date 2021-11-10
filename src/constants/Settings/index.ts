@@ -48,7 +48,7 @@ export const defaultMarketplaces = [
     link: 'amazon.com.mx',
     id: 'A1AM78C64UM0Y8',
     disabled: true,
-    currency: '$',
+    currency: 'Mex$',
   },
   {
     name: 'United Arab Emirates',

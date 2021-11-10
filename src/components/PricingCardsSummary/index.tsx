@@ -86,7 +86,7 @@ const PricingPlansSummary = (props: Props) => {
           </p>
 
           {isDailyPlan ? (
-            <h3>$1/ Day</h3>
+            <h3>$1.99/ Day</h3>
           ) : isMonthly ? (
             <h3>${monthlyPrice}/ Mo</h3>
           ) : (
