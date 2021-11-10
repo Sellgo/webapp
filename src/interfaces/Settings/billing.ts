@@ -38,4 +38,5 @@ export type SubscriptionPlanType =
   | 'Starter Plan'
   | 'Team Plan'
   | 'Wholesale Arbitrage $1 Plan'
-  | 'Seller Scout Pro Plan';
+  | 'Seller Scout Pro Plan'
+  | 'Wholesale Arbitrage $1.99 Plan';

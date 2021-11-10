@@ -238,7 +238,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               ssr
               partialVisbile
               deviceType={'desktop'}
-              itemClass="image-item"
+              // itemClass={`image-item `}
               responsive={{
                 desktop: {
                   breakpoint: { max: 3000, min: 1024 },
@@ -261,19 +261,24 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               {SUBSCRIPTION_PLANS.map((subscriptionPlan: SubscriptionPlan) => {
                 const {
                   subscriptionId,
+                  dailyPrice,
                   monthlyPrice,
                   annualPrice,
                   name,
                   isDailyPlan,
+                  isLegacy,
                 } = subscriptionPlan;
+
                 return (
                   <PricingPlansSummary
                     key={subscriptionId}
                     subscriptionId={subscriptionId}
+                    isLegacy={isLegacy}
                     name={name}
                     isMonthly={isMonthly}
                     monthlyPrice={monthlyPrice}
                     annualPrice={annualPrice}
+                    dailyPrice={dailyPrice}
                     isDailyPlan={isDailyPlan}
                     handleChange={() => this.setState({ isMonthly: !isMonthly })}
                     // seller subscriptions

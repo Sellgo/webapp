@@ -59,6 +59,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
     hasActivePlan,
     hasPaymentMethod,
   } = props;
+  console.log(props);
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
 
   /* Calculation of quotas */
