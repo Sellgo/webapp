@@ -18,7 +18,6 @@ import Auth from '../../../components/Auth/Auth';
 /* Constants */
 import { Name, validateEmail } from '../../../constants/Validators';
 import {
-  BETA_FIRST_300,
   BETA_SECOND_700,
   PROMO_START_DATE,
   getSubscriptionID,
@@ -119,10 +118,7 @@ function CheckoutForm(props: MyProps) {
         const response = await Axios.get(
           `${AppConfig.BASE_URL_API}customer-count?limit_date=${limitDate}`
         );
-        if (response.data.count < 300) {
-          setPromoCode(BETA_FIRST_300);
-          checkPromoCode(BETA_FIRST_300, getSubscriptionID(accountType), paymentMode);
-        } else if (response.data.count < 1000) {
+        if (response.data.count < 1000) {
           setPromoCode(BETA_SECOND_700);
           checkPromoCode(BETA_SECOND_700, getSubscriptionID(accountType), paymentMode);
         }
