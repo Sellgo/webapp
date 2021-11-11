@@ -49,7 +49,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     dailyPrice: 0,
     isLegacy: true,
     monthlyPrice: 37,
-    annualPrice: 324,
+    annualPrice: 323,
     isDailyPlan: false,
   },
   {
@@ -58,7 +58,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     dailyPrice: 0,
     isLegacy: true,
     monthlyPrice: 97,
-    annualPrice: 924,
+    annualPrice: 971,
     isDailyPlan: false,
   },
   {
@@ -67,7 +67,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     dailyPrice: 0,
     isLegacy: true,
     monthlyPrice: 177,
-    annualPrice: 1764,
+    annualPrice: 1763,
     isDailyPlan: false,
   },
 ];
