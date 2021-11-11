@@ -269,6 +269,17 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                   isLegacy,
                 } = subscriptionPlan;
 
+                /* Only show legacy plan is user is currently subscribed to legacy plan */
+                if (!subscribedSubscription && subscriptionPlan.isLegacy) {
+                  return null;
+                } else if (
+                  subscribedSubscription &&
+                  parseInt(subscribedSubscription.id) !== subscriptionId &&
+                  subscriptionPlan.isLegacy
+                ) {
+                  return null;
+                }
+
                 return (
                   <PricingPlansSummary
                     key={subscriptionId}

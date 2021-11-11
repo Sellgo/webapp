@@ -50,7 +50,7 @@ const PricingPlansSummary = (props: Props) => {
     subscriptionType,
     disableCancelOption,
   } = props;
-
+  console.log(props);
   let isSubscribed;
   if (DAILY_SUBSCRIPTION_PLANS.includes(subscriptionId)) {
     isSubscribed = subscribedSubscription && subscribedSubscription.id === subscriptionId;
@@ -69,11 +69,6 @@ const PricingPlansSummary = (props: Props) => {
     sellerSubscription &&
     sellerSubscription.status === 'pending';
 
-  /* Only show legacy plan is user is currently subscribed to legacy plan */
-  if (isLegacy && !isSubscribed) {
-    return null;
-  }
-
   return (
     <div
       className={`
@@ -89,7 +84,7 @@ const PricingPlansSummary = (props: Props) => {
           {/* if not a daily plan  */}
 
           <p style={{ opacity: isDailyPlan ? 0 : 1 }}>
-            Starts At
+            Starts At&nbsp;
             {!isMonthly && <span className={styles.strikeText}>${monthlyPrice}</span>}
           </p>
 
@@ -117,7 +112,7 @@ const PricingPlansSummary = (props: Props) => {
 
       {/* Pricing cCtions */}
       <div className={styles.pricingCardsSummaryActions}>
-        {!isDailyPlan && (
+        {!isDailyPlan && !isLegacy && (
           <div className={styles.priceToogleWrapper}>
             <PricePlanToggleButton isMonthly={isMonthly} handleChange={handleChange} />
           </div>
@@ -141,13 +136,17 @@ const PricingPlansSummary = (props: Props) => {
           </div>
         )}
 
-        {!isSubscribed && isSubscriptionPaid(subscriptionType) && (
+        {!isSubscribed && isSubscriptionPaid(subscriptionType) && !isLegacy && (
           <button
             className={`${styles.button} ${styles.button__changePlan}`}
             onClick={() => changePlan({ name, id: subscriptionId })}
           >
             Change Plan
           </button>
+        )}
+
+        {!isSubscribed && isSubscriptionPaid(subscriptionType) && isLegacy && (
+          <div className={`${styles.button} ${styles.button__pendingPlan}`}>Discontinued</div>
         )}
 
         {!isSubscribed && isSubscriptionNotPaid(subscriptionType) && (

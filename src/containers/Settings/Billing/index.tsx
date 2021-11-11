@@ -141,7 +141,7 @@ const Billing = (props: Props) => {
     fetchQuotas();
     fetchTransactionHistoryPastYear();
   }, []);
-  console.log(subscriptionPlan);
+
   return (
     <>
       <PageHeader
