@@ -1,38 +1,66 @@
 [
   {
     "Tutorial": {
-      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
-      "displayText": "Tutorial | 5-min watch"
+      "youtubeLink": "",
+      "displayText": ""
     }
   },
 
   {
     "Add Keywords": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "tooltipText": ""
+    },
+    "Word Count": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of keyword(s)"
+    },
+    "Competing Products": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of product showed in customer searches from using that keyword(s)"
+    },
+    "Title Density": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of page 1 products from using that keyword(s) in their title"
+    },
+    "Amazon Choice": {
+      "youtubeLink": "",
+      "tooltipText": "Filters keyword results based on the Amazon Choice status"
+    },
+    "Include Search Terms that contain": {
+      "youtubeLink": "",
+      "tooltipText": "Show popular search terms that contain keyword(s) (separate with comma)"
+    },
+    "Exclude Search Terms that contain": {
+      "youtubeLink": "",
+      "tooltipText": "Show popular search terms that does not contain keyword(s) (separate with comma)"
     }
   },
 
   {
+    "amazon_choice": {
+      "youtubeLink": "",
+      "tooltipText": ""
+    },
     "search_volume": {
       "youtubeLink": "",
-      "tooltipText": "Search Volume | 1 min watch"
+      "tooltipText": "Estimated total count the keyword(s) is searched monthly on Amazon"
     },
     "sponsored_asins": {
-      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
-      "tooltipText": "Sponsored ASIN's | 2 min watch"
+      "youtubeLink": "",
+      "tooltipText": "Total count of ASINs running sponsored ads from using that keyword(s)"
     },
     "competing_products": {
-      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
-      "tooltipText": "Competing Products | 2 min watch"
+      "youtubeLink": "",
+      "tooltipText": "Total count of product showed in customer searches from using that keyword(s)"
     },
     "word_count": {
-      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
-      "tooltipText": "Word Count | 2 min watch"
+      "youtubeLink": "",
+      "tooltipText": "Total count of keyword(s)"
     },
     "title_density": {
       "youtubeLink": "",
-      "tooltipText": ""
+      "tooltipText": "Total count of page 1 products from using that keyword(s) in their title"
     }
   },
 
