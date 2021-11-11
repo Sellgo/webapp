@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { Loader, Segment } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -14,7 +15,10 @@ import {
 } from '../../../../constants/SellerResearch';
 
 /* Selectors */
-import { getSellerMapFilterData } from '../../../../selectors/SellerResearch/SellerMap';
+import {
+  getSellerMapFilterData,
+  getIsLoadingSellerForMap,
+} from '../../../../selectors/SellerResearch/SellerMap';
 
 /* Actions */
 import {
@@ -45,6 +49,7 @@ import {
 import { isValidAsin } from '../../../../constants';
 
 interface Props {
+  isLoadingSellersForMap: boolean;
   sellerMapFilterData: any[];
   showFilter: boolean;
   updateSellerMapFilterOptions: (payload: UpdateSellerMapFilterPayload) => void;
@@ -54,6 +59,7 @@ interface Props {
 
 const SellerMapFilter = (props: Props) => {
   const {
+    isLoadingSellersForMap,
     sellerMapFilterData,
     showFilter,
     updateSellerMapFilterOptions,
@@ -90,10 +96,7 @@ const SellerMapFilter = (props: Props) => {
   const brandsCount = parseSellerMapFilterData(sellerMapFilterData, 'number_brands');
 
   /* Growth percent */
-  const growthPercent = parseSellerMapFilterData(sellerMapFilterData, 'growth_percent');
-
-  /* Growth count */
-  const growthCount = parseSellerMapFilterData(sellerMapFilterData, 'growth_count');
+  const growthPercent = parseSellerMapFilterData(sellerMapFilterData, 'growth');
 
   /* Review */
   const review = parseSellerMapFilterData(sellerMapFilterData, 'review_ratings');
@@ -164,6 +167,16 @@ const SellerMapFilter = (props: Props) => {
 
   return (
     <div className={`${styles.filterWrapper} ${!showFilter ? styles.filterWrapper__closed : ''}`}>
+      {isLoadingSellersForMap && (
+        <Segment className={styles.sellerMapLoader}>
+          <Loader
+            className={showFilter ? styles.sellerMapLoader__loader__small : ''}
+            active={isLoadingSellersForMap}
+            size="large"
+            content="Populating sellers on map..."
+          />
+        </Segment>
+      )}
       {/* Categories */}
       <CheckboxDropdownFilter
         filterOptions={getProductCategories(marketplace.value.code)}
@@ -181,7 +194,7 @@ const SellerMapFilter = (props: Props) => {
         minValue={monthlyRevenue.value.min}
         maxValue={monthlyRevenue.value.max}
         handleChange={(type: string, value: string) => {
-          handleFilterChange('monthly_revenue', { ...monthlyRevenue.value, [type]: value });
+          handleFilterChange('sales_estimate', { ...monthlyRevenue.value, [type]: value });
         }}
       />
 
@@ -294,7 +307,7 @@ const SellerMapFilter = (props: Props) => {
           minValue={growthPercent.value.min}
           maxValue={growthPercent.value.max}
           handleChange={(type: string, value: string) => {
-            handleFilterChange('growth_percent', {
+            handleFilterChange('growth', {
               ...growthPercent.value,
               [type]: value,
             });
@@ -306,34 +319,8 @@ const SellerMapFilter = (props: Props) => {
           value={growthPercent.value.period}
           filterOptions={FILTER_PERIOD_DURATIONS}
           handleChange={(period: string) => {
-            handleFilterChange('growth_percent', {
+            handleFilterChange('growth', {
               ...growthPercent.value,
-              period,
-            });
-          }}
-        />
-      </div>
-
-      {/* Growth count */}
-      <div className={styles.groupFilters}>
-        <MinMaxFilter
-          label="Growth Count"
-          minValue={growthCount.value.min}
-          maxValue={growthCount.value.max}
-          handleChange={(type: string, value: string) => {
-            handleFilterChange('growth_count', {
-              ...growthCount.value,
-              [type]: value,
-            });
-          }}
-        />
-        <PeriodFilter
-          placeholder="30D"
-          value={growthCount.value.period}
-          filterOptions={FILTER_PERIOD_DURATIONS}
-          handleChange={(period: string) => {
-            handleFilterChange('growth_count', {
-              ...growthCount.value,
               period,
             });
           }}
@@ -360,7 +347,7 @@ const SellerMapFilter = (props: Props) => {
             minValue={review.value.min}
             maxValue={review.value.max}
             handleChange={(type: string, value: string) => {
-              handleFilterChange('review', {
+              handleFilterChange('review_ratings', {
                 ...review.value,
                 [type]: value,
               });
@@ -371,7 +358,7 @@ const SellerMapFilter = (props: Props) => {
             value={review.value.period}
             filterOptions={FILTER_PERIOD_DURATIONS}
             handleChange={(period: string) => {
-              handleFilterChange('review', {
+              handleFilterChange('review_ratings', {
                 ...review.value,
                 period,
               });
@@ -409,6 +396,7 @@ const SellerMapFilter = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
   return {
+    isLoadingSellersForMap: getIsLoadingSellerForMap(state),
     sellerMapFilterData: getSellerMapFilterData(state),
   };
 };

@@ -24,6 +24,7 @@ import { getSellerSubscriptionLimits } from '../../../../selectors/Subscription'
 /* Actions */
 import {
   fetchSellersForMap,
+  fetchSellersListForMap,
   updateSellerMapFilterOptions,
 } from '../../../../actions/SellerResearch/SellerMap';
 
@@ -48,6 +49,7 @@ interface Props {
   sellerSubscriptionLimits: SellerSubscriptionLimits;
   updateSellerMapFilterOptions: (payload: UpdateSellerMapFilterPayload) => void;
   fetchSellersForMap: (payload: SellerMapPayload) => void;
+  fetchSellersListForMap: () => void;
 }
 
 const GlobalMapFilters = (props: Props) => {
@@ -57,6 +59,7 @@ const GlobalMapFilters = (props: Props) => {
     sellerSubscriptionLimits,
     updateSellerMapFilterOptions,
     fetchSellersForMap,
+    fetchSellersListForMap,
   } = props;
 
   /* Marketplace */
@@ -73,11 +76,13 @@ const GlobalMapFilters = (props: Props) => {
 
   const handleFilterChange = (keyName: any, value: any) => {
     updateSellerMapFilterOptions({ keyName, value });
+    fetchSellersListForMap();
   };
 
   const handleRefectSellers = async () => {
     await timeout(500);
     fetchSellersForMap({ enableLoader: true });
+    fetchSellersListForMap();
   };
 
   let mapDisplayOptions = getMapLimitOptions(sellerSubscriptionLimits.sellerMapDropdownLimit);
@@ -176,6 +181,7 @@ export const mapDispatchToProps = (dispatch: any) => {
     updateSellerMapFilterOptions: (payload: UpdateSellerMapFilterPayload) =>
       dispatch(updateSellerMapFilterOptions(payload)),
     fetchSellersForMap: (payload: SellerMapPayload) => dispatch(fetchSellersForMap(payload)),
+    fetchSellersListForMap: () => dispatch(fetchSellersListForMap({})),
   };
 };
 

@@ -190,14 +190,14 @@ export const SELLER_MAP_MARKETPLACE = defaultMarketplaces
 /* Sellers List sorting details */
 export const SELLERS_LIST_SORTING_OPTIONS = [
   {
-    key: 'number_brands?desc',
-    value: 'number_brands?desc',
-    text: '# of Brands (High to Low)',
+    key: 'seller_id?asc',
+    value: 'seller_id?asc',
+    text: 'Seller ID (Low to High)',
   },
   {
-    key: 'number_brands?asc',
-    value: 'number_brands?asc',
-    text: '# of Brands (Low to High)',
+    key: 'seller_id?desc',
+    value: 'seller_id?desc',
+    text: 'Seller ID (High to Low)',
   },
   {
     key: 'inventory_count?desc',
@@ -220,33 +220,23 @@ export const SELLERS_LIST_SORTING_OPTIONS = [
     text: 'Revenue (Low to High)',
   },
   {
-    key: 'growth_percent?desc',
-    value: 'growth_percent?desc',
+    key: 'growth_month?desc',
+    value: 'growth_month?desc',
     text: 'Growth % (High to Low)',
   },
   {
-    key: 'growth_percent?asc',
-    value: 'growth_percent?asc',
+    key: 'growth_month?asc',
+    value: 'growth_month?asc',
     text: 'Growth % (Low to High)',
   },
   {
-    key: 'growth_count?desc',
-    value: 'growth_count?desc',
-    text: 'Growth # (High to Low)',
-  },
-  {
-    key: 'growth_count?asc',
-    value: 'growth_count?asc',
-    text: 'Growth # (Low to High)',
-  },
-  {
-    key: 'review?desc',
-    value: 'review?desc',
+    key: 'count_30_days?desc',
+    value: 'count_30_days?desc',
     text: 'Review # (High to Low)',
   },
   {
-    key: 'review?asc',
-    value: 'review?asc',
+    key: 'count_30_days?asc',
+    value: 'count_30_days?asc',
     text: 'Review # (Low to High)',
   },
   {
@@ -270,13 +260,13 @@ export const SELLERS_LIST_SORTING_OPTIONS = [
     text: 'Launched (Low to High)',
   },
   {
-    key: 'count?desc',
-    value: 'count?desc',
+    key: 'fba_percent?desc',
+    value: 'fba_percent?desc',
     text: 'FBA % (High to Low)',
   },
   {
-    key: 'count?asc',
-    value: 'count?asc',
+    key: 'fba_percent?asc',
+    value: 'fba_percent?asc',
     text: 'FBA % (Low to High)',
   },
 ];
@@ -318,12 +308,7 @@ export const SELLER_MAP_DEFAULT_FILTER = [
   { keyName: 'inventory_count', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, //d not added
   { keyName: 'number_brands', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // dnot added
   {
-    keyName: 'growth_percent', // not added dvalidated
-    type: F_TYPES.MIN_MAX_PERIOD,
-    value: DEFAULT_MIN_MAX_PERIOD_FILTER,
-  },
-  {
-    keyName: 'growth_count', // not added dvalidated
+    keyName: 'growth', // not added dvalidated
     type: F_TYPES.MIN_MAX_PERIOD,
     value: DEFAULT_MIN_MAX_PERIOD_FILTER,
   },
