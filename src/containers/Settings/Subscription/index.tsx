@@ -238,7 +238,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               ssr
               partialVisbile
               deviceType={'desktop'}
-              // itemClass={`image-item `}
+              itemClass="image-item"
               responsive={{
                 desktop: {
                   breakpoint: { max: 3000, min: 1024 },
