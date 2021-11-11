@@ -59,7 +59,6 @@ const GlobalMapFilters = (props: Props) => {
     fetchSellersForMap,
   } = props;
 
-  console.log(sellerSubscriptionLimits);
   /* Marketplace */
   const marketPlace = parseSellerMapFilterData(sellerMapFilterData, 'marketplace');
 
