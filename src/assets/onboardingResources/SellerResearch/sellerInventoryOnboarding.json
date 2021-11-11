@@ -1,34 +1,111 @@
 [
   {
     "Tutorial": {
-      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
-      "displayText": "Tutorial | 5-min watch"
+      "youtubeLink": "",
+      "displayText": ""
     }
   },
 
   {
-    "Choose Marketplace": {
+    "Search for Sellers on Amazon": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
-    },
-    "Country": {
-      "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
-    },
+      "tooltipText": "Find sellers on Amazon.com"
+    }
+  },
 
-    "U.S. States": {
+  {
+    "Seller Information": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "tooltipText": "Seller basic information"
     },
-
-    "Zipcode": {
+    "inventory_count": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "tooltipText": "Total count of ASINs that the sellers carry"
     },
-
-    "View": {
+    "total_brands": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "tooltipText": "Total count of brands that the sellers carry"
+    },
+    "seller_rating": {
+      "youtubeLink": "",
+      "tooltipText": "Average of rating"
+    },
+    "review_ratings": {
+      "youtubeLink": "",
+      "tooltipText": "Percentage of rating"
+    },
+    "count_30_days": {
+      "youtubeLink": "",
+      "tooltipText": "Total review count during the last 1 month"
+    },
+    "count_90_days": {
+      "youtubeLink": "",
+      "tooltipText": "Total review count during the last 3 month"
+    },
+    "count_12_month": {
+      "youtubeLink": "",
+      "tooltipText": "Total review count during the last 1 year"
+    },
+    "count_lifetime": {
+      "youtubeLink": "",
+      "tooltipText": "Total review count"
+    }
+  },
+
+  {
+    "Export": {
+      "youtubeLink": "",
+      "tooltipText": "Export all the table results"
+    }
+  },
+
+  {
+    "buybox_competition": {
+      "youtubeLink": "",
+      "tooltipText": "Total sellers inside the Buy Box"
+    },
+    "product_inventory_information": {
+      "youtubeLink": "",
+      "tooltipText": "Product basic information"
+    },
+    "price": {
+      "youtubeLink": "",
+      "tooltipText": "Last detected price"
+    },
+    "average_product_rating": {
+      "youtubeLink": "",
+      "tooltipText": "Average of product rating"
+    },
+    "percentage_product_rating": {
+      "youtubeLink": "",
+      "tooltipText": "Percentage of product rating"
+    },
+    "total_product_review": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of product review"
+    }
+  },
+
+  {
+    "seller_name": {
+      "youtubeLink": "",
+      "tooltipText": "Seller name on product listing"
+    },
+    "seller_id": {
+      "youtubeLink": "",
+      "tooltipText": "Unique seller ID by marketplace"
+    },
+    "brands": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of brands that the sellers carry"
+    },
+    "review_ratings": {
+      "youtubeLink": "",
+      "tooltipText": "Percentage of rating"
+    },
+    "seller_rating": {
+      "youtubeLink": "",
+      "tooltipText": "Average of rating"
     }
   }
 ]
