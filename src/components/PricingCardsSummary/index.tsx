@@ -50,7 +50,7 @@ const PricingPlansSummary = (props: Props) => {
     subscriptionType,
     disableCancelOption,
   } = props;
-  console.log(props);
+
   let isSubscribed;
   if (DAILY_SUBSCRIPTION_PLANS.includes(subscriptionId)) {
     isSubscribed = subscribedSubscription && subscribedSubscription.id === subscriptionId;

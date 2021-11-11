@@ -138,6 +138,11 @@ const ChangePlanModal = (props: Props) => {
                   name,
                   isDailyPlan,
                 } = subscriptionPlan;
+
+                if (subscriptionPlan.isLegacy) {
+                  return null;
+                }
+
                 return (
                   <PricingPlansSummary
                     disableCancelOption
