@@ -12,6 +12,12 @@
   padding-bottom: 10rem !important;
   min-width: 330px;
   position: relative;
+
+  &__closed {
+    position: static;
+    min-width: 0;
+    width: 0;
+  }
 }
 
 .filterPeriod {

@@ -46,6 +46,7 @@ import { isValidAsin } from '../../../../constants';
 
 interface Props {
   sellerMapFilterData: any[];
+  showFilter: boolean;
   updateSellerMapFilterOptions: (payload: UpdateSellerMapFilterPayload) => void;
   fetchSellersFormap: (payload: SellerMapPayload) => void;
   fetchSellersForSellerList: () => void;
@@ -54,6 +55,7 @@ interface Props {
 const SellerMapFilter = (props: Props) => {
   const {
     sellerMapFilterData,
+    showFilter,
     updateSellerMapFilterOptions,
     fetchSellersFormap,
     fetchSellersForSellerList,
@@ -161,7 +163,7 @@ const SellerMapFilter = (props: Props) => {
   };
 
   return (
-    <div className={styles.filterWrapper}>
+    <div className={`${styles.filterWrapper} ${!showFilter ? styles.filterWrapper__closed : ''}`}>
       {/* Categories */}
       <CheckboxDropdownFilter
         filterOptions={getProductCategories(marketplace.value.code)}
