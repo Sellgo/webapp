@@ -46,7 +46,7 @@ const SellersList = (props: Props) => {
     isLoadingSellersListForMap,
   } = props;
 
-  const [sortBy, setSortBy] = useState('number_brands?desc');
+  const [sortBy, setSortBy] = useState('seller_id?asc');
   const [isWholesale, setIsWholesale] = useState<boolean>(false);
 
   useEffect(() => {
@@ -99,7 +99,6 @@ const SellersList = (props: Props) => {
           handleChange={(value: string) => {
             handleSortingChange(value);
           }}
-          className={styles.sortByFilter}
         />
       </div>
 

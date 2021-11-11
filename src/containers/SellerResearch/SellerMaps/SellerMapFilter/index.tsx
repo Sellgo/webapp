@@ -168,13 +168,8 @@ const SellerMapFilter = (props: Props) => {
   return (
     <div className={`${styles.filterWrapper} ${!showFilter ? styles.filterWrapper__closed : ''}`}>
       {isLoadingSellersForMap && (
-        <Segment className={styles.sellerMapLoader}>
-          <Loader
-            className={showFilter ? styles.sellerMapLoader__loader__small : ''}
-            active={isLoadingSellersForMap}
-            size="large"
-            content="Populating sellers on map..."
-          />
+        <Segment className={styles.sellerFiltersLoader}>
+          <Loader active={isLoadingSellersForMap} size="medium" content="" />
         </Segment>
       )}
       {/* Categories */}

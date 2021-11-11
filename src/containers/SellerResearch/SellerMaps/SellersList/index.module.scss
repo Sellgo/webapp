@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 85vh;
+  height: calc(100vh - 15rem);
   padding-bottom: 2rem;
 }
 
@@ -30,7 +30,7 @@
     height: 38px;
   }
 
-  @media only screen and(max-width: 1750px) {
+  @media only screen and(max-width: 1770px) {
     .toggleButton {
       margin-bottom: 18px;
     }
@@ -62,20 +62,4 @@
   width: 30vw;
   margin-top: 10px;
   margin-right: 10px;
-}
-
-.sortByFilter {
-  min-width: 0 !important;
-
-  > div {
-    width: 13rem !important;
-  }
-
-  @media only screen and(max-width: 1750px) {
-    width: 15rem !important;
-
-    > div {
-      width: 15rem !important;
-    }
-  }
 }

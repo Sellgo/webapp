@@ -6,7 +6,7 @@
   grid-template-rows: auto;
   grid-row-gap: 18px;
   align-content: flex-start;
-  height: calc(85vh - 4.5rem) !important;
+  height: calc(100vh - 15rem);
   overflow-y: scroll;
   overflow-x: hidden;
   padding-bottom: 10rem !important;
@@ -46,4 +46,19 @@
     width: max-content !important;
     margin: 0 !important;
   }
+}
+
+.sellerFiltersLoader {
+  border: none !important;
+  overflow-y: none !important;
+  position: absolute !important;
+  min-width: 340px;
+  background: #fff;
+  z-index: 99999 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.8;
+  margin: 0 !important;
+  min-height: 100vh;
 }
