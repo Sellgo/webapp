@@ -50,7 +50,11 @@ const SellersList = (props: Props) => {
   } = props;
 
   const [sortBy, setSortBy] = useState('seller_id?asc');
-  const [isWholesale, setIsWholesale] = useState<boolean>(false);
+  const [isWholesale, setIsWholesale] = useState<boolean>(true);
+
+  useEffect(() => {
+    setIsWholesale(true);
+  }, [isLoadingSellersForMap]);
 
   useEffect(() => {
     fetchSellersListForMap({});

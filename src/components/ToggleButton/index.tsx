@@ -14,11 +14,11 @@ const ToggleButton: React.FC<Props> = props => {
   const { className, isToggled, handleChange, options } = props;
 
   const leftToggleTextClass = `${styles.priceToggleText} ${
-    isToggled ? styles.priceToggleText__Active : ''
+    !isToggled ? styles.priceToggleText__Active : ''
   }`;
 
   const rightToggleTextClass = `${styles.priceToggleText} ${
-    !isToggled ? styles.priceToggleText__Active : ''
+    isToggled ? styles.priceToggleText__Active : ''
   }`;
 
   return (
