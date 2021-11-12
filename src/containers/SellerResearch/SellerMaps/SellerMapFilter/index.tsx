@@ -70,6 +70,7 @@ const SellerMapFilter = (props: Props) => {
     fetchSellersFormap,
     fetchSellersForSellerList,
   } = props;
+
   const [asinsError, setAsinsError] = useState(DEFAULT_INCLUDE_EXCLUDE_ERROR);
 
   /* Get marketplace */
@@ -114,7 +115,7 @@ const SellerMapFilter = (props: Props) => {
   /* Seller Ratings */
   const sellerRatings = parseSellerMapFilterData(sellerMapFilterData, 'seller_rating');
 
-  /* Merchant Name???/? */
+  /* Merchant Name */
   const merchantName = parseSellerMapFilterData(sellerMapFilterData, 'merchant_name');
 
   /* Include Asin validation check */
@@ -175,7 +176,11 @@ const SellerMapFilter = (props: Props) => {
   return (
     <div className={`${styles.filterWrapper} ${!showFilter ? styles.filterWrapper__closed : ''}`}>
       {isLoadingSellersForMap && (
-        <Segment className={styles.sellerFiltersLoader}>
+        <Segment
+          className={`${styles.sellerFiltersLoader} ${
+            !showFilter ? styles.sellerFiltersLoader__closed : ''
+          }`}
+        >
           <Loader active={isLoadingSellersForMap} size="medium" content="" />
         </Segment>
       )}
@@ -401,6 +406,7 @@ const SellerMapFilter = (props: Props) => {
         onFind={handleSubmit}
         onReset={handleReset}
         className={styles.filtersSubmit}
+        disabled={asinsError.include || asinsError.exclude}
       />
     </div>
   );
