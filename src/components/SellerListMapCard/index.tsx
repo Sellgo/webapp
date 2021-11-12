@@ -4,7 +4,7 @@ import React, { memo } from 'react';
 import styles from './index.module.scss';
 
 /* Constants */
-import { getMarketplaceFlag, getCountryFlag } from '../../constants/Settings';
+import { getMarketplaceFlag } from '../../constants/Settings';
 
 /* Utils */
 import {
@@ -135,7 +135,7 @@ const SellerListMapCard = (props: Props) => {
           <p>
             Country:&nbsp;
             <span>{country}</span>
-            <img src={getCountryFlag(country ? country : '')} alt="Seller country Flag" />
+            <i className={`${styles.flag} ${country ? country.toLocaleLowerCase() : 'us'} flag`} />
           </p>
         </div>
       </div>
