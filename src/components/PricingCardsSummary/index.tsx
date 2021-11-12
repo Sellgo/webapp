@@ -8,9 +8,11 @@ import styles from './index.module.scss';
 
 interface Props {
   subscriptionId: number;
+  isLegacy?: boolean;
   name: string;
   isMonthly: boolean;
   monthlyPrice: number;
+  dailyPrice: number;
   annualPrice: number;
   isDailyPlan: boolean;
   handleChange: () => void;
@@ -30,8 +32,10 @@ interface Props {
 const PricingPlansSummary = (props: Props) => {
   const {
     subscriptionId,
+    isLegacy,
     name,
     isMonthly,
+    dailyPrice,
     monthlyPrice,
     annualPrice,
     isDailyPlan,
@@ -61,15 +65,14 @@ const PricingPlansSummary = (props: Props) => {
 
   const isPending =
     subscribedSubscription &&
-    subscriptionId === subscribedSubscription.id &&
+    subscribedSubscription.id === subscriptionId &&
     sellerSubscription &&
     sellerSubscription.status === 'pending';
 
   return (
     <div
-      className={`${styles.pricingCardsSummaryWrapper} ${
-        isSubscribed ? styles.subscribedPlan : ''
-      }`}
+      className={`
+      ${styles.pricingCardsSummaryWrapper} ${isSubscribed ? styles.subscribedPlan : ''}`}
     >
       {/* Pricing Details */}
       <div className={styles.pricingCardsSummaryDetails}>
@@ -81,12 +84,12 @@ const PricingPlansSummary = (props: Props) => {
           {/* if not a daily plan  */}
 
           <p style={{ opacity: isDailyPlan ? 0 : 1 }}>
-            Starts At
+            Starts At&nbsp;
             {!isMonthly && <span className={styles.strikeText}>${monthlyPrice}</span>}
           </p>
 
           {isDailyPlan ? (
-            <h3>$1.99/ Day</h3>
+            <h3>${dailyPrice}/ Day</h3>
           ) : isMonthly ? (
             <h3>${monthlyPrice}/ Mo</h3>
           ) : (
@@ -94,7 +97,7 @@ const PricingPlansSummary = (props: Props) => {
           )}
 
           {isDailyPlan ? (
-            <p className={styles.billedAtPrice}>Billed at $1</p>
+            <p className={styles.billedAtPrice}>Billed at ${dailyPrice}</p>
           ) : !isMonthly ? (
             <p className={styles.billedAtPrice}>
               Billed At <span className={styles.strikeText}>${monthlyPrice * 12}</span>
@@ -109,7 +112,7 @@ const PricingPlansSummary = (props: Props) => {
 
       {/* Pricing cCtions */}
       <div className={styles.pricingCardsSummaryActions}>
-        {!isDailyPlan && (
+        {!isDailyPlan && !isLegacy && (
           <div className={styles.priceToogleWrapper}>
             <PricePlanToggleButton isMonthly={isMonthly} handleChange={handleChange} />
           </div>
@@ -133,13 +136,17 @@ const PricingPlansSummary = (props: Props) => {
           </div>
         )}
 
-        {!isSubscribed && isSubscriptionPaid(subscriptionType) && (
+        {!isSubscribed && isSubscriptionPaid(subscriptionType) && !isLegacy && (
           <button
             className={`${styles.button} ${styles.button__changePlan}`}
             onClick={() => changePlan({ name, id: subscriptionId })}
           >
             Change Plan
           </button>
+        )}
+
+        {!isSubscribed && isSubscriptionPaid(subscriptionType) && isLegacy && (
+          <div className={`${styles.button} ${styles.button__pendingPlan}`}>Discontinued</div>
         )}
 
         {!isSubscribed && isSubscriptionNotPaid(subscriptionType) && (

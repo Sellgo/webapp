@@ -12,6 +12,7 @@ export interface PromoCode {
 export interface SummaryDetails {
   name: string;
   subDescription: string;
+  idWithLegacyPlans: number[];
   benefits: string[];
   id: number;
   monthlyPrice: number;
@@ -20,8 +21,10 @@ export interface SummaryDetails {
 }
 
 export interface SubscriptionPlan {
+  isLegacy?: boolean;
   subscriptionId: number;
   name: string;
+  dailyPrice: number;
   monthlyPrice: number;
   annualPrice: number;
   isDailyPlan: boolean;

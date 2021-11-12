@@ -5,6 +5,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
     subscriptionId: 13, // subscriptionID if needed
     name: 'Wholesale Arbitrage $1.99',
+    dailyPrice: 1.99,
     monthlyPrice: 0,
     annualPrice: 0,
     isDailyPlan: true,
@@ -12,6 +13,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
     subscriptionId: 10, // subscriptionID if needed
     name: 'Starter',
+    dailyPrice: 0,
     monthlyPrice: 37,
     annualPrice: 324,
     isDailyPlan: false,
@@ -19,6 +21,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
     subscriptionId: 11, // subscriptionID if needed
     name: 'Professional',
+    dailyPrice: 0,
     monthlyPrice: 97,
     annualPrice: 924,
     isDailyPlan: false,
@@ -26,8 +29,45 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
     subscriptionId: 12, // subscriptionID if needed
     name: 'Team',
+    dailyPrice: 0,
     monthlyPrice: 177,
     annualPrice: 1764,
+    isDailyPlan: false,
+  },
+  {
+    subscriptionId: 7, // subscriptionID if needed
+    name: 'Wholesale Arbitrage $1 (D)',
+    dailyPrice: 1,
+    isLegacy: true,
+    monthlyPrice: 0,
+    annualPrice: 0,
+    isDailyPlan: true,
+  },
+  {
+    subscriptionId: 6, // subscriptionID if needed
+    name: 'Starter (D)',
+    dailyPrice: 0,
+    isLegacy: true,
+    monthlyPrice: 37,
+    annualPrice: 323,
+    isDailyPlan: false,
+  },
+  {
+    subscriptionId: 2, // subscriptionID if needed
+    name: 'Professional (D)',
+    dailyPrice: 0,
+    isLegacy: true,
+    monthlyPrice: 97,
+    annualPrice: 971,
+    isDailyPlan: false,
+  },
+  {
+    subscriptionId: 1, // subscriptionID if needed
+    name: 'Team  (D)',
+    dailyPrice: 0,
+    isLegacy: true,
+    monthlyPrice: 177,
+    annualPrice: 1763,
     isDailyPlan: false,
   },
 ];
@@ -36,6 +76,7 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   wholesalearbitrage$2: {
     name: 'Wholesale Arbitrage $1.99',
     id: 13,
+    idWithLegacyPlans: [13, 7],
     monthlyPrice: -1,
     annualPrice: -1,
     dailyPrice: 1.99,
@@ -45,6 +86,7 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   starter: {
     name: 'Starter',
     id: 10,
+    idWithLegacyPlans: [10, 6],
     monthlyPrice: 37,
     annualPrice: 324,
     dailyPrice: -1,
@@ -59,6 +101,7 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   professional: {
     name: 'Professional',
     id: 11,
+    idWithLegacyPlans: [11, 2],
     monthlyPrice: 97,
     annualPrice: 924,
     dailyPrice: -1,
@@ -75,6 +118,7 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   team: {
     name: 'Team',
     id: 12,
+    idWithLegacyPlans: [12, 1],
     monthlyPrice: 177,
     annualPrice: 1764,
     dailyPrice: -1,
