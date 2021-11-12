@@ -18,9 +18,6 @@ import {
   resetKeywordReverse,
 } from '../../../../actions/KeywordResearch/KeywordReverse';
 
-/* Assets */
-import { ReactComponent as CirclePlusIcon } from '../../../../assets/images/plus-circle-regular.svg';
-
 /* Interfaces */
 import { KeywordReverseAsinProduct } from '../../../../interfaces/KeywordResearch/KeywordReverse';
 
@@ -127,16 +124,18 @@ const ReverseAsinDisplay = (props: Props) => {
 
       <div className={styles.reverseAsinCardsWrapper}>
         {/* Add new ASIN card */}
-        <div
-          className={styles.addAsinCard}
-          style={{
-            opacity: disableAddAsinCard ? 0.6 : 1,
-            cursor: disableAddAsinCard ? 'not-allowed' : 'pointer',
-          }}
-          onClick={() => !disableAddAsinCard && setShowAddBulkAsin(true)}
-        >
-          <CirclePlusIcon />
-          <p>Add ASINs</p>
+        <div className={styles.singleCardWrapper}>
+          <div
+            className={styles.addAsinCard}
+            style={{
+              opacity: disableAddAsinCard ? 0.6 : 1,
+              cursor: disableAddAsinCard ? 'not-allowed' : 'pointer',
+            }}
+            onClick={() => !disableAddAsinCard && setShowAddBulkAsin(true)}
+          >
+            <span> + </span>
+            <p>ADD ASIN</p>
+          </div>
         </div>
 
         {/* Show the ASIN reverse card list */}

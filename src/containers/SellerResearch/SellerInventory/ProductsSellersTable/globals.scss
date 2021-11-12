@@ -83,10 +83,10 @@
             }
 
             &:nth-child(2n + 1) {
-              background: $grey_11 !important;
+              background: $grey_1 !important;
 
               .rs-table-cell-content {
-                background: $grey_11 !important;
+                background: $grey_1 !important;
                 padding: 3px 10px !important;
 
                 // remove residue from parent (if any)
