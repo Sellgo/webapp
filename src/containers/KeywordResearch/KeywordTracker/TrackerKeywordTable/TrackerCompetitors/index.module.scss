@@ -32,6 +32,7 @@
 }
 
 .addCompetitor {
+  width: 90px;
   margin-right: 20px;
   min-width: 110px !important;
 
@@ -41,15 +42,7 @@
     margin-right: 10px;
 
     path {
-      fill: $accent_orange !important;
-    }
-  }
-
-  &:hover {
-    svg {
-      path {
-        fill: #fff !important;
-      }
+      fill: $black_1 !important;
     }
   }
 }

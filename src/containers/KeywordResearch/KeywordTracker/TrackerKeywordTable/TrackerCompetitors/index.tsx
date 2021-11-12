@@ -27,7 +27,7 @@ import {
 } from '../../../../../interfaces/KeywordResearch/KeywordTracker';
 
 /* Assets */
-import { ReactComponent as AddCirecleIcon } from '../../../../../assets/images/addAsinPlusIcon.svg';
+import { ReactComponent as ThinAddIcon } from '../../../../../assets/images/thinAddIcon.svg';
 
 interface Props {
   keywordTrackerProductsExpandedRow: any;
@@ -71,7 +71,7 @@ const TrackerCompetitors = (props: Props) => {
           onClick={() => setAddCompetitorsModal(true)}
           disabled={totalCurrentCompetitors >= MAX_COMPETITORS_ALLOWED}
         >
-          <AddCirecleIcon />
+          <ThinAddIcon />
           <span>Add ASINs</span>
         </ActionButton>
 
