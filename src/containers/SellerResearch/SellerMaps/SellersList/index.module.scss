@@ -1,0 +1,65 @@
+@import '../../../../design-system/new-colors';
+
+.sellersListWrapper {
+  width: 30vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 15rem);
+  padding-bottom: 2rem;
+}
+
+.sellersListLoader {
+  width: 100px;
+  height: auto;
+  margin-top: 40px;
+}
+
+.sellerListFilters {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  padding-left: 2rem;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 18px;
+
+  .toggleButton {
+    width: 240px !important;
+    margin: 0;
+    height: 38px;
+  }
+
+  @media only screen and(max-width: 1770px) {
+    .toggleButton {
+      margin-bottom: 18px;
+    }
+
+    align-items: center;
+    flex-direction: column;
+    padding-left: 0;
+    justify-content: center;
+  }
+}
+
+.sellersList {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  flex: 1;
+  overflow: auto;
+  margin-bottom: 10px;
+
+  @media only screen and(min-width: 1650px) {
+    justify-content: space-evenly;
+  }
+}
+
+.sellersListPagination {
+  position: fixed;
+  bottom: 0;
+  width: 30vw;
+  margin-top: 10px;
+  margin-right: 10px;
+}

@@ -2,17 +2,24 @@ export type Location = [number, number];
 
 export interface SellerMapPayload {
   resetMap?: boolean;
+  enableLoader?: boolean;
+}
+
+export interface SellersListPayload {
+  page?: number;
+  sort?: string;
+  enableLoader?: boolean;
+  sortDir?: 'asc' | 'desc';
   marketplaceId?: string;
-  country?: string;
-  state?: string;
-  zipCode?: string;
-  merchantName?: string;
-  categories?: string;
-  minMonthlyRevenue?: string;
-  maxMonthlyRevenue?: string;
-  maxCount?: number;
-  launched?: string;
-  sellerType?: string;
+  isWholesale?: boolean;
+  perPage?: number;
+}
+
+export interface SellersListPaginationInfo {
+  count: number;
+  current_page: number;
+  total_pages: number;
+  per_page?: number;
 }
 
 export interface SellerData {
@@ -38,4 +45,9 @@ export interface USState {
   latitude: number;
   longitude: number;
   name: string;
+}
+
+export interface UpdateSellerMapFilterPayload {
+  keyName: string;
+  value: any;
 }

@@ -1,8 +1,9 @@
 @import '../../../design-system/new-colors';
 
 .selectionFilterWrapper {
-  width: max-content !important;
+  width: max-content;
   height: max-content !important;
+  min-width: 250px;
 
   p {
     margin: 0;
@@ -19,7 +20,6 @@
   max-height: 35px !important;
   min-height: 35px !important;
   height: 35px;
-  min-width: 250px !important;
   font-size: 12px;
   font-weight: 400 !important;
   padding: 8px 10px !important;
