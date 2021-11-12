@@ -198,8 +198,12 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
     }
 
     if (type === F_TYPES.INPUT_INCLUDE_EXCLUDE) {
-      const includes = value.include ? `&include_${keyName}=${value.include}` : '';
-      const excludes = value.exclude ? `&exclude_${keyName}=${value.exclude}` : '';
+      const includes = value.include
+        ? `&include_${keyName}=${encodeURIComponent(value.include)}`
+        : '';
+      const excludes = value.exclude
+        ? `&exclude_${keyName}=${encodeURIComponent(value.exclude)}`
+        : '';
       filterQuery += `${includes}${excludes}`;
     }
 
@@ -236,7 +240,7 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
     if (type === F_TYPES.CATEGORIES) {
       if (value && value.length > 0) {
         const categories = value.join('|');
-        filterQuery += `&${categories}`;
+        filterQuery += `&${keyName}=${encodeURIComponent(categories)}`;
       }
     }
   });

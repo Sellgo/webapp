@@ -7,7 +7,7 @@ import {
   DEFAULT_MIN_MAX_PERIOD_REVIEW,
   DEFAULT_US_MARKET,
   DEFAULT_INCLUDE_EXCLUDE_FILTER,
-  DEFAULT_MIN_MAX_PERIOD_FILTER,
+  DEFAULT_MIN_MAX_PERIOD_FILTER_GROWTH,
 } from '.';
 
 import { defaultMarketplaces } from '../Settings';
@@ -298,19 +298,20 @@ export const SELLER_MAP_DEFAULT_FILTER = [
 
   // Other filters
   { keyName: 'categories', type: F_TYPES.CATEGORIES, value: [] },
-  { keyName: 'sales_estimate', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // not added d
+  { keyName: 'sales_estimate', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },
   { keyName: 'merchant_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
-  { keyName: 'business_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER }, // not added d
+  { keyName: 'business_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
   // validated
-  { keyName: 'brands', type: F_TYPES.INPUT_INCLUDE_EXCLUDE, value: DEFAULT_INCLUDE_EXCLUDE_FILTER }, // dnot added v
-  { keyName: 'asin', type: F_TYPES.INPUT_INCLUDE_EXCLUDE, value: DEFAULT_INCLUDE_EXCLUDE_FILTER }, // dnot added v
-  { keyName: 'fba_percent', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // dnot added validated
-  { keyName: 'inventory_count', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, //d not added
-  { keyName: 'number_brands', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER }, // dnot added
+  { keyName: 'brands', type: F_TYPES.INPUT_INCLUDE_EXCLUDE, value: DEFAULT_INCLUDE_EXCLUDE_FILTER },
+  { keyName: 'has_phone', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
+  { keyName: 'asins', type: F_TYPES.INPUT_INCLUDE_EXCLUDE, value: DEFAULT_INCLUDE_EXCLUDE_FILTER },
+  { keyName: 'fba_percent', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },
+  { keyName: 'inventory_count', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },
+  { keyName: 'number_brands', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },
   {
     keyName: 'growth', // not added dvalidated
     type: F_TYPES.MIN_MAX_PERIOD,
-    value: DEFAULT_MIN_MAX_PERIOD_FILTER,
+    value: DEFAULT_MIN_MAX_PERIOD_FILTER_GROWTH,
   },
   {
     keyName: 'review_ratings',

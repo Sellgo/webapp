@@ -8,7 +8,8 @@ import styles from './index.module.scss';
 /* Constants */
 import {
   FILTER_REVIEW_OPTIONS,
-  FILTER_PERIOD_DURATIONS,
+  REVIEW_FILTER_PERIOD_DURATIONS,
+  GROWTH_FILTER_PERIOD_DURATIONS,
   parseSellerMapFilterData,
   LAUNCHED_FILTER_OPTIONS,
   FBA_PERCENT_FILTER_OPTIONS,
@@ -35,18 +36,21 @@ import ReviewTypeFilter from '../../../../components/FormFilters/ReviewTypeFilte
 import PeriodFilter from '../../../../components/FormFilters/PeriodFilter';
 import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
+import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxDropdownFilter';
 
 /* Interfaces */
 import {
   SellerMapPayload,
   UpdateSellerMapFilterPayload,
 } from '../../../../interfaces/SellerResearch/SellerMap';
-import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxDropdownFilter';
+
+/* Constants */
 import {
   DEFAULT_INCLUDE_EXCLUDE_ERROR,
   getProductCategories,
 } from '../../../../constants/ProductResearch/ProductsDatabase';
 import { isValidAsin } from '../../../../constants';
+import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
 
 interface Props {
   isLoadingSellersForMap: boolean;
@@ -84,7 +88,10 @@ const SellerMapFilter = (props: Props) => {
   const brands = parseSellerMapFilterData(sellerMapFilterData, 'brands');
 
   /* Asins */
-  const asins = parseSellerMapFilterData(sellerMapFilterData, 'asin');
+  const asins = parseSellerMapFilterData(sellerMapFilterData, 'asins');
+
+  /* seller Reachability */
+  const sellerReachability = parseSellerMapFilterData(sellerMapFilterData, 'has_phone');
 
   /* Fba count */
   const fbaCount = parseSellerMapFilterData(sellerMapFilterData, 'fba_percent');
@@ -245,7 +252,7 @@ const SellerMapFilter = (props: Props) => {
         placeholder="Enter separated by comma"
         value={asins.value.include.toUpperCase()}
         handleChange={(value: string) =>
-          handleFilterChange('asin', {
+          handleFilterChange('asins', {
             ...asins.value,
             include: value,
           })
@@ -265,6 +272,16 @@ const SellerMapFilter = (props: Props) => {
           })
         }
         error={asinsError.exclude}
+      />
+
+      {/* Seller Reachability */}
+      <CheckboxFilter
+        label="Seller Reachability"
+        checkboxLabel="Sellers with Phone"
+        checked={sellerReachability.value}
+        handleChange={(value: any) => {
+          handleFilterChange('has_phone', value);
+        }}
       />
 
       {/* FBA % */}
@@ -312,7 +329,7 @@ const SellerMapFilter = (props: Props) => {
           className={styles.periodFilter}
           placeholder="30D"
           value={growthPercent.value.period}
-          filterOptions={FILTER_PERIOD_DURATIONS}
+          filterOptions={GROWTH_FILTER_PERIOD_DURATIONS}
           handleChange={(period: string) => {
             handleFilterChange('growth', {
               ...growthPercent.value,
@@ -326,7 +343,7 @@ const SellerMapFilter = (props: Props) => {
       <div className={styles.reviewGroupedFilter}>
         <ReviewTypeFilter
           placeholder="Positive"
-          label="Review Count"
+          label="Review"
           filterOptions={FILTER_REVIEW_OPTIONS}
           value={review.value.type}
           handleChange={(type: string) => {
@@ -351,7 +368,7 @@ const SellerMapFilter = (props: Props) => {
           <PeriodFilter
             placeholder="30D"
             value={review.value.period}
-            filterOptions={FILTER_PERIOD_DURATIONS}
+            filterOptions={REVIEW_FILTER_PERIOD_DURATIONS}
             handleChange={(period: string) => {
               handleFilterChange('review_ratings', {
                 ...review.value,
