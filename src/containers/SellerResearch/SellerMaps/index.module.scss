@@ -25,7 +25,7 @@
 }
 
 .map {
-  /* The width is increased at the first render, so that upon resizing, the map will still show */
+  /* The width is set to be bigger, so that upon resizing, the map will still show */
   width: calc(45vw + 400px);
   z-index: 90 !important;
   min-height: calc(100vh - 15rem);
