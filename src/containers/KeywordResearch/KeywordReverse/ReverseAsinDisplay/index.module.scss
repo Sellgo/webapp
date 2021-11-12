@@ -21,35 +21,36 @@
   justify-content: flex-start;
 }
 
+.singleCardWrapper {
+  width: 100px;
+  height: 240px;
+  border-radius: 5px;
+  padding: 2px;
+  background: $orange_purple_gradient;
+}
+
 /* Add asin trigger */
 .addAsinCard {
   user-select: none;
-  border: 1px solid $accent_orange;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 100px;
-  height: 240px;
-  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
   background: #fff;
   margin-right: 10px;
-  color: $accent_orange !important;
+  color: $black_1 !important;
   font-size: 12px;
   font-weight: 500;
 
-  p {
-    margin-top: 10px;
-  }
-
-  svg {
-    path {
-      fill: $accent_orange;
-    }
+  span {
+    font-size: 40px;
   }
 
   &:hover {
-    background: $accent_orange;
+    background: none;
     color: #fff !important;
 
     svg {

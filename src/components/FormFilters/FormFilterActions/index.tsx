@@ -39,10 +39,11 @@ const FormFilterActions: React.FC<Props> = props => {
 
       <ActionButton
         variant={withSecondarySubmit ? 'secondary' : 'primary'}
-        type="orange"
+        type="purpleGradient"
         disabled={disabled}
         size="md"
         onClick={onFind}
+        className={styles.submitButton}
       >
         {submitLabel}
       </ActionButton>

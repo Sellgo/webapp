@@ -71,12 +71,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 4px solid $system_green;
+  padding: 4px;
   border-radius: 50%;
   overflow: hidden;
+  background: $purple_pink_gradient;
 
   img {
-    max-width: 80%;
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: $prim_white;
   }
 }
 

@@ -64,7 +64,7 @@ const TrackerCompetitors = (props: Props) => {
         </div>
 
         <ActionButton
-          type="orange"
+          type="purpleGradient"
           variant="secondary"
           size="md"
           className={styles.addCompetitor}
