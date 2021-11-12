@@ -274,7 +274,7 @@ export const SELLERS_LIST_SORTING_OPTIONS = [
 export const SELLER_MAP_DEFAULT_FILTER = [
   // Global filters
   {
-    keyName: 'marketplace',
+    keyName: 'marketplace_id',
     type: F_TYPES.MARKETPLACE,
     value: DEFAULT_US_MARKET,
   },

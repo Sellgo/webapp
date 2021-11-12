@@ -63,7 +63,7 @@ const GlobalMapFilters = (props: Props) => {
   } = props;
 
   /* Marketplace */
-  const marketPlace = parseSellerMapFilterData(sellerMapFilterData, 'marketplace');
+  const marketPlace = parseSellerMapFilterData(sellerMapFilterData, 'marketplace_id');
 
   /* Country */
   const country = parseSellerMapFilterData(sellerMapFilterData, 'country');
@@ -101,7 +101,7 @@ const GlobalMapFilters = (props: Props) => {
         marketPlaceChoices={SELLER_MAP_MARKETPLACE}
         marketplaceDetails={marketPlace.value}
         handleChange={(option: MarketplaceOption) => {
-          handleFilterChange('marketplace', option);
+          handleFilterChange('marketplace_id', option);
           handleFilterChange('country', option.code);
           if (getProductCategories(option.code) !== getProductCategories(marketPlace.code)) {
             // set empty categories here

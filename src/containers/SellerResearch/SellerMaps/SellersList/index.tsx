@@ -13,6 +13,7 @@ import {
   getSellersListForMap,
   getSellersListForMapPaginationInfo,
   getSellerMapFilterData,
+  getIsLoadingSellerForMap,
 } from '../../../../selectors/SellerResearch/SellerMap';
 
 /* Components */
@@ -32,6 +33,7 @@ import {
 import { SELLERS_LIST_SORTING_OPTIONS } from '../../../../constants/SellerResearch/SellerMap';
 
 interface Props {
+  isLoadingSellersForMap: boolean;
   isLoadingSellersListForMap: boolean;
   sellersListForMap: any[];
   sellersListForMapPaginationInfo: SellersListPaginationInfo;
@@ -44,6 +46,7 @@ const SellersList = (props: Props) => {
     sellersListForMap,
     sellersListForMapPaginationInfo,
     isLoadingSellersListForMap,
+    isLoadingSellersForMap,
   } = props;
 
   const [sortBy, setSortBy] = useState('seller_id?asc');
@@ -104,7 +107,7 @@ const SellersList = (props: Props) => {
 
       {/* Main Sellers List */}
       <div className={styles.sellersList}>
-        {isLoadingSellersListForMap ? (
+        {isLoadingSellersListForMap || isLoadingSellersForMap ? (
           <img src={sellgoAnimation} alt="" className={styles.sellersListLoader} />
         ) : (
           <>
@@ -142,6 +145,7 @@ const mapStateToProps = (state: any) => {
   return {
     sellerMapFilterData: getSellerMapFilterData(state),
     isLoadingSellersListForMap: getIsLoadingSellersListForMap(state),
+    isLoadingSellersForMap: getIsLoadingSellerForMap(state),
     sellersListForMap: getSellersListForMap(state),
     sellersListForMapPaginationInfo: getSellersListForMapPaginationInfo(state),
   };

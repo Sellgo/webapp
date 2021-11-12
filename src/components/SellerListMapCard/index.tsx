@@ -4,7 +4,7 @@ import React, { memo } from 'react';
 import styles from './index.module.scss';
 
 /* Constants */
-import { getMarketplaceFlag } from '../../constants/Settings';
+import { getMarketplaceFlag, getCountryFlag } from '../../constants/Settings';
 
 /* Utils */
 import {
@@ -133,8 +133,9 @@ const SellerListMapCard = (props: Props) => {
         {/* Country */}
         <div className={styles.sellerCopyDetails}>
           <p>
-            Country:
+            Country:&nbsp;
             <span>{country}</span>
+            <img src={getCountryFlag(country ? country : '')} alt="Seller country Flag" />
           </p>
         </div>
       </div>

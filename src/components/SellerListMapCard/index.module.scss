@@ -66,7 +66,17 @@
 
 /* Seller Copy Details */
 .sellerCopyDetails {
+  display: flex;
+  align-items: center;
+
   span {
     margin-left: 2px;
+  }
+
+  img {
+    height: 10px;
+    object-fit: contain;
+    margin-left: 5px;
+    margin-bottom: 2px;
   }
 }

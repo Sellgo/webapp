@@ -153,12 +153,31 @@ export const marketplaceflagMapper: any = {
   A2EUQ1WTGCTBG2: require('../../assets/flags/CA.png'),
 };
 
+export const countryFlagMapper: any = {
+  US: require('../../assets/flags/US_Rectangle.svg'),
+  GB: require('../../assets/flags/GB_Rectangle.svg'),
+  IT: require('../../assets/flags/IT_Rectangle.svg'),
+  MX: require('../../assets/flags/MX_Rectangle.svg'),
+  CA: require('../../assets/flags/CA_Rectangle.svg'),
+};
+
 /* Get flags based on marketplace */
 export const getMarketplaceFlag = (marketplaceId: string) => {
   const flagUrl = marketplaceflagMapper[marketplaceId];
 
   if (!flagUrl) {
     return marketplaceflagMapper.ATVPDKIKX0DER;
+  }
+
+  return flagUrl;
+};
+
+/* Get flag based on country */
+export const getCountryFlag = (countryCode: string) => {
+  const flagUrl = countryFlagMapper[countryCode];
+
+  if (!flagUrl) {
+    return countryFlagMapper.US;
   }
 
   return flagUrl;

@@ -69,7 +69,7 @@ const SellerMapFilter = (props: Props) => {
   const [asinsError, setAsinsError] = useState(DEFAULT_INCLUDE_EXCLUDE_ERROR);
 
   /* Get marketplace */
-  const marketplace = parseSellerMapFilterData(sellerMapFilterData, 'marketplace');
+  const marketplace = parseSellerMapFilterData(sellerMapFilterData, 'marketplace_id');
 
   /* Categories */
   const categories = parseSellerMapFilterData(sellerMapFilterData, 'categories');
