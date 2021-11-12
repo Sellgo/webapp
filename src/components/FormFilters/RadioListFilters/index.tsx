@@ -6,14 +6,14 @@ import styles from './index.module.scss';
 
 type IFilterOptions = {
   label: string;
-  value: string;
+  value: any;
 };
 
 interface Props {
   label?: string;
   filterOptions: IFilterOptions[];
   value: string;
-  handleChange: (value: string) => void;
+  handleChange: (value: any) => void;
 }
 
 const RadioListFilters: React.FC<Props> = props => {
@@ -30,7 +30,7 @@ const RadioListFilters: React.FC<Props> = props => {
               className={styles.checkbox}
               label={option.label}
               checked={option.value === value}
-              key={option.value}
+              key={option.label}
               onChange={() => handleChange(option.value)}
             />
           );

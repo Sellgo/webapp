@@ -25,6 +25,7 @@ type IOption = {
 
 interface Props {
   label?: string;
+  className?: string;
   filterOptions: IOption[];
   placeholder: string;
   value: string;
@@ -46,6 +47,7 @@ const SelectionFilter: React.FC<Props> = props => {
     loading = false,
     userOnboardingResources,
     userOnboarding,
+    className,
   } = props;
 
   const [isFocused, setFocused] = React.useState<boolean>(false);
@@ -67,7 +69,7 @@ const SelectionFilter: React.FC<Props> = props => {
     }
   }, []);
   return (
-    <div className="selectionFilterWrapper">
+    <div className={`selectionFilterWrapper ${className}`}>
       {label && (
         <p>
           {label}

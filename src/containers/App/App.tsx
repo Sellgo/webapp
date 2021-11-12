@@ -30,8 +30,8 @@ import UserPilotReload from '../../components/UserPilotReload';
 import ChurnFlow from '../ChurnFlow';
 
 import SellerResearch from '../SellerResearch';
-import ProductResearch from '../ProductResearch';
-import KeywordResearch from '../KeywordResearch';
+// import ProductResearch from '../ProductResearch';
+// import KeywordResearch from '../KeywordResearch';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import { isBetaAccount } from '../../utils/subscriptions';
@@ -273,19 +273,19 @@ function App() {
             requireSubscription={true}
           />
 
-          <PrivateRoute
+          {/* <PrivateRoute
             exact={true}
             path="/product-research/:productName"
             component={ProductResearch}
             requireSubscription={true}
-          />
+          /> */}
 
-          <PrivateRoute
+          {/* <PrivateRoute
             exact={true}
             path="/keyword-research/:productName"
             component={KeywordResearch}
             requireSubscription={true}
-          />
+          /> */}
 
           <PrivateRoute
             exact={true}
