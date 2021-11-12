@@ -281,9 +281,7 @@ function App() {
             path="/product-research/:productName"
             component={ProductResearch}
             requireSubscription={true}
-          />
-
-           */}
+          /> */}
 
           <PrivateRoute
             exact={true}

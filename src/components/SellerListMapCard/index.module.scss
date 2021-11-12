@@ -1,0 +1,79 @@
+@import '../../design-system/new-colors';
+
+.sellerListCard {
+  max-width: 240px;
+  min-width: 240px;
+  min-height: 230px;
+  box-shadow: 0 3px 6px #00000029;
+  border-radius: 5px;
+  margin: 8px 0;
+}
+
+.sellerLogo {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 8px;
+
+  img {
+    width: 153px;
+    height: 40px;
+    text-align: center;
+  }
+}
+
+.sellerIdDetails {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  border-bottom: 1px solid pink;
+  padding: 8px 0;
+
+  img {
+    width: 15px;
+    height: auto;
+    margin-right: 10px;
+    align-self: center;
+  }
+
+  span {
+    margin-top: 0 !important;
+  }
+}
+
+.sellerId {
+  margin-top: 0 !important;
+}
+
+/* Other Seller Details */
+.sellerDetails {
+  padding: 10px;
+  color: $grey_8 !important;
+  font-size: 12px;
+}
+
+/* Seller Sales Est */
+.salesEst {
+  h3 {
+    font-size: 24px;
+    color: $grey_8 !important;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1 !important;
+  }
+}
+
+/* Seller Copy Details */
+.sellerCopyDetails {
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-left: 2px;
+  }
+
+  .flag {
+    margin-left: 5px !important;
+  }
+}

@@ -11,7 +11,13 @@ import {
 } from '../../constants/SellerResearch/SellerMap';
 
 /* Interfaces */
-import { SellerMapPayload, Location } from '../../interfaces/SellerResearch/SellerMap';
+import {
+  SellerMapPayload,
+  Location,
+  SellersListPayload,
+  SellersListPaginationInfo,
+  UpdateSellerMapFilterPayload,
+} from '../../interfaces/SellerResearch/SellerMap';
 import { MarketplaceOption } from '../../interfaces/SellerResearch/SellerDatabase';
 
 /* Selectors */
@@ -22,6 +28,38 @@ import { calculateBoundsForMap } from '../../utils/map';
 
 /* Notifications */
 import { error, success } from '../../utils/notifications';
+import { getSellerMapFilterData } from '../../selectors/SellerResearch/SellerMap';
+import { F_TYPES } from '../../constants/SellerResearch';
+
+/* =================================================== */
+/* ================ SELLER MAP FILTERS ================*/
+/* =================================================== */
+/* Action to update the seller map filter options */
+export const updateSellerMapFilterOptions = (payload: UpdateSellerMapFilterPayload) => {
+  return {
+    type: actionTypes.UPDATE_SELLER_MAP_FILTERS_DATA,
+    payload,
+  };
+};
+
+/* Action to reset the seller map filters data */
+export const resetSellerMapFiltersData = () => {
+  return {
+    type: actionTypes.RESET_SELLER_MAP_FILTERS_DATA,
+  };
+};
+
+/* Action to set the seller map filters data */
+export const setSellerMapFiltersData = (payload: any) => {
+  return {
+    type: actionTypes.SET_SELLER_MAP_FILTERS_DATA,
+    payload,
+  };
+};
+
+/* =================================================== */
+/* ================ MAIN MAP DISPLAY ================*/
+/* =================================================== */
 
 /* Action Creator for setting loading state for sellers on map */
 export const setLoadingSellersForMap = (payload: boolean) => {
@@ -35,30 +73,6 @@ export const setLoadingSellersForMap = (payload: boolean) => {
 export const setSellersForMap = (payload: any) => {
   return {
     type: actionTypes.SET_SELLERS_FOR_MAP,
-    payload,
-  };
-};
-
-/* Action Creator for setting loading state for sellers details on map */
-export const setLoadingSellerDetailsForMap = (payload: boolean) => {
-  return {
-    type: actionTypes.LOADING_SELLER_DETAILS_FOR_MAP,
-    payload,
-  };
-};
-
-/* Action Creator for setting seller details on map */
-export const setSellerDetailsForMap = (payload: any) => {
-  return {
-    type: actionTypes.SET_SELLER_DETAILS_FOR_MAP,
-    payload,
-  };
-};
-
-/* Action creator for setting show seller detals card state */
-export const setShowSellerDetailsCard = (payload: boolean) => {
-  return {
-    type: actionTypes.SHOW_SELLER_DETAILS_CARD,
     payload,
   };
 };
@@ -87,6 +101,62 @@ export const setMapZoom = (payload: number) => {
   };
 };
 
+/* =================================================== */
+/* ================ MAIN MAP SELLERS LIST ================*/
+/* =================================================== */
+
+/* Action to set loaing state for sellers list for map */
+export const isLoadingSellersListForMap = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_LOADING_SELLERS_LIST_FOR_MAP,
+    payload,
+  };
+};
+
+/* Action to set sellers list for map */
+export const setSellersListForMap = (payload: any[]) => {
+  return {
+    type: actionTypes.SET_SELLERS_LIST_FOR_MAP,
+    payload,
+  };
+};
+
+/* Action to set sellers list for map pagination info */
+export const setSellersListForMapPaginationInfo = (payload: SellersListPaginationInfo) => {
+  return {
+    type: actionTypes.SET_SELLERS_LIST_FOR_MAP_PAGINATION_INFO,
+    payload,
+  };
+};
+
+/* =================================================== */
+/* ================ SELLER DETAILS ON MAP ================*/
+/* =================================================== */
+
+/* Action Creator for setting loading state for sellers details on map */
+export const setLoadingSellerDetailsForMap = (payload: boolean) => {
+  return {
+    type: actionTypes.LOADING_SELLER_DETAILS_FOR_MAP,
+    payload,
+  };
+};
+
+/* Action Creator for setting seller details on map */
+export const setSellerDetailsForMap = (payload: any) => {
+  return {
+    type: actionTypes.SET_SELLER_DETAILS_FOR_MAP,
+    payload,
+  };
+};
+
+/* Action creator for setting show seller detals card state */
+export const setShowSellerDetailsCard = (payload: boolean) => {
+  return {
+    type: actionTypes.SHOW_SELLER_DETAILS_CARD,
+    payload,
+  };
+};
+
 /* Action to set marketplace info for seller map */
 export const setSellerDatabaseMarketplace = (payload: MarketplaceOption) => {
   return {
@@ -94,26 +164,99 @@ export const setSellerDatabaseMarketplace = (payload: MarketplaceOption) => {
     payload,
   };
 };
+
+/* Action to prepare the payload for query */
+export const parseFilters = (sellerDatabaseFilter: any) => {
+  let filterQuery = '';
+
+  sellerDatabaseFilter.forEach((filterData: any) => {
+    const { keyName, type, value } = filterData;
+
+    if (type === F_TYPES.TEXT) {
+      if (value) {
+        filterQuery += `&${keyName}=${encodeURIComponent(value)}`;
+      }
+    }
+
+    if (type === F_TYPES.COUNTRY) {
+      if (value && value !== 'All Countries') {
+        filterQuery += `&${keyName}=${value}`;
+      }
+    }
+
+    if (type === F_TYPES.STATE) {
+      if (value && value !== 'All States') {
+        filterQuery += `&${keyName}=${value}`;
+      }
+    }
+
+    if (type === F_TYPES.MARKETPLACE) {
+      if (value.value) {
+        // encode URI is necessary to escape '&' in values for categories
+        filterQuery += `&${keyName}=${value.value}`;
+      }
+    }
+
+    if (type === F_TYPES.INPUT_INCLUDE_EXCLUDE) {
+      const includes = value.include
+        ? `&include_${keyName}=${encodeURIComponent(value.include)}`
+        : '';
+      const excludes = value.exclude
+        ? `&exclude_${keyName}=${encodeURIComponent(value.exclude)}`
+        : '';
+      filterQuery += `${includes}${excludes}`;
+    }
+
+    if (type === F_TYPES.MIN_MAX) {
+      const min = value.min ? `&${keyName}_min=${value.min}` : '';
+      const max = value.max ? `&${keyName}_max=${value.max}` : '';
+      filterQuery += `${min}${max}`;
+    }
+
+    if (type === F_TYPES.MIN_MAX_PERIOD) {
+      if (value.period) {
+        const min = value.min ? `&${keyName}_${value.period}_min=${value.min}` : '';
+        const max = value.max ? `&${keyName}_${value.period}_max=${value.max}` : '';
+        filterQuery += `${min}${max}`;
+      }
+    }
+
+    if (type === F_TYPES.GROWTH_COUNT_FILTER || type === F_TYPES.GROWTH_PERCENT_FILTER) {
+      if (value.period) {
+        const min = value.min ? `&${value.period}_min=${value.min}` : '';
+        const max = value.max ? `&${value.period}_max=${value.max}` : '';
+        filterQuery += `${min}${max}`;
+      }
+    }
+
+    if (type === F_TYPES.MIN_MAX_PERIOD_REVIEW) {
+      if (value.type) {
+        const min = value.min ? `&${value.type}_${value.period}_min=${value.min}` : '';
+        const max = value.max ? `&${value.type}_${value.period}_max=${value.max}` : '';
+        filterQuery += `${min}${max}`;
+      }
+    }
+
+    if (type === F_TYPES.CATEGORIES) {
+      if (value && value.length > 0) {
+        const categories = value.join('|');
+        filterQuery += `&${keyName}=${encodeURIComponent(categories)}`;
+      }
+    }
+  });
+
+  return filterQuery;
+};
 /* ================= Async actions =========================== */
 
 /* Action for fetching sellers for map */
-export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch: any) => {
+export const fetchSellersForMap = (payload: SellerMapPayload) => async (
+  dispatch: any,
+  getState: any
+) => {
   const sellerId = sellerIDSelector();
 
-  const {
-    resetMap = false,
-    marketplaceId = 'ATVPDKIKX0DER',
-    country = 'US',
-    state = '',
-    zipCode = '',
-    merchantName,
-    categories = '',
-    minMonthlyRevenue = '',
-    maxMonthlyRevenue = '',
-    launched = '',
-    sellerType = '',
-    maxCount = 1000,
-  } = payload;
+  const { resetMap = false, enableLoader = true } = payload;
 
   try {
     // if reset map is hit
@@ -122,68 +265,25 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
       dispatch(setLoadingSellersForMap(false));
       dispatch(setMapCenter(INITIAL_CENTER));
       dispatch(setMapZoom(INITIAL_ZOOM));
+      dispatch(resetSellerMapFiltersData());
       return;
     }
 
-    let queryString = '';
+    const allFiltersData = getSellerMapFilterData(getState());
+    const resourcePath = parseFilters(allFiltersData);
 
-    // add the marketplace
-    if (marketplaceId) {
-      queryString += `&marketplace_id=${marketplaceId}`;
-    }
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchantmaps/search?${resourcePath}`;
 
-    // skip all countries since all countries means no countries filter
-    if (country && country !== 'All Countries') {
-      queryString += `&country=${country}`;
-    }
+    dispatch(setLoadingSellersForMap(enableLoader));
 
-    // skip all states since all states means no states filter
-    if (state && state !== 'All States') {
-      queryString += `&state=${state}`;
-    }
-
-    // add the zip code if us state
-    if (zipCode) {
-      queryString += `&zip_code=${zipCode}`;
-    }
-
-    // add the merchant name
-    if (merchantName) {
-      queryString += `&merchant_name=${merchantName}`;
-    }
-
-    // add the categories
-    if (categories) {
-      queryString += `&categories=${encodeURIComponent(categories)}`;
-    }
-
-    // min monthly revenue
-    if (minMonthlyRevenue) {
-      // add the monthly revenue
-      queryString += `&sales_estimate_min=${minMonthlyRevenue}`;
-    }
-
-    // add max monthly revenue
-    if (maxMonthlyRevenue) {
-      queryString += `&sales_estimate_max=${maxMonthlyRevenue}`;
-    }
-
-    if (launched) {
-      queryString += `&launched=${launched}`;
-    }
-
-    if (sellerType) {
-      queryString += `&seller_type=${sellerType}`;
-    }
-
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchantmaps/search?max_count=${maxCount}${queryString}`;
-
-    dispatch(setLoadingSellersForMap(true));
+    const country = allFiltersData && allFiltersData.find((f: any) => f.keyName === 'country');
+    const state = allFiltersData && allFiltersData.find((f: any) => f.keyName === 'state');
 
     const response = await axios.get(URL);
+
     if (response && response.data) {
       const { data } = response;
-      const { mapCenter, mapZoom } = calculateBoundsForMap(country, state);
+      const { mapCenter, mapZoom } = calculateBoundsForMap(country.value, state.value);
 
       dispatch(setMapCenter(mapCenter));
       dispatch(setMapZoom(mapZoom));
@@ -198,6 +298,56 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (dispatch
     console.error('Error fetching merchants for map', err);
     dispatch(setSellersForMap([]));
     dispatch(setLoadingSellersForMap(false));
+  }
+};
+
+/* Action to fetch sellers list for map */
+export const fetchSellersListForMap = (payload: SellersListPayload) => async (
+  dispatch: any,
+  getState: any
+) => {
+  try {
+    const {
+      page = 1,
+      sort = 'seller_id',
+      sortDir = 'asc',
+      enableLoader = true,
+      isWholesale = true,
+      perPage = 20,
+    } = payload;
+
+    const sellerId = sellerIDSelector();
+
+    const pagination = `page=${page}&per_page=${perPage}`;
+    const sorting = `ordering=${sortDir === 'desc' ? `-${sort}` : sort}`;
+    const sellerType = `seller_type=${isWholesale ? 'wholesale' : 'private_label'}`;
+
+    const allFiltersData = getSellerMapFilterData(getState());
+    const filtersPath = parseFilters(allFiltersData);
+
+    const resourcePath = `${pagination}&${sorting}&${sellerType}${filtersPath}`;
+
+    dispatch(isLoadingSellersListForMap(enableLoader));
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchants-database?${resourcePath}`;
+
+    const { data } = await axios.get(URL);
+    const { results, ...paginationInfo } = data;
+
+    if (data) {
+      dispatch(setSellersListForMap(results));
+      dispatch(setSellersListForMapPaginationInfo(paginationInfo));
+      dispatch(isLoadingSellersListForMap(false));
+    } else {
+      dispatch(setSellersListForMap([]));
+      dispatch(setSellersListForMapPaginationInfo({ total_pages: 0, current_page: 0, count: 0 }));
+      dispatch(isLoadingSellersListForMap(false));
+    }
+  } catch (err) {
+    console.error('Unable to fetch sellers list for map', err);
+    dispatch(setSellersListForMap([]));
+    dispatch(setSellersListForMapPaginationInfo({ total_pages: 0, current_page: 0, count: 0 }));
+    dispatch(isLoadingSellersListForMap(false));
   }
 };
 

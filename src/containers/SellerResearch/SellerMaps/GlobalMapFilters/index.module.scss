@@ -1,0 +1,38 @@
+@import '../../../../design-system/new-colors';
+
+.globlMapFilters {
+  position: absolute;
+  z-index: 100;
+  margin-top: 20px;
+  margin-left: 20px;
+  min-height: 50px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(auto, 1fr);
+  grid-column-gap: 18px;
+  grid-row-gap: 18px;
+
+  @media only screen and (min-width: 1880px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media only screen and (min-width: 2080px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.countryFilter {
+  min-width: 0;
+
+  > div {
+    width: 17rem !important;
+  }
+}
+
+.limitFilter {
+  min-width: 0;
+
+  > div {
+    width: 9rem !important;
+  }
+}

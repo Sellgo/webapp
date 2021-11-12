@@ -131,18 +131,27 @@ const ChangePlanModal = (props: Props) => {
               {SUBSCRIPTION_PLANS.map((subscriptionPlan: SubscriptionPlan) => {
                 const {
                   subscriptionId,
+                  isLegacy,
+                  dailyPrice,
                   monthlyPrice,
                   annualPrice,
                   name,
                   isDailyPlan,
                 } = subscriptionPlan;
+
+                if (subscriptionPlan.isLegacy) {
+                  return null;
+                }
+
                 return (
                   <PricingPlansSummary
                     disableCancelOption
                     key={subscriptionId + 1}
                     subscriptionId={subscriptionId}
+                    isLegacy={isLegacy}
                     name={name}
                     isMonthly={isMonthly}
+                    dailyPrice={dailyPrice}
                     monthlyPrice={monthlyPrice}
                     annualPrice={annualPrice}
                     isDailyPlan={isDailyPlan}
@@ -168,7 +177,7 @@ const ChangePlanModal = (props: Props) => {
             <button className={styles.cancelButton} onClick={() => setChangingPlanModalOpen(false)}>
               Cancel
             </button>
-            <ActionButton type="orange" variant="primary" size="md" onClick={handleSave}>
+            <ActionButton type="purpleGradient" variant="primary" size="md" onClick={handleSave}>
               Confirm
             </ActionButton>
           </div>

@@ -7,22 +7,14 @@
 }
 
 .addEditKeywords {
+  width: 180px;
   margin-left: 30px;
-  padding: 0 10px !important;
 
   svg {
     margin: 0 5px;
 
     path {
-      fill: $accent_orange !important;
-    }
-  }
-
-  &:hover {
-    svg {
-      path {
-        fill: #fff !important;
-      }
+      fill: $black_1 !important;
     }
   }
 }

@@ -1,138 +1,162 @@
 import { SubscriptionPlan, SummaryDetails } from '../../interfaces/Subscription';
 
-export const DAILY_SUBSCRIPTION_PLANS = [7];
+export const DAILY_SUBSCRIPTION_PLANS = [7, 13];
 export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
+    subscriptionId: 13, // subscriptionID if needed
+    name: 'Wholesale Arbitrage $1.99',
+    dailyPrice: 1.99,
+    monthlyPrice: 0,
+    annualPrice: 0,
+    isDailyPlan: true,
+  },
+  {
+    subscriptionId: 10, // subscriptionID if needed
+    name: 'Starter',
+    dailyPrice: 0,
+    monthlyPrice: 37,
+    annualPrice: 324,
+    isDailyPlan: false,
+  },
+  {
+    subscriptionId: 11, // subscriptionID if needed
+    name: 'Professional',
+    dailyPrice: 0,
+    monthlyPrice: 97,
+    annualPrice: 924,
+    isDailyPlan: false,
+  },
+  {
+    subscriptionId: 12, // subscriptionID if needed
+    name: 'Team',
+    dailyPrice: 0,
+    monthlyPrice: 177,
+    annualPrice: 1764,
+    isDailyPlan: false,
+  },
+  {
     subscriptionId: 7, // subscriptionID if needed
-    name: 'Wholesale Arbitrage $1',
+    name: 'Wholesale Arbitrage $1 (D)',
+    dailyPrice: 1,
+    isLegacy: true,
     monthlyPrice: 0,
     annualPrice: 0,
     isDailyPlan: true,
   },
   {
     subscriptionId: 6, // subscriptionID if needed
-    name: 'Starter',
+    name: 'Starter (D)',
+    dailyPrice: 0,
+    isLegacy: true,
     monthlyPrice: 37,
     annualPrice: 323,
     isDailyPlan: false,
   },
   {
     subscriptionId: 2, // subscriptionID if needed
-    name: 'Professional',
+    name: 'Professional (D)',
+    dailyPrice: 0,
+    isLegacy: true,
     monthlyPrice: 97,
     annualPrice: 971,
     isDailyPlan: false,
   },
   {
     subscriptionId: 1, // subscriptionID if needed
-    name: 'Team',
+    name: 'Team  (D)',
+    dailyPrice: 0,
+    isLegacy: true,
     monthlyPrice: 177,
     annualPrice: 1763,
-    isDailyPlan: false,
-  },
-  {
-    subscriptionId: 8, // subscriptionID if needed
-    name: 'Seller Scout Pro',
-    monthlyPrice: 117,
-    annualPrice: 995,
     isDailyPlan: false,
   },
 ];
 
 export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
-  wholesalearbitrage$1: {
-    name: 'Wholesale Arbitrage $1',
-    id: 7,
+  wholesalearbitrage$2: {
+    name: 'Wholesale Arbitrage $1.99',
+    id: 13,
+    idWithLegacyPlans: [13, 7],
     monthlyPrice: -1,
     annualPrice: -1,
-    dailyPrice: 1,
-    subDescription: '7-Days Money Back Guarantee',
-    benefits: [
-      'Manage your supplier files in Supplier Management',
-      '200 Products can be tracked through Product Tracker',
-      'Unlimited access in our Profit Finder',
-      'Sellgo support',
-    ],
+    dailyPrice: 1.99,
+    subDescription: '',
+    benefits: ['Basic Wholesale, Retail Arbitrage', 'Unlimited access in our Profit Finder'],
   },
   starter: {
     name: 'Starter',
-    id: 6,
+    id: 10,
+    idWithLegacyPlans: [10, 6],
     monthlyPrice: 37,
-    annualPrice: 323,
+    annualPrice: 324,
     dailyPrice: -1,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
-      'Manage your supplier files in Supplier Management',
-      '1000 Products can be tracked through Product Tracker',
-      'Unlimited access in our Profit Finder',
+      'Chrome Extension + 1,000 Sales Estimation/ month',
+      'Basic Seller Research',
+      'Basic Keyword Research',
       'Sellgo support',
     ],
   },
   professional: {
     name: 'Professional',
-    id: 2,
+    id: 11,
+    idWithLegacyPlans: [11, 2],
     monthlyPrice: 97,
-    annualPrice: 971,
+    annualPrice: 924,
     dailyPrice: -1,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
-      'Manage your supplier files in Supplier Management',
-      '1000 Products can be tracked through Product Tracker',
+      'Full access in Chrome Extension + Sales Estimation',
+      '1,500 Sellers in Seller Database or Map per month',
+      'Full access (export) of Seller Research (Annual Pay)',
+      '5,000 tracking keywords in the Product Rank Tracker',
       'Unlimited access in our Profit Finder',
-      'Sellgo support',
-    ],
-  },
-  sellerscoutpro: {
-    name: 'Seller Scout Pro',
-    id: 8,
-    monthlyPrice: 117,
-    annualPrice: 995,
-    dailyPrice: -1,
-    subDescription: '7-Days Money Back Guarantee',
-    benefits: [
-      'Manage your supplier files in Supplier Management',
-      '1000 Products can be tracked through Product Tracker',
-      'Unlimited access in our Profit Finder',
-      'Sellgo support',
+      'Zapier Integration',
     ],
   },
   team: {
     name: 'Team',
-    id: 1,
+    id: 12,
+    idWithLegacyPlans: [12, 1],
     monthlyPrice: 177,
-    annualPrice: 1763,
+    annualPrice: 1764,
     dailyPrice: -1,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
-      'Manage your supplier files in Supplier Management',
-      '1000 Products can be tracked through Product Tracker',
+      'Full access in Chrome Extension + Sales Estimation',
+      '5,000 Sellers in Seller Database or Map per month',
+      'Full access (export) of Seller Research (Annual Pay)',
+      '8,000 tracking keywords in the Product Rank Tracker',
       'Unlimited access in our Profit Finder',
-      'Sellgo support',
+      'Zapier Integration',
     ],
   },
 };
 
 export const PAYMENT_MODES = ['daily', 'monthly', 'yearly'];
 
+export const PROMO_START_DATE = '2021-11-10';
+export const PROMO_CAMPAIGNS = ['beta'];
+export const BETA_FIRST_300 = 'OZGVRR33';
+export const BETA_SECOND_700 = 'L9PHLXY1';
+
 export const SUBSCRIPTION_DETAILS_LIST: SummaryDetails[] = [
-  SUBSCRIPTION_DETAILS.wholesalearbitrage$1,
+  SUBSCRIPTION_DETAILS.wholesalearbitrage$2,
   SUBSCRIPTION_DETAILS.starter,
   SUBSCRIPTION_DETAILS.professional,
   SUBSCRIPTION_DETAILS.team,
-  SUBSCRIPTION_DETAILS.sellerscoutpro,
 ];
 
 export const subscriptionDetailsMapping: { [key: string]: number } = {
-  starter: 6,
-  professional: 2,
-  sellerscoutpro: 8,
-  team: 1,
-  wholesalearbitrage$1: 7,
-  privatelabel$1: 9,
+  starter: 10,
+  professional: 11,
+  team: 12,
+  wholesalearbitrage$2: 13,
 };
 
 export const getSubscriptionID = (planName: string) => {
-  const DEFAULT_PROFESSIONAL_PLAN_ID = 2;
+  const DEFAULT_PROFESSIONAL_PLAN_ID = 11;
   const id = subscriptionDetailsMapping[planName];
   if (id) {
     return id;

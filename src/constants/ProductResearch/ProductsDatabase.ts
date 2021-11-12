@@ -309,11 +309,146 @@ export const IT_PRODUCTS_DATABASE_CATEGORIES = [
   { key: 'Altro', value: 'Altro', text: 'Altro' },
 ];
 
+export const UK_PRODUCTS_DATABASE_CATEGORIES = [
+  { key: 'PC & Video Games', value: 'PC & Video Games', text: 'PC & Video Games' },
+  { key: 'DVD & Blu-ray', value: 'DVD & Blu-ray', text: 'DVD & Blu-ray' },
+  {
+    key: 'Health & Personal Care',
+    value: 'Health & Personal Care',
+    text: 'Health & Personal Care',
+  },
+  { key: 'Clothing', value: 'Clothing', text: 'Clothing' },
+  { key: 'Beauty', value: 'Beauty', text: 'Beauty' },
+  { key: 'Apps & Games', value: 'Apps & Games', text: 'Apps & Games' },
+  { key: 'Electronics & Photo', value: 'Electronics & Photo', text: 'Electronics & Photo' },
+  { key: 'Watches', value: 'Watches', text: 'Watches' },
+  { key: 'Pet Supplies', value: 'Pet Supplies', text: 'Pet Supplies' },
+  { key: 'Home & Kitchen', value: 'Home & Kitchen', text: 'Home & Kitchen' },
+  {
+    key: 'Computers & Accessories',
+    value: 'Computers & Accessories',
+    text: 'Computers & Accessories',
+  },
+  { key: 'Books', value: 'Books', text: 'Books' },
+  {
+    key: 'Audible Audiobooks & Originals',
+    value: 'Audible Audiobooks & Originals',
+    text: 'Audible Audiobooks & Originals',
+  },
+  { key: 'DIY & Tools', value: 'DIY & Tools', text: 'DIY & Tools' },
+  { key: 'Sports & Outdoors', value: 'Sports & Outdoors', text: 'Sports & Outdoors' },
+  {
+    key: 'Business, Industry & Science',
+    value: 'Business, Industry & Science',
+    text: 'Business, Industry & Science',
+  },
+  { key: 'Lighting', value: 'Lighting', text: 'Lighting' },
+  { key: 'Garden & Outdoors', value: 'Garden & Outdoors', text: 'Garden & Outdoors' },
+  { key: 'Grocery', value: 'Grocery', text: 'Grocery' },
+  { key: 'Fashion', value: 'Fashion', text: 'Fashion' },
+  {
+    key: 'Musical Instruments & DJ',
+    value: 'Musical Instruments & DJ',
+    text: 'Musical Instruments & DJ',
+  },
+  { key: 'Kindle Store', value: 'Kindle Store', text: 'Kindle Store' },
+  {
+    key: 'Stationery & Office Supplies',
+    value: 'Stationery & Office Supplies',
+    text: 'Stationery & Office Supplies',
+  },
+  { key: 'Handmade Products', value: 'Handmade Products', text: 'Handmade Products' },
+  { key: 'Digital Music', value: 'Digital Music', text: 'Digital Music' },
+  { key: 'CDs & Vinyl', value: 'CDs & Vinyl', text: 'CDs & Vinyl' },
+  { key: 'Jewellery', value: 'Jewellery', text: 'Jewellery' },
+  { key: 'Toys & Games', value: 'Toys & Games', text: 'Toys & Games' },
+  { key: 'Large Appliances', value: 'Large Appliances', text: 'Large Appliances' },
+  { key: 'Shoes & Bags', value: 'Shoes & Bags', text: 'Shoes & Bags' },
+  { key: 'Software', value: 'Software', text: 'Software' },
+  { key: 'Baby Products', value: 'Baby Products', text: 'Baby Products' },
+  { key: 'Everything Else', value: 'Everything Else', text: 'Everything Else' },
+  { key: 'Home & Garden', value: 'Home & Garden', text: 'Home & Garden' },
+  { key: 'Prime Video', value: 'Prime Video', text: 'Prime Video' },
+  { key: 'None', value: 'None', text: 'None' },
+  { key: 'Automotive', value: 'Automotive', text: 'Automotive' },
+  { key: 'Luggage', value: 'Luggage', text: 'Luggage' },
+];
+
+export const CA_PRODUCTS_DATABASE_CATEGORIES = [
+  { key: 'Kindle Store', value: 'Kindle Store', text: 'Kindle Store' },
+  { key: 'Apps for Android', value: 'Apps for Android', text: 'Apps for Android' },
+  { key: 'Books', value: 'Books', text: 'Books' },
+  { key: 'Luggage & Bags', value: 'Luggage & Bags', text: 'Luggage & Bags' },
+  {
+    key: 'Clothing, Shoes & Accessories',
+    value: 'Clothing, Shoes & Accessories',
+    text: 'Clothing, Shoes & Accessories',
+  },
+  { key: 'Electronics', value: 'Electronics', text: 'Electronics' },
+  { key: 'Prime Video', value: 'Prime Video', text: 'Prime Video' },
+  { key: 'Patio, Lawn & Garden', value: 'Patio, Lawn & Garden', text: 'Patio, Lawn & Garden' },
+  { key: 'Music', value: 'Music', text: 'Music' },
+  {
+    key: 'Health & Personal Care',
+    value: 'Health & Personal Care',
+    text: 'Health & Personal Care',
+  },
+  { key: 'Handmade', value: 'Handmade', text: 'Handmade' },
+  {
+    key: 'Beauty & Personal Care',
+    value: 'Beauty & Personal Care',
+    text: 'Beauty & Personal Care',
+  },
+  { key: 'Video Games', value: 'Video Games', text: 'Video Games' },
+  {
+    key: 'Tools & Home Improvement',
+    value: 'Tools & Home Improvement',
+    text: 'Tools & Home Improvement',
+  },
+  { key: 'Jewelry', value: 'Jewelry', text: 'Jewelry' },
+  { key: 'Automotive', value: 'Automotive', text: 'Automotive' },
+  { key: 'Shoes & Handbags', value: 'Shoes & Handbags', text: 'Shoes & Handbags' },
+  { key: 'Toys & Games', value: 'Toys & Games', text: 'Toys & Games' },
+  { key: 'Everything Else', value: 'Everything Else', text: 'Everything Else' },
+  {
+    key: 'Grocery & Gourmet Food',
+    value: 'Grocery & Gourmet Food',
+    text: 'Grocery & Gourmet Food',
+  },
+  {
+    key: 'Musical Instruments, Stage & Studio',
+    value: 'Musical Instruments, Stage & Studio',
+    text: 'Musical Instruments, Stage & Studio',
+  },
+  {
+    key: 'Industrial & Scientific',
+    value: 'Industrial & Scientific',
+    text: 'Industrial & Scientific',
+  },
+  { key: 'Movies & TV', value: 'Movies & TV', text: 'Movies & TV' },
+  {
+    key: 'Clothing & Accessories',
+    value: 'Clothing & Accessories',
+    text: 'Clothing & Accessories',
+  },
+  { key: 'Featured Stores', value: 'Featured Stores', text: 'Featured Stores' },
+  { key: 'Home & Kitchen', value: 'Home & Kitchen', text: 'Home & Kitchen' },
+  { key: 'Office Products', value: 'Office Products', text: 'Office Products' },
+  { key: 'Watches', value: 'Watches', text: 'Watches' },
+  { key: 'Baby', value: 'Baby', text: 'Baby' },
+  { key: 'Pet Supplies', value: 'Pet Supplies', text: 'Pet Supplies' },
+  { key: 'Sports & Outdoors', value: 'Sports & Outdoors', text: 'Sports & Outdoors' },
+];
+
 export const getProductCategories = (marketplaceCode: string) => {
   if (marketplaceCode === 'MX') {
     return MX_PRODUCTS_DATABASE_CATEGORIES;
   } else if (marketplaceCode === 'IT') {
     return IT_PRODUCTS_DATABASE_CATEGORIES;
+  } else if (marketplaceCode === 'CA') {
+    return CA_PRODUCTS_DATABASE_CATEGORIES;
+  } else if (marketplaceCode === 'GB') {
+    return UK_PRODUCTS_DATABASE_CATEGORIES;
   } else {
     /* Default */
     return PRODUCTS_DATABASE_CATEGORIES;

@@ -194,5 +194,5 @@ export const setSellerQuota = (data: any) => ({
 export const handleUnauthorizedMwsAuth = () => (dispatch: any) => {
   dispatch(deleteAmazonMWSAuth());
   error('Unauthorized access! Please add Amazon Seller Central credentials');
-  history.push('/settings#amazon-mws');
+  history.push('/settings/connectivity');
 };

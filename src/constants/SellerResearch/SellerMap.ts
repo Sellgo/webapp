@@ -1,15 +1,37 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-import { Location, Country, USState } from '../../interfaces/SellerResearch/SellerMap';
+import {
+  F_TYPES,
+  DEFAULT_TEXT_FILTER,
+  DEFAULT_MIN_MAX_FILTER,
+  DEFAULT_MIN_MAX_PERIOD_REVIEW,
+  DEFAULT_US_MARKET,
+  DEFAULT_INCLUDE_EXCLUDE_FILTER,
+  DEFAULT_MIN_MAX_PERIOD_FILTER_GROWTH,
+} from '.';
+
 import { defaultMarketplaces } from '../Settings';
+
+import { Location, Country, USState } from '../../interfaces/SellerResearch/SellerMap';
 
 const allCountriesList = require('../../assets/countriesList.json');
 const allUsStatesList = require('../../assets/usStatesList.json');
 
 /* Actions */
 export const actionTypes = {
+  // Main Sellers Map
   LOADING_SELLERS_FOR_MAP: 'LOADING_SELLERS_FOR_MAP',
   SET_SELLERS_FOR_MAP: 'SET_SELLERS_FOR_MAP',
+
+  // Sellers List for map
+  IS_LOADING_SELLERS_LIST_FOR_MAP: 'IS_LOADING_SELLERS_LIST_FOR_MAP',
+  SET_SELLERS_LIST_FOR_MAP: 'SET_SELLERS_LIST_FOR_MAP',
+  SET_SELLERS_LIST_FOR_MAP_PAGINATION_INFO: 'SET_SELLERS_LIST_FOR_MAP_PAGINATION_INFO',
+
+  // Seller map filters
+  UPDATE_SELLER_MAP_FILTERS_DATA: 'UPDATE_SELLER_MAP_FILTERS_DATA',
+  RESET_SELLER_MAP_FILTERS_DATA: 'RESET_SELLER_MAP_FILTERS_DATA',
+  SET_SELLER_MAP_FILTERS_DATA: 'SET_SELLER_MAP_FILTERS_DATA',
 
   // Sellers details for cards
   LOADING_SELLER_DETAILS_FOR_MAP: 'LOADING_SELLER_DETAILS_FOR_MAP',
@@ -36,14 +58,23 @@ export const WORLD_MAP_BOUNDS: Location[] = [
   [90, 180],
 ];
 
-/* Filter Types */
-export const DEFAULT_MIN_MAX_FILTER = {
-  min: '',
-  max: '',
-};
-
 // Seller Limit Options
 export const DEFAULLT_SELLER_LIMIT_OPTIONS = [
+  {
+    key: '3',
+    value: '3',
+    text: 'Top 3',
+  },
+  {
+    key: '10',
+    value: '10',
+    text: 'Top 10',
+  },
+  {
+    key: '100',
+    value: '100',
+    text: 'Top 100',
+  },
   {
     key: '1000',
     value: '1000',
@@ -68,11 +99,6 @@ export const DEFAULLT_SELLER_LIMIT_OPTIONS = [
     key: '20000',
     value: '20000',
     text: 'Top 20,000',
-  },
-  {
-    key: '50000',
-    value: '50000',
-    text: 'Top 50,000',
   },
 ];
 
@@ -161,24 +187,137 @@ export const SELLER_MAP_MARKETPLACE = defaultMarketplaces
     };
   });
 
-/* Default US Marketplace */
-export const DEFAULT_US_MARKET = {
-  text: 'United States',
-  code: 'US',
-  value: 'ATVPDKIKX0DER',
-  disabled: false,
-  key: 'US',
-  currency: '$',
-};
-
-/* Launched Durations for filters */
-export const LAUNCHED_FILTER_OPTIONS = [
-  { label: 'Longer than a year', value: '>1Y' },
-  { label: 'Less than a year', value: '90D-1Y' },
+/* Sellers List sorting details */
+export const SELLERS_LIST_SORTING_OPTIONS = [
+  {
+    key: 'seller_id?asc',
+    value: 'seller_id?asc',
+    text: 'Seller ID (Low to High)',
+  },
+  {
+    key: 'seller_id?desc',
+    value: 'seller_id?desc',
+    text: 'Seller ID (High to Low)',
+  },
+  {
+    key: 'inventory_count?desc',
+    value: 'inventory_count?desc',
+    text: '# of ASINS (High to Low)',
+  },
+  {
+    key: 'inventory_count?asc',
+    value: 'inventory_count?asc',
+    text: '# of ASINS (Low to High)',
+  },
+  {
+    key: 'sales_estimate?desc',
+    value: 'sales_estimate?desc',
+    text: 'Revenue (High to Low)',
+  },
+  {
+    key: 'sales_estimate?asc',
+    value: 'sales_estimate?asc',
+    text: 'Revenue (Low to High)',
+  },
+  {
+    key: 'growth_month?desc',
+    value: 'growth_month?desc',
+    text: 'Growth % (High to Low)',
+  },
+  {
+    key: 'growth_month?asc',
+    value: 'growth_month?asc',
+    text: 'Growth % (Low to High)',
+  },
+  {
+    key: 'count_30_days?desc',
+    value: 'count_30_days?desc',
+    text: 'Review # (High to Low)',
+  },
+  {
+    key: 'count_30_days?asc',
+    value: 'count_30_days?asc',
+    text: 'Review # (Low to High)',
+  },
+  {
+    key: 'seller_rating?desc',
+    value: 'seller_rating?desc',
+    text: 'Rating (High to Low)',
+  },
+  {
+    key: 'seller_rating?asc',
+    value: 'seller_rating?asc',
+    text: 'Rating (Low to High)',
+  },
+  {
+    key: 'launched?desc',
+    value: 'launched?desc',
+    text: 'Launched (High to Low)',
+  },
+  {
+    key: 'launched?asc',
+    value: 'launched?asc',
+    text: 'Launched (Low to High)',
+  },
+  {
+    key: 'fba_percent?desc',
+    value: 'fba_percent?desc',
+    text: 'FBA % (High to Low)',
+  },
+  {
+    key: 'fba_percent?asc',
+    value: 'fba_percent?asc',
+    text: 'FBA % (Low to High)',
+  },
 ];
 
-/* Seller Type filter options */
-export const SELLER_TYPE_FILTER_OPTIONS = [
-  { label: 'Private Label Seller', value: 'private_label' },
-  { label: 'Wholesale Reseller', value: 'wholesale' },
+export const SELLER_MAP_DEFAULT_FILTER = [
+  // Global filters
+  {
+    keyName: 'marketplace_id',
+    type: F_TYPES.MARKETPLACE,
+    value: DEFAULT_US_MARKET,
+  },
+
+  {
+    keyName: 'country',
+    type: F_TYPES.COUNTRY,
+    value: DEFAULT_US_MARKET.code,
+  },
+
+  {
+    keyName: 'state',
+    type: F_TYPES.STATE,
+    value: '',
+  },
+  {
+    keyName: 'max_count',
+    type: F_TYPES.TEXT,
+    value: '1000',
+  },
+
+  // Other filters
+  { keyName: 'categories', type: F_TYPES.CATEGORIES, value: [] },
+  { keyName: 'sales_estimate', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },
+  { keyName: 'merchant_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
+  { keyName: 'business_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
+  // validated
+  { keyName: 'brands', type: F_TYPES.INPUT_INCLUDE_EXCLUDE, value: DEFAULT_INCLUDE_EXCLUDE_FILTER },
+  { keyName: 'has_phone', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
+  { keyName: 'asins', type: F_TYPES.INPUT_INCLUDE_EXCLUDE, value: DEFAULT_INCLUDE_EXCLUDE_FILTER },
+  { keyName: 'fba_percent', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },
+  { keyName: 'inventory_count', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },
+  { keyName: 'number_brands', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },
+  {
+    keyName: 'growth', // not added dvalidated
+    type: F_TYPES.MIN_MAX_PERIOD,
+    value: DEFAULT_MIN_MAX_PERIOD_FILTER_GROWTH,
+  },
+  {
+    keyName: 'review_ratings',
+    type: F_TYPES.MIN_MAX_PERIOD_REVIEW,
+    value: DEFAULT_MIN_MAX_PERIOD_REVIEW,
+  },
+  { keyName: 'launched', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
+  { keyName: 'seller_rating', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },
 ];
