@@ -115,6 +115,19 @@ const ReverseTable = (props: Props) => {
           <StatsCell dataKey="sponsored_asins" align="left" />
         </Table.Column>
 
+        {/* Sponsored Rank */}
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Sponsored\nRank`}
+              dataKey="sponsored_rank"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="sponsored_rank" align="left" />
+        </Table.Column>
+
         {/* Competing Products  */}
         <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
           <Table.HeaderCell>
