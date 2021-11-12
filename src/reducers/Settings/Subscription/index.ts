@@ -9,6 +9,9 @@ import {
   SET_PROMO_ERROR_MESSAGE,
   SET_PROMO_LOADING,
 } from '../../../constants/Settings';
+
+import { SUBSCRIPTION_DETAILS } from '../../../constants/Subscription';
+
 import { AnyAction } from 'redux';
 import { setIn } from '../../../utils/immutablity';
 
@@ -31,26 +34,33 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'subscriptions', action.payload);
     case SET_SELLER_SUBSCRIPTION: {
       const sellerSubscriptionData = action.payload;
-      const plan =
-        sellerSubscriptionData.subscription_id === 1
-          ? 'Team Plan'
-          : sellerSubscriptionData.subscription_id === 2
-          ? 'Professional Plan'
-          : sellerSubscriptionData.subscription_id === 3
-          ? 'Enterprise'
-          : sellerSubscriptionData.subscription_id === 4
-          ? 'Free Trial'
-          : sellerSubscriptionData.subscription_id === 5
-          ? 'Free Account'
-          : sellerSubscriptionData.subscription_id === 6
-          ? 'Starter Plan'
-          : sellerSubscriptionData.subscription_id === 7
-          ? 'Wholesale Arbitrage $1 Plan'
-          : sellerSubscriptionData.subscription_id === 8
-          ? 'Seller Scout Pro Plan'
-          : sellerSubscriptionData.subscription_id === 9
-          ? 'Private Label $1 Plan'
-          : '';
+      const plan = SUBSCRIPTION_DETAILS.team.idWithLegacyPlans.includes(
+        sellerSubscriptionData.subscription_id
+      )
+        ? 'Team Plan'
+        : SUBSCRIPTION_DETAILS.professional.idWithLegacyPlans.includes(
+            sellerSubscriptionData.subscription_id
+          )
+        ? 'Professional Plan'
+        : sellerSubscriptionData.subscription_id === 3
+        ? 'Enterprise'
+        : sellerSubscriptionData.subscription_id === 4
+        ? 'Free Trial'
+        : sellerSubscriptionData.subscription_id === 5
+        ? 'Free Account'
+        : SUBSCRIPTION_DETAILS.starter.idWithLegacyPlans.includes(
+            sellerSubscriptionData.subscription_id
+          )
+        ? 'Starter Plan'
+        : sellerSubscriptionData.subscription_id === 7
+        ? 'Wholesale Arbitrage $1 Plan'
+        : sellerSubscriptionData.subscription_id === 13
+        ? 'Wholesale Arbitrage $1.99 Plan'
+        : sellerSubscriptionData.subscription_id === 8
+        ? 'Seller Scout Pro Plan'
+        : sellerSubscriptionData.subscription_id === 9
+        ? 'Private Label $1 Plan'
+        : '';
       const type =
         sellerSubscriptionData.subscription_id <= 3
           ? 'paid'

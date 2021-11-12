@@ -261,19 +261,35 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               {SUBSCRIPTION_PLANS.map((subscriptionPlan: SubscriptionPlan) => {
                 const {
                   subscriptionId,
+                  dailyPrice,
                   monthlyPrice,
                   annualPrice,
                   name,
                   isDailyPlan,
+                  isLegacy,
                 } = subscriptionPlan;
+
+                /* Only show legacy plan is user is currently subscribed to legacy plan */
+                if (!subscribedSubscription && subscriptionPlan.isLegacy) {
+                  return null;
+                } else if (
+                  subscribedSubscription &&
+                  parseInt(subscribedSubscription.id) !== subscriptionId &&
+                  subscriptionPlan.isLegacy
+                ) {
+                  return null;
+                }
+
                 return (
                   <PricingPlansSummary
                     key={subscriptionId}
                     subscriptionId={subscriptionId}
+                    isLegacy={isLegacy}
                     name={name}
                     isMonthly={isMonthly}
                     monthlyPrice={monthlyPrice}
                     annualPrice={annualPrice}
+                    dailyPrice={dailyPrice}
                     isDailyPlan={isDailyPlan}
                     handleChange={() => this.setState({ isMonthly: !isMonthly })}
                     // seller subscriptions
