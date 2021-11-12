@@ -44,17 +44,33 @@ export const FILTER_REVIEW_OPTIONS = [
 ];
 
 /* Review Period Selection List */
-export const FILTER_PERIOD_DURATIONS = [
+export const REVIEW_FILTER_PERIOD_DURATIONS = [
   { key: '30D', text: '30D', value: '30_days' },
   { key: '90D', text: '90D', value: '90_days' },
   { key: '365D', text: '365D', value: '12_month' },
   { key: 'All', text: 'All', value: 'lifetime' },
 ];
 
+/* Growth Period Selection List */
+export const GROWTH_FILTER_PERIOD_DURATIONS = [
+  { key: '30D', text: '30D', value: 'month' },
+  { key: '90D', text: '90D', value: 'L90D' },
+  { key: '365D', text: '365D', value: 'L180D' },
+  { key: 'All', text: 'All', value: 'year' },
+];
+
 /* Launched Durations for filters */
 export const LAUNCHED_FILTER_OPTIONS = [
   { label: 'Longer than a year', value: '>1Y' },
   { label: 'Less than a year', value: '90D-1Y' },
+];
+
+/* Launched Durations for filters */
+export const FBA_PERCENT_FILTER_OPTIONS = [
+  { label: 'Less than 25%', value: { max: 25 } },
+  { label: '25 - 50%', value: { min: 25, max: 50 } },
+  { label: '50 - 75%', value: { min: 50, max: 75 } },
+  { label: '75 - 100%', value: { min: 75, max: 100 } },
 ];
 
 /* Seller Type filter options */
@@ -96,6 +112,12 @@ export const DEFAULT_MIN_MAX_FILTER = {
 export const DEFAULT_MIN_MAX_PERIOD_FILTER = {
   ...DEFAULT_MIN_MAX_FILTER,
   period: '30_days',
+};
+
+/* Reset for min max with period filter (GROWTH) */
+export const DEFAULT_MIN_MAX_PERIOD_FILTER_GROWTH = {
+  ...DEFAULT_MIN_MAX_FILTER,
+  period: 'month',
 };
 
 /* Reset for min max period and review filter */

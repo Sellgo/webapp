@@ -24,6 +24,7 @@ import { getSellerSubscriptionLimits } from '../../../../selectors/Subscription'
 /* Actions */
 import {
   fetchSellersForMap,
+  fetchSellersListForMap,
   updateSellerMapFilterOptions,
 } from '../../../../actions/SellerResearch/SellerMap';
 
@@ -48,6 +49,7 @@ interface Props {
   sellerSubscriptionLimits: SellerSubscriptionLimits;
   updateSellerMapFilterOptions: (payload: UpdateSellerMapFilterPayload) => void;
   fetchSellersForMap: (payload: SellerMapPayload) => void;
+  fetchSellersListForMap: () => void;
 }
 
 const GlobalMapFilters = (props: Props) => {
@@ -57,10 +59,11 @@ const GlobalMapFilters = (props: Props) => {
     sellerSubscriptionLimits,
     updateSellerMapFilterOptions,
     fetchSellersForMap,
+    fetchSellersListForMap,
   } = props;
 
   /* Marketplace */
-  const marketPlace = parseSellerMapFilterData(sellerMapFilterData, 'marketplace');
+  const marketPlace = parseSellerMapFilterData(sellerMapFilterData, 'marketplace_id');
 
   /* Country */
   const country = parseSellerMapFilterData(sellerMapFilterData, 'country');
@@ -73,12 +76,22 @@ const GlobalMapFilters = (props: Props) => {
 
   const handleFilterChange = (keyName: any, value: any) => {
     updateSellerMapFilterOptions({ keyName, value });
+    fetchSellersListForMap();
   };
 
   const handleRefectSellers = async () => {
     await timeout(500);
     fetchSellersForMap({ enableLoader: true });
+    fetchSellersListForMap();
   };
+
+  let mapDisplayOptions = getMapLimitOptions(sellerSubscriptionLimits.sellerMapDropdownLimit);
+  mapDisplayOptions = mapDisplayOptions.map((option: MarketplaceOption) => {
+    return {
+      ...option,
+      // content: <div>Add upgrade CTA here</div>
+    };
+  });
 
   return (
     <div className={styles.globlMapFilters}>
@@ -88,7 +101,7 @@ const GlobalMapFilters = (props: Props) => {
         marketPlaceChoices={SELLER_MAP_MARKETPLACE}
         marketplaceDetails={marketPlace.value}
         handleChange={(option: MarketplaceOption) => {
-          handleFilterChange('marketplace', option);
+          handleFilterChange('marketplace_id', option);
           handleFilterChange('country', option.code);
           if (getProductCategories(option.code) !== getProductCategories(marketPlace.code)) {
             // set empty categories here
@@ -115,6 +128,7 @@ const GlobalMapFilters = (props: Props) => {
         }}
         loading={isLoadingSellerMap}
         disabled={isLoadingSellerMap}
+        className={styles.countryFilter}
       />
 
       {/* All States */}
@@ -131,6 +145,7 @@ const GlobalMapFilters = (props: Props) => {
         }}
         disabled={country.value !== 'US' || isLoadingSellerMap}
         loading={isLoadingSellerMap}
+        className={styles.countryFilter}
       />
 
       {/* Seller Limit */}
@@ -138,7 +153,7 @@ const GlobalMapFilters = (props: Props) => {
         label="View"
         placeholder="Seller Limit"
         value={String(sellerLimit.value)}
-        filterOptions={getMapLimitOptions(sellerSubscriptionLimits.sellerMapDropdownLimit)}
+        filterOptions={mapDisplayOptions}
         handleChange={(value: string) => {
           handleFilterChange('max_count', value);
           if (value !== sellerLimit.value) {
@@ -147,6 +162,7 @@ const GlobalMapFilters = (props: Props) => {
         }}
         disabled={isLoadingSellerMap}
         loading={isLoadingSellerMap}
+        className={styles.limitFilter}
       />
     </div>
   );
@@ -165,6 +181,7 @@ export const mapDispatchToProps = (dispatch: any) => {
     updateSellerMapFilterOptions: (payload: UpdateSellerMapFilterPayload) =>
       dispatch(updateSellerMapFilterOptions(payload)),
     fetchSellersForMap: (payload: SellerMapPayload) => dispatch(fetchSellersForMap(payload)),
+    fetchSellersListForMap: () => dispatch(fetchSellersListForMap({})),
   };
 };
 

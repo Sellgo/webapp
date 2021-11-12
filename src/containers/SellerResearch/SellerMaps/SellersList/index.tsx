@@ -12,12 +12,15 @@ import {
   getIsLoadingSellersListForMap,
   getSellersListForMap,
   getSellersListForMapPaginationInfo,
+  getSellerMapFilterData,
+  getIsLoadingSellerForMap,
 } from '../../../../selectors/SellerResearch/SellerMap';
 
 /* Components */
 import SellerListMapCard from '../../../../components/SellerListMapCard';
 import Pagination from '../../../../components/NewTable/Pagination';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
+import ToggleButton from '../../../../components/ToggleButton';
 
 /* Assets */
 import sellgoAnimation from '../../../../assets/images/sellgo-loading-animation-450-1.gif';
@@ -30,6 +33,7 @@ import {
 import { SELLERS_LIST_SORTING_OPTIONS } from '../../../../constants/SellerResearch/SellerMap';
 
 interface Props {
+  isLoadingSellersForMap: boolean;
   isLoadingSellersListForMap: boolean;
   sellersListForMap: any[];
   sellersListForMapPaginationInfo: SellersListPaginationInfo;
@@ -42,9 +46,15 @@ const SellersList = (props: Props) => {
     sellersListForMap,
     sellersListForMapPaginationInfo,
     isLoadingSellersListForMap,
+    isLoadingSellersForMap,
   } = props;
 
-  const [sortBy, setSortBy] = useState('sales_estimate?desc');
+  const [sortBy, setSortBy] = useState('seller_id?asc');
+  const [isWholesale, setIsWholesale] = useState<boolean>(true);
+
+  useEffect(() => {
+    setIsWholesale(true);
+  }, [isLoadingSellersForMap]);
 
   useEffect(() => {
     fetchSellersListForMap({});
@@ -61,6 +71,16 @@ const SellersList = (props: Props) => {
       setSortBy(value);
     }
   };
+
+  const handleWholesaleChange = () => {
+    const [sort, sortDir] = sortBy.split('?');
+    fetchSellersListForMap({
+      sort,
+      sortDir: sortDir === 'asc' ? 'asc' : 'desc',
+      isWholesale: !isWholesale,
+    });
+    setIsWholesale(!isWholesale);
+  };
   /* Page Change */
   const handlePageChange = (pageNo: number) => {
     fetchSellersListForMap({
@@ -72,6 +92,12 @@ const SellersList = (props: Props) => {
     <div className={styles.sellersListWrapper}>
       {/* Sellers List Filters */}
       <div className={styles.sellerListFilters}>
+        <ToggleButton
+          isToggled={isWholesale}
+          handleChange={handleWholesaleChange}
+          className={styles.toggleButton}
+          options={['Private Label', 'Wholesale']}
+        />
         <SelectionFilter
           label="Sort By"
           placeholder="Sort By"
@@ -85,13 +111,13 @@ const SellersList = (props: Props) => {
 
       {/* Main Sellers List */}
       <div className={styles.sellersList}>
-        {isLoadingSellersListForMap ? (
+        {isLoadingSellersListForMap || isLoadingSellersForMap ? (
           <img src={sellgoAnimation} alt="" className={styles.sellersListLoader} />
         ) : (
           <>
             {sellersListForMap &&
-              sellersListForMap.map((details: any) => {
-                return <SellerListMapCard key={details.merchant_id} sellerDetails={details} />;
+              sellersListForMap.map((details: any, index: number) => {
+                return <SellerListMapCard key={index} sellerDetails={details} />;
               })}
           </>
         )}
@@ -121,7 +147,9 @@ const mapDispatchToProps = (dispatch: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
+    sellerMapFilterData: getSellerMapFilterData(state),
     isLoadingSellersListForMap: getIsLoadingSellersListForMap(state),
+    isLoadingSellersForMap: getIsLoadingSellerForMap(state),
     sellersListForMap: getSellersListForMap(state),
     sellersListForMapPaginationInfo: getSellersListForMapPaginationInfo(state),
   };

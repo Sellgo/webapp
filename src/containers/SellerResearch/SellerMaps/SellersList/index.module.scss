@@ -1,11 +1,12 @@
 @import '../../../../design-system/new-colors';
 
 .sellersListWrapper {
-  width: 20vw;
+  width: 30vw;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 90vh;
+  height: calc(100vh - 15rem);
+  padding-bottom: 2rem;
 }
 
 .sellersListLoader {
@@ -15,10 +16,30 @@
 }
 
 .sellerListFilters {
+  width: 100%;
   display: flex;
+  flex-direction: row;
+  padding-left: 2rem;
   justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
+  align-items: flex-end;
+  margin-bottom: 18px;
+
+  .toggleButton {
+    width: 240px !important;
+    margin: 0;
+    height: 38px;
+  }
+
+  @media only screen and(max-width: 1770px) {
+    .toggleButton {
+      margin-bottom: 18px;
+    }
+
+    align-items: center;
+    flex-direction: column;
+    padding-left: 0;
+    justify-content: center;
+  }
 }
 
 .sellersList {
@@ -36,5 +57,9 @@
 }
 
 .sellersListPagination {
+  position: fixed;
+  bottom: 0;
+  width: 30vw;
   margin-top: 10px;
+  margin-right: 10px;
 }

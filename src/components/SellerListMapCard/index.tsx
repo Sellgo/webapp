@@ -133,8 +133,9 @@ const SellerListMapCard = (props: Props) => {
         {/* Country */}
         <div className={styles.sellerCopyDetails}>
           <p>
-            Country:
+            Country:&nbsp;
             <span>{country}</span>
+            <i className={`${styles.flag} ${country ? country.toLocaleLowerCase() : 'us'} flag`} />
           </p>
         </div>
       </div>
