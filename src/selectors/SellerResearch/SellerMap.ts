@@ -10,6 +10,26 @@ export const getSellerDataForMap = (state: any) => {
   return get(state, 'sellerMap.sellersForMap');
 };
 
+/* Selector for loading state for sellers list */
+export const getIsLoadingSellersListForMap = (state: any) => {
+  return get(state, 'sellerMap.isLoadingSellersListForMap');
+};
+
+/* Selector to get sellers list for map */
+export const getSellersListForMap = (state: any) => {
+  return get(state, 'sellerMap.sellersListForMap');
+};
+
+/* Selector to get sellers list for map pagination info */
+export const getSellersListForMapPaginationInfo = (state: any) => {
+  return get(state, 'sellerMap.sellersListForMapPaginationInfo');
+};
+
+/* Selector to get seller map filter data */
+export const getSellerMapFilterData = (state: any) => {
+  return get(state, 'sellerMap.sellerMapFilterData');
+};
+
 /* Selector for the seller details loading state */
 export const getIsLoadingSellerDetailsForMap = (state: any) => {
   return get(state, 'sellerMap.isLoadingSellerDetails');
