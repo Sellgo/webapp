@@ -110,7 +110,7 @@
       "youtubeLink": "",
       "tooltipText": "Total count of ASINs that the sellers carry"
     },
-    "total_brands": {
+    "brands": {
       "youtubeLink": "",
       "tooltipText": "Total count of brands that the sellers carry"
     },

@@ -34,6 +34,7 @@ import {
 import RatingCell from '../../../../components/NewTable/RatingCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
+import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 
 /* Containers */
 import ProductInformation from './ProductInformation';
@@ -184,38 +185,84 @@ const SellerProductsTable = (props: Props) => {
         {/* Buy box Competition */}
         <Table.Column width={100} verticalAlign="top" align="left">
           <Table.HeaderCell>
-            Buybox <br /> Competition
+            <HeaderSortCell
+              title={`Buybox\nCompetition`}
+              dataKey="buybox_competition"
+              currentSortColumn={''}
+              currentSortType={undefined}
+              disableSort
+            />
           </Table.HeaderCell>
           <BuyboxCompetition dataKey="buyboxCompetition" />
         </Table.Column>
 
         {/* Product Information  */}
         <Table.Column minWidth={600} verticalAlign="top" align="left" flexGrow={1}>
-          <Table.HeaderCell>Product Inventory Information</Table.HeaderCell>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Product Inventory Information`}
+              dataKey="product_inventory_information"
+              currentSortColumn={''}
+              currentSortType={undefined}
+              disableSort
+            />
+          </Table.HeaderCell>
           <ProductInformation dataKey="productInformation" />
         </Table.Column>
 
         {/* Price  */}
         <Table.Column width={130} verticalAlign="top" align="left">
-          <Table.HeaderCell>Price</Table.HeaderCell>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Price`}
+              dataKey="price"
+              currentSortColumn={''}
+              currentSortType={undefined}
+              disableSort
+            />
+          </Table.HeaderCell>
           <StatsCell dataKey="current_price" align="center" prependWith="$" />
         </Table.Column>
 
         {/* Rating L365D */}
         <Table.Column width={130} verticalAlign="top" align="left">
-          <Table.HeaderCell>Rating L356D</Table.HeaderCell>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Rating L356D`}
+              dataKey="average_product_rating"
+              currentSortColumn={''}
+              currentSortType={undefined}
+              disableSort
+            />
+          </Table.HeaderCell>
           <RatingCell dataKey="review_stars" />
         </Table.Column>
 
         {/* Rating % L365D */}
         <Table.Column width={130} verticalAlign="top" align="left">
-          <Table.HeaderCell>Rating L356D</Table.HeaderCell>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Rating L356D`}
+              dataKey="percentage_product_rating"
+              currentSortColumn={''}
+              currentSortType={undefined}
+              disableSort
+            />
+          </Table.HeaderCell>
           <StatsCell dataKey="review_stars" />
         </Table.Column>
 
         {/* Product Review */}
         <Table.Column width={130} verticalAlign="top" align="left">
-          <Table.HeaderCell>Product Review #</Table.HeaderCell>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Product Review #`}
+              dataKey="total_product_review"
+              currentSortColumn={''}
+              currentSortType={undefined}
+              disableSort
+            />
+          </Table.HeaderCell>
           <StatsCell dataKey="reviews_count" />
         </Table.Column>
 

@@ -9,7 +9,7 @@ import {
 } from '../../../constants/UserOnboarding';
 
 /* Selectors */
-import { getUserOnboarding, getUserOnboardingResources } from '../../../selectors/UserOnboarding';
+import { getUserOnboardingResources } from '../../../selectors/UserOnboarding';
 
 /* Components */
 import OnboardingTooltip from '../../OnboardingTooltip';
@@ -33,7 +33,6 @@ interface Props {
   disabled?: boolean;
   loading?: boolean;
   userOnboardingResources: any;
-  userOnboarding: boolean;
 }
 
 const SelectionFilter: React.FC<Props> = props => {
@@ -46,16 +45,15 @@ const SelectionFilter: React.FC<Props> = props => {
     disabled = false,
     loading = false,
     userOnboardingResources,
-    userOnboarding,
     className,
   } = props;
 
   const [isFocused, setFocused] = React.useState<boolean>(false);
   /* Onboarding logic */
   const filterOnboarding = userOnboardingResources[FILTER_KPI_ONBOARDING_INDEX] || {};
-  const enableFilterOnboarding = userOnboarding && Object.keys(filterOnboarding).length > 0;
+  const enableFilterOnboarding = Object.keys(filterOnboarding).length > 0;
 
-  const { youtubeLink, tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
+  const { tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
 
   useEffect(() => {
     const allSelectionDropdown = document.querySelectorAll('.selectionFilterWrapper');
@@ -74,9 +72,9 @@ const SelectionFilter: React.FC<Props> = props => {
         <p>
           {label}
           {/* Youtube On boarding Icon */}
-          {enableFilterOnboarding && (youtubeLink || tooltipText) && (
+          {enableFilterOnboarding && tooltipText && (
             <OnboardingTooltip
-              youtubeLink={youtubeLink}
+              youtubeLink={''}
               tooltipMessage={tooltipText}
               infoIconClassName="infoOnboardingIcon"
               youtubeIconClassName="youtubeOnboarding"
@@ -107,7 +105,6 @@ const SelectionFilter: React.FC<Props> = props => {
 const mapStateToProps = (state: any) => {
   return {
     userOnboardingResources: getUserOnboardingResources(state),
-    userOnboarding: getUserOnboarding(state),
   };
 };
 

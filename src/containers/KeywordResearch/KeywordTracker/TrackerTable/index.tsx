@@ -205,6 +205,7 @@ const TrackerTable = (props: Props) => {
               dataKey="organic"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
+              disableSort
             />
           </Table.HeaderCell>
           <ChangeStats dataKey="organic_asins" align="center" />
@@ -215,9 +216,10 @@ const TrackerTable = (props: Props) => {
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Sponsored`}
-              dataKey="organic"
+              dataKey="sponsored"
               currentSortColumn={sortColumn}
               currentSortType={sortType}
+              disableSort
             />
           </Table.HeaderCell>
           <ChangeStats dataKey="sponsored_asins" align="center" />

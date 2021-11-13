@@ -13,7 +13,7 @@ import {
 } from '../../../constants/UserOnboarding';
 
 /* Selectors */
-import { getUserOnboarding, getUserOnboardingResources } from '../../../selectors/UserOnboarding';
+import { getUserOnboardingResources } from '../../../selectors/UserOnboarding';
 
 /* Components */
 import OnboardingTooltip from '../../OnboardingTooltip';
@@ -26,7 +26,6 @@ interface Props {
   marketplaceDetails: MarketplaceOption;
   marketPlaceChoices: MarketplaceOption[];
   handleChange: (option: MarketplaceOption) => void;
-  userOnboarding: boolean;
   userOnboardingResources: any;
 }
 
@@ -36,7 +35,6 @@ const MarketPlaceFilter = (props: Props) => {
     marketplaceDetails,
     marketPlaceChoices,
     handleChange,
-    userOnboarding,
     userOnboardingResources,
   } = props;
 
@@ -54,18 +52,18 @@ const MarketPlaceFilter = (props: Props) => {
 
   /* Onboarding logic */
   const filterOnboarding = userOnboardingResources[FILTER_KPI_ONBOARDING_INDEX] || {};
-  const enableFilterOnboarding = userOnboarding && Object.keys(filterOnboarding).length > 0;
+  const enableFilterOnboarding = Object.keys(filterOnboarding).length > 0;
 
-  const { youtubeLink, tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
+  const { tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
 
   return (
     <div className={styles.marketplaceFilter}>
       <p>
         {label}
         {/* Onboarding */}
-        {enableFilterOnboarding && (youtubeLink || tooltipText) && (
+        {enableFilterOnboarding && tooltipText && (
           <OnboardingTooltip
-            youtubeLink={youtubeLink}
+            youtubeLink={''}
             tooltipMessage={tooltipText}
             infoIconClassName="infoOnboardingIcon"
             youtubeIconClassName="youtubeOnboarding"
@@ -99,7 +97,6 @@ const MarketPlaceFilter = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    userOnboarding: getUserOnboarding(state),
     userOnboardingResources: getUserOnboardingResources(state),
   };
 };

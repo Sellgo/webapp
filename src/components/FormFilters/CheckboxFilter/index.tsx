@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Checkbox } from 'semantic-ui-react';
 
 /* Selectors */
-import { getUserOnboarding, getUserOnboardingResources } from '../../../selectors/UserOnboarding';
+import { getUserOnboardingResources } from '../../../selectors/UserOnboarding';
 
 /* Constants */
 import {
@@ -22,34 +22,26 @@ interface Props {
   checked: boolean;
   handleChange: (value: boolean) => void;
   checkboxLabel: string;
-  userOnboarding: boolean;
   userOnboardingResources: any[];
 }
 
 const CheckboxFilter = (props: Props) => {
-  const {
-    label,
-    checked,
-    handleChange,
-    checkboxLabel,
-    userOnboarding,
-    userOnboardingResources,
-  } = props;
+  const { label, checked, handleChange, checkboxLabel, userOnboardingResources } = props;
 
   /* Onboarding logic */
   const filterOnboarding = userOnboardingResources[FILTER_KPI_ONBOARDING_INDEX] || {};
-  const enableFilterOnboarding = userOnboarding && Object.keys(filterOnboarding).length > 0;
+  const enableFilterOnboarding = Object.keys(filterOnboarding).length > 0;
 
-  const { youtubeLink, tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
+  const { tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
 
   return (
     <div className={styles.checkboxFilter}>
       {label && (
         <p>
           {label} {/* Onboarding */}
-          {enableFilterOnboarding && (youtubeLink || tooltipText) && (
+          {enableFilterOnboarding && tooltipText && (
             <OnboardingTooltip
-              youtubeLink={youtubeLink}
+              youtubeLink={''}
               tooltipMessage={tooltipText}
               infoIconClassName="infoOnboardingIcon"
               youtubeIconClassName="youtubeOnboarding"
@@ -72,7 +64,6 @@ const CheckboxFilter = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    userOnboarding: getUserOnboarding(state),
     userOnboardingResources: getUserOnboardingResources(state),
   };
 };

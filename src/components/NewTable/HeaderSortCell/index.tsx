@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Popup } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 /* Styling */
@@ -10,6 +10,7 @@ import { getUserOnboarding, getUserOnboardingResources } from '../../../selector
 
 /* Component */
 import OnboardingTooltip from '../../OnboardingTooltip';
+import TooltipMessage from '../../TooltipMessage';
 
 /* Constants */
 import {
@@ -34,6 +35,7 @@ interface Props {
   currentSortType: 'asc' | 'desc' | undefined;
   userOnboarding: boolean;
   userOnboardingResources: any[];
+  disableSort?: boolean;
 }
 
 const HeaderSortCell = (props: Props) => {
@@ -44,6 +46,7 @@ const HeaderSortCell = (props: Props) => {
     currentSortType,
     userOnboarding,
     userOnboardingResources,
+    disableSort,
   } = props;
 
   /* Generating sort icon */
@@ -63,34 +66,53 @@ const HeaderSortCell = (props: Props) => {
     tableKpiOnboardingDetails[dataKey] || FALLBACK_ONBOARDING_DETAILS;
 
   return (
-    <div className={styles.headerCell}>
-      <p className={styles.headerText} style={isCurrentlySorted ? sortedStyles : defaultStyles}>
-        {title}
+    <Popup
+      on="hover"
+      className={
+        tooltipText && tooltipText.length > 0
+          ? styles.onboardingTooltipPopup
+          : styles.hideTooltipPopup
+      }
+      trigger={
+        <div className={styles.headerCell}>
+          <p
+            className={`
+              ${styles.headerText} 
+              ${disableSort ? styles.headerText__disabled : ''}
+            `}
+            style={isCurrentlySorted ? sortedStyles : defaultStyles}
+          >
+            {title}
 
-        {/* Youtube On boarding Icon */}
-        {showTableKpiOnboarding && (youtubeLink || tooltipText) && (
-          <OnboardingTooltip
-            youtubeLink={youtubeLink}
-            tooltipMessage={tooltipText}
-            infoIconClassName={styles.infoCircleTrigger}
-            youtubeIconClassName={styles.youtubeLogoTrigger}
-          />
-        )}
-      </p>
+            {/* Youtube On boarding Icon */}
+            {showTableKpiOnboarding && youtubeLink && (
+              <OnboardingTooltip
+                youtubeLink={youtubeLink}
+                tooltipMessage={''}
+                infoIconClassName={styles.infoCircleTrigger}
+                youtubeIconClassName={styles.youtubeLogoTrigger}
+              />
+            )}
+          </p>
 
-      <div className={styles.sortIconGroup}>
-        <Icon
-          size="large"
-          name="triangle up"
-          className={isAscendingSorted ? styles.activeSort : styles.inActiveSort}
-        />
-        <Icon
-          size="large"
-          name="triangle down"
-          className={isDescendingSorted ? styles.activeSort : styles.inActiveSort}
-        />
-      </div>
-    </div>
+          {!disableSort && (
+            <div className={styles.sortIconGroup}>
+              <Icon
+                size="large"
+                name="triangle up"
+                className={isAscendingSorted ? styles.activeSort : styles.inActiveSort}
+              />
+              <Icon
+                size="large"
+                name="triangle down"
+                className={isDescendingSorted ? styles.activeSort : styles.inActiveSort}
+              />
+            </div>
+          )}
+        </div>
+      }
+      content={tooltipText && <TooltipMessage tooltipMessage={tooltipText} />}
+    />
   );
 };
 

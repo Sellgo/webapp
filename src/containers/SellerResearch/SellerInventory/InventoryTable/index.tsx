@@ -229,19 +229,43 @@ const InventoryTable = (props: Props) => {
 
         {/* Seller Information */}
         <Table.Column minWidth={500} verticalAlign="top" fixed="left" flexGrow={1}>
-          <Table.HeaderCell>Seller Information</Table.HeaderCell>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Seller Information`}
+              dataKey="seller_information"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+              disableSort
+            />
+          </Table.HeaderCell>
           <SellerInformation dataKey="seller_information" />
         </Table.Column>
 
         {/* ASIN */}
         <Table.Column width={150} verticalAlign="top" align="left">
-          <Table.HeaderCell>ASIN</Table.HeaderCell>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`ASIN`}
+              dataKey="inventory_count"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+              disableSort
+            />
+          </Table.HeaderCell>
           <SellerActions dataKey="sellerActions" />
         </Table.Column>
 
         {/* Brands */}
         <Table.Column width={80} verticalAlign="top" align="center">
-          <Table.HeaderCell>Brands</Table.HeaderCell>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Brands`}
+              dataKey="brands"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+              disableSort
+            />
+          </Table.HeaderCell>
           <BrandsListCell dataKey={'brands'} />
         </Table.Column>
 

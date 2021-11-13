@@ -8,7 +8,7 @@ import './global.scss';
 import '../globalReset.scss';
 
 /* Selectors */
-import { getUserOnboarding, getUserOnboardingResources } from '../../../selectors/UserOnboarding';
+import { getUserOnboardingResources } from '../../../selectors/UserOnboarding';
 import {
   FALLBACK_ONBOARDING_DETAILS,
   FILTER_KPI_ONBOARDING_INDEX,
@@ -26,7 +26,6 @@ interface Props {
   error?: boolean;
   className?: string;
   userOnboardingResources: any;
-  userOnboarding: boolean;
   handleOnPaste?: (value: string) => void;
 }
 
@@ -38,7 +37,6 @@ const InputFilter: React.FC<Props> = props => {
     handleChange,
     className,
     userOnboardingResources,
-    userOnboarding,
     disabled,
     error,
     handleOnPaste,
@@ -46,9 +44,9 @@ const InputFilter: React.FC<Props> = props => {
 
   /* Onboarding logic */
   const filterOnboarding = userOnboardingResources[FILTER_KPI_ONBOARDING_INDEX] || {};
-  const enableFilterOnboarding = userOnboarding && Object.keys(filterOnboarding).length > 0;
+  const enableFilterOnboarding = Object.keys(filterOnboarding).length > 0;
 
-  const { youtubeLink, tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
+  const { tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
 
   return (
     <div className={styles.inputFilter}>
@@ -57,9 +55,9 @@ const InputFilter: React.FC<Props> = props => {
           {label}
 
           {/* Onboarding */}
-          {enableFilterOnboarding && (youtubeLink || tooltipText) && (
+          {enableFilterOnboarding && tooltipText && (
             <OnboardingTooltip
-              youtubeLink={youtubeLink}
+              youtubeLink={''}
               tooltipMessage={tooltipText}
               infoIconClassName="infoOnboardingIcon"
               youtubeIconClassName="youtubeOnboarding"
@@ -91,7 +89,6 @@ const InputFilter: React.FC<Props> = props => {
 const mapStateToProps = (state: any) => {
   return {
     userOnboardingResources: getUserOnboardingResources(state),
-    userOnboarding: getUserOnboarding(state),
   };
 };
 

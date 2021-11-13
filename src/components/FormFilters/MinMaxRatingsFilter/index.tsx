@@ -12,7 +12,7 @@ import '../globalReset.scss';
 import { ReactComponent as FilterRightArrow } from '../../../assets/images/filterRightArrow.svg';
 
 /* Selectors */
-import { getUserOnboarding, getUserOnboardingResources } from '../../../selectors/UserOnboarding';
+import { getUserOnboardingResources } from '../../../selectors/UserOnboarding';
 
 /* Constants */
 import {
@@ -29,18 +29,10 @@ interface Props {
   maxValue: string;
   handleChange: (type: string, value: string) => void;
   userOnboardingResources: any;
-  userOnboarding: boolean;
 }
 
 const MinMaxRatingsFilter: React.FC<Props> = props => {
-  const {
-    label,
-    minValue,
-    maxValue,
-    handleChange,
-    userOnboardingResources,
-    userOnboarding,
-  } = props;
+  const { label, minValue, maxValue, handleChange, userOnboardingResources } = props;
 
   const isError = React.useMemo(() => {
     return Boolean(
@@ -52,9 +44,9 @@ const MinMaxRatingsFilter: React.FC<Props> = props => {
 
   /* Onboarding logic */
   const filterOnboarding = userOnboardingResources[FILTER_KPI_ONBOARDING_INDEX] || {};
-  const enableFilterOnboarding = userOnboarding && Object.keys(filterOnboarding).length > 0;
+  const enableFilterOnboarding = Object.keys(filterOnboarding).length > 0;
 
-  const { youtubeLink, tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
+  const { tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
 
   return (
     <div className={styles.minMaxRatingsFilter}>
@@ -63,9 +55,9 @@ const MinMaxRatingsFilter: React.FC<Props> = props => {
           {label}
 
           {/* Onboarding */}
-          {enableFilterOnboarding && (youtubeLink || tooltipText) && (
+          {enableFilterOnboarding && tooltipText && (
             <OnboardingTooltip
-              youtubeLink={youtubeLink}
+              youtubeLink={''}
               tooltipMessage={tooltipText}
               infoIconClassName="infoOnboardingIcon"
               youtubeIconClassName="youtubeOnboarding"
@@ -106,7 +98,6 @@ const MinMaxRatingsFilter: React.FC<Props> = props => {
 const mapStateToProps = (state: any) => {
   return {
     userOnboardingResources: getUserOnboardingResources(state),
-    userOnboarding: getUserOnboarding(state),
   };
 };
 
