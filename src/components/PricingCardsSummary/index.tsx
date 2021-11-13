@@ -126,7 +126,7 @@ const PricingPlansSummary = (props: Props) => {
             `}
             onClick={promptCancelSubscription}
           >
-            {disableCancelOption ? 'Selected' : 'Cancel'}
+            <div className={styles.innerButton}>{disableCancelOption ? 'Selected' : 'Cancel'}</div>
           </button>
         )}
 
@@ -141,7 +141,7 @@ const PricingPlansSummary = (props: Props) => {
             className={`${styles.button} ${styles.button__changePlan}`}
             onClick={() => changePlan({ name, id: subscriptionId })}
           >
-            Change Plan
+            <div className={styles.innerButton}>Change Plan</div>
           </button>
         )}
 
@@ -154,7 +154,7 @@ const PricingPlansSummary = (props: Props) => {
             className={`${styles.button} ${styles.button__buyPlan}`}
             onClick={() => changePlan({ name, id: subscriptionId })}
           >
-            Buy this now
+            <div className={styles.innerButton}>Buy this now</div>
           </button>
         )}
       </div>

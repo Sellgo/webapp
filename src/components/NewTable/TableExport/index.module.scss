@@ -30,6 +30,10 @@
     i {
       color: $grey_6 !important;
     }
+
+    &:hover {
+      background: none !important;
+    }
   }
 }
 

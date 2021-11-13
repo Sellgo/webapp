@@ -93,6 +93,17 @@ const GlobalMapFilters = (props: Props) => {
     };
   });
 
+  /* Update max count to seller's subscription max limit */
+  React.useEffect(() => {
+    const availableMapDisplayOptions = mapDisplayOptions.filter(
+      (item: MarketplaceOption) => !item.disabled
+    );
+    handleFilterChange(
+      'max_count',
+      availableMapDisplayOptions[availableMapDisplayOptions.length - 1].value
+    );
+  }, []);
+
   return (
     <div className={styles.globlMapFilters}>
       {/* Marketplace */}

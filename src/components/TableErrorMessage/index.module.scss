@@ -1,0 +1,9 @@
+@import '../../design-system/new-colors';
+
+.messageText {
+  font-size: 14px;
+  color: $prim_dark_1 !important;
+  margin: 0;
+  line-height: 1;
+  font-weight: 500;
+}

@@ -67,8 +67,10 @@
 
 .button {
   margin: 30px auto;
+  padding: 2px;
   width: 240px;
   height: 50px;
+  position: relative;
   outline: 0;
   border: 0;
   cursor: pointer;
@@ -76,16 +78,36 @@
   font-weight: 600;
   display: inline-block;
 
+  .innerButton {
+    border-radius: 6px;
+    height: 100% !important;
+    width: 100% !important;
+    background-color: $prim_white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: none !important;
+    }
+  }
+
   &__buyPlan {
-    border: 1px solid $accent-orange;
-    color: $prim_white;
-    background: $accent-orange;
+    background: $orange_purple_gradient;
+    color: $black_1;
+
+    &:hover {
+      color: $prim_white;
+    }
   }
 
   &__changePlan {
-    border: 1px solid $accent-orange;
-    color: $accent-orange;
-    background: #fff;
+    background: $orange_purple_gradient;
+    color: $black_1;
+
+    &:hover {
+      color: $prim_white;
+    }
   }
 
   &__cancelPlan {

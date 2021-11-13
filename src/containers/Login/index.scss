@@ -6,7 +6,7 @@ $base-font-size: 1em;
   min-height: 100vh;
   display: flex !important;
   align-items: center !important;
-  background-image: linear-gradient(to right, #323232, #323232);
+  background-image: linear-gradient(to right, #1e1e1e, #1e1e1e);
   margin: 0 !important;
 
   label {
@@ -15,7 +15,7 @@ $base-font-size: 1em;
   }
 
   .primary {
-    background-color: #fc7900 !important;
+    background: linear-gradient(90deg, #fb7900, #b318f1) !important;
     cursor: pointer;
   }
 

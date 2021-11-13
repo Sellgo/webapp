@@ -58,7 +58,7 @@ const TrackerExport = (props: Props) => {
     <div className={styles.trackerTableMeta}>
       {/* Track product and keywords */}
       <ActionButton
-        type="orange"
+        type="purpleGradient"
         variant="primary"
         size="md"
         className={styles.addNewProduct}

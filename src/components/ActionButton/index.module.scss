@@ -8,7 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: $fontweight_medium !important;
+  font-weight: $fontweight_semibold !important;
   padding: 0 !important;
   border-radius: 7px !important;
 }
@@ -122,7 +122,7 @@
   &__purpleGradient {
     background: $orange_purple_gradient !important;
     padding: 2px;
-    color: $prim_dark_1 !important;
+    color: $black_1 !important;
     border: none !important;
     border-radius: 7px !important;
 
@@ -136,6 +136,8 @@
       height: 100%;
 
       &:hover {
+        color: $prim_white !important;
+        background: none !important;
         font-weight: 600 !important;
       }
     }

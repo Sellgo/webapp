@@ -182,7 +182,7 @@ const DatabaseKeywordList = (props: Props) => {
       <ActionButton
         disabled={totalKeywords === 0 || totalKeywords > MAX_KEYWORDS_ALLOWED}
         variant={keywordDatabaseRequestId ? 'secondary' : 'primary'}
-        type="orange"
+        type="purpleGradient"
         size="md"
         onClick={handleSubmit}
         className={styles.searchKeywordBtn}
