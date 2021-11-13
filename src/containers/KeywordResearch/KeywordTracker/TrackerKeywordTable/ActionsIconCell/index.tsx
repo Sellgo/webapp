@@ -41,7 +41,7 @@ const ActionsIconCell = (props: Props) => {
       <Table.Cell {...otherProps}>
         <div className={styles.actionIconCellWrapper}>
           <button onClick={handleTrackUntrackBoostKeyword}>
-            <KeywordBoostTrackIcon fill={isBoostTracked ? '#FC7900' : '#636d76'} />
+            <KeywordBoostTrackIcon fill={isBoostTracked ? '#b318f1' : '#636d76'} />
           </button>
         </div>
       </Table.Cell>

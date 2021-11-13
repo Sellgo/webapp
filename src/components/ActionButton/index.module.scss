@@ -136,6 +136,8 @@
       height: 100%;
 
       &:hover {
+        color: $prim_white !important;
+        background: none !important;
         font-weight: 600 !important;
       }
     }

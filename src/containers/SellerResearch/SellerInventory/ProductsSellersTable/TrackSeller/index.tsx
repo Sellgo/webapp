@@ -15,6 +15,9 @@ import { trackUntrackProductSeller } from '../../../../../actions/SellerResearch
 import { RowCell } from '../../../../../interfaces/Table';
 import { TrackUntrackProductSeller } from '../../../../../interfaces/SellerResearch/SellerInventory';
 
+/* Components */
+import ActionButton from '../../../../../components/ActionButton';
+
 interface Props extends RowCell {
   trackUntrackProductSeller: (payload: TrackUntrackProductSeller) => void;
 }
@@ -41,16 +44,21 @@ const TrackSeller = (props: Props) => {
     trackUntrackProductSeller(payload);
   };
 
-  const btnClassName = isSellerTracked ? styles.unTrackBtn : styles.trackBtn;
   const btnLabel = isSellerTracked ? 'Tracking' : 'Track Seller';
 
   return (
     <Table.Cell {...otherProps}>
       <div className={styles.productTrack}>
-        <button className={btnClassName} onClick={handleTrackSeller}>
+        <ActionButton
+          variant="secondary"
+          type="purpleGradient"
+          size="small"
+          onClick={handleTrackSeller}
+          className={styles.trackBtn}
+        >
           <TrackIcon />
           {btnLabel}
-        </button>
+        </ActionButton>
       </div>
     </Table.Cell>
   );
