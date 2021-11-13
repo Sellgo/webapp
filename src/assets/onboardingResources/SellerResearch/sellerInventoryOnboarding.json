@@ -14,7 +14,7 @@
   },
 
   {
-    "Seller Information": {
+    "seller_information": {
       "youtubeLink": "",
       "tooltipText": "Seller basic information"
     },
@@ -22,7 +22,7 @@
       "youtubeLink": "",
       "tooltipText": "Total count of ASINs that the sellers carry"
     },
-    "total_brands": {
+    "brands": {
       "youtubeLink": "",
       "tooltipText": "Total count of brands that the sellers carry"
     },
@@ -49,17 +49,8 @@
     "count_lifetime": {
       "youtubeLink": "",
       "tooltipText": "Total review count"
-    }
-  },
+    },
 
-  {
-    "Export": {
-      "youtubeLink": "",
-      "tooltipText": "Export all the table results"
-    }
-  },
-
-  {
     "buybox_competition": {
       "youtubeLink": "",
       "tooltipText": "Total sellers inside the Buy Box"
@@ -83,10 +74,8 @@
     "total_product_review": {
       "youtubeLink": "",
       "tooltipText": "Total count of product review"
-    }
-  },
+    },
 
-  {
     "seller_name": {
       "youtubeLink": "",
       "tooltipText": "Seller name on product listing"
@@ -106,6 +95,13 @@
     "seller_rating": {
       "youtubeLink": "",
       "tooltipText": "Average of rating"
+    }
+  },
+
+  {
+    "Export": {
+      "youtubeLink": "",
+      "tooltipText": "Export all the table results"
     }
   }
 ]

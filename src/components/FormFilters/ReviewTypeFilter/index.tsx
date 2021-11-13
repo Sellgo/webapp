@@ -6,7 +6,7 @@ import { Dropdown } from 'semantic-ui-react';
 import './index.scss';
 
 /* Selectors */
-import { getUserOnboarding, getUserOnboardingResources } from '../../../selectors/UserOnboarding';
+import { getUserOnboardingResources } from '../../../selectors/UserOnboarding';
 
 /* Constants */
 import {
@@ -31,7 +31,6 @@ interface Props {
   handleChange: (value: string) => void;
   disabled?: boolean;
   loading?: boolean;
-  userOnboarding: boolean;
   userOnboardingResources: any[];
 }
 
@@ -45,15 +44,14 @@ const ReviewTypeFilter = (props: Props) => {
     disabled,
     loading,
     userOnboardingResources,
-    userOnboarding,
   } = props;
   const [isFocused, setFocused] = React.useState<boolean>(false);
 
   /* Onboarding logic */
   const filterOnboarding = userOnboardingResources[FILTER_KPI_ONBOARDING_INDEX] || {};
-  const enableFilterOnboarding = userOnboarding && Object.keys(filterOnboarding).length > 0;
+  const enableFilterOnboarding = Object.keys(filterOnboarding).length > 0;
 
-  const { youtubeLink, tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
+  const { tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
 
   return (
     <div className="reviewTypeFilterWrapper">
@@ -74,9 +72,9 @@ const ReviewTypeFilter = (props: Props) => {
       {label && (
         <p>
           {label}
-          {enableFilterOnboarding && (youtubeLink || tooltipText) && (
+          {enableFilterOnboarding && tooltipText && (
             <OnboardingTooltip
-              youtubeLink={youtubeLink}
+              youtubeLink={''}
               tooltipMessage={tooltipText}
               infoIconClassName="infoOnboardingIcon"
               youtubeIconClassName="youtubeOnboarding"
@@ -90,7 +88,6 @@ const ReviewTypeFilter = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    userOnboarding: getUserOnboarding(state),
     userOnboardingResources: getUserOnboardingResources(state),
   };
 };

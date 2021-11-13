@@ -93,19 +93,43 @@ const SellerDatabaseTable = (props: Props) => {
         >
           {/* Seller Information */}
           <Table.Column width={590} verticalAlign="middle" fixed>
-            <Table.HeaderCell>Seller Information</Table.HeaderCell>
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Seller Information`}
+                dataKey="seller_information"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+                disableSort
+              />
+            </Table.HeaderCell>
             <SellerInformation dataKey={'sellerInformation'} />
           </Table.Column>
 
           {/* Number of ASIN */}
           <Table.Column width={150} verticalAlign="middle" align="left">
-            <Table.HeaderCell>Number of ASINs</Table.HeaderCell>
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Number of ASINs`}
+                dataKey="inventory_count"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+                disableSort
+              />
+            </Table.HeaderCell>
             <SellerActions dataKey="sellerActions" />
           </Table.Column>
 
           {/* Brands */}
           <Table.Column width={80} verticalAlign="middle" align="center">
-            <Table.HeaderCell>Brands</Table.HeaderCell>
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Brands`}
+                dataKey="brands"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+                disableSort
+              />
+            </Table.HeaderCell>
             <BrandsListCell dataKey="brands" />
           </Table.Column>
 
