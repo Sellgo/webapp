@@ -1,39 +1,190 @@
 [
   {
     "Tutorial": {
-      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
-      "displayText": "Tutorial | 5-min watch"
+      "youtubeLink": "",
+      "displayText": ""
     }
   },
 
   {
     "Choose Marketplace": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "tooltipText": "Amazon marketplace where the sellers sell"
+    },
+    "Categories": {
+      "youtubeLink": "",
+      "tooltipText": "Product categories associated with each Amazon marketplace"
+    },
+    "Include Brands": {
+      "youtubeLink": "",
+      "tooltipText": "Include popular brands that the sellers carry (separate with comma)"
+    },
+    "Monthly Revenue": {
+      "youtubeLink": "",
+      "tooltipText": "Estimated monthly revenue of sellers"
     },
     "Merchant Name": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "tooltipText": "Seller name on Amazon product listing"
     },
-
-    "Negative Review": {
+    "Business Name": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "tooltipText": "Seller registered business name"
+    },
+    "Exclude Brands": {
+      "youtubeLink": "",
+      "tooltipText": "Exclude popular brands that the sellers carry (separate with comma)"
+    },
+    "Include ASINs or ISBNs": {
+      "youtubeLink": "",
+      "tooltipText": "Include unique ASINs or ISBNs that the sellers carry (separate with comma)"
+    },
+    "Exclude ASINs or ISBNs": {
+      "youtubeLink": "",
+      "tooltipText": "Exclude unique ASINs or ISBNs that the sellers carry (separate with comma)"
+    },
+    "Include Seller IDs": {
+      "youtubeLink": "",
+      "tooltipText": "Find unique seller IDs (separate with comma)"
+    },
+    "Exclude Seller IDs": {
+      "youtubeLink": "",
+      "tooltipText": "Find other sellers except the one with unique seller IDs (separate with comma)"
+    },
+    "Seller Country": {
+      "youtubeLink": "",
+      "tooltipText": "Sellers' country of origin"
+    },
+    "U.S. States": {
+      "youtubeLink": "",
+      "tooltipText": "Only show for U.S. sellers"
+    },
+    "Seller Reachability": {
+      "youtubeLink": "",
+      "tooltipText": "Show sellers with phone information"
+    },
+    "# of Inventory": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of ASINs that the sellers carry"
+    },
+    "# of Brands": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of brands that the sellers carry"
+    },
+    "Growth %": {
+      "youtubeLink": "",
+      "tooltipText": "Total percentage of seller business growth by period"
+    },
+    "Review Count": {
+      "youtubeLink": "",
+      "tooltipText": "Total review count by period"
+    },
+    "FBA %": {
+      "youtubeLink": "",
+      "tooltipText": "Total percentage of FBA inventory (compared to FBM)"
+    },
+    "Review": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of positive, neutral and negative review by period"
+    },
+    "Seller Launched": {
+      "youtubeLink": "",
+      "tooltipText": "How long the sellers have been selling"
+    },
+    "Seller Type": {
+      "youtubeLink": "",
+      "tooltipText": "Wholesale or Private Label sellers"
+    },
+    "Seller Ratings": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of ratings"
     }
   },
 
   {
+    "seller_information": {
+      "youtubeLink": "",
+      "tooltipText": "Seller basic information"
+    },
+    "inventory_count": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of ASINs that the sellers carry"
+    },
+    "total_brands": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of brands that the sellers carry"
+    },
+    "category": {
+      "youtubeLink": "",
+      "tooltipText": "Product categories associated with each Amazon marketplace"
+    },
+    "sales_estimate": {
+      "youtubeLink": "",
+      "tooltipText": "Estimated monthly revenue of sellers"
+    },
+    "fba_percent": {
+      "youtubeLink": "",
+      "tooltipText": "Total percentage of FBA inventory (compared to FBM)"
+    },
+    "state": {
+      "youtubeLink": "",
+      "tooltipText": "Shows the state for U.S. -based sellers"
+    },
+    "country": {
+      "youtubeLink": "",
+      "tooltipText": "Sellers' country of origin"
+    },
+    "growth_month": {
+      "youtubeLink": "",
+      "tooltipText": "Sellers growth during the last 1 month"
+    },
+    "growth_L90D": {
+      "youtubeLink": "",
+      "tooltipText": "Sellers growth during the last 3 month"
+    },
+    "growth_L180D": {
+      "youtubeLink": "",
+      "tooltipText": "Sellers growth during the last 6 month"
+    },
+    "growth_year": {
+      "youtubeLink": "",
+      "tooltipText": "Sellers growth during the last 1 year"
+    },
+    "seller_rating": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of ratings"
+    },
+    "review_ratings": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of review"
+    },
     "count_30_days": {
-      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
-      "tooltipText": "Word Count | 2 min watch"
+      "youtubeLink": "",
+      "tooltipText": "Total review count during the last 1 month"
     },
     "count_90_days": {
-      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
-      "tooltipText": "Competing Products | 2 min watch"
+      "youtubeLink": "",
+      "tooltipText": "Total review count during the last 3 month"
     },
     "count_12_month": {
-      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
-      "tooltipText": "Word Count | 2 min watch"
+      "youtubeLink": "",
+      "tooltipText": "Total review count during the last 1 year"
+    },
+    "count_lifetime": {
+      "youtubeLink": "",
+      "tooltipText": "Total review count"
+    },
+    "launched": {
+      "youtubeLink": "",
+      "tooltipText": "How long the sellers have been selling"
+    },
+    "private_label": {
+      "youtubeLink": "",
+      "tooltipText": "Wholesale or Private Label sellers"
+    },
+    "phone": {
+      "youtubeLink": "",
+      "tooltipText": "Sellers phone information"
     }
   },
 

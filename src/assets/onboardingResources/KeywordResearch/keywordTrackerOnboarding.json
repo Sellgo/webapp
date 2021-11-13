@@ -4,41 +4,45 @@
   {
     "Add ASIN": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "tooltipText": "Add Competitor's ASINs"
     },
     "Add Keywords": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "tooltipText": "Add or edit keywords"
     }
   },
 
   {
     "tracked_keywords": {
       "youtubeLink": "",
-      "tooltipText": "Search Volume | 1 min watch"
+      "tooltipText": "Total count of tracked keywords for this product"
     },
-    "competitors": {
-      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
-      "tooltipText": "Competitors | 2 min watch"
+    "amazon_choice_count": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of keyword results based on the Amazon Choice badge status"
     },
     "search_volume": {
-      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
-      "tooltipText": "Search Volume | 2 min watch"
+      "youtubeLink": "",
+      "tooltipText": "Estimated total count the keyword(s) is searched monthly on Amazon"
     },
     "organic": {
-      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
-      "tooltipText": "Organic  | 2 min watch"
+      "youtubeLink": "",
+      "tooltipText": "Organic search position result from using that keyword(s)"
     },
     "sponsored": {
-      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "youtubeLink": "",
+      "tooltipText": "Total count of ASINs running sponsored ads from using that keyword(s)"
+    },
+    "true_rank_performance": {
+      "youtubeLink": "",
+      "tooltipText": "Percentage of product ranking changes over a period of time, in order to see the real impact of ranking changes on product sales"
     }
   },
 
   {
     "expandedCell": {
       "youtubeLink": "",
-      "tooltipText": "You can expanded this"
+      "tooltipText": "You can expand this"
     },
 
     "collapseCell": {
@@ -47,18 +51,53 @@
     },
 
     "competitors": {
-      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "youtubeLink": "",
+      "tooltipText": ""
     },
 
     "All Keywords": {
       "youtubeLink": "",
-      "tooltipText": "Export all the table results"
+      "tooltipText": ""
     },
 
     "All Products": {
       "youtubeLink": "",
-      "tooltipText": "Export all the table results"
+      "tooltipText": ""
+    }
+  },
+
+  {
+    "search_volume": {
+      "youtubeLink": "",
+      "tooltipText": "Estimated total count the tracked keyword(s) is searched monthly on Amazon"
+    },
+    "competing_products": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of product showed in customer searches from using the tracked keyword(s)"
+    },
+    "position_rank": {
+      "youtubeLink": "",
+      "tooltipText": "Organic search position result from using the tracked keyword(s)"
+    },
+    "relative_rank": {
+      "youtubeLink": "",
+      "tooltipText": "Rank of the main ASIN relative it its competitors. For example, if three (3) competitors are ranked better than the main ASIN the relative rank will be four (4)"
+    },
+    "rank_average": {
+      "youtubeLink": "",
+      "tooltipText": "Average position detected compared to all products"
+    },
+    "ranking_asins": {
+      "youtubeLink": "",
+      "tooltipText": "Average position detected compared to all products"
+    },
+    "sponsored_rank": {
+      "youtubeLink": "",
+      "tooltipText": "Sponsored ads position in customer searches"
+    },
+    "drop_raise_index": {
+      "youtubeLink": "",
+      "tooltipText": "Percentage of weighted drop/ raise of the tracked keyword compared to previous value "
     }
   }
 ]
