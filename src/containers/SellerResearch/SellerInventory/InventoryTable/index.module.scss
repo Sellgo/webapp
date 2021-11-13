@@ -23,3 +23,11 @@
   width: 100vw;
   z-index: 9999999 !important;
 }
+
+.errorMessage {
+  display: flex;
+
+  p {
+    margin-right: 5px;
+  }
+}

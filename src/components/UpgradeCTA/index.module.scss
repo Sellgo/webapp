@@ -1,0 +1,25 @@
+@import '../../design-system/new-colors';
+
+.upgradeCTA {
+  color: $sellgo_purple !important;
+  font-size: 12px;
+  font-weight: 500 !important;
+  margin-left: 10px;
+  align-items: center;
+  text-decoration: none !important;
+
+  &:hover {
+    color: $sellgo_purple !important;
+  }
+}
+
+.unlockIcon {
+  margin-right: 8px;
+  margin-bottom: 3px;
+  height: 15px;
+}
+
+.arrowIcon {
+  margin-left: 5px;
+  margin-bottom: 2px;
+}

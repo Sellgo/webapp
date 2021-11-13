@@ -12,7 +12,7 @@ import NotFound from '../../components/NotFound';
 import PilotLogin from '../../containers/PilotLogin';
 import history from '../../history';
 import { connect } from 'react-redux';
-import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
+import { fetchSellerSubscription, fetchSubscriptions } from '../../actions/Settings/Subscription';
 import '../../analytics';
 // import ProductTracker from '../ProductTracker';
 import ResetPassword from '../ResetPassword';
@@ -70,6 +70,7 @@ const PrivateRoute = connect(
   // mapDispatchToProps
   {
     fetchSellerSubscription: () => fetchSellerSubscription(),
+    fetchSubscriptions: () => fetchSubscriptions(),
   }
 )(
   ({
@@ -77,6 +78,7 @@ const PrivateRoute = connect(
     requireSubscription,
     sellerSubscription,
     fetchSellerSubscription,
+    fetchSubscriptions,
     location,
     ...rest
   }: any) => {
@@ -99,6 +101,7 @@ const PrivateRoute = connect(
       // and take action depending on status.
       if (sellerSubscription === undefined) {
         fetchSellerSubscription();
+        fetchSubscriptions();
         return;
       }
 

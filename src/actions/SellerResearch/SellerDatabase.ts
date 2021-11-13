@@ -16,6 +16,14 @@ import { getSellerDatabaseResults } from '../../selectors/SellerResearch/SellerD
 import { downloadFile } from '../../utils/download';
 import { error, info, success } from '../../utils/notifications';
 
+/* Action to set quota exceeded for seller database */
+export const setSellerDatabaseQuotaExceeded = (payload: boolean) => {
+  return {
+    type: actionTypes.SET_SELLER_DATABASE_QUOTA_EXCEEDED,
+    payload,
+  };
+};
+
 /* Action to set loading state for seller database */
 export const setIsLoadingSellerDatabase = (payload: boolean) => {
   return {
@@ -253,6 +261,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
 
     if (status === 429) {
       error(data.message);
+      dispatch(setSellerDatabaseQuotaExceeded(true));
     }
 
     dispatch(

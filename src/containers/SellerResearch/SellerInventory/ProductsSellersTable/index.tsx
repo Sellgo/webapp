@@ -27,6 +27,7 @@ import {
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import RatingCell from '../../../../components/NewTable/RatingCell';
 import BrandsListCell from '../../../../components/NewTable/BrandsListCell';
+import TableResultsMessage from '../../../../components/TableResultsMessage';
 
 /* Containers */
 import SellerInformation from './SellerInformation';
@@ -53,7 +54,7 @@ const ProductsSellersTable = (props: Props) => {
   const {
     isLoadingSellerInventoryProductsSellers,
     sellerInventoryProductsTableSellersResults,
-    // sellerInventoryProductsTableSellersPaginationInfo,
+    sellerInventoryProductsTableSellersPaginationInfo,
   } = props;
 
   /* Custom scroll logic */
@@ -91,6 +92,24 @@ const ProductsSellersTable = (props: Props) => {
 
   return (
     <section className={styles.productsSellersTableWrapper}>
+      {!isLoadingSellerInventoryProductsSellers && (
+        <TableResultsMessage
+          prependMessage="Showing"
+          count={
+            sellerInventoryProductsTableSellersPaginationInfo
+              ? sellerInventoryProductsTableSellersPaginationInfo.count
+              : 0
+          }
+          actualCount={
+            sellerInventoryProductsTableSellersResults
+              ? sellerInventoryProductsTableSellersResults.length
+              : 0
+          }
+          appendMessage="sellers"
+          limitType="seller_finder_seller_display_limit"
+          hideCTA
+        />
+      )}
       <Table
         loading={isLoadingSellerInventoryProductsSellers}
         data={sellerInventoryProductsTableSellersResults}
