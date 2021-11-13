@@ -24,7 +24,7 @@ const UpgradeCTA = (props: Props) => {
   if (DAILY_SUBSCRIPTION_PLANS.includes(sellerSubscription.subscription_id)) {
     return (
       <span>
-        {showText && <span> for $1 plan. </span>}
+        {showText && <span> for $1.99 plan. </span>}
         <Link
           to="/settings/pricing"
           className={`${styles.upgradeCTA} ${className}`}
