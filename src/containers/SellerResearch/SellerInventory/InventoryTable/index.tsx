@@ -153,7 +153,7 @@ const InventoryTable = (props: Props) => {
       return (
         <span className={styles.errorMessage}>
           <TableResultsMessage
-            prependMessage="Your plan is limited to viewing "
+            prependMessage="Viewing "
             appendMessage=" products per seller "
             limitType="seller_finder_inventory_display_limit"
             count={sellerInventoryProductsTablePaginationInfo.count}
@@ -176,7 +176,7 @@ const InventoryTable = (props: Props) => {
     ) {
       return (
         <TableResultsMessage
-          prependMessage="Your plan is limited to viewing "
+          prependMessage="Viewing "
           appendMessage=" products per seller "
           limitType="seller_finder_inventory_display_limit"
           count={sellerInventoryProductsTablePaginationInfo.count}
