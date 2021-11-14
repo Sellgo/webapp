@@ -13,7 +13,7 @@ import {
 } from '../../../constants/UserOnboarding';
 
 /* Selectors */
-import { getUserOnboarding, getUserOnboardingResources } from '../../../selectors/UserOnboarding';
+import { getUserOnboardingResources } from '../../../selectors/UserOnboarding';
 
 /* Components */
 import OnboardingTooltip from '../../OnboardingTooltip';
@@ -24,8 +24,8 @@ interface Props {
   selectedValues: string[];
   handleChange: (value: any) => void;
   userOnboardingResources: any;
-  userOnboarding: boolean;
   disabled?: boolean;
+  popUpPosition?: 'bottom left' | 'bottom right';
 }
 
 const CheckboxDropdown: React.FC<Props> = props => {
@@ -35,12 +35,12 @@ const CheckboxDropdown: React.FC<Props> = props => {
     filterOptions,
     selectedValues,
     userOnboardingResources,
-    userOnboarding,
     disabled,
+    popUpPosition = 'bottom left',
   } = props;
 
   const handleCheckboxTick = (e: any, data: any) => {
-    let newSelectedValues = selectedValues;
+    let newSelectedValues = [...selectedValues];
 
     // if checked state
     if (data.checked) {
@@ -82,9 +82,9 @@ const CheckboxDropdown: React.FC<Props> = props => {
 
   /* Onboarding logic */
   const filterOnboarding = userOnboardingResources[FILTER_KPI_ONBOARDING_INDEX] || {};
-  const enableFilterOnboarding = userOnboarding && Object.keys(filterOnboarding).length > 0;
+  const enableFilterOnboarding = Object.keys(filterOnboarding).length > 0;
 
-  const { youtubeLink, tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
+  const { tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
 
   return (
     <div className={styles.checkBoxDropdownFilters}>
@@ -93,9 +93,9 @@ const CheckboxDropdown: React.FC<Props> = props => {
           {label}
 
           {/* Onboarding */}
-          {enableFilterOnboarding && (youtubeLink || tooltipText) && (
+          {enableFilterOnboarding && tooltipText && (
             <OnboardingTooltip
-              youtubeLink={youtubeLink}
+              youtubeLink={''}
               tooltipMessage={tooltipText}
               infoIconClassName="infoOnboardingIcon"
               youtubeIconClassName="youtubeOnboarding"
@@ -107,7 +107,7 @@ const CheckboxDropdown: React.FC<Props> = props => {
       <Popup
         className="popup"
         on="click"
-        position="bottom left"
+        position={popUpPosition}
         basic
         trigger={trigger}
         disabled={disabled}
@@ -147,7 +147,6 @@ const CheckboxDropdown: React.FC<Props> = props => {
 const mapStateToProps = (state: any) => {
   return {
     userOnboardingResources: getUserOnboardingResources(state),
-    userOnboarding: getUserOnboarding(state),
   };
 };
 

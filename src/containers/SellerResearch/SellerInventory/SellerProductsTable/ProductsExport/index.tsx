@@ -6,10 +6,15 @@ import styles from './index.module.scss';
 
 /* Selectors */
 import { getSellerSubscription } from '../../../../../selectors/Subscription';
-import { getSellerInventoryTableExpandedRow } from '../../../../../selectors/SellerResearch/SellerInventory';
+import {
+  getSellerInventoryTableExpandedRow,
+  getSellerInventoryProductsTableResults,
+  getSellerInventoryProductsTablePaginationInfo,
+} from '../../../../../selectors/SellerResearch/SellerInventory';
 
 /* Components */
 import TableExport from '../../../../../components/NewTable/TableExport';
+import TableResultsMessage from '../../../../../components/TableResultsMessage';
 
 /* Assets */
 import { ReactComponent as XLSXExportImage } from '../../../../../assets/images/xlsxExportImage.svg';
@@ -20,6 +25,7 @@ import { success } from '../../../../../utils/notifications';
 
 /* Interfaces */
 import { SellerSubscription } from '../../../../../interfaces/Seller';
+import { SellerInventoryProductsTablePaginationInfo } from '../../../../../interfaces/SellerResearch/SellerInventory';
 
 /* Hooks */
 import { useProductsExportSocket } from '../../SocketProviders/ProductsExportProvider';
@@ -27,11 +33,17 @@ import { useProductsExportSocket } from '../../SocketProviders/ProductsExportPro
 interface Props {
   sellerSubscription: SellerSubscription;
   sellerInventoryTableExpandedRow: any;
+  sellerInventoryProductsTableResults: any[];
+  sellerInventoryProductsTablePaginationInfo: SellerInventoryProductsTablePaginationInfo;
 }
 
 const ProductsExport = (props: Props) => {
-  const { sellerSubscription, sellerInventoryTableExpandedRow } = props;
-
+  const {
+    sellerSubscription,
+    sellerInventoryTableExpandedRow,
+    sellerInventoryProductsTableResults,
+    sellerInventoryProductsTablePaginationInfo,
+  } = props;
   const { handleProductsExport } = useProductsExportSocket();
 
   const merchantId = sellerInventoryTableExpandedRow && sellerInventoryTableExpandedRow.id;
@@ -50,10 +62,27 @@ const ProductsExport = (props: Props) => {
   };
   return (
     <section className={styles.exportsContainer}>
+      {sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length > 0 && (
+        <TableResultsMessage
+          prependMessage="Showing"
+          count={
+            sellerInventoryProductsTablePaginationInfo
+              ? sellerInventoryProductsTablePaginationInfo.count
+              : 0
+          }
+          actualCount={
+            sellerInventoryProductsTableResults ? sellerInventoryProductsTableResults.length : 0
+          }
+          hideCTA
+          appendMessage="products"
+          limitType="seller_finder_inventory_display_limit"
+        />
+      )}
       <TableExport
         label=""
         disableExport={shouldDisableExport}
         onButtonClick={() => handleExport('xlsx')}
+        hideCTA
         exportContent={
           <>
             <div className={styles.exportOptions}>
@@ -83,8 +112,12 @@ const ProductsExport = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
   return {
+    sellerInventoryProductsTablePaginationInfo: getSellerInventoryProductsTablePaginationInfo(
+      state
+    ),
     sellerSubscription: getSellerSubscription(state),
     sellerInventoryTableExpandedRow: getSellerInventoryTableExpandedRow(state),
+    sellerInventoryProductsTableResults: getSellerInventoryProductsTableResults(state),
   };
 };
 

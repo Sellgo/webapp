@@ -177,7 +177,7 @@ const ChangePlanModal = (props: Props) => {
             <button className={styles.cancelButton} onClick={() => setChangingPlanModalOpen(false)}>
               Cancel
             </button>
-            <ActionButton type="orange" variant="primary" size="md" onClick={handleSave}>
+            <ActionButton type="purpleGradient" variant="primary" size="md" onClick={handleSave}>
               Confirm
             </ActionButton>
           </div>

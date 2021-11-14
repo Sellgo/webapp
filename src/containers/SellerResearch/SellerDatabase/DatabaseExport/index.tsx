@@ -22,11 +22,13 @@ import {
   getSellerDatabasePaginationInfo,
   getSellerDatabaseMarketplaceInfo,
   getSellerDatabaseResults,
+  getSellerDatabaseQuotaExceeded,
 } from '../../../../selectors/SellerResearch/SellerDatabase';
 
 /* Components */
 import TableExport from '../../../../components/NewTable/TableExport';
 import TableResultsMessage from '../../../../components/TableResultsMessage';
+import TableErrorMessage from '../../../../components/TableErrorMessage';
 
 /* Assets */
 import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
@@ -39,6 +41,7 @@ interface Props {
   sellerDatabaseFilterMessage: ShowFilterMessage;
   sellerDatabasePaginationInfo: SellerDatabasePaginationInfo;
   sellerMarketplace: MarketplaceOption;
+  sellerDatabaseQuotaExceeded: boolean;
 }
 
 const DatabaseExport = (props: Props) => {
@@ -49,6 +52,7 @@ const DatabaseExport = (props: Props) => {
     sellerDatabaseFilterMessage,
     sellerDatabasePaginationInfo,
     sellerMarketplace,
+    sellerDatabaseQuotaExceeded,
   } = props;
 
   const handleOnExport = (fileFormat: 'csv' | 'xlsx') => {
@@ -59,7 +63,6 @@ const DatabaseExport = (props: Props) => {
     () => !isLoadingSellerDatabase && sellerDatabaseResults.length > 0,
     [isLoadingSellerDatabase, sellerDatabaseResults]
   );
-
   return (
     <>
       <div className={styles.exportsContainer}>
@@ -67,7 +70,17 @@ const DatabaseExport = (props: Props) => {
           <TableResultsMessage
             prependMessage="Viewing"
             count={sellerDatabasePaginationInfo.count}
-            appendMessage="sellers."
+            actualCount={sellerDatabaseResults ? sellerDatabaseResults.length : 0}
+            appendMessage="sellers"
+            limitType="seller_database_display_limit"
+          />
+        )}
+
+        {!sellerDatabaseFilterMessage.show && sellerDatabaseQuotaExceeded && (
+          <TableErrorMessage
+            quotaType="seller_database_limit"
+            prependMessage="You have used up your quota of "
+            appendMessage=" products."
           />
         )}
 
@@ -109,6 +122,7 @@ const mapStateToProps = (state: any) => ({
   sellerDatabaseFilterMessage: getFilterMessage(state),
   sellerDatabasePaginationInfo: getSellerDatabasePaginationInfo(state),
   sellerMarketplace: getSellerDatabaseMarketplaceInfo(state),
+  sellerDatabaseQuotaExceeded: getSellerDatabaseQuotaExceeded(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {

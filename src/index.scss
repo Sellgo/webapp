@@ -489,3 +489,12 @@ i.tooltipIcon.check.circle {
   transition: all 0.1s ease 0.5s;
   visibility: visible;
 }
+
+/* Positioning Intercom */
+.intercom-launcher-frame,
+.intercom-launcher,
+.intercom-launcher-frame-launcher,
+.intercom-lightweight-app {
+  bottom: 50px !important;
+  z-index: 10 !important;
+}

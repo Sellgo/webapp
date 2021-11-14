@@ -27,6 +27,9 @@ import {
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import RatingCell from '../../../../components/NewTable/RatingCell';
 import BrandsListCell from '../../../../components/NewTable/BrandsListCell';
+import TableResultsMessage from '../../../../components/TableResultsMessage';
+import CopyAndLocateClipboard from '../../../../components/CopyAndLocateClipboard';
+import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 
 /* Containers */
 import SellerInformation from './SellerInformation';
@@ -37,7 +40,6 @@ import {
   SellerInventoryProductsTableSellersPaginationInfo,
   SellerInventoryProductsTableSellersPayload,
 } from '../../../../interfaces/SellerResearch/SellerInventory';
-import CopyAndLocateClipboard from '../../../../components/CopyAndLocateClipboard';
 
 interface Props {
   isLoadingSellerInventoryProductsSellers: boolean;
@@ -53,7 +55,7 @@ const ProductsSellersTable = (props: Props) => {
   const {
     isLoadingSellerInventoryProductsSellers,
     sellerInventoryProductsTableSellersResults,
-    // sellerInventoryProductsTableSellersPaginationInfo,
+    sellerInventoryProductsTableSellersPaginationInfo,
   } = props;
 
   /* Custom scroll logic */
@@ -91,6 +93,24 @@ const ProductsSellersTable = (props: Props) => {
 
   return (
     <section className={styles.productsSellersTableWrapper}>
+      {!isLoadingSellerInventoryProductsSellers && (
+        <TableResultsMessage
+          prependMessage="Showing"
+          count={
+            sellerInventoryProductsTableSellersPaginationInfo
+              ? sellerInventoryProductsTableSellersPaginationInfo.count
+              : 0
+          }
+          actualCount={
+            sellerInventoryProductsTableSellersResults
+              ? sellerInventoryProductsTableSellersResults.length
+              : 0
+          }
+          appendMessage="sellers"
+          limitType="seller_finder_seller_display_limit"
+          hideCTA
+        />
+      )}
       <Table
         loading={isLoadingSellerInventoryProductsSellers}
         data={sellerInventoryProductsTableSellersResults}
@@ -106,13 +126,29 @@ const ProductsSellersTable = (props: Props) => {
       >
         {/* Seller Name */}
         <Table.Column verticalAlign="middle" align="left" flexGrow={3}>
-          <Table.HeaderCell>Seller Name</Table.HeaderCell>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Seller Name`}
+              dataKey="seller_name"
+              currentSortColumn={''}
+              currentSortType={undefined}
+              disableSort
+            />
+          </Table.HeaderCell>
           <SellerInformation dataKey="sellerInformation" />
         </Table.Column>
 
         {/* Seller ID */}
         <Table.Column width={130} verticalAlign="middle" align="left" flexGrow={1}>
-          <Table.HeaderCell>Seller ID</Table.HeaderCell>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Seller ID`}
+              dataKey="seller_id"
+              currentSortColumn={''}
+              currentSortType={undefined}
+              disableSort
+            />
+          </Table.HeaderCell>
           <Table.Cell>
             {(rowData: any) => {
               const sellerLink = `https://www.amazon.com/sp?seller=${rowData.merchant_id}`;
@@ -123,19 +159,43 @@ const ProductsSellersTable = (props: Props) => {
 
         {/* Brands */}
         <Table.Column width={130} verticalAlign="middle" align="left" flexGrow={1}>
-          <Table.HeaderCell>Brands</Table.HeaderCell>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Brands`}
+              dataKey="brands"
+              currentSortColumn={''}
+              currentSortType={undefined}
+              disableSort
+            />
+          </Table.HeaderCell>
           <BrandsListCell dataKey="brands" />
         </Table.Column>
 
         {/* Rating L365D*/}
         <Table.Column width={130} verticalAlign="middle" align="left" flexGrow={1}>
-          <Table.HeaderCell>Rating L365D</Table.HeaderCell>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Rating L365D`}
+              dataKey="seller_rating"
+              currentSortColumn={''}
+              currentSortType={undefined}
+              disableSort
+            />
+          </Table.HeaderCell>
           <RatingCell dataKey="seller_rating" />
         </Table.Column>
 
         {/* Ratings % */}
         <Table.Column width={130} verticalAlign="middle" align="left" flexGrow={1}>
-          <Table.HeaderCell>Rating % L365D</Table.HeaderCell>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Rating % L365D`}
+              dataKey="review_ratings"
+              currentSortColumn={''}
+              currentSortType={undefined}
+              disableSort
+            />
+          </Table.HeaderCell>
           <StatsCell dataKey="review_ratings" appendWith="%" />
         </Table.Column>
 

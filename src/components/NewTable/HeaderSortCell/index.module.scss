@@ -21,6 +21,10 @@
   cursor: pointer;
   position: relative;
 
+  &__disabled {
+    cursor: default;
+  }
+
   .youtubeLogoTrigger {
     position: absolute;
     top: 0;
@@ -63,4 +67,26 @@
 
 .inActiveSort {
   color: $grey_3 !important;
+}
+
+.onboardingTooltipPopup {
+  padding: 0 !important;
+  width: max-content;
+  height: max-content;
+  background: $grey_8 !important;
+  z-index: 99999 !important;
+
+  &::before {
+    display: none;
+  }
+}
+
+.hideTooltipPopup {
+  width: 0 !important;
+  padding: 0 !important;
+  height: 0 !important;
+
+  &::before {
+    display: none;
+  }
 }

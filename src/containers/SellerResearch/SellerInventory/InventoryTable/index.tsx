@@ -18,7 +18,9 @@ import {
 import {
   getIsLoadingSellerInventoryTable,
   getSellerInventoryProductsTableResults,
+  getSellerInventoryProductsTablePaginationInfo,
   getSellerInventoryProductsTableSellersResults,
+  getSellerInventoryProductsTableSellersPaginationInfo,
   getSellerInventoryTableActiveGroupId,
   getSellerInventoryTablePaginationInfo,
   getSellerInventoryTableResults,
@@ -39,6 +41,7 @@ import Pagination from '../../../../components/NewTable/Pagination';
 import BrandsListCell from '../../../../components/NewTable/BrandsListCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import ExtendedReviewsCell from '../../../../components/NewTable/ExtendedReviewsCell';
+import TableResultsMessage from '../../../../components/TableResultsMessage';
 
 /* Containers */
 import SellerInformation from './SellerInformation';
@@ -55,6 +58,8 @@ import {
   SellerInventoryTablePaginationInfo,
   SellerInventoryProductsTablePayload,
   SellerInventoryTableActiveGroupId,
+  SellerInventoryProductsTableSellersPaginationInfo,
+  SellerInventoryProductsTablePaginationInfo,
 } from '../../../../interfaces/SellerResearch/SellerInventory';
 
 interface Props {
@@ -64,7 +69,10 @@ interface Props {
   sellerInventoryTableActiveGroupId: SellerInventoryTableActiveGroupId;
 
   sellerInventoryProductsTableResults: any[];
+  sellerInventoryProductsTablePaginationInfo: SellerInventoryProductsTablePaginationInfo;
+
   sellerInventoryProductsTableSellersResults: any[];
+  sellerInventoryProductsTableSellersPaginationInfo: SellerInventoryProductsTableSellersPaginationInfo;
 
   setSellerInventoryTableExpandedRow: (payload: any) => void;
 
@@ -84,7 +92,10 @@ const InventoryTable = (props: Props) => {
     fetchSellerInventoryProductsTable,
 
     sellerInventoryProductsTableResults,
+    sellerInventoryProductsTablePaginationInfo,
+
     sellerInventoryProductsTableSellersResults,
+    sellerInventoryProductsTableSellersPaginationInfo,
   } = props;
 
   const [sortColumn, setSortColumn] = useState<string>('');
@@ -132,8 +143,57 @@ const InventoryTable = (props: Props) => {
           (seller: any) => seller.merchant_group === sellerInventoryTableActiveGroupId
         );
 
+  const generateErrorMessage = () => {
+    if (
+      sellerInventoryProductsTableResults &&
+      sellerInventoryProductsTableResults.length > 0 &&
+      sellerInventoryProductsTableSellersResults &&
+      sellerInventoryProductsTableSellersResults.length > 0
+    ) {
+      return (
+        <span className={styles.errorMessage}>
+          <TableResultsMessage
+            prependMessage="Viewing "
+            appendMessage=" products per seller "
+            limitType="seller_finder_inventory_display_limit"
+            count={sellerInventoryProductsTablePaginationInfo.count}
+            actualCount={sellerInventoryProductsTableResults.length}
+            hideCTA
+            hidePlanDetailsText
+          />
+          <TableResultsMessage
+            prependMessage=" and "
+            appendMessage=" sellers per product "
+            limitType="seller_finder_seller_display_limit"
+            count={sellerInventoryProductsTableSellersPaginationInfo.count}
+            actualCount={sellerInventoryProductsTableSellersResults.length}
+          />
+        </span>
+      );
+    } else if (
+      sellerInventoryProductsTableResults &&
+      sellerInventoryProductsTableResults.length > 0
+    ) {
+      return (
+        <TableResultsMessage
+          prependMessage="Viewing "
+          appendMessage=" products per seller "
+          limitType="seller_finder_inventory_display_limit"
+          count={sellerInventoryProductsTablePaginationInfo.count}
+          actualCount={sellerInventoryProductsTableResults.length}
+        />
+      );
+    } else {
+      return null;
+    }
+  };
+
   return (
     <section className={styles.sellerInventoryTableWrapper}>
+      {sellerInventoryProductsTableResults &&
+        sellerInventoryProductsTableResults.length > 0 &&
+        expandedRowKeys.length > 0 &&
+        generateErrorMessage()}
       {/* Main table wrapper */}
       <Table
         loading={isLoadingSellerInventoryTable}
@@ -169,19 +229,43 @@ const InventoryTable = (props: Props) => {
 
         {/* Seller Information */}
         <Table.Column minWidth={500} verticalAlign="top" fixed="left" flexGrow={1}>
-          <Table.HeaderCell>Seller Information</Table.HeaderCell>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Seller Information`}
+              dataKey="seller_information"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+              disableSort
+            />
+          </Table.HeaderCell>
           <SellerInformation dataKey="seller_information" />
         </Table.Column>
 
         {/* ASIN */}
         <Table.Column width={150} verticalAlign="top" align="left">
-          <Table.HeaderCell>ASIN</Table.HeaderCell>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`ASIN`}
+              dataKey="inventory_count"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+              disableSort
+            />
+          </Table.HeaderCell>
           <SellerActions dataKey="sellerActions" />
         </Table.Column>
 
         {/* Brands */}
         <Table.Column width={80} verticalAlign="top" align="center">
-          <Table.HeaderCell>Brands</Table.HeaderCell>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Brands`}
+              dataKey="brands"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+              disableSort
+            />
+          </Table.HeaderCell>
           <BrandsListCell dataKey={'brands'} />
         </Table.Column>
 
@@ -326,7 +410,14 @@ const mapStateToProps = (state: any) => {
     sellerInventoryTableActiveGroupId: getSellerInventoryTableActiveGroupId(state),
 
     sellerInventoryProductsTableResults: getSellerInventoryProductsTableResults(state),
+    sellerInventoryProductsTablePaginationInfo: getSellerInventoryProductsTablePaginationInfo(
+      state
+    ),
+
     sellerInventoryProductsTableSellersResults: getSellerInventoryProductsTableSellersResults(
+      state
+    ),
+    sellerInventoryProductsTableSellersPaginationInfo: getSellerInventoryProductsTableSellersPaginationInfo(
       state
     ),
   };

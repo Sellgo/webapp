@@ -15,6 +15,12 @@
   padding: 0 20px;
   box-shadow: 0 3px 6px #00000029;
   font-weight: normal;
+  font-weight: $fontweight_medium;
+
+  .filterIcon {
+    height: 15px;
+    margin-right: 8px;
+  }
 
   span {
     flex: 1;

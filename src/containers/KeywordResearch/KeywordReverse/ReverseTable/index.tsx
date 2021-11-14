@@ -85,7 +85,15 @@ const ReverseTable = (props: Props) => {
       >
         {/* Search Term */}
         <Table.Column verticalAlign="middle" fixed align="left" flexGrow={1}>
-          <Table.HeaderCell>Search Term</Table.HeaderCell>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Search Term`}
+              dataKey="search_term"
+              currentSortColumn={''}
+              currentSortType={undefined}
+              disableSort
+            />
+          </Table.HeaderCell>
           <SearchTerm dataKey="searchTerm" />
         </Table.Column>
 
@@ -113,6 +121,19 @@ const ReverseTable = (props: Props) => {
             />
           </Table.HeaderCell>
           <StatsCell dataKey="sponsored_asins" align="left" />
+        </Table.Column>
+
+        {/* Sponsored Rank */}
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Sponsored\nRank`}
+              dataKey="sponsored_rank"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <StatsCell dataKey="sponsored_rank" align="left" />
         </Table.Column>
 
         {/* Competing Products  */}

@@ -63,7 +63,7 @@ const AddEditKeywords = (props: Props) => {
   return (
     <div className={styles.addEditKeywordsWrapper}>
       <ActionButton
-        type="orange"
+        type="purpleGradient"
         variant="secondary"
         size="md"
         className={styles.addEditKeywords}

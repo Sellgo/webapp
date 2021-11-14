@@ -1,34 +1,107 @@
 [
   {
     "Tutorial": {
-      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
-      "displayText": "Tutorial | 5-min watch"
+      "youtubeLink": "",
+      "displayText": ""
     }
   },
 
   {
-    "Choose Marketplace": {
+    "Search for Sellers on Amazon": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "tooltipText": "Find sellers on Amazon.com"
+    }
+  },
+
+  {
+    "seller_information": {
+      "youtubeLink": "",
+      "tooltipText": "Seller basic information"
     },
-    "Country": {
+    "inventory_count": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "tooltipText": "Total count of ASINs that the sellers carry"
+    },
+    "brands": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of brands that the sellers carry"
+    },
+    "seller_rating": {
+      "youtubeLink": "",
+      "tooltipText": "Average of rating"
+    },
+    "review_ratings": {
+      "youtubeLink": "",
+      "tooltipText": "Percentage of rating"
+    },
+    "count_30_days": {
+      "youtubeLink": "",
+      "tooltipText": "Total review count during the last 1 month"
+    },
+    "count_90_days": {
+      "youtubeLink": "",
+      "tooltipText": "Total review count during the last 3 month"
+    },
+    "count_12_month": {
+      "youtubeLink": "",
+      "tooltipText": "Total review count during the last 1 year"
+    },
+    "count_lifetime": {
+      "youtubeLink": "",
+      "tooltipText": "Total review count"
     },
 
-    "U.S. States": {
+    "buybox_competition": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "tooltipText": "Total sellers inside the Buy Box"
+    },
+    "product_inventory_information": {
+      "youtubeLink": "",
+      "tooltipText": "Product basic information"
+    },
+    "price": {
+      "youtubeLink": "",
+      "tooltipText": "Last detected price"
+    },
+    "average_product_rating": {
+      "youtubeLink": "",
+      "tooltipText": "Average of product rating"
+    },
+    "percentage_product_rating": {
+      "youtubeLink": "",
+      "tooltipText": "Percentage of product rating"
+    },
+    "total_product_review": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of product review"
     },
 
-    "Zipcode": {
+    "seller_name": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "tooltipText": "Seller name on product listing"
     },
-
-    "View": {
+    "seller_id": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "tooltipText": "Unique seller ID by marketplace"
+    },
+    "brands": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of brands that the sellers carry"
+    },
+    "review_ratings": {
+      "youtubeLink": "",
+      "tooltipText": "Percentage of rating"
+    },
+    "seller_rating": {
+      "youtubeLink": "",
+      "tooltipText": "Average of rating"
+    }
+  },
+
+  {
+    "Export": {
+      "youtubeLink": "",
+      "tooltipText": "Export all the table results"
     }
   }
 ]

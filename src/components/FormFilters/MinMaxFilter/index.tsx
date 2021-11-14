@@ -8,7 +8,7 @@ import './globals.scss';
 import '../globalReset.scss';
 
 /* Selectors */
-import { getUserOnboarding, getUserOnboardingResources } from '../../../selectors/UserOnboarding';
+import { getUserOnboardingResources } from '../../../selectors/UserOnboarding';
 
 /* Constants */
 import {
@@ -28,7 +28,6 @@ interface Props {
   maxValue: string;
   handleChange: (type: string, value: string) => void;
   userOnboardingResources: any;
-  userOnboarding: boolean;
   appendWith?: string;
   prependWith?: string;
 }
@@ -40,7 +39,6 @@ const MinMaxFilter: React.FC<Props> = props => {
     maxValue,
     handleChange,
     userOnboardingResources,
-    userOnboarding,
     appendWith,
     prependWith,
   } = props;
@@ -53,9 +51,9 @@ const MinMaxFilter: React.FC<Props> = props => {
 
   /* Onboarding logic */
   const filterOnboarding = userOnboardingResources[FILTER_KPI_ONBOARDING_INDEX] || {};
-  const enableFilterOnboarding = userOnboarding && Object.keys(filterOnboarding).length > 0;
+  const enableFilterOnboarding = Object.keys(filterOnboarding).length > 0;
 
-  const { youtubeLink, tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
+  const { tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
 
   return (
     <div className={styles.minMaxFilter}>
@@ -64,9 +62,9 @@ const MinMaxFilter: React.FC<Props> = props => {
           {label}
 
           {/* Youtube On boarding Icon */}
-          {enableFilterOnboarding && (youtubeLink || tooltipText) && (
+          {enableFilterOnboarding && tooltipText && (
             <OnboardingTooltip
-              youtubeLink={youtubeLink}
+              youtubeLink={''}
               tooltipMessage={tooltipText}
               infoIconClassName="infoOnboardingIcon"
               youtubeIconClassName="youtubeOnboarding"
@@ -109,7 +107,6 @@ const MinMaxFilter: React.FC<Props> = props => {
 const mapStateToProps = (state: any) => {
   return {
     userOnboardingResources: getUserOnboardingResources(state),
-    userOnboarding: getUserOnboarding(state),
   };
 };
 

@@ -1,34 +1,129 @@
 [
   {
     "Tutorial": {
-      "youtubeLink": "https://www.youtube.com/embed/DVQTGidS1yk",
-      "displayText": "Tutorial | 5-min watch"
+      "youtubeLink": "",
+      "displayText": ""
     }
   },
 
   {
     "Choose Marketplace": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "tooltipText": "Amazon marketplace where the sellers sell"
+    },
+    "Categories": {
+      "youtubeLink": "",
+      "tooltipText": "Product categories associated with each Amazon marketplace"
+    },
+    "Include Brands": {
+      "youtubeLink": "",
+      "tooltipText": "Include popular brands that the sellers carry (separate with comma)"
+    },
+    "Monthly Revenue": {
+      "youtubeLink": "",
+      "tooltipText": "Estimated monthly revenue of sellers"
+    },
+    "Merchant Name": {
+      "youtubeLink": "",
+      "tooltipText": "Seller name on Amazon product listing"
+    },
+    "Business Name": {
+      "youtubeLink": "",
+      "tooltipText": "Seller registered business name"
+    },
+    "Exclude Brands": {
+      "youtubeLink": "",
+      "tooltipText": "Exclude popular brands that the sellers carry (separate with comma)"
+    },
+    "Include ASINs or ISBNs": {
+      "youtubeLink": "",
+      "tooltipText": "Include unique ASINs or ISBNs that the sellers carry (separate with comma)"
+    },
+    "Exclude ASINs or ISBNs": {
+      "youtubeLink": "",
+      "tooltipText": "Exclude unique ASINs or ISBNs that the sellers carry (separate with comma)"
+    },
+    "Include Seller IDs": {
+      "youtubeLink": "",
+      "tooltipText": "Find unique seller IDs (separate with comma)"
+    },
+    "Exclude Seller IDs": {
+      "youtubeLink": "",
+      "tooltipText": "Find other sellers except the one with unique seller IDs (separate with comma)"
+    },
+    "Seller Country": {
+      "youtubeLink": "",
+      "tooltipText": "Sellers' country of origin"
+    },
+    "U.S. States": {
+      "youtubeLink": "",
+      "tooltipText": "Only show for U.S. sellers"
+    },
+    "Seller Reachability": {
+      "youtubeLink": "",
+      "tooltipText": "Show sellers with phone information"
+    },
+    "# of Inventory": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of ASINs that the sellers carry"
+    },
+    "# of Brands": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of brands that the sellers carry"
+    },
+    "Growth %": {
+      "youtubeLink": "",
+      "tooltipText": "Total percentage of seller business growth by period"
+    },
+    "Review Count": {
+      "youtubeLink": "",
+      "tooltipText": "Total review count by period"
+    },
+    "FBA %": {
+      "youtubeLink": "",
+      "tooltipText": "Total percentage of FBA inventory (compared to FBM)"
+    },
+    "Review": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of positive, neutral and negative review by period"
+    },
+    "Seller Launched": {
+      "youtubeLink": "",
+      "tooltipText": "How long the sellers have been selling"
+    },
+    "Seller Type": {
+      "youtubeLink": "",
+      "tooltipText": "Wholesale or Private Label sellers"
+    },
+    "Seller Ratings": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of ratings"
+    }
+  },
+
+  {
+    "Choose Marketplace": {
+      "youtubeLink": "",
+      "tooltipText": "Amazon marketplace where the sellers sell"
     },
     "Country": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "tooltipText": "Filter by sellers' country of origin"
     },
 
     "U.S. States": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "tooltipText": "Filter by U.S. sellers' state of origin"
     },
 
     "Zipcode": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "tooltipText": "Filter by U.S. seller zipcode"
     },
 
     "View": {
       "youtubeLink": "",
-      "tooltipText": "Sponsored  | 2 min watch"
+      "tooltipText": "Choose top view from 3 - 20,000 based on subscription level"
     }
   }
 ]
