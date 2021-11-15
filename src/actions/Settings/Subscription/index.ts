@@ -45,7 +45,6 @@ export const setPromoCode = (promoCode: any) => ({
 export const checkPromoCode = (promoCode: string, subscriptionId: number, paymentMode: string) => (
   dispatch: any
 ) => {
-  console.log('ran?');
   dispatch(setPromoLoading(true));
   const sellerID = localStorage.getItem('userId');
   const fetchPromoCode = async () => {
