@@ -3,6 +3,7 @@ export interface SellerSubscriptionLimits {
 }
 
 export interface PromoCode {
+  code: string;
   percent_off: number;
   amount_off: number;
   message: string;
