@@ -127,7 +127,7 @@ export const OPTIONS: NavOptions = [
     path: '/keyword-research',
     isComingSoon: false,
     disabled: false,
-    isBeta: false,
+    isBeta: true,
     subOptions: [
       {
         label: 'Keyword Finder',
@@ -159,9 +159,9 @@ export const OPTIONS: NavOptions = [
     label: 'Product Research',
     icon: require(`../../assets/images/${NAV_ICONS.PRODUCT_RESEARCH}`),
     path: '/product-research',
-    isComingSoon: true,
+    isComingSoon: false,
     disabled: false,
-    isBeta: false,
+    isBeta: true,
     subOptions: [
       {
         label: 'Product Database',
@@ -170,14 +170,6 @@ export const OPTIONS: NavOptions = [
         path: '/product-research/database',
         disabled: false,
         isBeta: true,
-      },
-      {
-        label: 'Product Tracker',
-        description: 'Track Favorite Products',
-        icon: require(`../../assets/images/${NAV_ICONS.PRODUCT_TRACKER}`),
-        path: '/product-tracker',
-        disabled: false,
-        isBeta: false,
       },
     ],
   },

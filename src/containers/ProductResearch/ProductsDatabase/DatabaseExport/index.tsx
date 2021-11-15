@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-// import { Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import numeral from 'numeral';
 
@@ -7,51 +6,49 @@ import numeral from 'numeral';
 import styles from './index.module.scss';
 
 /* Components */
-// import ExportResultAs from '../../../../components/ExportResultAs';
+import TableExport from '../../../../components/NewTable/TableExport';
 
 /* Actions */
 import { fetchProductsDatabase } from '../../../../actions/ProductsResearch/ProductsDatabase';
 
-/* Constants */
-// import { EXPORT_DATA, EXPORT_FORMATS } from '../../../../constants/SellerResearch/SellerDatabase';
+/* Assets */
+import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
+import { ReactComponent as CSVExportImage } from '../../../../assets/images/csvExportImage.svg';
 
 /* Interface */
 import { ProductsDatabasePayload } from '../../../../interfaces/ProductResearch/ProductsDatabase';
 import {
-  // getIsLoadingProductsDatabase,
+  getIsLoadingProductsDatabase,
   getProductsDatabasePaginationInfo,
-  // getProductsDatabaseResults,
+  getProductsDatabaseResults,
 } from '../../../../selectors/ProductResearch/ProductsDatabase';
 
 /* Utils */
 import { formatNumber } from '../../../../utils/format';
 
 interface Props {
-  // productDatabaseResults: any;
-  // isLoadingProductDatabase: boolean;
-  // fetchProductsDatabase: (payload: ProductsDatabasePayload) => void;
+  productDatabaseResults: any;
+  isLoadingProductDatabase: boolean;
+  fetchProductsDatabase: (payload: ProductsDatabasePayload) => void;
   productDatabasePaginationInfo: any;
 }
 
 const DatabaseExport = (props: Props) => {
   const {
-    // fetchProductsDatabase,
-    // productDatabaseResults,
-    // isLoadingProductDatabase,
+    fetchProductsDatabase,
+    productDatabaseResults,
+    isLoadingProductDatabase,
     productDatabasePaginationInfo,
   } = props;
 
-  // const [openExports, setOpenExports] = useState(false);
+  const handleOnExport = async (fileFormat: 'csv' | 'xlsx') => {
+    await fetchProductsDatabase({ isExport: true, fileFormat });
+  };
 
-  // const hanleOnExport = async (details: any) => {
-  //   await fetchProductsDatabase({ isExport: true, fileFormat: details.format });
-  //   setOpenExports(false);
-  // };
-
-  // const shouldEnableExport = useMemo(
-  //   () => !isLoadingProductDatabase && productDatabaseResults.length > 0,
-  //   [isLoadingProductDatabase, productDatabaseResults]
-  // );
+  const shouldEnableExport = useMemo(
+    () => !isLoadingProductDatabase && productDatabaseResults.length > 0,
+    [isLoadingProductDatabase, productDatabaseResults]
+  );
 
   const totalProductsFound = useMemo(() => {
     const count = productDatabasePaginationInfo.count;
@@ -73,32 +70,41 @@ const DatabaseExport = (props: Props) => {
             Viewing <span className={styles.productCount}>{totalProductsFound}</span> products.
           </p>
         )}
-        {/* <div
-          onClick={() => (shouldEnableExport ? setOpenExports(true) : 0)}
-          className={`${shouldEnableExport ? 'export-button' : 'export-button-disabled'}`}
-        >
-          <Icon name="download" />
-          <span>Export</span>
-        </div> */}
-      </div>
+        <TableExport
+          label=""
+          disableExport={!shouldEnableExport}
+          onButtonClick={() => handleOnExport('xlsx')}
+          exportContent={
+            <>
+              <div className={styles.exportOptions}>
+                <span>Export As</span>
+                <button
+                  className={styles.exportOption}
+                  onClick={() => handleOnExport('xlsx')}
+                  disabled={!shouldEnableExport}
+                >
+                  <XLSXExportImage /> .XLSX
+                </button>
 
-      {/* Export modal */}
-      {/* <ExportResultAs
-        open={openExports}
-        formats={EXPORT_FORMATS}
-        data={EXPORT_DATA}
-        onClose={() => setOpenExports(false)}
-        loading={false}
-        onExport={hanleOnExport}
-        format={'csv'}
-      /> */}
+                <button
+                  className={styles.exportOption}
+                  onClick={() => handleOnExport('csv')}
+                  disabled={!shouldEnableExport}
+                >
+                  <CSVExportImage /> .CSV
+                </button>
+              </div>
+            </>
+          }
+        />
+      </div>
     </>
   );
 };
 
 const mapStateToProps = (state: any) => ({
-  // productDatabaseResults: getProductsDatabaseResults(state),
-  // isLoadingProductDatabase: getIsLoadingProductsDatabase(state),
+  productDatabaseResults: getProductsDatabaseResults(state),
+  isLoadingProductDatabase: getIsLoadingProductsDatabase(state),
   productDatabasePaginationInfo: getProductsDatabasePaginationInfo(state),
 });
 

@@ -7,7 +7,7 @@ const INITIAL_STATE = {
   isLoadingSellerDatabase: false,
   showFilterMessage: {
     show: false,
-    message: 'Please specify atleast one filter',
+    message: 'Please specify at least one filter',
     type: 'info',
   },
   sellerDatabaseResults: [],
