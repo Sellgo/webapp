@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal } from 'semantic-ui-react';
+import { get } from 'lodash';
 import { connect } from 'react-redux';
 import Carousel from 'react-multi-carousel';
 
@@ -23,7 +24,6 @@ import PricingPlansSummary from '../PricingCardsSummary';
 
 /* Types */
 import { PromoCode, SubscriptionPlan } from '../../interfaces/Subscription';
-import { get } from 'lodash';
 
 interface Props {
   setPlanType: (planType: string) => any;
@@ -88,9 +88,7 @@ const ChangePlanModal = (props: Props) => {
     setPaymentMode(newPaymentMode);
     setChangingPlanModalOpen(false);
 
-    console.log(promoCode);
     if (promoCode && promoCode.code) {
-      console.log('calling check promo code?');
       checkPromoCode(promoCode.code, newSubscriptionId, newPaymentMode);
     }
   };
