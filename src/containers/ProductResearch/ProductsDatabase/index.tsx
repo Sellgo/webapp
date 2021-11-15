@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 /* Components */
@@ -6,37 +6,44 @@ import DatabaseFilters from './DatabaseFilters';
 import ProductsDatabaseTable from './DatabaseTable';
 import DatabaseExport from './DatabaseExport';
 
-/* Actions */
-import { fetchProductsDatabase } from '../../../actions/ProductsResearch/ProductsDatabase';
+/* Selectors */
+import { getFilterMessage } from '../../../selectors/ProductResearch/ProductsDatabase';
+
+/* Components */
+import FilterMessage from '../../../components/FilterMessage';
 
 /* Interfaces */
-import { ProductsDatabasePayload } from '../../../interfaces/ProductResearch/ProductsDatabase';
+import { ShowFilterMessage } from '../../../interfaces/SellerResearch/SellerDatabase';
+
+/* Styles */
+import styles from './index.module.scss';
 
 interface Props {
-  fetchProductsDatabase: (payload: ProductsDatabasePayload) => void;
+  showFilterMessage: ShowFilterMessage;
 }
 
-const ProductPanel = (props: Props) => {
-  const { fetchProductsDatabase } = props;
-
-  useEffect(() => {
-    fetchProductsDatabase({ resetFilters: true });
-  }, []);
+const ProductsDatabase = (props: Props) => {
+  const { showFilterMessage } = props;
 
   return (
     <main>
       <DatabaseFilters />
+      <FilterMessage
+        active={showFilterMessage.show}
+        message={showFilterMessage.message}
+        type={showFilterMessage.type}
+        className={styles.filterMessage}
+      />
       <DatabaseExport />
       <ProductsDatabaseTable />
     </main>
   );
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapStateToProps = (state: any) => {
   return {
-    fetchProductsDatabase: (payload: ProductsDatabasePayload) =>
-      dispatch(fetchProductsDatabase(payload)),
+    showFilterMessage: getFilterMessage(state),
   };
 };
 
-export default connect(null, mapDispatchToProps)(ProductPanel);
+export default connect(mapStateToProps)(ProductsDatabase);

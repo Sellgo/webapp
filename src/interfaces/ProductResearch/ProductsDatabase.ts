@@ -35,3 +35,9 @@ export interface ProductsDatabaseRow {
   title: string;
   weight_lbs: number;
 }
+
+export interface ShowFilterMessage {
+  type: 'info' | 'error';
+  message: string;
+  show: boolean;
+}

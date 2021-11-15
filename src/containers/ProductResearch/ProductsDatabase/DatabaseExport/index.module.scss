@@ -5,20 +5,67 @@
   justify-content: space-between;
   align-items: center;
   margin-top: 30px;
-  margin-bottom: 8px;
+  margin-bottom: 18px;
 
   .messageText {
     font-size: 14px;
     color: $prim_dark_1;
     margin: 0;
     font-weight: normal;
+    line-height: 1;
   }
 
-  .productCount {
+  .sellerCount {
     font-weight: 500;
   }
 }
 
-.exportButton {
-  margin-left: auto;
+.exportOptions {
+  min-width: 115px;
+  min-height: max-content;
+  padding: 0;
+  padding-top: 10px;
+
+  span {
+    color: $grey_6;
+    text-transform: uppercase;
+    font-size: 12px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    display: inline-block;
+  }
+}
+
+.exportOption {
+  color: $grey_8 !important;
+  border: 0;
+  outline: 0;
+  width: 100%;
+  font-weight: 400 !important;
+  font-size: 14px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 10px;
+  margin: 5px 0;
+  background: #fff;
+  height: 25px;
+
+  &:hover {
+    background: $grey_1;
+  }
+
+  svg {
+    margin-right: 8px;
+  }
+
+  &:disabled {
+    color: $grey_6 !important;
+
+    svg {
+      path {
+        fill: $grey_6;
+      }
+    }
+  }
 }
