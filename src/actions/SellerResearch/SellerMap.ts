@@ -325,7 +325,7 @@ export const fetchSellersListForMap = (payload: SellersListPayload) => async (
     const allFiltersData = getSellerMapFilterData(getState());
     const filtersPath = parseFilters(allFiltersData);
 
-    const resourcePath = `${pagination}&${sorting}&${sellerType}${filtersPath}`;
+    const resourcePath = `${pagination}&${sorting}&${sellerType}${filtersPath}&seller_maps=true`;
 
     dispatch(isLoadingSellersListForMap(enableLoader));
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { Loader } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -21,9 +22,6 @@ import SellerListMapCard from '../../../../components/SellerListMapCard';
 import Pagination from '../../../../components/NewTable/Pagination';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
 import ToggleButton from '../../../../components/ToggleButton';
-
-/* Assets */
-import sellgoAnimation from '../../../../assets/images/sellgo-loading-animation-450-1.gif';
 
 /* Interfaces */
 import {
@@ -111,16 +109,19 @@ const SellersList = (props: Props) => {
 
       {/* Main Sellers List */}
       <div className={styles.sellersList}>
-        {isLoadingSellersListForMap || isLoadingSellersForMap ? (
-          <img src={sellgoAnimation} alt="" className={styles.sellersListLoader} />
-        ) : (
-          <>
-            {sellersListForMap &&
-              sellersListForMap.map((details: any, index: number) => {
-                return <SellerListMapCard key={index} sellerDetails={details} />;
-              })}
-          </>
-        )}
+        <Loader
+          active={isLoadingSellersListForMap || isLoadingSellersForMap}
+          size="medium"
+          content=""
+        />
+        <>
+          {sellersListForMap &&
+            !isLoadingSellersListForMap &&
+            !isLoadingSellersForMap &&
+            sellersListForMap.map((details: any, index: number) => {
+              return <SellerListMapCard key={index} sellerDetails={details} />;
+            })}
+        </>
       </div>
 
       {/* Sellers List Pagination */}
