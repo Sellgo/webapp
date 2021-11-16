@@ -53,7 +53,9 @@ const DatabaseExport = (props: Props) => {
   const totalProductsFound = useMemo(() => {
     const count = productDatabasePaginationInfo.count;
 
-    if (count < 49_999) {
+    if (parseInt(count) === 200) {
+      return '200+';
+    } else if (count < 49_999) {
       return formatNumber(count);
     }
 
