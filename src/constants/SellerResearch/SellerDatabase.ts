@@ -172,7 +172,7 @@ export const DEFAULT_US_MARKET = {
 };
 
 export const sellerTypeMapper: { [key: string]: string } = {
-  private_label: 'Private Lable',
+  private_label: 'Private Label',
   wholesale: 'Wholesale',
 };
 
