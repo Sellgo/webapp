@@ -174,6 +174,19 @@ const ProductsDatabaseTable = (props: Props) => {
             </Table.HeaderCell>
             <RatingWithCountCell dataKey="rating" rowData="rating" />
           </Table.Column>
+
+          {/* Number of images */}
+          <Table.Column width={120} sortable verticalAlign="middle" align="center" flexGrow={1}>
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title="Number of Images"
+                dataKey="image_count"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <StatsCell dataKey="image_count" align="left" />
+          </Table.Column>
         </Table>
 
         {productsDatabasePaginationInfo && productsDatabasePaginationInfo.total_pages > 0 && (

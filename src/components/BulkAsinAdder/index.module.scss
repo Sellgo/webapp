@@ -2,7 +2,7 @@
 
 .addReverseBulkAsinsModal {
   border-radius: 7px !important;
-  background: #fff;
+  background: $grey_10;
   padding: 20px;
   border: none !important;
 }
@@ -15,6 +15,7 @@
 }
 
 .filterForm {
+  background: $prim_white;
   border: 1px solid $grey_3;
   min-height: 80px;
   border-radius: 4px !important;

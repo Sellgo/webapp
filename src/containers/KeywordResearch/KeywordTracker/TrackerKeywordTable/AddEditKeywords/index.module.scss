@@ -17,6 +17,12 @@
       fill: $black_1 !important;
     }
   }
+
+  &:hover {
+    path {
+      fill: $prim_white !important;
+    }
+  }
 }
 
 .addEditKeywordsModal {

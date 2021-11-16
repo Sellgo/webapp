@@ -14,6 +14,7 @@ import {
 import {
   ProductsDatabaseFilters,
   ProductsDatabasePayload,
+  ShowFilterMessage,
 } from '../../interfaces/ProductResearch/ProductsDatabase';
 
 /* Selectors */
@@ -57,6 +58,14 @@ export const setProductsDatabasePaginationInfo = (payload: any) => {
 export const setProductsDatabaseFilters = (payload: ProductsDatabaseFilters[]) => {
   return {
     type: actionTypes.SET_PRODUCTS_DATABASE_FILTERS,
+    payload,
+  };
+};
+
+/* Action to set and show filter messages */
+export const setProductsDatabaseFilterMessage = (payload: ShowFilterMessage) => {
+  return {
+    type: actionTypes.SHOW_FILTER_MESSAGE,
     payload,
   };
 };
@@ -125,14 +134,14 @@ export const parseFilterPayload = (productFilters: any) => {
 /*********** Async Actions ************************ */
 
 /* Export product database table */
-export const exportProductDatabaseTable = (requestPayload: any) => async () => {
+export const exportProductDatabaseTable = (requestPayload: any, fileFormat: string) => async () => {
   try {
     const sellerID = sellerIDSelector();
-
-    const { data } = await axios.post(
-      `${AppConfig.BASE_URL_API}${sellerID}/products`,
-      requestPayload
-    );
+    const { data } = await axios.post(`${AppConfig.BASE_URL_API}${sellerID}/products`, {
+      ...requestPayload,
+      is_export: true,
+      file_format: fileFormat,
+    });
 
     if (data) {
       const { url } = data;
@@ -190,7 +199,7 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
       dispatch(isLoadingProductsDatabase(false));
       dispatch(setProductsDatabase([]));
       dispatch(setProductsDatabasePaginationInfo({ total_pages: 0, current_page: 0, count: 0 }));
-      dispatch(removeProductDatabaseFilters());
+      removeProductDatabaseFilters();
       return;
     }
 
@@ -219,7 +228,7 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
     const URL = `${AppConfig.BASE_URL_API}${sellerId}/products`;
 
     if (isExport && fileFormat) {
-      dispatch(exportProductDatabaseTable(requestPayload));
+      dispatch(exportProductDatabaseTable(requestPayload, fileFormat));
       return;
     }
 
@@ -229,11 +238,28 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
 
     if (data) {
       dispatch(setProductsDatabase(data.results));
+      dispatch(setProductsDatabaseFilterMessage({ show: false, message: '', type: 'info' }));
       dispatch(setProductsDatabasePaginationInfo(data.page_info));
       dispatch(isLoadingProductsDatabase(false));
     }
   } catch (err) {
     dispatch(isLoadingProductsDatabase(false));
-    setProductsDatabase([]);
+    dispatch(setProductsDatabase([]));
+
+    const { response } = err as any;
+    const { status, data } = response;
+
+    if (status === 429) {
+      error(data.message);
+    }
+
+    dispatch(
+      setProductsDatabaseFilterMessage({
+        show: status === 400,
+        message: data.message || '',
+        type: 'error',
+      })
+    );
+    console.error('Error fetching seller database', err);
   }
 };

@@ -7,6 +7,7 @@
   justify-content: space-between;
   height: calc(100vh - 15rem);
   padding-bottom: 2rem;
+  position: relative;
 }
 
 .sellersListLoader {
@@ -62,4 +63,13 @@
   width: 30vw;
   margin-top: 10px;
   margin-right: 10px;
+}
+
+.sellerFiltersLoader {
+  position: absolute !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
 }

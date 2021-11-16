@@ -93,6 +93,8 @@
 /* Modal reset */
 .addBulkAsinsModal {
   @include resetGloablModals;
+
+  border-radius: 7px !important;
 }
 
 /* Changing ASIn refernce popup */

@@ -45,6 +45,14 @@
       fill: $black_1 !important;
     }
   }
+
+  &:hover {
+    svg {
+      path {
+        fill: $prim_white !important;
+      }
+    }
+  }
 }
 
 .competitorsAsinsWrapper {

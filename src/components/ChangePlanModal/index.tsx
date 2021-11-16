@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal } from 'semantic-ui-react';
+import { get } from 'lodash';
 import { connect } from 'react-redux';
 import Carousel from 'react-multi-carousel';
 
@@ -18,11 +19,11 @@ import {
 } from '../../constants/Subscription';
 
 /* Actions */
-import { setPromoCode, setPromoError } from '../../actions/Settings/Subscription';
+import { checkPromoCode } from '../../actions/Settings/Subscription';
 import PricingPlansSummary from '../PricingCardsSummary';
 
 /* Types */
-import { SubscriptionPlan } from '../../interfaces/Subscription';
+import { PromoCode, SubscriptionPlan } from '../../interfaces/Subscription';
 
 interface Props {
   setPlanType: (planType: string) => any;
@@ -33,8 +34,8 @@ interface Props {
   setChangingPlanModalOpen: any;
 
   /* Redux functions */
-  setPromoCode: (promoCode: any) => void;
-  setPromoError: (err: string) => void;
+  promoCode: PromoCode;
+  checkPromoCode: (promoCode: string, subscriptionId: number, paymentMode: string) => any;
 }
 
 const ChangePlanModal = (props: Props) => {
@@ -45,8 +46,8 @@ const ChangePlanModal = (props: Props) => {
     setChangingPlanModalOpen,
     setPlanType,
     setPaymentMode,
-    setPromoCode,
-    setPromoError,
+    promoCode,
+    checkPromoCode,
   } = props;
 
   /* newPlanType/newPaymentMode/newSubscriptionId are the states storing the updated plan information */
@@ -83,11 +84,13 @@ const ChangePlanModal = (props: Props) => {
   const handleSave = () => {
     localStorage.setItem('planType', newPlanType);
     localStorage.setItem('paymentMode', newPaymentMode);
-    setPromoError('');
-    setPromoCode({});
     setPlanType(newPlanType);
     setPaymentMode(newPaymentMode);
     setChangingPlanModalOpen(false);
+
+    if (promoCode && promoCode.code) {
+      checkPromoCode(promoCode.code, newSubscriptionId, newPaymentMode);
+    }
   };
 
   return (
@@ -187,9 +190,13 @@ const ChangePlanModal = (props: Props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch: any) => ({
-  setPromoCode: (payload: any) => dispatch(setPromoCode(payload)),
-  setPromoError: (err: string) => dispatch(setPromoError(err)),
+const mapStateToProps = (state: {}) => ({
+  promoCode: get(state, 'subscription.promoCode'),
 });
 
-export default connect(null, mapDispatchToProps)(ChangePlanModal);
+const mapDispatchToProps = (dispatch: any) => ({
+  checkPromoCode: (promoCode: string, subscriptionId: number, paymentMode: string) =>
+    dispatch(checkPromoCode(promoCode, subscriptionId, paymentMode)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChangePlanModal);

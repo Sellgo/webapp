@@ -26,7 +26,6 @@ import {
   subscriptionDetailsMapping,
   PAYMENT_MODES,
   SUBSCRIPTION_DETAILS,
-  PROMO_CAMPAIGNS,
 } from '../../constants/Subscription';
 
 /* Actions */
@@ -46,13 +45,11 @@ const Payment = (props: PaymentProps) => {
 
   const [accountType, setAccountType] = useState<string>('');
   const [paymentMode, setPaymentMode] = useState<string>('');
-  const [promoCampaign, setPromoCampaign] = useState<string>('');
 
   /* Get valid subscription name from URL */
   const getSubscriptionNameAndPaymentMode = (search: string) => {
     /* Parsing to obtain plan type */
     const LENGTH_OF_SEARCH_STRING = 5; // Length of "type=", and "mode="
-    const LENGTH_OF_PROMO_SEARCH_STRING = 6; // Length of "promo="
     const DEFAULT_PLAN = 'professional';
     const DEFAULT_PAYMENT_MODE = 'monthly';
     const startTypeIndex = search.indexOf('type=') + LENGTH_OF_SEARCH_STRING;
@@ -78,17 +75,6 @@ const Payment = (props: PaymentProps) => {
       paymentMode = DEFAULT_PAYMENT_MODE;
     }
 
-    /* Parsing to obtain promo campaign */
-    const startPromoIndex = search.indexOf('promo=') + LENGTH_OF_PROMO_SEARCH_STRING;
-    let endPromoIndex = search.indexOf('&', startPromoIndex);
-    if (endPromoIndex === -1) {
-      endPromoIndex = search.length;
-    }
-    let promoCampaign = search.substring(startPromoIndex, endPromoIndex);
-    if (!PROMO_CAMPAIGNS.includes(promoCampaign)) {
-      promoCampaign = '';
-    }
-
     /* If plan mode does not match an available payment method, return default plan
     e.g. type=Seller Scout Pro, with mode=daily */
 
@@ -106,13 +92,11 @@ const Payment = (props: PaymentProps) => {
       return {
         subscriptionName: DEFAULT_PLAN,
         paymentMode: DEFAULT_PAYMENT_MODE,
-        promoCampaign,
       };
     } else {
       return {
         subscriptionName,
         paymentMode,
-        promoCampaign,
       };
     }
   };
@@ -120,11 +104,7 @@ const Payment = (props: PaymentProps) => {
   useEffect(() => {
     fetchSellerSubscription();
     const search = window.location.search.toLowerCase();
-    const { subscriptionName, paymentMode, promoCampaign } = getSubscriptionNameAndPaymentMode(
-      search
-    );
-    setPromoCampaign(promoCampaign);
-    localStorage.setItem('promoCampaign', promoCampaign);
+    const { subscriptionName, paymentMode } = getSubscriptionNameAndPaymentMode(search);
     setAccountType(subscriptionName);
     localStorage.setItem('planType', subscriptionName);
     setPaymentMode(paymentMode);
@@ -157,12 +137,7 @@ const Payment = (props: PaymentProps) => {
         />
 
         <Elements stripe={stripePromise}>
-          <CheckoutForm
-            accountType={accountType}
-            paymentMode={paymentMode}
-            auth={auth}
-            promoCampaign={promoCampaign}
-          />
+          <CheckoutForm accountType={accountType} paymentMode={paymentMode} auth={auth} />
         </Elements>
       </section>
     </main>
