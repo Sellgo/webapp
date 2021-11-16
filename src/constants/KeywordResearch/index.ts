@@ -2,6 +2,7 @@ export const KEYWORD_RESEARCH_PAGES = [
   '/keyword-research/finder',
   '/keyword-research/database',
   '/keyword-research/tracker',
+  '/keyword-research/zapier',
 ];
 
 export const KEYWORD_RESEARCH_PRODUCT_DETAILS = [
@@ -16,5 +17,9 @@ export const KEYWORD_RESEARCH_PRODUCT_DETAILS = [
   {
     name: 'Product Rank Tracker',
     desc: 'Dominate Your Keywords and Get to #1 Spot of Search Results',
+  },
+  {
+    name: 'Zapier',
+    desc: 'Zapier',
   },
 ];

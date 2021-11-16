@@ -31,6 +31,7 @@ import ProductLabel from '../../components/ProductLabel';
 import KeywordReverse from './KeywordReverse';
 import KeywordDatabase from './KeywordDatabase';
 import KeywordTracker from './KeywordTracker';
+import ZapierIntegration from './ZapierIntegration';
 
 /* Onboarding Resources */
 import reverseOnBoardingResources from '../../assets/onboardingResources/KeywordResearch/keywordReverseOnboarding.json';
@@ -172,6 +173,15 @@ const KeywordResearch = (props: Props) => {
                   isBeta
                 />
               </Tab>
+
+              <Tab>
+                <ProductLabel
+                  label="ZAPIER"
+                  icon="Keyword Tracker"
+                  isActive={selectedTabList === 3}
+                  isBeta
+                />
+              </Tab>
             </TabList>
 
             <TabPanel>
@@ -184,6 +194,10 @@ const KeywordResearch = (props: Props) => {
 
             <TabPanel>
               <KeywordTracker />
+            </TabPanel>
+
+            <TabPanel>
+              <ZapierIntegration />
             </TabPanel>
           </Tabs>
         </section>

@@ -1,0 +1,36 @@
+@import '../../design-system/new-colors';
+
+.zapierRuleWrapper {
+  width: 100%;
+}
+
+.orDivider {
+  border-top: 1px solid $grey_3;
+  margin-top: 18px;
+  padding-top: 18px;
+  font-weight: $fontweight_semibold;
+  margin-bottom: 5px;
+}
+
+.zapierConditions {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+
+  > div {
+    margin-right: 30px;
+  }
+}
+
+.zapierRule {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.trashIcon {
+  font-size: 12px !important;
+  color: $grey_8 !important;
+  cursor: pointer;
+}
