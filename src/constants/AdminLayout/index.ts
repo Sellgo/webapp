@@ -127,7 +127,7 @@ export const OPTIONS: NavOptions = [
     path: '/keyword-research',
     isComingSoon: false,
     disabled: false,
-    isBeta: true,
+    isBeta: false,
     subOptions: [
       {
         label: 'Keyword Finder',
@@ -161,7 +161,7 @@ export const OPTIONS: NavOptions = [
     path: '/product-research',
     isComingSoon: false,
     disabled: false,
-    isBeta: true,
+    isBeta: false,
     subOptions: [
       {
         label: 'Product Database',
