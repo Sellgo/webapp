@@ -6,7 +6,6 @@ import styles from './index.module.scss';
 
 /* Components */
 import AdvanceFilterToggle from '../../../../components/AdvanceFilterToggle';
-import CheckboxListFilter from '../../../../components/FormFilters/CheckboxListFilter';
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
@@ -24,11 +23,8 @@ import { ProductsDatabasePayload } from '../../../../interfaces/ProductResearch/
 import {
   DEFAULT_INCLUDE_EXCLUDE_FILTER,
   DEFAULT_MIN_MAX_FILTER,
-  // DEFAULT_CHECKBOX_FILTER,
   PRODUCTS_DATABASE_SIZE_TIERS,
   PRODUCTS_DATABASE_CATEGORIES,
-  FULFILMENT_TYPES,
-  DEFAULT_FULFILMENT_FILTER,
 } from '../../../../constants/ProductResearch/ProductsDatabase';
 
 interface Props {
@@ -57,7 +53,6 @@ const ProductDatabaseFilters = (props: Props) => {
   const [sizeTier, setSizeTier] = useState<string>('');
   const [imageCount, setImageCount] = useState(DEFAULT_MIN_MAX_FILTER);
   const [variationCount, setVariationCount] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [fulfillment, setFulfillment] = useState(DEFAULT_FULFILMENT_FILTER);
 
   /* Handlers */
   const handleSubmit = () => {
@@ -76,7 +71,6 @@ const ProductDatabaseFilters = (props: Props) => {
       sizeTier,
       imageCount,
       variationCount,
-      fulfillment,
     };
 
     fetchProductsDatabase({ filterPayload });
@@ -98,7 +92,6 @@ const ProductDatabaseFilters = (props: Props) => {
     setSizeTier('');
     setImageCount(DEFAULT_MIN_MAX_FILTER);
     setVariationCount(DEFAULT_MIN_MAX_FILTER);
-    setFulfillment(DEFAULT_FULFILMENT_FILTER);
   };
 
   /* Effect on component mount */
@@ -202,15 +195,6 @@ const ProductDatabaseFilters = (props: Props) => {
                     [type]: value,
                   }))
                 }
-              />
-
-              <CheckboxListFilter
-                label="Fulfillment"
-                options={FULFILMENT_TYPES}
-                selectedOptions={fulfillment}
-                handleChange={(value: any) => {
-                  setFulfillment({ ...value });
-                }}
               />
 
               <MinMaxFilter
