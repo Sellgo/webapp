@@ -19,7 +19,7 @@ export const KEYWORD_RESEARCH_PRODUCT_DETAILS = [
     desc: 'Dominate Your Keywords and Get to #1 Spot of Search Results',
   },
   {
-    name: 'Zapier',
-    desc: 'Zapier',
+    name: 'ZAPIER INTEGRATION:',
+    desc: 'Define Action for Your Tracked Keywords and Improve Your Rank.',
   },
 ];

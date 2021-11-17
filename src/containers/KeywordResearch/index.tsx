@@ -177,7 +177,7 @@ const KeywordResearch = (props: Props) => {
               <Tab>
                 <ProductLabel
                   label="ZAPIER"
-                  icon="Keyword Tracker"
+                  icon="Zapier"
                   isActive={selectedTabList === 3}
                   isBeta
                 />

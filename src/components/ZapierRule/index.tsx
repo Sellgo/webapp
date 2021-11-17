@@ -64,7 +64,11 @@ const ZapierRule = (props: Props) => {
             }}
           />
         </div>
-        <Icon name="trash" className={styles.trashIcon} onClick={() => removeRule(index)} />
+        <Icon
+          name="trash alternate"
+          className={styles.trashIcon}
+          onClick={() => removeRule(index)}
+        />
       </div>
     </div>
   );

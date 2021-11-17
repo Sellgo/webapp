@@ -11,6 +11,7 @@ import SellerMapIcon from '../Icons/SellerResearch/SellerMap';
 import KeywordFinderIcon from '../Icons/KeywordResearch/KeywordFinder';
 import KeywordDatabaseIcon from '../Icons/KeywordResearch/KeywordDatabase';
 import KeywordTrackerIcon from '../Icons/KeywordResearch/KeywordTracker';
+import ZapierIcon from '../Icons/KeywordResearch/Zapier';
 
 import ProductDatabaseIcon from '../Icons/ProductResearch/ProductDatabase';
 import ProductTrackerIcon from '../Icons/ProductResearch/ProductTracker';
@@ -27,7 +28,8 @@ interface Props {
     | 'Product Tracker'
     | 'Keyword Finder'
     | 'Keyword Database'
-    | 'Keyword Tracker';
+    | 'Keyword Tracker'
+    | 'Zapier';
   isActive?: boolean;
   className?: string;
   activeClassName?: string;
@@ -63,6 +65,10 @@ const ProductLabel = (props: Props) => {
 
     case 'Keyword Tracker':
       iconPicture = <KeywordTrackerIcon fill={iconFill} />;
+      break;
+
+    case 'Zapier':
+      iconPicture = <ZapierIcon fill={iconFill} />;
       break;
 
     case 'Product Database':
