@@ -1,12 +1,25 @@
 export interface Rule {
-  kpi: string;
+  field_name: string;
   condition: string;
   value: any;
-  operator?: 'or' | 'and';
+  logical_operator?: 'or' | 'and';
 }
 
 export interface Trigger {
-  name: string;
+  name?: string;
   rules: Rule[];
   assignments: any[];
+}
+
+export interface TriggerMetaData {
+  id: number;
+  name: string;
+  status: string;
+}
+
+export interface SelectionKeyword {
+  is_assigned: boolean;
+  keyword_track_id: number;
+  phrase: string;
+  title: string;
 }

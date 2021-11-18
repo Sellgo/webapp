@@ -1,86 +1,95 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 /* Styles */
 import styles from './index.module.scss';
 
-/* Actions */
-import { getSellerInfo } from '../../../actions/Settings';
-
 /* Components */
 import Trigger from './Trigger';
 import ZapierMeta from './ZapierMeta';
+import Placeholder from '../../../components/Placeholder';
 
-import { Trigger as TriggerType } from '../../../interfaces/KeywordResearch/Zapier';
-
-const RULES = [
-  {
-    kpi: 'search_volume',
-    condition: 'endswith',
-    value: 'hello',
-  },
-  {
-    kpi: 'search_volume',
-    condition: 'endswith',
-    value: 'hello',
-  },
-];
-
-const TRIGGERS: TriggerType[] = [
-  {
-    name: 'Trigger',
-    rules: RULES,
-    assignments: [],
-  },
-  {
-    name: 'Trigger',
-    rules: RULES,
-    assignments: [],
-  },
-];
+import { TriggerMetaData } from '../../../interfaces/KeywordResearch/Zapier';
+import { DEFAULT_TRIGGER } from '../../../constants/KeywordResearch/Zapier';
+import axios from 'axios';
+import { AppConfig } from '../../../config';
 
 const Zapier = () => {
-  const [triggers, setTriggers] = React.useState<TriggerType[]>(TRIGGERS);
+  const [triggers, setTriggers] = React.useState<TriggerMetaData[]>([]);
+  const [isFetchTriggersLoading, setTriggersLoading] = React.useState<boolean>(true);
 
-  const handleAddTrigger = () => {
-    setTriggers([
-      ...triggers,
-      {
-        name: 'Trigger',
-        rules: [],
-        assignments: [],
-      },
-    ]);
+  /* Fetches all the triggers from backend */
+  const fetchTriggers = async () => {
+    setTriggersLoading(true);
+    try {
+      const sellerID = localStorage.getItem('userId');
+      let { data } = await axios.get(
+        `${AppConfig.BASE_URL_API}sellers/${sellerID}/keywords/trigger`
+      );
+      data = data.filter((trigger: TriggerMetaData) => trigger.status === 'active');
+      setTriggers(data);
+    } catch (err) {
+      console.error(err);
+    }
+    setTriggersLoading(false);
   };
 
-  const handleDeleteTrigger = (index: number) => {
-    console.log(index);
-    const newTriggers = [...triggers];
-    newTriggers.splice(index, 1);
-    setTriggers(newTriggers);
+  /* Adds new trigger */
+  const handleAddTrigger = async () => {
+    setTriggersLoading(true);
+    try {
+      const sellerID = localStorage.getItem('userId');
+      const { data, status } = await axios.post(
+        `${AppConfig.BASE_URL_API}sellers/${sellerID}/keywords/trigger`,
+        DEFAULT_TRIGGER
+      );
+      if (status === 201) {
+        setTriggers([...triggers, data]);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    setTriggersLoading(false);
   };
+
+  /* Deletes trigger */
+  const handleDeleteTrigger = async (triggerId: number) => {
+    setTriggersLoading(true);
+    try {
+      const sellerID = localStorage.getItem('userId');
+      const { status } = await axios.patch(
+        `${AppConfig.BASE_URL_API}sellers/${sellerID}/keywords/trigger/${triggerId}/delete`
+      );
+
+      if (status === 200) {
+        let newTriggers = [...triggers];
+        newTriggers = newTriggers.filter(trigger => trigger.id !== triggerId);
+        setTriggers(newTriggers);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    setTriggersLoading(false);
+  };
+
+  React.useEffect(() => {
+    fetchTriggers();
+  }, []);
 
   return (
     <section className={styles.zapierIntegration}>
       <ZapierMeta handleAddTrigger={handleAddTrigger} />
-      {triggers.map((trigger: TriggerType, index: number) => (
-        <Trigger
-          handleDeleteTrigger={handleDeleteTrigger}
-          key={index}
-          triggerIndex={index}
-          trigger={trigger}
-        />
-      ))}
+      {isFetchTriggersLoading && <Placeholder numberParagraphs={5} numberRows={5} isGrey />}
+      {!isFetchTriggersLoading &&
+        triggers.map((trigger: TriggerMetaData) => (
+          <Trigger
+            handleDeleteTrigger={handleDeleteTrigger}
+            key={trigger.id}
+            triggerIndex={trigger.id}
+            triggerName={trigger.name}
+          />
+        ))}
     </section>
   );
 };
 
-const mapStateToProps = (state: any) => ({
-  profile: state.settings.profile,
-});
-
-const mapDispatchToProps = {
-  getSeller: () => getSellerInfo(),
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Zapier);
+export default Zapier;

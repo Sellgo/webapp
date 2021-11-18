@@ -1,0 +1,25 @@
+@import '../../../../../design-system/new-colors';
+
+.ruleWrapper {
+  width: 100%;
+
+  .rulesContainer {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.addRuleButtonsRow {
+  margin-top: 30px;
+
+  .addRuleButton {
+    background: $sellgo_yellow;
+    width: 60px;
+    height: 30px;
+    border-radius: 7px;
+    color: $black_1;
+    font-size: $fontsize_content_12;
+    font-weight: $fontweight_semibold;
+    margin-right: 30px;
+  }
+}

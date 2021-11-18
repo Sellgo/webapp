@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Table } from 'rsuite';
-import { connect } from 'react-redux';
+import axios from 'axios';
 
 /* Styling */
 import './global.scss';
@@ -8,7 +8,7 @@ import styles from './index.module.scss';
 
 /* Componensts */
 import StatsCell from '../../../../../components/NewTable/StatsCell';
-import TablePagination from '../../../../../components/NewTable/Pagination';
+import DeleteCell from '../../../../../components/NewTable/DeleteCell';
 import ExpansionCell from '../../../../../components/NewTable/ExpansionCell';
 
 /* Containers */
@@ -18,115 +18,72 @@ import ProductInfo from './ProductInfo';
 import ProductKeywordTable from '../ProductKeywordTable';
 
 /* Constants */
-import {
-  DEFAULT_PAGES_LIST,
-  TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY,
-} from '../../../../../constants/KeywordResearch/KeywordTracker';
-
-/* Selectors */
-import {
-  getIsLoadingKeywordTrackerProductsTable,
-  getKeywordTrackerProductsTablePaginationInfo,
-  getKeywordTrackerProductsTableResults,
-  getTrackerProductKeywordsTableResults,
-} from '../../../../../selectors/KeywordResearch/KeywordTracker';
-
-/* Actions */
-import {
-  fetchKeywordTrackerProductsTable,
-  fetchTrackerProductKeywordsTable,
-  setKeywordTrackerProductsExpandedRow,
-} from '../../../../../actions/KeywordResearch/KeywordTracker';
-
-/* Interfaces */
-import {
-  KeywordTrackerProductsTablePaginationInfo,
-  TrackerProductKeywordsTablePayload,
-  TrackerTableProductsPayload,
-} from '../../../../../interfaces/KeywordResearch/KeywordTracker';
+import { TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY } from '../../../../../constants/KeywordResearch/KeywordTracker';
+import { AppConfig } from '../../../../../config';
 
 interface Props {
-  isLoadingKeywordTrackerProductsTable: boolean;
-  keywordTrackerProductsTableResults: any[];
-  keywordTrackerProductsTablePaginationInfo: KeywordTrackerProductsTablePaginationInfo;
-  fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) => void;
-
-  setKeywordTrackerProductsExpandedRow: (payload: any) => void;
-
-  trackerProductKeywordsTableResults: any[];
-  fetchTrackerProductKeywordsTable: (payload: TrackerProductKeywordsTablePayload) => void;
+  assignedProducts: any[];
+  triggerId: number;
+  refreshData: () => void;
 }
 
-const TrackerTable = (props: Props) => {
-  const {
-    /* Main products taale */
-    isLoadingKeywordTrackerProductsTable,
-    keywordTrackerProductsTableResults,
-    keywordTrackerProductsTablePaginationInfo,
-    fetchKeywordTrackerProductsTable,
-
-    setKeywordTrackerProductsExpandedRow,
-
-    /* Keywords Table */
-    fetchTrackerProductKeywordsTable,
-  } = props;
-
-  const [sortColumn, setSortColumn] = useState<string>('');
-  const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
+const ProductTable = (props: Props) => {
+  const { assignedProducts, triggerId, refreshData } = props;
   const [expandedRowKeys, setExpandedRowkeys] = useState<string[]>([]);
-
-  const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
-    setSortColumn(sortColumn);
-    setSortType(sortType);
-    fetchKeywordTrackerProductsTable({ sort: sortColumn, sortDir: sortType });
-  };
-
-  const handlePageChange = (pageNo: number, perPageNo?: number) => {
-    fetchKeywordTrackerProductsTable({ page: pageNo, perPage: perPageNo });
-  };
 
   const handleExpansion = (rowData: any) => {
     const rowId = rowData[TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY];
     const [currentExpandedRowId] = expandedRowKeys;
 
     if (currentExpandedRowId !== rowId) {
-      // set the expanded row in state
-      setKeywordTrackerProductsExpandedRow(rowData);
-      // fetch keywords table data
-      fetchTrackerProductKeywordsTable({
-        keywordTrackProductId: rowId,
-      });
       setExpandedRowkeys([rowId]);
     } else {
       setExpandedRowkeys([]);
-      setKeywordTrackerProductsExpandedRow({});
     }
   };
 
-  /* Load contents for keyword tracker products table */
-  useEffect(() => {
-    fetchKeywordTrackerProductsTable({});
-  }, []);
+  const handleDeleteProduct = async (productId: number) => {
+    try {
+      const sellerID = localStorage.getItem('userId');
+      const { status } = await axios.patch(
+        `${AppConfig.BASE_URL_API}sellers/${sellerID}/keywords/trigger/delete-assignments`,
+        {
+          keyword_trigger_id: triggerId,
+          keyword_track_product_id: productId,
+        }
+      );
+
+      if (status === 200) {
+        refreshData();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <section className={styles.keywordTrackerTableWrapper}>
       <Table
-        loading={isLoadingKeywordTrackerProductsTable}
-        data={keywordTrackerProductsTableResults}
-        height={420}
+        // loading={false}
+        data={assignedProducts}
+        // height={420}
+        autoHeight
         hover={false}
         rowHeight={60}
         headerHeight={55}
-        sortColumn={sortColumn}
-        sortType={sortType}
         id="zapierProductTable"
-        onSortColumn={handleSortColumn}
         shouldUpdateScroll={false}
         //  Props for table expansion
         rowKey={TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY}
         rowExpandedHeight={300}
         expandedRowKeys={expandedRowKeys}
-        renderRowExpanded={() => <ProductKeywordTable />}
+        renderRowExpanded={(rowData: any) => (
+          <ProductKeywordTable
+            refreshData={refreshData}
+            productId={rowData.keyword_track_product_id}
+            triggerId={triggerId}
+          />
+        )}
       >
         {/* Expand Cell */}
         <Table.Column verticalAlign="top" fixed="left" align="left" width={30}>
@@ -147,50 +104,23 @@ const TrackerTable = (props: Props) => {
         </Table.Column>
 
         {/* Keywords */}
-        <Table.Column width={200} verticalAlign="middle" align="left">
+        <Table.Column width={200} verticalAlign="top" align="left">
           <Table.HeaderCell>Keywords</Table.HeaderCell>
-          <StatsCell dataKey="tracked_keywords" align="center" />
+          <StatsCell dataKey="assigned_keywords_count" align="center" />
+        </Table.Column>
+
+        {/* Delete Cell */}
+        <Table.Column width={200} verticalAlign="top" align="left">
+          <Table.HeaderCell></Table.HeaderCell>
+          <DeleteCell
+            dataKey="keyword_track_product_id"
+            deleteMessage="Remove this product from Zapier?"
+            handleDelete={handleDeleteProduct}
+          />
         </Table.Column>
       </Table>
-
-      {/* Table Pagination */}
-      {keywordTrackerProductsTablePaginationInfo.total_pages > 0 && (
-        <footer className={styles.keywordTrackerPaginationContainer}>
-          <TablePagination
-            totalPages={keywordTrackerProductsTablePaginationInfo.total_pages}
-            currentPage={keywordTrackerProductsTablePaginationInfo.current_page}
-            onPageChange={handlePageChange}
-            showSiblingsCount={3}
-            showPerPage={true}
-            perPage={keywordTrackerProductsTablePaginationInfo.per_page}
-            perPageList={DEFAULT_PAGES_LIST}
-          />
-        </footer>
-      )}
     </section>
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return {
-    isLoadingKeywordTrackerProductsTable: getIsLoadingKeywordTrackerProductsTable(state),
-    keywordTrackerProductsTableResults: getKeywordTrackerProductsTableResults(state),
-    keywordTrackerProductsTablePaginationInfo: getKeywordTrackerProductsTablePaginationInfo(state),
-    trackerProductKeywordsTableResults: getTrackerProductKeywordsTableResults(state),
-  };
-};
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    setKeywordTrackerProductsExpandedRow: (payload: any) =>
-      dispatch(setKeywordTrackerProductsExpandedRow(payload)),
-
-    fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) =>
-      dispatch(fetchKeywordTrackerProductsTable(payload)),
-
-    fetchTrackerProductKeywordsTable: (payload: TrackerProductKeywordsTablePayload) =>
-      dispatch(fetchTrackerProductKeywordsTable(payload)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TrackerTable);
+export default ProductTable;

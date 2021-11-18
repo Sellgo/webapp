@@ -8,7 +8,7 @@ import SelectionFilter from '../FormFilters/SelectionFilter';
 import InputFilter from '../FormFilters/InputFilter';
 
 /* Constants */
-import { KEYWORD_KPIS, CONDITIONS } from '../../constants/KeywordResearch/Zapier';
+import { KEYWORD_KPIS, CONDITIONS, getType } from '../../constants/KeywordResearch/Zapier';
 
 /* Interfaces */
 import { Rule } from '../../interfaces/KeywordResearch/Zapier';
@@ -23,14 +23,21 @@ interface Props {
 
 const ZapierRule = (props: Props) => {
   const { index, rule, hideLabels, updateRule, removeRule } = props;
-
-  const handleUpdateRule = (field: 'kpi' | 'condition' | 'value', value: string) => {
+  const [ruleType, setRuleType] = React.useState<'text' | 'number' | 'boolean' | 'date' | ''>('');
+  const handleUpdateRule = (field: 'field_name' | 'condition' | 'value', value: string) => {
     updateRule(index, { ...rule, [field]: value });
   };
 
+  React.useEffect(() => {
+    if (rule.field_name) {
+      const type = getType(rule.field_name);
+      setRuleType(type);
+    }
+  }, [rule.field_name]);
+
   return (
     <div className={styles.zapierRuleWrapper}>
-      {rule.operator && rule.operator === 'or' && index !== 0 && (
+      {rule.logical_operator && rule.logical_operator === 'or' && index !== 0 && (
         <div className={styles.orDivider}>OR</div>
       )}
       <div className={styles.zapierRule}>
@@ -39,17 +46,19 @@ const ZapierRule = (props: Props) => {
             label={hideLabels ? '' : 'KPI'}
             filterOptions={KEYWORD_KPIS}
             placeholder="Choose KPI..."
-            value={rule.kpi}
+            value={rule.field_name}
             handleChange={(value: string) => {
-              handleUpdateRule('kpi', value);
+              handleUpdateRule('field_name', value);
+              setRuleType(getType(value));
             }}
           />
 
           <SelectionFilter
             label={hideLabels ? '' : 'Requirement'}
-            filterOptions={CONDITIONS.text}
+            filterOptions={ruleType ? CONDITIONS[ruleType] : []}
             placeholder="Choose requirement..."
             value={rule.condition}
+            disabled={ruleType.length === 0}
             handleChange={(value: string) => {
               handleUpdateRule('condition', value);
             }}
@@ -59,6 +68,7 @@ const ZapierRule = (props: Props) => {
             label={hideLabels ? '' : 'Value'}
             placeholder="Enter or select value..."
             value={rule.value}
+            disabled={ruleType.length === 0}
             handleChange={(value: string) => {
               handleUpdateRule('value', value);
             }}

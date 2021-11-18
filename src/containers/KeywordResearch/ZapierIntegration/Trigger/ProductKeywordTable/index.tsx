@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table } from 'rsuite';
-import { connect } from 'react-redux';
+import axios from 'axios';
 
 /* Styling */
 import './global.scss';
@@ -12,53 +12,59 @@ import Keyword from './Keyword';
 /* Constants */
 import {
   PRODUCT_KEYWORD_ROW_HEIGHT,
-  TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY,
   TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY,
 } from '../../../../../constants/KeywordResearch/KeywordTracker';
 
-/* Selectors */
-import {
-  getIsLoadingTrackerProductKeywordsTable,
-  getTrackerProductKeywordsTableResults,
-} from '../../../../../selectors/KeywordResearch/KeywordTracker';
-
-/* Actions */
-import { fetchTrackerProductKeywordsTable } from '../../../../../actions/KeywordResearch/KeywordTracker';
-
-/* Interfaces */
-import { TrackerProductKeywordsTablePayload } from '../../../../../interfaces/KeywordResearch/KeywordTracker';
+/* Config */
+import { AppConfig } from '../../../../../config';
+import DeleteCell from '../../../../../components/NewTable/DeleteCell';
 
 interface Props {
-  isLoadingTrackerProductKeywordsTable: boolean;
-  trackerProductKeywordsTableResults: any[];
-  fetchTrackerProductKeywordsTable: (payload: TrackerProductKeywordsTablePayload) => void;
+  triggerId: number;
+  productId: number;
+  refreshData: () => void;
 }
 
-const TrackerKeywordTable = (props: Props) => {
-  const {
-    isLoadingTrackerProductKeywordsTable,
-    trackerProductKeywordsTableResults,
-    fetchTrackerProductKeywordsTable,
-  } = props;
+const ProductKeywordTable = (props: Props) => {
+  const { triggerId, productId, refreshData } = props;
+  const [productKeywords, setProductKeywords] = useState<any[]>([]);
+  const [isLoading, setLoading] = useState(true);
 
-  const [sortColumn, setSortColumn] = useState<string>('');
-  const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
+  const fetchProductKeywords = async () => {
+    try {
+      const sellerID = localStorage.getItem('userId');
+      const { data, status } = await axios.get(
+        `${AppConfig.BASE_URL_API}sellers/${sellerID}/keywords/trigger/assignments?keyword_trigger_id=
+          ${triggerId}&keyword_track_product_id=${productId}`
+      );
 
-  /* Handle Column Sorting */
-  const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
-    const tableResults = trackerProductKeywordsTableResults;
-    const [firstItem] = tableResults;
-    if (!firstItem) {
-      return;
+      if (status === 200) {
+        setProductKeywords(data);
+      }
+      setLoading(false);
+    } catch (err) {
+      console.log('errr');
+      setLoading(false);
     }
-    setSortColumn(sortColumn);
-    setSortType(sortType);
+  };
 
-    fetchTrackerProductKeywordsTable({
-      keywordTrackProductId: firstItem[TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY],
-      sort: sortColumn,
-      sortDir: sortType,
-    });
+  const handleDeleteKeyword = async (keywordId: number) => {
+    try {
+      const sellerID = localStorage.getItem('userId');
+      const { status } = await axios.patch(
+        `${AppConfig.BASE_URL_API}sellers/${sellerID}/keywords/trigger/delete-assignments`,
+        {
+          keyword_trigger_id: triggerId,
+          keyword_track_id: keywordId,
+        }
+      );
+
+      if (status === 200) {
+        refreshData();
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   /* Custom scroll logic */
@@ -94,22 +100,24 @@ const TrackerKeywordTable = (props: Props) => {
     };
   }, []);
 
+  useEffect(() => {
+    setLoading(true);
+    fetchProductKeywords();
+  }, [triggerId]);
+
   return (
     <>
       {/* Table Section */}
       <div className={styles.keywordTableWrapper}>
         <Table
-          loading={isLoadingTrackerProductKeywordsTable}
-          data={trackerProductKeywordsTableResults}
+          loading={isLoading}
+          data={productKeywords}
           height={300}
           // shouldUpdateScroll={false}
           hover={false}
           rowHeight={PRODUCT_KEYWORD_ROW_HEIGHT}
           headerHeight={50}
-          sortColumn={sortColumn}
-          sortType={sortType}
           id="zapierKeywordTable"
-          onSortColumn={handleSortColumn}
           rowKey={TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY}
         >
           {/* Keyword Info */}
@@ -117,24 +125,19 @@ const TrackerKeywordTable = (props: Props) => {
             <Table.HeaderCell>Keyword</Table.HeaderCell>
             <Keyword dataKey="keyword" />
           </Table.Column>
+          {/* Delete Cell */}
+          <Table.Column width={200} verticalAlign="middle" align="left">
+            <Table.HeaderCell></Table.HeaderCell>
+            <DeleteCell
+              dataKey="keyword_track_id"
+              deleteMessage="Remove this product from Zapier?"
+              handleDelete={handleDeleteKeyword}
+            />
+          </Table.Column>
         </Table>
       </div>
     </>
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return {
-    isLoadingTrackerProductKeywordsTable: getIsLoadingTrackerProductKeywordsTable(state),
-    trackerProductKeywordsTableResults: getTrackerProductKeywordsTableResults(state),
-  };
-};
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    fetchTrackerProductKeywordsTable: (payload: TrackerProductKeywordsTablePayload) =>
-      dispatch(fetchTrackerProductKeywordsTable(payload)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TrackerKeywordTable);
+export default ProductKeywordTable;

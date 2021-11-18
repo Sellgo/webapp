@@ -1,5 +1,14 @@
 @import '../../../../design-system/new-colors';
 
+.ruleWrapper {
+  width: 100%;
+
+  .rulesContainer {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .triggerWrapper {
   display: flex;
   margin-bottom: 18px;
@@ -14,13 +23,41 @@
       border-bottom: 1px solid $grey_3;
       border-radius: 7px;
     }
+  }
+}
 
-    .headerIcon {
-      cursor: pointer;
-      margin-bottom: 3px;
-      margin-right: 5px;
-      font-size: 12px;
-      color: $grey_8 !important;
+.editName {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  .editIcon {
+    cursor: pointer;
+    margin-bottom: 3px;
+    margin-left: 10px;
+    font-size: 12px;
+    color: $grey_8 !important;
+  }
+
+  .checkIcon {
+    margin-left: 10px;
+  }
+
+  .checkIcon,
+  .closeIcon {
+    cursor: pointer;
+    background: $grey_10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    color: $grey_7 !important;
+    font-size: 10px !important;
+
+    &:hover {
+      background: $grey_3;
     }
   }
 }
@@ -32,31 +69,8 @@
   margin-right: 10px;
 }
 
-.ruleWrapper {
-  width: 100%;
-
-  .rulesContainer {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-.addRuleButtonsRow {
-  margin-top: 30px;
-
-  .addRuleButton {
-    background: $sellgo_yellow;
-    width: 60px;
-    height: 30px;
-    border-radius: 7px;
-    color: $black_1;
-    font-size: $fontsize_content_12;
-    font-weight: $fontweight_semibold;
-    margin-right: 30px;
-  }
-}
-
 .buttonsRow {
+  margin-top: 30px;
   display: flex;
   justify-content: flex-end;
 
@@ -67,5 +81,8 @@
 
 .assignInput {
   margin: 3rem 0;
-  width: 900px;
+
+  > div {
+    width: 900px !important;
+  }
 }
