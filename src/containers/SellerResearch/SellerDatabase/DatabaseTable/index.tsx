@@ -90,6 +90,7 @@ const SellerDatabaseTable = (props: Props) => {
           id="sellerDatabaseTable"
           className={sellerDatabaseResults.length === 0 ? 'no-scroll' : ''}
           onSortColumn={handleSortColumn}
+          renderEmpty={() => <div />}
         >
           {/* Seller Information */}
           <Table.Column width={590} verticalAlign="middle" fixed>
