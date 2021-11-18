@@ -3,14 +3,9 @@ import ActionButton from '../../../../components/ActionButton';
 
 /* Assets */
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
-/* Actions */
 
 /* Styling */
 import styles from './index.module.scss';
-
-/* Components */
-
-/* Constants */
 
 interface Props {
   handleAddTrigger: () => void;

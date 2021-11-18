@@ -11,7 +11,9 @@ import BoxContainer from '../../../../components/BoxContainer';
 import ProductTable from './ProductTable';
 import ActionButton from '../../../../components/ActionButton';
 import SelectionMultipleFilter from '../../../../components/FormFilters/SelectionMultipleFilter';
+import InputFilter from '../../../../components/FormFilters/InputFilter';
 import Placeholder from '../../../../components/Placeholder';
+import ZapierRules from './ZapierRules';
 
 /* Assets */
 import { ReactComponent as ExpandedCellIcon } from '../../../../assets/images/expandCell.svg';
@@ -24,8 +26,6 @@ import { Rule, SelectionKeyword } from '../../../../interfaces/KeywordResearch/Z
 import { AppConfig } from '../../../../config';
 import { truncateString } from '../../../../utils/format';
 import { error, success } from '../../../../utils/notifications';
-import InputFilter from '../../../../components/FormFilters/InputFilter';
-import ZapierRules from './ZapierRules';
 
 interface Props {
   triggerName: string;

@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -8,9 +9,11 @@ import Trigger from './Trigger';
 import ZapierMeta from './ZapierMeta';
 import Placeholder from '../../../components/Placeholder';
 
+/* Types */
 import { TriggerMetaData } from '../../../interfaces/KeywordResearch/Zapier';
+
+/* Constants */
 import { DEFAULT_TRIGGER } from '../../../constants/KeywordResearch/Zapier';
-import axios from 'axios';
 import { AppConfig } from '../../../config';
 
 const Zapier = () => {
