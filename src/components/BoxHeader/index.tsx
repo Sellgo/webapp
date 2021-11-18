@@ -8,10 +8,10 @@ interface Props {
   className?: string;
 }
 
-const ProfileBoxContainer = (props: Props) => {
+const BoxHeader = (props: Props) => {
   const { children, className } = props;
 
-  return <div className={`${styles.profileBoxContainer} ${className}`}>{children}</div>;
+  return <div className={`${styles.profileBoxHeader} ${className}`}>{children}</div>;
 };
 
-export default ProfileBoxContainer;
+export default BoxHeader;

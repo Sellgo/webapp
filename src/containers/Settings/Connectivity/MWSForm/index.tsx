@@ -14,8 +14,8 @@ import {
 import { AmazonMWS } from '../../../../interfaces/Seller';
 
 import styles from './index.module.scss';
-import ProfileBoxHeader from '../../../../components/ProfileBoxHeader';
-import ProfileBoxContainer from '../../../../components/ProfileBoxContainer';
+import BoxHeader from '../../../../components/BoxHeader';
+import BoxContainer from '../../../../components/BoxContainer';
 import OrangeButton from '../../../../components/OrangeButton';
 
 const marketplaceOptions = defaultMarketplaces.map(({ name, id, disabled }, key) => {
@@ -166,8 +166,8 @@ const Connectivity = (props: Props) => {
 
   return (
     <section className={styles.mwsFormWrapper}>
-      <ProfileBoxHeader>Amazon MWS Authorization</ProfileBoxHeader>
-      <ProfileBoxContainer>
+      <BoxHeader>Amazon MWS Authorization</BoxHeader>
+      <BoxContainer>
         <p className={styles.mwsFormTitle}>
           {' '}
           Please grant Amazon MWS and Amazon Seller Central access for each market.{' '}
@@ -265,7 +265,7 @@ const Connectivity = (props: Props) => {
             Update
           </OrangeButton>
         </div>
-      </ProfileBoxContainer>
+      </BoxContainer>
       <Confirm
         className="auth-token-confirm"
         open={showConfirmToken}

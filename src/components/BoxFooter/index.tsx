@@ -8,10 +8,10 @@ interface Props {
   className?: string;
 }
 
-const ProfileBoxFooter = (props: Props) => {
+const BoxFooter = (props: Props) => {
   const { children, className } = props;
 
   return <div className={`${styles.profileBoxFooter} ${className}`}>{children}</div>;
 };
 
-export default ProfileBoxFooter;
+export default BoxFooter;

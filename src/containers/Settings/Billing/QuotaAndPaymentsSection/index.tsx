@@ -15,9 +15,9 @@ import NewQuotaMeter from '../../../../components/NewQuotaMeter';
 import PlanTypeRectangle from '../../../../components/PlanTypeRectangle';
 import UpdateCardForm from '../UpdateCardForm';
 import OrangeButton from '../../../../components/OrangeButton';
-import ProfileBoxContainer from '../../../../components/ProfileBoxContainer';
-import ProfileBoxHeader from '../../../../components/ProfileBoxHeader';
-import ProfileBoxFooter from '../../../../components/ProfileBoxFooter';
+import BoxContainer from '../../../../components/BoxContainer';
+import BoxHeader from '../../../../components/BoxHeader';
+import BoxFooter from '../../../../components/BoxFooter';
 import CreditCardIcon from '../../../../assets/images/credit-card-solid.svg';
 import HelpingHandsIcon from '../../../../assets/images/hands-helping-solid.svg';
 
@@ -116,8 +116,8 @@ const QuotaAndPaymentsSection = (props: Props) => {
   );
   return (
     <section className={styles.quotaAndPaymentsWrapper}>
-      <ProfileBoxHeader>Billing</ProfileBoxHeader>
-      <ProfileBoxContainer>
+      <BoxHeader>Billing</BoxHeader>
+      <BoxContainer>
         <div className={styles.billingGrid}>
           <span className={styles.quotaSection}>
             <p className={`${styles.boxTitle}`}> Your Plan</p>
@@ -217,8 +217,8 @@ const QuotaAndPaymentsSection = (props: Props) => {
             </Dimmer>
           )}
         </div>
-      </ProfileBoxContainer>
-      <ProfileBoxFooter>
+      </BoxContainer>
+      <BoxFooter>
         <div>
           <img src={HelpingHandsIcon} alt="helping-hands-icon" />
           &nbsp;&nbsp; If you have any trouble with the payment setting, you can contact us at&nbsp;
@@ -227,7 +227,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
           </a>
           . We Can Help.
         </div>
-      </ProfileBoxFooter>
+      </BoxFooter>
       <Modal
         open={modalOpen}
         onClose={handleModalClose}

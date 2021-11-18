@@ -6,8 +6,8 @@ import { Confirm, Icon } from 'semantic-ui-react';
 import styles from './index.module.scss';
 
 /* Components */
-import ProfileBoxHeader from '../../../../components/ProfileBoxHeader';
-import ProfileBoxContainer from '../../../../components/ProfileBoxContainer';
+import BoxHeader from '../../../../components/BoxHeader';
+import BoxContainer from '../../../../components/BoxContainer';
 import ProductTable from './ProductTable';
 import ActionButton from '../../../../components/ActionButton';
 import SelectionMultipleFilter from '../../../../components/FormFilters/SelectionMultipleFilter';
@@ -166,7 +166,7 @@ const Trigger = (props: Props) => {
 
       <div className={styles.trigger}>
         {/* TRIGGER HEADER */}
-        <ProfileBoxHeader
+        <BoxHeader
           className={`${styles.triggerHeader} ${!isOpen ? styles.triggerHeader__closed : ''}`}
         >
           {/* EDITTING NAME SECTION */}
@@ -212,17 +212,17 @@ const Trigger = (props: Props) => {
               onClick={() => setDeleting(true)}
             />
           </div>
-        </ProfileBoxHeader>
+        </BoxHeader>
 
         {/* PLACEHOLDER FOR LOADING STATE */}
         {isOpen && isRulesAndAssignmentsLoading && (
-          <ProfileBoxContainer>
+          <BoxContainer>
             <Placeholder numberRows={5} numberParagraphs={3} />
-          </ProfileBoxContainer>
+          </BoxContainer>
         )}
 
         {isOpen && !isRulesAndAssignmentsLoading && (
-          <ProfileBoxContainer>
+          <BoxContainer>
             <ZapierRules
               rules={rules}
               setRules={setRules}
@@ -263,7 +263,7 @@ const Trigger = (props: Props) => {
                 Save
               </ActionButton>
             </div>
-          </ProfileBoxContainer>
+          </BoxContainer>
         )}
       </div>
 
