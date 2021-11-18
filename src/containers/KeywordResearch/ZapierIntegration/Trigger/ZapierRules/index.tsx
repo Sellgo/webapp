@@ -21,7 +21,6 @@ interface Props {
 
 const ZapierRules = (props: Props) => {
   const { rules, setRules, ruleErrIndexes, setRuleErrIndexes } = props;
-  console.log(ruleErrIndexes);
 
   React.useEffect(() => {
     /* Ensure that user does not delete all the rules */
