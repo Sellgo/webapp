@@ -110,7 +110,7 @@ const ProductTable = (props: Props) => {
         </Table.Column>
 
         {/* Delete Cell */}
-        <Table.Column width={200} verticalAlign="top" align="left">
+        <Table.Column width={50} verticalAlign="top" align="left">
           <Table.HeaderCell></Table.HeaderCell>
           <DeleteCell
             dataKey="keyword_track_product_id"

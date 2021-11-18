@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import ActionButton from '../../../../components/ActionButton';
 
 /* Assets */
@@ -33,13 +32,4 @@ const ZapierMeta = (props: Props) => {
     </>
   );
 };
-
-const mapStateToProps = (state: any) => ({
-  profile: state.settings.profile,
-});
-
-const mapDispatchToProps = {
-  // getSeller: () => getSellerInfo(),
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ZapierMeta);
+export default ZapierMeta;

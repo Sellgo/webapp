@@ -126,7 +126,7 @@ const ProductKeywordTable = (props: Props) => {
             <Keyword dataKey="keyword" />
           </Table.Column>
           {/* Delete Cell */}
-          <Table.Column width={200} verticalAlign="middle" align="left">
+          <Table.Column width={50} verticalAlign="middle" align="left">
             <Table.HeaderCell></Table.HeaderCell>
             <DeleteCell
               dataKey="keyword_track_id"

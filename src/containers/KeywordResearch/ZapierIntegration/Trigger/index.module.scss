@@ -1,14 +1,5 @@
 @import '../../../../design-system/new-colors';
 
-.ruleWrapper {
-  width: 100%;
-
-  .rulesContainer {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
 .triggerWrapper {
   display: flex;
   margin-bottom: 18px;
@@ -24,6 +15,23 @@
       border-radius: 7px;
     }
   }
+
+  .trigger {
+    width: 100%;
+  }
+}
+
+.expandIcon {
+  background: none;
+  display: flex;
+  margin-top: 15px;
+  margin-right: 10px;
+}
+
+.deleteTriggerIcon {
+  cursor: pointer;
+  color: $grey_8 !important;
+  font-size: 12px !important;
 }
 
 .editName {
@@ -60,13 +68,6 @@
       background: $grey_3;
     }
   }
-}
-
-.expandIcon {
-  background: none;
-  display: flex;
-  margin-top: 15px;
-  margin-right: 10px;
 }
 
 .buttonsRow {

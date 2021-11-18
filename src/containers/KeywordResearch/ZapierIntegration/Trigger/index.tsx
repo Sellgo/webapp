@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Icon } from 'semantic-ui-react';
+import { Confirm, Icon } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -50,6 +50,9 @@ const Trigger = (props: Props) => {
   const [assignedKeywords, setAssignedKeywords] = useState<any[]>([]);
   const [availableKeywords, setAvailableKeywords] = useState<any[]>([]);
 
+  /* Deleting triggers state */
+  const [isDeleting, setDeleting] = useState<boolean>(false);
+
   const [isRulesAndAssignmentsLoading, setRulesAndAssignmentsLoading] = useState<boolean>(true);
 
   const handleSaveName = (isSaved: boolean) => {
@@ -82,7 +85,7 @@ const Trigger = (props: Props) => {
     try {
       const sellerID = localStorage.getItem('userId');
       const { data } = await axios.get(
-        `${AppConfig.BASE_URL_API}sellers/${sellerID}/keyword-track-by-seller`
+        `${AppConfig.BASE_URL_API}sellers/${sellerID}/keyword-track-by-seller?keyword_trigger_id=${triggerIndex}`
       );
       const availableKeywords: any[] = [];
       const assignedKeywords: any[] = [];
@@ -154,7 +157,7 @@ const Trigger = (props: Props) => {
         {!isOpen ? <ExpandedCellIcon /> : <DeExpandedCellIcon />}
       </button>
 
-      <div className={styles.ruleWrapper}>
+      <div className={styles.trigger}>
         {/* TRIGGER HEADER */}
         <ProfileBoxHeader
           className={`${styles.triggerHeader} ${!isOpen ? styles.triggerHeader__closed : ''}`}
@@ -198,8 +201,8 @@ const Trigger = (props: Props) => {
           <div>
             <Icon
               name="trash alternate"
-              className={styles.headerIcon}
-              onClick={() => handleDeleteTrigger(triggerIndex)}
+              className={styles.deleteTriggerIcon}
+              onClick={() => setDeleting(true)}
             />
           </div>
         </ProfileBoxHeader>
@@ -250,6 +253,16 @@ const Trigger = (props: Props) => {
           </ProfileBoxContainer>
         )}
       </div>
+
+      <Confirm
+        content={'Delete your trigger?'}
+        open={isDeleting}
+        onCancel={() => setDeleting(false)}
+        onConfirm={() => {
+          setDeleting(false);
+          handleDeleteTrigger(triggerIndex);
+        }}
+      />
     </div>
   );
 };
