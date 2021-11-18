@@ -13,6 +13,7 @@ export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
   '/keyword-research/finder',
   '/keyword-research/database',
   '/keyword-research/tracker',
+  '/keyword-research/zapier',
 
   /* Product Research */
   '/product-research',

@@ -11,8 +11,8 @@ import styles from './index.module.scss';
 
 /* Components */
 import PageHeader from '../../../components/PageHeader';
-import ProfileBoxHeader from '../../../components/ProfileBoxHeader';
-import ProfileBoxContainer from '../../../components/ProfileBoxContainer';
+import BoxHeader from '../../../components/BoxHeader';
+import BoxContainer from '../../../components/BoxContainer';
 import OrangeButton from '../../../components/OrangeButton';
 import StepsInfo from '../../../components/StepsInfo';
 import HelpingHandsIcon from '../../../assets/images/hands-helping-solid.svg';
@@ -33,7 +33,7 @@ import { useInput } from '../../../hooks/useInput';
 /* Utils */
 import { success } from '../../../utils/notifications';
 import { AppConfig } from '../../../config';
-import ProfileBoxFooter from '../../../components/ProfileBoxFooter';
+import ProfileBoxFooter from '../../../components/BoxFooter';
 
 interface Props {
   getSeller: () => void;
@@ -171,8 +171,8 @@ const Profile = (props: Props) => {
       <main className={styles.profilePageWrapper}>
         <SettingsNav match={match} history={history} />
         <div className={styles.profilePage}>
-          <ProfileBoxHeader className={styles.profileBox}>Profile</ProfileBoxHeader>
-          <ProfileBoxContainer className={styles.profileBox}>
+          <BoxHeader className={styles.profileBox}>Profile</BoxHeader>
+          <BoxContainer className={styles.profileBox}>
             <div className={styles.profileInformationRow}>
               <img src={pic} className={styles.profilePic} />
               <div>
@@ -263,7 +263,7 @@ const Profile = (props: Props) => {
                 )}
               </OrangeButton>
             </div>
-          </ProfileBoxContainer>
+          </BoxContainer>
           <ProfileBoxFooter className={styles.profileBox}>
             <div>
               <img src={HelpingHandsIcon} alt="helping-hands-icon" />

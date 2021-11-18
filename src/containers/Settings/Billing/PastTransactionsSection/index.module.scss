@@ -1,10 +1,14 @@
 @import '../../../../design-system/new-colors.scss';
 
+.billingHistoryWrapper {
+  width: 1000px;
+}
+
 .transactionHistoryTable {
   position: relative;
   padding-bottom: 90px;
   height: max-content;
-  width: 950px;
+  width: 900px;
 }
 
 .retrieveMoreHistoryButton {

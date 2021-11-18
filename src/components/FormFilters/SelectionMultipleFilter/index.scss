@@ -1,9 +1,24 @@
 @import '../../../design-system/new-colors';
 
-.selectionFilterWrapper {
+.selectionFilterMultipleWrapper {
   width: max-content;
+  max-width: 1000px;
   height: max-content !important;
   min-width: 250px;
+
+  .label {
+    border-radius: 7px;
+    font-size: 12px;
+    color: $grey_8 !important;
+    font-weight: $fontweight_semibold;
+    border: 1px solid $blue_6 !important;
+    padding: 0 5px;
+    padding-bottom: 5px !important;
+    background: none !important;
+    text-decoration: none !important;
+    height: 20px !important;
+    width: max-content;
+  }
 
   p {
     margin: 0;
@@ -12,24 +27,29 @@
     font-weight: 500;
   }
 
+  .dropdown.icon {
+    margin-top: 5px !important;
+  }
+
   .ui.dropdown.selectionFilter {
+    max-height: none !important;
+    height: max-content;
     color: $grey_8 !important;
     background-color: $prim_white;
     border: 1px solid $grey_3;
-    max-height: 35px !important;
     min-height: 35px !important;
-    height: 35px;
     font-size: 12px;
     font-weight: 400 !important;
     padding: 8px 10px !important;
     border-radius: 4px !important;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 
     .text {
       color: $grey_8 !important;
       font-size: 12px !important;
+    }
+
+    .sizer {
+      display: none;
     }
 
     .default {
