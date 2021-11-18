@@ -27,6 +27,7 @@ interface Props {
   className?: string;
   userOnboardingResources: any;
   handleOnPaste?: (value: string) => void;
+  isNumber?: boolean;
 }
 
 const InputFilter: React.FC<Props> = props => {
@@ -40,6 +41,7 @@ const InputFilter: React.FC<Props> = props => {
     disabled,
     error,
     handleOnPaste,
+    isNumber,
   } = props;
 
   /* Onboarding logic */
@@ -68,7 +70,7 @@ const InputFilter: React.FC<Props> = props => {
 
       <Input
         className={`${styles.inputWrapper} ${className} textInputFilter`}
-        type="text"
+        type={isNumber ? 'number' : 'text'}
         placeholder={placeholder}
         value={value}
         onChange={(e: any) => handleChange(e.target.value)}

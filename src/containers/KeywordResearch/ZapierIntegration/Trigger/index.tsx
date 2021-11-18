@@ -35,6 +35,7 @@ interface Props {
 
 const Trigger = (props: Props) => {
   const { triggerName, triggerIndex, handleDeleteTrigger } = props;
+
   /* Modal State */
   const [isOpen, setOpen] = useState<boolean>(false);
 
@@ -44,6 +45,7 @@ const Trigger = (props: Props) => {
 
   /* Trigger rules state */
   const [rules, setRules] = useState<Rule[]>([]);
+  const [ruleErrIndexes, setRuleErrIndexes] = useState<number[]>([]);
 
   /* Trigger assignments state */
   const [assignedProducts, setAssignedProducts] = useState<any[]>([]);
@@ -53,16 +55,8 @@ const Trigger = (props: Props) => {
   /* Deleting triggers state */
   const [isDeleting, setDeleting] = useState<boolean>(false);
 
+  /* Fetch rules and assignments loading state */
   const [isRulesAndAssignmentsLoading, setRulesAndAssignmentsLoading] = useState<boolean>(true);
-
-  const handleSaveName = (isSaved: boolean) => {
-    if (isSaved) {
-      setEdittingName(false);
-    } else {
-      setNewTriggerName(triggerName);
-      setEdittingName(false);
-    }
-  };
 
   const fetchRulesAndAssignments = async () => {
     setRulesAndAssignmentsLoading(true);
@@ -115,6 +109,11 @@ const Trigger = (props: Props) => {
     }
   };
 
+  const fetchData = () => {
+    fetchRulesAndAssignments();
+    fetchAvailableKeywords();
+  };
+
   /* Save all changes in the trigger */
   const handleSave = async () => {
     setRulesAndAssignmentsLoading(true);
@@ -130,8 +129,7 @@ const Trigger = (props: Props) => {
       );
       if (status === 201) {
         success('Successfully updated trigger.');
-        fetchRulesAndAssignments();
-        fetchAvailableKeywords();
+        fetchData();
       } else {
         error('Failed to save trigger.');
         setRulesAndAssignmentsLoading(false);
@@ -143,11 +141,20 @@ const Trigger = (props: Props) => {
     }
   };
 
+  /* Save changes when editting trigger name */
+  const handleSaveName = (isSaved: boolean) => {
+    if (isSaved) {
+      setEdittingName(false);
+    } else {
+      setNewTriggerName(triggerName);
+      setEdittingName(false);
+    }
+  };
+
   /* Fetch trigger rules and assignments */
   React.useEffect(() => {
     if (isOpen) {
-      fetchRulesAndAssignments();
-      fetchAvailableKeywords();
+      fetchData();
     }
   }, [isOpen]);
 
@@ -216,7 +223,12 @@ const Trigger = (props: Props) => {
 
         {isOpen && !isRulesAndAssignmentsLoading && (
           <ProfileBoxContainer>
-            <ZapierRules rules={rules} setRules={setRules} />
+            <ZapierRules
+              rules={rules}
+              setRules={setRules}
+              ruleErrIndexes={ruleErrIndexes}
+              setRuleErrIndexes={setRuleErrIndexes}
+            />
             <SelectionMultipleFilter
               className={styles.assignInput}
               label="Assigned To"
@@ -230,7 +242,7 @@ const Trigger = (props: Props) => {
             <ProductTable
               assignedProducts={assignedProducts}
               triggerId={triggerIndex}
-              refreshData={fetchRulesAndAssignments}
+              refreshData={fetchData}
             />
             <div className={styles.buttonsRow}>
               <ActionButton
@@ -246,6 +258,7 @@ const Trigger = (props: Props) => {
                 type="purpleGradient"
                 size="md"
                 onClick={handleSave}
+                disabled={ruleErrIndexes.length > 0}
               >
                 Save
               </ActionButton>

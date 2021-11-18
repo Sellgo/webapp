@@ -15,19 +15,39 @@ import { DEFAULT_RULE } from '../../../../../constants/KeywordResearch/Zapier';
 interface Props {
   rules: Rule[];
   setRules: (rule: Rule[]) => void;
+  ruleErrIndexes: number[];
+  setRuleErrIndexes: (ruleIndex: number[]) => void;
 }
 
 const ZapierRules = (props: Props) => {
-  const { rules, setRules } = props;
+  const { rules, setRules, ruleErrIndexes, setRuleErrIndexes } = props;
+  console.log(ruleErrIndexes);
 
-  /* Ensure that user does not delete all the rules */
   React.useEffect(() => {
+    /* Ensure that user does not delete all the rules */
     if (rules.length === 0) {
       setRules([DEFAULT_RULE]);
     }
+    const newRuleErrIndexes: number[] = [];
+    /* Check for duplicated rules */
+    /* Refactor into O(N) next time */
+    rules.forEach((rule, index) => {
+      const duplicate = rules.findIndex((duplicateRule: Rule) => {
+        return (
+          rule.field_name === duplicateRule.field_name &&
+          rule.condition === duplicateRule.condition &&
+          rule.condition !== '' &&
+          rule.field_name !== ''
+        );
+      });
+      if (duplicate !== -1 && duplicate !== index) {
+        newRuleErrIndexes.push(index);
+      }
+    });
+    setRuleErrIndexes(newRuleErrIndexes);
   }, [rules]);
 
-  /* Rule handlers - add rule */
+  /* Add new rule to end of list */
   const handleAddRule = (operator: 'and' | 'or') => {
     setRules([
       ...rules,
@@ -38,17 +58,29 @@ const ZapierRules = (props: Props) => {
     ]);
   };
 
-  /* Rule handlers - update rule */
+  /* Update selected rule */
   const updateRule = (index: number, rule: Rule) => {
     const newRules = [...rules];
     newRules[index] = rule;
     setRules(newRules);
   };
 
-  /* Rule handlers - remove rule */
+  /* Delete rule */
   const removeRule = (index: number) => {
     const newRules = [...rules];
+
+    /* If the rule being deleted is the first row in an OR group, pass down the OR operator down to next rule */
+    if (index < newRules.length - 1 && newRules[index].logical_operator === 'or') {
+      newRules[index + 1].logical_operator = 'or';
+    }
     newRules.splice(index, 1);
+    setRules(newRules);
+  };
+
+  /* Insert new AND rule at given index */
+  const insertNewRuleAtIndex = (index: number) => {
+    const newRules = [...rules];
+    newRules.splice(index, 0, { ...DEFAULT_RULE, logical_operator: 'and' });
     setRules(newRules);
   };
 
@@ -62,8 +94,10 @@ const ZapierRules = (props: Props) => {
               index={index}
               updateRule={updateRule}
               removeRule={removeRule}
+              insertNewRuleAtIndex={insertNewRuleAtIndex}
               rule={rule}
               hideLabels={index !== 0}
+              error={ruleErrIndexes.includes(index)}
             />
           );
         })}

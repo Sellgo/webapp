@@ -127,17 +127,11 @@ export const KEYWORD_KPIS: {
     text: 'Competing Products',
     value: 'competing_products',
     key: 'Competing Products',
-    type: 'text',
-  },
-  {
-    text: 'Trend',
-    value: 'Trend',
-    key: 'Trend',
-    type: 'text',
+    type: 'number',
   },
   {
     text: 'Organic Rank',
-    value: 'organic_rank',
+    value: 'position_rank',
     key: 'Organic Rank',
     type: 'number',
   },
@@ -155,7 +149,7 @@ export const KEYWORD_KPIS: {
   },
   {
     text: 'Ranking ASINs',
-    value: 'asins_rank',
+    value: 'ranking_asins',
     key: 'Ranking ASINs',
     type: 'number',
   },
@@ -167,7 +161,7 @@ export const KEYWORD_KPIS: {
   },
   {
     text: 'Drop/ Raise Index',
-    value: 'drop_raise_index',
+    value: 'index',
     key: 'Drop/ Raise Index',
     type: 'number',
   },
@@ -179,6 +173,6 @@ export const getType = (kpiValue: string): 'number' | 'text' | 'date' | 'boolean
   if (kpi && kpi.type) {
     return kpi.type;
   } else {
-    return 'text';
+    return 'number';
   }
 };

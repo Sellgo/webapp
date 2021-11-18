@@ -12,6 +12,17 @@
   margin-bottom: 5px;
 }
 
+.zapierRule {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+
+  > div {
+    margin-right: 30px;
+  }
+}
+
 .zapierConditions {
   display: flex;
   align-items: center;
@@ -22,15 +33,32 @@
   }
 }
 
-.zapierRule {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.crossIcon {
+  fill: $grey_8 !important;
+  margin-right: 18px;
+  cursor: pointer;
 }
 
-.trashIcon {
-  font-size: 12px !important;
-  color: $grey_8 !important;
-  cursor: pointer;
+.addRuleButton {
+  margin-top: 18px;
+  background: $sellgo_yellow;
+  width: 60px;
+  height: 30px;
+  border-radius: 7px;
+  color: $black_1;
+  font-size: $fontsize_content_12;
+  font-weight: $fontweight_semibold;
+  margin-right: 30px;
+}
+
+.error {
+  > div {
+    border: 1px solid $system_red !important;
+  }
+}
+
+.errorMessage {
+  color: $system_red;
+  font-size: 12px;
+  font-weight: $fontweight_medium;
 }
