@@ -78,11 +78,9 @@ const SellerDatabaseTable = (props: Props) => {
   return (
     <>
       <section className={styles.sellerDatbaseTableWrapper}>
-        {/* <Placeholder numberParagraphs={5} numberRows={5}/>
-      <Placeholder numberParagraphs={5} numberRows={5} isGrey/> */}
         <Table
           renderLoading={() =>
-            isLoadingSellerDatabase && <Placeholder numberParagraphs={10} numberRows={5} isGrey />
+            isLoadingSellerDatabase && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
           }
           data={sellerDatabaseResults}
           autoHeight
@@ -201,6 +199,19 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <TruncatedTextCell dataKey="country" maxLength={20} />
+          </Table.Column>
+
+          {/* Zip Code */}
+          <Table.Column width={120} sortable verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Zip Code`}
+                dataKey="zip_code"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <TruncatedTextCell dataKey="zip_code" maxLength={20} />
           </Table.Column>
 
           {/* 1 Month Growth % */}

@@ -81,7 +81,7 @@ const Zapier = () => {
   return (
     <section className={styles.zapierIntegration}>
       <ZapierMeta handleAddTrigger={handleAddTrigger} />
-      {isFetchTriggersLoading && <Placeholder numberParagraphs={5} numberRows={5} isGrey />}
+      {isFetchTriggersLoading && <Placeholder numberParagraphs={3} numberRows={5} isGrey />}
       {!isFetchTriggersLoading &&
         triggers.map((trigger: TriggerMetaData) => (
           <Trigger
