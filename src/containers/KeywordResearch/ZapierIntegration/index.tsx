@@ -8,6 +8,7 @@ import styles from './index.module.scss';
 import Trigger from './Trigger';
 import ZapierMeta from './ZapierMeta';
 import Placeholder from '../../../components/Placeholder';
+import history from '../../../history';
 
 /* Types */
 import { TriggerMetaData } from '../../../interfaces/KeywordResearch/Zapier';
@@ -19,12 +20,24 @@ import { AppConfig } from '../../../config';
 const Zapier = () => {
   const [triggers, setTriggers] = React.useState<TriggerMetaData[]>([]);
   const [isFetchTriggersLoading, setTriggersLoading] = React.useState<boolean>(true);
+  const sellerID = localStorage.getItem('userId');
+
+  /* Fetches and checks for Zapier API key */
+  const fetchZapierApiKeys = async () => {
+    try {
+      const res = await axios.get(`${AppConfig.BASE_URL_API}sellers/${sellerID}/api-key`);
+      if (!res.data.api_key_id) {
+        history.push('/settings/api-keys');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   /* Fetches all the triggers from backend */
   const fetchTriggers = async () => {
     setTriggersLoading(true);
     try {
-      const sellerID = localStorage.getItem('userId');
       let { data } = await axios.get(
         `${AppConfig.BASE_URL_API}sellers/${sellerID}/keywords/trigger`
       );
@@ -40,7 +53,6 @@ const Zapier = () => {
   const handleAddTrigger = async () => {
     setTriggersLoading(true);
     try {
-      const sellerID = localStorage.getItem('userId');
       const { data, status } = await axios.post(
         `${AppConfig.BASE_URL_API}sellers/${sellerID}/keywords/trigger`,
         DEFAULT_TRIGGER
@@ -58,7 +70,6 @@ const Zapier = () => {
   const handleDeleteTrigger = async (triggerId: number) => {
     setTriggersLoading(true);
     try {
-      const sellerID = localStorage.getItem('userId');
       const { status } = await axios.patch(
         `${AppConfig.BASE_URL_API}sellers/${sellerID}/keywords/trigger/${triggerId}/delete`
       );
@@ -75,6 +86,7 @@ const Zapier = () => {
   };
 
   React.useEffect(() => {
+    fetchZapierApiKeys();
     fetchTriggers();
   }, []);
 
