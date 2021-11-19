@@ -45,7 +45,6 @@ const Trigger = (props: Props) => {
 
   /* Trigger rules state */
   const [rules, setRules] = useState<Rule[]>([]);
-  const [ruleErrIndexes, setRuleErrIndexes] = useState<number[]>([]);
 
   /* Trigger assignments state */
   const [assignedProducts, setAssignedProducts] = useState<any[]>([]);
@@ -90,13 +89,13 @@ const Trigger = (props: Props) => {
           availableKeywords.push({
             key: keyword.phrase,
             value: keyword.keyword_track_id,
-            text: `${keyword.phrase} - ${truncateString(keyword.title, 50)}`,
+            text: `${truncateString(keyword.title, 70)} - ${keyword.phrase}`,
           });
         } else {
           availableKeywords.push({
             key: keyword.phrase,
             value: keyword.keyword_track_id,
-            text: `${keyword.phrase} - ${truncateString(keyword.title, 50)}`,
+            text: `${truncateString(keyword.title, 70)} - ${keyword.phrase}`,
           });
         }
         return null;
@@ -223,12 +222,7 @@ const Trigger = (props: Props) => {
 
         {isOpen && !isRulesAndAssignmentsLoading && (
           <BoxContainer>
-            <ZapierRules
-              rules={rules}
-              setRules={setRules}
-              ruleErrIndexes={ruleErrIndexes}
-              setRuleErrIndexes={setRuleErrIndexes}
-            />
+            <ZapierRules rules={rules} setRules={setRules} />
             <SelectionMultipleFilter
               className={styles.assignInput}
               label="Assigned To"
@@ -238,6 +232,13 @@ const Trigger = (props: Props) => {
               handleChange={(newKeywords: any[]) => {
                 setAssignedKeywords(newKeywords);
               }}
+              /* Only allow selection of keywords if there exist one VALID rule */
+              disabled={
+                rules.filter(
+                  (rule: Rule) =>
+                    rule.field_name !== '' && rule.condition !== '' && rule.value !== ''
+                ).length === 0
+              }
             />
             <ProductTable
               assignedProducts={assignedProducts}
@@ -258,7 +259,6 @@ const Trigger = (props: Props) => {
                 type="purpleGradient"
                 size="md"
                 onClick={handleSave}
-                disabled={ruleErrIndexes.length > 0}
               >
                 Save
               </ActionButton>

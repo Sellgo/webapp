@@ -15,35 +15,16 @@ import { DEFAULT_RULE } from '../../../../../constants/KeywordResearch/Zapier';
 interface Props {
   rules: Rule[];
   setRules: (rule: Rule[]) => void;
-  ruleErrIndexes: number[];
-  setRuleErrIndexes: (ruleIndex: number[]) => void;
 }
 
 const ZapierRules = (props: Props) => {
-  const { rules, setRules, ruleErrIndexes, setRuleErrIndexes } = props;
+  const { rules, setRules } = props;
 
   React.useEffect(() => {
     /* Ensure that user does not delete all the rules */
     if (rules.length === 0) {
       setRules([DEFAULT_RULE]);
     }
-    const newRuleErrIndexes: number[] = [];
-    /* Check for duplicated rules */
-    /* Refactor into O(N) next time */
-    rules.forEach((rule, index) => {
-      const duplicate = rules.findIndex((duplicateRule: Rule) => {
-        return (
-          rule.field_name === duplicateRule.field_name &&
-          rule.condition === duplicateRule.condition &&
-          rule.condition !== '' &&
-          rule.field_name !== ''
-        );
-      });
-      if (duplicate !== -1 && duplicate !== index) {
-        newRuleErrIndexes.push(index);
-      }
-    });
-    setRuleErrIndexes(newRuleErrIndexes);
   }, [rules]);
 
   /* Add new rule to end of list */
@@ -96,7 +77,6 @@ const ZapierRules = (props: Props) => {
               insertNewRuleAtIndex={insertNewRuleAtIndex}
               rule={rule}
               hideLabels={index !== 0}
-              error={ruleErrIndexes.includes(index)}
             />
           );
         })}

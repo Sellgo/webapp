@@ -45,6 +45,7 @@ export const NAV_ICONS = {
   KEYWORD_REVERSE: 'keywordReverseIcon.svg',
   KEYWORD_DATABASE: 'keywordDatabaseIcon.svg',
   KEYWORD_TRACKER: 'keywordTrackerIcon.svg',
+  ZAPIER: 'zapierIcon.svg',
 };
 
 export const OPTIONS: NavOptions = [
@@ -151,6 +152,14 @@ export const OPTIONS: NavOptions = [
         description: 'Get to #1 Search Results',
         icon: require(`../../assets/images/${NAV_ICONS.KEYWORD_TRACKER}`),
         path: '/keyword-research/tracker',
+        disabled: false,
+        isBeta: true,
+      },
+      {
+        label: 'Zapier',
+        description: 'Zapier Integration',
+        icon: require(`../../assets/images/${NAV_ICONS.ZAPIER}`),
+        path: '/keyword-research/zapier',
         disabled: false,
         isBeta: true,
       },
