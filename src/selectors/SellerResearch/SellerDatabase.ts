@@ -5,6 +5,11 @@ export const getIsLoadingSellerDatabase = (state: any) => {
   return get(state, 'sellerDatabase.isLoadingSellerDatabase');
 };
 
+/* Selector to get seller database loading for export */
+export const getIsLoadingSellerDatabaseExport = (state: any) => {
+  return get(state, 'sellerDatabase.isLoadingSellerDatabaseExport');
+};
+
 /* Selector to get the empty filter messages */
 export const getFilterMessage = (state: any) => {
   return get(state, 'sellerDatabase.showFilterMessage');

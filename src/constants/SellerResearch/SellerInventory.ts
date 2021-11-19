@@ -79,13 +79,18 @@ export const calculateSellerInventoryTableExpandedHeight = (
   numOfProducts: number,
   numofSellers: number
 ) => {
+  /* When little products exists */
+  if (numOfProducts <= 5 && numofSellers <= 0) {
+    return 400;
+  }
+
   /* When no products and no sellers */
   if (numOfProducts <= 0 && numofSellers <= 0) {
     return 250;
   }
 
-  /* When sellers have products */
-  if (numOfProducts > 0 && numofSellers <= 0) {
+  /* When little products exists */
+  if (numOfProducts <= 5 && numofSellers > 0) {
     return 600;
   }
 
@@ -102,14 +107,24 @@ export const calculateProductsTableHeight = (numOfProducts: number, numOfSellers
     return 190;
   }
 
+  /* When little products exists */
+  if (numOfProducts <= 5 && numOfSellers <= 0) {
+    return 400;
+  }
+
   /* When products exists */
   if (numOfProducts > 0 && numOfSellers <= 0) {
     return 550;
   }
 
+  /* When little products exists */
+  if (numOfProducts <= 5 && numOfSellers > 0) {
+    return 600;
+  }
+
   /* When seller has both products and product has sellers */
   if (numOfProducts > 0 && numOfSellers > 0) {
-    return 1200;
+    return 1000;
   }
 };
 
@@ -117,6 +132,11 @@ export const calculateProductsTableHeight = (numOfProducts: number, numOfSellers
 export const calculateProductsTableExpandedHeight = (numOfSellers: number) => {
   if (numOfSellers <= 0) {
     return 200;
+  }
+
+  /* If products has little sellers */
+  if (numOfSellers <= 5) {
+    return 300;
   }
 
   /* If products has sellers */
@@ -130,6 +150,11 @@ export const calculateSellerInventorySellersTableHeight = (numOfSellers: number)
   // if there are no sellers for products
   if (numOfSellers <= 0) {
     return 120;
+  }
+
+  /* If products has little sellers */
+  if (numOfSellers <= 5) {
+    return 250;
   }
 
   // if there are sellers for products

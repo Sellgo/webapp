@@ -42,6 +42,7 @@ import BrandsListCell from '../../../../components/NewTable/BrandsListCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import ExtendedReviewsCell from '../../../../components/NewTable/ExtendedReviewsCell';
 import TableResultsMessage from '../../../../components/TableResultsMessage';
+import Placeholder from '../../../../components/Placeholder';
 
 /* Containers */
 import SellerInformation from './SellerInformation';
@@ -196,7 +197,11 @@ const InventoryTable = (props: Props) => {
         generateErrorMessage()}
       {/* Main table wrapper */}
       <Table
-        loading={isLoadingSellerInventoryTable}
+        renderLoading={() =>
+          isLoadingSellerInventoryTable && (
+            <Placeholder numberParagraphs={10} numberRows={5} isGrey />
+          )
+        }
         data={filteredSellersByGroup}
         autoHeight
         hover={false}

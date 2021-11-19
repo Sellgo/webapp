@@ -1,5 +1,11 @@
 @import '../../design-system/new-colors.scss';
 
+#grey,
+#white {
+  position: relative;
+  margin-top: 18px;
+}
+
 #grey {
   .ui.placeholder,
   .ui.placeholder .image.header::after,

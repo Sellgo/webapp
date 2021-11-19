@@ -2,6 +2,7 @@
 @import '../../../../design-system/new-colors.scss';
 
 #sellerInventoryTable {
+  min-height: 400px !important;
   // header section
   .rs-table-row-header {
     border-radius: 0 !important;
@@ -33,6 +34,7 @@
 
   // body section
   .rs-table-body-row-wrapper {
+    min-height: 400px !important;
     background: $light_gray_background !important;
 
     .rs-table-body-wheel-area {
