@@ -29,6 +29,7 @@ import {
 } from '../../../../actions/SellerResearch/SellerMap';
 
 /* Components */
+import Placeholder from '../../../../components/Placeholder';
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
 import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
@@ -172,6 +173,14 @@ const SellerMapFilter = (props: Props) => {
   const handleReset = () => {
     fetchSellersFormap({ resetMap: true });
   };
+
+  if (isLoadingSellersForMap) {
+    return (
+      <div className={`${styles.filterWrapper} ${!showFilter ? styles.filterWrapper__closed : ''}`}>
+        <Placeholder numberParagraphs={10} numberRows={5} isGrey />
+      </div>
+    );
+  }
 
   return (
     <div className={`${styles.filterWrapper} ${!showFilter ? styles.filterWrapper__closed : ''}`}>

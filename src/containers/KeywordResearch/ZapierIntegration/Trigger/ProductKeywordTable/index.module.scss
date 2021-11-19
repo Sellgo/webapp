@@ -1,0 +1,13 @@
+@import '../../../../../design-system/new-colors';
+
+/* Table Styles */
+.keywordTableWrapper {
+  padding-left: 30px;
+  background: none;
+  color: $grey_8 !important;
+}
+
+.trackerKeywordTablePagination {
+  display: flex;
+  justify-content: flex-end;
+}

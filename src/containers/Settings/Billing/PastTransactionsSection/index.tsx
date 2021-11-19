@@ -11,8 +11,8 @@ import PaymentMethodCell from './PaymentMethodCell';
 import PlanDescriptionCell from './PlanDescriptionCell';
 import ReceiptCell from './ReceiptCell';
 import IsSuccessfulTransactionCell from './IsSuccessfulTransactionCell';
-import ProfileBoxHeader from '../../../../components/ProfileBoxHeader';
-import ProfileBoxContainer from '../../../../components/ProfileBoxContainer';
+import BoxHeader from '../../../../components/BoxHeader';
+import BoxContainer from '../../../../components/BoxContainer';
 
 /* Types */
 import { Transaction } from '../../../../interfaces/Settings/billing';
@@ -36,19 +36,19 @@ const PastTransactionsSection = (props: Props) => {
 
   if (!loading && transactionHistory.length === 0) {
     return (
-      <section>
-        <ProfileBoxHeader>Billing History</ProfileBoxHeader>
-        <ProfileBoxContainer>
+      <section className={styles.billingHistoryWrapper}>
+        <BoxHeader>Billing History</BoxHeader>
+        <BoxContainer>
           <div className={styles.transactionHistoryTable}>No past transactions found.</div>
-        </ProfileBoxContainer>
+        </BoxContainer>
       </section>
     );
   }
   return (
     <>
       <section className={styles.billingHistoryWrapper}>
-        <ProfileBoxHeader>Billing History</ProfileBoxHeader>
-        <ProfileBoxContainer>
+        <BoxHeader>Billing History</BoxHeader>
+        <BoxContainer>
           <div className={styles.transactionHistoryTable}>
             <Table
               data={transactionHistory}
@@ -106,7 +106,7 @@ const PastTransactionsSection = (props: Props) => {
               </Dimmer>
             )}
           </div>
-        </ProfileBoxContainer>
+        </BoxContainer>
       </section>
     </>
   );

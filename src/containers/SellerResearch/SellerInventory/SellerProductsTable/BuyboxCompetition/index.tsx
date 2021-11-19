@@ -18,17 +18,12 @@ import { isLessThan24Hours } from '../../../../../utils/date';
 
 /* Assets */
 import { ReactComponent as CheckSellerIcon } from '../../../../../assets/images/userUnlockedIcon.svg';
-import { ReactComponent as TrackProductIcon } from '../../../../../assets/images/fingerprint-4.svg';
 
 /* Actions */
-import {
-  fetchCentralScrapingProgress,
-  trackUntrackSellerProduct,
-} from '../../../../../actions/SellerResearch/SellerInventory';
+import { fetchCentralScrapingProgress } from '../../../../../actions/SellerResearch/SellerInventory';
 
 /* Interfaces */
 import { RowCell } from '../../../../../interfaces/Table';
-import { TrackUntrackProduct } from '../../../../../interfaces/SellerResearch/SellerInventory';
 
 /* Hooks */
 import { useFindRefreshSellerByAsin } from '../../SocketProviders/FindRefreshSellerByAsin';
@@ -38,7 +33,6 @@ import { timeout } from '../../../../../utils/timeout';
 interface Props extends RowCell {
   allowLiveScraping: boolean;
   sellerInventoryExpandedTableRow: any;
-  trackUntrackSellerProduct: (payload: TrackUntrackProduct) => void;
   fetchCentralScrapingProgress: () => void;
 }
 
@@ -46,7 +40,6 @@ const BuyboxCompetition = (props: Props) => {
   const {
     allowLiveScraping,
     sellerInventoryExpandedTableRow,
-    trackUntrackSellerProduct,
     fetchCentralScrapingProgress,
     ...otherProps
   } = props;
@@ -58,15 +51,10 @@ const BuyboxCompetition = (props: Props) => {
   const { rowData } = otherProps;
 
   const numOfSellers = rowData.num_sellers ? formatNumber(rowData.num_sellers) : false;
-  const productId = rowData.product_id;
-  const status = rowData.tracking_status;
-  const productTrackId = rowData.product_track_id;
   const productAsin = rowData.asin;
   const merchantId = rowData.merchant_id;
 
   const lastCheckSellers = rowData.last_check_sellers;
-
-  const isProductTracked = status === 'active' || status === true ? true : false;
 
   /* Logic to disbale check inventory */
   const disableCheckSellers = isLessThan24Hours(lastCheckSellers) || !allowLiveScraping;
@@ -91,17 +79,6 @@ const BuyboxCompetition = (props: Props) => {
     success(`Checking sellers for ${productAsin}. Check the progress for latest updates`);
     await timeout(2000);
     await fetchCentralScrapingProgress();
-  };
-
-  /* Handle Prpduct tracking */
-  const handleTrackProduct = () => {
-    const payload = {
-      status: isProductTracked ? 'inactive' : 'active',
-      productId,
-      productTrackId: productTrackId ? productTrackId : null,
-    };
-    handleClosePopup();
-    trackUntrackSellerProduct(payload);
   };
 
   return (
@@ -143,11 +120,6 @@ const BuyboxCompetition = (props: Props) => {
                     <CheckSellerIcon />
                     <span>Check Sellers</span>
                   </button>
-
-                  <button onClick={handleTrackProduct}>
-                    <TrackProductIcon />
-                    <span>{isProductTracked ? 'Untrack Product' : 'Track Product'}</span>
-                  </button>
                 </div>
               </>
             }
@@ -167,8 +139,6 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    trackUntrackSellerProduct: (payload: TrackUntrackProduct) =>
-      dispatch(trackUntrackSellerProduct(payload)),
     fetchCentralScrapingProgress: () => dispatch(fetchCentralScrapingProgress()),
   };
 };

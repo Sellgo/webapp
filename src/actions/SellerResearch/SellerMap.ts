@@ -348,6 +348,10 @@ export const fetchSellersListForMap = (payload: SellersListPayload) => async (
     dispatch(setSellersListForMap([]));
     dispatch(setSellersListForMapPaginationInfo({ total_pages: 0, current_page: 0, count: 0 }));
     dispatch(isLoadingSellersListForMap(false));
+
+    if (err && err.response && err.response.status === 429) {
+      error('Seller Database Quota Exceeded');
+    }
   }
 };
 

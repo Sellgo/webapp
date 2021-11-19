@@ -16,8 +16,8 @@ import styles from './index.module.scss';
 import OrangeButton from '../../../../components/OrangeButton';
 import ActionButton from '../../../../components/ActionButton';
 import CopyToClipboard from '../../../../components/CopyToClipboard';
-import ProfileBoxHeader from '../../../../components/ProfileBoxHeader';
-import ProfileBoxContainer from '../../../../components/ProfileBoxContainer';
+import ProfileBoxHeader from '../../../../components/BoxHeader';
+import BoxContainer from '../../../../components/BoxContainer';
 
 /* Assets */
 import KeyIcon from '../../../../assets/images/key-regular.svg';
@@ -121,7 +121,7 @@ const APIForm = () => {
   return (
     <section className={styles.apiFormWrapper}>
       <ProfileBoxHeader>API Keys</ProfileBoxHeader>
-      <ProfileBoxContainer>
+      <BoxContainer>
         <p className={styles.apiFormTitle}> Please select your API keys below. </p>
         <Form className={`${styles.apiFormGrid} apiForm`}>
           <Dimmer inverted active={isLoading}>
@@ -230,7 +230,7 @@ const APIForm = () => {
             handleApiDelete();
           }}
         />
-      </ProfileBoxContainer>
+      </BoxContainer>
     </section>
   );
 };

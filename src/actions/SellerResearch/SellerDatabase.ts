@@ -32,6 +32,14 @@ export const setIsLoadingSellerDatabase = (payload: boolean) => {
   };
 };
 
+/* Action to set loading state for seller database export */
+export const setIsLoadingSellerDatabaseExport = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_LOADING_SELLER_DATABASE_EXPORT,
+    payload,
+  };
+};
+
 /* Action to set seller database results */
 export const setSellerDatabaseResults = (payload: any) => {
   return {
@@ -140,8 +148,9 @@ export const extractSellerDatabaseFilters = () => {
 /* =========================== Async actions ======================= */
 
 /* Export seller database table */
-export const exportSellerDatabaseTable = (resourcePath: string) => async () => {
+export const exportSellerDatabaseTable = (resourcePath: string) => async (dispatch: any) => {
   try {
+    dispatch(setIsLoadingSellerDatabaseExport(true));
     const sellerID = sellerIDSelector();
 
     const { data } = await axios.get(
@@ -163,6 +172,7 @@ export const exportSellerDatabaseTable = (resourcePath: string) => async () => {
       error(data.message);
     }
   }
+  dispatch(setIsLoadingSellerDatabaseExport(false));
 };
 
 /* Main seller databse fetcher */

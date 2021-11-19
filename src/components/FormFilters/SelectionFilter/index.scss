@@ -11,59 +11,59 @@
     font-size: 14px;
     font-weight: 500;
   }
-}
 
-.ui.dropdown.selectionFilter {
-  color: $grey_8 !important;
-  background-color: $prim_white;
-  border: 1px solid $grey_3;
-  max-height: 35px !important;
-  min-height: 35px !important;
-  height: 35px;
-  font-size: 12px;
-  font-weight: 400 !important;
-  padding: 8px 10px !important;
-  border-radius: 4px !important;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  .text {
+  .ui.dropdown.selectionFilter {
     color: $grey_8 !important;
-    font-size: 12px !important;
-  }
+    background-color: $prim_white;
+    border: 1px solid $grey_3;
+    max-height: 35px !important;
+    min-height: 35px !important;
+    height: 35px;
+    font-size: 12px;
+    font-weight: 400 !important;
+    padding: 8px 10px !important;
+    border-radius: 4px !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-  .default {
-    color: $grey_5 !important;
-  }
-
-  &__focused {
-    border: 2px solid $blue_6 !important;
-  }
-
-  &:hover {
-    background-color: $grey_1 !important;
-  }
-
-  .menu.transition {
-    border: 1px solid $grey_3 !important;
-    width: 100% !important;
-    font-size: 12px !important;
-    max-height: 250px !important;
-    z-index: 999;
-
-    .item {
+    .text {
       color: $grey_8 !important;
-      font-weight: 400;
-      font-size: 12px;
+      font-size: 12px !important;
+    }
 
-      &:hover {
-        background: $grey_1 !important;
-        font-weight: 500 !important;
-      }
+    .default {
+      color: $grey_5 !important;
+    }
 
-      &.active {
-        font-weight: 500 !important;
+    &__focused {
+      border: 2px solid $blue_6 !important;
+    }
+
+    &:hover {
+      background-color: $grey_1 !important;
+    }
+
+    .menu.transition {
+      border: 1px solid $grey_3 !important;
+      width: 100% !important;
+      font-size: 12px !important;
+      max-height: 250px !important;
+      z-index: 999;
+
+      .item {
+        color: $grey_8 !important;
+        font-weight: 400;
+        font-size: 12px;
+
+        &:hover {
+          background: $grey_1 !important;
+          font-weight: 500 !important;
+        }
+
+        &.active {
+          font-weight: 500 !important;
+        }
       }
     }
   }

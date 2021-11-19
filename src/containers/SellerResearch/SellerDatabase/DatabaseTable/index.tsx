@@ -27,7 +27,7 @@ import {
 
 /* Components */
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
-
+import Placeholder from '../../../../components/Placeholder';
 import BrandsListCell from '../../../../components/NewTable/BrandsListCell';
 import RatingCell from '../../../../components/NewTable/RatingCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
@@ -79,7 +79,9 @@ const SellerDatabaseTable = (props: Props) => {
     <>
       <section className={styles.sellerDatbaseTableWrapper}>
         <Table
-          loading={isLoadingSellerDatabase}
+          renderLoading={() =>
+            isLoadingSellerDatabase && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
+          }
           data={sellerDatabaseResults}
           autoHeight
           hover={true}
@@ -90,6 +92,7 @@ const SellerDatabaseTable = (props: Props) => {
           id="sellerDatabaseTable"
           className={sellerDatabaseResults.length === 0 ? 'no-scroll' : ''}
           onSortColumn={handleSortColumn}
+          renderEmpty={() => <div />}
         >
           {/* Seller Information */}
           <Table.Column width={590} verticalAlign="middle" fixed>
@@ -196,6 +199,19 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <TruncatedTextCell dataKey="country" maxLength={20} />
+          </Table.Column>
+
+          {/* Zip Code */}
+          <Table.Column width={120} sortable verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Zip Code`}
+                dataKey="zip_code"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <TruncatedTextCell dataKey="zip_code" maxLength={20} />
           </Table.Column>
 
           {/* 1 Month Growth % */}

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Loader } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -18,6 +17,7 @@ import {
 } from '../../../../selectors/SellerResearch/SellerMap';
 
 /* Components */
+import Placeholder from '../../../../components/Placeholder';
 import SellerListMapCard from '../../../../components/SellerListMapCard';
 import Pagination from '../../../../components/NewTable/Pagination';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
@@ -86,6 +86,13 @@ const SellersList = (props: Props) => {
     });
   };
 
+  if (isLoadingSellersForMap || isLoadingSellersListForMap) {
+    return (
+      <div className={styles.sellersListWrapper}>
+        <Placeholder numberParagraphs={10} numberRows={5} isGrey />
+      </div>
+    );
+  }
   return (
     <div className={styles.sellersListWrapper}>
       {/* Sellers List Filters */}
@@ -109,19 +116,12 @@ const SellersList = (props: Props) => {
 
       {/* Main Sellers List */}
       <div className={styles.sellersList}>
-        <Loader
-          active={isLoadingSellersListForMap || isLoadingSellersForMap}
-          size="medium"
-          content=""
-        />
-        <>
-          {sellersListForMap &&
-            !isLoadingSellersListForMap &&
-            !isLoadingSellersForMap &&
-            sellersListForMap.map((details: any, index: number) => {
-              return <SellerListMapCard key={index} sellerDetails={details} />;
-            })}
-        </>
+        {sellersListForMap &&
+          !isLoadingSellersListForMap &&
+          !isLoadingSellersForMap &&
+          sellersListForMap.map((details: any, index: number) => {
+            return <SellerListMapCard key={index} sellerDetails={details} />;
+          })}
       </div>
 
       {/* Sellers List Pagination */}

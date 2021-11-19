@@ -497,6 +497,8 @@ export const moveMerchantToSellerInventoryTableGroup = (payload: MoveMerchantToG
 export const fetchSellerInventoryProductsTableResults = (
   payload: SellerInventoryProductsTablePayload
 ) => async (dispatch: any) => {
+  // Clear previous sellers from store
+  dispatch(setSellerInventoryProductsTableSellersResults([]));
   const sellerId = sellerIDSelector();
 
   try {
