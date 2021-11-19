@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Icon, Popup } from 'semantic-ui-react';
+import { Loader, Icon, Popup } from 'semantic-ui-react';
 
 /* Constants */
 import {
@@ -27,6 +27,7 @@ import { DAILY_SUBSCRIPTION_PLANS } from '../../../constants/Subscription';
 import BanIcon from '../../../assets/images/banIcon.svg';
 
 interface Props {
+  loading?: boolean;
   label: string;
   exportContent: React.ReactNode;
   className?: string;
@@ -40,6 +41,7 @@ interface Props {
 
 const TableExport = (props: Props) => {
   const {
+    loading,
     label,
     className,
     exportContent,
@@ -74,8 +76,12 @@ const TableExport = (props: Props) => {
         }}
         disabled={disableExport || !isExportAllowed}
       >
-        {isExportAllowed ? (
+        {isExportAllowed && !loading ? (
           <Icon name="download" className={styles.downloadIcon} />
+        ) : isExportAllowed && loading ? (
+          <div className={styles.loaderContainer}>
+            <Loader active size="tiny" />
+          </div>
         ) : (
           <img src={BanIcon} alt="ban-icon" className={styles.banIcon} />
         )}

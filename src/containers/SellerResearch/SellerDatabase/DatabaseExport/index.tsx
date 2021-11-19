@@ -23,6 +23,7 @@ import {
   getSellerDatabaseMarketplaceInfo,
   getSellerDatabaseResults,
   getSellerDatabaseQuotaExceeded,
+  getIsLoadingSellerDatabaseExport,
 } from '../../../../selectors/SellerResearch/SellerDatabase';
 
 /* Components */
@@ -37,6 +38,7 @@ import { ReactComponent as CSVExportImage } from '../../../../assets/images/csvE
 interface Props {
   sellerDatabaseResults: any;
   isLoadingSellerDatabase: boolean;
+  isLoadingSellerDatabaseExport: boolean;
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
   sellerDatabaseFilterMessage: ShowFilterMessage;
   sellerDatabasePaginationInfo: SellerDatabasePaginationInfo;
@@ -46,6 +48,7 @@ interface Props {
 
 const DatabaseExport = (props: Props) => {
   const {
+    isLoadingSellerDatabaseExport,
     fetchSellerDatabase,
     sellerDatabaseResults,
     isLoadingSellerDatabase,
@@ -85,6 +88,7 @@ const DatabaseExport = (props: Props) => {
         )}
 
         <TableExport
+          loading={isLoadingSellerDatabaseExport}
           label=""
           disableExport={!shouldEnableExport}
           onButtonClick={() => handleOnExport('xlsx')}
@@ -119,6 +123,7 @@ const DatabaseExport = (props: Props) => {
 const mapStateToProps = (state: any) => ({
   sellerDatabaseResults: getSellerDatabaseResults(state),
   isLoadingSellerDatabase: getIsLoadingSellerDatabase(state),
+  isLoadingSellerDatabaseExport: getIsLoadingSellerDatabaseExport(state),
   sellerDatabaseFilterMessage: getFilterMessage(state),
   sellerDatabasePaginationInfo: getSellerDatabasePaginationInfo(state),
   sellerMarketplace: getSellerDatabaseMarketplaceInfo(state),

@@ -30,6 +30,7 @@ import BrandsListCell from '../../../../components/NewTable/BrandsListCell';
 import TableResultsMessage from '../../../../components/TableResultsMessage';
 import CopyAndLocateClipboard from '../../../../components/CopyAndLocateClipboard';
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
+import Placeholder from '../../../../components/Placeholder';
 
 /* Containers */
 import SellerInformation from './SellerInformation';
@@ -112,7 +113,11 @@ const ProductsSellersTable = (props: Props) => {
         />
       )}
       <Table
-        loading={isLoadingSellerInventoryProductsSellers}
+        renderLoading={() =>
+          isLoadingSellerInventoryProductsSellers && (
+            <Placeholder numberParagraphs={2} numberRows={5} isGrey />
+          )
+        }
         data={sellerInventoryProductsTableSellersResults}
         height={calculateSellerInventorySellersTableHeight(
           sellerInventoryProductsTableSellersResults &&

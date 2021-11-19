@@ -27,7 +27,7 @@ import {
 
 /* Components */
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
-
+import Placeholder from '../../../../components/Placeholder';
 import BrandsListCell from '../../../../components/NewTable/BrandsListCell';
 import RatingCell from '../../../../components/NewTable/RatingCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
@@ -78,8 +78,12 @@ const SellerDatabaseTable = (props: Props) => {
   return (
     <>
       <section className={styles.sellerDatbaseTableWrapper}>
+        {/* <Placeholder numberParagraphs={5} numberRows={5}/>
+      <Placeholder numberParagraphs={5} numberRows={5} isGrey/> */}
         <Table
-          loading={isLoadingSellerDatabase}
+          renderLoading={() =>
+            isLoadingSellerDatabase && <Placeholder numberParagraphs={10} numberRows={5} isGrey />
+          }
           data={sellerDatabaseResults}
           autoHeight
           hover={true}

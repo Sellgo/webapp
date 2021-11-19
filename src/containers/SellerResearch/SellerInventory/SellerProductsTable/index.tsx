@@ -28,6 +28,7 @@ import {
   fetchSellerInventoryProductsTableResults,
   fetchSellerInventoryProductsTableSellers,
   setSellerInventoryProductsTableExpandedRow,
+  setSellerInventoryProductsTableSellersResults,
 } from '../../../../actions/SellerResearch/SellerInventory';
 
 /* Components */
@@ -35,6 +36,7 @@ import RatingCell from '../../../../components/NewTable/RatingCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
+import Placeholder from '../../../../components/Placeholder';
 
 /* Containers */
 import ProductInformation from './ProductInformation';
@@ -56,6 +58,7 @@ interface Props {
   sellerInventoryProductsTableResults: any[];
 
   fetchSellerInventoryProductsTableResults: (payload: SellerInventoryProductsTablePayload) => void;
+  clearSellerInventoryProductsTableSellersResults: () => void;
   setSellerInventoryProductsTableExpandedRow: (payload: any) => void;
 
   fetchSellerInventoryProductsTableSellers: (
@@ -74,6 +77,7 @@ const SellerProductsTable = (props: Props) => {
 
     // fetchSellerInventoryProductsTableResults,
     fetchSellerInventoryProductsTableSellers,
+    clearSellerInventoryProductsTableSellersResults,
 
     sellerInventoryProductsTableSellersResults,
   } = props;
@@ -86,10 +90,12 @@ const SellerProductsTable = (props: Props) => {
     const [currentExpandedRowId] = expandedRowKeys;
 
     if (currentExpandedRowId !== rowId) {
+      clearSellerInventoryProductsTableSellersResults();
       setExpandedRowkeys([rowId]);
       setSellerInventoryProductsTableExpandedRow(rowData);
       fetchSellerInventoryProductsTableSellers({ parentAsin: rowData.asin });
     } else {
+      clearSellerInventoryProductsTableSellersResults();
       setExpandedRowkeys([]);
       setSellerInventoryProductsTableExpandedRow({});
     }
@@ -151,7 +157,11 @@ const SellerProductsTable = (props: Props) => {
 
       {/* Products Table */}
       <Table
-        loading={isLoadingSellerInventoryProductsTable}
+        renderLoading={() =>
+          isLoadingSellerInventoryProductsTable && (
+            <Placeholder numberParagraphs={2} numberRows={5} isGrey />
+          )
+        }
         data={sellerInventoryProductsTableResults}
         height={calculateProductsTableHeight(
           sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length,
@@ -221,14 +231,20 @@ const SellerProductsTable = (props: Props) => {
               disableSort
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="current_price" align="center" prependWith="$" />
+          <StatsCell
+            dataKey="current_price"
+            align="center"
+            prependWith="$"
+            asFloatRounded
+            asRounded={false}
+          />
         </Table.Column>
 
-        {/* Rating L365D */}
+        {/* Average Review */}
         <Table.Column width={130} verticalAlign="top" align="left">
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Rating L356D`}
+              title={`Average Review`}
               dataKey="average_product_rating"
               currentSortColumn={''}
               currentSortType={undefined}
@@ -238,11 +254,11 @@ const SellerProductsTable = (props: Props) => {
           <RatingCell dataKey="review_stars" />
         </Table.Column>
 
-        {/* Rating % L365D */}
-        <Table.Column width={130} verticalAlign="top" align="left">
+        {/* Average Rating */}
+        {/* <Table.Column width={130} verticalAlign="top" align="left">
           <Table.HeaderCell>
             <HeaderSortCell
-              title={`Rating L356D`}
+              title={`Average Rating`}
               dataKey="percentage_product_rating"
               currentSortColumn={''}
               currentSortType={undefined}
@@ -250,7 +266,7 @@ const SellerProductsTable = (props: Props) => {
             />
           </Table.HeaderCell>
           <StatsCell dataKey="review_stars" />
-        </Table.Column>
+        </Table.Column> */}
 
         {/* Product Review */}
         <Table.Column width={130} verticalAlign="top" align="left">
@@ -299,6 +315,8 @@ const mapDispatchToProps = (dispatch: any) => {
     ) => {
       dispatch(fetchSellerInventoryProductsTableSellers(payload));
     },
+    clearSellerInventoryProductsTableSellersResults: () =>
+      dispatch(setSellerInventoryProductsTableSellersResults([])),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SellerProductsTable);

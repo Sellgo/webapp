@@ -3,6 +3,7 @@
 #sellerDatabaseTable {
   background: $light_gray_background !important;
   overflow-x: auto !important;
+  min-height: 600px !important;
 
   /* width */
   &::-webkit-scrollbar {
@@ -54,13 +55,14 @@
   // body section
   .rs-table-body-row-wrapper {
     background: $light_gray_background !important;
+    min-height: 600px !important;
     width: 3440px;
 
     /* ============== POSITION LOADING SPINNER IN THE CENTER =============== */
-    .rs-table-body-info,
-    .rs-table-loader-wrapper {
-      width: calc(100vw - 10rem) !important;
-    }
+    // .rs-table-body-info,
+    // .rs-table-loader-wrapper {
+    //   width: calc(100vw - 10rem) !important;
+    // }
 
     .rs-table-body-wheel-area {
       background: $light_gray_background;
@@ -105,10 +107,10 @@
 
     // Loader wrapper
     .rs-table-loader-wrapper {
-      background: $light_gray_background;
+      background: red;
 
       .rs-table-loader {
-        background: $light_gray_background;
+        // background: $light_gray_background;
       }
     }
   }
