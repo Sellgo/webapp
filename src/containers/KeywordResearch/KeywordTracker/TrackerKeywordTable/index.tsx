@@ -165,13 +165,15 @@ const TrackerKeywordTable = (props: Props) => {
       {/* Table Section */}
       <section className={styles.keywordTableWrapper}>
         <Table
-          wordWrap
+          wordWrap={false}
           renderLoading={() =>
             isLoadingTrackerProductKeywordsTable && (
               <Placeholder numberParagraphs={2} numberRows={3} isGrey />
             )
           }
-          renderEmpty={() => <div />}
+          renderEmpty={() => (
+            <p className={styles.emptyTableMessage}> No keywords being tracked </p>
+          )}
           data={trackerProductKeywordsTableResults}
           height={calculateKeywordsTableHeight(
             trackerProductKeywordsTableResults && trackerProductKeywordsTableResults.length
@@ -179,6 +181,7 @@ const TrackerKeywordTable = (props: Props) => {
           shouldUpdateScroll={false}
           hover={false}
           rowHeight={PRODUCT_KEYWORD_ROW_HEIGHT}
+          // rowHeight={30}
           headerHeight={50}
           sortColumn={sortColumn}
           sortType={sortType}
