@@ -11,6 +11,7 @@ import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
 import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
+import Placeholder from '../../../../components/Placeholder';
 
 /* Containers */
 import ProductInfo from './ProductInfo';
@@ -117,7 +118,12 @@ const TrackerTable = (props: Props) => {
   return (
     <section className={styles.keywordTrackerTableWrapper}>
       <Table
-        loading={isLoadingKeywordTrackerProductsTable}
+        renderLoading={() =>
+          isLoadingKeywordTrackerProductsTable && (
+            <Placeholder numberParagraphs={2} numberRows={3} isGrey />
+          )
+        }
+        renderEmpty={() => <div />}
         data={keywordTrackerProductsTableResults}
         autoHeight
         hover={false}

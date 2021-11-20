@@ -22,6 +22,7 @@ import { fetchKeywordReverseTableInformation } from '../../../../actions/Keyword
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
 import StatsCell from '../../../../components/NewTable/StatsCell';
+import Placeholder from '../../../../components/Placeholder';
 
 /* Constants */
 import { DEFAULT_PAGES_LIST } from '../../../../constants/KeywordResearch/KeywordReverse';
@@ -72,7 +73,10 @@ const ReverseTable = (props: Props) => {
   return (
     <section className={styles.keywordReverseTableWrapper}>
       <Table
-        loading={isLoadingKeywordReverseTable}
+        renderLoading={() =>
+          isLoadingKeywordReverseTable && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
+        }
+        renderEmpty={() => <div />}
         data={keywordReverseTableResults}
         autoHeight
         hover={false}
