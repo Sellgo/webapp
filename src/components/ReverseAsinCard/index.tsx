@@ -5,6 +5,7 @@ import styles from './index.module.scss';
 
 /* Components */
 import CopyAndLocateClipboard from '../CopyAndLocateClipboard';
+import Placeholder from '../Placeholder';
 
 /* Utils */
 import { formatNumber, showNAIfZeroOrNull, truncateString } from '../../utils/format';
@@ -15,7 +16,7 @@ import { KeywordReverseAsinProduct } from '../../interfaces/KeywordResearch/Keyw
 /* Assets */
 import crossIcon from '../../assets/images/removeCross.svg';
 import placeholderImage from '../../assets/images/placeholderImage.svg';
-import loadingAnimation from '../../assets/images/sellgo-loading-animation-450-1.gif';
+import { ReactComponent as BullseyeIcon } from '../../assets/images/bullseye-arrow-regular.svg';
 
 interface Props {
   isLoading: boolean;
@@ -23,61 +24,69 @@ interface Props {
   handleRemoveProduct: (asin: string) => void;
   handleCardClick: (asin: string) => void;
   isActive: boolean;
+  index: number;
 }
 
 const ReverseAsinCard = (props: Props) => {
-  const { isLoading, data, handleRemoveProduct, isActive, handleCardClick } = props;
-
-  const { asin, image_url, title, sales_monthly } = data;
+  const { isLoading, data, handleRemoveProduct, isActive, handleCardClick, index } = props;
+  const { asin, image_url, title, sales_monthly, rank } = data;
 
   const monthlySales = showNAIfZeroOrNull(sales_monthly, formatNumber(sales_monthly));
-  const productTitle = title ? truncateString(title, 20) : '-';
-
-  const asinCardClasses = `${styles.reverseAsinCard} ${isActive ? styles.activeCard : ''} `;
+  const productTitle = title ? truncateString(title, 18) : '-';
 
   return (
-    <div
-      className={asinCardClasses}
-      onClick={e => {
-        e.preventDefault();
-        handleCardClick(asin);
-      }}
-      onContextMenu={e => {
-        e.preventDefault();
-        handleCardClick(asin);
-      }}
-    >
-      <img
-        src={crossIcon}
-        className={styles.removeAsinIcon}
-        onClick={(e: any) => {
+    <div>
+      <div
+        onClick={e => {
           e.preventDefault();
-          e.stopPropagation();
-          handleRemoveProduct(asin);
+          handleCardClick(asin);
         }}
-      />
-      <p className={styles.title}>{productTitle}</p>
-
-      <CopyAndLocateClipboard
-        data={asin}
-        className={styles.asin}
-        link={`https://www.amazon.com/dp/${asin}`}
-      />
-
-      <p className={styles.salesPerMonth}>
-        <span>{monthlySales}</span> <br />
-        Sales/mo
-      </p>
-
-      <div className={styles.productImage}>
-        <img src={image_url ? image_url : placeholderImage} alt={title} />
+        className={`${styles.crown} ${isActive ? styles.crown__active : ''}`}
+      >
+        {index + 1}
+        <BullseyeIcon className={styles.bullsEyeIcon} />
       </div>
+      <div className={styles.reverseAsinCard}>
+        <img
+          src={crossIcon}
+          className={styles.removeAsinIcon}
+          onClick={(e: any) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleRemoveProduct(asin);
+          }}
+        />
+        <p className={styles.title}>{productTitle}</p>
 
-      {isLoading && (
-        <div className={styles.loader}>
-          <img src={loadingAnimation} alt="" />
+        <CopyAndLocateClipboard
+          data={asin}
+          wrapperClassName={styles.asinWrapper}
+          className={styles.asin}
+          link={`https://www.amazon.com/dp/${asin}`}
+        />
+        <div className={styles.salesAndRank}>
+          <p className={styles.salesPerMonth}>
+            <span>{monthlySales}</span>
+            <br />
+            Sold/mo
+          </p>
+          <p className={styles.rank}>
+            <span>#{rank}</span>
+            <br />
+            Rank
+          </p>
         </div>
-      )}
+
+        <div className={styles.productImage}>
+          <img src={image_url ? image_url : placeholderImage} alt={title} />
+        </div>
+
+        {isLoading && (
+          <div className={styles.loader}>
+            <Placeholder numberRows={3} numberParagraphs={1} />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

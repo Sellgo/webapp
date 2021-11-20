@@ -4,7 +4,7 @@
 .reverseAsinCard {
   width: 160px;
   height: 240px;
-  background: #fff;
+  background: $prim_white;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -17,14 +17,44 @@
   border-radius: 5px;
   user-select: none;
   border: 1px solid transparent;
-  overflow: hiddden;
+  overflow: display !important;
   margin-right: 10px;
   box-shadow: 0 3px 10px rgba(#000, 0.1);
-  cursor: pointer;
 }
 
-.activeCard {
-  background: $orange_10 !important;
+.crown {
+  background: $grey_1;
+  color: $grey_8;
+  height: 30px;
+  width: 160px;
+  padding-left: 10px;
+  border-radius: 7px 7px 0 0;
+  position: relative;
+  font-size: 16px;
+  font-weight: $fontweight_semibold;
+  padding-top: 4px;
+  cursor: pointer;
+
+  .bullsEyeIcon {
+    position: absolute;
+    top: 6px;
+    left: 45%;
+
+    path {
+      fill: $grey_8;
+    }
+  }
+
+  &__active {
+    background: $prim_dark_1;
+    color: $prim_white;
+
+    .bullsEyeIcon {
+      path {
+        fill: $prim_white;
+      }
+    }
+  }
 }
 
 /* Remove Asin Icon */
@@ -36,38 +66,63 @@
 
 /* Product Title */
 .title {
-  margin: 8px 0;
   font-size: 12px;
-  color: inherit;
-  font-weight: 400;
-  line-height: 1;
-  min-height: 24px;
+  font-weight: $fontweight_semibold;
+  color: $black_1;
 }
 
 /* Product ASIN */
+.asinWrapper {
+  margin-top: 0;
+}
+
 .asin {
   font-size: 12px !important;
-  margin: 5px 0;
+  color: $black_0 !important;
+}
+
+.salesAndRank {
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between !important;
+  align-items: flex-end !important;
 }
 
 /* Sales Per Month */
 .salesPerMonth {
   color: $grey_8;
-  margin: 5px 0;
   font-size: 12px;
 
   span {
     font-size: 24px;
-    font-weight: 600;
-    color: $prim_dark_1;
+    font-weight: $fontweight_semibold;
+    color: $prim_dark_2;
+  }
+}
+
+.rank {
+  max-width: 60px;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  margin-top: 0;
+  color: $grey_8;
+  font-size: 12px;
+
+  span {
+    font-size: 14px;
+    font-weight: $fontweight_semibold;
+    color: $prim_dark_2;
   }
 }
 
 /* Product image */
 .productImage {
   margin: 8px 0;
-  width: 80px;
-  height: 80px;
+  margin-left: 18px;
+  width: 100px;
+  height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -86,19 +141,13 @@
 }
 
 .loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: #fff;
   position: absolute;
   top: 0 !important;
   left: 0 !important;
   right: 0 !important;
   bottom: 0 !important;
-  width: 100%;
+  width: 160px;
   height: 100%;
-
-  img {
-    max-width: 50%;
-  }
+  padding: 0 18px;
 }

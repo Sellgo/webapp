@@ -53,7 +53,7 @@ const ReverseProgress = (props: Props) => {
       {shouldFetchKeywordReverseProgressState && (
         <Progress
           percent={progressPercent || 0}
-          progress
+          progress={false}
           indicating
           className={'defaultProgressBar'}
         />

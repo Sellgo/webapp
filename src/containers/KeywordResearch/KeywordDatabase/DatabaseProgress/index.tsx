@@ -48,7 +48,7 @@ const DatabaseProgress = (props: Props) => {
       {shouldFetchKeywordDatabaseProgressState && (
         <Progress
           percent={progressPercent || 0}
-          progress
+          progress={false}
           indicating
           className={'defaultProgressBar'}
         />

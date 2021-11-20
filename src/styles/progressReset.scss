@@ -1,11 +1,20 @@
 @import '../design-system/new-colors';
 
 .defaultProgressBar {
+  margin: 0 !important;
+  width: 100vw;
+  position: fixed !important;
+  z-index: 9999999999999999 !important;
+  right: 0 !important;
+  top: 0 !important;
   color: #fff !important;
-  background: #e6e6e6;
+  background: none !important;
 
   .bar {
+    border-bottom-left-radius: 0 !important;
+    border-top-left-radius: 0 !important;
     background: $blue_8 !important;
+    height: 6px !important;
   }
 
   .progress {
