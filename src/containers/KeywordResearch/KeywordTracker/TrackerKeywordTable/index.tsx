@@ -12,6 +12,7 @@ import CheckBoxCell from '../../../../components/NewTable/CheckboxCell';
 import HeaderCheckboxCell from '../../../../components/NewTable/HeaderCheckboxCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import TrackerKeywordsExport from './TrackerKeywordsExport';
+import Placeholder from '../../../../components/Placeholder';
 
 /* Containers */
 import Keyword from './Keyword';
@@ -164,8 +165,15 @@ const TrackerKeywordTable = (props: Props) => {
       {/* Table Section */}
       <section className={styles.keywordTableWrapper}>
         <Table
-          wordWrap
-          loading={isLoadingTrackerProductKeywordsTable}
+          wordWrap={false}
+          renderLoading={() =>
+            isLoadingTrackerProductKeywordsTable && (
+              <Placeholder numberParagraphs={2} numberRows={3} isGrey />
+            )
+          }
+          renderEmpty={() => (
+            <p className={styles.emptyTableMessage}> No keywords being tracked </p>
+          )}
           data={trackerProductKeywordsTableResults}
           height={calculateKeywordsTableHeight(
             trackerProductKeywordsTableResults && trackerProductKeywordsTableResults.length
@@ -173,6 +181,7 @@ const TrackerKeywordTable = (props: Props) => {
           shouldUpdateScroll={false}
           hover={false}
           rowHeight={PRODUCT_KEYWORD_ROW_HEIGHT}
+          // rowHeight={30}
           headerHeight={50}
           sortColumn={sortColumn}
           sortType={sortType}

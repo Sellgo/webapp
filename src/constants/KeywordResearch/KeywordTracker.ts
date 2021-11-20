@@ -74,7 +74,7 @@ export const calculateTrackerProductTableExpandedHeight = (noOfItems: number) =>
 
   const heightWithOffset = (noOfItems + 5) * PRODUCT_KEYWORD_ROW_HEIGHT;
 
-  const expandedRowHeight = Math.min(heightWithOffset, 500);
+  const expandedRowHeight = Math.min(heightWithOffset, 600);
 
   return expandedRowHeight;
 };
@@ -87,7 +87,7 @@ export const calculateKeywordsTableHeight = (noOfItems: number) => {
 
   const heightWithOffset = (noOfItems + 3) * PRODUCT_KEYWORD_ROW_HEIGHT;
 
-  const expandedRowHeight = Math.min(heightWithOffset, 350);
+  const expandedRowHeight = Math.min(heightWithOffset, 500);
 
   return expandedRowHeight;
 };

@@ -11,6 +11,7 @@ import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
 import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
+import Placeholder from '../../../../components/Placeholder';
 
 /* Containers */
 import ProductInfo from './ProductInfo';
@@ -40,6 +41,7 @@ import {
 import {
   fetchKeywordTrackerProductsTable,
   fetchTrackerProductKeywordsTable,
+  setTrackerProductKeywordsTableResults,
   setKeywordTrackerProductsExpandedRow,
 } from '../../../../actions/KeywordResearch/KeywordTracker';
 
@@ -54,6 +56,7 @@ interface Props {
   isLoadingKeywordTrackerProductsTable: boolean;
   keywordTrackerProductsTableResults: any[];
   keywordTrackerProductsTablePaginationInfo: KeywordTrackerProductsTablePaginationInfo;
+  setTrackerProductKeywordsTableResults: (payload: any) => void;
   fetchKeywordTrackerProductsTable: (payload: TrackerTableProductsPayload) => void;
 
   setKeywordTrackerProductsExpandedRow: (payload: any) => void;
@@ -74,6 +77,7 @@ const TrackerTable = (props: Props) => {
 
     /* Keywords Table */
     trackerProductKeywordsTableResults,
+    setTrackerProductKeywordsTableResults,
     fetchTrackerProductKeywordsTable,
   } = props;
 
@@ -98,6 +102,7 @@ const TrackerTable = (props: Props) => {
     if (currentExpandedRowId !== rowId) {
       // set the expanded row in state
       setKeywordTrackerProductsExpandedRow(rowData);
+      setTrackerProductKeywordsTableResults([]);
       // fetch keywords table data
       fetchTrackerProductKeywordsTable({
         keywordTrackProductId: rowId,
@@ -117,7 +122,13 @@ const TrackerTable = (props: Props) => {
   return (
     <section className={styles.keywordTrackerTableWrapper}>
       <Table
-        loading={isLoadingKeywordTrackerProductsTable}
+        renderLoading={() =>
+          isLoadingKeywordTrackerProductsTable &&
+          keywordTrackerProductsTableResults.length === 0 && (
+            <Placeholder numberParagraphs={2} numberRows={3} isGrey />
+          )
+        }
+        renderEmpty={() => <div />}
         data={keywordTrackerProductsTableResults}
         autoHeight
         hover={false}
@@ -244,7 +255,7 @@ const TrackerTable = (props: Props) => {
         </Table.Column>
 
         {/* Actions Cell */}
-        <Table.Column width={40} verticalAlign="middle" align="left">
+        <Table.Column width={120} verticalAlign="middle" align="left">
           <Table.HeaderCell>{''}</Table.HeaderCell>
           <ActionsCell dataKey={TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY} />
         </Table.Column>
@@ -287,6 +298,9 @@ const mapDispatchToProps = (dispatch: any) => {
 
     fetchTrackerProductKeywordsTable: (payload: TrackerProductKeywordsTablePayload) =>
       dispatch(fetchTrackerProductKeywordsTable(payload)),
+
+    setTrackerProductKeywordsTableResults: (payload: any) =>
+      dispatch(setTrackerProductKeywordsTableResults(payload)),
   };
 };
 

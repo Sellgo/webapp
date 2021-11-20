@@ -22,3 +22,10 @@
     max-width: 100%;
   }
 }
+
+.emptyTableMessage {
+  position: absolute;
+  left: calc(50vw - 160px);
+  font-weight: $fontweight_semibold;
+  margin-top: 50px;
+}

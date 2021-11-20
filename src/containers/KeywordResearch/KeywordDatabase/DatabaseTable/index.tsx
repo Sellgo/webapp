@@ -8,6 +8,7 @@ import 'rsuite/dist/styles/rsuite-default.css';
 import './global.scss';
 
 /* Components */
+import Placeholder from '../../../../components/Placeholder';
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import SearchTerm from './SearchTerm';
@@ -70,7 +71,12 @@ const DatabaseTable = (props: Props) => {
   return (
     <section className={styles.keywordDatabaseTableWrapper}>
       <Table
-        loading={isLoadingKeywordDatabaseTable}
+        renderLoading={() =>
+          isLoadingKeywordDatabaseTable && (
+            <Placeholder numberParagraphs={2} numberRows={3} isGrey />
+          )
+        }
+        renderEmpty={() => <div />}
         data={keywordDatabaseTableResults}
         autoHeight
         hover={false}
