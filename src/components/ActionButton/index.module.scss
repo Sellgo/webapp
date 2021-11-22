@@ -11,6 +11,11 @@
   font-weight: $fontweight_semibold !important;
   padding: 0 !important;
   border-radius: 7px !important;
+
+  &:disabled {
+    pointer-events: none !important;
+    opacity: 0.8 !important;
+  }
 }
 
 /* Variants Styles */

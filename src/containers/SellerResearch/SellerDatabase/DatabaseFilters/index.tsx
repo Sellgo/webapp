@@ -10,6 +10,9 @@ import {
   setSellerDatabaseMarketplace,
 } from '../../../../actions/SellerResearch/SellerDatabase';
 
+/* Selectors */
+import { getIsLoadingSellerDatabase } from '../../../../selectors/SellerResearch/SellerDatabase';
+
 /* Interfaces */
 import {
   MarketplaceOption,
@@ -55,12 +58,13 @@ import SelectionFilter from '../../../../components/FormFilters/SelectionFilter'
 import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
 
 interface Props {
+  isLoadingSellerDatabase: boolean;
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
   setSellerDatabaseMarketplace: (payload: MarketplaceOption) => void;
 }
 
 const SellerDatabaseFilters = (props: Props) => {
-  const { fetchSellerDatabase, setSellerDatabaseMarketplace } = props;
+  const { fetchSellerDatabase, setSellerDatabaseMarketplace, isLoadingSellerDatabase } = props;
 
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
 
@@ -617,11 +621,17 @@ const SellerDatabaseFilters = (props: Props) => {
         <FormFilterActions
           onFind={handleSubmit}
           onReset={handleReset}
-          disabled={disableFormSubmit}
+          disabled={disableFormSubmit || isLoadingSellerDatabase}
         />
       </section>
     </>
   );
+};
+
+const mapStateToProps = (state: any) => {
+  return {
+    isLoadingSellerDatabase: getIsLoadingSellerDatabase(state),
+  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -632,4 +642,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(SellerDatabaseFilters);
+export default connect(mapStateToProps, mapDispatchToProps)(SellerDatabaseFilters);
