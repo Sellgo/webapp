@@ -1,5 +1,5 @@
 import { SellerSubscription } from '../interfaces/Seller';
-import { SubscriptionDetailsWithQuota } from '../interfaces/Subscription';
+import { PromoCode, SubscriptionDetailsWithQuota } from '../interfaces/Subscription';
 import moment from 'moment';
 
 export const isSubscriptionFree = (type: string) => type === 'free';
@@ -87,4 +87,27 @@ export const getSubscriptionDetailsWithQuota = (
   return subscriptions.find((subscription: SubscriptionDetailsWithQuota) => {
     return subscription.id === subscriptionId;
   });
+};
+
+export const generatePromoCodeMessage = (promoCode: PromoCode, paymentMode: string) => {
+  let message = '';
+
+  if (promoCode.amount_off) {
+    message += `${promoCode.amount_off} off `;
+  } else if (promoCode.percent_off) {
+    message += `${promoCode.percent_off}% off `;
+  } else {
+    return promoCode.message;
+  }
+
+  if (promoCode.duration === 'once') {
+    message += `for the first ${
+      paymentMode === 'yearly' ? 'year' : paymentMode === 'monthly' ? 'month' : 'day'
+    }`;
+  } else if (promoCode.duration === 'forever') {
+    message += `for forever`;
+  } else {
+    return promoCode.message;
+  }
+  return message;
 };
