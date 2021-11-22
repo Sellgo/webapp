@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Modal } from 'semantic-ui-react';
 
@@ -29,6 +29,8 @@ import { ReactComponent as ThinAddIcon } from '../../../../../assets/images/thin
 import { AddTrackerProductKeyword } from '../../../../../interfaces/KeywordResearch/KeywordTracker';
 
 interface Props {
+  addEditKeywords: boolean;
+  setAddEditKeywords: (addEditKeywords: boolean) => void;
   keywordTrackerTableExpandedRow: any;
   trackerProductKeywordsTableResults: any[];
   isLoadingTrackerProductKeywordsTable: boolean;
@@ -37,13 +39,13 @@ interface Props {
 
 const AddEditKeywords = (props: Props) => {
   const {
+    addEditKeywords,
+    setAddEditKeywords,
     keywordTrackerTableExpandedRow,
     trackerProductKeywordsTableResults,
     addTrackerProductKeywords,
     isLoadingTrackerProductKeywordsTable,
   } = props;
-
-  const [addEditKeywords, setAddEditKeywords] = useState(false);
 
   /* Handle add more keywords to product here */
   const handleAddEditKeywords = (payload: any) => {

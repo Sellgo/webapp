@@ -61,6 +61,7 @@ const TrackerKeywordTable = (props: Props) => {
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
   const [checkedRows, setCheckedRows] = useState<any>([]);
+  const [addEditKeywords, setAddEditKeywords] = useState(false);
 
   /* Handle Column Sorting */
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
@@ -160,7 +161,7 @@ const TrackerKeywordTable = (props: Props) => {
       <TrackerKeywordsExport />
 
       {/* Add Edit Keywords Section */}
-      <AddEditKeywords />
+      <AddEditKeywords addEditKeywords={addEditKeywords} setAddEditKeywords={setAddEditKeywords} />
 
       {/* Table Section */}
       <section className={styles.keywordTableWrapper}>
@@ -172,7 +173,11 @@ const TrackerKeywordTable = (props: Props) => {
             )
           }
           renderEmpty={() => (
-            <p className={styles.emptyTableMessage}> No keywords being tracked </p>
+            <p className={styles.emptyTableMessage}>
+              No keywords are tracked.
+              <span onClick={() => setAddEditKeywords(true)}> Add keywords </span>
+              for this product
+            </p>
           )}
           data={trackerProductKeywordsTableResults}
           height={calculateKeywordsTableHeight(

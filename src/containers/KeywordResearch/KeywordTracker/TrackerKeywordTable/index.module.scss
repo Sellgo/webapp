@@ -25,7 +25,13 @@
 
 .emptyTableMessage {
   position: absolute;
-  left: calc(50vw - 160px);
-  font-weight: $fontweight_semibold;
+  left: calc(50vw - 290px);
   margin-top: 50px;
+  color: $prim_dark_1;
+
+  span {
+    font-weight: $fontweight_semibold;
+    color: $blue_link_bg_light;
+    cursor: pointer;
+  }
 }
