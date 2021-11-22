@@ -39,6 +39,7 @@ import { PromoCode } from '../../../../interfaces/Subscription';
 
 /* Utils */
 import { getSubscriptionID } from '../../../../constants/Subscription';
+import { generatePromoCodeMessage } from '../../../../utils/subscriptions';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -244,7 +245,9 @@ function CheckoutForm(props: MyProps) {
             Redeem
           </button>
           <p className={styles.redemptionMessage__success}>
-            {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message}
+            {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
+              <span>{generatePromoCodeMessage(redeemedPromoCode, paymentMode)}</span>
+            )}
           </p>
           <p className={styles.redemptionMessage__error}>{isPromoCodeChecked && promoError}</p>
         </Form.Group>
