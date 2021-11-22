@@ -34,7 +34,7 @@ import 'react-multi-carousel/lib/styles.css';
 
 import PageHeader from '../../../components/PageHeader';
 import PricingPlansSummary from '../../../components/PricingCardsSummary';
-import PricingInfoAlert from '../../../components/PricingInfoAlert';
+import PricingInfoAlert from '../../../components/ProductLabel/PricingInfoAlert';
 
 /* Types */
 import { Subscription } from '../../../interfaces/Seller';

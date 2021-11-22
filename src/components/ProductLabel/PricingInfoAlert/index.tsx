@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './index.module.scss';
 
 /* COmponents */
-import NewLink from '../Icons/NewLink';
+import NewLink from '../../Icons/NewLink';
 
 interface Props {
   className?: string;

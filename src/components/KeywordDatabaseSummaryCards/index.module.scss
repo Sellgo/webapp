@@ -2,27 +2,31 @@
 
 .summaryCards {
   width: 100%;
+  max-width: 400px;
 }
 
 .summaryCardTitle {
-  color: $grey_6;
+  color: $grey_8;
   font-size: 14px;
-  font-weight: 400;
-  border-bottom: 1px solid $grey_3;
+  font-weight: $fontweight_semibold;
+  text-transform: uppercase;
   line-height: 1;
   padding-bottom: 18px;
 }
 
 .contentWrapper {
-  padding-top: 18px;
+  border: 1px solid $grey_3;
+  border-radius: 7px;
+  padding-top: 10px;
   padding-left: 10px;
+  background: $prim_white;
 }
 
 .mainContent {
   max-height: 270px;
   overflow-y: auto !important;
   padding-left: 12px;
-  padding-right: 10px;
+  padding-right: 100px;
 
   /* width */
   &::-webkit-scrollbar {
@@ -59,4 +63,26 @@
     max-width: 100%;
     height: auto;
   }
+}
+
+.sortIconGroup {
+  margin-left: 13px;
+  color: inherit;
+  font-size: 10px !important;
+  display: flex;
+  flex-direction: column;
+  justify-items: flex-start;
+  align-items: flex-start;
+
+  i:last-child {
+    margin-top: -5px;
+  }
+}
+
+.activeSort {
+  color: $grey_8 !important;
+}
+
+.inActiveSort {
+  color: $grey_3 !important;
 }
