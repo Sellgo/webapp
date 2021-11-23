@@ -301,6 +301,7 @@ export const SELLER_MAP_DEFAULT_FILTER = [
   { keyName: 'sales_estimate', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },
   { keyName: 'merchant_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
   { keyName: 'business_name', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
+  { keyName: 'zip_code', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
   // validated
   { keyName: 'brands', type: F_TYPES.INPUT_INCLUDE_EXCLUDE, value: DEFAULT_INCLUDE_EXCLUDE_FILTER },
   { keyName: 'has_phone', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },

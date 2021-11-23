@@ -255,6 +255,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
 
     const { results, ...paginationInfo } = data;
     if (data) {
+      dispatch(setSellerDatabaseQuotaExceeded(false));
       dispatch(setSellerDatabaseResults(results));
       dispatch(setSellerDatabasePaginationInfo(paginationInfo));
       dispatch(setSellerDatabaseFilterMessage({ show: false, message: '', type: 'info' }));
