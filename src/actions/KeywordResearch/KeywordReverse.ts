@@ -378,7 +378,6 @@ export const fetchKeywordReverseWordFreqSummary = (sortDir: 'asc' | 'desc' = 'de
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/word-freq?${resourcePath}`;
 
     const { data } = await axios.get(URL);
-    console.log(data);
     if (data) {
       dispatch(setKeywordReverseWordFreqSummary(data));
       dispatch(isLoadingKeywordReverseWordFreqSummary(false));
