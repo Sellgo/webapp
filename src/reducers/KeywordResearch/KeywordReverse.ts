@@ -17,6 +17,12 @@ const INITIAL_STATE: { [key: string]: any } = {
     isLoadingKeywordReverseProductsList: false,
     keywordReverseProductsList: [],
 
+    // keyword database summary state
+    isLoadingKeywordReverseWordFreqSummary: false,
+    keywordReverseWordFreqSummary: JSON.parse(
+      sessionStorage.getItem('keywordReverseWordFreqSummary') || '[]'
+    ),
+
     // keyword request progress state
     shouldFetchKeywordReverseProgress: false,
     keywordReverseProgressData: JSON.parse(
@@ -118,6 +124,27 @@ const keywordReverseReducer = (state = INITIAL_STATE, action: AnyAction) => {
         [sessionTab]: {
           ...sessionStateChunk,
           keywordReverseProgressData: action.payload,
+        },
+      };
+    }
+
+    /* ================= DATABASE TABLE SUMMARY ==================== */
+    case actionTypes.IS_LOADING_KEYWORD_REVERSE_WORD_FREQ_SUMMARY: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          isLoadingKeywordReverseWordFreqSummary: action.payload,
+        },
+      };
+    }
+
+    case actionTypes.SET_KEYWORD_REVERSE_WORD_FREQ_SUMMARY: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          keywordReverseWordFreqSummary: action.payload,
         },
       };
     }
