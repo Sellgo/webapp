@@ -108,9 +108,9 @@ const KeywordReverse = (props: Props) => {
   return (
     <main className={styles.keywordReversePage}>
       <ReverseAsinDisplay />
+      {keywordReverseRequestId && <ReverseSummary />}
       <ReverseFilters />
       <ReverseProgress />
-      {keywordReverseRequestId && <ReverseSummary />}
       <ReverseExport />
       <ReverseTable />
     </main>
