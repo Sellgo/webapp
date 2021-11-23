@@ -39,3 +39,8 @@ export interface KeywordReverseAsinProduct {
   image_url: string;
   position: number;
 }
+
+export interface KeywordReverseWordFreqSummary {
+  word: string;
+  frequency: number;
+}

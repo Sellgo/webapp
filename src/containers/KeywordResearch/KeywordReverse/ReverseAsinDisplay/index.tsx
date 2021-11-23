@@ -15,6 +15,7 @@ import {
 import {
   fetchKeywordReverseRequestId,
   resetKeywordReverse,
+  fetchKeywordReverseWordFreqSummary,
 } from '../../../../actions/KeywordResearch/KeywordReverse';
 
 /* Interfaces */
@@ -36,6 +37,7 @@ interface Props {
   shouldFetchKeywordReverseProgress: boolean;
   keywordReverseProductsList: KeywordReverseAsinProduct[];
   fetchKeywordReverseRequestId: (payload: string) => void;
+  fetchKeywordReverseWordFreqSummary: (sortDir: 'asc' | 'desc') => void;
   resetKeywordReverse: () => void;
 }
 
@@ -178,6 +180,8 @@ const mapDispatchToProps = (dispatch: any) => {
     fetchKeywordReverseRequestId: (payload: string) =>
       dispatch(fetchKeywordReverseRequestId(payload)),
     resetKeywordReverse: () => dispatch(resetKeywordReverse()),
+    fetchKeywordReverseWordFreqSummary: (sortDir: 'asc' | 'desc') =>
+      dispatch(fetchKeywordReverseWordFreqSummary(sortDir)),
   };
 };
 

@@ -77,7 +77,8 @@ const DatabaseTable = (props: Props) => {
           )
         }
         renderEmpty={() => <div />}
-        data={keywordDatabaseTableResults}
+        // Dont display old data when loading
+        data={!isLoadingKeywordDatabaseTable ? keywordDatabaseTableResults : []}
         autoHeight
         hover={false}
         rowHeight={50}

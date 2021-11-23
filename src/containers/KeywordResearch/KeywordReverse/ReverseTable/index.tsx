@@ -77,7 +77,8 @@ const ReverseTable = (props: Props) => {
           isLoadingKeywordReverseTable && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
         }
         renderEmpty={() => <div />}
-        data={keywordReverseTableResults}
+        // Dont display old data when loading
+        data={!isLoadingKeywordReverseTable ? keywordReverseTableResults : []}
         autoHeight
         hover={false}
         rowHeight={65}

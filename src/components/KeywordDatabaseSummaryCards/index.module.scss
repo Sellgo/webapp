@@ -1,28 +1,57 @@
 @import '../../design-system/new-colors.scss';
 
+.btnReset {
+  background: transparent !important;
+  max-height: 100%;
+  width: max-content !important;
+  border: 0 !important;
+  outline: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
 .summaryCards {
   width: 100%;
+  max-width: 400px;
+}
+
+.summaryHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .summaryCardTitle {
-  color: $grey_6;
+  color: $grey_8;
   font-size: 14px;
-  font-weight: 400;
-  border-bottom: 1px solid $grey_3;
+  font-weight: $fontweight_semibold;
+  text-transform: uppercase;
   line-height: 1;
-  padding-bottom: 18px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: max-content;
+
+  &:hover {
+    background-color: $grey_3;
+  }
 }
 
 .contentWrapper {
-  padding-top: 18px;
+  border: 1px solid $grey_3;
+  border-radius: 7px;
+  padding-top: 10px;
   padding-left: 10px;
+  background: $prim_white;
 }
 
 .mainContent {
+  min-height: 200px;
   max-height: 270px;
   overflow-y: auto !important;
   padding-left: 12px;
-  padding-right: 10px;
+  padding-right: 100px;
 
   /* width */
   &::-webkit-scrollbar {
@@ -58,5 +87,100 @@
   img {
     max-width: 100%;
     height: auto;
+  }
+}
+
+.sortIconGroup {
+  margin-left: 13px;
+  color: inherit;
+  font-size: 10px !important;
+  display: flex;
+  flex-direction: column;
+  justify-items: flex-start;
+  align-items: flex-start;
+
+  i:last-child {
+    margin-top: -5px;
+  }
+}
+
+.activeSort {
+  color: $grey_8 !important;
+}
+
+.inActiveSort {
+  color: $grey_3 !important;
+}
+
+.copyButton {
+  cursor: pointer;
+}
+
+.copyIcon {
+  path {
+    color: $grey_8 !important;
+  }
+}
+
+.iconButton {
+  @extend .btnReset;
+
+  margin-right: 5px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > i.chevron.up.icon {
+    font-size: 10px !important;
+  }
+}
+
+.actionOptions {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  min-height: 60px;
+  justify-content: space-between;
+  align-items: stretch;
+
+  p {
+    color: $grey_6 !important;
+    font-size: 12px;
+  }
+
+  button {
+    @extend .btnReset;
+
+    color: $grey_8 !important;
+    margin: 0;
+    width: 100% !important;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 14px !important;
+    height: 25px;
+
+    &:hover {
+      background: $grey_1 !important;
+    }
+
+    span {
+      margin-left: 2px;
+    }
+
+    img {
+      min-width: 20px;
+      height: 12px;
+      margin-left: 5px;
+
+      path {
+        fill: $grey_8 !important;
+      }
+    }
+
+    i.icon.copy.outline {
+      margin-left: 5px !important;
+      color: $grey_8 !important;
+    }
   }
 }

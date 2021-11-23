@@ -89,3 +89,37 @@ export const getKeywordReverseTablePaginationInfo = (state: any) => {
   const stateChunk = get(state, `keywordReverse[${sessionTabId}]`);
   return get(stateChunk, 'keywordReverseTablePaginationInfo');
 };
+
+/* =================== KEYWORD DATABASE SUMMARY =============== */
+
+/* Selector to get loading state for word freq summary */
+export const getIsLoadingKeywordReverseWordFreqSummary = (state: any) => {
+  const sessionTabId = makeOrGetUniqueTabID();
+
+  const stateChunk = get(state, `keywordReverse[${sessionTabId}]`);
+  return get(stateChunk, 'isLoadingKeywordReverseWordFreqSummary');
+};
+
+/* Selector to get word freq summary */
+export const getKeywordReverseWordFreqSummary = (state: any) => {
+  const sessionTabId = makeOrGetUniqueTabID();
+
+  const stateChunk = get(state, `keywordReverse[${sessionTabId}]`);
+  return get(stateChunk, 'keywordReverseWordFreqSummary');
+};
+
+/* Selector to get loading state for word freq summary */
+export const getIsLoadingKeywordReverseAggSummary = (state: any) => {
+  const sessionTabId = makeOrGetUniqueTabID();
+
+  const stateChunk = get(state, `keywordReverse[${sessionTabId}]`);
+  return get(stateChunk, 'isLoadingKeywordReverseAggSummary');
+};
+
+/* Selector to get word freq summary */
+export const getKeywordReverseAggSummary = (state: any) => {
+  const sessionTabId = makeOrGetUniqueTabID();
+
+  const stateChunk = get(state, `keywordReverse[${sessionTabId}]`);
+  return get(stateChunk, 'keywordReverseAggSummary');
+};
