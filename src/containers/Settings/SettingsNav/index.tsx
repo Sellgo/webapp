@@ -6,6 +6,7 @@ import styles from './index.module.scss';
 
 /* Components */
 import LeftArrow from '../../../assets/images/leftArrowLong.svg';
+import history from '../../../history';
 
 /* Constants */
 import { SETTINGS_PAGES } from '../../../constants/Settings';
@@ -15,11 +16,10 @@ import { isFirstTimeLoggedIn } from '../../../utils/subscriptions';
 
 interface Props {
   match: any;
-  history: any;
 }
 
 const SettingsNav = (props: Props) => {
-  const { match, history } = props;
+  const { match } = props;
   const firstTimeLoggedIn = isFirstTimeLoggedIn();
   const handleGoBack = () => {
     history.goBack();

@@ -1,0 +1,29 @@
+@import '../../../design-system/new-colors';
+
+.featuresList {
+  margin-top: 20px;
+  margin-bottom: 30px;
+
+  p {
+    font-size: $fontsize_content_16;
+    color: $prim_dark_2;
+    font-weight: $fontweight_bold;
+    text-transform: uppercase;
+  }
+
+  ul {
+    padding-left: 0;
+    list-style: none;
+
+    li {
+      font-size: $fontsize_content_14;
+      font-weight: $fontweight_regular;
+      color: $prim_dark_1;
+      margin: 4px 0;
+      // margin-left: -20px;
+      span {
+        margin-left: 8px;
+      }
+    }
+  }
+}

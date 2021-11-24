@@ -1,7 +1,7 @@
 import React, { ReactChild } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import { Loader, Modal, Dimmer } from 'semantic-ui-react';
+import { Modal, Dimmer, Confirm } from 'semantic-ui-react';
 
 /* App Config */
 import { AppConfig } from '../../../../config';
@@ -20,6 +20,8 @@ import BoxHeader from '../../../../components/BoxHeader';
 import BoxFooter from '../../../../components/BoxFooter';
 import CreditCardIcon from '../../../../assets/images/credit-card-solid.svg';
 import HelpingHandsIcon from '../../../../assets/images/hands-helping-solid.svg';
+import history from '../../../../history';
+import Placeholder from '../../../../components/Placeholder';
 
 /* Interfaces */
 import {
@@ -28,6 +30,7 @@ import {
   CreditCard,
   SubscriptionPlanType,
 } from '../../../../interfaces/Settings/billing';
+import { SellerSubscription } from '../../../../interfaces/Seller';
 
 /* Utils */
 import { capitalizeFirstLetter, formatDecimal } from '../../../../utils/format';
@@ -36,6 +39,7 @@ const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
 interface Props {
   subscriptionPlan: SubscriptionPlanType;
   subscriptionDetails: StripeSubscriptionInfo;
+  sellerSubscription: SellerSubscription;
   quotas: QuotaCollection;
   card: CreditCard;
   isQuotaLoading: boolean;
@@ -50,6 +54,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
   const {
     subscriptionPlan,
     subscriptionDetails,
+    sellerSubscription,
     quotas,
     card,
     isQuotaLoading,
@@ -59,7 +64,11 @@ const QuotaAndPaymentsSection = (props: Props) => {
     hasActivePlan,
     hasPaymentMethod,
   } = props;
+
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+  const [isCancellingSubscription, setCancellingSubscription] = React.useState<boolean>(false);
+
+  const isSubscriptionExpiring = sellerSubscription && sellerSubscription.status === 'pending';
 
   /* Calculation of quotas */
   const salesEstAvailable = quotas.sales_estimation.available || 1;
@@ -83,6 +92,10 @@ const QuotaAndPaymentsSection = (props: Props) => {
 
   const handleModalClose = () => {
     setModalOpen(false);
+  };
+
+  const launchChurnflow = () => {
+    history.push('/churnflow');
   };
 
   /* Content to show if user has no active plan, and no payment methods */
@@ -114,6 +127,30 @@ const QuotaAndPaymentsSection = (props: Props) => {
       </div>
     </Dimmer>
   );
+
+  /* Loading display placeholder */
+  if (isQuotaLoading || isSubscriptionStripeLoading || isCreditCardLoading) {
+    return (
+      <section className={styles.quotaAndPaymentsWrapper}>
+        <BoxHeader>Billing</BoxHeader>
+        <BoxContainer>
+          <Placeholder numberParagraphs={3} numberRows={3} />
+        </BoxContainer>
+        <BoxFooter>
+          <div>
+            <img src={HelpingHandsIcon} alt="helping-hands-icon" />
+            &nbsp;&nbsp; If you have any trouble with the payment setting, you can contact us
+            at&nbsp;
+            <a href="mailto: support@sellgo.com" className={styles.mailLink}>
+              support@sellgo.com
+            </a>
+            . We Can Help.
+          </div>
+        </BoxFooter>
+      </section>
+    );
+  }
+
   return (
     <section className={styles.quotaAndPaymentsWrapper}>
       <BoxHeader>Billing</BoxHeader>
@@ -159,15 +196,28 @@ const QuotaAndPaymentsSection = (props: Props) => {
 
               <div className={styles.innerGrid}>
                 <p className={styles.actionLabel}> Action </p>
-                <OrangeButton
-                  asExternal
-                  type="white"
-                  size="small"
-                  navigateTo="/settings/pricing"
-                  className={styles.actionButton}
-                >
-                  Change Plan
-                </OrangeButton>
+                <div className={styles.planActions}>
+                  <OrangeButton
+                    asExternal
+                    type="white"
+                    size="small"
+                    navigateTo="/settings/pricing"
+                    className={styles.actionButton}
+                  >
+                    Change Plan
+                  </OrangeButton>
+                  {!isSubscriptionExpiring && (
+                    <OrangeButton
+                      asExternal
+                      type="white"
+                      size="small"
+                      onClick={() => setCancellingSubscription(true)}
+                      className={styles.actionButton}
+                    >
+                      Cancel Plan
+                    </OrangeButton>
+                  )}
+                </div>
               </div>
             </div>
           </span>
@@ -186,15 +236,13 @@ const QuotaAndPaymentsSection = (props: Props) => {
                   {hasActivePlan && <p className={styles.paymentDetailsLabel}> Next Payment Due</p>}
                   {hasActivePlan && (
                     <p className={styles.paymentDetailsContent}>
-                      {' '}
-                      {subscriptionDetails.next_due_date}{' '}
+                      {!isSubscriptionExpiring ? subscriptionDetails.next_due_date : '-'}
                     </p>
                   )}
                   {hasActivePlan && <p className={styles.paymentDetailsLabel}> Amount </p>}
                   {hasActivePlan && (
                     <p className={styles.paymentDetailsContent}>
-                      {' '}
-                      {subscriptionDetails.payment_amount}{' '}
+                      {!isSubscriptionExpiring ? subscriptionDetails.payment_amount : '-'}
                     </p>
                   )}
                   <p className={styles.actionLabel}> Action </p>
@@ -209,12 +257,6 @@ const QuotaAndPaymentsSection = (props: Props) => {
                 </div>
               </div>
             </span>
-          )}
-          {/* To show dimmer when page is still loading */}
-          {(isQuotaLoading || isSubscriptionStripeLoading || isCreditCardLoading) && (
-            <Dimmer inverted active>
-              <Loader className={styles.loader} />
-            </Dimmer>
           )}
         </div>
       </BoxContainer>
@@ -242,6 +284,18 @@ const QuotaAndPaymentsSection = (props: Props) => {
           />
         </Elements>
       </Modal>
+
+      <Confirm
+        content="Are you sure you want to cancel your subscription?"
+        open={isCancellingSubscription}
+        onCancel={() => {
+          setCancellingSubscription(false);
+        }}
+        onConfirm={() => {
+          setCancellingSubscription(false);
+          launchChurnflow();
+        }}
+      />
     </section>
   );
 };

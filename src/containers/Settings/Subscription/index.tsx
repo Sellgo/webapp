@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import queryString from 'query-string';
 import Axios from 'axios';
 import _ from 'lodash';
-import Carousel from 'react-multi-carousel';
 
 /* Utils */
 import { success, error } from '../../../utils/notifications';
@@ -31,18 +30,19 @@ import styles from './index.module.scss';
 import 'react-multi-carousel/lib/styles.css';
 
 /* Components */
-
+import PricingPlansCard from '../../../components/PricingPlansCard';
 import PageHeader from '../../../components/PageHeader';
-import PricingPlansSummary from '../../../components/PricingCardsSummary';
-import PricingInfoAlert from '../../../components/PricingInfoAlert';
+import ToggleButton from '../../../components/ToggleButton';
 
 /* Types */
 import { Subscription } from '../../../interfaces/Seller';
-import { SubscriptionPlan } from '../../../interfaces/Subscription';
 import FAQSection from './FaqSection';
 
 /* Data */
-import { SUBSCRIPTION_PLANS, DAILY_SUBSCRIPTION_PLANS } from '../../../constants/Subscription';
+import {
+  DAILY_SUBSCRIPTION_PLANS,
+  MONTHLY_AND_ANNUAL_PLANS,
+} from '../../../constants/Subscription';
 
 interface SubscriptionProps {
   getSeller: () => void;
@@ -54,7 +54,6 @@ interface SubscriptionProps {
   subscriptions: Subscription[];
   location: any;
   subscriptionType: string;
-  subscriptionPlan: string;
   match: any;
 }
 
@@ -124,21 +123,13 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       });
   }
 
-  launchChurnflow() {
-    history.push('/churnflow');
-  }
-
   checkout(subscription: Subscription, paymentMode: string) {
     localStorage.setItem('planType', convertPlanNameToKey(subscription.name));
     localStorage.setItem('paymentMode', paymentMode);
     history.push(`/subscription/payment`);
   }
 
-  promptCancelSubscriptionPlan = () => {
-    this.setState({ promptCancelSubscription: true });
-  };
-
-  getNewPlan = (subscriptionDetails: any) => {
+  getNewPlan = (subscriptionDetails: { name: string; id: number }) => {
     if (DAILY_SUBSCRIPTION_PLANS.includes(subscriptionDetails.id)) {
       this.chooseSubscription(subscriptionDetails, 'daily');
       return;
@@ -150,21 +141,15 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   };
 
   render() {
-    const { match, sellerSubscription, subscriptions, subscriptionType } = this.props;
+    const { match, sellerSubscription } = this.props;
 
     const {
-      promptCancelSubscription,
       pendingSubscription,
       pendingSubscriptionId,
       pendingSubscriptionName,
       pendingSubscriptionMode,
       isMonthly,
     } = this.state;
-
-    // Find the subscribed subscription
-    const subscribedSubscription = subscriptions
-      ? subscriptions.find(e => e.id === sellerSubscription.subscription_id)
-      : undefined;
 
     return (
       <>
@@ -176,18 +161,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             { content: 'Pricing' },
           ]}
           auth={match.params.auth}
-        />
-
-        <Confirm
-          content="Are you sure you want to cancel your subscription?"
-          open={promptCancelSubscription}
-          onCancel={() => {
-            this.setState({ promptCancelSubscription: false });
-          }}
-          onConfirm={() => {
-            this.setState({ promptCancelSubscription: false });
-            this.launchChurnflow();
-          }}
         />
 
         <Confirm
@@ -225,89 +198,41 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <p>Pay Less On Software, Invest More In Your Business.</p>
             </div>
 
-            <PricingInfoAlert
-              head="For new members register with Amazon Seller Central Account. Risk free 7-day money back guarantee."
-              navigateLabel="Learn More"
-              navigateTo=""
-              background="#F2EFE4"
+            <ToggleButton
+              isToggled={isMonthly}
+              handleChange={() => this.setState({ isMonthly: !isMonthly })}
+              className={styles.paymentModeToggleButton}
+              options={['Pay Annually', 'Pay Monthly']}
             />
-          </section>
-
-          <section className={styles.carouselWrapper}>
-            <Carousel
-              ssr
-              partialVisbile
-              deviceType={'desktop'}
-              itemClass="image-item"
-              responsive={{
-                desktop: {
-                  breakpoint: { max: 3000, min: 1024 },
-                  items: 3,
-                  paritialVisibilityGutter: 60,
-                },
-                tablet: {
-                  breakpoint: { max: 1024, min: 464 },
-                  items: 2,
-                  paritialVisibilityGutter: 50,
-                },
-                mobile: {
-                  breakpoint: { max: 464, min: 0 },
-                  items: 1,
-                  paritialVisibilityGutter: 30,
-                },
-              }}
-              className={styles.carouselListWrappewr}
-            >
-              {SUBSCRIPTION_PLANS.map((subscriptionPlan: SubscriptionPlan) => {
-                const {
-                  subscriptionId,
-                  dailyPrice,
-                  monthlyPrice,
-                  annualPrice,
-                  name,
-                  isDailyPlan,
-                  isLegacy,
-                } = subscriptionPlan;
-
-                /* Only show legacy plan is user is currently subscribed to legacy plan */
-                if (!subscribedSubscription && subscriptionPlan.isLegacy) {
-                  return null;
-                } else if (
-                  subscribedSubscription &&
-                  parseInt(subscribedSubscription.id) !== subscriptionId &&
-                  subscriptionPlan.isLegacy
-                ) {
-                  return null;
-                }
-
+            <div className={styles.pricingPlansCardWrapper}>
+              {MONTHLY_AND_ANNUAL_PLANS.map((product: any) => {
                 return (
-                  <PricingPlansSummary
-                    key={subscriptionId}
-                    subscriptionId={subscriptionId}
-                    isLegacy={isLegacy}
-                    name={name}
+                  <PricingPlansCard
+                    key={product.id}
+                    id={product.id}
+                    name={product.name}
+                    isNew={product.isNew}
+                    monthlyPrice={product.monthlyPrice}
+                    annualPrice={product.annualPrice}
+                    desc={product.desc}
+                    featureSubName={product.featureSubName}
+                    featuresLists={product.featuresLists}
+                    setIsMonthly={() => null}
+                    // Plan details
                     isMonthly={isMonthly}
-                    monthlyPrice={monthlyPrice}
-                    annualPrice={annualPrice}
-                    dailyPrice={dailyPrice}
-                    isDailyPlan={isDailyPlan}
-                    handleChange={() => this.setState({ isMonthly: !isMonthly })}
-                    // seller subscriptions
-                    subscribedSubscription={subscribedSubscription}
-                    subscriptionType={subscriptionType}
+                    changePlan={(subscriptionDetails: { name: string; id: number }) =>
+                      this.getNewPlan(subscriptionDetails)
+                    }
+                    // seller details
                     sellerSubscription={sellerSubscription}
-                    // subscription details
-                    // action on subscriptions
-                    promptCancelSubscription={this.promptCancelSubscriptionPlan.bind(this)}
-                    changePlan={(subscriptionDetails: any) => this.getNewPlan(subscriptionDetails)}
                   />
                 );
               })}
-            </Carousel>
+            </div>
           </section>
 
           <p className={styles.comparisionLink}>
-            More detail comparision
+            More detailed comparisons
             <span>
               <Icon
                 name="external"
@@ -338,8 +263,6 @@ const mapStateToProps = (state: any) => ({
   profile: state.settings.profile,
   sellerSubscription: state.subscription.sellerSubscription,
   subscriptionType: state.subscription.subscriptionType,
-  subscriptions: state.subscription.subscriptions,
-  subscriptionPlan: state.subscription.plan,
 });
 
 const mapDispatchToProps = {

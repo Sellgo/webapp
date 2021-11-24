@@ -90,6 +90,12 @@
   color: #636d76 !important;
 }
 
+.paymentModeToggleButton {
+  margin-top: 40px !important;
+  height: 40px !important;
+  width: 300px !important;
+}
+
 /* Payment meta information */
 .paymentMeta {
   display: flex;
@@ -107,5 +113,18 @@
 
   &__text {
     font-size: 14px;
+  }
+}
+
+.pricingPlansCardWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 2rem auto;
+
+  @media only screen and(max-width: 1200px) {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-evenly;
   }
 }

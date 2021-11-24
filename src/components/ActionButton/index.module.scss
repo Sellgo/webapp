@@ -11,6 +11,11 @@
   font-weight: $fontweight_semibold !important;
   padding: 0 !important;
   border-radius: 7px !important;
+
+  &:disabled {
+    pointer-events: none !important;
+    opacity: 0.8 !important;
+  }
 }
 
 /* Variants Styles */
@@ -66,6 +71,20 @@
 
     &:hover {
       opacity: 0.8;
+      font-weight: $fontweight_semibold !important;
+    }
+  }
+
+  &__grey {
+    @include btnReset;
+
+    background: $grey_3 !important;
+    color: $grey_8 !important;
+    border: 1px solid $grey_3 !important;
+
+    &:hover {
+      background: $grey_4 !important;
+      border: 1px solid $grey_4 !important;
       font-weight: $fontweight_semibold !important;
     }
   }
@@ -140,6 +159,20 @@
         background: none !important;
         font-weight: 600 !important;
       }
+    }
+  }
+
+  &__grey {
+    @include btnReset;
+
+    background: $prim_white !important;
+    border: 1px solid $second_silver !important;
+    color: $grey_8 !important;
+
+    &:hover {
+      background: $second_silver !important;
+      border: 1px solid $second_silver !important;
+      font-weight: $fontweight_semibold !important;
     }
   }
 }
