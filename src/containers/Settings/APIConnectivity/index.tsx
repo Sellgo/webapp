@@ -11,10 +11,9 @@ import { isFirstTimeLoggedIn } from '../../../utils/subscriptions';
 
 interface Props {
   match: any;
-  history: any;
 }
 const APIConnectivity = (props: Props) => {
-  const { match, history } = props;
+  const { match } = props;
   const firstTimeLoggedIn = isFirstTimeLoggedIn();
 
   return (
@@ -33,7 +32,7 @@ const APIConnectivity = (props: Props) => {
         />
       )}
       <div className={styles.connectivityPageWrapper}>
-        <SettingsNav match={match} history={history} />
+        <SettingsNav match={match} />
         <div>
           <APIForm />
           <p className={styles.zapierActivationLink}>

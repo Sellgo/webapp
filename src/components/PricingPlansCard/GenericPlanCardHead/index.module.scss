@@ -1,0 +1,164 @@
+@import '../../../design-system/new-colors';
+
+.pricingHeadWrapper {
+  padding: 10px;
+  position: relative;
+  border-radius: 3px;
+  background: $prim_white;
+
+  &__new {
+    padding-top: 60px;
+    border-top: none !important;
+  }
+
+  &__notNew {
+    margin-top: 50px;
+  }
+
+  &__bordered {
+    border: 1px solid $second_silver;
+  }
+}
+
+.pricingCardHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+
+  &__Left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+
+    h2 {
+      font-size: $fontsize_subtitle_20;
+      font-weight: $fontweight_bold;
+      color: $prim_dark_2;
+      margin: 0 auto;
+    }
+
+    p {
+      font-size: $fontsize_content_10;
+      font-weight: $fontweight_medium;
+      color: $grey_8;
+      max-width: 330px;
+      text-align: center;
+      white-space: pre-line;
+      min-height: 50px;
+    }
+  }
+}
+
+.startingAt {
+  font-size: $fontsize_content_10;
+  margin-top: 20px;
+  text-align: center;
+
+  h3 {
+    color: $prim_dark_2;
+    font-size: $fontsize_subtitle_32;
+    font-weight: $fontweight_bold;
+  }
+
+  p {
+    font-size: $fontsize_content_10;
+    font-weight: $fontweight_medium;
+    color: $prim_dark_1;
+  }
+}
+
+.billedAtPrice {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  .originalPrice {
+    font-size: $fontsize_content_14;
+    line-height: 16px;
+    font-weight: $fontweight_regular;
+
+    &__small {
+      font-size: $fontsize_content_12;
+    }
+  }
+
+  .newPrice {
+    margin-left: 10px;
+    margin-right: 18px;
+    font-size: $fontsize_content_14;
+    font-weight: $fontweight_bold;
+
+    &__small {
+      font-size: $fontsize_content_12;
+    }
+  }
+
+  .savings {
+    font-size: $fontsize_content_14;
+
+    &__small {
+      font-size: $fontsize_content_12;
+    }
+  }
+}
+
+.toggleWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 20px auto;
+
+  div {
+    width: 100%;
+  }
+}
+
+.buyNowCTA {
+  width: 310px !important;
+  height: 50px !important;
+  font-weight: $fontweight_medium;
+  margin: 30px auto;
+}
+
+.newFeatureBanner {
+  position: absolute;
+  top: 0;
+  height: 50px;
+  background: $purple_pink_gradient;
+
+  /* To compensate for the 1px from border */
+  width: calc(100% + 2px);
+  left: -1px;
+  right: 0;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: $fontsize_subtitle_20;
+  font-weight: $fontweight_medium;
+  color: $prim_white;
+  padding: 0 50px;
+}
+
+.paymentModeToggle {
+  @media screen and(min-width: 870px) {
+    display: none !important;
+  }
+}
+
+.betaPriceContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  .toggledPrice {
+    /* Override absolute position for the smaller pricing header card */
+    left: 10px;
+  }
+}

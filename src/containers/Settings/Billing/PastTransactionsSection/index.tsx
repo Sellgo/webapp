@@ -13,10 +13,10 @@ import ReceiptCell from './ReceiptCell';
 import IsSuccessfulTransactionCell from './IsSuccessfulTransactionCell';
 import BoxHeader from '../../../../components/BoxHeader';
 import BoxContainer from '../../../../components/BoxContainer';
+import Placeholder from '../../../../components/Placeholder';
 
 /* Types */
 import { Transaction } from '../../../../interfaces/Settings/billing';
-import { Dimmer, Loader } from 'semantic-ui-react';
 
 interface Props {
   transactionHistory: Transaction[];
@@ -51,7 +51,8 @@ const PastTransactionsSection = (props: Props) => {
         <BoxContainer>
           <div className={styles.transactionHistoryTable}>
             <Table
-              data={transactionHistory}
+              renderLoading={() => loading && <Placeholder numberRows={0} numberParagraphs={3} />}
+              data={!loading ? transactionHistory : []}
               hover={false}
               autoHeight
               rowHeight={50}
@@ -63,7 +64,7 @@ const PastTransactionsSection = (props: Props) => {
                 <IsSuccessfulTransactionCell dataKey="paid" />
               </Table.Column>
 
-              <Table.Column width={150} verticalAlign="middle" align="center">
+              <Table.Column width={130} verticalAlign="middle" align="center">
                 <Table.HeaderCell>ID</Table.HeaderCell>
                 <Table.Cell dataKey="id" />
               </Table.Column>
@@ -83,7 +84,7 @@ const PastTransactionsSection = (props: Props) => {
                 <PlanDescriptionCell dataKey="desc" />
               </Table.Column>
 
-              <Table.Column width={250} verticalAlign="middle">
+              <Table.Column width={280} verticalAlign="middle">
                 <Table.HeaderCell>Payment Method</Table.HeaderCell>
                 <PaymentMethodCell dataKey="card_type" />
               </Table.Column>
@@ -98,12 +99,6 @@ const PastTransactionsSection = (props: Props) => {
               <button className={styles.retrieveMoreHistoryButton} onClick={handleFetchMoreHistory}>
                 Look up more billing history
               </button>
-            )}
-
-            {loading && (
-              <Dimmer inverted active>
-                <Loader />
-              </Dimmer>
             )}
           </div>
         </BoxContainer>
