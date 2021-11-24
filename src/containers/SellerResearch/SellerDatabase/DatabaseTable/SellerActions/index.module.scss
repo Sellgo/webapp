@@ -76,8 +76,13 @@
   align-items: stretch;
 
   p {
+    margin-top: 18px;
     color: $grey_6 !important;
     font-size: 12px;
+
+    &:nth-child(1) {
+      margin-top: 0;
+    }
   }
 
   button {
@@ -104,10 +109,15 @@
       min-width: 20px;
       height: 12px;
       margin-left: 5px;
+    }
 
-      path {
-        fill: $grey_8 !important;
-      }
+    svg {
+      width: 20px !important;
+      height: 12px !important;
+    }
+
+    path {
+      fill: $grey_8 !important;
     }
 
     i.icon.copy.outline {

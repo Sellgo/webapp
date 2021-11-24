@@ -202,7 +202,7 @@ const InventoryTable = (props: Props) => {
             <Placeholder numberParagraphs={10} numberRows={5} isGrey />
           )
         }
-        data={filteredSellersByGroup}
+        data={!isLoadingSellerInventoryTable ? filteredSellersByGroup : []}
         autoHeight
         hover={false}
         rowHeight={SELLER_INVENTORY_TABLE_ROW_HEIGHT}
