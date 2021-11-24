@@ -126,7 +126,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
           disabled
         >
           Subscription expiring <br />
-          at the end of the month
+          at the end of the {sellerSubscription.payment_mode === 'monthly' ? ' month' : ' year'}
         </ActionButton>
       ) : (
         <ActionButton
