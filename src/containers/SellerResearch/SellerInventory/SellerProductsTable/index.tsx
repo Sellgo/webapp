@@ -162,7 +162,7 @@ const SellerProductsTable = (props: Props) => {
             <Placeholder numberParagraphs={2} numberRows={5} isGrey />
           )
         }
-        data={sellerInventoryProductsTableResults}
+        data={!isLoadingSellerInventoryProductsTable ? sellerInventoryProductsTableResults : []}
         height={calculateProductsTableHeight(
           sellerInventoryProductsTableResults && sellerInventoryProductsTableResults.length,
           sellerInventoryProductsTableSellersResults &&

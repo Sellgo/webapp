@@ -79,51 +79,56 @@ export const calculateSellerInventoryTableExpandedHeight = (
   numOfProducts: number,
   numofSellers: number
 ) => {
-  /* When little products exists */
-  if (numOfProducts <= 5 && numofSellers <= 0) {
-    return 400;
-  }
-
-  /* When no products and no sellers */
+  /* No sellers and no products */
   if (numOfProducts <= 0 && numofSellers <= 0) {
     return 250;
   }
 
-  /* When little products exists */
+  /* No sellers, little products */
+  if (numOfProducts <= 5 && numofSellers <= 0) {
+    return 400;
+  }
+
+  /* No sellers, many products */
+  if (numOfProducts > 5 && numofSellers <= 0) {
+    return 600;
+  }
+
+  /* Sellers present, little products exists */
   if (numOfProducts <= 5 && numofSellers > 0) {
     return 600;
   }
 
-  /* When seller has both products and product has sellers */
-  if (numOfProducts > 0 && numofSellers > 0) {
-    return 1300;
+  /* Sellers present, many products exists */
+  if (numOfProducts > 5 && numofSellers > 0) {
+    return 1100;
   }
 };
 
 /* Calculate products table height */
 export const calculateProductsTableHeight = (numOfProducts: number, numOfSellers: number) => {
-  /* When no products and no sellers */
+  /* No sellers and no products */
   if (numOfProducts <= 0 && numOfSellers <= 0) {
     return 190;
   }
 
-  /* When little products exists */
+  /* No sellers, little products */
   if (numOfProducts <= 5 && numOfSellers <= 0) {
     return 400;
   }
 
-  /* When products exists */
-  if (numOfProducts > 0 && numOfSellers <= 0) {
-    return 550;
+  /* No sellers, many products */
+  if (numOfProducts > 5 && numOfSellers <= 0) {
+    return 500;
   }
 
-  /* When little products exists */
+  /* Sellers prsent, little products exist */
   if (numOfProducts <= 5 && numOfSellers > 0) {
     return 600;
   }
 
-  /* When seller has both products and product has sellers */
-  if (numOfProducts > 0 && numOfSellers > 0) {
+  /* Sellers present, many products exist */
+  if (numOfProducts > 5 && numOfSellers > 0) {
     return 1000;
   }
 };
