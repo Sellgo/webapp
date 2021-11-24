@@ -217,7 +217,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     desc={product.desc}
                     featureSubName={product.featureSubName}
                     featuresLists={product.featuresLists}
-                    setIsMonthly={() => null}
                     // Plan details
                     isMonthly={isMonthly}
                     changePlan={(subscriptionDetails: { name: string; id: number }) =>
