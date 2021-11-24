@@ -240,7 +240,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               />
             </span>
           </p>
-
           <section className={styles.paymentMeta}>
             <div className={styles.paymentMeta__images}>
               <img src={Setcard} alt="Different card payment options" />

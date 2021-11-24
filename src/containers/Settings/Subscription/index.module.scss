@@ -98,14 +98,16 @@
 
 /* Payment meta information */
 .paymentMeta {
+  max-width: 1200px;
+  min-height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  max-width: 1200px;
-  margin: 60px auto;
+  margin: 20px auto;
 
   &__images {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
