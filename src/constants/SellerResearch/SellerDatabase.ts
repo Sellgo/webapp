@@ -111,6 +111,7 @@ export const F_TYPES = {
 /* Map the payload keys to query keys for API */
 export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: string } } = {
   merchantName: { keyName: 'merchant_name', type: F_TYPES.TEXT },
+  zipCode: { keyName: 'zip_code', type: F_TYPES.TEXT },
   asins: { keyName: 'asins', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
   sellerIds: { keyName: 'merchant_ids', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
 

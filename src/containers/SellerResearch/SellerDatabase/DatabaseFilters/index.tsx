@@ -72,6 +72,7 @@ const SellerDatabaseFilters = (props: Props) => {
 
   /* Advanced Filters */
   const [businessName, setBusinessName] = useState<string>('');
+  const [zipCode, setZipCode] = useState<string>('');
   const [merchantName, setMerchantName] = useState<string>('');
   const [asins, setAsins] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
   const [sellerIds, setSellerIds] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
@@ -106,6 +107,7 @@ const SellerDatabaseFilters = (props: Props) => {
       brands,
 
       /* Advanced Filters */
+      zipCode,
       businessName,
       merchantName,
       asins,
@@ -140,6 +142,7 @@ const SellerDatabaseFilters = (props: Props) => {
 
     /* Advaced Filters */
     setBusinessName('');
+    setZipCode('');
     setAsins(DEFAULT_INCLUDE_EXCLUDE_FILTER);
     setSellerIds(DEFAULT_INCLUDE_EXCLUDE_FILTER);
     setBrands(DEFAULT_INCLUDE_EXCLUDE_FILTER);
@@ -344,6 +347,14 @@ const SellerDatabaseFilters = (props: Props) => {
                 placeholder="Business Name"
                 value={businessName}
                 handleChange={(value: string) => setBusinessName(value)}
+              />
+
+              {/* Merchant Name */}
+              <InputFilter
+                label="Zip Code"
+                placeholder="Zip Code"
+                value={zipCode}
+                handleChange={(value: string) => setZipCode(value)}
               />
 
               {/* Exclude brands */}
