@@ -7,7 +7,7 @@
     "@analytics/google-analytics": "^0.2.2",
     "@stripe/react-stripe-js": "^1.1.2",
     "@stripe/stripe-js": "^1.8.0",
-    "@typeform/embed-react": "1.0.7",
+    "@typeform/embed-react": "^1.0.7",
     "@types/chrome": "0.0.128",
     "@types/file-saver": "^2.0.1",
     "analytics": "^0.3.0",
