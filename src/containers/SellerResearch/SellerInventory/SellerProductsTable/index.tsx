@@ -183,7 +183,7 @@ const SellerProductsTable = (props: Props) => {
       >
         {/* Expand Cell */}
         <Table.Column width={30} verticalAlign="top" fixed align="left">
-          <Table.HeaderCell></Table.HeaderCell>
+          <Table.HeaderCell />
           <ExpansionCell
             dataKey={SELLER_INVENTORY_PRODUCTS_TABLE_UNIQUE_KEY}
             expandedRowKeys={expandedRowKeys}
@@ -284,7 +284,7 @@ const SellerProductsTable = (props: Props) => {
 
         {/* Product Review */}
         <Table.Column width={30} verticalAlign="top" align="left">
-          <Table.HeaderCell></Table.HeaderCell>
+          <Table.HeaderCell />
           <CheckOnKeepa dataKey="keepa_url" />
         </Table.Column>
       </Table>

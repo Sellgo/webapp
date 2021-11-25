@@ -1,0 +1,41 @@
+@import '../../design-system/new-colors';
+
+.productResearchPage {
+  background: $light_gray_background;
+}
+
+.filterMetaData {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $grey_3;
+
+  h1 {
+    color: $grey_8 !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    text-transform: uppercase;
+    margin: 0 !important;
+  }
+}
+
+.productTablist {
+  display: flex;
+  list-style: none;
+  margin: 0 !important;
+  padding: 0;
+  padding-top: 18px !important;
+  width: 100%;
+
+  li {
+    color: $grey_8 !important;
+    font-size: 14px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer !important;
+    margin-right: 30px;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+}

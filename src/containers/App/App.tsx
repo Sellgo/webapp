@@ -32,6 +32,7 @@ import ChurnFlow from '../ChurnFlow';
 import SellerResearch from '../SellerResearch';
 import ProductResearch from '../ProductResearch';
 import KeywordResearch from '../KeywordResearch';
+import PerfectStock from '../PerfectStock';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import { isBetaAccount } from '../../utils/subscriptions';
@@ -287,6 +288,13 @@ function App() {
             exact={true}
             path="/keyword-research/:productName"
             component={KeywordResearch}
+            requireSubscription={true}
+          />
+
+          <PrivateRoute
+            exact={true}
+            path="/perfect-stock/:productName"
+            component={PerfectStock}
             requireSubscription={true}
           />
 
