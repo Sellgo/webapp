@@ -86,6 +86,9 @@ const SellerMapFilter = (props: Props) => {
   /* Business Name */
   const businessName = parseSellerMapFilterData(sellerMapFilterData, 'business_name');
 
+  /* Zip Code */
+  const zipCode = parseSellerMapFilterData(sellerMapFilterData, 'zip_code');
+
   /* Brands */
   const brands = parseSellerMapFilterData(sellerMapFilterData, 'brands');
 
@@ -231,6 +234,16 @@ const SellerMapFilter = (props: Props) => {
         value={businessName.value}
         handleChange={(value: any) => {
           handleFilterChange('business_name', value);
+        }}
+      />
+
+      {/* Zip Code */}
+      <InputFilter
+        placeholder="Zip Code"
+        label="Zip Code"
+        value={zipCode.value}
+        handleChange={(value: any) => {
+          handleFilterChange('zip_code', value);
         }}
       />
 
