@@ -34,6 +34,9 @@ import {
   KeywordDatabaseTablePayload,
 } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
 
+/* Utils */
+import { onMountFixNewTableHeader } from '../../../../utils/newTable';
+
 interface Props {
   isLoadingKeywordDatabaseTable: boolean;
   keywordDatabaseTableResults: any;
@@ -51,6 +54,11 @@ const DatabaseTable = (props: Props) => {
 
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
+
+  /* Fix table header */
+  React.useEffect(() => {
+    onMountFixNewTableHeader();
+  }, []);
 
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);

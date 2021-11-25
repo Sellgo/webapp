@@ -63,6 +63,9 @@ import {
   SellerInventoryProductsTablePaginationInfo,
 } from '../../../../interfaces/SellerResearch/SellerInventory';
 
+/* Utils */
+import { onMountFixNewTableHeader } from '../../../../utils/newTable';
+
 interface Props {
   isLoadingSellerInventoryTable: boolean;
   sellerInventoryTableResults: any[];
@@ -105,6 +108,7 @@ const InventoryTable = (props: Props) => {
 
   useEffect(() => {
     fetchSellerInventoryTableResults({});
+    onMountFixNewTableHeader();
   }, []);
 
   /* Handle Page change*/

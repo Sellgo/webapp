@@ -52,6 +52,9 @@ import {
   TrackerTableProductsPayload,
 } from '../../../../interfaces/KeywordResearch/KeywordTracker';
 
+/* Utils */
+import { onMountFixNewTableHeader } from '../../../../utils/newTable';
+
 interface Props {
   isLoadingKeywordTrackerProductsTable: boolean;
   keywordTrackerProductsTableResults: any[];
@@ -117,6 +120,7 @@ const TrackerTable = (props: Props) => {
   /* Load contents for keyword tracker products table */
   useEffect(() => {
     fetchKeywordTrackerProductsTable({});
+    onMountFixNewTableHeader();
   }, []);
 
   return (
