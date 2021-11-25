@@ -40,6 +40,13 @@
     border: none !important;
     border-bottom: 1px solid $grey_3 !important;
 
+    /* Change position to fixed if scrolls out of sight */
+    &__fixed {
+      position: fixed !important;
+      top: 35px !important;
+      width: 100% !important;
+      z-index: 1 !important;
+    }
     // column header cell
     .rs-table-cell-content {
       padding: 0 !important;
