@@ -90,7 +90,6 @@ const SellerDatabaseTable = (props: Props) => {
           }
           data={sellerDatabaseResults}
           autoHeight
-          height={500}
           hover={true}
           rowHeight={200}
           headerHeight={55}
