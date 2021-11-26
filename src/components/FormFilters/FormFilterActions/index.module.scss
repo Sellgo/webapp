@@ -1,12 +1,22 @@
 @import '../../../design-system/new-colors.scss';
 
 .formFilterActions {
+  width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin: 30px 0;
-  margin-left: auto;
+}
+
+.formSearchAndReset {
+  width: 100%;
+  justify-content: flex-end;
+  display: flex;
 }
 
 .submitButton {
   margin-left: 30px;
+}
+
+.restoreLastSearchButton {
+  width: 200px;
 }

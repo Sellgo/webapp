@@ -8,6 +8,7 @@ export interface SellerDatabasePayload {
   marketplaceId?: string;
   isExport?: boolean;
   fileFormat?: 'csv' | 'xlsx';
+  restoreLastSearch?: boolean;
 }
 
 export interface ShowFilterMessage {
