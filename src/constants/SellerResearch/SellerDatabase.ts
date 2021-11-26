@@ -181,6 +181,18 @@ export const DEFAULT_US_MARKET = {
   currency: '$',
 };
 
+export const getMarketplace = (marketplaceId: string) => {
+  const marketplace = SELLER_DB_MARKETPLACE.find((marketplace: any) => {
+    return marketplace.value === marketplaceId;
+  });
+
+  if (marketplace) {
+    return marketplace;
+  } else {
+    return DEFAULT_US_MARKET;
+  }
+};
+
 export const sellerTypeMapper: { [key: string]: string } = {
   private_label: 'Private Label',
   wholesale: 'Wholesale',

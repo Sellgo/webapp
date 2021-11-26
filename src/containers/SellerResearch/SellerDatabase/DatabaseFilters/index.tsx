@@ -30,6 +30,7 @@ import {
   FILTER_QUERY_KEY_MAPPER,
   getMinMaxPeriodFilter,
   getGrowthFilter,
+  getMarketplace,
 } from '../../../../constants/SellerResearch/SellerDatabase';
 import { getProductCategories } from '../../../../constants/ProductResearch/ProductsDatabase';
 import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
@@ -116,15 +117,16 @@ const SellerDatabaseFilters = (props: Props) => {
     try {
       const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/last-search?type=seller_database`;
       const { data } = await axios.get(URL);
-      console.log(data);
       const restoredSellerDatabaseFilters = { ...sellerDatabaseFilters };
       if (data && data.length > 0) {
         const restoredFilter = JSON.parse(data[0].parameter);
-        console.log(restoredFilter);
         /* SPECIAL TREATMENT FOR CATEGORIES */
         if (restoredFilter.categories) {
-          // restoredFilter.categories = restoredFilter.categories.split(',');
-          // restoredSellerDatabaseFilters['categories'] = restoredFilter.categories;
+          restoredFilter.categories = restoredFilter.categories.split(',');
+          restoredSellerDatabaseFilters.categories = restoredFilter.categories;
+        } else if (restoredFilter.marketplace_id) {
+          setMarketPlace(getMarketplace(restoredFilter.marketplace_id));
+          setSellerDatabaseMarketplace(getMarketplace(restoredFilter.marketplace_id));
         }
 
         Object.keys(FILTER_QUERY_KEY_MAPPER).forEach((payloadKey: string) => {
@@ -172,7 +174,7 @@ const SellerDatabaseFilters = (props: Props) => {
             /* IF MIN_MAX_PERIOD FILTER */
           } else if (filter.type === F_TYPES.MIN_MAX_PERIOD) {
             Object.keys(restoredFilter).forEach((key: string) => {
-              if (getMinMaxPeriodFilter(key, restoredFilter[key])) {
+              if (getMinMaxPeriodFilter(key, restoredFilter[key]) && key.includes(filter.keyName)) {
                 restoredSellerDatabaseFilters[payloadKey] = {
                   ...restoredSellerDatabaseFilters[payloadKey],
                   ...getMinMaxPeriodFilter(key, restoredFilter[key]),
@@ -195,8 +197,6 @@ const SellerDatabaseFilters = (props: Props) => {
             });
             /* IF OTHER TYPES OF FILTER */
           } else if (restoredFilter[filter.keyName] && filter.keyName !== 'categories') {
-            console.log(payloadKey);
-            console.log(restoredFilter[filter.keyName]);
             restoredSellerDatabaseFilters[payloadKey] = restoredFilter[filter.keyName];
           }
         });
@@ -327,8 +327,7 @@ const SellerDatabaseFilters = (props: Props) => {
           <CheckboxDropdownFilter
             filterOptions={getProductCategories(marketPlace.code)}
             label="Categories"
-            // selectedValues={sellerDatabaseFilters.categories}
-            selectedValues={[]}
+            selectedValues={sellerDatabaseFilters.categories}
             handleChange={(newCategories: string[]) => {
               updateSellerDatabaseFilter('categories', [...newCategories]);
             }}
