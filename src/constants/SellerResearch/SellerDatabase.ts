@@ -142,14 +142,6 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   sellerReachability: { keyName: 'has_phone', type: F_TYPES.TEXT },
 };
 
-/* Map query keys for API to payload keys */
-export const getPayloadKeyFromApiKey = (keyName: string) => {
-  const key = Object.keys(FILTER_QUERY_KEY_MAPPER).find(
-    k => FILTER_QUERY_KEY_MAPPER[k].keyName === keyName
-  );
-  return key;
-};
-
 export const GROWTH_PERCENT_FILTER_KEY_MAPPER = {
   '30_days': 'growth_month',
   '90_days': 'growth_L180D',
