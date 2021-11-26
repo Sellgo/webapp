@@ -66,7 +66,6 @@ const SelectionFilter: React.FC<Props> = props => {
       });
     }
   }, []);
-  console.log(props);
   return (
     <div className={`selectionFilterWrapper ${className}`}>
       {label && (
