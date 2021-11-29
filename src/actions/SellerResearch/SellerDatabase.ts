@@ -80,7 +80,6 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
 
   filterPayloadKeys.forEach((key: string) => {
     const filter = sellerDatabaseFilter[key];
-
     const { keyName, type } = FILTER_QUERY_KEY_MAPPER[key];
 
     if (type === F_TYPES.TEXT) {
@@ -193,6 +192,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
       marketplaceId = 'ATVPDKIKX0DER',
       isExport = false,
       fileFormat = 'csv',
+      restoreLastSearch = false,
     } = payload;
 
     // if filter request is passed
@@ -209,6 +209,22 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
       );
       dispatch(setSellerDatabasePaginationInfo({ total_pages: 0, current_page: 0, count: 0 }));
 
+      return;
+    }
+
+    if (restoreLastSearch) {
+      dispatch(setIsLoadingSellerDatabase(enabledLoader));
+      const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database?restore_last_search=true`;
+      const { data } = await axios.get(URL);
+
+      const { results, ...paginationInfo } = data;
+      if (data) {
+        dispatch(setSellerDatabaseQuotaExceeded(false));
+        dispatch(setSellerDatabaseResults(results));
+        dispatch(setSellerDatabasePaginationInfo(paginationInfo));
+        dispatch(setSellerDatabaseFilterMessage({ show: false, message: '', type: 'info' }));
+        dispatch(setIsLoadingSellerDatabase(false));
+      }
       return;
     }
 

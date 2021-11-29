@@ -7,6 +7,12 @@
 }
 
 #grey {
+  .placeholder-gap {
+    height: 20px;
+    background: $grey_10 !important;
+    width: 100%;
+  }
+
   .ui.placeholder,
   .ui.placeholder .image.header::after,
   .ui.placeholder .line,
@@ -17,6 +23,12 @@
 }
 
 #white {
+  .placeholder-gap {
+    height: 20px;
+    background: $prim_white !important;
+    width: 100%;
+  }
+
   .ui.placeholder,
   .ui.placeholder .image.header::after,
   .ui.placeholder .line,

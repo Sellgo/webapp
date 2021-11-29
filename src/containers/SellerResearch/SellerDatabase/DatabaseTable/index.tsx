@@ -88,7 +88,7 @@ const SellerDatabaseTable = (props: Props) => {
           renderLoading={() =>
             isLoadingSellerDatabase && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
           }
-          data={sellerDatabaseResults}
+          data={!isLoadingSellerDatabase ? sellerDatabaseResults : []}
           autoHeight
           hover={true}
           rowHeight={200}

@@ -18,19 +18,18 @@ const Placeholder = (props: Props) => {
           <SemanticPlaceholder.Line />
         </SemanticPlaceholder.Header>
         {Array.from(Array(numberParagraphs).keys()).map(para => (
-          <>
+          <SemanticPlaceholder.Paragraph key={para}>
             {para % 2 === 0 && (
               <SemanticPlaceholder.Header image>
                 <SemanticPlaceholder.Line />
                 <SemanticPlaceholder.Line />
               </SemanticPlaceholder.Header>
             )}
-            <SemanticPlaceholder.Paragraph key={para}>
-              {Array.from(Array(numberRows).keys()).map(row => (
-                <SemanticPlaceholder.Line key={row} />
-              ))}
-            </SemanticPlaceholder.Paragraph>
-          </>
+            <div className={'placeholder-gap'} />
+            {Array.from(Array(numberRows).keys()).map(row => (
+              <SemanticPlaceholder.Line key={row} />
+            ))}
+          </SemanticPlaceholder.Paragraph>
         ))}
       </SemanticPlaceholder>
     </div>
