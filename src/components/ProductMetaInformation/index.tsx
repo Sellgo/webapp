@@ -1,13 +1,17 @@
 import React from 'react';
+import { Icon } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
 
 /* Components */
 import OnboardingButton from '../OnboardingButton';
-import { Icon } from 'semantic-ui-react';
-import { connect } from 'react-redux';
+
+/* Actions */
 import { fetchSellerDatabase } from '../../actions/SellerResearch/SellerDatabase';
+
+/* Types */
 import { SellerDatabasePayload } from '../../interfaces/SellerResearch/SellerDatabase';
 
 interface PInfo {
