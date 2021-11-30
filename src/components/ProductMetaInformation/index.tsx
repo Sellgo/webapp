@@ -26,7 +26,6 @@ interface Props {
   onboardingYoutubeLink: string;
   selectedIndex: number;
   isNewTutorial: boolean;
-  restoreLastSearchType?: 'Seller Database';
 
   /* Redux Props */
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
@@ -40,17 +39,18 @@ const ProductMetaInformation = (props: Props) => {
     onboardingYoutubeLink,
     onboardingDisplayText,
     isNewTutorial,
-    restoreLastSearchType,
     fetchSellerDatabase,
   } = props;
 
   const { name, desc } = informationDetails[selectedIndex];
 
-  const restoreLastSearch = () => {
-    if (restoreLastSearchType === 'Seller Database') {
-      fetchSellerDatabase({ restoreLastSearch: true });
-    }
-  };
+  let showRestoreLastSearch = false;
+  let restoreLastSearch;
+
+  if (name === 'Seller Database') {
+    restoreLastSearch = () => fetchSellerDatabase({ restoreLastSearch: true });
+    showRestoreLastSearch = true;
+  }
 
   return (
     <section className={styles.productMetaInformation}>
@@ -58,7 +58,7 @@ const ProductMetaInformation = (props: Props) => {
         {name.toUpperCase()}: <span>{desc}</span>
       </h1>
 
-      {restoreLastSearchType && (
+      {showRestoreLastSearch && (
         <button onClick={restoreLastSearch} className={styles.restoreLastSearchButton}>
           <Icon name="undo" />
           Last Search
