@@ -25,7 +25,6 @@
   margin: 0 !important;
   padding: 0;
   padding-top: 18px !important;
-  width: 100%;
 
   li {
     color: $grey_8 !important;
@@ -37,5 +36,6 @@
     margin-right: 30px;
     font-weight: 400;
     text-transform: uppercase;
+    position: relative;
   }
 }

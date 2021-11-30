@@ -1,6 +1,8 @@
 # path/to/project/root/.eslintignore
 # /node_modules/* and /bower_components/* in the project root are ignored by default
+# Ignore ReactGanttChart library as it is an imported library from external source
 
 # Ignore built files except build/index.js
 build/*
 !build/index.js
+src/components/ReactGanttChart/*
