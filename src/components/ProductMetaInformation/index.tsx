@@ -5,6 +5,10 @@ import styles from './index.module.scss';
 
 /* Components */
 import OnboardingButton from '../OnboardingButton';
+import { Icon } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { fetchSellerDatabase } from '../../actions/SellerResearch/SellerDatabase';
+import { SellerDatabasePayload } from '../../interfaces/SellerResearch/SellerDatabase';
 
 interface PInfo {
   name: string;
@@ -18,6 +22,10 @@ interface Props {
   onboardingYoutubeLink: string;
   selectedIndex: number;
   isNewTutorial: boolean;
+  restoreLastSearchType?: 'Seller Database';
+
+  /* Redux Props */
+  fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
 }
 
 const ProductMetaInformation = (props: Props) => {
@@ -28,9 +36,17 @@ const ProductMetaInformation = (props: Props) => {
     onboardingYoutubeLink,
     onboardingDisplayText,
     isNewTutorial,
+    restoreLastSearchType,
+    fetchSellerDatabase,
   } = props;
 
   const { name, desc } = informationDetails[selectedIndex];
+
+  const restoreLastSearch = () => {
+    if (restoreLastSearchType === 'Seller Database') {
+      fetchSellerDatabase({ restoreLastSearch: true });
+    }
+  };
 
   return (
     <section className={styles.productMetaInformation}>
@@ -38,6 +54,12 @@ const ProductMetaInformation = (props: Props) => {
         {name.toUpperCase()}: <span>{desc}</span>
       </h1>
 
+      {restoreLastSearchType && (
+        <button onClick={restoreLastSearch} className={styles.restoreLastSearchButton}>
+          <Icon name="undo" />
+          Last Search
+        </button>
+      )}
       {showTutorialOnboarding && (
         <OnboardingButton
           displayMessage={onboardingDisplayText}
@@ -49,4 +71,10 @@ const ProductMetaInformation = (props: Props) => {
   );
 };
 
-export default ProductMetaInformation;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchSellerDatabase: (payload: SellerDatabasePayload) => dispatch(fetchSellerDatabase(payload)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ProductMetaInformation);

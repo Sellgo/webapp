@@ -120,6 +120,7 @@ const SellerResearch = (props: Props) => {
           onboardingDisplayText={displayText}
           onboardingYoutubeLink={youtubeLink}
           isNewTutorial={true}
+          restoreLastSearchType="Seller Database"
         />
 
         {/* Filter product selection */}
