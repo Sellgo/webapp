@@ -1,3 +1,8 @@
+/* ========================================================================================== */
+/* ======================  THIS IS IMPORTED FROM AN EXTERNAL LIBRARY ======================== */
+/* ===================== https://github.com/guiqui/react-timeline-gantt ===================== */
+/* ========================================================================================== */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import VerticalSpliter from './components/taskList/VerticalSpliter';
@@ -257,6 +262,7 @@ class TimeLine extends Component {
 
   onSelectItem = item => {
     if (this.props.onSelectItem && item != this.props.selectedItem) this.props.onSelectItem(item);
+    console.log('SElected');
   };
 
   onStartCreateLink = (task, position) => {
@@ -385,6 +391,7 @@ class TimeLine extends Component {
             onTouchCancel={this.doTouchCancel}
             onSelectItem={this.onSelectItem}
             onUpdateTask={this.props.onUpdateTask}
+            onSelectTask={this.props.onSelectTask}
             onTaskChanging={this.onTaskChanging}
             onStartCreateLink={this.onStartCreateLink}
             onFinishCreateLink={this.onFinishCreateLink}

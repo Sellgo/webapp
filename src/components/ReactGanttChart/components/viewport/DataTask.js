@@ -165,7 +165,9 @@ export default class DataTask extends Component {
       };
     }
   }
+
   render() {
+    const lengthOfMainTask = this.props.item.start - this.props.item.end;
     let style = this.calculateStyle();
     return (
       <div
@@ -188,17 +190,31 @@ export default class DataTask extends Component {
             onTouchEnd={e => this.onCreateLinkTouchEnd(e, LINK_POS_LEFT)}
           />
         </div>
-        {this.props.subTasks ? (
-          this.props.subTasks.map((task, id) => (
-            <div key={id} style={{ overflow: 'hidden' }}>
+        <div style={{ display: 'flex' }}>
+          {this.props.subTasks ? (
+            this.props.subTasks.map((task, id) => {
+              const lengthOfSubTask = ((task.start - task.end) / lengthOfMainTask) * 100;
+              return (
+                <div
+                  key={id}
+                  style={{
+                    overflow: 'hidden',
+                    background: task.color,
+                    width: `${lengthOfSubTask}%`,
+                    borderRadius: '7px',
+                  }}
+                >
+                  {task.name}
+                  {this.props.isSelected ? 'BOO!' : ''}
+                </div>
+              );
+            })
+          ) : (
+            <div style={{ overflow: 'hidden' }}>
               {Config.values.dataViewPort.task.showLabel ? this.props.item.name : ''}
             </div>
-          ))
-        ) : (
-          <div style={{ overflow: 'hidden' }}>
-            {Config.values.dataViewPort.task.showLabel ? this.props.item.name : ''}
-          </div>
-        )}
+          )}
+        </div>
         <div
           className="timeLine-main-data-task-side"
           style={{ top: 0, left: style.width - 3, height: style.height }}

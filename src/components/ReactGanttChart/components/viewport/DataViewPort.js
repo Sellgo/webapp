@@ -72,13 +72,14 @@ export class DataViewPort extends Component {
             width={new_width}
             height={this.props.itemheight}
             onChildDrag={this.onChildDrag}
-            isSelected={this.props.selectedItem == item}
+            isSelected={this.props.selectedItem && item && this.props.selectedItem.id == item.id}
             onSelectItem={this.props.onSelectItem}
             onStartCreateLink={this.props.onStartCreateLink}
             onFinishCreateLink={this.props.onFinishCreateLink}
             onTaskChanging={this.props.onTaskChanging}
             onUpdateTask={this.props.onUpdateTask}
             subTasks={item.subTasks}
+            onSelectTask={this.props.onSelectTask}
           >
             {' '}
           </DataTask>
@@ -130,6 +131,7 @@ export class DataViewPort extends Component {
         onTouchMove={this.doTouchMove}
         onTouchEnd={this.props.onTouchEnd}
         onTouchCancel={this.props.onTouchCancel}
+        onSelectTask={this.props.onSelectTask}
       >
         <div
           className="timeLine-main-data-container"
