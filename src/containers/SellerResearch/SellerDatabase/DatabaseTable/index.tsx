@@ -75,6 +75,7 @@ const SellerDatabaseTable = (props: Props) => {
   const handlePageChange = (pageNo: number) => {
     fetchSellerDatabase({
       page: pageNo,
+      marketplaceId: sellerMarketplace.value,
     });
   };
 
