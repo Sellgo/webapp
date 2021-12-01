@@ -102,7 +102,7 @@ const SellerDatabaseFilters = (props: Props) => {
   /* Handlers */
   const handleSubmit = () => {
     const filterPayload = { ...sellerDatabaseFilters };
-    filterPayload.categories = filterPayload.categories.join(',');
+    filterPayload.categories = filterPayload.categories.join('|');
     filterPayload.country = filterPayload.country === 'All Countries' ? '' : filterPayload.country;
     filterPayload.state = filterPayload.state === 'All States' ? '' : filterPayload.state;
 
