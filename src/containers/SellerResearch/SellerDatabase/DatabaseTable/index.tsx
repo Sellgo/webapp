@@ -39,6 +39,9 @@ import SellerInformation from './SellerInformation';
 import SellerActions from './SellerActions';
 import TruncatedTextCell from '../../../../components/NewTable/TruncatedTextCell';
 
+/* Utils */
+import { onMountFixNewTableHeader } from '../../../../utils/newTable';
+
 interface Props {
   isLoadingSellerDatabase: boolean;
   sellerDatabaseResults: [];
@@ -75,6 +78,9 @@ const SellerDatabaseTable = (props: Props) => {
     });
   };
 
+  React.useEffect(() => {
+    onMountFixNewTableHeader();
+  }, []);
   return (
     <>
       <section className={styles.sellerDatbaseTableWrapper}>
@@ -82,7 +88,7 @@ const SellerDatabaseTable = (props: Props) => {
           renderLoading={() =>
             isLoadingSellerDatabase && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
           }
-          data={sellerDatabaseResults}
+          data={!isLoadingSellerDatabase ? sellerDatabaseResults : []}
           autoHeight
           hover={true}
           rowHeight={200}

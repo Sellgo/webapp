@@ -19,6 +19,13 @@ import { UnTrackKeywordTrackerTableProduct } from '../../../../../interfaces/Key
 
 /* Components */
 import TableIcon from '../../../../../components/Icons/TableIcon';
+import VariationModal from '../VariationModal';
+
+/* Constants */
+import { TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY } from '../../../../../constants/KeywordResearch/KeywordTracker';
+
+/* Assets */
+import variationIcon from '../../../../../assets/images/monitor-heart-rate-solid.svg';
 
 interface Props extends RowCell {
   unTrackKeywordTrackerTableProduct: (payload: UnTrackKeywordTrackerTableProduct) => void;
@@ -28,6 +35,7 @@ const ActionsCell = (props: Props) => {
   const { unTrackKeywordTrackerTableProduct, ...otherProps } = props;
 
   const [openPopup, setOpenPopup] = useState(false);
+  const [isVariationsModalOpen, setVariationModalOpen] = React.useState<boolean>(false);
 
   const { rowData, dataKey } = otherProps;
 
@@ -35,7 +43,7 @@ const ActionsCell = (props: Props) => {
 
   const keywordTrackProductId = rowData[dataKey];
 
-  const asin = rowData.asin;
+  const { title, asin, image_url } = rowData;
 
   /* Handle Close Popup */
   const handleClosePopup = () => {
@@ -65,8 +73,22 @@ const ActionsCell = (props: Props) => {
     handleClosePopup();
   };
 
+  const handleTrackVariations = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setVariationModalOpen(true);
+    handleClosePopup();
+  };
   return (
     <Table.Cell {...otherProps}>
+      <VariationModal
+        title={title}
+        asin={asin}
+        image_url={image_url}
+        isModalOpen={isVariationsModalOpen}
+        setModalOpen={setVariationModalOpen}
+        keywordTrackProductId={rowData[TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY]}
+      />
       <div className={styles.actionCellWrapper}>
         <Popup
           className={styles.actionCellPopup}
@@ -87,15 +109,7 @@ const ActionsCell = (props: Props) => {
           open={openPopup}
           content={
             <div className={styles.actionCellContent}>
-              <button disabled={!asin} onClick={handleViewOnAmazon}>
-                <TableIcon name="amazon" className={styles.actionCellIcon} />
-                View on Amazon
-              </button>
-
-              <button onClick={handleUntrackProduct}>
-                <TableIcon name="trash" className={styles.actionCellIcon} />
-                Delete Product
-              </button>
+              <p className={styles.actionHeader}> EXPORT AS </p>
 
               <button
                 disabled={!exportXlsxReport}
@@ -107,6 +121,24 @@ const ActionsCell = (props: Props) => {
               >
                 <TableIcon name="download" className={styles.actionCellIcon} />
                 Export XLSX
+              </button>
+
+              <p className={styles.actionHeader}> ACTIONS </p>
+
+              <button disabled={!asin} onClick={handleViewOnAmazon}>
+                <TableIcon name="amazon" className={styles.actionCellIcon} />
+                View on Amazon
+              </button>
+
+              <button disabled={!asin} onClick={handleTrackVariations}>
+                {/* <TableIcon name="amazon" className={styles.actionCellIcon} /> */}
+                <img src={variationIcon} alt="variation" className={styles.actionCellIcon} />
+                Track Variations
+              </button>
+
+              <button onClick={handleUntrackProduct}>
+                <TableIcon name="trash" className={styles.actionCellIcon} />
+                Delete Product
               </button>
             </div>
           }

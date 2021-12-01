@@ -6,6 +6,15 @@
     border-radius: 0 !important;
     border: 0 !important;
     border-bottom: 1px solid $grey_3 !important;
+    background: $grey_10 !important;
+
+    /* Change position to fixed if scrolls out of sight */
+    &__fixed {
+      position: fixed !important;
+      top: 35px !important;
+      width: 100% !important;
+      z-index: 1 !important;
+    }
 
     // column heder cell
     .rs-table-cell-content {

@@ -106,24 +106,18 @@ const ActionsCell = (props: Props) => {
             closeOnDocumentClick
             content={
               <div className={styles.actionCellContent}>
-                <button onClick={handleSearchOnAmazon} disabled={!phrase}>
-                  <Icon name="amazon" className={styles.actionCellIcon} />
-                  Search On Amazon
-                </button>
-
-                <button onClick={handleUnTrackKeyword}>
-                  <Icon name="trash" className={styles.actionCellIcon} />
-                  Delete Keyword
-                </button>
-
-                <button onClick={handleHistory}>
-                  <Icon name="chart line" className={styles.actionCellIcon} />
-                  History
-                </button>
+                <p className={styles.actionHeader}> EXPORT AS </p>
 
                 <button onClick={handleExport}>
                   <Icon name="download" className={styles.actionCellIcon} />
-                  Export XLSX
+                  XLSX
+                </button>
+
+                <p className={styles.actionHeader}> ACTIONS </p>
+
+                <button onClick={handleHistory}>
+                  <Icon name="chart line" className={styles.actionCellIcon} />
+                  Show Graph
                 </button>
 
                 <button onClick={handleTrackUntrackBoostKeyword}>
@@ -133,6 +127,16 @@ const ActionsCell = (props: Props) => {
                     <KeywordBoostTrackIcon fill={isBoostTracked ? '#FC7900' : '#636d76'} />
                   </div>
                   {isBoostTracked ? 'Boost Off' : 'Boost On'}
+                </button>
+
+                <button onClick={handleSearchOnAmazon} disabled={!phrase}>
+                  <Icon name="amazon" className={styles.actionCellIcon} />
+                  Search On Amazon
+                </button>
+
+                <button onClick={handleUnTrackKeyword}>
+                  <Icon name="trash" className={styles.actionCellIcon} />
+                  Delete Keyword
                 </button>
               </div>
             }

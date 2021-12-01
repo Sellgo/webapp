@@ -12,6 +12,8 @@ import CheckBoxCell from '../../../../components/NewTable/CheckboxCell';
 import HeaderCheckboxCell from '../../../../components/NewTable/HeaderCheckboxCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import TrackerKeywordsExport from './TrackerKeywordsExport';
+import Placeholder from '../../../../components/Placeholder';
+import ChangeStats from './ChangeStats';
 
 /* Containers */
 import Keyword from './Keyword';
@@ -60,6 +62,7 @@ const TrackerKeywordTable = (props: Props) => {
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
   const [checkedRows, setCheckedRows] = useState<any>([]);
+  const [addEditKeywords, setAddEditKeywords] = useState(false);
 
   /* Handle Column Sorting */
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
@@ -159,13 +162,24 @@ const TrackerKeywordTable = (props: Props) => {
       <TrackerKeywordsExport />
 
       {/* Add Edit Keywords Section */}
-      <AddEditKeywords />
+      <AddEditKeywords addEditKeywords={addEditKeywords} setAddEditKeywords={setAddEditKeywords} />
 
       {/* Table Section */}
       <section className={styles.keywordTableWrapper}>
         <Table
-          wordWrap
-          loading={isLoadingTrackerProductKeywordsTable}
+          wordWrap={false}
+          renderLoading={() =>
+            isLoadingTrackerProductKeywordsTable && (
+              <Placeholder numberParagraphs={2} numberRows={3} isGrey />
+            )
+          }
+          renderEmpty={() => (
+            <p className={styles.emptyTableMessage}>
+              No keywords are tracked.
+              <span onClick={() => setAddEditKeywords(true)}> Add keywords </span>
+              for this product
+            </p>
+          )}
           data={trackerProductKeywordsTableResults}
           height={calculateKeywordsTableHeight(
             trackerProductKeywordsTableResults && trackerProductKeywordsTableResults.length
@@ -173,6 +187,7 @@ const TrackerKeywordTable = (props: Props) => {
           shouldUpdateScroll={false}
           hover={false}
           rowHeight={PRODUCT_KEYWORD_ROW_HEIGHT}
+          // rowHeight={30}
           headerHeight={50}
           sortColumn={sortColumn}
           sortType={sortType}
@@ -253,7 +268,7 @@ const TrackerKeywordTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="position_rank" align="center" />
+            <ChangeStats dataKey="position_rank" align="center" />
           </Table.Column>
 
           {/* Relative Rank */}
@@ -266,7 +281,7 @@ const TrackerKeywordTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="relative_rank" align="center" />
+            <ChangeStats dataKey="relative_rank" align="center" />
           </Table.Column>
 
           {/* Average Rank  */}
@@ -279,7 +294,7 @@ const TrackerKeywordTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="average_rank" align="center" />
+            <ChangeStats dataKey="average_rank" align="center" />
           </Table.Column>
 
           {/* Ranking Asins   */}
@@ -292,7 +307,7 @@ const TrackerKeywordTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="ranking_asins" align="center" />
+            <ChangeStats dataKey="ranking_asins" align="center" />
           </Table.Column>
 
           {/* Sponsored Rank  */}
@@ -305,7 +320,7 @@ const TrackerKeywordTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="sponsored_rank" align="center" />
+            <ChangeStats dataKey="sponsored_rank" align="center" />
           </Table.Column>
 
           {/* True Rank Performace Index */}

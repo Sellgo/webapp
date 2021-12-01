@@ -1,0 +1,69 @@
+@import '../../design-system/new-colors';
+
+.pricingPlansCardWrapper {
+  margin-top: 50px;
+  margin-left: 9px;
+  margin-right: 9px;
+  position: relative;
+  background: $prim_white;
+  border-radius: 7px;
+  width: 400px;
+  min-height: 940px;
+  border: 1px solid $second_silver;
+
+  &__new {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+
+  @media only screen and(max-width: 1200px) {
+    margin-top: 30px;
+    min-height: 800px;
+  }
+
+  @media only screen and(max-width: 915px) {
+    &__new {
+      margin-top: 80px;
+    }
+
+    min-height: auto;
+  }
+
+  @media only screen and(max-width: 450px) {
+    min-width: 100%;
+  }
+}
+
+.newFeatureBanner {
+  position: absolute;
+  top: -50px;
+  height: 50px;
+  background: $purple_pink_gradient;
+
+  /* To compensate for the 1px from border */
+  width: calc(100% + 2px);
+  left: -1px;
+  right: 0;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: $fontsize_subtitle_20;
+  font-weight: $fontweight_medium;
+  color: $prim_white;
+  padding: 0 90px;
+}
+
+.pricingPlansCard {
+  width: 100%;
+  padding: 0 30px;
+  padding-top: 20px;
+  height: 100%;
+}
+
+.planType {
+  font-size: $fontsize_content_14;
+  color: $prim_dark_1;
+  font-weight: $fontweight_medium;
+}

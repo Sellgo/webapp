@@ -31,22 +31,24 @@ const FormFilterActions: React.FC<Props> = props => {
 
   return (
     <div className={`${styles.formFilterActions} ${className}`}>
-      {!hideReset && (
-        <ActionButton variant="reset" size="md" onClick={onReset}>
-          {resetLabel}
-        </ActionButton>
-      )}
+      <div className={styles.formSearchAndReset}>
+        {!hideReset && (
+          <ActionButton variant="reset" size="md" onClick={onReset}>
+            {resetLabel}
+          </ActionButton>
+        )}
 
-      <ActionButton
-        variant={withSecondarySubmit ? 'secondary' : 'primary'}
-        type="purpleGradient"
-        disabled={disabled}
-        size="md"
-        onClick={onFind}
-        className={styles.submitButton}
-      >
-        {submitLabel}
-      </ActionButton>
+        <ActionButton
+          variant={withSecondarySubmit ? 'secondary' : 'primary'}
+          type="purpleGradient"
+          disabled={disabled}
+          size="md"
+          onClick={onFind}
+          className={styles.submitButton}
+        >
+          {submitLabel}
+        </ActionButton>
+      </div>
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Icon } from 'semantic-ui-react';
 import PageHeader from '../../../components/PageHeader';
 import styles from './index.module.scss';
 import APIForm from './APIForm';
@@ -11,10 +10,9 @@ import { isFirstTimeLoggedIn } from '../../../utils/subscriptions';
 
 interface Props {
   match: any;
-  history: any;
 }
 const APIConnectivity = (props: Props) => {
-  const { match, history } = props;
+  const { match } = props;
   const firstTimeLoggedIn = isFirstTimeLoggedIn();
 
   return (
@@ -33,23 +31,9 @@ const APIConnectivity = (props: Props) => {
         />
       )}
       <div className={styles.connectivityPageWrapper}>
-        <SettingsNav match={match} history={history} />
+        <SettingsNav match={match} />
         <div>
           <APIForm />
-          <p className={styles.zapierActivationLink}>
-            Since our app is still private Beta, please click on the link below to get invitation
-            access from Zapier:
-            <br />
-            <br />
-            <a
-              href="https://zapier.com/developer/public-invite/146751/5889feee916f178bf8bd80fd3d7d19f9/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              https://zapier.com/developer/public-invite/146751/5889feee916f178bf8bd80fd3d7d19f9/
-              <Icon name="external" className={styles.linkIcon} />
-            </a>
-          </p>
         </div>
       </div>
     </>

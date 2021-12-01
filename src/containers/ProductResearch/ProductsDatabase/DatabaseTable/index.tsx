@@ -31,6 +31,7 @@ import RatingWithCountCell from '../../../../components/NewTable/RatingWithCount
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
+import Placeholder from '../../../../components/Placeholder';
 
 interface Props {
   // States
@@ -79,9 +80,13 @@ const ProductsDatabaseTable = (props: Props) => {
     <>
       <section className={styles.productDatabaseWrapper}>
         <Table
-          loading={isLoadingProductsDatabase}
+          renderLoading={() =>
+            isLoadingProductsDatabase && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
+          }
+          renderEmpty={() => <div />}
           affixHorizontalScrollbar={0}
-          data={productsDatabaseResults}
+          // Dont display old data when loading
+          data={!isLoadingProductsDatabase ? productsDatabaseResults : []}
           hover={true}
           autoHeight
           rowHeight={280}

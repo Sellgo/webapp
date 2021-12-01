@@ -8,6 +8,7 @@ import 'rsuite/dist/styles/rsuite-default.css';
 import './global.scss';
 
 /* Components */
+import Placeholder from '../../../../components/Placeholder';
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import SearchTerm from './SearchTerm';
@@ -33,6 +34,9 @@ import {
   KeywordDatabaseTablePayload,
 } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
 
+/* Utils */
+import { onMountFixNewTableHeader } from '../../../../utils/newTable';
+
 interface Props {
   isLoadingKeywordDatabaseTable: boolean;
   keywordDatabaseTableResults: any;
@@ -50,6 +54,11 @@ const DatabaseTable = (props: Props) => {
 
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
+
+  /* Fix table header */
+  React.useEffect(() => {
+    onMountFixNewTableHeader();
+  }, []);
 
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
@@ -70,8 +79,14 @@ const DatabaseTable = (props: Props) => {
   return (
     <section className={styles.keywordDatabaseTableWrapper}>
       <Table
-        loading={isLoadingKeywordDatabaseTable}
-        data={keywordDatabaseTableResults}
+        renderLoading={() =>
+          isLoadingKeywordDatabaseTable && (
+            <Placeholder numberParagraphs={2} numberRows={3} isGrey />
+          )
+        }
+        renderEmpty={() => <div />}
+        // Dont display old data when loading
+        data={!isLoadingKeywordDatabaseTable ? keywordDatabaseTableResults : []}
         autoHeight
         hover={false}
         rowHeight={50}

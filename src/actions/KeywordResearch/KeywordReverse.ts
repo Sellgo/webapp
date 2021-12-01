@@ -15,6 +15,7 @@ import {
   KeywordReverseProgressData,
   KeywordReverseAsinProduct,
   KeywordReverseProductListPayload,
+  KeywordReverseWordFreqSummary,
 } from '../../interfaces/KeywordResearch/KeywordReverse';
 
 /* Selectors */
@@ -115,6 +116,25 @@ export const setKeywordReverseTableResults = (payload: any) => {
 export const setKeywordReverseTablePaginationInfo = (payload: KeywordReversePaginationInfo) => {
   return {
     type: actionTypes.SET_KEYWORD_REVERSE_TABLE_PAGINATION_INFO,
+    payload,
+  };
+};
+
+/* ============== KEYWORD REVERSE TABLE SUMMARY ================== */
+
+/* Action to set loading state for keyword database word freq summary */
+export const isLoadingKeywordReverseWordFreqSummary = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_LOADING_KEYWORD_REVERSE_WORD_FREQ_SUMMARY,
+    payload,
+  };
+};
+
+/* Action to set  for keyword database word freq summary */
+export const setKeywordReverseWordFreqSummary = (payload: KeywordReverseWordFreqSummary[]) => {
+  sessionStorage.setItem('keywordReverseWordFreqSummary', JSON.stringify(payload));
+  return {
+    type: actionTypes.SET_KEYWORD_REVERSE_WORD_FREQ_SUMMARY,
     payload,
   };
 };
@@ -279,6 +299,7 @@ export const fetchKeywordReverseProgress = () => async (dispatch: any, getState:
       if (isCompleted) {
         dispatch(fetchKeywordReverseProductsList({ enableLoader: true }));
         dispatch(fetchKeywordReverseTableInformation({ enableLoader: true }));
+        dispatch(fetchKeywordReverseWordFreqSummary('desc'));
       }
     }
   } catch (err) {
@@ -335,6 +356,39 @@ export const fetchKeywordReverseProductsList = (
     console.error('Error fetching keyword reverse products list', err);
     dispatch(setKeywordReverseProductsList([]));
     dispatch(isLoadingKeywordReverseProductsList(false));
+  }
+};
+
+/* Action to fetch keyword reverse word freq summary */
+export const fetchKeywordReverseWordFreqSummary = (sortDir: 'asc' | 'desc' = 'desc') => async (
+  dispatch: any,
+  getState: any
+) => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const keywordRequestId = getKeywordReverseRequestId(getState());
+
+    const sorting = `sort_direction=${sortDir}`;
+
+    const resourcePath = `keyword_request_id=${keywordRequestId}&${sorting}`;
+
+    dispatch(isLoadingKeywordReverseWordFreqSummary(true));
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/word-freq?${resourcePath}`;
+
+    const { data } = await axios.get(URL);
+    if (data) {
+      dispatch(setKeywordReverseWordFreqSummary(data));
+      dispatch(isLoadingKeywordReverseWordFreqSummary(false));
+    } else {
+      dispatch(setKeywordReverseWordFreqSummary([]));
+      dispatch(isLoadingKeywordReverseWordFreqSummary(false));
+    }
+  } catch (err) {
+    console.error('Error fetching keyword database word freq summary', err);
+    dispatch(setKeywordReverseWordFreqSummary([]));
+    dispatch(isLoadingKeywordReverseWordFreqSummary(false));
   }
 };
 

@@ -10,15 +10,18 @@ import ReverseFilters from './ReverseFilters';
 import ReverseTable from './ReverseTable';
 import ReverseProgress from './ReverseProgress';
 import ReverseExport from './ReverseExport';
+import ReverseSummary from './ReverseSummary';
 
 /* Selectors */
 import { sellerIDSelector } from '../../../selectors/Seller';
+import { getKeywordReverseRequestId } from '../../../selectors/KeywordResearch/KeywordReverse';
 
 /* Actions */
 import {
   fetchKeywordReverseProductsList,
   fetchKeywordReverseRequestId,
   fetchKeywordReverseTableInformation,
+  fetchKeywordReverseWordFreqSummary,
 } from '../../../actions/KeywordResearch/KeywordReverse';
 
 /* Utils */
@@ -36,16 +39,20 @@ import {
 import ReverseAsinDisplay from './ReverseAsinDisplay';
 
 interface Props {
+  keywordReverseRequestId: string;
   fetchKeywordReverseRequestId: (payload: string) => void;
   fetchKeywordReverseProductsList: (payload: KeywordReverseProductListPayload) => void;
   fetchKeywordReverseTableInformation: (payload: KeywordReverseTablePayload) => void;
+  fetchKeywordReverseWordFreqSummary: (sortDir: 'asc' | 'desc') => void;
 }
 
 const KeywordReverse = (props: Props) => {
   const {
+    keywordReverseRequestId,
     fetchKeywordReverseRequestId,
     fetchKeywordReverseTableInformation,
     fetchKeywordReverseProductsList,
+    fetchKeywordReverseWordFreqSummary,
   } = props;
 
   useEffect(() => {
@@ -83,6 +90,7 @@ const KeywordReverse = (props: Props) => {
         }
         success('Fetching keywords');
         fetchKeywordReverseRequestId(asins);
+        fetchKeywordReverseWordFreqSummary('desc');
         history.replace('/keyword-research/finder');
       }
     } else {
@@ -91,6 +99,7 @@ const KeywordReverse = (props: Props) => {
       if (keywordId) {
         fetchKeywordReverseProductsList({ enableLoader: true });
         fetchKeywordReverseTableInformation({ enableLoader: true });
+        fetchKeywordReverseWordFreqSummary('desc');
         return;
       }
     }
@@ -98,9 +107,10 @@ const KeywordReverse = (props: Props) => {
 
   return (
     <main className={styles.keywordReversePage}>
+      <ReverseAsinDisplay />
+      {keywordReverseRequestId && <ReverseSummary />}
       <ReverseFilters />
       <ReverseProgress />
-      <ReverseAsinDisplay />
       <ReverseExport />
       <ReverseTable />
     </main>
@@ -115,7 +125,14 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(fetchKeywordReverseProductsList(payload)),
     fetchKeywordReverseTableInformation: (payload: KeywordReverseTablePayload) =>
       dispatch(fetchKeywordReverseTableInformation(payload)),
+    fetchKeywordReverseWordFreqSummary: (sortDir: 'asc' | 'desc') =>
+      dispatch(fetchKeywordReverseWordFreqSummary(sortDir)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(KeywordReverse);
+const mapStateToProps = (state: any) => {
+  return {
+    keywordReverseRequestId: getKeywordReverseRequestId(state),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(KeywordReverse);

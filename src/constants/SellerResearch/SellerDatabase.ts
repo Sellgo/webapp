@@ -9,6 +9,7 @@ export const actionTypes = {
   SET_SELLER_DATABASE_PAGINATION_INFO: 'SET_SELLER_DATABASE_PAGINATION_INFO',
   SET_SELLER_DATABASE_MARKETPLACE: 'SET_SELLER_DATABASE_MARKETPLACE',
   SET_SELLER_DATABASE_QUOTA_EXCEEDED: 'SET_SELLER_DATABASE_QUOTA_EXCEEDED',
+  SET_IS_RESTORING_SELLER_DATABASE_LAST_SEARCH: 'SET_IS_RESTORING_SELLER_DATABASE_LAST_SEARCH',
 };
 
 export const INFO_FILTER_MESSAGE = `Enter at least one filter and click 'Find' to get started!`;
@@ -173,6 +174,18 @@ export const DEFAULT_US_MARKET = {
   currency: '$',
 };
 
+export const getMarketplace = (marketplaceId: string) => {
+  const marketplace = SELLER_DB_MARKETPLACE.find((marketplace: any) => {
+    return marketplace.value === marketplaceId;
+  });
+
+  if (marketplace) {
+    return marketplace;
+  } else {
+    return DEFAULT_US_MARKET;
+  }
+};
+
 export const sellerTypeMapper: { [key: string]: string } = {
   private_label: 'Private Label',
   wholesale: 'Wholesale',
@@ -186,4 +199,148 @@ export const prettyPrintSeller = (sellerType: string) => {
   }
 
   return seller;
+};
+
+export const DEFAULT_SELLER_DATABASE_FILTER: any = {
+  categories: [],
+  brands: DEFAULT_INCLUDE_EXCLUDE_FILTER,
+  monthlyRevenue: DEFAULT_MIN_MAX_FILTER,
+  businessName: '',
+  zipCode: '',
+  merchantName: '',
+  asins: DEFAULT_INCLUDE_EXCLUDE_FILTER,
+  sellerIds: DEFAULT_INCLUDE_EXCLUDE_FILTER,
+  country: 'All Countries',
+  state: '',
+  sellerReachability: false,
+  numOfInventory: DEFAULT_MIN_MAX_FILTER,
+  numOfBrands: DEFAULT_MIN_MAX_FILTER,
+  growthPercent: DEFAULT_GROWTH_PERCENT_FILTER,
+  reviewCount: DEFAULT_MIN_MAX_PERIOD_FILTER,
+  fbaPercent: DEFAULT_MIN_MAX_FILTER,
+  review: DEFAULT_MIN_MAX_PERIOD_REVIEW,
+  launched: '',
+  sellerType: '',
+  sellerRatings: DEFAULT_MIN_MAX_FILTER,
+};
+
+export const getMinMaxPeriodFilter = (apiFilterName: string, value: any, isReview?: boolean) => {
+  let filter = {};
+
+  /* Check for filter type, only applicable for review */
+  if (isReview && apiFilterName.includes('positive_')) {
+    filter = {
+      ...filter,
+      type: 'positive',
+    };
+  } else if (isReview && apiFilterName.includes('negative_')) {
+    filter = {
+      ...filter,
+      type: 'negative',
+    };
+  } else if (isReview && apiFilterName.includes('neutral_')) {
+    filter = {
+      ...filter,
+      type: 'neutral',
+    };
+  } else if (isReview) {
+    return null;
+  }
+
+  /* Check for filter period */
+  if (apiFilterName.includes('30_days')) {
+    filter = {
+      ...filter,
+      period: '30_days',
+    };
+  } else if (apiFilterName.includes('90_days')) {
+    filter = {
+      ...filter,
+      period: '90_days',
+    };
+  } else if (apiFilterName.includes('12_month')) {
+    filter = {
+      ...filter,
+      period: '12_month',
+    };
+  } else if (apiFilterName.includes('lifetime')) {
+    filter = {
+      ...filter,
+      period: 'lifetime',
+    };
+  } else {
+    return null;
+  }
+
+  /* Check for filter min/max */
+  if (apiFilterName.includes('_min')) {
+    filter = {
+      ...filter,
+      min: value,
+    };
+  } else if (apiFilterName.includes('_max')) {
+    filter = {
+      ...filter,
+      max: value,
+    };
+  } else {
+    return null;
+  }
+
+  return filter;
+};
+
+export const getGrowthFilter = (apiFilterName: string, value: any) => {
+  let filter = {};
+
+  /* Check for filter type */
+  if (apiFilterName.includes('_min')) {
+    filter = {
+      ...filter,
+      min: value,
+    };
+  } else if (apiFilterName.includes('_max')) {
+    filter = {
+      ...filter,
+      max: value,
+    };
+  } else {
+    return null;
+  }
+
+  /* Check for filter period */
+  if (apiFilterName.includes('growth_month')) {
+    filter = {
+      ...filter,
+      period: 'growth_month',
+    };
+  } else if (apiFilterName.includes('growth_L90D')) {
+    filter = {
+      ...filter,
+      period: 'growth_L90D',
+    };
+  } else if (apiFilterName.includes('growth_L180D')) {
+    filter = {
+      ...filter,
+      period: 'growth_L180D',
+    };
+  } else if (apiFilterName.includes('growth_year')) {
+    filter = {
+      ...filter,
+      period: 'growth_year',
+    };
+  } else if (apiFilterName.includes('growth_month_count')) {
+    filter = {
+      ...filter,
+      period: 'growth_month_count',
+    };
+  } else if (apiFilterName.includes('growth_count_L180D')) {
+    filter = {
+      ...filter,
+      period: 'growth_count_L180D',
+    };
+  } else {
+    return null;
+  }
+  return filter;
 };

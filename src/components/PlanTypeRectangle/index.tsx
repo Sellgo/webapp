@@ -23,8 +23,14 @@ const PlanTypeRectangle = (props: Props) => {
   );
 
   // Removing the word ' Plan' to display
-  const displayPlanText =
-    plan !== 'Wholesale Arbitrage $1 Plan' ? plan.substring(0, plan.length - 5) : 'Wholesale $1';
+  let displayPlanText;
+  if (plan === 'Wholesale Arbitrage $1 Plan') {
+    displayPlanText = '$1 Plan';
+  } else if (plan === 'Wholesale Arbitrage $1.99 Plan') {
+    displayPlanText = '$1.99 Plan';
+  } else {
+    displayPlanText = plan.substring(0, plan.length - 5);
+  }
 
   const sizeClassName = isSmall ? styles.planTypeButton__small : '';
 

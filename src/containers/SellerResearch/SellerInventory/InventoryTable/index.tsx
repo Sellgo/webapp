@@ -63,6 +63,9 @@ import {
   SellerInventoryProductsTablePaginationInfo,
 } from '../../../../interfaces/SellerResearch/SellerInventory';
 
+/* Utils */
+import { onMountFixNewTableHeader } from '../../../../utils/newTable';
+
 interface Props {
   isLoadingSellerInventoryTable: boolean;
   sellerInventoryTableResults: any[];
@@ -105,6 +108,7 @@ const InventoryTable = (props: Props) => {
 
   useEffect(() => {
     fetchSellerInventoryTableResults({});
+    onMountFixNewTableHeader();
   }, []);
 
   /* Handle Page change*/
@@ -202,7 +206,7 @@ const InventoryTable = (props: Props) => {
             <Placeholder numberParagraphs={10} numberRows={5} isGrey />
           )
         }
-        data={filteredSellersByGroup}
+        data={!isLoadingSellerInventoryTable ? filteredSellersByGroup : []}
         autoHeight
         hover={false}
         rowHeight={SELLER_INVENTORY_TABLE_ROW_HEIGHT}

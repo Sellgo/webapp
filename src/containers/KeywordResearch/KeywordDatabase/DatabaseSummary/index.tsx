@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Icon } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -22,7 +21,15 @@ import {
   KeywordDatabaseAggSummary,
   KeywordDatabaseWordFreqSummary,
 } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
-import { fetchKeywordDatabaseWordFreqSummary } from '../../../../actions/KeywordResearch/KeywordDatabase';
+import {
+  fetchKeywordDatabaseWordFreqSummary,
+  fetchKeywordDatabaseAggSummary,
+} from '../../../../actions/KeywordResearch/KeywordDatabase';
+
+/* Utils */
+import { removeSpecialChars } from '../../../../utils/format';
+import { copyToClipboard } from '../../../../utils/file';
+import { success } from '../../../../utils/notifications';
 
 interface Props {
   isLoadingKeywordDatabaseWordFreqSummary: boolean;
@@ -41,9 +48,6 @@ const DatabaseSummary = (props: Props) => {
 
   const [wordFreqSort, setWordFreqSort] = useState<'asc' | 'desc'>('desc');
 
-  const wordFreqAscSorted = wordFreqSort === 'asc';
-  const wordFreqDescSorted = wordFreqSort === 'desc';
-
   const handleWordFreqSort = () => {
     fetchKeywordDatabaseWordFreqSummary(wordFreqSort === 'desc' ? 'asc' : 'desc');
 
@@ -52,10 +56,20 @@ const DatabaseSummary = (props: Props) => {
     });
   };
 
+  /* Copy Keywords */
+  const handleCopyKeywords = (deliminator?: string) => {
+    const keywords = keywordDatabaseWordFreqSummary.map(({ word }) => word);
+    const prepareKeywordsStringCopy = removeSpecialChars(keywords, deliminator);
+    copyToClipboard(prepareKeywordsStringCopy).then(() => {
+      success('Keywords successfully copied');
+    });
+  };
+
   // reset to desc on unmount
   useEffect(() => {
     return () => {
       fetchKeywordDatabaseWordFreqSummary('desc');
+      fetchKeywordDatabaseAggSummary();
       setWordFreqSort('desc');
     };
   }, []);
@@ -64,24 +78,10 @@ const DatabaseSummary = (props: Props) => {
     <section className={styles.databaseSummarySection}>
       {/* Word Analysis */}
       <KeywordDatabaseSummaryCards
-        title="Word Analysis"
-        subTitle={
-          <h3 className={styles.subTitle} onClick={handleWordFreqSort}>
-            Word Frequency
-            <span className={styles.sortIconGroup}>
-              <Icon
-                size="large"
-                name="triangle up"
-                className={wordFreqAscSorted ? styles.activeSort : styles.inActiveSort}
-              />
-              <Icon
-                size="large"
-                name="triangle down"
-                className={wordFreqDescSorted ? styles.activeSort : styles.inActiveSort}
-              />
-            </span>
-          </h3>
-        }
+        title="Word Frequency"
+        sort={wordFreqSort}
+        handleSort={handleWordFreqSort}
+        handleCopy={handleCopyKeywords}
         content={<WordFreqContent data={keywordDatabaseWordFreqSummary} />}
         isLoading={isLoadingKeywordDatabaseWordFreqSummary}
       />
@@ -102,6 +102,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchKeywordDatabaseWordFreqSummary: (sortDir: 'asc' | 'desc') =>
       dispatch(fetchKeywordDatabaseWordFreqSummary(sortDir)),
+    fetchKeywordDatabaseAggSummary: () => dispatch(fetchKeywordDatabaseAggSummary()),
   };
 };
 

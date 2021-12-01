@@ -4,7 +4,7 @@ import React, { memo } from 'react';
 import styles from './index.module.scss';
 
 type Variant = 'primary' | 'secondary' | 'reset';
-type Type = 'orange' | 'blue' | 'purpleGradient' | 'black';
+type Type = 'orange' | 'blue' | 'purpleGradient' | 'black' | 'grey';
 type Size = 'md' | 'small';
 
 interface Props {

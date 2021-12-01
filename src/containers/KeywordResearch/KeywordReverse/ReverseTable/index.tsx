@@ -22,6 +22,7 @@ import { fetchKeywordReverseTableInformation } from '../../../../actions/Keyword
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
 import StatsCell from '../../../../components/NewTable/StatsCell';
+import Placeholder from '../../../../components/Placeholder';
 
 /* Constants */
 import { DEFAULT_PAGES_LIST } from '../../../../constants/KeywordResearch/KeywordReverse';
@@ -35,6 +36,9 @@ import {
   KeywordReversePaginationInfo,
   KeywordReverseTablePayload,
 } from '../../../../interfaces/KeywordResearch/KeywordReverse';
+
+/* Utils */
+import { onMountFixNewTableHeader } from '../../../../utils/newTable';
 
 interface Props {
   isLoadingKeywordReverseTable: boolean;
@@ -57,6 +61,11 @@ const ReverseTable = (props: Props) => {
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
 
+  /* Fix table header */
+  React.useEffect(() => {
+    onMountFixNewTableHeader();
+  }, []);
+
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
     setSortType(sortType);
@@ -72,8 +81,12 @@ const ReverseTable = (props: Props) => {
   return (
     <section className={styles.keywordReverseTableWrapper}>
       <Table
-        loading={isLoadingKeywordReverseTable}
-        data={keywordReverseTableResults}
+        renderLoading={() =>
+          isLoadingKeywordReverseTable && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
+        }
+        renderEmpty={() => <div />}
+        // Dont display old data when loading
+        data={!isLoadingKeywordReverseTable ? keywordReverseTableResults : []}
         autoHeight
         hover={false}
         rowHeight={65}

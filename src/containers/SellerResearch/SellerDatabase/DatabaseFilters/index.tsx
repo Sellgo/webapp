@@ -7,6 +7,7 @@ import styles from './index.module.scss';
 /* Actions */
 import {
   fetchSellerDatabase,
+  setIsRestoringSellerDatabaseLastSearch,
   setSellerDatabaseMarketplace,
 } from '../../../../actions/SellerResearch/SellerDatabase';
 
@@ -18,19 +19,19 @@ import {
 
 /* Constants */
 import {
+  DEFAULT_SELLER_DATABASE_FILTER,
   DEFAULT_INCLUDE_EXCLUDE_ERROR,
-  DEFAULT_INCLUDE_EXCLUDE_FILTER,
-  DEFAULT_MIN_MAX_FILTER,
-  DEFAULT_MIN_MAX_PERIOD_FILTER,
   FILTER_PERIOD_DURATIONS,
   DEFAULT_US_MARKET,
   SELLER_DB_MARKETPLACE,
   FILTER_REVIEW_OPTIONS,
-  DEFAULT_MIN_MAX_PERIOD_REVIEW,
   GROWTH_PERCENT_PERIOD_OPTIONS,
-  DEFAULT_GROWTH_PERCENT_FILTER,
   LAUNCHED_FILTER_OPTIONS,
   SELLER_TYPE_FILTER_OPTIONS,
+  FILTER_QUERY_KEY_MAPPER,
+  getMinMaxPeriodFilter,
+  getGrowthFilter,
+  getMarketplace,
 } from '../../../../constants/SellerResearch/SellerDatabase';
 import { getProductCategories } from '../../../../constants/ProductResearch/ProductsDatabase';
 import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
@@ -53,47 +54,46 @@ import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxD
 import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
 import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
+import { sellerIDSelector } from '../../../../selectors/Seller';
+import { AppConfig } from '../../../../config';
+import axios from 'axios';
+import { F_TYPES } from '../../../../constants/SellerResearch';
 
 interface Props {
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
   setSellerDatabaseMarketplace: (payload: MarketplaceOption) => void;
+  setIsRestoringSellerDatabaseLastSearch: (isRestoringSellerDatabaseLastSearch: boolean) => void;
+  sellerDatabaseIsRestoringLastSearch: boolean;
 }
 
 const SellerDatabaseFilters = (props: Props) => {
-  const { fetchSellerDatabase, setSellerDatabaseMarketplace } = props;
+  const {
+    fetchSellerDatabase,
+    setSellerDatabaseMarketplace,
+    sellerDatabaseIsRestoringLastSearch,
+    setIsRestoringSellerDatabaseLastSearch,
+  } = props;
 
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
-
-  /* Basic Filters */
+  const [sellerDatabaseFilters, setSellerDatabaseFilters] = useState(
+    DEFAULT_SELLER_DATABASE_FILTER
+  );
   const [marketPlace, setMarketPlace] = useState<MarketplaceOption>(DEFAULT_US_MARKET);
-  const [categories, setCategories] = useState<string[]>([]);
-  const [brands, setBrands] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
-  const [monthlyRevenue, setMonthlyRevenue] = useState(DEFAULT_MIN_MAX_FILTER);
 
-  /* Advanced Filters */
-  const [businessName, setBusinessName] = useState<string>('');
-  const [zipCode, setZipCode] = useState<string>('');
-  const [merchantName, setMerchantName] = useState<string>('');
-  const [asins, setAsins] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
-  const [sellerIds, setSellerIds] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
-
-  const [country, setCountry] = useState('All Countries');
-  const [state, setState] = useState('');
-  const [sellerReachability, setSellerReachability] = useState(false);
-
-  const [numOfInventory, setNumOfInventory] = useState(DEFAULT_MIN_MAX_FILTER);
-  const [numOfBrands, setNumOfBrands] = useState(DEFAULT_MIN_MAX_FILTER);
-
-  const [growthPercent, setGrowthPercent] = useState(DEFAULT_GROWTH_PERCENT_FILTER);
-
-  const [reviewCount, setReviewCount] = useState(DEFAULT_MIN_MAX_PERIOD_FILTER);
-  const [fbaPercent, setFbaPercent] = useState(DEFAULT_MIN_MAX_FILTER);
-
-  const [review, setReview] = useState(DEFAULT_MIN_MAX_PERIOD_REVIEW);
-  const [launched, setLaunched] = useState('');
-  const [sellerType, setSellerType] = useState('');
-
-  const [sellerRatings, setSellerRatings] = useState(DEFAULT_MIN_MAX_FILTER);
+  const updateSellerDatabaseFilter = (key: string, value: any) => {
+    if (key === 'country') {
+      setSellerDatabaseFilters({
+        ...sellerDatabaseFilters,
+        [key]: value,
+        state: '',
+      });
+    } else {
+      setSellerDatabaseFilters({
+        ...sellerDatabaseFilters,
+        [key]: value,
+      });
+    }
+  };
 
   /* Error States */
   const [asinsError, setAsinsError] = useState(DEFAULT_INCLUDE_EXCLUDE_ERROR);
@@ -101,76 +101,118 @@ const SellerDatabaseFilters = (props: Props) => {
 
   /* Handlers */
   const handleSubmit = () => {
-    const filterPayload = {
-      categories: categories.join('|'),
-      monthlyRevenue,
-      brands,
-
-      /* Advanced Filters */
-      zipCode,
-      businessName,
-      merchantName,
-      asins,
-      sellerIds,
-
-      country: country === 'All Countries' ? '' : country,
-      state: state === 'All States' ? '' : state,
-      sellerReachability,
-
-      numOfInventory,
-      numOfBrands,
-      growthPercent,
-
-      reviewCount,
-      fbaPercent,
-
-      review,
-      launched,
-      sellerType,
-      sellerRatings,
-    };
+    const filterPayload = { ...sellerDatabaseFilters };
+    filterPayload.categories = filterPayload.categories.join(',');
+    filterPayload.country = filterPayload.country === 'All Countries' ? '' : filterPayload.country;
+    filterPayload.state = filterPayload.state === 'All States' ? '' : filterPayload.state;
 
     fetchSellerDatabase({ filterPayload, marketplaceId: marketPlace.value });
   };
 
   const handleReset = () => {
-    setMarketPlace(DEFAULT_US_MARKET);
     setSellerDatabaseMarketplace(DEFAULT_US_MARKET);
-    setMerchantName('');
-    setCategories([]);
-    setMonthlyRevenue(DEFAULT_MIN_MAX_FILTER);
-
-    /* Advaced Filters */
-    setBusinessName('');
-    setZipCode('');
-    setAsins(DEFAULT_INCLUDE_EXCLUDE_FILTER);
-    setSellerIds(DEFAULT_INCLUDE_EXCLUDE_FILTER);
-    setBrands(DEFAULT_INCLUDE_EXCLUDE_FILTER);
-
-    setNumOfInventory(DEFAULT_MIN_MAX_FILTER);
-    setNumOfBrands(DEFAULT_MIN_MAX_FILTER);
-
-    setGrowthPercent(DEFAULT_GROWTH_PERCENT_FILTER);
-
-    setReviewCount(DEFAULT_MIN_MAX_PERIOD_FILTER);
-    setFbaPercent(DEFAULT_MIN_MAX_FILTER);
-
-    setSellerRatings(DEFAULT_MIN_MAX_FILTER);
-    setReview(DEFAULT_MIN_MAX_PERIOD_REVIEW);
-
-    setCountry('All Countries');
-    setState('');
-
-    setLaunched('');
-    setSellerType('');
-
-    setSellerReachability(false);
-
+    setSellerDatabaseFilters(DEFAULT_SELLER_DATABASE_FILTER);
     /* Reset Error States */
     setAsinsError(DEFAULT_INCLUDE_EXCLUDE_ERROR);
     setSellerIdsError(DEFAULT_INCLUDE_EXCLUDE_ERROR);
 
     fetchSellerDatabase({ resetFilter: true });
+  };
+
+  const handleRestoreLastSearch = async () => {
+    const sellerID = sellerIDSelector();
+    try {
+      const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/last-search?type=seller_database`;
+      const { data } = await axios.get(URL);
+      const restoredSellerDatabaseFilters = { ...sellerDatabaseFilters };
+      if (data && data.length > 0) {
+        const restoredFilter = JSON.parse(data[0].parameter);
+        /* SPECIAL TREATMENT FOR CATEGORIES */
+        if (restoredFilter.categories) {
+          restoredFilter.categories = restoredFilter.categories.split(',');
+          restoredSellerDatabaseFilters.categories = restoredFilter.categories;
+        } else if (restoredFilter.marketplace_id) {
+          setMarketPlace(getMarketplace(restoredFilter.marketplace_id));
+          setSellerDatabaseMarketplace(getMarketplace(restoredFilter.marketplace_id));
+        }
+
+        Object.keys(FILTER_QUERY_KEY_MAPPER).forEach((payloadKey: string) => {
+          const filter = FILTER_QUERY_KEY_MAPPER[payloadKey];
+          /* If MIN_MAX_FILTER */
+          if (filter.type === F_TYPES.MIN_MAX) {
+            if (restoredFilter[`${filter.keyName}_min`]) {
+              restoredSellerDatabaseFilters[payloadKey] = {
+                ...restoredSellerDatabaseFilters[payloadKey],
+                min: restoredFilter[`${filter.keyName}_min`],
+              };
+            }
+
+            if (restoredFilter[`${filter.keyName}_max`]) {
+              restoredSellerDatabaseFilters[payloadKey] = {
+                ...restoredSellerDatabaseFilters[payloadKey],
+                max: restoredFilter[`${filter.keyName}_max`],
+              };
+            }
+            /* IF INPUT_EXCLUDE FILTER */
+          } else if (filter.type === F_TYPES.INPUT_INCLUDE_EXCLUDE) {
+            if (restoredFilter[`include_${filter.keyName}`]) {
+              restoredSellerDatabaseFilters[payloadKey] = {
+                ...restoredSellerDatabaseFilters[payloadKey],
+                include: restoredFilter[`include_${filter.keyName}`],
+              };
+            }
+            if (restoredFilter[`exclude_${filter.keyName}`]) {
+              restoredSellerDatabaseFilters[payloadKey] = {
+                ...restoredSellerDatabaseFilters[payloadKey],
+                exclude: restoredFilter[`exclude_${filter.keyName}`],
+              };
+            }
+            /* IF MIN_MAX_PERIOD_REVIEW FILTER */
+          } else if (filter.type === F_TYPES.MIN_MAX_PERIOD_REVIEW) {
+            Object.keys(restoredFilter).forEach((key: string) => {
+              if (getMinMaxPeriodFilter(key, restoredFilter[key], true)) {
+                restoredSellerDatabaseFilters[payloadKey] = {
+                  ...restoredSellerDatabaseFilters[payloadKey],
+                  ...getMinMaxPeriodFilter(key, restoredFilter[key], true),
+                };
+              }
+            });
+
+            /* IF MIN_MAX_PERIOD FILTER */
+          } else if (filter.type === F_TYPES.MIN_MAX_PERIOD) {
+            Object.keys(restoredFilter).forEach((key: string) => {
+              if (getMinMaxPeriodFilter(key, restoredFilter[key]) && key.includes(filter.keyName)) {
+                restoredSellerDatabaseFilters[payloadKey] = {
+                  ...restoredSellerDatabaseFilters[payloadKey],
+                  ...getMinMaxPeriodFilter(key, restoredFilter[key]),
+                };
+              }
+            });
+
+            /* IF GROWTH FILTER */
+          } else if (
+            filter.type === F_TYPES.GROWTH_PERCENT_FILTER ||
+            filter.type === F_TYPES.GROWTH_COUNT_FILTER
+          ) {
+            Object.keys(restoredFilter).forEach((key: string) => {
+              if (getGrowthFilter(key, restoredFilter[key])) {
+                restoredSellerDatabaseFilters[payloadKey] = {
+                  ...restoredSellerDatabaseFilters[payloadKey],
+                  ...getGrowthFilter(key, restoredFilter[key]),
+                };
+              }
+            });
+            /* IF OTHER TYPES OF FILTER */
+          } else if (restoredFilter[filter.keyName] && filter.keyName !== 'categories') {
+            restoredSellerDatabaseFilters[payloadKey] = restoredFilter[filter.keyName];
+          }
+        });
+
+        setSellerDatabaseFilters(restoredSellerDatabaseFilters);
+      }
+    } catch (err) {
+      handleReset();
+    }
   };
 
   /* Effect on component mount */
@@ -182,13 +224,21 @@ const SellerDatabaseFilters = (props: Props) => {
     };
   }, []);
 
+  /* Effect on restore last search */
+  useEffect(() => {
+    if (sellerDatabaseIsRestoringLastSearch) {
+      handleRestoreLastSearch();
+      setIsRestoringSellerDatabaseLastSearch(false);
+    }
+  }, [sellerDatabaseIsRestoringLastSearch]);
+
   /* Include Asin validation check */
   useEffect(() => {
-    if (asins.include) {
-      const asinList = asins.include.split(',');
+    if (sellerDatabaseFilters.asins.include) {
+      const asinList = sellerDatabaseFilters.asins.include.split(',');
 
       const isValidAsinList = asinList
-        .filter(a => a.trim().length > 0)
+        .filter((a: string) => a.trim().length > 0)
         .every((asin: string) => isValidAsin(asin));
 
       setAsinsError(prevState => ({
@@ -201,15 +251,15 @@ const SellerDatabaseFilters = (props: Props) => {
         include: false,
       }));
     }
-  }, [asins.include]);
+  }, [sellerDatabaseFilters.asins.include]);
 
   /* Exclude Asin validation check */
   useEffect(() => {
-    if (asins.exclude) {
-      const asinList = asins.exclude.split(',');
+    if (sellerDatabaseFilters.asins.exclude) {
+      const asinList = sellerDatabaseFilters.asins.exclude.split(',');
 
       const isValidAsinList = asinList
-        .filter(a => a.trim().length > 0)
+        .filter((a: string) => a.trim().length > 0)
         .every((asin: string) => isValidAsin(asin));
 
       setAsinsError(prevState => ({
@@ -222,12 +272,12 @@ const SellerDatabaseFilters = (props: Props) => {
         exclude: false,
       }));
     }
-  }, [asins.exclude]);
+  }, [sellerDatabaseFilters.asins.exclude]);
 
   /* Include Seller ID validation check */
   useEffect(() => {
-    if (sellerIds.include) {
-      const sellerIdList = sellerIds.include.split(',');
+    if (sellerDatabaseFilters.sellerIds.include) {
+      const sellerIdList = sellerDatabaseFilters.sellerIds.include.split(',');
       const isValidSellerIdsList = sellerIdList.every((sellerid: string) =>
         isValidAmazonSellerId(sellerid)
       );
@@ -241,12 +291,12 @@ const SellerDatabaseFilters = (props: Props) => {
         include: false,
       }));
     }
-  }, [sellerIds.include]);
+  }, [sellerDatabaseFilters.sellerIds.include]);
 
   /* Include Seller ID validation check */
   useEffect(() => {
-    if (sellerIds.exclude) {
-      const sellerIdList = sellerIds.exclude.split(',');
+    if (sellerDatabaseFilters.sellerIds.exclude) {
+      const sellerIdList = sellerDatabaseFilters.sellerIds.exclude.split(',');
       const isVliadSellerIdsList = sellerIdList.every((sellerid: string) =>
         isValidAmazonSellerId(sellerid)
       );
@@ -260,7 +310,7 @@ const SellerDatabaseFilters = (props: Props) => {
         exclude: false,
       }));
     }
-  }, [sellerIds.exclude]);
+  }, [sellerDatabaseFilters.sellerIds.exclude]);
 
   /* Overall form submit diable condition */
   const disableFormSubmit = useMemo(() => {
@@ -283,7 +333,7 @@ const SellerDatabaseFilters = (props: Props) => {
               setMarketPlace(option);
               setSellerDatabaseMarketplace(option);
               if (getProductCategories(option.code) !== getProductCategories(marketPlace.code)) {
-                setCategories([]);
+                updateSellerDatabaseFilter('categories', []);
               }
             }}
           />
@@ -292,9 +342,9 @@ const SellerDatabaseFilters = (props: Props) => {
           <CheckboxDropdownFilter
             filterOptions={getProductCategories(marketPlace.code)}
             label="Categories"
-            selectedValues={categories}
+            selectedValues={sellerDatabaseFilters.categories}
             handleChange={(newCategories: string[]) => {
-              setCategories([...newCategories]);
+              updateSellerDatabaseFilter('categories', [...newCategories]);
             }}
           />
 
@@ -302,25 +352,25 @@ const SellerDatabaseFilters = (props: Props) => {
           <InputFilter
             label="Include Brands"
             placeholder="Enter separated by comma"
-            value={brands.include}
+            value={sellerDatabaseFilters.brands.include}
             handleChange={(value: string) =>
-              setBrands(prevState => ({
-                ...prevState,
+              updateSellerDatabaseFilter('brands', {
+                ...sellerDatabaseFilters.brands,
                 include: value,
-              }))
+              })
             }
           />
 
           {/* Monthly Revenue = Sales Estimate */}
           <MinMaxFilter
             label="Monthly Revenue"
-            minValue={monthlyRevenue.min}
-            maxValue={monthlyRevenue.max}
+            minValue={sellerDatabaseFilters.monthlyRevenue.min}
+            maxValue={sellerDatabaseFilters.monthlyRevenue.max}
             handleChange={(type: string, value: string) =>
-              setMonthlyRevenue(prevState => ({
-                ...prevState,
+              updateSellerDatabaseFilter('monthlyRevenue', {
+                ...sellerDatabaseFilters.monthlyRevenue,
                 [type]: value,
-              }))
+              })
             }
             prependWith={marketPlace.currency}
           />
@@ -337,36 +387,36 @@ const SellerDatabaseFilters = (props: Props) => {
               <InputFilter
                 label="Merchant Name"
                 placeholder="Merchant Name"
-                value={merchantName}
-                handleChange={(value: string) => setMerchantName(value)}
+                value={sellerDatabaseFilters.merchantName}
+                handleChange={(value: string) => updateSellerDatabaseFilter('merchantName', value)}
               />
 
               {/* Business name */}
               <InputFilter
                 label="Business Name"
                 placeholder="Business Name"
-                value={businessName}
-                handleChange={(value: string) => setBusinessName(value)}
+                value={sellerDatabaseFilters.businessName}
+                handleChange={(value: string) => updateSellerDatabaseFilter('businessName', value)}
               />
 
               {/* Merchant Name */}
               <InputFilter
                 label="Zip Code"
                 placeholder="Zip Code"
-                value={zipCode}
-                handleChange={(value: string) => setZipCode(value)}
+                value={sellerDatabaseFilters.zipCode}
+                handleChange={(value: string) => updateSellerDatabaseFilter('zipCode', value)}
               />
 
               {/* Exclude brands */}
               <InputFilter
                 label="Exclude Brands"
                 placeholder="Enter separated by comma"
-                value={brands.exclude}
+                value={sellerDatabaseFilters.brands.exclude}
                 handleChange={(value: string) =>
-                  setBrands(prevState => ({
-                    ...prevState,
+                  updateSellerDatabaseFilter('brands', {
+                    ...sellerDatabaseFilters.brands,
                     exclude: value,
-                  }))
+                  })
                 }
               />
 
@@ -374,12 +424,12 @@ const SellerDatabaseFilters = (props: Props) => {
               <InputFilter
                 label="Include ASINs or ISBNs"
                 placeholder="Enter separated by comma"
-                value={asins.include.toUpperCase()}
+                value={sellerDatabaseFilters.asins.include.toUpperCase()}
                 handleChange={(value: string) =>
-                  setAsins(prevState => ({
-                    ...prevState,
+                  updateSellerDatabaseFilter('asins', {
+                    ...sellerDatabaseFilters.asins,
                     include: value,
-                  }))
+                  })
                 }
                 error={asinsError.include}
               />
@@ -388,12 +438,12 @@ const SellerDatabaseFilters = (props: Props) => {
               <InputFilter
                 label="Exclude ASINs or ISBNs"
                 placeholder="Enter separated by comma"
-                value={asins.exclude.toUpperCase()}
+                value={sellerDatabaseFilters.asins.exclude.toUpperCase()}
                 handleChange={(value: string) =>
-                  setAsins(prevState => ({
-                    ...prevState,
+                  updateSellerDatabaseFilter('asins', {
+                    ...sellerDatabaseFilters.asins,
                     exclude: value,
-                  }))
+                  })
                 }
                 error={asinsError.exclude}
               />
@@ -402,12 +452,12 @@ const SellerDatabaseFilters = (props: Props) => {
               <InputFilter
                 label="Include Seller IDs"
                 placeholder="Enter separated by comma"
-                value={sellerIds.include.toUpperCase()}
+                value={sellerDatabaseFilters.sellerIds.include.toUpperCase()}
                 handleChange={(value: string) =>
-                  setSellerIds(prevState => ({
-                    ...prevState,
+                  updateSellerDatabaseFilter('sellerIds', {
+                    ...sellerDatabaseFilters.sellerIds,
                     include: value,
-                  }))
+                  })
                 }
                 error={sellerIdsError.include}
               />
@@ -416,12 +466,12 @@ const SellerDatabaseFilters = (props: Props) => {
               <InputFilter
                 label="Exclude Seller IDs"
                 placeholder="Enter separated by comma"
-                value={sellerIds.exclude.toUpperCase()}
+                value={sellerDatabaseFilters.sellerIds.exclude.toUpperCase()}
                 handleChange={(value: string) =>
-                  setSellerIds(prevState => ({
-                    ...prevState,
+                  updateSellerDatabaseFilter('sellerIds', {
+                    ...sellerDatabaseFilters.sellerIds,
                     exclude: value,
-                  }))
+                  })
                 }
                 error={sellerIdsError.exclude}
               />
@@ -431,10 +481,9 @@ const SellerDatabaseFilters = (props: Props) => {
                 label="Seller Country"
                 placeholder="Country"
                 filterOptions={COUNTRY_DROPDOWN_LIST}
-                value={country}
+                value={sellerDatabaseFilters.country}
                 handleChange={(value: string) => {
-                  setCountry(value);
-                  setState('');
+                  updateSellerDatabaseFilter('country', value);
                 }}
               />
 
@@ -443,42 +492,42 @@ const SellerDatabaseFilters = (props: Props) => {
                 label="U.S. States"
                 placeholder="All States"
                 filterOptions={STATES_DROPDOWN_LIST}
-                value={state}
-                handleChange={(value: string) => setState(value)}
-                disabled={country !== 'US'}
+                value={sellerDatabaseFilters.state}
+                handleChange={(value: string) => updateSellerDatabaseFilter('state', value)}
+                disabled={sellerDatabaseFilters.country !== 'US'}
               />
 
               {/* Seller Reachability */}
               <CheckboxFilter
                 label="Seller Reachability"
                 checkboxLabel="Sellers with Phone"
-                checked={sellerReachability}
-                handleChange={value => setSellerReachability(value)}
+                checked={sellerDatabaseFilters.sellerReachability}
+                handleChange={value => updateSellerDatabaseFilter('sellerReachability', value)}
               />
 
               {/* # of Inventory */}
               <MinMaxFilter
                 label="# of Inventory"
-                minValue={numOfInventory.min}
-                maxValue={numOfInventory.max}
+                minValue={sellerDatabaseFilters.numOfInventory.min}
+                maxValue={sellerDatabaseFilters.numOfInventory.max}
                 handleChange={(type: string, value: string) =>
-                  setNumOfInventory(prevState => ({
-                    ...prevState,
+                  updateSellerDatabaseFilter('numOfInventory', {
+                    ...sellerDatabaseFilters.numOfInventory,
                     [type]: value,
-                  }))
+                  })
                 }
               />
 
               {/* # of Brands */}
               <MinMaxFilter
                 label="# of Brands"
-                minValue={numOfBrands.min}
-                maxValue={numOfBrands.max}
+                minValue={sellerDatabaseFilters.numOfBrands.min}
+                maxValue={sellerDatabaseFilters.numOfBrands.max}
                 handleChange={(type: string, value: string) =>
-                  setNumOfBrands(prevState => ({
-                    ...prevState,
+                  updateSellerDatabaseFilter('numOfBrands', {
+                    ...sellerDatabaseFilters.numOfBrands,
                     [type]: value,
-                  }))
+                  })
                 }
               />
 
@@ -486,13 +535,13 @@ const SellerDatabaseFilters = (props: Props) => {
               <div className={styles.groupFilters}>
                 <MinMaxFilter
                   label="Growth %"
-                  minValue={growthPercent.min}
-                  maxValue={growthPercent.max}
+                  minValue={sellerDatabaseFilters.growthPercent.min}
+                  maxValue={sellerDatabaseFilters.growthPercent.max}
                   handleChange={(type: string, value: string) =>
-                    setGrowthPercent(prevState => ({
-                      ...prevState,
+                    updateSellerDatabaseFilter('growthPercent', {
+                      ...sellerDatabaseFilters.growthPercent,
                       [type]: value,
-                    }))
+                    })
                   }
                   appendWith="%"
                 />
@@ -501,13 +550,13 @@ const SellerDatabaseFilters = (props: Props) => {
                   placeholder="30D"
                   label="Period"
                   className={styles.filterPeriod}
-                  value={growthPercent.period}
+                  value={sellerDatabaseFilters.growthPercent.period}
                   filterOptions={GROWTH_PERCENT_PERIOD_OPTIONS}
                   handleChange={(period: string) => {
-                    setGrowthPercent(prevState => ({
-                      ...prevState,
+                    updateSellerDatabaseFilter('growthPercent', {
+                      ...sellerDatabaseFilters.growthPercent,
                       period,
-                    }));
+                    });
                   }}
                 />
               </div>
@@ -516,26 +565,26 @@ const SellerDatabaseFilters = (props: Props) => {
               <div className={styles.groupFilters}>
                 <MinMaxFilter
                   label="Review Count"
-                  minValue={reviewCount.min}
-                  maxValue={reviewCount.max}
+                  minValue={sellerDatabaseFilters.reviewCount.min}
+                  maxValue={sellerDatabaseFilters.reviewCount.max}
                   handleChange={(type: string, value: string) =>
-                    setReviewCount(prevState => ({
-                      ...prevState,
+                    updateSellerDatabaseFilter('reviewCount', {
+                      ...sellerDatabaseFilters.reviewCount,
                       [type]: value,
-                    }))
+                    })
                   }
                 />
                 <PeriodFilter
                   placeholder="30D"
                   label="Period"
-                  value={reviewCount.period}
+                  value={sellerDatabaseFilters.reviewCount.period}
                   className={styles.filterPeriod}
                   filterOptions={FILTER_PERIOD_DURATIONS}
                   handleChange={(period: string) => {
-                    setReviewCount(prevState => ({
-                      ...prevState,
+                    updateSellerDatabaseFilter('reviewCount', {
+                      ...sellerDatabaseFilters.reviewCount,
                       period,
-                    }));
+                    });
                   }}
                 />
               </div>
@@ -543,13 +592,13 @@ const SellerDatabaseFilters = (props: Props) => {
               {/* FBA Percent */}
               <MinMaxFilter
                 label="FBA %"
-                minValue={fbaPercent.min}
-                maxValue={fbaPercent.max}
+                minValue={sellerDatabaseFilters.fbaPercent.min}
+                maxValue={sellerDatabaseFilters.fbaPercent.max}
                 handleChange={(type: string, value: string) =>
-                  setFbaPercent(prevState => ({
-                    ...prevState,
+                  updateSellerDatabaseFilter('fbaPercent', {
+                    ...sellerDatabaseFilters.fbaPercent,
                     [type]: value,
-                  }))
+                  })
                 }
                 appendWith="%"
               />
@@ -560,35 +609,35 @@ const SellerDatabaseFilters = (props: Props) => {
                   placeholder="Positive"
                   label="Review"
                   filterOptions={FILTER_REVIEW_OPTIONS}
-                  value={review.type}
+                  value={sellerDatabaseFilters.review.type}
                   handleChange={(type: string) => {
-                    setReview(prevState => ({
-                      ...prevState,
+                    updateSellerDatabaseFilter('review', {
+                      ...sellerDatabaseFilters.review,
                       type,
-                    }));
+                    });
                   }}
                 />
                 <div className={styles.groupFilters}>
                   <MinMaxFilter
                     label=""
-                    minValue={review.min}
-                    maxValue={review.max}
+                    minValue={sellerDatabaseFilters.review.min}
+                    maxValue={sellerDatabaseFilters.review.max}
                     handleChange={(type: string, value: string) =>
-                      setReview(prevState => ({
-                        ...prevState,
+                      updateSellerDatabaseFilter('review', {
+                        ...sellerDatabaseFilters.review,
                         [type]: value,
-                      }))
+                      })
                     }
                   />
                   <PeriodFilter
                     placeholder="30D"
-                    value={review.period}
+                    value={sellerDatabaseFilters.review.period}
                     filterOptions={FILTER_PERIOD_DURATIONS}
                     handleChange={(period: string) => {
-                      setReview(prevState => ({
-                        ...prevState,
+                      updateSellerDatabaseFilter('review', {
+                        ...sellerDatabaseFilters.review,
                         period,
-                      }));
+                      });
                     }}
                   />
                 </div>
@@ -598,28 +647,28 @@ const SellerDatabaseFilters = (props: Props) => {
               <RadioListFilters
                 filterOptions={LAUNCHED_FILTER_OPTIONS}
                 label="Seller Launched"
-                value={launched}
-                handleChange={(value: string) => setLaunched(value)}
+                value={sellerDatabaseFilters.launched}
+                handleChange={(value: string) => updateSellerDatabaseFilter('launched', value)}
               />
 
               {/* Seller Type FIlter */}
               <RadioListFilters
                 label="Seller Type"
                 filterOptions={SELLER_TYPE_FILTER_OPTIONS}
-                value={sellerType}
-                handleChange={(value: string) => setSellerType(value)}
+                value={sellerDatabaseFilters.sellerType}
+                handleChange={(value: string) => updateSellerDatabaseFilter('sellerType', value)}
               />
 
               {/* Seller Ratings */}
               <MinMaxRatingsFilter
                 label="Seller Ratings"
-                minValue={sellerRatings.min}
-                maxValue={sellerRatings.max}
+                minValue={sellerDatabaseFilters.sellerRatings.min}
+                maxValue={sellerDatabaseFilters.sellerRatings.max}
                 handleChange={(type: string, value: string) =>
-                  setSellerRatings(prevState => ({
-                    ...prevState,
+                  updateSellerDatabaseFilter('sellerRatings', {
+                    ...sellerDatabaseFilters.sellerRatings,
                     [type]: value,
-                  }))
+                  })
                 }
               />
             </div>
@@ -635,12 +684,20 @@ const SellerDatabaseFilters = (props: Props) => {
   );
 };
 
+const mapStateToProps = (state: any) => {
+  return {
+    sellerDatabaseIsRestoringLastSearch: state.sellerDatabase.sellerDatabaseIsRestoringLastSearch,
+  };
+};
+
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    setIsRestoringSellerDatabaseLastSearch: (isRestoringSellerDatabaseLastSearch: boolean) =>
+      dispatch(setIsRestoringSellerDatabaseLastSearch(isRestoringSellerDatabaseLastSearch)),
     fetchSellerDatabase: (payload: SellerDatabasePayload) => dispatch(fetchSellerDatabase(payload)),
     setSellerDatabaseMarketplace: (payload: MarketplaceOption) =>
       dispatch(setSellerDatabaseMarketplace(payload)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(SellerDatabaseFilters);
+export default connect(mapStateToProps, mapDispatchToProps)(SellerDatabaseFilters);

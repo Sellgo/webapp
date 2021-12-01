@@ -15,12 +15,15 @@ import { parseKpiLists, prettyPrintNumber, removeSpecialChars } from '../../../.
 import { copyToClipboard } from '../../../../../utils/file';
 import { success } from '../../../../../utils/notifications';
 
-/*Actions */
+/* Actions */
 import { trackMerchantFromDatabase } from '../../../../../actions/SellerResearch/SellerDatabase';
 
 /* Utils */
 import history from '../../../../../history';
 import { timeout } from '../../../../../utils/timeout';
+
+/* Assets */
+import { ReactComponent as SellerFinderIcon } from '../../../../../assets/images/sellerFinder.svg';
 
 interface Props extends RowCell {
   trackMerchantFromDatabase: (payload: string) => void;
@@ -90,6 +93,12 @@ const SellerActions = (props: Props) => {
                     <button onClick={() => handleCopyAsins('\n')} disabled={!parsedAsinList.length}>
                       <Icon name="copy outline" />
                       <span>Copy ASINs in columns</span>
+                    </button>
+
+                    <p>INVENTORY</p>
+                    <button onClick={() => handleSellerTrack(false)}>
+                      <SellerFinderIcon />
+                      <span>Check more inventory</span>
                     </button>
                   </div>
                 </>

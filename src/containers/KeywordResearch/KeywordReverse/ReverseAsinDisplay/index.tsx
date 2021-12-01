@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { v4 as uuid } from 'uuid';
-import { Modal, Popup } from 'semantic-ui-react';
+import { Modal } from 'semantic-ui-react';
 /* Styling */
 import styles from './index.module.scss';
 
@@ -16,6 +15,7 @@ import {
 import {
   fetchKeywordReverseRequestId,
   resetKeywordReverse,
+  fetchKeywordReverseWordFreqSummary,
 } from '../../../../actions/KeywordResearch/KeywordReverse';
 
 /* Interfaces */
@@ -37,6 +37,7 @@ interface Props {
   shouldFetchKeywordReverseProgress: boolean;
   keywordReverseProductsList: KeywordReverseAsinProduct[];
   fetchKeywordReverseRequestId: (payload: string) => void;
+  fetchKeywordReverseWordFreqSummary: (sortDir: 'asc' | 'desc') => void;
   resetKeywordReverse: () => void;
 }
 
@@ -50,10 +51,6 @@ const ReverseAsinDisplay = (props: Props) => {
   } = props;
 
   const [showAddBulkAsin, setShowAddBulkAsin] = useState(false);
-  const [asinReferenceChange, setAsinReferenceChange] = useState({
-    show: false,
-    asin: '',
-  });
 
   // Handle a product removal
   const removeProduct = async (asinToRemove: string) => {
@@ -84,25 +81,14 @@ const ReverseAsinDisplay = (props: Props) => {
   };
 
   // Handle Confirm Reference
-  const handleAsinReferenceChange = (e: any) => {
-    e.preventDefault();
-
-    if (!asinReferenceChange.asin && !asinReferenceChange.show) {
-      return;
-    }
-
+  const handleAsinReferenceChange = (asin: string) => {
     const allAsins = keywordReverseProductsList && keywordReverseProductsList.map(a => a.asin);
-    const filteredSelectedAsin = allAsins.filter(a => a !== asinReferenceChange.asin);
+    const filteredSelectedAsin = allAsins.filter(a => a !== asin);
 
-    const newAsinList = [asinReferenceChange.asin, ...filteredSelectedAsin];
+    const newAsinList = [asin, ...filteredSelectedAsin];
 
     // restart the process for the ASIN with newly assigned references
     fetchKeywordReverseRequestId(newAsinList.join(','));
-
-    setAsinReferenceChange({
-      show: false,
-      asin: '',
-    });
   };
 
   // Disabling logic for the adding new asin
@@ -143,38 +129,18 @@ const ReverseAsinDisplay = (props: Props) => {
           {keywordReverseProductsList &&
             keywordReverseProductsList.map((keywordProduct, index: number) => {
               return (
-                <Popup
-                  key={uuid()}
-                  on="click"
-                  className={styles.changeAsinReferencePopup}
-                  open={
-                    asinReferenceChange.show && asinReferenceChange.asin === keywordProduct.asin
+                <ReverseAsinCard
+                  key={index}
+                  data={keywordProduct}
+                  isLoading={
+                    isLoadingKeywordReverseProductsList || shouldFetchKeywordReverseProgress
                   }
-                  pinned
-                  position="bottom center"
-                  onClose={() => setAsinReferenceChange({ show: false, asin: '' })}
-                  // Popup trigger is asin card
-                  trigger={
-                    <ReverseAsinCard
-                      data={keywordProduct}
-                      isLoading={
-                        isLoadingKeywordReverseProductsList || shouldFetchKeywordReverseProgress
-                      }
-                      handleRemoveProduct={removeProduct}
-                      handleCardClick={(asin: string) => {
-                        setAsinReferenceChange({
-                          asin,
-                          show: true,
-                        });
-                      }}
-                      isActive={index === 0}
-                    />
-                  }
-                  content={
-                    <div className={styles.changeAsinMessage}>
-                      <button onClick={handleAsinReferenceChange}>Set as reference</button>
-                    </div>
-                  }
+                  handleRemoveProduct={removeProduct}
+                  handleCardClick={(asin: string) => {
+                    handleAsinReferenceChange(asin);
+                  }}
+                  isActive={index === 0}
+                  index={index}
                 />
               );
             })}
@@ -214,6 +180,8 @@ const mapDispatchToProps = (dispatch: any) => {
     fetchKeywordReverseRequestId: (payload: string) =>
       dispatch(fetchKeywordReverseRequestId(payload)),
     resetKeywordReverse: () => dispatch(resetKeywordReverse()),
+    fetchKeywordReverseWordFreqSummary: (sortDir: 'asc' | 'desc') =>
+      dispatch(fetchKeywordReverseWordFreqSummary(sortDir)),
   };
 };
 

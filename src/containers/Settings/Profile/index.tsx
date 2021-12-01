@@ -39,11 +39,10 @@ interface Props {
   getSeller: () => void;
   match: any;
   profile: any;
-  history: any;
 }
 
 const Profile = (props: Props) => {
-  const { match, getSeller, profile, history } = props;
+  const { match, getSeller, profile } = props;
 
   // Password states
   const [isFocusPW, setFocusPassword] = useState<boolean>(false);
@@ -169,7 +168,7 @@ const Profile = (props: Props) => {
       />
 
       <main className={styles.profilePageWrapper}>
-        <SettingsNav match={match} history={history} />
+        <SettingsNav match={match} />
         <div className={styles.profilePage}>
           <BoxHeader className={styles.profileBox}>Profile</BoxHeader>
           <BoxContainer className={styles.profileBox}>

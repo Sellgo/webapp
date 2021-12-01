@@ -26,6 +26,7 @@ import {
   CreditCard,
   SubscriptionPlanType,
 } from '../../../interfaces/Settings/billing';
+import { SellerSubscription } from '../../../interfaces/Seller';
 
 import {
   DEFAULT_CREDIT_CARD,
@@ -35,13 +36,13 @@ import {
 
 interface Props {
   fetchSellerSubscription: () => void;
+  sellerSubscription: SellerSubscription;
   subscriptionPlan: SubscriptionPlanType;
   match: any;
-  history: any;
 }
 
 const Billing = (props: Props) => {
-  const { match, fetchSellerSubscription, subscriptionPlan, history } = props;
+  const { match, fetchSellerSubscription, subscriptionPlan, sellerSubscription } = props;
 
   const [hasActivePlan, setHasActivePlan] = React.useState<boolean>(true);
   const [hasPaymentMethod, setHasPaymentMethod] = React.useState<boolean>(true);
@@ -151,9 +152,10 @@ const Billing = (props: Props) => {
       />
 
       <main className={styles.billingPageWrapper}>
-        <SettingsNav match={match} history={history} />
+        <SettingsNav match={match} />
         <div className={styles.billingPage}>
           <QuotaAndPaymentsSection
+            sellerSubscription={sellerSubscription}
             subscriptionPlan={subscriptionPlan}
             subscriptionDetails={subscriptionStripeInfo}
             quotas={quotas}
@@ -179,6 +181,7 @@ const Billing = (props: Props) => {
 
 const mapStateToProps = (state: any) => ({
   subscriptionPlan: state.subscription.plan,
+  sellerSubscription: state.subscription.sellerSubscription,
 });
 
 const mapDispatchToProps = {
