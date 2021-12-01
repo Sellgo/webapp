@@ -19,6 +19,7 @@ const INITIAL_STATE = {
   },
   sellerMarketplace: {},
   sellerDatabaseQuotaExceeded: false,
+  sellerDatabaseIsRestoringLastSearch: false,
 };
 
 const sellerDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
@@ -33,6 +34,10 @@ const sellerDatabaseReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_SELLER_DATABASE_QUOTA_EXCEEDED: {
       return setIn(state, 'sellerDatabaseQuotaExceeded', action.payload);
+    }
+
+    case actionTypes.SET_IS_RESTORING_SELLER_DATABASE_LAST_SEARCH: {
+      return setIn(state, 'sellerDatabaseIsRestoringLastSearch', action.payload);
     }
 
     case actionTypes.SHOW_FILTER_MESSAGE: {

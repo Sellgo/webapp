@@ -7,6 +7,7 @@ import styles from './index.module.scss';
 /* Actions */
 import {
   fetchSellerDatabase,
+  setIsRestoringSellerDatabaseLastSearch,
   setSellerDatabaseMarketplace,
 } from '../../../../actions/SellerResearch/SellerDatabase';
 
@@ -61,10 +62,17 @@ import { F_TYPES } from '../../../../constants/SellerResearch';
 interface Props {
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
   setSellerDatabaseMarketplace: (payload: MarketplaceOption) => void;
+  setIsRestoringSellerDatabaseLastSearch: (isRestoringSellerDatabaseLastSearch: boolean) => void;
+  sellerDatabaseIsRestoringLastSearch: boolean;
 }
 
 const SellerDatabaseFilters = (props: Props) => {
-  const { fetchSellerDatabase, setSellerDatabaseMarketplace } = props;
+  const {
+    fetchSellerDatabase,
+    setSellerDatabaseMarketplace,
+    sellerDatabaseIsRestoringLastSearch,
+    setIsRestoringSellerDatabaseLastSearch,
+  } = props;
 
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
   const [sellerDatabaseFilters, setSellerDatabaseFilters] = useState(
@@ -112,7 +120,6 @@ const SellerDatabaseFilters = (props: Props) => {
   };
 
   const handleRestoreLastSearch = async () => {
-    fetchSellerDatabase({ restoreLastSearch: true });
     const sellerID = sellerIDSelector();
     try {
       const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/last-search?type=seller_database`;
@@ -216,6 +223,14 @@ const SellerDatabaseFilters = (props: Props) => {
       handleReset();
     };
   }, []);
+
+  /* Effect on restore last search */
+  useEffect(() => {
+    if (sellerDatabaseIsRestoringLastSearch) {
+      handleRestoreLastSearch();
+      setIsRestoringSellerDatabaseLastSearch(false);
+    }
+  }, [sellerDatabaseIsRestoringLastSearch]);
 
   /* Include Asin validation check */
   useEffect(() => {
@@ -663,19 +678,26 @@ const SellerDatabaseFilters = (props: Props) => {
           onFind={handleSubmit}
           onReset={handleReset}
           disabled={disableFormSubmit}
-          onRestoreLastSearch={handleRestoreLastSearch}
         />
       </section>
     </>
   );
 };
 
+const mapStateToProps = (state: any) => {
+  return {
+    sellerDatabaseIsRestoringLastSearch: state.sellerDatabase.sellerDatabaseIsRestoringLastSearch,
+  };
+};
+
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    setIsRestoringSellerDatabaseLastSearch: (isRestoringSellerDatabaseLastSearch: boolean) =>
+      dispatch(setIsRestoringSellerDatabaseLastSearch(isRestoringSellerDatabaseLastSearch)),
     fetchSellerDatabase: (payload: SellerDatabasePayload) => dispatch(fetchSellerDatabase(payload)),
     setSellerDatabaseMarketplace: (payload: MarketplaceOption) =>
       dispatch(setSellerDatabaseMarketplace(payload)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(SellerDatabaseFilters);
+export default connect(mapStateToProps, mapDispatchToProps)(SellerDatabaseFilters);
