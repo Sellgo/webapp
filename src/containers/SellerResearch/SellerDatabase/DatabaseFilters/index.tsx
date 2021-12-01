@@ -102,7 +102,7 @@ const SellerDatabaseFilters = (props: Props) => {
   /* Handlers */
   const handleSubmit = () => {
     const filterPayload = { ...sellerDatabaseFilters };
-    filterPayload.categories = filterPayload.categories.join(',');
+    filterPayload.categories = filterPayload.categories.join('|');
     filterPayload.country = filterPayload.country === 'All Countries' ? '' : filterPayload.country;
     filterPayload.state = filterPayload.state === 'All States' ? '' : filterPayload.state;
 
@@ -127,11 +127,14 @@ const SellerDatabaseFilters = (props: Props) => {
       const restoredSellerDatabaseFilters = { ...sellerDatabaseFilters };
       if (data && data.length > 0) {
         const restoredFilter = JSON.parse(data[0].parameter);
-        /* SPECIAL TREATMENT FOR CATEGORIES */
+        /* Special treatment to set categories */
         if (restoredFilter.categories) {
-          restoredFilter.categories = restoredFilter.categories.split(',');
+          restoredFilter.categories = restoredFilter.categories.split('|');
           restoredSellerDatabaseFilters.categories = restoredFilter.categories;
-        } else if (restoredFilter.marketplace_id) {
+        }
+
+        /* Special treatment to set marketplace */
+        if (restoredFilter.marketplace_id) {
           setMarketPlace(getMarketplace(restoredFilter.marketplace_id));
           setSellerDatabaseMarketplace(getMarketplace(restoredFilter.marketplace_id));
         }
