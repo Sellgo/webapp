@@ -28,6 +28,14 @@ export const getKeywordReverseAsinList = (state: any) => {
   return get(stateChunk, 'asinListForKeywordReverse');
 };
 
+/* Selector to get referenced asin index for keyword reverse */
+export const getReferencedAsinIndex = (state: any) => {
+  const sessionTabId = makeOrGetUniqueTabID();
+
+  const stateChunk = get(state, `keywordReverse[${sessionTabId}]`);
+  return get(stateChunk, 'referencedAsinId');
+};
+
 /* =================== KEYWORD REVERSE PRODUCTS  =============== */
 
 /* Selector to get fetching state for product list*/

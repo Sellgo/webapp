@@ -6,9 +6,11 @@ import styles from './index.module.scss';
 
 /* Selectors */
 import {
+  getIsFetchingKeywordReverseRequestId,
   getIsLoadingKeywordReverseProductsList,
   getKeywordReverseAsinList,
   getKeywordReverseProductsList,
+  getReferencedAsinIndex,
   getShouldFetchKeywordReverseProgress,
 } from '../../../../selectors/KeywordResearch/KeywordReverse';
 
@@ -17,6 +19,7 @@ import {
   fetchKeywordReverseRequestId,
   resetKeywordReverse,
   fetchKeywordReverseWordFreqSummary,
+  setReferencedAsinIndex,
 } from '../../../../actions/KeywordResearch/KeywordReverse';
 
 /* Interfaces */
@@ -36,8 +39,11 @@ import { timeout } from '../../../../utils/timeout';
 interface Props {
   isLoadingKeywordReverseProductsList: boolean;
   shouldFetchKeywordReverseProgress: boolean;
+  isFetchingKeywordReverseRequestId: boolean;
   keywordReverseProductsList: KeywordReverseAsinProduct[];
   asinListForKeywordReverse: string;
+  referencedAsinIndex: number;
+  setReferencedAsinIndex: (index: number) => void;
   fetchKeywordReverseRequestId: (payload: string) => void;
   fetchKeywordReverseWordFreqSummary: (sortDir: 'asc' | 'desc') => void;
   resetKeywordReverse: () => void;
@@ -48,6 +54,9 @@ const ReverseAsinDisplay = (props: Props) => {
     keywordReverseProductsList,
     asinListForKeywordReverse,
     isLoadingKeywordReverseProductsList,
+    isFetchingKeywordReverseRequestId,
+    referencedAsinIndex,
+    setReferencedAsinIndex,
     shouldFetchKeywordReverseProgress,
     fetchKeywordReverseRequestId,
     resetKeywordReverse,
@@ -83,23 +92,36 @@ const ReverseAsinDisplay = (props: Props) => {
     setShowAddBulkAsin(false);
   };
 
+  const displayKeywordReverseProductsList = [...keywordReverseProductsList];
+  console.log(displayKeywordReverseProductsList, 'display');
+  console.log(keywordReverseProductsList, 'original');
+  if (keywordReverseProductsList.length > 0) {
+    // Move first item in arr to specified index
+    const referencedAsin = displayKeywordReverseProductsList.splice(0, 1)[0];
+    displayKeywordReverseProductsList.splice(referencedAsinIndex, 0, referencedAsin);
+  }
+
   // Handle Confirm Reference
-  const handleAsinReferenceChange = (asin: string) => {
-    const allAsins = keywordReverseProductsList && keywordReverseProductsList.map(a => a.asin);
+  const handleAsinReferenceChange = (asin: string, index: number) => {
+    const allAsins =
+      displayKeywordReverseProductsList && displayKeywordReverseProductsList.map(a => a.asin);
     const filteredSelectedAsin = allAsins.filter(a => a !== asin);
 
     const newAsinList = [asin, ...filteredSelectedAsin];
 
     // restart the process for the ASIN with newly assigned references
     fetchKeywordReverseRequestId(newAsinList.join(','));
+    setReferencedAsinIndex(index);
   };
 
   // Disabling logic for the adding new asin
   const currentProductAsins = keywordReverseProductsList.map(a => a.asin).join(',');
   const totalProducts = keywordReverseProductsList.length;
   const disableAddAsinCard = totalProducts >= MAX_ASINS_ALLOWED;
-
-  console.log(asinListForKeywordReverse);
+  const isLoading =
+    isLoadingKeywordReverseProductsList ||
+    shouldFetchKeywordReverseProgress ||
+    isFetchingKeywordReverseRequestId;
   return (
     <section className={styles.reverseAsinDisplay}>
       {totalProducts > 0 ? (
@@ -130,8 +152,8 @@ const ReverseAsinDisplay = (props: Props) => {
 
         {/* Show the ASIN reverse card list */}
         <div className={styles.overflowWrapper}>
-          {!isLoadingKeywordReverseProductsList && !shouldFetchKeywordReverseProgress
-            ? keywordReverseProductsList.map((keywordProduct, index: number) => {
+          {!isLoading
+            ? displayKeywordReverseProductsList.map((keywordProduct, index: number) => {
                 return (
                   <ReverseAsinCard
                     key={index}
@@ -139,9 +161,9 @@ const ReverseAsinDisplay = (props: Props) => {
                     isLoading={false}
                     handleRemoveProduct={removeProduct}
                     handleCardClick={(asin: string) => {
-                      handleAsinReferenceChange(asin);
+                      handleAsinReferenceChange(asin, index);
                     }}
-                    isActive={index === 0}
+                    isActive={index === referencedAsinIndex}
                     index={index}
                   />
                 );
@@ -163,9 +185,9 @@ const ReverseAsinDisplay = (props: Props) => {
                     isLoading={true}
                     handleRemoveProduct={removeProduct}
                     handleCardClick={(asin: string) => {
-                      handleAsinReferenceChange(asin);
+                      handleAsinReferenceChange(asin, index);
                     }}
-                    isActive={index === 0}
+                    isActive={index === referencedAsinIndex}
                     index={index}
                   />
                 );
@@ -201,6 +223,8 @@ const mapStateToProps = (state: any) => {
     keywordReverseProductsList: getKeywordReverseProductsList(state),
     shouldFetchKeywordReverseProgress: getShouldFetchKeywordReverseProgress(state),
     asinListForKeywordReverse: getKeywordReverseAsinList(state),
+    referencedAsinIndex: getReferencedAsinIndex(state),
+    isFetchingKeywordReverseRequestId: getIsFetchingKeywordReverseRequestId(state),
   };
 };
 
@@ -211,6 +235,7 @@ const mapDispatchToProps = (dispatch: any) => {
     resetKeywordReverse: () => dispatch(resetKeywordReverse()),
     fetchKeywordReverseWordFreqSummary: (sortDir: 'asc' | 'desc') =>
       dispatch(fetchKeywordReverseWordFreqSummary(sortDir)),
+    setReferencedAsinIndex: (payload: number) => dispatch(setReferencedAsinIndex(payload)),
   };
 };
 
