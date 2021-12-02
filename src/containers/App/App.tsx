@@ -180,7 +180,7 @@ const PrivateRoute = connect(
           return (
             <>
               <AdminLayout {...props}>
-                {(isPaymentPending || true) && (
+                {isPaymentPending && (
                   <FailedPaymentsBanner paymentMode={sellerSubscription.payment_mode} />
                 )}
                 <Component {...props} />
