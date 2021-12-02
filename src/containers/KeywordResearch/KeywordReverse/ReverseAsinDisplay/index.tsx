@@ -7,6 +7,7 @@ import styles from './index.module.scss';
 /* Selectors */
 import {
   getIsLoadingKeywordReverseProductsList,
+  getKeywordReverseAsinList,
   getKeywordReverseProductsList,
   getShouldFetchKeywordReverseProgress,
 } from '../../../../selectors/KeywordResearch/KeywordReverse';
@@ -36,6 +37,7 @@ interface Props {
   isLoadingKeywordReverseProductsList: boolean;
   shouldFetchKeywordReverseProgress: boolean;
   keywordReverseProductsList: KeywordReverseAsinProduct[];
+  asinListForKeywordReverse: string;
   fetchKeywordReverseRequestId: (payload: string) => void;
   fetchKeywordReverseWordFreqSummary: (sortDir: 'asc' | 'desc') => void;
   resetKeywordReverse: () => void;
@@ -44,6 +46,7 @@ interface Props {
 const ReverseAsinDisplay = (props: Props) => {
   const {
     keywordReverseProductsList,
+    asinListForKeywordReverse,
     isLoadingKeywordReverseProductsList,
     shouldFetchKeywordReverseProgress,
     fetchKeywordReverseRequestId,
@@ -96,6 +99,7 @@ const ReverseAsinDisplay = (props: Props) => {
   const totalProducts = keywordReverseProductsList.length;
   const disableAddAsinCard = totalProducts >= MAX_ASINS_ALLOWED;
 
+  console.log(asinListForKeywordReverse);
   return (
     <section className={styles.reverseAsinDisplay}>
       {totalProducts > 0 ? (
@@ -126,24 +130,48 @@ const ReverseAsinDisplay = (props: Props) => {
 
         {/* Show the ASIN reverse card list */}
         <div className={styles.overflowWrapper}>
-          {keywordReverseProductsList &&
-            keywordReverseProductsList.map((keywordProduct, index: number) => {
-              return (
-                <ReverseAsinCard
-                  key={index}
-                  data={keywordProduct}
-                  isLoading={
-                    isLoadingKeywordReverseProductsList || shouldFetchKeywordReverseProgress
-                  }
-                  handleRemoveProduct={removeProduct}
-                  handleCardClick={(asin: string) => {
-                    handleAsinReferenceChange(asin);
-                  }}
-                  isActive={index === 0}
-                  index={index}
-                />
-              );
-            })}
+          {!isLoadingKeywordReverseProductsList && !shouldFetchKeywordReverseProgress
+            ? keywordReverseProductsList.map((keywordProduct, index: number) => {
+                return (
+                  <ReverseAsinCard
+                    key={index}
+                    data={keywordProduct}
+                    isLoading={false}
+                    handleRemoveProduct={removeProduct}
+                    handleCardClick={(asin: string) => {
+                      handleAsinReferenceChange(asin);
+                    }}
+                    isActive={index === 0}
+                    index={index}
+                  />
+                );
+              })
+            : asinListForKeywordReverse &&
+              asinListForKeywordReverse.split(',').map((asin, index: number) => {
+                return (
+                  <ReverseAsinCard
+                    key={index}
+                    data={{
+                      id: index,
+                      asin,
+                      title: '',
+                      rank: 0,
+                      sales_monthly: 0,
+                      image_url: '',
+                      position: 0,
+                    }}
+                    isLoading={true}
+                    handleRemoveProduct={removeProduct}
+                    handleCardClick={(asin: string) => {
+                      handleAsinReferenceChange(asin);
+                    }}
+                    isActive={index === 0}
+                    index={index}
+                  />
+                );
+              })
+          // <h1>loading</h1>)
+          }
         </div>
       </div>
 
@@ -172,6 +200,7 @@ const mapStateToProps = (state: any) => {
     isLoadingKeywordReverseProductsList: getIsLoadingKeywordReverseProductsList(state),
     keywordReverseProductsList: getKeywordReverseProductsList(state),
     shouldFetchKeywordReverseProgress: getShouldFetchKeywordReverseProgress(state),
+    asinListForKeywordReverse: getKeywordReverseAsinList(state),
   };
 };
 

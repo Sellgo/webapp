@@ -204,6 +204,7 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (
   getState: any
 ) => {
   try {
+    dispatch(isFetchingKeywordReverseRequestId(true));
     const sellerID = sellerIDSelector();
 
     const payload = {
@@ -228,8 +229,6 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (
       `${AppConfig.BASE_URL_API}sellers/${sellerID}/keywords/request`,
       payload
     );
-
-    dispatch(isFetchingKeywordReverseRequestId(true));
 
     if (data) {
       const { keyword_request_id: keywordRequestId } = data;

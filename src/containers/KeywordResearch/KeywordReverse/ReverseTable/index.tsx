@@ -9,10 +9,12 @@ import './global.scss';
 
 /* Selectors */
 import {
+  getIsFetchingKeywordReverseRequestId,
   getIsLoadingKeywordReverseTable,
   getKeywordReverseProductsList,
   getKeywordReverseTablePaginationInfo,
   getKeywordReverseTableResults,
+  getShouldFetchKeywordReverseProgress,
 } from '../../../../selectors/KeywordResearch/KeywordReverse';
 
 /* Actions */
@@ -42,6 +44,8 @@ import { onMountFixNewTableHeader } from '../../../../utils/newTable';
 
 interface Props {
   isLoadingKeywordReverseTable: boolean;
+  isFetchingKeywordReverseRequestId: boolean;
+  shouldFetchKeywordReverseProgress: boolean;
   keywordReverseTableResults: any[];
   keywordReverseTablePaginationInfo: KeywordReversePaginationInfo;
   keywordReverseProductsList: KeywordReverseAsinProduct[];
@@ -52,6 +56,8 @@ interface Props {
 const ReverseTable = (props: Props) => {
   const {
     isLoadingKeywordReverseTable,
+    isFetchingKeywordReverseRequestId,
+    shouldFetchKeywordReverseProgress,
     keywordReverseTableResults,
     keywordReverseTablePaginationInfo,
     keywordReverseProductsList,
@@ -77,16 +83,19 @@ const ReverseTable = (props: Props) => {
   };
 
   const singleAsinOnReverse = keywordReverseProductsList && keywordReverseProductsList.length === 1;
-
+  const isLoading =
+    isLoadingKeywordReverseTable ||
+    isFetchingKeywordReverseRequestId ||
+    shouldFetchKeywordReverseProgress;
   return (
     <section className={styles.keywordReverseTableWrapper}>
       <Table
         renderLoading={() =>
-          isLoadingKeywordReverseTable && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
+          isLoading && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
         }
         renderEmpty={() => <div />}
         // Dont display old data when loading
-        data={!isLoadingKeywordReverseTable ? keywordReverseTableResults : []}
+        data={!isLoading ? keywordReverseTableResults : []}
         autoHeight
         hover={false}
         rowHeight={65}
@@ -353,6 +362,8 @@ const ReverseTable = (props: Props) => {
 const mapStateToProps = (state: any) => {
   return {
     isLoadingKeywordReverseTable: getIsLoadingKeywordReverseTable(state),
+    isFetchingKeywordReverseRequestId: getIsFetchingKeywordReverseRequestId(state),
+    shouldFetchKeywordReverseProgress: getShouldFetchKeywordReverseProgress(state),
     keywordReverseTableResults: getKeywordReverseTableResults(state),
     keywordReverseTablePaginationInfo: getKeywordReverseTablePaginationInfo(state),
     keywordReverseProductsList: getKeywordReverseProductsList(state),
