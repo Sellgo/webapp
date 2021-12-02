@@ -93,8 +93,6 @@ const ReverseAsinDisplay = (props: Props) => {
   };
 
   const displayKeywordReverseProductsList = [...keywordReverseProductsList];
-  console.log(displayKeywordReverseProductsList, 'display');
-  console.log(keywordReverseProductsList, 'original');
   if (keywordReverseProductsList.length > 0) {
     // Move first item in arr to specified index
     const referencedAsin = displayKeywordReverseProductsList.splice(0, 1)[0];
