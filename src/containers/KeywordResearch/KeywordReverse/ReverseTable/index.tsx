@@ -21,6 +21,7 @@ import {
 import { fetchKeywordReverseTableInformation } from '../../../../actions/KeywordResearch/KeywordReverse';
 
 /* Components */
+import CopySponsoredAsins from './CopySponsoredAsins';
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
 import StatsCell from '../../../../components/NewTable/StatsCell';
@@ -142,7 +143,7 @@ const ReverseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="sponsored_asins" align="left" />
+          <CopySponsoredAsins dataKey="sponsored_asins" />
         </Table.Column>
 
         {/* Sponsored Rank */}
