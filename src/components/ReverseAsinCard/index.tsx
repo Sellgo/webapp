@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { Icon } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -22,9 +23,10 @@ import { KeywordReverseAsinProduct } from '../../interfaces/KeywordResearch/Keyw
 import crossIcon from '../../assets/images/removeCross.svg';
 import placeholderImage from '../../assets/images/placeholderImage.svg';
 import { ReactComponent as BullseyeIcon } from '../../assets/images/bullseye-arrow-regular.svg';
+
+/* Utils */
 import { sellerIDSelector } from '../../selectors/Seller';
 import { AppConfig } from '../../config';
-import { Icon } from 'semantic-ui-react';
 
 interface Props {
   isLoading: boolean;
