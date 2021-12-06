@@ -57,6 +57,15 @@ export const setAsinListForKeywordReverse = (payload: string) => {
   };
 };
 
+/* Action to set referenced index for keyword reverse */
+export const setReferencedAsinIndex = (payload: number) => {
+  sessionStorage.setItem('referencedAsinId', payload.toString());
+  return {
+    type: actionTypes.SET_REFERENCED_ASIN_ID,
+    payload,
+  };
+};
+
 /* ============== KEYWORD REVERSE PRODUCTS LIST ================== */
 
 /* Action to set loading state for keyword reverse asin products */
@@ -204,6 +213,7 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (
   getState: any
 ) => {
   try {
+    dispatch(isFetchingKeywordReverseRequestId(true));
     const sellerID = sellerIDSelector();
 
     const payload = {
@@ -229,15 +239,12 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (
       payload
     );
 
-    dispatch(isFetchingKeywordReverseRequestId(true));
-
     if (data) {
       const { keyword_request_id: keywordRequestId } = data;
       // set keyword request id
       dispatch(setKeywordReverseRequestId(keywordRequestId));
       // set the asin list for future use
       dispatch(setAsinListForKeywordReverse(asinList));
-      dispatch(isFetchingKeywordReverseRequestId(false));
 
       // wait to 0.5 seconds
       await timeout(500);
@@ -252,6 +259,7 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (
           report_xlsx_url: '',
         })
       );
+      dispatch(isFetchingKeywordReverseRequestId(false));
       dispatch(shouldFetchKeywordReverseProgress(true));
     } else {
       dispatch(setKeywordReverseRequestId(''));

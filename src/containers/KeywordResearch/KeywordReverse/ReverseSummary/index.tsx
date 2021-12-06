@@ -12,6 +12,7 @@ import WordFreqContent from './WordFreqContent/WordFreqContent';
 import {
   getIsLoadingKeywordReverseWordFreqSummary,
   getKeywordReverseWordFreqSummary,
+  getShouldFetchKeywordReverseProgress,
 } from '../../../../selectors/KeywordResearch/KeywordReverse';
 
 /* Interfaces */
@@ -25,6 +26,7 @@ import { success } from '../../../../utils/notifications';
 
 interface Props {
   isLoadingKeywordReverseWordFreqSummary: boolean;
+  shouldFetchKeywordReverseProgress: boolean;
   keywordReverseWordFreqSummary: KeywordReverseWordFreqSummary[];
   fetchKeywordReverseWordFreqSummary: (sortDir: 'asc' | 'desc') => void;
 }
@@ -32,6 +34,7 @@ interface Props {
 const ReverseSummary = (props: Props) => {
   const {
     isLoadingKeywordReverseWordFreqSummary,
+    shouldFetchKeywordReverseProgress,
     keywordReverseWordFreqSummary,
     fetchKeywordReverseWordFreqSummary,
   } = props;
@@ -72,7 +75,7 @@ const ReverseSummary = (props: Props) => {
         handleSort={handleWordFreqSort}
         handleCopy={handleCopyKeywords}
         content={<WordFreqContent data={keywordReverseWordFreqSummary} />}
-        isLoading={isLoadingKeywordReverseWordFreqSummary}
+        isLoading={isLoadingKeywordReverseWordFreqSummary || shouldFetchKeywordReverseProgress}
       />
     </section>
   );
@@ -81,6 +84,7 @@ const ReverseSummary = (props: Props) => {
 const mapStateToProps = (state: any) => {
   return {
     isLoadingKeywordReverseWordFreqSummary: getIsLoadingKeywordReverseWordFreqSummary(state),
+    shouldFetchKeywordReverseProgress: getShouldFetchKeywordReverseProgress(state),
     keywordReverseWordFreqSummary: getKeywordReverseWordFreqSummary(state),
   };
 };

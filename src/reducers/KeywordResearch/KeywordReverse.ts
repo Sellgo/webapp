@@ -9,6 +9,7 @@ import { makeOrGetUniqueTabID } from '../../utils/session';
 const INITIAL_STATE: { [key: string]: any } = {
   [makeOrGetUniqueTabID()]: {
     // keyword request id state
+    referencedAsinId: 0,
     isFetchingKeywordReverseRequestId: false,
     keywordReverseRequestId: sessionStorage.getItem('keywordReverseRequestId') || '',
     asinListForKeywordReverse: sessionStorage.getItem('keywordReverseAsinList') || '',
@@ -86,6 +87,15 @@ const keywordReverseReducer = (state = INITIAL_STATE, action: AnyAction) => {
       };
     }
 
+    case actionTypes.SET_REFERENCED_ASIN_ID: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          referencedAsinId: action.payload,
+        },
+      };
+    }
     /* ================= KEYWORD PRODUCTS =============== */
     case actionTypes.IS_LOADING_KEYWORD_REVERSE_PRODUCTS_LIST: {
       return {
