@@ -189,9 +189,7 @@ const ReverseAsinDisplay = (props: Props) => {
                     index={index}
                   />
                 );
-              })
-          // <h1>loading</h1>)
-          }
+              })}
         </div>
       </div>
 
