@@ -179,6 +179,7 @@ const ReverseAsinDisplay = (props: Props) => {
                       sales_monthly: 0,
                       image_url: '',
                       position: 0,
+                      keywords_count: 0,
                     }}
                     isLoading={true}
                     handleRemoveProduct={removeProduct}

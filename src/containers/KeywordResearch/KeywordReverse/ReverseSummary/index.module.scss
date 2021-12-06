@@ -3,9 +3,7 @@
 .databaseSummarySection {
   margin: 30px 0;
   margin-bottom: 0 !important;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-column-gap: 40px;
+  display: flex;
 }
 
 /* Generic Icon Circle Classes */

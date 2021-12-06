@@ -24,6 +24,17 @@ const INITIAL_STATE: { [key: string]: any } = {
       sessionStorage.getItem('keywordReverseWordFreqSummary') || '[]'
     ),
 
+    isLoadingKeywordReverseAggSummary: false,
+    keywordReverseAggSummary: JSON.parse(
+      sessionStorage.getItem('keywordReverseAggSummary') ||
+        JSON.stringify({
+          total_keywords: 0,
+          total_search_volume: 0,
+          avg_competing_products: 0,
+          avg_search_volume: 0,
+        })
+    ),
+
     // keyword request progress state
     shouldFetchKeywordReverseProgress: false,
     keywordReverseProgressData: JSON.parse(
@@ -155,6 +166,26 @@ const keywordReverseReducer = (state = INITIAL_STATE, action: AnyAction) => {
         [sessionTab]: {
           ...sessionStateChunk,
           keywordReverseWordFreqSummary: action.payload,
+        },
+      };
+    }
+
+    case actionTypes.IS_LOADING_KEYWORD_REVERSE_AGG_SUMMARY: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          isLoadingKeywordReverseAggSummary: action.payload,
+        },
+      };
+    }
+
+    case actionTypes.SET_KEYWORD_REVERSE_AGG_SUMMARY: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          keywordReverseAggSummary: action.payload,
         },
       };
     }
