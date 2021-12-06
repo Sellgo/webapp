@@ -60,6 +60,7 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   imageCount: { keyName: 'image_count', type: F_TYPES.MIN_MAX },
   variationCount: { keyName: 'variation_count', type: F_TYPES.MIN_MAX },
   fulfillment: { keyName: 'fulfillment', type: F_TYPES.CHECK_BOX },
+  asin: { keyName: 'asin', type: F_TYPES.TEXT },
 };
 
 export const PRODUCTS_DATABASE_SIZE_TIERS = [

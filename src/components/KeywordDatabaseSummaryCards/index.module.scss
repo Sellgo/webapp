@@ -13,12 +13,15 @@
 .summaryCards {
   width: 100%;
   max-width: 400px;
+  margin-right: 40px;
 }
 
 .summaryHeader {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  height: 30px;
+  margin-bottom: 18px;
 }
 
 .summaryCardTitle {
@@ -27,7 +30,6 @@
   font-weight: $fontweight_semibold;
   text-transform: uppercase;
   line-height: 1;
-  margin-bottom: 18px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -48,7 +50,7 @@
 
 .mainContent {
   min-height: 200px;
-  max-height: 270px;
+  height: 270px;
   overflow-y: auto !important;
   padding: 0 12px;
 

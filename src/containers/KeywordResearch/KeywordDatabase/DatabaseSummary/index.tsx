@@ -14,6 +14,7 @@ import {
   getIsLoadingKeywordDatabaseWordFreqSummary,
   getKeywordDatabaseAggSummary,
   getKeywordDatabaseWordFreqSummary,
+  getShouldFetchkeywordDatabaseProgress,
 } from '../../../../selectors/KeywordResearch/KeywordDatabase';
 
 /* Interfaces */
@@ -30,8 +31,10 @@ import {
 import { removeSpecialChars } from '../../../../utils/format';
 import { copyToClipboard } from '../../../../utils/file';
 import { success } from '../../../../utils/notifications';
+import KeywordDistribution from './KeywordDistribution';
 
 interface Props {
+  shouldFetchKeywordDatabaseProgressState: boolean;
   isLoadingKeywordDatabaseWordFreqSummary: boolean;
   keywordDatabaseWordFreqSummary: KeywordDatabaseWordFreqSummary[];
   isLoadingKeywordDatabaseAggSummary: boolean;
@@ -41,8 +44,11 @@ interface Props {
 
 const DatabaseSummary = (props: Props) => {
   const {
+    shouldFetchKeywordDatabaseProgressState,
     isLoadingKeywordDatabaseWordFreqSummary,
+    isLoadingKeywordDatabaseAggSummary,
     keywordDatabaseWordFreqSummary,
+    keywordDatabaseAggSummary,
     fetchKeywordDatabaseWordFreqSummary,
   } = props;
 
@@ -83,7 +89,15 @@ const DatabaseSummary = (props: Props) => {
         handleSort={handleWordFreqSort}
         handleCopy={handleCopyKeywords}
         content={<WordFreqContent data={keywordDatabaseWordFreqSummary} />}
-        isLoading={isLoadingKeywordDatabaseWordFreqSummary}
+        isLoading={
+          isLoadingKeywordDatabaseWordFreqSummary || shouldFetchKeywordDatabaseProgressState
+        }
+      />
+
+      <KeywordDatabaseSummaryCards
+        title="Quick Summary"
+        content={<KeywordDistribution data={keywordDatabaseAggSummary} />}
+        isLoading={isLoadingKeywordDatabaseAggSummary || shouldFetchKeywordDatabaseProgressState}
       />
     </section>
   );
@@ -91,6 +105,7 @@ const DatabaseSummary = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
   return {
+    shouldFetchKeywordDatabaseProgressState: getShouldFetchkeywordDatabaseProgress(state),
     isLoadingKeywordDatabaseWordFreqSummary: getIsLoadingKeywordDatabaseWordFreqSummary(state),
     keywordDatabaseWordFreqSummary: getKeywordDatabaseWordFreqSummary(state),
     isLoadingKeywordDatabaseAggSummary: getIsLoadingKeywordDatabaseAggSummary(state),
