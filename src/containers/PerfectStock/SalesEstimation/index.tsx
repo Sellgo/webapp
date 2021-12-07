@@ -4,12 +4,16 @@ import React from 'react';
 /* Styles */
 // import styles from './index.module.scss';
 
+import SalesEstimationMeta from './SalesEstimationMeta';
+import SalesEstimationTable from './SalesEstimationTable';
+
 // interface Props {}
 
 const SalesEstimation = () => {
   return (
     <main>
-      <h1> ORDER PLANNING </h1>
+      <SalesEstimationMeta />
+      <SalesEstimationTable />
     </main>
   );
 };

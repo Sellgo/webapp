@@ -36,12 +36,14 @@ interface Props {
   userOnboarding: boolean;
   userOnboardingResources: any[];
   disableSort?: boolean;
+  alignMiddle?: boolean;
 }
 
 const HeaderSortCell = (props: Props) => {
   const {
     title,
     dataKey,
+    alignMiddle,
     currentSortColumn,
     currentSortType,
     userOnboarding,
@@ -74,11 +76,17 @@ const HeaderSortCell = (props: Props) => {
           : styles.hideTooltipPopup
       }
       trigger={
-        <div className={styles.headerCell}>
+        <div
+          className={`
+          ${styles.headerCell}
+          ${alignMiddle ? styles.headerCell__alignMiddle : ''}
+        `}
+        >
           <p
             className={`
               ${styles.headerText} 
               ${disableSort ? styles.headerText__disabled : ''}
+              ${alignMiddle ? styles.headerText__alignMiddle : ''}
             `}
             style={isCurrentlySorted ? sortedStyles : defaultStyles}
           >

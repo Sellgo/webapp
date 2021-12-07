@@ -130,7 +130,7 @@ const ProductResearch: React.FC<Props> = props => {
               <Tab>
                 <ProductLabel
                   label="Catalogue Planning"
-                  icon="Seller Database"
+                  icon="Product Database"
                   isActive={selectedTabList === 1}
                   isBeta
                 />

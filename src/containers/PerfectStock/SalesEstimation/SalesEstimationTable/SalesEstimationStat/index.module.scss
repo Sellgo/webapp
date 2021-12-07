@@ -1,0 +1,49 @@
+@import '../../../../../design-system/new-colors.scss';
+
+.salesEstimationStatCell {
+  height: 100%;
+  width: 100%;
+  background: $blue_1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  svg {
+    width: 25px !important;
+    height: 25px !important;
+
+    path {
+      fill: $prim_white !important;
+    }
+  }
+
+  &:hover {
+    background: $prim_dark_1;
+  }
+
+  &__disabled {
+    opacity: 0.25;
+
+    &:hover {
+      opacity: 1;
+      background: rgba(50, 50, 50, 0.25);
+    }
+  }
+}
+
+.mainStat {
+  font-size: 24px;
+  font-weight: $fontweight_bold;
+  color: $black_1;
+  margin: 18px 0;
+  opacity: 1 !important;
+}
+
+.weight {
+  color: $black_0;
+  font-size: 14px;
+  font-weight: $fontweight_medium;
+}

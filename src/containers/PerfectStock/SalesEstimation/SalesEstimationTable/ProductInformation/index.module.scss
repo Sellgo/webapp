@@ -1,0 +1,77 @@
+@import '../../../../../design-system/new-colors.scss';
+
+.productInformation {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0 20px;
+}
+
+.productImage {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.productDetails {
+  width: 100%;
+  margin-left: 20px;
+}
+
+.productTitle {
+  color: $black_1;
+  font-size: 14px;
+  font-weight: $fontweight_semibold;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.productAttributes {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 120px 120px;
+  font-size: 10px !important;
+  font-weight: $fontweight_medium !important;
+  color: $black_1 !important;
+}
+
+.flagAndAsinCol {
+  display: flex;
+  flex-direction: row;
+
+  .flagIcon {
+    width: 20px;
+    margin-right: 8px;
+    object-fit: contain;
+  }
+
+  .productTitleTextBox {
+    margin-top: -5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.sizeTierAndStatusCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.productAsin {
+  font-size: 10px !important;
+  font-weight: $fontweight_medium !important;
+  color: $black_1 !important;
+
+  &:hover {
+    text-decoration-color: $black-1 !important;
+    font-size: 10px !important;
+    font-weight: $fontweight_semibold !important;
+    color: $black_1 !important;
+  }
+}

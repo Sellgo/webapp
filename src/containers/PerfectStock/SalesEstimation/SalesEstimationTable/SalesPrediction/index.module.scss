@@ -1,0 +1,44 @@
+@import '../../../../../design-system/new-colors.scss';
+
+.salesPrediction {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.predictiveSales {
+  width: 180px;
+  display: flex;
+  align-items: center;
+  color: $sellgo_purple;
+  font-size: 24px;
+  font-weight: $fontweight_bold;
+  margin-bottom: 10px;
+}
+
+.manualSales {
+  width: 180px;
+  display: flex;
+  align-items: center;
+
+  .textInput {
+    width: 60px;
+    height: 35px !important;
+  }
+}
+
+.radioSelection {
+  width: 100px;
+  margin-right: 10px;
+
+  label {
+    text-align: left;
+    font-size: 14px;
+    color: $grey_8;
+    font-weight: $fontweight_regular;
+  }
+}
