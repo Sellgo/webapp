@@ -7,21 +7,11 @@ import 'rsuite/dist/styles/rsuite-default.css';
 import './globals.scss';
 import styles from './index.module.scss';
 
-/* Selectors  */
-import {
-  getIsLoadingProductsDatabase,
-  getProductsDatabasePaginationInfo,
-  getProductsDatabaseResults,
-} from '../../../../selectors/ProductResearch/ProductsDatabase';
+/* Actions */
+import { fetchSalesProjection } from '../../../../actions/PerfectStock/SalesProjection';
 
 /* Interfaces */
-import {
-  ProductsDatabasePayload,
-  ProductsDatabaseRow,
-} from '../../../../interfaces/ProductResearch/ProductsDatabase';
-
-/* Actions */
-import { fetchProductsDatabase } from '../../../../actions/ProductsResearch/ProductsDatabase';
+import { SalesProjectionPayload } from '../../../../interfaces/PerfectStock/SalesProjection';
 
 /* Containers */
 import ProductInformation from './ProductInformation';
@@ -31,78 +21,33 @@ import SalesPrediction from './SalesPrediction';
 
 /* Components */
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
-import TablePagination from '../../../../components/NewTable/Pagination';
 import Placeholder from '../../../../components/Placeholder';
-
-const DATA = [
-  {
-    asin: 'B074JZJQJT',
-    title: 'Shoe',
-    brand: 'Nike',
-    days_until_so: 777,
-    predictive_sales: 236,
-    image: 'https://images-na.ssl-images-amazon.com/images/I/61-h0kmKGYL._SL75_.jpg',
-    sku_name: 'sku name',
-    active: 'active',
-    size_tier: 'Large',
-    monthly_revenue: '$1,000,000',
-    price: '$100',
-    avg_l90d: 35.6,
-    avg_l90d_weight: 12.3,
-    avg_l90d_included: false,
-    avg_l30d: 35.6,
-    avg_l30d_weight: 0,
-    avg_l30d_included: false,
-    avg_l7d: 35.6,
-    avg_l7d_weight: 0,
-    avg_l7d_included: true,
-    avg_n30d: 35.6,
-    avg_n30d_weight: 0,
-    avg_n30d_included: true,
-    avg_n90d: 35.6,
-    avg_n90d_weight: 0,
-    avg_n90d_included: true,
-  },
-];
+import {
+  getSalesProjectionResults,
+  getIsLoadingSalesProjection,
+} from '../../../../selectors/PerfectStock/SalesProjection';
+import { ReactComponent as ExclaimationIcon } from '../../../../assets/images/exclamation-triangle-solid.svg';
 
 interface Props {
   // States
-  isLoadingProductsDatabase: boolean;
-  productsDatabaseResults: ProductsDatabaseRow[];
-  productsDatabasePaginationInfo: {
-    current_page: number;
-    total_pages: number;
-  };
-
-  /* Actions */
-  fetchProductsDatabase: (payload: ProductsDatabasePayload) => void;
+  isLoadingSalesProjection: boolean;
+  fetchSalesProjection: (payload: SalesProjectionPayload) => void;
+  salesProjectionResult: any;
 }
 
 /* Main component */
 const SalesEstimationTable = (props: Props) => {
-  const {
-    isLoadingProductsDatabase,
-    productsDatabasePaginationInfo,
-    fetchProductsDatabase,
-  } = props;
+  const { fetchSalesProjection, isLoadingSalesProjection, salesProjectionResult } = props;
 
   const [sortColumn, setSortColumn] = React.useState<string>('');
   const [sortType, setSortType] = React.useState<'asc' | 'desc' | undefined>(undefined);
 
-  const handleChangePage = (pageNo: number) => {
-    fetchProductsDatabase({
-      page: pageNo,
-    });
-  };
-
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
     setSortType(sortType);
-    fetchProductsDatabase({
-      sort: {
-        field: sortColumn,
-        by: sortType === 'asc' ? 'ascending' : 'descending',
-      },
+    fetchSalesProjection({
+      sort: sortColumn,
+      sortDir: sortType,
     });
   };
 
@@ -111,12 +56,12 @@ const SalesEstimationTable = (props: Props) => {
       <section className={styles.productDatabaseWrapper}>
         <Table
           renderLoading={() =>
-            isLoadingProductsDatabase && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
+            isLoadingSalesProjection && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
           }
           renderEmpty={() => <div />}
           affixHorizontalScrollbar={0}
           // Dont display old data when loading
-          data={DATA}
+          data={!isLoadingSalesProjection ? salesProjectionResult : []}
           hover={true}
           autoHeight
           rowHeight={120}
@@ -124,6 +69,7 @@ const SalesEstimationTable = (props: Props) => {
           onSortColumn={handleSortColumn}
           sortType={sortType}
           sortColumn={sortColumn}
+          virtualized
           id="salesEstimationTable"
         >
           {/* Product Information  */}
@@ -136,18 +82,19 @@ const SalesEstimationTable = (props: Props) => {
           <Table.Column width={150} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title="Days Until Stock Out"
+                title={`Days Until\nStock Out`}
                 dataKey="days_until_so"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
                 alignMiddle
+                icon={<ExclaimationIcon />}
               />
             </Table.HeaderCell>
             <StockOutDate dataKey="days_until_so" />
           </Table.Column>
 
           {/* Expected Sales  */}
-          <Table.Column width={250} verticalAlign="middle" align="center">
+          <Table.Column width={300} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title="Expected Sales"
@@ -172,7 +119,7 @@ const SalesEstimationTable = (props: Props) => {
                 alignMiddle
               />
             </Table.HeaderCell>
-            <SalesEstimationStat dataKey="avg_l90d" />
+            <SalesEstimationStat dataKey="avg_l90d" daysOffset={-90} />
           </Table.Column>
 
           {/* Average Last 30 Day */}
@@ -186,7 +133,7 @@ const SalesEstimationTable = (props: Props) => {
                 alignMiddle
               />
             </Table.HeaderCell>
-            <SalesEstimationStat dataKey="avg_l30d" />
+            <SalesEstimationStat dataKey="avg_l30d" daysOffset={-30} />
           </Table.Column>
 
           {/* Average Last 7 Day */}
@@ -200,7 +147,7 @@ const SalesEstimationTable = (props: Props) => {
                 alignMiddle
               />
             </Table.HeaderCell>
-            <SalesEstimationStat dataKey="avg_l7d" />
+            <SalesEstimationStat dataKey="avg_l7d" daysOffset={-7} />
           </Table.Column>
 
           {/* Average Next 30 Day */}
@@ -208,13 +155,13 @@ const SalesEstimationTable = (props: Props) => {
             <Table.HeaderCell>
               <HeaderSortCell
                 title="Average Next 30D LY"
-                dataKey="avg_n7d"
+                dataKey="avg_n30d_ly"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
                 alignMiddle
               />
             </Table.HeaderCell>
-            <SalesEstimationStat dataKey="avg_n30d" />
+            <SalesEstimationStat dataKey="avg_n30d" daysOffset={30} />
           </Table.Column>
 
           {/* Average Next 90 Day */}
@@ -222,17 +169,17 @@ const SalesEstimationTable = (props: Props) => {
             <Table.HeaderCell>
               <HeaderSortCell
                 title="Average Next 90D LY"
-                dataKey="avg_n90d"
+                dataKey="avg_n90d_ly"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
                 alignMiddle
               />
             </Table.HeaderCell>
-            <SalesEstimationStat dataKey="avg_n90d" />
+            <SalesEstimationStat dataKey="avg_n90d" daysOffset={90} />
           </Table.Column>
         </Table>
 
-        {productsDatabasePaginationInfo && productsDatabasePaginationInfo.total_pages > 0 && (
+        {/* {productsDatabasePaginationInfo && productsDatabasePaginationInfo.total_pages > 0 && (
           <footer className={styles.productDatabasePagination}>
             <TablePagination
               totalPages={productsDatabasePaginationInfo.total_pages}
@@ -241,7 +188,7 @@ const SalesEstimationTable = (props: Props) => {
               onPageChange={handleChangePage}
             />
           </footer>
-        )}
+        )} */}
       </section>
     </>
   );
@@ -249,16 +196,15 @@ const SalesEstimationTable = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    productsDatabaseResults: getProductsDatabaseResults(state),
-    productsDatabasePaginationInfo: getProductsDatabasePaginationInfo(state),
-    isLoadingProductsDatabase: getIsLoadingProductsDatabase(state),
+    salesProjectionResult: getSalesProjectionResults(state),
+    isLoadingSalesProjection: getIsLoadingSalesProjection(state),
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchProductsDatabase: (payload: ProductsDatabasePayload) =>
-      dispatch(fetchProductsDatabase(payload)),
+    fetchSalesProjection: (payload: SalesProjectionPayload) =>
+      dispatch(fetchSalesProjection(payload)),
   };
 };
 

@@ -26,6 +26,9 @@ import keywordReverseReducer from './KeywordResearch/KeywordReverse';
 import keywordDatabaseReducer from './KeywordResearch/KeywordDatabase';
 import keywordTrackerReducer from './KeywordResearch/KeywordTracker';
 
+/* Perfect Stock */
+import salesProjectionReducer from './PerfectStock/SalesProjection';
+
 const rootReducer = combineReducers({
   settings: settingsReducer,
   subscription: subscriptionReducer,
@@ -52,6 +55,9 @@ const rootReducer = combineReducers({
   keywordReverse: keywordReverseReducer,
   keywordDatabase: keywordDatabaseReducer,
   keywordTracker: keywordTrackerReducer,
+
+  // perfect stock
+  salesProjection: salesProjectionReducer,
 });
 
 export default rootReducer;

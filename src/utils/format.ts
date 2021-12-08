@@ -135,3 +135,9 @@ export const decodeBase64 = (payload: string) => window.atob(payload);
 export const removeSpecialCharctersFromKeywords = (keywords: string) => {
   return keywords.replace(/[&/\\;#+()$~%'":*?^<>{}@!_=]/g, '');
 };
+
+export const prettyPrintDate = (date: Date) => {
+  return `${date.getDate()} ${date.toLocaleString('default', {
+    month: 'short',
+  })} ${date.getFullYear()}`;
+};

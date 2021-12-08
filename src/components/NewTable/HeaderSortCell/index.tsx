@@ -37,6 +37,7 @@ interface Props {
   userOnboardingResources: any[];
   disableSort?: boolean;
   alignMiddle?: boolean;
+  icon?: React.ReactNode;
 }
 
 const HeaderSortCell = (props: Props) => {
@@ -49,6 +50,7 @@ const HeaderSortCell = (props: Props) => {
     userOnboarding,
     userOnboardingResources,
     disableSort,
+    icon,
   } = props;
 
   /* Generating sort icon */
@@ -90,6 +92,8 @@ const HeaderSortCell = (props: Props) => {
             `}
             style={isCurrentlySorted ? sortedStyles : defaultStyles}
           >
+            {icon}
+            <br />
             {title}
 
             {/* Youtube On boarding Icon */}

@@ -28,6 +28,9 @@
   font-weight: $fontweight_semibold;
   text-align: left;
   margin-bottom: 10px;
+  width: calc(100% - 100px);
+  text-overflow: ellipsis;
+  overflow-x: hidden;
 }
 
 .productAttributes {

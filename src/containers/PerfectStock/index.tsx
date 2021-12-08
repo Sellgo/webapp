@@ -7,7 +7,7 @@ import styles from './index.module.scss';
 
 /* Containers */
 import OrderPlanning from './OrderPlanning';
-import SalesEstimation from './SalesEstimation';
+import SalesProjection from './SalesProjection';
 import CataloguePlanning from './CataloguePlanning';
 
 /* Components */
@@ -154,7 +154,7 @@ const ProductResearch: React.FC<Props> = props => {
             </TabPanel>
 
             <TabPanel>
-              <SalesEstimation />
+              <SalesProjection />
             </TabPanel>
           </Tabs>
         </section>

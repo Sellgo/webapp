@@ -8,31 +8,71 @@ import styles from './index.module.scss';
 import { RowCell } from '../../../../../interfaces/Table';
 
 /* Utils */
-import { formatNumber, formatDecimal, showNAIfZeroOrNull } from '../../../../../utils/format';
+import {
+  formatNumber,
+  formatDecimal,
+  showNAIfZeroOrNull,
+  prettyPrintDate,
+} from '../../../../../utils/format';
 
 /* Assets */
 import { ReactComponent as LinkIcon } from '../../../../../assets/images/link.svg';
 import { ReactComponent as UnlinkIcon } from '../../../../../assets/images/unlink.svg';
 
-const SalesEstimationStat = (props: RowCell) => {
-  const { rowData, dataKey } = props;
+interface Props extends RowCell {
+  daysOffset: number;
+}
+
+const SalesEstimationStat = (props: Props) => {
+  const { daysOffset, ...otherProps } = props;
+  const { rowData, dataKey } = otherProps;
   const stat = showNAIfZeroOrNull(rowData[dataKey], formatNumber(rowData[dataKey]));
   const included = rowData[`${dataKey}_included`];
   const weight = showNAIfZeroOrNull(
     rowData[`${dataKey}_weight`],
     formatDecimal(rowData[`${dataKey}_weight`])
   );
-
   const [onHovered, setOnHovered] = React.useState<boolean>(false);
   let onHoveredContent;
-  if (included) {
-    onHoveredContent = <LinkIcon />;
+
+  let smallerDate;
+  let largerDate;
+  if (daysOffset < 0) {
+    smallerDate = new Date();
+    smallerDate.setDate(smallerDate.getDate() + daysOffset);
+    largerDate = new Date();
   } else {
-    onHoveredContent = <UnlinkIcon />;
+    smallerDate = new Date();
+    largerDate = new Date();
+    largerDate.setDate(largerDate.getDate() + daysOffset);
+  }
+
+  if (!included) {
+    onHoveredContent = (
+      <div className={styles.hoveredContent}>
+        <div className={styles.date}>
+          {prettyPrintDate(smallerDate)} -
+          <br />
+          {prettyPrintDate(largerDate)}
+        </div>
+        <LinkIcon />
+      </div>
+    );
+  } else {
+    onHoveredContent = (
+      <div className={styles.hoveredContent}>
+        <div className={`${styles.date} ${styles.date__dark}`}>
+          {prettyPrintDate(smallerDate)} -
+          <br />
+          {prettyPrintDate(largerDate)}
+        </div>
+        <UnlinkIcon />
+      </div>
+    );
   }
 
   return (
-    <Table.Cell {...props}>
+    <Table.Cell {...otherProps}>
       <div
         className={`
           ${styles.salesEstimationStatCell}
