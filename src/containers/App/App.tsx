@@ -25,7 +25,7 @@ import Profile from '../Settings/Profile';
 import NewSubscription from '../NewSubscription';
 import PaymentSuccess from '../NewSubscription/PaymentSuccess';
 import Payment from '../Subscription/Payment';
-import LeadsTracker from '../LeadsTracker';
+// import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
 import ChurnFlow from '../ChurnFlow';
 import FailedPaymentsBanner from '../../components/FailedPaymentsBanner';
@@ -269,12 +269,12 @@ function App() {
             component={ProductTracker}
             requireSubscription={true}
           /> */}
-          <PrivateRoute
+          {/* <PrivateRoute
             exact={true}
             path="/leads-tracker"
             component={LeadsTracker}
             requireSubscription={true}
-          />
+          /> */}
 
           <PrivateRoute
             exact={true}
