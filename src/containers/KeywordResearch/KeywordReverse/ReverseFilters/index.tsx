@@ -96,48 +96,6 @@ const ReverseFilters = (props: Props) => {
 
   return (
     <section className={styles.filterSection}>
-      {/* Basic Filters */}
-      <div className={styles.basicFilters}>
-        {/* Search Volume */}
-        <MinMaxFilter
-          label="Search Volume"
-          minValue={searchVolume.min}
-          maxValue={searchVolume.max}
-          handleChange={(type, value) => {
-            setSearchVolume(prevState => ({ ...prevState, [type]: value }));
-          }}
-        />
-
-        {/* Show different filters based on asin count */}
-
-        {singleAsinOnReverse ? (
-          <>
-            {/* Organic Rank */}
-            <MinMaxFilter
-              label="Organic Rank"
-              minValue={organicRank.min}
-              maxValue={organicRank.max}
-              handleChange={(type, value) => {
-                setOrganicRank(prevState => ({ ...prevState, [type]: value }));
-              }}
-            />
-          </>
-        ) : (
-          <>
-            {/* Position Rank */}
-            <MinMaxFilter
-              label="Position Rank"
-              minValue={positionRank.min}
-              maxValue={positionRank.max}
-              handleChange={(type, value) => {
-                setPositionRank(prevState => ({ ...prevState, [type]: value }));
-              }}
-            />
-          </>
-        )}
-      </div>
-
-      {/* Advanced Filters */}
       <div className={styles.advancedFilterWrapper}>
         <AdvanceFilterToggle
           handleClick={() => setShowAdvancedFilter(prevState => !prevState)}
@@ -146,6 +104,44 @@ const ReverseFilters = (props: Props) => {
 
         {showAdvancedFilter && (
           <div className={styles.showAdvancedFilter}>
+            {/* Search Volume */}
+            <MinMaxFilter
+              label="Search Volume"
+              minValue={searchVolume.min}
+              maxValue={searchVolume.max}
+              handleChange={(type, value) => {
+                setSearchVolume(prevState => ({ ...prevState, [type]: value }));
+              }}
+            />
+
+            {/* Show different filters based on asin count */}
+
+            {singleAsinOnReverse ? (
+              <>
+                {/* Organic Rank */}
+                <MinMaxFilter
+                  label="Organic Rank"
+                  minValue={organicRank.min}
+                  maxValue={organicRank.max}
+                  handleChange={(type, value) => {
+                    setOrganicRank(prevState => ({ ...prevState, [type]: value }));
+                  }}
+                />
+              </>
+            ) : (
+              <>
+                {/* Position Rank */}
+                <MinMaxFilter
+                  label="Position Rank"
+                  minValue={positionRank.min}
+                  maxValue={positionRank.max}
+                  handleChange={(type, value) => {
+                    setPositionRank(prevState => ({ ...prevState, [type]: value }));
+                  }}
+                />
+              </>
+            )}
+
             {/* Sponsored ASINs */}
             <MinMaxFilter
               label="Sponsored ASINs"

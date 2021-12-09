@@ -13,6 +13,7 @@ import { RowCell } from '../../../../../interfaces/Table';
 import { parseKpiLists, removeSpecialChars } from '../../../../../utils/format';
 import { copyToClipboard } from '../../../../../utils/file';
 import { success } from '../../../../../utils/notifications';
+import CopyToClipboard from '../../../../../components/CopyToClipboard';
 
 type Props = RowCell;
 
@@ -37,9 +38,10 @@ const CopySponsoredAsins = (props: Props) => {
       <Table.Cell {...otherProps}>
         <div className={styles.actionCellWrapper}>
           <div className={styles.actionCell}>
-            <button className={styles.actionButton}>
-              {numeral(parsedAsinList.length).format('00')}
-            </button>
+            <CopyToClipboard
+              displayData={numeral(parsedAsinList.length).format('00')}
+              data={removeSpecialChars(parsedAsinList, ',')}
+            />
             <Popup
               on="click"
               position="bottom left"
