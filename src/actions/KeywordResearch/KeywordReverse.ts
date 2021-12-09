@@ -16,6 +16,7 @@ import {
   KeywordReverseAsinProduct,
   KeywordReverseProductListPayload,
   KeywordReverseWordFreqSummary,
+  KeywordReverseAggSummary,
 } from '../../interfaces/KeywordResearch/KeywordReverse';
 
 /* Selectors */
@@ -53,6 +54,15 @@ export const setAsinListForKeywordReverse = (payload: string) => {
   sessionStorage.setItem('keywordReverseAsinList', payload);
   return {
     type: actionTypes.SET_ASIN_LIST_FOR_KEYWORD_REVERSE,
+    payload,
+  };
+};
+
+/* Action to set referenced index for keyword reverse */
+export const setReferencedAsinIndex = (payload: number) => {
+  sessionStorage.setItem('referencedAsinId', payload.toString());
+  return {
+    type: actionTypes.SET_REFERENCED_ASIN_ID,
     payload,
   };
 };
@@ -139,6 +149,24 @@ export const setKeywordReverseWordFreqSummary = (payload: KeywordReverseWordFreq
   };
 };
 
+/* Action to set loading state for keyword database aggregation  summary */
+export const isLoadingKeywordReverseAggSummary = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_LOADING_KEYWORD_REVERSE_AGG_SUMMARY,
+    payload,
+  };
+};
+
+/* Action to set  keyword database aggregation summary */
+export const setKeywordReverseAggSummary = (payload: KeywordReverseAggSummary) => {
+  sessionStorage.setItem('keywordReverseAggSummary', JSON.stringify(payload));
+
+  return {
+    type: actionTypes.SET_KEYWORD_REVERSE_AGG_SUMMARY,
+    payload,
+  };
+};
+
 /* ======================== Session Storage =================== */
 
 export const storeKeywordReverseFilters = (keywordReverseFilters: any) => {
@@ -204,6 +232,7 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (
   getState: any
 ) => {
   try {
+    dispatch(isFetchingKeywordReverseRequestId(true));
     const sellerID = sellerIDSelector();
 
     const payload = {
@@ -229,15 +258,12 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (
       payload
     );
 
-    dispatch(isFetchingKeywordReverseRequestId(true));
-
     if (data) {
       const { keyword_request_id: keywordRequestId } = data;
       // set keyword request id
       dispatch(setKeywordReverseRequestId(keywordRequestId));
       // set the asin list for future use
       dispatch(setAsinListForKeywordReverse(asinList));
-      dispatch(isFetchingKeywordReverseRequestId(false));
 
       // wait to 0.5 seconds
       await timeout(500);
@@ -252,6 +278,7 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (
           report_xlsx_url: '',
         })
       );
+      dispatch(isFetchingKeywordReverseRequestId(false));
       dispatch(shouldFetchKeywordReverseProgress(true));
     } else {
       dispatch(setKeywordReverseRequestId(''));
@@ -300,6 +327,7 @@ export const fetchKeywordReverseProgress = () => async (dispatch: any, getState:
         dispatch(fetchKeywordReverseProductsList({ enableLoader: true }));
         dispatch(fetchKeywordReverseTableInformation({ enableLoader: true }));
         dispatch(fetchKeywordReverseWordFreqSummary('desc'));
+        dispatch(fetchKeywordReverseAggSummary());
       }
     }
   } catch (err) {
@@ -389,6 +417,49 @@ export const fetchKeywordReverseWordFreqSummary = (sortDir: 'asc' | 'desc' = 'de
     console.error('Error fetching keyword database word freq summary', err);
     dispatch(setKeywordReverseWordFreqSummary([]));
     dispatch(isLoadingKeywordReverseWordFreqSummary(false));
+  }
+};
+
+/* Action to fetch keyword ditribution/aggregation on keyword reverse */
+export const fetchKeywordReverseAggSummary = () => async (dispatch: any, getState: any) => {
+  const sellerId = sellerIDSelector();
+
+  try {
+    const keywordRequestId = getKeywordReverseRequestId(getState());
+
+    const resourcePath = `keyword_request_id=${keywordRequestId}`;
+
+    dispatch(isLoadingKeywordReverseAggSummary(true));
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/aggregation?${resourcePath}`;
+
+    const { data } = await axios.get(URL);
+
+    if (data) {
+      dispatch(setKeywordReverseAggSummary(data));
+      dispatch(isLoadingKeywordReverseAggSummary(false));
+    } else {
+      dispatch(
+        setKeywordReverseAggSummary({
+          total_keywords: 0,
+          total_search_volume: 0,
+          avg_competing_products: 0,
+          avg_search_volume: 0,
+        })
+      );
+      dispatch(isLoadingKeywordReverseAggSummary(false));
+    }
+  } catch (err) {
+    console.error('Error fetching keyword reverse aggregation summary', err);
+    dispatch(
+      setKeywordReverseAggSummary({
+        total_keywords: 0,
+        total_search_volume: 0,
+        avg_competing_products: 0,
+        avg_search_volume: 0,
+      })
+    );
+    dispatch(isLoadingKeywordReverseAggSummary(false));
   }
 };
 

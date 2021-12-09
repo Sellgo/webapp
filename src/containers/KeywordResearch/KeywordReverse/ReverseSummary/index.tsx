@@ -10,29 +10,46 @@ import WordFreqContent from './WordFreqContent/WordFreqContent';
 
 /* Selectors */
 import {
+  getIsLoadingKeywordReverseAggSummary,
   getIsLoadingKeywordReverseWordFreqSummary,
+  getKeywordReverseAggSummary,
   getKeywordReverseWordFreqSummary,
+  getShouldFetchKeywordReverseProgress,
 } from '../../../../selectors/KeywordResearch/KeywordReverse';
 
 /* Interfaces */
-import { KeywordReverseWordFreqSummary } from '../../../../interfaces/KeywordResearch/KeywordReverse';
-import { fetchKeywordReverseWordFreqSummary } from '../../../../actions/KeywordResearch/KeywordReverse';
+import {
+  KeywordReverseAggSummary,
+  KeywordReverseWordFreqSummary,
+} from '../../../../interfaces/KeywordResearch/KeywordReverse';
+import {
+  fetchKeywordReverseWordFreqSummary,
+  fetchKeywordReverseAggSummary,
+} from '../../../../actions/KeywordResearch/KeywordReverse';
 
 /* Utils */
 import { removeSpecialChars } from '../../../../utils/format';
 import { copyToClipboard } from '../../../../utils/file';
 import { success } from '../../../../utils/notifications';
+import KeywordDistribution from './KeywordDistribution';
 
 interface Props {
   isLoadingKeywordReverseWordFreqSummary: boolean;
+  isLoadingKeywordReverseAggSummary: boolean;
+  shouldFetchKeywordReverseProgress: boolean;
   keywordReverseWordFreqSummary: KeywordReverseWordFreqSummary[];
+  keywordReverseAggSummary: KeywordReverseAggSummary;
   fetchKeywordReverseWordFreqSummary: (sortDir: 'asc' | 'desc') => void;
+  fetchKeywordReverseAggSummary: () => void;
 }
 
 const ReverseSummary = (props: Props) => {
   const {
     isLoadingKeywordReverseWordFreqSummary,
+    isLoadingKeywordReverseAggSummary,
+    shouldFetchKeywordReverseProgress,
     keywordReverseWordFreqSummary,
+    keywordReverseAggSummary,
     fetchKeywordReverseWordFreqSummary,
   } = props;
 
@@ -72,7 +89,13 @@ const ReverseSummary = (props: Props) => {
         handleSort={handleWordFreqSort}
         handleCopy={handleCopyKeywords}
         content={<WordFreqContent data={keywordReverseWordFreqSummary} />}
-        isLoading={isLoadingKeywordReverseWordFreqSummary}
+        isLoading={isLoadingKeywordReverseWordFreqSummary || shouldFetchKeywordReverseProgress}
+      />
+
+      <KeywordDatabaseSummaryCards
+        title="Quick Summary"
+        content={<KeywordDistribution data={keywordReverseAggSummary} />}
+        isLoading={isLoadingKeywordReverseAggSummary || shouldFetchKeywordReverseProgress}
       />
     </section>
   );
@@ -81,6 +104,9 @@ const ReverseSummary = (props: Props) => {
 const mapStateToProps = (state: any) => {
   return {
     isLoadingKeywordReverseWordFreqSummary: getIsLoadingKeywordReverseWordFreqSummary(state),
+    isLoadingKeywordReverseAggSummary: getIsLoadingKeywordReverseAggSummary(state),
+    shouldFetchKeywordReverseProgress: getShouldFetchKeywordReverseProgress(state),
+    keywordReverseAggSummary: getKeywordReverseAggSummary(state),
     keywordReverseWordFreqSummary: getKeywordReverseWordFreqSummary(state),
   };
 };
@@ -89,6 +115,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchKeywordReverseWordFreqSummary: (sortDir: 'asc' | 'desc') =>
       dispatch(fetchKeywordReverseWordFreqSummary(sortDir)),
+    fetchKeywordReverseAggSummary: () => dispatch(fetchKeywordReverseAggSummary()),
   };
 };
 

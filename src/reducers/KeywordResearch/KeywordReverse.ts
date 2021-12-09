@@ -9,6 +9,7 @@ import { makeOrGetUniqueTabID } from '../../utils/session';
 const INITIAL_STATE: { [key: string]: any } = {
   [makeOrGetUniqueTabID()]: {
     // keyword request id state
+    referencedAsinId: 0,
     isFetchingKeywordReverseRequestId: false,
     keywordReverseRequestId: sessionStorage.getItem('keywordReverseRequestId') || '',
     asinListForKeywordReverse: sessionStorage.getItem('keywordReverseAsinList') || '',
@@ -21,6 +22,17 @@ const INITIAL_STATE: { [key: string]: any } = {
     isLoadingKeywordReverseWordFreqSummary: false,
     keywordReverseWordFreqSummary: JSON.parse(
       sessionStorage.getItem('keywordReverseWordFreqSummary') || '[]'
+    ),
+
+    isLoadingKeywordReverseAggSummary: false,
+    keywordReverseAggSummary: JSON.parse(
+      sessionStorage.getItem('keywordReverseAggSummary') ||
+        JSON.stringify({
+          total_keywords: 0,
+          total_search_volume: 0,
+          avg_competing_products: 0,
+          avg_search_volume: 0,
+        })
     ),
 
     // keyword request progress state
@@ -86,6 +98,15 @@ const keywordReverseReducer = (state = INITIAL_STATE, action: AnyAction) => {
       };
     }
 
+    case actionTypes.SET_REFERENCED_ASIN_ID: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          referencedAsinId: action.payload,
+        },
+      };
+    }
     /* ================= KEYWORD PRODUCTS =============== */
     case actionTypes.IS_LOADING_KEYWORD_REVERSE_PRODUCTS_LIST: {
       return {
@@ -145,6 +166,26 @@ const keywordReverseReducer = (state = INITIAL_STATE, action: AnyAction) => {
         [sessionTab]: {
           ...sessionStateChunk,
           keywordReverseWordFreqSummary: action.payload,
+        },
+      };
+    }
+
+    case actionTypes.IS_LOADING_KEYWORD_REVERSE_AGG_SUMMARY: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          isLoadingKeywordReverseAggSummary: action.payload,
+        },
+      };
+    }
+
+    case actionTypes.SET_KEYWORD_REVERSE_AGG_SUMMARY: {
+      return {
+        ...state,
+        [sessionTab]: {
+          ...sessionStateChunk,
+          keywordReverseAggSummary: action.payload,
         },
       };
     }

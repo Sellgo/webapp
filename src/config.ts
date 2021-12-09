@@ -55,7 +55,7 @@ const DEV_ANALYTICS = {
 
 const PROD_ANALYTICS = {
   gaTrackingId: 'UA-154653584-2',
-  fullStoryOrgId: '16341N',
+  fullStoryOrgId: '175C99',
 };
 
 const DEV_MWS = {

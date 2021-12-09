@@ -38,9 +38,17 @@ export interface KeywordReverseAsinProduct {
   sales_monthly: number;
   image_url: string;
   position: number;
+  keywords_count: number;
 }
 
 export interface KeywordReverseWordFreqSummary {
   word: string;
   frequency: number;
+}
+
+export interface KeywordReverseAggSummary {
+  total_keywords: number;
+  total_search_volume: number;
+  avg_search_volume: number;
+  avg_competing_products: number;
 }

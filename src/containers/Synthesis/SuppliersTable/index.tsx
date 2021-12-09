@@ -347,12 +347,12 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       show: true,
       render: this.renderActions,
     },
-    {
-      label: 'Leads Tracking',
-      dataKey: 'leads_tracking',
-      show: true,
-      render: this.renderLeadsTracker,
-    },
+    // {
+    //   label: 'Leads Tracking',
+    //   dataKey: 'leads_tracking',
+    //   show: true,
+    //   render: this.renderLeadsTracker,
+    // },
     {
       label: 'Other',
       dataKey: 'other',

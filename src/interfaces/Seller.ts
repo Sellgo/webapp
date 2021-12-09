@@ -36,6 +36,7 @@ export interface SellerSubscription {
   subscription_id: number;
   seller_map_overview_display_limit?: number;
   is_beta?: boolean;
+  is_payment_pending?: boolean;
 }
 
 export interface Merchant {
