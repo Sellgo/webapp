@@ -5,19 +5,6 @@
   padding: 0;
 }
 
-/* Basic Filter Styles */
-.basicFilters {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  padding: 30px 0 !important;
-  height: max-content;
-  grid-column-gap: 30px;
-
-  @media only screen and (max-width: 1550px) {
-    grid-template-rows: repeat(auto, 1fr);
-  }
-}
-
 /* Advanced Filter Styles */
 .advancedFilterWrapper {
   background: $grey_10;
