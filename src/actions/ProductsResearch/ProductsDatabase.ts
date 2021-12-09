@@ -203,7 +203,7 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
       return;
     }
 
-    // if fetch with filteres
+    // if fetch with filters
     let productsDatabaseFilters;
     if (filterPayload) {
       productsDatabaseFilters = parseFilterPayload(filterPayload);
@@ -241,6 +241,10 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
       dispatch(setProductsDatabaseFilterMessage({ show: false, message: '', type: 'info' }));
       dispatch(setProductsDatabasePaginationInfo(data.page_info));
       dispatch(isLoadingProductsDatabase(false));
+
+      if (data.results.length === 0) {
+        error('No products found');
+      }
     }
   } catch (err) {
     dispatch(isLoadingProductsDatabase(false));

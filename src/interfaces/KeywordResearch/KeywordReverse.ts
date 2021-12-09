@@ -49,6 +49,16 @@ export interface KeywordReverseWordFreqSummary {
 export interface KeywordReverseAggSummary {
   total_keywords: number;
   total_search_volume: number;
+
+  min_search_volume: number;
+  max_search_volume: number;
   avg_search_volume: number;
+
+  min_competing_products: number;
+  max_competing_products: number;
   avg_competing_products: number;
+
+  min_sponsored_asins: number;
+  max_sponsored_asins: number;
+  avg_sponsored_asins: number;
 }

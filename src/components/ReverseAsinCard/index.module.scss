@@ -3,7 +3,7 @@
 /* Reverse Asin Card */
 .reverseAsinCard {
   width: 160px;
-  height: 240px;
+  height: 242px;
   background: $prim_white;
   display: flex;
   flex-direction: column;
@@ -46,12 +46,12 @@
   }
 
   &__active {
-    background: $prim_dark_1;
-    color: $prim_white;
+    background: $sellgo_yellow;
+    color: $black_1;
 
     .bullsEyeIcon {
       path {
-        fill: $prim_white;
+        fill: $black_1;
       }
     }
   }
@@ -139,17 +139,7 @@
   justify-content: center;
   align-items: center;
   padding: 4px;
-  border-radius: 50%;
   overflow: hidden;
-  background: $purple_pink_gradient;
-
-  img {
-    object-fit: contain;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: $prim_white;
-  }
 }
 
 .loader {

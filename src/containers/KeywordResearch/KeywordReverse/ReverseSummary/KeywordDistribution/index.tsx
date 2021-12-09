@@ -4,63 +4,13 @@ import React, { memo } from 'react';
 import styles from './index.module.scss';
 
 /* Interfaces */
-import { KeywordDatabaseAggSummary } from '../../../../../interfaces/KeywordResearch/KeywordDatabase';
+import { KeywordReverseAggSummary } from '../../../../../interfaces/KeywordResearch/KeywordReverse';
 
 /* Utils */
 import { formatNumber, showNAIfZeroOrNull } from '../../../../../utils/format';
 
-// const chartOptions = {
-//   lang: {
-//     noData: '',
-//   },
-
-//   title: {
-//     text: '',
-//   },
-
-//   chart: {
-//     plotBackgroundColor: '#F9FAFC',
-//     plotBorderWidth: null,
-//     plotShadow: false,
-//     type: 'pie',
-//     height: 230,
-//     margin: [0, 0, 0, 0],
-//     spacingTop: 0,
-//     spacingBottom: 0,
-//     spacingLeft: 0,
-//     spacingRight: 0,
-//   },
-
-//   tooltip: {
-//     enabled: false,
-//   },
-
-//   plotOptions: {
-//     pie: {
-//       center: ['50%', '50%'],
-//       dataLabels: {
-//         enabled: false,
-//       },
-//       size: '50%',
-//       animation: false,
-//       allowPointSelect: false,
-//       cursor: 'pointer',
-//       borderColor: '#F9FAFC',
-//       colors: graphColors,
-//     },
-//   },
-//   legend: {
-//     enabled: true,
-//     layout: 'vertical',
-//     backgroundColor: '#FFFFFF',
-//     floating: true,
-//     align: 'right',
-//     verticalAlign: 'top',
-//   },
-// };
-
 interface Props {
-  data: KeywordDatabaseAggSummary;
+  data: KeywordReverseAggSummary;
 }
 
 const KeywordDistribution = (props: Props) => {
@@ -68,25 +18,6 @@ const KeywordDistribution = (props: Props) => {
   const showFormattedNumber = (stat: number) => {
     return showNAIfZeroOrNull(stat, formatNumber(stat));
   };
-  // const pieChartOptions = merge(cloneDeep(chartOptions), {
-  //   series: [
-  //     {
-  //       type: 'pie',
-  //       innerSize: '60%',
-  //       animation: false,
-  //       name: 'name',
-  //       colorByPoint: true,
-  //       data:
-  //         data &&
-  //         Object.entries(data).map(dataPoint => {
-  //           return {
-  //             name: dataPoint[0],
-  //             y: dataPoint[1],
-  //           };
-  //         }),
-  //     },
-  //   ],
-  // });
 
   return (
     <div className={styles.distributionStats}>
@@ -98,15 +29,21 @@ const KeywordDistribution = (props: Props) => {
       </div>
       <div className={styles.statsRow}>
         <p className={styles.statsName}> Search Volume </p>
-        <p className={styles.statsNumber}> - </p>
+        <p className={styles.statsNumber}> {showFormattedNumber(data.min_search_volume)} </p>
         <p className={styles.statsNumber}> {showFormattedNumber(data.avg_search_volume)}</p>
-        <p className={styles.statsNumber}> - </p>
+        <p className={styles.statsNumber}> {showFormattedNumber(data.max_search_volume)} </p>
+      </div>
+      <div className={styles.statsRow}>
+        <p className={styles.statsName}> Sponsored ASINs </p>
+        <p className={styles.statsNumber}> {showFormattedNumber(data.min_sponsored_asins)} </p>
+        <p className={styles.statsNumber}> {showFormattedNumber(data.avg_sponsored_asins)}</p>
+        <p className={styles.statsNumber}> {showFormattedNumber(data.max_sponsored_asins)} </p>
       </div>
       <div className={styles.statsRow}>
         <p className={styles.statsName}> Competing products </p>
-        <p className={styles.statsNumber}> - </p>
+        <p className={styles.statsNumber}> {showFormattedNumber(data.min_competing_products)} </p>
         <p className={styles.statsNumber}> {showFormattedNumber(data.avg_competing_products)}</p>
-        <p className={styles.statsNumber}> - </p>
+        <p className={styles.statsNumber}> {showFormattedNumber(data.max_competing_products)} </p>
       </div>
     </div>
   );

@@ -20,8 +20,8 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  height: 30px;
-  margin-bottom: 18px;
+  height: 20px;
+  margin-bottom: 10px;
 }
 
 .summaryCardTitle {
@@ -49,8 +49,7 @@
 }
 
 .mainContent {
-  min-height: 200px;
-  height: 270px;
+  height: 230px;
   overflow-y: auto !important;
   padding: 0 12px;
 

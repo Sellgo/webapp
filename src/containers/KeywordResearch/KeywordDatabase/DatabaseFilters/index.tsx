@@ -80,69 +80,6 @@ const DatabaseFilters = (props: Props) => {
 
   return (
     <section className={styles.filterSection}>
-      {/* Basic Filters */}
-      <div className={styles.basicFilters}>
-        {/* Search Volume */}
-        <MinMaxFilter
-          label="Search Volume"
-          minValue={searchVolume.min}
-          maxValue={searchVolume.max}
-          handleChange={(type, value) => {
-            setSearchVolume(prevState => ({
-              ...prevState,
-              [type]: value,
-            }));
-          }}
-        />
-
-        {/* Word Count  */}
-        <MinMaxFilter
-          label="Word Count"
-          minValue={wordCount.min}
-          maxValue={wordCount.max}
-          handleChange={(type, value) => {
-            setWordCount(prevState => ({
-              ...prevState,
-              [type]: value,
-            }));
-          }}
-        />
-
-        {/* Competing Products */}
-        <MinMaxFilter
-          label="Competing Products"
-          minValue={competingProducts.min}
-          maxValue={competingProducts.max}
-          handleChange={(type, value) => {
-            setCompetitingProducts(prevState => ({
-              ...prevState,
-              [type]: value,
-            }));
-          }}
-        />
-
-        {/* Title Density */}
-        <MinMaxFilter
-          label="Title Density"
-          minValue={titleDensity.min}
-          maxValue={titleDensity.max}
-          handleChange={(type, value) => {
-            setTitleDensity(prevState => ({
-              ...prevState,
-              [type]: value,
-            }));
-          }}
-        />
-
-        {/* Amazon choice filter */}
-        <CheckboxFilter
-          label="Amazon Choice"
-          checkboxLabel="Amazon Choice"
-          checked={amazonChoice}
-          handleChange={val => setAmazonChoice(val)}
-        />
-      </div>
-
       {/* Advanced Filters */}
       <div className={styles.advancedFilterWrapper}>
         <AdvanceFilterToggle
@@ -152,6 +89,66 @@ const DatabaseFilters = (props: Props) => {
 
         {showAdvancedFilter && (
           <div className={styles.showAdvancedFilter}>
+            {/* Search Volume */}
+            <MinMaxFilter
+              label="Search Volume"
+              minValue={searchVolume.min}
+              maxValue={searchVolume.max}
+              handleChange={(type, value) => {
+                setSearchVolume(prevState => ({
+                  ...prevState,
+                  [type]: value,
+                }));
+              }}
+            />
+
+            {/* Word Count  */}
+            <MinMaxFilter
+              label="Word Count"
+              minValue={wordCount.min}
+              maxValue={wordCount.max}
+              handleChange={(type, value) => {
+                setWordCount(prevState => ({
+                  ...prevState,
+                  [type]: value,
+                }));
+              }}
+            />
+
+            {/* Competing Products */}
+            <MinMaxFilter
+              label="Competing Products"
+              minValue={competingProducts.min}
+              maxValue={competingProducts.max}
+              handleChange={(type, value) => {
+                setCompetitingProducts(prevState => ({
+                  ...prevState,
+                  [type]: value,
+                }));
+              }}
+            />
+
+            {/* Title Density */}
+            <MinMaxFilter
+              label="Title Density"
+              minValue={titleDensity.min}
+              maxValue={titleDensity.max}
+              handleChange={(type, value) => {
+                setTitleDensity(prevState => ({
+                  ...prevState,
+                  [type]: value,
+                }));
+              }}
+            />
+
+            {/* Amazon choice filter */}
+            <CheckboxFilter
+              label="Amazon Choice"
+              checkboxLabel="Amazon Choice"
+              checked={amazonChoice}
+              handleChange={val => setAmazonChoice(val)}
+            />
+
             {/* Include Search Terms)  */}
             <div>
               <InputFilter

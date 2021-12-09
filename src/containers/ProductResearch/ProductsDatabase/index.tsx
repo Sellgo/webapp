@@ -42,9 +42,8 @@ const ProductsDatabase = (props: Props) => {
 
   React.useEffect(() => {
     const searchString = history.location.search;
-    console.log(sellerIDSelector());
     if (searchString) {
-      // query triggered from chrome extension
+      // query triggered from keyword products
       if (searchString.includes('?query=')) {
         const encodedQuery = searchString.split('?query=')[1] || '';
 
@@ -73,7 +72,7 @@ const ProductsDatabase = (props: Props) => {
           error('Invalid asin');
           return;
         }
-        success('Fetching product');
+        success('Fetching Product');
         fetchProductsDatabase({ filterPayload: { asin } });
         history.replace('/product-research/database');
       }

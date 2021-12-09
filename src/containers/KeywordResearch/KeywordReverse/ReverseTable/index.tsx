@@ -99,7 +99,7 @@ const ReverseTable = (props: Props) => {
         data={!isLoading ? keywordReverseTableResults : []}
         autoHeight
         hover={false}
-        rowHeight={65}
+        rowHeight={50}
         headerHeight={60}
         sortColumn={sortColumn}
         sortType={sortType}

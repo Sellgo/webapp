@@ -97,9 +97,11 @@ const ReverseAsinCard = (props: Props) => {
           <span>{monthlySales} </span>Sold
         </p>
 
-        <div className={styles.productImage}>
-          <img src={image_url ? image_url : placeholderImage} alt={title} />
-        </div>
+        <img
+          src={image_url ? image_url : placeholderImage}
+          alt={title}
+          className={styles.productImage}
+        />
 
         <button className={styles.checkProductLink} onClick={handleCheckProduct}>
           Check Product Database&nbsp;

@@ -19,7 +19,7 @@
 
   p {
     margin: 0;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: $fontweight_medium;
     text-align: center;
   }
@@ -38,16 +38,19 @@
 }
 
 .min {
+  font-size: 14px;
   width: 20%;
   color: $system_red;
 }
 
 .avg {
+  font-size: 14px;
   width: 20%;
   color: $system_blue;
 }
 
 .max {
+  font-size: 14px;
   width: 20%;
   color: $system_green;
 }
