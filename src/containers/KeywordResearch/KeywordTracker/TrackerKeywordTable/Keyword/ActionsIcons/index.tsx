@@ -30,14 +30,30 @@ interface Props {
   keywordTrackId: number;
   isBoostTracked: boolean;
   boostExpiryDate: string;
+  triggers: TriggerMetaData[];
 }
 
 const ActionsIconCell = (props: Props) => {
-  const { trackBoostProductTableKeyword, keywordTrackId, isBoostTracked, boostExpiryDate } = props;
+  const {
+    trackBoostProductTableKeyword,
+    keywordTrackId,
+    isBoostTracked,
+    boostExpiryDate,
+    triggers,
+  } = props;
   const [availableTriggers, setAvailableTriggers] = React.useState<TriggerMetaData[]>([]);
   const [isLoadingAvailableTriggers, setIsLoadingAvailableTriggers] = React.useState<boolean>(
     false
   );
+  const assignedTriggers = availableTriggers.filter(
+    (trigger: TriggerMetaData) => trigger.is_assigned
+  );
+
+  React.useEffect(() => {
+    if (triggers.length > 0) {
+      setAvailableTriggers(triggers);
+    }
+  }, [triggers]);
 
   const handleTrackUntrackBoostKeyword = () => {
     trackBoostProductTableKeyword({
@@ -151,9 +167,14 @@ const ActionsIconCell = (props: Props) => {
             </>
           }
           trigger={
-            <button className={styles.zapier} onClick={getAvailableTriggers}>
-              <ZapierIcon fill="#636d76" />
+            <button className={styles.zapier}>
+              <ZapierIcon fill={`${assignedTriggers.length > 0 ? '#FC7900' : '#636d76'}`} />
               <Icon name="chevron down" />
+              {assignedTriggers.length > 0 && (
+                <span className={styles.triggerNames}>
+                  {assignedTriggers.map((trigger: TriggerMetaData) => trigger.name).join(', ')}
+                </span>
+              )}
             </button>
           }
         />

@@ -54,6 +54,16 @@
     height: 12px;
     width: 15px;
 
+    &__active {
+      path {
+        fill: black !important;
+      }
+    }
+
+    &__inactive {
+      fill: red !important;
+    }
+
     &:hover {
       cursor: pointer;
     }

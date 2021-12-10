@@ -25,6 +25,7 @@ const ProductInfo = (props: RowCell) => {
 
   const [firstPart, secondPart] = truncateIntoTwoLines(title, 55, 105);
 
+  const variationStatus = rowData.variationStatus;
   return (
     <Table.Cell {...props}>
       <VariationModal
@@ -60,7 +61,10 @@ const ProductInfo = (props: RowCell) => {
                 e.stopPropagation();
                 setVariationModalOpen(true);
               }}
-              className={styles.variationIcon}
+              className={`
+                ${styles.variationIcon}
+                ${variationStatus ? styles.variationIcon__active : styles.variationIcon__inactive}
+              `}
             />
           </div>
         </div>
