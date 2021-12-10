@@ -48,20 +48,33 @@
 
   font-size: 12px !important;
 
-  .variationIcon {
-    margin-left: 2px;
+  .variationButton {
     margin-top: 4px;
+    background: none;
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+
+    &:hover {
+      background: $grey_1;
+    }
+  }
+
+  .variationIcon {
+    margin: 0 2px;
     height: 12px;
     width: 15px;
 
     &__active {
       path {
-        fill: black !important;
+        fill: $sellgo_orange !important;
       }
     }
 
     &__inactive {
-      fill: red !important;
+      path {
+        fill: $grey_8 !important;
+      }
     }
 
     &:hover {

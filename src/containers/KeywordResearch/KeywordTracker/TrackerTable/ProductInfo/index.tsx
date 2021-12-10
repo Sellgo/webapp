@@ -10,6 +10,7 @@ import { RowCell } from '../../../../../interfaces/Table';
 /* Components */
 import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipboard';
 import VariationModal from '../VariationModal';
+import { ReactComponent as VariationIcon } from '../../../../../assets/images/variationsIcon.svg';
 
 /* Utils */
 import { truncateIntoTwoLines } from '../../../../../utils/format';
@@ -25,7 +26,7 @@ const ProductInfo = (props: RowCell) => {
 
   const [firstPart, secondPart] = truncateIntoTwoLines(title, 55, 105);
 
-  const variationStatus = rowData.variationStatus;
+  const variationStatus = rowData.variation_status === 'active';
   return (
     <Table.Cell {...props}>
       <VariationModal
@@ -35,6 +36,7 @@ const ProductInfo = (props: RowCell) => {
         isModalOpen={isVariationsModalOpen}
         setModalOpen={setVariationModalOpen}
         keywordTrackProductId={rowData[TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY]}
+        variationStatus={variationStatus}
       />
 
       <div className={styles.productInfoContainer}>
@@ -53,19 +55,22 @@ const ProductInfo = (props: RowCell) => {
               displayData={asin}
               link={`https://www.amazon.com/dp/${asin}`}
             />
-            <img
-              src={require('../../../../../assets/images/variationsIcon.svg')}
-              alt="sitemap"
+            <button
+              className={styles.variationButton}
               onClick={e => {
                 e.preventDefault();
                 e.stopPropagation();
                 setVariationModalOpen(true);
               }}
-              className={`
-                ${styles.variationIcon}
-                ${variationStatus ? styles.variationIcon__active : styles.variationIcon__inactive}
-              `}
-            />
+            >
+              <VariationIcon
+                className={`
+                  ${styles.variationIcon}
+                  ${variationStatus ? styles.variationIcon__active : styles.variationIcon__inactive}
+                `}
+              />
+              {variationStatus && <span>&nbsp;Tracking Variation On</span>}
+            </button>
           </div>
         </div>
       </div>

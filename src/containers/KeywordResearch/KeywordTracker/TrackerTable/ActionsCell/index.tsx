@@ -88,6 +88,7 @@ const ActionsCell = (props: Props) => {
         isModalOpen={isVariationsModalOpen}
         setModalOpen={setVariationModalOpen}
         keywordTrackProductId={rowData[TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY]}
+        variationStatus={rowData.variation_status === 'active'}
       />
       <div className={styles.actionCellWrapper}>
         <Popup

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Modal } from 'semantic-ui-react';
+import { Modal, Checkbox } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -17,18 +17,21 @@ import {
   fetchKeywordTrackerProductVariation,
   fetchUpdateKeywordTrackerProductVariations,
   setKeywordTrackerVariationsResults,
+  updateKeywordTrackerProduct,
 } from '../../../../../actions/KeywordResearch/KeywordTracker';
 
 /* Interfaces */
 import {
   TrackerTableProductVariationsPayload,
   TrackerTableUpdateProductVariationsPayload,
+  UpdateKeywordTrackerTableProductPayload,
 } from '../../../../../interfaces/KeywordResearch/KeywordTracker';
 import { Table } from 'rsuite';
 
 /* Components */
 import StatsCell from '../../../../../components/NewTable/StatsCell';
 import TruncatedTextCell from '../../../../../components/NewTable/TruncatedTextCell';
+import Placeholder from '../../../../../components/Placeholder';
 
 /* Utils */
 import { truncateString } from '../../../../../utils/format';
@@ -38,6 +41,7 @@ interface Props {
   title: string;
   image_url: string;
   asin: string;
+  variationStatus: boolean;
   isModalOpen: boolean;
   setModalOpen: (open: boolean) => void;
 
@@ -51,6 +55,7 @@ interface Props {
     payload: TrackerTableUpdateProductVariationsPayload
   ) => void;
   setKeywordTrackerVariationsResults: (payload: any) => void;
+  updateKeywordTrackerProduct: (payload: UpdateKeywordTrackerTableProductPayload) => void;
 }
 
 const VariationModal = (props: Props) => {
@@ -59,14 +64,16 @@ const VariationModal = (props: Props) => {
     keywordTrackProductId,
     fetchKeywordTrackerProductVariation,
     fetchUpdateKeywordTrackerProductVariations,
+    updateKeywordTrackerProduct,
     setModalOpen,
     isLoadingKeywordTrackerProductVariations,
     keywordTrackerProductVariationResults,
     title,
     asin,
     image_url,
+    variationStatus,
   } = props;
-
+  console.log(isLoadingKeywordTrackerProductVariations);
   /* Adding index to data */
   const keywordTrackerProductVariationResultsWithIndex = keywordTrackerProductVariationResults.map(
     (row: any, index: number) => {
@@ -83,6 +90,15 @@ const VariationModal = (props: Props) => {
     setVariationsUpdating(true);
   };
 
+  const handleUpdateVariationStatus = () => {
+    setVariationsUpdating(true);
+    updateKeywordTrackerProduct({
+      keywordTrackProductId,
+      property: 'variation_status',
+      value: variationStatus ? 'inactive' : 'active',
+    });
+  };
+
   /* Upon competion of variation update, change state to reflect fully updated */
   React.useEffect(() => {
     if (isUpdatingVariations && !isVariationsFullyUpdated) {
@@ -93,12 +109,15 @@ const VariationModal = (props: Props) => {
   /* Reset to default state when opening modal */
   React.useEffect(() => {
     if (isModalOpen) {
-      setKeywordTrackerVariationsResults([]);
       fetchKeywordTrackerProductVariation({ keywordTrackProductId });
-      setVariationsUpdating(false);
-      setVariationsFullyUpdated(false);
     }
-  }, [isModalOpen]);
+
+    if (!isModalOpen) {
+      setVariationsFullyUpdated(false);
+      setVariationsUpdating(false);
+      setKeywordTrackerVariationsResults([]);
+    }
+  }, [variationStatus, isModalOpen]);
 
   return (
     <Modal
@@ -114,6 +133,7 @@ const VariationModal = (props: Props) => {
         <div className={styles.productVariations}>
           <div className={styles.headerRow}>
             <h2> PRODUCT VARIATIONS </h2>
+            <Checkbox toggle checked={variationStatus} onChange={handleUpdateVariationStatus} />
             <div className={styles.productInfoContainer}>
               {/* Product Image */}
               <div
@@ -138,13 +158,22 @@ const VariationModal = (props: Props) => {
           <div className={styles.productVariationsTableWrapper}>
             <p>Total {keywordTrackerProductVariationResults.length} variations </p>
             <Table
-              loading={isLoadingKeywordTrackerProductVariations}
-              data={keywordTrackerProductVariationResultsWithIndex}
+              renderLoading={() =>
+                isLoadingKeywordTrackerProductVariations && (
+                  <Placeholder numberParagraphs={1} numberRows={1} />
+                )
+              }
+              data={
+                !isLoadingKeywordTrackerProductVariations
+                  ? keywordTrackerProductVariationResultsWithIndex
+                  : []
+              }
               height={590}
               hover={false}
               rowHeight={50}
               headerHeight={55}
               id="keywordTrackerProductVariationsTable"
+              renderEmpty={() => <div />}
             >
               {/* # */}
               <Table.Column width={50} verticalAlign="top" align="left">
@@ -207,6 +236,8 @@ const mapDispatchToProps = (dispatch: any) => {
     ) => dispatch(fetchUpdateKeywordTrackerProductVariations(payload)),
     setKeywordTrackerVariationsResults: (payload: any) =>
       dispatch(setKeywordTrackerVariationsResults(payload)),
+    updateKeywordTrackerProduct: (payload: UpdateKeywordTrackerTableProductPayload) =>
+      dispatch(updateKeywordTrackerProduct(payload)),
   };
 };
 
