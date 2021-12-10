@@ -93,7 +93,7 @@ const VariationModal = (props: Props) => {
   const handleUpdateVariationStatus = () => {
     updateKeywordTrackerProduct({
       keywordTrackProductId,
-      property: 'variation_status',
+      key: 'variation_status',
       value: variationStatus ? 'inactive' : 'active',
     });
   };

@@ -323,11 +323,11 @@ export const updateKeywordTrackerProduct = (
   const currentlyAvailableProducts = getKeywordTrackerProductsTableResults(getState());
 
   try {
-    const { property, value, keywordTrackProductId } = payload;
+    const { key, value, keywordTrackProductId } = payload;
 
     const formData = new FormData();
     formData.set(TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY, String(keywordTrackProductId));
-    formData.set(property, value);
+    formData.set(key, value);
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/products`;
 

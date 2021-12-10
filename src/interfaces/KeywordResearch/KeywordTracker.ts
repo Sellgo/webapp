@@ -62,7 +62,7 @@ export interface UnTrackKeywordTrackerTableProduct {
 
 export interface UpdateKeywordTrackerTableProductPayload {
   keywordTrackProductId: number;
-  property: 'status' | 'variation_status';
+  key: 'status' | 'variation_status';
   value: any;
 }
 
