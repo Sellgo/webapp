@@ -159,6 +159,10 @@
         background: none !important;
         font-weight: 600 !important;
       }
+
+      &:disabled {
+        opacity: 1 !important;
+      }
     }
   }
 
@@ -202,4 +206,9 @@
   height: 25px !important;
   width: max-content;
   font-size: 14px;
+}
+
+.disabled {
+  opacity: 0.7 !important;
+  pointer-events: none !important;
 }

@@ -15,6 +15,7 @@ export interface TriggerMetaData {
   id: number;
   name: string;
   status: string;
+  is_assigned?: boolean;
 }
 
 export interface SelectionKeyword {

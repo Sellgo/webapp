@@ -23,6 +23,7 @@ import {
   getIsLoadingkeywordDatabaseTable,
   getKeywordDatabaseTablePaginationInfo,
   getKeywordDatabaseTableResults,
+  getShouldFetchkeywordDatabaseProgress,
 } from '../../../../selectors/KeywordResearch/KeywordDatabase';
 
 /* Actions */
@@ -39,6 +40,7 @@ import { onMountFixNewTableHeader } from '../../../../utils/newTable';
 
 interface Props {
   isLoadingKeywordDatabaseTable: boolean;
+  shouldFetchKeywordDatabaseProgress: boolean;
   keywordDatabaseTableResults: any;
   keywordDatabaseTablePaginationInfo: KeywordDatabasePaginationInfo;
   fetchKeywordDatabaseTableInformation: (payload: KeywordDatabaseTablePayload) => void;
@@ -50,6 +52,7 @@ const DatabaseTable = (props: Props) => {
     keywordDatabaseTablePaginationInfo,
     keywordDatabaseTableResults,
     fetchKeywordDatabaseTableInformation,
+    shouldFetchKeywordDatabaseProgress,
   } = props;
 
   const [sortColumn, setSortColumn] = useState<string>('');
@@ -80,13 +83,17 @@ const DatabaseTable = (props: Props) => {
     <section className={styles.keywordDatabaseTableWrapper}>
       <Table
         renderLoading={() =>
-          isLoadingKeywordDatabaseTable && (
+          (isLoadingKeywordDatabaseTable || shouldFetchKeywordDatabaseProgress) && (
             <Placeholder numberParagraphs={2} numberRows={3} isGrey />
           )
         }
         renderEmpty={() => <div />}
         // Dont display old data when loading
-        data={!isLoadingKeywordDatabaseTable ? keywordDatabaseTableResults : []}
+        data={
+          !(isLoadingKeywordDatabaseTable || shouldFetchKeywordDatabaseProgress)
+            ? keywordDatabaseTableResults
+            : []
+        }
         autoHeight
         hover={false}
         rowHeight={50}
@@ -217,6 +224,7 @@ const mapStateToProps = (state: any) => {
     isLoadingKeywordDatabaseTable: getIsLoadingkeywordDatabaseTable(state),
     keywordDatabaseTableResults: getKeywordDatabaseTableResults(state),
     keywordDatabaseTablePaginationInfo: getKeywordDatabaseTablePaginationInfo(state),
+    shouldFetchKeywordDatabaseProgress: getShouldFetchkeywordDatabaseProgress(state),
   };
 };
 

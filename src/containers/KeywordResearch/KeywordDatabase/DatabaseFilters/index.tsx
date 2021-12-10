@@ -15,25 +15,38 @@ import {
   resetKeywordDatabase,
 } from '../../../../actions/KeywordResearch/KeywordDatabase';
 
+/* Selectors */
+import {
+  getIsLoadingkeywordDatabaseTable,
+  getShouldFetchkeywordDatabaseProgress,
+} from '../../../../selectors/KeywordResearch/KeywordDatabase';
+
 /* Components */
 import AdvanceFilterToggle from '../../../../components/AdvanceFilterToggle';
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
+import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
 
 /* Interfaces */
 import { KeywordDatabaseTablePayload } from '../../../../interfaces/KeywordResearch/KeywordDatabase';
-import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
 
 interface Props {
   fetchKeywordDatabaseTableInfo: (payload: KeywordDatabaseTablePayload) => void;
   resetKeywordDatabase: () => void;
+  isLoadingKeywordDatabaseTable: boolean;
+  shouldFetchKeywordDatabaseProgress: boolean;
 }
 
 const DatabaseFilters = (props: Props) => {
-  const { fetchKeywordDatabaseTableInfo, resetKeywordDatabase } = props;
+  const {
+    fetchKeywordDatabaseTableInfo,
+    resetKeywordDatabase,
+    isLoadingKeywordDatabaseTable,
+    shouldFetchKeywordDatabaseProgress,
+  } = props;
 
-  const [showAdvancedFilter, setShowAdvancedFilter] = useState(true);
+  const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
 
   /* Basic Filters */
   const [searchVolume, setSearchVolume] = useState(DEFAULT_MIN_MAX_FILTER);
@@ -45,6 +58,12 @@ const DatabaseFilters = (props: Props) => {
   /* Advanced Filters */
   const [searchTerm, setSearchTerm] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
   const [matchKeywords, setMatchKeywords] = useState(false);
+
+  React.useEffect(() => {
+    if (shouldFetchKeywordDatabaseProgress || isLoadingKeywordDatabaseTable) {
+      setShowAdvancedFilter(false);
+    }
+  }, [shouldFetchKeywordDatabaseProgress, isLoadingKeywordDatabaseTable]);
 
   /* Handle Reset */
   const handleReset = () => {
@@ -193,6 +212,13 @@ const DatabaseFilters = (props: Props) => {
   );
 };
 
+const mapStateToProps = (state: any) => {
+  return {
+    isLoadingKeywordDatabaseTable: getIsLoadingkeywordDatabaseTable(state),
+    shouldFetchKeywordDatabaseProgress: getShouldFetchkeywordDatabaseProgress(state),
+  };
+};
+
 const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchKeywordDatabaseTableInfo: (payload: KeywordDatabaseTablePayload) =>
@@ -201,4 +227,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(DatabaseFilters);
+export default connect(mapStateToProps, mapDispatchToProps)(DatabaseFilters);

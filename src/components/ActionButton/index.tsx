@@ -40,7 +40,7 @@ const ActionButton = (props: Props) => {
 
   if (isBorderedGradient) {
     return (
-      <div className={btnClass}>
+      <div className={`${btnClass} ${disabled ? styles.disabled : ''}`}>
         <button onClick={handleClick} className={styles.innerButton} disabled={disabled}>
           {children}
         </button>

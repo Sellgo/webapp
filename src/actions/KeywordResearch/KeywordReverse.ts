@@ -578,8 +578,6 @@ export const fetchKeywordReverseTableInformation = (payload: KeywordReverseTable
 /* Action to reset keyword database */
 export const resetKeywordReverse = () => async (dispatch: any) => {
   dispatch(isFetchingKeywordReverseRequestId(false));
-  dispatch(setKeywordReverseRequestId(''));
-  dispatch(setAsinListForKeywordReverse(''));
   dispatch(shouldFetchKeywordReverseProgress(false));
   dispatch(
     setKeywordReverseProgressData({
@@ -590,6 +588,5 @@ export const resetKeywordReverse = () => async (dispatch: any) => {
       report_xlsx_url: '',
     })
   );
-  dispatch(fetchKeywordReverseProductsList({ resetProducts: true }));
   dispatch(fetchKeywordReverseTableInformation({ resetFilter: true }));
 };
