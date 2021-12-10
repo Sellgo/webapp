@@ -73,7 +73,7 @@ const VariationModal = (props: Props) => {
     image_url,
     variationStatus,
   } = props;
-  console.log(isLoadingKeywordTrackerProductVariations);
+
   /* Adding index to data */
   const keywordTrackerProductVariationResultsWithIndex = keywordTrackerProductVariationResults.map(
     (row: any, index: number) => {
@@ -91,7 +91,6 @@ const VariationModal = (props: Props) => {
   };
 
   const handleUpdateVariationStatus = () => {
-    setVariationsUpdating(true);
     updateKeywordTrackerProduct({
       keywordTrackProductId,
       property: 'variation_status',
@@ -99,7 +98,7 @@ const VariationModal = (props: Props) => {
     });
   };
 
-  /* Upon competion of variation update, change state to reflect fully updated */
+  /* Upon completion of variation update, change state to reflect fully updated */
   React.useEffect(() => {
     if (isUpdatingVariations && !isVariationsFullyUpdated) {
       setVariationsFullyUpdated(true);
