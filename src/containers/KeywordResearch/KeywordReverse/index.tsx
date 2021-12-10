@@ -18,6 +18,7 @@ import { getKeywordReverseRequestId } from '../../../selectors/KeywordResearch/K
 
 /* Actions */
 import {
+  fetchKeywordReverseAggSummary,
   fetchKeywordReverseProductsList,
   fetchKeywordReverseRequestId,
   fetchKeywordReverseTableInformation,
@@ -44,6 +45,7 @@ interface Props {
   fetchKeywordReverseProductsList: (payload: KeywordReverseProductListPayload) => void;
   fetchKeywordReverseTableInformation: (payload: KeywordReverseTablePayload) => void;
   fetchKeywordReverseWordFreqSummary: (sortDir: 'asc' | 'desc') => void;
+  fetchKeywordReverseAggSummary: () => void;
 }
 
 const KeywordReverse = (props: Props) => {
@@ -53,6 +55,7 @@ const KeywordReverse = (props: Props) => {
     fetchKeywordReverseTableInformation,
     fetchKeywordReverseProductsList,
     fetchKeywordReverseWordFreqSummary,
+    fetchKeywordReverseAggSummary,
   } = props;
 
   useEffect(() => {
@@ -91,6 +94,7 @@ const KeywordReverse = (props: Props) => {
         success('Fetching keywords');
         fetchKeywordReverseRequestId(asins);
         fetchKeywordReverseWordFreqSummary('desc');
+        fetchKeywordReverseAggSummary();
         history.replace('/keyword-research/finder');
       }
     } else {
@@ -100,6 +104,7 @@ const KeywordReverse = (props: Props) => {
         fetchKeywordReverseProductsList({ enableLoader: true });
         fetchKeywordReverseTableInformation({ enableLoader: true });
         fetchKeywordReverseWordFreqSummary('desc');
+        fetchKeywordReverseAggSummary();
         return;
       }
     }
@@ -127,6 +132,7 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(fetchKeywordReverseTableInformation(payload)),
     fetchKeywordReverseWordFreqSummary: (sortDir: 'asc' | 'desc') =>
       dispatch(fetchKeywordReverseWordFreqSummary(sortDir)),
+    fetchKeywordReverseAggSummary: () => dispatch(fetchKeywordReverseAggSummary()),
   };
 };
 

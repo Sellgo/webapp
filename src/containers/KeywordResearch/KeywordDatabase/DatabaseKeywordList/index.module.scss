@@ -9,7 +9,7 @@
 
 .toggleReset {
   position: absolute;
-  z-index: 99999;
+  z-index: 9999;
   cursor: pointer !important;
 
   path {
@@ -119,7 +119,7 @@
   padding: 0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  z-index: 9999999 !important;
+  z-index: 9999 !important;
 
   li {
     width: 100%;

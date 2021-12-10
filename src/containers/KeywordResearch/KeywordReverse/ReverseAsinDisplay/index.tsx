@@ -6,8 +6,11 @@ import styles from './index.module.scss';
 
 /* Selectors */
 import {
+  getIsFetchingKeywordReverseRequestId,
   getIsLoadingKeywordReverseProductsList,
+  getKeywordReverseAsinList,
   getKeywordReverseProductsList,
+  getReferencedAsinIndex,
   getShouldFetchKeywordReverseProgress,
 } from '../../../../selectors/KeywordResearch/KeywordReverse';
 
@@ -16,6 +19,7 @@ import {
   fetchKeywordReverseRequestId,
   resetKeywordReverse,
   fetchKeywordReverseWordFreqSummary,
+  setReferencedAsinIndex,
 } from '../../../../actions/KeywordResearch/KeywordReverse';
 
 /* Interfaces */
@@ -35,7 +39,11 @@ import { timeout } from '../../../../utils/timeout';
 interface Props {
   isLoadingKeywordReverseProductsList: boolean;
   shouldFetchKeywordReverseProgress: boolean;
+  isFetchingKeywordReverseRequestId: boolean;
   keywordReverseProductsList: KeywordReverseAsinProduct[];
+  asinListForKeywordReverse: string;
+  referencedAsinIndex: number;
+  setReferencedAsinIndex: (index: number) => void;
   fetchKeywordReverseRequestId: (payload: string) => void;
   fetchKeywordReverseWordFreqSummary: (sortDir: 'asc' | 'desc') => void;
   resetKeywordReverse: () => void;
@@ -44,7 +52,11 @@ interface Props {
 const ReverseAsinDisplay = (props: Props) => {
   const {
     keywordReverseProductsList,
+    asinListForKeywordReverse,
     isLoadingKeywordReverseProductsList,
+    isFetchingKeywordReverseRequestId,
+    referencedAsinIndex,
+    setReferencedAsinIndex,
     shouldFetchKeywordReverseProgress,
     fetchKeywordReverseRequestId,
     resetKeywordReverse,
@@ -80,22 +92,34 @@ const ReverseAsinDisplay = (props: Props) => {
     setShowAddBulkAsin(false);
   };
 
+  const displayKeywordReverseProductsList = [...keywordReverseProductsList];
+  if (keywordReverseProductsList.length > 0) {
+    // Move first item in arr to specified index
+    const referencedAsin = displayKeywordReverseProductsList.splice(0, 1)[0];
+    displayKeywordReverseProductsList.splice(referencedAsinIndex, 0, referencedAsin);
+  }
+
   // Handle Confirm Reference
-  const handleAsinReferenceChange = (asin: string) => {
-    const allAsins = keywordReverseProductsList && keywordReverseProductsList.map(a => a.asin);
+  const handleAsinReferenceChange = (asin: string, index: number) => {
+    const allAsins =
+      displayKeywordReverseProductsList && displayKeywordReverseProductsList.map(a => a.asin);
     const filteredSelectedAsin = allAsins.filter(a => a !== asin);
 
     const newAsinList = [asin, ...filteredSelectedAsin];
 
     // restart the process for the ASIN with newly assigned references
     fetchKeywordReverseRequestId(newAsinList.join(','));
+    setReferencedAsinIndex(index);
   };
 
   // Disabling logic for the adding new asin
   const currentProductAsins = keywordReverseProductsList.map(a => a.asin).join(',');
   const totalProducts = keywordReverseProductsList.length;
   const disableAddAsinCard = totalProducts >= MAX_ASINS_ALLOWED;
-
+  const isLoading =
+    isLoadingKeywordReverseProductsList ||
+    shouldFetchKeywordReverseProgress ||
+    isFetchingKeywordReverseRequestId;
   return (
     <section className={styles.reverseAsinDisplay}>
       {totalProducts > 0 ? (
@@ -120,30 +144,57 @@ const ReverseAsinDisplay = (props: Props) => {
             onClick={() => !disableAddAsinCard && setShowAddBulkAsin(true)}
           >
             <span> + </span>
-            <p>ADD ASIN</p>
+            <p>
+              ADD UP
+              <br />
+              TO 10 ASIN
+            </p>
           </div>
         </div>
 
         {/* Show the ASIN reverse card list */}
         <div className={styles.overflowWrapper}>
-          {keywordReverseProductsList &&
-            keywordReverseProductsList.map((keywordProduct, index: number) => {
-              return (
-                <ReverseAsinCard
-                  key={index}
-                  data={keywordProduct}
-                  isLoading={
-                    isLoadingKeywordReverseProductsList || shouldFetchKeywordReverseProgress
-                  }
-                  handleRemoveProduct={removeProduct}
-                  handleCardClick={(asin: string) => {
-                    handleAsinReferenceChange(asin);
-                  }}
-                  isActive={index === 0}
-                  index={index}
-                />
-              );
-            })}
+          {!isLoading
+            ? displayKeywordReverseProductsList.map((keywordProduct, index: number) => {
+                return (
+                  <ReverseAsinCard
+                    key={index}
+                    data={keywordProduct}
+                    isLoading={false}
+                    handleRemoveProduct={removeProduct}
+                    handleCardClick={(asin: string) => {
+                      handleAsinReferenceChange(asin, index);
+                    }}
+                    isActive={index === referencedAsinIndex}
+                    index={index}
+                  />
+                );
+              })
+            : asinListForKeywordReverse &&
+              asinListForKeywordReverse.split(',').map((asin, index: number) => {
+                return (
+                  <ReverseAsinCard
+                    key={index}
+                    data={{
+                      id: index,
+                      asin,
+                      title: '',
+                      rank: 0,
+                      sales_monthly: 0,
+                      image_url: '',
+                      position: 0,
+                      keywords_count: 0,
+                    }}
+                    isLoading={true}
+                    handleRemoveProduct={removeProduct}
+                    handleCardClick={(asin: string) => {
+                      handleAsinReferenceChange(asin, index);
+                    }}
+                    isActive={index === referencedAsinIndex}
+                    index={index}
+                  />
+                );
+              })}
         </div>
       </div>
 
@@ -172,6 +223,9 @@ const mapStateToProps = (state: any) => {
     isLoadingKeywordReverseProductsList: getIsLoadingKeywordReverseProductsList(state),
     keywordReverseProductsList: getKeywordReverseProductsList(state),
     shouldFetchKeywordReverseProgress: getShouldFetchKeywordReverseProgress(state),
+    asinListForKeywordReverse: getKeywordReverseAsinList(state),
+    referencedAsinIndex: getReferencedAsinIndex(state),
+    isFetchingKeywordReverseRequestId: getIsFetchingKeywordReverseRequestId(state),
   };
 };
 
@@ -182,6 +236,7 @@ const mapDispatchToProps = (dispatch: any) => {
     resetKeywordReverse: () => dispatch(resetKeywordReverse()),
     fetchKeywordReverseWordFreqSummary: (sortDir: 'asc' | 'desc') =>
       dispatch(fetchKeywordReverseWordFreqSummary(sortDir)),
+    setReferencedAsinIndex: (payload: number) => dispatch(setReferencedAsinIndex(payload)),
   };
 };
 

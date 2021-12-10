@@ -467,8 +467,15 @@ export const fetchKeywordDatabaseAggSummary = () => async (dispatch: any, getSta
         setKeywordDatabaseAggSummary({
           total_keywords: 0,
           total_search_volume: 0,
-          avg_competing_products: 0,
+          min_search_volume: 0,
           avg_search_volume: 0,
+          max_search_volume: 0,
+          min_competing_products: 0,
+          avg_competing_products: 0,
+          max_competing_products: 0,
+          min_sponsored_asins: 0,
+          avg_sponsored_asins: 0,
+          max_sponsored_asins: 0,
         })
       );
       dispatch(isLoadingKeywordDatabaseAggSummary(false));
@@ -479,8 +486,15 @@ export const fetchKeywordDatabaseAggSummary = () => async (dispatch: any, getSta
       setKeywordDatabaseAggSummary({
         total_keywords: 0,
         total_search_volume: 0,
-        avg_competing_products: 0,
+        min_search_volume: 0,
         avg_search_volume: 0,
+        max_search_volume: 0,
+        min_competing_products: 0,
+        avg_competing_products: 0,
+        max_competing_products: 0,
+        min_sponsored_asins: 0,
+        avg_sponsored_asins: 0,
+        max_sponsored_asins: 0,
       })
     );
     dispatch(isLoadingKeywordDatabaseAggSummary(false));
@@ -547,8 +561,15 @@ export const resetKeywordDatabase = () => async (dispatch: any) => {
     setKeywordDatabaseAggSummary({
       total_keywords: 0,
       total_search_volume: 0,
-      avg_competing_products: 0,
+      min_search_volume: 0,
       avg_search_volume: 0,
+      max_search_volume: 0,
+      min_competing_products: 0,
+      avg_competing_products: 0,
+      max_competing_products: 0,
+      min_sponsored_asins: 0,
+      avg_sponsored_asins: 0,
+      max_sponsored_asins: 0,
     })
   );
   dispatch(fetchKeywordDatabaseTableInformation({ resetFilter: true }));

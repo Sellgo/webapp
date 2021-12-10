@@ -3,7 +3,7 @@
 /* Reverse Asin Card */
 .reverseAsinCard {
   width: 160px;
-  height: 240px;
+  height: 242px;
   background: $prim_white;
   display: flex;
   flex-direction: column;
@@ -46,12 +46,12 @@
   }
 
   &__active {
-    background: $prim_dark_1;
-    color: $prim_white;
+    background: $sellgo_yellow;
+    color: $black_1;
 
     .bullsEyeIcon {
       path {
-        fill: $prim_white;
+        fill: $black_1;
       }
     }
   }
@@ -81,7 +81,7 @@
   color: $black_0 !important;
 }
 
-.salesAndRank {
+.keywordsAndRank {
   margin-top: 10px;
   width: 100%;
   display: flex;
@@ -91,7 +91,7 @@
 }
 
 /* Sales Per Month */
-.salesPerMonth {
+.keywordsCount {
   color: $grey_8;
   font-size: 12px;
 
@@ -117,27 +117,29 @@
   }
 }
 
+.sales {
+  margin-top: 6px;
+  color: $grey_8;
+  font-size: 12px;
+
+  span {
+    font-size: 14px;
+    font-weight: $fontweight_semibold;
+    color: $prim_dark_2;
+  }
+}
+
 /* Product image */
 .productImage {
   margin: 8px 0;
-  margin-left: 18px;
-  width: 100px;
-  height: 100px;
+  margin-left: 30px;
+  width: 80px;
+  height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 4px;
-  border-radius: 50%;
   overflow: hidden;
-  background: $purple_pink_gradient;
-
-  img {
-    object-fit: contain;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: $prim_white;
-  }
 }
 
 .loader {
@@ -150,4 +152,11 @@
   width: 160px;
   height: 100%;
   padding: 0 18px;
+}
+
+.checkProductLink {
+  background: none;
+  font-size: 9px;
+  color: $blue_link_bg_light;
+  font-weight: $fontweight_medium;
 }

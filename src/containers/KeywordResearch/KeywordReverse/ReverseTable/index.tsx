@@ -9,16 +9,19 @@ import './global.scss';
 
 /* Selectors */
 import {
+  getIsFetchingKeywordReverseRequestId,
   getIsLoadingKeywordReverseTable,
   getKeywordReverseProductsList,
   getKeywordReverseTablePaginationInfo,
   getKeywordReverseTableResults,
+  getShouldFetchKeywordReverseProgress,
 } from '../../../../selectors/KeywordResearch/KeywordReverse';
 
 /* Actions */
 import { fetchKeywordReverseTableInformation } from '../../../../actions/KeywordResearch/KeywordReverse';
 
 /* Components */
+import CopySponsoredAsins from './CopySponsoredAsins';
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
 import StatsCell from '../../../../components/NewTable/StatsCell';
@@ -39,9 +42,12 @@ import {
 
 /* Utils */
 import { onMountFixNewTableHeader } from '../../../../utils/newTable';
+import AmazonChoiceLabel from '../../KeywordTracker/TrackerTable/AmazonChoiceLabel';
 
 interface Props {
   isLoadingKeywordReverseTable: boolean;
+  isFetchingKeywordReverseRequestId: boolean;
+  shouldFetchKeywordReverseProgress: boolean;
   keywordReverseTableResults: any[];
   keywordReverseTablePaginationInfo: KeywordReversePaginationInfo;
   keywordReverseProductsList: KeywordReverseAsinProduct[];
@@ -52,6 +58,8 @@ interface Props {
 const ReverseTable = (props: Props) => {
   const {
     isLoadingKeywordReverseTable,
+    isFetchingKeywordReverseRequestId,
+    shouldFetchKeywordReverseProgress,
     keywordReverseTableResults,
     keywordReverseTablePaginationInfo,
     keywordReverseProductsList,
@@ -77,19 +85,22 @@ const ReverseTable = (props: Props) => {
   };
 
   const singleAsinOnReverse = keywordReverseProductsList && keywordReverseProductsList.length === 1;
-
+  const isLoading =
+    isLoadingKeywordReverseTable ||
+    isFetchingKeywordReverseRequestId ||
+    shouldFetchKeywordReverseProgress;
   return (
     <section className={styles.keywordReverseTableWrapper}>
       <Table
         renderLoading={() =>
-          isLoadingKeywordReverseTable && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
+          isLoading && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
         }
         renderEmpty={() => <div />}
         // Dont display old data when loading
-        data={!isLoadingKeywordReverseTable ? keywordReverseTableResults : []}
+        data={!isLoading ? keywordReverseTableResults : []}
         autoHeight
         hover={false}
-        rowHeight={65}
+        rowHeight={50}
         headerHeight={60}
         sortColumn={sortColumn}
         sortType={sortType}
@@ -108,6 +119,19 @@ const ReverseTable = (props: Props) => {
             />
           </Table.HeaderCell>
           <SearchTerm dataKey="searchTerm" />
+        </Table.Column>
+
+        {/* Amzon Choice */}
+        <Table.Column width={140} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Amazon Choice`}
+              dataKey="amazon_choice_asins"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <AmazonChoiceLabel dataKey="amazon_choice_asins" />
         </Table.Column>
 
         {/* Search Volume */}
@@ -133,7 +157,7 @@ const ReverseTable = (props: Props) => {
               currentSortType={sortType}
             />
           </Table.HeaderCell>
-          <StatsCell dataKey="sponsored_asins" align="left" />
+          <CopySponsoredAsins dataKey="sponsored_asins" />
         </Table.Column>
 
         {/* Sponsored Rank */}
@@ -353,6 +377,8 @@ const ReverseTable = (props: Props) => {
 const mapStateToProps = (state: any) => {
   return {
     isLoadingKeywordReverseTable: getIsLoadingKeywordReverseTable(state),
+    isFetchingKeywordReverseRequestId: getIsFetchingKeywordReverseRequestId(state),
+    shouldFetchKeywordReverseProgress: getShouldFetchKeywordReverseProgress(state),
     keywordReverseTableResults: getKeywordReverseTableResults(state),
     keywordReverseTablePaginationInfo: getKeywordReverseTablePaginationInfo(state),
     keywordReverseProductsList: getKeywordReverseProductsList(state),

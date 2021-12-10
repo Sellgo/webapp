@@ -86,14 +86,14 @@ export const OPTIONS: NavOptions = [
         disabled: false,
         isBeta: false,
       },
-      {
-        label: 'Leads Tracker',
-        description: 'Intelligent Leads Tracking',
-        icon: require(`../../assets/images/${NAV_ICONS.LEADS_TRACKER}`),
-        path: '/leads-tracker',
-        disabled: false,
-        isBeta: false,
-      },
+      // {
+      //   label: 'Leads Tracker',
+      //   description: 'Intelligent Leads Tracking',
+      //   icon: require(`../../assets/images/${NAV_ICONS.LEADS_TRACKER}`),
+      //   path: '/leads-tracker',
+      //   disabled: false,
+      //   isBeta: false,
+      // },
     ],
   },
   {

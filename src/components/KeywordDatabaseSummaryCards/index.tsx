@@ -11,7 +11,7 @@ interface Props {
   title: string;
   content: React.ReactNode;
   isLoading: boolean;
-  handleSort: () => void;
+  handleSort?: () => void;
   handleCopy?: (deliminator?: string) => void;
   sort?: 'asc' | 'desc';
 }
@@ -36,18 +36,20 @@ const KeywordDatabaseSummaryCards = (props: Props) => {
       <div className={styles.summaryHeader}>
         <h2 className={styles.summaryCardTitle} onClick={handleSort}>
           {title}
-          <div className={styles.sortIconGroup}>
-            <Icon
-              size="large"
-              name="triangle up"
-              className={isAscendingSorted ? styles.activeSort : styles.inActiveSort}
-            />
-            <Icon
-              size="large"
-              name="triangle down"
-              className={isDescendingSorted ? styles.activeSort : styles.inActiveSort}
-            />
-          </div>
+          {handleSort && (
+            <div className={styles.sortIconGroup}>
+              <Icon
+                size="large"
+                name="triangle up"
+                className={isAscendingSorted ? styles.activeSort : styles.inActiveSort}
+              />
+              <Icon
+                size="large"
+                name="triangle down"
+                className={isDescendingSorted ? styles.activeSort : styles.inActiveSort}
+              />
+            </div>
+          )}
         </h2>
         {handleCopy && (
           <div className={styles.copyButton}>

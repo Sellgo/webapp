@@ -1,0 +1,116 @@
+@import '../../../../../design-system/new-colors';
+
+.btnReset {
+  background: transparent !important;
+  max-height: 100%;
+  width: max-content !important;
+  border: 0 !important;
+  outline: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.actionCellWrapper {
+  display: flex;
+  justify-content: flex-start !important;
+  align-items: center;
+  color: $grey_8 !important;
+}
+
+.actionCell {
+  min-width: max-content;
+  max-width: 65px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 5px;
+  cursor: pointer;
+  padding-left: 5px;
+
+  &:hover {
+    background: $grey_0 !important;
+  }
+}
+
+.iconButton {
+  @extend .btnReset;
+
+  margin-right: 5px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > i.chevron.up.icon {
+    font-size: 10px !important;
+  }
+}
+
+.actionsPopover {
+  padding: 10px !important;
+  z-index: 99999 !important;
+
+  &::before {
+    display: none !important;
+  }
+}
+
+.actionOptions {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  min-height: 80px;
+  justify-content: space-between;
+  align-items: stretch;
+
+  p {
+    margin-top: 18px;
+    color: $grey_6 !important;
+    font-size: 12px;
+
+    &:nth-child(1) {
+      margin-top: 0;
+    }
+  }
+
+  button {
+    @extend .btnReset;
+
+    color: $grey_8 !important;
+    margin: 5px 0;
+    width: 100% !important;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 14px !important;
+    height: 25px;
+
+    &:hover {
+      background: $grey_1 !important;
+    }
+
+    span {
+      margin-left: 2px;
+    }
+
+    img {
+      min-width: 20px;
+      height: 12px;
+      margin-left: 5px;
+    }
+
+    svg {
+      width: 20px !important;
+      height: 12px !important;
+    }
+
+    path {
+      fill: $grey_8 !important;
+    }
+
+    i.icon.copy.outline {
+      margin-left: 5px !important;
+      color: $grey_8 !important;
+    }
+  }
+}

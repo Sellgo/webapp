@@ -1,0 +1,15 @@
+@import '../../../../../design-system/new-colors';
+
+.changeStatsCell {
+  font-size: 14px !important;
+  color: $prim_dark_2;
+  display: flex;
+  flex-direction: column;
+  justify-items: flex-end;
+  width: 100%;
+
+  div {
+    margin-bottom: 10px;
+    min-height: 30px;
+  }
+}

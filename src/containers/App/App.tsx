@@ -25,9 +25,10 @@ import Profile from '../Settings/Profile';
 import NewSubscription from '../NewSubscription';
 import PaymentSuccess from '../NewSubscription/PaymentSuccess';
 import Payment from '../Subscription/Payment';
-import LeadsTracker from '../LeadsTracker';
+// import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
 import ChurnFlow from '../ChurnFlow';
+import FailedPaymentsBanner from '../../components/FailedPaymentsBanner';
 
 import SellerResearch from '../SellerResearch';
 import ProductResearch from '../ProductResearch';
@@ -84,6 +85,7 @@ const PrivateRoute = connect(
     ...rest
   }: any) => {
     const userIsAuthenticated = isAuthenticated();
+    const isPaymentPending = sellerSubscription && sellerSubscription.is_payment_pending;
     const isFirstTimeUserLoggedIn =
       sellerSubscription && sellerSubscription.is_first_time_logged_in;
     // This effect will run if there is a change in sellerSubscription,
@@ -177,9 +179,14 @@ const PrivateRoute = connect(
           props.match.params.auth = auth;
 
           return (
-            <AdminLayout {...props}>
-              <Component {...props} />
-            </AdminLayout>
+            <>
+              <AdminLayout {...props}>
+                {isPaymentPending && (
+                  <FailedPaymentsBanner paymentMode={sellerSubscription.payment_mode} />
+                )}
+                <Component {...props} />
+              </AdminLayout>
+            </>
           );
         }}
       />
@@ -263,12 +270,12 @@ function App() {
             component={ProductTracker}
             requireSubscription={true}
           /> */}
-          <PrivateRoute
+          {/* <PrivateRoute
             exact={true}
             path="/leads-tracker"
             component={LeadsTracker}
             requireSubscription={true}
-          />
+          /> */}
 
           <PrivateRoute
             exact={true}

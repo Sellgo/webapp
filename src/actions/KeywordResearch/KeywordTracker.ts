@@ -25,6 +25,7 @@ import {
   TrackBoostProductsTableKeyword,
   TrackerTableProductVariationsPayload,
   TrackerTableUpdateProductVariationsPayload,
+  UpdateKeywordTrackerTableProductPayload,
 } from '../../interfaces/KeywordResearch/KeywordTracker';
 
 /* Selectors */
@@ -312,6 +313,51 @@ export const unTrackKeywordTrackerTableProduct = (
     console.error('Error Untracking/Deleting keyword from tracker product table', err);
   }
 };
+
+/* Action to update product from the keywords tracker products table */
+export const updateKeywordTrackerProduct = (
+  payload: UpdateKeywordTrackerTableProductPayload
+) => async (dispatch: any, getState: any) => {
+  const sellerId = sellerIDSelector();
+
+  const currentlyAvailableProducts = getKeywordTrackerProductsTableResults(getState());
+
+  try {
+    const { key, value, keywordTrackProductId } = payload;
+
+    const formData = new FormData();
+    formData.set(TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY, String(keywordTrackProductId));
+    formData.set(key, value);
+
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/keywords/track/products`;
+
+    const { data } = await axios.patch(URL, formData);
+    if (data) {
+      // Remove deleted keywords from the keywords table
+      const filteredProductsOnTable = currentlyAvailableProducts.filter(
+        (productData: any) => productData.status === 'active'
+      );
+
+      // Update table with new updated product
+      const updatedProductsOnTable = filteredProductsOnTable.map((productData: any) => {
+        if (
+          productData[TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY] ===
+          data[TRACKER_PRODUCTS_TABLE_UNIQUE_ROW_KEY]
+        ) {
+          return data;
+        } else {
+          return productData;
+        }
+      });
+
+      dispatch(setKeywordTrackerProductsTableResults(updatedProductsOnTable));
+      success('Successfully updated product.');
+    }
+  } catch (err) {
+    console.error('Error updated product', err);
+  }
+};
+
 /* ================================================= */
 /*   					KEYWORD TRACKER VARIATIONS							*/
 /* ================================================= */

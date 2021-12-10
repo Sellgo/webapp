@@ -1,0 +1,31 @@
+@import '../../design-system/new-colors';
+
+.failedPaymentsBanner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  background: $system_red;
+  height: 70px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    font-size: 16px;
+    font-weight: $fontweight_semibold;
+    color: $prim_white;
+    text-decoration: none !important;
+
+    i {
+      margin-left: 8px;
+    }
+  }
+
+  button {
+    background: none;
+    position: absolute;
+    right: 30px;
+  }
+}

@@ -60,6 +60,12 @@ export interface UnTrackKeywordTrackerTableProduct {
   keywordTrackProductId: number;
 }
 
+export interface UpdateKeywordTrackerTableProductPayload {
+  keywordTrackProductId: number;
+  key: 'status' | 'variation_status';
+  value: any;
+}
+
 /* Tracker Products Keyword Table Interfaces */
 export interface TrackerProductKeywordsTablePayload {
   keywordTrackProductId: number;

@@ -13,11 +13,11 @@ import HeaderCheckboxCell from '../../../../components/NewTable/HeaderCheckboxCe
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import TrackerKeywordsExport from './TrackerKeywordsExport';
 import Placeholder from '../../../../components/Placeholder';
+import ChangeStats from './ChangeStats';
 
 /* Containers */
 import Keyword from './Keyword';
 import ActionsCell from './ActionsCell';
-import ActionsIconCell from './ActionsIconCell';
 import HeaderActionsCell from './HeaderActionsCell';
 import TrackerCompetitors from './TrackerCompetitors';
 import AddEditKeywords from './AddEditKeywords';
@@ -267,7 +267,7 @@ const TrackerKeywordTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="position_rank" align="center" />
+            <ChangeStats dataKey="position_rank" align="center" />
           </Table.Column>
 
           {/* Relative Rank */}
@@ -280,7 +280,7 @@ const TrackerKeywordTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="relative_rank" align="center" />
+            <ChangeStats dataKey="relative_rank" align="center" />
           </Table.Column>
 
           {/* Average Rank  */}
@@ -293,7 +293,7 @@ const TrackerKeywordTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="average_rank" align="center" />
+            <ChangeStats dataKey="average_rank" align="center" />
           </Table.Column>
 
           {/* Ranking Asins   */}
@@ -306,7 +306,7 @@ const TrackerKeywordTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="ranking_asins" align="center" />
+            <ChangeStats dataKey="ranking_asins" align="center" />
           </Table.Column>
 
           {/* Sponsored Rank  */}
@@ -319,7 +319,7 @@ const TrackerKeywordTable = (props: Props) => {
                 currentSortType={sortType}
               />
             </Table.HeaderCell>
-            <StatsCell dataKey="sponsored_rank" align="center" />
+            <ChangeStats dataKey="sponsored_rank" align="center" />
           </Table.Column>
 
           {/* True Rank Performace Index */}
@@ -333,12 +333,6 @@ const TrackerKeywordTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <StatsCell dataKey="index" align="center" appendWith="%" asRounded={false} />
-          </Table.Column>
-
-          {/* Actions Icon Cell */}
-          <Table.Column width={40} verticalAlign="middle" fixed align="left">
-            <Table.HeaderCell>{''}</Table.HeaderCell>
-            <ActionsIconCell dataKey={TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY} />
           </Table.Column>
 
           {/* Actions Cell */}

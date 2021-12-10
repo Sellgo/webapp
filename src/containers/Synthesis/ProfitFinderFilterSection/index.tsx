@@ -9,10 +9,8 @@ import { SupplierFilter, ChargesInputFilterDataType } from '../../../interfaces/
 import { supplierProductsSelector, presetFiltersState } from '../../../selectors/Supplier';
 import { setSupplierPageNumber, setLeadsTracker, setIsScroll } from '../../../actions/Suppliers';
 import _ from 'lodash';
-import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
 import PresetFilter from '../../../components/FilterContainer/PresetFilter';
-import { isPlanEnterprise } from '../../../utils/subscriptions';
 import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Products';
 import {
@@ -56,14 +54,7 @@ interface Props {
 }
 
 function ProfitFinderFilterSection(props: Props) {
-  const {
-    supplierDetails,
-    products,
-    setPageNumber,
-    subscriptionType,
-    onFilterChange,
-    presetFilterState,
-  } = props;
+  const { supplierDetails, products, setPageNumber, onFilterChange, presetFilterState } = props;
 
   const filterStorage = JSON.parse(
     typeof localStorage.filterState === 'undefined' ? null : localStorage.filterState
@@ -706,10 +697,10 @@ function ProfitFinderFilterSection(props: Props) {
 
   const isScrollTop = props.scrollTopSelector ? 'scroll-top' : '';
   const isStickyChartActive = props.stickyChartSelector ? 'sticky-chart-active' : '';
-  const leadsStatus =
-    props.supplierDetails.leads_tracker_status === null ||
-    props.supplierDetails.leads_tracker_status === 'inactive';
-  const isToggle = leadsStatus ? false : true;
+  // const leadsStatus =
+  //   props.supplierDetails.leads_tracker_status === null ||
+  //   props.supplierDetails.leads_tracker_status === 'inactive';
+  // const isToggle = leadsStatus ? false : true;
   let chargesValues = {};
   const values =
     filterStorage && filterStorage.charges && !!filterStorage.charges.length
@@ -771,7 +762,7 @@ function ProfitFinderFilterSection(props: Props) {
         </div>
 
         <div className="leads-export-wrapper">
-          <p className={`${!isPlanEnterprise(subscriptionType) && 'hidden'}`}>Leads Tracking</p>
+          {/* <p className={`${!isPlanEnterprise(subscriptionType) && 'hidden'}`}>Leads Tracking</p>
           {isPlanEnterprise(props.subscriptionPlan) && (
             <LeadsTrackerToggle
               setLeadsTracker={props.setLeadsTracker}
@@ -779,7 +770,7 @@ function ProfitFinderFilterSection(props: Props) {
               supplier_id={props.supplierDetails.supplier_id}
               isToggle={isToggle}
             />
-          )}
+          )} */}
           {renderChargesFilter()}
           {renderExportButtons()}
         </div>

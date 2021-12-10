@@ -1,56 +1,24 @@
 @import '../../../../design-system/new-colors.scss';
 
 .databaseSummarySection {
-  margin: 30px 0;
-  margin-bottom: 0 !important;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-column-gap: 40px;
+  margin-top: 40px;
+  background: $grey_10;
+  box-shadow: 0 3px 6px #00000029;
+  border: 1px solid $grey_3;
+  border-radius: 7px;
+  height: max-content !important;
+  user-select: none;
+}
+
+.summaryWrapper {
+  padding: 30px;
+  display: flex;
 }
 
 /* Generic Icon Circle Classes */
-.circleGreen {
-  color: $system_green !important;
-}
-
-.circleBlue {
-  color: $accent_blue !important;
-}
-
-.circleRed {
-  color: $system_red !important;
-}
-
-/* Generic subtitle styles */
-.subTitle {
-  color: $grey_8;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.sortIconGroup {
-  margin-left: 13px;
-  color: inherit;
-  font-size: 10px !important;
-  display: flex;
-  flex-direction: column;
-  justify-items: flex-start;
-  align-items: flex-start;
-
-  i:last-child {
-    margin-top: -5px;
-  }
-}
-
-.activeSort {
-  color: $grey_8 !important;
-}
-
-.inActiveSort {
-  color: $grey_3 !important;
+.greenCircle {
+  width: 10px;
+  height: 10px;
+  background: $system_green;
+  border-radius: 50%;
 }

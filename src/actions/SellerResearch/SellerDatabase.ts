@@ -72,6 +72,14 @@ export const setSellerDatabaseMarketplace = (payload: MarketplaceOption) => {
   };
 };
 
+/* Action to set restore last search status */
+export const setIsRestoringSellerDatabaseLastSearch = (payload: boolean) => {
+  return {
+    type: actionTypes.SET_IS_RESTORING_SELLER_DATABASE_LAST_SEARCH,
+    payload,
+  };
+};
+
 /* Action to prepare the payload for query */
 export const parseFilters = (sellerDatabaseFilter: any) => {
   const filterPayloadKeys = Object.keys(sellerDatabaseFilter);
@@ -180,7 +188,6 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
   getState: any
 ) => {
   const sellerID = sellerIDSelector();
-
   try {
     const {
       resetFilter = false,
@@ -213,6 +220,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
     }
 
     if (restoreLastSearch) {
+      dispatch(setIsRestoringSellerDatabaseLastSearch(true));
       dispatch(setIsLoadingSellerDatabase(enabledLoader));
       const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database?restore_last_search=true`;
       const { data } = await axios.get(URL);

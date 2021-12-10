@@ -8,7 +8,7 @@ import CopyAndLocateClipboard from '../CopyAndLocateClipboard';
 import Placeholder from '../Placeholder';
 
 /* Utils */
-import { formatNumber, showNAIfZeroOrNull, truncateString } from '../../utils/format';
+import { prettyPrintNumber, showNAIfZeroOrNull, truncateString } from '../../utils/format';
 
 /* Interfaces */
 import { KeywordReverseAsinProduct } from '../../interfaces/KeywordResearch/KeywordReverse';
@@ -29,10 +29,17 @@ interface Props {
 
 const ReverseAsinCard = (props: Props) => {
   const { isLoading, data, handleRemoveProduct, isActive, handleCardClick, index } = props;
-  const { asin, image_url, title, sales_monthly, rank } = data;
+  const { asin, image_url, title, sales_monthly, rank, keywords_count } = data;
 
-  const monthlySales = showNAIfZeroOrNull(sales_monthly, formatNumber(sales_monthly));
+  const keywordsCount = showNAIfZeroOrNull(keywords_count, prettyPrintNumber(keywords_count));
+  const monthlySales = showNAIfZeroOrNull(sales_monthly, prettyPrintNumber(sales_monthly));
   const productTitle = title ? truncateString(title, 18) : '-';
+
+  // const handleCheckProduct = () => {
+  //   const sellerID = sellerIDSelector();
+  //   const query = encodeBase64(`sellerId=${sellerID}&asin=${asin}`);
+  //   window.open(`${AppConfig.BASE_URL}/product-research/database?query=${query}`, '_blank');
+  // };
 
   return (
     <div>
@@ -64,11 +71,11 @@ const ReverseAsinCard = (props: Props) => {
           className={styles.asin}
           link={`https://www.amazon.com/dp/${asin}`}
         />
-        <div className={styles.salesAndRank}>
-          <p className={styles.salesPerMonth}>
-            <span>{monthlySales}</span>
+        <div className={styles.keywordsAndRank}>
+          <p className={styles.keywordsCount}>
+            <span>{keywordsCount}</span>
             <br />
-            Sold/mo
+            Keywords
           </p>
           <p className={styles.rank}>
             <span>#{rank}</span>
@@ -76,10 +83,20 @@ const ReverseAsinCard = (props: Props) => {
             Rank
           </p>
         </div>
+        <p className={styles.sales}>
+          <span>{monthlySales} </span>Sold
+        </p>
 
-        <div className={styles.productImage}>
-          <img src={image_url ? image_url : placeholderImage} alt={title} />
-        </div>
+        <img
+          src={image_url ? image_url : placeholderImage}
+          alt={title}
+          className={styles.productImage}
+        />
+
+        {/* <button className={styles.checkProductLink} onClick={handleCheckProduct}>
+          Check Product Database&nbsp;
+          <Icon name="arrow right" />
+        </button> */}
 
         {isLoading && (
           <div className={styles.loader}>

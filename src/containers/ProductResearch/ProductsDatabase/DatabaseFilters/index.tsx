@@ -26,6 +26,7 @@ import {
   PRODUCTS_DATABASE_SIZE_TIERS,
   PRODUCTS_DATABASE_CATEGORIES,
 } from '../../../../constants/ProductResearch/ProductsDatabase';
+import { isValidAsin } from '../../../../constants';
 
 interface Props {
   fetchProductsDatabase: (payload: ProductsDatabasePayload) => void;
@@ -53,6 +54,17 @@ const ProductDatabaseFilters = (props: Props) => {
   const [sizeTier, setSizeTier] = useState<string>('');
   const [imageCount, setImageCount] = useState(DEFAULT_MIN_MAX_FILTER);
   const [variationCount, setVariationCount] = useState(DEFAULT_MIN_MAX_FILTER);
+  const [asin, setAsin] = useState<string>('');
+  const [asinError, setAsinError] = useState<boolean>(false);
+
+  /* Asin validation check */
+  useEffect(() => {
+    if (asin) {
+      setAsinError(!isValidAsin(asin));
+    } else {
+      setAsinError(false);
+    }
+  }, [asin]);
 
   /* Handlers */
   const handleSubmit = () => {
@@ -71,8 +83,8 @@ const ProductDatabaseFilters = (props: Props) => {
       sizeTier,
       imageCount,
       variationCount,
+      asin,
     };
-
     fetchProductsDatabase({ filterPayload });
   };
 
@@ -92,6 +104,7 @@ const ProductDatabaseFilters = (props: Props) => {
     setSizeTier('');
     setImageCount(DEFAULT_MIN_MAX_FILTER);
     setVariationCount(DEFAULT_MIN_MAX_FILTER);
+    setAsin('');
   };
 
   /* Effect on component mount */
@@ -302,11 +315,20 @@ const ProductDatabaseFilters = (props: Props) => {
                   }))
                 }
               />
+
+              {/* Include ASINS */}
+              <InputFilter
+                label="Asin"
+                placeholder="Enter ASIN to search for"
+                value={asin}
+                handleChange={(value: string) => setAsin(value)}
+                error={asinError}
+              />
             </div>
           )}
         </div>
 
-        <FormFilterActions onFind={handleSubmit} onReset={handleReset} />
+        <FormFilterActions onFind={handleSubmit} onReset={handleReset} disabled={asinError} />
       </section>
     </>
   );
