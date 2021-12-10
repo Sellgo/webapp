@@ -1,23 +1,23 @@
 @import '../../../../../../design-system/new-colors';
 
 .actionIconCellWrapper {
-  display: flex;
+  display: grid;
+  grid-template-columns: 80px 100%;
   justify-content: flex-start;
   align-items: center;
+  width: 100%;
 
   svg {
-    height: 12px;
-    width: 12px;
+    height: 12px !important;
+    width: 12px !important;
   }
 
   .boost {
-    margin-left: 30px;
-    width: 80px;
+    display: flex;
+    width: max-content;
     background: none !important;
     font-size: 10px;
     color: $prim_dark_1;
-    display: flex;
-    align-items: flex-start;
 
     &:hover {
       background: $grey_1 !important;
@@ -25,9 +25,18 @@
   }
 
   .zapier {
-    position: relative !important;
+    display: flex;
+    width: max-content;
     background: none !important;
     font-size: 10px;
+    color: $prim_dark_1;
+
+    .triggerNames {
+      max-width: 80px;
+      text-align: left;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+    }
 
     &:hover {
       background: $grey_1 !important;

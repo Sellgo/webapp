@@ -23,13 +23,20 @@ const Keyword = (props: RowCell) => {
   const keywordTrackId = rowData[TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY];
   const isBoostTracked = rowData.is_boost;
   const boostExpiryDate = rowData.boost_expiry_date;
+  const triggers = rowData.triggers;
 
   const countHoursBetweenDates = (expiryDateString: string) => {
     if (expiryDateString) {
       const expiryDate = new Date(expiryDateString);
       const currentDate = new Date();
       const diff = expiryDate.getTime() - currentDate.getTime();
-      return Math.floor(diff / (1000 * 60 * 60)).toString();
+      const hoursDiff = Math.ceil(diff / (1000 * 60 * 60));
+
+      if (hoursDiff <= 1) {
+        return '< 1';
+      } else {
+        return hoursDiff.toString();
+      }
     } else {
       return '';
     }
@@ -60,6 +67,7 @@ const Keyword = (props: RowCell) => {
             isBoostTracked={isBoostTracked}
             keywordTrackId={keywordTrackId}
             boostExpiryDate={countHoursBetweenDates(boostExpiryDate)}
+            triggers={triggers}
           />
         </div>
       </div>
