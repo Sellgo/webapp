@@ -55,7 +55,7 @@ const DatabaseSummary = (props: Props) => {
 
   const [wordFreqSort, setWordFreqSort] = useState<'asc' | 'desc'>('desc');
   const [expandSummaryMenu, setExpandSummaryMenu] = useState<boolean>(false);
-  const [isSummaryNew, setIsSummaryNew] = useState<boolean>(true);
+  const [isSummaryNew, setIsSummaryNew] = useState<boolean>(false);
 
   const handleWordFreqSort = () => {
     fetchKeywordDatabaseWordFreqSummary(wordFreqSort === 'desc' ? 'asc' : 'desc');
@@ -89,10 +89,28 @@ const DatabaseSummary = (props: Props) => {
     };
   }, []);
 
-  // Check when summary data is updated
+  /* Close expanded summary when loading, and set isNew status to be true when finished loading with valid results */
   useEffect(() => {
-    setIsSummaryNew(true);
-  }, [keywordDatabaseAggSummary, keywordDatabaseWordFreqSummary]);
+    if (
+      shouldFetchKeywordDatabaseProgressState ||
+      isLoadingKeywordDatabaseAggSummary ||
+      isLoadingKeywordDatabaseWordFreqSummary
+    ) {
+      setExpandSummaryMenu(false);
+    } else if (
+      !isLoadingKeywordDatabaseAggSummary &&
+      !isLoadingKeywordDatabaseWordFreqSummary &&
+      !shouldFetchKeywordDatabaseProgressState &&
+      keywordDatabaseWordFreqSummary.length > 0 &&
+      keywordDatabaseAggSummary
+    ) {
+      setIsSummaryNew(true);
+    }
+  }, [
+    shouldFetchKeywordDatabaseProgressState,
+    isLoadingKeywordDatabaseAggSummary,
+    isLoadingKeywordDatabaseWordFreqSummary,
+  ]);
 
   return (
     <section className={styles.databaseSummarySection}>

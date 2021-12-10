@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import { Icon } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -9,12 +8,7 @@ import CopyAndLocateClipboard from '../CopyAndLocateClipboard';
 import Placeholder from '../Placeholder';
 
 /* Utils */
-import {
-  encodeBase64,
-  prettyPrintNumber,
-  showNAIfZeroOrNull,
-  truncateString,
-} from '../../utils/format';
+import { prettyPrintNumber, showNAIfZeroOrNull, truncateString } from '../../utils/format';
 
 /* Interfaces */
 import { KeywordReverseAsinProduct } from '../../interfaces/KeywordResearch/KeywordReverse';
@@ -23,10 +17,6 @@ import { KeywordReverseAsinProduct } from '../../interfaces/KeywordResearch/Keyw
 import crossIcon from '../../assets/images/removeCross.svg';
 import placeholderImage from '../../assets/images/placeholderImage.svg';
 import { ReactComponent as BullseyeIcon } from '../../assets/images/bullseye-arrow-regular.svg';
-
-/* Utils */
-import { sellerIDSelector } from '../../selectors/Seller';
-import { AppConfig } from '../../config';
 
 interface Props {
   isLoading: boolean;
@@ -45,11 +35,11 @@ const ReverseAsinCard = (props: Props) => {
   const monthlySales = showNAIfZeroOrNull(sales_monthly, prettyPrintNumber(sales_monthly));
   const productTitle = title ? truncateString(title, 18) : '-';
 
-  const handleCheckProduct = () => {
-    const sellerID = sellerIDSelector();
-    const query = encodeBase64(`sellerId=${sellerID}&asin=${asin}`);
-    window.open(`${AppConfig.BASE_URL}/product-research/database?query=${query}`, '_blank');
-  };
+  // const handleCheckProduct = () => {
+  //   const sellerID = sellerIDSelector();
+  //   const query = encodeBase64(`sellerId=${sellerID}&asin=${asin}`);
+  //   window.open(`${AppConfig.BASE_URL}/product-research/database?query=${query}`, '_blank');
+  // };
 
   return (
     <div>
@@ -103,10 +93,10 @@ const ReverseAsinCard = (props: Props) => {
           className={styles.productImage}
         />
 
-        <button className={styles.checkProductLink} onClick={handleCheckProduct}>
+        {/* <button className={styles.checkProductLink} onClick={handleCheckProduct}>
           Check Product Database&nbsp;
           <Icon name="arrow right" />
-        </button>
+        </button> */}
 
         {isLoading && (
           <div className={styles.loader}>

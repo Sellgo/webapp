@@ -62,6 +62,10 @@ const ProductsDatabaseTable = (props: Props) => {
   const handleChangePage = (pageNo: number) => {
     fetchProductsDatabase({
       page: pageNo,
+      sort: {
+        field: sortColumn,
+        by: sortType === 'asc' ? 'ascending' : 'descending',
+      },
     });
   };
 

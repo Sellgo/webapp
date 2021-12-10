@@ -28,7 +28,9 @@ const ActionButton = (props: Props) => {
 
   const sizeClass = styles[size];
 
-  const btnClass = `${variantClass} ${sizeClass} ${className ? className : ''}`;
+  const btnClass = `${variantClass} ${sizeClass} ${className ? className : ''} ${
+    disabled ? styles.disabled : ''
+  }`;
 
   const isBorderedGradient = variant === 'secondary' && type === 'purpleGradient';
 
@@ -40,7 +42,7 @@ const ActionButton = (props: Props) => {
 
   if (isBorderedGradient) {
     return (
-      <div className={btnClass}>
+      <div className={`${btnClass}`}>
         <button onClick={handleClick} className={styles.innerButton} disabled={disabled}>
           {children}
         </button>
