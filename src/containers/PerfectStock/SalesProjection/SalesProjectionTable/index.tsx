@@ -22,11 +22,13 @@ import SalesPrediction from './SalesPrediction';
 /* Components */
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import Placeholder from '../../../../components/Placeholder';
+import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
 import {
   getSalesProjectionResults,
   getIsLoadingSalesProjection,
 } from '../../../../selectors/PerfectStock/SalesProjection';
 import { ReactComponent as ExclaimationIcon } from '../../../../assets/images/exclamation-triangle-solid.svg';
+import ExpandedProduct from '../ExpandedProduct';
 
 interface Props {
   // States
@@ -41,6 +43,7 @@ const SalesEstimationTable = (props: Props) => {
 
   const [sortColumn, setSortColumn] = React.useState<string>('');
   const [sortType, setSortType] = React.useState<'asc' | 'desc' | undefined>(undefined);
+  const [expandedRowKeys, setExpandedRowkeys] = React.useState<string[]>([]);
 
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
@@ -49,6 +52,17 @@ const SalesEstimationTable = (props: Props) => {
       sort: sortColumn,
       sortDir: sortType,
     });
+  };
+
+  const handleExpansion = (rowData: any) => {
+    const rowId = rowData.id;
+    const [currentExpandedRowId] = expandedRowKeys;
+
+    if (currentExpandedRowId !== rowId) {
+      setExpandedRowkeys([rowId]);
+    } else {
+      setExpandedRowkeys([]);
+    }
   };
 
   return (
@@ -69,9 +83,22 @@ const SalesEstimationTable = (props: Props) => {
           onSortColumn={handleSortColumn}
           sortType={sortType}
           sortColumn={sortColumn}
+          rowExpandedHeight={500}
+          expandedRowKeys={expandedRowKeys}
+          renderRowExpanded={() => <ExpandedProduct />}
+          rowKey="id"
           virtualized
           id="salesEstimationTable"
         >
+          {/* Expand Cell */}
+          <Table.Column verticalAlign="top" fixed="left" align="left" width={30}>
+            <Table.HeaderCell> </Table.HeaderCell>
+            <ExpansionCell
+              dataKey={'id'}
+              expandedRowKeys={expandedRowKeys}
+              onChange={handleExpansion}
+            />
+          </Table.Column>
           {/* Product Information  */}
           <Table.Column minWidth={400} verticalAlign="middle" fixed align="center" flexGrow={4}>
             <Table.HeaderCell>Product</Table.HeaderCell>
@@ -161,7 +188,7 @@ const SalesEstimationTable = (props: Props) => {
                 alignMiddle
               />
             </Table.HeaderCell>
-            <SalesEstimationStat dataKey="avg_n30d" daysOffset={30} />
+            <SalesEstimationStat dataKey="avg_n30d_ly" daysOffset={30} />
           </Table.Column>
 
           {/* Average Next 90 Day */}
@@ -175,7 +202,7 @@ const SalesEstimationTable = (props: Props) => {
                 alignMiddle
               />
             </Table.HeaderCell>
-            <SalesEstimationStat dataKey="avg_n90d" daysOffset={90} />
+            <SalesEstimationStat dataKey="avg_n90d_ly" daysOffset={90} />
           </Table.Column>
         </Table>
 

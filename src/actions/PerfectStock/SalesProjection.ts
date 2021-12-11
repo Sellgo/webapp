@@ -15,6 +15,7 @@ import {
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
+import { getSalesProjectionResults } from '../../selectors/PerfectStock/SalesProjection';
 // import { error, success } from '../../utils/notifications';
 // import { downloadFile } from '../../utils/download';
 
@@ -35,11 +36,23 @@ export const setSalesProjectionResults = (payload: any) => {
 };
 
 /* Action to set one row in sales projection table */
-export const setSalesProjectionRow = (payload: SalesProjectionProduct) => {
-  return {
-    type: actionTypes.UPDATE_SALES_PROJECTION_RESULTS,
-    payload,
-  };
+export const setSalesProjectionRow = (payload: SalesProjectionProduct) => (
+  dispatch: any,
+  getState: any
+) => {
+  const currentSalesProjectionProducts = getSalesProjectionResults(getState());
+  const updatedSalesProjectionProducts = currentSalesProjectionProducts.map(
+    (product: SalesProjectionProduct) => {
+      if (product.id === payload.id) {
+        return payload;
+      } else {
+        return product;
+      }
+    }
+  );
+  console.log(updatedSalesProjectionProducts);
+
+  dispatch(setSalesProjectionResults(updatedSalesProjectionProducts));
 };
 
 /*********** Async Actions ************************ */
@@ -124,7 +137,6 @@ export const updateSalesProjectionProduct = (payload: SalesProjectionUpdatePaylo
     const sellerId = sellerIDSelector();
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/sales-projection/${payload.id}/update`;
     const { data } = await axios.patch(URL, payload.updatePayload);
-    console.log(data);
 
     if (data) {
       dispatch(setSalesProjectionRow(data));

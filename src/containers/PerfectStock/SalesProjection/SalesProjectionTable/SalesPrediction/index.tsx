@@ -22,7 +22,7 @@ const SalesPrediction = (props: Props) => {
   const { updateSalesProjectionProduct, ...otherProps } = props;
   const { rowData, dataKey } = otherProps;
 
-  const [usingPredictiveSales, setUsingPredictiveSales] = React.useState(true);
+  const usingPredictiveSales = rowData.projection_mode === 'predictive';
   const [updatedManualSales, setUpdatedManualSales] = React.useState<string>(rowData.manual_sales);
   const [isEditingManualSales, setIsEditingManualSales] = React.useState<boolean>(false);
 
@@ -60,6 +60,16 @@ const SalesPrediction = (props: Props) => {
     }
   };
 
+  const handleChangeProjectionMode = () => {
+    const payload: SalesProjectionUpdatePayload = {
+      id: rowData.id,
+      updatePayload: {
+        projection_mode: usingPredictiveSales ? 'manual' : 'predictive',
+      },
+    };
+    updateSalesProjectionProduct(payload);
+  };
+
   return (
     <Table.Cell {...otherProps}>
       <div
@@ -71,10 +81,7 @@ const SalesPrediction = (props: Props) => {
             label="Predictive"
             className={styles.radioSelection}
             checked={usingPredictiveSales}
-            onChange={() => {
-              setUsingPredictiveSales(true);
-              handleResetManualSalesChanges();
-            }}
+            onChange={handleChangeProjectionMode}
           />
           {rowData[dataKey]}
         </div>
@@ -84,7 +91,7 @@ const SalesPrediction = (props: Props) => {
             label="Manual"
             className={styles.radioSelection}
             checked={!usingPredictiveSales}
-            onChange={() => setUsingPredictiveSales(false)}
+            onChange={handleChangeProjectionMode}
           />
 
           <div className={styles.editManualSales}>

@@ -1,18 +1,19 @@
 @import '../../../../design-system/new-colors';
 
 .exportsContainer {
+  width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   margin-top: 30px;
   margin-bottom: 18px;
 }
 
-.actionButton {
-  width: 215px;
-}
-
-.lastUpdate {
+.refreshButton {
+  background: none;
+  display: flex;
+  align-items: center;
   margin-top: 10px;
   font-size: 12px;
   color: $grey_8;
@@ -20,6 +21,13 @@
   span {
     font-weight: $fontweight_semibold;
     color: $prim_dark_1;
+    margin-right: 8px;
+  }
+
+  .refreshIcon {
+    &:hover {
+      background: $grey_1;
+    }
   }
 }
 
@@ -54,12 +62,12 @@
   background: #fff;
   height: 25px;
 
-  &:hover {
-    background: $grey_1;
-  }
-
   svg {
     margin-right: 8px;
+  }
+
+  &:hover {
+    background: $grey_1;
   }
 
   &:disabled {

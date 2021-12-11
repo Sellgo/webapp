@@ -12,13 +12,17 @@ import { formatNumber, formatDecimal, showNAIfZeroOrNull } from '../../../../../
 
 /* Components */
 import HoveredCell from './HoveredCell';
+import { connect } from 'react-redux';
+import { updateSalesProjectionProduct } from '../../../../../actions/PerfectStock/SalesProjection';
+import { SalesProjectionUpdatePayload } from '../../../../../interfaces/PerfectStock/SalesProjection';
 
 interface Props extends RowCell {
+  updateSalesProjectionProduct: (payload: SalesProjectionUpdatePayload) => void;
   daysOffset: number;
 }
 
 const SalesEstimationStat = (props: Props) => {
-  const { daysOffset, ...otherProps } = props;
+  const { daysOffset, updateSalesProjectionProduct, ...otherProps } = props;
   const { rowData, dataKey } = otherProps;
   const [onHovered, setOnHovered] = React.useState<boolean>(false);
 
@@ -30,6 +34,16 @@ const SalesEstimationStat = (props: Props) => {
     formatDecimal(rowData[`${dataKey}_weight`])
   );
 
+  const handleIncludeExcludeStat = () => {
+    const updatePayload = {
+      id: rowData.id,
+      updatePayload: {
+        [`${dataKey}_included`]: !included,
+      },
+    };
+    updateSalesProjectionProduct(updatePayload);
+  };
+
   return (
     <Table.Cell {...otherProps}>
       <div
@@ -39,6 +53,7 @@ const SalesEstimationStat = (props: Props) => {
         `}
         onMouseEnter={() => setOnHovered(true)}
         onMouseLeave={() => setOnHovered(false)}
+        onClick={handleIncludeExcludeStat}
       >
         {!onHovered ? (
           <>
@@ -53,4 +68,11 @@ const SalesEstimationStat = (props: Props) => {
   );
 };
 
-export default SalesEstimationStat;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    updateSalesProjectionProduct: (payload: SalesProjectionUpdatePayload) =>
+      dispatch(updateSalesProjectionProduct(payload)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SalesEstimationStat);

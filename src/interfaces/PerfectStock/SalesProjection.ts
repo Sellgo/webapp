@@ -16,6 +16,7 @@ export interface SalesProjectionUpdatePayload {
     avg_n90d_ly_included?: boolean;
     predictive_sales?: number;
     manual_sales?: number;
+    projection_mode?: 'manual' | 'predictive';
   };
 }
 
