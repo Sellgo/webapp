@@ -91,7 +91,10 @@ const OrderPlanning = () => {
         data={DATA}
         mode="month"
         selectedTask={selectedTask}
-        onSelectTask={(task: any) => setSelectedTask(task)}
+        onSelectTask={(task: Order) => {
+          console.log('Selected from outside', task);
+          setSelectedTask(task);
+        }}
       />
     </main>
   );

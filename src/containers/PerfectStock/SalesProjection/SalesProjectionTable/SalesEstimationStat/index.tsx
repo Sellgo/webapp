@@ -35,10 +35,11 @@ const SalesEstimationStat = (props: Props) => {
   );
 
   const handleIncludeExcludeStat = () => {
+    /* If stat is currently included, update it to be false */
     const updatePayload = {
       id: rowData.id,
       updatePayload: {
-        [`${dataKey}_included`]: !included,
+        [`${dataKey}_included`]: included ? 'false' : 'true',
       },
     };
     updateSalesProjectionProduct(updatePayload);

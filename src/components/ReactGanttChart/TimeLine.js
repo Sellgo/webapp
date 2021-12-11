@@ -98,6 +98,7 @@ class TimeLine extends Component {
       this.props.data,
       this.state.scrollTop
     );
+    size.width = size.width - (size.width - (size.width % 48));
     this.setState({
       numVisibleRows: newNumVisibleRows,
       numVisibleDays: newNumVisibleDays,
@@ -151,16 +152,25 @@ class TimeLine extends Component {
     if (newScrollLeft > this.pxToScroll) {
       //ContenLegnth-viewportLengt
       new_nowposition = this.state.nowposition - this.pxToScroll;
+      /* THIS WAS ADDED TO ENSURE SNAPPING */
+      new_nowposition = new_nowposition - (new_nowposition % this.state.dayWidth);
+      /* =============================== */
       new_left = 0;
     } else {
       if (newScrollLeft <= 0) {
         //ContenLegnth-viewportLengt
         new_nowposition = this.state.nowposition + this.pxToScroll;
+        /* THIS WAS ADDED TO ENSURE SNAPPING */
+        new_nowposition = new_nowposition - (new_nowposition % this.state.dayWidth);
+        /* =============================== */
         new_left = this.pxToScroll;
       } else {
         new_left = newScrollLeft;
       }
     }
+
+    /* THIS IS ADDED to ensure that nowposition will be snapped properly (first day) */
+    // new_nowposition = new_nowposition - new_nowposition % this.state.dayWidth;
 
     //Get the day of the left position
     let currentIndx = Math.trunc((newScrollLeft - this.state.nowposition) / this.state.dayWidth);
@@ -193,6 +203,15 @@ class TimeLine extends Component {
     if (this.props.onHorizonChange) this.props.onHorizonChange(lowerLimit, upLimit);
   };
 
+  ///////////////////////
+  //     ADDED UTILS   //
+  ///////////////////////
+  snapScrollLeft = () => {
+    let new_left = this.state.scrollLeft;
+    new_left = Math.floor(new_left / this.state.dayWidth) * this.state.dayWidth;
+    this.horizontalChange(new_left);
+  };
+
   /////////////////////
   //   MOUSE EVENTS  //
   /////////////////////
@@ -200,6 +219,9 @@ class TimeLine extends Component {
   doMouseDown = e => {
     this.dragging = true;
     this.draggingPosition = e.clientX;
+
+    // /* THIS IS ADDED FOR SNAPPING TO DAY */
+    this.snapScrollLeft();
   };
   doMouseMove = e => {
     if (this.dragging) {
@@ -213,11 +235,8 @@ class TimeLine extends Component {
   };
   doMouseUp = e => {
     this.dragging = false;
-  };
-  doMouseLeave = e => {
-    // if (!e.relatedTarget.nodeName)
-    //     this.dragging=false;
-    this.dragging = false;
+    // /* THIS IS ADDED FOR SNAPPING TO DAY */
+    this.snapScrollLeft();
   };
 
   doTouchStart = e => {
@@ -242,9 +261,10 @@ class TimeLine extends Component {
   };
 
   doMouseLeave = e => {
-    // if (!e.relatedTarget.nodeName)
-    //     this.dragging=false;
     this.dragging = false;
+    // /* THIS IS ADDED FOR SNAPPING TO DAY */
+    this.snapScrollLeft();
+    /* =============================== */
   };
 
   //Child communicating states
@@ -262,11 +282,9 @@ class TimeLine extends Component {
 
   onSelectItem = item => {
     if (this.props.onSelectItem && item != this.props.selectedItem) this.props.onSelectItem(item);
-    console.log('SElected');
   };
 
   onStartCreateLink = (task, position) => {
-    console.log(`Start Link ${task}`);
     this.setState({
       interactiveMode: true,
       taskToCreate: { task: task, position: position },
@@ -274,7 +292,6 @@ class TimeLine extends Component {
   };
 
   onFinishCreateLink = (task, position) => {
-    console.log(`End Link ${task}`);
     if (
       this.props.onCreateLink &&
       task &&
@@ -339,9 +356,6 @@ class TimeLine extends Component {
   render() {
     this.checkMode();
     this.checkNeeeData();
-    if (!this.state.size) {
-      console.log(this.state);
-    }
     return (
       <div className="timeLine">
         <div className="timeLine-side-main" style={this.state.sideStyle}>
@@ -357,7 +371,7 @@ class TimeLine extends Component {
             onScroll={this.verticalChange}
             nonEditable={this.props.nonEditableName}
           />
-          <VerticalSpliter onTaskListSizing={this.onTaskListSizing} />
+          {/* <VerticalSpliter onTaskListSizing={this.onTaskListSizing} /> */}
         </div>
         <div className="timeLine-main">
           <Header

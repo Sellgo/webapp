@@ -117,7 +117,7 @@ export default class DataTask extends Component {
       this.dragProcess(e.clientX);
     }
   };
-  doMouseUp = () => {
+  doMouseUp = e => {
     this.dragEnd();
   };
 
@@ -175,6 +175,7 @@ export default class DataTask extends Component {
         onTouchStart={e => this.doTouchStart(e, MODE_MOVE)}
         onClick={e => {
           this.props.onSelectItem(this.props.item);
+          this.props.onSelectTask(this.props.item);
         }}
         style={style}
       >

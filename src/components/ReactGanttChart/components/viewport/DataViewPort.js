@@ -131,7 +131,6 @@ export class DataViewPort extends Component {
         onTouchMove={this.doTouchMove}
         onTouchEnd={this.props.onTouchEnd}
         onTouchCancel={this.props.onTouchCancel}
-        onSelectTask={this.props.onSelectTask}
       >
         <div
           className="timeLine-main-data-container"
