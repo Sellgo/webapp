@@ -1,13 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'rsuite';
-import { Radio, Icon } from 'semantic-ui-react';
+import { Radio } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
 
 /* Actions */
 import { updateSalesProjectionProduct } from '../../../../../actions/PerfectStock/SalesProjection';
+
+/* Components */
+import SaveCancelOptions from '../../../../../components/SaveCancelOptions';
 
 /* Interface */
 import { RowCell } from '../../../../../interfaces/Table';
@@ -105,18 +108,10 @@ const SalesPrediction = (props: Props) => {
               disabled={usingPredictiveSales}
             />
             {isEditingManualSales && (
-              <>
-                <Icon
-                  name="check"
-                  className={styles.checkIcon}
-                  onClick={() => handleSaveManualSales(true)}
-                />
-                <Icon
-                  name="close"
-                  className={styles.closeIcon}
-                  onClick={() => handleSaveManualSales(false)}
-                />
-              </>
+              <SaveCancelOptions
+                handleSave={() => handleSaveManualSales(true)}
+                handleCancel={() => handleSaveManualSales(false)}
+              />
             )}
           </div>
         </div>

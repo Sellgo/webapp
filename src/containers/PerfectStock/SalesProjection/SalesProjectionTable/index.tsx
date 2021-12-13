@@ -83,7 +83,7 @@ const SalesEstimationTable = (props: Props) => {
           onSortColumn={handleSortColumn}
           sortType={sortType}
           sortColumn={sortColumn}
-          rowExpandedHeight={500}
+          rowExpandedHeight={800}
           expandedRowKeys={expandedRowKeys}
           renderRowExpanded={() => <ExpandedProduct />}
           rowKey="id"
