@@ -13,7 +13,7 @@ import TaskList from './components/taskList/TaskList';
 import Registry from './helpers/registry/Registry';
 import { BUFFER_DAYS, DATA_CONTAINER_WIDTH } from './Const';
 import { VIEW_MODE_DAY, VIEW_MODE_WEEK, VIEW_MODE_MONTH, VIEW_MODE_YEAR } from './Const';
-import { DAY_MONTH_MODE, DAY_WEEK_MODE, DAY_DAY_MODE, DAY_YEAR_MODE } from './Const';
+import { DAY_MONTH_MODE, DAY_WEEK_MODE, DAY_DAY_MODE, DAY_YEAR_MODE, UNIT_WIDTH } from './Const';
 import DataController from './controller/DataController';
 import Config from './helpers/config/Config';
 import DateHelper from './helpers/DateHelper';
@@ -98,7 +98,7 @@ class TimeLine extends Component {
       this.props.data,
       this.state.scrollTop
     );
-    size.width = size.width - (size.width - (size.width % 48));
+    // size.width = size.width - (size.width - (size.width % 48));
     this.setState({
       numVisibleRows: newNumVisibleRows,
       numVisibleDays: newNumVisibleDays,
@@ -153,7 +153,9 @@ class TimeLine extends Component {
       //ContenLegnth-viewportLengt
       new_nowposition = this.state.nowposition - this.pxToScroll;
       /* THIS WAS ADDED TO ENSURE SNAPPING */
-      new_nowposition = new_nowposition - (new_nowposition % this.state.dayWidth);
+      if (this.state.mode === 'month') {
+        new_nowposition = new_nowposition - (new_nowposition % UNIT_WIDTH);
+      }
       /* =============================== */
       new_left = 0;
     } else {
@@ -161,7 +163,9 @@ class TimeLine extends Component {
         //ContenLegnth-viewportLengt
         new_nowposition = this.state.nowposition + this.pxToScroll;
         /* THIS WAS ADDED TO ENSURE SNAPPING */
-        new_nowposition = new_nowposition - (new_nowposition % this.state.dayWidth);
+        if (this.state.mode === 'month') {
+          new_nowposition = new_nowposition - (new_nowposition % UNIT_WIDTH);
+        }
         /* =============================== */
         new_left = this.pxToScroll;
       } else {
@@ -225,7 +229,7 @@ class TimeLine extends Component {
   ///////////////////////
   snapScrollLeft = () => {
     let new_left = this.state.scrollLeft;
-    new_left = Math.floor(new_left / this.state.dayWidth) * this.state.dayWidth;
+    new_left = Math.floor(new_left / UNIT_WIDTH) * UNIT_WIDTH;
     this.horizontalChange(new_left);
   };
 

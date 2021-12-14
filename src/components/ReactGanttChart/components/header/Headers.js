@@ -4,7 +4,7 @@ import { BUFFER_DAYS, DATA_CONTAINER_WIDTH } from '../../Const';
 import { VIEW_MODE_DAY, VIEW_MODE_WEEK, VIEW_MODE_MONTH, VIEW_MODE_YEAR } from '../../Const';
 import Config from '../../helpers/config/Config';
 import DateHelper from '../../helpers/DateHelper';
-import './Header.css';
+import './Header.scss';
 
 export class HeaderItem extends PureComponent {
   constructor(props) {
@@ -14,7 +14,7 @@ export class HeaderItem extends PureComponent {
     return (
       <div
         style={{
-          height: 20,
+          height: '60px',
           left: this.props.left,
           width: this.props.width,
         }}
@@ -30,23 +30,6 @@ export default class Header extends PureComponent {
   constructor(props) {
     super(props);
     this.setBoundaries();
-  }
-
-  getFormat(mode, position) {
-    switch (mode) {
-      case 'year':
-        return 'YYYY';
-      case 'month':
-        if (position == 'top') return 'MMMM YYYY';
-        else return 'MMMM';
-      case 'week':
-        if (position == 'top') return 'ww MMMM YYYY';
-        else return 'ww';
-      case 'dayweek':
-        return 'dd';
-      case 'daymonth':
-        return 'D';
-    }
   }
 
   getModeIncrement(date, mode) {
@@ -118,12 +101,10 @@ export default class Header extends PureComponent {
     return { left: lastLeft, width: increment };
   }
 
-  renderHeaderRows = (top, middle, bottom) => {
+  renderHeaderRows = perDayMode => {
     let result = { top: [], middle: [], bottom: [] };
     let lastLeft = {};
-    let currentTop = '';
     let currentMiddle = '';
-    let currentBottom = '';
     let currentDate = null;
     let box = null;
 
@@ -132,35 +113,19 @@ export default class Header extends PureComponent {
     for (let i = start - BUFFER_DAYS; i < end + BUFFER_DAYS; i++) {
       //The unit of iteration is day
       currentDate = moment().add(i, 'days');
-      if (currentTop != currentDate.format(this.getFormat(top, 'top'))) {
-        currentTop = currentDate.format(this.getFormat(top, 'top'));
-        box = this.getBox(currentDate, top, lastLeft.top);
-        lastLeft.top = box.left + box.width;
-        result.top.push(
-          <HeaderItem key={i} left={box.left} width={box.width} label={currentTop} />
-        );
+      let adjustedDate;
+      if (perDayMode === 'week') {
+        adjustedDate = currentDate.startOf('week');
+      } else {
+        adjustedDate = currentDate.startOf('day');
       }
-
-      if (currentMiddle != currentDate.format(this.getFormat(middle))) {
-        currentMiddle = currentDate.format(this.getFormat(middle));
-        box = this.getBox(currentDate, middle, lastLeft.middle);
+      if (currentMiddle != adjustedDate.format('DD/MM/YY')) {
+        currentMiddle = adjustedDate.format('DD/MM/YY');
+        box = this.getBox(adjustedDate, perDayMode, lastLeft.middle);
         lastLeft.middle = box.left + box.width;
         result.middle.push(
           <HeaderItem key={i} left={box.left} width={box.width} label={currentMiddle} />
         );
-      }
-
-      if (currentBottom != currentDate.format(this.getFormat(bottom))) {
-        currentBottom = currentDate.format(this.getFormat(bottom));
-        box = this.getBox(currentDate, bottom, lastLeft.bottom);
-        lastLeft.bottom = box.left + box.width;
-        if (bottom == 'shorttime' || bottom == 'fulltime') {
-          result.bottom.push(this.renderTime(box.left, box.width, bottom, i));
-        } else {
-          result.bottom.push(
-            <HeaderItem key={i} left={box.left} width={box.width} label={currentBottom} />
-          );
-        }
       }
     }
 
@@ -169,9 +134,7 @@ export default class Header extends PureComponent {
         className="timeLine-main-header-container"
         style={{ width: DATA_CONTAINER_WIDTH, maxWidth: DATA_CONTAINER_WIDTH }}
       >
-        <div className="header-top">{result.top}</div>
         <div className="header-middle">{result.middle}</div>
-        <div className="header-bottom">{result.bottom}</div>
       </div>
     );
   };
@@ -179,13 +142,13 @@ export default class Header extends PureComponent {
   renderHeader = () => {
     switch (this.props.mode) {
       case VIEW_MODE_DAY:
-        return this.renderHeaderRows('week', 'dayweek', 'fulltime');
+        return this.renderHeaderRows(this.props.mode);
       case VIEW_MODE_WEEK:
         return this.renderHeaderRows('week', 'dayweek', 'shorttime');
       case VIEW_MODE_MONTH:
-        return this.renderHeaderRows('month', 'dayweek', 'daymonth');
+        return this.renderHeaderRows('day');
       case VIEW_MODE_YEAR:
-        return this.renderHeaderRows('year', 'month', 'week');
+        return this.renderHeaderRows('week');
     }
   };
 

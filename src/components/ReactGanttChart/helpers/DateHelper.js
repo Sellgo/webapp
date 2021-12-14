@@ -46,6 +46,12 @@ class DateHelper {
   isLeapYear(year) {
     return year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0);
   }
+
+  getStartOfWeek = date => {
+    let day = new Date(date).getDay();
+    const diff = date.getDate() - day; // adjust when day is sunday
+    return new Date(date.setDate(diff));
+  };
 }
 const helper = new DateHelper();
 export default helper;

@@ -5,4 +5,3 @@ obj
 *.*
 !*.css
 !*.scss
-src/components/ReactGanttChart/* 

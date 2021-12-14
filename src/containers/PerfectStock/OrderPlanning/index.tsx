@@ -2,7 +2,7 @@ import React from 'react';
 
 // @ts-ignore
 import TimeLine from '../../../components/ReactGanttChart/TimeLine';
-import InventoryTable from './InventoryTable';
+// import InventoryTable from './InventoryTable';
 
 /* Styles */
 // import styles from './index.module.scss';
@@ -95,7 +95,7 @@ const OrderPlanning = (props: Props) => {
       <TimeLine
         onUpdateTask={updateOrder}
         data={DATA}
-        mode="month"
+        mode="year"
         selectedTask={selectedTask}
         onSelectTask={(task: Order) => {
           console.log('Selected from outside', task);
@@ -105,7 +105,7 @@ const OrderPlanning = (props: Props) => {
           setDateRange({ startDate: start.toString(), endDate: end.toString() });
         }}
       />
-      <InventoryTable />
+      {/* <InventoryTable /> */}
     </main>
   );
 };

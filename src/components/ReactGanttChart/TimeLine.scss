@@ -22,7 +22,8 @@
   overflow-y: hidden;
   background-color: $light_gray_background;
 }
-/* Main Area Header*/
+
+/* Main Area Header */
 
 .timeLine-main-header-viewPort {
   flex: 0 0 60px;
@@ -51,7 +52,6 @@
   justify-content: center;
   background-color: $light_gray_background;
   font-size: 10px;
-  text-align: center;
   border-right: solid 1px;
   border-top: solid 1px;
   border-bottom: solid 1px;
@@ -78,7 +78,7 @@
 }
 
 .timeLine-main-header-day-month {
-  top: 0px;
+  top: 0;
   position: sticky;
   flex: 0 0 15px;
   padding: 5px;
@@ -100,7 +100,8 @@
   text-align: center;
   padding-top: 5px;
 }
-/* Main Area Data*/
+
+/* Main Area Data */
 
 .timeLine-main-data-viewPort {
   flex: 1 1 auto;
@@ -108,6 +109,7 @@
   overflow: hidden;
   background-color: $light_gray_background;
 }
+
 .timeLine-main-data-container {
   position: relative;
   top: 0;
@@ -138,6 +140,7 @@
   flex-direction: column;
   justify-content: center;
 }
+
 .timeLine-main-data-task-side-linker {
   width: 8px;
   height: 8px;
@@ -145,6 +148,7 @@
   cursor: default;
   z-index: 100;
 }
+
 .timeLine-main-data-task-side-linker:hover {
   background-color: black;
   border: solid 0.5px grey;
@@ -187,9 +191,9 @@
   border-right: solid 1px rgb(207, 207, 205);
   height: 100%;
 }
+
 .squareGrip {
   flex: 0 0 auto;
-
   border-radius: 50%;
   height: 5px;
   width: 5px;
@@ -242,32 +246,4 @@
   font-size: 12px;
   color: $prim_white;
   font-weight: $fontweight_semibold;
-}
-
-.header-top {
-  background: $prim_dark_1;
-  color: $prim_white;
-  border: none;
-}
-
-.header-middle {
-  background: none;
-  border: none;
-  color: $grey_8;
-}
-
-.header-bottom {
-  background: none;
-  border: none;
-  color: $grey_8;
-}
-
-.header-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  border-left: 1px solid $grey_3;
-  font-size: 12px;
-  font-weight: $fontweight_medium;
 }

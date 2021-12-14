@@ -12,7 +12,7 @@ export const VIEW_MODE_WEEK = 'week';
 export const VIEW_MODE_MONTH = 'month';
 export const VIEW_MODE_YEAR = 'year';
 
-export const DAY_YEAR_MODE = 4;
+export const DAY_YEAR_MODE = 48 / 7;
 export const DAY_MONTH_MODE = 48;
 export const DAY_WEEK_MODE = 480; //each hour 20 px
 export const HOUR_DAY_WEEK = 20;
@@ -22,3 +22,4 @@ export const HOUR_DAY_DAY = 60;
 export const LINK_POS_RIGHT = 'LINK_POS_RIGHT';
 
 export const LINK_POS_LEFT = 'LINK_POS_LEFT';
+export const UNIT_WIDTH = 48;
