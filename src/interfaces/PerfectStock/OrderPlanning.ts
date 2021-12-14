@@ -6,3 +6,8 @@ export interface Order {
   subTasks?: Order[];
   color?: string;
 }
+
+export interface DateRange {
+  startDate: string;
+  endDate: string;
+}

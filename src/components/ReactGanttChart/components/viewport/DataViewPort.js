@@ -45,7 +45,6 @@ export class DataViewPort extends Component {
       let item = this.props.data[i];
       if (!item) break;
       //FIXME PAINT IN BOUNDARIES
-
       let new_position = DateHelper.dateToPixel(
         item.start,
         this.props.nowposition,

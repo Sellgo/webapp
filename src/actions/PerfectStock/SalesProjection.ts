@@ -118,7 +118,6 @@ export const fetchSalesProjection = (payload: SalesProjectionPayload) => async (
 
     const { data } = await axios.get(URL, requestPayload);
     if (data) {
-      console.log(data);
       dispatch(setSalesProjectionResults(data));
     }
   } catch (err) {

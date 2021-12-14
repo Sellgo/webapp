@@ -14,15 +14,11 @@ export class HeaderItem extends PureComponent {
     return (
       <div
         style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderLeft: 'solid 1px white',
-          position: 'absolute',
           height: 20,
           left: this.props.left,
           width: this.props.width,
         }}
+        className="header-item"
       >
         <div>{this.props.label}</div>
       </div>
@@ -133,7 +129,6 @@ export default class Header extends PureComponent {
 
     let start = this.props.currentday;
     let end = this.props.currentday + this.props.numVisibleDays;
-
     for (let i = start - BUFFER_DAYS; i < end + BUFFER_DAYS; i++) {
       //The unit of iteration is day
       currentDate = moment().add(i, 'days');
@@ -174,15 +169,9 @@ export default class Header extends PureComponent {
         className="timeLine-main-header-container"
         style={{ width: DATA_CONTAINER_WIDTH, maxWidth: DATA_CONTAINER_WIDTH }}
       >
-        <div className="header-top" style={{ ...Config.values.header.top.style }}>
-          {result.top}
-        </div>
-        <div className="header-middle" style={{ ...Config.values.header.middle.style }}>
-          {result.middle}
-        </div>
-        <div className="header-bottom" style={{ ...Config.values.header.bottom.style }}>
-          {result.bottom}
-        </div>
+        <div className="header-top">{result.top}</div>
+        <div className="header-middle">{result.middle}</div>
+        <div className="header-bottom">{result.bottom}</div>
       </div>
     );
   };

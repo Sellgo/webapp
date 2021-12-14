@@ -2,15 +2,19 @@ import React from 'react';
 
 // @ts-ignore
 import TimeLine from '../../../components/ReactGanttChart/TimeLine';
-// import { connect } from 'react-redux';
+import InventoryTable from './InventoryTable';
 
 /* Styles */
 // import styles from './index.module.scss';
 
 /* Types */
-import { Order } from '../../../interfaces/PerfectStock/OrderPlanning';
+import { DateRange, Order } from '../../../interfaces/PerfectStock/OrderPlanning';
+import { setDateRange } from '../../../actions/PerfectStock/OrderPlanning';
+import { connect } from 'react-redux';
 
-// interface Props {}
+interface Props {
+  setDateRange: (payload: DateRange) => void;
+}
 
 const DATA = [
   {
@@ -24,14 +28,14 @@ const DATA = [
         start: new Date(),
         end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 10),
         name: 'Phase 1',
-        color: 'red',
+        color: '#779ADE',
       },
       {
         id: 2,
         start: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 10),
         end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 20),
         name: 'Phase 2',
-        color: 'blue',
+        color: '#F4AA74',
       },
     ],
   },
@@ -46,27 +50,28 @@ const DATA = [
         start: new Date(),
         end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 10),
         name: 'Phase 1',
-        color: 'red',
+        color: '#779ADE',
       },
       {
         id: 2,
         start: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 10),
         end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 15),
         name: 'Phase 2',
-        color: 'blue',
+        color: '#F4AA74',
       },
       {
         id: 3,
         start: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 15),
         end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 20),
         name: 'Phase 3',
-        color: 'orange',
+        color: '#EC5B62',
       },
     ],
   },
 ];
 
-const OrderPlanning = () => {
+const OrderPlanning = (props: Props) => {
+  const { setDateRange } = props;
   const [tasks, setTasks] = React.useState<Order[]>(DATA);
   const [selectedTask, setSelectedTask] = React.useState<Order | null>(null);
   const updateOrder = (task: any, change: any) => {
@@ -85,7 +90,8 @@ const OrderPlanning = () => {
 
   return (
     <main>
-      <h1> ORDER PLANNING </h1>
+      <br />
+      <br />
       <TimeLine
         onUpdateTask={updateOrder}
         data={DATA}
@@ -95,14 +101,25 @@ const OrderPlanning = () => {
           console.log('Selected from outside', task);
           setSelectedTask(task);
         }}
+        onViewportChange={(start: Date, end: Date) => {
+          setDateRange({ startDate: start.toString(), endDate: end.toString() });
+        }}
       />
+      <InventoryTable />
     </main>
   );
 };
 
-// const mapStateToProps = (state: any) => {
-//   return {};
-// };
+const mapStateToProps = () => {
+  return {};
+};
 
-// export default connect(mapStateToProps)(OrderPlanning);
-export default OrderPlanning;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setDateRange: (payload: DateRange) => {
+      dispatch(setDateRange(payload));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrderPlanning);

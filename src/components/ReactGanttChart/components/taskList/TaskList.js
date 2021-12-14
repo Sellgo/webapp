@@ -92,9 +92,7 @@ export default class TaskList extends Component {
     this.containerStyle = this.getContainerStyle(data.length);
     return (
       <div className="timeLine-side">
-        <div className="timeLine-side-title" style={Config.values.taskList.title.style}>
-          <div>{Config.values.taskList.title.label}</div>
-        </div>
+        <div className="timeLine-side-title" />
         <div ref="taskViewPort" className="timeLine-side-task-viewPort" onScroll={this.doScroll}>
           <div className="timeLine-side-task-container" style={this.containerStyle}>
             {this.renderTaskRow(data)}

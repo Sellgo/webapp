@@ -129,13 +129,11 @@ export default class DataTask extends Component {
   };
   doTouchMove = e => {
     if (this.state.dragging) {
-      console.log('move');
       e.stopPropagation();
       this.dragProcess(e.changedTouches[0].clientX);
     }
   };
   doTouchEnd = e => {
-    console.log('end');
     this.dragEnd();
   };
 
@@ -143,12 +141,11 @@ export default class DataTask extends Component {
     let configStyle = this.props.isSelected
       ? Config.values.dataViewPort.task.selectedStyle
       : Config.values.dataViewPort.task.style;
-    let backgroundColor = this.props.color ? this.props.color : configStyle.backgroundColor;
 
     if (this.state.dragging) {
       return {
         ...configStyle,
-        backgroundColor: backgroundColor,
+        backgroundColor: 'none',
         left: this.state.left,
         width: this.state.width,
         height: this.props.height - 5,
@@ -157,7 +154,7 @@ export default class DataTask extends Component {
     } else {
       return {
         ...configStyle,
-        backgroundColor,
+        backgroundColor: 'none',
         left: this.props.left,
         width: this.props.width,
         height: this.props.height - 5,
@@ -199,11 +196,11 @@ export default class DataTask extends Component {
                 <div
                   key={id}
                   style={{
-                    overflow: 'hidden',
                     background: task.color,
                     width: `${lengthOfSubTask}%`,
-                    borderRadius: '7px',
+                    height: style.height,
                   }}
+                  className="timeLine-main-data-sub-task"
                 >
                   {task.name}
                   {this.props.isSelected ? 'BOO!' : ''}

@@ -10,21 +10,21 @@ const defvalues = {
     },
     middle: {
       style: {
-        backgroundColor: 'chocolate',
+        backgroundColor: 'none',
       },
       selectedStyle: {
-        backgroundColor: '#b13525',
+        backgroundColor: 'none',
         fontWeight: 'bold',
       },
     },
     bottom: {
       style: {
-        background: 'grey',
+        background: 'none',
         color: 'white',
         fontSize: 9,
       },
       selectedStyle: {
-        backgroundColor: '#b13525',
+        backgroundColor: 'none',
         fontWeight: 'bold',
       },
     },
@@ -33,7 +33,7 @@ const defvalues = {
     title: {
       label: 'Projects',
       style: {
-        backgroundColor: '#333333',
+        // backgroundColor: '#333333',
         borderBottom: 'solid 1px silver',
         color: 'white',
         textAlign: 'center',
@@ -41,7 +41,7 @@ const defvalues = {
     },
     task: {
       style: {
-        backgroundColor: '#fbf9f9',
+        backgroundColor: 'none',
       },
     },
     verticalSeparator: {
@@ -58,7 +58,7 @@ const defvalues = {
   dataViewPort: {
     rows: {
       style: {
-        backgroundColor: '#fbf9f9',
+        backgroundColor: 'none',
         borderBottom: 'solid 0.5px #cfcfcd',
       },
     },

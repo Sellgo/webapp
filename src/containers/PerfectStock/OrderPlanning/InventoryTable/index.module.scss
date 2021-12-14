@@ -1,0 +1,22 @@
+@import '../../../../design-system/new-colors.scss';
+
+.productDatabaseWrapper {
+  margin-top: 30px;
+  padding-bottom: 60px !important;
+}
+
+.productDatabasePagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 40px;
+  box-shadow: 0 -3px 6px 0 rgba($grey_3, 0.25);
+  background: #fff;
+  position: fixed;
+  padding: 0 30px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  z-index: 9999999 !important;
+}

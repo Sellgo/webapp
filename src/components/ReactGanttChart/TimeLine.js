@@ -17,7 +17,7 @@ import { DAY_MONTH_MODE, DAY_WEEK_MODE, DAY_DAY_MODE, DAY_YEAR_MODE } from './Co
 import DataController from './controller/DataController';
 import Config from './helpers/config/Config';
 import DateHelper from './helpers/DateHelper';
-import './TimeLine.css';
+import './TimeLine.scss';
 
 class TimeLine extends Component {
   constructor(props) {
@@ -203,6 +203,23 @@ class TimeLine extends Component {
     if (this.props.onHorizonChange) this.props.onHorizonChange(lowerLimit, upLimit);
   };
 
+  onViewportChange = () => {
+    if (this.props.onViewportChange) {
+      const today = new Date();
+      const startDate = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate() + this.state.currentday - 1
+      );
+      const endDate = new Date(
+        startDate.getFullYear(),
+        startDate.getMonth(),
+        startDate.getDate() + this.state.numVisibleDays
+      );
+      this.props.onViewportChange(startDate, endDate);
+    }
+  };
+
   ///////////////////////
   //     ADDED UTILS   //
   ///////////////////////
@@ -237,6 +254,7 @@ class TimeLine extends Component {
     this.dragging = false;
     // /* THIS IS ADDED FOR SNAPPING TO DAY */
     this.snapScrollLeft();
+    this.onViewportChange();
   };
 
   doTouchStart = e => {
@@ -264,6 +282,7 @@ class TimeLine extends Component {
     this.dragging = false;
     // /* THIS IS ADDED FOR SNAPPING TO DAY */
     this.snapScrollLeft();
+    this.onViewportChange();
     /* =============================== */
   };
 
@@ -353,6 +372,19 @@ class TimeLine extends Component {
       Registry.registerLinks(this.props.links);
     }
   };
+
+  /* ADDED */
+  componentDidMount() {
+    this.snapScrollLeft();
+    this.onViewportChange();
+  }
+
+  componentDidUpdate() {
+    if (this.state.currentday != this.props.currentday) {
+      this.onViewportChange();
+    }
+  }
+
   render() {
     this.checkMode();
     this.checkNeeeData();
@@ -446,8 +478,8 @@ TimeLine.propTypes = {
 };
 
 TimeLine.defaultProps = {
-  itemheight: 20,
-  dayWidth: 24,
+  itemheight: 25,
+  dayWidth: 48,
   nonEditableName: false,
 };
 
