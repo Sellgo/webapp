@@ -13,31 +13,36 @@ import { fetchSalesProjection } from '../../../../actions/PerfectStock/SalesProj
 /* Interfaces */
 import { SalesProjectionPayload } from '../../../../interfaces/PerfectStock/SalesProjection';
 import { DateRange } from '../../../../interfaces/PerfectStock/OrderPlanning';
+import { TimeSetting, TIME_SETTING } from '../../../../constants/PerfectStock/OrderPlanning';
 
 /* Containers */
 
 /* Components */
 import Placeholder from '../../../../components/Placeholder';
-import { getDateRange } from '../../../../selectors/PerfectStock/OrderPlanning';
+import HeaderDateCell from '../../../../components/NewTable/HeaderDateCell';
+import { getDateRange, getTimeSetting } from '../../../../selectors/PerfectStock/OrderPlanning';
 
 interface Props {
   // States
   dateRange: DateRange;
+  timeSetting: TimeSetting;
 }
 
 /* Main component */
 const InventoryTable = (props: Props) => {
-  const { dateRange } = props;
+  const { dateRange, timeSetting } = props;
 
   const getDateArray = (startDate: Date, endDate: Date) => {
+    const DIFF = timeSetting === TIME_SETTING.DAY ? 1 : 7;
     if (startDate && endDate) {
       const dateArray = [];
       let currentDate = startDate;
       while (currentDate <= endDate) {
-        currentDate = new Date(currentDate.setDate(currentDate.getDate() + 1));
+        currentDate = new Date(currentDate.setDate(currentDate.getDate() + DIFF));
         const dateString = currentDate.toLocaleDateString('en-US', {
-          month: 'short',
           day: 'numeric',
+          month: 'numeric',
+          year: '2-digit',
         });
         dateArray.push(dateString);
       }
@@ -48,6 +53,15 @@ const InventoryTable = (props: Props) => {
   };
 
   const headers = getDateArray(new Date(dateRange.startDate), new Date(dateRange.endDate));
+  const generateDummyData = () => {
+    const data: any = {};
+    for (let i = 0; i < headers.length; i++) {
+      data[headers[i]] = 840;
+    }
+
+    return [data];
+  };
+  const FAKE_DATA = generateDummyData();
 
   return (
     <>
@@ -57,7 +71,7 @@ const InventoryTable = (props: Props) => {
           renderEmpty={() => <div />}
           affixHorizontalScrollbar={0}
           // Dont display old data when loading
-          data={[]}
+          data={FAKE_DATA}
           hover={true}
           autoHeight
           rowHeight={120}
@@ -77,7 +91,9 @@ const InventoryTable = (props: Props) => {
           {headers.map((date, index) => {
             return (
               <Table.Column width={48} verticalAlign="middle" fixed align="center" key={index}>
-                <Table.HeaderCell>{date}</Table.HeaderCell>
+                <Table.HeaderCell>
+                  <HeaderDateCell title={date} />
+                </Table.HeaderCell>
                 <Table.Cell dataKey={date} key={index} />
               </Table.Column>
             );
@@ -91,6 +107,7 @@ const InventoryTable = (props: Props) => {
 const mapStateToProps = (state: any) => {
   return {
     dateRange: getDateRange(state),
+    timeSetting: getTimeSetting(state),
   };
 };
 

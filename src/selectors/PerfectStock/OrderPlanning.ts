@@ -14,3 +14,8 @@ export const getIsLoadingInventoryTableResults = (state: any) => {
 export const getDateRange = (state: any) => {
   return get(state, 'orderPlanning.dateRange');
 };
+
+/* Selector to get time setting */
+export const getTimeSetting = (state: any) => {
+  return get(state, 'orderPlanning.timeSetting');
+};

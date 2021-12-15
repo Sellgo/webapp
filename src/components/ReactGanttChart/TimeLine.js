@@ -153,9 +153,7 @@ class TimeLine extends Component {
       //ContenLegnth-viewportLengt
       new_nowposition = this.state.nowposition - this.pxToScroll;
       /* THIS WAS ADDED TO ENSURE SNAPPING */
-      if (this.state.mode === 'month') {
-        new_nowposition = new_nowposition - (new_nowposition % UNIT_WIDTH);
-      }
+      new_nowposition = new_nowposition - (new_nowposition % UNIT_WIDTH);
       /* =============================== */
       new_left = 0;
     } else {
@@ -163,9 +161,7 @@ class TimeLine extends Component {
         //ContenLegnth-viewportLengt
         new_nowposition = this.state.nowposition + this.pxToScroll;
         /* THIS WAS ADDED TO ENSURE SNAPPING */
-        if (this.state.mode === 'month') {
-          new_nowposition = new_nowposition - (new_nowposition % UNIT_WIDTH);
-        }
+        new_nowposition = new_nowposition - (new_nowposition % UNIT_WIDTH);
         /* =============================== */
         new_left = this.pxToScroll;
       } else {
@@ -210,11 +206,27 @@ class TimeLine extends Component {
   onViewportChange = () => {
     if (this.props.onViewportChange) {
       const today = new Date();
-      const startDate = new Date(
+
+      /* Get start of week date */
+      let startDate = new Date(
         today.getFullYear(),
         today.getMonth(),
-        today.getDate() + this.state.currentday - 1
+        today.getDate() + this.state.currentday
       );
+
+      if (this.state.mode === 'year') {
+        startDate = new Date(
+          startDate.getFullYear(),
+          startDate.getMonth(),
+          startDate.getDate() - startDate.getDay() - 7
+        );
+      } else {
+        startDate = new Date(
+          startDate.getFullYear(),
+          startDate.getMonth(),
+          startDate.getDate() - 1
+        );
+      }
       const endDate = new Date(
         startDate.getFullYear(),
         startDate.getMonth(),
@@ -228,9 +240,27 @@ class TimeLine extends Component {
   //     ADDED UTILS   //
   ///////////////////////
   snapScrollLeft = () => {
-    let new_left = this.state.scrollLeft;
-    new_left = Math.floor(new_left / UNIT_WIDTH) * UNIT_WIDTH;
-    this.horizontalChange(new_left);
+    let day = this.state.currentday;
+
+    /* If MODE === MONTH, configure date to snap to nearest day */
+    const today = new Date();
+    let startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + day);
+
+    /* If MODE === YEAR, configure date to snap to nearest week */
+    if (this.state.mode === 'year') {
+      startDate = new Date(
+        startDate.getFullYear(),
+        startDate.getMonth(),
+        startDate.getDate() - startDate.getDay()
+      );
+    }
+
+    const newest_left = DateHelper.dateToPixel(
+      startDate.toDateString(),
+      this.state.nowposition,
+      this.state.dayWidth
+    );
+    this.horizontalChange(newest_left);
   };
 
   /////////////////////
@@ -242,7 +272,7 @@ class TimeLine extends Component {
     this.draggingPosition = e.clientX;
 
     // /* THIS IS ADDED FOR SNAPPING TO DAY */
-    this.snapScrollLeft();
+    // this.snapScrollLeft();
   };
   doMouseMove = e => {
     if (this.dragging) {
@@ -381,12 +411,6 @@ class TimeLine extends Component {
   componentDidMount() {
     this.snapScrollLeft();
     this.onViewportChange();
-  }
-
-  componentDidUpdate() {
-    if (this.state.currentday != this.props.currentday) {
-      this.onViewportChange();
-    }
   }
 
   render() {

@@ -1,7 +1,7 @@
 import { AnyAction } from 'redux';
 import { setIn } from '../../utils/immutablity';
 
-import { actionTypes } from '../../constants/PerfectStock/OrderPlanning';
+import { actionTypes, TIME_SETTING } from '../../constants/PerfectStock/OrderPlanning';
 
 const INITIAL_STATE = {
   isLoadingInventoryTableResults: false,
@@ -10,6 +10,7 @@ const INITIAL_STATE = {
     startDate: '',
     endDate: '',
   },
+  timeSetting: TIME_SETTING.DAY,
 };
 
 const salesProjectionReducer = (state = INITIAL_STATE, action: AnyAction) => {
@@ -24,6 +25,10 @@ const salesProjectionReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_DATE_RANGE: {
       return setIn(state, 'dateRange', action.payload);
+    }
+
+    case actionTypes.SET_TIME_SETTING: {
+      return setIn(state, 'timeSetting', action.payload);
     }
 
     default: {

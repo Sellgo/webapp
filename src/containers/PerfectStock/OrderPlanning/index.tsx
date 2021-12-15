@@ -1,19 +1,28 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 // @ts-ignore
 import TimeLine from '../../../components/ReactGanttChart/TimeLine';
-// import InventoryTable from './InventoryTable';
+import InventoryTable from './InventoryTable';
 
 /* Styles */
 // import styles from './index.module.scss';
 
+/* Actions */
+import { setDateRange, setTimeSettings } from '../../../actions/PerfectStock/OrderPlanning';
+
+/* Selectors */
+import { getTimeSetting } from '../../../selectors/PerfectStock/OrderPlanning';
+
 /* Types */
 import { DateRange, Order } from '../../../interfaces/PerfectStock/OrderPlanning';
-import { setDateRange } from '../../../actions/PerfectStock/OrderPlanning';
-import { connect } from 'react-redux';
+import { TimeSetting } from '../../../constants/PerfectStock/OrderPlanning';
+import SelectionFilter from '../../../components/FormFilters/SelectionFilter';
 
 interface Props {
   setDateRange: (payload: DateRange) => void;
+  setTimeSettings: (payload: string) => void;
+  timeSetting: TimeSetting;
 }
 
 const DATA = [
@@ -69,9 +78,21 @@ const DATA = [
     ],
   },
 ];
+const TIME_SETTINGS = [
+  {
+    key: 'month',
+    value: 'month',
+    text: 'Day',
+  },
+  {
+    key: 'year',
+    value: 'year',
+    text: 'Week',
+  },
+];
 
 const OrderPlanning = (props: Props) => {
-  const { setDateRange } = props;
+  const { setDateRange, timeSetting, setTimeSettings } = props;
   const [tasks, setTasks] = React.useState<Order[]>(DATA);
   const [selectedTask, setSelectedTask] = React.useState<Order | null>(null);
   const updateOrder = (task: any, change: any) => {
@@ -92,10 +113,17 @@ const OrderPlanning = (props: Props) => {
     <main>
       <br />
       <br />
+      <SelectionFilter
+        filterOptions={TIME_SETTINGS}
+        value={timeSetting}
+        handleChange={(value: string) => setTimeSettings(value)}
+        placeholder=""
+      />
+      <br />
       <TimeLine
         onUpdateTask={updateOrder}
         data={DATA}
-        mode="year"
+        mode={timeSetting}
         selectedTask={selectedTask}
         onSelectTask={(task: Order) => {
           console.log('Selected from outside', task);
@@ -105,19 +133,24 @@ const OrderPlanning = (props: Props) => {
           setDateRange({ startDate: start.toString(), endDate: end.toString() });
         }}
       />
-      {/* <InventoryTable /> */}
+      <InventoryTable />
     </main>
   );
 };
 
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state: any) => {
+  return {
+    timeSetting: getTimeSetting(state),
+  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     setDateRange: (payload: DateRange) => {
       dispatch(setDateRange(payload));
+    },
+    setTimeSettings: (payload: string) => {
+      dispatch(setTimeSettings(payload));
     },
   };
 };

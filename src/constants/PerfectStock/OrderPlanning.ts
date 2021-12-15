@@ -2,4 +2,12 @@ export const actionTypes = {
   IS_LOADING_INVENTORY_TABLE_RESULTS: 'IS_LOADING_INVENTORY_TABLE_RESULTS',
   SET_INVENTORY_TABLE_RESULTS: 'SET_INVENTORY_TABLE_RESULTS',
   SET_DATE_RANGE: 'SET_DATE_RANGE',
+  SET_TIME_SETTING: 'SET_TIME_SETTING',
 };
+
+export const TIME_SETTING = {
+  DAY: 'month',
+  WEEK: 'year',
+};
+
+export type TimeSetting = 'month' | 'year';

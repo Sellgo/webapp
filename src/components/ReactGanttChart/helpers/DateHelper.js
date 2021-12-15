@@ -3,6 +3,8 @@ class DateHelper {
   dateToPixel(input, nowposition, daywidth) {
     let nowDate = this.getToday(); //
     let inputTime = new Date(input);
+    inputTime.setHours(0, 0, 0, 0);
+    nowDate.setHours(0, 0, 0, 0);
 
     //Day light saving patch
     let lightSavingDiff = (inputTime.getTimezoneOffset() - nowDate.getTimezoneOffset()) * 60 * 1000;

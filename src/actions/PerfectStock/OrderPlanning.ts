@@ -20,6 +20,14 @@ export const setInventoryTableResults = (payload: any) => {
   };
 };
 
+/* Action to set time settings */
+export const setTimeSettings = (payload: string) => {
+  return {
+    type: actionTypes.SET_TIME_SETTING,
+    payload,
+  };
+};
+
 /* Action to set date range */
 export const setDateRange = (payload: DateRange) => {
   return {

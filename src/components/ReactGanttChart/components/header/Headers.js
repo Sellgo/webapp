@@ -14,13 +14,13 @@ export class HeaderItem extends PureComponent {
     return (
       <div
         style={{
-          height: '60px',
+          height: '48px',
           left: this.props.left,
           width: this.props.width,
         }}
         className="header-item"
       >
-        <div>{this.props.label}</div>
+        {this.props.label}
       </div>
     );
   }
@@ -119,8 +119,8 @@ export default class Header extends PureComponent {
       } else {
         adjustedDate = currentDate.startOf('day');
       }
-      if (currentMiddle != adjustedDate.format('DD/MM/YY')) {
-        currentMiddle = adjustedDate.format('DD/MM/YY');
+      if (currentMiddle != adjustedDate.format('MM/DD/YY')) {
+        currentMiddle = adjustedDate.format('MM/DD/YY');
         box = this.getBox(adjustedDate, perDayMode, lastLeft.middle);
         lastLeft.middle = box.left + box.width;
         result.middle.push(
