@@ -250,6 +250,7 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (
         .join(',');
 
     if (currentAsinList === asinList) {
+      dispatch(isFetchingKeywordReverseRequestId(false));
       return;
     }
 
