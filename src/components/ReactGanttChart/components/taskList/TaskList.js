@@ -1,6 +1,20 @@
 import React, { Component } from 'react';
 import Config from '../../helpers/config/Config';
 import ContentEditable from '../../components/common/ContentEditable';
+import SelectionFilter from '../../../FormFilters/SelectionFilter';
+
+const TIME_SETTINGS = [
+  {
+    key: 'month',
+    value: 'month',
+    text: 'Day',
+  },
+  {
+    key: 'year',
+    value: 'year',
+    text: 'Week',
+  },
+];
 
 export class VerticalLine extends Component {
   constructor(props) {
@@ -34,7 +48,7 @@ export class TaskRow extends Component {
         }}
         onClick={e => this.props.onSelectItem(this.props.item)}
       >
-        {this.props.nonEditable ? (
+        {true ? (
           <div tabIndex={this.props.index} style={{ width: '100%' }}>
             {this.props.label}
           </div>
@@ -92,7 +106,17 @@ export default class TaskList extends Component {
     this.containerStyle = this.getContainerStyle(data.length);
     return (
       <div className="timeLine-side">
-        <div className="timeLine-side-title" />
+        <div className="timeLine-side-title">
+          <SelectionFilter
+            filterOptions={TIME_SETTINGS}
+            value={this.props.mode}
+            handleChange={value =>
+              this.props.handleChangeMode && this.props.handleChangeMode(value)
+            }
+            placeholder=""
+            className="timeLine-mode-changer"
+          />
+        </div>
         <div ref="taskViewPort" className="timeLine-side-task-viewPort" onScroll={this.doScroll}>
           <div className="timeLine-side-task-container" style={this.containerStyle}>
             {this.renderTaskRow(data)}

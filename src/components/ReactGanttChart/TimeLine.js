@@ -13,7 +13,7 @@ import TaskList from './components/taskList/TaskList';
 import Registry from './helpers/registry/Registry';
 import { BUFFER_DAYS, DATA_CONTAINER_WIDTH } from './Const';
 import { VIEW_MODE_DAY, VIEW_MODE_WEEK, VIEW_MODE_MONTH, VIEW_MODE_YEAR } from './Const';
-import { DAY_MONTH_MODE, DAY_WEEK_MODE, DAY_DAY_MODE, DAY_YEAR_MODE, UNIT_WIDTH } from './Const';
+import { DAY_MONTH_MODE, DAY_WEEK_MODE, DAY_DAY_MODE, DAY_YEAR_MODE } from './Const';
 import DataController from './controller/DataController';
 import Config from './helpers/config/Config';
 import DateHelper from './helpers/DateHelper';
@@ -40,7 +40,7 @@ class TimeLine extends Component {
       nowposition: 0,
       startRow: 0, //
       endRow: 10,
-      sideStyle: { width: 200 },
+      sideStyle: { width: this.props.sideWidth ? this.props.sideWidth : 200 },
       scrollLeft: 0,
       scrollTop: 0,
       numVisibleRows: 40,
@@ -153,7 +153,7 @@ class TimeLine extends Component {
       //ContenLegnth-viewportLengt
       new_nowposition = this.state.nowposition - this.pxToScroll;
       /* THIS WAS ADDED TO ENSURE SNAPPING */
-      new_nowposition = new_nowposition - (new_nowposition % UNIT_WIDTH);
+      new_nowposition = new_nowposition - (new_nowposition % this.props.unitWidth);
       /* =============================== */
       new_left = 0;
     } else {
@@ -161,7 +161,7 @@ class TimeLine extends Component {
         //ContenLegnth-viewportLengt
         new_nowposition = this.state.nowposition + this.pxToScroll;
         /* THIS WAS ADDED TO ENSURE SNAPPING */
-        new_nowposition = new_nowposition - (new_nowposition % UNIT_WIDTH);
+        new_nowposition = new_nowposition - (new_nowposition % this.props.unitWidth);
         /* =============================== */
         new_left = this.pxToScroll;
       } else {
@@ -430,6 +430,8 @@ class TimeLine extends Component {
             onUpdateTask={this.props.onUpdateTask}
             onScroll={this.verticalChange}
             nonEditable={this.props.nonEditableName}
+            handleChangeMode={this.props.handleChangeMode}
+            mode={this.state.mode}
           />
           {/* <VerticalSpliter onTaskListSizing={this.onTaskListSizing} /> */}
         </div>
@@ -501,13 +503,11 @@ class TimeLine extends Component {
 
 TimeLine.propTypes = {
   itemheight: PropTypes.number.isRequired,
-  dayWidth: PropTypes.number.isRequired,
   nonEditableName: PropTypes.bool,
 };
 
 TimeLine.defaultProps = {
   itemheight: 25,
-  dayWidth: 48,
   nonEditableName: false,
 };
 

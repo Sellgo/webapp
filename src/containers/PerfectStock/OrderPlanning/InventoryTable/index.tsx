@@ -13,14 +13,26 @@ import { fetchSalesProjection } from '../../../../actions/PerfectStock/SalesProj
 /* Interfaces */
 import { SalesProjectionPayload } from '../../../../interfaces/PerfectStock/SalesProjection';
 import { DateRange } from '../../../../interfaces/PerfectStock/OrderPlanning';
-import { TimeSetting, TIME_SETTING } from '../../../../constants/PerfectStock/OrderPlanning';
-
-/* Containers */
 
 /* Components */
 import Placeholder from '../../../../components/Placeholder';
 import HeaderDateCell from '../../../../components/NewTable/HeaderDateCell';
+import ProductInformation from './ProductInformation';
+import StockOutDate from './StockOutDate';
+import InventoryBarCell from './InventoryBarCell';
+import { ReactComponent as ExclaimationIcon } from '../../../../assets/images/exclamation-triangle-solid.svg';
+
+/* Selectors */
 import { getDateRange, getTimeSetting } from '../../../../selectors/PerfectStock/OrderPlanning';
+
+/* Constants */
+import {
+  TimeSetting,
+  TIME_SETTING,
+  OFFSET_TO_CHART_WIDTH,
+  UNIT_WIDTH,
+} from '../../../../constants/PerfectStock/OrderPlanning';
+import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 
 interface Props {
   // States
@@ -31,6 +43,18 @@ interface Props {
 /* Main component */
 const InventoryTable = (props: Props) => {
   const { dateRange, timeSetting } = props;
+  const [sortColumn, setSortColumn] = React.useState<string>('');
+  const [sortType, setSortType] = React.useState<'asc' | 'desc' | undefined>(undefined);
+  const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
+    setSortColumn(sortColumn);
+    setSortType(sortType);
+    fetchSalesProjection({
+      sort: sortColumn,
+      sortDir: sortType,
+    });
+  };
+  const [FAKE_DATA, SET_FAKE_DATA] = React.useState<any>([]);
+  const [headers, setHeaders] = React.useState<any>([]);
 
   const getDateArray = (startDate: Date, endDate: Date) => {
     const DIFF = timeSetting === TIME_SETTING.DAY ? 1 : 7;
@@ -52,16 +76,27 @@ const InventoryTable = (props: Props) => {
     }
   };
 
-  const headers = getDateArray(new Date(dateRange.startDate), new Date(dateRange.endDate));
-  const generateDummyData = () => {
-    const data: any = {};
+  const generateDummyData = (headers: any) => {
+    const data: any = {
+      asin: 'ASIN',
+      image: '',
+      title: 'PRODUCT TITLE',
+      days_until_so: 150,
+    };
     for (let i = 0; i < headers.length; i++) {
       data[headers[i]] = 840;
+      data[`${headers[i]}_count`] = 500;
+      data[`${headers[i]}_percent`] = Math.random();
     }
 
     return [data];
   };
-  const FAKE_DATA = generateDummyData();
+  /* Detect if dateRange changed */
+  React.useEffect(() => {
+    const headers = getDateArray(new Date(dateRange.startDate), new Date(dateRange.endDate));
+    setHeaders(headers);
+    SET_FAKE_DATA(generateDummyData(headers));
+  }, [dateRange.startDate, dateRange.endDate]);
 
   return (
     <>
@@ -74,27 +109,51 @@ const InventoryTable = (props: Props) => {
           data={FAKE_DATA}
           hover={true}
           autoHeight
-          rowHeight={120}
+          rowHeight={70}
           headerHeight={55}
           rowExpandedHeight={800}
+          onSortColumn={handleSortColumn}
           rowKey="id"
           virtualized
           id="stockInventoryTable"
         >
           {/* Product Information  */}
-          <Table.Column minWidth={200} verticalAlign="middle" fixed align="center" flexGrow={4}>
+          <Table.Column
+            width={OFFSET_TO_CHART_WIDTH * (2 / 3)}
+            verticalAlign="middle"
+            align="center"
+          >
             <Table.HeaderCell>Product</Table.HeaderCell>
-            <Table.Cell dataKey="productInformation" />
+            <ProductInformation dataKey="productInformation" />
+          </Table.Column>
+
+          {/* Stock out date info  */}
+          <Table.Column
+            width={OFFSET_TO_CHART_WIDTH * (1 / 3)}
+            verticalAlign="middle"
+            align="center"
+          >
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Days Until\nStock Out`}
+                dataKey="days_until_so"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+                alignMiddle
+                icon={<ExclaimationIcon />}
+              />
+            </Table.HeaderCell>
+            <StockOutDate dataKey="days_until_so" />
           </Table.Column>
 
           {/* Render a column for each date from end date to statr date */}
-          {headers.map((date, index) => {
+          {headers.map((date: string, index: number) => {
             return (
-              <Table.Column width={48} verticalAlign="middle" fixed align="center" key={index}>
+              <Table.Column width={UNIT_WIDTH} verticalAlign="middle" align="center" key={index}>
                 <Table.HeaderCell>
                   <HeaderDateCell title={date} />
                 </Table.HeaderCell>
-                <Table.Cell dataKey={date} key={index} />
+                <InventoryBarCell dataKey={date} key={index} />
               </Table.Column>
             );
           })}

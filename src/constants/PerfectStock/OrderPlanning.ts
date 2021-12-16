@@ -11,3 +11,13 @@ export const TIME_SETTING = {
 };
 
 export type TimeSetting = 'month' | 'year';
+
+/* Styling widths to maintain alignment of chart between gantt chart and tables */
+export const UNIT_WIDTH = 48;
+export const SIDE_SETTING_WIDTH = 250;
+export const GANTT_ORDERS_WIDTH = 150;
+export const OFFSET_TO_CHART_WIDTH =
+  SIDE_SETTING_WIDTH +
+  GANTT_ORDERS_WIDTH +
+  18 + // Margin between side setting and gantt chart
+  18; // Padding for gantt chart

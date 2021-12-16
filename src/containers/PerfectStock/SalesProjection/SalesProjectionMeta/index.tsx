@@ -30,7 +30,7 @@ interface Props {
   productDatabasePaginationInfo: any;
 }
 
-const SalesEstimationMeta = (props: Props) => {
+const OrderPlanningMeta = (props: Props) => {
   const { fetchProductsDatabase, productDatabaseResults, isLoadingProductDatabase } = props;
 
   const handleOnExport = async (fileFormat: 'csv' | 'xlsx') => {
@@ -95,4 +95,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SalesEstimationMeta);
+export default connect(mapStateToProps, mapDispatchToProps)(OrderPlanningMeta);

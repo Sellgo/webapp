@@ -14,13 +14,13 @@ export class HeaderItem extends PureComponent {
     return (
       <div
         style={{
-          height: '48px',
+          height: 60,
           left: this.props.left,
           width: this.props.width,
         }}
         className="header-item"
       >
-        {this.props.label}
+        <div className="header-item-rotated">{this.props.label}</div>
       </div>
     );
   }

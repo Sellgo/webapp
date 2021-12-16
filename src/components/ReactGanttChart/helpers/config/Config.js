@@ -59,7 +59,7 @@ const defvalues = {
     rows: {
       style: {
         backgroundColor: 'none',
-        borderBottom: 'solid 0.5px #cfcfcd',
+        borderBottom: 'none',
       },
     },
     task: {

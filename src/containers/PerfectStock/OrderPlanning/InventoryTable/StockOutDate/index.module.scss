@@ -1,0 +1,32 @@
+@import '../../../../../design-system/new-colors.scss';
+
+.stockOutCell {
+  height: 100%;
+  width: 90%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.stockOutDate {
+  display: flex;
+  flex-direction: column;
+  font-size: 10px;
+  color: $black_0;
+  font-weight: $fontweight_medium;
+
+  span {
+    color: $grey_8;
+    font-size: 10px;
+    font-weight: $fontweight_regular;
+  }
+}
+
+.daysToStockOut {
+  line-height: 28px;
+  color: $system_red;
+  font-size: 24px;
+  font-weight: $fontweight_bold;
+}

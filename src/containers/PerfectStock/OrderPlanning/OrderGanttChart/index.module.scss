@@ -1,0 +1,59 @@
+@import '../../../../design-system/new-colors';
+
+.ganttChartWrapper {
+  margin-top: 30px;
+  display: flex;
+  width: 100%;
+}
+
+.ganttChartSettings {
+  display: flex;
+  flex-direction: column;
+  padding: 30px 18px;
+  min-width: 250px;
+  height: 280px;
+  background: $prim_white;
+
+  /* DO NOT CHANGE MARGIN FOR ALIGNMENT OF CHART WITH TABLES BELOW */
+  margin-right: 18px;
+
+  /* ========================== */
+  border: 1px solid $grey_3;
+  border-radius: 7px;
+
+  span {
+    font-size: 14px !important;
+    color: $grey_8;
+    font-weight: $fontweight_medium;
+    margin-bottom: 18px;
+  }
+}
+
+.ganttChart {
+  /* 100% width minus width of gantt chart settings + margin */
+  width: calc(100% - 268px);
+  background: $prim_white;
+  border: 1px solid $grey_3;
+  border-radius: 7px;
+
+  /* DO NOT CHANGE PADDING FOR ALIGNMENT OF CHART WITH TABLES BELOW */
+  padding: 18px;
+
+  /* ========================== */
+}
+
+.settingToggle {
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+
+  label {
+    font-size: 14px !important;
+    color: $grey_8 !important;
+    font-weight: $fontweight_medium;
+  }
+
+  &__indented {
+    margin-left: 18px;
+  }
+}
