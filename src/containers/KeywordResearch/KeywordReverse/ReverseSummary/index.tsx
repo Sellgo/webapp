@@ -7,6 +7,7 @@ import styles from './index.module.scss';
 /* Components */
 import KeywordDatabaseSummaryCards from '../../../../components/KeywordDatabaseSummaryCards';
 import WordFreqContent from './WordFreqContent/WordFreqContent';
+import DisplayToggle from '../../../../components/DisplayToggle';
 
 /* Selectors */
 import {
@@ -54,6 +55,8 @@ const ReverseSummary = (props: Props) => {
   } = props;
 
   const [wordFreqSort, setWordFreqSort] = useState<'asc' | 'desc'>('desc');
+  const [expandSummaryMenu, setExpandSummaryMenu] = useState<boolean>(false);
+  const [isSummaryNew, setIsSummaryNew] = useState<boolean>(true);
 
   const handleWordFreqSort = () => {
     fetchKeywordReverseWordFreqSummary(wordFreqSort === 'desc' ? 'asc' : 'desc');
@@ -71,6 +74,11 @@ const ReverseSummary = (props: Props) => {
     };
   }, []);
 
+  // Check when summary data is updated
+  useEffect(() => {
+    setIsSummaryNew(true);
+  }, [keywordReverseAggSummary, keywordReverseWordFreqSummary]);
+
   /* Copy Keywords */
   const handleCopyKeywords = (deliminator?: string) => {
     const keywords = keywordReverseWordFreqSummary.map(({ word }) => word);
@@ -80,23 +88,46 @@ const ReverseSummary = (props: Props) => {
     });
   };
 
+  /* Handle expansion */
+  const handleExpandSummaryMenu = () => {
+    setExpandSummaryMenu(prevState => !prevState);
+    setIsSummaryNew(false);
+  };
+
   return (
     <section className={styles.databaseSummarySection}>
-      {/* Word Analysis */}
-      <KeywordDatabaseSummaryCards
-        title="Word Frequency"
-        sort={wordFreqSort}
-        handleSort={handleWordFreqSort}
-        handleCopy={handleCopyKeywords}
-        content={<WordFreqContent data={keywordReverseWordFreqSummary} />}
-        isLoading={isLoadingKeywordReverseWordFreqSummary || shouldFetchKeywordReverseProgress}
+      <DisplayToggle
+        title="STATISTICS"
+        collapsed={!expandSummaryMenu}
+        handleClick={handleExpandSummaryMenu}
+        collapsedColor="#F7F7F7"
+        expandedColor="#3CF7AF"
+        collapsedFontColor="#636D76"
+        expandedFontColor="#1E1E1E"
+        collapsedArrowColor="#636D76"
+        expandedArrowColor="#1E1E1E"
+        collapsedIcon={isSummaryNew ? <div className={styles.greenCircle} /> : <div />}
       />
 
-      <KeywordDatabaseSummaryCards
-        title="Quick Summary"
-        content={<KeywordDistribution data={keywordReverseAggSummary} />}
-        isLoading={isLoadingKeywordReverseAggSummary || shouldFetchKeywordReverseProgress}
-      />
+      {expandSummaryMenu && (
+        <div className={styles.summaryWrapper}>
+          {/* Word Frequency */}
+          <KeywordDatabaseSummaryCards
+            title="Word Frequency"
+            sort={wordFreqSort}
+            handleSort={handleWordFreqSort}
+            handleCopy={handleCopyKeywords}
+            content={<WordFreqContent data={keywordReverseWordFreqSummary} />}
+            isLoading={isLoadingKeywordReverseWordFreqSummary || shouldFetchKeywordReverseProgress}
+          />
+          {/* Word Analysis */}
+          <KeywordDatabaseSummaryCards
+            title="Quick Summary"
+            content={<KeywordDistribution data={keywordReverseAggSummary} />}
+            isLoading={isLoadingKeywordReverseAggSummary || shouldFetchKeywordReverseProgress}
+          />
+        </div>
+      )}
     </section>
   );
 };

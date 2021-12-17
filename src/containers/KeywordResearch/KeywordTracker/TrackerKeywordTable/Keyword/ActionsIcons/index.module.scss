@@ -1,0 +1,106 @@
+@import '../../../../../../design-system/new-colors';
+
+.actionIconCellWrapper {
+  display: grid;
+  grid-template-columns: 80px 100%;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+
+  svg {
+    height: 12px !important;
+    width: 12px !important;
+  }
+
+  .boost {
+    display: flex;
+    width: max-content;
+    background: none !important;
+    font-size: 10px;
+    color: $prim_dark_1;
+
+    &:hover {
+      background: $grey_1 !important;
+    }
+  }
+
+  .zapier {
+    display: flex;
+    width: max-content;
+    background: none !important;
+    font-size: 10px;
+    color: $prim_dark_1;
+
+    .triggerNames {
+      max-width: 80px;
+      text-align: left;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &:hover {
+      background: $grey_1 !important;
+    }
+  }
+}
+
+.actionsPopover {
+  margin-top: 0 !important;
+  padding: 20px !important;
+  z-index: 99999 !important;
+
+  &::before {
+    display: none !important;
+  }
+}
+
+.actionOptions {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  height: 130px;
+  overflow: auto;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  p {
+    margin: 18px 0;
+    color: $grey_6 !important;
+    font-weight: $fontweight_medium;
+    font-size: 12px;
+
+    &:nth-child(1) {
+      margin-top: 0;
+    }
+  }
+
+  .triggerInput {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+
+    /* Styling for input label */
+    label {
+      color: $grey_8 !important;
+      font-size: 14px !important;
+      font-weight: $fontweight_regular !important;
+    }
+
+    label::before {
+      border-radius: 4px !important;
+      border: 1px solid $grey_3 !important;
+    }
+
+    input:checked ~ .box::after,
+    input:checked ~ label::after {
+      color: $grey_8 !important;
+    }
+
+    &:hover {
+      label {
+        font-weight: $fontweight_medium !important;
+      }
+    }
+  }
+}

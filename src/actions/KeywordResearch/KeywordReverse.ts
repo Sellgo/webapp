@@ -250,6 +250,7 @@ export const fetchKeywordReverseRequestId = (asinList: string) => async (
         .join(',');
 
     if (currentAsinList === asinList) {
+      dispatch(isFetchingKeywordReverseRequestId(false));
       return;
     }
 
@@ -443,8 +444,15 @@ export const fetchKeywordReverseAggSummary = () => async (dispatch: any, getStat
         setKeywordReverseAggSummary({
           total_keywords: 0,
           total_search_volume: 0,
-          avg_competing_products: 0,
+          min_search_volume: 0,
           avg_search_volume: 0,
+          max_search_volume: 0,
+          min_competing_products: 0,
+          avg_competing_products: 0,
+          max_competing_products: 0,
+          min_sponsored_asins: 0,
+          avg_sponsored_asins: 0,
+          max_sponsored_asins: 0,
         })
       );
       dispatch(isLoadingKeywordReverseAggSummary(false));
@@ -455,8 +463,15 @@ export const fetchKeywordReverseAggSummary = () => async (dispatch: any, getStat
       setKeywordReverseAggSummary({
         total_keywords: 0,
         total_search_volume: 0,
-        avg_competing_products: 0,
+        min_search_volume: 0,
         avg_search_volume: 0,
+        max_search_volume: 0,
+        min_competing_products: 0,
+        avg_competing_products: 0,
+        max_competing_products: 0,
+        min_sponsored_asins: 0,
+        avg_sponsored_asins: 0,
+        max_sponsored_asins: 0,
       })
     );
     dispatch(isLoadingKeywordReverseAggSummary(false));
@@ -564,8 +579,6 @@ export const fetchKeywordReverseTableInformation = (payload: KeywordReverseTable
 /* Action to reset keyword database */
 export const resetKeywordReverse = () => async (dispatch: any) => {
   dispatch(isFetchingKeywordReverseRequestId(false));
-  dispatch(setKeywordReverseRequestId(''));
-  dispatch(setAsinListForKeywordReverse(''));
   dispatch(shouldFetchKeywordReverseProgress(false));
   dispatch(
     setKeywordReverseProgressData({
@@ -576,6 +589,5 @@ export const resetKeywordReverse = () => async (dispatch: any) => {
       report_xlsx_url: '',
     })
   );
-  dispatch(fetchKeywordReverseProductsList({ resetProducts: true }));
   dispatch(fetchKeywordReverseTableInformation({ resetFilter: true }));
 };

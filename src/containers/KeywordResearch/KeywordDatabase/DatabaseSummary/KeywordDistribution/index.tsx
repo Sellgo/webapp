@@ -28,15 +28,21 @@ const KeywordDistribution = (props: Props) => {
       </div>
       <div className={styles.statsRow}>
         <p className={styles.statsName}> Search Volume </p>
-        <p className={styles.statsNumber}> - </p>
+        <p className={styles.statsNumber}> {showFormattedNumber(data.min_search_volume)} </p>
         <p className={styles.statsNumber}> {showFormattedNumber(data.avg_search_volume)}</p>
-        <p className={styles.statsNumber}> - </p>
+        <p className={styles.statsNumber}> {showFormattedNumber(data.max_search_volume)} </p>
+      </div>
+      <div className={styles.statsRow}>
+        <p className={styles.statsName}> Sponsored ASINs </p>
+        <p className={styles.statsNumber}> {showFormattedNumber(data.min_sponsored_asins)} </p>
+        <p className={styles.statsNumber}> {showFormattedNumber(data.avg_sponsored_asins)}</p>
+        <p className={styles.statsNumber}> {showFormattedNumber(data.max_sponsored_asins)} </p>
       </div>
       <div className={styles.statsRow}>
         <p className={styles.statsName}> Competing products </p>
-        <p className={styles.statsNumber}> - </p>
+        <p className={styles.statsNumber}> {showFormattedNumber(data.min_competing_products)} </p>
         <p className={styles.statsNumber}> {showFormattedNumber(data.avg_competing_products)}</p>
-        <p className={styles.statsNumber}> - </p>
+        <p className={styles.statsNumber}> {showFormattedNumber(data.max_competing_products)} </p>
       </div>
     </div>
   );

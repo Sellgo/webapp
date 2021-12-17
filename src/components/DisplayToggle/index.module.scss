@@ -1,0 +1,38 @@
+@import '../../design-system/new-colors';
+
+.advancedFilterToggle {
+  color: $grey_8;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  height: 30px;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 0 20px;
+  box-shadow: 0 3px 6px #00000029;
+  font-weight: normal;
+  font-weight: $fontweight_medium;
+
+  span {
+    flex: 1;
+  }
+}
+
+.menuIcon {
+  height: 15px;
+  width: 15px;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrowIcon {
+  path {
+    fill: inherit !important;
+  }
+}

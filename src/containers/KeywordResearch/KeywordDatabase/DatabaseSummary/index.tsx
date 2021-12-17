@@ -32,6 +32,7 @@ import { removeSpecialChars } from '../../../../utils/format';
 import { copyToClipboard } from '../../../../utils/file';
 import { success } from '../../../../utils/notifications';
 import KeywordDistribution from './KeywordDistribution';
+import DisplayToggle from '../../../../components/DisplayToggle';
 
 interface Props {
   shouldFetchKeywordDatabaseProgressState: boolean;
@@ -53,6 +54,8 @@ const DatabaseSummary = (props: Props) => {
   } = props;
 
   const [wordFreqSort, setWordFreqSort] = useState<'asc' | 'desc'>('desc');
+  const [expandSummaryMenu, setExpandSummaryMenu] = useState<boolean>(false);
+  const [isSummaryNew, setIsSummaryNew] = useState<boolean>(false);
 
   const handleWordFreqSort = () => {
     fetchKeywordDatabaseWordFreqSummary(wordFreqSort === 'desc' ? 'asc' : 'desc');
@@ -71,6 +74,12 @@ const DatabaseSummary = (props: Props) => {
     });
   };
 
+  /* Handle expansion */
+  const handleExpandSummaryMenu = () => {
+    setExpandSummaryMenu(prevState => !prevState);
+    setIsSummaryNew(false);
+  };
+
   // reset to desc on unmount
   useEffect(() => {
     return () => {
@@ -80,25 +89,67 @@ const DatabaseSummary = (props: Props) => {
     };
   }, []);
 
+  /* Close expanded summary when loading, and set isNew status to be true when finished loading with valid results */
+  useEffect(() => {
+    if (
+      shouldFetchKeywordDatabaseProgressState ||
+      isLoadingKeywordDatabaseAggSummary ||
+      isLoadingKeywordDatabaseWordFreqSummary
+    ) {
+      setExpandSummaryMenu(false);
+    } else if (
+      !isLoadingKeywordDatabaseAggSummary &&
+      !isLoadingKeywordDatabaseWordFreqSummary &&
+      !shouldFetchKeywordDatabaseProgressState &&
+      keywordDatabaseWordFreqSummary.length > 0 &&
+      keywordDatabaseAggSummary
+    ) {
+      setIsSummaryNew(true);
+    }
+  }, [
+    shouldFetchKeywordDatabaseProgressState,
+    isLoadingKeywordDatabaseAggSummary,
+    isLoadingKeywordDatabaseWordFreqSummary,
+  ]);
+
   return (
     <section className={styles.databaseSummarySection}>
-      {/* Word Analysis */}
-      <KeywordDatabaseSummaryCards
-        title="Word Frequency"
-        sort={wordFreqSort}
-        handleSort={handleWordFreqSort}
-        handleCopy={handleCopyKeywords}
-        content={<WordFreqContent data={keywordDatabaseWordFreqSummary} />}
-        isLoading={
-          isLoadingKeywordDatabaseWordFreqSummary || shouldFetchKeywordDatabaseProgressState
-        }
+      <DisplayToggle
+        title="STATISTICS"
+        collapsed={!expandSummaryMenu}
+        handleClick={handleExpandSummaryMenu}
+        collapsedColor="#F7F7F7"
+        expandedColor="#3CF7AF"
+        collapsedFontColor="#636D76"
+        expandedFontColor="#1E1E1E"
+        collapsedArrowColor="#636D76"
+        expandedArrowColor="#1E1E1E"
+        collapsedIcon={isSummaryNew ? <div className={styles.greenCircle} /> : <div />}
       />
+      {expandSummaryMenu && (
+        <div className={styles.summaryWrapper}>
+          {/* Word Frequency */}
+          <KeywordDatabaseSummaryCards
+            title="Word Frequency"
+            sort={wordFreqSort}
+            handleSort={handleWordFreqSort}
+            handleCopy={handleCopyKeywords}
+            content={<WordFreqContent data={keywordDatabaseWordFreqSummary} />}
+            isLoading={
+              isLoadingKeywordDatabaseWordFreqSummary || shouldFetchKeywordDatabaseProgressState
+            }
+          />
 
-      <KeywordDatabaseSummaryCards
-        title="Quick Summary"
-        content={<KeywordDistribution data={keywordDatabaseAggSummary} />}
-        isLoading={isLoadingKeywordDatabaseAggSummary || shouldFetchKeywordDatabaseProgressState}
-      />
+          {/* Word Analysis */}
+          <KeywordDatabaseSummaryCards
+            title="Quick Summary"
+            content={<KeywordDistribution data={keywordDatabaseAggSummary} />}
+            isLoading={
+              isLoadingKeywordDatabaseAggSummary || shouldFetchKeywordDatabaseProgressState
+            }
+          />
+        </div>
+      )}
     </section>
   );
 };

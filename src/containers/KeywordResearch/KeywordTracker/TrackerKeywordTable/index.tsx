@@ -18,7 +18,6 @@ import ChangeStats from './ChangeStats';
 /* Containers */
 import Keyword from './Keyword';
 import ActionsCell from './ActionsCell';
-import ActionsIconCell from './ActionsIconCell';
 import HeaderActionsCell from './HeaderActionsCell';
 import TrackerCompetitors from './TrackerCompetitors';
 import AddEditKeywords from './AddEditKeywords';
@@ -334,12 +333,6 @@ const TrackerKeywordTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <StatsCell dataKey="index" align="center" appendWith="%" asRounded={false} />
-          </Table.Column>
-
-          {/* Actions Icon Cell */}
-          <Table.Column width={40} verticalAlign="middle" fixed align="left">
-            <Table.HeaderCell>{''}</Table.HeaderCell>
-            <ActionsIconCell dataKey={TRACKER_PRODUCT_KEYWORDS_TABLE_UNIQUE_ROW_KEY} />
           </Table.Column>
 
           {/* Actions Cell */}

@@ -14,7 +14,7 @@
 
   &:disabled {
     pointer-events: none !important;
-    opacity: 0.8 !important;
+    opacity: 0.5 !important;
   }
 }
 
@@ -159,6 +159,10 @@
         background: none !important;
         font-weight: 600 !important;
       }
+
+      &:disabled {
+        opacity: 1 !important;
+      }
     }
   }
 
@@ -202,4 +206,9 @@
   height: 25px !important;
   width: max-content;
   font-size: 14px;
+}
+
+.disabled {
+  opacity: 0.5 !important;
+  pointer-events: none !important;
 }

@@ -144,7 +144,11 @@ const ReverseAsinDisplay = (props: Props) => {
             onClick={() => !disableAddAsinCard && setShowAddBulkAsin(true)}
           >
             <span> + </span>
-            <p>ADD ASIN</p>
+            <p>
+              ADD UP
+              <br />
+              TO 10 ASIN
+            </p>
           </div>
         </div>
 

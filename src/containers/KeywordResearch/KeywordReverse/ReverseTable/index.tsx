@@ -42,6 +42,7 @@ import {
 
 /* Utils */
 import { onMountFixNewTableHeader } from '../../../../utils/newTable';
+import AmazonChoiceLabel from '../../KeywordTracker/TrackerTable/AmazonChoiceLabel';
 
 interface Props {
   isLoadingKeywordReverseTable: boolean;
@@ -99,7 +100,7 @@ const ReverseTable = (props: Props) => {
         data={!isLoading ? keywordReverseTableResults : []}
         autoHeight
         hover={false}
-        rowHeight={65}
+        rowHeight={50}
         headerHeight={60}
         sortColumn={sortColumn}
         sortType={sortType}
@@ -118,6 +119,19 @@ const ReverseTable = (props: Props) => {
             />
           </Table.HeaderCell>
           <SearchTerm dataKey="searchTerm" />
+        </Table.Column>
+
+        {/* Amzon Choice */}
+        <Table.Column width={140} verticalAlign="middle" fixed align="left" sortable>
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Amazon Choice`}
+              dataKey="amazon_choice_asins"
+              currentSortColumn={sortColumn}
+              currentSortType={sortType}
+            />
+          </Table.HeaderCell>
+          <AmazonChoiceLabel dataKey="amazon_choice_asins" />
         </Table.Column>
 
         {/* Search Volume */}
