@@ -24,13 +24,15 @@ import BoxContainer from '../../../../components/BoxContainer';
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 import SaveCancelOptions from '../../../../components/SaveCancelOptions';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
-import ProductSalesTable from '../ProductSalesTable';
+import ProductSalesTable from './ProductSalesTable';
 
 /* Interface */
 import { ProductsDatabasePayload } from '../../../../interfaces/ProductResearch/ProductsDatabase';
 import { sellerIDSelector } from '../../../../selectors/Seller';
 import { AppConfig } from '../../../../config';
 import axios from 'axios';
+import Placeholder from '../../../../components/Placeholder';
+import { TIME_SETTING } from '../../../../constants/PerfectStock/OrderPlanning';
 
 interface Props {
   rowData: any;
@@ -38,40 +40,52 @@ interface Props {
 
 const ExpandedProduct = (props: Props) => {
   const { rowData } = props;
-  console.log(rowData);
 
   const [isInventoryThreshholdActivated, setIsInventoryThreshholdActivated] = React.useState(false);
   const [inventoryThreshold, setInventoryThreshold] = React.useState(0);
   const [productProjectedSales, setProductProjectedSales] = React.useState<any[]>([]);
+  const [isLoadingProductProjectedSales, setIsLoadingProductProjectedSales] = React.useState(false);
+  const [timeSettings, setTimeSettings] = React.useState<string>(TIME_SETTING.WEEK);
+  const [showTrends, setShowTrends] = React.useState<boolean>(false);
 
   const sku = rowData.sku;
   const getProductSales = async () => {
+    setIsLoadingProductProjectedSales(true);
     const sellerId = sellerIDSelector();
     const startDate = new Date(new Date()).toISOString().split('T')[0];
-    // const endDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0];
-    const endDate = new Date(new Date().setDate(new Date().getDate() + 50))
+    const endDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
       .toISOString()
       .split('T')[0];
-
-    const url =
-      `${AppConfig.BASE_URL_API}sellers/${sellerId}/order-plan?` +
-      `types=expected_sales,seasonal_adjustment&sku=${sku}&date_start=${startDate}&date_end=${endDate}`;
-    const res = await axios.get(url);
-    const { data } = res;
-    const newProductProjectedSales: any[] = [];
-    data.forEach((attribute: any) => {
-      if (attribute.expected_sales) {
-        newProductProjectedSales.push(attribute.expected_sales);
-      } else if (attribute.seasonal_adjustment) {
-        newProductProjectedSales.push(attribute.seasonal_adjustment);
-      }
-    });
-    setProductProjectedSales(newProductProjectedSales);
+    try {
+      const EXPANDED_TYPES = 'expected_sales,seasonal_adjustment';
+      const UNEXPANDED_TYPES = 'expected_sales';
+      const url =
+        `${AppConfig.BASE_URL_API}sellers/${sellerId}/order-plan?` +
+        `types=${showTrends ? EXPANDED_TYPES : UNEXPANDED_TYPES}` +
+        `&sku=${sku}` +
+        `&date_start=${startDate}&date_end=${endDate}` +
+        `&display_mode=${timeSettings === TIME_SETTING.DAY ? 'daily' : 'weekly'}`;
+      const res = await axios.get(url);
+      const { data } = res;
+      const newProductProjectedSales: any[] = [];
+      data.forEach((attribute: any) => {
+        if (attribute.expected_sales) {
+          newProductProjectedSales.push(attribute.expected_sales);
+        } else if (attribute.seasonal_adjustment) {
+          newProductProjectedSales.push(attribute.seasonal_adjustment);
+        }
+      });
+      setProductProjectedSales(newProductProjectedSales);
+    } catch (error) {
+      setProductProjectedSales([]);
+      console.log(error);
+    }
+    setIsLoadingProductProjectedSales(false);
   };
 
   React.useEffect(() => {
     getProductSales();
-  }, []);
+  }, [timeSettings, showTrends]);
 
   return (
     <div className={styles.expandedProduct}>
@@ -170,7 +184,18 @@ const ExpandedProduct = (props: Props) => {
           WEEKLY EXPECTED SALES WITH SEASONALITY ADJUSTOR
         </BoxHeader>
         <BoxContainer className={styles.tableContainer}>
-          <ProductSalesTable data={productProjectedSales} />
+          {/* Placeholder is used here because the headers are pre-rendered, and the table data is huge */}
+          {isLoadingProductProjectedSales ? (
+            <Placeholder numberParagraphs={2} numberRows={3} />
+          ) : (
+            <ProductSalesTable
+              timeSettings={timeSettings}
+              setTimeSettings={(timeSettings: string) => setTimeSettings(timeSettings)}
+              productProjectedSales={productProjectedSales}
+              showTrends={showTrends}
+              setShowTrends={setShowTrends}
+            />
+          )}
         </BoxContainer>
       </div>
     </div>

@@ -11,6 +11,18 @@ export const TIME_SETTING = {
 };
 
 export type TimeSetting = 'month' | 'year';
+export const TIME_SETTINGS_OPTIONS = [
+  {
+    key: 'month',
+    value: 'month',
+    text: 'Day',
+  },
+  {
+    key: 'year',
+    value: 'year',
+    text: 'Week',
+  },
+];
 
 /* Styling widths to maintain alignment of chart between gantt chart and tables */
 export const UNIT_WIDTH = 48;

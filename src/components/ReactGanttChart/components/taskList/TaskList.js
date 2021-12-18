@@ -2,19 +2,7 @@ import React, { Component } from 'react';
 import Config from '../../helpers/config/Config';
 import ContentEditable from '../../components/common/ContentEditable';
 import SelectionFilter from '../../../FormFilters/SelectionFilter';
-
-const TIME_SETTINGS = [
-  {
-    key: 'month',
-    value: 'month',
-    text: 'Day',
-  },
-  {
-    key: 'year',
-    value: 'year',
-    text: 'Week',
-  },
-];
+import { TIME_SETTINGS_OPTIONS } from '../../../../constants/PerfectStock/OrderPlanning';
 
 export class VerticalLine extends Component {
   constructor(props) {
@@ -108,7 +96,7 @@ export default class TaskList extends Component {
       <div className="timeLine-side">
         <div className="timeLine-side-title">
           <SelectionFilter
-            filterOptions={TIME_SETTINGS}
+            filterOptions={TIME_SETTINGS_OPTIONS}
             value={this.props.mode}
             handleChange={value =>
               this.props.handleChangeMode && this.props.handleChangeMode(value)

@@ -76,7 +76,7 @@ const SalesEstimationTable = (props: Props) => {
           affixHorizontalScrollbar={0}
           // Dont display old data when loading
           data={!isLoadingSalesProjection ? salesProjectionResult : []}
-          hover={true}
+          hover={false}
           autoHeight
           rowHeight={120}
           headerHeight={55}
@@ -88,7 +88,7 @@ const SalesEstimationTable = (props: Props) => {
           renderRowExpanded={(rowData: any) => <ExpandedProduct rowData={rowData} />}
           rowKey="id"
           virtualized
-          id="salesEstimationTable"
+          id="salesProjectionTable"
         >
           {/* Expand Cell */}
           <Table.Column verticalAlign="top" fixed="left" align="left" width={30}>

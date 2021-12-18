@@ -10,9 +10,22 @@ interface Props {
 
 const HeaderDateCell = (props: Props) => {
   const { title } = props;
+
+  let displayDate;
+  if (title) {
+    const headerDate = new Date(title);
+    /* Display date in the format of 'mm/dd/yy' */
+    displayDate = headerDate.toLocaleDateString('en-US', {
+      month: '2-digit',
+      day: '2-digit',
+      year: '2-digit',
+    });
+  } else {
+    displayDate = '';
+  }
   return (
     <div className={styles.headerDateCell} style={{ height: UNIT_WIDTH }}>
-      {title}
+      {displayDate}
     </div>
   );
 };

@@ -69,6 +69,7 @@ const StatsCell = (props: Props) => {
           alignSelf: alignSettings,
           color: specialKpi ? '#3B4557' : '#636d76',
           fontWeight: specialKpi ? 500 : 400,
+          textAlign: align,
         }}
       >
         {showNAIfZeroOrNull(

@@ -1,15 +1,18 @@
-@import '../../../../styles/tableReset';
+@import '../../../../../styles/tableReset';
 
-#salesEstimationTable {
+#salesProjectionTable {
   /* Nested child table */
   #productSalesTable {
     background: none !important;
+    overscroll-behavior: auto !important;
+
+    /* This is added for custom scroll behavior */
     overflow-x: scroll !important;
-    min-height: 600px !important;
 
     /* width */
     &::-webkit-scrollbar {
-      height: 10px !important;
+      width: 6px !important;
+      height: 6px !important;
     }
 
     /* Track */
@@ -40,7 +43,6 @@
     .rs-table-row-header {
       border-radius: 0 !important;
       border: none !important;
-      border-bottom: 1px solid $grey_3 !important;
 
       /* Change position to fixed if scrolls out of sight */
       &__fixed {
@@ -56,9 +58,8 @@
         align-items: center !important;
         font-size: 12px !important;
         color: $grey_6 !important;
-        background: none;
+        background: none !important;
         font-weight: 500 !important;
-        // border-right: 1px solid $grey_3;
       }
     }
 
@@ -66,79 +67,42 @@
     .rs-table-body-row-wrapper {
       background: none !important;
       min-height: 600px !important;
-      width: 5440px !important;
 
       .rs-table-body-wheel-area {
         background: none;
         transform: none !important;
-        width: 5440px !important;
-        overflow-x: scroll !important;
 
         //  Table row property
         .rs-table-row {
-          border-bottom: 1px solid $grey_3;
+          border-bottom: none !important;
+
+          /* First row */
+          &:first-child {
+            .rs-table-cell-content {
+              border-right: 1px dotted $grey_3 !important;
+            }
+          }
 
           /* ============== ZEBRA PATTERN  =============== */
           &:nth-child(2n) {
-            background: $light_gray_background !important;
+            background: none !important;
 
             .rs-table-cell-content {
-              background: $light_gray_background !important;
+              background: none !important;
               padding: 0 !important;
             }
           }
 
           &:nth-child(2n + 1) {
-            background: $grey_1 !important;
+            background: none !important;
 
             .rs-table-cell-content {
-              background: $grey_1 !important;
+              background: none !important;
               padding: 0 !important;
             }
           }
-
-          .rs-table-row-expanded {
-            background: $light_gray_background;
-            margin-left: 30px;
-            padding: 0;
-          }
         }
       }
-    }
-
-    // scrollbar
-    div[role='scrollbar'] {
-      display: none !important;
-      bottom: 40px !important;
-      background: $grey_3;
-      border-radius: 4px;
-      position: fixed !important;
-      opacity: 0;
-      height: 10px;
-      max-width: 90vw !important;
-      margin-left: auto !important;
-
-      &.rs-table-scrollbar.rs-table-scrollbar-pressed {
-        opacity: 1 !important;
-      }
-
-      &:hover {
-        opacity: 1;
-      }
-
-      > .rs-table-scrollbar-handle {
-        background-color: $grey_6 !important;
-        opacity: 1 !important;
-        height: 8px;
-        max-width: 100% !important;
-      }
-    }
-  }
-
-  .iconButtonResetGlobal {
-    i.chevron.down.icon {
-      font-size: 10px !important;
-      margin-top: 4px;
     }
   }
 }
