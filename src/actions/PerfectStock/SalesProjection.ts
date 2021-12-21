@@ -16,6 +16,7 @@ import {
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
 import { getSalesProjectionResults } from '../../selectors/PerfectStock/SalesProjection';
+import { success } from '../../utils/notifications';
 // import { error, success } from '../../utils/notifications';
 // import { downloadFile } from '../../utils/download';
 
@@ -31,6 +32,14 @@ export const isLoadingSalesProjection = (payload: boolean) => {
 export const setSalesProjectionResults = (payload: any) => {
   return {
     type: actionTypes.SET_SALES_PROJECTION_RESULTS,
+    payload,
+  };
+};
+
+/* Action to set sales projection update date */
+export const setSalesProjectionUpdateDate = (payload: string) => {
+  return {
+    type: actionTypes.SET_SALES_PROJECTION_UPDATE_DATE,
     payload,
   };
 };
@@ -118,10 +127,12 @@ export const fetchSalesProjection = (payload: SalesProjectionPayload) => async (
 
     const { data } = await axios.get(URL, requestPayload);
     if (data) {
-      dispatch(setSalesProjectionResults(data));
+      dispatch(setSalesProjectionResults(data.results));
+      dispatch(setSalesProjectionUpdateDate(data.last_forecast_update));
     }
   } catch (err) {
     dispatch(setSalesProjectionResults([]));
+    dispatch(setSalesProjectionUpdateDate(''));
     console.error('Error fetching sales estimation', err);
   }
   dispatch(isLoadingSalesProjection(false));
@@ -131,7 +142,6 @@ export const fetchSalesProjection = (payload: SalesProjectionPayload) => async (
 export const updateSalesProjectionProduct = (payload: SalesProjectionUpdatePayload) => async (
   dispatch: any
 ) => {
-  dispatch(isLoadingSalesProjection(true));
   try {
     const sellerId = sellerIDSelector();
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/sales-projection/${payload.id}/update`;
@@ -139,10 +149,10 @@ export const updateSalesProjectionProduct = (payload: SalesProjectionUpdatePaylo
 
     if (data) {
       dispatch(setSalesProjectionRow(data));
+      success('Successfully updated');
     }
   } catch (err) {
     dispatch(setSalesProjectionResults([]));
     console.error('Error updating sales estimation', err);
   }
-  dispatch(isLoadingSalesProjection(false));
 };

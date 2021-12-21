@@ -4,6 +4,7 @@ import { setIn } from '../../utils/immutablity';
 import { actionTypes } from '../../constants/PerfectStock/SalesProjection';
 
 const INITIAL_STATE = {
+  salesProjectionUpdateDate: '',
   isLoadingSalesProjection: false,
   salesProjectionResult: [],
 };
@@ -16,6 +17,10 @@ const salesProjectionReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_SALES_PROJECTION_RESULTS: {
       return setIn(state, 'salesProjectionResult', action.payload);
+    }
+
+    case actionTypes.SET_SALES_PROJECTION_UPDATE_DATE: {
+      return setIn(state, 'salesProjectionUpdateDate', action.payload);
     }
 
     default: {

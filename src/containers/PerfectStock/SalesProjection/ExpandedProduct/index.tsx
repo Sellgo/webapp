@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Checkbox } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -16,15 +15,12 @@ import {
 } from '../../../../selectors/ProductResearch/ProductsDatabase';
 
 /* Constants */
-import { WEIGHT_OPTIONS } from '../../../../constants/PerfectStock/SalesProjection';
 
 /* Components */
 import BoxHeader from '../../../../components/BoxHeader';
 import BoxContainer from '../../../../components/BoxContainer';
-import InputFilter from '../../../../components/FormFilters/InputFilter';
-import SaveCancelOptions from '../../../../components/SaveCancelOptions';
-import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
 import ProductSalesTable from './ProductSalesTable';
+import ProductSettings from './ProductSettings';
 
 /* Interface */
 import { ProductsDatabasePayload } from '../../../../interfaces/ProductResearch/ProductsDatabase';
@@ -41,8 +37,6 @@ interface Props {
 const ExpandedProduct = (props: Props) => {
   const { rowData } = props;
 
-  const [isInventoryThreshholdActivated, setIsInventoryThreshholdActivated] = React.useState(false);
-  const [inventoryThreshold, setInventoryThreshold] = React.useState(0);
   const [productProjectedSales, setProductProjectedSales] = React.useState<any[]>([]);
   const [isLoadingProductProjectedSales, setIsLoadingProductProjectedSales] = React.useState(false);
   const [timeSettings, setTimeSettings] = React.useState<string>(TIME_SETTING.WEEK);
@@ -63,7 +57,7 @@ const ExpandedProduct = (props: Props) => {
         `${AppConfig.BASE_URL_API}sellers/${sellerId}/order-plan?` +
         `types=${showTrends ? EXPANDED_TYPES : UNEXPANDED_TYPES}` +
         `&sku=${sku}` +
-        `&date_start=${startDate}&date_end=${endDate}` +
+        `&start_date=${startDate}&end_date=${endDate}` +
         `&display_mode=${timeSettings === TIME_SETTING.DAY ? 'daily' : 'weekly'}`;
       const res = await axios.get(url);
       const { data } = res;
@@ -89,96 +83,18 @@ const ExpandedProduct = (props: Props) => {
 
   return (
     <div className={styles.expandedProduct}>
-      <div className={styles.expandedProductSettings}>
-        <BoxHeader className={styles.settingsBoxHeader}>Calculation Variables</BoxHeader>
-        <BoxContainer className={styles.settingsBoxContainer}>
-          <div className={styles.settingWrapper}>
-            <p className={styles.settingsTitle}> Inventory Threshhold </p>
-            <Checkbox
-              toggle
-              checked={isInventoryThreshholdActivated}
-              onChange={() => setIsInventoryThreshholdActivated(!isInventoryThreshholdActivated)}
-              label="Inventory Threshold"
-              className={styles.settingToggle}
-            />
-            <InputFilter
-              placeholder="100"
-              isNumber
-              value={inventoryThreshold.toString()}
-              handleChange={(value: string) => setInventoryThreshold(parseInt(value))}
-              className={styles.settingInput}
-            />
-            <SaveCancelOptions
-              className={styles.saveCancelOptions}
-              handleSave={() => {
-                return null;
-              }}
-              handleCancel={() => {
-                return null;
-              }}
-            />
-          </div>
-          <div className={styles.settingWrapper}>
-            <p className={styles.settingsTitle}> Average Weighted Sales </p>
-            <Checkbox
-              toggle
-              checked={isInventoryThreshholdActivated}
-              onChange={() => setIsInventoryThreshholdActivated(!isInventoryThreshholdActivated)}
-              label="Average Weighted Sales"
-              className={styles.settingToggle}
-            />
-            <SelectionFilter
-              label="Average Last 7 Day"
-              placeholder=""
-              filterOptions={WEIGHT_OPTIONS}
-              value={'0.2'}
-              handleChange={(value: string) => setInventoryThreshold(parseInt(value))}
-              className={styles.settingInput}
-            />
-            <SelectionFilter
-              label="Average Last 7 Day"
-              placeholder=""
-              filterOptions={WEIGHT_OPTIONS}
-              value={'0.2'}
-              handleChange={(value: string) => setInventoryThreshold(parseInt(value))}
-              className={styles.settingInput}
-            />
-            <SelectionFilter
-              label="Average Last 7 Day"
-              placeholder=""
-              filterOptions={WEIGHT_OPTIONS}
-              value={'0.2'}
-              handleChange={(value: string) => setInventoryThreshold(parseInt(value))}
-              className={styles.settingInput}
-            />
-            <SelectionFilter
-              label="Average Last 7 Day"
-              placeholder=""
-              filterOptions={WEIGHT_OPTIONS}
-              value={'0.2'}
-              handleChange={(value: string) => setInventoryThreshold(parseInt(value))}
-              className={styles.settingInput}
-            />
-            <SelectionFilter
-              label="Average Last 7 Day"
-              placeholder=""
-              filterOptions={WEIGHT_OPTIONS}
-              value={'0.2'}
-              handleChange={(value: string) => setInventoryThreshold(parseInt(value))}
-              className={styles.settingInput}
-            />
-            <SaveCancelOptions
-              className={styles.saveCancelOptions}
-              handleSave={() => {
-                return null;
-              }}
-              handleCancel={() => {
-                return null;
-              }}
-            />
-          </div>
-        </BoxContainer>
-      </div>
+      <ProductSettings
+        productId={rowData.id}
+        defaultInventoryThreshold={rowData.stockout_threshold_inventory}
+        defaultInventoryThresholdActivated={rowData.stockout_threshhold_inventory_included}
+        defaultSeasonalityAdjustorActivated={rowData.default_seasonality_adjustor_activated}
+        defaultWeightActivated={rowData.weighted_average_included}
+        defaultWeightL30D={rowData.avg_l30d_weight}
+        defaultWeightL90D={rowData.avg_l90d_weight}
+        defaultWeightL7D={rowData.avg_l7d_weight}
+        defaultWeightN30D={rowData.avg_n30d_ly_weight}
+        defaultWeightN90D={rowData.avg_n90d_ly_weight}
+      />
       <div className={styles.expandedProductTable}>
         <BoxHeader className={styles.tableHeader}>
           WEEKLY EXPECTED SALES WITH SEASONALITY ADJUSTOR

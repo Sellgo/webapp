@@ -9,3 +9,8 @@ export const getSalesProjectionResults = (state: any) => {
 export const getIsLoadingSalesProjection = (state: any) => {
   return get(state, 'salesProjection.isLoadingSalesProjection');
 };
+
+/* Selector to get sales projection update date */
+export const getSalesProjectionUpdateDate = (state: any) => {
+  return get(state, 'salesProjection.salesProjectionUpdateDate');
+};

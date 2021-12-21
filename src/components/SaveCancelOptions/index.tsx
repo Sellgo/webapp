@@ -8,13 +8,17 @@ interface Props {
   className?: string;
   handleSave: () => void;
   handleCancel: () => void;
+  disabled?: boolean;
 }
 
 const SaveCancelOptions = (props: Props) => {
-  const { className, handleSave, handleCancel } = props;
+  const { className, handleSave, handleCancel, disabled } = props;
   return (
-    <div className={`${className} ${styles.saveCancelOptions}`}>
-      <button className={styles.checkIcon}>
+    <div
+      className={`${className} ${styles.saveCancelOptions}`}
+      onMouseDown={e => e.preventDefault()}
+    >
+      <button className={styles.checkIcon} disabled={disabled}>
         <Icon name="check" onClick={handleSave} />
       </button>
       <button className={styles.closeIcon}>

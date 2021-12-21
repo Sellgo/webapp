@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 /* Styling */
@@ -7,64 +7,54 @@ import styles from './index.module.scss';
 /* Components */
 import TableExport from '../../../../components/NewTable/TableExport';
 
-/* Actions */
-import { fetchProductsDatabase } from '../../../../actions/ProductsResearch/ProductsDatabase';
-
 /* Assets */
 import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
 import { ReactComponent as CSVExportImage } from '../../../../assets/images/csvExportImage.svg';
 import { ReactComponent as UndoIcon } from '../../../../assets/images/undoIcon.svg';
 
-/* Interface */
-import { ProductsDatabasePayload } from '../../../../interfaces/ProductResearch/ProductsDatabase';
-import {
-  getIsLoadingProductsDatabase,
-  getProductsDatabasePaginationInfo,
-  getProductsDatabaseResults,
-} from '../../../../selectors/ProductResearch/ProductsDatabase';
+/* Selectors */
+import { getSalesProjectionUpdateDate } from '../../../../selectors/PerfectStock/SalesProjection';
 
 interface Props {
-  productDatabaseResults: any;
-  isLoadingProductDatabase: boolean;
-  fetchProductsDatabase: (payload: ProductsDatabasePayload) => void;
-  productDatabasePaginationInfo: any;
+  salesProjectionUpdateDate: string;
 }
 
-const OrderPlanningMeta = (props: Props) => {
-  const { fetchProductsDatabase, productDatabaseResults, isLoadingProductDatabase } = props;
-
-  const handleOnExport = async (fileFormat: 'csv' | 'xlsx') => {
-    await fetchProductsDatabase({ isExport: true, fileFormat });
-  };
-
-  const shouldEnableExport = useMemo(
-    () => !isLoadingProductDatabase && productDatabaseResults.length > 0,
-    [isLoadingProductDatabase, productDatabaseResults]
-  );
+const SalesProjectionMeta = (props: Props) => {
+  const { salesProjectionUpdateDate } = props;
+  /* Display date in format: DD-Month-YYYY */
+  const displayDate = salesProjectionUpdateDate
+    ? new Date(salesProjectionUpdateDate).toLocaleDateString('en-US', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+    : '';
 
   return (
     <>
       <div className={styles.exportsContainer}>
         <TableExport
           label=""
-          disableExport={!shouldEnableExport}
-          onButtonClick={() => handleOnExport('xlsx')}
+          disableExport={false}
+          onButtonClick={() => console.log('Export')}
           exportContent={
             <>
               <div className={styles.exportOptions}>
                 <span>Export As</span>
                 <button
                   className={styles.exportOption}
-                  onClick={() => handleOnExport('xlsx')}
-                  disabled={!shouldEnableExport}
+                  onClick={() => console.log('Export')}
+                  disabled={false}
                 >
                   <XLSXExportImage /> .XLSX
                 </button>
 
                 <button
                   className={styles.exportOption}
-                  onClick={() => handleOnExport('csv')}
-                  disabled={!shouldEnableExport}
+                  onClick={() => console.log('Export')}
+                  disabled={false}
                 >
                   <CSVExportImage /> .CSV
                 </button>
@@ -72,27 +62,20 @@ const OrderPlanningMeta = (props: Props) => {
             </>
           }
         />
-        <button className={styles.refreshButton}>
-          Last Update:&nbsp;<span>1 October 2021 11.53 pm PDT</span>
-          &nbsp;
-          <UndoIcon className={styles.refreshIcon} />
-        </button>
+        {salesProjectionUpdateDate && (
+          <button className={styles.refreshButton}>
+            Last Update:&nbsp;<span>{displayDate}</span>
+            &nbsp;
+            <UndoIcon className={styles.refreshIcon} />
+          </button>
+        )}
       </div>
     </>
   );
 };
 
 const mapStateToProps = (state: any) => ({
-  productDatabaseResults: getProductsDatabaseResults(state),
-  isLoadingProductDatabase: getIsLoadingProductsDatabase(state),
-  productDatabasePaginationInfo: getProductsDatabasePaginationInfo(state),
+  salesProjectionUpdateDate: getSalesProjectionUpdateDate(state),
 });
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    fetchProductsDatabase: (payload: ProductsDatabasePayload) =>
-      dispatch(fetchProductsDatabase(payload)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(OrderPlanningMeta);
+export default connect(mapStateToProps)(SalesProjectionMeta);

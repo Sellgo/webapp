@@ -24,6 +24,11 @@
     background: $grey_3;
   }
 
+  &:disabled {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
   i {
     font-size: 12px !important;
     display: flex;

@@ -10,13 +10,21 @@ export interface SalesProjectionUpdatePayload {
   id: number;
   updatePayload: {
     avg_l7d_included?: boolean;
+    avg_l7d_weight?: string;
     avg_l30d_included?: boolean;
+    avg_l30d_weight?: string;
     avg_l90d_included?: boolean;
+    avg_l90d_weight?: string;
     avg_n30d_ly_included?: boolean;
+    avg_n30d_ly_weight?: string;
     avg_n90d_ly_included?: boolean;
+    avg_n90d_ly_weight?: string;
     predictive_sales?: number;
     manual_sales?: number;
     projection_mode?: 'manual' | 'predictive';
+    stockout_threshold_inventory?: number;
+    stockout_threshhold_inventory_included?: 'true' | 'false';
+    weighted_average_included?: 'true' | 'false';
   };
 }
 
@@ -49,4 +57,12 @@ export interface SalesProjectionProduct {
   avg_l90d_total: number;
   avg_n30d_ly_total: number;
   avg_n90d_ly_total: number;
+}
+
+export interface WeightedAverageSettings {
+  avg_l7d_weight: string;
+  avg_l30d_weight: string;
+  avg_l90d_weight: string;
+  avg_n30d_ly_weight: string;
+  avg_n90d_ly_weight: string;
 }

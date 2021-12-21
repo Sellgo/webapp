@@ -28,6 +28,8 @@ interface Props {
   userOnboardingResources: any;
   handleOnPaste?: (value: string) => void;
   isNumber?: boolean;
+  onFocus?: () => void;
+  onBlur?: () => void;
 }
 
 const InputFilter: React.FC<Props> = props => {
@@ -42,6 +44,8 @@ const InputFilter: React.FC<Props> = props => {
     error,
     handleOnPaste,
     isNumber,
+    onFocus,
+    onBlur,
   } = props;
 
   /* Onboarding logic */
@@ -83,6 +87,8 @@ const InputFilter: React.FC<Props> = props => {
           e.clipboardData.setData('text/plain', '');
           e.preventDefault();
         }}
+        onFocus={onFocus}
+        onBlur={onBlur}
       />
     </div>
   );
