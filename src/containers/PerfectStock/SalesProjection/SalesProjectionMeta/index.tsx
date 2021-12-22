@@ -15,12 +15,16 @@ import { ReactComponent as UndoIcon } from '../../../../assets/images/undoIcon.s
 /* Selectors */
 import { getSalesProjectionUpdateDate } from '../../../../selectors/PerfectStock/SalesProjection';
 
+/* Actions */
+import { refreshSalesProjection } from '../../../../actions/PerfectStock/SalesProjection';
+
 interface Props {
   salesProjectionUpdateDate: string;
+  refreshSalesProjection: () => void;
 }
 
 const SalesProjectionMeta = (props: Props) => {
-  const { salesProjectionUpdateDate } = props;
+  const { salesProjectionUpdateDate, refreshSalesProjection } = props;
   /* Display date in format: DD-Month-YYYY */
   const displayDate = salesProjectionUpdateDate
     ? new Date(salesProjectionUpdateDate).toLocaleDateString('en-US', {
@@ -63,7 +67,7 @@ const SalesProjectionMeta = (props: Props) => {
           }
         />
         {salesProjectionUpdateDate && (
-          <button className={styles.refreshButton}>
+          <button className={styles.refreshButton} onClick={refreshSalesProjection}>
             Last Update:&nbsp;<span>{displayDate}</span>
             &nbsp;
             <UndoIcon className={styles.refreshIcon} />
@@ -78,4 +82,8 @@ const mapStateToProps = (state: any) => ({
   salesProjectionUpdateDate: getSalesProjectionUpdateDate(state),
 });
 
-export default connect(mapStateToProps)(SalesProjectionMeta);
+const mapDispatchToProps = (dispatch: any) => ({
+  refreshSalesProjection: () => dispatch(refreshSalesProjection()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SalesProjectionMeta);

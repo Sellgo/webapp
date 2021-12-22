@@ -17,8 +17,6 @@ import {
 import { sellerIDSelector } from '../../selectors/Seller';
 import { getSalesProjectionResults } from '../../selectors/PerfectStock/SalesProjection';
 import { success } from '../../utils/notifications';
-// import { error, success } from '../../utils/notifications';
-// import { downloadFile } from '../../utils/download';
 
 /* Action to set loading state for sales estimation */
 export const isLoadingSalesProjection = (payload: boolean) => {
@@ -40,6 +38,30 @@ export const setSalesProjectionResults = (payload: any) => {
 export const setSalesProjectionUpdateDate = (payload: string) => {
   return {
     type: actionTypes.SET_SALES_PROJECTION_UPDATE_DATE,
+    payload,
+  };
+};
+
+/* Action to set refresh sales projection id */
+export const setRefreshSalesProjectionId = (payload: number) => {
+  return {
+    type: actionTypes.SET_REFRESH_SALES_PROJECTION_ID,
+    payload,
+  };
+};
+
+/* Action to set fetch progress for sales projection refresh status */
+export const setIsFetchingProgressForRefresh = (payload: boolean) => {
+  return {
+    type: actionTypes.SET_IS_FETCHING_PROGRESS_FOR_REFRESH,
+    payload,
+  };
+};
+
+/* Action to set progress for sales projection refresh status */
+export const setRefreshProgress = (payload: number) => {
+  return {
+    type: actionTypes.SET_REFRESH_PROGRESS,
     payload,
   };
 };
@@ -154,5 +176,48 @@ export const updateSalesProjectionProduct = (payload: SalesProjectionUpdatePaylo
   } catch (err) {
     dispatch(setSalesProjectionResults([]));
     console.error('Error updating sales estimation', err);
+  }
+};
+
+/* Action to refresh sales projection results */
+export const refreshSalesProjection = () => async (dispatch: any) => {
+  try {
+    const sellerId = sellerIDSelector();
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/refresh-forecast`;
+    const { data } = await axios.get(URL);
+
+    if (data && data.perfect_stock_job_id) {
+      dispatch(setRefreshSalesProjectionId(data.perfect_stock_job_id));
+      dispatch(setIsFetchingProgressForRefresh(true));
+      success('Refreshing sales projection information.');
+    }
+  } catch (err) {
+    dispatch(setIsFetchingProgressForRefresh(false));
+    console.error('Error updating sales estimation', err);
+  }
+};
+
+/* Action to get refresh progress */
+export const fetchRefreshProgress = () => async (dispatch: any, state: any) => {
+  try {
+    const sellerId = sellerIDSelector();
+    const refreshId = state.salesProjection.refreshSalesProjectionId;
+    const URL =
+      `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/job/progress` +
+      `?perfect_stock_job_id=${refreshId}`;
+    const { data } = await axios.get(URL);
+
+    if (data && data.progress) {
+      if (data.status === 'completed') {
+        dispatch(fetchSalesProjection);
+        dispatch(setIsFetchingProgressForRefresh(false));
+        dispatch(setRefreshSalesProjectionId(-1));
+      } else {
+        dispatch(setRefreshProgress(parseFloat(data.progress)));
+      }
+    }
+  } catch (err) {
+    dispatch(setIsFetchingProgressForRefresh(false));
+    console.error('Error fetching progress for perfect stock', err);
   }
 };

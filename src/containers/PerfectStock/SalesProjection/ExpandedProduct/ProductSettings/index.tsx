@@ -17,6 +17,9 @@ import BoxContainer from '../../../../../components/BoxContainer';
 import InputFilter from '../../../../../components/FormFilters/InputFilter';
 import SaveCancelOptions from '../../../../../components/SaveCancelOptions';
 import SelectionFilter from '../../../../../components/FormFilters/SelectionFilter';
+import ActionPopup from '../../../../../components/ActionPopup';
+import TableIcon from '../../../../../components/Icons/TableIcon';
+import EditSeasonalityPopup from '../EditSeasonalityPopup';
 
 /* Interface */
 import {
@@ -74,6 +77,9 @@ const ExpandedProduct = (props: Props) => {
     WeightedAverageSettings
   >(defaultWeightedAverageSettings);
   const [weightedAverageError, setWeightedAverageError] = React.useState<boolean>(false);
+  const [isEditingSeasonalityAdjustor, setEditingSeasonalityAdjustor] = React.useState<boolean>(
+    false
+  );
 
   /* ===================================== */
   /* Inventory threshold settings handlers */
@@ -134,6 +140,18 @@ const ExpandedProduct = (props: Props) => {
     setWeightedAverageSettings(defaultWeightedAverageSettings);
   };
 
+  /* ================================== */
+  /* Seasonality adjustor toggles */
+  /* ================================== */
+  const handleSeasonalityAdjustorToggle = (seasonalityAdjustorActivated: boolean) => {
+    updateSalesProjectionProduct({
+      id: productId,
+      updatePayload: {
+        seasonal_adjustment_included: seasonalityAdjustorActivated ? 'true' : 'false',
+      },
+    });
+  };
+
   /* Check if user is editing weighted average settings */
   React.useEffect(() => {
     if (
@@ -158,7 +176,6 @@ const ExpandedProduct = (props: Props) => {
         setWeightedAverageError(false);
       }
     } else {
-      console.log('wad');
       setWeightedAverageError(false);
     }
   }, [weightedAverageSettings, isEditingWeightedAverage]);
@@ -272,36 +289,25 @@ const ExpandedProduct = (props: Props) => {
         </div>
         <div className={styles.settingWrapper}>
           <p className={styles.settingsTitle}> Sales Calendar </p>
-          <Checkbox
-            toggle
-            checked={defaultSeasonalityAdjustorActivated}
-            onChange={() => console.log('Update')}
-            label="Seasonality Adjustor"
-            className={styles.settingToggle}
-          />
-          <Checkbox
-            checked={true}
-            onChange={() => console.log('Update')}
-            label="Seasonal Trends"
-            className={`${styles.settingToggle} ${styles.settingToggle__checkbox}`}
-          />
-          <Checkbox
-            checked={true}
-            onChange={() => console.log('Update')}
-            label="Deep Discount Sales"
-            className={`${styles.settingToggle} ${styles.settingToggle__checkbox}`}
-          />
-          <Checkbox
-            checked={true}
-            onChange={() => console.log('Update')}
-            label="MCF Sales"
-            className={`${styles.settingToggle} ${styles.settingToggle__checkbox}`}
-          />
-          <Checkbox
-            checked={true}
-            onChange={() => console.log('Update')}
-            label="Additiona Sales Growth"
-            className={`${styles.settingToggle} ${styles.settingToggle__checkbox}`}
+          <div className={styles.settingToggleWrapper}>
+            <Checkbox
+              toggle
+              checked={defaultSeasonalityAdjustorActivated}
+              onChange={() => handleSeasonalityAdjustorToggle(!defaultSeasonalityAdjustorActivated)}
+              label="Seasonality Adjustor"
+              className={styles.settingToggle}
+            />
+            <ActionPopup>
+              <button onClick={() => setEditingSeasonalityAdjustor(true)}>
+                <TableIcon name="calendar check outline" />
+                &nbsp;Edit Seasonality Adjustor
+              </button>
+            </ActionPopup>
+          </div>
+          <EditSeasonalityPopup
+            open={isEditingSeasonalityAdjustor}
+            setOpenPopup={setEditingSeasonalityAdjustor}
+            id={productId}
           />
         </div>
       </BoxContainer>

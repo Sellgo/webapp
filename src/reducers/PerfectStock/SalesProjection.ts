@@ -7,6 +7,9 @@ const INITIAL_STATE = {
   salesProjectionUpdateDate: '',
   isLoadingSalesProjection: false,
   salesProjectionResult: [],
+  refreshSalesProjectionId: -1,
+  isFetchingProgressForRefresh: false,
+  refreshProgress: 0,
 };
 
 const salesProjectionReducer = (state = INITIAL_STATE, action: AnyAction) => {
@@ -21,6 +24,18 @@ const salesProjectionReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_SALES_PROJECTION_UPDATE_DATE: {
       return setIn(state, 'salesProjectionUpdateDate', action.payload);
+    }
+
+    case actionTypes.SET_REFRESH_SALES_PROJECTION_ID: {
+      return setIn(state, 'refreshSalesProjectionId', action.payload);
+    }
+
+    case actionTypes.SET_IS_FETCHING_PROGRESS_FOR_REFRESH: {
+      return setIn(state, 'isFetchingProgressForRefresh', action.payload);
+    }
+
+    case actionTypes.SET_REFRESH_PROGRESS: {
+      return setIn(state, 'refreshProgress', action.payload);
     }
 
     default: {

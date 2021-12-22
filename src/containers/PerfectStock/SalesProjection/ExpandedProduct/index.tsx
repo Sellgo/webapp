@@ -87,7 +87,7 @@ const ExpandedProduct = (props: Props) => {
         productId={rowData.id}
         defaultInventoryThreshold={rowData.stockout_threshold_inventory}
         defaultInventoryThresholdActivated={rowData.stockout_threshhold_inventory_included}
-        defaultSeasonalityAdjustorActivated={rowData.default_seasonality_adjustor_activated}
+        defaultSeasonalityAdjustorActivated={rowData.seasonal_adjustment_included}
         defaultWeightActivated={rowData.weighted_average_included}
         defaultWeightL30D={rowData.avg_l30d_weight}
         defaultWeightL90D={rowData.avg_l90d_weight}

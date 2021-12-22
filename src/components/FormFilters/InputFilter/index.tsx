@@ -28,6 +28,7 @@ interface Props {
   userOnboardingResources: any;
   handleOnPaste?: (value: string) => void;
   isNumber?: boolean;
+  isDate?: boolean;
   onFocus?: () => void;
   onBlur?: () => void;
 }
@@ -44,6 +45,7 @@ const InputFilter: React.FC<Props> = props => {
     error,
     handleOnPaste,
     isNumber,
+    isDate,
     onFocus,
     onBlur,
   } = props;
@@ -53,7 +55,7 @@ const InputFilter: React.FC<Props> = props => {
   const enableFilterOnboarding = Object.keys(filterOnboarding).length > 0;
 
   const { tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
-
+  const type = isNumber ? 'number' : isDate ? 'date' : 'text';
   return (
     <div className={styles.inputFilter}>
       {label && (
@@ -74,7 +76,7 @@ const InputFilter: React.FC<Props> = props => {
 
       <Input
         className={`${styles.inputWrapper} ${className} textInputFilter`}
-        type={isNumber ? 'number' : 'text'}
+        type={type}
         placeholder={placeholder}
         value={value}
         onChange={(e: any) => handleChange(e.target.value)}

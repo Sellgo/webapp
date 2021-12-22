@@ -1,0 +1,45 @@
+@import '../../../../../design-system/new-colors';
+
+.modalWrapper {
+  width: 1500px !important;
+  height: 900px !important;
+  padding: 0 !important;
+  background: $prim_white;
+  border-radius: 7px !important;
+}
+
+.modalHeader {
+  border-bottom: 1px solid $grey_3;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  color: $black_1;
+  font-weight: $fontweight_semibold;
+  font-size: 14px;
+  padding-left: 18px;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc(100% - 50px);
+  padding: 30px 40px;
+}
+
+.seasonalityTitle {
+  color: $black_1;
+  font-weight: $fontweight_semibold;
+  font-size: 14px;
+}
+
+.buttonRow {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+
+  > div {
+    margin-left: 30px;
+  }
+}

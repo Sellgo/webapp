@@ -9,15 +9,15 @@ export interface SalesProjectionPayload {
 export interface SalesProjectionUpdatePayload {
   id: number;
   updatePayload: {
-    avg_l7d_included?: boolean;
+    avg_l7d_included?: 'true' | 'false';
     avg_l7d_weight?: string;
-    avg_l30d_included?: boolean;
+    avg_l30d_included?: 'true' | 'false';
     avg_l30d_weight?: string;
-    avg_l90d_included?: boolean;
+    avg_l90d_included?: 'true' | 'false';
     avg_l90d_weight?: string;
-    avg_n30d_ly_included?: boolean;
+    avg_n30d_ly_included?: 'true' | 'false';
     avg_n30d_ly_weight?: string;
-    avg_n90d_ly_included?: boolean;
+    avg_n90d_ly_included?: 'true' | 'false';
     avg_n90d_ly_weight?: string;
     predictive_sales?: number;
     manual_sales?: number;
@@ -25,6 +25,7 @@ export interface SalesProjectionUpdatePayload {
     stockout_threshold_inventory?: number;
     stockout_threshhold_inventory_included?: 'true' | 'false';
     weighted_average_included?: 'true' | 'false';
+    seasonal_adjustment_included?: 'true' | 'false';
   };
 }
 
