@@ -8,7 +8,6 @@ import styles from './index.module.scss';
 /* Containers */
 import OrderPlanning from './OrderPlanning';
 import SalesProjection from './SalesProjection';
-import CataloguePlanning from './CataloguePlanning';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
@@ -129,17 +128,9 @@ const ProductResearch: React.FC<Props> = props => {
               </Tab>
               <Tab>
                 <ProductLabel
-                  label="Catalogue Planning"
-                  icon="Product Database"
-                  isActive={selectedTabList === 1}
-                  isBeta
-                />
-              </Tab>
-              <Tab>
-                <ProductLabel
                   label="Sales Estimation"
                   icon="Product Database"
-                  isActive={selectedTabList === 2}
+                  isActive={selectedTabList === 1}
                   isBeta
                 />
               </Tab>
@@ -147,10 +138,6 @@ const ProductResearch: React.FC<Props> = props => {
 
             <TabPanel>
               <OrderPlanning />
-            </TabPanel>
-
-            <TabPanel>
-              <CataloguePlanning />
             </TabPanel>
 
             <TabPanel>

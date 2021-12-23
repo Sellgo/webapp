@@ -19,31 +19,39 @@ import {
   getSalesProjectionResults,
   getIsLoadingSalesProjection,
 } from '../../../../../../selectors/PerfectStock/SalesProjection';
-import EditValueCell from './EditValueCell';
+import EditValueCell from '../../../../../../components/NewTable/EditValueCell';
 import DeleteCell from '../../../../../../components/NewTable/DeleteCell';
 
 interface Props {
   seasonalitySettings: any[];
-  isLoadingSeasonality?: boolean;
+  isLoadingSeasonalitySettings?: boolean;
   handleValueChange: (key: string, value: string, id: number) => void;
   handleDelete: (id: number) => void;
 }
 
 /* Main component */
 const SeasonalityTable = (props: Props) => {
-  const { seasonalitySettings, isLoadingSeasonality, handleValueChange, handleDelete } = props;
+  const {
+    seasonalitySettings,
+    isLoadingSeasonalitySettings,
+    handleValueChange,
+    handleDelete,
+  } = props;
+  const displaySeasonalitySettings = seasonalitySettings.filter(
+    setting => setting.status === 'active' || setting.status === 'pending'
+  );
 
   return (
     <>
       <section className={styles.seasonalityTableWrapper}>
         <Table
           renderLoading={() =>
-            isLoadingSeasonality && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
+            isLoadingSeasonalitySettings && <Placeholder numberParagraphs={2} numberRows={3} />
           }
           renderEmpty={() => <div />}
           affixHorizontalScrollbar={0}
           // Dont display old data when loading
-          data={!isLoadingSeasonality ? seasonalitySettings : []}
+          data={!isLoadingSeasonalitySettings ? displaySeasonalitySettings : []}
           hover={false}
           autoHeight
           rowHeight={60}
@@ -55,7 +63,7 @@ const SeasonalityTable = (props: Props) => {
           {/* Average Next 90 Day */}
           <Table.Column width={150} verticalAlign="middle" align="center">
             <Table.HeaderCell>Season Name</Table.HeaderCell>
-            <Table.Cell dataKey="name" />
+            <EditValueCell dataKey="name" handleChange={handleValueChange} />
           </Table.Column>
           {/* Average Next 90 Day */}
           <Table.Column width={150} verticalAlign="middle" align="center">
@@ -77,7 +85,7 @@ const SeasonalityTable = (props: Props) => {
             <Table.HeaderCell />
             <DeleteCell
               dataKey="id"
-              deleteMessage="Remove this product from Zapier?"
+              deleteMessage="Remove this setting?"
               handleDelete={handleDelete}
             />
           </Table.Column>

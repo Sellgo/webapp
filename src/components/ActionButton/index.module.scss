@@ -10,7 +10,6 @@
   align-items: center;
   font-weight: $fontweight_semibold !important;
   padding: 0 !important;
-  border-radius: 7px !important;
 
   &:disabled {
     pointer-events: none !important;
@@ -196,12 +195,14 @@
 
 /* Sizes */
 .md {
+  border-radius: 7px !important;
   min-width: 140px !important;
   height: 34px !important;
   width: max-content;
 }
 
 .small {
+  border-radius: 7px !important;
   min-width: 100px !important;
   height: 25px !important;
   width: max-content;

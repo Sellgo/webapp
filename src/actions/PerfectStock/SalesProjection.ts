@@ -16,7 +16,7 @@ import {
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
 import { getSalesProjectionResults } from '../../selectors/PerfectStock/SalesProjection';
-import { success } from '../../utils/notifications';
+import { error, success } from '../../utils/notifications';
 
 /* Action to set loading state for sales estimation */
 export const isLoadingSalesProjection = (payload: boolean) => {
@@ -81,8 +81,6 @@ export const setSalesProjectionRow = (payload: SalesProjectionProduct) => (
       }
     }
   );
-  console.log(updatedSalesProjectionProducts);
-
   dispatch(setSalesProjectionResults(updatedSalesProjectionProducts));
 };
 
@@ -184,7 +182,7 @@ export const refreshSalesProjection = () => async (dispatch: any) => {
   try {
     const sellerId = sellerIDSelector();
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/refresh-forecast`;
-    const { data } = await axios.get(URL);
+    const { data } = await axios.post(URL);
 
     if (data && data.perfect_stock_job_id) {
       dispatch(setRefreshSalesProjectionId(data.perfect_stock_job_id));
@@ -193,15 +191,19 @@ export const refreshSalesProjection = () => async (dispatch: any) => {
     }
   } catch (err) {
     dispatch(setIsFetchingProgressForRefresh(false));
+    const { status } = err.response;
+    if (status === 429) {
+      error('Only 1 refresh per day allowed.');
+    }
     console.error('Error updating sales estimation', err);
   }
 };
 
 /* Action to get refresh progress */
-export const fetchRefreshProgress = () => async (dispatch: any, state: any) => {
+export const fetchRefreshProgress = () => async (dispatch: any, getState: any) => {
   try {
     const sellerId = sellerIDSelector();
-    const refreshId = state.salesProjection.refreshSalesProjectionId;
+    const refreshId = getState().salesProjection.refreshSalesProjectionId;
     const URL =
       `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/job/progress` +
       `?perfect_stock_job_id=${refreshId}`;
@@ -209,7 +211,7 @@ export const fetchRefreshProgress = () => async (dispatch: any, state: any) => {
 
     if (data && data.progress) {
       if (data.status === 'completed') {
-        dispatch(fetchSalesProjection);
+        dispatch(fetchSalesProjection({}));
         dispatch(setIsFetchingProgressForRefresh(false));
         dispatch(setRefreshSalesProjectionId(-1));
       } else {

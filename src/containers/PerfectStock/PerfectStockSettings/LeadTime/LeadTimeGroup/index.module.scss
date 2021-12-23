@@ -1,0 +1,89 @@
+@import '../../../../../design-system/new-colors';
+
+.triggerWrapper {
+  display: flex;
+  margin-bottom: 18px;
+
+  .triggerHeader {
+    font-size: $fontsize_content_14;
+    font-weight: $fontweight_medium;
+    color: $prim_dark_2;
+    align-items: center;
+
+    &__closed {
+      border-bottom: 1px solid $grey_3;
+      border-radius: 7px;
+    }
+  }
+
+  .trigger {
+    width: 100%;
+  }
+}
+
+.expandIcon {
+  background: none;
+  display: flex;
+  margin-top: 15px;
+  margin-right: 10px;
+}
+
+.deleteTriggerIcon {
+  cursor: pointer;
+  color: $grey_8 !important;
+  font-size: 12px !important;
+}
+
+.editName {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  .editIcon {
+    cursor: pointer;
+    margin-bottom: 3px;
+    margin-left: 10px;
+    font-size: 12px;
+    color: $grey_8 !important;
+  }
+
+  .checkIcon {
+    margin-left: 10px;
+  }
+
+  .checkIcon,
+  .closeIcon {
+    cursor: pointer;
+    background: $grey_10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    color: $grey_7 !important;
+    font-size: 10px !important;
+
+    &:hover {
+      background: $grey_3;
+    }
+  }
+}
+
+.buttonsRow {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+
+  .resetButton {
+    margin-right: 18px;
+  }
+}
+
+.assignInput {
+  margin: 3rem 0;
+
+  > div {
+    width: 900px !important;
+  }
+}

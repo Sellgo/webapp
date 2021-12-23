@@ -34,6 +34,7 @@ import SellerResearch from '../SellerResearch';
 import ProductResearch from '../ProductResearch';
 import KeywordResearch from '../KeywordResearch';
 import PerfectStock from '../PerfectStock';
+import LeadTime from '../PerfectStock/PerfectStockSettings/LeadTime';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import { isBetaAccount } from '../../utils/subscriptions';
@@ -252,6 +253,11 @@ function App() {
           <PrivateRoute exact={true} path="/settings/connectivity" component={Connectivity} />
           <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} />
           <PrivateRoute exact={true} path="/settings/profile" component={Profile} />
+          <PrivateRoute
+            exact={true}
+            path="/settings/perfect-stock/lead-time"
+            component={LeadTime}
+          />
           <PrivateRoute
             exact={true}
             path="/synthesis"

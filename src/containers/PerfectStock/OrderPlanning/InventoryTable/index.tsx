@@ -88,7 +88,7 @@ const InventoryTable = (props: Props) => {
       data[`${headers[i]}_count`] = 500;
       data[`${headers[i]}_percent`] = Math.random();
     }
-
+    console.log(data);
     return [data];
   };
   /* Detect if dateRange changed */

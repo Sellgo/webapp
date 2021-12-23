@@ -11,6 +11,7 @@ import axios from 'axios';
 import { AppConfig } from '../../../../../config';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
 import ActionButton from '../../../../../components/ActionButton';
+import { error, success } from '../../../../../utils/notifications';
 
 interface Props {
   open: boolean;
@@ -21,20 +22,27 @@ interface Props {
 const EditSeasonalityPopup = (props: Props) => {
   const { open, setOpenPopup, id } = props;
   const [seasonalitySettings, setSeasonalitySettings] = useState<any[]>([]);
+  const [isLoadingSeasonalitySettings, setIsLoadingSeasonalitySettings] = useState<boolean>(false);
 
+  /* Fetch seasonality settings */
   const getSeasonalitySettings = async () => {
-    const sellerId = sellerIDSelector();
-    const res = await axios.get(
-      `${AppConfig.BASE_URL_API}sellers/${sellerId}/sales-adjustment?sales_projection_id=${id}`
-    );
-    const { data } = res;
-    console.log(data);
-    if (data) {
-      setSeasonalitySettings(data);
+    setIsLoadingSeasonalitySettings(true);
+    try {
+      const sellerId = sellerIDSelector();
+      const res = await axios.get(
+        `${AppConfig.BASE_URL_API}sellers/${sellerId}/sales-adjustment?sales_projection_id=${id}`
+      );
+      const { data } = res;
+      if (data) {
+        setSeasonalitySettings(data);
+      }
+    } catch (err) {
+      error('Failed to get seasonality settings');
     }
-    return data;
+    setIsLoadingSeasonalitySettings(false);
   };
 
+  /* Hook called upon typing inside the input fields */
   const handleValueChange = (key: string, value: string, id: number) => {
     const newSeasonalitySettings = [...seasonalitySettings];
     const index = newSeasonalitySettings.findIndex(item => item.id === id);
@@ -42,27 +50,65 @@ const EditSeasonalityPopup = (props: Props) => {
     setSeasonalitySettings(newSeasonalitySettings);
   };
 
+  /* Handler to create new seasonality setting */
+  const handleAddNewSeasonalitySetting = async () => {
+    const newSeasonalitySetting = {
+      name: '',
+      start_date: new Date().toISOString().split('T')[0],
+      end_date: new Date().toISOString().split('T')[0],
+      sales_projection_id: id,
+      type: 'seasonal_trends',
+      status: 'pending',
+    };
+
+    try {
+      const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/sales-adjustment`;
+      const payload = [newSeasonalitySetting];
+      const res = await axios.post(url, payload);
+      const { data } = res;
+      if (data) {
+        setSeasonalitySettings([...seasonalitySettings, data]);
+      }
+    } catch (err) {
+      error('Failed to add setting.');
+    }
+  };
+
   const handleDelete = async (id: number) => {
-    const newSeasonalitySettings = seasonalitySettings.filter(item => item.id !== id);
+    const newSeasonalitySettings = seasonalitySettings.map(item => {
+      if (item.id === id) {
+        item.status = 'inactive';
+      }
+      return item;
+    });
     setSeasonalitySettings(newSeasonalitySettings);
   };
 
+  /* Saving of seasonality settings, triggered upon clicking of Save button */
   const handleSaveSeasonalitySettings = async () => {
-    // const sellerId = sellerIDSelector();
-    // const res = await axios.put(`${AppConfig.BASE_URL_API}sellers/${sellerId}/sales-adjustment`, {
-    //   sales_adjustment_id: id,
-    //   sales_adjustment: seasonalitySettings
-    // });
-    // const { status } = res;
-    // if (status === 200) {
-    //   setOpenPopup(false);
-    //   success("Seasonality settings saved successfully");
-    // }
+    const savedSeasonalitySettings = seasonalitySettings.map(setting => {
+      if (setting.status === 'pending' && setting.name !== '' && setting.value !== '') {
+        setting.status = 'active';
+      }
+      return setting;
+    });
+    const sellerId = sellerIDSelector();
+    const res = await axios.patch(
+      `${AppConfig.BASE_URL_API}sellers/${sellerId}/sales-adjustment`,
+      savedSeasonalitySettings
+    );
+    const { status } = res;
+    if (status === 200) {
+      setOpenPopup(false);
+      success('Seasonality settings saved successfully');
+    }
     setOpenPopup(false);
   };
 
+  /* On component launch, reset seasonality settings and fetch latest settings */
   React.useEffect(() => {
     if (open) {
+      setSeasonalitySettings([]);
       getSeasonalitySettings();
     }
   }, [open]);
@@ -98,7 +144,11 @@ const EditSeasonalityPopup = (props: Props) => {
               seasonalitySettings={seasonalitySettings}
               handleValueChange={handleValueChange}
               handleDelete={handleDelete}
+              isLoadingSeasonalitySettings={isLoadingSeasonalitySettings}
             />
+            <button onClick={handleAddNewSeasonalitySetting} className={styles.addNewSetting}>
+              Add New
+            </button>
             <div className={styles.buttonRow}>
               <ActionButton
                 variant="reset"
