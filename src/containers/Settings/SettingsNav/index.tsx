@@ -39,6 +39,7 @@ const SettingsNav = (props: Props) => {
               const isActive = match.path === page.url;
               return (
                 <div className={styles.settingWrapper}>
+                  {/* Main page */}
                   <Link key={page.url} to={page.url} style={{ textDecoration: 'none' }}>
                     <div
                       className={
@@ -50,6 +51,8 @@ const SettingsNav = (props: Props) => {
                       {page.name}
                     </div>
                   </Link>
+
+                  {/* Sub pages */}
                   {isActive &&
                     page.subPages.map((subPage: any) => {
                       const isActive = match.path === subPage.url;
