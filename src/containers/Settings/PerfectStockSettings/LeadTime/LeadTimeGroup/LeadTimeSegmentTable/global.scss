@@ -31,6 +31,8 @@
       background: none;
 
       .rs-table-row {
+        border-bottom: 1px solid $grey_3;
+
         /* ============== ZEBRA PATTERN  =============== */
         &:nth-child(2n) {
           background: $light_gray_background !important;

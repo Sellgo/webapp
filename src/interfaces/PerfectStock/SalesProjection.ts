@@ -67,3 +67,16 @@ export interface WeightedAverageSettings {
   avg_n30d_ly_weight: string;
   avg_n90d_ly_weight: string;
 }
+
+export interface LeadTime {
+  id?: number;
+  type: string;
+  duration: number;
+}
+
+export interface SingleLeadTimeGroup {
+  id?: number;
+  lead_times: LeadTime[];
+  name: string;
+  status: 'active' | 'inactive' | 'pending';
+}

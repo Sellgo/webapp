@@ -3,6 +3,7 @@ import ActionButton from '../../../../../components/ActionButton';
 
 /* Assets */
 import { ReactComponent as ThinAddIcon } from '../../../../../assets/images/thinAddIcon.svg';
+import { ReactComponent as HourGlassIcon } from '../../../../../assets/images/hourglassIcon.svg';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -14,6 +15,10 @@ const LeadTimeMeta = (props: Props) => {
   const { handleAddGroup } = props;
   return (
     <>
+      <div className={styles.leadTimeMetaTitle}>
+        <HourGlassIcon />
+        &nbsp;&nbsp;Lead Time Settings
+      </div>
       <ActionButton
         type="purpleGradient"
         variant="secondary"
@@ -22,7 +27,7 @@ const LeadTimeMeta = (props: Props) => {
         onClick={handleAddGroup}
       >
         <ThinAddIcon />
-        <span>Add Product Trigger</span>
+        <span>Add Lead Time Group</span>
       </ActionButton>
     </>
   );

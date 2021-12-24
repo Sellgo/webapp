@@ -34,7 +34,7 @@ import SellerResearch from '../SellerResearch';
 import ProductResearch from '../ProductResearch';
 import KeywordResearch from '../KeywordResearch';
 import PerfectStock from '../PerfectStock';
-import LeadTime from '../PerfectStock/PerfectStockSettings/LeadTime';
+import LeadTime from '../Settings/PerfectStockSettings/LeadTime';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import { isBetaAccount } from '../../utils/subscriptions';
