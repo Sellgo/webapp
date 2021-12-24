@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Confirm, Icon } from 'semantic-ui-react';
+import axios from 'axios';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -22,10 +23,11 @@ import {
   LeadTime,
   SingleLeadTimeGroup,
 } from '../../../../../interfaces/PerfectStock/SalesProjection';
-import { sellerIDSelector } from '../../../../../selectors/Seller';
-import axios from 'axios';
+
+/* Utils */
 import { AppConfig } from '../../../../../config';
 import { success } from '../../../../../utils/notifications';
+import { sellerIDSelector } from '../../../../../selectors/Seller';
 
 interface Props {
   initialLeadTimeGroup: SingleLeadTimeGroup;

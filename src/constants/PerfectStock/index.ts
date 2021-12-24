@@ -32,12 +32,12 @@ export const LEAD_TIME_OPTIONS = [
     text: 'Ground Freight',
     color: '#7ED1DC',
   },
-  {
-    key: '3PL Warehouse',
-    value: '3PL_warehouse',
-    text: '3PL Warehouse',
-    color: '#AE8BE7',
-  },
+  // {
+  //   key: '3PL Warehouse',
+  //   value: '3_pl_warehouse',
+  //   text: '3PL Warehouse',
+  //   color: '#AE8BE7',
+  // },
   {
     key: 'FBA Check-in',
     value: 'fba_checkin',
