@@ -203,7 +203,6 @@ export default class DataTask extends Component {
                   className="timeLine-main-data-sub-task"
                 >
                   {task.name}
-                  {this.props.isSelected ? 'BOO!' : ''}
                 </div>
               );
             })

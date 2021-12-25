@@ -34,19 +34,26 @@ export class TaskRow extends Component {
           top: this.props.top,
           height: this.props.itemheight,
         }}
-        onClick={e => this.props.onSelectItem(this.props.item)}
+        onClick={e => {
+          this.props.onSelectItem(this.props.item);
+          this.props.onSelectTask(this.props.item);
+        }}
       >
-        {true ? (
-          <div tabIndex={this.props.index} style={{ width: '100%' }}>
-            {this.props.label}
-          </div>
-        ) : (
-          <ContentEditable
-            value={this.props.label}
-            index={this.props.index}
-            onChange={this.onChange}
-          />
-        )}
+        <div
+          tabIndex={this.props.index}
+          style={
+            this.props.isSelected
+              ? {
+                  width: 'max-content',
+                  backgroundColor: '#3B4557',
+                  color: '#fff',
+                  padding: '0 10px',
+                }
+              : { width: '90%' }
+          }
+        >
+          {this.props.label}
+        </div>
       </div>
     );
   }
@@ -75,9 +82,10 @@ export default class TaskList extends Component {
           label={item.name}
           top={i * this.props.itemheight}
           itemheight={this.props.itemheight}
-          isSelected={this.props.selectedItem == item}
+          isSelected={this.props.selectedItem?.id === item?.id}
           onUpdateTask={this.props.onUpdateTask}
           onSelectItem={this.props.onSelectItem}
+          onSelectTask={this.props.onSelectTask}
           nonEditable={this.props.nonEditable}
         />
       );

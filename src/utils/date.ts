@@ -38,6 +38,10 @@ export const formatCompletedDate = (timestamp: Date) => {
   return `${date}-${month}-${year} \n ${formattedTime}`;
 };
 
+export const getDateOnly = (date: Date) => {
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+};
+
 export const getHours = (startDate: string) => {
   const end = moment();
   const duration = moment.duration(end.diff(moment(startDate)));

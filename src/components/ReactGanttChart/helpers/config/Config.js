@@ -75,7 +75,6 @@ const defvalues = {
       selectedStyle: {
         position: 'absolute',
         borderRadius: 14,
-        border: 'solid 1px #ff00fa',
         color: 'white',
         textAlign: 'center',
         backgroundColor: 'grey',

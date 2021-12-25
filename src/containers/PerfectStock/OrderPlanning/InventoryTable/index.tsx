@@ -23,7 +23,12 @@ import InventoryBarCell from './InventoryBarCell';
 import { ReactComponent as ExclaimationIcon } from '../../../../assets/images/exclamation-triangle-solid.svg';
 
 /* Selectors */
-import { getDateRange, getTimeSetting } from '../../../../selectors/PerfectStock/OrderPlanning';
+import {
+  getDateRange,
+  getInventoryTableResults,
+  getIsLoadingInventoryTableResults,
+  getTimeSetting,
+} from '../../../../selectors/PerfectStock/OrderPlanning';
 
 /* Constants */
 import {
@@ -33,16 +38,27 @@ import {
   UNIT_WIDTH,
 } from '../../../../constants/PerfectStock/OrderPlanning';
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
+import { fetchInventoryTable } from '../../../../actions/PerfectStock/OrderPlanning';
 
 interface Props {
   // States
   dateRange: DateRange;
   timeSetting: TimeSetting;
+  fetchInventoryTable: () => void;
+  inventoryTableResults: any[];
+  isLoadingInventoryTableResults: boolean;
 }
 
 /* Main component */
 const InventoryTable = (props: Props) => {
-  const { dateRange, timeSetting } = props;
+  const {
+    dateRange,
+    timeSetting,
+    fetchInventoryTable,
+    inventoryTableResults,
+    isLoadingInventoryTableResults,
+  } = props;
+
   const [sortColumn, setSortColumn] = React.useState<string>('');
   const [sortType, setSortType] = React.useState<'asc' | 'desc' | undefined>(undefined);
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
@@ -53,60 +69,45 @@ const InventoryTable = (props: Props) => {
       sortDir: sortType,
     });
   };
-  const [FAKE_DATA, SET_FAKE_DATA] = React.useState<any>([]);
-  const [headers, setHeaders] = React.useState<any>([]);
 
-  const getDateArray = (startDate: Date, endDate: Date) => {
+  /* Generate headers by producing a date array from start date to end date */
+  const [headers, setHeaders] = React.useState<any>([]);
+  const generateHeaders = (startDate: Date, endDate: Date) => {
     const DIFF = timeSetting === TIME_SETTING.DAY ? 1 : 7;
     if (startDate && endDate) {
       const dateArray = [];
       let currentDate = startDate;
       while (currentDate <= endDate) {
         currentDate = new Date(currentDate.setDate(currentDate.getDate() + DIFF));
-        const dateString = currentDate.toLocaleDateString('en-US', {
-          day: 'numeric',
-          month: 'numeric',
-          year: '2-digit',
-        });
+        const dateString = `${currentDate.getFullYear()}-${currentDate.getMonth() +
+          1}-${currentDate.getDate()}`;
         dateArray.push(dateString);
       }
-      return dateArray;
+      setHeaders(dateArray);
     } else {
       return [];
     }
   };
 
-  const generateDummyData = (headers: any) => {
-    const data: any = {
-      asin: 'ASIN',
-      image: '',
-      title: 'PRODUCT TITLE',
-      days_until_so: 150,
-    };
-    for (let i = 0; i < headers.length; i++) {
-      data[headers[i]] = 840;
-      data[`${headers[i]}_count`] = 500;
-      data[`${headers[i]}_percent`] = Math.random();
-    }
-    console.log(data);
-    return [data];
-  };
   /* Detect if dateRange changed */
   React.useEffect(() => {
-    const headers = getDateArray(new Date(dateRange.startDate), new Date(dateRange.endDate));
-    setHeaders(headers);
-    SET_FAKE_DATA(generateDummyData(headers));
-  }, [dateRange.startDate, dateRange.endDate]);
+    generateHeaders(new Date(dateRange.startDate), new Date(dateRange.endDate));
+    fetchInventoryTable();
+  }, [dateRange.startDate, dateRange.endDate, timeSetting]);
 
   return (
     <>
       <section className={styles.productDatabaseWrapper}>
         <Table
-          renderLoading={() => false && <Placeholder numberParagraphs={2} numberRows={3} isGrey />}
+          renderLoading={() =>
+            isLoadingInventoryTableResults && (
+              <Placeholder numberParagraphs={2} numberRows={3} isGrey />
+            )
+          }
           renderEmpty={() => <div />}
           affixHorizontalScrollbar={0}
           // Dont display old data when loading
-          data={FAKE_DATA}
+          data={!isLoadingInventoryTableResults ? inventoryTableResults : []}
           hover={true}
           autoHeight
           rowHeight={70}
@@ -167,6 +168,8 @@ const mapStateToProps = (state: any) => {
   return {
     dateRange: getDateRange(state),
     timeSetting: getTimeSetting(state),
+    inventoryTableResults: getInventoryTableResults(state),
+    isLoadingInventoryTableResults: getIsLoadingInventoryTableResults(state),
   };
 };
 
@@ -174,6 +177,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchSalesProjection: (payload: SalesProjectionPayload) =>
       dispatch(fetchSalesProjection(payload)),
+    fetchInventoryTable: () => dispatch(fetchInventoryTable()),
   };
 };
 

@@ -15,8 +15,8 @@ import { RowCell } from '../../../../../interfaces/Table';
 
 const ProductInformation = (props: RowCell) => {
   const { rowData } = props;
-  const { image, asin, title } = rowData;
-  const productImage = image ? image.replace('SL75', 'SL140') : placeholderImage;
+  const { image_url, asin, title, sku } = rowData;
+  const productImage = image_url ? image_url.replace('SL75', 'SL140') : placeholderImage;
 
   return (
     <Table.Cell {...props}>
@@ -46,12 +46,8 @@ const ProductInformation = (props: RowCell) => {
                 )}
 
                 {/* UPC */}
-                <span className={styles.upcText}>SKU_NAME</span>
+                <span className={styles.upcText}>{sku}</span>
               </div>
-            </div>
-            <div className={styles.sizeTierAndStatusCol}>
-              <span> Size Tier </span>
-              <span> Status </span>
             </div>
           </div>
         </div>

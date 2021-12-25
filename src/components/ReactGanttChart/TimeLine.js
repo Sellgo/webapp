@@ -18,6 +18,7 @@ import DataController from './controller/DataController';
 import Config from './helpers/config/Config';
 import DateHelper from './helpers/DateHelper';
 import './TimeLine.scss';
+import Placeholder from '../Placeholder';
 
 class TimeLine extends Component {
   constructor(props) {
@@ -218,7 +219,10 @@ class TimeLine extends Component {
         startDate = new Date(
           startDate.getFullYear(),
           startDate.getMonth(),
-          startDate.getDate() - startDate.getDay() - 7
+          startDate.getDate() -
+          startDate.getDay() -
+          7 + // Decrement back by one week
+            1 // Make the start of the week monday
         );
       } else {
         startDate = new Date(
@@ -416,6 +420,7 @@ class TimeLine extends Component {
   render() {
     this.checkMode();
     this.checkNeeeData();
+
     return (
       <div className="timeLine">
         <div className="timeLine-side-main" style={this.state.sideStyle}>
@@ -425,15 +430,15 @@ class TimeLine extends Component {
             startRow={this.state.startRow}
             endRow={this.state.endRow}
             data={this.props.data}
-            selectedItem={this.props.selectedItem}
+            selectedItem={this.props.selectedTask}
             onSelectItem={this.onSelectItem}
             onUpdateTask={this.props.onUpdateTask}
+            onSelectTask={this.props.onSelectTask}
             onScroll={this.verticalChange}
             nonEditable={this.props.nonEditableName}
             handleChangeMode={this.props.handleChangeMode}
             mode={this.state.mode}
           />
-          {/* <VerticalSpliter onTaskListSizing={this.onTaskListSizing} /> */}
         </div>
         <div className="timeLine-main">
           <Header
@@ -445,38 +450,41 @@ class TimeLine extends Component {
             mode={this.state.mode}
             scrollLeft={this.state.scrollLeft}
           />
-          <DataViewPort
-            ref="dataViewPort"
-            scrollLeft={this.state.scrollLeft}
-            scrollTop={this.state.scrollTop}
-            itemheight={this.props.itemheight}
-            nowposition={this.state.nowposition}
-            startRow={this.state.startRow}
-            endRow={this.state.endRow}
-            data={this.props.data}
-            selectedItem={this.props.selectedItem}
-            dayWidth={this.state.dayWidth}
-            onScroll={this.scrollData}
-            onMouseDown={this.doMouseDown}
-            onMouseMove={this.doMouseMove}
-            onMouseUp={this.doMouseUp}
-            onMouseLeave={this.doMouseLeave}
-            onTouchStart={this.doTouchStart}
-            onTouchMove={this.doTouchMove}
-            onTouchEnd={this.doTouchEnd}
-            onTouchCancel={this.doTouchCancel}
-            onSelectItem={this.onSelectItem}
-            onUpdateTask={this.props.onUpdateTask}
-            onSelectTask={this.props.onSelectTask}
-            onTaskChanging={this.onTaskChanging}
-            onStartCreateLink={this.onStartCreateLink}
-            onFinishCreateLink={this.onFinishCreateLink}
-            boundaries={{
-              lower: this.state.scrollLeft,
-              upper: this.state.scrollLeft + this.state.size.width,
-            }}
-            onSize={this.onSize}
-          />
+          {this.props.isLoading && <Placeholder numberParagraphs={1} numberRows={1} />}
+          {!this.props.isLoading && (
+            <DataViewPort
+              ref="dataViewPort"
+              scrollLeft={this.state.scrollLeft}
+              scrollTop={this.state.scrollTop}
+              itemheight={this.props.itemheight}
+              nowposition={this.state.nowposition}
+              startRow={this.state.startRow}
+              endRow={this.state.endRow}
+              data={this.props.data}
+              selectedItem={this.props.selectedTask}
+              dayWidth={this.state.dayWidth}
+              onScroll={this.scrollData}
+              onMouseDown={this.doMouseDown}
+              onMouseMove={this.doMouseMove}
+              onMouseUp={this.doMouseUp}
+              onMouseLeave={this.doMouseLeave}
+              onTouchStart={this.doTouchStart}
+              onTouchMove={this.doTouchMove}
+              onTouchEnd={this.doTouchEnd}
+              onTouchCancel={this.doTouchCancel}
+              onSelectItem={this.onSelectItem}
+              onUpdateTask={this.props.onUpdateTask}
+              onSelectTask={this.props.onSelectTask}
+              onTaskChanging={this.onTaskChanging}
+              onStartCreateLink={this.onStartCreateLink}
+              onFinishCreateLink={this.onFinishCreateLink}
+              boundaries={{
+                lower: this.state.scrollLeft,
+                upper: this.state.scrollLeft + this.state.size.width,
+              }}
+              onSize={this.onSize}
+            />
+          )}
           <LinkViewPort
             scrollLeft={this.state.scrollLeft}
             scrollTop={this.state.scrollTop}

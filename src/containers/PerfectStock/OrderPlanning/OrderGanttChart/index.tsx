@@ -10,13 +10,31 @@ import TimeLine from '../../../../components/ReactGanttChart/TimeLine';
 import styles from './index.module.scss';
 
 /* Actions */
-import { setDateRange, setTimeSettings } from '../../../../actions/PerfectStock/OrderPlanning';
+import {
+  setDateRange,
+  setTimeSettings,
+  fetchPurchaseOrders,
+  updatePurchaseOrder,
+  fetchInventoryTable,
+} from '../../../../actions/PerfectStock/OrderPlanning';
 
 /* Selectors */
-import { getTimeSetting } from '../../../../selectors/PerfectStock/OrderPlanning';
+import {
+  getIsLoadingPurchaseOrders,
+  getPurchaseOrders,
+  getTimeSetting,
+} from '../../../../selectors/PerfectStock/OrderPlanning';
 
 /* Types */
-import { DateRange, Order } from '../../../../interfaces/PerfectStock/OrderPlanning';
+import {
+  DateRange,
+  GanttChartPurchaseOrder,
+  UpdatePurchaseOrderPayload,
+} from '../../../../interfaces/PerfectStock/OrderPlanning';
+import { LeadTime } from '../../../../interfaces/PerfectStock/SalesProjection';
+
+/* Utils */
+import { getDateOnly } from '../../../../utils/date';
 
 /* Constants */
 import {
@@ -25,85 +43,83 @@ import {
   GANTT_ORDERS_WIDTH,
   UNIT_WIDTH,
 } from '../../../../constants/PerfectStock/OrderPlanning';
+import { getLeadTimeColor, getLeadTimeName } from '../../../../constants/PerfectStock';
 
 interface Props {
   setDateRange: (payload: DateRange) => void;
   setTimeSettings: (payload: string) => void;
+  fetchPurchaseOrders: () => void;
+  fetchInventoryTable: () => void;
+  updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => void;
+  purchaseOrders: any[];
+  isLoadingPurchaseOrders: boolean;
   timeSetting: TimeSetting;
 }
 
-const DATA = [
-  {
-    id: 1,
-    start: new Date(),
-    end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 20),
-    name: 'Order 1',
-    subTasks: [
-      {
-        id: 1,
-        start: new Date(),
-        end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 10),
-        name: 'Phase 1',
-        color: '#779ADE',
-      },
-      {
-        id: 2,
-        start: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 10),
-        end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 20),
-        name: 'Phase 2',
-        color: '#F4AA74',
-      },
-    ],
-  },
-  {
-    id: 2,
-    start: new Date(),
-    end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 20),
-    name: 'Order 1',
-    subTasks: [
-      {
-        id: 1,
-        start: new Date(),
-        end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 10),
-        name: 'Phase 1',
-        color: '#779ADE',
-      },
-      {
-        id: 2,
-        start: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 10),
-        end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 15),
-        name: 'Phase 2',
-        color: '#F4AA74',
-      },
-      {
-        id: 3,
-        start: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 15),
-        end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 20),
-        name: 'Phase 3',
-        color: '#EC5B62',
-      },
-    ],
-  },
-];
-
 const OrderGanttChart = (props: Props) => {
-  const { setDateRange, timeSetting, setTimeSettings } = props;
-  const [tasks, setTasks] = React.useState<Order[]>(DATA);
-  const [selectedTask, setSelectedTask] = React.useState<Order | null>(null);
+  const {
+    setDateRange,
+    timeSetting,
+    setTimeSettings,
+    fetchPurchaseOrders,
+    purchaseOrders,
+    isLoadingPurchaseOrders,
+    updatePurchaseOrder,
+  } = props;
+  const [selectedTask, setSelectedTask] = React.useState<GanttChartPurchaseOrder | null>(null);
   const [restockLimitEnabled, setRestockLimitEnabled] = React.useState<boolean>(false);
-  const updateOrder = (task: any, change: any) => {
-    task.start = change.start;
-    task.end = change.end;
 
-    // Replace the task
-    const newTasks = tasks.map((t: any) => {
-      if (t.id === task.id) {
-        return task;
-      }
-      return t;
-    });
-    setTasks([...newTasks]);
+  const ganttChartPurchaseOrders: GanttChartPurchaseOrder[] = purchaseOrders.map(
+    (purchaseOrder: any) => {
+      const leadTimeDuration = purchaseOrder.lead_time_group?.lead_times?.reduce(
+        (acc: number, leadTime: any) => acc + leadTime.duration,
+        0
+      );
+      const id = purchaseOrder.id;
+      const start = new Date(purchaseOrder.date);
+      const end = new Date(
+        start.getTime() + leadTimeDuration * 24 * 60 * 60 * 1000 * (leadTimeDuration || 0)
+      );
+      const name = `Order ${purchaseOrder.id}`;
+
+      const leadTimeDate = start;
+      const subTasks = purchaseOrder.lead_time_group?.lead_times?.map(
+        (leadTime: LeadTime, index: number) => {
+          const id = index;
+          const start = leadTimeDate;
+          const end = new Date(leadTimeDate.getTime() + leadTime.duration * 24 * 60 * 60 * 1000);
+          const name = getLeadTimeName(leadTime.type);
+          const color = getLeadTimeColor(leadTime.type);
+          return { id, start, end, name, color };
+        }
+      );
+
+      return {
+        id,
+        start,
+        end,
+        name,
+        subTasks: subTasks || [],
+      };
+    }
+  );
+
+  const updateOrder = (task: any, change: any) => {
+    if (getDateOnly(task.start) !== getDateOnly(change.start)) {
+      updatePurchaseOrder({
+        id: task.id,
+        date: getDateOnly(change.start),
+      });
+    }
   };
+
+  const handleChangeTimeSetting = (payload: string) => {
+    setTimeSettings(payload);
+  };
+
+  React.useEffect(() => {
+    fetchPurchaseOrders();
+  }, []);
 
   return (
     <>
@@ -147,12 +163,12 @@ const OrderGanttChart = (props: Props) => {
         </div>
         <div className={styles.ganttChart}>
           <TimeLine
+            isLoading={isLoadingPurchaseOrders}
             onUpdateTask={updateOrder}
-            data={DATA}
+            data={ganttChartPurchaseOrders}
             mode={timeSetting}
             selectedTask={selectedTask}
-            onSelectTask={(task: Order) => {
-              console.log('Selected from outside', task);
+            onSelectTask={(task: GanttChartPurchaseOrder) => {
               setSelectedTask(task);
             }}
             onViewportChange={(start: Date, end: Date) => {
@@ -160,7 +176,7 @@ const OrderGanttChart = (props: Props) => {
             }}
             sideWidth={GANTT_ORDERS_WIDTH}
             unitWidth={UNIT_WIDTH}
-            handleChangeMode={setTimeSettings}
+            handleChangeMode={handleChangeTimeSetting}
           />
         </div>
       </div>
@@ -171,6 +187,8 @@ const OrderGanttChart = (props: Props) => {
 const mapStateToProps = (state: any) => {
   return {
     timeSetting: getTimeSetting(state),
+    purchaseOrders: getPurchaseOrders(state),
+    isLoadingPurchaseOrders: getIsLoadingPurchaseOrders(state),
   };
 };
 
@@ -181,6 +199,15 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     setTimeSettings: (payload: string) => {
       dispatch(setTimeSettings(payload));
+    },
+    fetchPurchaseOrders: () => {
+      dispatch(fetchPurchaseOrders());
+    },
+    updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => {
+      dispatch(updatePurchaseOrder(payload));
+    },
+    fetchInventoryTable: () => {
+      dispatch(fetchInventoryTable());
     },
   };
 };

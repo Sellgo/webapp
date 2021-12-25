@@ -16,11 +16,19 @@ import { formatNumber, showNAIfZeroOrNull } from '../../../../../utils/format';
 const InventoryBarCell = (props: RowCell) => {
   const { rowData, dataKey } = props;
 
-  const percent = rowData[`${dataKey}_percent`];
-  const inventoryCount = rowData[`${dataKey}_count`];
+  const inventory = rowData[dataKey];
+  let percent;
+  let inventoryCount;
+  if (inventory) {
+    percent = inventory.percentage;
+    inventoryCount = inventory.value;
+  } else {
+    percent = 0;
+    inventoryCount = 0;
+  }
 
   const displayInventoryCount = showNAIfZeroOrNull(inventoryCount, formatNumber(inventoryCount));
-  const displayPercent = showNAIfZeroOrNull(percent, `${formatNumber(percent * 100)}%`);
+  const displayPercent = showNAIfZeroOrNull(percent, `${formatNumber(percent)}%`);
 
   return (
     <Table.Cell {...props}>
@@ -28,9 +36,9 @@ const InventoryBarCell = (props: RowCell) => {
         className={`
           ${styles.inventoryBarCell}`}
       >
-        <span style={percent <= 0.25 ? { color: '#EB675E' } : {}}>{displayPercent}</span>
+        <span style={percent <= 25 ? { color: '#EB675E' } : {}}>{displayPercent}</span>
         <span> {displayInventoryCount} </span>
-        <InventoryBar percent={percent} />
+        <InventoryBar percent={percent / 100} />
       </div>
     </Table.Cell>
   );
