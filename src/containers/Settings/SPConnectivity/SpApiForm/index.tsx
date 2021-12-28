@@ -18,6 +18,7 @@ import ActionButton from '../../../../components/ActionButton';
 const defaultShowCredentials = {
   amazonSellerID: false,
   authToken: false,
+  refreshToken: false,
 };
 
 const SpApiForm = () => {
@@ -26,6 +27,7 @@ const SpApiForm = () => {
   const [spApiId, setSpApiId] = useState<number>(-1);
   const [amazonSellerId, setAmazonSellerId] = useState<string>('');
   const [amazonAuthToken, setAmazonAuthToken] = useState<string>('');
+  const [amazonRefreshToken, setAmazonRefreshToken] = useState<string>('');
   const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
   const [fetchSpApiKeysInterval, setFetchSpApiKeysInterval] = useState<any>(null);
 
@@ -34,10 +36,11 @@ const SpApiForm = () => {
       const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/sp-api-auth`;
       const res = await axios.get(url);
       const { data } = res;
-      if (data.selling_partner_id && data.mws_auth_token) {
+      if (data.selling_partner_id && data.mws_auth_token && data.refresh_token) {
         setSpApiId(data.id);
         setAmazonSellerId(data.selling_partner_id);
         setAmazonAuthToken(data.mws_auth_token);
+        setAmazonRefreshToken(data.refresh_token);
         setIsAuthenticating(false);
       }
     } catch (error) {
@@ -172,6 +175,31 @@ const SpApiForm = () => {
                     setShowCredentials({
                       ...showCredentials,
                       authToken: !showCredentials.authToken,
+                    })
+                  }
+                />
+              }
+            />
+            <Form.Input
+              className={styles.formInput}
+              label={
+                <div className={styles.formLabel}>
+                  <span>Refresh Token &nbsp;</span>
+                </div>
+              }
+              placeholder="Looks like amzn.mws.9eb48bhd-3e5n-f315-d34d-8dfa825fb711"
+              value={amazonRefreshToken}
+              type={showCredentials.authToken ? 'text' : 'password'}
+              name="token"
+              readOnly={true}
+              icon={
+                <Icon
+                  link
+                  name={showCredentials.authToken ? 'eye' : 'eye slash'}
+                  onClick={() =>
+                    setShowCredentials({
+                      ...showCredentials,
+                      refreshToken: !showCredentials.refreshToken,
                     })
                   }
                 />
