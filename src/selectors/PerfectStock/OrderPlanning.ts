@@ -34,3 +34,23 @@ export const getTimeSetting = (state: any) => {
 export const getActivePurchaseOrder = (state: any) => {
   return get(state, 'orderPlanning.activePurchaseOrder');
 };
+
+/* Selector to get inventory table update date */
+export const getInventoryTableUpdateDate = (state: any) => {
+  return get(state, 'orderPlanning.inventoryTableUpdateDate');
+};
+
+/* Selector to get inventory table refresh id */
+export const getRefreshInventoryTableId = (state: any) => {
+  return get(state, 'orderPlanning.refreshInventoryTableId');
+};
+
+/* Selector to get status of is fetching progress for sales projection */
+export const getIsFetchingProgressForRefresh = (state: any) => {
+  return get(state, 'orderPlanning.isFetchingProgressForRefresh');
+};
+
+/* Selector to get progress for sales projection refresh */
+export const getRefreshProgress = (state: any) => {
+  return get(state, 'orderPlanning.refreshProgress');
+};

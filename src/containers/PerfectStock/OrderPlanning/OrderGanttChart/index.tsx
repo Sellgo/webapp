@@ -16,10 +16,12 @@ import {
   fetchPurchaseOrders,
   updatePurchaseOrder,
   fetchInventoryTable,
+  setActivePurchaseOrder,
 } from '../../../../actions/PerfectStock/OrderPlanning';
 
 /* Selectors */
 import {
+  getActivePurchaseOrder,
   getIsLoadingPurchaseOrders,
   getPurchaseOrders,
   getTimeSetting,
@@ -51,6 +53,8 @@ interface Props {
   fetchPurchaseOrders: () => void;
   fetchInventoryTable: () => void;
   updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => void;
+  setActivePurchaseOrder: (payload: GanttChartPurchaseOrder) => void;
+  activePurchaseOrder: GanttChartPurchaseOrder;
   purchaseOrders: any[];
   isLoadingPurchaseOrders: boolean;
   timeSetting: TimeSetting;
@@ -65,8 +69,10 @@ const OrderGanttChart = (props: Props) => {
     purchaseOrders,
     isLoadingPurchaseOrders,
     updatePurchaseOrder,
+    setActivePurchaseOrder,
+    activePurchaseOrder,
   } = props;
-  const [selectedTask, setSelectedTask] = React.useState<GanttChartPurchaseOrder | null>(null);
+
   const [restockLimitEnabled, setRestockLimitEnabled] = React.useState<boolean>(false);
 
   const ganttChartPurchaseOrders: GanttChartPurchaseOrder[] = purchaseOrders.map(
@@ -115,6 +121,10 @@ const OrderGanttChart = (props: Props) => {
 
   const handleChangeTimeSetting = (payload: string) => {
     setTimeSettings(payload);
+  };
+
+  const handleSelectTask = (payload: GanttChartPurchaseOrder) => {
+    setActivePurchaseOrder(payload);
   };
 
   React.useEffect(() => {
@@ -167,10 +177,8 @@ const OrderGanttChart = (props: Props) => {
             onUpdateTask={updateOrder}
             data={ganttChartPurchaseOrders}
             mode={timeSetting}
-            selectedTask={selectedTask}
-            onSelectTask={(task: GanttChartPurchaseOrder) => {
-              setSelectedTask(task);
-            }}
+            selectedTask={activePurchaseOrder}
+            onSelectTask={handleSelectTask}
             onViewportChange={(start: Date, end: Date) => {
               setDateRange({ startDate: start.toString(), endDate: end.toString() });
             }}
@@ -189,6 +197,7 @@ const mapStateToProps = (state: any) => {
     timeSetting: getTimeSetting(state),
     purchaseOrders: getPurchaseOrders(state),
     isLoadingPurchaseOrders: getIsLoadingPurchaseOrders(state),
+    activePurchaseOrder: getActivePurchaseOrder(state),
   };
 };
 
@@ -208,6 +217,9 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     fetchInventoryTable: () => {
       dispatch(fetchInventoryTable());
+    },
+    setActivePurchaseOrder: (task: GanttChartPurchaseOrder) => {
+      dispatch(setActivePurchaseOrder(task));
     },
   };
 };

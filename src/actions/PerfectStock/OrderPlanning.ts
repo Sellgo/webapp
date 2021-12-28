@@ -5,15 +5,20 @@ import { actionTypes, TIME_SETTING } from '../../constants/PerfectStock/OrderPla
 
 /* Interfaces */
 import { DateRange, UpdatePurchaseOrderPayload } from '../../interfaces/PerfectStock/OrderPlanning';
+
+/* Selectors */
 import {
   getActivePurchaseOrder,
   getDateRange,
   getPurchaseOrders,
+  getRefreshInventoryTableId,
   getTimeSetting,
 } from '../../selectors/PerfectStock/OrderPlanning';
 import { sellerIDSelector } from '../../selectors/Seller';
+
+/* Utils */
 import { getDateOnly } from '../../utils/date';
-import { error } from '../../utils/notifications';
+import { error, success } from '../../utils/notifications';
 
 /* Action to set loading state for sales estimation */
 export const isLoadingInventoryTableResults = (payload: boolean) => {
@@ -71,6 +76,37 @@ export const setActivePurchaseOrder = (payload: any) => {
   };
 };
 
+/* Action to set refresh inventory table id */
+export const setRefreshInventoryTableId = (payload: number) => {
+  return {
+    type: actionTypes.SET_REFRESH_INVENTORY_TABLE_ID,
+    payload,
+  };
+};
+
+/* Action to set fetch progress for inventory table refresh status */
+export const setIsFetchingProgressForRefresh = (payload: boolean) => {
+  return {
+    type: actionTypes.SET_IS_FETCHING_PROGRESS_FOR_REFRESH,
+    payload,
+  };
+};
+
+/* Action to set progress for inventory table refresh status */
+export const setRefreshProgress = (payload: number) => {
+  return {
+    type: actionTypes.SET_REFRESH_PROGRESS,
+    payload,
+  };
+};
+
+/* Action to set inventory table update date */
+export const setInventoryTableUpdateDate = (payload: string) => {
+  return {
+    type: actionTypes.SET_INVENTORY_TABLE_UPDATE_DATE,
+    payload,
+  };
+};
 /*********** Async Actions ************************ */
 
 /* Action to fetch purchase orders */
@@ -180,10 +216,63 @@ export const fetchInventoryTable = () => async (dispatch: any, getState: any) =>
     const { data } = await axios.get(URL);
     if (data && data.results) {
       dispatch(setInventoryTableResults(data.results));
+      dispatch(setInventoryTableUpdateDate(data.last_forecast_update));
     }
   } catch (err) {
     dispatch(setInventoryTableResults([]));
     console.error('Error fetching inventory table', err);
   }
   dispatch(isLoadingInventoryTableResults(false));
+};
+
+/* Action to refresh inventory table results */
+export const refreshInventoryTable = () => async (dispatch: any) => {
+  try {
+    const sellerId = sellerIDSelector();
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/refresh-forecast`;
+    const { data } = await axios.post(URL);
+
+    if (data && data.perfect_stock_job_id) {
+      dispatch(setRefreshInventoryTableId(data.perfect_stock_job_id));
+      dispatch(setIsFetchingProgressForRefresh(true));
+      success('Refreshing inventory table information.');
+    }
+  } catch (err) {
+    dispatch(setIsFetchingProgressForRefresh(false));
+    const { status } = err.response;
+    if (status === 429) {
+      error('Only 1 refresh per day allowed.');
+    }
+    console.error('Error updating sales estimation', err);
+  }
+};
+
+/* Action to get refresh progress */
+export const fetchRefreshProgress = () => async (dispatch: any, getState: any) => {
+  try {
+    const sellerId = sellerIDSelector();
+    const state = getState();
+    const refreshId = getRefreshInventoryTableId(state);
+    const URL =
+      `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/job/progress` +
+      `?perfect_stock_job_id=${refreshId}`;
+    const { data } = await axios.get(URL);
+
+    if (data && data.progress) {
+      if (data.status === 'completed') {
+        dispatch(fetchInventoryTable());
+        dispatch(setIsFetchingProgressForRefresh(false));
+        dispatch(setRefreshInventoryTableId(-1));
+      } else if (data.status === 'failed') {
+        dispatch(setIsFetchingProgressForRefresh(false));
+        dispatch(setRefreshInventoryTableId(-1));
+        error('Refreshing of inventory table failed.');
+      } else {
+        dispatch(setRefreshProgress(parseFloat(data.progress)));
+      }
+    }
+  } catch (err) {
+    dispatch(setIsFetchingProgressForRefresh(false));
+    console.error('Error fetching progress for perfect stock', err);
+  }
 };

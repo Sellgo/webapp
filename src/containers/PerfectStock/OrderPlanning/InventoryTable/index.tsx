@@ -12,7 +12,10 @@ import { fetchSalesProjection } from '../../../../actions/PerfectStock/SalesProj
 
 /* Interfaces */
 import { SalesProjectionPayload } from '../../../../interfaces/PerfectStock/SalesProjection';
-import { DateRange } from '../../../../interfaces/PerfectStock/OrderPlanning';
+import {
+  DateRange,
+  GanttChartPurchaseOrder,
+} from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 /* Components */
 import Placeholder from '../../../../components/Placeholder';
@@ -24,6 +27,7 @@ import { ReactComponent as ExclaimationIcon } from '../../../../assets/images/ex
 
 /* Selectors */
 import {
+  getActivePurchaseOrder,
   getDateRange,
   getInventoryTableResults,
   getIsLoadingInventoryTableResults,
@@ -47,6 +51,7 @@ interface Props {
   fetchInventoryTable: () => void;
   inventoryTableResults: any[];
   isLoadingInventoryTableResults: boolean;
+  activePurchaseOrder: GanttChartPurchaseOrder;
 }
 
 /* Main component */
@@ -57,6 +62,7 @@ const InventoryTable = (props: Props) => {
     fetchInventoryTable,
     inventoryTableResults,
     isLoadingInventoryTableResults,
+    activePurchaseOrder,
   } = props;
 
   const [sortColumn, setSortColumn] = React.useState<string>('');
@@ -93,7 +99,7 @@ const InventoryTable = (props: Props) => {
   React.useEffect(() => {
     generateHeaders(new Date(dateRange.startDate), new Date(dateRange.endDate));
     fetchInventoryTable();
-  }, [dateRange.startDate, dateRange.endDate, timeSetting]);
+  }, [dateRange.startDate, dateRange.endDate, timeSetting, activePurchaseOrder]);
 
   return (
     <>
@@ -170,6 +176,7 @@ const mapStateToProps = (state: any) => {
     timeSetting: getTimeSetting(state),
     inventoryTableResults: getInventoryTableResults(state),
     isLoadingInventoryTableResults: getIsLoadingInventoryTableResults(state),
+    activePurchaseOrder: getActivePurchaseOrder(state),
   };
 };
 

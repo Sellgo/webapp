@@ -14,6 +14,10 @@ const INITIAL_STATE = {
     endDate: '',
   },
   timeSetting: TIME_SETTING.DAY,
+  refreshInventoryTableId: -1,
+  isFetchingProgressForRefresh: false,
+  refreshProgress: 0,
+  inventoryTableUpdateDate: '',
 };
 
 const salesProjectionReducer = (state = INITIAL_STATE, action: AnyAction) => {
@@ -44,6 +48,22 @@ const salesProjectionReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_TIME_SETTING: {
       return setIn(state, 'timeSetting', action.payload);
+    }
+
+    case actionTypes.SET_REFRESH_INVENTORY_TABLE_ID: {
+      return setIn(state, 'refreshInventoryTableId', action.payload);
+    }
+
+    case actionTypes.SET_IS_FETCHING_PROGRESS_FOR_REFRESH: {
+      return setIn(state, 'isFetchingProgressForRefresh', action.payload);
+    }
+
+    case actionTypes.SET_REFRESH_PROGRESS: {
+      return setIn(state, 'refreshProgress', action.payload);
+    }
+
+    case actionTypes.SET_INVENTORY_TABLE_UPDATE_DATE: {
+      return setIn(state, 'inventoryTableUpdateDate', action.payload);
     }
 
     default: {

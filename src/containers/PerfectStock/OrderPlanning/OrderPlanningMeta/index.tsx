@@ -15,13 +15,36 @@ import { ReactComponent as CSVExportImage } from '../../../../assets/images/csvE
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
 import { ReactComponent as ArrowDown } from '../../../../assets/images/view-detail-down-arrow.svg';
 import { ReactComponent as UndoIcon } from '../../../../assets/images/undoIcon.svg';
+import { Loader } from 'semantic-ui-react';
+import { refreshInventoryTable } from '../../../../actions/PerfectStock/OrderPlanning';
+import {
+  getInventoryTableUpdateDate,
+  getIsFetchingProgressForRefresh,
+} from '../../../../selectors/PerfectStock/OrderPlanning';
 
-const OrderPlanningMeta = () => {
+interface Props {
+  refreshInventoryTable: () => void;
+  isFetchingProgressForRefresh: boolean;
+  inventoryTableUpdateDate: string;
+}
+
+const OrderPlanningMeta = (props: Props) => {
+  const { refreshInventoryTable, isFetchingProgressForRefresh, inventoryTableUpdateDate } = props;
+
   const handleOnExport = async (fileFormat: 'csv' | 'xlsx') => {
     console.log('Export', fileFormat);
   };
-  const [isCreatingOrder, setIsCreatingOrder] = React.useState(false);
 
+  const [isCreatingOrder, setIsCreatingOrder] = React.useState(false);
+  const displayDate = inventoryTableUpdateDate
+    ? new Date(inventoryTableUpdateDate).toLocaleDateString('en-US', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+    : '';
   return (
     <>
       <div className={styles.exportsContainer}>
@@ -37,11 +60,21 @@ const OrderPlanningMeta = () => {
           <ArrowDown />
         </ActionButton>
 
-        <button className={styles.refreshButton}>
-          Last Update:&nbsp;<span>1 October 2021 11.53 pm PDT</span>
-          &nbsp;
-          <UndoIcon className={styles.refreshIcon} />
-        </button>
+        {true && (
+          <button
+            className={styles.refreshButton}
+            onClick={refreshInventoryTable}
+            disabled={isFetchingProgressForRefresh}
+          >
+            Last Update:&nbsp;<span>{displayDate}</span>
+            &nbsp;
+            {!isFetchingProgressForRefresh ? (
+              <UndoIcon className={styles.refreshIcon} />
+            ) : (
+              <Loader active inline size="tiny" />
+            )}
+          </button>
+        )}
 
         <TableExport
           label=""
@@ -77,10 +110,15 @@ const OrderPlanningMeta = () => {
   );
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state: any) => ({
+  isFetchingProgressForRefresh: getIsFetchingProgressForRefresh(state),
+  inventoryTableUpdateDate: getInventoryTableUpdateDate(state),
+});
 
-const mapDispatchToProps = () => {
-  return {};
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    refreshInventoryTable: () => dispatch(refreshInventoryTable()),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderPlanningMeta);
