@@ -190,6 +190,12 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
+    name: 'SP Api',
+    disabled: false,
+    url: '/settings/sp-connectivity',
+    subPages: [],
+  },
+  {
     name: 'API Keys',
     disabled: false,
     url: '/settings/api-keys',

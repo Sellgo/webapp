@@ -7,6 +7,7 @@ import styles from './index.module.scss';
 /* Components */
 import TableExport from '../../../../components/NewTable/TableExport';
 import ActionButton from '../../../../components/ActionButton';
+import CreateOrder from '../CreateOrder';
 
 /* Assets */
 import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
@@ -19,6 +20,7 @@ const OrderPlanningMeta = () => {
   const handleOnExport = async (fileFormat: 'csv' | 'xlsx') => {
     console.log('Export', fileFormat);
   };
+  const [isCreatingOrder, setIsCreatingOrder] = React.useState(false);
 
   return (
     <>
@@ -28,6 +30,7 @@ const OrderPlanningMeta = () => {
           type="purpleGradient"
           size="md"
           className={styles.createOrderButton}
+          onClick={() => setIsCreatingOrder(true)}
         >
           <ThinAddIcon />
           <span>Create</span>
@@ -69,6 +72,7 @@ const OrderPlanningMeta = () => {
           }
         />
       </div>
+      <CreateOrder open={isCreatingOrder} onCloseModal={() => setIsCreatingOrder(false)} />
     </>
   );
 };

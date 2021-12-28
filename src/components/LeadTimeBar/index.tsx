@@ -7,16 +7,17 @@ import styles from './index.module.scss';
 
 interface Props {
   leadTimes: LeadTime[];
+  className?: string;
 }
 
 const LeadTimeBar = (props: Props) => {
-  const { leadTimes } = props;
+  const { leadTimes, className } = props;
   const totalLeadTimes = leadTimes.reduce((accumulator, currentValue) => {
     return accumulator + currentValue.duration;
   }, 0);
 
   return (
-    <div className={styles.leadTimeBarWrapper}>
+    <div className={`${styles.leadTimeBarWrapper} ${className}`}>
       {leadTimes.map((leadTime, index) => {
         return (
           <div

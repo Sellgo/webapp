@@ -12,6 +12,7 @@ import {
   getTimeSetting,
 } from '../../selectors/PerfectStock/OrderPlanning';
 import { sellerIDSelector } from '../../selectors/Seller';
+import { getDateOnly } from '../../utils/date';
 import { error } from '../../utils/notifications';
 
 /* Action to set loading state for sales estimation */
@@ -102,6 +103,9 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
   getState: any
 ) => {
   try {
+    /* Set inventory to be loading */
+    dispatch(isLoadingInventoryTableResults(true));
+
     /* Update the redux state first for responsiveness */
     const state = getState();
     const oldPurchaseOrders = getPurchaseOrders(state);
@@ -119,7 +123,8 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
     /* Update backend's purchase orders */
     const sellerId = sellerIDSelector();
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/${payload.id}`;
-    const requestPayload = { date: new Date(payload.date) };
+    const formattedDate = getDateOnly(new Date(payload.date));
+    const requestPayload = { date: formattedDate };
     const { status } = await axios.patch(URL, requestPayload);
 
     /* If backend update failed, revert back to old purchase order */
@@ -127,6 +132,7 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
       dispatch(fetchInventoryTable());
     } else {
       error('Failed to update purchase order.');
+      dispatch(isLoadingInventoryTableResults(false));
       dispatch(setPurchaseOrders(oldPurchaseOrders));
     }
   } catch (err) {
@@ -142,11 +148,14 @@ export const fetchInventoryTable = () => async (dispatch: any, getState: any) =>
     dispatch(isLoadingInventoryTableResults(true));
     const state = getState();
     const sellerId = sellerIDSelector();
+
+    /* Generate and format start/end dates */
     const startDate = new Date(getDateRange(state).startDate);
-    const startDateString = `${startDate.getFullYear()}-${startDate.getMonth() +
-      1}-${startDate.getDate()}`;
+    const startDateString = getDateOnly(startDate);
     const endDate = new Date(getDateRange(state).endDate);
-    const endDateString = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`;
+    const endDateString = getDateOnly(endDate);
+
+    /* Get display mode (daily or weekly) */
     const timeSettings = getTimeSetting(state);
     let displayMode;
     if (timeSettings === TIME_SETTING.DAY) {
@@ -154,17 +163,23 @@ export const fetchInventoryTable = () => async (dispatch: any, getState: any) =>
     } else {
       displayMode = 'weekly';
     }
-    const activePurchaseOrder = getActivePurchaseOrder(state);
-    console.log(activePurchaseOrder);
 
-    const resourceString = `&start_date=${startDateString}&end_date=${endDateString}&display_mode=${displayMode}${
-      activePurchaseOrder ? `&purchase_order_ids=${activePurchaseOrder.id}` : ''
-    }`;
+    /* Get active purchase order highlighted (if any) */
+    const activePurchaseOrder = getActivePurchaseOrder(state);
+
+    /* Temporary pagination settings */
+    const resourceString =
+      `&start_date=${startDateString}` +
+      `&end_date=${endDateString}` +
+      `&display_mode=${displayMode}` +
+      `&page=1` +
+      `&per_page=20` +
+      `${activePurchaseOrder ? `&purchase_order_ids=${activePurchaseOrder.id}` : ''}`;
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/order-plan-overview?${resourceString}`;
 
     const { data } = await axios.get(URL);
-    if (data) {
-      dispatch(setInventoryTableResults(data));
+    if (data && data.results) {
+      dispatch(setInventoryTableResults(data.results));
     }
   } catch (err) {
     dispatch(setInventoryTableResults([]));
