@@ -189,13 +189,13 @@ const SpApiForm = () => {
               }
               placeholder="Looks like amzn.mws.9eb48bhd-3e5n-f315-d34d-8dfa825fb711"
               value={amazonRefreshToken}
-              type={showCredentials.authToken ? 'text' : 'password'}
+              type={showCredentials.refreshToken ? 'text' : 'password'}
               name="token"
               readOnly={true}
               icon={
                 <Icon
                   link
-                  name={showCredentials.authToken ? 'eye' : 'eye slash'}
+                  name={showCredentials.refreshToken ? 'eye' : 'eye slash'}
                   onClick={() =>
                     setShowCredentials({
                       ...showCredentials,
