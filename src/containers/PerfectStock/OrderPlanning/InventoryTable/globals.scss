@@ -34,19 +34,17 @@
     }
   }
 
+  /* Dont transform table header for inventory table */
+  .rs-table-header-row-wrapper {
+    transform: none !important;
+  }
+
   // header section
   .rs-table-row-header {
     border-radius: 0 !important;
     border: none !important;
     border-bottom: 1px solid $grey_3 !important;
 
-    /* Change position to fixed if scrolls out of sight */
-    &__fixed {
-      position: fixed !important;
-      top: 35px !important;
-      width: 100% !important;
-      z-index: 1 !important;
-    }
     // column header cell
     .rs-table-cell-content {
       padding: 0 !important;
@@ -56,7 +54,6 @@
       color: $grey_6 !important;
       background: $light_gray_background;
       font-weight: 500 !important;
-      // border-right: 1px solid $grey_3;
     }
   }
 
@@ -64,12 +61,12 @@
   .rs-table-body-row-wrapper {
     background: $light_gray_background !important;
     min-height: 600px !important;
-    width: 3440px;
+    overflow-x: none !important;
+    transform: none !important;
 
     .rs-table-body-wheel-area {
       background: $light_gray_background;
       transform: none !important;
-      width: 3440px;
       overflow-x: none !important;
 
       //  Table row property

@@ -39,7 +39,12 @@ export const formatCompletedDate = (timestamp: Date) => {
 };
 
 export const getDateOnly = (date: Date) => {
-  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  /* Get date format into `YYYY-MM-DD` */
+  const dateString = date
+    .toISOString()
+    .substr(0, 10)
+    .replace('T', ' ');
+  return dateString;
 };
 
 export const getHours = (startDate: string) => {

@@ -32,7 +32,12 @@ export const getTimeSetting = (state: any) => {
 
 /* Selector to get active purchase order */
 export const getActivePurchaseOrder = (state: any) => {
-  return get(state, 'orderPlanning.activePurchaseOrder');
+  const activePurchaseOrderString = get(state, 'orderPlanning.activePurchaseOrder');
+  if (activePurchaseOrderString) {
+    return JSON.parse(activePurchaseOrderString);
+  } else {
+    return null;
+  }
 };
 
 /* Selector to get inventory table update date */

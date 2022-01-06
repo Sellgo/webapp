@@ -4,7 +4,11 @@ import { AppConfig } from '../../config';
 import { actionTypes, TIME_SETTING } from '../../constants/PerfectStock/OrderPlanning';
 
 /* Interfaces */
-import { DateRange, UpdatePurchaseOrderPayload } from '../../interfaces/PerfectStock/OrderPlanning';
+import {
+  DateRange,
+  GanttChartPurchaseOrder,
+  UpdatePurchaseOrderPayload,
+} from '../../interfaces/PerfectStock/OrderPlanning';
 
 /* Selectors */
 import {
@@ -69,10 +73,10 @@ export const setDateRange = (payload: DateRange) => {
 };
 
 /* Action to set active purchase order */
-export const setActivePurchaseOrder = (payload: any) => {
+export const setActivePurchaseOrder = (payload: GanttChartPurchaseOrder) => {
   return {
     type: actionTypes.SET_ACTIVE_PURCHASE_ORDER,
-    payload,
+    payload: JSON.stringify(payload),
   };
 };
 
@@ -122,7 +126,6 @@ export const fetchPurchaseOrders = () => async (dispatch: any, getState: any) =>
     dispatch(isLoadingPurchaseOrders(true));
 
     const { data } = await axios.get(URL);
-    console.log(data);
     if (data) {
       dispatch(setPurchaseOrders(data));
     }

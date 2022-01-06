@@ -19,6 +19,7 @@ import {
 
 /* Components */
 import Placeholder from '../../../../components/Placeholder';
+import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import HeaderDateCell from '../../../../components/NewTable/HeaderDateCell';
 import ProductInformation from './ProductInformation';
 import StockOutDate from './StockOutDate';
@@ -41,8 +42,12 @@ import {
   OFFSET_TO_CHART_WIDTH,
   UNIT_WIDTH,
 } from '../../../../constants/PerfectStock/OrderPlanning';
-import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
+
+/* Actions */
 import { fetchInventoryTable } from '../../../../actions/PerfectStock/OrderPlanning';
+
+/* Utils */
+import { getDateOnly } from '../../../../utils/date';
 
 interface Props {
   // States
@@ -62,7 +67,6 @@ const InventoryTable = (props: Props) => {
     fetchInventoryTable,
     inventoryTableResults,
     isLoadingInventoryTableResults,
-    activePurchaseOrder,
   } = props;
 
   const [sortColumn, setSortColumn] = React.useState<string>('');
@@ -85,8 +89,7 @@ const InventoryTable = (props: Props) => {
       let currentDate = startDate;
       while (currentDate <= endDate) {
         currentDate = new Date(currentDate.setDate(currentDate.getDate() + DIFF));
-        const dateString = `${currentDate.getFullYear()}-${currentDate.getMonth() +
-          1}-${currentDate.getDate()}`;
+        const dateString = getDateOnly(currentDate);
         dateArray.push(dateString);
       }
       setHeaders(dateArray);
@@ -99,7 +102,7 @@ const InventoryTable = (props: Props) => {
   React.useEffect(() => {
     generateHeaders(new Date(dateRange.startDate), new Date(dateRange.endDate));
     fetchInventoryTable();
-  }, [dateRange.startDate, dateRange.endDate, timeSetting, activePurchaseOrder]);
+  }, [dateRange.startDate, dateRange.endDate, timeSetting]);
 
   return (
     <>
