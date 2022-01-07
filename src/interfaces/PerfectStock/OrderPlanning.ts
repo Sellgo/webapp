@@ -3,6 +3,17 @@ export interface DateRange {
   endDate: string;
 }
 
+/* Purchase order from backend */
+export interface PurchaseOrder {
+  date: string;
+  id: number;
+  lead_time_group: any;
+  lead_time_group_id: number;
+  merchant_listings: any[];
+  number: string;
+}
+
+/* Gantt chart purchase orders are used in the gantt chart, and requires start/end to be in the Date format */
 export interface GanttChartPurchaseOrder {
   id: number;
   start: Date;

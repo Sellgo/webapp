@@ -5,24 +5,23 @@
   width: 100%;
   position: relative;
   display: flex;
-  flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding-left: 40px;
+  padding-left: 20px;
   padding-top: 20px;
 }
 
-.predictiveSales {
+.salesOptions {
   width: 100%;
   display: flex;
-  align-items: center;
-  color: $sellgo_purple;
-  font-size: 24px;
-  font-weight: $fontweight_bold;
+  flex-direction: column;
   margin-bottom: 10px;
 }
 
-.manualSales {
+.salesResults {
+  color: $accent_orange;
+  font-size: 24px;
+  font-weight: $fontweight_bold;
   width: 100%;
   display: flex;
   align-items: center;
@@ -60,6 +59,7 @@
 .radioSelection {
   width: 100px;
   margin-right: 10px;
+  margin-bottom: 10px;
 
   label {
     text-align: left;

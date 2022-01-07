@@ -225,11 +225,7 @@ class TimeLine extends Component {
             1 // Make the start of the week monday
         );
       } else {
-        startDate = new Date(
-          startDate.getFullYear(),
-          startDate.getMonth(),
-          startDate.getDate() - 1
-        );
+        startDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
       }
       const endDate = new Date(
         startDate.getFullYear(),
@@ -474,7 +470,7 @@ class TimeLine extends Component {
               onTouchCancel={this.doTouchCancel}
               onSelectItem={this.onSelectItem}
               onUpdateTask={this.props.onUpdateTask}
-              onSelectTask={this.props.onSelectTask}
+              onSelectTask={() => null}
               onTaskChanging={this.onTaskChanging}
               onStartCreateLink={this.onStartCreateLink}
               onFinishCreateLink={this.onFinishCreateLink}

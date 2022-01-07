@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   activePurchaseOrder: null,
   purchaseOrders: [],
   inventoryTableResults: [],
+  inventoryTableShowAllSkus: true,
   dateRange: {
     startDate: '',
     endDate: '',
@@ -28,6 +29,10 @@ const salesProjectionReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.IS_LOADING_INVENTORY_TABLE_RESULTS: {
       return setIn(state, 'isLoadingInventoryTableResults', action.payload);
+    }
+
+    case actionTypes.SET_INVENTORY_TABLE_SHOW_ALL_SKUS: {
+      return setIn(state, 'inventoryTableShowAllSkus', action.payload);
     }
 
     case actionTypes.SET_INVENTORY_TABLE_RESULTS: {

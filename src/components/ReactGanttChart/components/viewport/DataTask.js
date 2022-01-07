@@ -214,7 +214,7 @@ export default class DataTask extends Component {
         </div>
         <div
           className="timeLine-main-data-task-side"
-          style={{ top: 0, left: style.width - 3, height: style.height }}
+          style={{ top: 0, left: lengthOfMainTask - 3, height: style.height }}
           onMouseDown={e => this.doMouseDown(e, MOVE_RESIZE_RIGHT)}
           onTouchStart={e => this.doTouchStart(e, MOVE_RESIZE_RIGHT)}
         >

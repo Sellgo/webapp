@@ -11,39 +11,28 @@
   align-items: center;
   cursor: pointer;
 
-  svg {
-    width: 25px !important;
-    height: 25px !important;
-  }
-
-  &:hover {
-    background: rgba(50, 50, 50, 0.25);
-  }
-
   &__disabled {
     opacity: 0.25;
 
     &:hover {
-      background: $prim_dark_1;
       opacity: 1;
-
-      path {
-        fill: $prim_white !important;
-      }
     }
   }
 }
 
 .mainStat {
-  font-size: 24px;
-  font-weight: $fontweight_bold;
+  font-size: 16px;
+  font-weight: $fontweight_semibold;
   color: $black_1;
-  margin: 18px 0;
+  margin-top: 35px;
   opacity: 1 !important;
 }
 
 .weight {
+  position: absolute;
+  top: 75px;
+  right: 5px;
   color: $black_0;
-  font-size: 14px;
+  font-size: 10px;
   font-weight: $fontweight_medium;
 }

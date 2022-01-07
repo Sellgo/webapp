@@ -66,22 +66,22 @@ const SeasonalityTable = (props: Props) => {
             <EditValueCell dataKey="name" handleChange={handleValueChange} />
           </Table.Column>
           {/* Average Next 90 Day */}
-          <Table.Column width={150} verticalAlign="middle" align="center">
+          <Table.Column width={200} verticalAlign="middle" align="center">
             <Table.HeaderCell>Start</Table.HeaderCell>
             <EditValueCell dataKey="start_date" handleChange={handleValueChange} />
           </Table.Column>
           {/* Average Next 90 Day */}
-          <Table.Column width={150} verticalAlign="middle" align="center">
+          <Table.Column width={200} verticalAlign="middle" align="center">
             <Table.HeaderCell>End</Table.HeaderCell>
             <EditValueCell dataKey="end_date" handleChange={handleValueChange} />
           </Table.Column>
           {/* Average Next 90 Day */}
           <Table.Column width={100} verticalAlign="middle" align="center">
             <Table.HeaderCell>Adjustor (x)</Table.HeaderCell>
-            <EditValueCell dataKey="value" handleChange={handleValueChange} />
+            <EditValueCell dataKey="value" handleChange={handleValueChange} isNumber />
           </Table.Column>
           {/* Delete Cell */}
-          <Table.Column width={800} verticalAlign="middle" align="right">
+          <Table.Column width={500} verticalAlign="middle" align="right">
             <Table.HeaderCell />
             <DeleteCell
               dataKey="id"

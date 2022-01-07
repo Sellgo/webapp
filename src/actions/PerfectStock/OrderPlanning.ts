@@ -5,8 +5,8 @@ import { actionTypes, TIME_SETTING } from '../../constants/PerfectStock/OrderPla
 
 /* Interfaces */
 import {
+  PurchaseOrder,
   DateRange,
-  GanttChartPurchaseOrder,
   UpdatePurchaseOrderPayload,
 } from '../../interfaces/PerfectStock/OrderPlanning';
 
@@ -14,6 +14,7 @@ import {
 import {
   getActivePurchaseOrder,
   getDateRange,
+  getInventoryTableShowAllSkus,
   getPurchaseOrders,
   getRefreshInventoryTableId,
   getTimeSetting,
@@ -49,7 +50,7 @@ export const setInventoryTableResults = (payload: any) => {
 };
 
 /* Action to set inventory table results */
-export const setPurchaseOrders = (payload: any) => {
+export const setPurchaseOrders = (payload: PurchaseOrder[]) => {
   return {
     type: actionTypes.SET_PURCHASE_ORDERS,
     payload,
@@ -73,10 +74,10 @@ export const setDateRange = (payload: DateRange) => {
 };
 
 /* Action to set active purchase order */
-export const setActivePurchaseOrder = (payload: GanttChartPurchaseOrder) => {
+export const setActivePurchaseOrder = (payload: PurchaseOrder | null) => {
   return {
     type: actionTypes.SET_ACTIVE_PURCHASE_ORDER,
-    payload: JSON.stringify(payload),
+    payload: payload,
   };
 };
 
@@ -111,21 +112,42 @@ export const setInventoryTableUpdateDate = (payload: string) => {
     payload,
   };
 };
+
+/* Action to display all skus regardless of orders in inventory table */
+export const setInventoryTableShowAllSkus = (payload: boolean) => (
+  dispatch: any,
+  useState: any
+) => {
+  /* If show all SKUs, set active purchase orders to null */
+  if (payload) {
+    dispatch(setActivePurchaseOrder(null));
+  } else {
+    /* If show SKUs based on orders, set the first purchase order as active by default */
+    const state = useState();
+    const purchaseOrders = getPurchaseOrders(state);
+    if (purchaseOrders && purchaseOrders.length > 0) {
+      dispatch(setActivePurchaseOrder(purchaseOrders[0]));
+    }
+  }
+
+  dispatch({
+    type: actionTypes.SET_INVENTORY_TABLE_SHOW_ALL_SKUS,
+    payload,
+  });
+};
+
 /*********** Async Actions ************************ */
 
 /* Action to fetch purchase orders */
-export const fetchPurchaseOrders = () => async (dispatch: any, getState: any) => {
+export const fetchPurchaseOrders = () => async (dispatch: any) => {
   try {
-    const state = getState();
-    const activePurchaseOrder = getActivePurchaseOrder(state);
     const sellerId = sellerIDSelector();
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders${
-      activePurchaseOrder ? `/${activePurchaseOrder.id}` : ''
-    }`;
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders`;
 
     dispatch(isLoadingPurchaseOrders(true));
 
     const { data } = await axios.get(URL);
+    console.log(data);
     if (data) {
       dispatch(setPurchaseOrders(data));
     }
@@ -206,6 +228,9 @@ export const fetchInventoryTable = () => async (dispatch: any, getState: any) =>
     /* Get active purchase order highlighted (if any) */
     const activePurchaseOrder = getActivePurchaseOrder(state);
 
+    /* Get show all skus (if any) */
+    const showAllSkus = getInventoryTableShowAllSkus(state);
+
     /* Temporary pagination settings */
     const resourceString =
       `&start_date=${startDateString}` +
@@ -213,7 +238,9 @@ export const fetchInventoryTable = () => async (dispatch: any, getState: any) =>
       `&display_mode=${displayMode}` +
       `&page=1` +
       `&per_page=20` +
-      `${activePurchaseOrder ? `&purchase_order_ids=${activePurchaseOrder.id}` : ''}`;
+      `${
+        activePurchaseOrder && !showAllSkus ? `&purchase_order_ids=${activePurchaseOrder.id}` : ''
+      }`;
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/order-plan-overview?${resourceString}`;
 
     const { data } = await axios.get(URL);

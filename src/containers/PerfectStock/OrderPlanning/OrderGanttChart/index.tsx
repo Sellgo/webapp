@@ -17,11 +17,13 @@ import {
   updatePurchaseOrder,
   fetchInventoryTable,
   setActivePurchaseOrder,
+  setInventoryTableShowAllSkus,
 } from '../../../../actions/PerfectStock/OrderPlanning';
 
 /* Selectors */
 import {
   getActivePurchaseOrder,
+  getInventoryTableShowAllSkus,
   getIsLoadingPurchaseOrders,
   getPurchaseOrders,
   getTimeSetting,
@@ -31,6 +33,7 @@ import {
 import {
   DateRange,
   GanttChartPurchaseOrder,
+  PurchaseOrder,
   UpdatePurchaseOrderPayload,
 } from '../../../../interfaces/PerfectStock/OrderPlanning';
 import { LeadTime } from '../../../../interfaces/PerfectStock/SalesProjection';
@@ -53,11 +56,13 @@ interface Props {
   fetchPurchaseOrders: () => void;
   fetchInventoryTable: () => void;
   updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => void;
-  setActivePurchaseOrder: (payload: GanttChartPurchaseOrder) => void;
+  setActivePurchaseOrder: (payload: PurchaseOrder) => void;
   activePurchaseOrder: GanttChartPurchaseOrder;
-  purchaseOrders: any[];
+  purchaseOrders: PurchaseOrder[];
   isLoadingPurchaseOrders: boolean;
   timeSetting: TimeSetting;
+  showAllSkus: boolean;
+  setInventoryTableShowAllSkus: (payload: boolean) => void;
 }
 
 const OrderGanttChart = (props: Props) => {
@@ -71,10 +76,13 @@ const OrderGanttChart = (props: Props) => {
     updatePurchaseOrder,
     setActivePurchaseOrder,
     activePurchaseOrder,
+    showAllSkus,
+    setInventoryTableShowAllSkus,
   } = props;
 
   const [restockLimitEnabled, setRestockLimitEnabled] = React.useState<boolean>(false);
 
+  /* Converting purchase orders to fit the format for gantt chart */
   const ganttChartPurchaseOrders: GanttChartPurchaseOrder[] = purchaseOrders.map(
     (purchaseOrder: any) => {
       const leadTimeDuration = purchaseOrder.lead_time_group?.lead_times?.reduce(
@@ -124,7 +132,13 @@ const OrderGanttChart = (props: Props) => {
   };
 
   const handleSelectTask = (payload: GanttChartPurchaseOrder) => {
-    setActivePurchaseOrder(payload);
+    const activePurchaseOrder = purchaseOrders.find(
+      (purchaseOrder: PurchaseOrder) => purchaseOrder.id === payload.id
+    );
+
+    if (activePurchaseOrder && !showAllSkus) {
+      setActivePurchaseOrder(activePurchaseOrder);
+    }
   };
 
   React.useEffect(() => {
@@ -152,20 +166,20 @@ const OrderGanttChart = (props: Props) => {
           <span>Show SKUs</span>
           <Checkbox
             radio
-            checked={restockLimitEnabled}
-            onChange={() => setRestockLimitEnabled(!restockLimitEnabled)}
+            checked={!showAllSkus}
+            onChange={() => setInventoryTableShowAllSkus(!showAllSkus)}
             label="Orders-based"
             className={styles.settingToggle}
           />
           <Checkbox
             radio
-            checked={restockLimitEnabled}
-            onChange={() => setRestockLimitEnabled(!restockLimitEnabled)}
+            checked={showAllSkus}
+            onChange={() => setInventoryTableShowAllSkus(!showAllSkus)}
             label="All"
             className={styles.settingToggle}
           />
           <Checkbox
-            checked={restockLimitEnabled}
+            checked={true}
             onChange={() => setRestockLimitEnabled(!restockLimitEnabled)}
             label="Show inactive SKUs"
             className={`${styles.settingToggle} ${styles.settingToggle__indented}`}
@@ -198,6 +212,7 @@ const mapStateToProps = (state: any) => {
     purchaseOrders: getPurchaseOrders(state),
     isLoadingPurchaseOrders: getIsLoadingPurchaseOrders(state),
     activePurchaseOrder: getActivePurchaseOrder(state),
+    showAllSkus: getInventoryTableShowAllSkus(state),
   };
 };
 
@@ -218,8 +233,11 @@ const mapDispatchToProps = (dispatch: any) => {
     fetchInventoryTable: () => {
       dispatch(fetchInventoryTable());
     },
-    setActivePurchaseOrder: (task: GanttChartPurchaseOrder) => {
+    setActivePurchaseOrder: (task: PurchaseOrder) => {
       dispatch(setActivePurchaseOrder(task));
+    },
+    setInventoryTableShowAllSkus: (payload: boolean) => {
+      dispatch(setInventoryTableShowAllSkus(payload));
     },
   };
 };

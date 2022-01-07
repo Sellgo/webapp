@@ -31,6 +31,7 @@ import {
   getActivePurchaseOrder,
   getDateRange,
   getInventoryTableResults,
+  getInventoryTableShowAllSkus,
   getIsLoadingInventoryTableResults,
   getTimeSetting,
 } from '../../../../selectors/PerfectStock/OrderPlanning';
@@ -53,6 +54,7 @@ interface Props {
   // States
   dateRange: DateRange;
   timeSetting: TimeSetting;
+  showAllSkus: boolean;
   fetchInventoryTable: () => void;
   inventoryTableResults: any[];
   isLoadingInventoryTableResults: boolean;
@@ -64,9 +66,11 @@ const InventoryTable = (props: Props) => {
   const {
     dateRange,
     timeSetting,
+    showAllSkus,
     fetchInventoryTable,
     inventoryTableResults,
     isLoadingInventoryTableResults,
+    activePurchaseOrder,
   } = props;
 
   const [sortColumn, setSortColumn] = React.useState<string>('');
@@ -98,11 +102,17 @@ const InventoryTable = (props: Props) => {
     }
   };
 
-  /* Detect if dateRange changed */
+  /* Refresh inventory table if date range or time setting is changed  */
   React.useEffect(() => {
     generateHeaders(new Date(dateRange.startDate), new Date(dateRange.endDate));
     fetchInventoryTable();
   }, [dateRange.startDate, dateRange.endDate, timeSetting]);
+
+  /* Refresh inventory table if active purchase order is changed */
+  React.useEffect(() => {
+    generateHeaders(new Date(dateRange.startDate), new Date(dateRange.endDate));
+    fetchInventoryTable();
+  }, [activePurchaseOrder, showAllSkus]);
 
   return (
     <>
@@ -119,7 +129,7 @@ const InventoryTable = (props: Props) => {
           data={!isLoadingInventoryTableResults ? inventoryTableResults : []}
           hover={true}
           autoHeight
-          rowHeight={70}
+          rowHeight={90}
           headerHeight={55}
           rowExpandedHeight={800}
           onSortColumn={handleSortColumn}
@@ -180,6 +190,7 @@ const mapStateToProps = (state: any) => {
     inventoryTableResults: getInventoryTableResults(state),
     isLoadingInventoryTableResults: getIsLoadingInventoryTableResults(state),
     activePurchaseOrder: getActivePurchaseOrder(state),
+    showAllSkus: getInventoryTableShowAllSkus(state),
   };
 };
 

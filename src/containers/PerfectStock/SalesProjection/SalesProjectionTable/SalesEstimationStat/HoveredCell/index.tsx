@@ -18,7 +18,7 @@ interface Props {
 const HoveredCell = (props: Props) => {
   const { daysOffset, disabled } = props;
 
-  /* Dates for hovered content */
+  /* Generating dates for hovered content */
   let smallerDate;
   let largerDate;
   if (daysOffset < 0) {
@@ -33,7 +33,7 @@ const HoveredCell = (props: Props) => {
 
   if (disabled) {
     return (
-      <div className={styles.hoveredContent}>
+      <div className={`${styles.hoveredContent} ${styles.hoveredContent__disabled}`}>
         <div className={styles.date}>
           {prettyPrintDate(smallerDate)} -
           <br />

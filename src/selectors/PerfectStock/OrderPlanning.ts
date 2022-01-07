@@ -5,6 +5,11 @@ export const getInventoryTableResults = (state: any) => {
   return get(state, 'orderPlanning.inventoryTableResults');
 };
 
+/* Selector to get boolean to show all SKUs or show SKUs from order only */
+export const getInventoryTableShowAllSkus = (state: any) => {
+  return get(state, 'orderPlanning.inventoryTableShowAllSkus');
+};
+
 /* Selector to get purchase orders */
 export const getPurchaseOrders = (state: any) => {
   return get(state, 'orderPlanning.purchaseOrders');
@@ -32,12 +37,13 @@ export const getTimeSetting = (state: any) => {
 
 /* Selector to get active purchase order */
 export const getActivePurchaseOrder = (state: any) => {
-  const activePurchaseOrderString = get(state, 'orderPlanning.activePurchaseOrder');
-  if (activePurchaseOrderString) {
-    return JSON.parse(activePurchaseOrderString);
-  } else {
-    return null;
-  }
+  // const activePurchaseOrderString =
+  return get(state, 'orderPlanning.activePurchaseOrder');
+  // if (activePurchaseOrderString) {
+  //   return JSON.parse(activePurchaseOrderString);
+  // } else {
+  //   return null;
+  // }
 };
 
 /* Selector to get inventory table update date */

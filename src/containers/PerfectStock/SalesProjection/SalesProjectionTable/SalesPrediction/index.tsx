@@ -23,7 +23,7 @@ interface Props extends RowCell {
 
 const SalesPrediction = (props: Props) => {
   const { updateSalesProjectionProduct, ...otherProps } = props;
-  const { rowData, dataKey } = otherProps;
+  const { rowData } = otherProps;
 
   const usingPredictiveSales = rowData.projection_mode === 'predictive';
   const [updatedManualSales, setUpdatedManualSales] = React.useState<string>(rowData.manual_sales);
@@ -79,41 +79,43 @@ const SalesPrediction = (props: Props) => {
         className={`
           ${styles.salesPrediction}`}
       >
-        <div className={styles.predictiveSales}>
+        <div className={styles.salesOptions}>
           <Radio
             label="Predictive"
             className={styles.radioSelection}
             checked={usingPredictiveSales}
             onChange={handleChangeProjectionMode}
           />
-          {rowData[dataKey]}
-        </div>
-
-        <div className={styles.manualSales}>
           <Radio
             label="Manual"
             className={styles.radioSelection}
             checked={!usingPredictiveSales}
             onChange={handleChangeProjectionMode}
           />
+        </div>
 
-          <div className={styles.editManualSales}>
-            <InputFilter
-              label=""
-              placeholder=""
-              isNumber
-              value={updatedManualSales ? updatedManualSales.toString() : ''}
-              className={styles.textInput}
-              handleChange={handleEditManualSales}
-              disabled={usingPredictiveSales}
-            />
-            {isEditingManualSales && (
-              <SaveCancelOptions
-                handleSave={() => handleSaveManualSales(true)}
-                handleCancel={() => handleSaveManualSales(false)}
+        <div className={styles.salesResults}>
+          {usingPredictiveSales ? (
+            rowData.predictive_sales
+          ) : (
+            <div className={styles.editManualSales}>
+              <InputFilter
+                label=""
+                placeholder=""
+                isNumber
+                value={updatedManualSales ? updatedManualSales.toString() : ''}
+                className={styles.textInput}
+                handleChange={handleEditManualSales}
+                disabled={usingPredictiveSales}
               />
-            )}
-          </div>
+              {isEditingManualSales && (
+                <SaveCancelOptions
+                  handleSave={() => handleSaveManualSales(true)}
+                  handleCancel={() => handleSaveManualSales(false)}
+                />
+              )}
+            </div>
+          )}
         </div>
       </div>
     </Table.Cell>

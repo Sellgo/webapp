@@ -8,10 +8,25 @@
   justify-content: center;
   position: relative;
   padding-top: 50px;
+  background: rgba(50, 50, 50, 0.25);
+
+  svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  &__disabled {
+    background: $prim_dark_1 !important;
+    opacity: 1;
+
+    path {
+      fill: $prim_white !important;
+    }
+  }
 }
 
 .date {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: $fontweight_medium;
   position: absolute;
   top: 5px;

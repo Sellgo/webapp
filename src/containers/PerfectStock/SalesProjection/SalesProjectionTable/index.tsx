@@ -78,7 +78,7 @@ const SalesEstimationTable = (props: Props) => {
           data={!isLoadingSalesProjection ? salesProjectionResult : []}
           hover={false}
           autoHeight
-          rowHeight={120}
+          rowHeight={90}
           headerHeight={55}
           onSortColumn={handleSortColumn}
           sortType={sortType}
