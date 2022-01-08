@@ -2,13 +2,16 @@
 @import '../../../../../design-system/new-colors.scss';
 
 #createOrderProductTable {
+  background: $grey_0 !important;
+
   // header section
   .rs-table-row-header {
     border-radius: 0 !important;
+    background: $grey_0 !important;
 
     // column heder cell
     .rs-table-cell-content {
-      background: $grey_1;
+      background: $grey_0;
       padding: 0 !important;
       display: flex !important;
       align-items: center !important;
@@ -21,7 +24,7 @@
 
   // body section
   .rs-table-body-row-wrapper {
-    background: $grey_1 !important;
+    background: $grey_0 !important;
 
     .rs-table-body-wheel-area {
       min-height: 0 !important;
@@ -45,23 +48,14 @@
         }
 
         &:nth-child(2n + 1) {
-          background: $grey_1 !important;
+          background: $grey_0 !important;
 
           .rs-table-cell-content {
-            background: $grey_1 !important;
+            background: $grey_0 !important;
             padding-top: 12px !important;
 
             // add border-top on each cell for each row
             border-top: 1px solid $grey_3 !important;
-          }
-        }
-
-        /* ============== ROW HOVER  =============== */
-        &:hover {
-          background: $orange_10 !important;
-
-          .rs-table-cell-content {
-            background: $orange_10 !important;
           }
         }
       }

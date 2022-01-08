@@ -32,7 +32,7 @@ interface Props {
   fetchPurchaseOrders: () => void;
 }
 const CreateOrder = (props: Props) => {
-  const { open, onCloseModal } = props;
+  const { open, onCloseModal, fetchPurchaseOrders } = props;
   const DEFAULT_ORDER: CreateOrderPayload = {
     date: '',
     number: '',
@@ -47,12 +47,6 @@ const CreateOrder = (props: Props) => {
     CREATE_ORDER_STATUS.CREATE_ORDER_SETTINGS
   );
 
-  // const isCreateOrderDisabled =
-  //   createOrderPayload.date === '' ||
-  //   createOrderPayload.number === '' ||
-  //   createOrderPayload.lead_time_group_id === -1 ||
-  //   createOrderPayload.merchant_listing_ids.length === 0;
-
   const handleCreateOrder = async () => {
     try {
       const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-orders`;
@@ -62,13 +56,19 @@ const CreateOrder = (props: Props) => {
         success('Successfully added');
         onCloseModal();
       } else {
-        error('Failed to add');
+        error('Failed to create new order');
       }
     } catch (err) {
       console.error(err);
       error('Failed to add');
     }
   };
+
+  /* Reset the create order flow everytime user cancels/opens modal*/
+  React.useEffect(() => {
+    setCreateOrderPayload(DEFAULT_ORDER);
+    setCreateOrderStatus(CREATE_ORDER_STATUS.CREATE_ORDER_SETTINGS);
+  }, [open]);
 
   return (
     <Modal open={open} className={styles.modalWrapper} onClose={onCloseModal}>
@@ -88,6 +88,7 @@ const CreateOrder = (props: Props) => {
               onCloseModal={onCloseModal}
               createOrderPayload={createOrderPayload}
               setCreateOrderPayload={setCreateOrderPayload}
+              handleBack={() => setCreateOrderStatus(createOrderStatus - 1)}
             />
           )}
         </BoxContainer>

@@ -124,7 +124,7 @@ const CreateOrderSettings = (props: Props) => {
         <ActionButton
           className={styles.createButton}
           onClick={handleNext}
-          variant="primary"
+          variant="secondary"
           type="purpleGradient"
           size="md"
           disabled={isHandleNextDisabled}

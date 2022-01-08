@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from 'rsuite';
+import axios from 'axios';
 
 /* Styling */
 import './global.scss';
@@ -7,29 +8,39 @@ import styles from './index.module.scss';
 
 /* Componensts */
 import DeleteCell from '../../../../../components/NewTable/DeleteCell';
+import SelectionMultipleFilter from '../../../../../components/FormFilters/SelectionMultipleFilter';
+import ActionButton from '../../../../../components/ActionButton';
+import EditValueCell from '../../../../../components/NewTable/EditValueCell';
 
 /* Containers */
 import ProductInfo from './ProductInfo';
-import SelectionMultipleFilter from '../../../../../components/FormFilters/SelectionMultipleFilter';
+
+/* Utils */
 import { truncateString } from '../../../../../utils/format';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
-import axios from 'axios';
 import { AppConfig } from '../../../../../config';
+
+/* Types */
 import { CreateOrderPayload } from '../../../../../interfaces/PerfectStock/OrderPlanning';
-import ActionButton from '../../../../../components/ActionButton';
-import EditValueCell from '../../../../../components/NewTable/EditValueCell';
 
 /* Constants */
 
 interface Props {
-  handleSubmit: (payload: CreateOrderPayload) => void;
+  handleBack: () => void;
+  handleSubmit: () => void;
   onCloseModal: () => void;
   createOrderPayload: CreateOrderPayload;
   setCreateOrderPayload: (payload: CreateOrderPayload) => void;
 }
 
 const AssignProductsTable = (props: Props) => {
-  const { createOrderPayload, setCreateOrderPayload, onCloseModal, handleSubmit } = props;
+  const {
+    createOrderPayload,
+    setCreateOrderPayload,
+    onCloseModal,
+    handleSubmit,
+    handleBack,
+  } = props;
   const [orderProducts, setOrderProducts] = React.useState<any>([]);
 
   const fetchOrderProducts = async () => {
@@ -57,24 +68,31 @@ const AssignProductsTable = (props: Props) => {
     setCreateOrderPayload(updatedCreateOrderPayload);
   };
 
-  // const handleUpdateQuantity = (productId: number, quantity: number) => {
-  //   const updatedCreateOrderPayload = {
-  //     ...createOrderPayload,
-  //     merchant_listing_ids: createOrderPayload.merchant_listing_ids.map(
-  //       (merchantListingId: any) => {
-  //         if (merchantListingId.id === productId) {
-  //           return {
-  //             ...merchantListingId,
-  //             quantity,
-  //           };
-  //         }
-  //         return merchantListingId;
-  //       }
-  //     ),
-  //   };
-  //   setCreateOrderPayload(updatedCreateOrderPayload);
-  // };
+  const handleUpdateQuantity = (key: string, value: number, id: number) => {
+    const updatedCreateOrderPayload = {
+      ...createOrderPayload,
+      merchant_listing_ids: createOrderPayload.merchant_listing_ids.map(
+        (merchantListingId: any) => {
+          if (merchantListingId.id === id) {
+            return {
+              ...merchantListingId,
+              quantity: value,
+            };
+          }
+          return merchantListingId;
+        }
+      ),
+    };
+    setCreateOrderPayload(updatedCreateOrderPayload);
+  };
 
+  const isCreateOrderDisabled =
+    createOrderPayload.date === '' ||
+    createOrderPayload.number === '' ||
+    createOrderPayload.lead_time_group_id === -1 ||
+    createOrderPayload.merchant_listing_ids.length === 0;
+
+  /* Product options in the dropdown selection menu */
   const orderProductOptions = orderProducts.map((orderProduct: any) => ({
     key: orderProduct.id?.toString() || '',
     value: orderProduct.id?.toString() || '',
@@ -98,11 +116,11 @@ const AssignProductsTable = (props: Props) => {
   }));
 
   return (
-    <section className={styles.keywordTrackerTableWrapper}>
+    <>
       <div className={styles.createOrderBox}>
         <SelectionMultipleFilter
-          className={styles.inputField}
-          label="Products*"
+          className={styles.assignProductsField}
+          label="Add More Products: *"
           filterOptions={orderProductOptions}
           value={createOrderPayload.merchant_listing_ids.map(product => product.id.toString())}
           handleChange={(newProducts: any[]) =>
@@ -130,22 +148,22 @@ const AssignProductsTable = (props: Props) => {
           rowExpandedHeight={300}
         >
           {/* Product Info */}
-          <Table.Column minWidth={300} verticalAlign="top" fixed="left" align="left" flexGrow={1}>
+          <Table.Column width={600} verticalAlign="middle" align="left">
             <Table.HeaderCell>Product Information</Table.HeaderCell>
             <ProductInfo dataKey="productInfo" />
           </Table.Column>
 
-          {/* Keywords */}
-          <Table.Column width={200} verticalAlign="top" align="left">
+          {/* Edit Quantity */}
+          <Table.Column width={100} verticalAlign="middle" align="left">
             <Table.HeaderCell>Units</Table.HeaderCell>
-            <EditValueCell handleChange={() => null} dataKey={'units'} />
+            <EditValueCell handleChange={handleUpdateQuantity} dataKey={'quantity'} isNumber />
           </Table.Column>
 
           {/* Delete Cell */}
-          <Table.Column width={50} verticalAlign="top" align="left">
+          <Table.Column width={50} verticalAlign="middle" align="right" flexGrow={1}>
             <Table.HeaderCell />
             <DeleteCell
-              dataKey="keyword_track_product_id"
+              dataKey="id"
               deleteMessage="Unassign this product?"
               handleDelete={handleDeleteProduct}
             />
@@ -161,18 +179,28 @@ const AssignProductsTable = (props: Props) => {
         >
           Cancel
         </ActionButton>
-        <ActionButton
-          className={styles.createButton}
-          onClick={() => handleSubmit(createOrderPayload)}
-          variant="primary"
-          type="purpleGradient"
-          size="md"
-          disabled={false}
-        >
-          Submit
-        </ActionButton>
+        <div>
+          <ActionButton
+            className={styles.cancelButton}
+            onClick={handleBack}
+            variant="reset"
+            size="md"
+          >
+            Previous
+          </ActionButton>
+          <ActionButton
+            className={styles.createButton}
+            onClick={handleSubmit}
+            variant="primary"
+            type="purpleGradient"
+            size="md"
+            disabled={isCreateOrderDisabled}
+          >
+            Submit
+          </ActionButton>
+        </div>
       </div>
-    </section>
+    </>
   );
 };
 

@@ -13,10 +13,14 @@ import CopyAndLocateClipboard from '../../../../../../components/CopyAndLocateCl
 /* Utils */
 import { truncateString } from '../../../../../../utils/format';
 
+/* Images */
+import placeholderImage from '../../../../../../assets/images/placeholderImage.svg';
+
 const ProductInfo = (props: RowCell) => {
   const { rowData } = props;
 
   const { title, asin, image_url } = rowData;
+  const productImage = image_url ? image_url.replace('SL75', 'SL140') : placeholderImage;
 
   const truncatedTitle = truncateString(title, 70);
 
@@ -24,7 +28,7 @@ const ProductInfo = (props: RowCell) => {
     <Table.Cell {...props}>
       <div className={styles.productInfoContainer}>
         {/* Product Image */}
-        <div className={styles.productImage} style={{ backgroundImage: `url(${image_url})` }} />
+        <img src={productImage} className={styles.productImage} />
 
         {/* Product Meta Details */}
         <div className={styles.productDetails}>
