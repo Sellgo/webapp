@@ -7,7 +7,7 @@ import styles from './index.module.scss';
 /* Components */
 import TableExport from '../../../../components/NewTable/TableExport';
 import ActionButton from '../../../../components/ActionButton';
-import CreateOrder from '../CreateOrder';
+import CreateOrderModal from '../CreateOrderModal';
 
 /* Assets */
 import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
@@ -105,7 +105,7 @@ const OrderPlanningMeta = (props: Props) => {
           }
         />
       </div>
-      <CreateOrder open={isCreatingOrder} onCloseModal={() => setIsCreatingOrder(false)} />
+      <CreateOrderModal open={isCreatingOrder} onCloseModal={() => setIsCreatingOrder(false)} />
     </>
   );
 };

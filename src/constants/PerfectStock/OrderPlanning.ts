@@ -32,6 +32,10 @@ export const TIME_SETTINGS_OPTIONS = [
   },
 ];
 
+export const CREATE_ORDER_STATUS = {
+  CREATE_ORDER_SETTINGS: 0,
+  ASSIGN_ORDER_PRODUCTS: 1,
+};
 /* Styling widths to maintain alignment of chart between gantt chart and tables */
 export const UNIT_WIDTH = 48;
 export const SIDE_SETTING_WIDTH = 250;

@@ -1,0 +1,61 @@
+@import '../../../../../../design-system/colors';
+
+.productInfoContainer {
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  user-select: none;
+  color: $prim_dark_1;
+}
+
+.productImage {
+  width: 40px;
+  height: 40px;
+  margin-right: 18px;
+  overflow: hidden;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.productDetails {
+  flex: 1;
+  min-height: 100% !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+
+  h2 {
+    font-size: 14px;
+    line-height: 1;
+    display: inline-block;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    color: $prim_dark_1 !important;
+    font-weight: 500;
+  }
+}
+
+.productMetaDetails {
+  display: flex;
+  align-items: center;
+
+  img {
+    margin-right: 10px;
+  }
+
+  font-size: 12px !important;
+
+  .variationIcon {
+    margin-left: 2px;
+    margin-top: 4px;
+    height: 12px;
+    width: 15px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

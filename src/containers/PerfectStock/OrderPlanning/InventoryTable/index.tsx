@@ -130,7 +130,7 @@ const InventoryTable = (props: Props) => {
           hover={true}
           autoHeight
           rowHeight={90}
-          headerHeight={55}
+          headerHeight={60}
           rowExpandedHeight={800}
           onSortColumn={handleSortColumn}
           rowKey="id"
