@@ -5,12 +5,12 @@ import axios from 'axios';
 /* Styling */
 import styles from './index.module.scss';
 
-/* Components */
-import ActionButton from '../../../../../components/ActionButton';
-import SeasonalityTable from './SeasonalityTable';
-
 /* Assets */
 import { ReactComponent as MapleLeaf } from '../../../../../assets/images/mapleLeaf.svg';
+
+/* Components */
+import DaysOfInventoryTable from './DaysOfInventoryTable';
+import ActionButton from '../../../../../components/ActionButton';
 
 /* Utils */
 import { AppConfig } from '../../../../../config';
@@ -20,58 +20,56 @@ import { error, success } from '../../../../../utils/notifications';
 interface Props {
   open: boolean;
   setOpenPopup: (value: boolean) => void;
-  id: number;
 }
 
-const EditSeasonalityPopup = (props: Props) => {
-  const { open, setOpenPopup, id } = props;
-  const [seasonalitySettings, setSeasonalitySettings] = useState<any[]>([]);
-  const [isLoadingSeasonalitySettings, setIsLoadingSeasonalitySettings] = useState<boolean>(false);
+const DaysOfInventoryPopup = (props: Props) => {
+  const { open, setOpenPopup } = props;
+  const [daysOfInventory, setDaysOfInventory] = useState<any[]>([]);
+  const [isLoadingDaysOfInventory, setIsLoadingDaysOfInventory] = useState<boolean>(false);
 
-  /* Fetch seasonality settings */
-  const getSeasonalitySettings = async () => {
-    setIsLoadingSeasonalitySettings(true);
+  /* Fetch days of inventory */
+  const getDaysOfInventory = async () => {
+    setIsLoadingDaysOfInventory(true);
     try {
       const sellerId = sellerIDSelector();
       const res = await axios.get(
-        `${AppConfig.BASE_URL_API}sellers/${sellerId}/sales-adjustment?sales_projection_id=${id}`
+        `${AppConfig.BASE_URL_API}sellers/${sellerId}/days-inventory-config`
       );
       const { data } = res;
       if (data) {
-        setSeasonalitySettings(data);
+        setDaysOfInventory(data);
       }
     } catch (err) {
       error('Failed to get seasonality settings');
     }
-    setIsLoadingSeasonalitySettings(false);
+    setIsLoadingDaysOfInventory(false);
   };
 
   /* Hook called upon typing inside the input fields */
   const handleValueChange = (key: string, value: string, id: number) => {
-    const newSeasonalitySettings = [...seasonalitySettings];
-    const index = newSeasonalitySettings.findIndex(item => item.id === id);
-    newSeasonalitySettings[index][key] = value;
-    setSeasonalitySettings(newSeasonalitySettings);
+    const newdaysOfInventory = [...daysOfInventory];
+    const index = newdaysOfInventory.findIndex(item => item.id === id);
+    newdaysOfInventory[index][key] = value;
+    setDaysOfInventory(newdaysOfInventory);
   };
 
-  /* Handler to create new seasonality setting */
-  const handleAddNewSeasonalitySetting = async () => {
-    const newSeasonalitySetting = {
+  /* Handler to create new setting */
+  const handleAddNewDayOfInventory = async () => {
+    const newDaysOfInventory = {
       name: '',
       start_date: new Date().toISOString().split('T')[0],
       end_date: new Date().toISOString().split('T')[0],
-      sales_projection_id: id,
-      type: 'seasonal_trends',
       status: 'pending',
+      value: 0,
     };
 
     try {
-      const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/sales-adjustment`;
-      const payload = [newSeasonalitySetting];
+      const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/days-inventory-config`;
+      const payload = [newDaysOfInventory];
       const res = await axios.post(url, payload);
       const { data } = res;
       if (data) {
-        setSeasonalitySettings([...seasonalitySettings, data]);
+        setDaysOfInventory([...daysOfInventory, data]);
       }
     } catch (err) {
       error('Failed to add setting.');
@@ -79,18 +77,18 @@ const EditSeasonalityPopup = (props: Props) => {
   };
 
   const handleDelete = async (id: number) => {
-    const newSeasonalitySettings = seasonalitySettings.map(item => {
+    const newdaysOfInventory = daysOfInventory.map(item => {
       if (item.id === id) {
         item.status = 'inactive';
       }
       return item;
     });
-    setSeasonalitySettings(newSeasonalitySettings);
+    setDaysOfInventory(newdaysOfInventory);
   };
 
   /* Saving of seasonality settings, triggered upon clicking of Save button */
-  const handleSaveSeasonalitySettings = async () => {
-    const savedSeasonalitySettings = seasonalitySettings.map(setting => {
+  const handleSaveDaysOfInventory = async () => {
+    const saveddaysOfInventory = daysOfInventory.map(setting => {
       if (setting.status === 'pending' && setting.name !== '' && setting.value !== '') {
         setting.status = 'active';
       }
@@ -98,22 +96,22 @@ const EditSeasonalityPopup = (props: Props) => {
     });
     const sellerId = sellerIDSelector();
     const res = await axios.patch(
-      `${AppConfig.BASE_URL_API}sellers/${sellerId}/sales-adjustment`,
-      savedSeasonalitySettings
+      `${AppConfig.BASE_URL_API}sellers/${sellerId}/days-inventory-config`,
+      saveddaysOfInventory
     );
     const { status } = res;
     if (status === 200) {
       setOpenPopup(false);
-      success('Seasonality settings saved successfully');
+      success('Days of inventory settings saved successfully');
     }
     setOpenPopup(false);
   };
 
-  /* On component launch, reset seasonality settings and fetch latest settings */
+  /* On component launch, reset days of inventory settings and fetch latest settings */
   React.useEffect(() => {
     if (open) {
-      setSeasonalitySettings([]);
-      getSeasonalitySettings();
+      setDaysOfInventory([]);
+      getDaysOfInventory();
     }
   }, [open]);
 
@@ -133,7 +131,7 @@ const EditSeasonalityPopup = (props: Props) => {
         <div className={styles.modalWrapper}>
           <h2 className={styles.modalHeader}>
             <MapleLeaf />
-            &nbsp; SEASONALITY ADJUSTOR
+            &nbsp; DAYS OF INVENTORY
           </h2>
           <div className={styles.modalContent}>
             <div className={styles.seasonalityTitle}>
@@ -144,13 +142,13 @@ const EditSeasonalityPopup = (props: Props) => {
               EXCEPTEUR SINT OCCAECAT CUPIDATAT NON PROIDENT, SUNT IN CULPA QUI OFFICIA DESERUNT
               MOLLIT ANIM ID EST LABORUM.
             </div>
-            <SeasonalityTable
-              seasonalitySettings={seasonalitySettings}
+            <DaysOfInventoryTable
+              daysOfInventory={daysOfInventory}
               handleValueChange={handleValueChange}
               handleDelete={handleDelete}
-              isLoadingSeasonalitySettings={isLoadingSeasonalitySettings}
+              isLoadingDaysOfInventory={isLoadingDaysOfInventory}
             />
-            <button onClick={handleAddNewSeasonalitySetting} className={styles.addNewSetting}>
+            <button onClick={handleAddNewDayOfInventory} className={styles.addNewSetting}>
               Add New
             </button>
             <div className={styles.buttonRow}>
@@ -166,7 +164,7 @@ const EditSeasonalityPopup = (props: Props) => {
                 variant="secondary"
                 type="purpleGradient"
                 size="md"
-                onClick={handleSaveSeasonalitySettings}
+                onClick={handleSaveDaysOfInventory}
               >
                 Apply
               </ActionButton>
@@ -178,4 +176,4 @@ const EditSeasonalityPopup = (props: Props) => {
   );
 };
 
-export default EditSeasonalityPopup;
+export default DaysOfInventoryPopup;

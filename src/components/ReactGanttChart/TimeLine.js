@@ -433,6 +433,7 @@ class TimeLine extends Component {
             onScroll={this.verticalChange}
             nonEditable={this.props.nonEditableName}
             handleChangeMode={this.props.handleChangeMode}
+            handleDeleteTask={this.props.handleDeleteTask}
             mode={this.state.mode}
           />
         </div>

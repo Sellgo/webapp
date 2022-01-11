@@ -18,11 +18,11 @@ const SaveCancelOptions = (props: Props) => {
       className={`${className} ${styles.saveCancelOptions}`}
       onMouseDown={e => e.preventDefault()}
     >
-      <button className={styles.checkIcon} disabled={disabled}>
-        <Icon name="check" onClick={handleSave} />
+      <button className={styles.checkIcon} disabled={disabled} onClick={handleSave}>
+        <Icon name="check" />
       </button>
-      <button className={styles.closeIcon}>
-        <Icon name="close" onClick={handleCancel} />
+      <button className={styles.closeIcon} onClick={handleCancel}>
+        <Icon name="close" />
       </button>
     </div>
   );

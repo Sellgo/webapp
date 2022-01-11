@@ -8,7 +8,7 @@ import styles from './index.module.scss';
 import { RowCell } from '../../../../../interfaces/Table';
 
 /* Utils */
-import { formatNumber, formatDecimal, showNAIfZeroOrNull } from '../../../../../utils/format';
+import { formatDecimal, showNAIfZeroOrNull, formatRating } from '../../../../../utils/format';
 
 /* Components */
 import HoveredCell from './HoveredCell';
@@ -27,7 +27,7 @@ const SalesEstimationStat = (props: Props) => {
   const [onHovered, setOnHovered] = React.useState<boolean>(false);
 
   /* Formatting key stats */
-  const stat = showNAIfZeroOrNull(rowData[dataKey], formatNumber(rowData[dataKey]));
+  const stat = showNAIfZeroOrNull(rowData[dataKey], formatRating(rowData[dataKey]));
   const included = rowData[`${dataKey}_included`];
   const weight = showNAIfZeroOrNull(
     rowData[`${dataKey}_weight`],

@@ -13,14 +13,22 @@ import CreateOrderSettings from './CreateOrderSettings';
 import AssignProductsTable from './AssignProductsTable';
 
 /* Interfaces */
-import { CreateOrderPayload } from '../../../../interfaces/PerfectStock/OrderPlanning';
+import {
+  CreateOrderPayload,
+  PurchaseOrder,
+} from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 /* Utils */
 import { AppConfig } from '../../../../config';
 import { sellerIDSelector } from '../../../../selectors/Seller';
 
 /* Actions */
-import { fetchPurchaseOrders } from '../../../../actions/PerfectStock/OrderPlanning';
+import {
+  fetchInventoryTable,
+  fetchPurchaseOrders,
+  setActivePurchaseOrder,
+  setInventoryTableShowAllSkus,
+} from '../../../../actions/PerfectStock/OrderPlanning';
 import { error, success } from '../../../../utils/notifications';
 
 /* Constants */
@@ -30,9 +38,20 @@ interface Props {
   open: boolean;
   onCloseModal: () => void;
   fetchPurchaseOrders: () => void;
+  fetchInventoryTable: () => void;
+  setActivePurchaseOrder: (order: PurchaseOrder) => void;
+  setInventoryTableShowAllSkus: (showAllSkus: boolean) => void;
 }
+
 const CreateOrder = (props: Props) => {
-  const { open, onCloseModal, fetchPurchaseOrders } = props;
+  const {
+    open,
+    onCloseModal,
+    fetchPurchaseOrders,
+    fetchInventoryTable,
+    setActivePurchaseOrder,
+    setInventoryTableShowAllSkus,
+  } = props;
   const DEFAULT_ORDER: CreateOrderPayload = {
     date: '',
     number: '',
@@ -53,6 +72,11 @@ const CreateOrder = (props: Props) => {
       const res = await axios.post(url, createOrderPayload);
       if (res.status === 201) {
         fetchPurchaseOrders();
+
+        /* Upon creating a new order, set the display mode in inventory table to view the newly created order */
+        fetchInventoryTable();
+        setInventoryTableShowAllSkus(false);
+        setActivePurchaseOrder(res.data);
         success('Successfully added');
         onCloseModal();
       } else {
@@ -103,6 +127,15 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchPurchaseOrders: () => {
       dispatch(fetchPurchaseOrders());
+    },
+    fetchInventoryTable: () => {
+      dispatch(fetchInventoryTable());
+    },
+    setActivePurchaseOrder: (order: PurchaseOrder) => {
+      dispatch(setActivePurchaseOrder(order));
+    },
+    setInventoryTableShowAllSkus: (showAllSkus: boolean) => {
+      dispatch(setInventoryTableShowAllSkus(showAllSkus));
     },
   };
 };

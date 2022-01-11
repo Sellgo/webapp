@@ -9,6 +9,7 @@
 .ganttChartSettings {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   padding: 30px 18px;
   min-width: 250px;
   height: 280px;
@@ -57,4 +58,23 @@
   &__indented {
     margin-left: 18px;
   }
+}
+
+.daysOfInventoryEdit {
+  display: flex;
+  justify-content: space-between;
+
+  i {
+    color: $grey_6;
+  }
+}
+
+.settingInput {
+  width: 200px;
+  min-width: 0;
+}
+
+.saveCancelOptions {
+  margin-top: 10px;
+  align-self: flex-start;
 }

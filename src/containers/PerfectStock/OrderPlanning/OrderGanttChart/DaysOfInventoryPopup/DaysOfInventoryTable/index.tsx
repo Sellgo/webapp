@@ -12,22 +12,17 @@ import EditValueCell from '../../../../../../components/NewTable/EditValueCell';
 import DeleteCell from '../../../../../../components/NewTable/DeleteCell';
 
 interface Props {
-  seasonalitySettings: any[];
-  isLoadingSeasonalitySettings?: boolean;
+  daysOfInventory: any[];
+  isLoadingDaysOfInventory?: boolean;
   handleValueChange: (key: string, value: string, id: number) => void;
   handleDelete: (id: number) => void;
 }
 
 /* Main component */
-const SeasonalityTable = (props: Props) => {
-  const {
-    seasonalitySettings,
-    isLoadingSeasonalitySettings,
-    handleValueChange,
-    handleDelete,
-  } = props;
-  const displaySeasonalitySettings = seasonalitySettings.filter(
-    setting => setting.status === 'active' || setting.status === 'pending'
+const DaysOfInventoryTable = (props: Props) => {
+  const { daysOfInventory, isLoadingDaysOfInventory, handleValueChange, handleDelete } = props;
+  const displayDaysOfInventory = daysOfInventory.filter(
+    dayOfInventory => dayOfInventory.status === 'active' || dayOfInventory.status === 'pending'
   );
 
   return (
@@ -35,19 +30,19 @@ const SeasonalityTable = (props: Props) => {
       <section className={styles.seasonalityTableWrapper}>
         <Table
           renderLoading={() =>
-            isLoadingSeasonalitySettings && <Placeholder numberParagraphs={2} numberRows={3} />
+            isLoadingDaysOfInventory && <Placeholder numberParagraphs={2} numberRows={3} />
           }
           renderEmpty={() => <div />}
           affixHorizontalScrollbar={0}
           // Dont display old data when loading
-          data={!isLoadingSeasonalitySettings ? displaySeasonalitySettings : []}
+          data={!isLoadingDaysOfInventory ? displayDaysOfInventory : []}
           hover={false}
           autoHeight
           rowHeight={60}
           headerHeight={55}
           rowKey="id"
           virtualized
-          id="seasonalityTable"
+          id="daysOfInventoryTable"
         >
           {/* Average Next 90 Day */}
           <Table.Column width={150} verticalAlign="middle" align="center">
@@ -66,11 +61,11 @@ const SeasonalityTable = (props: Props) => {
           </Table.Column>
           {/* Average Next 90 Day */}
           <Table.Column width={100} verticalAlign="middle" align="center">
-            <Table.HeaderCell>Adjustor (x)</Table.HeaderCell>
+            <Table.HeaderCell>Days Of Inventory</Table.HeaderCell>
             <EditValueCell dataKey="value" handleChange={handleValueChange} isNumber />
           </Table.Column>
           {/* Delete Cell */}
-          <Table.Column width={500} verticalAlign="middle" align="right">
+          <Table.Column flexGrow={1} verticalAlign="middle" align="right">
             <Table.HeaderCell />
             <DeleteCell
               dataKey="id"
@@ -84,4 +79,4 @@ const SeasonalityTable = (props: Props) => {
   );
 };
 
-export default SeasonalityTable;
+export default DaysOfInventoryTable;

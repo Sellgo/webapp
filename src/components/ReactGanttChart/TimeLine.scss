@@ -246,3 +246,56 @@
   color: $prim_white;
   font-weight: $fontweight_semibold;
 }
+
+/* Timeline task action box */
+.timeLine-actionsPopover {
+  padding: 10px !important;
+  z-index: 99999 !important;
+
+  &::before {
+    display: none !important;
+  }
+}
+
+.timeLine-actionOptions {
+  display: flex;
+  flex-direction: column;
+  min-height: 80px;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  p {
+    margin-top: 18px;
+    margin-bottom: 5px;
+    color: $grey_6 !important;
+    font-size: 12px;
+
+    &:nth-child(1) {
+      margin-top: 0;
+    }
+  }
+
+  button {
+    background: none;
+
+    &:hover {
+      background: $grey_1;
+    }
+  }
+
+  i {
+    color: $grey_6 !important;
+  }
+}
+
+.timeLine-triggerButton {
+  background: none;
+
+  &:hover {
+    background: $grey_1;
+  }
+
+  i {
+    color: $grey_6 !important;
+  }
+}

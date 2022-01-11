@@ -147,7 +147,7 @@ export const fetchPurchaseOrders = () => async (dispatch: any) => {
     dispatch(isLoadingPurchaseOrders(true));
 
     const { data } = await axios.get(URL);
-    console.log(data);
+
     if (data) {
       dispatch(setPurchaseOrders(data));
     }
@@ -166,35 +166,51 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
   try {
     /* Set inventory to be loading */
     dispatch(isLoadingInventoryTableResults(true));
+    let requestPayload = {
+      ...payload,
+    };
 
-    /* Update the redux state first for responsiveness */
-    const state = getState();
-    const oldPurchaseOrders = getPurchaseOrders(state);
-    const newPurchaseOrders = oldPurchaseOrders.map((order: any) => {
-      if (order.id === payload.id) {
-        return {
-          ...order,
-          date: payload.date,
-        };
-      }
-      return order;
-    });
-    dispatch(setPurchaseOrders(newPurchaseOrders));
+    if (payload.date) {
+      /* Update the redux state and display the updated state first for responsiveness */
+      const state = getState();
+      const oldPurchaseOrders = getPurchaseOrders(state);
+      const newPurchaseOrders = oldPurchaseOrders.map((order: any) => {
+        if (order.id === payload.id) {
+          return {
+            ...order,
+            date: payload.date,
+          };
+        }
+        return order;
+      });
+      dispatch(setPurchaseOrders(newPurchaseOrders));
+
+      /* Get formatted date */
+      const formattedDate = getDateOnly(new Date(payload.date));
+      requestPayload = {
+        ...requestPayload,
+        date: formattedDate,
+      };
+    }
 
     /* Update backend's purchase orders */
-    const sellerId = sellerIDSelector();
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/${payload.id}`;
-    const formattedDate = getDateOnly(new Date(payload.date));
-    const requestPayload = { date: formattedDate };
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-orders/${
+      payload.id
+    }`;
     const { status } = await axios.patch(URL, requestPayload);
 
     /* If backend update failed, revert back to old purchase order */
     if (status === 200) {
       dispatch(fetchInventoryTable());
+
+      if (!payload.date && payload.status === 'inactive') {
+        dispatch(fetchPurchaseOrders());
+        success('Deleted order successfully');
+      }
     } else {
       error('Failed to update purchase order.');
       dispatch(isLoadingInventoryTableResults(false));
-      dispatch(setPurchaseOrders(oldPurchaseOrders));
+      dispatch(setPurchaseOrders([]));
     }
   } catch (err) {
     dispatch(setPurchaseOrders([]));

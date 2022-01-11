@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Config from '../../helpers/config/Config';
-import ContentEditable from '../../components/common/ContentEditable';
 import SelectionFilter from '../../../FormFilters/SelectionFilter';
 import { TIME_SETTINGS_OPTIONS } from '../../../../constants/PerfectStock/OrderPlanning';
+import { Icon, Popup } from 'semantic-ui-react';
 
 export class VerticalLine extends Component {
   constructor(props) {
@@ -54,6 +54,29 @@ export class TaskRow extends Component {
         >
           {this.props.label}
         </div>
+        <Popup
+          on="click"
+          position="bottom left"
+          closeOnDocumentClick
+          closeOnEscape
+          className="timeLine-actionsPopover"
+          content={
+            <>
+              <div className="timeLine-actionOptions">
+                <p>EDIT</p>
+                <button onClick={() => this.props.handleDeleteTask(this.props.item)}>
+                  <Icon name="trash" />
+                  <span>Delete Order</span>
+                </button>
+              </div>
+            </>
+          }
+          trigger={
+            <button className={'timeLine-triggerButton'}>
+              <Icon name="ellipsis vertical" />
+            </button>
+          }
+        />
       </div>
     );
   }
@@ -87,6 +110,7 @@ export default class TaskList extends Component {
           onSelectItem={this.props.onSelectItem}
           onSelectTask={this.props.onSelectTask}
           nonEditable={this.props.nonEditable}
+          handleDeleteTask={this.props.handleDeleteTask}
         />
       );
     }

@@ -16,6 +16,7 @@ import SaveCancelOptions from '../../../../../components/SaveCancelOptions';
 import { RowCell } from '../../../../../interfaces/Table';
 import { SalesProjectionUpdatePayload } from '../../../../../interfaces/PerfectStock/SalesProjection';
 import InputFilter from '../../../../../components/FormFilters/InputFilter';
+import { formatRating } from '../../../../../utils/format';
 
 interface Props extends RowCell {
   updateSalesProjectionProduct: (payload: SalesProjectionUpdatePayload) => void;
@@ -30,7 +31,11 @@ const SalesPrediction = (props: Props) => {
   const [isEditingManualSales, setIsEditingManualSales] = React.useState<boolean>(false);
 
   React.useEffect(() => {
-    setUpdatedManualSales(rowData.manual_sales);
+    if (rowData.manual_sales) {
+      setUpdatedManualSales(rowData.manual_sales);
+    } else {
+      setUpdatedManualSales(rowData.predictive_sales);
+    }
   }, [rowData]);
 
   const handleResetManualSalesChanges = () => {
@@ -73,6 +78,9 @@ const SalesPrediction = (props: Props) => {
     updateSalesProjectionProduct(payload);
   };
 
+  const displayPredictiveSales = formatRating(rowData.predictive_sales) || '';
+  const displayManualSales = formatRating(updatedManualSales) || '';
+
   return (
     <Table.Cell {...otherProps}>
       <div
@@ -96,14 +104,14 @@ const SalesPrediction = (props: Props) => {
 
         <div className={styles.salesResults}>
           {usingPredictiveSales ? (
-            rowData.predictive_sales
+            displayPredictiveSales
           ) : (
             <div className={styles.editManualSales}>
               <InputFilter
                 label=""
                 placeholder=""
                 isNumber
-                value={updatedManualSales ? updatedManualSales.toString() : ''}
+                value={displayManualSales}
                 className={styles.textInput}
                 handleChange={handleEditManualSales}
                 disabled={usingPredictiveSales}

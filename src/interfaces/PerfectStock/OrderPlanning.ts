@@ -25,7 +25,8 @@ export interface GanttChartPurchaseOrder {
 
 export interface UpdatePurchaseOrderPayload {
   id: number;
-  date: string;
+  date?: string;
+  status?: 'active' | 'inactive';
 }
 
 export interface CreateOrderPayload {
