@@ -46,6 +46,11 @@ export const LEAD_TIME_OPTIONS = [
   },
 ];
 
+export const GRAPH_SETTING_OPTIONS: { [key: string]: 'line' | 'bar' } = {
+  LINE: 'line',
+  BAR: 'bar',
+};
+
 export const getLeadTimeName = (value: string) => {
   const leadTime = LEAD_TIME_OPTIONS.find(item => item.value === value);
   return leadTime ? leadTime.text : '';

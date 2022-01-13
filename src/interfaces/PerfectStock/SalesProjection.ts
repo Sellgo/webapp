@@ -80,3 +80,13 @@ export interface SingleLeadTimeGroup {
   name: string;
   status: 'active' | 'inactive' | 'pending';
 }
+
+export interface ProductProjectedSales {
+  [date: string]: number;
+}
+
+export interface GraphDataSeries {
+  name: string;
+  type: 'line' | 'bar';
+  data: number[];
+}

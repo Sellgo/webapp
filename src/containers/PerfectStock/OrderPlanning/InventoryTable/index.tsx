@@ -92,9 +92,9 @@ const InventoryTable = (props: Props) => {
       const dateArray = [];
       let currentDate = startDate;
       while (currentDate <= endDate) {
-        currentDate = new Date(currentDate.setDate(currentDate.getDate() + DIFF));
         const dateString = getDateOnly(currentDate);
         dateArray.push(dateString);
+        currentDate = new Date(currentDate.setDate(currentDate.getDate() + DIFF));
       }
       setHeaders(dateArray);
     } else {

@@ -1,34 +1,32 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import axios from 'axios';
 
 /* Styling */
 import styles from './index.module.scss';
 
-/* Actions */
-import { fetchProductsDatabase } from '../../../../actions/ProductsResearch/ProductsDatabase';
-
 /* Selectors */
-import {
-  getIsLoadingProductsDatabase,
-  getProductsDatabasePaginationInfo,
-  getProductsDatabaseResults,
-} from '../../../../selectors/ProductResearch/ProductsDatabase';
+import { sellerIDSelector } from '../../../../selectors/Seller';
 
 /* Constants */
+import { TIME_SETTING } from '../../../../constants/PerfectStock/OrderPlanning';
+import { GRAPH_SETTING_OPTIONS } from '../../../../constants/PerfectStock';
 
 /* Components */
 import BoxHeader from '../../../../components/BoxHeader';
 import BoxContainer from '../../../../components/BoxContainer';
+import Placeholder from '../../../../components/Placeholder';
 import ProductSalesTable from './ProductSalesTable';
+import ProductSalesGraph from './ProductSalesGraph';
 import ProductSettings from './ProductSettings';
 
 /* Interface */
-import { ProductsDatabasePayload } from '../../../../interfaces/ProductResearch/ProductsDatabase';
-import { sellerIDSelector } from '../../../../selectors/Seller';
+import {
+  ProductProjectedSales,
+  GraphDataSeries,
+} from '../../../../interfaces/PerfectStock/SalesProjection';
+
+/* Utils */
 import { AppConfig } from '../../../../config';
-import axios from 'axios';
-import Placeholder from '../../../../components/Placeholder';
-import { TIME_SETTING } from '../../../../constants/PerfectStock/OrderPlanning';
 
 interface Props {
   rowData: any;
@@ -37,12 +35,19 @@ interface Props {
 const ExpandedProduct = (props: Props) => {
   const { rowData } = props;
 
-  const [productProjectedSales, setProductProjectedSales] = React.useState<any[]>([]);
+  const [productProjectedSales, setProductProjectedSales] = React.useState<ProductProjectedSales[]>(
+    []
+  );
+  const [graphProductProjectedSalesData, setGraphProductProjectedSalesData] = React.useState<
+    GraphDataSeries[]
+  >([]);
   const [isLoadingProductProjectedSales, setIsLoadingProductProjectedSales] = React.useState(false);
   const [timeSettings, setTimeSettings] = React.useState<string>(TIME_SETTING.WEEK);
   const [showTrends, setShowTrends] = React.useState<boolean>(false);
 
   const sku = rowData.sku;
+
+  /* Retrieve product projected sales and seasonality data */
   const getProductSales = async () => {
     setIsLoadingProductProjectedSales(true);
     const sellerId = sellerIDSelector();
@@ -51,8 +56,11 @@ const ExpandedProduct = (props: Props) => {
       .toISOString()
       .split('T')[0];
     try {
+      /* Fetch either only expected_sales or both expected_sales and seasonal adjustment */
       const EXPANDED_TYPES = 'expected_sales,seasonal_adjustment';
       const UNEXPANDED_TYPES = 'expected_sales';
+
+      /* Fetch data from the server */
       const url =
         `${AppConfig.BASE_URL_API}sellers/${sellerId}/order-plan?` +
         `types=${showTrends ? EXPANDED_TYPES : UNEXPANDED_TYPES}` +
@@ -61,18 +69,38 @@ const ExpandedProduct = (props: Props) => {
         `&display_mode=${timeSettings === TIME_SETTING.DAY ? 'daily' : 'weekly'}`;
       const res = await axios.get(url);
       const { data } = res;
-      const newProductProjectedSales: any[] = [];
+      const newProductProjectedSales: ProductProjectedSales[] = [];
+      const newGraphProductProjectedSalesData: GraphDataSeries[] = [];
       data.forEach((attribute: any) => {
         if (attribute.expected_sales) {
+          /* Add expected sales to the table data */
           newProductProjectedSales.push(attribute.expected_sales);
+
+          /* Add expected sales to the graph data */
+          const graphDataSeries = {
+            name: 'Expected Sales',
+            type: GRAPH_SETTING_OPTIONS.LINE,
+            data: Object.values(attribute.expected_sales) as number[],
+          };
+          newGraphProductProjectedSalesData.push(graphDataSeries);
         } else if (attribute.seasonal_adjustment) {
+          /* Add expected sales to the table data */
           newProductProjectedSales.push(attribute.seasonal_adjustment);
+
+          /* Add expected sales to the graph data */
+          const graphDataSeries = {
+            name: 'Seasonality Adjustment',
+            type: GRAPH_SETTING_OPTIONS.LINE,
+            data: Object.values(attribute.seasonal_adjustment) as number[],
+          };
+          newGraphProductProjectedSalesData.push(graphDataSeries);
         }
       });
       setProductProjectedSales(newProductProjectedSales);
+      setGraphProductProjectedSalesData(newGraphProductProjectedSalesData);
     } catch (error) {
       setProductProjectedSales([]);
-      console.log(error);
+      console.error(error);
     }
     setIsLoadingProductProjectedSales(false);
   };
@@ -104,13 +132,22 @@ const ExpandedProduct = (props: Props) => {
           {isLoadingProductProjectedSales ? (
             <Placeholder numberParagraphs={2} numberRows={3} />
           ) : (
-            <ProductSalesTable
-              timeSettings={timeSettings}
-              setTimeSettings={(timeSettings: string) => setTimeSettings(timeSettings)}
-              productProjectedSales={productProjectedSales}
-              showTrends={showTrends}
-              setShowTrends={setShowTrends}
-            />
+            <>
+              <ProductSalesTable
+                timeSettings={timeSettings}
+                setTimeSettings={(timeSettings: string) => setTimeSettings(timeSettings)}
+                productProjectedSales={productProjectedSales}
+                showTrends={showTrends}
+                setShowTrends={setShowTrends}
+              />
+              <ProductSalesGraph
+                data={graphProductProjectedSalesData}
+                timeSetting={timeSettings}
+                xAxisStartDate={
+                  productProjectedSales.length > 0 ? Object.keys(productProjectedSales[0])[0] : ''
+                }
+              />
+            </>
           )}
         </BoxContainer>
       </div>
@@ -118,17 +155,4 @@ const ExpandedProduct = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({
-  productDatabaseResults: getProductsDatabaseResults(state),
-  isLoadingProductDatabase: getIsLoadingProductsDatabase(state),
-  productDatabasePaginationInfo: getProductsDatabasePaginationInfo(state),
-});
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    fetchProductsDatabase: (payload: ProductsDatabasePayload) =>
-      dispatch(fetchProductsDatabase(payload)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ExpandedProduct);
+export default ExpandedProduct;
