@@ -102,6 +102,12 @@ export default class Header extends PureComponent {
   }
 
   renderHeaderRows = perDayMode => {
+    /* Set start of week to be monday */
+    moment.locale('en', {
+      week: {
+        dow: 1,
+      },
+    });
     let result = { top: [], middle: [], bottom: [] };
     let lastLeft = {};
     let currentMiddle = '';

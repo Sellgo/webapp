@@ -1,0 +1,35 @@
+@import '../../../../../design-system/new-colors.scss';
+
+.productSalesTableWrapper {
+  padding-top: 18px;
+  padding-bottom: 60px !important;
+  display: flex;
+  flex-direction: row;
+
+  .expandButton {
+    width: 30px;
+    background: none;
+
+    svg {
+      width: 10px;
+      height: 10px;
+    }
+  }
+
+  .tableTitles {
+    p {
+      display: flex;
+      align-items: center;
+      color: $black_1;
+      font-size: 14px;
+      margin: 0;
+      margin-left: 30px;
+    }
+
+    .salesRowTitle {
+      margin-left: 0 !important;
+      font-weight: $fontweight_semibold;
+      font-size: 12px;
+    }
+  }
+}

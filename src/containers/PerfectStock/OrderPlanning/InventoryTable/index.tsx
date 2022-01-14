@@ -24,6 +24,7 @@ import HeaderDateCell from '../../../../components/NewTable/HeaderDateCell';
 import ProductInformation from './ProductInformation';
 import StockOutDate from './StockOutDate';
 import InventoryBarCell from './InventoryBarCell';
+import ExpandedInventory from '../ExpandedInventory';
 import { ReactComponent as ExclaimationIcon } from '../../../../assets/images/exclamation-triangle-solid.svg';
 
 /* Selectors */
@@ -49,6 +50,7 @@ import { fetchInventoryTable } from '../../../../actions/PerfectStock/OrderPlann
 
 /* Utils */
 import { getDateOnly } from '../../../../utils/date';
+import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
 
 interface Props {
   // States
@@ -74,6 +76,7 @@ const InventoryTable = (props: Props) => {
   } = props;
 
   const [sortColumn, setSortColumn] = React.useState<string>('');
+  const [expandedRowKeys, setExpandedRowkeys] = React.useState<string[]>([]);
   const [sortType, setSortType] = React.useState<'asc' | 'desc' | undefined>(undefined);
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
@@ -102,6 +105,17 @@ const InventoryTable = (props: Props) => {
     }
   };
 
+  const handleExpansion = (rowData: any) => {
+    const rowId = rowData.id;
+    const [currentExpandedRowId] = expandedRowKeys;
+
+    if (currentExpandedRowId !== rowId) {
+      setExpandedRowkeys([rowId]);
+    } else {
+      setExpandedRowkeys([]);
+    }
+  };
+
   /* Refresh inventory table if date range or time setting is changed  */
   React.useEffect(() => {
     generateHeaders(new Date(dateRange.startDate), new Date(dateRange.endDate));
@@ -127,7 +141,7 @@ const InventoryTable = (props: Props) => {
           affixHorizontalScrollbar={0}
           // Dont display old data when loading
           data={!isLoadingInventoryTableResults ? inventoryTableResults : []}
-          hover={true}
+          hover={false}
           autoHeight
           rowHeight={90}
           headerHeight={60}
@@ -135,12 +149,25 @@ const InventoryTable = (props: Props) => {
           onSortColumn={handleSortColumn}
           rowKey="id"
           virtualized
+          expandedRowKeys={expandedRowKeys}
+          renderRowExpanded={(rowData: any) => <ExpandedInventory rowData={rowData} />}
           id="stockInventoryTable"
         >
+          {/* Expand Cell */}
+          <Table.Column verticalAlign="top" fixed="left" align="left" width={30}>
+            <Table.HeaderCell> </Table.HeaderCell>
+            <ExpansionCell
+              dataKey={'id'}
+              expandedRowKeys={expandedRowKeys}
+              onChange={handleExpansion}
+            />
+          </Table.Column>
+
           {/* Product Information  */}
           <Table.Column
-            width={OFFSET_TO_CHART_WIDTH * (2 / 3)}
-            verticalAlign="middle"
+            /* Calculate width to chart dates to align all the dates, minus 30 for offset from expansion cell */
+            width={(OFFSET_TO_CHART_WIDTH - 30) * (2 / 3)}
+            verticalAlign="top"
             align="center"
           >
             <Table.HeaderCell>Product</Table.HeaderCell>
@@ -149,8 +176,9 @@ const InventoryTable = (props: Props) => {
 
           {/* Stock out date info  */}
           <Table.Column
-            width={OFFSET_TO_CHART_WIDTH * (1 / 3)}
-            verticalAlign="middle"
+            /* Calculate width to chart dates to align all the dates, minus 30 for offset from expansion cell */
+            width={(OFFSET_TO_CHART_WIDTH - 30) * (1 / 3)}
+            verticalAlign="top"
             align="center"
           >
             <Table.HeaderCell>
@@ -169,7 +197,7 @@ const InventoryTable = (props: Props) => {
           {/* Render a column for each date from end date to statr date */}
           {headers.map((date: string, index: number) => {
             return (
-              <Table.Column width={UNIT_WIDTH} verticalAlign="middle" align="center" key={index}>
+              <Table.Column width={UNIT_WIDTH} verticalAlign="top" align="center" key={index}>
                 <Table.HeaderCell>
                   <HeaderDateCell title={date} />
                 </Table.HeaderCell>

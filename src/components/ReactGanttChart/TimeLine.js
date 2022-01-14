@@ -219,10 +219,7 @@ class TimeLine extends Component {
         startDate = new Date(
           startDate.getFullYear(),
           startDate.getMonth(),
-          startDate.getDate() -
-          startDate.getDay() -
-          7 + // Decrement back by one week
-            1 // Make the start of the week monday
+          startDate.getDate() - startDate.getDay() + 1
         );
       } else {
         startDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());

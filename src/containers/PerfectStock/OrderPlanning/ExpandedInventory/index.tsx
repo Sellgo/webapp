@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -15,25 +16,37 @@ import { GRAPH_SETTING_OPTIONS } from '../../../../constants/PerfectStock';
 import BoxHeader from '../../../../components/BoxHeader';
 import BoxContainer from '../../../../components/BoxContainer';
 import Placeholder from '../../../../components/Placeholder';
-import ProductSalesTable from './ProductSalesTable';
-import ProductSalesGraph from './ProductSalesGraph';
-import ProductSettings from './ProductSettings';
+import InventorySettings from './InventorySettings';
+import InventorySkuStatus from './InventorySkuStatus';
+import InventorySalesTable from './InventorySalesTable';
+import InventorySalesGraph from './InventorySalesGraph';
 
 /* Interface */
 import {
   ProductProjectedSales,
   GraphDataSeries,
 } from '../../../../interfaces/PerfectStock/SalesProjection';
+import { DateRange } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 /* Utils */
 import { AppConfig } from '../../../../config';
+import { getDateOnly } from '../../../../utils/date';
+
+/* Selectors */
+import {
+  getDateRange,
+  getIsLoadingInventoryTableResults,
+  getTimeSetting,
+} from '../../../../selectors/PerfectStock/OrderPlanning';
 
 interface Props {
   rowData: any;
+  timeSetting: string;
+  dateRange: DateRange;
 }
 
-const ExpandedProduct = (props: Props) => {
-  const { rowData } = props;
+const ExpandedInventory = (props: Props) => {
+  const { rowData, timeSetting, dateRange } = props;
 
   const [productProjectedSales, setProductProjectedSales] = React.useState<ProductProjectedSales[]>(
     []
@@ -42,19 +55,17 @@ const ExpandedProduct = (props: Props) => {
     GraphDataSeries[]
   >([]);
   const [isLoadingProductProjectedSales, setIsLoadingProductProjectedSales] = React.useState(false);
-  const [timeSettings, setTimeSettings] = React.useState<string>(TIME_SETTING.WEEK);
   const [showTrends, setShowTrends] = React.useState<boolean>(false);
 
-  const sku = rowData.sku;
-
+  /* ======================================================= */
   /* Retrieve product projected sales and seasonality data */
+  /* ======================================================= */
   const getProductSales = async () => {
     setIsLoadingProductProjectedSales(true);
     const sellerId = sellerIDSelector();
-    const startDate = new Date(new Date()).toISOString().split('T')[0];
-    const endDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
-      .toISOString()
-      .split('T')[0];
+    const sku = rowData.sku;
+    const startDate = getDateOnly(new Date(dateRange.startDate));
+    const endDate = getDateOnly(new Date(dateRange.endDate));
     try {
       /* Fetch either only expected_sales or both expected_sales and seasonal adjustment */
       const EXPANDED_TYPES = 'expected_sales,seasonal_adjustment';
@@ -66,13 +77,13 @@ const ExpandedProduct = (props: Props) => {
         `types=${showTrends ? EXPANDED_TYPES : UNEXPANDED_TYPES}` +
         `&sku=${sku}` +
         `&start_date=${startDate}&end_date=${endDate}` +
-        `&display_mode=${timeSettings === TIME_SETTING.DAY ? 'daily' : 'weekly'}`;
+        `&display_mode=${timeSetting === TIME_SETTING.DAY ? 'daily' : 'weekly'}`;
       const res = await axios.get(url);
       const { data } = res;
       const newProductProjectedSales: ProductProjectedSales[] = [];
       const newGraphProductProjectedSalesData: GraphDataSeries[] = [];
 
-      /* Parse data to fit graph and table format */
+      /* Format data for the graph and table */
       data.forEach((attribute: any) => {
         if (attribute.expected_sales) {
           /* Add expected sales to the table data */
@@ -102,6 +113,7 @@ const ExpandedProduct = (props: Props) => {
       setGraphProductProjectedSalesData(newGraphProductProjectedSalesData);
     } catch (error) {
       setProductProjectedSales([]);
+      setGraphProductProjectedSalesData([]);
       console.error(error);
     }
     setIsLoadingProductProjectedSales(false);
@@ -109,52 +121,56 @@ const ExpandedProduct = (props: Props) => {
 
   React.useEffect(() => {
     getProductSales();
-  }, [timeSettings, showTrends]);
+  }, [timeSetting, showTrends, dateRange.startDate, dateRange.endDate]);
 
   return (
-    <div className={styles.expandedProduct}>
-      <ProductSettings
+    <div className={styles.expandedInventory}>
+      <InventorySettings
         productId={rowData.id}
-        defaultInventoryThreshold={rowData.stockout_threshold_inventory}
-        defaultInventoryThresholdActivated={rowData.stockout_threshhold_inventory_included}
-        defaultSeasonalityAdjustorActivated={rowData.seasonal_adjustment_included}
-        defaultWeightActivated={rowData.weighted_average_included}
-        defaultWeightL30D={rowData.avg_l30d_weight}
-        defaultWeightL90D={rowData.avg_l90d_weight}
-        defaultWeightL7D={rowData.avg_l7d_weight}
-        defaultWeightN30D={rowData.avg_n30d_ly_weight}
-        defaultWeightN90D={rowData.avg_n90d_ly_weight}
+        defaultInventoryThresholdActivated={false}
+        defaultInventoryThreshold={0}
+        defaultSeasonalityAdjustorActivated={false}
       />
-      <div className={styles.expandedProductTable}>
-        <BoxHeader className={styles.tableHeader}>
-          WEEKLY EXPECTED SALES WITH SEASONALITY ADJUSTOR
-        </BoxHeader>
-        <BoxContainer className={styles.tableContainer}>
-          {/* Placeholder is used here because the headers are pre-rendered, and the table data is huge */}
-          {isLoadingProductProjectedSales ? (
-            <Placeholder numberParagraphs={2} numberRows={3} />
-          ) : (
-            <>
-              <ProductSalesTable
-                timeSettings={timeSettings}
-                setTimeSettings={(timeSettings: string) => setTimeSettings(timeSettings)}
-                productProjectedSales={productProjectedSales}
-                showTrends={showTrends}
-                setShowTrends={setShowTrends}
-              />
-              <ProductSalesGraph
-                data={graphProductProjectedSalesData}
-                timeSetting={timeSettings}
-                xAxisStartDate={
-                  productProjectedSales.length > 0 ? Object.keys(productProjectedSales[0])[0] : ''
-                }
-              />
-            </>
-          )}
-        </BoxContainer>
+      <div className={styles.expandedProductDetailsWrapper}>
+        <InventorySkuStatus className={styles.skuStatusContainer} />
+        <div className={styles.salesProjectionContainer}>
+          <BoxHeader className={styles.tableHeader}>
+            WEEKLY EXPECTED SALES WITH SEASONALITY ADJUSTOR
+          </BoxHeader>
+          <BoxContainer className={styles.tableContainer}>
+            {/* Placeholder is used here because the headers are pre-rendered, and the table data is huge */}
+            {isLoadingProductProjectedSales ? (
+              <Placeholder numberParagraphs={2} numberRows={3} />
+            ) : (
+              <>
+                <InventorySalesTable
+                  productProjectedSales={productProjectedSales}
+                  showTrends={showTrends}
+                  setShowTrends={setShowTrends}
+                />
+                <InventorySalesGraph
+                  data={graphProductProjectedSalesData}
+                  timeSetting={timeSetting}
+                  xAxisStartDate={
+                    productProjectedSales.length > 0 ? Object.keys(productProjectedSales[0])[0] : ''
+                  }
+                  className={styles.graphContainer}
+                />
+              </>
+            )}
+          </BoxContainer>
+        </div>
       </div>
     </div>
   );
 };
 
-export default ExpandedProduct;
+const mapStateToProps = (state: any) => {
+  return {
+    dateRange: getDateRange(state),
+    timeSetting: getTimeSetting(state),
+    isLoadingInventoryTableResults: getIsLoadingInventoryTableResults(state),
+  };
+};
+
+export default connect(mapStateToProps)(ExpandedInventory);

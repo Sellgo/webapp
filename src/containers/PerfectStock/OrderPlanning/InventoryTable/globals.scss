@@ -93,6 +93,17 @@
           }
         }
 
+        /* ============== FIRST CELL (TREAT SPECIAL)  =============== */
+        .rs-table-cell-first {
+          .rs-table-cell-content {
+            padding: 0 !important;
+            background: $light_gray_background !important;
+            // remove any borders from cell to show it's outside tbale
+            border: 0 !important;
+            padding-top: 40px !important;
+          }
+        }
+
         .rs-table-row-expanded {
           background: $light_gray_background;
           margin-left: 30px;

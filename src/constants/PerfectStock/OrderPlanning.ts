@@ -39,7 +39,7 @@ export const CREATE_ORDER_STATUS = {
 /* Styling widths to maintain alignment of chart between gantt chart and tables */
 export const UNIT_WIDTH = 48;
 export const SIDE_SETTING_WIDTH = 250;
-export const GANTT_ORDERS_WIDTH = 150;
+export const GANTT_ORDERS_WIDTH = 200;
 export const OFFSET_TO_CHART_WIDTH =
   SIDE_SETTING_WIDTH +
   GANTT_ORDERS_WIDTH +

@@ -1,13 +1,14 @@
 @import '../../../../../design-system/new-colors.scss';
 
 .productInformation {
+  padding-top: 18px;
   height: 100%;
   width: 100%;
   position: relative;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   margin: 0 20px;
 }
 

@@ -51,7 +51,7 @@ class DateHelper {
 
   getStartOfWeek = date => {
     let day = new Date(date).getDay();
-    const diff = date.getDate() - day; // adjust when day is sunday
+    const diff = date.getDate() - day + 1; // adjust when day is sunday
     return new Date(date.setDate(diff));
   };
 }
