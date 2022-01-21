@@ -12,11 +12,9 @@ import {
 
 /* Components */
 import ProgressBar from '../../../components/ProgressBar';
-import OrderGanttChart from '../Inventory/OrderGanttChart';
+import InventoryTable from './InventoryTable';
+import OrderGanttChart from './OrderGanttChart';
 import OrderPlanningMeta from './OrderPlanningMeta';
-import OrderSummary from './OrderSummary';
-import OrderProducts from './OrderProducts';
-import ExpectedDaysOfInventoryTable from './ExpectedDaysOfInventoryTable';
 
 interface Props {
   isFetchingProgressForRefresh: boolean;
@@ -29,10 +27,8 @@ const OrderPlanning = (props: Props) => {
   return (
     <main>
       <OrderGanttChart />
-      <OrderSummary />
-      <ExpectedDaysOfInventoryTable />
       <OrderPlanningMeta />
-      <OrderProducts />
+      <InventoryTable />
       <ProgressBar
         fetchProgress={fetchRefreshProgress}
         progress={refreshProgress}

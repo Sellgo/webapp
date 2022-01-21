@@ -18,6 +18,7 @@ interface Props extends RowCell {
   asRounded?: boolean;
   asFloatRounded?: boolean;
   autoPrependCurrencySign?: boolean;
+  className?: string;
 }
 
 const StatsCell = (props: Props) => {
@@ -29,6 +30,7 @@ const StatsCell = (props: Props) => {
     asRounded = true,
     asFloatRounded = false,
     autoPrependCurrencySign = false,
+    className = '',
     ...otherProps
   } = props;
 
@@ -64,7 +66,7 @@ const StatsCell = (props: Props) => {
   return (
     <Table.Cell {...otherProps}>
       <div
-        className={styles.statsCell}
+        className={`${styles.statsCell} ${className}`}
         style={{
           alignSelf: alignSettings,
           color: specialKpi ? '#3B4557' : '#636d76',

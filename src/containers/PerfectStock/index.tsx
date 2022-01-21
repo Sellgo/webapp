@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import styles from './index.module.scss';
 
 /* Containers */
+import Inventory from './Inventory';
 import OrderPlanning from './OrderPlanning';
 import SalesProjection from './SalesProjection';
 
@@ -120,7 +121,7 @@ const ProductResearch: React.FC<Props> = props => {
             <TabList className={styles.productTablist}>
               <Tab>
                 <ProductLabel
-                  label="Order Planning"
+                  label="Inventory"
                   icon="Product Database"
                   isActive={selectedTabList === 0}
                   isBeta
@@ -128,13 +129,25 @@ const ProductResearch: React.FC<Props> = props => {
               </Tab>
               <Tab>
                 <ProductLabel
-                  label="Sales Estimation"
+                  label="Order Planning"
                   icon="Product Database"
                   isActive={selectedTabList === 1}
                   isBeta
                 />
               </Tab>
+              <Tab>
+                <ProductLabel
+                  label="Sales Estimation"
+                  icon="Product Database"
+                  isActive={selectedTabList === 2}
+                  isBeta
+                />
+              </Tab>
             </TabList>
+
+            <TabPanel>
+              <Inventory />
+            </TabPanel>
 
             <TabPanel>
               <OrderPlanning />

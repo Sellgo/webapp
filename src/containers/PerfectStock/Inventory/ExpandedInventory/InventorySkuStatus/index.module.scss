@@ -1,10 +1,9 @@
 @import '../../../../../design-system/new-colors';
 
 /* Expanded product settings */
-.expandedProductSettings {
-  height: calc(30% - 18px);
-  margin-bottom: 18px;
-}
+// .expandedProductSettings {
+//   margin-bottom: 18px;
+// }
 
 .settingsBoxHeader {
   color: $black_1 !important;
@@ -17,14 +16,16 @@
 .settingsBoxContainer {
   height: calc(100% - 50px);
   min-width: 0;
-  padding: 0 20px;
-  padding-bottom: 30px;
+  padding: 18px;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-.settingsTitle {
-  font-size: 14px;
-  font-weight: $fontweight_semibold;
-  color: $black_1;
+.headerIcon {
+  path {
+    fill: $grey_8 !important;
+  }
+
+  height: 12px !important;
+  width: 12px !important;
 }

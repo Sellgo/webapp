@@ -132,7 +132,7 @@ const ExpandedInventory = (props: Props) => {
         defaultSeasonalityAdjustorActivated={false}
       />
       <div className={styles.expandedProductDetailsWrapper}>
-        <InventorySkuStatus className={styles.skuStatusContainer} />
+        <InventorySkuStatus className={styles.skuStatusContainer} rowData={rowData} />
         <div className={styles.salesProjectionContainer}>
           <BoxHeader className={styles.tableHeader}>
             WEEKLY EXPECTED SALES WITH SEASONALITY ADJUSTOR

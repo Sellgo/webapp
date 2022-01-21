@@ -145,7 +145,7 @@ const InventoryTable = (props: Props) => {
           autoHeight
           rowHeight={90}
           headerHeight={60}
-          rowExpandedHeight={800}
+          rowExpandedHeight={850}
           onSortColumn={handleSortColumn}
           rowKey="id"
           virtualized

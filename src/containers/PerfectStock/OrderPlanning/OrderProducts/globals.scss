@@ -1,9 +1,8 @@
 @import '../../../../styles/tableReset';
 
-#stockInventoryTable {
-  background: $light_gray_background !important;
+#orderProductsTable {
+  background: none !important;
   overflow-x: none !important;
-  min-height: 600px !important;
 
   /* width */
   &::-webkit-scrollbar {
@@ -44,6 +43,11 @@
     border-radius: 0 !important;
     border: none !important;
     border-bottom: 1px solid $grey_3 !important;
+    background: none !important;
+
+    .rs-table-cell {
+      background: none !important;
+    }
 
     // column header cell
     .rs-table-cell-content {
@@ -52,7 +56,7 @@
       align-items: center !important;
       font-size: 12px !important;
       color: $grey_6 !important;
-      background: $light_gray_background;
+      background: none !important;
       font-weight: 500 !important;
     }
   }
@@ -71,43 +75,12 @@
 
       //  Table row property
       .rs-table-row {
-        // height: 190px !important; //
+        background: $orange_10 !important;
         border-bottom: 1px solid $grey_3;
 
-        /* ============== ZEBRA PATTERN  =============== */
-        &:nth-child(2n) {
-          background: $light_gray_background !important;
-
-          .rs-table-cell-content {
-            background: $light_gray_background !important;
-            padding: 0 !important;
-          }
-        }
-
-        &:nth-child(2n + 1) {
-          background: $grey_1 !important;
-
-          .rs-table-cell-content {
-            background: $grey_1 !important;
-            padding: 0 !important;
-          }
-        }
-
-        /* ============== FIRST CELL (TREAT SPECIAL)  =============== */
-        .rs-table-cell-first {
-          .rs-table-cell-content {
-            padding: 0 !important;
-            background: $light_gray_background !important;
-            // remove any borders from cell to show it's outside tbale
-            border: 0 !important;
-            padding-top: 40px !important;
-          }
-        }
-
-        .rs-table-row-expanded {
-          background: $light_gray_background;
-          margin-left: 30px;
-          padding: 0;
+        .rs-table-cell-content {
+          background: $orange_10 !important;
+          padding: 0 !important;
         }
       }
     }
