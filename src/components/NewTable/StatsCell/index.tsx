@@ -19,6 +19,7 @@ interface Props extends RowCell {
   asFloatRounded?: boolean;
   autoPrependCurrencySign?: boolean;
   className?: string;
+  showZeroes?: boolean;
 }
 
 const StatsCell = (props: Props) => {
@@ -31,6 +32,7 @@ const StatsCell = (props: Props) => {
     asFloatRounded = false,
     autoPrependCurrencySign = false,
     className = '',
+    showZeroes,
     ...otherProps
   } = props;
 
@@ -74,10 +76,12 @@ const StatsCell = (props: Props) => {
           textAlign: align,
         }}
       >
-        {showNAIfZeroOrNull(
-          displayStat,
-          `${currencySign}${prependWith}${displayStat}${appendWith}`
-        )}
+        {showZeroes
+          ? `${currencySign}${prependWith}${displayStat}${appendWith}`
+          : showNAIfZeroOrNull(
+              displayStat,
+              `${currencySign}${prependWith}${displayStat}${appendWith}`
+            )}
       </div>
     </Table.Cell>
   );

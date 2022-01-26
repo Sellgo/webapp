@@ -115,6 +115,7 @@ const ExpectedDaysOfInventoryTable = (props: Props) => {
                     align="center"
                     specialKpi
                     className={styles.borderedCell}
+                    showZeroes
                   />
                 </Table.Column>
               );
