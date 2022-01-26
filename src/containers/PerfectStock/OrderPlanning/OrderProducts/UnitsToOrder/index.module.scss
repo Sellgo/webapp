@@ -9,6 +9,7 @@
   align-items: flex-start;
   padding-left: 20px;
   padding-top: 20px;
+  background: $blue_link_bg_dark;
 }
 
 .salesOptions {
@@ -19,7 +20,7 @@
 }
 
 .salesResults {
-  color: $accent_orange;
+  color: $prim_white;
   font-size: 24px;
   font-weight: $fontweight_bold;
   width: 100%;
@@ -39,7 +40,7 @@
     margin-bottom: 2px;
 
     input {
-      color: $accent_orange !important;
+      color: $black_1 !important;
       font-size: 24px;
       font-weight: $fontweight_bold;
     }
@@ -72,7 +73,13 @@
   label {
     text-align: left;
     font-size: 14px;
-    color: $grey_8;
-    font-weight: $fontweight_regular;
+    color: $prim_white !important;
+    font-weight: $fontweight_regular !important;
+  }
+
+  &__selected {
+    label {
+      font-weight: $fontweight_semibold !important;
+    }
   }
 }

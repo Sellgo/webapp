@@ -132,16 +132,18 @@ export default class TaskList extends Component {
     return (
       <div className="timeLine-side">
         <div className="timeLine-side-title">
-          <SelectionFilter
-            label="View Draft Orders"
-            filterOptions={this.props.viewFilterOptions}
-            value={this.props.viewFilter}
-            handleChange={value =>
-              this.props.handleChangeFilterOption && this.props.handleChangeFilterOption(value)
-            }
-            placeholder="Select a template"
-            className="timeLine-mode-changer"
-          />
+          {this.props.viewFilterOptions && this.props.handleChangeFilterOption && (
+            <SelectionFilter
+              label="View Draft Orders"
+              filterOptions={this.props.viewFilterOptions}
+              value={this.props.viewFilter}
+              handleChange={value =>
+                this.props.handleChangeFilterOption && this.props.handleChangeFilterOption(value)
+              }
+              placeholder="Select a template"
+              className="timeLine-mode-changer"
+            />
+          )}
 
           <SelectionFilter
             label="View Timeline"

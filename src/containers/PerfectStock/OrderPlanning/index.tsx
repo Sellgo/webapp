@@ -1,10 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
+
+/* Styles */
+import styles from './index.module.scss';
 
 /* Actions */
 import {
   fetchDraftOrderInformation,
+  fetchDraftTemplates,
   fetchPurchaseOrders,
   fetchRefreshProgress,
   setActiveDraftOrderTemplate,
@@ -15,10 +18,10 @@ import {
 import {
   getActiveDraftOrderTemplate,
   getActivePurchaseOrder,
+  getDraftOrderTemplates,
   getIsFetchingProgressForRefresh,
   getRefreshProgress,
 } from '../../../selectors/PerfectStock/OrderPlanning';
-import { sellerIDSelector } from '../../../selectors/Seller';
 
 /* Components */
 import ProgressBar from '../../../components/ProgressBar';
@@ -27,6 +30,7 @@ import OrderPlanningMeta from './OrderPlanningMeta';
 import OrderSummary from './OrderSummary';
 import OrderProducts from './OrderProducts';
 import ExpectedDaysOfInventoryTable from './ExpectedDaysOfInventoryTable';
+import AddEditSkuModal from './AddEditSkuModal';
 
 /* Types */
 import {
@@ -34,9 +38,6 @@ import {
   GanttChartPurchaseOrder,
   PurchaseOrder,
 } from '../../../interfaces/PerfectStock/OrderPlanning';
-
-/* Utils */
-import { AppConfig } from '../../../config';
 
 interface Props {
   isFetchingProgressForRefresh: boolean;
@@ -49,6 +50,8 @@ interface Props {
   fetchDraftOrderInformation: () => void;
   setPurchaseOrders: (payload: PurchaseOrder[]) => void;
   activePurchaseOrder: GanttChartPurchaseOrder;
+  fetchDraftTemplates: () => void;
+  draftOrderTemplates: DraftOrderTemplate[];
 }
 
 type IOption = {
@@ -68,34 +71,15 @@ const OrderPlanning = (props: Props) => {
     activeDraftOrderTemplate,
     setActiveDraftOrderTemplate,
     setPurchaseOrders,
+    fetchDraftTemplates,
+    draftOrderTemplates,
   } = props;
 
-  const [filterOptions, setFilterOptions] = React.useState<IOption[]>([]);
-  const [draftTemplates, setDraftTemplates] = React.useState<DraftOrderTemplate[]>([]);
-
-  /* Action to fetch draft templates */
-  const fetchDraftTemplates = async () => {
-    try {
-      const sellerId = sellerIDSelector();
-      const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-order-templates`;
-
-      const { data } = await axios.get(URL);
-      const filterOptions = data.map((template: any) => {
-        return {
-          key: template.id,
-          value: template.id,
-          text: `Template ${template.id}`,
-        };
-      });
-      setDraftTemplates(data);
-      setFilterOptions(filterOptions);
-    } catch (err) {
-      console.error('Error fetching draft templates', err);
-    }
-  };
+  // const [filterOptions, setFilterOptions] = React.useState<IOption[]>([]);
+  const [isEditingSKUs, setIsEditingSKUs] = React.useState(false);
 
   const handleSelectTemplate = (id: string) => {
-    const selectedTemplate = draftTemplates.find(
+    const selectedTemplate = draftOrderTemplates.find(
       (option: DraftOrderTemplate) => option.id === parseInt(id)
     );
 
@@ -104,40 +88,65 @@ const OrderPlanning = (props: Props) => {
     }
   };
 
-  const selectedDraftOrderTemplateOption = filterOptions.find(
-    (option: IOption) => option.value === activeDraftOrderTemplate?.id?.toString()
-  );
-
+  /* Fetch draft order SKU information and meta-data upon clicking on an order */
   React.useEffect(() => {
     fetchDraftOrderInformation();
-    fetchDraftTemplates();
   }, [activePurchaseOrder]);
 
+  /* Re-fetch all purchase orders when template selected changes */
   React.useEffect(() => {
     fetchPurchaseOrders(true);
   }, [activeDraftOrderTemplate]);
 
+  /* Fetch full list of templates upon component mount */
   React.useEffect(() => {
     setPurchaseOrders([]);
+    fetchDraftTemplates();
   }, []);
 
+  const filterOptions = draftOrderTemplates.map((template: any) => {
+    return {
+      key: template.id,
+      value: template.id.toString(),
+      text: `Template ${template.id}`,
+    };
+  });
+  const emptySkuContent = (
+    <div className={styles.emptySkuContent}>
+      No SKUs have been added.
+      {activeDraftOrderTemplate.id && (
+        <button onClick={() => setIsEditingSKUs(true)}> Add SKUs now. </button>
+      )}
+    </div>
+  );
   return (
     <main>
       <OrderGanttChart
         hideBottomBorder
         viewFilterOptions={filterOptions}
         handleChangeFilterOption={handleSelectTemplate}
-        viewFilter={selectedDraftOrderTemplateOption}
+        viewFilter={activeDraftOrderTemplate.id ? activeDraftOrderTemplate.id.toString() : ''}
         isDraftMode
       />
-      <ExpectedDaysOfInventoryTable />
+      <ExpectedDaysOfInventoryTable emptySkuContent={emptySkuContent} />
       <OrderSummary />
-      <OrderPlanningMeta />
+      <OrderPlanningMeta setIsEditingSKUs={setIsEditingSKUs} />
       <OrderProducts />
       <ProgressBar
         fetchProgress={fetchRefreshProgress}
         progress={refreshProgress}
         shouldFetchProgress={isFetchingProgressForRefresh}
+      />
+      <AddEditSkuModal
+        open={isEditingSKUs}
+        onCloseModal={() => setIsEditingSKUs(false)}
+        templateId={activeDraftOrderTemplate.id}
+        selectedSKUs={activeDraftOrderTemplate.merchant_listings}
+        refreshData={(updatedTemplate: DraftOrderTemplate) => {
+          setActiveDraftOrderTemplate(updatedTemplate);
+          fetchDraftTemplates();
+          fetchPurchaseOrders(true);
+        }}
       />
     </main>
   );
@@ -148,6 +157,7 @@ const mapStateToProps = (state: any) => ({
   isFetchingProgressForRefresh: getIsFetchingProgressForRefresh(state),
   activePurchaseOrder: getActivePurchaseOrder(state),
   activeDraftOrderTemplate: getActiveDraftOrderTemplate(state),
+  draftOrderTemplates: getDraftOrderTemplates(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -162,6 +172,7 @@ const mapDispatchToProps = (dispatch: any) => {
     setPurchaseOrders: (payload: PurchaseOrder[]) => {
       dispatch(setPurchaseOrders(payload));
     },
+    fetchDraftTemplates: () => dispatch(fetchDraftTemplates()),
   };
 };
 

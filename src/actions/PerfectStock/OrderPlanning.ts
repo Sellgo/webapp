@@ -1,7 +1,11 @@
 /* Constants */
 import axios from 'axios';
 import { AppConfig } from '../../config';
-import { actionTypes, TIME_SETTING } from '../../constants/PerfectStock/OrderPlanning';
+import {
+  actionTypes,
+  EMPTY_PURCHASE_ORDER,
+  TIME_SETTING,
+} from '../../constants/PerfectStock/OrderPlanning';
 
 /* Interfaces */
 import {
@@ -155,11 +159,12 @@ export const setDraftOrderInformation = (payload: any) => {
 };
 
 /* Action to set active draft order template */
-export const setActiveDraftOrderTemplate = (payload: DraftOrderTemplate) => {
-  return {
+export const setActiveDraftOrderTemplate = (payload: DraftOrderTemplate) => (dispatch: any) => {
+  dispatch(setActivePurchaseOrder(EMPTY_PURCHASE_ORDER));
+  dispatch({
     type: actionTypes.SET_ACTIVE_DRAFT_ORDER_TEMPLATE,
     payload,
-  };
+  });
 };
 
 /* Action to set loading status for expected days of inventory */
@@ -178,7 +183,36 @@ export const setExpectedDaysOfInventory = (payload: any[]) => {
   };
 };
 
+/* Action to set loading for the draft templates */
+export const isLoadingDraftTemplates = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_LOADING_DRAFT_ORDER_TEMPLATES,
+    payload,
+  };
+};
+
+/* Action to set all the draft templates */
+export const setDraftTemplates = (payload: DraftOrderTemplate[]) => {
+  return {
+    type: actionTypes.SET_DRAFT_ORDER_TEMPLATES,
+    payload,
+  };
+};
 /*********** Async Actions ************************ */
+/* Action to fetch draft templates */
+export const fetchDraftTemplates = () => async (dispatch: any) => {
+  dispatch(isLoadingDraftTemplates(true));
+  try {
+    const sellerId = sellerIDSelector();
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-order-templates`;
+    const { data } = await axios.get(URL);
+    dispatch(setDraftTemplates(data));
+  } catch (err) {
+    console.error('Error fetching draft templates', err);
+  }
+  dispatch(isLoadingDraftTemplates(false));
+};
+
 /* Action to fetch purchase orders */
 export const fetchPurchaseOrders = (isDraft?: boolean) => async (dispatch: any, getState: any) => {
   try {
@@ -187,10 +221,12 @@ export const fetchPurchaseOrders = (isDraft?: boolean) => async (dispatch: any, 
     const activeDraftOrderTemplate = getActiveDraftOrderTemplate(state);
     let URL;
 
-    if (isDraft && activeDraftOrderTemplate) {
+    if (isDraft && activeDraftOrderTemplate.id) {
       URL =
         `${AppConfig.BASE_URL_API}sellers/${sellerId}/` +
         `purchase-orders?status=pending&purchase_order_template_id=${activeDraftOrderTemplate.id}`;
+    } else if (isDraft && !activeDraftOrderTemplate.id) {
+      return null;
     } else {
       URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders`;
     }
@@ -284,7 +320,7 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
       dispatch(fetchInventoryTable());
 
       if (!payload.date && payload.status === 'inactive') {
-        dispatch(fetchPurchaseOrders());
+        dispatch(fetchPurchaseOrders(true));
         success('Deleted order successfully');
       }
     } else {
@@ -371,12 +407,21 @@ export const fetchExpectedDaysOfInventory = () => async (dispatch: any, useState
     const dateRange = getDateRange(state);
     const timeSettings = getTimeSetting(state);
     const draftOrder = getDraftOrderInformation(state);
-    const merchantListings = draftOrder.merchant_listings;
+    const draftTemplate = getActiveDraftOrderTemplate(state);
+
+    let merchantListings = [];
+    if (draftOrder.merchant_listings) {
+      merchantListings = draftOrder.merchant_listings;
+    } else if (draftTemplate.merchant_listings) {
+      merchantListings = draftTemplate.merchant_listings;
+    }
+
     const skus = merchantListings
       .map((merchantListing: any) => {
         return merchantListing.sku;
       })
       .join(',');
+
     const resourceString =
       `?types=expected_inventory_draft` +
       `&skus=${skus}` +

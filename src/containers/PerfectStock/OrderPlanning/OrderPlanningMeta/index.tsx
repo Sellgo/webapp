@@ -6,14 +6,12 @@ import styles from './index.module.scss';
 
 /* Components */
 import ActionButton from '../../../../components/ActionButton';
-import AddEditSkuModal from '../AddEditSkuModal';
 
 /* Assets */
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
 
 /* Actions */
 import {
-  fetchPurchaseOrders,
   refreshInventoryTable,
   updatePurchaseOrder,
 } from '../../../../actions/PerfectStock/OrderPlanning';
@@ -34,10 +32,10 @@ import {
 } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 interface Props {
+  setIsEditingSKUs: (isEditingSKUs: boolean) => void;
   activeDraftOrderTemplate: DraftOrderTemplate;
   activePurchaseOrder: PurchaseOrder;
   updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => void;
-  fetchPurchaseOrders: (isDraft?: boolean) => void;
 }
 
 const OrderPlanningMeta = (props: Props) => {
@@ -45,10 +43,8 @@ const OrderPlanningMeta = (props: Props) => {
     activeDraftOrderTemplate,
     activePurchaseOrder,
     updatePurchaseOrder,
-    fetchPurchaseOrders,
+    setIsEditingSKUs,
   } = props;
-
-  const [isEditingSku, setIsEditingSku] = React.useState(false);
 
   let hasActiveDraftOrderTemplate = false;
   if (activeDraftOrderTemplate && activeDraftOrderTemplate.id) {
@@ -75,7 +71,7 @@ const OrderPlanningMeta = (props: Props) => {
           type="purpleGradient"
           size="md"
           className={styles.editSkuButton}
-          onClick={() => setIsEditingSku(true)}
+          onClick={() => setIsEditingSKUs(true)}
           disabled={!hasActiveDraftOrderTemplate}
         >
           <ThinAddIcon />
@@ -93,13 +89,6 @@ const OrderPlanningMeta = (props: Props) => {
           </ActionButton>
         </div>
       </div>
-
-      <AddEditSkuModal
-        open={isEditingSku}
-        onCloseModal={() => setIsEditingSku(false)}
-        templateId={activeDraftOrderTemplate.id}
-        refreshData={() => fetchPurchaseOrders(true)}
-      />
     </>
   );
 };
@@ -116,7 +105,6 @@ const mapDispatchToProps = (dispatch: any) => {
     refreshInventoryTable: () => dispatch(refreshInventoryTable()),
     updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) =>
       dispatch(updatePurchaseOrder(payload)),
-    fetchPurchaseOrders: (isDraft?: boolean) => dispatch(fetchPurchaseOrders(isDraft)),
   };
 };
 

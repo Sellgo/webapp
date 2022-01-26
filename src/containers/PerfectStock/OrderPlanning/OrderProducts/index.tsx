@@ -46,21 +46,6 @@ const OrderProducts = (props: Props) => {
           <ProductInformation dataKey="title" />
         </Table.Column>
 
-        {/* Stock out date info  */}
-        <Table.Column width={110} verticalAlign="top" align="center">
-          <Table.HeaderCell>
-            <HeaderSortCell
-              title={`MOQ`}
-              dataKey="moq"
-              currentSortColumn={''}
-              currentSortType={undefined}
-              alignMiddle
-              disableSort
-            />
-          </Table.HeaderCell>
-          <StatsCell dataKey="moq" className={styles.borderedStatCell} align="center" specialKpi />
-        </Table.Column>
-
         {/* Expected Sales  */}
         <Table.Column width={300} verticalAlign="middle" align="center">
           <Table.HeaderCell>
@@ -73,10 +58,9 @@ const OrderProducts = (props: Props) => {
               alignMiddle
             />
           </Table.HeaderCell>
-          <UnitsToOrder dataKey="predictive_sales" />
+          <UnitsToOrder dataKey="predictive_sales" orderId={draftOrderInformation.id} />
         </Table.Column>
 
-        {/* Stock out date info  */}
         <Table.Column width={110} verticalAlign="top" align="center">
           <Table.HeaderCell>
             <HeaderSortCell
@@ -101,7 +85,7 @@ const OrderProducts = (props: Props) => {
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Cost per unit`}
-              dataKey="cost_per_unit"
+              dataKey="product_cost"
               currentSortColumn={''}
               currentSortType={undefined}
               alignMiddle
@@ -109,11 +93,31 @@ const OrderProducts = (props: Props) => {
             />
           </Table.HeaderCell>
           <StatsCell
-            dataKey="cost_per_unit"
+            dataKey="product_cost"
             className={styles.borderedStatCell}
             prependWith="$"
             specialKpi
             align="center"
+          />
+        </Table.Column>
+
+        <Table.Column width={110} verticalAlign="top" align="center">
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title={`Total Cost`}
+              dataKey="total_cost"
+              currentSortColumn={''}
+              currentSortType={undefined}
+              alignMiddle
+              disableSort
+            />
+          </Table.HeaderCell>
+          <StatsCell
+            dataKey="total_cost"
+            className={styles.borderedStatCell}
+            align="center"
+            prependWith="$"
+            specialKpi
           />
         </Table.Column>
       </Table>

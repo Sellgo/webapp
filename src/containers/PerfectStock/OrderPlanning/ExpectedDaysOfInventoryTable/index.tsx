@@ -20,6 +20,7 @@ import {
 
 /* selectors */
 import {
+  getActiveDraftOrderTemplate,
   getDateRange,
   getDraftOrderInformation,
   getExpectedDaysOfInventory,
@@ -34,6 +35,7 @@ import { fetchExpectedDaysOfInventory } from '../../../../actions/PerfectStock/O
 import {
   DateRange,
   DraftOrderInformation,
+  DraftOrderTemplate,
 } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 const HEADER_ROW_HEIGHT = 40;
@@ -44,8 +46,10 @@ interface Props {
   timeSetting: TimeSetting;
   fetchExpectedDaysOfInventory: () => void;
   draftOrderInformation: DraftOrderInformation;
+  activeDraftOrderTemplate: DraftOrderTemplate;
   expectedDaysOfInventory: any[];
   isLoadingExpectedDaysOfInventory: boolean;
+  emptySkuContent: React.ReactNode;
 }
 
 const ExpectedDaysOfInventoryTable = (props: Props) => {
@@ -56,19 +60,28 @@ const ExpectedDaysOfInventoryTable = (props: Props) => {
     draftOrderInformation,
     expectedDaysOfInventory,
     isLoadingExpectedDaysOfInventory,
+    emptySkuContent,
+    activeDraftOrderTemplate,
   } = props;
 
   /* Fetch expected days of inventory upon date range change, time setting change, or draft order info changes */
   React.useEffect(() => {
+    console.log('fetching!');
     fetchExpectedDaysOfInventory();
-  }, [dateRange.startDate, dateRange.endDate, timeSetting, draftOrderInformation.id]);
+  }, [
+    dateRange.startDate,
+    dateRange.endDate,
+    timeSetting,
+    draftOrderInformation.id,
+    activeDraftOrderTemplate,
+  ]);
   const headers = expectedDaysOfInventory.length > 0 ? Object.keys(expectedDaysOfInventory[0]) : [];
 
   return (
     <>
       <div className={styles.expectedDaysOfInventoryTableWrapper}>
         <Table
-          renderEmpty={() => <div />}
+          renderEmpty={() => !isLoadingExpectedDaysOfInventory && emptySkuContent}
           // Dont display old data when loading
           renderLoading={() =>
             isLoadingExpectedDaysOfInventory && <Placeholder numberParagraphs={1} numberRows={1} />
@@ -118,6 +131,7 @@ const mapStateToProps = (state: any) => {
     dateRange: getDateRange(state),
     timeSetting: getTimeSetting(state),
     draftOrderInformation: getDraftOrderInformation(state),
+    activeDraftOrderTemplate: getActiveDraftOrderTemplate(state),
     expectedDaysOfInventory: getExpectedDaysOfInventory(state),
     isLoadingExpectedDaysOfInventory: getIsLoadingExpectedDaysOfInventory(state),
   };

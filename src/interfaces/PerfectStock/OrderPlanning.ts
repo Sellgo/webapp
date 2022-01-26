@@ -22,6 +22,7 @@ export interface DraftOrderTemplate {
   id: number;
   lead_time_group_id: number;
   status: string;
+  merchant_listings: any[];
 }
 
 /* Gantt chart purchase orders are used in the gantt chart, and requires start/end to be in the Date format */
@@ -40,6 +41,10 @@ export interface UpdatePurchaseOrderPayload {
   date?: string;
   status?: 'active' | 'inactive';
   is_included?: boolean;
+  po_sku_id?: number;
+  quantity?: number;
+  manual_quantity?: number;
+  quantity_mode?: string;
 }
 
 export interface CreateOrderPayload {

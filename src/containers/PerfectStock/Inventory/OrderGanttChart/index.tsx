@@ -67,7 +67,7 @@ interface Props {
 
   hideBottomBorder?: boolean;
   viewFilterOptions?: IOption[];
-  viewFilter?: IOption;
+  viewFilter?: string;
   handleChangeFilterOption?: (value: string) => void;
   isDraftMode?: boolean;
 }

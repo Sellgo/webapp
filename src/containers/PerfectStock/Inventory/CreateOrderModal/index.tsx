@@ -17,6 +17,7 @@ import OrderCreated from './OrderCreatedSuccess';
 /* Interfaces */
 import {
   CreateOrderPayload,
+  DraftOrderTemplate,
   PurchaseOrder,
 } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
@@ -26,21 +27,22 @@ import { sellerIDSelector } from '../../../../selectors/Seller';
 
 /* Actions */
 import {
-  fetchInventoryTable,
   fetchPurchaseOrders,
+  setActiveDraftOrderTemplate,
   setActivePurchaseOrder,
 } from '../../../../actions/PerfectStock/OrderPlanning';
 import { error, success } from '../../../../utils/notifications';
 
 /* Constants */
 import { CREATE_ORDER_STATUS } from '../../../../constants/PerfectStock/OrderPlanning';
+import history from '../../../../history';
 
 interface Props {
   open: boolean;
   onCloseModal: () => void;
   fetchPurchaseOrders: () => void;
-  fetchInventoryTable: () => void;
   setActivePurchaseOrder: (order: PurchaseOrder) => void;
+  setActiveOrderTemplate: (orderTemplate: DraftOrderTemplate) => void;
 }
 
 const CreateOrder = (props: Props) => {
@@ -48,8 +50,8 @@ const CreateOrder = (props: Props) => {
     open,
     onCloseModal,
     fetchPurchaseOrders,
-    fetchInventoryTable,
     setActivePurchaseOrder,
+    setActiveOrderTemplate,
   } = props;
 
   const DEFAULT_ORDER: CreateOrderPayload = {
@@ -71,9 +73,9 @@ const CreateOrder = (props: Props) => {
       const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-order-templates`;
       const res = await axios.post(url, createOrderPayload);
       if (res.status === 201) {
-        fetchPurchaseOrders();
-        fetchInventoryTable();
         setActivePurchaseOrder(res.data);
+        setActiveOrderTemplate(res.data);
+        fetchPurchaseOrders();
         success('Successfully created smart order template.');
         setCreateOrderStatus(createOrderStatus + 1);
       } else {
@@ -91,10 +93,16 @@ const CreateOrder = (props: Props) => {
     setCreateOrderStatus(CREATE_ORDER_STATUS.SELECT_START_DATE);
   }, [open]);
 
+  const handleRedirectToDraftOrder = () => {
+    history.push('/perfect-stock/order-planning');
+    onCloseModal();
+  };
+
   let content: JSX.Element;
   let headerContent: string;
   switch (createOrderStatus) {
     case CREATE_ORDER_STATUS.SELECT_START_DATE:
+      console.log('WHY?');
       content = (
         <StartDateSelection
           onCloseModal={onCloseModal}
@@ -130,7 +138,8 @@ const CreateOrder = (props: Props) => {
       break;
 
     case CREATE_ORDER_STATUS.ORDER_CREATION_SUCCESS:
-      content = <OrderCreated handleNext={() => setCreateOrderStatus(createOrderStatus + 1)} />;
+      console.log('wtf?');
+      content = <OrderCreated handleNext={handleRedirectToDraftOrder} />;
       headerContent = 'SMART ORDER TEMPLATE';
       break;
 
@@ -156,11 +165,11 @@ const mapDispatchToProps = (dispatch: any) => {
     fetchPurchaseOrders: () => {
       dispatch(fetchPurchaseOrders());
     },
-    fetchInventoryTable: () => {
-      dispatch(fetchInventoryTable());
-    },
     setActivePurchaseOrder: (order: PurchaseOrder) => {
       dispatch(setActivePurchaseOrder(order));
+    },
+    setActiveOrderTemplate: (template: DraftOrderTemplate) => {
+      dispatch(setActiveDraftOrderTemplate(template));
     },
   };
 };

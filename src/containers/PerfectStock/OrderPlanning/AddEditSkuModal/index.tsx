@@ -20,18 +20,20 @@ import { truncateString } from '../../../../utils/format';
 import { sellerIDSelector } from '../../../../selectors/Seller';
 import { AppConfig } from '../../../../config';
 import { error, success } from '../../../../utils/notifications';
+import { DraftOrderTemplate } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 interface Props {
   open: boolean;
   onCloseModal: () => void;
   templateId: number;
-  refreshData: () => void;
+  refreshData: (updatedTemplate: DraftOrderTemplate) => void;
+  selectedSKUs: any[];
 }
 
-const AssignProductsTable = (props: Props) => {
-  const { open, onCloseModal, templateId, refreshData } = props;
+const AddEditSkuModal = (props: Props) => {
+  const { open, onCloseModal, templateId, refreshData, selectedSKUs } = props;
   const [orderProducts, setOrderProducts] = React.useState<any>([]);
-  const [selectedProductIds, setSelectedProductIds] = React.useState<number[]>([]);
+  const [selectedProductIds, setSelectedProductIds] = React.useState<string[]>([]);
   const [isSubmitingProductAssignments, setIsSubmitingProductAssignments] = React.useState<boolean>(
     false
   );
@@ -50,7 +52,8 @@ const AssignProductsTable = (props: Props) => {
   React.useEffect(() => {
     if (open) {
       setOrderProducts([]);
-      setSelectedProductIds([]);
+      const selectedSkuIds = selectedSKUs.map((sku: any) => sku.id.toString());
+      setSelectedProductIds(selectedSkuIds);
       fetchOrderProducts();
     }
   }, [open]);
@@ -58,14 +61,14 @@ const AssignProductsTable = (props: Props) => {
   const handleSubmit = async () => {
     setIsSubmitingProductAssignments(true);
     try {
-      const { status } = await axios.patch(
+      const { status, data } = await axios.patch(
         `${
           AppConfig.BASE_URL_API
         }sellers/${sellerIDSelector()}/purchase-order-templates/${templateId}`,
-        { merchant_listing_ids: selectedProductIds }
+        { merchant_listing_ids: selectedProductIds.map((id: string) => parseInt(id)) }
       );
       if (status === 200) {
-        refreshData();
+        refreshData(data);
         success('Products assigned successfully');
         onCloseModal();
       } else {
@@ -79,7 +82,9 @@ const AssignProductsTable = (props: Props) => {
   };
 
   const handleDeleteProduct = (productId: number) => {
-    const newSelectedProductIds = selectedProductIds.filter((id: number) => id !== productId);
+    const newSelectedProductIds = selectedProductIds.filter(
+      (id: string) => parseInt(id) !== productId
+    );
     setSelectedProductIds(newSelectedProductIds);
   };
 
@@ -165,4 +170,4 @@ const AssignProductsTable = (props: Props) => {
   );
 };
 
-export default AssignProductsTable;
+export default AddEditSkuModal;

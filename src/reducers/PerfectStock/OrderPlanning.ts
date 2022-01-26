@@ -30,6 +30,8 @@ const INITIAL_STATE = {
   isLoadingExpectedDaysOfInventory: false,
   expectedDaysOfInventory: [],
   activeDraftOrderTemplate: {},
+  draftOrderTemplates: [],
+  isLoadingDraftOrderTemplates: false,
 };
 
 const salesProjectionReducer = (state = INITIAL_STATE, action: AnyAction) => {
@@ -100,6 +102,14 @@ const salesProjectionReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_ACTIVE_DRAFT_ORDER_TEMPLATE: {
       return setIn(state, 'activeDraftOrderTemplate', action.payload);
+    }
+
+    case actionTypes.SET_DRAFT_ORDER_TEMPLATES: {
+      return setIn(state, 'draftOrderTemplates', action.payload);
+    }
+
+    case actionTypes.IS_LOADING_DRAFT_ORDER_TEMPLATES: {
+      return setIn(state, 'isLoadingDraftOrderTemplates', action.payload);
     }
 
     default: {

@@ -79,3 +79,13 @@ export const getIsLoadingExpectedDaysOfInventory = (state: any) => {
 export const getActiveDraftOrderTemplate = (state: any) => {
   return get(state, 'orderPlanning.activeDraftOrderTemplate');
 };
+
+/* Selector to get all draft order templates */
+export const getDraftOrderTemplates = (state: any) => {
+  return get(state, 'orderPlanning.draftOrderTemplates');
+};
+
+/* Selector to get loading state of draft order templates */
+export const getIsLoadingDraftOrderTemplates = (state: any) => {
+  return get(state, 'orderPlanning.isLoadingDraftOrderTemplates');
+};
