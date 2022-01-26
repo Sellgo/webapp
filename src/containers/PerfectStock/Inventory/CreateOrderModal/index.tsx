@@ -102,7 +102,6 @@ const CreateOrder = (props: Props) => {
   let headerContent: string;
   switch (createOrderStatus) {
     case CREATE_ORDER_STATUS.SELECT_START_DATE:
-      console.log('WHY?');
       content = (
         <StartDateSelection
           onCloseModal={onCloseModal}
@@ -138,7 +137,6 @@ const CreateOrder = (props: Props) => {
       break;
 
     case CREATE_ORDER_STATUS.ORDER_CREATION_SUCCESS:
-      console.log('wtf?');
       content = <OrderCreated handleNext={handleRedirectToDraftOrder} />;
       headerContent = 'SMART ORDER TEMPLATE';
       break;

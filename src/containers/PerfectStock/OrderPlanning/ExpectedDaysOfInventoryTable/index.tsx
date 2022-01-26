@@ -66,7 +66,6 @@ const ExpectedDaysOfInventoryTable = (props: Props) => {
 
   /* Fetch expected days of inventory upon date range change, time setting change, or draft order info changes */
   React.useEffect(() => {
-    console.log('fetching!');
     fetchExpectedDaysOfInventory();
   }, [
     dateRange.startDate,

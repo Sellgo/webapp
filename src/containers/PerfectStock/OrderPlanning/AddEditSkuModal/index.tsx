@@ -52,8 +52,8 @@ const AddEditSkuModal = (props: Props) => {
   React.useEffect(() => {
     if (open) {
       setOrderProducts([]);
-      const selectedSkuIds = selectedSKUs.map((sku: any) => sku.id.toString());
-      setSelectedProductIds(selectedSkuIds);
+      const selectedSkuIds = selectedSKUs?.map((sku: any) => sku.id.toString());
+      setSelectedProductIds(selectedSkuIds ? selectedSkuIds : []);
       fetchOrderProducts();
     }
   }, [open]);

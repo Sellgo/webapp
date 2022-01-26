@@ -121,7 +121,7 @@ const ProductResearch: React.FC<Props> = props => {
             <TabList className={styles.productTablist}>
               <Tab>
                 <ProductLabel
-                  label="Inventory"
+                  label="Sales Estimation"
                   icon="Product Database"
                   isActive={selectedTabList === 0}
                   isBeta
@@ -129,7 +129,7 @@ const ProductResearch: React.FC<Props> = props => {
               </Tab>
               <Tab>
                 <ProductLabel
-                  label="Order Planning"
+                  label="Inventory"
                   icon="Product Database"
                   isActive={selectedTabList === 1}
                   isBeta
@@ -137,7 +137,7 @@ const ProductResearch: React.FC<Props> = props => {
               </Tab>
               <Tab>
                 <ProductLabel
-                  label="Sales Estimation"
+                  label="Order Planning"
                   icon="Product Database"
                   isActive={selectedTabList === 2}
                   isBeta
@@ -146,15 +146,15 @@ const ProductResearch: React.FC<Props> = props => {
             </TabList>
 
             <TabPanel>
+              <SalesProjection />
+            </TabPanel>
+
+            <TabPanel>
               <Inventory />
             </TabPanel>
 
             <TabPanel>
               <OrderPlanning />
-            </TabPanel>
-
-            <TabPanel>
-              <SalesProjection />
             </TabPanel>
           </Tabs>
         </section>
