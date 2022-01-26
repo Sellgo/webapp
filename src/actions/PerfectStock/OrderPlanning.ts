@@ -423,7 +423,7 @@ export const fetchExpectedDaysOfInventory = () => async (dispatch: any, useState
       .join(',');
 
     const resourceString =
-      `?types=expected_inventory_draft` +
+      `?types=days_until_so_draft` +
       `&skus=${skus}` +
       `&start_date=${getDateOnly(new Date(dateRange.startDate))}` +
       `&end_date=${getDateOnly(new Date(dateRange.endDate))}` +
@@ -437,7 +437,7 @@ export const fetchExpectedDaysOfInventory = () => async (dispatch: any, useState
       if (sku.data.length > 0) {
         return {
           title: sku.title,
-          ...sku.data[0].expected_inventory_draft,
+          ...sku.data[0].days_until_so_draft,
         };
       } else {
         return {
