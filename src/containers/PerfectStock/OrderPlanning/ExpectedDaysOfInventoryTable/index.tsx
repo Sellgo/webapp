@@ -25,6 +25,7 @@ import {
   getDraftOrderInformation,
   getExpectedDaysOfInventory,
   getIsLoadingExpectedDaysOfInventory,
+  getPurchaseOrders,
   getTimeSetting,
 } from '../../../../selectors/PerfectStock/OrderPlanning';
 
@@ -50,6 +51,7 @@ interface Props {
   expectedDaysOfInventory: any[];
   isLoadingExpectedDaysOfInventory: boolean;
   emptySkuContent: React.ReactNode;
+  purchaseOrders: any[];
 }
 
 const ExpectedDaysOfInventoryTable = (props: Props) => {
@@ -62,6 +64,7 @@ const ExpectedDaysOfInventoryTable = (props: Props) => {
     isLoadingExpectedDaysOfInventory,
     emptySkuContent,
     activeDraftOrderTemplate,
+    purchaseOrders,
   } = props;
 
   /* Fetch expected days of inventory upon date range change, time setting change, or draft order info changes */
@@ -73,6 +76,7 @@ const ExpectedDaysOfInventoryTable = (props: Props) => {
     timeSetting,
     draftOrderInformation.id,
     activeDraftOrderTemplate,
+    purchaseOrders,
   ]);
   const headers = expectedDaysOfInventory.length > 0 ? Object.keys(expectedDaysOfInventory[0]) : [];
 
@@ -134,6 +138,7 @@ const mapStateToProps = (state: any) => {
     activeDraftOrderTemplate: getActiveDraftOrderTemplate(state),
     expectedDaysOfInventory: getExpectedDaysOfInventory(state),
     isLoadingExpectedDaysOfInventory: getIsLoadingExpectedDaysOfInventory(state),
+    purchaseOrders: getPurchaseOrders(state),
   };
 };
 
