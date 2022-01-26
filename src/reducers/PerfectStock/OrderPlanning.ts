@@ -19,6 +19,13 @@ const INITIAL_STATE = {
   isFetchingProgressForRefresh: false,
   refreshProgress: 0,
   inventoryTableUpdateDate: '',
+
+  /* Draft orders */
+  isLoadingDraftOrder: false,
+  draftOrderInformation: {},
+  isLoadingExpectedDaysOfInventory: false,
+  expectedDaysOfInventory: [],
+  activeDraftOrderTemplate: {},
 };
 
 const salesProjectionReducer = (state = INITIAL_STATE, action: AnyAction) => {
@@ -69,6 +76,26 @@ const salesProjectionReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_INVENTORY_TABLE_UPDATE_DATE: {
       return setIn(state, 'inventoryTableUpdateDate', action.payload);
+    }
+
+    case actionTypes.SET_DRAFT_ORDER_INFORMATION: {
+      return setIn(state, 'draftOrderInformation', action.payload);
+    }
+
+    case actionTypes.IS_LOADING_DRAFT_ORDER_INFORMATION: {
+      return setIn(state, 'isLoadingDraftOrder', action.payload);
+    }
+
+    case actionTypes.IS_LOADING_EXPECTED_DAYS_OF_INVENTORY: {
+      return setIn(state, 'isLoadingExpectedDaysOfInventory', action.payload);
+    }
+
+    case actionTypes.SET_EXPECTED_DAYS_OF_INVENTORY: {
+      return setIn(state, 'expectedDaysOfInventory', action.payload);
+    }
+
+    case actionTypes.SET_ACTIVE_DRAFT_ORDER_TEMPLATE: {
+      return setIn(state, 'activeDraftOrderTemplate', action.payload);
     }
 
     default: {

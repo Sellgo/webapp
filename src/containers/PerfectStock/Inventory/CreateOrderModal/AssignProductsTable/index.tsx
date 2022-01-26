@@ -20,17 +20,14 @@ import { truncateString } from '../../../../../utils/format';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
 import { AppConfig } from '../../../../../config';
 
-/* Types */
-import { CreateOrderPayload } from '../../../../../interfaces/PerfectStock/OrderPlanning';
-
 /* Constants */
 
 interface Props {
   handleBack: () => void;
   handleSubmit: () => void;
   onCloseModal: () => void;
-  createOrderPayload: CreateOrderPayload;
-  setCreateOrderPayload: (payload: CreateOrderPayload) => void;
+  createOrderPayload: any;
+  setCreateOrderPayload: (payload: any) => void;
 }
 
 const AssignProductsTable = (props: Props) => {
@@ -122,7 +119,9 @@ const AssignProductsTable = (props: Props) => {
           className={styles.assignProductsField}
           label="Add More Products: *"
           filterOptions={orderProductOptions}
-          value={createOrderPayload.merchant_listing_ids.map(product => product.id.toString())}
+          value={createOrderPayload.merchant_listing_ids.map((product: any) =>
+            product.id.toString()
+          )}
           handleChange={(newProducts: any[]) =>
             setCreateOrderPayload({
               ...createOrderPayload,

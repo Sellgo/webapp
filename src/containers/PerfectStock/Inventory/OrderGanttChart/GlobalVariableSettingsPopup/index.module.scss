@@ -6,24 +6,42 @@
   width: 100%;
 }
 
+.ganttChartSettings {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 30px 18px;
+  min-width: 250px;
+  height: 280px;
+  background: $prim_white;
+
+  /* DO NOT CHANGE MARGIN FOR ALIGNMENT OF CHART WITH TABLES BELOW */
+  margin-right: 18px;
+
+  /* ========================== */
+  border: 1px solid $grey_3;
+  border-radius: 7px;
+
+  span {
+    font-size: 14px !important;
+    color: $grey_8;
+    font-weight: $fontweight_medium;
+    margin-bottom: 18px;
+  }
+}
+
 .ganttChart {
-  width: 100%;
+  /* 100% width minus width of gantt chart settings + margin */
+  width: calc(100% - 268px);
   background: $prim_white;
   border: 1px solid $grey_3;
   border-radius: 7px;
   max-height: 280px;
-  min-height: 200px;
 
   /* DO NOT CHANGE PADDING FOR ALIGNMENT OF CHART WITH TABLES BELOW */
   padding: 18px;
 
   /* ========================== */
-
-  &__hideBottomBorder {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom: none;
-  }
 }
 
 .settingToggle {

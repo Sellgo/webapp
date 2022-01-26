@@ -11,7 +11,31 @@ export const actionTypes = {
   SET_REFRESH_PROGRESS: 'SET_REFRESH_PROGRESS',
   SET_INVENTORY_TABLE_UPDATE_DATE: 'SET_INVENTORY_TABLE_UPDATE_DATE',
   SET_INVENTORY_TABLE_SHOW_ALL_SKUS: 'SET_INVENTORY_TABLE_SHOW_ALL_SKUS',
+  IS_LOADING_DRAFT_ORDER_INFORMATION: 'IS_LOADING_DRAFT_ORDER_INFORMATION',
+  SET_DRAFT_ORDER_INFORMATION: 'SET_DRAFT_ORDER_INFORMATION',
+  IS_LOADING_EXPECTED_DAYS_OF_INVENTORY: 'IS_LOADING_EXPECTED_DAYS_OF_INVENTORY',
+  SET_EXPECTED_DAYS_OF_INVENTORY: 'SET_EXPECTED_DAYS_OF_INVENTORY',
+  SET_ACTIVE_DRAFT_ORDER_TEMPLATE: 'SET_ACTIVE_DRAFT_ORDER_TEMPLATE',
 };
+
+export const AUTO_GENERATE_DURATION_OPTIONS = [
+  {
+    label: 'Future 6 months',
+    value: 180,
+  },
+  {
+    label: 'Future 12 months',
+    value: 365,
+  },
+  {
+    label: 'Future 18 months',
+    value: 455,
+  },
+  {
+    label: `I don't want to auto-generate future Draft Orders at the moment`,
+    value: 0,
+  },
+];
 
 export const TIME_SETTING = {
   DAY: 'month',
@@ -33,9 +57,12 @@ export const TIME_SETTINGS_OPTIONS = [
 ];
 
 export const CREATE_ORDER_STATUS = {
-  CREATE_ORDER_SETTINGS: 0,
-  ASSIGN_ORDER_PRODUCTS: 1,
+  SELECT_START_DATE: 0,
+  SELECT_LEAD_TIME: 1,
+  SELECT_AUTO_GENERATE_DURATION: 2,
+  ORDER_CREATION_SUCCESS: 3,
 };
+
 /* Styling widths to maintain alignment of chart between gantt chart and tables */
 export const UNIT_WIDTH = 48;
 export const SIDE_SETTING_WIDTH = 250;

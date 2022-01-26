@@ -7,35 +7,56 @@ import './globals.scss';
 import styles from './index.module.scss';
 
 /* Components */
-import HeaderDateCell from '../../../../components/NewTable/HeaderDateCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
+import Placeholder from '../../../../components/Placeholder';
 
 /* Constants */
 import {
   UNIT_WIDTH,
   OFFSET_TO_CHART_WIDTH,
+  TimeSetting,
 } from '../../../../constants/PerfectStock/OrderPlanning';
+import {
+  getDateRange,
+  getDraftOrderInformation,
+  getExpectedDaysOfInventory,
+  getIsLoadingExpectedDaysOfInventory,
+  getTimeSetting,
+} from '../../../../selectors/PerfectStock/OrderPlanning';
+import { fetchExpectedDaysOfInventory } from '../../../../actions/PerfectStock/OrderPlanning';
+import { connect } from 'react-redux';
+import {
+  DateRange,
+  DraftOrderInformation,
+} from '../../../../interfaces/PerfectStock/OrderPlanning';
 
-const HEADER_ROW_HEIGHT = 60;
-const ROW_HEIGHT = 60;
+const HEADER_ROW_HEIGHT = 40;
+const ROW_HEIGHT = 40;
 
-/* Main component */
-const ExpectedDaysOfInventoryTable = () => {
-  const productProjectedSales = [
-    {
-      product: 'Simple Product 1',
-      '2021-1-1': 5,
-      '2021-2-1': 5,
-      '2021-3-1': 5,
-    },
-    {
-      product: 'Simple Product 2',
-      '2021-1-1': 5,
-      '2021-2-1': 5,
-      '2021-3-1': 5,
-    },
-  ];
-  const headers = productProjectedSales.length > 0 ? Object.keys(productProjectedSales[0]) : [];
+interface Props {
+  dateRange: DateRange;
+  timeSetting: TimeSetting;
+  fetchExpectedDaysOfInventory: () => void;
+  draftOrderInformation: DraftOrderInformation;
+  expectedDaysOfInventory: any[];
+  isLoadingExpectedDaysOfInventory: boolean;
+}
+
+const ExpectedDaysOfInventoryTable = (props: Props) => {
+  const {
+    dateRange,
+    timeSetting,
+    fetchExpectedDaysOfInventory,
+    draftOrderInformation,
+    expectedDaysOfInventory,
+    isLoadingExpectedDaysOfInventory,
+  } = props;
+
+  /* Fetch expected days of inventory upon date range change, time setting change, or draft order info changes */
+  React.useEffect(() => {
+    fetchExpectedDaysOfInventory();
+  }, [dateRange.startDate, dateRange.endDate, timeSetting, draftOrderInformation.id]);
+  const headers = expectedDaysOfInventory.length > 0 ? Object.keys(expectedDaysOfInventory[0]) : [];
 
   return (
     <>
@@ -43,22 +64,26 @@ const ExpectedDaysOfInventoryTable = () => {
         <Table
           renderEmpty={() => <div />}
           // Dont display old data when loading
-          data={productProjectedSales}
+          renderLoading={() =>
+            isLoadingExpectedDaysOfInventory && <Placeholder numberParagraphs={1} numberRows={1} />
+          }
+          data={!isLoadingExpectedDaysOfInventory ? expectedDaysOfInventory : []}
           hover={false}
           autoHeight
+          maxHeight={50}
           rowHeight={HEADER_ROW_HEIGHT}
           headerHeight={ROW_HEIGHT}
           id="expectedDaysOfInventoryTable"
         >
-          <Table.Column width={OFFSET_TO_CHART_WIDTH} verticalAlign="middle" align="center">
+          <Table.Column width={OFFSET_TO_CHART_WIDTH - 18} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <span className={styles.tableTitle}>EXPECTED DAYS OF INVENTORY</span>
             </Table.HeaderCell>
-            <Table.Cell dataKey="product" />
+            <Table.Cell dataKey="title" className={styles.titleCell} />
           </Table.Column>
 
-          {/* Render a column for each date from end date to statr date */}
-          {productProjectedSales.length > 0 &&
+          {/* Render a column for each date from start date to end date */}
+          {expectedDaysOfInventory.length > 0 &&
             headers.map((date: string, index: number) => {
               /* If date is not valid */
               if (new Date(date).toDateString() === 'Invalid Date') {
@@ -66,9 +91,7 @@ const ExpectedDaysOfInventoryTable = () => {
               }
               return (
                 <Table.Column width={UNIT_WIDTH} verticalAlign="middle" align="center" key={index}>
-                  <Table.HeaderCell>
-                    <HeaderDateCell title={date} />
-                  </Table.HeaderCell>
+                  <Table.HeaderCell />
                   <StatsCell
                     dataKey={date}
                     align="center"
@@ -84,4 +107,20 @@ const ExpectedDaysOfInventoryTable = () => {
   );
 };
 
-export default ExpectedDaysOfInventoryTable;
+const mapStateToProps = (state: any) => {
+  return {
+    dateRange: getDateRange(state),
+    timeSetting: getTimeSetting(state),
+    draftOrderInformation: getDraftOrderInformation(state),
+    expectedDaysOfInventory: getExpectedDaysOfInventory(state),
+    isLoadingExpectedDaysOfInventory: getIsLoadingExpectedDaysOfInventory(state),
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchExpectedDaysOfInventory: () => dispatch(fetchExpectedDaysOfInventory()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExpectedDaysOfInventoryTable);

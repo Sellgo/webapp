@@ -1,7 +1,7 @@
 @import '../../../../styles/tableReset';
 
 #expectedDaysOfInventoryTable {
-  overflow-x: none !important;
+  overflow: hidden !important;
 
   /* width */
   &::-webkit-scrollbar {
@@ -33,18 +33,15 @@
     }
   }
 
+  .rs-table-header-row-wrapper {
+    transform: none !important;
+  }
+
   // header section
   .rs-table-row-header {
     border-radius: 0 !important;
     border: none !important;
 
-    /* Change position to fixed if scrolls out of sight */
-    &__fixed {
-      position: fixed !important;
-      top: 35px !important;
-      width: 100% !important;
-      z-index: 1 !important;
-    }
     // column header cell
     .rs-table-cell-content {
       padding: 0 !important;
@@ -70,11 +67,17 @@
 
       //  Table row property
       .rs-table-row {
+        border: none !important;
+
         .rs-table-cell-content {
           background: none !important;
           padding: 0 !important;
         }
       }
     }
+  }
+
+  .rs-table-scrollbar {
+    display: none;
   }
 }

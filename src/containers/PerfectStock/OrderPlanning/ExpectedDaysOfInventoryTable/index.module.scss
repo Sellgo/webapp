@@ -1,16 +1,18 @@
 @import '../../../../design-system/new-colors.scss';
 
 .expectedDaysOfInventoryTableWrapper {
-  margin-top: 18px;
-  padding: 18px 0;
+  padding: 18px;
   background: $prim_white;
   border: 1px solid $grey_3;
   border-radius: 7px;
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .borderedCell {
   border-right: 1px solid $grey_3;
-  border-bottom: 2px solid $grey_3;
+  border-bottom: 1px solid $grey_3;
   height: 100%;
   display: flex;
   align-items: center;
@@ -20,8 +22,15 @@
 .tableTitle {
   display: flex;
   align-items: center;
-  color: $black_1;
-  font-size: 14px;
+  font-weight: $fontweight_medium;
+  color: $grey_8;
+  font-size: 12px !important;
   margin: 0;
   margin-left: 30px;
+}
+
+.titleCell {
+  font-size: 12px;
+  font-weight: $fontweight_medium;
+  color: $grey_8;
 }

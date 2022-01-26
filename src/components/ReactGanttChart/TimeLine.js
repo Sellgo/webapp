@@ -432,6 +432,10 @@ class TimeLine extends Component {
             handleChangeMode={this.props.handleChangeMode}
             handleDeleteTask={this.props.handleDeleteTask}
             mode={this.state.mode}
+            /* For left dropdown */
+            viewFilterOptions={this.props.viewFilterOptions}
+            handleChangeFilterOption={this.props.handleChangeFilterOption}
+            viewFilter={this.props.viewFilter}
           />
         </div>
         <div className="timeLine-main">

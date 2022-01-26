@@ -5,16 +5,16 @@ import { Table } from 'rsuite';
 import styles from './index.module.scss';
 
 /* Interfaces */
-import { RowCell } from '../../../../../../interfaces/Table';
+import { RowCell } from '../../../../../interfaces/Table';
 
 /* Components */
-import CopyAndLocateClipboard from '../../../../../../components/CopyAndLocateClipboard';
+import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipboard';
 
 /* Utils */
-import { truncateString } from '../../../../../../utils/format';
+import { truncateString } from '../../../../../utils/format';
 
 /* Images */
-import placeholderImage from '../../../../../../assets/images/placeholderImage.svg';
+import placeholderImage from '../../../../../assets/images/placeholderImage.svg';
 
 const ProductInfo = (props: RowCell) => {
   const { rowData } = props;
@@ -35,7 +35,7 @@ const ProductInfo = (props: RowCell) => {
           {truncatedTitle}
 
           <div className={styles.productMetaDetails}>
-            <img src={require('../../../../../../assets/images/USFlag.png')} alt="American Flag" />
+            <img src={require('../../../../../assets/images/USFlag.png')} alt="American Flag" />
             <CopyAndLocateClipboard
               data={asin}
               displayData={asin}

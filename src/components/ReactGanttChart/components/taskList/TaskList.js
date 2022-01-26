@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Config from '../../helpers/config/Config';
 import SelectionFilter from '../../../FormFilters/SelectionFilter';
 import { TIME_SETTINGS_OPTIONS } from '../../../../constants/PerfectStock/OrderPlanning';
-import { Icon, Popup } from 'semantic-ui-react';
+import { Icon, Popup, Checkbox } from 'semantic-ui-react';
 
 export class VerticalLine extends Component {
   constructor(props) {
@@ -34,25 +34,25 @@ export class TaskRow extends Component {
           top: this.props.top,
           height: this.props.itemheight,
         }}
-        onClick={e => {
-          this.props.onSelectItem(this.props.item);
-          this.props.onSelectTask(this.props.item);
-        }}
       >
-        <div
-          tabIndex={this.props.index}
-          style={
-            this.props.isSelected
-              ? {
-                  width: 'max-content',
-                  backgroundColor: '#3B4557',
-                  color: '#fff',
-                  padding: '0 10px',
-                }
-              : { width: '90%' }
-          }
-        >
-          {this.props.label}
+        <div tabIndex={this.props.index} className="timeLine-side-task-row-name">
+          <Checkbox toggle checked={this.props.item.isSelected} onChange={() => {}} />
+          <span
+            onClick={e => {
+              this.props.onSelectItem(this.props.item);
+              this.props.onSelectTask(this.props.item);
+            }}
+            style={
+              this.props.isSelected
+                ? {
+                    backgroundColor: '#4B9CF5',
+                    color: '#fff',
+                  }
+                : {}
+            }
+          >
+            {this.props.label}
+          </span>
         </div>
         <Popup
           on="click"
@@ -128,6 +128,18 @@ export default class TaskList extends Component {
       <div className="timeLine-side">
         <div className="timeLine-side-title">
           <SelectionFilter
+            label="View Draft Orders"
+            filterOptions={this.props.viewFilterOptions}
+            value={this.props.viewFilter}
+            handleChange={value =>
+              this.props.handleChangeFilterOption && this.props.handleChangeFilterOption(value)
+            }
+            placeholder=""
+            className="timeLine-mode-changer"
+          />
+
+          <SelectionFilter
+            label="View Timeline"
             filterOptions={TIME_SETTINGS_OPTIONS}
             value={this.props.mode}
             handleChange={value =>

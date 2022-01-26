@@ -8,12 +8,15 @@ import {
   PurchaseOrder,
   DateRange,
   UpdatePurchaseOrderPayload,
+  DraftOrderTemplate,
 } from '../../interfaces/PerfectStock/OrderPlanning';
 
 /* Selectors */
 import {
+  getActiveDraftOrderTemplate,
   getActivePurchaseOrder,
   getDateRange,
+  getDraftOrderInformation,
   getInventoryTableShowAllSkus,
   getPurchaseOrders,
   getRefreshInventoryTableId,
@@ -136,20 +139,75 @@ export const setInventoryTableShowAllSkus = (payload: boolean) => (
   });
 };
 
-/*********** Async Actions ************************ */
+/* Action to set loading status for draft order information */
+export const isLoadingDraftOrderInformation = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_LOADING_DRAFT_ORDER_INFORMATION,
+    payload,
+  };
+};
 
+/* Action to set draft order information */
+export const setDraftOrderInformation = (payload: any) => {
+  return {
+    type: actionTypes.SET_DRAFT_ORDER_INFORMATION,
+    payload,
+  };
+};
+
+/* Action to set active draft order template */
+export const setActiveDraftOrderTemplate = (payload: DraftOrderTemplate) => {
+  return {
+    type: actionTypes.SET_ACTIVE_DRAFT_ORDER_TEMPLATE,
+    payload,
+  };
+};
+
+/* Action to set loading status for expected days of inventory */
+export const isLoadingExpectedDaysOfInventory = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_LOADING_EXPECTED_DAYS_OF_INVENTORY,
+    payload,
+  };
+};
+
+/* Action to set expected days of inventory table data */
+export const setExpectedDaysOfInventory = (payload: any[]) => {
+  return {
+    type: actionTypes.SET_EXPECTED_DAYS_OF_INVENTORY,
+    payload,
+  };
+};
+
+/*********** Async Actions ************************ */
 /* Action to fetch purchase orders */
-export const fetchPurchaseOrders = () => async (dispatch: any) => {
+export const fetchPurchaseOrders = (isDraft?: boolean) => async (dispatch: any, getState: any) => {
   try {
     const sellerId = sellerIDSelector();
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders`;
+    const state = getState();
+    const activeDraftOrderTemplate = getActiveDraftOrderTemplate(state);
+    let URL;
+
+    if (isDraft && activeDraftOrderTemplate) {
+      URL =
+        `${AppConfig.BASE_URL_API}sellers/${sellerId}/` +
+        `purchase-orders?status=pending&purchase_order_template_id=${activeDraftOrderTemplate.id}`;
+    } else {
+      URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders`;
+    }
 
     dispatch(isLoadingPurchaseOrders(true));
-
     const { data } = await axios.get(URL);
 
     if (data) {
-      dispatch(setPurchaseOrders(data));
+      if (isDraft) {
+        const pendingPurchaseOrders = data.filter(
+          (purchaseOrder: PurchaseOrder) => purchaseOrder.status === 'pending'
+        );
+        dispatch(setPurchaseOrders(pendingPurchaseOrders));
+      } else {
+        dispatch(setPurchaseOrders(data));
+      }
     }
   } catch (err) {
     dispatch(setPurchaseOrders([]));
@@ -158,7 +216,7 @@ export const fetchPurchaseOrders = () => async (dispatch: any) => {
   dispatch(isLoadingPurchaseOrders(false));
 };
 
-/* Action to fetch purchase orders */
+/* Action to update purchase orders */
 export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => async (
   dispatch: any,
   getState: any
@@ -269,6 +327,68 @@ export const fetchInventoryTable = () => async (dispatch: any, getState: any) =>
     console.error('Error fetching inventory table', err);
   }
   dispatch(isLoadingInventoryTableResults(false));
+};
+
+/* Action to fetch draft order information */
+export const fetchDraftOrderInformation = () => async (dispatch: any, useState: any) => {
+  dispatch(isLoadingDraftOrderInformation(true));
+  try {
+    const state = useState();
+    const activePurchaseOrder = getActivePurchaseOrder(state);
+    const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-orders/${
+      activePurchaseOrder.id
+    }`;
+    const { data } = await axios.get(url);
+    dispatch(setDraftOrderInformation(data));
+    console.log(data);
+  } catch (err) {
+    dispatch(setDraftOrderInformation({}));
+  }
+  dispatch(isLoadingDraftOrderInformation(false));
+};
+
+/* Action to fetch draft order information */
+export const fetchExpectedDaysOfInventory = () => async (dispatch: any, useState: any) => {
+  dispatch(isLoadingExpectedDaysOfInventory(true));
+  try {
+    const state = useState();
+    const dateRange = getDateRange(state);
+    const timeSettings = getTimeSetting(state);
+    const draftOrder = getDraftOrderInformation(state);
+    const merchantListings = draftOrder.merchant_listings;
+    const skus = merchantListings
+      .map((merchantListing: any) => {
+        return merchantListing.sku;
+      })
+      .join(',');
+    const resourceString =
+      `?types=expected_inventory_draft` +
+      `&skus=${skus}` +
+      `&start_date=${getDateOnly(new Date(dateRange.startDate))}` +
+      `&end_date=${getDateOnly(new Date(dateRange.endDate))}` +
+      `&display_mode=${timeSettings === TIME_SETTING.DAY ? 'daily' : 'weekly'}`;
+    const url = `${
+      AppConfig.BASE_URL_API
+    }sellers/${sellerIDSelector()}/order-plan${resourceString}`;
+    const { data } = await axios.get(url);
+
+    const expectedInventory = data.map((sku: any) => {
+      if (sku.data.length > 0) {
+        return {
+          title: sku.title,
+          ...sku.data[0].expected_inventory_draft,
+        };
+      } else {
+        return {
+          title: sku.title,
+        };
+      }
+    });
+    dispatch(setExpectedDaysOfInventory(expectedInventory));
+  } catch (err) {
+    dispatch(setExpectedDaysOfInventory([]));
+  }
+  dispatch(isLoadingExpectedDaysOfInventory(false));
 };
 
 /* Action to refresh inventory table results */

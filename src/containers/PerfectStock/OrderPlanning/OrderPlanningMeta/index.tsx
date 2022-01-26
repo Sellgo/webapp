@@ -6,7 +6,7 @@ import styles from './index.module.scss';
 
 /* Components */
 import ActionButton from '../../../../components/ActionButton';
-import CreateOrderModal from '../CreateOrderModal';
+import AddEditSkuModal from '../AddEditSkuModal';
 
 /* Assets */
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
@@ -17,7 +17,8 @@ import {
 } from '../../../../selectors/PerfectStock/OrderPlanning';
 
 const OrderPlanningMeta = () => {
-  const [isCreatingOrder, setIsCreatingOrder] = React.useState(false);
+  const [isEditingSku, setIsEditingSku] = React.useState(false);
+
   return (
     <>
       <div className={styles.orderPlanningMeta}>
@@ -26,21 +27,19 @@ const OrderPlanningMeta = () => {
           type="purpleGradient"
           size="md"
           className={styles.editSkuButton}
-          onClick={() => setIsCreatingOrder(true)}
+          onClick={() => setIsEditingSku(true)}
         >
           <ThinAddIcon />
           <span>Add/ Edit SKUs</span>
         </ActionButton>
         <div className={styles.saveButtons}>
-          <ActionButton variant="secondary" type="purpleGradient" size="md">
-            <span>Save Draft</span>
-          </ActionButton>
           <ActionButton variant="primary" type="purpleGradient" size="md">
             <span>Finalize</span>
           </ActionButton>
         </div>
       </div>
-      <CreateOrderModal open={isCreatingOrder} onCloseModal={() => setIsCreatingOrder(false)} />
+
+      <AddEditSkuModal open={isEditingSku} onCloseModal={() => setIsEditingSku(false)} />
     </>
   );
 };

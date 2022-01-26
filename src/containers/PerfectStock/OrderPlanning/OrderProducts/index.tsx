@@ -10,32 +10,28 @@ import './globals.scss';
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import Placeholder from '../../../../components/Placeholder';
+import ProductInformation from './ProductInformation/';
 
 /* Constants */
 import { OFFSET_TO_CHART_WIDTH } from '../../../../constants/PerfectStock/OrderPlanning';
+import { getDraftOrderInformation } from '../../../../selectors/PerfectStock/OrderPlanning';
+import { connect } from 'react-redux';
+import { DraftOrderInformation } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 interface Props {
   className?: string;
+  draftOrderInformation: DraftOrderInformation;
 }
 
-const DATA = [
-  {
-    product: 'Product 1',
-    moq: 1000,
-    cartons: 1000,
-    cost_per_unit: 7,
-  },
-];
-
 const OrderProducts = (props: Props) => {
-  const { className } = props;
+  const { className, draftOrderInformation } = props;
 
   return (
     <div className={`${styles.orderProducts} ${className}`}>
       <Table
         renderLoading={() => false && <Placeholder numberParagraphs={2} numberRows={3} isGrey />}
         renderEmpty={() => <div />}
-        data={DATA}
+        data={draftOrderInformation.merchant_listings}
         hover={false}
         autoHeight
         rowHeight={90}
@@ -46,7 +42,7 @@ const OrderProducts = (props: Props) => {
       >
         <Table.Column width={OFFSET_TO_CHART_WIDTH} verticalAlign="middle" align="center">
           <Table.HeaderCell>Product</Table.HeaderCell>
-          <Table.Cell dataKey="product" />
+          <ProductInformation dataKey="title" />
         </Table.Column>
 
         {/* Stock out date info  */}
@@ -69,7 +65,7 @@ const OrderProducts = (props: Props) => {
           <Table.HeaderCell>
             <HeaderSortCell
               title={`Cartons`}
-              dataKey="cartons"
+              dataKey="carton_count"
               currentSortColumn={''}
               currentSortType={undefined}
               alignMiddle
@@ -77,7 +73,7 @@ const OrderProducts = (props: Props) => {
             />
           </Table.HeaderCell>
           <StatsCell
-            dataKey="cartons"
+            dataKey="carton_count"
             className={styles.borderedStatCell}
             align="center"
             specialKpi
@@ -109,4 +105,10 @@ const OrderProducts = (props: Props) => {
   );
 };
 
-export default OrderProducts;
+const mapStateToProps = (state: any) => {
+  return {
+    draftOrderInformation: getDraftOrderInformation(state),
+  };
+};
+
+export default connect(mapStateToProps)(OrderProducts);

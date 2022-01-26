@@ -152,7 +152,6 @@
 }
 
 /* Side Area */
-
 .timeLine-side-main {
   position: relative;
   flex: 0 0 auto;
@@ -163,7 +162,6 @@
 }
 
 .timeLine-side {
-  flex: 1 0 100px;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -191,18 +189,35 @@
 .timeLine-side-title {
   flex: 0 0 60px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   width: 100%;
 
   .timeLine-mode-changer {
-    width: 100px !important;
+    width: 150px !important;
     min-width: 0 !important;
+    margin-right: 18px;
 
     > div {
-      width: 100px !important;
+      width: 150px !important;
       min-width: 0 !important;
     }
+  }
+}
+
+.timeLine-side-task-row-name {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0 10px;
+    border-radius: 3px;
+    margin-left: 5px;
   }
 }
 
@@ -213,9 +228,11 @@
   background-color: none;
   overflow-x: hidden;
   overflow-y: auto;
+  width: 100%;
 }
 
 .timeLine-side-task-container {
+  width: 100%;
   position: relative;
   overflow-x: hidden;
   overflow-y: hidden;
@@ -223,6 +240,7 @@
 
 .timeLine-side-task-row {
   position: absolute;
+  padding: '0 10px';
   width: 100%;
   background-color: none;
   height: 30px;
@@ -234,8 +252,8 @@
   text-overflow: ellipsis;
   outline: none;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: space-between;
   cursor: pointer;
 }
 

@@ -6,7 +6,6 @@ import styles from './index.module.scss';
 
 /* Components */
 import ActionButton from '../../../../../components/ActionButton';
-import InputFilter from '../../../../../components/FormFilters/InputFilter';
 import SelectionFilter from '../../../../../components/FormFilters/SelectionFilter';
 import LeadTimeBar from '../../../../../components/LeadTimeBar';
 
@@ -21,14 +20,14 @@ import { AppConfig } from '../../../../../config';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
 
 interface Props {
-  onCloseModal: () => void;
+  handlePrevious: () => void;
   handleNext: () => void;
   createOrderPayload: CreateOrderPayload;
   setCreateOrderPayload: (payload: CreateOrderPayload) => void;
 }
 
-const CreateOrderSettings = (props: Props) => {
-  const { onCloseModal, handleNext, createOrderPayload, setCreateOrderPayload } = props;
+const LeadTimeSelection = (props: Props) => {
+  const { handlePrevious, handleNext, createOrderPayload, setCreateOrderPayload } = props;
   const [leadTimeGroups, setLeadTimeGroups] = React.useState<SingleLeadTimeGroup[]>([]);
 
   /* Fetches all the lead time groups from backend */
@@ -51,75 +50,49 @@ const CreateOrderSettings = (props: Props) => {
 
   /* Disable user from proceeding when any of the fields are empty */
   const isHandleNextDisabled =
-    createOrderPayload.date === '' ||
-    createOrderPayload.number === '' ||
-    createOrderPayload.lead_time_group_id === -1;
+    createOrderPayload.date === '' || createOrderPayload.lead_time_group_id === -1;
 
   React.useEffect(() => {
     fetchLeadTimeGroups();
   }, []);
 
   return (
-    <>
+    <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>
-        <h2>START NEW ORDER</h2>
-        <div className={styles.inputField}>
-          <InputFilter
-            label="Project Start Date*"
-            placeholder="Project Start Date"
-            value={createOrderPayload.date}
-            handleChange={(value: string) =>
-              setCreateOrderPayload({ ...createOrderPayload, date: value })
+        <h2>Please Select Lead Time*</h2>
+        <SelectionFilter
+          filterOptions={leadTimeOptions}
+          value={createOrderPayload.lead_time_group_id.toString()}
+          handleChange={(value: string) =>
+            setCreateOrderPayload({
+              ...createOrderPayload,
+              lead_time_group_id: parseInt(value),
+            })
+          }
+          placeholder=""
+          label=""
+          className={styles.inputField}
+        />
+        {createOrderPayload.lead_time_group_id !== -1 && (
+          <LeadTimeBar
+            className={styles.leadTimeBar}
+            leadTimes={
+              leadTimeGroups.find(
+                leadTimeGroup => leadTimeGroup.id === createOrderPayload.lead_time_group_id
+              )?.lead_times || []
             }
-            isDate
           />
-        </div>
-
-        <div className={styles.inputField}>
-          <InputFilter
-            label="Order Number*"
-            placeholder="Order Number"
-            value={createOrderPayload.number}
-            handleChange={(value: string) =>
-              setCreateOrderPayload({ ...createOrderPayload, number: value })
-            }
-          />
-        </div>
-        <div className={styles.leadTimeRow}>
-          <SelectionFilter
-            filterOptions={leadTimeOptions}
-            value={createOrderPayload.lead_time_group_id.toString()}
-            handleChange={(value: string) =>
-              setCreateOrderPayload({
-                ...createOrderPayload,
-                lead_time_group_id: parseInt(value),
-              })
-            }
-            placeholder=""
-            label="Lead Time Group*"
-            className={styles.inputField}
-          />
-          {createOrderPayload.lead_time_group_id !== -1 && (
-            <LeadTimeBar
-              className={styles.leadTimeBar}
-              leadTimes={
-                leadTimeGroups.find(
-                  leadTimeGroup => leadTimeGroup.id === createOrderPayload.lead_time_group_id
-                )?.lead_times || []
-              }
-            />
-          )}
-        </div>
+        )}
       </div>
 
       <div className={styles.buttonsRow}>
         <ActionButton
           className={styles.cancelButton}
-          onClick={onCloseModal}
+          onClick={handlePrevious}
           variant="reset"
           size="md"
         >
-          Cancel
+          Previous
         </ActionButton>
         <ActionButton
           className={styles.createButton}
@@ -132,8 +105,8 @@ const CreateOrderSettings = (props: Props) => {
           Next
         </ActionButton>
       </div>
-    </>
+    </div>
   );
 };
 
-export default CreateOrderSettings;
+export default LeadTimeSelection;

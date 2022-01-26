@@ -11,6 +11,16 @@ export interface PurchaseOrder {
   lead_time_group_id: number;
   merchant_listings: any[];
   number: string;
+  status: string;
+}
+
+export interface DraftOrderTemplate {
+  approach: string;
+  auto_generate_orders_days: number;
+  date: string;
+  id: number;
+  lead_time_group_id: number;
+  status: string;
 }
 
 /* Gantt chart purchase orders are used in the gantt chart, and requires start/end to be in the Date format */
@@ -31,7 +41,18 @@ export interface UpdatePurchaseOrderPayload {
 
 export interface CreateOrderPayload {
   date: string;
-  number: string;
   lead_time_group_id: number;
-  merchant_listing_ids: { id: number; quantity: number }[];
+  approach: 'inventory';
+  auto_generate_orders_days: number;
+}
+
+export interface DraftOrderInformation {
+  date: string;
+  id: number;
+  is_included: boolean;
+  lead_time_group: any;
+  merchant_listings: any[];
+  number: string;
+  purchase_order_template_id: 2;
+  status: string;
 }

@@ -64,7 +64,7 @@ const ExpandedProduct = (props: Props) => {
       const url =
         `${AppConfig.BASE_URL_API}sellers/${sellerId}/order-plan?` +
         `types=${showTrends ? EXPANDED_TYPES : UNEXPANDED_TYPES}` +
-        `&sku=${sku}` +
+        `&skus=${sku}` +
         `&start_date=${startDate}&end_date=${endDate}` +
         `&display_mode=${timeSettings === TIME_SETTING.DAY ? 'daily' : 'weekly'}`;
       const res = await axios.get(url);

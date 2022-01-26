@@ -37,13 +37,12 @@ export const getTimeSetting = (state: any) => {
 
 /* Selector to get active purchase order */
 export const getActivePurchaseOrder = (state: any) => {
-  // const activePurchaseOrderString =
   return get(state, 'orderPlanning.activePurchaseOrder');
-  // if (activePurchaseOrderString) {
-  //   return JSON.parse(activePurchaseOrderString);
-  // } else {
-  //   return null;
-  // }
+};
+
+/* Selector to get draft order information */
+export const getDraftOrderInformation = (state: any) => {
+  return get(state, 'orderPlanning.draftOrderInformation');
 };
 
 /* Selector to get inventory table update date */
@@ -64,4 +63,19 @@ export const getIsFetchingProgressForRefresh = (state: any) => {
 /* Selector to get progress for sales projection refresh */
 export const getRefreshProgress = (state: any) => {
   return get(state, 'orderPlanning.refreshProgress');
+};
+
+/* Selector to get expected days of inventory */
+export const getExpectedDaysOfInventory = (state: any) => {
+  return get(state, 'orderPlanning.expectedDaysOfInventory');
+};
+
+/* Selector to get loading status of expected days of inventory */
+export const getIsLoadingExpectedDaysOfInventory = (state: any) => {
+  return get(state, 'orderPlanning.isLoadingExpectedDaysOfInventory');
+};
+
+/* Selector to get active draft order template */
+export const getActiveDraftOrderTemplate = (state: any) => {
+  return get(state, 'orderPlanning.activeDraftOrderTemplate');
 };

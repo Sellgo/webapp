@@ -1,15 +1,24 @@
 @import '../../../../../design-system/new-colors';
 
+.createOrderWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
 .createOrderBox {
   min-width: 0 !important;
   padding: 30px;
-  background: $grey_0;
   border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   h2 {
     line-height: normal;
-    font-size: 14px;
-    font-weight: $fontweight_semibold;
+    font-size: 24px;
+    font-weight: $fontweight_bold;
     color: $black_1;
   }
 }
@@ -25,19 +34,12 @@
   }
 }
 
-.leadTimeRow {
-  display: flex;
-  align-items: flex-end;
-
-  .leadTimeBar {
-    margin-left: 18px;
-    margin-bottom: 4px;
-  }
-}
-
 .buttonsRow {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin-top: 30px;
-  margin-bottom: 30px;
+
+  > div {
+    margin-left: 18px;
+  }
 }
