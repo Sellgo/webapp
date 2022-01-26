@@ -19,23 +19,28 @@ import ProductInfo from './ProductInfo';
 import { truncateString } from '../../../../utils/format';
 import { sellerIDSelector } from '../../../../selectors/Seller';
 import { AppConfig } from '../../../../config';
+import { error, success } from '../../../../utils/notifications';
 
 interface Props {
   open: boolean;
   onCloseModal: () => void;
+  templateId: number;
+  refreshData: () => void;
 }
 
 const AssignProductsTable = (props: Props) => {
-  const { open, onCloseModal } = props;
+  const { open, onCloseModal, templateId, refreshData } = props;
   const [orderProducts, setOrderProducts] = React.useState<any>([]);
-  const [selectedProductIds, setSelectedProductIds] = React.useState<string[]>([]);
+  const [selectedProductIds, setSelectedProductIds] = React.useState<number[]>([]);
+  const [isSubmitingProductAssignments, setIsSubmitingProductAssignments] = React.useState<boolean>(
+    false
+  );
 
   const fetchOrderProducts = async () => {
     try {
       const { data } = await axios.get(
         `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-orders/products`
       );
-      console.log(data);
       setOrderProducts(data);
     } catch (err) {
       console.error(err);
@@ -43,11 +48,39 @@ const AssignProductsTable = (props: Props) => {
   };
 
   React.useEffect(() => {
-    fetchOrderProducts();
-  }, []);
+    if (open) {
+      setOrderProducts([]);
+      setSelectedProductIds([]);
+      fetchOrderProducts();
+    }
+  }, [open]);
+
+  const handleSubmit = async () => {
+    setIsSubmitingProductAssignments(true);
+    try {
+      const { status } = await axios.patch(
+        `${
+          AppConfig.BASE_URL_API
+        }sellers/${sellerIDSelector()}/purchase-order-templates/${templateId}`,
+        { merchant_listing_ids: selectedProductIds }
+      );
+      if (status === 200) {
+        refreshData();
+        success('Products assigned successfully');
+        onCloseModal();
+      } else {
+        error('Something went wrong');
+      }
+    } catch (err) {
+      error('Something went wrong');
+      console.error(err);
+    }
+    setIsSubmitingProductAssignments(false);
+  };
 
   const handleDeleteProduct = (productId: number) => {
-    console.log(productId);
+    const newSelectedProductIds = selectedProductIds.filter((id: number) => id !== productId);
+    setSelectedProductIds(newSelectedProductIds);
   };
 
   const isCreateOrderDisabled = false;
@@ -61,9 +94,7 @@ const AssignProductsTable = (props: Props) => {
 
   /* Display the selected products in the table, with asin and details */
   const selectedProducts = orderProducts.filter((orderProduct: any) => {
-    return selectedProductIds.find(
-      (merchantListingId: any) => merchantListingId.id === orderProduct.id
-    );
+    return selectedProductIds.includes(orderProduct.id?.toString() || '');
   });
 
   return (
@@ -75,7 +106,7 @@ const AssignProductsTable = (props: Props) => {
           filterOptions={orderProductOptions}
           value={selectedProductIds}
           handleChange={(newProducts: any[]) => {
-            setSelectedProductIds(newProducts.map((product: any) => product.value));
+            setSelectedProductIds(newProducts);
           }}
           placeholder=""
         />
@@ -119,13 +150,14 @@ const AssignProductsTable = (props: Props) => {
         <div>
           <ActionButton
             className={styles.createButton}
-            onClick={() => null}
+            onClick={handleSubmit}
             variant="primary"
             type="purpleGradient"
             size="md"
             disabled={isCreateOrderDisabled}
+            loading={isSubmitingProductAssignments}
           >
-            Submit
+            Save
           </ActionButton>
         </div>
       </div>

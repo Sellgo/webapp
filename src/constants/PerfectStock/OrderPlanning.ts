@@ -1,3 +1,5 @@
+import { PurchaseOrder } from '../../interfaces/PerfectStock/OrderPlanning';
+
 export const actionTypes = {
   IS_LOADING_INVENTORY_TABLE_RESULTS: 'IS_LOADING_INVENTORY_TABLE_RESULTS',
   IS_LOADING_PURCHASE_ORDERS: 'IS_LOADING_PURCHASE_ORDERS',
@@ -16,6 +18,17 @@ export const actionTypes = {
   IS_LOADING_EXPECTED_DAYS_OF_INVENTORY: 'IS_LOADING_EXPECTED_DAYS_OF_INVENTORY',
   SET_EXPECTED_DAYS_OF_INVENTORY: 'SET_EXPECTED_DAYS_OF_INVENTORY',
   SET_ACTIVE_DRAFT_ORDER_TEMPLATE: 'SET_ACTIVE_DRAFT_ORDER_TEMPLATE',
+};
+
+export const EMPTY_PURCHASE_ORDER: PurchaseOrder = {
+  date: '',
+  id: -1,
+  lead_time_group: undefined,
+  lead_time_group_id: 0,
+  merchant_listings: [],
+  number: '',
+  status: '',
+  is_included: false,
 };
 
 export const AUTO_GENERATE_DURATION_OPTIONS = [

@@ -17,7 +17,6 @@ import {
   getActivePurchaseOrder,
   getDateRange,
   getDraftOrderInformation,
-  getInventoryTableShowAllSkus,
   getPurchaseOrders,
   getRefreshInventoryTableId,
   getTimeSetting,
@@ -228,11 +227,11 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
       ...payload,
     };
 
+    const state = getState();
+    let newPurchaseOrders = getPurchaseOrders(state);
     if (payload.date) {
       /* Update the redux state and display the updated state first for responsiveness */
-      const state = getState();
-      const oldPurchaseOrders = getPurchaseOrders(state);
-      const newPurchaseOrders = oldPurchaseOrders.map((order: any) => {
+      newPurchaseOrders = newPurchaseOrders.map((order: any) => {
         if (order.id === payload.id) {
           return {
             ...order,
@@ -241,7 +240,6 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
         }
         return order;
       });
-      dispatch(setPurchaseOrders(newPurchaseOrders));
 
       /* Get formatted date */
       const formattedDate = getDateOnly(new Date(payload.date));
@@ -251,13 +249,37 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
       };
     }
 
+    /* Check if is not undefined */
+    if (payload.is_included !== undefined) {
+      newPurchaseOrders = newPurchaseOrders.map((order: any) => {
+        if (order.id === payload.id) {
+          return {
+            ...order,
+            is_included: payload.is_included,
+          };
+        }
+        return order;
+      });
+    }
+
+    if (payload.status) {
+      newPurchaseOrders = newPurchaseOrders.map((order: any) => {
+        if (order.id === payload.id) {
+          return {
+            ...order,
+            status: payload.status,
+          };
+        }
+        return order;
+      });
+    }
+    dispatch(setPurchaseOrders(newPurchaseOrders));
+
     /* Update backend's purchase orders */
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-orders/${
       payload.id
     }`;
     const { status } = await axios.patch(URL, requestPayload);
-
-    /* If backend update failed, revert back to old purchase order */
     if (status === 200) {
       dispatch(fetchInventoryTable());
 
@@ -302,9 +324,6 @@ export const fetchInventoryTable = () => async (dispatch: any, getState: any) =>
     /* Get active purchase order highlighted (if any) */
     const activePurchaseOrder = getActivePurchaseOrder(state);
 
-    /* Get show all skus (if any) */
-    const showAllSkus = getInventoryTableShowAllSkus(state);
-
     /* Temporary pagination settings */
     const resourceString =
       `&start_date=${startDateString}` +
@@ -312,9 +331,7 @@ export const fetchInventoryTable = () => async (dispatch: any, getState: any) =>
       `&display_mode=${displayMode}` +
       `&page=1` +
       `&per_page=20` +
-      `${
-        activePurchaseOrder && !showAllSkus ? `&purchase_order_ids=${activePurchaseOrder.id}` : ''
-      }`;
+      `${activePurchaseOrder.id !== -1 ? `&purchase_order_ids=${activePurchaseOrder.id}` : ''}`;
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/order-plan-overview?${resourceString}`;
 
     const { data } = await axios.get(URL);
@@ -340,7 +357,6 @@ export const fetchDraftOrderInformation = () => async (dispatch: any, useState: 
     }`;
     const { data } = await axios.get(url);
     dispatch(setDraftOrderInformation(data));
-    console.log(data);
   } catch (err) {
     dispatch(setDraftOrderInformation({}));
   }

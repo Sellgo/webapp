@@ -11,6 +11,7 @@ import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import StatsCell from '../../../../components/NewTable/StatsCell';
 import Placeholder from '../../../../components/Placeholder';
 import ProductInformation from './ProductInformation/';
+import UnitsToOrder from './UnitsToOrder';
 
 /* Constants */
 import { OFFSET_TO_CHART_WIDTH } from '../../../../constants/PerfectStock/OrderPlanning';
@@ -58,6 +59,21 @@ const OrderProducts = (props: Props) => {
             />
           </Table.HeaderCell>
           <StatsCell dataKey="moq" className={styles.borderedStatCell} align="center" specialKpi />
+        </Table.Column>
+
+        {/* Expected Sales  */}
+        <Table.Column width={300} verticalAlign="middle" align="center">
+          <Table.HeaderCell>
+            <HeaderSortCell
+              title="Expected Sales"
+              dataKey="predictive_sales"
+              currentSortColumn={''}
+              currentSortType={undefined}
+              disableSort
+              alignMiddle
+            />
+          </Table.HeaderCell>
+          <UnitsToOrder dataKey="predictive_sales" />
         </Table.Column>
 
         {/* Stock out date info  */}

@@ -1,5 +1,9 @@
 @import '../../../../design-system/new-colors';
 
+.modalWrapper {
+  width: 900px !important;
+}
+
 .createOrderBox {
   min-width: 0 !important;
   padding: 30px;
@@ -26,6 +30,7 @@
   justify-content: space-between;
   margin-top: 30px;
   margin-bottom: 30px;
+  padding: 0 18px;
 
   > div {
     display: flex;

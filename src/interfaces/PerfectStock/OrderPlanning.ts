@@ -12,6 +12,7 @@ export interface PurchaseOrder {
   merchant_listings: any[];
   number: string;
   status: string;
+  is_included: boolean;
 }
 
 export interface DraftOrderTemplate {
@@ -31,12 +32,14 @@ export interface GanttChartPurchaseOrder {
   name: string;
   color?: string;
   subTasks?: GanttChartPurchaseOrder[];
+  is_included?: boolean;
 }
 
 export interface UpdatePurchaseOrderPayload {
   id: number;
   date?: string;
   status?: 'active' | 'inactive';
+  is_included?: boolean;
 }
 
 export interface CreateOrderPayload {

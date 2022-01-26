@@ -43,6 +43,7 @@ import {
   TimeSetting,
   OFFSET_TO_CHART_WIDTH,
   UNIT_WIDTH,
+  EMPTY_PURCHASE_ORDER,
 } from '../../../../constants/PerfectStock/OrderPlanning';
 import { getLeadTimeColor, getLeadTimeName } from '../../../../constants/PerfectStock';
 
@@ -92,7 +93,14 @@ const OrderGanttChart = (props: Props) => {
   /* ================================================================ */
   /* Converting purchase orders to fit the format for gantt chart */
   /* ================================================================ */
-  const ganttChartPurchaseOrders: GanttChartPurchaseOrder[] = purchaseOrders.map(
+  const filteredPurchaseOrders = purchaseOrders.filter((purchaseOrder: PurchaseOrder) => {
+    if (isDraftMode) {
+      return purchaseOrder.status === 'pending';
+    } else {
+      return purchaseOrder.status === 'active';
+    }
+  });
+  const ganttChartPurchaseOrders: GanttChartPurchaseOrder[] = filteredPurchaseOrders.map(
     (purchaseOrder: PurchaseOrder) => {
       const leadTimeDuration = purchaseOrder.lead_time_group?.lead_times?.reduce(
         (acc: number, leadTime: any) => acc + leadTime.duration,
@@ -104,6 +112,7 @@ const OrderGanttChart = (props: Props) => {
         start.getTime() + leadTimeDuration * 24 * 60 * 60 * 1000 * (leadTimeDuration || 0)
       );
       const name = purchaseOrder.number;
+      const is_included = purchaseOrder.is_included;
 
       const leadTimeDate = start;
       const subTasks = purchaseOrder.lead_time_group?.lead_times?.map(
@@ -122,6 +131,7 @@ const OrderGanttChart = (props: Props) => {
         start,
         end,
         name,
+        is_included,
         subTasks: subTasks || [],
       };
     }
@@ -135,12 +145,14 @@ const OrderGanttChart = (props: Props) => {
   /* Task and order handlers */
   /* ===================================== */
   const handleSelectTask = (payload: GanttChartPurchaseOrder) => {
-    const activePurchaseOrder = purchaseOrders.find(
+    const newActivePurchaseOrder = purchaseOrders.find(
       (purchaseOrder: PurchaseOrder) => purchaseOrder.id === payload.id
     );
 
-    if (activePurchaseOrder) {
-      setActivePurchaseOrder(activePurchaseOrder);
+    if (newActivePurchaseOrder && newActivePurchaseOrder.id !== activePurchaseOrder.id) {
+      setActivePurchaseOrder(newActivePurchaseOrder);
+    } else {
+      setActivePurchaseOrder(EMPTY_PURCHASE_ORDER);
     }
   };
 
@@ -193,6 +205,14 @@ const OrderGanttChart = (props: Props) => {
             viewFilterOptions={viewFilterOptions}
             handleChangeFilterOption={handleChangeFilterOption}
             viewFilter={viewFilter}
+            handleIncludedToggle={(id: number) => {
+              updatePurchaseOrder({
+                id,
+                is_included: !purchaseOrders.find(
+                  (purchaseOrder: PurchaseOrder) => purchaseOrder.id === id
+                )?.is_included,
+              });
+            }}
           />
         </div>
       </div>

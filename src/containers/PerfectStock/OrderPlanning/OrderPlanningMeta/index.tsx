@@ -10,14 +10,62 @@ import AddEditSkuModal from '../AddEditSkuModal';
 
 /* Assets */
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
-import { refreshInventoryTable } from '../../../../actions/PerfectStock/OrderPlanning';
+
+/* Actions */
 import {
+  fetchPurchaseOrders,
+  refreshInventoryTable,
+  updatePurchaseOrder,
+} from '../../../../actions/PerfectStock/OrderPlanning';
+
+/* Selectors */
+import {
+  getActiveDraftOrderTemplate,
+  getActivePurchaseOrder,
   getInventoryTableUpdateDate,
   getIsFetchingProgressForRefresh,
 } from '../../../../selectors/PerfectStock/OrderPlanning';
 
-const OrderPlanningMeta = () => {
+/* Types */
+import {
+  DraftOrderTemplate,
+  PurchaseOrder,
+  UpdatePurchaseOrderPayload,
+} from '../../../../interfaces/PerfectStock/OrderPlanning';
+
+interface Props {
+  activeDraftOrderTemplate: DraftOrderTemplate;
+  activePurchaseOrder: PurchaseOrder;
+  updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => void;
+  fetchPurchaseOrders: (isDraft?: boolean) => void;
+}
+
+const OrderPlanningMeta = (props: Props) => {
+  const {
+    activeDraftOrderTemplate,
+    activePurchaseOrder,
+    updatePurchaseOrder,
+    fetchPurchaseOrders,
+  } = props;
+
   const [isEditingSku, setIsEditingSku] = React.useState(false);
+
+  let hasActiveDraftOrderTemplate = false;
+  if (activeDraftOrderTemplate && activeDraftOrderTemplate.id) {
+    hasActiveDraftOrderTemplate = true;
+  }
+
+  let hasActivePurchaseOrder = false;
+  if (activePurchaseOrder && activePurchaseOrder.id) {
+    hasActivePurchaseOrder = true;
+  }
+
+  const handleFinalizeOrder = () => {
+    updatePurchaseOrder({
+      id: activePurchaseOrder.id,
+      status: 'active',
+    });
+  };
 
   return (
     <>
@@ -28,18 +76,30 @@ const OrderPlanningMeta = () => {
           size="md"
           className={styles.editSkuButton}
           onClick={() => setIsEditingSku(true)}
+          disabled={!hasActiveDraftOrderTemplate}
         >
           <ThinAddIcon />
           <span>Add/ Edit SKUs</span>
         </ActionButton>
         <div className={styles.saveButtons}>
-          <ActionButton variant="primary" type="purpleGradient" size="md">
+          <ActionButton
+            variant="primary"
+            type="purpleGradient"
+            size="md"
+            disabled={!hasActivePurchaseOrder}
+            onClick={handleFinalizeOrder}
+          >
             <span>Finalize</span>
           </ActionButton>
         </div>
       </div>
 
-      <AddEditSkuModal open={isEditingSku} onCloseModal={() => setIsEditingSku(false)} />
+      <AddEditSkuModal
+        open={isEditingSku}
+        onCloseModal={() => setIsEditingSku(false)}
+        templateId={activeDraftOrderTemplate.id}
+        refreshData={() => fetchPurchaseOrders(true)}
+      />
     </>
   );
 };
@@ -47,11 +107,16 @@ const OrderPlanningMeta = () => {
 const mapStateToProps = (state: any) => ({
   isFetchingProgressForRefresh: getIsFetchingProgressForRefresh(state),
   inventoryTableUpdateDate: getInventoryTableUpdateDate(state),
+  activeDraftOrderTemplate: getActiveDraftOrderTemplate(state),
+  activePurchaseOrder: getActivePurchaseOrder(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     refreshInventoryTable: () => dispatch(refreshInventoryTable()),
+    updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) =>
+      dispatch(updatePurchaseOrder(payload)),
+    fetchPurchaseOrders: (isDraft?: boolean) => dispatch(fetchPurchaseOrders(isDraft)),
   };
 };
 

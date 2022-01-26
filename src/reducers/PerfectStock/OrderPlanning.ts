@@ -1,12 +1,16 @@
 import { AnyAction } from 'redux';
 import { setIn } from '../../utils/immutablity';
 
-import { actionTypes, TIME_SETTING } from '../../constants/PerfectStock/OrderPlanning';
+import {
+  actionTypes,
+  TIME_SETTING,
+  EMPTY_PURCHASE_ORDER,
+} from '../../constants/PerfectStock/OrderPlanning';
 
 const INITIAL_STATE = {
   isLoadingPurchaseOrders: false,
   isLoadingInventoryTableResults: false,
-  activePurchaseOrder: null,
+  activePurchaseOrder: EMPTY_PURCHASE_ORDER,
   purchaseOrders: [],
   inventoryTableResults: [],
   inventoryTableShowAllSkus: true,

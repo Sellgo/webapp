@@ -8,6 +8,7 @@ import {
   fetchPurchaseOrders,
   fetchRefreshProgress,
   setActiveDraftOrderTemplate,
+  setPurchaseOrders,
 } from '../../../actions/PerfectStock/OrderPlanning';
 
 /* Selectors */
@@ -31,6 +32,7 @@ import ExpectedDaysOfInventoryTable from './ExpectedDaysOfInventoryTable';
 import {
   DraftOrderTemplate,
   GanttChartPurchaseOrder,
+  PurchaseOrder,
 } from '../../../interfaces/PerfectStock/OrderPlanning';
 
 /* Utils */
@@ -45,6 +47,7 @@ interface Props {
   setActiveDraftOrderTemplate: (payload: DraftOrderTemplate) => void;
 
   fetchDraftOrderInformation: () => void;
+  setPurchaseOrders: (payload: PurchaseOrder[]) => void;
   activePurchaseOrder: GanttChartPurchaseOrder;
 }
 
@@ -64,6 +67,7 @@ const OrderPlanning = (props: Props) => {
     activePurchaseOrder,
     activeDraftOrderTemplate,
     setActiveDraftOrderTemplate,
+    setPurchaseOrders,
   } = props;
 
   const [filterOptions, setFilterOptions] = React.useState<IOption[]>([]);
@@ -113,6 +117,10 @@ const OrderPlanning = (props: Props) => {
     fetchPurchaseOrders(true);
   }, [activeDraftOrderTemplate]);
 
+  React.useEffect(() => {
+    setPurchaseOrders([]);
+  }, []);
+
   return (
     <main>
       <OrderGanttChart
@@ -150,6 +158,9 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(setActiveDraftOrderTemplate(payload)),
     fetchPurchaseOrders: (isDraftMode: boolean) => {
       dispatch(fetchPurchaseOrders(isDraftMode));
+    },
+    setPurchaseOrders: (payload: PurchaseOrder[]) => {
+      dispatch(setPurchaseOrders(payload));
     },
   };
 };

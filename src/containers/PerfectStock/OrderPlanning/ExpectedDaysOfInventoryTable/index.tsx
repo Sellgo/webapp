@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from 'rsuite';
+import { connect } from 'react-redux';
 
 /* Styling */
 import 'rsuite/dist/styles/rsuite-default.css';
@@ -16,6 +17,8 @@ import {
   OFFSET_TO_CHART_WIDTH,
   TimeSetting,
 } from '../../../../constants/PerfectStock/OrderPlanning';
+
+/* selectors */
 import {
   getDateRange,
   getDraftOrderInformation,
@@ -23,8 +26,11 @@ import {
   getIsLoadingExpectedDaysOfInventory,
   getTimeSetting,
 } from '../../../../selectors/PerfectStock/OrderPlanning';
+
+/* Actions */
 import { fetchExpectedDaysOfInventory } from '../../../../actions/PerfectStock/OrderPlanning';
-import { connect } from 'react-redux';
+
+/* types */
 import {
   DateRange,
   DraftOrderInformation,

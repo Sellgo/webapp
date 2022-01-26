@@ -36,7 +36,11 @@ export class TaskRow extends Component {
         }}
       >
         <div tabIndex={this.props.index} className="timeLine-side-task-row-name">
-          <Checkbox toggle checked={this.props.item.isSelected} onChange={() => {}} />
+          <Checkbox
+            toggle
+            checked={this.props.item.is_included}
+            onChange={() => this.props.handleIncludedToggle(this.props.item.id)}
+          />
           <span
             onClick={e => {
               this.props.onSelectItem(this.props.item);
@@ -111,6 +115,7 @@ export default class TaskList extends Component {
           onSelectTask={this.props.onSelectTask}
           nonEditable={this.props.nonEditable}
           handleDeleteTask={this.props.handleDeleteTask}
+          handleIncludedToggle={this.props.handleIncludedToggle}
         />
       );
     }
@@ -134,7 +139,7 @@ export default class TaskList extends Component {
             handleChange={value =>
               this.props.handleChangeFilterOption && this.props.handleChangeFilterOption(value)
             }
-            placeholder=""
+            placeholder="Select a template"
             className="timeLine-mode-changer"
           />
 
