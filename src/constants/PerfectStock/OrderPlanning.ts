@@ -31,6 +31,7 @@ export const EMPTY_PURCHASE_ORDER: PurchaseOrder = {
   number: '',
   status: '',
   is_included: false,
+  purchase_order_template_id: -1,
 };
 
 export const AUTO_GENERATE_DURATION_OPTIONS = [

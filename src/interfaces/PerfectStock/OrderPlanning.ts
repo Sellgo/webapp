@@ -13,6 +13,7 @@ export interface PurchaseOrder {
   number: string;
   status: string;
   is_included: boolean;
+  purchase_order_template_id: number;
 }
 
 export interface DraftOrderTemplate {

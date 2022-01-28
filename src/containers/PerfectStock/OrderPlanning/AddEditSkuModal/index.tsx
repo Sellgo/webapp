@@ -52,7 +52,9 @@ const AddEditSkuModal = (props: Props) => {
   React.useEffect(() => {
     if (open) {
       setOrderProducts([]);
-      const selectedSkuIds = selectedSKUs?.map((sku: any) => sku.id.toString());
+      const selectedSkuIds = selectedSKUs?.map((sku: any) => sku.id);
+      console.log(selectedSKUs);
+      console.log(selectedSkuIds);
       setSelectedProductIds(selectedSkuIds ? selectedSkuIds : []);
       fetchOrderProducts();
     }
@@ -99,7 +101,7 @@ const AddEditSkuModal = (props: Props) => {
 
   /* Display the selected products in the table, with asin and details */
   const selectedProducts = orderProducts.filter((orderProduct: any) => {
-    return selectedProductIds.includes(orderProduct.id?.toString() || '');
+    return selectedProductIds.includes(orderProduct.id || '');
   });
 
   return (

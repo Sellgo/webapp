@@ -86,6 +86,10 @@ const ProductResearch: React.FC<Props> = props => {
   const { youtubeLink, displayText } =
     tutorialOnboardingDetails.Tutorial || FALLBACK_ONBOARDING_DETAILS;
 
+  /* check url */
+  const isEditingOrders = window.location.pathname === PERFECT_STOCK_PAGES[2];
+  console.log(isEditingOrders);
+
   return (
     <>
       <PageHeader
@@ -118,7 +122,11 @@ const ProductResearch: React.FC<Props> = props => {
             onSelect={handleTabChange}
             selectedIndex={selectedTabList}
           >
-            <TabList className={styles.productTablist}>
+            <TabList
+              className={`
+              ${styles.productTabList} 
+              ${isEditingOrders ? styles.productTabList__hidden : ''}`}
+            >
               <Tab>
                 <ProductLabel
                   label="Sales Estimation"
@@ -132,14 +140,6 @@ const ProductResearch: React.FC<Props> = props => {
                   label="Inventory"
                   icon="Product Database"
                   isActive={selectedTabList === 1}
-                  isBeta
-                />
-              </Tab>
-              <Tab>
-                <ProductLabel
-                  label="Order Planning"
-                  icon="Product Database"
-                  isActive={selectedTabList === 2}
                   isBeta
                 />
               </Tab>

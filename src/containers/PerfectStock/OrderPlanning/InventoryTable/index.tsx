@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table } from 'rsuite';
 import { connect } from 'react-redux';
+import { Dimmer, Loader } from 'semantic-ui-react';
 
 /* Styling */
 import 'rsuite/dist/styles/rsuite-default.css';
@@ -18,14 +19,12 @@ import {
 } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 /* Components */
-import Placeholder from '../../../../components/Placeholder';
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import HeaderDateCell from '../../../../components/NewTable/HeaderDateCell';
 import ProductInformation from './ProductInformation';
 import StockOutDate from './StockOutDate';
 import InventoryBarCell from './InventoryBarCell';
-import ExpandedInventory from '../ExpandedInventory';
-import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
+import EditProductRow from './EditProductRow';
 import { ReactComponent as ExclaimationIcon } from '../../../../assets/images/exclamation-triangle-solid.svg';
 
 /* Selectors */
@@ -61,6 +60,9 @@ interface Props {
   inventoryTableResults: any[];
   isLoadingInventoryTableResults: boolean;
   activePurchaseOrder: GanttChartPurchaseOrder;
+
+  emptySkusContent: React.ReactNode;
+  isShowingDaysUntilStockout: boolean;
 }
 
 /* Main component */
@@ -73,10 +75,11 @@ const InventoryTable = (props: Props) => {
     inventoryTableResults,
     isLoadingInventoryTableResults,
     activePurchaseOrder,
+    emptySkusContent,
+    isShowingDaysUntilStockout,
   } = props;
 
   const [sortColumn, setSortColumn] = React.useState<string>('');
-  const [expandedRowKeys, setExpandedRowkeys] = React.useState<string[]>([]);
   const [sortType, setSortType] = React.useState<'asc' | 'desc' | undefined>(undefined);
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
@@ -105,17 +108,6 @@ const InventoryTable = (props: Props) => {
     }
   };
 
-  const handleExpansion = (rowData: any) => {
-    const rowId = rowData.id;
-    const [currentExpandedRowId] = expandedRowKeys;
-
-    if (currentExpandedRowId !== rowId) {
-      setExpandedRowkeys([rowId]);
-    } else {
-      setExpandedRowkeys([]);
-    }
-  };
-
   /* Refresh inventory table if date range or time setting is changed  */
   React.useEffect(() => {
     generateHeaders(new Date(dateRange.startDate), new Date(dateRange.endDate));
@@ -128,22 +120,47 @@ const InventoryTable = (props: Props) => {
     fetchInventoryTable();
   }, [activePurchaseOrder, showAllSkus]);
 
+  /* Parse backend data to fit into a table format */
+  /* i.e. {
+    sku: xxx,
+    name: xxx,
+    21-05-2020: 20 inventory,
+    22-05-2020: 20 inventory,
+    23-05-2020: 20 inventory,
+    ...
+  } */
   const displayInventoryResults = inventoryTableResults.map((rowData: any) => {
-    const expectedInventoriesObj = rowData.expected_inventories.reduce(
-      (obj: any, expectedInventory: any) => {
-        const date = Object.keys(expectedInventory)[0];
+    if (!isShowingDaysUntilStockout) {
+      const expectedInventoriesObj = rowData.expected_inventories.reduce(
+        (obj: any, expectedInventory: any) => {
+          const date = Object.keys(expectedInventory)[0];
+          return {
+            ...obj,
+            [date]: expectedInventory[date],
+          };
+        },
+        {}
+      );
+      return {
+        ...rowData,
+        ...expectedInventoriesObj,
+      };
+    } else {
+      const daysUntilSOsObj = rowData.days_until_sos.reduce((obj: any, daysUntilSO: any) => {
+        const date = Object.keys(daysUntilSO)[0];
         return {
           ...obj,
-          [date]: expectedInventory[date],
+          [date]: daysUntilSO[date],
         };
-      },
-      {}
-    );
-    return {
-      ...rowData,
-      ...expectedInventoriesObj,
-    };
+      }, {});
+      return {
+        ...rowData,
+        ...daysUntilSOsObj,
+      };
+    }
   });
+
+  const inventoryResultsIds = displayInventoryResults.map((rowData: any) => rowData.id);
 
   return (
     <>
@@ -151,35 +168,27 @@ const InventoryTable = (props: Props) => {
         <Table
           renderLoading={() =>
             isLoadingInventoryTableResults && (
-              <Placeholder numberParagraphs={2} numberRows={3} isGrey />
+              <Dimmer active inverted>
+                <Loader />
+              </Dimmer>
             )
           }
-          renderEmpty={() => <div />}
+          renderEmpty={() => emptySkusContent}
           affixHorizontalScrollbar={0}
           // Dont display old data when loading
-          data={!isLoadingInventoryTableResults ? displayInventoryResults : []}
+          data={displayInventoryResults}
           hover={false}
           autoHeight
           rowHeight={90}
           headerHeight={60}
-          rowExpandedHeight={850}
+          rowExpandedHeight={90}
           onSortColumn={handleSortColumn}
           rowKey="id"
           virtualized
-          expandedRowKeys={expandedRowKeys}
-          renderRowExpanded={(rowData: any) => <ExpandedInventory rowData={rowData} />}
-          id="stockInventoryTable"
+          expandedRowKeys={inventoryResultsIds}
+          renderRowExpanded={(rowData: any) => <EditProductRow rowData={rowData} />}
+          id="orderPlanningStockInventoryTable"
         >
-          {/* Expand Cell */}
-          <Table.Column verticalAlign="top" fixed="left" align="left" width={30}>
-            <Table.HeaderCell> </Table.HeaderCell>
-            <ExpansionCell
-              dataKey={'id'}
-              expandedRowKeys={expandedRowKeys}
-              onChange={handleExpansion}
-            />
-          </Table.Column>
-
           {/* Product Information  */}
           <Table.Column
             /* Calculate width to chart dates to align all the dates, minus 30 for offset from expansion cell */
@@ -218,7 +227,11 @@ const InventoryTable = (props: Props) => {
                 <Table.HeaderCell>
                   <HeaderDateCell title={date} />
                 </Table.HeaderCell>
-                <InventoryBarCell dataKey={date} key={index} />
+                <InventoryBarCell
+                  dataKey={date}
+                  key={index}
+                  isShowingDaysUntilStockout={isShowingDaysUntilStockout}
+                />
               </Table.Column>
             );
           })}

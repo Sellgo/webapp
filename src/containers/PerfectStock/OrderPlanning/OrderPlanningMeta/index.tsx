@@ -11,57 +11,37 @@ import ActionButton from '../../../../components/ActionButton';
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
 
 /* Actions */
-import {
-  refreshInventoryTable,
-  updatePurchaseOrder,
-} from '../../../../actions/PerfectStock/OrderPlanning';
+import { refreshInventoryTable } from '../../../../actions/PerfectStock/OrderPlanning';
 
 /* Selectors */
 import {
-  getActiveDraftOrderTemplate,
   getActivePurchaseOrder,
   getInventoryTableUpdateDate,
   getIsFetchingProgressForRefresh,
 } from '../../../../selectors/PerfectStock/OrderPlanning';
 
 /* Types */
-import {
-  DraftOrderTemplate,
-  PurchaseOrder,
-  UpdatePurchaseOrderPayload,
-} from '../../../../interfaces/PerfectStock/OrderPlanning';
+import { PurchaseOrder } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 interface Props {
   setIsEditingSKUs: (isEditingSKUs: boolean) => void;
-  activeDraftOrderTemplate: DraftOrderTemplate;
   activePurchaseOrder: PurchaseOrder;
-  updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => void;
+  isShowingDaysUntilStockout: boolean;
+  setIsShowingDaysUntilStockout: (isShowingDaysUntilStockout: boolean) => void;
 }
 
 const OrderPlanningMeta = (props: Props) => {
   const {
-    activeDraftOrderTemplate,
     activePurchaseOrder,
-    updatePurchaseOrder,
     setIsEditingSKUs,
+    isShowingDaysUntilStockout,
+    setIsShowingDaysUntilStockout,
   } = props;
 
-  let hasActiveDraftOrderTemplate = false;
-  if (activeDraftOrderTemplate && activeDraftOrderTemplate.id) {
-    hasActiveDraftOrderTemplate = true;
-  }
-
   let hasActivePurchaseOrder = false;
-  if (activePurchaseOrder && activePurchaseOrder.id) {
+  if (activePurchaseOrder && activePurchaseOrder.id !== -1) {
     hasActivePurchaseOrder = true;
   }
-
-  const handleFinalizeOrder = () => {
-    updatePurchaseOrder({
-      id: activePurchaseOrder.id,
-      status: 'active',
-    });
-  };
 
   return (
     <>
@@ -72,22 +52,14 @@ const OrderPlanningMeta = (props: Props) => {
           size="md"
           className={styles.editSkuButton}
           onClick={() => setIsEditingSKUs(true)}
-          disabled={!hasActiveDraftOrderTemplate}
+          disabled={!hasActivePurchaseOrder}
         >
           <ThinAddIcon />
           <span>Add/ Edit SKUs</span>
         </ActionButton>
-        <div className={styles.saveButtons}>
-          <ActionButton
-            variant="primary"
-            type="purpleGradient"
-            size="md"
-            disabled={!hasActivePurchaseOrder}
-            onClick={handleFinalizeOrder}
-          >
-            <span>Finalize</span>
-          </ActionButton>
-        </div>
+        <button onClick={() => setIsShowingDaysUntilStockout(!isShowingDaysUntilStockout)}>
+          {isShowingDaysUntilStockout ? 'Hide Days Until Stockout' : 'Show Days Until Stockout'}
+        </button>
       </div>
     </>
   );
@@ -96,15 +68,12 @@ const OrderPlanningMeta = (props: Props) => {
 const mapStateToProps = (state: any) => ({
   isFetchingProgressForRefresh: getIsFetchingProgressForRefresh(state),
   inventoryTableUpdateDate: getInventoryTableUpdateDate(state),
-  activeDraftOrderTemplate: getActiveDraftOrderTemplate(state),
   activePurchaseOrder: getActivePurchaseOrder(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     refreshInventoryTable: () => dispatch(refreshInventoryTable()),
-    updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) =>
-      dispatch(updatePurchaseOrder(payload)),
   };
 };
 

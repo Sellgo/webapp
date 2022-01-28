@@ -72,6 +72,10 @@ export class TaskRow extends Component {
                   <Icon name="trash" />
                   <span>Delete Order</span>
                 </button>
+                <button onClick={() => this.props.handleEditTask(this.props.item)}>
+                  <Icon name="pencil" />
+                  <span>Edit Task</span>
+                </button>
               </div>
             </>
           }
@@ -115,6 +119,7 @@ export default class TaskList extends Component {
           onSelectTask={this.props.onSelectTask}
           nonEditable={this.props.nonEditable}
           handleDeleteTask={this.props.handleDeleteTask}
+          handleEditTask={this.props.handleEditTask}
           handleIncludedToggle={this.props.handleIncludedToggle}
         />
       );

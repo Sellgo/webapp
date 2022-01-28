@@ -37,6 +37,7 @@ import { LeadTime } from '../../../../interfaces/PerfectStock/SalesProjection';
 
 /* Utils */
 import { getDateOnly } from '../../../../utils/date';
+import history from '../../../../history';
 
 /* Constants */
 import {
@@ -56,7 +57,7 @@ type IOption = {
 interface Props {
   setDateRange: (payload: DateRange) => void;
   setTimeSettings: (payload: string) => void;
-  fetchPurchaseOrders: (isDraftMode: boolean) => void;
+  fetchPurchaseOrders: () => void;
   fetchInventoryTable: () => void;
   updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => void;
   setActivePurchaseOrder: (payload: PurchaseOrder) => void;
@@ -172,12 +173,13 @@ const OrderGanttChart = (props: Props) => {
     }
   };
 
+  const handleEditTask = (payload: GanttChartPurchaseOrder) => {
+    handleSelectTask(payload);
+    history.push(`/perfect-stock/order-planning`);
+  };
+
   React.useEffect(() => {
-    if (isDraftMode) {
-      fetchPurchaseOrders(isDraftMode);
-    } else {
-      fetchPurchaseOrders(false);
-    }
+    fetchPurchaseOrders();
   }, []);
 
   return (
@@ -202,6 +204,7 @@ const OrderGanttChart = (props: Props) => {
             unitWidth={UNIT_WIDTH}
             handleChangeMode={handleChangeTimeSetting}
             handleDeleteTask={handleDeleteTask}
+            handleEditTask={handleEditTask}
             viewFilterOptions={viewFilterOptions}
             handleChangeFilterOption={handleChangeFilterOption}
             viewFilter={viewFilter}
@@ -237,8 +240,8 @@ const mapDispatchToProps = (dispatch: any) => {
     setTimeSettings: (payload: string) => {
       dispatch(setTimeSettings(payload));
     },
-    fetchPurchaseOrders: (isDraftMode: boolean) => {
-      dispatch(fetchPurchaseOrders(isDraftMode));
+    fetchPurchaseOrders: () => {
+      dispatch(fetchPurchaseOrders());
     },
     updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => {
       dispatch(updatePurchaseOrder(payload));

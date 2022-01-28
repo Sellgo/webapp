@@ -199,50 +199,17 @@ export const setDraftTemplates = (payload: DraftOrderTemplate[]) => {
   };
 };
 /*********** Async Actions ************************ */
-/* Action to fetch draft templates */
-export const fetchDraftTemplates = () => async (dispatch: any) => {
-  dispatch(isLoadingDraftTemplates(true));
-  try {
-    const sellerId = sellerIDSelector();
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-order-templates`;
-    const { data } = await axios.get(URL);
-    dispatch(setDraftTemplates(data));
-  } catch (err) {
-    console.error('Error fetching draft templates', err);
-  }
-  dispatch(isLoadingDraftTemplates(false));
-};
-
 /* Action to fetch purchase orders */
-export const fetchPurchaseOrders = (isDraft?: boolean) => async (dispatch: any, getState: any) => {
+export const fetchPurchaseOrders = () => async (dispatch: any) => {
   try {
     const sellerId = sellerIDSelector();
-    const state = getState();
-    const activeDraftOrderTemplate = getActiveDraftOrderTemplate(state);
-    let URL;
-
-    if (isDraft && activeDraftOrderTemplate.id) {
-      URL =
-        `${AppConfig.BASE_URL_API}sellers/${sellerId}/` +
-        `purchase-orders?status=pending&purchase_order_template_id=${activeDraftOrderTemplate.id}`;
-    } else if (isDraft && !activeDraftOrderTemplate.id) {
-      return null;
-    } else {
-      URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders`;
-    }
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders`;
 
     dispatch(isLoadingPurchaseOrders(true));
     const { data } = await axios.get(URL);
 
     if (data) {
-      if (isDraft) {
-        const pendingPurchaseOrders = data.filter(
-          (purchaseOrder: PurchaseOrder) => purchaseOrder.status === 'pending'
-        );
-        dispatch(setPurchaseOrders(pendingPurchaseOrders));
-      } else {
-        dispatch(setPurchaseOrders(data));
-      }
+      dispatch(setPurchaseOrders(data));
     }
   } catch (err) {
     dispatch(setPurchaseOrders([]));
@@ -320,7 +287,7 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
       dispatch(fetchInventoryTable());
 
       if (!payload.date && payload.status === 'inactive') {
-        dispatch(fetchPurchaseOrders(true));
+        dispatch(fetchPurchaseOrders());
         success('Deleted order successfully');
       }
     } else {
@@ -382,6 +349,61 @@ export const fetchInventoryTable = () => async (dispatch: any, getState: any) =>
   dispatch(isLoadingInventoryTableResults(false));
 };
 
+/* Action to refresh inventory table results */
+export const refreshInventoryTable = () => async (dispatch: any) => {
+  try {
+    const sellerId = sellerIDSelector();
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/refresh-forecast`;
+    const { data } = await axios.post(URL);
+
+    if (data && data.perfect_stock_job_id) {
+      dispatch(setRefreshInventoryTableId(data.perfect_stock_job_id));
+      dispatch(setIsFetchingProgressForRefresh(true));
+      success('Refreshing inventory table information.');
+    }
+  } catch (err) {
+    dispatch(setIsFetchingProgressForRefresh(false));
+    const { status } = err.response;
+    if (status === 429) {
+      error('Only 1 refresh per day allowed.');
+    }
+    console.error('Error updating sales estimation', err);
+  }
+};
+
+/* Action to get refresh progress */
+export const fetchRefreshProgress = () => async (dispatch: any, getState: any) => {
+  try {
+    const sellerId = sellerIDSelector();
+    const state = getState();
+    const refreshId = getRefreshInventoryTableId(state);
+    const URL =
+      `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/job/progress` +
+      `?perfect_stock_job_id=${refreshId}`;
+    const { data } = await axios.get(URL);
+
+    if (data && data.progress) {
+      if (data.status === 'completed') {
+        dispatch(fetchInventoryTable());
+        dispatch(setIsFetchingProgressForRefresh(false));
+        dispatch(setRefreshInventoryTableId(-1));
+      } else if (data.status === 'failed') {
+        dispatch(setIsFetchingProgressForRefresh(false));
+        dispatch(setRefreshInventoryTableId(-1));
+        error('Refreshing of inventory table failed.');
+      } else {
+        dispatch(setRefreshProgress(parseFloat(data.progress)));
+      }
+    }
+  } catch (err) {
+    dispatch(setIsFetchingProgressForRefresh(false));
+    console.error('Error fetching progress for perfect stock', err);
+  }
+};
+
+/* -------------------------------------------------- */
+/* ------------------- DEPRACATED ------------------- */
+/* -------------------------------------------------- */
 /* Action to fetch draft order information */
 export const fetchDraftOrderInformation = () => async (dispatch: any, useState: any) => {
   dispatch(isLoadingDraftOrderInformation(true));
@@ -399,6 +421,9 @@ export const fetchDraftOrderInformation = () => async (dispatch: any, useState: 
   dispatch(isLoadingDraftOrderInformation(false));
 };
 
+/* -------------------------------------------------- */
+/* ------------------- DEPRACATED ------------------- */
+/* -------------------------------------------------- */
 /* Action to fetch draft order information */
 export const fetchExpectedDaysOfInventory = () => async (dispatch: any, useState: any) => {
   dispatch(isLoadingExpectedDaysOfInventory(true));
@@ -452,54 +477,19 @@ export const fetchExpectedDaysOfInventory = () => async (dispatch: any, useState
   dispatch(isLoadingExpectedDaysOfInventory(false));
 };
 
-/* Action to refresh inventory table results */
-export const refreshInventoryTable = () => async (dispatch: any) => {
+/* -------------------------------------------------- */
+/* ------------------- DEPRACATED ------------------- */
+/* -------------------------------------------------- */
+/* Action to fetch draft templates */
+export const fetchDraftTemplates = () => async (dispatch: any) => {
+  dispatch(isLoadingDraftTemplates(true));
   try {
     const sellerId = sellerIDSelector();
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/refresh-forecast`;
-    const { data } = await axios.post(URL);
-
-    if (data && data.perfect_stock_job_id) {
-      dispatch(setRefreshInventoryTableId(data.perfect_stock_job_id));
-      dispatch(setIsFetchingProgressForRefresh(true));
-      success('Refreshing inventory table information.');
-    }
-  } catch (err) {
-    dispatch(setIsFetchingProgressForRefresh(false));
-    const { status } = err.response;
-    if (status === 429) {
-      error('Only 1 refresh per day allowed.');
-    }
-    console.error('Error updating sales estimation', err);
-  }
-};
-
-/* Action to get refresh progress */
-export const fetchRefreshProgress = () => async (dispatch: any, getState: any) => {
-  try {
-    const sellerId = sellerIDSelector();
-    const state = getState();
-    const refreshId = getRefreshInventoryTableId(state);
-    const URL =
-      `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/job/progress` +
-      `?perfect_stock_job_id=${refreshId}`;
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-order-templates`;
     const { data } = await axios.get(URL);
-
-    if (data && data.progress) {
-      if (data.status === 'completed') {
-        dispatch(fetchInventoryTable());
-        dispatch(setIsFetchingProgressForRefresh(false));
-        dispatch(setRefreshInventoryTableId(-1));
-      } else if (data.status === 'failed') {
-        dispatch(setIsFetchingProgressForRefresh(false));
-        dispatch(setRefreshInventoryTableId(-1));
-        error('Refreshing of inventory table failed.');
-      } else {
-        dispatch(setRefreshProgress(parseFloat(data.progress)));
-      }
-    }
+    dispatch(setDraftTemplates(data));
   } catch (err) {
-    dispatch(setIsFetchingProgressForRefresh(false));
-    console.error('Error fetching progress for perfect stock', err);
+    console.error('Error fetching draft templates', err);
   }
+  dispatch(isLoadingDraftTemplates(false));
 };
