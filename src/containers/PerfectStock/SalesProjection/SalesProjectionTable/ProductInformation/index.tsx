@@ -51,6 +51,12 @@ const ProductInformation = (props: RowCell) => {
             </div>
           </div>
         </div>
+        <div className={styles.productMetaDetailWrapper}>
+          <div className={styles.productMetaDetail}>
+            <div className={styles.circle} />
+            {rowData.fulfillment_channel === 'fba' ? 'FBA' : 'FBM'}
+          </div>
+        </div>
       </div>
     </Table.Cell>
   );

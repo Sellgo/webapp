@@ -21,14 +21,21 @@ const HoveredCell = (props: Props) => {
   /* Generating dates for hovered content */
   let smallerDate;
   let largerDate;
+
+  /* Past 90 days etc */
   if (daysOffset < 0) {
     smallerDate = new Date();
-    smallerDate.setDate(smallerDate.getDate() + daysOffset);
+    smallerDate.setTime(smallerDate.getTime() + daysOffset * 24 * 60 * 60 * 1000);
     largerDate = new Date();
+
+    /* Next 30 days last year etc */
   } else {
+    /* Smaller date is one year before today */
     smallerDate = new Date();
+    smallerDate.setFullYear(smallerDate.getFullYear() - 1);
     largerDate = new Date();
-    largerDate.setDate(largerDate.getDate() + daysOffset);
+    largerDate.setFullYear(largerDate.getFullYear() - 1);
+    largerDate.setTime(largerDate.getTime() + daysOffset * 24 * 60 * 60 * 1000);
   }
 
   if (disabled) {

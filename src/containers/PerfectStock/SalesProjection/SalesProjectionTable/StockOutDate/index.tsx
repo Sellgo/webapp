@@ -15,7 +15,7 @@ const StockOutDate = (props: RowCell) => {
   const daysToStockOut = showNAIfZeroOrNull(rowData[dataKey], formatNumber(rowData[dataKey]));
 
   const stockOutDate = new Date();
-  stockOutDate.setDate(stockOutDate.getDate() + daysToStockOut);
+  stockOutDate.setTime(stockOutDate.getTime() + daysToStockOut * 24 * 60 * 60 * 1000);
 
   return (
     <Table.Cell {...props}>

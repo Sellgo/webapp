@@ -20,13 +20,12 @@ import { truncateString } from '../../../../utils/format';
 import { sellerIDSelector } from '../../../../selectors/Seller';
 import { AppConfig } from '../../../../config';
 import { error, success } from '../../../../utils/notifications';
-import { DraftOrderTemplate } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 interface Props {
   open: boolean;
   onCloseModal: () => void;
   templateId: number;
-  refreshData: (updatedTemplate: DraftOrderTemplate) => void;
+  refreshData: () => void;
   selectedSKUs: any[];
 }
 
@@ -52,9 +51,7 @@ const AddEditSkuModal = (props: Props) => {
   React.useEffect(() => {
     if (open) {
       setOrderProducts([]);
-      const selectedSkuIds = selectedSKUs?.map((sku: any) => sku.id);
-      console.log(selectedSKUs);
-      console.log(selectedSkuIds);
+      const selectedSkuIds = selectedSKUs?.map((sku: any) => sku.merchant_listing_id.toString());
       setSelectedProductIds(selectedSkuIds ? selectedSkuIds : []);
       fetchOrderProducts();
     }
@@ -63,16 +60,16 @@ const AddEditSkuModal = (props: Props) => {
   const handleSubmit = async () => {
     setIsSubmitingProductAssignments(true);
     try {
-      const { status, data } = await axios.patch(
+      const { status } = await axios.patch(
         `${
           AppConfig.BASE_URL_API
         }sellers/${sellerIDSelector()}/purchase-order-templates/${templateId}`,
         { merchant_listing_ids: selectedProductIds.map((id: string) => parseInt(id)) }
       );
       if (status === 200) {
-        refreshData(data);
         success('Products assigned successfully');
         onCloseModal();
+        refreshData();
       } else {
         error('Something went wrong');
       }
@@ -101,7 +98,7 @@ const AddEditSkuModal = (props: Props) => {
 
   /* Display the selected products in the table, with asin and details */
   const selectedProducts = orderProducts.filter((orderProduct: any) => {
-    return selectedProductIds.includes(orderProduct.id || '');
+    return selectedProductIds.includes(orderProduct.id.toString() || '');
   });
 
   return (

@@ -160,7 +160,8 @@ const InventoryTable = (props: Props) => {
     }
   });
 
-  const inventoryResultsIds = displayInventoryResults.map((rowData: any) => rowData.id);
+  const inventoryResultsIds =
+    activePurchaseOrder.id !== -1 ? displayInventoryResults.map((rowData: any) => rowData.id) : [];
 
   return (
     <>

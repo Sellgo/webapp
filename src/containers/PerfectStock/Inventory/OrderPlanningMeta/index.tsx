@@ -5,13 +5,10 @@ import { connect } from 'react-redux';
 import styles from './index.module.scss';
 
 /* Components */
-import TableExport from '../../../../components/NewTable/TableExport';
 import ActionButton from '../../../../components/ActionButton';
 import CreateOrderModal from '../CreateOrderModal';
 
 /* Assets */
-import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
-import { ReactComponent as CSVExportImage } from '../../../../assets/images/csvExportImage.svg';
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
 import { ReactComponent as ArrowDown } from '../../../../assets/images/view-detail-down-arrow.svg';
 import { ReactComponent as UndoIcon } from '../../../../assets/images/undoIcon.svg';
@@ -30,10 +27,6 @@ interface Props {
 
 const OrderPlanningMeta = (props: Props) => {
   const { refreshInventoryTable, isFetchingProgressForRefresh, inventoryTableUpdateDate } = props;
-
-  const handleOnExport = async (fileFormat: 'csv' | 'xlsx') => {
-    console.log('Export', fileFormat);
-  };
 
   const [isCreatingOrder, setIsCreatingOrder] = React.useState(false);
   const displayDate = inventoryTableUpdateDate
@@ -75,35 +68,6 @@ const OrderPlanningMeta = (props: Props) => {
             )}
           </button>
         )}
-
-        <TableExport
-          label=""
-          disableExport={false}
-          onButtonClick={() => handleOnExport('xlsx')}
-          className={styles.exportButton}
-          exportContent={
-            <>
-              <div className={styles.exportOptions}>
-                <span>Export As</span>
-                <button
-                  className={styles.exportOption}
-                  onClick={() => handleOnExport('xlsx')}
-                  disabled={false}
-                >
-                  <XLSXExportImage /> .XLSX
-                </button>
-
-                <button
-                  className={styles.exportOption}
-                  onClick={() => handleOnExport('csv')}
-                  disabled={false}
-                >
-                  <CSVExportImage /> .CSV
-                </button>
-              </div>
-            </>
-          }
-        />
       </div>
       <CreateOrderModal open={isCreatingOrder} onCloseModal={() => setIsCreatingOrder(false)} />
     </>

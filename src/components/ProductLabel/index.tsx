@@ -16,6 +16,9 @@ import ZapierIcon from '../Icons/KeywordResearch/Zapier';
 import ProductDatabaseIcon from '../Icons/ProductResearch/ProductDatabase';
 import ProductTrackerIcon from '../Icons/ProductResearch/ProductTracker';
 
+import SalesEstimationIcon from '../Icons/PerfectStock/SalesEstimation';
+import OrderPlanningIcon from '../Icons/PerfectStock/Order Planning';
+
 import BetaLabel from '../BetaLabel';
 
 interface Props {
@@ -29,7 +32,9 @@ interface Props {
     | 'Keyword Finder'
     | 'Keyword Database'
     | 'Keyword Tracker'
-    | 'Zapier';
+    | 'Zapier'
+    | 'Sales Estimation'
+    | 'Order Planning';
   isActive?: boolean;
   className?: string;
   activeClassName?: string;
@@ -77,6 +82,14 @@ const ProductLabel = (props: Props) => {
 
     case 'Product Tracker':
       iconPicture = <ProductTrackerIcon fill={iconFill} />;
+      break;
+
+    case 'Sales Estimation':
+      iconPicture = <SalesEstimationIcon fill={iconFill} />;
+      break;
+
+    case 'Order Planning':
+      iconPicture = <OrderPlanningIcon fill={iconFill} />;
       break;
 
     default:

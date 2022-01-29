@@ -1,7 +1,6 @@
 @import '../../../../../design-system/new-colors.scss';
 
 .productInformation {
-  padding-top: 18px;
   height: 100%;
   width: 100%;
   position: relative;
@@ -9,26 +8,28 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
+  padding-top: 10px;
   margin: 0 20px;
 }
 
 .productImage {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   object-fit: contain;
 }
 
 .productDetails {
-  width: 100%;
+  width: calc(100% - 150px);
   margin-left: 20px;
 }
 
 .productTitle {
-  color: $grey_8;
+  color: $black_1;
   font-size: 14px;
-  font-weight: $fontweight_regular;
+  font-weight: $fontweight_semibold;
   text-align: left;
-  width: calc(100% - 100px);
+  margin-bottom: 10px;
+  width: 100%;
   text-overflow: ellipsis;
   overflow-x: hidden;
 }
@@ -39,7 +40,7 @@
   grid-template-columns: 120px 120px;
   font-size: 10px !important;
   font-weight: $fontweight_medium !important;
-  color: $grey_8 !important;
+  color: $black_1 !important;
 }
 
 .flagAndAsinCol {
@@ -69,7 +70,7 @@
 .productAsin {
   font-size: 10px !important;
   font-weight: $fontweight_medium !important;
-  color: $grey_8 !important;
+  color: $black_1 !important;
 
   &:hover {
     text-decoration-color: $black-1 !important;
@@ -77,4 +78,33 @@
     font-weight: $fontweight_semibold !important;
     color: $black_1 !important;
   }
+}
+
+.productMetaDetailWrapper {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.productMetaDetail {
+  .circle {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    margin-right: 5px;
+
+    &__orange {
+      background: $accent_orange;
+    }
+
+    &__green {
+      background: $system_green;
+    }
+  }
+
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  color: $grey_8;
+  font-weight: $fontweight_medium;
 }

@@ -67,9 +67,9 @@ const ExpandedInventory = (props: Props) => {
     const startDate = getDateOnly(new Date(dateRange.startDate));
     const endDate = getDateOnly(new Date(dateRange.endDate));
     try {
-      /* Fetch either only expected_sales or both expected_sales and seasonal adjustment */
-      const EXPANDED_TYPES = 'expected_sales,seasonal_adjustment';
-      const UNEXPANDED_TYPES = 'expected_sales';
+      /* Fetch either only expected_inventory or both expected_inventory and seasonal adjustment */
+      const EXPANDED_TYPES = 'expected_inventory,seasonal_adjustment';
+      const UNEXPANDED_TYPES = 'expected_inventory';
 
       /* Fetch data from the server */
       const url =
@@ -85,15 +85,15 @@ const ExpandedInventory = (props: Props) => {
 
       /* Format data for the graph and table */
       data.forEach((attribute: any) => {
-        if (attribute.expected_sales) {
+        if (attribute.expected_inventory) {
           /* Add expected sales to the table data */
-          newProductProjectedSales.push(attribute.expected_sales);
+          newProductProjectedSales.push(attribute.expected_inventory);
 
           /* Add expected sales to the graph data */
           const graphDataSeries = {
-            name: 'Expected Sales',
+            name: 'Expected Inventory',
             type: GRAPH_SETTING_OPTIONS.LINE,
-            data: Object.values(attribute.expected_sales) as number[],
+            data: Object.values(attribute.expected_inventory) as number[],
           };
           newGraphProductProjectedSalesData.push(graphDataSeries);
         } else if (attribute.seasonal_adjustment) {
@@ -134,9 +134,7 @@ const ExpandedInventory = (props: Props) => {
       <div className={styles.expandedProductDetailsWrapper}>
         <InventorySkuStatus className={styles.skuStatusContainer} rowData={rowData} />
         <div className={styles.salesProjectionContainer}>
-          <BoxHeader className={styles.tableHeader}>
-            WEEKLY EXPECTED SALES WITH SEASONALITY ADJUSTOR
-          </BoxHeader>
+          <BoxHeader className={styles.tableHeader}>EXPANDED INVENTORY</BoxHeader>
           <BoxContainer className={styles.tableContainer}>
             {/* Placeholder is used here because the headers are pre-rendered, and the table data is huge */}
             {isLoadingProductProjectedSales ? (

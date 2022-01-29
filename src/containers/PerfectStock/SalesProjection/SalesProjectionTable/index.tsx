@@ -29,6 +29,7 @@ import {
 } from '../../../../selectors/PerfectStock/SalesProjection';
 import { ReactComponent as ExclaimationIcon } from '../../../../assets/images/exclamation-triangle-solid.svg';
 import ExpandedProduct from '../ExpandedProduct';
+import InboundFulfillableStat from './InboundFulfillableStat';
 
 interface Props {
   // States
@@ -118,6 +119,21 @@ const SalesEstimationTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <StockOutDate dataKey="days_until_so" />
+          </Table.Column>
+
+          {/* Fulfillable Inventory  */}
+          <Table.Column width={150} verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`FBA\nInventory`}
+                dataKey="fulfillable_fba"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+                alignMiddle
+                disableSort
+              />
+            </Table.HeaderCell>
+            <InboundFulfillableStat dataKey="fulfillable_fba" />
           </Table.Column>
 
           {/* Expected Sales  */}

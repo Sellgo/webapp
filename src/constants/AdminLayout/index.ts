@@ -51,6 +51,9 @@ export const NAV_ICONS = {
   KEYWORD_REVERSE: 'keywordReverseIcon.svg',
   KEYWORD_DATABASE: 'keywordDatabaseIcon.svg',
   KEYWORD_TRACKER: 'keywordTrackerIcon.svg',
+  PERFECT_STOCK: 'perfectStock.svg',
+  ORDER_PLANNING: 'orderPlanning.svg',
+  SALES_ESTIMATION: 'salesProjection.svg',
   ZAPIER: 'zapierIcon.svg',
 };
 
@@ -184,6 +187,32 @@ export const OPTIONS: NavOptions = [
         description: 'Amazon Product Catalogue',
         icon: require(`../../assets/images/${NAV_ICONS.PRODUCT_DATABASE}`),
         path: '/product-research/database',
+        disabled: false,
+        isBeta: true,
+      },
+    ],
+  },
+  {
+    label: 'Perfect Stock',
+    icon: require(`../../assets/images/${NAV_ICONS.PERFECT_STOCK}`),
+    path: '/perfect-stock',
+    isComingSoon: false,
+    disabled: false,
+    isBeta: true,
+    subOptions: [
+      {
+        label: 'Sales Projection',
+        description: 'Sales Projection',
+        icon: require(`../../assets/images/${NAV_ICONS.SALES_ESTIMATION}`),
+        path: '/perfect-stock/sales-estimation',
+        disabled: false,
+        isBeta: true,
+      },
+      {
+        label: 'Order Planning',
+        description: 'Order Planning',
+        icon: require(`../../assets/images/${NAV_ICONS.ORDER_PLANNING}`),
+        path: '/perfect-stock/inventory',
         disabled: false,
         isBeta: true,
       },

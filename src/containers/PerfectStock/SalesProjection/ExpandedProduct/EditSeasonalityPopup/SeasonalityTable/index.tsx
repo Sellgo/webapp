@@ -70,7 +70,7 @@ const SeasonalityTable = (props: Props) => {
             <EditValueCell dataKey="value" handleChange={handleValueChange} isNumber />
           </Table.Column>
           {/* Delete Cell */}
-          <Table.Column width={500} verticalAlign="middle" align="right">
+          <Table.Column minWidth={100} flexGrow={1} verticalAlign="middle" align="right">
             <Table.HeaderCell />
             <DeleteCell
               dataKey="id"

@@ -1,3 +1,4 @@
+
 @import '../../../../design-system/new-colors';
 
 .orderPlanningMeta {
@@ -30,5 +31,24 @@
 
   > button {
     margin-left: 18px;
+  }
+}
+
+.inventoryTableToggle {
+  display: flex;
+  background: none;
+  margin-right: 50%;
+}
+
+.circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid $border-color-1;
+  margin-right: 10px;
+
+  &__selected {
+    border-color: $blue_link_bg_dark;
+    background: $blue_link_bg_dark;
   }
 }

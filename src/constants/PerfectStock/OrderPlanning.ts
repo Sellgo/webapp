@@ -75,8 +75,7 @@ export const TIME_SETTINGS_OPTIONS = [
 export const CREATE_ORDER_STATUS = {
   SELECT_START_DATE: 0,
   SELECT_LEAD_TIME: 1,
-  SELECT_AUTO_GENERATE_DURATION: 2,
-  ORDER_CREATION_SUCCESS: 3,
+  ORDER_CREATION_SUCCESS: 2,
 };
 
 /* Styling widths to maintain alignment of chart between gantt chart and tables */

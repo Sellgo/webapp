@@ -36,6 +36,7 @@ interface Props {
   fetchRefreshProgress: () => void;
   refreshProgress: number;
   fetchPurchaseOrders: () => void;
+  fetchInventoryTable: () => void;
 
   setPurchaseOrders: (payload: PurchaseOrder[]) => void;
   activePurchaseOrder: PurchaseOrder;
@@ -49,6 +50,7 @@ const OrderPlanning = (props: Props) => {
     fetchPurchaseOrders,
     activePurchaseOrder,
     setPurchaseOrders,
+    fetchInventoryTable,
   } = props;
 
   const [isEditingSKUs, setIsEditingSKUs] = React.useState(false);

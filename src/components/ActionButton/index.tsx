@@ -54,8 +54,15 @@ const ActionButton = (props: Props) => {
   if (isBorderedGradient) {
     return (
       <div className={`${btnClass}`}>
-        <button onClick={handleClick} className={styles.innerButton} disabled={disabled || loading}>
-          {!loading ? children : <Loader active inline size="tiny" />}
+        <button
+          onClick={handleClick}
+          className={`
+            ${styles.innerButton}
+            ${loading ? styles.innerButton__loading : ''}
+          `}
+          disabled={disabled || loading}
+        >
+          {!loading ? children : <Loader inverted={true} active inline size="tiny" />}
         </button>
       </div>
     );

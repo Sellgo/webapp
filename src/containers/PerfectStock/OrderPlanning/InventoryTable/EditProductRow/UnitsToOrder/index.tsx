@@ -18,9 +18,6 @@ import InputFilter from '../../../../../../components/FormFilters/InputFilter';
 /* Types */
 import { UpdatePurchaseOrderPayload } from '../../../../../../interfaces/PerfectStock/OrderPlanning';
 
-/* Utils */
-import { formatRating } from '../../../../../../utils/format';
-
 interface Props {
   rowData: any;
   updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => void;
@@ -49,7 +46,10 @@ const UnitsToOrder = (props: Props) => {
   };
 
   const handleEditManualSales = (value: string) => {
-    setUpdatedManualSales(value);
+    const num = parseInt(value);
+    if (Number.isInteger(num) && num >= 0) {
+      setUpdatedManualSales(value);
+    }
 
     if (value === rowData.manual_quantity) {
       setIsEditingManualSales(false);
@@ -82,8 +82,8 @@ const UnitsToOrder = (props: Props) => {
     fetchDraftOrderInformation();
   };
 
-  const displayPredictiveSales = formatRating(rowData.quantity) || '';
-  const displayManualSales = formatRating(updatedManualSales) || '';
+  const displayPredictiveSales = rowData.quantity || 0;
+  const displayManualSales = updatedManualSales;
 
   return (
     <div

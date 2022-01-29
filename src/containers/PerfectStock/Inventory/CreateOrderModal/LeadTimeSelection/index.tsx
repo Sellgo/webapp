@@ -56,6 +56,13 @@ const LeadTimeSelection = (props: Props) => {
     fetchLeadTimeGroups();
   }, []);
 
+  const [isCreatingOrder, setIsCreatingOrder] = React.useState(false);
+
+  const onOrderCreate = () => {
+    setIsCreatingOrder(true);
+    handleNext();
+  };
+
   return (
     <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>
@@ -96,13 +103,14 @@ const LeadTimeSelection = (props: Props) => {
         </ActionButton>
         <ActionButton
           className={styles.createButton}
-          onClick={handleNext}
+          onClick={onOrderCreate}
           variant="secondary"
           type="purpleGradient"
           size="md"
           disabled={isHandleNextDisabled}
+          loading={isCreatingOrder}
         >
-          Next
+          Submit
         </ActionButton>
       </div>
     </div>

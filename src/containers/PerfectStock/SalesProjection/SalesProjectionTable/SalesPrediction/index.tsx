@@ -44,7 +44,10 @@ const SalesPrediction = (props: Props) => {
   };
 
   const handleEditManualSales = (value: string) => {
-    setUpdatedManualSales(value);
+    const num = parseFloat(value);
+    if (num >= 0) {
+      setUpdatedManualSales(value);
+    }
 
     if (value === rowData.manual_sales) {
       setIsEditingManualSales(false);
@@ -79,7 +82,7 @@ const SalesPrediction = (props: Props) => {
   };
 
   const displayPredictiveSales = formatRating(rowData.predictive_sales) || '';
-  const displayManualSales = formatRating(updatedManualSales) || '';
+  const displayManualSales = updatedManualSales || '';
 
   return (
     <Table.Cell {...otherProps}>

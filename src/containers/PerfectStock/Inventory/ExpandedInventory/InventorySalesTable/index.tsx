@@ -68,11 +68,14 @@ const InventorySalesTable = (props: Props) => {
             minWidth: GANTT_ORDERS_WIDTH,
           }}
         >
-          <p style={{ height: ROW_HEIGHT }} className={styles.salesRowTitle}>
+          <p
+            style={{ height: ROW_HEIGHT, marginTop: HEADER_ROW_HEIGHT }}
+            className={styles.salesRowTitle}
+          >
             <button className={styles.expandButton} onClick={() => setShowTrends(!showTrends)}>
               {showTrends ? <DeExpandedCellIcon /> : <ExpandedCellIcon />}
             </button>
-            Expected Weekly Sales
+            Expected Inventory
           </p>
           {showTrends && (
             <>

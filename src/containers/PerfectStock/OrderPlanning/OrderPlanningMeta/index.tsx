@@ -57,8 +57,21 @@ const OrderPlanningMeta = (props: Props) => {
           <ThinAddIcon />
           <span>Add/ Edit SKUs</span>
         </ActionButton>
-        <button onClick={() => setIsShowingDaysUntilStockout(!isShowingDaysUntilStockout)}>
-          {isShowingDaysUntilStockout ? 'Hide Days Until Stockout' : 'Show Days Until Stockout'}
+
+        <button
+          onClick={() => setIsShowingDaysUntilStockout(!isShowingDaysUntilStockout)}
+          className={styles.inventoryTableToggle}
+        >
+          <div
+            className={`${styles.circle} ${
+              !isShowingDaysUntilStockout ? styles.circle__selected : ''
+            }`}
+          />
+          <div
+            className={`${styles.circle} ${
+              isShowingDaysUntilStockout ? styles.circle__selected : ''
+            }`}
+          />
         </button>
       </div>
     </>

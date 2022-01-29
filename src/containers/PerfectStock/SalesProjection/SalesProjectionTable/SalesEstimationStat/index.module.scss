@@ -36,3 +36,26 @@
   font-size: 10px;
   font-weight: $fontweight_medium;
 }
+
+.noProjections,
+.stockout {
+  margin-top: 30px;
+  width: 90px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: $fontweight_semibold;
+  border-radius: 7px;
+}
+
+.noProjections {
+  background: $grey_3;
+  color: $grey_8;
+}
+
+.stockout {
+  background: $system_red;
+  color: $prim_white;
+}

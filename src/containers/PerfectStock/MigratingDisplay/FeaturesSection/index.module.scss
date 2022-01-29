@@ -1,0 +1,36 @@
+@import '../../../../design-system/new-colors';
+
+.featuresSection {
+  border-top: 1px solid $grey_3;
+  margin-top: 100px;
+  padding: 60px 0;
+  text-align: left;
+  width: 1000px;
+  padding-bottom: 300px;
+}
+
+.featuresGrid {
+  display: grid;
+  column-gap: 30px;
+  row-gap: 50px;
+  grid-template-columns: 33% 33% 33%;
+}
+
+.featureTitle {
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  font-weight: 500;
+  color: $black_0;
+
+  img {
+    margin-right: 10px;
+  }
+}
+
+.featureSubtitle {
+  color: $black_1;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}

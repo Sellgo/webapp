@@ -37,6 +37,7 @@ export interface SellerSubscription {
   seller_map_overview_display_limit?: number;
   is_beta?: boolean;
   is_payment_pending?: boolean;
+  perfect_stock_status: string;
 }
 
 export interface Merchant {

@@ -10,9 +10,11 @@ import { isFirstTimeLoggedIn } from '../../../utils/subscriptions';
 
 interface Props {
   match: any;
+  hideSettingsNav?: boolean;
 }
+
 const Connectivity = (props: Props) => {
-  const { match } = props;
+  const { match, hideSettingsNav } = props;
   const firstTimeLoggedIn = isFirstTimeLoggedIn();
   return (
     <>
@@ -30,7 +32,7 @@ const Connectivity = (props: Props) => {
         />
       )}
       <main className={styles.connectivityPageWrapper}>
-        <SettingsNav match={match} />
+        {!hideSettingsNav && <SettingsNav match={match} />}
         <SpApiForm />
       </main>
     </>

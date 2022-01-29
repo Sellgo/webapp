@@ -9,6 +9,8 @@ import styles from './index.module.scss';
 import Inventory from './Inventory';
 import OrderPlanning from './OrderPlanning';
 import SalesProjection from './SalesProjection';
+import MigratingDisplay from './MigratingDisplay';
+import PreMigration from './PreMigration';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
@@ -22,7 +24,11 @@ import { getUserOnboarding, getUserOnboardingResources } from '../../selectors/U
 import { setUserOnboardingResources } from '../../actions/UserOnboarding';
 
 /* COnstansts */
-import { PERFECT_STOCK_PRODUCT_DETAILS, PERFECT_STOCK_PAGES } from '../../constants/PerfectStock';
+import {
+  PERFECT_STOCK_PRODUCT_DETAILS,
+  PERFECT_STOCK_PAGES,
+  PERFECT_STOCK_SELLER_STATUS,
+} from '../../constants/PerfectStock';
 import {
   FALLBACK_ONBOARDING_DETAILS,
   GENERAL_TUTORIAL_INDEX,
@@ -30,6 +36,10 @@ import {
 
 /* Assets */
 import databaseOnboarding from '../../assets/onboardingResources/ProductResearch/productDatabaseOnboarding.json';
+import { getSellerSubscription } from '../../selectors/Subscription';
+
+/* Types */
+import { SellerSubscription } from '../../interfaces/Seller';
 
 interface Props {
   history: any;
@@ -37,16 +47,19 @@ interface Props {
   setUserOnboardingResources: (payload: any) => void;
   userOnboarding: boolean;
   userOnboardingResources: any[];
+  subscription: SellerSubscription;
 }
 
-const ProductResearch: React.FC<Props> = props => {
+const PerfectStock: React.FC<Props> = props => {
   const {
     match,
     setUserOnboardingResources,
     userOnboardingResources,
     userOnboarding,
     history,
+    subscription,
   } = props;
+  console.log(subscription);
 
   const [selectedTabList, setSelectedTabList] = useState<number>(0);
 
@@ -88,7 +101,19 @@ const ProductResearch: React.FC<Props> = props => {
 
   /* check url */
   const isEditingOrders = window.location.pathname === PERFECT_STOCK_PAGES[2];
-  console.log(isEditingOrders);
+
+  /* Lock Perfect Stock if user is not migrated */
+  if (
+    subscription.perfect_stock_status === PERFECT_STOCK_SELLER_STATUS.SP_API_FAILED ||
+    subscription.perfect_stock_status === PERFECT_STOCK_SELLER_STATUS.SP_API_CONNECTED ||
+    subscription.perfect_stock_status === PERFECT_STOCK_SELLER_STATUS.MIGRATION_FAILED
+  ) {
+    return <PreMigration match={match} />;
+  } else if (
+    subscription.perfect_stock_status === PERFECT_STOCK_SELLER_STATUS.MIGRATION_IN_PROGRESS
+  ) {
+    return <MigratingDisplay />;
+  }
 
   return (
     <>
@@ -130,15 +155,15 @@ const ProductResearch: React.FC<Props> = props => {
               <Tab>
                 <ProductLabel
                   label="Sales Estimation"
-                  icon="Product Database"
+                  icon="Sales Estimation"
                   isActive={selectedTabList === 0}
                   isBeta
                 />
               </Tab>
               <Tab>
                 <ProductLabel
-                  label="Inventory"
-                  icon="Product Database"
+                  label="Order Planning"
+                  icon="Order Planning"
                   isActive={selectedTabList === 1}
                   isBeta
                 />
@@ -167,6 +192,7 @@ const mapStateToProps = (state: any) => {
   return {
     userOnboarding: getUserOnboarding(state),
     userOnboardingResources: getUserOnboardingResources(state),
+    subscription: getSellerSubscription(state),
   };
 };
 
@@ -176,4 +202,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductResearch);
+export default connect(mapStateToProps, mapDispatchToProps)(PerfectStock);

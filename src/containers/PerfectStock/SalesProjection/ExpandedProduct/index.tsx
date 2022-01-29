@@ -35,6 +35,7 @@ interface Props {
 const ExpandedProduct = (props: Props) => {
   const { rowData } = props;
 
+  /* Local states */
   const [productProjectedSales, setProductProjectedSales] = React.useState<ProductProjectedSales[]>(
     []
   );

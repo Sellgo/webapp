@@ -27,7 +27,7 @@ const OrderCreatedSuccess = (props: Props) => {
           type="purpleGradient"
           size="md"
         >
-          Take me to the Smart Order Now
+          Take me to the Order Now
         </ActionButton>
       </div>
     </div>

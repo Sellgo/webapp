@@ -18,6 +18,14 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   },
 ];
 
+export const PERFECT_STOCK_SELLER_STATUS = {
+  SP_API_FAILED: 'amz_connect_failed',
+  SP_API_CONNECTED: 'amz_connect_success',
+  MIGRATION_IN_PROGRESS: 'migration_in_progress',
+  MIGRATION_SUCCESS: 'migration_success',
+  MIGRATION_FAILED: 'migration_failed',
+};
+
 export const LEAD_TIME_OPTIONS = [
   {
     key: 'In Production',
