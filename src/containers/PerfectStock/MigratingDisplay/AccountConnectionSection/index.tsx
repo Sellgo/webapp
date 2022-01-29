@@ -9,17 +9,13 @@ import history from '../../../../history';
 
 /* Assets */
 // import ZapierLogo from '../../../../assets/images/zapier.svg';
-import AmazonLogo from '../../../../assets/images/amazonLogo.svg';
+import LeadTimeLogo from '../../../../assets/images/leadTime.svg';
 import Lightbulb from '../../../../assets/images/lightbulb.svg';
 
 const AccountConnectionSection = () => {
   const handleRedirectToConnectivity = () => {
-    history.push('./settings/connectivity?first-time-logged-in=true');
+    history.push('./settings/perfect-stock/lead-time');
   };
-
-  // const handleRedirectToZapier = () => {
-  //   history.push('./settings/api-keys?first-time-logged-in=true');
-  // };
 
   return (
     <section className={styles.connectAccount}>
@@ -35,29 +31,17 @@ const AccountConnectionSection = () => {
       </div>
       <div className={styles.connectRow}>
         <div className={styles.connectAccountCard}>
-          <img src={AmazonLogo} alt="amazon" className={styles.connectApiLogo} />
-          <p className={styles.connectApiLabel}> Amazon Seller Central </p>
+          <img src={LeadTimeLogo} alt="lead time" className={styles.connectApiLogo} />
+          <p className={styles.connectApiLabel}> Set up Lead Time </p>
           <ActionButton
             type="black"
             variant="secondary"
             size="small"
             onClick={handleRedirectToConnectivity}
           >
-            Connect
+            Set Up
           </ActionButton>
         </div>
-        {/* <div className={styles.connectAccountCard}>
-          <img src={ZapierLogo} alt="zapier" className={styles.connectApiLogo} />
-          <p className={styles.connectApiLabel}> Zapier </p>
-          <ActionButton
-            type="black"
-            variant="secondary"
-            size="small"
-            onClick={handleRedirectToZapier}
-          >
-            Connect
-          </ActionButton>
-        </div> */}
       </div>
     </section>
   );
