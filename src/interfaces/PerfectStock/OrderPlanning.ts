@@ -48,6 +48,22 @@ export interface UpdatePurchaseOrderPayload {
   quantity_mode?: string;
 }
 
+export interface InventorySkuUpdatePayload {
+  id: number;
+  product_cost?: number;
+  moq?: number;
+  carton_count?: number;
+  cbm?: number;
+  height?: number;
+  height_unit?: string;
+  weight?: number;
+  weight_unit?: string;
+  length?: number;
+  length_unit?: string;
+  width?: number;
+  width_unit?: string;
+}
+
 export interface CreateOrderPayload {
   date: string;
   lead_time_group_id: number;
@@ -64,4 +80,21 @@ export interface DraftOrderInformation {
   number: string;
   purchase_order_template_id: 2;
   status: string;
+}
+
+export interface ProductConfig {
+  id: number;
+  carton_count: number;
+  height: number;
+  height_unit: string;
+  length: number;
+  length_unit: string;
+  moq: number;
+  product_cost: number;
+  round_up_to_nearest_carton: boolean;
+  shipping_cost: number;
+  weight: number;
+  weight_unit: string;
+  width: number;
+  width_unit: string;
 }

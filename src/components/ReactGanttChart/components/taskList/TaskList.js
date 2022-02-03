@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import Config from '../../helpers/config/Config';
 import SelectionFilter from '../../../FormFilters/SelectionFilter';
-import { TIME_SETTINGS_OPTIONS } from '../../../../constants/PerfectStock/OrderPlanning';
-import { Icon, Popup, Checkbox } from 'semantic-ui-react';
+import {
+  TIME_SETTINGS_OPTIONS,
+  EMPTY_GANTT_CHART_PURCHASE_ORDER,
+} from '../../../../constants/PerfectStock/OrderPlanning';
+import { Icon, Popup, Checkbox, Radio } from 'semantic-ui-react';
 
 export class VerticalLine extends Component {
   constructor(props) {
@@ -26,6 +29,7 @@ export class TaskRow extends Component {
   };
 
   render() {
+    const isFirstRow = this.props.item.id === -1;
     return (
       <div
         className="timeLine-side-task-row"
@@ -36,55 +40,63 @@ export class TaskRow extends Component {
         }}
       >
         <div tabIndex={this.props.index} className="timeLine-side-task-row-name">
-          <Checkbox
-            toggle
-            checked={this.props.item.is_included}
-            onChange={() => this.props.handleIncludedToggle(this.props.item.id)}
-          />
           <span
             onClick={e => {
               this.props.onSelectItem(this.props.item);
               this.props.onSelectTask(this.props.item);
             }}
-            style={
-              this.props.isSelected
-                ? {
-                    backgroundColor: '#4B9CF5',
-                    color: '#fff',
-                  }
-                : {}
-            }
           >
-            {this.props.label}
+            <Radio checked={this.props.isSelected} label="" />
+            <span
+              style={
+                this.props.isSelected
+                  ? {
+                      backgroundColor: '#4B9CF5',
+                      color: '#fff',
+                    }
+                  : {}
+              }
+            >
+              {this.props.label}
+            </span>
           </span>
+          {!isFirstRow && (
+            <Checkbox
+              toggle
+              checked={this.props.item.is_included}
+              onChange={() => this.props.handleIncludedToggle(this.props.item.id)}
+            />
+          )}
         </div>
-        <Popup
-          on="click"
-          position="bottom left"
-          closeOnDocumentClick
-          closeOnEscape
-          className="timeLine-actionsPopover"
-          content={
-            <>
-              <div className="timeLine-actionOptions">
-                <p>EDIT</p>
-                <button onClick={() => this.props.handleDeleteTask(this.props.item)}>
-                  <Icon name="trash" />
-                  <span>Delete Order</span>
-                </button>
-                <button onClick={() => this.props.handleEditTask(this.props.item)}>
-                  <Icon name="pencil" />
-                  <span>Edit Task</span>
-                </button>
-              </div>
-            </>
-          }
-          trigger={
-            <button className={'timeLine-triggerButton'}>
-              <Icon name="ellipsis vertical" />
-            </button>
-          }
-        />
+        {!isFirstRow && (
+          <Popup
+            on="click"
+            position="bottom left"
+            closeOnDocumentClick
+            closeOnEscape
+            className="timeLine-actionsPopover"
+            content={
+              <>
+                <div className="timeLine-actionOptions">
+                  <p>EDIT</p>
+                  <button onClick={() => this.props.handleDeleteTask(this.props.item)}>
+                    <Icon name="trash" />
+                    <span>Delete Order</span>
+                  </button>
+                  <button onClick={() => this.props.handleEditTask(this.props.item)}>
+                    <Icon name="pencil" />
+                    <span>Edit Task</span>
+                  </button>
+                </div>
+              </>
+            }
+            trigger={
+              <button className={'timeLine-triggerButton'}>
+                <Icon name="ellipsis vertical" />
+              </button>
+            }
+          />
+        )}
       </div>
     );
   }

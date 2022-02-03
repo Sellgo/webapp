@@ -27,13 +27,16 @@ import {
 
 /* Utils */
 import { AppConfig } from '../../../../config';
+import { connect } from 'react-redux';
+import { getSalesProjectionResults } from '../../../../selectors/PerfectStock/SalesProjection';
 
 interface Props {
   rowData: any;
+  salesProjectionResults: ProductProjectedSales[];
 }
 
 const ExpandedProduct = (props: Props) => {
-  const { rowData } = props;
+  const { rowData, salesProjectionResults } = props;
 
   /* Local states */
   const [productProjectedSales, setProductProjectedSales] = React.useState<ProductProjectedSales[]>(
@@ -110,15 +113,12 @@ const ExpandedProduct = (props: Props) => {
 
   React.useEffect(() => {
     getProductSales();
-  }, [timeSettings, showTrends]);
+  }, [timeSettings, showTrends, salesProjectionResults]);
 
   return (
     <div className={styles.expandedProduct}>
       <ProductSettings
         productId={rowData.id}
-        defaultInventoryThreshold={rowData.stockout_threshold_inventory}
-        defaultInventoryThresholdActivated={rowData.stockout_threshhold_inventory_included}
-        defaultSeasonalityAdjustorActivated={rowData.seasonal_adjustment_included}
         defaultWeightActivated={rowData.weighted_average_included}
         defaultWeightL30D={rowData.avg_l30d_weight}
         defaultWeightL90D={rowData.avg_l90d_weight}
@@ -158,4 +158,10 @@ const ExpandedProduct = (props: Props) => {
   );
 };
 
-export default ExpandedProduct;
+const mapStateToProps = (state: any) => {
+  return {
+    salesProjectionResults: getSalesProjectionResults(state),
+  };
+};
+
+export default connect(mapStateToProps)(ExpandedProduct);

@@ -38,7 +38,6 @@
   .rs-table-row-header {
     border-radius: 0 !important;
     border: none !important;
-    border-bottom: 1px solid $grey_3 !important;
 
     /* Change position to fixed if scrolls out of sight */
     &__fixed {
@@ -74,7 +73,6 @@
       //  Table row property
       .rs-table-row {
         // height: 190px !important; //
-        border-bottom: 1px solid $grey_3;
 
         /* ============== ZEBRA PATTERN  =============== */
         &:nth-child(2n) {
@@ -83,6 +81,7 @@
           .rs-table-cell-content {
             background: $light_gray_background !important;
             padding: 0 !important;
+            border-bottom: 2px solid $grey_3;
           }
         }
 
@@ -92,6 +91,7 @@
           .rs-table-cell-content {
             background: $grey_1 !important;
             padding: 0 !important;
+            border-bottom: 2px solid $grey_3;
           }
         }
 
@@ -101,7 +101,7 @@
             padding: 0 !important;
             background: $light_gray_background !important;
             // remove any borders from cell to show it's outside tbale
-            border: 0 !important;
+            border: none !important;
             padding-top: 40px !important;
           }
         }

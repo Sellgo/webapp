@@ -5,81 +5,46 @@
   width: 100%;
   position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
-  padding-left: 20px;
-  padding-top: 20px;
+  align-items: center;
+  padding-top: 5px;
   background: $blue_link_bg_dark;
   border-radius: 7px;
-}
-
-.salesOptions {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-}
-
-.salesResults {
   color: $prim_white;
-  font-size: 24px;
+  font-size: 14px;
   font-weight: $fontweight_bold;
-  width: 100%;
-  display: flex;
-  align-items: center;
 
   .editManualSales {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+
+    .textInput {
+      min-width: 70px;
+      width: 70px;
+      margin-right: 10px;
+      margin-bottom: 2px;
+
+      input {
+        height: 25px !important;
+        color: $grey_8 !important;
+        font-size: 14px;
+        font-weight: $fontweight_bold;
+      }
+    }
   }
 
-  .textInput {
-    min-width: 70px;
-    width: 100px;
+  .radioSelection {
+    width: 80px;
     margin-right: 10px;
-    margin-bottom: 2px;
+    margin-bottom: 10px;
 
-    input {
-      color: $black_1 !important;
-      font-size: 24px;
-      font-weight: $fontweight_bold;
-    }
-  }
-
-  .checkIcon,
-  .closeIcon {
-    cursor: pointer;
-    background: $grey_10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 7px;
-    color: $grey_7 !important;
-    font-size: 10px !important;
-
-    &:hover {
-      background: $grey_3;
-    }
-  }
-}
-
-.radioSelection {
-  width: 100px;
-  margin-right: 10px;
-  margin-bottom: 10px;
-
-  label {
-    text-align: left;
-    font-size: 14px;
-    color: $prim_white !important;
-    font-weight: $fontweight_regular !important;
-  }
-
-  &__selected {
     label {
+      padding-left: 30px !important;
+      text-align: left;
+      font-size: 10px !important;
+      color: $prim_white !important;
       font-weight: $fontweight_semibold !important;
     }
   }

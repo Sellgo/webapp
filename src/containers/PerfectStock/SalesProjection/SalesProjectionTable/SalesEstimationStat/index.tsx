@@ -29,25 +29,8 @@ const SalesEstimationStat = (props: Props) => {
   /* Formatting key stats */
   const stat = showNAIfZeroOrNull(rowData[dataKey], formatRating(rowData[dataKey]));
   const included = rowData[`${dataKey}_included`];
-  const weight = showNAIfZeroOrNull(
-    rowData[`${dataKey}_weight`],
-    formatDecimal(rowData[`${dataKey}_weight`])
-  );
+  const weight = formatDecimal(rowData[`${dataKey}_weight`]);
   const label = rowData[`${dataKey}_label`];
-
-  let displayContent;
-  if (label === 'no_projections') {
-    displayContent = <div className={styles.noProjections}>No Projections</div>;
-  } else if (label === 'stockout') {
-    displayContent = <div className={styles.stockout}>Stockout</div>;
-  } else {
-    displayContent = (
-      <>
-        <div className={styles.mainStat}>{stat}</div>
-        <div className={styles.weight}>{weight}%</div>
-      </>
-    );
-  }
 
   const handleIncludeExcludeStat = () => {
     /* If stat is currently included, update it to be false */
@@ -60,8 +43,21 @@ const SalesEstimationStat = (props: Props) => {
     updateSalesProjectionProduct(updatePayload);
   };
 
-  return (
-    <Table.Cell {...otherProps}>
+  let displayContent;
+  if (label === 'no_projections') {
+    displayContent = (
+      <div className={styles.labelWrapper}>
+        <div className={styles.noProjections}>No Projections</div>
+      </div>
+    );
+  } else if (label === 'stockout') {
+    displayContent = (
+      <div className={styles.labelWrapper}>
+        <div className={styles.stockout}>Stockout</div>
+      </div>
+    );
+  } else {
+    displayContent = (
       <div
         className={`
           ${styles.salesEstimationStatCell}
@@ -71,10 +67,19 @@ const SalesEstimationStat = (props: Props) => {
         onMouseLeave={() => setOnHovered(false)}
         onClick={handleIncludeExcludeStat}
       >
-        {!onHovered ? displayContent : <HoveredCell daysOffset={daysOffset} disabled={!included} />}
+        {!onHovered ? (
+          <>
+            <div className={styles.mainStat}>{stat}</div>
+            <div className={styles.weight}>{weight}%</div>
+          </>
+        ) : (
+          <HoveredCell daysOffset={daysOffset} disabled={!included} />
+        )}
       </div>
-    </Table.Cell>
-  );
+    );
+  }
+
+  return <Table.Cell {...otherProps}>{displayContent}</Table.Cell>;
 };
 
 const mapDispatchToProps = (dispatch: any) => {

@@ -168,6 +168,8 @@ const PerfectStock: React.FC<Props> = props => {
                   isBeta
                 />
               </Tab>
+
+              <Tab />
             </TabList>
 
             <TabPanel>

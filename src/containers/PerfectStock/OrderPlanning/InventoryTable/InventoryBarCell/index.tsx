@@ -61,4 +61,4 @@ const InventoryBarCell = (props: Props) => {
   );
 };
 
-export default InventoryBarCell;
+export default React.memo(InventoryBarCell);

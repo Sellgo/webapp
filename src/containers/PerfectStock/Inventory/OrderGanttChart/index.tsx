@@ -45,6 +45,7 @@ import {
   OFFSET_TO_CHART_WIDTH,
   UNIT_WIDTH,
   EMPTY_PURCHASE_ORDER,
+  EMPTY_GANTT_CHART_PURCHASE_ORDER,
 } from '../../../../constants/PerfectStock/OrderPlanning';
 import { getLeadTimeColor, getLeadTimeName } from '../../../../constants/PerfectStock';
 
@@ -94,14 +95,7 @@ const OrderGanttChart = (props: Props) => {
   /* ================================================================ */
   /* Converting purchase orders to fit the format for gantt chart */
   /* ================================================================ */
-  const filteredPurchaseOrders = purchaseOrders.filter((purchaseOrder: PurchaseOrder) => {
-    if (isDraftMode) {
-      return purchaseOrder.status === 'pending';
-    } else {
-      return purchaseOrder.status === 'active';
-    }
-  });
-  const ganttChartPurchaseOrders: GanttChartPurchaseOrder[] = filteredPurchaseOrders.map(
+  let ganttChartPurchaseOrders: GanttChartPurchaseOrder[] = purchaseOrders.map(
     (purchaseOrder: PurchaseOrder) => {
       const leadTimeDuration = purchaseOrder.lead_time_group?.lead_times?.reduce(
         (acc: number, leadTime: any) => acc + leadTime.duration,
@@ -138,6 +132,10 @@ const OrderGanttChart = (props: Props) => {
     }
   );
 
+  if (!isDraftMode) {
+    ganttChartPurchaseOrders = [EMPTY_GANTT_CHART_PURCHASE_ORDER, ...ganttChartPurchaseOrders];
+  }
+
   const handleChangeTimeSetting = (payload: string) => {
     setTimeSettings(payload);
   };
@@ -152,7 +150,7 @@ const OrderGanttChart = (props: Props) => {
 
     if (newActivePurchaseOrder && newActivePurchaseOrder.id !== activePurchaseOrder.id) {
       setActivePurchaseOrder(newActivePurchaseOrder);
-    } else {
+    } else if (payload.id === -1) {
       setActivePurchaseOrder(EMPTY_PURCHASE_ORDER);
     }
   };

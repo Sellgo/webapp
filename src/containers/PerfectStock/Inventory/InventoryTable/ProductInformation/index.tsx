@@ -60,6 +60,10 @@ const ProductInformation = (props: RowCell) => {
             <div className={`${styles.circle} ${styles.circle__orange}`} />
             {rowData.fulfillment_channel === 'fba' ? 'FBA' : 'FBM'}
           </div>
+          <div className={styles.productMetaDetail}>
+            <div className={`${styles.circle} ${styles.circle__blue}`} />
+            {rowData.sku_status === 'active' ? 'Active' : 'Inactive'}
+          </div>
         </div>
       </div>
     </Table.Cell>

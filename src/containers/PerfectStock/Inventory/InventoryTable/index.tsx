@@ -106,11 +106,11 @@ const InventoryTable = (props: Props) => {
   };
 
   const handleExpansion = (rowData: any) => {
-    const rowId = rowData.id;
+    const rowSku = rowData.sku;
     const [currentExpandedRowId] = expandedRowKeys;
 
-    if (currentExpandedRowId !== rowId) {
-      setExpandedRowkeys([rowId]);
+    if (currentExpandedRowId !== rowSku) {
+      setExpandedRowkeys([rowSku]);
     } else {
       setExpandedRowkeys([]);
     }
@@ -129,21 +129,13 @@ const InventoryTable = (props: Props) => {
   }, [activePurchaseOrder, showAllSkus]);
 
   const displayInventoryResults = inventoryTableResults.map((rowData: any) => {
-    const expectedInventoriesObj = rowData.expected_inventories.reduce(
-      (obj: any, expectedInventory: any) => {
-        const date = Object.keys(expectedInventory)[0];
-        return {
-          ...obj,
-          [date]: expectedInventory[date],
-        };
-      },
-      {}
-    );
     return {
       ...rowData,
-      ...expectedInventoriesObj,
+      ...rowData.expected_inventories,
     };
   });
+
+  // const displayInventoryResults: any[] = [];
 
   return (
     <>
@@ -164,7 +156,7 @@ const InventoryTable = (props: Props) => {
           headerHeight={60}
           rowExpandedHeight={850}
           onSortColumn={handleSortColumn}
-          rowKey="id"
+          rowKey="sku"
           virtualized
           expandedRowKeys={expandedRowKeys}
           renderRowExpanded={(rowData: any) => <ExpandedInventory rowData={rowData} />}

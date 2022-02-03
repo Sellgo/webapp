@@ -25,53 +25,53 @@ const InventoryBar = (props: Props) => {
   const fifthBarHeight = Math.max(((percent - 0.8) / 0.2) * 100, 0);
 
   return (
-    <div className={styles.inventoryBarWrapper}>
-      <div className={styles.bar}>
-        <div
+    <span className={styles.inventoryBarWrapper}>
+      <span className={styles.bar}>
+        <span
           className={styles.barFill}
           style={{
             height: `${fifthBarHeight}%`,
             background: fillColor,
           }}
         />
-      </div>
-      <div className={styles.bar}>
-        <div
+      </span>
+      <span className={styles.bar}>
+        <span
           className={styles.barFill}
           style={{
             height: `${fourthBarHeight}%`,
             background: fillColor,
           }}
         />
-      </div>
-      <div className={styles.bar}>
-        <div
+      </span>
+      <span className={styles.bar}>
+        <span
           className={styles.barFill}
           style={{
             height: `${thirdBarHeight}%`,
             background: fillColor,
           }}
         />
-      </div>
-      <div className={styles.bar}>
-        <div
+      </span>
+      <span className={styles.bar}>
+        <span
           className={styles.barFill}
           style={{
             height: `${secondBarHeight}%`,
             background: fillColor,
           }}
         />
-      </div>
-      <div className={styles.bar}>
-        <div
+      </span>
+      <span className={styles.bar}>
+        <span
           className={styles.barFill}
           style={{
             height: `${firstBarHeight}%`,
             background: fillColor,
           }}
         />
-      </div>
-    </div>
+      </span>
+    </span>
   );
 };
 

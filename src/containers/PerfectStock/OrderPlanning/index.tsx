@@ -70,7 +70,7 @@ const OrderPlanning = (props: Props) => {
   return (
     <main>
       <EditingOrderStatusBanner />
-      <OrderGanttChart />
+      <OrderGanttChart isDraftMode />
       <OrderSummary />
       <OrderPlanningMeta
         setIsEditingSKUs={setIsEditingSKUs}

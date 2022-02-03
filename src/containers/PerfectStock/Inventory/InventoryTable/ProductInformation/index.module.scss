@@ -81,7 +81,7 @@
 }
 
 .productMetaDetailWrapper {
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -93,12 +93,16 @@
     border-radius: 50%;
     margin-right: 5px;
 
+    &__green {
+      background: $system_green;
+    }
+
     &__orange {
       background: $accent_orange;
     }
 
-    &__green {
-      background: $system_green;
+    &__blue {
+      background: $blue_link_bg_light;
     }
   }
 

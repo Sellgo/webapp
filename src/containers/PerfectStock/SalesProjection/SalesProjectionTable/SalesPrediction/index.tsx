@@ -5,17 +5,17 @@ import { Radio } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
+import './toggleReset.scss';
 
 /* Actions */
 import { updateSalesProjectionProduct } from '../../../../../actions/PerfectStock/SalesProjection';
 
 /* Components */
-import SaveCancelOptions from '../../../../../components/SaveCancelOptions';
+import InputWithSaveOptions from '../../../../../components/InputWithSaveOptions';
 
 /* Interface */
 import { RowCell } from '../../../../../interfaces/Table';
 import { SalesProjectionUpdatePayload } from '../../../../../interfaces/PerfectStock/SalesProjection';
-import InputFilter from '../../../../../components/FormFilters/InputFilter';
 import { formatRating } from '../../../../../utils/format';
 
 interface Props extends RowCell {
@@ -27,48 +27,15 @@ const SalesPrediction = (props: Props) => {
   const { rowData } = otherProps;
 
   const usingPredictiveSales = rowData.projection_mode === 'predictive';
-  const [updatedManualSales, setUpdatedManualSales] = React.useState<string>(rowData.manual_sales);
-  const [isEditingManualSales, setIsEditingManualSales] = React.useState<boolean>(false);
 
-  React.useEffect(() => {
-    if (rowData.manual_sales) {
-      setUpdatedManualSales(rowData.manual_sales);
-    } else {
-      setUpdatedManualSales(rowData.predictive_sales);
-    }
-  }, [rowData]);
-
-  const handleResetManualSalesChanges = () => {
-    setIsEditingManualSales(false);
-    setUpdatedManualSales(rowData.manual_sales);
-  };
-
-  const handleEditManualSales = (value: string) => {
-    const num = parseFloat(value);
-    if (num >= 0) {
-      setUpdatedManualSales(value);
-    }
-
-    if (value === rowData.manual_sales) {
-      setIsEditingManualSales(false);
-    } else {
-      setIsEditingManualSales(true);
-    }
-  };
-
-  const handleSaveManualSales = (save: boolean) => {
-    if (!save) {
-      handleResetManualSalesChanges();
-    } else {
-      const payload: SalesProjectionUpdatePayload = {
-        id: rowData.id,
-        updatePayload: {
-          manual_sales: parseFloat(updatedManualSales),
-        },
-      };
-      updateSalesProjectionProduct(payload);
-      setIsEditingManualSales(false);
-    }
+  const handleSaveManualSales = (updatedSalesProjection: string) => {
+    const payload: SalesProjectionUpdatePayload = {
+      id: rowData.id,
+      updatePayload: {
+        manual_sales: parseFloat(updatedSalesProjection),
+      },
+    };
+    updateSalesProjectionProduct(payload);
   };
 
   const handleChangeProjectionMode = () => {
@@ -82,52 +49,35 @@ const SalesPrediction = (props: Props) => {
   };
 
   const displayPredictiveSales = formatRating(rowData.predictive_sales) || '';
-  const displayManualSales = updatedManualSales || '';
+  const defaultManualSalesPrediction = rowData.manual_sales
+    ? rowData.manual_sales
+    : rowData.predictive_sales;
 
   return (
     <Table.Cell {...otherProps}>
       <div
         className={`
-          ${styles.salesPrediction}`}
+          ${styles.salesPrediction} salesPrediction`}
       >
-        <div className={styles.salesOptions}>
-          <Radio
-            label="Predictive"
-            className={styles.radioSelection}
-            checked={usingPredictiveSales}
-            onChange={handleChangeProjectionMode}
-          />
-          <Radio
-            label="Manual"
-            className={styles.radioSelection}
-            checked={!usingPredictiveSales}
-            onChange={handleChangeProjectionMode}
-          />
-        </div>
-
-        <div className={styles.salesResults}>
-          {usingPredictiveSales ? (
-            displayPredictiveSales
-          ) : (
-            <div className={styles.editManualSales}>
-              <InputFilter
-                label=""
-                placeholder=""
-                isNumber
-                value={displayManualSales}
-                className={styles.textInput}
-                handleChange={handleEditManualSales}
-                disabled={usingPredictiveSales}
-              />
-              {isEditingManualSales && (
-                <SaveCancelOptions
-                  handleSave={() => handleSaveManualSales(true)}
-                  handleCancel={() => handleSaveManualSales(false)}
-                />
-              )}
-            </div>
-          )}
-        </div>
+        <Radio
+          label={usingPredictiveSales ? 'Predictive' : 'Manual'}
+          className={styles.radioSelection}
+          checked={usingPredictiveSales}
+          onChange={handleChangeProjectionMode}
+          toggle
+        />
+        {usingPredictiveSales ? (
+          displayPredictiveSales
+        ) : (
+          <div className={styles.editManualSales}>
+            <InputWithSaveOptions
+              isNumber
+              isPositiveOnly
+              handleSave={handleSaveManualSales}
+              defaultValue={defaultManualSalesPrediction}
+            />
+          </div>
+        )}
       </div>
     </Table.Cell>
   );

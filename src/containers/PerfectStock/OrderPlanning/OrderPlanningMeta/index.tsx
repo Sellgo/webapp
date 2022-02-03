@@ -6,6 +6,7 @@ import styles from './index.module.scss';
 
 /* Components */
 import ActionButton from '../../../../components/ActionButton';
+import ToggleRadio from '../../../../components/ToggleRadio';
 
 /* Assets */
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
@@ -58,21 +59,13 @@ const OrderPlanningMeta = (props: Props) => {
           <span>Add/ Edit SKUs</span>
         </ActionButton>
 
-        <button
-          onClick={() => setIsShowingDaysUntilStockout(!isShowingDaysUntilStockout)}
-          className={styles.inventoryTableToggle}
-        >
-          <div
-            className={`${styles.circle} ${
-              !isShowingDaysUntilStockout ? styles.circle__selected : ''
-            }`}
-          />
-          <div
-            className={`${styles.circle} ${
-              isShowingDaysUntilStockout ? styles.circle__selected : ''
-            }`}
-          />
-        </button>
+        <ToggleRadio
+          isToggled={isShowingDaysUntilStockout}
+          handleChange={() => setIsShowingDaysUntilStockout(!isShowingDaysUntilStockout)}
+          label={
+            isShowingDaysUntilStockout ? 'Hide Days Until Stockout' : 'Show Days Until Stockout'
+          }
+        />
       </div>
     </>
   );

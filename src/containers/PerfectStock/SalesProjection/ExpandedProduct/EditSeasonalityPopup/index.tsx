@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal } from 'semantic-ui-react';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -17,14 +18,18 @@ import { AppConfig } from '../../../../../config';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
 import { error, success } from '../../../../../utils/notifications';
 
+/* Actions */
+import { fetchSalesProjection } from '../../../../../actions/PerfectStock/SalesProjection';
+
 interface Props {
   open: boolean;
   setOpenPopup: (value: boolean) => void;
   id: number;
+  fetchSalesProjection: () => void;
 }
 
 const EditSeasonalityPopup = (props: Props) => {
-  const { open, setOpenPopup, id } = props;
+  const { open, setOpenPopup, id, fetchSalesProjection } = props;
   const [seasonalitySettings, setSeasonalitySettings] = useState<any[]>([]);
   const [isLoadingSeasonalitySettings, setIsLoadingSeasonalitySettings] = useState<boolean>(false);
 
@@ -103,6 +108,7 @@ const EditSeasonalityPopup = (props: Props) => {
     );
     const { status } = res;
     if (status === 200) {
+      fetchSalesProjection();
       setOpenPopup(false);
       success('Seasonality settings saved successfully');
     }
@@ -178,4 +184,10 @@ const EditSeasonalityPopup = (props: Props) => {
   );
 };
 
-export default EditSeasonalityPopup;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchSalesProjection: () => dispatch(fetchSalesProjection({})),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(EditSeasonalityPopup);

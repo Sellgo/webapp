@@ -166,7 +166,6 @@ export const updateSalesProjectionProduct = (payload: SalesProjectionUpdatePaylo
     const sellerId = sellerIDSelector();
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/sales-projection/${payload.id}/update`;
     const { data } = await axios.patch(URL, payload.updatePayload);
-
     if (data) {
       dispatch(setSalesProjectionRow(data));
       success('Successfully updated');

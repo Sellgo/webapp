@@ -1,8 +1,9 @@
 @import '../../../../../design-system/new-colors.scss';
 
 .inboundFulfillableStat {
-  display: flex;
-  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding-top: 10px;
 }
 
 .statLabel {

@@ -10,22 +10,29 @@ import { RowCell } from '../../../../../interfaces/Table';
 /* Utils */
 import { formatNumber, showNAIfZeroOrNull } from '../../../../../utils/format';
 
-const StockOutDate = (props: RowCell) => {
-  const { rowData, dataKey } = props;
+interface Props extends RowCell {
+  handleExpansion: (rowData: any) => void;
+}
+
+const StockOutDate = (props: Props) => {
+  const { handleExpansion, ...otherProps } = props;
+  const { rowData, dataKey } = otherProps;
   const daysToStockOut = showNAIfZeroOrNull(rowData[dataKey], formatNumber(rowData[dataKey]));
 
   const stockOutDate = new Date();
   stockOutDate.setTime(stockOutDate.getTime() + daysToStockOut * 24 * 60 * 60 * 1000);
 
   return (
-    <Table.Cell {...props}>
+    <Table.Cell {...otherProps}>
       <div
         className={`
           ${styles.stockOutCell}`}
+        onClick={() => handleExpansion(rowData)}
       >
         <div className={styles.stockOutDate}>
-          <span> ETA {daysToStockOut} days </span>
-          {stockOutDate.toLocaleDateString()}
+          {stockOutDate.toLocaleDateString() !== 'Invalid Date'
+            ? stockOutDate.toLocaleDateString()
+            : ''}
         </div>
 
         <div className={styles.daysToStockOut}>{daysToStockOut}</div>

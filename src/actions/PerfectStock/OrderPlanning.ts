@@ -198,6 +198,7 @@ export const setDraftTemplates = (payload: DraftOrderTemplate[]) => {
     payload,
   };
 };
+
 /*********** Async Actions ************************ */
 /* Action to fetch purchase orders */
 export const fetchPurchaseOrders = () => async (dispatch: any) => {
@@ -305,6 +306,7 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
 /* Fetch inventory table */
 export const fetchInventoryTable = () => async (dispatch: any, getState: any) => {
   try {
+    console.log('Fetching!');
     dispatch(isLoadingInventoryTableResults(true));
     const state = getState();
     const sellerId = sellerIDSelector();

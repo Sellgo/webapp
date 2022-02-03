@@ -24,8 +24,9 @@ const StockOutDate = (props: RowCell) => {
           ${styles.stockOutCell}`}
       >
         <div className={styles.stockOutDate}>
-          <span> ETA {daysToStockOut} days </span>
-          {stockOutDate.toLocaleDateString()}
+          {stockOutDate.toLocaleDateString() !== 'Invalid Date'
+            ? stockOutDate.toLocaleDateString()
+            : ''}
         </div>
 
         <div className={styles.daysToStockOut}>{daysToStockOut}</div>

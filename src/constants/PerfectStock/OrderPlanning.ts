@@ -1,4 +1,7 @@
-import { PurchaseOrder } from '../../interfaces/PerfectStock/OrderPlanning';
+import {
+  GanttChartPurchaseOrder,
+  PurchaseOrder,
+} from '../../interfaces/PerfectStock/OrderPlanning';
 
 export const actionTypes = {
   IS_LOADING_INVENTORY_TABLE_RESULTS: 'IS_LOADING_INVENTORY_TABLE_RESULTS',
@@ -20,6 +23,15 @@ export const actionTypes = {
   SET_ACTIVE_DRAFT_ORDER_TEMPLATE: 'SET_ACTIVE_DRAFT_ORDER_TEMPLATE',
   IS_LOADING_DRAFT_ORDER_TEMPLATES: 'IS_LOADING_DRAFT_ORDER_TEMPLATES',
   SET_DRAFT_ORDER_TEMPLATES: 'SET_DRAFT_ORDER_TEMPLATES',
+};
+
+export const EMPTY_GANTT_CHART_PURCHASE_ORDER: GanttChartPurchaseOrder = {
+  id: -1,
+  name: 'Show All SKUs',
+  is_included: false,
+  start: new Date(),
+  end: new Date(),
+  subTasks: [],
 };
 
 export const EMPTY_PURCHASE_ORDER: PurchaseOrder = {

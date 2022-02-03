@@ -7,9 +7,10 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-top: 10px;
+  padding-top: 18px;
   padding-right: 30px;
   align-items: center;
+  cursor: pointer;
 }
 
 .stockOutDate {
@@ -18,12 +19,6 @@
   font-size: 14px;
   color: $black_0;
   font-weight: $fontweight_medium;
-
-  span {
-    color: $grey_8;
-    font-size: 12px;
-    font-weight: $fontweight_regular;
-  }
 }
 
 .daysToStockOut {

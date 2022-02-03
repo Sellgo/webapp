@@ -14,12 +14,8 @@ import { WEIGHT_OPTIONS } from '../../../../../constants/PerfectStock/SalesProje
 /* Components */
 import BoxHeader from '../../../../../components/BoxHeader';
 import BoxContainer from '../../../../../components/BoxContainer';
-import InputFilter from '../../../../../components/FormFilters/InputFilter';
 import SaveCancelOptions from '../../../../../components/SaveCancelOptions';
 import SelectionFilter from '../../../../../components/FormFilters/SelectionFilter';
-import ActionPopup from '../../../../../components/ActionPopup';
-import TableIcon from '../../../../../components/Icons/TableIcon';
-import EditSeasonalityPopup from '../EditSeasonalityPopup';
 
 /* Interface */
 import {
@@ -29,15 +25,12 @@ import {
 
 interface Props {
   productId: number;
-  defaultInventoryThresholdActivated: boolean;
-  defaultInventoryThreshold: number;
   defaultWeightActivated: boolean;
   defaultWeightL7D: string;
   defaultWeightL30D: string;
   defaultWeightL90D: string;
   defaultWeightN30D: string;
   defaultWeightN90D: string;
-  defaultSeasonalityAdjustorActivated: boolean;
 
   /* Redux Actions */
   updateSalesProjectionProduct: (payload: SalesProjectionUpdatePayload) => void;
@@ -46,15 +39,12 @@ interface Props {
 const ExpandedProduct = (props: Props) => {
   const {
     productId,
-    defaultInventoryThresholdActivated,
-    defaultInventoryThreshold,
     defaultWeightActivated,
     defaultWeightL7D,
     defaultWeightL30D,
     defaultWeightL90D,
     defaultWeightN30D,
     defaultWeightN90D,
-    defaultSeasonalityAdjustorActivated,
     updateSalesProjectionProduct,
   } = props;
 
@@ -66,47 +56,11 @@ const ExpandedProduct = (props: Props) => {
     avg_n90d_ly_weight: defaultWeightN90D,
   };
 
-  const [inventoryThreshold, setInventoryThreshold] = React.useState<number>(
-    defaultInventoryThreshold || 0
-  );
-  const [isEditingInventoryThreshold, setIsEditingInventoryThreshold] = React.useState<boolean>(
-    false
-  );
   const [isEditingWeightedAverage, setIsEditingWeightedAverage] = React.useState<boolean>(false);
   const [weightedAverageSettings, setWeightedAverageSettings] = React.useState<
     WeightedAverageSettings
   >(defaultWeightedAverageSettings);
   const [weightedAverageError, setWeightedAverageError] = React.useState<boolean>(false);
-  const [isEditingSeasonalityAdjustor, setEditingSeasonalityAdjustor] = React.useState<boolean>(
-    false
-  );
-
-  /* ===================================== */
-  /* Inventory threshold settings handlers */
-  /* ===================================== */
-  const handleUpdateInventoryThresholdSave = async () => {
-    updateSalesProjectionProduct({
-      id: productId,
-      updatePayload: {
-        stockout_threshold_inventory: inventoryThreshold,
-      },
-    });
-    setIsEditingInventoryThreshold(false);
-  };
-
-  const handleUpdateInventoryThresholdCancel = () => {
-    setInventoryThreshold(defaultInventoryThreshold);
-    setIsEditingInventoryThreshold(false);
-  };
-
-  const handleInventoryThresholdToggle = (inventoryThresholdActivated: boolean) => {
-    updateSalesProjectionProduct({
-      id: productId,
-      updatePayload: {
-        stockout_threshhold_inventory_included: inventoryThresholdActivated ? 'true' : 'false',
-      },
-    });
-  };
 
   /* ================================== */
   /* Weighted average settings handlers */
@@ -140,29 +94,6 @@ const ExpandedProduct = (props: Props) => {
     setWeightedAverageSettings(defaultWeightedAverageSettings);
   };
 
-  /* ================================== */
-  /* Seasonality adjustor toggles */
-  /* ================================== */
-  const handleSeasonalityAdjustorToggle = (seasonalityAdjustorActivated: boolean) => {
-    updateSalesProjectionProduct({
-      id: productId,
-      updatePayload: {
-        seasonal_adjustment_included: seasonalityAdjustorActivated ? 'true' : 'false',
-      },
-    });
-  };
-
-  /* Check if user is editing weighted average settings */
-  React.useEffect(() => {
-    if (
-      JSON.stringify(defaultWeightedAverageSettings) !== JSON.stringify(weightedAverageSettings)
-    ) {
-      setIsEditingWeightedAverage(true);
-    } else {
-      setIsEditingWeightedAverage(false);
-    }
-  }, [weightedAverageSettings]);
-
   /* Error checks to ensure that sum of all percentages = 100% */
   React.useEffect(() => {
     if (isEditingWeightedAverage) {
@@ -184,33 +115,6 @@ const ExpandedProduct = (props: Props) => {
     <div className={styles.expandedProductSettings}>
       <BoxHeader className={styles.settingsBoxHeader}>Calculation Variables</BoxHeader>
       <BoxContainer className={styles.settingsBoxContainer}>
-        <div className={styles.settingWrapper}>
-          <p className={styles.settingsTitle}> Inventory Threshold </p>
-          <Checkbox
-            toggle
-            checked={defaultInventoryThresholdActivated}
-            onChange={() => handleInventoryThresholdToggle(!defaultInventoryThresholdActivated)}
-            label="Inventory Threshold"
-            className={styles.settingToggle}
-          />
-          <InputFilter
-            placeholder="100"
-            isNumber
-            value={inventoryThreshold.toString()}
-            handleChange={(value: string) => setInventoryThreshold(parseInt(value))}
-            className={styles.settingInput}
-            onFocus={() => setIsEditingInventoryThreshold(true)}
-            onBlur={() => setIsEditingInventoryThreshold(false)}
-            disabled={!defaultInventoryThresholdActivated}
-          />
-          {isEditingInventoryThreshold && (
-            <SaveCancelOptions
-              className={styles.saveCancelOptions}
-              handleSave={handleUpdateInventoryThresholdSave}
-              handleCancel={handleUpdateInventoryThresholdCancel}
-            />
-          )}
-        </div>
         <div className={styles.settingWrapper}>
           <p className={styles.settingsTitle}> Average Weighted Sales </p>
           <Checkbox
@@ -286,29 +190,6 @@ const ExpandedProduct = (props: Props) => {
               handleCancel={handleEditWeightedAverageCancel}
             />
           )}
-        </div>
-        <div className={styles.settingWrapper}>
-          <p className={styles.settingsTitle}> Sales Calendar </p>
-          <div className={styles.settingToggleWrapper}>
-            <Checkbox
-              toggle
-              checked={defaultSeasonalityAdjustorActivated}
-              onChange={() => handleSeasonalityAdjustorToggle(!defaultSeasonalityAdjustorActivated)}
-              label="Seasonality Adjustor"
-              className={styles.settingToggle}
-            />
-            <ActionPopup>
-              <button onClick={() => setEditingSeasonalityAdjustor(true)}>
-                <TableIcon name="calendar check outline" />
-                &nbsp;Edit Seasonality Adjustor
-              </button>
-            </ActionPopup>
-          </div>
-          <EditSeasonalityPopup
-            open={isEditingSeasonalityAdjustor}
-            setOpenPopup={setEditingSeasonalityAdjustor}
-            id={productId}
-          />
         </div>
       </BoxContainer>
     </div>

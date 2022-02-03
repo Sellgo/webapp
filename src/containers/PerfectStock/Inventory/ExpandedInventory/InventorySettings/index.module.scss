@@ -4,17 +4,19 @@
 .expandedProductSettings {
   height: 85%;
   margin-right: 18px;
+  width: 250px !important;
 }
 
 .settingsBoxHeader {
+  width: 250px !important;
   color: $black_1 !important;
   font-size: 14px !important;
   font-weight: $fontweight_semibold !important;
-  width: 100%;
   padding-left: 20px;
 }
 
 .settingsBoxContainer {
+  width: 250px !important;
   height: 100%;
   min-width: 0;
   padding: 0 20px;
@@ -24,16 +26,15 @@
 }
 
 .settingsTitle {
-  font-size: 14px;
-  font-weight: $fontweight_semibold;
-  color: $black_1;
+  font-size: 12px;
+  font-weight: $fontweight_medium;
+  color: $grey_8;
 }
 
 .settingWrapper {
   display: flex;
   flex-direction: column;
   padding: 10px 0;
-  border-bottom: 1px solid $grey_3;
 }
 
 /* ================================ */
@@ -41,25 +42,26 @@
 /* Toggle, Selection, & Text Inputs */
 
 /* ================================ */
-.settingInput {
-  width: 190px !important;
-  margin-bottom: 18px;
-  display: block !important;
-
-  > div,
-  input {
-    width: 190px !important;
-  }
+.inputWrapper {
+  display: flex;
+  align-items: center;
 
   p {
-    font-size: 12px !important;
-    color: $black_1 !important;
-    font-weight: $fontweight_medium !important;
+    margin-left: 18px;
+    font-size: 10px;
+    font-weight: $fontweight_medium;
+    color: $grey_8;
   }
 }
 
-.settingToggleWrapper {
-  display: flex;
+.radio {
+  margin-left: 10px;
+
+  label {
+    color: $grey_8 !important;
+    font-size: 12px;
+    font-weight: $fontweight_medium;
+  }
 }
 
 .settingToggle {
@@ -69,22 +71,11 @@
 
   label {
     font-size: 12px !important;
-    color: $black_1;
+    color: $grey_8 !important;
     font-weight: $fontweight_medium;
   }
 
   &__checkbox {
     margin-left: 10px !important;
   }
-}
-
-.saveCancelOptions {
-  align-self: flex-end;
-}
-
-.errorMsg {
-  color: $system_red;
-  font-size: 12px;
-  font-weight: $fontweight_medium;
-  margin-bottom: 10px;
 }

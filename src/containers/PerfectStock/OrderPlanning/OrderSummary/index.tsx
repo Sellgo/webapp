@@ -47,7 +47,7 @@ const OrderSummary = (props: Props) => {
     }
   });
 
-  if (!draftOrderInformation.number) {
+  if (!draftOrderInformation.id) {
     return null;
   }
 

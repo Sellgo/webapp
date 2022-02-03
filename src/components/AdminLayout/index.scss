@@ -15,18 +15,18 @@
     margin-top: 6rem;
     min-height: 100vh;
     width: 100%;
-    padding: 0 25px 0 25px;
+    padding: 0 25px 0 35px;
     overflow-y: auto;
 
     @media only screen and (max-width: 1450px) {
-      padding: 0 25px 0 70px;
+      padding: 0 25px 0 35px;
     }
 
     &.message-active {
       padding: 45px 25px 0 100px !important;
 
       @media only screen and (max-width: 1450px) {
-        padding: 45 25px 0 70px;
+        padding: 45 25px 0 35px;
       }
     }
   }

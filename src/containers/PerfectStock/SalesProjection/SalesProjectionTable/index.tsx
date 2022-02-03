@@ -18,6 +18,7 @@ import ProductInformation from './ProductInformation';
 import SalesEstimationStat from './SalesEstimationStat';
 import StockOutDate from './StockOutDate';
 import SalesPrediction from './SalesPrediction';
+import InventoryThreshold from './InventoryThreshold';
 
 /* Components */
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
@@ -30,6 +31,7 @@ import {
 import { ReactComponent as ExclaimationIcon } from '../../../../assets/images/exclamation-triangle-solid.svg';
 import ExpandedProduct from '../ExpandedProduct';
 import InboundFulfillableStat from './InboundFulfillableStat';
+import SeasonalityAdjustor from './SeasonalityAdjustor';
 
 interface Props {
   // States
@@ -100,14 +102,17 @@ const SalesEstimationTable = (props: Props) => {
               onChange={handleExpansion}
             />
           </Table.Column>
+
           {/* Product Information  */}
           <Table.Column minWidth={400} verticalAlign="middle" fixed align="center" flexGrow={4}>
-            <Table.HeaderCell>Product</Table.HeaderCell>
+            <Table.HeaderCell>
+              <span className={styles.productHeader}>Product</span>
+            </Table.HeaderCell>
             <ProductInformation dataKey="productInformation" />
           </Table.Column>
 
           {/* Stock out date info  */}
-          <Table.Column width={150} verticalAlign="middle" align="center">
+          <Table.Column width={112} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Days Until\nStock Out`}
@@ -118,11 +123,11 @@ const SalesEstimationTable = (props: Props) => {
                 icon={<ExclaimationIcon />}
               />
             </Table.HeaderCell>
-            <StockOutDate dataKey="days_until_so" />
+            <StockOutDate dataKey="days_until_so" handleExpansion={handleExpansion} />
           </Table.Column>
 
           {/* Fulfillable Inventory  */}
-          <Table.Column width={150} verticalAlign="middle" align="center">
+          <Table.Column width={112} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`FBA\nInventory`}
@@ -137,7 +142,7 @@ const SalesEstimationTable = (props: Props) => {
           </Table.Column>
 
           {/* Expected Sales  */}
-          <Table.Column width={300} verticalAlign="middle" align="center">
+          <Table.Column width={112} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title="Expected Sales"
@@ -151,8 +156,38 @@ const SalesEstimationTable = (props: Props) => {
             <SalesPrediction dataKey="predictive_sales" />
           </Table.Column>
 
+          {/* Seasonality Adjustor  */}
+          <Table.Column width={112} verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Seasonality\nAdjustor`}
+                dataKey="days_until_so"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+                alignMiddle
+                disableSort
+              />
+            </Table.HeaderCell>
+            <SeasonalityAdjustor dataKey="seasonalityAdjustor" />
+          </Table.Column>
+
+          {/* Inventory Threshold  */}
+          <Table.Column width={112} verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Inventory\nThreshold`}
+                dataKey="inventoryThreshold"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+                alignMiddle
+                disableSort
+              />
+            </Table.HeaderCell>
+            <InventoryThreshold dataKey="inventoryThreshold" />
+          </Table.Column>
+
           {/* Average Last 90 Day */}
-          <Table.Column width={120} sortable verticalAlign="middle" align="center">
+          <Table.Column width={112} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title="Average Last 90 Day"
@@ -166,7 +201,7 @@ const SalesEstimationTable = (props: Props) => {
           </Table.Column>
 
           {/* Average Last 30 Day */}
-          <Table.Column width={120} sortable verticalAlign="middle" align="center">
+          <Table.Column width={112} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title="Average Last 30 Day"
@@ -180,7 +215,7 @@ const SalesEstimationTable = (props: Props) => {
           </Table.Column>
 
           {/* Average Last 7 Day */}
-          <Table.Column width={120} sortable verticalAlign="middle" align="center">
+          <Table.Column width={112} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title="Average Last 7 Day"
@@ -194,7 +229,7 @@ const SalesEstimationTable = (props: Props) => {
           </Table.Column>
 
           {/* Average Next 30 Day */}
-          <Table.Column width={120} sortable verticalAlign="middle" align="center">
+          <Table.Column width={112} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title="Average Next 30D LY"
@@ -208,7 +243,7 @@ const SalesEstimationTable = (props: Props) => {
           </Table.Column>
 
           {/* Average Next 90 Day */}
-          <Table.Column width={120} sortable verticalAlign="middle" align="center">
+          <Table.Column width={112} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title="Average Next 90D LY"

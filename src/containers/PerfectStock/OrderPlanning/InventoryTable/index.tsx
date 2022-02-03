@@ -32,7 +32,6 @@ import {
   getActivePurchaseOrder,
   getDateRange,
   getInventoryTableResults,
-  getInventoryTableShowAllSkus,
   getIsLoadingInventoryTableResults,
   getTimeSetting,
 } from '../../../../selectors/PerfectStock/OrderPlanning';
@@ -55,7 +54,6 @@ interface Props {
   // States
   dateRange: DateRange;
   timeSetting: TimeSetting;
-  showAllSkus: boolean;
   fetchInventoryTable: () => void;
   inventoryTableResults: any[];
   isLoadingInventoryTableResults: boolean;
@@ -70,7 +68,6 @@ const InventoryTable = (props: Props) => {
   const {
     dateRange,
     timeSetting,
-    showAllSkus,
     fetchInventoryTable,
     inventoryTableResults,
     isLoadingInventoryTableResults,
@@ -112,13 +109,7 @@ const InventoryTable = (props: Props) => {
   React.useEffect(() => {
     generateHeaders(new Date(dateRange.startDate), new Date(dateRange.endDate));
     fetchInventoryTable();
-  }, [dateRange.startDate, dateRange.endDate, timeSetting]);
-
-  /* Refresh inventory table if active purchase order is changed */
-  React.useEffect(() => {
-    generateHeaders(new Date(dateRange.startDate), new Date(dateRange.endDate));
-    fetchInventoryTable();
-  }, [activePurchaseOrder, showAllSkus]);
+  }, [dateRange.startDate, timeSetting, activePurchaseOrder]);
 
   /* Parse backend data to fit into a table format */
   /* i.e. {
@@ -131,37 +122,20 @@ const InventoryTable = (props: Props) => {
   } */
   const displayInventoryResults = inventoryTableResults.map((rowData: any) => {
     if (!isShowingDaysUntilStockout) {
-      const expectedInventoriesObj = rowData.expected_inventories.reduce(
-        (obj: any, expectedInventory: any) => {
-          const date = Object.keys(expectedInventory)[0];
-          return {
-            ...obj,
-            [date]: expectedInventory[date],
-          };
-        },
-        {}
-      );
       return {
         ...rowData,
-        ...expectedInventoriesObj,
+        ...rowData.expected_inventories,
       };
     } else {
-      const daysUntilSOsObj = rowData.days_until_sos.reduce((obj: any, daysUntilSO: any) => {
-        const date = Object.keys(daysUntilSO)[0];
-        return {
-          ...obj,
-          [date]: daysUntilSO[date],
-        };
-      }, {});
       return {
         ...rowData,
-        ...daysUntilSOsObj,
+        ...rowData.days_until_sos,
       };
     }
   });
 
   const inventoryResultsIds =
-    activePurchaseOrder.id !== -1 ? displayInventoryResults.map((rowData: any) => rowData.id) : [];
+    activePurchaseOrder.id !== -1 ? displayInventoryResults.map((rowData: any) => rowData.sku) : [];
 
   return (
     <>
@@ -184,7 +158,7 @@ const InventoryTable = (props: Props) => {
           headerHeight={60}
           rowExpandedHeight={90}
           onSortColumn={handleSortColumn}
-          rowKey="id"
+          rowKey="sku"
           virtualized
           expandedRowKeys={inventoryResultsIds}
           renderRowExpanded={(rowData: any) => <EditProductRow rowData={rowData} />}
@@ -249,7 +223,6 @@ const mapStateToProps = (state: any) => {
     inventoryTableResults: getInventoryTableResults(state),
     isLoadingInventoryTableResults: getIsLoadingInventoryTableResults(state),
     activePurchaseOrder: getActivePurchaseOrder(state),
-    showAllSkus: getInventoryTableShowAllSkus(state),
   };
 };
 

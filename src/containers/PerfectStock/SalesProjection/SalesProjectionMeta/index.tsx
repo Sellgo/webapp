@@ -4,12 +4,7 @@ import { connect } from 'react-redux';
 /* Styling */
 import styles from './index.module.scss';
 
-/* Components */
-import TableExport from '../../../../components/NewTable/TableExport';
-
 /* Assets */
-import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
-import { ReactComponent as CSVExportImage } from '../../../../assets/images/csvExportImage.svg';
 import { ReactComponent as UndoIcon } from '../../../../assets/images/undoIcon.svg';
 
 /* Selectors */
@@ -44,33 +39,6 @@ const SalesProjectionMeta = (props: Props) => {
   return (
     <>
       <div className={styles.exportsContainer}>
-        <TableExport
-          label=""
-          disableExport={false}
-          onButtonClick={() => console.log('Export')}
-          exportContent={
-            <>
-              <div className={styles.exportOptions}>
-                <span>Export As</span>
-                <button
-                  className={styles.exportOption}
-                  onClick={() => console.log('Export')}
-                  disabled={false}
-                >
-                  <XLSXExportImage /> .XLSX
-                </button>
-
-                <button
-                  className={styles.exportOption}
-                  onClick={() => console.log('Export')}
-                  disabled={false}
-                >
-                  <CSVExportImage /> .CSV
-                </button>
-              </div>
-            </>
-          }
-        />
         {salesProjectionUpdateDate && (
           <button
             className={styles.refreshButton}

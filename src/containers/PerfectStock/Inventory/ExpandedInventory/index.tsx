@@ -26,7 +26,11 @@ import {
   ProductProjectedSales,
   GraphDataSeries,
 } from '../../../../interfaces/PerfectStock/SalesProjection';
-import { DateRange } from '../../../../interfaces/PerfectStock/OrderPlanning';
+import {
+  DateRange,
+  InventorySkuUpdatePayload,
+  ProductConfig,
+} from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 /* Utils */
 import { AppConfig } from '../../../../config';
@@ -38,6 +42,7 @@ import {
   getIsLoadingInventoryTableResults,
   getTimeSetting,
 } from '../../../../selectors/PerfectStock/OrderPlanning';
+import { success } from '../../../../utils/notifications';
 
 interface Props {
   rowData: any;
@@ -48,9 +53,15 @@ interface Props {
 const ExpandedInventory = (props: Props) => {
   const { rowData, timeSetting, dateRange } = props;
 
+  /* Product expected inventory states */
   const [productProjectedSales, setProductProjectedSales] = React.useState<ProductProjectedSales[]>(
     []
   );
+
+  /* Product settings states */
+  const [productConfig, setProductConfig] = React.useState<ProductConfig | null>(null);
+
+  /* Product graph states */
   const [graphProductProjectedSalesData, setGraphProductProjectedSalesData] = React.useState<
     GraphDataSeries[]
   >([]);
@@ -119,17 +130,44 @@ const ExpandedInventory = (props: Props) => {
     setIsLoadingProductProjectedSales(false);
   };
 
+  const getProductConfig = async () => {
+    const sellerId = sellerIDSelector();
+    /* Fetch data from the server */
+    const url =
+      `${AppConfig.BASE_URL_API}sellers/` +
+      `${sellerId}/perfect-stock/merchant-listings/${rowData.merchant_listing_id}/config`;
+    const { data } = await axios.get(url);
+    setProductConfig(data);
+  };
+
+  const updateInventorySku = async (payload: InventorySkuUpdatePayload) => {
+    try {
+      const sellerId = sellerIDSelector();
+      const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/merchant-listings/${payload.id}/config`;
+      const { data } = await axios.patch(URL, payload);
+      if (data) {
+        setProductConfig(data);
+        success('Successfully updated');
+      }
+    } catch (err) {
+      console.error('Error updating inventory sku', err);
+    }
+  };
+
   React.useEffect(() => {
     getProductSales();
   }, [timeSetting, showTrends, dateRange.startDate, dateRange.endDate]);
 
+  React.useEffect(() => {
+    getProductConfig();
+  }, []);
+
   return (
     <div className={styles.expandedInventory}>
       <InventorySettings
-        productId={rowData.id}
-        defaultInventoryThresholdActivated={false}
-        defaultInventoryThreshold={0}
-        defaultSeasonalityAdjustorActivated={false}
+        productId={rowData.merchant_listing_id}
+        productConfig={productConfig}
+        updateInventorySku={updateInventorySku}
       />
       <div className={styles.expandedProductDetailsWrapper}>
         <InventorySkuStatus className={styles.skuStatusContainer} rowData={rowData} />
