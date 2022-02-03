@@ -68,7 +68,7 @@ export class TaskRow extends Component {
             />
           )}
         </div>
-        {!isFirstRow && !this.props.isDraftMode && (
+        {!isFirstRow && (
           <Popup
             on="click"
             position="bottom left"
@@ -83,10 +83,12 @@ export class TaskRow extends Component {
                     <Icon name="trash" />
                     <span>Delete Order</span>
                   </button>
-                  <button onClick={() => this.props.handleEditTask(this.props.item)}>
-                    <Icon name="pencil" />
-                    <span>Edit Order</span>
-                  </button>
+                  {!this.props.isDraftMode && (
+                    <button onClick={() => this.props.handleEditTask(this.props.item)}>
+                      <Icon name="pencil" />
+                      <span>Edit Order</span>
+                    </button>
+                  )}
                 </div>
               </>
             }
