@@ -38,7 +38,7 @@ const SettingsNav = (props: Props) => {
             if (!page.disabled) {
               const isActive = match.path === page.url;
               return (
-                <div className={styles.settingWrapper}>
+                <div className={styles.settingWrapper} key={page.url}>
                   {/* Main page */}
                   <Link key={page.url} to={page.url} style={{ textDecoration: 'none' }}>
                     <div

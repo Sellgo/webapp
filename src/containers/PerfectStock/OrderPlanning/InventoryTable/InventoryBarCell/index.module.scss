@@ -24,8 +24,23 @@
   height: 100%;
   display: flex;
   justify-content: center;
-  padding-top: 35px;
+  padding-top: 18px;
   font-size: 14px;
   font-weight: $fontweight_medium;
   color: $grey_8;
+
+  span {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__red {
+    span {
+      background: $system_red;
+      color: $prim_white;
+    }
+  }
 }

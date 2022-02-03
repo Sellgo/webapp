@@ -1,8 +1,12 @@
 @import '../../../../design-system/new-colors.scss';
 
 .productDatabaseWrapper {
-  margin-top: 30px;
+  margin-top: 18px;
   padding-bottom: 60px !important;
+}
+
+.productTitle {
+  padding-left: 30px;
 }
 
 .productDatabasePagination {

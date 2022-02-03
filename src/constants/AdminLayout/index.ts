@@ -22,8 +22,8 @@ export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
   /* Perfect Stock */
   '/perfect-stock',
   '/perfect-stock/order-planning',
-  '/perfect-stock/catalogue-planning',
   '/perfect-stock/sales-estimation',
+  '/perfect-stock/inventory',
 
   '/account-setup',
 ];

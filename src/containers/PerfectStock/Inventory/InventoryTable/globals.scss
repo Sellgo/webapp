@@ -43,7 +43,6 @@
   .rs-table-row-header {
     border-radius: 0 !important;
     border: none !important;
-    border-bottom: 1px solid $grey_3 !important;
 
     // column header cell
     .rs-table-cell-content {
@@ -71,13 +70,12 @@
 
       //  Table row property
       .rs-table-row {
-        border-bottom: 1px solid $grey_3;
-
         /* ============== ZEBRA PATTERN  =============== */
         &:nth-child(2n) {
           background: $light_gray_background !important;
 
           .rs-table-cell-content {
+            border-bottom: 2px solid $grey_3;
             background: $light_gray_background !important;
             padding: 0 !important;
           }
@@ -87,6 +85,7 @@
           background: $grey_1 !important;
 
           .rs-table-cell-content {
+            border-bottom: 2px solid $grey_3;
             background: $grey_1 !important;
             padding: 0 !important;
           }
@@ -98,7 +97,7 @@
             padding: 0 !important;
             background: $light_gray_background !important;
             // remove any borders from cell to show it's outside tbale
-            border: 0 !important;
+            border: none !important;
             padding-top: 40px !important;
           }
         }

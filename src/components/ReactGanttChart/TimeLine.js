@@ -438,6 +438,7 @@ class TimeLine extends Component {
             viewFilter={this.props.viewFilter}
             handleIncludedToggle={this.props.handleIncludedToggle}
             handleEditTask={this.props.handleEditTask}
+            isDraftMode={this.props.isDraftMode}
           />
         </div>
         <div className="timeLine-main">

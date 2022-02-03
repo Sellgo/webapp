@@ -9,13 +9,14 @@ import UnitsToOrder from './UnitsToOrder';
 
 interface Props {
   rowData: any;
+  orderId: number;
 }
 
 const EditProductRow = (props: Props) => {
-  const { rowData } = props;
+  const { rowData, orderId } = props;
   return (
     <div className={styles.editProductRow}>
-      <UnitsToOrder orderId={1} rowData={rowData} />
+      <UnitsToOrder orderId={orderId} rowData={rowData} />
       <StatBox title={'Cartons'} stat={rowData.carton_count} />
       <StatBox title={'Cost Per Unit'} stat={rowData.product_cost} />
       <StatBox title={'Total Cost'} stat={rowData.total_cost} />

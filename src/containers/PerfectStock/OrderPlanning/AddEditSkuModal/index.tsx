@@ -9,14 +9,13 @@ import styles from './index.module.scss';
 
 /* Componensts */
 import DeleteCell from '../../../../components/NewTable/DeleteCell';
-import SelectionMultipleFilter from '../../../../components/FormFilters/SelectionMultipleFilter';
+import SelectionProductFilter from '../../../../components/FormFilters/SelectionProductFilter';
 import ActionButton from '../../../../components/ActionButton';
 
 /* Containers */
 import ProductInfo from './ProductInfo';
 
 /* Utils */
-import { truncateString } from '../../../../utils/format';
 import { sellerIDSelector } from '../../../../selectors/Seller';
 import { AppConfig } from '../../../../config';
 import { error, success } from '../../../../utils/notifications';
@@ -91,9 +90,14 @@ const AddEditSkuModal = (props: Props) => {
 
   /* Product options in the dropdown selection menu */
   const orderProductOptions = orderProducts.map((orderProduct: any) => ({
-    key: orderProduct.id?.toString() || '',
-    value: orderProduct.id?.toString() || '',
-    text: `${truncateString(orderProduct.title, 15)} | ${truncateString(orderProduct.sku, 15)}`,
+    id: orderProduct.id?.toString() || '',
+    productName: orderProduct.title,
+    asin: orderProduct.asin,
+    img: orderProduct.image_url,
+    skuName: orderProduct.sku,
+    activePurchaseOrders: orderProduct.active_purchase_orders,
+    fulfillmentChannel: orderProduct.fulfillment_channel,
+    skuStatus: orderProduct.sku_status,
   }));
 
   /* Display the selected products in the table, with asin and details */
@@ -104,7 +108,7 @@ const AddEditSkuModal = (props: Props) => {
   return (
     <Modal open={open} className={styles.modalWrapper} onClose={onCloseModal}>
       <div className={styles.createOrderBox}>
-        <SelectionMultipleFilter
+        <SelectionProductFilter
           className={styles.assignProductsField}
           label="Add More Products: *"
           filterOptions={orderProductOptions}

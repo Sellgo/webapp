@@ -166,7 +166,7 @@ const InventoryTable = (props: Props) => {
           <Table.Column verticalAlign="top" fixed="left" align="left" width={30}>
             <Table.HeaderCell> </Table.HeaderCell>
             <ExpansionCell
-              dataKey={'id'}
+              dataKey={'sku'}
               expandedRowKeys={expandedRowKeys}
               onChange={handleExpansion}
             />
@@ -179,7 +179,9 @@ const InventoryTable = (props: Props) => {
             verticalAlign="top"
             align="center"
           >
-            <Table.HeaderCell>Product</Table.HeaderCell>
+            <Table.HeaderCell>
+              <span className={styles.productTitle}>Product</span>
+            </Table.HeaderCell>
             <ProductInformation dataKey="productInformation" />
           </Table.Column>
 

@@ -1,20 +1,19 @@
-@import '../../../../../design-system/new-colors.scss';
+@import '../../../../design-system/new-colors.scss';
 
 .productInformation {
-  height: 100%;
+  height: 40px !important;
   width: 100%;
   position: relative;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  align-items: flex-start;
-  padding-top: 10px;
-  margin: 0 20px;
+  align-items: center;
+  margin: 0 18px;
 }
 
 .productImage {
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   object-fit: contain;
 }
 
@@ -24,9 +23,9 @@
 }
 
 .productTitle {
-  color: $black_1;
-  font-size: 14px;
-  font-weight: $fontweight_semibold;
+  color: $grey_8;
+  font-size: 12px;
+  font-weight: $fontweight_medium;
   text-align: left;
   margin-bottom: 10px;
   width: 100%;
@@ -40,7 +39,7 @@
   grid-template-columns: 120px 120px;
   font-size: 10px !important;
   font-weight: $fontweight_medium !important;
-  color: $black_1 !important;
+  color: $grey_8 !important;
 }
 
 .flagAndAsinCol {
@@ -81,7 +80,7 @@
 }
 
 .productMetaDetailWrapper {
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -93,12 +92,16 @@
     border-radius: 50%;
     margin-right: 5px;
 
+    &__green {
+      background: $system_green;
+    }
+
     &__orange {
       background: $accent_orange;
     }
 
-    &__green {
-      background: $system_green;
+    &__blue {
+      background: $blue_link_bg_light;
     }
   }
 

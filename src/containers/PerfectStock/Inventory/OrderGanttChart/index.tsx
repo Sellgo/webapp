@@ -214,6 +214,7 @@ const OrderGanttChart = (props: Props) => {
                 )?.is_included,
               });
             }}
+            isDraftMode={isDraftMode}
           />
         </div>
       </div>

@@ -161,7 +161,9 @@ const InventoryTable = (props: Props) => {
           rowKey="sku"
           virtualized
           expandedRowKeys={inventoryResultsIds}
-          renderRowExpanded={(rowData: any) => <EditProductRow rowData={rowData} />}
+          renderRowExpanded={(rowData: any) => (
+            <EditProductRow orderId={activePurchaseOrder.id} rowData={rowData} />
+          )}
           id="orderPlanningStockInventoryTable"
         >
           {/* Product Information  */}
@@ -171,7 +173,9 @@ const InventoryTable = (props: Props) => {
             verticalAlign="top"
             align="center"
           >
-            <Table.HeaderCell>Product</Table.HeaderCell>
+            <Table.HeaderCell>
+              <span className={styles.productTitle}>Product</span>
+            </Table.HeaderCell>
             <ProductInformation dataKey="productInformation" />
           </Table.Column>
 
