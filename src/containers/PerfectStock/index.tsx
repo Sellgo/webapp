@@ -59,7 +59,6 @@ const PerfectStock: React.FC<Props> = props => {
     history,
     subscription,
   } = props;
-  console.log(subscription);
 
   const [selectedTabList, setSelectedTabList] = useState<number>(0);
 
