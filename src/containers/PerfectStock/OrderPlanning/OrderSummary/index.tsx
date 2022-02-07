@@ -6,21 +6,21 @@ import styles from './index.module.scss';
 
 /* Constants */
 import { OFFSET_TO_CHART_WIDTH } from '../../../../constants/PerfectStock/OrderPlanning';
-import { getDraftOrderInformation } from '../../../../selectors/PerfectStock/OrderPlanning';
-import { DraftOrderInformation } from '../../../../interfaces/PerfectStock/OrderPlanning';
+import { getActivePurchaseOrder } from '../../../../selectors/PerfectStock/OrderPlanning';
+import { PurchaseOrder } from '../../../../interfaces/PerfectStock/OrderPlanning';
 import { formatNumber, showNAIfZeroOrNull } from '../../../../utils/format';
+
 interface Props {
-  draftOrderInformation: DraftOrderInformation;
+  activeOrder: PurchaseOrder;
 }
 
 const OrderSummary = (props: Props) => {
-  const { draftOrderInformation } = props;
-
+  const { activeOrder } = props;
   let totalUnits = 0;
   let totalCartons = 0;
   let costPerUnit = 0;
   let totalCost = 0;
-  draftOrderInformation.merchant_listings?.forEach(merchantListing => {
+  activeOrder.merchant_listings?.forEach(merchantListing => {
     /* Predictive mode, with valid quantity */
     if (merchantListing.quantity_mode === 'predictive' && merchantListing.quantity) {
       totalUnits += merchantListing.quantity;
@@ -47,7 +47,7 @@ const OrderSummary = (props: Props) => {
     }
   });
 
-  if (!draftOrderInformation.id) {
+  if (!activeOrder.id || activeOrder.id === -1) {
     return null;
   }
 
@@ -60,7 +60,7 @@ const OrderSummary = (props: Props) => {
         }}
       >
         <span>TOTAL</span>
-        {draftOrderInformation.number} (Draft)
+        {activeOrder.number} (EDIT)
       </div>
       <div className={styles.statWrapper}>
         <span className={styles.statHeader}>Total Units</span>
@@ -92,7 +92,7 @@ const OrderSummary = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    draftOrderInformation: getDraftOrderInformation(state),
+    activeOrder: getActivePurchaseOrder(state),
   };
 };
 

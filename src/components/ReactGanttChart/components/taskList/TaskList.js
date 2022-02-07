@@ -79,16 +79,16 @@ export class TaskRow extends Component {
               <>
                 <div className="timeLine-actionOptions">
                   <p>EDIT</p>
-                  <button onClick={() => this.props.handleDeleteTask(this.props.item)}>
-                    <Icon name="trash" />
-                    <span>Delete Order</span>
-                  </button>
                   {!this.props.isDraftMode && (
                     <button onClick={() => this.props.handleEditTask(this.props.item)}>
                       <Icon name="pencil" />
                       <span>Edit Order</span>
                     </button>
                   )}
+                  <button onClick={() => this.props.handleDeleteTask(this.props.item)}>
+                    <Icon name="trash" />
+                    <span>Delete Order</span>
+                  </button>
                 </div>
               </>
             }

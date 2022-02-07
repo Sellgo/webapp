@@ -19,9 +19,9 @@ const StatBox = (props: Props) => {
     <div className={styles.statBox}>
       <p className={styles.title}>{title}</p>
       <p className={styles.stat}>
-        {prepend}
-        {displayStat}
-        {append}
+        {displayStat && prepend}
+        {displayStat || '-'}
+        {displayStat && append}
       </p>
     </div>
   );
