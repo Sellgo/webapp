@@ -85,42 +85,13 @@ export const setSalesProjectionRow = (payload: SalesProjectionProduct) => (
 };
 
 /*********** Async Actions ************************ */
-
-/* Export product database table */
-// export const exportProductDatabaseTable = (requestPayload: any, fileFormat: string) => async () => {
-//   try {
-//     const sellerID = sellerIDSelector();
-//     const { data } = await axios.post(`${AppConfig.BASE_URL_API}${sellerID}/products`, {
-//       ...requestPayload,
-//       is_export: true,
-//       file_format: fileFormat,
-//     });
-
-//     if (data) {
-//       const { url } = data;
-//       if (url) {
-//         await downloadFile(url);
-//         success('File successfully exported');
-//       } else {
-//         error('Export not available.');
-//       }
-//     }
-//   } catch (err) {
-//     const { status, data } = err.response;
-
-//     if (status === 403) {
-//       error(data.message);
-//     }
-//   }
-// };
-
 /* Action to fetch products database */
 export const fetchSalesProjection = (payload: SalesProjectionPayload) => async (dispatch: any) => {
   try {
     const {
       page = 1,
       sortDir = 'asc',
-      sort = 'asin',
+      sort = 'id',
       isExport = false,
       fileFormat = 'csv',
     } = payload;
@@ -132,7 +103,7 @@ export const fetchSalesProjection = (payload: SalesProjectionPayload) => async (
     };
 
     const pagination = `page=${page}`;
-    const sorting = `ordering=${sortDir === 'desc' ? `-${sort}` : sort}`;
+    const sorting = `sort=${sort}&sort_direction=${sortDir}`;
     const resourcePath = `${pagination}&${sorting}`;
 
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/sales-projection?${resourcePath}`;

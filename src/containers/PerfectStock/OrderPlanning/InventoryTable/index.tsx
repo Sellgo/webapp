@@ -16,6 +16,7 @@ import { SalesProjectionPayload } from '../../../../interfaces/PerfectStock/Sale
 import {
   DateRange,
   GanttChartPurchaseOrder,
+  InventoryTablePayload,
 } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 /* Components */
@@ -54,7 +55,7 @@ interface Props {
   // States
   dateRange: DateRange;
   timeSetting: TimeSetting;
-  fetchInventoryTable: () => void;
+  fetchInventoryTable: (payload: InventoryTablePayload) => void;
   inventoryTableResults: any[];
   isLoadingInventoryTableResults: boolean;
   activePurchaseOrder: GanttChartPurchaseOrder;
@@ -81,7 +82,7 @@ const InventoryTable = (props: Props) => {
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
     setSortType(sortType);
-    fetchSalesProjection({
+    fetchInventoryTable({
       sort: sortColumn,
       sortDir: sortType,
     });
@@ -108,7 +109,10 @@ const InventoryTable = (props: Props) => {
   /* Refresh inventory table if date range or time setting is changed  */
   React.useEffect(() => {
     generateHeaders(new Date(dateRange.startDate), new Date(dateRange.endDate));
-    fetchInventoryTable();
+    fetchInventoryTable({
+      sort: sortColumn,
+      sortDir: sortType,
+    });
   }, [dateRange.startDate, timeSetting, activePurchaseOrder]);
 
   /* Parse backend data to fit into a table format */
@@ -189,14 +193,14 @@ const InventoryTable = (props: Props) => {
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Days Until\nStock Out`}
-                dataKey="days_until_so"
+                dataKey="merchant_listing__days_until_so"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
                 alignMiddle
                 icon={<ExclaimationIcon />}
               />
             </Table.HeaderCell>
-            <StockOutDate dataKey="days_until_so" />
+            <StockOutDate dataKey="merchant_listing__days_until_so" />
           </Table.Column>
 
           {/* Render a column for each date from end date to statr date */}
@@ -234,7 +238,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchSalesProjection: (payload: SalesProjectionPayload) =>
       dispatch(fetchSalesProjection(payload)),
-    fetchInventoryTable: () => dispatch(fetchInventoryTable()),
+    fetchInventoryTable: (payload: InventoryTablePayload) => dispatch(fetchInventoryTable(payload)),
   };
 };
 

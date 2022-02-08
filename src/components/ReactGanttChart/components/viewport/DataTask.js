@@ -3,6 +3,7 @@ import DateHelper from '../../helpers/DateHelper';
 import { MODE_NONE, MODE_MOVE, MOVE_RESIZE_LEFT, MOVE_RESIZE_RIGHT } from '../../Const';
 import { LINK_POS_LEFT, LINK_POS_RIGHT } from '../../Const';
 import Config from '../../helpers/config/Config';
+import { NONAME } from 'dns';
 
 export default class DataTask extends Component {
   constructor(props) {
@@ -192,14 +193,22 @@ export default class DataTask extends Component {
           {this.props.subTasks ? (
             this.props.subTasks.map((task, id) => {
               const lengthOfSubTask = ((task.start - task.end) / lengthOfMainTask) * 100;
+              const inventoryStyling = {
+                background: task.color,
+                width: `${lengthOfSubTask}%`,
+                height: style.height,
+              };
+              const draftStyling = {
+                width: `${lengthOfSubTask}%`,
+                height: style.height,
+                border: `2px solid ${task.color}`,
+                background: 'none',
+                color: '#323232',
+              };
               return (
                 <div
                   key={id}
-                  style={{
-                    background: task.color,
-                    width: `${lengthOfSubTask}%`,
-                    height: style.height,
-                  }}
+                  style={this.props.isDraftMode ? draftStyling : inventoryStyling}
                   className="timeLine-main-data-sub-task"
                 >
                   {task.name}

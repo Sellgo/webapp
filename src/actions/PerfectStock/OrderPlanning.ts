@@ -13,6 +13,7 @@ import {
   DateRange,
   UpdatePurchaseOrderPayload,
   DraftOrderTemplate,
+  InventoryTablePayload,
 } from '../../interfaces/PerfectStock/OrderPlanning';
 
 /* Selectors */
@@ -285,7 +286,7 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
     }`;
     const { status } = await axios.patch(URL, requestPayload);
     if (status === 200) {
-      dispatch(fetchInventoryTable());
+      dispatch(fetchInventoryTable({}));
 
       if (!payload.date && payload.status === 'inactive') {
         dispatch(fetchPurchaseOrders());
@@ -304,8 +305,13 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
 };
 
 /* Fetch inventory table */
-export const fetchInventoryTable = () => async (dispatch: any, getState: any) => {
+export const fetchInventoryTable = (payload: InventoryTablePayload) => async (
+  dispatch: any,
+  getState: any
+) => {
   try {
+    const { sortDir = 'asc', sort = 'id' } = payload;
+
     dispatch(isLoadingInventoryTableResults(true));
     const state = getState();
     const sellerId = sellerIDSelector();
@@ -335,7 +341,9 @@ export const fetchInventoryTable = () => async (dispatch: any, getState: any) =>
       `&display_mode=${displayMode}` +
       `&page=1` +
       `&per_page=20` +
-      `${activePurchaseOrder.id !== -1 ? `&purchase_order_ids=${activePurchaseOrder.id}` : ''}`;
+      `${activePurchaseOrder.id !== -1 ? `&purchase_order_ids=${activePurchaseOrder.id}` : ''}` +
+      `&sort=${sort}` +
+      `&sort_direction=${sortDir}`;
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/order-plan-overview?${resourceString}`;
 
     const { data } = await axios.get(URL);
@@ -385,7 +393,7 @@ export const fetchRefreshProgress = () => async (dispatch: any, getState: any) =
 
     if (data && data.progress) {
       if (data.status === 'completed') {
-        dispatch(fetchInventoryTable());
+        dispatch(fetchInventoryTable({}));
         dispatch(setIsFetchingProgressForRefresh(false));
         dispatch(setRefreshInventoryTableId(-1));
       } else if (data.status === 'failed') {

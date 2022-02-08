@@ -11,8 +11,11 @@ import { RowCell } from '../../../../../interfaces/Table';
 import { formatNumber, showNAIfZeroOrNull } from '../../../../../utils/format';
 
 const StockOutDate = (props: RowCell) => {
-  const { rowData, dataKey } = props;
-  const daysToStockOut = showNAIfZeroOrNull(rowData[dataKey], formatNumber(rowData[dataKey]));
+  const { rowData } = props;
+  const daysToStockOut = showNAIfZeroOrNull(
+    rowData.days_until_so,
+    formatNumber(rowData.days_until_so)
+  );
 
   const stockOutDate = new Date();
   stockOutDate.setTime(stockOutDate.getTime() + daysToStockOut * 24 * 60 * 60 * 1000);

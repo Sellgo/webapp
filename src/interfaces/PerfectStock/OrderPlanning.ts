@@ -3,6 +3,14 @@ export interface DateRange {
   endDate: string;
 }
 
+export interface InventoryTablePayload {
+  page?: number;
+  sort?: string;
+  sortDir?: 'asc' | 'desc';
+  isExport?: boolean;
+  fileFormat?: 'csv' | 'xlsx';
+}
+
 /* Purchase order from backend */
 export interface PurchaseOrder {
   date: string;

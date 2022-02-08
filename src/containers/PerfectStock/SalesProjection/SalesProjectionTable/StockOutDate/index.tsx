@@ -16,8 +16,11 @@ interface Props extends RowCell {
 
 const StockOutDate = (props: Props) => {
   const { handleExpansion, ...otherProps } = props;
-  const { rowData, dataKey } = otherProps;
-  const daysToStockOut = showNAIfZeroOrNull(rowData[dataKey], formatNumber(rowData[dataKey]));
+  const { rowData } = otherProps;
+  const daysToStockOut = showNAIfZeroOrNull(
+    rowData.days_until_so,
+    formatNumber(rowData.days_until_so)
+  );
 
   const stockOutDate = new Date();
   stockOutDate.setTime(stockOutDate.getTime() + daysToStockOut * 24 * 60 * 60 * 1000);

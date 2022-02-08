@@ -14,7 +14,6 @@ import {
   setTimeSettings,
   fetchPurchaseOrders,
   updatePurchaseOrder,
-  fetchInventoryTable,
   setActivePurchaseOrder,
 } from '../../../../actions/PerfectStock/OrderPlanning';
 
@@ -59,7 +58,6 @@ interface Props {
   setDateRange: (payload: DateRange) => void;
   setTimeSettings: (payload: string) => void;
   fetchPurchaseOrders: () => void;
-  fetchInventoryTable: () => void;
   updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => void;
   setActivePurchaseOrder: (payload: PurchaseOrder) => void;
   activePurchaseOrder: GanttChartPurchaseOrder;
@@ -244,9 +242,6 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => {
       dispatch(updatePurchaseOrder(payload));
-    },
-    fetchInventoryTable: () => {
-      dispatch(fetchInventoryTable());
     },
     setActivePurchaseOrder: (task: PurchaseOrder) => {
       dispatch(setActivePurchaseOrder(task));

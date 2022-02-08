@@ -26,7 +26,10 @@ import InventoryTable from './InventoryTable';
 import AddEditSkuModal from './AddEditSkuModal';
 
 /* Types */
-import { PurchaseOrder } from '../../../interfaces/PerfectStock/OrderPlanning';
+import {
+  InventoryTablePayload,
+  PurchaseOrder,
+} from '../../../interfaces/PerfectStock/OrderPlanning';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -36,7 +39,7 @@ interface Props {
   fetchRefreshProgress: () => void;
   refreshProgress: number;
   fetchPurchaseOrders: () => void;
-  fetchInventoryTable: () => void;
+  fetchInventoryTable: (payload: InventoryTablePayload) => void;
 
   setPurchaseOrders: (payload: PurchaseOrder[]) => void;
   activePurchaseOrder: PurchaseOrder;
@@ -93,7 +96,7 @@ const OrderPlanning = (props: Props) => {
         selectedSKUs={activePurchaseOrder.merchant_listings}
         refreshData={() => {
           fetchPurchaseOrders();
-          fetchInventoryTable();
+          fetchInventoryTable({});
         }}
       />
     </main>
@@ -115,8 +118,8 @@ const mapDispatchToProps = (dispatch: any) => {
     setPurchaseOrders: (payload: PurchaseOrder[]) => {
       dispatch(setPurchaseOrders(payload));
     },
-    fetchInventoryTable: () => {
-      dispatch(fetchInventoryTable());
+    fetchInventoryTable: (payload: InventoryTablePayload) => {
+      dispatch(fetchInventoryTable(payload));
     },
   };
 };

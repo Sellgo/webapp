@@ -9,12 +9,14 @@ import styles from './index.module.scss';
 
 /* Actions */
 import { fetchSalesProjection } from '../../../../actions/PerfectStock/SalesProjection';
+import { fetchInventoryTable } from '../../../../actions/PerfectStock/OrderPlanning';
 
 /* Interfaces */
 import { SalesProjectionPayload } from '../../../../interfaces/PerfectStock/SalesProjection';
 import {
   DateRange,
   GanttChartPurchaseOrder,
+  InventoryTablePayload,
 } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 /* Components */
@@ -46,9 +48,6 @@ import {
   UNIT_WIDTH,
 } from '../../../../constants/PerfectStock/OrderPlanning';
 
-/* Actions */
-import { fetchInventoryTable } from '../../../../actions/PerfectStock/OrderPlanning';
-
 /* Utils */
 import { getDateOnly } from '../../../../utils/date';
 
@@ -57,7 +56,7 @@ interface Props {
   dateRange: DateRange;
   timeSetting: TimeSetting;
   showAllSkus: boolean;
-  fetchInventoryTable: () => void;
+  fetchInventoryTable: (payload: InventoryTablePayload) => void;
   inventoryTableResults: any[];
   isLoadingInventoryTableResults: boolean;
   activePurchaseOrder: GanttChartPurchaseOrder;
@@ -81,7 +80,7 @@ const InventoryTable = (props: Props) => {
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
     setSortType(sortType);
-    fetchSalesProjection({
+    fetchInventoryTable({
       sort: sortColumn,
       sortDir: sortType,
     });
@@ -119,13 +118,19 @@ const InventoryTable = (props: Props) => {
   /* Refresh inventory table if date range or time setting is changed  */
   React.useEffect(() => {
     generateHeaders(new Date(dateRange.startDate), new Date(dateRange.endDate));
-    fetchInventoryTable();
+    fetchInventoryTable({
+      sort: sortColumn,
+      sortDir: sortType,
+    });
   }, [dateRange.startDate, dateRange.endDate, timeSetting]);
 
   /* Refresh inventory table if active purchase order is changed */
   React.useEffect(() => {
     generateHeaders(new Date(dateRange.startDate), new Date(dateRange.endDate));
-    fetchInventoryTable();
+    fetchInventoryTable({
+      sort: sortColumn,
+      sortDir: sortType,
+    });
   }, [activePurchaseOrder, showAllSkus]);
 
   const displayInventoryResults = inventoryTableResults.map((rowData: any) => {
@@ -134,8 +139,6 @@ const InventoryTable = (props: Props) => {
       ...rowData.expected_inventories,
     };
   });
-
-  // const displayInventoryResults: any[] = [];
 
   return (
     <>
@@ -191,18 +194,19 @@ const InventoryTable = (props: Props) => {
             width={(OFFSET_TO_CHART_WIDTH - 30) * (1 / 3)}
             verticalAlign="top"
             align="center"
+            sortable
           >
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Days Until\nStock Out`}
-                dataKey="days_until_so"
+                dataKey="merchant_listing__days_until_so"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
                 alignMiddle
                 icon={<ExclaimationIcon />}
               />
             </Table.HeaderCell>
-            <StockOutDate dataKey="days_until_so" />
+            <StockOutDate dataKey="merchant_listing__days_until_so" />
           </Table.Column>
 
           {/* Render a column for each date from end date to statr date */}
@@ -237,7 +241,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchSalesProjection: (payload: SalesProjectionPayload) =>
       dispatch(fetchSalesProjection(payload)),
-    fetchInventoryTable: () => dispatch(fetchInventoryTable()),
+    fetchInventoryTable: (payload: InventoryTablePayload) => dispatch(fetchInventoryTable(payload)),
   };
 };
 

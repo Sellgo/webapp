@@ -484,6 +484,7 @@ class TimeLine extends Component {
                 upper: this.state.scrollLeft + this.state.size.width,
               }}
               onSize={this.onSize}
+              isDraftMode={this.props.isDraftMode}
             />
           )}
           <LinkViewPort

@@ -60,6 +60,7 @@ export class DataViewPort extends Component {
           top={i * this.props.itemheight}
           left={20}
           itemheight={this.props.itemheight}
+          isDraftMode={this.props.isDraftMode}
         >
           <DataTask
             item={item}
@@ -79,6 +80,7 @@ export class DataViewPort extends Component {
             onUpdateTask={this.props.onUpdateTask}
             subTasks={item.subTasks}
             onSelectTask={this.props.onSelectTask}
+            isDraftMode={this.props.isDraftMode}
           >
             {' '}
           </DataTask>

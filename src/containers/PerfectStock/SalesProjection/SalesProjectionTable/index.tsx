@@ -112,18 +112,21 @@ const SalesEstimationTable = (props: Props) => {
           </Table.Column>
 
           {/* Stock out date info  */}
-          <Table.Column width={112} verticalAlign="middle" align="center">
+          <Table.Column width={112} verticalAlign="middle" align="center" sortable>
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Days Until\nStock Out`}
-                dataKey="days_until_so"
+                dataKey="merchant_listing__days_until_so"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
                 alignMiddle
                 icon={<ExclaimationIcon />}
               />
             </Table.HeaderCell>
-            <StockOutDate dataKey="days_until_so" handleExpansion={handleExpansion} />
+            <StockOutDate
+              dataKey="merchant_listing__days_until_so"
+              handleExpansion={handleExpansion}
+            />
           </Table.Column>
 
           {/* Fulfillable Inventory  */}
