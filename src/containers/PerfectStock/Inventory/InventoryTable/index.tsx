@@ -199,14 +199,14 @@ const InventoryTable = (props: Props) => {
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Days Until\nStock Out`}
-                dataKey="merchant_listing__days_until_so"
+                dataKey="days_until_so"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
                 alignMiddle
                 icon={<ExclaimationIcon />}
               />
             </Table.HeaderCell>
-            <StockOutDate dataKey="merchant_listing__days_until_so" />
+            <StockOutDate dataKey="days_until_so" />
           </Table.Column>
 
           {/* Render a column for each date from end date to statr date */}

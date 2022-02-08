@@ -189,6 +189,34 @@ const SalesEstimationTable = (props: Props) => {
             <InventoryThreshold dataKey="inventoryThreshold" />
           </Table.Column>
 
+          {/* Average Last 30-60 Day */}
+          <Table.Column width={112} sortable verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title="Average Last 30 - 60 Day"
+                dataKey="avg_31d_60d"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+                alignMiddle
+              />
+            </Table.HeaderCell>
+            <SalesEstimationStat dataKey="avg_31d_60d" daysOffset={-30} />
+          </Table.Column>
+
+          {/* Average Last 30-90 Day */}
+          <Table.Column width={112} sortable verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title="Average Last 60 - 90 Day"
+                dataKey="avg_61d_90d"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+                alignMiddle
+              />
+            </Table.HeaderCell>
+            <SalesEstimationStat dataKey="avg_61d_90d" daysOffset={-60} />
+          </Table.Column>
+
           {/* Average Last 90 Day */}
           <Table.Column width={112} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
