@@ -1,0 +1,110 @@
+[
+  {
+    "Tutorial": {
+      "youtubeLink": "",
+      "displayText": ""
+    }
+  },
+
+  {
+    "Search Volume": {
+      "youtubeLink": "",
+      "displayText": "",
+      "tooltipText": "Estimated total count the keyword(s) is searched monthly on Amazon"
+    },
+    "Position Rank": {
+      "youtubeLink": "",
+      "tooltipText": "Position of the main ASIN, in a multi ASIN search, in search results"
+    },
+    "Sponsored ASINs": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of ASINs running sponsored ads from using that keyword(s)"
+    },
+    "Competing Products": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of product showed in customer searches from using that keyword(s)"
+    },
+    "Title Density": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of page 1 products from using that keyword(s) in their title"
+    },
+    "Sponsored Rank (avg)": {
+      "youtubeLink": "",
+      "tooltipText": "Average position detected compared to all products in sponsored results"
+    },
+    "Sponsored Rank (#)": {
+      "youtubeLink": "",
+      "tooltipText": "Sponsored ads position in customer searches"
+    }
+  },
+
+  {
+    "search_term": {
+      "youtubeLink": "",
+      "tooltipText": "Search term or keyword used by customers to find a product"
+    },
+    "search_volume": {
+      "youtubeLink": "",
+      "tooltipText": "Estimated total count the keyword(s) is searched monthly on Amazon"
+    },
+    "sponsored_asins": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of ASINs running sponsored ads from using that keyword(s)"
+    },
+    "competing_products": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of product showed in customer searches from using that keyword(s)"
+    },
+    "competitor_rank_avg": {
+      "youtubeLink": "",
+      "tooltipText": "Average rank of all competitor ASINs"
+    },
+    "ranking_competitors_count": {
+      "youtubeLink": "",
+      "tooltipText": "Count of competitor ASINs that ranked for the keyword(s)"
+    },
+    "title_density": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of page 1 products from using that keyword(s) in their title"
+    },
+    "organic_rank": {
+      "youtubeLink": "",
+      "tooltipText": "Organic search position result from using that keyword(s)"
+    },
+    "sponsored_rank": {
+      "youtubeLink": "",
+      "tooltipText": "Sponsored ads position in customer searches"
+    },
+    "sponsored_rank_avg": {
+      "youtubeLink": "",
+      "tooltipText": "Average position detected compared to all products in sponsored results"
+    },
+    "sponsored_rank_count": {
+      "youtubeLink": "",
+      "tooltipText": "Count of queried products with the sponsored ads for the keyword(s)"
+    },
+    "position_rank": {
+      "youtubeLink": "",
+      "tooltipText": "Position of the main ASIN, in a multi ASIN search, in search results"
+    },
+    "relative_rank": {
+      "youtubeLink": "",
+      "tooltipText": "Rank of the main ASIN relative it its competitors. For example, if three (3) competitors are ranked better than the main ASIN the relative rank will be four (4)"
+    },
+    "count_top_10": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of ASIN, in a multi ASIN search, that makes it to the position of ten (10) or lower"
+    },
+    "count_top_50": {
+      "youtubeLink": "",
+      "tooltipText": "Total count of ASIN, in a multi ASIN search, that makes it to the position of fifty (50) or lower"
+    }
+  },
+
+  {
+    "All Keywords": {
+      "youtubeLink": "",
+      "tooltipText": ""
+    }
+  }
+]

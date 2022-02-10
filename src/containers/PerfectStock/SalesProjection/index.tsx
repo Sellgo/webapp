@@ -1,27 +1,46 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import JoyRide from 'react-joyride';
 
 /* Actions */
 import {
   fetchSalesProjection,
   fetchRefreshProgress,
 } from '../../../actions/PerfectStock/SalesProjection';
-import ProgressBar from '../../../components/ProgressBar';
+import { updatePerfectStockGetStartedStatus } from '../../../actions/UserOnboarding';
 
 /* Interfaces */
 import { SalesProjectionPayload } from '../../../interfaces/PerfectStock/SalesProjection';
+import { PerfectStockGetStartedStatus } from '../../../interfaces/UserOnboarding';
 
 /* Selectors */
 import {
   getIsFetchingProgressForRefresh,
   getRefreshProgress,
 } from '../../../selectors/PerfectStock/SalesProjection';
+import { getPerfectStockGetStartedStatus } from '../../../selectors/UserOnboarding';
 
 /* Containers */
 import SalesProjectionMeta from './SalesProjectionMeta';
 import SalesProjectionTable from './SalesProjectionTable';
+import ProgressBar from '../../../components/ProgressBar';
+
+const steps = [
+  {
+    target: '.SalesProjectionMeta_refreshButton__c2LxH',
+    content: 'Step 1',
+    disableBeacon: true,
+  },
+  {
+    target: '.ExpansionCell_expansionCell__1ZRez',
+    content: 'Step 2',
+    disableBeacon: true,
+  },
+];
 
 interface Props {
+  updatePerfectStockGetStartedStatus: (key: string, status: boolean) => void;
+  perfectStockGetStartedStatus: PerfectStockGetStartedStatus;
   fetchSalesProjection: (payload: SalesProjectionPayload) => void;
   refreshProgress: number;
   isFetchingProgressForRefresh: boolean;
@@ -34,6 +53,8 @@ const SalesProjection = (props: Props) => {
     fetchRefreshProgress,
     refreshProgress,
     isFetchingProgressForRefresh,
+    perfectStockGetStartedStatus,
+    updatePerfectStockGetStartedStatus,
   } = props;
 
   React.useEffect(() => {
@@ -49,6 +70,17 @@ const SalesProjection = (props: Props) => {
       />
       <SalesProjectionMeta />
       <SalesProjectionTable />
+      <JoyRide
+        steps={steps}
+        run={perfectStockGetStartedStatus.isSalesProjectionTourRunning}
+        continuous={true}
+        showProgress={true}
+        callback={(data: any) => {
+          if (data.action === 'close' || data.action === 'reset') {
+            updatePerfectStockGetStartedStatus('isSalesProjectionTourRunning', false);
+          }
+        }}
+      />
     </main>
   );
 };
@@ -57,6 +89,7 @@ const mapStateToProps = (state: any) => {
   return {
     refreshProgress: getRefreshProgress(state),
     isFetchingProgressForRefresh: getIsFetchingProgressForRefresh(state),
+    perfectStockGetStartedStatus: getPerfectStockGetStartedStatus(state),
   };
 };
 
@@ -65,6 +98,8 @@ const mapDispatchToProps = (dispatch: any) => {
     fetchSalesProjection: (payload: SalesProjectionPayload) =>
       dispatch(fetchSalesProjection(payload)),
     fetchRefreshProgress: () => dispatch(fetchRefreshProgress()),
+    updatePerfectStockGetStartedStatus: (key: string, status: boolean) =>
+      dispatch(updatePerfectStockGetStartedStatus(key, status)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SalesProjection);

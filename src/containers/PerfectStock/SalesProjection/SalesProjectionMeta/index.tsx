@@ -8,6 +8,7 @@ import styles from './index.module.scss';
 
 /* Components */
 import TableExport from '../../../../components/NewTable/TableExport';
+import TooltipWrapper from '../../../../components/TooltipWrapper';
 
 /* Assets */
 import { ReactComponent as UndoIcon } from '../../../../assets/images/undoIcon.svg';
@@ -73,7 +74,11 @@ const SalesProjectionMeta = (props: Props) => {
             onClick={refreshSalesProjection}
             disabled={isFetchingProgressForRefresh}
           >
-            Last Update:&nbsp;<span>{displayDate}</span>
+            <TooltipWrapper tooltipKey="Refresh Date">
+              <>
+                Last Update:&nbsp;<span>{displayDate}</span>
+              </>
+            </TooltipWrapper>
             &nbsp;
             {!isFetchingProgressForRefresh ? (
               <UndoIcon className={styles.refreshIcon} />

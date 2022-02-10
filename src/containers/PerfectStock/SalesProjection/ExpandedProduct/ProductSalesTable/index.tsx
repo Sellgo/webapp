@@ -10,6 +10,7 @@ import styles from './index.module.scss';
 import HeaderDateCell from '../../../../../components/NewTable/HeaderDateCell';
 import StatsCell from '../../../../../components/NewTable/StatsCell';
 import SelectionFilter from '../../../../../components/FormFilters/SelectionFilter';
+import TooltipWrapper from '../../../../../components/TooltipWrapper';
 
 /* Constants */
 import {
@@ -98,7 +99,9 @@ const ProductSalesTable = (props: Props) => {
             <button className={styles.expandButton} onClick={() => setShowTrends(!showTrends)}>
               {showTrends ? <DeExpandedCellIcon /> : <ExpandedCellIcon />}
             </button>
-            Expected Weekly Sales
+            <TooltipWrapper tooltipKey="Expected Weekly Sales">
+              Expected Weekly Sales
+            </TooltipWrapper>
           </p>
           {showTrends && (
             <>

@@ -1,20 +1,23 @@
 import React from 'react';
 import { Table } from 'rsuite';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
 
 /* Interface */
 import { RowCell } from '../../../../../interfaces/Table';
+import { SalesProjectionUpdatePayload } from '../../../../../interfaces/PerfectStock/SalesProjection';
 
 /* Utils */
 import { formatDecimal, showNAIfZeroOrNull, formatRating } from '../../../../../utils/format';
 
 /* Components */
 import HoveredCell from './HoveredCell';
-import { connect } from 'react-redux';
+import TooltipWrapper from '../../../../../components/TooltipWrapper';
+
+/* Actions */
 import { updateSalesProjectionProduct } from '../../../../../actions/PerfectStock/SalesProjection';
-import { SalesProjectionUpdatePayload } from '../../../../../interfaces/PerfectStock/SalesProjection';
 
 interface Props extends RowCell {
   updateSalesProjectionProduct: (payload: SalesProjectionUpdatePayload) => void;
@@ -47,13 +50,17 @@ const SalesEstimationStat = (props: Props) => {
   if (label === 'no_projections') {
     displayContent = (
       <div className={styles.labelWrapper}>
-        <div className={styles.noProjections}>No Projections</div>
+        <div className={styles.noProjections}>
+          <TooltipWrapper tooltipKey="No Projections">No Projections</TooltipWrapper>
+        </div>
       </div>
     );
   } else if (label === 'stockout') {
     displayContent = (
       <div className={styles.labelWrapper}>
-        <div className={styles.stockout}>Stockout</div>
+        <div className={styles.stockout}>
+          <TooltipWrapper tooltipKey="Stock Out">Stockout</TooltipWrapper>
+        </div>
       </div>
     );
   } else {

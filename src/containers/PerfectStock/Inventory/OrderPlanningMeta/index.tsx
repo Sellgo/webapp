@@ -10,6 +10,7 @@ import styles from './index.module.scss';
 import ActionButton from '../../../../components/ActionButton';
 import CreateOrderModal from '../CreateOrderModal';
 import TableExport from '../../../../components/NewTable/TableExport';
+import TooltipWrapper from '../../../../components/TooltipWrapper';
 
 /* Assets */
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
@@ -72,17 +73,19 @@ const OrderPlanningMeta = (props: Props) => {
   return (
     <>
       <div className={styles.exportsContainer}>
-        <ActionButton
-          variant="primary"
-          type="purpleGradient"
-          size="md"
-          className={styles.createOrderButton}
-          onClick={() => setIsCreatingOrder(true)}
-        >
-          <ThinAddIcon />
-          <span>Create</span>
-          <ArrowDown />
-        </ActionButton>
+        <TooltipWrapper tooltipKey="Create Order">
+          <ActionButton
+            variant="primary"
+            type="purpleGradient"
+            size="md"
+            className={styles.createOrderButton}
+            onClick={() => setIsCreatingOrder(true)}
+          >
+            <ThinAddIcon />
+            <span>Create</span>
+            <ArrowDown />
+          </ActionButton>
+        </TooltipWrapper>
         <div className={styles.exportOptionsWrapper}>
           {true && (
             <button
@@ -90,7 +93,9 @@ const OrderPlanningMeta = (props: Props) => {
               onClick={refreshInventoryTable}
               disabled={isFetchingProgressForRefresh}
             >
-              Last Update:&nbsp;<span>{displayDate}</span>
+              <TooltipWrapper tooltipKey="Refresh Date">
+                Last Update:&nbsp;<span>{displayDate}</span>
+              </TooltipWrapper>
               &nbsp;
               {!isFetchingProgressForRefresh ? (
                 <UndoIcon className={styles.refreshIcon} />

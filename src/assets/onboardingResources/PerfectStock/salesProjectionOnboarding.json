@@ -1,0 +1,103 @@
+[
+  {
+    "Tutorial": {
+      "youtubeLink": "",
+      "displayText": ""
+    }
+  },
+
+  {
+    "Add Keywords": {
+      "youtubeLink": "",
+      "tooltipText": ""
+    }
+  },
+
+  {
+    "merchant_listing__days_until_so": {
+      "youtubeLink": "",
+      "tooltipText": "Days until stock out"
+    },
+    "fulfillable_fba": {
+      "youtubeLink": "",
+      "tooltipText": "FBA Inventory"
+    },
+    "predictive_sales": {
+      "youtubeLink": "",
+      "tooltipText": "Expected Sales"
+    },
+    "seasonality_adjustor": {
+      "youtubeLink": "",
+      "tooltipText": "Seasonality Adjustor"
+    },
+    "inventory_threshold": {
+      "youtubeLink": "",
+      "tooltipText": "Inventory Threshold"
+    },
+    "avg_l90d": {
+      "youtubeLink": "",
+      "tooltipText": "Avg last 90 days"
+    },
+    "avg_61d_90d": {
+      "youtubeLink": "",
+      "tooltipText": "Avg last 61 - 90 days"
+    },
+    "avg_31d_60d": {
+      "youtubeLink": "",
+      "tooltipText": "Avg last 31 - 60 days"
+    },
+    "avg_l30d": {
+      "youtubeLink": "",
+      "tooltipText": "Avg last 30 days"
+    },
+    "avg_l7d": {
+      "youtubeLink": "",
+      "tooltipText": "Avg last 7 days"
+    },
+    "avg_n30d_ly": {
+      "youtubeLink": "",
+      "tooltipText": "Avg next 30 days last year"
+    },
+    "avg_n90d_ly": {
+      "youtubeLink": "",
+      "tooltipText": "Avg next 90 days last year"
+    }
+  },
+
+  {
+    "Export": {
+      "youtubeLink": "",
+      "tooltipText": "Export all the table results"
+    },
+
+    "Refresh Date": {
+      "youtubeLink": "",
+      "tooltipText": "This is the last updated date"
+    },
+
+    "Active/Inactive": {
+      "youtubeLink": "",
+      "tooltipText": "Active order or inactive order dot in table"
+    },
+
+    "FBA/FBM": {
+      "youtubeLink": "",
+      "tooltipText": "Fbm or fba dot in table"
+    },
+
+    "No Projections": {
+      "youtubeLink": "",
+      "tooltipText": "No Projections for this period"
+    },
+
+    "Stock Out": {
+      "youtubeLink": "",
+      "tooltipText": "Stock Out for this period"
+    },
+
+    "Expected Weekly Sales": {
+      "youtubeLink": "",
+      "tooltipText": "Tooltip for Expected Weekly Sales in expansion"
+    }
+  }
+]

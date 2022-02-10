@@ -9,6 +9,7 @@ import styles from './index.module.scss';
 /* Components */
 import HeaderDateCell from '../../../../../components/NewTable/HeaderDateCell';
 import StatsCell from '../../../../../components/NewTable/StatsCell';
+import TooltipWrapper from '../../../../../components/TooltipWrapper';
 
 /* Constants */
 import {
@@ -75,7 +76,7 @@ const InventorySalesTable = (props: Props) => {
             <button className={styles.expandButton} onClick={() => setShowTrends(!showTrends)}>
               {showTrends ? <DeExpandedCellIcon /> : <ExpandedCellIcon />}
             </button>
-            Expected Inventory
+            <TooltipWrapper tooltipKey="Expected Inventory">Expected Inventory</TooltipWrapper>
           </p>
           {showTrends && (
             <>

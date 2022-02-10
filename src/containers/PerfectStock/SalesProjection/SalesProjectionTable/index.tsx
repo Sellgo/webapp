@@ -164,14 +164,14 @@ const SalesEstimationTable = (props: Props) => {
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Seasonality\nAdjustor`}
-                dataKey="days_until_so"
+                dataKey="seasonality_adjustor"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
                 alignMiddle
                 disableSort
               />
             </Table.HeaderCell>
-            <SeasonalityAdjustor dataKey="seasonalityAdjustor" />
+            <SeasonalityAdjustor dataKey="seasonality_adjustor" />
           </Table.Column>
 
           {/* Inventory Threshold  */}
@@ -179,14 +179,14 @@ const SalesEstimationTable = (props: Props) => {
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Inventory\nThreshold`}
-                dataKey="inventoryThreshold"
+                dataKey="inventory_threshold"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
                 alignMiddle
                 disableSort
               />
             </Table.HeaderCell>
-            <InventoryThreshold dataKey="inventoryThreshold" />
+            <InventoryThreshold dataKey="inventory_threshold" />
           </Table.Column>
 
           {/* Average Last 90 Day */}

@@ -8,3 +8,7 @@ export const getUserOnboarding = (state: any) => get(state, 'userOnboarding.setU
 /* Selector to get current user onboarding resources state */
 export const getUserOnboardingResources = (state: any) =>
   get(state, 'userOnboarding.userOnboardingResources');
+
+/* Selector to get perfect stock get started status */
+export const getPerfectStockGetStartedStatus = (state: any) =>
+  get(state, 'userOnboarding.perfectStockGetStartedStatus');

@@ -16,14 +16,15 @@ import PreMigration from './PreMigration';
 import PageHeader from '../../components/PageHeader';
 import ProductMetaInformation from '../../components/ProductMetaInformation';
 import ProductLabel from '../../components/ProductLabel';
+import GetStarted from './GetStarted';
 
 /* Selectors */
 import { getUserOnboarding, getUserOnboardingResources } from '../../selectors/UserOnboarding';
 
-/*Actions */
+/* Actions */
 import { setUserOnboardingResources } from '../../actions/UserOnboarding';
 
-/* COnstansts */
+/* Constants */
 import {
   PERFECT_STOCK_PRODUCT_DETAILS,
   PERFECT_STOCK_PAGES,
@@ -35,7 +36,11 @@ import {
 } from '../../constants/UserOnboarding';
 
 /* Assets */
-import databaseOnboarding from '../../assets/onboardingResources/ProductResearch/productDatabaseOnboarding.json';
+import salesProjectionOnboarding from '../../assets/onboardingResources/PerfectStock/salesProjectionOnboarding.json';
+/* eslint-disable-next-line */
+import orderPlanningInventoryOnboarding from '../../assets/onboardingResources/PerfectStock/orderPlanningInventoryOnboarding.json';
+/* eslint-disable-next-line */
+import orderPlanningEditOnboarding from '../../assets/onboardingResources/PerfectStock/orderPlanningEditOnboarding.json';
 import { getSellerSubscription } from '../../selectors/Subscription';
 
 /* Types */
@@ -87,7 +92,11 @@ const PerfectStock: React.FC<Props> = props => {
 
   useEffect(() => {
     if (selectedTabList === 0) {
-      setUserOnboardingResources(databaseOnboarding);
+      setUserOnboardingResources(salesProjectionOnboarding);
+    } else if (selectedTabList === 1) {
+      setUserOnboardingResources(orderPlanningInventoryOnboarding);
+    } else {
+      setUserOnboardingResources(orderPlanningEditOnboarding);
     }
   }, [selectedTabList]);
 
@@ -184,6 +193,8 @@ const PerfectStock: React.FC<Props> = props => {
             </TabPanel>
           </Tabs>
         </section>
+
+        <GetStarted />
       </main>
     </>
   );

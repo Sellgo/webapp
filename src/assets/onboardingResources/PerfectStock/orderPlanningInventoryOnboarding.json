@@ -1,0 +1,41 @@
+[
+  {},
+
+  {},
+
+  {
+    "days_until_so": {
+      "youtubeLink": "",
+      "tooltipText": "Days until stock out"
+    },
+
+    "expected_inventory": {
+      "youtubeLink": "",
+      "tooltipText": "Expected inventory"
+    },
+
+    "fba_inventory": {
+      "youtubeLink": "",
+      "tooltipText": "FBA Inventory"
+    }
+  },
+
+  {
+    "Create Order": {
+      "youtubeLink": "",
+      "tooltipText": "Create Order"
+    },
+    "Refresh Date": {
+      "youtubeLink": "",
+      "tooltipText": "Refresh Date"
+    },
+    "Export": {
+      "youtubeLink": "",
+      "tooltipText": "Export"
+    },
+    "Expected Inventory": {
+      "youtubeLink": "",
+      "tooltipText": "Expected Inventory"
+    }
+  }
+]

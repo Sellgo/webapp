@@ -6,6 +6,7 @@ import styles from './index.module.scss';
 
 /* Components */
 import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipboard';
+import TooltipWrapper from '../../../../../components/TooltipWrapper';
 
 /* Images */
 import placeholderImage from '../../../../../assets/images/placeholderImage.svg';
@@ -56,14 +57,18 @@ const ProductInformation = (props: RowCell) => {
             <div className={`${styles.circle} ${styles.circle__green}`} />
             {rowData.active_purchase_orders} Orders
           </div>
-          <div className={styles.productMetaDetail}>
-            <div className={`${styles.circle} ${styles.circle__orange}`} />
-            {rowData.fulfillment_channel === 'fba' ? 'FBA' : 'FBM'}
-          </div>
-          <div className={styles.productMetaDetail}>
-            <div className={`${styles.circle} ${styles.circle__blue}`} />
-            {rowData.sku_status === 'active' ? 'Active' : 'Inactive'}
-          </div>
+          <TooltipWrapper tooltipKey="FBA/FBM">
+            <div className={styles.productMetaDetail}>
+              <div className={`${styles.circle} ${styles.circle__orange}`} />
+              {rowData.fulfillment_channel === 'fba' ? 'FBA' : 'FBM'}
+            </div>
+          </TooltipWrapper>
+          <TooltipWrapper tooltipKey="Active/Inactive">
+            <div className={styles.productMetaDetail}>
+              <div className={`${styles.circle} ${styles.circle__blue}`} />
+              {rowData.sku_status === 'active' ? 'Active' : 'Inactive'}
+            </div>
+          </TooltipWrapper>
         </div>
       </div>
     </Table.Cell>
