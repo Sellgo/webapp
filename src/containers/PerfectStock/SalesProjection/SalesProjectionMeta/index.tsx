@@ -70,7 +70,8 @@ const SalesProjectionMeta = (props: Props) => {
       <div className={styles.exportsContainer}>
         {salesProjectionUpdateDate && (
           <button
-            className={styles.refreshButton}
+            id="salesProjectionRefreshButton"
+            className={`${styles.refreshButton}`}
             onClick={refreshSalesProjection}
             disabled={isFetchingProgressForRefresh}
           >

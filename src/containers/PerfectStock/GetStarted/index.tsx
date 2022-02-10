@@ -33,6 +33,7 @@ const GetStarted = (props: Props) => {
           Get Started
         </div>
       }
+      position="top right"
       content={
         <div className={styles.getStartedModal}>
           <p className={styles.getStartedHeader}> GET STARTED </p>
@@ -41,12 +42,12 @@ const GetStarted = (props: Props) => {
             const instructionCompleted = perfectStockGetStartedStatus[instruction.key];
             const onClick = () => {
               history.push(instruction.link);
-              updatePerfectStockGetStartedStatus(instruction.key, true);
               if (instruction.key === 'salesProjectionTour') {
                 updatePerfectStockGetStartedStatus('isSalesProjectionTourRunning', true);
               } else if (instruction.key === 'orderPlanningTour') {
                 updatePerfectStockGetStartedStatus('isOrderPlanningTourRunning', true);
               }
+              updatePerfectStockGetStartedStatus(instruction.key, true);
             };
             return (
               <div

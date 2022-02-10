@@ -27,13 +27,8 @@ import ProgressBar from '../../../components/ProgressBar';
 
 const steps = [
   {
-    target: '.SalesProjectionMeta_refreshButton__c2LxH',
+    target: '#salesProjectionRefreshButton',
     content: 'Step 1',
-    disableBeacon: true,
-  },
-  {
-    target: '.ExpansionCell_expansionCell__1ZRez',
-    content: 'Step 2',
     disableBeacon: true,
   },
 ];
@@ -80,6 +75,7 @@ const SalesProjection = (props: Props) => {
             updatePerfectStockGetStartedStatus('isSalesProjectionTourRunning', false);
           }
         }}
+        scrollToFirstStep={false}
       />
     </main>
   );
