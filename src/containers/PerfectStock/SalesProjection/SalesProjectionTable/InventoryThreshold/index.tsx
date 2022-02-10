@@ -38,7 +38,7 @@ const InventoryThreshold = (props: Props) => {
     updateSalesProjectionProduct({
       id: rowData.id,
       updatePayload: {
-        stockout_threshhold_inventory_included: stockoutThresholdInventory ? 'true' : 'false',
+        stockout_threshold_inventory_included: stockoutThresholdInventory ? 'true' : 'false',
       },
     });
   };
@@ -50,9 +50,9 @@ const InventoryThreshold = (props: Props) => {
           ${styles.inventoryThresholdCell}`}
       >
         <ToggleRadio
-          isToggled={rowData.stockout_threshhold_inventory_included ? true : false}
+          isToggled={rowData.stockout_threshold_inventory_included ? true : false}
           handleChange={() =>
-            handleInventoryThresholdToggle(!rowData.stockout_threshhold_inventory_included)
+            handleInventoryThresholdToggle(!rowData.stockout_threshold_inventory_included)
           }
           label={'Threshold'}
           className={styles.toggleButton}
@@ -65,7 +65,7 @@ const InventoryThreshold = (props: Props) => {
           handleSave={handleSaveInventoryThreshold}
           isNumber
           isPositiveOnly
-          disabled={!rowData.stockout_threshhold_inventory_included}
+          disabled={!rowData.stockout_threshold_inventory_included}
         />
       </div>
     </Table.Cell>

@@ -23,7 +23,7 @@ export interface SalesProjectionUpdatePayload {
     manual_sales?: number;
     projection_mode?: 'manual' | 'predictive';
     stockout_threshold_inventory?: number;
-    stockout_threshhold_inventory_included?: 'true' | 'false';
+    stockout_threshold_inventory_included?: 'true' | 'false';
     weighted_average_included?: 'true' | 'false';
     seasonal_adjustment_included?: 'true' | 'false';
   };
