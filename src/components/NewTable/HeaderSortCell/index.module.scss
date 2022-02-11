@@ -3,13 +3,18 @@
 .headerCell {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: row;
   padding: 0 5px;
   height: 100%;
+  width: 100%;
 
   &:hover {
     background-color: $grey_1;
+  }
+
+  &__alignMiddle {
+    justify-content: center !important;
   }
 }
 
@@ -23,6 +28,10 @@
 
   &__disabled {
     cursor: default;
+  }
+
+  &__alignMiddle {
+    text-align: center !important;
   }
 
   .youtubeLogoTrigger {
@@ -48,7 +57,7 @@
 }
 
 .sortIconGroup {
-  margin-left: 13px;
+  margin-left: 5px;
   color: inherit;
   font-size: 10px !important;
   display: flex;

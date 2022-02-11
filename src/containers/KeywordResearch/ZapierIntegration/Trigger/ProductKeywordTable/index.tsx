@@ -127,7 +127,7 @@ const ProductKeywordTable = (props: Props) => {
           </Table.Column>
           {/* Delete Cell */}
           <Table.Column width={50} verticalAlign="middle" align="left">
-            <Table.HeaderCell></Table.HeaderCell>
+            <Table.HeaderCell />
             <DeleteCell
               dataKey="keyword_track_id"
               deleteMessage="Remove this product from Zapier?"

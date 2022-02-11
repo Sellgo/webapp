@@ -33,6 +33,7 @@ interface Props {
   disabled?: boolean;
   loading?: boolean;
   userOnboardingResources: any;
+  error?: boolean;
 }
 
 const SelectionFilter: React.FC<Props> = props => {
@@ -46,6 +47,7 @@ const SelectionFilter: React.FC<Props> = props => {
     loading = false,
     userOnboardingResources,
     className,
+    error,
   } = props;
 
   const [isFocused, setFocused] = React.useState<boolean>(false);
@@ -69,7 +71,7 @@ const SelectionFilter: React.FC<Props> = props => {
   return (
     <div className={`selectionFilterWrapper ${className}`}>
       {label && (
-        <p>
+        <p className={`${disabled ? 'disabled' : ''}`}>
           {label}
           {/* Youtube On boarding Icon */}
           {enableFilterOnboarding && tooltipText && (
@@ -97,6 +99,7 @@ const SelectionFilter: React.FC<Props> = props => {
         autoComplete={'chrome-off'}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
+        error={error}
       />
     </div>
   );

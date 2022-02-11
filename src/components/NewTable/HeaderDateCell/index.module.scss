@@ -1,0 +1,13 @@
+@import '../../../design-system/new-colors.scss';
+
+.headerDateCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  transform: rotate(90deg);
+  margin-bottom: 5px;
+  color: $grey_8 !important;
+  font-size: 10px !important;
+  font-weight: $fontweight_medium !important;
+}

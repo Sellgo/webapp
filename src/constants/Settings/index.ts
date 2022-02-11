@@ -169,36 +169,61 @@ export const SETTINGS_PAGES = [
     name: 'Profile',
     disabled: false,
     url: '/settings/profile',
+    subPages: [],
   },
   {
     name: 'Subscription',
     disabled: false,
     url: '/settings/pricing',
+    subPages: [],
   },
   {
     name: 'Billing',
     disabled: false,
     url: '/settings/billing',
+    subPages: [],
   },
   {
     name: 'Amazon MWS',
     disabled: false,
     url: '/settings/connectivity',
+    subPages: [],
+  },
+  {
+    name: 'SP Api',
+    disabled: false,
+    url: '/settings/sp-connectivity',
+    subPages: [],
   },
   {
     name: 'API Keys',
     disabled: false,
     url: '/settings/api-keys',
+    subPages: [],
   },
   {
     name: 'User Management',
     disabled: true,
     url: '/settings/user-management',
+    subPages: [],
   },
   {
     name: 'Notification',
     disabled: true,
     url: '/settings/notifications',
+    subPages: [],
+  },
+  {
+    name: 'Perfect Stock',
+    disabled: false,
+    url: '/settings/perfect-stock/lead-time',
+    subPages: [
+      {
+        name: 'Lead Time',
+        disabled: true,
+        url: '/settings/perfect-stock/lead-time',
+      },
+    ],
   },
 ];
 

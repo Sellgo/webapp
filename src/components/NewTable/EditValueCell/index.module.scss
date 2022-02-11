@@ -1,0 +1,26 @@
+@import '../../../design-system/new-colors.scss';
+
+.editValueCellWrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    font-size: 14px;
+    color: $grey_8 !important;
+    font-weight: $fontweight_regular;
+  }
+}
+
+.inputField {
+  min-width: 0;
+
+  input {
+    width: 100%;
+    font-size: 14px;
+    color: $grey_8 !important;
+    font-weight: $fontweight_regular;
+    text-align: center !important;
+  }
+}

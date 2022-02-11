@@ -1,0 +1,38 @@
+@import '../../../../design-system/new-colors';
+
+.modalWrapper {
+  width: 900px !important;
+}
+
+.createOrderBox {
+  min-width: 0 !important;
+  padding: 30px;
+  background: $grey_0;
+  border-radius: 7px;
+
+  h2 {
+    line-height: normal;
+    font-size: 14px;
+    font-weight: $fontweight_semibold;
+    color: $black_1;
+  }
+}
+
+.assignProductsField {
+  > div {
+    width: 500px !important;
+    height: 40px !important;
+  }
+}
+
+.buttonsRow {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 0 18px;
+
+  > div {
+    display: flex;
+  }
+}

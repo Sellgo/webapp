@@ -1,0 +1,217 @@
+import React, { useEffect, useState } from 'react';
+import { Tabs, Tab, TabList, TabPanel } from 'react-tabs';
+import { connect } from 'react-redux';
+
+/* Styling */
+import styles from './index.module.scss';
+
+/* Containers */
+import Inventory from './Inventory';
+import OrderPlanning from './OrderPlanning';
+import SalesProjection from './SalesProjection';
+import MigratingDisplay from './MigratingDisplay';
+import PreMigration from './PreMigration';
+
+/* Components */
+import PageHeader from '../../components/PageHeader';
+import ProductMetaInformation from '../../components/ProductMetaInformation';
+import ProductLabel from '../../components/ProductLabel';
+import GetStarted from './GetStarted';
+
+/* Selectors */
+import { getUserOnboarding, getUserOnboardingResources } from '../../selectors/UserOnboarding';
+
+/* Actions */
+import { setUserOnboardingResources } from '../../actions/UserOnboarding';
+
+/* Constants */
+import {
+  PERFECT_STOCK_PRODUCT_DETAILS,
+  PERFECT_STOCK_PAGES,
+  PERFECT_STOCK_SELLER_STATUS,
+} from '../../constants/PerfectStock';
+import {
+  FALLBACK_ONBOARDING_DETAILS,
+  GENERAL_TUTORIAL_INDEX,
+} from '../../constants/UserOnboarding';
+
+/* Assets */
+import salesProjectionOnboarding from '../../assets/onboardingResources/PerfectStock/salesProjectionOnboarding.json';
+/* eslint-disable-next-line */
+import orderPlanningInventoryOnboarding from '../../assets/onboardingResources/PerfectStock/orderPlanningInventoryOnboarding.json';
+/* eslint-disable-next-line */
+import orderPlanningEditOnboarding from '../../assets/onboardingResources/PerfectStock/orderPlanningEditOnboarding.json';
+import { getSellerSubscription } from '../../selectors/Subscription';
+
+/* Types */
+import { SellerSubscription } from '../../interfaces/Seller';
+
+interface Props {
+  history: any;
+  match: any;
+  setUserOnboardingResources: (payload: any) => void;
+  userOnboarding: boolean;
+  userOnboardingResources: any[];
+  subscription: SellerSubscription;
+}
+
+const PerfectStock: React.FC<Props> = props => {
+  const {
+    match,
+    setUserOnboardingResources,
+    userOnboardingResources,
+    userOnboarding,
+    history,
+    subscription,
+  } = props;
+
+  const [selectedTabList, setSelectedTabList] = useState<number>(0);
+
+  const handleTabChange = (index: number) => {
+    setSelectedTabList(index);
+    history.push(PERFECT_STOCK_PAGES[index]);
+  };
+
+  /* To update tab based on url */
+  useEffect(() => {
+    const currentIndex = PERFECT_STOCK_PAGES.findIndex(
+      (path: string) => path === window.location.pathname
+    );
+
+    /* If on a different tab, redirect to correct tab */
+    if (currentIndex !== selectedTabList) {
+      if (currentIndex === -1) {
+        /* If is on any other page, e.g. /seller-research, or /seller-research/asd, redirect to first product */
+        handleTabChange(0);
+      } else {
+        /* Update tab according to page */
+        handleTabChange(currentIndex);
+      }
+    }
+  }, [match]);
+
+  useEffect(() => {
+    if (selectedTabList === 0) {
+      setUserOnboardingResources(salesProjectionOnboarding);
+    } else if (selectedTabList === 1) {
+      setUserOnboardingResources(orderPlanningInventoryOnboarding);
+    } else {
+      setUserOnboardingResources(orderPlanningEditOnboarding);
+    }
+  }, [selectedTabList]);
+
+  /* User onboarding logic */
+  const tutorialOnboardingDetails = userOnboardingResources[GENERAL_TUTORIAL_INDEX] || {};
+  const showTutorialOnboarding =
+    userOnboarding && Object.keys(tutorialOnboardingDetails).length > 0;
+  const { youtubeLink, displayText } =
+    tutorialOnboardingDetails.Tutorial || FALLBACK_ONBOARDING_DETAILS;
+
+  /* check url */
+  const isEditingOrders = window.location.pathname === PERFECT_STOCK_PAGES[2];
+
+  /* Lock Perfect Stock if user is not migrated */
+  if (
+    subscription.perfect_stock_status === PERFECT_STOCK_SELLER_STATUS.SP_API_FAILED ||
+    subscription.perfect_stock_status === PERFECT_STOCK_SELLER_STATUS.SP_API_CONNECTED ||
+    subscription.perfect_stock_status === PERFECT_STOCK_SELLER_STATUS.MIGRATION_FAILED
+  ) {
+    return <PreMigration match={match} />;
+  } else if (
+    subscription.perfect_stock_status === PERFECT_STOCK_SELLER_STATUS.MIGRATION_IN_PROGRESS
+  ) {
+    return <MigratingDisplay />;
+  }
+
+  return (
+    <>
+      <PageHeader
+        title={`Product Research`}
+        breadcrumb={[
+          { content: 'Home', to: '/' },
+          { content: 'Product Research', to: '/product-research/database' },
+          {
+            content: PERFECT_STOCK_PRODUCT_DETAILS[selectedTabList].name,
+            to: PERFECT_STOCK_PAGES[selectedTabList],
+          },
+        ]}
+        auth={match.params.auth}
+      />
+      <main className={styles.productResearchPage}>
+        {/* Product Meta Information */}
+        <ProductMetaInformation
+          selectedIndex={selectedTabList}
+          informationDetails={PERFECT_STOCK_PRODUCT_DETAILS}
+          showTutorialOnboarding={showTutorialOnboarding}
+          onboardingDisplayText={displayText}
+          onboardingYoutubeLink={youtubeLink}
+          isNewTutorial={true}
+        />
+        {/* Filter product selection */}
+        <section className={styles.productSelectionList}>
+          <Tabs
+            className={styles.productTabs}
+            selectedTabClassName={styles.activeProductTab}
+            onSelect={handleTabChange}
+            selectedIndex={selectedTabList}
+          >
+            <TabList
+              className={`
+              ${styles.productTabList} 
+              ${isEditingOrders ? styles.productTabList__hidden : ''}`}
+            >
+              <Tab>
+                <ProductLabel
+                  label="Sales Estimation"
+                  icon="Sales Estimation"
+                  isActive={selectedTabList === 0}
+                  isBeta
+                />
+              </Tab>
+              <Tab>
+                <ProductLabel
+                  label="Order Planning"
+                  icon="Order Planning"
+                  isActive={selectedTabList === 1}
+                  isBeta
+                />
+              </Tab>
+
+              <Tab />
+            </TabList>
+
+            <TabPanel>
+              <SalesProjection />
+            </TabPanel>
+
+            <TabPanel>
+              <Inventory />
+            </TabPanel>
+
+            <TabPanel>
+              <OrderPlanning />
+            </TabPanel>
+          </Tabs>
+        </section>
+
+        <GetStarted />
+      </main>
+    </>
+  );
+};
+
+const mapStateToProps = (state: any) => {
+  return {
+    userOnboarding: getUserOnboarding(state),
+    userOnboardingResources: getUserOnboardingResources(state),
+    subscription: getSellerSubscription(state),
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setUserOnboardingResources: (payload: any) => dispatch(setUserOnboardingResources(payload)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PerfectStock);

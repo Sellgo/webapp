@@ -36,18 +36,42 @@ const SettingsNav = (props: Props) => {
         <div className={styles.settingsPagesMenu}>
           {SETTINGS_PAGES.map((page: any) => {
             if (!page.disabled) {
+              const isActive = match.path === page.url;
               return (
-                <Link key={page.url} to={page.url} style={{ textDecoration: 'none' }}>
-                  <div
-                    className={
-                      match.path === page.url
-                        ? `${styles.settingPageOption} ${styles.settingPageOption__active}`
-                        : styles.settingPageOption
-                    }
-                  >
-                    {page.name}
-                  </div>
-                </Link>
+                <div className={styles.settingWrapper} key={page.url}>
+                  {/* Main page */}
+                  <Link key={page.url} to={page.url} style={{ textDecoration: 'none' }}>
+                    <div
+                      className={
+                        isActive
+                          ? `${styles.settingPageOption} ${styles.settingPageOption__active}`
+                          : styles.settingPageOption
+                      }
+                    >
+                      {page.name}
+                    </div>
+                  </Link>
+
+                  {/* Sub pages */}
+                  {isActive &&
+                    page.subPages.map((subPage: any) => {
+                      const isActive = match.path === subPage.url;
+                      return (
+                        <Link key={subPage.url} to={subPage.url} style={{ textDecoration: 'none' }}>
+                          <div
+                            className={
+                              isActive
+                                ? `${styles.settingPageOption} 
+                                  ${styles.settingPageOption__small} ${styles.settingPageOption__active}`
+                                : `${styles.settingPageOption} ${styles.settingPageOption__small}`
+                            }
+                          >
+                            {subPage.name}
+                          </div>
+                        </Link>
+                      );
+                    })}
+                </div>
               );
             } else {
               return null;

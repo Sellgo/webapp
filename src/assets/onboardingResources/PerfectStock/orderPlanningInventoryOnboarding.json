@@ -1,0 +1,41 @@
+[
+  {},
+
+  {},
+
+  {
+    "days_until_so": {
+      "youtubeLink": "",
+      "tooltipText": "The Days Until Stockout is the number of Expected Days of Inventory at Amazon based on your current total Expected Domestic Inventory (total FBA Inventory + total 3PL)"
+    },
+
+    "expected_inventory": {
+      "youtubeLink": "",
+      "tooltipText": "The number of expected inventory level on any given day."
+    },
+
+    "fba_inventory": {
+      "youtubeLink": "",
+      "tooltipText": "The number of units you have for an SKU in Amazon fulfillment centers that have been processed: (afn-warehouse-quantity) = (afn-fulfillable-quantity) + (afn-unsellable-quantity) + (afn-reserved-quantity)."
+    }
+  },
+
+  {
+    "Create Order": {
+      "youtubeLink": "",
+      "tooltipText": "Smart Order will automatically recommend the next day of order and how many to order, in order to avoid stockouts"
+    },
+    "Refresh Date": {
+      "youtubeLink": "",
+      "tooltipText": "Refresh Date"
+    },
+    "Export": {
+      "youtubeLink": "",
+      "tooltipText": ""
+    },
+    "Expected Inventory": {
+      "youtubeLink": "",
+      "tooltipText": "The number of expected inventory level on any given day"
+    }
+  }
+]

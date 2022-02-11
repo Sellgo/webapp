@@ -1,0 +1,322 @@
+@import '../../design-system/new-colors';
+
+.timeLine {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  font-size: 12px;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  background: none;
+}
+
+/* Main Area */
+
+.timeLine-main {
+  flex: 1 1 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+  background-color: none;
+}
+
+/* Main Area Header */
+
+.timeLine-main-header-viewPort {
+  flex: 0 0 60px;
+  position: relative;
+  height: 60px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.timeLine-main-header-container {
+  flex: 0 0 60px;
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  user-select: none;
+}
+
+.timeLine-main-header-day-week {
+  flex: 0 0 12px;
+  padding: 4px;
+  z-index: 90;
+}
+
+.timeLine-main-header-day-month {
+  top: 0;
+  position: sticky;
+  flex: 0 0 15px;
+  padding: 5px;
+  z-index: 90;
+}
+
+.timeLine-main-header-time {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  height: 22px;
+  justify-content: stretch;
+}
+
+.timeLine-main-header-time-item {
+  border-left: solid 1px silver;
+  border-bottom: solid 1px silver;
+  border-top: solid 1px silver;
+  text-align: center;
+  padding-top: 5px;
+}
+
+/* Main Area Data */
+
+.timeLine-main-data-viewPort {
+  flex: 1 1 auto;
+  position: relative;
+  overflow: hidden;
+
+  /* ============================================================ */
+
+  /* This is a quick fix to display vertical line background grid */
+
+  /* https://css-tricks.com/how-to-make-repeating-border-images/ */
+
+  /* --------------------- 48px = day width --------------------- */
+
+  /* ============================================================ */
+  background: url('../../assets/images/ganttChartLine.svg') !important;
+  background-size: 48px !important;
+  background-repeat: repeat !important;
+}
+
+.timeLine-main-data-container {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: none;
+}
+
+.timeLine-main-data-row {
+  position: absolute;
+  width: 100%;
+  height: 50px;
+}
+
+.timeLine-main-data-task {
+  position: absolute;
+  background-color: darkorchid;
+  border-radius: 14px;
+  color: white;
+  text-align: center;
+}
+
+.timeLine-main-data-task-side {
+  position: absolute;
+  width: 10px;
+  cursor: col-resize;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.timeLine-main-data-task-side-linker {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  cursor: default;
+  z-index: 100;
+}
+
+.timeLine-main-data-task-side-linker:hover {
+  background-color: black;
+  border: solid 0.5px grey;
+}
+
+.timeLine-main-data-verticalLine {
+  flex: 1 1 auto;
+  height: 100%;
+  width: 24px;
+  background-color: white;
+  border-left-width: 0.5px;
+  border-left-color: rgb(207, 207, 205);
+  border-left-style: dashed;
+}
+
+/* Side Area */
+.timeLine-side-main {
+  position: relative;
+  flex: 0 0 auto;
+  width: 108px;
+  min-width: 108px;
+  display: flex;
+  flex-direction: row;
+}
+
+.timeLine-side {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.verticalResizer {
+  flex: 0 0 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: col-resize;
+  border-right: solid 1px rgb(207, 207, 205);
+  height: 100%;
+}
+
+.squareGrip {
+  flex: 0 0 auto;
+  border-radius: 50%;
+  height: 5px;
+  width: 5px;
+  margin: 3px 0;
+}
+
+.timeLine-side-title {
+  flex: 0 0 60px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+
+  .timeLine-mode-changer {
+    width: 150px !important;
+    min-width: 0 !important;
+    margin-right: 18px;
+
+    > div {
+      width: 150px !important;
+      min-width: 0 !important;
+    }
+  }
+}
+
+.timeLine-side-task-row-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0 10px;
+    border-radius: 3px;
+    margin-left: 5px;
+  }
+}
+
+.timeLine-side-task-viewPort {
+  position: relative;
+  flex: 1 1 auto;
+  height: 100%;
+  background-color: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.timeLine-side-task-container {
+  width: 100%;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.timeLine-side-task-row {
+  position: absolute;
+  padding: '0 10px';
+  width: 100%;
+  background-color: none;
+  height: 30px;
+  padding-right: 10px;
+  color: $grey_8;
+  font-size: 14px;
+  font-weight: $fontweight_medium;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  outline: none;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.timeLine-main-data-sub-task {
+  overflow: hidden;
+  border-radius: 7px;
+  font-size: 12px;
+  color: $prim_white;
+  font-weight: $fontweight_semibold;
+}
+
+/* Timeline task action box */
+.timeLine-actionsPopover {
+  padding: 10px !important;
+  z-index: 99999 !important;
+
+  &::before {
+    display: none !important;
+  }
+}
+
+.timeLine-actionOptions {
+  display: flex;
+  flex-direction: column;
+  min-height: 80px;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  p {
+    margin-top: 18px;
+    margin-bottom: 5px;
+    color: $grey_6 !important;
+    font-size: 12px;
+
+    &:nth-child(1) {
+      margin-top: 0;
+    }
+  }
+
+  button {
+    background: none;
+
+    &:hover {
+      background: $grey_1;
+    }
+  }
+
+  i {
+    color: $grey_6 !important;
+  }
+}
+
+.timeLine-triggerButton {
+  background: none;
+
+  &:hover {
+    background: $grey_1;
+  }
+
+  i {
+    color: $grey_6 !important;
+  }
+}

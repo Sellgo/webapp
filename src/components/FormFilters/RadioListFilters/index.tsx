@@ -25,7 +25,7 @@ type IFilterOptions = {
 interface Props {
   label?: string;
   filterOptions: IFilterOptions[];
-  value: string;
+  value: any;
   handleChange: (value: any) => void;
   userOnboardingResources: any[];
 }

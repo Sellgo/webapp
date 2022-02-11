@@ -1,0 +1,85 @@
+@import '../../../../../design-system/new-colors.scss';
+
+.salesPrediction {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-left: 20px;
+  padding-top: 20px;
+  background: $blue_link_bg_dark;
+}
+
+.salesOptions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.salesResults {
+  color: $prim_white;
+  font-size: 24px;
+  font-weight: $fontweight_bold;
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  .editManualSales {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .textInput {
+    min-width: 70px;
+    width: 100px;
+    margin-right: 10px;
+    margin-bottom: 2px;
+
+    input {
+      color: $black_1 !important;
+      font-size: 24px;
+      font-weight: $fontweight_bold;
+    }
+  }
+
+  .checkIcon,
+  .closeIcon {
+    cursor: pointer;
+    background: $grey_10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    color: $grey_7 !important;
+    font-size: 10px !important;
+
+    &:hover {
+      background: $grey_3;
+    }
+  }
+}
+
+.radioSelection {
+  width: 100px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+
+  label {
+    text-align: left;
+    font-size: 14px;
+    color: $prim_white !important;
+    font-weight: $fontweight_regular !important;
+  }
+
+  &__selected {
+    label {
+      font-weight: $fontweight_semibold !important;
+    }
+  }
+}

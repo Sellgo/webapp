@@ -1,0 +1,46 @@
+[
+  {},
+
+  {},
+
+  {},
+
+  {
+    "Add/Edit Sku": {
+      "youtubeLink": "",
+      "tooltipText": "Add or Edit SKU into the selected order"
+    },
+    "Toggle Show Days Until Stockout": {
+      "youtubeLink": "",
+      "tooltipText": "Switch between inventory level view and inventory calendar view"
+    },
+    "Total Units": {
+      "youtubeLink": "",
+      "tooltipText": "Total units of the selected SKUs to order"
+    },
+    "Total Cartons": {
+      "youtubeLink": "",
+      "tooltipText": "Total cartons of the selected SKUs to order, this number is important to calculate shipping cost"
+    },
+    "Total CBM": {
+      "youtubeLink": "",
+      "tooltipText": "Total cbm of the selected SKUs to order, this number is important to calculate shipping cost"
+    },
+    "Total Gross Weight": {
+      "youtubeLink": "",
+      "tooltipText": "Total gross weight of the selected SKUs to order, this number is important to calculate shipping cost"
+    },
+    "Total Cost w/o Shipping": {
+      "youtubeLink": "",
+      "tooltipText": "Total cost of the selected SKUs before shipping cost"
+    },
+    "Estimated Shipping Cost": {
+      "youtubeLink": "",
+      "tooltipText": "The estimate shipping cost based on the total dimension and weight"
+    },
+    "Total Cost with Shipping": {
+      "youtubeLink": "",
+      "tooltipText": "Final cost of the selected SKUs"
+    }
+  }
+]

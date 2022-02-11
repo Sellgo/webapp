@@ -38,6 +38,15 @@ export const formatCompletedDate = (timestamp: Date) => {
   return `${date}-${month}-${year} \n ${formattedTime}`;
 };
 
+export const getDateOnly = (date: Date) => {
+  /* Get date format into `YYYY-MM-DD` */
+  const dateString = date
+    .toISOString()
+    .substr(0, 10)
+    .replace('T', ' ');
+  return dateString;
+};
+
 export const getHours = (startDate: string) => {
   const end = moment();
   const duration = moment.duration(end.diff(moment(startDate)));

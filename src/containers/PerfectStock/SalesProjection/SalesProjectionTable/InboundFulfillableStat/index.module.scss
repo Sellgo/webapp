@@ -1,0 +1,21 @@
+@import '../../../../../design-system/new-colors.scss';
+
+.inboundFulfillableStat {
+  height: 100%;
+  width: 100%;
+  padding-top: 10px;
+}
+
+.statLabel {
+  margin: 0;
+  font-size: 8px;
+  color: $grey_8;
+  font-weight: $fontweight_medium;
+}
+
+.stat {
+  margin: 0;
+  font-size: 14px;
+  font-weight: $fontweight_semibold;
+  color: $grey_8;
+}

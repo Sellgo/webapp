@@ -6,6 +6,7 @@ export const SET_NOTIFY_ID = 'SET_NOTIFY_ID';
 export const actionTypes = {
   SET_USER_ONBOARDING: 'SET_USER_ONBOARDING',
   SET_USER_ONBOARDING_RESOURCES: 'TOGGLE_USER_BOARDING',
+  SET_PERFECT_STOCK_GET_STARTED_STATUS: 'SET_PERFECT_STOCK_GET_STARTED_STATUS',
 };
 
 export const userOnboarding = [
@@ -71,6 +72,7 @@ export const TABLE_SPECIAL_ONBOARDING_INDEX = 3;
 export const EXPANDED_TABLE_CELL_KEY = 'expandedCell';
 export const COLLAPSE_TABLE_CELL_KEY = 'collapseCell';
 export const EXPORT_KEY = 'Export';
+export const REFRESH_DATA_KEY = 'Refresh';
 
 /* Fallback for table KPI details */
 export const FALLBACK_ONBOARDING_DETAILS = {

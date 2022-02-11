@@ -1,0 +1,39 @@
+@import '../../design-system/new-colors';
+
+.inputWithSaveOptions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  &__large {
+    width: 100px;
+  }
+
+  &__small {
+    width: 70px;
+  }
+}
+
+.textInput {
+  min-width: 0;
+  width: 100%;
+  margin-bottom: 2px;
+
+  &__large {
+    input {
+      height: 30px !important;
+    }
+  }
+
+  &__small {
+    input {
+      height: 25px !important;
+    }
+  }
+
+  input {
+    color: $grey_8 !important;
+    font-size: 14px;
+    font-weight: $fontweight_medium;
+  }
+}
