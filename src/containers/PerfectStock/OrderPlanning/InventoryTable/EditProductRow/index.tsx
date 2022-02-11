@@ -1,28 +1,56 @@
 import React from 'react';
+import { formatNumber, showNAIfZeroOrNull } from '../../../../../utils/format';
 
 /* Styling */
 import styles from './index.module.scss';
 
 /* Components */
 import StatBox from './StatBox';
-import UnitsToOrder from './UnitsToOrder';
 
 interface Props {
   rowData: any;
-  orderId: number;
+  hideDaysUntilStockout?: boolean;
 }
 
 const EditProductRow = (props: Props) => {
-  const { rowData, orderId } = props;
+  const { rowData, hideDaysUntilStockout } = props;
+  const daysToStockOut = showNAIfZeroOrNull(
+    rowData.days_until_so,
+    formatNumber(rowData.days_until_so)
+  );
+
+  const stockOutDate = new Date();
+  stockOutDate.setTime(stockOutDate.getTime() + daysToStockOut * 24 * 60 * 60 * 1000);
   return (
     <div className={styles.editProductRow}>
-      <UnitsToOrder orderId={orderId} rowData={rowData} />
+      {!hideDaysUntilStockout && (
+        <div className={styles.daysUntilStockout}>
+          <p className={styles.stockoutDate}>
+            <span>DUS</span>
+            {stockOutDate.toLocaleDateString() !== 'Invalid Date'
+              ? stockOutDate.toLocaleDateString()
+              : ''}
+          </p>
+          <p className={styles.stockoutNumber}>{daysToStockOut}</p>
+        </div>
+      )}
       <StatBox title={'MOQ'} stat={rowData.moq} />
       <StatBox title={'Cartons'} stat={rowData.carton_count} />
-      <StatBox title={'CBM'} stat={rowData.cbm} append="m3" />
-      <StatBox title={'CFT'} stat={rowData.cft} append="ft3" />
-      <StatBox title={'Weight (KG)'} stat={rowData.weigth_kg} append="kg" asFloat />
-      <StatBox title={'Weight (LBs)'} stat={rowData.weigth_lbs} append="lbs" asFloat />
+      <StatBox
+        title={'CBM'}
+        stat={rowData.cbm}
+        secondStat={rowData.cft}
+        append="m3"
+        secondAppend="ft3"
+      />
+      <StatBox
+        title={'Gross Weight'}
+        stat={rowData.weigth_kg}
+        secondStat={rowData.weigth_lbs}
+        append="kg"
+        secondAppend="lbs"
+        asFloat
+      />
       <StatBox title={'Est. Shipping/ Unit'} stat={rowData.shipping_cost} prepend="$" asFloat />
       <StatBox title={'Cost Per Unit'} stat={rowData.product_cost} prepend="$" asFloat />
       <StatBox

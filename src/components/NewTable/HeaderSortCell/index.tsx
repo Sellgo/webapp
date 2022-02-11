@@ -77,6 +77,8 @@ const HeaderSortCell = (props: Props) => {
           ? styles.onboardingTooltipPopup
           : styles.hideTooltipPopup
       }
+      position="top center"
+      hoverable
       trigger={
         <div
           className={`

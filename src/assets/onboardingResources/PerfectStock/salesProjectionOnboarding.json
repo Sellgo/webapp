@@ -1,22 +1,12 @@
 [
-  {
-    "Tutorial": {
-      "youtubeLink": "",
-      "displayText": ""
-    }
-  },
+  {},
 
-  {
-    "Add Keywords": {
-      "youtubeLink": "",
-      "tooltipText": ""
-    }
-  },
+  {},
 
   {
     "merchant_listing__days_until_so": {
       "youtubeLink": "",
-      "tooltipText": "Days until stock out"
+      "tooltipText": "The Days Until Stockout is the number of Expected Days of Inventory at Amazon based on your current total Expected Domestic Inventory (total FBA Inventory + total 3PL)."
     },
     "fulfillable_fba": {
       "youtubeLink": "",
@@ -24,43 +14,43 @@
     },
     "predictive_sales": {
       "youtubeLink": "",
-      "tooltipText": "Expected Sales"
+      "tooltipText": "The predictive number of sales adjusted for stockout, number can be overrided (User Input)"
     },
     "seasonality_adjustor": {
       "youtubeLink": "",
-      "tooltipText": "Seasonality Adjustor"
+      "tooltipText": "(User Input) Your expected sales calendar built through Expected Daily Sales and Seasonality Adjustor.. Go to settings -> Seasonality Template"
     },
     "inventory_threshold": {
       "youtubeLink": "",
-      "tooltipText": "Inventory Threshold"
+      "tooltipText": "The highly accurate sales forecast by filtering low stock days in the historical inventory levels. Go to Settings -> Inventory History"
     },
     "avg_l90d": {
       "youtubeLink": "",
-      "tooltipText": "Avg last 90 days"
+      "tooltipText": "Average of sales during the last 90 days on Amazon"
     },
     "avg_61d_90d": {
       "youtubeLink": "",
-      "tooltipText": "Avg last 61 - 90 days"
+      "tooltipText": "Average of sales during the last 61-90 days on Amazon"
     },
     "avg_31d_60d": {
       "youtubeLink": "",
-      "tooltipText": "Avg last 31 - 60 days"
+      "tooltipText": "Average of sales during the last 31-60 days on Amazon"
     },
     "avg_l30d": {
       "youtubeLink": "",
-      "tooltipText": "Avg last 30 days"
+      "tooltipText": "Average of sales during the last 30 days on Amazon"
     },
     "avg_l7d": {
       "youtubeLink": "",
-      "tooltipText": "Avg last 7 days"
+      "tooltipText": "Average of sales during the last 7 days on Amazon"
     },
     "avg_n30d_ly": {
       "youtubeLink": "",
-      "tooltipText": "Avg next 30 days last year"
+      "tooltipText": "Average of sales during the next 30 days of last year on Amazon"
     },
     "avg_n90d_ly": {
       "youtubeLink": "",
-      "tooltipText": "Avg next 90 days last year"
+      "tooltipText": "Average of sales during the next 90 days of last year on Amazon"
     }
   },
 
@@ -77,27 +67,27 @@
 
     "Active/Inactive": {
       "youtubeLink": "",
-      "tooltipText": "Active order or inactive order dot in table"
+      "tooltipText": "Inactive product is product without any sales for the last 90 days on Amazon. Go to settings -> SKU settings for more information"
     },
 
     "FBA/FBM": {
       "youtubeLink": "",
-      "tooltipText": "Fbm or fba dot in table"
+      "tooltipText": "The fulfillment type of SKU, FBA = Fulfillment By Amazon, FBM = Fulfillment by Merchant"
     },
 
     "No Projections": {
       "youtubeLink": "",
-      "tooltipText": "No Projections for this period"
+      "tooltipText": "There is no sales during this period due to it has not reached the day of first sale"
     },
 
     "Stock Out": {
       "youtubeLink": "",
-      "tooltipText": "Stock Out for this period"
+      "tooltipText": "There is no sales during this period due to stockout"
     },
 
     "Expected Weekly Sales": {
       "youtubeLink": "",
-      "tooltipText": "Tooltip for Expected Weekly Sales in expansion"
+      "tooltipText": "The weekly sales based on daily sales adjusted for stockout and seasonality adjustor"
     }
   }
 ]

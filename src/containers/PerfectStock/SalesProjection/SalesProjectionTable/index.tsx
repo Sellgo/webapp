@@ -112,7 +112,7 @@ const SalesEstimationTable = (props: Props) => {
           </Table.Column>
 
           {/* Stock out date info  */}
-          <Table.Column width={112} verticalAlign="middle" align="center" sortable>
+          <Table.Column width={112} verticalAlign="middle" align="left" fixed sortable>
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Days Until\nStock Out`}
@@ -207,28 +207,28 @@ const SalesEstimationTable = (props: Props) => {
           <Table.Column width={112} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title="Average Last 61 - 90 Day"
+                title="Average Last 61-90 Days"
                 dataKey="avg_61d_90d"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
                 alignMiddle
               />
             </Table.HeaderCell>
-            <SalesEstimationStat dataKey="avg_61d_90d" daysOffset={-60} />
+            <SalesEstimationStat dataKey="avg_61d_90d" daysOffset={-90} secondaryDaysOffset={-61} />
           </Table.Column>
 
           {/* Average Last 31-60 Day */}
           <Table.Column width={112} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title="Average Last 31 - 60 Day"
+                title="Average Last 31-60 Days"
                 dataKey="avg_31d_60d"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
                 alignMiddle
               />
             </Table.HeaderCell>
-            <SalesEstimationStat dataKey="avg_31d_60d" daysOffset={-30} />
+            <SalesEstimationStat dataKey="avg_31d_60d" daysOffset={-60} secondaryDaysOffset={-31} />
           </Table.Column>
 
           {/* Average Last 30 Day */}

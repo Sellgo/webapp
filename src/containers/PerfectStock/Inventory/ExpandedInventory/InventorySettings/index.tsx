@@ -191,7 +191,7 @@ const InventorySettings = (props: Props) => {
               isPositiveOnly
             />
             <Radio
-              checked={productConfig?.weight_unit === 'Lbs'}
+              checked={productConfig?.weight_unit === 'lbs'}
               onChange={() => {
                 updateInventorySku({ id: productId, weight_unit: 'lbs' });
               }}
@@ -199,7 +199,7 @@ const InventorySettings = (props: Props) => {
               className={styles.radio}
             />
             <Radio
-              checked={productConfig?.weight_unit === 'Kg'}
+              checked={productConfig?.weight_unit === 'kg'}
               onChange={() => {
                 updateInventorySku({ id: productId, weight_unit: 'kg' });
               }}

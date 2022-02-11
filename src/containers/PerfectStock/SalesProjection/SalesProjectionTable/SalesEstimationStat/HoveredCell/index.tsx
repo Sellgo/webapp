@@ -12,22 +12,27 @@ import { ReactComponent as UnlinkIcon } from '../../../../../../assets/images/un
 
 interface Props {
   daysOffset: number;
+  secondaryDaysOffset?: number;
   disabled: boolean;
 }
 
 const HoveredCell = (props: Props) => {
-  const { daysOffset, disabled } = props;
+  const { daysOffset, secondaryDaysOffset, disabled } = props;
 
   /* Generating dates for hovered content */
   let smallerDate;
   let largerDate;
 
   /* Past 90 days etc */
-  if (daysOffset < 0) {
+  if (daysOffset < 0 && !secondaryDaysOffset) {
     smallerDate = new Date();
     smallerDate.setTime(smallerDate.getTime() + daysOffset * 24 * 60 * 60 * 1000);
     largerDate = new Date();
-
+  } else if (daysOffset < 0 && secondaryDaysOffset) {
+    smallerDate = new Date();
+    smallerDate.setTime(smallerDate.getTime() + daysOffset * 24 * 60 * 60 * 1000);
+    largerDate = new Date();
+    largerDate.setTime(largerDate.getTime() + secondaryDaysOffset * 24 * 60 * 60 * 1000);
     /* Next 30 days last year etc */
   } else {
     /* Smaller date is one year before today */

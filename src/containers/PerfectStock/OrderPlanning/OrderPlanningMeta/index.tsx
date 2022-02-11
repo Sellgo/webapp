@@ -7,6 +7,7 @@ import styles from './index.module.scss';
 /* Components */
 import ActionButton from '../../../../components/ActionButton';
 import ToggleRadio from '../../../../components/ToggleRadio';
+import TooltipWrapper from '../../../../components/TooltipWrapper';
 
 /* Assets */
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
@@ -47,17 +48,19 @@ const OrderPlanningMeta = (props: Props) => {
   return (
     <>
       <div className={styles.orderPlanningMeta}>
-        <ActionButton
-          variant="secondary"
-          type="purpleGradient"
-          size="md"
-          className={styles.editSkuButton}
-          onClick={() => setIsEditingSKUs(true)}
-          disabled={!hasActivePurchaseOrder}
-        >
-          <ThinAddIcon />
-          <span>Add/ Edit SKUs</span>
-        </ActionButton>
+        <TooltipWrapper tooltipKey="Add/Edit Sku">
+          <ActionButton
+            variant="secondary"
+            type="purpleGradient"
+            size="md"
+            className={styles.editSkuButton}
+            onClick={() => setIsEditingSKUs(true)}
+            disabled={!hasActivePurchaseOrder}
+          >
+            <ThinAddIcon />
+            <span>Add/ Edit SKUs</span>
+          </ActionButton>
+        </TooltipWrapper>
 
         <ToggleRadio
           isToggled={isShowingDaysUntilStockout}

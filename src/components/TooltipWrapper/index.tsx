@@ -47,6 +47,7 @@ const TooltipWrapper = (props: Props) => {
             {youtubeLink && <YoutubeLogo className={styles.youtubeLogo} onClick={handleClick} />}
           </span>
         }
+        position="top center"
         content={<p className={styles.tooltipMessage}>{tooltipText}</p>}
       />
 

@@ -22,11 +22,10 @@ import {
 /* Components */
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import HeaderDateCell from '../../../../components/NewTable/HeaderDateCell';
+import QuantityToOrder from './QuantityToOrder';
 import ProductInformation from './ProductInformation';
-import StockOutDate from './StockOutDate';
 import InventoryBarCell from './InventoryBarCell';
 import EditProductRow from './EditProductRow';
-import { ReactComponent as ExclaimationIcon } from '../../../../assets/images/exclamation-triangle-solid.svg';
 
 /* Selectors */
 import {
@@ -160,13 +159,13 @@ const InventoryTable = (props: Props) => {
           autoHeight
           rowHeight={90}
           headerHeight={60}
-          rowExpandedHeight={90}
+          rowExpandedHeight={40}
           onSortColumn={handleSortColumn}
           rowKey="sku"
           virtualized
           expandedRowKeys={inventoryResultsIds}
           renderRowExpanded={(rowData: any) => (
-            <EditProductRow orderId={activePurchaseOrder.id} rowData={rowData} />
+            <EditProductRow hideDaysUntilStockout={isShowingDaysUntilStockout} rowData={rowData} />
           )}
           id="orderPlanningStockInventoryTable"
         >
@@ -192,15 +191,15 @@ const InventoryTable = (props: Props) => {
           >
             <Table.HeaderCell>
               <HeaderSortCell
-                title={`Days Until\nStock Out`}
-                dataKey="merchant_listing__days_until_so"
+                title={`Quantity To Order`}
+                dataKey="quantity"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
                 alignMiddle
-                icon={<ExclaimationIcon />}
+                disableSort
               />
             </Table.HeaderCell>
-            <StockOutDate dataKey="merchant_listing__days_until_so" />
+            <QuantityToOrder dataKey="quantity" orderId={activePurchaseOrder.id} />
           </Table.Column>
 
           {/* Render a column for each date from end date to statr date */}

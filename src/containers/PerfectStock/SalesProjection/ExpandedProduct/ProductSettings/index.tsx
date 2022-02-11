@@ -111,6 +111,17 @@ const ExpandedProduct = (props: Props) => {
     }
   }, [weightedAverageSettings, isEditingWeightedAverage]);
 
+  React.useEffect(() => {
+    /* Compare objects */
+    if (
+      JSON.stringify(defaultWeightedAverageSettings) === JSON.stringify(weightedAverageSettings)
+    ) {
+      setIsEditingWeightedAverage(false);
+    } else {
+      setIsEditingWeightedAverage(true);
+    }
+  }, [weightedAverageSettings, defaultWeightedAverageSettings]);
+
   return (
     <div className={styles.expandedProductSettings}>
       <BoxHeader className={styles.settingsBoxHeader}>Calculation Variables</BoxHeader>

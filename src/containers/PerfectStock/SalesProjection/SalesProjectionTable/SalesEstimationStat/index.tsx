@@ -22,10 +22,11 @@ import { updateSalesProjectionProduct } from '../../../../../actions/PerfectStoc
 interface Props extends RowCell {
   updateSalesProjectionProduct: (payload: SalesProjectionUpdatePayload) => void;
   daysOffset: number;
+  secondaryDaysOffset?: number;
 }
 
 const SalesEstimationStat = (props: Props) => {
-  const { daysOffset, updateSalesProjectionProduct, ...otherProps } = props;
+  const { daysOffset, secondaryDaysOffset, updateSalesProjectionProduct, ...otherProps } = props;
   const { rowData, dataKey } = otherProps;
   const [onHovered, setOnHovered] = React.useState<boolean>(false);
 
@@ -80,7 +81,11 @@ const SalesEstimationStat = (props: Props) => {
             <div className={styles.weight}>{weight}%</div>
           </>
         ) : (
-          <HoveredCell daysOffset={daysOffset} disabled={!included} />
+          <HoveredCell
+            daysOffset={daysOffset}
+            secondaryDaysOffset={secondaryDaysOffset}
+            disabled={!included}
+          />
         )}
       </div>
     );
