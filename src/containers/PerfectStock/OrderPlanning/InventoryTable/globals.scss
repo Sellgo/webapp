@@ -68,6 +68,7 @@
       background: $light_gray_background;
       transform: none !important;
       overflow-x: none !important;
+      min-height: 0 !important;
 
       //  Table row property
       .rs-table-row {

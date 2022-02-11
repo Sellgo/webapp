@@ -1,5 +1,4 @@
 import React from 'react';
-import CopyAndLocateClipboard from '../../../CopyAndLocateClipboard';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -37,15 +36,7 @@ const Product: React.FC<Props> = (props: Props) => {
             {/* ASIN and UPC details */}
             <div className={styles.productTitleTextBox}>
               {/* ASIN */}
-              {asin.length > 0 ? (
-                <CopyAndLocateClipboard
-                  data={asin}
-                  link={`http://www.amazon.com/dp/${asin}`}
-                  className={styles.productAsin}
-                />
-              ) : (
-                '-'
-              )}
+              {asin.length > 0 ? <span className={styles.productAsin}> {asin} </span> : '-'}
 
               {/* UPC */}
               <span className={styles.upcText}>{skuName}</span>

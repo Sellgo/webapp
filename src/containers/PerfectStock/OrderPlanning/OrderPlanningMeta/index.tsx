@@ -61,14 +61,15 @@ const OrderPlanningMeta = (props: Props) => {
             <span>Add/ Edit SKUs</span>
           </ActionButton>
         </TooltipWrapper>
-
-        <ToggleRadio
-          isToggled={isShowingDaysUntilStockout}
-          handleChange={() => setIsShowingDaysUntilStockout(!isShowingDaysUntilStockout)}
-          label={
-            isShowingDaysUntilStockout ? 'Hide Days Until Stockout' : 'Show Days Until Stockout'
-          }
-        />
+        <TooltipWrapper tooltipKey="Toggle Show Days Until Stockout">
+          <ToggleRadio
+            isToggled={isShowingDaysUntilStockout}
+            handleChange={() => setIsShowingDaysUntilStockout(!isShowingDaysUntilStockout)}
+            label={
+              isShowingDaysUntilStockout ? 'Hide Days Until Stockout' : 'Show Days Until Stockout'
+            }
+          />
+        </TooltipWrapper>
       </div>
     </>
   );

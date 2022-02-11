@@ -67,16 +67,10 @@
 }
 
 .productAsin {
+  margin-top: 5px;
   font-size: 10px !important;
   font-weight: $fontweight_medium !important;
-  color: $black_1 !important;
-
-  &:hover {
-    text-decoration-color: $black-1 !important;
-    font-size: 10px !important;
-    font-weight: $fontweight_semibold !important;
-    color: $black_1 !important;
-  }
+  color: $grey_8 !important;
 }
 
 .productMetaDetailWrapper {

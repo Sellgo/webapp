@@ -124,7 +124,6 @@ export default class DataTask extends Component {
 
   doTouchStart = (e, mode) => {
     if (!this.props.onUpdateTask) return;
-    console.log('start');
     e.stopPropagation();
     this.dragStart(e.touches[0].clientX, mode);
   };
@@ -205,12 +204,23 @@ export default class DataTask extends Component {
                 background: 'none',
                 color: '#323232',
               };
+              const disabledStyling = {
+                width: `${lengthOfSubTask}%`,
+                height: style.height,
+                background: '#636D76',
+                color: '#fff',
+                opacity: 0.3,
+              };
+              let styling;
+              if (!this.props.item.is_included) {
+                styling = disabledStyling;
+              } else if (this.props.isDraftMode) {
+                styling = draftStyling;
+              } else {
+                styling = inventoryStyling;
+              }
               return (
-                <div
-                  key={id}
-                  style={this.props.isDraftMode ? draftStyling : inventoryStyling}
-                  className="timeLine-main-data-sub-task"
-                >
+                <div key={id} style={styling} className="timeLine-main-data-sub-task">
                   {task.name}
                 </div>
               );
