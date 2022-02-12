@@ -10,7 +10,6 @@
     "@typeform/embed-react": "^1.0.7",
     "@types/chrome": "0.0.128",
     "@types/file-saver": "^2.0.1",
-    "@types/react-datepicker": "^4.3.4",
     "analytics": "^0.3.0",
     "auth0-js": "^9.12.2",
     "auth0-lock": "^11.28.1",
