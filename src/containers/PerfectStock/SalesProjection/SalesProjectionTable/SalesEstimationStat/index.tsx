@@ -34,6 +34,9 @@ const SalesEstimationStat = (props: Props) => {
   const included = rowData[`${dataKey}_included`];
   const weight = formatDecimal(rowData[`${dataKey}_weight`]);
   const label = rowData[`${dataKey}_label`];
+  const totalDays = rowData[`${dataKey}_days_count`];
+  const inStockDays = rowData[`${dataKey}_instock_count`];
+  const inStockPercentage = (inStockDays / totalDays) * 100;
 
   const handleIncludeExcludeStat = () => {
     /* If stat is currently included, update it to be false */
@@ -73,6 +76,20 @@ const SalesEstimationStat = (props: Props) => {
         onClick={handleIncludeExcludeStat}
       >
         <div className={styles.statsDisplayCell}>
+          <div className={styles.inStockDays}>
+            <div
+              className={`
+              ${styles.stockStatus}
+              ${
+                inStockPercentage > 80
+                  ? styles.stockStatus__green
+                  : inStockPercentage > 50
+                  ? styles.stockStatus__yellow
+                  : styles.stockStatus__red
+              }`}
+            />
+            In-stock {inStockDays}/{totalDays}
+          </div>
           <div className={styles.mainStat}>{stat}</div>
           <div className={styles.weight}>{weight}%</div>
         </div>

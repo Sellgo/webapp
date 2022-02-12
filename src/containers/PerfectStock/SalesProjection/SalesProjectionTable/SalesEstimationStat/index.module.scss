@@ -38,7 +38,7 @@
   font-size: 16px;
   font-weight: $fontweight_semibold;
   color: $black_1;
-  margin-top: 35px;
+  margin-top: 18px;
   opacity: 1 !important;
 }
 
@@ -81,4 +81,32 @@
 .stockout {
   background: $system_red;
   color: $prim_white;
+}
+
+.inStockDays {
+  margin-top: 10px;
+  font-size: 8px;
+  color: $grey_8;
+  font-weight: $fontweight_semibold;
+  display: flex;
+  align-items: center;
+
+  .stockStatus {
+    margin-right: 5px;
+    height: 7px;
+    width: 7px;
+    border-radius: 50%;
+
+    &__green {
+      background: $sellgo_neon_green;
+    }
+
+    &__yellow {
+      background: $sellgo_yellow;
+    }
+
+    &__red {
+      background: $system_red;
+    }
+  }
 }
