@@ -14,10 +14,11 @@ interface Props {
   daysOffset: number;
   secondaryDaysOffset?: number;
   disabled: boolean;
+  className?: string;
 }
 
 const HoveredCell = (props: Props) => {
-  const { daysOffset, secondaryDaysOffset, disabled } = props;
+  const { daysOffset, secondaryDaysOffset, disabled, className } = props;
 
   /* Generating dates for hovered content */
   let smallerDate;
@@ -56,7 +57,7 @@ const HoveredCell = (props: Props) => {
     );
   } else {
     return (
-      <div className={styles.hoveredContent}>
+      <div className={`${styles.hoveredContent} ${className}`}>
         <div className={`${styles.date} ${styles.date__dark}`}>
           {prettyPrintDate(smallerDate)} -
           <br />

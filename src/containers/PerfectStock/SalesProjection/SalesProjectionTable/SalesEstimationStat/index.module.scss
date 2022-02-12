@@ -18,6 +18,20 @@
       opacity: 1;
     }
   }
+
+  .hoveredCell {
+    display: none;
+  }
+
+  &:hover {
+    .statsDisplayCell {
+      display: none;
+    }
+
+    .hoveredCell {
+      display: block;
+    }
+  }
 }
 
 .mainStat {

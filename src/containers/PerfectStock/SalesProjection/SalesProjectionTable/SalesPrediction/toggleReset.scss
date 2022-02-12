@@ -16,7 +16,7 @@
 
   /* Checked toggle styles */
   .ui.toggle.checkbox input:checked ~ label::before {
-    background: $accent_orange !important;
+    background: $blue_purple_gradient !important;
   }
 
   .ui.toggle.checkbox input:checked ~ label::after {

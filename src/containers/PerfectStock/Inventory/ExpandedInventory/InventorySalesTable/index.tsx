@@ -81,6 +81,7 @@ const InventorySalesTable = (props: Props) => {
           {showTrends && (
             <>
               <p style={{ height: ROW_HEIGHT }}>Seasonal Trends </p>
+              <p style={{ height: ROW_HEIGHT }}>Order Estimate </p>
             </>
           )}
         </div>

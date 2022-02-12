@@ -88,6 +88,8 @@ const LeadTimeSelection = (props: Props) => {
                 leadTimeGroup => leadTimeGroup.id === createOrderPayload.lead_time_group_id
               )?.lead_times || []
             }
+            showDates
+            startDate={createOrderPayload.date}
           />
         )}
       </div>

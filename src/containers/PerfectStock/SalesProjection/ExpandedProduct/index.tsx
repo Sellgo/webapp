@@ -47,7 +47,7 @@ const ExpandedProduct = (props: Props) => {
   >([]);
   const [isLoadingProductProjectedSales, setIsLoadingProductProjectedSales] = React.useState(false);
   const [timeSettings, setTimeSettings] = React.useState<string>(TIME_SETTING.WEEK);
-  const [showTrends, setShowTrends] = React.useState<boolean>(false);
+  const [showTrends, setShowTrends] = React.useState<boolean>(true);
 
   const sku = rowData.sku;
 

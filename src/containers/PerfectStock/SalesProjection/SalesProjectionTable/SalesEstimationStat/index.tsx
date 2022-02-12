@@ -28,7 +28,6 @@ interface Props extends RowCell {
 const SalesEstimationStat = (props: Props) => {
   const { daysOffset, secondaryDaysOffset, updateSalesProjectionProduct, ...otherProps } = props;
   const { rowData, dataKey } = otherProps;
-  const [onHovered, setOnHovered] = React.useState<boolean>(false);
 
   /* Formatting key stats */
   const stat = showNAIfZeroOrNull(rowData[dataKey], formatRating(rowData[dataKey]));
@@ -71,22 +70,18 @@ const SalesEstimationStat = (props: Props) => {
           ${styles.salesEstimationStatCell}
           ${!included ? styles.salesEstimationStatCell__disabled : ''}
         `}
-        onMouseEnter={() => setOnHovered(true)}
-        onMouseLeave={() => setOnHovered(false)}
         onClick={handleIncludeExcludeStat}
       >
-        {!onHovered ? (
-          <>
-            <div className={styles.mainStat}>{stat}</div>
-            <div className={styles.weight}>{weight}%</div>
-          </>
-        ) : (
-          <HoveredCell
-            daysOffset={daysOffset}
-            secondaryDaysOffset={secondaryDaysOffset}
-            disabled={!included}
-          />
-        )}
+        <div className={styles.statsDisplayCell}>
+          <div className={styles.mainStat}>{stat}</div>
+          <div className={styles.weight}>{weight}%</div>
+        </div>
+        <HoveredCell
+          className={styles.hoveredCell}
+          daysOffset={daysOffset}
+          secondaryDaysOffset={secondaryDaysOffset}
+          disabled={!included}
+        />
       </div>
     );
   }

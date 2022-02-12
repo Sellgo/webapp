@@ -131,6 +131,7 @@ const InventoryTable = (props: Props) => {
       sort: sortColumn,
       sortDir: sortType,
     });
+    setExpandedRowkeys([]);
   }, [activePurchaseOrder, showAllSkus]);
 
   const displayInventoryResults = inventoryTableResults.map((rowData: any) => {
@@ -157,7 +158,7 @@ const InventoryTable = (props: Props) => {
           autoHeight
           rowHeight={90}
           headerHeight={60}
-          rowExpandedHeight={850}
+          rowExpandedHeight={1050}
           onSortColumn={handleSortColumn}
           rowKey="sku"
           virtualized

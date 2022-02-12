@@ -1,11 +1,12 @@
 import React from 'react';
+import { DatePicker } from 'rsuite';
 
 /* Styling */
 import styles from './index.module.scss';
+import './datePickerReset.scss';
 
 /* Components */
 import ActionButton from '../../../../../components/ActionButton';
-import InputFilter from '../../../../../components/FormFilters/InputFilter';
 
 /* Interfaces */
 import { CreateOrderPayload } from '../../../../../interfaces/PerfectStock/OrderPlanning';
@@ -28,14 +29,17 @@ const StartDateSelection = (props: Props) => {
       <div className={styles.createOrderBox}>
         <h2>When would you like to start the first order?*</h2>
         <div className={styles.inputField}>
-          <InputFilter
-            label=""
-            placeholder="Project Start Date"
-            value={createOrderPayload.date}
-            handleChange={(value: string) =>
-              setCreateOrderPayload({ ...createOrderPayload, date: value })
+          <DatePicker
+            selected={createOrderPayload.date ? new Date(createOrderPayload.date) : new Date()}
+            onChange={(date: Date) => {
+              setCreateOrderPayload({
+                ...createOrderPayload,
+                date: date ? date.toISOString().split('T')[0] : '',
+              });
+            }}
+            disabledDate={(date: Date | undefined) =>
+              date ? date.getTime() < new Date().getTime() : false
             }
-            isDate
           />
         </div>
       </div>
