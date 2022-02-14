@@ -129,7 +129,7 @@ const PerfectStock: React.FC<Props> = props => {
         title={`Perfect Stock`}
         breadcrumb={[
           { content: 'Home', to: '/' },
-          { content: 'Perfect Stock', to: '/perfect-stock/sales-estimation' },
+          { content: 'Perfect Stock', to: '/perfect-stock/sales-forecasting' },
           {
             content: PERFECT_STOCK_PRODUCT_DETAILS[selectedTabList].name,
             to: PERFECT_STOCK_PAGES[selectedTabList],
@@ -162,7 +162,7 @@ const PerfectStock: React.FC<Props> = props => {
             >
               <Tab>
                 <ProductLabel
-                  label="Sales Estimation"
+                  label="Sales Forecasting"
                   icon="Sales Estimation"
                   isActive={selectedTabList === 0}
                   isBeta

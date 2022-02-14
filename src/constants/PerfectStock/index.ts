@@ -1,7 +1,7 @@
 export const PERFECT_STOCK_PAGES = [
-  '/perfect-stock/sales-estimation',
-  '/perfect-stock/inventory',
+  '/perfect-stock/sales-forecasting',
   '/perfect-stock/order-planning',
+  '/perfect-stock/order-planning-edit',
 ];
 export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {

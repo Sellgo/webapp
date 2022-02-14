@@ -66,7 +66,6 @@ const ExpandedProduct = (props: Props) => {
   const [weightedAverageSettings, setWeightedAverageSettings] = React.useState<
     WeightedAverageSettings
   >(defaultWeightedAverageSettings);
-  const [weightedAverageError, setWeightedAverageError] = React.useState<boolean>(false);
 
   /* ================================== */
   /* Weighted average settings handlers */
@@ -100,23 +99,6 @@ const ExpandedProduct = (props: Props) => {
     setWeightedAverageSettings(defaultWeightedAverageSettings);
   };
 
-  /* Error checks to ensure that sum of all percentages = 100% */
-  React.useEffect(() => {
-    if (isEditingWeightedAverage) {
-      const weightedAverageSum = Object.values(weightedAverageSettings).reduce((acc, curr) => {
-        return parseInt(acc) + Math.floor(parseInt(curr));
-      });
-
-      if (weightedAverageSum !== 100) {
-        setWeightedAverageError(true);
-      } else {
-        setWeightedAverageError(false);
-      }
-    } else {
-      setWeightedAverageError(false);
-    }
-  }, [weightedAverageSettings, isEditingWeightedAverage]);
-
   React.useEffect(() => {
     /* Compare objects */
     if (
@@ -149,7 +131,6 @@ const ExpandedProduct = (props: Props) => {
             handleChange={(value: string) => handleWeightedAverageUpdate('avg_l90d_weight', value)}
             className={styles.settingInput}
             disabled={!defaultWeightActivated}
-            error={weightedAverageError}
           />
           <SelectionFilter
             label="Average Last 61 - 90 Days"
@@ -161,7 +142,6 @@ const ExpandedProduct = (props: Props) => {
             }
             className={styles.settingInput}
             disabled={!defaultWeightActivated}
-            error={weightedAverageError}
           />
           <SelectionFilter
             label="Average Last 31 - 60 Days"
@@ -173,7 +153,6 @@ const ExpandedProduct = (props: Props) => {
             }
             className={styles.settingInput}
             disabled={!defaultWeightActivated}
-            error={weightedAverageError}
           />
           <SelectionFilter
             label="Average Last 30 Days"
@@ -183,7 +162,6 @@ const ExpandedProduct = (props: Props) => {
             handleChange={(value: string) => handleWeightedAverageUpdate('avg_l30d_weight', value)}
             className={styles.settingInput}
             disabled={!defaultWeightActivated}
-            error={weightedAverageError}
           />
           <SelectionFilter
             label="Average Last 7 Days"
@@ -192,7 +170,6 @@ const ExpandedProduct = (props: Props) => {
             value={weightedAverageSettings.avg_l7d_weight}
             handleChange={(value: string) => handleWeightedAverageUpdate('avg_l7d_weight', value)}
             className={styles.settingInput}
-            error={weightedAverageError}
             disabled={!defaultWeightActivated}
           />
           <SelectionFilter
@@ -205,7 +182,6 @@ const ExpandedProduct = (props: Props) => {
             }
             className={styles.settingInput}
             disabled={!defaultWeightActivated}
-            error={weightedAverageError}
           />
           <SelectionFilter
             label="Average Next 90 Days Last Year"
@@ -217,15 +193,11 @@ const ExpandedProduct = (props: Props) => {
             }
             className={styles.settingInput}
             disabled={!defaultWeightActivated}
-            error={weightedAverageError}
           />
-          {weightedAverageError && (
-            <p className={styles.errorMsg}> Total averages should total up to 100% </p>
-          )}
 
           {isEditingWeightedAverage && (
             <SaveCancelOptions
-              disabled={weightedAverageError}
+              disabled={false}
               className={styles.saveCancelOptions}
               handleSave={handleEditWeightedAverageSave}
               handleCancel={handleEditWeightedAverageCancel}
