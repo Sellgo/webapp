@@ -126,10 +126,10 @@ const PerfectStock: React.FC<Props> = props => {
   return (
     <>
       <PageHeader
-        title={`Product Research`}
+        title={`Perfect Stock`}
         breadcrumb={[
           { content: 'Home', to: '/' },
-          { content: 'Product Research', to: '/product-research/database' },
+          { content: 'Perfect Stock', to: '/perfect-stock/sales-estimation' },
           {
             content: PERFECT_STOCK_PRODUCT_DETAILS[selectedTabList].name,
             to: PERFECT_STOCK_PAGES[selectedTabList],

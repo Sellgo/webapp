@@ -3,10 +3,11 @@
 .editProductRow {
   display: flex;
   height: 100%;
-  padding-left: 350px;
+  padding-left: 376px;
 }
 
 .daysUntilStockout {
+  width: 110px;
   display: flex;
   flex-direction: column;
   align-items: center;

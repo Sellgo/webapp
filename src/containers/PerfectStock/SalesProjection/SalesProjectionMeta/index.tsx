@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Loader } from 'semantic-ui-react';
+import { Checkbox, Loader } from 'semantic-ui-react';
+import { DateRangePicker } from 'rsuite';
 import axios from 'axios';
 
 /* Styling */
@@ -9,6 +10,9 @@ import styles from './index.module.scss';
 /* Components */
 import TableExport from '../../../../components/NewTable/TableExport';
 import TooltipWrapper from '../../../../components/TooltipWrapper';
+import BoxHeader from '../../../../components/BoxHeader';
+import BoxContainer from '../../../../components/BoxContainer';
+import ActionButton from '../../../../components/ActionButton';
 
 /* Assets */
 import { ReactComponent as UndoIcon } from '../../../../assets/images/undoIcon.svg';
@@ -28,6 +32,7 @@ import { downloadFile } from '../../../../utils/download';
 import { AppConfig } from '../../../../config';
 import { sellerIDSelector } from '../../../../selectors/Seller';
 import { error, success } from '../../../../utils/notifications';
+import { getDateOnly } from '../../../../utils/date';
 
 interface Props {
   salesProjectionUpdateDate: string;
@@ -38,12 +43,22 @@ interface Props {
 const SalesProjectionMeta = (props: Props) => {
   const { salesProjectionUpdateDate, refreshSalesProjection, isFetchingProgressForRefresh } = props;
   const [isExportLoading, setExportLoading] = React.useState<boolean>(false);
+  const [isExportConfirmOpen, setExportConfirmOpen] = React.useState<boolean>(false);
+  const [startEndDate, setStartEndDate] = React.useState<any>([undefined, undefined]);
 
   const handleOnExport = async () => {
+    if (!startEndDate[0] || !startEndDate[1]) {
+      error('Please select a start and end date');
+    }
     setExportLoading(true);
+    setExportConfirmOpen(false);
     try {
       const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/perfect-stock/export`;
-      const { data } = await axios.post(url, { type: 'sales' });
+      const { data } = await axios.post(url, {
+        type: 'sales',
+        start_date: getDateOnly(startEndDate[0]),
+        end_date: getDateOnly(startEndDate[1]),
+      });
       const exportUrl = data.report_xlsx_url;
       await downloadFile(exportUrl);
       success('File successfully downloaded');
@@ -94,11 +109,42 @@ const SalesProjectionMeta = (props: Props) => {
           disableExport={false}
           onButtonClick={handleOnExport}
           className={styles.exportOptions}
+          isConfirmOpen={isExportConfirmOpen}
+          setConfirmOpen={setExportConfirmOpen}
+          exportConfirmation={
+            <>
+              <BoxHeader>DOWNLOAD: SALES FORECASTING</BoxHeader>
+              <BoxContainer className={styles.exportConfirmContainer}>
+                <div className={styles.salesForecastDateSelector}>
+                  <Checkbox checked={true} disabled />
+                  <span className={styles.dateSelectorLabel}>Sales Forecast</span>
+                  <DateRangePicker
+                    className={styles.dateRangePicker}
+                    value={startEndDate}
+                    onChange={value => setStartEndDate(value)}
+                  />
+                </div>
+                <ActionButton
+                  variant="primary"
+                  size={'md'}
+                  type="purpleGradient"
+                  onClick={handleOnExport}
+                  className={styles.confirmButton}
+                >
+                  Confirm
+                </ActionButton>
+              </BoxContainer>
+            </>
+          }
           exportContent={
             <>
               <div className={styles.exportOptions}>
                 <span>Export As</span>
-                <button className={styles.exportOption} onClick={handleOnExport} disabled={false}>
+                <button
+                  className={styles.exportOption}
+                  onClick={() => setExportConfirmOpen(true)}
+                  disabled={false}
+                >
                   <XLSXExportImage /> .XLSX
                 </button>
               </div>

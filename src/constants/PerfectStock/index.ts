@@ -5,16 +5,16 @@ export const PERFECT_STOCK_PAGES = [
 ];
 export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
-    name: 'Sales Estimation',
-    desc: 'Sales Estimation.',
-  },
-  {
-    name: 'Inventory',
-    desc: 'Inventory.',
+    name: 'Sales Forecasting',
+    desc: 'Accurately project high seasonal sales',
   },
   {
     name: 'Order Planning',
-    desc: 'Order Planning.',
+    desc: 'Easily create order planning',
+  },
+  {
+    name: 'Order Planning',
+    desc: 'Easily create order planning',
   },
 ];
 

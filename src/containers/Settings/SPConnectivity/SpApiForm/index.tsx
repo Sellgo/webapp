@@ -36,7 +36,7 @@ const SpApiForm = () => {
       const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/sp-api-auth`;
       const res = await axios.get(url);
       const { data } = res;
-      if (data.selling_partner_id && data.mws_auth_token && data.refresh_token) {
+      if (data.selling_partner_id && data.refresh_token) {
         setSpApiId(data.id);
         setAmazonSellerId(data.selling_partner_id);
         setAmazonAuthToken(data.mws_auth_token);

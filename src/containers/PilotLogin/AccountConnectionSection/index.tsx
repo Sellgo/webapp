@@ -14,7 +14,7 @@ import Lightbulb from '../../../assets/images/lightbulb.svg';
 
 const AccountConnectionSection = () => {
   const handleRedirectToConnectivity = () => {
-    history.push('./settings/connectivity?first-time-logged-in=true');
+    history.push('./settings/sp-connectivity?first-time-logged-in=true');
   };
 
   // const handleRedirectToZapier = () => {

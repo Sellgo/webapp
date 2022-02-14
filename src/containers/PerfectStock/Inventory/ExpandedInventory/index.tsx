@@ -79,7 +79,7 @@ const ExpandedInventory = (props: Props) => {
     const endDate = getDateOnly(new Date(dateRange.endDate));
     try {
       /* Fetch either only expected_inventory or both expected_inventory and seasonal adjustment */
-      const EXPANDED_TYPES = 'expected_inventory,seasonal_adjustment,order_estimate';
+      const EXPANDED_TYPES = 'expected_inventory,days_until_so,order_estimate';
       const UNEXPANDED_TYPES = 'expected_inventory';
 
       /* Fetch data from the server */
@@ -107,15 +107,15 @@ const ExpandedInventory = (props: Props) => {
             data: Object.values(attribute.expected_inventory) as number[],
           };
           newGraphProductProjectedSalesData.push(graphDataSeries);
-        } else if (attribute.seasonal_adjustment) {
+        } else if (attribute.days_until_so) {
           /* Add seasonal adjustment to the table data */
-          newProductProjectedSales.push(attribute.seasonal_adjustment);
+          newProductProjectedSales.push(attribute.days_until_so);
 
           /* Add seasonal adjustment to the graph data */
           const graphDataSeries = {
-            name: 'Seasonality Adjustment',
+            name: 'Days Until Stockout',
             type: GRAPH_SETTING_OPTIONS.LINE,
-            data: Object.values(attribute.seasonal_adjustment) as number[],
+            data: Object.values(attribute.days_until_so) as number[],
           };
           newGraphProductProjectedSalesData.push(graphDataSeries);
         } else if (attribute.order_estimate) {

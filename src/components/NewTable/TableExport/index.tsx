@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Loader, Icon, Popup } from 'semantic-ui-react';
+import { Loader, Icon, Popup, Modal } from 'semantic-ui-react';
 
 /* Constants */
 import {
@@ -37,6 +37,9 @@ interface Props {
   disableExport?: boolean;
   sellerSubscription: SellerSubscription;
   hideCTA?: boolean;
+  exportConfirmation?: React.ReactNode;
+  isConfirmOpen?: boolean;
+  setConfirmOpen?: (isOpen: boolean) => void;
 }
 
 const TableExport = (props: Props) => {
@@ -51,6 +54,9 @@ const TableExport = (props: Props) => {
     onButtonClick,
     sellerSubscription,
     hideCTA,
+    exportConfirmation,
+    isConfirmOpen,
+    setConfirmOpen,
   } = props;
 
   const [openPopup, setOpenPopup] = useState(false);
@@ -72,7 +78,11 @@ const TableExport = (props: Props) => {
         onClick={e => {
           e.preventDefault();
           e.stopPropagation();
-          onButtonClick && onButtonClick();
+          if (exportConfirmation && setConfirmOpen) {
+            setConfirmOpen(true);
+          } else {
+            onButtonClick && onButtonClick();
+          }
         }}
         disabled={disableExport || !isExportAllowed}
       >
@@ -120,6 +130,15 @@ const TableExport = (props: Props) => {
             />
           }
           content={exportContent}
+        />
+      )}
+
+      {exportConfirmation && setConfirmOpen && (
+        <Modal
+          open={isConfirmOpen}
+          className={styles.exportConfirmationModal}
+          content={exportConfirmation}
+          onClose={() => setConfirmOpen(false)}
         />
       )}
     </div>

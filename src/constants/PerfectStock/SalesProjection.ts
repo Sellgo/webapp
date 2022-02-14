@@ -16,9 +16,19 @@ export const WEIGHT_OPTIONS = [
     value: '0.00',
   },
   {
+    key: '5%',
+    text: '5%',
+    value: '5.00',
+  },
+  {
     key: '10%',
     text: '10%',
     value: '10.00',
+  },
+  {
+    key: '15%',
+    text: '15%',
+    value: '15.00',
   },
   {
     key: '20%',
@@ -26,9 +36,19 @@ export const WEIGHT_OPTIONS = [
     value: '20.00',
   },
   {
+    key: '25%',
+    text: '25%',
+    value: '25.00',
+  },
+  {
     key: '30%',
     text: '30%',
     value: '30.00',
+  },
+  {
+    key: '35%',
+    text: '35%',
+    value: '35.00',
   },
   {
     key: '40%',
@@ -36,9 +56,19 @@ export const WEIGHT_OPTIONS = [
     value: '40.00',
   },
   {
+    key: '45%',
+    text: '45%',
+    value: '45.00',
+  },
+  {
     key: '50%',
     text: '50%',
     value: '50.00',
+  },
+  {
+    key: '55%',
+    text: '55%',
+    value: '55.00',
   },
   {
     key: '60%',
@@ -46,9 +76,19 @@ export const WEIGHT_OPTIONS = [
     value: '60.00',
   },
   {
+    key: '65%',
+    text: '65%',
+    value: '65.00',
+  },
+  {
     key: '70%',
     text: '70%',
     value: '70.00',
+  },
+  {
+    key: '75%',
+    text: '75%',
+    value: '75.00',
   },
   {
     key: '80%',
@@ -56,9 +96,19 @@ export const WEIGHT_OPTIONS = [
     value: '80.00',
   },
   {
+    key: '85%',
+    text: '85%',
+    value: '85.00',
+  },
+  {
     key: '90%',
     text: '90%',
     value: '90.00',
+  },
+  {
+    key: '95%',
+    text: '95%',
+    value: '95.00',
   },
   {
     key: '100%',
