@@ -5,16 +5,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-}
-
-.statIcon {
-  margin: 18px 0;
-  width: 10px;
-  height: 10px;
+  justify-content: center;
 }
 
 .stat {
   font-size: 24px;
   font-weight: $fontweight_bold;
+}
+
+.revenue {
+  font-size: 14px;
+  font-weight: $fontweight_medium;
+  color: $black_1;
 }

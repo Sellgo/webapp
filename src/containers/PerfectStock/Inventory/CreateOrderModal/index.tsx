@@ -9,9 +9,11 @@ import styles from './index.module.scss';
 /* Components */
 import BoxHeader from '../../../../components/BoxHeader';
 import BoxContainer from '../../../../components/BoxContainer';
+import BoxFooter from '../../../../components/BoxFooter';
 import StartDateSelection from './StartDateSelection';
 import LeadTimeSelection from './LeadTimeSelection';
 import OrderCreated from './OrderCreatedSuccess';
+import { ReactComponent as YoutubeLogo } from '../../../../assets/images/youtubeLogo.svg';
 
 /* Interfaces */
 import {
@@ -83,7 +85,7 @@ const CreateOrder = (props: Props) => {
   }, [open]);
 
   const handleRedirectToDraftOrder = () => {
-    history.push('/perfect-stock/order-planning');
+    history.push('/perfect-stock/order-planning-edit');
     onCloseModal();
   };
 
@@ -128,6 +130,17 @@ const CreateOrder = (props: Props) => {
       <div>
         <BoxHeader>{headerContent}</BoxHeader>
         <BoxContainer className={styles.createOrderContent}>{content}</BoxContainer>
+        <BoxFooter>
+          <a
+            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.youtubeLink}
+          >
+            <YoutubeLogo />
+            &nbsp;How to Create Order | 1-min watch
+          </a>
+        </BoxFooter>
       </div>
     </Modal>
   );

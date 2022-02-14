@@ -19,7 +19,6 @@ import ResetPassword from '../ResetPassword';
 import Onboarding from '../Onboarding';
 import Subscription from '../Settings/Subscription';
 import Billing from '../Settings/Billing';
-import Connectivity from '../Settings/Connectivity';
 import APIConnectivity from '../Settings/APIConnectivity';
 import SPConnectivity from '../Settings/SPConnectivity';
 import SpApiListener from '../Settings/SPConnectivity/SpApiListener';
@@ -120,7 +119,7 @@ const PrivateRoute = connect(
       if (
         isFirstTimeUserLoggedIn &&
         !location.pathname.includes('/account-setup') &&
-        !location.pathname.includes('/settings/connectivity') &&
+        !location.pathname.includes('/settings/sp-connectivity') &&
         !location.pathname.includes('/settings/api-keys')
       ) {
         history.push('/account-setup');
@@ -252,7 +251,6 @@ function App() {
           />
           <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />
           <PrivateRoute exact={true} path="/settings/billing" component={Billing} />
-          <PrivateRoute exact={true} path="/settings/connectivity" component={Connectivity} />
           <PrivateRoute exact={true} path="/settings/sp-connectivity" component={SPConnectivity} />
           <PrivateRoute exact={true} path="/settings/sp-api-listener" component={SpApiListener} />
           <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} />

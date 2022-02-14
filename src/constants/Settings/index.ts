@@ -183,12 +183,12 @@ export const SETTINGS_PAGES = [
     url: '/settings/billing',
     subPages: [],
   },
-  {
-    name: 'Amazon MWS',
-    disabled: false,
-    url: '/settings/connectivity',
-    subPages: [],
-  },
+  // {
+  //   name: 'Amazon MWS',
+  //   disabled: false,
+  //   url: '/settings/connectivity',
+  //   subPages: [],
+  // },
   {
     name: 'SP Api',
     disabled: false,

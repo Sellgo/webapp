@@ -193,7 +193,7 @@ const SalesEstimationTable = (props: Props) => {
           <Table.Column width={112} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title="Average Last 90 Day"
+                title="Average Last 90 Days"
                 dataKey="avg_l90d"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
@@ -235,7 +235,7 @@ const SalesEstimationTable = (props: Props) => {
           <Table.Column width={112} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title="Average Last 30 Day"
+                title="Average Last 30 Days"
                 dataKey="avg_l30d"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
@@ -249,7 +249,7 @@ const SalesEstimationTable = (props: Props) => {
           <Table.Column width={112} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title="Average Last 7 Day"
+                title="Average Last 7 Days"
                 dataKey="avg_l7d"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}

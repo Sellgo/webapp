@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Loader } from 'semantic-ui-react';
+import { Checkbox, Loader } from 'semantic-ui-react';
+import { DateRangePicker } from 'rsuite';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -11,6 +12,8 @@ import ActionButton from '../../../../components/ActionButton';
 import CreateOrderModal from '../CreateOrderModal';
 import TableExport from '../../../../components/NewTable/TableExport';
 import TooltipWrapper from '../../../../components/TooltipWrapper';
+import BoxContainer from '../../../../components/BoxContainer';
+import BoxHeader from '../../../../components/BoxHeader';
 
 /* Assets */
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
@@ -32,6 +35,7 @@ import { sellerIDSelector } from '../../../../selectors/Seller';
 import { downloadFile } from '../../../../utils/download';
 import { error, success } from '../../../../utils/notifications';
 import { AppConfig } from '../../../../config';
+import { getDateOnly } from '../../../../utils/date';
 
 interface Props {
   refreshInventoryTable: () => void;
@@ -43,12 +47,22 @@ const OrderPlanningMeta = (props: Props) => {
   const { refreshInventoryTable, isFetchingProgressForRefresh, inventoryTableUpdateDate } = props;
   const [isExportLoading, setExportLoading] = React.useState<boolean>(false);
   const [isCreatingOrder, setIsCreatingOrder] = React.useState(false);
+  const [isExportConfirmOpen, setExportConfirmOpen] = React.useState<boolean>(false);
+  const [startEndDate, setStartEndDate] = React.useState<any>([undefined, undefined]);
 
   const handleOnExport = async () => {
+    if (!startEndDate[0] || !startEndDate[1]) {
+      error('Please select a start and end date');
+    }
     setExportLoading(true);
+    setExportConfirmOpen(false);
     try {
       const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/perfect-stock/export`;
-      const { data } = await axios.post(url, { type: 'order' });
+      const { data } = await axios.post(url, {
+        type: 'order',
+        start_date: getDateOnly(startEndDate[0]),
+        end_date: getDateOnly(startEndDate[1]),
+      });
       const exportUrl = data.report_xlsx_url;
       if (exportUrl) {
         await downloadFile(exportUrl);
@@ -108,13 +122,44 @@ const OrderPlanningMeta = (props: Props) => {
             label=""
             loading={isExportLoading}
             disableExport={false}
-            onButtonClick={handleOnExport}
+            onButtonClick={() => setExportConfirmOpen(true)}
             className={styles.exportOptions}
+            isConfirmOpen={isExportConfirmOpen}
+            setConfirmOpen={setExportConfirmOpen}
+            exportConfirmation={
+              <>
+                <BoxHeader>DOWNLOAD: ORDER PLANNING</BoxHeader>
+                <BoxContainer className={styles.exportConfirmContainer}>
+                  <div className={styles.salesForecastDateSelector}>
+                    <Checkbox checked={true} disabled />
+                    <span className={styles.dateSelectorLabel}>Past Inventory</span>
+                    <DateRangePicker
+                      className={styles.dateRangePicker}
+                      value={startEndDate}
+                      onChange={value => setStartEndDate(value)}
+                    />
+                  </div>
+                  <ActionButton
+                    variant="primary"
+                    size={'md'}
+                    type="purpleGradient"
+                    onClick={handleOnExport}
+                    className={styles.confirmButton}
+                  >
+                    Confirm
+                  </ActionButton>
+                </BoxContainer>
+              </>
+            }
             exportContent={
               <>
                 <div className={styles.exportOptions}>
                   <span>Export As</span>
-                  <button className={styles.exportOption} onClick={handleOnExport} disabled={false}>
+                  <button
+                    className={styles.exportOption}
+                    onClick={() => setExportConfirmOpen(true)}
+                    disabled={false}
+                  >
                     <XLSXExportImage /> .XLSX
                   </button>
                 </div>

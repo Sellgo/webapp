@@ -27,6 +27,8 @@ interface Props {
   productId: number;
   defaultWeightActivated: boolean;
   defaultWeightL7D: string;
+  defaultWeightL31D60D: string;
+  defaultWeightL61D90D: string;
   defaultWeightL30D: string;
   defaultWeightL90D: string;
   defaultWeightN30D: string;
@@ -45,6 +47,8 @@ const ExpandedProduct = (props: Props) => {
     defaultWeightL90D,
     defaultWeightN30D,
     defaultWeightN90D,
+    defaultWeightL31D60D,
+    defaultWeightL61D90D,
     updateSalesProjectionProduct,
   } = props;
 
@@ -54,13 +58,14 @@ const ExpandedProduct = (props: Props) => {
     avg_l90d_weight: defaultWeightL90D,
     avg_n30d_ly_weight: defaultWeightN30D,
     avg_n90d_ly_weight: defaultWeightN90D,
+    avg_31d_60d_weight: defaultWeightL31D60D,
+    avg_61d_90d_weight: defaultWeightL61D90D,
   };
 
   const [isEditingWeightedAverage, setIsEditingWeightedAverage] = React.useState<boolean>(false);
   const [weightedAverageSettings, setWeightedAverageSettings] = React.useState<
     WeightedAverageSettings
   >(defaultWeightedAverageSettings);
-  const [weightedAverageError, setWeightedAverageError] = React.useState<boolean>(false);
 
   /* ================================== */
   /* Weighted average settings handlers */
@@ -94,23 +99,6 @@ const ExpandedProduct = (props: Props) => {
     setWeightedAverageSettings(defaultWeightedAverageSettings);
   };
 
-  /* Error checks to ensure that sum of all percentages = 100% */
-  React.useEffect(() => {
-    if (isEditingWeightedAverage) {
-      const weightedAverageSum = Object.values(weightedAverageSettings).reduce((acc, curr) => {
-        return parseInt(acc) + Math.floor(parseInt(curr));
-      });
-
-      if (weightedAverageSum !== 100) {
-        setWeightedAverageError(true);
-      } else {
-        setWeightedAverageError(false);
-      }
-    } else {
-      setWeightedAverageError(false);
-    }
-  }, [weightedAverageSettings, isEditingWeightedAverage]);
-
   React.useEffect(() => {
     /* Compare objects */
     if (
@@ -136,37 +124,56 @@ const ExpandedProduct = (props: Props) => {
             className={styles.settingToggle}
           />
           <SelectionFilter
-            label="Average Last 7 Day"
-            placeholder=""
-            filterOptions={WEIGHT_OPTIONS}
-            value={weightedAverageSettings.avg_l7d_weight}
-            handleChange={(value: string) => handleWeightedAverageUpdate('avg_l7d_weight', value)}
-            className={styles.settingInput}
-            error={weightedAverageError}
-            disabled={!defaultWeightActivated}
-          />
-          <SelectionFilter
-            label="Average Last 30 Day"
-            placeholder=""
-            filterOptions={WEIGHT_OPTIONS}
-            value={weightedAverageSettings.avg_l30d_weight}
-            handleChange={(value: string) => handleWeightedAverageUpdate('avg_l30d_weight', value)}
-            className={styles.settingInput}
-            disabled={!defaultWeightActivated}
-            error={weightedAverageError}
-          />
-          <SelectionFilter
-            label="Average Last 90 Day"
+            label="Average Last 90 Days"
             placeholder=""
             filterOptions={WEIGHT_OPTIONS}
             value={weightedAverageSettings.avg_l90d_weight}
             handleChange={(value: string) => handleWeightedAverageUpdate('avg_l90d_weight', value)}
             className={styles.settingInput}
             disabled={!defaultWeightActivated}
-            error={weightedAverageError}
           />
           <SelectionFilter
-            label="Average Next 30 Day Last Year"
+            label="Average Last 61 - 90 Days"
+            placeholder=""
+            filterOptions={WEIGHT_OPTIONS}
+            value={weightedAverageSettings.avg_61d_90d_weight}
+            handleChange={(value: string) =>
+              handleWeightedAverageUpdate('avg_61d_90d_weight', value)
+            }
+            className={styles.settingInput}
+            disabled={!defaultWeightActivated}
+          />
+          <SelectionFilter
+            label="Average Last 31 - 60 Days"
+            placeholder=""
+            filterOptions={WEIGHT_OPTIONS}
+            value={weightedAverageSettings.avg_31d_60d_weight}
+            handleChange={(value: string) =>
+              handleWeightedAverageUpdate('avg_31d_60d_weight', value)
+            }
+            className={styles.settingInput}
+            disabled={!defaultWeightActivated}
+          />
+          <SelectionFilter
+            label="Average Last 30 Days"
+            placeholder=""
+            filterOptions={WEIGHT_OPTIONS}
+            value={weightedAverageSettings.avg_l30d_weight}
+            handleChange={(value: string) => handleWeightedAverageUpdate('avg_l30d_weight', value)}
+            className={styles.settingInput}
+            disabled={!defaultWeightActivated}
+          />
+          <SelectionFilter
+            label="Average Last 7 Days"
+            placeholder=""
+            filterOptions={WEIGHT_OPTIONS}
+            value={weightedAverageSettings.avg_l7d_weight}
+            handleChange={(value: string) => handleWeightedAverageUpdate('avg_l7d_weight', value)}
+            className={styles.settingInput}
+            disabled={!defaultWeightActivated}
+          />
+          <SelectionFilter
+            label="Average Next 30 Days Last Year"
             placeholder=""
             filterOptions={WEIGHT_OPTIONS}
             value={weightedAverageSettings.avg_n30d_ly_weight}
@@ -175,10 +182,9 @@ const ExpandedProduct = (props: Props) => {
             }
             className={styles.settingInput}
             disabled={!defaultWeightActivated}
-            error={weightedAverageError}
           />
           <SelectionFilter
-            label="Average Next 90 Day Last Year"
+            label="Average Next 90 Days Last Year"
             placeholder=""
             filterOptions={WEIGHT_OPTIONS}
             value={weightedAverageSettings.avg_n90d_ly_weight}
@@ -187,15 +193,11 @@ const ExpandedProduct = (props: Props) => {
             }
             className={styles.settingInput}
             disabled={!defaultWeightActivated}
-            error={weightedAverageError}
           />
-          {weightedAverageError && (
-            <p className={styles.errorMsg}> Total averages should total up to 100% </p>
-          )}
 
           {isEditingWeightedAverage && (
             <SaveCancelOptions
-              disabled={weightedAverageError}
+              disabled={false}
               className={styles.saveCancelOptions}
               handleSave={handleEditWeightedAverageSave}
               handleCancel={handleEditWeightedAverageCancel}

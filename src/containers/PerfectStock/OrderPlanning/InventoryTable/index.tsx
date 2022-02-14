@@ -172,7 +172,7 @@ const InventoryTable = (props: Props) => {
           {/* Product Information  */}
           <Table.Column
             /* Calculate width to chart dates to align all the dates, minus 30 for offset from expansion cell */
-            width={(OFFSET_TO_CHART_WIDTH - 30) * (2 / 3)}
+            width={OFFSET_TO_CHART_WIDTH - 112}
             verticalAlign="top"
             align="center"
           >
@@ -185,7 +185,7 @@ const InventoryTable = (props: Props) => {
           {/* Stock out date info  */}
           <Table.Column
             /* Calculate width to chart dates to align all the dates, minus 30 for offset from expansion cell */
-            width={(OFFSET_TO_CHART_WIDTH - 30) * (1 / 3)}
+            width={112}
             verticalAlign="top"
             align="center"
           >

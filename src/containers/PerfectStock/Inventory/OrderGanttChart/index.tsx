@@ -171,7 +171,7 @@ const OrderGanttChart = (props: Props) => {
 
   const handleEditTask = (payload: GanttChartPurchaseOrder) => {
     handleSelectTask(payload);
-    history.push(`/perfect-stock/order-planning`);
+    history.push(`/perfect-stock/order-planning-edit`);
   };
 
   React.useEffect(() => {

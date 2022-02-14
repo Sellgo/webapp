@@ -47,7 +47,7 @@ const ExpandedProduct = (props: Props) => {
   >([]);
   const [isLoadingProductProjectedSales, setIsLoadingProductProjectedSales] = React.useState(false);
   const [timeSettings, setTimeSettings] = React.useState<string>(TIME_SETTING.WEEK);
-  const [showTrends, setShowTrends] = React.useState<boolean>(false);
+  const [showTrends, setShowTrends] = React.useState<boolean>(true);
 
   const sku = rowData.sku;
 
@@ -123,6 +123,8 @@ const ExpandedProduct = (props: Props) => {
         defaultWeightL30D={rowData.avg_l30d_weight}
         defaultWeightL90D={rowData.avg_l90d_weight}
         defaultWeightL7D={rowData.avg_l7d_weight}
+        defaultWeightL61D90D={rowData.avg_61d_90d_weight}
+        defaultWeightL31D60D={rowData.avg_31d_60d_weight}
         defaultWeightN30D={rowData.avg_n30d_ly_weight}
         defaultWeightN90D={rowData.avg_n90d_ly_weight}
       />

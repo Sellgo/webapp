@@ -43,7 +43,7 @@
     .rs-table-row-header {
       border-radius: 0 !important;
       border: none !important;
-      border-bottom: 1px solid $grey_3 !important;
+      border-bottom: none !important;
       background: none !important;
 
       // column header cell
@@ -73,7 +73,7 @@
         //  Table row property
         .rs-table-row {
           // height: 190px !important; //
-          border-bottom: 1px solid $grey_3;
+          border-bottom: none;
 
           /* ============== ZEBRA PATTERN  =============== */
           &:nth-child(2n) {

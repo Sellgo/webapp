@@ -131,6 +131,7 @@ const InventoryTable = (props: Props) => {
       sort: sortColumn,
       sortDir: sortType,
     });
+    setExpandedRowkeys([]);
   }, [activePurchaseOrder, showAllSkus]);
 
   const displayInventoryResults = inventoryTableResults.map((rowData: any) => {
@@ -157,7 +158,7 @@ const InventoryTable = (props: Props) => {
           autoHeight
           rowHeight={90}
           headerHeight={60}
-          rowExpandedHeight={850}
+          rowExpandedHeight={1050}
           onSortColumn={handleSortColumn}
           rowKey="sku"
           virtualized
@@ -178,7 +179,7 @@ const InventoryTable = (props: Props) => {
           {/* Product Information  */}
           <Table.Column
             /* Calculate width to chart dates to align all the dates, minus 30 for offset from expansion cell */
-            width={(OFFSET_TO_CHART_WIDTH - 30) * (2 / 3)}
+            width={OFFSET_TO_CHART_WIDTH - 30 - 112}
             verticalAlign="top"
             align="center"
           >
@@ -191,7 +192,7 @@ const InventoryTable = (props: Props) => {
           {/* Stock out date info  */}
           <Table.Column
             /* Calculate width to chart dates to align all the dates, minus 30 for offset from expansion cell */
-            width={(OFFSET_TO_CHART_WIDTH - 30) * (1 / 3)}
+            width={112}
             verticalAlign="top"
             align="center"
             sortable

@@ -66,6 +66,8 @@ export interface WeightedAverageSettings {
   avg_l90d_weight: string;
   avg_n30d_ly_weight: string;
   avg_n90d_ly_weight: string;
+  avg_61d_90d_weight: string;
+  avg_31d_60d_weight: string;
 }
 
 export interface LeadTime {

@@ -13,6 +13,13 @@ interface Props {
 }
 const ProductSalesGraph = (props: Props) => {
   const { data, timeSetting, xAxisStartDate } = props;
+
+  const dataWithAxisInfo = data.map((item: GraphDataSeries, index) => {
+    return {
+      ...item,
+      yAxis: index,
+    };
+  });
   useEffect(() => {
     const chartMount = document.getElementById('product-sales-graph');
     if (chartMount) {
@@ -26,11 +33,34 @@ const ProductSalesGraph = (props: Props) => {
           text: '',
         },
 
-        yAxis: {
-          title: {
-            text: '',
+        yAxis: [
+          {
+            // left y axis
+            title: {
+              text: null,
+            },
+            labels: {
+              align: 'left',
+              x: 3,
+              y: 16,
+            },
+            showFirstLabel: false,
           },
-        },
+          {
+            // right y axis
+            gridLineWidth: 0,
+            opposite: true,
+            title: {
+              text: null,
+            },
+            labels: {
+              align: 'right',
+              x: 3,
+              y: 16,
+            },
+            showFirstLabel: false,
+          },
+        ],
 
         xAxis: {
           type: 'datetime',
@@ -53,7 +83,7 @@ const ProductSalesGraph = (props: Props) => {
           },
         },
 
-        series: data,
+        series: dataWithAxisInfo,
 
         responsive: {
           rules: [
