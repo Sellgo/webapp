@@ -14,7 +14,7 @@ import Lightbulb from '../../../../assets/images/lightbulb.svg';
 
 const AccountConnectionSection = () => {
   const handleRedirectToConnectivity = () => {
-    history.push('./settings/perfect-stock/lead-time');
+    history.push('/settings/perfect-stock/lead-time');
   };
 
   return (

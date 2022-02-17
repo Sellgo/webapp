@@ -103,10 +103,10 @@ const LeadTime = (props: Props) => {
         <LeadTimeMeta handleAddGroup={handleAddLeadTimeGroup} />
         {isFetchLeadTimeGroupsLoading && <Placeholder numberParagraphs={3} numberRows={5} isGrey />}
         {!isFetchLeadTimeGroupsLoading &&
-          leadTimeGroups.map((leadTimeGroup: SingleLeadTimeGroup) => (
+          leadTimeGroups.map((leadTimeGroup: SingleLeadTimeGroup, index: number) => (
             <LeadTimeGroup
+              key={index}
               handleDeleteLeadTimeGroup={handleDeleteLeadTimeGroup}
-              key={leadTimeGroup.id}
               initialLeadTimeGroup={leadTimeGroup}
             />
           ))}

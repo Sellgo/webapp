@@ -34,16 +34,10 @@ export const LEAD_TIME_OPTIONS = [
     color: '#349AF8',
   },
   {
-    key: 'Ocean Freight',
-    value: 'ocean_freight',
-    text: 'Ocean Freight',
+    key: 'En Route',
+    value: 'en_route',
+    text: 'En Route',
     color: '#5DC560',
-  },
-  {
-    key: 'Ground Freight',
-    value: 'ground_freight',
-    text: 'Ground Freight',
-    color: '#7ED1DC',
   },
   // {
   //   key: '3PL Warehouse',

@@ -21,7 +21,11 @@ const defaultShowCredentials = {
   refreshToken: false,
 };
 
-const SpApiForm = () => {
+interface Props {
+  setIsSpApiAuthenticated?: (isSpApiAuthenticated: boolean) => void;
+}
+const SpApiForm = (props: Props) => {
+  const { setIsSpApiAuthenticated } = props;
   const [deleteConfirmation, setDeleteConfirmation] = useState<boolean>(false);
   const [showCredentials, setShowCredentials] = useState(defaultShowCredentials);
   const [spApiId, setSpApiId] = useState<number>(-1);
@@ -42,8 +46,11 @@ const SpApiForm = () => {
         setAmazonAuthToken(data.mws_auth_token);
         setAmazonRefreshToken(data.refresh_token);
         setIsAuthenticating(false);
+
+        setIsSpApiAuthenticated && setIsSpApiAuthenticated(true);
       }
     } catch (error) {
+      setIsSpApiAuthenticated && setIsSpApiAuthenticated(false);
       console.error(error);
     }
   };
@@ -63,6 +70,7 @@ const SpApiForm = () => {
         setSpApiId(-1);
         setIsAuthenticating(false);
         setShowCredentials(defaultShowCredentials);
+        setIsSpApiAuthenticated && setIsSpApiAuthenticated(false);
       }
     } catch (err) {
       console.error(err);

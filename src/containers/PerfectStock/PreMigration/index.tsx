@@ -25,6 +25,7 @@ interface Props {
 
 const PreMigration = (props: Props) => {
   const { match, fetchSellerSubscription } = props;
+  const [isSpApiAuthenticated, setIsSpApiAuthenticated] = React.useState(false);
 
   const runMigration = async () => {
     try {
@@ -64,13 +65,14 @@ const PreMigration = (props: Props) => {
 
         <div className={styles.row}>
           <div className={styles.spApiFormWrapper}>
-            <SpApiForm />
+            <SpApiForm setIsSpApiAuthenticated={setIsSpApiAuthenticated} />
             <ActionButton
               variant="primary"
               type="purpleGradient"
               size="md"
               onClick={runMigration}
               className={styles.migrationButton}
+              disabled={!isSpApiAuthenticated}
             >
               Start Migration Now
             </ActionButton>

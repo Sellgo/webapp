@@ -118,6 +118,7 @@ const PrivateRoute = connect(
       // Lock user to account set up
       if (
         isFirstTimeUserLoggedIn &&
+        !sellerSubscription.is_aistock &&
         !location.pathname.includes('/account-setup') &&
         !location.pathname.includes('/settings/sp-connectivity') &&
         !location.pathname.includes('/settings/api-keys')
@@ -148,10 +149,16 @@ const PrivateRoute = connect(
         if (requireSubscription && subscriptionId === 5) {
           if (isBetaLabel) {
             history.push('/activate-beta-account');
-          } else {
+          } else if (!sellerSubscription.is_aistock) {
             history.push('/settings/pricing');
           }
         }
+      }
+
+      if (sellerSubscription.is_aistock) {
+        localStorage.setItem('isAiStock', 'true');
+      } else {
+        localStorage.setItem('isAiStock', 'false');
       }
     }, [
       userIsAuthenticated,
@@ -310,7 +317,7 @@ function App() {
             exact={true}
             path="/perfect-stock/:productName"
             component={PerfectStock}
-            requireSubscription={true}
+            requireSubscription={false}
           />
 
           <PrivateRoute
