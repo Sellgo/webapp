@@ -154,12 +154,6 @@ const PrivateRoute = connect(
           }
         }
       }
-
-      if (sellerSubscription.is_aistock) {
-        localStorage.setItem('isAiStock', 'true');
-      } else {
-        localStorage.setItem('isAiStock', 'false');
-      }
     }, [
       userIsAuthenticated,
       sellerSubscription,
