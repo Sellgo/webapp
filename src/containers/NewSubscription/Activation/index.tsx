@@ -236,7 +236,7 @@ const Activation = (props: Props) => {
         if (status === 200) {
           history.push({
             pathname: '/activation/success',
-            state: { email: email, password: password },
+            state: { email: email, password: password, isAiStock: true },
           });
         } else {
           setErrorMessage(`Failed to activate account. Please contact support.`);

@@ -112,6 +112,7 @@ const PerfectStock: React.FC<Props> = props => {
 
   /* Lock Perfect Stock if user is not migrated */
   if (
+    !subscription ||
     subscription.perfect_stock_status === PERFECT_STOCK_SELLER_STATUS.SP_API_FAILED ||
     subscription.perfect_stock_status === PERFECT_STOCK_SELLER_STATUS.SP_API_CONNECTED ||
     subscription.perfect_stock_status === PERFECT_STOCK_SELLER_STATUS.MIGRATION_FAILED ||
