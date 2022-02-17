@@ -28,12 +28,8 @@ export default class Home extends React.Component<any> {
 
     if (redirectPath && redirectPath !== '/') {
       history.replace(redirectPath);
-    } else if (localStorage.getItem('isLoggedIn') === 'true') {
-      if (localStorage.getItem('isAiStock') === 'true') {
-        history.replace('/perfect-stock/sales-forecasting');
-      } else {
-        history.replace('/synthesis');
-      }
+    } else if (isLoggedIn) {
+      history.replace('/perfect-stock/sales-forecasting');
     }
 
     if (location.state && redirectPath && redirectPath.indexOf('/subscription') !== -1) {
