@@ -114,7 +114,8 @@ const PerfectStock: React.FC<Props> = props => {
   if (
     subscription.perfect_stock_status === PERFECT_STOCK_SELLER_STATUS.SP_API_FAILED ||
     subscription.perfect_stock_status === PERFECT_STOCK_SELLER_STATUS.SP_API_CONNECTED ||
-    subscription.perfect_stock_status === PERFECT_STOCK_SELLER_STATUS.MIGRATION_FAILED
+    subscription.perfect_stock_status === PERFECT_STOCK_SELLER_STATUS.MIGRATION_FAILED ||
+    !subscription.perfect_stock_status
   ) {
     return <PreMigration match={match} />;
   } else if (

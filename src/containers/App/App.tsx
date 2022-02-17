@@ -310,7 +310,7 @@ function App() {
             exact={true}
             path="/perfect-stock/:productName"
             component={PerfectStock}
-            requireSubscription={true}
+            requireSubscription={false}
           />
 
           <PrivateRoute

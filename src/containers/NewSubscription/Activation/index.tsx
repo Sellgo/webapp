@@ -9,6 +9,7 @@ import styles from './index.module.scss';
 
 /* Assets */
 import newSellgoLogo from '../../../assets/images/sellgoNewLogo.png';
+import aistockLogo from '../../../assets/images/aistockLogo.png';
 import chromeExtensionExample from '../../../assets/images/chromeExample.png';
 import chromeExtensionIcon from '../../../assets/images/rainbowChromeLogo.svg';
 import Dots from '../../../assets/images/hex-neural.svg';
@@ -45,6 +46,8 @@ interface Props {
 
 const Activation = (props: Props) => {
   const { history, match, termsOfService, privacyPolicy, fetchPP, fetchTOS } = props;
+  const urlParams = new URLSearchParams(window.location.search);
+  const isAiStock = urlParams.has('is-aistock');
   const activationCode = match.params.activationCode;
   const [email, setEmail] = React.useState<string>('');
   const [name, setName] = React.useState<string>('');
@@ -159,7 +162,10 @@ const Activation = (props: Props) => {
         const { data } = response;
         const { email, first_name, last_name } = data;
         setEmail(email);
-        setName(`${first_name} ${last_name}`);
+
+        if (!isAiStock) {
+          setName(`${first_name} ${last_name}`);
+        }
       } catch (err) {
         console.error('Unable to retrieve user information');
         history.push('/');
@@ -183,27 +189,61 @@ const Activation = (props: Props) => {
       setErrorMessage(`Please agree to the terms and conditons.`);
       setLoading(false);
       return;
+    } else if (!name && isAiStock) {
+      setErrorMessage(`Please enter your name.`);
+      setLoading(false);
+      return;
     }
 
-    try {
-      const payload = {
-        email,
-        password,
-        activation_code: activationCode,
-      };
-      const URL = `${AppConfig.BASE_URL_API}checkout/activate`;
-      const response = await axios.post(URL, payload);
-      const { status } = response;
-      if (status === 200) {
-        history.push({
-          pathname: '/activation/success',
-          state: { email: email, password: password },
-        });
-      } else {
+    /* ------------------------------------------------------------------- */
+    /* -------------- ACTIVATION FOR NORMAL SELLGO ACCOUNTS--------------- */
+    /* ------------------------------------------------------------------- */
+    if (!isAiStock) {
+      try {
+        const payload = {
+          email,
+          password,
+          activation_code: activationCode,
+        };
+        const URL = `${AppConfig.BASE_URL_API}checkout/activate`;
+        const response = await axios.post(URL, payload);
+        const { status } = response;
+        if (status === 200) {
+          history.push({
+            pathname: '/activation/success',
+            state: { email: email, password: password },
+          });
+        } else {
+          setErrorMessage(`Failed to activate account. Please contact support.`);
+        }
+      } catch (err) {
         setErrorMessage(`Failed to activate account. Please contact support.`);
       }
-    } catch (err) {
-      setErrorMessage(`Failed to activate account. Please contact support.`);
+    } else {
+      /* ------------------------------------------------------------------- */
+      /* ----------------- ACTIVATION FOR AI STOCK ACCOUNTS----------------- */
+      /* ------------------------------------------------------------------- */
+      try {
+        const payload = {
+          name,
+          email,
+          password,
+          activation_code: activationCode,
+        };
+        const URL = `${AppConfig.BASE_URL_API}checkout/aistock/activate`;
+        const response = await axios.post(URL, payload);
+        const { status } = response;
+        if (status === 200) {
+          history.push({
+            pathname: '/activation/success',
+            state: { email: email, password: password },
+          });
+        } else {
+          setErrorMessage(`Failed to activate account. Please contact support.`);
+        }
+      } catch (err) {
+        setErrorMessage(`Failed to activate account. Please contact support.`);
+      }
     }
     setLoading(false);
   };
@@ -232,10 +272,21 @@ const Activation = (props: Props) => {
         </a>
       </section>
       <section className={styles.activationFormSection}>
-        <img src={newSellgoLogo} className={styles.logo} alt="Sellgo Company Logo" />
+        <img
+          src={isAiStock ? aistockLogo : newSellgoLogo}
+          className={styles.logo}
+          alt="Sellgo Company Logo"
+        />
         <div className={styles.activationForm}>
           <img src={Dots} alt="dots" className={styles.dots} />
           <p className={styles.formHeader}> Set Name &#38; Password </p>
+          {isAiStock && (
+            <p className={styles.formDesc}>
+              Beta Account is only available for 14 days, after expiration we will
+              <br />
+              discard all the data and disconnect your Amazon store link.
+            </p>
+          )}
           <Form.Input
             size="huge"
             label="Your Name"
@@ -243,7 +294,8 @@ const Activation = (props: Props) => {
             placeholder="Your Name"
             value={name}
             className={styles.formInput}
-            disabled
+            onChange={e => setName(e.target.value)}
+            disabled={!isAiStock}
           />
           <Form.Input
             size="huge"
@@ -300,7 +352,7 @@ const Activation = (props: Props) => {
           </div>
           <p className={styles.error}>{errorMessage}</p>
           <button className={styles.submitButton} onClick={handleSubmit} disabled={isLoading}>
-            Register
+            {isAiStock ? 'Activate Your Beta Account' : 'Register'}
           </button>
         </div>
       </section>
