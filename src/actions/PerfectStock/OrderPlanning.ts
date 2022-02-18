@@ -220,6 +220,25 @@ export const fetchPurchaseOrders = () => async (dispatch: any) => {
   dispatch(isLoadingPurchaseOrders(false));
 };
 
+export const generateNextOrder = (payload: any) => async (dispatch: any) => {
+  try {
+    const sellerId = sellerIDSelector();
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/${payload.po_id}/generate-next-order`;
+
+    dispatch(isLoadingPurchaseOrders(true));
+    const { status } = await axios.post(URL, payload);
+
+    if (status === 200) {
+      dispatch(fetchPurchaseOrders());
+    } else {
+      dispatch(isLoadingPurchaseOrders(false));
+    }
+  } catch (err) {
+    dispatch(isLoadingPurchaseOrders(false));
+    console.error('Error fetching sales estimation', err);
+  }
+};
+
 /* Action to update purchase orders */
 export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => async (
   dispatch: any,

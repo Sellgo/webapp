@@ -89,6 +89,10 @@ export class TaskRow extends Component {
                     <Icon name="trash" />
                     <span>Delete Order</span>
                   </button>
+                  <button onClick={() => this.props.generateNextOrder(this.props.item)}>
+                    <Icon name="trash" />
+                    <span>Generate Next Order</span>
+                  </button>
                 </div>
               </>
             }
@@ -134,6 +138,7 @@ export default class TaskList extends Component {
           nonEditable={this.props.nonEditable}
           handleDeleteTask={this.props.handleDeleteTask}
           handleEditTask={this.props.handleEditTask}
+          generateNextOrder={this.props.generateNextOrder}
           handleIncludedToggle={this.props.handleIncludedToggle}
           isDraftMode={this.props.isDraftMode}
         />

@@ -174,6 +174,10 @@ const OrderGanttChart = (props: Props) => {
     history.push(`/perfect-stock/order-planning-edit`);
   };
 
+  const generateNextOrder = async (payload: GanttChartPurchaseOrder) => {
+    console.log(payload);
+  };
+
   React.useEffect(() => {
     fetchPurchaseOrders();
   }, []);
@@ -187,6 +191,7 @@ const OrderGanttChart = (props: Props) => {
           ${hideBottomBorder ? styles.ganttChart__hideBottomBorder : ''}`}
         >
           <TimeLine
+            /* Default Props */
             isLoading={isLoadingPurchaseOrders}
             onUpdateTask={handleUpdateTask}
             data={ganttChartPurchaseOrders}
@@ -213,6 +218,7 @@ const OrderGanttChart = (props: Props) => {
               });
             }}
             isDraftMode={isDraftMode}
+            generateNextOrder={generateNextOrder}
           />
         </div>
       </div>
