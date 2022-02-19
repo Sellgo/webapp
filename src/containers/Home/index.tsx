@@ -29,7 +29,7 @@ export default class Home extends React.Component<any> {
     if (redirectPath && redirectPath !== '/') {
       history.replace(redirectPath);
     } else if (isLoggedIn) {
-      history.replace('/perfect-stock/sales-forecasting');
+      history.replace('/aistock/sales');
     }
 
     if (location.state && redirectPath && redirectPath.indexOf('/subscription') !== -1) {

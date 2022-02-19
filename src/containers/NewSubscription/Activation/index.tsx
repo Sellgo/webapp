@@ -129,7 +129,7 @@ const Activation = (props: Props) => {
     },
     {
       id: 2,
-      stepShow: true,
+      stepShow: false,
       stepClass: lowerUpper.validate(password) ? 'title-success' : 'title-error',
       stepTitle: 'Lowercase and Uppercase',
       stepDescription: 'Contains a capital letter and a non capital letter',
@@ -137,7 +137,7 @@ const Activation = (props: Props) => {
     },
     {
       id: 3,
-      stepShow: true,
+      stepShow: false,
       stepClass: alphanumeric.validate(password) ? 'title-success' : 'title-error',
       stepTitle: 'Alphanumeric',
       stepDescription: 'Contains a number and letter',
@@ -148,7 +148,7 @@ const Activation = (props: Props) => {
       stepShow: true,
       stepClass: Length.validate(password) ? 'title-success' : 'title-error',
       stepTitle: 'Length',
-      stepDescription: 'At least 10 characters',
+      stepDescription: 'At least 6 characters',
       stepIcon: Length.validate(password) ? 'check' : 'times',
     },
   ];
@@ -279,14 +279,9 @@ const Activation = (props: Props) => {
         />
         <div className={styles.activationForm}>
           <img src={Dots} alt="dots" className={styles.dots} />
-          <p className={styles.formHeader}> Set Name &#38; Password </p>
-          {isAiStock && (
-            <p className={styles.formDesc}>
-              Beta Account is only available for 14 days, after expiration we will
-              <br />
-              discard all the data and disconnect your Amazon store link.
-            </p>
-          )}
+          <p className={styles.formHeader}>
+            {!isAiStock ? `Set Name & Password` : `Set Up Your Beta Account`}
+          </p>
           <Form.Input
             size="huge"
             label="Your Name"

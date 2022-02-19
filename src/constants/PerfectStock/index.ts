@@ -1,8 +1,4 @@
-export const PERFECT_STOCK_PAGES = [
-  '/perfect-stock/sales-forecasting',
-  '/perfect-stock/order-planning',
-  '/perfect-stock/order-planning-edit',
-];
+export const PERFECT_STOCK_PAGES = ['/aistock/sales', '/aistock/order', '/aistock/create-order'];
 export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'Sales Forecasting',
@@ -31,25 +27,37 @@ export const LEAD_TIME_OPTIONS = [
     key: 'In Production',
     value: 'in_production',
     text: 'In Production',
-    color: '#349AF8',
+    color: '#349af8',
   },
   {
     key: 'En Route',
     value: 'en_route',
     text: 'En Route',
-    color: '#5DC560',
+    color: '#fc7900',
   },
-  // {
-  //   key: '3PL Warehouse',
-  //   value: '3_pl_warehouse',
-  //   text: '3PL Warehouse',
-  //   color: '#AE8BE7',
-  // },
+  {
+    key: 'Port Arrival',
+    value: 'port_arrival',
+    text: 'Port Arrival',
+    color: '#eb675e',
+  },
+  {
+    key: 'Ground Shipping',
+    value: 'ground_freight',
+    text: 'Ground Shipping',
+    color: '#b318f1',
+  },
+  {
+    key: '3PL Check In',
+    value: 'warehouse_3pl',
+    text: '3PL Check In',
+    color: '#5381db',
+  },
   {
     key: 'FBA Check-in',
     value: 'fba_checkin',
     text: 'FBA Check-in',
-    color: '#EA8731',
+    color: '#5dc560',
   },
 ];
 

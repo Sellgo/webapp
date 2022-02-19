@@ -19,6 +19,9 @@ import TooltipWrapper from '../../../../../components/TooltipWrapper';
 /* Actions */
 import { updateSalesProjectionProduct } from '../../../../../actions/PerfectStock/SalesProjection';
 
+/* Assets */
+import BestSellerLogo from '../../../../../assets/images/medal-solid.svg';
+
 interface Props extends RowCell {
   updateSalesProjectionProduct: (payload: SalesProjectionUpdatePayload) => void;
   daysOffset: number;
@@ -37,6 +40,7 @@ const SalesEstimationStat = (props: Props) => {
   const label = rowData[`${dataKey}_label`];
   const totalDays = rowData[`${dataKey}_days_count`];
   const inStockDays = rowData[`${dataKey}_instock_count`];
+  const isBestSeller = rowData[`${dataKey}_best_seller`];
 
   const handleIncludeExcludeStat = () => {
     /* If stat is currently included, update it to be false */
@@ -75,6 +79,9 @@ const SalesEstimationStat = (props: Props) => {
         `}
         onClick={handleIncludeExcludeStat}
       >
+        {isBestSeller && (
+          <img src={BestSellerLogo} alt="best seller logo" className={styles.bestSellerLogo} />
+        )}
         <div className={styles.statsDisplayCell}>
           <div className={styles.inStockDays}>
             In-stock {inStockDays}/{totalDays}

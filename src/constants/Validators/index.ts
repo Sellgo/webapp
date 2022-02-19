@@ -12,15 +12,7 @@ export const Name = new PasswordValidator()
   .not()
   .symbols();
 
-export const passwordPolicy = new PasswordValidator()
-  .is()
-  .min(10)
-  .has()
-  .uppercase()
-  .has()
-  .lowercase()
-  .has()
-  .digits();
+export const passwordPolicy = new PasswordValidator().is().min(6);
 
 export const strong = new PasswordValidator()
   .is()
@@ -48,7 +40,7 @@ export const alphanumeric = new PasswordValidator()
 
 export const specialCharacters = new PasswordValidator().has().symbols();
 
-export const Length = new PasswordValidator().is().min(10);
+export const Length = new PasswordValidator().is().min(6);
 
 export const postalCode = (code: string, country: any) => {
   return isPostalCode(code, country);

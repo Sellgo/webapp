@@ -256,11 +256,7 @@ function App() {
           <PrivateRoute exact={true} path="/settings/sp-api-listener" component={SpApiListener} />
           <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} />
           <PrivateRoute exact={true} path="/settings/profile" component={Profile} />
-          <PrivateRoute
-            exact={true}
-            path="/settings/perfect-stock/lead-time"
-            component={LeadTime}
-          />
+          <PrivateRoute exact={true} path="/settings/aistock/lead-time" component={LeadTime} />
           <PrivateRoute
             exact={true}
             path="/synthesis"
@@ -309,7 +305,7 @@ function App() {
 
           <PrivateRoute
             exact={true}
-            path="/perfect-stock/:productName"
+            path="/aistock/:productName"
             component={PerfectStock}
             requireSubscription={false}
           />

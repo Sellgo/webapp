@@ -85,7 +85,7 @@ const CreateOrder = (props: Props) => {
   }, [open]);
 
   const handleRedirectToDraftOrder = () => {
-    history.push('/perfect-stock/order-planning-edit');
+    history.push('/aistock/create-order');
     onCloseModal();
   };
 

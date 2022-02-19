@@ -206,8 +206,8 @@ class TimeLine extends Component {
 
   onViewportChange = () => {
     if (this.props.onViewportChange) {
+      this.state.numVisibleDays = this.calcNumVisibleDays(this.state.size);
       const today = new Date();
-
       /* Get start of week date */
       let startDate = new Date(
         today.getFullYear(),
@@ -310,11 +310,13 @@ class TimeLine extends Component {
   };
 
   doMouseLeave = e => {
-    this.dragging = false;
-    // /* THIS IS ADDED FOR SNAPPING TO DAY */
-    this.snapScrollLeft();
-    this.onViewportChange();
-    /* =============================== */
+    if (this.dragging) {
+      this.dragging = false;
+      // /* THIS IS ADDED FOR SNAPPING TO DAY */
+      this.snapScrollLeft();
+      this.onViewportChange();
+      /* =============================== */
+    }
   };
 
   //Child communicating states
@@ -366,13 +368,16 @@ class TimeLine extends Component {
   };
 
   calcNumVisibleDays = size => {
+    this.state.mode = this.props.mode;
+    let newDayWidth = this.getDayWidth(this.state.mode);
+    this.state.dayWidth = newDayWidth;
     return Math.ceil(size.width / this.state.dayWidth) + BUFFER_DAYS;
   };
   checkMode() {
     if (this.props.mode != this.state.mode && this.props.mode) {
-      this.state.mode = this.props.mode;
-      let newDayWidth = this.getDayWidth(this.state.mode);
-      this.state.dayWidth = newDayWidth;
+      // this.state.mode = this.props.mode;
+      // let newDayWidth = this.getDayWidth(this.state.mode);
+      // this.state.dayWidth = newDayWidth;
       this.state.numVisibleDays = this.calcNumVisibleDays(this.state.size);
       //to recalculate the now position we have to see how mwny scroll has happen
       //to do so we calculate the diff of days between current day and now
@@ -384,6 +389,8 @@ class TimeLine extends Component {
         (this.state.currentday * this.state.dayWidth + this.state.nowposition) % this.pxToScroll;
       // we recalculate the new scroll Left value
       this.state.scrollLeft = scrollLeft;
+
+      this.onViewportChange();
     }
   }
   checkNeeeData = () => {
@@ -407,7 +414,14 @@ class TimeLine extends Component {
   /* ADDED */
   componentDidMount() {
     this.snapScrollLeft();
-    this.onViewportChange();
+    // this.onViewportChange();
+  }
+
+  /* Hook for when this.state.size updates */
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.size !== this.state.size) {
+      this.onViewportChange();
+    }
   }
 
   render() {
@@ -438,6 +452,7 @@ class TimeLine extends Component {
             viewFilter={this.props.viewFilter}
             handleIncludedToggle={this.props.handleIncludedToggle}
             handleEditTask={this.props.handleEditTask}
+            generateNextOrder={this.props.generateNextOrder}
             isDraftMode={this.props.isDraftMode}
           />
         </div>
@@ -475,7 +490,7 @@ class TimeLine extends Component {
               onTouchCancel={this.doTouchCancel}
               onSelectItem={this.onSelectItem}
               onUpdateTask={this.props.onUpdateTask}
-              onSelectTask={() => null}
+              onSelectTask={this.props.onSelectTask}
               onTaskChanging={this.onTaskChanging}
               onStartCreateLink={this.onStartCreateLink}
               onFinishCreateLink={this.onFinishCreateLink}
