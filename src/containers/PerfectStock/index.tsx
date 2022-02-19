@@ -131,7 +131,7 @@ const PerfectStock: React.FC<Props> = props => {
         title={`Ai Stock`}
         breadcrumb={[
           { content: 'Home', to: '/' },
-          { content: 'Ai Stock', to: '/ai-stock/sales' },
+          { content: 'Ai Stock', to: '/aistock/sales' },
           {
             content: PERFECT_STOCK_PRODUCT_DETAILS[selectedTabList].name,
             to: PERFECT_STOCK_PAGES[selectedTabList],

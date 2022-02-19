@@ -112,7 +112,7 @@ export class TaskRow extends Component {
                       this.setState({ isPopupOpen: false });
                     }}
                   >
-                    <Icon name="trash" />
+                    <Icon name="clipboard list" />
                     <span>Generate Next Order</span>
                   </button>
                 </div>

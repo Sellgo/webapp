@@ -85,7 +85,7 @@ const CreateOrder = (props: Props) => {
   }, [open]);
 
   const handleRedirectToDraftOrder = () => {
-    history.push('/ai-stock/create-order');
+    history.push('/aistock/create-order');
     onCloseModal();
   };
 

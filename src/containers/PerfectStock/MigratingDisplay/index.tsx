@@ -39,7 +39,7 @@ const MigratingDisplay = (props: Props) => {
           subscription.perfect_stock_status !== PERFECT_STOCK_SELLER_STATUS.MIGRATION_IN_PROGRESS
         ) {
           clearInterval(interval);
-          history.push('/ai-stock/sales');
+          history.push('/aistock/sales');
         }
       }, 2000);
     }

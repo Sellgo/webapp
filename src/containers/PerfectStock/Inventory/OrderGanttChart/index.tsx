@@ -184,7 +184,7 @@ const OrderGanttChart = (props: Props) => {
 
   const handleEditTask = (payload: GanttChartPurchaseOrder) => {
     handleSelectTask(payload);
-    history.push(`/ai-stock/create-order`);
+    history.push(`/aistock/create-order`);
   };
 
   const handleGenerateNextOrder = async (payload: GanttChartPurchaseOrder) => {

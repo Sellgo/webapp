@@ -216,12 +216,12 @@ export const SETTINGS_PAGES = [
   {
     name: 'Perfect Stock',
     disabled: false,
-    url: '/settings/ai-stock/lead-time',
+    url: '/settings/aistock/lead-time',
     subPages: [
       {
         name: 'Lead Time',
         disabled: true,
-        url: '/settings/ai-stock/lead-time',
+        url: '/settings/aistock/lead-time',
       },
     ],
   },

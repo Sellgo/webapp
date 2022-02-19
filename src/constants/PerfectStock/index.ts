@@ -1,4 +1,4 @@
-export const PERFECT_STOCK_PAGES = ['/ai-stock/sales', '/ai-stock/order', '/ai-stock/create-order'];
+export const PERFECT_STOCK_PAGES = ['/aistock/sales', '/aistock/order', '/aistock/create-order'];
 export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'Sales Forecasting',

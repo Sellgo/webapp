@@ -11,20 +11,20 @@
     "youtubeLink": "https://www.youtube.com/watch?v=_Xq-Q-Q-Q-Q",
     "youtubeLabel": "Create Lead Time",
     "key": "createLeadTime",
-    "link": "/settings/ai-stock/lead-time"
+    "link": "/settings/aistock/lead-time"
   },
   {
     "title": "Sales Projection Tour",
     "youtubeLink": "",
     "youtubeLabel": "",
     "key": "salesProjectionTour",
-    "link": "/ai-stock/sales"
+    "link": "/aistock/sales"
   },
   {
     "title": "Order Planning Tour",
     "youtubeLink": "",
     "youtubeLabel": "",
     "key": "orderPlanningTour",
-    "link": "/ai-stock/order"
+    "link": "/aistock/order"
   }
 ]

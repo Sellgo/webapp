@@ -9,7 +9,7 @@ import { ReactComponent as LeftArrow } from '../../../../assets/images/leftArrow
 
 const EditingOrderStatusBanner = () => {
   const handleGoBack = () => {
-    history.push('/ai-stock/order');
+    history.push('/aistock/order');
   };
 
   return (
