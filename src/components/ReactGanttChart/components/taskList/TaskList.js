@@ -22,6 +22,10 @@ export class TaskRow extends Component {
     super(props);
   }
 
+  state = {
+    isPopupOpen: false,
+  };
+
   onChange = value => {
     if (this.props.onUpdateTask) {
       this.props.onUpdateTask(this.props.item, { name: value });
@@ -71,6 +75,9 @@ export class TaskRow extends Component {
         {!isFirstRow && (
           <Popup
             on="click"
+            open={this.state.isPopupOpen}
+            onOpen={() => this.setState({ isPopupOpen: true })}
+            onClose={() => this.setState({ isPopupOpen: false })}
             position="bottom left"
             closeOnDocumentClick
             closeOnEscape
@@ -80,16 +87,31 @@ export class TaskRow extends Component {
                 <div className="timeLine-actionOptions">
                   <p>EDIT</p>
                   {!this.props.isDraftMode && (
-                    <button onClick={() => this.props.handleEditTask(this.props.item)}>
+                    <button
+                      onClick={() => {
+                        this.props.handleEditTask(this.props.item);
+                        this.setState({ isPopupOpen: false });
+                      }}
+                    >
                       <Icon name="pencil" />
                       <span>Edit Order</span>
                     </button>
                   )}
-                  <button onClick={() => this.props.handleDeleteTask(this.props.item)}>
+                  <button
+                    onClick={() => {
+                      this.props.handleDeleteTask(this.props.item);
+                      this.setState({ isPopupOpen: false });
+                    }}
+                  >
                     <Icon name="trash" />
                     <span>Delete Order</span>
                   </button>
-                  <button onClick={() => this.props.generateNextOrder(this.props.item)}>
+                  <button
+                    onClick={() => {
+                      this.props.generateNextOrder(this.props.item);
+                      this.setState({ isPopupOpen: false });
+                    }}
+                  >
                     <Icon name="trash" />
                     <span>Generate Next Order</span>
                   </button>

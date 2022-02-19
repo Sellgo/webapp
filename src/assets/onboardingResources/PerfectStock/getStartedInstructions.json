@@ -11,20 +11,20 @@
     "youtubeLink": "https://www.youtube.com/watch?v=_Xq-Q-Q-Q-Q",
     "youtubeLabel": "Create Lead Time",
     "key": "createLeadTime",
-    "link": "/settings/perfect-stock/lead-time"
+    "link": "/settings/ai-stock/lead-time"
   },
   {
     "title": "Sales Projection Tour",
     "youtubeLink": "",
     "youtubeLabel": "",
     "key": "salesProjectionTour",
-    "link": "/perfect-stock/sales-projection"
+    "link": "/ai-stock/sales"
   },
   {
     "title": "Order Planning Tour",
     "youtubeLink": "",
     "youtubeLabel": "",
     "key": "orderPlanningTour",
-    "link": "/perfect-stock/order-planning"
+    "link": "/ai-stock/order"
   }
 ]

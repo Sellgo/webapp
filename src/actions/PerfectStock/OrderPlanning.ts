@@ -220,15 +220,15 @@ export const fetchPurchaseOrders = () => async (dispatch: any) => {
   dispatch(isLoadingPurchaseOrders(false));
 };
 
-export const generateNextOrder = (payload: any) => async (dispatch: any) => {
+export const generateNextOrder = (purchaseOrderId: number) => async (dispatch: any) => {
   try {
     const sellerId = sellerIDSelector();
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/${payload.po_id}/generate-next-order`;
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/${purchaseOrderId}/generate-next-order`;
 
     dispatch(isLoadingPurchaseOrders(true));
-    const { status } = await axios.post(URL, payload);
+    const { status } = await axios.post(URL);
 
-    if (status === 200) {
+    if (status === 201) {
       dispatch(fetchPurchaseOrders());
     } else {
       dispatch(isLoadingPurchaseOrders(false));

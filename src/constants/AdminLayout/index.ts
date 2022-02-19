@@ -20,10 +20,10 @@ export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
   '/product-research/database',
 
   /* Perfect Stock */
-  '/perfect-stock',
-  '/perfect-stock/order-planning-edit',
-  '/perfect-stock/sales-forecasting',
-  '/perfect-stock/order-planning',
+  '/ai-stock',
+  '/ai-stock/create-order',
+  '/ai-stock/sales',
+  '/ai-stock/order',
 
   '/account-setup',
 ];
@@ -193,9 +193,9 @@ export const OPTIONS: NavOptions = [
     ],
   },
   {
-    label: 'Perfect Stock',
+    label: 'Ai Stock',
     icon: require(`../../assets/images/${NAV_ICONS.PERFECT_STOCK}`),
-    path: '/perfect-stock',
+    path: '/ai-stock',
     isComingSoon: false,
     disabled: false,
     isBeta: true,
@@ -204,7 +204,7 @@ export const OPTIONS: NavOptions = [
         label: 'Sales Forecasting',
         description: 'Sales Forecasting',
         icon: require(`../../assets/images/${NAV_ICONS.SALES_ESTIMATION}`),
-        path: '/perfect-stock/sales-forecasting',
+        path: '/ai-stock/sales',
         disabled: false,
         isBeta: true,
       },
@@ -212,7 +212,7 @@ export const OPTIONS: NavOptions = [
         label: 'Order Planning',
         description: 'Order Planning',
         icon: require(`../../assets/images/${NAV_ICONS.ORDER_PLANNING}`),
-        path: '/perfect-stock/order-planning',
+        path: '/ai-stock/order',
         disabled: false,
         isBeta: true,
       },

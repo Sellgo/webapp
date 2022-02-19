@@ -46,7 +46,7 @@ const HoveredCell = (props: Props) => {
 
   if (disabled) {
     return (
-      <div className={`${styles.hoveredContent} ${styles.hoveredContent__disabled}`}>
+      <div className={`${styles.hoveredContent} ${styles.hoveredContent__disabled} ${className}`}>
         <div className={styles.date}>
           {prettyPrintDate(smallerDate)} -
           <br />

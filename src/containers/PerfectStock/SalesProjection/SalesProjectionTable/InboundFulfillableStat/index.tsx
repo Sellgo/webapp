@@ -13,10 +13,22 @@ const InboundFulfillableStat = (props: RowCell) => {
   return (
     <Table.Cell {...props}>
       <div className={styles.inboundFulfillableStat}>
-        <p className={styles.statLabel}>Fulfillable</p>
-        <p className={styles.stat}>{rowData.fulfillable_fba || '-'}</p>
-        <p className={styles.statLabel}>Inbound</p>
-        <p className={styles.stat}>{rowData.inbound_fba || '-'}</p>
+        <div className={styles.statWrapper}>
+          <p className={styles.statLabel}>Fulfillable</p>
+          <p className={styles.stat}>{rowData.fulfillable_fba || '-'}</p>
+        </div>
+        <div className={styles.statWrapper}>
+          <p className={styles.statLabel}>Transfer</p>
+          <p className={styles.stat}>{rowData.transfer_fba || '-'}</p>
+        </div>
+        <div className={styles.statWrapper}>
+          <p className={styles.statLabel}>Reserved</p>
+          <p className={styles.stat}>{rowData.reserved_fba || '-'}</p>
+        </div>
+        <div className={styles.statWrapper}>
+          <p className={styles.statLabel}>Unfulfillable</p>
+          <p className={styles.stat}>{rowData.unfulfillable_fba || '-'}</p>
+        </div>
       </div>
     </Table.Cell>
   );

@@ -15,6 +15,7 @@ import {
   fetchPurchaseOrders,
   updatePurchaseOrder,
   setActivePurchaseOrder,
+  generateNextOrder,
 } from '../../../../actions/PerfectStock/OrderPlanning';
 
 /* Selectors */
@@ -47,6 +48,7 @@ import {
   EMPTY_GANTT_CHART_PURCHASE_ORDER,
 } from '../../../../constants/PerfectStock/OrderPlanning';
 import { getLeadTimeColor, getLeadTimeName } from '../../../../constants/PerfectStock';
+import { info } from '../../../../utils/notifications';
 
 type IOption = {
   key: string;
@@ -60,6 +62,7 @@ interface Props {
   fetchPurchaseOrders: () => void;
   updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => void;
   setActivePurchaseOrder: (payload: PurchaseOrder) => void;
+  generateNextOrder: (purchaseOrderId: number) => void;
   activePurchaseOrder: GanttChartPurchaseOrder;
   purchaseOrders: PurchaseOrder[];
   isLoadingPurchaseOrders: boolean;
@@ -88,6 +91,7 @@ const OrderGanttChart = (props: Props) => {
     handleChangeFilterOption,
     viewFilter,
     isDraftMode,
+    generateNextOrder,
   } = props;
 
   /* ================================================================ */
@@ -101,9 +105,7 @@ const OrderGanttChart = (props: Props) => {
       );
       const id = purchaseOrder.id;
       const start = new Date(purchaseOrder.date);
-      const end = new Date(
-        start.getTime() + leadTimeDuration * 24 * 60 * 60 * 1000 * (leadTimeDuration || 0)
-      );
+      const end = new Date(start.getTime() + leadTimeDuration * 24 * 60 * 60 * 1000);
       const name = purchaseOrder.number;
       const is_included = purchaseOrder.is_included;
 
@@ -162,20 +164,31 @@ const OrderGanttChart = (props: Props) => {
 
   const handleUpdateTask = (task: any, change: any) => {
     if (getDateOnly(task.start) !== getDateOnly(change.start)) {
+      const duration = Math.round(
+        (change.end.getTime() - change.start.getTime()) / (24 * 60 * 60 * 1000)
+      );
+      let newDate = getDateOnly(change.start);
+
+      /* If the new arrival date is before the current date, then force the arrival date to be today */
+      if (change.end < new Date()) {
+        newDate = getDateOnly(new Date(new Date().getTime() - duration * 24 * 60 * 60 * 1000));
+        info("Orders must arrive before today's date");
+      }
+
       updatePurchaseOrder({
         id: task.id,
-        date: getDateOnly(change.start),
+        date: newDate,
       });
     }
   };
 
   const handleEditTask = (payload: GanttChartPurchaseOrder) => {
     handleSelectTask(payload);
-    history.push(`/perfect-stock/order-planning-edit`);
+    history.push(`/ai-stock/create-order`);
   };
 
-  const generateNextOrder = async (payload: GanttChartPurchaseOrder) => {
-    console.log(payload);
+  const handleGenerateNextOrder = async (payload: GanttChartPurchaseOrder) => {
+    generateNextOrder(payload.id);
   };
 
   React.useEffect(() => {
@@ -218,7 +231,7 @@ const OrderGanttChart = (props: Props) => {
               });
             }}
             isDraftMode={isDraftMode}
-            generateNextOrder={generateNextOrder}
+            generateNextOrder={handleGenerateNextOrder}
           />
         </div>
       </div>
@@ -251,6 +264,9 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     setActivePurchaseOrder: (task: PurchaseOrder) => {
       dispatch(setActivePurchaseOrder(task));
+    },
+    generateNextOrder: (purchaseOrderId: number) => {
+      dispatch(generateNextOrder(purchaseOrderId));
     },
   };
 };

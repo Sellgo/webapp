@@ -310,11 +310,13 @@ class TimeLine extends Component {
   };
 
   doMouseLeave = e => {
-    this.dragging = false;
-    // /* THIS IS ADDED FOR SNAPPING TO DAY */
-    this.snapScrollLeft();
-    this.onViewportChange();
-    /* =============================== */
+    if (this.dragging) {
+      this.dragging = false;
+      // /* THIS IS ADDED FOR SNAPPING TO DAY */
+      this.snapScrollLeft();
+      this.onViewportChange();
+      /* =============================== */
+    }
   };
 
   //Child communicating states
@@ -488,7 +490,7 @@ class TimeLine extends Component {
               onTouchCancel={this.doTouchCancel}
               onSelectItem={this.onSelectItem}
               onUpdateTask={this.props.onUpdateTask}
-              onSelectTask={() => null}
+              onSelectTask={this.props.onSelectTask}
               onTaskChanging={this.onTaskChanging}
               onStartCreateLink={this.onStartCreateLink}
               onFinishCreateLink={this.onFinishCreateLink}

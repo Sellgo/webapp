@@ -3,19 +3,31 @@
 .inboundFulfillableStat {
   height: 100%;
   width: 100%;
-  padding-top: 10px;
+  padding-top: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.statWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .statLabel {
+  width: 50px;
   margin: 0;
   font-size: 8px;
   color: $grey_8;
   font-weight: $fontweight_medium;
+  text-align: left;
 }
 
 .stat {
+  width: 40px;
   margin: 0;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: $fontweight_semibold;
   color: $grey_8;
 }
