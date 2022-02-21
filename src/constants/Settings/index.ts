@@ -214,7 +214,7 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
-    name: 'Perfect Stock',
+    name: 'AiStock',
     disabled: false,
     url: '/settings/aistock/lead-time',
     subPages: [
