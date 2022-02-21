@@ -39,7 +39,6 @@ export interface SellerSubscription {
   is_payment_pending?: boolean;
   is_aistock?: boolean;
   perfect_stock_status: string;
-  is_aistock?: boolean;
 }
 
 export interface Merchant {
