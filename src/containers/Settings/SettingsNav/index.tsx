@@ -14,16 +14,38 @@ import { SETTINGS_PAGES } from '../../../constants/Settings';
 /* Utils */
 import { isFirstTimeLoggedIn } from '../../../utils/subscriptions';
 
+/* Types */
+import { SellerSubscription } from '../../../interfaces/Seller';
+import { getSellerSubscription } from '../../../selectors/Subscription';
+import { connect } from 'react-redux';
+
 interface Props {
   match: any;
+  sellerSubscription: SellerSubscription;
 }
 
 const SettingsNav = (props: Props) => {
-  const { match } = props;
+  const { match, sellerSubscription } = props;
   const firstTimeLoggedIn = isFirstTimeLoggedIn();
+  const isAiStock = sellerSubscription.is_aistock;
   const handleGoBack = () => {
     history.goBack();
   };
+
+  /* Disabling settings based on seller subscription */
+  const filteredSettingsPages = SETTINGS_PAGES.map(page => {
+    if (
+      (page.name === 'Subscription' || page.name === 'Billing' || page.name === 'API Keys') &&
+      isAiStock
+    ) {
+      return {
+        ...page,
+        disabled: true,
+      };
+    } else {
+      return page;
+    }
+  });
 
   return (
     <div className={styles.settingsNav}>
@@ -34,7 +56,7 @@ const SettingsNav = (props: Props) => {
 
       {!firstTimeLoggedIn && (
         <div className={styles.settingsPagesMenu}>
-          {SETTINGS_PAGES.map((page: any) => {
+          {filteredSettingsPages.map((page: any) => {
             if (!page.disabled) {
               const isActive = match.path === page.url;
               return (
@@ -83,4 +105,10 @@ const SettingsNav = (props: Props) => {
   );
 };
 
-export default SettingsNav;
+const mapStateToProps = (state: any) => {
+  return {
+    sellerSubscription: getSellerSubscription(state),
+  };
+};
+
+export default connect(mapStateToProps)(SettingsNav);

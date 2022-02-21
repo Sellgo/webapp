@@ -52,6 +52,7 @@ const AdminHeader = (props: Props) => {
   } = props;
   const { email, first_name, last_name } = profile;
   const isBeta = isBetaAccount(sellerSubscription);
+  const isAiStock = sellerSubscription.is_aistock;
   const [openConfirm, setOpenConfirm] = React.useState<boolean>(false);
   const open = () => setOpenConfirm(true);
 
@@ -110,7 +111,7 @@ const AdminHeader = (props: Props) => {
               as={Link}
               to="/settings/pricing"
               className="dropdownItem"
-              disabled={isBeta}
+              disabled={isBeta || isAiStock}
             >
               <img src={PlansIcon} alt="plans-icon" />
               Plans
@@ -119,7 +120,7 @@ const AdminHeader = (props: Props) => {
               as={Link}
               to="/settings/billing"
               className="dropdownItem"
-              disabled={isBeta}
+              disabled={isBeta || isAiStock}
             >
               <img src={BillingIcon} alt="billing-icon" />
               Billing
@@ -137,7 +138,7 @@ const AdminHeader = (props: Props) => {
               as={Link}
               to="/settings/api-keys"
               className="dropdownItem"
-              disabled={isBeta}
+              disabled={isBeta || isAiStock}
             >
               <img src={KeyIcon} alt="key-icon" />
               API Keys
