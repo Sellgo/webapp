@@ -33,7 +33,7 @@ const PreMigration = (props: Props) => {
         AppConfig.BASE_URL_API
       }sellers/${sellerIDSelector()}/perfect-stock/run-init-migration`;
       const payload = {
-        is_mock: false,
+        is_mock: true,
       };
       const { status } = await axios.post(url, payload);
 
