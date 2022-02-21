@@ -67,6 +67,10 @@ export const isBetaAccount = (sellerSubscription: SellerSubscription) => {
   );
 };
 
+export const isAiStock = (sellerSubscription: SellerSubscription) => {
+  return sellerSubscription.is_aistock;
+};
+
 /* Convert from text readable plan name to key format plan name */
 export const convertPlanNameToKey = (planType: string) => {
   const planTypeWithoutSpaces = planType.split(' ').join('');
