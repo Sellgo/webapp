@@ -109,6 +109,10 @@ const Sidebar = (props: Props) => {
       newNavOptions = handleDisableNavOption('Keyword Research', newNavOptions);
     }
 
+    if (!isAiStock) {
+      newNavOptions = handleDisableNavOption('Ai Stock', newNavOptions);
+    }
+
     setNavOptions(newNavOptions);
   }, []);
 
