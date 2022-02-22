@@ -161,7 +161,7 @@ function CheckoutForm(props: MyProps) {
     try {
       /* Verify email */
       const { status: verifyEmailStatus } = await Axios.get(
-        `${AppConfig.BASE_URL_API}checkout/verify-email/${email}`
+        `${AppConfig.BASE_URL_API}checkout/verify-email/${email.toLowerCase()}`
       );
 
       if (verifyEmailStatus !== 200) {
@@ -196,7 +196,7 @@ function CheckoutForm(props: MyProps) {
       /* Make stripe payment */
       const paymentMethodId = paymentMethod.id;
       const bodyFormData = new FormData();
-      bodyFormData.set('email', email);
+      bodyFormData.set('email', email.toLowerCase());
       bodyFormData.set('subscription_id', String(getSubscriptionID(accountType)));
       bodyFormData.set('payment_method_id', paymentMethodId);
       bodyFormData.set('payment_mode', paymentMode);
@@ -239,7 +239,7 @@ function CheckoutForm(props: MyProps) {
         const data = new TextEncoder().encode(stripeSubscription.id);
         const hashBuffer = await crypto.subtle.digest('SHA-256', data);
         const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashString = `${btoa(email)}${hashArray
+        const hashString = `${btoa(email.toLowerCase())}${hashArray
           .map(b => b.toString(16).padStart(2, '0'))
           .join('')}`;
 
@@ -257,7 +257,7 @@ function CheckoutForm(props: MyProps) {
         auth.webAuth.signup(
           {
             connection: 'Username-Password-Authentication',
-            email: email,
+            email: email.toLowerCase(),
             password: randomPassword,
             userMetadata: {
               first_name: firstName,
@@ -272,7 +272,7 @@ function CheckoutForm(props: MyProps) {
               return;
             } else {
               const data: any = {
-                email: email.trim(), // trim out white spaces to prevent 500
+                email: email.trim().toLowerCase(), // trim out white spaces to prevent 500
                 name: firstName + ' ' + lastName,
                 first_name: firstName,
                 last_name: lastName,
