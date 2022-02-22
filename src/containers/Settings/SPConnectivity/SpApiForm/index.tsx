@@ -91,7 +91,9 @@ const SpApiForm = (props: Props) => {
     /* open google.com in new tab */
     const url =
       `https://sellercentral.amazon.com/apps/authorize/consent?` +
-      `application_id=amzn1.sp.solution.c327c81c-4762-4457-9066-fc41e0d5cc6c&state=${randomString}`;
+      `application_id=amzn1.sp.solution.c327c81c-4762-4457-9066-fc41e0d5cc6c` +
+      `&state=${randomString}` +
+      `&redirect_uri=${AppConfig.BASE_URL}/settings/sp-api-listener`;
     window.open(url, '_blank');
     setIsAuthenticating(true);
   };
@@ -130,7 +132,7 @@ const SpApiForm = (props: Props) => {
           {' '}
           Please grant Amazon MWS and Amazon Seller Central access for each market.{' '}
         </p>
-        {amazonSellerId && amazonAuthToken ? (
+        {amazonSellerId ? (
           <div className={styles.mwsFormGrid}>
             <Icon
               name="trash alternate"
@@ -163,31 +165,33 @@ const SpApiForm = (props: Props) => {
                 />
               }
             />
-            <Form.Input
-              className={styles.formInput}
-              label={
-                <div className={styles.formLabel}>
-                  <span>MWS Auth Token &nbsp;</span>
-                </div>
-              }
-              placeholder="Looks like amzn.mws.9eb48bhd-3e5n-f315-d34d-8dfa825fb711"
-              value={amazonAuthToken}
-              type={showCredentials.authToken ? 'text' : 'password'}
-              name="token"
-              readOnly={true}
-              icon={
-                <Icon
-                  link
-                  name={showCredentials.authToken ? 'eye' : 'eye slash'}
-                  onClick={() =>
-                    setShowCredentials({
-                      ...showCredentials,
-                      authToken: !showCredentials.authToken,
-                    })
-                  }
-                />
-              }
-            />
+            {amazonAuthToken && (
+              <Form.Input
+                className={styles.formInput}
+                label={
+                  <div className={styles.formLabel}>
+                    <span>MWS Auth Token &nbsp;</span>
+                  </div>
+                }
+                placeholder="Looks like amzn.mws.9eb48bhd-3e5n-f315-d34d-8dfa825fb711"
+                value={amazonAuthToken}
+                type={showCredentials.authToken ? 'text' : 'password'}
+                name="token"
+                readOnly={true}
+                icon={
+                  <Icon
+                    link
+                    name={showCredentials.authToken ? 'eye' : 'eye slash'}
+                    onClick={() =>
+                      setShowCredentials({
+                        ...showCredentials,
+                        authToken: !showCredentials.authToken,
+                      })
+                    }
+                  />
+                }
+              />
+            )}
             <Form.Input
               className={styles.formInput}
               label={
