@@ -91,7 +91,9 @@ const SpApiForm = (props: Props) => {
     /* open google.com in new tab */
     const url =
       `https://sellercentral.amazon.com/apps/authorize/consent?` +
-      `application_id=amzn1.sp.solution.c327c81c-4762-4457-9066-fc41e0d5cc6c&state=${randomString}`;
+      `application_id=amzn1.sp.solution.c327c81c-4762-4457-9066-fc41e0d5cc6c` +
+      `&state=${randomString}` +
+      `&redirect_uri=${AppConfig.BASE_URL}/settings/sp-api-listener`;
     window.open(url, '_blank');
     setIsAuthenticating(true);
   };
