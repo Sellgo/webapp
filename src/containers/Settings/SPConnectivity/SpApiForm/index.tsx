@@ -132,7 +132,7 @@ const SpApiForm = (props: Props) => {
           {' '}
           Please grant Amazon MWS and Amazon Seller Central access for each market.{' '}
         </p>
-        {amazonSellerId && amazonAuthToken ? (
+        {amazonSellerId ? (
           <div className={styles.mwsFormGrid}>
             <Icon
               name="trash alternate"
