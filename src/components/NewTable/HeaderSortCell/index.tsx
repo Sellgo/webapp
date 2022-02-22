@@ -36,17 +36,21 @@ interface Props {
   userOnboarding: boolean;
   userOnboardingResources: any[];
   disableSort?: boolean;
+  alignMiddle?: boolean;
+  icon?: React.ReactNode;
 }
 
 const HeaderSortCell = (props: Props) => {
   const {
     title,
     dataKey,
+    alignMiddle,
     currentSortColumn,
     currentSortType,
     userOnboarding,
     userOnboardingResources,
     disableSort,
+    icon,
   } = props;
 
   /* Generating sort icon */
@@ -73,15 +77,25 @@ const HeaderSortCell = (props: Props) => {
           ? styles.onboardingTooltipPopup
           : styles.hideTooltipPopup
       }
+      position="top center"
+      hoverable
       trigger={
-        <div className={styles.headerCell}>
+        <div
+          className={`
+          ${styles.headerCell}
+          ${alignMiddle ? styles.headerCell__alignMiddle : ''}
+        `}
+        >
           <p
             className={`
               ${styles.headerText} 
               ${disableSort ? styles.headerText__disabled : ''}
+              ${alignMiddle ? styles.headerText__alignMiddle : ''}
             `}
             style={isCurrentlySorted ? sortedStyles : defaultStyles}
           >
+            {icon}
+            <br />
             {title}
 
             {/* Youtube On boarding Icon */}

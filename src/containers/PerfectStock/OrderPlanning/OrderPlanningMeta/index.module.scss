@@ -1,0 +1,27 @@
+
+@import '../../../../design-system/new-colors';
+
+.orderPlanningMeta {
+  margin-top: 18px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.editSkuButton {
+  width: 150px;
+
+  /* Styling for plus icon */
+  svg {
+    margin-right: 8px;
+
+    path {
+      fill: $grey_8 !important;
+    }
+  }
+
+  &:hover {
+    path {
+      fill: $prim_white !important;
+    }
+  }
+}

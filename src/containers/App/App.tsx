@@ -19,8 +19,9 @@ import ResetPassword from '../ResetPassword';
 import Onboarding from '../Onboarding';
 import Subscription from '../Settings/Subscription';
 import Billing from '../Settings/Billing';
-import Connectivity from '../Settings/Connectivity';
 import APIConnectivity from '../Settings/APIConnectivity';
+import SPConnectivity from '../Settings/SPConnectivity';
+import SpApiListener from '../Settings/SPConnectivity/SpApiListener';
 import Profile from '../Settings/Profile';
 import NewSubscription from '../NewSubscription';
 import PaymentSuccess from '../NewSubscription/PaymentSuccess';
@@ -33,6 +34,8 @@ import FailedPaymentsBanner from '../../components/FailedPaymentsBanner';
 import SellerResearch from '../SellerResearch';
 import ProductResearch from '../ProductResearch';
 import KeywordResearch from '../KeywordResearch';
+import PerfectStock from '../PerfectStock';
+import LeadTime from '../Settings/PerfectStockSettings/LeadTime';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import { isBetaAccount } from '../../utils/subscriptions';
@@ -115,8 +118,9 @@ const PrivateRoute = connect(
       // Lock user to account set up
       if (
         isFirstTimeUserLoggedIn &&
+        !sellerSubscription.is_aistock &&
         !location.pathname.includes('/account-setup') &&
-        !location.pathname.includes('/settings/connectivity') &&
+        !location.pathname.includes('/settings/sp-connectivity') &&
         !location.pathname.includes('/settings/api-keys')
       ) {
         history.push('/account-setup');
@@ -145,7 +149,7 @@ const PrivateRoute = connect(
         if (requireSubscription && subscriptionId === 5) {
           if (isBetaLabel) {
             history.push('/activate-beta-account');
-          } else {
+          } else if (!sellerSubscription.is_aistock) {
             history.push('/settings/pricing');
           }
         }
@@ -248,9 +252,11 @@ function App() {
           />
           <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />
           <PrivateRoute exact={true} path="/settings/billing" component={Billing} />
-          <PrivateRoute exact={true} path="/settings/connectivity" component={Connectivity} />
+          <PrivateRoute exact={true} path="/settings/sp-connectivity" component={SPConnectivity} />
+          <PrivateRoute exact={true} path="/settings/sp-api-listener" component={SpApiListener} />
           <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} />
           <PrivateRoute exact={true} path="/settings/profile" component={Profile} />
+          <PrivateRoute exact={true} path="/settings/aistock/lead-time" component={LeadTime} />
           <PrivateRoute
             exact={true}
             path="/synthesis"
@@ -295,6 +301,13 @@ function App() {
             path="/keyword-research/:productName"
             component={KeywordResearch}
             requireSubscription={true}
+          />
+
+          <PrivateRoute
+            exact={true}
+            path="/aistock/:productName"
+            component={PerfectStock}
+            requireSubscription={false}
           />
 
           <PrivateRoute

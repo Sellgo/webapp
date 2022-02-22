@@ -48,3 +48,20 @@ export const setUserOnboardingResources = (payload: any) => {
     payload,
   };
 };
+
+export const setPerfectStockGetStartedStatus = (perfectStockGetStartedStatus: any) => ({
+  type: actionTypes.SET_PERFECT_STOCK_GET_STARTED_STATUS,
+  payload: perfectStockGetStartedStatus,
+});
+
+export const updatePerfectStockGetStartedStatus = (key: string, status: boolean) => async (
+  dispatch: any,
+  getState: any
+) => {
+  const perfectStockGetStartedStatus = getState().userOnboarding.perfectStockGetStartedStatus;
+  const updatedPerfectStockGetStartedStatus = {
+    ...perfectStockGetStartedStatus,
+    [key]: status,
+  };
+  dispatch(setPerfectStockGetStartedStatus(updatedPerfectStockGetStartedStatus));
+};

@@ -14,6 +14,7 @@ import LuxeLogo from '../../../assets/images/LuxeLogo.png';
 import SkopeLogo from '../../../assets/images/SkopeLogo.png';
 import BBLogo from '../../../assets/images/BBLogo.png';
 import BFLogo from '../../../assets/images/BFLogo.png';
+import aistockLogo from '../../../assets/images/aistockLogo.png';
 
 /* Components */
 import Auth from '../../../components/Auth/Auth';
@@ -28,15 +29,19 @@ const ActivationSuccess = (props: Props) => {
   const [progressMessage, setProgressMessage] = React.useState<string>('Preparing your account..');
 
   /* Email and password should be passed from history.push in Activation component */
-  let email: string, password: string;
+  const email = location.state.email;
+  const password = location.state.password;
+  const isAiStock = location.state.isAiStock;
+  // password: string, isAiStock: boolean;
 
   React.useEffect(() => {
     if (!location.state) {
       history.push('/');
       return;
     }
-    email = location.state.email;
-    password = location.state.password;
+    // email = location.state.email;
+    // password = location.state.password;
+    // isAiStock = location.state.isAiStock;
 
     if (!email || !password) {
       history.push('/');
@@ -76,7 +81,11 @@ const ActivationSuccess = (props: Props) => {
         </div>
       </section>
       <section className={styles.socialProofSection}>
-        <img src={newSellgoLogo} alt="sellgo-logo" className={styles.sellgoLogo} />
+        <img
+          src={!isAiStock ? newSellgoLogo : aistockLogo}
+          alt="sellgo-logo"
+          className={styles.sellgoLogo}
+        />
         <p className={styles.socialProofDesc}>Trusted by the world's best Amazon sellers</p>
         <div className={styles.socialProofIcons}>
           <img className={styles.logo} src={BBLogo} alt="bblogo" />

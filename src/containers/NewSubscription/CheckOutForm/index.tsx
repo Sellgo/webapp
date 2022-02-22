@@ -228,9 +228,8 @@ function CheckoutForm(props: MyProps) {
         const { response } = e as any;
         if (response && response.data && response.data.message) {
           handleError(response.data.message);
-        } else {
-          handleError('Failed to make payment.');
         }
+        handleError('Failed to make payment.');
         return;
       }
 

@@ -14,16 +14,38 @@ import { SETTINGS_PAGES } from '../../../constants/Settings';
 /* Utils */
 import { isFirstTimeLoggedIn } from '../../../utils/subscriptions';
 
+/* Types */
+import { SellerSubscription } from '../../../interfaces/Seller';
+import { getSellerSubscription } from '../../../selectors/Subscription';
+import { connect } from 'react-redux';
+
 interface Props {
   match: any;
+  sellerSubscription: SellerSubscription;
 }
 
 const SettingsNav = (props: Props) => {
-  const { match } = props;
+  const { match, sellerSubscription } = props;
   const firstTimeLoggedIn = isFirstTimeLoggedIn();
+  const isAiStock = sellerSubscription.is_aistock;
   const handleGoBack = () => {
     history.goBack();
   };
+
+  /* Disabling settings based on seller subscription */
+  const filteredSettingsPages = SETTINGS_PAGES.map(page => {
+    if (
+      (page.name === 'Subscription' || page.name === 'Billing' || page.name === 'API Keys') &&
+      isAiStock
+    ) {
+      return {
+        ...page,
+        disabled: true,
+      };
+    } else {
+      return page;
+    }
+  });
 
   return (
     <div className={styles.settingsNav}>
@@ -34,20 +56,44 @@ const SettingsNav = (props: Props) => {
 
       {!firstTimeLoggedIn && (
         <div className={styles.settingsPagesMenu}>
-          {SETTINGS_PAGES.map((page: any) => {
+          {filteredSettingsPages.map((page: any) => {
             if (!page.disabled) {
+              const isActive = match.path === page.url;
               return (
-                <Link key={page.url} to={page.url} style={{ textDecoration: 'none' }}>
-                  <div
-                    className={
-                      match.path === page.url
-                        ? `${styles.settingPageOption} ${styles.settingPageOption__active}`
-                        : styles.settingPageOption
-                    }
-                  >
-                    {page.name}
-                  </div>
-                </Link>
+                <div className={styles.settingWrapper} key={page.url}>
+                  {/* Main page */}
+                  <Link key={page.url} to={page.url} style={{ textDecoration: 'none' }}>
+                    <div
+                      className={
+                        isActive
+                          ? `${styles.settingPageOption} ${styles.settingPageOption__active}`
+                          : styles.settingPageOption
+                      }
+                    >
+                      {page.name}
+                    </div>
+                  </Link>
+
+                  {/* Sub pages */}
+                  {isActive &&
+                    page.subPages.map((subPage: any) => {
+                      const isActive = match.path === subPage.url;
+                      return (
+                        <Link key={subPage.url} to={subPage.url} style={{ textDecoration: 'none' }}>
+                          <div
+                            className={
+                              isActive
+                                ? `${styles.settingPageOption} 
+                                  ${styles.settingPageOption__small} ${styles.settingPageOption__active}`
+                                : `${styles.settingPageOption} ${styles.settingPageOption__small}`
+                            }
+                          >
+                            {subPage.name}
+                          </div>
+                        </Link>
+                      );
+                    })}
+                </div>
               );
             } else {
               return null;
@@ -59,4 +105,10 @@ const SettingsNav = (props: Props) => {
   );
 };
 
-export default SettingsNav;
+const mapStateToProps = (state: any) => {
+  return {
+    sellerSubscription: getSellerSubscription(state),
+  };
+};
+
+export default connect(mapStateToProps)(SettingsNav);

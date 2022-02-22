@@ -5,7 +5,7 @@ import styles from './index.module.scss';
 
 interface Props {
   /* Add more semantic UI icon names here if needed */
-  name: 'ellipsis vertical' | 'amazon' | 'trash' | 'download';
+  name: 'ellipsis vertical' | 'amazon' | 'trash' | 'download' | 'calendar check outline';
   className?: string;
   onClick?: (e: any) => void;
 }

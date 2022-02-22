@@ -1,0 +1,99 @@
+@import '../../../../styles/tableReset';
+@import '../../../../design-system/new-colors.scss';
+
+#createOrderProductTable {
+  background: $grey_0 !important;
+
+  // header section
+  .rs-table-row-header {
+    border-radius: 0 !important;
+    background: $grey_0 !important;
+
+    // column heder cell
+    .rs-table-cell-content {
+      background: $grey_0;
+      padding: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      font-size: 12px !important;
+      color: $grey_6 !important;
+      font-weight: 500 !important;
+      border: 0 !important;
+    }
+  }
+
+  // body section
+  .rs-table-body-row-wrapper {
+    background: $grey_0 !important;
+
+    .rs-table-body-wheel-area {
+      min-height: 0 !important;
+      background: none;
+
+      .rs-table-row {
+        // height: 190px !important; // should be rowheight - 10px i gap between rows is needed
+
+        /* ============== ZEBRA PATTERN  =============== */
+        &:nth-child(2n) {
+          background: none !important;
+
+          .rs-table-cell-content {
+            background: none !important;
+            // padding: 0 10px !important;
+            padding-top: 12px !important;
+            height: 100%;
+            // add border-top on each cell for each row
+            border-top: 1px solid $grey_3 !important;
+          }
+        }
+
+        &:nth-child(2n + 1) {
+          background: $grey_0 !important;
+
+          .rs-table-cell-content {
+            background: $grey_0 !important;
+            padding-top: 12px !important;
+
+            // add border-top on each cell for each row
+            border-top: 1px solid $grey_3 !important;
+          }
+        }
+      }
+
+      // Loader wrapper
+      .rs-table-loader-wrapper {
+        background: none !important;
+
+        .rs-table-loader {
+          background: none !important;
+        }
+
+        .rs-table-body-info {
+          background: none !important;
+        }
+      }
+    }
+  }
+
+  // scrollbar
+  div[role='scrollbar'] {
+    background: $grey_3;
+    border-radius: 4px;
+    opacity: 1;
+    width: 6px;
+    height: 100%;
+
+    > .rs-table-scrollbar-handle {
+      background-color: $grey_6 !important;
+      opacity: 1 !important;
+      max-width: 100% !important;
+    }
+  }
+}
+
+.iconButtonResetGlobal {
+  i.chevron.down.icon {
+    font-size: 10px !important;
+    margin-top: 4px;
+  }
+}

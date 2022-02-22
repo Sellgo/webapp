@@ -1,0 +1,19 @@
+@import '../../../design-system/new-colors';
+
+.emptySkuContent {
+  width: 100%;
+  height: 100%;
+  // display: flex;
+  // justify-content: center;
+  // align-items: flex-start;
+  padding-top: 18px;
+  padding-left: 18px;
+
+  button {
+    background: none;
+    font-weight: $fontweight_semibold;
+    color: $blue_link_bg_light;
+    cursor: pointer !important;
+    z-index: 100;
+  }
+}

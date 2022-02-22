@@ -1,0 +1,42 @@
+@import '../../../../design-system/new-colors';
+
+.extensionSection {
+  margin-top: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.getExtensionCTA {
+  margin-top: 40px;
+  width: 260px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 40px;
+  font-weight: 600 !important;
+
+  .extensionLogo {
+    height: 20px;
+  }
+}
+
+.lightbulbLabel {
+  margin-bottom: 90px;
+  width: 700px;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  p {
+    margin-left: 10px;
+  }
+}
+
+.extensionDisplayPhoto {
+  width: 440px;
+  object-fit: contain;
+}

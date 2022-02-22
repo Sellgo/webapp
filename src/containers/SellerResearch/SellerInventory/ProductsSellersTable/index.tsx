@@ -208,7 +208,7 @@ const ProductsSellersTable = (props: Props) => {
 
         {/* Track Seller */}
         <Table.Column width={180} verticalAlign="top" align="left">
-          <Table.HeaderCell></Table.HeaderCell>
+          <Table.HeaderCell />
           <TrackSeller dataKey="trackSeller" />
         </Table.Column>
       </Table>

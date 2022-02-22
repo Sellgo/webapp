@@ -1,0 +1,128 @@
+@import '../../../../design-system/new-colors';
+
+.exportsContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between !important;
+  align-items: flex-end;
+  margin: 18px 0;
+}
+
+.createOrderButton {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.refreshButton {
+  margin-left: auto;
+  background: none;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 12px;
+  color: $grey_8;
+
+  span {
+    font-weight: $fontweight_semibold;
+    color: $prim_dark_1;
+    margin-right: 8px;
+  }
+
+  &:hover {
+    background: $grey_1;
+  }
+}
+
+.exportButton {
+  margin-left: 0;
+}
+
+.exportOptionsWrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.exportOptions {
+  margin-left: 10px;
+  min-height: max-content;
+  padding-top: 10px;
+
+  span {
+    color: $grey_6;
+    text-transform: uppercase;
+    font-size: 12px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    display: inline-block;
+  }
+}
+
+.exportOption {
+  min-width: 100px !important;
+  color: $grey_8 !important;
+  border: 0;
+  outline: 0;
+  width: 100%;
+  font-weight: 400 !important;
+  font-size: 14px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 10px;
+  margin: 5px 0;
+  background: #fff;
+  height: 25px;
+
+  svg {
+    margin-right: 8px;
+  }
+
+  &:hover {
+    background: $grey_1;
+  }
+
+  &:disabled {
+    color: $grey_6 !important;
+
+    svg {
+      path {
+        fill: $grey_6;
+      }
+    }
+  }
+}
+
+/* Export popup styling */
+.exportConfirmContainer {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100% !important;
+}
+
+.salesForecastDateSelector {
+  font-size: 14px;
+  color: $grey_8;
+  font-weight: $fontweight_medium;
+  display: flex;
+  align-items: center;
+
+  .dateRangePicker {
+    a {
+      span {
+        color: $black_1 !important;
+        font-size: 12px !important;
+      }
+    }
+  }
+
+  .dateSelectorLabel {
+    margin-left: 10px;
+    margin-right: 18px;
+  }
+}
+
+.confirmButton {
+  align-self: flex-end;
+  margin-top: auto;
+}

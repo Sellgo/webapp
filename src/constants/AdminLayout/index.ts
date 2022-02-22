@@ -19,12 +19,18 @@ export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
   '/product-research',
   '/product-research/database',
 
+  /* Perfect Stock */
+  '/aistock',
+  '/aistock/create-order',
+  '/aistock/sales',
+  '/aistock/order',
+
   '/account-setup',
 ];
 
 export const HIDE_NAV_BAR_PATH_NAMES = [
   '/account-setup',
-  '/settings/connectivity?first-time-logged-in=true',
+  '/settings/sp-connectivity?first-time-logged-in=true',
   '/settings/api-keys?first-time-logged-in=true',
 ];
 
@@ -45,6 +51,9 @@ export const NAV_ICONS = {
   KEYWORD_REVERSE: 'keywordReverseIcon.svg',
   KEYWORD_DATABASE: 'keywordDatabaseIcon.svg',
   KEYWORD_TRACKER: 'keywordTrackerIcon.svg',
+  PERFECT_STOCK: 'perfectStock.svg',
+  ORDER_PLANNING: 'orderPlanning.svg',
+  SALES_ESTIMATION: 'salesProjection.svg',
   ZAPIER: 'zapierIcon.svg',
 };
 
@@ -178,6 +187,32 @@ export const OPTIONS: NavOptions = [
         description: 'Amazon Product Catalogue',
         icon: require(`../../assets/images/${NAV_ICONS.PRODUCT_DATABASE}`),
         path: '/product-research/database',
+        disabled: false,
+        isBeta: true,
+      },
+    ],
+  },
+  {
+    label: 'Ai Stock',
+    icon: require(`../../assets/images/${NAV_ICONS.PERFECT_STOCK}`),
+    path: '/aistock',
+    isComingSoon: false,
+    disabled: false,
+    isBeta: true,
+    subOptions: [
+      {
+        label: 'Sales Forecasting',
+        description: 'Sales Forecasting',
+        icon: require(`../../assets/images/${NAV_ICONS.SALES_ESTIMATION}`),
+        path: '/aistock/sales',
+        disabled: false,
+        isBeta: true,
+      },
+      {
+        label: 'Order Planning',
+        description: 'Order Planning',
+        icon: require(`../../assets/images/${NAV_ICONS.ORDER_PLANNING}`),
+        path: '/aistock/order',
         disabled: false,
         isBeta: true,
       },

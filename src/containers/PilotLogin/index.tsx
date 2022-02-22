@@ -10,7 +10,7 @@ import FeaturesSection from './FeaturesSection';
 import PilotLoginHeader from '../../components/PilotLoginHeader';
 import QuickWinModal from './QuickWinModal';
 
-const PilotLogin = () => {
+const PreMigration = () => {
   const [showQuickWinModal, setShowQuickWinModal] = React.useState<boolean>(false);
 
   React.useEffect(() => {
@@ -37,4 +37,4 @@ const PilotLogin = () => {
   );
 };
 
-export default PilotLogin;
+export default PreMigration;

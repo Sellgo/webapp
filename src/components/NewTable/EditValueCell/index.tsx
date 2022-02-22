@@ -1,0 +1,57 @@
+import React from 'react';
+import { Table } from 'rsuite';
+
+/* Styling */
+import styles from './index.module.scss';
+
+/* Interface */
+import { RowCell } from '../../../interfaces/Table';
+import InputFilter from '../../FormFilters/InputFilter';
+
+interface Props extends RowCell {
+  handleChange: (key: string, value: any, id: number) => void;
+  identifier?: string;
+  prependMessage?: string;
+  appendMessage?: string;
+  isNumber?: boolean;
+}
+
+const EditValueCell = (props: Props) => {
+  const {
+    handleChange,
+    identifier,
+    prependMessage,
+    appendMessage,
+    isNumber,
+    ...otherProps
+  } = props;
+  const { rowData, dataKey } = otherProps;
+
+  /* If identifier is not defined, default to the id of the cell */
+  const cellIdentifier = identifier ? rowData.identifier : rowData.id;
+
+  return (
+    <Table.Cell {...otherProps}>
+      <div className={styles.editValueCellWrapper}>
+        <p>{prependMessage}&nbsp;</p>
+        <InputFilter
+          value={rowData[dataKey] || ''}
+          handleChange={(value: string) => {
+            if (isNumber) {
+              handleChange(dataKey, parseInt(value), cellIdentifier);
+            } else {
+              handleChange(dataKey, value, cellIdentifier);
+            }
+          }}
+          placeholder=""
+          className={styles.inputField}
+          isDate={dataKey === 'start_date' || dataKey === 'end_date'}
+          isNumber={isNumber}
+        />
+        <p>&nbsp;{appendMessage}</p>
+      </div>
+    </Table.Cell>
+  );
+};
+
+export default EditValueCell;

@@ -6,7 +6,8 @@ import Login from '../Login';
 import Auth from '../../components/Auth/Auth';
 
 const auth = new Auth();
-export default class Home extends React.Component<any> {
+// export default class Home extends React.Component<any> {
+class Home extends React.Component<any> {
   componentDidMount() {
     const { location } = this.props;
     let redirectPath = localStorage.getItem('loginRedirectPath');
@@ -28,8 +29,8 @@ export default class Home extends React.Component<any> {
 
     if (redirectPath && redirectPath !== '/') {
       history.replace(redirectPath);
-    } else if (localStorage.getItem('isLoggedIn') === 'true') {
-      history.replace('/synthesis');
+    } else if (isLoggedIn) {
+      history.replace('/aistock/sales');
     }
 
     if (location.state && redirectPath && redirectPath.indexOf('/subscription') !== -1) {
@@ -59,3 +60,5 @@ export default class Home extends React.Component<any> {
     ) : null;
   }
 }
+
+export default Home;

@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { Loader } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -15,10 +16,20 @@ interface Props {
   size: Size;
   onClick?: () => void;
   className?: string;
+  loading?: boolean;
 }
 
 const ActionButton = (props: Props) => {
-  const { children, variant, className, size = 'md', type, onClick, disabled = false } = props;
+  const {
+    children,
+    variant,
+    className,
+    size = 'md',
+    type,
+    onClick,
+    disabled = false,
+    loading,
+  } = props;
 
   const typeClass = `${type ? styles[type] : ''}`;
 
@@ -43,15 +54,22 @@ const ActionButton = (props: Props) => {
   if (isBorderedGradient) {
     return (
       <div className={`${btnClass}`}>
-        <button onClick={handleClick} className={styles.innerButton} disabled={disabled}>
-          {children}
+        <button
+          onClick={handleClick}
+          className={`
+            ${styles.innerButton}
+            ${loading ? styles.innerButton__loading : ''}
+          `}
+          disabled={disabled || loading}
+        >
+          {!loading ? children : <Loader inverted={true} active inline size="tiny" />}
         </button>
       </div>
     );
   }
   return (
-    <button onClick={handleClick} className={btnClass} disabled={disabled}>
-      {children}
+    <button onClick={handleClick} className={btnClass} disabled={disabled || loading}>
+      {!loading ? children : <Loader active inline size="tiny" />}
     </button>
   );
 };

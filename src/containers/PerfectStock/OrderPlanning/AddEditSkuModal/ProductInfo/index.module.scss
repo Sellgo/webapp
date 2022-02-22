@@ -1,0 +1,35 @@
+@import '../../../../../design-system/colors';
+
+.productInfoContainer {
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  user-select: none;
+  color: $prim_dark_1;
+}
+
+.productImage {
+  width: 40px;
+  height: 40px;
+  margin-right: 18px;
+}
+
+.productDetails {
+  flex: 1;
+  min-height: 100% !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+}
+
+.productMetaDetails {
+  display: flex;
+  align-items: center;
+
+  img {
+    margin-right: 10px;
+  }
+
+  font-size: 12px !important;
+}

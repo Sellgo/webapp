@@ -44,6 +44,10 @@
       background-color: $grey_1 !important;
     }
 
+    &.error {
+      border: 1px solid $system_red !important;
+    }
+
     .menu.transition {
       border: 1px solid $grey_3 !important;
       width: 100% !important;
@@ -66,5 +70,9 @@
         }
       }
     }
+  }
+
+  .disabled {
+    opacity: 0.5;
   }
 }
