@@ -11,6 +11,7 @@ import OrderPlanning from './OrderPlanning';
 import SalesProjection from './SalesProjection';
 import MigratingDisplay from './MigratingDisplay';
 import PreMigration from './PreMigration';
+import TPL from './TPL';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
@@ -108,7 +109,7 @@ const PerfectStock: React.FC<Props> = props => {
     tutorialOnboardingDetails.Tutorial || FALLBACK_ONBOARDING_DETAILS;
 
   /* check url */
-  const isEditingOrders = window.location.pathname === PERFECT_STOCK_PAGES[2];
+  const isEditingOrders = window.location.pathname === PERFECT_STOCK_PAGES[3];
 
   /* Lock Perfect Stock if user is not migrated */
   if (
@@ -178,6 +179,14 @@ const PerfectStock: React.FC<Props> = props => {
                   isBeta
                 />
               </Tab>
+              <Tab>
+                <ProductLabel
+                  label="3PL Manager"
+                  icon="Order Planning"
+                  isActive={selectedTabList === 2}
+                  isBeta
+                />
+              </Tab>
 
               <Tab />
             </TabList>
@@ -188,6 +197,10 @@ const PerfectStock: React.FC<Props> = props => {
 
             <TabPanel>
               <Inventory />
+            </TabPanel>
+
+            <TabPanel>
+              <TPL />
             </TabPanel>
 
             <TabPanel>

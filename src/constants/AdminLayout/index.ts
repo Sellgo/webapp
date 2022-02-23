@@ -24,6 +24,7 @@ export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
   '/aistock/create-order',
   '/aistock/sales',
   '/aistock/order',
+  '/aistock/3pl',
 
   '/account-setup',
 ];
