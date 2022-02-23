@@ -109,7 +109,7 @@ const Sidebar = (props: Props) => {
       newNavOptions = handleDisableNavOption('Keyword Research', newNavOptions);
     }
 
-    if (!isAiStock) {
+    if (!isAiStock(sellerSubscription)) {
       newNavOptions = handleDisableNavOption('Ai Stock', newNavOptions);
     }
 

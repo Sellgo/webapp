@@ -42,6 +42,11 @@ const SettingsNav = (props: Props) => {
         ...page,
         disabled: true,
       };
+    } else if (page.name === 'AiStock' && !isAiStock) {
+      return {
+        ...page,
+        disabled: true,
+      };
     } else {
       return page;
     }
