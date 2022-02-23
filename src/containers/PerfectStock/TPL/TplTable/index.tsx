@@ -23,7 +23,6 @@ import InventoryThreshold from './InventoryThreshold';
 /* Components */
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import Placeholder from '../../../../components/Placeholder';
-import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
 import {
   getSalesProjectionResults,
   getIsLoadingSalesProjection,
@@ -39,7 +38,7 @@ interface Props {
 }
 
 /* Main component */
-const SalesEstimationTable = (props: Props) => {
+const TplTable = (props: Props) => {
   const { fetchSalesProjection, isLoadingSalesProjection, salesProjectionResult } = props;
 
   const [sortColumn, setSortColumn] = React.useState<string>('');
@@ -87,18 +86,8 @@ const SalesEstimationTable = (props: Props) => {
           rowExpandedHeight={800}
           rowKey="id"
           virtualized
-          id="salesProjectionTable"
+          id="tplTable"
         >
-          {/* Expand Cell */}
-          <Table.Column verticalAlign="top" fixed="left" align="left" width={30}>
-            <Table.HeaderCell> </Table.HeaderCell>
-            <ExpansionCell
-              dataKey={'id'}
-              expandedRowKeys={expandedRowKeys}
-              onChange={handleExpansion}
-            />
-          </Table.Column>
-
           {/* Product Information  */}
           <Table.Column minWidth={400} verticalAlign="middle" fixed align="center" flexGrow={4}>
             <Table.HeaderCell>
@@ -298,4 +287,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SalesEstimationTable);
+export default connect(mapStateToProps, mapDispatchToProps)(TplTable);

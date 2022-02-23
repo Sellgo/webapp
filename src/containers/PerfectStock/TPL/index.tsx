@@ -21,7 +21,8 @@ import { getPerfectStockGetStartedStatus } from '../../../selectors/UserOnboardi
 
 /* Containers */
 import SalesProjectionMeta from './SalesProjectionMeta';
-import SalesProjectionTable from './SalesProjectionTable';
+import TplTable from './TplTable';
+import TplSettings from './TplSettings';
 import ProgressBar from '../../../components/ProgressBar';
 
 interface Props {
@@ -52,8 +53,9 @@ const TPL = (props: Props) => {
         progress={refreshProgress}
         shouldFetchProgress={isFetchingProgressForRefresh}
       />
+      <TplSettings />
       <SalesProjectionMeta />
-      <SalesProjectionTable />
+      <TplTable />
     </main>
   );
 };
