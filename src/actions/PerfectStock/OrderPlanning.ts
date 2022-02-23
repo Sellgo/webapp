@@ -469,15 +469,15 @@ export const fetchExpectedDaysOfInventory = () => async (dispatch: any, useState
       merchantListings = draftTemplate.merchant_listings;
     }
 
-    const skus = merchantListings
+    const ids = merchantListings
       .map((merchantListing: any) => {
-        return merchantListing.sku;
+        return merchantListing.id;
       })
       .join(',');
 
     const resourceString =
       `?types=days_until_so_draft` +
-      `&skus=${skus}` +
+      `&merchant_listing_ids=${ids}` +
       `&start_date=${getDateOnly(new Date(dateRange.startDate))}` +
       `&end_date=${getDateOnly(new Date(dateRange.endDate))}` +
       `&display_mode=${timeSettings === TIME_SETTING.DAY ? 'daily' : 'weekly'}`;

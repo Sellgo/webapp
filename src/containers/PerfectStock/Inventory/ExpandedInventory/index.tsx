@@ -74,7 +74,7 @@ const ExpandedInventory = (props: Props) => {
   const getProductSales = async () => {
     setIsLoadingProductProjectedSales(true);
     const sellerId = sellerIDSelector();
-    const sku = rowData.sku;
+    const id = rowData.id;
     const startDate = getDateOnly(new Date(dateRange.startDate));
     const endDate = getDateOnly(new Date(dateRange.endDate));
     try {
@@ -86,7 +86,7 @@ const ExpandedInventory = (props: Props) => {
       const url =
         `${AppConfig.BASE_URL_API}sellers/${sellerId}/order-plan?` +
         `types=${showTrends ? EXPANDED_TYPES : UNEXPANDED_TYPES}` +
-        `&skus=${sku}` +
+        `&merchant_listing_ids=${id}` +
         `&start_date=${startDate}&end_date=${endDate}` +
         `&display_mode=${timeSetting === TIME_SETTING.DAY ? 'daily' : 'weekly'}`;
       const res = await axios.get(url);
