@@ -14,6 +14,7 @@ export default class Auth {
   idToken: any;
   expiresAt: any;
   userProfile: any;
+  isAiStock: any;
 
   public webAuth = new auth0.WebAuth({
     domain: AppConfig.domain,
@@ -193,6 +194,8 @@ export default class Auth {
     this.expiresAt = authResult.idTokenPayload.exp * 1000;
     this.idToken = authResult.idToken;
     this.accessToken = authResult.accessToken;
+    this.isAiStock = authResult.idTokenPayload[`${AppConfig.BASE_URL}/is_aistock`];
+    localStorage.setItem('isAiStock', String(this.isAiStock));
     localStorage.setItem('idToken', this.idToken);
     localStorage.setItem('idTokenExpires', String(this.expiresAt));
     localStorage.setItem('isLoggedIn', 'true');
@@ -222,6 +225,7 @@ export default class Auth {
     localStorage.removeItem('userEmail');
     localStorage.removeItem('userName');
     localStorage.removeItem('userPicture');
+    localStorage.removeItem('isAiStock');
     localStorage.setItem('loginRedirectPath', '/');
     removeProfitFinderFilters();
   };
