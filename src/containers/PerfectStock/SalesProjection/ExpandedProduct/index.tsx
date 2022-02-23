@@ -49,7 +49,7 @@ const ExpandedProduct = (props: Props) => {
   const [timeSettings, setTimeSettings] = React.useState<string>(TIME_SETTING.WEEK);
   const [showTrends, setShowTrends] = React.useState<boolean>(true);
 
-  const sku = rowData.sku;
+  const id = rowData.id;
 
   /* Retrieve product projected sales and seasonality data */
   const getProductSales = async () => {
@@ -68,7 +68,7 @@ const ExpandedProduct = (props: Props) => {
       const url =
         `${AppConfig.BASE_URL_API}sellers/${sellerId}/order-plan?` +
         `types=${showTrends ? EXPANDED_TYPES : UNEXPANDED_TYPES}` +
-        `&skus=${sku}` +
+        `&merchant_listing_ids=${id}` +
         `&start_date=${startDate}&end_date=${endDate}` +
         `&display_mode=${timeSettings === TIME_SETTING.DAY ? 'daily' : 'weekly'}`;
       const res = await axios.get(url);
