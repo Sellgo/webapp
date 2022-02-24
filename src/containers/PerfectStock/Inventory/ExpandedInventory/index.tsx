@@ -74,7 +74,7 @@ const ExpandedInventory = (props: Props) => {
   const getProductSales = async () => {
     setIsLoadingProductProjectedSales(true);
     const sellerId = sellerIDSelector();
-    const id = rowData.id;
+    const id = rowData.merchant_listing_id;
     const startDate = getDateOnly(new Date(dateRange.startDate));
     const endDate = getDateOnly(new Date(dateRange.endDate));
     try {
