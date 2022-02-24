@@ -471,7 +471,7 @@ export const fetchExpectedDaysOfInventory = () => async (dispatch: any, useState
 
     const ids = merchantListings
       .map((merchantListing: any) => {
-        return merchantListing.id;
+        return merchantListing.merchant_listing_id;
       })
       .join(',');
 

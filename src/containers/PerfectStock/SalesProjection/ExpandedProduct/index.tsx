@@ -49,7 +49,7 @@ const ExpandedProduct = (props: Props) => {
   const [timeSettings, setTimeSettings] = React.useState<string>(TIME_SETTING.WEEK);
   const [showTrends, setShowTrends] = React.useState<boolean>(true);
 
-  const id = rowData.id;
+  const id = rowData.merchant_listing_id;
 
   /* Retrieve product projected sales and seasonality data */
   const getProductSales = async () => {
