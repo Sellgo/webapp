@@ -37,7 +37,7 @@ interface Props {
 
 const AutoGenerateOrderPopup = (props: Props) => {
   const { generateNextOrderDetails, handleCancel, generateNextOrder } = props;
-  const [selectedPrioritySku, setSelectedPrioritySku] = React.useState<number[]>([]);
+  const [selectedPrioritySku, setSelectedPrioritySku] = React.useState<string>('');
   const [nextOrderPeriod, setNextOrderPeriod] = React.useState<string>('Next Order');
   const [nextOrderCondition, setNextOrderCondition] = React.useState<string>('Stock Level');
   const [stockLevelThreshold, setStockLevelThreshold] = React.useState<number>();
@@ -55,7 +55,7 @@ const AutoGenerateOrderPopup = (props: Props) => {
 
     let nextNDays;
     if (nextOrderPeriod === 'Next Order') {
-      nextNDays = 1;
+      nextNDays = null;
     } else if (nextOrderPeriod === '12 Months') {
       nextNDays = 365;
     } else if (nextOrderPeriod === '24 Months') {
@@ -66,7 +66,7 @@ const AutoGenerateOrderPopup = (props: Props) => {
 
     const payload: AutoGeneratePurchaseOrderPayload = {
       id: generateNextOrderDetails.id,
-      merchant_listing_id: selectedPrioritySku.length > 0 ? selectedPrioritySku[0] : null,
+      merchant_listing_id: selectedPrioritySku.length > 0 ? parseInt(selectedPrioritySku) : null,
       next_n_days: nextNDays,
     };
 
@@ -91,7 +91,7 @@ const AutoGenerateOrderPopup = (props: Props) => {
             filterOptions={generateNextOrderDetails.merchantListings}
             placeholder={'Select Priority Sku'}
             value={selectedPrioritySku}
-            handleChange={(value: number[]) => setSelectedPrioritySku(value)}
+            handleChange={(value: string) => setSelectedPrioritySku(value)}
             isSingleSelect
             className={styles.selectionProductFilter}
           />

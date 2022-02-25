@@ -235,7 +235,7 @@ export default class DataTask extends Component {
               }
               return (
                 <div key={id} style={styling} className="timeLine-main-data-sub-task">
-                  {task.name}&nbsp;
+                  <span>{task.name}&nbsp;</span>
                   {task.end <= new Date() ? <CheckIcon /> : null}
                 </div>
               );
