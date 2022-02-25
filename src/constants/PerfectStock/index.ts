@@ -42,6 +42,12 @@ export const LEAD_TIME_OPTIONS = [
     color: '#eb675e',
   },
   {
+    key: 'Cargo Ready Date',
+    value: 'crd',
+    text: 'Cargo Ready Date',
+    color: '#5dc560',
+  },
+  {
     key: 'Ground Shipping',
     value: 'ground_freight',
     text: 'Ground Shipping',

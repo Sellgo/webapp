@@ -27,6 +27,8 @@ interface Props {
   className?: string;
   userOnboardingResources: any;
   handleOnPaste?: (value: string) => void;
+  isInteger?: boolean;
+  isPositiveOnly?: boolean;
   isNumber?: boolean;
   isDate?: boolean;
   onFocus?: () => void;
@@ -45,6 +47,8 @@ const InputFilter: React.FC<Props> = props => {
     error,
     handleOnPaste,
     isNumber,
+    isInteger,
+    isPositiveOnly,
     isDate,
     onFocus,
     onBlur,
@@ -56,6 +60,30 @@ const InputFilter: React.FC<Props> = props => {
 
   const { tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
   const type = isNumber ? 'number' : isDate ? 'date' : 'text';
+
+  const handleChangeWithRules = (value: string) => {
+    if (isNumber && !value) {
+      handleChange('0');
+    }
+
+    /* Positive integers only */
+    if (isNumber && isPositiveOnly && isInteger) {
+      if (parseInt(value) >= 0) {
+        handleChange(parseFloat(value).toString());
+      }
+      /* Integers only */
+    } else if (isNumber && isInteger) {
+      handleChange(parseInt(value).toString());
+
+      /* Positive floats/integers only */
+    } else if (isNumber && isPositiveOnly) {
+      if (parseFloat(value) >= 0) {
+        handleChange(parseFloat(value).toString());
+      }
+    } else {
+      handleChange(value);
+    }
+  };
   return (
     <div className={styles.inputFilter}>
       {label && (
@@ -79,7 +107,7 @@ const InputFilter: React.FC<Props> = props => {
         type={type}
         placeholder={placeholder}
         value={value}
-        onChange={(e: any) => handleChange(e.target.value)}
+        onChange={(e: any) => handleChangeWithRules(e.target.value)}
         disabled={disabled}
         error={error}
         onPaste={(e: any) => {

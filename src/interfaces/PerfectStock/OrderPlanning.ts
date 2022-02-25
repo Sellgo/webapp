@@ -42,6 +42,7 @@ export interface GanttChartPurchaseOrder {
   name: string;
   color?: string;
   subTasks?: GanttChartPurchaseOrder[];
+  prioritySku?: string;
   is_included?: boolean;
 }
 
@@ -54,6 +55,15 @@ export interface UpdatePurchaseOrderPayload {
   quantity?: number;
   manual_quantity?: number;
   quantity_mode?: string;
+  is_priority?: boolean;
+}
+
+export interface AutoGeneratePurchaseOrderPayload {
+  id: number;
+  merchant_listing_id: number | null;
+  next_n_days: number;
+  stockout_buffer_perc?: number;
+  stockout_buffer_days?: number;
 }
 
 export interface InventorySkuUpdatePayload {

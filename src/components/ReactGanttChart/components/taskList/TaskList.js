@@ -44,7 +44,8 @@ export class TaskRow extends Component {
         }}
       >
         <div tabIndex={this.props.index} className="timeLine-side-task-row-name">
-          <span
+          <div
+            className="timeLine-side-task-row-name-text"
             onClick={e => {
               this.props.onSelectItem(this.props.item);
               this.props.onSelectTask(this.props.item);
@@ -57,74 +58,93 @@ export class TaskRow extends Component {
                   ? {
                       backgroundColor: '#4B9CF5',
                       color: '#fff',
+                      padding: '0px 10px',
+                      borderRadius: '3px',
                     }
-                  : {}
+                  : { padding: '0px 10px', borderRadius: '3px' }
               }
             >
               {this.props.label}
             </span>
-          </span>
-          {!isFirstRow && (
+          </div>
+          <div className="timeLine-side-task-row-priority-sku">{this.props.prioritySku || '-'}</div>
+          {!isFirstRow ? (
             <Checkbox
               toggle
               checked={this.props.item.is_included}
               onChange={() => this.props.handleIncludedToggle(this.props.item.id)}
             />
+          ) : (
+            <div />
           )}
-        </div>
-        {!isFirstRow && (
-          <Popup
-            on="click"
-            open={this.state.isPopupOpen}
-            onOpen={() => this.setState({ isPopupOpen: true })}
-            onClose={() => this.setState({ isPopupOpen: false })}
-            position="bottom left"
-            closeOnDocumentClick
-            closeOnEscape
-            className="timeLine-actionsPopover"
-            content={
-              <>
-                <div className="timeLine-actionOptions">
-                  <p>EDIT</p>
-                  {!this.props.isDraftMode && (
+          {!isFirstRow ? (
+            <Popup
+              on="click"
+              open={this.state.isPopupOpen}
+              onOpen={() => this.setState({ isPopupOpen: true })}
+              onClose={() => this.setState({ isPopupOpen: false })}
+              position="bottom left"
+              closeOnDocumentClick
+              closeOnEscape
+              className="timeLine-actionsPopover"
+              content={
+                <>
+                  <div className="timeLine-actionOptions">
+                    <p>ORDER</p>
+                    {!this.props.isDraftMode && (
+                      <button
+                        onClick={() => {
+                          this.props.handleEditTask(this.props.item);
+                          this.setState({ isPopupOpen: false });
+                        }}
+                      >
+                        <Icon name="pencil" />
+                        <span>Edit Order</span>
+                      </button>
+                    )}
                     <button
                       onClick={() => {
-                        this.props.handleEditTask(this.props.item);
+                        this.props.handleDeleteTask(this.props.item);
                         this.setState({ isPopupOpen: false });
                       }}
                     >
-                      <Icon name="pencil" />
-                      <span>Edit Order</span>
+                      <Icon name="trash" />
+                      <span>Delete Order</span>
                     </button>
-                  )}
-                  <button
-                    onClick={() => {
-                      this.props.handleDeleteTask(this.props.item);
-                      this.setState({ isPopupOpen: false });
-                    }}
-                  >
-                    <Icon name="trash" />
-                    <span>Delete Order</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      this.props.generateNextOrder(this.props.item);
-                      this.setState({ isPopupOpen: false });
-                    }}
-                  >
-                    <Icon name="clipboard list" />
-                    <span>Generate Next Order</span>
-                  </button>
-                </div>
-              </>
-            }
-            trigger={
-              <button className={'timeLine-triggerButton'}>
-                <Icon name="ellipsis vertical" />
-              </button>
-            }
-          />
-        )}
+                    <p>SMART ORDER</p>
+                    <button
+                      onClick={() => {
+                        this.props.handleSetPrioritySku(this.props.item);
+                        this.setState({ isPopupOpen: false });
+                      }}
+                      disabled={!this.props.item.is_included}
+                    >
+                      <Icon name="check circle outline" />
+                      <span>Set Priority Sku</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        this.props.generateNextOrder(this.props.item);
+                        this.setState({ isPopupOpen: false });
+                      }}
+                      disabled={!this.props.item.is_included}
+                    >
+                      <Icon name="clipboard list" />
+                      <span>Generate Smart Order</span>
+                    </button>
+                  </div>
+                </>
+              }
+              trigger={
+                <button className={'timeLine-triggerButton'}>
+                  <Icon name="ellipsis vertical" />
+                </button>
+              }
+            />
+          ) : (
+            <div className={'timeLine-triggerButton'} />
+          )}
+        </div>
       </div>
     );
   }
@@ -151,6 +171,7 @@ export default class TaskList extends Component {
           index={i}
           item={item}
           label={item.name}
+          prioritySku={item.prioritySku}
           top={i * this.props.itemheight}
           itemheight={this.props.itemheight}
           isSelected={this.props.selectedItem?.id === item?.id}
@@ -161,6 +182,7 @@ export default class TaskList extends Component {
           handleDeleteTask={this.props.handleDeleteTask}
           handleEditTask={this.props.handleEditTask}
           generateNextOrder={this.props.generateNextOrder}
+          handleSetPrioritySku={this.props.handleSetPrioritySku}
           handleIncludedToggle={this.props.handleIncludedToggle}
           isDraftMode={this.props.isDraftMode}
         />
@@ -179,19 +201,6 @@ export default class TaskList extends Component {
     return (
       <div className="timeLine-side">
         <div className="timeLine-side-title">
-          {this.props.viewFilterOptions && this.props.handleChangeFilterOption && (
-            <SelectionFilter
-              label="View Draft Orders"
-              filterOptions={this.props.viewFilterOptions}
-              value={this.props.viewFilter}
-              handleChange={value =>
-                this.props.handleChangeFilterOption && this.props.handleChangeFilterOption(value)
-              }
-              placeholder="Select a template"
-              className="timeLine-mode-changer"
-            />
-          )}
-
           <SelectionFilter
             label="View Timeline"
             filterOptions={TIME_SETTINGS_OPTIONS}
@@ -202,6 +211,9 @@ export default class TaskList extends Component {
             placeholder=""
             className="timeLine-mode-changer"
           />
+          <p className="timeLine-side-title__label">Priority Sku</p>
+          <p className="timeLine-side-title__label">Active</p>
+          <p />
         </div>
         <div ref="taskViewPort" className="timeLine-side-task-viewPort" onScroll={this.doScroll}>
           <div className="timeLine-side-task-container" style={this.containerStyle}>

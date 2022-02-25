@@ -51,7 +51,7 @@ const EditValueSelectionCell = (props: Props) => {
           onOpen={handleOpen}
           trigger={
             <button className={styles.selectionButton} style={{ width: inputWidth }}>
-              {selectedDisplayText || ''}
+              <span>{selectedDisplayText || ''}</span>
               <Icon name="angle down" />
             </button>
           }
@@ -73,7 +73,7 @@ const EditValueSelectionCell = (props: Props) => {
                     handleClose();
                   }}
                 >
-                  {option.text}
+                  <span>{option.text}</span>
                 </div>
               ))}
             </div>
