@@ -212,7 +212,8 @@ export default class TaskList extends Component {
             className="timeLine-mode-changer"
           />
           <p className="timeLine-side-title__label">Priority Sku</p>
-          <p className="timeLine-side-title-sku__label">Active</p>
+          <p className="timeLine-side-title__label">Active</p>
+          <p />
         </div>
         <div ref="taskViewPort" className="timeLine-side-task-viewPort" onScroll={this.doScroll}>
           <div className="timeLine-side-task-container" style={this.containerStyle}>

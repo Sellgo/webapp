@@ -187,26 +187,26 @@
 }
 
 .timeLine-side-title {
-  // flex: 0 0 60px;
   display: grid;
   margin-bottom: 10px;
+  padding-right: 10px;
   grid-template-columns: 50% 35% 10% 5%;
   justify-content: flex-start;
   align-items: flex-end;
   width: 100%;
 
   .timeLine-mode-changer {
-    width: 150px !important;
+    width: 130px !important;
     min-width: 0 !important;
-    margin-right: 18px;
 
     > div {
-      width: 150px !important;
+      width: 130px !important;
       min-width: 0 !important;
     }
   }
 
   &__label {
+    width: 100%;
     text-align: left;
     font-size: 12px;
     font-weight: $fontweight_medium;
@@ -230,6 +230,10 @@
     padding: 0 10px;
     border-radius: 3px;
     margin-left: 5px;
+  }
+
+  .timeLine-side-task-row-priority-sku {
+    text-align: left;
   }
 }
 
@@ -309,10 +313,11 @@
 
     &:hover {
       font-weight: $fontweight_semibold;
+      background: $grey_10;
     }
 
     &:disabled {
-      background: none !important;
+      pointer-events: none;
       opacity: 0.6;
     }
   }

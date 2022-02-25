@@ -251,7 +251,7 @@ const OrderGanttChart = (props: Props) => {
     if (selectedPurchaseOrder) {
       const selectedMerchantListings = selectedPurchaseOrder.merchant_listings.map(
         (orderProduct: any) => ({
-          id: orderProduct.merchant_listing_id?.toString() || '',
+          id: orderProduct.id?.toString() || '',
           productName: orderProduct.title,
           asin: orderProduct.asin,
           img: orderProduct.image_url,
@@ -334,6 +334,7 @@ const OrderGanttChart = (props: Props) => {
                 handleCancel={() => setIsSettingPrioritySku(false)}
                 prioritySkuDetails={prioritySkuDetails}
                 handleUpdatePrioritySku={updatePurchaseOrder}
+                fetchPurchaseOrders={fetchPurchaseOrders}
               />
             }
             onClose={() => setIsSettingPrioritySku(false)}
