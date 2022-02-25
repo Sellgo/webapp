@@ -283,6 +283,14 @@
   color: $prim_white;
   font-weight: $fontweight_semibold;
   cursor: move;
+
+  span {
+    width: max-content;
+    max-width: calc(100% - 10px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 /* Timeline task action box */

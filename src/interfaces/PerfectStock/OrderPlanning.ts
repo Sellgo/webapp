@@ -61,7 +61,7 @@ export interface UpdatePurchaseOrderPayload {
 export interface AutoGeneratePurchaseOrderPayload {
   id: number;
   merchant_listing_id: number | null;
-  next_n_days: number;
+  next_n_days: number | null;
   stockout_buffer_perc?: number;
   stockout_buffer_days?: number;
 }
