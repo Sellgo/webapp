@@ -30,6 +30,12 @@ export const LEAD_TIME_OPTIONS = [
     color: '#349af8',
   },
   {
+    key: 'Cargo Ready Date',
+    value: 'crd',
+    text: 'Cargo Ready Date',
+    color: '#5dc560',
+  },
+  {
     key: 'En Route',
     value: 'en_route',
     text: 'En Route',
@@ -40,12 +46,6 @@ export const LEAD_TIME_OPTIONS = [
     value: 'port_arrival',
     text: 'Port Arrival',
     color: '#eb675e',
-  },
-  {
-    key: 'Cargo Ready Date',
-    value: 'crd',
-    text: 'Cargo Ready Date',
-    color: '#5dc560',
   },
   {
     key: 'Ground Shipping',
