@@ -65,6 +65,8 @@ const LeadTimeSegmentTable = (props: Props) => {
             handleChange={handleLeadTimeGroupEdit}
             appendMessage="days"
             isNumber
+            isPositiveOnly
+            isInteger
           />
         </Table.Column>
 

@@ -34,6 +34,7 @@
   .ui.dropdown.selectionFilter {
     max-height: none !important;
     height: max-content;
+    width: 500px;
     color: $grey_8 !important;
     background-color: $prim_white;
     border: 1px solid $grey_3;
@@ -42,6 +43,12 @@
     font-weight: 400 !important;
     padding: 8px 10px !important;
     border-radius: 4px !important;
+
+    .dropdown {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+    }
 
     .text {
       color: $grey_8 !important;

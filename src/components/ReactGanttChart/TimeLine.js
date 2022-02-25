@@ -445,6 +445,7 @@ class TimeLine extends Component {
             nonEditable={this.props.nonEditableName}
             handleChangeMode={this.props.handleChangeMode}
             handleDeleteTask={this.props.handleDeleteTask}
+            handleSetPrioritySku={this.props.handleSetPrioritySku}
             mode={this.state.mode}
             /* For left dropdown */
             viewFilterOptions={this.props.viewFilterOptions}
