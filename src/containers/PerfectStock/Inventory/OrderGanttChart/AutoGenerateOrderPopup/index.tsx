@@ -119,7 +119,7 @@ const AutoGenerateOrderPopup = (props: Props) => {
             handleChange={value => setStockLevelThreshold(parseFloat(value))}
             className={styles.inputFilter}
           />
-          % &nbsp; of priority SKU's stock level
+          &nbsp;% of priority SKU's stock level
         </div>
         <div
           className={`
