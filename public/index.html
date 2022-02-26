@@ -10,6 +10,7 @@
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
@@ -28,23 +29,28 @@
     />
 
     <link rel="stylesheet" href="style.css" />
+    
+    <!-- Elev.io -->
+    <script>
+      !function(e,l,v,i,o,n){e[i]||(e[i]={}),e[i].account_id=n;var g,h;g=l.createElement(v),g.type="text/javascript",g.async=1,g.src=o+n,h=l.getElementsByTagName(v)[0],h.parentNode.insertBefore(g,h);e[i].q=[];e[i].on=function(z,y){e[i].q.push([z,y])}}(window,document,"script","_elev","https://cdn.elev.io/sdk/bootloader/v4/elevio-bootloader.js?cid=","6215241b91110");
+    </script>
 
     <!-- Stripe -->
     <script src="https://js.stripe.com/v3/"></script>
 
 
     <!-- Intercom settings -->
-		<script>
+		<!-- <script>
       (function() {
         window.intercomSettings = {
           app_id: "ju2u3hej",
           custom_launcher_selector:'#chat-link'
         };
       })();
-    </script>
+    </script> -->
 
     <!-- Intercom main script -->
-    <script>
+    <!-- <script>
       (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function")
       {ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function()
         {i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function()
@@ -55,7 +61,7 @@
         else{w.addEventListener('load',l,false);}}})()
 
     </script>
-    
+     -->
     <!-- Rewardful -->
     <script>
       (function(w, r) {

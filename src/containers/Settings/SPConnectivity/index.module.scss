@@ -3,4 +3,17 @@
 .connectivityPageWrapper {
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
+}
+
+.elevioArticle {
+  margin-top: 50px;
+  margin-left: 18px;
+  font-weight: $fontweight_bold;
+  color: $grey_8;
+  text-transform: uppercase;
+
+  > span {
+    margin-bottom: 300px;
+  }
 }
