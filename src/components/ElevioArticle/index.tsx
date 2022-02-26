@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { v4 as uuid } from 'uuid';
 import Elevio from 'elevio/lib/react';
+import { AppConfig } from '../../config';
 
 interface Props {
   className?: string;
@@ -11,16 +12,23 @@ interface Props {
 
 const ElevioArticle = (props: Props) => {
   const { articleId, className } = props;
+  const [isElevioLoaded, setIsElevioLoaded] = React.useState<boolean>(false);
   const componentId = uuid();
 
-  const loadArticle = () => {
-    const target = document.getElementById(componentId);
-    const searchCmpnt = window._elev.component({ type: 'article', id: articleId });
-    /* Check if target has child */
-    console.log(target?.childNodes);
-    if (target && target.childNodes.length === 0) {
-      target.appendChild(searchCmpnt);
+  React.useEffect(() => {
+    if (isElevioLoaded) {
+      const target = document.getElementById(componentId);
+      const articleComponent = window._elev.component({ type: 'article', id: articleId });
+
+      /* Check if target already loaded the article */
+      if (target && target.childNodes.length === 0) {
+        target.appendChild(articleComponent);
+      }
     }
+  }, [isElevioLoaded]);
+
+  const loadElevio = () => {
+    setIsElevioLoaded(true);
   };
   return (
     <>
@@ -32,7 +40,7 @@ const ElevioArticle = (props: Props) => {
           height: props.height ? props.height : '100%',
         }}
       />
-      <Elevio accountId="6215241b91110" onReady={loadArticle} />
+      <Elevio accountId={AppConfig.ELEVIO_KEY} onReady={loadElevio} />
     </>
   );
 };
