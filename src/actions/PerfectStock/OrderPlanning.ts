@@ -14,6 +14,7 @@ import {
   UpdatePurchaseOrderPayload,
   DraftOrderTemplate,
   InventoryTablePayload,
+  AutoGeneratePurchaseOrderPayload,
 } from '../../interfaces/PerfectStock/OrderPlanning';
 
 /* Selectors */
@@ -220,16 +221,19 @@ export const fetchPurchaseOrders = () => async (dispatch: any) => {
   dispatch(isLoadingPurchaseOrders(false));
 };
 
-export const generateNextOrder = (purchaseOrderId: number) => async (dispatch: any) => {
+export const generateNextOrder = (payload: AutoGeneratePurchaseOrderPayload) => async (
+  dispatch: any
+) => {
   try {
     const sellerId = sellerIDSelector();
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/${purchaseOrderId}/generate-next-order`;
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/${payload.id}/generate-next-order`;
 
     dispatch(isLoadingPurchaseOrders(true));
-    const { status } = await axios.post(URL);
+    const { status } = await axios.post(URL, payload);
 
     if (status === 201) {
       dispatch(fetchPurchaseOrders());
+      dispatch(fetchInventoryTable({}));
     } else {
       dispatch(isLoadingPurchaseOrders(false));
     }
