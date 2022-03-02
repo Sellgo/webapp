@@ -30,8 +30,8 @@ const InventoryBarCell = (props: RowCell) => {
     inventoryCount = 0;
   }
 
-  const displayInventoryCount = inventoryCount === 0 ? '-' : formatNumber(inventoryCount);
-  const displayPercent = percent === 0 ? '-' : `${formatNumber(percent)}%`;
+  const displayInventoryCount = formatNumber(inventoryCount);
+  const displayPercent = `${formatNumber(percent)}%`;
   const displayLoss = potentialLoss === 0 ? '' : `-$${prettyPrintNumber(potentialLoss)}`;
 
   return (
