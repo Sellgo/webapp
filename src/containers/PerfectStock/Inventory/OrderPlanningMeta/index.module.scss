@@ -18,14 +18,14 @@
   background: none;
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 11px;
   font-size: 12px;
   color: $grey_8;
 
   span {
-    font-weight: $fontweight_semibold;
+    font-weight: $fontweight_medium;
     color: $prim_dark_1;
-    margin-right: 8px;
+    margin-right: 3px;
   }
 
   &:hover {
@@ -43,7 +43,7 @@
 }
 
 .exportOptions {
-  margin-left: 10px;
+  margin-left: 40px;
   min-height: max-content;
   padding-top: 10px;
 

@@ -30,8 +30,8 @@ const InventoryBarCell = (props: RowCell) => {
     inventoryCount = 0;
   }
 
-  const displayInventoryCount = formatNumber(inventoryCount);
-  const displayPercent = `${formatNumber(percent)}%`;
+  const displayInventoryCount = inventoryCount === 0 ? '-' : formatNumber(inventoryCount);
+  const displayPercent = percent === 0 ? '-' : `${formatNumber(percent)}%`;
   const displayLoss = potentialLoss === 0 ? '' : `-$${prettyPrintNumber(potentialLoss)}`;
 
   return (
@@ -43,7 +43,7 @@ const InventoryBarCell = (props: RowCell) => {
         <span className={styles.potentialLoss}> {displayLoss}</span>
         <span> {displayInventoryCount} </span>
         <InventoryBar percent={percent / 100} />
-        <span style={percent <= 25 ? { color: '#EB675E' } : {}}>{displayPercent}</span>
+        <span style={percent <= 20 ? { color: '#EB675E' } : {}}>{displayPercent}</span>
       </span>
     </Table.Cell>
   );

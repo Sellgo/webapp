@@ -78,7 +78,7 @@
     "stylelint": "stylelint **/*.{css,scss} --fix",
     "eslint": "eslint -c .eslintrc src/**/*.{ts,tsx,js} --fix",
     "prettier": "prettier --write --config ./.prettierrc src/**/*.{ts,tsx,js,css,scss,json}",
-    "lint": "npm-run-all prettier eslint stylelint"
+    "lint": "npm-run-all prettier  stylelint"
   },
   "browserslist": {
     "production": [
