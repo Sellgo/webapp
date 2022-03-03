@@ -57,9 +57,9 @@ export class TaskRow extends Component {
               style={
                 this.props.isSelected
                   ? {
-                      backgroundColor: '#4B9CF5',
+                      backgroundColor: '#349AF8',
                       color: '#fff',
-                      padding: '0px 10px',
+                      padding: '0px 11px',
                       borderRadius: '3px',
                     }
                   : { padding: '0px 10px', borderRadius: '3px' }
@@ -126,7 +126,7 @@ export class TaskRow extends Component {
                       disabled={!this.props.item.is_included}
                     >
                       <Icon name="check circle outline" />
-                      <span>Set Priority Sku</span>
+                      <span>Set Priority SKU</span>
                     </button>
                     <button
                       onClick={() => {
@@ -212,7 +212,7 @@ export default class TaskList extends Component {
       <div className="timeLine-side">
         <div className="timeLine-side-title">
           <SelectionFilter
-            label="View Timeline"
+            label="CHART TIMELINE"
             filterOptions={TIME_SETTINGS_OPTIONS}
             value={this.props.mode}
             handleChange={value =>
@@ -221,8 +221,8 @@ export default class TaskList extends Component {
             placeholder=""
             className="timeLine-mode-changer"
           />
-          <p className="timeLine-side-title__label">Priority Sku</p>
-          <p className="timeLine-side-title__label">Active</p>
+          <p className="timeLine-side-title__label">PRIORITY SKU</p>
+          <p className="timeLine-side-title__label">ACTIVE</p>
           <Popup
             on="click"
             open={this.state.isPopupOpen}

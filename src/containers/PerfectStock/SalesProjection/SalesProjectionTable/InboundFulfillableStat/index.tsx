@@ -21,7 +21,7 @@ const InboundFulfillableStat = (props: RowCell) => {
           <p className={styles.stat}>{formatNumber(rowData.fulfillable_fba) || '-'}</p>
         </div>
         <div className={styles.statWrapper}>
-          <p className={styles.statLabel}>Transfer</p>
+          <p className={styles.statLabel}>Inbound</p>
           <p className={styles.stat}>{formatNumber(rowData.transfer_fba) || '-'}</p>
         </div>
         <div className={styles.statWrapper}>
