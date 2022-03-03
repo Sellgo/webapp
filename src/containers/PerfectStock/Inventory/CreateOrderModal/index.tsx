@@ -28,7 +28,9 @@ import { sellerIDSelector } from '../../../../selectors/Seller';
 /* Actions */
 import {
   fetchPurchaseOrders,
+  isLoadingPurchaseOrders,
   setActivePurchaseOrder,
+  setPurchaseOrdersLoadingMessage,
 } from '../../../../actions/PerfectStock/OrderPlanning';
 import { error, success } from '../../../../utils/notifications';
 
@@ -41,10 +43,19 @@ interface Props {
   onCloseModal: () => void;
   fetchPurchaseOrders: () => void;
   setActivePurchaseOrder: (order: PurchaseOrder) => void;
+  setPurchaseOrdersLoadingMessage: (message: string) => void;
+  isLoadingPurchaseOrders: (loading: boolean) => void;
 }
 
 const CreateOrder = (props: Props) => {
-  const { open, onCloseModal, fetchPurchaseOrders, setActivePurchaseOrder } = props;
+  const {
+    open,
+    onCloseModal,
+    fetchPurchaseOrders,
+    setActivePurchaseOrder,
+    setPurchaseOrdersLoadingMessage,
+    isLoadingPurchaseOrders,
+  } = props;
 
   const DEFAULT_ORDER: CreateOrderPayload = {
     date: '',
@@ -61,6 +72,8 @@ const CreateOrder = (props: Props) => {
   );
 
   const handleCreateOrder = async () => {
+    isLoadingPurchaseOrders(true);
+    setPurchaseOrdersLoadingMessage('Order creation in progress...');
     try {
       const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-order-templates`;
       const res = await axios.post(url, createOrderPayload);
@@ -70,10 +83,14 @@ const CreateOrder = (props: Props) => {
         success('Successfully created smart order template.');
         setCreateOrderStatus(createOrderStatus + 1);
       } else {
+        isLoadingPurchaseOrders(false);
+        setPurchaseOrdersLoadingMessage('');
         error('Failed to create new order.');
       }
     } catch (err) {
       console.error(err);
+      isLoadingPurchaseOrders(false);
+      setPurchaseOrdersLoadingMessage('');
       error('Failed to add');
     }
   };
@@ -155,6 +172,12 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     setActivePurchaseOrder: (order: PurchaseOrder) => {
       dispatch(setActivePurchaseOrder(order));
+    },
+    isLoadingPurchaseOrders: (loading: boolean) => {
+      dispatch(isLoadingPurchaseOrders(loading));
+    },
+    setPurchaseOrdersLoadingMessage: (message: string) => {
+      dispatch(setPurchaseOrdersLoadingMessage(message));
     },
   };
 };

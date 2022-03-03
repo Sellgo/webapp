@@ -47,7 +47,7 @@ export interface GanttChartPurchaseOrder {
 }
 
 export interface UpdatePurchaseOrderPayload {
-  id: number;
+  id?: number;
   date?: string;
   status?: 'active' | 'inactive';
   is_included?: boolean;
@@ -56,6 +56,7 @@ export interface UpdatePurchaseOrderPayload {
   manual_quantity?: number;
   quantity_mode?: string;
   is_priority?: boolean;
+  purchase_order_ids?: number[];
 }
 
 export interface AutoGeneratePurchaseOrderPayload {

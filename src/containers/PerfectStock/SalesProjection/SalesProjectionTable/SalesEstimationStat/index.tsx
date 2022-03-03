@@ -19,9 +19,6 @@ import TooltipWrapper from '../../../../../components/TooltipWrapper';
 /* Actions */
 import { updateSalesProjectionProduct } from '../../../../../actions/PerfectStock/SalesProjection';
 
-/* Assets */
-import BestSellerLogo from '../../../../../assets/images/medal-solid.svg';
-
 interface Props extends RowCell {
   updateSalesProjectionProduct: (payload: SalesProjectionUpdatePayload) => void;
   daysOffset: number;
@@ -34,13 +31,14 @@ const SalesEstimationStat = (props: Props) => {
 
   /* Formatting key stats */
   const stat = showNAIfZeroOrNull(rowData[dataKey], formatRating(rowData[dataKey]));
-  const included = rowData[`${dataKey}_included`];
+  const included =
+    rowData[`${dataKey}_included`] === 'true' || rowData[`${dataKey}_included`] === true;
   const showWeight = rowData.weighted_average_included;
   const weight = formatDecimal(rowData[`${dataKey}_weight`]);
   const label = rowData[`${dataKey}_label`];
   const totalDays = rowData[`${dataKey}_days_count`];
   const inStockDays = rowData[`${dataKey}_instock_count`];
-  const isBestSeller = rowData[`${dataKey}_best_seller`];
+  // const isBestSeller = rowData[`${dataKey}_best_seller`];
 
   const handleIncludeExcludeStat = () => {
     /* If stat is currently included, update it to be false */
@@ -79,9 +77,9 @@ const SalesEstimationStat = (props: Props) => {
         `}
         onClick={handleIncludeExcludeStat}
       >
-        {isBestSeller && (
+        {/* {isBestSeller && (
           <img src={BestSellerLogo} alt="best seller logo" className={styles.bestSellerLogo} />
-        )}
+        )} */}
         <div className={styles.statsDisplayCell}>
           <div className={styles.inStockDays}>
             In-stock {inStockDays}/{totalDays}

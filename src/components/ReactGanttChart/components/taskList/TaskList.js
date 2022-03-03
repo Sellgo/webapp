@@ -5,7 +5,8 @@ import {
   TIME_SETTINGS_OPTIONS,
   EMPTY_GANTT_CHART_PURCHASE_ORDER,
 } from '../../../../constants/PerfectStock/OrderPlanning';
-import { Icon, Popup, Checkbox, Radio } from 'semantic-ui-react';
+import { Icon, Popup, Radio } from 'semantic-ui-react';
+import ToggleRadio from '../../../../components/ToggleRadio';
 
 export class VerticalLine extends Component {
   constructor(props) {
@@ -69,10 +70,15 @@ export class TaskRow extends Component {
           </div>
           <div className="timeLine-side-task-row-priority-sku">{this.props.prioritySku || '-'}</div>
           {!isFirstRow ? (
-            <Checkbox
-              toggle
-              checked={this.props.item.is_included}
-              onChange={() => this.props.handleIncludedToggle(this.props.item.id)}
+            // <Checkbox
+            //   toggle
+            //   checked={this.props.item.is_included}
+            //   onChange={() => this.props.handleIncludedToggle(this.props.item.id)}
+            // />
+            <ToggleRadio
+              isToggled={this.props.item.is_included}
+              handleChange={() => () => this.props.handleIncludedToggle(this.props.item.id)}
+              label={''}
             />
           ) : (
             <div />
@@ -155,6 +161,10 @@ export default class TaskList extends Component {
     super(props);
   }
 
+  state = {
+    isPopupOpen: false,
+  };
+
   getContainerStyle(rows) {
     let new_height = rows > 0 ? rows * this.props.itemheight : 10;
     return { height: new_height };
@@ -213,6 +223,37 @@ export default class TaskList extends Component {
           />
           <p className="timeLine-side-title__label">Priority Sku</p>
           <p className="timeLine-side-title__label">Active</p>
+          <Popup
+            on="click"
+            open={this.state.isPopupOpen}
+            onOpen={() => this.setState({ isPopupOpen: true })}
+            onClose={() => this.setState({ isPopupOpen: false })}
+            position="bottom left"
+            closeOnDocumentClick
+            closeOnEscape
+            className="timeLine-actionsPopover"
+            content={
+              <>
+                <div className="timeLine-actionOptions">
+                  <p>ORDER</p>
+                  <button
+                    onClick={() => {
+                      this.props.handleDeleteAllTasks();
+                      this.setState({ isPopupOpen: false });
+                    }}
+                  >
+                    <Icon name="trash" />
+                    <span>Delete All Orders</span>
+                  </button>
+                </div>
+              </>
+            }
+            trigger={
+              <button className={'timeLine-triggerButton'}>
+                <Icon name="ellipsis vertical" />
+              </button>
+            }
+          />
           <p />
         </div>
         <div ref="taskViewPort" className="timeLine-side-task-viewPort" onScroll={this.doScroll}>

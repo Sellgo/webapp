@@ -26,7 +26,7 @@ const EditProductRow = (props: Props) => {
       {!hideDaysUntilStockout && (
         <div className={styles.daysUntilStockout}>
           <p className={styles.stockoutDate}>
-            <span>DUS</span>
+            <span>Days until Stockout</span>
             {stockOutDate.toLocaleDateString() !== 'Invalid Date'
               ? stockOutDate.toLocaleDateString()
               : ''}
@@ -37,7 +37,7 @@ const EditProductRow = (props: Props) => {
       <StatBox title={'MOQ'} stat={rowData.moq} />
       <StatBox title={'Cartons'} stat={rowData.carton_count} />
       <StatBox
-        title={'CBM'}
+        title={'Volume'}
         stat={rowData.cbm}
         secondStat={rowData.cft}
         append="m3"
@@ -45,14 +45,15 @@ const EditProductRow = (props: Props) => {
       />
       <StatBox
         title={'Gross Weight'}
-        stat={rowData.weigth_kg}
-        secondStat={rowData.weigth_lbs}
+        stat={rowData.weight_kg}
+        secondStat={rowData.weight_lbs}
         append="kg"
         secondAppend="lbs"
         asFloat
       />
-      <StatBox title={'Est. Shipping/ Unit'} stat={rowData.shipping_cost} prepend="$" asFloat />
       <StatBox title={'Cost Per Unit'} stat={rowData.product_cost} prepend="$" asFloat />
+      <StatBox title={'Total Cost'} stat={rowData.total_cost} prepend="$" asFloat />
+      <StatBox title={'Est. Shipping/ Unit'} stat={rowData.shipping_cost} prepend="$" asFloat />
       <StatBox
         title={'Cost + Shipping Per Unit'}
         stat={
@@ -62,7 +63,6 @@ const EditProductRow = (props: Props) => {
         asFloat
         prepend="$"
       />
-      <StatBox title={'Total Cost'} stat={rowData.total_cost} prepend="$" asFloat />
     </div>
   );
 };

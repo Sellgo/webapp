@@ -37,6 +37,8 @@ const OrderSummary = (props: Props) => {
   let totalCft = 0;
   let totalWeightKg = 0;
   let totalWeightLbs = 0;
+  let totalShippingCost = 0;
+  let totalCostWithShipping = 0;
   inventoryTableResults.forEach(merchantListing => {
     /* Predictive mode, with valid quantity */
     if (merchantListing.quantity_mode === 'predictive' && merchantListing.quantity) {
@@ -52,8 +54,8 @@ const OrderSummary = (props: Props) => {
     }
 
     /* Cartons */
-    if (merchantListing.carton_count) {
-      totalCartons += merchantListing.carton_count;
+    if (merchantListing.total_carton) {
+      totalCartons += merchantListing.total_carton;
     }
 
     /* Cost per unit */
@@ -67,23 +69,33 @@ const OrderSummary = (props: Props) => {
     }
 
     /* Total cbm */
-    if (merchantListing.cbm) {
-      totalCbm += merchantListing.cbm;
+    if (merchantListing.total_cbm) {
+      totalCbm += merchantListing.total_cbm;
     }
 
     /* Total cft */
-    if (merchantListing.cft) {
-      totalCft += merchantListing.cft;
+    if (merchantListing.total_cft) {
+      totalCft += merchantListing.total_cft;
     }
 
     /* Total weight kg */
-    if (merchantListing.weigth_kg) {
-      totalWeightKg += merchantListing.weigth_kg;
+    if (merchantListing.total_weight_kg) {
+      totalWeightKg += merchantListing.total_weight_kg;
     }
 
     /* Total weight Lbs */
-    if (merchantListing.weigth_lbs) {
-      totalWeightLbs += merchantListing.weigth_lbs;
+    if (merchantListing.total_weight_lbs) {
+      totalWeightLbs += merchantListing.total_weight_lbs;
+    }
+
+    /* Shipping cost */
+    if (merchantListing.shipping_cost) {
+      totalShippingCost += merchantListing.shipping_cost;
+    }
+
+    /* Total cost with shipping */
+    if (merchantListing.total_cost_plus_shipping) {
+      totalCostWithShipping += merchantListing.total_cost_plus_shipping;
     }
   });
 
@@ -96,7 +108,7 @@ const OrderSummary = (props: Props) => {
       <div
         className={styles.orderName}
         style={{
-          width: OFFSET_TO_CHART_WIDTH,
+          width: OFFSET_TO_CHART_WIDTH - 112,
         }}
       >
         <span>TOTAL</span>
@@ -119,8 +131,8 @@ const OrderSummary = (props: Props) => {
         </span>
       </div>
       <div className={styles.statWrapper}>
-        <TooltipWrapper tooltipKey="Total CBM">
-          <span className={styles.statHeader}>Total CBM</span>
+        <TooltipWrapper tooltipKey="Total Volume">
+          <span className={styles.statHeader}>Total Volume</span>
         </TooltipWrapper>
         <span className={`${styles.stat} ${styles.stat__double}`}>
           {showNAIfZeroOrNull(totalCbm, `${formatDecimal(totalCbm)} m3`)}
@@ -147,11 +159,27 @@ const OrderSummary = (props: Props) => {
         </span>
       </div>
       <div className={styles.statWrapper}>
-        <TooltipWrapper tooltipKey="Total Cost with Shipping">
-          <span className={styles.statHeader}>Total cost</span>
+        <TooltipWrapper tooltipKey="Total Cost w/o Shipping">
+          <span className={styles.statHeader}>Total cost w/o Shipping</span>
         </TooltipWrapper>
         <span className={styles.stat}>
           {showNAIfZeroOrNull(totalCost, `$${formatDecimal(totalCost)}`)}
+        </span>
+      </div>
+      <div className={styles.statWrapper}>
+        <TooltipWrapper tooltipKey="Estimated Shipping Cost">
+          <span className={styles.statHeader}>Estimated Shipping Cost</span>
+        </TooltipWrapper>
+        <span className={styles.stat}>
+          {showNAIfZeroOrNull(totalShippingCost, `$${formatDecimal(totalShippingCost)}`)}
+        </span>
+      </div>
+      <div className={styles.statWrapper}>
+        <TooltipWrapper tooltipKey="Total Cost with Shipping">
+          <span className={styles.statHeader}>Total cost with Shipping</span>
+        </TooltipWrapper>
+        <span className={styles.stat}>
+          {showNAIfZeroOrNull(totalCostWithShipping, `$${formatDecimal(totalCostWithShipping)}`)}
         </span>
       </div>
     </div>

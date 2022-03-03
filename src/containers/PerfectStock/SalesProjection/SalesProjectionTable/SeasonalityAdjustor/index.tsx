@@ -45,7 +45,10 @@ const SeasonalityAdjustor = (props: Props) => {
           ${styles.seasonalityAdjustorCell}`}
       >
         <ToggleRadio
-          isToggled={rowData.seasonal_adjustment_included}
+          isToggled={
+            rowData.seasonal_adjustment_included === 'true' ||
+            rowData.seasonal_adjustment_included === true
+          }
           handleChange={() =>
             handleSeasonalityAdjustorToggle(!rowData.seasonal_adjustment_included)
           }
@@ -59,6 +62,7 @@ const SeasonalityAdjustor = (props: Props) => {
         open={isEditingSeasonality}
         setOpenPopup={setIsEditingSeasonality}
         id={rowData.id}
+        rowData={rowData}
       />
     </Table.Cell>
   );

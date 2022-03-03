@@ -10,12 +10,14 @@ import LeadTimeMeta from './LeadTimeMeta';
 import Placeholder from '../../../../components/Placeholder';
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
+import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
 
 /* Types */
 import { SingleLeadTimeGroup } from '../../../../interfaces/PerfectStock/SalesProjection';
 
 /* Constants */
 import { AppConfig } from '../../../../config';
+import ActionButton from '../../../../components/ActionButton';
 
 interface Props {
   match: any;
@@ -71,7 +73,7 @@ const LeadTime = (props: Props) => {
           leadTimeToDelete
         );
 
-        if (status === 200) {
+        if (status === 201) {
           let newLeadTimeGroups = [...leadTimeGroups];
           newLeadTimeGroups = newLeadTimeGroups.filter(leadTimeGroup => leadTimeGroup.id !== id);
           setLeadTimeGroups(newLeadTimeGroups);
@@ -100,7 +102,7 @@ const LeadTime = (props: Props) => {
       />
       <SettingsNav match={match} />
       <div className={styles.leadTime}>
-        <LeadTimeMeta handleAddGroup={handleAddLeadTimeGroup} />
+        <LeadTimeMeta />
         {isFetchLeadTimeGroupsLoading && <Placeholder numberParagraphs={3} numberRows={5} isGrey />}
         {!isFetchLeadTimeGroupsLoading &&
           leadTimeGroups.map((leadTimeGroup: SingleLeadTimeGroup, index: number) => (
@@ -110,6 +112,16 @@ const LeadTime = (props: Props) => {
               initialLeadTimeGroup={leadTimeGroup}
             />
           ))}
+        <ActionButton
+          type="purpleGradient"
+          variant="secondary"
+          size="md"
+          className={styles.addTriggerButton}
+          onClick={handleAddLeadTimeGroup}
+        >
+          <ThinAddIcon />
+          <span>Add Lead Time Group</span>
+        </ActionButton>
       </div>
     </main>
   );

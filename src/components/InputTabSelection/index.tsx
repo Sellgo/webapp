@@ -7,19 +7,23 @@ interface Props {
   options: string[];
   selectedOption: string;
   setSelectedOption: (value: string) => void;
+  isPurple?: boolean;
+  borderless?: boolean;
   className?: string;
 }
 
 export default (props: Props) => {
-  const { options, selectedOption, setSelectedOption, className } = props;
+  const { options, selectedOption, setSelectedOption, className, isPurple, borderless } = props;
 
   return (
     <div className={`${styles.inputTabSelection} ${className}`}>
       {options.map(option => (
         <button
           className={`
-            ${styles.option} 
-            ${selectedOption === option ? styles.option__selected : ''}
+            ${styles.option}
+            ${borderless ? styles.option__borderless : ''}
+            ${selectedOption === option && !isPurple ? styles.option__selected : ''}
+            ${selectedOption === option && isPurple ? styles.option__selectedPurple : ''}
           `}
           key={option}
           onClick={() => setSelectedOption(option)}

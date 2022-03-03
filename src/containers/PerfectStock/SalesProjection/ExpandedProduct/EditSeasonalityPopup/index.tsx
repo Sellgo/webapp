@@ -9,9 +9,7 @@ import styles from './index.module.scss';
 /* Components */
 import ActionButton from '../../../../../components/ActionButton';
 import SeasonalityTable from './SeasonalityTable';
-
-/* Assets */
-import { ReactComponent as MapleLeaf } from '../../../../../assets/images/mapleLeaf.svg';
+import ToggleRadio from '../../../../../components/ToggleRadio';
 
 /* Utils */
 import { AppConfig } from '../../../../../config';
@@ -19,19 +17,44 @@ import { sellerIDSelector } from '../../../../../selectors/Seller';
 import { error, success } from '../../../../../utils/notifications';
 
 /* Actions */
-import { fetchSalesProjection } from '../../../../../actions/PerfectStock/SalesProjection';
+import {
+  fetchSalesProjection,
+  updateSalesProjectionProduct,
+} from '../../../../../actions/PerfectStock/SalesProjection';
+
+/* Types */
+import { SalesProjectionUpdatePayload } from '../../../../../interfaces/PerfectStock/SalesProjection';
 
 interface Props {
   open: boolean;
   setOpenPopup: (value: boolean) => void;
   id: number;
+  rowData: any;
   fetchSalesProjection: () => void;
+  updateSalesProjectionProduct: (payload: SalesProjectionUpdatePayload) => void;
 }
 
 const EditSeasonalityPopup = (props: Props) => {
-  const { open, setOpenPopup, id, fetchSalesProjection } = props;
+  const {
+    open,
+    setOpenPopup,
+    id,
+    fetchSalesProjection,
+    updateSalesProjectionProduct,
+    rowData,
+  } = props;
   const [seasonalitySettings, setSeasonalitySettings] = useState<any[]>([]);
   const [isLoadingSeasonalitySettings, setIsLoadingSeasonalitySettings] = useState<boolean>(false);
+
+  /* Seasonality adjustor toggles */
+  const handleSeasonalityAdjustorToggle = (seasonalityAdjustorActivated: boolean) => {
+    updateSalesProjectionProduct({
+      id,
+      updatePayload: {
+        seasonal_adjustment_included: seasonalityAdjustorActivated ? 'true' : 'false',
+      },
+    });
+  };
 
   /* Fetch seasonality settings */
   const getSeasonalitySettings = async () => {
@@ -137,19 +160,20 @@ const EditSeasonalityPopup = (props: Props) => {
       open={open}
       content={
         <div className={styles.modalWrapper}>
-          <h2 className={styles.modalHeader}>
-            <MapleLeaf />
-            &nbsp; SEASONALITY ADJUSTOR
-          </h2>
+          <div className={styles.modalHeader}>
+            <ToggleRadio
+              isToggled={
+                rowData.seasonal_adjustment_included === 'true' ||
+                rowData.seasonal_adjustment_included === true
+              }
+              handleChange={() =>
+                handleSeasonalityAdjustorToggle(!rowData.seasonal_adjustment_included)
+              }
+              label={''}
+            />
+            <h2>&nbsp; SEASONALITY ADJUSTOR: SKU</h2>
+          </div>
           <div className={styles.modalContent}>
-            <div className={styles.seasonalityTitle}>
-              LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT, SED DO EIUSMOD TEMPOR
-              INCIDIDUNT UT LABORE ET DOLORE MAGNA ALIQUA. UT ENIM AD MINIM VENIAM, QUIS NOSTRUD
-              EXERCITATION ULLAMCO LABORIS NISI UT ALIQUIP EX EA COMMODO CONSEQUAT. DUIS AUTE IRURE
-              DOLOR IN REPREHENDERIT IN VOLUPTATE VELIT ESSE CILLUM DOLORE EU FUGIAT NULLA PARIATUR.
-              EXCEPTEUR SINT OCCAECAT CUPIDATAT NON PROIDENT, SUNT IN CULPA QUI OFFICIA DESERUNT
-              MOLLIT ANIM ID EST LABORUM.
-            </div>
             <SeasonalityTable
               seasonalitySettings={seasonalitySettings}
               handleValueChange={handleValueChange}
@@ -187,6 +211,8 @@ const EditSeasonalityPopup = (props: Props) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchSalesProjection: () => dispatch(fetchSalesProjection({})),
+    updateSalesProjectionProduct: (payload: SalesProjectionUpdatePayload) =>
+      dispatch(updateSalesProjectionProduct(payload)),
   };
 };
 

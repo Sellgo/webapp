@@ -2,6 +2,7 @@
 
 .leadTimeMetaTitle {
   margin-top: 75px;
+  margin-bottom: 30px;
   width: 100%;
   height: 40px;
   border-bottom: 1px solid $grey_3;
@@ -10,28 +11,4 @@
   font-weight: $fontweight_medium;
   display: flex;
   align-items: center;
-}
-
-.addTriggerButton {
-  width: 90px;
-  width: 200px;
-  margin: 30px 40px;
-
-  svg {
-    width: 12px;
-    height: 12px;
-    margin-right: 10px;
-
-    path {
-      fill: $black_1 !important;
-    }
-  }
-
-  &:hover {
-    svg {
-      path {
-        fill: $prim_white !important;
-      }
-    }
-  }
 }

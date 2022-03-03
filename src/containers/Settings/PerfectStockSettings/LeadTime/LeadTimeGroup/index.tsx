@@ -14,10 +14,6 @@ import InputFilter from '../../../../../components/FormFilters/InputFilter';
 import Placeholder from '../../../../../components/Placeholder';
 import LeadTimeBar from '../../../../../components/LeadTimeBar';
 
-/* Assets */
-import { ReactComponent as ExpandedCellIcon } from '../../../../../assets/images/expandCell.svg';
-import { ReactComponent as DeExpandedCellIcon } from '../../../../../assets/images/deExpandCell.svg';
-
 /* Interfaces */
 import {
   LeadTime,
@@ -130,16 +126,13 @@ const LeadTimeGroup = (props: Props) => {
 
   return (
     <div className={styles.leadTimeGroupWrapper}>
-      <button className={styles.expandIcon} onClick={() => setOpen(!isOpen)}>
-        {!isOpen ? <ExpandedCellIcon /> : <DeExpandedCellIcon />}
-      </button>
-
       <div className={styles.leadTimeGroup}>
         {/* TRIGGER HEADER */}
         <BoxHeader
           className={`${styles.leadTimeGroupHeader} ${
             !isOpen ? styles.leadTimeGroupHeader__closed : ''
           }`}
+          onClick={() => setOpen(!isOpen)}
         >
           {/* EDITTING NAME SECTION */}
           {!isEditingName ? (

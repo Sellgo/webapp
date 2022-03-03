@@ -9,6 +9,11 @@
     font-weight: $fontweight_medium;
     color: $prim_dark_2;
     align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      background: $grey_0;
+    }
 
     &__closed {
       border-bottom: 1px solid $grey_3;
@@ -19,13 +24,6 @@
   .leadTimeGroup {
     width: 100%;
   }
-}
-
-.expandIcon {
-  background: none;
-  display: flex;
-  margin-top: 15px;
-  margin-right: 10px;
 }
 
 .deleteTriggerIcon {

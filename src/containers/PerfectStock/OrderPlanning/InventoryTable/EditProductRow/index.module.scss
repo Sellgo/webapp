@@ -3,14 +3,14 @@
 .editProductRow {
   display: flex;
   height: 100%;
-  padding-left: 376px;
+  padding-left: 234px;
 }
 
 .daysUntilStockout {
-  width: 110px;
+  width: max-content;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
 }
 
@@ -25,6 +25,7 @@
 
   span {
     margin-right: 5px;
+    padding-right: 0;
     font-size: 8px;
     color: $grey_8;
     font-weight: $fontweight_medium;
@@ -37,4 +38,5 @@
   font-size: 14px;
   color: $system_red;
   font-weight: $fontweight_bold;
+  padding-right: 10px;
 }

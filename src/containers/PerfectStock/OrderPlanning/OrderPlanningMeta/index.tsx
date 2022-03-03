@@ -8,6 +8,7 @@ import styles from './index.module.scss';
 import ActionButton from '../../../../components/ActionButton';
 import ToggleRadio from '../../../../components/ToggleRadio';
 import TooltipWrapper from '../../../../components/TooltipWrapper';
+import InputTabSelection from '../../../../components/InputTabSelection';
 
 /* Assets */
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
@@ -45,6 +46,14 @@ const OrderPlanningMeta = (props: Props) => {
     hasActivePurchaseOrder = true;
   }
 
+  const handleToggleInventoryViewMode = (mode: string) => {
+    if (mode === 'Inventory (qty)') {
+      setIsShowingDaysUntilStockout(false);
+    } else {
+      setIsShowingDaysUntilStockout(true);
+    }
+  };
+
   return (
     <>
       <div className={styles.orderPlanningMeta}>
@@ -70,6 +79,13 @@ const OrderPlanningMeta = (props: Props) => {
             }
           />
         </TooltipWrapper>
+        <InputTabSelection
+          options={['Inventory (qty)', 'Stockout (days)']}
+          selectedOption={isShowingDaysUntilStockout ? 'Stockout (days)' : 'Inventory (qty)'}
+          setSelectedOption={handleToggleInventoryViewMode}
+          isPurple
+          borderless
+        />
       </div>
     </>
   );

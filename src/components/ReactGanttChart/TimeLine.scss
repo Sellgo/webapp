@@ -215,7 +215,7 @@
 
 .timeLine-side-task-row-name {
   display: grid;
-  grid-template-columns: 50% 35% 10% 5%;
+  grid-template-columns: 50% 38% 7% 5%;
   align-items: center;
   justify-content: space-between;
   height: 100%;
@@ -245,6 +245,11 @@
   overflow-x: hidden;
   overflow-y: auto;
   width: 100%;
+
+  /* Width of scroll bar */
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
 }
 
 .timeLine-side-task-container {
