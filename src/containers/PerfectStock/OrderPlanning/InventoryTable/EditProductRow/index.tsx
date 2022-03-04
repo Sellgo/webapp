@@ -36,7 +36,7 @@ const EditProductRow = (props: Props) => {
   stockOutDate.setTime(stockOutDate.getTime() + daysToStockOut * 24 * 60 * 60 * 1000);
   return (
     <div className={styles.editProductRow}>
-      {!hideDaysUntilStockout && (
+      {!hideDaysUntilStockout ? (
         <div className={styles.daysUntilStockout}>
           <p className={styles.stockoutDate}>
             <span>Days until Stockout</span>
@@ -46,6 +46,8 @@ const EditProductRow = (props: Props) => {
           </p>
           <p className={styles.stockoutNumber}>{daysToStockOut}</p>
         </div>
+      ) : (
+        <div className={styles.emptyStatBox} />
       )}
       <StatBox title={'MOQ'} stat={rowData.moq} />
       <StatBox title={'Cartons'} stat={rowData.carton_count} />
