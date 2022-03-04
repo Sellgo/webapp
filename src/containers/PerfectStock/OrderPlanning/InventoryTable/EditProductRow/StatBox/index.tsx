@@ -37,7 +37,7 @@ const StatBox = (props: Props) => {
   return (
     <div className={styles.statBox}>
       <p className={styles.title}>{title}</p>
-      <p className={styles.stat}>
+      <div className={styles.stat}>
         {editable && handleEditSave ? (
           <InputWithSaveOptions
             defaultValue={displayStat}
@@ -62,7 +62,7 @@ const StatBox = (props: Props) => {
             {secondDisplayStat && secondDisplayStat !== 0 ? secondAppend : ''}
           </span>
         )}
-      </p>
+      </div>
     </div>
   );
 };
