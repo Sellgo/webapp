@@ -108,6 +108,7 @@ const LeadTime = (props: Props) => {
           leadTimeGroups.map((leadTimeGroup: SingleLeadTimeGroup, index: number) => (
             <LeadTimeGroup
               key={index}
+              fetchLeadTimeGroups={fetchLeadTimeGroups}
               handleDeleteLeadTimeGroup={handleDeleteLeadTimeGroup}
               initialLeadTimeGroup={leadTimeGroup}
             />

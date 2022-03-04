@@ -43,8 +43,13 @@ const EditSeasonalityPopup = (props: Props) => {
     updateSalesProjectionProduct,
     rowData,
   } = props;
+
   const [seasonalitySettings, setSeasonalitySettings] = useState<any[]>([]);
   const [isLoadingSeasonalitySettings, setIsLoadingSeasonalitySettings] = useState<boolean>(false);
+
+  const isSeasonalityEnabled =
+    rowData.seasonal_adjustment_included === true ||
+    rowData.seasonal_adjustment_included === 'true';
 
   /* Seasonality adjustor toggles */
   const handleSeasonalityAdjustorToggle = (seasonalityAdjustorActivated: boolean) => {
@@ -162,10 +167,7 @@ const EditSeasonalityPopup = (props: Props) => {
         <div className={styles.modalWrapper}>
           <div className={styles.modalHeader}>
             <ToggleRadio
-              isToggled={
-                rowData.seasonal_adjustment_included === 'true' ||
-                rowData.seasonal_adjustment_included === true
-              }
+              isToggled={isSeasonalityEnabled}
               handleChange={() =>
                 handleSeasonalityAdjustorToggle(!rowData.seasonal_adjustment_included)
               }
@@ -173,7 +175,12 @@ const EditSeasonalityPopup = (props: Props) => {
             />
             <h2>&nbsp; SEASONALITY ADJUSTOR: SKU</h2>
           </div>
-          <div className={styles.modalContent}>
+          <div
+            className={`
+            ${styles.modalContent}
+            ${!isSeasonalityEnabled ? styles.modalContent__disabled : ''}
+          `}
+          >
             <SeasonalityTable
               seasonalitySettings={seasonalitySettings}
               handleValueChange={handleValueChange}

@@ -190,7 +190,7 @@
   display: grid;
   margin-bottom: 11px;
   padding-right: 10px;
-  grid-template-columns: 50% 35% 10% 5%;
+  grid-template-columns: 50% 32% 10% 7%;
   justify-content: flex-start;
   align-items: flex-end;
   width: 100%;
@@ -210,13 +210,13 @@
     text-align: left;
     font-size: 12px;
     font-weight: $fontweight_semibold;
-    margin-bottom: 11px;
+    margin: 0;
   }
 }
 
 .timeLine-side-task-row-name {
   display: grid;
-  grid-template-columns: 50% 38% 7% 5%;
+  grid-template-columns: 50% 32% 10% 7%;
   align-items: center;
   justify-content: space-between;
   height: 100%;

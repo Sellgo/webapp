@@ -119,7 +119,9 @@ const ExpandedProduct = (props: Props) => {
     <div className={styles.expandedProduct}>
       <ProductSettings
         productId={rowData.id}
-        defaultWeightActivated={rowData.weighted_average_included}
+        defaultWeightActivated={
+          rowData.weighted_average_included === true || rowData.weighted_average_included === 'true'
+        }
         defaultWeightL30D={rowData.avg_l30d_weight}
         defaultWeightL90D={rowData.avg_l90d_weight}
         defaultWeightL7D={rowData.avg_l7d_weight}

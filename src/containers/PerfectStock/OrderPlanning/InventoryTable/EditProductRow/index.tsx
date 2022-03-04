@@ -38,30 +38,44 @@ const EditProductRow = (props: Props) => {
       <StatBox title={'Cartons'} stat={rowData.carton_count} />
       <StatBox
         title={'Volume'}
-        stat={rowData.cbm}
-        secondStat={rowData.cft}
+        stat={rowData.total_cbm}
+        secondStat={rowData.total_cft || 0}
         append="m3"
         secondAppend="ft3"
       />
       <StatBox
         title={'Gross Weight'}
-        stat={rowData.weight_kg}
-        secondStat={rowData.weight_lbs}
+        stat={rowData.total_weight_kg}
+        secondStat={rowData.total_weight_lbs || 0}
         append="kg"
         secondAppend="lbs"
         asFloat
       />
       <StatBox title={'Cost Per Unit'} stat={rowData.product_cost} prepend="$" asFloat />
-      <StatBox title={'Total Cost'} stat={rowData.total_cost} prepend="$" asFloat />
-      <StatBox title={'Est. Shipping/ Unit'} stat={rowData.shipping_cost} prepend="$" asFloat />
+      <StatBox
+        title={'Est. Shipping/ Unit'}
+        stat={rowData.shipping_cost_per_unit}
+        prepend="$"
+        asFloat
+      />
       <StatBox
         title={'Cost + Shipping Per Unit'}
-        stat={
-          (rowData.product_cost ? parseFloat(rowData.product_cost) : 0) +
-          (rowData.shipping_cost ? parseFloat(rowData.shipping_cost) : 0)
-        }
+        stat={rowData.cost_plus_shipping_per_unit}
         asFloat
         prepend="$"
+      />
+      <StatBox title={'Total Cost'} stat={rowData.total_cost} prepend="$" asFloat />
+      <StatBox
+        title={'Est. Shipping Cost'}
+        stat={rowData.total_shipping_cost}
+        prepend="$"
+        asFloat
+      />
+      <StatBox
+        title={'Total Cost with Shipping'}
+        stat={rowData.total_cost_plus_shipping}
+        prepend="$"
+        asFloat
       />
     </div>
   );

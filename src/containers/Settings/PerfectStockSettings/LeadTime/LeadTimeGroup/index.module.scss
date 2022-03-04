@@ -92,3 +92,14 @@
     width: 900px !important;
   }
 }
+
+.defaultButton {
+  background: none;
+  cursor: pointer;
+  font-weight: $fontweight_medium;
+  margin-right: 18px;
+
+  &:hover {
+    font-weight: $fontweight_semibold;
+  }
+}

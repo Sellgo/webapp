@@ -29,6 +29,11 @@
   height: calc(100% - 50px);
   padding: 0 40px;
   padding-bottom: 30px;
+
+  &__disabled {
+    opacity: 0.3;
+    pointer-events: none;
+  }
 }
 
 .seasonalityTitle {

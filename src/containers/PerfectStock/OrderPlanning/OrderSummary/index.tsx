@@ -32,6 +32,8 @@ const OrderSummary = (props: Props) => {
   let totalUnits = 0;
   let totalCartons = 0;
   let costPerUnit = 0;
+  let shippingPerUnit = 0;
+  let costPlusShippingPerUnit = 0;
   let totalCost = 0;
   let totalCbm = 0;
   let totalCft = 0;
@@ -59,8 +61,18 @@ const OrderSummary = (props: Props) => {
     }
 
     /* Cost per unit */
-    if (merchantListing.unit_cost) {
-      costPerUnit += merchantListing.product_cost;
+    if (merchantListing.product_cost) {
+      costPerUnit += parseFloat(merchantListing.product_cost);
+    }
+
+    /* Shipping per unit */
+    if (merchantListing.shipping_cost_per_unit) {
+      shippingPerUnit += merchantListing.shipping_cost_per_unit;
+    }
+
+    /* Cost + Shipping per unit */
+    if (merchantListing.cost_plus_shipping_per_unit) {
+      costPlusShippingPerUnit += merchantListing.cost_plus_shipping_per_unit;
     }
 
     /* Total cost */
@@ -156,6 +168,21 @@ const OrderSummary = (props: Props) => {
         <span className={styles.statHeader}>Cost per unit</span>
         <span className={styles.stat}>
           {showNAIfZeroOrNull(costPerUnit, `$${formatDecimal(costPerUnit)}`)}
+        </span>
+      </div>
+      <div className={styles.statWrapper}>
+        <span className={styles.statHeader}>Est. Shipping/ Unit</span>
+        <span className={styles.stat}>
+          {showNAIfZeroOrNull(shippingPerUnit, `$${formatDecimal(shippingPerUnit)}`)}
+        </span>
+      </div>
+      <div className={styles.statWrapper}>
+        <span className={styles.statHeader}>Cost + Shipping Per Unit</span>
+        <span className={styles.stat}>
+          {showNAIfZeroOrNull(
+            costPlusShippingPerUnit,
+            `$${formatDecimal(costPlusShippingPerUnit)}`
+          )}
         </span>
       </div>
       <div className={styles.statWrapper}>
