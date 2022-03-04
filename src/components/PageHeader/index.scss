@@ -19,6 +19,19 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+
+    .surveyButton {
+      font-size: 14px !important;
+      width: 200px;
+      height: 30px !important;
+      background: red;
+
+      svg {
+        margin-right: 10px;
+        width: 15px;
+        height: 15px;
+      }
+    }
   }
 
   @media (max-width: 767px) {
@@ -68,8 +81,9 @@
     display: flex;
     // Override default top margin so less space between
     // breadcrumbs and header.
-    margin-top: 1.2rem;
     margin-right: 2rem;
+    margin-top: 6px;
+    margin-bottom: 5px;
   }
 
   @media screen and (min-width: 310px) and (max-width: 767px) {

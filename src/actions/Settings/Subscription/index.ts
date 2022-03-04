@@ -280,6 +280,20 @@ export const fetchSellerSubscriptionPaid = (subscription: any) => (dispatch: any
     });
 };
 
+export const updateSeller = (payload: any) => async (dispatch: any) => {
+  const sellerID = localStorage.getItem('userId');
+
+  try {
+    const url = AppConfig.BASE_URL_API + `sellers/${sellerID}`;
+    const { status } = await Axios.patch(url, payload);
+    if (status === 200) {
+      dispatch(fetchSellerSubscription());
+    }
+  } catch (err) {
+    console.log('error: ', err);
+  }
+};
+
 export const setSubscriptions = (data: any) => ({
   type: SET_PRICING_SUBSCRIPTIONS,
   payload: data,
