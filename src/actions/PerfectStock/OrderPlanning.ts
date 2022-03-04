@@ -212,7 +212,6 @@ export const setDraftTemplates = (payload: DraftOrderTemplate[]) => {
 /*********** Async Actions ************************ */
 /* Action to fetch purchase orders */
 export const fetchPurchaseOrders = () => async (dispatch: any) => {
-  success('Generating next orders...');
   try {
     const sellerId = sellerIDSelector();
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders`;
@@ -224,7 +223,6 @@ export const fetchPurchaseOrders = () => async (dispatch: any) => {
       dispatch(setPurchaseOrders(data));
     }
   } catch (err) {
-    error('Failed to generate next orders');
     dispatch(setPurchaseOrders([]));
     console.error('Error fetching sales estimation', err);
   }
@@ -236,6 +234,7 @@ export const generateNextOrder = (payload: AutoGeneratePurchaseOrderPayload) => 
   dispatch: any
 ) => {
   try {
+    success('Generating next orders...');
     const sellerId = sellerIDSelector();
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/${payload.id}/generate-next-order`;
 
@@ -248,9 +247,11 @@ export const generateNextOrder = (payload: AutoGeneratePurchaseOrderPayload) => 
       dispatch(fetchInventoryTable({}));
     } else {
       dispatch(isLoadingPurchaseOrders(false));
+      error('Failed to generate next orders');
     }
   } catch (err) {
     dispatch(isLoadingPurchaseOrders(false));
+    error('Failed to generate next orders');
     console.error('Error fetching sales estimation', err);
   }
   dispatch(setPurchaseOrdersLoadingMessage(''));
