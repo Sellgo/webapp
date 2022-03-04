@@ -42,8 +42,7 @@ const InventoryBarCell = (props: RowCell) => {
       >
         <span className={styles.potentialLoss}> {displayLoss}</span>
         <span className={styles.inventoryCount}>
-          {' '}
-          {displayInventoryCount === '0' ? ' ' : displayInventoryCount}{' '}
+          {displayInventoryCount === '0' ? ' ' : displayInventoryCount}
         </span>
         <InventoryBar percent={percent / 100} />
         <span style={percent <= 20 ? { color: '#EB675E' } : {}}>{displayPercent}</span>

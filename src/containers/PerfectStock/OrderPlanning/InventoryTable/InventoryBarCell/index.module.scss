@@ -10,6 +10,10 @@
   align-items: center;
   font-size: 10px;
   color: $grey_8;
+
+  .inventoryCount {
+    height: 12px;
+  }
 }
 
 .potentialLoss {

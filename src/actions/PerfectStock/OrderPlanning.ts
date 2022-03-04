@@ -304,11 +304,12 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
       });
     }
 
-    if (payload.is_priority) {
+    if (payload.is_priority && payload.po_sku_id) {
       newPurchaseOrders = newPurchaseOrders.map((order: any) => {
         if (order.id === payload.id) {
           return {
             ...order,
+            po_sku_id: payload.po_sku_id,
             is_priority: payload.is_priority,
           };
         }

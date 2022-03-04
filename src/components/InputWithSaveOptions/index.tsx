@@ -35,11 +35,15 @@ const InputWithSaveOptions = (props: Props) => {
     size = 'small',
   } = props;
 
-  const [updatedValue, setUpdatedValue] = React.useState<string>(defaultValue.toString());
+  const [updatedValue, setUpdatedValue] = React.useState<string>(
+    defaultValue ? defaultValue.toString() : ''
+  );
   const [isEditingValue, setIsEditingValue] = React.useState<boolean>(false);
 
   React.useEffect(() => {
-    setUpdatedValue(defaultValue.toString());
+    if (defaultValue) {
+      setUpdatedValue(defaultValue.toString());
+    }
   }, [defaultValue]);
 
   const handleDiscardChanges = () => {
@@ -77,7 +81,8 @@ const InputWithSaveOptions = (props: Props) => {
   };
 
   React.useEffect(() => {
-    if (defaultValue.toString() !== updatedValue) {
+    const newDefaultValue = defaultValue ? defaultValue.toString() : '';
+    if (newDefaultValue !== updatedValue) {
       setIsEditingValue(true);
     } else {
       setIsEditingValue(false);

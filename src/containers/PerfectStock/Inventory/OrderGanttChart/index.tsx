@@ -324,6 +324,7 @@ const OrderGanttChart = (props: Props) => {
             handleChangeFilterOption={handleChangeFilterOption}
             viewFilter={viewFilter}
             handleIncludedToggle={(id: number) => {
+              console.log(id);
               updatePurchaseOrder({
                 id,
                 is_included: !purchaseOrders.find(

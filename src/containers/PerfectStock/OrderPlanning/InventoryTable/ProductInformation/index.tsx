@@ -17,14 +17,19 @@ const ProductInformation = (props: RowCell) => {
   const { rowData } = props;
   const { image_url, asin, title, sku } = rowData;
   const productImage = image_url ? image_url.replace('SL75', 'SL140') : placeholderImage;
+  const productLink = `http://www.amazon.com/dp/${asin}`;
 
   return (
     <Table.Cell {...props}>
       <div className={styles.productInformation}>
         {/* Product Image */}
-        <img src={productImage} className={styles.productImage} />
+        <a href={productLink} target="_blank" rel="noopener noreferrer">
+          <img src={productImage} className={styles.productImage} />
+        </a>{' '}
         <div className={styles.productDetails}>
-          <p className={styles.productTitle}>{title}</p>
+          <a href={productLink} target="_blank" rel="noopener noreferrer">
+            <p className={styles.productTitle}>{title}</p>
+          </a>
 
           <div className={styles.productAttributes}>
             <div className={styles.flagAndAsinCol}>

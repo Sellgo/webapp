@@ -185,6 +185,9 @@ const OrderSummary = (props: Props) => {
           )}
         </span>
       </div> */}
+      <div className={`${styles.statWrapper}`} />
+      <div className={`${styles.statWrapper} ${styles.statWrapper_borderless}`} />
+      <div className={`${styles.statWrapper} ${styles.statWrapper_borderless}`} />
       <div className={styles.statWrapper}>
         <TooltipWrapper tooltipKey="Total Cost w/o Shipping">
           <span className={styles.statHeader}>Total cost w/o Shipping</span>

@@ -70,14 +70,9 @@ export class TaskRow extends Component {
           </div>
           <div className="timeLine-side-task-row-priority-sku">{this.props.prioritySku || '-'}</div>
           {!isFirstRow ? (
-            // <Checkbox
-            //   toggle
-            //   checked={this.props.item.is_included}
-            //   onChange={() => this.props.handleIncludedToggle(this.props.item.id)}
-            // />
             <ToggleRadio
               isToggled={this.props.item.is_included}
-              handleChange={() => () => this.props.handleIncludedToggle(this.props.item.id)}
+              handleChange={() => this.props.handleIncludedToggle(this.props.item.id)}
               label={''}
             />
           ) : (

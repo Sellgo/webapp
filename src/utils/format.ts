@@ -11,10 +11,9 @@ export const formatNumber = (num: any) => Math.round(num).toLocaleString();
 
 export const formatDecimal = (num: any) => {
   if (!num) {
-    return 0;
+    return num;
   }
-  // const numberDecimalArray = Number(num).toFixed(2).split('.');
-  // return `${Math.round(num).toLocaleString().split('.')[0]}${numberDecimalArray[1]}`;
+
   return (
     num.toLocaleString().split('.')[0] +
     '.' +

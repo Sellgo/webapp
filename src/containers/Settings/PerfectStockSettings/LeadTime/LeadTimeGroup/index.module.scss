@@ -5,6 +5,7 @@
   margin-bottom: 18px;
 
   .leadTimeGroupHeader {
+    position: relative;
     font-size: $fontsize_content_14;
     font-weight: $fontweight_medium;
     color: $prim_dark_2;
@@ -104,4 +105,11 @@
   &:hover {
     font-weight: $fontweight_semibold;
   }
+}
+
+.exclaimationIcon {
+  position: absolute;
+  left: 10px;
+  height: 15px;
+  width: 15px;
 }
