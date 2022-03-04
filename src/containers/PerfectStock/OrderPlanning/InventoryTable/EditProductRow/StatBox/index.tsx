@@ -49,17 +49,17 @@ const StatBox = (props: Props) => {
           />
         ) : (
           <span>
-            {displayStat && prepend}
+            {displayStat && displayStat !== 0 ? prepend : ''}
             {displayStat || '-'}
-            {displayStat && append}
+            {displayStat && displayStat !== 0 ? append : ''}
           </span>
         )}
         {secondStat && (
           <span>
             &nbsp;&nbsp;
-            {secondDisplayStat && secondPrepend}
+            {secondDisplayStat && secondDisplayStat !== 0 ? secondPrepend : ''}
             {secondDisplayStat || '-'}
-            {secondDisplayStat && secondAppend}
+            {secondDisplayStat && secondDisplayStat !== 0 ? secondAppend : ''}
           </span>
         )}
       </p>

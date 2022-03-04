@@ -55,6 +55,7 @@ const EditProductRow = (props: Props) => {
         secondStat={rowData.total_cft || 0}
         append="m3"
         secondAppend="ft3"
+        asFloat
       />
       <StatBox
         title={'Gross Weight'}

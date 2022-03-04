@@ -10,7 +10,7 @@ export const formatCurrency = (num: any) =>
 export const formatNumber = (num: any) => Math.round(num).toLocaleString();
 
 export const formatDecimal = (num: any) => {
-  if (!num) {
+  if (!num || num === 0 || num === '0') {
     return num;
   }
 
