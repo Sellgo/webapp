@@ -26,16 +26,31 @@ import { error, success } from '../../../../../utils/notifications';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
 
 interface Props {
+  openLeadTimes: number[];
+  setOpenLeadTimes: (value: number[]) => void;
   initialLeadTimeGroup: SingleLeadTimeGroup;
   handleDeleteLeadTimeGroup: (index: number) => void;
   fetchLeadTimeGroups: () => void;
 }
 
 const LeadTimeGroup = (props: Props) => {
-  const { initialLeadTimeGroup, handleDeleteLeadTimeGroup, fetchLeadTimeGroups } = props;
+  const {
+    initialLeadTimeGroup,
+    handleDeleteLeadTimeGroup,
+    fetchLeadTimeGroups,
+    openLeadTimes,
+    setOpenLeadTimes,
+  } = props;
 
   /* Modal State */
-  const [isOpen, setOpen] = useState<boolean>(false);
+  const isOpen = openLeadTimes.includes(initialLeadTimeGroup.id);
+  const handleOpenLeadTimeGroup = () => [
+    setOpenLeadTimes([...openLeadTimes, initialLeadTimeGroup.id]),
+  ];
+  const handleCloseLeadTimeGroup = () => {
+    setOpenLeadTimes(openLeadTimes.filter(id => id !== initialLeadTimeGroup.id));
+  };
+  // const [isOpen, setOpen] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
   /* Trigger Name State */
@@ -45,10 +60,11 @@ const LeadTimeGroup = (props: Props) => {
   const [newLeadTimeGroup, setNewLeadTimeGroup] = useState<SingleLeadTimeGroup>(
     initialLeadTimeGroup
   );
-  const leadTimesWithId = newLeadTimeGroup.lead_times.map((leadTime: LeadTime, index: number) => {
-    leadTime.id = index;
-    return leadTime;
-  });
+  const leadTimesWithId =
+    newLeadTimeGroup.lead_times?.map((leadTime: LeadTime, index: number) => {
+      leadTime.id = index;
+      return leadTime;
+    }) || [];
 
   const handleAddLeadTime = () => {
     setNewLeadTimeGroup({
@@ -76,8 +92,6 @@ const LeadTimeGroup = (props: Props) => {
 
         if (refreshUponSave) {
           fetchLeadTimeGroups();
-        } else {
-          setOpen(false);
         }
       }
     } catch (err) {
@@ -97,7 +111,7 @@ const LeadTimeGroup = (props: Props) => {
 
   const handleCancel = () => {
     setNewLeadTimeGroup(initialLeadTimeGroup);
-    setOpen(false);
+    handleCloseLeadTimeGroup();
   };
 
   /* Hook called upon editing name of lead time group */
@@ -163,7 +177,13 @@ const LeadTimeGroup = (props: Props) => {
           className={`${styles.leadTimeGroupHeader} ${
             !isOpen ? styles.leadTimeGroupHeader__closed : ''
           }`}
-          onClick={() => setOpen(!isOpen)}
+          onClick={() => {
+            if (isOpen) {
+              handleCloseLeadTimeGroup();
+            } else {
+              handleOpenLeadTimeGroup();
+            }
+          }}
         >
           {/* EDITTING NAME SECTION */}
           {!isEditingName ? (
@@ -172,7 +192,10 @@ const LeadTimeGroup = (props: Props) => {
               {newLeadTimeGroup.is_default ? ' (Default)' : ''}
               {isOpen && (
                 <Icon
-                  onClick={() => setEditingName(true)}
+                  onClick={(event: any) => {
+                    event.stopPropagation();
+                    setEditingName(true);
+                  }}
                   name="pencil"
                   className={styles.editIcon}
                 />
@@ -189,25 +212,36 @@ const LeadTimeGroup = (props: Props) => {
               <Icon
                 name="check"
                 className={styles.checkIcon}
-                onClick={() => handleSaveName(true)}
+                onClick={(event: any) => {
+                  event.stopPropagation();
+                  handleSaveName(true);
+                }}
               />
               <Icon
                 name="close"
                 className={styles.closeIcon}
-                onClick={() => handleSaveName(false)}
+                onClick={(event: any) => {
+                  event.stopPropagation();
+                  handleSaveName(false);
+                }}
               />
             </div>
           )}
 
           {/* DELETE ICON */}
           <div>
-            <button className={styles.defaultButton} onClick={handleSaveAsDefault}>
-              Set as default
-            </button>
+            {!initialLeadTimeGroup?.is_default && (
+              <button className={styles.defaultButton} onClick={handleSaveAsDefault}>
+                Set as default
+              </button>
+            )}
             <Icon
               name="trash alternate"
               className={styles.deleteTriggerIcon}
-              onClick={() => setIsDeleting(true)}
+              onClick={(event: any) => {
+                event.stopPropagation();
+                setIsDeleting(true);
+              }}
             />
           </div>
         </BoxHeader>

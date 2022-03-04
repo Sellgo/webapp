@@ -27,6 +27,8 @@
 }
 
 .deleteTriggerIcon {
+  width: 30px !important;
+  height: 25px !important;
   cursor: pointer;
   color: $grey_8 !important;
   font-size: 12px !important;
@@ -97,7 +99,7 @@
   background: none;
   cursor: pointer;
   font-weight: $fontweight_medium;
-  margin-right: 18px;
+  margin-right: 8px;
 
   &:hover {
     font-weight: $fontweight_semibold;

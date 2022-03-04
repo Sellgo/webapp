@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { updatePurchaseOrder } from '../../../../../actions/PerfectStock/OrderPlanning';
+import { UpdatePurchaseOrderPayload } from '../../../../../interfaces/PerfectStock/OrderPlanning';
 import { formatNumber, showNAIfZeroOrNull } from '../../../../../utils/format';
 
 /* Styling */
@@ -10,14 +13,24 @@ import StatBox from './StatBox';
 interface Props {
   rowData: any;
   hideDaysUntilStockout?: boolean;
+  updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => void;
 }
 
 const EditProductRow = (props: Props) => {
-  const { rowData, hideDaysUntilStockout } = props;
+  const { rowData, hideDaysUntilStockout, updatePurchaseOrder } = props;
   const daysToStockOut = showNAIfZeroOrNull(
     rowData.days_until_so,
     formatNumber(rowData.days_until_so)
   );
+
+  const updateInventorySku = async (shippingCost: string) => {
+    const id = rowData.merchant_listing_id;
+    updatePurchaseOrder({
+      id,
+      po_sku_id: rowData.id,
+      total_shipping_cost: parseFloat(shippingCost),
+    });
+  };
 
   const stockOutDate = new Date();
   stockOutDate.setTime(stockOutDate.getTime() + daysToStockOut * 24 * 60 * 60 * 1000);
@@ -70,6 +83,8 @@ const EditProductRow = (props: Props) => {
         stat={rowData.total_shipping_cost}
         prepend="$"
         asFloat
+        editable
+        handleEditSave={updateInventorySku}
       />
       <StatBox
         title={'Total Cost with Shipping'}
@@ -81,4 +96,9 @@ const EditProductRow = (props: Props) => {
   );
 };
 
-export default EditProductRow;
+const mapDispatchToProps = (dispatch: any) => ({
+  updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) =>
+    dispatch(updatePurchaseOrder(payload)),
+});
+
+export default connect(null, mapDispatchToProps)(EditProductRow);

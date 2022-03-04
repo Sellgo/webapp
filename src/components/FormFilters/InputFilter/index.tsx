@@ -65,6 +65,7 @@ const InputFilter: React.FC<Props> = props => {
   const handleChangeWithRules = (value: string) => {
     if (isNumber && !value) {
       handleChange('0');
+      return;
     }
 
     /* Positive integers only */
