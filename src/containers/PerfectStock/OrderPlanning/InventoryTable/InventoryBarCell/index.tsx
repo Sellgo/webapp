@@ -47,7 +47,7 @@ const InventoryBarCell = (props: Props) => {
             ${inventoryCount === 0 ? styles.daysUntilStockoutCell__red : ''}
           `}
         >
-          <span>{inventory}</span>
+          <span>{inventory || 0}</span>
         </div>
       </Table.Cell>
     );
