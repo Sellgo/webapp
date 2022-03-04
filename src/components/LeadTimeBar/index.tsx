@@ -15,13 +15,13 @@ interface Props {
 const LeadTimeBar = (props: Props) => {
   const { leadTimes, className, showDates, startDate } = props;
   const currDate = startDate ? new Date(startDate) : new Date();
-  const totalLeadTimes = leadTimes.reduce((accumulator, currentValue) => {
+  const totalLeadTimes = leadTimes?.reduce((accumulator, currentValue) => {
     return accumulator + currentValue.duration;
   }, 0);
 
   return (
     <div className={`${styles.leadTimeBarWrapper} ${className}`}>
-      {leadTimes.map((leadTime, index) => {
+      {leadTimes?.map((leadTime, index) => {
         /* Add leadTime.duration days to currDate */
         currDate.setDate(currDate.getDate() + leadTime.duration);
         return (

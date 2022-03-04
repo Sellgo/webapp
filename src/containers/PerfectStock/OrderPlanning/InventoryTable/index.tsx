@@ -159,7 +159,7 @@ const InventoryTable = (props: Props) => {
           autoHeight
           rowHeight={90}
           headerHeight={60}
-          rowExpandedHeight={40}
+          rowExpandedHeight={50}
           onSortColumn={handleSortColumn}
           rowKey="sku"
           virtualized

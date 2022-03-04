@@ -212,6 +212,7 @@ export const setDraftTemplates = (payload: DraftOrderTemplate[]) => {
 /*********** Async Actions ************************ */
 /* Action to fetch purchase orders */
 export const fetchPurchaseOrders = () => async (dispatch: any) => {
+  success('Generating next orders...');
   try {
     const sellerId = sellerIDSelector();
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders`;
@@ -223,6 +224,7 @@ export const fetchPurchaseOrders = () => async (dispatch: any) => {
       dispatch(setPurchaseOrders(data));
     }
   } catch (err) {
+    error('Failed to generate next orders');
     dispatch(setPurchaseOrders([]));
     console.error('Error fetching sales estimation', err);
   }
@@ -295,6 +297,18 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
           return {
             ...order,
             is_included: payload.is_included,
+          };
+        }
+        return order;
+      });
+    }
+
+    if (payload.is_priority) {
+      newPurchaseOrders = newPurchaseOrders.map((order: any) => {
+        if (order.id === payload.id) {
+          return {
+            ...order,
+            is_priority: payload.is_priority,
           };
         }
         return order;

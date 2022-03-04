@@ -18,6 +18,7 @@ import { SingleLeadTimeGroup } from '../../../../interfaces/PerfectStock/SalesPr
 /* Constants */
 import { AppConfig } from '../../../../config';
 import ActionButton from '../../../../components/ActionButton';
+import { sellerIDSelector } from '../../../../selectors/Seller';
 
 interface Props {
   match: any;
@@ -26,6 +27,7 @@ const LeadTime = (props: Props) => {
   const { match } = props;
 
   const [leadTimeGroups, setLeadTimeGroups] = React.useState<SingleLeadTimeGroup[]>([]);
+  const [openLeadTimes, setOpenLeadTimes] = React.useState<number[]>([]);
   const [isFetchLeadTimeGroupsLoading, setFetchLeadTimeGroupsLoading] = React.useState<boolean>(
     true
   );
@@ -49,12 +51,17 @@ const LeadTime = (props: Props) => {
   const handleAddLeadTimeGroup = async () => {
     setFetchLeadTimeGroupsLoading(true);
     try {
-      const newLeadTimeGroup: SingleLeadTimeGroup = {
+      const url = `${
+        AppConfig.BASE_URL_API
+      }sellers/${sellerIDSelector()}/purchase-orders/lead-times`;
+      const newLeadTimeGroup = {
         lead_times: [],
-        name: 'Default Lead Time Group',
+        name: 'Lead Time Group',
         status: 'active',
       };
-      setLeadTimeGroups([...leadTimeGroups, newLeadTimeGroup]);
+      const { data } = await axios.post(url, newLeadTimeGroup);
+      setLeadTimeGroups([...leadTimeGroups, data]);
+      setOpenLeadTimes([...openLeadTimes, data.id]);
     } catch (err) {
       console.error(err);
     }
@@ -111,6 +118,8 @@ const LeadTime = (props: Props) => {
               fetchLeadTimeGroups={fetchLeadTimeGroups}
               handleDeleteLeadTimeGroup={handleDeleteLeadTimeGroup}
               initialLeadTimeGroup={leadTimeGroup}
+              openLeadTimes={openLeadTimes}
+              setOpenLeadTimes={setOpenLeadTimes}
             />
           ))}
         <ActionButton

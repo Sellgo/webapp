@@ -77,7 +77,7 @@ export interface LeadTime {
 }
 
 export interface SingleLeadTimeGroup {
-  id?: number;
+  id: number;
   lead_times: LeadTime[];
   name: string;
   status: 'active' | 'inactive' | 'pending';

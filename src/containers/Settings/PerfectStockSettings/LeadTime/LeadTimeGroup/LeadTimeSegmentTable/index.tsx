@@ -26,7 +26,7 @@ const LeadTimeSegmentTable = (props: Props) => {
   const { leadTimeSegments, handleLeadTimeGroupEdit, handleLeadTimeDelete } = props;
 
   /* Calculate duration sum of leadTimeSegments */
-  const durationSum = leadTimeSegments.reduce((accumulator, currentValue) => {
+  const durationSum = leadTimeSegments?.reduce((accumulator, currentValue) => {
     return accumulator + currentValue.duration;
   }, 0);
 

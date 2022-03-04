@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, Radio } from 'semantic-ui-react';
+import { Radio } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -31,17 +31,17 @@ const InventorySettings = (props: Props) => {
     <div className={styles.expandedProductSettings} style={{ width: SIDE_SETTING_WIDTH - 30 }}>
       <BoxHeader className={styles.settingsBoxHeader}>SKU VARIABLES</BoxHeader>
       <BoxContainer className={styles.settingsBoxContainer}>
-        <div className={styles.settingWrapper}>
+        {/* <div className={styles.settingWrapper}>
           <Checkbox
             toggle
             checked={false}
             onChange={() => {
-              console.log('Set as active sku');
+              updateInventorySku({ id: productId, is_active: true });
             }}
             label="Set As Active Sku"
             className={styles.settingToggle}
           />
-        </div>
+        </div> */}
         <div className={styles.settingWrapper}>
           <p className={styles.settingsTitle}> Cost </p>
           <div className={styles.inputWrapper}>

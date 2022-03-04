@@ -1,5 +1,6 @@
 import React from 'react';
 import { Checkbox } from 'semantic-ui-react';
+
 /* Components */
 import BoxHeader from '../../../../../components/BoxHeader';
 import BoxContainer from '../../../../../components/BoxContainer';
@@ -12,7 +13,7 @@ import { ReactComponent as ClipboardIcon } from '../../../../../assets/images/cl
 import styles from './index.module.scss';
 
 /* Utils */
-import { success, error } from '../../../../../utils/notifications';
+import { error } from '../../../../../utils/notifications';
 
 /* Constants */
 import ActionButton from '../../../../../components/ActionButton';
@@ -77,7 +78,6 @@ const AutoGenerateOrderPopup = (props: Props) => {
     }
 
     generateNextOrder(payload);
-    success('Generating next orders...');
     handleCancel();
   };
 
@@ -115,6 +115,8 @@ const AutoGenerateOrderPopup = (props: Props) => {
           &nbsp; Align to &nbsp;
           <InputFilter
             placeholder="0"
+            isNumber
+            isPositiveOnly
             value={stockLevelThreshold?.toString() || ''}
             handleChange={value => setStockLevelThreshold(parseFloat(value))}
             className={styles.inputFilter}
@@ -133,6 +135,7 @@ const AutoGenerateOrderPopup = (props: Props) => {
           <InputFilter
             placeholder="0"
             isNumber
+            isPositiveOnly
             value={dusThreshold?.toString() || ''}
             handleChange={value => setDusThreshold(parseInt(value))}
             className={styles.inputFilter}

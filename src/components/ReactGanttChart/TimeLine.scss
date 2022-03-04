@@ -190,8 +190,7 @@
   display: grid;
   margin-bottom: 11px;
   padding-right: 10px;
-  grid-template-columns: 50% 32% 10% 7%;
-  justify-content: flex-start;
+  grid-template-columns: 200px 180px 50px 30px;
   align-items: flex-end;
   width: 100%;
 
@@ -216,9 +215,8 @@
 
 .timeLine-side-task-row-name {
   display: grid;
-  grid-template-columns: 50% 32% 10% 7%;
+  grid-template-columns: 200px 180px 50px 30px;
   align-items: center;
-  justify-content: space-between;
   height: 100%;
   width: 100%;
 
