@@ -50,7 +50,7 @@ const InventorySkuStatus = (props: Props) => {
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Expected\nInventory`}
-                dataKey="expected_inventory"
+                dataKey="total_expected_inventory"
                 currentSortColumn={''}
                 currentSortType={undefined}
                 alignMiddle
@@ -58,7 +58,7 @@ const InventorySkuStatus = (props: Props) => {
                 icon={<InventoryIcon className={styles.headerIcon} />}
               />
             </Table.HeaderCell>
-            <SkuStatCell dataKey="expected_inventory" />
+            <SkuStatCell dataKey="total_expected_inventory" />
           </Table.Column>
 
           {/* Stock out date info  */}
@@ -66,7 +66,7 @@ const InventorySkuStatus = (props: Props) => {
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Domestic\nInventory`}
-                dataKey="domestic_inventory"
+                dataKey="total_domestic_inventory"
                 currentSortColumn={''}
                 currentSortType={undefined}
                 alignMiddle
@@ -74,7 +74,7 @@ const InventorySkuStatus = (props: Props) => {
                 icon={<InventoryIcon className={styles.headerIcon} />}
               />
             </Table.HeaderCell>
-            <SkuStatCell dataKey="domestic_inventory" />
+            <SkuStatCell dataKey="total_domestic_inventory" />
           </Table.Column>
 
           {/* Stock out date info  */}
@@ -82,7 +82,7 @@ const InventorySkuStatus = (props: Props) => {
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Amz FBA\nInventory`}
-                dataKey="fba_inventory"
+                dataKey="total_fba_inventory"
                 currentSortColumn={''}
                 currentSortType={undefined}
                 alignMiddle
@@ -90,7 +90,7 @@ const InventorySkuStatus = (props: Props) => {
                 icon={<AmazonIcon className={styles.headerIcon} />}
               />
             </Table.HeaderCell>
-            <SkuStatCell dataKey="fba_inventory" />
+            <SkuStatCell dataKey="total_fba_inventory" />
           </Table.Column>
 
           {/* Stock out date info  */}

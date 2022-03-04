@@ -26,7 +26,7 @@ const EditProductRow = (props: Props) => {
       {!hideDaysUntilStockout && (
         <div className={styles.daysUntilStockout}>
           <p className={styles.stockoutDate}>
-            <span>DUS</span>
+            <span>Days until Stockout</span>
             {stockOutDate.toLocaleDateString() !== 'Invalid Date'
               ? stockOutDate.toLocaleDateString()
               : ''}
@@ -37,32 +37,46 @@ const EditProductRow = (props: Props) => {
       <StatBox title={'MOQ'} stat={rowData.moq} />
       <StatBox title={'Cartons'} stat={rowData.carton_count} />
       <StatBox
-        title={'CBM'}
-        stat={rowData.cbm}
-        secondStat={rowData.cft}
+        title={'Volume'}
+        stat={rowData.total_cbm}
+        secondStat={rowData.total_cft || 0}
         append="m3"
         secondAppend="ft3"
       />
       <StatBox
         title={'Gross Weight'}
-        stat={rowData.weigth_kg}
-        secondStat={rowData.weigth_lbs}
+        stat={rowData.total_weight_kg}
+        secondStat={rowData.total_weight_lbs || 0}
         append="kg"
         secondAppend="lbs"
         asFloat
       />
-      <StatBox title={'Est. Shipping/ Unit'} stat={rowData.shipping_cost} prepend="$" asFloat />
       <StatBox title={'Cost Per Unit'} stat={rowData.product_cost} prepend="$" asFloat />
       <StatBox
+        title={'Est. Shipping/ Unit'}
+        stat={rowData.shipping_cost_per_unit}
+        prepend="$"
+        asFloat
+      />
+      <StatBox
         title={'Cost + Shipping Per Unit'}
-        stat={
-          (rowData.product_cost ? parseFloat(rowData.product_cost) : 0) +
-          (rowData.shipping_cost ? parseFloat(rowData.shipping_cost) : 0)
-        }
+        stat={rowData.cost_plus_shipping_per_unit}
         asFloat
         prepend="$"
       />
       <StatBox title={'Total Cost'} stat={rowData.total_cost} prepend="$" asFloat />
+      <StatBox
+        title={'Est. Shipping Cost'}
+        stat={rowData.total_shipping_cost}
+        prepend="$"
+        asFloat
+      />
+      <StatBox
+        title={'Total Cost with Shipping'}
+        stat={rowData.total_cost_plus_shipping}
+        prepend="$"
+        asFloat
+      />
     </div>
   );
 };

@@ -14,10 +14,6 @@ import InputFilter from '../../../../../components/FormFilters/InputFilter';
 import Placeholder from '../../../../../components/Placeholder';
 import LeadTimeBar from '../../../../../components/LeadTimeBar';
 
-/* Assets */
-import { ReactComponent as ExpandedCellIcon } from '../../../../../assets/images/expandCell.svg';
-import { ReactComponent as DeExpandedCellIcon } from '../../../../../assets/images/deExpandCell.svg';
-
 /* Interfaces */
 import {
   LeadTime,
@@ -26,16 +22,17 @@ import {
 
 /* Utils */
 import { AppConfig } from '../../../../../config';
-import { success } from '../../../../../utils/notifications';
+import { error, success } from '../../../../../utils/notifications';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
 
 interface Props {
   initialLeadTimeGroup: SingleLeadTimeGroup;
   handleDeleteLeadTimeGroup: (index: number) => void;
+  fetchLeadTimeGroups: () => void;
 }
 
 const LeadTimeGroup = (props: Props) => {
-  const { initialLeadTimeGroup, handleDeleteLeadTimeGroup } = props;
+  const { initialLeadTimeGroup, handleDeleteLeadTimeGroup, fetchLeadTimeGroups } = props;
 
   /* Modal State */
   const [isOpen, setOpen] = useState<boolean>(false);
@@ -61,7 +58,7 @@ const LeadTimeGroup = (props: Props) => {
   };
 
   /* Save all changes in the lead time group */
-  const handleSave = async () => {
+  const handleSave = async (refreshUponSave?: boolean) => {
     try {
       const url = `${
         AppConfig.BASE_URL_API
@@ -76,7 +73,12 @@ const LeadTimeGroup = (props: Props) => {
 
       if (res.status === 201) {
         success('Successfully updated lead times.');
-        setOpen(false);
+
+        if (refreshUponSave) {
+          fetchLeadTimeGroups();
+        } else {
+          setOpen(false);
+        }
       }
     } catch (err) {
       console.error('Failed to save updates.');
@@ -128,23 +130,46 @@ const LeadTimeGroup = (props: Props) => {
     setNewLeadTimeGroup(updatedLeadTimeGroup);
   };
 
+  const handleSaveAsDefault = async (event: any) => {
+    event.preventDefault();
+    event.stopPropagation();
+    try {
+      const url = `${
+        AppConfig.BASE_URL_API
+      }sellers/${sellerIDSelector()}/purchase-orders/lead-times`;
+      const payload = {
+        ...newLeadTimeGroup,
+        is_default: true,
+      };
+      const res = await axios.patch(url, payload);
+      if (res.status === 201) {
+        setNewLeadTimeGroup({
+          ...newLeadTimeGroup,
+          is_default: true,
+        });
+        success('Successfully updated lead times.');
+        fetchLeadTimeGroups();
+      }
+    } catch (err) {
+      error('Failed to save updates.');
+    }
+  };
+
   return (
     <div className={styles.leadTimeGroupWrapper}>
-      <button className={styles.expandIcon} onClick={() => setOpen(!isOpen)}>
-        {!isOpen ? <ExpandedCellIcon /> : <DeExpandedCellIcon />}
-      </button>
-
       <div className={styles.leadTimeGroup}>
         {/* TRIGGER HEADER */}
         <BoxHeader
           className={`${styles.leadTimeGroupHeader} ${
             !isOpen ? styles.leadTimeGroupHeader__closed : ''
           }`}
+          onClick={() => setOpen(!isOpen)}
         >
           {/* EDITTING NAME SECTION */}
           {!isEditingName ? (
             <div className={styles.editName}>
               {newLeadTimeGroup.name}
+              {newLeadTimeGroup.is_default ? ' (Default)' : ''}
               {isOpen && (
                 <Icon
                   onClick={() => setEditingName(true)}
@@ -176,6 +201,9 @@ const LeadTimeGroup = (props: Props) => {
 
           {/* DELETE ICON */}
           <div>
+            <button className={styles.defaultButton} onClick={handleSaveAsDefault}>
+              Set as default
+            </button>
             <Icon
               name="trash alternate"
               className={styles.deleteTriggerIcon}

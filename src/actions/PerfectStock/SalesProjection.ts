@@ -131,18 +131,34 @@ export const fetchSalesProjection = (payload: SalesProjectionPayload) => async (
 
 /* Action to fetch products database */
 export const updateSalesProjectionProduct = (payload: SalesProjectionUpdatePayload) => async (
-  dispatch: any
+  dispatch: any,
+  getState: any
 ) => {
+  const state = getState();
+  const salesProjectionResults = getSalesProjectionResults(state);
+  const oldSalesProjectionRow = salesProjectionResults.find(
+    (product: SalesProjectionProduct) => product.id === payload.id
+  );
   try {
+    const newSalesProjectionRow = {
+      ...oldSalesProjectionRow,
+      ...payload.updatePayload,
+    };
+    /* Set state first to be responsive */
+    dispatch(setSalesProjectionRow(newSalesProjectionRow));
     const sellerId = sellerIDSelector();
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/sales-projection/${payload.id}/update`;
-    const { data } = await axios.patch(URL, payload.updatePayload);
-    if (data) {
-      dispatch(setSalesProjectionRow(data));
+    const { status } = await axios.patch(URL, payload.updatePayload);
+    if (status) {
       success('Successfully updated');
+    } else {
+      /* If failed, revert to original state */
+      dispatch(setSalesProjectionRow(oldSalesProjectionRow));
+      error('Failed to update.');
     }
   } catch (err) {
-    dispatch(setSalesProjectionResults([]));
+    dispatch(setSalesProjectionRow(oldSalesProjectionRow));
+    error('Failed to update.');
     console.error('Error updating sales estimation', err);
   }
 };

@@ -97,11 +97,27 @@ export const removeSpecialChars = (str: any, deliminater?: string) => {
   return str.trim().replace(/[" ' [\]/]/gi, '');
 };
 
-export const prettyPrintNumber = (num: number) => {
+export const prettyPrintNumber = (num: number | undefined) => {
+  if (!num) {
+    return 0;
+  }
   const formattedNumber = numeral(num).format('0a');
 
   if (num < 9999) {
     const firstResult = formatNumber(num);
+    return firstResult;
+  }
+
+  return formattedNumber;
+};
+
+export const prettyPrintDecimal = (num: number | undefined) => {
+  if (!num) {
+    return 0;
+  }
+  const formattedNumber = numeral(num).format('0.00a');
+  if (num < 9999) {
+    const firstResult = formatDecimal(num);
     return firstResult;
   }
 

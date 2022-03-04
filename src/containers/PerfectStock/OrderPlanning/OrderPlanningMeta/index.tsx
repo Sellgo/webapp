@@ -6,8 +6,8 @@ import styles from './index.module.scss';
 
 /* Components */
 import ActionButton from '../../../../components/ActionButton';
-import ToggleRadio from '../../../../components/ToggleRadio';
 import TooltipWrapper from '../../../../components/TooltipWrapper';
+import InputTabSelection from '../../../../components/InputTabSelection';
 
 /* Assets */
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
@@ -45,6 +45,14 @@ const OrderPlanningMeta = (props: Props) => {
     hasActivePurchaseOrder = true;
   }
 
+  const handleToggleInventoryViewMode = (mode: string) => {
+    if (mode === 'Inventory (qty)') {
+      setIsShowingDaysUntilStockout(false);
+    } else {
+      setIsShowingDaysUntilStockout(true);
+    }
+  };
+
   return (
     <>
       <div className={styles.orderPlanningMeta}>
@@ -62,12 +70,12 @@ const OrderPlanningMeta = (props: Props) => {
           </ActionButton>
         </TooltipWrapper>
         <TooltipWrapper tooltipKey="Toggle Show Days Until Stockout">
-          <ToggleRadio
-            isToggled={isShowingDaysUntilStockout}
-            handleChange={() => setIsShowingDaysUntilStockout(!isShowingDaysUntilStockout)}
-            label={
-              isShowingDaysUntilStockout ? 'Hide Days Until Stockout' : 'Show Days Until Stockout'
-            }
+          <InputTabSelection
+            options={['Inventory (qty)', 'Stockout (days)']}
+            selectedOption={isShowingDaysUntilStockout ? 'Stockout (days)' : 'Inventory (qty)'}
+            setSelectedOption={handleToggleInventoryViewMode}
+            isPurple
+            borderless
           />
         </TooltipWrapper>
       </div>

@@ -89,7 +89,7 @@ const AutoGenerateOrderPopup = (props: Props) => {
           <label>Priority SKU:</label>
           <SelectionProductFilter
             filterOptions={generateNextOrderDetails.merchantListings}
-            placeholder={'Select Priority Sku'}
+            placeholder={'Select Priority SKU'}
             value={selectedPrioritySku}
             handleChange={(value: string) => setSelectedPrioritySku(value)}
             isSingleSelect

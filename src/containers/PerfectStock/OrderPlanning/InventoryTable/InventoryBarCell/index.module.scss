@@ -41,6 +41,8 @@
 
   &__red {
     span {
+      border-radius: 7px;
+      margin: 0 1px !important;
       background: $system_red;
       color: $prim_white;
     }

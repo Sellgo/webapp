@@ -25,6 +25,9 @@ const SeasonalityAdjustor = (props: Props) => {
   const { updateSalesProjectionProduct, ...otherProps } = props;
   const { rowData } = otherProps;
   const [isEditingSeasonality, setIsEditingSeasonality] = React.useState(false);
+  const isSeasonalityEnabled =
+    rowData.seasonal_adjustment_included === true ||
+    rowData.seasonal_adjustment_included === 'true';
 
   /* ================================== */
   /* Seasonality adjustor toggles */
@@ -45,7 +48,7 @@ const SeasonalityAdjustor = (props: Props) => {
           ${styles.seasonalityAdjustorCell}`}
       >
         <ToggleRadio
-          isToggled={rowData.seasonal_adjustment_included}
+          isToggled={isSeasonalityEnabled}
           handleChange={() =>
             handleSeasonalityAdjustorToggle(!rowData.seasonal_adjustment_included)
           }
@@ -59,6 +62,7 @@ const SeasonalityAdjustor = (props: Props) => {
         open={isEditingSeasonality}
         setOpenPopup={setIsEditingSeasonality}
         id={rowData.id}
+        rowData={rowData}
       />
     </Table.Cell>
   );

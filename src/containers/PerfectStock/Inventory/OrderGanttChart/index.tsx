@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Modal } from 'semantic-ui-react';
+import { Modal, Dimmer, Loader } from 'semantic-ui-react';
 
 /* Components */
 // @ts-ignore
@@ -25,6 +25,7 @@ import {
   getActivePurchaseOrder,
   getIsLoadingPurchaseOrders,
   getPurchaseOrders,
+  getPurchaseOrdersLoadingMessage,
   getTimeSetting,
 } from '../../../../selectors/PerfectStock/OrderPlanning';
 
@@ -70,6 +71,7 @@ interface Props {
   activePurchaseOrder: GanttChartPurchaseOrder;
   purchaseOrders: PurchaseOrder[];
   isLoadingPurchaseOrders: boolean;
+  purchaseOrdersLoadingMessage: string;
   timeSetting: TimeSetting;
 
   hideBottomBorder?: boolean;
@@ -84,6 +86,7 @@ const OrderGanttChart = (props: Props) => {
     /* Purchase Order Related Props */
     fetchPurchaseOrders,
     purchaseOrders,
+    purchaseOrdersLoadingMessage,
     isLoadingPurchaseOrders,
     updatePurchaseOrder,
     setActivePurchaseOrder,
@@ -211,6 +214,19 @@ const OrderGanttChart = (props: Props) => {
     }
   };
 
+  const handleDeleteAllTasks = () => {
+    const purchaseOrderIds = purchaseOrders.map((purchaseOrder: PurchaseOrder) => purchaseOrder.id);
+    updatePurchaseOrder({
+      purchase_order_ids: purchaseOrderIds,
+      status: 'inactive',
+    });
+
+    /* If current url is create-order, push to /order */
+    if (window.location.pathname === '/aistock/create-order') {
+      history.push('/aistock/order');
+    }
+  };
+
   const handleEditTask = (payload: GanttChartPurchaseOrder) => {
     handleSelectTask(payload);
     history.push(`/aistock/create-order`);
@@ -283,6 +299,10 @@ const OrderGanttChart = (props: Props) => {
           ${styles.ganttChart} 
           ${hideBottomBorder ? styles.ganttChart__hideBottomBorder : ''}`}
         >
+          <Dimmer active={isLoadingPurchaseOrders} inverted className={styles.dimmerContent}>
+            <Loader inline />
+            <p>{purchaseOrdersLoadingMessage}</p>
+          </Dimmer>
           <TimeLine
             /* Default Props */
             isLoading={isLoadingPurchaseOrders}
@@ -298,6 +318,7 @@ const OrderGanttChart = (props: Props) => {
             unitWidth={UNIT_WIDTH}
             handleChangeMode={handleChangeTimeSetting}
             handleDeleteTask={handleDeleteTask}
+            handleDeleteAllTasks={handleDeleteAllTasks}
             handleEditTask={handleEditTask}
             viewFilterOptions={viewFilterOptions}
             handleChangeFilterOption={handleChangeFilterOption}
@@ -350,6 +371,7 @@ const mapStateToProps = (state: any) => {
   return {
     timeSetting: getTimeSetting(state),
     purchaseOrders: getPurchaseOrders(state),
+    purchaseOrdersLoadingMessage: getPurchaseOrdersLoadingMessage(state),
     isLoadingPurchaseOrders: getIsLoadingPurchaseOrders(state),
     activePurchaseOrder: getActivePurchaseOrder(state),
   };
