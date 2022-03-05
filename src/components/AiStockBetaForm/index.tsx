@@ -31,6 +31,8 @@ const QuickWin = (props: Props) => {
       open={isOpen}
       className={styles.quickWinModal}
       onClose={() => setModalOpen(false)}
+      closeOnDocumentClick={false}
+      closeOnDimmerClick={false}
       content={
         <div>
           <div className={styles.header}>

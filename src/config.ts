@@ -24,7 +24,7 @@ const DEV_KEYS = {
   CHURNFLOW_SURVEY_ID: 'Lb8og4j8',
   QUICK_WIN_SURVEY_ID: 'IjxdqPK3',
   BETA_FORM_ID: 'pvnHf0f6',
-  AISTOCK_SURVEY: 'ni3WusRa',
+  AISTOCK_SURVEY: 'H1yQNE6a',
 };
 
 const PROD_KEYS = {
@@ -35,7 +35,7 @@ const PROD_KEYS = {
   CHURNFLOW_SURVEY_ID: 'Lb8og4j8',
   QUICK_WIN_SURVEY_ID: 'IjxdqPK3',
   BETA_FORM_ID: 'pvnHf0f6',
-  AISTOCK_SURVEY: 'ni3WusRa',
+  AISTOCK_SURVEY: 'H1yQNE6a',
 };
 
 const DEV_AUTH_CONFIG = {
