@@ -60,7 +60,8 @@ const QuickWin = (props: Props) => {
               Your feedback is valuable in helping us to improve AiStock for you!
               <br />
               <br />
-              You will be informed via email if you are selected for the giveaway.
+              You will be informed via email, after 1 April 2022, if you are selected for the
+              giveaway.
               <ActionButton
                 variant="primary"
                 type="purpleGradient"
