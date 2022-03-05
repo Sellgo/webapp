@@ -9,7 +9,19 @@ export const formatCurrency = (num: any) =>
 
 export const formatNumber = (num: any) => Math.round(num).toLocaleString();
 
-export const formatDecimal = (num: any) => Number(num).toFixed(2);
+export const formatDecimal = (num: any) => {
+  if (!num || num === 0 || num === '0') {
+    return num;
+  }
+
+  return (
+    num.toLocaleString().split('.')[0] +
+    '.' +
+    Number(num)
+      .toFixed(2)
+      .split('.')[1]
+  );
+};
 
 export const formatRating = (num: any) => Number(num).toFixed(1);
 
@@ -97,11 +109,27 @@ export const removeSpecialChars = (str: any, deliminater?: string) => {
   return str.trim().replace(/[" ' [\]/]/gi, '');
 };
 
-export const prettyPrintNumber = (num: number) => {
+export const prettyPrintNumber = (num: number | undefined) => {
+  if (!num) {
+    return 0;
+  }
   const formattedNumber = numeral(num).format('0a');
 
   if (num < 9999) {
     const firstResult = formatNumber(num);
+    return firstResult;
+  }
+
+  return formattedNumber;
+};
+
+export const prettyPrintDecimal = (num: number | undefined) => {
+  if (!num) {
+    return 0;
+  }
+  const formattedNumber = numeral(num).format('0.00a');
+  if (num < 9999) {
+    const firstResult = formatDecimal(num);
     return firstResult;
   }
 

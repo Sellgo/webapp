@@ -47,7 +47,7 @@ const InventoryBarCell = (props: Props) => {
             ${inventoryCount === 0 ? styles.daysUntilStockoutCell__red : ''}
           `}
         >
-          <span>{inventory}</span>
+          <span>{inventory || 0}</span>
         </div>
       </Table.Cell>
     );
@@ -60,9 +60,11 @@ const InventoryBarCell = (props: Props) => {
           ${styles.inventoryBarCell}`}
       >
         <span className={styles.potentialLoss}> {displayLoss}</span>
-        <span> {displayInventoryCount} </span>
+        <span className={styles.inventoryCount}>
+          {displayInventoryCount === '0' ? ' ' : displayInventoryCount}
+        </span>
         <InventoryBar percent={percent / 100} />
-        <span style={percent <= 25 ? { color: '#EB675E' } : {}}>{displayPercent}</span>
+        <span style={percent <= 20 ? { color: '#EB675E' } : {}}>{displayPercent}</span>
       </div>
     </Table.Cell>
   );

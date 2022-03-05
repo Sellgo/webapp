@@ -16,6 +16,7 @@ import {
 
 /* Components */
 import OnboardingTooltip from '../../OnboardingTooltip';
+import { DatePicker } from 'rsuite';
 
 interface Props {
   label?: string;
@@ -64,6 +65,7 @@ const InputFilter: React.FC<Props> = props => {
   const handleChangeWithRules = (value: string) => {
     if (isNumber && !value) {
       handleChange('0');
+      return;
     }
 
     /* Positive integers only */
@@ -84,6 +86,7 @@ const InputFilter: React.FC<Props> = props => {
       handleChange(value);
     }
   };
+
   return (
     <div className={styles.inputFilter}>
       {label && (
@@ -102,24 +105,37 @@ const InputFilter: React.FC<Props> = props => {
         </p>
       )}
 
-      <Input
-        className={`${styles.inputWrapper} ${className} textInputFilter`}
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        onChange={(e: any) => handleChangeWithRules(e.target.value)}
-        disabled={disabled}
-        error={error}
-        onPaste={(e: any) => {
-          const pastedValue = e.clipboardData;
-          const value = pastedValue.getData('Text');
-          handleOnPaste ? handleOnPaste(value) : handleChange(value);
-          e.clipboardData.setData('text/plain', '');
-          e.preventDefault();
-        }}
-        onFocus={onFocus}
-        onBlur={onBlur}
-      />
+      {!isDate ? (
+        <Input
+          className={`${styles.inputWrapper} ${className} textInputFilter`}
+          type={type}
+          placeholder={placeholder}
+          value={value}
+          onChange={(e: any) => handleChangeWithRules(e.target.value)}
+          disabled={disabled}
+          error={error}
+          onPaste={(e: any) => {
+            const pastedValue = e.clipboardData;
+            const value = pastedValue.getData('Text');
+            handleOnPaste ? handleOnPaste(value) : handleChange(value);
+            e.clipboardData.setData('text/plain', '');
+            e.preventDefault();
+          }}
+          onFocus={onFocus}
+          onBlur={onBlur}
+        />
+      ) : (
+        <DatePicker
+          defaultValue={value ? new Date(value) : new Date()}
+          selected={value ? new Date(value) : new Date()}
+          onChange={(date: Date) => {
+            handleChangeWithRules(date ? date.toISOString().split('T')[0] : '');
+          }}
+          disabledDate={(date: Date | undefined) =>
+            date ? date.getTime() <= new Date().getTime() : false
+          }
+        />
+      )}
     </div>
   );
 };

@@ -31,6 +31,15 @@
     background: $grey_10;
   }
 
+  &__selectedPurple {
+    font-weight: $fontweight_bold;
+    color: $sellgo_purple;
+  }
+
+  &__borderless {
+    border-right: none;
+  }
+
   /* Last child */
   &:last-child {
     border-right: none;

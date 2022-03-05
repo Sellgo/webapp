@@ -18,7 +18,6 @@ import DataController from './controller/DataController';
 import Config from './helpers/config/Config';
 import DateHelper from './helpers/DateHelper';
 import './TimeLine.scss';
-import Placeholder from '../Placeholder';
 
 class TimeLine extends Component {
   constructor(props) {
@@ -445,6 +444,7 @@ class TimeLine extends Component {
             nonEditable={this.props.nonEditableName}
             handleChangeMode={this.props.handleChangeMode}
             handleDeleteTask={this.props.handleDeleteTask}
+            handleDeleteAllTasks={this.props.handleDeleteAllTasks}
             handleSetPrioritySku={this.props.handleSetPrioritySku}
             mode={this.state.mode}
             /* For left dropdown */
@@ -467,59 +467,38 @@ class TimeLine extends Component {
             mode={this.state.mode}
             scrollLeft={this.state.scrollLeft}
           />
-          {this.props.isLoading && <Placeholder numberParagraphs={1} numberRows={1} />}
-          {!this.props.isLoading && (
-            <DataViewPort
-              ref="dataViewPort"
-              scrollLeft={this.state.scrollLeft}
-              scrollTop={this.state.scrollTop}
-              itemheight={this.props.itemheight}
-              nowposition={this.state.nowposition}
-              startRow={this.state.startRow}
-              endRow={this.state.endRow}
-              data={this.props.data}
-              selectedItem={this.props.selectedTask}
-              dayWidth={this.state.dayWidth}
-              onScroll={this.scrollData}
-              onMouseDown={this.doMouseDown}
-              onMouseMove={this.doMouseMove}
-              onMouseUp={this.doMouseUp}
-              onMouseLeave={this.doMouseLeave}
-              onTouchStart={this.doTouchStart}
-              onTouchMove={this.doTouchMove}
-              onTouchEnd={this.doTouchEnd}
-              onTouchCancel={this.doTouchCancel}
-              onSelectItem={this.onSelectItem}
-              onUpdateTask={this.props.onUpdateTask}
-              onSelectTask={this.props.onSelectTask}
-              onTaskChanging={this.onTaskChanging}
-              onStartCreateLink={this.onStartCreateLink}
-              onFinishCreateLink={this.onFinishCreateLink}
-              boundaries={{
-                lower: this.state.scrollLeft,
-                upper: this.state.scrollLeft + this.state.size.width,
-              }}
-              onSize={this.onSize}
-              isDraftMode={this.props.isDraftMode}
-            />
-          )}
-          <LinkViewPort
+          <DataViewPort
+            ref="dataViewPort"
             scrollLeft={this.state.scrollLeft}
             scrollTop={this.state.scrollTop}
+            itemheight={this.props.itemheight}
+            nowposition={this.state.nowposition}
             startRow={this.state.startRow}
             endRow={this.state.endRow}
             data={this.props.data}
-            nowposition={this.state.nowposition}
+            selectedItem={this.props.selectedTask}
             dayWidth={this.state.dayWidth}
-            interactiveMode={this.state.interactiveMode}
-            taskToCreate={this.state.taskToCreate}
+            onScroll={this.scrollData}
+            onMouseDown={this.doMouseDown}
+            onMouseMove={this.doMouseMove}
+            onMouseUp={this.doMouseUp}
+            onMouseLeave={this.doMouseLeave}
+            onTouchStart={this.doTouchStart}
+            onTouchMove={this.doTouchMove}
+            onTouchEnd={this.doTouchEnd}
+            onTouchCancel={this.doTouchCancel}
+            onSelectItem={this.onSelectItem}
+            onUpdateTask={this.props.onUpdateTask}
+            onSelectTask={this.props.onSelectTask}
+            onTaskChanging={this.onTaskChanging}
+            onStartCreateLink={this.onStartCreateLink}
             onFinishCreateLink={this.onFinishCreateLink}
-            changingTask={this.state.changingTask}
-            selectedItem={this.props.selectedItem}
-            onSelectItem={this.onSelectItem}
-            itemheight={this.props.itemheight}
-            onSelectItem={this.onSelectItem}
-            links={this.props.links}
+            boundaries={{
+              lower: this.state.scrollLeft,
+              upper: this.state.scrollLeft + this.state.size.width,
+            }}
+            onSize={this.onSize}
+            isDraftMode={this.props.isDraftMode}
           />
         </div>
       </div>

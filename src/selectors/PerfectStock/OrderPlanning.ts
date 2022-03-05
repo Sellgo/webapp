@@ -25,6 +25,11 @@ export const getIsLoadingPurchaseOrders = (state: any) => {
   return get(state, 'orderPlanning.isLoadingPurchaseOrders');
 };
 
+/* Selector to get loading message for inventory table */
+export const getPurchaseOrdersLoadingMessage = (state: any) => {
+  return get(state, 'orderPlanning.loadingPurchaseOrdersMessage');
+};
+
 /* Selector to get date range */
 export const getDateRange = (state: any) => {
   return get(state, 'orderPlanning.dateRange');

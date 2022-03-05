@@ -32,7 +32,7 @@ export const LEAD_TIME_OPTIONS = [
   {
     key: 'Cargo Ready Date',
     value: 'crd',
-    text: 'Cargo Ready Date',
+    text: 'CRD',
     color: '#5dc560',
   },
   {

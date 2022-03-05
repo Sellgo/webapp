@@ -77,10 +77,12 @@ export interface LeadTime {
 }
 
 export interface SingleLeadTimeGroup {
+  indexIdentifier: string;
   id?: number;
   lead_times: LeadTime[];
   name: string;
   status: 'active' | 'inactive' | 'pending';
+  is_default?: boolean;
 }
 
 export interface ProductProjectedSales {

@@ -127,11 +127,11 @@ const SalesProjectionMeta = (props: Props) => {
                 <ActionButton
                   variant="primary"
                   size={'md'}
-                  type="purpleGradient"
+                  type="black"
                   onClick={handleOnExport}
                   className={styles.confirmButton}
                 >
-                  Confirm
+                  Download
                 </ActionButton>
               </BoxContainer>
             </>

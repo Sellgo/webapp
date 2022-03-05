@@ -9,6 +9,7 @@ import {
 
 const INITIAL_STATE = {
   isLoadingPurchaseOrders: false,
+  loadingPurchaseOrdersMessage: '',
   isLoadingInventoryTableResults: false,
   activePurchaseOrder: EMPTY_PURCHASE_ORDER,
   purchaseOrders: [],
@@ -38,6 +39,10 @@ const salesProjectionReducer = (state = INITIAL_STATE, action: AnyAction) => {
   switch (action.type) {
     case actionTypes.IS_LOADING_PURCHASE_ORDERS: {
       return setIn(state, 'isLoadingPurchaseOrders', action.payload);
+    }
+
+    case actionTypes.SET_PURCHASE_ORDERS_LOADING_MESSAGE: {
+      return setIn(state, 'loadingPurchaseOrdersMessage', action.payload);
     }
 
     case actionTypes.IS_LOADING_INVENTORY_TABLE_RESULTS: {

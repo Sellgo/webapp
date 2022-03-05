@@ -17,7 +17,7 @@ import BoxHeader from '../../../../components/BoxHeader';
 
 /* Assets */
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
-import { ReactComponent as ArrowDown } from '../../../../assets/images/view-detail-down-arrow.svg';
+/*import { ReactComponent as ArrowDown } from '../../../../assets/images/view-detail-down-arrow.svg';*/
 import { ReactComponent as UndoIcon } from '../../../../assets/images/undoIcon.svg';
 import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
 
@@ -96,8 +96,7 @@ const OrderPlanningMeta = (props: Props) => {
             onClick={() => setIsCreatingOrder(true)}
           >
             <ThinAddIcon />
-            <span>Create</span>
-            <ArrowDown />
+            <span>Smart Order</span>
           </ActionButton>
         </TooltipWrapper>
         <div className={styles.exportOptionsWrapper}>
@@ -142,11 +141,11 @@ const OrderPlanningMeta = (props: Props) => {
                   <ActionButton
                     variant="primary"
                     size={'md'}
-                    type="purpleGradient"
+                    type="black"
                     onClick={handleOnExport}
                     className={styles.confirmButton}
                   >
-                    Confirm
+                    Download
                   </ActionButton>
                 </BoxContainer>
               </>

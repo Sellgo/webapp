@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { v4 as uuid } from 'uuid';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -10,12 +11,15 @@ import LeadTimeMeta from './LeadTimeMeta';
 import Placeholder from '../../../../components/Placeholder';
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
+import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
 
 /* Types */
 import { SingleLeadTimeGroup } from '../../../../interfaces/PerfectStock/SalesProjection';
 
 /* Constants */
 import { AppConfig } from '../../../../config';
+import ActionButton from '../../../../components/ActionButton';
+import { error } from '../../../../utils/notifications';
 
 interface Props {
   match: any;
@@ -36,7 +40,16 @@ const LeadTime = (props: Props) => {
       const { data } = await axios.get(
         `${AppConfig.BASE_URL_API}sellers/${sellerID}/purchase-orders/lead-times`
       );
-      setLeadTimeGroups(data);
+
+      if (data && data.length > 0) {
+        const leadTimeGroupsWithIdentifier = data.map((leadTimeGroup: SingleLeadTimeGroup) => {
+          return {
+            ...leadTimeGroup,
+            indexIdentifier: uuid(),
+          };
+        });
+        setLeadTimeGroups(leadTimeGroupsWithIdentifier);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -44,26 +57,28 @@ const LeadTime = (props: Props) => {
   };
 
   /* Adds new trigger */
-  const handleAddLeadTimeGroup = async () => {
-    setFetchLeadTimeGroupsLoading(true);
+  const handleAddLeadTimeGroup = () => {
     try {
       const newLeadTimeGroup: SingleLeadTimeGroup = {
         lead_times: [],
-        name: 'Default Lead Time Group',
+        name: `Lead Time Group ${leadTimeGroups.length}`,
         status: 'active',
+        indexIdentifier: uuid(),
       };
       setLeadTimeGroups([...leadTimeGroups, newLeadTimeGroup]);
     } catch (err) {
       console.error(err);
     }
-    setFetchLeadTimeGroupsLoading(false);
   };
 
   /* Deletes trigger */
-  const handleDeleteLeadTimeGroup = async (id: number) => {
+  const handleDeleteLeadTimeGroup = async (deleteIndexIdentifier: string) => {
     setFetchLeadTimeGroupsLoading(true);
-    const leadTimeToDelete = leadTimeGroups.find(leadTime => leadTime.id === id);
-    if (leadTimeToDelete) {
+    const leadTimeToDelete = leadTimeGroups.find(
+      (leadTimeGroup: SingleLeadTimeGroup) =>
+        leadTimeGroup.indexIdentifier === deleteIndexIdentifier
+    );
+    if (leadTimeToDelete && leadTimeToDelete.id) {
       leadTimeToDelete.status = 'inactive';
       try {
         const { status } = await axios.patch(
@@ -71,16 +86,46 @@ const LeadTime = (props: Props) => {
           leadTimeToDelete
         );
 
-        if (status === 200) {
+        if (status === 201) {
           let newLeadTimeGroups = [...leadTimeGroups];
-          newLeadTimeGroups = newLeadTimeGroups.filter(leadTimeGroup => leadTimeGroup.id !== id);
+          /* Remove lead time group at index 3 */
+          newLeadTimeGroups = newLeadTimeGroups.filter(
+            (leadTimeGroup: SingleLeadTimeGroup) =>
+              leadTimeGroup.indexIdentifier !== deleteIndexIdentifier
+          );
+
           setLeadTimeGroups(newLeadTimeGroups);
         }
       } catch (err) {
+        const { response } = err;
+        if (response && response.status === 400) {
+          error(response.data?.message);
+        }
         console.error(err);
       }
+
+      /* Lead time is not stored in backend yet */
+    } else {
+      let newLeadTimeGroups = [...leadTimeGroups];
+      newLeadTimeGroups = newLeadTimeGroups.filter(
+        (leadTimeGroup: SingleLeadTimeGroup) =>
+          leadTimeGroup.indexIdentifier !== deleteIndexIdentifier
+      );
+      setLeadTimeGroups([...newLeadTimeGroups]);
     }
     setFetchLeadTimeGroupsLoading(false);
+  };
+
+  const setSingleLeadTimeGroup = (newLeadTimeGroup: SingleLeadTimeGroup) => {
+    const newLeadTimeGroups = [...leadTimeGroups];
+    const index = newLeadTimeGroups.findIndex(
+      (leadTimeGroup: SingleLeadTimeGroup) =>
+        newLeadTimeGroup.indexIdentifier === leadTimeGroup.indexIdentifier
+    );
+    if (index) {
+      newLeadTimeGroups[index] = newLeadTimeGroup;
+    }
+    setLeadTimeGroups([...newLeadTimeGroups]);
   };
 
   React.useEffect(() => {
@@ -100,16 +145,28 @@ const LeadTime = (props: Props) => {
       />
       <SettingsNav match={match} />
       <div className={styles.leadTime}>
-        <LeadTimeMeta handleAddGroup={handleAddLeadTimeGroup} />
+        <LeadTimeMeta />
         {isFetchLeadTimeGroupsLoading && <Placeholder numberParagraphs={3} numberRows={5} isGrey />}
         {!isFetchLeadTimeGroupsLoading &&
-          leadTimeGroups.map((leadTimeGroup: SingleLeadTimeGroup, index: number) => (
+          leadTimeGroups.map((leadTimeGroup: SingleLeadTimeGroup) => (
             <LeadTimeGroup
-              key={index}
+              key={leadTimeGroup.indexIdentifier}
+              fetchLeadTimeGroups={fetchLeadTimeGroups}
               handleDeleteLeadTimeGroup={handleDeleteLeadTimeGroup}
+              setInitialLeadTimeGroup={setSingleLeadTimeGroup}
               initialLeadTimeGroup={leadTimeGroup}
             />
           ))}
+        <ActionButton
+          type="purpleGradient"
+          variant="secondary"
+          size="md"
+          className={styles.addTriggerButton}
+          onClick={handleAddLeadTimeGroup}
+        >
+          <ThinAddIcon />
+          <span>Add Lead Time Group</span>
+        </ActionButton>
       </div>
     </main>
   );

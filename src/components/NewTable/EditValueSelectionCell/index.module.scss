@@ -24,6 +24,10 @@
   &:focus {
     border: 2px solid $blue_6;
   }
+
+  &__error {
+    border: 1px solid $system_red;
+  }
 }
 
 .popupWrapper {

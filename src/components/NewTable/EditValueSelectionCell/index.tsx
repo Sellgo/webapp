@@ -19,6 +19,7 @@ interface Props extends RowCell {
   options: IOption[];
   inputWidth?: number;
   align?: 'left' | 'center' | 'right';
+  showEmptyError?: boolean;
 }
 
 /* ========================================================================== */
@@ -27,7 +28,14 @@ interface Props extends RowCell {
 /* ============= overflow is strictly hidden in a table setting ============= */
 /* ========================================================================== */
 const EditValueSelectionCell = (props: Props) => {
-  const { handleChange, options, inputWidth = 150, align = 'center', ...otherProps } = props;
+  const {
+    handleChange,
+    options,
+    inputWidth = 150,
+    align = 'center',
+    showEmptyError,
+    ...otherProps
+  } = props;
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const { rowData, dataKey } = otherProps;
   const { id } = rowData;
@@ -50,7 +58,11 @@ const EditValueSelectionCell = (props: Props) => {
           onClose={handleClose}
           onOpen={handleOpen}
           trigger={
-            <button className={styles.selectionButton} style={{ width: inputWidth }}>
+            <button
+              className={`${styles.selectionButton}
+                ${showEmptyError && !rowData[dataKey] ? styles.selectionButton__error : ''}`}
+              style={{ width: inputWidth }}
+            >
               <span>{selectedDisplayText || ''}</span>
               <Icon name="angle down" />
             </button>

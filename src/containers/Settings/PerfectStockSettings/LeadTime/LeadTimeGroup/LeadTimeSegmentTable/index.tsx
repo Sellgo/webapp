@@ -20,13 +20,14 @@ interface Props {
   leadTimeSegments: LeadTime[];
   handleLeadTimeGroupEdit: (key: string, value: any, id: number) => void;
   handleLeadTimeDelete: (id: number) => void;
+  showError?: boolean;
 }
 
 const LeadTimeSegmentTable = (props: Props) => {
-  const { leadTimeSegments, handleLeadTimeGroupEdit, handleLeadTimeDelete } = props;
+  const { leadTimeSegments, handleLeadTimeGroupEdit, handleLeadTimeDelete, showError } = props;
 
   /* Calculate duration sum of leadTimeSegments */
-  const durationSum = leadTimeSegments.reduce((accumulator, currentValue) => {
+  const durationSum = leadTimeSegments?.reduce((accumulator, currentValue) => {
     return accumulator + currentValue.duration;
   }, 0);
 
@@ -52,6 +53,7 @@ const LeadTimeSegmentTable = (props: Props) => {
             handleChange={handleLeadTimeGroupEdit}
             align="center"
             inputWidth={150}
+            showEmptyError={showError}
           />
         </Table.Column>
 
@@ -67,6 +69,7 @@ const LeadTimeSegmentTable = (props: Props) => {
             isNumber
             isPositiveOnly
             isInteger
+            showEmptyError={showError}
           />
         </Table.Column>
 

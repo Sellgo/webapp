@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Checkbox } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -14,6 +13,7 @@ import { WEIGHT_OPTIONS } from '../../../../../constants/PerfectStock/SalesProje
 /* Components */
 import BoxHeader from '../../../../../components/BoxHeader';
 import BoxContainer from '../../../../../components/BoxContainer';
+import ToggleRadio from '../../../../../components/ToggleRadio';
 import SaveCancelOptions from '../../../../../components/SaveCancelOptions';
 import SelectionFilter from '../../../../../components/FormFilters/SelectionFilter';
 
@@ -116,10 +116,9 @@ const ExpandedProduct = (props: Props) => {
       <BoxContainer className={styles.settingsBoxContainer}>
         <div className={styles.settingWrapper}>
           <p className={styles.settingsTitle}> Average Weighted Sales </p>
-          <Checkbox
-            toggle
-            checked={defaultWeightActivated}
-            onChange={() => handleWeightedAverageToggle(!defaultWeightActivated)}
+          <ToggleRadio
+            isToggled={defaultWeightActivated}
+            handleChange={() => handleWeightedAverageToggle(!defaultWeightActivated)}
             label="Average Weighted Sales"
             className={styles.settingToggle}
           />
