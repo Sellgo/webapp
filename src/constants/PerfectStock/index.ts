@@ -40,6 +40,12 @@ export const LEAD_TIME_OPTIONS = [
     color: '#349af8',
   },
   {
+    key: 'Cargo Ready Date',
+    value: 'crd',
+    text: 'CRD',
+    color: '#5dc560',
+  },
+  {
     key: 'En Route',
     value: 'en_route',
     text: 'En Route',

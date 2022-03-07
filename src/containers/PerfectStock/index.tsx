@@ -119,11 +119,43 @@ const PerfectStock: React.FC<Props> = props => {
     subscription.perfect_stock_status === PERFECT_STOCK_SELLER_STATUS.MIGRATION_FAILED ||
     !subscription.perfect_stock_status
   ) {
-    return <PreMigration match={match} />;
+    return (
+      <>
+        <PageHeader
+          title={`Ai Stock`}
+          breadcrumb={[
+            { content: 'Home', to: '/' },
+            { content: 'Ai Stock', to: '/aistock/sales' },
+            {
+              content: PERFECT_STOCK_PRODUCT_DETAILS[selectedTabList].name,
+              to: PERFECT_STOCK_PAGES[selectedTabList],
+            },
+          ]}
+          auth={match.params.auth}
+        />
+        <PreMigration match={match} />
+      </>
+    );
   } else if (
     subscription.perfect_stock_status === PERFECT_STOCK_SELLER_STATUS.MIGRATION_IN_PROGRESS
   ) {
-    return <MigratingDisplay />;
+    return (
+      <>
+        <PageHeader
+          title={`Ai Stock`}
+          breadcrumb={[
+            { content: 'Home', to: '/' },
+            { content: 'Ai Stock', to: '/aistock/sales' },
+            {
+              content: PERFECT_STOCK_PRODUCT_DETAILS[selectedTabList].name,
+              to: PERFECT_STOCK_PAGES[selectedTabList],
+            },
+          ]}
+          auth={match.params.auth}
+        />
+        <MigratingDisplay />
+      </>
+    );
   }
 
   return (

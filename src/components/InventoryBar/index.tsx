@@ -11,12 +11,12 @@ const InventoryBar = (props: Props) => {
   const { percent } = props;
 
   let fillColor;
-  if (percent <= 0.25) {
+  if (percent <= 0.2) {
     fillColor = '#EB675E';
-  } else if (percent <= 0.75) {
-    fillColor = '#2680EB';
+  } else if (percent <= 1) {
+    fillColor = '#349AF8';
   } else {
-    fillColor = '#E68619';
+    fillColor = '#5DC560';
   }
   const firstBarHeight = Math.max((percent / 0.2) * 100, 0);
   const secondBarHeight = Math.max(((percent - 0.2) / 0.2) * 100, 0);

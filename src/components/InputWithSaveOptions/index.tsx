@@ -5,6 +5,7 @@ import styles from './index.module.scss';
 
 import InputFilter from '../FormFilters/InputFilter';
 import SaveCancelOptions from '../SaveCancelOptions';
+import { Popup } from 'semantic-ui-react';
 
 interface Props {
   isNumber?: boolean;
@@ -34,11 +35,15 @@ const InputWithSaveOptions = (props: Props) => {
     size = 'small',
   } = props;
 
-  const [updatedValue, setUpdatedValue] = React.useState<string>(defaultValue.toString());
+  const [updatedValue, setUpdatedValue] = React.useState<string>(
+    defaultValue ? defaultValue.toString() : ''
+  );
   const [isEditingValue, setIsEditingValue] = React.useState<boolean>(false);
 
   React.useEffect(() => {
-    setUpdatedValue(defaultValue.toString());
+    if (defaultValue) {
+      setUpdatedValue(defaultValue.toString());
+    }
   }, [defaultValue]);
 
   const handleDiscardChanges = () => {
@@ -76,7 +81,8 @@ const InputWithSaveOptions = (props: Props) => {
   };
 
   React.useEffect(() => {
-    if (defaultValue.toString() !== updatedValue) {
+    const newDefaultValue = defaultValue ? defaultValue.toString() : '';
+    if (newDefaultValue !== updatedValue) {
       setIsEditingValue(true);
     } else {
       setIsEditingValue(false);
@@ -84,31 +90,35 @@ const InputWithSaveOptions = (props: Props) => {
   }, [updatedValue, defaultValue]);
 
   return (
-    <div
+    <Popup
       className={`
         ${styles.inputWithSaveOptions} 
-        ${className}
         ${
           size === 'large' ? styles.inputWithSaveOptions__large : styles.inputWithSaveOptions__small
         }  
       `}
-    >
-      <InputFilter
-        placeholder={placeholder || ''}
-        value={updatedValue}
-        handleChange={handleValueChange}
-        isNumber={isNumber}
-        label={label}
-        disabled={disabled}
-        className={`
-          ${styles.textInput}
-          ${size === 'large' ? styles.textInput__large : styles.textInput__small}  
-        `}
-      />
-      {isEditingValue && (
+      open={isEditingValue}
+      basic
+      position="bottom left"
+      trigger={
+        <InputFilter
+          placeholder={placeholder || ''}
+          value={updatedValue}
+          handleChange={handleValueChange}
+          isNumber={isNumber}
+          label={label}
+          disabled={disabled}
+          className={`
+            ${styles.textInput}
+            ${className}
+            ${size === 'large' ? styles.textInput__large : styles.textInput__small}  
+          `}
+        />
+      }
+      content={
         <SaveCancelOptions handleSave={handleSaveAndClose} handleCancel={handleDiscardChanges} />
-      )}
-    </div>
+      }
+    />
   );
 };
 

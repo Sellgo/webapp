@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { updatePurchaseOrder } from '../../../../../actions/PerfectStock/OrderPlanning';
+import { UpdatePurchaseOrderPayload } from '../../../../../interfaces/PerfectStock/OrderPlanning';
 import { formatNumber, showNAIfZeroOrNull } from '../../../../../utils/format';
 
 /* Styling */
@@ -8,63 +11,98 @@ import styles from './index.module.scss';
 import StatBox from './StatBox';
 
 interface Props {
+  orderId: number;
   rowData: any;
   hideDaysUntilStockout?: boolean;
+  updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => void;
 }
 
 const EditProductRow = (props: Props) => {
-  const { rowData, hideDaysUntilStockout } = props;
+  const { rowData, hideDaysUntilStockout, updatePurchaseOrder, orderId } = props;
   const daysToStockOut = showNAIfZeroOrNull(
     rowData.days_until_so,
     formatNumber(rowData.days_until_so)
   );
 
+  const updateInventorySku = async (shippingCost: string) => {
+    const id = orderId;
+    updatePurchaseOrder({
+      id,
+      po_sku_id: rowData.id,
+      total_shipping_cost: parseFloat(shippingCost),
+    });
+  };
+
   const stockOutDate = new Date();
   stockOutDate.setTime(stockOutDate.getTime() + daysToStockOut * 24 * 60 * 60 * 1000);
   return (
     <div className={styles.editProductRow}>
-      {!hideDaysUntilStockout && (
+      {!hideDaysUntilStockout ? (
         <div className={styles.daysUntilStockout}>
           <p className={styles.stockoutDate}>
-            <span>DUS</span>
+            <span>Days until Stockout</span>
             {stockOutDate.toLocaleDateString() !== 'Invalid Date'
               ? stockOutDate.toLocaleDateString()
               : ''}
           </p>
           <p className={styles.stockoutNumber}>{daysToStockOut}</p>
         </div>
+      ) : (
+        <div className={styles.emptyStatBox} />
       )}
       <StatBox title={'MOQ'} stat={rowData.moq} />
-      <StatBox title={'Cartons'} stat={rowData.carton_count} />
+      <StatBox title={'Cartons'} stat={rowData.total_carton} />
       <StatBox
-        title={'CBM'}
-        stat={rowData.cbm}
-        secondStat={rowData.cft}
+        title={'Volume'}
+        stat={rowData.total_cbm}
+        secondStat={rowData.total_cft || 0}
         append="m3"
         secondAppend="ft3"
+        asFloat
       />
       <StatBox
         title={'Gross Weight'}
-        stat={rowData.weigth_kg}
-        secondStat={rowData.weigth_lbs}
+        stat={rowData.total_weight_kg}
+        secondStat={rowData.total_weight_lbs || 0}
         append="kg"
         secondAppend="lbs"
         asFloat
       />
-      <StatBox title={'Est. Shipping/ Unit'} stat={rowData.shipping_cost} prepend="$" asFloat />
       <StatBox title={'Cost Per Unit'} stat={rowData.product_cost} prepend="$" asFloat />
       <StatBox
+        title={'Est. Shipping/ Unit'}
+        stat={rowData.shipping_cost_per_unit}
+        prepend="$"
+        asFloat
+      />
+      <StatBox
         title={'Cost + Shipping Per Unit'}
-        stat={
-          (rowData.product_cost ? parseFloat(rowData.product_cost) : 0) +
-          (rowData.shipping_cost ? parseFloat(rowData.shipping_cost) : 0)
-        }
+        stat={rowData.cost_plus_shipping_per_unit}
         asFloat
         prepend="$"
       />
       <StatBox title={'Total Cost'} stat={rowData.total_cost} prepend="$" asFloat />
+      <StatBox
+        title={'Est. Shipping Cost'}
+        stat={rowData.total_shipping_cost}
+        prepend="$"
+        asFloat
+        editable
+        handleEditSave={updateInventorySku}
+      />
+      <StatBox
+        title={'Total Cost with Shipping'}
+        stat={rowData.total_cost_plus_shipping}
+        prepend="$"
+        asFloat
+      />
     </div>
   );
 };
 
-export default EditProductRow;
+const mapDispatchToProps = (dispatch: any) => ({
+  updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) =>
+    dispatch(updatePurchaseOrder(payload)),
+});
+
+export default connect(null, mapDispatchToProps)(EditProductRow);

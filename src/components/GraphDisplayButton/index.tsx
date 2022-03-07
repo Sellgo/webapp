@@ -8,13 +8,13 @@ import GraphDisplay from '../../assets/images/graphImage.png';
 
 interface Props {
   handleClick?: () => void;
+  disabled?: boolean;
 }
 
 const GraphDisplayButton = (props: Props) => {
-  const { handleClick } = props;
-
+  const { handleClick, disabled } = props;
   return (
-    <button className={styles.graphDisplayButton} onClick={handleClick}>
+    <button className={styles.graphDisplayButton} onClick={handleClick} disabled={disabled}>
       <img src={GraphDisplay} alt="graph-display" />
     </button>
   );

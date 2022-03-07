@@ -42,11 +42,12 @@ export interface GanttChartPurchaseOrder {
   name: string;
   color?: string;
   subTasks?: GanttChartPurchaseOrder[];
+  prioritySku?: string;
   is_included?: boolean;
 }
 
 export interface UpdatePurchaseOrderPayload {
-  id: number;
+  id?: number;
   date?: string;
   status?: 'active' | 'inactive';
   is_included?: boolean;
@@ -54,6 +55,17 @@ export interface UpdatePurchaseOrderPayload {
   quantity?: number;
   manual_quantity?: number;
   quantity_mode?: string;
+  is_priority?: boolean;
+  purchase_order_ids?: number[];
+  total_shipping_cost?: number;
+}
+
+export interface AutoGeneratePurchaseOrderPayload {
+  id: number;
+  merchant_listing_id: number | null;
+  next_n_days: number | null;
+  stockout_buffer_perc?: number;
+  stockout_buffer_days?: number;
 }
 
 export interface InventorySkuUpdatePayload {
@@ -70,6 +82,8 @@ export interface InventorySkuUpdatePayload {
   length_unit?: string;
   width?: number;
   width_unit?: string;
+  shipping_cost?: number;
+  is_active?: boolean;
 }
 
 export interface CreateOrderPayload {

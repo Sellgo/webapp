@@ -14,6 +14,9 @@ interface Props extends RowCell {
   prependMessage?: string;
   appendMessage?: string;
   isNumber?: boolean;
+  isPositiveOnly?: boolean;
+  isInteger?: boolean;
+  showEmptyError?: boolean;
 }
 
 const EditValueCell = (props: Props) => {
@@ -23,6 +26,9 @@ const EditValueCell = (props: Props) => {
     prependMessage,
     appendMessage,
     isNumber,
+    isPositiveOnly,
+    isInteger,
+    showEmptyError,
     ...otherProps
   } = props;
   const { rowData, dataKey } = otherProps;
@@ -35,6 +41,8 @@ const EditValueCell = (props: Props) => {
       <div className={styles.editValueCellWrapper}>
         <p>{prependMessage}&nbsp;</p>
         <InputFilter
+          isInteger={isInteger}
+          isPositiveOnly={isPositiveOnly}
           value={rowData[dataKey] || ''}
           handleChange={(value: string) => {
             if (isNumber) {
@@ -47,6 +55,7 @@ const EditValueCell = (props: Props) => {
           className={styles.inputField}
           isDate={dataKey === 'start_date' || dataKey === 'end_date'}
           isNumber={isNumber}
+          error={showEmptyError && !rowData[dataKey]}
         />
         <p>&nbsp;{appendMessage}</p>
       </div>

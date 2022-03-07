@@ -1,0 +1,47 @@
+@import '../../design-system/new-colors';
+
+.inputTabSelection {
+  margin-top: 10px;
+  width: max-content;
+  display: flex;
+  border-radius: 7px;
+  border: solid 1px $grey_3;
+  overflow: hidden;
+}
+
+.option {
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: $fontweight_medium;
+  color: $grey_8;
+  border-right: solid 1px $grey_3;
+  background: $prim_white;
+  padding: 0 18px;
+  cursor: pointer;
+
+  &:hover {
+    background: $grey_10;
+  }
+
+  &__selected {
+    font-weight: $fontweight_bold;
+    background: $grey_10;
+  }
+
+  &__selectedPurple {
+    font-weight: $fontweight_bold;
+    color: $sellgo_purple;
+  }
+
+  &__borderless {
+    border-right: none;
+  }
+
+  /* Last child */
+  &:last-child {
+    border-right: none;
+  }
+}

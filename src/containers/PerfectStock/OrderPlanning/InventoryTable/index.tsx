@@ -159,13 +159,17 @@ const InventoryTable = (props: Props) => {
           autoHeight
           rowHeight={90}
           headerHeight={60}
-          rowExpandedHeight={40}
+          rowExpandedHeight={50}
           onSortColumn={handleSortColumn}
           rowKey="sku"
           virtualized
           expandedRowKeys={inventoryResultsIds}
           renderRowExpanded={(rowData: any) => (
-            <EditProductRow hideDaysUntilStockout={isShowingDaysUntilStockout} rowData={rowData} />
+            <EditProductRow
+              hideDaysUntilStockout={isShowingDaysUntilStockout}
+              rowData={rowData}
+              orderId={activePurchaseOrder.id}
+            />
           )}
           id="orderPlanningStockInventoryTable"
         >

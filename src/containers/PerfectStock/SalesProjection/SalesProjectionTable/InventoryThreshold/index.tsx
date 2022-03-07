@@ -50,7 +50,10 @@ const InventoryThreshold = (props: Props) => {
           ${styles.inventoryThresholdCell}`}
       >
         <ToggleRadio
-          isToggled={rowData.stockout_threshold_inventory_included ? true : false}
+          isToggled={
+            rowData.stockout_threshold_inventory_included === true ||
+            rowData.stockout_threshold_inventory_included === 'true'
+          }
           handleChange={() =>
             handleInventoryThresholdToggle(!rowData.stockout_threshold_inventory_included)
           }

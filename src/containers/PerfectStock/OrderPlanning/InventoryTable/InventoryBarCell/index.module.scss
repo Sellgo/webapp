@@ -10,6 +10,10 @@
   align-items: center;
   font-size: 10px;
   color: $grey_8;
+
+  .inventoryCount {
+    height: 12px;
+  }
 }
 
 .potentialLoss {
@@ -41,6 +45,8 @@
 
   &__red {
     span {
+      border-radius: 7px;
+      margin: 0 1px !important;
       background: $system_red;
       color: $prim_white;
     }

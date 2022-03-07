@@ -1,7 +1,7 @@
 @import '../../../../../design-system/new-colors';
 
 .modalWrapper {
-  width: 1200px !important;
+  width: 900px !important;
   height: 600px !important;
   padding: 0 !important;
   background: $prim_white;
@@ -13,10 +13,13 @@
   height: 50px;
   display: flex;
   align-items: center;
-  color: $black_1;
-  font-weight: $fontweight_semibold;
-  font-size: 14px;
   padding-left: 18px;
+
+  h2 {
+    color: $black_1;
+    font-weight: $fontweight_semibold;
+    font-size: 14px;
+  }
 }
 
 .modalContent {
@@ -24,7 +27,13 @@
   flex-direction: column;
   width: 100%;
   height: calc(100% - 50px);
-  padding: 30px 40px;
+  padding: 0 40px;
+  padding-bottom: 30px;
+
+  &__disabled {
+    opacity: 0.3;
+    pointer-events: none;
+  }
 }
 
 .seasonalityTitle {

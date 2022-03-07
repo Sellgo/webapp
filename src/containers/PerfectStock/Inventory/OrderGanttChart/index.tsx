@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Modal, Dimmer, Loader } from 'semantic-ui-react';
 
 /* Components */
 // @ts-ignore
 import TimeLine from '../../../../components/ReactGanttChart/TimeLine';
+import AutoGenerateOrderPopup from './AutoGenerateOrderPopup';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -23,11 +25,13 @@ import {
   getActivePurchaseOrder,
   getIsLoadingPurchaseOrders,
   getPurchaseOrders,
+  getPurchaseOrdersLoadingMessage,
   getTimeSetting,
 } from '../../../../selectors/PerfectStock/OrderPlanning';
 
 /* Types */
 import {
+  AutoGeneratePurchaseOrderPayload,
   DateRange,
   GanttChartPurchaseOrder,
   PurchaseOrder,
@@ -49,6 +53,7 @@ import {
 } from '../../../../constants/PerfectStock/OrderPlanning';
 import { getLeadTimeColor, getLeadTimeName } from '../../../../constants/PerfectStock';
 import { info } from '../../../../utils/notifications';
+import SetPrioritySkuPopup from './SetPrioritySkuPopup';
 
 type IOption = {
   key: string;
@@ -62,10 +67,11 @@ interface Props {
   fetchPurchaseOrders: () => void;
   updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => void;
   setActivePurchaseOrder: (payload: PurchaseOrder) => void;
-  generateNextOrder: (purchaseOrderId: number) => void;
+  generateNextOrder: (payload: AutoGeneratePurchaseOrderPayload) => void;
   activePurchaseOrder: GanttChartPurchaseOrder;
   purchaseOrders: PurchaseOrder[];
   isLoadingPurchaseOrders: boolean;
+  purchaseOrdersLoadingMessage: string;
   timeSetting: TimeSetting;
 
   hideBottomBorder?: boolean;
@@ -77,23 +83,38 @@ interface Props {
 
 const OrderGanttChart = (props: Props) => {
   const {
-    setDateRange,
-    timeSetting,
-    setTimeSettings,
+    /* Purchase Order Related Props */
     fetchPurchaseOrders,
     purchaseOrders,
+    purchaseOrdersLoadingMessage,
     isLoadingPurchaseOrders,
     updatePurchaseOrder,
     setActivePurchaseOrder,
     activePurchaseOrder,
+    generateNextOrder,
+
+    /* Date Range Related Props */
+    setDateRange,
+    timeSetting,
+    setTimeSettings,
+
+    /* Aesthetic Related Props */
     hideBottomBorder,
     viewFilterOptions,
     handleChangeFilterOption,
     viewFilter,
     isDraftMode,
-    generateNextOrder,
   } = props;
 
+  const [isAutoGeneratingNextOrder, setIsAutoGeneratingNextOrder] = React.useState(false);
+  const [generateNextOrderDetails, setGenerateNextOrderDetails] = React.useState<{
+    id: number;
+    merchantListings: any[];
+    defaultPrioritySku?: string;
+  }>({ id: 0, merchantListings: [] });
+
+  const [isSettingPrioritySku, setIsSettingPrioritySku] = React.useState(false);
+  const [prioritySkuDetails, setPrioritySkuDetails] = React.useState({});
   /* ================================================================ */
   /* Converting purchase orders to fit the format for gantt chart */
   /* ================================================================ */
@@ -108,6 +129,9 @@ const OrderGanttChart = (props: Props) => {
       const end = new Date(start.getTime() + leadTimeDuration * 24 * 60 * 60 * 1000);
       const name = purchaseOrder.number;
       const is_included = purchaseOrder.is_included;
+      const prioritySku = purchaseOrder.merchant_listings?.find(
+        (merchantListing: any) => merchantListing.is_priority
+      );
 
       const leadTimeDate = start;
       const subTasks = purchaseOrder.lead_time_group?.lead_times?.map(
@@ -127,6 +151,7 @@ const OrderGanttChart = (props: Props) => {
         end,
         name,
         is_included,
+        prioritySku: prioritySku?.sku,
         subTasks: subTasks || [],
       };
     }
@@ -175,10 +200,31 @@ const OrderGanttChart = (props: Props) => {
         info("Orders must arrive before today's date");
       }
 
+      /* If the new arrival date is more than 2 years in the future,
+       then force the arrival date to 2 years in the future */
+      const maximumDate = new Date(new Date().getTime() + 2 * 365 * 24 * 60 * 60 * 1000);
+      if (change.end > maximumDate) {
+        newDate = getDateOnly(new Date(maximumDate.getTime() - duration * 24 * 60 * 60 * 1000));
+        info('Orders can only be forecasted up to 2 years in the future');
+      }
+
       updatePurchaseOrder({
         id: task.id,
         date: newDate,
       });
+    }
+  };
+
+  const handleDeleteAllTasks = () => {
+    const purchaseOrderIds = purchaseOrders.map((purchaseOrder: PurchaseOrder) => purchaseOrder.id);
+    updatePurchaseOrder({
+      purchase_order_ids: purchaseOrderIds,
+      status: 'inactive',
+    });
+
+    /* If current url is create-order, push to /order */
+    if (window.location.pathname === '/aistock/create-order') {
+      history.push('/aistock/order');
     }
   };
 
@@ -187,8 +233,60 @@ const OrderGanttChart = (props: Props) => {
     history.push(`/aistock/create-order`);
   };
 
-  const handleGenerateNextOrder = async (payload: GanttChartPurchaseOrder) => {
-    generateNextOrder(payload.id);
+  const handleGenerateNextOrder = (payload: GanttChartPurchaseOrder) => {
+    const selectedPurchaseOrder = purchaseOrders.find((purchaseOrder: PurchaseOrder) => {
+      return purchaseOrder.id === payload.id;
+    });
+
+    if (selectedPurchaseOrder) {
+      const selectedMerchantListings = selectedPurchaseOrder.merchant_listings.map(
+        (orderProduct: any) => ({
+          id: orderProduct.merchant_listing_id?.toString() || '',
+          productName: orderProduct.title,
+          asin: orderProduct.asin,
+          img: orderProduct.image_url,
+          skuName: orderProduct.sku,
+          activePurchaseOrders: orderProduct.active_purchase_orders,
+          fulfillmentChannel: orderProduct.fulfillment_channel,
+          skuStatus: orderProduct.sku_status,
+        })
+      );
+
+      setGenerateNextOrderDetails({
+        merchantListings: selectedMerchantListings,
+        id: selectedPurchaseOrder.id,
+        defaultPrioritySku: payload.prioritySku,
+      });
+      setIsAutoGeneratingNextOrder(true);
+    }
+  };
+
+  const handleSetPrioritySku = (payload: GanttChartPurchaseOrder) => {
+    const selectedPurchaseOrder = purchaseOrders.find((purchaseOrder: PurchaseOrder) => {
+      return purchaseOrder.id === payload.id;
+    });
+
+    if (selectedPurchaseOrder) {
+      const selectedMerchantListings = selectedPurchaseOrder.merchant_listings.map(
+        (orderProduct: any) => ({
+          id: orderProduct.id?.toString() || '',
+          productName: orderProduct.title,
+          asin: orderProduct.asin,
+          img: orderProduct.image_url,
+          skuName: orderProduct.sku,
+          activePurchaseOrders: orderProduct.active_purchase_orders,
+          fulfillmentChannel: orderProduct.fulfillment_channel,
+          skuStatus: orderProduct.sku_status,
+        })
+      );
+
+      setIsSettingPrioritySku(true);
+      setPrioritySkuDetails({
+        id: payload.id,
+        prioritySku: payload.prioritySku,
+        selectedMerchantListings,
+      });
+    }
   };
 
   React.useEffect(() => {
@@ -203,6 +301,10 @@ const OrderGanttChart = (props: Props) => {
           ${styles.ganttChart} 
           ${hideBottomBorder ? styles.ganttChart__hideBottomBorder : ''}`}
         >
+          <Dimmer active={isLoadingPurchaseOrders} inverted className={styles.dimmerContent}>
+            <Loader inline />
+            <p>{purchaseOrdersLoadingMessage}</p>
+          </Dimmer>
           <TimeLine
             /* Default Props */
             isLoading={isLoadingPurchaseOrders}
@@ -218,6 +320,7 @@ const OrderGanttChart = (props: Props) => {
             unitWidth={UNIT_WIDTH}
             handleChangeMode={handleChangeTimeSetting}
             handleDeleteTask={handleDeleteTask}
+            handleDeleteAllTasks={handleDeleteAllTasks}
             handleEditTask={handleEditTask}
             viewFilterOptions={viewFilterOptions}
             handleChangeFilterOption={handleChangeFilterOption}
@@ -232,6 +335,32 @@ const OrderGanttChart = (props: Props) => {
             }}
             isDraftMode={isDraftMode}
             generateNextOrder={handleGenerateNextOrder}
+            handleSetPrioritySku={handleSetPrioritySku}
+          />
+
+          <Modal
+            open={isAutoGeneratingNextOrder}
+            content={
+              <AutoGenerateOrderPopup
+                handleCancel={() => setIsAutoGeneratingNextOrder(false)}
+                generateNextOrderDetails={generateNextOrderDetails}
+                generateNextOrder={generateNextOrder}
+              />
+            }
+            onClose={() => setIsAutoGeneratingNextOrder(false)}
+            className={styles.autoGenerateOrderModal}
+          />
+          <Modal
+            open={isSettingPrioritySku}
+            content={
+              <SetPrioritySkuPopup
+                handleCancel={() => setIsSettingPrioritySku(false)}
+                prioritySkuDetails={prioritySkuDetails}
+                handleUpdatePrioritySku={updatePurchaseOrder}
+              />
+            }
+            onClose={() => setIsSettingPrioritySku(false)}
+            className={styles.setPrioritySkuModal}
           />
         </div>
       </div>
@@ -243,6 +372,7 @@ const mapStateToProps = (state: any) => {
   return {
     timeSetting: getTimeSetting(state),
     purchaseOrders: getPurchaseOrders(state),
+    purchaseOrdersLoadingMessage: getPurchaseOrdersLoadingMessage(state),
     isLoadingPurchaseOrders: getIsLoadingPurchaseOrders(state),
     activePurchaseOrder: getActivePurchaseOrder(state),
   };
@@ -265,8 +395,8 @@ const mapDispatchToProps = (dispatch: any) => {
     setActivePurchaseOrder: (task: PurchaseOrder) => {
       dispatch(setActivePurchaseOrder(task));
     },
-    generateNextOrder: (purchaseOrderId: number) => {
-      dispatch(generateNextOrder(purchaseOrderId));
+    generateNextOrder: (payload: AutoGeneratePurchaseOrderPayload) => {
+      dispatch(generateNextOrder(payload));
     },
   };
 };

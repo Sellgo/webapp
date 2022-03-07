@@ -3,6 +3,7 @@ import DateHelper from '../../helpers/DateHelper';
 import { MODE_NONE, MODE_MOVE, MOVE_RESIZE_LEFT, MOVE_RESIZE_RIGHT } from '../../Const';
 import { LINK_POS_LEFT, LINK_POS_RIGHT } from '../../Const';
 import Config from '../../helpers/config/Config';
+import { ReactComponent as CheckIcon } from '../../../../assets/images/check-circle-solid.svg';
 import { NONAME } from 'dns';
 
 export default class DataTask extends Component {
@@ -196,10 +197,17 @@ export default class DataTask extends Component {
           {this.props.subTasks ? (
             this.props.subTasks.map((task, id) => {
               const lengthOfSubTask = ((task.start - task.end) / lengthOfMainTask) * 100;
+              const selectedStyling = {
+                background: task.color,
+                width: `${lengthOfSubTask}%`,
+                height: style.height,
+                boxShadow: '3px 3px 3px 1px #00000029',
+              };
               const inventoryStyling = {
                 background: task.color,
                 width: `${lengthOfSubTask}%`,
                 height: style.height,
+                opacity: 0.7,
               };
               const draftStyling = {
                 width: `${lengthOfSubTask}%`,
@@ -220,12 +228,15 @@ export default class DataTask extends Component {
                 styling = disabledStyling;
               } else if (this.props.isDraftMode) {
                 styling = draftStyling;
+              } else if (this.props.isSelected) {
+                styling = selectedStyling;
               } else {
                 styling = inventoryStyling;
               }
               return (
                 <div key={id} style={styling} className="timeLine-main-data-sub-task">
-                  {task.name}
+                  <span>{task.name}&nbsp;</span>
+                  {task.end <= new Date() ? <CheckIcon /> : null}
                 </div>
               );
             })

@@ -34,10 +34,11 @@ interface Props {
   className?: string;
   filterOptions: ProductOption[];
   placeholder: string;
-  value: any[];
-  handleChange: (value: any[]) => void;
+  value: any;
+  handleChange: (value: any) => void;
   disabled?: boolean;
   loading?: boolean;
+  isSingleSelect?: boolean;
   userOnboardingResources: any;
 }
 
@@ -50,6 +51,7 @@ const SelectionProductFilter: React.FC<Props> = props => {
     handleChange,
     disabled = false,
     loading = false,
+    isSingleSelect = false,
     userOnboardingResources,
     className,
   } = props;
@@ -116,7 +118,7 @@ const SelectionProductFilter: React.FC<Props> = props => {
       <Dropdown
         fluid
         search
-        multiple
+        multiple={!isSingleSelect}
         className={isFocused ? 'selectionFilter selectionFilter__focused' : ' selectionFilter'}
         options={renderOptions}
         placeholder={placeholder}

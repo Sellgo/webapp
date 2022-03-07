@@ -13,10 +13,7 @@ import ActionButton from '../../../../../components/ActionButton';
 import InputFilter from '../../../../../components/FormFilters/InputFilter';
 import Placeholder from '../../../../../components/Placeholder';
 import LeadTimeBar from '../../../../../components/LeadTimeBar';
-
-/* Assets */
-import { ReactComponent as ExpandedCellIcon } from '../../../../../assets/images/expandCell.svg';
-import { ReactComponent as DeExpandedCellIcon } from '../../../../../assets/images/deExpandCell.svg';
+import { ReactComponent as ExclaimationIcon } from '../../../../../assets/images/exclamation-triangle-solid.svg';
 
 /* Interfaces */
 import {
@@ -26,20 +23,29 @@ import {
 
 /* Utils */
 import { AppConfig } from '../../../../../config';
-import { success } from '../../../../../utils/notifications';
+import { error, success } from '../../../../../utils/notifications';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
 
 interface Props {
   initialLeadTimeGroup: SingleLeadTimeGroup;
-  handleDeleteLeadTimeGroup: (index: number) => void;
+  handleDeleteLeadTimeGroup: (indexIdentifier: string) => void;
+  fetchLeadTimeGroups: () => void;
+  setInitialLeadTimeGroup: (value: SingleLeadTimeGroup) => void;
 }
 
 const LeadTimeGroup = (props: Props) => {
-  const { initialLeadTimeGroup, handleDeleteLeadTimeGroup } = props;
-
+  const {
+    initialLeadTimeGroup,
+    handleDeleteLeadTimeGroup,
+    fetchLeadTimeGroups,
+    setInitialLeadTimeGroup,
+  } = props;
   /* Modal State */
-  const [isOpen, setOpen] = useState<boolean>(false);
+
+  /* Set modal to open by default if its an new lead time */
+  const [isOpen, setOpen] = useState<boolean>(initialLeadTimeGroup.id ? false : true);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [showError, setShowError] = useState<boolean>(false);
 
   /* Trigger Name State */
   const [isEditingName, setEditingName] = useState<boolean>(false);
@@ -48,10 +54,12 @@ const LeadTimeGroup = (props: Props) => {
   const [newLeadTimeGroup, setNewLeadTimeGroup] = useState<SingleLeadTimeGroup>(
     initialLeadTimeGroup
   );
-  const leadTimesWithId = newLeadTimeGroup.lead_times.map((leadTime: LeadTime, index: number) => {
-    leadTime.id = index;
-    return leadTime;
-  });
+
+  const leadTimesWithId =
+    newLeadTimeGroup.lead_times?.map((leadTime: LeadTime, index: number) => {
+      leadTime.id = index;
+      return leadTime;
+    }) || [];
 
   const handleAddLeadTime = () => {
     setNewLeadTimeGroup({
@@ -61,7 +69,16 @@ const LeadTimeGroup = (props: Props) => {
   };
 
   /* Save all changes in the lead time group */
-  const handleSave = async () => {
+  const handleSave = async (refreshUponSave?: boolean) => {
+    if (
+      !newLeadTimeGroup.lead_times ||
+      newLeadTimeGroup.lead_times.length === 0 ||
+      newLeadTimeGroup.lead_times.every(leadTime => leadTime.type === '')
+    ) {
+      error('Please add at least one valid lead time.');
+      setShowError(true);
+      return;
+    }
     try {
       const url = `${
         AppConfig.BASE_URL_API
@@ -76,7 +93,16 @@ const LeadTimeGroup = (props: Props) => {
 
       if (res.status === 201) {
         success('Successfully updated lead times.');
-        setOpen(false);
+        const savedLeadTimeGroup = {
+          ...newLeadTimeGroup,
+          id: res.data.id,
+        };
+        setNewLeadTimeGroup(savedLeadTimeGroup);
+        setInitialLeadTimeGroup(savedLeadTimeGroup);
+
+        if (refreshUponSave) {
+          fetchLeadTimeGroups();
+        }
       }
     } catch (err) {
       console.error('Failed to save updates.');
@@ -128,33 +154,78 @@ const LeadTimeGroup = (props: Props) => {
     setNewLeadTimeGroup(updatedLeadTimeGroup);
   };
 
+  const handleSaveAsDefault = async (event: any) => {
+    event.preventDefault();
+    event.stopPropagation();
+    try {
+      const url = `${
+        AppConfig.BASE_URL_API
+      }sellers/${sellerIDSelector()}/purchase-orders/lead-times`;
+      const payload = {
+        ...newLeadTimeGroup,
+        is_default: true,
+      };
+      const res = await axios.patch(url, payload);
+      if (res.status === 201) {
+        setNewLeadTimeGroup({
+          ...newLeadTimeGroup,
+          is_default: true,
+        });
+        success('Successfully updated lead times.');
+        fetchLeadTimeGroups();
+      }
+    } catch (err) {
+      error('Failed to save updates.');
+    }
+  };
+
+  React.useEffect(() => {
+    if (
+      newLeadTimeGroup.lead_times &&
+      newLeadTimeGroup.lead_times.length > 0 &&
+      newLeadTimeGroup.lead_times.every(leadTime => leadTime.type !== '') &&
+      newLeadTimeGroup.lead_times.every(leadTime => leadTime.duration && leadTime.duration >= 0)
+    ) {
+      setShowError(false);
+    }
+  }, [newLeadTimeGroup.lead_times]);
+
   return (
     <div className={styles.leadTimeGroupWrapper}>
-      <button className={styles.expandIcon} onClick={() => setOpen(!isOpen)}>
-        {!isOpen ? <ExpandedCellIcon /> : <DeExpandedCellIcon />}
-      </button>
-
       <div className={styles.leadTimeGroup}>
         {/* TRIGGER HEADER */}
         <BoxHeader
           className={`${styles.leadTimeGroupHeader} ${
             !isOpen ? styles.leadTimeGroupHeader__closed : ''
           }`}
+          onClick={() => {
+            setOpen(!isOpen);
+          }}
         >
+          {showError && <ExclaimationIcon className={styles.exclaimationIcon} />}
           {/* EDITTING NAME SECTION */}
           {!isEditingName ? (
             <div className={styles.editName}>
               {newLeadTimeGroup.name}
+              {newLeadTimeGroup.is_default ? ' (Default)' : ''}
               {isOpen && (
                 <Icon
-                  onClick={() => setEditingName(true)}
+                  onClick={(event: any) => {
+                    event.stopPropagation();
+                    setEditingName(true);
+                  }}
                   name="pencil"
                   className={styles.editIcon}
                 />
               )}
             </div>
           ) : (
-            <div className={styles.editName}>
+            <div
+              className={styles.editName}
+              onClick={(event: any) => {
+                event.stopPropagation();
+              }}
+            >
               <InputFilter
                 label=""
                 placeholder="Enter or select value..."
@@ -164,22 +235,36 @@ const LeadTimeGroup = (props: Props) => {
               <Icon
                 name="check"
                 className={styles.checkIcon}
-                onClick={() => handleSaveName(true)}
+                onClick={(event: any) => {
+                  event.stopPropagation();
+                  handleSaveName(true);
+                }}
               />
               <Icon
                 name="close"
                 className={styles.closeIcon}
-                onClick={() => handleSaveName(false)}
+                onClick={(event: any) => {
+                  event.stopPropagation();
+                  handleSaveName(false);
+                }}
               />
             </div>
           )}
 
           {/* DELETE ICON */}
           <div>
+            {!newLeadTimeGroup?.is_default && newLeadTimeGroup.id && (
+              <button className={styles.defaultButton} onClick={handleSaveAsDefault}>
+                Set as default
+              </button>
+            )}
             <Icon
               name="trash alternate"
               className={styles.deleteTriggerIcon}
-              onClick={() => setIsDeleting(true)}
+              onClick={(event: any) => {
+                event.stopPropagation();
+                setIsDeleting(true);
+              }}
             />
           </div>
         </BoxHeader>
@@ -198,6 +283,7 @@ const LeadTimeGroup = (props: Props) => {
               leadTimeSegments={leadTimesWithId}
               handleLeadTimeGroupEdit={handleLeadTimeGroupEdit}
               handleLeadTimeDelete={handleLeadTimeDelete}
+              showError={showError}
             />
             <button onClick={handleAddLeadTime} className={styles.addButton}>
               {' '}
@@ -217,6 +303,7 @@ const LeadTimeGroup = (props: Props) => {
                 type="purpleGradient"
                 size="md"
                 onClick={handleSave}
+                disabled={showError}
               >
                 Save
               </ActionButton>
@@ -231,7 +318,7 @@ const LeadTimeGroup = (props: Props) => {
         onCancel={() => setIsDeleting(false)}
         onConfirm={() => {
           setIsDeleting(false);
-          handleDeleteLeadTimeGroup(newLeadTimeGroup.id || 0);
+          handleDeleteLeadTimeGroup(initialLeadTimeGroup.indexIdentifier || '');
         }}
       />
     </div>

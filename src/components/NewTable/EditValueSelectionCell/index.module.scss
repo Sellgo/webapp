@@ -14,8 +14,7 @@
   justify-content: space-between;
   font-weight: $fontweight_regular;
   align-items: center;
-  padding: 0 10px;
-  font-size: 14px;
+  font-size: 12px !important;
   color: $grey_8;
 
   &:hover {
@@ -24,6 +23,10 @@
 
   &:focus {
     border: 2px solid $blue_6;
+  }
+
+  &__error {
+    border: 1px solid $system_red;
   }
 }
 

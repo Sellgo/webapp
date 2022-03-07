@@ -14,6 +14,7 @@ import {
   UpdatePurchaseOrderPayload,
   DraftOrderTemplate,
   InventoryTablePayload,
+  AutoGeneratePurchaseOrderPayload,
 } from '../../interfaces/PerfectStock/OrderPlanning';
 
 /* Selectors */
@@ -44,6 +45,14 @@ export const isLoadingInventoryTableResults = (payload: boolean) => {
 export const isLoadingPurchaseOrders = (payload: boolean) => {
   return {
     type: actionTypes.IS_LOADING_PURCHASE_ORDERS,
+    payload,
+  };
+};
+
+/* Action to set loading message for purchase orders */
+export const setPurchaseOrdersLoadingMessage = (payload: string) => {
+  return {
+    type: actionTypes.SET_PURCHASE_ORDERS_LOADING_MESSAGE,
     payload,
   };
 };
@@ -217,26 +226,35 @@ export const fetchPurchaseOrders = () => async (dispatch: any) => {
     dispatch(setPurchaseOrders([]));
     console.error('Error fetching sales estimation', err);
   }
+  dispatch(setPurchaseOrdersLoadingMessage(''));
   dispatch(isLoadingPurchaseOrders(false));
 };
 
-export const generateNextOrder = (purchaseOrderId: number) => async (dispatch: any) => {
+export const generateNextOrder = (payload: AutoGeneratePurchaseOrderPayload) => async (
+  dispatch: any
+) => {
   try {
+    success('Generating next orders...');
     const sellerId = sellerIDSelector();
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/${purchaseOrderId}/generate-next-order`;
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/${payload.id}/generate-next-order`;
 
     dispatch(isLoadingPurchaseOrders(true));
-    const { status } = await axios.post(URL);
+    dispatch(setPurchaseOrdersLoadingMessage('Order creation in progress...'));
+    const { status } = await axios.post(URL, payload);
 
     if (status === 201) {
       dispatch(fetchPurchaseOrders());
+      dispatch(fetchInventoryTable({}));
     } else {
       dispatch(isLoadingPurchaseOrders(false));
+      error('Failed to generate next orders');
     }
   } catch (err) {
     dispatch(isLoadingPurchaseOrders(false));
+    error('Failed to generate next orders');
     console.error('Error fetching sales estimation', err);
   }
+  dispatch(setPurchaseOrdersLoadingMessage(''));
 };
 
 /* Action to update purchase orders */
@@ -286,6 +304,32 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
       });
     }
 
+    /* Setting priority sku */
+    if (payload.is_priority && payload.po_sku_id) {
+      newPurchaseOrders = newPurchaseOrders.map((order: any) => {
+        if (order.id === payload.id) {
+          return {
+            ...order,
+
+            /* Update merchant listing with is_priority flag */
+            merchant_listings: order.merchant_listings.map((merchantListing: any) => {
+              if (merchantListing.id === payload.po_sku_id) {
+                return {
+                  ...merchantListing,
+                  is_priority: payload.is_priority,
+                };
+              } else {
+                return merchantListing;
+              }
+            }),
+          };
+        } else {
+          return order;
+        }
+      });
+    }
+
+    /* Updating status of order */
     if (payload.status) {
       newPurchaseOrders = newPurchaseOrders.map((order: any) => {
         if (order.id === payload.id) {
@@ -296,17 +340,20 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
         }
         return order;
       });
+      dispatch(setPurchaseOrdersLoadingMessage('Deletion in progress'));
+      dispatch(isLoadingPurchaseOrders(true));
     }
     dispatch(setPurchaseOrders(newPurchaseOrders));
 
     /* Update backend's purchase orders */
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-orders/${
-      payload.id
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-orders${
+      payload.id ? `/${payload.id}` : ''
     }`;
     const { status } = await axios.patch(URL, requestPayload);
     if (status === 200) {
       dispatch(fetchInventoryTable({}));
 
+      /* Deleted Purchase Orders */
       if (!payload.date && payload.status === 'inactive') {
         dispatch(fetchPurchaseOrders());
         success('Deleted order successfully');
@@ -315,6 +362,8 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
       error('Failed to update purchase order.');
       dispatch(isLoadingInventoryTableResults(false));
       dispatch(setPurchaseOrders([]));
+      dispatch(isLoadingPurchaseOrders(false));
+      dispatch(setPurchaseOrdersLoadingMessage(''));
     }
   } catch (err) {
     dispatch(setPurchaseOrders([]));
@@ -471,7 +520,7 @@ export const fetchExpectedDaysOfInventory = () => async (dispatch: any, useState
 
     const ids = merchantListings
       .map((merchantListing: any) => {
-        return merchantListing.id;
+        return merchantListing.merchant_listing_id;
       })
       .join(',');
 
