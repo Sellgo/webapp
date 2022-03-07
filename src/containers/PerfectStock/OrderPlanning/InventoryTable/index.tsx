@@ -165,7 +165,11 @@ const InventoryTable = (props: Props) => {
           virtualized
           expandedRowKeys={inventoryResultsIds}
           renderRowExpanded={(rowData: any) => (
-            <EditProductRow hideDaysUntilStockout={isShowingDaysUntilStockout} rowData={rowData} />
+            <EditProductRow
+              hideDaysUntilStockout={isShowingDaysUntilStockout}
+              rowData={rowData}
+              orderId={activePurchaseOrder.id}
+            />
           )}
           id="orderPlanningStockInventoryTable"
         >

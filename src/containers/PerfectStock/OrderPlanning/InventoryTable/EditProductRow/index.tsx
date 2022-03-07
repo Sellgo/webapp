@@ -11,20 +11,21 @@ import styles from './index.module.scss';
 import StatBox from './StatBox';
 
 interface Props {
+  orderId: number;
   rowData: any;
   hideDaysUntilStockout?: boolean;
   updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => void;
 }
 
 const EditProductRow = (props: Props) => {
-  const { rowData, hideDaysUntilStockout, updatePurchaseOrder } = props;
+  const { rowData, hideDaysUntilStockout, updatePurchaseOrder, orderId } = props;
   const daysToStockOut = showNAIfZeroOrNull(
     rowData.days_until_so,
     formatNumber(rowData.days_until_so)
   );
 
   const updateInventorySku = async (shippingCost: string) => {
-    const id = rowData.merchant_listing_id;
+    const id = orderId;
     updatePurchaseOrder({
       id,
       po_sku_id: rowData.id,
@@ -50,7 +51,7 @@ const EditProductRow = (props: Props) => {
         <div className={styles.emptyStatBox} />
       )}
       <StatBox title={'MOQ'} stat={rowData.moq} />
-      <StatBox title={'Cartons'} stat={rowData.carton_count} />
+      <StatBox title={'Cartons'} stat={rowData.total_carton} />
       <StatBox
         title={'Volume'}
         stat={rowData.total_cbm}

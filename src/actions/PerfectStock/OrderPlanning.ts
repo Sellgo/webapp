@@ -304,19 +304,32 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
       });
     }
 
+    /* Setting priority sku */
     if (payload.is_priority && payload.po_sku_id) {
       newPurchaseOrders = newPurchaseOrders.map((order: any) => {
         if (order.id === payload.id) {
           return {
             ...order,
-            po_sku_id: payload.po_sku_id,
-            is_priority: payload.is_priority,
+
+            /* Update merchant listing with is_priority flag */
+            merchant_listings: order.merchant_listings.map((merchantListing: any) => {
+              if (merchantListing.id === payload.po_sku_id) {
+                return {
+                  ...merchantListing,
+                  is_priority: payload.is_priority,
+                };
+              } else {
+                return merchantListing;
+              }
+            }),
           };
+        } else {
+          return order;
         }
-        return order;
       });
     }
 
+    /* Updating status of order */
     if (payload.status) {
       newPurchaseOrders = newPurchaseOrders.map((order: any) => {
         if (order.id === payload.id) {
@@ -340,6 +353,7 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
     if (status === 200) {
       dispatch(fetchInventoryTable({}));
 
+      /* Deleted Purchase Orders */
       if (!payload.date && payload.status === 'inactive') {
         dispatch(fetchPurchaseOrders());
         success('Deleted order successfully');

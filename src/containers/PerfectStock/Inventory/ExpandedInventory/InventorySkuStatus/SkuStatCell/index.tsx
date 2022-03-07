@@ -17,9 +17,11 @@ const SkuStatCell = (props: RowCell) => {
   return (
     <Table.Cell {...props}>
       <div className={styles.statsCell}>
-        <span className={styles.stat}>{displayStat || '-'}</span>
+        <span className={styles.stat}>
+          {displayStat && displayStat !== 'NaN' ? displayStat : '-'}
+        </span>
         <span className={styles.revenue}>
-          {displayRevenue !== 'NaN' ? `$${displayRevenue}` : '-'}
+          {displayRevenue && displayRevenue !== 'NaN' ? `$${displayRevenue}` : '-'}
         </span>
       </div>
     </Table.Cell>

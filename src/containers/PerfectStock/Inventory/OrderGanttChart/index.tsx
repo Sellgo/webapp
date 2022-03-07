@@ -110,6 +110,7 @@ const OrderGanttChart = (props: Props) => {
   const [generateNextOrderDetails, setGenerateNextOrderDetails] = React.useState<{
     id: number;
     merchantListings: any[];
+    defaultPrioritySku?: string;
   }>({ id: 0, merchantListings: [] });
 
   const [isSettingPrioritySku, setIsSettingPrioritySku] = React.useState(false);
@@ -254,6 +255,7 @@ const OrderGanttChart = (props: Props) => {
       setGenerateNextOrderDetails({
         merchantListings: selectedMerchantListings,
         id: selectedPurchaseOrder.id,
+        defaultPrioritySku: payload.prioritySku,
       });
       setIsAutoGeneratingNextOrder(true);
     }
@@ -355,7 +357,6 @@ const OrderGanttChart = (props: Props) => {
                 handleCancel={() => setIsSettingPrioritySku(false)}
                 prioritySkuDetails={prioritySkuDetails}
                 handleUpdatePrioritySku={updatePurchaseOrder}
-                fetchPurchaseOrders={fetchPurchaseOrders}
               />
             }
             onClose={() => setIsSettingPrioritySku(false)}
