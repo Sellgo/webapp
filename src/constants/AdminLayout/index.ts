@@ -54,6 +54,8 @@ export const NAV_ICONS = {
   PERFECT_STOCK: 'perfectStock.svg',
   ORDER_PLANNING: 'orderPlanning.svg',
   SALES_ESTIMATION: 'salesProjection.svg',
+  PERFECT_STOCK_HOME: 'perfectStockHome.svg',
+  TPL: 'tpl.svg',
   ZAPIER: 'zapierIcon.svg',
 };
 
@@ -138,7 +140,7 @@ export const OPTIONS: NavOptions = [
     path: '/keyword-research',
     isComingSoon: false,
     disabled: false,
-    isBeta: false,
+    isBeta: true,
     subOptions: [
       {
         label: 'Keyword Finder',
@@ -201,8 +203,17 @@ export const OPTIONS: NavOptions = [
     isBeta: true,
     subOptions: [
       {
+        label: 'Home',
+        description: 'Cash Flow Analysis',
+        icon: require(`../../assets/images/${NAV_ICONS.PERFECT_STOCK_HOME}`),
+        path: '/aistock/home',
+        disabled: true,
+        isBeta: false,
+        isComingSoon: true,
+      },
+      {
         label: 'Sales Forecasting',
-        description: 'Sales Forecasting',
+        description: 'Future Sales Projection',
         icon: require(`../../assets/images/${NAV_ICONS.SALES_ESTIMATION}`),
         path: '/aistock/sales',
         disabled: false,
@@ -210,11 +221,20 @@ export const OPTIONS: NavOptions = [
       },
       {
         label: 'Order Planning',
-        description: 'Order Planning',
+        description: 'Avoid Stockout & Overstock',
         icon: require(`../../assets/images/${NAV_ICONS.ORDER_PLANNING}`),
         path: '/aistock/order',
         disabled: false,
         isBeta: true,
+      },
+      {
+        label: '3PL Manager',
+        description: 'Storage & Inbound Manager',
+        icon: require(`../../assets/images/${NAV_ICONS.TPL}`),
+        path: '/aistock/tpl',
+        disabled: true,
+        isBeta: false,
+        isComingSoon: true,
       },
     ],
   },

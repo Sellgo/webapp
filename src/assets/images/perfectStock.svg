@@ -1,3 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 25 20">
-  <path id="inventory-solid_1_" data-name="inventory-solid (1)" d="M24.375,0h-1.25A.627.627,0,0,0,22.5.625V6.25H2.5V.625A.627.627,0,0,0,1.875,0H.625A.627.627,0,0,0,0,.625V20H2.5V18.75h20V20H25V.625A.627.627,0,0,0,24.375,0ZM22.5,16.25H2.5V8.75h20ZM14.375,5h3.75a.627.627,0,0,0,.625-.625V.625A.627.627,0,0,0,18.125,0h-3.75a.627.627,0,0,0-.625.625v3.75A.627.627,0,0,0,14.375,5Zm-10,10h3.75a.627.627,0,0,0,.625-.625v-3.75A.627.627,0,0,0,8.125,10H4.375a.627.627,0,0,0-.625.625v3.75A.627.627,0,0,0,4.375,15Zm6.25,0h3.75A.627.627,0,0,0,15,14.375v-3.75A.627.627,0,0,0,14.375,10h-3.75a.627.627,0,0,0-.625.625v3.75A.627.627,0,0,0,10.625,15Z" fill="#fff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="21" height="22" viewBox="0 0 21 22">
+  <g id="Group_5211" data-name="Group 5211" transform="translate(14468 3151)">
+    <rect id="Rectangle_13239" data-name="Rectangle 13239" width="18" height="6" rx="1" transform="translate(-14465 -3135)" fill="#fff"/>
+    <rect id="Rectangle_13240" data-name="Rectangle 13240" width="18" height="6" rx="1" transform="translate(-14468 -3143)" fill="#fff"/>
+    <rect id="Rectangle_13241" data-name="Rectangle 13241" width="18" height="6" rx="1" transform="translate(-14465 -3151)" fill="#fff"/>
+  </g>
 </svg>

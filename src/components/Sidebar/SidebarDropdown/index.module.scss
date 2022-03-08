@@ -19,7 +19,7 @@
 
   &:hover {
     cursor: pointer;
-    background-color: $blue_8;
+    background: $purple_dark_gradient;
   }
 }
 
@@ -37,7 +37,7 @@
 
   &:hover {
     cursor: pointer;
-    background-color: $blue_8;
+    background: $purple_dark_gradient;
     text-decoration: none !important;
   }
 }
@@ -49,6 +49,11 @@
   flex-direction: column;
   justify-content: center;
   text-decoration: none !important;
+
+  > span {
+    display: flex;
+    flex-direction: row;
+  }
 
   .label {
     padding: 0 !important;
@@ -86,12 +91,21 @@
 
 /* States */
 .active {
-  background-color: $blue_8;
+  background: $purple_dark_gradient;
 }
 
 .disabled {
-  opacity: 0.2;
   pointer-events: none !important;
+
+  img {
+    opacity: 0.2;
+  }
+
+  .subOptionText {
+    p {
+      opacity: 0.2;
+    }
+  }
 
   &:hover {
     cursor: default !important;
