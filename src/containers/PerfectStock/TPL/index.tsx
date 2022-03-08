@@ -2,11 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 /* Actions */
-import {
-  fetchSalesProjection,
-  fetchRefreshProgress,
-} from '../../../actions/PerfectStock/SalesProjection';
+import { fetchRefreshProgress } from '../../../actions/PerfectStock/SalesProjection';
 import { updatePerfectStockGetStartedStatus } from '../../../actions/UserOnboarding';
+import { fetchTpl } from '../../../actions/PerfectStock/Tpl';
 
 /* Interfaces */
 import { SalesProjectionPayload } from '../../../interfaces/PerfectStock/SalesProjection';
@@ -28,22 +26,17 @@ import ProgressBar from '../../../components/ProgressBar';
 interface Props {
   updatePerfectStockGetStartedStatus: (key: string, status: boolean) => void;
   perfectStockGetStartedStatus: PerfectStockGetStartedStatus;
-  fetchSalesProjection: (payload: SalesProjectionPayload) => void;
+  fetchTpl: (payload: SalesProjectionPayload) => void;
   refreshProgress: number;
   isFetchingProgressForRefresh: boolean;
   fetchRefreshProgress: () => void;
 }
 
 const TPL = (props: Props) => {
-  const {
-    fetchSalesProjection,
-    fetchRefreshProgress,
-    refreshProgress,
-    isFetchingProgressForRefresh,
-  } = props;
+  const { fetchTpl, fetchRefreshProgress, refreshProgress, isFetchingProgressForRefresh } = props;
 
   React.useEffect(() => {
-    fetchSalesProjection({});
+    fetchTpl({});
   }, []);
 
   return (
@@ -70,8 +63,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchSalesProjection: (payload: SalesProjectionPayload) =>
-      dispatch(fetchSalesProjection(payload)),
+    fetchTpl: (payload: SalesProjectionPayload) => dispatch(fetchTpl(payload)),
     fetchRefreshProgress: () => dispatch(fetchRefreshProgress()),
     updatePerfectStockGetStartedStatus: (key: string, status: boolean) =>
       dispatch(updatePerfectStockGetStartedStatus(key, status)),
