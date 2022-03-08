@@ -14,5 +14,5 @@ export default (props: Props) => {
 
   const classes = `${isNav ? styles.betaLabelNav : styles.betaLabel} ${className}`;
 
-  return <Label className={classes}>BETA</Label>;
+  return <Label className={classes}>Beta</Label>;
 };

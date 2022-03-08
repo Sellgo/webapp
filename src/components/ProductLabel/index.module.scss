@@ -26,6 +26,10 @@
     color: $prim_dark_1 !important;
     font-weight: 700 !important;
   }
+
+  &__disabled {
+    opacity: 0.5;
+  }
 }
 
 .gradientWrapper {
