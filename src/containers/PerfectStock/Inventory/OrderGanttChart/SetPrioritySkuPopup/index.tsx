@@ -25,13 +25,12 @@ type ProductOption = {
 
 interface Props {
   prioritySkuDetails: any;
-  fetchPurchaseOrders: () => void;
   handleUpdatePrioritySku: (payload: UpdatePurchaseOrderPayload) => void;
   handleCancel: () => void;
 }
 
 const SetPrioritySkuPopup = (props: Props) => {
-  const { prioritySkuDetails, handleCancel, handleUpdatePrioritySku, fetchPurchaseOrders } = props;
+  const { prioritySkuDetails, handleCancel, handleUpdatePrioritySku } = props;
   const [selectedPrioritySku, setSelectedPrioritySku] = React.useState<string>('');
 
   const handleSubmit = async () => {
@@ -41,7 +40,6 @@ const SetPrioritySkuPopup = (props: Props) => {
       po_sku_id: parseInt(selectedPrioritySku),
       is_priority: true,
     });
-    fetchPurchaseOrders();
     handleCancel();
   };
 

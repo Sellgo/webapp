@@ -31,14 +31,35 @@ type ProductOption = {
 };
 
 interface Props {
-  generateNextOrderDetails: { id: number; merchantListings: ProductOption[] };
+  generateNextOrderDetails: {
+    id: number;
+    merchantListings: ProductOption[];
+    defaultPrioritySku?: string;
+  };
   generateNextOrder: (payload: AutoGeneratePurchaseOrderPayload) => void;
   handleCancel: () => void;
 }
 
 const AutoGenerateOrderPopup = (props: Props) => {
   const { generateNextOrderDetails, handleCancel, generateNextOrder } = props;
-  const [selectedPrioritySku, setSelectedPrioritySku] = React.useState<string>('');
+
+  /* Setting default priority sku to either be selected one, or first sku in the list */
+  let defaultSelectedPrioritySku = generateNextOrderDetails.merchantListings?.find(
+    merchantListing => merchantListing.skuName === generateNextOrderDetails.defaultPrioritySku
+  );
+
+  if (!defaultSelectedPrioritySku) {
+    if (
+      generateNextOrderDetails.merchantListings &&
+      generateNextOrderDetails.merchantListings.length > 0
+    ) {
+      defaultSelectedPrioritySku = generateNextOrderDetails.merchantListings[0];
+    }
+  }
+
+  const [selectedPrioritySku, setSelectedPrioritySku] = React.useState<string>(
+    defaultSelectedPrioritySku?.id || ''
+  );
   const [nextOrderPeriod, setNextOrderPeriod] = React.useState<string>('Next Order');
   const [nextOrderCondition, setNextOrderCondition] = React.useState<string>('Stock Level');
   const [stockLevelThreshold, setStockLevelThreshold] = React.useState<number>();
