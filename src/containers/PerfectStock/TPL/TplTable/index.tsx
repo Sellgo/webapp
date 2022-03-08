@@ -8,15 +8,13 @@ import './globals.scss';
 import styles from './index.module.scss';
 
 /* Actions */
-import { fetchSalesProjection } from '../../../../actions/PerfectStock/SalesProjection';
+import { fetchTpl } from '../../../../actions/PerfectStock/Tpl';
 
 /* Interfaces */
 import { SalesProjectionPayload } from '../../../../interfaces/PerfectStock/SalesProjection';
 
 /* Containers */
 import ProductInformation from './ProductInformation';
-import SalesEstimationStat from './SalesEstimationStat';
-import StockOutDate from './StockOutDate';
 import SalesPrediction from './SalesPrediction';
 import InventoryThreshold from './InventoryThreshold';
 
@@ -27,42 +25,29 @@ import {
   getSalesProjectionResults,
   getIsLoadingSalesProjection,
 } from '../../../../selectors/PerfectStock/SalesProjection';
-import { ReactComponent as ExclaimationIcon } from '../../../../assets/images/exclamation-triangle-solid.svg';
-import InboundFulfillableStat from './InboundFulfillableStat';
+import MultipleStatBox from './MultipleStatBox';
 
 interface Props {
   // States
   isLoadingSalesProjection: boolean;
-  fetchSalesProjection: (payload: SalesProjectionPayload) => void;
+  fetchTpl: (payload: SalesProjectionPayload) => void;
   salesProjectionResult: any;
 }
 
 /* Main component */
 const TplTable = (props: Props) => {
-  const { fetchSalesProjection, isLoadingSalesProjection, salesProjectionResult } = props;
+  const { fetchTpl, isLoadingSalesProjection, salesProjectionResult } = props;
 
   const [sortColumn, setSortColumn] = React.useState<string>('');
   const [sortType, setSortType] = React.useState<'asc' | 'desc' | undefined>(undefined);
-  const [expandedRowKeys, setExpandedRowkeys] = React.useState<string[]>([]);
 
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
     setSortType(sortType);
-    fetchSalesProjection({
+    fetchTpl({
       sort: sortColumn,
       sortDir: sortType,
     });
-  };
-
-  const handleExpansion = (rowData: any) => {
-    const rowId = rowData.id;
-    const [currentExpandedRowId] = expandedRowKeys;
-
-    if (currentExpandedRowId !== rowId) {
-      setExpandedRowkeys([rowId]);
-    } else {
-      setExpandedRowkeys([]);
-    }
   };
 
   return (
@@ -96,44 +81,11 @@ const TplTable = (props: Props) => {
             <ProductInformation dataKey="productInformation" />
           </Table.Column>
 
-          {/* Stock out date info  */}
-          <Table.Column width={112} verticalAlign="middle" align="left" fixed sortable>
-            <Table.HeaderCell>
-              <HeaderSortCell
-                title={`Days Until\nStock Out`}
-                dataKey="merchant_listing__days_until_so"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
-                alignMiddle
-                icon={<ExclaimationIcon />}
-              />
-            </Table.HeaderCell>
-            <StockOutDate
-              dataKey="merchant_listing__days_until_so"
-              handleExpansion={handleExpansion}
-            />
-          </Table.Column>
-
-          {/* Fulfillable Inventory  */}
-          <Table.Column width={112} verticalAlign="middle" align="center">
-            <Table.HeaderCell>
-              <HeaderSortCell
-                title={`FBA\nInventory`}
-                dataKey="fulfillable_fba"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
-                alignMiddle
-                disableSort
-              />
-            </Table.HeaderCell>
-            <InboundFulfillableStat dataKey="fulfillable_fba" />
-          </Table.Column>
-
           {/* Expected Sales  */}
           <Table.Column width={112} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title="Expected Sales"
+                title={`Schedule to\nSend In`}
                 dataKey="predictive_sales"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
@@ -148,7 +100,7 @@ const TplTable = (props: Props) => {
           <Table.Column width={112} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title={`Inventory\nThreshold`}
+                title={`Automate FBA \n Shipping Plan`}
                 dataKey="inventory_threshold"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
@@ -159,102 +111,83 @@ const TplTable = (props: Props) => {
             <InventoryThreshold dataKey="inventory_threshold" />
           </Table.Column>
 
-          {/* Average Last 90 Day */}
-          <Table.Column width={112} sortable verticalAlign="middle" align="center">
+          <Table.Column width={112} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title="Average Last 90 Days"
-                dataKey="avg_l90d"
+                title={`Days of Inventory`}
+                dataKey="inventory_threshold"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
                 alignMiddle
+                disableSort
               />
             </Table.HeaderCell>
-            <SalesEstimationStat dataKey="avg_l90d" daysOffset={-90} />
+            <InventoryThreshold dataKey="inventory_threshold" />
+          </Table.Column>
+          {/* Sales  */}
+          <Table.Column width={112} verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Sales`}
+                dataKey="sales"
+                currentSortColumn={''}
+                currentSortType={undefined}
+                alignMiddle
+                disableSort
+              />
+            </Table.HeaderCell>
+            <MultipleStatBox
+              displayData={[
+                {
+                  title: 'Total L7D',
+                  dataKey: 'fulfillable_fba',
+                },
+                {
+                  title: 'Daily L7D',
+                  dataKey: 'daily_l7d',
+                },
+                {
+                  title: 'Forecast',
+                  dataKey: 'forecast',
+                },
+              ]}
+              dataKey="fulfillable_fba"
+            />
           </Table.Column>
 
-          {/* Average Last 61-90 Day */}
-          <Table.Column width={112} sortable verticalAlign="middle" align="center">
+          {/* FBA Inbound  */}
+          <Table.Column width={112} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title="Average Last 61-90 Days"
-                dataKey="avg_61d_90d"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
+                title={`FBA Inbound`}
+                dataKey="sales"
+                currentSortColumn={''}
+                currentSortType={undefined}
                 alignMiddle
+                disableSort
               />
             </Table.HeaderCell>
-            <SalesEstimationStat dataKey="avg_61d_90d" daysOffset={-90} secondaryDaysOffset={-61} />
-          </Table.Column>
-
-          {/* Average Last 31-60 Day */}
-          <Table.Column width={112} sortable verticalAlign="middle" align="center">
-            <Table.HeaderCell>
-              <HeaderSortCell
-                title="Average Last 31-60 Days"
-                dataKey="avg_31d_60d"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
-                alignMiddle
-              />
-            </Table.HeaderCell>
-            <SalesEstimationStat dataKey="avg_31d_60d" daysOffset={-60} secondaryDaysOffset={-31} />
-          </Table.Column>
-
-          {/* Average Last 30 Day */}
-          <Table.Column width={112} sortable verticalAlign="middle" align="center">
-            <Table.HeaderCell>
-              <HeaderSortCell
-                title="Average Last 30 Days"
-                dataKey="avg_l30d"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
-                alignMiddle
-              />
-            </Table.HeaderCell>
-            <SalesEstimationStat dataKey="avg_l30d" daysOffset={-30} />
-          </Table.Column>
-
-          {/* Average Last 7 Day */}
-          <Table.Column width={112} sortable verticalAlign="middle" align="center">
-            <Table.HeaderCell>
-              <HeaderSortCell
-                title="Average Last 7 Days"
-                dataKey="avg_l7d"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
-                alignMiddle
-              />
-            </Table.HeaderCell>
-            <SalesEstimationStat dataKey="avg_l7d" daysOffset={-7} />
-          </Table.Column>
-
-          {/* Average Next 30 Day */}
-          <Table.Column width={112} sortable verticalAlign="middle" align="center">
-            <Table.HeaderCell>
-              <HeaderSortCell
-                title="Average Next 30D LY"
-                dataKey="avg_n30d_ly"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
-                alignMiddle
-              />
-            </Table.HeaderCell>
-            <SalesEstimationStat dataKey="avg_n30d_ly" daysOffset={30} />
-          </Table.Column>
-
-          {/* Average Next 90 Day */}
-          <Table.Column width={112} sortable verticalAlign="middle" align="center">
-            <Table.HeaderCell>
-              <HeaderSortCell
-                title="Average Next 90D LY"
-                dataKey="avg_n90d_ly"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
-                alignMiddle
-              />
-            </Table.HeaderCell>
-            <SalesEstimationStat dataKey="avg_n90d_ly" daysOffset={90} />
+            <MultipleStatBox
+              displayData={[
+                {
+                  title: 'Working',
+                  dataKey: 'fulfillable_fba',
+                },
+                {
+                  title: 'Shipped',
+                  dataKey: 'daily_l7d',
+                },
+                {
+                  title: 'Receiving',
+                  dataKey: 'forecast',
+                },
+                {
+                  title: 'Transfer',
+                  dataKey: 'forecast',
+                },
+              ]}
+              dataKey="fulfillable_fba"
+            />
           </Table.Column>
         </Table>
 
@@ -282,8 +215,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchSalesProjection: (payload: SalesProjectionPayload) =>
-      dispatch(fetchSalesProjection(payload)),
+    fetchTpl: (payload: SalesProjectionPayload) => dispatch(fetchTpl(payload)),
   };
 };
 
