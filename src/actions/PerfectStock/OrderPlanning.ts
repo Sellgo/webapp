@@ -319,7 +319,10 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
                   is_priority: payload.is_priority,
                 };
               } else {
-                return merchantListing;
+                return {
+                  ...merchantListing,
+                  is_priority: false,
+                };
               }
             }),
           };
