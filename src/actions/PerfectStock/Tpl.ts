@@ -7,12 +7,12 @@ import { AppConfig } from '../../config';
 import { actionTypes } from '../../constants/PerfectStock/Tpl';
 
 /* Interfaces */
-import { TplVendor } from '../../interfaces/PerfectStock/Tpl';
-import { getTplActiveVendor } from '../../selectors/PerfectStock/Tpl';
+import { TplVendor, UpdateTplSkuPayload } from '../../interfaces/PerfectStock/Tpl';
+import { getTplActiveVendor, getTplSkuData } from '../../selectors/PerfectStock/Tpl';
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
-import { success } from '../../utils/notifications';
+import { error, success } from '../../utils/notifications';
 
 /* Action to set loading state for tpl */
 export const isLoadingTplVendors = (payload: boolean) => {
@@ -140,4 +140,41 @@ export const fetchTplSkuData = () => async (dispatch: any, getState: any) => {
     console.error('Error fetching Tpl Sku Information', err);
   }
   dispatch(isLoadingTplSkuData(false));
+};
+
+export const updateTplSkuData = (payload: UpdateTplSkuPayload) => async (
+  dispatch: any,
+  getState: any
+) => {
+  try {
+    const sellerId = sellerIDSelector();
+    const state = getState();
+
+    /* Update the redux state first */
+    const oldTplSkuData = getTplSkuData(state);
+    const updatedTplSkuData = oldTplSkuData.map((sku: any) => {
+      if (sku.id === payload.id) {
+        return {
+          ...sku,
+          ...payload,
+        };
+      } else {
+        return sku;
+      }
+    });
+    dispatch(setTplSkuData(updatedTplSkuData));
+
+    /* Revert changes if error */
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/sku-tpl-data/${payload.id}`;
+    const { status } = await axios.patch(URL, payload);
+    if (status === 200) {
+      success('Successfully updated.');
+    } else {
+      dispatch(setTplSkuData(oldTplSkuData));
+      error('Failed to update.');
+    }
+  } catch (err) {
+    dispatch(setTplSkuData([]));
+    console.error('Error fetching Tpl Sku Information', err);
+  }
 };

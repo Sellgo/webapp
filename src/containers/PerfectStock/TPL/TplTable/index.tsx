@@ -15,8 +15,8 @@ import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import Placeholder from '../../../../components/Placeholder';
 import MultipleStatBox from './MultipleStatBox';
 import ProductInformation from './ProductInformation';
-import SalesPrediction from './SalesPrediction';
-import InventoryThreshold from './InventoryThreshold';
+import ScheduleToSendIn from './ScheduleToSendIn';
+import DaysOfInventory from './DaysOfInventory';
 
 /* Selectors */
 import { getIsLoadingTplSkuData, getTplSkuData } from '../../../../selectors/PerfectStock/Tpl';
@@ -68,14 +68,14 @@ const TplTable = (props: Props) => {
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Schedule to\nSend In`}
-                dataKey="predictive_sales"
+                dataKey="interval"
                 currentSortColumn={''}
                 currentSortType={undefined}
                 disableSort
                 alignMiddle
               />
             </Table.HeaderCell>
-            <SalesPrediction dataKey="predictive_sales" />
+            <ScheduleToSendIn dataKey="interval" />
           </Table.Column>
 
           {/* Inventory Threshold  */}
@@ -90,7 +90,7 @@ const TplTable = (props: Props) => {
                 disableSort
               />
             </Table.HeaderCell>
-            <InventoryThreshold dataKey="inventory_threshold" />
+            <DaysOfInventory dataKey="inventory_threshold" />
           </Table.Column>
 
           <Table.Column width={112} verticalAlign="middle" align="center">
@@ -104,7 +104,7 @@ const TplTable = (props: Props) => {
                 disableSort
               />
             </Table.HeaderCell>
-            <InventoryThreshold dataKey="inventory_threshold" />
+            <DaysOfInventory dataKey="inventory_threshold" />
           </Table.Column>
           {/* Sales  */}
           <Table.Column width={112} verticalAlign="middle" align="center">
@@ -171,11 +171,12 @@ const TplTable = (props: Props) => {
               dataKey="working"
             />
           </Table.Column>
+
           {/* FBA Inbound  */}
           <Table.Column width={112} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title={`FBA Fulfillable Inventory`}
+                title={`FBA Fulfillable\nInventory`}
                 dataKey="fulfillable"
                 currentSortColumn={''}
                 currentSortType={undefined}
@@ -185,8 +186,85 @@ const TplTable = (props: Props) => {
             </Table.HeaderCell>
             <SingleStatBox dataKey="fulfillable" />
           </Table.Column>
-        </Table>
 
+          {/* Days until FBA Inbound  */}
+          <Table.Column width={112} verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Days of Fulfillable\nInventory`}
+                dataKey="days_until_so_fulfillable"
+                currentSortColumn={''}
+                currentSortType={undefined}
+                alignMiddle
+                disableSort
+              />
+            </Table.HeaderCell>
+            <SingleStatBox dataKey="days_until_so_fulfillable" />
+          </Table.Column>
+
+          {/* Days until FBA Inbound  */}
+          <Table.Column width={112} verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Total \n3PL Stock`}
+                dataKey="tpl_quantity"
+                currentSortColumn={''}
+                currentSortType={undefined}
+                alignMiddle
+                disableSort
+              />
+            </Table.HeaderCell>
+            <SingleStatBox dataKey="tpl_quantity" />
+          </Table.Column>
+
+          <Table.Column width={112} verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Qty to Send In`}
+                dataKey="sales"
+                currentSortColumn={''}
+                currentSortType={undefined}
+                alignMiddle
+                disableSort
+              />
+            </Table.HeaderCell>
+            <MultipleStatBox
+              displayData={[
+                {
+                  title: 'Using L7D:',
+                  dataKey: 'send_quantity_lnd',
+                },
+                {
+                  title: 'Using Pred:',
+                  dataKey: 'send_quantity_predictive',
+                },
+              ]}
+              dataKey="working"
+            />
+          </Table.Column>
+
+          <Table.Column width={112} verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Carton`}
+                dataKey="total_carton"
+                currentSortColumn={''}
+                currentSortType={undefined}
+                alignMiddle
+                disableSort
+              />
+            </Table.HeaderCell>
+            <MultipleStatBox
+              displayData={[
+                {
+                  title: 'Carton #',
+                  dataKey: 'total_carton',
+                },
+              ]}
+              dataKey="total_carton"
+            />
+          </Table.Column>
+        </Table>
         {/* {productsDatabasePaginationInfo && productsDatabasePaginationInfo.total_pages > 0 && (
           <footer className={styles.productDatabasePagination}>
             <TablePagination

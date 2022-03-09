@@ -30,7 +30,9 @@ const SingleStatBox = (props: RowCell) => {
     <Table.Cell {...props}>
       <div className={styles.displayStatWrapper}>
         <span className={styles.displayStat}>{displayStat}</span>
-        <span className={styles.change}>{displayChange !== '0' ? `${displayChange}%` : ''}</span>
+        <span className={styles.change}>
+          {displayChange !== '0' && displayChange !== '-' ? `${displayChange}%` : ''}
+        </span>
       </div>
     </Table.Cell>
   );

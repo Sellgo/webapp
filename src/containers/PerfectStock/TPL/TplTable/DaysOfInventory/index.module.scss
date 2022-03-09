@@ -9,9 +9,7 @@
   justify-content: flex-start;
   align-items: center;
   padding-top: 5px;
-  background: $prim_dark_1;
-  border-radius: 7px;
-  color: $prim_white;
+  color: $grey_8;
   font-size: 14px;
   font-weight: $fontweight_bold;
 
@@ -44,7 +42,7 @@
       padding-left: 30px !important;
       text-align: left;
       font-size: 10px !important;
-      color: $prim_white !important;
+      color: $grey_8 !important;
       font-weight: $fontweight_semibold !important;
     }
   }

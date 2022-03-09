@@ -8,50 +8,49 @@ import styles from './index.module.scss';
 import './toggleReset.scss';
 
 /* Actions */
-import { updateSalesProjectionProduct } from '../../../../../actions/PerfectStock/SalesProjection';
+import { updateTplSkuData } from '../../../../../actions/PerfectStock/Tpl';
 
 /* Components */
 import InputWithSaveOptions from '../../../../../components/InputWithSaveOptions';
 
 /* Interface */
 import { RowCell } from '../../../../../interfaces/Table';
-import { SalesProjectionUpdatePayload } from '../../../../../interfaces/PerfectStock/SalesProjection';
-import { formatRating } from '../../../../../utils/format';
+import { UpdateTplSkuPayload } from '../../../../../interfaces/PerfectStock/Tpl';
+
+/* Utils */
+import { formatNumber } from '../../../../../utils/format';
 
 interface Props extends RowCell {
-  updateSalesProjectionProduct: (payload: SalesProjectionUpdatePayload) => void;
+  updateTplSkuData: (payload: UpdateTplSkuPayload) => void;
 }
 
-const SalesPrediction = (props: Props) => {
-  const { updateSalesProjectionProduct, ...otherProps } = props;
+const DaysOfInventory = (props: Props) => {
+  const { updateTplSkuData, ...otherProps } = props;
   const { rowData } = otherProps;
 
-  const usingPredictiveSales = rowData.projection_mode === 'predictive';
+  const usingPredictiveSales = false;
 
   const handleSaveManualSales = (updatedSalesProjection: string) => {
-    const payload: SalesProjectionUpdatePayload = {
+    const payload: UpdateTplSkuPayload = {
       id: rowData.id,
-      updatePayload: {
-        manual_sales: parseFloat(updatedSalesProjection),
-      },
+      days_of_inventory: parseFloat(updatedSalesProjection),
     };
-    updateSalesProjectionProduct(payload);
+    updateTplSkuData(payload);
   };
 
   const handleChangeProjectionMode = () => {
-    const payload: SalesProjectionUpdatePayload = {
-      id: rowData.id,
-      updatePayload: {
-        projection_mode: usingPredictiveSales ? 'manual' : 'predictive',
-      },
-    };
-    updateSalesProjectionProduct(payload);
+    console.log('Change Mode');
+    // const payload: SalesProjectionUpdatePayload = {
+    //   id: rowData.id,
+    //   updatePayload: {
+    //     projection_mode: usingPredictiveSales ? 'manual' : 'predictive',
+    //   },
+    // };
+    // updateSalesProjectionProduct(payload);
   };
 
-  const displayPredictiveSales = formatRating(rowData.predictive_sales) || '';
-  const defaultManualSalesPrediction = rowData.manual_sales
-    ? rowData.manual_sales
-    : rowData.predictive_sales;
+  const displayPredictiveSales = formatNumber(rowData.days_of_inventory) || '';
+  const defaultManualSalesPrediction = rowData.days_of_inventory;
 
   return (
     <Table.Cell {...otherProps}>
@@ -84,8 +83,7 @@ const SalesPrediction = (props: Props) => {
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
-  updateSalesProjectionProduct: (payload: SalesProjectionUpdatePayload) =>
-    dispatch(updateSalesProjectionProduct(payload)),
+  updateTplSkuData: (payload: UpdateTplSkuPayload) => dispatch(updateTplSkuData(payload)),
 });
 
-export default connect(null, mapDispatchToProps)(SalesPrediction);
+export default connect(null, mapDispatchToProps)(DaysOfInventory);

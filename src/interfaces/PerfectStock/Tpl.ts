@@ -11,3 +11,9 @@ export interface TplVendor {
   country: string;
   monthly_cost: number | null;
 }
+
+export interface UpdateTplSkuPayload {
+  id: number;
+  interval?: number;
+  days_of_inventory?: number;
+}

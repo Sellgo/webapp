@@ -17,17 +17,17 @@
 
 .statLabel {
   width: 50px;
-  margin: 0;
+  margin-right: 5px;
   font-size: 8px;
   color: $grey_8;
   font-weight: $fontweight_medium;
-  text-align: left;
+  text-align: right;
 }
 
 .stat {
   width: 40px;
   margin: 0;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: $fontweight_semibold;
   color: $grey_8;
 }
