@@ -19,7 +19,7 @@
 
   &:hover {
     cursor: pointer;
-    background: $purple_dark_gradient;
+    background: $blue_8;
   }
 }
 
@@ -37,7 +37,7 @@
 
   &:hover {
     cursor: pointer;
-    background: $purple_dark_gradient;
+    background: $blue_8;
     text-decoration: none !important;
   }
 }
@@ -91,7 +91,7 @@
 
 /* States */
 .active {
-  background: $purple_dark_gradient;
+  background: $blue_8;
 }
 
 .disabled {
