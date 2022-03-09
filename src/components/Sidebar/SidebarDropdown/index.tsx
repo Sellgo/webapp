@@ -4,6 +4,7 @@ import { Accordion } from 'semantic-ui-react';
 
 /* Components */
 import BetaLabel from '../../BetaLabel';
+import ComingSoonLabel from '../../ComingSoonLabel';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -69,6 +70,7 @@ const SidebarDropdown = (props: Props) => {
         >
           <div className={styles.navIcon}>
             {option.isBeta && <BetaLabel isNav />}
+            {option.isComingSoon && <ComingSoonLabel isNav />}
             <img src={option.icon} alt="nav-icon" />
           </div>
           {/* Display Coming Soon Label */}
@@ -98,6 +100,7 @@ const SidebarDropdown = (props: Props) => {
         >
           <div className={styles.navIcon}>
             {option.isBeta && <BetaLabel isNav />}
+            {option.isComingSoon && <ComingSoonLabel isNav />}
             <img src={option.icon} alt="nav-icon" />
           </div>
           {/* Display Coming Soon Label */}
@@ -138,12 +141,17 @@ const SidebarDropdown = (props: Props) => {
                                 `}
                   >
                     <div className={styles.navIcon}>
-                      {subOption.isBeta && <BetaLabel isNav />}
                       <img src={subOption.icon} alt="nav-icon" />
                     </div>
                     <div className={styles.subOptionText}>
-                      <p className={styles.label}>{subOption.label}</p>
-                      <p className={styles.desc}>{subOption.description}</p>
+                      <span>
+                        <p className={styles.label}> {subOption.label} </p>
+                        {subOption.isBeta && <BetaLabel isNav />}
+                        {subOption.isComingSoon && <ComingSoonLabel isNav />}
+                      </span>
+                      <span>
+                        <p className={styles.desc}>{subOption.description}</p>
+                      </span>
                     </div>
                   </div>
                 </Link>

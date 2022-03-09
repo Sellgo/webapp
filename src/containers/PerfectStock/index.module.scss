@@ -42,4 +42,8 @@
   &__hidden {
     display: none;
   }
+
+  .disabledTab {
+    pointer-events: none !important;
+  }
 }

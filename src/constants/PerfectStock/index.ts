@@ -1,11 +1,25 @@
-export const PERFECT_STOCK_PAGES = ['/aistock/sales', '/aistock/order', '/aistock/create-order'];
+export const PERFECT_STOCK_PAGES = [
+  '/aistock/home',
+  '/aistock/sales',
+  '/aistock/order',
+  '/aistock/tpl',
+  '/aistock/create-order',
+];
 export const PERFECT_STOCK_PRODUCT_DETAILS = [
+  {
+    name: 'Home',
+    desc: 'Cashflow Analysis',
+  },
   {
     name: 'Sales Forecasting',
     desc: 'Accurately project high seasonal sales',
   },
   {
     name: 'Order Planning',
+    desc: 'Easily create order planning',
+  },
+  {
+    name: '3PL Manager',
     desc: 'Easily create order planning',
   },
   {

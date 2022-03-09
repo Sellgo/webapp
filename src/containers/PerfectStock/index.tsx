@@ -108,7 +108,7 @@ const PerfectStock: React.FC<Props> = props => {
     tutorialOnboardingDetails.Tutorial || FALLBACK_ONBOARDING_DETAILS;
 
   /* check url */
-  const isEditingOrders = window.location.pathname === PERFECT_STOCK_PAGES[2];
+  const isEditingOrders = window.location.pathname === PERFECT_STOCK_PAGES[4];
 
   /* Lock Perfect Stock if user is not migrated */
   if (
@@ -194,11 +194,20 @@ const PerfectStock: React.FC<Props> = props => {
               ${styles.productTabList} 
               ${isEditingOrders ? styles.productTabList__hidden : ''}`}
             >
+              <Tab className={styles.disabledTab}>
+                <ProductLabel
+                  label="Home"
+                  icon="Perfect Stock Home"
+                  isActive={false}
+                  isDisabled
+                  isIncoming
+                />
+              </Tab>
               <Tab>
                 <ProductLabel
                   label="Sales Forecasting"
                   icon="Sales Estimation"
-                  isActive={selectedTabList === 0}
+                  isActive={selectedTabList === 1}
                   isBeta
                 />
               </Tab>
@@ -206,13 +215,23 @@ const PerfectStock: React.FC<Props> = props => {
                 <ProductLabel
                   label="Order Planning"
                   icon="Order Planning"
-                  isActive={selectedTabList === 1}
+                  isActive={selectedTabList === 2}
                   isBeta
                 />
               </Tab>
-
+              <Tab className={styles.disabledTab}>
+                <ProductLabel
+                  label="3PL Manager"
+                  icon="Tpl"
+                  isActive={false}
+                  isDisabled
+                  isIncoming
+                />
+              </Tab>
               <Tab />
             </TabList>
+
+            <TabPanel />
 
             <TabPanel>
               <SalesProjection />
@@ -221,6 +240,8 @@ const PerfectStock: React.FC<Props> = props => {
             <TabPanel>
               <Inventory />
             </TabPanel>
+
+            <TabPanel />
 
             <TabPanel>
               <OrderPlanning />
