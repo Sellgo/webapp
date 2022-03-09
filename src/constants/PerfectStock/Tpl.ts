@@ -1,4 +1,4 @@
-import { CreateTplPayload } from '../../interfaces/PerfectStock/Tpl';
+import { TplVendor } from '../../interfaces/PerfectStock/Tpl';
 
 /* All action types */
 export const actionTypes = {
@@ -9,7 +9,7 @@ export const actionTypes = {
   SET_TPL_SKU_DATA: 'SET_TPL_SKU_DATA',
 };
 
-export const DEFAULT_NEW_TPL_SETTINGS: CreateTplPayload = {
+export const DEFAULT_NEW_TPL_SETTINGS: TplVendor = {
   name: '',
   status: '',
   marketplace_id: '',
@@ -17,7 +17,20 @@ export const DEFAULT_NEW_TPL_SETTINGS: CreateTplPayload = {
   address: '',
   city: '',
   state: '',
-  zip_code: -1,
+  zip_code: null,
   country: '',
-  monthly_cost: -1,
+  monthly_cost: null,
 };
+
+export const TPL_STATUSES = [
+  {
+    key: 'Active',
+    text: 'Active',
+    value: 'active',
+  },
+  {
+    key: 'Inactive',
+    text: 'Inactive',
+    value: 'inactive',
+  },
+];

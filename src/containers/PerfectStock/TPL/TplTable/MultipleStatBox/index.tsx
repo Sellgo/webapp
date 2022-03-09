@@ -13,10 +13,11 @@ interface Props extends RowCell {
 }
 
 const InboundFulfillableStat = (props: Props) => {
-  const { rowData, displayData } = props;
+  const { displayData, ...otherProps } = props;
+  const { rowData } = otherProps;
 
   return (
-    <Table.Cell {...props}>
+    <Table.Cell {...otherProps}>
       <div className={styles.inboundFulfillableStat}>
         {displayData.map((data, index) => {
           const displayStat = formatNumber(rowData[data.dataKey]) || 0;
@@ -24,7 +25,9 @@ const InboundFulfillableStat = (props: Props) => {
           return (
             <div key={index} className={styles.statWrapper}>
               <p className={styles.statLabel}>{data.title}</p>
-              <p className={styles.stat}>{displayStat || '-'}</p>
+              <p className={styles.stat}>
+                {displayStat && displayStat !== 'NaN' ? displayStat : '-'}
+              </p>
             </div>
           );
         })}

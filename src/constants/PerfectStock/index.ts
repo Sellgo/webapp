@@ -1,11 +1,15 @@
 export const PERFECT_STOCK_PAGES = [
+  '/aistock/home',
   '/aistock/sales',
   '/aistock/order',
-  '/aistock/3pl',
+  '/aistock/tpl',
   '/aistock/create-order',
 ];
-
 export const PERFECT_STOCK_PRODUCT_DETAILS = [
+  {
+    name: 'Home',
+    desc: 'Cashflow Analysis',
+  },
   {
     name: 'Sales Forecasting',
     desc: 'Accurately project high seasonal sales',
@@ -16,10 +20,10 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   },
   {
     name: '3PL Manager',
-    desc: 'Streamline 3PL Recurring Inbound to FBA',
+    desc: 'Easily create order planning',
   },
   {
-    name: 'Create Order',
+    name: 'Order Planning',
     desc: 'Easily create order planning',
   },
 ];

@@ -36,6 +36,14 @@ export const showNAIfZeroOrNull = (expression: any, value: any) =>
     ? value
     : '-';
 
+export const showNAIfNull = (expression: any, value: any) => {
+  if (expression === 0) {
+    return value;
+  }
+
+  return expression && expression !== 'NaN' ? value : '-';
+};
+
 export const truncateString = (text: string, maxLength: number, trailing = '…') =>
   text && text.length > maxLength ? text.substring(0, maxLength) + trailing : text;
 

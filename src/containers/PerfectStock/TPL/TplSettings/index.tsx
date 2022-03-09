@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 /* Styling */
@@ -10,7 +10,7 @@ import { setSellerDatabaseMarketplace } from '../../../../actions/SellerResearch
 /* Interfaces */
 import { MarketplaceOption } from '../../../../interfaces/SellerResearch/SellerDatabase';
 
-import { CreateTplPayload } from '../../../../interfaces/PerfectStock/Tpl';
+import { TplVendor } from '../../../../interfaces/PerfectStock/Tpl';
 
 /* Constants */
 import {
@@ -18,7 +18,7 @@ import {
   SELLER_DB_MARKETPLACE,
 } from '../../../../constants/SellerResearch/SellerDatabase';
 
-import { DEFAULT_NEW_TPL_SETTINGS } from '../../../../constants/PerfectStock/Tpl';
+import { DEFAULT_NEW_TPL_SETTINGS, TPL_STATUSES } from '../../../../constants/PerfectStock/Tpl';
 
 import {
   COUNTRY_DROPDOWN_LIST,
@@ -30,17 +30,24 @@ import InputFilter from '../../../../components/FormFilters/InputFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 import MarketPlaceFilter from '../../../../components/FormFilters/MarketPlaceFilter';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
-import { createTplVendor } from '../../../../actions/PerfectStock/Tpl';
+import { createUpdateTplVendor } from '../../../../actions/PerfectStock/Tpl';
+import { getTplActiveVendor } from '../../../../selectors/PerfectStock/Tpl';
 
 interface Props {
-  createTplVendor: (payload: CreateTplPayload) => void;
+  createUpdateTplVendor: (payload: TplVendor) => void;
+  activeTplVendor: TplVendor;
 }
 
 const TplSettings = (props: Props) => {
-  const { createTplVendor } = props;
-
-  const [tplSettings, setTplSettings] = useState<CreateTplPayload>(DEFAULT_NEW_TPL_SETTINGS);
+  const { createUpdateTplVendor, activeTplVendor } = props;
+  const [tplSettings, setTplSettings] = useState<TplVendor>(
+    activeTplVendor || DEFAULT_NEW_TPL_SETTINGS
+  );
   const [marketPlace, setMarketPlace] = useState<MarketplaceOption>(DEFAULT_US_MARKET);
+
+  React.useEffect(() => {
+    setTplSettings(activeTplVendor || DEFAULT_NEW_TPL_SETTINGS);
+  }, [activeTplVendor]);
 
   const updateSellerDatabaseFilter = (key: string, value: any) => {
     setTplSettings({
@@ -51,21 +58,14 @@ const TplSettings = (props: Props) => {
 
   /* Handlers */
   const handleSubmit = () => {
-    createTplVendor({
+    createUpdateTplVendor({
       ...tplSettings,
-      status: 'active',
     });
-    return 0;
   };
 
   const handleReset = () => {
-    console.log('placeholder');
+    setTplSettings(activeTplVendor || DEFAULT_NEW_TPL_SETTINGS);
   };
-
-  /* Effect on component mount */
-  useEffect(() => {
-    console.log('placeholder');
-  }, []);
 
   return (
     <>
@@ -75,7 +75,7 @@ const TplSettings = (props: Props) => {
           <InputFilter
             label="3PL NAME"
             placeholder="3PL Name"
-            value={tplSettings.name}
+            value={tplSettings.name || ''}
             handleChange={(value: string) => updateSellerDatabaseFilter('name', value)}
           />
 
@@ -83,9 +83,9 @@ const TplSettings = (props: Props) => {
           <SelectionFilter
             label="STATUS"
             placeholder="STATUS"
-            filterOptions={STATES_DROPDOWN_LIST}
-            value={tplSettings.state}
-            handleChange={(value: string) => updateSellerDatabaseFilter('state', value)}
+            filterOptions={TPL_STATUSES}
+            value={tplSettings.status || ''}
+            handleChange={(value: string) => updateSellerDatabaseFilter('status', value)}
           />
 
           {/* Marketplace */}
@@ -103,7 +103,7 @@ const TplSettings = (props: Props) => {
           <InputFilter
             label="ACCOUNT NUMBER"
             placeholder="Account Number"
-            value={tplSettings.account_number}
+            value={tplSettings.account_number || ''}
             handleChange={(value: string) => updateSellerDatabaseFilter('account_number', value)}
           />
 
@@ -112,6 +112,7 @@ const TplSettings = (props: Props) => {
             label="MONTHLY STORAGE COST PER PALLET"
             placeholder="MONTHLY STORAGE COST PER PALLET"
             value={tplSettings.monthly_cost?.toString() || ''}
+            isNumber
             handleChange={(value: string) =>
               updateSellerDatabaseFilter('monthly_cost', parseFloat(value))
             }
@@ -121,7 +122,7 @@ const TplSettings = (props: Props) => {
           <InputFilter
             label="Address"
             placeholder="Address"
-            value={tplSettings.address}
+            value={tplSettings.address || ''}
             handleChange={(value: string) => updateSellerDatabaseFilter('address', value)}
           />
 
@@ -129,7 +130,7 @@ const TplSettings = (props: Props) => {
           <InputFilter
             label="City"
             placeholder="City"
-            value={tplSettings.city}
+            value={tplSettings.city || ''}
             handleChange={(value: string) => updateSellerDatabaseFilter('city', value)}
           />
 
@@ -138,7 +139,7 @@ const TplSettings = (props: Props) => {
             label="U.S. States"
             placeholder="All States"
             filterOptions={STATES_DROPDOWN_LIST}
-            value={tplSettings.state}
+            value={tplSettings.state || ''}
             handleChange={(value: string) => updateSellerDatabaseFilter('state', value)}
             disabled={tplSettings.country !== 'US'}
           />
@@ -156,13 +157,18 @@ const TplSettings = (props: Props) => {
             label="Country"
             placeholder="Country"
             filterOptions={COUNTRY_DROPDOWN_LIST}
-            value={tplSettings.country}
+            value={tplSettings.country || ''}
             handleChange={(value: string) => {
               updateSellerDatabaseFilter('country', value);
             }}
           />
         </div>
-        <FormFilterActions onFind={handleSubmit} onReset={handleReset} disabled={false} />
+        <FormFilterActions
+          onFind={handleSubmit}
+          onReset={handleReset}
+          disabled={false}
+          submitLabel={'Save'}
+        />
       </section>
     </>
   );
@@ -170,13 +176,13 @@ const TplSettings = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    sellerDatabaseIsRestoringLastSearch: state.sellerDatabase.sellerDatabaseIsRestoringLastSearch,
+    activeTplVendor: getTplActiveVendor(state),
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    createTplVendor: (payload: CreateTplPayload) => dispatch(createTplVendor(payload)),
+    createUpdateTplVendor: (payload: TplVendor) => dispatch(createUpdateTplVendor(payload)),
   };
 };
 

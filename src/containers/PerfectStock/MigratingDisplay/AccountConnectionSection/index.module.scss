@@ -1,35 +1,29 @@
 @import '../../../../design-system/new-colors';
 
-.lightbulbLabel {
-  width: 800px;
-  margin-top: 50px;
-  margin-bottom: 10px;
-  text-align: left;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-
+.connectAccount {
   p {
-    margin-left: 10px;
+    font-size: 14px;
+    font-weight: $fontweight_medium;
   }
 }
 
 .connectRow {
+  margin-top: 100px;
   display: flex;
   justify-content: center;
 
   .connectAccountCard {
     background-color: $prim_white;
     border-radius: 7px;
-    width: 160px;
-    height: 175px;
+    width: 300px;
+    height: 400px;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
     text-align: center;
     align-items: center;
     margin-right: 30px;
-    padding: 18px 0;
+    padding: 18px 30px;
     box-shadow: 0 3px 6px $grey_3;
   }
 
@@ -39,11 +33,19 @@
   }
 
   .connectApiLabel {
-    margin: 10px 0;
+    margin: 30px 0;
     font-size: 20px;
     line-height: 20px;
-    font-weight: 500;
-    color: $prim_dark_1;
+    color: $black_1;
+    font-weight: $fontweight_semibold;
     height: 40px;
+  }
+
+  .connectApiDesc {
+    font-size: 14px;
+    line-height: 20px;
+    color: $black_1;
+    font-weight: $fontweight_medium;
+    margin-bottom: 40px;
   }
 }

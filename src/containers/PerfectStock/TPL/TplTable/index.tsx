@@ -20,6 +20,7 @@ import InventoryThreshold from './InventoryThreshold';
 
 /* Selectors */
 import { getIsLoadingTplSkuData, getTplSkuData } from '../../../../selectors/PerfectStock/Tpl';
+import SingleStatBox from './SingleStatBox';
 
 interface Props {
   // States
@@ -31,7 +32,7 @@ interface Props {
 /* Main component */
 const TplTable = (props: Props) => {
   const { fetchTplSkuData, isLoadingTplSkuData, tplSkuData } = props;
-
+  console.log(tplSkuData);
   React.useEffect(() => {
     fetchTplSkuData();
   }, []);
@@ -152,23 +153,37 @@ const TplTable = (props: Props) => {
               displayData={[
                 {
                   title: 'Working',
-                  dataKey: 'fulfillable_fba',
+                  dataKey: 'working',
                 },
                 {
                   title: 'Shipped',
-                  dataKey: 'daily_l7d',
+                  dataKey: 'shipped',
                 },
                 {
                   title: 'Receiving',
-                  dataKey: 'forecast',
+                  dataKey: 'receiving',
                 },
                 {
                   title: 'Transfer',
-                  dataKey: 'forecast',
+                  dataKey: 'transfer',
                 },
               ]}
-              dataKey="fulfillable_fba"
+              dataKey="working"
             />
+          </Table.Column>
+          {/* FBA Inbound  */}
+          <Table.Column width={112} verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`FBA Fulfillable Inventory`}
+                dataKey="fulfillable"
+                currentSortColumn={''}
+                currentSortType={undefined}
+                alignMiddle
+                disableSort
+              />
+            </Table.HeaderCell>
+            <SingleStatBox dataKey="fulfillable" />
           </Table.Column>
         </Table>
 

@@ -18,8 +18,11 @@ import ProductTrackerIcon from '../Icons/ProductResearch/ProductTracker';
 
 import SalesEstimationIcon from '../Icons/PerfectStock/SalesEstimation';
 import OrderPlanningIcon from '../Icons/PerfectStock/Order Planning';
+import TplIcon from '../Icons/PerfectStock/TPL';
+import PerfectStockHomeIcon from '../Icons/PerfectStock/Home';
 
 import BetaLabel from '../BetaLabel';
+import ComingSoonLabel from '../ComingSoonLabel';
 
 interface Props {
   label: string;
@@ -34,15 +37,28 @@ interface Props {
     | 'Keyword Tracker'
     | 'Zapier'
     | 'Sales Estimation'
-    | 'Order Planning';
+    | 'Order Planning'
+    | 'Tpl'
+    | 'Perfect Stock Home';
   isActive?: boolean;
   className?: string;
   activeClassName?: string;
   isBeta?: boolean;
+  isDisabled?: boolean;
+  isIncoming?: boolean;
 }
 
 const ProductLabel = (props: Props) => {
-  const { label, icon, isActive, className, activeClassName, isBeta } = props;
+  const {
+    label,
+    icon,
+    isActive,
+    className,
+    activeClassName,
+    isBeta,
+    isIncoming,
+    isDisabled,
+  } = props;
 
   const iconFill = isActive ? '#323232' : '#636D76';
   let iconPicture;
@@ -92,6 +108,14 @@ const ProductLabel = (props: Props) => {
       iconPicture = <OrderPlanningIcon fill={iconFill} />;
       break;
 
+    case 'Tpl':
+      iconPicture = <TplIcon fill={iconFill} />;
+      break;
+
+    case 'Perfect Stock Home':
+      iconPicture = <PerfectStockHomeIcon fill={iconFill} />;
+      break;
+
     default:
       iconPicture = <ProductDatabaseIcon fill={iconFill} />;
       break;
@@ -101,14 +125,16 @@ const ProductLabel = (props: Props) => {
       {iconPicture}
       <div className={isActive ? styles.gradientWrapper : ''}>
         <div
-          className={
-            isActive ? `${styles.labelText} ${styles.labelText__active}` : styles.labelText
-          }
+          className={`
+            ${isActive ? `${styles.labelText} ${styles.labelText__active}` : styles.labelText}
+            ${isDisabled ? styles.labelText__disabled : ''}
+            `}
         >
           {label}
         </div>
       </div>
       {isBeta && <BetaLabel />}
+      {isIncoming && <ComingSoonLabel />}
     </div>
   );
 };

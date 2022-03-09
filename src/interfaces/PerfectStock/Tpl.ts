@@ -1,4 +1,5 @@
-export interface CreateTplPayload {
+export interface TplVendor {
+  id?: number;
   name: string;
   status: string;
   marketplace_id: string;
@@ -6,7 +7,7 @@ export interface CreateTplPayload {
   address: string;
   city: string;
   state: string;
-  zip_code: number;
+  zip_code: number | null;
   country: string;
-  monthly_cost: number;
+  monthly_cost: number | null;
 }

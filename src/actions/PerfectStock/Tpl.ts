@@ -7,11 +7,12 @@ import { AppConfig } from '../../config';
 import { actionTypes } from '../../constants/PerfectStock/Tpl';
 
 /* Interfaces */
-import { CreateTplPayload } from '../../interfaces/PerfectStock/Tpl';
+import { TplVendor } from '../../interfaces/PerfectStock/Tpl';
 import { getTplActiveVendor } from '../../selectors/PerfectStock/Tpl';
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
+import { success } from '../../utils/notifications';
 
 /* Action to set loading state for tpl */
 export const isLoadingTplVendors = (payload: boolean) => {
@@ -78,9 +79,11 @@ export const fetchTplVendors = () => async (dispatch: any) => {
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/vendor`;
 
     const { data } = await axios.get(URL);
-    console.log(data);
     if (data) {
       dispatch(setTplVendors(data.results));
+      if (data && data.length > 0) {
+        dispatch(setTplActiveVendor(data[0]));
+      }
     }
   } catch (err) {
     dispatch(setTplVendors([]));
@@ -90,18 +93,27 @@ export const fetchTplVendors = () => async (dispatch: any) => {
 };
 
 /* Action to fetch products database */
-export const createTplVendor = (payload: CreateTplPayload) => async (dispatch: any) => {
+export const createUpdateTplVendor = (payload: TplVendor) => async (dispatch: any) => {
+  dispatch(isLoadingTplVendors(true));
+
   try {
     const sellerId = sellerIDSelector();
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/vendor`;
+    let data;
 
-    dispatch(isLoadingTplVendors(true));
+    if (payload.id) {
+      const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/vendor/${payload.id}`;
+      const res = await axios.patch(URL, payload);
+      data = res.data;
+    } else {
+      const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/vendor`;
+      const res = await axios.post(URL, payload);
+      data = res.data;
+    }
 
-    const { data } = await axios.post(URL, payload);
-    console.log(data);
-    // if (data) {
-    //   dispatch(setTplVendors(data.results));
-    // }
+    if (data) {
+      success('Perfect Stock Vendor Saved');
+      dispatch(fetchTplVendors());
+    }
   } catch (err) {
     dispatch(setTplVendors([]));
     console.error('Error fetching Tpl', err);
