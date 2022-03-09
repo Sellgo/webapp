@@ -8,67 +8,48 @@ import './globals.scss';
 import styles from './index.module.scss';
 
 /* Actions */
-import { fetchTpl } from '../../../../actions/PerfectStock/Tpl';
-
-/* Interfaces */
-import { SalesProjectionPayload } from '../../../../interfaces/PerfectStock/SalesProjection';
-
-/* Containers */
-import ProductInformation from './ProductInformation';
-import SalesPrediction from './SalesPrediction';
-import InventoryThreshold from './InventoryThreshold';
+import { fetchTplSkuData } from '../../../../actions/PerfectStock/Tpl';
 
 /* Components */
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import Placeholder from '../../../../components/Placeholder';
-import {
-  getSalesProjectionResults,
-  getIsLoadingSalesProjection,
-} from '../../../../selectors/PerfectStock/SalesProjection';
 import MultipleStatBox from './MultipleStatBox';
+import ProductInformation from './ProductInformation';
+import SalesPrediction from './SalesPrediction';
+import InventoryThreshold from './InventoryThreshold';
+
+/* Selectors */
+import { getIsLoadingTplSkuData, getTplSkuData } from '../../../../selectors/PerfectStock/Tpl';
 
 interface Props {
   // States
-  isLoadingSalesProjection: boolean;
-  fetchTpl: (payload: SalesProjectionPayload) => void;
-  salesProjectionResult: any;
+  isLoadingTplSkuData: boolean;
+  fetchTplSkuData: () => void;
+  tplSkuData: any;
 }
 
 /* Main component */
 const TplTable = (props: Props) => {
-  const { fetchTpl, isLoadingSalesProjection, salesProjectionResult } = props;
+  const { fetchTplSkuData, isLoadingTplSkuData, tplSkuData } = props;
 
-  const [sortColumn, setSortColumn] = React.useState<string>('');
-  const [sortType, setSortType] = React.useState<'asc' | 'desc' | undefined>(undefined);
-
-  const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
-    setSortColumn(sortColumn);
-    setSortType(sortType);
-    fetchTpl({
-      sort: sortColumn,
-      sortDir: sortType,
-    });
-  };
-
+  React.useEffect(() => {
+    fetchTplSkuData();
+  }, []);
   return (
     <>
       <section className={styles.productDatabaseWrapper}>
         <Table
           renderLoading={() =>
-            isLoadingSalesProjection && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
+            isLoadingTplSkuData && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
           }
           renderEmpty={() => <div />}
           affixHorizontalScrollbar={0}
           // Dont display old data when loading
-          data={!isLoadingSalesProjection ? salesProjectionResult : []}
+          data={!isLoadingTplSkuData ? tplSkuData : []}
           hover={false}
           autoHeight
           rowHeight={90}
           headerHeight={55}
-          onSortColumn={handleSortColumn}
-          sortType={sortType}
-          sortColumn={sortColumn}
-          rowExpandedHeight={800}
           rowKey="id"
           virtualized
           id="tplTable"
@@ -87,8 +68,8 @@ const TplTable = (props: Props) => {
               <HeaderSortCell
                 title={`Schedule to\nSend In`}
                 dataKey="predictive_sales"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
+                currentSortColumn={''}
+                currentSortType={undefined}
                 disableSort
                 alignMiddle
               />
@@ -102,8 +83,8 @@ const TplTable = (props: Props) => {
               <HeaderSortCell
                 title={`Automate FBA \n Shipping Plan`}
                 dataKey="inventory_threshold"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
+                currentSortColumn={''}
+                currentSortType={undefined}
                 alignMiddle
                 disableSort
               />
@@ -116,8 +97,8 @@ const TplTable = (props: Props) => {
               <HeaderSortCell
                 title={`Days of Inventory`}
                 dataKey="inventory_threshold"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
+                currentSortColumn={''}
+                currentSortType={undefined}
                 alignMiddle
                 disableSort
               />
@@ -208,14 +189,14 @@ const TplTable = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    salesProjectionResult: getSalesProjectionResults(state),
-    isLoadingSalesProjection: getIsLoadingSalesProjection(state),
+    tplSkuData: getTplSkuData(state),
+    isLoadingTplSkuData: getIsLoadingTplSkuData(state),
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchTpl: (payload: SalesProjectionPayload) => dispatch(fetchTpl(payload)),
+    fetchTplSkuData: () => dispatch(fetchTplSkuData()),
   };
 };
 

@@ -1,30 +1,24 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
 
 /* Actions */
-import {
-  fetchSellerDatabase,
-  setIsRestoringSellerDatabaseLastSearch,
-  setSellerDatabaseMarketplace,
-} from '../../../../actions/SellerResearch/SellerDatabase';
+import { setSellerDatabaseMarketplace } from '../../../../actions/SellerResearch/SellerDatabase';
 
 /* Interfaces */
-import {
-  MarketplaceOption,
-  SellerDatabasePayload,
-} from '../../../../interfaces/SellerResearch/SellerDatabase';
+import { MarketplaceOption } from '../../../../interfaces/SellerResearch/SellerDatabase';
+
+import { CreateTplPayload } from '../../../../interfaces/PerfectStock/Tpl';
 
 /* Constants */
 import {
-  DEFAULT_SELLER_DATABASE_FILTER,
-  DEFAULT_INCLUDE_EXCLUDE_ERROR,
   DEFAULT_US_MARKET,
   SELLER_DB_MARKETPLACE,
 } from '../../../../constants/SellerResearch/SellerDatabase';
-import { getProductCategories } from '../../../../constants/ProductResearch/ProductsDatabase';
+
+import { DEFAULT_NEW_TPL_SETTINGS } from '../../../../constants/PerfectStock/Tpl';
 
 import {
   COUNTRY_DROPDOWN_LIST,
@@ -36,84 +30,53 @@ import InputFilter from '../../../../components/FormFilters/InputFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 import MarketPlaceFilter from '../../../../components/FormFilters/MarketPlaceFilter';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
+import { createTplVendor } from '../../../../actions/PerfectStock/Tpl';
 
 interface Props {
-  fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
-  setSellerDatabaseMarketplace: (payload: MarketplaceOption) => void;
+  createTplVendor: (payload: CreateTplPayload) => void;
 }
 
-const SellerDatabaseFilters = (props: Props) => {
-  const { fetchSellerDatabase, setSellerDatabaseMarketplace } = props;
+const TplSettings = (props: Props) => {
+  const { createTplVendor } = props;
 
-  const [sellerDatabaseFilters, setSellerDatabaseFilters] = useState(
-    DEFAULT_SELLER_DATABASE_FILTER
-  );
+  const [tplSettings, setTplSettings] = useState<CreateTplPayload>(DEFAULT_NEW_TPL_SETTINGS);
   const [marketPlace, setMarketPlace] = useState<MarketplaceOption>(DEFAULT_US_MARKET);
 
   const updateSellerDatabaseFilter = (key: string, value: any) => {
-    if (key === 'country') {
-      setSellerDatabaseFilters({
-        ...sellerDatabaseFilters,
-        [key]: value,
-        state: '',
-      });
-    } else {
-      setSellerDatabaseFilters({
-        ...sellerDatabaseFilters,
-        [key]: value,
-      });
-    }
+    setTplSettings({
+      ...tplSettings,
+      [key]: value,
+    });
   };
-
-  /* Error States */
-  const [asinsError, setAsinsError] = useState(DEFAULT_INCLUDE_EXCLUDE_ERROR);
-  const [sellerIdsError, setSellerIdsError] = useState(DEFAULT_INCLUDE_EXCLUDE_ERROR);
 
   /* Handlers */
   const handleSubmit = () => {
-    const filterPayload = { ...sellerDatabaseFilters };
-    console.log(filterPayload);
+    createTplVendor({
+      ...tplSettings,
+      status: 'active',
+    });
+    return 0;
   };
 
   const handleReset = () => {
-    setSellerDatabaseMarketplace(DEFAULT_US_MARKET);
-    setSellerDatabaseFilters(DEFAULT_SELLER_DATABASE_FILTER);
-    /* Reset Error States */
-    setAsinsError(DEFAULT_INCLUDE_EXCLUDE_ERROR);
-    setSellerIdsError(DEFAULT_INCLUDE_EXCLUDE_ERROR);
-
-    fetchSellerDatabase({ resetFilter: true });
+    console.log('placeholder');
   };
 
   /* Effect on component mount */
   useEffect(() => {
-    handleReset();
-
-    return () => {
-      handleReset();
-    };
+    console.log('placeholder');
   }, []);
-
-  /* Overall form submit diable condition */
-  const disableFormSubmit = useMemo(() => {
-    const shouldDisabledFormSubmit =
-      asinsError.include || asinsError.exclude || sellerIdsError.include || sellerIdsError.exclude;
-
-    return shouldDisabledFormSubmit;
-  }, [asinsError.include, asinsError.exclude, sellerIdsError.include, sellerIdsError.exclude]);
 
   return (
     <>
       <section className={styles.filterSection}>
         <div className={styles.basicFilters}>
           {/* 3PL NAME */}
-          <SelectionFilter
+          <InputFilter
             label="3PL NAME"
-            placeholder="3PL NAME"
-            filterOptions={STATES_DROPDOWN_LIST}
-            value={sellerDatabaseFilters.state}
-            handleChange={(value: string) => updateSellerDatabaseFilter('state', value)}
-            disabled={sellerDatabaseFilters.country !== 'US'}
+            placeholder="3PL Name"
+            value={tplSettings.name}
+            handleChange={(value: string) => updateSellerDatabaseFilter('name', value)}
           />
 
           {/* STATUS */}
@@ -121,9 +84,8 @@ const SellerDatabaseFilters = (props: Props) => {
             label="STATUS"
             placeholder="STATUS"
             filterOptions={STATES_DROPDOWN_LIST}
-            value={sellerDatabaseFilters.state}
+            value={tplSettings.state}
             handleChange={(value: string) => updateSellerDatabaseFilter('state', value)}
-            disabled={sellerDatabaseFilters.country !== 'US'}
           />
 
           {/* Marketplace */}
@@ -134,9 +96,6 @@ const SellerDatabaseFilters = (props: Props) => {
             handleChange={(option: MarketplaceOption) => {
               setMarketPlace(option);
               setSellerDatabaseMarketplace(option);
-              if (getProductCategories(option.code) !== getProductCategories(marketPlace.code)) {
-                updateSellerDatabaseFilter('categories', []);
-              }
             }}
           />
 
@@ -144,37 +103,34 @@ const SellerDatabaseFilters = (props: Props) => {
           <InputFilter
             label="ACCOUNT NUMBER"
             placeholder="Account Number"
-            value={sellerDatabaseFilters.brands.include}
-            handleChange={(value: string) =>
-              updateSellerDatabaseFilter('brands', {
-                ...sellerDatabaseFilters.brands,
-                include: value,
-              })
-            }
+            value={tplSettings.account_number}
+            handleChange={(value: string) => updateSellerDatabaseFilter('account_number', value)}
           />
 
           {/* MONTHLY STORAGE COST PER PALLET */}
           <InputFilter
             label="MONTHLY STORAGE COST PER PALLET"
             placeholder="MONTHLY STORAGE COST PER PALLET"
-            value={sellerDatabaseFilters.merchantName}
-            handleChange={(value: string) => updateSellerDatabaseFilter('merchantName', value)}
+            value={tplSettings.monthly_cost?.toString() || ''}
+            handleChange={(value: string) =>
+              updateSellerDatabaseFilter('monthly_cost', parseFloat(value))
+            }
           />
 
           {/* Address */}
           <InputFilter
             label="Address"
             placeholder="Address"
-            value={sellerDatabaseFilters.businessName}
-            handleChange={(value: string) => updateSellerDatabaseFilter('businessName', value)}
+            value={tplSettings.address}
+            handleChange={(value: string) => updateSellerDatabaseFilter('address', value)}
           />
 
           {/* City */}
           <InputFilter
             label="City"
             placeholder="City"
-            value={sellerDatabaseFilters.businessName}
-            handleChange={(value: string) => updateSellerDatabaseFilter('businessName', value)}
+            value={tplSettings.city}
+            handleChange={(value: string) => updateSellerDatabaseFilter('city', value)}
           />
 
           {/* All States */}
@@ -182,17 +138,17 @@ const SellerDatabaseFilters = (props: Props) => {
             label="U.S. States"
             placeholder="All States"
             filterOptions={STATES_DROPDOWN_LIST}
-            value={sellerDatabaseFilters.state}
+            value={tplSettings.state}
             handleChange={(value: string) => updateSellerDatabaseFilter('state', value)}
-            disabled={sellerDatabaseFilters.country !== 'US'}
+            disabled={tplSettings.country !== 'US'}
           />
 
           {/* Zip code */}
           <InputFilter
             label="Zip Code"
             placeholder="Zip Code"
-            value={sellerDatabaseFilters.zipCode}
-            handleChange={(value: string) => updateSellerDatabaseFilter('zipCode', value)}
+            value={tplSettings.zip_code?.toString() || ''}
+            handleChange={(value: string) => updateSellerDatabaseFilter('zip_code', value)}
           />
 
           {/* Country */}
@@ -200,17 +156,13 @@ const SellerDatabaseFilters = (props: Props) => {
             label="Country"
             placeholder="Country"
             filterOptions={COUNTRY_DROPDOWN_LIST}
-            value={sellerDatabaseFilters.country}
+            value={tplSettings.country}
             handleChange={(value: string) => {
               updateSellerDatabaseFilter('country', value);
             }}
           />
         </div>
-        <FormFilterActions
-          onFind={handleSubmit}
-          onReset={handleReset}
-          disabled={disableFormSubmit}
-        />
+        <FormFilterActions onFind={handleSubmit} onReset={handleReset} disabled={false} />
       </section>
     </>
   );
@@ -224,12 +176,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    setIsRestoringSellerDatabaseLastSearch: (isRestoringSellerDatabaseLastSearch: boolean) =>
-      dispatch(setIsRestoringSellerDatabaseLastSearch(isRestoringSellerDatabaseLastSearch)),
-    fetchSellerDatabase: (payload: SellerDatabasePayload) => dispatch(fetchSellerDatabase(payload)),
-    setSellerDatabaseMarketplace: (payload: MarketplaceOption) =>
-      dispatch(setSellerDatabaseMarketplace(payload)),
+    createTplVendor: (payload: CreateTplPayload) => dispatch(createTplVendor(payload)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SellerDatabaseFilters);
+export default connect(mapStateToProps, mapDispatchToProps)(TplSettings);

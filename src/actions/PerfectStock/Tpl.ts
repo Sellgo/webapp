@@ -8,6 +8,7 @@ import { actionTypes } from '../../constants/PerfectStock/Tpl';
 
 /* Interfaces */
 import { CreateTplPayload } from '../../interfaces/PerfectStock/Tpl';
+import { getTplActiveVendor } from '../../selectors/PerfectStock/Tpl';
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
@@ -24,6 +25,28 @@ export const isLoadingTplVendors = (payload: boolean) => {
 export const setTplVendors = (payload: any) => {
   return {
     type: actionTypes.SET_TPL_VENDORS,
+    payload,
+  };
+};
+
+/* Action to set active tpl vendor */
+export const setTplActiveVendor = (payload: any) => {
+  return {
+    type: actionTypes.SET_TPL_ACTIVE_VENDOR,
+    payload,
+  };
+};
+
+export const isLoadingTplSkuData = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_LOADING_TPL_SKU_DATA,
+    payload,
+  };
+};
+
+export const setTplSkuData = (payload: any) => {
+  return {
+    type: actionTypes.SET_TPL_SKU_DATA,
     payload,
   };
 };
@@ -48,27 +71,13 @@ export const setTplVendors = (payload: any) => {
 
 /*********** Async Actions ************************ */
 /* Action to fetch products database */
-export const fetchTpl = (payload?: any) => async (dispatch: any) => {
+export const fetchTplVendors = () => async (dispatch: any) => {
+  dispatch(isLoadingTplVendors(true));
   try {
-    const { page = 1, isExport = false, fileFormat = 'csv' } = payload;
-
     const sellerId = sellerIDSelector();
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/vendor`;
 
-    const requestPayload: any = {
-      page: page,
-    };
-
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/sku-tpl-data`;
-
-    if (isExport && fileFormat) {
-      /* Handle Exports */
-      // dispatch(exportProductDatabaseTable(requestPayload, fileFormat));
-      return;
-    }
-
-    dispatch(isLoadingTplVendors(true));
-
-    const { data } = await axios.get(URL, requestPayload);
+    const { data } = await axios.get(URL);
     console.log(data);
     if (data) {
       dispatch(setTplVendors(data.results));
@@ -81,10 +90,10 @@ export const fetchTpl = (payload?: any) => async (dispatch: any) => {
 };
 
 /* Action to fetch products database */
-export const createTpl = (payload: CreateTplPayload) => async (dispatch: any) => {
+export const createTplVendor = (payload: CreateTplPayload) => async (dispatch: any) => {
   try {
     const sellerId = sellerIDSelector();
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/sku-tpl-data`;
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/vendor`;
 
     dispatch(isLoadingTplVendors(true));
 
@@ -98,4 +107,25 @@ export const createTpl = (payload: CreateTplPayload) => async (dispatch: any) =>
     console.error('Error fetching Tpl', err);
   }
   dispatch(isLoadingTplVendors(false));
+};
+
+export const fetchTplSkuData = () => async (dispatch: any, getState: any) => {
+  dispatch(isLoadingTplSkuData(true));
+  try {
+    const state = getState();
+    const vendor = getTplActiveVendor(state);
+    console.log(vendor);
+    const sellerId = sellerIDSelector();
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/sku-tpl-data?vendor_id=1`;
+
+    const { data } = await axios.get(URL);
+    console.log(data);
+    if (data) {
+      dispatch(setTplSkuData(data.results));
+    }
+  } catch (err) {
+    dispatch(setTplSkuData([]));
+    console.error('Error fetching Tpl Sku Information', err);
+  }
+  dispatch(isLoadingTplSkuData(false));
 };

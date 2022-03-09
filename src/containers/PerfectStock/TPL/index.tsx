@@ -4,10 +4,9 @@ import { connect } from 'react-redux';
 /* Actions */
 import { fetchRefreshProgress } from '../../../actions/PerfectStock/SalesProjection';
 import { updatePerfectStockGetStartedStatus } from '../../../actions/UserOnboarding';
-import { fetchTpl } from '../../../actions/PerfectStock/Tpl';
+import { fetchTplVendors } from '../../../actions/PerfectStock/Tpl';
 
 /* Interfaces */
-import { SalesProjectionPayload } from '../../../interfaces/PerfectStock/SalesProjection';
 import { PerfectStockGetStartedStatus } from '../../../interfaces/UserOnboarding';
 
 /* Selectors */
@@ -26,17 +25,22 @@ import ProgressBar from '../../../components/ProgressBar';
 interface Props {
   updatePerfectStockGetStartedStatus: (key: string, status: boolean) => void;
   perfectStockGetStartedStatus: PerfectStockGetStartedStatus;
-  fetchTpl: (payload: SalesProjectionPayload) => void;
+  fetchTplVendors: () => void;
   refreshProgress: number;
   isFetchingProgressForRefresh: boolean;
   fetchRefreshProgress: () => void;
 }
 
 const TPL = (props: Props) => {
-  const { fetchTpl, fetchRefreshProgress, refreshProgress, isFetchingProgressForRefresh } = props;
+  const {
+    fetchTplVendors,
+    fetchRefreshProgress,
+    refreshProgress,
+    isFetchingProgressForRefresh,
+  } = props;
 
   React.useEffect(() => {
-    fetchTpl({});
+    fetchTplVendors();
   }, []);
 
   return (
@@ -63,7 +67,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchTpl: (payload: SalesProjectionPayload) => dispatch(fetchTpl(payload)),
+    fetchTplVendors: () => dispatch(fetchTplVendors()),
     fetchRefreshProgress: () => dispatch(fetchRefreshProgress()),
     updatePerfectStockGetStartedStatus: (key: string, status: boolean) =>
       dispatch(updatePerfectStockGetStartedStatus(key, status)),
