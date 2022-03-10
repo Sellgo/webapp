@@ -149,6 +149,7 @@ const AddEditSkuModal = (props: Props) => {
                 handleChange={handleChange}
                 isNumber
                 isInteger
+                isPositiveOnly
                 showEmptyError
               />
             </Table.Column>
