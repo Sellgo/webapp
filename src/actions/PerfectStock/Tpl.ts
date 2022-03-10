@@ -99,6 +99,13 @@ export const fetchTplVendors = () => async (dispatch: any, getState: any) => {
         const activeVendor = getTplActiveVendor(state);
         if (!activeVendor.id) {
           dispatch(setTplActiveVendor(data[0]));
+        } else {
+          const updatedActiveVendor = data.find(
+            (vendor: TplVendor) => vendor.id === activeVendor.id
+          );
+          if (updatedActiveVendor) {
+            dispatch(setTplActiveVendor(updatedActiveVendor));
+          }
         }
       }
     }
