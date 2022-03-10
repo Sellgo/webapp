@@ -15,6 +15,7 @@ interface Props {
   withSecondarySubmit?: boolean;
   className?: string;
   hideReset?: boolean;
+  isBlack?: boolean;
 }
 
 const FormFilterActions: React.FC<Props> = props => {
@@ -24,6 +25,7 @@ const FormFilterActions: React.FC<Props> = props => {
     disabled = false,
     resetLabel = 'Reset',
     submitLabel = 'Find',
+    isBlack = false,
     className,
     withSecondarySubmit = false,
     hideReset = false,
@@ -40,7 +42,7 @@ const FormFilterActions: React.FC<Props> = props => {
 
         <ActionButton
           variant={withSecondarySubmit ? 'secondary' : 'primary'}
-          type="purpleGradient"
+          type={isBlack ? 'black' : 'purpleGradient'}
           disabled={disabled}
           size="md"
           onClick={onFind}

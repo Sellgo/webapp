@@ -5,8 +5,8 @@ import { Table } from 'rsuite';
 import styles from './index.module.scss';
 
 /* Interface */
-import { RowCell } from '../../../../../interfaces/Table';
-import { formatNumber, showNAIfNull } from '../../../../../utils/format';
+import { RowCell } from '../../../../../../interfaces/Table';
+import { formatNumber, showNAIfNull } from '../../../../../../utils/format';
 
 const SingleStatBox = (props: RowCell) => {
   const { rowData, dataKey } = props;

@@ -9,8 +9,9 @@ export const actionTypes = {
   SET_TPL_SKU_DATA: 'SET_TPL_SKU_DATA',
 };
 
-export const DEFAULT_NEW_TPL_SETTINGS: TplVendor = {
-  name: '',
+export const DEFAULT_NEW_TPL_VENDOR: TplVendor = {
+  id: 0,
+  name: 'New Vendor',
   status: '',
   marketplace_id: '',
   account_number: '',
@@ -19,7 +20,11 @@ export const DEFAULT_NEW_TPL_SETTINGS: TplVendor = {
   state: '',
   zip_code: null,
   country: '',
-  monthly_cost: null,
+  monthly_cost_q1: null,
+  monthly_cost_q2: null,
+  monthly_cost_q3: null,
+  monthly_cost_q4: null,
+  isNew: true,
 };
 
 export const TPL_STATUSES = [
@@ -32,5 +37,33 @@ export const TPL_STATUSES = [
     key: 'Inactive',
     text: 'Inactive',
     value: 'inactive',
+  },
+];
+
+export const SEND_IN_INTERVALS = [
+  {
+    key: '1',
+    value: '1',
+    text: 'Daily',
+  },
+  {
+    key: '4',
+    value: '4',
+    text: 'Twice a week',
+  },
+  {
+    key: '7',
+    value: '7',
+    text: 'Weekly',
+  },
+  {
+    key: '14',
+    value: '14',
+    text: 'Biweekly',
+  },
+  {
+    key: '30',
+    value: '30',
+    text: 'Monthly',
   },
 ];

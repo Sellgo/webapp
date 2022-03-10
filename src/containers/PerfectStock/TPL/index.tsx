@@ -2,75 +2,88 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 /* Actions */
-import { fetchRefreshProgress } from '../../../actions/PerfectStock/SalesProjection';
-import { updatePerfectStockGetStartedStatus } from '../../../actions/UserOnboarding';
-import { fetchTplVendors } from '../../../actions/PerfectStock/Tpl';
+import { fetchTplVendors, setTplActiveVendor } from '../../../actions/PerfectStock/Tpl';
 
 /* Interfaces */
-import { PerfectStockGetStartedStatus } from '../../../interfaces/UserOnboarding';
+import { TplVendor } from '../../../interfaces/PerfectStock/Tpl';
 
 /* Selectors */
-import {
-  getIsFetchingProgressForRefresh,
-  getRefreshProgress,
-} from '../../../selectors/PerfectStock/SalesProjection';
-import { getPerfectStockGetStartedStatus } from '../../../selectors/UserOnboarding';
+import { getTplActiveVendor, getTplVendors } from '../../../selectors/PerfectStock/Tpl';
 
 /* Containers */
-import SalesProjectionMeta from './SalesProjectionMeta';
-import TplTable from './TplTable';
-import TplSettings from './TplSettings';
-import ProgressBar from '../../../components/ProgressBar';
+import TPLVendor from './TPLVendor';
+// import {ReactComponent as PlusIcon} from '../../../assets/images/plusIcon.svg';
+
+/* Styles */
+import styles from './index.module.scss';
 
 interface Props {
-  updatePerfectStockGetStartedStatus: (key: string, status: boolean) => void;
-  perfectStockGetStartedStatus: PerfectStockGetStartedStatus;
+  activeTplVendor: TplVendor;
+  tplVendors: TplVendor[];
   fetchTplVendors: () => void;
-  refreshProgress: number;
-  isFetchingProgressForRefresh: boolean;
-  fetchRefreshProgress: () => void;
+  setTplActiveVendor: (vendor: TplVendor) => void;
 }
 
 const TPL = (props: Props) => {
-  const {
-    fetchTplVendors,
-    fetchRefreshProgress,
-    refreshProgress,
-    isFetchingProgressForRefresh,
-  } = props;
+  const { fetchTplVendors, tplVendors, setTplActiveVendor, activeTplVendor } = props;
 
   React.useEffect(() => {
     fetchTplVendors();
   }, []);
 
+  // const handleCreateNewVendor = () => {
+  //   const newVendor = DEFAULT_NEW_TPL_VENDOR;
+  //   const newId = tplVendors.length + 10;
+  //   newVendor.id = newId;
+  //   const newVendors = [...tplVendors, DEFAULT_NEW_TPL_VENDOR];
+  //   setTplVendors(newVendors);
+  //   return;
+  // };
+
   return (
     <main>
-      <ProgressBar
-        fetchProgress={fetchRefreshProgress}
-        progress={refreshProgress}
-        shouldFetchProgress={isFetchingProgressForRefresh}
-      />
-      <TplSettings />
-      <SalesProjectionMeta />
-      <TplTable />
+      <div className={styles.tplVendorTabList}>
+        {tplVendors?.map((vendor: TplVendor) => {
+          const isSelected =
+            activeTplVendor?.id === vendor.id && activeTplVendor?.isNew === vendor.isNew;
+          return (
+            <div
+              className={`
+                ${styles.tplVendor}
+                ${isSelected ? styles.tplVendor__selected : ''}
+              `}
+              onClick={() => setTplActiveVendor(vendor)}
+              key={vendor.id}
+            >
+              <span>{vendor.name}</span>
+            </div>
+          );
+        })}
+        {/* <div 
+          className={styles.tplVendor}
+          onClick={handleCreateNewVendor}
+        >
+          <span>
+            <PlusIcon />
+          </span>
+        </div> */}
+      </div>
+      <TPLVendor />
     </main>
   );
 };
 
 const mapStateToProps = (state: any) => {
   return {
-    refreshProgress: getRefreshProgress(state),
-    isFetchingProgressForRefresh: getIsFetchingProgressForRefresh(state),
-    perfectStockGetStartedStatus: getPerfectStockGetStartedStatus(state),
+    tplVendors: getTplVendors(state),
+    activeTplVendor: getTplActiveVendor(state),
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchTplVendors: () => dispatch(fetchTplVendors()),
-    fetchRefreshProgress: () => dispatch(fetchRefreshProgress()),
-    updatePerfectStockGetStartedStatus: (key: string, status: boolean) =>
-      dispatch(updatePerfectStockGetStartedStatus(key, status)),
+    setTplActiveVendor: (vendor: TplVendor) => dispatch(setTplActiveVendor(vendor)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(TPL);

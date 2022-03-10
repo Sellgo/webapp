@@ -1,41 +1,32 @@
 import React from 'react';
 import { Table } from 'rsuite';
-import { connect } from 'react-redux';
 
 /* Styling */
 import 'rsuite/dist/styles/rsuite-default.css';
 import './globals.scss';
 import styles from './index.module.scss';
 
-/* Actions */
-import { fetchTplSkuData } from '../../../../actions/PerfectStock/Tpl';
-
 /* Components */
-import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
-import Placeholder from '../../../../components/Placeholder';
+import HeaderSortCell from '../../../../../components/NewTable/HeaderSortCell';
+import Placeholder from '../../../../../components/Placeholder';
 import MultipleStatBox from './MultipleStatBox';
 import ProductInformation from './ProductInformation';
 import ScheduleToSendIn from './ScheduleToSendIn';
 import DaysOfInventory from './DaysOfInventory';
 
 /* Selectors */
-import { getIsLoadingTplSkuData, getTplSkuData } from '../../../../selectors/PerfectStock/Tpl';
 import SingleStatBox from './SingleStatBox';
 
 interface Props {
   // States
   isLoadingTplSkuData: boolean;
-  fetchTplSkuData: () => void;
   tplSkuData: any;
 }
 
 /* Main component */
 const TplTable = (props: Props) => {
-  const { fetchTplSkuData, isLoadingTplSkuData, tplSkuData } = props;
-  console.log(tplSkuData);
-  React.useEffect(() => {
-    fetchTplSkuData();
-  }, []);
+  const { isLoadingTplSkuData, tplSkuData } = props;
+
   return (
     <>
       <section className={styles.productDatabaseWrapper}>
@@ -50,7 +41,7 @@ const TplTable = (props: Props) => {
           hover={false}
           autoHeight
           rowHeight={90}
-          headerHeight={55}
+          headerHeight={65}
           rowKey="id"
           virtualized
           id="tplTable"
@@ -76,21 +67,6 @@ const TplTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <ScheduleToSendIn dataKey="interval" />
-          </Table.Column>
-
-          {/* Inventory Threshold  */}
-          <Table.Column width={112} verticalAlign="middle" align="center">
-            <Table.HeaderCell>
-              <HeaderSortCell
-                title={`Automate FBA \n Shipping Plan`}
-                dataKey="inventory_threshold"
-                currentSortColumn={''}
-                currentSortType={undefined}
-                alignMiddle
-                disableSort
-              />
-            </Table.HeaderCell>
-            <DaysOfInventory dataKey="inventory_threshold" />
           </Table.Column>
 
           <Table.Column width={112} verticalAlign="middle" align="center">
@@ -121,12 +97,12 @@ const TplTable = (props: Props) => {
             <MultipleStatBox
               displayData={[
                 {
-                  title: 'Total L7D',
-                  dataKey: 'fulfillable_fba',
+                  title: 'Total LND',
+                  dataKey: 'total_lnd',
                 },
                 {
-                  title: 'Daily L7D',
-                  dataKey: 'daily_l7d',
+                  title: 'Daily LND',
+                  dataKey: 'avg_lnd',
                 },
                 {
                   title: 'Forecast',
@@ -231,7 +207,7 @@ const TplTable = (props: Props) => {
             <MultipleStatBox
               displayData={[
                 {
-                  title: 'Using L7D:',
+                  title: 'Using LND:',
                   dataKey: 'send_quantity_lnd',
                 },
                 {
@@ -257,6 +233,10 @@ const TplTable = (props: Props) => {
             <MultipleStatBox
               displayData={[
                 {
+                  title: 'Units/ Carton',
+                  dataKey: 'carton_count',
+                },
+                {
                   title: 'Carton #',
                   dataKey: 'total_carton',
                 },
@@ -280,17 +260,4 @@ const TplTable = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return {
-    tplSkuData: getTplSkuData(state),
-    isLoadingTplSkuData: getIsLoadingTplSkuData(state),
-  };
-};
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    fetchTplSkuData: () => dispatch(fetchTplSkuData()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TplTable);
+export default TplTable;

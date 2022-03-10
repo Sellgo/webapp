@@ -1,6 +1,6 @@
-@import '../../../../../design-system/new-colors.scss';
+@import '../../../../../../design-system/new-colors.scss';
 
-.inventoryThresholdCell {
+.scheduleToSendInCell {
   background: $prim_dark_1;
   border-radius: 7px;
   height: 100%;
@@ -22,7 +22,7 @@
 }
 
 .selectionButton {
-  width: 70px;
+  width: 95px;
   height: 25px;
   background: $prim_white;
   border: 1px solid $grey_3;

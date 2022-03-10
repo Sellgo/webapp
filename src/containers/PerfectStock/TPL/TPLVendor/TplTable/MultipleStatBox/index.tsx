@@ -5,8 +5,8 @@ import { Table } from 'rsuite';
 import styles from './index.module.scss';
 
 /* Interface */
-import { RowCell } from '../../../../../interfaces/Table';
-import { formatNumber } from '../../../../../utils/format';
+import { RowCell } from '../../../../../../interfaces/Table';
+import { formatNumber } from '../../../../../../utils/format';
 
 interface Props extends RowCell {
   displayData: { title: string; dataKey: string }[];
@@ -16,10 +16,16 @@ const InboundFulfillableStat = (props: Props) => {
   const { displayData, ...otherProps } = props;
   const { rowData } = otherProps;
 
+  const updatedDisplayData = displayData.map(data => {
+    /* Replace all LND with inside title */
+    const title = data.title.replace('LND', `L${rowData.interval?.toString()}D`);
+    return { ...data, title };
+  });
+
   return (
     <Table.Cell {...otherProps}>
       <div className={styles.inboundFulfillableStat}>
-        {displayData.map((data, index) => {
+        {updatedDisplayData.map((data, index) => {
           const displayStat = formatNumber(rowData[data.dataKey]) || 0;
 
           return (

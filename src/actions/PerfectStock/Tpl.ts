@@ -23,7 +23,8 @@ export const isLoadingTplVendors = (payload: boolean) => {
 };
 
 /* Action to set tpl vendors results */
-export const setTplVendors = (payload: any) => {
+export const setTplVendors = (payload: TplVendor[]) => {
+  console.log(payload, 'payload');
   return {
     type: actionTypes.SET_TPL_VENDORS,
     payload,
@@ -31,7 +32,7 @@ export const setTplVendors = (payload: any) => {
 };
 
 /* Action to set active tpl vendor */
-export const setTplActiveVendor = (payload: any) => {
+export const setTplActiveVendor = (payload: TplVendor) => {
   return {
     type: actionTypes.SET_TPL_ACTIVE_VENDOR,
     payload,
@@ -45,6 +46,18 @@ export const isLoadingTplSkuData = (payload: boolean) => {
   };
 };
 
+export const setSingleTplSku = (payload: any) => (dispatch: any, getState: any) => {
+  dispatch(isLoadingTplSkuData(true));
+  const tplSkuData = getTplSkuData(getState());
+  const tplSkuDataNew = tplSkuData.map((sku: any) => {
+    if (sku.id === payload.id) {
+      return payload;
+    }
+    return sku;
+  });
+  dispatch(setTplSkuData(tplSkuDataNew));
+  dispatch(isLoadingTplSkuData(false));
+};
 export const setTplSkuData = (payload: any) => {
   return {
     type: actionTypes.SET_TPL_SKU_DATA,
@@ -72,7 +85,7 @@ export const setTplSkuData = (payload: any) => {
 
 /*********** Async Actions ************************ */
 /* Action to fetch products database */
-export const fetchTplVendors = () => async (dispatch: any) => {
+export const fetchTplVendors = () => async (dispatch: any, getState: any) => {
   dispatch(isLoadingTplVendors(true));
   try {
     const sellerId = sellerIDSelector();
@@ -80,9 +93,13 @@ export const fetchTplVendors = () => async (dispatch: any) => {
 
     const { data } = await axios.get(URL);
     if (data) {
-      dispatch(setTplVendors(data.results));
+      dispatch(setTplVendors(data));
       if (data && data.length > 0) {
-        dispatch(setTplActiveVendor(data[0]));
+        const state = getState();
+        const activeVendor = getTplActiveVendor(state);
+        if (!activeVendor.id) {
+          dispatch(setTplActiveVendor(data[0]));
+        }
       }
     }
   } catch (err) {
@@ -100,7 +117,7 @@ export const createUpdateTplVendor = (payload: TplVendor) => async (dispatch: an
     const sellerId = sellerIDSelector();
     let data;
 
-    if (payload.id) {
+    if (payload.id && !payload.isNew) {
       const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/vendor/${payload.id}`;
       const res = await axios.patch(URL, payload);
       data = res.data;
@@ -111,8 +128,8 @@ export const createUpdateTplVendor = (payload: TplVendor) => async (dispatch: an
     }
 
     if (data) {
-      success('Perfect Stock Vendor Saved');
       dispatch(fetchTplVendors());
+      success('Perfect Stock Vendor Saved');
     }
   } catch (err) {
     dispatch(setTplVendors([]));
@@ -126,12 +143,9 @@ export const fetchTplSkuData = () => async (dispatch: any, getState: any) => {
   try {
     const state = getState();
     const vendor = getTplActiveVendor(state);
-    console.log(vendor);
     const sellerId = sellerIDSelector();
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/sku-tpl-data?vendor_id=1`;
-
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/sku-tpl-data?vendor_id=${vendor.id}`;
     const { data } = await axios.get(URL);
-    console.log(data);
     if (data) {
       dispatch(setTplSkuData(data.results));
     }
@@ -166,8 +180,9 @@ export const updateTplSkuData = (payload: UpdateTplSkuPayload) => async (
 
     /* Revert changes if error */
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/sku-tpl-data/${payload.id}`;
-    const { status } = await axios.patch(URL, payload);
+    const { status, data } = await axios.patch(URL, payload);
     if (status === 200) {
+      dispatch(setSingleTplSku(data));
       success('Successfully updated.');
     } else {
       dispatch(setTplSkuData(oldTplSkuData));

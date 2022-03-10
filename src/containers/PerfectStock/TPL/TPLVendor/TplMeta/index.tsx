@@ -8,31 +8,31 @@ import axios from 'axios';
 import styles from './index.module.scss';
 
 /* Components */
-import TableExport from '../../../../components/NewTable/TableExport';
-import TooltipWrapper from '../../../../components/TooltipWrapper';
-import BoxHeader from '../../../../components/BoxHeader';
-import BoxContainer from '../../../../components/BoxContainer';
-import ActionButton from '../../../../components/ActionButton';
+import TableExport from '../../../../../components/NewTable/TableExport';
+import TooltipWrapper from '../../../../../components/TooltipWrapper';
+import BoxHeader from '../../../../../components/BoxHeader';
+import BoxContainer from '../../../../../components/BoxContainer';
+import ActionButton from '../../../../../components/ActionButton';
 
 /* Assets */
-import { ReactComponent as UndoIcon } from '../../../../assets/images/undoIcon.svg';
-import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
+import { ReactComponent as UndoIcon } from '../../../../../assets/images/undoIcon.svg';
+import { ReactComponent as XLSXExportImage } from '../../../../../assets/images/xlsxExportImage.svg';
 
 /* Selectors */
 import {
   getSalesProjectionUpdateDate,
   getIsFetchingProgressForRefresh,
-} from '../../../../selectors/PerfectStock/SalesProjection';
+} from '../../../../../selectors/PerfectStock/SalesProjection';
 
 /* Actions */
-import { refreshSalesProjection } from '../../../../actions/PerfectStock/SalesProjection';
+import { refreshSalesProjection } from '../../../../../actions/PerfectStock/SalesProjection';
 
 /* Utils */
-import { downloadFile } from '../../../../utils/download';
-import { AppConfig } from '../../../../config';
-import { sellerIDSelector } from '../../../../selectors/Seller';
-import { error, success } from '../../../../utils/notifications';
-import { getDateOnly } from '../../../../utils/date';
+import { downloadFile } from '../../../../../utils/download';
+import { AppConfig } from '../../../../../config';
+import { sellerIDSelector } from '../../../../../selectors/Seller';
+import { error, success } from '../../../../../utils/notifications';
+import { getDateOnly } from '../../../../../utils/date';
 
 interface Props {
   salesProjectionUpdateDate: string;

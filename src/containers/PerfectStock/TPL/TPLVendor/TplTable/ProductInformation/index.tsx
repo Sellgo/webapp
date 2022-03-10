@@ -5,14 +5,14 @@ import { Table } from 'rsuite';
 import styles from './index.module.scss';
 
 /* Components */
-import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipboard';
-import TooltipWrapper from '../../../../../components/TooltipWrapper';
+import CopyAndLocateClipboard from '../../../../../../components/CopyAndLocateClipboard';
+import TooltipWrapper from '../../../../../../components/TooltipWrapper';
 
 /* Images */
-import placeholderImage from '../../../../../assets/images/placeholderImage.svg';
+import placeholderImage from '../../../../../../assets/images/placeholderImage.svg';
 
 /* Interface */
-import { RowCell } from '../../../../../interfaces/Table';
+import { RowCell } from '../../../../../../interfaces/Table';
 
 const ProductInformation = (props: RowCell) => {
   const { rowData } = props;
@@ -31,7 +31,7 @@ const ProductInformation = (props: RowCell) => {
             <div className={styles.flagAndAsinCol}>
               <img
                 className={styles.flagIcon}
-                src={require(`../../../../../assets/flags/US.png`)}
+                src={require(`../../../../../../assets/flags/US.png`)}
               />
               {/* ASIN and UPC details */}
               <div className={styles.productTitleTextBox}>

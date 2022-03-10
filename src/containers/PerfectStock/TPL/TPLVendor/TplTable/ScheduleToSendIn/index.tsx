@@ -6,15 +6,18 @@ import { connect } from 'react-redux';
 /* Styling */
 import styles from './index.module.scss';
 
+/* Constants */
+import { SEND_IN_INTERVALS } from '../../../../../../constants/PerfectStock/Tpl';
+
 /* Interface */
-import { RowCell } from '../../../../../interfaces/Table';
-import { UpdateTplSkuPayload } from '../../../../../interfaces/PerfectStock/Tpl';
+import { RowCell } from '../../../../../../interfaces/Table';
+import { UpdateTplSkuPayload } from '../../../../../../interfaces/PerfectStock/Tpl';
 
 /* Components */
-import ToggleRadio from '../../../../../components/ToggleRadio';
+import ToggleRadio from '../../../../../../components/ToggleRadio';
 
 /* Actions */
-import { updateTplSkuData } from '../../../../../actions/PerfectStock/Tpl';
+import { updateTplSkuData } from '../../../../../../actions/PerfectStock/Tpl';
 
 interface Props extends RowCell {
   updateTplSkuData: (payload: UpdateTplSkuPayload) => void;
@@ -35,44 +38,29 @@ const ScheduleToSendIn = (props: Props) => {
     updateTplSkuData(payload);
   };
 
-  const handleInventoryThresholdToggle = (stockoutThresholdInventory: boolean) => {
-    console.log('Toggle', stockoutThresholdInventory);
-    // updateSalesProjectionProduct({
-    //   id: rowData.id,
-    //   updatePayload: {
-    //     stockout_threshold_inventory_included: stockoutThresholdInventory ? 'true' : 'false',
-    //   },
-    // });
+  const handleInventoryThresholdToggle = (isToggled: boolean) => {
+    const payload: UpdateTplSkuPayload = {
+      id: rowData.id,
+      status: isToggled ? 'active' : 'inactive',
+    };
+    updateTplSkuData(payload);
   };
 
-  const options = [
-    {
-      key: '1',
-      value: '1',
-      text: 'Daily',
-    },
-    {
-      key: '7',
-      value: '7',
-      text: 'Weekly',
-    },
-  ];
-
-  const selectedDisplayText = options.find(option => option.value === rowData[dataKey]?.toString())
-    ?.text;
+  const selectedDisplayText = SEND_IN_INTERVALS.find(
+    option => option.value === rowData[dataKey]?.toString()
+  )?.text;
   return (
     <Table.Cell {...otherProps}>
       <div
         className={`
-          ${styles.inventoryThresholdCell}`}
+          ${styles.scheduleToSendInCell}`}
       >
         <ToggleRadio
-          isToggled={rowData.stockout_threshold_inventory_included ? true : false}
-          handleChange={() =>
-            handleInventoryThresholdToggle(!rowData.stockout_threshold_inventory_included)
-          }
+          isToggled={rowData.status === 'active' ? true : false}
+          handleChange={() => handleInventoryThresholdToggle(!(rowData.status === 'active'))}
           label={'Active'}
           className={styles.toggleButton}
+          isRainbow
         />
         <Popup
           on="click"
@@ -91,7 +79,7 @@ const ScheduleToSendIn = (props: Props) => {
           position="bottom center"
           content={
             <div className={styles.optionsWrapper}>
-              {options.map(option => (
+              {SEND_IN_INTERVALS.map(option => (
                 <div
                   className={styles.option}
                   key={option.key}

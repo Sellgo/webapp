@@ -1,24 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'rsuite';
-import { Radio } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
 import './toggleReset.scss';
 
 /* Actions */
-import { updateTplSkuData } from '../../../../../actions/PerfectStock/Tpl';
+import { updateTplSkuData } from '../../../../../../actions/PerfectStock/Tpl';
 
 /* Components */
-import InputWithSaveOptions from '../../../../../components/InputWithSaveOptions';
+import InputWithSaveOptions from '../../../../../../components/InputWithSaveOptions';
 
 /* Interface */
-import { RowCell } from '../../../../../interfaces/Table';
-import { UpdateTplSkuPayload } from '../../../../../interfaces/PerfectStock/Tpl';
+import { RowCell } from '../../../../../../interfaces/Table';
+import { UpdateTplSkuPayload } from '../../../../../../interfaces/PerfectStock/Tpl';
 
 /* Utils */
-import { formatNumber } from '../../../../../utils/format';
+import { formatNumber } from '../../../../../../utils/format';
 
 interface Props extends RowCell {
   updateTplSkuData: (payload: UpdateTplSkuPayload) => void;
@@ -38,16 +37,15 @@ const DaysOfInventory = (props: Props) => {
     updateTplSkuData(payload);
   };
 
-  const handleChangeProjectionMode = () => {
-    console.log('Change Mode');
-    // const payload: SalesProjectionUpdatePayload = {
-    //   id: rowData.id,
-    //   updatePayload: {
-    //     projection_mode: usingPredictiveSales ? 'manual' : 'predictive',
-    //   },
-    // };
-    // updateSalesProjectionProduct(payload);
-  };
+  // const handleChangeProjectionMode = () => {
+  //   const payload: SalesProjectionUpdatePayload = {
+  //     id: rowData.id,
+  //     updatePayload: {
+  //       projection_mode: usingPredictiveSales ? 'manual' : 'predictive',
+  //     },
+  //   };
+  //   updateSalesProjectionProduct(payload);
+  // };
 
   const displayPredictiveSales = formatNumber(rowData.days_of_inventory) || '';
   const defaultManualSalesPrediction = rowData.days_of_inventory;
@@ -58,13 +56,13 @@ const DaysOfInventory = (props: Props) => {
         className={`
           ${styles.salesPrediction} salesPrediction`}
       >
-        <Radio
+        {/* <Radio
           label={usingPredictiveSales ? 'Predictive' : 'Manual'}
           className={styles.radioSelection}
           checked={usingPredictiveSales}
           onChange={handleChangeProjectionMode}
           toggle
-        />
+        /> */}
         {usingPredictiveSales ? (
           displayPredictiveSales
         ) : (
