@@ -6,14 +6,14 @@ import styles from './index.module.scss';
 
 /* Interface */
 import { RowCell } from '../../../../../../interfaces/Table';
-import { formatNumber, showNAIfNull } from '../../../../../../utils/format';
+import { formatNumber, showNAIfNull, formatDecimal } from '../../../../../../utils/format';
 
 const SingleStatBox = (props: RowCell) => {
   const { rowData, dataKey } = props;
   const displayStat = showNAIfNull(rowData[`${dataKey}`], formatNumber(rowData[`${dataKey}`]));
   const displayChange = showNAIfNull(
     rowData[`${dataKey}_change`],
-    formatNumber(rowData[`${dataKey}_change`])
+    formatDecimal(rowData[`${dataKey}_change`])
   );
 
   if (displayStat === '0') {
@@ -30,8 +30,13 @@ const SingleStatBox = (props: RowCell) => {
     <Table.Cell {...props}>
       <div className={styles.displayStatWrapper}>
         <span className={styles.displayStat}>{displayStat}</span>
-        <span className={styles.change}>
-          {displayChange !== '0' && displayChange !== '-' ? `${displayChange}%` : ''}
+        <span
+          className={`
+          ${styles.change}
+          ${parseFloat(displayChange) < 0 ? styles.change__negative : styles.change__positive}
+        `}
+        >
+          {displayChange !== '0.00' && displayChange !== '-' ? `${displayChange}%` : ''}
         </span>
       </div>
     </Table.Cell>

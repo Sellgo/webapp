@@ -31,5 +31,13 @@
     margin-top: 5px;
     font-size: 10px;
     font-weight: $fontweight_medium;
+
+    &__negative {
+      color: $system_red;
+    }
+
+    &__positive {
+      color: $system_green;
+    }
   }
 }
