@@ -8,6 +8,10 @@ import SettingsNav from '../SettingsNav';
 /* Utils */
 import { isFirstTimeLoggedIn } from '../../../utils/subscriptions';
 
+/* Components */
+import ElevioArticle from '../../../components/ElevioArticle';
+import BoxContainer from '../../../components/BoxContainer';
+
 interface Props {
   match: any;
   hideSettingsNav?: boolean;
@@ -34,6 +38,10 @@ const Connectivity = (props: Props) => {
       <main className={styles.connectivityPageWrapper}>
         {!hideSettingsNav && <SettingsNav match={match} />}
         <SpApiForm />
+        <BoxContainer className={styles.elevioArticle}>
+          <span>Step-By-Step Guide</span>
+          <ElevioArticle articleId={'4'} />
+        </BoxContainer>
       </main>
     </>
   );

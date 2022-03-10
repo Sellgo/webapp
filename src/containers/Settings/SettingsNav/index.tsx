@@ -58,7 +58,6 @@ const SettingsNav = (props: Props) => {
         <img src={LeftArrow} alt="left arrow" />
         Back to previous page
       </button>
-
       {!firstTimeLoggedIn && (
         <div className={styles.settingsPagesMenu}>
           {filteredSettingsPages.map((page: any) => {
