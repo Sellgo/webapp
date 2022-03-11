@@ -55,6 +55,7 @@ const AddEditSkuModal = (props: Props) => {
         };
       }),
     };
+
     try {
       const { status } = await axios.post(
         `${

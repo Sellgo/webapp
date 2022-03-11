@@ -214,6 +214,10 @@ const TplTable = (props: Props) => {
                   title: 'Using Pred:',
                   dataKey: 'send_quantity_predictive',
                 },
+                {
+                  title: 'Avg:',
+                  dataKey: 'send_quantity_avg',
+                },
               ]}
               dataKey="working"
             />

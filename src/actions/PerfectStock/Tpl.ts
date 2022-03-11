@@ -152,9 +152,11 @@ export const fetchTplSkuData = () => async (dispatch: any, getState: any) => {
     const vendor = getTplActiveVendor(state);
     const sellerId = sellerIDSelector();
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/sku-tpl-data?vendor_id=${vendor.id}`;
-    const { data } = await axios.get(URL);
-    if (data) {
-      dispatch(setTplSkuData(data.results));
+    if (vendor.id) {
+      const { data } = await axios.get(URL);
+      if (data) {
+        dispatch(setTplSkuData(data.results));
+      }
     }
   } catch (err) {
     dispatch(setTplSkuData([]));
