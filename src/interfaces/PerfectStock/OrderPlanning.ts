@@ -87,10 +87,23 @@ export interface InventorySkuUpdatePayload {
 }
 
 export interface CreateOrderPayload {
-  date: string;
+  creation_type: string; // 'single' | 'multiple';
+
+  /* All Orders */
+  start_date?: string;
+  end_date?: string;
   lead_time_group_id: number;
-  approach: 'inventory';
-  auto_generate_orders_days: number;
+  merchant_listings: any[];
+  vendor_id?: number;
+
+  /* Smart Order */
+  approach?: string; //'time' | 'moq' | 'inventory'
+  auto_generate_orders_days?: number;
+  interval?: number;
+  priority_merchant_listing_id?: number;
+  stockout_buffer_days?: number;
+  stockout_buffer_perc?: number;
+  n_days_limit?: number;
 }
 
 export interface DraftOrderInformation {

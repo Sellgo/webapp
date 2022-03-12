@@ -35,8 +35,13 @@ import {
 import { error, success } from '../../../../utils/notifications';
 
 /* Constants */
-import { CREATE_ORDER_STATUS } from '../../../../constants/PerfectStock/OrderPlanning';
+import {
+  CREATE_ORDER_STATUS,
+  CREATE_ORDER_FLOW,
+} from '../../../../constants/PerfectStock/OrderPlanning';
 import history from '../../../../history';
+import OrderTypeSelection from './OrderTypeSelection';
+import OrderOptimisationSelection from './OrderOptimisationSelection';
 
 interface Props {
   open: boolean;
@@ -58,7 +63,8 @@ const CreateOrder = (props: Props) => {
   } = props;
 
   const DEFAULT_ORDER: CreateOrderPayload = {
-    date: '',
+    creation_type: '',
+    merchant_listings: [],
     lead_time_group_id: -1,
     approach: 'inventory',
     auto_generate_orders_days: -1,
@@ -67,8 +73,9 @@ const CreateOrder = (props: Props) => {
   const [createOrderPayload, setCreateOrderPayload] = React.useState<CreateOrderPayload>(
     DEFAULT_ORDER
   );
-  const [createOrderStatus, setCreateOrderStatus] = React.useState<number>(
-    CREATE_ORDER_STATUS.SELECT_START_DATE
+  const [createOrderStep, setCreateOrderStep] = React.useState<number>(0);
+  const [createOrderSelectedFlow, setCreateOrderSelectedFlow] = React.useState<string[]>(
+    CREATE_ORDER_FLOW.SINGLE_ORDER
   );
 
   const handleCreateOrder = async () => {
@@ -81,7 +88,7 @@ const CreateOrder = (props: Props) => {
         setActivePurchaseOrder(res.data.purchase_order);
         fetchPurchaseOrders();
         success('Successfully created smart order template.');
-        setCreateOrderStatus(createOrderStatus + 1);
+        setCreateOrderStep(createOrderStep + 1);
       } else {
         isLoadingPurchaseOrders(false);
         setPurchaseOrdersLoadingMessage('');
@@ -98,8 +105,29 @@ const CreateOrder = (props: Props) => {
   /* Reset the create order flow every time user cancels/opens modal*/
   React.useEffect(() => {
     setCreateOrderPayload(DEFAULT_ORDER);
-    setCreateOrderStatus(CREATE_ORDER_STATUS.SELECT_START_DATE);
+    setCreateOrderStep(0);
   }, [open]);
+
+  React.useEffect(() => {
+    if (createOrderPayload.creation_type === 'single') {
+      setCreateOrderSelectedFlow(CREATE_ORDER_FLOW.SINGLE_ORDER);
+    } else if (
+      createOrderPayload.creation_type === 'multiple' &&
+      createOrderPayload.approach === 'inventory'
+    ) {
+      setCreateOrderSelectedFlow(CREATE_ORDER_FLOW.SMART_ORDER_INVENTORY);
+    } else if (
+      createOrderPayload.creation_type === 'multiple' &&
+      createOrderPayload.approach === 'time'
+    ) {
+      setCreateOrderSelectedFlow(CREATE_ORDER_FLOW.SMART_ORDER_TIME);
+    } else if (
+      createOrderPayload.creation_type === 'multiple' &&
+      createOrderPayload.approach === 'moq'
+    ) {
+      setCreateOrderSelectedFlow(CREATE_ORDER_FLOW.SMART_ORDER_MOQ);
+    }
+  }, [createOrderPayload.creation_type, createOrderPayload.approach]);
 
   const handleRedirectToDraftOrder = () => {
     history.push('/aistock/create-order');
@@ -108,14 +136,39 @@ const CreateOrder = (props: Props) => {
 
   let content: JSX.Element;
   let headerContent: string;
-  switch (createOrderStatus) {
+
+  const currentStep = createOrderSelectedFlow[createOrderStep];
+  switch (currentStep) {
+    case CREATE_ORDER_STATUS.SELECT_ORDER_TYPE:
+      headerContent = 'Select order type';
+      content = (
+        <OrderTypeSelection
+          onCloseModal={onCloseModal}
+          createOrderPayload={createOrderPayload}
+          setCreateOrderPayload={setCreateOrderPayload}
+          handleNext={() => setCreateOrderStep(createOrderStep + 1)}
+        />
+      );
+      break;
+
+    case CREATE_ORDER_STATUS.SELECT_OPTIMISATION_TYPE:
+      headerContent = 'Select optimisation type';
+      content = (
+        <OrderOptimisationSelection
+          handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
+          createOrderPayload={createOrderPayload}
+          setCreateOrderPayload={setCreateOrderPayload}
+          handleNext={() => setCreateOrderStep(createOrderStep + 1)}
+        />
+      );
+      break;
     case CREATE_ORDER_STATUS.SELECT_START_DATE:
       content = (
         <StartDateSelection
           onCloseModal={onCloseModal}
           createOrderPayload={createOrderPayload}
           setCreateOrderPayload={setCreateOrderPayload}
-          handleNext={() => setCreateOrderStatus(createOrderStatus + 1)}
+          handleNext={() => setCreateOrderStep(createOrderStep + 1)}
         />
       );
       headerContent = '1ST ORDER DATE';
@@ -123,7 +176,7 @@ const CreateOrder = (props: Props) => {
     case CREATE_ORDER_STATUS.SELECT_LEAD_TIME:
       content = (
         <LeadTimeSelection
-          handlePrevious={() => setCreateOrderStatus(createOrderStatus - 1)}
+          handlePrevious={() => setCreateOrderStep(createOrderStep - 1)}
           createOrderPayload={createOrderPayload}
           setCreateOrderPayload={setCreateOrderPayload}
           handleNext={handleCreateOrder}
@@ -132,7 +185,7 @@ const CreateOrder = (props: Props) => {
       headerContent = 'LEAD TIME';
       break;
 
-    case CREATE_ORDER_STATUS.ORDER_CREATION_SUCCESS:
+    case CREATE_ORDER_STATUS.ORDER_CREATED:
       content = <OrderCreated handleNext={handleRedirectToDraftOrder} />;
       headerContent = 'SMART ORDER TEMPLATE';
       break;

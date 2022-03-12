@@ -50,7 +50,7 @@ const LeadTimeSelection = (props: Props) => {
 
   /* Disable user from proceeding when any of the fields are empty */
   const isHandleNextDisabled =
-    createOrderPayload.date === '' || createOrderPayload.lead_time_group_id === -1;
+    createOrderPayload.start_date === '' || createOrderPayload.lead_time_group_id === -1;
 
   React.useEffect(() => {
     fetchLeadTimeGroups();
@@ -89,7 +89,7 @@ const LeadTimeSelection = (props: Props) => {
               )?.lead_times || []
             }
             showDates
-            startDate={createOrderPayload.date}
+            startDate={createOrderPayload.start_date}
           />
         )}
       </div>

@@ -1,0 +1,89 @@
+@import '../../../../../design-system/new-colors';
+
+.createOrderWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.createOrderBox {
+  min-width: 0 !important;
+  padding: 30px;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    margin-bottom: 30px;
+    line-height: normal;
+    font-size: 24px;
+    font-weight: $fontweight_bold;
+    color: $black_1;
+  }
+}
+
+.buttonsRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+
+  > div {
+    margin-left: 18px;
+  }
+}
+
+.inputRadioRow {
+  border-radius: 7px;
+  min-height: 50px;
+  width: 600px;
+  padding: 0 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: 1px solid $grey_3;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1);
+  color: $grey_8;
+  font-size: 14px;
+  font-weight: $fontweight_medium;
+  margin-top: 10px;
+  opacity: 0.7;
+
+  .inputFilter {
+    width: 70px !important;
+    min-width: 0;
+  }
+
+  .intervalWrapper {
+    align-self: flex-end;
+    margin: 18px 0;
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__selected {
+    font-weight: $fontweight_semibold !important;
+    background: $grey_10;
+    opacity: 1;
+  }
+
+  &__interval {
+    background: $prim_white;
+    border-radius: 7px;
+    border: 1px solid $grey_3;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1);
+    margin-bottom: 5px;
+    padding: 10px 18px;
+
+    label {
+      font-size: 12px !important;
+      color: $black_1 !important;
+    }
+  }
+
+  &:hover {
+    background: $grey_10;
+  }
+}

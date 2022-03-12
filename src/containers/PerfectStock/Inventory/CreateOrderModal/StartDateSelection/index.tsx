@@ -22,7 +22,7 @@ const StartDateSelection = (props: Props) => {
   const { onCloseModal, handleNext, createOrderPayload, setCreateOrderPayload } = props;
 
   /* Disable user from proceeding when any of the fields are empty */
-  const isHandleNextDisabled = createOrderPayload.date === '';
+  const isHandleNextDisabled = createOrderPayload.start_date === '';
 
   return (
     <div className={styles.createOrderWrapper}>
@@ -30,11 +30,13 @@ const StartDateSelection = (props: Props) => {
         <h2>When would you like to start the first order?*</h2>
         <div className={styles.inputField}>
           <DatePicker
-            selected={createOrderPayload.date ? new Date(createOrderPayload.date) : new Date()}
+            selected={
+              createOrderPayload.start_date ? new Date(createOrderPayload.start_date) : new Date()
+            }
             onChange={(date: Date) => {
               setCreateOrderPayload({
                 ...createOrderPayload,
-                date: date ? date.toISOString().split('T')[0] : '',
+                start_date: date ? date.toISOString().split('T')[0] : '',
               });
             }}
             disabledDate={(date: Date | undefined) =>
