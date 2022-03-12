@@ -1,3 +1,5 @@
+import { SingleLeadTimeGroup } from './SalesProjection';
+
 export interface DateRange {
   startDate: string;
   endDate: string;
@@ -90,9 +92,10 @@ export interface CreateOrderPayload {
   creation_type: string; // 'single' | 'multiple';
 
   /* All Orders */
-  start_date?: string;
-  end_date?: string;
+  start_date?: string | null;
+  end_date?: string | null;
   lead_time_group_id: number;
+  lead_time_group?: SingleLeadTimeGroup;
   merchant_listings: any[];
   vendor_id?: number;
 

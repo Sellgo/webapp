@@ -10,15 +10,26 @@ interface Props {
   className?: string;
   showDates?: boolean;
   startDate?: string;
+  endDate?: string;
 }
 
 const LeadTimeBar = (props: Props) => {
-  const { leadTimes, className, showDates, startDate } = props;
-  const currDate = startDate ? new Date(startDate) : new Date();
+  const { leadTimes, className, showDates, startDate, endDate } = props;
   const totalLeadTimes = leadTimes?.reduce((accumulator, currentValue) => {
     return accumulator + currentValue.duration;
   }, 0);
 
+  let currDate: Date;
+  if (startDate) {
+    currDate = startDate ? new Date(startDate) : new Date();
+  } else if (endDate) {
+    /* Curr date = end date minus total lead times */
+    currDate = endDate ? new Date(endDate) : new Date();
+    currDate.setDate(currDate.getDate() - totalLeadTimes);
+  } else {
+    currDate = new Date();
+  }
+  const firstDate = new Date(currDate.getTime());
   return (
     <div className={`${styles.leadTimeBarWrapper} ${className}`}>
       {leadTimes?.map((leadTime, index) => {
@@ -34,11 +45,11 @@ const LeadTimeBar = (props: Props) => {
             key={index}
           >
             {/* Edge case for first date */}
-            {showDates && startDate && index === 0 && (
+            {showDates && index === 0 && (
               <div className={`${styles.dateWrapper} ${styles.dateWrapper__first}`}>
                 <div className={styles.line} />
                 <div className={styles.date}>
-                  {new Date(startDate).toLocaleDateString('en-US', {
+                  {firstDate.toLocaleDateString('en-US', {
                     month: 'short',
                     day: 'numeric',
                   })}
@@ -50,7 +61,7 @@ const LeadTimeBar = (props: Props) => {
                 {getLeadTimeName(leadTime.type)}&nbsp;{leadTime.duration}D
               </p>
             </div>
-            {showDates && startDate && (
+            {showDates && (
               <div className={styles.dateWrapper}>
                 <div className={styles.line} />
                 <div className={styles.date}>

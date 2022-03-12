@@ -1,4 +1,5 @@
 import React from 'react';
+import { Checkbox } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -8,7 +9,6 @@ import ActionButton from '../../../../../components/ActionButton';
 
 /* Interfaces */
 import { CreateOrderPayload } from '../../../../../interfaces/PerfectStock/OrderPlanning';
-import { Checkbox } from 'semantic-ui-react';
 
 interface Props {
   handlePrev: () => void;

@@ -32,7 +32,7 @@ const OrderTypeSelection = (props: Props) => {
       setCreateOrderPayload({
         ...createOrderPayload,
         creation_type: 'multiple',
-        interval: smartOrderInterval,
+        auto_generate_orders_days: smartOrderInterval,
       });
     }
     handleNext();
@@ -70,15 +70,15 @@ const OrderTypeSelection = (props: Props) => {
               onChange={() => setSmartOrderInterval(1)}
             />
             <Checkbox
-              checked={smartOrderInterval === 12}
-              onChange={() => setSmartOrderInterval(12)}
+              checked={smartOrderInterval === 365}
+              onChange={() => setSmartOrderInterval(365)}
               radio
               label="Future 12 months"
               className={styles.inputRadioRow__interval}
             />
             <Checkbox
-              checked={smartOrderInterval === 24}
-              onChange={() => setSmartOrderInterval(24)}
+              checked={smartOrderInterval === 730}
+              onChange={() => setSmartOrderInterval(730)}
               radio
               label="Future 24 months"
               className={styles.inputRadioRow__interval}

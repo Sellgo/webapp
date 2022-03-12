@@ -11,8 +11,6 @@ import LeadTimeBar from '../../../../../components/LeadTimeBar';
 
 /* Interfaces */
 import { CreateOrderPayload } from '../../../../../interfaces/PerfectStock/OrderPlanning';
-
-/* Types */
 import { SingleLeadTimeGroup } from '../../../../../interfaces/PerfectStock/SalesProjection';
 
 /* Utils */
@@ -63,6 +61,18 @@ const LeadTimeSelection = (props: Props) => {
     handleNext();
   };
 
+  const handleSelectLeadTime = (leadTimeGroupId: string) => {
+    const leadTimeGroup = leadTimeGroups.find(
+      leadTimeGroup => leadTimeGroup.id?.toString() === leadTimeGroupId
+    );
+
+    setCreateOrderPayload({
+      ...createOrderPayload,
+      lead_time_group_id: parseInt(leadTimeGroupId),
+      lead_time_group: leadTimeGroup,
+    });
+  };
+
   return (
     <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>
@@ -70,12 +80,7 @@ const LeadTimeSelection = (props: Props) => {
         <SelectionFilter
           filterOptions={leadTimeOptions}
           value={createOrderPayload.lead_time_group_id.toString()}
-          handleChange={(value: string) =>
-            setCreateOrderPayload({
-              ...createOrderPayload,
-              lead_time_group_id: parseInt(value),
-            })
-          }
+          handleChange={handleSelectLeadTime}
           placeholder=""
           label=""
           className={styles.inputField}
@@ -83,13 +88,7 @@ const LeadTimeSelection = (props: Props) => {
         {createOrderPayload.lead_time_group_id !== -1 && (
           <LeadTimeBar
             className={styles.leadTimeBar}
-            leadTimes={
-              leadTimeGroups.find(
-                leadTimeGroup => leadTimeGroup.id === createOrderPayload.lead_time_group_id
-              )?.lead_times || []
-            }
-            showDates
-            startDate={createOrderPayload.start_date}
+            leadTimes={createOrderPayload.lead_time_group?.lead_times || []}
           />
         )}
       </div>
@@ -112,7 +111,7 @@ const LeadTimeSelection = (props: Props) => {
           disabled={isHandleNextDisabled}
           loading={isCreatingOrder}
         >
-          Submit
+          Next
         </ActionButton>
       </div>
     </div>

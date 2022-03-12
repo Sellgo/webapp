@@ -9,11 +9,15 @@ import styles from './index.module.scss';
 /* Components */
 import BoxHeader from '../../../../components/BoxHeader';
 import BoxContainer from '../../../../components/BoxContainer';
-// import BoxFooter from '../../../../components/BoxFooter';
 import StartDateSelection from './StartDateSelection';
 import LeadTimeSelection from './LeadTimeSelection';
 import OrderCreated from './OrderCreatedSuccess';
-// import { ReactComponent as YoutubeLogo } from '../../../../assets/images/youtubeLogo.svg';
+import OrderTypeSelection from './OrderTypeSelection';
+import OrderOptimisationSelection from './OrderOptimisationSelection';
+import SkuSelection from './SkuSelection';
+import PrioritySkuSelection from './PrioritySkuSelection';
+import InventoryThresholdSelection from './InventoryThresholdSelection';
+import OrderIntervalSelection from './OrderIntervalSelection';
 
 /* Interfaces */
 import {
@@ -40,8 +44,6 @@ import {
   CREATE_ORDER_FLOW,
 } from '../../../../constants/PerfectStock/OrderPlanning';
 import history from '../../../../history';
-import OrderTypeSelection from './OrderTypeSelection';
-import OrderOptimisationSelection from './OrderOptimisationSelection';
 
 interface Props {
   open: boolean;
@@ -73,17 +75,29 @@ const CreateOrder = (props: Props) => {
   const [createOrderPayload, setCreateOrderPayload] = React.useState<CreateOrderPayload>(
     DEFAULT_ORDER
   );
+  const [isCreateOrderLoading, setIsCreateOrderLoading] = React.useState<boolean>(false);
   const [createOrderStep, setCreateOrderStep] = React.useState<number>(0);
   const [createOrderSelectedFlow, setCreateOrderSelectedFlow] = React.useState<string[]>(
     CREATE_ORDER_FLOW.SINGLE_ORDER
   );
 
-  const handleCreateOrder = async () => {
+  const handleCreateOrder = async (payload: CreateOrderPayload) => {
+    setIsCreateOrderLoading(true);
     isLoadingPurchaseOrders(true);
     setPurchaseOrdersLoadingMessage('Order creation in progress...');
+
+    /* Replacing merchant_listings with merchant_listing_ids in payload */
+    const merchantListings = payload.merchant_listings;
+    const merchantListingIdsWithMoq = merchantListings.map((merchantListing: any) => {
+      return {
+        merchant_listing_id: merchantListing.id,
+        moq: merchantListing.moq,
+      };
+    });
+    payload.merchant_listings = merchantListingIdsWithMoq;
     try {
       const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-order-templates`;
-      const res = await axios.post(url, createOrderPayload);
+      const res = await axios.post(url, payload);
       if (res.status === 201) {
         setActivePurchaseOrder(res.data.purchase_order);
         fetchPurchaseOrders();
@@ -100,6 +114,7 @@ const CreateOrder = (props: Props) => {
       setPurchaseOrdersLoadingMessage('');
       error('Failed to add');
     }
+    setIsCreateOrderLoading(false);
   };
 
   /* Reset the create order flow every time user cancels/opens modal*/
@@ -162,13 +177,59 @@ const CreateOrder = (props: Props) => {
         />
       );
       break;
-    case CREATE_ORDER_STATUS.SELECT_START_DATE:
+
+    case CREATE_ORDER_STATUS.SELECT_SKUS:
+      headerContent = 'Select SKUs';
       content = (
-        <StartDateSelection
-          onCloseModal={onCloseModal}
+        <SkuSelection
+          handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
           createOrderPayload={createOrderPayload}
           setCreateOrderPayload={setCreateOrderPayload}
           handleNext={() => setCreateOrderStep(createOrderStep + 1)}
+        />
+      );
+      break;
+    case CREATE_ORDER_STATUS.SELECT_PRIORITY_SKUS:
+      headerContent = 'Select Priority SKUs';
+      content = (
+        <PrioritySkuSelection
+          handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
+          createOrderPayload={createOrderPayload}
+          setCreateOrderPayload={setCreateOrderPayload}
+          handleNext={() => setCreateOrderStep(createOrderStep + 1)}
+        />
+      );
+      break;
+    case CREATE_ORDER_STATUS.SELECT_INVENTORY_THRESHOLD:
+      headerContent = 'Select Inventory Level';
+      content = (
+        <InventoryThresholdSelection
+          handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
+          createOrderPayload={createOrderPayload}
+          setCreateOrderPayload={setCreateOrderPayload}
+          handleNext={() => setCreateOrderStep(createOrderStep + 1)}
+        />
+      );
+      break;
+    case CREATE_ORDER_STATUS.SELECT_TIME_INTERVAL:
+      headerContent = 'Select Interval';
+      content = (
+        <OrderIntervalSelection
+          handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
+          createOrderPayload={createOrderPayload}
+          setCreateOrderPayload={setCreateOrderPayload}
+          handleNext={() => setCreateOrderStep(createOrderStep + 1)}
+        />
+      );
+      break;
+    case CREATE_ORDER_STATUS.SELECT_START_DATE:
+      content = (
+        <StartDateSelection
+          handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
+          createOrderPayload={createOrderPayload}
+          setCreateOrderPayload={setCreateOrderPayload}
+          handleCreateOrder={handleCreateOrder}
+          isCreateOrderLoading={isCreateOrderLoading}
         />
       );
       headerContent = '1ST ORDER DATE';
@@ -179,7 +240,7 @@ const CreateOrder = (props: Props) => {
           handlePrevious={() => setCreateOrderStep(createOrderStep - 1)}
           createOrderPayload={createOrderPayload}
           setCreateOrderPayload={setCreateOrderPayload}
-          handleNext={handleCreateOrder}
+          handleNext={() => setCreateOrderStep(createOrderStep + 1)}
         />
       );
       headerContent = 'LEAD TIME';
