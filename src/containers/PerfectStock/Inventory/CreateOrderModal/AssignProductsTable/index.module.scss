@@ -23,11 +23,10 @@
 
 .buttonsRow {
   display: flex;
-  justify-content: space-between;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  justify-content: flex-end;
+  margin-top: auto;
 
   > div {
-    display: flex;
+    margin-left: 18px;
   }
 }

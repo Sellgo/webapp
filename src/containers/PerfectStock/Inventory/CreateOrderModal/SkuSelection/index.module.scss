@@ -13,7 +13,7 @@
 
   h2 {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 18px;
     line-height: normal;
     font-size: 24px;
     font-weight: $fontweight_bold;
@@ -34,11 +34,9 @@
 .buttonsRow {
   display: flex;
   justify-content: flex-end;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  padding: 0 30px;
+  margin-top: auto;
 
   > div {
-    display: flex;
+    margin-left: 18px;
   }
 }

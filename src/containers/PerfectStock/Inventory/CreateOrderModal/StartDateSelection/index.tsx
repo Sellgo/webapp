@@ -94,7 +94,7 @@ const StartDateSelection = (props: Props) => {
           variant="reset"
           size="md"
         >
-          Cancel
+          Previous
         </ActionButton>
         <ActionButton
           className={styles.createButton}
