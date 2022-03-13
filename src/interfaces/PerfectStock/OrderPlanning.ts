@@ -100,7 +100,7 @@ export interface CreateOrderPayload {
   vendor_id?: number;
 
   /* Smart Order */
-  approach?: string; //'time' | 'moq' | 'inventory'
+  approach?: string; //'timebound' | 'moq' | 'inventory'
   auto_generate_orders_days?: number;
   interval?: number;
   priority_merchant_listing_id?: number;
