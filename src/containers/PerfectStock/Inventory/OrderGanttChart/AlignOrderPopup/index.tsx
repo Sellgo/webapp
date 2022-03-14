@@ -90,7 +90,7 @@ const SetPrioritySkuPopup = (props: Props) => {
             handleChange={value => setDusThreshold(parseInt(value))}
             className={styles.inputFilter}
           />
-          % of target SKU&apos;s days until stockout
+          &nbsp;of target SKU&apos;s days until stockout
         </RadioRow>
 
         <div className={styles.buttonsRow}>
