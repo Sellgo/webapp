@@ -19,7 +19,7 @@ interface Props {
 
 const OrderOptimisationSelection = (props: Props) => {
   const { handleNext, handlePrev, createOrderPayload, setCreateOrderPayload } = props;
-  const [approach, setApproach] = React.useState<'inventory' | 'moq' | 'time'>('moq');
+  const [approach, setApproach] = React.useState<'inventory' | 'moq' | 'timebound'>('moq');
 
   const handleSubmit = () => {
     setCreateOrderPayload({
@@ -73,13 +73,13 @@ const OrderOptimisationSelection = (props: Props) => {
         <div
           className={`
             ${styles.inputRadioRow} 
-            ${approach === 'time' ? styles.inputRadioRow__selected : ''}
+            ${approach === 'timebound' ? styles.inputRadioRow__selected : ''}
           `}
-          onClick={() => setApproach('time')}
+          onClick={() => setApproach('timebound')}
         >
           <Checkbox
             radio
-            checked={approach === 'time'}
+            checked={approach === 'timebound'}
             label="TIME-BOUND OPTIMIZATION"
             className={styles.inputRadioRow__radio}
           />

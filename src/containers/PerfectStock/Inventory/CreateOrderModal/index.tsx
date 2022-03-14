@@ -133,7 +133,7 @@ const CreateOrder = (props: Props) => {
       setCreateOrderSelectedFlow(CREATE_ORDER_FLOW.SMART_ORDER_INVENTORY);
     } else if (
       createOrderPayload.creation_type === 'multiple' &&
-      createOrderPayload.approach === 'time'
+      createOrderPayload.approach === 'timebound'
     ) {
       setCreateOrderSelectedFlow(CREATE_ORDER_FLOW.SMART_ORDER_TIME);
     } else if (
