@@ -5,42 +5,38 @@ import { Table } from 'rsuite';
 import styles from './index.module.scss';
 
 /* Components */
-import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipboard';
-import TooltipWrapper from '../../../../../components/TooltipWrapper';
+import CopyAndLocateClipboard from '../../../../../../components/CopyAndLocateClipboard';
+import TooltipWrapper from '../../../../../../components/TooltipWrapper';
 
 /* Images */
-import placeholderImage from '../../../../../assets/images/placeholderImage.svg';
+import placeholderImage from '../../../../../../assets/images/placeholderImage.svg';
 
 /* Interface */
-import { RowCell } from '../../../../../interfaces/Table';
+import { RowCell } from '../../../../../../interfaces/Table';
 
 const ProductInformation = (props: RowCell) => {
   const { rowData } = props;
   const { image_url, asin, title, sku } = rowData;
   const productImage = image_url ? image_url.replace('SL75', 'SL140') : placeholderImage;
-  const productLink = `http://www.amazon.com/dp/${asin}`;
+
   return (
     <Table.Cell {...props}>
       <div className={styles.productInformation}>
         {/* Product Image */}
-        <a href={productLink} target="_blank" rel="noopener noreferrer">
-          <img src={productImage} className={styles.productImage} />
-        </a>
+        <img src={productImage} className={styles.productImage} />
         <div className={styles.productDetails}>
-          <a href={productLink} target="_blank" rel="noopener noreferrer">
-            <p className={styles.productTitle}>{title}</p>
-          </a>
+          <p className={styles.productTitle}>{title}</p>
 
           <div className={styles.productAttributes}>
             <div className={styles.flagAndAsinCol}>
               <img
                 className={styles.flagIcon}
-                src={require(`../../../../../assets/flags/US.png`)}
+                src={require(`../../../../../../assets/flags/US.png`)}
               />
               {/* ASIN and UPC details */}
               <div className={styles.productTitleTextBox}>
                 {/* ASIN */}
-                {asin?.length > 0 ? (
+                {asin.length > 0 ? (
                   <CopyAndLocateClipboard
                     data={asin}
                     link={`http://www.amazon.com/dp/${asin}`}

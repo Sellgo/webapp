@@ -133,6 +133,16 @@ export class TaskRow extends Component {
                       <Icon name="clipboard list" />
                       <span>Generate Smart Order</span>
                     </button>
+                    <button
+                      onClick={() => {
+                        this.props.handleConnectTpl(this.props.item);
+                        this.setState({ isPopupOpen: false });
+                      }}
+                      disabled={false}
+                    >
+                      <Icon name="chain" />
+                      <span>Connect to 3PL</span>
+                    </button>
                   </div>
                 </>
               }
@@ -188,6 +198,7 @@ export default class TaskList extends Component {
           handleEditTask={this.props.handleEditTask}
           generateNextOrder={this.props.generateNextOrder}
           handleSetPrioritySku={this.props.handleSetPrioritySku}
+          handleConnectTpl={this.props.handleConnectTpl}
           handleIncludedToggle={this.props.handleIncludedToggle}
           isDraftMode={this.props.isDraftMode}
         />

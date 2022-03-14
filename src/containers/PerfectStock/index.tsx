@@ -11,6 +11,7 @@ import OrderPlanning from './OrderPlanning';
 import SalesProjection from './SalesProjection';
 import MigratingDisplay from './MigratingDisplay';
 import PreMigration from './PreMigration';
+import TPL from './TPL';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
@@ -219,14 +220,8 @@ const PerfectStock: React.FC<Props> = props => {
                   isBeta
                 />
               </Tab>
-              <Tab className={styles.disabledTab}>
-                <ProductLabel
-                  label="3PL Manager"
-                  icon="Tpl"
-                  isActive={false}
-                  isDisabled
-                  isIncoming
-                />
+              <Tab>
+                <ProductLabel label="3PL Manager" icon="Tpl" isActive={selectedTabList === 3} />
               </Tab>
               <Tab />
             </TabList>
@@ -241,7 +236,9 @@ const PerfectStock: React.FC<Props> = props => {
               <Inventory />
             </TabPanel>
 
-            <TabPanel />
+            <TabPanel>
+              <TPL />
+            </TabPanel>
 
             <TabPanel>
               <OrderPlanning />

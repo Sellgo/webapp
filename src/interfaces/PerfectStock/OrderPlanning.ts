@@ -22,6 +22,7 @@ export interface PurchaseOrder {
   status: string;
   is_included: boolean;
   purchase_order_template_id: number;
+  vendor_id: number | null;
 }
 
 export interface DraftOrderTemplate {
@@ -40,6 +41,7 @@ export interface GanttChartPurchaseOrder {
   start: Date;
   end: Date;
   name: string;
+  vendorId: number | null;
   color?: string;
   subTasks?: GanttChartPurchaseOrder[];
   prioritySku?: string;
@@ -58,6 +60,7 @@ export interface UpdatePurchaseOrderPayload {
   is_priority?: boolean;
   purchase_order_ids?: number[];
   total_shipping_cost?: number;
+  vendor_id?: number | null;
 }
 
 export interface AutoGeneratePurchaseOrderPayload {

@@ -33,6 +33,7 @@ export const EMPTY_GANTT_CHART_PURCHASE_ORDER: GanttChartPurchaseOrder = {
   start: new Date(),
   end: new Date(),
   subTasks: [],
+  vendorId: null,
 };
 
 export const EMPTY_PURCHASE_ORDER: PurchaseOrder = {
@@ -45,6 +46,7 @@ export const EMPTY_PURCHASE_ORDER: PurchaseOrder = {
   status: '',
   is_included: false,
   purchase_order_template_id: -1,
+  vendor_id: null,
 };
 
 export const AUTO_GENERATE_DURATION_OPTIONS = [

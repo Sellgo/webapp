@@ -446,6 +446,7 @@ class TimeLine extends Component {
             handleDeleteTask={this.props.handleDeleteTask}
             handleDeleteAllTasks={this.props.handleDeleteAllTasks}
             handleSetPrioritySku={this.props.handleSetPrioritySku}
+            handleConnectTpl={this.props.handleConnectTpl}
             mode={this.state.mode}
             /* For left dropdown */
             viewFilterOptions={this.props.viewFilterOptions}
