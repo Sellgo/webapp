@@ -65,24 +65,6 @@ export const setTplSkuData = (payload: any) => {
   };
 };
 
-// /* Action to set one row in sales projection table */
-// export const setSalesProjectionRow = (payload: SalesProjectionProduct) => (
-//   dispatch: any,
-//   getState: any
-// ) => {
-//   const currentSalesProjectionProducts = getSalesProjectionResults(getState());
-//   const updatedSalesProjectionProducts = currentSalesProjectionProducts.map(
-//     (product: SalesProjectionProduct) => {
-//       if (product.id === payload.id) {
-//         return payload;
-//       } else {
-//         return product;
-//       }
-//     }
-//   );
-//   dispatch(setSalesProjectionResults(updatedSalesProjectionProducts));
-// };
-
 /*********** Async Actions ************************ */
 /* Action to fetch products database */
 export const fetchTplVendors = () => async (dispatch: any, getState: any) => {
