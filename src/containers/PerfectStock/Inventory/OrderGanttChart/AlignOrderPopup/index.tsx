@@ -6,14 +6,14 @@ import BoxContainer from '../../../../../components/BoxContainer';
 import SelectionProductFilter from '../../../../../components/FormFilters/SelectionProductFilter';
 import RadioRow from '../../../../../components/RadioRow';
 import { ReactComponent as AlignOrderIcon } from '../../../../../assets/images/arrow-right-to-bracket-solid.svg';
+import InputFilter from '../../../../../components/FormFilters/InputFilter';
+import ActionButton from '../../../../../components/ActionButton';
 
 /* Styles */
 import styles from './index.module.scss';
 
-/* Constants */
-import ActionButton from '../../../../../components/ActionButton';
+/* Types */
 import { AlignPurchaseOrderPayload } from '../../../../../interfaces/PerfectStock/OrderPlanning';
-import InputFilter from '../../../../../components/FormFilters/InputFilter';
 
 interface Props {
   alignOrderDetails: any;
