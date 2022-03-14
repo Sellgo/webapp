@@ -455,6 +455,7 @@ class TimeLine extends Component {
             handleEditTask={this.props.handleEditTask}
             generateNextOrder={this.props.generateNextOrder}
             isDraftMode={this.props.isDraftMode}
+            handleAlignOrder={this.props.handleAlignOrder}
           />
         </div>
         <div className="timeLine-main">

@@ -6,6 +6,8 @@ import { Modal, Dimmer, Loader } from 'semantic-ui-react';
 // @ts-ignore
 import TimeLine from '../../../../components/ReactGanttChart/TimeLine';
 import AutoGenerateOrderPopup from './AutoGenerateOrderPopup';
+import AlignOrderPopup from './AlignOrderPopup';
+import SetPrioritySkuPopup from './SetPrioritySkuPopup';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -18,6 +20,7 @@ import {
   updatePurchaseOrder,
   setActivePurchaseOrder,
   generateNextOrder,
+  alignOrder,
 } from '../../../../actions/PerfectStock/OrderPlanning';
 
 /* Selectors */
@@ -36,6 +39,7 @@ import {
   GanttChartPurchaseOrder,
   PurchaseOrder,
   UpdatePurchaseOrderPayload,
+  AlignPurchaseOrderPayload,
 } from '../../../../interfaces/PerfectStock/OrderPlanning';
 import { LeadTime } from '../../../../interfaces/PerfectStock/SalesProjection';
 
@@ -53,7 +57,6 @@ import {
 } from '../../../../constants/PerfectStock/OrderPlanning';
 import { getLeadTimeColor, getLeadTimeName } from '../../../../constants/PerfectStock';
 import { info } from '../../../../utils/notifications';
-import SetPrioritySkuPopup from './SetPrioritySkuPopup';
 
 type IOption = {
   key: string;
@@ -68,6 +71,7 @@ interface Props {
   updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => void;
   setActivePurchaseOrder: (payload: PurchaseOrder) => void;
   generateNextOrder: (payload: AutoGeneratePurchaseOrderPayload) => void;
+  alignOrder: (payload: AlignPurchaseOrderPayload) => void;
   activePurchaseOrder: GanttChartPurchaseOrder;
   purchaseOrders: PurchaseOrder[];
   isLoadingPurchaseOrders: boolean;
@@ -92,6 +96,7 @@ const OrderGanttChart = (props: Props) => {
     setActivePurchaseOrder,
     activePurchaseOrder,
     generateNextOrder,
+    alignOrder,
 
     /* Date Range Related Props */
     setDateRange,
@@ -106,6 +111,9 @@ const OrderGanttChart = (props: Props) => {
     isDraftMode,
   } = props;
 
+  /* ================================================================ */
+  /* Generating next order */
+  /* ================================================================ */
   const [isAutoGeneratingNextOrder, setIsAutoGeneratingNextOrder] = React.useState(false);
   const [generateNextOrderDetails, setGenerateNextOrderDetails] = React.useState<{
     id: number;
@@ -113,8 +121,102 @@ const OrderGanttChart = (props: Props) => {
     defaultPrioritySku?: string;
   }>({ id: 0, merchantListings: [] });
 
+  const handleGenerateNextOrderClick = (payload: GanttChartPurchaseOrder) => {
+    const selectedPurchaseOrder = purchaseOrders.find((purchaseOrder: PurchaseOrder) => {
+      return purchaseOrder.id === payload.id;
+    });
+
+    if (selectedPurchaseOrder) {
+      const selectedMerchantListings = selectedPurchaseOrder.merchant_listings.map(
+        (orderProduct: any) => ({
+          id: orderProduct.merchant_listing_id?.toString() || '',
+          productName: orderProduct.title,
+          asin: orderProduct.asin,
+          img: orderProduct.image_url,
+          skuName: orderProduct.sku,
+          activePurchaseOrders: orderProduct.active_purchase_orders,
+          fulfillmentChannel: orderProduct.fulfillment_channel,
+          skuStatus: orderProduct.sku_status,
+        })
+      );
+
+      setGenerateNextOrderDetails({
+        merchantListings: selectedMerchantListings,
+        id: selectedPurchaseOrder.id,
+        defaultPrioritySku: payload.prioritySku,
+      });
+      setIsAutoGeneratingNextOrder(true);
+    }
+  };
+
+  /* ================================================================ */
+  /* Setting priority sku */
+  /* ================================================================ */
   const [isSettingPrioritySku, setIsSettingPrioritySku] = React.useState(false);
   const [prioritySkuDetails, setPrioritySkuDetails] = React.useState({});
+
+  const handleSetPrioritySkuClick = (payload: GanttChartPurchaseOrder) => {
+    const selectedPurchaseOrder = purchaseOrders.find((purchaseOrder: PurchaseOrder) => {
+      return purchaseOrder.id === payload.id;
+    });
+
+    if (selectedPurchaseOrder) {
+      const selectedMerchantListings = selectedPurchaseOrder.merchant_listings.map(
+        (orderProduct: any) => ({
+          id: orderProduct.id?.toString() || '',
+          productName: orderProduct.title,
+          asin: orderProduct.asin,
+          img: orderProduct.image_url,
+          skuName: orderProduct.sku,
+          activePurchaseOrders: orderProduct.active_purchase_orders,
+          fulfillmentChannel: orderProduct.fulfillment_channel,
+          skuStatus: orderProduct.sku_status,
+        })
+      );
+
+      setIsSettingPrioritySku(true);
+      setPrioritySkuDetails({
+        id: payload.id,
+        prioritySku: payload.prioritySku,
+        selectedMerchantListings,
+      });
+    }
+  };
+
+  /* ================================================================ */
+  /* Aligning order */
+  /* ================================================================ */
+  const [isAligningOrder, setIsAligningOrder] = React.useState(false);
+  const [alignOrderDetails, setAlignOrderDetails] = React.useState({});
+
+  const handleAlignOrder = (payload: GanttChartPurchaseOrder) => {
+    const selectedPurchaseOrder = purchaseOrders.find((purchaseOrder: PurchaseOrder) => {
+      return purchaseOrder.id === payload.id;
+    });
+
+    if (selectedPurchaseOrder) {
+      const selectedMerchantListings = selectedPurchaseOrder.merchant_listings.map(
+        (orderProduct: any) => ({
+          id: orderProduct.merchant_listing_id?.toString() || '',
+          productName: orderProduct.title,
+          asin: orderProduct.asin,
+          img: orderProduct.image_url,
+          skuName: orderProduct.sku,
+          activePurchaseOrders: orderProduct.active_purchase_orders,
+          fulfillmentChannel: orderProduct.fulfillment_channel,
+          skuStatus: orderProduct.sku_status,
+        })
+      );
+
+      setIsAligningOrder(true);
+      setAlignOrderDetails({
+        id: payload.id,
+        prioritySku: payload.prioritySku,
+        selectedMerchantListings,
+      });
+    }
+  };
+
   /* ================================================================ */
   /* Converting purchase orders to fit the format for gantt chart */
   /* ================================================================ */
@@ -197,7 +299,7 @@ const OrderGanttChart = (props: Props) => {
       /* If the new arrival date is before the current date, then force the arrival date to be today */
       if (change.end < new Date()) {
         newDate = getDateOnly(new Date(new Date().getTime() - duration * 24 * 60 * 60 * 1000));
-        info("Orders must arrive before today's date");
+        info("Orders must arrive after today's date");
       }
 
       /* If the new arrival date is more than 2 years in the future,
@@ -231,62 +333,6 @@ const OrderGanttChart = (props: Props) => {
   const handleEditTask = (payload: GanttChartPurchaseOrder) => {
     handleSelectTask(payload);
     history.push(`/aistock/create-order`);
-  };
-
-  const handleGenerateNextOrder = (payload: GanttChartPurchaseOrder) => {
-    const selectedPurchaseOrder = purchaseOrders.find((purchaseOrder: PurchaseOrder) => {
-      return purchaseOrder.id === payload.id;
-    });
-
-    if (selectedPurchaseOrder) {
-      const selectedMerchantListings = selectedPurchaseOrder.merchant_listings.map(
-        (orderProduct: any) => ({
-          id: orderProduct.merchant_listing_id?.toString() || '',
-          productName: orderProduct.title,
-          asin: orderProduct.asin,
-          img: orderProduct.image_url,
-          skuName: orderProduct.sku,
-          activePurchaseOrders: orderProduct.active_purchase_orders,
-          fulfillmentChannel: orderProduct.fulfillment_channel,
-          skuStatus: orderProduct.sku_status,
-        })
-      );
-
-      setGenerateNextOrderDetails({
-        merchantListings: selectedMerchantListings,
-        id: selectedPurchaseOrder.id,
-        defaultPrioritySku: payload.prioritySku,
-      });
-      setIsAutoGeneratingNextOrder(true);
-    }
-  };
-
-  const handleSetPrioritySku = (payload: GanttChartPurchaseOrder) => {
-    const selectedPurchaseOrder = purchaseOrders.find((purchaseOrder: PurchaseOrder) => {
-      return purchaseOrder.id === payload.id;
-    });
-
-    if (selectedPurchaseOrder) {
-      const selectedMerchantListings = selectedPurchaseOrder.merchant_listings.map(
-        (orderProduct: any) => ({
-          id: orderProduct.id?.toString() || '',
-          productName: orderProduct.title,
-          asin: orderProduct.asin,
-          img: orderProduct.image_url,
-          skuName: orderProduct.sku,
-          activePurchaseOrders: orderProduct.active_purchase_orders,
-          fulfillmentChannel: orderProduct.fulfillment_channel,
-          skuStatus: orderProduct.sku_status,
-        })
-      );
-
-      setIsSettingPrioritySku(true);
-      setPrioritySkuDetails({
-        id: payload.id,
-        prioritySku: payload.prioritySku,
-        selectedMerchantListings,
-      });
-    }
   };
 
   React.useEffect(() => {
@@ -334,8 +380,9 @@ const OrderGanttChart = (props: Props) => {
               });
             }}
             isDraftMode={isDraftMode}
-            generateNextOrder={handleGenerateNextOrder}
-            handleSetPrioritySku={handleSetPrioritySku}
+            generateNextOrder={handleGenerateNextOrderClick}
+            handleSetPrioritySku={handleSetPrioritySkuClick}
+            handleAlignOrder={handleAlignOrder}
           />
 
           <Modal
@@ -360,6 +407,18 @@ const OrderGanttChart = (props: Props) => {
               />
             }
             onClose={() => setIsSettingPrioritySku(false)}
+            className={styles.setPrioritySkuModal}
+          />
+          <Modal
+            open={isAligningOrder}
+            content={
+              <AlignOrderPopup
+                handleCancel={() => setIsAligningOrder(false)}
+                alignOrderDetails={alignOrderDetails}
+                handleAlignOrder={alignOrder}
+              />
+            }
+            onClose={() => setIsAligningOrder(false)}
             className={styles.setPrioritySkuModal}
           />
         </div>
@@ -397,6 +456,9 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     generateNextOrder: (payload: AutoGeneratePurchaseOrderPayload) => {
       dispatch(generateNextOrder(payload));
+    },
+    alignOrder: (payload: AlignPurchaseOrderPayload) => {
+      dispatch(alignOrder(payload));
     },
   };
 };

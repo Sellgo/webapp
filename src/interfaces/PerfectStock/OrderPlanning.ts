@@ -62,6 +62,14 @@ export interface UpdatePurchaseOrderPayload {
   total_shipping_cost?: number;
 }
 
+export interface AlignPurchaseOrderPayload {
+  id: number;
+  priority_merchant_listing_id: number;
+  stockout_buffer_days?: number | null;
+  stockout_buffer_perc?: number | null;
+  is_moq: boolean;
+}
+
 export interface AutoGeneratePurchaseOrderPayload {
   id: number;
   merchant_listing_id: number | null;

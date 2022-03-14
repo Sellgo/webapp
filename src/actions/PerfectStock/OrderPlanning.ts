@@ -15,6 +15,7 @@ import {
   DraftOrderTemplate,
   InventoryTablePayload,
   AutoGeneratePurchaseOrderPayload,
+  AlignPurchaseOrderPayload,
 } from '../../interfaces/PerfectStock/OrderPlanning';
 
 /* Selectors */
@@ -252,6 +253,30 @@ export const generateNextOrder = (payload: AutoGeneratePurchaseOrderPayload) => 
   } catch (err) {
     dispatch(isLoadingPurchaseOrders(false));
     error('Failed to generate next orders');
+    console.error('Error fetching sales estimation', err);
+  }
+  dispatch(setPurchaseOrdersLoadingMessage(''));
+};
+
+export const alignOrder = (payload: AlignPurchaseOrderPayload) => async (dispatch: any) => {
+  try {
+    const sellerId = sellerIDSelector();
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/${payload.id}/align`;
+
+    dispatch(isLoadingPurchaseOrders(true));
+    dispatch(setPurchaseOrdersLoadingMessage('Aligning orders...'));
+    const { status } = await axios.post(URL, payload);
+
+    if (status === 201) {
+      dispatch(fetchPurchaseOrders());
+      dispatch(fetchInventoryTable({}));
+    } else {
+      dispatch(isLoadingPurchaseOrders(false));
+      error('Failed to align order.');
+    }
+  } catch (err) {
+    dispatch(isLoadingPurchaseOrders(false));
+    error('Failed to align order.');
     console.error('Error fetching sales estimation', err);
   }
   dispatch(setPurchaseOrdersLoadingMessage(''));

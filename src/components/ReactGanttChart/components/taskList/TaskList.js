@@ -7,6 +7,7 @@ import {
 } from '../../../../constants/PerfectStock/OrderPlanning';
 import { Icon, Popup, Radio } from 'semantic-ui-react';
 import ToggleRadio from '../../../../components/ToggleRadio';
+import { ReactComponent as AlignOrderIcon } from '../../../../assets/images/arrow-right-to-bracket-solid.svg';
 
 export class VerticalLine extends Component {
   constructor(props) {
@@ -133,6 +134,16 @@ export class TaskRow extends Component {
                       <Icon name="clipboard list" />
                       <span>Generate Smart Order</span>
                     </button>
+                    <button
+                      onClick={() => {
+                        this.props.handleAlignOrder(this.props.item);
+                        this.setState({ isPopupOpen: false });
+                      }}
+                      disabled={!this.props.item.is_included}
+                    >
+                      <AlignOrderIcon />
+                      <span>Align Order</span>
+                    </button>
                   </div>
                 </>
               }
@@ -189,6 +200,7 @@ export default class TaskList extends Component {
           generateNextOrder={this.props.generateNextOrder}
           handleSetPrioritySku={this.props.handleSetPrioritySku}
           handleIncludedToggle={this.props.handleIncludedToggle}
+          handleAlignOrder={this.props.handleAlignOrder}
           isDraftMode={this.props.isDraftMode}
         />
       );
