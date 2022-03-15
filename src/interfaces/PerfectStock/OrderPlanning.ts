@@ -60,6 +60,7 @@ export interface UpdatePurchaseOrderPayload {
   is_priority?: boolean;
   purchase_order_ids?: number[];
   total_shipping_cost?: number;
+  estimate_shipping_cost?: boolean;
 }
 
 export interface AlignPurchaseOrderPayload {
@@ -115,6 +116,7 @@ export interface CreateOrderPayload {
   stockout_buffer_days?: number;
   stockout_buffer_perc?: number;
   n_days_limit?: number;
+  honor_moq?: boolean;
 }
 
 export interface DraftOrderInformation {
@@ -143,4 +145,9 @@ export interface ProductConfig {
   weight_unit: string;
   width: number;
   width_unit: string;
+}
+
+export interface InventoryTableFilters {
+  active: string;
+  fba: string;
 }

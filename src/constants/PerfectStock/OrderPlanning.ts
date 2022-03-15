@@ -8,6 +8,7 @@ export const actionTypes = {
   IS_LOADING_PURCHASE_ORDERS: 'IS_LOADING_PURCHASE_ORDERS',
   SET_PURCHASE_ORDERS_LOADING_MESSAGE: 'SET_PURCHASE_ORDERS_LOADING_MESSAGE',
   SET_INVENTORY_TABLE_RESULTS: 'SET_INVENTORY_TABLE_RESULTS',
+  SET_INVENTORY_TABLE_FILTERS: 'SET_INVENTORY_TABLE_FILTERS',
   SET_PURCHASE_ORDERS: 'SET_PURCHASE_ORDERS',
   SET_DATE_RANGE: 'SET_DATE_RANGE',
   SET_TIME_SETTING: 'SET_TIME_SETTING',
@@ -153,3 +154,44 @@ export const OFFSET_TO_CHART_WIDTH =
   GANTT_ORDERS_WIDTH +
   18 + // Margin between side setting and gantt chart
   18; // Padding for gantt chart
+
+export const ACTIVE_FILTER_OPTIONS = [
+  {
+    key: 'Active Products',
+    text: 'Active Products',
+    value: 'sku_status=active',
+  },
+  {
+    key: 'Inactive Products',
+    text: 'Inactive Products',
+    value: 'sku_status=inactive',
+  },
+  {
+    key: 'Active and Inactive Products',
+    text: 'Active and Inactive Products',
+    value: 'null',
+  },
+];
+
+export const FBA_FILTER_OPTIONS = [
+  {
+    key: 'FBA Products',
+    text: 'FBA Products',
+    value: 'fulfillment_channel=fba',
+  },
+  {
+    key: 'FBM Products',
+    text: 'FBM Products',
+    value: 'fulfillment_channel=fbm',
+  },
+  {
+    key: 'FBA and FBM Products',
+    text: 'FBA and FBM Products',
+    value: 'null',
+  },
+];
+
+export const DEFAULT_FILTER = {
+  active: 'sku_status=active',
+  fba: 'fulfillment_channel=fba',
+};

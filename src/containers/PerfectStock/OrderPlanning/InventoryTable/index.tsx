@@ -8,14 +8,11 @@ import 'rsuite/dist/styles/rsuite-default.css';
 import './globals.scss';
 import styles from './index.module.scss';
 
-/* Actions */
-import { fetchSalesProjection } from '../../../../actions/PerfectStock/SalesProjection';
-
 /* Interfaces */
-import { SalesProjectionPayload } from '../../../../interfaces/PerfectStock/SalesProjection';
 import {
   DateRange,
   GanttChartPurchaseOrder,
+  InventoryTableFilters,
   InventoryTablePayload,
 } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
@@ -32,6 +29,7 @@ import TodaySkuTable from './TodaySkuTable';
 import {
   getActivePurchaseOrder,
   getDateRange,
+  getInventoryTableFilters,
   getInventoryTableResults,
   getIsLoadingInventoryTableResults,
   getTimeSetting,
@@ -59,6 +57,7 @@ interface Props {
   inventoryTableResults: any[];
   isLoadingInventoryTableResults: boolean;
   activePurchaseOrder: GanttChartPurchaseOrder;
+  inventoryTableFilters: InventoryTableFilters;
 
   emptySkusContent: React.ReactNode;
   tableViewMode: 'Inventory' | 'Stockout' | 'Today';
@@ -75,6 +74,7 @@ const InventoryTable = (props: Props) => {
     activePurchaseOrder,
     emptySkusContent,
     tableViewMode,
+    inventoryTableFilters,
   } = props;
 
   const [sortColumn, setSortColumn] = React.useState<string>('');
@@ -114,6 +114,15 @@ const InventoryTable = (props: Props) => {
       sortDir: sortType,
     });
   }, [dateRange.startDate, timeSetting, activePurchaseOrder]);
+
+  /* Refresh inventory table if filters are changed */
+  React.useEffect(() => {
+    generateHeaders(new Date(dateRange.startDate), new Date(dateRange.endDate));
+    fetchInventoryTable({
+      sort: sortColumn,
+      sortDir: sortType,
+    });
+  }, [inventoryTableFilters.active, inventoryTableFilters.fba]);
 
   /* Parse backend data to fit into a table format */
   /* i.e. {
@@ -248,13 +257,12 @@ const mapStateToProps = (state: any) => {
     inventoryTableResults: getInventoryTableResults(state),
     isLoadingInventoryTableResults: getIsLoadingInventoryTableResults(state),
     activePurchaseOrder: getActivePurchaseOrder(state),
+    inventoryTableFilters: getInventoryTableFilters(state),
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchSalesProjection: (payload: SalesProjectionPayload) =>
-      dispatch(fetchSalesProjection(payload)),
     fetchInventoryTable: (payload: InventoryTablePayload) => dispatch(fetchInventoryTable(payload)),
   };
 };

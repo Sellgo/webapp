@@ -14,6 +14,8 @@ import TableExport from '../../../../components/NewTable/TableExport';
 import TooltipWrapper from '../../../../components/TooltipWrapper';
 import BoxContainer from '../../../../components/BoxContainer';
 import BoxHeader from '../../../../components/BoxHeader';
+import InputTabSelection from '../../../../components/InputTabSelection';
+import AistockSelectionFilter from '../../../../components/AistockSelectionFilter';
 
 /* Assets */
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
@@ -21,10 +23,14 @@ import { ReactComponent as UndoIcon } from '../../../../assets/images/undoIcon.s
 import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
 
 /* Actions */
-import { refreshInventoryTable } from '../../../../actions/PerfectStock/OrderPlanning';
+import {
+  refreshInventoryTable,
+  setInventoryTableFilters,
+} from '../../../../actions/PerfectStock/OrderPlanning';
 
 /* Selectors */
 import {
+  getInventoryTableFilters,
   getInventoryTableUpdateDate,
   getIsFetchingProgressForRefresh,
 } from '../../../../selectors/PerfectStock/OrderPlanning';
@@ -35,12 +41,22 @@ import { downloadFile } from '../../../../utils/download';
 import { error, success } from '../../../../utils/notifications';
 import { AppConfig } from '../../../../config';
 import { getDateOnly } from '../../../../utils/date';
-import InputTabSelection from '../../../../components/InputTabSelection';
+
+/* Constants */
+import {
+  ACTIVE_FILTER_OPTIONS,
+  FBA_FILTER_OPTIONS,
+} from '../../../../constants/PerfectStock/OrderPlanning';
+
+/* Types */
+import { InventoryTableFilters } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 interface Props {
   refreshInventoryTable: () => void;
   isFetchingProgressForRefresh: boolean;
   inventoryTableUpdateDate: string;
+  inventoryTableFilters: InventoryTableFilters;
+  setInventoryTableFilters: (filters: InventoryTableFilters) => void;
 
   tableViewMode: 'Inventory' | 'Stockout' | 'Today';
   setTableViewMode: (tableViewMode: 'Inventory' | 'Stockout' | 'Today') => void;
@@ -53,6 +69,8 @@ const OrderPlanningMeta = (props: Props) => {
     inventoryTableUpdateDate,
     tableViewMode,
     setTableViewMode,
+    inventoryTableFilters,
+    setInventoryTableFilters,
   } = props;
   const [isExportLoading, setExportLoading] = React.useState<boolean>(false);
   const [isCreatingOrder, setIsCreatingOrder] = React.useState(false);
@@ -96,18 +114,36 @@ const OrderPlanningMeta = (props: Props) => {
   return (
     <>
       <div className={styles.exportsContainer}>
-        <TooltipWrapper tooltipKey="Create Order">
-          <ActionButton
-            variant="primary"
-            type="purpleGradient"
-            size="md"
-            className={styles.createOrderButton}
-            onClick={() => setIsCreatingOrder(true)}
-          >
-            <ThinAddIcon />
-            <span>Smart Order</span>
-          </ActionButton>
-        </TooltipWrapper>
+        <div className={styles.filterContainer}>
+          <TooltipWrapper tooltipKey="Create Order">
+            <ActionButton
+              variant="primary"
+              type="purpleGradient"
+              size="md"
+              className={styles.createOrderButton}
+              onClick={() => setIsCreatingOrder(true)}
+            >
+              <ThinAddIcon />
+              <span>Smart Order</span>
+            </ActionButton>
+          </TooltipWrapper>
+          <AistockSelectionFilter
+            filterOptions={ACTIVE_FILTER_OPTIONS}
+            value={inventoryTableFilters.active}
+            handleChange={(value: string) => {
+              setInventoryTableFilters({ ...inventoryTableFilters, active: value });
+            }}
+            placeholder={''}
+          />
+          <AistockSelectionFilter
+            filterOptions={FBA_FILTER_OPTIONS}
+            value={inventoryTableFilters.fba}
+            handleChange={(value: string) => {
+              setInventoryTableFilters({ ...inventoryTableFilters, fba: value });
+            }}
+            placeholder={''}
+          />
+        </div>
         <div className={styles.exportOptionsWrapper}>
           {displayDate && (
             <button
@@ -194,11 +230,14 @@ const OrderPlanningMeta = (props: Props) => {
 const mapStateToProps = (state: any) => ({
   isFetchingProgressForRefresh: getIsFetchingProgressForRefresh(state),
   inventoryTableUpdateDate: getInventoryTableUpdateDate(state),
+  inventoryTableFilters: getInventoryTableFilters(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     refreshInventoryTable: () => dispatch(refreshInventoryTable()),
+    setInventoryTableFilters: (filters: InventoryTableFilters) =>
+      dispatch(setInventoryTableFilters(filters)),
   };
 };
 

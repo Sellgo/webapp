@@ -11,11 +11,15 @@ import {
   SalesProjectionPayload,
   SalesProjectionProduct,
   SalesProjectionUpdatePayload,
+  SalesProjectionFilters,
 } from '../../interfaces/PerfectStock/SalesProjection';
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
-import { getSalesProjectionResults } from '../../selectors/PerfectStock/SalesProjection';
+import {
+  getSalesProjectionResults,
+  getSalesProjectionFilters,
+} from '../../selectors/PerfectStock/SalesProjection';
 import { error, success } from '../../utils/notifications';
 
 /* Action to set loading state for sales estimation */
@@ -30,6 +34,14 @@ export const isLoadingSalesProjection = (payload: boolean) => {
 export const setSalesProjectionResults = (payload: any) => {
   return {
     type: actionTypes.SET_SALES_PROJECTION_RESULTS,
+    payload,
+  };
+};
+
+/* Action to set sales estimation filters */
+export const setSalesProjectionFilters = (payload: SalesProjectionFilters) => {
+  return {
+    type: actionTypes.SET_SALES_PROJECTION_FILTERS,
     payload,
   };
 };
@@ -86,7 +98,10 @@ export const setSalesProjectionRow = (payload: SalesProjectionProduct) => (
 
 /*********** Async Actions ************************ */
 /* Action to fetch products database */
-export const fetchSalesProjection = (payload: SalesProjectionPayload) => async (dispatch: any) => {
+export const fetchSalesProjection = (payload: SalesProjectionPayload) => async (
+  dispatch: any,
+  getState: any
+) => {
   try {
     const {
       page = 1,
@@ -104,8 +119,15 @@ export const fetchSalesProjection = (payload: SalesProjectionPayload) => async (
 
     const pagination = `page=${page}`;
     const sorting = `sort=${sort}&sort_direction=${sortDir}`;
-    const resourcePath = `${pagination}&${sorting}`;
-
+    const state = getState();
+    const filters = getSalesProjectionFilters(state);
+    const filtersPath = Object.keys(filters).reduce((acc: string, key: string) => {
+      if (filters[key] !== 'null') {
+        return `${acc}&${filters[key]}`;
+      }
+      return acc;
+    }, '');
+    const resourcePath = `${pagination}&${sorting}${filtersPath}`;
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/sales-projection?${resourcePath}`;
 
     if (isExport && fileFormat) {

@@ -16,6 +16,7 @@ import {
   InventoryTablePayload,
   AutoGeneratePurchaseOrderPayload,
   AlignPurchaseOrderPayload,
+  InventoryTableFilters,
 } from '../../interfaces/PerfectStock/OrderPlanning';
 
 /* Selectors */
@@ -24,6 +25,7 @@ import {
   getActivePurchaseOrder,
   getDateRange,
   getDraftOrderInformation,
+  getInventoryTableFilters,
   getPurchaseOrders,
   getRefreshInventoryTableId,
   getTimeSetting,
@@ -62,6 +64,14 @@ export const setPurchaseOrdersLoadingMessage = (payload: string) => {
 export const setInventoryTableResults = (payload: any) => {
   return {
     type: actionTypes.SET_INVENTORY_TABLE_RESULTS,
+    payload,
+  };
+};
+
+/* Action to set inventory table filters */
+export const setInventoryTableFilters = (payload: InventoryTableFilters) => {
+  return {
+    type: actionTypes.SET_INVENTORY_TABLE_FILTERS,
     payload,
   };
 };
@@ -423,6 +433,15 @@ export const fetchInventoryTable = (payload: InventoryTablePayload) => async (
       return;
     }
 
+    /* Get filters */
+    const filters = getInventoryTableFilters(state);
+    const filtersPath = Object.keys(filters).reduce((acc: string, key: string) => {
+      if (filters[key] !== 'null') {
+        return `${acc}&${filters[key]}`;
+      }
+      return acc;
+    }, '');
+
     /* Get display mode (daily or weekly) */
     const timeSettings = getTimeSetting(state);
     let displayMode;
@@ -441,10 +460,11 @@ export const fetchInventoryTable = (payload: InventoryTablePayload) => async (
       `&end_date=${endDateString}` +
       `&display_mode=${displayMode}` +
       `&page=1` +
-      `&per_page=20` +
+      `&per_page=100` +
       `${activePurchaseOrder.id !== -1 ? `&purchase_order_ids=${activePurchaseOrder.id}` : ''}` +
       `&sort=${sort}` +
-      `&sort_direction=${sortDir}`;
+      `&sort_direction=${sortDir}` +
+      `${filtersPath}`;
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/order-plan-overview?${resourceString}`;
 
     const { data } = await axios.get(URL);

@@ -8,14 +8,13 @@ import './globals.scss';
 import styles from './index.module.scss';
 
 /* Actions */
-import { fetchSalesProjection } from '../../../../actions/PerfectStock/SalesProjection';
 import { fetchInventoryTable } from '../../../../actions/PerfectStock/OrderPlanning';
 
 /* Interfaces */
-import { SalesProjectionPayload } from '../../../../interfaces/PerfectStock/SalesProjection';
 import {
   DateRange,
   GanttChartPurchaseOrder,
+  InventoryTableFilters,
   InventoryTablePayload,
 } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
@@ -29,11 +28,13 @@ import InventoryBarCell from './InventoryBarCell';
 import ExpandedInventory from '../ExpandedInventory';
 import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
 import { ReactComponent as ExclaimationIcon } from '../../../../assets/images/exclamation-triangle-solid.svg';
+import TodaySkuTable from './TodaySkuTable';
 
 /* Selectors */
 import {
   getActivePurchaseOrder,
   getDateRange,
+  getInventoryTableFilters,
   getInventoryTableResults,
   getInventoryTableShowAllSkus,
   getIsLoadingInventoryTableResults,
@@ -50,7 +51,6 @@ import {
 
 /* Utils */
 import { getDateOnly } from '../../../../utils/date';
-import TodaySkuTable from './TodaySkuTable';
 
 interface Props {
   // States
@@ -62,6 +62,7 @@ interface Props {
   isLoadingInventoryTableResults: boolean;
   activePurchaseOrder: GanttChartPurchaseOrder;
   tableViewMode: 'Inventory' | 'Stockout' | 'Today';
+  inventoryTableFilters: InventoryTableFilters;
 }
 
 /* Main component */
@@ -75,6 +76,7 @@ const InventoryTable = (props: Props) => {
     isLoadingInventoryTableResults,
     activePurchaseOrder,
     tableViewMode,
+    inventoryTableFilters,
   } = props;
 
   const [sortColumn, setSortColumn] = React.useState<string>('');
@@ -136,6 +138,16 @@ const InventoryTable = (props: Props) => {
     });
     setExpandedRowkeys([]);
   }, [activePurchaseOrder, showAllSkus]);
+
+  /* Refresh inventory table if filters are changed */
+  React.useEffect(() => {
+    generateHeaders(new Date(dateRange.startDate), new Date(dateRange.endDate));
+    fetchInventoryTable({
+      sort: sortColumn,
+      sortDir: sortType,
+    });
+    setExpandedRowkeys([]);
+  }, [inventoryTableFilters.active, inventoryTableFilters.fba]);
 
   /* Parse backend data to fit into a table format */
   /* i.e. {
@@ -275,13 +287,12 @@ const mapStateToProps = (state: any) => {
     isLoadingInventoryTableResults: getIsLoadingInventoryTableResults(state),
     activePurchaseOrder: getActivePurchaseOrder(state),
     showAllSkus: getInventoryTableShowAllSkus(state),
+    inventoryTableFilters: getInventoryTableFilters(state),
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchSalesProjection: (payload: SalesProjectionPayload) =>
-      dispatch(fetchSalesProjection(payload)),
     fetchInventoryTable: (payload: InventoryTablePayload) => dispatch(fetchInventoryTable(payload)),
   };
 };

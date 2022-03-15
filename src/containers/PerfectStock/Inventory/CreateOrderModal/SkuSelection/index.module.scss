@@ -10,6 +10,7 @@
 .createOrderBox {
   min-width: 0 !important;
   border-radius: 7px;
+  padding: 0 40px;
 
   h2 {
     text-align: center;
@@ -21,12 +22,29 @@
   }
 }
 
+.skuSelectMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .skuSelectHeader {
+    margin-right: 50px;
+    // width: 150px;
+    p {
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      font-weight: $fontweight_medium;
+      color: $grey_8;
+    }
+  }
+}
+
 .assignProductsField {
-  margin: auto;
   margin-bottom: 18px;
 
   > div {
-    width: 650px !important;
+    width: 400px !important;
     height: 40px !important;
   }
 }

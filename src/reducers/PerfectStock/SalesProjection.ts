@@ -1,12 +1,13 @@
 import { AnyAction } from 'redux';
 import { setIn } from '../../utils/immutablity';
 
-import { actionTypes } from '../../constants/PerfectStock/SalesProjection';
+import { actionTypes, DEFAULT_FILTER } from '../../constants/PerfectStock/SalesProjection';
 
 const INITIAL_STATE = {
   salesProjectionUpdateDate: '',
   isLoadingSalesProjection: false,
   salesProjectionResult: [],
+  salesProjectionFilters: DEFAULT_FILTER,
   refreshSalesProjectionId: -1,
   isFetchingProgressForRefresh: false,
   refreshProgress: 0,
@@ -20,6 +21,10 @@ const salesProjectionReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_SALES_PROJECTION_RESULTS: {
       return setIn(state, 'salesProjectionResult', action.payload);
+    }
+
+    case actionTypes.SET_SALES_PROJECTION_FILTERS: {
+      return setIn(state, 'salesProjectionFilters', action.payload);
     }
 
     case actionTypes.SET_SALES_PROJECTION_UPDATE_DATE: {

@@ -22,6 +22,7 @@ import { error } from '../../../../../utils/notifications';
 
 /* Types */
 import { CreateOrderPayload } from '../../../../../interfaces/PerfectStock/OrderPlanning';
+import { Checkbox } from 'semantic-ui-react';
 
 interface Props {
   handlePrev: () => void;
@@ -36,6 +37,7 @@ const AddEditSkuModal = (props: Props) => {
   const [addedSkus, setAddedSkus] = React.useState<any[]>(
     createOrderPayload.merchant_listings || []
   );
+  const [enableMOQ, setEnableMOQ] = React.useState<boolean>(false);
   const addedSkuIds = addedSkus.map((sku: any) => sku.id.toString());
 
   const fetchOrderProducts = async () => {
@@ -44,6 +46,7 @@ const AddEditSkuModal = (props: Props) => {
         `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-orders/products`
       );
       setOrderSkus(data);
+      console.log(data);
     } catch (err) {
       console.error(err);
     }
@@ -61,11 +64,15 @@ const AddEditSkuModal = (props: Props) => {
       return sku.moq === null || sku.moq === undefined || sku.moq === '';
     });
 
-    if (moqErrors.length > 0) {
+    if (moqErrors.length > 0 && enableMOQ) {
       error('Please enter a valid MOQ for all SKUs');
       return;
     } else {
-      setCreateOrderPayload({ ...createOrderPayload, merchant_listings: addedSkus });
+      setCreateOrderPayload({
+        ...createOrderPayload,
+        merchant_listings: addedSkus,
+        honor_moq: enableMOQ,
+      });
       handleNext();
     }
   };
@@ -104,34 +111,43 @@ const AddEditSkuModal = (props: Props) => {
     <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>
         <h2>Please add your SKU for this Order:</h2>
-        <SelectionProductFilter
-          className={styles.assignProductsField}
-          label="Please add your SKU for this Smart Order:"
-          filterOptions={orderProductOptions}
-          value={addedSkuIds}
-          handleChange={handleAddSku}
-          placeholder=""
-        />
+        <div className={styles.skuSelectMeta}>
+          <SelectionProductFilter
+            className={styles.assignProductsField}
+            label="Please add your SKU for this Smart Order:"
+            filterOptions={orderProductOptions}
+            value={addedSkuIds}
+            handleChange={handleAddSku}
+            placeholder=""
+          />
+          <div className={styles.skuSelectHeader}>
+            <p>MOQ/ Minimum Order Quantity</p>
+            <p>
+              <Checkbox checked={enableMOQ} onChange={() => setEnableMOQ(!enableMOQ)} />
+              &nbsp;&nbsp;Use MOQ for Next Order
+            </p>
+          </div>
+        </div>
         <Table
           data={addedSkus}
           height={300}
           hover={false}
           rowHeight={60}
-          headerHeight={55}
+          headerHeight={0}
           id="skuSelectionTable"
           shouldUpdateScroll={false}
           //  Props for table expansion
           rowExpandedHeight={300}
         >
           {/* Product Info */}
-          <Table.Column width={600} verticalAlign="middle" align="left">
-            <Table.HeaderCell>Product Information</Table.HeaderCell>
+          <Table.Column width={520} verticalAlign="middle" align="left">
+            <Table.HeaderCell />
             <ProductInfo dataKey="productInfo" />
           </Table.Column>
 
           {/* Edit Cell */}
-          <Table.Column width={50} verticalAlign="middle" align="right" flexGrow={1}>
-            <Table.HeaderCell>MOQ</Table.HeaderCell>
+          <Table.Column width={150} verticalAlign="middle" align="right">
+            <Table.HeaderCell />
             <EditValueCell
               dataKey="moq"
               handleChange={handleChange}
@@ -139,11 +155,12 @@ const AddEditSkuModal = (props: Props) => {
               isInteger
               isPositiveOnly
               showEmptyError
+              disabled={!enableMOQ}
             />
           </Table.Column>
 
           {/* Delete Cell */}
-          <Table.Column width={50} verticalAlign="middle" align="right" flexGrow={1}>
+          <Table.Column width={50} verticalAlign="middle" align="right">
             <Table.HeaderCell />
             <DeleteCell
               dataKey="id"

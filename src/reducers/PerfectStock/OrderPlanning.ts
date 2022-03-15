@@ -5,6 +5,7 @@ import {
   actionTypes,
   TIME_SETTING,
   EMPTY_PURCHASE_ORDER,
+  DEFAULT_FILTER,
 } from '../../constants/PerfectStock/OrderPlanning';
 
 const INITIAL_STATE = {
@@ -15,6 +16,7 @@ const INITIAL_STATE = {
   purchaseOrders: [],
   inventoryTableResults: [],
   inventoryTableShowAllSkus: true,
+  inventoryTableFilters: DEFAULT_FILTER,
   dateRange: {
     startDate: '',
     endDate: '',
@@ -47,6 +49,10 @@ const salesProjectionReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.IS_LOADING_INVENTORY_TABLE_RESULTS: {
       return setIn(state, 'isLoadingInventoryTableResults', action.payload);
+    }
+
+    case actionTypes.SET_INVENTORY_TABLE_FILTERS: {
+      return setIn(state, 'inventoryTableFilters', action.payload);
     }
 
     case actionTypes.SET_INVENTORY_TABLE_SHOW_ALL_SKUS: {

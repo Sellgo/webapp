@@ -27,6 +27,7 @@ interface Props {
 const LeadTimeSelection = (props: Props) => {
   const { handlePrevious, handleNext, createOrderPayload, setCreateOrderPayload } = props;
   const [leadTimeGroups, setLeadTimeGroups] = React.useState<SingleLeadTimeGroup[]>([]);
+  console.log(leadTimeGroups);
 
   /* Fetches all the lead time groups from backend */
   const fetchLeadTimeGroups = async () => {
@@ -34,7 +35,18 @@ const LeadTimeSelection = (props: Props) => {
       const { data } = await axios.get(
         `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-orders/lead-times`
       );
-      setLeadTimeGroups(data);
+
+      if (data && data.length > 0) {
+        setLeadTimeGroups(data);
+        const defaultLeadTime = data.find((leadTime: SingleLeadTimeGroup) => leadTime.is_default);
+        if (defaultLeadTime) {
+          setCreateOrderPayload({
+            ...createOrderPayload,
+            lead_time_group_id: defaultLeadTime.id,
+            lead_time_group: defaultLeadTime,
+          });
+        }
+      }
     } catch (err) {
       console.error(err);
     }
