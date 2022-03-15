@@ -63,7 +63,7 @@ const OrderTypeSelection = (props: Props) => {
           &nbsp; Streamline Smart Order &nbsp;
           <div className={styles.intervalWrapper}>
             <Checkbox
-              checked={smartOrderInterval === 1}
+              checked={smartOrderInterval === null}
               radio
               label="Only for the next order"
               className={styles.inputRadioRow__interval}
