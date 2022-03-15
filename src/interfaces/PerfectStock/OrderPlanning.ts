@@ -109,7 +109,7 @@ export interface CreateOrderPayload {
 
   /* Smart Order */
   approach?: string; //'timebound' | 'moq' | 'inventory'
-  auto_generate_orders_days?: number;
+  auto_generate_orders_days?: number | null;
   interval?: number;
   priority_merchant_listing_id?: number;
   stockout_buffer_days?: number;

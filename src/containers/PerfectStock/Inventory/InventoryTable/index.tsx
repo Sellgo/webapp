@@ -50,6 +50,7 @@ import {
 
 /* Utils */
 import { getDateOnly } from '../../../../utils/date';
+import TodaySkuTable from './TodaySkuTable';
 
 interface Props {
   // States
@@ -60,6 +61,7 @@ interface Props {
   inventoryTableResults: any[];
   isLoadingInventoryTableResults: boolean;
   activePurchaseOrder: GanttChartPurchaseOrder;
+  tableViewMode: 'Inventory' | 'Stockout' | 'Today';
 }
 
 /* Main component */
@@ -72,6 +74,7 @@ const InventoryTable = (props: Props) => {
     inventoryTableResults,
     isLoadingInventoryTableResults,
     activePurchaseOrder,
+    tableViewMode,
   } = props;
 
   const [sortColumn, setSortColumn] = React.useState<string>('');
@@ -134,12 +137,45 @@ const InventoryTable = (props: Props) => {
     setExpandedRowkeys([]);
   }, [activePurchaseOrder, showAllSkus]);
 
+  /* Parse backend data to fit into a table format */
+  /* i.e. {
+    sku: xxx,
+    name: xxx,
+    21-05-2020: 20 inventory,
+    22-05-2020: 20 inventory,
+    23-05-2020: 20 inventory,
+    ...
+  } */
   const displayInventoryResults = inventoryTableResults.map((rowData: any) => {
-    return {
-      ...rowData,
-      ...rowData.expected_inventories,
-    };
+    if (tableViewMode === 'Inventory') {
+      return {
+        ...rowData,
+        ...rowData.expected_inventories,
+      };
+    } else {
+      return {
+        ...rowData,
+        ...rowData.days_until_sos,
+      };
+    }
   });
+
+  if (tableViewMode === 'Today') {
+    return (
+      <>
+        <section className={styles.productDatabaseWrapper}>
+          <TodaySkuTable
+            data={displayInventoryResults}
+            sortColumn={sortColumn}
+            sortType={sortType}
+            handleSortColumn={handleSortColumn}
+            handleExpansion={handleExpansion}
+            expandedRowKeys={expandedRowKeys}
+          />
+        </section>
+      </>
+    );
+  }
 
   return (
     <>
@@ -217,7 +253,11 @@ const InventoryTable = (props: Props) => {
                 <Table.HeaderCell>
                   <HeaderDateCell title={date} />
                 </Table.HeaderCell>
-                <InventoryBarCell dataKey={date} key={index} />
+                <InventoryBarCell
+                  dataKey={date}
+                  key={index}
+                  isShowingDaysUntilStockout={tableViewMode === 'Stockout'}
+                />
               </Table.Column>
             );
           })}

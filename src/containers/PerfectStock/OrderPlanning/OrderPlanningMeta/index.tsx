@@ -28,30 +28,17 @@ import { PurchaseOrder } from '../../../../interfaces/PerfectStock/OrderPlanning
 interface Props {
   setIsEditingSKUs: (isEditingSKUs: boolean) => void;
   activePurchaseOrder: PurchaseOrder;
-  isShowingDaysUntilStockout: boolean;
-  setIsShowingDaysUntilStockout: (isShowingDaysUntilStockout: boolean) => void;
+  tableViewMode: 'Inventory' | 'Stockout' | 'Today';
+  setTableViewMode: (tableViewMode: 'Inventory' | 'Stockout' | 'Today') => void;
 }
 
 const OrderPlanningMeta = (props: Props) => {
-  const {
-    activePurchaseOrder,
-    setIsEditingSKUs,
-    isShowingDaysUntilStockout,
-    setIsShowingDaysUntilStockout,
-  } = props;
+  const { activePurchaseOrder, setIsEditingSKUs, tableViewMode, setTableViewMode } = props;
 
   let hasActivePurchaseOrder = false;
   if (activePurchaseOrder && activePurchaseOrder.id !== -1) {
     hasActivePurchaseOrder = true;
   }
-
-  const handleToggleInventoryViewMode = (mode: string) => {
-    if (mode === 'Inventory (qty)') {
-      setIsShowingDaysUntilStockout(false);
-    } else {
-      setIsShowingDaysUntilStockout(true);
-    }
-  };
 
   return (
     <>
@@ -71,9 +58,9 @@ const OrderPlanningMeta = (props: Props) => {
         </TooltipWrapper>
         <TooltipWrapper tooltipKey="Toggle Show Days Until Stockout">
           <InputTabSelection
-            options={['Inventory (qty)', 'Stockout (days)']}
-            selectedOption={isShowingDaysUntilStockout ? 'Stockout (days)' : 'Inventory (qty)'}
-            setSelectedOption={handleToggleInventoryViewMode}
+            options={['Inventory', 'Stockout', 'Today']}
+            selectedOption={tableViewMode}
+            setSelectedOption={setTableViewMode}
             isPurple
             borderless
           />

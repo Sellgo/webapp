@@ -418,6 +418,11 @@ export const fetchInventoryTable = (payload: InventoryTablePayload) => async (
     const endDate = new Date(getDateRange(state).endDate);
     const endDateString = getDateOnly(endDate);
 
+    if (startDateString === '' || endDateString === '') {
+      dispatch(isLoadingInventoryTableResults(false));
+      return;
+    }
+
     /* Get display mode (daily or weekly) */
     const timeSettings = getTimeSetting(state);
     let displayMode;

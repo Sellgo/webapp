@@ -17,7 +17,6 @@ import BoxHeader from '../../../../components/BoxHeader';
 
 /* Assets */
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
-/*import { ReactComponent as ArrowDown } from '../../../../assets/images/view-detail-down-arrow.svg';*/
 import { ReactComponent as UndoIcon } from '../../../../assets/images/undoIcon.svg';
 import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
 
@@ -36,15 +35,25 @@ import { downloadFile } from '../../../../utils/download';
 import { error, success } from '../../../../utils/notifications';
 import { AppConfig } from '../../../../config';
 import { getDateOnly } from '../../../../utils/date';
+import InputTabSelection from '../../../../components/InputTabSelection';
 
 interface Props {
   refreshInventoryTable: () => void;
   isFetchingProgressForRefresh: boolean;
   inventoryTableUpdateDate: string;
+
+  tableViewMode: 'Inventory' | 'Stockout' | 'Today';
+  setTableViewMode: (tableViewMode: 'Inventory' | 'Stockout' | 'Today') => void;
 }
 
 const OrderPlanningMeta = (props: Props) => {
-  const { refreshInventoryTable, isFetchingProgressForRefresh, inventoryTableUpdateDate } = props;
+  const {
+    refreshInventoryTable,
+    isFetchingProgressForRefresh,
+    inventoryTableUpdateDate,
+    tableViewMode,
+    setTableViewMode,
+  } = props;
   const [isExportLoading, setExportLoading] = React.useState<boolean>(false);
   const [isCreatingOrder, setIsCreatingOrder] = React.useState(false);
   const [isExportConfirmOpen, setExportConfirmOpen] = React.useState<boolean>(false);
@@ -100,7 +109,7 @@ const OrderPlanningMeta = (props: Props) => {
           </ActionButton>
         </TooltipWrapper>
         <div className={styles.exportOptionsWrapper}>
-          {true && (
+          {displayDate && (
             <button
               className={styles.refreshButton}
               onClick={refreshInventoryTable}
@@ -117,6 +126,16 @@ const OrderPlanningMeta = (props: Props) => {
               )}
             </button>
           )}
+          &nbsp;
+          <TooltipWrapper tooltipKey="Toggle Show Days Until Stockout">
+            <InputTabSelection
+              options={['Inventory', 'Stockout', 'Today']}
+              selectedOption={tableViewMode}
+              setSelectedOption={setTableViewMode}
+              isPurple
+              borderless
+            />
+          </TooltipWrapper>
           <TableExport
             label=""
             loading={isExportLoading}

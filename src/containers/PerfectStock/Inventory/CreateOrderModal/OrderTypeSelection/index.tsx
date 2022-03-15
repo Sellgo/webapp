@@ -20,7 +20,7 @@ interface Props {
 const OrderTypeSelection = (props: Props) => {
   const { onCloseModal, handleNext, createOrderPayload, setCreateOrderPayload } = props;
   const [orderType, setOrderType] = React.useState<'single' | 'multiple'>('single');
-  const [smartOrderInterval, setSmartOrderInterval] = React.useState<number>(1);
+  const [smartOrderInterval, setSmartOrderInterval] = React.useState<number | null>(null);
 
   const handleSubmit = () => {
     if (orderType === 'single') {
@@ -67,7 +67,7 @@ const OrderTypeSelection = (props: Props) => {
               radio
               label="Only for the next order"
               className={styles.inputRadioRow__interval}
-              onChange={() => setSmartOrderInterval(1)}
+              onChange={() => setSmartOrderInterval(null)}
             />
             <Checkbox
               checked={smartOrderInterval === 365}

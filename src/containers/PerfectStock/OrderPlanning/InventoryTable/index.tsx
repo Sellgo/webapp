@@ -26,6 +26,7 @@ import QuantityToOrder from './QuantityToOrder';
 import ProductInformation from './ProductInformation';
 import InventoryBarCell from './InventoryBarCell';
 import EditProductRow from './EditProductRow';
+import TodaySkuTable from './TodaySkuTable';
 
 /* Selectors */
 import {
@@ -60,7 +61,7 @@ interface Props {
   activePurchaseOrder: GanttChartPurchaseOrder;
 
   emptySkusContent: React.ReactNode;
-  isShowingDaysUntilStockout: boolean;
+  tableViewMode: 'Inventory' | 'Stockout' | 'Today';
 }
 
 /* Main component */
@@ -73,7 +74,7 @@ const InventoryTable = (props: Props) => {
     isLoadingInventoryTableResults,
     activePurchaseOrder,
     emptySkusContent,
-    isShowingDaysUntilStockout,
+    tableViewMode,
   } = props;
 
   const [sortColumn, setSortColumn] = React.useState<string>('');
@@ -124,7 +125,7 @@ const InventoryTable = (props: Props) => {
     ...
   } */
   const displayInventoryResults = inventoryTableResults.map((rowData: any) => {
-    if (!isShowingDaysUntilStockout) {
+    if (tableViewMode === 'Inventory') {
       return {
         ...rowData,
         ...rowData.expected_inventories,
@@ -140,6 +141,19 @@ const InventoryTable = (props: Props) => {
   const inventoryResultsIds =
     activePurchaseOrder.id !== -1 ? displayInventoryResults.map((rowData: any) => rowData.sku) : [];
 
+  if (tableViewMode === 'Today') {
+    return (
+      <section className={styles.productDatabaseWrapper}>
+        <TodaySkuTable
+          data={displayInventoryResults}
+          sortColumn={sortColumn}
+          sortType={sortType}
+          handleSortColumn={handleSortColumn}
+          activePurchaseOrder={activePurchaseOrder}
+        />
+      </section>
+    );
+  }
   return (
     <>
       <section className={styles.productDatabaseWrapper}>
@@ -166,7 +180,7 @@ const InventoryTable = (props: Props) => {
           expandedRowKeys={inventoryResultsIds}
           renderRowExpanded={(rowData: any) => (
             <EditProductRow
-              hideDaysUntilStockout={isShowingDaysUntilStockout}
+              hideDaysUntilStockout={tableViewMode === 'Stockout'}
               rowData={rowData}
               orderId={activePurchaseOrder.id}
             />
@@ -216,7 +230,7 @@ const InventoryTable = (props: Props) => {
                 <InventoryBarCell
                   dataKey={date}
                   key={index}
-                  isShowingDaysUntilStockout={isShowingDaysUntilStockout}
+                  isShowingDaysUntilStockout={tableViewMode === 'Stockout'}
                 />
               </Table.Column>
             );
