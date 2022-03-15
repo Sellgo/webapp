@@ -196,31 +196,15 @@ const TplTable = (props: Props) => {
           <Table.Column width={112} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title={`Qty to Send In`}
-                dataKey="sales"
+                title={`Shipment\nQuantity`}
+                dataKey="send_quantity_avg"
                 currentSortColumn={''}
                 currentSortType={undefined}
                 alignMiddle
                 disableSort
               />
             </Table.HeaderCell>
-            <MultipleStatBox
-              displayData={[
-                {
-                  title: 'Using LND:',
-                  dataKey: 'send_quantity_lnd',
-                },
-                {
-                  title: 'Using Pred:',
-                  dataKey: 'send_quantity_predictive',
-                },
-                {
-                  title: 'Avg:',
-                  dataKey: 'send_quantity_avg',
-                },
-              ]}
-              dataKey="working"
-            />
+            <SingleStatBox dataKey="send_quantity_avg" />
           </Table.Column>
 
           <Table.Column width={112} verticalAlign="middle" align="center">

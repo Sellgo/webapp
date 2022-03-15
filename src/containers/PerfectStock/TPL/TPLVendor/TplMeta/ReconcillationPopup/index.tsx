@@ -13,7 +13,9 @@ import BoxContainer from '../../../../../../components/BoxContainer';
 import DeleteCell from '../../../../../../components/NewTable/DeleteCell';
 import EditValueCell from '../../../../../../components/NewTable/EditValueCell';
 import SelectionProductFilter from '../../../../../../components/FormFilters/SelectionProductFilter';
+import HeaderSortCell from '../../../../../../components/NewTable/HeaderSortCell';
 import ActionButton from '../../../../../../components/ActionButton';
+import QuantityCell from './QuantityCell';
 
 /* Containers */
 import ProductInfo from './ProductInfo';
@@ -51,7 +53,10 @@ const AddEditSkuModal = (props: Props) => {
         return {
           merchant_listing_id:
             vendorSkus.find((sku: any) => sku.id === parseInt(id))?.merchant_listing_id || 0,
-          quantity: vendorSkus.find((sku: any) => sku.id === parseInt(id))?.quantity || 0,
+          quantity:
+            vendorSkus.find((sku: any) => sku.id === parseInt(id))?.tpl_quantity ||
+            0 + vendorSkus.find((sku: any) => sku.id === parseInt(id))?.reconcile ||
+            0,
         };
       }),
     };
@@ -137,16 +142,36 @@ const AddEditSkuModal = (props: Props) => {
             rowExpandedHeight={300}
           >
             {/* Product Info */}
-            <Table.Column width={600} verticalAlign="middle" align="left">
+            <Table.Column width={500} verticalAlign="middle" align="left" flexGrow={1}>
               <Table.HeaderCell>Product Information</Table.HeaderCell>
               <ProductInfo dataKey="productInfo" />
             </Table.Column>
 
-            {/* Edit Cell */}
-            <Table.Column width={50} verticalAlign="middle" align="right" flexGrow={1}>
-              <Table.HeaderCell>Quantity</Table.HeaderCell>
+            <Table.Column width={112} verticalAlign="middle" align="center">
+              <Table.HeaderCell>
+                <HeaderSortCell
+                  title={`Current\n3PL Quantity`}
+                  dataKey={'tpl_quantity'}
+                  currentSortColumn={''}
+                  currentSortType={undefined}
+                  disableSort
+                />
+              </Table.HeaderCell>
+              <QuantityCell dataKey="tpl_quantity" />
+            </Table.Column>
+
+            <Table.Column width={112} verticalAlign="middle" align="center">
+              <Table.HeaderCell>
+                <HeaderSortCell
+                  title={`Reconcile`}
+                  dataKey={'reconcile'}
+                  currentSortColumn={''}
+                  currentSortType={undefined}
+                  disableSort
+                />
+              </Table.HeaderCell>
               <EditValueCell
-                dataKey="quantity"
+                dataKey="reconcile"
                 handleChange={handleChange}
                 isNumber
                 isInteger
@@ -155,8 +180,21 @@ const AddEditSkuModal = (props: Props) => {
               />
             </Table.Column>
 
+            <Table.Column width={112} verticalAlign="middle" align="center">
+              <Table.HeaderCell>
+                <HeaderSortCell
+                  title={`New 3PL\n Quantity`}
+                  dataKey={'tpl_quantity'}
+                  currentSortColumn={''}
+                  currentSortType={undefined}
+                  disableSort
+                />
+              </Table.HeaderCell>
+              <QuantityCell dataKey="tpl_quantity" isSum />
+            </Table.Column>
+
             {/* Delete Cell */}
-            <Table.Column width={50} verticalAlign="middle" align="right" flexGrow={1}>
+            <Table.Column width={50} verticalAlign="middle" align="right">
               <Table.HeaderCell />
               <DeleteCell
                 dataKey="id"
