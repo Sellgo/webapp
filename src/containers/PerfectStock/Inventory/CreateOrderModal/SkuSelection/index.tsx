@@ -146,7 +146,7 @@ const AddEditSkuModal = (props: Props) => {
           </Table.Column>
 
           {/* Edit Cell */}
-          <Table.Column width={150} verticalAlign="middle" align="right">
+          <Table.Column width={120} verticalAlign="middle" align="right">
             <Table.HeaderCell />
             <EditValueCell
               dataKey="moq"
@@ -160,7 +160,7 @@ const AddEditSkuModal = (props: Props) => {
           </Table.Column>
 
           {/* Delete Cell */}
-          <Table.Column width={50} verticalAlign="middle" align="right">
+          <Table.Column width={50} verticalAlign="middle" align="right" flexGrow={1}>
             <Table.HeaderCell />
             <DeleteCell
               dataKey="id"

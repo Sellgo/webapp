@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { Table } from 'rsuite';
-import { Checkbox } from 'semantic-ui-react';
+import { Radio } from 'semantic-ui-react';
 import { RowCell } from '../../../interfaces/Table';
 
 /* Styling */
@@ -9,10 +9,11 @@ import styles from './index.module.scss';
 interface Props extends RowCell {
   handleCheckboxClick: (data: any) => void;
   selectedValue: any;
+  isRadio?: boolean;
 }
 
 const RadioCell = (props: Props) => {
-  const { selectedValue, handleCheckboxClick, ...otherProps } = props;
+  const { selectedValue, handleCheckboxClick, isRadio, ...otherProps } = props;
 
   const { dataKey, rowData } = otherProps;
 
@@ -21,9 +22,8 @@ const RadioCell = (props: Props) => {
   return (
     <Table.Cell {...otherProps}>
       <div className={styles.checkBoxCell}>
-        <Checkbox
-          radio
-          className={styles.checkbox}
+        <Radio
+          className={`${styles.checkbox} ${isRadio ? styles.checkbox__radio : ''}`}
           checked={isCheckedRow}
           onChange={() => handleCheckboxClick(rowData)}
         />

@@ -19,7 +19,7 @@ import placeholderImage from '../../../../../../assets/images/placeholderImage.s
 const ProductInfo = (props: RowCell) => {
   const { rowData } = props;
 
-  const { title, asin, image_url } = rowData;
+  const { title, asin, image_url, sku } = rowData;
   const productImage = image_url ? image_url.replace('SL75', 'SL140') : placeholderImage;
 
   const truncatedTitle = truncateString(title, 70);
@@ -36,11 +36,15 @@ const ProductInfo = (props: RowCell) => {
 
           <div className={styles.productMetaDetails}>
             <img src={require('../../../../../../assets/images/USFlag.png')} alt="American Flag" />
-            <CopyAndLocateClipboard
-              data={asin}
-              displayData={asin}
-              link={`https://www.amazon.com/dp/${asin}`}
-            />
+            <span className={styles.metaInformation}>
+              <span>{sku}</span>
+              <CopyAndLocateClipboard
+                data={asin}
+                displayData={asin}
+                link={`https://www.amazon.com/dp/${asin}`}
+                wrapperClassName={styles.asin}
+              />
+            </span>
           </div>
         </div>
       </div>

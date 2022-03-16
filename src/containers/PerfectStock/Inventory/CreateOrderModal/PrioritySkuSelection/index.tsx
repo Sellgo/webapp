@@ -67,6 +67,7 @@ const PrioritySkuSelection = (props: Props) => {
               dataKey="id"
               handleCheckboxClick={handleChange}
               selectedValue={selectedPrioritySku}
+              isRadio
             />
           </Table.Column>
           {/* Product Info */}
@@ -80,6 +81,9 @@ const PrioritySkuSelection = (props: Props) => {
           </Table.Column>
         </Table>
       </div>
+      <span className={styles.helperMessage}>
+        *You can also change Priority SKU in the Order Planning.
+      </span>
       <div className={styles.buttonsRow}>
         <ActionButton
           className={styles.cancelButton}

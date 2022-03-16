@@ -92,7 +92,9 @@ const InventoryThresholdSelection = (props: Props) => {
           &nbsp; of days until stockout.
         </div>
       </div>
-
+      <span className={styles.helperMessage}>
+        *You can re-align next order in the Order Planning.
+      </span>
       <div className={styles.buttonsRow}>
         <ActionButton
           className={styles.cancelButton}

@@ -9,12 +9,13 @@ interface Props {
   leadTimes: LeadTime[];
   className?: string;
   showDates?: boolean;
+  showDurationOnTop?: boolean;
   startDate?: string;
   endDate?: string;
 }
 
 const LeadTimeBar = (props: Props) => {
-  const { leadTimes, className, showDates, startDate, endDate } = props;
+  const { showDurationOnTop, leadTimes, className, showDates, startDate, endDate } = props;
   const totalLeadTimes = leadTimes?.reduce((accumulator, currentValue) => {
     return accumulator + currentValue.duration;
   }, 0);
@@ -31,7 +32,13 @@ const LeadTimeBar = (props: Props) => {
   }
   const firstDate = new Date(currDate.getTime());
   return (
-    <div className={`${styles.leadTimeBarWrapper} ${className}`}>
+    <div
+      className={`
+      ${styles.leadTimeBarWrapper} 
+      ${className}
+      ${showDurationOnTop ? styles.leadTimeBarWrapper__durationOnTop : ''}
+    `}
+    >
       {leadTimes?.map((leadTime, index) => {
         /* Add leadTime.duration days to currDate */
         currDate.setDate(currDate.getDate() + leadTime.duration);
@@ -57,9 +64,7 @@ const LeadTimeBar = (props: Props) => {
               </div>
             )}
             <div className={styles.leadTimeSegment}>
-              <p>
-                {getLeadTimeName(leadTime.type)}&nbsp;{leadTime.duration}D
-              </p>
+              <p>{getLeadTimeName(leadTime.type)}</p>
             </div>
             {showDates && (
               <div className={styles.dateWrapper}>
@@ -71,6 +76,12 @@ const LeadTimeBar = (props: Props) => {
                   })}
                 </div>
               </div>
+            )}
+
+            {showDurationOnTop && (
+              <p className={styles.leadTimeDuration}>
+                {leadTime.duration > 1 ? `${leadTime.duration} days` : `${leadTime.duration} day`}
+              </p>
             )}
           </div>
         );

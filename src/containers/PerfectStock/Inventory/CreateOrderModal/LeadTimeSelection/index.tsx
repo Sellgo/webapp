@@ -101,6 +101,7 @@ const LeadTimeSelection = (props: Props) => {
           <LeadTimeBar
             className={styles.leadTimeBar}
             leadTimes={createOrderPayload.lead_time_group?.lead_times || []}
+            showDurationOnTop
           />
         )}
       </div>

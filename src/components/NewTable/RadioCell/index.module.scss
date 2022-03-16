@@ -23,4 +23,10 @@
   input:checked ~ label::after {
     color: $grey_8 !important;
   }
+
+  &__radio {
+    label::before {
+      border-radius: 50% !important;
+    }
+  }
 }
