@@ -48,8 +48,13 @@
 
     > div {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       margin-left: 30px;
+
+      p {
+        margin-top: 8px;
+        margin-right: 3px;
+      }
 
       &:first-child {
         margin-left: 0;
