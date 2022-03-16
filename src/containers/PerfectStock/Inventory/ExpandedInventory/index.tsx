@@ -17,7 +17,6 @@ import BoxHeader from '../../../../components/BoxHeader';
 import BoxContainer from '../../../../components/BoxContainer';
 import Placeholder from '../../../../components/Placeholder';
 import InventorySettings from './InventorySettings';
-import InventorySkuStatus from './InventorySkuStatus';
 import InventorySalesTable from './InventorySalesTable';
 import InventorySalesGraph from './InventorySalesGraph';
 
@@ -181,32 +180,29 @@ const ExpandedInventory = (props: Props) => {
         updateInventorySku={updateInventorySku}
       />
       <div className={styles.expandedProductDetailsWrapper}>
-        <InventorySkuStatus className={styles.skuStatusContainer} rowData={rowData} />
-        <div className={styles.salesProjectionContainer}>
-          <BoxHeader className={styles.tableHeader}>EXPANDED INVENTORY</BoxHeader>
-          <BoxContainer className={styles.tableContainer}>
-            {/* Placeholder is used here because the headers are pre-rendered, and the table data is huge */}
-            {isLoadingProductProjectedSales ? (
-              <Placeholder numberParagraphs={2} numberRows={3} />
-            ) : (
-              <>
-                <InventorySalesTable
-                  productProjectedSales={productProjectedSales}
-                  showTrends={showTrends}
-                  setShowTrends={setShowTrends}
-                />
-                <InventorySalesGraph
-                  data={graphProductProjectedSalesData}
-                  timeSetting={timeSetting}
-                  xAxisStartDate={
-                    productProjectedSales.length > 0 ? Object.keys(productProjectedSales[0])[0] : ''
-                  }
-                  className={styles.graphContainer}
-                />
-              </>
-            )}
-          </BoxContainer>
-        </div>
+        <BoxHeader className={styles.tableHeader}>EXPANDED INVENTORY</BoxHeader>
+        <BoxContainer className={styles.tableContainer}>
+          {/* Placeholder is used here because the headers are pre-rendered, and the table data is huge */}
+          {isLoadingProductProjectedSales ? (
+            <Placeholder numberParagraphs={2} numberRows={3} />
+          ) : (
+            <>
+              <InventorySalesTable
+                productProjectedSales={productProjectedSales}
+                showTrends={showTrends}
+                setShowTrends={setShowTrends}
+              />
+              <InventorySalesGraph
+                data={graphProductProjectedSalesData}
+                timeSetting={timeSetting}
+                xAxisStartDate={
+                  productProjectedSales.length > 0 ? Object.keys(productProjectedSales[0])[0] : ''
+                }
+                className={styles.graphContainer}
+              />
+            </>
+          )}
+        </BoxContainer>
       </div>
     </div>
   );

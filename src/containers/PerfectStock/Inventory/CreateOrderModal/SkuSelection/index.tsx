@@ -46,7 +46,6 @@ const AddEditSkuModal = (props: Props) => {
         `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-orders/products`
       );
       setOrderSkus(data);
-      console.log(data);
     } catch (err) {
       console.error(err);
     }
@@ -122,10 +121,10 @@ const AddEditSkuModal = (props: Props) => {
           />
           <div className={styles.skuSelectHeader}>
             <p>MOQ/ Minimum Order Quantity</p>
-            <p>
+            <span>
               <Checkbox checked={enableMOQ} onChange={() => setEnableMOQ(!enableMOQ)} />
               &nbsp;&nbsp;Use MOQ for Next Order
-            </p>
+            </span>
           </div>
         </div>
         <Table

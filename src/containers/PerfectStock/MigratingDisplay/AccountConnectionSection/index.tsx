@@ -9,7 +9,8 @@ import history from '../../../../history';
 
 /* Assets */
 import LeadTimeLogo from '../../../../assets/images/leadTime.svg';
-import ZoomLogo from '../../../../assets/images/zoomLogo.png';
+
+/* Utils */
 import { formatNumber } from '../../../../utils/format';
 
 interface Props {
@@ -19,11 +20,6 @@ const AccountConnectionSection = (props: Props) => {
   const { eta } = props;
   const handleRedirectToConnectivity = () => {
     history.push('/settings/aistock/lead-time');
-  };
-
-  const handleRedirectToZoom = () => {
-    /* history push to new tab */
-    window.open('https://calendly.com/sellgo-richard/onboarding', '_blank');
   };
 
   return (
@@ -51,21 +47,6 @@ const AccountConnectionSection = (props: Props) => {
             onClick={handleRedirectToConnectivity}
           >
             Set Up
-          </ActionButton>
-        </div>
-        <div className={styles.connectAccountCard}>
-          <img src={ZoomLogo} alt="lead time" className={styles.connectApiLogo} />
-          <p className={styles.connectApiLabel}>
-            {' '}
-            Schedule 1:1 <br />
-            Onboarding Call{' '}
-          </p>
-          <p className={styles.connectApiDesc}>
-            We&apos;re here to help. Schedule 15-min to talk with us if you don't like self-guided
-            onboarding.
-          </p>
-          <ActionButton type="black" variant="primary" size="md" onClick={handleRedirectToZoom}>
-            Schedule
           </ActionButton>
         </div>
       </div>
