@@ -8,14 +8,13 @@ import './globals.scss';
 import styles from './index.module.scss';
 
 /* Actions */
-import { fetchSalesProjection } from '../../../../actions/PerfectStock/SalesProjection';
 import { fetchInventoryTable } from '../../../../actions/PerfectStock/OrderPlanning';
 
 /* Interfaces */
-import { SalesProjectionPayload } from '../../../../interfaces/PerfectStock/SalesProjection';
 import {
   DateRange,
   GanttChartPurchaseOrder,
+  InventoryTableFilters,
   InventoryTablePayload,
 } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
@@ -29,11 +28,13 @@ import InventoryBarCell from './InventoryBarCell';
 import ExpandedInventory from '../ExpandedInventory';
 import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
 import { ReactComponent as ExclaimationIcon } from '../../../../assets/images/exclamation-triangle-solid.svg';
+import TodaySkuTable from './TodaySkuTable';
 
 /* Selectors */
 import {
   getActivePurchaseOrder,
   getDateRange,
+  getInventoryTableFilters,
   getInventoryTableResults,
   getInventoryTableShowAllSkus,
   getIsLoadingInventoryTableResults,
@@ -60,6 +61,8 @@ interface Props {
   inventoryTableResults: any[];
   isLoadingInventoryTableResults: boolean;
   activePurchaseOrder: GanttChartPurchaseOrder;
+  tableViewMode: 'Inventory' | 'Stockout' | 'Today';
+  inventoryTableFilters: InventoryTableFilters;
 }
 
 /* Main component */
@@ -72,6 +75,8 @@ const InventoryTable = (props: Props) => {
     inventoryTableResults,
     isLoadingInventoryTableResults,
     activePurchaseOrder,
+    tableViewMode,
+    inventoryTableFilters,
   } = props;
 
   const [sortColumn, setSortColumn] = React.useState<string>('');
@@ -134,12 +139,55 @@ const InventoryTable = (props: Props) => {
     setExpandedRowkeys([]);
   }, [activePurchaseOrder, showAllSkus]);
 
+  /* Refresh inventory table if filters are changed */
+  React.useEffect(() => {
+    generateHeaders(new Date(dateRange.startDate), new Date(dateRange.endDate));
+    fetchInventoryTable({
+      sort: sortColumn,
+      sortDir: sortType,
+    });
+    setExpandedRowkeys([]);
+  }, [inventoryTableFilters.active, inventoryTableFilters.fba]);
+
+  /* Parse backend data to fit into a table format */
+  /* i.e. {
+    sku: xxx,
+    name: xxx,
+    21-05-2020: 20 inventory,
+    22-05-2020: 20 inventory,
+    23-05-2020: 20 inventory,
+    ...
+  } */
   const displayInventoryResults = inventoryTableResults.map((rowData: any) => {
-    return {
-      ...rowData,
-      ...rowData.expected_inventories,
-    };
+    if (tableViewMode === 'Inventory') {
+      return {
+        ...rowData,
+        ...rowData.expected_inventories,
+      };
+    } else {
+      return {
+        ...rowData,
+        ...rowData.days_until_sos,
+      };
+    }
   });
+
+  if (tableViewMode === 'Today') {
+    return (
+      <>
+        <section className={styles.productDatabaseWrapper}>
+          <TodaySkuTable
+            data={displayInventoryResults}
+            sortColumn={sortColumn}
+            sortType={sortType}
+            handleSortColumn={handleSortColumn}
+            handleExpansion={handleExpansion}
+            expandedRowKeys={expandedRowKeys}
+          />
+        </section>
+      </>
+    );
+  }
 
   return (
     <>
@@ -217,7 +265,11 @@ const InventoryTable = (props: Props) => {
                 <Table.HeaderCell>
                   <HeaderDateCell title={date} />
                 </Table.HeaderCell>
-                <InventoryBarCell dataKey={date} key={index} />
+                <InventoryBarCell
+                  dataKey={date}
+                  key={index}
+                  isShowingDaysUntilStockout={tableViewMode === 'Stockout'}
+                />
               </Table.Column>
             );
           })}
@@ -235,13 +287,12 @@ const mapStateToProps = (state: any) => {
     isLoadingInventoryTableResults: getIsLoadingInventoryTableResults(state),
     activePurchaseOrder: getActivePurchaseOrder(state),
     showAllSkus: getInventoryTableShowAllSkus(state),
+    inventoryTableFilters: getInventoryTableFilters(state),
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchSalesProjection: (payload: SalesProjectionPayload) =>
-      dispatch(fetchSalesProjection(payload)),
     fetchInventoryTable: (payload: InventoryTablePayload) => dispatch(fetchInventoryTable(payload)),
   };
 };

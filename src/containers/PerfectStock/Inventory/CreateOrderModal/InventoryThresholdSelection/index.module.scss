@@ -1,0 +1,67 @@
+@import '../../../../../design-system/new-colors';
+
+.createOrderWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.createOrderBox {
+  min-width: 0 !important;
+  padding: 30px;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    margin-bottom: 30px;
+    line-height: normal;
+    font-size: 24px;
+    font-weight: $fontweight_bold;
+    color: $black_1;
+  }
+}
+
+.buttonsRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+
+  > div {
+    margin-left: 18px;
+  }
+}
+
+.inputRadioRow {
+  border-radius: 7px;
+  height: 50px;
+  width: 700px;
+  padding: 0 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: 1px solid $grey_3;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1);
+  color: $black_1;
+  font-size: 14px;
+  font-weight: $fontweight_medium;
+  margin-top: 10px;
+  opacity: 0.5;
+
+  .inputFilter {
+    width: 70px !important;
+    min-width: 0;
+  }
+
+  &__selected {
+    opacity: 1;
+    font-weight: $fontweight_semibold !important;
+    background: $grey_10;
+  }
+
+  &:hover {
+    background: $grey_10;
+  }
+}

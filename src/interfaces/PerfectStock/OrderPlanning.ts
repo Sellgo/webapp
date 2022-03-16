@@ -1,3 +1,5 @@
+import { SingleLeadTimeGroup } from './SalesProjection';
+
 export interface DateRange {
   startDate: string;
   endDate: string;
@@ -60,6 +62,16 @@ export interface UpdatePurchaseOrderPayload {
   is_priority?: boolean;
   purchase_order_ids?: number[];
   total_shipping_cost?: number;
+  estimate_shipping_cost?: boolean;
+  vendor_id?: number | null;
+}
+
+export interface AlignPurchaseOrderPayload {
+  id: number;
+  priority_merchant_listing_id: number;
+  stockout_buffer_days?: number | null;
+  stockout_buffer_perc?: number | null;
+  is_moq: boolean;
   vendor_id?: number | null;
 }
 
@@ -90,10 +102,25 @@ export interface InventorySkuUpdatePayload {
 }
 
 export interface CreateOrderPayload {
-  date: string;
+  creation_type: string; // 'single' | 'multiple';
+
+  /* All Orders */
+  start_date?: string | null;
+  end_date?: string | null;
   lead_time_group_id: number;
-  approach: 'inventory';
-  auto_generate_orders_days: number;
+  lead_time_group?: SingleLeadTimeGroup;
+  merchant_listings: any[];
+  vendor_id?: number;
+
+  /* Smart Order */
+  approach?: string; //'timebound' | 'moq' | 'inventory'
+  auto_generate_orders_days?: number | null;
+  interval?: number;
+  priority_merchant_listing_id?: number;
+  stockout_buffer_days?: number;
+  stockout_buffer_perc?: number;
+  n_days_limit?: number;
+  honor_moq?: boolean;
 }
 
 export interface DraftOrderInformation {
@@ -122,4 +149,9 @@ export interface ProductConfig {
   weight_unit: string;
   width: number;
   width_unit: string;
+}
+
+export interface InventoryTableFilters {
+  active: string;
+  fba: string;
 }

@@ -8,14 +8,11 @@ import 'rsuite/dist/styles/rsuite-default.css';
 import './globals.scss';
 import styles from './index.module.scss';
 
-/* Actions */
-import { fetchSalesProjection } from '../../../../actions/PerfectStock/SalesProjection';
-
 /* Interfaces */
-import { SalesProjectionPayload } from '../../../../interfaces/PerfectStock/SalesProjection';
 import {
   DateRange,
   GanttChartPurchaseOrder,
+  InventoryTableFilters,
   InventoryTablePayload,
 } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
@@ -26,11 +23,13 @@ import QuantityToOrder from './QuantityToOrder';
 import ProductInformation from './ProductInformation';
 import InventoryBarCell from './InventoryBarCell';
 import EditProductRow from './EditProductRow';
+import TodaySkuTable from './TodaySkuTable';
 
 /* Selectors */
 import {
   getActivePurchaseOrder,
   getDateRange,
+  getInventoryTableFilters,
   getInventoryTableResults,
   getIsLoadingInventoryTableResults,
   getTimeSetting,
@@ -58,9 +57,10 @@ interface Props {
   inventoryTableResults: any[];
   isLoadingInventoryTableResults: boolean;
   activePurchaseOrder: GanttChartPurchaseOrder;
+  inventoryTableFilters: InventoryTableFilters;
 
   emptySkusContent: React.ReactNode;
-  isShowingDaysUntilStockout: boolean;
+  tableViewMode: 'Inventory' | 'Stockout' | 'Today';
 }
 
 /* Main component */
@@ -73,7 +73,8 @@ const InventoryTable = (props: Props) => {
     isLoadingInventoryTableResults,
     activePurchaseOrder,
     emptySkusContent,
-    isShowingDaysUntilStockout,
+    tableViewMode,
+    inventoryTableFilters,
   } = props;
 
   const [sortColumn, setSortColumn] = React.useState<string>('');
@@ -114,6 +115,15 @@ const InventoryTable = (props: Props) => {
     });
   }, [dateRange.startDate, timeSetting, activePurchaseOrder]);
 
+  /* Refresh inventory table if filters are changed */
+  React.useEffect(() => {
+    generateHeaders(new Date(dateRange.startDate), new Date(dateRange.endDate));
+    fetchInventoryTable({
+      sort: sortColumn,
+      sortDir: sortType,
+    });
+  }, [inventoryTableFilters.active, inventoryTableFilters.fba]);
+
   /* Parse backend data to fit into a table format */
   /* i.e. {
     sku: xxx,
@@ -124,7 +134,7 @@ const InventoryTable = (props: Props) => {
     ...
   } */
   const displayInventoryResults = inventoryTableResults.map((rowData: any) => {
-    if (!isShowingDaysUntilStockout) {
+    if (tableViewMode === 'Inventory') {
       return {
         ...rowData,
         ...rowData.expected_inventories,
@@ -140,6 +150,19 @@ const InventoryTable = (props: Props) => {
   const inventoryResultsIds =
     activePurchaseOrder.id !== -1 ? displayInventoryResults.map((rowData: any) => rowData.sku) : [];
 
+  if (tableViewMode === 'Today') {
+    return (
+      <section className={styles.productDatabaseWrapper}>
+        <TodaySkuTable
+          data={displayInventoryResults}
+          sortColumn={sortColumn}
+          sortType={sortType}
+          handleSortColumn={handleSortColumn}
+          activePurchaseOrder={activePurchaseOrder}
+        />
+      </section>
+    );
+  }
   return (
     <>
       <section className={styles.productDatabaseWrapper}>
@@ -166,7 +189,7 @@ const InventoryTable = (props: Props) => {
           expandedRowKeys={inventoryResultsIds}
           renderRowExpanded={(rowData: any) => (
             <EditProductRow
-              hideDaysUntilStockout={isShowingDaysUntilStockout}
+              hideDaysUntilStockout={tableViewMode === 'Stockout'}
               rowData={rowData}
               orderId={activePurchaseOrder.id}
             />
@@ -216,7 +239,7 @@ const InventoryTable = (props: Props) => {
                 <InventoryBarCell
                   dataKey={date}
                   key={index}
-                  isShowingDaysUntilStockout={isShowingDaysUntilStockout}
+                  isShowingDaysUntilStockout={tableViewMode === 'Stockout'}
                 />
               </Table.Column>
             );
@@ -234,13 +257,12 @@ const mapStateToProps = (state: any) => {
     inventoryTableResults: getInventoryTableResults(state),
     isLoadingInventoryTableResults: getIsLoadingInventoryTableResults(state),
     activePurchaseOrder: getActivePurchaseOrder(state),
+    inventoryTableFilters: getInventoryTableFilters(state),
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchSalesProjection: (payload: SalesProjectionPayload) =>
-      dispatch(fetchSalesProjection(payload)),
     fetchInventoryTable: (payload: InventoryTablePayload) => dispatch(fetchInventoryTable(payload)),
   };
 };

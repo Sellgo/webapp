@@ -33,6 +33,15 @@ const EditProductRow = (props: Props) => {
     });
   };
 
+  const handleAutoCalculate = async () => {
+    const id = orderId;
+    updatePurchaseOrder({
+      id,
+      po_sku_id: rowData.id,
+      estimate_shipping_cost: true,
+    });
+  };
+
   const stockOutDate = new Date();
   stockOutDate.setTime(stockOutDate.getTime() + daysToStockOut * 24 * 60 * 60 * 1000);
   return (
@@ -88,6 +97,8 @@ const EditProductRow = (props: Props) => {
         prepend="$"
         asFloat
         editable
+        autoCalculate
+        handleAutoCalculate={handleAutoCalculate}
         handleEditSave={updateInventorySku}
       />
       <StatBox

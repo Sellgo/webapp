@@ -11,8 +11,6 @@ import LeadTimeBar from '../../../../../components/LeadTimeBar';
 
 /* Interfaces */
 import { CreateOrderPayload } from '../../../../../interfaces/PerfectStock/OrderPlanning';
-
-/* Types */
 import { SingleLeadTimeGroup } from '../../../../../interfaces/PerfectStock/SalesProjection';
 
 /* Utils */
@@ -29,6 +27,7 @@ interface Props {
 const LeadTimeSelection = (props: Props) => {
   const { handlePrevious, handleNext, createOrderPayload, setCreateOrderPayload } = props;
   const [leadTimeGroups, setLeadTimeGroups] = React.useState<SingleLeadTimeGroup[]>([]);
+  console.log(leadTimeGroups);
 
   /* Fetches all the lead time groups from backend */
   const fetchLeadTimeGroups = async () => {
@@ -36,7 +35,18 @@ const LeadTimeSelection = (props: Props) => {
       const { data } = await axios.get(
         `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-orders/lead-times`
       );
-      setLeadTimeGroups(data);
+
+      if (data && data.length > 0) {
+        setLeadTimeGroups(data);
+        const defaultLeadTime = data.find((leadTime: SingleLeadTimeGroup) => leadTime.is_default);
+        if (defaultLeadTime) {
+          setCreateOrderPayload({
+            ...createOrderPayload,
+            lead_time_group_id: defaultLeadTime.id,
+            lead_time_group: defaultLeadTime,
+          });
+        }
+      }
     } catch (err) {
       console.error(err);
     }
@@ -50,7 +60,7 @@ const LeadTimeSelection = (props: Props) => {
 
   /* Disable user from proceeding when any of the fields are empty */
   const isHandleNextDisabled =
-    createOrderPayload.date === '' || createOrderPayload.lead_time_group_id === -1;
+    createOrderPayload.start_date === '' || createOrderPayload.lead_time_group_id === -1;
 
   React.useEffect(() => {
     fetchLeadTimeGroups();
@@ -63,6 +73,18 @@ const LeadTimeSelection = (props: Props) => {
     handleNext();
   };
 
+  const handleSelectLeadTime = (leadTimeGroupId: string) => {
+    const leadTimeGroup = leadTimeGroups.find(
+      leadTimeGroup => leadTimeGroup.id?.toString() === leadTimeGroupId
+    );
+
+    setCreateOrderPayload({
+      ...createOrderPayload,
+      lead_time_group_id: parseInt(leadTimeGroupId),
+      lead_time_group: leadTimeGroup,
+    });
+  };
+
   return (
     <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>
@@ -70,12 +92,7 @@ const LeadTimeSelection = (props: Props) => {
         <SelectionFilter
           filterOptions={leadTimeOptions}
           value={createOrderPayload.lead_time_group_id.toString()}
-          handleChange={(value: string) =>
-            setCreateOrderPayload({
-              ...createOrderPayload,
-              lead_time_group_id: parseInt(value),
-            })
-          }
+          handleChange={handleSelectLeadTime}
           placeholder=""
           label=""
           className={styles.inputField}
@@ -83,13 +100,7 @@ const LeadTimeSelection = (props: Props) => {
         {createOrderPayload.lead_time_group_id !== -1 && (
           <LeadTimeBar
             className={styles.leadTimeBar}
-            leadTimes={
-              leadTimeGroups.find(
-                leadTimeGroup => leadTimeGroup.id === createOrderPayload.lead_time_group_id
-              )?.lead_times || []
-            }
-            showDates
-            startDate={createOrderPayload.date}
+            leadTimes={createOrderPayload.lead_time_group?.lead_times || []}
           />
         )}
       </div>
@@ -112,7 +123,7 @@ const LeadTimeSelection = (props: Props) => {
           disabled={isHandleNextDisabled}
           loading={isCreatingOrder}
         >
-          Submit
+          Next
         </ActionButton>
       </div>
     </div>

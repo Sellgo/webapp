@@ -447,6 +447,7 @@ class TimeLine extends Component {
             handleDeleteAllTasks={this.props.handleDeleteAllTasks}
             handleSetPrioritySku={this.props.handleSetPrioritySku}
             handleConnectTpl={this.props.handleConnectTpl}
+            handleDisconnectTpl={this.props.handleDisconnectTpl}
             mode={this.state.mode}
             /* For left dropdown */
             viewFilterOptions={this.props.viewFilterOptions}
@@ -456,6 +457,7 @@ class TimeLine extends Component {
             handleEditTask={this.props.handleEditTask}
             generateNextOrder={this.props.generateNextOrder}
             isDraftMode={this.props.isDraftMode}
+            handleAlignOrder={this.props.handleAlignOrder}
           />
         </div>
         <div className="timeLine-main">

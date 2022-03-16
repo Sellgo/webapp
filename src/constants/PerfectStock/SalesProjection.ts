@@ -6,6 +6,7 @@ export const actionTypes = {
   SET_REFRESH_SALES_PROJECTION_ID: 'SET_REFRESH_SALES_PROJECTION_ID',
   SET_IS_FETCHING_PROGRESS_FOR_REFRESH: 'SET_IS_FETCHING_PROGRESS_FOR_REFRESH',
   SET_REFRESH_PROGRESS: 'SET_REFRESH_PROGRESS',
+  SET_SALES_PROJECTION_FILTERS: 'SET_SALES_PROJECTION_FILTERS',
 };
 
 export const WEIGHT_OPTIONS = [
@@ -120,4 +121,45 @@ export const DEFAULT_WEIGHT = {
   key: '20%',
   text: '20%',
   value: '20',
+};
+
+export const ACTIVE_FILTER_OPTIONS = [
+  {
+    key: 'Active Products',
+    text: 'Active Products',
+    value: 'sku_status=active',
+  },
+  {
+    key: 'Inactive Products',
+    text: 'Inactive Products',
+    value: 'sku_status=inactive',
+  },
+  {
+    key: 'Active and Inactive Products',
+    text: 'Active and Inactive Products',
+    value: 'null',
+  },
+];
+
+export const FBA_FILTER_OPTIONS = [
+  {
+    key: 'FBA Products',
+    text: 'FBA Products',
+    value: 'fulfillment_channel=fba',
+  },
+  {
+    key: 'FBM Products',
+    text: 'FBM Products',
+    value: 'fulfillment_channel=fbm',
+  },
+  {
+    key: 'FBA and FBM Products',
+    text: 'FBA and FBM Products',
+    value: 'null',
+  },
+];
+
+export const DEFAULT_FILTER = {
+  active: 'sku_status=active',
+  fba: 'fulfillment_channel=fba',
 };

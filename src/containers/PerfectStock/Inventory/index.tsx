@@ -49,11 +49,16 @@ const OrderPlanning = (props: Props) => {
     perfectStockGetStartedStatus,
     updatePerfectStockGetStartedStatus,
   } = props;
+
+  const [tableViewMode, setTableViewMode] = React.useState<'Inventory' | 'Stockout' | 'Today'>(
+    'Inventory'
+  );
+
   return (
     <main>
       <OrderGanttChart />
-      <OrderPlanningMeta />
-      <InventoryTable />
+      <OrderPlanningMeta tableViewMode={tableViewMode} setTableViewMode={setTableViewMode} />
+      <InventoryTable tableViewMode={tableViewMode} />
       <ProgressBar
         fetchProgress={fetchRefreshProgress}
         progress={refreshProgress}

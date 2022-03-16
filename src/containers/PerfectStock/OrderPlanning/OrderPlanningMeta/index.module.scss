@@ -6,8 +6,15 @@
   justify-content: space-between;
 }
 
+.filterContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
 .editSkuButton {
   width: 150px;
+  margin-right: 30px;
 
   /* Styling for plus icon */
   svg {

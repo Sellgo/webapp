@@ -7,6 +7,7 @@ import {
 } from '../../../../constants/PerfectStock/OrderPlanning';
 import { Icon, Popup, Radio } from 'semantic-ui-react';
 import ToggleRadio from '../../../../components/ToggleRadio';
+import { ReactComponent as AlignOrderIcon } from '../../../../assets/images/arrow-right-to-bracket-solid.svg';
 
 export class VerticalLine extends Component {
   constructor(props) {
@@ -135,14 +136,37 @@ export class TaskRow extends Component {
                     </button>
                     <button
                       onClick={() => {
-                        this.props.handleConnectTpl(this.props.item);
+                        this.props.handleAlignOrder(this.props.item);
                         this.setState({ isPopupOpen: false });
                       }}
-                      disabled={false}
+                      disabled={!this.props.item.is_included}
                     >
-                      <Icon name="chain" />
-                      <span>Connect to 3PL</span>
+                      <AlignOrderIcon />
+                      <span>Align Order</span>
                     </button>
+                    {!this.props.item.vendorId ? (
+                      <button
+                        onClick={() => {
+                          this.props.handleConnectTpl(this.props.item);
+                          this.setState({ isPopupOpen: false });
+                        }}
+                        disabled={false}
+                      >
+                        <Icon name="chain" />
+                        <span>Connect to 3PL</span>
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          this.props.handleDisconnectTpl(this.props.item);
+                          this.setState({ isPopupOpen: false });
+                        }}
+                        disabled={false}
+                      >
+                        <Icon name="broken chain" />
+                        <span>Disconnect from 3PL</span>
+                      </button>
+                    )}
                   </div>
                 </>
               }
@@ -200,6 +224,8 @@ export default class TaskList extends Component {
           handleSetPrioritySku={this.props.handleSetPrioritySku}
           handleConnectTpl={this.props.handleConnectTpl}
           handleIncludedToggle={this.props.handleIncludedToggle}
+          handleAlignOrder={this.props.handleAlignOrder}
+          handleDisconnectTpl={this.props.handleDisconnectTpl}
           isDraftMode={this.props.isDraftMode}
         />
       );

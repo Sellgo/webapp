@@ -8,17 +8,22 @@ import styles from './index.module.scss';
 import { RowCell } from '../../../../../../interfaces/Table';
 import { formatNumber, showNAIfNull, formatDecimal } from '../../../../../../utils/format';
 
-const SingleStatBox = (props: RowCell) => {
-  const { rowData, dataKey } = props;
+interface Props extends RowCell {
+  highlightZero?: boolean;
+}
+const SingleStatBox = (props: Props) => {
+  const { highlightZero, ...otherProps } = props;
+  const { rowData, dataKey } = otherProps;
+
   const displayStat = showNAIfNull(rowData[`${dataKey}`], formatNumber(rowData[`${dataKey}`]));
   const displayChange = showNAIfNull(
     rowData[`${dataKey}_change`],
     formatDecimal(rowData[`${dataKey}_change`])
   );
 
-  if (displayStat === '0') {
+  if (displayStat === '0' && highlightZero) {
     return (
-      <Table.Cell {...props}>
+      <Table.Cell {...otherProps}>
         <div className={styles.displayStatWrapper}>
           <div className={styles.zeroStat}>0</div>
         </div>

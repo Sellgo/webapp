@@ -43,6 +43,7 @@
   font-size: 14px;
   color: $black_1;
   font-weight: $fontweight_semibold;
+  display: flex;
 
   &__small {
     font-size: 12px;
@@ -51,6 +52,10 @@
 
   &__double {
     margin-top: 0;
+  }
+
+  svg {
+    cursor: pointer;
   }
 }
 

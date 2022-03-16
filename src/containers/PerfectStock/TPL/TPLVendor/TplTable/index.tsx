@@ -160,7 +160,7 @@ const TplTable = (props: Props) => {
                 disableSort
               />
             </Table.HeaderCell>
-            <SingleStatBox dataKey="fulfillable" />
+            <SingleStatBox dataKey="fulfillable" highlightZero />
           </Table.Column>
 
           {/* Days until FBA Inbound  */}
@@ -175,7 +175,7 @@ const TplTable = (props: Props) => {
                 disableSort
               />
             </Table.HeaderCell>
-            <SingleStatBox dataKey="days_until_so_fulfillable" />
+            <SingleStatBox dataKey="days_until_so_fulfillable" highlightZero />
           </Table.Column>
 
           {/* Days until FBA Inbound  */}

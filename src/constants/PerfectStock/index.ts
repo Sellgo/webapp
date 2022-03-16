@@ -7,7 +7,7 @@ export const PERFECT_STOCK_PAGES = [
 ];
 export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
-    name: 'Home',
+    name: 'Cashflow Home',
     desc: 'Cashflow Analysis',
   },
   {

@@ -39,12 +39,17 @@ export const formatCompletedDate = (timestamp: Date) => {
 };
 
 export const getDateOnly = (date: Date) => {
-  /* Get date format into `YYYY-MM-DD` */
-  const dateString = date
-    .toISOString()
-    .substr(0, 10)
-    .replace('T', ' ');
-  return dateString;
+  try {
+    /* Get date format into `YYYY-MM-DD` */
+    const dateString = date
+      .toISOString()
+      .substr(0, 10)
+      .replace('T', ' ');
+    return dateString;
+  } catch {
+    /* Invalid date format */
+    return '';
+  }
 };
 
 export const getHours = (startDate: string) => {

@@ -1,0 +1,66 @@
+@import '../../design-system/new-colors';
+
+.aistockSelectionFilterWrapper {
+  width: max-content;
+
+  p {
+    margin: 0 7px 3px;
+    color: $grey_8 !important;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .ui.dropdown.selectionFilter {
+    color: $grey_8 !important;
+    font-size: 12px;
+    font-weight: 500 !important;
+    padding: 0 10px !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .text {
+      color: $grey_8 !important;
+      font-size: 12px !important;
+      margin-right: 5px;
+    }
+
+    .default {
+      color: $grey_5 !important;
+    }
+
+    &:hover {
+      background-color: $grey_10 !important;
+    }
+
+    &.error {
+      border: 1px solid $system_red !important;
+    }
+
+    .menu.transition {
+      border: 1px solid $grey_3 !important;
+      font-size: 12px !important;
+      max-height: 250px !important;
+      z-index: 999;
+
+      .item {
+        color: $grey_8 !important;
+        font-weight: 400;
+        font-size: 12px;
+
+        &:hover {
+          background: $grey_1 !important;
+          font-weight: 500 !important;
+        }
+
+        &.active {
+          font-weight: 500 !important;
+        }
+      }
+    }
+  }
+
+  .disabled {
+    opacity: 0.5;
+  }
+}

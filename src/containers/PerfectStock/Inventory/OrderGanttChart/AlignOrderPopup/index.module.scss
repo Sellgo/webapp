@@ -1,0 +1,59 @@
+@import '../../../../../design-system/new-colors';
+
+.boxContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+}
+
+.buttonsRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 18px;
+  margin-left: auto;
+  margin-top: auto;
+
+  > div {
+    margin-left: 10px;
+
+    path {
+      fill: $grey_8 !important;
+    }
+
+    &:hover {
+      path {
+        fill: $prim_white !important;
+      }
+    }
+  }
+}
+
+.inputRow {
+  display: grid;
+  width: 600px;
+  grid-template-columns: 30% 70%;
+  align-items: center;
+  margin-bottom: 10px;
+
+  .selectionProductFilter {
+    width: 100%;
+
+    > div {
+      width: 100% !important;
+    }
+  }
+
+  label {
+    font-size: 14px;
+    font-weight: $fontweight_medium;
+    color: $black_1;
+  }
+}
+
+.inputFilter {
+  width: 70px !important;
+  min-width: 0;
+}

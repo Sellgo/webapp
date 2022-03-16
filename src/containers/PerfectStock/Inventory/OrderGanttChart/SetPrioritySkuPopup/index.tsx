@@ -4,24 +4,13 @@ import React from 'react';
 import BoxHeader from '../../../../../components/BoxHeader';
 import BoxContainer from '../../../../../components/BoxContainer';
 import SelectionProductFilter from '../../../../../components/FormFilters/SelectionProductFilter';
+import ActionButton from '../../../../../components/ActionButton';
 
 /* Styles */
 import styles from './index.module.scss';
 
-/* Constants */
-import ActionButton from '../../../../../components/ActionButton';
+/* Types */
 import { UpdatePurchaseOrderPayload } from '../../../../../interfaces/PerfectStock/OrderPlanning';
-
-type ProductOption = {
-  id: string;
-  productName: string;
-  asin: string;
-  img: string;
-  skuName?: string;
-  activePurchaseOrders?: number;
-  fulfillmentChannel?: string;
-  skuStatus?: string;
-};
 
 interface Props {
   prioritySkuDetails: any;
