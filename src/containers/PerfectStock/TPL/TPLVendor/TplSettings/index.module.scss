@@ -38,7 +38,7 @@
   p {
     color: $grey_8;
     font-size: 12px;
-    font-weight: $fontweight_medium;
+    font-weight: $fontweight_semibold;
     margin-bottom: 5px;
   }
 
@@ -48,7 +48,7 @@
     > div {
       display: flex;
       align-items: center;
-      margin-left: 30px;
+      margin-left: 40px;
 
       &:first-child {
         margin-left: 0;
@@ -97,6 +97,8 @@
 
     input {
       width: 120px !important;
+      font-size: 12px;
+      font-weight: $fontweight_semibold;
     }
 
     min-width: 0 !important;
@@ -106,5 +108,5 @@
 
 .exclaimationIcon {
   margin-top: 10px;
-  margin-left: 5px;
+  margin-left: 7px;
 }

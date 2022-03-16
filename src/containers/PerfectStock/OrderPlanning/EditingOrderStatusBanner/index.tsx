@@ -18,7 +18,7 @@ const EditingOrderStatusBanner = () => {
         {' '}
         <LeftArrow /> Back to previous page
       </button>
-      <p>CREATING ORDERS</p>
+      <p>CREATING/ EDITING ORDERS</p>
     </div>
   );
 };
