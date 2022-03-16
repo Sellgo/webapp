@@ -159,7 +159,7 @@ const OrderSummary = (props: Props) => {
         </span>
       </div>
       <div className={styles.statWrapper}>
-        <TooltipWrapper tooltipKey="Total Volume">
+        <TooltipWrapper tooltipKey="Total Carton Volume">
           <span className={styles.statHeader}>Total Volume</span>
         </TooltipWrapper>
         <span className={`${styles.stat} ${styles.stat__double}`}>
@@ -170,7 +170,7 @@ const OrderSummary = (props: Props) => {
         </span>
       </div>
       <div className={styles.statWrapper}>
-        <TooltipWrapper tooltipKey="Total Gross Weight">
+        <TooltipWrapper tooltipKey="Total Carton Gross Weight">
           <span className={styles.statHeader}>Total Gross Weight</span>
         </TooltipWrapper>
         <span className={`${styles.stat} ${styles.stat__double}`}>

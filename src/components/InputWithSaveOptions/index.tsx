@@ -56,27 +56,17 @@ const InputWithSaveOptions = (props: Props) => {
     setIsEditingValue(false);
   };
 
-  const handleValueChange = (value: string) => {
-    if (isNumber && !value) {
-      setUpdatedValue('0');
+  /* Save when user presses enter */
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSaveAndClose();
     }
+  };
 
-    /* Positive integers only */
-    if (isNumber && isPositiveOnly && isInteger) {
-      if (parseInt(value) >= 0) {
-        setUpdatedValue(parseFloat(value).toString());
-      }
-      /* Integers only */
-    } else if (isNumber && isInteger) {
-      setUpdatedValue(parseInt(value).toString());
-
-      /* Positive floats/integers only */
-    } else if (isNumber && isPositiveOnly) {
-      if (parseFloat(value) >= 0) {
-        setUpdatedValue(parseFloat(value).toString());
-      }
-    } else {
-      setUpdatedValue(value);
+  /* Cancel when user presses escapes */
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Escape') {
+      handleDiscardChanges();
     }
   };
 
@@ -104,15 +94,19 @@ const InputWithSaveOptions = (props: Props) => {
         <InputFilter
           placeholder={placeholder || ''}
           value={updatedValue}
-          handleChange={handleValueChange}
+          handleChange={setUpdatedValue}
           isNumber={isNumber}
+          isPositiveOnly={isPositiveOnly}
+          isInteger={isInteger}
           label={label}
           disabled={disabled}
           className={`
-            ${styles.textInput}
-            ${className}
-            ${size === 'large' ? styles.textInput__large : styles.textInput__small}  
-          `}
+              ${styles.textInput}
+              ${className}
+              ${size === 'large' ? styles.textInput__large : styles.textInput__small}  
+            `}
+          handleKeyDown={handleKeyDown}
+          handleKeyUp={handleKeyUp}
         />
       }
       content={

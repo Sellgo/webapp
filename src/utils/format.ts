@@ -177,3 +177,20 @@ export const prettyPrintDate = (date: Date) => {
     month: 'short',
   })} ${date.getFullYear()}`;
 };
+
+/* Convert to 2dp */
+export const lbsToKg = (lbs: number) => {
+  return parseFloat((lbs / 2.2046).toFixed(2));
+};
+
+export const kgToLbs = (kg: number) => {
+  return parseFloat((kg * 2.2046).toFixed(2));
+};
+
+export const inchToCm = (inch: number) => {
+  return parseFloat((inch * 2.54).toFixed(2));
+};
+
+export const cmToInch = (cm: number) => {
+  return parseFloat((cm / 2.54).toFixed(2));
+};

@@ -92,7 +92,7 @@ export interface InventorySkuUpdatePayload {
   height?: number;
   height_unit?: string;
   weight?: number;
-  weight_unit?: string;
+  weight_unit?: string | null;
   length?: number;
   length_unit?: string;
   width?: number;

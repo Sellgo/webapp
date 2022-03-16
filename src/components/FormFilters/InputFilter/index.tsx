@@ -34,6 +34,8 @@ interface Props {
   isDate?: boolean;
   onFocus?: () => void;
   onBlur?: () => void;
+  handleKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  handleKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const InputFilter: React.FC<Props> = props => {
@@ -53,6 +55,8 @@ const InputFilter: React.FC<Props> = props => {
     isDate,
     onFocus,
     onBlur,
+    handleKeyDown,
+    handleKeyUp,
   } = props;
 
   /* Onboarding logic */
@@ -70,17 +74,20 @@ const InputFilter: React.FC<Props> = props => {
 
     /* Positive integers only */
     if (isNumber && isPositiveOnly && isInteger) {
-      if (parseInt(value) >= 0) {
-        handleChange(parseFloat(value).toString());
+      if (!isNaN(value as any) && parseInt(value) >= 0 && Number.isInteger(Number(value))) {
+        handleChange(value);
       }
       /* Integers only */
     } else if (isNumber && isInteger) {
-      handleChange(parseInt(value).toString());
+      /* Check if is valid integer */
+      if (Number.isInteger(Number(value))) {
+        handleChange(value);
+      }
 
       /* Positive floats/integers only */
     } else if (isNumber && isPositiveOnly) {
       if (parseFloat(value) >= 0) {
-        handleChange(parseFloat(value).toString());
+        handleChange(value);
       }
     } else {
       handleChange(value);
@@ -123,6 +130,8 @@ const InputFilter: React.FC<Props> = props => {
           }}
           onFocus={onFocus}
           onBlur={onBlur}
+          onKeyDown={handleKeyDown}
+          onKeyUp={handleKeyUp}
         />
       ) : (
         <DatePicker
