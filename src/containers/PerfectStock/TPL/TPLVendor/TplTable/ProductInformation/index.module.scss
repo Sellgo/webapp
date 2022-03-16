@@ -1,0 +1,114 @@
+@import '../../../../../../design-system/new-colors.scss';
+
+.productInformation {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-top: 10px;
+  margin: 0 20px;
+}
+
+.productImage {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.productDetails {
+  width: calc(100% - 200px);
+  margin-left: 20px;
+}
+
+.productTitle {
+  color: $black_1;
+  font-size: 14px;
+  font-weight: $fontweight_semibold;
+  text-align: left;
+  margin-bottom: 10px;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
+.productAttributes {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 120px 120px;
+  font-size: 10px !important;
+  font-weight: $fontweight_medium !important;
+  color: $black_1 !important;
+}
+
+.flagAndAsinCol {
+  display: flex;
+  flex-direction: row;
+
+  .flagIcon {
+    width: 20px;
+    margin-right: 8px;
+    object-fit: contain;
+  }
+
+  .productTitleTextBox {
+    margin-top: -5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.sizeTierAndStatusCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.productAsin {
+  font-size: 10px !important;
+  font-weight: $fontweight_medium !important;
+  color: $black_1 !important;
+
+  &:hover {
+    text-decoration-color: $black-1 !important;
+    font-size: 10px !important;
+    font-weight: $fontweight_semibold !important;
+    color: $black_1 !important;
+  }
+}
+
+.productMetaDetailWrapper {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.productMetaDetail {
+  .circle {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    margin-right: 5px;
+
+    &__green {
+      background: $system_green;
+    }
+
+    &__orange {
+      background: $accent_orange;
+    }
+
+    &__blue {
+      background: $blue_link_bg_light;
+    }
+  }
+
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  color: $grey_8;
+  font-weight: $fontweight_medium;
+}

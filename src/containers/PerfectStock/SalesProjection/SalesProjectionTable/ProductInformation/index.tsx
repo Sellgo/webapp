@@ -40,7 +40,7 @@ const ProductInformation = (props: RowCell) => {
               {/* ASIN and UPC details */}
               <div className={styles.productTitleTextBox}>
                 {/* ASIN */}
-                {asin.length > 0 ? (
+                {asin?.length > 0 ? (
                   <CopyAndLocateClipboard
                     data={asin}
                     link={`http://www.amazon.com/dp/${asin}`}

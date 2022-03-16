@@ -1,4 +1,3 @@
-export const FOO = 'BAR';
 /* All action types */
 export const actionTypes = {
   IS_LOADING_SALES_PROJECTION_RESULTS: 'IS_LOADING_SALES_PROJECTION_RESULTS',

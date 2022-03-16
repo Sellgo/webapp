@@ -29,6 +29,7 @@ import keywordTrackerReducer from './KeywordResearch/KeywordTracker';
 /* Perfect Stock */
 import salesProjectionReducer from './PerfectStock/SalesProjection';
 import orderPlanningReducer from './PerfectStock/OrderPlanning';
+import tplReducer from './PerfectStock/Tpl';
 
 const rootReducer = combineReducers({
   settings: settingsReducer,
@@ -60,6 +61,7 @@ const rootReducer = combineReducers({
   // perfect stock
   salesProjection: salesProjectionReducer,
   orderPlanning: orderPlanningReducer,
+  tpl: tplReducer,
 });
 
 export default rootReducer;

@@ -1,0 +1,56 @@
+@import '../../../../../design-system/new-colors';
+
+.boxContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  h2 {
+    color: $black_1;
+    font-size: 24px;
+    font-weight: $fontweight_bold;
+    margin-bottom: 18px;
+  }
+}
+
+.tplVendorsContainer {
+  display: flex;
+  flex-direction: column;
+
+  .tplVendorRadio {
+    margin-top: 10px;
+
+    label {
+      font-size: 12px;
+      font-weight: $fontweight_medium;
+      color: $black_1;
+    }
+  }
+}
+
+.buttonsRow {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+  margin-bottom: 30px;
+  padding: 0 18px;
+  margin-left: auto;
+
+  > div {
+    margin-left: 10px;
+    width: 180px;
+
+    path {
+      fill: $grey_8 !important;
+    }
+
+    &:hover {
+      path {
+        fill: $prim_white !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+@import '../../../../../../design-system/new-colors.scss';
+
+.displayStatWrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .zeroStat {
+    width: 70px;
+    height: 50px;
+    background: $system_red;
+    color: $prim_white;
+    border-radius: 7px;
+    font-size: 16px;
+    font-weight: $fontweight_medium;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .displayStat {
+    font-size: 16px;
+    font-weight: $fontweight_semibold;
+    color: $grey_8;
+  }
+
+  .change {
+    margin-top: 5px;
+    font-size: 10px;
+    font-weight: $fontweight_medium;
+
+    &__negative {
+      color: $system_red;
+    }
+
+    &__positive {
+      color: $system_green;
+    }
+  }
+}

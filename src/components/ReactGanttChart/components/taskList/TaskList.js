@@ -144,6 +144,29 @@ export class TaskRow extends Component {
                       <AlignOrderIcon />
                       <span>Align Order</span>
                     </button>
+                    {!this.props.item.vendorId ? (
+                      <button
+                        onClick={() => {
+                          this.props.handleConnectTpl(this.props.item);
+                          this.setState({ isPopupOpen: false });
+                        }}
+                        disabled={false}
+                      >
+                        <Icon name="chain" />
+                        <span>Connect to 3PL</span>
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          this.props.handleDisconnectTpl(this.props.item);
+                          this.setState({ isPopupOpen: false });
+                        }}
+                        disabled={false}
+                      >
+                        <Icon name="broken chain" />
+                        <span>Disconnect from 3PL</span>
+                      </button>
+                    )}
                   </div>
                 </>
               }
@@ -199,8 +222,10 @@ export default class TaskList extends Component {
           handleEditTask={this.props.handleEditTask}
           generateNextOrder={this.props.generateNextOrder}
           handleSetPrioritySku={this.props.handleSetPrioritySku}
+          handleConnectTpl={this.props.handleConnectTpl}
           handleIncludedToggle={this.props.handleIncludedToggle}
           handleAlignOrder={this.props.handleAlignOrder}
+          handleDisconnectTpl={this.props.handleDisconnectTpl}
           isDraftMode={this.props.isDraftMode}
         />
       );

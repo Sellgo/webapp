@@ -32,7 +32,16 @@
 
     .autoCalculate {
       cursor: pointer;
+
+      i {
+        color: $grey_8 !important;
+      }
     }
+  }
+
+  .inputWrapper {
+    display: flex;
+    align-items: center;
   }
 
   .input {

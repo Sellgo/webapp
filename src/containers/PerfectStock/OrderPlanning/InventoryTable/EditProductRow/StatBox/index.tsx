@@ -45,14 +45,19 @@ const StatBox = (props: Props) => {
       <div className={styles.statWrapper}>
         <div className={styles.stat}>
           {editable && handleEditSave ? (
-            <InputWithSaveOptions
-              defaultValue={displayStat}
-              isNumber
-              isPositiveOnly
-              size="small"
-              handleSave={handleEditSave}
-              className={styles.input}
-            />
+            <span className={styles.inputWrapper}>
+              {prepend}
+              &nbsp;
+              <InputWithSaveOptions
+                defaultValue={stat}
+                isNumber
+                isPositiveOnly
+                size="small"
+                handleSave={handleEditSave}
+                className={styles.input}
+              />
+              {append}
+            </span>
           ) : (
             <span>
               {displayStat && displayStat !== 0 ? prepend : ''}

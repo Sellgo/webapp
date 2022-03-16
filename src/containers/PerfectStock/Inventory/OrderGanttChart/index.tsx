@@ -8,6 +8,7 @@ import TimeLine from '../../../../components/ReactGanttChart/TimeLine';
 import AutoGenerateOrderPopup from './AutoGenerateOrderPopup';
 import AlignOrderPopup from './AlignOrderPopup';
 import SetPrioritySkuPopup from './SetPrioritySkuPopup';
+import ConnectTplPopup from './ConnectTplPopup';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -217,6 +218,27 @@ const OrderGanttChart = (props: Props) => {
     }
   };
 
+  const [isConnectingTpl, setIsConnectingTpl] = React.useState(false);
+  const [connectTplDetails, setConnectTplDetails] = React.useState<{
+    id: number;
+    selectedVendor: number | null;
+  }>({
+    id: 0,
+    selectedVendor: null,
+  });
+
+  const handleConnectTpl = (payload: GanttChartPurchaseOrder) => {
+    setConnectTplDetails({ id: payload.id, selectedVendor: payload.vendorId });
+    setIsConnectingTpl(true);
+  };
+
+  const handleDisconnectTpl = (payload: GanttChartPurchaseOrder) => {
+    updatePurchaseOrder({
+      id: payload.id,
+      vendor_id: null,
+    });
+  };
+
   /* ================================================================ */
   /* Converting purchase orders to fit the format for gantt chart */
   /* ================================================================ */
@@ -234,6 +256,7 @@ const OrderGanttChart = (props: Props) => {
       const prioritySku = purchaseOrder.merchant_listings?.find(
         (merchantListing: any) => merchantListing.is_priority
       );
+      const vendorId = purchaseOrder.vendor_id;
 
       const leadTimeDate = start;
       const subTasks = purchaseOrder.lead_time_group?.lead_times?.map(
@@ -253,6 +276,7 @@ const OrderGanttChart = (props: Props) => {
         end,
         name,
         is_included,
+        vendorId,
         prioritySku: prioritySku?.sku,
         subTasks: subTasks || [],
       };
@@ -383,6 +407,8 @@ const OrderGanttChart = (props: Props) => {
             generateNextOrder={handleGenerateNextOrderClick}
             handleSetPrioritySku={handleSetPrioritySkuClick}
             handleAlignOrder={handleAlignOrder}
+            handleConnectTpl={handleConnectTpl}
+            handleDisconnectTpl={handleDisconnectTpl}
           />
 
           <Modal
@@ -419,6 +445,16 @@ const OrderGanttChart = (props: Props) => {
               />
             }
             onClose={() => setIsAligningOrder(false)}
+          />
+          <Modal
+            open={isConnectingTpl}
+            content={
+              <ConnectTplPopup
+                connectTplDetails={connectTplDetails}
+                handleCancel={() => setIsConnectingTpl(false)}
+              />
+            }
+            onClose={() => setIsConnectingTpl(false)}
             className={styles.setPrioritySkuModal}
           />
         </div>

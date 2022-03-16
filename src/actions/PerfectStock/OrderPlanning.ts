@@ -391,8 +391,12 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
     if (status === 200) {
       dispatch(fetchInventoryTable({}));
 
-      /* Deleted Purchase Orders */
-      if (!payload.date && payload.status === 'inactive') {
+      /* Refresh purchase orders if updating vendor 3pl or deleted purchase order */
+      if (
+        (!payload.date && payload.status === 'inactive') ||
+        payload.vendor_id === null ||
+        payload.vendor_id
+      ) {
         dispatch(fetchPurchaseOrders());
         success('Deleted order successfully');
       }

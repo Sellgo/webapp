@@ -87,6 +87,7 @@ const AistockSelectionFilter: React.FC<Props> = props => {
 
       <Dropdown
         fluid
+        icon="angle down"
         className={isFocused ? 'selectionFilter selectionFilter__focused' : ' selectionFilter'}
         options={filterOptions}
         placeholder={placeholder}

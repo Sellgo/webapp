@@ -9,13 +9,14 @@ interface Props {
   isToggled: boolean;
   handleChange: () => void;
   label: string;
+  isRainbow?: boolean;
 }
 
 const ToggleRadio: React.FC<Props> = props => {
-  const { className, isToggled, handleChange, label } = props;
+  const { className, isToggled, handleChange, label, isRainbow } = props;
 
   return (
-    <span className="toggleRadio">
+    <span className={isRainbow ? 'toggleRadioRainbow' : 'toggleRadio'}>
       <Radio
         label={label}
         className={`${className}`}

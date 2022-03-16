@@ -1,0 +1,39 @@
+@import '../../../design-system/new-colors';
+
+.tplVendorTabList {
+  margin-top: 30px;
+  display: flex;
+}
+
+.tplVendor {
+  max-width: 200px;
+  padding: 0 18px;
+  border-bottom: 1px solid $grey_3;
+  font-size: 14px;
+  height: 40px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  color: $grey_8;
+  cursor: pointer;
+
+  span {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__selected {
+    background: $orange_10;
+    border: 1px solid $grey_3;
+    font-weight: $fontweight_semibold;
+    border-bottom: none;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+  }
+
+  &:hover {
+    font-weight: $fontweight_semibold;
+  }
+}
