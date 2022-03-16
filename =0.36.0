@@ -1,4 +1,0 @@
-+ postcss-syntax@0.10.0
-removed 124 packages, updated 1 package and audited 2644 packages in 21.602s
-found 14 vulnerabilities (1 low, 6 moderate, 6 high, 1 critical)
-  run `npm audit fix` to fix them, or `npm audit` for details
