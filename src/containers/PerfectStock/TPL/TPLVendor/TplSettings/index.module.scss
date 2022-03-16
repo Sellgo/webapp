@@ -19,11 +19,12 @@
     // display: grid;
     // grid-template-columns: 350px 150px 200px 200px;
     display: flex;
+    flex-wrap: wrap;
   }
 
   .secondRow {
     display: flex;
-    margin-top: 30px;
+    flex-wrap: wrap;
   }
 }
 
@@ -59,6 +60,7 @@
 
 .inputFilter {
   margin-right: 30px;
+  margin-bottom: 30px;
 
   &__long {
     input {
