@@ -77,7 +77,6 @@ export const fetchSellerSubscription = () => (dispatch: any) => {
 
       dispatch(setSellerSubscription(subscription));
       if (subscription) {
-        console.log(subscription);
         if (subscription.is_first_time_logged_in) {
           localStorage.setItem('isFirstTimeLoggedIn', 'true');
         } else {
