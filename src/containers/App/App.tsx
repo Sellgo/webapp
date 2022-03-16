@@ -149,7 +149,7 @@ const PrivateRoute = connect(
         if (requireSubscription && subscriptionId === 5) {
           if (isBetaLabel) {
             history.push('/activate-beta-account');
-          } else if (!sellerSubscription.is_aistock) {
+          } else {
             history.push('/settings/pricing');
           }
         }

@@ -55,7 +55,7 @@ const PageHeader = (props: Props) => {
             <Header.Content>
               {callToAction}
               <p>
-                {trialDurationLeft && (
+                {(trialDurationLeft !== null || trialDurationLeft !== undefined) && (
                   <>
                     Beta Trial:&nbsp;
                     <span>{trialDurationLeft} Days Left</span>

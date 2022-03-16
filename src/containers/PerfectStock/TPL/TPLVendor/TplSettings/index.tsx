@@ -42,8 +42,8 @@ const TplSettings = (props: Props) => {
   const [tplSettings, setTplSettings] = useState<TplVendor>(
     activeTplVendor || DEFAULT_NEW_TPL_VENDOR
   );
-  const [showTplMetaSettings, setShowTplMetaSettings] = useState(true);
-  const [showTplMonthlyStorageCost, setShowTplMonthlyStorageCost] = useState(true);
+  const [showTplMetaSettings, setShowTplMetaSettings] = useState(false);
+  const [showTplMonthlyStorageCost, setShowTplMonthlyStorageCost] = useState(false);
   const [storageCostError, setSetStorageCostError] = useState(false);
 
   React.useEffect(() => {
