@@ -1,6 +1,7 @@
 import React from 'react';
 import { Input } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { DatePicker } from 'rsuite';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -16,7 +17,9 @@ import {
 
 /* Components */
 import OnboardingTooltip from '../../OnboardingTooltip';
-import { DatePicker } from 'rsuite';
+
+/* Utils */
+import { getNumberOfDps } from '../../../utils/format';
 
 interface Props {
   label?: string;
@@ -31,6 +34,7 @@ interface Props {
   isInteger?: boolean;
   isPositiveOnly?: boolean;
   isNumber?: boolean;
+  allow5Decimal?: boolean;
   isDate?: boolean;
   onFocus?: () => void;
   onBlur?: () => void;
@@ -57,6 +61,7 @@ const InputFilter: React.FC<Props> = props => {
     onBlur,
     handleKeyDown,
     handleKeyUp,
+    allow5Decimal,
   } = props;
 
   /* Onboarding logic */
@@ -86,7 +91,17 @@ const InputFilter: React.FC<Props> = props => {
 
       /* Positive floats/integers only */
     } else if (isNumber && isPositiveOnly) {
-      if (parseFloat(value) >= 0) {
+      if (parseFloat(value) >= 0 && allow5Decimal && getNumberOfDps(value) <= 5) {
+        handleChange(value);
+      } else if (parseFloat(value) >= 0 && getNumberOfDps(value) <= 2 && !allow5Decimal) {
+        handleChange(value);
+      }
+      /* Floats */
+    } else if (isNumber) {
+      /* Check number of dp */
+      if (allow5Decimal && getNumberOfDps(value) <= 5) {
+        handleChange(value);
+      } else if (!allow5Decimal && getNumberOfDps(value) <= 2) {
         handleChange(value);
       }
     } else {

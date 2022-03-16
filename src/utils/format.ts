@@ -194,3 +194,12 @@ export const inchToCm = (inch: number) => {
 export const cmToInch = (cm: number) => {
   return parseFloat((cm / 2.54).toFixed(2));
 };
+
+export const getNumberOfDps = (value: string) => {
+  if (value.includes('.')) {
+    if (value.split('.').length === 2) {
+      return value.split('.')[1].length;
+    }
+  }
+  return 0;
+};

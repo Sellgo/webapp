@@ -45,16 +45,10 @@ const PageHeader = (props: Props) => {
           <Header as="h2">
             <Header.Content>
               {callToAction}
-              {sellerSubscription.is_aistock && !sellerSubscription.is_aistock_survey_filled && (
-                <ActionButton
-                  variant="primary"
-                  type="black"
-                  size="md"
-                  onClick={() => setIsBetaFormOpen(true)}
-                  className={'surveyButton'}
-                >
-                  <PartyHornIcon /> &nbsp;Win 1-year FREE
-                </ActionButton>
+              {sellerSubscription.trial_left && (
+                <p>
+                  Beta Trial: <span>{sellerSubscription.trial_left} Days Left</span>
+                </p>
               )}
             </Header.Content>
           </Header>
@@ -67,6 +61,17 @@ const PageHeader = (props: Props) => {
         setModalOpen={setIsBetaFormOpen}
         onSubmit={handleSubmitBetaForm}
       />
+      {sellerSubscription.is_aistock && !sellerSubscription.is_aistock_survey_filled && (
+        <ActionButton
+          variant="primary"
+          type="black"
+          size="md"
+          onClick={() => setIsBetaFormOpen(true)}
+          className={'surveyButton'}
+        >
+          <PartyHornIcon /> &nbsp;Win 1-year FREE
+        </ActionButton>
+      )}
     </>
   );
 };

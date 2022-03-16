@@ -77,6 +77,7 @@ export const fetchSellerSubscription = () => (dispatch: any) => {
 
       dispatch(setSellerSubscription(subscription));
       if (subscription) {
+        console.log(subscription);
         if (subscription.is_first_time_logged_in) {
           localStorage.setItem('isFirstTimeLoggedIn', 'true');
         } else {
@@ -94,7 +95,7 @@ export const fetchSellerSubscription = () => (dispatch: any) => {
       }
       if (subscription === false) {
         warn("You don't have active subscription or your subscription has expired");
-      } else if (subscription.subscription_id === 5) {
+      } else if (subscription.subscription_id === 4 || subscription.subscription_id === 5) {
         dispatch(fetchSellerSubscriptionTrial(subscription));
       }
     })
@@ -254,6 +255,7 @@ export const fetchSellerSubscriptionTrial = (subscription: any) => (dispatch: an
       const expireDate = moment(new Date(prevSubscriptionData.expiry_date)).diff(todayDate, 'days');
       if (prevSubscriptionData && prevSubscriptionData.expiry_date !== null && expireDate >= 0) {
         data.expiry_date = prevSubscriptionData.expiry_date;
+        data.trial_left = expireDate;
         dispatch(setSellerSubscription(data));
       } else {
         dispatch(fetchSellerSubscriptionPaid(data));
