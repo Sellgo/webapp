@@ -38,7 +38,6 @@ const PageHeader = (props: Props) => {
   const isNewProduct = NEW_PRODUCT_DESIGN_PATH_NAMES.includes(window.location.pathname);
   const previousTrialDuration = usePrevious(sellerSubscription.trial_left);
   const trialDurationLeft = sellerSubscription.trial_left || previousTrialDuration;
-
   const handleSubmitBetaForm = () => {
     updateSeller({ is_aistock_survey_filled: true });
   };
@@ -55,11 +54,13 @@ const PageHeader = (props: Props) => {
             <Header.Content>
               {callToAction}
               <p>
-                {(trialDurationLeft !== null || trialDurationLeft !== undefined) && (
+                {trialDurationLeft !== null && trialDurationLeft !== undefined ? (
                   <>
                     Beta Trial:&nbsp;
                     <span>{trialDurationLeft} Days Left</span>
                   </>
+                ) : (
+                  <>Beta Trial: Expired</>
                 )}
               </p>
             </Header.Content>

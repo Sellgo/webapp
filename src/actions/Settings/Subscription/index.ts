@@ -94,7 +94,7 @@ export const fetchSellerSubscription = () => (dispatch: any) => {
       }
       if (subscription === false) {
         warn("You don't have active subscription or your subscription has expired");
-      } else if (subscription.subscription_id === 4 || subscription.subscription_id === 5) {
+      } else if (subscription.subscription_id === 4) {
         dispatch(fetchSellerSubscriptionTrial(subscription));
       }
     })
