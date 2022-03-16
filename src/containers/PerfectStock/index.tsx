@@ -221,7 +221,12 @@ const PerfectStock: React.FC<Props> = props => {
                 />
               </Tab>
               <Tab>
-                <ProductLabel label="3PL Manager" icon="Tpl" isActive={selectedTabList === 3} />
+                <ProductLabel
+                  label="3PL Manager"
+                  icon="Tpl"
+                  isActive={selectedTabList === 3}
+                  isBeta
+                />
               </Tab>
               <Tab />
             </TabList>
