@@ -307,7 +307,7 @@ function App() {
             exact={true}
             path="/aistock/:productName"
             component={PerfectStock}
-            requireSubscription={false}
+            requireSubscription={true}
           />
 
           <PrivateRoute

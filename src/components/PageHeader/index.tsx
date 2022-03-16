@@ -24,11 +24,20 @@ interface Props {
   updateSeller: (payload: any) => void;
 }
 
+const usePrevious = (value: any) => {
+  const ref = React.useRef();
+  React.useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+};
+
 const PageHeader = (props: Props) => {
   const { title, callToAction, breadcrumb, auth, sellerSubscription, updateSeller } = props;
   const [isBetaFormOpen, setIsBetaFormOpen] = React.useState(false);
-
   const isNewProduct = NEW_PRODUCT_DESIGN_PATH_NAMES.includes(window.location.pathname);
+  const previousTrialDuration = usePrevious(sellerSubscription.trial_left);
+  const trialDurationLeft = sellerSubscription.trial_left || previousTrialDuration;
 
   const handleSubmitBetaForm = () => {
     updateSeller({ is_aistock_survey_filled: true });
@@ -45,11 +54,14 @@ const PageHeader = (props: Props) => {
           <Header as="h2">
             <Header.Content>
               {callToAction}
-              {sellerSubscription.trial_left && (
-                <p>
-                  Beta Trial: <span>{sellerSubscription.trial_left} Days Left</span>
-                </p>
-              )}
+              <p>
+                {trialDurationLeft && (
+                  <>
+                    Beta Trial:&nbsp;
+                    <span>{trialDurationLeft} Days Left</span>
+                  </>
+                )}
+              </p>
             </Header.Content>
           </Header>
           <AdminHeader auth={auth} />
