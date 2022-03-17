@@ -133,7 +133,6 @@ const PrivateRoute = connect(
         history.push('/');
         return;
       }
-      history.push('/aistock/sales');
 
       if (requireSubscription && localStorage.getItem('accountType') !== '') {
         // If user does not have a subscription and this route requires one
