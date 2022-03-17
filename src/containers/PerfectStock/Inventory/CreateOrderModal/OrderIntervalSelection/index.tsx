@@ -60,7 +60,9 @@ const OrderIntervalSelection = (props: Props) => {
           &nbsp;days.
         </div>
       </div>
-
+      <span className={styles.helperMessage}>
+        *You can re-align next "time-bound" order in the Order Planning.
+      </span>
       <div className={styles.buttonsRow}>
         <ActionButton
           className={styles.cancelButton}

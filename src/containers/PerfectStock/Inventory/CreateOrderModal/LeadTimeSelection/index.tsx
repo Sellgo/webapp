@@ -45,6 +45,12 @@ const LeadTimeSelection = (props: Props) => {
             lead_time_group_id: defaultLeadTime.id,
             lead_time_group: defaultLeadTime,
           });
+        } else {
+          setCreateOrderPayload({
+            ...createOrderPayload,
+            lead_time_group_id: data[0].id,
+            lead_time_group: data[0],
+          });
         }
       }
     } catch (err) {
@@ -101,6 +107,7 @@ const LeadTimeSelection = (props: Props) => {
           <LeadTimeBar
             className={styles.leadTimeBar}
             leadTimes={createOrderPayload.lead_time_group?.lead_times || []}
+            showDurationOnTop
           />
         )}
       </div>

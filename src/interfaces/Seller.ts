@@ -29,6 +29,7 @@ export interface SellerSubscription {
   cdate: string;
   udate: string;
   expiry_date: string | null;
+  trial_left?: number;
   payment_mode: string;
   seller_id: number;
   status: string;

@@ -36,15 +36,15 @@
 
 .inputRadioRow {
   border-radius: 7px;
-  min-height: 50px;
-  width: 600px;
+  height: 67px;
+  width: 650px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: flex-start;
-  padding: 18px 30px;
+  padding: 0 30px;
   border: 1px solid $grey_3;
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1);
   color: $black_1;
   font-size: 14px;
   font-weight: $fontweight_medium;
@@ -68,6 +68,7 @@
   }
 
   &__selected {
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1);
     font-weight: $fontweight_semibold !important;
     background: $grey_10;
     opacity: 1;

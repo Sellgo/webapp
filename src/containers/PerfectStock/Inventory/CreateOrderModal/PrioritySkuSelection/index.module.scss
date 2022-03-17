@@ -10,6 +10,7 @@
 .createOrderBox {
   min-width: 0 !important;
   border-radius: 7px;
+  padding: 0 100px;
 
   h2 {
     text-align: center;
@@ -39,4 +40,11 @@
   > div {
     margin-left: 18px;
   }
+}
+
+.helperMessage {
+  margin-top: 20px;
+  font-size: 10px;
+  color: $grey_8;
+  text-align: center;
 }

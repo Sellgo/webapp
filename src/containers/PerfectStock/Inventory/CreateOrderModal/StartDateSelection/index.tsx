@@ -71,6 +71,7 @@ const StartDateSelection = (props: Props) => {
             setSelectedOption={setDateType}
           />
           <DatePicker
+            oneTap
             selected={selectedDate ? new Date(selectedDate) : new Date()}
             onChange={onSelectDate}
             disabledDate={(date: Date | undefined) =>
@@ -84,9 +85,13 @@ const StartDateSelection = (props: Props) => {
           showDates={selectedDate ? true : false}
           startDate={dateType === 'Start Date' ? selectedDate : undefined}
           endDate={dateType === 'Arrival Date' ? selectedDate : undefined}
+          showDurationOnTop
         />
       </div>
 
+      <span className={styles.helperMessage}>
+        *You can change the start or arrival date in the Order Planning easily through Gantt chart.
+      </span>
       <div className={styles.buttonsRow}>
         <ActionButton
           className={styles.cancelButton}

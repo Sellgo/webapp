@@ -277,6 +277,7 @@ const TplSettings = (props: Props) => {
                 value={tplSettings.monthly_cost_q1?.toString() || ''}
                 isNumber
                 isPositiveOnly
+                allow5Decimal
                 handleChange={(value: string) =>
                   updateSellerDatabaseFilter('monthly_cost_q1', parseFloat(value))
                 }
@@ -295,6 +296,7 @@ const TplSettings = (props: Props) => {
                 value={tplSettings.monthly_cost_q2?.toString() || ''}
                 isNumber
                 isPositiveOnly
+                allow5Decimal
                 handleChange={(value: string) =>
                   updateSellerDatabaseFilter('monthly_cost_q2', parseFloat(value))
                 }
@@ -313,6 +315,7 @@ const TplSettings = (props: Props) => {
                 value={tplSettings.monthly_cost_q3?.toString() || ''}
                 isNumber
                 isPositiveOnly
+                allow5Decimal
                 handleChange={(value: string) =>
                   updateSellerDatabaseFilter('monthly_cost_q3', parseFloat(value))
                 }
@@ -331,6 +334,7 @@ const TplSettings = (props: Props) => {
                 value={tplSettings.monthly_cost_q4?.toString() || ''}
                 isNumber
                 isPositiveOnly
+                allow5Decimal
                 handleChange={(value: string) =>
                   updateSellerDatabaseFilter('monthly_cost_q4', parseFloat(value))
                 }

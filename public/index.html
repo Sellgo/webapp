@@ -38,6 +38,18 @@
     <!-- Stripe -->
     <script src="https://js.stripe.com/v3/"></script>
 
+    <script>
+      (function (w,d,s,o,f,js,fjs) { w['ReleaseNotesWidget']=o;w[o] = w[o] || function () { (w[o].q = w[o].q || []).push(arguments) }; js = d.createElement(s), fjs = d.getElementsByTagName(s)[0]; js.id = o; js.src = f; js.async = 1; fjs.parentNode.insertBefore(js, fjs); }
+      (window, document, 'script', 'rnw', 'https://s3.amazonaws.com/cdn.releasenotes.io/v1/bootstrap.js'));
+      
+      rnw('init', {
+          account: 'sellgo.releasenotes.io',
+          selector: '.updates', // changes the selector to apply the badge and link to
+          title: 'Latest Updates from Sellgo', // changes the CSS main title
+          auto_show_unseen: true, // if enabled, the release notes will auto open if the user has unseen releases
+          banner_css: 'https://yoursite.com/banner-styling.css' // load your own CSS into the banner ShadowDom
+      });
+      </script>
 
     <!-- Intercom settings -->
 		<!-- <script>

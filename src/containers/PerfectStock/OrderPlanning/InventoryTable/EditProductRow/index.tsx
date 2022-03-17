@@ -62,7 +62,7 @@ const EditProductRow = (props: Props) => {
       <StatBox title={'MOQ'} stat={rowData.moq} />
       <StatBox title={'Cartons'} stat={rowData.total_carton} />
       <StatBox
-        title={'Volume'}
+        title={'Carton Volume'}
         stat={rowData.total_cbm}
         secondStat={rowData.total_cft || 0}
         append="m3"
@@ -70,7 +70,7 @@ const EditProductRow = (props: Props) => {
         asFloat
       />
       <StatBox
-        title={'Gross Weight'}
+        title={'Carton Gross Weight'}
         stat={rowData.total_weight_kg}
         secondStat={rowData.total_weight_lbs || 0}
         append="kg"

@@ -29,13 +29,15 @@
 
   .skuSelectHeader {
     margin-right: 50px;
-    // width: 150px;
-    p {
+
+    p,
+    span {
       display: flex;
       align-items: center;
       font-size: 12px;
       font-weight: $fontweight_medium;
       color: $grey_8;
+      margin-bottom: 5px;
     }
   }
 }

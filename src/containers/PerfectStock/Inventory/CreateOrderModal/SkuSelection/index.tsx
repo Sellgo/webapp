@@ -46,7 +46,6 @@ const AddEditSkuModal = (props: Props) => {
         `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-orders/products`
       );
       setOrderSkus(data);
-      console.log(data);
     } catch (err) {
       console.error(err);
     }
@@ -122,10 +121,10 @@ const AddEditSkuModal = (props: Props) => {
           />
           <div className={styles.skuSelectHeader}>
             <p>MOQ/ Minimum Order Quantity</p>
-            <p>
+            <span>
               <Checkbox checked={enableMOQ} onChange={() => setEnableMOQ(!enableMOQ)} />
               &nbsp;&nbsp;Use MOQ for Next Order
-            </p>
+            </span>
           </div>
         </div>
         <Table
@@ -146,7 +145,7 @@ const AddEditSkuModal = (props: Props) => {
           </Table.Column>
 
           {/* Edit Cell */}
-          <Table.Column width={150} verticalAlign="middle" align="right">
+          <Table.Column width={120} verticalAlign="middle" align="right">
             <Table.HeaderCell />
             <EditValueCell
               dataKey="moq"
@@ -160,7 +159,7 @@ const AddEditSkuModal = (props: Props) => {
           </Table.Column>
 
           {/* Delete Cell */}
-          <Table.Column width={50} verticalAlign="middle" align="right">
+          <Table.Column width={50} verticalAlign="middle" align="right" flexGrow={1}>
             <Table.HeaderCell />
             <DeleteCell
               dataKey="id"

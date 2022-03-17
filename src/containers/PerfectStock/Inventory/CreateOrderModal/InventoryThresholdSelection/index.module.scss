@@ -36,14 +36,13 @@
 
 .inputRadioRow {
   border-radius: 7px;
-  height: 50px;
-  width: 700px;
+  height: 77px;
+  width: 650px;
   padding: 0 18px;
   cursor: pointer;
   display: flex;
   align-items: center;
   border: 1px solid $grey_3;
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1);
   color: $black_1;
   font-size: 14px;
   font-weight: $fontweight_medium;
@@ -59,9 +58,16 @@
     opacity: 1;
     font-weight: $fontweight_semibold !important;
     background: $grey_10;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1);
   }
 
   &:hover {
     background: $grey_10;
   }
+}
+
+.helperMessage {
+  font-size: 10px;
+  color: $grey_8;
+  text-align: center;
 }

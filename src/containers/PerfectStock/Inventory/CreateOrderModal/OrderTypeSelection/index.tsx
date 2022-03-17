@@ -6,6 +6,7 @@ import styles from './index.module.scss';
 
 /* Components */
 import ActionButton from '../../../../../components/ActionButton';
+import RadioRow from '../../../../../components/RadioRow';
 
 /* Interfaces */
 import { CreateOrderPayload } from '../../../../../interfaces/PerfectStock/OrderPlanning';
@@ -41,32 +42,18 @@ const OrderTypeSelection = (props: Props) => {
   return (
     <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>
-        <h2>What kind of Order would you like to create*?*</h2>
-        <div
-          className={`
-            ${styles.inputRadioRow} 
-            ${orderType === 'single' ? styles.inputRadioRow__selected : ''}
-          `}
-          onClick={() => setOrderType('single')}
-        >
-          <Checkbox radio checked={orderType === 'single'} />
-          &nbsp; Single Order &nbsp;
-        </div>
-        <div
-          className={`
-            ${styles.inputRadioRow} 
-            ${orderType === 'multiple' ? styles.inputRadioRow__selected : ''}
-          `}
-          onClick={() => setOrderType('multiple')}
-        >
-          <Checkbox radio checked={orderType === 'multiple'} />
-          &nbsp; Streamline Smart Order &nbsp;
+        <h2>What kind of Order would you like to create?</h2>
+        <RadioRow handleChange={() => setOrderType('single')} checked={orderType === 'single'}>
+          Single Order
+        </RadioRow>
+        <RadioRow handleChange={() => setOrderType('multiple')} checked={orderType === 'multiple'}>
+          Streamline Smart Order &nbsp;
           <div className={styles.intervalWrapper}>
             <Checkbox
               checked={smartOrderInterval === null}
               radio
               label="Only for the next order"
-              className={styles.inputRadioRow__interval}
+              className={styles.intervalWrapper__interval}
               onChange={() => setSmartOrderInterval(null)}
             />
             <Checkbox
@@ -74,19 +61,21 @@ const OrderTypeSelection = (props: Props) => {
               onChange={() => setSmartOrderInterval(365)}
               radio
               label="Future 12 months"
-              className={styles.inputRadioRow__interval}
+              className={styles.intervalWrapper__interval}
             />
             <Checkbox
               checked={smartOrderInterval === 730}
               onChange={() => setSmartOrderInterval(730)}
               radio
               label="Future 24 months"
-              className={styles.inputRadioRow__interval}
+              className={styles.intervalWrapper__interval}
             />
           </div>
-        </div>
+        </RadioRow>
       </div>
-
+      <span className={styles.helperMessage}>
+        *You can also generate smart order in the Order Planning.
+      </span>
       <div className={styles.buttonsRow}>
         <ActionButton
           className={styles.cancelButton}

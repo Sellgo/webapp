@@ -10,10 +10,10 @@ export interface TplVendor {
   state: string;
   zip_code: number | null;
   country: string;
-  monthly_cost_q1: number | null;
-  monthly_cost_q2: number | null;
-  monthly_cost_q3: number | null;
-  monthly_cost_q4: number | null;
+  monthly_cost_q1: number | string | null;
+  monthly_cost_q2: number | string | null;
+  monthly_cost_q3: number | string | null;
+  monthly_cost_q4: number | string | null;
   isNew?: boolean;
 }
 

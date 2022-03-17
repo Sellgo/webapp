@@ -24,7 +24,6 @@ export const isLoadingTplVendors = (payload: boolean) => {
 
 /* Action to set tpl vendors results */
 export const setTplVendors = (payload: TplVendor[]) => {
-  console.log(payload, 'payload');
   return {
     type: actionTypes.SET_TPL_VENDORS,
     payload,
