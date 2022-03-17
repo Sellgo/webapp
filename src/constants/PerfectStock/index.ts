@@ -22,6 +22,10 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
     name: '3PL Manager',
     desc: '3PL storage management solved',
   },
+  {
+    name: 'Create Order',
+    desc: 'Easily create order planning',
+  },
 ];
 
 export const PERFECT_STOCK_SELLER_STATUS = {
