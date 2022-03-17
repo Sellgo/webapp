@@ -26,6 +26,10 @@ const OnboardingButton = (props: Props) => {
     setOpenEmbedModal(true);
   };
 
+  if (!youtubeLink && !displayMessage) {
+    return null;
+  }
+
   return (
     <>
       <div onClick={handleClick} className={`${styles.onboardingButton} ${className}`}>
