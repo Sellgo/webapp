@@ -133,6 +133,7 @@ const PrivateRoute = connect(
         history.push('/');
         return;
       }
+      history.push('/aistock/sales');
 
       if (requireSubscription && localStorage.getItem('accountType') !== '') {
         // If user does not have a subscription and this route requires one
@@ -156,7 +157,7 @@ const PrivateRoute = connect(
               PERFECT_STOCK_SELLER_STATUS.MIGRATION_FAILED ||
               sellerSubscription.perfect_stock_status === null)
           ) {
-            history.push('/aistock/sales');
+            // Do nothing
           } else {
             history.push('/settings/pricing');
           }
