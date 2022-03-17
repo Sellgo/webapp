@@ -31,13 +31,14 @@ interface Props {
   setCreateOrderPayload: (payload: CreateOrderPayload) => void;
 }
 
-const AddEditSkuModal = (props: Props) => {
+const SkuSelection = (props: Props) => {
   const { handlePrev, handleNext, createOrderPayload, setCreateOrderPayload } = props;
+  const isMoqApproach = createOrderPayload.approach === 'moq';
   const [orderSkus, setOrderSkus] = React.useState<any>([]);
   const [addedSkus, setAddedSkus] = React.useState<any[]>(
     createOrderPayload.merchant_listings || []
   );
-  const [enableMOQ, setEnableMOQ] = React.useState<boolean>(false);
+  const [enableMOQ, setEnableMOQ] = React.useState<boolean>(isMoqApproach);
   const addedSkuIds = addedSkus.map((sku: any) => sku.id.toString());
 
   const fetchOrderProducts = async () => {
@@ -122,7 +123,11 @@ const AddEditSkuModal = (props: Props) => {
           <div className={styles.skuSelectHeader}>
             <p>MOQ/ Minimum Order Quantity</p>
             <span>
-              <Checkbox checked={enableMOQ} onChange={() => setEnableMOQ(!enableMOQ)} />
+              <Checkbox
+                checked={enableMOQ}
+                onChange={() => setEnableMOQ(!enableMOQ)}
+                disabled={isMoqApproach}
+              />
               &nbsp;&nbsp;Use MOQ for Next Order
             </span>
           </div>
@@ -194,4 +199,4 @@ const AddEditSkuModal = (props: Props) => {
   );
 };
 
-export default AddEditSkuModal;
+export default SkuSelection;
