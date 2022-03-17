@@ -122,14 +122,12 @@ const SkuSelection = (props: Props) => {
           />
           <div className={styles.skuSelectHeader}>
             <p>MOQ/ Minimum Order Quantity</p>
-            <span>
-              <Checkbox
-                checked={enableMOQ}
-                onChange={() => setEnableMOQ(!enableMOQ)}
-                disabled={isMoqApproach}
-              />
-              &nbsp;&nbsp;Use MOQ for Next Order
-            </span>
+            {!isMoqApproach && (
+              <span>
+                <Checkbox checked={enableMOQ} onChange={() => setEnableMOQ(!enableMOQ)} />
+                &nbsp;&nbsp;Use MOQ for Next Order
+              </span>
+            )}
           </div>
         </div>
         <Table
