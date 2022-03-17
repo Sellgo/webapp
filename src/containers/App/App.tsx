@@ -41,6 +41,7 @@ import BetaUsersActivationForm from '../BetaUsersActivation';
 import { isBetaAccount } from '../../utils/subscriptions';
 import Activation from '../NewSubscription/Activation';
 import ActivationSuccess from '../NewSubscription/ActivationSuccess';
+import { PERFECT_STOCK_SELLER_STATUS } from '../../constants/PerfectStock';
 
 export const auth = new Auth();
 
@@ -149,6 +150,13 @@ const PrivateRoute = connect(
         if (requireSubscription && subscriptionId === 5) {
           if (isBetaLabel) {
             history.push('/activate-beta-account');
+          } else if (
+            sellerSubscription.is_aistock &&
+            (sellerSubscription.perfect_stock_status ===
+              PERFECT_STOCK_SELLER_STATUS.SP_API_FAILED ||
+              sellerSubscription.perfect_stock_status === null)
+          ) {
+            // Do nothing
           } else {
             history.push('/settings/pricing');
           }
