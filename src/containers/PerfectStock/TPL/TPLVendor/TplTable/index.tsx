@@ -95,6 +95,7 @@ const TplTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <MultipleStatBox
+              isFloat
               displayData={[
                 {
                   title: 'Total LND',
@@ -204,7 +205,23 @@ const TplTable = (props: Props) => {
                 disableSort
               />
             </Table.HeaderCell>
-            <SingleStatBox dataKey="send_quantity_avg" />
+            <MultipleStatBox
+              displayData={[
+                {
+                  title: 'Using LND',
+                  dataKey: 'send_quantity_lnd',
+                },
+                {
+                  title: 'Using Pred',
+                  dataKey: 'send_quantity_predictive',
+                },
+                {
+                  title: 'Avg',
+                  dataKey: 'send_quantity_avg',
+                },
+              ]}
+              dataKey="working"
+            />
           </Table.Column>
 
           <Table.Column width={112} verticalAlign="middle" align="center">

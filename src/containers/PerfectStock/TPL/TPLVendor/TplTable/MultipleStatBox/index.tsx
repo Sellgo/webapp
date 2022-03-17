@@ -6,14 +6,15 @@ import styles from './index.module.scss';
 
 /* Interface */
 import { RowCell } from '../../../../../../interfaces/Table';
-import { formatNumber } from '../../../../../../utils/format';
+import { formatDecimal, formatNumber } from '../../../../../../utils/format';
 
 interface Props extends RowCell {
   displayData: { title: string; dataKey: string }[];
+  isFloat?: boolean;
 }
 
 const InboundFulfillableStat = (props: Props) => {
-  const { displayData, ...otherProps } = props;
+  const { displayData, isFloat, ...otherProps } = props;
   const { rowData } = otherProps;
 
   const updatedDisplayData = displayData.map(data => {
@@ -26,7 +27,9 @@ const InboundFulfillableStat = (props: Props) => {
     <Table.Cell {...otherProps}>
       <div className={styles.inboundFulfillableStat}>
         {updatedDisplayData.map((data, index) => {
-          const displayStat = formatNumber(rowData[data.dataKey]) || 0;
+          const displayStat = isFloat
+            ? formatDecimal(rowData[data.dataKey]) || 0
+            : formatNumber(rowData[data.dataKey]) || 0;
 
           return (
             <div key={index} className={styles.statWrapper}>
