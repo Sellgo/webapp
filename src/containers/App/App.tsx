@@ -154,7 +154,7 @@ const PrivateRoute = connect(
           } else if (
             sellerSubscription.is_aistock &&
             (sellerSubscription.perfect_stock_status ===
-              PERFECT_STOCK_SELLER_STATUS.MIGRATION_FAILED ||
+              PERFECT_STOCK_SELLER_STATUS.SP_API_FAILED ||
               sellerSubscription.perfect_stock_status === null)
           ) {
             // Do nothing
