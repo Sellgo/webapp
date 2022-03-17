@@ -58,7 +58,7 @@ export class TaskRow extends Component {
               style={
                 this.props.isSelected
                   ? {
-                      backgroundColor: '#349AF8',
+                      backgroundColor: '#3B4557',
                       color: '#fff',
                       padding: '0px 11px',
                       borderRadius: '3px',
@@ -142,7 +142,7 @@ export class TaskRow extends Component {
                       disabled={!this.props.item.is_included}
                     >
                       <AlignOrderIcon />
-                      <span>Align Order</span>
+                      <span>Align Smart Order</span>
                     </button>
                     {!this.props.item.vendorId ? (
                       <button
@@ -153,7 +153,7 @@ export class TaskRow extends Component {
                         disabled={false}
                       >
                         <Icon name="chain" />
-                        <span>Connect to 3PL</span>
+                        <span>Connect to 3PL Manager</span>
                       </button>
                     ) : (
                       <button
@@ -164,7 +164,7 @@ export class TaskRow extends Component {
                         disabled={false}
                       >
                         <Icon name="broken chain" />
-                        <span>Disconnect from 3PL</span>
+                        <span>Disconnect from 3PL Manager</span>
                       </button>
                     )}
                   </div>

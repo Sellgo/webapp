@@ -9,13 +9,13 @@
   justify-content: center;
 
   .zeroStat {
-    width: 70px;
-    height: 50px;
-    background: $system_red;
+    width: 50px;
+    height: 40px;
+    background: $pastel_red;
     color: $prim_white;
     border-radius: 7px;
     font-size: 16px;
-    font-weight: $fontweight_medium;
+    font-weight: $fontweight_bold;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -30,7 +30,7 @@
   .change {
     margin-top: 5px;
     font-size: 10px;
-    font-weight: $fontweight_medium;
+    font-weight: $fontweight_semibold;
 
     &__negative {
       color: $system_red;

@@ -125,7 +125,7 @@ const TplSettings = (props: Props) => {
             <div className={styles.firstRow}>
               {/* 3PL NAME */}
               <InputFilter
-                label="3PL NAME"
+                label="3PL Name"
                 placeholder="3PL Name"
                 value={tplSettings.name || ''}
                 handleChange={(value: string) => updateSellerDatabaseFilter('name', value)}
@@ -137,7 +137,7 @@ const TplSettings = (props: Props) => {
 
               {/* STATUS */}
               <SelectionFilter
-                label="STATUS"
+                label="Status"
                 placeholder="STATUS"
                 filterOptions={TPL_STATUSES}
                 value={tplSettings.status || ''}
@@ -165,7 +165,7 @@ const TplSettings = (props: Props) => {
 
               {/* ACCOUNT NUMBER */}
               <InputFilter
-                label="ACCOUNT NUMBER"
+                label="Account Number"
                 placeholder="Account Number"
                 value={tplSettings.account_number || ''}
                 handleChange={(value: string) =>

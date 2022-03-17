@@ -30,14 +30,14 @@
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 18px;
-  font-size: 14px;
-  font-weight: $fontweight_medium;
+  padding-top: 25px;
+  font-size: 12px;
+  font-weight: $fontweight_semibold;
   color: $grey_8;
 
   span {
-    width: 100%;
-    height: 40px;
+    width: 75%;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,8 +47,9 @@
     span {
       border-radius: 7px;
       margin: 0 1px !important;
-      background: $system_red;
+      background: $pastel_red;
       color: $prim_white;
+      font-weight: $fontweight_bold;
     }
   }
 }
