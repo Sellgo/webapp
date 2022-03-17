@@ -57,7 +57,9 @@ const OrderPlanning = (props: Props) => {
   } = props;
 
   const [isEditingSKUs, setIsEditingSKUs] = React.useState(false);
-  const [isShowingDaysUntilStockout, setIsShowingDaysUntilStockout] = React.useState(false);
+  const [tableViewMode, setTableViewMode] = React.useState<'Inventory' | 'Stockout' | 'Today'>(
+    'Inventory'
+  );
 
   const emptySkusContent = (
     <div className={styles.emptySkuContent}>
@@ -77,18 +79,15 @@ const OrderPlanning = (props: Props) => {
       <OrderSummary />
       <OrderPlanningMeta
         setIsEditingSKUs={setIsEditingSKUs}
-        isShowingDaysUntilStockout={isShowingDaysUntilStockout}
-        setIsShowingDaysUntilStockout={setIsShowingDaysUntilStockout}
+        tableViewMode={tableViewMode}
+        setTableViewMode={setTableViewMode}
       />
       <ProgressBar
         fetchProgress={fetchRefreshProgress}
         progress={refreshProgress}
         shouldFetchProgress={isFetchingProgressForRefresh}
       />
-      <InventoryTable
-        emptySkusContent={emptySkusContent}
-        isShowingDaysUntilStockout={isShowingDaysUntilStockout}
-      />
+      <InventoryTable emptySkusContent={emptySkusContent} tableViewMode={tableViewMode} />
       <AddEditSkuModal
         open={isEditingSKUs}
         onCloseModal={() => setIsEditingSKUs(false)}

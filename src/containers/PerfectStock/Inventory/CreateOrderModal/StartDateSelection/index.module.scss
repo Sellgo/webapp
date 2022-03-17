@@ -23,23 +23,28 @@
   }
 }
 
-.inputField {
-  margin-top: 18px;
-
-  p {
-    margin: 0 !important;
-    color: $black_1 !important;
-    font-size: 14px;
-    font-weight: $fontweight_medium;
-  }
+.inputBox {
+  margin-top: 30px;
+  display: flex;
+  align-items: flex-end;
+  width: 400px;
+  justify-content: space-evenly;
+  margin-bottom: 30px;
 }
 
 .buttonsRow {
   display: flex;
   justify-content: flex-end;
-  margin-top: 30px;
+  margin-top: 150px;
 
   > div {
     margin-left: 18px;
   }
+}
+
+.helperMessage {
+  margin-top: 50px;
+  font-size: 10px;
+  color: $grey_8;
+  text-align: center;
 }

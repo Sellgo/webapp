@@ -226,6 +226,7 @@
     align-items: center;
     justify-content: flex-start;
     font-size: 12px;
+    font-weight: $fontweight_medium;
     height: 100%;
     padding: 0 10px;
     border-radius: 3px;
@@ -347,6 +348,18 @@
 
     &:nth-child(1) {
       margin-top: 0;
+    }
+  }
+
+  svg {
+    fill: $grey_6 !important;
+    width: 12px;
+    height: 12px;
+    margin-right: 7px;
+    margin-top: 3px;
+
+    path {
+      fill: $grey_6 !important;
     }
   }
 

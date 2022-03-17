@@ -8,7 +8,7 @@ export const PERFECT_STOCK_PAGES = [
 export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'Home',
-    desc: 'Cashflow Analysis',
+    desc: 'Cash flow analysis',
   },
   {
     name: 'Sales Forecasting',
@@ -20,10 +20,10 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   },
   {
     name: '3PL Manager',
-    desc: 'Easily create order planning',
+    desc: '3PL storage management solved',
   },
   {
-    name: 'Order Planning',
+    name: 'Create Order',
     desc: 'Easily create order planning',
   },
 ];
@@ -76,7 +76,7 @@ export const LEAD_TIME_OPTIONS = [
   {
     key: 'FBA Check-in',
     value: 'fba_checkin',
-    text: 'FBA Check-in',
+    text: '1st FBA Check-in',
     color: '#5dc560',
   },
 ];

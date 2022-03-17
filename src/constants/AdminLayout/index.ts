@@ -24,6 +24,7 @@ export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
   '/aistock/create-order',
   '/aistock/sales',
   '/aistock/order',
+  '/aistock/tpl',
 
   '/account-setup',
 ];
@@ -232,9 +233,8 @@ export const OPTIONS: NavOptions = [
         description: 'Storage & Inbound Manager',
         icon: require(`../../assets/images/${NAV_ICONS.TPL}`),
         path: '/aistock/tpl',
-        disabled: true,
-        isBeta: false,
-        isComingSoon: true,
+        disabled: false,
+        isBeta: true,
       },
     ],
   },

@@ -6,7 +6,7 @@ import styles from './index.module.scss';
 interface Props {
   options: string[];
   selectedOption: string;
-  setSelectedOption: (value: string) => void;
+  setSelectedOption: (value: any) => void;
   isPurple?: boolean;
   borderless?: boolean;
   className?: string;

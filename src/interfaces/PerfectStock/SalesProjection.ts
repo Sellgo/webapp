@@ -94,3 +94,8 @@ export interface GraphDataSeries {
   type: 'line' | 'bar';
   data: number[];
 }
+
+export interface SalesProjectionFilters {
+  active: string;
+  fba: string;
+}

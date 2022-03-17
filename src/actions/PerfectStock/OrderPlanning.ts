@@ -15,6 +15,8 @@ import {
   DraftOrderTemplate,
   InventoryTablePayload,
   AutoGeneratePurchaseOrderPayload,
+  AlignPurchaseOrderPayload,
+  InventoryTableFilters,
 } from '../../interfaces/PerfectStock/OrderPlanning';
 
 /* Selectors */
@@ -23,6 +25,7 @@ import {
   getActivePurchaseOrder,
   getDateRange,
   getDraftOrderInformation,
+  getInventoryTableFilters,
   getPurchaseOrders,
   getRefreshInventoryTableId,
   getTimeSetting,
@@ -61,6 +64,14 @@ export const setPurchaseOrdersLoadingMessage = (payload: string) => {
 export const setInventoryTableResults = (payload: any) => {
   return {
     type: actionTypes.SET_INVENTORY_TABLE_RESULTS,
+    payload,
+  };
+};
+
+/* Action to set inventory table filters */
+export const setInventoryTableFilters = (payload: InventoryTableFilters) => {
+  return {
+    type: actionTypes.SET_INVENTORY_TABLE_FILTERS,
     payload,
   };
 };
@@ -257,6 +268,30 @@ export const generateNextOrder = (payload: AutoGeneratePurchaseOrderPayload) => 
   dispatch(setPurchaseOrdersLoadingMessage(''));
 };
 
+export const alignOrder = (payload: AlignPurchaseOrderPayload) => async (dispatch: any) => {
+  try {
+    const sellerId = sellerIDSelector();
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/${payload.id}/align`;
+
+    dispatch(isLoadingPurchaseOrders(true));
+    dispatch(setPurchaseOrdersLoadingMessage('Aligning orders...'));
+    const { status } = await axios.post(URL, payload);
+
+    if (status === 201) {
+      dispatch(fetchPurchaseOrders());
+      dispatch(fetchInventoryTable({}));
+    } else {
+      dispatch(isLoadingPurchaseOrders(false));
+      error('Failed to align order.');
+    }
+  } catch (err) {
+    dispatch(isLoadingPurchaseOrders(false));
+    error('Failed to align order.');
+    console.error('Error fetching sales estimation', err);
+  }
+  dispatch(setPurchaseOrdersLoadingMessage(''));
+};
+
 /* Action to update purchase orders */
 export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => async (
   dispatch: any,
@@ -356,9 +391,16 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
     if (status === 200) {
       dispatch(fetchInventoryTable({}));
 
-      /* Deleted Purchase Orders */
-      if (!payload.date && payload.status === 'inactive') {
+      /* Refresh purchase orders if updating vendor 3pl or deleted purchase order */
+      if (
+        (!payload.date && payload.status === 'inactive') ||
+        payload.vendor_id === null ||
+        payload.vendor_id
+      ) {
         dispatch(fetchPurchaseOrders());
+      }
+
+      if (!payload.date && payload.status === 'inactive') {
         success('Deleted order successfully');
       }
     } else {
@@ -393,6 +435,20 @@ export const fetchInventoryTable = (payload: InventoryTablePayload) => async (
     const endDate = new Date(getDateRange(state).endDate);
     const endDateString = getDateOnly(endDate);
 
+    if (startDateString === '' || endDateString === '') {
+      dispatch(isLoadingInventoryTableResults(false));
+      return;
+    }
+
+    /* Get filters */
+    const filters = getInventoryTableFilters(state);
+    const filtersPath = Object.keys(filters).reduce((acc: string, key: string) => {
+      if (filters[key] !== 'null') {
+        return `${acc}&${filters[key]}`;
+      }
+      return acc;
+    }, '');
+
     /* Get display mode (daily or weekly) */
     const timeSettings = getTimeSetting(state);
     let displayMode;
@@ -411,10 +467,11 @@ export const fetchInventoryTable = (payload: InventoryTablePayload) => async (
       `&end_date=${endDateString}` +
       `&display_mode=${displayMode}` +
       `&page=1` +
-      `&per_page=20` +
+      `&per_page=100` +
       `${activePurchaseOrder.id !== -1 ? `&purchase_order_ids=${activePurchaseOrder.id}` : ''}` +
       `&sort=${sort}` +
-      `&sort_direction=${sortDir}`;
+      `&sort_direction=${sortDir}` +
+      `${filtersPath}`;
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/order-plan-overview?${resourceString}`;
 
     const { data } = await axios.get(URL);

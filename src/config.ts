@@ -25,6 +25,7 @@ const DEV_KEYS = {
   QUICK_WIN_SURVEY_ID: 'IjxdqPK3',
   BETA_FORM_ID: 'pvnHf0f6',
   AISTOCK_SURVEY: 'H1yQNE6a',
+  ELEVIO_KEY: '6228edc3bb20d',
 };
 
 const PROD_KEYS = {
@@ -36,6 +37,7 @@ const PROD_KEYS = {
   QUICK_WIN_SURVEY_ID: 'IjxdqPK3',
   BETA_FORM_ID: 'pvnHf0f6',
   AISTOCK_SURVEY: 'H1yQNE6a',
+  ELEVIO_KEY: '6228edc3bb20d',
 };
 
 const DEV_AUTH_CONFIG = {

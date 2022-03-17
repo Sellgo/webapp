@@ -58,7 +58,7 @@ const SeasonalityAdjustor = (props: Props) => {
 
         <GraphDisplayButton
           handleClick={() => setIsEditingSeasonality(true)}
-          disabled={!rowData.seasonal_adjustment_included}
+          disabled={!isSeasonalityEnabled}
         />
       </div>
       <EditSeasonalityPopup

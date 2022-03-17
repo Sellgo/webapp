@@ -4,6 +4,7 @@ import InputWithSaveOptions from '../../../../../../components/InputWithSaveOpti
 
 /* Styling */
 import styles from './index.module.scss';
+import { Icon } from 'semantic-ui-react';
 
 interface Props {
   title: string;
@@ -16,6 +17,8 @@ interface Props {
   secondAppend?: string;
   editable?: boolean;
   handleEditSave?: (newValue: string) => void;
+  autoCalculate?: boolean;
+  handleAutoCalculate?: () => void;
 }
 
 const StatBox = (props: Props) => {
@@ -30,6 +33,8 @@ const StatBox = (props: Props) => {
     secondAppend = '',
     editable,
     handleEditSave,
+    autoCalculate,
+    handleAutoCalculate,
   } = props;
   const displayStat = asFloat ? formatDecimal(stat) : formatNumber(stat);
   const secondDisplayStat = asFloat ? formatDecimal(secondStat) : formatNumber(secondStat);
@@ -37,30 +42,42 @@ const StatBox = (props: Props) => {
   return (
     <div className={styles.statBox}>
       <p className={styles.title}>{title}</p>
-      <div className={styles.stat}>
-        {editable && handleEditSave ? (
-          <InputWithSaveOptions
-            defaultValue={displayStat}
-            isNumber
-            isPositiveOnly
-            size="small"
-            handleSave={handleEditSave}
-            className={styles.input}
-          />
-        ) : (
-          <span>
-            {displayStat && displayStat !== 0 ? prepend : ''}
-            {displayStat || '-'}
-            {displayStat && displayStat !== 0 ? append : ''}
-          </span>
-        )}
-        {secondStat && (
-          <span>
-            &nbsp;&nbsp;
-            {secondDisplayStat && secondDisplayStat !== 0 ? secondPrepend : ''}
-            {secondDisplayStat || '-'}
-            {secondDisplayStat && secondDisplayStat !== 0 ? secondAppend : ''}
-          </span>
+      <div className={styles.statWrapper}>
+        <div className={styles.stat}>
+          {editable && handleEditSave ? (
+            <span className={styles.inputWrapper}>
+              {prepend}
+              &nbsp;
+              <InputWithSaveOptions
+                defaultValue={stat}
+                isNumber
+                isPositiveOnly
+                size="small"
+                handleSave={handleEditSave}
+                className={styles.input}
+              />
+              {append}
+            </span>
+          ) : (
+            <span>
+              {displayStat && displayStat !== 0 ? prepend : ''}
+              {displayStat || '-'}
+              {displayStat && displayStat !== 0 ? append : ''}
+            </span>
+          )}
+          {secondStat && (
+            <span>
+              &nbsp;&nbsp;
+              {secondDisplayStat && secondDisplayStat !== 0 ? secondPrepend : ''}
+              {secondDisplayStat || '-'}
+              {secondDisplayStat && secondDisplayStat !== 0 ? secondAppend : ''}
+            </span>
+          )}
+        </div>
+        {autoCalculate && handleAutoCalculate && (
+          <div className={styles.autoCalculate}>
+            <Icon name="calculator" onClick={handleAutoCalculate} />
+          </div>
         )}
       </div>
     </div>

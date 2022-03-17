@@ -8,6 +8,7 @@ export const actionTypes = {
   IS_LOADING_PURCHASE_ORDERS: 'IS_LOADING_PURCHASE_ORDERS',
   SET_PURCHASE_ORDERS_LOADING_MESSAGE: 'SET_PURCHASE_ORDERS_LOADING_MESSAGE',
   SET_INVENTORY_TABLE_RESULTS: 'SET_INVENTORY_TABLE_RESULTS',
+  SET_INVENTORY_TABLE_FILTERS: 'SET_INVENTORY_TABLE_FILTERS',
   SET_PURCHASE_ORDERS: 'SET_PURCHASE_ORDERS',
   SET_DATE_RANGE: 'SET_DATE_RANGE',
   SET_TIME_SETTING: 'SET_TIME_SETTING',
@@ -33,6 +34,7 @@ export const EMPTY_GANTT_CHART_PURCHASE_ORDER: GanttChartPurchaseOrder = {
   start: new Date(),
   end: new Date(),
   subTasks: [],
+  vendorId: null,
 };
 
 export const EMPTY_PURCHASE_ORDER: PurchaseOrder = {
@@ -45,6 +47,7 @@ export const EMPTY_PURCHASE_ORDER: PurchaseOrder = {
   status: '',
   is_included: false,
   purchase_order_template_id: -1,
+  vendor_id: null,
 };
 
 export const AUTO_GENERATE_DURATION_OPTIONS = [
@@ -85,10 +88,63 @@ export const TIME_SETTINGS_OPTIONS = [
   },
 ];
 
+export const CREATE_ORDER_STEP = {
+  SELECT_ORDER_TYPE: 0,
+  SELECT_OPTIMISATION_TYPE: 1,
+  SELECT_ORDER_DETAILS: 2,
+};
+
 export const CREATE_ORDER_STATUS = {
-  SELECT_START_DATE: 0,
-  SELECT_LEAD_TIME: 1,
-  ORDER_CREATION_SUCCESS: 2,
+  SELECT_ORDER_TYPE: 'SELECT_ORDER_TYPE',
+  SELECT_OPTIMISATION_TYPE: 'SELECT_OPTIMISATION_TYPE',
+  SELECT_SKUS: 'SELECT_SKUS',
+  SELECT_PRIORITY_SKUS: 'SELECT_PRIORITY_SKUS',
+  SELECT_INVENTORY_THRESHOLD: 'SELECT_INVENTORY_THRESHOLD',
+  SELECT_TIME_INTERVAL: 'SELECT_TIME_INTERVAL',
+  SELECT_LEAD_TIME: 'SELECT_LEAD_TIME',
+  SELECT_START_DATE: 'SELECT_START_DATE',
+  SELECT_TPL: 'SELECT_TPL',
+  ORDER_CREATED: 'ORDER_CREATED',
+};
+
+export const CREATE_ORDER_FLOW = {
+  SINGLE_ORDER: [
+    CREATE_ORDER_STATUS.SELECT_ORDER_TYPE,
+    CREATE_ORDER_STATUS.SELECT_SKUS,
+    CREATE_ORDER_STATUS.SELECT_PRIORITY_SKUS,
+    CREATE_ORDER_STATUS.SELECT_LEAD_TIME,
+    CREATE_ORDER_STATUS.SELECT_START_DATE,
+    CREATE_ORDER_STATUS.ORDER_CREATED,
+  ],
+  SMART_ORDER_MOQ: [
+    CREATE_ORDER_STATUS.SELECT_ORDER_TYPE,
+    CREATE_ORDER_STATUS.SELECT_OPTIMISATION_TYPE,
+    CREATE_ORDER_STATUS.SELECT_SKUS,
+    CREATE_ORDER_STATUS.SELECT_PRIORITY_SKUS,
+    CREATE_ORDER_STATUS.SELECT_LEAD_TIME,
+    CREATE_ORDER_STATUS.SELECT_START_DATE,
+    CREATE_ORDER_STATUS.ORDER_CREATED,
+  ],
+  SMART_ORDER_INVENTORY: [
+    CREATE_ORDER_STATUS.SELECT_ORDER_TYPE,
+    CREATE_ORDER_STATUS.SELECT_OPTIMISATION_TYPE,
+    CREATE_ORDER_STATUS.SELECT_SKUS,
+    CREATE_ORDER_STATUS.SELECT_PRIORITY_SKUS,
+    CREATE_ORDER_STATUS.SELECT_INVENTORY_THRESHOLD,
+    CREATE_ORDER_STATUS.SELECT_LEAD_TIME,
+    CREATE_ORDER_STATUS.SELECT_START_DATE,
+    CREATE_ORDER_STATUS.ORDER_CREATED,
+  ],
+  SMART_ORDER_TIME: [
+    CREATE_ORDER_STATUS.SELECT_ORDER_TYPE,
+    CREATE_ORDER_STATUS.SELECT_OPTIMISATION_TYPE,
+    CREATE_ORDER_STATUS.SELECT_SKUS,
+    CREATE_ORDER_STATUS.SELECT_PRIORITY_SKUS,
+    CREATE_ORDER_STATUS.SELECT_TIME_INTERVAL,
+    CREATE_ORDER_STATUS.SELECT_LEAD_TIME,
+    CREATE_ORDER_STATUS.SELECT_START_DATE,
+    CREATE_ORDER_STATUS.ORDER_CREATED,
+  ],
 };
 
 /* Styling widths to maintain alignment of chart between gantt chart and tables */
@@ -100,3 +156,44 @@ export const OFFSET_TO_CHART_WIDTH =
   GANTT_ORDERS_WIDTH +
   18 + // Margin between side setting and gantt chart
   18; // Padding for gantt chart
+
+export const ACTIVE_FILTER_OPTIONS = [
+  {
+    key: 'Active Products',
+    text: 'Active Products',
+    value: 'sku_status=active',
+  },
+  {
+    key: 'Inactive Products',
+    text: 'Inactive Products',
+    value: 'sku_status=inactive',
+  },
+  {
+    key: 'Active and Inactive Products',
+    text: 'Active and Inactive Products',
+    value: 'null',
+  },
+];
+
+export const FBA_FILTER_OPTIONS = [
+  {
+    key: 'FBA Products',
+    text: 'FBA Products',
+    value: 'fulfillment_channel=fba',
+  },
+  {
+    key: 'FBM Products',
+    text: 'FBM Products',
+    value: 'fulfillment_channel=fbm',
+  },
+  {
+    key: 'FBA and FBM Products',
+    text: 'FBA and FBM Products',
+    value: 'null',
+  },
+];
+
+export const DEFAULT_FILTER = {
+  active: 'sku_status=active',
+  fba: 'fulfillment_channel=fba',
+};

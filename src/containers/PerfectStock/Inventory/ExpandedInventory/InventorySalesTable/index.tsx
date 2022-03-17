@@ -94,7 +94,7 @@ const InventorySalesTable = (props: Props) => {
           autoHeight
           rowHeight={HEADER_ROW_HEIGHT}
           headerHeight={ROW_HEIGHT}
-          rowExpandedHeight={800}
+          rowExpandedHeight={500}
           rowKey="id"
           virtualized
           id="productSalesTable"

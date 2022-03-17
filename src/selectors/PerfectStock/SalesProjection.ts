@@ -29,3 +29,8 @@ export const getIsFetchingProgressForRefresh = (state: any) => {
 export const getRefreshProgress = (state: any) => {
   return get(state, 'salesProjection.refreshProgress');
 };
+
+/* Selector to get filter for sales projection */
+export const getSalesProjectionFilters = (state: any) => {
+  return get(state, 'salesProjection.salesProjectionFilters');
+};

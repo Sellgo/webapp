@@ -20,8 +20,6 @@ import { truncateString } from '../../../../../utils/format';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
 import { AppConfig } from '../../../../../config';
 
-/* Constants */
-
 interface Props {
   handleBack: () => void;
   handleSubmit: () => void;

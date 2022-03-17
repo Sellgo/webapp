@@ -13,8 +13,12 @@ import InventoryBar from '../../../../../components/InventoryBar';
 /* Utils */
 import { formatNumber, prettyPrintNumber } from '../../../../../utils/format';
 
-const InventoryBarCell = (props: RowCell) => {
-  const { rowData, dataKey } = props;
+interface Props extends RowCell {
+  isShowingDaysUntilStockout?: boolean;
+}
+const InventoryBarCell = (props: Props) => {
+  const { isShowingDaysUntilStockout, ...otherProps } = props;
+  const { rowData, dataKey } = otherProps;
 
   const inventory = rowData[dataKey];
   let percent;
@@ -34,9 +38,24 @@ const InventoryBarCell = (props: RowCell) => {
   const displayPercent = `${formatNumber(percent)}%`;
   const displayLoss = potentialLoss === 0 ? '' : `-$${prettyPrintNumber(potentialLoss)}`;
 
+  if (isShowingDaysUntilStockout) {
+    return (
+      <Table.Cell {...otherProps}>
+        <div
+          className={`
+            ${styles.daysUntilStockoutCell}
+            ${inventoryCount === 0 ? styles.daysUntilStockoutCell__red : ''}
+          `}
+        >
+          <span>{inventory || 0}</span>
+        </div>
+      </Table.Cell>
+    );
+  }
+
   return (
-    <Table.Cell {...props}>
-      <span
+    <Table.Cell {...otherProps}>
+      <div
         className={`
           ${styles.inventoryBarCell}`}
       >
@@ -46,9 +65,9 @@ const InventoryBarCell = (props: RowCell) => {
         </span>
         <InventoryBar percent={percent / 100} />
         <span style={percent <= 20 ? { color: '#EB675E' } : {}}>{displayPercent}</span>
-      </span>
+      </div>
     </Table.Cell>
   );
 };
 
-export default InventoryBarCell;
+export default React.memo(InventoryBarCell);

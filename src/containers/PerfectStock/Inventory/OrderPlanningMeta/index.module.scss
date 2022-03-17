@@ -11,6 +11,7 @@
 .createOrderButton {
   display: flex;
   justify-content: space-evenly;
+  margin-right: 30px;
 }
 
 .refreshButton {
@@ -37,8 +38,10 @@
   margin-left: 0;
 }
 
-.exportOptionsWrapper {
+.exportOptionsWrapper,
+.filterContainer {
   display: flex;
+  align-items: center;
   flex-direction: row;
 }
 

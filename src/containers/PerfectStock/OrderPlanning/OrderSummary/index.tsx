@@ -14,21 +14,37 @@ import {
 } from '../../../../selectors/PerfectStock/OrderPlanning';
 
 /* Interfaces */
-import { PurchaseOrder } from '../../../../interfaces/PerfectStock/OrderPlanning';
+import {
+  PurchaseOrder,
+  UpdatePurchaseOrderPayload,
+} from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 /* Utils */
 import { formatNumber, showNAIfZeroOrNull, formatDecimal } from '../../../../utils/format';
 
 /* Components */
 import TooltipWrapper from '../../../../components/TooltipWrapper';
+import { ReactComponent as CalculatorIcon } from '../../../../assets/images/calculator-regular-rainbow.svg';
+
+/* Actions */
+import { updatePurchaseOrder } from '../../../../actions/PerfectStock/OrderPlanning';
 
 interface Props {
   activeOrder: PurchaseOrder;
+  updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => void;
   inventoryTableResults: any[];
 }
 
 const OrderSummary = (props: Props) => {
-  const { activeOrder, inventoryTableResults } = props;
+  const { activeOrder, inventoryTableResults, updatePurchaseOrder } = props;
+
+  const handleAutoCalculateShipping = () => {
+    updatePurchaseOrder({
+      id: activeOrder.id,
+      estimate_shipping_cost: true,
+    });
+  };
+
   let totalUnits = 0;
   let totalCartons = 0;
   // let costPerUnit = 0;
@@ -143,7 +159,7 @@ const OrderSummary = (props: Props) => {
         </span>
       </div>
       <div className={styles.statWrapper}>
-        <TooltipWrapper tooltipKey="Total Volume">
+        <TooltipWrapper tooltipKey="Total Carton Volume">
           <span className={styles.statHeader}>Total Volume</span>
         </TooltipWrapper>
         <span className={`${styles.stat} ${styles.stat__double}`}>
@@ -154,7 +170,7 @@ const OrderSummary = (props: Props) => {
         </span>
       </div>
       <div className={styles.statWrapper}>
-        <TooltipWrapper tooltipKey="Total Gross Weight">
+        <TooltipWrapper tooltipKey="Total Carton Gross Weight">
           <span className={styles.statHeader}>Total Gross Weight</span>
         </TooltipWrapper>
         <span className={`${styles.stat} ${styles.stat__double}`}>
@@ -202,6 +218,8 @@ const OrderSummary = (props: Props) => {
         </TooltipWrapper>
         <span className={styles.stat}>
           {showNAIfZeroOrNull(totalShippingCost, `$${formatDecimal(totalShippingCost)}`)}
+          &nbsp;
+          <CalculatorIcon onClick={handleAutoCalculateShipping} />
         </span>
       </div>
       <div className={styles.statWrapper}>
@@ -223,4 +241,9 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default connect(mapStateToProps)(OrderSummary);
+const mapDispatchToProps = (dispatch: any) => ({
+  updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) =>
+    dispatch(updatePurchaseOrder(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrderSummary);

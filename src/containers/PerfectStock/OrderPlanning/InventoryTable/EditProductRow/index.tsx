@@ -33,6 +33,15 @@ const EditProductRow = (props: Props) => {
     });
   };
 
+  const handleAutoCalculate = async () => {
+    const id = orderId;
+    updatePurchaseOrder({
+      id,
+      po_sku_id: rowData.id,
+      estimate_shipping_cost: true,
+    });
+  };
+
   const stockOutDate = new Date();
   stockOutDate.setTime(stockOutDate.getTime() + daysToStockOut * 24 * 60 * 60 * 1000);
   return (
@@ -53,7 +62,7 @@ const EditProductRow = (props: Props) => {
       <StatBox title={'MOQ'} stat={rowData.moq} />
       <StatBox title={'Cartons'} stat={rowData.total_carton} />
       <StatBox
-        title={'Volume'}
+        title={'Carton Volume'}
         stat={rowData.total_cbm}
         secondStat={rowData.total_cft || 0}
         append="m3"
@@ -61,7 +70,7 @@ const EditProductRow = (props: Props) => {
         asFloat
       />
       <StatBox
-        title={'Gross Weight'}
+        title={'Carton Gross Weight'}
         stat={rowData.total_weight_kg}
         secondStat={rowData.total_weight_lbs || 0}
         append="kg"
@@ -88,6 +97,8 @@ const EditProductRow = (props: Props) => {
         prepend="$"
         asFloat
         editable
+        autoCalculate
+        handleAutoCalculate={handleAutoCalculate}
         handleEditSave={updateInventorySku}
       />
       <StatBox

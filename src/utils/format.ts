@@ -36,6 +36,14 @@ export const showNAIfZeroOrNull = (expression: any, value: any) =>
     ? value
     : '-';
 
+export const showNAIfNull = (expression: any, value: any) => {
+  if (expression === 0) {
+    return value;
+  }
+
+  return expression && expression !== 'NaN' ? value : '-';
+};
+
 export const truncateString = (text: string, maxLength: number, trailing = '…') =>
   text && text.length > maxLength ? text.substring(0, maxLength) + trailing : text;
 
@@ -168,4 +176,30 @@ export const prettyPrintDate = (date: Date) => {
   return `${date.getDate()} ${date.toLocaleString('default', {
     month: 'short',
   })} ${date.getFullYear()}`;
+};
+
+/* Convert to 2dp */
+export const lbsToKg = (lbs: number) => {
+  return parseFloat((lbs / 2.2046).toFixed(2));
+};
+
+export const kgToLbs = (kg: number) => {
+  return parseFloat((kg * 2.2046).toFixed(2));
+};
+
+export const inchToCm = (inch: number) => {
+  return parseFloat((inch * 2.54).toFixed(2));
+};
+
+export const cmToInch = (cm: number) => {
+  return parseFloat((cm / 2.54).toFixed(2));
+};
+
+export const getNumberOfDps = (value: string) => {
+  if (value.includes('.')) {
+    if (value.split('.').length === 2) {
+      return value.split('.')[1].length;
+    }
+  }
+  return 0;
 };

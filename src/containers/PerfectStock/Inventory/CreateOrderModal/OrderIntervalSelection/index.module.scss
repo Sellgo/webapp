@@ -1,0 +1,61 @@
+@import '../../../../../design-system/new-colors';
+
+.createOrderWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.createOrderBox {
+  min-width: 0 !important;
+  padding: 30px;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    margin-bottom: 30px;
+    line-height: normal;
+    font-size: 24px;
+    font-weight: $fontweight_bold;
+    color: $black_1;
+  }
+}
+
+.buttonsRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+
+  > div {
+    margin-left: 18px;
+  }
+}
+
+.inputRadioRow {
+  border-radius: 7px;
+  height: 50px;
+  width: 700px;
+  padding: 0 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $black_1;
+  font-size: 14px;
+  font-weight: $fontweight_medium;
+  margin-top: 10px;
+
+  .inputFilter {
+    width: 70px !important;
+    min-width: 0;
+  }
+}
+
+.helperMessage {
+  font-size: 10px;
+  color: $grey_8;
+  text-align: center;
+}

@@ -77,6 +77,7 @@ const SalesEstimationTable = (props: Props) => {
           }
           renderEmpty={() => <div />}
           affixHorizontalScrollbar={0}
+          shouldUpdateScroll={false}
           // Dont display old data when loading
           data={!isLoadingSalesProjection ? salesProjectionResult : []}
           hover={false}

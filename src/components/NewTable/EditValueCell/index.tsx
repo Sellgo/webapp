@@ -17,6 +17,7 @@ interface Props extends RowCell {
   isPositiveOnly?: boolean;
   isInteger?: boolean;
   showEmptyError?: boolean;
+  disabled?: boolean;
 }
 
 const EditValueCell = (props: Props) => {
@@ -29,6 +30,7 @@ const EditValueCell = (props: Props) => {
     isPositiveOnly,
     isInteger,
     showEmptyError,
+    disabled,
     ...otherProps
   } = props;
   const { rowData, dataKey } = otherProps;
@@ -55,7 +57,8 @@ const EditValueCell = (props: Props) => {
           className={styles.inputField}
           isDate={dataKey === 'start_date' || dataKey === 'end_date'}
           isNumber={isNumber}
-          error={showEmptyError && !rowData[dataKey]}
+          error={!disabled && showEmptyError && !rowData[dataKey]}
+          disabled={disabled}
         />
         <p>&nbsp;{appendMessage}</p>
       </div>

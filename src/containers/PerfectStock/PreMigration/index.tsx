@@ -9,6 +9,7 @@ import styles from './index.module.scss';
 import SpApiForm from '../../Settings/SPConnectivity/SpApiForm';
 import ActionButton from '../../../components/ActionButton';
 import PageHeader from '../../../components/PageHeader';
+import ElevioArticle from '../../../components/ElevioArticle';
 
 /* Utils */
 import { AppConfig } from '../../../config';
@@ -78,7 +79,10 @@ const PreMigration = (props: Props) => {
               Start Migration Now
             </ActionButton>
           </div>
-          <div className={styles.instructionsBox}>Step-by-step Guide</div>
+          <div className={styles.instructionsBox}>
+            <span>Step-By-Step Guide</span>
+            <ElevioArticle articleId={'17'} />
+          </div>
         </div>
       </main>
     </>

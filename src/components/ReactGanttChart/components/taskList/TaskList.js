@@ -7,6 +7,7 @@ import {
 } from '../../../../constants/PerfectStock/OrderPlanning';
 import { Icon, Popup, Radio } from 'semantic-ui-react';
 import ToggleRadio from '../../../../components/ToggleRadio';
+import { ReactComponent as AlignOrderIcon } from '../../../../assets/images/arrow-right-to-bracket-solid.svg';
 
 export class VerticalLine extends Component {
   constructor(props) {
@@ -57,7 +58,7 @@ export class TaskRow extends Component {
               style={
                 this.props.isSelected
                   ? {
-                      backgroundColor: '#349AF8',
+                      backgroundColor: '#3B4557',
                       color: '#fff',
                       padding: '0px 11px',
                       borderRadius: '3px',
@@ -133,6 +134,39 @@ export class TaskRow extends Component {
                       <Icon name="clipboard list" />
                       <span>Generate Smart Order</span>
                     </button>
+                    <button
+                      onClick={() => {
+                        this.props.handleAlignOrder(this.props.item);
+                        this.setState({ isPopupOpen: false });
+                      }}
+                      disabled={!this.props.item.is_included}
+                    >
+                      <AlignOrderIcon />
+                      <span>Align Smart Order</span>
+                    </button>
+                    {!this.props.item.vendorId ? (
+                      <button
+                        onClick={() => {
+                          this.props.handleConnectTpl(this.props.item);
+                          this.setState({ isPopupOpen: false });
+                        }}
+                        disabled={false}
+                      >
+                        <Icon name="chain" />
+                        <span>Connect to 3PL Manager</span>
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          this.props.handleDisconnectTpl(this.props.item);
+                          this.setState({ isPopupOpen: false });
+                        }}
+                        disabled={false}
+                      >
+                        <Icon name="broken chain" />
+                        <span>Disconnect from 3PL Manager</span>
+                      </button>
+                    )}
                   </div>
                 </>
               }
@@ -188,7 +222,10 @@ export default class TaskList extends Component {
           handleEditTask={this.props.handleEditTask}
           generateNextOrder={this.props.generateNextOrder}
           handleSetPrioritySku={this.props.handleSetPrioritySku}
+          handleConnectTpl={this.props.handleConnectTpl}
           handleIncludedToggle={this.props.handleIncludedToggle}
+          handleAlignOrder={this.props.handleAlignOrder}
+          handleDisconnectTpl={this.props.handleDisconnectTpl}
           isDraftMode={this.props.isDraftMode}
         />
       );

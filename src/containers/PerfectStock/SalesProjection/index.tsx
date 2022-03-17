@@ -10,13 +10,17 @@ import {
 import { updatePerfectStockGetStartedStatus } from '../../../actions/UserOnboarding';
 
 /* Interfaces */
-import { SalesProjectionPayload } from '../../../interfaces/PerfectStock/SalesProjection';
+import {
+  SalesProjectionFilters,
+  SalesProjectionPayload,
+} from '../../../interfaces/PerfectStock/SalesProjection';
 import { PerfectStockGetStartedStatus } from '../../../interfaces/UserOnboarding';
 
 /* Selectors */
 import {
   getIsFetchingProgressForRefresh,
   getRefreshProgress,
+  getSalesProjectionFilters,
 } from '../../../selectors/PerfectStock/SalesProjection';
 import { getPerfectStockGetStartedStatus } from '../../../selectors/UserOnboarding';
 
@@ -40,12 +44,14 @@ interface Props {
   refreshProgress: number;
   isFetchingProgressForRefresh: boolean;
   fetchRefreshProgress: () => void;
+  salesProjectionFilters: SalesProjectionFilters;
 }
 
 const SalesProjection = (props: Props) => {
   const {
     fetchSalesProjection,
     fetchRefreshProgress,
+    salesProjectionFilters,
     refreshProgress,
     isFetchingProgressForRefresh,
     perfectStockGetStartedStatus,
@@ -54,7 +60,7 @@ const SalesProjection = (props: Props) => {
 
   React.useEffect(() => {
     fetchSalesProjection({});
-  }, []);
+  }, [salesProjectionFilters.active, salesProjectionFilters.fba]);
 
   return (
     <main>
@@ -86,6 +92,7 @@ const mapStateToProps = (state: any) => {
     refreshProgress: getRefreshProgress(state),
     isFetchingProgressForRefresh: getIsFetchingProgressForRefresh(state),
     perfectStockGetStartedStatus: getPerfectStockGetStartedStatus(state),
+    salesProjectionFilters: getSalesProjectionFilters(state),
   };
 };
 

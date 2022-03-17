@@ -8,6 +8,7 @@ import styles from './index.module.scss';
 /* Assets */
 import newSellgoLogo from '../../../assets/images/sellgoNewLogo.png';
 import GraphDisplay from '../../../assets/images/GraphDisplay.png';
+import AiStockDisplay from '../../../assets/images/AiStockDisplay.png';
 import TenFactorLogo from '../../../assets/images/TenFactorLogo.png';
 import MetkixLogo from '../../../assets/images/MetkixLogo.png';
 import LuxeLogo from '../../../assets/images/LuxeLogo.png';
@@ -29,9 +30,13 @@ const ActivationSuccess = (props: Props) => {
   const [progressMessage, setProgressMessage] = React.useState<string>('Preparing your account..');
 
   /* Email and password should be passed from history.push in Activation component */
-  const email = location.state.email;
-  const password = location.state.password;
-  const isAiStock = location.state.isAiStock;
+  let email: any, password: any, isAiStock: any;
+
+  if (location.state) {
+    email = location.state.email;
+    password = location.state.password;
+    isAiStock = location.state.isAiStock;
+  }
   // password: string, isAiStock: boolean;
 
   React.useEffect(() => {
@@ -74,7 +79,11 @@ const ActivationSuccess = (props: Props) => {
   return (
     <main className={styles.successPage}>
       <section className={styles.displaySection}>
-        <img src={GraphDisplay} alt="graph-display" className={styles.graphDisplayImg} />
+        <img
+          src={isAiStock ? AiStockDisplay : GraphDisplay}
+          alt="graph-display"
+          className={styles.graphDisplayImg}
+        />
         <div className={styles.loaderWrapper}>
           <Loader active inline inverted />
           <p className={styles.progressMessage}>{progressMessage}</p>

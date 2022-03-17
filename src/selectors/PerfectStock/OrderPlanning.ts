@@ -94,3 +94,8 @@ export const getDraftOrderTemplates = (state: any) => {
 export const getIsLoadingDraftOrderTemplates = (state: any) => {
   return get(state, 'orderPlanning.isLoadingDraftOrderTemplates');
 };
+
+/* Selector to get filter for order planning */
+export const getInventoryTableFilters = (state: any) => {
+  return get(state, 'orderPlanning.inventoryTableFilters');
+};
