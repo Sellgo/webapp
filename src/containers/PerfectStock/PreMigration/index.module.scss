@@ -39,8 +39,17 @@
   margin-left: 18px;
   background: $prim_white;
   border-radius: 7px;
-  margin-top: 40px;
+  margin-top: 50px;
   width: 450px;
+  max-height: 500px;
+  overflow-y: scroll;
   border: 1px solid $grey_3;
   padding: 18px;
+  font-weight: $fontweight_bold;
+  color: $grey_8;
+  text-transform: uppercase;
+
+  > span {
+    margin-bottom: 300px;
+  }
 }

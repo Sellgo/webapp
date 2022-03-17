@@ -40,7 +40,7 @@ const Connectivity = (props: Props) => {
         <SpApiForm />
         <BoxContainer className={styles.elevioArticle}>
           <span>Step-By-Step Guide</span>
-          <ElevioArticle articleId={'4'} />
+          <ElevioArticle articleId={'19'} />
         </BoxContainer>
       </main>
     </>
