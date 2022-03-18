@@ -21,6 +21,7 @@ import {
 import { sellerIDSelector } from '../../selectors/Seller';
 import { error, success } from '../../utils/notifications';
 import { downloadFile } from '../../utils/download';
+import { getProductsDatabasePaginationInfo } from '../../selectors/ProductResearch/ProductsDatabase';
 
 /* Action to update filters */
 export const updateProductsDatabaseFilter = (payload: any) => {
@@ -134,11 +135,17 @@ export const parseFilterPayload = (productFilters: any) => {
 /*********** Async Actions ************************ */
 
 /* Export product database table */
-export const exportProductDatabaseTable = (requestPayload: any, fileFormat: string) => async () => {
+export const exportProductDatabaseTable = (requestPayload: any, fileFormat: string) => async (
+  dispatch: any,
+  getState: any
+) => {
   try {
     const sellerID = sellerIDSelector();
+    const state = getState();
+    const paginationInfo = getProductsDatabasePaginationInfo(state);
     const { data } = await axios.post(`${AppConfig.BASE_URL_API}${sellerID}/products`, {
       ...requestPayload,
+      page: paginationInfo.current_page,
       is_export: true,
       file_format: fileFormat,
     });
