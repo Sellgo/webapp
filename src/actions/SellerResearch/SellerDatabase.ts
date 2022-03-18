@@ -267,7 +267,9 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
     const resourcePath = `${pagination}&${sorting}&${marketplace}${filtersQueryString}`;
 
     if (isExport && fileFormat) {
-      const exportResource = `${sorting}&${marketplace}&is_export=${isExport}&file_format=${fileFormat}`;
+      const exportResource =
+        `${sorting}&${marketplace}${filtersQueryString}` +
+        `&is_export=${isExport}&file_format=${fileFormat}`;
 
       dispatch(exportSellerDatabaseTable(exportResource));
       return;
