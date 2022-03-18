@@ -21,6 +21,7 @@ export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
 
   /* Perfect Stock */
   '/aistock',
+  '/aistock/home',
   '/aistock/create-order',
   '/aistock/sales',
   '/aistock/order',

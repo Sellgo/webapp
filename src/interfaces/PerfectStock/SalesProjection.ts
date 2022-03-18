@@ -92,7 +92,7 @@ export interface ProductProjectedSales {
 export interface GraphDataSeries {
   name: string;
   type: 'line' | 'bar';
-  data: number[];
+  data: number[] | [Date, number][];
 }
 
 export interface SalesProjectionFilters {
