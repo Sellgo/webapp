@@ -75,6 +75,8 @@ const SellerDatabaseTable = (props: Props) => {
   const handlePageChange = (pageNo: number) => {
     fetchSellerDatabase({
       page: pageNo,
+      sort: sortColumn,
+      sortDir: sortType === undefined ? 'asc' : sortType,
       marketplaceId: sellerMarketplace.value,
     });
   };
