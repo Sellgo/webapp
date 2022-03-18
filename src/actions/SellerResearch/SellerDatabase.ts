@@ -12,7 +12,10 @@ import {
   MarketplaceOption,
 } from '../../interfaces/SellerResearch/SellerDatabase';
 import { sellerIDSelector } from '../../selectors/Seller';
-import { getSellerDatabaseResults } from '../../selectors/SellerResearch/SellerDatabase';
+import {
+  getSellerDatabasePaginationInfo,
+  getSellerDatabaseResults,
+} from '../../selectors/SellerResearch/SellerDatabase';
 import { downloadFile } from '../../utils/download';
 import { error, info, success } from '../../utils/notifications';
 
@@ -155,13 +158,19 @@ export const extractSellerDatabaseFilters = () => {
 /* =========================== Async actions ======================= */
 
 /* Export seller database table */
-export const exportSellerDatabaseTable = (resourcePath: string) => async (dispatch: any) => {
+export const exportSellerDatabaseTable = (resourcePath: string) => async (
+  dispatch: any,
+  getState: any
+) => {
   try {
     dispatch(setIsLoadingSellerDatabaseExport(true));
+    const state = getState();
+    const paginationInfo = getSellerDatabasePaginationInfo(state);
+    const page = paginationInfo?.current_page || 1;
     const sellerID = sellerIDSelector();
 
     const { data } = await axios.get(
-      `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database?${resourcePath}`
+      `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database?page=${page}&${resourcePath}`
     );
 
     if (data) {
@@ -258,7 +267,9 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
     const resourcePath = `${pagination}&${sorting}&${marketplace}${filtersQueryString}`;
 
     if (isExport && fileFormat) {
-      const exportResource = `${resourcePath}&is_export=${isExport}&file_format=${fileFormat}`;
+      const exportResource =
+        `${sorting}&${marketplace}${filtersQueryString}` +
+        `&is_export=${isExport}&file_format=${fileFormat}`;
 
       dispatch(exportSellerDatabaseTable(exportResource));
       return;
