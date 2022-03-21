@@ -36,6 +36,7 @@ interface Props {
   userOnboarding: boolean;
   userOnboardingResources: any[];
   disableSort?: boolean;
+  disabled?: boolean;
   alignMiddle?: boolean;
   icon?: React.ReactNode;
 }
@@ -50,6 +51,7 @@ const HeaderSortCell = (props: Props) => {
     userOnboarding,
     userOnboardingResources,
     disableSort,
+    disabled,
     icon,
   } = props;
 
@@ -83,13 +85,14 @@ const HeaderSortCell = (props: Props) => {
         <div
           className={`
           ${styles.headerCell}
+          ${disabled ? styles.headerCell__disableSort : ''}
           ${alignMiddle ? styles.headerCell__alignMiddle : ''}
         `}
         >
           <p
             className={`
               ${styles.headerText} 
-              ${disableSort ? styles.headerText__disabled : ''}
+              ${disableSort || disabled ? styles.headerText__disabled : ''}
               ${alignMiddle ? styles.headerText__alignMiddle : ''}
             `}
             style={isCurrentlySorted ? sortedStyles : defaultStyles}

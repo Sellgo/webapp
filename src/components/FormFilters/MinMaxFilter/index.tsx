@@ -82,7 +82,9 @@ const MinMaxFilter: React.FC<Props> = props => {
           data-filter="min"
           className="minMaxFilters"
           onChange={(e: any) => {
-            handleChange && handleChange('min', e.target.value);
+            if (parseFloat(e.target.value) >= 0) {
+              handleChange && handleChange('min', e.target.value);
+            }
           }}
           error={isError}
         />
@@ -94,7 +96,9 @@ const MinMaxFilter: React.FC<Props> = props => {
           data-filter="max"
           className="minMaxFilters"
           onChange={(e: any) => {
-            handleChange && handleChange('max', e.target.value);
+            if (parseFloat(e.target.value) >= 0) {
+              handleChange && handleChange('max', e.target.value);
+            }
           }}
           error={isError}
         />

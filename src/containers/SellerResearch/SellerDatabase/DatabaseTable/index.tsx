@@ -146,9 +146,15 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Category */}
-          <Table.Column width={180} sortable verticalAlign="middle" align="center">
+          <Table.Column
+            width={180}
+            sortable={!isLoadingSellerDatabase}
+            verticalAlign="middle"
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
                 title={`Category`}
                 dataKey="category"
                 currentSortColumn={sortColumn}
@@ -159,9 +165,15 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Monthly Revenue = Sales Est. */}
-          <Table.Column width={150} sortable verticalAlign="middle" align="center">
+          <Table.Column
+            width={150}
+            sortable={!isLoadingSellerDatabase}
+            verticalAlign="middle"
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
                 title={`Monthly Revenue\nEstimate`}
                 dataKey="sales_estimate"
                 currentSortColumn={sortColumn}
@@ -172,9 +184,15 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* FBA Percent */}
-          <Table.Column width={120} sortable verticalAlign="middle" align="center">
+          <Table.Column
+            width={120}
+            sortable={!isLoadingSellerDatabase}
+            verticalAlign="middle"
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
                 title={`FBA Percent`}
                 dataKey="fba_percent"
                 currentSortColumn={sortColumn}
@@ -185,9 +203,15 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* State */}
-          <Table.Column width={120} sortable verticalAlign="middle" align="center">
+          <Table.Column
+            width={120}
+            sortable={!isLoadingSellerDatabase}
+            verticalAlign="middle"
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
                 title={`State`}
                 dataKey="state"
                 currentSortColumn={sortColumn}
@@ -198,9 +222,15 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Country */}
-          <Table.Column width={120} sortable verticalAlign="middle" align="center">
+          <Table.Column
+            width={120}
+            sortable={!isLoadingSellerDatabase}
+            verticalAlign="middle"
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
                 title={`Country`}
                 dataKey="country"
                 currentSortColumn={sortColumn}
@@ -211,9 +241,15 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Zip Code */}
-          <Table.Column width={120} sortable verticalAlign="middle" align="center">
+          <Table.Column
+            width={120}
+            sortable={!isLoadingSellerDatabase}
+            verticalAlign="middle"
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
                 title={`Zip Code`}
                 dataKey="zip_code"
                 currentSortColumn={sortColumn}
@@ -224,9 +260,15 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* 1 Month Growth % */}
-          <Table.Column width={120} sortable verticalAlign="middle" align="center">
+          <Table.Column
+            width={120}
+            sortable={!isLoadingSellerDatabase}
+            verticalAlign="middle"
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
                 title={`1 Month\nGrowth %`}
                 dataKey="growth_month"
                 currentSortColumn={sortColumn}
@@ -243,9 +285,15 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* 3 Month Growth % */}
-          <Table.Column width={120} sortable verticalAlign="middle" align="center">
+          <Table.Column
+            width={120}
+            sortable={!isLoadingSellerDatabase}
+            verticalAlign="middle"
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
                 title={`3 Month\nGrowth %`}
                 dataKey="growth_L90D"
                 currentSortColumn={sortColumn}
@@ -262,9 +310,15 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* 6 Month Growth % */}
-          <Table.Column width={120} sortable verticalAlign="middle" align="center">
+          <Table.Column
+            width={120}
+            sortable={!isLoadingSellerDatabase}
+            verticalAlign="middle"
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
                 title={`6 Month\nGrowth %`}
                 dataKey="growth_L180D"
                 currentSortColumn={sortColumn}
@@ -281,9 +335,15 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* 12 Month Growth % */}
-          <Table.Column width={120} sortable verticalAlign="middle" align="center">
+          <Table.Column
+            width={120}
+            sortable={!isLoadingSellerDatabase}
+            verticalAlign="middle"
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
                 title={`12 Month\nGrowth %`}
                 dataKey="growth_year"
                 currentSortColumn={sortColumn}
@@ -300,9 +360,15 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Rating L365D */}
-          <Table.Column width={130} verticalAlign="middle" sortable align="center">
+          <Table.Column
+            width={130}
+            verticalAlign="middle"
+            sortable={!isLoadingSellerDatabase}
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
                 title={`Rating L365D`}
                 dataKey="seller_rating"
                 currentSortColumn={sortColumn}
@@ -312,9 +378,15 @@ const SellerDatabaseTable = (props: Props) => {
             <RatingCell dataKey="seller_rating" asRounded={false} />
           </Table.Column>
           {/* Rating % L365D */}
-          <Table.Column width={120} verticalAlign="middle" sortable align="center">
+          <Table.Column
+            width={120}
+            verticalAlign="middle"
+            sortable={!isLoadingSellerDatabase}
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
                 title={`Rating%\nL365D`}
                 dataKey="review_ratings"
                 currentSortColumn={sortColumn}
@@ -325,9 +397,15 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Review L30D */}
-          <Table.Column width={120} verticalAlign="middle" sortable align="center">
+          <Table.Column
+            width={120}
+            verticalAlign="middle"
+            sortable={!isLoadingSellerDatabase}
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
                 title={`Review\nL30D`}
                 dataKey="count_30_days"
                 currentSortColumn={sortColumn}
@@ -344,9 +422,15 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Review L90D */}
-          <Table.Column width={120} verticalAlign="middle" sortable align="center">
+          <Table.Column
+            width={120}
+            verticalAlign="middle"
+            sortable={!isLoadingSellerDatabase}
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
                 title={`Review\nL90D`}
                 dataKey="count_90_days"
                 currentSortColumn={sortColumn}
@@ -363,9 +447,15 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Review 3650D */}
-          <Table.Column width={120} verticalAlign="middle" sortable align="center">
+          <Table.Column
+            width={120}
+            verticalAlign="middle"
+            sortable={!isLoadingSellerDatabase}
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
                 title={`Review\nL365D`}
                 dataKey="count_12_month"
                 currentSortColumn={sortColumn}
@@ -382,9 +472,15 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Review Lifetime */}
-          <Table.Column width={120} verticalAlign="middle" sortable align="center">
+          <Table.Column
+            width={120}
+            verticalAlign="middle"
+            sortable={!isLoadingSellerDatabase}
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
                 title={`Review\nLifetime`}
                 dataKey="count_lifetime"
                 currentSortColumn={sortColumn}
@@ -401,9 +497,15 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Seller Launched  */}
-          <Table.Column width={100} sortable verticalAlign="middle" align="center">
+          <Table.Column
+            width={100}
+            sortable={!isLoadingSellerDatabase}
+            verticalAlign="middle"
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
                 title={`Seller Launched`}
                 dataKey="launched"
                 currentSortColumn={sortColumn}
@@ -414,9 +516,15 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Seller Type */}
-          <Table.Column width={100} sortable verticalAlign="middle" align="center">
+          <Table.Column
+            width={100}
+            sortable={!isLoadingSellerDatabase}
+            verticalAlign="middle"
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
                 title={`Seller Type`}
                 dataKey="seller_type"
                 currentSortColumn={sortColumn}
@@ -427,9 +535,15 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Seller Phone  */}
-          <Table.Column width={180} sortable verticalAlign="middle" align="center">
+          <Table.Column
+            width={180}
+            sortable={!isLoadingSellerDatabase}
+            verticalAlign="middle"
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
                 title={`Seller Phone`}
                 dataKey="phone"
                 currentSortColumn={sortColumn}
