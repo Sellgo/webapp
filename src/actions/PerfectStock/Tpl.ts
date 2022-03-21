@@ -73,6 +73,7 @@ export const fetchTplVendors = () => async (dispatch: any, getState: any) => {
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/vendor`;
 
     const { data } = await axios.get(URL);
+    console.log(data);
     if (data) {
       dispatch(setTplVendors(data));
       if (data && data.length > 0) {

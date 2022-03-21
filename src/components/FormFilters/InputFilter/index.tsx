@@ -40,6 +40,7 @@ interface Props {
   onBlur?: () => void;
   handleKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   handleKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  minimum?: number;
 }
 
 const InputFilter: React.FC<Props> = props => {
