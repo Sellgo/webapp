@@ -143,11 +143,13 @@ export const exportProductDatabaseTable = (requestPayload: any, fileFormat: stri
     const sellerID = sellerIDSelector();
     const state = getState();
     const paginationInfo = getProductsDatabasePaginationInfo(state);
+    const sort = paginationInfo.sort?.field && paginationInfo.sort?.by ? paginationInfo.sort : null;
     const { data } = await axios.post(`${AppConfig.BASE_URL_API}${sellerID}/products`, {
       ...requestPayload,
       page: paginationInfo.current_page,
       is_export: true,
       file_format: fileFormat,
+      sort,
     });
 
     if (data) {
@@ -246,7 +248,7 @@ export const fetchProductsDatabase = (payload: ProductsDatabasePayload) => async
     if (data) {
       dispatch(setProductsDatabase(data.results));
       dispatch(setProductsDatabaseFilterMessage({ show: false, message: '', type: 'info' }));
-      dispatch(setProductsDatabasePaginationInfo(data.page_info));
+      dispatch(setProductsDatabasePaginationInfo({ ...data.page_info, sort }));
       dispatch(isLoadingProductsDatabase(false));
 
       if (data.results.length === 0) {

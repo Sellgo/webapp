@@ -25,10 +25,21 @@ const OrderIntervalSelection = (props: Props) => {
   const [orderInterval, setOrderInterval] = React.useState<number | null>(
     createOrderPayload.interval || null
   );
+  const [intervalError, setIntervalError] = React.useState<boolean>(false);
+
+  React.useEffect((): void => {
+    if (orderInterval && orderInterval < 30) {
+      setIntervalError(true);
+    } else {
+      setIntervalError(false);
+    }
+  }, [orderInterval]);
 
   const handleSubmit = () => {
     if (!orderInterval) {
       error('Please fill in all fields');
+    } else if (orderInterval < 30) {
+      error('Interval must be at least 30 days');
     } else {
       setCreateOrderPayload({
         ...createOrderPayload,
@@ -56,11 +67,15 @@ const OrderIntervalSelection = (props: Props) => {
             value={orderInterval?.toString() || ''}
             handleChange={value => setOrderInterval(parseInt(value))}
             className={styles.inputFilter}
+            error={intervalError}
           />
           &nbsp;days.
         </div>
       </div>
       <span className={styles.helperMessage}>
+        *Interval must be a minimum of 30 days
+        <br />
+        <br />
         *You can re-align next "time-bound" order in the Order Planning.
       </span>
       <div className={styles.buttonsRow}>

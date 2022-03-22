@@ -44,7 +44,6 @@ const ConnectTplPopup = (props: Props) => {
   const [selectedTplVendor, setSelectedTplVendor] = React.useState<number | null>(
     connectTplDetails.selectedVendor
   );
-
   React.useEffect(() => {
     if (tplVendors.length === 0) {
       fetchTplVendors();

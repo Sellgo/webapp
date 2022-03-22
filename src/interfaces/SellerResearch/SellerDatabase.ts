@@ -24,6 +24,7 @@ export interface SellerDatabasePaginationInfo {
   next?: string;
   per_page?: number;
   previous?: string;
+  sort?: string;
 }
 
 export interface MarketplaceOption {
