@@ -41,7 +41,7 @@ const OrderIntervalSelection = (props: Props) => {
   return (
     <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>
-        <h2>Please define the recurring time interval for each order*</h2>
+        <h2>Please define the recurring time interval for each order</h2>
         <div
           className={`
             ${styles.inputRadioRow} 
@@ -70,7 +70,7 @@ const OrderIntervalSelection = (props: Props) => {
           variant="reset"
           size="md"
         >
-          Previous
+          Back
         </ActionButton>
         <ActionButton
           className={styles.createButton}
@@ -79,7 +79,7 @@ const OrderIntervalSelection = (props: Props) => {
           type="purpleGradient"
           size="md"
         >
-          Next
+          Continue
         </ActionButton>
       </div>
     </div>

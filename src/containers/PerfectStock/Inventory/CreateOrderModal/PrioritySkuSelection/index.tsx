@@ -48,7 +48,7 @@ const PrioritySkuSelection = (props: Props) => {
   return (
     <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>
-        <h2>Please select your priority SKU*</h2>
+        <h2>Please select your priority SKU</h2>
         <Table
           data={createOrderPayload.merchant_listings}
           height={300}
@@ -91,7 +91,7 @@ const PrioritySkuSelection = (props: Props) => {
           variant="reset"
           size="md"
         >
-          Previous
+          Back
         </ActionButton>
         <div>
           <ActionButton
@@ -101,7 +101,7 @@ const PrioritySkuSelection = (props: Props) => {
             type="purpleGradient"
             size="md"
           >
-            Next
+            Continue
           </ActionButton>
         </div>
       </div>

@@ -43,7 +43,7 @@
   display: flex;
   align-items: center;
   border: 1px solid $grey_3;
-  color: $black_1;
+  color: $grey_8;
   font-size: 14px;
   font-weight: $fontweight_medium;
   margin-top: 10px;
@@ -56,7 +56,7 @@
 
   &__selected {
     opacity: 1;
-    font-weight: $fontweight_semibold !important;
+    font-weight: $fontweight_bold !important;
     background: $grey_10;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1);
   }

@@ -52,7 +52,7 @@ const InventoryThresholdSelection = (props: Props) => {
   return (
     <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>
-        <h2>Please define the inventory level to trigger next order*</h2>
+        <h2>Please define the inventory level to trigger next order</h2>
         <div
           className={`
             ${styles.inputRadioRow} 
@@ -102,7 +102,7 @@ const InventoryThresholdSelection = (props: Props) => {
           variant="reset"
           size="md"
         >
-          Previous
+          Back
         </ActionButton>
         <ActionButton
           className={styles.createButton}
@@ -111,7 +111,7 @@ const InventoryThresholdSelection = (props: Props) => {
           type="purpleGradient"
           size="md"
         >
-          Next
+          Continue
         </ActionButton>
       </div>
     </div>
