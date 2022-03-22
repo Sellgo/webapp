@@ -39,12 +39,7 @@ interface Props {
 }
 
 const DatabaseFilters = (props: Props) => {
-  const {
-    fetchKeywordDatabaseTableInfo,
-    resetKeywordDatabase,
-    isLoadingKeywordDatabaseTable,
-    shouldFetchKeywordDatabaseProgress,
-  } = props;
+  const { fetchKeywordDatabaseTableInfo, resetKeywordDatabase } = props;
 
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
 
@@ -58,12 +53,6 @@ const DatabaseFilters = (props: Props) => {
   /* Advanced Filters */
   const [searchTerm, setSearchTerm] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
   const [matchKeywords, setMatchKeywords] = useState(false);
-
-  React.useEffect(() => {
-    if (shouldFetchKeywordDatabaseProgress || isLoadingKeywordDatabaseTable) {
-      setShowAdvancedFilter(false);
-    }
-  }, [shouldFetchKeywordDatabaseProgress, isLoadingKeywordDatabaseTable]);
 
   /* Handle Reset */
   const handleReset = () => {
@@ -107,107 +96,113 @@ const DatabaseFilters = (props: Props) => {
         />
 
         {showAdvancedFilter && (
-          <div className={styles.showAdvancedFilter}>
-            {/* Search Volume */}
-            <MinMaxFilter
-              label="Search Volume"
-              minValue={searchVolume.min}
-              maxValue={searchVolume.max}
-              handleChange={(type, value) => {
-                setSearchVolume(prevState => ({
-                  ...prevState,
-                  [type]: value,
-                }));
-              }}
-            />
+          <>
+            <div className={styles.showAdvancedFilter}>
+              {/* Search Volume */}
+              <MinMaxFilter
+                label="Search Volume"
+                minValue={searchVolume.min}
+                maxValue={searchVolume.max}
+                handleChange={(type, value) => {
+                  setSearchVolume(prevState => ({
+                    ...prevState,
+                    [type]: value,
+                  }));
+                }}
+              />
 
-            {/* Word Count  */}
-            <MinMaxFilter
-              label="Word Count"
-              minValue={wordCount.min}
-              maxValue={wordCount.max}
-              handleChange={(type, value) => {
-                setWordCount(prevState => ({
-                  ...prevState,
-                  [type]: value,
-                }));
-              }}
-            />
+              {/* Word Count  */}
+              <MinMaxFilter
+                label="Word Count"
+                minValue={wordCount.min}
+                maxValue={wordCount.max}
+                handleChange={(type, value) => {
+                  setWordCount(prevState => ({
+                    ...prevState,
+                    [type]: value,
+                  }));
+                }}
+              />
 
-            {/* Competing Products */}
-            <MinMaxFilter
-              label="Competing Products"
-              minValue={competingProducts.min}
-              maxValue={competingProducts.max}
-              handleChange={(type, value) => {
-                setCompetitingProducts(prevState => ({
-                  ...prevState,
-                  [type]: value,
-                }));
-              }}
-            />
+              {/* Competing Products */}
+              <MinMaxFilter
+                label="Competing Products"
+                minValue={competingProducts.min}
+                maxValue={competingProducts.max}
+                handleChange={(type, value) => {
+                  setCompetitingProducts(prevState => ({
+                    ...prevState,
+                    [type]: value,
+                  }));
+                }}
+              />
 
-            {/* Title Density */}
-            <MinMaxFilter
-              label="Title Density"
-              minValue={titleDensity.min}
-              maxValue={titleDensity.max}
-              handleChange={(type, value) => {
-                setTitleDensity(prevState => ({
-                  ...prevState,
-                  [type]: value,
-                }));
-              }}
-            />
+              {/* Title Density */}
+              <MinMaxFilter
+                label="Title Density"
+                minValue={titleDensity.min}
+                maxValue={titleDensity.max}
+                handleChange={(type, value) => {
+                  setTitleDensity(prevState => ({
+                    ...prevState,
+                    [type]: value,
+                  }));
+                }}
+              />
 
-            {/* Amazon choice filter */}
-            <CheckboxFilter
-              label="Amazon Choice"
-              checkboxLabel="Amazon Choice"
-              checked={amazonChoice}
-              handleChange={val => setAmazonChoice(val)}
-            />
+              {/* Amazon choice filter */}
+              <CheckboxFilter
+                label="Amazon Choice"
+                checkboxLabel="Amazon Choice"
+                checked={amazonChoice}
+                handleChange={val => setAmazonChoice(val)}
+              />
 
-            {/* Include Search Terms)  */}
-            <div>
+              {/* Include Search Terms)  */}
+              <div>
+                <InputFilter
+                  label="Include Search Terms that contain"
+                  value={searchTerm.include}
+                  handleChange={value =>
+                    setSearchTerm(prevState => ({
+                      ...prevState,
+                      include: value,
+                    }))
+                  }
+                  placeholder="Enter words"
+                  className={styles.longInput}
+                />
+
+                <CheckboxFilter
+                  checkboxLabel="Match keyword"
+                  checked={matchKeywords}
+                  handleChange={value => setMatchKeywords(value)}
+                />
+              </div>
+
+              {/* Exclude Search Terms)  */}
               <InputFilter
-                label="Include Search Terms that contain"
-                value={searchTerm.include}
+                label="Exclude Search Terms that contain"
+                value={searchTerm.exclude}
                 handleChange={value =>
                   setSearchTerm(prevState => ({
                     ...prevState,
-                    include: value,
+                    exclude: value,
                   }))
                 }
                 placeholder="Enter words"
                 className={styles.longInput}
               />
-
-              <CheckboxFilter
-                checkboxLabel="Match keyword"
-                checked={matchKeywords}
-                handleChange={value => setMatchKeywords(value)}
-              />
             </div>
-
-            {/* Exclude Search Terms)  */}
-            <InputFilter
-              label="Exclude Search Terms that contain"
-              value={searchTerm.exclude}
-              handleChange={value =>
-                setSearchTerm(prevState => ({
-                  ...prevState,
-                  exclude: value,
-                }))
-              }
-              placeholder="Enter words"
-              className={styles.longInput}
+            <FormFilterActions
+              className={styles.formSubmit}
+              onFind={handleSubmit}
+              onReset={handleReset}
+              submitLabel="Apply"
             />
-          </div>
+          </>
         )}
       </div>
-
-      <FormFilterActions onFind={handleSubmit} onReset={handleReset} submitLabel="Apply" />
     </section>
   );
 };

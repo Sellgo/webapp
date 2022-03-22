@@ -79,13 +79,12 @@ const DatabaseTable = (props: Props) => {
     });
   };
 
+  const isLoading = isLoadingKeywordDatabaseTable || shouldFetchKeywordDatabaseProgress;
   return (
     <section className={styles.keywordDatabaseTableWrapper}>
       <Table
         renderLoading={() =>
-          (isLoadingKeywordDatabaseTable || shouldFetchKeywordDatabaseProgress) && (
-            <Placeholder numberParagraphs={2} numberRows={3} isGrey />
-          )
+          isLoading && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
         }
         renderEmpty={() => <div />}
         // Dont display old data when loading
@@ -110,9 +109,10 @@ const DatabaseTable = (props: Props) => {
         </Table.Column>
 
         {/* Amzon Choice */}
-        <Table.Column width={140} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={140} verticalAlign="middle" fixed align="left" sortable={!isLoading}>
           <Table.HeaderCell>
             <HeaderSortCell
+              disabled={isLoading}
               title={`Amazon Choice`}
               dataKey="amazon_choice_asins"
               currentSortColumn={sortColumn}
@@ -123,9 +123,10 @@ const DatabaseTable = (props: Props) => {
         </Table.Column>
 
         {/* Search Volume */}
-        <Table.Column width={150} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={150} verticalAlign="middle" fixed align="left" sortable={!isLoading}>
           <Table.HeaderCell>
             <HeaderSortCell
+              disabled={isLoading}
               title={`Search\nVolume`}
               dataKey="search_volume"
               currentSortColumn={sortColumn}
@@ -136,9 +137,10 @@ const DatabaseTable = (props: Props) => {
         </Table.Column>
 
         {/* Sponsored ASINS */}
-        <Table.Column width={150} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={150} verticalAlign="middle" fixed align="left" sortable={!isLoading}>
           <Table.HeaderCell>
             <HeaderSortCell
+              disabled={isLoading}
               title={`Sponsored\nASINs`}
               dataKey="sponsored_asins"
               currentSortColumn={sortColumn}
@@ -149,9 +151,10 @@ const DatabaseTable = (props: Props) => {
         </Table.Column>
 
         {/* Competing Products  */}
-        <Table.Column width={150} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={150} verticalAlign="middle" fixed align="left" sortable={!isLoading}>
           <Table.HeaderCell>
             <HeaderSortCell
+              disabled={isLoading}
               title={`Competing\nProducts`}
               dataKey="competing_products"
               currentSortColumn={sortColumn}
@@ -162,9 +165,10 @@ const DatabaseTable = (props: Props) => {
         </Table.Column>
 
         {/* Word Count  */}
-        <Table.Column width={150} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={150} verticalAlign="middle" fixed align="left" sortable={!isLoading}>
           <Table.HeaderCell>
             <HeaderSortCell
+              disabled={isLoading}
               title={`Word\nCount`}
               dataKey="word_count"
               currentSortColumn={sortColumn}
@@ -175,9 +179,10 @@ const DatabaseTable = (props: Props) => {
         </Table.Column>
 
         {/* Match Type  */}
-        {/* <Table.Column width={120} verticalAlign="middle" fixed align="left" sortable>
+        {/* <Table.Column width={120} verticalAlign="middle" fixed align="left" sortable={!isLoading}>
           <Table.HeaderCell>
             <HeaderSortCell
+              disabled={isLoading}
               title={`Match`}
               dataKey="match"
               currentSortColumn={sortColumn}
@@ -188,9 +193,10 @@ const DatabaseTable = (props: Props) => {
         </Table.Column> */}
 
         {/* Title Density */}
-        <Table.Column width={150} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={150} verticalAlign="middle" fixed align="left" sortable={!isLoading}>
           <Table.HeaderCell>
             <HeaderSortCell
+              disabled={isLoading}
               title={`Title\nDensity`}
               dataKey="title_density"
               currentSortColumn={sortColumn}

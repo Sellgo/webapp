@@ -107,9 +107,16 @@ const ProductsDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* # Sellers */}
-          <Table.Column width={130} sortable verticalAlign="middle" align="center" flexGrow={1}>
+          <Table.Column
+            width={130}
+            sortable={!isLoadingProductsDatabase}
+            verticalAlign="middle"
+            align="center"
+            flexGrow={1}
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingProductsDatabase}
                 title="Sellers"
                 dataKey="seller_count"
                 currentSortColumn={sortColumn}
@@ -120,9 +127,16 @@ const ProductsDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Price */}
-          <Table.Column width={130} sortable verticalAlign="middle" align="center" flexGrow={1}>
+          <Table.Column
+            width={130}
+            sortable={!isLoadingProductsDatabase}
+            verticalAlign="middle"
+            align="center"
+            flexGrow={1}
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingProductsDatabase}
                 title="Price"
                 dataKey="price"
                 currentSortColumn={sortColumn}
@@ -133,9 +147,16 @@ const ProductsDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Monthly Sales */}
-          <Table.Column width={150} sortable verticalAlign="middle" align="center" flexGrow={1}>
+          <Table.Column
+            width={150}
+            sortable={!isLoadingProductsDatabase}
+            verticalAlign="middle"
+            align="center"
+            flexGrow={1}
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingProductsDatabase}
                 title="Monthly Sales"
                 dataKey="monthly_sales"
                 currentSortColumn={sortColumn}
@@ -146,9 +167,16 @@ const ProductsDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Monthly Revenue */}
-          <Table.Column width={170} sortable verticalAlign="middle" align="center" flexGrow={1}>
+          <Table.Column
+            width={170}
+            sortable={!isLoadingProductsDatabase}
+            verticalAlign="middle"
+            align="center"
+            flexGrow={1}
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingProductsDatabase}
                 title="Monthly Revenue"
                 dataKey="monthly_revenue"
                 currentSortColumn={sortColumn}
@@ -159,9 +187,16 @@ const ProductsDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* BSR */}
-          <Table.Column width={100} sortable verticalAlign="middle" align="center" flexGrow={1}>
+          <Table.Column
+            width={100}
+            sortable={!isLoadingProductsDatabase}
+            verticalAlign="middle"
+            align="center"
+            flexGrow={1}
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingProductsDatabase}
                 title="BSR"
                 dataKey="bsr"
                 currentSortColumn={sortColumn}
@@ -172,9 +207,16 @@ const ProductsDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Reviews */}
-          <Table.Column width={120} sortable verticalAlign="middle" align="center" flexGrow={1}>
+          <Table.Column
+            width={120}
+            sortable={!isLoadingProductsDatabase}
+            verticalAlign="middle"
+            align="center"
+            flexGrow={1}
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingProductsDatabase}
                 title="Reviews"
                 dataKey="rating"
                 currentSortColumn={sortColumn}
@@ -185,9 +227,16 @@ const ProductsDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Number of images */}
-          <Table.Column width={120} sortable verticalAlign="middle" align="center" flexGrow={1}>
+          <Table.Column
+            width={120}
+            sortable={!isLoadingProductsDatabase}
+            verticalAlign="middle"
+            align="center"
+            flexGrow={1}
+          >
             <Table.HeaderCell>
               <HeaderSortCell
+                disabled={isLoadingProductsDatabase}
                 title="Number of Images"
                 dataKey="image_count"
                 currentSortColumn={sortColumn}

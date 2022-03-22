@@ -111,6 +111,7 @@ const ReverseTable = (props: Props) => {
         <Table.Column verticalAlign="middle" fixed align="left" flexGrow={1}>
           <Table.HeaderCell>
             <HeaderSortCell
+              disabled={isLoading}
               title={`Search Term`}
               dataKey="search_term"
               currentSortColumn={''}
@@ -122,9 +123,10 @@ const ReverseTable = (props: Props) => {
         </Table.Column>
 
         {/* Amzon Choice */}
-        <Table.Column width={140} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={140} verticalAlign="middle" fixed align="left" sortable={!isLoading}>
           <Table.HeaderCell>
             <HeaderSortCell
+              disabled={isLoading}
               title={`Amazon Choice`}
               dataKey="amazon_choice_asins"
               currentSortColumn={sortColumn}
@@ -135,9 +137,10 @@ const ReverseTable = (props: Props) => {
         </Table.Column>
 
         {/* Search Volume */}
-        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable={!isLoading}>
           <Table.HeaderCell>
             <HeaderSortCell
+              disabled={isLoading}
               title={`Search\nVolume`}
               dataKey="search_volume"
               currentSortColumn={sortColumn}
@@ -148,9 +151,10 @@ const ReverseTable = (props: Props) => {
         </Table.Column>
 
         {/* Sponsored ASINS */}
-        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable={!isLoading}>
           <Table.HeaderCell>
             <HeaderSortCell
+              disabled={isLoading}
               title={`Sponsored\nASINs`}
               dataKey="sponsored_asins"
               currentSortColumn={sortColumn}
@@ -161,9 +165,10 @@ const ReverseTable = (props: Props) => {
         </Table.Column>
 
         {/* Sponsored Rank */}
-        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable={!isLoading}>
           <Table.HeaderCell>
             <HeaderSortCell
+              disabled={isLoading}
               title={`Sponsored\nRank`}
               dataKey="sponsored_rank"
               currentSortColumn={sortColumn}
@@ -174,9 +179,10 @@ const ReverseTable = (props: Props) => {
         </Table.Column>
 
         {/* Competing Products  */}
-        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable={!isLoading}>
           <Table.HeaderCell>
             <HeaderSortCell
+              disabled={isLoading}
               title={`Competing\nProducts`}
               dataKey="competing_products"
               currentSortColumn={sortColumn}
@@ -187,9 +193,10 @@ const ReverseTable = (props: Props) => {
         </Table.Column>
 
         {/* Competitor Rank   */}
-        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable={!isLoading}>
           <Table.HeaderCell>
             <HeaderSortCell
+              disabled={isLoading}
               title={`Competitor\nRank (Avg)`}
               dataKey="competitor_rank_avg"
               currentSortColumn={sortColumn}
@@ -200,9 +207,10 @@ const ReverseTable = (props: Props) => {
         </Table.Column>
 
         {/* Ranking Competitors Count  */}
-        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable={!isLoading}>
           <Table.HeaderCell>
             <HeaderSortCell
+              disabled={isLoading}
               title={`Ranking\nCompetitors`}
               dataKey="ranking_competitors_count"
               currentSortColumn={sortColumn}
@@ -213,9 +221,10 @@ const ReverseTable = (props: Props) => {
         </Table.Column>
 
         {/* Title Density  */}
-        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable={!isLoading}>
           <Table.HeaderCell>
             <HeaderSortCell
+              disabled={isLoading}
               title={`Title\nDensity`}
               dataKey="title_density"
               currentSortColumn={sortColumn}
@@ -234,11 +243,12 @@ const ReverseTable = (props: Props) => {
                 verticalAlign="middle"
                 fixed
                 align="left"
-                sortable
+                sortable={!isLoading}
                 key={uuid()}
               >
                 <Table.HeaderCell>
                   <HeaderSortCell
+                    disabled={isLoading}
                     title={`Organic\nRank`}
                     dataKey="organic_rank"
                     currentSortColumn={sortColumn}
@@ -255,11 +265,12 @@ const ReverseTable = (props: Props) => {
                 verticalAlign="middle"
                 fixed
                 align="left"
-                sortable
+                sortable={!isLoading}
                 key={uuid()}
               >
                 <Table.HeaderCell>
                   <HeaderSortCell
+                    disabled={isLoading}
                     title={`Sponsored\nRank (avg)`}
                     dataKey="sponsored_rank_avg"
                     currentSortColumn={sortColumn}
@@ -275,11 +286,12 @@ const ReverseTable = (props: Props) => {
                 verticalAlign="middle"
                 fixed
                 align="left"
-                sortable
+                sortable={!isLoading}
                 key={uuid()}
               >
                 <Table.HeaderCell>
                   <HeaderSortCell
+                    disabled={isLoading}
                     title={`Sponsored\nRank (#)`}
                     dataKey="sponsored_rank_count"
                     currentSortColumn={sortColumn}
@@ -295,11 +307,12 @@ const ReverseTable = (props: Props) => {
                 verticalAlign="middle"
                 fixed
                 align="left"
-                sortable
+                sortable={!isLoading}
                 key={uuid()}
               >
                 <Table.HeaderCell>
                   <HeaderSortCell
+                    disabled={isLoading}
                     title={`Position\nRank`}
                     dataKey="position_rank"
                     currentSortColumn={sortColumn}
@@ -315,11 +328,12 @@ const ReverseTable = (props: Props) => {
                 verticalAlign="middle"
                 fixed
                 align="left"
-                sortable
+                sortable={!isLoading}
                 key={uuid()}
               >
                 <Table.HeaderCell>
                   <HeaderSortCell
+                    disabled={isLoading}
                     title={`Relative\nRank`}
                     dataKey="relative_rank"
                     currentSortColumn={sortColumn}
@@ -331,9 +345,10 @@ const ReverseTable = (props: Props) => {
             ]}
 
         {/* Count Top 10  */}
-        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable={!isLoading}>
           <Table.HeaderCell>
             <HeaderSortCell
+              disabled={isLoading}
               title={`Count\nTop 10`}
               dataKey="count_top_10"
               currentSortColumn={sortColumn}
@@ -344,9 +359,10 @@ const ReverseTable = (props: Props) => {
         </Table.Column>
 
         {/* Count Top 50  */}
-        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable>
+        <Table.Column width={100} verticalAlign="middle" fixed align="left" sortable={!isLoading}>
           <Table.HeaderCell>
             <HeaderSortCell
+              disabled={isLoading}
               title={`Count\nTop 50`}
               dataKey="count_top_50"
               currentSortColumn={sortColumn}
