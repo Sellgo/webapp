@@ -143,11 +143,6 @@
     "stylelint-prettier": "^1.1.2",
     "stylelint-scss": "^3.14.2"
   },
-  "husky": {
-    "hooks": {
-      "pre-push": "CI=true npm run test"
-    }
-  },
   "lint-staged": {
     "*.{css,scss}": "stylelint --fix",
     "*.{js,ts,tsx}": "eslint --fix",
