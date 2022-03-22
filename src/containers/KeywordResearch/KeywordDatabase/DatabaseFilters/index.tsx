@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { connect } from 'react-redux';
 
-/* Styling */
+/* Stylin */
 import styles from './index.module.scss';
 
 /* Constants */
