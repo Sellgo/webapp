@@ -35,6 +35,10 @@
   position: relative;
 
   &__disabled {
+    cursor: not-allowed;
+  }
+
+  &__disabledSort {
     cursor: default;
   }
 

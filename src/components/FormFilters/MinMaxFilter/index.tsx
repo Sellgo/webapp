@@ -76,13 +76,13 @@ const MinMaxFilter: React.FC<Props> = props => {
       <div className={styles.inputWrapper}>
         {prependWith && <span className={styles.append}>{prependWith}</span>}
         <Input
-          type="number"
+          type="text"
           placeholder="Min"
           value={minValue}
           data-filter="min"
           className="minMaxFilters"
           onChange={(e: any) => {
-            if (parseFloat(e.target.value) >= 0) {
+            if (!isNaN(e.target.value) && (parseFloat(e.target.value) >= 0 || !e.target.value)) {
               handleChange && handleChange('min', e.target.value);
             }
           }}
@@ -90,13 +90,13 @@ const MinMaxFilter: React.FC<Props> = props => {
         />
         <FilterRightArrow />
         <Input
-          type="number"
+          type="text"
           placeholder="Max"
           value={maxValue}
           data-filter="max"
           className="minMaxFilters"
           onChange={(e: any) => {
-            if (parseFloat(e.target.value) >= 0) {
+            if (!isNaN(e.target.value) && (parseFloat(e.target.value) >= 0 || !e.target.value)) {
               handleChange && handleChange('max', e.target.value);
             }
           }}

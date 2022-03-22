@@ -39,12 +39,7 @@ interface Props {
 }
 
 const DatabaseFilters = (props: Props) => {
-  const {
-    fetchKeywordDatabaseTableInfo,
-    resetKeywordDatabase,
-    isLoadingKeywordDatabaseTable,
-    shouldFetchKeywordDatabaseProgress,
-  } = props;
+  const { fetchKeywordDatabaseTableInfo, resetKeywordDatabase } = props;
 
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
 
@@ -58,12 +53,6 @@ const DatabaseFilters = (props: Props) => {
   /* Advanced Filters */
   const [searchTerm, setSearchTerm] = useState(DEFAULT_INCLUDE_EXCLUDE_FILTER);
   const [matchKeywords, setMatchKeywords] = useState(false);
-
-  React.useEffect(() => {
-    if (shouldFetchKeywordDatabaseProgress || isLoadingKeywordDatabaseTable) {
-      setShowAdvancedFilter(false);
-    }
-  }, [shouldFetchKeywordDatabaseProgress, isLoadingKeywordDatabaseTable]);
 
   /* Handle Reset */
   const handleReset = () => {

@@ -92,7 +92,8 @@ const HeaderSortCell = (props: Props) => {
           <p
             className={`
               ${styles.headerText} 
-              ${disableSort || disabled ? styles.headerText__disabled : ''}
+              ${disabled ? styles.headerText__disabled : ''}
+              ${disableSort ? styles.headerText__disabledSort : ''}
               ${alignMiddle ? styles.headerText__alignMiddle : ''}
             `}
             style={isCurrentlySorted ? sortedStyles : defaultStyles}
