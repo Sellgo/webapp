@@ -20,6 +20,18 @@ const SubChart = (props: Props) => {
       yAxis: index,
     };
   });
+
+  function formatter(this: any) {
+    if (this.isLast || this.isFirst) {
+      return new Date(this.value).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      });
+    }
+    return '';
+  }
+
   useEffect(() => {
     const chartMount = document.getElementById(`subchart-${index}`);
 
@@ -38,25 +50,31 @@ const SubChart = (props: Props) => {
           {
             // left y axis
             title: {
-              text: null,
+              text: 'Sub Chart',
             },
             labels: {
+              enabled: false,
               align: 'left',
               x: -5,
               y: 16,
             },
             showFirstLabel: true,
-            gridLineDashStyle: 'LongDash',
+            gridLineWidth: 0,
           },
         ],
 
         xAxis: {
+          labels: {
+            align: 'left',
+            enabled: true,
+            style: {
+              color: '#919FB2',
+            },
+            formatter: formatter,
+          },
           type: 'datetime',
-          gridLineDashStyle: 'LongDash',
           gridLineColor: '#e6e6e6',
-          gridLineWidth: 1,
-          minTickInterval: 1,
-          tickInterval: 24 * 3600 * 1000 * 30,
+          lineWidth: 0,
           dateTimeLabelFormats: {
             day: '%e %b',
             week: '%e %b',
