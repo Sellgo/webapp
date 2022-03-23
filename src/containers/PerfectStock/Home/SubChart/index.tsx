@@ -7,9 +7,12 @@ import styles from './index.module.scss';
 
 interface Props {
   data: GraphDataSeries[];
+  index: number;
 }
-const ProductSalesGraph = (props: Props) => {
-  const { data } = props;
+
+const SubChart = (props: Props) => {
+  const { data, index } = props;
+  console.log(data);
 
   const dataWithAxisInfo = data?.map((item: GraphDataSeries, index) => {
     return {
@@ -18,12 +21,12 @@ const ProductSalesGraph = (props: Props) => {
     };
   });
   useEffect(() => {
-    const chartMount = document.getElementById('product-sales-graph');
+    const chartMount = document.getElementById(`subchart-${index}`);
 
-    if (chartMount) {
+    if (chartMount && dataWithAxisInfo.length > 0) {
       Highcharts.chart({
         chart: {
-          renderTo: 'product-sales-graph',
+          renderTo: `subchart-${index}`,
           type: 'line',
         },
 
@@ -108,9 +111,9 @@ const ProductSalesGraph = (props: Props) => {
 
   return (
     <div className={styles.graphWrapper}>
-      <div id="product-sales-graph" className={styles.graph} />
+      <div id={`subchart-${index}`} className={styles.graph} />
     </div>
   );
 };
 
-export default ProductSalesGraph;
+export default SubChart;

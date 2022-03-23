@@ -1,0 +1,42 @@
+import { SubChartSettings } from '../../interfaces/PerfectStock/Home';
+
+/* All action types */
+export const actionTypes = {
+  IS_LOADING_MAIN_CHART: 'IS_LOADING_MAIN_CHART',
+  IS_LOADING_SUB_CHARTS: 'IS_LOADING_SUB_CHARTS',
+  SET_MAIN_CHART: 'SET_MAIN_CHART',
+  SET_SUB_CHART: 'SET_SUB_CHART',
+  SET_SUB_CHART_SETTINGS: 'SET_SUB_CHART_SETTINGS',
+};
+
+export const CASH_FLOW_CHART_TYPE = {
+  ORDER_COST: 'order_cost',
+  FREIGHT_COST: 'freight_cost',
+  DUTY: 'duty',
+  IMPORT_COST: 'import_cost',
+  DEPOSITS: 'deposits',
+  PAID_FULL: 'paid_full',
+  AMAZON_PAYMENTS: 'amz_payments',
+  REVENUE: 'revenue',
+  AMAZON_FEES: 'amz_fees',
+  LAST_LEG: 'last_leg',
+  MID_PAYMENTS: 'mid_payments',
+};
+
+export const DEFAULT_SUB_CHARTS_TO_SHOW = [
+  CASH_FLOW_CHART_TYPE.ORDER_COST,
+  // CASH_FLOW_CHART_TYPE.FREIGHT_COST,
+  // CASH_FLOW_CHART_TYPE.DUTY,
+  // CASH_FLOW_CHART_TYPE.IMPORT_COST,
+  // CASH_FLOW_CHART_TYPE.DEPOSITS,
+  // CASH_FLOW_CHART_TYPE.PAID_FULL,
+  // CASH_FLOW_CHART_TYPE.AMAZON_PAYMENTS,
+  // CASH_FLOW_CHART_TYPE.REVENUE,
+  // CASH_FLOW_CHART_TYPE.AMAZON_FEES,
+  // CASH_FLOW_CHART_TYPE.LAST_LEG,
+  // CASH_FLOW_CHART_TYPE.MID_PAYMENTS,
+];
+
+export const DEFAULT_SUB_CHART_SETTINGS: SubChartSettings = {
+  types: DEFAULT_SUB_CHARTS_TO_SHOW,
+};

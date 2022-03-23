@@ -1,81 +1,63 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 
 /* Actions */
-import { fetchTplVendors, setTplActiveVendor } from '../../../actions/PerfectStock/Tpl';
+import { fetchSubCharts, fetchTopGraph } from '../../../actions/PerfectStock/Home';
 
 /* Interfaces */
-import { TplVendor } from '../../../interfaces/PerfectStock/Tpl';
+import { Chart, SubChartSettings } from '../../../interfaces/PerfectStock/Home';
 
 /* Selectors */
-import { getTplActiveVendor, getTplVendors } from '../../../selectors/PerfectStock/Tpl';
+import {
+  getMainChart,
+  getSubCharts,
+  getSubChartSettings,
+} from '../../../selectors/PerfectStock/Home';
 
 /* Containers */
 import TopGraph from './TopGraph';
-
-/* Styles */
-import { AppConfig } from '../../../config';
-import { sellerIDSelector } from '../../../selectors/Seller';
+import SubChart from './SubChart';
 
 interface Props {
-  fetchTplVendors: () => void;
+  subChartSettings: SubChartSettings;
+  subCharts: Chart[];
+  mainChart: Chart;
+
+  fetchMainChart: () => void;
+  fetchSubCharts: () => void;
 }
 
 const Home = (props: Props) => {
-  const { fetchTplVendors } = props;
-  console.log(fetchTplVendors);
-
-  const [topChartData, setTopChartData] = React.useState<[Date, number][]>([]);
-
-  const fetchTopGraph = async () => {
-    try {
-      const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/cash-flow-chart`;
-      const { data } = await axios.get(url);
-      const yAxisData = data.map((item: any) => [
-        new Date(item.date).getTime(),
-        parseFloat(item.balance),
-      ]);
-      setTopChartData(yAxisData);
-    } catch (error) {
-      console.log(error);
-      setTopChartData([]);
-    }
-  };
-
+  const { mainChart, subCharts, fetchMainChart, fetchSubCharts } = props;
   React.useEffect(() => {
-    fetchTopGraph();
+    fetchMainChart();
+    fetchSubCharts();
   }, []);
 
   return (
     <main>
-      <TopGraph
-        data={[
-          {
-            name: '',
-            type: 'line',
-            data: topChartData,
-          },
-        ]}
-      />
+      <TopGraph data={mainChart.data} />
       <p>Filters</p>
       <br />
-      <p>Sub Charts</p>
+      {subCharts.map((item: Chart, index: number) => {
+        return <SubChart key={index} index={index} data={item.data} />;
+      })}
     </main>
   );
 };
 
 const mapStateToProps = (state: any) => {
   return {
-    tplVendors: getTplVendors(state),
-    activeTplVendor: getTplActiveVendor(state),
+    mainChart: getMainChart(state),
+    subChartSettings: getSubChartSettings(state),
+    subCharts: getSubCharts(state),
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchTplVendors: () => dispatch(fetchTplVendors()),
-    setTplActiveVendor: (vendor: TplVendor) => dispatch(setTplActiveVendor(vendor)),
+    fetchMainChart: () => dispatch(fetchTopGraph()),
+    fetchSubCharts: () => dispatch(fetchSubCharts()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
