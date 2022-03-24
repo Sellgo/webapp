@@ -167,7 +167,7 @@ const CreateOrder = (props: Props) => {
       break;
 
     case CREATE_ORDER_STATUS.SELECT_OPTIMISATION_TYPE:
-      headerContent = 'Select optimisation type';
+      headerContent = 'Select optimization type';
       content = (
         <OrderOptimisationSelection
           handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
@@ -201,7 +201,7 @@ const CreateOrder = (props: Props) => {
       );
       break;
     case CREATE_ORDER_STATUS.SELECT_INVENTORY_THRESHOLD:
-      headerContent = 'Select Inventory Level';
+      headerContent = 'Select Next Order Trigger';
       content = (
         <InventoryThresholdSelection
           handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
@@ -232,7 +232,7 @@ const CreateOrder = (props: Props) => {
           isCreateOrderLoading={isCreateOrderLoading}
         />
       );
-      headerContent = '1ST ORDER DATE';
+      headerContent = 'Select 1ST ORDER DATE';
       break;
     case CREATE_ORDER_STATUS.SELECT_LEAD_TIME:
       content = (
@@ -243,7 +243,7 @@ const CreateOrder = (props: Props) => {
           handleNext={() => setCreateOrderStep(createOrderStep + 1)}
         />
       );
-      headerContent = 'LEAD TIME';
+      headerContent = 'Select LEAD TIME';
       break;
 
     case CREATE_ORDER_STATUS.ORDER_CREATED:

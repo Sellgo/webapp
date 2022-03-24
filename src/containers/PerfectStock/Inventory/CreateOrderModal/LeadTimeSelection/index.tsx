@@ -94,7 +94,7 @@ const LeadTimeSelection = (props: Props) => {
   return (
     <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>
-        <h2>Please Select Lead Time*</h2>
+        <h2>Please Select Lead Time</h2>
         <SelectionFilter
           filterOptions={leadTimeOptions}
           value={createOrderPayload.lead_time_group_id.toString()}
@@ -119,7 +119,7 @@ const LeadTimeSelection = (props: Props) => {
           variant="reset"
           size="md"
         >
-          Previous
+          Back
         </ActionButton>
         <ActionButton
           className={styles.createButton}
@@ -130,7 +130,7 @@ const LeadTimeSelection = (props: Props) => {
           disabled={isHandleNextDisabled}
           loading={isCreatingOrder}
         >
-          Next
+          Continue
         </ActionButton>
       </div>
     </div>
