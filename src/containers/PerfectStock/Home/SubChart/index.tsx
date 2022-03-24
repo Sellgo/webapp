@@ -90,7 +90,7 @@ const SubChart = (props: Props) => {
           },
           min: minDate,
           max: maxDate,
-          tickInterval: 24 * 3600 * 1000,
+          // tickInterval: 24 * 3600 * 1000,
           type: 'datetime',
           gridLineColor: '#e6e6e6',
           lineWidth: 0,
