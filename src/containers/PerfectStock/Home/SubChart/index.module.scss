@@ -7,15 +7,17 @@
   display: flex;
   align-items: center;
   padding: 18px 30px;
+  margin-right: 10px;
   background: $prim_white;
   border-radius: 7px;
   border: 1px solid $grey_3;
 }
 
 .graph {
+  margin-right: 10px;
   width: 450px;
   height: 200px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
 }

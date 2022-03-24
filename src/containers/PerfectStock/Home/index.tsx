@@ -14,6 +14,9 @@ import {
   getSubChartSettings,
 } from '../../../selectors/PerfectStock/Home';
 
+/* Styles */
+import styles from './index.module.scss';
+
 /* Containers */
 import TopGraph from './TopGraph';
 import SubChart from './SubChart';
@@ -39,9 +42,11 @@ const Home = (props: Props) => {
       <TopGraph data={mainChart.data} />
       <p>Filters</p>
       <br />
-      {subCharts.map((item: Chart, index: number) => {
-        return <SubChart key={index} index={index} data={item.data} />;
-      })}
+      <div className={styles.subChartsWrapper}>
+        {subCharts.map((item: Chart, index: number) => {
+          return <SubChart key={index} index={index} graphs={item.data} />;
+        })}
+      </div>
     </main>
   );
 };

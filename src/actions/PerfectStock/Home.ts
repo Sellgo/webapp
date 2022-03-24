@@ -59,14 +59,15 @@ export const fetchTopGraph = () => async (dispatch: any) => {
     const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/cash-flow-chart`;
     const { data } = await axios.get(url);
     if (data) {
-      const chartData = data.results.map((item: any) => [
+      const mainGraph = data[0];
+      const chartData = mainGraph.data.map((item: any) => [
         new Date(item.date).getTime(),
         parseFloat(item.amount),
       ]);
 
       dispatch(
         setMainChart({
-          total: data.total,
+          total: mainGraph.total,
           data: [
             {
               name: '',
@@ -94,30 +95,30 @@ export const fetchSubCharts = () => async (dispatch: any, getState: any) => {
   dispatch(isLoadingSubCharts(true));
   const state = getState();
   const chartSettings: SubChartSettings = getSubChartSettings(state);
-  const type = chartSettings.types.join(',');
-  const dates = '&start_time=2022-03-15&end_time=2022-05-15';
-  console.log(type, dates);
+  const type = encodeURIComponent(chartSettings.types.join(','));
+  const dates = '&start_time=2022-03-25&end_time=2022-05-15';
   try {
-    const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/cash-flow-chart`;
+    const url = `${
+      AppConfig.BASE_URL_API
+    }sellers/${sellerIDSelector()}/cash-flow-chart?types=${type}${dates}`;
     const { data } = await axios.get(url);
-    const graphData = data.results.map((item: any) => [
-      new Date(item.date).getTime(),
-      parseFloat(item.amount),
-    ]);
-    dispatch(
-      setSubCharts([
-        {
-          total: data.total,
-          data: [
-            {
-              name: '',
-              type: 'line',
-              data: graphData,
-            },
-          ],
-        },
-      ])
-    );
+    const subCharts = data.map((chart: any) => {
+      const chartData = chart.data.map((item: any) => [
+        new Date(item.date).getTime(),
+        parseFloat(item.amount),
+      ]);
+      return {
+        name: chart.type,
+        data: [
+          {
+            name: chart.type,
+            type: 'column',
+            data: chartData,
+          },
+        ],
+      };
+    });
+    dispatch(setSubCharts(subCharts));
   } catch (err) {
     dispatch(setSubCharts([]));
     console.error('Error fetching sub charts', err);
