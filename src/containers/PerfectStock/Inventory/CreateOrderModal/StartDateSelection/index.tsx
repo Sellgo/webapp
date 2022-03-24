@@ -63,12 +63,13 @@ const StartDateSelection = (props: Props) => {
   return (
     <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>
-        <h2>When would you like to date the first order?*</h2>
+        <h2>When would you like to date the first order?</h2>
         <div className={styles.inputBox}>
           <InputTabSelection
             options={['Start Date', 'Arrival Date']}
             selectedOption={dateType}
             setSelectedOption={setDateType}
+            isPurple={true}
           />
           <DatePicker
             oneTap
@@ -99,7 +100,7 @@ const StartDateSelection = (props: Props) => {
           variant="reset"
           size="md"
         >
-          Previous
+          Back
         </ActionButton>
         <ActionButton
           className={styles.createButton}
@@ -109,7 +110,7 @@ const StartDateSelection = (props: Props) => {
           size="md"
           loading={isCreateOrderLoading}
         >
-          Submit
+          Create Order
         </ActionButton>
       </div>
     </div>

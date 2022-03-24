@@ -92,7 +92,7 @@ const OrderTypeSelection = (props: Props) => {
           type="purpleGradient"
           size="md"
         >
-          Next
+          Continue
         </ActionButton>
       </div>
     </div>

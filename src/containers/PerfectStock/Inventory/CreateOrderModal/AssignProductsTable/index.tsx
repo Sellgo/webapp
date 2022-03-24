@@ -183,7 +183,7 @@ const AssignProductsTable = (props: Props) => {
             variant="reset"
             size="md"
           >
-            Previous
+            Back
           </ActionButton>
           <ActionButton
             className={styles.createButton}
@@ -193,7 +193,7 @@ const AssignProductsTable = (props: Props) => {
             size="md"
             disabled={isCreateOrderDisabled}
           >
-            Submit
+            Create Order
           </ActionButton>
         </div>
       </div>

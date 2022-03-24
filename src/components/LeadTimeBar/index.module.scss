@@ -21,9 +21,9 @@
   position: absolute;
   width: 100%;
   top: -20px;
-  font-size: 12px;
+  font-size: 8px;
   font-weight: $fontweight_semibold;
-  color: $black_1;
+  color: $grey_8;
   text-align: center;
   height: 20px;
 }
@@ -37,7 +37,7 @@
     text-align: center;
     color: $prim_white;
     font-size: 10px;
-    font-weight: $fontweight_medium;
+    font-weight: $fontweight_bold;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     white-space: nowrap;
