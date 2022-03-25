@@ -177,6 +177,7 @@ const InventoryTable = (props: Props) => {
       <>
         <section className={styles.productDatabaseWrapper}>
           <TodaySkuTable
+            isLoadingInventoryTableResults={isLoadingInventoryTableResults}
             data={displayInventoryResults}
             sortColumn={sortColumn}
             sortType={sortType}

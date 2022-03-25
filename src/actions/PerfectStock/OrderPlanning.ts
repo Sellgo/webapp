@@ -469,7 +469,7 @@ export const fetchInventoryTable = (payload: InventoryTablePayload) => async (
       `&page=1` +
       `&per_page=100` +
       `${activePurchaseOrder.id !== -1 ? `&purchase_order_ids=${activePurchaseOrder.id}` : ''}` +
-      `&sort=${sort}` +
+      `&sort=${sort || 'id'}` +
       `&sort_direction=${sortDir}` +
       `${filtersPath}`;
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/order-plan-overview?${resourceString}`;

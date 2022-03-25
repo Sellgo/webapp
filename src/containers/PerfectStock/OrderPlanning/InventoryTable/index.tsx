@@ -159,6 +159,7 @@ const InventoryTable = (props: Props) => {
           sortType={sortType}
           handleSortColumn={handleSortColumn}
           activePurchaseOrder={activePurchaseOrder}
+          isLoadingInventoryTableResults={isLoadingInventoryTableResults}
         />
       </section>
     );
