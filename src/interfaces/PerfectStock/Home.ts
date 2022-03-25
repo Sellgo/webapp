@@ -6,6 +6,9 @@ export interface Foo {
 
 export interface SubChartSettings {
   types: string[];
+  start_time: Date;
+  end_time: Date;
+  granularity: number;
 }
 
 export interface Chart {

@@ -3,11 +3,11 @@
 .graphWrapper {
   margin-top: 18px;
   width: 450px;
-  height: 220px;
+  height: 300px;
   display: flex;
   align-items: center;
-  padding: 18px 30px;
   margin-right: 10px;
+  padding: 0 18px;
   background: $prim_white;
   border-radius: 7px;
   border: 1px solid $grey_3;
@@ -16,8 +16,22 @@
 .graph {
   margin-right: 10px;
   width: 450px;
-  height: 200px;
+  height: 280px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
+}
+
+.chartTitle {
+  font-size: $fontsize_content_14;
+  font-weight: $fontweight_semibold;
+  color: $prim_dark_2;
+  margin: 0;
+}
+
+.chartTotal {
+  line-height: 30px;
+  font-size: $fontsize_subtitle_20;
+  color: $black_1;
+  font-weight: $fontweight_medium;
 }

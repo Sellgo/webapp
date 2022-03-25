@@ -108,7 +108,7 @@ export const fetchSubCharts = () => async (dispatch: any, getState: any) => {
         parseFloat(item.amount),
       ]);
       return {
-        name: chart.type,
+        total: chart.total,
         data: [
           {
             name: chart.type,

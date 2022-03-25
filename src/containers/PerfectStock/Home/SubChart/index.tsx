@@ -1,17 +1,20 @@
 import React, { useEffect } from 'react';
 import Highcharts from 'highcharts';
+import { CASH_FLOW_CHART_TITLES } from '../../../../constants/PerfectStock/Home';
 import { GraphDataSeries } from '../../../../interfaces/PerfectStock/SalesProjection';
 
 /* Styling */
 import styles from './index.module.scss';
+import { getDateOnly } from '../../../../utils/date';
 
 interface Props {
   graphs: GraphDataSeries[];
   index: number;
+  total?: number;
 }
 
 const SubChart = (props: Props) => {
-  const { graphs, index } = props;
+  const { graphs, index, total } = props;
 
   /* If is array */
   let minDate = 0;
@@ -35,12 +38,11 @@ const SubChart = (props: Props) => {
   });
 
   function formatter(this: any) {
-    if (this.isFirst || new Date(this.value).getDate() === new Date(maxDate).getDate()) {
-      return new Date(this.value).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-      });
+    console.log(getDateOnly(new Date(this.value)), 'this');
+    console.log(getDateOnly(new Date(maxDate)), 'max');
+    // if (this.isFirst || getDateOnly(new Date(this.value)) === getDateOnly(new Date(maxDate))) {
+    if (this.isFirst || this.isLast) {
+      return Highcharts.dateFormat('%b %e', this.value);
     }
     return '';
   }
@@ -56,22 +58,26 @@ const SubChart = (props: Props) => {
         },
 
         title: {
-          text: '',
+          align: 'left',
+          text: `
+            <p class="${styles.chartTitle}"> ${CASH_FLOW_CHART_TITLES[graphs[0].name]} </p>
+            <h2 class="${styles.chartTotal}"> $${total?.toFixed(2)} </h2>
+          `,
+          useHTML: true,
         },
 
         yAxis: [
           {
             // left y axis
             title: {
-              text: graphs[0].name,
+              text: '',
             },
             labels: {
               enabled: true,
               align: 'left',
-              x: -5,
-              y: 16,
+              x: 0,
             },
-            showFirstLabel: true,
+            showFirstLabel: false,
             gridLineWidth: 0,
           },
         ],
@@ -83,14 +89,13 @@ const SubChart = (props: Props) => {
             style: {
               color: '#919FB2',
             },
-            rotation: 0,
             formatter: formatter,
-            // y: 50,
-            x: -25,
+            y: 40,
+            x: -30,
           },
-          min: minDate,
-          max: maxDate,
-          // tickInterval: 24 * 3600 * 1000,
+          softMin: minDate,
+          softMax: maxDate,
+          tickInterval: 24 * 3600 * 1000,
           type: 'datetime',
           gridLineColor: '#e6e6e6',
           lineWidth: 0,
@@ -113,7 +118,7 @@ const SubChart = (props: Props) => {
             },
             pointIntervalUnit: 'day',
           },
-          line: {
+          column: {
             animation: {
               duration: 0,
             },

@@ -20,6 +20,7 @@ import styles from './index.module.scss';
 /* Containers */
 import TopGraph from './TopGraph';
 import SubChart from './SubChart';
+import ChartSettings from './ChartSettings';
 
 interface Props {
   subChartSettings: SubChartSettings;
@@ -40,11 +41,11 @@ const Home = (props: Props) => {
   return (
     <main>
       <TopGraph data={mainChart.data} />
-      <p>Filters</p>
+      <ChartSettings />
       <br />
       <div className={styles.subChartsWrapper}>
         {subCharts.map((item: Chart, index: number) => {
-          return <SubChart key={index} index={index} graphs={item.data} />;
+          return <SubChart key={index} index={index} graphs={item.data} total={item.total} />;
         })}
       </div>
     </main>
