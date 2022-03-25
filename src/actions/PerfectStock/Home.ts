@@ -12,7 +12,6 @@ import { getSubChartSettings } from '../../selectors/PerfectStock/Home';
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
-// import { error, success } from '../../utils/notifications';
 
 /* Action to set loading state for tpl */
 export const isLoadingTopChart = (payload: boolean) => {
@@ -96,11 +95,13 @@ export const fetchSubCharts = () => async (dispatch: any, getState: any) => {
   const state = getState();
   const chartSettings: SubChartSettings = getSubChartSettings(state);
   const type = encodeURIComponent(chartSettings.types.join(','));
-  const dates = '&start_time=2022-03-25&end_time=2022-05-15';
+  const dates =
+    `&start_time=` + `${chartSettings.start_time}` + `&end_time=${chartSettings.end_time}`;
+  const granularity = `&granularity=${chartSettings.granularity}`;
   try {
     const url = `${
       AppConfig.BASE_URL_API
-    }sellers/${sellerIDSelector()}/cash-flow-chart?types=${type}${dates}`;
+    }sellers/${sellerIDSelector()}/cash-flow-chart?types=${type}${dates}${granularity}`;
     const { data } = await axios.get(url);
     const subCharts = data.map((chart: any) => {
       const chartData = chart.data.map((item: any) => [

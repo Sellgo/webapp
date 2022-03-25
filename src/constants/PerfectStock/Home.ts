@@ -1,4 +1,5 @@
 import { SubChartSettings } from '../../interfaces/PerfectStock/Home';
+import { getDateOnly } from '../../utils/date';
 
 /* All action types */
 export const actionTypes = {
@@ -16,9 +17,9 @@ export const TIME_RANGE_OPTIONS = [
     text: 'Next 7 days',
   },
   {
-    key: 'Mext 4 weeks',
+    key: 'Next 4 weeks',
     value: '28',
-    text: 'Mext 4 weeks',
+    text: 'Next 4 weeks',
   },
   {
     key: 'Next 3 months',
@@ -46,6 +47,41 @@ export const TIME_RANGE_OPTIONS = [
     text: 'Other',
   },
 ];
+
+export const VALID_PRESET_TIME_RANGE = [7, 28, 91, 365, 730, 1095];
+
+export const GRANULARITIES = [
+  {
+    key: 'Daily',
+    value: 1,
+    text: 'Daily',
+  },
+  {
+    key: 'Weekly',
+    value: 7,
+    text: 'Weekly',
+  },
+  {
+    key: 'Biweekly',
+    value: 14,
+    text: 'Biweekly',
+  },
+  {
+    key: 'Monthly',
+    value: 30,
+    text: 'Monthly',
+  },
+];
+
+export const getGranularityLabel = (granularity: number) => {
+  const granularityObj = GRANULARITIES.find(item => item.value === granularity);
+  return granularityObj ? granularityObj.text : '';
+};
+
+export const getGranularityValue = (granularity: string) => {
+  const granularityObj = GRANULARITIES.find(item => item.text === granularity);
+  return granularityObj ? granularityObj.value : 0;
+};
 
 export const CASH_FLOW_CHART_TYPE = {
   ORDER_COST: 'order_cost',
@@ -91,7 +127,7 @@ export const DEFAULT_SUB_CHARTS_TO_SHOW = [
 
 export const DEFAULT_SUB_CHART_SETTINGS: SubChartSettings = {
   types: DEFAULT_SUB_CHARTS_TO_SHOW,
-  start_time: new Date(),
-  end_time: new Date(),
+  start_time: getDateOnly(new Date()),
+  end_time: getDateOnly(new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)),
   granularity: 1,
 };

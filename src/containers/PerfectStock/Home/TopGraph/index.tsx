@@ -1,15 +1,19 @@
 import React, { useEffect } from 'react';
+import { Dimmer, Loader } from 'semantic-ui-react';
 import Highcharts from 'highcharts';
+
+/* Types */
 import { GraphDataSeries } from '../../../../interfaces/PerfectStock/SalesProjection';
 
 /* Styling */
 import styles from './index.module.scss';
 
 interface Props {
+  isLoading?: boolean;
   data: GraphDataSeries[];
 }
 const ProductSalesGraph = (props: Props) => {
-  const { data } = props;
+  const { data, isLoading } = props;
 
   const dataWithAxisInfo = data?.map((item: GraphDataSeries, index) => {
     return {
@@ -108,6 +112,9 @@ const ProductSalesGraph = (props: Props) => {
 
   return (
     <div className={styles.graphWrapper}>
+      <Dimmer active={isLoading} inverted>
+        <Loader active />
+      </Dimmer>
       <div id="product-sales-graph" className={styles.graph} />
     </div>
   );

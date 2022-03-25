@@ -9,6 +9,8 @@ import { Chart, SubChartSettings } from '../../../interfaces/PerfectStock/Home';
 
 /* Selectors */
 import {
+  getIsLoadingMainChart,
+  getIsLoadingSubCharts,
   getMainChart,
   getSubCharts,
   getSubChartSettings,
@@ -24,6 +26,8 @@ import ChartSettings from './ChartSettings';
 
 interface Props {
   subChartSettings: SubChartSettings;
+  subChartLoading: boolean;
+  mainChartLoading: boolean;
   subCharts: Chart[];
   mainChart: Chart;
 
@@ -32,7 +36,14 @@ interface Props {
 }
 
 const Home = (props: Props) => {
-  const { mainChart, subCharts, fetchMainChart, fetchSubCharts } = props;
+  const {
+    mainChart,
+    mainChartLoading,
+    subCharts,
+    subChartLoading,
+    fetchMainChart,
+    fetchSubCharts,
+  } = props;
   React.useEffect(() => {
     fetchMainChart();
     fetchSubCharts();
@@ -40,12 +51,20 @@ const Home = (props: Props) => {
 
   return (
     <main>
-      <TopGraph data={mainChart.data} />
+      <TopGraph data={mainChart.data} isLoading={mainChartLoading} />
       <ChartSettings />
       <br />
       <div className={styles.subChartsWrapper}>
         {subCharts.map((item: Chart, index: number) => {
-          return <SubChart key={index} index={index} graphs={item.data} total={item.total} />;
+          return (
+            <SubChart
+              key={index}
+              index={index}
+              graphs={item.data}
+              total={item.total}
+              isLoading={subChartLoading}
+            />
+          );
         })}
       </div>
     </main>
@@ -55,6 +74,8 @@ const Home = (props: Props) => {
 const mapStateToProps = (state: any) => {
   return {
     mainChart: getMainChart(state),
+    mainChartLoading: getIsLoadingMainChart(state),
+    subChartLoading: getIsLoadingSubCharts(state),
     subChartSettings: getSubChartSettings(state),
     subCharts: getSubCharts(state),
   };

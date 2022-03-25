@@ -1,22 +1,19 @@
 @import '../../../../design-system/new-colors';
 
 .graphWrapper {
-  margin-top: 18px;
+  position: relative;
   width: 450px;
-  height: 300px;
+  height: 220px;
   display: flex;
   align-items: center;
-  margin-right: 10px;
   padding: 0 18px;
   background: $prim_white;
-  border-radius: 7px;
   border: 1px solid $grey_3;
 }
 
 .graph {
-  margin-right: 10px;
   width: 450px;
-  height: 280px;
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;

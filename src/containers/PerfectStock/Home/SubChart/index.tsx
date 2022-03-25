@@ -1,35 +1,39 @@
 import React, { useEffect } from 'react';
 import Highcharts from 'highcharts';
+import { Dimmer, Loader } from 'semantic-ui-react';
+
+/* Constants */
 import { CASH_FLOW_CHART_TITLES } from '../../../../constants/PerfectStock/Home';
+
+/* Types */
 import { GraphDataSeries } from '../../../../interfaces/PerfectStock/SalesProjection';
 
 /* Styling */
 import styles from './index.module.scss';
-import { getDateOnly } from '../../../../utils/date';
 
 interface Props {
+  isLoading?: boolean;
   graphs: GraphDataSeries[];
   index: number;
   total?: number;
 }
 
 const SubChart = (props: Props) => {
-  const { graphs, index, total } = props;
+  const { graphs, index, total, isLoading } = props;
 
-  /* If is array */
-  let minDate = 0;
-  let maxDate = 0;
-  const graphFirstPoint = graphs[0].data[0];
-  if (Array.isArray(graphFirstPoint)) {
-    minDate = new Date(graphFirstPoint[0]).getTime() - 24 * 3600 * 1000 * 10;
-  }
+  // /* If is array */
+  // let minDate = 0;
+  // let maxDate = 0;
+  // const graphFirstPoint = graphs[0].data[0];
+  // if (Array.isArray(graphFirstPoint)) {
+  //   minDate = new Date(graphFirstPoint[0]).getTime() - 24 * 3600 * 1000 * 10;
+  // }
 
-  const lengthOfGraphData = graphs[0].data.length;
-  const graphLastPoint = graphs[0].data[lengthOfGraphData - 1];
-  if (Array.isArray(graphLastPoint)) {
-    maxDate = new Date(graphLastPoint[0]).getTime() + 24 * 3600 * 1000 * 10;
-  }
-  // minDate= new Date('2022-01-01').getTime();
+  // const lengthOfGraphData = graphs[0].data.length;
+  // const graphLastPoint = graphs[0].data[lengthOfGraphData - 1];
+  // if (Array.isArray(graphLastPoint)) {
+  //   maxDate = new Date(graphLastPoint[0]).getTime() + 24 * 3600 * 1000 * 10;
+  // }
   const dataWithAxisInfo = graphs?.map((item: GraphDataSeries, index) => {
     return {
       ...item,
@@ -38,9 +42,6 @@ const SubChart = (props: Props) => {
   });
 
   function formatter(this: any) {
-    console.log(getDateOnly(new Date(this.value)), 'this');
-    console.log(getDateOnly(new Date(maxDate)), 'max');
-    // if (this.isFirst || getDateOnly(new Date(this.value)) === getDateOnly(new Date(maxDate))) {
     if (this.isFirst || this.isLast) {
       return Highcharts.dateFormat('%b %e', this.value);
     }
@@ -49,12 +50,11 @@ const SubChart = (props: Props) => {
 
   useEffect(() => {
     const chartMount = document.getElementById(`subchart-${index}`);
-
     if (chartMount && dataWithAxisInfo.length > 0) {
       Highcharts.chart({
         chart: {
           renderTo: `subchart-${index}`,
-          type: 'column',
+          type: 'line',
         },
 
         title: {
@@ -90,15 +90,11 @@ const SubChart = (props: Props) => {
               color: '#919FB2',
             },
             formatter: formatter,
-            y: 40,
-            x: -30,
           },
-          softMin: minDate,
-          softMax: maxDate,
-          tickInterval: 24 * 3600 * 1000,
+          // tickInterval: 24 * 3600 * 1000,
           type: 'datetime',
-          gridLineColor: '#e6e6e6',
-          lineWidth: 0,
+          // gridLineColor: '#e6e6e6',
+          // lineWidth: 0,
           dateTimeLabelFormats: {
             day: '%e %b',
             week: '%e %b',
@@ -151,6 +147,9 @@ const SubChart = (props: Props) => {
 
   return (
     <div className={styles.graphWrapper}>
+      <Dimmer active={isLoading} inverted>
+        <Loader active />
+      </Dimmer>
       <div id={`subchart-${index}`} className={styles.graph} />
     </div>
   );

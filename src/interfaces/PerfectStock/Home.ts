@@ -6,8 +6,8 @@ export interface Foo {
 
 export interface SubChartSettings {
   types: string[];
-  start_time: Date;
-  end_time: Date;
+  start_time: string;
+  end_time: string;
   granularity: number;
 }
 
