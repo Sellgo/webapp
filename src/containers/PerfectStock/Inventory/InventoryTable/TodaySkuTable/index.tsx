@@ -27,16 +27,27 @@ interface Props {
   handleSortColumn: (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => void;
   handleExpansion: (rowData: any) => void;
   expandedRowKeys: any;
+  isLoadingInventoryTableResults: boolean;
 }
 
 const TodaySkuTable = (props: Props) => {
-  const { data, sortColumn, sortType, handleSortColumn, handleExpansion, expandedRowKeys } = props;
+  const {
+    isLoadingInventoryTableResults,
+    data,
+    sortColumn,
+    sortType,
+    handleSortColumn,
+    handleExpansion,
+    expandedRowKeys,
+  } = props;
 
   return (
     <Table
-      renderLoading={() => false && <Placeholder numberParagraphs={2} numberRows={3} isGrey />}
+      renderLoading={() =>
+        isLoadingInventoryTableResults && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
+      }
       renderEmpty={() => <div />}
-      data={data}
+      data={isLoadingInventoryTableResults ? [] : data}
       hover={false}
       autoHeight
       rowHeight={90}

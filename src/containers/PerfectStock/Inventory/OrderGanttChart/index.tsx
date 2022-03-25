@@ -27,6 +27,7 @@ import {
 /* Selectors */
 import {
   getActivePurchaseOrder,
+  getIsLoadingInventoryTableResults,
   getIsLoadingPurchaseOrders,
   getPurchaseOrders,
   getPurchaseOrdersLoadingMessage,
@@ -76,6 +77,7 @@ interface Props {
   activePurchaseOrder: GanttChartPurchaseOrder;
   purchaseOrders: PurchaseOrder[];
   isLoadingPurchaseOrders: boolean;
+  isLoadingInventoryTableResults: boolean;
   purchaseOrdersLoadingMessage: string;
   timeSetting: TimeSetting;
 
@@ -93,6 +95,7 @@ const OrderGanttChart = (props: Props) => {
     purchaseOrders,
     purchaseOrdersLoadingMessage,
     isLoadingPurchaseOrders,
+    isLoadingInventoryTableResults,
     updatePurchaseOrder,
     setActivePurchaseOrder,
     activePurchaseOrder,
@@ -371,13 +374,17 @@ const OrderGanttChart = (props: Props) => {
           ${styles.ganttChart} 
           ${hideBottomBorder ? styles.ganttChart__hideBottomBorder : ''}`}
         >
-          <Dimmer active={isLoadingPurchaseOrders} inverted className={styles.dimmerContent}>
+          <Dimmer
+            active={isLoadingPurchaseOrders || isLoadingInventoryTableResults}
+            inverted
+            className={styles.dimmerContent}
+          >
             <Loader inline />
             <p>{purchaseOrdersLoadingMessage}</p>
           </Dimmer>
           <TimeLine
             /* Default Props */
-            isLoading={isLoadingPurchaseOrders}
+            isLoading={isLoadingPurchaseOrders || isLoadingInventoryTableResults}
             onUpdateTask={handleUpdateTask}
             data={ganttChartPurchaseOrders}
             mode={timeSetting}
@@ -469,6 +476,7 @@ const mapStateToProps = (state: any) => {
     purchaseOrders: getPurchaseOrders(state),
     purchaseOrdersLoadingMessage: getPurchaseOrdersLoadingMessage(state),
     isLoadingPurchaseOrders: getIsLoadingPurchaseOrders(state),
+    isLoadingInventoryTableResults: getIsLoadingInventoryTableResults(state),
     activePurchaseOrder: getActivePurchaseOrder(state),
   };
 };
