@@ -31,7 +31,7 @@ interface Props {
   subCharts: Chart[];
   mainChart: Chart;
 
-  fetchMainChart: () => void;
+  fetchMainChart: (granularity?: number) => void;
   fetchSubCharts: () => void;
 }
 
@@ -44,6 +44,7 @@ const Home = (props: Props) => {
     fetchMainChart,
     fetchSubCharts,
   } = props;
+
   React.useEffect(() => {
     fetchMainChart();
     fetchSubCharts();
@@ -51,7 +52,11 @@ const Home = (props: Props) => {
 
   return (
     <main>
-      <TopGraph data={mainChart.data} isLoading={mainChartLoading} />
+      <TopGraph
+        data={mainChart.data}
+        isLoading={mainChartLoading}
+        fetchMainChart={fetchMainChart}
+      />
       <ChartSettings />
       <br />
       <div className={styles.subChartsWrapper}>
@@ -83,7 +88,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchMainChart: () => dispatch(fetchTopGraph()),
+    fetchMainChart: (granularity?: number) => dispatch(fetchTopGraph(granularity)),
     fetchSubCharts: () => dispatch(fetchSubCharts()),
   };
 };

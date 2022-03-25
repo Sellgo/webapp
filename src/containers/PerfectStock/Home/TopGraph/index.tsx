@@ -5,16 +5,25 @@ import Highcharts from 'highcharts';
 /* Types */
 import { GraphDataSeries } from '../../../../interfaces/PerfectStock/SalesProjection';
 
+/* Components */
+import {
+  GRANULARITIES,
+  getGranularityLabel,
+  getGranularityValue,
+} from '../../../../constants/PerfectStock/Home';
+
 /* Styling */
 import styles from './index.module.scss';
+import InputTabSelection from '../../../../components/InputTabSelection';
 
 interface Props {
   isLoading?: boolean;
   data: GraphDataSeries[];
+  fetchMainChart: (granularity?: number) => void;
 }
 const ProductSalesGraph = (props: Props) => {
-  const { data, isLoading } = props;
-
+  const { data, isLoading, fetchMainChart } = props;
+  const [selectedGranularity, setSelectedGranularity] = React.useState<number>(1);
   const dataWithAxisInfo = data?.map((item: GraphDataSeries, index) => {
     return {
       ...item,
@@ -112,6 +121,17 @@ const ProductSalesGraph = (props: Props) => {
 
   return (
     <div className={styles.graphWrapper}>
+      <InputTabSelection
+        isPurple
+        options={GRANULARITIES.map(item => item.text)}
+        selectedOption={getGranularityLabel(selectedGranularity)}
+        setSelectedOption={(label: string) => {
+          setSelectedGranularity(getGranularityValue(label));
+          fetchMainChart(getGranularityValue(label));
+        }}
+        className={styles.inputTabSelection}
+      />
+
       <Dimmer active={isLoading} inverted>
         <Loader active />
       </Dimmer>

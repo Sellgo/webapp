@@ -52,10 +52,12 @@ export const setSubChartSettings = (payload: SubChartSettings) => {
 };
 /*********** Async Actions ************************ */
 /* Action to fetch products database */
-export const fetchTopGraph = () => async (dispatch: any) => {
+export const fetchTopGraph = (granularity?: number) => async (dispatch: any) => {
   dispatch(isLoadingTopChart(true));
   try {
-    const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/cash-flow-chart`;
+    const url =
+      `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/cash-flow-chart` +
+      `${granularity ? `?granularity=${granularity}` : ''}`;
     const { data } = await axios.get(url);
     if (data) {
       const mainGraph = data[0];
