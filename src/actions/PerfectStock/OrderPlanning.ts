@@ -222,7 +222,7 @@ export const setDraftTemplates = (payload: DraftOrderTemplate[]) => {
 
 /*********** Async Actions ************************ */
 /* Action to fetch purchase orders */
-export const fetchPurchaseOrders = () => async (dispatch: any) => {
+export const fetchPurchaseOrders = () => async (dispatch: any, getState: any) => {
   try {
     const sellerId = sellerIDSelector();
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders`;
@@ -232,6 +232,18 @@ export const fetchPurchaseOrders = () => async (dispatch: any) => {
 
     if (data) {
       dispatch(setPurchaseOrders(data));
+
+      /* Replace active purchase order */
+      const state = getState();
+      const activePurchaseOrder = getActivePurchaseOrder(state);
+      if (activePurchaseOrder) {
+        const activePurchaseOrderIndex = data.findIndex(
+          (purchaseOrder: PurchaseOrder) => purchaseOrder.id === activePurchaseOrder.id
+        );
+        if (activePurchaseOrderIndex > -1) {
+          dispatch(setActivePurchaseOrder(data[activePurchaseOrderIndex]));
+        }
+      }
     }
   } catch (err) {
     dispatch(setPurchaseOrders([]));

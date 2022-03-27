@@ -362,6 +362,15 @@ const OrderGanttChart = (props: Props) => {
     history.push(`/aistock/create-order`);
   };
 
+  const handleEditActiveTask = () => {
+    if (activePurchaseOrder.id !== -1 && activePurchaseOrder.id) {
+      handleSelectTask(activePurchaseOrder);
+    } else if (ganttChartPurchaseOrders.length > 1) {
+      handleSelectTask(ganttChartPurchaseOrders[1]);
+    }
+    history.push(`/aistock/create-order`);
+  };
+
   React.useEffect(() => {
     fetchPurchaseOrders();
   }, []);
@@ -399,6 +408,7 @@ const OrderGanttChart = (props: Props) => {
             handleDeleteTask={handleDeleteTask}
             handleDeleteAllTasks={handleDeleteAllTasks}
             handleEditTask={handleEditTask}
+            handleEditActiveTask={handleEditActiveTask}
             viewFilterOptions={viewFilterOptions}
             handleChangeFilterOption={handleChangeFilterOption}
             viewFilter={viewFilter}

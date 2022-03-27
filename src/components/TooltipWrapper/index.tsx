@@ -36,6 +36,11 @@ const TooltipWrapper = (props: Props) => {
 
     setOpenEmbedModal(true);
   };
+
+  if (!youtubeLink && !tooltipText) {
+    return <> {children} </>;
+  }
+
   return (
     <>
       <Popup

@@ -191,6 +191,7 @@ const OrderPlanningMeta = (props: Props) => {
                       className={styles.dateRangePicker}
                       value={startEndDate}
                       onChange={value => setStartEndDate(value)}
+                      showOneCalendar
                     />
                   </div>
                   <ActionButton

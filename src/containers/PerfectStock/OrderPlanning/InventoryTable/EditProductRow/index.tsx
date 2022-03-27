@@ -25,6 +25,7 @@ const EditProductRow = (props: Props) => {
   );
 
   const updateInventorySku = async (shippingCost: string) => {
+    shippingCost = shippingCost.replace(',', '');
     const id = orderId;
     updatePurchaseOrder({
       id,

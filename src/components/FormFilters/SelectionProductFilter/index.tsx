@@ -17,6 +17,7 @@ import Product from './Product';
 
 /* Styling */
 import './index.scss';
+import { truncateString } from '../../../utils/format';
 
 type ProductOption = {
   id: string;
@@ -76,7 +77,10 @@ const SelectionProductFilter: React.FC<Props> = props => {
   }, []);
 
   const renderLabel = (label: any) => {
-    return { content: label.key };
+    const skuName = filterOptions.find((option: any) => option.id.toString() === label.value)
+      ?.skuName;
+    const displayText = skuName ? `${skuName}` : label.text;
+    return { content: truncateString(displayText, 15) };
   };
 
   const renderOptions = filterOptions.map(option => {
