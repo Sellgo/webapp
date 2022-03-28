@@ -386,4 +386,9 @@
   i {
     color: $grey_6 !important;
   }
+
+  &__disabled {
+    pointer-events: none;
+    opacity: 0.3;
+  }
 }

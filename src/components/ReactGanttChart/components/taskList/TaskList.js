@@ -267,7 +267,14 @@ export default class TaskList extends Component {
           <p className="timeLine-side-title__label">PRIORITY SKU</p>
           <p className="timeLine-side-title__label">ACTIVE</p>
           <button
-            className={'timeLine-triggerButton'}
+            className={`
+              timeLine-triggerButton
+              ${
+                this.props.checkedPurchaseOrders.length === 0
+                  ? 'timeLine-triggerButton__disabled'
+                  : ''
+              }
+            `}
             onClick={() => {
               this.props.handleDeleteSelectedTasks();
               this.setState({ isPopupOpen: false });

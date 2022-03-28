@@ -47,6 +47,7 @@ const OrderSummary = (props: Props) => {
 
   let totalUnits = 0;
   let totalCartons = 0;
+  let totalOverstock = 0;
   // let costPerUnit = 0;
   // let shippingPerUnit = 0;
   // let costPlusShippingPerUnit = 0;
@@ -80,6 +81,11 @@ const OrderSummary = (props: Props) => {
     // if (merchantListing.product_cost) {
     //   costPerUnit += parseFloat(merchantListing.product_cost);
     // }
+
+    /* Overstock */
+    if (merchantListing.overstock_quantity) {
+      totalOverstock += merchantListing.overstock_quantity;
+    }
 
     /* Shipping per unit */
     // if (merchantListing.shipping_cost_per_unit) {
@@ -136,7 +142,7 @@ const OrderSummary = (props: Props) => {
       <div
         className={styles.orderName}
         style={{
-          width: OFFSET_TO_CHART_WIDTH - 112,
+          minWidth: OFFSET_TO_CHART_WIDTH - 112,
         }}
       >
         <span>TOTAL</span>
@@ -148,6 +154,14 @@ const OrderSummary = (props: Props) => {
         </TooltipWrapper>
         <span className={styles.stat}>
           {showNAIfZeroOrNull(totalUnits, formatNumber(totalUnits))}
+        </span>
+      </div>
+      <div className={styles.statWrapper}>
+        <TooltipWrapper tooltipKey="Overstock">
+          <span className={styles.statHeader}>Overstock</span>
+        </TooltipWrapper>
+        <span className={styles.stat}>
+          {showNAIfZeroOrNull(totalOverstock, formatNumber(totalOverstock))}
         </span>
       </div>
       <div className={styles.statWrapper}>

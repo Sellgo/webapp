@@ -430,9 +430,11 @@ class TimeLine extends Component {
 
     return (
       <div className="timeLine">
-        <button className="timeLine-edit-order" onClick={this.props.handleEditActiveTask}>
-          <EditIcon />
-        </button>
+        {!this.props.isDraftMode && (
+          <button className="timeLine-edit-order" onClick={this.props.handleEditActiveTask}>
+            <EditIcon />
+          </button>
+        )}
         <div className="timeLine-side-main" style={this.state.sideStyle}>
           <TaskList
             ref="taskViewPort"

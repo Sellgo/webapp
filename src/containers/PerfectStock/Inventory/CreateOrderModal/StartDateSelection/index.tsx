@@ -68,9 +68,11 @@ const StartDateSelection = (props: Props) => {
             oneTap
             selected={selectedDate ? new Date(selectedDate) : new Date()}
             onChange={onSelectDate}
-            disabledDate={(date: Date | undefined) =>
-              date ? date.getTime() < new Date().getTime() : false
-            }
+            disabledDate={(date: Date | undefined) => {
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+              return date ? date.getTime() < today.getTime() + today.getTimezoneOffset() : false;
+            }}
           />
         </div>
         <LeadTimeBar
