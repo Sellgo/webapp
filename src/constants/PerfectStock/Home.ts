@@ -127,7 +127,7 @@ export const DEFAULT_SUB_CHARTS_TO_SHOW = [
 
 export const DEFAULT_SUB_CHART_SETTINGS: SubChartSettings = {
   types: DEFAULT_SUB_CHARTS_TO_SHOW,
-  start_time: getDateOnly(new Date()),
-  end_time: getDateOnly(new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)),
+  start_date: getDateOnly(new Date()),
+  end_date: getDateOnly(new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)),
   granularity: 1,
 };

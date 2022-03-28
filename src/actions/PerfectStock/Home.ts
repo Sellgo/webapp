@@ -98,7 +98,7 @@ export const fetchSubCharts = () => async (dispatch: any, getState: any) => {
   const chartSettings: SubChartSettings = getSubChartSettings(state);
   const type = encodeURIComponent(chartSettings.types.join(','));
   const dates =
-    `&start_time=` + `${chartSettings.start_time}` + `&end_time=${chartSettings.end_time}`;
+    `&start_time=` + `${chartSettings.start_date}` + `&end_time=${chartSettings.end_date}`;
   const granularity = `&granularity=${chartSettings.granularity}`;
   try {
     const url = `${

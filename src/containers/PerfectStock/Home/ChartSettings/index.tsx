@@ -33,22 +33,22 @@ interface Props {
 const ChartSettings = (props: Props) => {
   const { subChartSettings, setSubChartSettings, fetchSubCharts } = props;
   const [selectedTimeRange, setSelectedTimeRange] = React.useState<number>(0);
-  const startDate = new Date(subChartSettings.start_time);
-  const endDate = new Date(subChartSettings.end_time);
+  const startDate = new Date(subChartSettings.start_date);
+  const endDate = new Date(subChartSettings.end_date);
   const startEndDate: [Date | undefined, Date | undefined] = [
     new Date(startDate.getTime() + startDate.getTimezoneOffset() * 60000),
     new Date(endDate.getTime() + endDate.getTimezoneOffset() * 60000),
   ];
   const daysBetweenEndAndStart =
-    (new Date(subChartSettings.end_time).getTime() -
-      new Date(subChartSettings.start_time).getTime()) /
+    (new Date(subChartSettings.end_date).getTime() -
+      new Date(subChartSettings.start_date).getTime()) /
     (1000 * 60 * 60 * 24);
 
   const handleUpdateTimeRange = (start: Date | undefined, end: Date | undefined) => {
     setSubChartSettings({
       ...subChartSettings,
-      start_time: getDateOnly(start),
-      end_time: getDateOnly(end),
+      start_date: getDateOnly(start),
+      end_date: getDateOnly(end),
     });
   };
 
@@ -63,9 +63,9 @@ const ChartSettings = (props: Props) => {
   /* Update drop down when manually inputting start and end dates */
   React.useEffect(() => {
     if (
-      subChartSettings.start_time &&
-      subChartSettings.end_time &&
-      subChartSettings.start_time === getDateOnly(new Date())
+      subChartSettings.start_date &&
+      subChartSettings.end_date &&
+      subChartSettings.start_date === getDateOnly(new Date())
     ) {
       if (VALID_PRESET_TIME_RANGE.includes(daysBetweenEndAndStart)) {
         setSelectedTimeRange(daysBetweenEndAndStart);
@@ -73,12 +73,12 @@ const ChartSettings = (props: Props) => {
       }
     }
     setSelectedTimeRange(0);
-  }, [subChartSettings.start_time, subChartSettings.end_time]);
+  }, [subChartSettings.start_date, subChartSettings.end_date]);
 
   /* Refetching when start or end date is updated */
   React.useEffect(() => {
     /* Refetch */
-    if (subChartSettings.start_time && subChartSettings.end_time) {
+    if (subChartSettings.start_date && subChartSettings.end_date) {
       /*  ==========================  */
       /* Enforce granularity checks */
       /*  ==========================  */
@@ -107,11 +107,11 @@ const ChartSettings = (props: Props) => {
         });
       }
     }
-  }, [subChartSettings.start_time, subChartSettings.end_time]);
+  }, [subChartSettings.start_date, subChartSettings.end_date]);
 
   React.useEffect(() => {
     fetchSubCharts();
-  }, [subChartSettings.start_time, subChartSettings.end_time, subChartSettings.granularity]);
+  }, [subChartSettings.start_date, subChartSettings.end_date, subChartSettings.granularity]);
 
   const granularityOptions = GRANULARITIES.map((granularity: any) => {
     /* Gap is more than 3 months */
