@@ -111,6 +111,7 @@ const OrderPlanningMeta = (props: Props) => {
         minute: '2-digit',
       })
     : '';
+
   return (
     <>
       <div className={styles.exportsContainer}>
@@ -223,7 +224,7 @@ const OrderPlanningMeta = (props: Props) => {
           />
         </div>
       </div>
-      <CreateOrderModal open={isCreatingOrder} onCloseModal={() => setIsCreatingOrder(false)} />
+      <CreateOrderModal open={isCreatingOrder} setIsCreatingOrder={setIsCreatingOrder} />
     </>
   );
 };

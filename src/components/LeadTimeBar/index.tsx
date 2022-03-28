@@ -37,6 +37,7 @@ const LeadTimeBar = (props: Props) => {
       ${styles.leadTimeBarWrapper} 
       ${className}
       ${showDurationOnTop ? styles.leadTimeBarWrapper__durationOnTop : ''}
+      ${showDates ? styles.leadTimeBarWrapper__showDates : ''}
     `}
     >
       {leadTimes?.map((leadTime, index) => {

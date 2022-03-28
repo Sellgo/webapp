@@ -27,7 +27,11 @@ interface Props {
 
 const PrioritySkuSelection = (props: Props) => {
   const { handlePrev, handleNext, createOrderPayload, setCreateOrderPayload } = props;
-  const [selectedPrioritySku, setSelectedPrioritySku] = React.useState<number | null>(null);
+  const [selectedPrioritySku, setSelectedPrioritySku] = React.useState<number | null>(
+    createOrderPayload.merchant_listings?.length >= 1
+      ? createOrderPayload.merchant_listings[0].id
+      : null
+  );
 
   const handleSubmit = () => {
     if (selectedPrioritySku) {
@@ -57,6 +61,7 @@ const PrioritySkuSelection = (props: Props) => {
           headerHeight={55}
           id="prioritySkuSelection"
           shouldUpdateScroll={false}
+          onRowClick={handleChange}
           //  Props for table expansion
           rowExpandedHeight={300}
         >

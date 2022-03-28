@@ -219,6 +219,8 @@ const InventoryTable = (props: Props) => {
           headerHeight={60}
           rowExpandedHeight={50}
           onSortColumn={handleSortColumn}
+          sortColumn={sortColumn}
+          sortType={sortType}
           rowKey="sku"
           virtualized
           expandedRowKeys={inventoryResultsIds}

@@ -38,7 +38,7 @@ const SkuSelection = (props: Props) => {
   const [addedSkus, setAddedSkus] = React.useState<any[]>(
     createOrderPayload.merchant_listings || []
   );
-  const [enableMOQ, setEnableMOQ] = React.useState<boolean>(isMoqApproach);
+  const [enableMOQ, setEnableMOQ] = React.useState<boolean>(true);
   const addedSkuIds = addedSkus.map((sku: any) => sku.id.toString());
 
   const fetchOrderProducts = async () => {

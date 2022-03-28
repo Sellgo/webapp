@@ -5,7 +5,7 @@ import {
   TIME_SETTINGS_OPTIONS,
   EMPTY_GANTT_CHART_PURCHASE_ORDER,
 } from '../../../../constants/PerfectStock/OrderPlanning';
-import { Icon, Popup, Radio } from 'semantic-ui-react';
+import { Icon, Popup, Checkbox } from 'semantic-ui-react';
 import ToggleRadio from '../../../../components/ToggleRadio';
 import { ReactComponent as AlignOrderIcon } from '../../../../assets/images/arrow-right-to-bracket-solid.svg';
 
@@ -46,15 +46,24 @@ export class TaskRow extends Component {
         }}
       >
         <div tabIndex={this.props.index} className="timeLine-side-task-row-name">
-          <div
-            className="timeLine-side-task-row-name-text"
-            onClick={e => {
-              this.props.onSelectItem(this.props.item);
-              this.props.onSelectTask(this.props.item);
-            }}
-          >
-            <Radio checked={this.props.isSelected} label="" />
+          <div className="timeLine-side-task-row-name-text">
+            <Checkbox
+              checked={
+                this.props.checkedPurchaseOrders.find(po => po.id === this.props.item.id) ===
+                undefined
+                  ? false
+                  : true
+              }
+              onChange={() => {
+                this.props.handleCheckPurchaseOrder(this.props.item);
+              }}
+              label=""
+            />
             <span
+              onClick={e => {
+                this.props.onSelectItem(this.props.item);
+                this.props.onSelectTask(this.props.item);
+              }}
               style={
                 this.props.isSelected
                   ? {
@@ -218,8 +227,10 @@ export default class TaskList extends Component {
           onSelectItem={this.props.onSelectItem}
           onSelectTask={this.props.onSelectTask}
           nonEditable={this.props.nonEditable}
+          checkedPurchaseOrders={this.props.checkedPurchaseOrders}
           handleDeleteTask={this.props.handleDeleteTask}
           handleEditTask={this.props.handleEditTask}
+          handleCheckPurchaseOrder={this.props.handleCheckPurchaseOrder}
           generateNextOrder={this.props.generateNextOrder}
           handleSetPrioritySku={this.props.handleSetPrioritySku}
           handleConnectTpl={this.props.handleConnectTpl}
@@ -255,37 +266,46 @@ export default class TaskList extends Component {
           />
           <p className="timeLine-side-title__label">PRIORITY SKU</p>
           <p className="timeLine-side-title__label">ACTIVE</p>
-          <Popup
-            on="click"
-            open={this.state.isPopupOpen}
-            onOpen={() => this.setState({ isPopupOpen: true })}
-            onClose={() => this.setState({ isPopupOpen: false })}
-            position="bottom left"
-            closeOnDocumentClick
-            closeOnEscape
-            className="timeLine-actionsPopover"
-            content={
-              <>
-                <div className="timeLine-actionOptions">
-                  <p>ORDER</p>
-                  <button
-                    onClick={() => {
-                      this.props.handleDeleteAllTasks();
-                      this.setState({ isPopupOpen: false });
-                    }}
-                  >
-                    <Icon name="trash" />
-                    <span>Delete All Orders</span>
-                  </button>
-                </div>
-              </>
-            }
-            trigger={
-              <button className={'timeLine-triggerButton'}>
-                <Icon name="ellipsis vertical" />
-              </button>
-            }
-          />
+          <button
+            className={'timeLine-triggerButton'}
+            onClick={() => {
+              this.props.handleDeleteSelectedTasks();
+              this.setState({ isPopupOpen: false });
+            }}
+          >
+            <Icon name="trash" />
+          </button>
+          {/* <Popup
+              on="click"
+              open={this.state.isPopupOpen}
+              onOpen={() => this.setState({ isPopupOpen: true })}
+              onClose={() => this.setState({ isPopupOpen: false })}
+              position="bottom left"
+              closeOnDocumentClick
+              closeOnEscape
+              className="timeLine-actionsPopover"
+              content={
+                <>
+                  <div className="timeLine-actionOptions">
+                    <p>ORDER</p>
+                    <button
+                      onClick={() => {
+                        this.props.handleDeleteAllTasks();
+                        this.setState({ isPopupOpen: false });
+                      }}
+                    >
+                      <Icon name="trash" />
+                      <span>Delete All Orders</span>
+                    </button>
+                  </div>
+                </>
+              }
+              trigger={
+                <button className={'timeLine-triggerButton'}>
+                  <Icon name="ellipsis vertical" />
+                </button>
+              }
+            /> */}
           <p />
         </div>
         <div ref="taskViewPort" className="timeLine-side-task-viewPort" onScroll={this.doScroll}>

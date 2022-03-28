@@ -446,12 +446,15 @@ class TimeLine extends Component {
             onSelectTask={this.props.onSelectTask}
             onScroll={this.verticalChange}
             nonEditable={this.props.nonEditableName}
+            checkedPurchaseOrders={this.props.checkedPurchaseOrders}
+            handleDeleteSelectedTasks={this.props.handleDeleteSelectedTasks}
             handleChangeMode={this.props.handleChangeMode}
             handleDeleteTask={this.props.handleDeleteTask}
             handleDeleteAllTasks={this.props.handleDeleteAllTasks}
             handleSetPrioritySku={this.props.handleSetPrioritySku}
             handleConnectTpl={this.props.handleConnectTpl}
             handleDisconnectTpl={this.props.handleDisconnectTpl}
+            handleCheckPurchaseOrder={this.props.handleCheckPurchaseOrder}
             mode={this.state.mode}
             /* For left dropdown */
             viewFilterOptions={this.props.viewFilterOptions}

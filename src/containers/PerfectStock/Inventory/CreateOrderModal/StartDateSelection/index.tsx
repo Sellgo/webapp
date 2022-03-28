@@ -18,20 +18,13 @@ import { error } from '../../../../../utils/notifications';
 
 interface Props {
   handlePrev: () => void;
-  handleCreateOrder: (payload: CreateOrderPayload) => void;
+  handleNext: () => void;
   createOrderPayload: CreateOrderPayload;
   setCreateOrderPayload: (payload: CreateOrderPayload) => void;
-  isCreateOrderLoading: boolean;
 }
 
 const StartDateSelection = (props: Props) => {
-  const {
-    handlePrev,
-    handleCreateOrder,
-    createOrderPayload,
-    setCreateOrderPayload,
-    isCreateOrderLoading,
-  } = props;
+  const { handlePrev, handleNext, createOrderPayload, setCreateOrderPayload } = props;
 
   const [dateType, setDateType] = React.useState<string>('Start Date');
   const [selectedDate, setSelectedDate] = React.useState<string>();
@@ -56,7 +49,7 @@ const StartDateSelection = (props: Props) => {
         end_date: dateType === 'Arrival Date' ? selectedDate : null,
       };
       setCreateOrderPayload(payload);
-      handleCreateOrder(payload);
+      handleNext();
     }
   };
 
@@ -108,9 +101,8 @@ const StartDateSelection = (props: Props) => {
           variant="secondary"
           type="purpleGradient"
           size="md"
-          loading={isCreateOrderLoading}
         >
-          Create Order
+          Next
         </ActionButton>
       </div>
     </div>
