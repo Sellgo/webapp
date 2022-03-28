@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Modal, Dimmer, Loader, Confirm } from 'semantic-ui-react';
+import { Modal, Dimmer, Loader, Confirm, Icon } from 'semantic-ui-react';
 
 /* Components */
 // @ts-ignore
@@ -115,6 +115,7 @@ const OrderGanttChart = (props: Props) => {
     isDraftMode,
   } = props;
 
+  const [isChartExpanded, setIsChartExpanded] = React.useState(false);
   /* ================================================================ */
   /* Generating next order */
   /* ================================================================ */
@@ -426,6 +427,7 @@ const OrderGanttChart = (props: Props) => {
         <div
           className={`
           ${styles.ganttChart} 
+          ${isChartExpanded ? styles.ganttChart__expanded : ''}
           ${hideBottomBorder ? styles.ganttChart__hideBottomBorder : ''}`}
         >
           <Dimmer
@@ -475,6 +477,17 @@ const OrderGanttChart = (props: Props) => {
             handleConnectTpl={handleConnectTpl}
             handleDisconnectTpl={handleDisconnectTpl}
           />
+
+          <button
+            onClick={() => setIsChartExpanded(!isChartExpanded)}
+            className={styles.expandButton}
+          >
+            {isChartExpanded ? (
+              <Icon name="compress" size="huge" />
+            ) : (
+              <Icon name="expand" size="huge" />
+            )}
+          </button>
 
           <Modal
             open={isAutoGeneratingNextOrder}
