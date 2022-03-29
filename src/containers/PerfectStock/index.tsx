@@ -92,11 +92,11 @@ const PerfectStock: React.FC<Props> = props => {
   }, [match]);
 
   useEffect(() => {
-    if (selectedTabList === 0) {
+    if (selectedTabList === 1) {
       setUserOnboardingResources(salesProjectionOnboarding);
-    } else if (selectedTabList === 1) {
+    } else if (selectedTabList === 2) {
       setUserOnboardingResources(orderPlanningInventoryOnboarding);
-    } else {
+    } else if (selectedTabList === 3) {
       setUserOnboardingResources(orderPlanningEditOnboarding);
     }
   }, [selectedTabList]);

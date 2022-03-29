@@ -404,7 +404,7 @@ const OrderGanttChart = (props: Props) => {
       (purchaseOrder: GanttChartPurchaseOrder) => purchaseOrder.id
     );
     updatePurchaseOrder({
-      purchase_order_ids: purchaseOrderIds,
+      purchase_order_ids: purchaseOrderIds.filter((id: number) => id !== -1),
       status: 'inactive',
     });
 

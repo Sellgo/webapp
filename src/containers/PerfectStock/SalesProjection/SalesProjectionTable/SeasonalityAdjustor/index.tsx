@@ -49,9 +49,7 @@ const SeasonalityAdjustor = (props: Props) => {
       >
         <ToggleRadio
           isToggled={isSeasonalityEnabled}
-          handleChange={() =>
-            handleSeasonalityAdjustorToggle(!rowData.seasonal_adjustment_included)
-          }
+          handleChange={() => handleSeasonalityAdjustorToggle(!isSeasonalityEnabled)}
           label={'Adjustor'}
           className={styles.toggleButton}
         />
