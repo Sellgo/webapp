@@ -36,7 +36,8 @@ import ProductResearch from '../ProductResearch';
 import KeywordResearch from '../KeywordResearch';
 import PerfectStock from '../PerfectStock';
 import LeadTime from '../Settings/PerfectStockSettings/LeadTime';
-import Expenses from '../Settings/PerfectStockSettings/Expenses';
+import EmployeeExpenses from '../Settings/PerfectStockSettings/EmployeeExpenses';
+import PpcExpenses from '../Settings/PerfectStockSettings/PpcExpenses';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import { isBetaAccount } from '../../utils/subscriptions';
@@ -266,7 +267,17 @@ function App() {
           <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} />
           <PrivateRoute exact={true} path="/settings/profile" component={Profile} />
           <PrivateRoute exact={true} path="/settings/aistock/lead-time" component={LeadTime} />
-          <PrivateRoute exact={true} path="/settings/aistock/expenses" component={Expenses} />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/employee-expenses"
+            component={EmployeeExpenses}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/ppc-expenses"
+            component={PpcExpenses}
+          />
+
           <PrivateRoute
             exact={true}
             path="/synthesis"

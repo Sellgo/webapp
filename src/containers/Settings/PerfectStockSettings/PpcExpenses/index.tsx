@@ -31,7 +31,7 @@ const Expenses = (props: Props) => {
       );
 
       if (data && data.length > 0) {
-        return data;
+        return data.filter((data: any) => data.type === 'ppc');
       }
     } catch (err) {
       console.error(err);
@@ -52,7 +52,7 @@ const Expenses = (props: Props) => {
         return {
           ...expense,
           id: null,
-          type: 'employee',
+          type: 'ppc',
           status: 'active',
         };
       });
