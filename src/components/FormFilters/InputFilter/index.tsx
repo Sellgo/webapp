@@ -150,8 +150,10 @@ const InputFilter: React.FC<Props> = props => {
         />
       ) : (
         <DatePicker
-          defaultValue={value ? new Date(value) : new Date()}
-          selected={value ? new Date(value) : new Date()}
+          oneTap
+          defaultValue={value ? new Date(value) : undefined}
+          selected={value ? new Date(value) : undefined}
+          className={error ? styles.dateError : ''}
           onChange={(date: Date) => {
             handleChangeWithRules(date ? date.toISOString().split('T')[0] : '');
           }}

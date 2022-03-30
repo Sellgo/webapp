@@ -15,7 +15,14 @@
 
 .inputField {
   min-width: 0;
-  height: 25px !important;
+
+  &__small {
+    height: 25px !important;
+
+    input {
+      height: 25px !important;
+    }
+  }
 
   input {
     width: 100%;
@@ -23,6 +30,5 @@
     color: $grey_8 !important;
     font-weight: $fontweight_semibold;
     text-align: center !important;
-    height: 25px !important;
   }
 }

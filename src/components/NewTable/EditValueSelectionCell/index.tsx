@@ -10,7 +10,7 @@ import { Icon, Popup } from 'semantic-ui-react';
 
 type IOption = {
   key: string;
-  value: string;
+  value: any;
   text: string;
 };
 

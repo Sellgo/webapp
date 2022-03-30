@@ -217,6 +217,11 @@ export const SETTINGS_PAGES = [
         disabled: true,
         url: '/settings/aistock/lead-time',
       },
+      {
+        name: 'Expenses',
+        disabled: false,
+        url: '/settings/aistock/expenses',
+      },
     ],
   },
 ];

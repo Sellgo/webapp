@@ -62,7 +62,9 @@ const SettingsNav = (props: Props) => {
         <div className={styles.settingsPagesMenu}>
           {filteredSettingsPages.map((page: any) => {
             if (!page.disabled) {
-              const isActive = match.path === page.url;
+              const isActive = page.url.includes('aistock')
+                ? match.path.includes('aistock')
+                : match.path === page.url;
               return (
                 <div className={styles.settingWrapper} key={page.url}>
                   {/* Main page */}
@@ -79,24 +81,30 @@ const SettingsNav = (props: Props) => {
                   </Link>
 
                   {/* Sub pages */}
-                  {isActive &&
-                    page.subPages.map((subPage: any) => {
-                      const isActive = match.path === subPage.url;
-                      return (
-                        <Link key={subPage.url} to={subPage.url} style={{ textDecoration: 'none' }}>
-                          <div
-                            className={
-                              isActive
-                                ? `${styles.settingPageOption} 
-                                  ${styles.settingPageOption__small} ${styles.settingPageOption__active}`
-                                : `${styles.settingPageOption} ${styles.settingPageOption__small}`
-                            }
+                  <div className={styles.subpageWrapper}>
+                    {page.url.includes('aistock') &&
+                      page.subPages.map((subPage: any) => {
+                        const isActive = match.path === subPage.url;
+                        return (
+                          <Link
+                            key={subPage.url}
+                            to={subPage.url}
+                            style={{ textDecoration: 'none' }}
                           >
-                            {subPage.name}
-                          </div>
-                        </Link>
-                      );
-                    })}
+                            <div
+                              className={
+                                isActive
+                                  ? `${styles.settingPageOption} 
+                                    ${styles.settingPageOption__small} ${styles.settingPageOption__active}`
+                                  : `${styles.settingPageOption} ${styles.settingPageOption__small}`
+                              }
+                            >
+                              {subPage.name}
+                            </div>
+                          </Link>
+                        );
+                      })}
+                  </div>
                 </div>
               );
             } else {

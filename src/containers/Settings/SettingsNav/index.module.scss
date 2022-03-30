@@ -30,6 +30,11 @@
   width: 100px;
 }
 
+.subpageWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .settingPageOption {
   margin-right: 10px;
   width: 150px;
