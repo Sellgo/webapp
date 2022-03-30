@@ -77,7 +77,10 @@ const SettingsInputTable = (props: Props) => {
     let hasError = false;
     tableData.forEach(dataEntry => {
       tableRowProperties.forEach(key => {
-        if (dataEntry.status !== 'inactive' && !dataEntry[key]) {
+        if (
+          dataEntry.status !== 'inactive' &&
+          (dataEntry[key] === null || dataEntry[key] === '' || dataEntry[key] === undefined)
+        ) {
           hasError = true;
           return;
         }
