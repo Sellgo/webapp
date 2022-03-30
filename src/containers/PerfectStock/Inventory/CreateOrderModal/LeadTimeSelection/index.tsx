@@ -16,18 +16,25 @@ import { SingleLeadTimeGroup } from '../../../../../interfaces/PerfectStock/Sale
 /* Utils */
 import { AppConfig } from '../../../../../config';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
+import history from '../../../../../history';
 
 interface Props {
   handlePrevious: () => void;
   handleNext: () => void;
+  createOrderStep: number;
   createOrderPayload: CreateOrderPayload;
   setCreateOrderPayload: (payload: CreateOrderPayload) => void;
 }
 
 const LeadTimeSelection = (props: Props) => {
-  const { handlePrevious, handleNext, createOrderPayload, setCreateOrderPayload } = props;
+  const {
+    handlePrevious,
+    createOrderStep,
+    handleNext,
+    createOrderPayload,
+    setCreateOrderPayload,
+  } = props;
   const [leadTimeGroups, setLeadTimeGroups] = React.useState<SingleLeadTimeGroup[]>([]);
-  console.log(leadTimeGroups);
 
   /* Fetches all the lead time groups from backend */
   const fetchLeadTimeGroups = async () => {
@@ -39,13 +46,13 @@ const LeadTimeSelection = (props: Props) => {
       if (data && data.length > 0) {
         setLeadTimeGroups(data);
         const defaultLeadTime = data.find((leadTime: SingleLeadTimeGroup) => leadTime.is_default);
-        if (defaultLeadTime) {
+        if (defaultLeadTime && createOrderPayload.lead_time_group_id === -1) {
           setCreateOrderPayload({
             ...createOrderPayload,
             lead_time_group_id: defaultLeadTime.id,
             lead_time_group: defaultLeadTime,
           });
-        } else {
+        } else if (createOrderPayload.lead_time_group_id === -1) {
           setCreateOrderPayload({
             ...createOrderPayload,
             lead_time_group_id: data[0].id,
@@ -64,6 +71,12 @@ const LeadTimeSelection = (props: Props) => {
     text: leadTimeGroup.name,
   }));
 
+  leadTimeOptions.push({
+    key: 'Create new lead time',
+    value: 'Create new lead time',
+    text: 'Create new lead time',
+  });
+
   /* Disable user from proceeding when any of the fields are empty */
   const isHandleNextDisabled =
     createOrderPayload.start_date === '' || createOrderPayload.lead_time_group_id === -1;
@@ -79,7 +92,13 @@ const LeadTimeSelection = (props: Props) => {
     handleNext();
   };
 
-  const handleSelectLeadTime = (leadTimeGroupId: string) => {
+  const handleSelectLeadTime = async (leadTimeGroupId: string) => {
+    if (leadTimeGroupId === 'Create new lead time') {
+      await localStorage.setItem('createOrderStep', createOrderStep.toString());
+      await localStorage.setItem('createOrderPayload', JSON.stringify(createOrderPayload));
+      history.push('/settings/aistock/lead-time');
+      return;
+    }
     const leadTimeGroup = leadTimeGroups.find(
       leadTimeGroup => leadTimeGroup.id?.toString() === leadTimeGroupId
     );

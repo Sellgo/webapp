@@ -5,7 +5,6 @@
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  width: 100%;
 }
 
 .createOrderBox {
@@ -17,29 +16,44 @@
   align-items: center;
 
   h2 {
-    margin-bottom: 30px;
     line-height: normal;
     font-size: 24px;
     font-weight: $fontweight_bold;
     color: $black_1;
+    margin-bottom: 30px;
   }
+}
+
+.tplVendorsContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.tplVendorRadio {
+  margin-bottom: 18px;
+}
+
+.inputBox {
+  margin-top: 30px;
+  display: flex;
+  align-items: flex-end;
+  width: 400px;
+  justify-content: space-evenly;
+  margin-bottom: 30px;
 }
 
 .buttonsRow {
   display: flex;
   justify-content: flex-end;
-  margin-top: auto;
+  margin-top: 150px;
 
   > div {
     margin-left: 18px;
   }
 }
 
-.inputTabSelection {
-  margin: auto 18px;
-}
-
 .helperMessage {
+  margin-top: 50px;
   font-size: 10px;
   color: $grey_8;
   text-align: center;

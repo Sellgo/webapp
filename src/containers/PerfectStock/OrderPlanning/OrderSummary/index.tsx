@@ -47,6 +47,7 @@ const OrderSummary = (props: Props) => {
 
   let totalUnits = 0;
   let totalCartons = 0;
+  // let totalOverstock = 0;
   // let costPerUnit = 0;
   // let shippingPerUnit = 0;
   // let costPlusShippingPerUnit = 0;
@@ -79,6 +80,11 @@ const OrderSummary = (props: Props) => {
     /* Cost per unit */
     // if (merchantListing.product_cost) {
     //   costPerUnit += parseFloat(merchantListing.product_cost);
+    // }
+
+    /* Overstock */
+    // if (merchantListing.overstock_quantity) {
+    //   totalOverstock += merchantListing.overstock_quantity;
     // }
 
     /* Shipping per unit */
@@ -136,7 +142,7 @@ const OrderSummary = (props: Props) => {
       <div
         className={styles.orderName}
         style={{
-          width: OFFSET_TO_CHART_WIDTH - 112,
+          minWidth: OFFSET_TO_CHART_WIDTH - 112,
         }}
       >
         <span>TOTAL</span>

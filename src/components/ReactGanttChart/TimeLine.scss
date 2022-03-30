@@ -13,6 +13,14 @@
   background: none;
 }
 
+.timeLine-edit-order {
+  background: none;
+  position: absolute;
+  bottom: 20px;
+  right: 50px;
+  z-index: 9;
+}
+
 /* Main Area */
 
 .timeLine-main {
@@ -377,5 +385,10 @@
 
   i {
     color: $grey_6 !important;
+  }
+
+  &__disabled {
+    pointer-events: none;
+    opacity: 0.3;
   }
 }

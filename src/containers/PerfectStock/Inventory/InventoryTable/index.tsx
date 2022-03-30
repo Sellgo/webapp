@@ -8,14 +8,17 @@ import './globals.scss';
 import styles from './index.module.scss';
 
 /* Actions */
-import { fetchInventoryTable } from '../../../../actions/PerfectStock/OrderPlanning';
+import {
+  fetchInventoryTable,
+  fetchPurchaseOrders,
+} from '../../../../actions/PerfectStock/OrderPlanning';
 
 /* Interfaces */
 import {
   DateRange,
-  GanttChartPurchaseOrder,
   InventoryTableFilters,
   InventoryTablePayload,
+  PurchaseOrder,
 } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 /* Components */
@@ -27,6 +30,7 @@ import StockOutDate from './StockOutDate';
 import InventoryBarCell from './InventoryBarCell';
 import ExpandedInventory from '../ExpandedInventory';
 import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
+import DeleteCell from '../../../../components/NewTable/DeleteCell';
 import { ReactComponent as ExclaimationIcon } from '../../../../assets/images/exclamation-triangle-solid.svg';
 import TodaySkuTable from './TodaySkuTable';
 
@@ -51,6 +55,10 @@ import {
 
 /* Utils */
 import { getDateOnly } from '../../../../utils/date';
+import axios from 'axios';
+import { AppConfig } from '../../../../config';
+import { sellerIDSelector } from '../../../../selectors/Seller';
+import { success, error } from '../../../../utils/notifications';
 
 interface Props {
   // States
@@ -58,9 +66,10 @@ interface Props {
   timeSetting: TimeSetting;
   showAllSkus: boolean;
   fetchInventoryTable: (payload: InventoryTablePayload) => void;
+  fetchPurchaseOrders: () => void;
   inventoryTableResults: any[];
   isLoadingInventoryTableResults: boolean;
-  activePurchaseOrder: GanttChartPurchaseOrder;
+  activePurchaseOrder: PurchaseOrder;
   tableViewMode: 'Inventory' | 'Stockout' | 'Today';
   inventoryTableFilters: InventoryTableFilters;
 }
@@ -70,6 +79,7 @@ const InventoryTable = (props: Props) => {
   const {
     dateRange,
     timeSetting,
+    fetchPurchaseOrders,
     showAllSkus,
     fetchInventoryTable,
     inventoryTableResults,
@@ -117,6 +127,29 @@ const InventoryTable = (props: Props) => {
       setExpandedRowkeys([rowSku]);
     } else {
       setExpandedRowkeys([]);
+    }
+  };
+
+  const handleDeleteSku = async (merchant_listing_id: number) => {
+    const selectedSkus = activePurchaseOrder.merchant_listings;
+    const newSkus = selectedSkus.filter(
+      (sku: any) => sku.merchant_listing_id !== merchant_listing_id
+    );
+    try {
+      const { status } = await axios.patch(
+        `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-order-templates/${
+          activePurchaseOrder.purchase_order_template_id
+        }`,
+        { merchant_listing_ids: newSkus.map(newSkus => newSkus.merchant_listing_id) }
+      );
+      if (status === 200) {
+        success('Deleted SKU successfully');
+        fetchPurchaseOrders();
+        fetchInventoryTable({});
+      }
+    } catch (e) {
+      console.error(e);
+      error('Failed to delete SKU');
     }
   };
 
@@ -209,11 +242,14 @@ const InventoryTable = (props: Props) => {
           headerHeight={60}
           rowExpandedHeight={800}
           onSortColumn={handleSortColumn}
+          sortColumn={sortColumn}
+          sortType={sortType}
           rowKey="sku"
           virtualized
           expandedRowKeys={expandedRowKeys}
           renderRowExpanded={(rowData: any) => <ExpandedInventory rowData={rowData} />}
           id="stockInventoryTable"
+          className={styles.stockInventoryTable}
         >
           {/* Expand Cell */}
           <Table.Column verticalAlign="top" fixed="left" align="left" width={30}>
@@ -258,7 +294,6 @@ const InventoryTable = (props: Props) => {
             </Table.HeaderCell>
             <StockOutDate dataKey="days_until_so" />
           </Table.Column>
-
           {/* Render a column for each date from end date to statr date */}
           {headers.map((date: string, index: number) => {
             return (
@@ -275,6 +310,40 @@ const InventoryTable = (props: Props) => {
             );
           })}
         </Table>
+
+        {activePurchaseOrder.id && activePurchaseOrder.id !== -1 && (
+          <Table
+            renderLoading={() => isLoadingInventoryTableResults && null}
+            renderEmpty={() => <div />}
+            affixHorizontalScrollbar={0}
+            // Dont display old data when loading
+            data={!isLoadingInventoryTableResults ? displayInventoryResults : []}
+            hover={false}
+            autoHeight
+            rowHeight={90}
+            headerHeight={60}
+            rowExpandedHeight={800}
+            virtualized
+            id="deleteTable"
+            className={styles.deleteTable}
+          >
+            {/* Empty first row to deal with styling */}
+            <Table.Column width={0}>
+              <Table.HeaderCell />
+              <Table.Cell />
+            </Table.Column>
+
+            {/* Delete Cell */}
+            <Table.Column verticalAlign="middle" align="center" width={30}>
+              <Table.HeaderCell />
+              <DeleteCell
+                dataKey={'merchant_listing_id'}
+                handleDelete={handleDeleteSku}
+                deleteMessage="Delete SKU?"
+              />
+            </Table.Column>
+          </Table>
+        )}
       </section>
     </>
   );
@@ -295,6 +364,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchInventoryTable: (payload: InventoryTablePayload) => dispatch(fetchInventoryTable(payload)),
+    fetchPurchaseOrders: () => dispatch(fetchPurchaseOrders()),
   };
 };
 

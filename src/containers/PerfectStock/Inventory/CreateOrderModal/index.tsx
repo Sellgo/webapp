@@ -44,10 +44,11 @@ import {
   CREATE_ORDER_FLOW,
 } from '../../../../constants/PerfectStock/OrderPlanning';
 import history from '../../../../history';
+import ConnectTplSelection from './ConnectTplSelection';
 
 interface Props {
   open: boolean;
-  onCloseModal: () => void;
+  setIsCreatingOrder: (open: boolean) => void;
   fetchPurchaseOrders: () => void;
   setActivePurchaseOrder: (order: PurchaseOrder) => void;
   setPurchaseOrdersLoadingMessage: (message: string) => void;
@@ -57,7 +58,7 @@ interface Props {
 const CreateOrder = (props: Props) => {
   const {
     open,
-    onCloseModal,
+    setIsCreatingOrder,
     fetchPurchaseOrders,
     setActivePurchaseOrder,
     setPurchaseOrdersLoadingMessage,
@@ -117,10 +118,21 @@ const CreateOrder = (props: Props) => {
     setIsCreateOrderLoading(false);
   };
 
-  /* Reset the create order flow every time user cancels/opens modal*/
+  /* Reset the create order flow every time user cancels/opens modal */
   React.useEffect(() => {
-    setCreateOrderPayload(DEFAULT_ORDER);
-    setCreateOrderStep(0);
+    const savedCreateOrderStep = localStorage.getItem('createOrderStep');
+    const savedCreateOrderPayload = localStorage.getItem('createOrderPayload');
+    if (savedCreateOrderStep && savedCreateOrderPayload && !open) {
+      setCreateOrderPayload(JSON.parse(savedCreateOrderPayload));
+      setCreateOrderStep(parseInt(savedCreateOrderStep));
+      setIsCreatingOrder(true);
+      localStorage.removeItem('createOrderPayload');
+      localStorage.removeItem('createOrderStep');
+      return;
+    } else if (!open) {
+      setCreateOrderPayload(DEFAULT_ORDER);
+      setCreateOrderStep(0);
+    }
   }, [open]);
 
   React.useEffect(() => {
@@ -146,7 +158,7 @@ const CreateOrder = (props: Props) => {
 
   const handleRedirectToDraftOrder = () => {
     history.push('/aistock/create-order');
-    onCloseModal();
+    setIsCreatingOrder(false);
   };
 
   let content: JSX.Element;
@@ -158,7 +170,7 @@ const CreateOrder = (props: Props) => {
       headerContent = 'Select order type';
       content = (
         <OrderTypeSelection
-          onCloseModal={onCloseModal}
+          onCloseModal={() => setIsCreatingOrder(false)}
           createOrderPayload={createOrderPayload}
           setCreateOrderPayload={setCreateOrderPayload}
           handleNext={() => setCreateOrderStep(createOrderStep + 1)}
@@ -228,8 +240,7 @@ const CreateOrder = (props: Props) => {
           handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
           createOrderPayload={createOrderPayload}
           setCreateOrderPayload={setCreateOrderPayload}
-          handleCreateOrder={handleCreateOrder}
-          isCreateOrderLoading={isCreateOrderLoading}
+          handleNext={() => setCreateOrderStep(createOrderStep + 1)}
         />
       );
       headerContent = 'Select 1ST ORDER DATE';
@@ -237,6 +248,7 @@ const CreateOrder = (props: Props) => {
     case CREATE_ORDER_STATUS.SELECT_LEAD_TIME:
       content = (
         <LeadTimeSelection
+          createOrderStep={createOrderStep}
           handlePrevious={() => setCreateOrderStep(createOrderStep - 1)}
           createOrderPayload={createOrderPayload}
           setCreateOrderPayload={setCreateOrderPayload}
@@ -251,13 +263,26 @@ const CreateOrder = (props: Props) => {
       headerContent = 'SMART ORDER TEMPLATE';
       break;
 
+    case CREATE_ORDER_STATUS.SELECT_TPL:
+      content = (
+        <ConnectTplSelection
+          handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
+          createOrderPayload={createOrderPayload}
+          setCreateOrderPayload={setCreateOrderPayload}
+          handleCreateOrder={handleCreateOrder}
+          isCreateOrderLoading={isCreateOrderLoading}
+        />
+      );
+      headerContent = 'Select TPL';
+      break;
+
     default:
       content = <div>Error</div>;
       headerContent = 'Error';
   }
 
   return (
-    <Modal open={open} className={styles.modalWrapper} onClose={onCloseModal}>
+    <Modal open={open} className={styles.modalWrapper} onClose={() => setIsCreatingOrder(false)}>
       <div>
         <BoxHeader>{headerContent}</BoxHeader>
         <BoxContainer className={styles.createOrderContent}>{content}</BoxContainer>

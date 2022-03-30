@@ -17,6 +17,7 @@ import { DAY_MONTH_MODE, DAY_WEEK_MODE, DAY_DAY_MODE, DAY_YEAR_MODE } from './Co
 import DataController from './controller/DataController';
 import Config from './helpers/config/Config';
 import DateHelper from './helpers/DateHelper';
+import { ReactComponent as EditIcon } from '../../assets/images/calendar-lines-pen-solid.svg';
 import './TimeLine.scss';
 
 class TimeLine extends Component {
@@ -429,6 +430,11 @@ class TimeLine extends Component {
 
     return (
       <div className="timeLine">
+        {!this.props.isDraftMode && (
+          <button className="timeLine-edit-order" onClick={this.props.handleEditActiveTask}>
+            <EditIcon />
+          </button>
+        )}
         <div className="timeLine-side-main" style={this.state.sideStyle}>
           <TaskList
             ref="taskViewPort"
@@ -442,12 +448,15 @@ class TimeLine extends Component {
             onSelectTask={this.props.onSelectTask}
             onScroll={this.verticalChange}
             nonEditable={this.props.nonEditableName}
+            checkedPurchaseOrders={this.props.checkedPurchaseOrders}
+            handleDeleteSelectedTasks={this.props.handleDeleteSelectedTasks}
             handleChangeMode={this.props.handleChangeMode}
             handleDeleteTask={this.props.handleDeleteTask}
             handleDeleteAllTasks={this.props.handleDeleteAllTasks}
             handleSetPrioritySku={this.props.handleSetPrioritySku}
             handleConnectTpl={this.props.handleConnectTpl}
             handleDisconnectTpl={this.props.handleDisconnectTpl}
+            handleCheckPurchaseOrder={this.props.handleCheckPurchaseOrder}
             mode={this.state.mode}
             /* For left dropdown */
             viewFilterOptions={this.props.viewFilterOptions}

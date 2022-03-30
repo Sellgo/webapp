@@ -18,7 +18,7 @@ import EditProductRow from '../EditProductRow';
 import { OFFSET_TO_CHART_WIDTH } from '../../../../../constants/PerfectStock/OrderPlanning';
 
 /* Types */
-import { GanttChartPurchaseOrder } from '../../../../../interfaces/PerfectStock/OrderPlanning';
+import { PurchaseOrder } from '../../../../../interfaces/PerfectStock/OrderPlanning';
 
 interface Props {
   className?: string;
@@ -26,7 +26,7 @@ interface Props {
   sortColumn: string;
   sortType: 'asc' | 'desc' | undefined;
   handleSortColumn: (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => void;
-  activePurchaseOrder: GanttChartPurchaseOrder;
+  activePurchaseOrder: PurchaseOrder;
   isLoadingInventoryTableResults: boolean;
 }
 

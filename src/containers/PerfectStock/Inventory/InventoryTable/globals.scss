@@ -1,6 +1,7 @@
 @import '../../../../styles/tableReset';
 
-#stockInventoryTable {
+#stockInventoryTable,
+#deleteTable {
   background: $light_gray_background !important;
   overflow-x: none !important;
   min-height: 600px !important;
