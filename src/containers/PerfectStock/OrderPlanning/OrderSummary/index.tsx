@@ -47,7 +47,7 @@ const OrderSummary = (props: Props) => {
 
   let totalUnits = 0;
   let totalCartons = 0;
-  let totalOverstock = 0;
+  // let totalOverstock = 0;
   // let costPerUnit = 0;
   // let shippingPerUnit = 0;
   // let costPlusShippingPerUnit = 0;
@@ -83,9 +83,9 @@ const OrderSummary = (props: Props) => {
     // }
 
     /* Overstock */
-    if (merchantListing.overstock_quantity) {
-      totalOverstock += merchantListing.overstock_quantity;
-    }
+    // if (merchantListing.overstock_quantity) {
+    //   totalOverstock += merchantListing.overstock_quantity;
+    // }
 
     /* Shipping per unit */
     // if (merchantListing.shipping_cost_per_unit) {
@@ -154,14 +154,6 @@ const OrderSummary = (props: Props) => {
         </TooltipWrapper>
         <span className={styles.stat}>
           {showNAIfZeroOrNull(totalUnits, formatNumber(totalUnits))}
-        </span>
-      </div>
-      <div className={styles.statWrapper}>
-        <TooltipWrapper tooltipKey="Overstock">
-          <span className={styles.statHeader}>Overstock</span>
-        </TooltipWrapper>
-        <span className={styles.stat}>
-          {showNAIfZeroOrNull(totalOverstock, formatNumber(totalOverstock))}
         </span>
       </div>
       <div className={styles.statWrapper}>

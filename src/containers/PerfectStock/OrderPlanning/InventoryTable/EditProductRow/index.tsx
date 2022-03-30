@@ -61,7 +61,6 @@ const EditProductRow = (props: Props) => {
         <div className={styles.emptyStatBox} />
       )}
       <StatBox title={'MOQ'} stat={rowData.moq} />
-      <StatBox title={'Overstock'} stat={rowData.overstock_quantity} asFloat prepend="" />
       <StatBox title={'Cartons'} stat={rowData.total_carton} />
       <StatBox
         title={'Carton Volume'}
