@@ -115,7 +115,7 @@ const SettingsInputTable = (props: Props) => {
           />
           <div className={styles.buttonsRow}>
             <button onClick={handleAddNewEntry} className={styles.addButton}>
-              + Add Employee Expense
+              + Add PPC Expense
             </button>
             <ActionButton
               variant="secondary"

@@ -6,7 +6,7 @@ import styles from './index.module.scss';
 const ExpensesMeta = () => {
   return (
     <>
-      <div className={styles.expensesMetaTitle}>&nbsp;&nbsp;Expenses Input</div>
+      <div className={styles.expensesMetaTitle}>&nbsp;&nbsp;PPC Expenses Input</div>
     </>
   );
 };
