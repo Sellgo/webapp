@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import HomepageCard from '../../components/HomepageCard';
 import HomePageMeta from './HomePageMeta';
 import PageHeader from '../../components/PageHeader';
+import { getLatestSupplier } from '../../actions/Suppliers';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -20,7 +21,20 @@ interface Props {
 
 const MainHomePage = (props: Props) => {
   const { match, subscription } = props;
+  const [isProfitFinderDisabled, setIsProfitFinderDisabled] = React.useState(true);
+  let profitFinderLink = '/profit-finder';
+  React.useEffect(() => {
+    let supplier_id = '';
+    const latest = getLatestSupplier();
+    if (latest) {
+      supplier_id = latest.supplier_id;
+    }
 
+    if (supplier_id.length > 0) {
+      setIsProfitFinderDisabled(false);
+      profitFinderLink = `/profit-finder/${supplier_id}`;
+    }
+  });
   return (
     <main className={styles.mainHomePageWrapper}>
       <PageHeader
@@ -103,9 +117,9 @@ const MainHomePage = (props: Props) => {
         <HomepageCard
           label="Profit Finder"
           desc="Wholesale Bulk Calculation"
-          to="/profit-finder"
+          to={profitFinderLink}
           icon={require(`../../assets/images/profitFinderIcon.svg`)}
-          disabled={subscription.is_aistock}
+          disabled={subscription.is_aistock || isProfitFinderDisabled}
         />
       </div>
 
