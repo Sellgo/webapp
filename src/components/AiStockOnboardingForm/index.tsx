@@ -44,6 +44,7 @@ const AiStockOnboardingForm = (props: Props) => {
             <div className={styles.completedSurveyContent}>
               Thank you. Your survey has been received.
               <br />
+              <br />
               Your feedback is valuable in helping us to improve AiStock for you!
               <ActionButton
                 variant="primary"
