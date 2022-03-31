@@ -133,7 +133,7 @@ const PerfectStock: React.FC<Props> = props => {
           ]}
           auth={match.params.auth}
         />
-        <PreMigration match={match} />
+        <PreMigration />
       </>
     );
   } else if (
