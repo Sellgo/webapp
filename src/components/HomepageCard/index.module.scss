@@ -19,6 +19,11 @@
     text-decoration: none !important;
     background: $grey_1;
   }
+
+  &__disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 }
 
 .imageWrapper {

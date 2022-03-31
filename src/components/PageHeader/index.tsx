@@ -81,7 +81,6 @@ const PageHeader = (props: Props) => {
           <AdminHeader auth={auth} />
         </div>
       </div>
-
       <AiStockBetaForm
         isOpen={isBetaFormOpen}
         setModalOpen={setIsBetaFormOpen}

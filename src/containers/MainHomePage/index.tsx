@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 /* Components */
 import HomepageCard from '../../components/HomepageCard';
@@ -7,13 +8,18 @@ import PageHeader from '../../components/PageHeader';
 
 /* Styles */
 import styles from './index.module.scss';
+import { getSellerSubscription } from '../../selectors/Subscription';
+
+/* Types */
+import { SellerSubscription } from '../../interfaces/Seller';
 
 interface Props {
   match: any;
+  subscription: SellerSubscription;
 }
 
 const MainHomePage = (props: Props) => {
-  const { match } = props;
+  const { match, subscription } = props;
 
   return (
     <main className={styles.mainHomePageWrapper}>
@@ -31,24 +37,28 @@ const MainHomePage = (props: Props) => {
           to="https://chrome.google.com/webstore/detail/sellgo-extension/gldmigoakdolonchebfnmcfbjihelcec"
           icon={require(`../../assets/images/chromeLogo.svg`)}
           openNewTab
+          disabled={subscription.is_aistock}
         />
         <HomepageCard
           label="Product Database"
           desc="Amazon Product Catalogue"
           to="/product-research/database"
           icon={require(`../../assets/images/productResearchIcon.svg`)}
+          disabled={subscription.is_aistock}
         />
         <HomepageCard
           label="Keyword Finder"
           desc="Reveal Competitor Keywords"
           to="/keyword-research/finder"
           icon={require(`../../assets/images/keywordReverseIcon.svg`)}
+          disabled={subscription.is_aistock}
         />
         <HomepageCard
           label="Keyword Database"
           desc="Check High-Volume Keywords"
           to="/keyword-research/database"
           icon={require(`../../assets/images/keywordDatabaseIcon.svg`)}
+          disabled={subscription.is_aistock}
         />
       </div>
 
@@ -59,6 +69,7 @@ const MainHomePage = (props: Props) => {
           desc="Get to #1 Search Results"
           to="/keyword-research/tracker"
           icon={require(`../../assets/images/keywordTrackerIcon.svg`)}
+          disabled={subscription.is_aistock}
         />
         <HomepageCard
           label="AiStock Sales Forecasting"
@@ -87,12 +98,14 @@ const MainHomePage = (props: Props) => {
           desc="The 1st Step to Wholesale Sourcing"
           to="/synthesis"
           icon={require(`../../assets/images/searchManagementIcon.svg`)}
+          disabled={subscription.is_aistock}
         />
         <HomepageCard
           label="Profit Finder"
           desc="Wholesale Bulk Calculation"
           to="/profit-finder"
           icon={require(`../../assets/images/profitFinderIcon.svg`)}
+          disabled={subscription.is_aistock}
         />
       </div>
 
@@ -103,22 +116,31 @@ const MainHomePage = (props: Props) => {
           desc="Discover >1M of Amazon Sellers"
           to="/seller-research/database"
           icon={require(`../../assets/images/sellerDatabaseIcon.svg`)}
+          disabled={subscription.is_aistock}
         />
         <HomepageCard
           label="Seller Map"
           desc="Interactive Map of Amazon Sellers"
           to="/seller-research/map"
           icon={require(`../../assets/images/sellerMapIcon.svg`)}
+          disabled={subscription.is_aistock}
         />
         <HomepageCard
           label="Seller Finder"
           desc="Find More Sellers from Inventories"
           to="/seller-research/finder"
           icon={require(`../../assets/images/sellerFinder.svg`)}
+          disabled={subscription.is_aistock}
         />
       </div>
     </main>
   );
 };
 
-export default MainHomePage;
+const mapStateToProps = (state: any) => {
+  return {
+    subscription: getSellerSubscription(state),
+  };
+};
+
+export default connect(mapStateToProps)(MainHomePage);
