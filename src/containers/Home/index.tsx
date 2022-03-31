@@ -30,11 +30,7 @@ class Home extends React.Component<any> {
     if (redirectPath && redirectPath !== '/') {
       history.replace(redirectPath);
     } else if (isLoggedIn) {
-      if (localStorage.getItem('isAiStock') === 'true') {
-        history.replace('/aistock/sales');
-      } else {
-        history.replace('/synthesis');
-      }
+      history.replace('/home');
     }
 
     if (location.state && redirectPath && redirectPath.indexOf('/subscription') !== -1) {

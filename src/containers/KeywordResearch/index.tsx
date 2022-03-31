@@ -154,7 +154,6 @@ const KeywordResearch = (props: Props) => {
                   label="FINDER"
                   icon="Keyword Finder"
                   isActive={selectedTabList === 0}
-                  isBeta
                 />
               </Tab>
               <Tab>
@@ -162,7 +161,6 @@ const KeywordResearch = (props: Props) => {
                   label="DATABASE"
                   icon="Keyword Database"
                   isActive={selectedTabList === 1}
-                  isBeta
                 />
               </Tab>
               <Tab>
@@ -170,17 +168,11 @@ const KeywordResearch = (props: Props) => {
                   label="TRACKER"
                   icon="Keyword Tracker"
                   isActive={selectedTabList === 2}
-                  isBeta
                 />
               </Tab>
 
               <Tab>
-                <ProductLabel
-                  label="ZAPIER"
-                  icon="Zapier"
-                  isActive={selectedTabList === 3}
-                  isBeta
-                />
+                <ProductLabel label="ZAPIER" icon="Zapier" isActive={selectedTabList === 3} />
               </Tab>
             </TabList>
 

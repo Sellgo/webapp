@@ -288,7 +288,9 @@ export const updateSeller = (payload: any) => async (dispatch: any) => {
     const url = AppConfig.BASE_URL_API + `sellers/${sellerID}`;
     const { status } = await Axios.patch(url, payload);
     if (status === 200) {
-      dispatch(fetchSellerSubscription());
+      if (!payload.doNotRefresh) {
+        dispatch(fetchSellerSubscription());
+      }
     }
   } catch (err) {
     console.log('error: ', err);

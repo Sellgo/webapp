@@ -8,7 +8,7 @@ import styles from './index.module.scss';
 import { RowCell } from '../../../../../interfaces/Table';
 
 /* Utils */
-import { formatNumber, showNAIfZeroOrNull } from '../../../../../utils/format';
+import { formatNumber, showNAIfNull } from '../../../../../utils/format';
 
 interface Props extends RowCell {
   handleExpansion: (rowData: any) => void;
@@ -17,10 +17,7 @@ interface Props extends RowCell {
 const StockOutDate = (props: Props) => {
   const { handleExpansion, ...otherProps } = props;
   const { rowData } = otherProps;
-  const daysToStockOut = showNAIfZeroOrNull(
-    rowData.days_until_so,
-    formatNumber(rowData.days_until_so)
-  );
+  const daysToStockOut = showNAIfNull(rowData.days_until_so, formatNumber(rowData.days_until_so));
 
   const stockOutDate = new Date();
   stockOutDate.setTime(stockOutDate.getTime() + daysToStockOut * 24 * 60 * 60 * 1000);

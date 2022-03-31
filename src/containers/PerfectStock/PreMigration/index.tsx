@@ -8,7 +8,6 @@ import styles from './index.module.scss';
 /* components */
 import SpApiForm from '../../Settings/SPConnectivity/SpApiForm';
 import ActionButton from '../../../components/ActionButton';
-import PageHeader from '../../../components/PageHeader';
 import ElevioArticle from '../../../components/ElevioArticle';
 
 /* Utils */
@@ -20,12 +19,11 @@ import { error, success } from '../../../utils/notifications';
 import { fetchSellerSubscription } from '../../../actions/Settings/Subscription';
 
 interface Props {
-  match: any;
   fetchSellerSubscription: () => void;
 }
 
 const PreMigration = (props: Props) => {
-  const { match, fetchSellerSubscription } = props;
+  const { fetchSellerSubscription } = props;
   const [isSpApiAuthenticated, setIsSpApiAuthenticated] = React.useState(false);
 
   const runMigration = async () => {
@@ -49,14 +47,6 @@ const PreMigration = (props: Props) => {
   };
   return (
     <>
-      <PageHeader
-        title={`Product Research`}
-        breadcrumb={[
-          { content: 'Home', to: '/' },
-          { content: 'Perfect Stock', to: '/perfect-stock' },
-        ]}
-        auth={match.params.auth}
-      />
       <main className={styles.pilotLoginPageWrapper}>
         <h1>Perfect Stock White Glove Migration is Ready to Start</h1>
         <p>

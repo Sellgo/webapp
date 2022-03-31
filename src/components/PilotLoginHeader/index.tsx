@@ -9,7 +9,7 @@ import ActionButton from '../ActionButton';
 import history from '../../history';
 
 /* Assets */
-import SellgoLogo from '../../assets/images/sellgoWordLogo.png';
+import SellgoLogo from '../../assets/images/aistockLogo.png';
 
 /* Actions */
 import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
@@ -30,7 +30,7 @@ const PilotLoginHeader = (props: Props) => {
     <div className={styles.topBar}>
       <img src={SellgoLogo} alt="sellgo-logo" className={styles.sellgoLogo} />
       <ActionButton type="purpleGradient" variant="primary" size="md" onClick={handleFinishSetup}>
-        Finish Setup
+        Setup Later
       </ActionButton>
     </div>
   );

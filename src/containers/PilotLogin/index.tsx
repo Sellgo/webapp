@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -8,33 +9,66 @@ import AccountConnectionSection from './AccountConnectionSection';
 import ExtensionSection from './ExtensionSection';
 import FeaturesSection from './FeaturesSection';
 import PilotLoginHeader from '../../components/PilotLoginHeader';
-import QuickWinModal from './QuickWinModal';
+import AiStockOnboardingForm from '../../components/AiStockOnboardingForm';
 
-const PreMigration = () => {
-  const [showQuickWinModal, setShowQuickWinModal] = React.useState<boolean>(false);
+/* Services */
+import { getSellerSubscription } from '../../selectors/Subscription';
+
+/* Types */
+import { SellerSubscription } from '../../interfaces/Seller';
+
+/* Actions */
+import { updateSeller } from '../../actions/Settings/Subscription';
+
+interface Props {
+  subscription: SellerSubscription;
+  updateSeller: (payload: any) => void;
+}
+
+const PilotLogin = (props: Props) => {
+  const { subscription, updateSeller } = props;
+  const [showOnboardingForm, setShowOnboardingForm] = React.useState(false);
+
+  const handleSubmitOnboardingForm = () => {
+    updateSeller({ is_aistock_on_boarding_survey_filled: true, doNotRefresh: true });
+  };
 
   React.useEffect(() => {
-    /* Only show quick win modal popup on the first time user enters into account setup page */
-    const quickWinModalStatus = localStorage.getItem('showQuickWinModal');
-    if (quickWinModalStatus && quickWinModalStatus === 'false') {
-      setShowQuickWinModal(false);
-    } else {
-      setShowQuickWinModal(true);
-      localStorage.setItem('showQuickWinModal', 'false');
+    if (!subscription.is_aistock_on_boarding_survey_filled) {
+      setShowOnboardingForm(true);
     }
   }, []);
 
   return (
     <>
-      {showQuickWinModal && <QuickWinModal />}
       <main className={styles.pilotLoginPageWrapper}>
         <PilotLoginHeader />
         <AccountConnectionSection />
         <ExtensionSection />
         <FeaturesSection />
+
+        <AiStockOnboardingForm
+          isOpen={showOnboardingForm}
+          setModalOpen={setShowOnboardingForm}
+          onSubmit={handleSubmitOnboardingForm}
+        />
       </main>
     </>
   );
 };
 
-export default PreMigration;
+const mapStateToProps = (state: any) => {
+  return {
+    subscription: getSellerSubscription(state),
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    updateSeller: (payload: any) => {
+      dispatch(updateSeller(payload));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PilotLogin);

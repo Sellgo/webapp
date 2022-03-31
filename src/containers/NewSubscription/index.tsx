@@ -16,7 +16,7 @@ import Auth from '../../components/Auth/Auth';
 import history from '../../history';
 
 /* Assets */
-import newSellgoLogo from '../../assets/images/sellgoNewLogo.png';
+import newSellgoLogo from '../../assets/images/aistockLogo.png';
 
 /* Config */
 import { AppConfig } from '../../config';

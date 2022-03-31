@@ -29,8 +29,14 @@
   flex-direction: column;
 }
 
-.tplVendorRadio {
+.tplRow {
+  display: flex;
   margin-bottom: 18px;
+  align-items: center;
+}
+
+.tplVendorRadio {
+  margin-bottom: 0;
 }
 
 .inputBox {

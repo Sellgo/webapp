@@ -100,8 +100,7 @@ const Sidebar = (props: Props) => {
     /* Disable menu for free subscriptions */
     if (
       isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) ||
-      isBetaAccount(sellerSubscription) ||
-      isAiStock(sellerSubscription)
+      isBetaAccount(sellerSubscription)
     ) {
       newNavOptions = handleDisableNavOption('Product Research', newNavOptions);
       newNavOptions = handleDisableNavOption('Wholesale Bulk Analysis', newNavOptions);
@@ -109,8 +108,12 @@ const Sidebar = (props: Props) => {
       newNavOptions = handleDisableNavOption('Keyword Research', newNavOptions);
     }
 
-    if (!isAiStock(sellerSubscription)) {
-      newNavOptions = handleDisableNavOption('Ai Stock', newNavOptions);
+    /* Disable everything else for AI stock, applies ONLY TO BETA */
+    if (isAiStock(sellerSubscription)) {
+      newNavOptions = handleDisableNavOption('Product Research', newNavOptions);
+      newNavOptions = handleDisableNavOption('Wholesale Bulk Analysis', newNavOptions);
+      newNavOptions = handleDisableNavOption('Seller Research', newNavOptions);
+      newNavOptions = handleDisableNavOption('Keyword Research', newNavOptions);
     }
 
     setNavOptions(newNavOptions);

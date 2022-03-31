@@ -21,6 +21,8 @@ import { fetchTplVendors } from '../../../../../actions/PerfectStock/Tpl';
 
 /* Selectors */
 import { getTplVendors } from '../../../../../selectors/PerfectStock/Tpl';
+import SelectionFilter from '../../../../../components/FormFilters/SelectionFilter';
+import { error } from '../../../../../utils/notifications';
 
 interface Props {
   tplVendors: TplVendor[];
@@ -43,6 +45,7 @@ const ConnectTplPopup = (props: Props) => {
     isCreateOrderLoading,
   } = props;
   const [selectedTplVendor, setSelectedTplVendor] = React.useState<number | null>(null);
+  const [usingTpl, setUsingTpl] = React.useState<boolean>(false);
   React.useEffect(() => {
     if (tplVendors.length === 0) {
       fetchTplVendors();
@@ -50,38 +53,58 @@ const ConnectTplPopup = (props: Props) => {
   }, []);
 
   const handleSubmit = () => {
+    if (usingTpl && !selectedTplVendor) {
+      error('Please select a vendor');
+    }
+
     const payload = {
       ...createOrderPayload,
-      tpl_vendor_id: selectedTplVendor,
+      tpl_vendor_id: usingTpl ? selectedTplVendor : null,
     };
     setCreateOrderPayload(payload);
     handleCreateOrder(payload);
   };
 
+  const tplSelectionOptions = tplVendors.map(tplVendor => ({
+    key: tplVendor.name,
+    text: tplVendor.name,
+    value: tplVendor.id.toString(),
+  }));
   return (
     <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>
         <h2>Which 3PL warehouse would you like to connect?</h2>
         <div className={styles.tplVendorsContainer}>
-          {tplVendors.map(tplVendor => (
+          <div className={styles.tplRow}>
             <Radio
-              key={tplVendor.id}
-              label={tplVendor.name}
+              label={''}
               name="tplVendor"
-              checked={selectedTplVendor === tplVendor.id}
-              onChange={() => setSelectedTplVendor(tplVendor.id)}
+              checked={usingTpl}
+              onChange={() => setUsingTpl(true)}
               className={styles.tplVendorRadio}
             />
-          ))}
+            <SelectionFilter
+              filterOptions={tplSelectionOptions}
+              placeholder="Select 3PL"
+              value={selectedTplVendor?.toString() || ''}
+              handleChange={(value: string) => {
+                setSelectedTplVendor(parseInt(value));
+                setUsingTpl(true);
+              }}
+            />
+          </div>
           <Radio
             label={'I will connect later'}
             name="tplVendor"
-            checked={selectedTplVendor === null}
-            onChange={() => setSelectedTplVendor(null)}
+            checked={!usingTpl}
+            onChange={() => setUsingTpl(false)}
             className={styles.tplVendorRadio}
           />
         </div>
       </div>
+      <span className={styles.helperMessage}>
+        *You can also connect this order to 3PL Manager in the Order Planning.
+      </span>
       <div className={styles.buttonsRow}>
         <ActionButton
           className={styles.cancelButton}

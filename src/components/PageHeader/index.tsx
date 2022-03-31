@@ -41,6 +41,7 @@ const PageHeader = (props: Props) => {
   const handleSubmitBetaForm = () => {
     updateSeller({ is_aistock_survey_filled: true });
   };
+
   return (
     <>
       <Helmet>
@@ -66,7 +67,6 @@ const PageHeader = (props: Props) => {
           <AdminHeader auth={auth} />
         </div>
       </div>
-
       <AiStockBetaForm
         isOpen={isBetaFormOpen}
         setModalOpen={setIsBetaFormOpen}

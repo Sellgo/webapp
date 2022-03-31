@@ -61,16 +61,21 @@ const InventoryThresholdSelection = (props: Props) => {
           onClick={() => setInventoryUnit('percent')}
         >
           <Checkbox radio checked={inventoryUnit === 'percent'} />
-          &nbsp; Generate next order when the Priority SKU has &nbsp;
-          <InputFilter
-            placeholder="0"
-            isNumber
-            isPositiveOnly
-            value={stockLevelThreshold?.toString() || ''}
-            handleChange={value => setStockLevelThreshold(parseFloat(value))}
-            className={styles.inputFilter}
-          />
-          &nbsp;% of stock left.
+          <div className={styles.inputRadioRowText}>
+            <p>Inventory-level trigger</p>
+            <span className={styles.inputRow}>
+              Generate next order when the Priority SKU has &nbsp;
+              <InputFilter
+                placeholder="0"
+                isNumber
+                isPositiveOnly
+                value={stockLevelThreshold?.toString() || ''}
+                handleChange={value => setStockLevelThreshold(value ? parseFloat(value) : 0)}
+                className={styles.inputFilter}
+              />
+              &nbsp;% of stock left.
+            </span>
+          </div>
         </div>
         <div
           className={`
@@ -80,16 +85,22 @@ const InventoryThresholdSelection = (props: Props) => {
           onClick={() => setInventoryUnit('days')}
         >
           <Checkbox radio checked={inventoryUnit === 'days'} />
-          &nbsp; Generate next order when the Priority SKU has &nbsp;
-          <InputFilter
-            placeholder="0"
-            isNumber
-            isPositiveOnly
-            value={dusThreshold?.toString() || ''}
-            handleChange={value => setDusThreshold(parseInt(value))}
-            className={styles.inputFilter}
-          />
-          &nbsp; of days until stockout.
+          <div className={styles.inputRadioRowText}>
+            <p>Inventory-calendar trigger</p>
+            <span className={styles.inputRow}>
+              Generate next order when the Priority SKU has &nbsp;
+              <InputFilter
+                placeholder="0"
+                isNumber
+                isPositiveOnly
+                isInteger
+                value={dusThreshold?.toString() || ''}
+                handleChange={value => setDusThreshold(value ? parseInt(value) : 0)}
+                className={styles.inputFilter}
+              />
+              &nbsp; of days until stockout.
+            </span>
+          </div>
         </div>
       </div>
       <span className={styles.helperMessage}>

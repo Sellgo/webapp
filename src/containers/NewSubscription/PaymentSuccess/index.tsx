@@ -6,7 +6,7 @@ import { createBrowserHistory } from 'history';
 import styles from './index.module.scss';
 
 /* Assets */
-import newSellgoLogo from '../../../assets/images/sellgoNewLogo.png';
+import newSellgoLogo from '../../../assets/images/aistockLogo.png';
 
 const PaymentSuccess = () => {
   const history = createBrowserHistory({ forceRefresh: true });

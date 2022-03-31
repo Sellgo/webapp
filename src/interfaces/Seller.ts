@@ -37,6 +37,7 @@ export interface SellerSubscription {
   subscription_id: number;
   seller_map_overview_display_limit?: number;
   is_beta?: boolean;
+  is_aistock_on_boarding_survey_filled?: boolean;
   is_payment_pending?: boolean;
   is_aistock?: boolean;
   is_aistock_survey_filled?: boolean;

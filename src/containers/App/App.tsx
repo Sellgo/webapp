@@ -42,6 +42,7 @@ import { isBetaAccount } from '../../utils/subscriptions';
 import Activation from '../NewSubscription/Activation';
 import ActivationSuccess from '../NewSubscription/ActivationSuccess';
 import { PERFECT_STOCK_SELLER_STATUS } from '../../constants/PerfectStock';
+import MainHomePage from '../MainHomePage';
 
 export const auth = new Auth();
 
@@ -251,7 +252,12 @@ function App() {
             path="/subscription/payment"
             render={renderProps => <Payment auth={auth} {...renderProps} />}
           />
-
+          <PrivateRoute
+            exact={true}
+            path="/home"
+            component={MainHomePage}
+            requireSubscription={false}
+          />
           <PrivateRoute
             exact={true}
             path="/onboarding"
