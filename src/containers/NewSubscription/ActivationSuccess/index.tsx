@@ -6,8 +6,6 @@ import history from '../../../history';
 import styles from './index.module.scss';
 
 /* Assets */
-import newSellgoLogo from '../../../assets/images/sellgoNewLogo.png';
-import GraphDisplay from '../../../assets/images/GraphDisplay.png';
 import AiStockDisplay from '../../../assets/images/AiStockDisplay.png';
 import TenFactorLogo from '../../../assets/images/TenFactorLogo.png';
 import MetkixLogo from '../../../assets/images/MetkixLogo.png';
@@ -30,12 +28,11 @@ const ActivationSuccess = (props: Props) => {
   const [progressMessage, setProgressMessage] = React.useState<string>('Preparing your account..');
 
   /* Email and password should be passed from history.push in Activation component */
-  let email: any, password: any, isAiStock: any;
+  let email: any, password: any;
 
   if (location.state) {
     email = location.state.email;
     password = location.state.password;
-    isAiStock = location.state.isAiStock;
   }
   // password: string, isAiStock: boolean;
 
@@ -79,22 +76,14 @@ const ActivationSuccess = (props: Props) => {
   return (
     <main className={styles.successPage}>
       <section className={styles.displaySection}>
-        <img
-          src={isAiStock ? AiStockDisplay : GraphDisplay}
-          alt="graph-display"
-          className={styles.graphDisplayImg}
-        />
+        <img src={AiStockDisplay} alt="graph-display" className={styles.graphDisplayImg} />
         <div className={styles.loaderWrapper}>
           <Loader active inline inverted />
           <p className={styles.progressMessage}>{progressMessage}</p>
         </div>
       </section>
       <section className={styles.socialProofSection}>
-        <img
-          src={!isAiStock ? newSellgoLogo : aistockLogo}
-          alt="sellgo-logo"
-          className={styles.sellgoLogo}
-        />
+        <img src={aistockLogo} alt="sellgo-logo" className={styles.sellgoLogo} />
         <p className={styles.socialProofDesc}>Trusted by the world's best Amazon sellers</p>
         <div className={styles.socialProofIcons}>
           <img className={styles.logo} src={BBLogo} alt="bblogo" />

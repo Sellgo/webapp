@@ -197,7 +197,7 @@ const PerfectStock: React.FC<Props> = props => {
             >
               <Tab className={styles.disabledTab}>
                 <ProductLabel
-                  label="Home"
+                  label="Cash Flow"
                   icon="Perfect Stock Home"
                   isActive={false}
                   isDisabled

@@ -52,7 +52,7 @@ const AiStockOnboardingForm = (props: Props) => {
                 onClick={() => setModalOpen(false)}
                 className={styles.continueButton}
               >
-                Continue To Ai Stock
+                Continue to setup
               </ActionButton>
             </div>
           )}
