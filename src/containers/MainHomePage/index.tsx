@@ -30,7 +30,7 @@ const MainHomePage = (props: Props) => {
       <div className={styles.homepageCards}>
         <HomepageCard
           label="Chrome Extension"
-          desc="Product Validation on Amazon page"
+          desc="Product Validation on Amazon Page"
           to="https://chrome.google.com/webstore/detail/sellgo-extension/gldmigoakdolonchebfnmcfbjihelcec"
           icon={require(`../../assets/images/chromeLogo.svg`)}
           openNewTab
