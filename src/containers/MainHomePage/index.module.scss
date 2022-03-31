@@ -1,0 +1,17 @@
+@import '../../design-system/new-colors.scss';
+
+.cardWrapperTitle {
+  font-size: 24px;
+  font-weight: $fontweight_bold;
+  color: $prim_dark_2;
+  margin-bottom: 30px;
+}
+
+.homepageCards {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.mainHomePageWrapper {
+  padding-bottom: 200px;
+}

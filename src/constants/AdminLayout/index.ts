@@ -27,6 +27,7 @@ export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
   '/aistock/tpl',
 
   '/account-setup',
+  '/home',
 ];
 
 export const HIDE_NAV_BAR_PATH_NAMES = [
@@ -141,7 +142,7 @@ export const OPTIONS: NavOptions = [
     path: '/keyword-research',
     isComingSoon: false,
     disabled: false,
-    isBeta: true,
+    isBeta: false,
     subOptions: [
       {
         label: 'Keyword Finder',
@@ -149,7 +150,7 @@ export const OPTIONS: NavOptions = [
         icon: require(`../../assets/images/${NAV_ICONS.KEYWORD_REVERSE}`),
         path: '/keyword-research/finder',
         disabled: false,
-        isBeta: true,
+        isBeta: false,
       },
       {
         label: 'Keyword Database',
@@ -157,7 +158,7 @@ export const OPTIONS: NavOptions = [
         icon: require(`../../assets/images/${NAV_ICONS.KEYWORD_DATABASE}`),
         path: '/keyword-research/database',
         disabled: false,
-        isBeta: true,
+        isBeta: false,
       },
       {
         label: 'Keyword Tracker',
@@ -165,7 +166,7 @@ export const OPTIONS: NavOptions = [
         icon: require(`../../assets/images/${NAV_ICONS.KEYWORD_TRACKER}`),
         path: '/keyword-research/tracker',
         disabled: false,
-        isBeta: true,
+        isBeta: false,
       },
       {
         label: 'Zapier',
@@ -173,7 +174,7 @@ export const OPTIONS: NavOptions = [
         icon: require(`../../assets/images/${NAV_ICONS.ZAPIER}`),
         path: '/keyword-research/zapier',
         disabled: false,
-        isBeta: true,
+        isBeta: false,
       },
     ],
   },
@@ -191,7 +192,7 @@ export const OPTIONS: NavOptions = [
         icon: require(`../../assets/images/${NAV_ICONS.PRODUCT_DATABASE}`),
         path: '/product-research/database',
         disabled: false,
-        isBeta: true,
+        isBeta: false,
       },
     ],
   },

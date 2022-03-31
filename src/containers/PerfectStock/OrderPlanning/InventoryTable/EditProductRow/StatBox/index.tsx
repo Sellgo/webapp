@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatNumber, formatDecimal } from '../../../../../../utils/format';
+import { formatNumber, formatDecimal, showNAIfZeroOrNull } from '../../../../../../utils/format';
 import InputWithSaveOptions from '../../../../../../components/InputWithSaveOptions';
 
 /* Styling */
@@ -36,8 +36,13 @@ const StatBox = (props: Props) => {
     autoCalculate,
     handleAutoCalculate,
   } = props;
-  const displayStat = asFloat ? formatDecimal(stat) : formatNumber(stat);
-  const secondDisplayStat = asFloat ? formatDecimal(secondStat) : formatNumber(secondStat);
+  const displayStat = showNAIfZeroOrNull(stat, asFloat ? formatDecimal(stat) : formatNumber(stat));
+  const secondDisplayStat = showNAIfZeroOrNull(
+    secondStat,
+    asFloat ? formatDecimal(secondStat) : formatNumber(secondStat)
+  );
+  // console.log(secondStat);
+  console.log(secondDisplayStat);
 
   return (
     <div className={styles.statBox}>
@@ -60,17 +65,16 @@ const StatBox = (props: Props) => {
             </span>
           ) : (
             <span>
-              {displayStat && displayStat !== 0 ? prepend : ''}
-              {displayStat || '-'}
-              {displayStat && displayStat !== 0 ? append : ''}
+              {stat && stat !== 0 ? prepend : ''}
+              {displayStat}
+              {stat && stat !== 0 ? append : ''}
             </span>
           )}
-          {secondStat && (
+          {(secondStat || secondStat !== 0) && (
             <span>
-              &nbsp;&nbsp;
-              {secondDisplayStat && secondDisplayStat !== 0 ? secondPrepend : ''}
-              {secondDisplayStat || '-'}
-              {secondDisplayStat && secondDisplayStat !== 0 ? secondAppend : ''}
+              {secondStat && secondStat !== 0 ? secondPrepend : ''}
+              {secondDisplayStat}
+              {secondStat && secondStat !== 0 ? secondAppend : ''}
             </span>
           )}
         </div>

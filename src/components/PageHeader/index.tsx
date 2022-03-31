@@ -5,6 +5,7 @@ import BreadCrumb from '../BreadCrumb';
 import AdminHeader from '../AdminLayout/AdminHeader';
 import Auth from '../Auth/Auth';
 import AiStockBetaForm from '../AiStockBetaForm';
+import AiStockOnboardingForm from '../AiStockOnboardingForm';
 import './index.scss';
 
 import { NEW_PRODUCT_DESIGN_PATH_NAMES } from '../../constants/AdminLayout';
@@ -35,12 +36,26 @@ const usePrevious = (value: any) => {
 const PageHeader = (props: Props) => {
   const { title, callToAction, breadcrumb, auth, sellerSubscription, updateSeller } = props;
   const [isBetaFormOpen, setIsBetaFormOpen] = React.useState(false);
+  const [isOnboardingFormOpen, setIsOnboardingFormOpen] = React.useState(false);
   const isNewProduct = NEW_PRODUCT_DESIGN_PATH_NAMES.includes(window.location.pathname);
   const previousTrialDuration = usePrevious(sellerSubscription.trial_left);
   const trialDurationLeft = sellerSubscription.trial_left || previousTrialDuration;
   const handleSubmitBetaForm = () => {
     updateSeller({ is_aistock_survey_filled: true });
   };
+
+  const handleSubmitOnboardingForm = () => {
+    updateSeller({ is_aistock_on_boarding_survey_filled: true });
+  };
+
+  React.useEffect(() => {
+    if (
+      window.location.pathname.includes('aistock') &&
+      !sellerSubscription.is_aistock_on_boarding_survey_filled
+    ) {
+      setIsOnboardingFormOpen(true);
+    }
+  }, [sellerSubscription.is_aistock_on_boarding_survey_filled]);
   return (
     <>
       <Helmet>
@@ -71,6 +86,11 @@ const PageHeader = (props: Props) => {
         isOpen={isBetaFormOpen}
         setModalOpen={setIsBetaFormOpen}
         onSubmit={handleSubmitBetaForm}
+      />
+      <AiStockOnboardingForm
+        isOpen={isOnboardingFormOpen}
+        setModalOpen={setIsOnboardingFormOpen}
+        onSubmit={handleSubmitOnboardingForm}
       />
       {sellerSubscription.is_aistock && !sellerSubscription.is_aistock_survey_filled && (
         <ActionButton
