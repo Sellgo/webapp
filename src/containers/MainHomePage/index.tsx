@@ -5,9 +5,6 @@ import HomepageCard from '../../components/HomepageCard';
 import HomePageMeta from './HomePageMeta';
 import PageHeader from '../../components/PageHeader';
 
-/* Constants */
-import { NAV_ICONS } from '../../constants/AdminLayout';
-
 /* Styles */
 import styles from './index.module.scss';
 
@@ -39,19 +36,19 @@ const MainHomePage = (props: Props) => {
           label="Product Database"
           desc="Amazon Product Catalogue"
           to="/product-research/database"
-          icon={require(`../../assets/images/${NAV_ICONS.PRODUCT_RESEARCH}`)}
+          icon={require(`../../assets/images/productResearchIcon.svg`)}
         />
         <HomepageCard
           label="Keyword Finder"
           desc="Reveal Competitor Keywords"
           to="/keyword-research/finder"
-          icon={require(`../../assets/images/${NAV_ICONS.KEYWORD_REVERSE}`)}
+          icon={require(`../../assets/images/keywordReverseIcon.svg`)}
         />
         <HomepageCard
           label="Keyword Database"
           desc="Check High-Volume Keywords"
           to="/keyword-research/database"
-          icon={require(`../../assets/images/${NAV_ICONS.KEYWORD_DATABASE}`)}
+          icon={require(`../../assets/images/keywordDatabaseIcon.svg`)}
         />
       </div>
 
@@ -61,25 +58,25 @@ const MainHomePage = (props: Props) => {
           label="Product Rank Tracker"
           desc="Get to #1 Search Results"
           to="/keyword-research/tracker"
-          icon={require(`../../assets/images/${NAV_ICONS.KEYWORD_TRACKER}`)}
+          icon={require(`../../assets/images/keywordTrackerIcon.svg`)}
         />
         <HomepageCard
           label="AiStock Sales Forecasting"
           desc="Future Sales Projection"
           to="/aistock/sales"
-          icon={require(`../../assets/images/${NAV_ICONS.SALES_ESTIMATION}`)}
+          icon={require(`../../assets/images/salesProjection.svg`)}
         />
         <HomepageCard
           label="AiStock Order Planning"
           desc="Avoid Stockout and Overstock"
           to="/aistock/order"
-          icon={require(`../../assets/images/${NAV_ICONS.ORDER_PLANNING}`)}
+          icon={require(`../../assets/images/orderPlanning.svg`)}
         />
         <HomepageCard
           label="AiStock 3PL Manager"
           desc="Storage and Inbound Manager"
           to="/aistock/tpl"
-          icon={require(`../../assets/images/${NAV_ICONS.TPL}`)}
+          icon={require(`../../assets/images/tpl.svg`)}
         />
       </div>
 
@@ -89,13 +86,13 @@ const MainHomePage = (props: Props) => {
           label="Search Management"
           desc="The 1st Step to Wholesale Sourcing"
           to="/synthesis"
-          icon={require(`../../assets/images/${NAV_ICONS.SEARCH_MANAGEMENT}`)}
+          icon={require(`../../assets/images/searchManagementIcon.svg`)}
         />
         <HomepageCard
           label="Profit Finder"
           desc="Wholesale Bulk Calculation"
           to="/profit-finder"
-          icon={require(`../../assets/images/${NAV_ICONS.PROFIT_FINDER}`)}
+          icon={require(`../../assets/images/profitFinderIcon.svg`)}
         />
       </div>
 
@@ -105,19 +102,19 @@ const MainHomePage = (props: Props) => {
           label="Seller Database"
           desc="Discover >1M of Amazon Sellers"
           to="/seller-research/database"
-          icon={require(`../../assets/images/${NAV_ICONS.SELLER_DATABASE}`)}
+          icon={require(`../../assets/images/sellerDatabaseIcon.svg`)}
         />
         <HomepageCard
           label="Seller Map"
           desc="Interactive Map of Amazon Sellers"
           to="/seller-research/map"
-          icon={require(`../../assets/images/${NAV_ICONS.SELLER_MAP}`)}
+          icon={require(`../../assets/images/sellerMapIcon.svg`)}
         />
         <HomepageCard
           label="Seller Finder"
           desc="Find More Sellers from Inventories"
           to="/seller-research/finder"
-          icon={require(`../../assets/images/${NAV_ICONS.SELLER_INVENTORY}`)}
+          icon={require(`../../assets/images/sellerFinder.svg`)}
         />
       </div>
     </main>
