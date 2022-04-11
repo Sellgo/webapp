@@ -12,6 +12,7 @@ import InventoryBar from '../../../../../components/InventoryBar';
 
 /* Utils */
 import { formatNumber, prettyPrintNumber } from '../../../../../utils/format';
+import { getDateOnly, MILLISECONDS_IN_A_DAY } from '../../../../../utils/date';
 
 interface Props extends RowCell {
   isShowingDaysUntilStockout?: boolean;
@@ -37,6 +38,14 @@ const InventoryBarCell = (props: Props) => {
   const displayInventoryCount = formatNumber(inventoryCount);
   const displayPercent = `${formatNumber(percent)}%`;
   const displayLoss = potentialLoss === 0 ? '' : `-$${prettyPrintNumber(potentialLoss)}`;
+
+  let isRepeatedZero = false;
+  const previousDay = getDateOnly(new Date(new Date(dataKey).getTime() - MILLISECONDS_IN_A_DAY));
+  if (rowData[previousDay] !== undefined && rowData[previousDay].percentage !== undefined) {
+    if (percent === 0 && rowData[previousDay].percentage === 0) {
+      isRepeatedZero = true;
+    }
+  }
 
   if (isShowingDaysUntilStockout) {
     return (
@@ -64,7 +73,9 @@ const InventoryBarCell = (props: Props) => {
           {displayInventoryCount === '0' ? ' ' : displayInventoryCount}
         </span>
         <InventoryBar percent={percent / 100} />
-        <span style={percent <= 20 ? { color: '#EB675E' } : {}}>{displayPercent}</span>
+        {!isRepeatedZero && (
+          <span style={percent <= 20 ? { color: '#EB675E' } : {}}>{displayPercent}</span>
+        )}
       </div>
     </Table.Cell>
   );

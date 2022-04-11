@@ -46,6 +46,7 @@ const EditSeasonalityPopup = (props: Props) => {
 
   const [seasonalitySettings, setSeasonalitySettings] = useState<any[]>([]);
   const [isLoadingSeasonalitySettings, setIsLoadingSeasonalitySettings] = useState<boolean>(false);
+  const [isSavingSeasonalitySettings, setIsSavingSeasonalitySettings] = useState<boolean>(false);
 
   const isSeasonalityEnabled =
     rowData.seasonal_adjustment_included === true ||
@@ -123,6 +124,7 @@ const EditSeasonalityPopup = (props: Props) => {
 
   /* Saving of seasonality settings, triggered upon clicking of Save button */
   const handleSaveSeasonalitySettings = async () => {
+    setIsSavingSeasonalitySettings(true);
     const savedSeasonalitySettings = seasonalitySettings.map(setting => {
       if (setting.status === 'pending' && setting.name !== '' && setting.value !== '') {
         setting.status = 'active';
@@ -140,6 +142,7 @@ const EditSeasonalityPopup = (props: Props) => {
       setOpenPopup(false);
       success('Seasonality settings saved successfully');
     }
+    setIsSavingSeasonalitySettings(false);
     setOpenPopup(false);
   };
 
@@ -204,6 +207,7 @@ const EditSeasonalityPopup = (props: Props) => {
                 type="purpleGradient"
                 size="md"
                 onClick={handleSaveSeasonalitySettings}
+                loading={isSavingSeasonalitySettings}
               >
                 Apply
               </ActionButton>
