@@ -11,6 +11,8 @@ import { GraphDataSeries } from '../../../../interfaces/PerfectStock/SalesProjec
 /* Styling */
 import styles from './index.module.scss';
 
+import { formatDecimal } from '../../../../utils/format';
+
 interface Props {
   isLoading?: boolean;
   graphs: GraphDataSeries[];
@@ -55,13 +57,14 @@ const SubChart = (props: Props) => {
         chart: {
           renderTo: `subchart-${index}`,
           type: 'line',
+          spacingLeft: 30,
         },
 
         title: {
           align: 'left',
           text: `
             <p class="${styles.chartTitle}"> ${CASH_FLOW_CHART_TITLES[graphs[0].name]} </p>
-            <h2 class="${styles.chartTotal}"> $${total?.toFixed(2)} </h2>
+            <h2 class="${styles.chartTotal}"> $${total ? formatDecimal(total) : '0'} </h2>
           `,
           useHTML: true,
         },
@@ -75,7 +78,7 @@ const SubChart = (props: Props) => {
             labels: {
               enabled: true,
               align: 'left',
-              x: 0,
+              x: -20,
             },
             showFirstLabel: false,
             gridLineWidth: 0,
