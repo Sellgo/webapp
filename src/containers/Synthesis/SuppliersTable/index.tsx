@@ -91,7 +91,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       ) : (
         row.search
       );
-    console.log(row);
+
     return (
       <div className="supplier">
         <div className="name">{name} </div>
