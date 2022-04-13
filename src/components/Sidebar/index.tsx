@@ -68,7 +68,10 @@ const Sidebar = (props: Props) => {
     return options.map((mainOption: NavbarBarOption) => {
       mainOption.subOptions &&
         mainOption.subOptions.map((subOption: NavbarBarOption) => {
-          if (subOption.path === oldPath) {
+          if (
+            subOption.path === oldPath ||
+            (subOption.path.includes('/profit-finder') && oldPath.includes('/profit-finder'))
+          ) {
             subOption.path = newPath;
           }
           return subOption;
