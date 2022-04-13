@@ -21,20 +21,21 @@ interface Props {
 
 const MainHomePage = (props: Props) => {
   const { match, subscription } = props;
-  const [isProfitFinderDisabled, setIsProfitFinderDisabled] = React.useState(true);
-  let profitFinderLink = '/profit-finder';
+  const [isProfitFinderDisabled, setIsProfitFinderDisabled] = React.useState(false);
+  const [profitFinderLink, setProfitFinderLink] = React.useState('/profit-finder');
   React.useEffect(() => {
     let supplier_id = '';
     const latest = getLatestSupplier();
     if (latest) {
       supplier_id = latest.supplier_id;
     }
+    const newProfitFinderLink = `/profit-finder/${supplier_id}`;
+    setProfitFinderLink(newProfitFinderLink);
 
-    if (supplier_id.length > 0) {
-      setIsProfitFinderDisabled(false);
-      profitFinderLink = `/profit-finder/${supplier_id}`;
+    if (supplier_id.length === 0) {
+      setIsProfitFinderDisabled(true);
     }
-  });
+  }, []);
   return (
     <main className={styles.mainHomePageWrapper}>
       <PageHeader

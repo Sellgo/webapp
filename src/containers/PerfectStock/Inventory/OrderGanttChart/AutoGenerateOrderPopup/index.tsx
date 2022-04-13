@@ -139,7 +139,7 @@ const AutoGenerateOrderPopup = (props: Props) => {
             isNumber
             isPositiveOnly
             value={stockLevelThreshold?.toString() || ''}
-            handleChange={value => setStockLevelThreshold(parseFloat(value))}
+            handleChange={value => setStockLevelThreshold(value ? parseFloat(value) : 0)}
             className={styles.inputFilter}
           />
           &nbsp;% of priority SKU's stock level
@@ -158,7 +158,7 @@ const AutoGenerateOrderPopup = (props: Props) => {
             isNumber
             isPositiveOnly
             value={dusThreshold?.toString() || ''}
-            handleChange={value => setDusThreshold(parseInt(value))}
+            handleChange={value => setDusThreshold(value ? parseInt(value) : 0)}
             className={styles.inputFilter}
           />
           &nbsp; of priority SKU's days until stockout

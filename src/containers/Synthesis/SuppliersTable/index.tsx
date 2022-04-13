@@ -91,13 +91,14 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       ) : (
         row.search
       );
+
     return (
       <div className="supplier">
         <div className="name">{name} </div>
 
         <span className="file-download">
           {row.file_status && (
-            <a download href={row.file_url} title={`Download : ${row.file_name}`}>
+            <a download href={row.report_url} title={`Download : ${row.file_name}`}>
               <Icon name="download" className="download-icon" />
             </a>
           )}
