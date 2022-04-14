@@ -91,7 +91,7 @@ const PrivateRoute = connect(
     const userIsAuthenticated = isAuthenticated();
     const isPaymentPending = sellerSubscription && sellerSubscription.is_payment_pending;
     const isFirstTimeUserLoggedIn =
-      sellerSubscription && !sellerSubscription.is_aistock_on_boarding_survey_filled;
+      sellerSubscription && sellerSubscription.is_first_time_user_logged_in;
     // This effect will run if there is a change in sellerSubscription,
     // auth status, or route so that we can take the appropriate action.
     // TODO: Hoist this logic up to an AuthProvider that includes user's subscription as part
