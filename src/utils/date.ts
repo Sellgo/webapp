@@ -38,6 +38,12 @@ export const formatCompletedDate = (timestamp: Date) => {
   return `${date}-${month}-${year} \n ${formattedTime}`;
 };
 
+export const addNumberOfDays = (date: Date, days: number) => {
+  const newDate = new Date(date);
+  const newTime = newDate.getTime() + days * MILLISECONDS_IN_A_DAY;
+  return new Date(newTime);
+};
+
 export const getDateOnly = (date: Date | undefined) => {
   if (!date) {
     return '';

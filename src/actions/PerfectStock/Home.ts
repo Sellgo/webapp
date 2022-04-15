@@ -92,10 +92,13 @@ export const fetchTopGraph = (granularity?: number) => async (dispatch: any) => 
 };
 
 /* Action to fetch products database */
-export const fetchSubCharts = () => async (dispatch: any, getState: any) => {
+export const fetchSubCharts = (payload?: SubChartSettings) => async (
+  dispatch: any,
+  getState: any
+) => {
   dispatch(isLoadingSubCharts(true));
   const state = getState();
-  const chartSettings: SubChartSettings = getSubChartSettings(state);
+  const chartSettings: SubChartSettings = payload ? payload : getSubChartSettings(state);
   const type = encodeURIComponent(chartSettings.types.join(','));
   const dates =
     `&start_date=` + `${chartSettings.start_date}` + `&end_date=${chartSettings.end_date}`;

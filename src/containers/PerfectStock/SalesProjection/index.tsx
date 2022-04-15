@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import JoyRide from 'react-joyride';
+import axios from 'axios';
 
 /* Actions */
 import {
@@ -11,6 +12,7 @@ import { updatePerfectStockGetStartedStatus } from '../../../actions/UserOnboard
 
 /* Interfaces */
 import {
+  GraphDataSeries,
   SalesProjectionFilters,
   SalesProjectionPayload,
 } from '../../../interfaces/PerfectStock/SalesProjection';
@@ -21,6 +23,7 @@ import {
   getIsFetchingProgressForRefresh,
   getRefreshProgress,
   getSalesProjectionFilters,
+  getSalesProjectionResults,
 } from '../../../selectors/PerfectStock/SalesProjection';
 import { getPerfectStockGetStartedStatus } from '../../../selectors/UserOnboarding';
 
@@ -28,6 +31,12 @@ import { getPerfectStockGetStartedStatus } from '../../../selectors/UserOnboardi
 import SalesProjectionMeta from './SalesProjectionMeta';
 import SalesProjectionTable from './SalesProjectionTable';
 import ProgressBar from '../../../components/ProgressBar';
+import TopGraph from './TopGraph';
+
+/* Utils */
+import { getDateOnly, addNumberOfDays } from '../../../utils/date';
+import { AppConfig } from '../../../config';
+import { sellerIDSelector } from '../../../selectors/Seller';
 
 const steps = [
   {
@@ -45,6 +54,7 @@ interface Props {
   isFetchingProgressForRefresh: boolean;
   fetchRefreshProgress: () => void;
   salesProjectionFilters: SalesProjectionFilters;
+  salesProjectionResult: any[];
 }
 
 const SalesProjection = (props: Props) => {
@@ -52,11 +62,51 @@ const SalesProjection = (props: Props) => {
     fetchSalesProjection,
     fetchRefreshProgress,
     salesProjectionFilters,
+    salesProjectionResult,
     refreshProgress,
     isFetchingProgressForRefresh,
     perfectStockGetStartedStatus,
     updatePerfectStockGetStartedStatus,
   } = props;
+
+  const [salesProjectionGraphData, setSalesProjectionGraphData] = React.useState<GraphDataSeries[]>(
+    []
+  );
+
+  const fetchSalesProjectionChart = async (granularity?: number) => {
+    if (!salesProjectionResult || salesProjectionResult.length === 0) {
+      return;
+    }
+    const type = encodeURIComponent('revenue');
+    const dates =
+      `&start_date=` +
+      `${getDateOnly(new Date())}` +
+      `&end_date=${getDateOnly(addNumberOfDays(new Date(), 365))}`;
+    const granularityString = `&granularity=${granularity || 1}`;
+    const merchantListingIds = `&merchant_listing_ids=${salesProjectionResult.map(
+      item => item.merchant_listing_id
+    )}`;
+    const url = `${
+      AppConfig.BASE_URL_API
+    }sellers/${sellerIDSelector()}/cash-flow-chart?types=${type}${dates}${granularityString}${merchantListingIds}`;
+    const { data } = await axios.get(url);
+    const mainGraph = data[0];
+    const chartData = mainGraph.data.map((item: any) => [
+      new Date(item.date).getTime(),
+      parseFloat(item.amount),
+    ]);
+    setSalesProjectionGraphData([
+      {
+        name: 'Revenue',
+        type: 'line',
+        data: chartData,
+      },
+    ]);
+  };
+
+  React.useEffect(() => {
+    fetchSalesProjectionChart();
+  }, [salesProjectionResult]);
 
   React.useEffect(() => {
     fetchSalesProjection({});
@@ -68,6 +118,11 @@ const SalesProjection = (props: Props) => {
         fetchProgress={fetchRefreshProgress}
         progress={refreshProgress}
         shouldFetchProgress={isFetchingProgressForRefresh}
+      />
+      <TopGraph
+        fetchMainChart={fetchSalesProjectionChart}
+        isLoading={false}
+        data={salesProjectionGraphData}
       />
       <SalesProjectionMeta />
       <SalesProjectionTable />
@@ -93,6 +148,7 @@ const mapStateToProps = (state: any) => {
     isFetchingProgressForRefresh: getIsFetchingProgressForRefresh(state),
     perfectStockGetStartedStatus: getPerfectStockGetStartedStatus(state),
     salesProjectionFilters: getSalesProjectionFilters(state),
+    salesProjectionResult: getSalesProjectionResults(state),
   };
 };
 
