@@ -25,6 +25,7 @@ const EditProductRow = (props: Props) => {
   );
 
   const updateInventorySku = async (shippingCost: string) => {
+    shippingCost = shippingCost.replace(',', '');
     const id = orderId;
     updatePurchaseOrder({
       id,
@@ -79,20 +80,20 @@ const EditProductRow = (props: Props) => {
       />
       <StatBox title={'Cost Per Unit'} stat={rowData.product_cost} prepend="$" asFloat />
       <StatBox
-        title={'Est. Shipping/ Unit'}
+        title={`Est. \nShipping/ Unit`}
         stat={rowData.shipping_cost_per_unit}
         prepend="$"
         asFloat
       />
       <StatBox
-        title={'Cost + Shipping Per Unit'}
+        title={`Cost + Shipping \nPer Unit`}
         stat={rowData.cost_plus_shipping_per_unit}
         asFloat
         prepend="$"
       />
       <StatBox title={'Total Cost'} stat={rowData.total_cost} prepend="$" asFloat />
       <StatBox
-        title={'Est. Shipping Cost'}
+        title={`Est. \nShipping Cost`}
         stat={rowData.total_shipping_cost}
         prepend="$"
         asFloat
@@ -102,7 +103,7 @@ const EditProductRow = (props: Props) => {
         handleEditSave={updateInventorySku}
       />
       <StatBox
-        title={'Total Cost with Shipping'}
+        title={`Total Cost \nwith Shipping`}
         stat={rowData.total_cost_plus_shipping}
         prepend="$"
         asFloat

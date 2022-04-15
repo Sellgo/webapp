@@ -38,7 +38,7 @@ const QuickWin = () => {
           </div>
           {isInTypeform ? (
             <Widget
-              id={AppConfig.QUICK_WIN_SURVEY_ID}
+              id={AppConfig.AISTOCK_ONBOARDING_SURVEY}
               className={styles.typeFormBox}
               onSubmit={() => setModalOpen(false)}
             />

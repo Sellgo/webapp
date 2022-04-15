@@ -50,7 +50,7 @@ const ActionsIconCell = (props: Props) => {
   );
 
   React.useEffect(() => {
-    if (triggers.length > 0) {
+    if (triggers?.length > 0) {
       setAvailableTriggers(triggers);
     }
   }, [triggers]);

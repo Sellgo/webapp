@@ -1,5 +1,4 @@
 import React from 'react';
-import { Checkbox } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -10,6 +9,7 @@ import RadioRow from '../../../../../components/RadioRow';
 
 /* Interfaces */
 import { CreateOrderPayload } from '../../../../../interfaces/PerfectStock/OrderPlanning';
+import InputTabSelection from '../../../../../components/InputTabSelection';
 
 interface Props {
   onCloseModal: () => void;
@@ -23,6 +23,20 @@ const OrderTypeSelection = (props: Props) => {
   const [orderType, setOrderType] = React.useState<'single' | 'multiple'>('single');
   const [smartOrderInterval, setSmartOrderInterval] = React.useState<number | null>(null);
 
+  const smartOrderIntervalsOptions = [
+    {
+      value: null,
+      label: 'Next Order',
+    },
+    {
+      value: 365,
+      label: '12 Months',
+    },
+    {
+      value: 730,
+      label: '24 Months',
+    },
+  ];
   const handleSubmit = () => {
     if (orderType === 'single') {
       setCreateOrderPayload({
@@ -48,29 +62,21 @@ const OrderTypeSelection = (props: Props) => {
         </RadioRow>
         <RadioRow handleChange={() => setOrderType('multiple')} checked={orderType === 'multiple'}>
           Streamline Smart Order &nbsp;
-          <div className={styles.intervalWrapper}>
-            <Checkbox
-              checked={smartOrderInterval === null}
-              radio
-              label="Only for the next order"
-              className={styles.intervalWrapper__interval}
-              onChange={() => setSmartOrderInterval(null)}
-            />
-            <Checkbox
-              checked={smartOrderInterval === 365}
-              onChange={() => setSmartOrderInterval(365)}
-              radio
-              label="Future 12 months"
-              className={styles.intervalWrapper__interval}
-            />
-            <Checkbox
-              checked={smartOrderInterval === 730}
-              onChange={() => setSmartOrderInterval(730)}
-              radio
-              label="Future 24 months"
-              className={styles.intervalWrapper__interval}
-            />
-          </div>
+          <InputTabSelection
+            selectedOption={
+              smartOrderIntervalsOptions.find(option => option.value === smartOrderInterval)
+                ?.label || ''
+            }
+            options={smartOrderIntervalsOptions.map(interval => interval.label)}
+            setSelectedOption={(option: string) =>
+              setSmartOrderInterval(
+                smartOrderIntervalsOptions.find(interval => interval.label === option)?.value ||
+                  null
+              )
+            }
+            isPurple
+            className={styles.inputTabSelection}
+          />
         </RadioRow>
       </div>
       <span className={styles.helperMessage}>
@@ -92,7 +98,7 @@ const OrderTypeSelection = (props: Props) => {
           type="purpleGradient"
           size="md"
         >
-          Next
+          Continue
         </ActionButton>
       </div>
     </div>

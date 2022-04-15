@@ -72,7 +72,7 @@ const SetPrioritySkuPopup = (props: Props) => {
             isNumber
             isPositiveOnly
             value={stockLevelThreshold?.toString() || ''}
-            handleChange={value => setStockLevelThreshold(parseFloat(value))}
+            handleChange={value => setStockLevelThreshold(value ? parseFloat(value) : 0)}
             className={styles.inputFilter}
           />
           % of target SKU&apos;s stock level
@@ -87,7 +87,7 @@ const SetPrioritySkuPopup = (props: Props) => {
             isNumber
             isPositiveOnly
             value={dusThreshold?.toString() || ''}
-            handleChange={value => setDusThreshold(parseInt(value))}
+            handleChange={value => setDusThreshold(value ? parseInt(value) : 0)}
             className={styles.inputFilter}
           />
           &nbsp;of target SKU&apos;s days until stockout

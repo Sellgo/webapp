@@ -13,6 +13,14 @@
   background: none;
 }
 
+.timeLine-edit-order {
+  background: none;
+  position: absolute;
+  bottom: 20px;
+  right: 50px;
+  z-index: 9;
+}
+
 /* Main Area */
 
 .timeLine-main {
@@ -93,12 +101,13 @@
   /* --------------------- 48px = day width --------------------- */
 
   /* ============================================================ */
-  background: url('../../assets/images/ganttChartLine.svg') !important;
-  background-size: 43px !important;
-  background-repeat: repeat !important;
+  background:
+    url('../../assets/images/aistockLogoBg.png') no-repeat center,
+    url('../../assets/images/ganttChartLine.svg') 43px repeat !important;
 }
 
 .timeLine-main-data-container {
+  z-index: 5;
   position: relative;
   top: 0;
   left: 0;
@@ -377,5 +386,10 @@
 
   i {
     color: $grey_6 !important;
+  }
+
+  &__disabled {
+    pointer-events: none;
+    opacity: 0.3;
   }
 }

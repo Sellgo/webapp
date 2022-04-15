@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Modal, Dimmer, Loader } from 'semantic-ui-react';
+import { Modal, Dimmer, Loader, Confirm, Icon } from 'semantic-ui-react';
 
 /* Components */
 // @ts-ignore
@@ -27,6 +27,7 @@ import {
 /* Selectors */
 import {
   getActivePurchaseOrder,
+  getIsLoadingInventoryTableResults,
   getIsLoadingPurchaseOrders,
   getPurchaseOrders,
   getPurchaseOrdersLoadingMessage,
@@ -76,6 +77,7 @@ interface Props {
   activePurchaseOrder: GanttChartPurchaseOrder;
   purchaseOrders: PurchaseOrder[];
   isLoadingPurchaseOrders: boolean;
+  isLoadingInventoryTableResults: boolean;
   purchaseOrdersLoadingMessage: string;
   timeSetting: TimeSetting;
 
@@ -93,6 +95,7 @@ const OrderGanttChart = (props: Props) => {
     purchaseOrders,
     purchaseOrdersLoadingMessage,
     isLoadingPurchaseOrders,
+    isLoadingInventoryTableResults,
     updatePurchaseOrder,
     setActivePurchaseOrder,
     activePurchaseOrder,
@@ -112,6 +115,7 @@ const OrderGanttChart = (props: Props) => {
     isDraftMode,
   } = props;
 
+  const [isChartExpanded, setIsChartExpanded] = React.useState(false);
   /* ================================================================ */
   /* Generating next order */
   /* ================================================================ */
@@ -359,6 +363,60 @@ const OrderGanttChart = (props: Props) => {
     history.push(`/aistock/create-order`);
   };
 
+  const handleEditActiveTask = () => {
+    if (activePurchaseOrder.id !== -1 && activePurchaseOrder.id) {
+      handleSelectTask(activePurchaseOrder);
+    } else if (ganttChartPurchaseOrders.length > 1) {
+      handleSelectTask(ganttChartPurchaseOrders[1]);
+    }
+    history.push(`/aistock/create-order`);
+  };
+
+  /* ===================================== */
+  /* Checked purchase orders */
+  /* ===================================== */
+  const [checkedPurchaseOrders, setCheckedPurchaseOrders] = React.useState<
+    GanttChartPurchaseOrder[]
+  >([]);
+  const [deletingPurchaseOrders, setDeletingPurchaseOrders] = React.useState<boolean>(false);
+
+  const handleCheckPurchaseOrder = (payload: GanttChartPurchaseOrder) => {
+    if (payload.id === -1) {
+      if (checkedPurchaseOrders.length === ganttChartPurchaseOrders.length) {
+        setCheckedPurchaseOrders([]);
+      } else {
+        setCheckedPurchaseOrders(ganttChartPurchaseOrders);
+      }
+      return;
+    }
+
+    if (checkedPurchaseOrders.find((po: GanttChartPurchaseOrder) => po.id === payload.id)) {
+      setCheckedPurchaseOrders(
+        checkedPurchaseOrders.filter((po: GanttChartPurchaseOrder) => po.id !== payload.id)
+      );
+    } else {
+      setCheckedPurchaseOrders([...checkedPurchaseOrders, payload]);
+    }
+  };
+
+  const handleDeleteSelectedTasks = () => {
+    const purchaseOrderIds = checkedPurchaseOrders.map(
+      (purchaseOrder: GanttChartPurchaseOrder) => purchaseOrder.id
+    );
+    updatePurchaseOrder({
+      purchase_order_ids: purchaseOrderIds.filter((id: number) => id !== -1),
+      status: 'inactive',
+    });
+
+    /* If current url is create-order, push to /order */
+    if (
+      window.location.pathname === '/aistock/create-order' &&
+      ganttChartPurchaseOrders.length === 0
+    ) {
+      history.push('/aistock/order');
+    }
+  };
+
   React.useEffect(() => {
     fetchPurchaseOrders();
   }, []);
@@ -369,15 +427,20 @@ const OrderGanttChart = (props: Props) => {
         <div
           className={`
           ${styles.ganttChart} 
+          ${isChartExpanded ? styles.ganttChart__expanded : ''}
           ${hideBottomBorder ? styles.ganttChart__hideBottomBorder : ''}`}
         >
-          <Dimmer active={isLoadingPurchaseOrders} inverted className={styles.dimmerContent}>
+          <Dimmer
+            active={isLoadingPurchaseOrders || isLoadingInventoryTableResults}
+            inverted
+            className={styles.dimmerContent}
+          >
             <Loader inline />
             <p>{purchaseOrdersLoadingMessage}</p>
           </Dimmer>
           <TimeLine
             /* Default Props */
-            isLoading={isLoadingPurchaseOrders}
+            isLoading={isLoadingPurchaseOrders || isLoadingInventoryTableResults}
             onUpdateTask={handleUpdateTask}
             data={ganttChartPurchaseOrders}
             mode={timeSetting}
@@ -388,10 +451,13 @@ const OrderGanttChart = (props: Props) => {
             }}
             sideWidth={OFFSET_TO_CHART_WIDTH - 18}
             unitWidth={UNIT_WIDTH}
+            checkedPurchaseOrders={checkedPurchaseOrders}
             handleChangeMode={handleChangeTimeSetting}
             handleDeleteTask={handleDeleteTask}
             handleDeleteAllTasks={handleDeleteAllTasks}
             handleEditTask={handleEditTask}
+            handleEditActiveTask={handleEditActiveTask}
+            handleCheckPurchaseOrder={handleCheckPurchaseOrder}
             viewFilterOptions={viewFilterOptions}
             handleChangeFilterOption={handleChangeFilterOption}
             viewFilter={viewFilter}
@@ -406,10 +472,22 @@ const OrderGanttChart = (props: Props) => {
             isDraftMode={isDraftMode}
             generateNextOrder={handleGenerateNextOrderClick}
             handleSetPrioritySku={handleSetPrioritySkuClick}
+            handleDeleteSelectedTasks={() => setDeletingPurchaseOrders(true)}
             handleAlignOrder={handleAlignOrder}
             handleConnectTpl={handleConnectTpl}
             handleDisconnectTpl={handleDisconnectTpl}
           />
+
+          <button
+            onClick={() => setIsChartExpanded(!isChartExpanded)}
+            className={styles.expandButton}
+          >
+            {isChartExpanded ? (
+              <Icon name="compress" size="huge" />
+            ) : (
+              <Icon name="expand" size="huge" />
+            )}
+          </button>
 
           <Modal
             open={isAutoGeneratingNextOrder}
@@ -457,6 +535,15 @@ const OrderGanttChart = (props: Props) => {
             onClose={() => setIsConnectingTpl(false)}
             className={styles.setPrioritySkuModal}
           />
+          <Confirm
+            content={'Delete selected orders?'}
+            open={deletingPurchaseOrders}
+            onCancel={() => setDeletingPurchaseOrders(false)}
+            onConfirm={() => {
+              setDeletingPurchaseOrders(false);
+              handleDeleteSelectedTasks();
+            }}
+          />
         </div>
       </div>
     </>
@@ -469,6 +556,7 @@ const mapStateToProps = (state: any) => {
     purchaseOrders: getPurchaseOrders(state),
     purchaseOrdersLoadingMessage: getPurchaseOrdersLoadingMessage(state),
     isLoadingPurchaseOrders: getIsLoadingPurchaseOrders(state),
+    isLoadingInventoryTableResults: getIsLoadingInventoryTableResults(state),
     activePurchaseOrder: getActivePurchaseOrder(state),
   };
 };

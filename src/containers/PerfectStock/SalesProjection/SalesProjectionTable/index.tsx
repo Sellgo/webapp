@@ -19,6 +19,7 @@ import SalesEstimationStat from './SalesEstimationStat';
 import StockOutDate from './StockOutDate';
 import SalesPrediction from './SalesPrediction';
 import InventoryThreshold from './InventoryThreshold';
+import WeightedAverage from './WeightedAverage';
 
 /* Components */
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
@@ -190,6 +191,20 @@ const SalesEstimationTable = (props: Props) => {
             <InventoryThreshold dataKey="inventory_threshold" />
           </Table.Column>
 
+          {/* Inventory Threshold  */}
+          <Table.Column width={112} verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Weighted Avg Sales`}
+                dataKey="avg_l30d_weight"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+                alignMiddle
+                disableSort
+              />
+            </Table.HeaderCell>
+            <WeightedAverage dataKey="avg_l30d_weight" onChange={handleExpansion} />
+          </Table.Column>
           {/* Average Last 90 Day */}
           <Table.Column width={112} sortable verticalAlign="middle" align="center">
             <Table.HeaderCell>

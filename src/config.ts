@@ -24,6 +24,7 @@ const DEV_KEYS = {
   CHURNFLOW_SURVEY_ID: 'Lb8og4j8',
   QUICK_WIN_SURVEY_ID: 'IjxdqPK3',
   BETA_FORM_ID: 'pvnHf0f6',
+  AISTOCK_ONBOARDING_SURVEY: 'aJnr8gje',
   AISTOCK_SURVEY: 'H1yQNE6a',
   ELEVIO_KEY: '6228edc3bb20d',
 };
@@ -36,6 +37,7 @@ const PROD_KEYS = {
   CHURNFLOW_SURVEY_ID: 'Lb8og4j8',
   QUICK_WIN_SURVEY_ID: 'IjxdqPK3',
   BETA_FORM_ID: 'pvnHf0f6',
+  AISTOCK_ONBOARDING_SURVEY: 'aJnr8gje',
   AISTOCK_SURVEY: 'H1yQNE6a',
   ELEVIO_KEY: '6228edc3bb20d',
 };
@@ -53,7 +55,8 @@ const PROD_AUTH_CONFIG = {
 };
 
 const DEV_ANALYTICS = {
-  gaTrackingId: 'UA-154653584-1',
+  // gaTrackingId: 'UA-154653584-1',
+  gaTrackingId: 'G-1SKP5HZZJT',
   fullStoryOrgId: 'Q36Y3',
 };
 

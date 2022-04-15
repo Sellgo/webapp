@@ -37,7 +37,7 @@
 .inputRadioRow {
   border-radius: 7px;
   height: 67px;
-  width: 650px;
+  width: 700px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -45,7 +45,7 @@
   align-items: flex-start;
   padding: 0 30px;
   border: 1px solid $grey_3;
-  color: $black_1;
+  color: $grey_8;
   font-size: 14px;
   font-weight: $fontweight_medium;
   margin-top: 10px;
@@ -58,18 +58,20 @@
 
   p {
     margin-top: 5px;
+    margin-left: 25px;
     font-size: 12px;
-    color: $black_1;
+    color: $grey_8;
     font-weight: $fontweight_medium;
 
     span {
       text-decoration: underline;
+      font-weight: $fontweight_semibold;
     }
   }
 
   &__selected {
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1);
-    font-weight: $fontweight_semibold !important;
+    font-weight: $fontweight_bold !important;
     background: $grey_10;
     opacity: 1;
   }

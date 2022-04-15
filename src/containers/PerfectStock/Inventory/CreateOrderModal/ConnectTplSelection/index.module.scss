@@ -1,0 +1,66 @@
+@import '../../../../../design-system/new-colors';
+
+.createOrderWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.createOrderBox {
+  min-width: 0 !important;
+  padding: 30px;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    line-height: normal;
+    font-size: 24px;
+    font-weight: $fontweight_bold;
+    color: $black_1;
+    margin-bottom: 30px;
+  }
+}
+
+.tplVendorsContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.tplRow {
+  display: flex;
+  margin-bottom: 18px;
+  align-items: center;
+}
+
+.tplVendorRadio {
+  margin-bottom: 0;
+}
+
+.inputBox {
+  margin-top: 30px;
+  display: flex;
+  align-items: flex-end;
+  width: 400px;
+  justify-content: space-evenly;
+  margin-bottom: 30px;
+}
+
+.buttonsRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 150px;
+
+  > div {
+    margin-left: 18px;
+  }
+}
+
+.helperMessage {
+  margin-top: 50px;
+  font-size: 10px;
+  color: $grey_8;
+  text-align: center;
+}

@@ -222,7 +222,7 @@ export const setDraftTemplates = (payload: DraftOrderTemplate[]) => {
 
 /*********** Async Actions ************************ */
 /* Action to fetch purchase orders */
-export const fetchPurchaseOrders = () => async (dispatch: any) => {
+export const fetchPurchaseOrders = () => async (dispatch: any, getState: any) => {
   try {
     const sellerId = sellerIDSelector();
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders`;
@@ -232,6 +232,18 @@ export const fetchPurchaseOrders = () => async (dispatch: any) => {
 
     if (data) {
       dispatch(setPurchaseOrders(data));
+
+      /* Replace active purchase order */
+      const state = getState();
+      const activePurchaseOrder = getActivePurchaseOrder(state);
+      if (activePurchaseOrder) {
+        const activePurchaseOrderIndex = data.findIndex(
+          (purchaseOrder: PurchaseOrder) => purchaseOrder.id === activePurchaseOrder.id
+        );
+        if (activePurchaseOrderIndex > -1) {
+          dispatch(setActivePurchaseOrder(data[activePurchaseOrderIndex]));
+        }
+      }
     }
   } catch (err) {
     dispatch(setPurchaseOrders([]));
@@ -387,8 +399,27 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-orders${
       payload.id ? `/${payload.id}` : ''
     }`;
-    const { status } = await axios.patch(URL, requestPayload);
+    const { status, data } = await axios.patch(URL, requestPayload);
+    const jobId = data.perfect_stock_job_id;
+
     if (status === 200) {
+      const { data } = await axios.get(
+        `${
+          AppConfig.BASE_URL_API
+        }sellers/${sellerIDSelector()}/perfect-stock/job/progress?perfect_stock_job_id=${jobId}`
+      );
+      let backgroundStatus = data.status;
+      /* Block until data.status === completed */
+      while (backgroundStatus === 'processing') {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        const { data } = await axios.get(
+          `${
+            AppConfig.BASE_URL_API
+          }sellers/${sellerIDSelector()}/perfect-stock/job/progress?perfect_stock_job_id=${jobId}`
+        );
+        backgroundStatus = data.status;
+      }
+
       dispatch(fetchInventoryTable({}));
 
       /* Refresh purchase orders if updating vendor 3pl or deleted purchase order */
@@ -469,7 +500,7 @@ export const fetchInventoryTable = (payload: InventoryTablePayload) => async (
       `&page=1` +
       `&per_page=100` +
       `${activePurchaseOrder.id !== -1 ? `&purchase_order_ids=${activePurchaseOrder.id}` : ''}` +
-      `&sort=${sort}` +
+      `&sort=${sort || 'id'}` +
       `&sort_direction=${sortDir}` +
       `${filtersPath}`;
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/order-plan-overview?${resourceString}`;

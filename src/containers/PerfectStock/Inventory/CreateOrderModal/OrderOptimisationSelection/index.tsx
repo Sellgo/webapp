@@ -32,7 +32,7 @@ const OrderOptimisationSelection = (props: Props) => {
   return (
     <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>
-        <h2>How would you like to optimize your Smart Order?*</h2>
+        <h2>How would you like to optimize your Smart Order?</h2>
         <div
           className={`
             ${styles.inputRadioRow} 
@@ -43,7 +43,7 @@ const OrderOptimisationSelection = (props: Props) => {
           <Checkbox
             radio
             checked={approach === 'moq'}
-            label="MOQ/ MINIMUM ORDER QUANTITY OPTIMIZATION"
+            label="MOQ/ Minimum Order Quantity Optimization"
             className={styles.inputRadioRow__radio}
           />
           <p>
@@ -60,7 +60,7 @@ const OrderOptimisationSelection = (props: Props) => {
           <Checkbox
             radio
             checked={approach === 'inventory'}
-            label="INVENTORY-LEVEL OPTIMIZATION"
+            label="Inventory-level Optimization"
             className={styles.inputRadioRow__radio}
           />
           <p>
@@ -80,7 +80,7 @@ const OrderOptimisationSelection = (props: Props) => {
           <Checkbox
             radio
             checked={approach === 'timebound'}
-            label="TIME-BOUND OPTIMIZATION"
+            label="Time-bound Optimization"
             className={styles.inputRadioRow__radio}
           />
           <p>
@@ -97,7 +97,7 @@ const OrderOptimisationSelection = (props: Props) => {
           variant="reset"
           size="md"
         >
-          Previous
+          Back
         </ActionButton>
         <ActionButton
           className={styles.createButton}
@@ -106,7 +106,7 @@ const OrderOptimisationSelection = (props: Props) => {
           type="purpleGradient"
           size="md"
         >
-          Next
+          Continue
         </ActionButton>
       </div>
     </div>

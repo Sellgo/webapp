@@ -43,26 +43,46 @@
   display: flex;
   align-items: center;
   border: 1px solid $grey_3;
-  color: $black_1;
-  font-size: 14px;
-  font-weight: $fontweight_medium;
   margin-top: 10px;
   opacity: 0.5;
 
-  .inputFilter {
-    width: 70px !important;
-    min-width: 0;
-  }
-
   &__selected {
     opacity: 1;
-    font-weight: $fontweight_semibold !important;
+    font-weight: $fontweight_bold !important;
     background: $grey_10;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1);
   }
 
   &:hover {
     background: $grey_10;
+  }
+}
+
+.inputRadioRowText {
+  margin-left: 10px;
+  color: $grey_8;
+  font-size: 14px;
+  font-weight: $fontweight_medium;
+
+  p {
+    margin: 0;
+    font-weight: $fontweight_semibold;
+  }
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  .inputFilter {
+    width: 70px !important;
+    height: 25px !important;
+    min-width: 0;
+
+    input {
+      height: 25px !important;
+    }
   }
 }
 

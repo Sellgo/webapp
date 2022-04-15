@@ -25,6 +25,23 @@
     border-bottom-right-radius: 0;
     border-bottom: none;
   }
+
+  &__expanded {
+    min-height: 80vh;
+    max-height: 80vh;
+  }
+}
+
+.expandButton {
+  background: none;
+  position: absolute;
+  bottom: 22px;
+  right: 10px;
+
+  i {
+    font-size: 26px !important;
+    color: $grey_8 !important;
+  }
 }
 
 .dimmerContent {
@@ -64,7 +81,7 @@
   justify-content: space-between;
 
   i {
-    color: $grey_6;
+    color: $grey_8;
   }
 }
 

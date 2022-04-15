@@ -38,7 +38,7 @@ const SkuSelection = (props: Props) => {
   const [addedSkus, setAddedSkus] = React.useState<any[]>(
     createOrderPayload.merchant_listings || []
   );
-  const [enableMOQ, setEnableMOQ] = React.useState<boolean>(isMoqApproach);
+  const [enableMOQ, setEnableMOQ] = React.useState<boolean>(true);
   const addedSkuIds = addedSkus.map((sku: any) => sku.id.toString());
 
   const fetchOrderProducts = async () => {
@@ -114,7 +114,7 @@ const SkuSelection = (props: Props) => {
         <div className={styles.skuSelectMeta}>
           <SelectionProductFilter
             className={styles.assignProductsField}
-            label="Please add your SKU for this Smart Order:"
+            label="Please add your SKU for this Order:"
             filterOptions={orderProductOptions}
             value={addedSkuIds}
             handleChange={handleAddSku}
@@ -179,7 +179,7 @@ const SkuSelection = (props: Props) => {
           variant="reset"
           size="md"
         >
-          Previous
+          Back
         </ActionButton>
         <div>
           <ActionButton
@@ -189,7 +189,7 @@ const SkuSelection = (props: Props) => {
             type="purpleGradient"
             size="md"
           >
-            Next
+            Continue
           </ActionButton>
         </div>
       </div>

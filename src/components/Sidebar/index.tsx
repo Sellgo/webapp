@@ -64,11 +64,37 @@ const Sidebar = (props: Props) => {
     });
   };
 
+  const handleEnableNavOption = (label: string, options: NavOptions) => {
+    return options.map((mainOption: NavbarBarOption) => {
+      if (mainOption.label === label) {
+        mainOption.disabled = false;
+
+        mainOption.subOptions &&
+          mainOption.subOptions.map((subOption: NavbarBarOption) => {
+            subOption.disabled = false;
+            return subOption;
+          });
+      } else {
+        mainOption.subOptions &&
+          mainOption.subOptions.map((subOption: NavbarBarOption) => {
+            if (subOption.label === label) {
+              subOption.disabled = false;
+            }
+            return subOption;
+          });
+      }
+      return mainOption;
+    });
+  };
+
   const handleUpdateNavPath = (oldPath: string, newPath: string, options: NavOptions) => {
     return options.map((mainOption: NavbarBarOption) => {
       mainOption.subOptions &&
         mainOption.subOptions.map((subOption: NavbarBarOption) => {
-          if (subOption.path === oldPath) {
+          if (
+            subOption.path === oldPath ||
+            (subOption.path.includes('/profit-finder') && oldPath.includes('/profit-finder'))
+          ) {
             subOption.path = newPath;
           }
           return subOption;
@@ -77,6 +103,32 @@ const Sidebar = (props: Props) => {
     });
   };
 
+  React.useEffect(() => {
+    let newNavOptions: NavOptions = [...navOptions];
+
+    /* Disable menu for free subscriptions */
+    if (
+      isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) ||
+      isBetaAccount(sellerSubscription)
+    ) {
+      newNavOptions = handleDisableNavOption('Product Research', newNavOptions);
+      newNavOptions = handleDisableNavOption('Wholesale Bulk Analysis', newNavOptions);
+      newNavOptions = handleDisableNavOption('Seller Research', newNavOptions);
+      newNavOptions = handleDisableNavOption('Keyword Research', newNavOptions);
+    }
+
+    /* Disable everything else for AI stock, applies ONLY TO BETA */
+    if (isAiStock(sellerSubscription)) {
+      newNavOptions = handleDisableNavOption('Product Research', newNavOptions);
+      newNavOptions = handleDisableNavOption('Wholesale Bulk Analysis', newNavOptions);
+      newNavOptions = handleDisableNavOption('Seller Research', newNavOptions);
+      newNavOptions = handleDisableNavOption('Keyword Research', newNavOptions);
+    }
+
+    setNavOptions(newNavOptions);
+  }, []);
+
+  /* Update path on changes */
   React.useEffect(() => {
     let newNavOptions: NavOptions = [...navOptions];
 
@@ -95,31 +147,13 @@ const Sidebar = (props: Props) => {
     /* Disable profit finder if no supplier file is available */
     if (supplier_id.length === 0) {
       newNavOptions = handleDisableNavOption('Profit Finder', newNavOptions);
-    }
-
-    /* Disable menu for free subscriptions */
-    if (
-      isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) ||
-      isBetaAccount(sellerSubscription) ||
-      isAiStock(sellerSubscription)
-    ) {
-      newNavOptions = handleDisableNavOption('Product Research', newNavOptions);
-      newNavOptions = handleDisableNavOption('Wholesale Bulk Analysis', newNavOptions);
-      newNavOptions = handleDisableNavOption('Seller Research', newNavOptions);
-      newNavOptions = handleDisableNavOption('Keyword Research', newNavOptions);
-    }
-
-    if (!isAiStock(sellerSubscription)) {
-      newNavOptions = handleDisableNavOption('Ai Stock', newNavOptions);
+    } else {
+      newNavOptions = handleEnableNavOption('Profit Finder', newNavOptions);
     }
 
     setNavOptions(newNavOptions);
-  }, []);
-
-  /* Update path on changes */
-  React.useEffect(() => {
     setCurrentPath(match.url);
-  }, [match]);
+  }, [match.url]);
 
   const handleSetExpandedIndex = (e: any, titleProps: any) => {
     const { index } = titleProps;

@@ -36,20 +36,21 @@
 }
 
 .instructionsBox {
-  margin-left: 18px;
+  margin-left: 11px;
   background: $prim_white;
   border-radius: 7px;
   margin-top: 50px;
   width: 450px;
-  max-height: 500px;
+  max-height: 700px;
   overflow-y: scroll;
   border: 1px solid $grey_3;
   padding: 18px;
-  font-weight: $fontweight_bold;
+  font-size: 12px;
+  font-weight: $fontweight_medium;
   color: $grey_8;
   text-transform: uppercase;
 
   > span {
-    margin-bottom: 300px;
+    margin-bottom: 100px;
   }
 }

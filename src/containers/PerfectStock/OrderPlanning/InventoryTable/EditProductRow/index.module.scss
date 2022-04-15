@@ -3,7 +3,7 @@
 .editProductRow {
   display: flex;
   height: 100%;
-  padding-left: 174px;
+  padding-left: 172px;
 }
 
 .emptyStatBox {
@@ -11,7 +11,7 @@
 }
 
 .daysUntilStockout {
-  width: 200px;
+  min-width: 200px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;

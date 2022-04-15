@@ -35,26 +35,8 @@
   }
 }
 
-.intervalWrapper {
-  align-self: flex-end;
-  margin: 18px 0;
-  margin-left: auto;
-  display: flex;
-  flex-direction: column !important;
-
-  &__interval {
-    background: $prim_white;
-    border-radius: 7px;
-    border: 1px solid $grey_3;
-    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1);
-    margin-bottom: 5px;
-    padding: 10px 18px;
-
-    label {
-      font-size: 12px !important;
-      color: $black_1 !important;
-    }
-  }
+.inputTabSelection {
+  margin: auto 18px;
 }
 
 .helperMessage {

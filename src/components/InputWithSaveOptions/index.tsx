@@ -1,11 +1,15 @@
 import React, { memo } from 'react';
+import { Popup } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
 
+/* Components */
 import InputFilter from '../FormFilters/InputFilter';
 import SaveCancelOptions from '../SaveCancelOptions';
-import { Popup } from 'semantic-ui-react';
+
+/* Utils */
+import { commify } from '../../utils/format';
 
 interface Props {
   isNumber?: boolean;
@@ -42,17 +46,26 @@ const InputWithSaveOptions = (props: Props) => {
 
   React.useEffect(() => {
     if (defaultValue) {
-      setUpdatedValue(defaultValue.toString());
+      setUpdatedValue(commify(defaultValue.toString()));
     }
   }, [defaultValue]);
 
   const handleDiscardChanges = () => {
     setIsEditingValue(false);
-    setUpdatedValue(defaultValue.toString());
+    if (defaultValue) {
+      setUpdatedValue(isNumber ? commify(defaultValue.toString()) : defaultValue.toString());
+    } else {
+      setUpdatedValue('');
+    }
   };
 
   const handleSaveAndClose = () => {
-    handleSave(updatedValue);
+    if (isNumber) {
+      const numberWithoutCommas = updatedValue.replace(',', '');
+      handleSave(numberWithoutCommas);
+    } else {
+      handleSave(updatedValue);
+    }
     setIsEditingValue(false);
   };
 
@@ -71,8 +84,9 @@ const InputWithSaveOptions = (props: Props) => {
   };
 
   React.useEffect(() => {
+    const updatedValueWithoutCommas = updatedValue.replace(',', '');
     const newDefaultValue = defaultValue ? defaultValue.toString() : '';
-    if (newDefaultValue !== updatedValue) {
+    if (newDefaultValue !== updatedValueWithoutCommas) {
       setIsEditingValue(true);
     } else {
       setIsEditingValue(false);
@@ -100,6 +114,7 @@ const InputWithSaveOptions = (props: Props) => {
           isInteger={isInteger}
           label={label}
           disabled={disabled}
+          thousandSeperate
           className={`
               ${styles.textInput}
               ${className}

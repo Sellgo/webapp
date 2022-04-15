@@ -93,11 +93,11 @@ const PerfectStock: React.FC<Props> = props => {
   }, [match]);
 
   useEffect(() => {
-    if (selectedTabList === 0) {
+    if (selectedTabList === 1) {
       setUserOnboardingResources(salesProjectionOnboarding);
-    } else if (selectedTabList === 1) {
+    } else if (selectedTabList === 2) {
       setUserOnboardingResources(orderPlanningInventoryOnboarding);
-    } else {
+    } else if (selectedTabList === 3) {
       setUserOnboardingResources(orderPlanningEditOnboarding);
     }
   }, [selectedTabList]);
@@ -134,7 +134,7 @@ const PerfectStock: React.FC<Props> = props => {
           ]}
           auth={match.params.auth}
         />
-        <PreMigration match={match} />
+        <PreMigration />
       </>
     );
   } else if (
@@ -198,7 +198,7 @@ const PerfectStock: React.FC<Props> = props => {
             >
               <Tab>
                 <ProductLabel
-                  label="Home"
+                  label="Cash Flow"
                   icon="Perfect Stock Home"
                   isActive={selectedTabList === 0}
                   isBeta

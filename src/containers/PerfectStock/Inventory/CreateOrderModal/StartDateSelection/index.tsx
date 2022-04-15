@@ -18,20 +18,13 @@ import { error } from '../../../../../utils/notifications';
 
 interface Props {
   handlePrev: () => void;
-  handleCreateOrder: (payload: CreateOrderPayload) => void;
+  handleNext: () => void;
   createOrderPayload: CreateOrderPayload;
   setCreateOrderPayload: (payload: CreateOrderPayload) => void;
-  isCreateOrderLoading: boolean;
 }
 
 const StartDateSelection = (props: Props) => {
-  const {
-    handlePrev,
-    handleCreateOrder,
-    createOrderPayload,
-    setCreateOrderPayload,
-    isCreateOrderLoading,
-  } = props;
+  const { handlePrev, handleNext, createOrderPayload, setCreateOrderPayload } = props;
 
   const [dateType, setDateType] = React.useState<string>('Start Date');
   const [selectedDate, setSelectedDate] = React.useState<string>();
@@ -56,27 +49,30 @@ const StartDateSelection = (props: Props) => {
         end_date: dateType === 'Arrival Date' ? selectedDate : null,
       };
       setCreateOrderPayload(payload);
-      handleCreateOrder(payload);
+      handleNext();
     }
   };
 
   return (
     <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>
-        <h2>When would you like to date the first order?*</h2>
+        <h2>When would you like to date the first order?</h2>
         <div className={styles.inputBox}>
           <InputTabSelection
             options={['Start Date', 'Arrival Date']}
             selectedOption={dateType}
             setSelectedOption={setDateType}
+            isPurple={true}
           />
           <DatePicker
             oneTap
             selected={selectedDate ? new Date(selectedDate) : new Date()}
             onChange={onSelectDate}
-            disabledDate={(date: Date | undefined) =>
-              date ? date.getTime() < new Date().getTime() : false
-            }
+            disabledDate={(date: Date | undefined) => {
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+              return date ? date.getTime() < today.getTime() + today.getTimezoneOffset() : false;
+            }}
           />
         </div>
         <LeadTimeBar
@@ -99,7 +95,7 @@ const StartDateSelection = (props: Props) => {
           variant="reset"
           size="md"
         >
-          Previous
+          Back
         </ActionButton>
         <ActionButton
           className={styles.createButton}
@@ -107,9 +103,8 @@ const StartDateSelection = (props: Props) => {
           variant="secondary"
           type="purpleGradient"
           size="md"
-          loading={isCreateOrderLoading}
         >
-          Submit
+          Next
         </ActionButton>
       </div>
     </div>

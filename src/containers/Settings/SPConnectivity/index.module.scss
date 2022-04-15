@@ -9,15 +9,17 @@
 
 .elevioArticle {
   margin-top: 50px;
-  margin-left: 18px;
-  font-weight: $fontweight_bold;
+  margin-left: 11px;
+  font-size: 12px;
+  font-weight: $fontweight_medium;
+  border-radius: 7px;
   color: $grey_8;
   text-transform: uppercase;
-  height: 500px;
+  height: 700px;
   overflow-y: auto;
   min-width: 0;
 
   > span {
-    margin-bottom: 300px;
+    margin-bottom: 100px;
   }
 }

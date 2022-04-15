@@ -27,7 +27,11 @@ interface Props {
 
 const PrioritySkuSelection = (props: Props) => {
   const { handlePrev, handleNext, createOrderPayload, setCreateOrderPayload } = props;
-  const [selectedPrioritySku, setSelectedPrioritySku] = React.useState<number | null>(null);
+  const [selectedPrioritySku, setSelectedPrioritySku] = React.useState<number | null>(
+    createOrderPayload.merchant_listings?.length >= 1
+      ? createOrderPayload.merchant_listings[0].id
+      : null
+  );
 
   const handleSubmit = () => {
     if (selectedPrioritySku) {
@@ -48,7 +52,7 @@ const PrioritySkuSelection = (props: Props) => {
   return (
     <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>
-        <h2>Please select your priority SKU*</h2>
+        <h2>Please select your priority SKU</h2>
         <Table
           data={createOrderPayload.merchant_listings}
           height={300}
@@ -57,6 +61,7 @@ const PrioritySkuSelection = (props: Props) => {
           headerHeight={55}
           id="prioritySkuSelection"
           shouldUpdateScroll={false}
+          onRowClick={handleChange}
           //  Props for table expansion
           rowExpandedHeight={300}
         >
@@ -91,7 +96,7 @@ const PrioritySkuSelection = (props: Props) => {
           variant="reset"
           size="md"
         >
-          Previous
+          Back
         </ActionButton>
         <div>
           <ActionButton
@@ -101,7 +106,7 @@ const PrioritySkuSelection = (props: Props) => {
             type="purpleGradient"
             size="md"
           >
-            Next
+            Continue
           </ActionButton>
         </div>
       </div>

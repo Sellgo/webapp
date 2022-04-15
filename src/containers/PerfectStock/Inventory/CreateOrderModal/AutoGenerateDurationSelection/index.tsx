@@ -35,7 +35,7 @@ const CreateOrderSettings = (props: Props) => {
   return (
     <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>
-        <h2>How far would you like to auto-generate future draft P.O.?*</h2>
+        <h2>How far would you like to auto-generate future draft P.O.?</h2>
         <div className={styles.inputField}>
           <RadioListFilters
             label=""
@@ -55,7 +55,7 @@ const CreateOrderSettings = (props: Props) => {
           variant="reset"
           size="md"
         >
-          Previous
+          Back
         </ActionButton>
         <ActionButton
           className={styles.createButton}
@@ -66,7 +66,7 @@ const CreateOrderSettings = (props: Props) => {
           disabled={isHandleNextDisabled}
           loading={isCreatingOrder}
         >
-          Submit
+          Create Order
         </ActionButton>
       </div>
     </div>

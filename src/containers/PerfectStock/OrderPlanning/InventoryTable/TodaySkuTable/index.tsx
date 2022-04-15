@@ -18,7 +18,7 @@ import EditProductRow from '../EditProductRow';
 import { OFFSET_TO_CHART_WIDTH } from '../../../../../constants/PerfectStock/OrderPlanning';
 
 /* Types */
-import { GanttChartPurchaseOrder } from '../../../../../interfaces/PerfectStock/OrderPlanning';
+import { PurchaseOrder } from '../../../../../interfaces/PerfectStock/OrderPlanning';
 
 interface Props {
   className?: string;
@@ -26,20 +26,30 @@ interface Props {
   sortColumn: string;
   sortType: 'asc' | 'desc' | undefined;
   handleSortColumn: (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => void;
-  activePurchaseOrder: GanttChartPurchaseOrder;
+  activePurchaseOrder: PurchaseOrder;
+  isLoadingInventoryTableResults: boolean;
 }
 
 const TodaySkuTable = (props: Props) => {
-  const { data, sortColumn, sortType, handleSortColumn, activePurchaseOrder } = props;
+  const {
+    isLoadingInventoryTableResults,
+    data,
+    sortColumn,
+    sortType,
+    handleSortColumn,
+    activePurchaseOrder,
+  } = props;
 
   const inventoryResultsIds =
     activePurchaseOrder.id !== -1 ? data.map((rowData: any) => rowData.sku) : [];
 
   return (
     <Table
-      renderLoading={() => false && <Placeholder numberParagraphs={2} numberRows={3} isGrey />}
+      renderLoading={() =>
+        isLoadingInventoryTableResults && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
+      }
       renderEmpty={() => <div />}
-      data={data}
+      data={isLoadingInventoryTableResults ? [] : data}
       hover={false}
       autoHeight
       rowHeight={90}

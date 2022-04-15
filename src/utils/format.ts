@@ -7,7 +7,9 @@ export const formatCurrency = (num: any) =>
     currency: 'USD',
   });
 
-export const formatNumber = (num: any) => Math.round(num).toLocaleString();
+export const formatNumber = (num: any) => {
+  return Math.round(num).toLocaleString();
+};
 
 export const formatDecimal = (num: any) => {
   if (!num || num === 0 || num === '0') {
@@ -202,4 +204,15 @@ export const getNumberOfDps = (value: string) => {
     }
   }
   return 0;
+};
+
+export const commify = (n: string) => {
+  const parts = n.split('.');
+  const numberPart = parts[0];
+  if (parts.length >= 2) {
+    const decimalPart = parts[1];
+    return parseInt(numberPart).toLocaleString() + '.' + decimalPart;
+  } else {
+    return parseInt(numberPart).toLocaleString();
+  }
 };

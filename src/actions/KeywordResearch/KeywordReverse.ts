@@ -397,6 +397,9 @@ export const fetchKeywordReverseWordFreqSummary = (sortDir: 'asc' | 'desc' = 'de
 
   try {
     const keywordRequestId = getKeywordReverseRequestId(getState());
+    if (!keywordRequestId) {
+      return;
+    }
 
     const sorting = `sort_direction=${sortDir}`;
 
@@ -427,6 +430,10 @@ export const fetchKeywordReverseAggSummary = () => async (dispatch: any, getStat
 
   try {
     const keywordRequestId = getKeywordReverseRequestId(getState());
+
+    if (!keywordRequestId) {
+      return;
+    }
 
     const resourcePath = `keyword_request_id=${keywordRequestId}`;
 

@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import styles from './index.module.scss';
 
 /* Assets */
-import newSellgoLogo from '../../../assets/images/sellgoNewLogo.png';
+import newSellgoLogo from '../../../assets/images/aistockLogo.png';
 import aistockLogo from '../../../assets/images/aistockLogo.png';
 import chromeExtensionExample from '../../../assets/images/chromeExample.png';
 import chromeExtensionIcon from '../../../assets/images/rainbowChromeLogo.svg';
@@ -47,7 +47,7 @@ interface Props {
 const Activation = (props: Props) => {
   const { history, match, termsOfService, privacyPolicy, fetchPP, fetchTOS } = props;
   const urlParams = new URLSearchParams(window.location.search);
-  const isAiStock = urlParams.has('is-aistock');
+  const isAiStock = urlParams.has('is-aistock') && urlParams.get('is-aistock') === 'true';
   const activationCode = match.params.activationCode;
   const [email, setEmail] = React.useState<string>('');
   const [name, setName] = React.useState<string>('');

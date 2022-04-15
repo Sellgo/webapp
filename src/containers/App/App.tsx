@@ -44,6 +44,7 @@ import { isBetaAccount } from '../../utils/subscriptions';
 import Activation from '../NewSubscription/Activation';
 import ActivationSuccess from '../NewSubscription/ActivationSuccess';
 import { PERFECT_STOCK_SELLER_STATUS } from '../../constants/PerfectStock';
+import MainHomePage from '../MainHomePage';
 
 export const auth = new Auth();
 
@@ -93,6 +94,7 @@ const PrivateRoute = connect(
     const isPaymentPending = sellerSubscription && sellerSubscription.is_payment_pending;
     const isFirstTimeUserLoggedIn =
       sellerSubscription && sellerSubscription.is_first_time_logged_in;
+
     // This effect will run if there is a change in sellerSubscription,
     // auth status, or route so that we can take the appropriate action.
     // TODO: Hoist this logic up to an AuthProvider that includes user's subscription as part
@@ -253,7 +255,12 @@ function App() {
             path="/subscription/payment"
             render={renderProps => <Payment auth={auth} {...renderProps} />}
           />
-
+          <PrivateRoute
+            exact={true}
+            path="/home"
+            component={MainHomePage}
+            requireSubscription={false}
+          />
           <PrivateRoute
             exact={true}
             path="/onboarding"

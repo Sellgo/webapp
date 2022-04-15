@@ -19,7 +19,7 @@ import {
 import OnboardingTooltip from '../../OnboardingTooltip';
 
 /* Utils */
-import { getNumberOfDps } from '../../../utils/format';
+import { getNumberOfDps, commify } from '../../../utils/format';
 
 interface Props {
   label?: string;
@@ -38,6 +38,7 @@ interface Props {
   isDate?: boolean;
   onFocus?: () => void;
   onBlur?: () => void;
+  thousandSeperate?: boolean;
   handleKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   handleKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
@@ -52,6 +53,7 @@ const InputFilter: React.FC<Props> = props => {
     userOnboardingResources,
     disabled,
     error,
+    thousandSeperate,
     handleOnPaste,
     isNumber,
     isInteger,
@@ -69,40 +71,59 @@ const InputFilter: React.FC<Props> = props => {
   const enableFilterOnboarding = Object.keys(filterOnboarding).length > 0;
 
   const { tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
-  const type = isNumber ? 'number' : isDate ? 'date' : 'text';
+  const type = isDate ? 'date' : 'text';
 
+  const format = thousandSeperate ? commify : (v: string) => v;
   const handleChangeWithRules = (value: string) => {
+    let valueWithoutCommas = '';
+    if (isNumber) {
+      /* Remove commas from value */
+      valueWithoutCommas = value.replace(',', '');
+    }
+
     if (isNumber && !value) {
-      handleChange('0');
+      handleChange('');
       return;
     }
 
     /* Positive integers only */
     if (isNumber && isPositiveOnly && isInteger) {
-      if (!isNaN(value as any) && parseInt(value) >= 0 && Number.isInteger(Number(value))) {
-        handleChange(value);
+      if (
+        !isNaN(valueWithoutCommas as any) &&
+        parseInt(valueWithoutCommas) >= 0 &&
+        Number.isInteger(Number(value))
+      ) {
+        handleChange(format(valueWithoutCommas));
       }
       /* Integers only */
     } else if (isNumber && isInteger) {
       /* Check if is valid integer */
-      if (Number.isInteger(Number(value))) {
-        handleChange(value);
+      if (Number.isInteger(Number(valueWithoutCommas))) {
+        handleChange(format(valueWithoutCommas));
       }
 
       /* Positive floats/integers only */
     } else if (isNumber && isPositiveOnly) {
-      if (parseFloat(value) >= 0 && allow5Decimal && getNumberOfDps(value) <= 5) {
-        handleChange(value);
-      } else if (parseFloat(value) >= 0 && getNumberOfDps(value) <= 2 && !allow5Decimal) {
-        handleChange(value);
+      if (
+        parseFloat(valueWithoutCommas) >= 0 &&
+        allow5Decimal &&
+        getNumberOfDps(valueWithoutCommas) <= 5
+      ) {
+        handleChange(format(valueWithoutCommas));
+      } else if (
+        parseFloat(valueWithoutCommas) >= 0 &&
+        getNumberOfDps(valueWithoutCommas) <= 2 &&
+        !allow5Decimal
+      ) {
+        handleChange(format(valueWithoutCommas));
       }
       /* Floats */
     } else if (isNumber) {
       /* Check number of dp */
-      if (allow5Decimal && getNumberOfDps(value) <= 5) {
-        handleChange(value);
-      } else if (!allow5Decimal && getNumberOfDps(value) <= 2) {
-        handleChange(value);
+      if (allow5Decimal && getNumberOfDps(valueWithoutCommas) <= 5) {
+        handleChange(format(valueWithoutCommas));
+      } else if (!allow5Decimal && getNumberOfDps(valueWithoutCommas) <= 2) {
+        handleChange(format(valueWithoutCommas));
       }
     } else {
       handleChange(value);
