@@ -3,6 +3,7 @@
 #inventoryTodaySkuTable {
   background: none !important;
   overflow-x: none !important;
+  min-height: 600px !important;
 
   /* width */
   &::-webkit-scrollbar {
