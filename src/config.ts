@@ -56,7 +56,7 @@ const PROD_AUTH_CONFIG = {
 
 const DEV_ANALYTICS = {
   // gaTrackingId: 'UA-154653584-1',
-  gaTrackingId: 'G-1SKP5HZZJT',
+  gaTrackingId: 'G-DXLY1B7JRQ',
   fullStoryOrgId: 'Q36Y3',
 };
 
