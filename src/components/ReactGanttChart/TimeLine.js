@@ -80,7 +80,6 @@ class TimeLine extends Component {
   ////////////////////
 
   onSize = size => {
-    console.log('ONSIZE!!');
     //If size has changed
     this.calculateVerticalScrollVariables(size);
     if (!this.initialise) {
@@ -421,7 +420,6 @@ class TimeLine extends Component {
   /* Hook for when this.state.size updates */
   componentDidUpdate(prevProps, prevState) {
     if (prevState.size !== this.state.size) {
-      console.log('Updated');
       this.onViewportChange();
     }
   }

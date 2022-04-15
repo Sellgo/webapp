@@ -94,7 +94,6 @@ export const setTimeSettings = (payload: string) => {
 
 /* Action to set date range */
 export const setDateRange = (payload: DateRange) => {
-  console.log('Somehow geting caled');
   return {
     type: actionTypes.SET_DATE_RANGE,
     payload,

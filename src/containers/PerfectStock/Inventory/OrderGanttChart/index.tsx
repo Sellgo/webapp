@@ -447,7 +447,6 @@ const OrderGanttChart = (props: Props) => {
             selectedTask={activePurchaseOrder}
             onSelectTask={handleSelectTask}
             onViewportChange={(start: Date, end: Date) => {
-              console.log('vp change');
               setDateRange({ startDate: start.toString(), endDate: end.toString() });
             }}
             sideWidth={OFFSET_TO_CHART_WIDTH - 18}

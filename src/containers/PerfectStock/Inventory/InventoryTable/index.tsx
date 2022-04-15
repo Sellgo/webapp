@@ -155,7 +155,6 @@ const InventoryTable = (props: Props) => {
 
   /* Refresh inventory table if date range or time setting is changed  */
   React.useEffect(() => {
-    console.log(dateRange);
     generateHeaders(new Date(dateRange.startDate), new Date(dateRange.endDate));
     fetchInventoryTable({
       sort: sortColumn,
@@ -165,7 +164,6 @@ const InventoryTable = (props: Props) => {
 
   /* Refresh inventory table if active purchase order is changed */
   React.useEffect(() => {
-    console.log('2');
     generateHeaders(new Date(dateRange.startDate), new Date(dateRange.endDate));
     fetchInventoryTable({
       sort: sortColumn,
@@ -176,7 +174,6 @@ const InventoryTable = (props: Props) => {
 
   /* Refresh inventory table if filters are changed */
   React.useEffect(() => {
-    console.log('3');
     generateHeaders(new Date(dateRange.startDate), new Date(dateRange.endDate));
     fetchInventoryTable({
       sort: sortColumn,
