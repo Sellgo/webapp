@@ -399,8 +399,27 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-orders${
       payload.id ? `/${payload.id}` : ''
     }`;
-    const { status } = await axios.patch(URL, requestPayload);
+    const { status, data } = await axios.patch(URL, requestPayload);
+    const jobId = data.perfect_stock_job_id;
+
     if (status === 200) {
+      const { data } = await axios.get(
+        `${
+          AppConfig.BASE_URL_API
+        }sellers/${sellerIDSelector()}/perfect-stock/job/progress?perfect_stock_job_id=${jobId}`
+      );
+      let backgroundStatus = data.status;
+      /* Block until data.status === completed */
+      while (backgroundStatus === 'processing') {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        const { data } = await axios.get(
+          `${
+            AppConfig.BASE_URL_API
+          }sellers/${sellerIDSelector()}/perfect-stock/job/progress?perfect_stock_job_id=${jobId}`
+        );
+        backgroundStatus = data.status;
+      }
+
       dispatch(fetchInventoryTable({}));
 
       /* Refresh purchase orders if updating vendor 3pl or deleted purchase order */

@@ -72,17 +72,13 @@ const TodaySkuTable = (props: Props) => {
         />
       </Table.Column>
 
-      <Table.Column
-        /* Calculate width to chart dates to align all the dates, minus 30 for offset from expansion cell */
-        width={OFFSET_TO_CHART_WIDTH - 30 - 112}
-        verticalAlign="top"
-        align="center"
-      >
+      <Table.Column width={OFFSET_TO_CHART_WIDTH - 30 - 112} verticalAlign="top" align="center">
         <Table.HeaderCell>
           <span className={styles.productTitle}>Product</span>
         </Table.HeaderCell>
         <ProductInformation dataKey="productInformation" />
       </Table.Column>
+
       <Table.Column width={112} verticalAlign="top" align="center" sortable>
         <Table.HeaderCell>
           <HeaderSortCell
@@ -96,6 +92,7 @@ const TodaySkuTable = (props: Props) => {
         </Table.HeaderCell>
         <StockOutDate dataKey="days_until_so" />
       </Table.Column>
+
       {/* Stock out date info  */}
       <Table.Column width={112} verticalAlign="top" align="center">
         <Table.HeaderCell>
