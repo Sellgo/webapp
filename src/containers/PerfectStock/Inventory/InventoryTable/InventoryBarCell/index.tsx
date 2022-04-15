@@ -39,14 +39,6 @@ const InventoryBarCell = (props: Props) => {
   const displayPercent = `${formatNumber(percent)}%`;
   const displayLoss = potentialLoss === 0 ? '' : `-$${prettyPrintNumber(potentialLoss)}`;
 
-  let isRepeatedZero = false;
-  const previousDay = getDateOnly(new Date(new Date(dataKey).getTime() - MILLISECONDS_IN_A_DAY));
-  if (rowData[previousDay] !== undefined && rowData[previousDay].percentage !== undefined) {
-    if (percent === 0 && rowData[previousDay].percentage === 0) {
-      isRepeatedZero = true;
-    }
-  }
-
   if (isShowingDaysUntilStockout) {
     return (
       <Table.Cell {...otherProps}>
@@ -60,6 +52,14 @@ const InventoryBarCell = (props: Props) => {
         </div>
       </Table.Cell>
     );
+  }
+
+  let isRepeatedZero = false;
+  const previousDay = getDateOnly(new Date(new Date(dataKey).getTime() - MILLISECONDS_IN_A_DAY));
+  if (rowData[previousDay] !== undefined && rowData[previousDay]?.percentage !== undefined) {
+    if (percent === 0 && rowData[previousDay].percentage === 0) {
+      isRepeatedZero = true;
+    }
   }
 
   return (
