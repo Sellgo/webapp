@@ -58,11 +58,13 @@ const DEV_ANALYTICS = {
   // gaTrackingId: 'UA-154653584-1',
   gaTrackingId: 'G-1SKP5HZZJT',
   fullStoryOrgId: 'Q36Y3',
+  googleTagManagerContainerId: 'GTM-KZN2GBV',
 };
 
 const PROD_ANALYTICS = {
   gaTrackingId: 'UA-154653584-2',
   fullStoryOrgId: '18JTF6',
+  googleTagManagerContainerId: 'GTM-KZN2GBV',
 };
 
 const DEV_MWS = {

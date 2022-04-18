@@ -4,6 +4,10 @@ import Analytics from 'analytics';
 import ReactGA from 'react-ga4';
 // @ts-ignore
 import fullStoryPlugin from '@analytics/fullstory';
+
+// @ts-ignore
+import googleTagManager from '@analytics/google-tag-manager';
+
 import history from './history';
 import { AppConfig } from './config';
 
@@ -14,6 +18,9 @@ const analytics = Analytics({
   plugins: [
     fullStoryPlugin({
       org: AppConfig.fullStoryOrgId,
+    }),
+    googleTagManager({
+      containerId: AppConfig.googleTagManagerContainerId,
     }),
   ],
 });

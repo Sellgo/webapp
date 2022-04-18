@@ -5,6 +5,7 @@
   "dependencies": {
     "@analytics/fullstory": "^0.2.4",
     "@analytics/google-analytics": "^0.2.2",
+    "@analytics/google-tag-manager": "^0.5.2",
     "@stripe/react-stripe-js": "^1.1.2",
     "@stripe/stripe-js": "^1.8.0",
     "@typeform/embed-react": "^1.0.7",
