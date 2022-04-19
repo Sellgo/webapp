@@ -62,6 +62,10 @@
   font-size: 14px !important;
   padding: 0 !important;
   margin-right: 18px;
+
+  &__disabled {
+    pointer-events: none;
+  }
 }
 
 .dimmerWrapper {
