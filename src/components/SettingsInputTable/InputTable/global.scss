@@ -1,5 +1,5 @@
-@import '../../../../../../styles/tableReset';
-@import '../../../../../../design-system/new-colors.scss';
+@import '../../../styles/tableReset';
+@import '../../../design-system/new-colors.scss';
 
 #inputTable {
   // header section
@@ -74,17 +74,17 @@
   }
 
   // scrollbar
-  div[role='scrollbar'] {
-    background: $grey_3;
-    border-radius: 4px;
-    opacity: 1;
-    width: 6px;
-    height: 100%;
+  // div[role='scrollbar'] {
+  //   background: $grey_3;
+  //   border-radius: 4px;
+  //   opacity: 1;
+  //   height: 5px;
+  //   width: 6px;
 
-    > .rs-table-scrollbar-handle {
-      background-color: $grey_6 !important;
-      opacity: 1 !important;
-      max-width: 100% !important;
-    }
-  }
+  //   > .rs-table-scrollbar-handle {
+  //     background-color: $grey_6 !important;
+  //     opacity: 1 !important;
+  //     max-width: 100% !important;
+  //   }
+  // }
 }

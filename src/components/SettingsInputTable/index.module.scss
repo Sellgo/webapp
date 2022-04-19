@@ -1,8 +1,16 @@
-@import '../../../../../design-system/new-colors';
+@import '../../design-system/new-colors';
 
 .settingsInputWrapper {
+  width: 100%;
   display: flex;
+  flex-direction: column;
   margin-bottom: 18px;
+
+  .boxContainer {
+    width: calc(100% - 18px);
+    margin-left: 18px;
+    border-radius: 7px;
+  }
 }
 
 .addButton {

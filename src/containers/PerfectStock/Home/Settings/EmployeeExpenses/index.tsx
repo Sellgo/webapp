@@ -5,22 +5,21 @@ import axios from 'axios';
 import styles from './index.module.scss';
 
 /* Components */
-import ExpensesMeta from './ExpensesMeta';
-import SettingsNav from '../../SettingsNav';
-import PageHeader from '../../../../components/PageHeader';
-import SettingsInputTable from './SettingsInputTable';
+import ElevioArticle from '../../../../../components/ElevioArticle';
+import SettingsBanner from '../../../../../components/SettingsBanner';
+import SettingsInputTable from '../../../../../components/SettingsInputTable';
+import PerfectStockSettingsNav from '../../../../../components/PerfectStockSettingsNav';
 
 /* Constants */
-import { AppConfig } from '../../../../config';
-import { sellerIDSelector } from '../../../../selectors/Seller';
-import { error, success } from '../../../../utils/notifications';
+import { AppConfig } from '../../../../../config';
+import { sellerIDSelector } from '../../../../../selectors/Seller';
+import { error, success } from '../../../../../utils/notifications';
+import {
+  EXPENSES_SETTINGS_COLUMNS,
+  SETTINGS_OPTIONS,
+} from '../../../../../constants/PerfectStock/Home';
 
-interface Props {
-  match: any;
-}
-const Expenses = (props: Props) => {
-  const { match } = props;
-
+const Expenses = () => {
   const sellerID = localStorage.getItem('userId');
 
   /* Fetches all the triggers from backend */
@@ -31,7 +30,7 @@ const Expenses = (props: Props) => {
       );
 
       if (data && data.length > 0) {
-        return data.filter((data: any) => data.type === 'ppc');
+        return data.filter((data: any) => data.type === 'employee');
       }
     } catch (err) {
       console.error(err);
@@ -52,7 +51,7 @@ const Expenses = (props: Props) => {
         return {
           ...expense,
           id: null,
-          type: 'ppc',
+          type: 'employee',
           status: 'active',
         };
       });
@@ -88,23 +87,23 @@ const Expenses = (props: Props) => {
 
   return (
     <main className={styles.leadTimeWrapper}>
-      <PageHeader
-        title={'Expenses'}
-        breadcrumb={[
-          { content: 'Home', to: '/' },
-          { content: 'Perfect Stock' },
-          { content: 'Expenses' },
-        ]}
-        auth={match.params.auth}
-      />
-      <SettingsNav match={match} />
-      <div className={styles.leadTime}>
-        <ExpensesMeta />
-        <SettingsInputTable
-          tableRowProperties={['name', 'start_date', 'amount', 'repeat_days']}
-          fetchData={fetchExpenses}
-          handleSave={handleSave}
-        />
+      <SettingsBanner title="Employee Expenses" />
+      <div className={styles.settingsPageWrapper}>
+        <PerfectStockSettingsNav settingsPages={SETTINGS_OPTIONS} />
+        <div className={styles.settingsTableWrapper}>
+          <p>Employee Expenses Input</p>
+          <div className={styles.settingsTableRow}>
+            <SettingsInputTable
+              tableColumns={EXPENSES_SETTINGS_COLUMNS}
+              fetchData={fetchExpenses}
+              handleSave={handleSave}
+            />
+            <div className={styles.instructionsBox}>
+              <span>Step-By-Step Guide</span>
+              <ElevioArticle articleId={'17'} />
+            </div>
+          </div>
+        </div>
       </div>
     </main>
   );

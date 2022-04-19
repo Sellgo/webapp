@@ -4,6 +4,14 @@ export const PERFECT_STOCK_PAGES = [
   '/aistock/order',
   '/aistock/tpl',
   '/aistock/create-order',
+  '/aistock/home-expenses-settings',
+  '/aistock/home-ppc-settings',
+];
+
+export const HIDE_TAB_PAGES = [
+  '/aistock/create-order',
+  '/aistock/home-expenses-settings',
+  '/aistock/home-ppc-settings',
 ];
 export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
@@ -25,6 +33,14 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'Create Order',
     desc: 'Easily create order planning',
+  },
+  {
+    name: 'Expenses',
+    desc: 'Manage expenses',
+  },
+  {
+    name: 'PPC',
+    desc: 'Manage PPC',
   },
 ];
 

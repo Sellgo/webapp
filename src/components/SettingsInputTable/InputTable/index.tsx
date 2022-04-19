@@ -1,0 +1,112 @@
+import React from 'react';
+import { Table } from 'rsuite';
+
+/* Styling */
+import './global.scss';
+import styles from './index.module.scss';
+
+/* Componensts */
+import DeleteCell from '../../NewTable/DeleteCell';
+import EditValueCell from '../../NewTable/EditValueCell';
+import EditValueSelectionCell from '../../NewTable/EditValueSelectionCell';
+
+/* Types */
+import { Column } from '../../../interfaces/PerfectStock/Settings';
+
+interface Props {
+  tableColumns: Column[];
+  data: any[];
+  handleEditRow: (key: string, value: any, id: number) => void;
+  handleDeleteRow: (id: number) => void;
+  showError?: boolean;
+}
+
+const InputTable = (props: Props) => {
+  const { data, tableColumns, handleEditRow, handleDeleteRow, showError = false } = props;
+
+  return (
+    <section className={styles.inputTable}>
+      <Table
+        // loading={false}
+        data={data}
+        height={300}
+        hover={false}
+        rowHeight={60}
+        headerHeight={55}
+        id="inputTable"
+        shouldUpdateScroll={false}
+      >
+        {tableColumns.map((column: Column) => {
+          let contentCell;
+          if (column.type === 'text') {
+            contentCell = (
+              <EditValueCell
+                dataKey={column.dataKey}
+                handleChange={handleEditRow}
+                showEmptyError={showError}
+                prependMessage={column.prepend}
+                appendMessage={column.append}
+                isLarge
+              />
+            );
+          } else if (column.type === 'number') {
+            contentCell = (
+              <EditValueCell
+                dataKey={column.dataKey}
+                prependMessage={column.prepend}
+                appendMessage={column.append}
+                handleChange={handleEditRow}
+                showEmptyError={showError}
+                isNumber
+                isPositiveOnly
+                isLarge
+              />
+            );
+          } else if (column.type === 'date') {
+            contentCell = (
+              <EditValueCell
+                dataKey={column.dataKey}
+                handleChange={handleEditRow}
+                showEmptyError={showError}
+                prependMessage={column.prepend}
+                appendMessage={column.append}
+              />
+            );
+          } else {
+            contentCell = (
+              <EditValueSelectionCell
+                dataKey={column.dataKey}
+                handleChange={handleEditRow}
+                showEmptyError={showError}
+                options={column.options || []}
+              />
+            );
+          }
+
+          return (
+            <Table.Column
+              key={column.dataKey}
+              align="center"
+              width={column.width}
+              verticalAlign="middle"
+            >
+              <Table.HeaderCell>{column.title}</Table.HeaderCell>
+              {contentCell}
+            </Table.Column>
+          );
+        })}
+        {/* Delete Cell */}
+        <Table.Column flexGrow={1} verticalAlign="middle" align="right">
+          <Table.HeaderCell />
+          <DeleteCell
+            dataKey="id"
+            deleteMessage="Remove this entry?"
+            handleDelete={handleDeleteRow}
+          />
+        </Table.Column>
+      </Table>
+    </section>
+  );
+};
+
+export default InputTable;

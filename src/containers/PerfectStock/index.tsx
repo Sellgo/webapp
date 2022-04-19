@@ -13,6 +13,8 @@ import MigratingDisplay from './MigratingDisplay';
 import PreMigration from './PreMigration';
 import TPL from './TPL';
 import Home from './Home';
+import EmployeeExpensesSettings from './Home/Settings/EmployeeExpenses';
+import PpcExpensesSettings from './Home/Settings/PpcExpenses';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
@@ -31,6 +33,7 @@ import {
   PERFECT_STOCK_PRODUCT_DETAILS,
   PERFECT_STOCK_PAGES,
   PERFECT_STOCK_SELLER_STATUS,
+  HIDE_TAB_PAGES,
 } from '../../constants/PerfectStock';
 import {
   FALLBACK_ONBOARDING_DETAILS,
@@ -110,7 +113,7 @@ const PerfectStock: React.FC<Props> = props => {
     tutorialOnboardingDetails.Tutorial || FALLBACK_ONBOARDING_DETAILS;
 
   /* check url */
-  const isEditingOrders = window.location.pathname === PERFECT_STOCK_PAGES[4];
+  const hideTabs = HIDE_TAB_PAGES.includes(window.location.pathname);
 
   /* Lock Perfect Stock if user is not migrated */
   if (
@@ -194,7 +197,7 @@ const PerfectStock: React.FC<Props> = props => {
             <TabList
               className={`
               ${styles.productTabList} 
-              ${isEditingOrders ? styles.productTabList__hidden : ''}`}
+              ${hideTabs ? styles.productTabList__hidden : ''}`}
             >
               <Tab>
                 <ProductLabel
@@ -249,6 +252,14 @@ const PerfectStock: React.FC<Props> = props => {
 
             <TabPanel>
               <OrderPlanning />
+            </TabPanel>
+
+            <TabPanel>
+              <EmployeeExpensesSettings />
+            </TabPanel>
+
+            <TabPanel>
+              <PpcExpensesSettings />
             </TabPanel>
           </Tabs>
         </section>

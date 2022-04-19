@@ -1,4 +1,5 @@
 import { SubChartSettings } from '../../interfaces/PerfectStock/Home';
+import { Column } from '../../interfaces/PerfectStock/Settings';
 import { getDateOnly } from '../../utils/date';
 
 /* All action types */
@@ -49,6 +50,39 @@ export const TIME_RANGE_OPTIONS = [
 ];
 
 export const VALID_PRESET_TIME_RANGE = [7, 28, 91, 365, 730, 1095];
+
+const REPEAT_OPTIONS = [
+  {
+    key: 'Does not repeat',
+    value: 0,
+    text: 'Does not repeat',
+  },
+  {
+    key: 'Daily',
+    value: 1,
+    text: 'Daily',
+  },
+  {
+    key: 'Weekly',
+    value: 7,
+    text: 'Weekly',
+  },
+  {
+    key: 'Biweekly',
+    value: 14,
+    text: 'Biweekly',
+  },
+  {
+    key: 'Monthly',
+    value: 30,
+    text: 'Monthly',
+  },
+  {
+    key: 'Annually',
+    value: 365,
+    text: 'Annually',
+  },
+];
 
 export const GRANULARITIES = [
   {
@@ -137,3 +171,74 @@ export const DEFAULT_SUB_CHART_SETTINGS: SubChartSettings = {
   end_date: getDateOnly(new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)),
   granularity: 1,
 };
+
+export const PPC_SETTINGS_COLUMNS: Column[] = [
+  {
+    width: 200,
+    dataKey: 'name',
+    title: 'Description',
+    type: 'text',
+  },
+  {
+    width: 200,
+    dataKey: 'start_date',
+    title: 'Start Date',
+    type: 'date',
+  },
+  {
+    width: 130,
+    dataKey: 'amount',
+    title: 'Amount',
+    type: 'number',
+    prepend: '$',
+  },
+  {
+    width: 200,
+    dataKey: 'repeat_days',
+    title: '',
+    type: 'selection',
+    options: REPEAT_OPTIONS,
+  },
+];
+
+export const EXPENSES_SETTINGS_COLUMNS: Column[] = [
+  {
+    width: 200,
+    dataKey: 'name',
+    title: 'Name',
+    type: 'text',
+  },
+  {
+    width: 200,
+    dataKey: 'start_date',
+    title: 'Start Date',
+    type: 'date',
+  },
+  {
+    width: 130,
+    dataKey: 'amount',
+    title: 'Amount',
+    type: 'number',
+    prepend: '$',
+  },
+  {
+    width: 200,
+    dataKey: 'repeat_days',
+    title: '',
+    type: 'selection',
+    options: REPEAT_OPTIONS,
+  },
+];
+
+export const SETTINGS_OPTIONS = [
+  {
+    name: 'Expenses',
+    url: '/aistock/home-expenses-settings',
+    disabled: false,
+  },
+  {
+    name: 'PPC',
+    url: '/aistock/home-ppc-settings',
+    disabled: false,
+  },
+];

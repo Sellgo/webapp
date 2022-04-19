@@ -5,23 +5,26 @@ import { v4 as uuid } from 'uuid';
 import styles from './index.module.scss';
 
 /* Components */
-import BoxContainer from '../../../../../components/BoxContainer';
+import BoxContainer from '../BoxContainer';
 import InputTable from './InputTable';
-import ActionButton from '../../../../../components/ActionButton';
-import Placeholder from '../../../../../components/Placeholder';
+import ActionButton from '../ActionButton';
+import Placeholder from '../Placeholder';
 
 /* Utils */
-import { error } from '../../../../../utils/notifications';
+import { error } from '../../utils/notifications';
+
+/* Types */
+import { Column } from '../../interfaces/PerfectStock/Settings';
 
 interface Props {
   /* Fetch data is async, returns a promise */
-  tableRowProperties: string[];
+  tableColumns: Column[];
   fetchData: () => any;
   handleSave: (payload: any) => any;
 }
 
 const SettingsInputTable = (props: Props) => {
-  const { tableRowProperties, fetchData, handleSave } = props;
+  const { tableColumns, fetchData, handleSave } = props;
 
   /* Set modal to open by default if its an new lead time */
   const [tableData, setTableData] = useState<any[]>([]);
@@ -76,7 +79,8 @@ const SettingsInputTable = (props: Props) => {
     /* Check for any empty entries */
     let hasError = false;
     tableData.forEach(dataEntry => {
-      tableRowProperties.forEach(key => {
+      tableColumns.forEach(column => {
+        const key = column.dataKey;
         if (
           dataEntry.status !== 'inactive' &&
           (dataEntry[key] === null || dataEntry[key] === '' || dataEntry[key] === undefined)
@@ -104,18 +108,21 @@ const SettingsInputTable = (props: Props) => {
     <div className={styles.settingsInputWrapper}>
       {/* PLACEHOLDER FOR LOADING STATE */}
       {isLoading && (
-        <BoxContainer>
-          <Placeholder numberRows={5} numberParagraphs={3} />
+        <BoxContainer className={styles.boxContainer}>
+          <Placeholder numberRows={5} numberParagraphs={1} />
         </BoxContainer>
       )}
       {!isLoading && (
-        <BoxContainer>
+        <BoxContainer className={styles.boxContainer}>
           <InputTable
             data={tableData.filter(dataEntry => dataEntry.status !== 'inactive')}
+            tableColumns={tableColumns}
             handleDeleteRow={handleDeleteRow}
             handleEditRow={handleEditRow}
             showError={showEmptyError}
           />
+
+          {/* Row to add new entries */}
           <div className={styles.buttonsRow}>
             <button onClick={handleAddNewEntry} className={styles.addButton}>
               + Add Employee Expense

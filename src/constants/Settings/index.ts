@@ -217,16 +217,6 @@ export const SETTINGS_PAGES = [
         disabled: true,
         url: '/settings/aistock/lead-time',
       },
-      {
-        name: 'Employee Expenses',
-        disabled: false,
-        url: '/settings/aistock/employee-expenses',
-      },
-      {
-        name: 'PPC Expenses',
-        disabled: false,
-        url: '/settings/aistock/ppc-expenses',
-      },
     ],
   },
 ];
