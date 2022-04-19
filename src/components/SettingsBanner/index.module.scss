@@ -31,4 +31,10 @@
     font-weight: $fontweight_semibold;
     color: $black_1;
   }
+
+  .whiteIcon {
+    path {
+      fill: $prim_white !important;
+    }
+  }
 }

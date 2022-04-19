@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Tabs, Tab, TabList, TabPanel } from 'react-tabs';
 import { connect } from 'react-redux';
+import { Icon } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -15,12 +16,13 @@ import TPL from './TPL';
 import Home from './Home';
 import EmployeeExpensesSettings from './Home/Settings/EmployeeExpenses';
 import PpcExpensesSettings from './Home/Settings/PpcExpenses';
+import LaunchExpensesSettings from './Home/Settings/LaunchExpenses';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
 import ProductMetaInformation from '../../components/ProductMetaInformation';
 import ProductLabel from '../../components/ProductLabel';
-// import GetStarted from './GetStarted';
+import NavigationButton from '../../components/NavigationButton';
 
 /* Selectors */
 import { getUserOnboarding, getUserOnboardingResources } from '../../selectors/UserOnboarding';
@@ -75,6 +77,12 @@ const PerfectStock: React.FC<Props> = props => {
   const handleTabChange = (index: number) => {
     setSelectedTabList(index);
     history.push(PERFECT_STOCK_PAGES[index]);
+  };
+
+  const settingsPageUrl = PERFECT_STOCK_PRODUCT_DETAILS[selectedTabList].settings;
+  const settingsName = PERFECT_STOCK_PRODUCT_DETAILS[selectedTabList].name;
+  const redirectToSettingsPage = () => {
+    history.push(settingsPageUrl);
   };
 
   /* To update tab based on url */
@@ -194,45 +202,53 @@ const PerfectStock: React.FC<Props> = props => {
             onSelect={handleTabChange}
             selectedIndex={selectedTabList}
           >
-            <TabList
-              className={`
-              ${styles.productTabList} 
-              ${hideTabs ? styles.productTabList__hidden : ''}`}
-            >
-              <Tab>
-                <ProductLabel
-                  label="Cash Flow"
-                  icon="Perfect Stock Home"
-                  isActive={selectedTabList === 0}
-                  isBeta
-                />
-              </Tab>
-              <Tab>
-                <ProductLabel
-                  label="Sales Forecasting"
-                  icon="Sales Estimation"
-                  isActive={selectedTabList === 1}
-                  isBeta
-                />
-              </Tab>
-              <Tab>
-                <ProductLabel
-                  label="Order Planning"
-                  icon="Order Planning"
-                  isActive={selectedTabList === 2}
-                  isBeta
-                />
-              </Tab>
-              <Tab>
-                <ProductLabel
-                  label="3PL Manager"
-                  icon="Tpl"
-                  isActive={selectedTabList === 3}
-                  isBeta
-                />
-              </Tab>
-              <Tab />
-            </TabList>
+            <div className={styles.tabListWrapper}>
+              <TabList
+                className={`
+                ${styles.productTabList} 
+                ${hideTabs ? styles.productTabList__hidden : ''}`}
+              >
+                <Tab>
+                  <ProductLabel
+                    label="Cash Flow"
+                    icon="Perfect Stock Home"
+                    isActive={selectedTabList === 0}
+                    isBeta
+                  />
+                </Tab>
+                <Tab>
+                  <ProductLabel
+                    label="Sales Forecasting"
+                    icon="Sales Estimation"
+                    isActive={selectedTabList === 1}
+                    isBeta
+                  />
+                </Tab>
+                <Tab>
+                  <ProductLabel
+                    label="Order Planning"
+                    icon="Order Planning"
+                    isActive={selectedTabList === 2}
+                    isBeta
+                  />
+                </Tab>
+                <Tab>
+                  <ProductLabel
+                    label="3PL Manager"
+                    icon="Tpl"
+                    isActive={selectedTabList === 3}
+                    isBeta
+                  />
+                </Tab>
+                <Tab />
+              </TabList>
+              {settingsPageUrl && (
+                <NavigationButton onClick={redirectToSettingsPage}>
+                  <Icon name="setting" />
+                  {settingsName} Settings
+                </NavigationButton>
+              )}
+            </div>
 
             <TabPanel>
               <Home />
@@ -260,6 +276,10 @@ const PerfectStock: React.FC<Props> = props => {
 
             <TabPanel>
               <PpcExpensesSettings />
+            </TabPanel>
+
+            <TabPanel>
+              <LaunchExpensesSettings />
             </TabPanel>
           </Tabs>
         </section>

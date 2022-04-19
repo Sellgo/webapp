@@ -9,21 +9,24 @@ import { ReactComponent as LeftArrow } from '../../assets/images/leftArrowLong.s
 
 interface Props {
   title: string;
+  bannerColor?: string;
+  textColor?: string;
+  backUrl: string;
 }
 
 const SettingsBanner = (props: Props) => {
-  const { title } = props;
+  const { title, bannerColor, textColor, backUrl } = props;
   const handleGoBack = () => {
-    history.goBack();
+    history.push(backUrl);
   };
 
   return (
-    <div className={styles.editingOrderStatusBanner}>
-      <button onClick={handleGoBack}>
+    <div className={styles.editingOrderStatusBanner} style={{ background: bannerColor }}>
+      <button onClick={handleGoBack} style={{ color: textColor }}>
         {' '}
-        <LeftArrow /> Back to previous page
+        <LeftArrow className={textColor === '#fff' ? styles.whiteIcon : ''} /> Back to previous page
       </button>
-      <p>{title}</p>
+      <p style={{ color: textColor }}>{title}</p>
     </div>
   );
 };

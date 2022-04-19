@@ -4,43 +4,59 @@ export const PERFECT_STOCK_PAGES = [
   '/aistock/order',
   '/aistock/tpl',
   '/aistock/create-order',
+
+  /* Cash flow page settings */
   '/aistock/home-expenses-settings',
   '/aistock/home-ppc-settings',
+  '/aistock/home-launch-settings',
 ];
 
 export const HIDE_TAB_PAGES = [
   '/aistock/create-order',
   '/aistock/home-expenses-settings',
   '/aistock/home-ppc-settings',
+  '/aistock/home-launch-settings',
 ];
 export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
-    name: 'Home',
+    name: 'Cash Flow',
     desc: 'Cash flow analysis',
+    settings: '/aistock/home-expenses-settings',
   },
   {
     name: 'Sales Forecasting',
     desc: 'Accurately project high seasonal sales',
+    settings: '',
   },
   {
     name: 'Order Planning',
     desc: 'Easily create order planning',
+    settings: '',
   },
   {
     name: '3PL Manager',
     desc: '3PL storage management solved',
+    settings: '',
   },
   {
     name: 'Create Order',
     desc: 'Easily create order planning',
+    settings: '',
   },
   {
-    name: 'Expenses',
-    desc: 'Manage expenses',
+    name: 'Employee Expenses',
+    desc: 'Manage Employee Expenses',
+    settings: '',
   },
   {
     name: 'PPC',
     desc: 'Manage PPC',
+    settings: '',
+  },
+  {
+    name: 'Launch Expenses',
+    desc: 'Manage Launch Expenses',
+    settings: '',
   },
 ];
 

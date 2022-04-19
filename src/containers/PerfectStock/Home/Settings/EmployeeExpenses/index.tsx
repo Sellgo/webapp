@@ -87,7 +87,12 @@ const Expenses = () => {
 
   return (
     <main className={styles.leadTimeWrapper}>
-      <SettingsBanner title="Employee Expenses" />
+      <SettingsBanner
+        title="Employee Expenses"
+        bannerColor="#FD8373"
+        textColor="#fff"
+        backUrl="/aistock/home"
+      />
       <div className={styles.settingsPageWrapper}>
         <PerfectStockSettingsNav settingsPages={SETTINGS_OPTIONS} />
         <div className={styles.settingsTableWrapper}>

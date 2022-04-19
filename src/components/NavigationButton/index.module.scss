@@ -1,0 +1,17 @@
+@import '../../design-system/new-colors';
+
+.navigationButton {
+  border: 1px solid $grey_3;
+  border-radius: 7px;
+  background: $prim_white;
+  font-size: 12px;
+  font-weight: $fontweight_medium;
+  color: $grey_8;
+  height: 35px;
+  cursor: pointer;
+  padding: 0 10px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}

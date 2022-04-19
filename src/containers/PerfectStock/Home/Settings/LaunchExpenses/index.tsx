@@ -27,7 +27,7 @@ const Expenses = () => {
       );
 
       if (data && data.length > 0) {
-        return data.filter((data: any) => data.type === 'ppc');
+        return data.filter((data: any) => data.type === 'launch');
       }
     } catch (err) {
       console.error(err);
@@ -48,7 +48,7 @@ const Expenses = () => {
         return {
           ...expense,
           id: null,
-          type: 'ppc',
+          type: 'launch',
           status: 'active',
         };
       });
@@ -85,7 +85,7 @@ const Expenses = () => {
   return (
     <main className={styles.leadTimeWrapper}>
       <SettingsBanner
-        title="PPC Expenses"
+        title="Launch Expenses"
         bannerColor="#FD8373"
         textColor="#fff"
         backUrl="/aistock/home"

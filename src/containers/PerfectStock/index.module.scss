@@ -19,6 +19,12 @@
   }
 }
 
+.tabListWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
 .productTabList {
   display: flex;
   list-style: none;

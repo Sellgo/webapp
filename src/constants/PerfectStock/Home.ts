@@ -232,13 +232,18 @@ export const EXPENSES_SETTINGS_COLUMNS: Column[] = [
 
 export const SETTINGS_OPTIONS = [
   {
-    name: 'Expenses',
+    name: 'Employee Expenses',
     url: '/aistock/home-expenses-settings',
     disabled: false,
   },
   {
     name: 'PPC',
     url: '/aistock/home-ppc-settings',
+    disabled: false,
+  },
+  {
+    name: 'Launch Expenses',
+    url: '/aistock/home-launch-settings',
     disabled: false,
   },
 ];
