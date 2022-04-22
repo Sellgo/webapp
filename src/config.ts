@@ -55,7 +55,7 @@ const PROD_AUTH_CONFIG = {
 };
 
 const DEV_ANALYTICS = {
-  gaTrackingId: 'G-1SKP5HZZJT',
+  gaTrackingId: 'UA-154653584-1',
   fullStoryOrgId: 'Q36Y3',
   googleTagManagerContainerId: 'GTM-5CNH6MV',
 };
