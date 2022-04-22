@@ -7,6 +7,8 @@ import fullStoryPlugin from '@analytics/fullstory';
 // @ts-ignore
 import googleTagManager from '@analytics/google-tag-manager';
 
+// @ts-ignore
+import googleAnalyticsPlugin from '@analytics/google-analytics';
 import history from './history';
 import { AppConfig } from './config';
 
@@ -20,6 +22,9 @@ const analytics = Analytics({
     }),
     googleTagManager({
       containerId: AppConfig.googleTagManagerContainerId,
+    }),
+    googleAnalyticsPlugin({
+      trackingId: AppConfig.gaTrackingId,
     }),
   ],
 });
