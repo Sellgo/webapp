@@ -287,29 +287,25 @@ function CheckoutForm(props: MyProps) {
 
               /* Tracking for google analytics upon successful payment */
               trackEvent({
+                event: 'purchase',
                 ecommerce: {
-                  purchase: {
-                    actionField: {
-                      id: stripeSubscription.id,
-                      affiliation: 'Stripe',
-                      revenue: stripeSubscription.plan.amount / 100,
-                      tax: 0,
-                      shipping: 0,
+                  transaction_id: stripeSubscription.id,
+                  affiliation: 'Stripe',
+                  revenue: stripeSubscription.plan.amount / 100,
+                  tax: 0,
+                  shipping: 0,
+                  items: [
+                    {
+                      name: accountType,
+                      id: getSubscriptionID(accountType),
+                      price: stripeSubscription.plan.amount / 100,
+                      brand: 'Stripe',
+                      category: 'Subscription',
+                      quantity: 1,
                     },
-                    products: [
-                      {
-                        name: accountType,
-                        id: getSubscriptionID(accountType),
-                        price: stripeSubscription.plan.amount / 100,
-                        brand: 'Stripe',
-                        category: 'Subscription',
-                        quantity: 1,
-                      },
-                    ],
-                  },
+                  ],
                 },
               });
-
               auth.getSellerID(data, 'newSubscription');
             }
           }
