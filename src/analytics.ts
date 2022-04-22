@@ -2,9 +2,11 @@
 // @ts-ignore
 import Analytics from 'analytics';
 // @ts-ignore
-import googleAnalyticsPlugin from '@analytics/google-analytics';
-// @ts-ignore
 import fullStoryPlugin from '@analytics/fullstory';
+
+// @ts-ignore
+import googleTagManager from '@analytics/google-tag-manager';
+
 import history from './history';
 import { AppConfig } from './config';
 
@@ -13,11 +15,11 @@ import { AppConfig } from './config';
 const analytics = Analytics({
   debug: process.env.REACT_APP_ENV !== 'production',
   plugins: [
-    googleAnalyticsPlugin({
-      trackingId: AppConfig.gaTrackingId,
-    }),
     fullStoryPlugin({
       org: AppConfig.fullStoryOrgId,
+    }),
+    googleTagManager({
+      containerId: AppConfig.googleTagManagerContainerId,
     }),
   ],
 });

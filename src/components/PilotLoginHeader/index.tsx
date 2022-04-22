@@ -12,16 +12,20 @@ import history from '../../history';
 import SellgoLogo from '../../assets/images/aistockLogo.png';
 
 /* Actions */
-import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
+import { fetchSellerSubscription, updateSeller } from '../../actions/Settings/Subscription';
 
 interface Props {
   fetchSellerSubscription: () => void;
+  updateSeller: (seller: any) => void;
 }
 
 const PilotLoginHeader = (props: Props) => {
-  const { fetchSellerSubscription } = props;
+  const { fetchSellerSubscription, updateSeller } = props;
 
-  const handleFinishSetup = () => {
+  const handleFinishSetup = async () => {
+    await updateSeller({
+      is_first_time_logged_in: false,
+    });
     fetchSellerSubscription();
     history.push('/');
   };
@@ -42,6 +46,7 @@ const mapStateToProps = () => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    updateSeller: (seller: any) => dispatch(updateSeller(seller)),
     fetchSellerSubscription: () => dispatch(fetchSellerSubscription()),
   };
 };

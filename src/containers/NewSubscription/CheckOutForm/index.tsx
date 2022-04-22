@@ -45,6 +45,7 @@ import { PromoCode } from '../../../interfaces/Subscription';
 
 /* Utils */
 import { generatePromoCodeMessage } from '../../../utils/subscriptions';
+import { trackEvent } from '../../../utils/analyticsTracking';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -271,6 +272,7 @@ function CheckoutForm(props: MyProps) {
               handleError(err.description);
               return;
             } else {
+              // Successful Signup
               const data: any = {
                 email: email.trim().toLowerCase(), // trim out white spaces to prevent 500
                 name: firstName + ' ' + lastName,
@@ -283,6 +285,27 @@ function CheckoutForm(props: MyProps) {
                 payment_mode: paymentMode,
               };
 
+              /* Tracking for google analytics upon successful payment */
+              trackEvent({
+                event: 'purchase',
+                ecommerce: {
+                  transaction_id: stripeSubscription.id,
+                  affiliation: 'Stripe',
+                  revenue: stripeSubscription.plan.amount / 100,
+                  tax: 0,
+                  shipping: 0,
+                  items: [
+                    {
+                      name: accountType,
+                      id: getSubscriptionID(accountType),
+                      price: stripeSubscription.plan.amount / 100,
+                      brand: 'Stripe',
+                      category: 'Subscription',
+                      quantity: 1,
+                    },
+                  ],
+                },
+              });
               auth.getSellerID(data, 'newSubscription');
             }
           }
