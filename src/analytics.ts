@@ -24,12 +24,6 @@ const analytics = Analytics({
   ],
 });
 
-// ReactGA.initialize([
-//   {
-//     trackingId: AppConfig.gaTrackingId,
-//   },
-// ]);
-
 // Track initial pageview
 if (typeof window !== 'undefined') {
   analytics.page();
@@ -38,7 +32,6 @@ if (typeof window !== 'undefined') {
 // Track pageview on route change
 history.listen(() => {
   analytics.page();
-  // ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
 });
 
 export default analytics;
