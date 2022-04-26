@@ -16,7 +16,7 @@ import SidebarDropdown from './SidebarDropdown';
 import { getActiveIndex, OPTIONS } from '../../constants/AdminLayout';
 
 /* Utils */
-import { isBetaAccount, isSubscriptionIdFreeAccount, isAiStock } from '../../utils/subscriptions';
+import { isBetaAccount, isAiStock } from '../../utils/subscriptions';
 
 /* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
@@ -107,10 +107,7 @@ const Sidebar = (props: Props) => {
     let newNavOptions: NavOptions = [...navOptions];
 
     /* Disable menu for free subscriptions */
-    if (
-      isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) ||
-      isBetaAccount(sellerSubscription)
-    ) {
+    if (isBetaAccount(sellerSubscription)) {
       newNavOptions = handleDisableNavOption('Product Research', newNavOptions);
       newNavOptions = handleDisableNavOption('Wholesale Bulk Analysis', newNavOptions);
       newNavOptions = handleDisableNavOption('Seller Research', newNavOptions);
