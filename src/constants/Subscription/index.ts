@@ -106,14 +106,6 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
 /* Used in Change plan Modal */
 export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
-    subscriptionId: 13, // subscriptionID if needed
-    name: 'Wholesale Arbitrage $1.99',
-    dailyPrice: 1.99,
-    monthlyPrice: 0,
-    annualPrice: 0,
-    isDailyPlan: true,
-  },
-  {
     subscriptionId: 10, // subscriptionID if needed
     name: 'Starter',
     dailyPrice: 0,
@@ -177,16 +169,6 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
 
 /* Used in Summary page */
 export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
-  wholesalearbitrage$2: {
-    name: 'Wholesale Arbitrage $1.99',
-    id: 13,
-    idWithLegacyPlans: [13, 7],
-    monthlyPrice: -1,
-    annualPrice: -1,
-    dailyPrice: 1.99,
-    subDescription: '',
-    benefits: ['Basic Wholesale, Retail Arbitrage', 'Unlimited access in our Profit Finder'],
-  },
   starter: {
     name: 'Starter',
     id: 10,
@@ -241,7 +223,6 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
 export const PAYMENT_MODES = ['daily', 'monthly', 'yearly'];
 
 export const SUBSCRIPTION_DETAILS_LIST: SummaryDetails[] = [
-  SUBSCRIPTION_DETAILS.wholesalearbitrage$2,
   SUBSCRIPTION_DETAILS.starter,
   SUBSCRIPTION_DETAILS.professional,
   SUBSCRIPTION_DETAILS.team,
@@ -251,7 +232,6 @@ export const subscriptionDetailsMapping: { [key: string]: number } = {
   starter: 10,
   professional: 11,
   team: 12,
-  wholesalearbitrage$2: 13,
 };
 
 export const getSubscriptionID = (planName: string) => {
