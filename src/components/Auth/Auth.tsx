@@ -110,22 +110,22 @@ export default class Auth {
   public getSellerID(data: any, type = 'subscription') {
     const origin = localStorage.getItem('origin') || '';
     const formData = new FormData();
+    const email = data.email;
+    const password = data.password;
     formData.append('email', data.email);
     formData.append('name', data.name);
     formData.append('first_name', data.first_name);
     formData.append('last_name', data.last_name);
     formData.append('origin', origin);
+    formData.append('subscription_id', data.subscription_id);
     if (
       data.stripe_subscription_id &&
-      data.activation_code &&
       data.subscription_id &&
       data.payment_mode &&
       data.stripe_customer_id
     ) {
       formData.append('stripe_customer_id', data.stripe_customer_id);
       formData.append('stripe_subscription_id', data.stripe_subscription_id);
-      formData.append('activation_code', data.activation_code);
-      formData.append('subscription_id', data.subscription_id);
       formData.append('payment_mode', data.payment_mode);
     }
 
@@ -143,7 +143,15 @@ export default class Auth {
         if (type === 'subscription') {
           history.push('/subscription/payment');
         } else if (type === 'newSubscription') {
-          history.push('/subscription/success');
+          history.push({
+            pathname: '/activation/success',
+            state: { email, password },
+          });
+        } else if (type === 'freeAccountSignup') {
+          history.push({
+            pathname: '/activation/success',
+            state: { email, password },
+          });
         }
       })
       .catch(err => {
