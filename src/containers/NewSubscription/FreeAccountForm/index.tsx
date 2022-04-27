@@ -41,7 +41,7 @@ interface Props {
   auth: Auth;
 }
 
-const Activation = (props: Props) => {
+const FreeAccountForm = (props: Props) => {
   const { auth, termsOfService, privacyPolicy, fetchPP, fetchTOS } = props;
   const urlParams = new URLSearchParams(window.location.search);
   const [email, setEmail] = React.useState<string>('');
@@ -124,7 +124,7 @@ const Activation = (props: Props) => {
     },
   ];
 
-  /* Obtaining email and name from activation code */
+  /* Obtaining email url */
   React.useEffect(() => {
     const email = urlParams.get('email');
     if (email) {
@@ -296,4 +296,4 @@ const mapDispatchToProps = {
   fetchPP: () => fetchPP(),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Activation);
+export default connect(mapStateToProps, mapDispatchToProps)(FreeAccountForm);
