@@ -36,12 +36,12 @@ import ProductResearch from '../ProductResearch';
 import KeywordResearch from '../KeywordResearch';
 import PerfectStock from '../PerfectStock';
 import LeadTime from '../Settings/PerfectStockSettings/LeadTime';
+import FreeAccountForm from '../NewSubscription/FreeAccountForm';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import { isBetaAccount } from '../../utils/subscriptions';
 import Activation from '../NewSubscription/Activation';
 import ActivationSuccess from '../NewSubscription/ActivationSuccess';
-import { PERFECT_STOCK_SELLER_STATUS } from '../../constants/PerfectStock';
 import MainHomePage from '../MainHomePage';
 
 export const auth = new Auth();
@@ -152,15 +152,6 @@ const PrivateRoute = connect(
         if (requireSubscription && subscriptionId === 5) {
           if (isBetaLabel) {
             history.push('/activate-beta-account');
-          } else if (
-            sellerSubscription.is_aistock &&
-            (sellerSubscription.perfect_stock_status ===
-              PERFECT_STOCK_SELLER_STATUS.SP_API_FAILED ||
-              sellerSubscription.perfect_stock_status === null)
-          ) {
-            // Do nothing
-          } else {
-            history.push('/settings/pricing');
           }
         }
       }
@@ -236,6 +227,12 @@ function App() {
             exact={true}
             path="/subscription"
             render={renderProps => <NewSubscription auth={auth} {...renderProps} />}
+          />
+
+          <Route
+            exact={true}
+            path="/signup"
+            render={renderProps => <FreeAccountForm auth={auth} {...renderProps} />}
           />
 
           <Route exact={true} path="/subscription/success" component={PaymentSuccess} />

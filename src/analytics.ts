@@ -1,9 +1,14 @@
 /* eslint-disable import/no-named-as-default */
 // @ts-ignore
 import Analytics from 'analytics';
-import ReactGA from 'react-ga4';
 // @ts-ignore
 import fullStoryPlugin from '@analytics/fullstory';
+
+// @ts-ignore
+import googleTagManager from '@analytics/google-tag-manager';
+
+// @ts-ignore
+import googleAnalyticsPlugin from '@analytics/google-analytics';
 import history from './history';
 import { AppConfig } from './config';
 
@@ -15,14 +20,14 @@ const analytics = Analytics({
     fullStoryPlugin({
       org: AppConfig.fullStoryOrgId,
     }),
+    googleTagManager({
+      containerId: AppConfig.googleTagManagerContainerId,
+    }),
+    googleAnalyticsPlugin({
+      trackingId: AppConfig.gaTrackingId,
+    }),
   ],
 });
-
-ReactGA.initialize([
-  {
-    trackingId: AppConfig.gaTrackingId,
-  },
-]);
 
 // Track initial pageview
 if (typeof window !== 'undefined') {
@@ -32,7 +37,6 @@ if (typeof window !== 'undefined') {
 // Track pageview on route change
 history.listen(() => {
   analytics.page();
-  ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
 });
 
 export default analytics;

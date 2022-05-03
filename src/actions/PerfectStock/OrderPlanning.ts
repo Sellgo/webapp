@@ -403,21 +403,23 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
     const jobId = data.perfect_stock_job_id;
 
     if (status === 200) {
-      const { data } = await axios.get(
-        `${
-          AppConfig.BASE_URL_API
-        }sellers/${sellerIDSelector()}/perfect-stock/job/progress?perfect_stock_job_id=${jobId}`
-      );
-      let backgroundStatus = data.status;
-      /* Block until data.status === completed */
-      while (backgroundStatus === 'processing') {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+      if (jobId) {
         const { data } = await axios.get(
           `${
             AppConfig.BASE_URL_API
           }sellers/${sellerIDSelector()}/perfect-stock/job/progress?perfect_stock_job_id=${jobId}`
         );
-        backgroundStatus = data.status;
+        let backgroundStatus = data.status;
+        /* Block until data.status === completed */
+        while (backgroundStatus === 'processing') {
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          const { data } = await axios.get(
+            `${
+              AppConfig.BASE_URL_API
+            }sellers/${sellerIDSelector()}/perfect-stock/job/progress?perfect_stock_job_id=${jobId}`
+          );
+          backgroundStatus = data.status;
+        }
       }
 
       dispatch(fetchInventoryTable({}));

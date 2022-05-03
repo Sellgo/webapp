@@ -36,13 +36,20 @@ import {
 
 interface Props {
   fetchSellerSubscription: () => void;
+  getSellerInfo: () => void;
   sellerSubscription: SellerSubscription;
   subscriptionPlan: SubscriptionPlanType;
   match: any;
 }
 
 const Billing = (props: Props) => {
-  const { match, fetchSellerSubscription, subscriptionPlan, sellerSubscription } = props;
+  const {
+    match,
+    fetchSellerSubscription,
+    subscriptionPlan,
+    sellerSubscription,
+    getSellerInfo,
+  } = props;
 
   const [hasActivePlan, setHasActivePlan] = React.useState<boolean>(true);
   const [hasPaymentMethod, setHasPaymentMethod] = React.useState<boolean>(true);
@@ -166,6 +173,8 @@ const Billing = (props: Props) => {
             fetchCreditCardInfo={fetchCreditCardInfo}
             hasActivePlan={hasActivePlan}
             hasPaymentMethod={hasPaymentMethod}
+            getSellerInfo={getSellerInfo}
+            fetchSellerSubscription={fetchSellerSubscription}
           />
 
           <PastTransactionsSection
@@ -186,6 +195,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = {
   fetchSellerSubscription: () => fetchSellerSubscription(),
+  getSellerInfo: () => getSellerInfo(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Billing);

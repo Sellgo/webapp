@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Axios from 'axios';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -13,7 +12,6 @@ import styles from './index.module.scss';
 import { AppConfig } from '../../config';
 
 /* Utils */
-import { success, error } from '../../utils/notifications';
 import history from '../../history';
 
 /* Actions */
@@ -35,13 +33,12 @@ import { PRE_SURVEY, IN_SURVEY, POST_SURVEY_1, POST_SURVEY_2 } from '../../const
 
 interface Props {
   match: any;
-  profile: any;
   fetchSellerSubscription: () => void;
   getSeller: () => void;
 }
 
 const ChurnFlow = (props: Props) => {
-  const { match, profile, fetchSellerSubscription, getSeller } = props;
+  const { match, fetchSellerSubscription, getSeller } = props;
 
   const [surveyPhase, setSurveyPhase] = useState(PRE_SURVEY);
 
@@ -54,17 +51,8 @@ const ChurnFlow = (props: Props) => {
     setSurveyPhase(newPhase);
   };
 
-  const cancelSubscription = () => {
-    Axios.post(AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/cancel`)
-      .then(() => {
-        getSeller();
-        fetchSellerSubscription();
-        success(`Your subscription has been cancelled`);
-        history.push('./settings/pricing');
-      })
-      .catch(() => {
-        error(`There was an error cancelling your subscription`);
-      });
+  const redirectToHome = () => {
+    history.push('/');
   };
 
   /* Generates churn flow content dependant on phase of survey */
@@ -75,7 +63,7 @@ const ChurnFlow = (props: Props) => {
           <ChurnFlowContent
             onClick={() => handleChangeSurveyPhase(IN_SURVEY)}
             title={`We're sorry to see you go`}
-            desc={`In order to process your cancellation,
+            desc={`In order to improve our services,
              we need you to answer 3 quick questions. Your insights can help us improve the product for others.`}
             buttonText="Quick Survey"
             img={sellgoLogo}
@@ -96,7 +84,7 @@ const ChurnFlow = (props: Props) => {
           <ChurnFlowContent
             onClick={() => handleChangeSurveyPhase(POST_SURVEY_2)}
             title="Thanks for your help"
-            desc="Your opinion is really important to us, one more step to finalize."
+            desc="Your opinion is really important to us, one more step to complete the survey."
             buttonText="Next"
             img={TofuAndSoybean}
             isButtonGrey
@@ -106,10 +94,10 @@ const ChurnFlow = (props: Props) => {
       case POST_SURVEY_2:
         return (
           <ChurnFlowContent
-            onClick={cancelSubscription}
+            onClick={redirectToHome}
             title="About Your Subscription"
             desc="We will let you know if we need more information."
-            buttonText="Submit Cancellation Request"
+            buttonText="Complete"
             img={Tofu}
             isButtonGrey
           />
@@ -136,9 +124,7 @@ const ChurnFlow = (props: Props) => {
     </main>
   );
 };
-const mapStateToProps = (state: any) => ({
-  profile: state.settings.profile,
-});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = {
   getSeller: () => getSellerInfo(),

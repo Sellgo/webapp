@@ -1,7 +1,8 @@
 import React, { ReactChild } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import { Modal, Dimmer, Confirm } from 'semantic-ui-react';
+import { Modal, Dimmer, Confirm, Loader } from 'semantic-ui-react';
+import Axios from 'axios';
 
 /* App Config */
 import { AppConfig } from '../../../../config';
@@ -34,6 +35,8 @@ import { SellerSubscription } from '../../../../interfaces/Seller';
 
 /* Utils */
 import { capitalizeFirstLetter, formatDecimal } from '../../../../utils/format';
+import { sellerIDSelector } from '../../../../selectors/Seller';
+import { error, success } from '../../../../utils/notifications';
 
 const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
 interface Props {
@@ -48,6 +51,8 @@ interface Props {
   fetchCreditCardInfo: () => void;
   hasActivePlan: boolean;
   hasPaymentMethod: boolean;
+  fetchSellerSubscription: () => void;
+  getSellerInfo: () => void;
 }
 
 const QuotaAndPaymentsSection = (props: Props) => {
@@ -63,10 +68,15 @@ const QuotaAndPaymentsSection = (props: Props) => {
     fetchCreditCardInfo,
     hasActivePlan,
     hasPaymentMethod,
+    fetchSellerSubscription,
+    getSellerInfo,
   } = props;
 
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
   const [isCancellingSubscription, setCancellingSubscription] = React.useState<boolean>(false);
+  const [isCancelSubscriptionLoading, setCancelSubscriptionLoading] = React.useState<boolean>(
+    false
+  );
 
   const isSubscriptionExpiring = sellerSubscription && sellerSubscription.status === 'pending';
 
@@ -94,8 +104,20 @@ const QuotaAndPaymentsSection = (props: Props) => {
     setModalOpen(false);
   };
 
-  const launchChurnflow = () => {
-    history.push('/churnflow');
+  const cancelSubscription = () => {
+    setCancelSubscriptionLoading(true);
+    Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerIDSelector()}/subscription/cancel`)
+      .then(() => {
+        getSellerInfo();
+        fetchSellerSubscription();
+        success(`Your subscription has been cancelled`);
+        history.push('/churnflow');
+        setCancelSubscriptionLoading(false);
+      })
+      .catch(() => {
+        setCancelSubscriptionLoading(false);
+        error(`There was an error cancelling your subscription`);
+      });
   };
 
   /* Content to show if user has no active plan, and no payment methods */
@@ -212,9 +234,16 @@ const QuotaAndPaymentsSection = (props: Props) => {
                       type="white"
                       size="small"
                       onClick={() => setCancellingSubscription(true)}
-                      className={styles.actionButton}
+                      className={`
+                        ${styles.actionButton} 
+                        ${isCancelSubscriptionLoading ? styles.actionButton__disabled : ''}
+                      `}
                     >
-                      Cancel Plan
+                      {!isCancelSubscriptionLoading ? (
+                        'Cancel Plan'
+                      ) : (
+                        <Loader inline active={true} size="tiny" />
+                      )}
                     </OrangeButton>
                   )}
                 </div>
@@ -292,9 +321,10 @@ const QuotaAndPaymentsSection = (props: Props) => {
           setCancellingSubscription(false);
         }}
         onConfirm={() => {
+          cancelSubscription();
           setCancellingSubscription(false);
-          launchChurnflow();
         }}
+        loading={true}
       />
     </section>
   );

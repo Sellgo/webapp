@@ -10,13 +10,13 @@ import {
 } from '@stripe/react-stripe-js';
 import { Form, Loader } from 'semantic-ui-react';
 import Axios from 'axios';
-import generator from 'generate-password';
 
 /* Components */
 import Auth from '../../../components/Auth/Auth';
+import StepsInfo from '../../../components/StepsInfo';
 
 /* Constants */
-import { Name, validateEmail } from '../../../constants/Validators';
+import { Length, Name, validateEmail } from '../../../constants/Validators';
 import { getSubscriptionID } from '../../../constants/Subscription';
 
 /* App Config */
@@ -45,6 +45,7 @@ import { PromoCode } from '../../../interfaces/Subscription';
 
 /* Utils */
 import { generatePromoCodeMessage } from '../../../utils/subscriptions';
+import { trackEvent } from '../../../utils/analyticsTracking';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -97,7 +98,6 @@ function CheckoutForm(props: MyProps) {
   const [isPromoCodeChecked, setPromoCodeChecked] = useState<boolean>(false);
   const [promoCode, setPromoCode] = useState<string>('');
   const { value: email, bind: bindEmail } = useInput('');
-  const { value: email2, bind: bindEmail2 } = useInput('');
   const { value: firstName, bind: bindFirstName } = useInput('');
   const { value: lastName, bind: bindLastName } = useInput('');
   const [emailError, setEmailError] = useState(false);
@@ -106,6 +106,20 @@ function CheckoutForm(props: MyProps) {
   const [signupLoading, setSignupLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isSignupSuccess, setSignupSuccess] = useState<boolean>(false);
+  const [isFocusPW, setFocusPassword] = React.useState<boolean>(false);
+  const { value: password, bind: bindPassword } = useInput('');
+  const { value: password2, bind: bindPassword2 } = useInput('');
+
+  const stepsInfo = [
+    {
+      id: 1,
+      stepShow: true,
+      stepClass: Length.validate(password) ? 'title-success' : 'title-error',
+      stepTitle: 'Length',
+      stepDescription: 'At least 6 characters',
+      stepIcon: Length.validate(password) ? 'check' : 'times',
+    },
+  ];
 
   /* Upon successful checking of the entered promo code, either a valid redeemedPromoCode code 
   is returned, or an error message is returned. Upon completion of promo code check, set status 
@@ -147,15 +161,14 @@ function CheckoutForm(props: MyProps) {
     if (!validateEmail(email)) {
       handleError(`Error in email - email format validation failed: ${email}`);
       setEmailError(true);
-    } else if (email !== email2) {
-      handleError(`Emails do not match`);
-      setEmailError(true);
     } else if (!Name.validate(firstName)) {
       handleError('First Name must all be letters.');
       setFnameError(true);
     } else if (!Name.validate(lastName)) {
       handleError('Last Name must all be letters.');
       setLnameError(true);
+    } else if (password !== password2) {
+      handleError('Passwords do not match.');
     }
 
     try {
@@ -235,34 +248,15 @@ function CheckoutForm(props: MyProps) {
 
       /* Create auth0 account */
       if (stripeSubscription) {
-        /* Generating Hash */
-        const data = new TextEncoder().encode(stripeSubscription.id);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashString = `${btoa(email.toLowerCase())}${hashArray
-          .map(b => b.toString(16).padStart(2, '0'))
-          .join('')}`;
-
-        const randomPasswordLength = Math.max(20, Math.random() * 32);
-        const randomPassword = generator.generate({
-          length: randomPasswordLength,
-          symbols: true,
-          numbers: true,
-          lowercase: true,
-          uppercase: true,
-          strict: true,
-        });
-
         /* After successful sign up, auth.getSellerID will change the page */
         auth.webAuth.signup(
           {
             connection: 'Username-Password-Authentication',
             email: email.toLowerCase(),
-            password: randomPassword,
+            password: password,
             userMetadata: {
               first_name: firstName,
               last_name: lastName,
-              activation_code: hashString,
             },
           },
           (err: any) => {
@@ -271,6 +265,7 @@ function CheckoutForm(props: MyProps) {
               handleError(err.description);
               return;
             } else {
+              // Successful Signup
               const data: any = {
                 email: email.trim().toLowerCase(), // trim out white spaces to prevent 500
                 name: firstName + ' ' + lastName,
@@ -278,11 +273,32 @@ function CheckoutForm(props: MyProps) {
                 last_name: lastName,
                 stripe_subscription_id: stripeSubscription.id,
                 stripe_customer_id: stripeSubscription.customer,
-                activation_code: hashString,
                 subscription_id: getSubscriptionID(accountType),
                 payment_mode: paymentMode,
+                password: password,
               };
 
+              /* Tracking for google analytics upon successful payment */
+              trackEvent({
+                event: 'purchase',
+                ecommerce: {
+                  transaction_id: stripeSubscription.id,
+                  affiliation: 'Stripe',
+                  revenue: stripeSubscription.plan.amount / 100,
+                  tax: 0,
+                  shipping: 0,
+                  items: [
+                    {
+                      name: accountType,
+                      id: getSubscriptionID(accountType),
+                      price: stripeSubscription.plan.amount / 100,
+                      brand: 'Stripe',
+                      category: 'Subscription',
+                      quantity: 1,
+                    },
+                  ],
+                },
+              });
               auth.getSellerID(data, 'newSubscription');
             }
           }
@@ -293,7 +309,7 @@ function CheckoutForm(props: MyProps) {
 
   return (
     <div className={styles.checkoutContainer}>
-      <h2>Secure Credit Card Payment</h2>
+      <h2> Account Information </h2>
       <form onSubmit={handleSubmit}>
         <Form.Group className={styles.formGroup}>
           <Form.Input
@@ -330,16 +346,30 @@ function CheckoutForm(props: MyProps) {
           />
         </Form.Group>
         <Form.Group className={styles.formGroup}>
+          <Form.Field className={`${styles.formInput} ${styles.formInput__password}`}>
+            <label htmlFor="password">Password*</label>
+            <StepsInfo
+              id="password"
+              subscriptionRegister={true}
+              isFocusPW={isFocusPW}
+              focusInput={() => setFocusPassword(true)}
+              blurInput={() => setFocusPassword(false)}
+              stepsData={stepsInfo}
+              {...bindPassword}
+            />
+          </Form.Field>
           <Form.Input
             size="huge"
-            label="Confirm Email"
-            type="mail"
-            placeholder="Email"
-            {...bindEmail2}
-            error={emailError}
+            label="Confirm Password*"
+            type="password"
+            placeholder="Confirm Password"
+            required
+            {...bindPassword2}
             className={styles.formInput}
           />
         </Form.Group>
+        <div className={styles.divider} />
+        <h2>Secure Credit Card Payment</h2>
         <Form.Group className={styles.formGroup}>
           <Form.Field className={`${styles.formInput}`}>
             <label htmlFor="CardNumber">Credit Card Number</label>
@@ -409,7 +439,7 @@ function CheckoutForm(props: MyProps) {
             type="submit"
             className={styles.completeButton}
           >
-            Complete Payment
+            Complete Payment&nbsp;
             {signupLoading && <Loader active inline size="mini" inverted />}
           </button>
         </div>
@@ -426,6 +456,7 @@ const mapStateToProps = (state: {}) => ({
   promoError: get(state, 'subscription.promoError'),
   successPayment: get(state, 'subscription.successPayment'),
 });
+
 const mapDispatchToProps = {
   setStripeLoad: (data: boolean) => setStripeLoading(data),
   checkPromoCode: (promoCode: string, subscriptionId: number, paymentMode: string) =>
@@ -433,4 +464,5 @@ const mapDispatchToProps = {
   setRedeemedPromoCode: (data: any) => setPromoCode(data),
   setPromoError: (data: string) => setPromoError(data),
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm);
