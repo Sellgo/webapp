@@ -29,6 +29,7 @@ import { getUserOnboarding, getUserOnboardingResources } from '../../selectors/U
 
 /* Actions */
 import { setUserOnboardingResources } from '../../actions/UserOnboarding';
+import { updateCashflowOnboardingStatus } from '../../actions/PerfectStock/Home';
 
 /* Constants */
 import {
@@ -48,7 +49,10 @@ import salesProjectionOnboarding from '../../assets/onboardingResources/PerfectS
 import orderPlanningInventoryOnboarding from '../../assets/onboardingResources/PerfectStock/orderPlanningInventoryOnboarding.json';
 /* eslint-disable-next-line */
 import orderPlanningEditOnboarding from '../../assets/onboardingResources/PerfectStock/orderPlanningEditOnboarding.json';
+
+/* Selectors */
 import { getSellerSubscription } from '../../selectors/Subscription';
+import { getCashflowOnboardingStatus } from '../../selectors/PerfectStock/Home';
 
 /* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
@@ -59,17 +63,21 @@ interface Props {
   setUserOnboardingResources: (payload: any) => void;
   userOnboarding: boolean;
   userOnboardingResources: any[];
+  cashflowOnboardingStatus: any[];
   subscription: SellerSubscription;
+  updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) => void;
 }
 
 const PerfectStock: React.FC<Props> = props => {
   const {
     match,
+    cashflowOnboardingStatus,
     setUserOnboardingResources,
     userOnboardingResources,
     userOnboarding,
     history,
     subscription,
+    updateCashflowOnboardingStatus,
   } = props;
 
   const [selectedTabList, setSelectedTabList] = useState<number>(0);
@@ -271,15 +279,30 @@ const PerfectStock: React.FC<Props> = props => {
             </TabPanel>
 
             <TabPanel>
-              <EmployeeExpensesSettings />
+              <EmployeeExpensesSettings
+                cashflowOnboardingStatus={cashflowOnboardingStatus.find(
+                  cost => cost.step_name === 'employee'
+                )}
+                updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
+              />
             </TabPanel>
 
             <TabPanel>
-              <PpcExpensesSettings />
+              <PpcExpensesSettings
+                cashflowOnboardingStatus={cashflowOnboardingStatus.find(
+                  cost => cost.step_name === 'ppc'
+                )}
+                updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
+              />
             </TabPanel>
 
             <TabPanel>
-              <LaunchExpensesSettings />
+              <LaunchExpensesSettings
+                cashflowOnboardingStatus={cashflowOnboardingStatus.find(
+                  cost => cost.step_name === 'launch'
+                )}
+                updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
+              />
             </TabPanel>
           </Tabs>
         </section>
@@ -292,6 +315,7 @@ const PerfectStock: React.FC<Props> = props => {
 
 const mapStateToProps = (state: any) => {
   return {
+    cashflowOnboardingStatus: getCashflowOnboardingStatus(state),
     userOnboarding: getUserOnboarding(state),
     userOnboardingResources: getUserOnboardingResources(state),
     subscription: getSellerSubscription(state),
@@ -301,6 +325,8 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     setUserOnboardingResources: (payload: any) => dispatch(setUserOnboardingResources(payload)),
+    updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) =>
+      dispatch(updateCashflowOnboardingStatus(onboardingCostId, newStatus)),
   };
 };
 

@@ -7,16 +7,22 @@ import styles from './index.module.scss';
 /* Components */
 import SettingsBanner from '../../../../../components/SettingsBanner';
 import SettingsInputTable from '../../../../../components/SettingsInputTable';
+import ElevioArticle from '../../../../../components/ElevioArticle';
+import PerfectStockSettingsNav from '../../../../../components/PerfectStockSettingsNav';
 
 /* Constants */
 import { AppConfig } from '../../../../../config';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
 import { error, success } from '../../../../../utils/notifications';
-import ElevioArticle from '../../../../../components/ElevioArticle';
 import { PPC_SETTINGS_COLUMNS, SETTINGS_OPTIONS } from '../../../../../constants/PerfectStock/Home';
-import PerfectStockSettingsNav from '../../../../../components/PerfectStockSettingsNav';
 
-const Expenses = () => {
+interface Props {
+  cashflowOnboardingStatus: any;
+  updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) => void;
+}
+
+const Expenses = (props: Props) => {
+  const { cashflowOnboardingStatus, updateCashflowOnboardingStatus } = props;
   const sellerID = localStorage.getItem('userId');
 
   /* Fetches all the triggers from backend */
@@ -74,6 +80,9 @@ const Expenses = () => {
       }
 
       if (patchExpenseStatus && postExpenseStatus) {
+        if (cashflowOnboardingStatus) {
+          updateCashflowOnboardingStatus(cashflowOnboardingStatus.id, true);
+        }
         success('Expenses successfully saved');
       }
     } catch (err) {

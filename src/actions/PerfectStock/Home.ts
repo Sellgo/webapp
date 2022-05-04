@@ -13,6 +13,13 @@ import { getSubChartSettings } from '../../selectors/PerfectStock/Home';
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
 
+export const setCashflowOnboardingStatus = (payload: any) => {
+  return {
+    type: actionTypes.SET_CASHFLOW_ONBOARDING_STATUS,
+    payload,
+  };
+};
+
 /* Action to set loading state for tpl */
 export const isLoadingTopChart = (payload: boolean) => {
   return {
@@ -130,4 +137,41 @@ export const fetchSubCharts = (payload?: SubChartSettings) => async (
     console.error('Error fetching sub charts', err);
   }
   dispatch(isLoadingSubCharts(false));
+};
+
+/* Action to fetch onboarding status */
+export const fetchCashflowOnboardingStatus = () => async (dispatch: any) => {
+  try {
+    const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/cash-flow-status`;
+    const { data, status } = await axios.get(url);
+    if (data && status === 200) {
+      dispatch(setCashflowOnboardingStatus(data));
+    }
+  } catch (err) {
+    dispatch(setCashflowOnboardingStatus({}));
+    console.error('Error fetching onboarding status', err);
+  }
+};
+
+/* Action to update cashflow onboarding status */
+export const updateCashflowOnboardingStatus = (
+  onboardingCostId: number,
+  newStatus: boolean
+) => async (dispatch: any) => {
+  try {
+    const url = `${
+      AppConfig.BASE_URL_API
+    }sellers/${sellerIDSelector()}/cash-flow-status/${onboardingCostId}`;
+    const payload = {
+      is_completed: newStatus,
+      id: onboardingCostId,
+    };
+    const { data, status } = await axios.patch(url, payload);
+    if (data && status === 200) {
+      dispatch(fetchCashflowOnboardingStatus());
+    }
+  } catch (err) {
+    dispatch(fetchCashflowOnboardingStatus());
+    console.error('Error fetching onboarding status', err);
+  }
 };

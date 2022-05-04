@@ -9,6 +9,7 @@ export const actionTypes = {
   SET_MAIN_CHART: 'SET_MAIN_CHART',
   SET_SUB_CHART: 'SET_SUB_CHART',
   SET_SUB_CHART_SETTINGS: 'SET_SUB_CHART_SETTINGS',
+  SET_CASHFLOW_ONBOARDING_STATUS: 'SET_CASHFLOW_ONBOARDING_STATUS',
 };
 
 export const TIME_RANGE_OPTIONS = [
@@ -253,3 +254,18 @@ export const SETTINGS_OPTIONS = [
     disabled: false,
   },
 ];
+
+export const ONBOARDING_STATUS_MAPPING: any = {
+  employee: {
+    title: 'Employee Costs',
+    to: '/aistock/home-expenses-settings',
+  },
+  ppc: {
+    title: 'PPC Costs',
+    to: '/aistock/home-ppc-settings',
+  },
+  launch: {
+    title: 'Launch Costs',
+    to: '/aistock/home-launch-settings',
+  },
+};

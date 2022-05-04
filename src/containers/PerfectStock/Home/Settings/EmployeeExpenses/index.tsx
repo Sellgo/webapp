@@ -19,7 +19,13 @@ import {
   SETTINGS_OPTIONS,
 } from '../../../../../constants/PerfectStock/Home';
 
-const Expenses = () => {
+interface Props {
+  cashflowOnboardingStatus: any;
+  updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) => void;
+}
+
+const Expenses = (props: Props) => {
+  const { cashflowOnboardingStatus, updateCashflowOnboardingStatus } = props;
   const sellerID = localStorage.getItem('userId');
 
   /* Fetches all the triggers from backend */
@@ -77,6 +83,9 @@ const Expenses = () => {
       }
 
       if (patchExpenseStatus && postExpenseStatus) {
+        if (cashflowOnboardingStatus) {
+          updateCashflowOnboardingStatus(cashflowOnboardingStatus.id, true);
+        }
         success('Expenses successfully saved');
       }
     } catch (err) {

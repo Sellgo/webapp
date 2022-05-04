@@ -12,12 +12,17 @@ const INITIAL_STATE = {
   isLoadingSubCharts: false,
   subCharts: [],
   subChartSettings: DEFAULT_SUB_CHART_SETTINGS,
+  cashflowOnboardingSettings: [],
 };
 
 const tplReducer = (state = INITIAL_STATE, action: AnyAction) => {
   switch (action.type) {
     case actionTypes.IS_LOADING_MAIN_CHART: {
       return setIn(state, 'isLoadingMainChart', action.payload);
+    }
+
+    case actionTypes.SET_CASHFLOW_ONBOARDING_STATUS: {
+      return setIn(state, 'cashflowOnboardingSettings', action.payload);
     }
 
     case actionTypes.SET_MAIN_CHART: {

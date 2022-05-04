@@ -19,3 +19,7 @@ export const getSubCharts = (state: any) => {
 export const getSubChartSettings = (state: any) => {
   return get(state, 'home.subChartSettings');
 };
+
+export const getCashflowOnboardingStatus = (state: any) => {
+  return get(state, 'home.cashflowOnboardingSettings');
+};
