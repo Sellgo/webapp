@@ -37,6 +37,7 @@ import { ONBOARDING_STATUS_MAPPING } from '../../../constants/PerfectStock/Home'
 
 /* Assets */
 import { ReactComponent as RedCross } from '../../../assets/images/redCrossCircle.svg';
+import history from '../../../history';
 
 interface Props {
   subChartSettings: SubChartSettings;
@@ -75,6 +76,22 @@ const Home = (props: Props) => {
     (cost: any) => !cost.is_completed && ONBOARDING_STATUS_MAPPING[cost.step_name]
   )?.length;
 
+  const isOrderPlanningSetUp = onboardingStatus?.find(
+    (cost: any) => cost.is_completed && cost.step_name === 'orders_created'
+  );
+
+  const redirectToOrderPlanning = () => {
+    history.push('/aistock/order');
+  };
+
+  const redirectToTpl = () => {
+    history.push('/aistock/tpl');
+  };
+
+  const isTplSetUp = onboardingStatus?.find(
+    (cost: any) => cost.is_completed && cost.step_name === 'tpl_storage_fee'
+  );
+
   return (
     <main>
       <TopGraph
@@ -88,6 +105,24 @@ const Home = (props: Props) => {
             <RedCross />
             &nbsp;
             <span>{numOfCostsNotSetUp} COSTS</span>&nbsp;have not been completed yet, set up now.
+          </div>
+        </NotificationBanner>
+      )}
+      {!isOrderPlanningSetUp && (
+        <NotificationBanner isOpenByDefault onClick={redirectToOrderPlanning}>
+          <div className={styles.notificationBannerContent}>
+            <RedCross />
+            &nbsp;
+            <span>Order Planning</span>&nbsp;has not been completed yet, create an order now.
+          </div>
+        </NotificationBanner>
+      )}
+      {!isTplSetUp && (
+        <NotificationBanner isOpenByDefault onClick={redirectToTpl}>
+          <div className={styles.notificationBannerContent}>
+            <RedCross />
+            &nbsp;
+            <span>TPL Storage Costs</span>&nbsp;have not been completed yet, set up TPL now.
           </div>
         </NotificationBanner>
       )}

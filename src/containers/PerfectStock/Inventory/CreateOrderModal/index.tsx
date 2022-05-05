@@ -18,6 +18,7 @@ import SkuSelection from './SkuSelection';
 import PrioritySkuSelection from './PrioritySkuSelection';
 import InventoryThresholdSelection from './InventoryThresholdSelection';
 import OrderIntervalSelection from './OrderIntervalSelection';
+import ConnectTplSelection from './ConnectTplSelection';
 
 /* Interfaces */
 import {
@@ -27,7 +28,7 @@ import {
 
 /* Utils */
 import { AppConfig } from '../../../../config';
-import { sellerIDSelector } from '../../../../selectors/Seller';
+import history from '../../../../history';
 
 /* Actions */
 import {
@@ -36,6 +37,8 @@ import {
   setActivePurchaseOrder,
   setPurchaseOrdersLoadingMessage,
 } from '../../../../actions/PerfectStock/OrderPlanning';
+import { updateCashflowOnboardingStatus } from '../../../../actions/PerfectStock/Home';
+
 import { error, success } from '../../../../utils/notifications';
 
 /* Constants */
@@ -43,8 +46,10 @@ import {
   CREATE_ORDER_STATUS,
   CREATE_ORDER_FLOW,
 } from '../../../../constants/PerfectStock/OrderPlanning';
-import history from '../../../../history';
-import ConnectTplSelection from './ConnectTplSelection';
+
+/* Selectors */
+import { getCashflowOnboardingStatus } from '../../../../selectors/PerfectStock/Home';
+import { sellerIDSelector } from '../../../../selectors/Seller';
 
 interface Props {
   open: boolean;
@@ -53,6 +58,8 @@ interface Props {
   setActivePurchaseOrder: (order: PurchaseOrder) => void;
   setPurchaseOrdersLoadingMessage: (message: string) => void;
   isLoadingPurchaseOrders: (loading: boolean) => void;
+  cashflowOnboardingStatus: any[];
+  updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) => void;
 }
 
 const CreateOrder = (props: Props) => {
@@ -63,6 +70,8 @@ const CreateOrder = (props: Props) => {
     setActivePurchaseOrder,
     setPurchaseOrdersLoadingMessage,
     isLoadingPurchaseOrders,
+    cashflowOnboardingStatus,
+    updateCashflowOnboardingStatus,
   } = props;
 
   const DEFAULT_ORDER: CreateOrderPayload = {
@@ -81,6 +90,10 @@ const CreateOrder = (props: Props) => {
   const [createOrderSelectedFlow, setCreateOrderSelectedFlow] = React.useState<string[]>(
     CREATE_ORDER_FLOW.SINGLE_ORDER
   );
+
+  const orderPlanningOnboardingStatusId = cashflowOnboardingStatus.find(status => {
+    return status.step_name === 'orders_created' && !status.is_completed;
+  })?.id;
 
   const handleCreateOrder = async (payload: CreateOrderPayload) => {
     setIsCreateOrderLoading(true);
@@ -104,6 +117,10 @@ const CreateOrder = (props: Props) => {
         fetchPurchaseOrders();
         success('Successfully created smart order template.');
         setCreateOrderStep(createOrderStep + 1);
+
+        if (orderPlanningOnboardingStatusId) {
+          updateCashflowOnboardingStatus(orderPlanningOnboardingStatusId, true);
+        }
       } else {
         isLoadingPurchaseOrders(false);
         setPurchaseOrdersLoadingMessage('');
@@ -302,7 +319,9 @@ const CreateOrder = (props: Props) => {
   );
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state: any) => ({
+  cashflowOnboardingStatus: getCashflowOnboardingStatus(state),
+});
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
@@ -318,6 +337,8 @@ const mapDispatchToProps = (dispatch: any) => {
     setPurchaseOrdersLoadingMessage: (message: string) => {
       dispatch(setPurchaseOrdersLoadingMessage(message));
     },
+    updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) =>
+      dispatch(updateCashflowOnboardingStatus(onboardingCostId, newStatus)),
   };
 };
 
