@@ -107,10 +107,9 @@ const Home = (props: Props) => {
         })}
       </div>
 
-      {/* Add Competitors Modal */}
       <Modal
         open={isOnboardingModalOpen}
-        className={styles.addCompetitorsModal}
+        className={styles.onboardingModal}
         onClose={() => setIsOnboardingModalOpen(false)}
         content={
           <OnboardingModal

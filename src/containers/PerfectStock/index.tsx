@@ -17,6 +17,7 @@ import Home from './Home';
 import EmployeeExpensesSettings from './Home/Settings/EmployeeExpenses';
 import PpcExpensesSettings from './Home/Settings/PpcExpenses';
 import LaunchExpensesSettings from './Home/Settings/LaunchExpenses';
+import DaysOfInventorySettings from './Inventory/Settings/DaysOfInventory';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
@@ -112,11 +113,11 @@ const PerfectStock: React.FC<Props> = props => {
   }, [match]);
 
   useEffect(() => {
-    if (selectedTabList === 1) {
+    if (selectedTabList === 0) {
       setUserOnboardingResources(salesProjectionOnboarding);
-    } else if (selectedTabList === 2) {
+    } else if (selectedTabList === 1) {
       setUserOnboardingResources(orderPlanningInventoryOnboarding);
-    } else if (selectedTabList === 3) {
+    } else if (selectedTabList === 4) {
       setUserOnboardingResources(orderPlanningEditOnboarding);
     }
   }, [selectedTabList]);
@@ -218,17 +219,9 @@ const PerfectStock: React.FC<Props> = props => {
               >
                 <Tab>
                   <ProductLabel
-                    label="Cash Flow"
-                    icon="Perfect Stock Home"
-                    isActive={selectedTabList === 0}
-                    isBeta
-                  />
-                </Tab>
-                <Tab>
-                  <ProductLabel
                     label="Sales Forecasting"
                     icon="Sales Estimation"
-                    isActive={selectedTabList === 1}
+                    isActive={selectedTabList === 0}
                     isBeta
                   />
                 </Tab>
@@ -236,7 +229,7 @@ const PerfectStock: React.FC<Props> = props => {
                   <ProductLabel
                     label="Order Planning"
                     icon="Order Planning"
-                    isActive={selectedTabList === 2}
+                    isActive={selectedTabList === 1}
                     isBeta
                   />
                 </Tab>
@@ -244,6 +237,14 @@ const PerfectStock: React.FC<Props> = props => {
                   <ProductLabel
                     label="3PL Manager"
                     icon="Tpl"
+                    isActive={selectedTabList === 2}
+                    isBeta
+                  />
+                </Tab>
+                <Tab>
+                  <ProductLabel
+                    label="Cash Flow"
+                    icon="Perfect Stock Home"
                     isActive={selectedTabList === 3}
                     isBeta
                   />
@@ -259,10 +260,6 @@ const PerfectStock: React.FC<Props> = props => {
             </div>
 
             <TabPanel>
-              <Home />
-            </TabPanel>
-
-            <TabPanel>
               <SalesProjection />
             </TabPanel>
 
@@ -275,7 +272,15 @@ const PerfectStock: React.FC<Props> = props => {
             </TabPanel>
 
             <TabPanel>
+              <Home />
+            </TabPanel>
+
+            <TabPanel>
               <OrderPlanning />
+            </TabPanel>
+
+            <TabPanel>
+              <DaysOfInventorySettings />
             </TabPanel>
 
             <TabPanel>

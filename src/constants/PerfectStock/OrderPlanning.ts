@@ -201,3 +201,11 @@ export const DEFAULT_FILTER = {
   active: 'sku_status=active',
   fba: 'fulfillment_channel=fba',
 };
+
+export const SETTINGS_OPTIONS = [
+  {
+    name: 'Days of Inventory',
+    url: '/aistock/inventory-days-of-inventory-settings',
+    disabled: false,
+  },
+];

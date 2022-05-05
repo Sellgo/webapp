@@ -1,11 +1,12 @@
 export const PERFECT_STOCK_PAGES = [
-  '/aistock/home',
   '/aistock/sales',
   '/aistock/order',
   '/aistock/tpl',
+  '/aistock/home',
   '/aistock/create-order',
 
   /* Cash flow page settings */
+  '/aistock/inventory-days-of-inventory-settings',
   '/aistock/home-expenses-settings',
   '/aistock/home-ppc-settings',
   '/aistock/home-launch-settings',
@@ -13,16 +14,13 @@ export const PERFECT_STOCK_PAGES = [
 
 export const HIDE_TAB_PAGES = [
   '/aistock/create-order',
+  '/aistock/inventory-days-of-inventory-settings',
   '/aistock/home-expenses-settings',
   '/aistock/home-ppc-settings',
   '/aistock/home-launch-settings',
 ];
+
 export const PERFECT_STOCK_PRODUCT_DETAILS = [
-  {
-    name: 'Cash Flow',
-    desc: 'Cash flow analysis',
-    settings: '/aistock/home-expenses-settings',
-  },
   {
     name: 'Sales Forecasting',
     desc: 'Accurately project high seasonal sales',
@@ -31,7 +29,7 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'Order Planning',
     desc: 'Easily create order planning',
-    settings: '',
+    settings: '/aistock/inventory-days-of-inventory-settings',
   },
   {
     name: '3PL Manager',
@@ -39,8 +37,18 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
     settings: '',
   },
   {
+    name: 'Cash Flow',
+    desc: 'Cash flow analysis',
+    settings: '/aistock/home-expenses-settings',
+  },
+  {
     name: 'Create Order',
     desc: 'Easily create order planning',
+    settings: '',
+  },
+  {
+    name: 'Days of Inventory',
+    desc: 'Set up days of inventory',
     settings: '',
   },
   {
