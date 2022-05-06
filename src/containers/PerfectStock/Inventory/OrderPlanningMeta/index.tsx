@@ -76,9 +76,10 @@ const OrderPlanningMeta = (props: Props) => {
   const [isCreatingOrder, setIsCreatingOrder] = React.useState(false);
   const [isExportConfirmOpen, setExportConfirmOpen] = React.useState<boolean>(false);
   const [startEndDate, setStartEndDate] = React.useState<any>([undefined, undefined]);
+  const [exportType, setExportType] = React.useState<'order' | 'order_plan' | 'inv_today'>('order');
 
   const handleOnExport = async () => {
-    if (!startEndDate[0] || !startEndDate[1]) {
+    if ((!startEndDate[0] || !startEndDate[1]) && exportType !== 'inv_today') {
       error('Please select a start and end date');
       return;
     }
@@ -87,7 +88,7 @@ const OrderPlanningMeta = (props: Props) => {
     try {
       const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/perfect-stock/export`;
       const { data } = await axios.post(url, {
-        type: 'order',
+        type: exportType,
         start_date: getDateOnly(startEndDate[0]),
         end_date: getDateOnly(startEndDate[1]),
       });
@@ -187,7 +188,11 @@ const OrderPlanningMeta = (props: Props) => {
                 <BoxHeader>DOWNLOAD: ORDER PLANNING</BoxHeader>
                 <BoxContainer className={styles.exportConfirmContainer}>
                   <div className={styles.salesForecastDateSelector}>
-                    <Checkbox checked={true} disabled />
+                    <Checkbox
+                      radio
+                      checked={exportType === 'order'}
+                      onClick={() => setExportType('order')}
+                    />
                     <span className={styles.dateSelectorLabel}>Past Inventory</span>
                     <DateRangePicker
                       className={styles.dateRangePicker}
@@ -199,6 +204,32 @@ const OrderPlanningMeta = (props: Props) => {
                       }}
                       showOneCalendar
                     />
+                  </div>
+                  <div className={styles.salesForecastDateSelector}>
+                    <Checkbox
+                      radio
+                      checked={exportType === 'order_plan'}
+                      onClick={() => setExportType('order_plan')}
+                    />
+                    <span className={styles.dateSelectorLabel}>Order Plan</span>
+                    <DateRangePicker
+                      className={styles.dateRangePicker}
+                      value={startEndDate[0] && startEndDate[1] ? startEndDate : undefined}
+                      onChange={value => {
+                        if (value) {
+                          setStartEndDate(value);
+                        }
+                      }}
+                      showOneCalendar
+                    />
+                  </div>
+                  <div className={styles.salesForecastDateSelector}>
+                    <Checkbox
+                      radio
+                      checked={exportType === 'inv_today'}
+                      onClick={() => setExportType('inv_today')}
+                    />
+                    <span className={styles.dateSelectorLabel}>Inventory Today</span>
                   </div>
                   <ActionButton
                     variant="primary"

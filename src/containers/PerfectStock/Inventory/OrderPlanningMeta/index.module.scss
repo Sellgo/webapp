@@ -46,9 +46,8 @@
 }
 
 .exportOptions {
-  margin-left: 40px;
+  padding: 10px;
   min-height: max-content;
-  padding-top: 10px;
 
   span {
     color: $grey_6;
@@ -109,6 +108,7 @@
   font-weight: $fontweight_medium;
   display: flex;
   align-items: center;
+  margin-bottom: 18px;
 
   .dateRangePicker {
     a {

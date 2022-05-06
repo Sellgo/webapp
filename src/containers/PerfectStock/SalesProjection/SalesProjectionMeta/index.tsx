@@ -67,6 +67,7 @@ const SalesProjectionMeta = (props: Props) => {
   const [isExportLoading, setExportLoading] = React.useState<boolean>(false);
   const [isExportConfirmOpen, setExportConfirmOpen] = React.useState<boolean>(false);
   const [startEndDate, setStartEndDate] = React.useState<any>([undefined, undefined]);
+  const [exportType, setExportType] = React.useState<'sales' | 'sales_cal'>('sales');
 
   const handleOnExport = async () => {
     if (!startEndDate[0] || !startEndDate[1]) {
@@ -78,7 +79,7 @@ const SalesProjectionMeta = (props: Props) => {
     try {
       const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/perfect-stock/export`;
       const { data } = await axios.post(url, {
-        type: 'sales',
+        type: exportType,
         start_date: getDateOnly(startEndDate[0]),
         end_date: getDateOnly(startEndDate[1]),
       });
@@ -159,8 +160,30 @@ const SalesProjectionMeta = (props: Props) => {
                 <BoxHeader>DOWNLOAD: SALES FORECASTING</BoxHeader>
                 <BoxContainer className={styles.exportConfirmContainer}>
                   <div className={styles.salesForecastDateSelector}>
-                    <Checkbox checked={true} disabled />
+                    <Checkbox
+                      radio
+                      checked={exportType === 'sales'}
+                      onClick={() => setExportType('sales')}
+                    />
                     <span className={styles.dateSelectorLabel}>Sales Forecast</span>
+                    <DateRangePicker
+                      className={styles.dateRangePicker}
+                      value={startEndDate[0] && startEndDate[1] ? startEndDate : undefined}
+                      onChange={value => {
+                        if (value) {
+                          setStartEndDate(value);
+                        }
+                      }}
+                      showOneCalendar
+                    />
+                  </div>
+                  <div className={styles.salesForecastDateSelector}>
+                    <Checkbox
+                      radio
+                      checked={exportType === 'sales_cal'}
+                      onClick={() => setExportType('sales_cal')}
+                    />
+                    <span className={styles.dateSelectorLabel}>Sales Calendar</span>
                     <DateRangePicker
                       className={styles.dateRangePicker}
                       value={startEndDate[0] && startEndDate[1] ? startEndDate : undefined}
