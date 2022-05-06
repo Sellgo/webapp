@@ -186,7 +186,6 @@ const TrackerKeywordTable = (props: Props) => {
           shouldUpdateScroll={false}
           hover={false}
           rowHeight={PRODUCT_KEYWORD_ROW_HEIGHT}
-          // rowHeight={30}
           headerHeight={50}
           sortColumn={sortColumn}
           sortType={sortType}
