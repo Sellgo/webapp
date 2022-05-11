@@ -12,7 +12,7 @@ import history from '../../../history';
 import { SETTINGS_PAGES } from '../../../constants/Settings';
 
 /* Utils */
-import { isFirstTimeLoggedIn } from '../../../utils/subscriptions';
+import { isAistockSubscription, isFirstTimeLoggedIn } from '../../../utils/subscriptions';
 
 /* Types */
 import { SellerSubscription } from '../../../interfaces/Seller';
@@ -27,22 +27,14 @@ interface Props {
 const SettingsNav = (props: Props) => {
   const { match, sellerSubscription } = props;
   const firstTimeLoggedIn = isFirstTimeLoggedIn();
-  const isAiStock = sellerSubscription.is_aistock;
+  const isAiStock = isAistockSubscription(sellerSubscription.subscription_id);
   const handleGoBack = () => {
     history.goBack();
   };
 
   /* Disabling settings based on seller subscription */
   const filteredSettingsPages = SETTINGS_PAGES.map(page => {
-    if (
-      (page.name === 'Subscription' || page.name === 'Billing' || page.name === 'API Keys') &&
-      isAiStock
-    ) {
-      return {
-        ...page,
-        disabled: true,
-      };
-    } else if (page.name === 'AiStock' && !isAiStock) {
+    if (page.name === 'AiStock' && !isAiStock) {
       return {
         ...page,
         disabled: true,

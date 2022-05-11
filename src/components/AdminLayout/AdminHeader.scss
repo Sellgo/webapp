@@ -37,6 +37,10 @@
     }
   }
 
+  .disabled {
+    display: none !important;
+  }
+
   .line {
     width: 100%;
     border-top: 1px solid $grey_3;

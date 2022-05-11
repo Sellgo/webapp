@@ -17,7 +17,7 @@ import { SellerSubscription } from '../../interfaces/Seller';
 import { getSellerSubscription } from '../../selectors/Subscription';
 
 /* Utils */
-import { isBetaAccount } from '../../utils/subscriptions';
+import { isAistockSubscription, isBetaAccount } from '../../utils/subscriptions';
 import { setUserOnboarding } from '../../actions/UserOnboarding';
 
 /* Icons */
@@ -53,7 +53,7 @@ const AdminHeader = (props: Props) => {
   } = props;
   const { email, first_name, last_name } = profile;
   const isBeta = isBetaAccount(sellerSubscription);
-  const isAiStock = sellerSubscription.is_aistock;
+  const isAiStock = isAistockSubscription(sellerSubscription.subscription_id);
   const [openConfirm, setOpenConfirm] = React.useState<boolean>(false);
   const open = () => setOpenConfirm(true);
 
