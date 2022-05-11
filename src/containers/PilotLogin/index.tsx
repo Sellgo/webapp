@@ -30,7 +30,7 @@ const PilotLogin = (props: Props) => {
   const [showOnboardingForm, setShowOnboardingForm] = React.useState(false);
 
   const handleSubmitOnboardingForm = () => {
-    updateSeller({ is_aistock_on_boarding_survey_filled: true, doNotRefresh: true });
+    updateSeller({ is_aistock_on_boarding_survey_filled: true, doNotRefresh: false });
   };
 
   React.useEffect(() => {

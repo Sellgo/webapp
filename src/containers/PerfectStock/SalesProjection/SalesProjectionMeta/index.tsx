@@ -71,6 +71,7 @@ const SalesProjectionMeta = (props: Props) => {
   const handleOnExport = async () => {
     if (!startEndDate[0] || !startEndDate[1]) {
       error('Please select a start and end date');
+      return;
     }
     setExportLoading(true);
     setExportConfirmOpen(false);
@@ -162,8 +163,12 @@ const SalesProjectionMeta = (props: Props) => {
                     <span className={styles.dateSelectorLabel}>Sales Forecast</span>
                     <DateRangePicker
                       className={styles.dateRangePicker}
-                      value={startEndDate}
-                      onChange={value => setStartEndDate(value)}
+                      value={startEndDate[0] && startEndDate[1] ? startEndDate : undefined}
+                      onChange={value => {
+                        if (value) {
+                          setStartEndDate(value);
+                        }
+                      }}
                       showOneCalendar
                     />
                   </div>
