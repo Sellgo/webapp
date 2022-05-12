@@ -16,7 +16,7 @@ import SidebarDropdown from './SidebarDropdown';
 import { getActiveIndex, OPTIONS } from '../../constants/AdminLayout';
 
 /* Utils */
-import { isBetaAccount, isAiStock } from '../../utils/subscriptions';
+import { isAistockSubscription } from '../../utils/subscriptions';
 
 /* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
@@ -106,20 +106,13 @@ const Sidebar = (props: Props) => {
   React.useEffect(() => {
     let newNavOptions: NavOptions = [...navOptions];
 
-    /* Disable menu for free subscriptions */
-    if (isBetaAccount(sellerSubscription)) {
+    if (isAistockSubscription(sellerSubscription.subscription_id)) {
       newNavOptions = handleDisableNavOption('Product Research', newNavOptions);
       newNavOptions = handleDisableNavOption('Wholesale Bulk Analysis', newNavOptions);
       newNavOptions = handleDisableNavOption('Seller Research', newNavOptions);
       newNavOptions = handleDisableNavOption('Keyword Research', newNavOptions);
-    }
-
-    /* Disable everything else for AI stock, applies ONLY TO BETA */
-    if (isAiStock(sellerSubscription)) {
-      newNavOptions = handleDisableNavOption('Product Research', newNavOptions);
-      newNavOptions = handleDisableNavOption('Wholesale Bulk Analysis', newNavOptions);
-      newNavOptions = handleDisableNavOption('Seller Research', newNavOptions);
-      newNavOptions = handleDisableNavOption('Keyword Research', newNavOptions);
+    } else {
+      newNavOptions = handleDisableNavOption('Ai Stock', newNavOptions);
     }
 
     setNavOptions(newNavOptions);

@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import styles from './index.module.scss';
 
 /* Assets */
-import newSellgoLogo from '../../../assets/images/aistockLogo.png';
+import newSellgoLogo from '../../../assets/images/SellgoNewestLogo.png';
 import aistockLogo from '../../../assets/images/aistockLogo.png';
 import chromeExtensionExample from '../../../assets/images/chromeExample.png';
 import chromeExtensionIcon from '../../../assets/images/rainbowChromeLogo.svg';
