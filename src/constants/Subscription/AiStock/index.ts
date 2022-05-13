@@ -1,13 +1,13 @@
-import { SubscriptionPlan, SummaryDetails } from '../../interfaces/Subscription';
+import { SubscriptionPlan, SummaryDetails } from '../../../interfaces/Subscription';
 
 export const DAILY_SUBSCRIPTION_PLANS = [7, 13];
-export const FREE_ACCOUNT_SUBSCRIPTION_ID = 5;
+export const FREE_TRIAL_SUBSCRIPTION_ID = 100;
 
 /* Used in webapp pricing page */
 export const MONTHLY_AND_ANNUAL_PLANS = [
   {
-    id: 10, // subscriptionID if needed
-    name: 'Starter',
+    id: 101, // subscriptionID if needed
+    name: 'Aistock Starter',
     productsDatabase: 0,
     salesEstimateCount: 1000,
     monthlyPrice: 37,
@@ -25,8 +25,8 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
     ],
   },
   {
-    id: 11,
-    name: 'Professional',
+    id: 102,
+    name: 'Aistock Professional',
     productsDatabase: 0,
     salesEstimateCount: 2000,
     monthlyPrice: 97,
@@ -62,8 +62,8 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
     ],
   },
   {
-    id: 12,
-    name: 'Team',
+    id: 103,
+    name: 'Aistock Team',
     productsDatabase: 0,
     salesEstimateCount: 3000,
     monthlyPrice: 177,
@@ -106,63 +106,27 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
 /* Used in Change plan Modal */
 export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
-    subscriptionId: 10, // subscriptionID if needed
-    name: 'Starter',
+    subscriptionId: 101, // subscriptionID if needed
+    name: 'Aistock Starter',
     dailyPrice: 0,
     monthlyPrice: 37,
     annualPrice: 324,
     isDailyPlan: false,
   },
   {
-    subscriptionId: 11, // subscriptionID if needed
-    name: 'Professional',
+    subscriptionId: 102, // subscriptionID if needed
+    name: 'Aistock Professional',
     dailyPrice: 0,
     monthlyPrice: 97,
     annualPrice: 924,
     isDailyPlan: false,
   },
   {
-    subscriptionId: 12, // subscriptionID if needed
-    name: 'Team',
+    subscriptionId: 103, // subscriptionID if needed
+    name: 'Aistock Team',
     dailyPrice: 0,
     monthlyPrice: 177,
     annualPrice: 1764,
-    isDailyPlan: false,
-  },
-  {
-    subscriptionId: 7, // subscriptionID if needed
-    name: 'Wholesale Arbitrage $1 (D)',
-    dailyPrice: 1,
-    isLegacy: true,
-    monthlyPrice: 0,
-    annualPrice: 0,
-    isDailyPlan: true,
-  },
-  {
-    subscriptionId: 6, // subscriptionID if needed
-    name: 'Starter (D)',
-    dailyPrice: 0,
-    isLegacy: true,
-    monthlyPrice: 37,
-    annualPrice: 323,
-    isDailyPlan: false,
-  },
-  {
-    subscriptionId: 2, // subscriptionID if needed
-    name: 'Professional (D)',
-    dailyPrice: 0,
-    isLegacy: true,
-    monthlyPrice: 97,
-    annualPrice: 971,
-    isDailyPlan: false,
-  },
-  {
-    subscriptionId: 1, // subscriptionID if needed
-    name: 'Team  (D)',
-    dailyPrice: 0,
-    isLegacy: true,
-    monthlyPrice: 177,
-    annualPrice: 1763,
     isDailyPlan: false,
   },
 ];
@@ -170,9 +134,9 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
 /* Used in Summary page */
 export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   starter: {
-    name: 'Starter',
-    id: 10,
-    idWithLegacyPlans: [10, 6],
+    name: 'Aistock Starter',
+    id: 101,
+    idWithLegacyPlans: [],
     monthlyPrice: 37,
     annualPrice: 324,
     dailyPrice: -1,
@@ -185,9 +149,9 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     ],
   },
   professional: {
-    name: 'Professional',
-    id: 11,
-    idWithLegacyPlans: [11, 2],
+    name: 'Aistock Professional',
+    id: 102,
+    idWithLegacyPlans: [],
     monthlyPrice: 97,
     annualPrice: 924,
     dailyPrice: -1,
@@ -202,9 +166,9 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     ],
   },
   team: {
-    name: 'Team',
-    id: 12,
-    idWithLegacyPlans: [12, 1],
+    name: 'Aistock Team',
+    id: 103,
+    idWithLegacyPlans: [],
     monthlyPrice: 177,
     annualPrice: 1764,
     dailyPrice: -1,
@@ -229,13 +193,13 @@ export const SUBSCRIPTION_DETAILS_LIST: SummaryDetails[] = [
 ];
 
 export const subscriptionDetailsMapping: { [key: string]: number } = {
-  starter: 10,
-  professional: 11,
-  team: 12,
+  starter: 101,
+  professional: 102,
+  team: 103,
 };
 
 export const getSubscriptionID = (planName: string) => {
-  const DEFAULT_PROFESSIONAL_PLAN_ID = 11;
+  const DEFAULT_PROFESSIONAL_PLAN_ID = 102;
   const id = subscriptionDetailsMapping[planName];
   if (id) {
     return id;

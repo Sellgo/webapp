@@ -23,8 +23,6 @@ import APIConnectivity from '../Settings/APIConnectivity';
 import SPConnectivity from '../Settings/SPConnectivity';
 import SpApiListener from '../Settings/SPConnectivity/SpApiListener';
 import Profile from '../Settings/Profile';
-import NewSubscription from '../NewSubscription';
-import PaymentSuccess from '../NewSubscription/PaymentSuccess';
 import Payment from '../Subscription/Payment';
 // import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
@@ -36,15 +34,45 @@ import ProductResearch from '../ProductResearch';
 import KeywordResearch from '../KeywordResearch';
 import PerfectStock from '../PerfectStock';
 import LeadTime from '../Settings/PerfectStockSettings/LeadTime';
-import FreeAccountForm from '../NewSubscription/FreeAccountForm';
+
+import SellgoNewSubscription from '../NewSellgoSubscription';
+import SellgoPaymentSuccess from '../NewSellgoSubscription/SellgoPaymentSuccess';
+import SellgoFreeAccountForm from '../NewSellgoSubscription/SellgoFreeAccountForm';
+import SellgoActivation from '../NewSellgoSubscription/SellgoActivation';
+import SellgoActivationSuccess from '../NewSellgoSubscription/SellgoActivationSuccess';
+
+import AistockNewSubscription from '../NewAistockSubscription';
+import AistockPaymentSuccess from '../NewAistockSubscription/AistockPaymentSuccess';
+import AistockFreeAccountForm from '../NewAistockSubscription/AistockFreeAccountForm';
+import AistockActivation from '../NewAistockSubscription/AistockActivation';
+import AistockActivationSuccess from '../NewAistockSubscription/AistockActivationSuccess';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
-import { isBetaAccount } from '../../utils/subscriptions';
-import Activation from '../NewSubscription/Activation';
-import ActivationSuccess from '../NewSubscription/ActivationSuccess';
 import MainHomePage from '../MainHomePage';
 
+/* Utils */
+import { isBetaAccount } from '../../utils/subscriptions';
+import { isSellgoSession } from '../../utils/session';
+
 export const auth = new Auth();
+
+const AistockSubscriptionPages = {
+  NewSubscription: AistockNewSubscription,
+  PaymentSuccess: AistockPaymentSuccess,
+  FreeAccountForm: AistockFreeAccountForm,
+  Activation: AistockActivation,
+  ActivationSuccess: AistockActivationSuccess,
+};
+
+const SellgoSubscriptionPages = {
+  NewSubscription: SellgoNewSubscription,
+  PaymentSuccess: SellgoPaymentSuccess,
+  FreeAccountForm: SellgoFreeAccountForm,
+  Activation: SellgoActivation,
+  ActivationSuccess: SellgoActivationSuccess,
+};
+
+const SubscriptionPages = isSellgoSession() ? SellgoSubscriptionPages : AistockSubscriptionPages;
 
 const handleAuthentication = (location: any) => {
   if (/access_token|id_token|error/.test(location.hash)) {
@@ -226,24 +254,38 @@ function App() {
           <Route
             exact={true}
             path="/subscription"
-            render={renderProps => <NewSubscription auth={auth} {...renderProps} />}
+            render={renderProps => (
+              <SubscriptionPages.NewSubscription auth={auth} {...renderProps} />
+            )}
           />
 
           <Route
             exact={true}
             path="/signup"
-            render={renderProps => <FreeAccountForm auth={auth} {...renderProps} />}
+            render={renderProps => (
+              <SubscriptionPages.FreeAccountForm auth={auth} {...renderProps} />
+            )}
           />
 
-          <Route exact={true} path="/subscription/success" component={PaymentSuccess} />
+          <Route
+            exact={true}
+            path="/subscription/success"
+            component={SubscriptionPages.PaymentSuccess}
+          />
 
           <Route
             exact={true}
             path="/activation/success"
-            render={renderProps => <ActivationSuccess auth={auth} {...renderProps} />}
+            render={renderProps => (
+              <SubscriptionPages.ActivationSuccess auth={auth} {...renderProps} />
+            )}
           />
 
-          <Route exact={true} path="/activation/:activationCode" component={Activation} />
+          <Route
+            exact={true}
+            path="/activation/:activationCode"
+            component={SubscriptionPages.Activation}
+          />
 
           <Route
             exact={true}

@@ -17,7 +17,7 @@ import StepsInfo from '../../../components/StepsInfo';
 
 /* Constants */
 import { Length, Name, validateEmail } from '../../../constants/Validators';
-import { getSubscriptionID } from '../../../constants/Subscription';
+import { getSubscriptionID } from '../../../constants/Subscription/Sellgo';
 
 /* App Config */
 import { AppConfig } from '../../../config';

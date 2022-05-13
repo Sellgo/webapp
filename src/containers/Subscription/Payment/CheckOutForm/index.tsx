@@ -38,7 +38,7 @@ import styles from './index.module.scss';
 import { PromoCode } from '../../../../interfaces/Subscription';
 
 /* Utils */
-import { getSubscriptionID } from '../../../../constants/Subscription';
+import { getSubscriptionID } from '../../../../constants/Subscription/Sellgo';
 import { generatePromoCodeMessage } from '../../../../utils/subscriptions';
 
 const CARD_ELEMENT_OPTIONS = {

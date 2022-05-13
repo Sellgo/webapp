@@ -42,7 +42,7 @@ import FAQSection from './FaqSection';
 import {
   DAILY_SUBSCRIPTION_PLANS,
   MONTHLY_AND_ANNUAL_PLANS,
-} from '../../../constants/Subscription';
+} from '../../../constants/Subscription/Sellgo';
 
 interface SubscriptionProps {
   getSeller: () => void;

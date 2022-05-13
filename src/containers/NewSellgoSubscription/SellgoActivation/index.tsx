@@ -1,19 +1,21 @@
 import React from 'react';
-import { Form, Header, Modal, TextArea, Checkbox, Loader } from 'semantic-ui-react';
+import { Form, Header, Modal, TextArea, Checkbox } from 'semantic-ui-react';
+import axios from 'axios';
 import { get } from 'lodash';
 import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
 
-/* Components */
-import Auth from '../../../components/Auth/Auth';
-
 /* Assets */
-import newSellgoLogo from '../../../assets/images/sellgoNewLogo.png';
+import newSellgoLogo from '../../../assets/images/SellgoNewestLogo.png';
+import aistockLogo from '../../../assets/images/aistockLogo.png';
 import chromeExtensionExample from '../../../assets/images/chromeExample.png';
 import chromeExtensionIcon from '../../../assets/images/rainbowChromeLogo.svg';
 import Dots from '../../../assets/images/hex-neural.svg';
+
+/* Config */
+import { AppConfig } from '../../../config';
 
 /* Components */
 import StepsInfo from '../../../components/StepsInfo';
@@ -22,14 +24,16 @@ import StepsInfo from '../../../components/StepsInfo';
 import { useInput } from '../../../hooks/useInput';
 
 /* Constants */
-import { passwordPolicy, Length } from '../../../constants/Validators';
+import {
+  passwordPolicy,
+  strong,
+  lowerUpper,
+  alphanumeric,
+  Length,
+} from '../../../constants/Validators';
 
 /* Actions */
 import { fetchTOS, fetchPP } from '../../../actions/UserOnboarding';
-import { FREE_ACCOUNT_SUBSCRIPTION_ID } from '../../../constants/Subscription';
-
-/* Utils */
-import { decodeBase64 } from '../../../utils/format';
 
 interface Props {
   match: any;
@@ -38,12 +42,13 @@ interface Props {
   privacyPolicy: any;
   fetchPP: any;
   fetchTOS: any;
-  auth: Auth;
 }
 
-const FreeAccountForm = (props: Props) => {
-  const { auth, termsOfService, privacyPolicy, fetchPP, fetchTOS } = props;
+const Activation = (props: Props) => {
+  const { history, match, termsOfService, privacyPolicy, fetchPP, fetchTOS } = props;
   const urlParams = new URLSearchParams(window.location.search);
+  const isAiStock = urlParams.has('is-aistock') && urlParams.get('is-aistock') === 'true';
+  const activationCode = match.params.activationCode;
   const [email, setEmail] = React.useState<string>('');
   const [name, setName] = React.useState<string>('');
   const [errorMessage, setErrorMessage] = React.useState<string>('');
@@ -116,6 +121,30 @@ const FreeAccountForm = (props: Props) => {
   const stepsInfo = [
     {
       id: 1,
+      stepShow: strong.validate(password) ? true : false,
+      stepClass: 'title-success',
+      stepTitle: 'Password Strength',
+      stepDescription: `strong`,
+      stepIcon: 'check',
+    },
+    {
+      id: 2,
+      stepShow: false,
+      stepClass: lowerUpper.validate(password) ? 'title-success' : 'title-error',
+      stepTitle: 'Lowercase and Uppercase',
+      stepDescription: 'Contains a capital letter and a non capital letter',
+      stepIcon: lowerUpper.validate(password) ? 'check' : 'times',
+    },
+    {
+      id: 3,
+      stepShow: false,
+      stepClass: alphanumeric.validate(password) ? 'title-success' : 'title-error',
+      stepTitle: 'Alphanumeric',
+      stepDescription: 'Contains a number and letter',
+      stepIcon: alphanumeric.validate(password) ? 'check' : 'times',
+    },
+    {
+      id: 4,
       stepShow: true,
       stepClass: Length.validate(password) ? 'title-success' : 'title-error',
       stepTitle: 'Length',
@@ -124,12 +153,26 @@ const FreeAccountForm = (props: Props) => {
     },
   ];
 
-  /* Obtaining email url */
+  /* Obtaining email and name from activation code */
   React.useEffect(() => {
-    const email = urlParams.get('email');
-    if (email) {
-      setEmail(decodeBase64(email));
-    }
+    const getUserInfo = async () => {
+      try {
+        const URL = `${AppConfig.BASE_URL_API}checkout/retrieve-user-info/${activationCode}`;
+        const response = await axios.get(URL);
+        const { data } = response;
+        const { email, first_name, last_name } = data;
+        setEmail(email);
+
+        if (!isAiStock) {
+          setName(`${first_name} ${last_name}`);
+        }
+      } catch (err) {
+        console.error('Unable to retrieve user information');
+        history.push('/');
+      }
+    };
+
+    getUserInfo();
   }, []);
 
   const handleSubmit = async () => {
@@ -146,53 +189,99 @@ const FreeAccountForm = (props: Props) => {
       setErrorMessage(`Please agree to the terms and conditons.`);
       setLoading(false);
       return;
-    } else if (!name) {
+    } else if (!name && isAiStock) {
       setErrorMessage(`Please enter your name.`);
       setLoading(false);
       return;
     }
 
-    /* After successful sign up, auth.getSellerID will change the page */
-    auth.webAuth.signup(
-      {
-        connection: 'Username-Password-Authentication',
-        email: email.toLowerCase(),
-        password: password,
-        userMetadata: {
-          first_name: name,
-          last_name: name,
-        },
-      },
-      (err: any) => {
-        if (err) {
-          // This should not happen
-          setErrorMessage(err.description);
-          setLoading(false);
-          return;
+    /* ------------------------------------------------------------------- */
+    /* -------------- ACTIVATION FOR NORMAL SELLGO ACCOUNTS--------------- */
+    /* ------------------------------------------------------------------- */
+    if (!isAiStock) {
+      try {
+        const payload = {
+          email,
+          password,
+          activation_code: activationCode,
+        };
+        const URL = `${AppConfig.BASE_URL_API}checkout/activate`;
+        const response = await axios.post(URL, payload);
+        const { status } = response;
+        if (status === 200) {
+          history.push({
+            pathname: '/activation/success',
+            state: { email: email, password: password },
+          });
         } else {
-          // Successful Signup
-          const data: any = {
-            email: email.trim().toLowerCase(), // trim out white spaces to prevent 500
-            name: name,
-            first_name: name,
-            last_name: '',
-            subscription_id: FREE_ACCOUNT_SUBSCRIPTION_ID,
-            password: password,
-          };
-          auth.getSellerID(data, 'freeAccountSignup');
+          setErrorMessage(`Failed to activate account. Please contact support.`);
         }
+      } catch (err) {
+        setErrorMessage(`Failed to activate account. Please contact support.`);
       }
-    );
+    } else {
+      /* ------------------------------------------------------------------- */
+      /* ----------------- ACTIVATION FOR AI STOCK ACCOUNTS----------------- */
+      /* ------------------------------------------------------------------- */
+      try {
+        const payload = {
+          name,
+          email,
+          password,
+          activation_code: activationCode,
+        };
+        const URL = `${AppConfig.BASE_URL_API}checkout/aistock/activate`;
+        const response = await axios.post(URL, payload);
+        const { status } = response;
+        if (status === 200) {
+          history.push({
+            pathname: '/activation/success',
+            state: { email: email, password: password, isAiStock: true },
+          });
+        } else {
+          setErrorMessage(`Failed to activate account. Please contact support.`);
+        }
+      } catch (err) {
+        setErrorMessage(`Failed to activate account. Please contact support.`);
+      }
+    }
+    setLoading(false);
   };
 
   return (
     <main className={styles.activationPage}>
       {newUserExperiencePopup()}
+      <section className={styles.chromeExtensionCTASection}>
+        <img
+          className={styles.chromeExtensionDisplay}
+          src={chromeExtensionExample}
+          alt="chrome-extension-pic"
+        />
+        <p className={styles.chromeExtensionDesc}>
+          Private Label entrepreneurs, Wholesale resellers, and service providers use our extension
+          to estimate sales &#38; search terms directly from Amazon.
+        </p>
+        <a
+          href="https://chrome.google.com/webstore/detail/sellgo-extension/gldmigoakdolonchebfnmcfbjihelcec"
+          className={styles.chromeExtensionButton}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src={chromeExtensionIcon} alt="chromeExtensionIcon" />
+          Get Sellgo Chrome Extension
+        </a>
+      </section>
       <section className={styles.activationFormSection}>
-        <img src={newSellgoLogo} className={styles.logo} alt="Sellgo Company Logo" />
+        <img
+          src={isAiStock ? aistockLogo : newSellgoLogo}
+          className={styles.logo}
+          alt="Sellgo Company Logo"
+        />
         <div className={styles.activationForm}>
           <img src={Dots} alt="dots" className={styles.dots} />
-          <p className={styles.formHeader}>Sign up to Sellgo</p>
+          <p className={styles.formHeader}>
+            {!isAiStock ? `Set Name & Password` : `Set Up Your Beta Account`}
+          </p>
           <Form.Input
             size="huge"
             label="Your Name"
@@ -201,6 +290,7 @@ const FreeAccountForm = (props: Props) => {
             value={name}
             className={styles.formInput}
             onChange={e => setName(e.target.value)}
+            disabled={!isAiStock}
           />
           <Form.Input
             size="huge"
@@ -209,7 +299,7 @@ const FreeAccountForm = (props: Props) => {
             placeholder="Email"
             value={email}
             className={styles.formInput}
-            onChange={e => setEmail(e.target.value)}
+            disabled
           />
           <Form.Field className={`${styles.formInput} ${styles.formInput__password}`}>
             <label htmlFor="password">Password*</label>
@@ -257,30 +347,9 @@ const FreeAccountForm = (props: Props) => {
           </div>
           <p className={styles.error}>{errorMessage}</p>
           <button className={styles.submitButton} onClick={handleSubmit} disabled={isLoading}>
-            Sign Up&nbsp;
-            <Loader active={isLoading} inline inverted size="mini" />
+            {isAiStock ? 'Activate Your Beta Account' : 'Register'}
           </button>
         </div>
-      </section>
-      <section className={styles.chromeExtensionCTASection}>
-        <img
-          className={styles.chromeExtensionDisplay}
-          src={chromeExtensionExample}
-          alt="chrome-extension-pic"
-        />
-        <p className={styles.chromeExtensionDesc}>
-          Private Label entrepreneurs, Wholesale resellers, and service providers use our extension
-          to estimate sales &#38; search terms directly from Amazon.
-        </p>
-        <a
-          href="https://chrome.google.com/webstore/detail/sellgo-extension/gldmigoakdolonchebfnmcfbjihelcec"
-          className={styles.chromeExtensionButton}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src={chromeExtensionIcon} alt="chromeExtensionIcon" />
-          Get Sellgo Chrome Extension
-        </a>
       </section>
     </main>
   );
@@ -296,4 +365,4 @@ const mapDispatchToProps = {
   fetchPP: () => fetchPP(),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FreeAccountForm);
+export default connect(mapStateToProps, mapDispatchToProps)(Activation);

@@ -14,5 +14,10 @@ export const makeOrGetUniqueTabID = () => {
 };
 
 export const isSellgoSession = () => {
-  return window.location.href.includes('sellgo');
+  if (process.env.REACT_APP_ENV === 'production' || process.env.REACT_APP_ENV === 'development') {
+    return window.location.href.includes('sellgo');
+  }
+
+  // Default to aistock for local testing
+  return false;
 };

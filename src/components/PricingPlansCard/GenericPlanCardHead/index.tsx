@@ -5,7 +5,7 @@ import styles from './index.module.scss';
 
 /* Components */
 import ActionButton from '../../ActionButton';
-import { DAILY_SUBSCRIPTION_PLANS } from '../../../constants/Subscription';
+import { DAILY_SUBSCRIPTION_PLANS } from '../../../constants/Subscription/Sellgo';
 
 interface Props {
   id: number;

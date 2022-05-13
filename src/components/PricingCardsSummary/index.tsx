@@ -1,5 +1,5 @@
 import React from 'react';
-import { DAILY_SUBSCRIPTION_PLANS } from '../../constants/Subscription';
+import { DAILY_SUBSCRIPTION_PLANS } from '../../constants/Subscription/Sellgo';
 import { isSubscriptionNotPaid, isSubscriptionPaid } from '../../utils/subscriptions';
 import PricePlanToggleButton from '../PricePlanToggleButton';
 

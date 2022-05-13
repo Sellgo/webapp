@@ -9,7 +9,7 @@ import styles from './index.module.scss';
 import { formatDecimal } from '../../../utils/format';
 
 /* Data */
-import { generateSubscriptionDetails } from '../../../constants/Subscription';
+import { generateSubscriptionDetails } from '../../../constants/Subscription/Sellgo';
 
 /* Types */
 import { PromoCode, SummaryDetails } from '../../../interfaces/Subscription';

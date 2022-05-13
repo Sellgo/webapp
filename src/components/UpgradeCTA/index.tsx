@@ -9,7 +9,7 @@ import rightArrow from '../../assets/images/rightArrowPurple.svg';
 
 import { SellerSubscription } from '../../interfaces/Seller';
 
-import { DAILY_SUBSCRIPTION_PLANS } from '../../constants/Subscription';
+import { DAILY_SUBSCRIPTION_PLANS } from '../../constants/Subscription/Sellgo';
 import { connect } from 'react-redux';
 
 interface Props {

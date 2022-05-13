@@ -9,7 +9,7 @@ import styles from './index.module.scss';
 
 /* Containers */
 import Summary from './Summary';
-import CheckoutForm from './CheckOutForm';
+import AistockCheckOutForm from './AistockCheckOutForm';
 
 /* Components */
 import Auth from '../../components/Auth/Auth';
@@ -26,7 +26,7 @@ import {
   subscriptionDetailsMapping,
   PAYMENT_MODES,
   SUBSCRIPTION_DETAILS,
-} from '../../constants/Subscription';
+} from '../../constants/Subscription/AiStock';
 
 /* Actions */
 import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
@@ -137,7 +137,7 @@ const Payment = (props: PaymentProps) => {
         />
 
         <Elements stripe={stripePromise}>
-          <CheckoutForm accountType={accountType} paymentMode={paymentMode} auth={auth} />
+          <AistockCheckOutForm accountType={accountType} paymentMode={paymentMode} auth={auth} />
         </Elements>
       </section>
     </main>
