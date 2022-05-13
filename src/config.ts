@@ -1,5 +1,14 @@
-const DEV_URLS = {
+const SELLGO_DEV_URLS = {
   BASE_URL: 'https://app.sellgo-dev.com',
+  BASE_URL_AUTH: 'sellgo-dev.auth0.com',
+  BASE_URL_API: 'https://api.sellgo-dev.com/api/',
+  CHANGE_PASS_API_URL: 'https://sellgo-dev.auth0.com/dbconnections/change_password',
+  WEB_URL: 'https://sellgo-dev.com',
+  WEBSOCKET_URL: 'wss://api.sellgo-dev.com/ws',
+};
+
+const AISTOCK_DEV_URLS = {
+  BASE_URL: 'https://app.predicts.co',
   BASE_URL_AUTH: 'sellgo-dev.auth0.com',
   BASE_URL_API: 'https://api.sellgo-dev.com/api/',
   CHANGE_PASS_API_URL: 'https://sellgo-dev.auth0.com/dbconnections/change_password',
@@ -83,9 +92,18 @@ const prod = {
   callbackUrl: 'https://app.sellgo.com/callback',
 };
 
-const dev = {
+const aistockDev = {
   ...DEV_AUTH_CONFIG,
-  ...DEV_URLS,
+  ...AISTOCK_DEV_URLS,
+  ...DEV_KEYS,
+  ...DEV_ANALYTICS,
+  ...DEV_MWS,
+  callbackUrl: 'https://app.predicts.co/callback',
+};
+
+const sellgoDev = {
+  ...DEV_AUTH_CONFIG,
+  ...SELLGO_DEV_URLS,
   ...DEV_KEYS,
   ...DEV_ANALYTICS,
   ...DEV_MWS,
@@ -94,7 +112,7 @@ const dev = {
 
 const local = {
   ...DEV_AUTH_CONFIG,
-  ...DEV_URLS,
+  ...SELLGO_DEV_URLS,
   ...DEV_KEYS,
   ...DEV_ANALYTICS,
   ...DEV_MWS,
@@ -105,9 +123,13 @@ function getAppConfig() {
   if (process.env.REACT_APP_ENV === 'production') {
     return prod;
   } else if (process.env.REACT_APP_ENV === 'development') {
-    return dev;
+    const currentUrl = window.location.href;
+    if (currentUrl.includes('sellgo')) {
+      return sellgoDev;
+    } else {
+      return aistockDev;
+    }
   }
-
   return local;
 }
 
