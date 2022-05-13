@@ -12,3 +12,7 @@ export const makeOrGetUniqueTabID = () => {
   window.name = value;
   return value;
 };
+
+export const isSellgoSession = () => {
+  return window.location.href.includes('sellgo');
+};

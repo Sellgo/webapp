@@ -1,3 +1,5 @@
+import { isSellgoSession } from './utils/session';
+
 const SELLGO_DEV_URLS = {
   BASE_URL: 'https://app.sellgo-dev.com',
   BASE_URL_AUTH: 'sellgo-dev.auth0.com',
@@ -123,8 +125,7 @@ function getAppConfig() {
   if (process.env.REACT_APP_ENV === 'production') {
     return prod;
   } else if (process.env.REACT_APP_ENV === 'development') {
-    const currentUrl = window.location.href;
-    if (currentUrl.includes('sellgo')) {
+    if (isSellgoSession()) {
       return sellgoDev;
     } else {
       return aistockDev;
