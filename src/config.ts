@@ -112,9 +112,18 @@ const sellgoDev = {
   callbackUrl: 'https://app.sellgo-dev.com/callback',
 };
 
-const local = {
+const sellgoLocal = {
   ...DEV_AUTH_CONFIG,
   ...SELLGO_DEV_URLS,
+  ...DEV_KEYS,
+  ...DEV_ANALYTICS,
+  ...DEV_MWS,
+  callbackUrl: 'http://localhost:3000/callback',
+};
+
+const aistockLocal = {
+  ...DEV_AUTH_CONFIG,
+  ...AISTOCK_DEV_URLS,
   ...DEV_KEYS,
   ...DEV_ANALYTICS,
   ...DEV_MWS,
@@ -130,8 +139,13 @@ function getAppConfig() {
     } else {
       return aistockDev;
     }
+  } else {
+    if (isSellgoSession()) {
+      return sellgoLocal;
+    } else {
+      return aistockLocal;
+    }
   }
-  return local;
 }
 
 export const AppConfig = getAppConfig();
