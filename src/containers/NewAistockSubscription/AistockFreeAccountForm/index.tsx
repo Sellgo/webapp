@@ -161,6 +161,7 @@ const FreeAccountForm = (props: Props) => {
         userMetadata: {
           first_name: name,
           last_name: name,
+          is_aistock: 'true',
         },
       },
       (err: any) => {
