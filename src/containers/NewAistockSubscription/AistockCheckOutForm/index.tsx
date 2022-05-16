@@ -257,6 +257,7 @@ function CheckoutForm(props: MyProps) {
             userMetadata: {
               first_name: firstName,
               last_name: lastName,
+              is_aistock: 'true',
             },
           },
           (err: any) => {

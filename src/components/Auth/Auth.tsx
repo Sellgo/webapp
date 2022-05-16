@@ -164,6 +164,7 @@ export default class Auth {
     this.auth0Lock.checkSession({}, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
+        console.log(authResult);
       } else if (err) {
         if (err.code === 'unauthorized') {
           history.replace({
