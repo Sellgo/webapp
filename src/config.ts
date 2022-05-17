@@ -1,5 +1,8 @@
 import { isSellgoSession } from './utils/session';
 
+/* ============================================================ */
+/* ====================== SELLGO CONFIGS ====================== */
+/* ============================================================ */
 const SELLGO_DEV_URLS = {
   BASE_URL: 'https://app.sellgo-dev.com',
   BASE_URL_AUTH: 'sellgo-dev.auth0.com',
@@ -9,26 +12,8 @@ const SELLGO_DEV_URLS = {
   WEBSOCKET_URL: 'wss://api.sellgo-dev.com/ws',
 };
 
-const AISTOCK_DEV_URLS = {
-  BASE_URL: 'https://app.predicts.co',
-  BASE_URL_AUTH: 'sellgo-dev.auth0.com',
-  BASE_URL_API: 'https://api.sellgo-dev.com/api/',
-  CHANGE_PASS_API_URL: 'https://sellgo-dev.auth0.com/dbconnections/change_password',
-  WEB_URL: 'https://sellgo-dev.com',
-  WEBSOCKET_URL: 'wss://api.sellgo-dev.com/ws',
-};
-
 const SELLGO_PROD_URLS = {
   BASE_URL: 'https://app.aistock.co',
-  BASE_URL_AUTH: 'sellgo.auth0.com',
-  BASE_URL_API: 'https://api.sellgo.com/api/',
-  CHANGE_PASS_API_URL: 'https://sellgo.auth0.com/dbconnections/change_password',
-  WEB_URL: 'https://sellgo.com',
-  WEBSOCKET_URL: 'wss://api.sellgo.com/ws',
-};
-
-const AISTOCK_PROD_URLS = {
-  BASE_URL: 'https://app.sellgo.com',
   BASE_URL_AUTH: 'sellgo.auth0.com',
   BASE_URL_API: 'https://api.sellgo.com/api/',
   CHANGE_PASS_API_URL: 'https://sellgo.auth0.com/dbconnections/change_password',
@@ -49,12 +34,11 @@ const SELLGO_DEV_KEYS = {
   ELEVIO_KEY: '6228edc3bb20d',
 };
 
-const AISTOCK_DEV_KEYS = {
-  STRIPE_API_KEY:
-    'pk_test_51KyWdDB9r8idhGpi4FucpUjlDoA2F9NnHDqOlvfZpGvC202JeFR0RcHJYsto8Ho6IWuBKzudR16kL24egrSnApDt00PrZJrw6G',
+const SELLGO_PROD_KEYS = {
+  STRIPE_API_KEY: 'pk_live_6iiX5s4PCakcnwTP3Gf81UyV00XSgjLLmU',
   PIXEL_ID: '990701281388485',
   ELEVIO_ID: '5f21ef059e2e7',
-  CHROME_EXT_ID: 'akkneemdhjpifmcbpcdanajpihknagbf',
+  CHROME_EXT_ID: 'gldmigoakdolonchebfnmcfbjihelcec',
   CHURNFLOW_SURVEY_ID: 'Lb8og4j8',
   QUICK_WIN_SURVEY_ID: 'IjxdqPK3',
   BETA_FORM_ID: 'pvnHf0f6',
@@ -63,11 +47,33 @@ const AISTOCK_DEV_KEYS = {
   ELEVIO_KEY: '6228edc3bb20d',
 };
 
-const SELLGO_PROD_KEYS = {
-  STRIPE_API_KEY: 'pk_live_6iiX5s4PCakcnwTP3Gf81UyV00XSgjLLmU',
+/* ============================================================ */
+/* ===================== AISTOCK CONFIGS ====================== */
+/* ============================================================ */
+const AISTOCK_DEV_URLS = {
+  BASE_URL: 'https://app.predicts.co',
+  BASE_URL_AUTH: 'sellgo-dev.auth0.com',
+  BASE_URL_API: 'https://api.sellgo-dev.com/api/',
+  CHANGE_PASS_API_URL: 'https://sellgo-dev.auth0.com/dbconnections/change_password',
+  WEB_URL: 'https://sellgo-dev.com',
+  WEBSOCKET_URL: 'wss://api.sellgo-dev.com/ws',
+};
+
+const AISTOCK_PROD_URLS = {
+  BASE_URL: 'https://app.sellgo.com',
+  BASE_URL_AUTH: 'sellgo.auth0.com',
+  BASE_URL_API: 'https://api.sellgo.com/api/',
+  CHANGE_PASS_API_URL: 'https://sellgo.auth0.com/dbconnections/change_password',
+  WEB_URL: 'https://sellgo.com',
+  WEBSOCKET_URL: 'wss://api.sellgo.com/ws',
+};
+
+const AISTOCK_DEV_KEYS = {
+  STRIPE_API_KEY:
+    'pk_test_51KyWdDB9r8idhGpi4FucpUjlDoA2F9NnHDqOlvfZpGvC202JeFR0RcHJYsto8Ho6IWuBKzudR16kL24egrSnApDt00PrZJrw6G',
   PIXEL_ID: '990701281388485',
   ELEVIO_ID: '5f21ef059e2e7',
-  CHROME_EXT_ID: 'gldmigoakdolonchebfnmcfbjihelcec',
+  CHROME_EXT_ID: 'akkneemdhjpifmcbpcdanajpihknagbf',
   CHURNFLOW_SURVEY_ID: 'Lb8og4j8',
   QUICK_WIN_SURVEY_ID: 'IjxdqPK3',
   BETA_FORM_ID: 'pvnHf0f6',
@@ -144,17 +150,6 @@ const aistockProd = {
   aistockUrls: { ...AISTOCK_PROD_URLS },
 };
 
-const aistockDev = {
-  ...DEV_AUTH_CONFIG,
-  ...AISTOCK_DEV_URLS,
-  ...AISTOCK_DEV_KEYS,
-  ...DEV_ANALYTICS,
-  ...DEV_MWS,
-  callbackUrl: 'https://app.predicts.co/callback',
-  sellgoUrls: { ...SELLGO_DEV_URLS },
-  aistockUrls: { ...AISTOCK_DEV_URLS },
-};
-
 const sellgoDev = {
   ...DEV_AUTH_CONFIG,
   ...SELLGO_DEV_URLS,
@@ -162,6 +157,17 @@ const sellgoDev = {
   ...DEV_ANALYTICS,
   ...DEV_MWS,
   callbackUrl: 'https://app.sellgo-dev.com/callback',
+  sellgoUrls: { ...SELLGO_DEV_URLS },
+  aistockUrls: { ...AISTOCK_DEV_URLS },
+};
+
+const aistockDev = {
+  ...DEV_AUTH_CONFIG,
+  ...AISTOCK_DEV_URLS,
+  ...AISTOCK_DEV_KEYS,
+  ...DEV_ANALYTICS,
+  ...DEV_MWS,
+  callbackUrl: 'https://app.predicts.co/callback',
   sellgoUrls: { ...SELLGO_DEV_URLS },
   aistockUrls: { ...AISTOCK_DEV_URLS },
 };
