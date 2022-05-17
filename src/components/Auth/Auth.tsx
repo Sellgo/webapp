@@ -202,7 +202,7 @@ export default class Auth {
     this.expiresAt = authResult.idTokenPayload.exp * 1000;
     this.idToken = authResult.idToken;
     this.accessToken = authResult.accessToken;
-    this.isAiStock = authResult.idTokenPayload[`${AppConfig.BASE_URL}/is_aistock`];
+    this.isAiStock = authResult.idTokenPayload[`${AppConfig.sellgoUrls.BASE_URL}/is_aistock`];
     localStorage.setItem('isAiStock', String(this.isAiStock));
     localStorage.setItem('idToken', this.idToken);
     localStorage.setItem('idTokenExpires', String(this.expiresAt));

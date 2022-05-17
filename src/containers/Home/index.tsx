@@ -4,11 +4,26 @@ import history from '../../history';
 import { success } from '../../utils/notifications';
 import Login from '../Login';
 import Auth from '../../components/Auth/Auth';
-import { decodeBase64 } from '../../utils/format';
+import { decodeBase64, encodeBase64 } from '../../utils/format';
+import { isSellgoSession, isAiStockSession } from '../../utils/session';
+import { AppConfig } from '../../config';
 
 const auth = new Auth();
 // export default class Home extends React.Component<any> {
 class Home extends React.Component<any> {
+  redirectToAlternativeApp = (newAppUrl: string) => {
+    /* Get entire local storage */
+    const localStorageData: any = {};
+    Object.keys(localStorage).forEach((key: any) => {
+      localStorageData[key] = localStorage.getItem(key);
+    });
+
+    /* Clear all local storage */
+    localStorage.clear();
+    const encodedStorage = encodeBase64(JSON.stringify(localStorageData));
+    window.location.replace(`${newAppUrl}?store=${encodedStorage}`);
+  };
+
   componentDidMount() {
     const { location } = this.props;
     /* Get url params */
@@ -49,7 +64,16 @@ class Home extends React.Component<any> {
     if (redirectPath && redirectPath !== '/') {
       history.replace(redirectPath);
     } else if (isLoggedIn) {
-      history.replace('/home');
+      const isAiStock = localStorage.getItem('isAiStock') === 'true';
+      /* Account is AiStock account, but webapp is sellgo webapp */
+      if (isAiStock && isSellgoSession()) {
+        this.redirectToAlternativeApp(AppConfig.aistockUrls.BASE_URL);
+        /* Account is Sellgo account, but webapp is aistock webapp */
+      } else if (!isAiStock && isAiStockSession()) {
+        this.redirectToAlternativeApp(AppConfig.sellgoUrls.BASE_URL);
+      } else {
+        history.replace('/home');
+      }
     }
 
     if (location.state && redirectPath && redirectPath.indexOf('/subscription') !== -1) {
