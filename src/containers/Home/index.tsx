@@ -32,7 +32,7 @@ class Home extends React.Component<any> {
     if (localStorage.getItem('isAiStock') === 'true' && isSellgoSession()) {
       window.location.replace('https://app.predicts.co');
     } else if (!localStorage.getItem('isAiStock') && !isSellgoSession()) {
-      window.location.replace('https://app.sellgo.com');
+      window.location.replace('https://app.sellgo-dev.com');
     }
 
     if (redirectPath && redirectPath !== '/') {
