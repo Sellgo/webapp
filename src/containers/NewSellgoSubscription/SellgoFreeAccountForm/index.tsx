@@ -10,7 +10,7 @@ import styles from './index.module.scss';
 import Auth from '../../../components/Auth/Auth';
 
 /* Assets */
-import newSellgoLogo from '../../../assets/images/sellgoNewLogo.png';
+import newSellgoLogo from '../../../assets/images/sellgoLogo.png';
 import chromeExtensionExample from '../../../assets/images/chromeExample.png';
 import chromeExtensionIcon from '../../../assets/images/rainbowChromeLogo.svg';
 import Dots from '../../../assets/images/hex-neural.svg';
@@ -192,10 +192,10 @@ const FreeAccountForm = (props: Props) => {
         <img src={newSellgoLogo} className={styles.logo} alt="Sellgo Company Logo" />
         <div className={styles.activationForm}>
           <img src={Dots} alt="dots" className={styles.dots} />
-          <p className={styles.formHeader}>Sign up to Sellgo</p>
+          <p className={styles.formHeader}>Create a free account</p>
           <Form.Input
             size="huge"
-            label="Your Name"
+            label="Your Name*"
             type="text"
             placeholder="Your Name"
             value={name}
@@ -204,7 +204,7 @@ const FreeAccountForm = (props: Props) => {
           />
           <Form.Input
             size="huge"
-            label="Email"
+            label="Email*"
             type="mail"
             placeholder="Email"
             value={email}
@@ -257,7 +257,7 @@ const FreeAccountForm = (props: Props) => {
           </div>
           <p className={styles.error}>{errorMessage}</p>
           <button className={styles.submitButton} onClick={handleSubmit} disabled={isLoading}>
-            Sign Up&nbsp;
+            Sign up now&nbsp;
             <Loader active={isLoading} inline inverted size="mini" />
           </button>
         </div>
@@ -269,8 +269,7 @@ const FreeAccountForm = (props: Props) => {
           alt="chrome-extension-pic"
         />
         <p className={styles.chromeExtensionDesc}>
-          Private Label entrepreneurs, Wholesale resellers, and service providers use our extension
-          to estimate sales &#38; search terms directly from Amazon.
+          Use our extension to estimate sales &#38; search terms directly from Amazon.
         </p>
         <a
           href="https://chrome.google.com/webstore/detail/sellgo-extension/gldmigoakdolonchebfnmcfbjihelcec"
@@ -279,7 +278,7 @@ const FreeAccountForm = (props: Props) => {
           rel="noopener noreferrer"
         >
           <img src={chromeExtensionIcon} alt="chromeExtensionIcon" />
-          Get Sellgo Chrome Extension
+          Get Chrome Extension
         </a>
       </section>
     </main>

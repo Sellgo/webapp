@@ -18,6 +18,6 @@ export const isSellgoSession = () => {
     return window.location.href.includes('sellgo');
   }
 
-  // Default to aistock for local testing
-  return false;
+  // Default to aistock for local testing, false = AiStock, true = Sellgo
+  return true;
 };
