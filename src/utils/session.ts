@@ -19,5 +19,5 @@ export const isSellgoSession = () => {
   }
 
   // Default to aistock for local testing
-  return false;
+  return true;
 };

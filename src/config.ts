@@ -27,8 +27,22 @@ const PROD_URLS = {
   WEBSOCKET_URL: 'wss://api.sellgo.com/ws',
 };
 
-const DEV_KEYS = {
+const SELLGO_DEV_KEYS = {
   STRIPE_API_KEY: 'pk_test_thMkxDX66HmQoec5jcK34bAc0083aPonvE',
+  PIXEL_ID: '990701281388485',
+  ELEVIO_ID: '5f21ef059e2e7',
+  CHROME_EXT_ID: 'akkneemdhjpifmcbpcdanajpihknagbf',
+  CHURNFLOW_SURVEY_ID: 'Lb8og4j8',
+  QUICK_WIN_SURVEY_ID: 'IjxdqPK3',
+  BETA_FORM_ID: 'pvnHf0f6',
+  AISTOCK_ONBOARDING_SURVEY: 'uBopgqgO',
+  AISTOCK_SURVEY: 'H1yQNE6a',
+  ELEVIO_KEY: '6228edc3bb20d',
+};
+
+const AISTOCK_DEV_KEYS = {
+  STRIPE_API_KEY:
+    'pk_test_51KyWdDB9r8idhGpi4FucpUjlDoA2F9NnHDqOlvfZpGvC202JeFR0RcHJYsto8Ho6IWuBKzudR16kL24egrSnApDt00PrZJrw6G',
   PIXEL_ID: '990701281388485',
   ELEVIO_ID: '5f21ef059e2e7',
   CHROME_EXT_ID: 'akkneemdhjpifmcbpcdanajpihknagbf',
@@ -97,7 +111,7 @@ const prod = {
 const aistockDev = {
   ...DEV_AUTH_CONFIG,
   ...AISTOCK_DEV_URLS,
-  ...DEV_KEYS,
+  ...AISTOCK_DEV_KEYS,
   ...DEV_ANALYTICS,
   ...DEV_MWS,
   callbackUrl: 'https://app.predicts.co/callback',
@@ -106,7 +120,7 @@ const aistockDev = {
 const sellgoDev = {
   ...DEV_AUTH_CONFIG,
   ...SELLGO_DEV_URLS,
-  ...DEV_KEYS,
+  ...SELLGO_DEV_KEYS,
   ...DEV_ANALYTICS,
   ...DEV_MWS,
   callbackUrl: 'https://app.sellgo-dev.com/callback',
@@ -115,7 +129,7 @@ const sellgoDev = {
 const sellgoLocal = {
   ...DEV_AUTH_CONFIG,
   ...SELLGO_DEV_URLS,
-  ...DEV_KEYS,
+  ...SELLGO_DEV_KEYS,
   ...DEV_ANALYTICS,
   ...DEV_MWS,
   callbackUrl: 'http://localhost:3000/callback',
@@ -124,7 +138,7 @@ const sellgoLocal = {
 const aistockLocal = {
   ...DEV_AUTH_CONFIG,
   ...AISTOCK_DEV_URLS,
-  ...DEV_KEYS,
+  ...AISTOCK_DEV_KEYS,
   ...DEV_ANALYTICS,
   ...DEV_MWS,
   callbackUrl: 'http://localhost:3000/callback',

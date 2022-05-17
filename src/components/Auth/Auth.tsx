@@ -6,6 +6,7 @@ import { AppConfig } from '../../config';
 import auth0 from 'auth0-js';
 import { removeProfitFinderFilters } from '../../constants/Products';
 import { isURL } from 'validator';
+import { isSellgoSession } from '../../utils/session';
 
 const chromeID = AppConfig.CHROME_EXT_ID;
 
@@ -161,8 +162,15 @@ export default class Auth {
   }
 
   public handleAuthentication = () => {
-    this.auth0Lock.checkSession({}, (err, authResult) => {
+    this.auth0Lock.checkSession({}, (err, authResult: any) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
+        const isAiStock: any =
+          authResult.idTokenPayload[`${AppConfig.BASE_URL}/is_aistock`] === 'true';
+        if (isAiStock && isSellgoSession()) {
+          window.location.replace('https://app.predicts.co/callback');
+        } else if (!isAiStock && !isSellgoSession()) {
+          window.location.replace('https://app.sellgo-dev.com/callback');
+        }
         this.setSession(authResult);
       } else if (err) {
         if (err.code === 'unauthorized') {

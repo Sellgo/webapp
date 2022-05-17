@@ -4,7 +4,6 @@ import history from '../../history';
 import { success } from '../../utils/notifications';
 import Login from '../Login';
 import Auth from '../../components/Auth/Auth';
-import { isSellgoSession } from '../../utils/session';
 
 const auth = new Auth();
 // export default class Home extends React.Component<any> {
@@ -26,13 +25,6 @@ class Home extends React.Component<any> {
       // User is not logging in from chrome extension
     } else {
       localStorage.setItem('chromeRedirectURL', '');
-    }
-
-    /* Check if is aistock */
-    if (localStorage.getItem('isAiStock') === 'true' && isSellgoSession()) {
-      window.location.replace('https://app.predicts.co');
-    } else if (!localStorage.getItem('isAiStock') && !isSellgoSession()) {
-      window.location.replace('https://app.sellgo-dev.com');
     }
 
     if (redirectPath && redirectPath !== '/') {
