@@ -4,12 +4,31 @@ import history from '../../history';
 import { success } from '../../utils/notifications';
 import Login from '../Login';
 import Auth from '../../components/Auth/Auth';
+import { decodeBase64 } from '../../utils/format';
 
 const auth = new Auth();
 // export default class Home extends React.Component<any> {
 class Home extends React.Component<any> {
   componentDidMount() {
     const { location } = this.props;
+    /* Get url params */
+    const params = queryString.parse(location.search);
+
+    if (params.store) {
+      try {
+        const { store } = params;
+        //@ts-ignore
+        const jsonStore = JSON.parse(decodeBase64(store));
+
+        /* Store each key from jsonStore into local storage */
+        Object.keys(jsonStore).forEach(key => {
+          localStorage.setItem(key, jsonStore[key]);
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
     let redirectPath = localStorage.getItem('loginRedirectPath');
 
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
