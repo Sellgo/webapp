@@ -10,10 +10,8 @@ import styles from './index.module.scss';
 import Auth from '../../../components/Auth/Auth';
 
 /* Assets */
-import newSellgoLogo from '../../../assets/images/sellgoLogo.png';
-import chromeExtensionExample from '../../../assets/images/chromeExample.png';
-import chromeExtensionIcon from '../../../assets/images/rainbowChromeLogo.svg';
-import Dots from '../../../assets/images/hex-neural.svg';
+import newSellgoLogo from '../../../assets/images/sellgoNewLogo.png';
+import ProfilePicture from '../../../assets/images/justin.png';
 
 /* Components */
 import StepsInfo from '../../../components/StepsInfo';
@@ -191,11 +189,10 @@ const FreeAccountForm = (props: Props) => {
       <section className={styles.activationFormSection}>
         <img src={newSellgoLogo} className={styles.logo} alt="Sellgo Company Logo" />
         <div className={styles.activationForm}>
-          <img src={Dots} alt="dots" className={styles.dots} />
           <p className={styles.formHeader}>Create a free account</p>
           <Form.Input
             size="huge"
-            label="Your Name*"
+            label="Name"
             type="text"
             placeholder="Your Name"
             value={name}
@@ -260,27 +257,44 @@ const FreeAccountForm = (props: Props) => {
             Sign up now&nbsp;
             <Loader active={isLoading} inline inverted size="mini" />
           </button>
+          <p className={styles.signIn}>
+            Have an account? <a href="/">Sign in</a>
+          </p>
         </div>
       </section>
-      <section className={styles.chromeExtensionCTASection}>
-        <img
-          className={styles.chromeExtensionDisplay}
-          src={chromeExtensionExample}
-          alt="chrome-extension-pic"
-        />
-        <p className={styles.chromeExtensionDesc}>
-          Use our extension to estimate sales &#38; search terms directly from Amazon.
+      <section className={styles.reviewsSection}>
+        <h2>The most comprehensive Amazon seller database!</h2>
+        <p>
+          "We have very aggressive revenue growth targets. We knew that we needed Sellgo seller
+          database that would enable us to scale, and help us to deliver on our goals."
         </p>
-        <a
-          href="https://chrome.google.com/webstore/detail/sellgo-extension/gldmigoakdolonchebfnmcfbjihelcec"
-          className={styles.chromeExtensionButton}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src={chromeExtensionIcon} alt="chromeExtensionIcon" />
-          Get Chrome Extension
-        </a>
+
+        <div className={styles.reviewerRow}>
+          <img src={ProfilePicture} alt="profile picture" />
+          <div className={styles.reviewerDetails}>
+            Justin Willhite
+            <br />
+            <span>Amazon Product Content Creator</span>
+          </div>
+        </div>
       </section>
+      <div className={styles.copyrightFooter}>
+        <button
+          onClick={() => {
+            setOpenTOS(true);
+          }}
+        >
+          Terms Of Service
+        </button>
+        <button
+          onClick={() => {
+            setOpenPP(true);
+          }}
+        >
+          Privacy Policy&nbsp;
+        </button>
+        <span>Copyright @ Sellgo 2022</span>
+      </div>
     </main>
   );
 };
