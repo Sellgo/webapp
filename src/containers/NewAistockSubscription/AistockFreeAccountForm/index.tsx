@@ -11,9 +11,7 @@ import Auth from '../../../components/Auth/Auth';
 
 /* Assets */
 import newSellgoLogo from '../../../assets/images/aistockLogo.png';
-import chromeExtensionExample from '../../../assets/images/chromeExample.png';
-import chromeExtensionIcon from '../../../assets/images/rainbowChromeLogo.svg';
-import Dots from '../../../assets/images/hex-neural.svg';
+import ProfilePicture from '../../../assets/images/andrew.png';
 
 /* Components */
 import StepsInfo from '../../../components/StepsInfo';
@@ -192,11 +190,10 @@ const FreeAccountForm = (props: Props) => {
       <section className={styles.activationFormSection}>
         <img src={newSellgoLogo} className={styles.logo} alt="Sellgo Company Logo" />
         <div className={styles.activationForm}>
-          <img src={Dots} alt="dots" className={styles.dots} />
-          <p className={styles.formHeader}>Sign up to AiStock</p>
+          <p className={styles.formHeader}>Create a free trial account</p>
           <Form.Input
             size="huge"
-            label="Your Name"
+            label="Name"
             type="text"
             placeholder="Your Name"
             value={name}
@@ -261,28 +258,45 @@ const FreeAccountForm = (props: Props) => {
             Sign Up&nbsp;
             <Loader active={isLoading} inline inverted size="mini" />
           </button>
+          <p className={styles.signIn}>
+            Have an account? <a href="/">Sign in</a>
+          </p>
         </div>
       </section>
-      <section className={styles.chromeExtensionCTASection}>
-        <img
-          className={styles.chromeExtensionDisplay}
-          src={chromeExtensionExample}
-          alt="chrome-extension-pic"
-        />
-        <p className={styles.chromeExtensionDesc}>
-          Private Label entrepreneurs, Wholesale resellers, and service providers use our extension
-          to estimate sales &#38; search terms directly from Amazon.
+      <section className={styles.reviewsSection}>
+        <h2>The 1st inventory planning for Amazon sellers!</h2>
+        <p>
+          "AiStock gives our supply chain one place to get whatever help we need. It gives us a
+          single point of integration for all our logistic process, helping us focus on increasing
+          sales and launch new products as we grow."
         </p>
-        <a
-          href="https://chrome.google.com/webstore/detail/sellgo-extension/gldmigoakdolonchebfnmcfbjihelcec"
-          className={styles.chromeExtensionButton}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src={chromeExtensionIcon} alt="chromeExtensionIcon" />
-          Get Sellgo Chrome Extension
-        </a>
+
+        <div className={styles.reviewerRow}>
+          <img src={ProfilePicture} alt="profile picture" />
+          <div className={styles.reviewerDetails}>
+            Andrew Erickson
+            <br />
+            <span>7-figure Brand Entrepreneur</span>
+          </div>
+        </div>
       </section>
+      <div className={styles.copyrightFooter}>
+        <button
+          onClick={() => {
+            setOpenTOS(true);
+          }}
+        >
+          Terms Of Service
+        </button>
+        <button
+          onClick={() => {
+            setOpenPP(true);
+          }}
+        >
+          Privacy Policy&nbsp;
+        </button>
+        <span>Copyright @ Aistock 2022</span>
+      </div>
     </main>
   );
 };
