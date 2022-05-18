@@ -55,9 +55,12 @@ import {
   isAistockSubscription,
   isBetaAccount,
   isSellgoSubscription,
+  isSubscriptionIdFreeAccount,
   isSubscriptionIdFreeTrial,
 } from '../../utils/subscriptions';
 import { isSellgoSession } from '../../utils/session';
+import { getSellerQuota } from '../../actions/Settings';
+import { AppConfig } from '../../config';
 
 export const auth = new Auth();
 
@@ -107,19 +110,23 @@ const PrivateRoute = connect(
   // mapStateToProps
   (state: any) => ({
     sellerSubscription: state.subscription.sellerSubscription,
+    sellerQuota: state.settings.sellerQuota,
   }),
   // mapDispatchToProps
   {
     fetchSellerSubscription: () => fetchSellerSubscription(),
     fetchSubscriptions: () => fetchSubscriptions(),
+    getSellerQuota: () => getSellerQuota(),
   }
 )(
   ({
     component: Component,
     requireSubscription,
     sellerSubscription,
+    sellerQuota,
     fetchSellerSubscription,
     fetchSubscriptions,
+    getSellerQuota,
     location,
     ...rest
   }: any) => {
@@ -133,6 +140,8 @@ const PrivateRoute = connect(
     // TODO: Hoist this logic up to an AuthProvider that includes user's subscription as part
     // of auth object made available to all child components using context.
     useEffect(() => {
+      getSellerQuota();
+
       // Redirect to login if user is not authenticated
       if (!userIsAuthenticated) {
         history.push('/');
@@ -172,6 +181,18 @@ const PrivateRoute = connect(
           }
         }
       }
+
+      // If quota exceeds for free account then redirect to activation
+      if (
+        isSellgoSession() &&
+        isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) &&
+        window.location.pathname !== '/settings/pricing'
+      ) {
+        console.log(window.location.pathname);
+        if (sellerQuota?.seller_research.available - sellerQuota?.seller_research.used <= 0) {
+          history.push('/activation');
+        }
+      }
     }, [
       userIsAuthenticated,
       sellerSubscription,
@@ -203,7 +224,9 @@ const PrivateRoute = connect(
             <>
               <AdminLayout {...props}>
                 {isFirstTimeUserLoggedIn &&
-                  isSellgoSubscription(sellerSubscription.subscription_id) && <YoutubeVideo />}
+                  isSellgoSubscription(sellerSubscription.subscription_id) && (
+                    <YoutubeVideo youtubeLink={AppConfig.ONBOARDING_VIDEO} />
+                  )}
                 {isAistockSubscription(sellerSubscription.subscription_id) &&
                   isSubscriptionIdFreeTrial(sellerSubscription.subscription_id) && (
                     <TrialRemainingBanner expiryDate={sellerSubscription.expiry_date} />
@@ -282,11 +305,7 @@ function App() {
             component={SubscriptionPages.Activation}
           />
 
-          <Route
-            exact={true}
-            path="/end-of-free-trial"
-            component={SubscriptionPages.UpsellCtaPage}
-          />
+          <Route exact={true} path="/activation" component={SubscriptionPages.UpsellCtaPage} />
 
           <Route
             exact={true}

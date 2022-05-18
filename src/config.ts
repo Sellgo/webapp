@@ -32,6 +32,7 @@ const SELLGO_DEV_KEYS = {
   AISTOCK_ONBOARDING_SURVEY: 'uBopgqgO',
   AISTOCK_SURVEY: 'H1yQNE6a',
   ELEVIO_KEY: '6228edc3bb20d',
+  ONBOARDING_VIDEO: '',
 };
 
 const SELLGO_PROD_KEYS = {
@@ -45,6 +46,7 @@ const SELLGO_PROD_KEYS = {
   AISTOCK_ONBOARDING_SURVEY: 'uBopgqgO',
   AISTOCK_SURVEY: 'H1yQNE6a',
   ELEVIO_KEY: '6228edc3bb20d',
+  ONBOARDING_VIDEO: '',
 };
 
 /* ============================================================ */
@@ -80,6 +82,7 @@ const AISTOCK_DEV_KEYS = {
   AISTOCK_ONBOARDING_SURVEY: 'uBopgqgO',
   AISTOCK_SURVEY: 'H1yQNE6a',
   ELEVIO_KEY: '6228edc3bb20d',
+  ONBOARDING_VIDEO: '',
 };
 
 const AISTOCK_PROD_KEYS = {
@@ -94,6 +97,7 @@ const AISTOCK_PROD_KEYS = {
   AISTOCK_ONBOARDING_SURVEY: 'uBopgqgO',
   AISTOCK_SURVEY: 'H1yQNE6a',
   ELEVIO_KEY: '6228edc3bb20d',
+  ONBOARDING_VIDEO: '',
 };
 
 const DEV_AUTH_CONFIG = {

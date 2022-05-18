@@ -8,15 +8,20 @@ import { connect } from 'react-redux';
 
 interface Props {
   updateSeller: (payload: any) => void;
+  youtubeLink: string;
 }
 
 const YoutubeVideo = (props: Props) => {
-  const { updateSeller } = props;
+  const { updateSeller, youtubeLink } = props;
   const [isModalOpen, setModalOpen] = React.useState<boolean>(true);
   const handleCloseVideo = () => {
     updateSeller({ is_first_time_logged_in: false, doNotRefresh: false });
     setModalOpen(false);
   };
+
+  if (!youtubeLink) {
+    return null;
+  }
 
   return (
     <Modal
@@ -30,7 +35,7 @@ const YoutubeVideo = (props: Props) => {
               title="SellGo Demo Video"
               width="860"
               height="500"
-              src={'https://www.youtube.com/embed/p8AalSy21BA'}
+              src={youtubeLink}
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; 
 								encrypted-media; gyroscope; picture-in-picture"

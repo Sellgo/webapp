@@ -9,6 +9,7 @@ import './AdminHeader.scss';
 
 /* Components */
 import LogoutConfirm from '../LogoutConfirm';
+import QuotaMeter from '../QuotaMeter';
 
 /* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
@@ -72,6 +73,7 @@ const AdminHeader = (props: Props) => {
   }, []);
   return (
     <div className="admin-header">
+      {isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) && <QuotaMeter />}
       {isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) && (
         <ActionButton
           variant="primary"

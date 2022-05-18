@@ -11,7 +11,7 @@ import Auth from '../../../components/Auth/Auth';
 
 /* Assets */
 import newSellgoLogo from '../../../assets/images/sellgoNewLogo.png';
-import ProfilePicture from '../../../assets/images/andrew.png';
+import ProfilePicture from '../../../assets/images/justin.png';
 
 /* Components */
 import StepsInfo from '../../../components/StepsInfo';
