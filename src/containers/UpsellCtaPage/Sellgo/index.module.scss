@@ -24,6 +24,7 @@
     margin: 30px 0;
     width: 700px;
     font-size: 14px;
+    font-weight: $fontweight_medium;
     color: $grey_8;
   }
 }
@@ -53,9 +54,9 @@
       display: flex;
       align-items: center;
       height: 50px;
-      color: $grey_8;
-      font-size: 14px;
-      font-weight: $fontweight_regular;
+      color: $prim_dark_2;
+      font-size: 16px;
+      font-weight: $fontweight_semibold;
       border-bottom: 1px solid $grey_3;
     }
   }
@@ -117,9 +118,9 @@
       align-items: center;
       justify-content: center;
       height: 50px;
-      color: $grey_8;
+      color: $sellgo_purple;
       font-size: 14px;
-      font-weight: $fontweight_regular;
+      font-weight: $fontweight_semibold;
       border-bottom: 1px solid $grey_3;
     }
   }
