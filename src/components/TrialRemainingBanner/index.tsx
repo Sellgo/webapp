@@ -44,6 +44,10 @@ const TrialRemainingBanner = (props: Props) => {
     fontColor = '#FFF';
   }
 
+  if (!expiryDate) {
+    return null;
+  }
+
   if (showBanner) {
     return (
       <div

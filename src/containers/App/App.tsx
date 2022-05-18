@@ -58,7 +58,7 @@ import {
   isSubscriptionIdFreeAccount,
   isSubscriptionIdFreeTrial,
 } from '../../utils/subscriptions';
-import { isSellgoSession } from '../../utils/session';
+import { isAiStockSession, isSellgoSession } from '../../utils/session';
 import { getSellerQuota } from '../../actions/Settings';
 import { AppConfig } from '../../config';
 
@@ -190,6 +190,16 @@ const PrivateRoute = connect(
       ) {
         console.log(window.location.pathname);
         if (sellerQuota?.seller_research.available - sellerQuota?.seller_research.used <= 0) {
+          history.push('/activation');
+        }
+      }
+
+      if (
+        isAiStockSession() &&
+        isSubscriptionIdFreeTrial(sellerSubscription.subscription_id) &&
+        window.location.pathname !== '/settings/pricing'
+      ) {
+        if (sellerSubscription.is_free_trial_expired) {
           history.push('/activation');
         }
       }

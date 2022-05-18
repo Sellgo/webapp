@@ -6,14 +6,14 @@ import history from '../../../history';
 import styles from './index.module.scss';
 
 /* Assets */
-import chromeDisplay from '../../../assets/images/chromeExample.png';
+import ActivationDisplay from '../../../assets/images/AistockMigratingDisplay.png';
 import TenFactorLogo from '../../../assets/images/TenFactorLogo.png';
 import MetkixLogo from '../../../assets/images/MetkixLogo.png';
 import LuxeLogo from '../../../assets/images/LuxeLogo.png';
 import SkopeLogo from '../../../assets/images/SkopeLogo.png';
 import BBLogo from '../../../assets/images/BBLogo.png';
 import BFLogo from '../../../assets/images/BFLogo.png';
-import sellgoLogo from '../../../assets/images/SellgoNewestLogo.png';
+import sellgoLogo from '../../../assets/images/aistockLogo.png';
 
 /* Components */
 import Auth from '../../../components/Auth/Auth';
@@ -34,16 +34,13 @@ const ActivationSuccess = (props: Props) => {
     email = location.state.email;
     password = location.state.password;
   }
-  // password: string, isAiStock: boolean;
+  /* password: string, isAiStock: boolean; */
 
   React.useEffect(() => {
     if (!location.state) {
       history.push('/');
       return;
     }
-    // email = location.state.email;
-    // password = location.state.password;
-    // isAiStock = location.state.isAiStock;
 
     if (!email || !password) {
       history.push('/');
@@ -67,8 +64,6 @@ const ActivationSuccess = (props: Props) => {
       (err: any) => {
         if (err) {
           console.log('Error: ', err);
-        } else {
-          console.log('Success!');
         }
       }
     );
@@ -76,7 +71,7 @@ const ActivationSuccess = (props: Props) => {
   return (
     <main className={styles.successPage}>
       <section className={styles.displaySection}>
-        <img src={chromeDisplay} alt="graph-display" className={styles.graphDisplayImg} />
+        <img src={ActivationDisplay} alt="graph-display" className={styles.graphDisplayImg} />
         <div className={styles.loaderWrapper}>
           <Loader active inline inverted />
           <p className={styles.progressMessage}>{progressMessage}</p>

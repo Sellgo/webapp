@@ -9,6 +9,7 @@ import history from '../../../../history';
 
 /* Assets */
 import LeadTimeLogo from '../../../../assets/images/leadTime.svg';
+import ZoomLogo from '../../../../assets/images/zoomLogo.png';
 
 /* Utils */
 import { formatNumber } from '../../../../utils/format';
@@ -41,12 +42,31 @@ const AccountConnectionSection = (props: Props) => {
             in
           </p>
           <ActionButton
-            type="black"
-            variant="primary"
+            type="purpleGradient"
+            variant="secondary"
             size="md"
             onClick={handleRedirectToConnectivity}
           >
             Set Up
+          </ActionButton>
+        </div>
+        <div className={styles.connectAccountCard}>
+          <img src={ZoomLogo} alt="zoom" className={styles.connectApiLogo} />
+          <p className={styles.connectApiLabel}>
+            {' '}
+            Schedule 1:1 <br />
+            Onboarding Call{' '}
+          </p>
+          <p className={styles.connectApiDesc}>
+            Set up a quick onboarding call today in order to get a head start on AiStock
+          </p>
+          <ActionButton
+            type="purpleGradient"
+            variant="secondary"
+            size="md"
+            onClick={handleRedirectToConnectivity}
+          >
+            Schedule A Call
           </ActionButton>
         </div>
       </div>
