@@ -136,7 +136,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
           className={styles.buyNowCTA}
           onClick={() => changePlan({ name, id })}
         >
-          Change Plan
+          Change to this plan
         </ActionButton>
       )}
     </div>

@@ -89,7 +89,7 @@ export default function Login(props: Props) {
   return (
     <LoginBase messageDetails={messageDetails}>
       <Form className="login-form" onSubmit={handleSubmit}>
-        <Form.Input label="Email" type="mail" placeholder="name@domain.com" {...bindUserName} />
+        <Form.Input label="Email" type="mail" placeholder="Your email" {...bindUserName} />
         <Form.Input label="Password" type="password" {...bindPassword} />
         <span className="reset-password">
           <a href="/reset-password"> Forgot password </a>

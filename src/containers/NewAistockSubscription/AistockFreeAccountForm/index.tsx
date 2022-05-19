@@ -193,18 +193,18 @@ const FreeAccountForm = (props: Props) => {
           <p className={styles.formHeader}>Create a free trial account</p>
           <Form.Input
             size="huge"
-            label="Name"
+            label="Name*"
             type="text"
-            placeholder="Your Name"
+            placeholder="Your name"
             value={name}
             className={styles.formInput}
             onChange={e => setName(e.target.value)}
           />
           <Form.Input
             size="huge"
-            label="Email"
+            label="Email*"
             type="mail"
-            placeholder="Email"
+            placeholder="Your email"
             value={email}
             className={styles.formInput}
             onChange={e => setEmail(e.target.value)}
@@ -255,7 +255,7 @@ const FreeAccountForm = (props: Props) => {
           </div>
           <p className={styles.error}>{errorMessage}</p>
           <button className={styles.submitButton} onClick={handleSubmit} disabled={isLoading}>
-            Sign Up&nbsp;
+            Sign up now&nbsp;
             <Loader active={isLoading} inline inverted size="mini" />
           </button>
           <p className={styles.signIn}>
@@ -286,16 +286,16 @@ const FreeAccountForm = (props: Props) => {
             setOpenTOS(true);
           }}
         >
-          Terms Of Service
+          Terms of service
         </button>
         <button
           onClick={() => {
             setOpenPP(true);
           }}
         >
-          Privacy Policy&nbsp;
+          Privacy policy&nbsp;
         </button>
-        <span>Copyright @ Aistock 2022</span>
+        <span>Copyright @ AiStock 2022</span>
       </div>
     </main>
   );
