@@ -205,7 +205,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               isToggled={isMonthly}
               handleChange={() => this.setState({ isMonthly: !isMonthly })}
               className={styles.paymentModeToggleButton}
-              options={['Pay Annually', 'Pay Monthly']}
+              options={['Pay monthly', 'Pay annually']}
             />
             <div className={styles.pricingPlansCardWrapper}>
               {MONTHLY_AND_ANNUAL_PLANS.map((product: any) => {
@@ -249,7 +249,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <img src={Stripe} alt="Protected by stripe logo" />
             </div>
             <div className={styles.paymentMeta__text}>
-              <p>We offer 7-day money back guarantee.</p>
+              <p />
             </div>
           </section>
           <FAQSection />

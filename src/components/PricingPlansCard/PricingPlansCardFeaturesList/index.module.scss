@@ -2,12 +2,12 @@
 
 .featuresList {
   margin-top: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 
   p {
-    font-size: $fontsize_content_16;
+    font-size: $fontsize_content_14;
     color: $prim_dark_2;
-    font-weight: $fontweight_bold;
+    font-weight: $fontweight_semibold;
     text-transform: uppercase;
   }
 
@@ -16,7 +16,7 @@
     list-style: none;
 
     li {
-      font-size: $fontsize_content_14;
+      font-size: $fontsize_content_12;
       font-weight: $fontweight_regular;
       color: $prim_dark_1;
       margin: 4px 0;
