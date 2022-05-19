@@ -6,14 +6,14 @@ import history from '../../../history';
 import styles from './index.module.scss';
 
 /* Assets */
-import chromeDisplay from '../../../assets/images/chromeExample.png';
+import ActivatingDisplay from '../../../assets/images/sellgoActivatingDisplay.png';
 import TenFactorLogo from '../../../assets/images/TenFactorLogo.png';
 import MetkixLogo from '../../../assets/images/MetkixLogo.png';
 import LuxeLogo from '../../../assets/images/LuxeLogo.png';
 import SkopeLogo from '../../../assets/images/SkopeLogo.png';
 import BBLogo from '../../../assets/images/BBLogo.png';
 import BFLogo from '../../../assets/images/BFLogo.png';
-import sellgoLogo from '../../../assets/images/sellgoLogo.png';
+import sellgoLogo from '../../../assets/images/sellgoNewLogo.png';
 
 /* Components */
 import Auth from '../../../components/Auth/Auth';
@@ -76,7 +76,7 @@ const ActivationSuccess = (props: Props) => {
   return (
     <main className={styles.successPage}>
       <section className={styles.displaySection}>
-        <img src={chromeDisplay} alt="graph-display" className={styles.graphDisplayImg} />
+        <img src={ActivatingDisplay} alt="graph-display" className={styles.graphDisplayImg} />
         <div className={styles.loaderWrapper}>
           <Loader active inline inverted />
           <p className={styles.progressMessage}>{progressMessage}</p>
@@ -84,7 +84,7 @@ const ActivationSuccess = (props: Props) => {
       </section>
       <section className={styles.socialProofSection}>
         <img src={sellgoLogo} alt="sellgo-logo" className={styles.sellgoLogo} />
-        <p className={styles.socialProofDesc}>Trusted by 1,000+ businesses</p>
+        <p className={styles.socialProofDesc}>Trusted by 1,000+ businesses.</p>
         <div className={styles.socialProofIcons}>
           <img className={styles.logo} src={BBLogo} alt="bblogo" />
           <img className={styles.logo} src={TenFactorLogo} alt="TenFactorLogo" />

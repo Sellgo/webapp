@@ -34,7 +34,7 @@ export const isSubscriptionIdProfessional = (id: number) => id === 2;
 
 export const isSubscriptionIdEnterprise = (id: number) => id === 3;
 
-export const isSubscriptionIdFreeTrial = (id: number) => id === 4;
+export const isSubscriptionIdFreeTrial = (id: number) => id === 4 || id === 100;
 
 export const isSubscriptionIdFreeAccount = (id: number) => id === 5;
 

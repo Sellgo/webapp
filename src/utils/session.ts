@@ -18,6 +18,10 @@ export const isSellgoSession = () => {
     return window.location.href.includes('sellgo');
   }
 
-  // Default to aistock for local testing, false = AiStock, true = Sellgo
-  return true;
+  // Only affects LOCAL TESTING; true = SELLGO, false = AISTOCK
+  return false;
+};
+
+export const isAiStockSession = () => {
+  return !isSellgoSession();
 };
