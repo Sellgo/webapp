@@ -1,0 +1,50 @@
+@import '../../design-system/new-colors';
+
+.failedPaymentsBanner {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  z-index: 99999;
+  height: 40px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .bannerText {
+    font-size: 12px;
+    font-weight: $fontweight_medium;
+    text-decoration: none !important;
+
+    i {
+      margin-left: 8px;
+    }
+
+    span {
+      font-weight: $fontweight_bold;
+      text-decoration: underline !important;
+    }
+  }
+
+  button {
+    background: none;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 30px;
+  }
+
+  .crossIcon {
+    &__white {
+      path {
+        fill: $prim_white;
+      }
+    }
+
+    &__black {
+      path {
+        fill: $black_1;
+      }
+    }
+  }
+}

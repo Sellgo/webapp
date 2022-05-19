@@ -18,6 +18,7 @@ import {
 } from '../../selectors/SellerResearch/SellerDatabase';
 import { downloadFile } from '../../utils/download';
 import { error, info, success } from '../../utils/notifications';
+import { getSellerQuota } from '../Settings';
 
 /* Action to set quota exceeded for seller database */
 export const setSellerDatabaseQuotaExceeded = (payload: boolean) => {
@@ -298,6 +299,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
       dispatch(setSellerDatabaseFilterMessage({ show: false, message: '', type: 'info' }));
       dispatch(setIsLoadingSellerDatabase(false));
     }
+    dispatch(getSellerQuota());
   } catch (err) {
     console.error('Error fetching ', err);
     dispatch(setIsLoadingSellerDatabase(false));

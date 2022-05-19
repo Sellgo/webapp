@@ -7,8 +7,7 @@ import styles from './index.module.scss';
 /* Components */
 import history from '../../../history';
 import AccountConnectionSection from './AccountConnectionSection';
-import ExtensionSection from './ExtensionSection';
-import FeaturesSection from './FeaturesSection';
+import VideoSection from './VideoSection';
 
 /* Selectors */
 import { getSellerSubscription } from '../../../selectors/Subscription';
@@ -67,8 +66,7 @@ const MigratingDisplay = (props: Props) => {
     <>
       <main className={styles.pilotLoginPageWrapper}>
         <AccountConnectionSection eta={eta} />
-        <ExtensionSection />
-        <FeaturesSection />
+        <VideoSection />
       </main>
     </>
   );

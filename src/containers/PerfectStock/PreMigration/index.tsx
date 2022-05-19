@@ -9,6 +9,7 @@ import styles from './index.module.scss';
 import SpApiForm from '../../Settings/SPConnectivity/SpApiForm';
 import ActionButton from '../../../components/ActionButton';
 import ElevioArticle from '../../../components/ElevioArticle';
+import PilotOnboarding from '../PilotOnboarding';
 
 /* Utils */
 import { AppConfig } from '../../../config';
@@ -24,6 +25,7 @@ interface Props {
 
 const PreMigration = (props: Props) => {
   const { fetchSellerSubscription } = props;
+  const [showPreMigration, setShowPreMigration] = React.useState(false);
   const [isSpApiAuthenticated, setIsSpApiAuthenticated] = React.useState(false);
 
   const runMigration = async () => {
@@ -45,6 +47,11 @@ const PreMigration = (props: Props) => {
       error('Error starting migration');
     }
   };
+
+  if (!showPreMigration) {
+    return <PilotOnboarding redirectToMigrate={() => setShowPreMigration(true)} />;
+  }
+
   return (
     <>
       <main className={styles.pilotLoginPageWrapper}>

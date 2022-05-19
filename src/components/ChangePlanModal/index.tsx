@@ -9,18 +9,25 @@ import styles from './index.module.scss';
 
 /* Components */
 import ActionButton from '../../components/ActionButton';
+import PricingPlansSummary from '../PricingCardsSummary';
 
-/* utils */
+/* Utils */
 import {
-  getSubscriptionID,
-  getSubscriptionNameKey,
-  SUBSCRIPTION_PLANS,
-  DAILY_SUBSCRIPTION_PLANS,
-} from '../../constants/Subscription';
+  getSubscriptionID as sellgoGetSubscriptionId,
+  getSubscriptionNameKey as sellgoGetSubscriptionNameKey,
+  SUBSCRIPTION_PLANS as SELLGO_SUBSCRIPTION_PLANS,
+  DAILY_SUBSCRIPTION_PLANS as SELLGO_DAILY_SUBSCRIPTION_PLANS,
+} from '../../constants/Subscription/Sellgo';
+import {
+  getSubscriptionID as aistockGetSubscriptionId,
+  getSubscriptionNameKey as aistockGetSubscriptionNameKey,
+  SUBSCRIPTION_PLANS as AISTOCK_SUBSCRIPTION_PLANS,
+  DAILY_SUBSCRIPTION_PLANS as AISTOCK_DAILY_SUBSCRIPTION_PLANS,
+} from '../../constants/Subscription/AiStock';
+import { isSellgoSession } from '../../utils/session';
 
 /* Actions */
 import { checkPromoCode } from '../../actions/Settings/Subscription';
-import PricingPlansSummary from '../PricingCardsSummary';
 
 /* Types */
 import { PromoCode, SubscriptionPlan } from '../../interfaces/Subscription';
@@ -49,6 +56,23 @@ const ChangePlanModal = (props: Props) => {
     promoCode,
     checkPromoCode,
   } = props;
+
+  let getSubscriptionID: any;
+  let getSubscriptionNameKey: any;
+  let SUBSCRIPTION_PLANS: any;
+  let DAILY_SUBSCRIPTION_PLANS: any;
+
+  if (isSellgoSession()) {
+    getSubscriptionID = sellgoGetSubscriptionId;
+    getSubscriptionNameKey = sellgoGetSubscriptionNameKey;
+    SUBSCRIPTION_PLANS = SELLGO_SUBSCRIPTION_PLANS;
+    DAILY_SUBSCRIPTION_PLANS = SELLGO_DAILY_SUBSCRIPTION_PLANS;
+  } else {
+    getSubscriptionID = aistockGetSubscriptionId;
+    getSubscriptionNameKey = aistockGetSubscriptionNameKey;
+    SUBSCRIPTION_PLANS = AISTOCK_SUBSCRIPTION_PLANS;
+    DAILY_SUBSCRIPTION_PLANS = AISTOCK_DAILY_SUBSCRIPTION_PLANS;
+  }
 
   /* newPlanType/newPaymentMode/newSubscriptionId are the states storing the updated plan information */
   const [newPlanType, setNewPlanType] = React.useState<string>(planType);

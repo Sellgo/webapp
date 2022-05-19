@@ -9,6 +9,7 @@ import './AdminHeader.scss';
 
 /* Components */
 import LogoutConfirm from '../LogoutConfirm';
+import QuotaMeter from '../QuotaMeter';
 
 /* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
@@ -17,7 +18,11 @@ import { SellerSubscription } from '../../interfaces/Seller';
 import { getSellerSubscription } from '../../selectors/Subscription';
 
 /* Utils */
-import { isAistockSubscription, isBetaAccount } from '../../utils/subscriptions';
+import {
+  isAistockSubscription,
+  isBetaAccount,
+  isSubscriptionIdFreeAccount,
+} from '../../utils/subscriptions';
 import { setUserOnboarding } from '../../actions/UserOnboarding';
 
 /* Icons */
@@ -31,6 +36,8 @@ import PerfectStockIcon from '../../assets/images/perfectStockGrey.svg';
 
 /* Actions */
 import { getSellerInfo } from '../../actions/Settings';
+import ActionButton from '../ActionButton';
+import history from '../../history';
 
 interface Props {
   auth: any;
@@ -57,11 +64,26 @@ const AdminHeader = (props: Props) => {
   const [openConfirm, setOpenConfirm] = React.useState<boolean>(false);
   const open = () => setOpenConfirm(true);
 
+  const redirectToPricing = () => {
+    history.push('/settings/pricing');
+  };
+
   React.useEffect(() => {
     getSellerInfo();
   }, []);
   return (
     <div className="admin-header">
+      {isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) && <QuotaMeter />}
+      {isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) && (
+        <ActionButton
+          variant="primary"
+          size={'md'}
+          type="purpleGradient"
+          onClick={redirectToPricing}
+        >
+          Upgrade Access
+        </ActionButton>
+      )}
       <Popup
         className="enableLearningPopup"
         trigger={

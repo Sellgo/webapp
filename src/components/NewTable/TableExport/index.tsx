@@ -21,7 +21,7 @@ import UpgradeCTA from '../../UpgradeCTA';
 
 /* Styling */
 import styles from './index.module.scss';
-import { DAILY_SUBSCRIPTION_PLANS } from '../../../constants/Subscription';
+import { DAILY_SUBSCRIPTION_PLANS } from '../../../constants/Subscription/Sellgo';
 
 /* Assets */
 import BanIcon from '../../../assets/images/banIcon.svg';

@@ -117,7 +117,7 @@ const SpApiForm = (props: Props) => {
 
   return (
     <section className={styles.mwsFormWrapper}>
-      <BoxHeader>Amazon MWS Authorization</BoxHeader>
+      <BoxHeader>Amazon Seller Central Integration</BoxHeader>
       <BoxContainer>
         <Dimmer active={isAuthenticating} inverted className={styles.dimmer}>
           <Loader inline className={styles.loader} />

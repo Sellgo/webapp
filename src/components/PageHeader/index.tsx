@@ -28,6 +28,7 @@ import { SellerSubscription } from '../../interfaces/Seller';
 
 /* Actions */
 import { updateSeller } from '../../actions/Settings/Subscription';
+import { isSellgoSession } from '../../utils/session';
 
 interface Props {
   title?: string;
@@ -59,7 +60,9 @@ const PageHeader = (props: Props) => {
   return (
     <>
       <Helmet>
-        <title>Sellgo - {title}</title>
+        <title>
+          {isSellgoSession() ? 'Sellgo' : 'Aistock'} - {title}
+        </title>
       </Helmet>
 
       <div className={`page-header ${isNewProduct ? 'new-page-header' : ''}`}>

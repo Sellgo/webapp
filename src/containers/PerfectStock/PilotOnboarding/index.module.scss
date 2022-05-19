@@ -1,0 +1,93 @@
+@import '../../../design-system/new-colors';
+
+.pilotOnboardingPage {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.leftSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  > h2 {
+    width: 800px;
+    font-size: 30px;
+    font-weight: $fontweight_bold;
+    color: $black_1;
+    margin-bottom: 30px;
+  }
+
+  > p {
+    width: 800px;
+    margin-bottom: 30px;
+    font-size: 14px;
+    color: $grey_8;
+  }
+}
+
+.privacyInformation {
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+  background: $grey_3;
+  border-radius: 7px;
+  margin-top: 30px;
+  width: 800px;
+  height: 70px;
+
+  span {
+    font-size: 12px;
+    font-weight: $fontweight_medium;
+    color: $black_1;
+    margin-left: 18px;
+  }
+}
+
+.benefitRow {
+  display: flex;
+  align-items: center;
+  width: 800px;
+  margin-bottom: 18px;
+
+  .benefitText {
+    margin-left: 18px;
+    display: flex;
+    flex-direction: column;
+
+    > p {
+      font-size: 14px;
+      font-weight: $fontweight_semibold;
+      color: $black_1;
+    }
+
+    > span {
+      font-size: 12px;
+      color: $grey_8;
+      font-weight: $fontweight_regular;
+    }
+  }
+}
+
+.rightDisplayPictureWrapper {
+  min-width: 30%;
+  height: 100%;
+}
+
+.rightDisplayPicture {
+  position: absolute;
+  right: 0;
+  height: 100%;
+  object-fit: contain;
+}
+
+.migrateButton {
+  width: 200px;
+  margin-top: 30px;
+  margin-left: 600px;
+}
