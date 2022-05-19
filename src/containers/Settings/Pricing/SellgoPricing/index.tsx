@@ -195,14 +195,17 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             </div>
 
             <div className={styles.planShortSummary}>
-              <p>Pay Less On Software, Invest More In Your Business.</p>
+              <p>
+                Sellgo offers flexible packages across our portfolio of data-driven solutions and
+                premium applications.
+              </p>
             </div>
 
             <ToggleButton
-              isToggled={isMonthly}
+              isToggled={!isMonthly}
               handleChange={() => this.setState({ isMonthly: !isMonthly })}
               className={styles.paymentModeToggleButton}
-              options={['Pay Annually', 'Pay Monthly']}
+              options={['Pay monthly', 'Pay annually']}
             />
             <div className={styles.pricingPlansCardWrapper}>
               {MONTHLY_AND_ANNUAL_PLANS.map((product: any) => {
@@ -246,7 +249,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <img src={Stripe} alt="Protected by stripe logo" />
             </div>
             <div className={styles.paymentMeta__text}>
-              <p>We offer 7-day money back guarantee.</p>
+              <p />
             </div>
           </section>
           <FAQSection />

@@ -8,7 +8,7 @@
   background: $prim_white;
   border-radius: 7px;
   width: 400px;
-  min-height: 940px;
+  min-height: 500px;
   border: 1px solid $second_silver;
 
   &__new {
@@ -63,7 +63,7 @@
 }
 
 .planType {
-  font-size: $fontsize_content_14;
+  font-size: $fontsize_content_12;
   color: $prim_dark_1;
-  font-weight: $fontweight_medium;
+  font-weight: $fontweight_regular;
 }

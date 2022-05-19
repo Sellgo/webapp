@@ -309,7 +309,7 @@ function CheckoutForm(props: MyProps) {
 
   return (
     <div className={styles.checkoutContainer}>
-      <h2> Account Information </h2>
+      <h2> Create your account</h2>
       <form onSubmit={handleSubmit}>
         <Form.Group className={styles.formGroup}>
           <Form.Input
