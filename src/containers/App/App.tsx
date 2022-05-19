@@ -162,26 +162,6 @@ const PrivateRoute = connect(
         history.push('/activate-beta-account');
       }
 
-      if (requireSubscription && localStorage.getItem('accountType') !== '') {
-        // If user does not have a subscription and this route requires one
-        // then redirect to pricing page.
-        if (localStorage.getItem('accountType') === 'trial') {
-          history.push('/settings/#amazon-mws');
-        } else {
-          localStorage.setItem('accountType', '');
-          history.push('/synthesis');
-        }
-      } else {
-        const subscriptionId = sellerSubscription.subscription_id;
-        const isBetaLabel = sellerSubscription.is_beta;
-
-        if (requireSubscription && subscriptionId === 5) {
-          if (isBetaLabel) {
-            history.push('/activate-beta-account');
-          }
-        }
-      }
-
       // If quota exceeds for free account then redirect to activation
       if (
         isSellgoSession() &&

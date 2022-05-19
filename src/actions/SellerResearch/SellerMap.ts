@@ -30,6 +30,7 @@ import { calculateBoundsForMap } from '../../utils/map';
 import { error, success } from '../../utils/notifications';
 import { getSellerMapFilterData } from '../../selectors/SellerResearch/SellerMap';
 import { F_TYPES } from '../../constants/SellerResearch';
+import { getSellerQuota } from '../Settings';
 
 /* =================================================== */
 /* ================ SELLER MAP FILTERS ================*/
@@ -291,6 +292,7 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (
       success(`Found ${data.length} sellers`);
       dispatch(setSellersForMap(data));
       dispatch(setLoadingSellersForMap(false));
+      dispatch(getSellerQuota());
     }
   } catch (err) {
     dispatch(setMapCenter(INITIAL_CENTER));
@@ -338,6 +340,7 @@ export const fetchSellersListForMap = (payload: SellersListPayload) => async (
       dispatch(setSellersListForMap(results));
       dispatch(setSellersListForMapPaginationInfo(paginationInfo));
       dispatch(isLoadingSellersListForMap(false));
+      dispatch(getSellerQuota());
     } else {
       dispatch(setSellersListForMap([]));
       dispatch(setSellersListForMapPaginationInfo({ total_pages: 0, current_page: 0, count: 0 }));
@@ -367,6 +370,7 @@ export const fetchSellerDetailsForMap = (sellerInternalID: string) => async (dis
       const sellerDetails = response.data[0];
       dispatch(setSellerDetailsForMap(sellerDetails));
       dispatch(setLoadingSellerDetailsForMap(false));
+      dispatch(getSellerQuota());
     }
   } catch (err) {
     const { response } = err as any;
