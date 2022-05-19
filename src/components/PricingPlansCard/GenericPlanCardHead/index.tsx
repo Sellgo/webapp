@@ -91,8 +91,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
         {!isMonthly ? (
           <p className={styles.billedAtPrice}>
             <span className={`${styles.originalPrice}`}>
-              Originally <br />
-              billed At <span className="strike-text">${monthlyPrice * 12}</span>
+              Originally <span className="strike-text">${monthlyPrice * 12}</span>
             </span>
             <span className={`${styles.newPrice}`}>
               Now ${Math.round(annualPrice)}
@@ -136,7 +135,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
           className={styles.buyNowCTA}
           onClick={() => changePlan({ name, id })}
         >
-          Change to this plan
+          Activate plan
         </ActionButton>
       )}
     </div>

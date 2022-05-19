@@ -195,7 +195,10 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             </div>
 
             <div className={styles.planShortSummary}>
-              <p>Pay Less On Software, Invest More In Your Business.</p>
+              <p>
+                Sellgo offers flexible packages across our portfolio of data-driven solutions and
+                premium applications.
+              </p>
             </div>
 
             <ToggleButton
