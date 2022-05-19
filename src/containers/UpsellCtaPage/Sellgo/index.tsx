@@ -13,11 +13,22 @@ const UpsellCtaPage = () => {
     history.push('/settings/pricing');
   };
 
+  const daysTillNextMonth = () => {
+    const today = new Date();
+    const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+    const timeDiff = Math.abs(nextMonth.getTime() - today.getTime());
+    const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    return diffDays;
+  };
+
   return (
     <main className={styles.upsellCtaPage}>
       <div className={styles.leftSection}>
         <h2>You have 0 quota available with free account.</h2>
-        <p>Wait for next month to restore your free quota, or upgrade to get immediate access.</p>
+        <p>
+          Wait for {daysTillNextMonth()} days to restore your free quota, or upgrade to get
+          immediate access.
+        </p>
         <div className={styles.benefitsTable}>
           <div className={styles.benefitsColumn}>
             <h2>Benefits</h2>
