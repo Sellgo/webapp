@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 /* Components */
-import FAQAccordion from '../../../../components/FAQAccordion';
+import FAQAccordion from '../../../../../components/FAQAccordion';
 
 import styles from './index.module.scss';
 
@@ -17,7 +17,6 @@ const FAQSection = () => {
       })
       .catch(() => setFaqData([]));
   }, []);
-
   return (
     <>
       {faqData && faqData.length > 0 ? (

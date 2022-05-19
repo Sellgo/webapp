@@ -15,7 +15,6 @@ import { fetchSellerSubscription, fetchSubscriptions } from '../../actions/Setti
 import '../../analytics';
 import ResetPassword from '../ResetPassword';
 import Onboarding from '../Onboarding';
-import Subscription from '../Settings/Subscription';
 import Billing from '../Settings/Billing';
 import APIConnectivity from '../Settings/APIConnectivity';
 import SPConnectivity from '../Settings/SPConnectivity';
@@ -39,6 +38,7 @@ import SellgoFreeAccountForm from '../NewSellgoSubscription/SellgoFreeAccountFor
 import SellgoActivation from '../NewSellgoSubscription/SellgoActivation';
 import SellgoActivationSuccess from '../NewSellgoSubscription/SellgoActivationSuccess';
 import SellgoUpsellCtaPage from '../UpsellCtaPage/Sellgo';
+import SellgoPricing from '../Settings/Pricing/SellgoPricing';
 
 import AistockNewSubscription from '../NewAistockSubscription';
 import AistockPaymentSuccess from '../NewAistockSubscription/AistockPaymentSuccess';
@@ -46,6 +46,7 @@ import AistockFreeAccountForm from '../NewAistockSubscription/AistockFreeAccount
 import AistockActivation from '../NewAistockSubscription/AistockActivation';
 import AistockActivationSuccess from '../NewAistockSubscription/AistockActivationSuccess';
 import AistockUpsellCtaPage from '../UpsellCtaPage/Aistock';
+import AistockPricing from '../Settings/Pricing/AistockPricing';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import MainHomePage from '../MainHomePage';
@@ -71,6 +72,7 @@ const AistockSubscriptionPages = {
   Activation: AistockActivation,
   ActivationSuccess: AistockActivationSuccess,
   UpsellCtaPage: AistockUpsellCtaPage,
+  Pricing: AistockPricing,
 };
 
 const SellgoSubscriptionPages = {
@@ -80,6 +82,7 @@ const SellgoSubscriptionPages = {
   Activation: SellgoActivation,
   ActivationSuccess: SellgoActivationSuccess,
   UpsellCtaPage: SellgoUpsellCtaPage,
+  Pricing: SellgoPricing,
 };
 
 const SubscriptionPages = isSellgoSession() ? SellgoSubscriptionPages : AistockSubscriptionPages;
@@ -314,7 +317,11 @@ function App() {
             component={Onboarding}
             requireSubscription={true}
           />
-          <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />
+          <PrivateRoute
+            exact={true}
+            path="/settings/pricing"
+            component={SubscriptionPages.Pricing}
+          />
           <PrivateRoute exact={true} path="/settings/billing" component={Billing} />
           <PrivateRoute exact={true} path="/settings/sp-connectivity" component={SPConnectivity} />
           <PrivateRoute exact={true} path="/settings/sp-api-listener" component={SpApiListener} />

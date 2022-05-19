@@ -6,43 +6,43 @@ import Axios from 'axios';
 import _ from 'lodash';
 
 /* Utils */
-import { success, error } from '../../../utils/notifications';
-import history from '../../../history';
-import { convertPlanNameToKey, isSubscriptionNotPaid } from '../../../utils/subscriptions';
+import { success, error } from '../../../../utils/notifications';
+import history from '../../../../history';
+import { convertPlanNameToKey, isSubscriptionNotPaid } from '../../../../utils/subscriptions';
 
 /* Config */
-import { AppConfig } from '../../../config';
+import { AppConfig } from '../../../../config';
 
 /* Actions */
 import {
   fetchSellerSubscription,
   fetchSubscriptions,
   setSellerSubscription,
-} from '../../../actions/Settings/Subscription';
-import { getSellerInfo } from '../../../actions/Settings';
+} from '../../../../actions/Settings/Subscription';
+import { getSellerInfo } from '../../../../actions/Settings';
 
 /* Assets */
-import Setcard from '../../../assets/images/4_Card_color_horizontal.svg';
-import Stripe from '../../../assets/images/powered_by_stripe.svg';
+import Setcard from '../../../../assets/images/4_Card_color_horizontal.svg';
+import Stripe from '../../../../assets/images/powered_by_stripe.svg';
 
 /* Styling */
 import styles from './index.module.scss';
 import 'react-multi-carousel/lib/styles.css';
 
 /* Components */
-import PricingPlansCard from '../../../components/PricingPlansCard';
-import PageHeader from '../../../components/PageHeader';
-import ToggleButton from '../../../components/ToggleButton';
+import PricingPlansCard from '../../../../components/PricingPlansCard';
+import PageHeader from '../../../../components/PageHeader';
+import ToggleButton from '../../../../components/ToggleButton';
 
 /* Types */
-import { Subscription } from '../../../interfaces/Seller';
+import { Subscription } from '../../../../interfaces/Seller';
 import FAQSection from './FaqSection';
 
 /* Data */
 import {
   DAILY_SUBSCRIPTION_PLANS,
   MONTHLY_AND_ANNUAL_PLANS,
-} from '../../../constants/Subscription/Sellgo';
+} from '../../../../constants/Subscription/Sellgo';
 
 interface SubscriptionProps {
   getSeller: () => void;
@@ -249,7 +249,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <p>We offer 7-day money back guarantee.</p>
             </div>
           </section>
-
           <FAQSection />
         </main>
       </>
