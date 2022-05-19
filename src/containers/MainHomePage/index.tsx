@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import HomepageCard from '../../components/HomepageCard';
 import HomePageMeta from './HomePageMeta';
 import PageHeader from '../../components/PageHeader';
-import { getLatestSupplier } from '../../actions/Suppliers';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -24,21 +23,21 @@ interface Props {
 
 const MainHomePage = (props: Props) => {
   const { match, subscription } = props;
-  const [isProfitFinderDisabled, setIsProfitFinderDisabled] = React.useState(false);
-  const [profitFinderLink, setProfitFinderLink] = React.useState('/profit-finder');
-  React.useEffect(() => {
-    let supplier_id = '';
-    const latest = getLatestSupplier();
-    if (latest) {
-      supplier_id = latest.supplier_id;
-    }
-    const newProfitFinderLink = `/profit-finder/${supplier_id}`;
-    setProfitFinderLink(newProfitFinderLink);
+  // const [isProfitFinderDisabled, setIsProfitFinderDisabled] = React.useState(false);
+  // const [profitFinderLink, setProfitFinderLink] = React.useState('/profit-finder');
+  // React.useEffect(() => {
+  //   let supplier_id = '';
+  //   const latest = getLatestSupplier();
+  //   if (latest) {
+  //     supplier_id = latest.supplier_id;
+  //   }
+  //   const newProfitFinderLink = `/profit-finder/${supplier_id}`;
+  //   setProfitFinderLink(newProfitFinderLink);
 
-    if (supplier_id.length === 0) {
-      setIsProfitFinderDisabled(true);
-    }
-  }, []);
+  //   if (supplier_id.length === 0) {
+  //     setIsProfitFinderDisabled(true);
+  //   }
+  // }, []);
   return (
     <main className={styles.mainHomePageWrapper}>
       <PageHeader
@@ -118,7 +117,7 @@ const MainHomePage = (props: Props) => {
 
       {isSellgoSubscription(subscription.subscription_id) && (
         <>
-          <h2 className={styles.cardWrapperTitle}>Wholesale Bulk Analysis</h2>
+          {/* <h2 className={styles.cardWrapperTitle}>Wholesale Bulk Analysis</h2>
           <div className={styles.homepageCards}>
             <HomepageCard
               label="Search Management"
@@ -134,7 +133,7 @@ const MainHomePage = (props: Props) => {
               icon={require(`../../assets/images/profitFinderIcon.svg`)}
               disabled={isProfitFinderDisabled}
             />
-          </div>
+          </div> */}
 
           <h2 className={styles.cardWrapperTitle}>Seller Data</h2>
           <div className={styles.homepageCards}>
