@@ -12,14 +12,15 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
     salesEstimateCount: 1000,
     monthlyPrice: 37,
     annualPrice: 324,
-    desc: `The toolbox for beginner sellers. \n Get access to our tools and chrome extension!`,
+    desc: `Accelerate your seller research process`,
     featureSubName: 'Start with',
     featuresLists: [
       {
-        title: 'Discover Best Selling',
+        title: 'Own your market',
         featuresIncluded: [
-          'Full access to the Chrome Extension',
-          'Limited access to the rest of Sellgo All-In-One tool',
+          'Accurate contacts and locations',
+          'Basic seller revenue insights',
+          'Basic seller map access',
         ],
       },
     ],
@@ -31,32 +32,16 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
     salesEstimateCount: 2000,
     monthlyPrice: 97,
     annualPrice: 924,
-    featureSubName: 'Full Single-user Access, Plus',
-    desc: `For experienced sellers looking to grow \n their businesses and maximize their earnings.`,
+    featureSubName: 'Full single-user access, plus',
+    desc: `Find the best seller, faster.`,
     isNew: true,
     featuresLists: [
       {
-        title: 'Optimize Wholesale leads',
+        title: 'Turn leads into pipeline',
         featuresIncluded: [
-          'Full access to Profit Finder',
-          'Variation and Multipack analysis',
-          'Leads Tracker',
-        ],
-      },
-      {
-        title: 'Seller Research',
-        featuresIncluded: [
-          'Locate Amazon sellers with Seller Database/ Map',
-          'Check sellers inventory',
-          'Brand level category filter',
-        ],
-      },
-      {
-        title: 'Keyword Research',
-        featuresIncluded: [
-          'Reveal competitor keywords with Keyword Finder',
-          'Keyword tracking with Product Rank Tracker',
-          'Rank drop/ raise index',
+          'Essential contact data and advanced company insights',
+          'Export data for annual plan',
+          'Advanced quota',
         ],
       },
     ],
@@ -68,36 +53,16 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
     salesEstimateCount: 3000,
     monthlyPrice: 177,
     annualPrice: 1764,
-    featureSubName: 'Everything in Professional Plan, Plus',
-    desc: `For top sellers who need the best tools. 
-      Track more products, obtain more data \nand optimize your entire Amazon business.`,
+    featureSubName: 'Everything in professional plan, plus',
+    desc: `Achieve more ROI.`,
     featuresLists: [
       {
-        title: 'Product Research',
+        title: 'Hit revenue goals',
         featuresIncluded: [
-          'Full access to Chrome Extension Sales Estimation',
-          'Full access to Product Research (incoming soon)',
-          'Historical Data up to 1-year',
-        ],
-      },
-      {
-        title: 'Seller Research',
-        featuresIncluded: [
+          'Advanced seller research with accurate contact data',
           'Full use of Seller Database/ Map',
-          'Seller Map Top View 20,000 Sellers*',
+          'Seller Map top view 20,000 sellers',
         ],
-      },
-      {
-        title: 'Keyword Research',
-        featuresIncluded: [
-          'Full Access to Keyword Finder/ Database',
-          'True Rank Performance index',
-          'PPC Recampaign with Zapier integration*',
-        ],
-      },
-      {
-        title: 'Advanced access',
-        featuresIncluded: ['Multi-user login', 'Priority onboarding'],
       },
     ],
   },
@@ -178,10 +143,9 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     dailyPrice: -1,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
-      'Chrome Extension + 1,000 Sales Estimation/ month',
-      'Basic Seller Research',
-      'Basic Keyword Research',
-      'Sellgo support',
+      'Full access to Chrome extension.',
+      'Limited access to seller database suite.',
+      '7-day money back guarantee',
     ],
   },
   professional: {
