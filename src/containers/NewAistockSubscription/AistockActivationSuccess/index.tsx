@@ -13,7 +13,7 @@ import LuxeLogo from '../../../assets/images/LuxeLogo.png';
 import SkopeLogo from '../../../assets/images/SkopeLogo.png';
 import BBLogo from '../../../assets/images/BBLogo.png';
 import BFLogo from '../../../assets/images/BFLogo.png';
-import sellgoLogo from '../../../assets/images/aistockLogo.png';
+import aistockLogo from '../../../assets/images/aistockLogo.png';
 
 /* Components */
 import Auth from '../../../components/Auth/Auth';
@@ -78,8 +78,8 @@ const ActivationSuccess = (props: Props) => {
         </div>
       </section>
       <section className={styles.socialProofSection}>
-        <img src={sellgoLogo} alt="sellgo-logo" className={styles.sellgoLogo} />
-        <p className={styles.socialProofDesc}>Trusted by the world's best Amazon sellers</p>
+        <img src={aistockLogo} alt="aistock-logo" className={styles.aistockLogo} />
+        <p className={styles.socialProofDesc}>Trusted by 100+ Amazon sellers</p>
         <div className={styles.socialProofIcons}>
           <img className={styles.logo} src={BBLogo} alt="bblogo" />
           <img className={styles.logo} src={TenFactorLogo} alt="TenFactorLogo" />
