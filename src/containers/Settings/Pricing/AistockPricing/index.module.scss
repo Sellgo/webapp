@@ -1,0 +1,132 @@
+@import '../../../../design-system/new-colors';
+
+/* Main Page styles */
+.subscriptionPage {
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 40px;
+  flex-direction: column;
+
+  @media only screen and(max-width: 1200px) {
+    width: 90%;
+  }
+}
+
+/* Page Wrapper */
+.subscriptionPageWrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  color: $prim_dark_2;
+}
+
+/* Page Heading */
+.planName {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  span {
+    width: 40px;
+    height: 40px;
+    background: $blue_6;
+    border-radius: 3px;
+    margin-right: 10px;
+  }
+
+  h2 {
+    font-size: 32px;
+    margin: 0;
+  }
+}
+
+/* Plan summary */
+.planShortSummary {
+  color: $prim_dark_2;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto;
+
+  p {
+    margin-right: 10px;
+    color: inherit;
+  }
+}
+
+/* Pricing Plans Wrapper */
+.pricingPlanCardsWrapper {
+  max-width: 1200px;
+  margin: 40px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.carouselWrapper {
+  display: flex;
+  max-width: 1200px;
+  margin: 40px auto;
+}
+
+.carouselListWrappewr {
+  padding: 50px 0;
+}
+
+.comparisionLink {
+  text-align: center;
+  color: $prim_dark_2;
+  width: max-content;
+  margin: 0 auto;
+}
+
+.externalLinkIcon {
+  margin-left: 10px !important;
+  font-size: 12px !important;
+  cursor: pointer !important;
+  color: #636d76 !important;
+}
+
+.paymentModeToggleButton {
+  margin-top: 40px !important;
+  height: 40px !important;
+  width: 300px !important;
+}
+
+/* Payment meta information */
+.paymentMeta {
+  max-width: 1200px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px auto;
+
+  &__images {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__text {
+    font-size: 14px;
+  }
+}
+
+.pricingPlansCardWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 2rem auto;
+
+  @media only screen and(max-width: 1200px) {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-evenly;
+  }
+}
