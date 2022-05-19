@@ -23,6 +23,11 @@ const AccountConnectionSection = (props: Props) => {
     history.push('/settings/aistock/lead-time');
   };
 
+  /* Open www.calendly.com in new tab */
+  const handleOpenNewCalendlyTab = () => {
+    window.open('https://calendly.com/sellgo-richard/aistock-onboarding', '_blank');
+  };
+
   return (
     <section className={styles.connectAccount}>
       <h1>Perfect Stock White Glove Migration is in Progress</h1>
@@ -64,7 +69,7 @@ const AccountConnectionSection = (props: Props) => {
             type="purpleGradient"
             variant="secondary"
             size="md"
-            onClick={handleRedirectToConnectivity}
+            onClick={handleOpenNewCalendlyTab}
           >
             Schedule A Call
           </ActionButton>

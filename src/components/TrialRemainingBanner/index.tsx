@@ -12,7 +12,8 @@ interface Props {
 }
 const TrialRemainingBanner = (props: Props) => {
   const { expiryDate } = props;
-  const [showBanner, setShowBanner] = React.useState(true);
+  const [showBanner, setShowBanner] = React.useState(false);
+
   /* Count number of days left to expiry date */
   const daysLeft = () => {
     const today = new Date();
@@ -22,12 +23,23 @@ const TrialRemainingBanner = (props: Props) => {
     return diffDays;
   };
 
+  const DAYS_LEFT_TO_SHOW_BANNER = [11, 7, 3, 2, 1];
+  React.useEffect(() => {
+    if (
+      DAYS_LEFT_TO_SHOW_BANNER.includes(daysLeft()) &&
+      localStorage.getItem(`aistock_banner_${daysLeft()}_showed`) !== 'true'
+    ) {
+      setShowBanner(true);
+      localStorage.setItem(`aistock_banner_${daysLeft()}_showed`, 'true');
+    }
+  }, []);
+
   let bannerColor;
   let fontColor;
-  if (daysLeft() >= 8) {
+  if (daysLeft() === 11) {
     bannerColor = '#3CF7AF';
     fontColor = '#1E1E1E';
-  } else if (daysLeft() >= 4) {
+  } else if (daysLeft() === 7) {
     bannerColor = '#FFCC2F';
     fontColor = '#1E1E1E';
   } else if (daysLeft() === 3) {
