@@ -201,7 +201,7 @@ const FreeAccountForm = (props: Props) => {
           />
           <Form.Input
             size="huge"
-            label="Email"
+            label="Email*"
             type="mail"
             placeholder="Email"
             value={email}
@@ -254,7 +254,7 @@ const FreeAccountForm = (props: Props) => {
           </div>
           <p className={styles.error}>{errorMessage}</p>
           <button className={styles.submitButton} onClick={handleSubmit} disabled={isLoading}>
-            Sign Up&nbsp;
+            Sign up now&nbsp;
             <Loader active={isLoading} inline inverted size="mini" />
           </button>
           <p className={styles.signIn}>

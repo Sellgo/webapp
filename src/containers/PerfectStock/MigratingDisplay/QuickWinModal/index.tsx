@@ -48,7 +48,7 @@ const QuickWin = () => {
                 You&apos;ll be up and running in a few seconds ...
               </h2>
               <p className={styles.modalText}>
-                Thank you for allowing Sellgo the privilege of helping for your Amazon business.
+                Thank you for allowing AiStock the privilege of helping for your Amazon business.
                 {<br />}
                 You are the reason we are here, and we truly hope we provide you with the excellent
                 service you deserve.
