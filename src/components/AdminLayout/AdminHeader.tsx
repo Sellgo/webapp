@@ -134,7 +134,7 @@ const AdminHeader = (props: Props) => {
               as={Link}
               to="/settings/pricing"
               className="dropdownItem"
-              disabled={isBeta || isAiStock}
+              disabled={isBeta}
             >
               <img src={PlansIcon} alt="plans-icon" />
               Plans
@@ -143,7 +143,7 @@ const AdminHeader = (props: Props) => {
               as={Link}
               to="/settings/billing"
               className="dropdownItem"
-              disabled={isBeta || isAiStock}
+              disabled={isBeta}
             >
               <img src={BillingIcon} alt="billing-icon" />
               Billing
@@ -152,7 +152,7 @@ const AdminHeader = (props: Props) => {
               as={Link}
               to="/settings/sp-connectivity"
               className="dropdownItem"
-              disabled={isBeta}
+              disabled={isBeta || !isAiStock}
             >
               <img src={ConnectivityIcon} alt="connectivity-icon" />
               Connectivity
