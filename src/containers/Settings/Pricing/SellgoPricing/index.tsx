@@ -202,7 +202,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             </div>
 
             <ToggleButton
-              isToggled={isMonthly}
+              isToggled={!isMonthly}
               handleChange={() => this.setState({ isMonthly: !isMonthly })}
               className={styles.paymentModeToggleButton}
               options={['Pay monthly', 'Pay annually']}
