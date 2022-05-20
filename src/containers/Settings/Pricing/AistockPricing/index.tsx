@@ -191,11 +191,14 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         <main className={styles.subscriptionPage}>
           <section className={styles.subscriptionPageWrapper}>
             <div className={styles.planName}>
-              <h2>Sellgo Subscription Plans</h2>
+              <h2>AiStock Subscription Plans</h2>
             </div>
 
             <div className={styles.planShortSummary}>
-              <p>Pay Less On Software, Invest More In Your Business.</p>
+              <p>
+                Supply chain? Inventory planning? Sales projection? 3PL replenishment? Cash flow
+                projection? We&apos;ve got your back.
+              </p>
             </div>
 
             <ToggleButton

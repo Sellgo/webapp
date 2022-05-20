@@ -7,12 +7,12 @@ export const FREE_TRIAL_SUBSCRIPTION_ID = 100;
 export const MONTHLY_AND_ANNUAL_PLANS = [
   {
     id: 101, // subscriptionID if needed
-    name: 'Aistock Starter',
+    name: 'Starter',
     productsDatabase: 0,
     salesEstimateCount: 1000,
     monthlyPrice: 37,
     annualPrice: 324,
-    desc: `The toolbox for beginner sellers. \n Get access to our tools and chrome extension!`,
+    desc: `Ideal for sellers with revenue up to USD $100K/mo`,
     featureSubName: 'Start with',
     featuresLists: [
       {
@@ -26,13 +26,13 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
   },
   {
     id: 102,
-    name: 'Aistock Professional',
+    name: 'Professional',
     productsDatabase: 0,
     salesEstimateCount: 2000,
     monthlyPrice: 97,
     annualPrice: 924,
-    featureSubName: 'Full Single-user Access, Plus',
-    desc: `For experienced sellers looking to grow \n their businesses and maximize their earnings.`,
+    featureSubName: 'Full single-user access, plus',
+    desc: `Ideal for sellers with revenue up to USD $300K/mo`,
     isNew: true,
     featuresLists: [
       {
@@ -63,14 +63,13 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
   },
   {
     id: 103,
-    name: 'Aistock Team',
+    name: 'Team',
     productsDatabase: 0,
     salesEstimateCount: 3000,
     monthlyPrice: 177,
     annualPrice: 1764,
-    featureSubName: 'Everything in Professional Plan, Plus',
-    desc: `For top sellers who need the best tools. 
-      Track more products, obtain more data \nand optimize your entire Amazon business.`,
+    featureSubName: 'Everything in professional plan, plus',
+    desc: `Ideal for sellers with revenue up to USD $500K/mo`,
     featuresLists: [
       {
         title: 'Product Research',
