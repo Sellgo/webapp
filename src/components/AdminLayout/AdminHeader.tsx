@@ -74,16 +74,17 @@ const AdminHeader = (props: Props) => {
   return (
     <div className="admin-header">
       {isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) && <QuotaMeter />}
-      {isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) && (
-        <ActionButton
-          variant="primary"
-          size={'md'}
-          type="purpleGradient"
-          onClick={redirectToPricing}
-        >
-          Upgrade Access
-        </ActionButton>
-      )}
+      {isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) &&
+        !window.location.pathname.includes('pricing') && (
+          <ActionButton
+            variant="primary"
+            size={'md'}
+            type="purpleGradient"
+            onClick={redirectToPricing}
+          >
+            Upgrade Access
+          </ActionButton>
+        )}
       <Popup
         className="enableLearningPopup"
         trigger={

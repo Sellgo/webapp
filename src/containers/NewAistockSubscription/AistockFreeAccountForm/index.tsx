@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Header, Modal, TextArea, Checkbox, Loader } from 'semantic-ui-react';
+import { Form, Header, Modal, TextArea, Loader } from 'semantic-ui-react';
 import { get } from 'lodash';
 import { connect } from 'react-redux';
 
@@ -51,7 +51,6 @@ const FreeAccountForm = (props: Props) => {
 
   const [openTOS, setOpenTOS] = React.useState<boolean>(false);
   const [openPP, setOpenPP] = React.useState<boolean>(false);
-  const [isAgreedToTerms, setAgreedToTerms] = React.useState<boolean>(false);
 
   /* ---------------------------------------- */
   /* -------------- TOS --------------------- */
@@ -61,14 +60,6 @@ const FreeAccountForm = (props: Props) => {
     fetchPP();
   }, [fetchTOS, fetchPP]);
   const [isLoading, setLoading] = React.useState<boolean>(false);
-
-  const handleTermsChange = (e: any, data: any) => {
-    if (data.checked) {
-      setAgreedToTerms(true);
-    } else {
-      setAgreedToTerms(false);
-    }
-  };
 
   const onClose = () => {
     setOpenTOS(false);
@@ -138,10 +129,6 @@ const FreeAccountForm = (props: Props) => {
       return;
     } else if (password !== password2) {
       setErrorMessage(`Passwords do not match.`);
-      setLoading(false);
-      return;
-    } else if (!isAgreedToTerms) {
-      setErrorMessage(`Please agree to the terms and conditions.`);
       setLoading(false);
       return;
     } else if (!name) {
@@ -232,7 +219,6 @@ const FreeAccountForm = (props: Props) => {
           />
 
           <div className={styles.consent}>
-            <Checkbox onChange={handleTermsChange} />
             <p>
               By signing up, you’re agreeing to our&nbsp;
               <span

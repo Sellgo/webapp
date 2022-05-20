@@ -1,5 +1,5 @@
 import React from 'react';
-import { Confirm, Icon } from 'semantic-ui-react';
+import { Confirm } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 import Axios from 'axios';
@@ -232,17 +232,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               })}
             </div>
           </section>
-
-          <p className={styles.comparisionLink}>
-            More detailed comparisons
-            <span>
-              <Icon
-                name="external"
-                className={styles.externalLinkIcon}
-                onClick={() => window.open('https://sellgo.com/pricing', '_target')}
-              />
-            </span>
-          </p>
           <section className={styles.paymentMeta}>
             <div className={styles.paymentMeta__images}>
               <img src={Setcard} alt="Different card payment options" />

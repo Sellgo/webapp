@@ -146,7 +146,6 @@ const SellerResearch = (props: Props) => {
                   label="FINDER"
                   icon="Seller Finder"
                   isActive={selectedTabList === 2}
-                  isBeta
                 />
               </Tab>
             </TabList>
