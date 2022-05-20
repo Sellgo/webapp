@@ -76,7 +76,6 @@ const GlobalMapFilters = (props: Props) => {
 
   const handleFilterChange = (keyName: any, value: any) => {
     updateSellerMapFilterOptions({ keyName, value });
-    fetchSellersListForMap();
   };
 
   const handleRefectSellers = async () => {
