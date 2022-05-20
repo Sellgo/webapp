@@ -108,7 +108,7 @@ const Summary = (props: Props) => {
   return (
     <>
       <div className={styles.summaryContainer}>
-        <h1>You'll be Up and Running in Minutes </h1>
+        <h1>You&apos;ll be up and running in minutes </h1>
         <p className={styles.planName}>{summaryDetails.name}</p>
         <ul className={styles.benefitsWrapper}>
           {summaryDetails.benefits.map((benefit: string, index: number) => {
