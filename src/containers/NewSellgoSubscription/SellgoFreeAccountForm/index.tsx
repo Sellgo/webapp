@@ -141,7 +141,7 @@ const FreeAccountForm = (props: Props) => {
       setLoading(false);
       return;
     } else if (!isAgreedToTerms) {
-      setErrorMessage(`Please agree to the terms and conditons.`);
+      setErrorMessage(`Please agree to the terms and conditions.`);
       setLoading(false);
       return;
     } else if (!name) {
