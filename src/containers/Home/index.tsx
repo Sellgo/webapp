@@ -71,6 +71,8 @@ class Home extends React.Component<any> {
         /* Account is Sellgo account, but webapp is aistock webapp */
       } else if (!isAiStock && isAiStockSession()) {
         this.redirectToAlternativeApp(AppConfig.sellgoUrls.BASE_URL);
+      } else if (isAiStockSession()) {
+        history.replace('/aistock/sales');
       } else {
         history.replace('/home');
       }
