@@ -161,14 +161,18 @@ function CheckoutForm(props: MyProps) {
     if (!validateEmail(email)) {
       handleError(`Error in email - email format validation failed: ${email}`);
       setEmailError(true);
+      return;
     } else if (!Name.validate(firstName)) {
       handleError('First Name must all be letters.');
       setFnameError(true);
+      return;
     } else if (!Name.validate(lastName)) {
       handleError('Last Name must all be letters.');
       setLnameError(true);
+      return;
     } else if (password !== password2) {
       handleError('Passwords do not match.');
+      return;
     }
 
     try {

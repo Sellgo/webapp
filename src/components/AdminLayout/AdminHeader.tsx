@@ -74,16 +74,17 @@ const AdminHeader = (props: Props) => {
   return (
     <div className="admin-header">
       {isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) && <QuotaMeter />}
-      {isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) && (
-        <ActionButton
-          variant="primary"
-          size={'md'}
-          type="purpleGradient"
-          onClick={redirectToPricing}
-        >
-          Upgrade Access
-        </ActionButton>
-      )}
+      {isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) &&
+        !window.location.pathname.includes('pricing') && (
+          <ActionButton
+            variant="primary"
+            size={'md'}
+            type="purpleGradient"
+            onClick={redirectToPricing}
+          >
+            Upgrade Access
+          </ActionButton>
+        )}
       <Popup
         className="enableLearningPopup"
         trigger={
@@ -134,7 +135,7 @@ const AdminHeader = (props: Props) => {
               as={Link}
               to="/settings/pricing"
               className="dropdownItem"
-              disabled={isBeta || isAiStock}
+              disabled={isBeta}
             >
               <img src={PlansIcon} alt="plans-icon" />
               Plans
@@ -143,7 +144,7 @@ const AdminHeader = (props: Props) => {
               as={Link}
               to="/settings/billing"
               className="dropdownItem"
-              disabled={isBeta || isAiStock}
+              disabled={isBeta}
             >
               <img src={BillingIcon} alt="billing-icon" />
               Billing
@@ -152,7 +153,7 @@ const AdminHeader = (props: Props) => {
               as={Link}
               to="/settings/sp-connectivity"
               className="dropdownItem"
-              disabled={isBeta}
+              disabled={isBeta || !isAiStock}
             >
               <img src={ConnectivityIcon} alt="connectivity-icon" />
               Connectivity

@@ -48,6 +48,34 @@ const MainHomePage = (props: Props) => {
       <HomePageMeta />
       {isSellgoSubscription(subscription.subscription_id) && (
         <>
+          <h2 className={styles.cardWrapperTitle}>Seller Data</h2>
+          <div className={styles.homepageCards}>
+            <HomepageCard
+              label="Seller Database"
+              desc="Discover >1M of Amazon Sellers"
+              to="/seller-research/database"
+              icon={require(`../../assets/images/sellerDatabaseIcon.svg`)}
+              disabled={false}
+            />
+            <HomepageCard
+              label="Seller Map"
+              desc="Interactive Map of Amazon Sellers"
+              to="/seller-research/map"
+              icon={require(`../../assets/images/sellerMapIcon.svg`)}
+              disabled={false}
+            />
+            <HomepageCard
+              label="Seller Finder"
+              desc="Find More Sellers from Inventories"
+              to="/seller-research/finder"
+              icon={require(`../../assets/images/sellerFinder.svg`)}
+              disabled={false}
+            />
+          </div>
+        </>
+      )}
+      {isSellgoSubscription(subscription.subscription_id) && (
+        <>
           <h2 className={styles.cardWrapperTitle}>Private Label Product Research</h2>
           <div className={styles.homepageCards}>
             <HomepageCard
@@ -114,53 +142,6 @@ const MainHomePage = (props: Props) => {
           disabled={isSellgoSubscription(subscription.subscription_id)}
         />
       </div>
-
-      {isSellgoSubscription(subscription.subscription_id) && (
-        <>
-          {/* <h2 className={styles.cardWrapperTitle}>Wholesale Bulk Analysis</h2>
-          <div className={styles.homepageCards}>
-            <HomepageCard
-              label="Search Management"
-              desc="The 1st Step to Wholesale Sourcing"
-              to="/synthesis"
-              icon={require(`../../assets/images/searchManagementIcon.svg`)}
-              disabled={false}
-            />
-            <HomepageCard
-              label="Profit Finder"
-              desc="Wholesale Bulk Calculation"
-              to={profitFinderLink}
-              icon={require(`../../assets/images/profitFinderIcon.svg`)}
-              disabled={isProfitFinderDisabled}
-            />
-          </div> */}
-
-          <h2 className={styles.cardWrapperTitle}>Seller Data</h2>
-          <div className={styles.homepageCards}>
-            <HomepageCard
-              label="Seller Database"
-              desc="Discover >1M of Amazon Sellers"
-              to="/seller-research/database"
-              icon={require(`../../assets/images/sellerDatabaseIcon.svg`)}
-              disabled={false}
-            />
-            <HomepageCard
-              label="Seller Map"
-              desc="Interactive Map of Amazon Sellers"
-              to="/seller-research/map"
-              icon={require(`../../assets/images/sellerMapIcon.svg`)}
-              disabled={false}
-            />
-            <HomepageCard
-              label="Seller Finder"
-              desc="Find More Sellers from Inventories"
-              to="/seller-research/finder"
-              icon={require(`../../assets/images/sellerFinder.svg`)}
-              disabled={false}
-            />
-          </div>
-        </>
-      )}
     </main>
   );
 };

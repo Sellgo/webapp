@@ -7,70 +7,56 @@ export const FREE_TRIAL_SUBSCRIPTION_ID = 100;
 export const MONTHLY_AND_ANNUAL_PLANS = [
   {
     id: 101, // subscriptionID if needed
-    name: 'Aistock Starter',
+    name: 'Starter',
     productsDatabase: 0,
     salesEstimateCount: 1000,
-    monthlyPrice: 37,
-    annualPrice: 324,
-    desc: `The toolbox for beginner sellers. \n Get access to our tools and chrome extension!`,
+    monthlyPrice: 97,
+    annualPrice: 924,
+    desc: `Ideal for sellers with revenue up to USD $100K/mo`,
     featureSubName: 'Start with',
     featuresLists: [
       {
-        title: 'Discover Best Selling',
+        title: 'Best inventory optimization starts here',
         featuresIncluded: [
-          'Full access to the Chrome Extension',
-          'Limited access to the rest of Sellgo All-In-One tool',
+          'Full access to the AiStock all-in-one inventory suite',
+          'Smart order future 12 month',
+          '25 SKUs per Amazon store',
+          '5,000 units sold/ mo',
         ],
       },
     ],
   },
   {
     id: 102,
-    name: 'Aistock Professional',
+    name: 'Professional',
     productsDatabase: 0,
     salesEstimateCount: 2000,
-    monthlyPrice: 97,
-    annualPrice: 924,
-    featureSubName: 'Full Single-user Access, Plus',
-    desc: `For experienced sellers looking to grow \n their businesses and maximize their earnings.`,
+    monthlyPrice: 197,
+    annualPrice: 1884,
+    featureSubName: 'Full single-user access, plus',
+    desc: `Ideal for sellers with revenue up to USD $300K/mo`,
     isNew: true,
     featuresLists: [
       {
-        title: 'Optimize Wholesale leads',
+        title: 'Ai-based Smart Order',
         featuresIncluded: [
-          'Full access to Profit Finder',
-          'Variation and Multipack analysis',
-          'Leads Tracker',
-        ],
-      },
-      {
-        title: 'Seller Research',
-        featuresIncluded: [
-          'Locate Amazon sellers with Seller Database/ Map',
-          'Check sellers inventory',
-          'Brand level category filter',
-        ],
-      },
-      {
-        title: 'Keyword Research',
-        featuresIncluded: [
-          'Reveal competitor keywords with Keyword Finder',
-          'Keyword tracking with Product Rank Tracker',
-          'Rank drop/ raise index',
+          'Smart order advanced optimization',
+          'Smart order future 24 month',
+          '50 SKUs per Amazon store',
+          '13,000 units sold/ mo',
         ],
       },
     ],
   },
   {
     id: 103,
-    name: 'Aistock Team',
+    name: 'Team',
     productsDatabase: 0,
     salesEstimateCount: 3000,
-    monthlyPrice: 177,
-    annualPrice: 1764,
-    featureSubName: 'Everything in Professional Plan, Plus',
-    desc: `For top sellers who need the best tools. 
-      Track more products, obtain more data \nand optimize your entire Amazon business.`,
+    monthlyPrice: 297,
+    annualPrice: 2844,
+    featureSubName: 'Everything in professional plan, plus',
+    desc: `Ideal for sellers with revenue up to USD $500K/mo`,
     featuresLists: [
       {
         title: 'Product Research',
@@ -137,8 +123,8 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     name: 'Aistock Starter',
     id: 101,
     idWithLegacyPlans: [],
-    monthlyPrice: 37,
-    annualPrice: 324,
+    monthlyPrice: 97,
+    annualPrice: 924,
     dailyPrice: -1,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
@@ -152,8 +138,8 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     name: 'Aistock Professional',
     id: 102,
     idWithLegacyPlans: [],
-    monthlyPrice: 97,
-    annualPrice: 924,
+    monthlyPrice: 197,
+    annualPrice: 1884,
     dailyPrice: -1,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [

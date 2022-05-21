@@ -158,11 +158,8 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
       'Full access in Chrome Extension + Sales Estimation',
-      '1,500 Sellers in Seller Database or Map per month',
-      'Full access (export) of Seller Research (Annual Pay)',
-      '5,000 tracking keywords in the Product Rank Tracker',
-      'Unlimited access in our Profit Finder',
-      'Zapier Integration',
+      '5,000 Sellers in Seller Database or Seller Map per month',
+      'Export data to spreadsheet',
     ],
   },
   team: {
@@ -174,12 +171,9 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     dailyPrice: -1,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
-      'Full access in Chrome Extension + Sales Estimation',
-      '5,000 Sellers in Seller Database or Map per month',
-      'Full access (export) of Seller Research (Annual Pay)',
-      '8,000 tracking keywords in the Product Rank Tracker',
-      'Unlimited access in our Profit Finder',
-      'Zapier Integration',
+      '20,000 Sellers in Seller Database or Seller Map per month',
+      'Top view of 20,000 sellers in the Seller Map',
+      'Export data to spreadsheet',
     ],
   },
 };
