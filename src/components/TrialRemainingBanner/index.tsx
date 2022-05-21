@@ -70,7 +70,7 @@ const TrialRemainingBanner = (props: Props) => {
       >
         {daysLeft() <= 3 ? (
           <Link
-            to="/settings/pricing"
+            to="/subscription"
             style={{ textDecoration: 'none' }}
             onClick={() => setShowBanner(false)}
           >

@@ -130,7 +130,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
             asExternal
             type="white"
             size="small"
-            navigateTo="/settings/pricing"
+            navigateTo="/subscription"
             className={styles.actionButton}
           >
             View Plans
@@ -223,7 +223,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
                     asExternal
                     type="white"
                     size="small"
-                    navigateTo="/settings/pricing"
+                    navigateTo="/subscription"
                     className={styles.actionButton}
                   >
                     Change Plan

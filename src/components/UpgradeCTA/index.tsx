@@ -26,7 +26,7 @@ const UpgradeCTA = (props: Props) => {
       <span>
         {showText && <span> for $1.99 plan. </span>}
         <Link
-          to="/settings/pricing"
+          to="/subscription"
           className={`${styles.upgradeCTA} ${className}`}
           style={{ color: '#b318f1' }}
         >

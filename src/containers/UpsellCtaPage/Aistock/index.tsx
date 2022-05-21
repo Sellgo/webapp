@@ -10,7 +10,7 @@ import history from '../../../history';
 
 const UpsellCtaPage = () => {
   const redirectToPricing = () => {
-    history.push('/settings/pricing');
+    history.push('/subscription');
   };
 
   return (

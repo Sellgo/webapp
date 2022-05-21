@@ -13,7 +13,7 @@ const CallToAction = (props: any) => {
           ? '0 tracked out of 0'
           : `${progress.used} tracked out of ${progress.available}`}
       </Progress>
-      <Link to="/settings/pricing">
+      <Link to="/subscription">
         <Button primary={true}>Upgrade Now</Button>
       </Link>
     </div>

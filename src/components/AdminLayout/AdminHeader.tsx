@@ -65,7 +65,7 @@ const AdminHeader = (props: Props) => {
   const open = () => setOpenConfirm(true);
 
   const redirectToPricing = () => {
-    history.push('/settings/pricing');
+    history.push('/subscription');
   };
 
   React.useEffect(() => {
@@ -131,12 +131,7 @@ const AdminHeader = (props: Props) => {
               <img src={SettingsIcon} alt="settings-icon" />
               My Profile
             </Dropdown.Item>
-            <Dropdown.Item
-              as={Link}
-              to="/settings/pricing"
-              className="dropdownItem"
-              disabled={isBeta}
-            >
+            <Dropdown.Item as={Link} to="/subscription" className="dropdownItem" disabled={isBeta}>
               <img src={PlansIcon} alt="plans-icon" />
               Update Subscription
             </Dropdown.Item>
