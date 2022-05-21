@@ -76,7 +76,6 @@ const GlobalMapFilters = (props: Props) => {
 
   const handleFilterChange = (keyName: any, value: any) => {
     updateSellerMapFilterOptions({ keyName, value });
-    fetchSellersListForMap();
   };
 
   const handleRefectSellers = async () => {
@@ -102,6 +101,7 @@ const GlobalMapFilters = (props: Props) => {
       'max_count',
       availableMapDisplayOptions[availableMapDisplayOptions.length - 1].value
     );
+    handleRefectSellers();
   }, []);
 
   return (

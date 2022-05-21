@@ -321,4 +321,5 @@ export const SELLER_MAP_DEFAULT_FILTER = [
   },
   { keyName: 'launched', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
   { keyName: 'seller_rating', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },
+  { keyName: 'seller_type', type: F_TYPES.TEXT, value: 'wholesale' },
 ];
