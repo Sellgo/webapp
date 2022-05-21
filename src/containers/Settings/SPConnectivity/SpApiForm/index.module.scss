@@ -6,7 +6,8 @@
 
 .mwsFormGrid {
   position: relative;
-  background-color: $grey_0;
+  background-color: $grey_1;
+  border-radius: 7px;
   width: 700px;
   height: max-content;
   padding: 30px 30px;
@@ -18,10 +19,12 @@
 .mwsFormTitle {
   margin-bottom: 30px;
   color: $prim_dark_1;
+  text-align: left;
 }
 
 .regionTitle {
   color: $grey_8;
+  font-size: 14px;
   font-weight: $fontweight_semibold;
 }
 

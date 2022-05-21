@@ -22,7 +22,7 @@ const PilotOnboarding = (props: Props) => {
     <>
       <main className={styles.pilotOnboardingPage}>
         <div className={styles.leftSection}>
-          <h2>Let's start the migration, it's fast, easy and secure!</h2>
+          <h2>Let&apos;s start the migration, it&apos;s fast, easy and secure!</h2>
           <p>
             Connecting your Amazon account to AiStock will unlock the power of automation to your
             supply chain system.
@@ -31,22 +31,22 @@ const PilotOnboarding = (props: Props) => {
           <div className={styles.benefitRow}>
             <Icon name="checkmark" color="purple" />
             <div className={styles.benefitText}>
-              <p>Avoid stockouts and limit overstock to increase your business liquidity</p>
-              <span>with our sales projection monitoring and alert automation tool.</span>
+              <p>Knowing when you&apos;re at risk of stockout</p>
+              <span>with our alert automation tool.</span>
             </div>
           </div>
           <div className={styles.benefitRow}>
             <Icon name="checkmark" color="purple" />
             <div className={styles.benefitText}>
-              <p>Avoid stockouts and limit overstock to increase your business liquidity</p>
-              <span>with our sales projection monitoring and alert automation tool.</span>
+              <p>Knowing what your future sales</p>
+              <span>with our sales forecasting.</span>
             </div>
           </div>
           <div className={styles.benefitRow}>
             <Icon name="checkmark" color="purple" />
             <div className={styles.benefitText}>
-              <p>Avoid stockouts and limit overstock to increase your business liquidity</p>
-              <span>with our sales projection monitoring and alert automation tool.</span>
+              <p>Knowing when to place your next orders</p>
+              <span>with our order planning tool.</span>
             </div>
           </div>
           <div className={styles.privacyInformation}>
@@ -64,7 +64,7 @@ const PilotOnboarding = (props: Props) => {
             className={styles.migrateButton}
             onClick={redirectToMigrate}
           >
-            I want to migrate now
+            Continue
           </ActionButton>
         </div>
         <div className={styles.rightDisplayPictureWrapper}>
