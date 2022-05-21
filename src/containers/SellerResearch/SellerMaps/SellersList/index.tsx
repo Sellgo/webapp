@@ -5,7 +5,11 @@ import { connect } from 'react-redux';
 import styles from './index.module.scss';
 
 /* Actions */
-import { fetchSellersListForMap } from '../../../../actions/SellerResearch/SellerMap';
+import {
+  fetchSellersForMap,
+  fetchSellersListForMap,
+  updateSellerMapFilterOptions,
+} from '../../../../actions/SellerResearch/SellerMap';
 
 /* Selectors */
 import {
@@ -25,10 +29,13 @@ import ToggleButton from '../../../../components/ToggleButton';
 
 /* Interfaces */
 import {
+  SellerMapPayload,
   SellersListPaginationInfo,
   SellersListPayload,
+  UpdateSellerMapFilterPayload,
 } from '../../../../interfaces/SellerResearch/SellerMap';
 import { SELLERS_LIST_SORTING_OPTIONS } from '../../../../constants/SellerResearch/SellerMap';
+import { timeout } from '../../../../utils/timeout';
 
 interface Props {
   isLoadingSellersForMap: boolean;
@@ -36,6 +43,8 @@ interface Props {
   sellersListForMap: any[];
   sellersListForMapPaginationInfo: SellersListPaginationInfo;
   fetchSellersListForMap: (payload: SellersListPayload) => void;
+  updateSellerMapFilterOptions: (payload: UpdateSellerMapFilterPayload) => void;
+  fetchSellersForMap: (payload: SellerMapPayload) => void;
 }
 
 const SellersList = (props: Props) => {
@@ -45,6 +54,8 @@ const SellersList = (props: Props) => {
     sellersListForMapPaginationInfo,
     isLoadingSellersListForMap,
     isLoadingSellersForMap,
+    updateSellerMapFilterOptions,
+    fetchSellersForMap,
   } = props;
 
   const [sortBy, setSortBy] = useState('seller_id?asc');
@@ -53,10 +64,6 @@ const SellersList = (props: Props) => {
   useEffect(() => {
     setIsWholesale(true);
   }, [isLoadingSellersForMap]);
-
-  useEffect(() => {
-    fetchSellersListForMap({});
-  }, []);
 
   /* Sorting Change */
   const handleSortingChange = (value: string) => {
@@ -70,15 +77,22 @@ const SellersList = (props: Props) => {
     }
   };
 
-  const handleWholesaleChange = () => {
+  const handleWholesaleChange = async () => {
     const [sort, sortDir] = sortBy.split('?');
+    updateSellerMapFilterOptions({
+      keyName: 'seller_type',
+      value: isWholesale ? 'private_label' : 'wholesale',
+    });
+    await timeout(500);
     fetchSellersListForMap({
       sort,
       sortDir: sortDir === 'asc' ? 'asc' : 'desc',
       isWholesale: !isWholesale,
     });
+    fetchSellersForMap({ enableLoader: true });
     setIsWholesale(!isWholesale);
   };
+
   /* Page Change */
   const handlePageChange = (pageNo: number) => {
     fetchSellersListForMap({
@@ -143,6 +157,9 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchSellersListForMap: (payload: SellersListPayload) =>
       dispatch(fetchSellersListForMap(payload)),
+    updateSellerMapFilterOptions: (payload: UpdateSellerMapFilterPayload) =>
+      dispatch(updateSellerMapFilterOptions(payload)),
+    fetchSellersForMap: (payload: SellerMapPayload) => dispatch(fetchSellersForMap(payload)),
   };
 };
 

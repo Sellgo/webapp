@@ -101,6 +101,7 @@ const GlobalMapFilters = (props: Props) => {
       'max_count',
       availableMapDisplayOptions[availableMapDisplayOptions.length - 1].value
     );
+    handleRefectSellers();
   }, []);
 
   return (
