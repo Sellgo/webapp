@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 /* Styling */
@@ -36,9 +36,11 @@ import {
 } from '../../../../interfaces/SellerResearch/SellerMap';
 import { SELLERS_LIST_SORTING_OPTIONS } from '../../../../constants/SellerResearch/SellerMap';
 import { timeout } from '../../../../utils/timeout';
+import { parseSellerMapFilterData } from '../../../../constants/SellerResearch';
 
 interface Props {
   isLoadingSellersForMap: boolean;
+  sellerMapFilterData: any[];
   isLoadingSellersListForMap: boolean;
   sellersListForMap: any[];
   sellersListForMapPaginationInfo: SellersListPaginationInfo;
@@ -50,6 +52,7 @@ interface Props {
 const SellersList = (props: Props) => {
   const {
     fetchSellersListForMap,
+    sellerMapFilterData,
     sellersListForMap,
     sellersListForMapPaginationInfo,
     isLoadingSellersListForMap,
@@ -59,11 +62,8 @@ const SellersList = (props: Props) => {
   } = props;
 
   const [sortBy, setSortBy] = useState('seller_id?asc');
-  const [isWholesale, setIsWholesale] = useState<boolean>(true);
-
-  useEffect(() => {
-    setIsWholesale(true);
-  }, [isLoadingSellersForMap]);
+  const sellerType = parseSellerMapFilterData(sellerMapFilterData, 'seller_type');
+  const [isWholesale, setIsWholesale] = useState<boolean>(sellerType?.value === 'wholesale');
 
   /* Sorting Change */
   const handleSortingChange = (value: string) => {
@@ -78,19 +78,20 @@ const SellersList = (props: Props) => {
   };
 
   const handleWholesaleChange = async () => {
+    const newWholesaleState = !isWholesale;
     const [sort, sortDir] = sortBy.split('?');
     updateSellerMapFilterOptions({
       keyName: 'seller_type',
-      value: isWholesale ? 'private_label' : 'wholesale',
+      value: newWholesaleState ? 'wholesale' : 'private_label',
     });
     await timeout(500);
     fetchSellersListForMap({
       sort,
       sortDir: sortDir === 'asc' ? 'asc' : 'desc',
-      isWholesale: !isWholesale,
+      isWholesale: newWholesaleState,
     });
     fetchSellersForMap({ enableLoader: true });
-    setIsWholesale(!isWholesale);
+    setIsWholesale(newWholesaleState);
   };
 
   /* Page Change */
