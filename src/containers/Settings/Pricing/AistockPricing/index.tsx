@@ -191,7 +191,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         <main className={styles.subscriptionPage}>
           <section className={styles.subscriptionPageWrapper}>
             <div className={styles.planName}>
-              <h2>AiStock Subscription Plans</h2>
+              <h2>AiStock simple pricing plan</h2>
             </div>
 
             <div className={styles.planShortSummary}>
@@ -202,7 +202,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             </div>
 
             <ToggleButton
-              isToggled={isMonthly}
+              isToggled={!isMonthly}
               handleChange={() => this.setState({ isMonthly: !isMonthly })}
               className={styles.paymentModeToggleButton}
               options={['Pay monthly', 'Pay annually']}
@@ -235,7 +235,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
           <section className={styles.paymentMeta}>
             <div className={styles.paymentMeta__images}>
               <img src={Setcard} alt="Different card payment options" />
-              <img src={Stripe} alt="Protected by stripe logo" />
+              <img src={Stripe} alt="Protected by Stripe logo" />
             </div>
             <div className={styles.paymentMeta__text}>
               <p>We offer 7-day money back guarantee.</p>
