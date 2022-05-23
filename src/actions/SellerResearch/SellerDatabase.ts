@@ -211,6 +211,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
       isExport = false,
       fileFormat = 'csv',
       restoreLastSearch = false,
+      retrieve_default = false,
     } = payload;
 
     // if filter request is passed
@@ -252,6 +253,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
     const pagination = `page=${page}`;
     const sorting = `ordering=${sortDir === 'desc' ? `-${sort}` : sort}`;
     const marketplace = `marketplace_id=${marketplaceId}`;
+    const retrieveDefault = `retrieve_default=${retrieve_default ? 'true ' : 'false'}`;
 
     let filterPayloadData: any;
 
@@ -268,7 +270,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
       filtersQueryString = parseFilters(extractSellerDatabaseFilters());
     }
 
-    const resourcePath = `${pagination}&${sorting}&${marketplace}${filtersQueryString}`;
+    const resourcePath = `${pagination}&${sorting}&${marketplace}&${retrieveDefault}&${filtersQueryString}`;
 
     if (isExport && fileFormat) {
       const exportResource =
