@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import Helmet from 'react-helmet';
 import { Route, Router, Switch } from 'react-router-dom';
 import Axios from 'axios';
 import AdminLayout from '../../components/AdminLayout';
@@ -240,6 +241,9 @@ const PrivateRoute = connect(
 function App() {
   return (
     <div className="App__container">
+      <Helmet>
+        <title>{isSellgoSession() ? 'Sellgo App' : 'Aistock App'}</title>
+      </Helmet>
       <Router history={history}>
         <ScrollToTop />
         <UserPilotReload />
