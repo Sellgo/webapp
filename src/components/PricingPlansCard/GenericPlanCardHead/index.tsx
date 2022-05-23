@@ -5,7 +5,7 @@ import styles from './index.module.scss';
 
 /* Components */
 import ActionButton from '../../ActionButton';
-import { DAILY_SUBSCRIPTION_PLANS } from '../../../constants/Subscription';
+import { DAILY_SUBSCRIPTION_PLANS } from '../../../constants/Subscription/Sellgo';
 
 interface Props {
   id: number;
@@ -91,8 +91,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
         {!isMonthly ? (
           <p className={styles.billedAtPrice}>
             <span className={`${styles.originalPrice}`}>
-              Originally <br />
-              billed At <span className="strike-text">${monthlyPrice * 12}</span>
+              Originally <span className="strike-text">${monthlyPrice * 12}</span>
             </span>
             <span className={`${styles.newPrice}`}>
               Now ${Math.round(annualPrice)}
@@ -136,7 +135,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
           className={styles.buyNowCTA}
           onClick={() => changePlan({ name, id })}
         >
-          Change Plan
+          Activate plan
         </ActionButton>
       )}
     </div>

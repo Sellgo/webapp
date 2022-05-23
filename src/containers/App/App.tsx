@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import Helmet from 'react-helmet';
 import { Route, Router, Switch } from 'react-router-dom';
 import Axios from 'axios';
 import AdminLayout from '../../components/AdminLayout';
@@ -9,42 +10,83 @@ import SupplierDetail from '../Synthesis/Supplier';
 import Auth from '../../components/Auth/Auth';
 import PageLoader from '../../components/PageLoader';
 import NotFound from '../../components/NotFound';
-import PilotLogin from '../../containers/PilotLogin';
 import history from '../../history';
 import { connect } from 'react-redux';
 import { fetchSellerSubscription, fetchSubscriptions } from '../../actions/Settings/Subscription';
 import '../../analytics';
-// import ProductTracker from '../ProductTracker';
 import ResetPassword from '../ResetPassword';
 import Onboarding from '../Onboarding';
-import Subscription from '../Settings/Subscription';
 import Billing from '../Settings/Billing';
 import APIConnectivity from '../Settings/APIConnectivity';
 import SPConnectivity from '../Settings/SPConnectivity';
 import SpApiListener from '../Settings/SPConnectivity/SpApiListener';
 import Profile from '../Settings/Profile';
-import NewSubscription from '../NewSubscription';
-import PaymentSuccess from '../NewSubscription/PaymentSuccess';
 import Payment from '../Subscription/Payment';
-// import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
 import ChurnFlow from '../ChurnFlow';
 import FailedPaymentsBanner from '../../components/FailedPaymentsBanner';
-
+import TrialRemainingBanner from '../../components/TrialRemainingBanner';
+import YoutubeVideo from '../../components/YoutubeVideo';
 import SellerResearch from '../SellerResearch';
 import ProductResearch from '../ProductResearch';
 import KeywordResearch from '../KeywordResearch';
 import PerfectStock from '../PerfectStock';
 import LeadTime from '../Settings/PerfectStockSettings/LeadTime';
-import FreeAccountForm from '../NewSubscription/FreeAccountForm';
+
+import SellgoNewSubscription from '../NewSellgoSubscription';
+import SellgoPaymentSuccess from '../NewSellgoSubscription/SellgoPaymentSuccess';
+import SellgoFreeAccountForm from '../NewSellgoSubscription/SellgoFreeAccountForm';
+import SellgoActivation from '../NewSellgoSubscription/SellgoActivation';
+import SellgoActivationSuccess from '../NewSellgoSubscription/SellgoActivationSuccess';
+import SellgoUpsellCtaPage from '../UpsellCtaPage/Sellgo';
+import SellgoPricing from '../Settings/Pricing/SellgoPricing';
+
+import AistockNewSubscription from '../NewAistockSubscription';
+import AistockPaymentSuccess from '../NewAistockSubscription/AistockPaymentSuccess';
+import AistockFreeAccountForm from '../NewAistockSubscription/AistockFreeAccountForm';
+import AistockActivation from '../NewAistockSubscription/AistockActivation';
+import AistockActivationSuccess from '../NewAistockSubscription/AistockActivationSuccess';
+import AistockUpsellCtaPage from '../UpsellCtaPage/Aistock';
+import AistockPricing from '../Settings/Pricing/AistockPricing';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
-import { isBetaAccount } from '../../utils/subscriptions';
-import Activation from '../NewSubscription/Activation';
-import ActivationSuccess from '../NewSubscription/ActivationSuccess';
 import MainHomePage from '../MainHomePage';
 
+/* Utils */
+import {
+  isAistockSubscription,
+  isBetaAccount,
+  isSellgoSubscription,
+  isSubscriptionIdFreeAccount,
+  isSubscriptionIdFreeTrial,
+} from '../../utils/subscriptions';
+import { isAiStockSession, isSellgoSession } from '../../utils/session';
+import { getSellerQuota } from '../../actions/Settings';
+import { AppConfig } from '../../config';
+
 export const auth = new Auth();
+
+const AistockSubscriptionPages = {
+  NewSubscription: AistockNewSubscription,
+  PaymentSuccess: AistockPaymentSuccess,
+  FreeAccountForm: AistockFreeAccountForm,
+  Activation: AistockActivation,
+  ActivationSuccess: AistockActivationSuccess,
+  UpsellCtaPage: AistockUpsellCtaPage,
+  Pricing: AistockPricing,
+};
+
+const SellgoSubscriptionPages = {
+  NewSubscription: SellgoNewSubscription,
+  PaymentSuccess: SellgoPaymentSuccess,
+  FreeAccountForm: SellgoFreeAccountForm,
+  Activation: SellgoActivation,
+  ActivationSuccess: SellgoActivationSuccess,
+  UpsellCtaPage: SellgoUpsellCtaPage,
+  Pricing: SellgoPricing,
+};
+
+const SubscriptionPages = isSellgoSession() ? SellgoSubscriptionPages : AistockSubscriptionPages;
 
 const handleAuthentication = (location: any) => {
   if (/access_token|id_token|error/.test(location.hash)) {
@@ -72,19 +114,23 @@ const PrivateRoute = connect(
   // mapStateToProps
   (state: any) => ({
     sellerSubscription: state.subscription.sellerSubscription,
+    sellerQuota: state.settings.sellerQuota,
   }),
   // mapDispatchToProps
   {
     fetchSellerSubscription: () => fetchSellerSubscription(),
     fetchSubscriptions: () => fetchSubscriptions(),
+    getSellerQuota: () => getSellerQuota(),
   }
 )(
   ({
     component: Component,
     requireSubscription,
     sellerSubscription,
+    sellerQuota,
     fetchSellerSubscription,
     fetchSubscriptions,
+    getSellerQuota,
     location,
     ...rest
   }: any) => {
@@ -98,6 +144,8 @@ const PrivateRoute = connect(
     // TODO: Hoist this logic up to an AuthProvider that includes user's subscription as part
     // of auth object made available to all child components using context.
     useEffect(() => {
+      getSellerQuota();
+
       // Redirect to login if user is not authenticated
       if (!userIsAuthenticated) {
         history.push('/');
@@ -118,41 +166,25 @@ const PrivateRoute = connect(
         history.push('/activate-beta-account');
       }
 
-      // Lock user to account set up
+      // If quota exceeds for free account then redirect to activation
       if (
-        isFirstTimeUserLoggedIn &&
-        !sellerSubscription.is_aistock &&
-        !location.pathname.includes('/account-setup') &&
-        !location.pathname.includes('/settings/sp-connectivity') &&
-        !location.pathname.includes('/settings/api-keys')
+        isSellgoSession() &&
+        isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) &&
+        window.location.pathname !== '/settings/pricing'
       ) {
-        history.push('/account-setup');
-        return;
-      }
-
-      // Dont allow existing users to re-enter into account
-      if (!isFirstTimeUserLoggedIn && location.pathname.includes('/account-setup')) {
-        history.push('/');
-        return;
-      }
-
-      if (requireSubscription && localStorage.getItem('accountType') !== '') {
-        // If user does not have a subscription and this route requires one
-        // then redirect to pricing page.
-        if (localStorage.getItem('accountType') === 'trial') {
-          history.push('/settings/#amazon-mws');
-        } else {
-          localStorage.setItem('accountType', '');
-          history.push('/synthesis');
+        console.log(window.location.pathname);
+        if (sellerQuota?.seller_research.available - sellerQuota?.seller_research.used <= 0) {
+          history.push('/activation');
         }
-      } else {
-        const subscriptionId = sellerSubscription.subscription_id;
-        const isBetaLabel = sellerSubscription.is_beta;
+      }
 
-        if (requireSubscription && subscriptionId === 5) {
-          if (isBetaLabel) {
-            history.push('/activate-beta-account');
-          }
+      if (
+        isAiStockSession() &&
+        isSubscriptionIdFreeTrial(sellerSubscription.subscription_id) &&
+        window.location.pathname !== '/settings/pricing'
+      ) {
+        if (sellerSubscription.is_free_trial_expired) {
+          history.push('/activation');
         }
       }
     }, [
@@ -185,6 +217,14 @@ const PrivateRoute = connect(
           return (
             <>
               <AdminLayout {...props}>
+                {isFirstTimeUserLoggedIn &&
+                  isSellgoSubscription(sellerSubscription.subscription_id) && (
+                    <YoutubeVideo youtubeLink={AppConfig.ONBOARDING_VIDEO} />
+                  )}
+                {isAistockSubscription(sellerSubscription.subscription_id) &&
+                  isSubscriptionIdFreeTrial(sellerSubscription.subscription_id) && (
+                    <TrialRemainingBanner expiryDate={sellerSubscription.expiry_date} />
+                  )}
                 {isPaymentPending && (
                   <FailedPaymentsBanner paymentMode={sellerSubscription.payment_mode} />
                 )}
@@ -201,6 +241,9 @@ const PrivateRoute = connect(
 function App() {
   return (
     <div className="App__container">
+      <Helmet>
+        <title>{isSellgoSession() ? 'Sellgo App' : 'Aistock App'}</title>
+      </Helmet>
       <Router history={history}>
         <ScrollToTop />
         <UserPilotReload />
@@ -226,24 +269,40 @@ function App() {
           <Route
             exact={true}
             path="/subscription"
-            render={renderProps => <NewSubscription auth={auth} {...renderProps} />}
+            render={renderProps => (
+              <SubscriptionPages.NewSubscription auth={auth} {...renderProps} />
+            )}
           />
 
           <Route
             exact={true}
             path="/signup"
-            render={renderProps => <FreeAccountForm auth={auth} {...renderProps} />}
+            render={renderProps => (
+              <SubscriptionPages.FreeAccountForm auth={auth} {...renderProps} />
+            )}
           />
 
-          <Route exact={true} path="/subscription/success" component={PaymentSuccess} />
+          <Route
+            exact={true}
+            path="/subscription/success"
+            component={SubscriptionPages.PaymentSuccess}
+          />
 
           <Route
             exact={true}
             path="/activation/success"
-            render={renderProps => <ActivationSuccess auth={auth} {...renderProps} />}
+            render={renderProps => (
+              <SubscriptionPages.ActivationSuccess auth={auth} {...renderProps} />
+            )}
           />
 
-          <Route exact={true} path="/activation/:activationCode" component={Activation} />
+          <Route
+            exact={true}
+            path="/activation/:activationCode"
+            component={SubscriptionPages.Activation}
+          />
+
+          <Route exact={true} path="/activation" component={SubscriptionPages.UpsellCtaPage} />
 
           <Route
             exact={true}
@@ -262,7 +321,11 @@ function App() {
             component={Onboarding}
             requireSubscription={true}
           />
-          <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />
+          <PrivateRoute
+            exact={true}
+            path="/settings/pricing"
+            component={SubscriptionPages.Pricing}
+          />
           <PrivateRoute exact={true} path="/settings/billing" component={Billing} />
           <PrivateRoute exact={true} path="/settings/sp-connectivity" component={SPConnectivity} />
           <PrivateRoute exact={true} path="/settings/sp-api-listener" component={SpApiListener} />
@@ -337,12 +400,12 @@ function App() {
             requireSubscription={false}
           />
 
-          <PrivateRoute
+          {/* <PrivateRoute
             exact={true}
             path="/account-setup"
             component={PilotLogin}
             requireSubscription={false}
-          />
+          /> */}
 
           <Route component={NotFound} />
         </Switch>

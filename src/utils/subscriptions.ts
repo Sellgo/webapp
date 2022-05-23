@@ -34,7 +34,7 @@ export const isSubscriptionIdProfessional = (id: number) => id === 2;
 
 export const isSubscriptionIdEnterprise = (id: number) => id === 3;
 
-export const isSubscriptionIdFreeTrial = (id: number) => id === 4;
+export const isSubscriptionIdFreeTrial = (id: number) => id === 4 || id === 100;
 
 export const isSubscriptionIdFreeAccount = (id: number) => id === 5;
 
@@ -70,6 +70,9 @@ export const isBetaAccount = (sellerSubscription: SellerSubscription) => {
 export const isAiStock = (sellerSubscription: SellerSubscription) => {
   return sellerSubscription.is_aistock;
 };
+
+export const isAistockSubscription = (subscriptionId: number) => subscriptionId > 20;
+export const isSellgoSubscription = (subscriptionId: number) => subscriptionId <= 20;
 
 /* Convert from text readable plan name to key format plan name */
 export const convertPlanNameToKey = (planType: string) => {

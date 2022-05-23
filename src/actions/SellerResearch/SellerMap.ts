@@ -30,6 +30,7 @@ import { calculateBoundsForMap } from '../../utils/map';
 import { error, success } from '../../utils/notifications';
 import { getSellerMapFilterData } from '../../selectors/SellerResearch/SellerMap';
 import { F_TYPES } from '../../constants/SellerResearch';
+import { getSellerQuota } from '../Settings';
 
 /* =================================================== */
 /* ================ SELLER MAP FILTERS ================*/
@@ -178,6 +179,12 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
       }
     }
 
+    if (type === F_TYPES.SORT) {
+      if (value) {
+        filterQuery += `&${keyName}=${value}`;
+      }
+    }
+
     if (type === F_TYPES.COUNTRY) {
       if (value && value !== 'All Countries') {
         filterQuery += `&${keyName}=${value}`;
@@ -291,6 +298,7 @@ export const fetchSellersForMap = (payload: SellerMapPayload) => async (
       success(`Found ${data.length} sellers`);
       dispatch(setSellersForMap(data));
       dispatch(setLoadingSellersForMap(false));
+      dispatch(getSellerQuota());
     }
   } catch (err) {
     dispatch(setMapCenter(INITIAL_CENTER));
@@ -307,25 +315,16 @@ export const fetchSellersListForMap = (payload: SellersListPayload) => async (
   getState: any
 ) => {
   try {
-    const {
-      page = 1,
-      sort = 'seller_id',
-      sortDir = 'asc',
-      enableLoader = true,
-      isWholesale = true,
-      perPage = 20,
-    } = payload;
+    const { page = 1, enableLoader = true, perPage = 20 } = payload;
 
     const sellerId = sellerIDSelector();
 
     const pagination = `page=${page}&per_page=${perPage}`;
-    const sorting = `ordering=${sortDir === 'desc' ? `-${sort}` : sort}`;
-    const sellerType = `seller_type=${isWholesale ? 'wholesale' : 'private_label'}`;
 
     const allFiltersData = getSellerMapFilterData(getState());
     const filtersPath = parseFilters(allFiltersData);
 
-    const resourcePath = `${pagination}&${sorting}&${sellerType}${filtersPath}&seller_maps=true`;
+    const resourcePath = `${pagination}&${filtersPath}&seller_maps=true`;
 
     dispatch(isLoadingSellersListForMap(enableLoader));
 
@@ -338,6 +337,7 @@ export const fetchSellersListForMap = (payload: SellersListPayload) => async (
       dispatch(setSellersListForMap(results));
       dispatch(setSellersListForMapPaginationInfo(paginationInfo));
       dispatch(isLoadingSellersListForMap(false));
+      dispatch(getSellerQuota());
     } else {
       dispatch(setSellersListForMap([]));
       dispatch(setSellersListForMapPaginationInfo({ total_pages: 0, current_page: 0, count: 0 }));
@@ -367,6 +367,7 @@ export const fetchSellerDetailsForMap = (sellerInternalID: string) => async (dis
       const sellerDetails = response.data[0];
       dispatch(setSellerDetailsForMap(sellerDetails));
       dispatch(setLoadingSellerDetailsForMap(false));
+      dispatch(getSellerQuota());
     }
   } catch (err) {
     const { response } = err as any;

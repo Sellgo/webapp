@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
 
 /* Actions */
-import { fetchSellersListForMap } from '../../../../actions/SellerResearch/SellerMap';
+import {
+  fetchSellersForMap,
+  fetchSellersListForMap,
+  updateSellerMapFilterOptions,
+} from '../../../../actions/SellerResearch/SellerMap';
 
 /* Selectors */
 import {
@@ -25,60 +29,69 @@ import ToggleButton from '../../../../components/ToggleButton';
 
 /* Interfaces */
 import {
+  SellerMapPayload,
   SellersListPaginationInfo,
   SellersListPayload,
+  UpdateSellerMapFilterPayload,
 } from '../../../../interfaces/SellerResearch/SellerMap';
 import { SELLERS_LIST_SORTING_OPTIONS } from '../../../../constants/SellerResearch/SellerMap';
+import { timeout } from '../../../../utils/timeout';
+import { parseSellerMapFilterData } from '../../../../constants/SellerResearch';
 
 interface Props {
   isLoadingSellersForMap: boolean;
+  sellerMapFilterData: any[];
   isLoadingSellersListForMap: boolean;
   sellersListForMap: any[];
   sellersListForMapPaginationInfo: SellersListPaginationInfo;
   fetchSellersListForMap: (payload: SellersListPayload) => void;
+  updateSellerMapFilterOptions: (payload: UpdateSellerMapFilterPayload) => void;
+  fetchSellersForMap: (payload: SellerMapPayload) => void;
 }
 
 const SellersList = (props: Props) => {
   const {
     fetchSellersListForMap,
+    sellerMapFilterData,
     sellersListForMap,
     sellersListForMapPaginationInfo,
     isLoadingSellersListForMap,
     isLoadingSellersForMap,
+    updateSellerMapFilterOptions,
+    fetchSellersForMap,
   } = props;
 
   const [sortBy, setSortBy] = useState('seller_id?asc');
-  const [isWholesale, setIsWholesale] = useState<boolean>(true);
-
-  useEffect(() => {
-    setIsWholesale(true);
-  }, [isLoadingSellersForMap]);
-
-  useEffect(() => {
-    fetchSellersListForMap({});
-  }, []);
+  const sellerType = parseSellerMapFilterData(sellerMapFilterData, 'seller_type');
+  const [isWholesale, setIsWholesale] = useState<boolean>(sellerType?.value === 'wholesale');
 
   /* Sorting Change */
-  const handleSortingChange = (value: string) => {
+  const handleSortingChange = async (value: string) => {
     if (value !== sortBy) {
       const [sort, sortDir] = value.split('?');
-      fetchSellersListForMap({
-        sort,
-        sortDir: sortDir === 'asc' ? 'asc' : 'desc',
+      updateSellerMapFilterOptions({
+        keyName: 'ordering',
+        value: sortDir === 'asc' ? sort : `-${sort}`,
       });
+      await timeout(500);
+      fetchSellersListForMap({});
+      fetchSellersForMap({ enableLoader: true });
       setSortBy(value);
     }
   };
 
-  const handleWholesaleChange = () => {
-    const [sort, sortDir] = sortBy.split('?');
-    fetchSellersListForMap({
-      sort,
-      sortDir: sortDir === 'asc' ? 'asc' : 'desc',
-      isWholesale: !isWholesale,
+  const handleWholesaleChange = async () => {
+    const newWholesaleState = !isWholesale;
+    updateSellerMapFilterOptions({
+      keyName: 'seller_type',
+      value: newWholesaleState ? 'wholesale' : 'private_label',
     });
-    setIsWholesale(!isWholesale);
+    await timeout(500);
+    fetchSellersListForMap({});
+    fetchSellersForMap({ enableLoader: true });
+    setIsWholesale(newWholesaleState);
   };
+
   /* Page Change */
   const handlePageChange = (pageNo: number) => {
     fetchSellersListForMap({
@@ -143,6 +156,9 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchSellersListForMap: (payload: SellersListPayload) =>
       dispatch(fetchSellersListForMap(payload)),
+    updateSellerMapFilterOptions: (payload: UpdateSellerMapFilterPayload) =>
+      dispatch(updateSellerMapFilterOptions(payload)),
+    fetchSellersForMap: (payload: SellerMapPayload) => dispatch(fetchSellersForMap(payload)),
   };
 };
 

@@ -1,0 +1,206 @@
+@import '../../../design-system/new-colors';
+
+.activationPage {
+  background-color: $grey_10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.reviewerDetails {
+  margin-left: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: $fontweight_bold;
+  color: $black_1;
+
+  span {
+    font-size: 14px;
+    font-weight: $fontweight_medium;
+  }
+}
+
+.consent {
+  margin-top: 0.5rem;
+  width: 400px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 0.5rem;
+
+  p {
+    font-size: 12px;
+    color: $grey_8;
+    margin-left: 10px;
+
+    span {
+      color: $accent_blue;
+
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.reviewsSection {
+  width: 45%;
+  margin-left: 5%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  h2 {
+    width: 400px;
+    color: $black_1;
+    font-size: 30px;
+    font-weight: $fontweight_bold;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid $border-color-1;
+  }
+
+  p {
+    width: 400px;
+    color: $black_1;
+    font-size: 14px;
+    font-style: italic;
+  }
+
+  .reviewerRow {
+    margin-top: 2rem;
+    display: flex;
+    height: 70px;
+
+    img {
+      height: 70px;
+      width: 70px;
+    }
+  }
+}
+
+.activationFormSection {
+  width: 45%;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  position: relative;
+  margin-right: 5%;
+}
+
+.logo {
+  margin-right: 150px;
+  width: 200px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.activationForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: $prim_white;
+  width: 485px;
+  height: 570px;
+  border-radius: 8px;
+  border: 1px solid $grey_3;
+  box-shadow: 0 3px 6px 0 #2e3b4a29;
+}
+
+.submitButton {
+  background: $orange_purple_gradient;
+  color: $prim_white;
+  width: 400px;
+  height: 40px;
+  font-size: 16px;
+  font-weight: $fontweight_semibold;
+  border-radius: 7px;
+  outline: none !important;
+
+  &:disabled {
+    opacity: 0.6;
+  }
+}
+
+.formHeader {
+  font-size: 20px;
+  font-weight: $fontweight_semibold;
+  color: $prim_dark_2;
+}
+
+.formInput {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 400px;
+  margin: 15px 0;
+  margin-right: 10px;
+
+  label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #3b4557;
+    line-height: 20px;
+  }
+
+  input {
+    height: 40px;
+    background: #fff;
+    font-size: 14px;
+    color: #808080 !important;
+    border: 1px solid #dededf;
+    border-radius: 4px;
+  }
+}
+
+.error {
+  font-size: 14px;
+  font-weight: 500;
+  color: $system_red;
+  margin-bottom: 10px;
+}
+
+.signIn {
+  text-align: left;
+  margin-top: 18px;
+  margin-left: 40px;
+  align-self: flex-start;
+  font-size: 14px;
+  font-weight: $fontweight_regular;
+
+  a {
+    font-size: 14px;
+    font-weight: $fontweight_medium;
+    color: $system_blue;
+  }
+}
+
+.copyrightFooter {
+  left: 20%;
+  width: 60%;
+  display: flex;
+  justify-content: space-evenly;
+  position: absolute;
+  bottom: 18px;
+  color: $grey_8;
+  font-size: 12px;
+  font-weight: $fontweight_regular;
+
+  button {
+    background: none;
+    cursor: pointer;
+  }
+}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -35,11 +36,11 @@ import {
 } from '../../../../constants/SellerResearch/SellerDatabase';
 import { getProductCategories } from '../../../../constants/ProductResearch/ProductsDatabase';
 import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
-
 import {
   COUNTRY_DROPDOWN_LIST,
   STATES_DROPDOWN_LIST,
 } from '../../../../constants/SellerResearch/SellerMap';
+import { F_TYPES } from '../../../../constants/SellerResearch';
 
 /* Components */
 import AdvanceFilterToggle from '../../../../components/AdvanceFilterToggle';
@@ -54,10 +55,12 @@ import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxD
 import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
 import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
+
+/* Selectors */
 import { sellerIDSelector } from '../../../../selectors/Seller';
+
+/* Configs */
 import { AppConfig } from '../../../../config';
-import axios from 'axios';
-import { F_TYPES } from '../../../../constants/SellerResearch';
 
 interface Props {
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;

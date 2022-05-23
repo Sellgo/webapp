@@ -177,7 +177,7 @@ export const setSellerInfo = (data: any) => ({
 
 export const getSellerQuota = () => (dispatch: any) => {
   const sellerID = sellerIDSelector();
-  return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/quota-meter`)
+  return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/quota`)
     .then(json => {
       dispatch(setSellerQuota(json.data));
     })

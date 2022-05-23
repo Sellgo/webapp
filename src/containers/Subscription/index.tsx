@@ -15,7 +15,7 @@ import {
   subscriptionDetailsMapping,
   PAYMENT_MODES,
   SUBSCRIPTION_DETAILS,
-} from '../../constants/Subscription';
+} from '../../constants/Subscription/Sellgo';
 
 /* Assets */
 import newSellgoLogo from '../../assets/images/sellgoNewLogo.png';

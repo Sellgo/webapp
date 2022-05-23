@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import { connect } from 'react-redux';
@@ -52,19 +52,9 @@ interface Props {
 
 /* Main Component */
 const MapPanel = (props: Props) => {
-  const {
-    isLoadingSellersForMap,
-    sellerDataForMap,
-    fetchSellersForMap,
-    mapCenter,
-    mapZoom,
-  } = props;
+  const { isLoadingSellersForMap, sellerDataForMap, mapCenter, mapZoom } = props;
 
   const [showFilter, setShowFilter] = React.useState<boolean>(true);
-
-  useEffect(() => {
-    fetchSellersForMap({});
-  }, []);
 
   return (
     <section className={styles.sellerMapsContainer}>

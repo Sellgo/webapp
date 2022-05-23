@@ -10,7 +10,7 @@ import {
   SET_PROMO_LOADING,
 } from '../../../constants/Settings';
 
-import { SUBSCRIPTION_DETAILS } from '../../../constants/Subscription';
+import { SUBSCRIPTION_DETAILS } from '../../../constants/Subscription/Sellgo';
 
 import { AnyAction } from 'redux';
 import { setIn } from '../../../utils/immutablity';

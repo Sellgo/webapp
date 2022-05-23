@@ -1,0 +1,194 @@
+@import '../../../design-system/new-colors.scss';
+
+.checkoutContainer {
+  margin: 40px auto;
+  width: max-content;
+
+  h2 {
+    color: #3b4557;
+    font-weight: $fontweight_semibold;
+    font-size: 20px;
+  }
+}
+
+.divider {
+  width: 100%;
+  height: 2px;
+  background: $grey_3;
+  margin: 30px 0;
+}
+
+.formGroup {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+
+  &__promo {
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+}
+
+.formInput {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 400px;
+  margin: 15px 0;
+  margin-right: 10px;
+
+  label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #3b4557;
+    line-height: 20px;
+  }
+
+  input {
+    height: 40px;
+    background: #fff;
+    font-size: 14px;
+    color: #808080 !important;
+    border: 1px solid #dededf;
+    border-radius: 4px;
+  }
+
+  &__expiry {
+    width: 150px;
+  }
+
+  &__cvv {
+    width: 75px;
+  }
+
+  &__error {
+    input {
+      border: 1px solid #eb675e !important;
+    }
+  }
+
+  &__promo {
+    width: 200px;
+    margin-bottom: 0;
+  }
+}
+
+.stripeInput {
+  height: 40px;
+  background: #fff;
+  color: #808080 !important;
+  border: 1px solid #dededf;
+  border-radius: 4px;
+  font-size: 14px !important;
+  padding: 9.5px 14px;
+
+  &::placeholder {
+    font-size: 14px !important;
+  }
+
+  &__expiry {
+    width: 150px;
+  }
+
+  &__cvv {
+    width: 75px;
+  }
+}
+
+.cardsWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  &__cards {
+    height: 50px;
+  }
+
+  &__stripe {
+    height: 25px;
+  }
+}
+
+.paymentMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+
+  button {
+    height: 50px;
+    border: 0;
+    outline: 0;
+    font-family: 'Work Sans', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .completeButton {
+    color: #fff;
+    border: 1px solid #fc7900;
+    background: #fc7900;
+    margin-right: 10px;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: unset;
+    }
+  }
+}
+
+.paymentErrorMessage {
+  background: #eb675e;
+  color: #fff;
+  border-radius: 8px;
+  width: 500px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px auto;
+  font-size: 14px;
+  padding: 15px 0;
+}
+
+.redeemButton {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 125px;
+  border-radius: 5px;
+  font-size: 14px;
+  height: 40px !important;
+  color: $grey_8;
+  border: 1px solid $grey_8;
+  background: #fff;
+  margin-top: 15px;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: unset;
+  }
+}
+
+.redemptionMessage {
+  &__success {
+    width: 100%;
+    margin-top: 8px;
+    font-size: 14px;
+    color: $system_green;
+  }
+
+  &__error {
+    width: 100%;
+    margin-top: 8px;
+    font-size: 14px;
+    color: $system_red;
+  }
+}

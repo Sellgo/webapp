@@ -9,6 +9,7 @@ import './AdminHeader.scss';
 
 /* Components */
 import LogoutConfirm from '../LogoutConfirm';
+import QuotaMeter from '../QuotaMeter';
 
 /* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
@@ -17,7 +18,11 @@ import { SellerSubscription } from '../../interfaces/Seller';
 import { getSellerSubscription } from '../../selectors/Subscription';
 
 /* Utils */
-import { isBetaAccount } from '../../utils/subscriptions';
+import {
+  isAistockSubscription,
+  isBetaAccount,
+  isSubscriptionIdFreeAccount,
+} from '../../utils/subscriptions';
 import { setUserOnboarding } from '../../actions/UserOnboarding';
 
 /* Icons */
@@ -31,6 +36,8 @@ import PerfectStockIcon from '../../assets/images/perfectStockGrey.svg';
 
 /* Actions */
 import { getSellerInfo } from '../../actions/Settings';
+import ActionButton from '../ActionButton';
+import history from '../../history';
 
 interface Props {
   auth: any;
@@ -53,15 +60,31 @@ const AdminHeader = (props: Props) => {
   } = props;
   const { email, first_name, last_name } = profile;
   const isBeta = isBetaAccount(sellerSubscription);
-  const isAiStock = sellerSubscription.is_aistock;
+  const isAiStock = isAistockSubscription(sellerSubscription.subscription_id);
   const [openConfirm, setOpenConfirm] = React.useState<boolean>(false);
   const open = () => setOpenConfirm(true);
+
+  const redirectToPricing = () => {
+    history.push('/settings/pricing');
+  };
 
   React.useEffect(() => {
     getSellerInfo();
   }, []);
   return (
     <div className="admin-header">
+      {isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) && <QuotaMeter />}
+      {isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) &&
+        !window.location.pathname.includes('pricing') && (
+          <ActionButton
+            variant="primary"
+            size={'md'}
+            type="purpleGradient"
+            onClick={redirectToPricing}
+          >
+            Upgrade Access
+          </ActionButton>
+        )}
       <Popup
         className="enableLearningPopup"
         trigger={
@@ -112,7 +135,7 @@ const AdminHeader = (props: Props) => {
               as={Link}
               to="/settings/pricing"
               className="dropdownItem"
-              disabled={isBeta || isAiStock}
+              disabled={isBeta}
             >
               <img src={PlansIcon} alt="plans-icon" />
               Plans
@@ -121,7 +144,7 @@ const AdminHeader = (props: Props) => {
               as={Link}
               to="/settings/billing"
               className="dropdownItem"
-              disabled={isBeta || isAiStock}
+              disabled={isBeta}
             >
               <img src={BillingIcon} alt="billing-icon" />
               Billing
@@ -130,7 +153,7 @@ const AdminHeader = (props: Props) => {
               as={Link}
               to="/settings/sp-connectivity"
               className="dropdownItem"
-              disabled={isBeta}
+              disabled={isBeta || !isAiStock}
             >
               <img src={ConnectivityIcon} alt="connectivity-icon" />
               Connectivity
