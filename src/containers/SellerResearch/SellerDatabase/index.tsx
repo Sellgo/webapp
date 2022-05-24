@@ -16,14 +16,25 @@ import FilterMessage from '../../../components/FilterMessage';
 import { getFilterMessage } from '../../../selectors/SellerResearch/SellerDatabase';
 
 /* Interfaces */
-import { ShowFilterMessage } from '../../../interfaces/SellerResearch/SellerDatabase';
+import {
+  SellerDatabasePayload,
+  ShowFilterMessage,
+} from '../../../interfaces/SellerResearch/SellerDatabase';
+
+/* ACtions */
+import { fetchSellerDatabase } from '../../../actions/SellerResearch/SellerDatabase';
 
 interface Props {
+  fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
   showFilterMessage: ShowFilterMessage;
 }
 
 const SellerDatabase = (props: Props) => {
-  const { showFilterMessage } = props;
+  const { showFilterMessage, fetchSellerDatabase } = props;
+
+  React.useEffect(() => {
+    fetchSellerDatabase({ retrieve_default: true });
+  }, []);
 
   return (
     <main className={styles.sellerDatbasePage}>
@@ -46,4 +57,9 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default connect(mapStateToProps)(SellerDatabase);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchSellerDatabase: (payload: SellerDatabasePayload) => dispatch(fetchSellerDatabase(payload)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SellerDatabase);

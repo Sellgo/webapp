@@ -66,30 +66,28 @@ const SellersList = (props: Props) => {
   const [isWholesale, setIsWholesale] = useState<boolean>(sellerType?.value === 'wholesale');
 
   /* Sorting Change */
-  const handleSortingChange = (value: string) => {
+  const handleSortingChange = async (value: string) => {
     if (value !== sortBy) {
       const [sort, sortDir] = value.split('?');
-      fetchSellersListForMap({
-        sort,
-        sortDir: sortDir === 'asc' ? 'asc' : 'desc',
+      updateSellerMapFilterOptions({
+        keyName: 'ordering',
+        value: sortDir === 'asc' ? sort : `-${sort}`,
       });
+      await timeout(500);
+      fetchSellersListForMap({});
+      fetchSellersForMap({ enableLoader: true });
       setSortBy(value);
     }
   };
 
   const handleWholesaleChange = async () => {
     const newWholesaleState = !isWholesale;
-    const [sort, sortDir] = sortBy.split('?');
     updateSellerMapFilterOptions({
       keyName: 'seller_type',
       value: newWholesaleState ? 'wholesale' : 'private_label',
     });
     await timeout(500);
-    fetchSellersListForMap({
-      sort,
-      sortDir: sortDir === 'asc' ? 'asc' : 'desc',
-      isWholesale: newWholesaleState,
-    });
+    fetchSellersListForMap({});
     fetchSellersForMap({ enableLoader: true });
     setIsWholesale(newWholesaleState);
   };
