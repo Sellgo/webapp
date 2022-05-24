@@ -179,6 +179,12 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
       }
     }
 
+    if (type === F_TYPES.SORT) {
+      if (value) {
+        filterQuery += `&${keyName}=${value}`;
+      }
+    }
+
     if (type === F_TYPES.COUNTRY) {
       if (value && value !== 'All Countries') {
         filterQuery += `&${keyName}=${value}`;
@@ -309,25 +315,16 @@ export const fetchSellersListForMap = (payload: SellersListPayload) => async (
   getState: any
 ) => {
   try {
-    const {
-      page = 1,
-      sort = 'seller_id',
-      sortDir = 'asc',
-      enableLoader = true,
-      isWholesale = true,
-      perPage = 20,
-    } = payload;
+    const { page = 1, enableLoader = true, perPage = 20 } = payload;
 
     const sellerId = sellerIDSelector();
 
     const pagination = `page=${page}&per_page=${perPage}`;
-    const sorting = `ordering=${sortDir === 'desc' ? `-${sort}` : sort}`;
-    const sellerType = `seller_type=${isWholesale ? 'wholesale' : 'private_label'}`;
 
     const allFiltersData = getSellerMapFilterData(getState());
     const filtersPath = parseFilters(allFiltersData);
 
-    const resourcePath = `${pagination}&${sorting}&${sellerType}${filtersPath}&seller_maps=true`;
+    const resourcePath = `${pagination}&${filtersPath}&seller_maps=true`;
 
     dispatch(isLoadingSellersListForMap(enableLoader));
 

@@ -30,6 +30,8 @@ export const F_TYPES = {
   COUNTRY: 'COUNTRY',
   STATE: 'STATE',
   CATEGORIES: 'CATEGORIES',
+  SORT: 'SORT',
+  SORT_DIR: 'SORT_DIR',
 };
 
 /* ======================================================= */
@@ -95,6 +97,10 @@ export const DEFAULT_US_MARKET = {
 
 /* Reset for text filter */
 export const DEFAULT_TEXT_FILTER = '';
+
+/* Reset for default sort */
+export const DEFAULT_SORT = 'seller_id';
+export const DEFAULT_SORT_DIR = 'asc';
 
 /* Reset for include exclude filter */
 export const DEFAULT_INCLUDE_EXCLUDE_FILTER = {
