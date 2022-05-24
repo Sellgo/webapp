@@ -121,10 +121,10 @@ const PerfectStock: React.FC<Props> = props => {
     return (
       <>
         <PageHeader
-          title={`Ai Stock`}
+          title={`AiStock`}
           breadcrumb={[
             { content: 'Home', to: '/' },
-            { content: 'Ai Stock', to: '/aistock/sales' },
+            { content: 'AiStock', to: '/aistock/sales' },
             {
               content: PERFECT_STOCK_PRODUCT_DETAILS[selectedTabList].name,
               to: PERFECT_STOCK_PAGES[selectedTabList],
@@ -141,10 +141,10 @@ const PerfectStock: React.FC<Props> = props => {
     return (
       <>
         <PageHeader
-          title={`Ai Stock`}
+          title={`AiStock`}
           breadcrumb={[
             { content: 'Home', to: '/' },
-            { content: 'Ai Stock', to: '/aistock/sales' },
+            { content: 'AiStock', to: '/aistock/sales' },
             {
               content: PERFECT_STOCK_PRODUCT_DETAILS[selectedTabList].name,
               to: PERFECT_STOCK_PAGES[selectedTabList],
@@ -160,10 +160,10 @@ const PerfectStock: React.FC<Props> = props => {
   return (
     <>
       <PageHeader
-        title={`Ai Stock`}
+        title={`AiStock`}
         breadcrumb={[
           { content: 'Home', to: '/' },
-          { content: 'Ai Stock', to: '/aistock/sales' },
+          { content: 'AiStock', to: '/aistock/sales' },
           {
             content: PERFECT_STOCK_PRODUCT_DETAILS[selectedTabList].name,
             to: PERFECT_STOCK_PAGES[selectedTabList],

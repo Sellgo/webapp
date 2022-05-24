@@ -166,7 +166,7 @@ export const getMarketplaceFlag = (marketplaceId: string) => {
 
 export const SETTINGS_PAGES = [
   {
-    name: 'Profile',
+    name: 'My Profile',
     disabled: false,
     url: '/settings/profile',
     showInSellgo: true,
@@ -182,7 +182,7 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
-    name: 'Billing',
+    name: 'My Billing',
     disabled: false,
     url: '/settings/billing',
     showInSellgo: true,
@@ -190,7 +190,7 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
-    name: 'SP Api',
+    name: 'Connectivity',
     disabled: false,
     url: '/settings/sp-connectivity',
     showInSellgo: false,
@@ -222,7 +222,7 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
-    name: 'AiStock',
+    name: 'Settings',
     disabled: false,
     url: '/settings/aistock/lead-time',
     showInSellgo: false,

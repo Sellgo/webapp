@@ -55,11 +55,13 @@ const PreMigration = (props: Props) => {
   return (
     <>
       <main className={styles.pilotLoginPageWrapper}>
-        <h1>Perfect Stock White Glove Migration is Ready to Start</h1>
+        <h1>AiStock migration is ready to start</h1>
         <p>
-          Sellgo&apos;s product, seller and keyword database, automation and AI
+          When the migration is done, your supply chain will be fully automated through a lightning
+          speed and robust algorithm,
           <br />
-          gives your Amazon business superpowers.
+          so now you can ensure your fast-selling inventories are always in-stock and your business
+          is liquid.
         </p>
 
         <div className={styles.row}>
@@ -73,11 +75,11 @@ const PreMigration = (props: Props) => {
               className={styles.migrationButton}
               disabled={!isSpApiAuthenticated}
             >
-              Start Migration Now
+              Start migration now
             </ActionButton>
           </div>
           <div className={styles.instructionsBox}>
-            <span>Step-By-Step Guide</span>
+            <span>Step-by-step guide</span>
             <ElevioArticle articleId={'17'} />
           </div>
         </div>

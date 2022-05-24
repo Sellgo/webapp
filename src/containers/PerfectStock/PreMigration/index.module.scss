@@ -7,15 +7,17 @@
   align-items: center;
 
   h1 {
-    font-size: 24px;
+    margin-top: 1rem;
+    font-size: 30px;
     color: $black_1;
-    font-weight: $fontweight_semibold;
+    font-weight: $fontweight_bold;
     text-align: center;
   }
 
   p {
     font-size: 14px;
-    color: $black_1;
+    color: $grey_8;
+    font-weight: $fontweight_medium;
     text-align: center;
   }
 }
