@@ -16,7 +16,7 @@ const PaidContent = () => {
       <button
         onClick={() => {
           localStorage.setItem('loginRedirectPath', '/');
-          history.push('/subscription');
+          history.push('/settings/pricing');
         }}
       >
         Open Sellgo Pricing

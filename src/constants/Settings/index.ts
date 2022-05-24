@@ -176,7 +176,7 @@ export const SETTINGS_PAGES = [
   {
     name: 'Subscription',
     disabled: false,
-    url: '/subscription',
+    url: '/settings/pricing',
     showInSellgo: true,
     showInAistock: true,
     subPages: [],

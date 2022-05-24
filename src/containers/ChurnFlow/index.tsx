@@ -111,12 +111,12 @@ const ChurnFlow = (props: Props) => {
         breadcrumb={[
           { content: 'Home', to: '/' },
           { content: 'Settings', to: '/settings' },
-          { content: 'Pricing', to: '/subscription' },
+          { content: 'Pricing', to: '/settings/pricing' },
           { content: 'Churn Flow', to: '/churnflow' },
         ]}
         auth={match.params.auth}
       />
-      <Link to="/subscription" className={styles.goBackButton}>
+      <Link to="/settings/pricing" className={styles.goBackButton}>
         <img src={leftArrow} />
         <p>Cancel and go back to subscription</p>
       </Link>

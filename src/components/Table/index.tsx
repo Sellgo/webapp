@@ -475,7 +475,7 @@ export const GenericTable = (props: GenericTableProps) => {
                   <div className="table-lock__content">
                     <p>Want to see more?</p>
                     <Icon name="lock" size="big" />
-                    <Link to="/subscription">
+                    <Link to="/settings/pricing">
                       <Button primary={true}>Subscribe to Unlock</Button>
                     </Link>
                   </div>
