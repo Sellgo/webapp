@@ -170,7 +170,7 @@ const Connectivity = (props: Props) => {
       <BoxContainer>
         <p className={styles.mwsFormTitle}>
           {' '}
-          Please grant Amazon MWS and Amazon Seller Central access for each market.{' '}
+          Please grant Amazon Seller Central access for each marketplace.{' '}
         </p>
         <Form className={styles.mwsFormGrid}>
           <Icon

@@ -129,7 +129,7 @@ const AdminHeader = (props: Props) => {
             </div>
             <Dropdown.Item as={Link} to="/settings/profile" className="dropdownItem">
               <img src={SettingsIcon} alt="settings-icon" />
-              Profile
+              My Profile
             </Dropdown.Item>
             <Dropdown.Item
               as={Link}
@@ -138,7 +138,7 @@ const AdminHeader = (props: Props) => {
               disabled={isBeta}
             >
               <img src={PlansIcon} alt="plans-icon" />
-              Plans
+              Update Subscription
             </Dropdown.Item>
             <Dropdown.Item
               as={Link}
@@ -147,7 +147,7 @@ const AdminHeader = (props: Props) => {
               disabled={isBeta}
             >
               <img src={BillingIcon} alt="billing-icon" />
-              Billing
+              My Billing
             </Dropdown.Item>
             <Dropdown.Item
               as={Link}
@@ -174,7 +174,7 @@ const AdminHeader = (props: Props) => {
               disabled={!isAiStock}
             >
               <img src={PerfectStockIcon} alt="perfect-stock-icon" />
-              Ai Stock
+              Settings
             </Dropdown.Item>
             <div className="line" />
             <Dropdown.Item className="dropdownItem" onClick={open}>

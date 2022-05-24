@@ -30,7 +30,7 @@ const AccountConnectionSection = (props: Props) => {
 
   return (
     <section className={styles.connectAccount}>
-      <h1>Perfect Stock White Glove Migration is in Progress</h1>
+      <h1>AiStock migration is in progress</h1>
       <p>
         {eta !== -1
           ? `${formatNumber(eta)} minutes left for migration.`
@@ -41,7 +41,7 @@ const AccountConnectionSection = (props: Props) => {
       <div className={styles.connectRow}>
         <div className={styles.connectAccountCard}>
           <img src={LeadTimeLogo} alt="lead time" className={styles.connectApiLogo} />
-          <p className={styles.connectApiLabel}> Set up Lead Time </p>
+          <p className={styles.connectApiLabel}> Set up lead time </p>
           <p className={styles.connectApiDesc}>
             Quickly set up your logistical timeline, from manufacturer lead time to last leg check
             in
@@ -52,7 +52,7 @@ const AccountConnectionSection = (props: Props) => {
             size="md"
             onClick={handleRedirectToConnectivity}
           >
-            Set Up
+            Set up
           </ActionButton>
         </div>
         <div className={styles.connectAccountCard}>
@@ -60,7 +60,7 @@ const AccountConnectionSection = (props: Props) => {
           <p className={styles.connectApiLabel}>
             {' '}
             Schedule 1:1 <br />
-            Onboarding Call{' '}
+            onboarding call{' '}
           </p>
           <p className={styles.connectApiDesc}>
             Set up a quick onboarding call today in order to get a head start on AiStock
@@ -71,7 +71,7 @@ const AccountConnectionSection = (props: Props) => {
             size="md"
             onClick={handleOpenNewCalendlyTab}
           >
-            Schedule A Call
+            Schedule a call
           </ActionButton>
         </div>
       </div>

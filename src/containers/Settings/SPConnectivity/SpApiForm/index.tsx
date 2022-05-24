@@ -117,7 +117,7 @@ const SpApiForm = (props: Props) => {
 
   return (
     <section className={styles.mwsFormWrapper}>
-      <BoxHeader>Amazon Seller Central Integration</BoxHeader>
+      <BoxHeader>Connect to Amazon Seller Central</BoxHeader>
       <BoxContainer>
         <Dimmer active={isAuthenticating} inverted className={styles.dimmer}>
           <Loader inline className={styles.loader} />
@@ -130,7 +130,7 @@ const SpApiForm = (props: Props) => {
         </Dimmer>
         <p className={styles.mwsFormTitle}>
           {' '}
-          Please grant Amazon MWS and Amazon Seller Central access for each market.{' '}
+          Please grant Amazon Seller Central access for each marketplace.{' '}
         </p>
         {amazonSellerId ? (
           <div className={styles.mwsFormGrid}>
@@ -220,7 +220,7 @@ const SpApiForm = (props: Props) => {
           </div>
         ) : (
           <div className={styles.mwsFormGrid}>
-            <p className={styles.regionTitle}>North America Region</p>
+            <p className={styles.regionTitle}>North America region</p>
             <ActionButton
               type="purpleGradient"
               variant="primary"
@@ -228,7 +228,7 @@ const SpApiForm = (props: Props) => {
               onClick={redirectToAuthorize}
               className={styles.authorizeButton}
             >
-              Authorize Access Here
+              Authorize access here
             </ActionButton>
           </div>
         )}
