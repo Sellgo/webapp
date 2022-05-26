@@ -1,0 +1,248 @@
+@import '../../../../design-system/new-colors.scss';
+
+.paymentForm {
+  display: flex;
+  align-items: flex-start;
+
+  h2 {
+    font-size: $fontsize_subtitle_20;
+    color: $prim_dark_2;
+    font-weight: $fontweight_bold;
+  }
+}
+
+.formGroup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  &__promo {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+  }
+}
+
+.formInput {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 400px;
+  margin: 15px 0;
+
+  label {
+    font-size: 14px;
+    font-weight: 400;
+    color: #3b4557;
+    line-height: 20px;
+  }
+
+  input {
+    height: 40px;
+    background: #fff;
+    font-size: 14px;
+    color: #808080 !important;
+    border: 1px solid #dededf;
+    border-radius: 4px;
+  }
+
+  &__expiry {
+    width: 150px;
+  }
+
+  &__cvc {
+    width: 75px;
+  }
+
+  &__error {
+    input {
+      border: 1px solid #eb675e !important;
+    }
+  }
+
+  &__promo {
+    width: 320px;
+    margin-right: 20px;
+    margin-bottom: 0;
+  }
+}
+
+.stripeInput {
+  height: 40px;
+  background: #fff;
+  color: #808080 !important;
+  border: 1px solid #dededf;
+  border-radius: 4px;
+  font-size: 14px !important;
+  padding: 9.5px 14px;
+
+  &::placeholder {
+    font-size: 14px !important;
+  }
+
+  &__creditCard {
+    border-right: none !important;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+  }
+
+  &__expiry {
+    width: 150px;
+    border-radius: 0;
+    border-left: none !important;
+    border-right: none !important;
+  }
+
+  &__cvc {
+    width: 75px;
+    border-left: none !important;
+  }
+}
+
+.cardsWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  &__cards {
+    height: 50px;
+  }
+
+  &__stripe {
+    height: 25px;
+  }
+}
+
+.paymentMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.completeButton {
+  margin-right: 10px;
+  margin-top: 30px;
+  cursor: pointer;
+  width: 320px;
+  font-size: 14px;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: unset;
+  }
+}
+
+.paymentErrorMessage {
+  background: #eb675e;
+  color: #fff;
+  border-radius: 8px;
+  width: 500px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px auto;
+  font-size: 14px;
+  padding: 15px 0;
+}
+
+.redeemButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  border-radius: 5px;
+  font-size: 14px;
+  height: 40px !important;
+  color: $grey_8;
+  border: 1px solid $grey_8;
+  background: #fff;
+  margin-top: 15px;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: unset;
+  }
+}
+
+.redemptionMessage {
+  &__success {
+    width: 100%;
+    margin-top: 8px;
+    font-size: 14px;
+    color: $system_green;
+  }
+
+  &__error {
+    width: 100%;
+    margin-top: 8px;
+    font-size: 14px;
+    color: $system_red;
+  }
+}
+
+.profileInfoFormWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    margin-bottom: 30px;
+    width: 250px;
+    object-fit: contain;
+  }
+}
+
+.profileInfoForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: $prim_white;
+  width: 485px;
+  height: max-content;
+  border-radius: 20px;
+  border: 1px solid $grey_3;
+  box-shadow: 0 3px 6px 0 #2e3b4a29;
+  padding: 40px 0;
+}
+
+.paymentInfoForm {
+  padding-top: 50px;
+  margin-left: 100px;
+  display: flex;
+  flex-direction: column;
+}
+
+.orderItem {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid $grey_3;
+  padding: 10px 0;
+
+  p {
+    font-size: $fontsize_content_14;
+    color: $prim_dark_2;
+  }
+}
+
+.orderItemsWrapper {
+  margin-top: 18px;
+  margin-bottom: 30px;
+  width: 100%;
+
+  .totalPrice {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+
+    p {
+      font-weight: $fontweight_bold;
+      font-size: $fontsize_content_14;
+      color: $prim_dark_2;
+    }
+  }
+}

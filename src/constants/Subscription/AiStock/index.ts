@@ -213,3 +213,8 @@ export const generateSubscriptionDetails = (planType: string) => {
   }
   return planDetails;
 };
+
+export const SUBSCRIPTION_PURCHASE_PHASES = {
+  EMAIL_INPUT: 'EMAIL_INPUT',
+  PAYMENT_INPUT: 'PAYMENT_INPUT',
+};
