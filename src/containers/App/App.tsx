@@ -242,6 +242,16 @@ const PrivateRoute = connect(
 );
 
 function App() {
+  const handleUpdateFaviconToAistock = () => {
+    const faviconElement = document.getElementById('favicon');
+    if (faviconElement && isAiStockSession()) {
+      faviconElement.setAttribute('href', `${AppConfig.BASE_URL}/images/aistockFavicon.ico`);
+    }
+  };
+
+  React.useEffect(() => {
+    handleUpdateFaviconToAistock();
+  }, []);
   return (
     <div className="App__container">
       <Helmet>
