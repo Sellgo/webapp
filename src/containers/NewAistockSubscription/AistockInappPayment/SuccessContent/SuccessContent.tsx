@@ -5,8 +5,15 @@ import { createBrowserHistory } from 'history';
 /* Styling */
 import styles from './index.module.scss';
 
+/* Utils */
+import { trackDripDropOff } from '../../../../utils/analyticsTracking';
+
 const SuccessContent = () => {
   const history = createBrowserHistory({ forceRefresh: true });
+
+  React.useEffect(() => {
+    trackDripDropOff('aistock_paid');
+  }, []);
 
   return (
     <section className={styles.successContainer}>

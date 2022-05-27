@@ -8,10 +8,17 @@ import styles from './index.module.scss';
 import ActionButton from '../../../components/ActionButton';
 import history from '../../../history';
 
+/* Utils */
+import { trackDripDropOff } from '../../../utils/analyticsTracking';
+
 const UpsellCtaPage = () => {
   const redirectToPricing = () => {
     history.push('/settings/pricing');
   };
+
+  React.useEffect(() => {
+    trackDripDropOff('sellgo_no_quota');
+  }, []);
 
   const daysTillNextMonth = () => {
     const today = new Date();
