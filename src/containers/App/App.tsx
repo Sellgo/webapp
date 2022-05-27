@@ -21,7 +21,6 @@ import APIConnectivity from '../Settings/APIConnectivity';
 import SPConnectivity from '../Settings/SPConnectivity';
 import SpApiListener from '../Settings/SPConnectivity/SpApiListener';
 import Profile from '../Settings/Profile';
-import UserPilotReload from '../../components/UserPilotReload';
 import ChurnFlow from '../ChurnFlow';
 import FailedPaymentsBanner from '../../components/FailedPaymentsBanner';
 import TrialRemainingBanner from '../../components/TrialRemainingBanner';
@@ -259,7 +258,6 @@ function App() {
       </Helmet>
       <Router history={history}>
         <ScrollToTop />
-        <UserPilotReload />
         <Switch>
           <Route
             exact={true}
