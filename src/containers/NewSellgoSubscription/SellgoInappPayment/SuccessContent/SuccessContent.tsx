@@ -13,7 +13,7 @@ const SuccessContent = (props: any) => {
   const history = createBrowserHistory({ forceRefresh: true });
 
   React.useEffect(() => {
-    trackDripDropOff('sellgo_paid');
+    trackDripDropOff('Sellgo Paid');
   }, []);
 
   return (

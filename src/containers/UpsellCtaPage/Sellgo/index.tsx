@@ -17,7 +17,7 @@ const UpsellCtaPage = () => {
   };
 
   React.useEffect(() => {
-    trackDripDropOff('sellgo_no_quota');
+    trackDripDropOff('Sellgo No Quota');
   }, []);
 
   const daysTillNextMonth = () => {

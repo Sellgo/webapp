@@ -12,7 +12,7 @@ const SuccessContent = () => {
   const history = createBrowserHistory({ forceRefresh: true });
 
   React.useEffect(() => {
-    trackDripDropOff('aistock_paid');
+    trackDripDropOff('Aistock Paid');
   }, []);
 
   return (

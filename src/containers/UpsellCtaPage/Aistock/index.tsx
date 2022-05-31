@@ -17,7 +17,7 @@ const UpsellCtaPage = () => {
   };
 
   React.useEffect(() => {
-    trackDripDropOff('aistock_trial_ended');
+    trackDripDropOff('Aistock Trial Ended');
   }, []);
 
   return (
