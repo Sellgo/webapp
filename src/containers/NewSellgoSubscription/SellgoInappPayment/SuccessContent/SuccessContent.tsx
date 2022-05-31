@@ -5,9 +5,16 @@ import { createBrowserHistory } from 'history';
 /* Styling */
 import styles from './index.module.scss';
 
+/* Utils */
+import { trackDripDropOff } from '../../../../utils/analyticsTracking';
+
 const SuccessContent = (props: any) => {
   const { sellerSubscription } = props;
   const history = createBrowserHistory({ forceRefresh: true });
+
+  React.useEffect(() => {
+    trackDripDropOff('Sellgo Paid');
+  }, []);
 
   return (
     <section className={styles.successContainer}>
