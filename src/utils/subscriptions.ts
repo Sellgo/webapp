@@ -40,6 +40,8 @@ export const isSubscriptionIdFreeAccount = (id: number) => id === 5;
 
 export const isSubscriptionIdStarter = (id: number) => id === 6;
 
+export const isSubscriptionIdPaid = (id: number) => id !== 4 && id !== 100 && id !== 5;
+
 export const isFreeAccountWithoutHistory = (
   sellerSubscription: SellerSubscription,
   subscriptionType: string

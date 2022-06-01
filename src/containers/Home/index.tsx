@@ -2,11 +2,12 @@ import * as React from 'react';
 import queryString from 'query-string';
 import history from '../../history';
 import { success } from '../../utils/notifications';
-import Login from '../Login';
 import Auth from '../../components/Auth/Auth';
 import { decodeBase64, encodeBase64 } from '../../utils/format';
 import { isSellgoSession, isAiStockSession } from '../../utils/session';
 import { AppConfig } from '../../config';
+import SellgoLogin from '../../containers/NewSellgoSubscription/SellgoLogin';
+import AistockLogin from '../../containers/NewAistockSubscription/AistockLogin';
 
 const auth = new Auth();
 // export default class Home extends React.Component<any> {
@@ -101,7 +102,11 @@ class Home extends React.Component<any> {
   render() {
     const { auth, location } = this.props;
     return localStorage.getItem('isLoggedIn') !== 'true' ? (
-      <Login auth={auth} location={location} />
+      isSellgoSession() ? (
+        <SellgoLogin auth={auth} location={location} />
+      ) : (
+        <AistockLogin auth={auth} location={location} />
+      )
     ) : null;
   }
 }

@@ -8,7 +8,7 @@ import _ from 'lodash';
 /* Utils */
 import { success, error } from '../../../../utils/notifications';
 import history from '../../../../history';
-import { convertPlanNameToKey, isSubscriptionNotPaid } from '../../../../utils/subscriptions';
+import { convertPlanNameToKey, isSubscriptionIdFreeTrial } from '../../../../utils/subscriptions';
 
 /* Config */
 import { AppConfig } from '../../../../config';
@@ -92,8 +92,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   }
 
   chooseSubscription(subscription: any, paymentMode: string) {
-    const { subscriptionType } = this.props;
-    if (isSubscriptionNotPaid(subscriptionType)) {
+    const subscriptionId = this.props.sellerSubscription.subscription_id;
+    if (isSubscriptionIdFreeTrial(subscriptionId)) {
       this.checkout(subscription, paymentMode);
     } else {
       this.setState({

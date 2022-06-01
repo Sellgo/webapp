@@ -8,15 +8,11 @@ import _ from 'lodash';
 import styles from './index.module.scss';
 
 /* Containers */
-import Summary from './Summary';
 import AistockCheckOutForm from './AistockCheckOutForm';
 
 /* Components */
 import Auth from '../../components/Auth/Auth';
 import history from '../../history';
-
-/* Assets */
-import newSellgoLogo from '../../assets/images/aistockLogo.png';
 
 /* Config */
 import { AppConfig } from '../../config';
@@ -124,18 +120,7 @@ const Payment = (props: PaymentProps) => {
 
   return (
     <main className={styles.paymentPage}>
-      <div className={styles.logo}>
-        <img src={newSellgoLogo} alt="Sellgo Company Logo" />
-      </div>
-
       <section>
-        <Summary
-          planType={accountType}
-          paymentMode={paymentMode}
-          setPaymentMode={setPaymentMode}
-          setPlanType={setAccountType}
-        />
-
         <Elements stripe={stripePromise}>
           <AistockCheckOutForm accountType={accountType} paymentMode={paymentMode} auth={auth} />
         </Elements>

@@ -28,7 +28,8 @@ import { SellerSubscription } from '../../interfaces/Seller';
 
 /* Actions */
 import { updateSeller } from '../../actions/Settings/Subscription';
-import { isSellgoSession } from '../../utils/session';
+import { isAiStockSession, isSellgoSession } from '../../utils/session';
+import { AppConfig } from '../../config';
 
 interface Props {
   title?: string;
@@ -56,6 +57,17 @@ const PageHeader = (props: Props) => {
   const handleSubmitBetaForm = () => {
     updateSeller({ is_aistock_survey_filled: true });
   };
+
+  const handleUpdateFaviconToAistock = () => {
+    const faviconElement = document.getElementById('favicon');
+    if (faviconElement && isAiStockSession()) {
+      faviconElement.setAttribute('href', `${AppConfig.BASE_URL}/images/aistockFavicon.ico`);
+    }
+  };
+
+  React.useEffect(() => {
+    handleUpdateFaviconToAistock();
+  }, []);
 
   return (
     <>

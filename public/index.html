@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="shortcut icon" href="%PUBLIC_URL%/images/sellgo_stripe_logo.png" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/images/sellgo_stripe_logo.png" id="favicon"/>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <!--
@@ -127,33 +127,5 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-    <!-- Start UserPilot Code -->
-    <script>
-      window.userpilotSettings = { token: '19hj64h1' };
-    </script>
-    <script src="https://js.userpilot.io/sdk/latest.js"></script>
-    <script>
-      var user_traits =
-        localStorage.getItem('__user_traits') !== null
-          ? localStorage.getItem('__user_traits')
-          : null;
-      user_traits = JSON.parse(user_traits);
-      var userName = localStorage.getItem('userName');
-      var userEmail =
-        user_traits != null && user_traits.email != '' && typeof user_traits.email !== 'undefined'
-          ? user_traits.email
-          : '';
-      var __user_id = localStorage.getItem('__user_id');
-      var time = Math.round(Date.now() / 1000);
-      userpilot.identify(
-        __user_id, // Used to identify users
-        {
-          name: userName, // Full name
-          email: userEmail, // Email address
-          created_at: time, // Signup date as a Unix timestamp
-        }
-      );
-    </script>
-    <!-- End UserPilot Code -->
   </body>
 </html>

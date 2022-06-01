@@ -203,12 +203,12 @@ export const OPTIONS: NavOptions = [
     ],
   },
   {
-    label: 'Ai Stock',
+    label: 'AiStock',
     icon: require(`../../assets/images/${NAV_ICONS.PERFECT_STOCK}`),
     path: '/aistock',
     isComingSoon: false,
     disabled: false,
-    isBeta: true,
+    isBeta: false,
     subOptions: [
       {
         label: 'Home',
@@ -225,7 +225,7 @@ export const OPTIONS: NavOptions = [
         icon: require(`../../assets/images/${NAV_ICONS.SALES_ESTIMATION}`),
         path: '/aistock/sales',
         disabled: false,
-        isBeta: true,
+        isBeta: false,
       },
       {
         label: 'Order Planning',
@@ -233,7 +233,7 @@ export const OPTIONS: NavOptions = [
         icon: require(`../../assets/images/${NAV_ICONS.ORDER_PLANNING}`),
         path: '/aistock/order',
         disabled: false,
-        isBeta: true,
+        isBeta: false,
       },
       {
         label: '3PL Manager',
@@ -241,7 +241,7 @@ export const OPTIONS: NavOptions = [
         icon: require(`../../assets/images/${NAV_ICONS.TPL}`),
         path: '/aistock/tpl',
         disabled: false,
-        isBeta: true,
+        isBeta: false,
       },
     ],
   },

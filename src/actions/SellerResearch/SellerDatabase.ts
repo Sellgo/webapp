@@ -253,7 +253,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
     const pagination = `page=${page}`;
     const sorting = `ordering=${sortDir === 'desc' ? `-${sort}` : sort}`;
     const marketplace = `marketplace_id=${marketplaceId}`;
-    const retrieveDefault = `retrieve_default=${retrieve_default ? 'true ' : 'false'}`;
+    const retrieveDefault = `retrieve_default=${retrieve_default ? 'true' : 'false'}`;
 
     let filterPayloadData: any;
 

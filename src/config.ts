@@ -13,7 +13,7 @@ const SELLGO_DEV_URLS = {
 };
 
 const SELLGO_PROD_URLS = {
-  BASE_URL: 'https://app.aistock.co',
+  BASE_URL: 'https://app.sellgo.com',
   BASE_URL_AUTH: 'sellgo.auth0.com',
   BASE_URL_API: 'https://api.sellgo.com/api/',
   CHANGE_PASS_API_URL: 'https://sellgo.auth0.com/dbconnections/change_password',

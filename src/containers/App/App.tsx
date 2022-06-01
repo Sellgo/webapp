@@ -21,8 +21,6 @@ import APIConnectivity from '../Settings/APIConnectivity';
 import SPConnectivity from '../Settings/SPConnectivity';
 import SpApiListener from '../Settings/SPConnectivity/SpApiListener';
 import Profile from '../Settings/Profile';
-import Payment from '../Subscription/Payment';
-import UserPilotReload from '../../components/UserPilotReload';
 import ChurnFlow from '../ChurnFlow';
 import FailedPaymentsBanner from '../../components/FailedPaymentsBanner';
 import TrialRemainingBanner from '../../components/TrialRemainingBanner';
@@ -38,6 +36,7 @@ import SellgoPaymentSuccess from '../NewSellgoSubscription/SellgoPaymentSuccess'
 import SellgoFreeAccountForm from '../NewSellgoSubscription/SellgoFreeAccountForm';
 import SellgoActivation from '../NewSellgoSubscription/SellgoActivation';
 import SellgoActivationSuccess from '../NewSellgoSubscription/SellgoActivationSuccess';
+import SellgoInappPayment from '../NewSellgoSubscription/SellgoInappPayment';
 import SellgoUpsellCtaPage from '../UpsellCtaPage/Sellgo';
 import SellgoPricing from '../Settings/Pricing/SellgoPricing';
 
@@ -46,6 +45,7 @@ import AistockPaymentSuccess from '../NewAistockSubscription/AistockPaymentSucce
 import AistockFreeAccountForm from '../NewAistockSubscription/AistockFreeAccountForm';
 import AistockActivation from '../NewAistockSubscription/AistockActivation';
 import AistockActivationSuccess from '../NewAistockSubscription/AistockActivationSuccess';
+import AistockInappPayment from '../NewAistockSubscription/AistockInappPayment';
 import AistockUpsellCtaPage from '../UpsellCtaPage/Aistock';
 import AistockPricing from '../Settings/Pricing/AistockPricing';
 
@@ -74,6 +74,7 @@ const AistockSubscriptionPages = {
   ActivationSuccess: AistockActivationSuccess,
   UpsellCtaPage: AistockUpsellCtaPage,
   Pricing: AistockPricing,
+  Payment: AistockInappPayment,
 };
 
 const SellgoSubscriptionPages = {
@@ -84,6 +85,7 @@ const SellgoSubscriptionPages = {
   ActivationSuccess: SellgoActivationSuccess,
   UpsellCtaPage: SellgoUpsellCtaPage,
   Pricing: SellgoPricing,
+  Payment: SellgoInappPayment,
 };
 
 const SubscriptionPages = isSellgoSession() ? SellgoSubscriptionPages : AistockSubscriptionPages;
@@ -239,6 +241,16 @@ const PrivateRoute = connect(
 );
 
 function App() {
+  const handleUpdateFaviconToAistock = () => {
+    const faviconElement = document.getElementById('favicon');
+    if (faviconElement && isAiStockSession()) {
+      faviconElement.setAttribute('href', `${AppConfig.BASE_URL}/images/aistockFavicon.ico`);
+    }
+  };
+
+  React.useEffect(() => {
+    handleUpdateFaviconToAistock();
+  }, []);
   return (
     <div className="App__container">
       <Helmet>
@@ -246,7 +258,6 @@ function App() {
       </Helmet>
       <Router history={history}>
         <ScrollToTop />
-        <UserPilotReload />
         <Switch>
           <Route
             exact={true}
@@ -307,7 +318,7 @@ function App() {
           <Route
             exact={true}
             path="/subscription/payment"
-            render={renderProps => <Payment auth={auth} {...renderProps} />}
+            render={renderProps => <SubscriptionPages.Payment auth={auth} {...renderProps} />}
           />
           <PrivateRoute
             exact={true}
