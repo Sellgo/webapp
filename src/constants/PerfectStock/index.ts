@@ -10,6 +10,7 @@ export const PERFECT_STOCK_PAGES = [
   '/aistock/home-expenses-settings',
   '/aistock/home-ppc-settings',
   '/aistock/home-launch-settings',
+  '/aistock/home-misc-settings',
 ];
 
 export const HIDE_TAB_PAGES = [
@@ -18,6 +19,7 @@ export const HIDE_TAB_PAGES = [
   '/aistock/home-expenses-settings',
   '/aistock/home-ppc-settings',
   '/aistock/home-launch-settings',
+  '/aistock/home-misc-settings',
 ];
 
 export const PERFECT_STOCK_PRODUCT_DETAILS = [
@@ -64,6 +66,11 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'Launch Expenses',
     desc: 'Manage Launch Expenses',
+    settings: '',
+  },
+  {
+    name: 'Misc Expenses',
+    desc: 'Manage misc Expenses',
     settings: '',
   },
 ];

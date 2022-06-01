@@ -134,6 +134,7 @@ export const CASH_FLOW_CHART_TYPE = {
   PPC_EXPENSES: 'ppc',
   LAUNCH_EXPENSES: 'launch',
   STORAGE_COST: 'storage',
+  MISC_COST: 'misc',
 };
 
 export const CASH_FLOW_CHART_TITLES = {
@@ -152,6 +153,7 @@ export const CASH_FLOW_CHART_TITLES = {
   [CASH_FLOW_CHART_TYPE.PPC_EXPENSES]: 'PPC Expenses',
   [CASH_FLOW_CHART_TYPE.LAUNCH_EXPENSES]: 'Launch Expenses',
   [CASH_FLOW_CHART_TYPE.STORAGE_COST]: 'Storage Cost',
+  [CASH_FLOW_CHART_TYPE.MISC_COST]: 'Misc Cost',
 };
 
 export const DEFAULT_SUB_CHARTS_TO_SHOW = [
@@ -170,6 +172,7 @@ export const DEFAULT_SUB_CHARTS_TO_SHOW = [
   CASH_FLOW_CHART_TYPE.PPC_EXPENSES,
   CASH_FLOW_CHART_TYPE.LAUNCH_EXPENSES,
   CASH_FLOW_CHART_TYPE.STORAGE_COST,
+  CASH_FLOW_CHART_TYPE.MISC_COST,
 ];
 
 export const DEFAULT_SUB_CHART_SETTINGS: SubChartSettings = {
@@ -251,6 +254,12 @@ export const SETTINGS_OPTIONS = [
   {
     name: 'Launch Expenses',
     url: '/aistock/home-launch-settings',
+    disabled: false,
+  },
+
+  {
+    name: 'Misc Expenses',
+    url: '/aistock/home-misc-settings',
     disabled: false,
   },
 ];

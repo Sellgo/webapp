@@ -17,6 +17,7 @@ import Home from './Home';
 import EmployeeExpensesSettings from './Home/Settings/EmployeeExpenses';
 import PpcExpensesSettings from './Home/Settings/PpcExpenses';
 import LaunchExpensesSettings from './Home/Settings/LaunchExpenses';
+import MiscExpensesSettings from './Home/Settings/MiscExpenses';
 import DaysOfInventorySettings from './Inventory/Settings/DaysOfInventory';
 
 /* Components */
@@ -285,8 +286,8 @@ const PerfectStock: React.FC<Props> = props => {
 
             <TabPanel>
               <EmployeeExpensesSettings
-                cashflowOnboardingStatus={cashflowOnboardingStatus.find(
-                  cost => cost.step_name === 'employee'
+                cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
+                  cost => cost?.step_name === 'employee'
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
               />
@@ -294,8 +295,8 @@ const PerfectStock: React.FC<Props> = props => {
 
             <TabPanel>
               <PpcExpensesSettings
-                cashflowOnboardingStatus={cashflowOnboardingStatus.find(
-                  cost => cost.step_name === 'ppc'
+                cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
+                  cost => cost?.step_name === 'ppc'
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
               />
@@ -303,8 +304,17 @@ const PerfectStock: React.FC<Props> = props => {
 
             <TabPanel>
               <LaunchExpensesSettings
-                cashflowOnboardingStatus={cashflowOnboardingStatus.find(
-                  cost => cost.step_name === 'launch'
+                cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
+                  cost => cost?.step_name === 'launch'
+                )}
+                updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
+              />
+            </TabPanel>
+
+            <TabPanel>
+              <MiscExpensesSettings
+                cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
+                  cost => cost?.step_name === 'misc'
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
               />
