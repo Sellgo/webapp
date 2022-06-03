@@ -135,6 +135,16 @@ export class TaskRow extends Component {
                     </button>
                     <button
                       onClick={() => {
+                        this.props.handleSetPaymentTerm(this.props.item);
+                        this.setState({ isPopupOpen: false });
+                      }}
+                      disabled={!this.props.item.is_included}
+                    >
+                      <Icon name="dollar" />
+                      <span>Set Payment Term</span>
+                    </button>
+                    <button
+                      onClick={() => {
                         this.props.generateNextOrder(this.props.item);
                         this.setState({ isPopupOpen: false });
                       }}
@@ -233,6 +243,7 @@ export default class TaskList extends Component {
           handleCheckPurchaseOrder={this.props.handleCheckPurchaseOrder}
           generateNextOrder={this.props.generateNextOrder}
           handleSetPrioritySku={this.props.handleSetPrioritySku}
+          handleSetPaymentTerm={this.props.handleSetPaymentTerm}
           handleConnectTpl={this.props.handleConnectTpl}
           handleIncludedToggle={this.props.handleIncludedToggle}
           handleAlignOrder={this.props.handleAlignOrder}

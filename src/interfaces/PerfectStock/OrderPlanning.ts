@@ -19,6 +19,8 @@ export interface PurchaseOrder {
   id: number;
   lead_time_group: any;
   lead_time_group_id: number;
+  payment_term?: any;
+  order_payment_term_id: number;
   merchant_listings: any[];
   number: string;
   status: string;
@@ -48,6 +50,7 @@ export interface GanttChartPurchaseOrder {
   subTasks?: GanttChartPurchaseOrder[];
   prioritySku?: string;
   is_included?: boolean;
+  order_payment_term_id?: number;
 }
 
 export interface UpdatePurchaseOrderPayload {
@@ -56,6 +59,7 @@ export interface UpdatePurchaseOrderPayload {
   status?: 'active' | 'inactive';
   is_included?: boolean;
   po_sku_id?: number;
+  order_payment_term_id?: number;
   quantity?: number;
   manual_quantity?: number;
   quantity_mode?: string;
@@ -108,6 +112,8 @@ export interface CreateOrderPayload {
   start_date?: string | null;
   end_date?: string | null;
   lead_time_group_id: number;
+  order_payment_term_id: number;
+  payment_term?: PaymentTerm;
   lead_time_group?: SingleLeadTimeGroup;
   merchant_listings: any[];
   vendor_id?: number;

@@ -9,6 +9,7 @@ import AutoGenerateOrderPopup from './AutoGenerateOrderPopup';
 import AlignOrderPopup from './AlignOrderPopup';
 import SetPrioritySkuPopup from './SetPrioritySkuPopup';
 import ConnectTplPopup from './ConnectTplPopup';
+import SetPaymentTermPopup from './SetPaymentTermPopup';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -184,6 +185,26 @@ const OrderGanttChart = (props: Props) => {
         id: payload.id,
         prioritySku: payload.prioritySku,
         selectedMerchantListings,
+      });
+    }
+  };
+
+  /* ================================================================ */
+  /* Setting payment terms */
+  /* ================================================================ */
+  const [isSettingPaymentTerm, setIsSettingPaymentTerm] = React.useState(false);
+  const [paymentTermSkuDetails, setPaymentTermSkuDetails] = React.useState({});
+
+  const handleSetPaymentTerm = (payload: GanttChartPurchaseOrder) => {
+    const selectedPurchaseOrder = purchaseOrders.find((purchaseOrder: PurchaseOrder) => {
+      return purchaseOrder.id === payload.id;
+    });
+
+    if (selectedPurchaseOrder) {
+      setIsSettingPaymentTerm(true);
+      setPaymentTermSkuDetails({
+        id: payload.id,
+        order_payment_term_id: payload.order_payment_term_id,
       });
     }
   };
@@ -472,6 +493,7 @@ const OrderGanttChart = (props: Props) => {
             isDraftMode={isDraftMode}
             generateNextOrder={handleGenerateNextOrderClick}
             handleSetPrioritySku={handleSetPrioritySkuClick}
+            handleSetPaymentTerm={handleSetPaymentTerm}
             handleDeleteSelectedTasks={() => setDeletingPurchaseOrders(true)}
             handleAlignOrder={handleAlignOrder}
             handleConnectTpl={handleConnectTpl}
@@ -508,6 +530,18 @@ const OrderGanttChart = (props: Props) => {
                 handleCancel={() => setIsSettingPrioritySku(false)}
                 prioritySkuDetails={prioritySkuDetails}
                 handleUpdatePrioritySku={updatePurchaseOrder}
+              />
+            }
+            onClose={() => setIsSettingPrioritySku(false)}
+            className={styles.setPrioritySkuModal}
+          />
+          <Modal
+            open={isSettingPaymentTerm}
+            content={
+              <SetPaymentTermPopup
+                handleCancel={() => setIsSettingPaymentTerm(false)}
+                prioritySkuDetails={paymentTermSkuDetails}
+                handleUpdatePaymentTermSku={updatePurchaseOrder}
               />
             }
             onClose={() => setIsSettingPrioritySku(false)}

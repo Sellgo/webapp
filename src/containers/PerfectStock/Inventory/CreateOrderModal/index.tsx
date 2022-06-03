@@ -19,6 +19,7 @@ import PrioritySkuSelection from './PrioritySkuSelection';
 import InventoryThresholdSelection from './InventoryThresholdSelection';
 import OrderIntervalSelection from './OrderIntervalSelection';
 import ConnectTplSelection from './ConnectTplSelection';
+import PaymentTermSelection from './PaymentTermSelection';
 
 /* Interfaces */
 import {
@@ -78,6 +79,7 @@ const CreateOrder = (props: Props) => {
     creation_type: '',
     merchant_listings: [],
     lead_time_group_id: -1,
+    order_payment_term_id: -1,
     approach: 'inventory',
     auto_generate_orders_days: -1,
   };
@@ -265,6 +267,19 @@ const CreateOrder = (props: Props) => {
     case CREATE_ORDER_STATUS.SELECT_LEAD_TIME:
       content = (
         <LeadTimeSelection
+          createOrderStep={createOrderStep}
+          handlePrevious={() => setCreateOrderStep(createOrderStep - 1)}
+          createOrderPayload={createOrderPayload}
+          setCreateOrderPayload={setCreateOrderPayload}
+          handleNext={() => setCreateOrderStep(createOrderStep + 1)}
+        />
+      );
+      headerContent = 'Select LEAD TIME';
+      break;
+
+    case CREATE_ORDER_STATUS.SELECT_PAYMENT_TERM:
+      content = (
+        <PaymentTermSelection
           createOrderStep={createOrderStep}
           handlePrevious={() => setCreateOrderStep(createOrderStep - 1)}
           createOrderPayload={createOrderPayload}

@@ -52,7 +52,7 @@ const PaymentTerms = () => {
   };
 
   /* Adds new trigger */
-  const handleAddLeadTimeGroup = () => {
+  const handleAddPaymentTermGroup = () => {
     try {
       const newPaymentTerm: PaymentTerm = {
         name: `Payment Term ${paymentTermGroups.length}`,
@@ -97,7 +97,7 @@ const PaymentTerms = () => {
         console.error(err);
       }
 
-      /* Lead time is not stored in backend yet */
+      /* Payment term is not stored in backend yet */
     } else {
       let newPaymentTerms = [...paymentTermGroups];
       newPaymentTerms = newPaymentTerms.filter(
@@ -150,10 +150,10 @@ const PaymentTerms = () => {
             variant="secondary"
             size="md"
             className={styles.addTriggerButton}
-            onClick={handleAddLeadTimeGroup}
+            onClick={handleAddPaymentTermGroup}
           >
             <ThinAddIcon />
-            <span>Add Lead Time Group</span>
+            <span>Add Payment Term</span>
           </ActionButton>
         </div>
       </div>

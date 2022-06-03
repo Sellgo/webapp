@@ -454,6 +454,7 @@ class TimeLine extends Component {
             handleDeleteTask={this.props.handleDeleteTask}
             handleDeleteAllTasks={this.props.handleDeleteAllTasks}
             handleSetPrioritySku={this.props.handleSetPrioritySku}
+            handleSetPaymentTerm={this.props.handleSetPaymentTerm}
             handleConnectTpl={this.props.handleConnectTpl}
             handleDisconnectTpl={this.props.handleDisconnectTpl}
             handleCheckPurchaseOrder={this.props.handleCheckPurchaseOrder}
