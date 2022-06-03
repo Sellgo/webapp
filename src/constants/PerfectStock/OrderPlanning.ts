@@ -3,7 +3,7 @@ import {
   PurchaseOrder,
 } from '../../interfaces/PerfectStock/OrderPlanning';
 import { Column } from '../../interfaces/PerfectStock/Settings';
-import { STATUS_OPTIONS, DIMENSION_UNIT_OPTIONS } from './';
+import { STATUS_OPTIONS, DIMENSION_UNIT_OPTIONS, WEIGHT_UNIT_OPTIONS } from './';
 
 export const actionTypes = {
   IS_LOADING_INVENTORY_TABLE_RESULTS: 'IS_LOADING_INVENTORY_TABLE_RESULTS',
@@ -314,6 +314,21 @@ export const SKU_SETTINGS_COLUMNS: Column[] = [
   },
   {
     width: 200,
+    dataKey: 'weight_unit',
+    title: 'Weight Unit',
+    type: 'selection',
+    options: WEIGHT_UNIT_OPTIONS,
+    optional: true,
+  },
+  {
+    width: 200,
+    dataKey: 'weight',
+    title: 'Weight',
+    type: 'number',
+    optional: true,
+  },
+  {
+    width: 200,
     dataKey: 'package_height_unit',
     title: 'Package Height Unit',
     type: 'selection',
@@ -355,6 +370,21 @@ export const SKU_SETTINGS_COLUMNS: Column[] = [
     width: 200,
     dataKey: 'package_width',
     title: 'Package Width',
+    type: 'number',
+    optional: true,
+  },
+  {
+    width: 200,
+    dataKey: 'package_weight_unit',
+    title: 'Package Weight Unit',
+    type: 'selection',
+    options: WEIGHT_UNIT_OPTIONS,
+    optional: true,
+  },
+  {
+    width: 200,
+    dataKey: 'package_weight',
+    title: 'Package Weight',
     type: 'number',
     optional: true,
   },

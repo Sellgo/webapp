@@ -219,12 +219,12 @@ export const REPEAT_OPTIONS = [
 export const STATUS_OPTIONS = [
   {
     key: 'Active',
-    value: 'active',
+    value: 'Active',
     text: 'Active',
   },
   {
     key: 'Inactive',
-    value: 'inactive',
+    value: 'Inactive',
     text: 'Inactive',
   },
 ];

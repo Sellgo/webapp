@@ -47,9 +47,8 @@ const Expenses = (props: Props) => {
   const handleSave = async (expenses: any[]) => {
     try {
       let patchExpenseStatus = true;
-      const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/expense-configs`;
-
-      const { status } = await axios.patch(url, { expense_configs: expenses });
+      const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/merchant-listing-configs`;
+      const { status } = await axios.patch(url, { merchant_listing_configs: expenses });
       if (status !== 200) {
         patchExpenseStatus = false;
       }
