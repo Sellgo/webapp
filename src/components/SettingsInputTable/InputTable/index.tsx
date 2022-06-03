@@ -53,6 +53,7 @@ const InputTable = (props: Props) => {
                 prependMessage={column.prepend}
                 appendMessage={column.append}
                 isLarge
+                isLong={column.width >= 300}
                 disabled={column.disabled}
               />
             );
@@ -86,6 +87,7 @@ const InputTable = (props: Props) => {
           } else {
             contentCell = (
               <EditValueSelectionCell
+                inputWidth={column.width - 20}
                 dataKey={column.dataKey}
                 handleChange={handleEditRow}
                 showEmptyError={showError}

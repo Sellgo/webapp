@@ -19,6 +19,7 @@ interface Props extends RowCell {
   showEmptyError?: boolean;
   disabled?: boolean;
   isLarge?: boolean;
+  isLong?: boolean;
   allow5Decimal?: boolean;
 }
 
@@ -35,6 +36,7 @@ const EditValueCell = (props: Props) => {
     showEmptyError,
     disabled,
     isLarge,
+    isLong,
     ...otherProps
   } = props;
   const { rowData, dataKey } = otherProps;
@@ -54,7 +56,11 @@ const EditValueCell = (props: Props) => {
             handleChange(dataKey, value, cellIdentifier);
           }}
           placeholder=""
-          className={`${styles.inputField} ${!isLarge ? styles.inputField__small : ''}`}
+          className={`
+            ${styles.inputField} 
+            ${!isLarge ? styles.inputField__small : ''}
+            ${isLong ? styles.inputField__long : ''}
+          `}
           isDate={dataKey === 'start_date' || dataKey === 'end_date'}
           isNumber={isNumber}
           thousandSeperate={isNumber}

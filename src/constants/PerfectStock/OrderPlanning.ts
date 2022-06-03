@@ -3,7 +3,13 @@ import {
   PurchaseOrder,
 } from '../../interfaces/PerfectStock/OrderPlanning';
 import { Column } from '../../interfaces/PerfectStock/Settings';
-import { STATUS_OPTIONS, DIMENSION_UNIT_OPTIONS, WEIGHT_UNIT_OPTIONS, LEAD_TIME_OPTIONS } from './';
+import {
+  STATUS_OPTIONS,
+  DIMENSION_UNIT_OPTIONS,
+  WEIGHT_UNIT_OPTIONS,
+  LEAD_TIME_OPTIONS,
+  CURRENCY_OPTIONS,
+} from './';
 
 export const actionTypes = {
   IS_LOADING_INVENTORY_TABLE_RESULTS: 'IS_LOADING_INVENTORY_TABLE_RESULTS',
@@ -231,7 +237,7 @@ export const SETTINGS_OPTIONS = [
 
 export const SKU_SETTINGS_COLUMNS: Column[] = [
   {
-    width: 200,
+    width: 450,
     dataKey: 'title',
     title: 'Product Name',
     type: 'text',
@@ -239,7 +245,7 @@ export const SKU_SETTINGS_COLUMNS: Column[] = [
     optional: true,
   },
   {
-    width: 200,
+    width: 110,
     dataKey: 'asin',
     title: 'ASIN',
     type: 'text',
@@ -255,7 +261,7 @@ export const SKU_SETTINGS_COLUMNS: Column[] = [
     optional: true,
   },
   {
-    width: 200,
+    width: 110,
     dataKey: 'status',
     title: 'Status',
     type: 'selection',
@@ -263,14 +269,15 @@ export const SKU_SETTINGS_COLUMNS: Column[] = [
     optional: true,
   },
   {
-    width: 100,
+    width: 110,
     dataKey: 'currency',
     title: 'Currency',
-    type: 'text',
+    type: 'selection',
+    options: CURRENCY_OPTIONS,
     optional: true,
   },
   {
-    width: 200,
+    width: 110,
     dataKey: 'moq',
     title: 'MOQ',
     type: 'number',
@@ -280,7 +287,7 @@ export const SKU_SETTINGS_COLUMNS: Column[] = [
     },
   },
   {
-    width: 200,
+    width: 110,
     dataKey: 'length_unit',
     title: 'Length Unit',
     type: 'selection',
@@ -288,14 +295,14 @@ export const SKU_SETTINGS_COLUMNS: Column[] = [
     optional: true,
   },
   {
-    width: 200,
+    width: 110,
     dataKey: 'length',
     title: 'Length',
     type: 'number',
     optional: true,
   },
   {
-    width: 200,
+    width: 110,
     dataKey: 'width_unit',
     title: 'Width Unit',
     type: 'selection',
@@ -303,14 +310,14 @@ export const SKU_SETTINGS_COLUMNS: Column[] = [
     optional: true,
   },
   {
-    width: 200,
+    width: 110,
     dataKey: 'width',
     title: 'Width',
     type: 'number',
     optional: true,
   },
   {
-    width: 200,
+    width: 110,
     dataKey: 'height_unit',
     title: 'Height Unit',
     type: 'selection',
@@ -318,14 +325,14 @@ export const SKU_SETTINGS_COLUMNS: Column[] = [
     optional: true,
   },
   {
-    width: 200,
+    width: 110,
     dataKey: 'height',
     title: 'Height',
     type: 'number',
     optional: true,
   },
   {
-    width: 200,
+    width: 110,
     dataKey: 'weight_unit',
     title: 'Weight Unit',
     type: 'selection',
@@ -333,14 +340,14 @@ export const SKU_SETTINGS_COLUMNS: Column[] = [
     optional: true,
   },
   {
-    width: 200,
+    width: 110,
     dataKey: 'weight',
     title: 'Weight',
     type: 'number',
     optional: true,
   },
   {
-    width: 200,
+    width: 120,
     dataKey: 'package_height_unit',
     title: 'Package Height Unit',
     type: 'selection',
@@ -348,14 +355,14 @@ export const SKU_SETTINGS_COLUMNS: Column[] = [
     optional: true,
   },
   {
-    width: 200,
+    width: 110,
     dataKey: 'package_height',
     title: 'Package Height',
     type: 'number',
     optional: true,
   },
   {
-    width: 200,
+    width: 120,
     dataKey: 'package_length_unit',
     title: 'Package Length Unit',
     type: 'selection',
@@ -363,14 +370,14 @@ export const SKU_SETTINGS_COLUMNS: Column[] = [
     optional: true,
   },
   {
-    width: 200,
+    width: 110,
     dataKey: 'package_length',
     title: 'Package Length',
     type: 'number',
     optional: true,
   },
   {
-    width: 200,
+    width: 120,
     dataKey: 'package_width_unit',
     title: 'Package Width Unit',
     type: 'selection',
@@ -379,14 +386,14 @@ export const SKU_SETTINGS_COLUMNS: Column[] = [
   },
 
   {
-    width: 200,
+    width: 110,
     dataKey: 'package_width',
     title: 'Package Width',
     type: 'number',
     optional: true,
   },
   {
-    width: 200,
+    width: 120,
     dataKey: 'package_weight_unit',
     title: 'Package Weight Unit',
     type: 'selection',
@@ -394,14 +401,14 @@ export const SKU_SETTINGS_COLUMNS: Column[] = [
     optional: true,
   },
   {
-    width: 200,
+    width: 110,
     dataKey: 'package_weight',
     title: 'Package Weight',
     type: 'number',
     optional: true,
   },
   {
-    width: 200,
+    width: 110,
     dataKey: 'carton_count',
     title: 'Carton Count',
     type: 'number',
@@ -411,14 +418,14 @@ export const SKU_SETTINGS_COLUMNS: Column[] = [
     },
   },
   {
-    width: 200,
+    width: 110,
     dataKey: 'product_cost',
     title: 'Product Cost',
     type: 'number',
     optional: true,
   },
   {
-    width: 200,
+    width: 110,
     dataKey: 'hs_code',
     title: 'HS Code',
     type: 'number',
@@ -428,14 +435,14 @@ export const SKU_SETTINGS_COLUMNS: Column[] = [
     },
   },
   {
-    width: 200,
+    width: 110,
     dataKey: 'last_leg_cost',
     title: 'Last Leg Cost',
     type: 'number',
     optional: true,
   },
   {
-    width: 200,
+    width: 110,
     dataKey: 'import_duty_rate',
     title: 'Import Duty Rate',
     type: 'number',

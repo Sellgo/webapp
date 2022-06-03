@@ -5,8 +5,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 
   p {
+    width: 0;
     font-size: 12px;
     color: $grey_8 !important;
     font-weight: $fontweight_regular;
@@ -15,12 +17,21 @@
 
 .inputField {
   min-width: 0;
+  max-width: max-content !important;
+  width: 100% !important;
+  position: relative;
 
   &__small {
     height: 25px !important;
 
     input {
       height: 25px !important;
+    }
+  }
+
+  &__long {
+    input {
+      width: 400px !important;
     }
   }
 

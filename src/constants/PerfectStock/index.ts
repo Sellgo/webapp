@@ -261,3 +261,11 @@ export const WEIGHT_UNIT_OPTIONS = [
     text: 'pounds',
   },
 ];
+
+export const CURRENCY_OPTIONS = [
+  {
+    key: 'usd',
+    value: 'usd',
+    text: 'USD',
+  },
+];
