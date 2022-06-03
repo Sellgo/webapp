@@ -449,6 +449,7 @@ export const PAYMENT_TERMS_COLUMNS: Column[] = [
     dataKey: 'deposit_perc',
     title: 'Deposit %',
     type: 'number',
+    append: '%',
   },
   {
     width: 200,
@@ -462,6 +463,7 @@ export const PAYMENT_TERMS_COLUMNS: Column[] = [
     dataKey: 'mid_pay_perc',
     title: 'Mid Pay %',
     type: 'number',
+    append: '%',
   },
   {
     width: 200,
@@ -475,5 +477,6 @@ export const PAYMENT_TERMS_COLUMNS: Column[] = [
     dataKey: 'paid_full_perc',
     title: 'Paid Full %',
     type: 'number',
+    append: '%',
   },
 ];
