@@ -17,7 +17,7 @@ interface Props {
   tableColumns: Column[];
   data: any[];
   handleEditRow: (key: string, value: any, id: number) => void;
-  handleDeleteRow: (id: number) => void;
+  handleDeleteRow?: (id: number) => void;
   showError?: boolean;
   disableDelete?: boolean;
 }
@@ -107,7 +107,7 @@ const InputTable = (props: Props) => {
           );
         })}
         {/* Delete Cell */}
-        {!disableDelete && (
+        {!disableDelete && handleDeleteRow && (
           <Table.Column flexGrow={1} verticalAlign="middle" align="right">
             <Table.HeaderCell />
             <DeleteCell

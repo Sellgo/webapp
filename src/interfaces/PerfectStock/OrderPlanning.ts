@@ -155,3 +155,17 @@ export interface InventoryTableFilters {
   active: string;
   fba: string;
 }
+
+export interface PaymentTerm {
+  name: string;
+  indexIdentifier: string;
+  id?: number;
+  deposit_perc?: number;
+  mid_pay_perc?: number;
+  paid_full_perc?: number;
+  deposite_due?: string;
+  mid_pay_due?: string;
+  paid_full_due?: string;
+  status: 'active' | 'inactive' | 'pending';
+  is_default?: boolean;
+}

@@ -3,7 +3,7 @@ import {
   PurchaseOrder,
 } from '../../interfaces/PerfectStock/OrderPlanning';
 import { Column } from '../../interfaces/PerfectStock/Settings';
-import { STATUS_OPTIONS, DIMENSION_UNIT_OPTIONS, WEIGHT_UNIT_OPTIONS } from './';
+import { STATUS_OPTIONS, DIMENSION_UNIT_OPTIONS, WEIGHT_UNIT_OPTIONS, LEAD_TIME_OPTIONS } from './';
 
 export const actionTypes = {
   IS_LOADING_INVENTORY_TABLE_RESULTS: 'IS_LOADING_INVENTORY_TABLE_RESULTS',
@@ -213,6 +213,11 @@ export const SETTINGS_OPTIONS = [
   {
     name: 'Sku Settings',
     url: '/aistock/sku-settings',
+    disabled: false,
+  },
+  {
+    name: 'Payment Terms',
+    url: '/aistock/payment-terms-settings',
     disabled: false,
   },
 ];
@@ -428,5 +433,47 @@ export const SKU_SETTINGS_COLUMNS: Column[] = [
     title: 'Import Duty Rate',
     type: 'number',
     optional: true,
+  },
+];
+
+export const PAYMENT_TERMS_COLUMNS: Column[] = [
+  {
+    width: 200,
+    dataKey: 'deposit_due',
+    title: 'Deposit Due',
+    type: 'selection',
+    options: LEAD_TIME_OPTIONS,
+  },
+  {
+    width: 200,
+    dataKey: 'deposit_perc',
+    title: 'Deposit %',
+    type: 'number',
+  },
+  {
+    width: 200,
+    dataKey: 'mid_pay_due',
+    title: 'Mid Pay Due',
+    type: 'selection',
+    options: LEAD_TIME_OPTIONS,
+  },
+  {
+    width: 200,
+    dataKey: 'mid_pay_perc',
+    title: 'Mid Pay %',
+    type: 'number',
+  },
+  {
+    width: 200,
+    dataKey: 'paid_full_due',
+    title: 'Paid Full Due',
+    type: 'selection',
+    options: LEAD_TIME_OPTIONS,
+  },
+  {
+    width: 200,
+    dataKey: 'paid_full_perc',
+    title: 'Paid Full %',
+    type: 'number',
   },
 ];

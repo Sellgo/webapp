@@ -71,7 +71,7 @@ const Expenses = (props: Props) => {
         title="Sku Settings"
         bannerColor="#FD8373"
         textColor="#fff"
-        backUrl="/aistock/home"
+        backUrl="/aistock/order"
       />
       <div className={styles.settingsPageWrapper}>
         <PerfectStockSettingsNav settingsPages={SETTINGS_OPTIONS} />

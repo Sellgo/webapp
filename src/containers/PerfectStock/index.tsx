@@ -20,6 +20,7 @@ import LaunchExpensesSettings from './Home/Settings/LaunchExpenses';
 import MiscExpensesSettings from './Home/Settings/MiscExpenses';
 import DaysOfInventorySettings from './Inventory/Settings/DaysOfInventory';
 import SkuSettings from './Inventory/Settings/SkuSettings';
+import PaymentTermsSettings from './Inventory/Settings/PaymentTerms';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
@@ -292,6 +293,10 @@ const PerfectStock: React.FC<Props> = props => {
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
               />
+            </TabPanel>
+
+            <TabPanel>
+              <PaymentTermsSettings />
             </TabPanel>
 
             <TabPanel>
