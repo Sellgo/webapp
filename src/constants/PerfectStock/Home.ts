@@ -1,6 +1,7 @@
 import { SubChartSettings } from '../../interfaces/PerfectStock/Home';
 import { Column } from '../../interfaces/PerfectStock/Settings';
 import { getDateOnly } from '../../utils/date';
+import { REPEAT_OPTIONS } from './';
 
 /* All action types */
 export const actionTypes = {
@@ -51,39 +52,6 @@ export const TIME_RANGE_OPTIONS = [
 ];
 
 export const VALID_PRESET_TIME_RANGE = [7, 28, 91, 365, 730, 1095];
-
-const REPEAT_OPTIONS = [
-  {
-    key: 'Does not repeat',
-    value: 0,
-    text: 'Does not repeat',
-  },
-  {
-    key: 'Daily',
-    value: 1,
-    text: 'Daily',
-  },
-  {
-    key: 'Weekly',
-    value: 7,
-    text: 'Weekly',
-  },
-  {
-    key: 'Biweekly',
-    value: 14,
-    text: 'Biweekly',
-  },
-  {
-    key: 'Monthly',
-    value: 30,
-    text: 'Monthly',
-  },
-  {
-    key: 'Annually',
-    value: 365,
-    text: 'Annually',
-  },
-];
 
 export const GRANULARITIES = [
   {

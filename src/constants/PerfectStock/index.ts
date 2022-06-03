@@ -7,6 +7,7 @@ export const PERFECT_STOCK_PAGES = [
 
   /* Cash flow page settings */
   '/aistock/inventory-days-of-inventory-settings',
+  '/aistock/sku-settings',
   '/aistock/home-expenses-settings',
   '/aistock/home-ppc-settings',
   '/aistock/home-launch-settings',
@@ -16,6 +17,7 @@ export const PERFECT_STOCK_PAGES = [
 export const HIDE_TAB_PAGES = [
   '/aistock/create-order',
   '/aistock/inventory-days-of-inventory-settings',
+  '/aistock/sku-settings',
   '/aistock/home-expenses-settings',
   '/aistock/home-ppc-settings',
   '/aistock/home-launch-settings',
@@ -51,6 +53,11 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'Days of Inventory',
     desc: 'Set up days of inventory',
+    settings: '',
+  },
+  {
+    name: 'Sku Settings',
+    desc: 'Set up sku settings',
     settings: '',
   },
   {
@@ -142,3 +149,108 @@ export const getLeadTimeColor = (value: string) => {
   const leadTime = LEAD_TIME_OPTIONS.find(item => item.value === value);
   return leadTime ? leadTime.color : '';
 };
+
+export const SETTINGS_REPEAT_OPTIONS = [
+  {
+    key: 'Does not repeat',
+    value: 0,
+    text: 'Does not repeat',
+  },
+  {
+    key: 'Daily',
+    value: 1,
+    text: 'Daily',
+  },
+  {
+    key: 'Weekly',
+    value: 7,
+    text: 'Weekly',
+  },
+  {
+    key: 'Biweekly',
+    value: 14,
+    text: 'Biweekly',
+  },
+  {
+    key: 'Monthly',
+    value: 30,
+    text: 'Monthly',
+  },
+  {
+    key: 'Annually',
+    value: 365,
+    text: 'Annually',
+  },
+];
+
+export const REPEAT_OPTIONS = [
+  {
+    key: 'Does not repeat',
+    value: 0,
+    text: 'Does not repeat',
+  },
+  {
+    key: 'Daily',
+    value: 1,
+    text: 'Daily',
+  },
+  {
+    key: 'Weekly',
+    value: 7,
+    text: 'Weekly',
+  },
+  {
+    key: 'Biweekly',
+    value: 14,
+    text: 'Biweekly',
+  },
+  {
+    key: 'Monthly',
+    value: 30,
+    text: 'Monthly',
+  },
+  {
+    key: 'Annually',
+    value: 365,
+    text: 'Annually',
+  },
+];
+
+export const STATUS_OPTIONS = [
+  {
+    key: 'Active',
+    value: 'active',
+    text: 'Active',
+  },
+  {
+    key: 'Inactive',
+    value: 'inactive',
+    text: 'Inactive',
+  },
+];
+
+export const DIMENSION_UNIT_OPTIONS = [
+  {
+    key: 'cm',
+    value: 'cm',
+    text: 'cm',
+  },
+  {
+    key: 'inches',
+    value: 'inches',
+    text: 'inches',
+  },
+];
+
+export const WEIGHT_UNIT_OPTIONS = [
+  {
+    key: 'kg',
+    value: 'kg',
+    text: 'kg',
+  },
+  {
+    key: 'pounds',
+    value: 'pounds',
+    text: 'pounds',
+  },
+];

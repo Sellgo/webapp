@@ -34,6 +34,8 @@ export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
   '/aistock/home-expenses-settings',
   '/aistock/home-ppc-settings',
   '/aistock/home-launch-settings',
+  '/aistock/home-misc-settings',
+  '/aistock/sku-settings',
 ];
 
 export const HIDE_NAV_BAR_PATH_NAMES = [

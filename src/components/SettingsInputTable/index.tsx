@@ -21,15 +21,17 @@ interface Props {
   tableColumns: Column[];
   fetchData: () => any;
   handleSave: (payload: any) => any;
+  disableCreateNew?: boolean;
 }
 
 const SettingsInputTable = (props: Props) => {
-  const { tableColumns, fetchData, handleSave } = props;
+  const { tableColumns, fetchData, handleSave, disableCreateNew } = props;
 
   /* Set modal to open by default if its an new lead time */
   const [tableData, setTableData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showEmptyError, setShowEmptyError] = useState<boolean>(false);
+  const [tableRowsIndex, setTableRowsIndex] = useState<any>(0);
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -38,6 +40,16 @@ const SettingsInputTable = (props: Props) => {
       setIsLoading(false);
     });
   }, []);
+
+  React.useEffect(() => {
+    let newTableRowsIndex = {};
+    if (tableData.length !== 0) {
+      tableData.forEach((row: any, index: number) => {
+        newTableRowsIndex = { ...newTableRowsIndex, [row.id]: index };
+      });
+    }
+    setTableRowsIndex(newTableRowsIndex);
+  }, [tableData]);
 
   const handleDeleteRow = (id: number) => {
     const tableDataWithoutNewRows = tableData.filter((row: any) => {
@@ -58,15 +70,9 @@ const SettingsInputTable = (props: Props) => {
   };
 
   const handleEditRow = (key: string, value: any, id: number) => {
-    const newTableData = tableData.map(dataEntry => {
-      if (dataEntry.id === id) {
-        return {
-          ...dataEntry,
-          [key]: value,
-        };
-      }
-      return dataEntry;
-    });
+    const rowIndex = tableRowsIndex[id];
+    const newTableData = [...tableData];
+    newTableData[rowIndex][key] = value;
     setTableData(newTableData);
   };
 
@@ -83,7 +89,8 @@ const SettingsInputTable = (props: Props) => {
         const key = column.dataKey;
         if (
           dataEntry.status !== 'inactive' &&
-          (dataEntry[key] === null || dataEntry[key] === '' || dataEntry[key] === undefined)
+          (dataEntry[key] === null || dataEntry[key] === '' || dataEntry[key] === undefined) &&
+          !column.optional
         ) {
           hasError = true;
           return;
@@ -120,13 +127,16 @@ const SettingsInputTable = (props: Props) => {
             handleDeleteRow={handleDeleteRow}
             handleEditRow={handleEditRow}
             showError={showEmptyError}
+            disableDelete={disableCreateNew}
           />
 
           {/* Row to add new entries */}
           <div className={styles.buttonsRow}>
-            <button onClick={handleAddNewEntry} className={styles.addButton}>
-              + Add Expense
-            </button>
+            {!disableCreateNew && (
+              <button onClick={handleAddNewEntry} className={styles.addButton}>
+                + Add Expense
+              </button>
+            )}
             <ActionButton
               variant="secondary"
               type="purpleGradient"

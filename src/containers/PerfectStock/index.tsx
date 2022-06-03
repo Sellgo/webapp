@@ -19,6 +19,7 @@ import PpcExpensesSettings from './Home/Settings/PpcExpenses';
 import LaunchExpensesSettings from './Home/Settings/LaunchExpenses';
 import MiscExpensesSettings from './Home/Settings/MiscExpenses';
 import DaysOfInventorySettings from './Inventory/Settings/DaysOfInventory';
+import SkuSettings from './Inventory/Settings/SkuSettings';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
@@ -282,6 +283,15 @@ const PerfectStock: React.FC<Props> = props => {
 
             <TabPanel>
               <DaysOfInventorySettings />
+            </TabPanel>
+
+            <TabPanel>
+              <SkuSettings
+                cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
+                  cost => cost?.step_name === 'employee'
+                )}
+                updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
+              />
             </TabPanel>
 
             <TabPanel>

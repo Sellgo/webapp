@@ -4,6 +4,12 @@ type IOption = {
   value: string | number;
 };
 
+export interface NumberOptions {
+  isInteger?: boolean;
+  isPositiveOnly?: boolean;
+  thousandSeperate?: boolean;
+  allow5Decimal?: boolean;
+}
 export interface Column {
   title: string;
   dataKey: string;
@@ -12,4 +18,7 @@ export interface Column {
   append?: string;
   options?: IOption[];
   width: number;
+  disabled?: boolean;
+  optional?: boolean;
+  numberOptions?: NumberOptions;
 }

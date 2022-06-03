@@ -5,16 +5,19 @@ import axios from 'axios';
 import styles from './index.module.scss';
 
 /* Components */
+import ElevioArticle from '../../../../../components/ElevioArticle';
 import SettingsBanner from '../../../../../components/SettingsBanner';
 import SettingsInputTable from '../../../../../components/SettingsInputTable';
+import PerfectStockSettingsNav from '../../../../../components/PerfectStockSettingsNav';
 
 /* Constants */
 import { AppConfig } from '../../../../../config';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
 import { error, success } from '../../../../../utils/notifications';
-import ElevioArticle from '../../../../../components/ElevioArticle';
-import { PPC_SETTINGS_COLUMNS, SETTINGS_OPTIONS } from '../../../../../constants/PerfectStock/Home';
-import PerfectStockSettingsNav from '../../../../../components/PerfectStockSettingsNav';
+import {
+  SKU_SETTINGS_COLUMNS,
+  SETTINGS_OPTIONS,
+} from '../../../../../constants/PerfectStock/OrderPlanning';
 
 interface Props {
   cashflowOnboardingStatus: any;
@@ -29,11 +32,11 @@ const Expenses = (props: Props) => {
   const fetchExpenses = async () => {
     try {
       const { data } = await axios.get(
-        `${AppConfig.BASE_URL_API}sellers/${sellerID}/expense-configs`
+        `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchant-listing-configs`
       );
 
       if (data && data.length > 0) {
-        return data.filter((data: any) => data.type === 'ppc');
+        return data;
       }
     } catch (err) {
       console.error(err);
@@ -44,42 +47,14 @@ const Expenses = (props: Props) => {
   const handleSave = async (expenses: any[]) => {
     try {
       let patchExpenseStatus = true;
-      let postExpenseStatus = true;
-
-      /* New expenses */
-      const newExpenses = expenses.filter((expense: any) => {
-        return expense.isNew;
-      });
-      const newExpensesPayload = newExpenses.map((expense: any) => {
-        return {
-          ...expense,
-          id: null,
-          type: 'ppc',
-          status: 'active',
-        };
-      });
       const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/expense-configs`;
 
-      if (newExpensesPayload.length > 0) {
-        const { status } = await axios.post(url, { expense_configs: newExpensesPayload });
-        if (status !== 201) {
-          postExpenseStatus = false;
-        }
+      const { status } = await axios.patch(url, { expense_configs: expenses });
+      if (status !== 200) {
+        patchExpenseStatus = false;
       }
 
-      /* Patching current expenses */
-      const currentExpenses = expenses.filter((expense: any) => {
-        return !expense.isNew;
-      });
-
-      if (currentExpenses.length > 0) {
-        const { status } = await axios.patch(url, { expense_configs: currentExpenses });
-        if (status !== 200) {
-          patchExpenseStatus = false;
-        }
-      }
-
-      if (patchExpenseStatus && postExpenseStatus) {
+      if (patchExpenseStatus) {
         if (cashflowOnboardingStatus) {
           updateCashflowOnboardingStatus(cashflowOnboardingStatus.id, true);
         }
@@ -94,7 +69,7 @@ const Expenses = (props: Props) => {
   return (
     <main className={styles.leadTimeWrapper}>
       <SettingsBanner
-        title="PPC Expenses"
+        title="Sku Settings"
         bannerColor="#FD8373"
         textColor="#fff"
         backUrl="/aistock/home"
@@ -102,12 +77,13 @@ const Expenses = (props: Props) => {
       <div className={styles.settingsPageWrapper}>
         <PerfectStockSettingsNav settingsPages={SETTINGS_OPTIONS} />
         <div className={styles.settingsTableWrapper}>
-          <p>PPC Expenses Input</p>
+          <p>Sku Settings</p>
           <div className={styles.settingsTableRow}>
             <SettingsInputTable
-              tableColumns={PPC_SETTINGS_COLUMNS}
+              tableColumns={SKU_SETTINGS_COLUMNS}
               fetchData={fetchExpenses}
               handleSave={handleSave}
+              disableCreateNew
             />
             <div className={styles.instructionsBox}>
               <span>Step-By-Step Guide</span>

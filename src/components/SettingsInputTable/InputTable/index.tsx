@@ -19,17 +19,23 @@ interface Props {
   handleEditRow: (key: string, value: any, id: number) => void;
   handleDeleteRow: (id: number) => void;
   showError?: boolean;
+  disableDelete?: boolean;
 }
 
 const InputTable = (props: Props) => {
-  const { data, tableColumns, handleEditRow, handleDeleteRow, showError = false } = props;
-
+  const {
+    data,
+    tableColumns,
+    handleEditRow,
+    handleDeleteRow,
+    showError = false,
+    disableDelete,
+  } = props;
   return (
     <section className={styles.inputTable}>
       <Table
-        // loading={false}
         data={data}
-        height={300}
+        height={400}
         hover={false}
         rowHeight={60}
         headerHeight={55}
@@ -47,6 +53,7 @@ const InputTable = (props: Props) => {
                 prependMessage={column.prepend}
                 appendMessage={column.append}
                 isLarge
+                disabled={column.disabled}
               />
             );
           } else if (column.type === 'number') {
@@ -58,8 +65,11 @@ const InputTable = (props: Props) => {
                 handleChange={handleEditRow}
                 showEmptyError={showError}
                 isNumber
-                isPositiveOnly
+                isPositiveOnly={column.numberOptions?.isPositiveOnly}
+                isInteger={column.numberOptions?.isInteger}
+                allow5Decimal={column.numberOptions?.allow5Decimal}
                 isLarge
+                disabled={column.disabled}
               />
             );
           } else if (column.type === 'date') {
@@ -70,6 +80,7 @@ const InputTable = (props: Props) => {
                 showEmptyError={showError}
                 prependMessage={column.prepend}
                 appendMessage={column.append}
+                disabled={column.disabled}
               />
             );
           } else {
@@ -96,17 +107,19 @@ const InputTable = (props: Props) => {
           );
         })}
         {/* Delete Cell */}
-        <Table.Column flexGrow={1} verticalAlign="middle" align="right">
-          <Table.HeaderCell />
-          <DeleteCell
-            dataKey="id"
-            deleteMessage="Remove this entry?"
-            handleDelete={handleDeleteRow}
-          />
-        </Table.Column>
+        {!disableDelete && (
+          <Table.Column flexGrow={1} verticalAlign="middle" align="right">
+            <Table.HeaderCell />
+            <DeleteCell
+              dataKey="id"
+              deleteMessage="Remove this entry?"
+              handleDelete={handleDeleteRow}
+            />
+          </Table.Column>
+        )}
       </Table>
     </section>
   );
 };
 
-export default InputTable;
+export default React.memo(InputTable);

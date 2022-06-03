@@ -19,6 +19,7 @@ interface Props extends RowCell {
   showEmptyError?: boolean;
   disabled?: boolean;
   isLarge?: boolean;
+  allow5Decimal?: boolean;
 }
 
 const EditValueCell = (props: Props) => {
@@ -29,6 +30,7 @@ const EditValueCell = (props: Props) => {
     appendMessage,
     isNumber,
     isPositiveOnly,
+    allow5Decimal,
     isInteger,
     showEmptyError,
     disabled,
@@ -55,6 +57,8 @@ const EditValueCell = (props: Props) => {
           className={`${styles.inputField} ${!isLarge ? styles.inputField__small : ''}`}
           isDate={dataKey === 'start_date' || dataKey === 'end_date'}
           isNumber={isNumber}
+          thousandSeperate={isNumber}
+          allow5Decimal={allow5Decimal}
           error={!disabled && showEmptyError && !rowData[dataKey]}
           disabled={disabled}
         />
