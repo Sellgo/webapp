@@ -65,7 +65,11 @@ const PaymentTermSelection = (props: Props) => {
     }
   };
 
-  const paymentTermOptions = paymentTermGroups.map(paymentTerm => ({
+  const filteredPaymentTermGroups = paymentTermGroups.filter(
+    (paymentTerm: PaymentTerm) => paymentTerm.status === 'active'
+  );
+
+  const paymentTermOptions = filteredPaymentTermGroups.map(paymentTerm => ({
     key: paymentTerm.id?.toString() || '',
     value: paymentTerm.id?.toString() || '',
     text: paymentTerm.name,

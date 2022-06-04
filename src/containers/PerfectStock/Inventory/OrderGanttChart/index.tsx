@@ -278,6 +278,7 @@ const OrderGanttChart = (props: Props) => {
       const end = new Date(start.getTime() + leadTimeDuration * 24 * 60 * 60 * 1000);
       const name = purchaseOrder.number;
       const is_included = purchaseOrder.is_included;
+      const paymentTermId = purchaseOrder.order_payment_term_id;
       const prioritySku = purchaseOrder.merchant_listings?.find(
         (merchantListing: any) => merchantListing.is_priority
       );
@@ -301,6 +302,7 @@ const OrderGanttChart = (props: Props) => {
         end,
         name,
         is_included,
+        order_payment_term_id: paymentTermId,
         vendorId,
         prioritySku: prioritySku?.sku,
         subTasks: subTasks || [],
@@ -541,6 +543,7 @@ const OrderGanttChart = (props: Props) => {
               <SetPaymentTermPopup
                 handleCancel={() => setIsSettingPaymentTerm(false)}
                 prioritySkuDetails={paymentTermSkuDetails}
+                refreshPurchaseOrders={fetchPurchaseOrders}
                 handleUpdatePaymentTermSku={updatePurchaseOrder}
               />
             }

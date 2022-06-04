@@ -22,11 +22,19 @@ interface Props {
   prioritySkuDetails: any;
   handleUpdatePaymentTermSku: (payload: UpdatePurchaseOrderPayload) => void;
   handleCancel: () => void;
+  refreshPurchaseOrders: () => void;
 }
 
 const SetPaymentTermPopup = (props: Props) => {
-  const { prioritySkuDetails, handleCancel, handleUpdatePaymentTermSku } = props;
-  const [selectedPaymentTermId, setSelectedPaymentTermId] = React.useState<string>('');
+  const {
+    prioritySkuDetails,
+    handleCancel,
+    handleUpdatePaymentTermSku,
+    refreshPurchaseOrders,
+  } = props;
+  const [selectedPaymentTermId, setSelectedPaymentTermId] = React.useState<string>(
+    prioritySkuDetails.order_payment_term_id.toString()
+  );
   const [paymentTermGroups, setPaymentTermGroups] = React.useState<PaymentTerm[]>([]);
 
   const fetchPaymentTermGroups = async () => {
@@ -39,7 +47,7 @@ const SetPaymentTermPopup = (props: Props) => {
         setPaymentTermGroups(data);
         const defaultPaymentTerm = data.find((leadTime: PaymentTerm) => leadTime.is_default);
         if (defaultPaymentTerm) {
-          setSelectedPaymentTermId(defaultPaymentTerm.id);
+          setSelectedPaymentTermId(defaultPaymentTerm.id.toString());
         }
       }
     } catch (err) {
@@ -51,7 +59,14 @@ const SetPaymentTermPopup = (props: Props) => {
     fetchPaymentTermGroups();
   }, []);
 
-  const paymentTermOptions = paymentTermGroups.map(paymentTerm => ({
+  React.useEffect(() => {
+    setSelectedPaymentTermId(prioritySkuDetails.order_payment_term_id.toString());
+  }, [prioritySkuDetails.order_payment_term_id, paymentTermGroups]);
+
+  const filteredPaymentTerms = paymentTermGroups.filter(
+    paymentTerm => paymentTerm.status === 'active'
+  );
+  const paymentTermOptions = filteredPaymentTerms.map(paymentTerm => ({
     key: paymentTerm.id?.toString() || '',
     value: paymentTerm.id?.toString() || '',
     text: paymentTerm.name,
@@ -63,6 +78,7 @@ const SetPaymentTermPopup = (props: Props) => {
       id: prioritySkuDetails.id,
       order_payment_term_id: parseInt(selectedPaymentTermId),
     });
+    refreshPurchaseOrders();
     handleCancel();
   };
 

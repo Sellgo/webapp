@@ -271,7 +271,6 @@ const LeadTimeGroup = (props: Props) => {
                 type="purpleGradient"
                 size="md"
                 onClick={() => handleSave(true)}
-                disabled={showEmptyError}
               >
                 Save
               </ActionButton>
