@@ -33,7 +33,7 @@ const SetPaymentTermPopup = (props: Props) => {
     refreshPurchaseOrders,
   } = props;
   const [selectedPaymentTermId, setSelectedPaymentTermId] = React.useState<string>(
-    prioritySkuDetails.order_payment_term_id.toString()
+    prioritySkuDetails.order_payment_term_id?.toString() || '-1'
   );
   const [paymentTermGroups, setPaymentTermGroups] = React.useState<PaymentTerm[]>([]);
 
@@ -60,7 +60,7 @@ const SetPaymentTermPopup = (props: Props) => {
   }, []);
 
   React.useEffect(() => {
-    setSelectedPaymentTermId(prioritySkuDetails.order_payment_term_id.toString());
+    setSelectedPaymentTermId(prioritySkuDetails.order_payment_term_id?.toString());
   }, [prioritySkuDetails.order_payment_term_id, paymentTermGroups]);
 
   const filteredPaymentTerms = paymentTermGroups.filter(
@@ -72,11 +72,18 @@ const SetPaymentTermPopup = (props: Props) => {
     text: paymentTerm.name,
   }));
 
+  paymentTermOptions.push({
+    key: 'None',
+    value: '-1',
+    text: 'None',
+  });
+
   const handleSubmit = async () => {
+    const payloadPaymentTermId = parseInt(selectedPaymentTermId);
     /* Validation Checks */
     await handleUpdatePaymentTermSku({
       id: prioritySkuDetails.id,
-      order_payment_term_id: parseInt(selectedPaymentTermId),
+      order_payment_term_id: payloadPaymentTermId === -1 ? null : payloadPaymentTermId,
     });
     refreshPurchaseOrders();
     handleCancel();

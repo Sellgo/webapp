@@ -50,7 +50,7 @@ export interface GanttChartPurchaseOrder {
   subTasks?: GanttChartPurchaseOrder[];
   prioritySku?: string;
   is_included?: boolean;
-  order_payment_term_id?: number;
+  order_payment_term_id?: number | null;
 }
 
 export interface UpdatePurchaseOrderPayload {
@@ -59,7 +59,7 @@ export interface UpdatePurchaseOrderPayload {
   status?: 'active' | 'inactive';
   is_included?: boolean;
   po_sku_id?: number;
-  order_payment_term_id?: number;
+  order_payment_term_id?: number | null;
   quantity?: number;
   manual_quantity?: number;
   quantity_mode?: string;

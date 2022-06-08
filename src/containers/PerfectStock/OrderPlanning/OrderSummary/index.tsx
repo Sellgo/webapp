@@ -177,7 +177,10 @@ const OrderSummary = (props: Props) => {
       </div>
       <div className={styles.statWrapper}>
         <TooltipWrapper tooltipKey="Total Carton Gross Weight">
-          <span className={styles.statHeader}>Total Gross Weight</span>
+          <span className={styles.statHeader}>
+            Total <br />
+            Gross Weight
+          </span>
         </TooltipWrapper>
         <span className={`${styles.stat} ${styles.stat__double}`}>
           {showNAIfZeroOrNull(totalWeightKg, `${formatDecimal(totalWeightKg)} kg`)}
@@ -212,7 +215,10 @@ const OrderSummary = (props: Props) => {
       <div className={`${styles.statWrapper} ${styles.statWrapper_borderless}`} />
       <div className={styles.statWrapper}>
         <TooltipWrapper tooltipKey="Total Cost w/o Shipping">
-          <span className={styles.statHeader}>Total cost w/o Shipping</span>
+          <span className={styles.statHeader}>
+            Total cost <br />
+            w/o Shipping
+          </span>
         </TooltipWrapper>
         <span className={styles.stat}>
           {showNAIfZeroOrNull(totalCost, `$${formatDecimal(totalCost)}`)}
@@ -220,7 +226,10 @@ const OrderSummary = (props: Props) => {
       </div>
       <div className={styles.statWrapper}>
         <TooltipWrapper tooltipKey="Estimated Shipping Cost">
-          <span className={styles.statHeader}>Estimated Shipping Cost</span>
+          <span className={styles.statHeader}>
+            Estimated <br />
+            Shipping Cost
+          </span>
         </TooltipWrapper>
         <span className={styles.stat}>
           {showNAIfZeroOrNull(totalShippingCost, `$${formatDecimal(totalShippingCost)}`)}
@@ -230,7 +239,9 @@ const OrderSummary = (props: Props) => {
       </div>
       <div className={styles.statWrapper}>
         <TooltipWrapper tooltipKey="Total Cost with Shipping">
-          <span className={styles.statHeader}>Total cost with Shipping</span>
+          <span className={styles.statHeader}>
+            Total cost <br /> with Shipping
+          </span>
         </TooltipWrapper>
         <span className={styles.stat}>
           {showNAIfZeroOrNull(totalCostWithShipping, `$${formatDecimal(totalCostWithShipping)}`)}
