@@ -96,7 +96,7 @@ const Expenses = (props: Props) => {
       let patchExpenseStatus = true;
       const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/merchant-listing-configs`;
       const { status } = await axios.patch(url, {
-        update_shipping_cost: toUpdateShipingCosts,
+        update_shipping_cost: isDimensionsUpdated && toUpdateShipingCosts,
         merchant_listing_configs: expensesToBeSaved,
       });
       if (status !== 200) {
