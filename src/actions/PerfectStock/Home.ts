@@ -4,11 +4,11 @@ import axios from 'axios';
 import { AppConfig } from '../../config';
 
 /* Constants */
-import { actionTypes } from '../../constants/PerfectStock/Home';
+import { actionTypes } from '../../constants/PerfectStock/Cashflow';
 
 /* Interfaces */
 import { SubChartSettings, Chart } from '../../interfaces/PerfectStock/Home';
-import { getSubChartSettings } from '../../selectors/PerfectStock/Home';
+import { getSubChartSettings } from '../../selectors/PerfectStock/Cashflow';
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';

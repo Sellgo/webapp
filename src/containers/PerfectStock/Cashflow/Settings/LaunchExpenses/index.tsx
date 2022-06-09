@@ -14,7 +14,10 @@ import PerfectStockSettingsNav from '../../../../../components/PerfectStockSetti
 import { AppConfig } from '../../../../../config';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
 import { error, success } from '../../../../../utils/notifications';
-import { PPC_SETTINGS_COLUMNS, SETTINGS_OPTIONS } from '../../../../../constants/PerfectStock/Home';
+import {
+  PPC_SETTINGS_COLUMNS,
+  SETTINGS_OPTIONS,
+} from '../../../../../constants/PerfectStock/Cashflow';
 
 interface Props {
   cashflowOnboardingStatus: any;
@@ -33,7 +36,7 @@ const Expenses = (props: Props) => {
       );
 
       if (data && data.length > 0) {
-        return data.filter((data: any) => data.type === 'misc');
+        return data.filter((data: any) => data.type === 'launch');
       }
     } catch (err) {
       console.error(err);
@@ -54,7 +57,7 @@ const Expenses = (props: Props) => {
         return {
           ...expense,
           id: null,
-          type: 'misc',
+          type: 'launch',
           status: 'active',
         };
       });
@@ -94,7 +97,7 @@ const Expenses = (props: Props) => {
   return (
     <main className={styles.leadTimeWrapper}>
       <SettingsBanner
-        title="Misc Expenses"
+        title="Launch Expenses"
         bannerColor="#FD8373"
         textColor="#fff"
         backUrl="/aistock/home"
@@ -102,7 +105,7 @@ const Expenses = (props: Props) => {
       <div className={styles.settingsPageWrapper}>
         <PerfectStockSettingsNav settingsPages={SETTINGS_OPTIONS} />
         <div className={styles.settingsTableWrapper}>
-          <p>Misc Expenses Input</p>
+          <p>PPC Expenses Input</p>
           <div className={styles.settingsTableRow}>
             <SettingsInputTable
               tableColumns={PPC_SETTINGS_COLUMNS}

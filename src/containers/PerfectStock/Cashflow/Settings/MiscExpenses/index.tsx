@@ -7,14 +7,17 @@ import styles from './index.module.scss';
 /* Components */
 import SettingsBanner from '../../../../../components/SettingsBanner';
 import SettingsInputTable from '../../../../../components/SettingsInputTable';
+import ElevioArticle from '../../../../../components/ElevioArticle';
+import PerfectStockSettingsNav from '../../../../../components/PerfectStockSettingsNav';
 
 /* Constants */
 import { AppConfig } from '../../../../../config';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
 import { error, success } from '../../../../../utils/notifications';
-import ElevioArticle from '../../../../../components/ElevioArticle';
-import { PPC_SETTINGS_COLUMNS, SETTINGS_OPTIONS } from '../../../../../constants/PerfectStock/Home';
-import PerfectStockSettingsNav from '../../../../../components/PerfectStockSettingsNav';
+import {
+  PPC_SETTINGS_COLUMNS,
+  SETTINGS_OPTIONS,
+} from '../../../../../constants/PerfectStock/Cashflow';
 
 interface Props {
   cashflowOnboardingStatus: any;
@@ -33,7 +36,7 @@ const Expenses = (props: Props) => {
       );
 
       if (data && data.length > 0) {
-        return data.filter((data: any) => data.type === 'ppc');
+        return data.filter((data: any) => data.type === 'misc');
       }
     } catch (err) {
       console.error(err);
@@ -54,7 +57,7 @@ const Expenses = (props: Props) => {
         return {
           ...expense,
           id: null,
-          type: 'ppc',
+          type: 'misc',
           status: 'active',
         };
       });
@@ -94,7 +97,7 @@ const Expenses = (props: Props) => {
   return (
     <main className={styles.leadTimeWrapper}>
       <SettingsBanner
-        title="PPC Expenses"
+        title="Misc Expenses"
         bannerColor="#FD8373"
         textColor="#fff"
         backUrl="/aistock/home"
@@ -102,7 +105,7 @@ const Expenses = (props: Props) => {
       <div className={styles.settingsPageWrapper}>
         <PerfectStockSettingsNav settingsPages={SETTINGS_OPTIONS} />
         <div className={styles.settingsTableWrapper}>
-          <p>PPC Expenses Input</p>
+          <p>Misc Expenses Input</p>
           <div className={styles.settingsTableRow}>
             <SettingsInputTable
               tableColumns={PPC_SETTINGS_COLUMNS}

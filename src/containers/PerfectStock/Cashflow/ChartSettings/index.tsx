@@ -16,12 +16,12 @@ import {
   GRANULARITIES,
   getGranularityLabel,
   getGranularityValue,
-} from '../../../../constants/PerfectStock/Home';
+} from '../../../../constants/PerfectStock/Cashflow';
 
 /* Types */
 import { SubChartSettings } from '../../../../interfaces/PerfectStock/Home';
 import { fetchSubCharts, setSubChartSettings } from '../../../../actions/PerfectStock/Home';
-import { getSubChartSettings } from '../../../../selectors/PerfectStock/Home';
+import { getSubChartSettings } from '../../../../selectors/PerfectStock/Cashflow';
 import { getDateOnly } from '../../../../utils/date';
 
 interface Props {

@@ -3,7 +3,7 @@ import Highcharts from 'highcharts';
 import { Dimmer, Loader } from 'semantic-ui-react';
 
 /* Constants */
-import { CASH_FLOW_CHART_TITLES } from '../../../../constants/PerfectStock/Home';
+import { CASH_FLOW_CHART_TITLES } from '../../../../constants/PerfectStock/Cashflow';
 
 /* Types */
 import { GraphDataSeries } from '../../../../interfaces/PerfectStock/SalesProjection';

@@ -32,7 +32,7 @@ import { ReactComponent as ExclaimationIcon } from '../../../../../assets/images
 
 /* Selectors */
 import { getTplActiveVendor } from '../../../../../selectors/PerfectStock/Tpl';
-import { getCashflowOnboardingStatus } from '../../../../../selectors/PerfectStock/Home';
+import { getCashflowOnboardingStatus } from '../../../../../selectors/PerfectStock/Cashflow';
 
 interface Props {
   createUpdateTplVendor: (payload: TplVendor) => void;

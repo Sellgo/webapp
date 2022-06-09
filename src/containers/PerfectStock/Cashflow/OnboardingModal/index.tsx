@@ -9,7 +9,7 @@ import { ReactComponent as GreenCircle } from '../../../../assets/images/greenCh
 import { ReactComponent as RedCross } from '../../../../assets/images/redCrossCircle.svg';
 
 /* Constants */
-import { ONBOARDING_STATUS_MAPPING } from '../../../../constants/PerfectStock/Home';
+import { ONBOARDING_STATUS_MAPPING } from '../../../../constants/PerfectStock/Cashflow';
 
 /* Components */
 import BoxHeader from '../../../../components/BoxHeader';

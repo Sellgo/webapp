@@ -20,7 +20,12 @@ import {
 } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 /* Utils */
-import { formatNumber, showNAIfZeroOrNull, formatDecimal } from '../../../../utils/format';
+import {
+  formatNumber,
+  showNAIfZeroOrNull,
+  formatDecimal,
+  printShortDate,
+} from '../../../../utils/format';
 
 /* Components */
 import TooltipWrapper from '../../../../components/TooltipWrapper';
@@ -37,7 +42,7 @@ interface Props {
 
 const OrderSummary = (props: Props) => {
   const { activeOrder, inventoryTableResults, updatePurchaseOrder } = props;
-
+  console.log(activeOrder);
   const handleAutoCalculateShipping = () => {
     updatePurchaseOrder({
       id: activeOrder.id,
@@ -156,9 +161,17 @@ const OrderSummary = (props: Props) => {
           {showNAIfZeroOrNull(totalUnits, formatNumber(totalUnits))}
         </span>
       </div>
+      {/* <div className={styles.statWrapper}>
+        <span className={styles.statHeader}>Total <br/> Overstock</span>
+        <span className={styles.stat}>
+          {showNAIfZeroOrNull(totalOverstock, `$${formatDecimal(totalOverstock)}`)}
+        </span>
+      </div> */}
       <div className={styles.statWrapper}>
         <TooltipWrapper tooltipKey="Total Cartons">
-          <span className={styles.statHeader}>Cartons</span>
+          <span className={styles.statHeader}>
+            Total <br /> Cartons
+          </span>
         </TooltipWrapper>
         <span className={styles.stat}>
           {showNAIfZeroOrNull(totalCartons, formatNumber(totalCartons))}
@@ -189,6 +202,65 @@ const OrderSummary = (props: Props) => {
           {showNAIfZeroOrNull(totalWeightLbs, `${formatDecimal(totalWeightLbs)} lbs`)}
         </span>
       </div>
+      <div className={styles.statWrapper}>
+        <TooltipWrapper tooltipKey="Total Cost w/o Shipping">
+          <span className={styles.statHeader}>
+            Total cost <br />
+            w/o Shipping
+          </span>
+        </TooltipWrapper>
+        <span className={styles.stat}>
+          {showNAIfZeroOrNull(totalCost, `$${formatDecimal(totalCost)}`)}
+        </span>
+      </div>
+      <div className={styles.statWrapper}>
+        <TooltipWrapper tooltipKey="Deposit">
+          <span className={styles.statHeader}>Deposit</span>
+        </TooltipWrapper>
+        {activeOrder.deposit_date && (
+          <span className={styles.date}>
+            ETA {printShortDate(new Date(activeOrder.deposit_date))}
+          </span>
+        )}
+        <span className={styles.stat}>
+          {showNAIfZeroOrNull(
+            activeOrder.deposit_amount,
+            `$${formatDecimal(activeOrder.deposit_amount)}`
+          )}
+        </span>
+      </div>
+      <div className={styles.statWrapper}>
+        <TooltipWrapper tooltipKey="Mid Pay">
+          <span className={styles.statHeader}>Mid Pay</span>
+        </TooltipWrapper>
+        {activeOrder.mid_pay_date && (
+          <span className={styles.date}>
+            ETA {printShortDate(new Date(activeOrder.mid_pay_date))}
+          </span>
+        )}
+        <span className={styles.stat}>
+          {showNAIfZeroOrNull(
+            activeOrder.mid_pay_amount,
+            `$${formatDecimal(activeOrder.mid_pay_amount)}`
+          )}
+        </span>
+      </div>
+      <div className={styles.statWrapper}>
+        <TooltipWrapper tooltipKey="Paid In Full">
+          <span className={styles.statHeader}>Paid In Full</span>
+        </TooltipWrapper>
+        {activeOrder.paid_full_date && (
+          <span className={styles.date}>
+            ETA {printShortDate(new Date(activeOrder.paid_full_date))}
+          </span>
+        )}
+        <span className={styles.stat}>
+          {showNAIfZeroOrNull(
+            activeOrder.paid_full_amount,
+            `$${formatDecimal(activeOrder.paid_full_amount)}`
+          )}
+        </span>
+      </div>
       {/* <div className={styles.statWrapper}>
         <span className={styles.statHeader}>Cost per unit</span>
         <span className={styles.stat}>
@@ -210,20 +282,9 @@ const OrderSummary = (props: Props) => {
           )}
         </span>
       </div> */}
-      <div className={`${styles.statWrapper}`} />
+      {/* <div className={`${styles.statWrapper}`} />
       <div className={`${styles.statWrapper} ${styles.statWrapper_borderless}`} />
-      <div className={`${styles.statWrapper} ${styles.statWrapper_borderless}`} />
-      <div className={styles.statWrapper}>
-        <TooltipWrapper tooltipKey="Total Cost w/o Shipping">
-          <span className={styles.statHeader}>
-            Total cost <br />
-            w/o Shipping
-          </span>
-        </TooltipWrapper>
-        <span className={styles.stat}>
-          {showNAIfZeroOrNull(totalCost, `$${formatDecimal(totalCost)}`)}
-        </span>
-      </div>
+      <div className={`${styles.statWrapper} ${styles.statWrapper_borderless}`} /> */}
       <div className={styles.statWrapper}>
         <TooltipWrapper tooltipKey="Estimated Shipping Cost">
           <span className={styles.statHeader}>

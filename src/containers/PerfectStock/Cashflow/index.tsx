@@ -20,7 +20,7 @@ import {
   getMainChart,
   getSubCharts,
   getSubChartSettings,
-} from '../../../selectors/PerfectStock/Home';
+} from '../../../selectors/PerfectStock/Cashflow';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -33,7 +33,7 @@ import NotificationBanner from '../../../components/NotificationBanner';
 import OnboardingModal from './OnboardingModal';
 
 /* Constants */
-import { ONBOARDING_STATUS_MAPPING } from '../../../constants/PerfectStock/Home';
+import { ONBOARDING_STATUS_MAPPING } from '../../../constants/PerfectStock/Cashflow';
 
 /* Assets */
 import { ReactComponent as RedCross } from '../../../assets/images/redCrossCircle.svg';

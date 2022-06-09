@@ -49,7 +49,7 @@ import {
 } from '../../../../constants/PerfectStock/OrderPlanning';
 
 /* Selectors */
-import { getCashflowOnboardingStatus } from '../../../../selectors/PerfectStock/Home';
+import { getCashflowOnboardingStatus } from '../../../../selectors/PerfectStock/Cashflow';
 import { sellerIDSelector } from '../../../../selectors/Seller';
 
 interface Props {

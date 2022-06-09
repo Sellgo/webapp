@@ -17,7 +17,7 @@ import { error, success } from '../../../../../utils/notifications';
 import {
   EXPENSES_SETTINGS_COLUMNS,
   SETTINGS_OPTIONS,
-} from '../../../../../constants/PerfectStock/Home';
+} from '../../../../../constants/PerfectStock/Cashflow';
 
 interface Props {
   cashflowOnboardingStatus: any;

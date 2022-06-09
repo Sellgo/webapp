@@ -10,7 +10,7 @@ import {
   GRANULARITIES,
   getGranularityLabel,
   getGranularityValue,
-} from '../../../../constants/PerfectStock/Home';
+} from '../../../../constants/PerfectStock/Cashflow';
 
 /* Styling */
 import styles from './index.module.scss';

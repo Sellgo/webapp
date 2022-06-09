@@ -1,7 +1,7 @@
 import { AnyAction } from 'redux';
 import { setIn } from '../../utils/immutablity';
 
-import { actionTypes, DEFAULT_SUB_CHART_SETTINGS } from '../../constants/PerfectStock/Home';
+import { actionTypes, DEFAULT_SUB_CHART_SETTINGS } from '../../constants/PerfectStock/Cashflow';
 
 const INITIAL_STATE = {
   isLoadingMainChart: false,

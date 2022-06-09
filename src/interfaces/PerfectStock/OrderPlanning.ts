@@ -27,6 +27,12 @@ export interface PurchaseOrder {
   is_included: boolean;
   purchase_order_template_id: number;
   vendor_id: number | null;
+  deposit_amount?: number;
+  deposit_date?: string;
+  mid_pay_amount?: number;
+  mid_pay_date?: string;
+  paid_full_amount?: number;
+  paid_full_date?: string;
 }
 
 export interface DraftOrderTemplate {

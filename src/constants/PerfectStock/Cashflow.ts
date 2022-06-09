@@ -1,7 +1,7 @@
 import { SubChartSettings } from '../../interfaces/PerfectStock/Home';
 import { Column } from '../../interfaces/PerfectStock/Settings';
 import { getDateOnly } from '../../utils/date';
-import { REPEAT_OPTIONS } from './';
+import { REPEAT_OPTIONS } from '.';
 
 /* All action types */
 export const actionTypes = {

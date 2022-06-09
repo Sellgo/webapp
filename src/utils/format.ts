@@ -288,3 +288,11 @@ export const isThousandSeperated = (value: string) => {
   const numberOfCommas = (value.toString().match(/,/g) || []).length;
   return numberOfCommas === numberOfCommasToBeIncluded;
 };
+
+/* Print date in MM/DD/YY, year in 2digits */
+export const printShortDate = (date: Date) => {
+  return `${date.getMonth() + 1}/${date.getDate() + 1}/${date
+    .getFullYear()
+    .toString()
+    .substr(2)}`;
+};

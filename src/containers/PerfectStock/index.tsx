@@ -13,10 +13,10 @@ import SalesProjection from './SalesProjection';
 import MigratingDisplay from './MigratingDisplay';
 import PreMigration from './PreMigration';
 import TPL from './TPL';
-import Home from './Home';
-import EmployeeExpensesSettings from './Home/Settings/EmployeeExpenses';
-import PpcExpensesSettings from './Home/Settings/PpcExpenses';
-import MiscExpensesSettings from './Home/Settings/MiscExpenses';
+import Home from './Cashflow';
+import EmployeeExpensesSettings from './Cashflow/Settings/EmployeeExpenses';
+import PpcExpensesSettings from './Cashflow/Settings/PpcExpenses';
+import MiscExpensesSettings from './Cashflow/Settings/MiscExpenses';
 import DaysOfInventorySettings from './Inventory/Settings/DaysOfInventory';
 import SkuSettings from './Inventory/Settings/SkuSettings';
 import PaymentTermsSettings from './Inventory/Settings/PaymentTerms';
@@ -56,7 +56,7 @@ import orderPlanningEditOnboarding from '../../assets/onboardingResources/Perfec
 
 /* Selectors */
 import { getSellerSubscription } from '../../selectors/Subscription';
-import { getCashflowOnboardingStatus } from '../../selectors/PerfectStock/Home';
+import { getCashflowOnboardingStatus } from '../../selectors/PerfectStock/Cashflow';
 
 /* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
