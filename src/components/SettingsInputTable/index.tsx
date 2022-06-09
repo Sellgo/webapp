@@ -21,11 +21,20 @@ interface Props {
   tableColumns: Column[];
   fetchData: () => any;
   handleSave: (payload: any) => any;
+  handleEditDataRow?: (key: string, value: any, id: number) => any;
   disableCreateNew?: boolean;
+  disableReload?: boolean;
 }
 
 const SettingsInputTable = (props: Props) => {
-  const { tableColumns, fetchData, handleSave, disableCreateNew } = props;
+  const {
+    tableColumns,
+    fetchData,
+    handleSave,
+    disableCreateNew,
+    disableReload,
+    handleEditDataRow,
+  } = props;
 
   /* Set modal to open by default if its an new lead time */
   const [tableData, setTableData] = useState<any[]>([]);
@@ -70,6 +79,9 @@ const SettingsInputTable = (props: Props) => {
   };
 
   const handleEditRow = (key: string, value: any, id: number) => {
+    if (handleEditDataRow) {
+      handleEditDataRow(key, value, id);
+    }
     const rowIndex = tableRowsIndex[id];
     const newTableData = [...tableData];
     newTableData[rowIndex][key] = value;
@@ -104,11 +116,16 @@ const SettingsInputTable = (props: Props) => {
       return;
     }
 
-    setIsLoading(true);
+    if (!disableReload) {
+      setIsLoading(true);
+    }
     await handleSave(tableData);
-    const data = await fetchData();
-    setTableData(data);
-    setIsLoading(false);
+
+    if (!disableReload) {
+      const data = await fetchData();
+      setTableData(data);
+      setIsLoading(false);
+    }
   };
 
   return (

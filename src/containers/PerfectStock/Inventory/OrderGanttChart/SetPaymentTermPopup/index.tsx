@@ -20,18 +20,13 @@ import { AppConfig } from '../../../../../config';
 
 interface Props {
   prioritySkuDetails: any;
-  handleUpdatePaymentTermSku: (payload: UpdatePurchaseOrderPayload) => void;
+  handleUpdatePaymentTermSku: (payload: UpdatePurchaseOrderPayload, refresh?: boolean) => void;
   handleCancel: () => void;
   refreshPurchaseOrders: () => void;
 }
 
 const SetPaymentTermPopup = (props: Props) => {
-  const {
-    prioritySkuDetails,
-    handleCancel,
-    handleUpdatePaymentTermSku,
-    refreshPurchaseOrders,
-  } = props;
+  const { prioritySkuDetails, handleCancel, handleUpdatePaymentTermSku } = props;
   const [selectedPaymentTermId, setSelectedPaymentTermId] = React.useState<string>(
     prioritySkuDetails.order_payment_term_id?.toString() || '-1'
   );
@@ -81,11 +76,13 @@ const SetPaymentTermPopup = (props: Props) => {
   const handleSubmit = async () => {
     const payloadPaymentTermId = parseInt(selectedPaymentTermId);
     /* Validation Checks */
-    await handleUpdatePaymentTermSku({
-      id: prioritySkuDetails.id,
-      order_payment_term_id: payloadPaymentTermId === -1 ? null : payloadPaymentTermId,
-    });
-    refreshPurchaseOrders();
+    handleUpdatePaymentTermSku(
+      {
+        id: prioritySkuDetails.id,
+        order_payment_term_id: payloadPaymentTermId === -1 ? null : payloadPaymentTermId,
+      },
+      true
+    );
     handleCancel();
   };
 

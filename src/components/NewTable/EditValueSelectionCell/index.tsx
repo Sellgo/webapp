@@ -20,6 +20,7 @@ interface Props extends RowCell {
   inputWidth?: number;
   align?: 'left' | 'center' | 'right';
   showEmptyError?: boolean;
+  disabled?: boolean;
 }
 
 /* ========================================================================== */
@@ -34,6 +35,7 @@ const EditValueSelectionCell = (props: Props) => {
     inputWidth = 150,
     align = 'center',
     showEmptyError,
+    disabled,
     ...otherProps
   } = props;
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
@@ -62,6 +64,7 @@ const EditValueSelectionCell = (props: Props) => {
               className={`${styles.selectionButton}
                 ${showEmptyError && !rowData[dataKey] ? styles.selectionButton__error : ''}`}
               style={{ width: inputWidth }}
+              disabled={disabled}
             >
               <span>{selectedDisplayText || ''}</span>
               <Icon name="angle down" />

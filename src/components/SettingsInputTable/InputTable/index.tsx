@@ -92,6 +92,7 @@ const InputTable = (props: Props) => {
                 handleChange={handleEditRow}
                 showEmptyError={showError}
                 options={column.options || []}
+                disabled={column.disabled}
               />
             );
           }

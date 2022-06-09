@@ -8,10 +8,10 @@ export const PERFECT_STOCK_PAGES = [
   /* Cash flow page settings */
   '/aistock/inventory-days-of-inventory-settings',
   '/aistock/sku-settings',
+  '/aistock/duty-settings',
   '/aistock/payment-terms-settings',
   '/aistock/home-expenses-settings',
   '/aistock/home-ppc-settings',
-  '/aistock/home-launch-settings',
   '/aistock/home-misc-settings',
 ];
 
@@ -19,10 +19,10 @@ export const HIDE_TAB_PAGES = [
   '/aistock/create-order',
   '/aistock/inventory-days-of-inventory-settings',
   '/aistock/sku-settings',
+  '/aistock/duty-settings',
   '/aistock/payment-terms-settings',
   '/aistock/home-expenses-settings',
   '/aistock/home-ppc-settings',
-  '/aistock/home-launch-settings',
   '/aistock/home-misc-settings',
 ];
 
@@ -63,6 +63,11 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
     settings: '',
   },
   {
+    name: 'Duty Settings',
+    desc: 'Set up duty settings',
+    settings: '',
+  },
+  {
     name: 'Payment Terms',
     desc: 'Set up payment terms',
     settings: '',
@@ -75,11 +80,6 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'PPC',
     desc: 'Manage PPC',
-    settings: '',
-  },
-  {
-    name: 'Launch Expenses',
-    desc: 'Manage Launch Expenses',
     settings: '',
   },
   {

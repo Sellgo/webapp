@@ -71,7 +71,7 @@ interface Props {
   setDateRange: (payload: DateRange) => void;
   setTimeSettings: (payload: string) => void;
   fetchPurchaseOrders: () => void;
-  updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => void;
+  updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload, refresh?: boolean) => void;
   setActivePurchaseOrder: (payload: PurchaseOrder) => void;
   generateNextOrder: (payload: AutoGeneratePurchaseOrderPayload) => void;
   alignOrder: (payload: AlignPurchaseOrderPayload) => void;
@@ -609,8 +609,8 @@ const mapDispatchToProps = (dispatch: any) => {
     fetchPurchaseOrders: () => {
       dispatch(fetchPurchaseOrders());
     },
-    updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => {
-      dispatch(updatePurchaseOrder(payload));
+    updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload, refresh?: boolean) => {
+      dispatch(updatePurchaseOrder(payload, refresh));
     },
     setActivePurchaseOrder: (task: PurchaseOrder) => {
       dispatch(setActivePurchaseOrder(task));

@@ -16,11 +16,11 @@ import TPL from './TPL';
 import Home from './Home';
 import EmployeeExpensesSettings from './Home/Settings/EmployeeExpenses';
 import PpcExpensesSettings from './Home/Settings/PpcExpenses';
-import LaunchExpensesSettings from './Home/Settings/LaunchExpenses';
 import MiscExpensesSettings from './Home/Settings/MiscExpenses';
 import DaysOfInventorySettings from './Inventory/Settings/DaysOfInventory';
 import SkuSettings from './Inventory/Settings/SkuSettings';
 import PaymentTermsSettings from './Inventory/Settings/PaymentTerms';
+import DutySettings from './Inventory/Settings/DutySettings';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
@@ -289,7 +289,16 @@ const PerfectStock: React.FC<Props> = props => {
             <TabPanel>
               <SkuSettings
                 cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
-                  cost => cost?.step_name === 'employee'
+                  cost => cost?.step_name === 'sku'
+                )}
+                updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
+              />
+            </TabPanel>
+
+            <TabPanel>
+              <DutySettings
+                cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
+                  cost => cost?.step_name === 'duty'
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
               />
@@ -312,15 +321,6 @@ const PerfectStock: React.FC<Props> = props => {
               <PpcExpensesSettings
                 cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
                   cost => cost?.step_name === 'ppc'
-                )}
-                updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
-              />
-            </TabPanel>
-
-            <TabPanel>
-              <LaunchExpensesSettings
-                cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
-                  cost => cost?.step_name === 'launch'
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
               />

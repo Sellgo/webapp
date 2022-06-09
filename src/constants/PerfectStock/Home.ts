@@ -225,12 +225,6 @@ export const SETTINGS_OPTIONS = [
     disabled: false,
   },
   {
-    name: 'Launch Expenses',
-    url: '/aistock/home-launch-settings',
-    disabled: false,
-  },
-
-  {
     name: 'Misc Expenses',
     url: '/aistock/home-misc-settings',
     disabled: false,
@@ -246,8 +240,20 @@ export const ONBOARDING_STATUS_MAPPING: any = {
     title: 'PPC Costs',
     to: '/aistock/home-ppc-settings',
   },
-  launch: {
-    title: 'Launch Costs',
-    to: '/aistock/home-launch-settings',
+  misc: {
+    title: 'Misc Costs',
+    to: '/aistock/home-misc-settings',
+  },
+  sku: {
+    title: 'Sku Settings',
+    to: '/aistock/sku-settings',
+  },
+  duty: {
+    title: 'Duty Settings',
+    to: '/aistock/duty-settings',
+  },
+  payment_terms: {
+    title: 'Payment Terms',
+    to: '/aistock/payment-terms',
   },
 };

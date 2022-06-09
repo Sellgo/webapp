@@ -305,10 +305,10 @@ export const alignOrder = (payload: AlignPurchaseOrderPayload) => async (dispatc
 };
 
 /* Action to update purchase orders */
-export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => async (
-  dispatch: any,
-  getState: any
-) => {
+export const updatePurchaseOrder = (
+  payload: UpdatePurchaseOrderPayload,
+  refresh?: boolean
+) => async (dispatch: any, getState: any) => {
   try {
     /* Set inventory to be loading */
     dispatch(isLoadingInventoryTableResults(true));
@@ -428,7 +428,8 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
       if (
         (!payload.date && payload.status === 'inactive') ||
         payload.vendor_id === null ||
-        payload.vendor_id
+        payload.vendor_id ||
+        refresh
       ) {
         dispatch(fetchPurchaseOrders());
       }
