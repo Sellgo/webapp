@@ -40,7 +40,6 @@ const SettingsInputTable = (props: Props) => {
   const [tableData, setTableData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showEmptyError, setShowEmptyError] = useState<boolean>(false);
-  const [tableRowsIndex, setTableRowsIndex] = useState<any>(0);
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -49,16 +48,6 @@ const SettingsInputTable = (props: Props) => {
       setIsLoading(false);
     });
   }, []);
-
-  React.useEffect(() => {
-    let newTableRowsIndex = {};
-    if (tableData.length !== 0) {
-      tableData.forEach((row: any, index: number) => {
-        newTableRowsIndex = { ...newTableRowsIndex, [row.id]: index };
-      });
-    }
-    setTableRowsIndex(newTableRowsIndex);
-  }, [tableData]);
 
   const handleDeleteRow = (id: number) => {
     const tableDataWithoutNewRows = tableData.filter((row: any) => {
@@ -82,7 +71,7 @@ const SettingsInputTable = (props: Props) => {
     if (handleEditDataRow) {
       handleEditDataRow(key, value, id);
     }
-    const rowIndex = tableRowsIndex[id];
+    const rowIndex = tableData.findIndex((row: any) => row.id === id);
     const newTableData = [...tableData];
     newTableData[rowIndex][key] = value;
     setTableData(newTableData);
