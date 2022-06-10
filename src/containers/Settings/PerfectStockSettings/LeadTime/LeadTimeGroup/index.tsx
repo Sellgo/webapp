@@ -25,6 +25,7 @@ import {
 import { AppConfig } from '../../../../../config';
 import { error, success } from '../../../../../utils/notifications';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
+import { LEAD_TIME_OPTIONS } from '../../../../../constants/PerfectStock';
 
 interface Props {
   initialLeadTimeGroup: SingleLeadTimeGroup;
@@ -70,6 +71,22 @@ const LeadTimeGroup = (props: Props) => {
 
   /* Save all changes in the lead time group */
   const handleSave = async (refreshUponSave?: boolean) => {
+    /* Check if lead time has at least one of every step */
+    let hasError = false;
+    LEAD_TIME_OPTIONS.forEach(option => {
+      const leadTimeStage = newLeadTimeGroup.lead_times.find(
+        leadTime => leadTime.type === option.value
+      );
+      if (!leadTimeStage && !hasError) {
+        error(`Please add at least one lead time in ${option.text}.`);
+        hasError = true;
+      }
+    });
+
+    if (hasError) {
+      return;
+    }
+
     if (
       !newLeadTimeGroup.lead_times ||
       newLeadTimeGroup.lead_times.length === 0 ||
@@ -134,8 +151,12 @@ const LeadTimeGroup = (props: Props) => {
 
   /* Hook called upon typing inside the input fields to edit the lead times inside one lead time group */
   const handleLeadTimeGroupEdit = (key: string, value: any, id: number) => {
+    let valueToSet = value;
+    if (key === 'duration') {
+      valueToSet = parseInt(value, 10);
+    }
     const newLeadTimes: any[] = [...newLeadTimeGroup.lead_times];
-    newLeadTimes[id][key] = value;
+    newLeadTimes[id][key] = valueToSet;
     const updatedLeadTimeGroup = {
       ...newLeadTimeGroup,
       lead_times: newLeadTimes,

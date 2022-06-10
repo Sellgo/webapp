@@ -9,6 +9,7 @@ import AutoGenerateOrderPopup from './AutoGenerateOrderPopup';
 import AlignOrderPopup from './AlignOrderPopup';
 import SetPrioritySkuPopup from './SetPrioritySkuPopup';
 import ConnectTplPopup from './ConnectTplPopup';
+import SetPaymentTermPopup from './SetPaymentTermPopup';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -70,7 +71,7 @@ interface Props {
   setDateRange: (payload: DateRange) => void;
   setTimeSettings: (payload: string) => void;
   fetchPurchaseOrders: () => void;
-  updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => void;
+  updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload, refresh?: boolean) => void;
   setActivePurchaseOrder: (payload: PurchaseOrder) => void;
   generateNextOrder: (payload: AutoGeneratePurchaseOrderPayload) => void;
   alignOrder: (payload: AlignPurchaseOrderPayload) => void;
@@ -189,6 +190,26 @@ const OrderGanttChart = (props: Props) => {
   };
 
   /* ================================================================ */
+  /* Setting payment terms */
+  /* ================================================================ */
+  const [isSettingPaymentTerm, setIsSettingPaymentTerm] = React.useState(false);
+  const [paymentTermSkuDetails, setPaymentTermSkuDetails] = React.useState({});
+
+  const handleSetPaymentTerm = (payload: GanttChartPurchaseOrder) => {
+    const selectedPurchaseOrder = purchaseOrders.find((purchaseOrder: PurchaseOrder) => {
+      return purchaseOrder.id === payload.id;
+    });
+
+    if (selectedPurchaseOrder) {
+      setIsSettingPaymentTerm(true);
+      setPaymentTermSkuDetails({
+        id: payload.id,
+        order_payment_term_id: payload.order_payment_term_id,
+      });
+    }
+  };
+
+  /* ================================================================ */
   /* Aligning order */
   /* ================================================================ */
   const [isAligningOrder, setIsAligningOrder] = React.useState(false);
@@ -257,6 +278,7 @@ const OrderGanttChart = (props: Props) => {
       const end = new Date(start.getTime() + leadTimeDuration * 24 * 60 * 60 * 1000);
       const name = purchaseOrder.number;
       const is_included = purchaseOrder.is_included;
+      const paymentTermId = purchaseOrder.order_payment_term_id;
       const prioritySku = purchaseOrder.merchant_listings?.find(
         (merchantListing: any) => merchantListing.is_priority
       );
@@ -280,6 +302,7 @@ const OrderGanttChart = (props: Props) => {
         end,
         name,
         is_included,
+        order_payment_term_id: paymentTermId,
         vendorId,
         prioritySku: prioritySku?.sku,
         subTasks: subTasks || [],
@@ -472,6 +495,7 @@ const OrderGanttChart = (props: Props) => {
             isDraftMode={isDraftMode}
             generateNextOrder={handleGenerateNextOrderClick}
             handleSetPrioritySku={handleSetPrioritySkuClick}
+            handleSetPaymentTerm={handleSetPaymentTerm}
             handleDeleteSelectedTasks={() => setDeletingPurchaseOrders(true)}
             handleAlignOrder={handleAlignOrder}
             handleConnectTpl={handleConnectTpl}
@@ -508,6 +532,19 @@ const OrderGanttChart = (props: Props) => {
                 handleCancel={() => setIsSettingPrioritySku(false)}
                 prioritySkuDetails={prioritySkuDetails}
                 handleUpdatePrioritySku={updatePurchaseOrder}
+              />
+            }
+            onClose={() => setIsSettingPrioritySku(false)}
+            className={styles.setPrioritySkuModal}
+          />
+          <Modal
+            open={isSettingPaymentTerm}
+            content={
+              <SetPaymentTermPopup
+                handleCancel={() => setIsSettingPaymentTerm(false)}
+                prioritySkuDetails={paymentTermSkuDetails}
+                refreshPurchaseOrders={fetchPurchaseOrders}
+                handleUpdatePaymentTermSku={updatePurchaseOrder}
               />
             }
             onClose={() => setIsSettingPrioritySku(false)}
@@ -572,8 +609,8 @@ const mapDispatchToProps = (dispatch: any) => {
     fetchPurchaseOrders: () => {
       dispatch(fetchPurchaseOrders());
     },
-    updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => {
-      dispatch(updatePurchaseOrder(payload));
+    updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload, refresh?: boolean) => {
+      dispatch(updatePurchaseOrder(payload, refresh));
     },
     setActivePurchaseOrder: (task: PurchaseOrder) => {
       dispatch(setActivePurchaseOrder(task));

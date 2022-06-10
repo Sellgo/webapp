@@ -305,10 +305,10 @@ export const alignOrder = (payload: AlignPurchaseOrderPayload) => async (dispatc
 };
 
 /* Action to update purchase orders */
-export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => async (
-  dispatch: any,
-  getState: any
-) => {
+export const updatePurchaseOrder = (
+  payload: UpdatePurchaseOrderPayload,
+  refresh?: boolean
+) => async (dispatch: any, getState: any) => {
   try {
     /* Set inventory to be loading */
     dispatch(isLoadingInventoryTableResults(true));
@@ -318,8 +318,11 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
 
     const state = getState();
     let newPurchaseOrders = getPurchaseOrders(state);
+
+    /* Updating purchase order date */
     if (payload.date) {
-      /* Update the redux state and display the updated state first for responsiveness */
+      /* Update the redux state and display the updated state FIRST instead of backend */
+      /* This is done for a better responsive experience */
       newPurchaseOrders = newPurchaseOrders.map((order: any) => {
         if (order.id === payload.id) {
           return {
@@ -330,7 +333,6 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
         return order;
       });
 
-      /* Get formatted date */
       const formattedDate = getDateOnly(new Date(payload.date));
       requestPayload = {
         ...requestPayload,
@@ -338,7 +340,7 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
       };
     }
 
-    /* Check if is not undefined */
+    /* Updating purchase order status */
     if (payload.is_included !== undefined) {
       newPurchaseOrders = newPurchaseOrders.map((order: any) => {
         if (order.id === payload.id) {
@@ -351,7 +353,7 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
       });
     }
 
-    /* Setting priority sku */
+    /* Updating priority sku */
     if (payload.is_priority && payload.po_sku_id) {
       newPurchaseOrders = newPurchaseOrders.map((order: any) => {
         if (order.id === payload.id) {
@@ -395,13 +397,14 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
     }
     dispatch(setPurchaseOrders(newPurchaseOrders));
 
-    /* Update backend's purchase orders */
+    /* Make the change to update on backend's purchase orders */
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-orders${
       payload.id ? `/${payload.id}` : ''
     }`;
     const { status, data } = await axios.patch(URL, requestPayload);
     const jobId = data.perfect_stock_job_id;
 
+    /* Special case for updates that are backend intensive, then show progress bar and load in background */
     if (status === 200) {
       if (jobId) {
         const { data } = await axios.get(
@@ -428,7 +431,8 @@ export const updatePurchaseOrder = (payload: UpdatePurchaseOrderPayload) => asyn
       if (
         (!payload.date && payload.status === 'inactive') ||
         payload.vendor_id === null ||
-        payload.vendor_id
+        payload.vendor_id ||
+        refresh
       ) {
         dispatch(fetchPurchaseOrders());
       }

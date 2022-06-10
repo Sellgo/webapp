@@ -21,6 +21,7 @@ export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
 
   /* Perfect Stock */
   '/aistock',
+  '/aistock/home',
   '/aistock/create-order',
   '/aistock/sales',
   '/aistock/order',
@@ -28,6 +29,14 @@ export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
 
   '/account-setup',
   '/home',
+
+  /* Settings */
+  '/aistock/home-expenses-settings',
+  '/aistock/home-ppc-settings',
+  '/aistock/home-launch-settings',
+  '/aistock/home-misc-settings',
+  '/aistock/sku-settings',
+  '/aistock/payment-terms-settings',
 ];
 
 export const HIDE_NAV_BAR_PATH_NAMES = [

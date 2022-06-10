@@ -38,8 +38,18 @@ export const formatCompletedDate = (timestamp: Date) => {
   return `${date}-${month}-${year} \n ${formattedTime}`;
 };
 
-export const getDateOnly = (date: Date) => {
+export const addNumberOfDays = (date: Date, days: number) => {
+  const newDate = new Date(date);
+  const newTime = newDate.getTime() + days * MILLISECONDS_IN_A_DAY;
+  return new Date(newTime);
+};
+
+export const getDateOnly = (date: Date | undefined) => {
+  if (!date) {
+    return '';
+  }
   try {
+    date = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
     /* Get date format into `YYYY-MM-DD` */
     const dateString = date
       .toISOString()

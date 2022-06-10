@@ -1,0 +1,42 @@
+@import '../../../../design-system/new-colors';
+
+.exportsContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start !important;
+  align-items: flex-end;
+  margin-top: 18px;
+}
+
+/* Export popup styling */
+.exportConfirmContainer {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100% !important;
+}
+
+.granularitySelector {
+  margin-left: auto;
+}
+
+.timeRangeSelector {
+  min-width: 0;
+  width: 150px !important;
+  border-radius: 0 !important;
+
+  > div {
+    width: 150px !important;
+    border-radius: 0 !important;
+  }
+}
+
+.dateRangePicker {
+  border-radius: none !important;
+
+  a {
+    height: 35px;
+    border-radius: 3px !important;
+    border: 1px solid $grey_3 !important;
+  }
+}

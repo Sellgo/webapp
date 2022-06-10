@@ -1,0 +1,40 @@
+@import '../../design-system/new-colors';
+
+.editingOrderStatusBanner {
+  margin-top: 18px;
+  width: 100%;
+  height: 45px;
+  background: $sellgo_yellow;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  button {
+    background: none;
+    font-size: 12px;
+    color: $grey_8;
+    font-weight: $fontweight_medium;
+    position: absolute;
+    left: 18px;
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin-right: 10px;
+    }
+  }
+
+  p {
+    font-size: 18px;
+    font-weight: $fontweight_semibold;
+    color: $black_1;
+  }
+
+  .whiteIcon {
+    path {
+      fill: $prim_white !important;
+    }
+  }
+}
