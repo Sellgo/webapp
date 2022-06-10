@@ -11,13 +11,17 @@ interface Props {
   title: string;
   bannerColor?: string;
   textColor?: string;
-  backUrl: string;
+  backUrl?: string;
 }
 
 const SettingsBanner = (props: Props) => {
   const { title, bannerColor, textColor, backUrl } = props;
   const handleGoBack = () => {
-    history.push(backUrl);
+    if (backUrl) {
+      history.push(backUrl);
+    } else {
+      history.goBack();
+    }
   };
 
   return (

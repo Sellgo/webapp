@@ -46,16 +46,34 @@ const LeadTimeGroup = (props: Props) => {
     updateCashflowOnboardingStatus,
   } = props;
 
-  /* Set modal to open by default if its an new lead time */
+  /* Set modal to open by default if its an new payment term */
   const [isOpen, setOpen] = useState<boolean>(initialPaymentTerm.id ? false : true);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [showEmptyError, setShowEmptyError] = useState<boolean>(false);
-
-  /* Trigger Name State */
   const [isEditingName, setEditingName] = useState<boolean>(false);
-
-  /* Trigger assignments state */
   const [newPaymentTerm, setNewPaymentTerm] = useState<PaymentTerm>(initialPaymentTerm);
+  const [showErrorColumn, setShowErrorColumn] = useState<string[]>([]);
+
+  const doesPaymentTermsAddUpToTotalHundredPercent = () => {
+    if (
+      newPaymentTerm.deposit_perc &&
+      newPaymentTerm.mid_pay_perc &&
+      newPaymentTerm.paid_full_perc
+    ) {
+      if (
+        parseInt(newPaymentTerm.deposit_perc) +
+          parseInt(newPaymentTerm.mid_pay_perc) +
+          parseInt(newPaymentTerm.paid_full_perc) ===
+        100
+      ) {
+        setShowErrorColumn([]);
+        return true;
+      }
+    }
+
+    setShowErrorColumn(['deposit_perc', 'mid_pay_perc', 'paid_full_perc']);
+    return false;
+  };
 
   /* Save all changes in the payment term group */
   const handleSave = async (refreshUponSave?: boolean) => {
@@ -78,6 +96,12 @@ const LeadTimeGroup = (props: Props) => {
       }
     });
 
+    /* Make sure it sums up to 100% */
+    if (!doesPaymentTermsAddUpToTotalHundredPercent()) {
+      error('Please ensure payment terms add up to a 100% total.');
+      return;
+    }
+
     if (hasError) {
       error('Please fill in all the fields');
       setShowEmptyError(true);
@@ -98,7 +122,7 @@ const LeadTimeGroup = (props: Props) => {
         if (cashflowOnboardingStatus) {
           updateCashflowOnboardingStatus(cashflowOnboardingStatus.id, true);
         }
-        success('Successfully updated lead times.');
+        success('Successfully updated payment terms.');
         const savedLeadTimeGroup = {
           ...newPaymentTerm,
           id: res.data.id,
@@ -115,7 +139,7 @@ const LeadTimeGroup = (props: Props) => {
     }
   };
 
-  /* Save changes when editting lead time group name */
+  /* Save changes when editting payment term group name */
   const handleSaveName = (isSaved: boolean) => {
     if (isSaved) {
       setEditingName(false);
@@ -130,7 +154,7 @@ const LeadTimeGroup = (props: Props) => {
     setOpen(false);
   };
 
-  /* Hook called upon editing name of lead time group */
+  /* Hook called upon editing name of payment term group */
   const handlePaymentTermGroupNameEdit = (value: string) => {
     setNewPaymentTerm({
       ...newPaymentTerm,
@@ -263,6 +287,7 @@ const LeadTimeGroup = (props: Props) => {
               handleEditRow={handleEditRow}
               disableDelete
               showError={showEmptyError}
+              errorColumns={showErrorColumn}
             />
             <div className={styles.buttonsRow}>
               <ActionButton

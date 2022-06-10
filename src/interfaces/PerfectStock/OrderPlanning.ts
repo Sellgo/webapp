@@ -175,9 +175,9 @@ export interface PaymentTerm {
   name: string;
   indexIdentifier: string;
   id?: number;
-  deposit_perc?: number;
-  mid_pay_perc?: number;
-  paid_full_perc?: number;
+  deposit_perc?: string;
+  mid_pay_perc?: string;
+  paid_full_perc?: string;
   deposite_due?: string;
   mid_pay_due?: string;
   paid_full_due?: string;

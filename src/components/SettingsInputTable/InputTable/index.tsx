@@ -15,6 +15,7 @@ import { Column } from '../../../interfaces/PerfectStock/Settings';
 
 interface Props {
   tableColumns: Column[];
+  errorColumns?: string[];
   data: any[];
   handleEditRow: (key: string, value: any, id: number) => void;
   handleDeleteRow?: (id: number) => void;
@@ -30,6 +31,7 @@ const InputTable = (props: Props) => {
     handleDeleteRow,
     showError = false,
     disableDelete,
+    errorColumns,
   } = props;
   return (
     <section className={styles.inputTable}>
@@ -55,6 +57,7 @@ const InputTable = (props: Props) => {
                 isLarge
                 isLong={column.width >= 300}
                 disabled={column.disabled}
+                hasError={errorColumns && errorColumns.includes(column.dataKey)}
               />
             );
           } else if (column.type === 'number') {
@@ -69,6 +72,7 @@ const InputTable = (props: Props) => {
                 isPositiveOnly={column.numberOptions?.isPositiveOnly}
                 isInteger={column.numberOptions?.isInteger}
                 allow5Decimal={column.numberOptions?.allow5Decimal}
+                hasError={errorColumns && errorColumns.includes(column.dataKey)}
                 isLarge
                 disabled={column.disabled}
               />

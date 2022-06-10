@@ -17,6 +17,7 @@ interface Props extends RowCell {
   isPositiveOnly?: boolean;
   isInteger?: boolean;
   showEmptyError?: boolean;
+  hasError?: boolean;
   disabled?: boolean;
   isLarge?: boolean;
   isLong?: boolean;
@@ -37,6 +38,7 @@ const EditValueCell = (props: Props) => {
     disabled,
     isLarge,
     isLong,
+    hasError,
     ...otherProps
   } = props;
   const { rowData, dataKey } = otherProps;
@@ -65,7 +67,7 @@ const EditValueCell = (props: Props) => {
           isNumber={isNumber}
           thousandSeperate={isNumber}
           allow5Decimal={allow5Decimal}
-          error={!disabled && showEmptyError && !rowData[dataKey]}
+          error={(!disabled && showEmptyError && !rowData[dataKey]) || hasError}
           disabled={disabled}
         />
         <p>&nbsp;{appendMessage}</p>
