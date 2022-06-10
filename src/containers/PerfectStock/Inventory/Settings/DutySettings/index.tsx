@@ -55,6 +55,7 @@ const Expenses = (props: Props) => {
 
       if (patchExpenseStatus) {
         if (cashflowOnboardingStatus) {
+          console.log(cashflowOnboardingStatus);
           updateCashflowOnboardingStatus(cashflowOnboardingStatus.id, true);
         }
         success('Duties successfully saved');

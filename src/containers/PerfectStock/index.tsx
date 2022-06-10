@@ -33,7 +33,10 @@ import { getUserOnboarding, getUserOnboardingResources } from '../../selectors/U
 
 /* Actions */
 import { setUserOnboardingResources } from '../../actions/UserOnboarding';
-import { updateCashflowOnboardingStatus } from '../../actions/PerfectStock/Home';
+import {
+  fetchCashflowOnboardingStatus,
+  updateCashflowOnboardingStatus,
+} from '../../actions/PerfectStock/Home';
 
 /* Constants */
 import {
@@ -70,6 +73,7 @@ interface Props {
   cashflowOnboardingStatus: any[];
   subscription: SellerSubscription;
   updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) => void;
+  fetchCashflowOnboardingStatus: () => void;
 }
 
 const PerfectStock: React.FC<Props> = props => {
@@ -82,6 +86,7 @@ const PerfectStock: React.FC<Props> = props => {
     history,
     subscription,
     updateCashflowOnboardingStatus,
+    fetchCashflowOnboardingStatus,
   } = props;
 
   const [selectedTabList, setSelectedTabList] = useState<number>(0);
@@ -124,6 +129,10 @@ const PerfectStock: React.FC<Props> = props => {
       setUserOnboardingResources(orderPlanningEditOnboarding);
     }
   }, [selectedTabList]);
+
+  useEffect(() => {
+    fetchCashflowOnboardingStatus();
+  }, []);
 
   /* User onboarding logic */
   const tutorialOnboardingDetails = userOnboardingResources[GENERAL_TUTORIAL_INDEX] || {};
@@ -362,6 +371,7 @@ const mapDispatchToProps = (dispatch: any) => {
     setUserOnboardingResources: (payload: any) => dispatch(setUserOnboardingResources(payload)),
     updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) =>
       dispatch(updateCashflowOnboardingStatus(onboardingCostId, newStatus)),
+    fetchCashflowOnboardingStatus: () => dispatch(fetchCashflowOnboardingStatus()),
   };
 };
 

@@ -100,7 +100,7 @@ const PaymentTermSelection = (props: Props) => {
     if (paymentTermId === 'Create new payment term') {
       await localStorage.setItem('createOrderStep', createOrderStep.toString());
       await localStorage.setItem('createOrderPayload', JSON.stringify(createOrderPayload));
-      history.push('/settings/aistock/payment-term-settings');
+      history.push('/aistock/payment-terms-settings');
       return;
     }
     const paymentTermGroup = paymentTermGroups.find(
