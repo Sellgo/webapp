@@ -33,6 +33,9 @@ export interface PurchaseOrder {
   mid_pay_date?: string;
   paid_full_amount?: number;
   paid_full_date?: string;
+  total_import_cost?: number;
+  total_import_date?: string;
+  import_duties_date?: string;
 }
 
 export interface DraftOrderTemplate {

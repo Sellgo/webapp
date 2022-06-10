@@ -32,6 +32,8 @@ interface Props {
   handleDeletePaymentTermGroup: (indexIdentifier: string) => void;
   fetchPaymentTermGroups: () => void;
   setInitialPaymentTermGroup: (value: PaymentTerm) => void;
+  cashflowOnboardingStatus: any;
+  updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) => void;
 }
 
 const LeadTimeGroup = (props: Props) => {
@@ -40,6 +42,8 @@ const LeadTimeGroup = (props: Props) => {
     handleDeletePaymentTermGroup,
     fetchPaymentTermGroups,
     setInitialPaymentTermGroup,
+    cashflowOnboardingStatus,
+    updateCashflowOnboardingStatus,
   } = props;
 
   /* Set modal to open by default if its an new lead time */
@@ -91,6 +95,9 @@ const LeadTimeGroup = (props: Props) => {
       }
 
       if (res.status === 200 || res.status === 201) {
+        if (cashflowOnboardingStatus) {
+          updateCashflowOnboardingStatus(cashflowOnboardingStatus.id, true);
+        }
         success('Successfully updated lead times.');
         const savedLeadTimeGroup = {
           ...newPaymentTerm,

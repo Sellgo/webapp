@@ -254,6 +254,6 @@ export const ONBOARDING_STATUS_MAPPING: any = {
   },
   payment_terms: {
     title: 'Payment Terms',
-    to: '/aistock/payment-terms',
+    to: '/aistock/payment-terms-settings',
   },
 };

@@ -21,7 +21,13 @@ import { AppConfig } from '../../../../../config';
 import { error, success } from '../../../../../utils/notifications';
 import { SETTINGS_OPTIONS } from '../../../../../constants/PerfectStock/OrderPlanning';
 
-const PaymentTerms = () => {
+interface Props {
+  cashflowOnboardingStatus: any;
+  updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) => void;
+}
+
+const PaymentTerms = (props: Props) => {
+  const { cashflowOnboardingStatus, updateCashflowOnboardingStatus } = props;
   const [paymentTermGroups, setPaymentTermGroups] = React.useState<PaymentTerm[]>([]);
   React.useState<boolean>(true);
   const sellerID = localStorage.getItem('userId');
@@ -138,6 +144,8 @@ const PaymentTerms = () => {
           {!paymentTermsLoading &&
             paymentTermGroups.map((paymentTerm: PaymentTerm) => (
               <PaymentTermGroup
+                cashflowOnboardingStatus={cashflowOnboardingStatus}
+                updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
                 key={paymentTerm.indexIdentifier}
                 fetchPaymentTermGroups={fetchPaymentTermGroups}
                 handleDeletePaymentTermGroup={handleDeletePaymentTermGroup}

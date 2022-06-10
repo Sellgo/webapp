@@ -305,7 +305,12 @@ const PerfectStock: React.FC<Props> = props => {
             </TabPanel>
 
             <TabPanel>
-              <PaymentTermsSettings />
+              <PaymentTermsSettings
+                cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
+                  cost => cost?.step_name === 'payment_terms'
+                )}
+                updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
+              />
             </TabPanel>
 
             <TabPanel>
