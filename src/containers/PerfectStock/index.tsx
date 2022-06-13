@@ -144,7 +144,7 @@ const PerfectStock: React.FC<Props> = props => {
   /* check url */
   const hideTabs = HIDE_TAB_PAGES.includes(window.location.pathname);
 
-  /* Lock Perfect Stock if user is not migrated */
+  /* Lock AiStock if user is not migrated */
   if (
     !subscription ||
     subscription.perfect_stock_status === PERFECT_STOCK_SELLER_STATUS.SP_API_FAILED ||
