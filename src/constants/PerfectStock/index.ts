@@ -244,7 +244,7 @@ export const DIMENSION_UNIT_OPTIONS = [
   },
   {
     key: 'inches',
-    value: 'inches',
+    value: 'inch',
     text: 'inches',
   },
 ];
@@ -257,7 +257,7 @@ export const WEIGHT_UNIT_OPTIONS = [
   },
   {
     key: 'pounds',
-    value: 'pounds',
+    value: 'lbs',
     text: 'pounds',
   },
 ];
