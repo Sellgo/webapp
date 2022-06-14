@@ -117,11 +117,11 @@ export const createUpdateTplVendor = (payload: TplVendor) => async (dispatch: an
 
     if (data) {
       dispatch(fetchTplVendors());
-      success('Perfect Stock Vendor Saved');
+      success('AiStock Vendor Saved');
     }
   } catch (err) {
     dispatch(setTplVendors([]));
-    console.error('Error fetching Tpl', err);
+    console.error('Error fetching 3PL', err);
   }
   dispatch(isLoadingTplVendors(false));
 };

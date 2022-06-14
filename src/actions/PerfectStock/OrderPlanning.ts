@@ -571,7 +571,7 @@ export const fetchRefreshProgress = () => async (dispatch: any, getState: any) =
     }
   } catch (err) {
     dispatch(setIsFetchingProgressForRefresh(false));
-    console.error('Error fetching progress for perfect stock', err);
+    console.error('Error fetching progress for AiStock', err);
   }
 };
 

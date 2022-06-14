@@ -43,7 +43,7 @@ export const FEATURES: { icon: string; title: string; subtitle: string; content:
   },
   {
     icon: StockIcon,
-    title: `Perfect Stock`,
+    title: `AiStock`,
     subtitle: `Never stockout, rarely overstock.`,
     content: `Accurately calculates when sellers should order to prevent a stockout, 
             and how many units to restock.`,

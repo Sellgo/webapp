@@ -26,7 +26,7 @@ import keywordReverseReducer from './KeywordResearch/KeywordReverse';
 import keywordDatabaseReducer from './KeywordResearch/KeywordDatabase';
 import keywordTrackerReducer from './KeywordResearch/KeywordTracker';
 
-/* Perfect Stock */
+/* AiStock */
 import salesProjectionReducer from './PerfectStock/SalesProjection';
 import orderPlanningReducer from './PerfectStock/OrderPlanning';
 import tplReducer from './PerfectStock/Tpl';
