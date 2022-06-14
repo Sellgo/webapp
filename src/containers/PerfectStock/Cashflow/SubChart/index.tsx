@@ -3,7 +3,7 @@ import Highcharts from 'highcharts';
 import { Dimmer, Loader } from 'semantic-ui-react';
 
 /* Constants */
-import { CASH_FLOW_CHART_TITLES } from '../../../../constants/PerfectStock/Cashflow';
+import { CASH_FLOW_CHART_DETAILS } from '../../../../constants/PerfectStock/Cashflow';
 
 /* Types */
 import { GraphDataSeries } from '../../../../interfaces/PerfectStock/SalesProjection';
@@ -23,19 +23,6 @@ interface Props {
 const SubChart = (props: Props) => {
   const { graphs, index, total, isLoading } = props;
 
-  // /* If is array */
-  // let minDate = 0;
-  // let maxDate = 0;
-  // const graphFirstPoint = graphs[0].data[0];
-  // if (Array.isArray(graphFirstPoint)) {
-  //   minDate = new Date(graphFirstPoint[0]).getTime() - 24 * 3600 * 1000 * 10;
-  // }
-
-  // const lengthOfGraphData = graphs[0].data.length;
-  // const graphLastPoint = graphs[0].data[lengthOfGraphData - 1];
-  // if (Array.isArray(graphLastPoint)) {
-  //   maxDate = new Date(graphLastPoint[0]).getTime() + 24 * 3600 * 1000 * 10;
-  // }
   const dataWithAxisInfo = graphs?.map((item: GraphDataSeries, index) => {
     return {
       ...item,
@@ -63,8 +50,12 @@ const SubChart = (props: Props) => {
         title: {
           align: 'left',
           text: `
-            <p class="${styles.chartTitle}"> ${CASH_FLOW_CHART_TITLES[graphs[0].name]} </p>
-            <h2 class="${styles.chartTotal}"> $${total ? formatDecimal(total) : '0'} </h2>
+            <p class="${styles.chartTitle}"> ${CASH_FLOW_CHART_DETAILS[graphs[0].name].title} </p>
+            <h2 class="${styles.chartTotal}"> 
+              ${CASH_FLOW_CHART_DETAILS[graphs[0].name].unitPrepend}
+              ${total ? formatDecimal(total) : '0'} 
+              ${CASH_FLOW_CHART_DETAILS[graphs[0].name].unitAppend}
+            </h2>
           `,
           useHTML: true,
         },

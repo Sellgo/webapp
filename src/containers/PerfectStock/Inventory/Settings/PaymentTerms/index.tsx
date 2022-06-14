@@ -131,7 +131,12 @@ const PaymentTerms = (props: Props) => {
 
   return (
     <main className={styles.paymentTermsPageWrapper}>
-      <SettingsBanner title="Payment Terms" bannerColor="#FD8373" textColor="#fff" />
+      <SettingsBanner
+        title="Payment Terms"
+        bannerColor="#FD8373"
+        textColor="#fff"
+        backUrl="/aistock/order"
+      />
       <div className={styles.paymentTermsSettingsWrapper}>
         <PerfectStockSettingsNav settingsPages={SETTINGS_OPTIONS} />
         <div className={styles.paymentTerms}>

@@ -17,7 +17,9 @@ export const formatDecimal = (num: any) => {
   }
 
   return (
-    num.toLocaleString().split('.')[0] +
+    parseFloat(num)
+      .toLocaleString()
+      .split('.')[0] +
     '.' +
     Number(num)
       .toFixed(2)

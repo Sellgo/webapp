@@ -27,6 +27,10 @@ const OnboardingModal = (props: Props) => {
     'apex'
   );
 
+  const setBackUrl = () => {
+    localStorage.setItem('settingsBackUrl', window.location.pathname);
+  };
+
   return (
     <div className={styles.onboardingModal}>
       <BoxHeader>CASH FLOW</BoxHeader>
@@ -64,6 +68,7 @@ const OnboardingModal = (props: Props) => {
                 return (
                   <a
                     href={costInfo.to}
+                    onClick={setBackUrl}
                     className={`
                       ${styles.onboardingCost}
                       ${cost.is_completed ? styles.onboardingCost__completed : ''}

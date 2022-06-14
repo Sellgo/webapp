@@ -107,25 +107,97 @@ export const CASH_FLOW_CHART_TYPE = {
   MISC_COST: 'misc',
 };
 
-export const CASH_FLOW_CHART_TITLES = {
-  [CASH_FLOW_CHART_TYPE.ORDER_COST]: 'Order Cost',
-  [CASH_FLOW_CHART_TYPE.FREIGHT_COST]: 'Freight Cost',
-  [CASH_FLOW_CHART_TYPE.DUTY]: 'Duty',
-  [CASH_FLOW_CHART_TYPE.IMPORT_COST]: 'Import Cost',
-  [CASH_FLOW_CHART_TYPE.DEPOSITS]: 'Deposits',
-  [CASH_FLOW_CHART_TYPE.PAID_FULL]: 'Paid Full',
-  [CASH_FLOW_CHART_TYPE.AMAZON_PAYMENTS]: 'Amazon Payments',
-  [CASH_FLOW_CHART_TYPE.REVENUE]: 'Revenue',
-  [CASH_FLOW_CHART_TYPE.AMAZON_FEES]: 'Amazon Fees',
-  [CASH_FLOW_CHART_TYPE.LAST_LEG]: 'Last Leg',
-  [CASH_FLOW_CHART_TYPE.MID_PAYMENTS]: 'Mid Payments',
-  [CASH_FLOW_CHART_TYPE.EMPLOYEE_EXPENSES]: 'Employee Expenses',
-  [CASH_FLOW_CHART_TYPE.PPC_EXPENSES]: 'PPC Expenses',
-  [CASH_FLOW_CHART_TYPE.LAUNCH_EXPENSES]: 'Launch Expenses',
-  [CASH_FLOW_CHART_TYPE.ORDER_VOLUME]: 'Order Volume',
-  [CASH_FLOW_CHART_TYPE.PROFIT]: 'Profit',
-  [CASH_FLOW_CHART_TYPE.STORAGE_COST]: 'Storage Cost',
-  [CASH_FLOW_CHART_TYPE.MISC_COST]: 'Misc Cost',
+export const CASH_FLOW_CHART_DETAILS = {
+  [CASH_FLOW_CHART_TYPE.ORDER_COST]: {
+    title: 'Order Cost',
+    unitPrepend: '$',
+    unitAppend: '',
+  },
+  [CASH_FLOW_CHART_TYPE.FREIGHT_COST]: {
+    title: 'Freight Cost',
+    unitPrepend: '$',
+    unitAppend: '',
+  },
+  [CASH_FLOW_CHART_TYPE.DUTY]: {
+    title: 'Duty',
+    unitPrepend: '$',
+    unitAppend: '',
+  },
+  [CASH_FLOW_CHART_TYPE.IMPORT_COST]: {
+    title: 'Import Cost',
+    unitPrepend: '$',
+    unitAppend: '',
+  },
+  [CASH_FLOW_CHART_TYPE.DEPOSITS]: {
+    title: 'Deposits',
+    unitPrepend: '$',
+    unitAppend: '',
+  },
+  [CASH_FLOW_CHART_TYPE.PAID_FULL]: {
+    title: 'Paid Full',
+    unitPrepend: '$',
+    unitAppend: '',
+  },
+  [CASH_FLOW_CHART_TYPE.AMAZON_PAYMENTS]: {
+    title: 'Amazon Payments',
+    unitPrepend: '$',
+    unitAppend: '',
+  },
+  [CASH_FLOW_CHART_TYPE.REVENUE]: {
+    title: 'Revenue',
+    unitPrepend: '$',
+    unitAppend: '',
+  },
+  [CASH_FLOW_CHART_TYPE.AMAZON_FEES]: {
+    title: 'Amazon Fees',
+    unitPrepend: '$',
+    unitAppend: '',
+  },
+  [CASH_FLOW_CHART_TYPE.LAST_LEG]: {
+    title: 'Last Leg',
+    unitPrepend: '$',
+    unitAppend: '',
+  },
+  [CASH_FLOW_CHART_TYPE.MID_PAYMENTS]: {
+    title: 'Mid Payments',
+    unitPrepend: '$',
+    unitAppend: '',
+  },
+  [CASH_FLOW_CHART_TYPE.EMPLOYEE_EXPENSES]: {
+    title: 'Employee Expenses',
+    unitPrepend: '$',
+    unitAppend: '',
+  },
+  [CASH_FLOW_CHART_TYPE.PPC_EXPENSES]: {
+    title: 'PPC Expenses',
+    unitPrepend: '$',
+    unitAppend: '',
+  },
+  [CASH_FLOW_CHART_TYPE.LAUNCH_EXPENSES]: {
+    title: 'Launch Expenses',
+    unitPrepend: '$',
+    unitAppend: '',
+  },
+  [CASH_FLOW_CHART_TYPE.ORDER_VOLUME]: {
+    title: 'Order Volume',
+    unitPrepend: '',
+    unitAppend: 'CBM',
+  },
+  [CASH_FLOW_CHART_TYPE.PROFIT]: {
+    title: 'Profit',
+    unitPrepend: '$',
+    unitAppend: '',
+  },
+  [CASH_FLOW_CHART_TYPE.STORAGE_COST]: {
+    title: 'Storage Cost',
+    unitPrepend: '$',
+    unitAppend: '',
+  },
+  [CASH_FLOW_CHART_TYPE.MISC_COST]: {
+    title: 'Misc Cost',
+    unitPrepend: '$',
+    unitAppend: '',
+  },
 };
 
 export const DEFAULT_SUB_CHARTS_TO_SHOW = [
@@ -138,7 +210,6 @@ export const DEFAULT_SUB_CHARTS_TO_SHOW = [
   CASH_FLOW_CHART_TYPE.AMAZON_PAYMENTS,
   CASH_FLOW_CHART_TYPE.REVENUE,
   CASH_FLOW_CHART_TYPE.AMAZON_FEES,
-  CASH_FLOW_CHART_TYPE.LAST_LEG,
   CASH_FLOW_CHART_TYPE.MID_PAYMENTS,
   CASH_FLOW_CHART_TYPE.EMPLOYEE_EXPENSES,
   CASH_FLOW_CHART_TYPE.PPC_EXPENSES,

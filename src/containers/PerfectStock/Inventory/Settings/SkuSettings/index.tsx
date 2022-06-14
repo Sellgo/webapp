@@ -118,7 +118,12 @@ const Expenses = (props: Props) => {
 
   return (
     <main className={styles.leadTimeWrapper}>
-      <SettingsBanner title="Sku Settings" bannerColor="#FD8373" textColor="#fff" />
+      <SettingsBanner
+        title="Sku Settings"
+        bannerColor="#FD8373"
+        textColor="#fff"
+        backUrl="/aistock/order"
+      />
       <div className={styles.settingsPageWrapper}>
         <PerfectStockSettingsNav settingsPages={SETTINGS_OPTIONS} />
         <div className={styles.settingsTableWrapper}>
