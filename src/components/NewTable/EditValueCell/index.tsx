@@ -63,7 +63,7 @@ const EditValueCell = (props: Props) => {
             ${!isLarge ? styles.inputField__small : ''}
             ${isLong ? styles.inputField__long : ''}
           `}
-          isDate={dataKey === 'start_date' || dataKey === 'end_date'}
+          isDate={dataKey === 'start_date' || dataKey === 'end_date' || dataKey === 'date'}
           isNumber={isNumber}
           thousandSeperate={isNumber}
           allow5Decimal={allow5Decimal}

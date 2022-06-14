@@ -17,6 +17,7 @@ import Home from './Cashflow';
 import EmployeeExpensesSettings from './Cashflow/Settings/EmployeeExpenses';
 import PpcExpensesSettings from './Cashflow/Settings/PpcExpenses';
 import MiscExpensesSettings from './Cashflow/Settings/MiscExpenses';
+import ReconcileSettings from './Cashflow/Settings/ReconcileSettings';
 import DaysOfInventorySettings from './Inventory/Settings/DaysOfInventory';
 import SkuSettings from './Inventory/Settings/SkuSettings';
 import PaymentTermsSettings from './Inventory/Settings/PaymentTerms';
@@ -344,6 +345,14 @@ const PerfectStock: React.FC<Props> = props => {
               <MiscExpensesSettings
                 cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
                   cost => cost?.step_name === 'misc'
+                )}
+                updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
+              />
+            </TabPanel>
+            <TabPanel>
+              <ReconcileSettings
+                cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
+                  cost => cost?.step_name === 'reconcile'
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
               />

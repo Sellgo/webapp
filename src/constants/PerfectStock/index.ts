@@ -13,6 +13,7 @@ export const PERFECT_STOCK_PAGES = [
   '/aistock/home-expenses-settings',
   '/aistock/home-ppc-settings',
   '/aistock/home-misc-settings',
+  '/aistock/reconcile-settings',
 ];
 
 export const HIDE_TAB_PAGES = [
@@ -24,6 +25,7 @@ export const HIDE_TAB_PAGES = [
   '/aistock/home-expenses-settings',
   '/aistock/home-ppc-settings',
   '/aistock/home-misc-settings',
+  '/aistock/reconcile-settings',
 ];
 
 export const PERFECT_STOCK_PRODUCT_DETAILS = [
@@ -85,6 +87,11 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'Misc Expenses',
     desc: 'Manage misc Expenses',
+    settings: '',
+  },
+  {
+    name: 'Reconcile Settings',
+    desc: 'Add reconcile',
     settings: '',
   },
 ];

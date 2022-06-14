@@ -1,7 +1,7 @@
 import { SubChartSettings } from '../../interfaces/PerfectStock/Home';
 import { Column } from '../../interfaces/PerfectStock/Settings';
 import { getDateOnly } from '../../utils/date';
-import { REPEAT_OPTIONS } from '.';
+import { CURRENCY_OPTIONS, REPEAT_OPTIONS } from '.';
 
 /* All action types */
 export const actionTypes = {
@@ -284,6 +284,36 @@ export const EXPENSES_SETTINGS_COLUMNS: Column[] = [
   },
 ];
 
+export const RECONCILE_SETTINGS_OPTIONS: Column[] = [
+  {
+    width: 200,
+    dataKey: 'name',
+    title: 'Name',
+    type: 'text',
+  },
+  {
+    width: 200,
+    dataKey: 'date',
+    title: 'Date',
+    type: 'date',
+  },
+  {
+    width: 130,
+    dataKey: 'amount',
+    title: 'Amount',
+    type: 'number',
+    prepend: '$',
+  },
+  {
+    width: 200,
+    dataKey: 'currency',
+    title: 'Currency',
+    type: 'selection',
+    optional: true,
+    options: CURRENCY_OPTIONS,
+  },
+];
+
 export const SETTINGS_OPTIONS = [
   {
     name: 'Employee Expenses',
@@ -298,6 +328,11 @@ export const SETTINGS_OPTIONS = [
   {
     name: 'Misc Expenses',
     url: '/aistock/home-misc-settings',
+    disabled: false,
+  },
+  {
+    name: 'Reconcile Expenses',
+    url: '/aistock/reconcile-settings',
     disabled: false,
   },
 ];
