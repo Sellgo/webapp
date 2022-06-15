@@ -185,7 +185,7 @@ export const subscriptionDetailsMapping: { [key: string]: number } = {
 };
 
 export const getSubscriptionID = (planName: string) => {
-  const DEFAULT_PROFESSIONAL_PLAN_ID = 102;
+  const DEFAULT_PROFESSIONAL_PLAN_ID = 104;
   const id = subscriptionDetailsMapping[planName];
   if (id) {
     return id;

@@ -12,8 +12,8 @@ export const TESTIMONIAL = {
 
 export const ORDER_ITEMS = [
   {
-    title: 'Seller account first month - $79 billed today',
-    price: 79,
+    title: 'Seller account first month - $29.97 billed today',
+    price: 29.97,
   },
 ];
 
