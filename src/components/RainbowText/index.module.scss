@@ -1,0 +1,31 @@
+@import '../../design-system/new-colors';
+
+.purple_blue_gradient {
+  background: $purple_blue_gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.purple_orange_gradient {
+  background: $purple_orange_gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.orange_purple_gradient {
+  background: $orange_purple_gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pink_purple_blue_gradient {
+  background: $pink_purple_blue_gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pink_blue_gradient {
+  background: $pink_blue_gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

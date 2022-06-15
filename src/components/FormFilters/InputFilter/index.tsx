@@ -118,6 +118,10 @@ const InputFilter: React.FC<Props> = props => {
     }
   }, [currentValue]);
 
+  React.useEffect(() => {
+    setCurrentValue(value);
+  }, [value]);
+
   const handleDebounceChange = React.useCallback(
     debounce(async (value: string) => {
       if (isNumber) {

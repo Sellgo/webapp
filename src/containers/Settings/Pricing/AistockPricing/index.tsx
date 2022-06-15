@@ -3,7 +3,6 @@ import { Confirm } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 import Axios from 'axios';
-import _ from 'lodash';
 
 /* Utils */
 import { success, error } from '../../../../utils/notifications';
@@ -30,19 +29,15 @@ import styles from './index.module.scss';
 import 'react-multi-carousel/lib/styles.css';
 
 /* Components */
-import PricingPlansCard from '../../../../components/PricingPlansCard';
 import PageHeader from '../../../../components/PageHeader';
-import ToggleButton from '../../../../components/ToggleButton';
+import Herobox from './Herobox';
 
 /* Types */
 import { Subscription } from '../../../../interfaces/Seller';
 import FAQSection from './FaqSection';
 
 /* Data */
-import {
-  DAILY_SUBSCRIPTION_PLANS,
-  MONTHLY_AND_ANNUAL_PLANS,
-} from '../../../../constants/Subscription/AiStock';
+import { DAILY_SUBSCRIPTION_PLANS } from '../../../../constants/Subscription/AiStock';
 
 interface SubscriptionProps {
   getSeller: () => void;
@@ -140,16 +135,23 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     return;
   };
 
+  requestChangeSubscription = (name: string, id: number) => {
+    this.setState({
+      pendingSubscription: true,
+      pendingSubscriptionName: name,
+      pendingSubscriptionId: id,
+    });
+  };
+
   render() {
     const { match, sellerSubscription } = this.props;
 
-    const {
-      pendingSubscription,
-      pendingSubscriptionId,
-      pendingSubscriptionName,
-      pendingSubscriptionMode,
-      isMonthly,
-    } = this.state;
+    const { pendingSubscription } = this.state;
+
+    const isPaidSellerSubscription =
+      sellerSubscription &&
+      sellerSubscription.subscription_id &&
+      !isSubscriptionIdFreeTrial(sellerSubscription.subscription_id);
 
     return (
       <>
@@ -164,9 +166,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         />
 
         <Confirm
-          content={`Would you like to change your plan to "${_.startCase(
-            pendingSubscriptionMode
-          )} ${pendingSubscriptionName}"`}
+          content={`Would you like to upgrade your plan?`}
           open={pendingSubscription ? true : false}
           onCancel={() => {
             this.setState({
@@ -184,7 +184,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               pendingSubscriptionMode: '',
             });
 
-            this.changeSubscription(pendingSubscriptionId, pendingSubscriptionMode);
+            history.push(`/subscription/payment`);
           }}
         />
 
@@ -200,37 +200,10 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 projection? We&apos;ve got your back.
               </p>
             </div>
-
-            <ToggleButton
-              isToggled={!isMonthly}
-              handleChange={() => this.setState({ isMonthly: !isMonthly })}
-              className={styles.paymentModeToggleButton}
-              options={['Pay monthly', 'Pay annually']}
+            <Herobox
+              isPaidSellerSubscription={isPaidSellerSubscription}
+              requestChangeSubscription={this.requestChangeSubscription}
             />
-            <div className={styles.pricingPlansCardWrapper}>
-              {MONTHLY_AND_ANNUAL_PLANS.map((product: any) => {
-                return (
-                  <PricingPlansCard
-                    key={product.id}
-                    id={product.id}
-                    name={product.name}
-                    isNew={product.isNew}
-                    monthlyPrice={product.monthlyPrice}
-                    annualPrice={product.annualPrice}
-                    desc={product.desc}
-                    featureSubName={product.featureSubName}
-                    featuresLists={product.featuresLists}
-                    // Plan details
-                    isMonthly={isMonthly}
-                    changePlan={(subscriptionDetails: { name: string; id: number }) =>
-                      this.getNewPlan(subscriptionDetails)
-                    }
-                    // seller details
-                    sellerSubscription={sellerSubscription}
-                  />
-                );
-              })}
-            </div>
           </section>
           <section className={styles.paymentMeta}>
             <div className={styles.paymentMeta__images}>

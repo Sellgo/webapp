@@ -1,0 +1,259 @@
+@import '../../design-system/new-colors';
+
+.demoPage {
+  border: 1px solid $second_silver;
+  box-shadow: 0 3px 6px #2e3b4a29;
+  padding: 5rem;
+  z-index: 99999 !important;
+  background: $grey_0;
+  width: 1000px;
+  height: 800px;
+  border-radius: 20px;
+  display: flex;
+
+  /* Mobile view */
+  @media only screen and(max-width: 1100px) {
+    margin-left: 40px;
+    height: 60rem;
+    width: 45rem;
+    border-radius: 7px;
+    overflow-y: auto;
+  }
+}
+
+.demoPageForm {
+  width: 43.5rem;
+  height: max-content;
+
+  h2 {
+    font-size: $fontsize_subtitle_40;
+    font-weight: $fontweight_bold;
+    color: $black_1;
+    line-height: 50px;
+    margin-bottom: 18px;
+
+    @media only screen and(max-width: 1100px) {
+      font-size: $fontsize_subtitle_24;
+      line-height: 30px;
+    }
+  }
+
+  p {
+    font-size: $fontsize_content_14;
+    color: $black_1;
+    font-weight: $fontweight_regular;
+    margin-bottom: 18px;
+  }
+
+  /* Mobile view */
+  @media only screen and(max-width: 1100px) {
+    width: 100%;
+  }
+}
+
+.inputControlWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.formInput {
+  width: 18rem;
+  margin-right: 18px;
+
+  &__long {
+    width: calc(36rem + 18px);
+  }
+
+  @media only screen and(max-width: 1100px) {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  label {
+    color: $prim_dark_2;
+    font-size: $fontsize_content_14;
+    font-weight: $fontweight_medium;
+    width: 100%;
+    margin-bottom: 5px;
+    display: inline-block;
+  }
+
+  input {
+    width: 100%;
+    height: 40px;
+    background: $prim_white;
+    border: 1px solid $second_silver;
+    border-radius: 3px;
+    color: $prim_dark_2;
+    font-size: $fontsize_content_14;
+    font-family: inherit;
+    padding: 0 1rem;
+
+    &:focus {
+      outline: 0;
+    }
+
+    &__error {
+      border: 1px solid $system_red;
+    }
+  }
+
+  small {
+    font-size: $fontsize_content_12;
+    color: $system_red;
+  }
+}
+
+.dropdownWrapper {
+  width: 18rem;
+  margin-right: 18px;
+  font-size: $fontsize_content_14;
+  color: $prim_dark_2;
+  height: 40px;
+  padding-top: 15px;
+
+  @media only screen and(max-width: 750px) {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+}
+
+.selectDropdown {
+  width: 18rem;
+  position: relative;
+
+  @media only screen and(max-width: 750px) {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  &__placeholder {
+    flex: 1;
+  }
+
+  &__control {
+    width: 18rem;
+    background: $prim_white;
+    border: 1px solid $second_silver;
+    font-size: $fontsize_content_14;
+    padding: 1rem;
+    border-radius: 3px;
+    cursor: pointer;
+    height: 4rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    @media only screen and(max-width: 750px) {
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+  }
+
+  &__menu {
+    background: $prim_white;
+    border: 1px solid $second_silver;
+    border-radius: 3px;
+    border-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    font-size: $fontsize_content_14;
+    padding: 1rem;
+    cursor: pointer;
+    max-height: 30rem;
+    overflow: auto;
+    position: absolute;
+    top: 4rem;
+    z-index: 20;
+    width: 100%;
+
+    div[role='option'] {
+      margin: 0.5rem 0;
+      font-family: 'Work Sans', sans-serif;
+
+      &:hover {
+        font-weight: 500;
+      }
+    }
+  }
+
+  &__arrow {
+    height: max-content;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $blue_7;
+    width: 10px;
+  }
+}
+
+.selectCheckbox {
+  display: flex;
+  align-items: center;
+  margin: 18px 0;
+
+  label {
+    color: $grey_8;
+    font-size: $fontsize_content_12;
+    font-weight: $fontweight_regular;
+    width: 100%;
+    display: inline-block;
+    margin-left: 10px;
+  }
+}
+
+.terms {
+  margin-top: 18px;
+  font-size: $fontsize_content_10 !important;
+  color: $prim_dark_2 !important;
+  font-weight: $fontweight_regular !important;
+}
+
+.submitButton {
+  height: 4rem;
+  width: calc(36rem + 18px);
+  background: $orange_purple_gradient;
+  border: none;
+
+  @media only screen and(max-width: 1100px) {
+    width: 100%;
+  }
+}
+
+.existingBrands {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 30px;
+
+  p {
+    margin-top: 5rem;
+    font-size: $fontsize_content_14;
+    color: $black_1;
+    font-weight: $fontweight_medium;
+    text-align: center;
+  }
+
+  /* Mobile view */
+  @media only screen and(max-width: 1100px) {
+    display: none;
+  }
+}
+
+.socialProofIcons {
+  display: grid;
+  grid-template-columns: 25% 25% 25%;
+  column-gap: 12.5%;
+  align-items: center;
+  justify-content: center;
+}
+
+.demoModal {
+  width: 1000px;
+  height: 500px;
+  z-index: 9999999 !important;
+}
