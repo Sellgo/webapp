@@ -78,22 +78,17 @@ const EditProductRow = (props: Props) => {
         secondAppend="lbs"
         asFloat
       />
+      <StatBox title={'Total COGS'} stat={rowData.total_cost} prepend="$" asFloat />
       <StatBox title={'Cost Per Unit'} stat={rowData.product_cost} prepend="$" asFloat />
-      <StatBox
-        title={`Est. \nShipping/ Unit`}
-        stat={rowData.shipping_cost_per_unit}
-        prepend="$"
-        asFloat
-      />
+      <StatBox title={`Shipping/ Unit`} stat={rowData.shipping_cost_per_unit} prepend="$" asFloat />
       <StatBox
         title={`Cost + Shipping \nPer Unit`}
         stat={rowData.cost_plus_shipping_per_unit}
         asFloat
         prepend="$"
       />
-      <StatBox title={'Total Cost'} stat={rowData.total_cost} prepend="$" asFloat />
       <StatBox
-        title={`Est. \nShipping Cost`}
+        title={`Est. \nShipping`}
         stat={rowData.total_shipping_cost}
         prepend="$"
         asFloat
@@ -102,9 +97,10 @@ const EditProductRow = (props: Props) => {
         handleAutoCalculate={handleAutoCalculate}
         handleEditSave={updateInventorySku}
       />
+      <StatBox title={`Duty Tax`} stat={rowData.duty} prepend="$" asFloat />
       <StatBox
-        title={`Total Cost \nwith Shipping`}
-        stat={rowData.total_cost_plus_shipping}
+        title={`Total Import \n Cost`}
+        stat={rowData.total_import_cost}
         prepend="$"
         asFloat
       />

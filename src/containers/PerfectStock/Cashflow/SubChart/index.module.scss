@@ -1,0 +1,35 @@
+@import '../../../../design-system/new-colors';
+
+.graphWrapper {
+  position: relative;
+  width: 25%;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  background: $prim_white;
+  border: 1px solid $grey_3;
+}
+
+.graph {
+  overflow: visible;
+  width: 450px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chartTitle {
+  font-size: $fontsize_content_14;
+  font-weight: $fontweight_semibold;
+  color: $prim_dark_2;
+  margin: 0;
+}
+
+.chartTotal {
+  line-height: 30px;
+  font-size: $fontsize_subtitle_20;
+  color: $black_1;
+  font-weight: $fontweight_medium;
+}

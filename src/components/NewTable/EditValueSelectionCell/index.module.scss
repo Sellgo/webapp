@@ -25,12 +25,18 @@
     border: 2px solid $blue_6;
   }
 
+  &:disabled {
+    background: $prim_white !important;
+    opacity: 0.7;
+  }
+
   &__error {
     border: 1px solid $system_red;
   }
 }
 
 .popupWrapper {
+  min-width: 0 !important;
   padding: 0 !important;
   margin: 0 !important;
   box-shadow: none !important;

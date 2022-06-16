@@ -46,7 +46,7 @@ const Payment = (props: PaymentProps) => {
   const getSubscriptionNameAndPaymentMode = (search: string) => {
     /* Parsing to obtain plan type */
     const LENGTH_OF_SEARCH_STRING = 5; // Length of "type=", and "mode="
-    const DEFAULT_PLAN = 'professional';
+    const DEFAULT_PLAN = 'aistock';
     const DEFAULT_PAYMENT_MODE = 'monthly';
     const startTypeIndex = search.indexOf('type=') + LENGTH_OF_SEARCH_STRING;
     let endTypeIndex = search.indexOf('&', startTypeIndex);

@@ -20,7 +20,12 @@ import {
 } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 /* Utils */
-import { formatNumber, showNAIfZeroOrNull, formatDecimal } from '../../../../utils/format';
+import {
+  formatNumber,
+  showNAIfZeroOrNull,
+  formatDecimal,
+  printShortDate,
+} from '../../../../utils/format';
 
 /* Components */
 import TooltipWrapper from '../../../../components/TooltipWrapper';
@@ -37,7 +42,6 @@ interface Props {
 
 const OrderSummary = (props: Props) => {
   const { activeOrder, inventoryTableResults, updatePurchaseOrder } = props;
-
   const handleAutoCalculateShipping = () => {
     updatePurchaseOrder({
       id: activeOrder.id,
@@ -47,17 +51,13 @@ const OrderSummary = (props: Props) => {
 
   let totalUnits = 0;
   let totalCartons = 0;
-  // let totalOverstock = 0;
-  // let costPerUnit = 0;
-  // let shippingPerUnit = 0;
-  // let costPlusShippingPerUnit = 0;
+  let totalDuty = 0;
   let totalCost = 0;
   let totalCbm = 0;
   let totalCft = 0;
   let totalWeightKg = 0;
   let totalWeightLbs = 0;
   let totalShippingCost = 0;
-  let totalCostWithShipping = 0;
   inventoryTableResults.forEach(merchantListing => {
     /* Predictive mode, with valid quantity */
     if (merchantListing.quantity_mode === 'predictive' && merchantListing.quantity) {
@@ -77,25 +77,10 @@ const OrderSummary = (props: Props) => {
       totalCartons += merchantListing.total_carton;
     }
 
-    /* Cost per unit */
-    // if (merchantListing.product_cost) {
-    //   costPerUnit += parseFloat(merchantListing.product_cost);
-    // }
-
-    /* Overstock */
-    // if (merchantListing.overstock_quantity) {
-    //   totalOverstock += merchantListing.overstock_quantity;
-    // }
-
-    /* Shipping per unit */
-    // if (merchantListing.shipping_cost_per_unit) {
-    //   shippingPerUnit += merchantListing.shipping_cost_per_unit;
-    // }
-
-    /* Cost + Shipping per unit */
-    // if (merchantListing.cost_plus_shipping_per_unit) {
-    //   costPlusShippingPerUnit += merchantListing.cost_plus_shipping_per_unit;
-    // }
+    /* Duty Tax */
+    if (merchantListing.product_cost) {
+      totalDuty += parseFloat(merchantListing.duty);
+    }
 
     /* Total cost */
     if (merchantListing.total_cost) {
@@ -126,11 +111,6 @@ const OrderSummary = (props: Props) => {
     if (merchantListing.total_shipping_cost) {
       totalShippingCost += merchantListing.total_shipping_cost;
     }
-
-    /* Total cost with shipping */
-    if (merchantListing.total_cost_plus_shipping) {
-      totalCostWithShipping += merchantListing.total_cost_plus_shipping;
-    }
   });
 
   if (!activeOrder.id || activeOrder.id === -1) {
@@ -158,15 +138,17 @@ const OrderSummary = (props: Props) => {
       </div>
       <div className={styles.statWrapper}>
         <TooltipWrapper tooltipKey="Total Cartons">
-          <span className={styles.statHeader}>Cartons</span>
+          <span className={styles.statHeader}>
+            Total <br /> Cartons
+          </span>
         </TooltipWrapper>
         <span className={styles.stat}>
           {showNAIfZeroOrNull(totalCartons, formatNumber(totalCartons))}
         </span>
       </div>
       <div className={styles.statWrapper}>
-        <TooltipWrapper tooltipKey="Total Carton Volume">
-          <span className={styles.statHeader}>Total Volume</span>
+        <TooltipWrapper tooltipKey="Total CBM">
+          <span className={styles.statHeader}>Total CBM</span>
         </TooltipWrapper>
         <span className={`${styles.stat} ${styles.stat__double}`}>
           {showNAIfZeroOrNull(totalCbm, `${formatDecimal(totalCbm)} m3`)}
@@ -177,7 +159,10 @@ const OrderSummary = (props: Props) => {
       </div>
       <div className={styles.statWrapper}>
         <TooltipWrapper tooltipKey="Total Carton Gross Weight">
-          <span className={styles.statHeader}>Total Gross Weight</span>
+          <span className={styles.statHeader}>
+            Total <br />
+            Gross Weight
+          </span>
         </TooltipWrapper>
         <span className={`${styles.stat} ${styles.stat__double}`}>
           {showNAIfZeroOrNull(totalWeightKg, `${formatDecimal(totalWeightKg)} kg`)}
@@ -186,41 +171,71 @@ const OrderSummary = (props: Props) => {
           {showNAIfZeroOrNull(totalWeightLbs, `${formatDecimal(totalWeightLbs)} lbs`)}
         </span>
       </div>
-      {/* <div className={styles.statWrapper}>
-        <span className={styles.statHeader}>Cost per unit</span>
-        <span className={styles.stat}>
-          {showNAIfZeroOrNull(costPerUnit, `$${formatDecimal(costPerUnit)}`)}
-        </span>
-      </div>
       <div className={styles.statWrapper}>
-        <span className={styles.statHeader}>Est. Shipping/ Unit</span>
-        <span className={styles.stat}>
-          {showNAIfZeroOrNull(shippingPerUnit, `$${formatDecimal(shippingPerUnit)}`)}
-        </span>
-      </div>
-      <div className={styles.statWrapper}>
-        <span className={styles.statHeader}>Cost + Shipping Per Unit</span>
-        <span className={styles.stat}>
-          {showNAIfZeroOrNull(
-            costPlusShippingPerUnit,
-            `$${formatDecimal(costPlusShippingPerUnit)}`
-          )}
-        </span>
-      </div> */}
-      <div className={`${styles.statWrapper}`} />
-      <div className={`${styles.statWrapper} ${styles.statWrapper_borderless}`} />
-      <div className={`${styles.statWrapper} ${styles.statWrapper_borderless}`} />
-      <div className={styles.statWrapper}>
-        <TooltipWrapper tooltipKey="Total Cost w/o Shipping">
-          <span className={styles.statHeader}>Total cost w/o Shipping</span>
+        <TooltipWrapper tooltipKey="Total COGS w/o Shipping">
+          <span className={styles.statHeader}>
+            Total COGS <br />
+            w/o Shipping
+          </span>
         </TooltipWrapper>
         <span className={styles.stat}>
           {showNAIfZeroOrNull(totalCost, `$${formatDecimal(totalCost)}`)}
         </span>
       </div>
       <div className={styles.statWrapper}>
+        <TooltipWrapper tooltipKey="Deposit">
+          <span className={styles.statHeader}>Deposit</span>
+        </TooltipWrapper>
+        {activeOrder.deposit_date && (
+          <span className={styles.date}>
+            ETA {printShortDate(new Date(activeOrder.deposit_date))}
+          </span>
+        )}
+        <span className={styles.stat}>
+          {showNAIfZeroOrNull(
+            activeOrder.deposit_amount,
+            `$${formatDecimal(activeOrder.deposit_amount)}`
+          )}
+        </span>
+      </div>
+      <div className={styles.statWrapper}>
+        <TooltipWrapper tooltipKey="Mid Pay">
+          <span className={styles.statHeader}>Mid Pay</span>
+        </TooltipWrapper>
+        {activeOrder.mid_pay_date && (
+          <span className={styles.date}>
+            ETA {printShortDate(new Date(activeOrder.mid_pay_date))}
+          </span>
+        )}
+        <span className={styles.stat}>
+          {showNAIfZeroOrNull(
+            activeOrder.mid_pay_amount,
+            `$${formatDecimal(activeOrder.mid_pay_amount)}`
+          )}
+        </span>
+      </div>
+      <div className={styles.statWrapper}>
+        <TooltipWrapper tooltipKey="Paid In Full">
+          <span className={styles.statHeader}>Paid In Full</span>
+        </TooltipWrapper>
+        {activeOrder.paid_full_date && (
+          <span className={styles.date}>
+            ETA {printShortDate(new Date(activeOrder.paid_full_date))}
+          </span>
+        )}
+        <span className={styles.stat}>
+          {showNAIfZeroOrNull(
+            activeOrder.paid_full_amount,
+            `$${formatDecimal(activeOrder.paid_full_amount)}`
+          )}
+        </span>
+      </div>
+      <div className={styles.statWrapper}>
         <TooltipWrapper tooltipKey="Estimated Shipping Cost">
-          <span className={styles.statHeader}>Estimated Shipping Cost</span>
+          <span className={styles.statHeader}>
+            Estimated <br />
+            Shipping
+          </span>
         </TooltipWrapper>
         <span className={styles.stat}>
           {showNAIfZeroOrNull(totalShippingCost, `$${formatDecimal(totalShippingCost)}`)}
@@ -229,11 +244,27 @@ const OrderSummary = (props: Props) => {
         </span>
       </div>
       <div className={styles.statWrapper}>
-        <TooltipWrapper tooltipKey="Total Cost with Shipping">
-          <span className={styles.statHeader}>Total cost with Shipping</span>
+        <TooltipWrapper tooltipKey="Duty Tax">
+          <span className={styles.statHeader}>Duty Tax</span>
         </TooltipWrapper>
         <span className={styles.stat}>
-          {showNAIfZeroOrNull(totalCostWithShipping, `$${formatDecimal(totalCostWithShipping)}`)}
+          {showNAIfZeroOrNull(totalDuty, `$${formatDecimal(totalDuty)}`)}
+        </span>
+      </div>
+      <div className={styles.statWrapper}>
+        <TooltipWrapper tooltipKey="Total Import Cost">
+          <span className={styles.statHeader}>Total Import Cost</span>
+        </TooltipWrapper>
+        {activeOrder.import_duties_date && (
+          <span className={styles.date}>
+            ETA {printShortDate(new Date(activeOrder.import_duties_date))}
+          </span>
+        )}
+        <span className={styles.stat}>
+          {showNAIfZeroOrNull(
+            activeOrder.total_import_cost,
+            `$${formatDecimal(activeOrder.total_import_cost)}`
+          )}
         </span>
       </div>
     </div>

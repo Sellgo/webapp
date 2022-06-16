@@ -1,0 +1,133 @@
+@import '../../../../../design-system/new-colors';
+
+.heroBoxWrapper {
+  position: relative;
+}
+
+.calculatePriceSection {
+  margin-bottom: 10rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.priceCalculator {
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  @media only screen and(max-width: 1200px) {
+    width: 100%;
+  }
+
+  @media only screen and(max-width: 500px) {
+    padding: 2rem;
+  }
+}
+
+.ordersPerMonthDisplay {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+
+  @media only screen and(max-width: 1200px) {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.ordersPerMonthText {
+  margin-bottom: 20px;
+  width: 70%;
+
+  p {
+    color: $prim_dark_2;
+    font-weight: $fontweight_semibold;
+    font-size: 14px;
+  }
+
+  span {
+    color: $prim_dark_2;
+    font-weight: $fontweight_semibold;
+    font-size: $fontsize_subtitle_24;
+  }
+}
+
+.planSelectionTitle {
+  font-size: $fontsize_content_14;
+  color: $prim_dark_2;
+  font-weight: $fontweight_semibold;
+}
+
+.planInformation {
+  display: flex;
+
+  @media only screen and(max-width: 1200px) {
+    margin: 2rem auto;
+    width: 90%;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .planInformationBox {
+    width: 50rem;
+    margin-right: 3rem;
+
+    @media only screen and(max-width: 1200px) {
+      width: 100%;
+
+      h2 {
+        font-size: $fontsize_subtitle_24;
+      }
+    }
+  }
+}
+
+.formInput {
+  min-width: 0;
+  margin-right: 18px;
+
+  input {
+    width: 100px;
+    height: 4rem;
+    background: $prim_white;
+    border: 1px solid $second_silver;
+    border-radius: 3px;
+    color: $prim_dark_2;
+    font-size: $fontsize_content_14;
+    font-family: inherit;
+    padding: 0 1rem;
+
+    &:focus {
+      outline: 0;
+    }
+
+    &__error {
+      border: 1px solid $system_red;
+    }
+  }
+
+  small {
+    font-size: $fontsize_content_12;
+    color: $system_red;
+  }
+}
+
+.banner {
+  background: $system_red;
+  width: 100%;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: $fontweight_medium;
+  font-size: $fontsize_content_12;
+  color: $prim_white;
+}

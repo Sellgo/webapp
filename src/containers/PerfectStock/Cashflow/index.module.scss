@@ -1,0 +1,21 @@
+@import '../../../design-system/new-colors';
+
+.subChartsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 300px;
+}
+
+.notificationBannerContent {
+  display: flex;
+  align-items: center;
+
+  span {
+    color: $sellgo_purple;
+  }
+}
+
+.onboardingModal {
+  width: 900px !important;
+  border-radius: 7px !important;
+}

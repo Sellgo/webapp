@@ -1,0 +1,48 @@
+@import '../../design-system/new-colors';
+
+.formSubmitConfirm {
+  width: 70rem;
+  height: 43rem;
+  background: $grey_0;
+  border: 1px solid $border-color-1;
+  border-radius: 7px;
+  color: $prim_dark_2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  text-align: center;
+
+  @media only screen and(max-width: 750px) {
+    width: 90vw;
+  }
+
+  @media only screen and(max-width: 500px) {
+    padding: 2rem;
+  }
+
+  h1 {
+    color: inherit;
+    font-size: $fontsize_subtitle_20;
+    font-weight: $fontweight_bold;
+  }
+
+  p {
+    max-width: 43rem;
+    color: $prim_dark_1;
+    font-size: $fontsize_content_14;
+    font-weight: $fontweight_semibold;
+    margin: 0 auto;
+    white-space: pre-line;
+  }
+
+  small {
+    font-size: $fontsize_content_14;
+    color: $prim_dark_1;
+    font-weight: $fontweight_semibold;
+    line-height: 30px;
+    max-width: 32rem;
+    margin: 0 auto;
+    display: block;
+  }
+}

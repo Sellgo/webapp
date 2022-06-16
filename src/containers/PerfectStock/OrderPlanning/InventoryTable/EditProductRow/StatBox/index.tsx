@@ -41,8 +41,6 @@ const StatBox = (props: Props) => {
     secondStat,
     asFloat ? formatDecimal(secondStat) : formatNumber(secondStat)
   );
-  // console.log(secondStat);
-  console.log(secondDisplayStat);
 
   return (
     <div className={styles.statBox}>

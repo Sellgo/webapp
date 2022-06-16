@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table } from 'rsuite';
 import axios from 'axios';
+import { Checkbox } from 'semantic-ui-react';
 
 /* Styling */
 import './global.scss';
@@ -22,7 +23,6 @@ import { error } from '../../../../../utils/notifications';
 
 /* Types */
 import { CreateOrderPayload } from '../../../../../interfaces/PerfectStock/OrderPlanning';
-import { Checkbox } from 'semantic-ui-react';
 
 interface Props {
   handlePrev: () => void;

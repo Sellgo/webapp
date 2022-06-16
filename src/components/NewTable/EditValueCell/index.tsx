@@ -17,7 +17,11 @@ interface Props extends RowCell {
   isPositiveOnly?: boolean;
   isInteger?: boolean;
   showEmptyError?: boolean;
+  hasError?: boolean;
   disabled?: boolean;
+  isLarge?: boolean;
+  isLong?: boolean;
+  allow5Decimal?: boolean;
 }
 
 const EditValueCell = (props: Props) => {
@@ -28,9 +32,13 @@ const EditValueCell = (props: Props) => {
     appendMessage,
     isNumber,
     isPositiveOnly,
+    allow5Decimal,
     isInteger,
     showEmptyError,
     disabled,
+    isLarge,
+    isLong,
+    hasError,
     ...otherProps
   } = props;
   const { rowData, dataKey } = otherProps;
@@ -47,17 +55,19 @@ const EditValueCell = (props: Props) => {
           isPositiveOnly={isPositiveOnly}
           value={rowData[dataKey] || ''}
           handleChange={(value: string) => {
-            if (isNumber) {
-              handleChange(dataKey, parseInt(value), cellIdentifier);
-            } else {
-              handleChange(dataKey, value, cellIdentifier);
-            }
+            handleChange(dataKey, value, cellIdentifier);
           }}
           placeholder=""
-          className={styles.inputField}
-          isDate={dataKey === 'start_date' || dataKey === 'end_date'}
+          className={`
+            ${styles.inputField} 
+            ${!isLarge ? styles.inputField__small : ''}
+            ${isLong ? styles.inputField__long : ''}
+          `}
+          isDate={dataKey === 'start_date' || dataKey === 'end_date' || dataKey === 'date'}
           isNumber={isNumber}
-          error={!disabled && showEmptyError && !rowData[dataKey]}
+          thousandSeperate={isNumber}
+          allow5Decimal={allow5Decimal}
+          error={(!disabled && showEmptyError && !rowData[dataKey]) || hasError}
           disabled={disabled}
         />
         <p>&nbsp;{appendMessage}</p>

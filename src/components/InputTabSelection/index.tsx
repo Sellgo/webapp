@@ -17,20 +17,23 @@ export default (props: Props) => {
 
   return (
     <div className={`${styles.inputTabSelection} ${className}`}>
-      {options.map(option => (
-        <button
-          className={`
+      {options.map(
+        option =>
+          option && (
+            <button
+              className={`
             ${styles.option}
             ${borderless ? styles.option__borderless : ''}
             ${selectedOption === option && !isPurple ? styles.option__selected : ''}
             ${selectedOption === option && isPurple ? styles.option__selectedPurple : ''}
           `}
-          key={option}
-          onClick={() => setSelectedOption(option)}
-        >
-          {option}
-        </button>
-      ))}
+              key={option}
+              onClick={() => setSelectedOption(option)}
+            >
+              {option}
+            </button>
+          )
+      )}
     </div>
   );
 };

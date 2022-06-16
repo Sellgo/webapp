@@ -26,10 +26,11 @@ import keywordReverseReducer from './KeywordResearch/KeywordReverse';
 import keywordDatabaseReducer from './KeywordResearch/KeywordDatabase';
 import keywordTrackerReducer from './KeywordResearch/KeywordTracker';
 
-/* Perfect Stock */
+/* AiStock */
 import salesProjectionReducer from './PerfectStock/SalesProjection';
 import orderPlanningReducer from './PerfectStock/OrderPlanning';
 import tplReducer from './PerfectStock/Tpl';
+import homeReducer from './PerfectStock/Home';
 
 const rootReducer = combineReducers({
   settings: settingsReducer,
@@ -62,6 +63,7 @@ const rootReducer = combineReducers({
   salesProjection: salesProjectionReducer,
   orderPlanning: orderPlanningReducer,
   tpl: tplReducer,
+  home: homeReducer,
 });
 
 export default rootReducer;

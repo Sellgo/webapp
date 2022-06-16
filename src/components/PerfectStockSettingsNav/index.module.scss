@@ -1,0 +1,53 @@
+@import '../../design-system/new-colors';
+
+.settingsNav {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  margin-right: 30px;
+  height: 100%;
+  min-width: 200px;
+  width: max-content;
+}
+
+.settingsPagesMenu {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+}
+
+.settingPageOption {
+  margin-right: 10px;
+  width: 170px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  min-height: 35px;
+  border-radius: 7px;
+  color: $prim_dark_1;
+  font-size: 14px;
+  font-weight: $fontweight_medium;
+  text-decoration: none !important;
+  margin-bottom: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  &:hover {
+    background: $grey_1;
+  }
+
+  &__active {
+    background: $black_1 !important;
+    color: $prim_white;
+    font-weight: $fontweight_semibold;
+  }
+
+  &__small {
+    width: 120px;
+  }
+}
+
+.settingWrapper {
+  display: flex;
+}

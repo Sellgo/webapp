@@ -19,12 +19,23 @@ export interface PurchaseOrder {
   id: number;
   lead_time_group: any;
   lead_time_group_id: number;
+  payment_term?: any;
+  order_payment_term_id: number;
   merchant_listings: any[];
   number: string;
   status: string;
   is_included: boolean;
   purchase_order_template_id: number;
   vendor_id: number | null;
+  deposit_amount?: number;
+  deposit_date?: string;
+  mid_pay_amount?: number;
+  mid_pay_date?: string;
+  paid_full_amount?: number;
+  paid_full_date?: string;
+  total_import_cost?: number;
+  total_import_date?: string;
+  import_duties_date?: string;
 }
 
 export interface DraftOrderTemplate {
@@ -48,6 +59,7 @@ export interface GanttChartPurchaseOrder {
   subTasks?: GanttChartPurchaseOrder[];
   prioritySku?: string;
   is_included?: boolean;
+  order_payment_term_id?: number | null;
 }
 
 export interface UpdatePurchaseOrderPayload {
@@ -56,6 +68,7 @@ export interface UpdatePurchaseOrderPayload {
   status?: 'active' | 'inactive';
   is_included?: boolean;
   po_sku_id?: number;
+  order_payment_term_id?: number | null;
   quantity?: number;
   manual_quantity?: number;
   quantity_mode?: string;
@@ -108,6 +121,8 @@ export interface CreateOrderPayload {
   start_date?: string | null;
   end_date?: string | null;
   lead_time_group_id: number;
+  order_payment_term_id: number;
+  payment_term?: PaymentTerm;
   lead_time_group?: SingleLeadTimeGroup;
   merchant_listings: any[];
   vendor_id?: number;
@@ -154,4 +169,18 @@ export interface ProductConfig {
 export interface InventoryTableFilters {
   active: string;
   fba: string;
+}
+
+export interface PaymentTerm {
+  name: string;
+  indexIdentifier: string;
+  id?: number;
+  deposit_perc?: string;
+  mid_pay_perc?: string;
+  paid_full_perc?: string;
+  deposite_due?: string;
+  mid_pay_due?: string;
+  paid_full_due?: string;
+  status: 'active' | 'inactive' | 'pending';
+  is_default?: boolean;
 }

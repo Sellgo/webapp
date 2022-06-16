@@ -9,6 +9,6 @@ export const getUserOnboarding = (state: any) => get(state, 'userOnboarding.setU
 export const getUserOnboardingResources = (state: any) =>
   get(state, 'userOnboarding.userOnboardingResources');
 
-/* Selector to get perfect stock get started status */
+/* Selector to get AiStock get started status */
 export const getPerfectStockGetStartedStatus = (state: any) =>
   get(state, 'userOnboarding.perfectStockGetStartedStatus');

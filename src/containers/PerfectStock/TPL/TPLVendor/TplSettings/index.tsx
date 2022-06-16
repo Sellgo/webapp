@@ -20,6 +20,7 @@ import {
 
 /* Actions */
 import { createUpdateTplVendor } from '../../../../../actions/PerfectStock/Tpl';
+import { updateCashflowOnboardingStatus } from '../../../../../actions/PerfectStock/Home';
 
 /* Components */
 import InputFilter from '../../../../../components/FormFilters/InputFilter';
@@ -31,20 +32,32 @@ import { ReactComponent as ExclaimationIcon } from '../../../../../assets/images
 
 /* Selectors */
 import { getTplActiveVendor } from '../../../../../selectors/PerfectStock/Tpl';
+import { getCashflowOnboardingStatus } from '../../../../../selectors/PerfectStock/Cashflow';
 
 interface Props {
   createUpdateTplVendor: (payload: TplVendor) => void;
   activeTplVendor: TplVendor;
+
+  cashflowOnboardingStatus: any[];
+  updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) => void;
 }
 
 const TplSettings = (props: Props) => {
-  const { createUpdateTplVendor, activeTplVendor } = props;
+  const {
+    createUpdateTplVendor,
+    activeTplVendor,
+    cashflowOnboardingStatus,
+    updateCashflowOnboardingStatus,
+  } = props;
   const [tplSettings, setTplSettings] = useState<TplVendor>(
     activeTplVendor || DEFAULT_NEW_TPL_VENDOR
   );
   const [showTplMetaSettings, setShowTplMetaSettings] = useState(false);
   const [showTplMonthlyStorageCost, setShowTplMonthlyStorageCost] = useState(false);
   const [storageCostError, setSetStorageCostError] = useState(false);
+  const tplOnboardingStatusId = cashflowOnboardingStatus.find(status => {
+    return status.step_name === 'tpl_storage_fee' && !status.is_completed;
+  })?.id;
 
   React.useEffect(() => {
     setTplSettings(activeTplVendor || DEFAULT_NEW_TPL_VENDOR);
@@ -80,6 +93,9 @@ const TplSettings = (props: Props) => {
     createUpdateTplVendor({
       ...tplSettings,
     });
+    if (tplOnboardingStatusId) {
+      updateCashflowOnboardingStatus(tplOnboardingStatusId, true);
+    }
   };
 
   const handleReset = (resetSettings: { resetDetails?: boolean; resetStorageCost?: boolean }) => {
@@ -364,12 +380,15 @@ const TplSettings = (props: Props) => {
 const mapStateToProps = (state: any) => {
   return {
     activeTplVendor: getTplActiveVendor(state),
+    cashflowOnboardingStatus: getCashflowOnboardingStatus(state),
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     createUpdateTplVendor: (payload: TplVendor) => dispatch(createUpdateTplVendor(payload)),
+    updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) =>
+      dispatch(updateCashflowOnboardingStatus(onboardingCostId, newStatus)),
   };
 };
 

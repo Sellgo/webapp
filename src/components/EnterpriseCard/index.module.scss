@@ -1,0 +1,48 @@
+@import '../../design-system/new-colors';
+
+.buyPlanCard {
+  background: $prim_white;
+  margin-top: 5rem;
+  border: 1px solid $second_silver;
+  border-radius: 7px;
+  min-height: 48rem;
+  height: max-content;
+  width: 37rem;
+  color: $prim_dark_2;
+  padding: 3rem 3rem;
+}
+
+.title {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: $fontsize_subtitle_24;
+  color: $black_1;
+  font-weight: $fontweight_bold;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: $fontsize_content_14;
+  color: $grey_8;
+  font-weight: $fontweight_regular;
+}
+
+.planName {
+  color: $black_0;
+  font-size: $fontsize_content_12;
+  font-weight: $fontweight_medium;
+}
+
+.priceCardCTA {
+  background: $sellgo_neon_green;
+  border: none;
+  height: 5rem;
+  border-radius: 7px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  font-size: 16px;
+  font-weight: $fontweight_semibold;
+  color: $prim_dark_2;
+}

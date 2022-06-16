@@ -2,6 +2,7 @@ import React from 'react';
 import { Input } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { DatePicker } from 'rsuite';
+import { debounce } from 'lodash';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -19,7 +20,16 @@ import {
 import OnboardingTooltip from '../../OnboardingTooltip';
 
 /* Utils */
-import { getNumberOfDps, commify } from '../../../utils/format';
+import {
+  commify,
+  isNumber as checkIsNumber,
+  checkIsInteger,
+  isPositive as checkIsPositive,
+  isLessThanFiveDecimalPoints,
+  isLessThanTwoDecimalPoints,
+  stringToNumber,
+  isThousandSeperated,
+} from '../../../utils/format';
 
 interface Props {
   label?: string;
@@ -72,61 +82,61 @@ const InputFilter: React.FC<Props> = props => {
 
   const { tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
   const type = isDate ? 'date' : 'text';
+  const [currentValue, setCurrentValue] = React.useState(value);
 
   const format = thousandSeperate ? commify : (v: string) => v;
-  const handleChangeWithRules = (value: string) => {
-    let valueWithoutCommas = '';
-    if (isNumber) {
-      /* Remove commas from value */
-      valueWithoutCommas = value.replace(',', '');
+
+  const validateInput = (value: string) => {
+    if (isNumber && !checkIsNumber(value)) {
+      return false;
     }
 
-    if (isNumber && !value) {
-      handleChange('');
-      return;
+    if (isInteger && !checkIsInteger(value)) {
+      return false;
     }
 
-    /* Positive integers only */
-    if (isNumber && isPositiveOnly && isInteger) {
-      if (
-        !isNaN(valueWithoutCommas as any) &&
-        parseInt(valueWithoutCommas) >= 0 &&
-        Number.isInteger(Number(value))
-      ) {
-        handleChange(format(valueWithoutCommas));
-      }
-      /* Integers only */
-    } else if (isNumber && isInteger) {
-      /* Check if is valid integer */
-      if (Number.isInteger(Number(valueWithoutCommas))) {
-        handleChange(format(valueWithoutCommas));
-      }
+    if (isPositiveOnly && !checkIsPositive(value)) {
+      return false;
+    }
 
-      /* Positive floats/integers only */
-    } else if (isNumber && isPositiveOnly) {
-      if (
-        parseFloat(valueWithoutCommas) >= 0 &&
-        allow5Decimal &&
-        getNumberOfDps(valueWithoutCommas) <= 5
-      ) {
-        handleChange(format(valueWithoutCommas));
-      } else if (
-        parseFloat(valueWithoutCommas) >= 0 &&
-        getNumberOfDps(valueWithoutCommas) <= 2 &&
-        !allow5Decimal
-      ) {
-        handleChange(format(valueWithoutCommas));
+    /* Default float, allow 2 DPs */
+    if (isNumber && !allow5Decimal && !isLessThanTwoDecimalPoints(value)) {
+      return false;
+    }
+
+    /* Default float, allow 5 DPs */
+    if (isNumber && allow5Decimal && !isLessThanFiveDecimalPoints(value)) {
+      return false;
+    }
+
+    return true;
+  };
+
+  React.useEffect(() => {
+    if (currentValue && thousandSeperate && isNumber && !isThousandSeperated(currentValue)) {
+      setCurrentValue(format(currentValue));
+    }
+  }, [currentValue]);
+
+  React.useEffect(() => {
+    setCurrentValue(value);
+  }, [value]);
+
+  const handleDebounceChange = React.useCallback(
+    debounce(async (value: string) => {
+      if (isNumber) {
+        handleChange(stringToNumber(value).toString());
+      } else {
+        handleChange(value);
       }
-      /* Floats */
-    } else if (isNumber) {
-      /* Check number of dp */
-      if (allow5Decimal && getNumberOfDps(valueWithoutCommas) <= 5) {
-        handleChange(format(valueWithoutCommas));
-      } else if (!allow5Decimal && getNumberOfDps(valueWithoutCommas) <= 2) {
-        handleChange(format(valueWithoutCommas));
-      }
-    } else {
-      handleChange(value);
+    }, 500),
+    []
+  );
+
+  const handleOnChange = (value: string) => {
+    if (validateInput(value)) {
+      setCurrentValue(value);
+      handleDebounceChange(value);
     }
   };
 
@@ -153,14 +163,15 @@ const InputFilter: React.FC<Props> = props => {
           className={`${styles.inputWrapper} ${className} textInputFilter`}
           type={type}
           placeholder={placeholder}
-          value={value}
-          onChange={(e: any) => handleChangeWithRules(e.target.value)}
+          value={currentValue}
+          onChange={(e: any) => handleOnChange(e.target.value)}
           disabled={disabled}
           error={error}
           onPaste={(e: any) => {
             const pastedValue = e.clipboardData;
             const value = pastedValue.getData('Text');
             handleOnPaste ? handleOnPaste(value) : handleChange(value);
+            handleOnChange(value);
             e.clipboardData.setData('text/plain', '');
             e.preventDefault();
           }}
@@ -171,10 +182,12 @@ const InputFilter: React.FC<Props> = props => {
         />
       ) : (
         <DatePicker
-          defaultValue={value ? new Date(value) : new Date()}
-          selected={value ? new Date(value) : new Date()}
+          oneTap
+          defaultValue={value ? new Date(value) : undefined}
+          selected={value ? new Date(value) : undefined}
+          className={error ? styles.dateError : ''}
           onChange={(date: Date) => {
-            handleChangeWithRules(date ? date.toISOString().split('T')[0] : '');
+            handleChange(date ? date.toISOString().split('T')[0] : '');
           }}
           disabledDate={(date: Date | undefined) =>
             date ? date.getTime() <= new Date().getTime() : false

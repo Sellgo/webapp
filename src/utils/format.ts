@@ -17,7 +17,9 @@ export const formatDecimal = (num: any) => {
   }
 
   return (
-    num.toLocaleString().split('.')[0] +
+    parseFloat(num)
+      .toLocaleString()
+      .split('.')[0] +
     '.' +
     Number(num)
       .toFixed(2)
@@ -207,7 +209,8 @@ export const getNumberOfDps = (value: string) => {
 };
 
 export const commify = (n: string) => {
-  const parts = n.split('.');
+  const valueWithoutCommas = n.toString().replace(/,/g, '');
+  const parts = valueWithoutCommas.split('.');
   const numberPart = parts[0];
   if (parts.length >= 2) {
     const decimalPart = parts[1];
@@ -215,4 +218,83 @@ export const commify = (n: string) => {
   } else {
     return parseInt(numberPart).toLocaleString();
   }
+};
+
+export const stringToNumber = (value: string, isInteger?: boolean) => {
+  if (!value) {
+    return 0;
+  }
+
+  if (isInteger) {
+    return parseInt(value.toString().replace(/[^0-9.-]+/g, ''));
+  }
+  return parseFloat(value.toString().replace(/[^0-9.-]+/g, ''));
+};
+
+export const isNumber = (value: string) => {
+  if (!value) {
+    return true;
+  }
+  const valueWithoutCommas = value.replace(/,/g, '');
+  return (
+    /^\d+\.\d+$/.test(valueWithoutCommas) ||
+    /^\d+$/.test(valueWithoutCommas) ||
+    /^\d+\.$/.test(valueWithoutCommas)
+  );
+};
+
+export const checkIsInteger = (value: string) => {
+  if (!value) {
+    return true;
+  }
+  const valueWithoutCommas = value.replace(/,/g, '');
+  return !isNaN(parseInt(valueWithoutCommas));
+};
+
+export const isPositive = (value: string) => {
+  if (!value) {
+    return true;
+  }
+  const valueWithoutCommas = value.replace(/,/g, '');
+  return !isNaN(parseFloat(valueWithoutCommas)) && parseFloat(valueWithoutCommas) >= 0;
+};
+
+export const isLessThanFiveDecimalPoints = (value: string) => {
+  if (!value) {
+    return true;
+  }
+  const valueWithoutCommas = value.replace(/,/g, '');
+  return !isNaN(parseFloat(valueWithoutCommas)) && getNumberOfDps(valueWithoutCommas) <= 5;
+};
+
+export const isLessThanTwoDecimalPoints = (value: string) => {
+  if (!value) {
+    return true;
+  }
+  const valueWithoutCommas = value.replace(/,/g, '');
+  return !isNaN(parseFloat(valueWithoutCommas)) && getNumberOfDps(valueWithoutCommas) <= 2;
+};
+
+const getNumberOfCommasToBeIncluded = (number: number) => {
+  const setsOfThousands = Math.floor(number.toString().length / 3);
+  const isExcessNumber = number.toString().length % 3 === 0;
+  return isExcessNumber ? setsOfThousands - 1 : setsOfThousands;
+};
+
+export const isThousandSeperated = (value: string) => {
+  if (!value) {
+    return true;
+  }
+  const number = stringToNumber(value, true);
+  const numberOfCommasToBeIncluded = getNumberOfCommasToBeIncluded(number);
+  const numberOfCommas = (value.toString().match(/,/g) || []).length;
+  return numberOfCommas === numberOfCommasToBeIncluded;
+};
+
+/* Print date in MM/DD/YY, year in 2digits */
+export const printShortDate = (date: Date) => {
+  return `${date.getMonth() + 1}/${date.getDate() + 1}/${date
+    .getFullYear()
+    .toString()
+    .substr(2)}`;
 };

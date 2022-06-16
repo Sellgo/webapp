@@ -2,6 +2,14 @@ import {
   GanttChartPurchaseOrder,
   PurchaseOrder,
 } from '../../interfaces/PerfectStock/OrderPlanning';
+import { Column } from '../../interfaces/PerfectStock/Settings';
+import {
+  STATUS_OPTIONS,
+  DIMENSION_UNIT_OPTIONS,
+  WEIGHT_UNIT_OPTIONS,
+  LEAD_TIME_OPTIONS,
+  CURRENCY_OPTIONS,
+} from './';
 
 export const actionTypes = {
   IS_LOADING_INVENTORY_TABLE_RESULTS: 'IS_LOADING_INVENTORY_TABLE_RESULTS',
@@ -42,6 +50,8 @@ export const EMPTY_PURCHASE_ORDER: PurchaseOrder = {
   id: -1,
   lead_time_group: undefined,
   lead_time_group_id: 0,
+  payment_term: undefined,
+  order_payment_term_id: 0,
   merchant_listings: [],
   number: '',
   status: '',
@@ -102,6 +112,7 @@ export const CREATE_ORDER_STATUS = {
   SELECT_INVENTORY_THRESHOLD: 'SELECT_INVENTORY_THRESHOLD',
   SELECT_TIME_INTERVAL: 'SELECT_TIME_INTERVAL',
   SELECT_LEAD_TIME: 'SELECT_LEAD_TIME',
+  SELECT_PAYMENT_TERM: 'SELECT_PAYMENT_TERM',
   SELECT_START_DATE: 'SELECT_START_DATE',
   SELECT_TPL: 'SELECT_TPL',
   ORDER_CREATED: 'ORDER_CREATED',
@@ -113,6 +124,7 @@ export const CREATE_ORDER_FLOW = {
     CREATE_ORDER_STATUS.SELECT_SKUS,
     CREATE_ORDER_STATUS.SELECT_PRIORITY_SKUS,
     CREATE_ORDER_STATUS.SELECT_LEAD_TIME,
+    CREATE_ORDER_STATUS.SELECT_PAYMENT_TERM,
     CREATE_ORDER_STATUS.SELECT_START_DATE,
     CREATE_ORDER_STATUS.SELECT_TPL,
     CREATE_ORDER_STATUS.ORDER_CREATED,
@@ -123,6 +135,7 @@ export const CREATE_ORDER_FLOW = {
     CREATE_ORDER_STATUS.SELECT_SKUS,
     CREATE_ORDER_STATUS.SELECT_PRIORITY_SKUS,
     CREATE_ORDER_STATUS.SELECT_LEAD_TIME,
+    CREATE_ORDER_STATUS.SELECT_PAYMENT_TERM,
     CREATE_ORDER_STATUS.SELECT_START_DATE,
     CREATE_ORDER_STATUS.SELECT_TPL,
     CREATE_ORDER_STATUS.ORDER_CREATED,
@@ -134,6 +147,7 @@ export const CREATE_ORDER_FLOW = {
     CREATE_ORDER_STATUS.SELECT_PRIORITY_SKUS,
     CREATE_ORDER_STATUS.SELECT_INVENTORY_THRESHOLD,
     CREATE_ORDER_STATUS.SELECT_LEAD_TIME,
+    CREATE_ORDER_STATUS.SELECT_PAYMENT_TERM,
     CREATE_ORDER_STATUS.SELECT_START_DATE,
     CREATE_ORDER_STATUS.SELECT_TPL,
     CREATE_ORDER_STATUS.ORDER_CREATED,
@@ -145,6 +159,7 @@ export const CREATE_ORDER_FLOW = {
     CREATE_ORDER_STATUS.SELECT_PRIORITY_SKUS,
     CREATE_ORDER_STATUS.SELECT_TIME_INTERVAL,
     CREATE_ORDER_STATUS.SELECT_LEAD_TIME,
+    CREATE_ORDER_STATUS.SELECT_PAYMENT_TERM,
     CREATE_ORDER_STATUS.SELECT_START_DATE,
     CREATE_ORDER_STATUS.SELECT_TPL,
     CREATE_ORDER_STATUS.ORDER_CREATED,
@@ -201,3 +216,189 @@ export const DEFAULT_FILTER = {
   active: 'sku_status=active',
   fba: 'fulfillment_channel=fba',
 };
+
+export const SETTINGS_OPTIONS = [
+  {
+    name: 'Days of Inventory',
+    url: '/aistock/inventory-days-of-inventory-settings',
+    disabled: false,
+  },
+  {
+    name: 'Sku Settings',
+    url: '/aistock/sku-settings',
+    disabled: false,
+  },
+  {
+    name: 'Duty Settings',
+    url: '/aistock/duty-settings',
+    disabled: false,
+  },
+  {
+    name: 'Payment Terms',
+    url: '/aistock/payment-terms-settings',
+    disabled: false,
+  },
+];
+
+export const SKU_SETTINGS_COLUMNS: Column[] = [
+  {
+    width: 200,
+    dataKey: 'sku',
+    title: 'Sku Name',
+    type: 'text',
+    disabled: true,
+    optional: true,
+  },
+  {
+    width: 110,
+    dataKey: 'status',
+    title: 'Status',
+    type: 'selection',
+    options: STATUS_OPTIONS,
+    optional: true,
+  },
+  {
+    width: 110,
+    dataKey: 'currency',
+    title: 'Currency',
+    type: 'selection',
+    options: CURRENCY_OPTIONS,
+    optional: true,
+    disabled: true,
+  },
+  {
+    width: 110,
+    dataKey: 'product_cost',
+    title: 'Cost per unit ($)',
+    type: 'number',
+    prepend: '$',
+    optional: true,
+  },
+  {
+    width: 110,
+    dataKey: 'moq',
+    title: 'MOQ (unit)',
+    type: 'number',
+    optional: true,
+    numberOptions: {
+      isInteger: true,
+    },
+  },
+  {
+    width: 110,
+    dataKey: 'dim_unit',
+    title: 'Unit Dimension',
+    type: 'selection',
+    options: DIMENSION_UNIT_OPTIONS,
+    optional: true,
+  },
+  {
+    width: 110,
+    dataKey: 'wt_unit',
+    title: 'Unit Weight',
+    type: 'selection',
+    options: WEIGHT_UNIT_OPTIONS,
+    optional: true,
+  },
+  {
+    width: 110,
+    dataKey: 'carton_count',
+    title: 'Units per carton',
+    type: 'number',
+    optional: true,
+    numberOptions: {
+      isInteger: true,
+    },
+  },
+  {
+    width: 110,
+    dataKey: 'package_length',
+    title: 'Carton Length',
+    type: 'number',
+    optional: true,
+  },
+  {
+    width: 110,
+    dataKey: 'package_width',
+    title: 'Carton Width',
+    type: 'number',
+    optional: true,
+  },
+  {
+    width: 110,
+    dataKey: 'package_height',
+    title: 'Carton Height',
+    type: 'number',
+    optional: true,
+  },
+  {
+    width: 110,
+    dataKey: 'package_weight',
+    title: 'Carton Weight',
+    type: 'number',
+    optional: true,
+  },
+];
+
+export const PAYMENT_TERMS_COLUMNS: Column[] = [
+  {
+    width: 200,
+    dataKey: 'deposit_due',
+    title: 'Deposit Due',
+    type: 'selection',
+    options: LEAD_TIME_OPTIONS,
+  },
+  {
+    width: 200,
+    dataKey: 'deposit_perc',
+    title: 'Deposit %',
+    type: 'number',
+    append: '%',
+  },
+  {
+    width: 200,
+    dataKey: 'mid_pay_due',
+    title: 'Mid Pay Due',
+    type: 'selection',
+    options: LEAD_TIME_OPTIONS,
+  },
+  {
+    width: 200,
+    dataKey: 'mid_pay_perc',
+    title: 'Mid Pay %',
+    type: 'number',
+    append: '%',
+  },
+  {
+    width: 200,
+    dataKey: 'paid_full_due',
+    title: 'Paid Full Due',
+    type: 'selection',
+    options: LEAD_TIME_OPTIONS,
+  },
+  {
+    width: 200,
+    dataKey: 'paid_full_perc',
+    title: 'Paid Full %',
+    type: 'number',
+    append: '%',
+  },
+];
+
+export const DUTY_SETTINGS_COLUMNS: Column[] = [
+  {
+    width: 200,
+    dataKey: 'sku',
+    title: 'Sku',
+    type: 'text',
+    disabled: true,
+    optional: true,
+  },
+  {
+    width: 110,
+    dataKey: 'import_duty_rate',
+    title: 'Duty Tax (%)',
+    type: 'number',
+    optional: true,
+  },
+];
