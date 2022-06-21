@@ -170,9 +170,17 @@ export const updateSalesProjectionProduct = (payload: SalesProjectionUpdatePaylo
     dispatch(setSalesProjectionRow(newSalesProjectionRow));
     const sellerId = sellerIDSelector();
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/sales-projection/${payload.id}/update`;
-    const { status } = await axios.patch(URL, payload.updatePayload);
+    const { status, data } = await axios.patch(URL, payload.updatePayload);
     if (status) {
       success('Successfully updated');
+
+      if (data?.predictive_sales) {
+        const updatedSalesProjectionRow = {
+          ...newSalesProjectionRow,
+          predictive_sales: data.predictive_sales,
+        };
+        dispatch(setSalesProjectionRow(updatedSalesProjectionRow));
+      }
     } else {
       /* If failed, revert to original state */
       dispatch(setSalesProjectionRow(oldSalesProjectionRow));
