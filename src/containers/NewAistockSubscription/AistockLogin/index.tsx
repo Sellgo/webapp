@@ -99,7 +99,7 @@ export default function Login(props: Props) {
           Log in
         </Form.Field>
         <a className="sign-up" href="/signup">
-          <b>Sign up for free account</b>
+          <b>Sign up for free trial</b>
         </a>
       </Form>
     </LoginBase>

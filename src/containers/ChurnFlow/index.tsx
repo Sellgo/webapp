@@ -13,6 +13,7 @@ import { AppConfig } from '../../config';
 
 /* Utils */
 import history from '../../history';
+import { isSellgoSession } from '../../utils/session';
 
 /* Actions */
 import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
@@ -21,6 +22,7 @@ import { getSellerInfo } from '../../actions/Settings';
 /* Images */
 import leftArrow from '../../assets/images/left-arrow.svg';
 import sellgoLogo from '../../assets/images/SellgoNewestLogo.png';
+import aistockLogo from '../../assets/images/aistockLogo.png';
 import TofuAndSoybean from '../../assets/images/TofuAndSoybean.png';
 import Tofu from '../../assets/images/Tofu.png';
 
@@ -59,16 +61,29 @@ const ChurnFlow = (props: Props) => {
   const generateTypeFormContent = () => {
     switch (surveyPhase) {
       case PRE_SURVEY:
-        return (
-          <ChurnFlowContent
-            onClick={() => handleChangeSurveyPhase(IN_SURVEY)}
-            title={`We're sorry to see you go`}
-            desc={`In order to improve our services,
+        if (isSellgoSession()) {
+          return (
+            <ChurnFlowContent
+              onClick={() => handleChangeSurveyPhase(IN_SURVEY)}
+              title={`We're sorry to see you go`}
+              desc={`In order to improve our services,
              we need you to answer 3 quick questions. Your insights can help us improve the product for others.`}
-            buttonText="Quick Survey"
-            img={sellgoLogo}
-          />
-        );
+              buttonText="Quick Survey"
+              img={sellgoLogo}
+            />
+          );
+        } else {
+          return (
+            <ChurnFlowContent
+              onClick={() => handleChangeSurveyPhase(IN_SURVEY)}
+              title={`We're sorry to see you go`}
+              desc={`In order to improve our services,
+             we need you to answer 3 quick questions. Your insights can help us improve the product for others.`}
+              buttonText="Quick Survey"
+              img={aistockLogo}
+            />
+          );
+        }
 
       case IN_SURVEY:
         return (
