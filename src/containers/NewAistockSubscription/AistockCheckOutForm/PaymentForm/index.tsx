@@ -23,7 +23,7 @@ import {
   SELLER_TYPE_PER_UNITS_SOLD,
   getNearestUnitsSold,
   getSliderValue,
-} from '../../../Settings/Pricing/AistockPricing/Herobox/data'
+} from '../../../Settings/Pricing/AistockPricing/Herobox/data';
 import RainbowText from '../../../../components/RainbowText';
 import FormInput from '../../../../components/FormInput';
 
