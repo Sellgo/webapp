@@ -493,11 +493,8 @@ export const getLaunchSavingPercentage = (unitsSold: UNITS_SOLD_TYPE) => {
 };
 
 export const getSliderValue = (unitsSold: UNITS_SOLD_TYPE) => {
-  return (
-    Object.keys(UNITS_SOLD_PER_MONTH).find((key: any) => UNITS_SOLD_PER_MONTH[key] === unitsSold) ||
-    '0'
-  );
-};
+	return Object.keys(UNITS_SOLD_PER_MONTH).find((key: any) => UNITS_SOLD_PER_MONTH[key] === unitsSold) || '0';
+}
 
 export const getSellerPlan = (unitsSold: UNITS_SOLD_TYPE) => {
   const plan = SELLER_TYPE_PER_UNITS_SOLD[unitsSold];
@@ -506,6 +503,15 @@ export const getSellerPlan = (unitsSold: UNITS_SOLD_TYPE) => {
     //ctaText: `$${getPlanPrice(unitsSold)} today,  $${getPlanPrice(unitsSold)}/ mo after that`
   };
 };
+
+export const getSellerLaunchDiscount = (unitsSold: UNITS_SOLD_TYPE) => {
+  const plan = SELLER_TYPE_PER_UNITS_SOLD[unitsSold];
+  return {
+    ...plan,
+    ctaText: `$0 billed today, $${getLaunchDiscount(unitsSold)}/ mo after that`,
+  };
+};
+
 
 export const getNearestUnitsSold = (unitsSold: number) => {
   if (!unitsSold) {
