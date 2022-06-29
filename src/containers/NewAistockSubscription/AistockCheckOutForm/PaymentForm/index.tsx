@@ -312,7 +312,7 @@ function CheckoutForm(props: MyProps) {
                 last_name: lastName,
                 stripe_subscription_id: stripeSubscription.id,
                 stripe_customer_id: stripeSubscription.customer,
-                subscription_id: getSubscriptionID(accountType),
+                subscription_id:  SELLER_TYPE_PER_UNITS_SOLD[unitsSold].id,
                 payment_mode: paymentMode,
                 password: password,
               };
