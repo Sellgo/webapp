@@ -21,6 +21,7 @@ import {
   UNITS_SOLD_PER_MONTH,
   UNITS_SOLD_TYPE,
   SELLER_TYPE_PER_UNITS_SOLD,
+  PLAN_PRICE_PER_UNITS_SOLD,
   getNearestUnitsSold,
   getSliderValue,
 } from '../../../Settings/Pricing/AistockPricing/Herobox/data';
@@ -164,7 +165,8 @@ function CheckoutForm(props: MyProps) {
   React.useEffect(() => {
     // @ts-ignore
     setUnitsSold(order);
-    // setUnitsSoldInput(parseInt(UNITS_SOLD_PER_MONTH[order].replace(/,/g, ''), 10));
+    // @ts-ignore
+    setUnitsSoldInput(parseInt(order));
   }, [order]);
 
   const handleCheckPromoCode = async (event: any) => {
@@ -312,7 +314,7 @@ function CheckoutForm(props: MyProps) {
                 last_name: lastName,
                 stripe_subscription_id: stripeSubscription.id,
                 stripe_customer_id: stripeSubscription.customer,
-                subscription_id:  SELLER_TYPE_PER_UNITS_SOLD[unitsSold].id,
+                subscription_id: SELLER_TYPE_PER_UNITS_SOLD[unitsSold].id,
                 payment_mode: paymentMode,
                 password: password,
               };
@@ -457,15 +459,15 @@ function CheckoutForm(props: MyProps) {
         <div className={styles.orderSummaryContainer}>
           <h2> Order Summary </h2>
           <div className={styles.orderItemsWrapper}>
-            {ORDER_ITEMS.map((order: any, index: number) => (
-              <div className={styles.orderItem} key={index}>
-                <p className={styles.orderTitle}>{order.title}</p>
-                <p className={styles.orderPrice}>${order.price}</p>
-              </div>
-            ))}
+            <div className={styles.orderItem}>
+              <p className={styles.orderTitle}>
+                Seller account first month - ${PLAN_PRICE_PER_UNITS_SOLD[unitsSold]} billed today
+              </p>
+              <p className={styles.orderPrice}>${PLAN_PRICE_PER_UNITS_SOLD[unitsSold]}</p>
+            </div>
             <div className={styles.totalPrice}>
               <p>Total charges today </p>
-              <p>${getTotalOrderPrice()} </p>
+              <p>${PLAN_PRICE_PER_UNITS_SOLD[unitsSold]} </p>
             </div>
           </div>
         </div>
