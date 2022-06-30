@@ -19,6 +19,7 @@ import StepsInfo from '../../../../components/StepsInfo';
 import ActionButton from '../../../../components/ActionButton';
 import {
   UNITS_SOLD_PER_MONTH,
+  PLAN_UNIT,
   UNITS_SOLD_TYPE,
   SELLER_TYPE_PER_UNITS_SOLD,
   PLAN_PRICE_PER_UNITS_SOLD,
@@ -27,6 +28,7 @@ import {
 } from '../../../Settings/Pricing/AistockPricing/Herobox/data';
 import RainbowText from '../../../../components/RainbowText';
 import FormInput from '../../../../components/FormInput';
+import { formatCurrency, formatString, commify } from '../../../../utils/format';
 
 /* Constants */
 import { Length, Name, validateEmail } from '../../../../constants/Validators';
@@ -460,13 +462,22 @@ function CheckoutForm(props: MyProps) {
           <div className={styles.orderItemsWrapper}>
             <div className={styles.orderItem}>
               <p className={styles.orderTitle}>
-                Seller account first month - ${PLAN_PRICE_PER_UNITS_SOLD[unitsSold]} billed today
+                {commify(formatString(PLAN_UNIT[unitsSold]))} orders per month usage-based - billed
+                monthly
               </p>
-              <p className={styles.orderPrice}>${PLAN_PRICE_PER_UNITS_SOLD[unitsSold]}</p>
+              <p className={styles.orderPrice}>
+                {formatCurrency(PLAN_PRICE_PER_UNITS_SOLD[unitsSold])}
+              </p>
+            </div>
+            <div className={styles.overageItem}>
+              <p className={styles.orderTitle}>
+                overage 2ç/order - will be billed by end of billing cycle, $0 today
+              </p>
+              <p className={styles.orderPrice}>$0</p>
             </div>
             <div className={styles.totalPrice}>
               <p>Total charges today </p>
-              <p>${PLAN_PRICE_PER_UNITS_SOLD[unitsSold]} </p>
+              <p>USD {formatCurrency(PLAN_PRICE_PER_UNITS_SOLD[unitsSold])} </p>
             </div>
           </div>
         </div>
