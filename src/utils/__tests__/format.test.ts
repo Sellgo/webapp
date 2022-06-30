@@ -15,15 +15,15 @@ describe('Testing format currency utility', () => {
   });
 
   test('Testing $1000 condition', () => {
-    expect(formatCurrency('1000')).toEqual('$1,000.00');
+    expect(formatCurrency('1000')).toEqual('$1,000');
   });
 
   test('Testing negative value', () => {
-    expect(formatCurrency(-15)).toEqual('-$15.00');
+    expect(formatCurrency(-15)).toEqual('-$15');
   });
 
   test('Testing null value', () => {
-    expect(formatCurrency(null)).toEqual('$0.00');
+    expect(formatCurrency(null)).toEqual('$0.0');
   });
 
   test('Testing invalid cases', () => {
