@@ -9,12 +9,24 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 import { Form, Loader } from 'semantic-ui-react';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
 import Axios from 'axios';
 
 /* Components */
 import Auth from '../../../../components/Auth/Auth';
 import StepsInfo from '../../../../components/StepsInfo';
 import ActionButton from '../../../../components/ActionButton';
+import {
+  UNITS_SOLD_PER_MONTH,
+  UNITS_SOLD_TYPE,
+  SELLER_TYPE_PER_UNITS_SOLD,
+  PLAN_PRICE_PER_UNITS_SOLD,
+  getNearestUnitsSold,
+  getSliderValue,
+} from '../../../Settings/Pricing/AistockPricing/Herobox/data';
+import RainbowText from '../../../../components/RainbowText';
+import FormInput from '../../../../components/FormInput';
 
 /* Constants */
 import { Length, Name, validateEmail } from '../../../../constants/Validators';
@@ -116,6 +128,11 @@ function CheckoutForm(props: MyProps) {
   const [isFocusPW, setFocusPassword] = React.useState<boolean>(false);
   const { value: password, bind: bindPassword } = useInput('');
   const { value: password2, bind: bindPassword2 } = useInput('');
+  const [unitsSoldInput, setUnitsSoldInput] = useState<number>(1000);
+  const [unitsSold, setUnitsSold] = useState<UNITS_SOLD_TYPE>('1,000');
+
+  const queryParams = new URLSearchParams(window.location.search);
+  const order = queryParams.get('order');
 
   const stepsInfo = [
     {
@@ -128,8 +145,8 @@ function CheckoutForm(props: MyProps) {
     },
   ];
 
-  /* Upon successful checking of the entered promo code, either a valid redeemedPromoCode code 
-  is returned, or an error message is returned. Upon completion of promo code check, set status 
+  /* Upon successful checking of the entered promo code, either a valid redeemedPromoCode code
+  is returned, or an error message is returned. Upon completion of promo code check, set status
   to checked and display success/error msg. */
   React.useEffect(() => {
     if (
@@ -139,6 +156,18 @@ function CheckoutForm(props: MyProps) {
       setPromoCodeChecked(true);
     }
   }, [redeemedPromoCode, promoError]);
+
+  React.useEffect(() => {
+    // @ts-ignore
+    setUnitsSold(getNearestUnitsSold(unitsSoldInput));
+  }, [unitsSoldInput]);
+
+  React.useEffect(() => {
+    // @ts-ignore
+    setUnitsSold(order);
+    // @ts-ignore
+    setUnitsSoldInput(parseInt(order));
+  }, [order]);
 
   const handleCheckPromoCode = async (event: any) => {
     event.preventDefault();
@@ -220,7 +249,8 @@ function CheckoutForm(props: MyProps) {
       const paymentMethodId = paymentMethod.id;
       const bodyFormData = new FormData();
       bodyFormData.set('email', email.toLowerCase());
-      bodyFormData.set('subscription_id', String(getSubscriptionID(accountType)));
+      // @ts-ignore
+      bodyFormData.set('subscription_id', SELLER_TYPE_PER_UNITS_SOLD[unitsSold].id);
       bodyFormData.set('payment_method_id', paymentMethodId);
       bodyFormData.set('payment_mode', paymentMode);
       bodyFormData.set('promo_code', promoCode);
@@ -284,7 +314,7 @@ function CheckoutForm(props: MyProps) {
                 last_name: lastName,
                 stripe_subscription_id: stripeSubscription.id,
                 stripe_customer_id: stripeSubscription.customer,
-                subscription_id: getSubscriptionID(accountType),
+                subscription_id: SELLER_TYPE_PER_UNITS_SOLD[unitsSold].id,
                 payment_mode: paymentMode,
                 password: password,
               };
@@ -387,19 +417,61 @@ function CheckoutForm(props: MyProps) {
         </div>
       </div>
       <div className={styles.paymentInfoForm}>
-        <h2> Order Summary </h2>
-        <div className={styles.orderItemsWrapper}>
-          {ORDER_ITEMS.map((order: any, index: number) => (
-            <div className={styles.orderItem} key={index}>
-              <p className={styles.orderTitle}>{order.title}</p>
-              <p className={styles.orderPrice}>${order.price}</p>
+        <div className={styles.ordersPerMonthDisplay}>
+          <div className={styles.ordersPerMonthText}>
+            <span>
+              <RainbowText type="pink_purple_blue_gradient">
+                How many orders per month do you have?
+              </RainbowText>
+            </span>
+          </div>
+          <FormInput
+            className={`
+								${styles.formInputPricing}
+							`}
+            label=""
+            placeholder="Orders/mo (numbers)"
+            id="order"
+            type="number"
+            name="order"
+            onChange={(e: any) => setUnitsSoldInput(parseInt(e.target.value, 10))}
+            value={unitsSoldInput.toString()}
+            autoComplete="off"
+            errorMessage="Please enter orders/mo"
+          />
+        </div>
+
+        <Slider
+          className="slider"
+          min={11}
+          marks={UNITS_SOLD_PER_MONTH}
+          step={null}
+          onChange={(key: any) => {
+            // @ts-ignore
+            setUnitsSold(UNITS_SOLD_PER_MONTH[key]);
+            setUnitsSoldInput(parseInt(UNITS_SOLD_PER_MONTH[key].replace(/,/g, ''), 10));
+            return null;
+          }}
+          value={parseInt(getSliderValue(unitsSold), 10)}
+          defaultValue={7}
+        />
+
+        <div className={styles.orderSummaryContainer}>
+          <h2> Order Summary </h2>
+          <div className={styles.orderItemsWrapper}>
+            <div className={styles.orderItem}>
+              <p className={styles.orderTitle}>
+                Seller account first month - ${PLAN_PRICE_PER_UNITS_SOLD[unitsSold]} billed today
+              </p>
+              <p className={styles.orderPrice}>${PLAN_PRICE_PER_UNITS_SOLD[unitsSold]}</p>
             </div>
-          ))}
-          <div className={styles.totalPrice}>
-            <p>Total charges today </p>
-            <p>${getTotalOrderPrice()} </p>
+            <div className={styles.totalPrice}>
+              <p>Total charges today </p>
+              <p>${PLAN_PRICE_PER_UNITS_SOLD[unitsSold]} </p>
+            </div>
           </div>
         </div>
+
         <h2>Secure Credit Card Payment</h2>
         <Form.Group className={styles.formGroup}>
           <Form.Field className={`${styles.formInput} ${styles.formInput__creditCard}`}>
