@@ -11,7 +11,7 @@ import {
 /* Testing formatCurrency Utility */
 describe('Testing format currency utility', () => {
   test('Testing $0 condition', () => {
-    expect(formatCurrency(0)).toEqual('$0.00');
+    expect(formatCurrency(0)).toEqual('$0.0');
   });
 
   test('Testing $1000 condition', () => {
