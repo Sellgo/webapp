@@ -62,7 +62,6 @@ import { PromoCode } from '../../../../interfaces/Subscription';
 /* Utils */
 import { generatePromoCodeMessage } from '../../../../utils/subscriptions';
 import { trackEvent } from '../../../../utils/analyticsTracking';
-import { getTotalOrderPrice, ORDER_ITEMS } from '../data';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
