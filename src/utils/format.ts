@@ -5,6 +5,7 @@ export const formatCurrency = (num: any) =>
   Number(num).toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
+    minimumSignificantDigits: 2,
   });
 
 export const formatNumber = (num: any) => {

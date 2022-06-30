@@ -10,11 +10,7 @@ import InputFilter from '../../../../../components/FormFilters/InputFilter';
 import {
   UNITS_SOLD_PER_MONTH,
   UNITS_SOLD_TYPE,
-  getSellerLaunchDiscount,
-  getPlanPrice,
-  getLaunchDiscount,
-  getLaunchSaving,
-  getLaunchSavingPercentage,
+  getSellerPlan,
   getNearestUnitsSold,
   getSliderValue,
   ENTERPRISE_PLAN,
@@ -31,20 +27,10 @@ interface Props {
 const HeroBox = (props: Props) => {
   const { requestChangeSubscription, isPaidSellerSubscription } = props;
   const [isMonthly, setIsMonthly] = useState<boolean>(true);
-  const [planPrice, setPlanPrice] = useState<number>(0);
-  const [launchDiscount, setLaunchDiscount] = useState<number>(0);
-  const [launchSaving, setLaunchSaving] = useState<number>(0);
-  const [launchSavingPercentage, setLaunchSavingPercentage] = useState<number>(0);
   const [unitsSoldInput, setUnitsSoldInput] = useState<number>(1000);
   const [unitsSold, setUnitsSold] = useState<UNITS_SOLD_TYPE>('1,000');
-  const sellerPlan = getSellerLaunchDiscount(unitsSold);
+  const sellerPlan = getSellerPlan(unitsSold);
   console.log(unitsSoldInput);
-  React.useEffect(() => {
-    setPlanPrice(getPlanPrice(unitsSold));
-    setLaunchDiscount(getLaunchDiscount(unitsSold));
-    setLaunchSaving(getLaunchSaving(unitsSold));
-    setLaunchSavingPercentage(getLaunchSavingPercentage(unitsSold));
-  }, [isMonthly, unitsSold]);
 
   React.useEffect(() => {
     // @ts-ignore
@@ -96,10 +82,10 @@ const HeroBox = (props: Props) => {
           <PricingPlansCard
             name={sellerPlan.name}
             planId={sellerPlan.id}
-            monthlyPrice={planPrice}
-            launchDiscount={launchDiscount}
-            launchSaving={launchSaving}
-            launchSavingPercentage={launchSavingPercentage}
+            monthlyPrice={sellerPlan.monthlyPrice}
+            launchDiscount={sellerPlan.launchDiscount}
+            launchSaving={sellerPlan.launchSaving}
+            launchSavingPercentage={sellerPlan.launchSavingPercentage}
             annualPrice={sellerPlan.annualPrice}
             desc={sellerPlan.desc}
             featureSubName={sellerPlan.featureSubName}
