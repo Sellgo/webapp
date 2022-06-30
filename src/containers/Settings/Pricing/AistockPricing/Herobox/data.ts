@@ -21,6 +21,18 @@ export const UNITS_SOLD_PER_MONTH: any = {
   100: '55,000',
 };
 
+export const PLAN_UNIT = {
+  '1,000': 1000,
+  '2,000': 2000,
+  '3,000': 3000,
+  '5,000': 5000,
+  '8,000': 8000,
+  '13,000': 13000,
+  '21,000': 21000,
+  '34,000': 34000,
+  '55,000': 55000,
+};
+
 export const PLAN_PRICE_PER_UNITS_SOLD = {
   '1,000': 77.0,
   '2,000': 87.0,
@@ -31,42 +43,6 @@ export const PLAN_PRICE_PER_UNITS_SOLD = {
   '21,000': 227.0,
   '34,000': 267.0,
   '55,000': 327.0,
-};
-
-export const LAUNCH_SAVING_PERCENTAGE_PER_UNITS_SOLD = {
-  '1,000': 61,
-  '2,000': 49,
-  '3,000': 38,
-  '5,000': 32,
-  '8,000': 31,
-  '13,000': 30,
-  '21,000': 29,
-  '34,000': 25,
-  '55,000': 23,
-};
-
-export const LAUNCH_SAVING_PER_UNITS_SOLD = {
-  '1,000': 47.03,
-  '2,000': 43.03,
-  '3,000': 37.03,
-  '5,000': 37.03,
-  '8,000': 47.03,
-  '13,000': 57.03,
-  '21,000': 67.03,
-  '34,000': 67.03,
-  '55,000': 77.03,
-};
-
-export const LAUNCH_DISCOUNT_PER_UNITS_SOLD = {
-  '1,000': 29.97,
-  '2,000': 43.97,
-  '3,000': 59.97,
-  '5,000': 79.97,
-  '8,000': 99.97,
-  '13,000': 129.97,
-  '21,000': 159.97,
-  '34,000': 199.97,
-  '55,000': 249.97,
 };
 
 export const AISTOCK_1000 = {
@@ -468,33 +444,20 @@ export const getPlanPrice = (unitsSold: UNITS_SOLD_TYPE) => {
   }
 };
 
-export const getLaunchDiscount = (unitsSold: UNITS_SOLD_TYPE) => {
-  if (LAUNCH_DISCOUNT_PER_UNITS_SOLD[unitsSold]) {
-    return LAUNCH_DISCOUNT_PER_UNITS_SOLD[unitsSold];
-  } else {
-    return 0;
-  }
-};
-
-export const getLaunchSaving = (unitsSold: UNITS_SOLD_TYPE) => {
-  if (LAUNCH_SAVING_PER_UNITS_SOLD[unitsSold]) {
-    return LAUNCH_SAVING_PER_UNITS_SOLD[unitsSold];
-  } else {
-    return 0;
-  }
-};
-
-export const getLaunchSavingPercentage = (unitsSold: UNITS_SOLD_TYPE) => {
-  if (LAUNCH_SAVING_PERCENTAGE_PER_UNITS_SOLD[unitsSold]) {
-    return LAUNCH_SAVING_PERCENTAGE_PER_UNITS_SOLD[unitsSold];
+export const getPlanUnit = (unitsSold: UNITS_SOLD_TYPE) => {
+  if (PLAN_UNIT[unitsSold]) {
+    return PLAN_UNIT[unitsSold];
   } else {
     return 0;
   }
 };
 
 export const getSliderValue = (unitsSold: UNITS_SOLD_TYPE) => {
-	return Object.keys(UNITS_SOLD_PER_MONTH).find((key: any) => UNITS_SOLD_PER_MONTH[key] === unitsSold) || '0';
-}
+  return (
+    Object.keys(UNITS_SOLD_PER_MONTH).find((key: any) => UNITS_SOLD_PER_MONTH[key] === unitsSold) ||
+    '0'
+  );
+};
 
 export const getSellerPlan = (unitsSold: UNITS_SOLD_TYPE) => {
   const plan = SELLER_TYPE_PER_UNITS_SOLD[unitsSold];
@@ -504,22 +467,13 @@ export const getSellerPlan = (unitsSold: UNITS_SOLD_TYPE) => {
   };
 };
 
-export const getSellerLaunchDiscount = (unitsSold: UNITS_SOLD_TYPE) => {
-  const plan = SELLER_TYPE_PER_UNITS_SOLD[unitsSold];
-  return {
-    ...plan,
-    ctaText: `$0 billed today, $${getLaunchDiscount(unitsSold)}/ mo after that`,
-  };
-};
-
-
 export const getNearestUnitsSold = (unitsSold: number) => {
   if (!unitsSold) {
     return '1,000';
   }
   const listOfUnitsSold = Object.keys(PLAN_PRICE_PER_UNITS_SOLD);
   let currentNearestUnitsSold = '';
-  listOfUnitsSold.forEach((units) => {
+  listOfUnitsSold.forEach(units => {
     const unitsSoldMilestone = parseInt(units.replace(/,/g, ''), 10);
     if (unitsSoldMilestone >= unitsSold) {
       if (currentNearestUnitsSold === '') {
