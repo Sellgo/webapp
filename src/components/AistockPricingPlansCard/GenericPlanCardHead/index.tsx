@@ -29,7 +29,7 @@ interface Props {
   isPaidSellerSubscription: boolean;
 
   // used for pricing cards on comparision table
-  requestChangeSubscription: (name: string, id: number) => void;
+  requestChangeSubscription: (name: string, id: number, mode: string) => void;
   withToggle?: boolean;
   className?: string;
   isPurple?: boolean;
@@ -123,18 +123,34 @@ const GenericPriceCardHead: React.FC<Props> = props => {
         </div>
       )}
       {ctaText ? <p className={styles.ctaText}> {ctaText} </p> : ''}
-      <ActionButton
-        onClick={() => requestChangeSubscription(name, planId)}
-        className={`
+
+      {!isMonthly ? (
+        <ActionButton
+          onClick={() => requestChangeSubscription(name, planId, isMonthly ? 'monthly' : 'yearly')}
+          className={`
+              ${styles.buyNowCTA}
+              ${isPaidSellerSubscription ? styles.buyNowCTA__disabled : ''}
+            `}
+          variant={'secondary'}
+          type="purpleGradient"
+          size={'md'}
+        >
+          {isPaidSellerSubscription ? 'This is your current plan' : 'Switch to this annual billing'}
+        </ActionButton>
+      ) : (
+        <ActionButton
+          onClick={() => requestChangeSubscription(name, planId, isMonthly ? 'monthly' : 'yearly')}
+          className={`
             ${styles.buyNowCTA}
             ${isPaidSellerSubscription ? styles.buyNowCTA__disabled : ''}
           `}
-        variant={'primary'}
-        type="purpleGradient"
-        size={'md'}
-      >
-        {isPaidSellerSubscription ? 'Current Plan' : 'Upgrade Now'}
-      </ActionButton>
+          variant={'primary'}
+          type="purpleGradient"
+          size={'md'}
+        >
+          {isPaidSellerSubscription ? 'This is your current plan' : 'Switch to this monthly plan'}
+        </ActionButton>
+      )}
     </div>
   );
 };

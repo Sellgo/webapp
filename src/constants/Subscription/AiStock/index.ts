@@ -47,6 +47,27 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
       },
     ],
   },
+  {
+    id: 106, // subscriptionID if needed
+    name: 'New-launch companies',
+    productsDatabase: 0,
+    salesEstimateCount: 1000,
+    monthlyPrice: 87,
+    annualPrice: 835.2,
+    desc: `usually with an average annual revenue less than USD $700k.`,
+    featureSubName: 'Start with',
+    featuresLists: [
+      {
+        title: 'Best inventory optimization starts here',
+        featuresIncluded: [
+          'Full access to the AiStock all-in-one inventory suite',
+          'Smart order future 12 month',
+          '25 SKUs per Amazon store',
+          '5,000 units sold/ mo',
+        ],
+      },
+    ],
+  },
 ];
 
 /* Used in Change plan Modal */
@@ -67,13 +88,19 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     annualPrice: 739.2,
     isDailyPlan: false,
   },
+  {
+    subscriptionId: 106, // subscriptionID if needed
+    name: 'New-launch companies',
+    dailyPrice: 0,
+    monthlyPrice: 87,
+    annualPrice: 835.2,
+    isDailyPlan: false,
+  },
 ];
 
 /* Used in Summary page */
-export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = 
-{
-  aistock: 
-  {
+export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
+  aistock: {
     name: 'Aistock',
     id: 104,
     idWithLegacyPlans: [],
@@ -87,9 +114,8 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } =
       'Basic Keyword Research',
       'Sellgo support',
     ],
-  }, 
-  aistock_1000: 
-  {
+  },
+  aistock_1000: {
     name: 'New-launch companies',
     id: 105,
     idWithLegacyPlans: [],
@@ -103,7 +129,22 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } =
       'Basic Keyword Research',
       'Sellgo support',
     ],
-  } 
+  },
+  aistock_2000: {
+    name: 'New-launch companies',
+    id: 106,
+    idWithLegacyPlans: [],
+    monthlyPrice: 87,
+    annualPrice: 835.2,
+    dailyPrice: -1,
+    subDescription: '7-Days Money Back Guarantee',
+    benefits: [
+      'Chrome Extension + 1,000 Sales Estimation/ month',
+      'Basic Seller Research',
+      'Basic Keyword Research',
+      'Sellgo support',
+    ],
+  },
 };
 
 export const PAYMENT_MODES = ['daily', 'monthly', 'yearly'];
@@ -113,10 +154,11 @@ export const SUBSCRIPTION_DETAILS_LIST: SummaryDetails[] = [SUBSCRIPTION_DETAILS
 export const subscriptionDetailsMapping: { [key: string]: number } = {
   aistock: 104,
   aistock_1000: 105,
+  aistock_2000: 106,
 };
 
 export const getSubscriptionID = (planName: string) => {
-  const DEFAULT_PROFESSIONAL_PLAN_ID = 104;
+  const DEFAULT_PROFESSIONAL_PLAN_ID = 106;
   const id = subscriptionDetailsMapping[planName];
   if (id) {
     return id;

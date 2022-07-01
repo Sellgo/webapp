@@ -21,13 +21,13 @@ import RainbowText from '../../../../../components/RainbowText';
 import { SellerSubscription } from '../../../../../interfaces/Seller';
 
 interface Props {
-  requestChangeSubscription: (name: string, id: number) => void;
+  requestChangeSubscription: (name: string, id: number, mode: string) => void;
   isPaidSellerSubscription: boolean;
   sellerSubscription: SellerSubscription;
 }
 
 const HeroBox = (props: Props) => {
-  const { requestChangeSubscription, isPaidSellerSubscription, sellerSubscription } = props;
+  const { requestChangeSubscription, sellerSubscription } = props;
   const [isMonthly, setIsMonthly] = useState<boolean>(true);
   const [unitsSoldInput, setUnitsSoldInput] = useState<number>(1000);
   const [unitsSold, setUnitsSold] = useState<UNITS_SOLD_TYPE>('1,000');
@@ -35,6 +35,12 @@ const HeroBox = (props: Props) => {
   const [subId, setSubId] = useState<UNIT_ID_TYPE>(105);
   const sellerCurrentPlan = getSellerPlanById(subId);
   console.log(unitsSoldInput);
+  console.log('sellerSubscription.subscription_id' + sellerSubscription.subscription_id);
+  console.log('sellerPlan.id' + sellerPlan.id);
+  console.log('sellerSubscription.payment_mode ' + sellerSubscription.payment_mode);
+  console.log('subId' + subId);
+  console.log('sellerCurrentPlan.id' + sellerCurrentPlan.id);
+  console.log('isMonthly' + isMonthly);
 
   React.useEffect(() => {
     // @ts-ignore
@@ -42,6 +48,7 @@ const HeroBox = (props: Props) => {
 
     // @ts-ignore
     setSubId(sellerSubscription.subscription_id);
+    setIsMonthly(sellerSubscription.payment_mode === 'monthly' ? true : false);
   }, [unitsSoldInput, subId]);
 
   return (
@@ -87,22 +94,26 @@ const HeroBox = (props: Props) => {
 
         <div className={styles.planInformation}>
           <PricingPlansCard
-            name={sellerCurrentPlan.name}
-            planId={sellerCurrentPlan.id}
-            monthlyPrice={sellerCurrentPlan.monthlyPrice}
-            launchDiscount={sellerCurrentPlan.launchDiscount}
-            launchSaving={sellerCurrentPlan.launchSaving}
-            launchSavingPercentage={sellerCurrentPlan.launchSavingPercentage}
-            annualPrice={sellerCurrentPlan.annualPrice}
-            desc={sellerCurrentPlan.desc}
+            name={sellerPlan.name}
+            planId={sellerPlan.id}
+            monthlyPrice={sellerPlan.monthlyPrice}
+            launchDiscount={sellerPlan.launchDiscount}
+            launchSaving={sellerPlan.launchSaving}
+            launchSavingPercentage={sellerPlan.launchSavingPercentage}
+            annualPrice={sellerPlan.annualPrice}
+            desc={sellerPlan.desc}
             featureSubName=""
             featuresLists={[]}
             setIsMonthly={setIsMonthly}
             requestChangeSubscription={requestChangeSubscription}
             // Plan details
-            isPaidSellerSubscription={false}
-            ctaText={sellerCurrentPlan.ctaText}
-            isMonthly={!isMonthly}
+            isPaidSellerSubscription={
+              sellerSubscription.payment_mode === 'yearly'
+                ? sellerPlan.id === sellerSubscription.subscription_id
+                : false
+            }
+            ctaText={sellerPlan.ctaText}
+            isMonthly={false}
             className={styles.planInformationBox}
           />
           <PricingPlansCard
@@ -119,9 +130,13 @@ const HeroBox = (props: Props) => {
             setIsMonthly={setIsMonthly}
             requestChangeSubscription={requestChangeSubscription}
             // Plan details
-            isPaidSellerSubscription={false}
+            isPaidSellerSubscription={
+              sellerSubscription.payment_mode === 'monthly'
+                ? sellerPlan.id === sellerSubscription.subscription_id
+                : false
+            }
             ctaText={sellerPlan.ctaText}
-            isMonthly={isMonthly}
+            isMonthly={true}
             className={styles.planInformationBox}
           />
         </div>

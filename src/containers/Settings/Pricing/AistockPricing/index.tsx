@@ -60,6 +60,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     pendingSubscriptionId: '',
     pendingSubscriptionName: '',
     pendingSubscriptionMode: '',
+    mode: '',
     isMonthly: false,
   };
 
@@ -135,18 +136,19 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     return;
   };
 
-  requestChangeSubscription = (name: string, id: number) => {
+  requestChangeSubscription = (name: string, id: number, mode: string) => {
     this.setState({
       pendingSubscription: true,
       pendingSubscriptionName: name,
       pendingSubscriptionId: id,
+      mode: mode,
     });
   };
 
   render() {
     const { match, sellerSubscription } = this.props;
 
-    const { pendingSubscription, pendingSubscriptionId } = this.state;
+    const { pendingSubscription, pendingSubscriptionId, mode } = this.state;
 
     const isPaidSellerSubscription =
       sellerSubscription &&
@@ -183,7 +185,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               pendingSubscriptionName: '',
               pendingSubscriptionMode: '',
             });
-            this.changeSubscription(pendingSubscriptionId, 'monthly');
+            this.changeSubscription(pendingSubscriptionId, mode);
           }}
         />
 
