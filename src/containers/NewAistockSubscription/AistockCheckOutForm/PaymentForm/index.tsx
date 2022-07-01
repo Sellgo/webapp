@@ -23,12 +23,14 @@ import {
   UNITS_SOLD_TYPE,
   SELLER_TYPE_PER_UNITS_SOLD,
   PLAN_PRICE_PER_UNITS_SOLD,
+  getSellerPlan,
   getNearestUnitsSold,
   getSliderValue,
 } from '../../../Settings/Pricing/AistockPricing/Herobox/data';
-import RainbowText from '../../../../components/RainbowText';
+
 import FormInput from '../../../../components/FormInput';
-import { formatCurrency, formatString, commify } from '../../../../utils/format';
+import { formatCurrency, formatString, commify, formatNumber } from '../../../../utils/format';
+import CheckoutPlanToggleButton from '../../../../components/CheckoutPlanToggleButton';
 
 /* Constants */
 import { Length, Name, validateEmail } from '../../../../constants/Validators';
@@ -57,6 +59,7 @@ import stripeIcon from '../../../../assets/images/powered_by_stripe.svg';
 
 /* Styling */
 import styles from './index.module.scss';
+import RainbowText from '../../../../components/RainbowText';
 
 /* Types */
 import { PromoCode } from '../../../../interfaces/Subscription';
@@ -131,6 +134,8 @@ function CheckoutForm(props: MyProps) {
   const { value: password2, bind: bindPassword2 } = useInput('');
   const [unitsSoldInput, setUnitsSoldInput] = useState<number>(1000);
   const [unitsSold, setUnitsSold] = useState<UNITS_SOLD_TYPE>('1,000');
+  const sellerPlan = getSellerPlan(unitsSold);
+  const [isMonthly, setIsMonthly] = useState<boolean>(true);
 
   const queryParams = new URLSearchParams(window.location.search);
   const order = queryParams.get('order');
@@ -458,25 +463,88 @@ function CheckoutForm(props: MyProps) {
         />
 
         <div className={styles.orderSummaryContainer}>
-          <h2> Order Summary </h2>
+          <h1>
+            <RainbowText type="orange_purple_gradient">{sellerPlan.name}</RainbowText>
+          </h1>
+          <h2>{formatCurrency(sellerPlan.monthlyPrice)}</h2>
+          <p>per month + overage of 2ç/ order</p>
           <div className={styles.orderItemsWrapper}>
             <div className={styles.orderItem}>
               <p className={styles.orderTitle}>
-                {commify(formatString(PLAN_UNIT[unitsSold]))} orders per month usage-based - billed
-                monthly
+                {commify(formatString(PLAN_UNIT[unitsSold]))} orders per month usage-based
+                <br />
+                <span>billed monthly</span>
               </p>
               <p className={styles.orderPrice}>
                 {formatCurrency(PLAN_PRICE_PER_UNITS_SOLD[unitsSold])}
               </p>
             </div>
-            <div className={styles.overageItem}>
-              <p className={styles.orderTitle}>
-                overage 2ç/order - will be billed by end of billing cycle, $0 today
-              </p>
-              <p className={styles.orderPrice}>$0</p>
+
+            <div className={styles.paymentModeToggle}>
+              <CheckoutPlanToggleButton
+                isMonthly={isMonthly}
+                handleChange={() => setIsMonthly(!isMonthly)}
+                className={styles.paymentModeToggleButton}
+              />
+              <div className={styles.paymentToggleTextWrapper}>
+                <p className={styles.paymentToggleText}>Save with annual billing</p>
+                <p className={styles.savePercentageToggleText}>20% off</p>
+                <p className={styles.paymentToggleText}>&nbsp;or total saving&nbsp;</p>
+                <p className={styles.saveDollarToggleText}>
+                  {formatCurrency(
+                    formatNumber(sellerPlan.monthlyPrice * 12 - sellerPlan.annualPrice)
+                  )}
+                </p>
+                <p className={styles.totalToggleText}>
+                  {formatCurrency(sellerPlan.annualPrice)} /year
+                </p>
+              </div>
             </div>
+          </div>
+
+          <div className={styles.totalItemsWrapper}>
+            <div className={styles.overageItem}>
+              <p className={styles.orderTitle}>Subtotal</p>
+              <p className={styles.orderPrice}>
+                {formatCurrency(PLAN_PRICE_PER_UNITS_SOLD[unitsSold])}
+              </p>
+            </div>
+
+            <Form.Group className={`${styles.formGroup} ${styles.formGroup__promo}`}>
+              <Form.Input
+                className={`${styles.formInput} ${styles.formInput__promo}`}
+                size="large"
+                type="text"
+                placeholder="Add promotion code"
+                value={promoCode}
+                onChange={handlePromoCodeChange}
+              />
+              <button
+                disabled={!promoCode || promoLoading}
+                className={styles.redeemButton}
+                onClick={handleCheckPromoCode}
+              >
+                Redeem
+              </button>
+              <div className={styles.couponItem}>
+                <p className={styles.orderPrice}>{promoCode}</p>
+              </div>
+            </Form.Group>
+            <p className={styles.redemptionMessage__success}>
+              {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
+                <span>{generatePromoCodeMessage(redeemedPromoCode, paymentMode)}</span>
+              )}
+            </p>
+            <p className={styles.redemptionMessage__error}>{isPromoCodeChecked && promoError}</p>
+
+            {!successPayment && errorMessage.length > 0 && (
+              <div className={styles.paymentErrorMessage}>
+                <p>{errorMessage}</p>
+              </div>
+            )}
+
             <div className={styles.totalPrice}>
-              <p>Total charges today </p>
+              <p>Total due today </p>
               <p>USD {formatCurrency(PLAN_PRICE_PER_UNITS_SOLD[unitsSold])} </p>
             </div>
           </div>
@@ -511,37 +579,6 @@ function CheckoutForm(props: MyProps) {
             />
           </Form.Field>
         </Form.Group>
-
-        <h2>Redeem Coupon</h2>
-        <Form.Group className={`${styles.formGroup} ${styles.formGroup__promo}`}>
-          <Form.Input
-            className={`${styles.formInput} ${styles.formInput__promo}`}
-            size="huge"
-            type="text"
-            placeholder="Coupon Code"
-            value={promoCode}
-            onChange={handlePromoCodeChange}
-          />
-          <button
-            disabled={!promoCode || promoLoading}
-            className={styles.redeemButton}
-            onClick={handleCheckPromoCode}
-          >
-            Redeem
-          </button>
-        </Form.Group>
-        <p className={styles.redemptionMessage__success}>
-          {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
-            <span>{generatePromoCodeMessage(redeemedPromoCode, paymentMode)}</span>
-          )}
-        </p>
-        <p className={styles.redemptionMessage__error}>{isPromoCodeChecked && promoError}</p>
-
-        {!successPayment && errorMessage.length > 0 && (
-          <div className={styles.paymentErrorMessage}>
-            <p>{errorMessage}</p>
-          </div>
-        )}
 
         <ActionButton
           variant={'primary'}
