@@ -146,7 +146,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   render() {
     const { match, sellerSubscription } = this.props;
 
-    const { pendingSubscription } = this.state;
+    const { pendingSubscription, pendingSubscriptionId } = this.state;
 
     const isPaidSellerSubscription =
       sellerSubscription &&
@@ -183,8 +183,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               pendingSubscriptionName: '',
               pendingSubscriptionMode: '',
             });
-
-            history.push(`/subscription/payment`);
+            this.changeSubscription(pendingSubscriptionId, 'monthly');
           }}
         />
 
@@ -203,6 +202,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             <Herobox
               isPaidSellerSubscription={isPaidSellerSubscription}
               requestChangeSubscription={this.requestChangeSubscription}
+              sellerSubscription={sellerSubscription}
             />
           </section>
           <section className={styles.paymentMeta}>

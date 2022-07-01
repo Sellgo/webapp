@@ -42,9 +42,6 @@ const GenericPriceCardHead: React.FC<Props> = props => {
     name,
     isMonthly,
     monthlyPrice,
-    launchDiscount,
-    launchSaving,
-    launchSavingPercentage,
     annualPrice,
     desc,
     isNew,
@@ -80,20 +77,12 @@ const GenericPriceCardHead: React.FC<Props> = props => {
         </div>
       </div>
       <div className={styles.startingAt}>
-        <p>
-          Original price{' '}
-          {!isMonthly && <span className="strike-text">${Math.round(monthlyPrice)}</span>}
-          <span className={`${styles.newPrice} ${withToggle ? styles.newPrice__small : ''}`}>
-            ${prettyPrintNumber(Math.round(monthlyPrice))}/mo, now save{' '}
-            {prettyPrintNumber(launchSavingPercentage)}% or ${prettyPrintNumber(launchSaving * 12)}{' '}
-            in a year.
-          </span>
-        </p>
+        <p>Starting at</p>
 
         {isMonthly ? (
           <span className={styles.betaPriceContainer}>
             <h3 className={`${styles.actualPrice} ${withToggle && styles.toggledPrice}`}>
-              ${launchDiscount.toFixed(2)}/ month
+              ${Math.round(monthlyPrice)}/ month
             </h3>
           </span>
         ) : (
