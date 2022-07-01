@@ -100,9 +100,9 @@ const HeroBox = (props: Props) => {
             setIsMonthly={setIsMonthly}
             requestChangeSubscription={requestChangeSubscription}
             // Plan details
-            isPaidSellerSubscription={isPaidSellerSubscription}
+            isPaidSellerSubscription={false}
             ctaText={sellerCurrentPlan.ctaText}
-            isMonthly={isMonthly}
+            isMonthly={!isMonthly}
             className={styles.planInformationBox}
           />
           <PricingPlansCard

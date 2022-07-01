@@ -82,13 +82,13 @@ const GenericPriceCardHead: React.FC<Props> = props => {
         {isMonthly ? (
           <span className={styles.betaPriceContainer}>
             <h3 className={`${styles.actualPrice} ${withToggle && styles.toggledPrice}`}>
-              ${Math.round(monthlyPrice)}/ month
+              ${Math.round(monthlyPrice)} /month
             </h3>
           </span>
         ) : (
           <span className={styles.betaPriceContainer}>
             <h3 className={`${styles.actualPrice} ${withToggle && styles.toggledPrice}`}>
-              ${Math.round(annualPrice / 12)}/ Mo
+              ${Math.round(annualPrice)} /year
             </h3>
           </span>
         )}
