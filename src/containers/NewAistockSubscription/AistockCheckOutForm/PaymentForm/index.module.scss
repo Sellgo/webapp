@@ -408,15 +408,16 @@
 }
 
 .paymentModeToggle {
-  padding: 1rem 1rem;
+  margin-top: 11px;
   position: relative;
   border-bottom: 7px 7px;
   background-color: $grey_1;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
 
   .paymentModeToggleButton {
-    margin: 0;
+    margin-top: 11px;
+    padding-left: 2rem;
   }
 
   @media screen and(max-width: 870px) {
@@ -424,53 +425,26 @@
   }
 
   .paymentToggleTextWrapper {
-    //position: relative !important;
-    //top: 5px;
-    //right: -250px;
+    margin-top: 11px;
     display: flex;
-    align-items: center;
   }
 
   .paymentToggleText {
     font-size: $fontsize_content_14;
     color: $prim_dark_2;
     font-weight: $fontweight_semibold;
-    //margin-right: 5rem;
-    padding: 0 11px;
-    //align-items: left;
-    //position:relative;
-    //margin-left: 10px;
-  }
+    margin-left: 10px;
 
-  .savePercentageToggleText {
-    font-size: $fontsize_content_14;
-    background-color: $sellgo_neon_green;
-    border: 1px $sellgo_neon_green solid;
-    //border-block-color: $sellgo_neon_green;
-    color: $prim_dark_2;
-    font-weight: $fontweight_semibold;
-    margin-left: 0;
-    //padding: 0rem 1rem;
-    //position:relative;
-    //margin-left: 10px;
-  }
+    .greenhighlight {
+      background-color: $sellgo_neon_green;
+    }
 
-  .saveDollarToggleText {
-    font-size: $fontsize_content_14;
-    background-color: $sellgo_neon_green;
-    border: 1px $sellgo_neon_green solid;
-    color: $prim_dark_2;
-    font-weight: $fontweight_semibold;
-    margin-left: 0;
-  }
-
-  .totalToggleText {
-    font-size: $fontsize_content_14;
-    color: $prim_dark_2;
-    font-weight: $fontweight_semibold;
-    margin-left: 1rem;
-    //padding: 0rem 1rem;
-    position: relative;
-    //margin-left: 10px;
+    .total {
+      background-color: $grey_1;
+      font-size: $fontsize_content_14;
+      color: $grey_8;
+      font-weight: $fontweight_medium;
+      margin-left: 12rem;
+    }
   }
 }

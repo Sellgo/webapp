@@ -22,15 +22,14 @@ import {
   PLAN_UNIT,
   UNITS_SOLD_TYPE,
   SELLER_TYPE_PER_UNITS_SOLD,
-  PLAN_PRICE_PER_UNITS_SOLD,
   getSellerPlan,
   getNearestUnitsSold,
   getSliderValue,
 } from '../../../Settings/Pricing/AistockPricing/Herobox/data';
 
 import FormInput from '../../../../components/FormInput';
-import { formatCurrency, formatString, commify, formatNumber } from '../../../../utils/format';
-import CheckoutPlanToggleButton from '../../../../components/CheckoutPlanToggleButton';
+import { formatCurrency, formatString, commify } from '../../../../utils/format';
+import CheckoutPlanToggleRadio from '../../../../components/CheckoutPlanToggleRadio';
 
 /* Constants */
 import { Length, Name, validateEmail } from '../../../../constants/Validators';
@@ -139,8 +138,6 @@ function CheckoutForm(props: MyProps) {
 
   const queryParams = new URLSearchParams(window.location.search);
   const order = queryParams.get('order');
-  console.log('isMonthly' + isMonthly);
-  console.log('payment_mode' + paymentMode);
 
   const stepsInfo = [
     {
@@ -465,40 +462,59 @@ function CheckoutForm(props: MyProps) {
         />
 
         <div className={styles.orderSummaryContainer}>
-          <h1>
-            <RainbowText type="orange_purple_gradient">{sellerPlan.name}</RainbowText>
-          </h1>
-          <h2>{formatCurrency(sellerPlan.monthlyPrice)}</h2>
-          <p>per month + overage of 2ç/ order</p>
           <div className={styles.orderItemsWrapper}>
             <div className={styles.orderItem}>
               <p className={styles.orderTitle}>
-                {commify(formatString(PLAN_UNIT[unitsSold]))} orders per month usage-based
-                <br />
-                <span>billed monthly</span>
+                {isMonthly ? (
+                  <div>
+                    {commify(formatString(PLAN_UNIT[unitsSold]))} orders per month (usage-based)
+                    <br />
+                    <span>billed monthly</span>
+                  </div>
+                ) : (
+                  <div>
+                    {commify(formatString(PLAN_UNIT[unitsSold]))} orders per month (usage-based)
+                    <br />
+                    <span>billed yearly</span>
+                  </div>
+                )}
               </p>
-              <p className={styles.orderPrice}>
-                {formatCurrency(PLAN_PRICE_PER_UNITS_SOLD[unitsSold])}
-              </p>
+              {isMonthly ? (
+                <p className={styles.orderPrice}>{formatCurrency(sellerPlan.monthlyPrice)}</p>
+              ) : (
+                <p className={styles.orderPrice}>{formatCurrency(sellerPlan.annualPrice)}</p>
+              )}
             </div>
 
             <div className={styles.paymentModeToggle}>
-              <CheckoutPlanToggleButton
-                isMonthly={isMonthly}
-                handleChange={() => setIsMonthly(!isMonthly)}
-                className={styles.paymentModeToggleButton}
-              />
+              <div className={styles.modalHeader}>
+                <CheckoutPlanToggleRadio
+                  isToggled={isMonthly}
+                  handleChange={() => setIsMonthly(!isMonthly)}
+                  label={''}
+                  className={styles.paymentModeToggleButton}
+                />
+              </div>
+
               <div className={styles.paymentToggleTextWrapper}>
-                <p className={styles.paymentToggleText}>Save with annual billing</p>
-                <p className={styles.savePercentageToggleText}>20% off</p>
-                <p className={styles.paymentToggleText}>&nbsp;or total saving&nbsp;</p>
-                <p className={styles.saveDollarToggleText}>
-                  {formatCurrency(
-                    formatNumber(sellerPlan.monthlyPrice * 12 - sellerPlan.annualPrice)
+                <p className={styles.paymentToggleText}>
+                  {isMonthly ? (
+                    <span>
+                      Save with annual billing &nbsp;
+                      <span className={styles.greenhighlight}>&nbsp;20% OFF&nbsp;</span>
+                      <span className={styles.total}>
+                        {formatCurrency(sellerPlan.annualPrice)} /year
+                      </span>
+                    </span>
+                  ) : (
+                    <span>
+                      Switch to monthly &nbsp;
+                      <span className={styles.total}>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {formatCurrency(sellerPlan.monthlyPrice)} /mo
+                      </span>
+                    </span>
                   )}
-                </p>
-                <p className={styles.totalToggleText}>
-                  {formatCurrency(sellerPlan.annualPrice)} /year
                 </p>
               </div>
             </div>
@@ -507,9 +523,11 @@ function CheckoutForm(props: MyProps) {
           <div className={styles.totalItemsWrapper}>
             <div className={styles.overageItem}>
               <p className={styles.orderTitle}>Subtotal</p>
-              <p className={styles.orderPrice}>
-                {formatCurrency(PLAN_PRICE_PER_UNITS_SOLD[unitsSold])}
-              </p>
+              {isMonthly ? (
+                <p className={styles.orderPrice}>{formatCurrency(sellerPlan.monthlyPrice)}</p>
+              ) : (
+                <p className={styles.orderPrice}>{formatCurrency(sellerPlan.annualPrice)}</p>
+              )}
             </div>
 
             <Form.Group className={`${styles.formGroup} ${styles.formGroup__promo}`}>
@@ -547,7 +565,14 @@ function CheckoutForm(props: MyProps) {
 
             <div className={styles.totalPrice}>
               <p>Total due today </p>
-              <p>USD {formatCurrency(PLAN_PRICE_PER_UNITS_SOLD[unitsSold])} </p>
+              <p>
+                USD &nbsp;
+                {isMonthly ? (
+                  <span>{formatCurrency(sellerPlan.monthlyPrice)}</span>
+                ) : (
+                  <span>{formatCurrency(sellerPlan.annualPrice)}</span>
+                )}
+              </p>
             </div>
           </div>
         </div>

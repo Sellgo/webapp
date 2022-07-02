@@ -135,10 +135,9 @@ const AdminHeader = (props: Props) => {
 
             <Dropdown.Item
               as={Link}
-              //to="/settings/pricing"
               to={
                 isSubscriptionIdFreeTrial(sellerSubscription.subscription_id)
-                  ? '/settings/pricingss'
+                  ? '/subscription/payment'
                   : '/settings/pricing'
               }
               className="dropdownItem"

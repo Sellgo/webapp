@@ -9,6 +9,8 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 import { Form, Loader } from 'semantic-ui-react';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
 import Axios from 'axios';
 
 /* Actions */
@@ -21,12 +23,27 @@ import {
   setPromoCode,
 } from '../../../../actions/Settings/Subscription';
 
+/*Components*/
+import {
+  UNITS_SOLD_PER_MONTH,
+  PLAN_UNIT,
+  UNITS_SOLD_TYPE,
+  getSellerPlan,
+  getNearestUnitsSold,
+  getSliderValue,
+} from '../../../Settings/Pricing/AistockPricing/Herobox/data';
+
+import FormInput from '../../../../components/FormInput';
+import { formatCurrency, formatString, commify } from '../../../../utils/format';
+import CheckoutPlanToggleRadio from '../../../../components/CheckoutPlanToggleRadio';
+
 /* Assets */
 import cardIcons from '../../../../assets/images/4_Card_color_horizontal.svg';
 import stripeIcon from '../../../../assets/images/powered_by_stripe.svg';
 
 /* Styling */
 import styles from './index.module.scss';
+import RainbowText from '../../../../components/RainbowText';
 
 /* Types */
 import { PromoCode } from '../../../../interfaces/Subscription';
@@ -37,7 +54,6 @@ import { generatePromoCodeMessage } from '../../../../utils/subscriptions';
 import ActionButton from '../../../../components/ActionButton';
 
 /* Data */
-import { ORDER_ITEMS, getTotalOrderPrice } from '../../AistockCheckOutForm/data';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -71,6 +87,7 @@ interface MyProps {
   redeemedPromoCode: PromoCode;
   setPromoError: (err: string) => void;
   promoError: string;
+  successPayment: boolean;
 }
 
 function CheckoutForm(props: MyProps) {
@@ -86,9 +103,16 @@ function CheckoutForm(props: MyProps) {
     setPromoError,
     accountType,
     paymentMode,
+    successPayment,
   } = props;
   const [isPromoCodeChecked, setPromoCodeChecked] = useState<boolean>(false);
   const [promoCode, setPromoCode] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [unitsSoldInput, setUnitsSoldInput] = useState<number>(1000);
+  const [unitsSold, setUnitsSold] = useState<UNITS_SOLD_TYPE>('1,000');
+  const sellerPlan = getSellerPlan(unitsSold);
+  const [isMonthly, setIsMonthly] = useState<boolean>(true);
+  console.log('isMonthly' + isMonthly);
 
   /* Upon successful checking of the entered promo code, either a valid redeemedPromoCode code 
   is returned, or an error message is returned. Upon completion of promo code check, set status 
@@ -102,6 +126,11 @@ function CheckoutForm(props: MyProps) {
     }
   }, [redeemedPromoCode, promoError]);
 
+  React.useEffect(() => {
+    // @ts-ignore
+    setUnitsSold(getNearestUnitsSold(unitsSoldInput));
+  }, [unitsSoldInput]);
+
   const handleCheckPromoCode = async (event: any) => {
     event.preventDefault();
     const subscriptionId = getSubscriptionID(accountType);
@@ -114,6 +143,10 @@ function CheckoutForm(props: MyProps) {
     setPromoCodeChecked(false);
     setRedeemedPromoCode({});
     setPromoError('');
+  };
+
+  const handleError = (err: string) => {
+    setErrorMessage(err);
   };
 
   const handleSubmit = async () => {
@@ -146,6 +179,7 @@ function CheckoutForm(props: MyProps) {
 
     if (error) {
       handlePaymentError(error);
+      handleError(error);
       setStripeLoad(false);
     } else {
       const paymentMethodId = paymentMethod.id;
@@ -169,97 +203,242 @@ function CheckoutForm(props: MyProps) {
     }
   };
   return (
-    <div className={styles.paymentInfoForm}>
-      <h2> Order Summary </h2>
-      <div className={styles.orderItemsWrapper}>
-        {ORDER_ITEMS.map((order: any, index: number) => (
-          <div className={styles.orderItem} key={index}>
-            <p className={styles.orderTitle}>{order.title}</p>
-            <p className={styles.orderPrice}>${order.price}</p>
+    <div className={styles.paymentForm}>
+      <section className={styles.reviewsSection}>
+        <h2>The 1st inventory planning for Amazon sellers!</h2>
+        <p>
+          "AiStock gives our supply chain one place to get whatever help we need. It gives us a
+          single point of integration for all our logistic process, helping us focus on increasing
+          sales and launch new products as we grow."
+        </p>
+
+        <div className={styles.reviewerRow}>
+          <div className={styles.reviewerDetails}>
+            Andrew Erickson
+            <br />
+            <span>7-figure Brand Entrepreneur</span>
           </div>
-        ))}
-        <div className={styles.totalPrice}>
-          <p>Total charges today </p>
-          <p>${getTotalOrderPrice()} </p>
         </div>
-      </div>
-      <h2>Secure Credit Card Payment</h2>
-      <Form.Group className={styles.formGroup}>
-        <Form.Field className={`${styles.formInput} ${styles.formInput__creditCard}`}>
-          <label htmlFor="CardNumber">Credit Card Number</label>
-          <CardNumberElement
-            id="CardNumber"
-            options={CARD_ELEMENT_OPTIONS}
-            className={`${styles.stripeInput} ${styles.stripeInput__creditCard}`}
-          />
-        </Form.Field>
+      </section>
 
-        <Form.Field className={`${styles.formInput} ${styles.formInput__expiry}`}>
-          <label htmlFor="expiry">Expiry Date</label>
-          <CardExpiryElement
-            id="expiry"
-            options={CARD_ELEMENT_OPTIONS}
-            className={`${styles.stripeInput} ${styles.stripeInput__expiry}`}
+      <div className={styles.paymentInfoForm}>
+        <h1>AiStock simple pricing plan</h1>
+        <div className={styles.ordersPerMonthDisplay}>
+          <div className={styles.ordersPerMonthText}>
+            <span>
+              <RainbowText type="pink_purple_blue_gradient">
+                How many orders per month do you have?
+              </RainbowText>
+            </span>
+          </div>
+          <FormInput
+            className={`
+								${styles.formInputPricing}
+							`}
+            label=""
+            placeholder="Orders/mo (numbers)"
+            id="order"
+            type="number"
+            name="order"
+            onChange={(e: any) => setUnitsSoldInput(parseInt(e.target.value, 10))}
+            value={unitsSoldInput.toString()}
+            autoComplete="off"
+            errorMessage="Please enter orders/mo"
           />
-        </Form.Field>
+        </div>
 
-        <Form.Field className={`${styles.formInput} ${styles.formInput__cvc}`}>
-          <label htmlFor="cvc">CVC</label>
-          <CardCvcElement
-            id="cvc"
-            options={CARD_ELEMENT_OPTIONS}
-            className={`${styles.stripeInput} ${styles.stripeInput__cvc}`}
-          />
-        </Form.Field>
-      </Form.Group>
-
-      <h2>Redeem Coupon</h2>
-      <Form.Group className={`${styles.formGroup} ${styles.formGroup__promo}`}>
-        <Form.Input
-          className={`${styles.formInput} ${styles.formInput__promo}`}
-          size="huge"
-          type="text"
-          placeholder="Coupon Code"
-          value={promoCode}
-          onChange={handlePromoCodeChange}
+        <Slider
+          className="slider"
+          min={11}
+          marks={UNITS_SOLD_PER_MONTH}
+          step={null}
+          onChange={(key: any) => {
+            // @ts-ignore
+            setUnitsSold(UNITS_SOLD_PER_MONTH[key]);
+            setUnitsSoldInput(parseInt(UNITS_SOLD_PER_MONTH[key].replace(/,/g, ''), 10));
+            return null;
+          }}
+          value={parseInt(getSliderValue(unitsSold), 10)}
+          defaultValue={7}
         />
-        <button
-          disabled={!promoCode || promoLoading}
-          className={styles.redeemButton}
-          onClick={handleCheckPromoCode}
-        >
-          Redeem
-        </button>
-      </Form.Group>
-      <p className={styles.redemptionMessage__success}>
-        {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
-          <span>{generatePromoCodeMessage(redeemedPromoCode, paymentMode)}</span>
-        )}
-      </p>
-      <p className={styles.redemptionMessage__error}>{isPromoCodeChecked && promoError}</p>
 
-      {/* {!successPayment && errorMessage.length > 0 && (
+        <div className={styles.orderSummaryContainer}>
+          <div className={styles.orderItemsWrapper}>
+            <div className={styles.orderItem}>
+              <p className={styles.orderTitle}>
+                {isMonthly ? (
+                  <div>
+                    {commify(formatString(PLAN_UNIT[unitsSold]))} orders per month (usage-based)
+                    <br />
+                    <span>billed monthly</span>
+                  </div>
+                ) : (
+                  <div>
+                    {commify(formatString(PLAN_UNIT[unitsSold]))} orders per month (usage-based)
+                    <br />
+                    <span>billed yearly</span>
+                  </div>
+                )}
+              </p>
+              {isMonthly ? (
+                <p className={styles.orderPrice}>{formatCurrency(sellerPlan.monthlyPrice)}</p>
+              ) : (
+                <p className={styles.orderPrice}>{formatCurrency(sellerPlan.annualPrice)}</p>
+              )}
+            </div>
+
+            <div className={styles.paymentModeToggle}>
+              <div className={styles.modalHeader}>
+                <CheckoutPlanToggleRadio
+                  isToggled={isMonthly}
+                  handleChange={() => setIsMonthly(!isMonthly)}
+                  label={''}
+                  className={styles.paymentModeToggleButton}
+                />
+              </div>
+
+              <div className={styles.paymentToggleTextWrapper}>
+                <p className={styles.paymentToggleText}>
+                  {isMonthly ? (
+                    <span>
+                      Save with annual billing &nbsp;
+                      <span className={styles.greenhighlight}>&nbsp;20% OFF&nbsp;</span>
+                      <span className={styles.total}>
+                        {formatCurrency(sellerPlan.annualPrice)} /year
+                      </span>
+                    </span>
+                  ) : (
+                    <span>
+                      Switch to monthly &nbsp;
+                      <span className={styles.total}>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {formatCurrency(sellerPlan.monthlyPrice)} /mo
+                      </span>
+                    </span>
+                  )}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.totalItemsWrapper}>
+            <div className={styles.overageItem}>
+              <p className={styles.orderTitle}>Subtotal</p>
+              {isMonthly ? (
+                <p className={styles.orderPrice}>{formatCurrency(sellerPlan.monthlyPrice)}</p>
+              ) : (
+                <p className={styles.orderPrice}>{formatCurrency(sellerPlan.annualPrice)}</p>
+              )}
+            </div>
+
+            <Form.Group className={`${styles.formGroup} ${styles.formGroup__promo}`}>
+              <Form.Input
+                className={`${styles.formInput} ${styles.formInput__promo}`}
+                size="large"
+                type="text"
+                placeholder="Add promotion code"
+                value={promoCode}
+                onChange={handlePromoCodeChange}
+              />
+              <button
+                disabled={!promoCode || promoLoading}
+                className={styles.redeemButton}
+                onClick={handleCheckPromoCode}
+              >
+                Redeem
+              </button>
+              <div className={styles.couponItem}>
+                <p className={styles.orderPrice}>{promoCode}</p>
+              </div>
+            </Form.Group>
+            <p className={styles.redemptionMessage__success}>
+              {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
+                <span>{generatePromoCodeMessage(redeemedPromoCode, paymentMode)}</span>
+              )}
+            </p>
+            <p className={styles.redemptionMessage__error}>{isPromoCodeChecked && promoError}</p>
+
+            {!successPayment && errorMessage.length > 0 && (
+              <div className={styles.paymentErrorMessage}>
+                <p>{errorMessage}</p>
+              </div>
+            )}
+
+            <div className={styles.totalPrice}>
+              <p>Total due today </p>
+              <p>
+                USD &nbsp;
+                {isMonthly ? (
+                  <span>{formatCurrency(sellerPlan.monthlyPrice)}</span>
+                ) : (
+                  <span>{formatCurrency(sellerPlan.annualPrice)}</span>
+                )}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <h2>Secure Credit Card Payment</h2>
+
+        <Form.Group className={styles.formGroup}>
+          <Form.Field className={`${styles.formInput} ${styles.formInput__creditCard}`}>
+            <label htmlFor="CardNumber">Credit Card Number</label>
+            <CardNumberElement
+              id="CardNumber"
+              options={CARD_ELEMENT_OPTIONS}
+              className={`${styles.stripeInput} ${styles.stripeInput__creditCard}`}
+            />
+          </Form.Field>
+
+          <Form.Field className={`${styles.formInput} ${styles.formInput__expiry}`}>
+            <label htmlFor="expiry">Expiry Date</label>
+            <CardExpiryElement
+              id="expiry"
+              options={CARD_ELEMENT_OPTIONS}
+              className={`${styles.stripeInput} ${styles.stripeInput__expiry}`}
+            />
+          </Form.Field>
+
+          <Form.Field className={`${styles.formInput} ${styles.formInput__cvc}`}>
+            <label htmlFor="cvc">CVC</label>
+            <CardCvcElement
+              id="cvc"
+              options={CARD_ELEMENT_OPTIONS}
+              className={`${styles.stripeInput} ${styles.stripeInput__cvc}`}
+            />
+          </Form.Field>
+        </Form.Group>
+
+        <p className={styles.redemptionMessage__success}>
+          {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
+            <span>{generatePromoCodeMessage(redeemedPromoCode, paymentMode)}</span>
+          )}
+        </p>
+        <p className={styles.redemptionMessage__error}>{isPromoCodeChecked && promoError}</p>
+
+        {/* {!successPayment && errorMessage.length > 0 && (
       <div className={styles.paymentErrorMessage}>
         <p>{errorMessage}</p>
       </div>
     )} */}
 
-      <ActionButton
-        variant={'primary'}
-        size={'md'}
-        type="purpleGradient"
-        className={styles.completeButton}
-        onClick={handleSubmit}
-        disabled={!stripe || stripeLoading}
-      >
-        Complete Payment&nbsp;
-        {false && <Loader active inline size="mini" inverted />}
-      </ActionButton>
+        <ActionButton
+          variant={'primary'}
+          size={'md'}
+          type="purpleGradient"
+          className={styles.completeButton}
+          onClick={handleSubmit}
+          disabled={!stripe || stripeLoading}
+        >
+          Complete Payment&nbsp;
+          {false && <Loader active inline size="mini" inverted />}
+        </ActionButton>
 
-      <div className={styles.paymentMeta}>
-        <div className={styles.cardsWrapper}>
-          <img className={styles.cardsWrapper__cards} src={cardIcons} alt="cards" />
-          <img className={styles.cardsWrapper__stripe} src={stripeIcon} alt="powered by stripe" />
+        <div className={styles.paymentMeta}>
+          <div className={styles.cardsWrapper}>
+            <img className={styles.cardsWrapper__cards} src={cardIcons} alt="cards" />
+            <img className={styles.cardsWrapper__stripe} src={stripeIcon} alt="powered by stripe" />
+          </div>
         </div>
       </div>
     </div>
@@ -272,6 +451,7 @@ const mapStateToProps = (state: {}) => ({
   redeemedPromoCode: get(state, 'subscription.promoCode'),
   promoLoading: get(state, 'subscription.promoLoading'),
   promoError: get(state, 'subscription.promoError'),
+  successPayment: get(state, 'subscription.successPayment'),
 });
 const mapDispatchToProps = {
   createSubscriptionData: (data: any) => createSubscription(data),
