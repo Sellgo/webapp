@@ -31,6 +31,7 @@ import {
   getSellerPlan,
   getNearestUnitsSold,
   getSliderValue,
+  SELLER_TYPE_PER_UNITS_SOLD,
 } from '../../../Settings/Pricing/AistockPricing/Herobox/data';
 
 import FormInput from '../../../../components/FormInput';
@@ -150,14 +151,7 @@ function CheckoutForm(props: MyProps) {
   };
 
   const handleSubmit = async () => {
-    const {
-      accountType,
-      paymentMode,
-      createSubscriptionData,
-      retryInvoice,
-      handlePaymentError,
-      setStripeLoad,
-    } = props;
+    const { createSubscriptionData, retryInvoice, handlePaymentError, setStripeLoad } = props;
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make  sure to disable form submission until Stripe.js has loaded.
@@ -192,9 +186,9 @@ function CheckoutForm(props: MyProps) {
         });
       } else {
         const data = {
-          subscription_id: getSubscriptionID(accountType),
+          subscription_id: SELLER_TYPE_PER_UNITS_SOLD[unitsSold].id,
           payment_method_id: paymentMethodId,
-          payment_mode: paymentMode,
+          payment_mode: isMonthly ? 'monthly' : 'yearly',
           promo_code: promoCode,
         };
         Axios.defaults.headers.common.Authorization = ``;
