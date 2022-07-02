@@ -139,6 +139,8 @@ function CheckoutForm(props: MyProps) {
 
   const queryParams = new URLSearchParams(window.location.search);
   const order = queryParams.get('order');
+  console.log('isMonthly' + isMonthly);
+  console.log('payment_mode' + paymentMode);
 
   const stepsInfo = [
     {
@@ -258,7 +260,7 @@ function CheckoutForm(props: MyProps) {
       // @ts-ignore
       bodyFormData.set('subscription_id', SELLER_TYPE_PER_UNITS_SOLD[unitsSold].id);
       bodyFormData.set('payment_method_id', paymentMethodId);
-      bodyFormData.set('payment_mode', paymentMode);
+      bodyFormData.set('payment_mode', isMonthly ? 'monthly' : 'yearly');
       bodyFormData.set('promo_code', promoCode);
 
       // @ts-ignore
