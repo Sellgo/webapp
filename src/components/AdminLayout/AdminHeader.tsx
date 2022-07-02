@@ -138,7 +138,7 @@ const AdminHeader = (props: Props) => {
               //to="/settings/pricing"
               to={
                 isSubscriptionIdFreeTrial(sellerSubscription.subscription_id)
-                  ? '/settings/pricingss'
+                  ? '/subscription/payment'
                   : '/settings/pricing'
               }
               className="dropdownItem"
