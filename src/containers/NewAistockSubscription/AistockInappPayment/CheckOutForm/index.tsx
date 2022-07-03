@@ -50,7 +50,6 @@ import RainbowText from '../../../../components/RainbowText';
 import { PromoCode } from '../../../../interfaces/Subscription';
 
 /* Utils */
-import { getSubscriptionID } from '../../../../constants/Subscription/AiStock';
 import { generatePromoCodeMessage } from '../../../../utils/subscriptions';
 import ActionButton from '../../../../components/ActionButton';
 
@@ -102,7 +101,6 @@ function CheckoutForm(props: MyProps) {
     promoLoading,
     setRedeemedPromoCode,
     setPromoError,
-    accountType,
     paymentMode,
     successPayment,
   } = props;
@@ -134,9 +132,9 @@ function CheckoutForm(props: MyProps) {
 
   const handleCheckPromoCode = async (event: any) => {
     event.preventDefault();
-    const subscriptionId = getSubscriptionID(accountType);
+    const subscriptionId = SELLER_TYPE_PER_UNITS_SOLD[unitsSold].id;
     Axios.defaults.headers.common.Authorization = ``;
-    checkPromoCode(promoCode, subscriptionId, paymentMode);
+    checkPromoCode(promoCode, subscriptionId, isMonthly ? 'monthly' : 'yearly');
   };
 
   const handlePromoCodeChange = (event: any) => {
