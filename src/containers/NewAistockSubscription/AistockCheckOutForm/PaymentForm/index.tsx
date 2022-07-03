@@ -98,6 +98,7 @@ interface MyProps {
   promoError: string;
   auth: Auth;
   successPayment: boolean;
+  promoCodeObj: PromoCode;
 }
 
 function CheckoutForm(props: MyProps) {
@@ -116,6 +117,7 @@ function CheckoutForm(props: MyProps) {
     successPayment,
     auth,
     defaultEmail,
+    promoCodeObj,
   } = props;
   const [isPromoCodeChecked, setPromoCodeChecked] = useState<boolean>(false);
   const [promoCode, setPromoCode] = useState<string>('');
@@ -186,6 +188,29 @@ function CheckoutForm(props: MyProps) {
     setPromoCodeChecked(false);
     setRedeemedPromoCode({});
     setPromoError('');
+  };
+
+  const calculateDiscountedPrice = (price: number) => {
+    if (promoCodeObj && promoCodeObj.percent_off) {
+      return price * ((100 - promoCodeObj.percent_off) / 100);
+    } else if (promoCodeObj && promoCodeObj.amount_off) {
+      return price - promoCodeObj.amount_off;
+    } else {
+      return price;
+    }
+  };
+
+  const displayPrice = (price: number) => {
+    const discountedPrice = calculateDiscountedPrice(price);
+    return (
+      <div className={styles.totalPrice}>
+        <p>Total due today </p>
+        <p>
+          USD &nbsp;
+          <span>{formatCurrency(discountedPrice)}</span>
+        </p>
+      </div>
+    );
   };
 
   const handleError = (err: string) => {
@@ -563,17 +588,9 @@ function CheckoutForm(props: MyProps) {
               </div>
             )}
 
-            <div className={styles.totalPrice}>
-              <p>Total due today </p>
-              <p>
-                USD &nbsp;
-                {isMonthly ? (
-                  <span>{formatCurrency(sellerPlan.monthlyPrice)}</span>
-                ) : (
-                  <span>{formatCurrency(sellerPlan.annualPrice)}</span>
-                )}
-              </p>
-            </div>
+            {isMonthly
+              ? displayPrice(sellerPlan.monthlyPrice)
+              : displayPrice(sellerPlan.annualPrice)}
           </div>
         </div>
 
@@ -637,6 +654,7 @@ const mapStateToProps = (state: {}) => ({
   promoLoading: get(state, 'subscription.promoLoading'),
   promoError: get(state, 'subscription.promoError'),
   successPayment: get(state, 'subscription.successPayment'),
+  promoCodeObj: get(state, 'subscription.promoCode'),
 });
 
 const mapDispatchToProps = {
