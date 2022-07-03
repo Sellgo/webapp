@@ -132,7 +132,7 @@
   margin-top: 11px;
   cursor: pointer;
   width: 320px;
-  font-size: 14px;
+  font-size: 16px;
 
   &:disabled {
     opacity: 0.6;
@@ -143,14 +143,15 @@
 .paymentErrorMessage {
   background: #eb675e;
   color: #fff;
-  border-radius: 8px;
+  border-radius: 7px;
   width: 100%;
   height: auto;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: left;
   margin-top: 20px;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: $fontweight_semibold;
   padding: 15px 0;
 }
 
@@ -159,33 +160,21 @@
   justify-content: center;
   align-items: center;
   width: 150px;
-  border-radius: 5px;
+  border-radius: 7px;
   font-size: 14px;
-  height: 40px !important;
-  color: $grey_8;
-  border: 1px solid $grey_8;
-  background: #fff;
+  height: 40px;
+  font-weight: $fontweight_semibold;
+  color: $accent_blue;
+  background: #f9f9fa;
   margin-top: 15px;
 
   &:disabled {
     opacity: 0.6;
     cursor: unset;
-  }
-}
-
-.redemptionMessage {
-  &__success {
-    width: 100%;
-    margin-top: 8px;
-    font-size: 14px;
-    color: $system_green;
-  }
-
-  &__error {
-    width: 100%;
-    margin-top: 8px;
-    font-size: 14px;
-    color: $system_red;
+    background: #f9f9fa;
+    color: $grey_6;
+    border: none;
+    font-weight: $fontweight_regular;
   }
 }
 
@@ -221,6 +210,12 @@
   margin-left: 100px;
   display: flex;
   flex-direction: column;
+
+  h4 {
+    font-size: $fontsize_content_12;
+    font-weight: $fontweight_regular;
+    color: $grey_8;
+  }
 }
 
 .ordersPerMonthDisplay {
@@ -323,6 +318,26 @@
     font-size: $fontsize_content_14;
     font-weight: $fontweight_regular;
     color: $grey_8;
+  }
+
+  .redemptionMessage {
+    &__success {
+      width: 100%;
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: $fontweight_semibold;
+      color: $system_green;
+      text-align: left;
+    }
+
+    &__error {
+      width: 100%;
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: $fontweight_semibold;
+      color: $system_red;
+      text-align: left;
+    }
   }
 }
 

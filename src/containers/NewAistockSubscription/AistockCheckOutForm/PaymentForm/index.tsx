@@ -199,19 +199,19 @@ function CheckoutForm(props: MyProps) {
     Axios.defaults.headers.common.Authorization = ``;
 
     if (!validateEmail(email)) {
-      handleError(`Error in email - email format validation failed: ${email}`);
+      handleError(`Your account: email format validation failed: ${email}`);
       setEmailError(true);
       return;
     } else if (!Name.validate(firstName)) {
-      handleError('First Name must all be letters.');
+      handleError('Your account: first name must all be letters.');
       setFnameError(true);
       return;
     } else if (!Name.validate(lastName)) {
-      handleError('Last Name must all be letters.');
+      handleError('Your account: last name must all be letters.');
       setLnameError(true);
       return;
     } else if (password !== password2) {
-      handleError('Passwords do not match.');
+      handleError('Your account: passwords do not match.');
       return;
     }
 
@@ -222,11 +222,11 @@ function CheckoutForm(props: MyProps) {
       );
 
       if (verifyEmailStatus !== 200) {
-        handleError('This email is already being used.');
+        handleError('Your account: this email is already being used.');
         return;
       }
     } catch (e) {
-      handleError('This email is already being used.');
+      handleError('Your account: this email is already being used.');
       return;
     }
 
@@ -287,7 +287,7 @@ function CheckoutForm(props: MyProps) {
         if (response && response.data && response.data.message) {
           handleError(response.data.message);
         }
-        handleError('Failed to make payment.');
+        handleError('Error: failed to make payment.');
         return;
       }
 
@@ -469,13 +469,13 @@ function CheckoutForm(props: MyProps) {
                   <div>
                     {commify(formatString(PLAN_UNIT[unitsSold]))} orders per month (usage-based)
                     <br />
-                    <span>billed monthly</span>
+                    <span>billed monthly + overage 2ç/order (billed by end of month)</span>
                   </div>
                 ) : (
                   <div>
                     {commify(formatString(PLAN_UNIT[unitsSold]))} orders per month (usage-based)
                     <br />
-                    <span>billed yearly</span>
+                    <span>billed yearly + overage 1ç/order (billed by end of month)</span>
                   </div>
                 )}
               </p>
@@ -547,7 +547,11 @@ function CheckoutForm(props: MyProps) {
                 Redeem
               </button>
               <div className={styles.couponItem}>
-                <p className={styles.orderPrice}>{promoCode}</p>
+                <p className={styles.orderPrice}>
+                  {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
+                    <span>-$</span>
+                  )}
+                </p>
               </div>
             </Form.Group>
             <p className={styles.redemptionMessage__success}>
@@ -556,12 +560,6 @@ function CheckoutForm(props: MyProps) {
               )}
             </p>
             <p className={styles.redemptionMessage__error}>{isPromoCodeChecked && promoError}</p>
-
-            {!successPayment && errorMessage.length > 0 && (
-              <div className={styles.paymentErrorMessage}>
-                <p>{errorMessage}</p>
-              </div>
-            )}
 
             <div className={styles.totalPrice}>
               <p>Total due today </p>
@@ -580,7 +578,7 @@ function CheckoutForm(props: MyProps) {
         <h2>Secure Credit Card Payment</h2>
         <Form.Group className={styles.formGroup}>
           <Form.Field className={`${styles.formInput} ${styles.formInput__creditCard}`}>
-            <label htmlFor="CardNumber">Credit Card Number</label>
+            <label htmlFor="CardNumber">Credit card number</label>
             <CardNumberElement
               id="CardNumber"
               options={CARD_ELEMENT_OPTIONS}
@@ -589,7 +587,7 @@ function CheckoutForm(props: MyProps) {
           </Form.Field>
 
           <Form.Field className={`${styles.formInput} ${styles.formInput__expiry}`}>
-            <label htmlFor="expiry">Expiry Date</label>
+            <label htmlFor="expiry">Expiry date</label>
             <CardExpiryElement
               id="expiry"
               options={CARD_ELEMENT_OPTIONS}
@@ -615,9 +613,20 @@ function CheckoutForm(props: MyProps) {
           onClick={handleSubmit}
           disabled={!stripe || stripeLoading || signupLoading || isSignupSuccess}
         >
-          Complete Payment&nbsp;
+          Complete payment&nbsp;
           {signupLoading && <Loader active inline size="mini" inverted />}
         </ActionButton>
+
+        <div>
+          <h4>
+            By clicking Complete payment, you agree to our Terms of Service and Privacy Statement.
+          </h4>
+        </div>
+        {!successPayment && errorMessage.length > 0 && (
+          <div className={styles.paymentErrorMessage}>
+            <p>{errorMessage}</p>
+          </div>
+        )}
 
         <div className={styles.paymentMeta}>
           <div className={styles.cardsWrapper}>
