@@ -571,13 +571,6 @@ function CheckoutForm(props: MyProps) {
               >
                 Redeem
               </button>
-              <div className={styles.couponItem}>
-                <p className={styles.orderPrice}>
-                  {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
-                    <span>-$</span>
-                  )}
-                </p>
-              </div>
             </Form.Group>
             <p className={styles.redemptionMessage__success}>
               {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
@@ -589,18 +582,6 @@ function CheckoutForm(props: MyProps) {
             {isMonthly
               ? displayPrice(sellerPlan.monthlyPrice)
               : displayPrice(sellerPlan.annualPrice)}
-
-            <div className={styles.totalPrice}>
-              <p>Total due today </p>
-              <p>
-                USD &nbsp;
-                {isMonthly ? (
-                  <span>{formatCurrency(sellerPlan.monthlyPrice)}</span>
-                ) : (
-                  <span>{formatCurrency(sellerPlan.annualPrice)}</span>
-                )}
-              </p>
-            </div>
           </div>
         </div>
 
