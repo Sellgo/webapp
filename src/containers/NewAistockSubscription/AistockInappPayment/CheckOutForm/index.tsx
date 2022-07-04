@@ -364,9 +364,6 @@ function CheckoutForm(props: MyProps) {
               >
                 Redeem
               </button>
-              <div className={styles.couponItem}>
-                <p className={styles.orderPrice}>{promoCode}</p>
-              </div>
             </Form.Group>
             <p className={styles.redemptionMessage__success}>
               {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
@@ -416,19 +413,6 @@ function CheckoutForm(props: MyProps) {
             />
           </Form.Field>
         </Form.Group>
-
-        <p className={styles.redemptionMessage__success}>
-          {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
-            <span>{generatePromoCodeMessage(redeemedPromoCode, paymentMode)}</span>
-          )}
-        </p>
-        <p className={styles.redemptionMessage__error}>{isPromoCodeChecked && promoError}</p>
-
-        {/* {!successPayment && errorMessage.length > 0 && (
-      <div className={styles.paymentErrorMessage}>
-        <p>{errorMessage}</p>
-      </div>
-    )} */}
 
         <ActionButton
           variant={'primary'}
