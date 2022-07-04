@@ -35,7 +35,7 @@ import {
 } from '../../../Settings/Pricing/AistockPricing/Herobox/data';
 
 import FormInput from '../../../../components/FormInput';
-import { formatCurrency, formatString, commify } from '../../../../utils/format';
+import { formatDecimal, formatString, commify } from '../../../../utils/format';
 import CheckoutPlanToggleRadio from '../../../../components/CheckoutPlanToggleRadio';
 
 /* Assets */
@@ -158,19 +158,6 @@ function CheckoutForm(props: MyProps) {
     } else {
       return price;
     }
-  };
-
-  const displayPrice = (price: number) => {
-    const discountedPrice = calculateDiscountedPrice(price);
-    return (
-      <div className={styles.totalPrice}>
-        <p>Total due today </p>
-        <p>
-          USD &nbsp;
-          <span>{formatCurrency(discountedPrice)}</span>
-        </p>
-      </div>
-    );
   };
 
   const handleSubmit = async () => {
@@ -298,9 +285,9 @@ function CheckoutForm(props: MyProps) {
                 )}
               </p>
               {isMonthly ? (
-                <p className={styles.orderPrice}>{formatCurrency(sellerPlan.monthlyPrice)}</p>
+                <p className={styles.orderPrice}>{formatDecimal(sellerPlan.monthlyPrice)}</p>
               ) : (
-                <p className={styles.orderPrice}>{formatCurrency(sellerPlan.annualPrice)}</p>
+                <p className={styles.orderPrice}>{formatDecimal(sellerPlan.annualPrice)}</p>
               )}
             </div>
 
@@ -321,7 +308,7 @@ function CheckoutForm(props: MyProps) {
                       Save with annual billing &nbsp;
                       <span className={styles.greenhighlight}>&nbsp;20% OFF&nbsp;</span>
                       <span className={styles.total}>
-                        {formatCurrency(sellerPlan.annualPrice)} /year
+                        {formatDecimal(sellerPlan.annualPrice)} /year
                       </span>
                     </span>
                   ) : (
@@ -329,7 +316,7 @@ function CheckoutForm(props: MyProps) {
                       Switch to monthly &nbsp;
                       <span className={styles.total}>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        {formatCurrency(sellerPlan.monthlyPrice)} /mo
+                        {formatDecimal(sellerPlan.monthlyPrice)} /mo
                       </span>
                     </span>
                   )}
@@ -342,9 +329,9 @@ function CheckoutForm(props: MyProps) {
             <div className={styles.overageItem}>
               <p className={styles.orderTitle}>Subtotal</p>
               {isMonthly ? (
-                <p className={styles.orderPrice}>{formatCurrency(sellerPlan.monthlyPrice)}</p>
+                <p className={styles.orderPrice}>{formatDecimal(sellerPlan.monthlyPrice)}</p>
               ) : (
-                <p className={styles.orderPrice}>{formatCurrency(sellerPlan.annualPrice)}</p>
+                <p className={styles.orderPrice}>{formatDecimal(sellerPlan.annualPrice)}</p>
               )}
             </div>
 
@@ -364,6 +351,28 @@ function CheckoutForm(props: MyProps) {
               >
                 Redeem
               </button>
+              {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
+                <div className={styles.couponItem}>
+                  <p className={styles.orderPrice}>
+                    {isMonthly ? (
+                      <span>
+                        -$
+                        {formatDecimal(
+                          sellerPlan.monthlyPrice -
+                            calculateDiscountedPrice(sellerPlan.monthlyPrice)
+                        )}
+                      </span>
+                    ) : (
+                      <span>
+                        -$
+                        {formatDecimal(
+                          sellerPlan.annualPrice - calculateDiscountedPrice(sellerPlan.annualPrice)
+                        )}
+                      </span>
+                    )}
+                  </p>
+                </div>
+              )}
             </Form.Group>
             <p className={styles.redemptionMessage__success}>
               {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
@@ -372,14 +381,15 @@ function CheckoutForm(props: MyProps) {
             </p>
             <p className={styles.redemptionMessage__error}>{isPromoCodeChecked && promoError}</p>
 
-            {!successPayment && errorMessage.length > 0 && (
-              <div className={styles.paymentErrorMessage}>
-                <p>{errorMessage}</p>
-              </div>
-            )}
-            {isMonthly
-              ? displayPrice(sellerPlan.monthlyPrice)
-              : displayPrice(sellerPlan.annualPrice)}
+            <div className={styles.totalPrice}>
+              <p>Total due today</p>
+              <p className={styles.orderPrice}>
+                USD $
+                {isMonthly
+                  ? formatDecimal(calculateDiscountedPrice(sellerPlan.monthlyPrice))
+                  : formatDecimal(calculateDiscountedPrice(sellerPlan.annualPrice))}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -422,7 +432,7 @@ function CheckoutForm(props: MyProps) {
           onClick={handleSubmit}
           disabled={!stripe || stripeLoading}
         >
-          Complete Payment&nbsp;
+          Complete payment&nbsp;
           {false && <Loader active inline size="mini" inverted />}
         </ActionButton>
 

@@ -143,34 +143,16 @@
 .paymentErrorMessage {
   background: #eb675e;
   color: #fff;
-  border-radius: 8px;
+  border-radius: 7px;
   width: 100%;
   height: auto;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: left;
   margin-top: 20px;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: $fontweight_semibold;
   padding: 15px 0;
-}
-
-.redeemButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 150px;
-  border-radius: 5px;
-  font-size: 14px;
-  height: 40px !important;
-  color: $grey_8;
-  border: 1px solid $grey_8;
-  background: #fff;
-  margin-top: 15px;
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: unset;
-  }
 }
 
 .redemptionMessage {
@@ -235,6 +217,12 @@
     font-size: $fontsize_content_16;
     color: $grey_8;
     font-weight: $fontweight_semibold;
+  }
+
+  h4 {
+    font-size: $fontsize_content_12;
+    font-weight: $fontweight_regular;
+    color: $grey_8;
   }
 }
 
@@ -357,7 +345,7 @@
 .orderSummaryContainer {
   margin-top: 2em;
   width: 100%;
-  text-align: left;
+  text-align: center;
 
   h1 {
     font-size: $fontsize_subtitle_20;
@@ -375,6 +363,26 @@
     font-size: $fontsize_content_14;
     font-weight: $fontweight_regular;
     color: $grey_8;
+  }
+
+  .redemptionMessage {
+    &__success {
+      width: 100%;
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: $fontweight_semibold;
+      color: $system_green;
+      text-align: left;
+    }
+
+    &__error {
+      width: 100%;
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: $fontweight_semibold;
+      color: $system_red;
+      text-align: left;
+    }
   }
 }
 
@@ -410,12 +418,36 @@
 
 .couponItem {
   display: flex;
-  justify-content: space-between;
-  margin-left: 7.5rem;
+  justify-content: flex-end;
+  margin-left: 4rem;
 
   p {
     font-size: $fontsize_content_14;
     color: $grey_8;
+    text-align: right;
+  }
+}
+
+.redeemButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  border-radius: 7px;
+  font-size: 14px;
+  height: 40px;
+  font-weight: $fontweight_semibold;
+  color: $accent_blue;
+  background: #f9f9fa;
+  margin-top: 15px;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: unset;
+    background: #f9f9fa;
+    color: $grey_6;
+    border: none;
+    font-weight: $fontweight_regular;
   }
 }
 
