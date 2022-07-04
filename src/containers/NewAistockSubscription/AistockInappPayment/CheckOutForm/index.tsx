@@ -426,6 +426,17 @@ function CheckoutForm(props: MyProps) {
           {false && <Loader active inline size="mini" inverted />}
         </ActionButton>
 
+        <div>
+          <h4>
+            By clicking Complete payment, you agree to our Terms of Service and Privacy Statement.
+          </h4>
+        </div>
+        {!successPayment && errorMessage.length > 0 && (
+          <div className={styles.paymentErrorMessage}>
+            <p>{errorMessage}</p>
+          </div>
+        )}
+
         <div className={styles.paymentMeta}>
           <div className={styles.cardsWrapper}>
             <img className={styles.cardsWrapper__cards} src={cardIcons} alt="cards" />
