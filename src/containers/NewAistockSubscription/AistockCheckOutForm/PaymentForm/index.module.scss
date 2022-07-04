@@ -155,29 +155,6 @@
   padding: 15px 0;
 }
 
-.redeemButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 150px;
-  border-radius: 7px;
-  font-size: 14px;
-  height: 40px;
-  font-weight: $fontweight_semibold;
-  color: $accent_blue;
-  background: #f9f9fa;
-  margin-top: 15px;
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: unset;
-    background: #f9f9fa;
-    color: $grey_6;
-    border: none;
-    font-weight: $fontweight_regular;
-  }
-}
-
 .profileInfoFormWrapper {
   display: flex;
   flex-direction: column;
@@ -374,11 +351,34 @@
 .couponItem {
   display: flex;
   justify-content: space-between;
-  margin-left: 7.5rem;
+  margin-left: 5.5rem;
 
   p {
     font-size: $fontsize_content_14;
     color: $grey_8;
+  }
+}
+
+.redeemButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  border-radius: 7px;
+  font-size: 14px;
+  height: 40px;
+  font-weight: $fontweight_semibold;
+  color: $accent_blue;
+  background: #f9f9fa;
+  margin-top: 15px;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: unset;
+    background: #f9f9fa;
+    color: $grey_6;
+    border: none;
+    font-weight: $fontweight_regular;
   }
 }
 

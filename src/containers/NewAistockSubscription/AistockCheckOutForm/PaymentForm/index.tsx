@@ -28,7 +28,7 @@ import {
 } from '../../../Settings/Pricing/AistockPricing/Herobox/data';
 
 import FormInput from '../../../../components/FormInput';
-import { formatCurrency, formatString, commify } from '../../../../utils/format';
+import { formatCurrency, formatString, commify, formatDecimal } from '../../../../utils/format';
 import CheckoutPlanToggleRadio from '../../../../components/CheckoutPlanToggleRadio';
 
 /* Constants */
@@ -141,6 +141,10 @@ function CheckoutForm(props: MyProps) {
   const queryParams = new URLSearchParams(window.location.search);
   const order = queryParams.get('order');
 
+  if (promoCodeObj && promoCodeObj.percent_off) {
+    console.log('promoCodeObj.percent_off ' + promoCodeObj.percent_off);
+  }
+
   const stepsInfo = [
     {
       id: 1,
@@ -198,19 +202,6 @@ function CheckoutForm(props: MyProps) {
     } else {
       return price;
     }
-  };
-
-  const displayPrice = (price: number) => {
-    const discountedPrice = calculateDiscountedPrice(price);
-    return (
-      <div className={styles.totalPrice}>
-        <p>Total due today </p>
-        <p>
-          USD &nbsp;
-          <span>{formatCurrency(discountedPrice)}</span>
-        </p>
-      </div>
-    );
   };
 
   const handleError = (err: string) => {
@@ -571,6 +562,28 @@ function CheckoutForm(props: MyProps) {
               >
                 Redeem
               </button>
+              {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
+                <div className={styles.couponItem}>
+                  <p className={styles.orderPrice}>
+                    {isMonthly ? (
+                      <span>
+                        -&nbsp;
+                        {formatCurrency(
+                          sellerPlan.monthlyPrice -
+                            calculateDiscountedPrice(sellerPlan.monthlyPrice)
+                        )}
+                      </span>
+                    ) : (
+                      <span>
+                        -&nbsp;
+                        {formatCurrency(
+                          sellerPlan.annualPrice - calculateDiscountedPrice(sellerPlan.annualPrice)
+                        )}
+                      </span>
+                    )}
+                  </p>
+                </div>
+              )}
             </Form.Group>
             <p className={styles.redemptionMessage__success}>
               {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
@@ -579,9 +592,15 @@ function CheckoutForm(props: MyProps) {
             </p>
             <p className={styles.redemptionMessage__error}>{isPromoCodeChecked && promoError}</p>
 
-            {isMonthly
-              ? displayPrice(sellerPlan.monthlyPrice)
-              : displayPrice(sellerPlan.annualPrice)}
+            <div className={styles.totalPrice}>
+              <p>Total due today</p>
+              <p className={styles.orderPrice}>
+                USD&nbsp;
+                {isMonthly
+                  ? formatCurrency(formatDecimal(calculateDiscountedPrice(sellerPlan.monthlyPrice)))
+                  : formatCurrency(formatDecimal(calculateDiscountedPrice(sellerPlan.annualPrice)))}
+              </p>
+            </div>
           </div>
         </div>
 
