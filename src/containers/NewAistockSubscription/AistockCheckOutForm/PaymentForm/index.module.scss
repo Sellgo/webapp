@@ -350,12 +350,13 @@
 
 .couponItem {
   display: flex;
-  justify-content: space-between;
-  margin-left: 5.5rem;
+  justify-content: flex-end;
+  margin-left: 4rem;
 
   p {
     font-size: $fontsize_content_14;
     color: $grey_8;
+    text-align: right;
   }
 }
 

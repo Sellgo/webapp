@@ -28,7 +28,7 @@ import {
 } from '../../../Settings/Pricing/AistockPricing/Herobox/data';
 
 import FormInput from '../../../../components/FormInput';
-import { formatCurrency, formatString, commify, formatDecimal } from '../../../../utils/format';
+import { formatString, commify, formatDecimal } from '../../../../utils/format';
 import CheckoutPlanToggleRadio from '../../../../components/CheckoutPlanToggleRadio';
 
 /* Constants */
@@ -496,9 +496,9 @@ function CheckoutForm(props: MyProps) {
                 )}
               </p>
               {isMonthly ? (
-                <p className={styles.orderPrice}>{formatCurrency(sellerPlan.monthlyPrice)}</p>
+                <p className={styles.orderPrice}>${formatDecimal(sellerPlan.monthlyPrice)}</p>
               ) : (
-                <p className={styles.orderPrice}>{formatCurrency(sellerPlan.annualPrice)}</p>
+                <p className={styles.orderPrice}>${formatDecimal(sellerPlan.annualPrice)}</p>
               )}
             </div>
 
@@ -519,15 +519,15 @@ function CheckoutForm(props: MyProps) {
                       Save with annual billing &nbsp;
                       <span className={styles.greenhighlight}>&nbsp;20% OFF&nbsp;</span>
                       <span className={styles.total}>
-                        {formatCurrency(sellerPlan.annualPrice)} /year
+                        ${formatDecimal(sellerPlan.annualPrice)} /year
                       </span>
                     </span>
                   ) : (
                     <span>
                       Switch to monthly &nbsp;
                       <span className={styles.total}>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        {formatCurrency(sellerPlan.monthlyPrice)} /mo
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $
+                        {formatDecimal(sellerPlan.monthlyPrice)} /mo
                       </span>
                     </span>
                   )}
@@ -540,9 +540,9 @@ function CheckoutForm(props: MyProps) {
             <div className={styles.overageItem}>
               <p className={styles.orderTitle}>Subtotal</p>
               {isMonthly ? (
-                <p className={styles.orderPrice}>{formatCurrency(sellerPlan.monthlyPrice)}</p>
+                <p className={styles.orderPrice}>${formatDecimal(sellerPlan.monthlyPrice)}</p>
               ) : (
-                <p className={styles.orderPrice}>{formatCurrency(sellerPlan.annualPrice)}</p>
+                <p className={styles.orderPrice}>${formatDecimal(sellerPlan.annualPrice)}</p>
               )}
             </div>
 
@@ -567,16 +567,16 @@ function CheckoutForm(props: MyProps) {
                   <p className={styles.orderPrice}>
                     {isMonthly ? (
                       <span>
-                        -&nbsp;
-                        {formatCurrency(
+                        -$
+                        {formatDecimal(
                           sellerPlan.monthlyPrice -
                             calculateDiscountedPrice(sellerPlan.monthlyPrice)
                         )}
                       </span>
                     ) : (
                       <span>
-                        -&nbsp;
-                        {formatCurrency(
+                        -$
+                        {formatDecimal(
                           sellerPlan.annualPrice - calculateDiscountedPrice(sellerPlan.annualPrice)
                         )}
                       </span>
@@ -595,10 +595,10 @@ function CheckoutForm(props: MyProps) {
             <div className={styles.totalPrice}>
               <p>Total due today</p>
               <p className={styles.orderPrice}>
-                USD&nbsp;
+                USD $
                 {isMonthly
-                  ? formatCurrency(formatDecimal(calculateDiscountedPrice(sellerPlan.monthlyPrice)))
-                  : formatCurrency(formatDecimal(calculateDiscountedPrice(sellerPlan.annualPrice)))}
+                  ? formatDecimal(calculateDiscountedPrice(sellerPlan.monthlyPrice))
+                  : formatDecimal(calculateDiscountedPrice(sellerPlan.annualPrice))}
               </p>
             </div>
           </div>
