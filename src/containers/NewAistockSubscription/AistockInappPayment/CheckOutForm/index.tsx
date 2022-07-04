@@ -274,13 +274,13 @@ function CheckoutForm(props: MyProps) {
                   <div>
                     {commify(formatString(PLAN_UNIT[unitsSold]))} orders per month (usage-based)
                     <br />
-                    <span>billed monthly</span>
+                    <span>billed monthly + overage 2ç/order (billed by end of month)</span>
                   </div>
                 ) : (
                   <div>
                     {commify(formatString(PLAN_UNIT[unitsSold]))} orders per month (usage-based)
                     <br />
-                    <span>billed yearly</span>
+                    <span>billed yearly + overage 1ç/order (billed by end of month)</span>
                   </div>
                 )}
               </p>
