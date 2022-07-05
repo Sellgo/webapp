@@ -141,10 +141,6 @@ function CheckoutForm(props: MyProps) {
   const queryParams = new URLSearchParams(window.location.search);
   const order = queryParams.get('order');
 
-  if (promoCodeObj && promoCodeObj.percent_off) {
-    console.log('promoCodeObj.percent_off ' + promoCodeObj.percent_off);
-  }
-
   const stepsInfo = [
     {
       id: 1,
