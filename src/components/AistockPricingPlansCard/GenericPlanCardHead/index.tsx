@@ -105,11 +105,11 @@ const GenericPriceCardHead: React.FC<Props> = props => {
               </span>
             </span>
             <span className={`${styles.newPrice} ${withToggle ? styles.newPrice__small : ''}`}>
-              Now ${prettyPrintNumber(Math.round(annualPrice))}
-              /yr
+              Now ${prettyPrintNumber(Math.round(annualPrice) / 12)}
+              /mo
             </span>
             <span className={`${styles.savings} ${withToggle ? styles.savings__small : ''}`}>
-              Save ${prettyPrintNumber(Math.round(monthlyPrice * 12 - annualPrice))}
+              &nbsp;Save ${prettyPrintNumber(Math.round(monthlyPrice * 12 - annualPrice))}&nbsp;
             </span>
           </p>
         ) : (
@@ -131,7 +131,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
               ${styles.buyNowCTA}
               ${isPaidSellerSubscription ? styles.buyNowCTA__disabled : ''}
             `}
-          variant={'secondary'}
+          variant={'primary'}
           type="purpleGradient"
           size={'md'}
         >
@@ -144,7 +144,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
             ${styles.buyNowCTA}
             ${isPaidSellerSubscription ? styles.buyNowCTA__disabled : ''}
           `}
-          variant={'primary'}
+          variant={'secondary'}
           type="purpleGradient"
           size={'md'}
         >

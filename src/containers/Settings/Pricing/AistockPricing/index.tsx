@@ -168,7 +168,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         />
 
         <Confirm
-          content={`Would you like to upgrade your plan?`}
+          content={`Please confirm if you really want to switch to a new plan`}
           open={pendingSubscription ? true : false}
           onCancel={() => {
             this.setState({
@@ -192,13 +192,12 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         <main className={styles.subscriptionPage}>
           <section className={styles.subscriptionPageWrapper}>
             <div className={styles.planName}>
-              <h2>AiStock simple pricing plan</h2>
+              <h2>Are you thinking to switch plan?</h2>
             </div>
 
             <div className={styles.planShortSummary}>
               <p>
-                Supply chain? Inventory planning? Sales projection? 3PL replenishment? Cash flow
-                projection? We&apos;ve got your back.
+                It is very easy, quick and secure. We'll prorate your new billing with current one.
               </p>
             </div>
             <Herobox
@@ -213,7 +212,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <img src={Stripe} alt="Protected by Stripe logo" />
             </div>
             <div className={styles.paymentMeta__text}>
-              <p>We offer 7-day money back guarantee.</p>
+              <p />
             </div>
           </section>
           <FAQSection />

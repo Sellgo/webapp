@@ -73,7 +73,7 @@
 .billedAtPrice {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
 
   .originalPrice {
     font-size: $fontsize_content_12;
@@ -99,6 +99,7 @@
   .savings {
     font-size: $fontsize_content_14;
     font-weight: $fontweight_semibold;
+    background: $sellgo_neon_green;
 
     &__small {
       font-size: $fontsize_content_12;

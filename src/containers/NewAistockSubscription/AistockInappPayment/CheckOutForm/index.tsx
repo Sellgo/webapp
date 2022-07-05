@@ -8,7 +8,7 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
-import { Form, Loader } from 'semantic-ui-react';
+import { Form, Header, Modal, TextArea, Loader } from 'semantic-ui-react';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import Axios from 'axios';
@@ -22,6 +22,7 @@ import {
   setPromoError,
   setPromoCode,
 } from '../../../../actions/Settings/Subscription';
+import { fetchTOS, fetchPP } from '../../../../actions/UserOnboarding';
 
 /*Components*/
 import {
@@ -41,6 +42,7 @@ import CheckoutPlanToggleRadio from '../../../../components/CheckoutPlanToggleRa
 /* Assets */
 import cardIcons from '../../../../assets/images/4_Card_color_horizontal.svg';
 import stripeIcon from '../../../../assets/images/powered_by_stripe.svg';
+import ProfilePicture from '../../../../assets/images/andrew.png';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -89,6 +91,10 @@ interface MyProps {
   promoError: string;
   successPayment: boolean;
   promoCodeObj: PromoCode;
+  termsOfService: any;
+  privacyPolicy: any;
+  fetchPP: any;
+  fetchTOS: any;
 }
 
 function CheckoutForm(props: MyProps) {
@@ -113,7 +119,56 @@ function CheckoutForm(props: MyProps) {
   const [unitsSold, setUnitsSold] = useState<UNITS_SOLD_TYPE>('1,000');
   const sellerPlan = getSellerPlan(unitsSold);
   const [isMonthly, setIsMonthly] = useState<boolean>(true);
-  console.log('isMonthly' + isMonthly);
+  const { termsOfService, privacyPolicy, fetchPP, fetchTOS } = props;
+  const [openTOS, setOpenTOS] = React.useState<boolean>(false);
+  const [openPP, setOpenPP] = React.useState<boolean>(false);
+
+  /* ---------------------------------------- */
+  /* -------------- TOS --------------------- */
+  /* ---------------------------------------- */
+  React.useEffect(() => {
+    fetchTOS();
+    fetchPP();
+  }, [fetchTOS, fetchPP]);
+  const [isLoading, setLoading] = React.useState<boolean>(false);
+
+  const onClose = () => {
+    setOpenTOS(false);
+    setOpenPP(false);
+  };
+
+  const TOS = () => {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Header as="h4">Our Terms of Service</Header>
+        <Form>
+          <TextArea rows="20" value={termsOfService} />
+        </Form>
+      </div>
+    );
+  };
+
+  const PP = () => {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Header as="h4">Our Privacy Policy</Header>
+        <Form>
+          <TextArea rows="20" value={privacyPolicy} />
+        </Form>
+      </div>
+    );
+  };
+
+  const newUserExperiencePopup = () => {
+    return (
+      <Modal onClose={() => onClose()} size={'small'} open={openTOS || openPP}>
+        <Modal.Content>
+          {openTOS && <TOS />}
+          {openPP && <PP />}
+        </Modal.Content>
+      </Modal>
+    );
+  };
 
   /* Upon successful checking of the entered promo code, either a valid redeemedPromoCode code 
   is returned, or an error message is returned. Upon completion of promo code check, set status 
@@ -162,6 +217,7 @@ function CheckoutForm(props: MyProps) {
 
   const handleSubmit = async () => {
     const { createSubscriptionData, retryInvoice, handlePaymentError, setStripeLoad } = props;
+    setLoading(true);
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make  sure to disable form submission until Stripe.js has loaded.
@@ -185,6 +241,7 @@ function CheckoutForm(props: MyProps) {
       handlePaymentError(error);
       handleError(error);
       setStripeLoad(false);
+      setLoading(false);
     } else {
       const paymentMethodId = paymentMethod.id;
       if (latestInvoicePaymentIntentStatus === 'requires_payment_method') {
@@ -208,6 +265,7 @@ function CheckoutForm(props: MyProps) {
   };
   return (
     <div className={styles.paymentForm}>
+      {newUserExperiencePopup()}
       <section className={styles.reviewsSection}>
         <h2>The 1st inventory planning for Amazon sellers!</h2>
         <p>
@@ -217,6 +275,7 @@ function CheckoutForm(props: MyProps) {
         </p>
 
         <div className={styles.reviewerRow}>
+          <img src={ProfilePicture} alt="profile picture" />
           <div className={styles.reviewerDetails}>
             Andrew Erickson
             <br />
@@ -226,7 +285,6 @@ function CheckoutForm(props: MyProps) {
       </section>
 
       <div className={styles.paymentInfoForm}>
-        <h1>AiStock simple pricing plan</h1>
         <div className={styles.ordersPerMonthDisplay}>
           <div className={styles.ordersPerMonthText}>
             <span>
@@ -430,16 +488,31 @@ function CheckoutForm(props: MyProps) {
           type="purpleGradient"
           className={styles.completeButton}
           onClick={handleSubmit}
-          disabled={!stripe || stripeLoading}
+          disabled={!stripe || stripeLoading || isLoading}
         >
           Complete payment&nbsp;
-          {false && <Loader active inline size="mini" inverted />}
+          {false && <Loader active={isLoading} inline size="mini" inverted />}
         </ActionButton>
 
-        <div>
-          <h4>
-            By clicking Complete payment, you agree to our Terms of Service and Privacy Statement.
-          </h4>
+        <div className={styles.consent}>
+          <p>
+            By clicking Complete payment, you agree to our&nbsp;
+            <span
+              onClick={() => {
+                setOpenTOS(true);
+              }}
+            >
+              Terms of Service&nbsp;
+            </span>
+            and &nbsp;
+            <span
+              onClick={() => {
+                setOpenPP(true);
+              }}
+            >
+              Privacy Policy.
+            </span>
+          </p>
         </div>
         {!successPayment && errorMessage.length > 0 && (
           <div className={styles.paymentErrorMessage}>
@@ -452,6 +525,23 @@ function CheckoutForm(props: MyProps) {
             <img className={styles.cardsWrapper__cards} src={cardIcons} alt="cards" />
             <img className={styles.cardsWrapper__stripe} src={stripeIcon} alt="powered by stripe" />
           </div>
+        </div>
+        <div className={styles.copyrightFooter}>
+          <button
+            onClick={() => {
+              setOpenTOS(true);
+            }}
+          >
+            Terms of Service
+          </button>
+          <button
+            onClick={() => {
+              setOpenPP(true);
+            }}
+          >
+            Privacy Policy&nbsp;
+          </button>
+          <span>Copyright @ AiStock 2022</span>
         </div>
       </div>
     </div>
@@ -466,6 +556,8 @@ const mapStateToProps = (state: {}) => ({
   promoError: get(state, 'subscription.promoError'),
   successPayment: get(state, 'subscription.successPayment'),
   promoCodeObj: get(state, 'subscription.promoCode'),
+  termsOfService: get(state, 'userOnboarding.termsOfService'),
+  privacyPolicy: get(state, 'userOnboarding.privacyPolicy'),
 });
 const mapDispatchToProps = {
   createSubscriptionData: (data: any) => createSubscription(data),
@@ -475,5 +567,8 @@ const mapDispatchToProps = {
     checkPromoCode(promoCode, subscriptionId, paymentMode),
   setRedeemedPromoCode: (data: any) => setPromoCode(data),
   setPromoError: (data: string) => setPromoError(data),
+  fetchTOS: () => fetchTOS(),
+  fetchPP: () => fetchPP(),
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm);
