@@ -27,7 +27,7 @@ interface Props {
   isPurple?: boolean;
   handleChange?: () => any;
   ctaText?: string;
-  requestChangeSubscription: (name: string, id: number) => void;
+  requestChangeSubscription: (name: string, id: number, mode: string) => void;
 }
 
 const PricingPlansCardHead: React.FC<Props> = props => {

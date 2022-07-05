@@ -8,7 +8,7 @@ const PaidContent = () => {
   const history = createBrowserHistory({ forceRefresh: true });
   return (
     <section className={styles.paidContainer}>
-      <h2>Your account already has an active plan</h2>
+      <h2>Activate your account instantly</h2>
       <p>
         Contact us if you have any questions:{' '}
         <a href="mailto:support@sellgo.com">support@sellgo.com</a>
@@ -19,7 +19,7 @@ const PaidContent = () => {
           history.push('/settings/pricing');
         }}
       >
-        Open Sellgo Pricing
+        Go to payment
       </button>
     </section>
   );

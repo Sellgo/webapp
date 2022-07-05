@@ -17,7 +17,7 @@ const SuccessContent = () => {
 
   return (
     <section className={styles.successContainer}>
-      <h2>Payment Success</h2>
+      <h2>Payment success, thank you.</h2>
 
       <p>We have sent you a receipt in your email</p>
       <button

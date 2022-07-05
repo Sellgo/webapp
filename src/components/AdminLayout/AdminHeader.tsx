@@ -22,6 +22,7 @@ import {
   isAistockSubscription,
   isBetaAccount,
   isSubscriptionIdFreeAccount,
+  isSubscriptionIdFreeTrial,
 } from '../../utils/subscriptions';
 import { setUserOnboarding } from '../../actions/UserOnboarding';
 
@@ -133,7 +134,11 @@ const AdminHeader = (props: Props) => {
             </Dropdown.Item>
             <Dropdown.Item
               as={Link}
-              to="/settings/pricing"
+              to={
+                isSubscriptionIdFreeTrial(sellerSubscription.subscription_id)
+                  ? '/subscription/payment'
+                  : '/settings/pricing'
+              }
               className="dropdownItem"
               disabled={isBeta}
             >

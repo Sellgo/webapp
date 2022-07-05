@@ -9,6 +9,8 @@ export type UNITS_SOLD_TYPE =
   | '34,000'
   | '55,000';
 
+export type UNIT_ID_TYPE = 105 | 106 | 107 | 108 | 109 | 110 | 111 | 112 | 113;
+
 export const UNITS_SOLD_PER_MONTH: any = {
   11: '1,000',
   22: '2,000',
@@ -56,7 +58,33 @@ export const AISTOCK_1000 = {
   ctaText: '',
   desc: `usually with an average annual revenue less than USD $700k.`,
   featureSubName: 'Update your supply chain system with',
-  featuresLists: [
+  featuresListsMonthly: [
+    {
+      title: 'Take control your inventory system',
+      featuresIncluded: [
+        'Never out ot stock again, minimize sales loss',
+        'Streamline and automate your future next orders',
+        'Improve your supply chain efficiency with smart order system',
+      ],
+    },
+    {
+      title: 'Unlock growth & profits',
+      featuresIncluded: [
+        'Unlock your sales peak and seasonality',
+        'Unlock your logistic savings',
+        'Optimize your 3PL transfers, reimbursement eligibility, and more',
+      ],
+    },
+    {
+      title: 'Project cash flow',
+      featuresIncluded: [
+        'Project future healthy cash flow',
+        'Bring financial into focus',
+        'Keep your business in high liquidity all the time, and many more',
+      ],
+    },
+  ],
+  featuresListsAnnual: [
     {
       title: 'Take control your inventory system',
       featuresIncluded: [
@@ -95,7 +123,33 @@ export const AISTOCK_2000 = {
   ctaText: '',
   desc: `usually with an average annual revenue less than USD $700k.`,
   featureSubName: 'Update your supply chain system with',
-  featuresLists: [
+  featuresListsMonthly: [
+    {
+      title: 'Take control your inventory system',
+      featuresIncluded: [
+        'Never out ot stock again, minimize sales loss',
+        'Streamline and automate your future next orders',
+        'Improve your supply chain efficiency with smart order system',
+      ],
+    },
+    {
+      title: 'Unlock growth & profits',
+      featuresIncluded: [
+        'Unlock your sales peak and seasonality',
+        'Unlock your logistic savings',
+        'Optimize your 3PL transfers, reimbursement eligibility, and more',
+      ],
+    },
+    {
+      title: 'Project cash flow',
+      featuresIncluded: [
+        'Project future healthy cash flow',
+        'Bring financial into focus',
+        'Keep your business in high liquidity all the time, and many more',
+      ],
+    },
+  ],
+  featuresListsAnnual: [
     {
       title: 'Take control your inventory system',
       featuresIncluded: [
@@ -134,7 +188,33 @@ export const AISTOCK_3000 = {
   ctaText: '',
   desc: `usually with an average annual revenue above USD $1M.`,
   featureSubName: 'Update your supply chain system with',
-  featuresLists: [
+  featuresListsMonthly: [
+    {
+      title: 'Take control your inventory system',
+      featuresIncluded: [
+        'Never out ot stock again, minimize sales loss',
+        'Streamline and automate your future next orders',
+        'Improve your supply chain efficiency with smart order system',
+      ],
+    },
+    {
+      title: 'Unlock growth & profits',
+      featuresIncluded: [
+        'Unlock your sales peak and seasonality',
+        'Unlock your logistic savings',
+        'Optimize your 3PL transfers, reimbursement eligibility, and more',
+      ],
+    },
+    {
+      title: 'Project cash flow',
+      featuresIncluded: [
+        'Project future healthy cash flow',
+        'Bring financial into focus',
+        'Keep your business in high liquidity all the time, and many more',
+      ],
+    },
+  ],
+  featuresListsAnnual: [
     {
       title: 'Take control your inventory system',
       featuresIncluded: [
@@ -173,7 +253,33 @@ export const AISTOCK_5000 = {
   ctaText: '',
   desc: `usually with an average annual revenue above USD $1M.`,
   featureSubName: 'Update your supply chain system with',
-  featuresLists: [
+  featuresListsMonthly: [
+    {
+      title: 'Take control your inventory system',
+      featuresIncluded: [
+        'Never out ot stock again, minimize sales loss',
+        'Streamline and automate your future next orders',
+        'Improve your supply chain efficiency with smart order system',
+      ],
+    },
+    {
+      title: 'Unlock growth & profits',
+      featuresIncluded: [
+        'Unlock your sales peak and seasonality',
+        'Unlock your logistic savings',
+        'Optimize your 3PL transfers, reimbursement eligibility, and more',
+      ],
+    },
+    {
+      title: 'Project cash flow',
+      featuresIncluded: [
+        'Project future healthy cash flow',
+        'Bring financial into focus',
+        'Keep your business in high liquidity all the time, and many more',
+      ],
+    },
+  ],
+  featuresListsAnnual: [
     {
       title: 'Take control your inventory system',
       featuresIncluded: [
@@ -212,7 +318,33 @@ export const AISTOCK_8000 = {
   ctaText: '',
   desc: `usually with an average annual revenue between USD $2-5M.`,
   featureSubName: 'Update your supply chain system with',
-  featuresLists: [
+  featuresListsMonthly: [
+    {
+      title: 'Take control your inventory system',
+      featuresIncluded: [
+        'Never out ot stock again, minimize sales loss',
+        'Streamline and automate your future next orders',
+        'Improve your supply chain efficiency with smart order system',
+      ],
+    },
+    {
+      title: 'Unlock growth & profits',
+      featuresIncluded: [
+        'Unlock your sales peak and seasonality',
+        'Unlock your logistic savings',
+        'Optimize your 3PL transfers, reimbursement eligibility, and more',
+      ],
+    },
+    {
+      title: 'Project cash flow',
+      featuresIncluded: [
+        'Project future healthy cash flow',
+        'Bring financial into focus',
+        'Keep your business in high liquidity all the time, and many more',
+      ],
+    },
+  ],
+  featuresListsAnnual: [
     {
       title: 'Take control your inventory system',
       featuresIncluded: [
@@ -251,7 +383,33 @@ export const AISTOCK_13000 = {
   ctaText: '',
   desc: `usually with an average annual revenue between USD $2-5M.`,
   featureSubName: 'Update your supply chain system with',
-  featuresLists: [
+  featuresListsMonthly: [
+    {
+      title: 'Take control your inventory system',
+      featuresIncluded: [
+        'Never out ot stock again, minimize sales loss',
+        'Streamline and automate your future next orders',
+        'Improve your supply chain efficiency with smart order system',
+      ],
+    },
+    {
+      title: 'Unlock growth & profits',
+      featuresIncluded: [
+        'Unlock your sales peak and seasonality',
+        'Unlock your logistic savings',
+        'Optimize your 3PL transfers, reimbursement eligibility, and more',
+      ],
+    },
+    {
+      title: 'Project cash flow',
+      featuresIncluded: [
+        'Project future healthy cash flow',
+        'Bring financial into focus',
+        'Keep your business in high liquidity all the time, and many more',
+      ],
+    },
+  ],
+  featuresListsAnnual: [
     {
       title: 'Take control your inventory system',
       featuresIncluded: [
@@ -290,7 +448,33 @@ export const AISTOCK_21000 = {
   ctaText: '',
   desc: `usually with an average annual revenue between USD $6-20M.`,
   featureSubName: 'Update your supply chain system with',
-  featuresLists: [
+  featuresListsMonthly: [
+    {
+      title: 'Take control your inventory system',
+      featuresIncluded: [
+        'Never out ot stock again, minimize sales loss',
+        'Streamline and automate your future next orders',
+        'Improve your supply chain efficiency with smart order system',
+      ],
+    },
+    {
+      title: 'Unlock growth & profits',
+      featuresIncluded: [
+        'Unlock your sales peak and seasonality',
+        'Unlock your logistic savings',
+        'Optimize your 3PL transfers, reimbursement eligibility, and more',
+      ],
+    },
+    {
+      title: 'Project cash flow',
+      featuresIncluded: [
+        'Project future healthy cash flow',
+        'Bring financial into focus',
+        'Keep your business in high liquidity all the time, and many more',
+      ],
+    },
+  ],
+  featuresListsAnnual: [
     {
       title: 'Take control your inventory system',
       featuresIncluded: [
@@ -329,7 +513,33 @@ export const AISTOCK_34000 = {
   ctaText: '',
   desc: `usually with an average annual revenue between USD $6-20M.`,
   featureSubName: 'Update your supply chain system with',
-  featuresLists: [
+  featuresListsMonthly: [
+    {
+      title: 'Take control your inventory system',
+      featuresIncluded: [
+        'Never out ot stock again, minimize sales loss',
+        'Streamline and automate your future next orders',
+        'Improve your supply chain efficiency with smart order system',
+      ],
+    },
+    {
+      title: 'Unlock growth & profits',
+      featuresIncluded: [
+        'Unlock your sales peak and seasonality',
+        'Unlock your logistic savings',
+        'Optimize your 3PL transfers, reimbursement eligibility, and more',
+      ],
+    },
+    {
+      title: 'Project cash flow',
+      featuresIncluded: [
+        'Project future healthy cash flow',
+        'Bring financial into focus',
+        'Keep your business in high liquidity all the time, and many more',
+      ],
+    },
+  ],
+  featuresListsAnnual: [
     {
       title: 'Take control your inventory system',
       featuresIncluded: [
@@ -368,7 +578,33 @@ export const AISTOCK_55000 = {
   ctaText: '',
   desc: `usually with an average annual revenue between USD $6-20M.`,
   featureSubName: 'Update your supply chain system with',
-  featuresLists: [
+  featuresListsMonthly: [
+    {
+      title: 'Take control your inventory system',
+      featuresIncluded: [
+        'Never out ot stock again, minimize sales loss',
+        'Streamline and automate your future next orders',
+        'Improve your supply chain efficiency with smart order system',
+      ],
+    },
+    {
+      title: 'Unlock growth & profits',
+      featuresIncluded: [
+        'Unlock your sales peak and seasonality',
+        'Unlock your logistic savings',
+        'Optimize your 3PL transfers, reimbursement eligibility, and more',
+      ],
+    },
+    {
+      title: 'Project cash flow',
+      featuresIncluded: [
+        'Project future healthy cash flow',
+        'Bring financial into focus',
+        'Keep your business in high liquidity all the time, and many more',
+      ],
+    },
+  ],
+  featuresListsAnnual: [
     {
       title: 'Take control your inventory system',
       featuresIncluded: [
@@ -400,7 +636,7 @@ export const ENTERPRISE_PLAN = {
   title: 'Enterprises or Agencies',
   subtitle: 'Do you manage multiple seller accounts?',
   planName: 'We solve multichannel challenges with singular focus',
-  featuresLists: [
+  featuresListsMonthly: [
     {
       title: 'Multiple omni',
       featuresIncluded: ['Omni brands', 'Omni store accounts', 'Omni users, and many more'],
@@ -422,6 +658,32 @@ export const ENTERPRISE_PLAN = {
       ],
     },
   ],
+  featuresListsAnnual: [
+    {
+      title: 'Take control your inventory system',
+      featuresIncluded: [
+        'Never out ot stock again, minimize sales loss',
+        'Streamline and automate your future next orders',
+        'Improve your supply chain efficiency with smart order system',
+      ],
+    },
+    {
+      title: 'Unlock growth & profits',
+      featuresIncluded: [
+        'Unlock your sales peak and seasonality',
+        'Unlock your logistic savings',
+        'Optimize your 3PL transfers, reimbursement eligibility, and more',
+      ],
+    },
+    {
+      title: 'Project cash flow',
+      featuresIncluded: [
+        'Project future healthy cash flow',
+        'Bring financial into focus',
+        'Keep your business in high liquidity all the time, and many more',
+      ],
+    },
+  ],
 };
 
 export const SELLER_TYPE_PER_UNITS_SOLD = {
@@ -434,6 +696,18 @@ export const SELLER_TYPE_PER_UNITS_SOLD = {
   '21,000': AISTOCK_21000,
   '34,000': AISTOCK_34000,
   '55,000': AISTOCK_55000,
+};
+
+export const SELLER_TYPE_BY_ID = {
+  105: AISTOCK_1000,
+  106: AISTOCK_2000,
+  107: AISTOCK_3000,
+  108: AISTOCK_5000,
+  109: AISTOCK_8000,
+  110: AISTOCK_13000,
+  111: AISTOCK_21000,
+  112: AISTOCK_34000,
+  113: AISTOCK_55000,
 };
 
 export const getPlanPrice = (unitsSold: UNITS_SOLD_TYPE) => {
@@ -464,6 +738,13 @@ export const getSellerPlan = (unitsSold: UNITS_SOLD_TYPE) => {
   return {
     ...plan,
     //ctaText: `$${getPlanPrice(unitsSold)} today,  $${getPlanPrice(unitsSold)}/ mo after that`
+  };
+};
+
+export const getSellerPlanById = (id: UNIT_ID_TYPE) => {
+  const plan = SELLER_TYPE_BY_ID[id];
+  return {
+    ...plan,
   };
 };
 

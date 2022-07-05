@@ -22,13 +22,14 @@ import {
   PLAN_UNIT,
   UNITS_SOLD_TYPE,
   SELLER_TYPE_PER_UNITS_SOLD,
-  PLAN_PRICE_PER_UNITS_SOLD,
+  getSellerPlan,
   getNearestUnitsSold,
   getSliderValue,
 } from '../../../Settings/Pricing/AistockPricing/Herobox/data';
-import RainbowText from '../../../../components/RainbowText';
+
 import FormInput from '../../../../components/FormInput';
-import { formatCurrency, formatString, commify } from '../../../../utils/format';
+import { formatString, commify, formatDecimal } from '../../../../utils/format';
+import CheckoutPlanToggleRadio from '../../../../components/CheckoutPlanToggleRadio';
 
 /* Constants */
 import { Length, Name, validateEmail } from '../../../../constants/Validators';
@@ -57,6 +58,7 @@ import stripeIcon from '../../../../assets/images/powered_by_stripe.svg';
 
 /* Styling */
 import styles from './index.module.scss';
+import RainbowText from '../../../../components/RainbowText';
 
 /* Types */
 import { PromoCode } from '../../../../interfaces/Subscription';
@@ -96,6 +98,7 @@ interface MyProps {
   promoError: string;
   auth: Auth;
   successPayment: boolean;
+  promoCodeObj: PromoCode;
 }
 
 function CheckoutForm(props: MyProps) {
@@ -114,6 +117,7 @@ function CheckoutForm(props: MyProps) {
     successPayment,
     auth,
     defaultEmail,
+    promoCodeObj,
   } = props;
   const [isPromoCodeChecked, setPromoCodeChecked] = useState<boolean>(false);
   const [promoCode, setPromoCode] = useState<string>('');
@@ -131,9 +135,12 @@ function CheckoutForm(props: MyProps) {
   const { value: password2, bind: bindPassword2 } = useInput('');
   const [unitsSoldInput, setUnitsSoldInput] = useState<number>(1000);
   const [unitsSold, setUnitsSold] = useState<UNITS_SOLD_TYPE>('1,000');
+  const sellerPlan = getSellerPlan(unitsSold);
+  const [isMonthly, setIsMonthly] = useState<boolean>(true);
 
   const queryParams = new URLSearchParams(window.location.search);
   const order = queryParams.get('order');
+  const mode = queryParams.get('mode');
 
   const stepsInfo = [
     {
@@ -170,6 +177,10 @@ function CheckoutForm(props: MyProps) {
     setUnitsSoldInput(parseInt(order));
   }, [order]);
 
+  React.useEffect(() => {
+    setIsMonthly(mode === null || mode === 'monthly');
+  }, [mode]);
+
   const handleCheckPromoCode = async (event: any) => {
     event.preventDefault();
     const subscriptionId = getSubscriptionID(accountType);
@@ -184,6 +195,16 @@ function CheckoutForm(props: MyProps) {
     setPromoError('');
   };
 
+  const calculateDiscountedPrice = (price: number) => {
+    if (promoCodeObj && promoCodeObj.percent_off) {
+      return price * ((100 - promoCodeObj.percent_off) / 100);
+    } else if (promoCodeObj && promoCodeObj.amount_off) {
+      return price - promoCodeObj.amount_off;
+    } else {
+      return price;
+    }
+  };
+
   const handleError = (err: string) => {
     setErrorMessage(err);
     setSignupSuccess(false);
@@ -195,19 +216,19 @@ function CheckoutForm(props: MyProps) {
     Axios.defaults.headers.common.Authorization = ``;
 
     if (!validateEmail(email)) {
-      handleError(`Error in email - email format validation failed: ${email}`);
+      handleError(`Your account: email format validation failed: ${email}`);
       setEmailError(true);
       return;
     } else if (!Name.validate(firstName)) {
-      handleError('First Name must all be letters.');
+      handleError('Your account: first name must all be letters.');
       setFnameError(true);
       return;
     } else if (!Name.validate(lastName)) {
-      handleError('Last Name must all be letters.');
+      handleError('Your account: last name must all be letters.');
       setLnameError(true);
       return;
     } else if (password !== password2) {
-      handleError('Passwords do not match.');
+      handleError('Your account: passwords do not match.');
       return;
     }
 
@@ -218,11 +239,11 @@ function CheckoutForm(props: MyProps) {
       );
 
       if (verifyEmailStatus !== 200) {
-        handleError('This email is already being used.');
+        handleError('Your account: this email is already being used.');
         return;
       }
     } catch (e) {
-      handleError('This email is already being used.');
+      handleError('Your account: this email is already being used.');
       return;
     }
 
@@ -253,7 +274,7 @@ function CheckoutForm(props: MyProps) {
       // @ts-ignore
       bodyFormData.set('subscription_id', SELLER_TYPE_PER_UNITS_SOLD[unitsSold].id);
       bodyFormData.set('payment_method_id', paymentMethodId);
-      bodyFormData.set('payment_mode', paymentMode);
+      bodyFormData.set('payment_mode', isMonthly ? 'monthly' : 'yearly');
       bodyFormData.set('promo_code', promoCode);
 
       // @ts-ignore
@@ -283,7 +304,7 @@ function CheckoutForm(props: MyProps) {
         if (response && response.data && response.data.message) {
           handleError(response.data.message);
         }
-        handleError('Failed to make payment.');
+        handleError('Error: failed to make payment.');
         return;
       }
 
@@ -458,26 +479,128 @@ function CheckoutForm(props: MyProps) {
         />
 
         <div className={styles.orderSummaryContainer}>
-          <h2> Order Summary </h2>
           <div className={styles.orderItemsWrapper}>
             <div className={styles.orderItem}>
               <p className={styles.orderTitle}>
-                {commify(formatString(PLAN_UNIT[unitsSold]))} orders per month usage-based - billed
-                monthly
+                {isMonthly ? (
+                  <div>
+                    {commify(formatString(PLAN_UNIT[unitsSold]))} orders per month (usage-based)
+                    <br />
+                    <span>billed monthly + overage 2ç/order (billed by end of month)</span>
+                  </div>
+                ) : (
+                  <div>
+                    {commify(formatString(PLAN_UNIT[unitsSold]))} orders per month (usage-based)
+                    <br />
+                    <span>billed yearly + overage 1ç/order (billed by end of month)</span>
+                  </div>
+                )}
               </p>
-              <p className={styles.orderPrice}>
-                {formatCurrency(PLAN_PRICE_PER_UNITS_SOLD[unitsSold])}
-              </p>
+              {isMonthly ? (
+                <p className={styles.orderPrice}>${formatDecimal(sellerPlan.monthlyPrice)}</p>
+              ) : (
+                <p className={styles.orderPrice}>${formatDecimal(sellerPlan.annualPrice)}</p>
+              )}
             </div>
+
+            <div className={styles.paymentModeToggle}>
+              <div className={styles.modalHeader}>
+                <CheckoutPlanToggleRadio
+                  isToggled={isMonthly}
+                  handleChange={() => setIsMonthly(!isMonthly)}
+                  label={''}
+                  className={styles.paymentModeToggleButton}
+                />
+              </div>
+
+              <div className={styles.paymentToggleTextWrapper}>
+                <p className={styles.paymentToggleText}>
+                  {isMonthly ? (
+                    <span>
+                      Save with annual billing &nbsp;
+                      <span className={styles.greenhighlight}>&nbsp;20% OFF&nbsp;</span>
+                      <span className={styles.total}>
+                        ${formatDecimal(sellerPlan.annualPrice)} /year
+                      </span>
+                    </span>
+                  ) : (
+                    <span>
+                      Switch to monthly &nbsp;
+                      <span className={styles.total}>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $
+                        {formatDecimal(sellerPlan.monthlyPrice)} /mo
+                      </span>
+                    </span>
+                  )}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.totalItemsWrapper}>
             <div className={styles.overageItem}>
-              <p className={styles.orderTitle}>
-                overage 2ç/order - will be billed by end of billing cycle, $0 today
-              </p>
-              <p className={styles.orderPrice}>$0</p>
+              <p className={styles.orderTitle}>Subtotal</p>
+              {isMonthly ? (
+                <p className={styles.orderPrice}>${formatDecimal(sellerPlan.monthlyPrice)}</p>
+              ) : (
+                <p className={styles.orderPrice}>${formatDecimal(sellerPlan.annualPrice)}</p>
+              )}
             </div>
+
+            <Form.Group className={`${styles.formGroup} ${styles.formGroup__promo}`}>
+              <Form.Input
+                className={`${styles.formInput} ${styles.formInput__promo}`}
+                size="large"
+                type="text"
+                placeholder="Add promotion code"
+                value={promoCode}
+                onChange={handlePromoCodeChange}
+              />
+              <button
+                disabled={!promoCode || promoLoading}
+                className={styles.redeemButton}
+                onClick={handleCheckPromoCode}
+              >
+                Redeem
+              </button>
+              {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
+                <div className={styles.couponItem}>
+                  <p className={styles.orderPrice}>
+                    {isMonthly ? (
+                      <span>
+                        -$
+                        {formatDecimal(
+                          sellerPlan.monthlyPrice -
+                            calculateDiscountedPrice(sellerPlan.monthlyPrice)
+                        )}
+                      </span>
+                    ) : (
+                      <span>
+                        -$
+                        {formatDecimal(
+                          sellerPlan.annualPrice - calculateDiscountedPrice(sellerPlan.annualPrice)
+                        )}
+                      </span>
+                    )}
+                  </p>
+                </div>
+              )}
+            </Form.Group>
+            <p className={styles.redemptionMessage__success}>
+              {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
+                <span>{generatePromoCodeMessage(redeemedPromoCode, paymentMode)}</span>
+              )}
+            </p>
+            <p className={styles.redemptionMessage__error}>{isPromoCodeChecked && promoError}</p>
+
             <div className={styles.totalPrice}>
-              <p>Total charges today </p>
-              <p>USD {formatCurrency(PLAN_PRICE_PER_UNITS_SOLD[unitsSold])} </p>
+              <p>Total due today</p>
+              <p className={styles.orderPrice}>
+                USD $
+                {isMonthly
+                  ? formatDecimal(calculateDiscountedPrice(sellerPlan.monthlyPrice))
+                  : formatDecimal(calculateDiscountedPrice(sellerPlan.annualPrice))}
+              </p>
             </div>
           </div>
         </div>
@@ -485,7 +608,7 @@ function CheckoutForm(props: MyProps) {
         <h2>Secure Credit Card Payment</h2>
         <Form.Group className={styles.formGroup}>
           <Form.Field className={`${styles.formInput} ${styles.formInput__creditCard}`}>
-            <label htmlFor="CardNumber">Credit Card Number</label>
+            <label htmlFor="CardNumber">Credit card number</label>
             <CardNumberElement
               id="CardNumber"
               options={CARD_ELEMENT_OPTIONS}
@@ -494,7 +617,7 @@ function CheckoutForm(props: MyProps) {
           </Form.Field>
 
           <Form.Field className={`${styles.formInput} ${styles.formInput__expiry}`}>
-            <label htmlFor="expiry">Expiry Date</label>
+            <label htmlFor="expiry">Expiry date</label>
             <CardExpiryElement
               id="expiry"
               options={CARD_ELEMENT_OPTIONS}
@@ -512,37 +635,6 @@ function CheckoutForm(props: MyProps) {
           </Form.Field>
         </Form.Group>
 
-        <h2>Redeem Coupon</h2>
-        <Form.Group className={`${styles.formGroup} ${styles.formGroup__promo}`}>
-          <Form.Input
-            className={`${styles.formInput} ${styles.formInput__promo}`}
-            size="huge"
-            type="text"
-            placeholder="Coupon Code"
-            value={promoCode}
-            onChange={handlePromoCodeChange}
-          />
-          <button
-            disabled={!promoCode || promoLoading}
-            className={styles.redeemButton}
-            onClick={handleCheckPromoCode}
-          >
-            Redeem
-          </button>
-        </Form.Group>
-        <p className={styles.redemptionMessage__success}>
-          {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
-            <span>{generatePromoCodeMessage(redeemedPromoCode, paymentMode)}</span>
-          )}
-        </p>
-        <p className={styles.redemptionMessage__error}>{isPromoCodeChecked && promoError}</p>
-
-        {!successPayment && errorMessage.length > 0 && (
-          <div className={styles.paymentErrorMessage}>
-            <p>{errorMessage}</p>
-          </div>
-        )}
-
         <ActionButton
           variant={'primary'}
           size={'md'}
@@ -551,9 +643,20 @@ function CheckoutForm(props: MyProps) {
           onClick={handleSubmit}
           disabled={!stripe || stripeLoading || signupLoading || isSignupSuccess}
         >
-          Complete Payment&nbsp;
+          Complete payment&nbsp;
           {signupLoading && <Loader active inline size="mini" inverted />}
         </ActionButton>
+
+        <div>
+          <h4>
+            By clicking Complete payment, you agree to our Terms of Service and Privacy Statement.
+          </h4>
+        </div>
+        {!successPayment && errorMessage.length > 0 && (
+          <div className={styles.paymentErrorMessage}>
+            <p>{errorMessage}</p>
+          </div>
+        )}
 
         <div className={styles.paymentMeta}>
           <div className={styles.cardsWrapper}>
@@ -573,6 +676,7 @@ const mapStateToProps = (state: {}) => ({
   promoLoading: get(state, 'subscription.promoLoading'),
   promoError: get(state, 'subscription.promoError'),
   successPayment: get(state, 'subscription.successPayment'),
+  promoCodeObj: get(state, 'subscription.promoCode'),
 });
 
 const mapDispatchToProps = {

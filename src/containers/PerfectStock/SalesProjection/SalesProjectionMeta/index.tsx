@@ -125,26 +125,28 @@ const SalesProjectionMeta = (props: Props) => {
           />
         </div>
         <div className={styles.exportContainer}>
-          {salesProjectionUpdateDate && (
-            <button
-              id="salesProjectionRefreshButton"
-              className={`${styles.refreshButton}`}
-              onClick={refreshSalesProjection}
-              disabled={isFetchingProgressForRefresh}
-            >
-              <TooltipWrapper tooltipKey="Refresh Date">
-                <>
-                  Last Update:&nbsp;<span>{displayDate}</span>
-                </>
-              </TooltipWrapper>
-              &nbsp;
-              {!isFetchingProgressForRefresh ? (
-                <UndoIcon className={styles.refreshIcon} />
-              ) : (
-                <Loader active inline size="tiny" />
-              )}
-            </button>
-          )}
+          <button
+            id="salesProjectionRefreshButton"
+            className={`${styles.refreshButton}`}
+            onClick={refreshSalesProjection}
+            disabled={isFetchingProgressForRefresh}
+          >
+            {salesProjectionUpdateDate && (
+              <>
+                <TooltipWrapper tooltipKey="Refresh Date">
+                  <>
+                    Last Update:&nbsp;<span>{displayDate}</span>
+                  </>
+                </TooltipWrapper>
+                &nbsp;
+              </>
+            )}
+            {!isFetchingProgressForRefresh ? (
+              <UndoIcon className={styles.refreshIcon} />
+            ) : (
+              <Loader active inline size="tiny" />
+            )}
+          </button>
 
           <TableExport
             label=""

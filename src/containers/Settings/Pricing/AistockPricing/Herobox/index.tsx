@@ -10,32 +10,46 @@ import InputFilter from '../../../../../components/FormFilters/InputFilter';
 import {
   UNITS_SOLD_PER_MONTH,
   UNITS_SOLD_TYPE,
+  UNIT_ID_TYPE,
   getSellerPlan,
+  getSellerPlanById,
   getNearestUnitsSold,
   getSliderValue,
-  ENTERPRISE_PLAN,
 } from './data';
 import PricingPlansCard from '../../../../../components/AistockPricingPlansCard';
 import RainbowText from '../../../../../components/RainbowText';
-import EnterpriseCard from '../../../../../components/EnterpriseCard';
+import { SellerSubscription } from '../../../../../interfaces/Seller';
 
 interface Props {
-  requestChangeSubscription: (name: string, id: number) => void;
+  requestChangeSubscription: (name: string, id: number, mode: string) => void;
   isPaidSellerSubscription: boolean;
+  sellerSubscription: SellerSubscription;
 }
 
 const HeroBox = (props: Props) => {
-  const { requestChangeSubscription, isPaidSellerSubscription } = props;
+  const { requestChangeSubscription, sellerSubscription } = props;
   const [isMonthly, setIsMonthly] = useState<boolean>(true);
   const [unitsSoldInput, setUnitsSoldInput] = useState<number>(1000);
   const [unitsSold, setUnitsSold] = useState<UNITS_SOLD_TYPE>('1,000');
   const sellerPlan = getSellerPlan(unitsSold);
+  const [subId, setSubId] = useState<UNIT_ID_TYPE>(105);
+  const sellerCurrentPlan = getSellerPlanById(subId);
   console.log(unitsSoldInput);
+  console.log('sellerSubscription.subscription_id' + sellerSubscription.subscription_id);
+  console.log('sellerPlan.id' + sellerPlan.id);
+  console.log('sellerSubscription.payment_mode ' + sellerSubscription.payment_mode);
+  console.log('subId' + subId);
+  console.log('sellerCurrentPlan.id' + sellerCurrentPlan.id);
+  console.log('isMonthly' + isMonthly);
 
   React.useEffect(() => {
     // @ts-ignore
     setUnitsSold(getNearestUnitsSold(unitsSoldInput));
-  }, [unitsSoldInput]);
+
+    // @ts-ignore
+    setSubId(sellerSubscription.subscription_id);
+    setIsMonthly(sellerSubscription.payment_mode === 'monthly' ? true : false);
+  }, [unitsSoldInput, subId]);
 
   return (
     <section className={styles.heroBoxWrapper}>
@@ -89,20 +103,41 @@ const HeroBox = (props: Props) => {
             annualPrice={sellerPlan.annualPrice}
             desc={sellerPlan.desc}
             featureSubName={sellerPlan.featureSubName}
-            featuresLists={sellerPlan.featuresLists}
+            featuresLists={sellerPlan.featuresListsAnnual}
             setIsMonthly={setIsMonthly}
             requestChangeSubscription={requestChangeSubscription}
             // Plan details
-            isPaidSellerSubscription={isPaidSellerSubscription}
+            isPaidSellerSubscription={
+              sellerSubscription.payment_mode === 'yearly'
+                ? sellerPlan.id === sellerSubscription.subscription_id
+                : false
+            }
             ctaText={sellerPlan.ctaText}
-            isMonthly={isMonthly}
+            isMonthly={false}
             className={styles.planInformationBox}
           />
-          <EnterpriseCard
-            title={ENTERPRISE_PLAN.title}
-            subtitle={ENTERPRISE_PLAN.subtitle}
-            planName={ENTERPRISE_PLAN.planName}
-            featuresList={ENTERPRISE_PLAN.featuresLists}
+          <PricingPlansCard
+            name={sellerPlan.name}
+            planId={sellerPlan.id}
+            monthlyPrice={sellerPlan.monthlyPrice}
+            launchDiscount={sellerPlan.launchDiscount}
+            launchSaving={sellerPlan.launchSaving}
+            launchSavingPercentage={sellerPlan.launchSavingPercentage}
+            annualPrice={sellerPlan.annualPrice}
+            desc={sellerPlan.desc}
+            featureSubName={sellerPlan.featureSubName}
+            featuresLists={sellerPlan.featuresListsMonthly}
+            setIsMonthly={setIsMonthly}
+            requestChangeSubscription={requestChangeSubscription}
+            // Plan details
+            isPaidSellerSubscription={
+              sellerSubscription.payment_mode === 'monthly'
+                ? sellerPlan.id === sellerSubscription.subscription_id
+                : false
+            }
+            ctaText={sellerPlan.ctaText}
+            isMonthly={true}
+            className={styles.planInformationBox}
           />
         </div>
       </div>

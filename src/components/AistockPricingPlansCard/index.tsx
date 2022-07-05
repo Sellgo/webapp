@@ -13,7 +13,7 @@ interface Props {
   name: string;
   planId: number;
   setIsMonthly: (isMonthly: boolean) => void;
-  requestChangeSubscription: (name: string, id: number) => void;
+  requestChangeSubscription: (name: string, id: number, mode: string) => void;
   monthlyPrice: number;
   launchDiscount: number;
   launchSaving: number;
