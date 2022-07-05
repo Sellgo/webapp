@@ -63,6 +63,12 @@
     font-weight: $fontweight_bold;
   }
 
+  h4 {
+    font-size: $fontsize_content_12;
+    font-weight: $fontweight_medium;
+    color: $grey_8;
+  }
+
   p {
     font-size: $fontsize_content_14;
     font-weight: $fontweight_medium;
@@ -124,12 +130,14 @@
   height: 5rem;
   font-weight: $fontweight_semibold;
   font-size: $fontsize_content_16;
-  margin: 3rem auto;
+  margin: 1rem auto;
   margin-top: 0;
 
   &__disabled {
     pointer-events: none;
-    opacity: 0.5;
+    opacity: 0.3;
+    background: $grey_4;
+    color: $grey_1;
   }
 }
 

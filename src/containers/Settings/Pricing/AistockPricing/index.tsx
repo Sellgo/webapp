@@ -205,7 +205,9 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               requestChangeSubscription={this.requestChangeSubscription}
               sellerSubscription={sellerSubscription}
             />
+            <FAQSection />
           </section>
+
           <section className={styles.paymentMeta}>
             <div className={styles.paymentMeta__images}>
               <img src={Setcard} alt="Different card payment options" />
@@ -215,7 +217,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <p />
             </div>
           </section>
-          <FAQSection />
         </main>
       </>
     );

@@ -93,6 +93,12 @@ const GenericPriceCardHead: React.FC<Props> = props => {
           </span>
         )}
 
+        {isMonthly ? (
+          <h4>billed monthly + overage 2ç/order (billed by end of month)</h4>
+        ) : (
+          <h4>billed yearly + overage 1ç/order (billed by end of month)</h4>
+        )}
+
         {!isMonthly ? (
           <p className={styles.billedAtPrice}>
             <span
@@ -113,7 +119,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
             </span>
           </p>
         ) : (
-          <p>Billed Monthly</p>
+          <p className={styles.billedAtPrice}>&nbsp;</p>
         )}
       </div>
 
@@ -148,7 +154,9 @@ const GenericPriceCardHead: React.FC<Props> = props => {
           type="purpleGradient"
           size={'md'}
         >
-          {isPaidSellerSubscription ? 'This is your current plan' : 'Switch to this monthly plan'}
+          {isPaidSellerSubscription
+            ? 'This is your current plan'
+            : 'Switch to this monthly billing'}
         </ActionButton>
       )}
     </div>
