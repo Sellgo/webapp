@@ -178,7 +178,7 @@ function CheckoutForm(props: MyProps) {
   }, [order]);
 
   React.useEffect(() => {
-    setIsMonthly(mode === null || mode === 'monthly');
+    setIsMonthly(mode === null || mode === 'yearly');
   }, [mode]);
 
   const handleCheckPromoCode = async (event: any) => {
