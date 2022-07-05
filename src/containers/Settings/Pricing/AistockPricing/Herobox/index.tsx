@@ -102,8 +102,8 @@ const HeroBox = (props: Props) => {
             launchSavingPercentage={sellerPlan.launchSavingPercentage}
             annualPrice={sellerPlan.annualPrice}
             desc={sellerPlan.desc}
-            featureSubName=""
-            featuresLists={[]}
+            featureSubName={sellerPlan.featureSubName}
+            featuresLists={sellerPlan.featuresListsAnnual}
             setIsMonthly={setIsMonthly}
             requestChangeSubscription={requestChangeSubscription}
             // Plan details
@@ -126,7 +126,7 @@ const HeroBox = (props: Props) => {
             annualPrice={sellerPlan.annualPrice}
             desc={sellerPlan.desc}
             featureSubName={sellerPlan.featureSubName}
-            featuresLists={sellerPlan.featuresLists}
+            featuresLists={sellerPlan.featuresListsMonthly}
             setIsMonthly={setIsMonthly}
             requestChangeSubscription={requestChangeSubscription}
             // Plan details

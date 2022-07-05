@@ -1,14 +1,14 @@
 @import '../../design-system/new-colors';
 
 .pricingPlansCardWrapper {
-  margin-top: 5rem;
+  margin-top: 1rem;
   margin-left: 9px;
   margin-right: 9px;
   position: relative;
   background: $prim_white;
   border-radius: 7px;
   width: 40rem;
-  min-height: 77rem;
+  min-height: 55rem;
   border: 1px solid $second_silver;
 
   &__new {
@@ -18,7 +18,7 @@
 
   @media only screen and(max-width: 1200px) {
     margin-top: 3rem;
-    min-height: 80rem;
+    min-height: 60rem;
   }
 
   @media only screen and(max-width: 915px) {
