@@ -140,6 +140,7 @@ function CheckoutForm(props: MyProps) {
 
   const queryParams = new URLSearchParams(window.location.search);
   const order = queryParams.get('order');
+  const mode = queryParams.get('mode');
 
   const stepsInfo = [
     {
@@ -175,6 +176,10 @@ function CheckoutForm(props: MyProps) {
     // @ts-ignore
     setUnitsSoldInput(parseInt(order));
   }, [order]);
+
+  React.useEffect(() => {
+    setIsMonthly(mode === null || mode === 'monthly');
+  }, [mode]);
 
   const handleCheckPromoCode = async (event: any) => {
     event.preventDefault();
