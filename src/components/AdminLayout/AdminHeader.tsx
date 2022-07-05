@@ -132,7 +132,6 @@ const AdminHeader = (props: Props) => {
               <img src={SettingsIcon} alt="settings-icon" />
               My Profile
             </Dropdown.Item>
-
             <Dropdown.Item
               as={Link}
               to={
