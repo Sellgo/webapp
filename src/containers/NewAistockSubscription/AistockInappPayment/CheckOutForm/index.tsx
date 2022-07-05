@@ -113,7 +113,6 @@ function CheckoutForm(props: MyProps) {
   const [unitsSold, setUnitsSold] = useState<UNITS_SOLD_TYPE>('1,000');
   const sellerPlan = getSellerPlan(unitsSold);
   const [isMonthly, setIsMonthly] = useState<boolean>(true);
-  console.log('isMonthly' + isMonthly);
 
   /* Upon successful checking of the entered promo code, either a valid redeemedPromoCode code 
   is returned, or an error message is returned. Upon completion of promo code check, set status 
