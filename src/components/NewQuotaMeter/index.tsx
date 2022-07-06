@@ -11,8 +11,7 @@ interface Props {
     | 'Seller Research'
     | 'Product Research'
     | 'Keyword Research'
-    | 'Sales Estimation'
-    | 'AiStock';
+    | 'Sales Estimation';
   quota: { used: number; available: number };
   className?: string;
 }
@@ -56,10 +55,6 @@ const NewQuotaMeter = (props: Props) => {
 
     case 'Sales Estimation':
       color = 'yellow';
-      break;
-
-    case 'AiStock':
-      color = 'violet';
       break;
   }
 

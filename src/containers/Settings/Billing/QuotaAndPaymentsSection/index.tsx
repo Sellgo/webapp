@@ -77,9 +77,6 @@ const QuotaAndPaymentsSection = (props: Props) => {
   const [unitsSoldInput] = useState<number>(1000);
   const [unitsSold] = useState<UNITS_SOLD_TYPE>('1,000');
   const sellerPlan = getSellerPlan(unitsSold);
-  console.log(unitsSoldInput);
-  console.log('sellerPlan.name' + sellerPlan.name);
-
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
   const [isCancellingSubscription, setCancellingSubscription] = React.useState<boolean>(false);
   const [isCancelSubscriptionLoading, setCancelSubscriptionLoading] = React.useState<boolean>(
