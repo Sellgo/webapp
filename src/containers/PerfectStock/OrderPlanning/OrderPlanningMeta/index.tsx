@@ -63,6 +63,8 @@ const OrderPlanningMeta = (props: Props) => {
   useEffect(() => {
     if (activePurchaseOrder && activePurchaseOrder.id !== -1) {
       setHasActivePurchaseOrder(true);
+    } else {
+      setHasActivePurchaseOrder(false);
     }
   }, [hasActivePurchaseOrder]);
 
