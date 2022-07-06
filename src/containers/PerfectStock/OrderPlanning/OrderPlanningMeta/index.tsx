@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 /* Styling */
@@ -58,10 +58,13 @@ const OrderPlanningMeta = (props: Props) => {
     setInventoryTableFilters,
   } = props;
 
-  let hasActivePurchaseOrder = false;
-  if (activePurchaseOrder && activePurchaseOrder.id !== -1) {
-    hasActivePurchaseOrder = true;
-  }
+  const [hasActivePurchaseOrder, setHasActivePurchaseOrder] = useState(false);
+
+  useEffect(() => {
+    if (activePurchaseOrder && activePurchaseOrder.id !== -1) {
+      setHasActivePurchaseOrder(true);
+    }
+  }, [hasActivePurchaseOrder]);
 
   return (
     <>
