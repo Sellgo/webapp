@@ -125,7 +125,7 @@ const InventoryTable = (props: Props) => {
     try {
       const { status } = await axios.patch(
         `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-order-templates/${
-          activePurchaseOrder.purchase_order_template_id
+          activePurchaseOrder?.purchase_order_template_id
         }`,
         { merchant_listing_ids: newSkus.map(newSkus => newSkus.merchant_listing_id) }
       );
