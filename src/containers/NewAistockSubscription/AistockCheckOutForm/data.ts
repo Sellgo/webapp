@@ -1,4 +1,4 @@
-import ProfilePicture from '../../../assets/images/andrew.png';
+import ProfilePicture from '../../../assets/images/jack.png';
 
 export const TESTIMONIAL = {
   title: `The 1st inventory planning for Amazon sellers!`,
