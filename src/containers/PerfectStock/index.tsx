@@ -235,7 +235,7 @@ const PerfectStock: React.FC<Props> = props => {
                     label="Sales Forecasting"
                     icon="Sales Estimation"
                     isActive={selectedTabList === 0}
-                    isBeta
+                    isBeta={false}
                   />
                 </Tab>
                 <Tab>
@@ -243,7 +243,7 @@ const PerfectStock: React.FC<Props> = props => {
                     label="Order Planning"
                     icon="Order Planning"
                     isActive={selectedTabList === 1}
-                    isBeta
+                    isBeta={false}
                   />
                 </Tab>
                 <Tab>
@@ -251,7 +251,7 @@ const PerfectStock: React.FC<Props> = props => {
                     label="3PL Manager"
                     icon="Tpl"
                     isActive={selectedTabList === 2}
-                    isBeta
+                    isBeta={false}
                   />
                 </Tab>
                 <Tab>
@@ -259,7 +259,7 @@ const PerfectStock: React.FC<Props> = props => {
                     label="Cash Flow"
                     icon="Perfect Stock Home"
                     isActive={selectedTabList === 3}
-                    isBeta
+                    isBeta={false}
                   />
                 </Tab>
                 <Tab />
