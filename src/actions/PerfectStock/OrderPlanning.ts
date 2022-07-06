@@ -244,7 +244,7 @@ export const fetchPurchaseOrders = () => async (dispatch: any, getState: any) =>
         if (activePurchaseOrderIndex > -1) {
           dispatch(setActivePurchaseOrder(data[activePurchaseOrderIndex]));
           console.log('data[activePurchaseOrderIndex]', data[activePurchaseOrderIndex]);
-        } else {
+        } else if (data.length) {
           dispatch(setActivePurchaseOrder(data[0]));
         }
       }
