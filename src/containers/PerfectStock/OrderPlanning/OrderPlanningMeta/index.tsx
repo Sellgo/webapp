@@ -64,12 +64,13 @@ const OrderPlanningMeta = (props: Props) => {
   const [hasActivePurchaseOrder, setHasActivePurchaseOrder] = useState(false);
 
   useEffect(() => {
+    console.log('purchaseOrders.length', purchaseOrders.length);
     if (activePurchaseOrder && activePurchaseOrder.id !== -1 && purchaseOrders.length) {
       setHasActivePurchaseOrder(true);
     } else {
       setHasActivePurchaseOrder(false);
     }
-  }, [activePurchaseOrder?.id]);
+  }, [activePurchaseOrder?.id, purchaseOrders.length]);
 
   return (
     <>
