@@ -434,10 +434,11 @@ export const updatePurchaseOrder =
         }
 
         if (!payload.date && payload.status === 'inactive') {
-          success('Deleted order successfully');
+          console.log(getPurchaseOrders(state).length, 'get purchase orders length');
           if (!getPurchaseOrders(state).length) {
             dispatch(setActivePurchaseOrder(null));
           }
+          success('Deleted order successfully');
         }
       } else {
         error('Failed to update purchase order.');
