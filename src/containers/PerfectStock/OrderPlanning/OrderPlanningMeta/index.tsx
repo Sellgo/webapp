@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 /* Styling */
@@ -25,6 +25,7 @@ import {
   getInventoryTableFilters,
   getInventoryTableUpdateDate,
   getIsFetchingProgressForRefresh,
+  getPurchaseOrders,
 } from '../../../../selectors/PerfectStock/OrderPlanning';
 
 /* Types */
@@ -52,16 +53,23 @@ const OrderPlanningMeta = (props: Props) => {
   const {
     setIsEditingSKUs,
     activePurchaseOrder,
+    // @ts-ignore
+    purchaseOrders,
     tableViewMode,
     setTableViewMode,
     inventoryTableFilters,
     setInventoryTableFilters,
   } = props;
 
-  let hasActivePurchaseOrder = false;
-  if (activePurchaseOrder && activePurchaseOrder.id !== -1) {
-    hasActivePurchaseOrder = true;
-  }
+  const [hasActivePurchaseOrder, setHasActivePurchaseOrder] = useState(false);
+
+  useEffect(() => {
+    if (activePurchaseOrder && activePurchaseOrder.id !== -1 && purchaseOrders.length) {
+      setHasActivePurchaseOrder(true);
+    } else {
+      setHasActivePurchaseOrder(false);
+    }
+  }, [activePurchaseOrder?.id]);
 
   return (
     <>
@@ -115,6 +123,7 @@ const mapStateToProps = (state: any) => ({
   isFetchingProgressForRefresh: getIsFetchingProgressForRefresh(state),
   inventoryTableUpdateDate: getInventoryTableUpdateDate(state),
   activePurchaseOrder: getActivePurchaseOrder(state),
+  purchaseOrders: getPurchaseOrders(state),
   inventoryTableFilters: getInventoryTableFilters(state),
 });
 
