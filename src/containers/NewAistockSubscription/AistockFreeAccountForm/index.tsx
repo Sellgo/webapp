@@ -11,7 +11,7 @@ import Auth from '../../../components/Auth/Auth';
 
 /* Assets */
 import newSellgoLogo from '../../../assets/images/aistockLogo.png';
-//import ProfilePicture from '../../../assets/images/andrew.png';
+import ProfilePicture from '../../../assets/images/jack.png';
 
 /* Components */
 import StepsInfo from '../../../components/StepsInfo';
@@ -258,7 +258,7 @@ const FreeAccountForm = (props: Props) => {
         </p>
 
         <div className={styles.reviewerRow}>
-          {/*<img src={ProfilePicture} alt="profile picture" />*/}
+          <img src={ProfilePicture} alt="profile picture" />
           <div className={styles.reviewerDetails}>
             Jack Y
             <br />

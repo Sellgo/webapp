@@ -42,7 +42,7 @@ import CheckoutPlanToggleRadio from '../../../../components/CheckoutPlanToggleRa
 /* Assets */
 import cardIcons from '../../../../assets/images/4_Card_color_horizontal.svg';
 import stripeIcon from '../../../../assets/images/powered_by_stripe.svg';
-//import ProfilePicture from '../../../../assets/images/andrew.png';
+import ProfilePicture from '../../../../assets/images/jack.png';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -275,7 +275,7 @@ function CheckoutForm(props: MyProps) {
         </p>
 
         <div className={styles.reviewerRow}>
-          {/*<img src={ProfilePicture} alt="profile picture" />*/}
+          <img src={ProfilePicture} alt="profile picture" />
           <div className={styles.reviewerDetails}>
             Jack Y
             <br />
