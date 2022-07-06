@@ -62,12 +62,12 @@
   .rs-table-body-row-wrapper {
     background: $light_gray_background !important;
     min-height: 600px !important;
-    width: 1800px;
+    // width: 1800px;
 
     .rs-table-body-wheel-area {
       background: $light_gray_background;
       transform: none !important;
-      width: 3440px;
+      // width: 3440px;
       overflow-x: auto !important;
 
       //  Table row property

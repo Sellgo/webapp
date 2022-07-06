@@ -11,7 +11,7 @@ import Auth from '../../../components/Auth/Auth';
 
 /* Assets */
 import newSellgoLogo from '../../../assets/images/aistockLogo.png';
-import ProfilePicture from '../../../assets/images/andrew.png';
+import ProfilePicture from '../../../assets/images/jack.png';
 
 /* Components */
 import StepsInfo from '../../../components/StepsInfo';
@@ -260,7 +260,7 @@ const FreeAccountForm = (props: Props) => {
         <div className={styles.reviewerRow}>
           <img src={ProfilePicture} alt="profile picture" />
           <div className={styles.reviewerDetails}>
-            Andrew Erickson
+            Jack Y
             <br />
             <span>7-figure Brand Entrepreneur</span>
           </div>

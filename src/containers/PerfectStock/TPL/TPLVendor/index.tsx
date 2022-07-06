@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 /* Actions */
 import { fetchTplSkuData } from '../../../../actions/PerfectStock/Tpl';
@@ -19,6 +20,12 @@ import {
   getTplSkuData,
 } from '../../../../selectors/PerfectStock/Tpl';
 
+/* Utils */
+import { downloadFile } from '../../../../utils/download';
+import { AppConfig } from '../../../../config';
+import { sellerIDSelector } from '../../../../selectors/Seller';
+import { error, success } from '../../../../utils/notifications';
+
 interface Props {
   fetchTplSkuData: () => void;
   activeTplVendor: TplVendor;
@@ -29,14 +36,37 @@ interface Props {
 const TPLVendor = (props: Props) => {
   const { fetchTplSkuData, activeTplVendor, tplSkuData, isLoadingTplSkuData } = props;
 
+  const [exportLoading, setExportLoading] = React.useState<boolean>(false);
   React.useEffect(() => {
     fetchTplSkuData();
   }, [activeTplVendor.id]);
 
+  const handleOnExport = async () => {
+    setExportLoading(true);
+    try {
+      const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/perfect-stock/export`;
+      const { data } = await axios.post(url, {
+        type: 'tpl_mgr',
+        vendor_id: activeTplVendor.id,
+      });
+      const exportUrl = data.report_xlsx_url;
+      await downloadFile(exportUrl);
+      success('File successfully downloaded');
+    } catch (err) {
+      error('Failed to export file');
+      console.error(err);
+    }
+    setExportLoading(false);
+  };
+
   return (
     <main>
       <TplSettings />
-      <TplMeta />
+      <TplMeta
+        label="Export FBA Shipping Quantity"
+        loading={exportLoading}
+        onButtonClick={handleOnExport}
+      />
       <TplTable tplSkuData={tplSkuData} isLoadingTplSkuData={isLoadingTplSkuData} />
     </main>
   );

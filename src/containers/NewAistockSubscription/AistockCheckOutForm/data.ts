@@ -1,4 +1,4 @@
-import ProfilePicture from '../../../assets/images/andrew.png';
+import ProfilePicture from '../../../assets/images/jack.png';
 
 export const TESTIMONIAL = {
   title: `The 1st inventory planning for Amazon sellers!`,
@@ -6,7 +6,7 @@ export const TESTIMONIAL = {
     single point of integration for all our logistic process, helping us focus on increasing
     sales and launch new products as we grow."`,
   authorImg: ProfilePicture,
-  authorName: 'Andrew Erickson',
+  authorName: 'Jack Y',
   authorTitle: `7-figure Brand Entrepreneur`,
 };
 

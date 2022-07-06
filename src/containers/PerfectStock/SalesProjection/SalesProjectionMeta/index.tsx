@@ -166,7 +166,7 @@ const SalesProjectionMeta = (props: Props) => {
                     <DateRangePicker
                       className={styles.dateRangePicker}
                       value={startEndDate[0] && startEndDate[1] ? startEndDate : undefined}
-                      onChange={(value) => {
+                      onChange={value => {
                         if (value) {
                           setStartEndDate(value);
                         }
