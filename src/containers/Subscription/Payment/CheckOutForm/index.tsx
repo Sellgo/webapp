@@ -93,8 +93,8 @@ function CheckoutForm(props: MyProps) {
   const [promoCode, setPromoCode] = useState<string>('');
   const { value: name, bind: bindName } = useInput('');
 
-  /* Upon successful checking of the entered promo code, either a valid redeemedPromoCode code 
-  is returned, or an error message is returned. Upon completion of promo code check, set status 
+  /* Upon successful checking of the entered promo code, either a valid redeemedPromoCode code
+  is returned, or an error message is returned. Upon completion of promo code check, set status
   to checked and display success/error msg. */
   React.useEffect(() => {
     if (

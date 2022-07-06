@@ -29,7 +29,7 @@ interface Props {
   isPaidSellerSubscription: boolean;
 
   // used for pricing cards on comparision table
-  requestChangeSubscription: (name: string, id: number) => void;
+  requestChangeSubscription: (name: string, id: number, mode: string) => void;
   withToggle?: boolean;
   className?: string;
   isPurple?: boolean;
@@ -42,9 +42,6 @@ const GenericPriceCardHead: React.FC<Props> = props => {
     name,
     isMonthly,
     monthlyPrice,
-    launchDiscount,
-    launchSaving,
-    launchSavingPercentage,
     annualPrice,
     desc,
     isNew,
@@ -80,28 +77,26 @@ const GenericPriceCardHead: React.FC<Props> = props => {
         </div>
       </div>
       <div className={styles.startingAt}>
-        <p>
-          Original price{' '}
-          {!isMonthly && <span className="strike-text">${Math.round(monthlyPrice)}</span>}
-          <span className={`${styles.newPrice} ${withToggle ? styles.newPrice__small : ''}`}>
-            ${prettyPrintNumber(Math.round(monthlyPrice))}/mo, now save{' '}
-            {prettyPrintNumber(launchSavingPercentage)}% or ${prettyPrintNumber(launchSaving * 12)}{' '}
-            in a year.
-          </span>
-        </p>
+        <p>Starting at</p>
 
         {isMonthly ? (
           <span className={styles.betaPriceContainer}>
             <h3 className={`${styles.actualPrice} ${withToggle && styles.toggledPrice}`}>
-              ${launchDiscount.toFixed(2)}/ month
+              ${Math.round(monthlyPrice)} /month
             </h3>
           </span>
         ) : (
           <span className={styles.betaPriceContainer}>
             <h3 className={`${styles.actualPrice} ${withToggle && styles.toggledPrice}`}>
-              ${Math.round(annualPrice / 12)}/ Mo
+              ${Math.round(annualPrice)} /year
             </h3>
           </span>
+        )}
+
+        {isMonthly ? (
+          <h4>billed monthly + overage 2ç/order (billed by end of month)</h4>
+        ) : (
+          <h4>billed yearly + overage 1ç/order (billed by end of month)</h4>
         )}
 
         {!isMonthly ? (
@@ -116,15 +111,15 @@ const GenericPriceCardHead: React.FC<Props> = props => {
               </span>
             </span>
             <span className={`${styles.newPrice} ${withToggle ? styles.newPrice__small : ''}`}>
-              Now ${prettyPrintNumber(Math.round(annualPrice))}
-              /yr
+              Now ${prettyPrintNumber(Math.round(annualPrice) / 12)}
+              /mo
             </span>
             <span className={`${styles.savings} ${withToggle ? styles.savings__small : ''}`}>
-              Save ${prettyPrintNumber(Math.round(monthlyPrice * 12 - annualPrice))}
+              &nbsp;Save ${prettyPrintNumber(Math.round(monthlyPrice * 12 - annualPrice))}&nbsp;
             </span>
           </p>
         ) : (
-          <p>Billed Monthly</p>
+          <p className={styles.billedAtPrice}>&nbsp;</p>
         )}
       </div>
 
@@ -134,18 +129,36 @@ const GenericPriceCardHead: React.FC<Props> = props => {
         </div>
       )}
       {ctaText ? <p className={styles.ctaText}> {ctaText} </p> : ''}
-      <ActionButton
-        onClick={() => requestChangeSubscription(name, planId)}
-        className={`
+
+      {!isMonthly ? (
+        <ActionButton
+          onClick={() => requestChangeSubscription(name, planId, isMonthly ? 'monthly' : 'yearly')}
+          className={`
+              ${styles.buyNowCTA}
+              ${isPaidSellerSubscription ? styles.buyNowCTA__disabled : ''}
+            `}
+          variant={'primary'}
+          type="purpleGradient"
+          size={'md'}
+        >
+          {isPaidSellerSubscription ? 'This is your current plan' : 'Switch to this annual billing'}
+        </ActionButton>
+      ) : (
+        <ActionButton
+          onClick={() => requestChangeSubscription(name, planId, isMonthly ? 'monthly' : 'yearly')}
+          className={`
             ${styles.buyNowCTA}
             ${isPaidSellerSubscription ? styles.buyNowCTA__disabled : ''}
           `}
-        variant={'primary'}
-        type="purpleGradient"
-        size={'md'}
-      >
-        {isPaidSellerSubscription ? 'Current Plan' : 'Upgrade Now'}
-      </ActionButton>
+          variant={'secondary'}
+          type="purpleGradient"
+          size={'md'}
+        >
+          {isPaidSellerSubscription
+            ? 'This is your current plan'
+            : 'Switch to this monthly billing'}
+        </ActionButton>
+      )}
     </div>
   );
 };

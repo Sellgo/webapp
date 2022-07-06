@@ -6,13 +6,13 @@ export const FREE_TRIAL_SUBSCRIPTION_ID = 100;
 /* Used in webapp pricing page */
 export const MONTHLY_AND_ANNUAL_PLANS = [
   {
-    id: 104, // subscriptionID if needed
-    name: 'AiStock',
+    id: 105, // subscriptionID if needed
+    name: 'New-launch companies',
     productsDatabase: 0,
     salesEstimateCount: 1000,
-    monthlyPrice: 97,
-    annualPrice: 924,
-    desc: `Ideal for sellers with revenue up to USD $100K/mo`,
+    monthlyPrice: 77,
+    annualPrice: 739.2,
+    desc: `usually with an average annual revenue less than USD $700k.`,
     featureSubName: 'Start with',
     featuresLists: [
       {
@@ -31,11 +31,11 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
 /* Used in Change plan Modal */
 export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
-    subscriptionId: 104, // subscriptionID if needed
+    subscriptionId: 105, // subscriptionID if needed
     name: 'Aistock',
     dailyPrice: 0,
-    monthlyPrice: 37,
-    annualPrice: 324,
+    monthlyPrice: 77,
+    annualPrice: 739.2,
     isDailyPlan: false,
   },
 ];
@@ -43,11 +43,11 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
 /* Used in Summary page */
 export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   aistock: {
-    name: 'Aistock',
-    id: 104,
+    name: 'New-launch companies',
+    id: 105,
     idWithLegacyPlans: [],
-    monthlyPrice: 97,
-    annualPrice: 924,
+    monthlyPrice: 77,
+    annualPrice: 739.2,
     dailyPrice: -1,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
@@ -64,11 +64,11 @@ export const PAYMENT_MODES = ['daily', 'monthly', 'yearly'];
 export const SUBSCRIPTION_DETAILS_LIST: SummaryDetails[] = [SUBSCRIPTION_DETAILS.aistock];
 
 export const subscriptionDetailsMapping: { [key: string]: number } = {
-  aistock: 104,
+  aistock: 105,
 };
 
 export const getSubscriptionID = (planName: string) => {
-  const DEFAULT_PROFESSIONAL_PLAN_ID = 104;
+  const DEFAULT_PROFESSIONAL_PLAN_ID = 105;
   const id = subscriptionDetailsMapping[planName];
   if (id) {
     return id;
