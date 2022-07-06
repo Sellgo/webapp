@@ -6,13 +6,12 @@ import styles from './index.module.scss';
 interface Props {
   testimonialTitle: string;
   testimonial: string;
-  authorImg: string;
   authorName: string;
   authorTitle: string;
 }
 
 const Testimonial = (props: Props) => {
-  const { testimonialTitle, testimonial, authorImg, authorName, authorTitle } = props;
+  const { testimonialTitle, testimonial, authorName, authorTitle } = props;
 
   return (
     <section className={styles.reviewsSection}>
@@ -20,7 +19,7 @@ const Testimonial = (props: Props) => {
       <p>{testimonial}</p>
 
       <div className={styles.reviewerRow}>
-        <img src={authorImg} alt="profile picture" />
+        {/*<img src={authorImg} alt="profile picture" />*/}
         <div className={styles.reviewerDetails}>
           {authorName}
           <br />
