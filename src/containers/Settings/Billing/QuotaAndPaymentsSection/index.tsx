@@ -1,4 +1,4 @@
-import React, { ReactChild } from 'react';
+import React, { ReactChild, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { Modal, Dimmer, Confirm, Loader } from 'semantic-ui-react';
@@ -23,6 +23,7 @@ import CreditCardIcon from '../../../../assets/images/credit-card-solid.svg';
 import HelpingHandsIcon from '../../../../assets/images/hands-helping-solid.svg';
 import history from '../../../../history';
 import Placeholder from '../../../../components/Placeholder';
+import { UNITS_SOLD_TYPE, getSellerPlan } from '../../Pricing/AistockPricing/Herobox/data';
 
 /* Interfaces */
 import {
@@ -37,6 +38,7 @@ import { SellerSubscription } from '../../../../interfaces/Seller';
 import { capitalizeFirstLetter, formatDecimal } from '../../../../utils/format';
 import { sellerIDSelector } from '../../../../selectors/Seller';
 import { error, success } from '../../../../utils/notifications';
+import { isSellgoSession } from '../../../../utils/session';
 
 const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
 interface Props {
@@ -71,6 +73,12 @@ const QuotaAndPaymentsSection = (props: Props) => {
     fetchSellerSubscription,
     getSellerInfo,
   } = props;
+
+  const [unitsSoldInput] = useState<number>(1000);
+  const [unitsSold] = useState<UNITS_SOLD_TYPE>('1,000');
+  const sellerPlan = getSellerPlan(unitsSold);
+  console.log(unitsSoldInput);
+  console.log('sellerPlan.name' + sellerPlan.name);
 
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
   const [isCancellingSubscription, setCancellingSubscription] = React.useState<boolean>(false);
@@ -163,9 +171,15 @@ const QuotaAndPaymentsSection = (props: Props) => {
             <img src={HelpingHandsIcon} alt="helping-hands-icon" />
             &nbsp;&nbsp; If you have any trouble with the payment setting, you can contact us
             at&nbsp;
-            <a href="mailto: support@sellgo.com" className={styles.mailLink}>
-              support@sellgo.com
-            </a>
+            {isSellgoSession() ? (
+              <a href="mailto: support@sellgo.com" className={styles.mailLink}>
+                support@sellgo.com
+              </a>
+            ) : (
+              <a href="mailto: support@aistock.co" className={styles.mailLink}>
+                support@aistock.co
+              </a>
+            )}
             . We Can Help.
           </div>
         </BoxFooter>
@@ -183,38 +197,54 @@ const QuotaAndPaymentsSection = (props: Props) => {
             <div>
               {/* Show dimmer content if user has no active subscription, but has payment method */}
               {DimmerContent}
-              <div className={styles.planDetailsRow}>
-                <PlanTypeRectangle plan={subscriptionPlan} />
-                <span>
-                  &nbsp; - You have used {formatDecimal(totalUsedQuotaPercent)}% of the available
-                  quota.
-                </span>
-              </div>
-              <div className={styles.quotaBarsWrapper}>
-                <NewQuotaMeter
-                  className={styles.quotaBar}
-                  type="Profit Finder"
-                  quota={{
-                    used: profitFinderUsed,
-                    available: profitFinderAvailable,
-                  }}
-                />
-                <NewQuotaMeter
-                  className={styles.quotaBar}
-                  type="Seller Research"
-                  quota={{
-                    used: sellerResearchUsed,
-                    available: sellerResearchAvailable,
-                  }}
-                />
-                <NewQuotaMeter
-                  type="Sales Estimation"
-                  quota={{
-                    used: salesEstUsed,
-                    available: salesEstAvailable,
-                  }}
-                />
-              </div>
+              {isSellgoSession() ? (
+                <div className={styles.planDetailsRow}>
+                  <PlanTypeRectangle plan={subscriptionPlan} />
+                  <span>
+                    &nbsp; - You have used {formatDecimal(totalUsedQuotaPercent)}% of the available
+                    quota.
+                  </span>
+                </div>
+              ) : (
+                <div className={styles.planDetailsRow}>
+                  <PlanTypeRectangle plan={subscriptionPlan} />
+                  <span>
+                    &nbsp;You are currently subscribed to&nbsp;{sellerPlan.name}&nbsp;
+                    <br />
+                    &nbsp;with&nbsp;{unitsSoldInput}&nbsp;unit sold per month.
+                  </span>
+                </div>
+              )}
+
+              {isSellgoSession() ? (
+                <div className={styles.quotaBarsWrapper}>
+                  <NewQuotaMeter
+                    className={styles.quotaBar}
+                    type="Profit Finder"
+                    quota={{
+                      used: profitFinderUsed,
+                      available: profitFinderAvailable,
+                    }}
+                  />
+                  <NewQuotaMeter
+                    className={styles.quotaBar}
+                    type="Seller Research"
+                    quota={{
+                      used: sellerResearchUsed,
+                      available: sellerResearchAvailable,
+                    }}
+                  />
+                  <NewQuotaMeter
+                    type="Sales Estimation"
+                    quota={{
+                      used: salesEstUsed,
+                      available: salesEstAvailable,
+                    }}
+                  />
+                </div>
+              ) : (
+                <div className={styles.quotaBarsWrapper} />
+              )}
 
               <div className={styles.innerGrid}>
                 <p className={styles.actionLabel}> Action </p>
@@ -240,7 +270,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
                       `}
                     >
                       {!isCancelSubscriptionLoading ? (
-                        'Cancel Plan'
+                        'Cancel plan'
                       ) : (
                         <Loader inline active={true} size="tiny" />
                       )}
@@ -293,9 +323,15 @@ const QuotaAndPaymentsSection = (props: Props) => {
         <div>
           <img src={HelpingHandsIcon} alt="helping-hands-icon" />
           &nbsp;&nbsp; If you have any trouble with the payment setting, you can contact us at&nbsp;
-          <a href="mailto: support@sellgo.com" className={styles.mailLink}>
-            support@sellgo.com
-          </a>
+          {isSellgoSession() ? (
+            <a href="mailto: support@sellgo.com" className={styles.mailLink}>
+              support@sellgo.com
+            </a>
+          ) : (
+            <a href="mailto: support@aistock.co" className={styles.mailLink}>
+              support@aistock.co
+            </a>
+          )}
           . We Can Help.
         </div>
       </BoxFooter>
