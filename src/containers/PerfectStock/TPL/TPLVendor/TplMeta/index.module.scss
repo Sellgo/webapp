@@ -6,6 +6,26 @@
   justify-content: flex-start;
   align-items: flex-end;
   margin-top: 30px;
+
+  .exportBtn {
+    background-color: $prim_dark_1;
+    color: $grey_0;
+    min-width: 240px;
+    height: 39px;
+    border-radius: 7px;
+    display: block;
+    position: relative;
+    padding: 10px 15px;
+    margin-right: 40px;
+    font-size: 14px;
+
+    .loaderContainer {
+      position: absolute;
+      width: 20px;
+      top: 50%;
+      left: 50%;
+    }
+  }
 }
 
 .refreshButton {
