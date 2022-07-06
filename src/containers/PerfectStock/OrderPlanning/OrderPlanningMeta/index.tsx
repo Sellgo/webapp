@@ -43,6 +43,7 @@ import {
 interface Props {
   setIsEditingSKUs: (isEditingSKUs: boolean) => void;
   activePurchaseOrder: PurchaseOrder;
+  purchaseOrders: PurchaseOrder[];
   tableViewMode: 'Inventory' | 'Stockout' | 'Today';
   setTableViewMode: (tableViewMode: 'Inventory' | 'Stockout' | 'Today') => void;
   inventoryTableFilters: InventoryTableFilters;
@@ -53,7 +54,6 @@ const OrderPlanningMeta = (props: Props) => {
   const {
     setIsEditingSKUs,
     activePurchaseOrder,
-    // @ts-ignore
     purchaseOrders,
     tableViewMode,
     setTableViewMode,
@@ -64,7 +64,6 @@ const OrderPlanningMeta = (props: Props) => {
   const [hasActivePurchaseOrder, setHasActivePurchaseOrder] = useState(false);
 
   useEffect(() => {
-    console.log('purchaseOrders.length', purchaseOrders.length);
     if (activePurchaseOrder && activePurchaseOrder.id !== -1 && purchaseOrders.length) {
       setHasActivePurchaseOrder(true);
     } else {
