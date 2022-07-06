@@ -141,27 +141,25 @@ export const setInventoryTableUpdateDate = (payload: string) => {
 };
 
 /* Action to display all skus regardless of orders in inventory table */
-export const setInventoryTableShowAllSkus = (payload: boolean) => (
-  dispatch: any,
-  useState: any
-) => {
-  /* If show all SKUs, set active purchase orders to null */
-  if (payload) {
-    dispatch(setActivePurchaseOrder(null));
-  } else {
-    /* If show SKUs based on orders, set the first purchase order as active by default */
-    const state = useState();
-    const purchaseOrders = getPurchaseOrders(state);
-    if (purchaseOrders && purchaseOrders.length > 0) {
-      dispatch(setActivePurchaseOrder(purchaseOrders[0]));
+export const setInventoryTableShowAllSkus =
+  (payload: boolean) => (dispatch: any, useState: any) => {
+    /* If show all SKUs, set active purchase orders to null */
+    if (payload) {
+      dispatch(setActivePurchaseOrder(null));
+    } else {
+      /* If show SKUs based on orders, set the first purchase order as active by default */
+      const state = useState();
+      const purchaseOrders = getPurchaseOrders(state);
+      if (purchaseOrders && purchaseOrders.length > 0) {
+        dispatch(setActivePurchaseOrder(purchaseOrders[0]));
+      }
     }
-  }
 
-  dispatch({
-    type: actionTypes.SET_INVENTORY_TABLE_SHOW_ALL_SKUS,
-    payload,
-  });
-};
+    dispatch({
+      type: actionTypes.SET_INVENTORY_TABLE_SHOW_ALL_SKUS,
+      payload,
+    });
+  };
 
 /* Action to set loading status for draft order information */
 export const isLoadingDraftOrderInformation = (payload: boolean) => {
@@ -253,32 +251,31 @@ export const fetchPurchaseOrders = () => async (dispatch: any, getState: any) =>
   dispatch(isLoadingPurchaseOrders(false));
 };
 
-export const generateNextOrder = (payload: AutoGeneratePurchaseOrderPayload) => async (
-  dispatch: any
-) => {
-  try {
-    success('Generating next orders...');
-    const sellerId = sellerIDSelector();
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/${payload.id}/generate-next-order`;
+export const generateNextOrder =
+  (payload: AutoGeneratePurchaseOrderPayload) => async (dispatch: any) => {
+    try {
+      success('Generating next orders...');
+      const sellerId = sellerIDSelector();
+      const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/${payload.id}/generate-next-order`;
 
-    dispatch(isLoadingPurchaseOrders(true));
-    dispatch(setPurchaseOrdersLoadingMessage('Order creation in progress...'));
-    const { status } = await axios.post(URL, payload);
+      dispatch(isLoadingPurchaseOrders(true));
+      dispatch(setPurchaseOrdersLoadingMessage('Order creation in progress...'));
+      const { status } = await axios.post(URL, payload);
 
-    if (status === 201) {
-      dispatch(fetchPurchaseOrders());
-      dispatch(fetchInventoryTable({}));
-    } else {
+      if (status === 201) {
+        dispatch(fetchPurchaseOrders());
+        dispatch(fetchInventoryTable({}));
+      } else {
+        dispatch(isLoadingPurchaseOrders(false));
+        error('Failed to generate next orders');
+      }
+    } catch (err) {
       dispatch(isLoadingPurchaseOrders(false));
       error('Failed to generate next orders');
+      console.error('Error fetching sales estimation', err);
     }
-  } catch (err) {
-    dispatch(isLoadingPurchaseOrders(false));
-    error('Failed to generate next orders');
-    console.error('Error fetching sales estimation', err);
-  }
-  dispatch(setPurchaseOrdersLoadingMessage(''));
-};
+    dispatch(setPurchaseOrdersLoadingMessage(''));
+  };
 
 export const alignOrder = (payload: AlignPurchaseOrderPayload) => async (dispatch: any) => {
   try {
@@ -305,223 +302,223 @@ export const alignOrder = (payload: AlignPurchaseOrderPayload) => async (dispatc
 };
 
 /* Action to update purchase orders */
-export const updatePurchaseOrder = (
-  payload: UpdatePurchaseOrderPayload,
-  refresh?: boolean
-) => async (dispatch: any, getState: any) => {
-  try {
-    /* Set inventory to be loading */
-    dispatch(isLoadingInventoryTableResults(true));
-    let requestPayload = {
-      ...payload,
-    };
-
-    const state = getState();
-    let newPurchaseOrders = getPurchaseOrders(state);
-
-    /* Updating purchase order date */
-    if (payload.date) {
-      /* Update the redux state and display the updated state FIRST instead of backend */
-      /* This is done for a better responsive experience */
-      newPurchaseOrders = newPurchaseOrders.map((order: any) => {
-        if (order.id === payload.id) {
-          return {
-            ...order,
-            date: payload.date,
-          };
-        }
-        return order;
-      });
-
-      const formattedDate = getDateOnly(new Date(payload.date));
-      requestPayload = {
-        ...requestPayload,
-        date: formattedDate,
+export const updatePurchaseOrder =
+  (payload: UpdatePurchaseOrderPayload, refresh?: boolean) =>
+  async (dispatch: any, getState: any) => {
+    try {
+      /* Set inventory to be loading */
+      dispatch(isLoadingInventoryTableResults(true));
+      let requestPayload = {
+        ...payload,
       };
-    }
 
-    /* Updating purchase order status */
-    if (payload.is_included !== undefined) {
-      newPurchaseOrders = newPurchaseOrders.map((order: any) => {
-        if (order.id === payload.id) {
-          return {
-            ...order,
-            is_included: payload.is_included,
-          };
-        }
-        return order;
-      });
-    }
+      const state = getState();
+      let newPurchaseOrders = getPurchaseOrders(state);
 
-    /* Updating priority sku */
-    if (payload.is_priority && payload.po_sku_id) {
-      newPurchaseOrders = newPurchaseOrders.map((order: any) => {
-        if (order.id === payload.id) {
-          return {
-            ...order,
-
-            /* Update merchant listing with is_priority flag */
-            merchant_listings: order.merchant_listings.map((merchantListing: any) => {
-              if (merchantListing.id === payload.po_sku_id) {
-                return {
-                  ...merchantListing,
-                  is_priority: payload.is_priority,
-                };
-              } else {
-                return {
-                  ...merchantListing,
-                  is_priority: false,
-                };
-              }
-            }),
-          };
-        } else {
+      /* Updating purchase order date */
+      if (payload.date) {
+        /* Update the redux state and display the updated state FIRST instead of backend */
+        /* This is done for a better responsive experience */
+        newPurchaseOrders = newPurchaseOrders.map((order: any) => {
+          if (order.id === payload.id) {
+            return {
+              ...order,
+              date: payload.date,
+            };
+          }
           return order;
-        }
-      });
-    }
+        });
 
-    /* Updating status of order */
-    if (payload.status) {
-      newPurchaseOrders = newPurchaseOrders.map((order: any) => {
-        if (order.id === payload.id) {
-          return {
-            ...order,
-            status: payload.status,
-          };
-        }
-        return order;
-      });
-      dispatch(setPurchaseOrdersLoadingMessage('Deletion in progress'));
-      dispatch(isLoadingPurchaseOrders(true));
-    }
-    dispatch(setPurchaseOrders(newPurchaseOrders));
+        const formattedDate = getDateOnly(new Date(payload.date));
+        requestPayload = {
+          ...requestPayload,
+          date: formattedDate,
+        };
+      }
 
-    /* Make the change to update on backend's purchase orders */
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-orders${
-      payload.id ? `/${payload.id}` : ''
-    }`;
-    const { status, data } = await axios.patch(URL, requestPayload);
-    const jobId = data.perfect_stock_job_id;
+      /* Updating purchase order status */
+      if (payload.is_included !== undefined) {
+        newPurchaseOrders = newPurchaseOrders.map((order: any) => {
+          if (order.id === payload.id) {
+            return {
+              ...order,
+              is_included: payload.is_included,
+            };
+          }
+          return order;
+        });
+      }
 
-    /* Special case for updates that are backend intensive, then show progress bar and load in background */
-    if (status === 200) {
-      if (jobId) {
-        const { data } = await axios.get(
-          `${
-            AppConfig.BASE_URL_API
-          }sellers/${sellerIDSelector()}/perfect-stock/job/progress?perfect_stock_job_id=${jobId}`
-        );
-        let backgroundStatus = data.status;
-        /* Block until data.status === completed */
-        while (backgroundStatus === 'processing') {
-          await new Promise(resolve => setTimeout(resolve, 1000));
+      /* Updating priority sku */
+      if (payload.is_priority && payload.po_sku_id) {
+        newPurchaseOrders = newPurchaseOrders.map((order: any) => {
+          if (order.id === payload.id) {
+            return {
+              ...order,
+
+              /* Update merchant listing with is_priority flag */
+              merchant_listings: order.merchant_listings.map((merchantListing: any) => {
+                if (merchantListing.id === payload.po_sku_id) {
+                  return {
+                    ...merchantListing,
+                    is_priority: payload.is_priority,
+                  };
+                } else {
+                  return {
+                    ...merchantListing,
+                    is_priority: false,
+                  };
+                }
+              }),
+            };
+          } else {
+            return order;
+          }
+        });
+      }
+
+      /* Updating status of order */
+      if (payload.status) {
+        newPurchaseOrders = newPurchaseOrders.map((order: any) => {
+          if (order.id === payload.id) {
+            return {
+              ...order,
+              status: payload.status,
+            };
+          }
+          return order;
+        });
+        dispatch(setPurchaseOrdersLoadingMessage('Deletion in progress'));
+        dispatch(isLoadingPurchaseOrders(true));
+      }
+      dispatch(setPurchaseOrders(newPurchaseOrders));
+
+      /* Make the change to update on backend's purchase orders */
+      const URL = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-orders${
+        payload.id ? `/${payload.id}` : ''
+      }`;
+      const { status, data } = await axios.patch(URL, requestPayload);
+      const jobId = data.perfect_stock_job_id;
+
+      /* Special case for updates that are backend intensive, then show progress bar and load in background */
+      if (status === 200) {
+        if (jobId) {
           const { data } = await axios.get(
             `${
               AppConfig.BASE_URL_API
             }sellers/${sellerIDSelector()}/perfect-stock/job/progress?perfect_stock_job_id=${jobId}`
           );
-          backgroundStatus = data.status;
+          let backgroundStatus = data.status;
+          /* Block until data.status === completed */
+          while (backgroundStatus === 'processing') {
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            const { data } = await axios.get(
+              `${
+                AppConfig.BASE_URL_API
+              }sellers/${sellerIDSelector()}/perfect-stock/job/progress?perfect_stock_job_id=${jobId}`
+            );
+            backgroundStatus = data.status;
+          }
         }
-      }
 
-      dispatch(fetchInventoryTable({}));
+        dispatch(fetchInventoryTable({}));
 
-      /* Refresh purchase orders if updating vendor 3pl or deleted purchase order */
-      if (
-        (!payload.date && payload.status === 'inactive') ||
-        payload.vendor_id === null ||
-        payload.vendor_id ||
-        refresh
-      ) {
-        dispatch(fetchPurchaseOrders());
-      }
+        /* Refresh purchase orders if updating vendor 3pl or deleted purchase order */
+        if (
+          (!payload.date && payload.status === 'inactive') ||
+          payload.vendor_id === null ||
+          payload.vendor_id ||
+          refresh
+        ) {
+          dispatch(fetchPurchaseOrders());
+        }
 
-      if (!payload.date && payload.status === 'inactive') {
-        success('Deleted order successfully');
+        if (!payload.date && payload.status === 'inactive') {
+          success('Deleted order successfully');
+          if (!getPurchaseOrders(state).length) {
+            dispatch(setActivePurchaseOrder(null));
+          }
+        }
+      } else {
+        error('Failed to update purchase order.');
+        dispatch(isLoadingInventoryTableResults(false));
+        dispatch(setPurchaseOrders([]));
+        dispatch(isLoadingPurchaseOrders(false));
+        dispatch(setPurchaseOrdersLoadingMessage(''));
       }
-    } else {
-      error('Failed to update purchase order.');
-      dispatch(isLoadingInventoryTableResults(false));
+    } catch (err) {
       dispatch(setPurchaseOrders([]));
-      dispatch(isLoadingPurchaseOrders(false));
-      dispatch(setPurchaseOrdersLoadingMessage(''));
+      console.error('Error fetching sales estimation', err);
     }
-  } catch (err) {
-    dispatch(setPurchaseOrders([]));
-    console.error('Error fetching sales estimation', err);
-  }
-  dispatch(isLoadingPurchaseOrders(false));
-};
+    dispatch(isLoadingPurchaseOrders(false));
+  };
 
 /* Fetch inventory table */
-export const fetchInventoryTable = (payload: InventoryTablePayload) => async (
-  dispatch: any,
-  getState: any
-) => {
-  try {
-    const { sortDir = 'asc', sort = 'id' } = payload;
+export const fetchInventoryTable =
+  (payload: InventoryTablePayload) => async (dispatch: any, getState: any) => {
+    try {
+      const { sortDir = 'asc', sort = 'id' } = payload;
 
-    dispatch(isLoadingInventoryTableResults(true));
-    const state = getState();
-    const sellerId = sellerIDSelector();
+      dispatch(isLoadingInventoryTableResults(true));
+      const state = getState();
+      const sellerId = sellerIDSelector();
 
-    /* Generate and format start/end dates */
-    const startDate = new Date(getDateRange(state).startDate);
-    const startDateString = getDateOnly(startDate);
-    const endDate = new Date(getDateRange(state).endDate);
-    const endDateString = getDateOnly(endDate);
+      /* Generate and format start/end dates */
+      const startDate = new Date(getDateRange(state).startDate);
+      const startDateString = getDateOnly(startDate);
+      const endDate = new Date(getDateRange(state).endDate);
+      const endDateString = getDateOnly(endDate);
 
-    if (startDateString === '' || endDateString === '') {
-      dispatch(isLoadingInventoryTableResults(false));
-      return;
-    }
-
-    /* Get filters */
-    const filters = getInventoryTableFilters(state);
-    const filtersPath = Object.keys(filters).reduce((acc: string, key: string) => {
-      if (filters[key] !== 'null') {
-        return `${acc}&${filters[key]}`;
+      if (startDateString === '' || endDateString === '') {
+        dispatch(isLoadingInventoryTableResults(false));
+        return;
       }
-      return acc;
-    }, '');
 
-    /* Get display mode (daily or weekly) */
-    const timeSettings = getTimeSetting(state);
-    let displayMode;
-    if (timeSettings === TIME_SETTING.DAY) {
-      displayMode = 'daily';
-    } else {
-      displayMode = 'weekly';
+      /* Get filters */
+      const filters = getInventoryTableFilters(state);
+      const filtersPath = Object.keys(filters).reduce((acc: string, key: string) => {
+        if (filters[key] !== 'null') {
+          return `${acc}&${filters[key]}`;
+        }
+        return acc;
+      }, '');
+
+      /* Get display mode (daily or weekly) */
+      const timeSettings = getTimeSetting(state);
+      let displayMode;
+      if (timeSettings === TIME_SETTING.DAY) {
+        displayMode = 'daily';
+      } else {
+        displayMode = 'weekly';
+      }
+
+      /* Get active purchase order highlighted (if any) */
+      const activePurchaseOrder = getActivePurchaseOrder(state);
+
+      /* Temporary pagination settings */
+      const resourceString =
+        `&start_date=${startDateString}` +
+        `&end_date=${endDateString}` +
+        `&display_mode=${displayMode}` +
+        `&page=1` +
+        `&per_page=100` +
+        `${activePurchaseOrder.id !== -1 ? `&purchase_order_ids=${activePurchaseOrder.id}` : ''}` +
+        `&sort=${sort || 'id'}` +
+        `&sort_direction=${sortDir}` +
+        `${filtersPath}`;
+      const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/order-plan-overview?${resourceString}`;
+
+      const { data } = await axios.get(URL);
+      if (data && data.results) {
+        dispatch(setInventoryTableResults(data.results));
+        dispatch(setInventoryTableUpdateDate(data.last_forecast_update));
+      }
+    } catch (err) {
+      dispatch(setInventoryTableResults([]));
+      console.error('Error fetching inventory table', err);
     }
-
-    /* Get active purchase order highlighted (if any) */
-    const activePurchaseOrder = getActivePurchaseOrder(state);
-
-    /* Temporary pagination settings */
-    const resourceString =
-      `&start_date=${startDateString}` +
-      `&end_date=${endDateString}` +
-      `&display_mode=${displayMode}` +
-      `&page=1` +
-      `&per_page=100` +
-      `${activePurchaseOrder.id !== -1 ? `&purchase_order_ids=${activePurchaseOrder.id}` : ''}` +
-      `&sort=${sort || 'id'}` +
-      `&sort_direction=${sortDir}` +
-      `${filtersPath}`;
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/purchase-orders/order-plan-overview?${resourceString}`;
-
-    const { data } = await axios.get(URL);
-    if (data && data.results) {
-      dispatch(setInventoryTableResults(data.results));
-      dispatch(setInventoryTableUpdateDate(data.last_forecast_update));
-    }
-  } catch (err) {
-    dispatch(setInventoryTableResults([]));
-    console.error('Error fetching inventory table', err);
-  }
-  dispatch(isLoadingInventoryTableResults(false));
-};
+    dispatch(isLoadingInventoryTableResults(false));
+  };
 
 /* Action to refresh inventory table results */
 export const refreshInventoryTable = () => async (dispatch: any) => {
