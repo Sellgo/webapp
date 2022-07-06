@@ -131,7 +131,7 @@ const InventoryTable = (props: Props) => {
   };
 
   const handleDeleteSku = async (merchant_listing_id: number) => {
-    const selectedSkus = activePurchaseOrder.merchant_listings;
+    const selectedSkus = activePurchaseOrder?.merchant_listings;
     const newSkus = selectedSkus.filter(
       (sku: any) => sku.merchant_listing_id !== merchant_listing_id
     );

@@ -92,7 +92,7 @@ const OrderPlanning = (props: Props) => {
         open={isEditingSKUs}
         onCloseModal={() => setIsEditingSKUs(false)}
         templateId={activePurchaseOrder?.purchase_order_template_id}
-        selectedSKUs={activePurchaseOrder.merchant_listings}
+        selectedSKUs={activePurchaseOrder?.merchant_listings}
         refreshData={() => {
           fetchPurchaseOrders();
           fetchInventoryTable({});
