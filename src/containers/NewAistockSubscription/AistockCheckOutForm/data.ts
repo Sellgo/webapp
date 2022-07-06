@@ -6,7 +6,7 @@ export const TESTIMONIAL = {
     single point of integration for all our logistic process, helping us focus on increasing
     sales and launch new products as we grow."`,
   authorImg: ProfilePicture,
-  authorName: 'Andrew Erickson',
+  authorName: 'Jack Y',
   authorTitle: `7-figure Brand Entrepreneur`,
 };
 
