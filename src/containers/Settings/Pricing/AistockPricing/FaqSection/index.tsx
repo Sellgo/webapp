@@ -10,12 +10,7 @@ const FAQSection = () => {
   const [faqData, setFaqData]: any = useState([]);
 
   useEffect(() => {
-    setFaqData([
-      ...pricingData.products[0].data,
-      ...pricingData.products[1].data,
-      ...pricingData.products[2].data,
-      ...pricingData.products[3].data,
-    ]);
+    setFaqData([...pricingData.products[0].data]);
   }, []);
 
   return (
