@@ -97,6 +97,7 @@ const LeadTime = (props: Props) => {
           setLeadTimeGroups(newLeadTimeGroups);
         }
       } catch (err) {
+        // ts-ignore
         const { response } = err;
         if (response && response.status === 400) {
           error(response.data?.message);

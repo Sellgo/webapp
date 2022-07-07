@@ -205,7 +205,6 @@ export const SETTINGS_PAGES = [
     showInAistock: false,
     subPages: [],
   },
-
   {
     name: 'Global',
     disabled: false,
