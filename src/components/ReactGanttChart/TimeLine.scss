@@ -89,8 +89,12 @@
 .timeLine-main-data-viewPort {
   flex: 1 1 auto;
   position: relative;
-  overflow: hidden;
+  overflow: auto;
   cursor: grab;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
 
   /* ============================================================ */
 
