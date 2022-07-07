@@ -1,27 +1,23 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 /* Components */
 import FAQAccordion from '../../../../../components/FAQAccordion';
+import pricingData from '../../../../../assets/faq/pricing.json';
 
 import styles from './index.module.scss';
 
 const FAQSection = () => {
-  const [faqData, setFaqData] = useState([]);
-
-  console.log('inside FAQSection');
+  const [faqData, setFaqData]: any = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`https://aistock-website-dev.s3.amazonaws.com/faqDetails/pricing.json`)
-      .then((resp) => {
-        setFaqData(resp.data.data);
-        console.log('response', resp);
-      })
-      .catch(() => setFaqData([]));
+    setFaqData([
+      ...pricingData.products[0].data,
+      ...pricingData.products[1].data,
+      ...pricingData.products[2].data,
+      ...pricingData.products[3].data,
+    ]);
   }, []);
 
-  console.log(faqData, 'faqData');
   return (
     <>
       {faqData && faqData.length > 0 ? (
