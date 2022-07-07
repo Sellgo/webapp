@@ -205,24 +205,9 @@ export const SETTINGS_PAGES = [
     showInAistock: false,
     subPages: [],
   },
+
   {
-    name: 'User Management',
-    disabled: true,
-    url: '/settings/user-management',
-    showInSellgo: true,
-    showInAistock: true,
-    subPages: [],
-  },
-  {
-    name: 'Notification',
-    disabled: true,
-    url: '/settings/notifications',
-    showInSellgo: true,
-    showInAistock: true,
-    subPages: [],
-  },
-  {
-    name: 'Settings',
+    name: 'Global',
     disabled: false,
     url: '/settings/aistock/lead-time',
     showInSellgo: false,
@@ -230,10 +215,83 @@ export const SETTINGS_PAGES = [
     subPages: [
       {
         name: 'Lead Time',
-        disabled: true,
+        disabled: false,
         url: '/settings/aistock/lead-time',
       },
+      {
+        name: 'SKU settings',
+        disabled: false,
+        url: '/settings/aistock/sku-settings',
+      },
+      {
+        name: 'User Management',
+        disabled: false,
+        url: '/settings/aistock/global-user-management',
+      },
+      {
+        name: 'Alerts',
+        disabled: false,
+        url: '/settings/aistock/global-alerts-management',
+      },
     ],
+  },
+  {
+    name: 'Sales Forecasting',
+    disabled: false,
+    url: '/settings/aistock/sales-seasonality-adjustor',
+    showInSellgo: false,
+    showInAistock: true,
+    subPages: [
+      {
+        name: 'Seasonality Adjustor',
+        disabled: false,
+        url: '/settings/aistock/sales-seasonality-adjustor',
+      },
+      {
+        name: 'Weighted Aveage Sales',
+        disabled: false,
+        url: '/settings/aistock/sales-weighted-average-sales',
+      },
+      {
+        name: 'Inventory History',
+        disabled: false,
+        url: '/settings/aistock/sales-inventory-history',
+      },
+      {
+        name: 'Deals',
+        disabled: false,
+        url: '/settings/aistock/sales-deals',
+      },
+      {
+        name: 'Chart Settings',
+        disabled: false,
+        url: '/settings/aistock/sales-chart-settings',
+      },
+    ],
+  },
+  {
+    name: 'Order Planning',
+    disabled: false,
+    url: '/settings/aistock/inventory-days-of-inventory-settings',
+    showInSellgo: false,
+    showInAistock: true,
+    subPages: [],
+  },
+  {
+    name: '3PL Manager',
+    disabled: false,
+    url: '/settings/aistock/tpl-manager',
+    showInSellgo: false,
+    showInAistock: true,
+    subPages: [],
+  },
+  {
+    name: 'Cash Flow',
+    disabled: false,
+    url: '/settings/aistock/cash-flow',
+    showInSellgo: false,
+    showInAistock: true,
+    subPages: [],
   },
 ];
 

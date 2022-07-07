@@ -31,6 +31,14 @@
   width: 100px;
 }
 
+.settingsSubPagesMenu {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 120px;
+}
+
 .subpageWrapper {
   display: flex;
   flex-direction: column;
@@ -57,8 +65,42 @@
   }
 
   &__active {
-    background: $black_1 !important;
+    background: $prim_dark_1 !important;
+    font-weight: 700;
     color: $prim_white;
+  }
+
+  &__small {
+    width: 120px;
+  }
+}
+
+.settingSubPageOption {
+  margin-top: 10px;
+  margin-right: 250px;
+  width: 120px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  min-height: 35px;
+  border-radius: 7px;
+  color: $prim_dark_1;
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none !important;
+  //margin-bottom: 5px;
+  //padding-top: 5px;
+  //padding-bottom: 5px;
+
+  &:hover {
+    background: $grey_1;
+  }
+
+  &__active {
+    background: $prim_dark_1 !important;
+    font-weight: 700;
+    color: $prim_white;
+    width: 120px;
   }
 
   &__small {

@@ -6,25 +6,77 @@ export const PERFECT_STOCK_PAGES = [
   '/aistock/create-order',
 
   /* Cash flow page settings */
-  '/aistock/inventory-days-of-inventory-settings',
+  /*global*/
   '/aistock/sku-settings',
-  '/aistock/duty-settings',
+  '/aistock/global-user-management',
+  '/aistock/global-alerts-management',
+  /*sales*/
+  '/aistock/sales-seasonality-adjustor',
+  '/aistock/sales-weighted-average-sales',
+  '/aistock/sales-inventory-history',
+  '/aistock/sales-deals',
+  '/aistock/sales-chart-settings',
+  /*order*/
+  '/aistock/inventory-days-of-inventory-settings',
+  '/aistock/order-stockout-buffer',
+  '/aistock/order-minmax-stock',
+  '/aistock/order-po',
+  '/aistock/order-chart-settings',
   '/aistock/payment-terms-settings',
+  '/aistock/order-container',
+  '/aistock/duty-settings',
+  '/aistock/order-supplier-calendar',
+  /*3PL*/
+  '/aistock/tpl-fba-replenishment-template',
+  '/aistock/tpl-fba-replenishment-cost',
+  '/aistock/tpl-shipment-packing-template',
+  '/aistock/tpl-storage-details',
+  '/aistock/tpl-days-of-inventory',
+  '/aistock/tpl-chart-settings',
+  '/aistock/tpl-reconcile',
+  /*cash flow*/
   '/aistock/home-expenses-settings',
   '/aistock/home-ppc-settings',
   '/aistock/home-misc-settings',
+  '/aistock/cashflow-reconcile',
   '/aistock/reconcile-settings',
 ];
 
 export const HIDE_TAB_PAGES = [
   '/aistock/create-order',
-  '/aistock/inventory-days-of-inventory-settings',
+  /*global*/
   '/aistock/sku-settings',
-  '/aistock/duty-settings',
+  '/aistock/global-user-management',
+  '/aistock/global-alerts-management',
+  /*sales*/
+  '/aistock/sales-seasonality-adjustor',
+  '/aistock/sales-weighted-average-sales',
+  '/aistock/sales-inventory-history',
+  '/aistock/sales-deals',
+  '/aistock/sales-chart-settings',
+  /*order*/
+  '/aistock/inventory-days-of-inventory-settings',
+  '/aistock/order-stockout-buffer',
+  '/aistock/order-minmax-stock',
+  '/aistock/order-po',
+  '/aistock/order-chart-settings',
   '/aistock/payment-terms-settings',
+  '/aistock/order-container',
+  '/aistock/duty-settings',
+  '/aistock/order-supplier-calendar',
+  /*3PL*/
+  '/aistock/tpl-fba-replenishment-template',
+  '/aistock/tpl-fba-replenishment-cost',
+  '/aistock/tpl-shipment-packing-template',
+  '/aistock/tpl-storage-details',
+  '/aistock/tpl-days-of-inventory',
+  '/aistock/tpl-chart-settings',
+  '/aistock/tpl-reconcile',
+  /*cash flow*/
   '/aistock/home-expenses-settings',
   '/aistock/home-ppc-settings',
   '/aistock/home-misc-settings',
+  '/aistock/cashflow-reconcile',
   '/aistock/reconcile-settings',
 ];
 
@@ -55,13 +107,78 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
     settings: '',
   },
   {
+    name: 'SKU Settings',
+    desc: 'Set up SKU settings',
+    settings: '',
+  },
+  {
+    name: 'User Management',
+    desc: 'Set up user management',
+    settings: '',
+  },
+  {
+    name: 'Alerts Management',
+    desc: 'Set up alerts management',
+    settings: '',
+  },
+  {
+    name: 'Seasonality Adjustor',
+    desc: 'Set up sales seasonality adjustor',
+    settings: '',
+  },
+  {
+    name: 'Weighted Average Sales',
+    desc: 'Set up weighted average sales',
+    settings: '',
+  },
+  {
+    name: 'Inventory History',
+    desc: 'Set up inventory history',
+    settings: '',
+  },
+  {
+    name: 'Sales Deals',
+    desc: 'Set up sales deals',
+    settings: '',
+  },
+  {
+    name: 'Sales Chart',
+    desc: 'Set up sales chart',
+    settings: '',
+  },
+  {
     name: 'Days of Inventory',
     desc: 'Set up days of inventory',
     settings: '',
   },
   {
-    name: 'Sku Settings',
-    desc: 'Set up sku settings',
+    name: 'Stockout Buffer',
+    desc: 'Set up stockout buffer',
+    settings: '',
+  },
+  {
+    name: 'Min-max Stock',
+    desc: 'Set up min-max stock',
+    settings: '',
+  },
+  {
+    name: 'Purchase Orders',
+    desc: 'Set up purchase orders',
+    settings: '',
+  },
+  {
+    name: 'Order Chart',
+    desc: 'Set up order chart',
+    settings: '',
+  },
+  {
+    name: 'Payment Terms',
+    desc: 'Set up payment terms',
+    settings: '',
+  },
+  {
+    name: 'Container',
+    desc: 'Set up container',
     settings: '',
   },
   {
@@ -70,8 +187,43 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
     settings: '',
   },
   {
-    name: 'Payment Terms',
-    desc: 'Set up payment terms',
+    name: 'Supplier Calendar',
+    desc: 'Set up supplier calendar',
+    settings: '',
+  },
+  {
+    name: 'FBA Replenishment Template',
+    desc: 'Set up FBA replenishment template',
+    settings: '',
+  },
+  {
+    name: 'FBA Replenishment Cost',
+    desc: 'Set up FBA replenishment cost',
+    settings: '',
+  },
+  {
+    name: 'Shipment Packing Template',
+    desc: 'Set up shipment packing template',
+    settings: '',
+  },
+  {
+    name: 'Storage Details',
+    desc: 'Set up storage details',
+    settings: '',
+  },
+  {
+    name: '3PL Days of Inventory',
+    desc: 'Set up 3PL days of inventory',
+    settings: '',
+  },
+  {
+    name: '3PL Chart',
+    desc: 'Set up 3PL chart',
+    settings: '',
+  },
+  {
+    name: '3PL Reconcile',
+    desc: 'Add 3PL reconcile',
     settings: '',
   },
   {
@@ -87,6 +239,11 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'Misc Expenses',
     desc: 'Manage misc Expenses',
+    settings: '',
+  },
+  {
+    name: 'CAPEX: New Product Launches',
+    desc: 'Set up CAPEX: new product launches',
     settings: '',
   },
   {
