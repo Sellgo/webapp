@@ -11,7 +11,7 @@ const FAQSection = () => {
 
   useEffect(() => {
     axios
-      .get(`https://sellgo-website-dev.s3.amazonaws.com/faqDetails/webappPricing.json`)
+      .get(`https://aistock-website-dev.s3.amazonaws.com/faqDetails/pricing.json`)
       .then(resp => {
         setFaqData(resp.data.data);
       })
