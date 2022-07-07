@@ -9,14 +9,19 @@ import styles from './index.module.scss';
 const FAQSection = () => {
   const [faqData, setFaqData] = useState([]);
 
+  console.log('inside FAQSection');
+
   useEffect(() => {
     axios
       .get(`https://aistock-website-dev.s3.amazonaws.com/faqDetails/pricing.json`)
-      .then(resp => {
+      .then((resp) => {
         setFaqData(resp.data.data);
+        console.log('response', resp);
       })
       .catch(() => setFaqData([]));
   }, []);
+
+  console.log(faqData, 'faqData');
   return (
     <>
       {faqData && faqData.length > 0 ? (
