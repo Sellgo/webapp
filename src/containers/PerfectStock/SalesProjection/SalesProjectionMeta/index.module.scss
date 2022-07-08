@@ -102,6 +102,10 @@
   align-items: center;
 
   .dateRangePicker {
+    .rs-picker-menu {
+      top: 20% !important;
+    }
+
     a {
       span {
         color: $black_1 !important;
