@@ -32,6 +32,7 @@ import PerfectStock from '../PerfectStock';
 import LeadTime from '../Settings/PerfectStockSettings/LeadTime';
 import LeadTime2 from '../Settings/PerfectStockSettings/LeadTime2';
 import DaysOfInventory from '../Settings/PerfectStockSettings/DaysOfInventory';
+import Containers from '../Settings/PerfectStockSettings/Containers';
 
 import SellgoNewSubscription from '../NewSellgoSubscription';
 import SellgoPaymentSuccess from '../NewSellgoSubscription/SellgoPaymentSuccess';
@@ -350,6 +351,11 @@ function App() {
             exact={true}
             path="/settings/aistock/inventory-days-of-inventory-settings"
             component={DaysOfInventory}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/inventory-containers"
+            component={Containers}
           />
 
           <PrivateRoute

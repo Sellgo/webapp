@@ -283,6 +283,11 @@ export const SETTINGS_PAGES = [
         disabled: true,
         url: '/settings/aistock/inventory-days-of-inventory-settings',
       },
+      {
+        name: 'Container',
+        disabled: true,
+        url: '/settings/aistock/inventory-containers',
+      },
     ],
   },
   {
