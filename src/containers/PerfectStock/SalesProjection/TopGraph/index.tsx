@@ -129,17 +129,37 @@ const SalesProjectionGraph = (props: Props) => {
     }
   }, [data]);
 
-  const skuOptions = salesProjectionResults.map((result, index) => {
-    return {
-      key: index,
-      text: result?.sku,
-      value: result?.merchant_listing_id,
-    };
+  const skuOptions = salesProjectionResults.map((result, index) => ({
+    key: index,
+    text: result?.sku,
+    value: result?.sku,
+  }));
+
+  let skuMlid: any = {};
+
+  salesProjectionResults.forEach((result) => {
+    skuMlid[result.sku] = result.merchant_listing_id;
   });
 
-  const handleSkuChange = (selectedValues: any) => {
+  const getMlidFromSku = (selectedValues: string[]) => {
+    let merchantListingIds: number[] = [];
+
+    for (let j = 0; j < selectedValues.length; j++) {
+      if (skuMlid[selectedValues[j]] && !merchantListingIds.includes(skuMlid[selectedValues[j]])) {
+        merchantListingIds.push(skuMlid[selectedValues[j]]);
+      }
+    }
+
+    return merchantListingIds;
+  };
+
+  const handleSkuChange = (selectedValues: string[]) => {
     setSelectedSkus(selectedValues);
-    fetchMainChart(getGranularityValue(getGranularityLabel(selectedGranularity)), selectedValues);
+
+    fetchMainChart(
+      getGranularityValue(getGranularityLabel(selectedGranularity)),
+      getMlidFromSku(selectedValues)
+    );
   };
 
   return (
@@ -151,7 +171,7 @@ const SalesProjectionGraph = (props: Props) => {
           selectedOption={getGranularityLabel(selectedGranularity)}
           setSelectedOption={(label: string) => {
             setSelectedGranularity(getGranularityValue(label));
-            fetchMainChart(getGranularityValue(label), selectedSkus);
+            fetchMainChart(getGranularityValue(label), getMlidFromSku(selectedSkus));
           }}
           className={styles.inputTabSelection}
         />
