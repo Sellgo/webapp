@@ -189,14 +189,7 @@ export const SETTINGS_PAGES = [
     showInAistock: true,
     subPages: [],
   },
-  {
-    name: 'Connectivity',
-    disabled: false,
-    url: '/settings/sp-connectivity',
-    showInSellgo: false,
-    showInAistock: true,
-    subPages: [],
-  },
+
   {
     name: 'API Keys',
     disabled: false,
@@ -212,6 +205,14 @@ export const SETTINGS_PAGES = [
     showInSellgo: false,
     showInAistock: true,
     subPages: [
+      {
+        name: 'Connectivity',
+        disabled: false,
+        url: '/settings/sp-connectivity',
+        showInSellgo: false,
+        showInAistock: true,
+        subPages: [],
+      },
       {
         name: 'Lead Time',
         disabled: false,
@@ -271,10 +272,21 @@ export const SETTINGS_PAGES = [
   {
     name: 'Order Planning',
     disabled: false,
-    url: '/settings/aistock/inventory-days-of-inventory-settings',
+    url: '/settings/aistock/lead-time2',
     showInSellgo: false,
     showInAistock: true,
-    subPages: [],
+    subPages: [
+      {
+        name: 'Lead Time2',
+        disabled: false,
+        url: '/settings/aistock/lead-time2',
+      },
+      {
+        name: 'Days of Inventory',
+        disabled: false,
+        url: '/settings/aistock/inventory-days-of-inventory-settings',
+      },
+    ],
   },
   {
     name: '3PL Manager',

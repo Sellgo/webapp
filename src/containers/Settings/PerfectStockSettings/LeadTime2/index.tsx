@@ -12,8 +12,6 @@ import Placeholder from '../../../../components/Placeholder';
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
-import ElevioArticle from '../../../../components/ElevioArticle';
-import BoxContainer from '../../../../components/BoxContainer';
 
 /* Types */
 import { SingleLeadTimeGroup } from '../../../../interfaces/PerfectStock/SalesProjection';
@@ -171,10 +169,6 @@ const LeadTime = (props: Props) => {
           <span>Add Lead Time Group</span>
         </ActionButton>
       </div>
-      <BoxContainer className={styles.elevioArticle}>
-        <span>Step-By-Step Guide</span>
-        <ElevioArticle articleId={'17'} />
-      </BoxContainer>
     </main>
   );
 };

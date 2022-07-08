@@ -181,6 +181,25 @@ const AdminHeader = (props: Props) => {
               <img src={PerfectStockIcon} alt="perfect-stock-icon" />
               Settings
             </Dropdown.Item>
+            <Dropdown.Item
+              as={Link}
+              to="/settings/aistock/lead-time2"
+              className="dropdownItem"
+              disabled={!isAiStock}
+            >
+              <img src={PerfectStockIcon} alt="perfect-stock-icon" />
+              Settings
+            </Dropdown.Item>
+            <Dropdown.Item
+              as={Link}
+              to="/settings/aistock/sku-settings"
+              className="dropdownItem"
+              disabled={!isAiStock}
+            >
+              <img src={PerfectStockIcon} alt="perfect-stock-icon" />
+              sku Settings
+            </Dropdown.Item>
+
             <div className="line" />
             <Dropdown.Item className="dropdownItem" onClick={open}>
               <img src={LogoutIcon} alt="logout-icon" />

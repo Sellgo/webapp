@@ -352,7 +352,7 @@ export const ONBOARDING_STATUS_MAPPING: any = {
   },
   sku: {
     title: 'Sku Settings',
-    to: '/aistock/sku-settings',
+    to: '/settings/aistock/sku-settings',
   },
   duty: {
     title: 'Duty Settings',

@@ -65,9 +65,9 @@
   }
 
   &__active {
-    background: $prim_dark_1 !important;
+    //background: $prim_dark_1 !important;
     font-weight: 700;
-    color: $prim_white;
+    color: $prim_dark_1;
   }
 
   &__small {
@@ -77,8 +77,8 @@
 
 .settingSubPageOption {
   margin-top: 10px;
-  margin-right: 250px;
-  width: 120px;
+  margin-right: 170px;
+  width: 220px;
   display: flex;
   align-items: center;
   padding-left: 10px;
@@ -97,14 +97,14 @@
   }
 
   &__active {
-    background: $prim_dark_1 !important;
+    //background: $prim_dark_1 !important;
     font-weight: 700;
-    color: $prim_white;
-    width: 120px;
+    color: $prim_dark_1;
+    width: 220px;
   }
 
   &__small {
-    width: 120px;
+    width: 220px;
   }
 }
 

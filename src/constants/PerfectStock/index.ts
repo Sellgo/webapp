@@ -7,7 +7,7 @@ export const PERFECT_STOCK_PAGES = [
 
   /* Cash flow page settings */
   /*global*/
-  '/aistock/sku-settings',
+  '/settings/aistock/sku-settings',
   '/aistock/global-user-management',
   '/aistock/global-alerts-management',
   /*sales*/
@@ -17,7 +17,7 @@ export const PERFECT_STOCK_PAGES = [
   '/aistock/sales-deals',
   '/aistock/sales-chart-settings',
   /*order*/
-  '/aistock/inventory-days-of-inventory-settings',
+  '/settings/aistock/inventory-days-of-inventory-settings',
   '/aistock/order-stockout-buffer',
   '/aistock/order-minmax-stock',
   '/aistock/order-po',
@@ -89,7 +89,7 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'Order Planning',
     desc: 'Easily create order planning',
-    settings: '/aistock/inventory-days-of-inventory-settings',
+    settings: '/settings/aistock/inventory-days-of-inventory-settings',
   },
   {
     name: '3PL Manager',
@@ -109,7 +109,7 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'SKU Settings',
     desc: 'Set up SKU settings',
-    settings: '',
+    settings: '/settings/aistock/sku-settings',
   },
   {
     name: 'User Management',
