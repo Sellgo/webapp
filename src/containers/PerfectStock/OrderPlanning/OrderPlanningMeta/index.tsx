@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 /* Styling */
@@ -25,6 +25,7 @@ import {
   getInventoryTableFilters,
   getInventoryTableUpdateDate,
   getIsFetchingProgressForRefresh,
+  getPurchaseOrders,
 } from '../../../../selectors/PerfectStock/OrderPlanning';
 
 /* Types */
@@ -42,6 +43,7 @@ import {
 interface Props {
   setIsEditingSKUs: (isEditingSKUs: boolean) => void;
   activePurchaseOrder: PurchaseOrder;
+  purchaseOrders: PurchaseOrder[];
   tableViewMode: 'Inventory' | 'Stockout' | 'Today';
   setTableViewMode: (tableViewMode: 'Inventory' | 'Stockout' | 'Today') => void;
   inventoryTableFilters: InventoryTableFilters;
@@ -52,16 +54,22 @@ const OrderPlanningMeta = (props: Props) => {
   const {
     setIsEditingSKUs,
     activePurchaseOrder,
+    purchaseOrders,
     tableViewMode,
     setTableViewMode,
     inventoryTableFilters,
     setInventoryTableFilters,
   } = props;
 
-  let hasActivePurchaseOrder = false;
-  if (activePurchaseOrder && activePurchaseOrder.id !== -1) {
-    hasActivePurchaseOrder = true;
-  }
+  const [hasActivePurchaseOrder, setHasActivePurchaseOrder] = useState(false);
+
+  useEffect(() => {
+    if (activePurchaseOrder && activePurchaseOrder.id !== -1 && purchaseOrders.length) {
+      setHasActivePurchaseOrder(true);
+    } else {
+      setHasActivePurchaseOrder(false);
+    }
+  }, [activePurchaseOrder?.id, purchaseOrders.length]);
 
   return (
     <>
@@ -115,6 +123,7 @@ const mapStateToProps = (state: any) => ({
   isFetchingProgressForRefresh: getIsFetchingProgressForRefresh(state),
   inventoryTableUpdateDate: getInventoryTableUpdateDate(state),
   activePurchaseOrder: getActivePurchaseOrder(state),
+  purchaseOrders: getPurchaseOrders(state),
   inventoryTableFilters: getInventoryTableFilters(state),
 });
 
