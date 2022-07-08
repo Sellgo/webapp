@@ -62,10 +62,22 @@ export const setSubChartSettings = (payload: SubChartSettings) => {
 export const fetchTopGraph = (granularity?: number) => async (dispatch: any) => {
   dispatch(isLoadingTopChart(true));
   try {
+    const now = new Date();
+    const numOfWeeks = granularity === 1 ? 1 : granularity === 7 ? 4 : granularity === 14 ? 12 : 52;
+    const end_date = now.setDate(now.getDate() + numOfWeeks * 7);
+
+    const dates =
+      `?start_date=` +
+      `${new Date().toISOString().slice(0, 10)}` +
+      `&end_date=${new Date(end_date).toISOString().slice(0, 10)}`;
+
     const url =
       `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/cash-flow-chart` +
-      `${granularity ? `?granularity=${granularity}` : ''}`;
+      `${dates}` +
+      `${granularity ? `&granularity=${granularity}` : ''}`;
+
     const { data } = await axios.get(url);
+
     if (data) {
       const mainGraph = data[0];
       const chartData = mainGraph.data.map((item: any) => [
@@ -99,45 +111,43 @@ export const fetchTopGraph = (granularity?: number) => async (dispatch: any) => 
 };
 
 /* Action to fetch products database */
-export const fetchSubCharts = (payload?: SubChartSettings) => async (
-  dispatch: any,
-  getState: any
-) => {
-  dispatch(isLoadingSubCharts(true));
-  const state = getState();
-  const chartSettings: SubChartSettings = payload ? payload : getSubChartSettings(state);
-  const type = encodeURIComponent(chartSettings.types.join(','));
-  const dates =
-    `&start_date=` + `${chartSettings.start_date}` + `&end_date=${chartSettings.end_date}`;
-  const granularity = `&granularity=${chartSettings.granularity}`;
-  try {
-    const url = `${
-      AppConfig.BASE_URL_API
-    }sellers/${sellerIDSelector()}/cash-flow-chart?types=${type}${dates}${granularity}`;
-    const { data } = await axios.get(url);
-    const subCharts = data.map((chart: any) => {
-      const chartData = chart.data.map((item: any) => [
-        new Date(item.date).getTime(),
-        parseFloat(item.amount),
-      ]);
-      return {
-        total: chart.total,
-        data: [
-          {
-            name: chart.type,
-            type: 'column',
-            data: chartData,
-          },
-        ],
-      };
-    });
-    dispatch(setSubCharts(subCharts));
-  } catch (err) {
-    dispatch(setSubCharts([]));
-    console.error('Error fetching sub charts', err);
-  }
-  dispatch(isLoadingSubCharts(false));
-};
+export const fetchSubCharts =
+  (payload?: SubChartSettings) => async (dispatch: any, getState: any) => {
+    dispatch(isLoadingSubCharts(true));
+    const state = getState();
+    const chartSettings: SubChartSettings = payload ? payload : getSubChartSettings(state);
+    const type = encodeURIComponent(chartSettings.types.join(','));
+    const dates =
+      `&start_date=` + `${chartSettings.start_date}` + `&end_date=${chartSettings.end_date}`;
+    const granularity = `&granularity=${chartSettings.granularity}`;
+    try {
+      const url = `${
+        AppConfig.BASE_URL_API
+      }sellers/${sellerIDSelector()}/cash-flow-chart?types=${type}${dates}${granularity}`;
+      const { data } = await axios.get(url);
+      const subCharts = data.map((chart: any) => {
+        const chartData = chart.data.map((item: any) => [
+          new Date(item.date).getTime(),
+          parseFloat(item.amount),
+        ]);
+        return {
+          total: chart.total,
+          data: [
+            {
+              name: chart.type,
+              type: 'column',
+              data: chartData,
+            },
+          ],
+        };
+      });
+      dispatch(setSubCharts(subCharts));
+    } catch (err) {
+      dispatch(setSubCharts([]));
+      console.error('Error fetching sub charts', err);
+    }
+    dispatch(isLoadingSubCharts(false));
+  };
 
 /* Action to fetch onboarding status */
 export const fetchCashflowOnboardingStatus = () => async (dispatch: any) => {
@@ -154,24 +164,22 @@ export const fetchCashflowOnboardingStatus = () => async (dispatch: any) => {
 };
 
 /* Action to update cashflow onboarding status */
-export const updateCashflowOnboardingStatus = (
-  onboardingCostId: number,
-  newStatus: boolean
-) => async (dispatch: any) => {
-  try {
-    const url = `${
-      AppConfig.BASE_URL_API
-    }sellers/${sellerIDSelector()}/cash-flow-status/${onboardingCostId}`;
-    const payload = {
-      is_completed: newStatus,
-      id: onboardingCostId,
-    };
-    const { data, status } = await axios.patch(url, payload);
-    if (data && status === 200) {
+export const updateCashflowOnboardingStatus =
+  (onboardingCostId: number, newStatus: boolean) => async (dispatch: any) => {
+    try {
+      const url = `${
+        AppConfig.BASE_URL_API
+      }sellers/${sellerIDSelector()}/cash-flow-status/${onboardingCostId}`;
+      const payload = {
+        is_completed: newStatus,
+        id: onboardingCostId,
+      };
+      const { data, status } = await axios.patch(url, payload);
+      if (data && status === 200) {
+        dispatch(fetchCashflowOnboardingStatus());
+      }
+    } catch (err) {
       dispatch(fetchCashflowOnboardingStatus());
+      console.error('Error fetching onboarding status', err);
     }
-  } catch (err) {
-    dispatch(fetchCashflowOnboardingStatus());
-    console.error('Error fetching onboarding status', err);
-  }
-};
+  };
