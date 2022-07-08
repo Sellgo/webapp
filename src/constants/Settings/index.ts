@@ -209,9 +209,6 @@ export const SETTINGS_PAGES = [
         name: 'Connectivity',
         disabled: false,
         url: '/settings/sp-connectivity',
-        showInSellgo: false,
-        showInAistock: true,
-        subPages: [],
       },
       {
         name: 'Lead Time',
@@ -248,7 +245,7 @@ export const SETTINGS_PAGES = [
         url: '/settings/aistock/sales-seasonality-adjustor',
       },
       {
-        name: 'Weighted Aveage Sales',
+        name: 'Weighted Average Sales',
         disabled: false,
         url: '/settings/aistock/sales-weighted-average-sales',
       },
@@ -272,18 +269,18 @@ export const SETTINGS_PAGES = [
   {
     name: 'Order Planning',
     disabled: false,
-    url: '/settings/aistock/lead-time2',
+    url: '/settings/aistock/inventory-days-of-inventory-settings',
     showInSellgo: false,
     showInAistock: true,
     subPages: [
       {
         name: 'Lead Time2',
-        disabled: false,
+        disabled: true,
         url: '/settings/aistock/lead-time2',
       },
       {
         name: 'Days of Inventory',
-        disabled: false,
+        disabled: true,
         url: '/settings/aistock/inventory-days-of-inventory-settings',
       },
     ],
