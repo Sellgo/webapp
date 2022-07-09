@@ -86,7 +86,6 @@ export const fetchTopGraph = (granularity?: number) => async (dispatch: any) => 
       `${granularity ? `&granularity=${granularity}` : ''}`;
 
     const { data } = await axios.get(url);
-
     if (data) {
       const mainGraph = data[0];
       const chartData = mainGraph.data.map((item: any) => [
