@@ -288,6 +288,16 @@ export const SETTINGS_PAGES = [
         disabled: true,
         url: '/settings/aistock/inventory-containers',
       },
+      {
+        name: 'Duty Tax',
+        disabled: true,
+        url: '/settings/aistock/duty-settings',
+      },
+      {
+        name: 'Payment Terms',
+        disabled: true,
+        url: '/settings/aistock/payment-terms-settings',
+      },
     ],
   },
   {

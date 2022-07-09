@@ -52,7 +52,7 @@
   padding-left: 10px;
   min-height: 35px;
   border-radius: 7px;
-  color: $prim_dark_1;
+  color: $grey_8;
   font-size: 14px;
   font-weight: 400;
   text-decoration: none !important;
@@ -65,20 +65,20 @@
   }
 
   &__active {
-    //background: $prim_dark_1 !important;
-    font-weight: 700;
-    color: $prim_dark_1;
+    background: $grey_1 !important;
+    font-weight: 600;
+    color: $grey_8;
   }
 
   &__small {
-    width: 120px;
+    width: 150px;
   }
 }
 
 .settingSubPageOption {
   margin-top: 10px;
-  margin-right: 170px;
-  width: 220px;
+  margin-right: 200px;
+  width: 200px;
   display: flex;
   align-items: center;
   padding-left: 10px;
@@ -97,14 +97,14 @@
   }
 
   &__active {
-    //background: $prim_dark_1 !important;
-    font-weight: 700;
-    color: $prim_dark_1;
-    width: 220px;
+    background: $grey_1 !important;
+    font-weight: 600;
+    color: $grey_8;
+    width: 200px;
   }
 
   &__small {
-    width: 220px;
+    width: 200px;
   }
 }
 

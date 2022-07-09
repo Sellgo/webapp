@@ -230,7 +230,7 @@ export const SETTINGS_OPTIONS = [
   },
   {
     name: 'Duty Settings',
-    url: '/aistock/duty-settings',
+    url: '/settings/aistock/duty-settings',
     disabled: false,
   },
   {

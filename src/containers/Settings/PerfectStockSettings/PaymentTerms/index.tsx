@@ -4,8 +4,8 @@ import React from 'react';
 import styles from './index.module.scss';
 
 /* Components */
-import DaysOfInventoryMeta from '../DaysOfInventory/DaysOfInventoryMeta';
-import DaysOfInventoryCore from '../DaysOfInventory/DaysOfInventoryCore';
+import PaymentTermsMeta from '../PaymentTerms/PaymentTermsMeta';
+//import PaymentTermsCore from '../PaymentTerms/PaymentTermsCore';
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
 import ElevioArticle from '../../../../components/ElevioArticle';
@@ -15,7 +15,7 @@ interface Props {
   match: any;
 }
 
-const DaysOfInventory = (props: Props) => {
+const PaymentTerms = (props: Props) => {
   const { match } = props;
 
   return (
@@ -25,17 +25,15 @@ const DaysOfInventory = (props: Props) => {
         breadcrumb={[
           { content: 'Home', to: '/' },
           { content: 'AiStock' },
-          { content: 'Days Of Inventory Settings' },
+          { content: 'Duty Tax Settings' },
         ]}
         auth={match.params.auth}
       />
       <SettingsNav match={match} />
       <div className={styles.leadTime}>
-        <DaysOfInventoryMeta />
+        <PaymentTermsMeta />
         <div className={styles.settingsPageWrapper}>
-          <div className={styles.settingsTableWrapper}>
-            <DaysOfInventoryCore />
-          </div>
+          <div className={styles.settingsTableWrapper}>{/*<PaymentTermsCore />*/}</div>
         </div>
       </div>
       <BoxContainer className={styles.elevioArticle}>
@@ -46,4 +44,4 @@ const DaysOfInventory = (props: Props) => {
   );
 };
 
-export default DaysOfInventory;
+export default PaymentTerms;
