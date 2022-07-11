@@ -11,6 +11,7 @@ import {
   getGranularityLabel,
   getGranularityValue,
 } from '../../../../constants/PerfectStock/Cashflow';
+import AiStockImg from '../../../../assets/images/aistockLogoBg.png';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -38,6 +39,7 @@ const ProductSalesGraph = (props: Props) => {
         chart: {
           renderTo: 'product-sales-graph',
           type: 'line',
+          plotBackgroundImage: AiStockImg,
         },
 
         title: {
