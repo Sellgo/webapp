@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -13,15 +14,20 @@ import { sellerIDSelector } from '../../../../../selectors/Seller';
 import { error, success } from '../../../../../utils/notifications';
 import { DUTY_SETTINGS_COLUMNS } from '../../../../../constants/PerfectStock/OrderPlanning';
 
+import { getCashflowOnboardingStatus } from '../../../../../selectors/PerfectStock/Cashflow';
+import { updateCashflowOnboardingStatus } from '../../../../../actions/PerfectStock/Home';
+
 interface Props {
-  cashflowOnboardingStatus: any;
+  cashflowOnboardingStatus: any[];
   updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) => void;
 }
 
-const DutyTaxCore = (props: Props) => {
+const DutyTaxCore: React.FC<Props> = props => {
+  //const DutyTaxCore = (props: Props) => {
   const { cashflowOnboardingStatus, updateCashflowOnboardingStatus } = props;
   const sellerID = localStorage.getItem('userId');
 
+  console.log('cashflowOnboardingStatus ' + cashflowOnboardingStatus);
   /* Fetches all the triggers from backend */
   const fetchExpenses = async () => {
     try {
@@ -47,10 +53,13 @@ const DutyTaxCore = (props: Props) => {
         patchExpenseStatus = false;
       }
 
+      const cashflowOnboardingStatusDuty = cashflowOnboardingStatus?.find(
+        (cost: { step_name: string }) => cost?.step_name === 'duty'
+      );
       if (patchExpenseStatus) {
-        if (cashflowOnboardingStatus) {
-          console.log(cashflowOnboardingStatus);
-          updateCashflowOnboardingStatus(cashflowOnboardingStatus.id, true);
+        if (cashflowOnboardingStatusDuty) {
+          console.log('cashflowOnboardingStatusDuty:' + cashflowOnboardingStatusDuty);
+          updateCashflowOnboardingStatus(cashflowOnboardingStatusDuty.id, true);
         }
         success('Duties successfully saved');
       }
@@ -76,4 +85,17 @@ const DutyTaxCore = (props: Props) => {
   );
 };
 
-export default DutyTaxCore;
+const mapStateToProps = (state: any) => {
+  return {
+    cashflowOnboardingStatus: getCashflowOnboardingStatus(state),
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) =>
+      dispatch(updateCashflowOnboardingStatus(onboardingCostId, newStatus)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DutyTaxCore);

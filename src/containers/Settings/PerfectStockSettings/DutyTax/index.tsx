@@ -5,7 +5,7 @@ import styles from './index.module.scss';
 
 /* Components */
 import DutyTaxMeta from '../DutyTax/DutyTaxMeta';
-//import DutyTaxCore from '../DutyTax/DutyTaxCore';
+import DutyTaxCore from '../DutyTax/DutyTaxCore';
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
 import ElevioArticle from '../../../../components/ElevioArticle';
@@ -33,7 +33,9 @@ const DutyTax = (props: Props) => {
       <div className={styles.leadTime}>
         <DutyTaxMeta />
         <div className={styles.settingsPageWrapper}>
-          <div className={styles.settingsTableWrapper}>{/*<DutyTaxCore /> */}</div>
+          <div className={styles.settingsTableWrapper}>
+            <DutyTaxCore />
+          </div>
         </div>
       </div>
       <BoxContainer className={styles.elevioArticle}>

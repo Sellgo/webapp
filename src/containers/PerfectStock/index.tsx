@@ -21,7 +21,7 @@ import ReconcileSettings from './Cashflow/Settings/ReconcileSettings';
 import DaysOfInventorySettings from '../Settings/PerfectStockSettings/DaysOfInventory/DaysOfInventoryCore';
 import SkuSettings from '../Settings/PerfectStockSettings/SkuSettings/SkuSettingsCore';
 import PaymentTermsSettings from '../Settings/PerfectStockSettings/PaymentTerms/PaymentTermsCore';
-import DutyTaxSettings from '../Settings/PerfectStockSettings/DutyTax/DutyTaxCore';
+//import DutyTaxSettings from '../Settings/PerfectStockSettings/DutyTax/DutyTaxCore';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
@@ -306,12 +306,12 @@ const PerfectStock: React.FC<Props> = props => {
             </TabPanel>
 
             <TabPanel>
-              <DutyTaxSettings
+              {/*<DutyTaxSettings
                 cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
                   cost => cost?.step_name === 'duty'
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
-              />
+                />*/}
             </TabPanel>
 
             <TabPanel>
