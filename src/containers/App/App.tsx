@@ -30,7 +30,6 @@ import ProductResearch from '../ProductResearch';
 import KeywordResearch from '../KeywordResearch';
 import PerfectStock from '../PerfectStock';
 import LeadTime from '../Settings/PerfectStockSettings/LeadTime';
-import LeadTime2 from '../Settings/PerfectStockSettings/LeadTime2';
 import DaysOfInventory from '../Settings/PerfectStockSettings/DaysOfInventory';
 import SkuSettings from '../Settings/PerfectStockSettings/SkuSettings';
 import Containers from '../Settings/PerfectStockSettings/Containers';
@@ -349,7 +348,6 @@ function App() {
           <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} />
           <PrivateRoute exact={true} path="/settings/profile" component={Profile} />
           <PrivateRoute exact={true} path="/settings/aistock/lead-time" component={LeadTime} />
-          <PrivateRoute exact={true} path="/settings/aistock/lead-time2" component={LeadTime2} />
           <PrivateRoute
             exact={true}
             path="/settings/aistock/inventory-days-of-inventory-settings"

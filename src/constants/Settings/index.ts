@@ -274,13 +274,8 @@ export const SETTINGS_PAGES = [
     showInAistock: true,
     subPages: [
       {
-        name: 'Lead Time2',
-        disabled: true,
-        url: '/settings/aistock/lead-time2',
-      },
-      {
         name: 'Days of Inventory',
-        disabled: true,
+        disabled: false,
         url: '/settings/aistock/inventory-days-of-inventory-settings',
       },
       {
@@ -290,12 +285,12 @@ export const SETTINGS_PAGES = [
       },
       {
         name: 'Duty Tax',
-        disabled: true,
+        disabled: false,
         url: '/settings/aistock/duty-settings',
       },
       {
         name: 'Payment Terms',
-        disabled: true,
+        disabled: false,
         url: '/settings/aistock/payment-terms-settings',
       },
     ],
