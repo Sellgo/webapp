@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
@@ -15,19 +15,25 @@ import { error, success } from '../../../../../utils/notifications';
 import { DUTY_SETTINGS_COLUMNS } from '../../../../../constants/PerfectStock/OrderPlanning';
 
 import { getCashflowOnboardingStatus } from '../../../../../selectors/PerfectStock/Cashflow';
-import { updateCashflowOnboardingStatus } from '../../../../../actions/PerfectStock/Home';
+import {
+  fetchCashflowOnboardingStatus,
+  updateCashflowOnboardingStatus,
+} from '../../../../../actions/PerfectStock/Home';
 
 interface Props {
   cashflowOnboardingStatus: any[];
   updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) => void;
+  fetchCashflowOnboardingStatus: () => void;
 }
 
 const DutyTaxCore: React.FC<Props> = props => {
-  //const DutyTaxCore = (props: Props) => {
-  const { cashflowOnboardingStatus, updateCashflowOnboardingStatus } = props;
+  const {
+    cashflowOnboardingStatus,
+    updateCashflowOnboardingStatus,
+    fetchCashflowOnboardingStatus,
+  } = props;
   const sellerID = localStorage.getItem('userId');
 
-  console.log('cashflowOnboardingStatus ' + cashflowOnboardingStatus);
   /* Fetches all the triggers from backend */
   const fetchExpenses = async () => {
     try {
@@ -44,6 +50,10 @@ const DutyTaxCore: React.FC<Props> = props => {
     return [];
   };
 
+  useEffect(() => {
+    fetchCashflowOnboardingStatus();
+  }, []);
+
   const handleSave = async (expenses: any[]) => {
     try {
       let patchExpenseStatus = true;
@@ -54,11 +64,10 @@ const DutyTaxCore: React.FC<Props> = props => {
       }
 
       const cashflowOnboardingStatusDuty = cashflowOnboardingStatus?.find(
-        (cost: { step_name: string }) => cost?.step_name === 'duty'
+        cost => cost?.step_name === 'duty'
       );
       if (patchExpenseStatus) {
         if (cashflowOnboardingStatusDuty) {
-          console.log('cashflowOnboardingStatusDuty:' + cashflowOnboardingStatusDuty);
           updateCashflowOnboardingStatus(cashflowOnboardingStatusDuty.id, true);
         }
         success('Duties successfully saved');
@@ -95,6 +104,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) =>
       dispatch(updateCashflowOnboardingStatus(onboardingCostId, newStatus)),
+    fetchCashflowOnboardingStatus: () => dispatch(fetchCashflowOnboardingStatus()),
   };
 };
 
