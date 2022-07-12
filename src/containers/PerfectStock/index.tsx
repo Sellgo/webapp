@@ -18,10 +18,10 @@ import EmployeeExpensesSettings from './Cashflow/Settings/EmployeeExpenses';
 import PpcExpensesSettings from './Cashflow/Settings/PpcExpenses';
 import MiscExpensesSettings from './Cashflow/Settings/MiscExpenses';
 import ReconcileSettings from './Cashflow/Settings/ReconcileSettings';
-import DaysOfInventorySettings from './Inventory/Settings/DaysOfInventory';
-import SkuSettings from './Inventory/Settings/SkuSettings';
-import PaymentTermsSettings from './Inventory/Settings/PaymentTerms';
-import DutySettings from './Inventory/Settings/DutySettings';
+//import DaysOfInventorySettings from '../Settings/PerfectStockSettings/DaysOfInventory';
+//import SkuSettings from '../Settings/PerfectStockSettings/SkuSettings/SkuSettingsCore';
+//import PaymentTermsSettings from '../Settings/PerfectStockSettings/PaymentTerms/PaymentTermsCore';
+//import DutyTaxSettings from '../Settings/PerfectStockSettings/DutyTax/DutyTaxCore';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
@@ -292,35 +292,33 @@ const PerfectStock: React.FC<Props> = props => {
               <OrderPlanning />
             </TabPanel>
 
-            <TabPanel>
-              <DaysOfInventorySettings />
-            </TabPanel>
+            <TabPanel>{/*<DaysOfInventorySettings />*/}</TabPanel>
 
             <TabPanel>
-              <SkuSettings
+              {/*<SkuSettings
                 cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
                   cost => cost?.step_name === 'sku'
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
-              />
+                />*/}
             </TabPanel>
 
             <TabPanel>
-              <DutySettings
+              {/*<DutySettings
                 cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
                   cost => cost?.step_name === 'duty'
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
-              />
+                />*/}
             </TabPanel>
 
             <TabPanel>
-              <PaymentTermsSettings
+              {/*<PaymentTermsSettings
                 cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
                   cost => cost?.step_name === 'payment_terms'
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
-              />
+                />*/}
             </TabPanel>
 
             <TabPanel>

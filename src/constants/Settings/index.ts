@@ -189,14 +189,7 @@ export const SETTINGS_PAGES = [
     showInAistock: true,
     subPages: [],
   },
-  {
-    name: 'Connectivity',
-    disabled: false,
-    url: '/settings/sp-connectivity',
-    showInSellgo: false,
-    showInAistock: true,
-    subPages: [],
-  },
+
   {
     name: 'API Keys',
     disabled: false,
@@ -206,34 +199,117 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
-    name: 'User Management',
-    disabled: true,
-    url: '/settings/user-management',
-    showInSellgo: true,
-    showInAistock: true,
-    subPages: [],
-  },
-  {
-    name: 'Notification',
-    disabled: true,
-    url: '/settings/notifications',
-    showInSellgo: true,
-    showInAistock: true,
-    subPages: [],
-  },
-  {
-    name: 'Settings',
+    name: 'Global',
     disabled: false,
     url: '/settings/aistock/lead-time',
     showInSellgo: false,
     showInAistock: true,
     subPages: [
       {
+        name: 'Connectivity',
+        disabled: false,
+        url: '/settings/sp-connectivity',
+      },
+      {
         name: 'Lead Time',
-        disabled: true,
+        disabled: false,
         url: '/settings/aistock/lead-time',
       },
+      {
+        name: 'SKU settings',
+        disabled: false,
+        url: '/settings/aistock/sku-settings',
+      },
+      {
+        name: 'User Management',
+        disabled: false,
+        url: '/settings/aistock/global-user-management',
+      },
+      {
+        name: 'Alerts',
+        disabled: false,
+        url: '/settings/aistock/global-alerts-management',
+      },
     ],
+  },
+  {
+    name: 'Sales Forecasting',
+    disabled: false,
+    url: '/settings/aistock/sales-seasonality-adjustor',
+    showInSellgo: false,
+    showInAistock: true,
+    subPages: [
+      {
+        name: 'Seasonality Adjustor',
+        disabled: false,
+        url: '/settings/aistock/sales-seasonality-adjustor',
+      },
+      {
+        name: 'Weighted Average Sales',
+        disabled: false,
+        url: '/settings/aistock/sales-weighted-average-sales',
+      },
+      {
+        name: 'Inventory History',
+        disabled: false,
+        url: '/settings/aistock/sales-inventory-history',
+      },
+      {
+        name: 'Deals',
+        disabled: false,
+        url: '/settings/aistock/sales-deals',
+      },
+      {
+        name: 'Chart Settings',
+        disabled: false,
+        url: '/settings/aistock/sales-chart-settings',
+      },
+    ],
+  },
+  {
+    name: 'Order Planning',
+    disabled: false,
+    url: '/settings/aistock/inventory-days-of-inventory-settings',
+    showInSellgo: false,
+    showInAistock: true,
+    subPages: [
+      {
+        name: 'Days of Inventory',
+        disabled: true,
+        url: '/settings/aistock/inventory-days-of-inventory-settings',
+      },
+      {
+        name: 'Container',
+        disabled: true,
+        url: '/settings/aistock/inventory-containers',
+      },
+      {
+        name: 'Duty Tax',
+        disabled: true,
+        url: '/settings/aistock/duty-settings',
+      },
+      {
+        name: 'Payment Terms',
+        disabled: true,
+        url: '/settings/aistock/payment-terms-settings',
+      },
+    ],
+  },
+  {
+    name: '3PL Manager',
+    disabled: false,
+    url: '/settings/aistock/tpl-manager',
+    showInSellgo: false,
+    showInAistock: true,
+    subPages: [],
+  },
+  {
+    name: 'Cash Flow',
+    disabled: false,
+    url: '/settings/aistock/cash-flow',
+    showInSellgo: false,
+    showInAistock: true,
+    subPages: [],
   },
 ];
 
