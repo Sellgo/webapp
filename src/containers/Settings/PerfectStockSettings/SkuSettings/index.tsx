@@ -5,7 +5,7 @@ import styles from './index.module.scss';
 
 /* Components */
 import SkuSettingsMeta from '../SkuSettings/SkuSettingsMeta';
-//import SkuSettingsCore from '../SkuSettings/SkuSettingsCore';
+import SkuSettingsCore from '../SkuSettings/SkuSettingsCore';
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
 import ElevioArticle from '../../../../components/ElevioArticle';
@@ -33,7 +33,9 @@ const SkuSettings = (props: Props) => {
       <div className={styles.leadTime}>
         <SkuSettingsMeta />
         <div className={styles.settingsPageWrapper}>
-          <div className={styles.settingsTableWrapper}>{/*<SkuSettingsCore />*/}</div>
+          <div className={styles.settingsTableWrapper}>
+            <SkuSettingsCore />
+          </div>
         </div>
       </div>
       <BoxContainer className={styles.elevioArticle}>

@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Confirm, Checkbox } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -14,13 +15,18 @@ import { AppConfig } from '../../../../../config';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
 import { error, success } from '../../../../../utils/notifications';
 import { SKU_SETTINGS_COLUMNS } from '../../../../../constants/PerfectStock/OrderPlanning';
+import { getCashflowOnboardingStatus } from '../../../../../selectors/PerfectStock/Cashflow';
+import {
+  fetchCashflowOnboardingStatus,
+  updateCashflowOnboardingStatus,
+} from '../../../../../actions/PerfectStock/Home';
 
 interface Props {
-  cashflowOnboardingStatus: any;
+  cashflowOnboardingStatus: any[];
   updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) => void;
 }
 
-const SkusSettingsCore = (props: Props) => {
+const SkusSettingsCore: React.FC<Props> = props => {
   const { cashflowOnboardingStatus, updateCashflowOnboardingStatus } = props;
   const [saveConfirmation, setSaveConfirmation] = React.useState(false);
   const [isDimensionsUpdated, setIsDimensionsUpdated] = React.useState(false);
@@ -98,9 +104,12 @@ const SkusSettingsCore = (props: Props) => {
         patchExpenseStatus = false;
       }
 
+      const cashflowOnboardingStatusSku = cashflowOnboardingStatus?.find(
+        cost => cost?.step_name === 'sku'
+      );
       if (patchExpenseStatus) {
-        if (cashflowOnboardingStatus) {
-          updateCashflowOnboardingStatus(cashflowOnboardingStatus.id, true);
+        if (cashflowOnboardingStatusSku) {
+          updateCashflowOnboardingStatus(cashflowOnboardingStatusSku.id, true);
         }
         success('Skus successfully saved');
       }
@@ -135,4 +144,18 @@ const SkusSettingsCore = (props: Props) => {
   );
 };
 
-export default SkusSettingsCore;
+const mapStateToProps = (state: any) => {
+  return {
+    cashflowOnboardingStatus: getCashflowOnboardingStatus(state),
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) =>
+      dispatch(updateCashflowOnboardingStatus(onboardingCostId, newStatus)),
+    fetchCashflowOnboardingStatus: () => dispatch(fetchCashflowOnboardingStatus()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SkusSettingsCore);

@@ -1,12 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
+import { connect } from 'react-redux';
 
 /* Styles */
 import styles from './index.module.scss';
 
 /* Components */
-import PaymentTermGroup from '../PaymentTermsGroup';
+import PaymentTermsGroup from '../PaymentTermsGroup';
 import Placeholder from '../../../../../components/Placeholder';
 import { ReactComponent as ThinAddIcon } from '../../../../../assets/images/thinAddIcon.svg';
 import ActionButton from '../../../../../components/ActionButton';
@@ -17,13 +18,18 @@ import { PaymentTerm } from '../../../../../interfaces/PerfectStock/OrderPlannin
 /* Constants */
 import { AppConfig } from '../../../../../config';
 import { error, success } from '../../../../../utils/notifications';
+import { getCashflowOnboardingStatus } from '../../../../../selectors/PerfectStock/Cashflow';
+import {
+  fetchCashflowOnboardingStatus,
+  updateCashflowOnboardingStatus,
+} from '../../../../../actions/PerfectStock/Home';
 
 interface Props {
-  cashflowOnboardingStatus: any;
+  cashflowOnboardingStatus: any[];
   updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) => void;
 }
 
-const PaymentTerms = (props: Props) => {
+const PaymentTermsCore: React.FC<Props> = props => {
   const { cashflowOnboardingStatus, updateCashflowOnboardingStatus } = props;
   const [paymentTermGroups, setPaymentTermGroups] = React.useState<PaymentTerm[]>([]);
   React.useState<boolean>(true);
@@ -124,6 +130,7 @@ const PaymentTerms = (props: Props) => {
 
   React.useEffect(() => {
     fetchPaymentTermGroups();
+    fetchCashflowOnboardingStatus();
   }, []);
 
   return (
@@ -132,8 +139,10 @@ const PaymentTerms = (props: Props) => {
         {paymentTermsLoading && <Placeholder numberParagraphs={3} numberRows={5} isGrey />}
         {!paymentTermsLoading &&
           paymentTermGroups.map((paymentTerm: PaymentTerm) => (
-            <PaymentTermGroup
-              cashflowOnboardingStatus={cashflowOnboardingStatus}
+            <PaymentTermsGroup
+              cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
+                cost => cost?.step_name === 'payment_terms'
+              )}
               updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
               key={paymentTerm.indexIdentifier}
               fetchPaymentTermGroups={fetchPaymentTermGroups}
@@ -157,4 +166,18 @@ const PaymentTerms = (props: Props) => {
   );
 };
 
-export default PaymentTerms;
+const mapStateToProps = (state: any) => {
+  return {
+    cashflowOnboardingStatus: getCashflowOnboardingStatus(state),
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) =>
+      dispatch(updateCashflowOnboardingStatus(onboardingCostId, newStatus)),
+    fetchCashflowOnboardingStatus: () => dispatch(fetchCashflowOnboardingStatus()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PaymentTermsCore);

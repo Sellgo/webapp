@@ -5,7 +5,7 @@ import styles from './index.module.scss';
 
 /* Components */
 import PaymentTermsMeta from '../PaymentTerms/PaymentTermsMeta';
-//import PaymentTermsCore from '../PaymentTerms/PaymentTermsCore';
+import PaymentTermsCore from '../PaymentTerms/PaymentTermsCore';
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
 import ElevioArticle from '../../../../components/ElevioArticle';
@@ -33,7 +33,9 @@ const PaymentTerms = (props: Props) => {
       <div className={styles.leadTime}>
         <PaymentTermsMeta />
         <div className={styles.settingsPageWrapper}>
-          <div className={styles.settingsTableWrapper}>{/*<PaymentTermsCore />*/}</div>
+          <div className={styles.settingsTableWrapper}>
+            <PaymentTermsCore />
+          </div>
         </div>
       </div>
       <BoxContainer className={styles.elevioArticle}>

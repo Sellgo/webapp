@@ -19,8 +19,8 @@ import PpcExpensesSettings from './Cashflow/Settings/PpcExpenses';
 import MiscExpensesSettings from './Cashflow/Settings/MiscExpenses';
 import ReconcileSettings from './Cashflow/Settings/ReconcileSettings';
 import DaysOfInventorySettings from '../Settings/PerfectStockSettings/DaysOfInventory/DaysOfInventoryCore';
-import SkuSettings from '../Settings/PerfectStockSettings/SkuSettings/SkuSettingsCore';
-import PaymentTermsSettings from '../Settings/PerfectStockSettings/PaymentTerms/PaymentTermsCore';
+//import SkuSettings from '../Settings/PerfectStockSettings/SkuSettings/SkuSettingsCore';
+//import PaymentTermsSettings from '../Settings/PerfectStockSettings/PaymentTerms/PaymentTermsCore';
 //import DutyTaxSettings from '../Settings/PerfectStockSettings/DutyTax/DutyTaxCore';
 
 /* Components */
@@ -297,12 +297,12 @@ const PerfectStock: React.FC<Props> = props => {
             </TabPanel>
 
             <TabPanel>
-              <SkuSettings
+              {/*<SkuSettings
                 cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
                   cost => cost?.step_name === 'sku'
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
-              />
+                />*/}
             </TabPanel>
 
             <TabPanel>
@@ -315,12 +315,12 @@ const PerfectStock: React.FC<Props> = props => {
             </TabPanel>
 
             <TabPanel>
-              <PaymentTermsSettings
+              {/*<PaymentTermsSettings
                 cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
                   cost => cost?.step_name === 'payment_terms'
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
-              />
+                />*/}
             </TabPanel>
 
             <TabPanel>

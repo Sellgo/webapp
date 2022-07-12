@@ -4,8 +4,8 @@ import React from 'react';
 import styles from './index.module.scss';
 
 /* Components */
-import DaysOfInventoryMeta from '../DaysOfInventory/DaysOfInventoryMeta';
-import DaysOfInventoryCore from '../DaysOfInventory/DaysOfInventoryCore';
+import DaysOfInventoryMeta from './DaysOfInventoryMeta';
+import DaysOfInventoryCore from './DaysOfInventoryCore';
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
 import ElevioArticle from '../../../../components/ElevioArticle';

@@ -36,7 +36,7 @@ interface Props {
   updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) => void;
 }
 
-const LeadTimeGroup = (props: Props) => {
+const PaymentTermsGroup: React.FC<Props> = props => {
   const {
     initialPaymentTerm,
     handleDeletePaymentTermGroup,
@@ -324,4 +324,4 @@ const LeadTimeGroup = (props: Props) => {
   );
 };
 
-export default LeadTimeGroup;
+export default PaymentTermsGroup;
