@@ -62,9 +62,29 @@ export const setSubChartSettings = (payload: SubChartSettings) => {
 export const fetchTopGraph = (granularity?: number) => async (dispatch: any) => {
   dispatch(isLoadingTopChart(true));
   try {
+    const now = new Date();
+    const numOfWeeks =
+      granularity === 1
+        ? 1
+        : granularity === 7
+        ? 4
+        : granularity === 14
+        ? 12
+        : granularity === 30
+        ? 52
+        : 1;
+    const end_date = now.setDate(now.getDate() + numOfWeeks * 7);
+
+    const dates =
+      `?start_date=` +
+      `${new Date().toISOString().slice(0, 10)}` +
+      `&end_date=${new Date(end_date).toISOString().slice(0, 10)}`;
+
     const url =
       `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/cash-flow-chart` +
-      `${granularity ? `?granularity=${granularity}` : ''}`;
+      `${dates}` +
+      `${granularity ? `&granularity=${granularity}` : ''}`;
+
     const { data } = await axios.get(url);
     if (data) {
       const mainGraph = data[0];
