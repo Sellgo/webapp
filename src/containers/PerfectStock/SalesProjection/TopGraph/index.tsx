@@ -11,6 +11,7 @@ import {
   getGranularityLabel,
   getGranularityValue,
 } from '../../../../constants/PerfectStock/Cashflow';
+import AiStockImg from '../../../../assets/images/backgroundChart.png';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -38,6 +39,7 @@ const SalesProjectionGraph = (props: Props) => {
         chart: {
           renderTo: 'sales-projection-graph',
           type: 'line',
+          plotBackgroundImage: AiStockImg,
         },
 
         title: {
