@@ -31,7 +31,7 @@ import salesProjectionReducer from './PerfectStock/SalesProjection';
 import orderPlanningReducer from './PerfectStock/OrderPlanning';
 import tplReducer from './PerfectStock/Tpl';
 import homeReducer from './PerfectStock/Home';
-import TeamLeadReducer from './PerfectStock/TeamLead';
+import LeadTimeReducer from './PerfectStock/LeadTime';
 
 const rootReducer = combineReducers({
   settings: settingsReducer,
@@ -65,7 +65,7 @@ const rootReducer = combineReducers({
   orderPlanning: orderPlanningReducer,
   tpl: tplReducer,
   home: homeReducer,
-  teamLead: TeamLeadReducer,
+  leadTime: LeadTimeReducer,
 });
 
 export default rootReducer;

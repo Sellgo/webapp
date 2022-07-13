@@ -26,20 +26,20 @@ import { error } from '../../../../utils/notifications';
 /* Selectors */
 import {
   getRefreshProgress,
-  getIsFetchingProgressForTeamLeadJob,
-} from '../../../../selectors/PerfectStock/TeamLead';
+  getIsFetchingProgressForLeadTimeJob,
+} from '../../../../selectors/PerfectStock/LeadTime';
 
 /* Actions */
-import { fetchRefreshProgress } from '../../../../actions/PerfectStock/TeamLead';
+import { fetchRefreshProgress } from '../../../../actions/PerfectStock/LeadTime';
 
 interface Props {
   match: any;
   refreshProgress: number;
-  isFetchingProgressForTeamLeadJob: boolean;
+  isFetchingProgressForLeadTimeJob: boolean;
   fetchRefreshProgress: () => void;
 }
 const LeadTime = (props: Props) => {
-  const { match, refreshProgress, isFetchingProgressForTeamLeadJob, fetchRefreshProgress } = props;
+  const { match, refreshProgress, isFetchingProgressForLeadTimeJob, fetchRefreshProgress } = props;
 
   const [leadTimeGroups, setLeadTimeGroups] = React.useState<SingleLeadTimeGroup[]>([]);
   const [isFetchLeadTimeGroupsLoading, setFetchLeadTimeGroupsLoading] = React.useState<boolean>(
@@ -151,7 +151,7 @@ const LeadTime = (props: Props) => {
       <ProgressBar
         fetchProgress={fetchRefreshProgress}
         progress={refreshProgress}
-        shouldFetchProgress={isFetchingProgressForTeamLeadJob}
+        shouldFetchProgress={isFetchingProgressForLeadTimeJob}
       />
       <PageHeader
         title={'Lead Time'}
@@ -193,7 +193,7 @@ const LeadTime = (props: Props) => {
 
 const mapStateToProps = (state: any) => ({
   refreshProgress: getRefreshProgress(state),
-  isFetchingProgressForTeamLeadJob: getIsFetchingProgressForTeamLeadJob(state),
+  isFetchingProgressForLeadTimeJob: getIsFetchingProgressForLeadTimeJob(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {

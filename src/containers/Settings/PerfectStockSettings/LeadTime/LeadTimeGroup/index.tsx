@@ -30,14 +30,14 @@ import { LEAD_TIME_OPTIONS } from '../../../../../constants/PerfectStock';
 
 /* Selectors */
 
-import { getIsFetchingProgressForTeamLeadJob } from '../../../../../selectors/PerfectStock/TeamLead';
+import { getIsFetchingProgressForLeadTimeJob } from '../../../../../selectors/PerfectStock/LeadTime';
 
 /* Actions */
-import { refreshTeamLeadProjection } from '../../../../../actions/PerfectStock/TeamLead';
+import { refreshLeadTimeProjection } from '../../../../../actions/PerfectStock/LeadTime';
 interface Props {
   initialLeadTimeGroup: SingleLeadTimeGroup;
-  isFetchingProgressForTeamLeadJob: boolean;
-  refreshTeamLeadProjection: (perfect_stock_job_id: number) => void;
+  isFetchingProgressForLeadTimeJob: boolean;
+  refreshLeadTimeProjection: (perfect_stock_job_id: number) => void;
   handleDeleteLeadTimeGroup: (indexIdentifier: string) => void;
   fetchLeadTimeGroups: () => void;
   setInitialLeadTimeGroup: (value: SingleLeadTimeGroup) => void;
@@ -49,8 +49,8 @@ const LeadTimeGroup = (props: Props) => {
     handleDeleteLeadTimeGroup,
     fetchLeadTimeGroups,
     setInitialLeadTimeGroup,
-    isFetchingProgressForTeamLeadJob,
-    refreshTeamLeadProjection,
+    isFetchingProgressForLeadTimeJob,
+    refreshLeadTimeProjection,
   } = props;
   /* Modal State */
 
@@ -118,7 +118,6 @@ const LeadTimeGroup = (props: Props) => {
         ...newLeadTimeGroup,
         refresh_related_data: true,
       };
-      console.log('NEW LEAD TIME GROUP >> ', payload);
       if (payload.id) {
         res = await axios.patch(url, payload);
       } else {
@@ -133,7 +132,7 @@ const LeadTimeGroup = (props: Props) => {
           id: data.id,
         };
         if (data.perfect_stock_job_id >= 0) {
-          refreshTeamLeadProjection(data.perfect_stock_job_id);
+          refreshLeadTimeProjection(data.perfect_stock_job_id);
         }
         setNewLeadTimeGroup(savedLeadTimeGroup);
         setInitialLeadTimeGroup(savedLeadTimeGroup);
@@ -337,7 +336,7 @@ const LeadTimeGroup = (props: Props) => {
                 size="md"
                 className={styles.resetButton}
                 onClick={handleCancel}
-                disabled={isFetchingProgressForTeamLeadJob}
+                disabled={isFetchingProgressForLeadTimeJob}
               >
                 Cancel
               </ActionButton>
@@ -349,7 +348,7 @@ const LeadTimeGroup = (props: Props) => {
                   setIsSave(true);
                 }}
                 disabled={showError}
-                loading={isFetchingProgressForTeamLeadJob}
+                loading={isFetchingProgressForLeadTimeJob}
               >
                 Save
               </ActionButton>
@@ -381,13 +380,13 @@ const LeadTimeGroup = (props: Props) => {
 };
 
 const mapStateToProps = (state: any) => ({
-  isFetchingProgressForTeamLeadJob: getIsFetchingProgressForTeamLeadJob(state),
+  isFetchingProgressForLeadTimeJob: getIsFetchingProgressForLeadTimeJob(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    refreshTeamLeadProjection: (perfect_stock_job_id: number) =>
-      dispatch(refreshTeamLeadProjection(perfect_stock_job_id)),
+    refreshLeadTimeProjection: (perfect_stock_job_id: number) =>
+      dispatch(refreshLeadTimeProjection(perfect_stock_job_id)),
   };
 };
 
