@@ -245,6 +245,7 @@ const OrderPlanningMeta = (props: Props) => {
                       }}
                       showOneCalendar
                       disabled={!(selectedExportType === 2)}
+                      preventOverflow
                     />
                   </div>
                   <div
@@ -271,6 +272,7 @@ const OrderPlanningMeta = (props: Props) => {
                       }}
                       showOneCalendar
                       disabled={!(selectedExportType === 3)}
+                      preventOverflow
                     />
                   </div>
                   <ActionButton

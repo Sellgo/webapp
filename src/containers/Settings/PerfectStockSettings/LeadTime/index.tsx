@@ -136,7 +136,7 @@ const LeadTime = (props: Props) => {
   }, []);
 
   return (
-    <main className={styles.leadTimeWrapper}>
+    <main className={styles.settingWrapper}>
       <PageHeader
         title={'Lead Time'}
         breadcrumb={[
@@ -147,7 +147,7 @@ const LeadTime = (props: Props) => {
         auth={match.params.auth}
       />
       <SettingsNav match={match} />
-      <div className={styles.leadTime}>
+      <div className={styles.settingPerimeter}>
         <LeadTimeMeta />
         {isFetchLeadTimeGroupsLoading && <Placeholder numberParagraphs={3} numberRows={5} isGrey />}
         {!isFetchLeadTimeGroupsLoading &&
@@ -168,7 +168,7 @@ const LeadTime = (props: Props) => {
           onClick={handleAddLeadTimeGroup}
         >
           <ThinAddIcon />
-          <span>Add Lead Time Group</span>
+          <span>Add lead time group</span>
         </ActionButton>
       </div>
       <BoxContainer className={styles.elevioArticle}>

@@ -317,7 +317,7 @@ export const RECONCILE_SETTINGS_OPTIONS: Column[] = [
 export const SETTINGS_OPTIONS = [
   {
     name: 'Employee Expenses',
-    url: '/aistock/home-expenses-settings',
+    url: '/settings/aistock/employee-expenses-settings',
     disabled: false,
   },
   {
@@ -340,7 +340,7 @@ export const SETTINGS_OPTIONS = [
 export const ONBOARDING_STATUS_MAPPING: any = {
   employee: {
     title: 'Employee Costs',
-    to: '/aistock/home-expenses-settings',
+    to: '/settings/aistock/employee-expenses-settings',
   },
   ppc: {
     title: 'PPC Costs',

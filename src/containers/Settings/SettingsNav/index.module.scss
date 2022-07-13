@@ -3,9 +3,10 @@
 .settingsNav {
   display: flex;
   flex-direction: column;
-  margin-left: 10px;
-  margin-right: 30px;
+  margin-left: 0;
+  margin-right: 0;
   height: 100%;
+  min-width: 230px;
   width: max-content;
 }
 
@@ -24,7 +25,7 @@
 }
 
 .settingsPagesMenu {
-  margin-top: 50px;
+  margin-top: 70px;
   display: flex;
   flex-direction: column;
   width: 100px;
@@ -45,10 +46,10 @@
 
 .settingPageOption {
   margin-right: 10px;
-  width: 150px;
+  width: 200px;
   display: flex;
   align-items: center;
-  padding-left: 10px;
+  padding-left: 0;
   min-height: 35px;
   border-radius: 7px;
   color: $grey_8;

@@ -9,7 +9,7 @@ import styles from './index.module.scss';
 const LeadTimeMeta = () => {
   return (
     <>
-      <div className={styles.leadTimeMetaTitle}>
+      <div className={styles.settingMetaTitle}>
         <HourGlassIcon />
         &nbsp;&nbsp;Order Planning - Contianer
       </div>

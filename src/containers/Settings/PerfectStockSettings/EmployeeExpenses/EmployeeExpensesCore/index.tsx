@@ -1,96 +1,135 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
-import { Radio } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 /* Styles */
 import styles from './index.module.scss';
 
 /* Components */
-import InputFilter from '../../../../../components/FormFilters/InputFilter';
-import ActionButton from '../../../../../components/ActionButton';
+import SettingsInputTable from '../../../../../components/SettingsInputTable';
 
 /* Constants */
 import { AppConfig } from '../../../../../config';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
 import { error, success } from '../../../../../utils/notifications';
+import { getCashflowOnboardingStatus } from '../../../../../selectors/PerfectStock/Cashflow';
+import {
+  fetchCashflowOnboardingStatus,
+  updateCashflowOnboardingStatus,
+} from '../../../../../actions/PerfectStock/Home';
+import { EXPENSES_SETTINGS_COLUMNS } from '../../../../../constants/PerfectStock/Cashflow';
 
-const DaysOfInventoryCore = () => {
-  const [daysOfInventory, setDaysOfInventory] = React.useState('');
+interface Props {
+  cashflowOnboardingStatus: any[];
+  updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) => void;
+  fetchCashflowOnboardingStatus: () => void;
+}
+
+const EmployeeExpensesCore = (props: Props) => {
+  const {
+    cashflowOnboardingStatus,
+    updateCashflowOnboardingStatus,
+    fetchCashflowOnboardingStatus,
+  } = props;
   const sellerID = localStorage.getItem('userId');
 
   /* Fetches all the triggers from backend */
-  const fetchDaysOfInventory = async () => {
+  const fetchExpenses = async () => {
     try {
-      const { status, data } = await axios.get(
-        `${AppConfig.BASE_URL_API}sellers/${sellerID}/perfect-stock/config`
+      const { data } = await axios.get(
+        `${AppConfig.BASE_URL_API}sellers/${sellerID}/expense-configs`
       );
 
-      if (status === 200) {
-        setDaysOfInventory(data.expected_sales_days_count || '');
+      if (data && data.length > 0) {
+        return data.filter((data: any) => data.type === 'employee');
       }
     } catch (err) {
-      setDaysOfInventory('');
       console.error(err);
     }
     return [];
   };
 
-  const handleSave = async () => {
-    if (!daysOfInventory) {
-      error('Please enter a valid days of inventory');
-      return;
-    }
+  useEffect(() => {
+    fetchCashflowOnboardingStatus();
+  }, []);
 
+  const handleSave = async (expenses: any[]) => {
     try {
-      const payload = {
-        expected_sales_days_count: daysOfInventory,
-      };
-      const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/perfect-stock/config`;
+      let patchExpenseStatus = true;
+      let postExpenseStatus = true;
 
-      const { status } = await axios.patch(url, payload);
-      if (status === 200) {
-        success('Days of inventory successfully saved');
+      /* New expenses */
+      const newExpenses = expenses.filter((expense: any) => {
+        return expense.isNew;
+      });
+      const newExpensesPayload = newExpenses.map((expense: any) => {
+        return {
+          ...expense,
+          id: null,
+          type: 'employee',
+          status: 'active',
+        };
+      });
+      const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/expense-configs`;
+
+      if (newExpensesPayload.length > 0) {
+        const { status } = await axios.post(url, { expense_configs: newExpensesPayload });
+        if (status !== 201) {
+          postExpenseStatus = false;
+        }
+      }
+
+      /* Patching current expenses */
+      const currentExpenses = expenses.filter((expense: any) => {
+        return !expense.isNew;
+      });
+
+      if (currentExpenses.length > 0) {
+        const { status } = await axios.patch(url, { expense_configs: currentExpenses });
+        if (status !== 200) {
+          patchExpenseStatus = false;
+        }
+      }
+
+      const cashflowOnboardingStatusEmployeeExpenses = cashflowOnboardingStatus?.find(
+        cost => cost?.step_name === 'employee'
+      );
+
+      if (patchExpenseStatus && postExpenseStatus) {
+        if (cashflowOnboardingStatusEmployeeExpenses) {
+          updateCashflowOnboardingStatus(cashflowOnboardingStatusEmployeeExpenses.id, true);
+        }
+        success('Expenses successfully saved');
       }
     } catch (err) {
-      error('Failed to save days of inventory');
+      error('Failed to save expenses');
       console.error(err);
     }
   };
 
-  React.useEffect(() => {
-    fetchDaysOfInventory();
-  }, []);
-
   return (
     <div className={styles.settingsTableRow}>
-      <div className={styles.daysOfInventorySettingsBox}>
-        <div className={styles.daysOfInventoryRow}>
-          <Radio checked />
-          &nbsp; At all times &nbsp;
-          <InputFilter
-            placeholder={''}
-            value={daysOfInventory}
-            handleChange={setDaysOfInventory}
-            isNumber
-            isInteger
-            isPositiveOnly
-            className={styles.input}
-          />
-          &nbsp; days
-        </div>
-        <ActionButton
-          className={styles.applyButton}
-          variant="secondary"
-          type="purpleGradient"
-          size="md"
-          onClick={handleSave}
-          disabled={false}
-        >
-          Apply
-        </ActionButton>
-      </div>
+      <SettingsInputTable
+        tableColumns={EXPENSES_SETTINGS_COLUMNS}
+        fetchData={fetchExpenses}
+        handleSave={handleSave}
+      />
     </div>
   );
 };
 
-export default DaysOfInventoryCore;
+const mapStateToProps = (state: any) => {
+  return {
+    cashflowOnboardingStatus: getCashflowOnboardingStatus(state),
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) =>
+      dispatch(updateCashflowOnboardingStatus(onboardingCostId, newStatus)),
+    fetchCashflowOnboardingStatus: () => dispatch(fetchCashflowOnboardingStatus()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EmployeeExpensesCore);

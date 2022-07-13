@@ -4,8 +4,8 @@ import React from 'react';
 import styles from './index.module.scss';
 
 /* Components */
-import SkuSettingsMeta from '../SkuSettings/SkuSettingsMeta';
-import SkuSettingsCore from '../SkuSettings/SkuSettingsCore';
+import SkuSettingsMeta from './SkuSettingsMeta';
+import SkuSettingsCore from './SkuSettingsCore';
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
 import ElevioArticle from '../../../../components/ElevioArticle';
@@ -19,9 +19,9 @@ const SkuSettings = (props: Props) => {
   const { match } = props;
 
   return (
-    <main className={styles.leadTimeWrapper}>
+    <main className={styles.settingWrapper}>
       <PageHeader
-        title={'Lead Time'}
+        title={'SKU Settings'}
         breadcrumb={[
           { content: 'Home', to: '/' },
           { content: 'AiStock' },
@@ -30,7 +30,7 @@ const SkuSettings = (props: Props) => {
         auth={match.params.auth}
       />
       <SettingsNav match={match} />
-      <div className={styles.leadTime}>
+      <div className={styles.settingPerimeter}>
         <SkuSettingsMeta />
         <div className={styles.settingsPageWrapper}>
           <div className={styles.settingsTableWrapper}>

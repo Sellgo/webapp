@@ -140,7 +140,7 @@ const SettingsInputTable = (props: Props) => {
           <div className={styles.buttonsRow}>
             {!disableCreateNew && (
               <button onClick={handleAddNewEntry} className={styles.addButton}>
-                + Add Expense
+                + Add new item
               </button>
             )}
             <ActionButton

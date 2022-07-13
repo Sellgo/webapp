@@ -4,8 +4,8 @@ import React from 'react';
 import styles from './index.module.scss';
 
 /* Components */
-import DaysOfInventoryMeta from '../DaysOfInventory/DaysOfInventoryMeta';
-import DaysOfInventoryCore from '../DaysOfInventory/DaysOfInventoryCore';
+import EmployeeExpensesMeta from './EmployeeExpensesMeta';
+import EmployeeExpensesCore from './EmployeeExpensesCore';
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
 import ElevioArticle from '../../../../components/ElevioArticle';
@@ -15,11 +15,11 @@ interface Props {
   match: any;
 }
 
-const DaysOfInventory = (props: Props) => {
+const EmployeeExpenses = (props: Props) => {
   const { match } = props;
 
   return (
-    <main className={styles.leadTimeWrapper}>
+    <main className={styles.settingWrapper}>
       <PageHeader
         title={'Lead Time'}
         breadcrumb={[
@@ -30,11 +30,11 @@ const DaysOfInventory = (props: Props) => {
         auth={match.params.auth}
       />
       <SettingsNav match={match} />
-      <div className={styles.leadTime}>
-        <DaysOfInventoryMeta />
+      <div className={styles.settingPerimeter}>
+        <EmployeeExpensesMeta />
         <div className={styles.settingsPageWrapper}>
           <div className={styles.settingsTableWrapper}>
-            <DaysOfInventoryCore />
+            <EmployeeExpensesCore />
           </div>
         </div>
       </div>
@@ -46,4 +46,4 @@ const DaysOfInventory = (props: Props) => {
   );
 };
 
-export default DaysOfInventory;
+export default EmployeeExpenses;

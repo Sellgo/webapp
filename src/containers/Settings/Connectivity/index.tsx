@@ -16,7 +16,7 @@ const Connectivity = (props: Props) => {
         breadcrumb={[
           { content: 'Home', to: '/' },
           { content: 'Settings' },
-          { content: 'Connectivity' },
+          { content: 'Amazon SP-API Connectivity' },
         ]}
         auth={match.params.auth}
       />
