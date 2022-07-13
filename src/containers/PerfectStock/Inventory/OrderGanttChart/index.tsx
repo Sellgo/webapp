@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import { Modal, Dimmer, Loader, Confirm, Icon } from 'semantic-ui-react';
 
 /* Components */
@@ -35,6 +36,7 @@ import {
   getTimeSetting,
 } from '../../../../selectors/PerfectStock/OrderPlanning';
 
+import { sellerIDSelector } from '../../../../selectors/Seller';
 /* Types */
 import {
   AutoGeneratePurchaseOrderPayload,
@@ -49,6 +51,8 @@ import { LeadTime } from '../../../../interfaces/PerfectStock/SalesProjection';
 /* Utils */
 import { getDateOnly } from '../../../../utils/date';
 import history from '../../../../history';
+import { downloadFile } from '../../../../utils/download';
+import { AppConfig } from '../../../../config';
 
 /* Constants */
 import {
@@ -59,7 +63,7 @@ import {
   EMPTY_GANTT_CHART_PURCHASE_ORDER,
 } from '../../../../constants/PerfectStock/OrderPlanning';
 import { getLeadTimeColor, getLeadTimeName } from '../../../../constants/PerfectStock';
-import { info } from '../../../../utils/notifications';
+import { info, error, success } from '../../../../utils/notifications';
 
 type IOption = {
   key: string;
@@ -422,6 +426,28 @@ const OrderGanttChart = (props: Props) => {
     }
   };
 
+  const exportPurchaseOrder = async (id: number) => {
+    if (!(id >= 0)) {
+      return;
+    }
+    try {
+      const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/perfect-stock/export`;
+      const payload: any = {
+        type: 'po',
+        purchase_order_id: id,
+      };
+      const { data } = await axios.post(url, payload);
+      const exportUrl = data.report_xlsx_url;
+      if (exportUrl) {
+        await downloadFile(exportUrl);
+      }
+      success('File successfully downloaded');
+    } catch (err) {
+      error('Failed to export file');
+      console.error(err);
+    }
+  };
+
   const handleDeleteSelectedTasks = () => {
     const purchaseOrderIds = checkedPurchaseOrders.map(
       (purchaseOrder: GanttChartPurchaseOrder) => purchaseOrder.id
@@ -491,6 +517,9 @@ const OrderGanttChart = (props: Props) => {
                   (purchaseOrder: PurchaseOrder) => purchaseOrder.id === id
                 )?.is_included,
               });
+            }}
+            exportPurchaseOrder={(id: number) => {
+              exportPurchaseOrder(id);
             }}
             isDraftMode={isDraftMode}
             generateNextOrder={handleGenerateNextOrderClick}
