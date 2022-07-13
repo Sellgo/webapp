@@ -1,0 +1,60 @@
+{
+  "products": [
+    {
+      "type": "Monthly and Annual Plans",
+      "slug": "/pricing",
+      "data": [
+        {
+          "question": "Is the trial really free?",
+          "answer": "Yes. AiStock doesn't require your credit card info in order to start a trial. You won't be charged until you upgrade by providing your payment information."
+        },
+        {
+          "question": "Do you restrict features while on free trial?",
+          "answer": "Unlimited inventory orders are not available during your free trial. Other than that, you have free rein to use all of AiStock's features."
+        },
+        {
+          "question": "What happens when my free trial expires?",
+          "answer": "After 14 days you will be prompted to upgrade to a paid plan and enter your credit card information."
+        },
+        {
+          "question": "Do I need to have an Amazon store to use AiStock?",
+          "answer": "Yes. You will need to connect your Amazon store to AiStock, we are built specifically for Amazon and you will get the most out of our platform by connecting your Amazon account."
+        },
+        {
+          "question": "Is my Amazon data secure with AiStock?",
+          "answer": "AiStock are committed to maintaining the highest standard for security in order that your valuable data can be kept safe and secure at channel and at storage. We promise that we will never share your data with others."
+        },
+        {
+          "question": "How does pricing work?",
+          "answer": "Your cost is based on the volume of unit sold per month in your Amazon account, and the number of users in your account."
+        },
+        {
+          "question": "Can I cancel anytime?",
+          "answer": "Yes. Cancel your subscription anytime in your Billing Settings."
+        },
+        {
+          "question": "Can I upgrade before my trial is over?",
+          "answer": "You sure can! Upgrade at any time under Settings > Billing. After you enter your CC info you will have access to unlimited inventory orders."
+        },
+        {
+          "question": "What's the setup process like?",
+          "answer": "We've made the setup as painless as possible. It's a simple three-step process: connect your Amazon store to AiStock, wait until the white-glove migration is completed, and activate your lead time and smart order workflow. Then it's off to the races."
+        },
+        {
+          "question": "When will I get charged for my trial?",
+          "answer": "Becuse we don't ask for your CC info in order to take a trial, your card won't get charged unless you choose to upgrade your account. However, if you don't upgrade your account and your trial expires, then your account will become inactive and any active automation will be paused until you upgrade. You can upgrade by going into Settings > Billing at any time."
+        },
+        {
+          "question": "I just want to see how AiStock works.",
+          "answer": "Absolutely. Sign up for a free trial to see AiStock in action."
+        },
+        {
+          "question": "What type of support is offered?",
+          "answer": "All paying AiStock customers have access to email support from 9am to 5pm PT, Monday through Friday. AiStock customers on the $99/mo + plans have accesss to live chat support fro 9am to 5pm PT, Monday through Friday."
+        }
+      ]
+    }
+  ],
+
+  "bundles": []
+}
