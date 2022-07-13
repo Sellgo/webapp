@@ -156,7 +156,7 @@ const AdminHeader = (props: Props) => {
             </Dropdown.Item>
             <Dropdown.Item
               as={Link}
-              to="/settings/sp-connectivity"
+              to="/settings/sp-api-connectivity"
               className="dropdownItem"
               disabled={isBeta || !isAiStock}
             >

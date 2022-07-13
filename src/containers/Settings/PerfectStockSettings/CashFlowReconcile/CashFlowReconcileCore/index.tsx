@@ -17,7 +17,7 @@ import {
   fetchCashflowOnboardingStatus,
   updateCashflowOnboardingStatus,
 } from '../../../../../actions/PerfectStock/Home';
-import { EXPENSES_SETTINGS_COLUMNS } from '../../../../../constants/PerfectStock/Cashflow';
+import { RECONCILE_SETTINGS_OPTIONS } from '../../../../../constants/PerfectStock/Cashflow';
 
 interface Props {
   cashflowOnboardingStatus: any[];
@@ -25,20 +25,17 @@ interface Props {
   fetchCashflowOnboardingStatus: () => void;
 }
 
-const EmployeeExpensesCore = (props: Props) => {
+const CashFlowReconcileCore = (props: Props) => {
   const { cashflowOnboardingStatus, updateCashflowOnboardingStatus } = props;
   const sellerID = localStorage.getItem('userId');
 
-  /* Fetches all the triggers from backend */
   const fetchExpenses = async () => {
     try {
       const { data } = await axios.get(
-        `${AppConfig.BASE_URL_API}sellers/${sellerID}/expense-configs`
+        `${AppConfig.BASE_URL_API}sellers/${sellerID}/cash-flow/reconcile`
       );
 
-      if (data && data.length > 0) {
-        return data.filter((data: any) => data.type === 'employee');
-      }
+      return data;
     } catch (err) {
       console.error(err);
     }
@@ -58,14 +55,13 @@ const EmployeeExpensesCore = (props: Props) => {
         return {
           ...expense,
           id: null,
-          type: 'employee',
           status: 'active',
         };
       });
-      const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/expense-configs`;
+      const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/cash-flow/reconcile`;
 
       if (newExpensesPayload.length > 0) {
-        const { status } = await axios.post(url, { expense_configs: newExpensesPayload });
+        const { status } = await axios.post(url, { cash_credits: newExpensesPayload });
         if (status !== 201) {
           postExpenseStatus = false;
         }
@@ -77,24 +73,24 @@ const EmployeeExpensesCore = (props: Props) => {
       });
 
       if (currentExpenses.length > 0) {
-        const { status } = await axios.patch(url, { expense_configs: currentExpenses });
+        const { status } = await axios.patch(url, { cash_credits: currentExpenses });
         if (status !== 200) {
           patchExpenseStatus = false;
         }
       }
 
-      const cashflowOnboardingStatusEmployeeExpenses = cashflowOnboardingStatus?.find(
-        cost => cost?.step_name === 'employee'
+      const cashflowOnboardingStatusReconcile = cashflowOnboardingStatus?.find(
+        cost => cost?.step_name === 'reconcile'
       );
 
       if (patchExpenseStatus && postExpenseStatus) {
-        if (cashflowOnboardingStatusEmployeeExpenses) {
-          updateCashflowOnboardingStatus(cashflowOnboardingStatusEmployeeExpenses.id, true);
+        if (cashflowOnboardingStatusReconcile) {
+          updateCashflowOnboardingStatus(cashflowOnboardingStatusReconcile.id, true);
         }
-        success('Expenses successfully saved');
+        success('Cash credits successfully saved');
       }
     } catch (err) {
-      error('Failed to save expenses');
+      error('Failed to save cash credits');
       console.error(err);
     }
   };
@@ -102,7 +98,7 @@ const EmployeeExpensesCore = (props: Props) => {
   return (
     <div className={styles.settingsTableRow}>
       <SettingsInputTable
-        tableColumns={EXPENSES_SETTINGS_COLUMNS}
+        tableColumns={RECONCILE_SETTINGS_OPTIONS}
         fetchData={fetchExpenses}
         handleSave={handleSave}
       />
@@ -124,4 +120,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EmployeeExpensesCore);
+export default connect(mapStateToProps, mapDispatchToProps)(CashFlowReconcileCore);

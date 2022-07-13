@@ -6,14 +6,14 @@ import { ReactComponent as HourGlassIcon } from '../../../../../assets/images/ho
 /* Styling */
 import styles from './index.module.scss';
 
-const EmployeeExpensesMeta = () => {
+const PpcExpensesMeta = () => {
   return (
     <>
       <div className={styles.leadTimeMetaTitle}>
         <HourGlassIcon />
-        &nbsp;&nbsp;Employee Expenses Settings
+        &nbsp;&nbsp;PPC Expenses Settings
       </div>
     </>
   );
 };
-export default EmployeeExpensesMeta;
+export default PpcExpensesMeta;

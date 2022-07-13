@@ -25,7 +25,7 @@ interface Props {
   fetchCashflowOnboardingStatus: () => void;
 }
 
-const EmployeeExpensesCore = (props: Props) => {
+const MiscExpensesCore = (props: Props) => {
   const { cashflowOnboardingStatus, updateCashflowOnboardingStatus } = props;
   const sellerID = localStorage.getItem('userId');
 
@@ -37,7 +37,7 @@ const EmployeeExpensesCore = (props: Props) => {
       );
 
       if (data && data.length > 0) {
-        return data.filter((data: any) => data.type === 'employee');
+        return data.filter((data: any) => data.type === 'misc');
       }
     } catch (err) {
       console.error(err);
@@ -58,7 +58,7 @@ const EmployeeExpensesCore = (props: Props) => {
         return {
           ...expense,
           id: null,
-          type: 'employee',
+          type: 'misc',
           status: 'active',
         };
       });
@@ -83,13 +83,13 @@ const EmployeeExpensesCore = (props: Props) => {
         }
       }
 
-      const cashflowOnboardingStatusEmployeeExpenses = cashflowOnboardingStatus?.find(
-        cost => cost?.step_name === 'employee'
+      const cashflowOnboardingStatusMisc = cashflowOnboardingStatus?.find(
+        cost => cost?.step_name === 'misc'
       );
 
       if (patchExpenseStatus && postExpenseStatus) {
-        if (cashflowOnboardingStatusEmployeeExpenses) {
-          updateCashflowOnboardingStatus(cashflowOnboardingStatusEmployeeExpenses.id, true);
+        if (cashflowOnboardingStatusMisc) {
+          updateCashflowOnboardingStatus(cashflowOnboardingStatusMisc.id, true);
         }
         success('Expenses successfully saved');
       }
@@ -124,4 +124,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EmployeeExpensesCore);
+export default connect(mapStateToProps, mapDispatchToProps)(MiscExpensesCore);

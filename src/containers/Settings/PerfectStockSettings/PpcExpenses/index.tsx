@@ -4,8 +4,8 @@ import React from 'react';
 import styles from './index.module.scss';
 
 /* Components */
-import EmployeeExpensesMeta from './EmployeeExpensesMeta';
-import EmployeeExpensesCore from './EmployeeExpensesCore';
+import PpcExpensesMeta from './PpcExpensesMeta';
+import PpcExpensesCore from './PpcExpensesCore';
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
 import ElevioArticle from '../../../../components/ElevioArticle';
@@ -15,26 +15,26 @@ interface Props {
   match: any;
 }
 
-const EmployeeExpenses = (props: Props) => {
+const PpcExpenses = (props: Props) => {
   const { match } = props;
 
   return (
     <main className={styles.leadTimeWrapper}>
       <PageHeader
-        title={'Lead Time'}
+        title={'PPC Expenses'}
         breadcrumb={[
           { content: 'Home', to: '/' },
           { content: 'AiStock' },
-          { content: 'Days Of Inventory Settings' },
+          { content: 'PPC Expenses Settings' },
         ]}
         auth={match.params.auth}
       />
       <SettingsNav match={match} />
       <div className={styles.leadTime}>
-        <EmployeeExpensesMeta />
+        <PpcExpensesMeta />
         <div className={styles.settingsPageWrapper}>
           <div className={styles.settingsTableWrapper}>
-            <EmployeeExpensesCore />
+            <PpcExpensesCore />
           </div>
         </div>
       </div>
@@ -46,4 +46,4 @@ const EmployeeExpenses = (props: Props) => {
   );
 };
 
-export default EmployeeExpenses;
+export default PpcExpenses;

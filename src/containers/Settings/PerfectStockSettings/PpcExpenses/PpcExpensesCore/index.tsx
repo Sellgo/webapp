@@ -13,11 +13,11 @@ import { AppConfig } from '../../../../../config';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
 import { error, success } from '../../../../../utils/notifications';
 import { getCashflowOnboardingStatus } from '../../../../../selectors/PerfectStock/Cashflow';
+import { PPC_SETTINGS_COLUMNS } from '../../../../../constants/PerfectStock/Cashflow';
 import {
   fetchCashflowOnboardingStatus,
   updateCashflowOnboardingStatus,
 } from '../../../../../actions/PerfectStock/Home';
-import { EXPENSES_SETTINGS_COLUMNS } from '../../../../../constants/PerfectStock/Cashflow';
 
 interface Props {
   cashflowOnboardingStatus: any[];
@@ -25,7 +25,7 @@ interface Props {
   fetchCashflowOnboardingStatus: () => void;
 }
 
-const EmployeeExpensesCore = (props: Props) => {
+const PpcExpensesCore = (props: Props) => {
   const { cashflowOnboardingStatus, updateCashflowOnboardingStatus } = props;
   const sellerID = localStorage.getItem('userId');
 
@@ -37,7 +37,7 @@ const EmployeeExpensesCore = (props: Props) => {
       );
 
       if (data && data.length > 0) {
-        return data.filter((data: any) => data.type === 'employee');
+        return data.filter((data: any) => data.type === 'ppc');
       }
     } catch (err) {
       console.error(err);
@@ -58,7 +58,7 @@ const EmployeeExpensesCore = (props: Props) => {
         return {
           ...expense,
           id: null,
-          type: 'employee',
+          type: 'ppc',
           status: 'active',
         };
       });
@@ -83,13 +83,13 @@ const EmployeeExpensesCore = (props: Props) => {
         }
       }
 
-      const cashflowOnboardingStatusEmployeeExpenses = cashflowOnboardingStatus?.find(
-        cost => cost?.step_name === 'employee'
+      const cashflowOnboardingStatusPpc = cashflowOnboardingStatus?.find(
+        cost => cost?.step_name === 'ppc'
       );
 
       if (patchExpenseStatus && postExpenseStatus) {
-        if (cashflowOnboardingStatusEmployeeExpenses) {
-          updateCashflowOnboardingStatus(cashflowOnboardingStatusEmployeeExpenses.id, true);
+        if (cashflowOnboardingStatusPpc) {
+          updateCashflowOnboardingStatus(cashflowOnboardingStatusPpc.id, true);
         }
         success('Expenses successfully saved');
       }
@@ -102,7 +102,7 @@ const EmployeeExpensesCore = (props: Props) => {
   return (
     <div className={styles.settingsTableRow}>
       <SettingsInputTable
-        tableColumns={EXPENSES_SETTINGS_COLUMNS}
+        tableColumns={PPC_SETTINGS_COLUMNS}
         fetchData={fetchExpenses}
         handleSave={handleSave}
       />
@@ -124,4 +124,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EmployeeExpensesCore);
+export default connect(mapStateToProps, mapDispatchToProps)(PpcExpensesCore);
