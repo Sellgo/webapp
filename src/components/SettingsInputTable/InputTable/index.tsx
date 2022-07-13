@@ -37,7 +37,7 @@ const InputTable = (props: Props) => {
     <section className={styles.inputTable}>
       <Table
         data={data}
-        height={400}
+        height={680}
         hover={false}
         rowHeight={60}
         headerHeight={55}

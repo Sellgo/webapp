@@ -201,7 +201,7 @@ export const SETTINGS_PAGES = [
   {
     name: 'Amazon SP-API Connectivity',
     disabled: false,
-    url: '/settings/sp-api-connectivity',
+    url: '/settings/sp-connectivity',
     showInSellgo: false,
     showInAistock: true,
     subPages: [],

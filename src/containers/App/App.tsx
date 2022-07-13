@@ -348,11 +348,7 @@ function App() {
             component={SubscriptionPages.Pricing}
           />
           <PrivateRoute exact={true} path="/settings/billing" component={Billing} />
-          <PrivateRoute
-            exact={true}
-            path="/settings/sp-api-connectivity"
-            component={SPConnectivity}
-          />
+          <PrivateRoute exact={true} path="/settings/sp-connectivity" component={SPConnectivity} />
           <PrivateRoute exact={true} path="/settings/sp-api-listener" component={SpApiListener} />
           <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} />
           <PrivateRoute exact={true} path="/settings/profile" component={Profile} />
@@ -379,7 +375,7 @@ function App() {
           />
           <PrivateRoute
             exact={true}
-            path="/settings/aistock/inventory-containers"
+            path="/settings/aistock/container-settings"
             component={Containers}
           />
           <PrivateRoute

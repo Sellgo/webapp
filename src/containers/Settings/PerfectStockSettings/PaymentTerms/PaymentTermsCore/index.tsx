@@ -159,7 +159,7 @@ const PaymentTermsCore: React.FC<Props> = props => {
           onClick={handleAddPaymentTermGroup}
         >
           <ThinAddIcon />
-          <span>Add Payment Term</span>
+          <span>Add payment term</span>
         </ActionButton>
       </div>
     </div>

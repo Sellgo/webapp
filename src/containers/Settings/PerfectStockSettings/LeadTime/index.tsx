@@ -168,7 +168,7 @@ const LeadTime = (props: Props) => {
           onClick={handleAddLeadTimeGroup}
         >
           <ThinAddIcon />
-          <span>Add Lead Time Group</span>
+          <span>Add lead time group</span>
         </ActionButton>
       </div>
       <BoxContainer className={styles.elevioArticle}>
