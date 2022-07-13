@@ -255,16 +255,6 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
-    /*{
-    name: 'Cash Flow: Product Launch Expenses',
-    disabled: false,
-    url: '/settings/aistock/product-launch-expenses-settings',
-    showInSellgo: false,
-    showInAistock: true,
-    subPages: [],
-  },*/
-  },
-  {
     name: 'Cash Flow: Misc Expenses',
     disabled: false,
     url: '/settings/aistock/misc-expenses-settings',

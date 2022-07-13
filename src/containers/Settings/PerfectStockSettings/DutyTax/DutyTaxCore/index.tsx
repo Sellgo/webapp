@@ -79,17 +79,13 @@ const DutyTaxCore: React.FC<Props> = props => {
   };
 
   return (
-    <div className={styles.settingsPageWrapper}>
-      <div className={styles.settingsTableWrapper}>
-        <div className={styles.settingsTableRow}>
-          <SettingsInputTable
-            tableColumns={DUTY_SETTINGS_COLUMNS}
-            fetchData={fetchExpenses}
-            handleSave={handleSave}
-            disableCreateNew
-          />
-        </div>
-      </div>
+    <div className={styles.settingsTableRow}>
+      <SettingsInputTable
+        tableColumns={DUTY_SETTINGS_COLUMNS}
+        fetchData={fetchExpenses}
+        handleSave={handleSave}
+        disableCreateNew
+      />
     </div>
   );
 };
