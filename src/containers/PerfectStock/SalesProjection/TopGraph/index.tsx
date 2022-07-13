@@ -11,7 +11,7 @@ import {
   getGranularityLabel,
   getGranularityValue,
 } from '../../../../constants/PerfectStock/Cashflow';
-import AiStockImg from '../../../../assets/images/aistockLogoBg.png';
+import AiStockImg from '../../../../assets/images/backgroundChart.png';
 
 /* Styling */
 import styles from './index.module.scss';
