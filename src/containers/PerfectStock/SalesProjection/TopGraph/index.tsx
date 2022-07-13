@@ -30,6 +30,7 @@ const SalesProjectionGraph = (props: Props) => {
       yAxis: index,
     };
   });
+
   useEffect(() => {
     const chartMount = document.getElementById('sales-projection-graph');
 
@@ -123,7 +124,7 @@ const SalesProjectionGraph = (props: Props) => {
     <div className={styles.graphWrapper}>
       <InputTabSelection
         isPurple
-        options={GRANULARITIES.map(item => item.text)}
+        options={GRANULARITIES.map((item) => item.text)}
         selectedOption={getGranularityLabel(selectedGranularity)}
         setSelectedOption={(label: string) => {
           setSelectedGranularity(getGranularityValue(label));
