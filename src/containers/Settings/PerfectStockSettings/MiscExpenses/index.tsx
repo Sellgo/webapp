@@ -19,7 +19,7 @@ const MiscExpenses = (props: Props) => {
   const { match } = props;
 
   return (
-    <main className={styles.leadTimeWrapper}>
+    <main className={styles.settingWrapper}>
       <PageHeader
         title={'Misc Expenses'}
         breadcrumb={[
@@ -30,7 +30,7 @@ const MiscExpenses = (props: Props) => {
         auth={match.params.auth}
       />
       <SettingsNav match={match} />
-      <div className={styles.leadTime}>
+      <div className={styles.settingPerimeter}>
         <MiscExpensesMeta />
         <div className={styles.settingsPageWrapper}>
           <div className={styles.settingsTableWrapper}>

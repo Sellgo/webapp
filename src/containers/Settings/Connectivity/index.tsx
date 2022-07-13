@@ -13,11 +13,7 @@ const Connectivity = (props: Props) => {
     <>
       <PageHeader
         title={'Connectivity'}
-        breadcrumb={[
-          { content: 'Home', to: '/' },
-          { content: 'Settings' },
-          { content: 'Connectivity' },
-        ]}
+        breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Settings' }, { content: 'Amazon' }]}
         auth={match.params.auth}
       />
       <main className={styles.connectivityPageWrapper}>

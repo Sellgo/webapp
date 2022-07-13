@@ -16,25 +16,30 @@ interface Props {
 const Connectivity = (props: Props) => {
   const { match, hideSettingsNav } = props;
   return (
-    <>
+    <main className={styles.settingWrapper}>
       <PageHeader
-        title={'Connectivity'}
+        title={'Amazon SP-API Connectivity'}
         breadcrumb={[
           { content: 'Home', to: '/' },
           { content: 'Settings' },
-          { content: 'Connectivity' },
+          { content: 'Amazon SP-API Connectivity' },
         ]}
         auth={match.params.auth}
       />
-      <main className={styles.connectivityPageWrapper}>
-        {!hideSettingsNav && <SettingsNav match={match} />}
-        <SpApiForm />
-        <BoxContainer className={styles.elevioArticle}>
-          <span>Step-By-Step Guide</span>
-          <ElevioArticle articleId={'19'} />
-        </BoxContainer>
-      </main>
-    </>
+
+      {!hideSettingsNav && <SettingsNav match={match} />}
+      <div className={styles.settingPerimeter}>
+        <div className={styles.settingsPageWrapper}>
+          <div className={styles.settingsTableWrapper}>
+            <SpApiForm />
+          </div>
+        </div>
+      </div>
+      <BoxContainer className={styles.elevioArticle}>
+        <span>Step-By-Step Guide</span>
+        <ElevioArticle articleId={'19'} />
+      </BoxContainer>
+    </main>
   );
 };
 

@@ -9,7 +9,7 @@ import styles from './index.module.scss';
 const SkuSettingsMeta = () => {
   return (
     <>
-      <div className={styles.leadTimeMetaTitle}>
+      <div className={styles.settingMetaTitle}>
         <HourGlassIcon />
         &nbsp;&nbsp;SKU Settings
       </div>

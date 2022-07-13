@@ -14,14 +14,14 @@ import MigratingDisplay from './MigratingDisplay';
 import PreMigration from './PreMigration';
 import TPL from './TPL';
 import Home from './Cashflow';
-//import EmployeeExpensesSettings from './Cashflow/Settings/EmployeeExpenses';
-//import PpcExpensesSettings from './Cashflow/Settings/PpcExpenses';
-//import MiscExpensesSettings from './Cashflow/Settings/MiscExpenses';
-//import ReconcileSettings from './Cashflow/Settings/ReconcileSettings';
-//import DaysOfInventorySettings from '../Settings/PerfectStockSettings/DaysOfInventory/DaysOfInventoryCore';
-//import SkuSettings from '../Settings/PerfectStockSettings/SkuSettings/SkuSettingsCore';
-//import PaymentTermsSettings from '../Settings/PerfectStockSettings/PaymentTerms/PaymentTermsCore';
-//import DutyTaxSettings from '../Settings/PerfectStockSettings/DutyTax/DutyTaxCore';
+import EmployeeExpensesSettings from './Cashflow/Settings/EmployeeExpenses';
+import PpcExpensesSettings from './Cashflow/Settings/PpcExpenses';
+import MiscExpensesSettings from './Cashflow/Settings/MiscExpenses';
+import ReconcileSettings from './Cashflow/Settings/ReconcileSettings';
+import DaysOfInventorySettings from './Inventory/Settings/DaysOfInventory';
+import SkuSettings from './Inventory/Settings/SkuSettings';
+import PaymentTermsSettings from './Inventory/Settings/PaymentTerms';
+import DutySettings from './Inventory/Settings/DutySettings';
 
 /* Components */
 import PageHeader from '../../components/PageHeader';
@@ -34,9 +34,10 @@ import { getUserOnboarding, getUserOnboardingResources } from '../../selectors/U
 
 /* Actions */
 import { setUserOnboardingResources } from '../../actions/UserOnboarding';
-import //fetchCashflowOnboardingStatus,
-//updateCashflowOnboardingStatus,
-'../../actions/PerfectStock/Home';
+import {
+  fetchCashflowOnboardingStatus,
+  updateCashflowOnboardingStatus,
+} from '../../actions/PerfectStock/Home';
 
 /* Constants */
 import {
@@ -59,7 +60,7 @@ import orderPlanningEditOnboarding from '../../assets/onboardingResources/Perfec
 
 /* Selectors */
 import { getSellerSubscription } from '../../selectors/Subscription';
-//import { getCashflowOnboardingStatus } from '../../selectors/PerfectStock/Cashflow';
+import { getCashflowOnboardingStatus } from '../../selectors/PerfectStock/Cashflow';
 
 /* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
@@ -70,23 +71,23 @@ interface Props {
   setUserOnboardingResources: (payload: any) => void;
   userOnboarding: boolean;
   userOnboardingResources: any[];
-  //cashflowOnboardingStatus: any[];
+  cashflowOnboardingStatus: any[];
   subscription: SellerSubscription;
-  //updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) => void;
-  //fetchCashflowOnboardingStatus: () => void;
+  updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) => void;
+  fetchCashflowOnboardingStatus: () => void;
 }
 
 const PerfectStock: React.FC<Props> = props => {
   const {
     match,
-    //cashflowOnboardingStatus,
+    cashflowOnboardingStatus,
     setUserOnboardingResources,
     userOnboardingResources,
     userOnboarding,
     history,
     subscription,
-    //updateCashflowOnboardingStatus,
-    //fetchCashflowOnboardingStatus,
+    updateCashflowOnboardingStatus,
+    fetchCashflowOnboardingStatus,
   } = props;
 
   const [selectedTabList, setSelectedTabList] = useState<number>(0);
@@ -130,11 +131,9 @@ const PerfectStock: React.FC<Props> = props => {
     }
   }, [selectedTabList]);
 
-  {
-    /*useEffect(() => {
+  useEffect(() => {
     fetchCashflowOnboardingStatus();
-  }, []);*/
-  }
+  }, []);
 
   /* User onboarding logic */
   const tutorialOnboardingDetails = userOnboardingResources[GENERAL_TUTORIAL_INDEX] || {};
@@ -293,68 +292,70 @@ const PerfectStock: React.FC<Props> = props => {
               <OrderPlanning />
             </TabPanel>
 
-            <TabPanel>{/*} <DaysOfInventorySettings />*/}</TabPanel>
+            <TabPanel>
+              <DaysOfInventorySettings />
+            </TabPanel>
 
             <TabPanel>
-              {/*<SkuSettings
+              <SkuSettings
                 cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
                   cost => cost?.step_name === 'sku'
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
-                />*/}
+              />
             </TabPanel>
 
             <TabPanel>
-              {/*<DutyTaxSettings
+              <DutySettings
                 cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
                   cost => cost?.step_name === 'duty'
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
-                />*/}
+              />
             </TabPanel>
 
             <TabPanel>
-              {/*<PaymentTermsSettings
+              <PaymentTermsSettings
                 cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
                   cost => cost?.step_name === 'payment_terms'
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
-                />*/}
+              />
             </TabPanel>
 
             <TabPanel>
-              {/*<EmployeeExpensesSettings
+              <EmployeeExpensesSettings
                 cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
                   cost => cost?.step_name === 'employee'
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
-                />*/}
+              />
             </TabPanel>
 
             <TabPanel>
-              {/*<PpcExpensesSettings
+              <PpcExpensesSettings
                 cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
                   cost => cost?.step_name === 'ppc'
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
-                />*/}
+              />
             </TabPanel>
 
             <TabPanel>
-              {/*<MiscExpensesSettings
+              <MiscExpensesSettings
                 cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
                   cost => cost?.step_name === 'misc'
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
-                />*/}
+              />
             </TabPanel>
             <TabPanel>
-              {/*<ReconcileSettings
+              <ReconcileSettings
                 cashflowOnboardingStatus={cashflowOnboardingStatus?.find(
                   cost => cost?.step_name === 'reconcile'
                 )}
                 updateCashflowOnboardingStatus={updateCashflowOnboardingStatus}
-                />*/}
+              />
             </TabPanel>
           </Tabs>
         </section>
@@ -367,7 +368,7 @@ const PerfectStock: React.FC<Props> = props => {
 
 const mapStateToProps = (state: any) => {
   return {
-    //cashflowOnboardingStatus: getCashflowOnboardingStatus(state),
+    cashflowOnboardingStatus: getCashflowOnboardingStatus(state),
     userOnboarding: getUserOnboarding(state),
     userOnboardingResources: getUserOnboardingResources(state),
     subscription: getSellerSubscription(state),
@@ -377,9 +378,9 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     setUserOnboardingResources: (payload: any) => dispatch(setUserOnboardingResources(payload)),
-    /*updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) =>
+    updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) =>
       dispatch(updateCashflowOnboardingStatus(onboardingCostId, newStatus)),
-    fetchCashflowOnboardingStatus: () => dispatch(fetchCashflowOnboardingStatus()),*/
+    fetchCashflowOnboardingStatus: () => dispatch(fetchCashflowOnboardingStatus()),
   };
 };
 

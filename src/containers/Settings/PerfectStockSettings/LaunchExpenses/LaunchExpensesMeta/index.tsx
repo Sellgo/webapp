@@ -9,7 +9,7 @@ import styles from './index.module.scss';
 const LaunchExpensesMeta = () => {
   return (
     <>
-      <div className={styles.leadTimeMetaTitle}>
+      <div className={styles.settingMetaTitle}>
         <HourGlassIcon />
         &nbsp;&nbsp;Product Launch Expenses Settings
       </div>

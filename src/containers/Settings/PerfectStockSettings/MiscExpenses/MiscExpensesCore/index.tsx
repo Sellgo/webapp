@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
@@ -26,7 +26,11 @@ interface Props {
 }
 
 const MiscExpensesCore = (props: Props) => {
-  const { cashflowOnboardingStatus, updateCashflowOnboardingStatus } = props;
+  const {
+    cashflowOnboardingStatus,
+    updateCashflowOnboardingStatus,
+    fetchCashflowOnboardingStatus,
+  } = props;
   const sellerID = localStorage.getItem('userId');
 
   /* Fetches all the triggers from backend */
@@ -44,6 +48,10 @@ const MiscExpensesCore = (props: Props) => {
     }
     return [];
   };
+
+  useEffect(() => {
+    fetchCashflowOnboardingStatus();
+  }, []);
 
   const handleSave = async (expenses: any[]) => {
     try {

@@ -19,7 +19,7 @@ const PpcExpenses = (props: Props) => {
   const { match } = props;
 
   return (
-    <main className={styles.leadTimeWrapper}>
+    <main className={styles.settingWrapper}>
       <PageHeader
         title={'PPC Expenses'}
         breadcrumb={[
@@ -30,7 +30,7 @@ const PpcExpenses = (props: Props) => {
         auth={match.params.auth}
       />
       <SettingsNav match={match} />
-      <div className={styles.leadTime}>
+      <div className={styles.settingPerimeter}>
         <PpcExpensesMeta />
         <div className={styles.settingsPageWrapper}>
           <div className={styles.settingsTableWrapper}>

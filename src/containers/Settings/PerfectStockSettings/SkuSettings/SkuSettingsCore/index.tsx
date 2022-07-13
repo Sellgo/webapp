@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { Confirm, Checkbox } from 'semantic-ui-react';
 import { connect } from 'react-redux';
@@ -24,10 +24,15 @@ import {
 interface Props {
   cashflowOnboardingStatus: any[];
   updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) => void;
+  fetchCashflowOnboardingStatus: () => void;
 }
 
 const SkusSettingsCore: React.FC<Props> = props => {
-  const { cashflowOnboardingStatus, updateCashflowOnboardingStatus } = props;
+  const {
+    cashflowOnboardingStatus,
+    updateCashflowOnboardingStatus,
+    fetchCashflowOnboardingStatus,
+  } = props;
   const [saveConfirmation, setSaveConfirmation] = React.useState(false);
   const [isDimensionsUpdated, setIsDimensionsUpdated] = React.useState(false);
   const [toUpdateShipingCosts, setToUpdateShipingCosts] = React.useState(true);
@@ -79,7 +84,7 @@ const SkusSettingsCore: React.FC<Props> = props => {
 
   const requestUpdateSkuSettings = (
     <div className={styles.skuSettingsConfirm}>
-      Update Sku Settings?
+      Updating SKU will impact order planning, 3PL and cash flow, please confirm.
       {isDimensionsUpdated && (
         <div className={styles.updateShippingCostContent}>
           <Checkbox
@@ -91,6 +96,10 @@ const SkusSettingsCore: React.FC<Props> = props => {
       )}
     </div>
   );
+
+  useEffect(() => {
+    fetchCashflowOnboardingStatus();
+  }, []);
 
   const handleSave = async () => {
     try {

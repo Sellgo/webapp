@@ -215,7 +215,7 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
-    name: 'Global: SKU settings',
+    name: 'Global: SKU Settings',
     disabled: false,
     url: '/settings/aistock/sku-settings',
     showInSellgo: false,
@@ -223,7 +223,7 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
-    name: 'Order: Days of Inventory',
+    name: 'Order Planning: Days of Inventory',
     disabled: false,
     url: '/settings/aistock/days-of-inventory-settings',
     showInSellgo: false,
@@ -231,7 +231,7 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
-    name: 'Order: Duty Tax',
+    name: 'Order Planning: Duty Tax',
     disabled: false,
     url: '/settings/aistock/duty-tax-settings',
     showInSellgo: false,
@@ -239,7 +239,7 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
-    name: 'Order: Payment Terms',
+    name: 'Order Planning: Payment Terms',
     disabled: false,
     url: '/settings/aistock/payment-terms-settings',
     showInSellgo: false,
@@ -255,12 +255,14 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
+    /*{
     name: 'Cash Flow: Product Launch Expenses',
     disabled: false,
     url: '/settings/aistock/product-launch-expenses-settings',
     showInSellgo: false,
     showInAistock: true,
     subPages: [],
+  },*/
   },
   {
     name: 'Cash Flow: Misc Expenses',

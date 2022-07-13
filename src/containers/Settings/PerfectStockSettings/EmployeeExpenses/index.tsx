@@ -19,7 +19,7 @@ const EmployeeExpenses = (props: Props) => {
   const { match } = props;
 
   return (
-    <main className={styles.leadTimeWrapper}>
+    <main className={styles.settingWrapper}>
       <PageHeader
         title={'Lead Time'}
         breadcrumb={[
@@ -30,7 +30,7 @@ const EmployeeExpenses = (props: Props) => {
         auth={match.params.auth}
       />
       <SettingsNav match={match} />
-      <div className={styles.leadTime}>
+      <div className={styles.settingPerimeter}>
         <EmployeeExpensesMeta />
         <div className={styles.settingsPageWrapper}>
           <div className={styles.settingsTableWrapper}>

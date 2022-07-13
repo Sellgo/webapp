@@ -9,7 +9,7 @@ import styles from './index.module.scss';
 const PaymentTermsMeta = () => {
   return (
     <>
-      <div className={styles.leadTimeMetaTitle}>
+      <div className={styles.settingMetaTitle}>
         <HourGlassIcon />
         &nbsp;&nbsp;Payment Terms Settings
       </div>

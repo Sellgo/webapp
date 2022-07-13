@@ -9,7 +9,7 @@ import styles from './index.module.scss';
 const MiscExpensesMeta = () => {
   return (
     <>
-      <div className={styles.leadTimeMetaTitle}>
+      <div className={styles.settingMetaTitle}>
         <HourGlassIcon />
         &nbsp;&nbsp;Misc Expenses Settings
       </div>

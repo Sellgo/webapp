@@ -1,6 +1,6 @@
 @import '../../../../../design-system/new-colors';
 
-.leadTimeWrapper {
+.settingWrapper {
   width: 100%;
   padding-bottom: 200px;
 }
@@ -69,5 +69,30 @@
 
   > span {
     margin-bottom: 100px;
+  }
+}
+
+.skuSettingsConfirm {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  padding: 50px;
+  font-size: 14px;
+  font-weight: $fontweight_medium;
+  color: $grey_8;
+}
+
+.updateShippingCostContent {
+  color: $system_blue;
+  margin-top: 18px;
+  font-size: 14px;
+  display: flex;
+  align-items: left;
+  font-weight: $fontweight_regular;
+
+  > div {
+    margin-top: 2px;
+    margin-right: 10px;
   }
 }

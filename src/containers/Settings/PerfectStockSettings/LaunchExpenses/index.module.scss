@@ -1,13 +1,13 @@
 @import '../../../../design-system/new-colors';
 
-.leadTimeWrapper {
+.settingWrapper {
   width: 100%;
   display: flex;
 }
 
-.leadTime {
+.settingPerimeter {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1920px;
   padding-bottom: 200px;
 }
 
@@ -103,7 +103,7 @@
 }
 
 .elevioArticle {
-  margin-top: 145px;
+  margin-top: 105px;
   margin-left: 11px;
   font-size: 12px;
   font-weight: $fontweight_medium;

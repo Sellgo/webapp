@@ -9,7 +9,7 @@ import styles from './index.module.scss';
 const CashFlowReconcileMeta = () => {
   return (
     <>
-      <div className={styles.leadTimeMetaTitle}>
+      <div className={styles.settingMetaTitle}>
         <HourGlassIcon />
         &nbsp;&nbsp;Cash Flow Reconcile Settings
       </div>

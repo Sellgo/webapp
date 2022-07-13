@@ -9,7 +9,7 @@ import styles from './index.module.scss';
 const PpcExpensesMeta = () => {
   return (
     <>
-      <div className={styles.leadTimeMetaTitle}>
+      <div className={styles.settingMetaTitle}>
         <HourGlassIcon />
         &nbsp;&nbsp;PPC Expenses Settings
       </div>
