@@ -12,6 +12,8 @@ import Placeholder from '../../../../components/Placeholder';
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
+import ElevioArticle from '../../../../components/ElevioArticle';
+import BoxContainer from '../../../../components/BoxContainer';
 
 /* Types */
 import { SingleLeadTimeGroup } from '../../../../interfaces/PerfectStock/SalesProjection';
@@ -97,6 +99,7 @@ const LeadTime = (props: Props) => {
           setLeadTimeGroups(newLeadTimeGroups);
         }
       } catch (err) {
+        // ts-ignore
         const { response } = err;
         if (response && response.status === 400) {
           error(response.data?.message);
@@ -133,18 +136,18 @@ const LeadTime = (props: Props) => {
   }, []);
 
   return (
-    <main className={styles.leadTimeWrapper}>
+    <main className={styles.settingWrapper}>
       <PageHeader
         title={'Lead Time'}
         breadcrumb={[
           { content: 'Home', to: '/' },
-          { content: 'Perfect Stock' },
+          { content: 'AiStock' },
           { content: 'Lead Time' },
         ]}
         auth={match.params.auth}
       />
       <SettingsNav match={match} />
-      <div className={styles.leadTime}>
+      <div className={styles.settingPerimeter}>
         <LeadTimeMeta />
         {isFetchLeadTimeGroupsLoading && <Placeholder numberParagraphs={3} numberRows={5} isGrey />}
         {!isFetchLeadTimeGroupsLoading &&
@@ -165,9 +168,13 @@ const LeadTime = (props: Props) => {
           onClick={handleAddLeadTimeGroup}
         >
           <ThinAddIcon />
-          <span>Add Lead Time Group</span>
+          <span>Add lead time group</span>
         </ActionButton>
       </div>
+      <BoxContainer className={styles.elevioArticle}>
+        <span>Step-By-Step Guide</span>
+        <ElevioArticle articleId={'17'} />
+      </BoxContainer>
     </main>
   );
 };

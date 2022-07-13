@@ -220,17 +220,17 @@ export const DEFAULT_FILTER = {
 export const SETTINGS_OPTIONS = [
   {
     name: 'Days of Inventory',
-    url: '/aistock/inventory-days-of-inventory-settings',
+    url: '/settings/aistock/days-of-inventory-settings',
     disabled: false,
   },
   {
     name: 'Sku Settings',
-    url: '/aistock/sku-settings',
+    url: '/settings/aistock/sku-settings',
     disabled: false,
   },
   {
     name: 'Duty Settings',
-    url: '/aistock/duty-settings',
+    url: '/settings/aistock/duty-tax-settings',
     disabled: false,
   },
   {

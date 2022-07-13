@@ -6,26 +6,41 @@ export const PERFECT_STOCK_PAGES = [
   '/aistock/create-order',
 
   /* Cash flow page settings */
-  '/aistock/inventory-days-of-inventory-settings',
-  '/aistock/sku-settings',
-  '/aistock/duty-settings',
-  '/aistock/payment-terms-settings',
-  '/aistock/home-expenses-settings',
-  '/aistock/home-ppc-settings',
-  '/aistock/home-misc-settings',
-  '/aistock/reconcile-settings',
+  /*global*/
+  '/settings/aistock/sku-settings',
+  /*sales*/
+  /*order*/
+  '/settings/aistock/days-of-inventory-settings',
+  '/settings/aistock/payment-terms-settings',
+  '/settings/aistock/duty-tax-settings',
+  '/settings/aistock/container-settings',
+  /*3PL*/
+  /*cash flow*/
+  '/settings/aistock/employee-expenses-settings',
+  '/settings/aistock/product-launch-expenses-settings',
+  '/settings/aistock/ppc-expenses-settings',
+  '/settings/aistock/misc-expenses-settings',
+  '/settings/aistock/cash-flow-reconcile-settings',
 ];
 
 export const HIDE_TAB_PAGES = [
   '/aistock/create-order',
-  '/aistock/inventory-days-of-inventory-settings',
-  '/aistock/sku-settings',
-  '/aistock/duty-settings',
-  '/aistock/payment-terms-settings',
-  '/aistock/home-expenses-settings',
-  '/aistock/home-ppc-settings',
-  '/aistock/home-misc-settings',
-  '/aistock/reconcile-settings',
+  /*global*/
+  '/settings/aistock/sku-settings',
+  /*sales*/
+  /*order*/
+  '/settings/aistock/days-of-inventory-settings',
+  '/settings/aistock/payment-terms-settings',
+  '/settings/aistock/duty-tax-settings',
+  '/settings/aistock/duty-tax-settings',
+  '/settings/aistock/container-settings',
+  /*3PL*/
+  /*cash flow*/
+  '/settings/aistock/employee-expenses-settings',
+  '/settings/aistock/product-launch-expenses-settings',
+  '/settings/aistock/ppc-expenses-settings',
+  '/settings/aistock/misc-expenses-settings',
+  '/settings/aistock/cash-flow-reconcile-settings',
 ];
 
 export const PERFECT_STOCK_PRODUCT_DETAILS = [
@@ -37,7 +52,7 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'Order Planning',
     desc: 'Easily create order planning',
-    settings: '/aistock/inventory-days-of-inventory-settings',
+    settings: '/settings/aistock/days-of-inventory-settings',
   },
   {
     name: '3PL Manager',
@@ -47,7 +62,7 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'Cash Flow',
     desc: 'Cash flow analysis',
-    settings: '/aistock/home-expenses-settings',
+    settings: '/settings/aistock/employee-expenses-settings',
   },
   {
     name: 'Create Order',
@@ -55,23 +70,23 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
     settings: '',
   },
   {
+    name: 'SKU Settings',
+    desc: 'Set up SKU settings',
+    settings: '/settings/aistock/sku-settings',
+  },
+  {
     name: 'Days of Inventory',
     desc: 'Set up days of inventory',
     settings: '',
   },
   {
-    name: 'Sku Settings',
-    desc: 'Set up sku settings',
-    settings: '',
-  },
-  {
-    name: 'Duty Settings',
-    desc: 'Set up duty settings',
-    settings: '',
-  },
-  {
     name: 'Payment Terms',
     desc: 'Set up payment terms',
+    settings: '',
+  },
+  {
+    name: 'Duty Tax Settings',
+    desc: 'Set up duty tax settings',
     settings: '',
   },
   {
@@ -90,8 +105,13 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
     settings: '',
   },
   {
-    name: 'Reconcile Settings',
-    desc: 'Add reconcile',
+    name: 'New Product Launches',
+    desc: 'Set up new product launches',
+    settings: '',
+  },
+  {
+    name: 'Cash Flow Reconcile Settings',
+    desc: 'Add cash flow reconcile',
     settings: '',
   },
 ];

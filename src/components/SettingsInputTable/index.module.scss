@@ -18,6 +18,9 @@
   color: $blue_link_bg_light;
   font-weight: $fontweight_medium;
   font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
 .buttonsRow {

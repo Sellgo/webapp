@@ -31,12 +31,15 @@ export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
   '/home',
 
   /* Settings */
-  '/aistock/home-expenses-settings',
-  '/aistock/home-ppc-settings',
-  '/aistock/home-launch-settings',
-  '/aistock/home-misc-settings',
-  '/aistock/sku-settings',
-  '/aistock/payment-terms-settings',
+  '/settings/aistock/sku-settings',
+  '/settings/aistock/days-of-inventory-settings',
+  '/settings/aistock/duty-tax-settings',
+  '/settings/aistock/payment-terms-settings',
+  '/settings/aistock/employee-expenses-settings',
+  '/settings/aistock/misc-expenses-settings',
+  '/settings/aistock/ppc-expenses-settings',
+  '/settings/aistock/product-launch-expenses-settings',
+  '/settings/aistock/cash-flow-reconcile-settings',
 ];
 
 export const HIDE_NAV_BAR_PATH_NAMES = [

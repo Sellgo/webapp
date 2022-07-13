@@ -1,9 +1,13 @@
 import React, { useEffect } from 'react';
 import { Dimmer, Loader } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 import Highcharts from 'highcharts';
 
 /* Types */
 import { GraphDataSeries } from '../../../../interfaces/PerfectStock/SalesProjection';
+
+/* Selectors */
+import { getSalesProjectionResults } from '../../../../selectors/PerfectStock/SalesProjection';
 
 /* Components */
 import {
@@ -12,6 +16,12 @@ import {
   getGranularityValue,
 } from '../../../../constants/PerfectStock/Cashflow';
 
+import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxDropdownFilter';
+
+import { ProductProjectedSales } from '../../../../interfaces/PerfectStock/SalesProjection';
+
+import AiStockImg from '../../../../assets/images/backgroundChart.png';
+
 /* Styling */
 import styles from './index.module.scss';
 import InputTabSelection from '../../../../components/InputTabSelection';
@@ -19,11 +29,13 @@ import InputTabSelection from '../../../../components/InputTabSelection';
 interface Props {
   isLoading?: boolean;
   data: GraphDataSeries[];
-  fetchMainChart: (granularity?: number) => void;
+  salesProjectionResults: ProductProjectedSales[];
+  fetchMainChart: (granularity?: number, merchantListingIds?: number[]) => void;
 }
 const SalesProjectionGraph = (props: Props) => {
-  const { data, isLoading, fetchMainChart } = props;
+  const { data, isLoading, fetchMainChart, salesProjectionResults } = props;
   const [selectedGranularity, setSelectedGranularity] = React.useState<number>(1);
+  const [selectedSkus, setSelectedSkus] = React.useState<any>([]);
   const dataWithAxisInfo = data?.map((item: GraphDataSeries, index) => {
     return {
       ...item,
@@ -39,6 +51,7 @@ const SalesProjectionGraph = (props: Props) => {
         chart: {
           renderTo: 'sales-projection-graph',
           type: 'line',
+          plotBackgroundImage: AiStockImg,
         },
 
         title: {
@@ -120,18 +133,61 @@ const SalesProjectionGraph = (props: Props) => {
     }
   }, [data]);
 
+  const skuOptions = salesProjectionResults.map((result, index) => ({
+    key: index,
+    text: result?.sku,
+    value: result?.sku,
+  }));
+
+  const skuMlid: any = {};
+
+  salesProjectionResults.forEach(result => {
+    skuMlid[result.sku] = result.merchant_listing_id;
+  });
+
+  const getMlidFromSku = (selectedValues: string[]) => {
+    const merchantListingIds: number[] = [];
+
+    for (let j = 0; j < selectedValues.length; j++) {
+      if (skuMlid[selectedValues[j]] && !merchantListingIds.includes(skuMlid[selectedValues[j]])) {
+        merchantListingIds.push(skuMlid[selectedValues[j]]);
+      }
+    }
+
+    return merchantListingIds;
+  };
+
+  const handleSkuChange = (selectedValues: string[]) => {
+    setSelectedSkus(selectedValues);
+
+    fetchMainChart(
+      getGranularityValue(getGranularityLabel(selectedGranularity)),
+      getMlidFromSku(selectedValues)
+    );
+  };
+
   return (
     <div className={styles.graphWrapper}>
-      <InputTabSelection
-        isPurple
-        options={GRANULARITIES.map((item) => item.text)}
-        selectedOption={getGranularityLabel(selectedGranularity)}
-        setSelectedOption={(label: string) => {
-          setSelectedGranularity(getGranularityValue(label));
-          fetchMainChart(getGranularityValue(label));
-        }}
-        className={styles.inputTabSelection}
-      />
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <InputTabSelection
+          isPurple
+          options={GRANULARITIES.map(item => item.text)}
+          selectedOption={getGranularityLabel(selectedGranularity)}
+          setSelectedOption={(label: string) => {
+            setSelectedGranularity(getGranularityValue(label));
+            fetchMainChart(getGranularityValue(label), getMlidFromSku(selectedSkus));
+          }}
+          className={styles.inputTabSelection}
+        />
+
+        <CheckboxDropdownFilter
+          filterOptions={skuOptions}
+          label="Choose SKU"
+          labelText={false}
+          selectedValues={selectedSkus}
+          handleChange={handleSkuChange}
+        />
+      </div>
 
       <Dimmer active={isLoading} inverted>
         <Loader active />
@@ -141,4 +197,8 @@ const SalesProjectionGraph = (props: Props) => {
   );
 };
 
-export default SalesProjectionGraph;
+const mapStateToProps = (state: any) => ({
+  salesProjectionResults: getSalesProjectionResults(state),
+});
+
+export default connect(mapStateToProps)(SalesProjectionGraph);

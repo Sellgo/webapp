@@ -3,10 +3,10 @@
 .settingsNav {
   display: flex;
   flex-direction: column;
-  margin-left: 10px;
-  margin-right: 30px;
+  margin-left: 0;
+  margin-right: 0;
   height: 100%;
-  min-width: 300px;
+  min-width: 230px;
   width: max-content;
 }
 
@@ -25,10 +25,18 @@
 }
 
 .settingsPagesMenu {
-  margin-top: 50px;
+  margin-top: 70px;
   display: flex;
   flex-direction: column;
   width: 100px;
+}
+
+.settingsSubPagesMenu {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 120px;
 }
 
 .subpageWrapper {
@@ -38,13 +46,13 @@
 
 .settingPageOption {
   margin-right: 10px;
-  width: 150px;
+  width: 200px;
   display: flex;
   align-items: center;
-  padding-left: 10px;
+  padding-left: 0;
   min-height: 35px;
   border-radius: 7px;
-  color: $prim_dark_1;
+  color: $grey_8;
   font-size: 14px;
   font-weight: 400;
   text-decoration: none !important;
@@ -57,12 +65,46 @@
   }
 
   &__active {
-    background: $black_1 !important;
-    color: $prim_white;
+    background: $grey_1 !important;
+    font-weight: 600;
+    color: $grey_8;
   }
 
   &__small {
-    width: 120px;
+    width: 150px;
+  }
+}
+
+.settingSubPageOption {
+  margin-top: 10px;
+  margin-right: 200px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  min-height: 35px;
+  border-radius: 7px;
+  color: $prim_dark_1;
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none !important;
+  //margin-bottom: 5px;
+  //padding-top: 5px;
+  //padding-bottom: 5px;
+
+  &:hover {
+    background: $grey_1;
+  }
+
+  &__active {
+    background: $grey_1 !important;
+    font-weight: 600;
+    color: $grey_8;
+    width: 200px;
+  }
+
+  &__small {
+    width: 200px;
   }
 }
 
