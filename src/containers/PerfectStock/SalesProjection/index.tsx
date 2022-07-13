@@ -73,7 +73,7 @@ const SalesProjection = (props: Props) => {
     []
   );
 
-  const fetchSalesProjectionChart = async (granularity?: number) => {
+  const fetchSalesProjectionChart = async (granularity?: number, merchantListingIds?: number[]) => {
     if (!salesProjectionResult || salesProjectionResult.length === 0) {
       return;
     }
@@ -83,12 +83,16 @@ const SalesProjection = (props: Props) => {
       `${getDateOnly(new Date())}` +
       `&end_date=${getDateOnly(addNumberOfDays(new Date(), 365))}`;
     const granularityString = `&granularity=${granularity || 1}`;
-    const merchantListingIds = `&merchant_listing_ids=${salesProjectionResult.map(
-      item => item.merchant_listing_id
-    )}`;
+
+    const _merchantListingIds = `&merchant_listing_ids=${
+      merchantListingIds?.length
+        ? merchantListingIds
+        : salesProjectionResult.map((item) => item.merchant_listing_id)
+    }`;
+
     const url = `${
       AppConfig.BASE_URL_API
-    }sellers/${sellerIDSelector()}/cash-flow-chart?types=${type}${dates}${granularityString}${merchantListingIds}`;
+    }sellers/${sellerIDSelector()}/cash-flow-chart?types=${type}${dates}${granularityString}${_merchantListingIds}`;
     const { data } = await axios.get(url);
     const mainGraph = data[0];
     const chartData = mainGraph.data.map((item: any) => [
