@@ -1,0 +1,115 @@
+@import '../../../../../design-system/new-colors';
+
+.leadTimeGroupWrapper {
+  display: flex;
+  margin-bottom: 18px;
+
+  .leadTimeGroupHeader {
+    position: relative;
+    font-size: $fontsize_content_14;
+    font-weight: $fontweight_medium;
+    color: $prim_dark_2;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      background: $grey_0;
+    }
+
+    &__closed {
+      border-bottom: 1px solid $grey_3;
+      border-radius: 7px;
+    }
+  }
+
+  .leadTimeGroup {
+    width: 100%;
+  }
+}
+
+.deleteTriggerIcon {
+  width: 30px !important;
+  height: 25px !important;
+  cursor: pointer;
+  color: $grey_8 !important;
+  font-size: 12px !important;
+}
+
+.editName {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  .editIcon {
+    cursor: pointer;
+    margin-bottom: 3px;
+    margin-left: 10px;
+    font-size: 12px;
+    color: $grey_8 !important;
+  }
+
+  .checkIcon {
+    margin-left: 10px;
+  }
+
+  .checkIcon,
+  .closeIcon {
+    cursor: pointer;
+    background: $grey_10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    color: $grey_7 !important;
+    font-size: 10px !important;
+
+    &:hover {
+      background: $grey_3;
+    }
+  }
+}
+
+.addButton {
+  background: none;
+  color: $blue_link_bg_light;
+  font-size: 14px;
+  margin-top: 30px;
+}
+
+.buttonsRow {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+
+  .resetButton {
+    margin-right: 18px;
+  }
+}
+
+.assignInput {
+  margin: 3rem 0;
+
+  > div {
+    width: 900px !important;
+  }
+}
+
+.defaultButton {
+  background: none;
+  cursor: pointer;
+  font-weight: $fontweight_medium;
+  margin-right: 8px;
+
+  &:hover {
+    font-weight: $fontweight_semibold;
+  }
+}
+
+.exclaimationIcon {
+  position: absolute;
+  left: 10px;
+  height: 15px;
+  width: 15px;
+}

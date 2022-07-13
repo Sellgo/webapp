@@ -87,7 +87,7 @@ const SalesProjection = (props: Props) => {
     const _merchantListingIds = `&merchant_listing_ids=${
       merchantListingIds?.length
         ? merchantListingIds
-        : salesProjectionResult.map((item) => item.merchant_listing_id)
+        : salesProjectionResult.map(item => item.merchant_listing_id)
     }`;
 
     const url = `${

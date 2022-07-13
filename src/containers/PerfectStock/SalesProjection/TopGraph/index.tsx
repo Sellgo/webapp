@@ -139,14 +139,14 @@ const SalesProjectionGraph = (props: Props) => {
     value: result?.sku,
   }));
 
-  let skuMlid: any = {};
+  const skuMlid: any = {};
 
-  salesProjectionResults.forEach((result) => {
+  salesProjectionResults.forEach(result => {
     skuMlid[result.sku] = result.merchant_listing_id;
   });
 
   const getMlidFromSku = (selectedValues: string[]) => {
-    let merchantListingIds: number[] = [];
+    const merchantListingIds: number[] = [];
 
     for (let j = 0; j < selectedValues.length; j++) {
       if (skuMlid[selectedValues[j]] && !merchantListingIds.includes(skuMlid[selectedValues[j]])) {
@@ -171,7 +171,7 @@ const SalesProjectionGraph = (props: Props) => {
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <InputTabSelection
           isPurple
-          options={GRANULARITIES.map((item) => item.text)}
+          options={GRANULARITIES.map(item => item.text)}
           selectedOption={getGranularityLabel(selectedGranularity)}
           setSelectedOption={(label: string) => {
             setSelectedGranularity(getGranularityValue(label));

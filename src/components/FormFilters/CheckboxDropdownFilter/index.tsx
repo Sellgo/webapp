@@ -29,7 +29,7 @@ interface Props {
   popUpPosition?: 'bottom left' | 'bottom right';
 }
 
-const CheckboxDropdown: React.FC<Props> = (props) => {
+const CheckboxDropdown: React.FC<Props> = props => {
   const {
     label,
     handleChange,
@@ -48,7 +48,7 @@ const CheckboxDropdown: React.FC<Props> = (props) => {
     if (data.checked) {
       // if select all is clicked
       if (data.value === 'Select All') {
-        newSelectedValues = filterOptions.map((f) => f.value);
+        newSelectedValues = filterOptions.map(f => f.value);
       }
       // else normal selected
       else {
@@ -60,7 +60,7 @@ const CheckboxDropdown: React.FC<Props> = (props) => {
       if (data.value === 'Select All') {
         newSelectedValues = [];
       } else {
-        newSelectedValues = newSelectedValues.filter((f) => f !== data.value);
+        newSelectedValues = newSelectedValues.filter(f => f !== data.value);
       }
     }
 
@@ -126,7 +126,7 @@ const CheckboxDropdown: React.FC<Props> = (props) => {
                 checked={selectedValues.length === filterOptions.length}
               />
 
-              {filterOptions.map((f) => {
+              {filterOptions.map(f => {
                 return (
                   <Checkbox
                     className={styles.checkboxOption}
