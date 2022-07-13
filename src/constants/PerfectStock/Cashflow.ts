@@ -322,12 +322,12 @@ export const SETTINGS_OPTIONS = [
   },
   {
     name: 'PPC',
-    url: '/aistock/home-ppc-settings',
+    url: '/settings/aistock/ppc-expenses-settings',
     disabled: false,
   },
   {
     name: 'Misc Expenses',
-    url: '/aistock/home-misc-settings',
+    url: '/settings/aistock/misc-expenses-settings',
     disabled: false,
   },
   {
@@ -348,7 +348,7 @@ export const ONBOARDING_STATUS_MAPPING: any = {
   },
   misc: {
     title: 'Misc Costs',
-    to: '/aistock/home-misc-settings',
+    to: '/settings/aistock/misc-expenses-settings',
   },
   sku: {
     title: 'Sku Settings',
@@ -356,10 +356,10 @@ export const ONBOARDING_STATUS_MAPPING: any = {
   },
   duty: {
     title: 'Duty Settings',
-    to: '/aistock/duty-settings',
+    to: '/settings/aistock/duty-tax-settings',
   },
   payment_terms: {
     title: 'Payment Terms',
-    to: '/aistock/payment-terms-settings',
+    to: '/settings/aistock/payment-terms-settings',
   },
 };
