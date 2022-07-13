@@ -22,9 +22,9 @@ export const PERFECT_STOCK_PAGES = [
   '/aistock/order-minmax-stock',
   '/aistock/order-po',
   '/aistock/order-chart-settings',
-  '/aistock/payment-terms-settings',
+  '/settings/aistock/payment-terms-settings',
   '/aistock/order-container',
-  '/aistock/duty-settings',
+  '/settings/aistock/duty-settings',
   '/aistock/order-supplier-calendar',
   /*3PL*/
   '/aistock/tpl-fba-replenishment-template',

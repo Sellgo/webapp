@@ -30,9 +30,11 @@ import ProductResearch from '../ProductResearch';
 import KeywordResearch from '../KeywordResearch';
 import PerfectStock from '../PerfectStock';
 import LeadTime from '../Settings/PerfectStockSettings/LeadTime';
-import LeadTime2 from '../Settings/PerfectStockSettings/LeadTime2';
 import DaysOfInventory from '../Settings/PerfectStockSettings/DaysOfInventory';
+import SkuSettings from '../Settings/PerfectStockSettings/SkuSettings';
 import Containers from '../Settings/PerfectStockSettings/Containers';
+import DutyTax from '../Settings/PerfectStockSettings/DutyTax';
+import PaymentTerms from '../Settings/PerfectStockSettings/PaymentTerms';
 
 import SellgoNewSubscription from '../NewSellgoSubscription';
 import SellgoPaymentSuccess from '../NewSellgoSubscription/SellgoPaymentSuccess';
@@ -346,11 +348,21 @@ function App() {
           <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} />
           <PrivateRoute exact={true} path="/settings/profile" component={Profile} />
           <PrivateRoute exact={true} path="/settings/aistock/lead-time" component={LeadTime} />
-          <PrivateRoute exact={true} path="/settings/aistock/lead-time2" component={LeadTime2} />
           <PrivateRoute
             exact={true}
             path="/settings/aistock/inventory-days-of-inventory-settings"
             component={DaysOfInventory}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/sku-settings"
+            component={SkuSettings}
+          />
+          <PrivateRoute exact={true} path="/settings/aistock/duty-settings" component={DutyTax} />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/payment-terms-settings"
+            component={PaymentTerms}
           />
           <PrivateRoute
             exact={true}

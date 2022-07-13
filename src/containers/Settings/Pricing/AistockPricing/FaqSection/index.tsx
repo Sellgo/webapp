@@ -1,22 +1,18 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 /* Components */
 import FAQAccordion from '../../../../../components/FAQAccordion';
+import pricingData from '../../../../../assets/faq/pricing.json';
 
 import styles from './index.module.scss';
 
 const FAQSection = () => {
-  const [faqData, setFaqData] = useState([]);
+  const [faqData, setFaqData]: any = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`https://sellgo-website-dev.s3.amazonaws.com/faqDetails/webappPricing.json`)
-      .then(resp => {
-        setFaqData(resp.data.data);
-      })
-      .catch(() => setFaqData([]));
+    setFaqData([...pricingData.products[0].data]);
   }, []);
+
   return (
     <>
       {faqData && faqData.length > 0 ? (

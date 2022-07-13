@@ -230,7 +230,7 @@ export const SETTINGS_OPTIONS = [
   },
   {
     name: 'Duty Settings',
-    url: '/aistock/duty-settings',
+    url: '/settings/aistock/duty-settings',
     disabled: false,
   },
   {
@@ -402,3 +402,9 @@ export const DUTY_SETTINGS_COLUMNS: Column[] = [
     optional: true,
   },
 ];
+
+export const EXPORT_ORDER_PLANNING: any = {
+  1: 'inv_today',
+  2: 'order',
+  3: 'order_plan',
+};

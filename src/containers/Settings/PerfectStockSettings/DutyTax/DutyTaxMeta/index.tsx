@@ -6,14 +6,14 @@ import { ReactComponent as HourGlassIcon } from '../../../../../assets/images/ho
 /* Styling */
 import styles from './index.module.scss';
 
-const DaysOfInventoryMeta = () => {
+const DutyTaxMeta = () => {
   return (
     <>
       <div className={styles.leadTimeMetaTitle}>
         <HourGlassIcon />
-        &nbsp;&nbsp;Days of Inventory Settings
+        &nbsp;&nbsp;Duty Tax Settings
       </div>
     </>
   );
 };
-export default DaysOfInventoryMeta;
+export default DutyTaxMeta;

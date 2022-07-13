@@ -4,8 +4,8 @@ import React from 'react';
 import styles from './index.module.scss';
 
 /* Components */
-import DaysOfInventoryMeta from './DaysOfInventoryMeta';
-import DaysOfInventoryCore from './DaysOfInventoryCore';
+import SkuSettingsMeta from '../SkuSettings/SkuSettingsMeta';
+import SkuSettingsCore from '../SkuSettings/SkuSettingsCore';
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
 import ElevioArticle from '../../../../components/ElevioArticle';
@@ -15,7 +15,7 @@ interface Props {
   match: any;
 }
 
-const DaysOfInventory = (props: Props) => {
+const SkuSettings = (props: Props) => {
   const { match } = props;
 
   return (
@@ -25,16 +25,16 @@ const DaysOfInventory = (props: Props) => {
         breadcrumb={[
           { content: 'Home', to: '/' },
           { content: 'AiStock' },
-          { content: 'Days Of Inventory Settings' },
+          { content: 'SKU Settings' },
         ]}
         auth={match.params.auth}
       />
       <SettingsNav match={match} />
       <div className={styles.leadTime}>
-        <DaysOfInventoryMeta />
+        <SkuSettingsMeta />
         <div className={styles.settingsPageWrapper}>
           <div className={styles.settingsTableWrapper}>
-            <DaysOfInventoryCore />
+            <SkuSettingsCore />
           </div>
         </div>
       </div>
@@ -46,4 +46,4 @@ const DaysOfInventory = (props: Props) => {
   );
 };
 
-export default DaysOfInventory;
+export default SkuSettings;
