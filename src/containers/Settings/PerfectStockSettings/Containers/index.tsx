@@ -4,13 +4,13 @@ import React from 'react';
 import styles from './index.module.scss';
 
 /* Components */
-import DaysOfInventoryMeta from '../DaysOfInventory/DaysOfInventoryMeta';
-import DaysOfInventoryCore from '../DaysOfInventory/DaysOfInventoryCore';
+import ContainersMeta from './ContainersMeta';
+import ContainersCore from './ContainersCore';
 //import DaysOfInventoryGroup from './DaysOfInventoryGroup';
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
-import ElevioArticle from '../../../../components/ElevioArticle';
 import BoxContainer from '../../../../components/BoxContainer';
+import ElevioArticle from '../../../../components/ElevioArticle';
 
 interface Props {
   match: any;
@@ -26,16 +26,16 @@ const DaysOfInventory = (props: Props) => {
         breadcrumb={[
           { content: 'Home', to: '/' },
           { content: 'AiStock' },
-          { content: 'Days Of Inventory' },
+          { content: 'Default Container' },
         ]}
         auth={match.params.auth}
       />
       <SettingsNav match={match} />
       <div className={styles.leadTime}>
-        <DaysOfInventoryMeta />
+        <ContainersMeta />
         <div className={styles.settingsPageWrapper}>
           <div className={styles.settingsTableWrapper}>
-            <DaysOfInventoryCore />
+            <ContainersCore />
           </div>
         </div>
       </div>

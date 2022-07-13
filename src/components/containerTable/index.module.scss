@@ -1,0 +1,12 @@
+@import '../../design-system/new-colors.scss';
+
+.inputTable {
+  width: 100%;
+  color: $grey_6 !important;
+}
+
+.orangeNumber {
+  color: $accent_orange;
+  font-size: 24px;
+  font-weight: $fontweight_semibold;
+}
