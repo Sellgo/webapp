@@ -18,7 +18,7 @@ interface Props {
 const GraphDisplayButton = (props: Props) => {
   const { handleClick, disabled, id, salesProjectionResult } = props;
 
-  const salesProjection = salesProjectionResult.find((result) => result.id === id);
+  const salesProjection = salesProjectionResult.find(result => result.id === id);
 
   const salesAdjustment = Object.values(salesProjection.sales_adjustments).length
     ? [...Object.values(salesProjection.sales_adjustments)]
@@ -33,7 +33,6 @@ const GraphDisplayButton = (props: Props) => {
           type: 'area',
           renderTo: `graph-display-${id}`,
           backgroundColor: null,
-          plotBorderWidth: null,
           marginTop: 0,
           marginBottom: 0,
           marginLeft: 0,
@@ -94,7 +93,7 @@ const GraphDisplayButton = (props: Props) => {
 
   return (
     <button className={styles.graphDisplayButton} onClick={handleClick} disabled={disabled}>
-      <div id={`graph-display-${id}`} className={styles.miniHighchart}></div>
+      <div id={`graph-display-${id}`} className={styles.miniHighchart} />
     </button>
   );
 };

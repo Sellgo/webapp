@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import Highcharts from 'highcharts';
 
 /* Types */
-import { GraphDataSeries } from '../../../../interfaces/PerfectStock/SalesProjection';
+import {
+  GraphDataSeries,
+  ProductProjectedSales,
+} from '../../../../interfaces/PerfectStock/SalesProjection';
 
 /* Selectors */
 import { getSalesProjectionResults } from '../../../../selectors/PerfectStock/SalesProjection';
@@ -17,8 +20,6 @@ import {
 } from '../../../../constants/PerfectStock/Cashflow';
 
 import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxDropdownFilter';
-
-import { ProductProjectedSales } from '../../../../interfaces/PerfectStock/SalesProjection';
 
 import AiStockImg from '../../../../assets/images/backgroundChart.png';
 
