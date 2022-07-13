@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { Confirm, Icon } from 'semantic-ui-react';
 import axios from 'axios';
 
@@ -27,8 +28,16 @@ import { error, success } from '../../../../../utils/notifications';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
 import { LEAD_TIME_OPTIONS } from '../../../../../constants/PerfectStock';
 
+/* Selectors */
+
+import { getIsFetchingProgressForTeamLeadJob } from '../../../../../selectors/PerfectStock/TeamLead';
+
+/* Actions */
+import { refreshTeamLeadProjection } from '../../../../../actions/PerfectStock/TeamLead';
 interface Props {
   initialLeadTimeGroup: SingleLeadTimeGroup;
+  isFetchingProgressForTeamLeadJob: boolean;
+  refreshTeamLeadProjection: (perfect_stock_job_id: number) => void;
   handleDeleteLeadTimeGroup: (indexIdentifier: string) => void;
   fetchLeadTimeGroups: () => void;
   setInitialLeadTimeGroup: (value: SingleLeadTimeGroup) => void;
@@ -40,12 +49,15 @@ const LeadTimeGroup = (props: Props) => {
     handleDeleteLeadTimeGroup,
     fetchLeadTimeGroups,
     setInitialLeadTimeGroup,
+    isFetchingProgressForTeamLeadJob,
+    refreshTeamLeadProjection,
   } = props;
   /* Modal State */
 
   /* Set modal to open by default if its an new lead time */
   const [isOpen, setOpen] = useState<boolean>(initialLeadTimeGroup.id ? false : true);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [isSave, setIsSave] = useState<boolean>(false);
   const [showError, setShowError] = useState<boolean>(false);
 
   /* Trigger Name State */
@@ -102,18 +114,27 @@ const LeadTimeGroup = (props: Props) => {
       }sellers/${sellerIDSelector()}/purchase-orders/lead-times`;
 
       let res;
-      if (newLeadTimeGroup.id) {
-        res = await axios.patch(url, newLeadTimeGroup);
+      const payload = {
+        ...newLeadTimeGroup,
+        refresh_related_data: true,
+      };
+      console.log('NEW LEAD TIME GROUP >> ', payload);
+      if (payload.id) {
+        res = await axios.patch(url, payload);
       } else {
-        res = await axios.post(url, newLeadTimeGroup);
+        res = await axios.post(url, payload);
       }
 
       if (res.status === 201) {
         success('Successfully updated lead times.');
+        const { data } = res;
         const savedLeadTimeGroup = {
           ...newLeadTimeGroup,
-          id: res.data.id,
+          id: data.id,
         };
+        if (data.perfect_stock_job_id >= 0) {
+          refreshTeamLeadProjection(data.perfect_stock_job_id);
+        }
         setNewLeadTimeGroup(savedLeadTimeGroup);
         setInitialLeadTimeGroup(savedLeadTimeGroup);
 
@@ -316,6 +337,7 @@ const LeadTimeGroup = (props: Props) => {
                 size="md"
                 className={styles.resetButton}
                 onClick={handleCancel}
+                disabled={isFetchingProgressForTeamLeadJob}
               >
                 Cancel
               </ActionButton>
@@ -323,8 +345,11 @@ const LeadTimeGroup = (props: Props) => {
                 variant="secondary"
                 type="purpleGradient"
                 size="md"
-                onClick={handleSave}
+                onClick={() => {
+                  setIsSave(true);
+                }}
                 disabled={showError}
+                loading={isFetchingProgressForTeamLeadJob}
               >
                 Save
               </ActionButton>
@@ -342,8 +367,28 @@ const LeadTimeGroup = (props: Props) => {
           handleDeleteLeadTimeGroup(initialLeadTimeGroup.indexIdentifier || '');
         }}
       />
+      <Confirm
+        content={'Are you sure you want to update the following changes?'}
+        open={isSave}
+        onCancel={() => setIsSave(false)}
+        onConfirm={() => {
+          setIsSave(false);
+          handleSave();
+        }}
+      />
     </div>
   );
 };
 
-export default LeadTimeGroup;
+const mapStateToProps = (state: any) => ({
+  isFetchingProgressForTeamLeadJob: getIsFetchingProgressForTeamLeadJob(state),
+});
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    refreshTeamLeadProjection: (perfect_stock_job_id: number) =>
+      dispatch(refreshTeamLeadProjection(perfect_stock_job_id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LeadTimeGroup);
