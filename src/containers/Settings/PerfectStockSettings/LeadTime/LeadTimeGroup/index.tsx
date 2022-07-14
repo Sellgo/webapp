@@ -367,7 +367,7 @@ const LeadTimeGroup = (props: Props) => {
         }}
       />
       <Confirm
-        content={'Do you want to refresh all related data caused by this change?'}
+        content={'Do you want to refresh all data caused by this change?'}
         cancelButton="No"
         confirmButton="Yes"
         open={isSave}
