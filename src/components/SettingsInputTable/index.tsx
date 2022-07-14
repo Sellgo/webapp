@@ -144,6 +144,7 @@ const SettingsInputTable = (props: Props) => {
               </button>
             )}
             <ActionButton
+              className={styles.applyBtn}
               variant="secondary"
               type="purpleGradient"
               size="md"
