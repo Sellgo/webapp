@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Axios from 'axios';
 import { AppConfig } from '../config';
 import { sellerIDSelector } from '../selectors/Seller';
 
@@ -19,6 +20,7 @@ export const trackDripDropOff = async (page: string) => {
     const payload = {
       drop_off_point: page,
     };
+    Axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('idToken')}`;
     await axios.post(`${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/drip/fields`, payload);
   } catch (e) {
     console.log(e);

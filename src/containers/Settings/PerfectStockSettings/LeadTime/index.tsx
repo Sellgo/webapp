@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
 
@@ -12,6 +13,7 @@ import Placeholder from '../../../../components/Placeholder';
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
+import ProgressBar from '../../../../components/ProgressBar';
 import ElevioArticle from '../../../../components/ElevioArticle';
 import BoxContainer from '../../../../components/BoxContainer';
 
@@ -23,11 +25,23 @@ import { AppConfig } from '../../../../config';
 import ActionButton from '../../../../components/ActionButton';
 import { error } from '../../../../utils/notifications';
 
+/* Selectors */
+import {
+  getRefreshProgress,
+  getIsFetchingProgressForLeadTimeJob,
+} from '../../../../selectors/PerfectStock/LeadTime';
+
+/* Actions */
+import { fetchRefreshProgress } from '../../../../actions/PerfectStock/LeadTime';
+
 interface Props {
   match: any;
+  refreshProgress: number;
+  isFetchingProgressForLeadTimeJob: boolean;
+  fetchRefreshProgress: () => void;
 }
 const LeadTime = (props: Props) => {
-  const { match } = props;
+  const { match, refreshProgress, isFetchingProgressForLeadTimeJob, fetchRefreshProgress } = props;
 
   const [leadTimeGroups, setLeadTimeGroups] = React.useState<SingleLeadTimeGroup[]>([]);
   const [isFetchLeadTimeGroupsLoading, setFetchLeadTimeGroupsLoading] = React.useState<boolean>(
@@ -137,6 +151,11 @@ const LeadTime = (props: Props) => {
 
   return (
     <main className={styles.settingWrapper}>
+      <ProgressBar
+        fetchProgress={fetchRefreshProgress}
+        progress={refreshProgress}
+        shouldFetchProgress={isFetchingProgressForLeadTimeJob}
+      />
       <PageHeader
         title={'Lead Time'}
         breadcrumb={[
@@ -179,4 +198,15 @@ const LeadTime = (props: Props) => {
   );
 };
 
-export default LeadTime;
+const mapStateToProps = (state: any) => ({
+  refreshProgress: getRefreshProgress(state),
+  isFetchingProgressForLeadTimeJob: getIsFetchingProgressForLeadTimeJob(state),
+});
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchRefreshProgress: () => dispatch(fetchRefreshProgress()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LeadTime);

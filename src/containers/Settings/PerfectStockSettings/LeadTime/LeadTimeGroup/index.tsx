@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { Confirm, Icon } from 'semantic-ui-react';
 import axios from 'axios';
 
@@ -27,8 +28,16 @@ import { error, success } from '../../../../../utils/notifications';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
 import { LEAD_TIME_OPTIONS } from '../../../../../constants/PerfectStock';
 
+/* Selectors */
+
+import { getIsFetchingProgressForLeadTimeJob } from '../../../../../selectors/PerfectStock/LeadTime';
+
+/* Actions */
+import { refreshLeadTimeProjection } from '../../../../../actions/PerfectStock/LeadTime';
 interface Props {
   initialLeadTimeGroup: SingleLeadTimeGroup;
+  isFetchingProgressForLeadTimeJob: boolean;
+  refreshLeadTimeProjection: (perfect_stock_job_id: number) => void;
   handleDeleteLeadTimeGroup: (indexIdentifier: string) => void;
   fetchLeadTimeGroups: () => void;
   setInitialLeadTimeGroup: (value: SingleLeadTimeGroup) => void;
@@ -40,12 +49,15 @@ const LeadTimeGroup = (props: Props) => {
     handleDeleteLeadTimeGroup,
     fetchLeadTimeGroups,
     setInitialLeadTimeGroup,
+    isFetchingProgressForLeadTimeJob,
+    refreshLeadTimeProjection,
   } = props;
   /* Modal State */
 
   /* Set modal to open by default if its an new lead time */
   const [isOpen, setOpen] = useState<boolean>(initialLeadTimeGroup.id ? false : true);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [isSave, setIsSave] = useState<boolean>(false);
   const [showError, setShowError] = useState<boolean>(false);
 
   /* Trigger Name State */
@@ -70,7 +82,7 @@ const LeadTimeGroup = (props: Props) => {
   };
 
   /* Save all changes in the lead time group */
-  const handleSave = async (refreshUponSave?: boolean) => {
+  const handleSave = async (refresh_related_data: boolean, refreshUponSave?: boolean) => {
     /* Check if lead time has at least one of every step */
     let hasError = false;
     LEAD_TIME_OPTIONS.forEach(option => {
@@ -102,18 +114,26 @@ const LeadTimeGroup = (props: Props) => {
       }sellers/${sellerIDSelector()}/purchase-orders/lead-times`;
 
       let res;
-      if (newLeadTimeGroup.id) {
-        res = await axios.patch(url, newLeadTimeGroup);
+      const payload = {
+        ...newLeadTimeGroup,
+        refresh_related_data: refresh_related_data,
+      };
+      if (payload.id) {
+        res = await axios.patch(url, payload);
       } else {
-        res = await axios.post(url, newLeadTimeGroup);
+        res = await axios.post(url, payload);
       }
 
       if (res.status === 201) {
         success('Successfully updated lead times.');
+        const { data } = res;
         const savedLeadTimeGroup = {
           ...newLeadTimeGroup,
-          id: res.data.id,
+          id: data.id,
         };
+        if (data.perfect_stock_job_id >= 0) {
+          refreshLeadTimeProjection(data.perfect_stock_job_id);
+        }
         setNewLeadTimeGroup(savedLeadTimeGroup);
         setInitialLeadTimeGroup(savedLeadTimeGroup);
 
@@ -316,6 +336,7 @@ const LeadTimeGroup = (props: Props) => {
                 size="md"
                 className={styles.resetButton}
                 onClick={handleCancel}
+                disabled={isFetchingProgressForLeadTimeJob}
               >
                 Cancel
               </ActionButton>
@@ -323,8 +344,11 @@ const LeadTimeGroup = (props: Props) => {
                 variant="secondary"
                 type="purpleGradient"
                 size="md"
-                onClick={handleSave}
+                onClick={() => {
+                  setIsSave(true);
+                }}
                 disabled={showError}
+                loading={isFetchingProgressForLeadTimeJob}
               >
                 Save
               </ActionButton>
@@ -342,8 +366,33 @@ const LeadTimeGroup = (props: Props) => {
           handleDeleteLeadTimeGroup(initialLeadTimeGroup.indexIdentifier || '');
         }}
       />
+      <Confirm
+        content={'Do you want to refresh all data caused by this change?'}
+        cancelButton="No"
+        confirmButton="Yes"
+        open={isSave}
+        onCancel={() => {
+          setIsSave(false);
+          handleSave(false);
+        }}
+        onConfirm={() => {
+          setIsSave(false);
+          handleSave(true);
+        }}
+      />
     </div>
   );
 };
 
-export default LeadTimeGroup;
+const mapStateToProps = (state: any) => ({
+  isFetchingProgressForLeadTimeJob: getIsFetchingProgressForLeadTimeJob(state),
+});
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    refreshLeadTimeProjection: (perfect_stock_job_id: number) =>
+      dispatch(refreshLeadTimeProjection(perfect_stock_job_id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LeadTimeGroup);
