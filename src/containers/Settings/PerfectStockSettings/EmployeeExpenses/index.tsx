@@ -40,7 +40,7 @@ const EmployeeExpenses = (props: Props) => {
       </div>
       <BoxContainer className={styles.elevioArticle}>
         <span>Step-By-Step Guide</span>
-        <ElevioArticle articleId={'17'} />
+        <ElevioArticle articleId={''} />
       </BoxContainer>
     </main>
   );
