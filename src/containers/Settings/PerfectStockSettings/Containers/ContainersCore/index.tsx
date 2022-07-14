@@ -6,11 +6,9 @@ import { Checkbox } from 'semantic-ui-react';
 import styles from './index.module.scss';
 
 /* Components */
-// import InputFilter from '../../../../../components/FormFilters/InputFilter';
 import ActionButton from '../../../../../components/ActionButton';
-// import SettingsInputTable from '../../../../../components/containerTable';
 import BoxContainer from '../../../../../components/BoxContainer';
-import InputTable from '../../../../../components/containerTable/';
+import InputTable from '../../../../../components/containerTable';
 import Placeholder from '../../../../../components/Placeholder';
 
 /* Constants */
@@ -211,7 +209,7 @@ const DaysOfInventory = () => {
               <Checkbox
                 radio
                 checked={!!(selectedTable === 0)}
-                label="Floor Loaded Container"
+                label="Floor loaded container"
                 onChange={() => {
                   if (selectedTable === 1) setSelectedTable(0);
                 }}
@@ -231,7 +229,7 @@ const DaysOfInventory = () => {
               <Checkbox
                 radio
                 checked={!!(selectedTable === 1)}
-                label="Floor Loaded Container"
+                label="Non-floor loaded container"
                 onChange={() => {
                   if (selectedTable === 0) setSelectedTable(1);
                 }}

@@ -11,7 +11,7 @@ const LeadTimeMeta = () => {
     <>
       <div className={styles.settingMetaTitle}>
         <HourGlassIcon />
-        &nbsp;&nbsp;Order Planning - Contianer
+        &nbsp;&nbsp;Container Settings
       </div>
     </>
   );
