@@ -32,7 +32,6 @@ export const HIDE_TAB_PAGES = [
   '/settings/aistock/days-of-inventory-settings',
   '/settings/aistock/payment-terms-settings',
   '/settings/aistock/duty-tax-settings',
-  '/settings/aistock/duty-tax-settings',
   '/settings/aistock/container-settings',
   /*3PL*/
   /*cash flow*/
@@ -47,7 +46,7 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'Sales Forecasting',
     desc: 'Accurately project high seasonal sales',
-    settings: '',
+    settings: '/aistock/sales',
   },
   {
     name: 'Order Planning',
@@ -57,7 +56,7 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: '3PL Manager',
     desc: '3PL storage management solved',
-    settings: '',
+    settings: '/aistock/tpl',
   },
   {
     name: 'Cash Flow',
@@ -67,7 +66,7 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'Create Order',
     desc: 'Easily create order planning',
-    settings: '',
+    settings: '/aistock/create-order',
   },
   {
     name: 'SKU Settings',
@@ -77,32 +76,32 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'Days of Inventory',
     desc: 'Set up days of inventory',
-    settings: '',
+    settings: '/settings/aistock/days-of-inventory-settings',
   },
   {
     name: 'Payment Terms',
     desc: 'Set up payment terms',
-    settings: '',
+    settings: '/settings/aistock/payment-terms-settings',
   },
   {
     name: 'Duty Tax Settings',
     desc: 'Set up duty tax settings',
-    settings: '',
+    settings: '/settings/aistock/duty-tax-settings',
   },
   {
     name: 'Employee Expenses',
     desc: 'Manage Employee Expenses',
-    settings: '',
+    settings: '/settings/aistock/employee-expenses-settings',
   },
   {
     name: 'PPC',
     desc: 'Manage PPC',
-    settings: '',
+    settings: '/settings/aistock/ppc-expenses-settings',
   },
   {
     name: 'Misc Expenses',
     desc: 'Manage misc Expenses',
-    settings: '',
+    settings: '/settings/aistock/misc-expenses-settings',
   },
   {
     name: 'New Product Launches',
@@ -112,7 +111,7 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'Cash Flow Reconcile Settings',
     desc: 'Add cash flow reconcile',
-    settings: '',
+    settings: '/settings/aistock/cash-flow-reconcile-settings',
   },
 ];
 
