@@ -85,7 +85,7 @@ const OrderVolumeOptimizationComponent = (props: Props) => {
               </span>
             </div>
             <div className={styles.statWrapper}>
-              <span className={styles.statHeader}>Max Volume</span>
+              <span className={styles.statHeader}>Order Volume</span>
               <span className={`${styles.stat} ${styles.stat__double}`}>
                 {showNAIfZeroOrNull(orderVolumeCDM, formatDecimal(orderVolumeCDM))}m
                 <span className={styles.super}>3</span>

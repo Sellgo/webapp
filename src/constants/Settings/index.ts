@@ -231,6 +231,14 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
+    name: 'Order Planning: Default Shipping Container',
+    disabled: false,
+    url: '/settings/aistock/container-settings',
+    showInSellgo: false,
+    showInAistock: true,
+    subPages: [],
+  },
+  {
     name: 'Order Planning: Duty Tax',
     disabled: false,
     url: '/settings/aistock/duty-tax-settings',
