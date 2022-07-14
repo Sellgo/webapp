@@ -82,7 +82,7 @@ const LeadTimeGroup = (props: Props) => {
   };
 
   /* Save all changes in the lead time group */
-  const handleSave = async (refreshUponSave?: boolean) => {
+  const handleSave = async (refresh_related_data: boolean, refreshUponSave?: boolean) => {
     /* Check if lead time has at least one of every step */
     let hasError = false;
     LEAD_TIME_OPTIONS.forEach(option => {
@@ -116,7 +116,7 @@ const LeadTimeGroup = (props: Props) => {
       let res;
       const payload = {
         ...newLeadTimeGroup,
-        refresh_related_data: true,
+        refresh_related_data: refresh_related_data,
       };
       if (payload.id) {
         res = await axios.patch(url, payload);
@@ -367,12 +367,17 @@ const LeadTimeGroup = (props: Props) => {
         }}
       />
       <Confirm
-        content={'Are you sure you want to update the following changes?'}
+        content={'Do you want to refresh all related data caused by this change?'}
+        cancelButton="No"
+        confirmButton="Yes"
         open={isSave}
-        onCancel={() => setIsSave(false)}
+        onCancel={() => {
+          setIsSave(false);
+          handleSave(false);
+        }}
         onConfirm={() => {
           setIsSave(false);
-          handleSave();
+          handleSave(true);
         }}
       />
     </div>
