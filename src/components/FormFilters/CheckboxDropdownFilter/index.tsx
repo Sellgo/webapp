@@ -20,6 +20,7 @@ import OnboardingTooltip from '../../OnboardingTooltip';
 
 interface Props {
   label?: string;
+  labelText?: boolean;
   filterOptions: any[];
   selectedValues: string[];
   handleChange: (value: any) => void;
@@ -37,6 +38,7 @@ const CheckboxDropdown: React.FC<Props> = props => {
     userOnboardingResources,
     disabled,
     popUpPosition = 'bottom left',
+    labelText = true,
   } = props;
 
   const handleCheckboxTick = (e: any, data: any) => {
@@ -88,7 +90,7 @@ const CheckboxDropdown: React.FC<Props> = props => {
 
   return (
     <div className={styles.checkBoxDropdownFilters}>
-      {label && (
+      {label && labelText && (
         <p>
           {label}
 

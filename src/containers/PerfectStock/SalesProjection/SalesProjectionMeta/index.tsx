@@ -186,6 +186,7 @@ const SalesProjectionMeta = (props: Props) => {
                       }}
                       showOneCalendar
                       disabled={!(selectedExportType === 1)}
+                      preventOverflow
                     />
                   </div>
                   <div
@@ -212,6 +213,7 @@ const SalesProjectionMeta = (props: Props) => {
                       }}
                       showOneCalendar
                       disabled={!(selectedExportType === 2)}
+                      preventOverflow
                     />
                   </div>
                   <ActionButton

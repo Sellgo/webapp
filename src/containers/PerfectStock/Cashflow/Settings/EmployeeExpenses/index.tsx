@@ -95,7 +95,7 @@ const Expenses = (props: Props) => {
   };
 
   return (
-    <main className={styles.leadTimeWrapper}>
+    <main className={styles.settingWrapper}>
       <SettingsBanner
         title="Employee Expenses"
         bannerColor="#FD8373"
