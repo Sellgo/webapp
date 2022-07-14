@@ -332,7 +332,7 @@ export const SETTINGS_OPTIONS = [
   },
   {
     name: 'Reconcile Expenses',
-    url: '/aistock/reconcile-settings',
+    url: '/settings/aistock/cash-flow-reconcile-settings',
     disabled: false,
   },
 ];
@@ -344,7 +344,7 @@ export const ONBOARDING_STATUS_MAPPING: any = {
   },
   ppc: {
     title: 'PPC Costs',
-    to: '/aistock/home-ppc-settings',
+    to: '/settings/aistock/ppc-expenses-settings',
   },
   misc: {
     title: 'Misc Costs',
