@@ -10,7 +10,7 @@ export const CONTAINERS_SETTINGS_COLUMNS: Column[] = [
     align: 'right',
   },
   {
-    width: 100,
+    width: 120,
     dataKey: 'name',
     title: 'Type',
     type: 'text',
@@ -24,11 +24,10 @@ export const CONTAINERS_SETTINGS_COLUMNS: Column[] = [
     align: 'center',
   },
   {
-    width: 100,
+    width: 160,
     dataKey: 'max_size_perc',
-    title: 'Efficiency (%)',
+    title: 'Order efficiency (%)',
     type: 'number',
-    //   append: '%',
     isEditable: true,
     align: 'center',
   },
