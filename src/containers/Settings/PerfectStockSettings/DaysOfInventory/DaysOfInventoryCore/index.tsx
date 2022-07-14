@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Radio } from 'semantic-ui-react';
+import { Radio, Checkbox } from 'semantic-ui-react';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -16,6 +16,7 @@ import { error, success } from '../../../../../utils/notifications';
 
 const DaysOfInventoryCore = () => {
   const [daysOfInventory, setDaysOfInventory] = React.useState('');
+  const [isRoundUp, setIsRoundUp] = React.useState<boolean | undefined>(true);
   const sellerID = localStorage.getItem('userId');
 
   /* Fetches all the triggers from backend */
@@ -44,6 +45,7 @@ const DaysOfInventoryCore = () => {
     try {
       const payload = {
         expected_sales_days_count: daysOfInventory,
+        round_up_to_nearest_carton: isRoundUp,
       };
       const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/perfect-stock/config`;
 
@@ -78,6 +80,11 @@ const DaysOfInventoryCore = () => {
           />
           &nbsp; days
         </div>
+        <Checkbox
+          label="Round up to nearest carton"
+          onChange={(_e, data) => setIsRoundUp(data.checked)}
+          checked={isRoundUp}
+        />
         <ActionButton
           className={styles.applyButton}
           variant="secondary"
