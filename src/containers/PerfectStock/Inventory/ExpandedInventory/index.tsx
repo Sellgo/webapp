@@ -174,11 +174,6 @@ const ExpandedInventory = (props: Props) => {
 
   return (
     <div className={styles.expandedInventory}>
-      <InventorySettings
-        productId={rowData.merchant_listing_id}
-        productConfig={productConfig}
-        updateInventorySku={updateInventorySku}
-      />
       <div className={styles.expandedProductDetailsWrapper}>
         <BoxHeader className={styles.tableHeader}>EXPANDED INVENTORY</BoxHeader>
         <BoxContainer className={styles.tableContainer}>
