@@ -24,11 +24,7 @@ import {
   ProductProjectedSales,
   GraphDataSeries,
 } from '../../../../interfaces/PerfectStock/SalesProjection';
-import {
-  DateRange,
-  InventorySkuUpdatePayload,
-  ProductConfig,
-} from '../../../../interfaces/PerfectStock/OrderPlanning';
+import { DateRange } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 /* Utils */
 import { AppConfig } from '../../../../config';
@@ -40,7 +36,6 @@ import {
   getIsLoadingInventoryTableResults,
   getTimeSetting,
 } from '../../../../selectors/PerfectStock/OrderPlanning';
-import { success } from '../../../../utils/notifications';
 
 interface Props {
   rowData: any;
