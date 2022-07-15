@@ -10,7 +10,7 @@ import DaysOfInventoryCore from '../DaysOfInventory/DaysOfInventoryCore';
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
 import ElevioArticle from '../../../../components/ElevioArticle';
-import BoxContainer from '../../../../components/BoxContainer';
+import BoxContainerSettings from '../../../../components/BoxContainerSettings';
 
 interface Props {
   match: any;
@@ -39,10 +39,10 @@ const DaysOfInventory = (props: Props) => {
           </div>
         </div>
       </div>
-      <BoxContainer className={styles.elevioArticle}>
+      <BoxContainerSettings className={styles.elevioArticle}>
         <span>Step-By-Step Guide</span>
         <ElevioArticle articleId={''} />
-      </BoxContainer>
+      </BoxContainerSettings>
 
       {/*<div className={styles.instructionsBox}>
               <span>Step-By-Step Guide</span>
