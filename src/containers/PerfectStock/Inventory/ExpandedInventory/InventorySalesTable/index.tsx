@@ -108,7 +108,7 @@ const InventorySalesTable = (props: Props) => {
                   <Table.HeaderCell>
                     <HeaderDateCell title={date} />
                   </Table.HeaderCell>
-                  <StatsCell dataKey={date} align="center" specialKpi />
+                  <StatsCell dataKey={date} align="center" isOrderPlanning={true} specialKpi />
                 </Table.Column>
               );
             })}

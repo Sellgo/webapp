@@ -40,7 +40,7 @@ const ProductSalesGraph = (props: Props) => {
         legend: {
           layout: 'vertical',
           align: 'right',
-          verticalAlign: 'middle',
+          verticalAlign: 'top',
           floating: true
         },
 
@@ -67,7 +67,7 @@ const ProductSalesGraph = (props: Props) => {
                 legend: {
                   layout: 'horizontal',
                   align: 'center',
-                  verticalAlign: 'bottom',
+                  verticalAlign: 'top',
                 },
               },
             },
