@@ -11,18 +11,25 @@ import { RowCell } from '../../../interfaces/Table';
 interface Props extends RowCell {
   handleDelete: (value: any) => void;
   deleteMessage: string;
+  disabled?: boolean;
 }
 /* Row Cell, for review stars */
 const DeleteCell = (props: Props) => {
   const [deleteConfirmation, setDeleteConfirmation] = React.useState(false);
-  const { handleDelete, deleteMessage, ...otherProps } = props;
+  const { handleDelete, deleteMessage, disabled = false, ...otherProps } = props;
 
   const { rowData, dataKey } = otherProps;
 
   return (
     <Table.Cell {...otherProps}>
-      <button className={styles.deleteCell} onClick={() => setDeleteConfirmation(true)}>
-        <Icon name="close" className={styles.closeIcon} />
+      <button
+        className={styles.deleteCell}
+        onClick={disabled ? () => {} : () => setDeleteConfirmation(true)}
+        style={{
+          cursor: `${disabled ? 'default' : 'pointer'}`,
+        }}
+      >
+        <Icon name="close" className={styles.closeIcon} disabled />
       </button>
       <Confirm
         content={deleteMessage}
