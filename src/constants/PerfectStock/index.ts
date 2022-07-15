@@ -63,6 +63,56 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
     desc: 'Cash flow analysis',
     settings: '/settings/aistock/employee-expenses-settings',
   },
+  {
+    name: 'Create Order',
+    desc: 'Easily create order planning',
+    settings: '',
+  },
+  {
+    name: 'Days of Inventory',
+    desc: 'Set up days of inventory',
+    settings: '',
+  },
+  {
+    name: 'Shipping Containers',
+    desc: 'Set up shipping containers',
+    settings: '',
+  },
+  {
+    name: 'SKU Settings',
+    desc: 'Set up SKU settings',
+    settings: '',
+  },
+  {
+    name: 'Duty Settings',
+    desc: 'Set up duty settings',
+    settings: '',
+  },
+  {
+    name: 'Payment Terms',
+    desc: 'Set up payment terms',
+    settings: '',
+  },
+  {
+    name: 'Employee Expenses',
+    desc: 'Manage Employee Expenses',
+    settings: '',
+  },
+  {
+    name: 'PPC Expenses',
+    desc: 'Manage PPC expenses',
+    settings: '',
+  },
+  {
+    name: 'Misc Expenses',
+    desc: 'Manage misc Expenses',
+    settings: '',
+  },
+  {
+    name: 'Reconcile Settings',
+    desc: 'Add reconcile',
+    settings: '',
+  },
 ];
 
 export const PERFECT_STOCK_SELLER_STATUS = {
