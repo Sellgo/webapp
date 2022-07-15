@@ -25,8 +25,13 @@ interface Props {
 }
 
 const LeadTimeSegmentTable = (props: Props) => {
-  const { leadTimeSegments, handleLeadTimeGroupEdit, handleLeadTimeDelete, showError, inUse } =
-    props;
+  const {
+    leadTimeSegments,
+    handleLeadTimeGroupEdit,
+    handleLeadTimeDelete,
+    showError,
+    inUse,
+  } = props;
 
   /* Calculate duration sum of leadTimeSegments */
   const durationSum = leadTimeSegments?.reduce((accumulator, currentValue) => {

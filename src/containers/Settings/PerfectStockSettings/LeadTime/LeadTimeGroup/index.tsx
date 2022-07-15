@@ -64,8 +64,9 @@ const LeadTimeGroup = (props: Props) => {
   const [isEditingName, setEditingName] = useState<boolean>(false);
 
   /* Trigger assignments state */
-  const [newLeadTimeGroup, setNewLeadTimeGroup] =
-    useState<SingleLeadTimeGroup>(initialLeadTimeGroup);
+  const [newLeadTimeGroup, setNewLeadTimeGroup] = useState<SingleLeadTimeGroup>(
+    initialLeadTimeGroup
+  );
 
   const leadTimesWithId =
     newLeadTimeGroup.lead_times?.map((leadTime: LeadTime, index: number) => {
@@ -84,9 +85,9 @@ const LeadTimeGroup = (props: Props) => {
   const handleSave = async (refresh_related_data: boolean, refreshUponSave?: boolean) => {
     /* Check if lead time has at least one of every step */
     let hasError = false;
-    LEAD_TIME_OPTIONS.forEach((option) => {
+    LEAD_TIME_OPTIONS.forEach(option => {
       const leadTimeStage = newLeadTimeGroup.lead_times.find(
-        (leadTime) => leadTime.type === option.value
+        leadTime => leadTime.type === option.value
       );
       if (!leadTimeStage && !hasError) {
         error(`Please add at least one lead time in ${option.text}.`);
@@ -101,7 +102,7 @@ const LeadTimeGroup = (props: Props) => {
     if (
       !newLeadTimeGroup.lead_times ||
       newLeadTimeGroup.lead_times.length === 0 ||
-      newLeadTimeGroup.lead_times.every((leadTime) => leadTime.type === '')
+      newLeadTimeGroup.lead_times.every(leadTime => leadTime.type === '')
     ) {
       error('Please add at least one valid lead time.');
       setShowError(true);
@@ -223,8 +224,8 @@ const LeadTimeGroup = (props: Props) => {
     if (
       newLeadTimeGroup.lead_times &&
       newLeadTimeGroup.lead_times.length > 0 &&
-      newLeadTimeGroup.lead_times.every((leadTime) => leadTime.type !== '') &&
-      newLeadTimeGroup.lead_times.every((leadTime) => leadTime.duration && leadTime.duration >= 0)
+      newLeadTimeGroup.lead_times.every(leadTime => leadTime.type !== '') &&
+      newLeadTimeGroup.lead_times.every(leadTime => leadTime.duration && leadTime.duration >= 0)
     ) {
       setShowError(false);
     }
@@ -328,7 +329,7 @@ const LeadTimeGroup = (props: Props) => {
               inUse={newLeadTimeGroup.in_use}
             />
             <button
-              onClick={!newLeadTimeGroup.in_use ? handleAddLeadTime : () => {}}
+              onClick={!newLeadTimeGroup.in_use ? handleAddLeadTime : () => null}
               className={styles.addButton}
               style={{
                 cursor: newLeadTimeGroup.in_use ? 'default' : 'pointer',

@@ -24,7 +24,7 @@ const DeleteCell = (props: Props) => {
     <Table.Cell {...otherProps}>
       <button
         className={styles.deleteCell}
-        onClick={disabled ? () => {} : () => setDeleteConfirmation(true)}
+        onClick={disabled ? () => null : () => setDeleteConfirmation(true)}
         style={{
           cursor: `${disabled ? 'default' : 'pointer'}`,
         }}
