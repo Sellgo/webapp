@@ -64,10 +64,10 @@ const SkusSettingsCore: React.FC<Props> = props => {
       );
       if (originalExpense) {
         if (
-          originalExpense.package_weight !== expense.package_weight ||
-          originalExpense.package_height !== expense.package_height ||
-          originalExpense.package_length !== expense.package_length ||
-          originalExpense.package_width !== expense.package_width ||
+          originalExpense.weight !== expense.weight ||
+          originalExpense.height !== expense.height ||
+          originalExpense.length !== expense.length ||
+          originalExpense.width !== expense.width ||
           originalExpense.dim_unit !== expense.dim_unit ||
           originalExpense.wt_unit !== expense.wt_unit
         ) {
