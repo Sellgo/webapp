@@ -46,7 +46,7 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'Sales Forecasting',
     desc: 'Accurately project high seasonal sales',
-    settings: '/aistock/sales',
+    settings: '',
   },
   {
     name: 'Order Planning',
@@ -56,7 +56,7 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: '3PL Manager',
     desc: '3PL storage management solved',
-    settings: '/aistock/tpl',
+    settings: '',
   },
   {
     name: 'Cash Flow',
@@ -66,52 +66,47 @@ export const PERFECT_STOCK_PRODUCT_DETAILS = [
   {
     name: 'Create Order',
     desc: 'Easily create order planning',
-    settings: '/aistock/create-order',
-  },
-  {
-    name: 'SKU Settings',
-    desc: 'Set up SKU settings',
-    settings: '/settings/aistock/sku-settings',
+    settings: '',
   },
   {
     name: 'Days of Inventory',
     desc: 'Set up days of inventory',
-    settings: '/settings/aistock/days-of-inventory-settings',
+    settings: '',
+  },
+  {
+    name: 'Sku Settings',
+    desc: 'Set up sku settings',
+    settings: '',
+  },
+  {
+    name: 'Duty Settings',
+    desc: 'Set up duty settings',
+    settings: '',
   },
   {
     name: 'Payment Terms',
     desc: 'Set up payment terms',
-    settings: '/settings/aistock/payment-terms-settings',
-  },
-  {
-    name: 'Duty Tax Settings',
-    desc: 'Set up duty tax settings',
-    settings: '/settings/aistock/duty-tax-settings',
+    settings: '',
   },
   {
     name: 'Employee Expenses',
     desc: 'Manage Employee Expenses',
-    settings: '/settings/aistock/employee-expenses-settings',
+    settings: '',
   },
   {
     name: 'PPC',
     desc: 'Manage PPC',
-    settings: '/settings/aistock/ppc-expenses-settings',
+    settings: '',
   },
   {
     name: 'Misc Expenses',
     desc: 'Manage misc Expenses',
-    settings: '/settings/aistock/misc-expenses-settings',
-  },
-  {
-    name: 'New Product Launches',
-    desc: 'Set up new product launches',
     settings: '',
   },
   {
-    name: 'Cash Flow Reconcile Settings',
-    desc: 'Add cash flow reconcile',
-    settings: '/settings/aistock/cash-flow-reconcile-settings',
+    name: 'Reconcile Settings',
+    desc: 'Add reconcile',
+    settings: '',
   },
 ];
 
