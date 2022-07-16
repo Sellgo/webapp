@@ -41,7 +41,7 @@ const ProductSalesGraph = (props: Props) => {
           layout: 'vertical',
           align: 'right',
           verticalAlign: 'top',
-          floating: true
+          floating: true,
         },
 
         plotOptions: {

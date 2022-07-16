@@ -302,6 +302,7 @@ const LeadTimeGroup = (props: Props) => {
             <Icon
               name="trash alternate"
               className={styles.deleteTriggerIcon}
+              disabled={newLeadTimeGroup?.in_use}
               onClick={(event: any) => {
                 event.stopPropagation();
                 setIsDeleting(true);
@@ -325,8 +326,16 @@ const LeadTimeGroup = (props: Props) => {
               handleLeadTimeGroupEdit={handleLeadTimeGroupEdit}
               handleLeadTimeDelete={handleLeadTimeDelete}
               showError={showError}
+              inUse={newLeadTimeGroup.in_use}
             />
-            <button onClick={handleAddLeadTime} className={styles.addButton}>
+            <button
+              onClick={!newLeadTimeGroup.in_use ? handleAddLeadTime : () => null}
+              className={styles.addButton}
+              style={{
+                cursor: newLeadTimeGroup.in_use ? 'default' : 'pointer',
+                opacity: newLeadTimeGroup.in_use ? 0.3 : 1,
+              }}
+            >
               {' '}
               Add Lead Time{' '}
             </button>
@@ -347,7 +356,7 @@ const LeadTimeGroup = (props: Props) => {
                 onClick={() => {
                   setIsSave(true);
                 }}
-                disabled={showError}
+                disabled={showError || newLeadTimeGroup?.in_use}
                 loading={isFetchingProgressForLeadTimeJob}
               >
                 Save
