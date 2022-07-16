@@ -20,12 +20,14 @@ interface Props extends RowCell {
   autoPrependCurrencySign?: boolean;
   className?: string;
   showZeroes?: boolean;
+  isOrderPlanning?: boolean;
 }
 
 const StatsCell = (props: Props) => {
   const {
     appendWith = '',
     prependWith = '',
+    isOrderPlanning = false,
     align = 'left',
     specialKpi = false,
     asRounded = true,
@@ -68,7 +70,7 @@ const StatsCell = (props: Props) => {
   return (
     <Table.Cell {...otherProps}>
       <div
-        className={`${styles.statsCell} ${className}`}
+        className={`${styles.statsCell} ${className} ${isOrderPlanning && styles.smFontSize}`}
         style={{
           alignSelf: alignSettings,
           color: specialKpi ? '#3B4557' : '#636d76',

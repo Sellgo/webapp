@@ -78,7 +78,8 @@ const Expenses = (props: Props) => {
 
   const requestUpdateSkuSettings = (
     <div className={styles.skuSettingsConfirm}>
-      Update Sku Settings?
+      Updating SKU information will impact the order planning, 3PL manager and cash flow settings,
+      please confirm to continue.
       {isDimensionsUpdated && (
         <div className={styles.updateShippingCostContent}>
           <Checkbox
@@ -117,7 +118,7 @@ const Expenses = (props: Props) => {
   };
 
   return (
-    <main className={styles.leadTimeWrapper}>
+    <main className={styles.settingWrapper}>
       <SettingsBanner
         title="Sku Settings"
         bannerColor="#FD8373"

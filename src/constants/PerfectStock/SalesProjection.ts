@@ -163,3 +163,8 @@ export const DEFAULT_FILTER = {
   active: 'sku_status=active',
   fba: 'fulfillment_channel=fba',
 };
+
+export const EXPORT_SALES_FORCASTING: any = {
+  1: 'sales',
+  2: 'sales_cal',
+};

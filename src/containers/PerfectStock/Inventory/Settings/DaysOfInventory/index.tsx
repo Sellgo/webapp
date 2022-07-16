@@ -66,7 +66,7 @@ const DaysOfInventory = () => {
   }, []);
 
   return (
-    <main className={styles.leadTimeWrapper}>
+    <main className={styles.settingWrapper}>
       <SettingsBanner
         title="Days Of Inventory"
         bannerColor="#FD8373"

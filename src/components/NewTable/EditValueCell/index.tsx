@@ -59,7 +59,7 @@ const EditValueCell = (props: Props) => {
           }}
           placeholder=""
           className={`
-            ${styles.inputField} 
+            ${styles.inputField}
             ${!isLarge ? styles.inputField__small : ''}
             ${isLong ? styles.inputField__long : ''}
           `}

@@ -18,6 +18,9 @@
   color: $blue_link_bg_light;
   font-weight: $fontweight_medium;
   font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
 .buttonsRow {
@@ -28,5 +31,9 @@
 
   .resetButton {
     margin-right: 18px;
+  }
+
+  .applyBtn {
+    margin: 0 0 0 auto;
   }
 }

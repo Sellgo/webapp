@@ -44,6 +44,7 @@ import { getDateOnly } from '../../../../utils/date';
 
 /* Constants */
 import {
+  EXPORT_ORDER_PLANNING,
   ACTIVE_FILTER_OPTIONS,
   FBA_FILTER_OPTIONS,
 } from '../../../../constants/PerfectStock/OrderPlanning';
@@ -75,22 +76,41 @@ const OrderPlanningMeta = (props: Props) => {
   const [isExportLoading, setExportLoading] = React.useState<boolean>(false);
   const [isCreatingOrder, setIsCreatingOrder] = React.useState(false);
   const [isExportConfirmOpen, setExportConfirmOpen] = React.useState<boolean>(false);
-  const [startEndDate, setStartEndDate] = React.useState<any>([undefined, undefined]);
+  const [startEndDate, setStartEndDate] = React.useState<any>({
+    2: [undefined, undefined],
+    3: [undefined, undefined],
+  });
+  const [selectedExportType, setSelectedExportType] = React.useState<number>(1);
+
+  React.useEffect(() => {
+    if (!isExportConfirmOpen) {
+      setStartEndDate({ 2: [], 3: [] });
+      setSelectedExportType(1);
+    }
+  }, [isExportConfirmOpen]);
 
   const handleOnExport = async () => {
-    if (!startEndDate[0] || !startEndDate[1]) {
-      error('Please select a start and end date');
-      return;
+    if (selectedExportType !== 1) {
+      if (!startEndDate[selectedExportType][0] || !startEndDate[selectedExportType][1]) {
+        error('Please select a start and end date');
+        return;
+      }
     }
     setExportLoading(true);
     setExportConfirmOpen(false);
     try {
       const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/perfect-stock/export`;
-      const { data } = await axios.post(url, {
-        type: 'order',
-        start_date: getDateOnly(startEndDate[0]),
-        end_date: getDateOnly(startEndDate[1]),
-      });
+      let payload: any = {
+        type: EXPORT_ORDER_PLANNING[selectedExportType],
+      };
+      if (selectedExportType !== 1) {
+        payload = {
+          ...payload,
+          start_date: getDateOnly(startEndDate[selectedExportType][0]),
+          end_date: getDateOnly(startEndDate[selectedExportType][1]),
+        };
+      }
+      const { data } = await axios.post(url, payload);
       const exportUrl = data.report_xlsx_url;
       if (exportUrl) {
         await downloadFile(exportUrl);
@@ -101,6 +121,8 @@ const OrderPlanningMeta = (props: Props) => {
       console.error(err);
     }
     setExportLoading(false);
+    setSelectedExportType(1);
+    setStartEndDate({ 2: [], 3: [] });
   };
 
   const displayDate = inventoryTableUpdateDate
@@ -184,20 +206,73 @@ const OrderPlanningMeta = (props: Props) => {
             setConfirmOpen={setExportConfirmOpen}
             exportConfirmation={
               <>
-                <BoxHeader>DOWNLOAD: ORDER PLANNING</BoxHeader>
+                <BoxHeader>EXPORT: ORDER PLANNING</BoxHeader>
                 <BoxContainer className={styles.exportConfirmContainer}>
                   <div className={styles.salesForecastDateSelector}>
-                    <Checkbox checked={true} disabled />
+                    <Checkbox
+                      checked={!!(selectedExportType === 1)}
+                      radio
+                      onChange={() => {
+                        if (selectedExportType === 2 || selectedExportType === 3) {
+                          setSelectedExportType(1);
+                          setStartEndDate({ 2: [], 3: [] });
+                        }
+                      }}
+                    />
+                    <span className={styles.dateSelectorLabel}>Highlight Today's Inventory</span>
+                  </div>
+                  <div
+                    className={`${styles.salesForecastDateSelector} ${styles.exportOrderPlanningMargin}`}
+                  >
+                    <Checkbox
+                      checked={!!(selectedExportType === 2)}
+                      radio
+                      onChange={() => {
+                        if (selectedExportType === 1 || selectedExportType === 3) {
+                          setSelectedExportType(2);
+                          setStartEndDate({ 2: [], 3: [] });
+                        }
+                      }}
+                    />
                     <span className={styles.dateSelectorLabel}>Past Inventory</span>
                     <DateRangePicker
                       className={styles.dateRangePicker}
-                      value={startEndDate[0] && startEndDate[1] ? startEndDate : undefined}
+                      value={startEndDate[2][0] && startEndDate[2][1] ? startEndDate[2] : []}
                       onChange={value => {
                         if (value) {
-                          setStartEndDate(value);
+                          setStartEndDate({ 2: value, 3: [] });
                         }
                       }}
                       showOneCalendar
+                      disabled={!(selectedExportType === 2)}
+                      preventOverflow
+                    />
+                  </div>
+                  <div
+                    className={`${styles.salesForecastDateSelector} ${styles.exportOrderPlanningMargin}`}
+                  >
+                    <Checkbox
+                      checked={!!(selectedExportType === 3)}
+                      radio
+                      onChange={() => {
+                        if (selectedExportType === 1 || selectedExportType === 2) {
+                          setSelectedExportType(3);
+                          setStartEndDate({ 2: [], 3: [] });
+                        }
+                      }}
+                    />
+                    <span className={styles.dateSelectorLabel}>Order Planning </span>
+                    <DateRangePicker
+                      className={styles.dateRangePicker}
+                      value={startEndDate[3][0] && startEndDate[3][1] ? startEndDate[3] : []}
+                      onChange={value => {
+                        if (value) {
+                          setStartEndDate({ 2: [], 3: value });
+                        }
+                      }}
+                      showOneCalendar
+                      disabled={!(selectedExportType === 3)}
+                      preventOverflow
                     />
                   </div>
                   <ActionButton

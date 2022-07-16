@@ -91,7 +91,7 @@ const Expenses = (props: Props) => {
   };
 
   return (
-    <main className={styles.leadTimeWrapper}>
+    <main className={styles.settingWrapper}>
       <SettingsBanner
         title="Reconcile Settings"
         bannerColor="#FD8373"

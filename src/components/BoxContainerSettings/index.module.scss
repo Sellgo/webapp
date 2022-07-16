@@ -1,0 +1,11 @@
+@import '../../design-system/new-colors';
+
+.profileBoxContainerSettings {
+  position: relative;
+  width: 100%;
+  min-width: 700px;
+  min-height: 800px;
+  border: 1px solid $grey_3;
+  padding: 30px 30px;
+  background: #fff;
+}

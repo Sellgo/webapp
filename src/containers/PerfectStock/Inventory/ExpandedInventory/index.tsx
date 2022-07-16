@@ -16,7 +16,6 @@ import { GRAPH_SETTING_OPTIONS } from '../../../../constants/PerfectStock';
 import BoxHeader from '../../../../components/BoxHeader';
 import BoxContainer from '../../../../components/BoxContainer';
 import Placeholder from '../../../../components/Placeholder';
-import InventorySettings from './InventorySettings';
 import InventorySalesTable from './InventorySalesTable';
 import InventorySalesGraph from './InventorySalesGraph';
 
@@ -25,11 +24,7 @@ import {
   ProductProjectedSales,
   GraphDataSeries,
 } from '../../../../interfaces/PerfectStock/SalesProjection';
-import {
-  DateRange,
-  InventorySkuUpdatePayload,
-  ProductConfig,
-} from '../../../../interfaces/PerfectStock/OrderPlanning';
+import { DateRange } from '../../../../interfaces/PerfectStock/OrderPlanning';
 
 /* Utils */
 import { AppConfig } from '../../../../config';
@@ -41,7 +36,6 @@ import {
   getIsLoadingInventoryTableResults,
   getTimeSetting,
 } from '../../../../selectors/PerfectStock/OrderPlanning';
-import { success } from '../../../../utils/notifications';
 
 interface Props {
   rowData: any;
@@ -56,9 +50,6 @@ const ExpandedInventory = (props: Props) => {
   const [productProjectedSales, setProductProjectedSales] = React.useState<ProductProjectedSales[]>(
     []
   );
-
-  /* Product settings states */
-  const [productConfig, setProductConfig] = React.useState<ProductConfig | null>(null);
 
   /* Product graph states */
   const [graphProductProjectedSalesData, setGraphProductProjectedSalesData] = React.useState<
@@ -140,45 +131,12 @@ const ExpandedInventory = (props: Props) => {
     setIsLoadingProductProjectedSales(false);
   };
 
-  const getProductConfig = async () => {
-    const sellerId = sellerIDSelector();
-    /* Fetch data from the server */
-    const url =
-      `${AppConfig.BASE_URL_API}sellers/` +
-      `${sellerId}/perfect-stock/merchant-listings/${rowData.merchant_listing_id}/config`;
-    const { data } = await axios.get(url);
-    setProductConfig(data);
-  };
-
-  const updateInventorySku = async (payload: InventorySkuUpdatePayload) => {
-    try {
-      const sellerId = sellerIDSelector();
-      const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/perfect-stock/merchant-listings/${payload.id}/config`;
-      const { data } = await axios.patch(URL, payload);
-      if (data) {
-        setProductConfig(data);
-        success('Successfully updated');
-      }
-    } catch (err) {
-      console.error('Error updating inventory sku', err);
-    }
-  };
-
   React.useEffect(() => {
     getProductSales();
   }, [timeSetting, showTrends, dateRange.startDate, dateRange.endDate]);
 
-  React.useEffect(() => {
-    getProductConfig();
-  }, []);
-
   return (
     <div className={styles.expandedInventory}>
-      <InventorySettings
-        productId={rowData.merchant_listing_id}
-        productConfig={productConfig}
-        updateInventorySku={updateInventorySku}
-      />
       <div className={styles.expandedProductDetailsWrapper}>
         <BoxHeader className={styles.tableHeader}>EXPANDED INVENTORY</BoxHeader>
         <BoxContainer className={styles.tableContainer}>

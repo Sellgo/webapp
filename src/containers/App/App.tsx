@@ -30,6 +30,16 @@ import ProductResearch from '../ProductResearch';
 import KeywordResearch from '../KeywordResearch';
 import PerfectStock from '../PerfectStock';
 import LeadTime from '../Settings/PerfectStockSettings/LeadTime';
+import DaysOfInventory from '../Settings/PerfectStockSettings/DaysOfInventory';
+import SkuSettings from '../Settings/PerfectStockSettings/SkuSettings';
+import Containers from '../Settings/PerfectStockSettings/Containers';
+import DutyTax from '../Settings/PerfectStockSettings/DutyTax';
+import PaymentTerms from '../Settings/PerfectStockSettings/PaymentTerms';
+import EmployeeExpenses from '../Settings/PerfectStockSettings/EmployeeExpenses';
+import LaunchExpenses from '../Settings/PerfectStockSettings/LaunchExpenses';
+import MiscExpenses from '../Settings/PerfectStockSettings/MiscExpenses';
+import PpcExpenses from '../Settings/PerfectStockSettings/PpcExpenses';
+import CashFlowReconcile from '../Settings/PerfectStockSettings/CashFlowReconcile';
 
 import SellgoNewSubscription from '../NewSellgoSubscription';
 import SellgoPaymentSuccess from '../NewSellgoSubscription/SellgoPaymentSuccess';
@@ -343,7 +353,56 @@ function App() {
           <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} />
           <PrivateRoute exact={true} path="/settings/profile" component={Profile} />
           <PrivateRoute exact={true} path="/settings/aistock/lead-time" component={LeadTime} />
-
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/days-of-inventory-settings"
+            component={DaysOfInventory}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/sku-settings"
+            component={SkuSettings}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/duty-tax-settings"
+            component={DutyTax}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/payment-terms-settings"
+            component={PaymentTerms}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/container-settings"
+            component={Containers}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/employee-expenses-settings"
+            component={EmployeeExpenses}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/product-launch-expenses-settings"
+            component={LaunchExpenses}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/misc-expenses-settings"
+            component={MiscExpenses}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/ppc-expenses-settings"
+            component={PpcExpenses}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/cash-flow-reconcile-settings"
+            component={CashFlowReconcile}
+          />
           <PrivateRoute
             exact={true}
             path="/synthesis"

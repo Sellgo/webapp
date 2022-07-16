@@ -41,6 +41,7 @@ import { getDateOnly } from '../../../../utils/date';
 
 /* Constants */
 import {
+  EXPORT_SALES_FORCASTING,
   ACTIVE_FILTER_OPTIONS,
   FBA_FILTER_OPTIONS,
 } from '../../../../constants/PerfectStock/SalesProjection';
@@ -66,10 +67,13 @@ const SalesProjectionMeta = (props: Props) => {
   } = props;
   const [isExportLoading, setExportLoading] = React.useState<boolean>(false);
   const [isExportConfirmOpen, setExportConfirmOpen] = React.useState<boolean>(false);
-  const [startEndDate, setStartEndDate] = React.useState<any>([undefined, undefined]);
-
+  const [startEndDate, setStartEndDate] = React.useState<any>({
+    1: [undefined, undefined],
+    2: [undefined, undefined],
+  });
+  const [selectedExportType, setSelectedExportType] = React.useState<number>(1);
   const handleOnExport = async () => {
-    if (!startEndDate[0] || !startEndDate[1]) {
+    if (!startEndDate[selectedExportType][0] || !startEndDate[selectedExportType][1]) {
       error('Please select a start and end date');
       return;
     }
@@ -78,9 +82,9 @@ const SalesProjectionMeta = (props: Props) => {
     try {
       const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/perfect-stock/export`;
       const { data } = await axios.post(url, {
-        type: 'sales',
-        start_date: getDateOnly(startEndDate[0]),
-        end_date: getDateOnly(startEndDate[1]),
+        type: EXPORT_SALES_FORCASTING[selectedExportType],
+        start_date: getDateOnly(startEndDate[selectedExportType][0]),
+        end_date: getDateOnly(startEndDate[selectedExportType][1]),
       });
       const exportUrl = data.report_xlsx_url;
       await downloadFile(exportUrl);
@@ -158,20 +162,58 @@ const SalesProjectionMeta = (props: Props) => {
             setConfirmOpen={setExportConfirmOpen}
             exportConfirmation={
               <>
-                <BoxHeader>DOWNLOAD: SALES FORECASTING</BoxHeader>
+                <BoxHeader>EXPORT: SALES FORECASTING</BoxHeader>
                 <BoxContainer className={styles.exportConfirmContainer}>
                   <div className={styles.salesForecastDateSelector}>
-                    <Checkbox checked={true} disabled />
+                    <Checkbox
+                      checked={!!(selectedExportType === 1)}
+                      radio
+                      onChange={() => {
+                        if (selectedExportType === 2) {
+                          setSelectedExportType(1);
+                          setStartEndDate({ 1: [], 2: [] });
+                        }
+                      }}
+                    />
                     <span className={styles.dateSelectorLabel}>Sales Forecast</span>
                     <DateRangePicker
                       className={styles.dateRangePicker}
-                      value={startEndDate[0] && startEndDate[1] ? startEndDate : undefined}
+                      value={startEndDate[1][0] && startEndDate[1][1] ? startEndDate[1] : []}
                       onChange={value => {
                         if (value) {
-                          setStartEndDate(value);
+                          setStartEndDate({ 1: value, 2: [] });
                         }
                       }}
                       showOneCalendar
+                      disabled={!(selectedExportType === 1)}
+                      preventOverflow
+                    />
+                  </div>
+                  <div
+                    className={`${styles.salesForecastDateSelector} ${styles.salesCalenderDataPickerMarginTop}`}
+                  >
+                    <Checkbox
+                      checked={!!(selectedExportType === 2)}
+                      radio
+                      onChange={() => {
+                        if (selectedExportType === 1) {
+                          setStartEndDate({ 1: [], 2: [] });
+                          setSelectedExportType(2);
+                        }
+                      }}
+                    />
+                    <span className={styles.dateSelectorLabel}>Sales Calender</span>
+                    <DateRangePicker
+                      className={styles.dateRangePicker}
+                      value={startEndDate[2][0] && startEndDate[2][1] ? startEndDate[2] : []}
+                      onChange={value => {
+                        if (value) {
+                          setStartEndDate({ 1: [], 2: value });
+                        }
+                      }}
+                      showOneCalendar
+                      disabled={!(selectedExportType === 2)}
+                      preventOverflow
                     />
                   </div>
                   <ActionButton

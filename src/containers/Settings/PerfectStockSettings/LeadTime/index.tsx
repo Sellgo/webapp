@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
 
@@ -12,6 +13,9 @@ import Placeholder from '../../../../components/Placeholder';
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
 import { ReactComponent as ThinAddIcon } from '../../../../assets/images/thinAddIcon.svg';
+import ProgressBar from '../../../../components/ProgressBar';
+import ElevioArticle from '../../../../components/ElevioArticle';
+import BoxContainerSettings from '../../../../components/BoxContainerSettings';
 
 /* Types */
 import { SingleLeadTimeGroup } from '../../../../interfaces/PerfectStock/SalesProjection';
@@ -21,11 +25,23 @@ import { AppConfig } from '../../../../config';
 import ActionButton from '../../../../components/ActionButton';
 import { error } from '../../../../utils/notifications';
 
+/* Selectors */
+import {
+  getRefreshProgress,
+  getIsFetchingProgressForLeadTimeJob,
+} from '../../../../selectors/PerfectStock/LeadTime';
+
+/* Actions */
+import { fetchRefreshProgress } from '../../../../actions/PerfectStock/LeadTime';
+
 interface Props {
   match: any;
+  refreshProgress: number;
+  isFetchingProgressForLeadTimeJob: boolean;
+  fetchRefreshProgress: () => void;
 }
 const LeadTime = (props: Props) => {
-  const { match } = props;
+  const { match, refreshProgress, isFetchingProgressForLeadTimeJob, fetchRefreshProgress } = props;
 
   const [leadTimeGroups, setLeadTimeGroups] = React.useState<SingleLeadTimeGroup[]>([]);
   const [isFetchLeadTimeGroupsLoading, setFetchLeadTimeGroupsLoading] = React.useState<boolean>(
@@ -97,6 +113,7 @@ const LeadTime = (props: Props) => {
           setLeadTimeGroups(newLeadTimeGroups);
         }
       } catch (err) {
+        // ts-ignore
         const { response } = err;
         if (response && response.status === 400) {
           error(response.data?.message);
@@ -133,18 +150,23 @@ const LeadTime = (props: Props) => {
   }, []);
 
   return (
-    <main className={styles.leadTimeWrapper}>
+    <main className={styles.settingWrapper}>
+      <ProgressBar
+        fetchProgress={fetchRefreshProgress}
+        progress={refreshProgress}
+        shouldFetchProgress={isFetchingProgressForLeadTimeJob}
+      />
       <PageHeader
         title={'Lead Time'}
         breadcrumb={[
           { content: 'Home', to: '/' },
-          { content: 'Perfect Stock' },
+          { content: 'AiStock' },
           { content: 'Lead Time' },
         ]}
         auth={match.params.auth}
       />
       <SettingsNav match={match} />
-      <div className={styles.leadTime}>
+      <div className={styles.settingPerimeter}>
         <LeadTimeMeta />
         {isFetchLeadTimeGroupsLoading && <Placeholder numberParagraphs={3} numberRows={5} isGrey />}
         {!isFetchLeadTimeGroupsLoading &&
@@ -165,11 +187,26 @@ const LeadTime = (props: Props) => {
           onClick={handleAddLeadTimeGroup}
         >
           <ThinAddIcon />
-          <span>Add Lead Time Group</span>
+          <span>Add lead time group</span>
         </ActionButton>
       </div>
+      <BoxContainerSettings className={styles.elevioArticle}>
+        <span>Step-By-Step Guide</span>
+        <ElevioArticle articleId={'17'} />
+      </BoxContainerSettings>
     </main>
   );
 };
 
-export default LeadTime;
+const mapStateToProps = (state: any) => ({
+  refreshProgress: getRefreshProgress(state),
+  isFetchingProgressForLeadTimeJob: getIsFetchingProgressForLeadTimeJob(state),
+});
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchRefreshProgress: () => dispatch(fetchRefreshProgress()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LeadTime);

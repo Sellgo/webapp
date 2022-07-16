@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { Confirm, Icon } from 'semantic-ui-react';
 import axios from 'axios';
 
@@ -27,8 +28,16 @@ import { error, success } from '../../../../../utils/notifications';
 import { sellerIDSelector } from '../../../../../selectors/Seller';
 import { LEAD_TIME_OPTIONS } from '../../../../../constants/PerfectStock';
 
+/* Selectors */
+
+import { getIsFetchingProgressForLeadTimeJob } from '../../../../../selectors/PerfectStock/LeadTime';
+
+/* Actions */
+import { refreshLeadTimeProjection } from '../../../../../actions/PerfectStock/LeadTime';
 interface Props {
   initialLeadTimeGroup: SingleLeadTimeGroup;
+  isFetchingProgressForLeadTimeJob: boolean;
+  refreshLeadTimeProjection: (perfect_stock_job_id: number) => void;
   handleDeleteLeadTimeGroup: (indexIdentifier: string) => void;
   fetchLeadTimeGroups: () => void;
   setInitialLeadTimeGroup: (value: SingleLeadTimeGroup) => void;
@@ -40,6 +49,7 @@ const LeadTimeGroup = (props: Props) => {
     handleDeleteLeadTimeGroup,
     fetchLeadTimeGroups,
     setInitialLeadTimeGroup,
+    isFetchingProgressForLeadTimeJob,
   } = props;
   /* Modal State */
 
@@ -282,6 +292,7 @@ const LeadTimeGroup = (props: Props) => {
             <Icon
               name="trash alternate"
               className={styles.deleteTriggerIcon}
+              disabled={newLeadTimeGroup?.in_use}
               onClick={(event: any) => {
                 event.stopPropagation();
                 setIsDeleting(true);
@@ -305,8 +316,16 @@ const LeadTimeGroup = (props: Props) => {
               handleLeadTimeGroupEdit={handleLeadTimeGroupEdit}
               handleLeadTimeDelete={handleLeadTimeDelete}
               showError={showError}
+              inUse={newLeadTimeGroup.in_use}
             />
-            <button onClick={handleAddLeadTime} className={styles.addButton}>
+            <button
+              onClick={!newLeadTimeGroup.in_use ? handleAddLeadTime : () => null}
+              className={styles.addButton}
+              style={{
+                cursor: newLeadTimeGroup.in_use ? 'default' : 'pointer',
+                opacity: newLeadTimeGroup.in_use ? 0.3 : 1,
+              }}
+            >
               {' '}
               Add Lead Time{' '}
             </button>
@@ -316,6 +335,7 @@ const LeadTimeGroup = (props: Props) => {
                 size="md"
                 className={styles.resetButton}
                 onClick={handleCancel}
+                disabled={isFetchingProgressForLeadTimeJob}
               >
                 Cancel
               </ActionButton>
@@ -324,7 +344,8 @@ const LeadTimeGroup = (props: Props) => {
                 type="purpleGradient"
                 size="md"
                 onClick={handleSave}
-                disabled={showError}
+                disabled={showError || newLeadTimeGroup?.in_use}
+                loading={isFetchingProgressForLeadTimeJob}
               >
                 Save
               </ActionButton>
@@ -346,4 +367,15 @@ const LeadTimeGroup = (props: Props) => {
   );
 };
 
-export default LeadTimeGroup;
+const mapStateToProps = (state: any) => ({
+  isFetchingProgressForLeadTimeJob: getIsFetchingProgressForLeadTimeJob(state),
+});
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    refreshLeadTimeProjection: (perfect_stock_job_id: number) =>
+      dispatch(refreshLeadTimeProjection(perfect_stock_job_id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LeadTimeGroup);

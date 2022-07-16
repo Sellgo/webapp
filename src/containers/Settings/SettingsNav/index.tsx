@@ -47,33 +47,35 @@ const SettingsNav = (props: Props) => {
                   <div
                     className={
                       isActive
-                        ? `${styles.settingPageOption} ${styles.settingPageOption__active}`
+                        ? `${styles.settingPageOption} 
+                        ${styles.settingPageOption__active}`
                         : styles.settingPageOption
                     }
                   >
                     {page.name}
                   </div>
                 </Link>
-
-                {/* Sub pages */}
-                {isActive &&
-                  page.subPages.map((subPage: any) => {
-                    const isActive = match.path === subPage.url;
-                    return (
-                      <Link key={subPage.url} to={subPage.url} style={{ textDecoration: 'none' }}>
-                        <div
-                          className={
-                            isActive
-                              ? `${styles.settingPageOption} 
-                                ${styles.settingPageOption__small} ${styles.settingPageOption__active}`
-                              : `${styles.settingPageOption} ${styles.settingPageOption__small}`
-                          }
-                        >
-                          {subPage.name}
-                        </div>
-                      </Link>
-                    );
-                  })}
+                <div className={styles.settingsSubPagesMenu}>
+                  {/* Sub pages */}
+                  {isActive &&
+                    page.subPages.map((subPage: any) => {
+                      const isActive = match.path === subPage.url;
+                      return (
+                        <Link key={subPage.url} to={subPage.url} style={{ textDecoration: 'none' }}>
+                          <div
+                            className={
+                              isActive
+                                ? `${styles.settingSubPageOption} 
+                                ${styles.settingSubPageOption__small} ${styles.settingSubPageOption__active}`
+                                : `${styles.settingSubPageOption} ${styles.settingPageOption__small}`
+                            }
+                          >
+                            {subPage.name}
+                          </div>
+                        </Link>
+                      );
+                    })}
+                </div>
               </div>
             );
           } else {

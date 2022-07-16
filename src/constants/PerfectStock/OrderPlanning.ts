@@ -220,17 +220,17 @@ export const DEFAULT_FILTER = {
 export const SETTINGS_OPTIONS = [
   {
     name: 'Days of Inventory',
-    url: '/aistock/inventory-days-of-inventory-settings',
+    url: '/settings/aistock/days-of-inventory-settings',
     disabled: false,
   },
   {
     name: 'Sku Settings',
-    url: '/aistock/sku-settings',
+    url: '/settings/aistock/sku-settings',
     disabled: false,
   },
   {
     name: 'Duty Settings',
-    url: '/aistock/duty-settings',
+    url: '/settings/aistock/duty-tax-settings',
     disabled: false,
   },
   {
@@ -312,28 +312,28 @@ export const SKU_SETTINGS_COLUMNS: Column[] = [
   },
   {
     width: 110,
-    dataKey: 'package_length',
+    dataKey: 'length',
     title: 'Carton Length',
     type: 'number',
     optional: true,
   },
   {
     width: 110,
-    dataKey: 'package_width',
+    dataKey: 'width',
     title: 'Carton Width',
     type: 'number',
     optional: true,
   },
   {
     width: 110,
-    dataKey: 'package_height',
+    dataKey: 'height',
     title: 'Carton Height',
     type: 'number',
     optional: true,
   },
   {
     width: 110,
-    dataKey: 'package_weight',
+    dataKey: 'weight',
     title: 'Carton Weight',
     type: 'number',
     optional: true,
@@ -402,3 +402,9 @@ export const DUTY_SETTINGS_COLUMNS: Column[] = [
     optional: true,
   },
 ];
+
+export const EXPORT_ORDER_PLANNING: any = {
+  1: 'inv_today',
+  2: 'order',
+  3: 'order_plan',
+};
