@@ -163,6 +163,17 @@ export class TaskRow extends Component {
                       <AlignOrderIcon />
                       <span>Align Smart Order</span>
                     </button>
+                    <button
+                      onClick={() => {
+                        this.props.exportPurchaseOrder(this.props.item.id);
+                        this.setState({ isPopupOpen: false });
+                      }}
+                      disabled={!this.props.item.id}
+                    >
+                      <Icon name="mail forward" />
+                      <span>Export Purchase Order</span>
+                    </button>
+
                     {!this.props.item.vendorId ? (
                       <button
                         onClick={() => {
@@ -246,6 +257,7 @@ export default class TaskList extends Component {
           handleSetPaymentTerm={this.props.handleSetPaymentTerm}
           handleConnectTpl={this.props.handleConnectTpl}
           handleIncludedToggle={this.props.handleIncludedToggle}
+          exportPurchaseOrder={this.props.exportPurchaseOrder}
           handleAlignOrder={this.props.handleAlignOrder}
           handleDisconnectTpl={this.props.handleDisconnectTpl}
           isDraftMode={this.props.isDraftMode}

@@ -464,6 +464,7 @@ class TimeLine extends Component {
             handleChangeFilterOption={this.props.handleChangeFilterOption}
             viewFilter={this.props.viewFilter}
             handleIncludedToggle={this.props.handleIncludedToggle}
+            exportPurchaseOrder={this.props.exportPurchaseOrder}
             handleEditTask={this.props.handleEditTask}
             generateNextOrder={this.props.generateNextOrder}
             isDraftMode={this.props.isDraftMode}
