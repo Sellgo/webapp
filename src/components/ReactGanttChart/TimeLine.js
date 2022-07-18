@@ -442,6 +442,8 @@ class TimeLine extends Component {
             startRow={this.state.startRow}
             endRow={this.state.endRow}
             data={this.props.data}
+            prioritySkuDetails={this.props.prioritySkuDetails}
+            handleUpdatePrioritySku={this.props.handleUpdatePrioritySku}
             selectedItem={this.props.selectedTask}
             onSelectItem={this.onSelectItem}
             onUpdateTask={this.props.onUpdateTask}
@@ -454,6 +456,8 @@ class TimeLine extends Component {
             handleDeleteTask={this.props.handleDeleteTask}
             handleDeleteAllTasks={this.props.handleDeleteAllTasks}
             handleSetPrioritySku={this.props.handleSetPrioritySku}
+            handleSetPrioritySku={this.props.handleSetPrioritySku}
+            handleSetPrioritySkuDetails={this.props.handleSetPrioritySkuDetails}
             handleSetPaymentTerm={this.props.handleSetPaymentTerm}
             handleConnectTpl={this.props.handleConnectTpl}
             handleDisconnectTpl={this.props.handleDisconnectTpl}

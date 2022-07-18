@@ -5,7 +5,7 @@ import {
   TIME_SETTINGS_OPTIONS,
   EMPTY_GANTT_CHART_PURCHASE_ORDER,
 } from '../../../../constants/PerfectStock/OrderPlanning';
-import { Icon, Popup, Checkbox } from 'semantic-ui-react';
+import { Icon, Popup, Checkbox, Dropdown } from 'semantic-ui-react';
 import ToggleRadio from '../../../../components/ToggleRadio';
 import { ReactComponent as AlignOrderIcon } from '../../../../assets/images/arrow-right-to-bracket-solid.svg';
 
@@ -26,13 +26,34 @@ export class TaskRow extends Component {
 
   state = {
     isPopupOpen: false,
+    selectedPrioritySku: { name: this.props.prioritySku, value: null },
+    isOpen: false,
   };
 
-  onChange = value => {
+  onChange = (value) => {
     if (this.props.onUpdateTask) {
       this.props.onUpdateTask(this.props.item, { name: value });
     }
   };
+
+  handleChangePrioritySku = ({ value, name }) => {
+    this.setState({ selectedPrioritySku: { name, value } });
+    this.props.handleUpdatePrioritySku({
+      id: this.props.prioritySkuDetails.id,
+      po_sku_id: parseInt(value),
+      is_priority: true,
+    });
+  };
+
+  prioritySkuOptions = [
+    { key: 1, text: 'One', value: 1 },
+    { key: 2, text: 'Two', value: 2 },
+    { key: 3, text: 'Three', value: 3 },
+  ];
+
+  componentDidMount() {
+    this.props.handleSetPrioritySkuDetails(this.props.item);
+  }
 
   render() {
     const isFirstRow = this.props.item.id === -1;
@@ -49,7 +70,7 @@ export class TaskRow extends Component {
           <div className="timeLine-side-task-row-name-text">
             <Checkbox
               checked={
-                this.props.checkedPurchaseOrders.find(po => po.id === this.props.item.id) ===
+                this.props.checkedPurchaseOrders.find((po) => po.id === this.props.item.id) ===
                 undefined
                   ? false
                   : true
@@ -60,7 +81,7 @@ export class TaskRow extends Component {
               label=""
             />
             <span
-              onClick={e => {
+              onClick={(e) => {
                 this.props.onSelectItem(this.props.item);
                 this.props.onSelectTask(this.props.item);
               }}
@@ -78,7 +99,42 @@ export class TaskRow extends Component {
               {this.props.label}
             </span>
           </div>
-          <div className="timeLine-side-task-row-priority-sku">{this.props.prioritySku || '-'}</div>
+          <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+            {this.state.selectedPrioritySku.name ? (
+              <Popup
+                on="click"
+                open={this.state.isOpen}
+                onClose={() => this.setState({ isOpen: false })}
+                onOpen={() => this.setState({ isOpen: true })}
+                trigger={
+                  <button>
+                    <span>{this.state.selectedPrioritySku.name || '-'}</span>
+                    <Icon name="angle down" />
+                  </button>
+                }
+                logo="dropdown"
+                basic
+                position="bottom center"
+                content={
+                  <div style={{ cursor: 'pointer' }}>
+                    {this.props.prioritySkuDetails?.selectedMerchantListings?.map((option) => (
+                      <div
+                        key={option.id}
+                        onClick={() => {
+                          this.handleChangePrioritySku({ value: option.id, name: option.skuName });
+                          this.setState({ isOpen: false });
+                        }}
+                      >
+                        <span>{option.skuName}</span>
+                      </div>
+                    ))}
+                  </div>
+                }
+              />
+            ) : (
+              '-'
+            )}
+          </div>
           {!isFirstRow ? (
             <ToggleRadio
               isToggled={this.props.item.is_included}
@@ -230,6 +286,7 @@ export default class TaskList extends Component {
           item={item}
           label={item.name}
           prioritySku={item.prioritySku}
+          prioritySkuDetails={this.props.prioritySkuDetails}
           top={i * this.props.itemheight}
           itemheight={this.props.itemheight}
           isSelected={this.props.selectedItem?.id === item?.id}
@@ -243,6 +300,8 @@ export default class TaskList extends Component {
           handleCheckPurchaseOrder={this.props.handleCheckPurchaseOrder}
           generateNextOrder={this.props.generateNextOrder}
           handleSetPrioritySku={this.props.handleSetPrioritySku}
+          handleUpdatePrioritySku={this.props.handleUpdatePrioritySku}
+          handleSetPrioritySkuDetails={this.props.handleSetPrioritySkuDetails}
           handleSetPaymentTerm={this.props.handleSetPaymentTerm}
           handleConnectTpl={this.props.handleConnectTpl}
           handleIncludedToggle={this.props.handleIncludedToggle}
@@ -269,7 +328,7 @@ export default class TaskList extends Component {
             label="CHART TIMELINE"
             filterOptions={TIME_SETTINGS_OPTIONS}
             value={this.props.mode}
-            handleChange={value =>
+            handleChange={(value) =>
               this.props.handleChangeMode && this.props.handleChangeMode(value)
             }
             placeholder=""

@@ -24,6 +24,8 @@ const SetPrioritySkuPopup = (props: Props) => {
 
   const handleSubmit = async () => {
     /* Validation Checks */
+    console.log('prioritySkuDetails.id', prioritySkuDetails.id);
+    console.log('selectedPrioritySku', selectedPrioritySku);
     await handleUpdatePrioritySku({
       id: prioritySkuDetails.id,
       po_sku_id: parseInt(selectedPrioritySku),
