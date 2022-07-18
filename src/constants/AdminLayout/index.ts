@@ -249,6 +249,14 @@ export const OPTIONS: NavOptions = [
         disabled: false,
         isBeta: false,
       },
+      {
+        label: 'Cash Flow Forecasting',
+        description: 'Future Cash Flow Projection',
+        icon: require(`../../assets/images/${NAV_ICONS.PERFECT_STOCK_HOME}`),
+        path: '/aistock/home',
+        disabled: false,
+        isBeta: false,
+      },
     ],
   },
 ];
