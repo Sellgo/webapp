@@ -83,6 +83,7 @@ export interface SingleLeadTimeGroup {
   name: string;
   status: 'active' | 'inactive' | 'pending';
   is_default?: boolean;
+  in_use?: boolean;
 }
 
 export interface ProductProjectedSales {

@@ -199,6 +199,18 @@ const PrivateRoute = connect(
           history.push('/activation');
         }
       }
+
+      // Redirect to in-app payment page for free trial users
+      // instead of upgrade to annual plan page.
+      if (
+        isAiStockSession() &&
+        isSubscriptionIdFreeTrial(sellerSubscription.subscription_id) &&
+        window.location.pathname === '/settings/pricing'
+      ) {
+        // history.push is causing user unable to go back.
+        // so for now using window.location.pathname.
+        window.location.pathname = '/subscription/payment';
+      }
     }, [
       userIsAuthenticated,
       sellerSubscription,

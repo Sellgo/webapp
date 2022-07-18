@@ -50,14 +50,12 @@ const LeadTimeGroup = (props: Props) => {
     fetchLeadTimeGroups,
     setInitialLeadTimeGroup,
     isFetchingProgressForLeadTimeJob,
-    refreshLeadTimeProjection,
   } = props;
   /* Modal State */
 
   /* Set modal to open by default if its an new lead time */
   const [isOpen, setOpen] = useState<boolean>(initialLeadTimeGroup.id ? false : true);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
-  const [isSave, setIsSave] = useState<boolean>(false);
   const [showError, setShowError] = useState<boolean>(false);
 
   /* Trigger Name State */
@@ -82,7 +80,7 @@ const LeadTimeGroup = (props: Props) => {
   };
 
   /* Save all changes in the lead time group */
-  const handleSave = async (refresh_related_data: boolean, refreshUponSave?: boolean) => {
+  const handleSave = async (refreshUponSave?: boolean) => {
     /* Check if lead time has at least one of every step */
     let hasError = false;
     LEAD_TIME_OPTIONS.forEach(option => {
@@ -114,26 +112,18 @@ const LeadTimeGroup = (props: Props) => {
       }sellers/${sellerIDSelector()}/purchase-orders/lead-times`;
 
       let res;
-      const payload = {
-        ...newLeadTimeGroup,
-        refresh_related_data: refresh_related_data,
-      };
-      if (payload.id) {
-        res = await axios.patch(url, payload);
+      if (newLeadTimeGroup.id) {
+        res = await axios.patch(url, newLeadTimeGroup);
       } else {
-        res = await axios.post(url, payload);
+        res = await axios.post(url, newLeadTimeGroup);
       }
 
       if (res.status === 201) {
         success('Successfully updated lead times.');
-        const { data } = res;
         const savedLeadTimeGroup = {
           ...newLeadTimeGroup,
-          id: data.id,
+          id: res.data.id,
         };
-        if (data.perfect_stock_job_id >= 0) {
-          refreshLeadTimeProjection(data.perfect_stock_job_id);
-        }
         setNewLeadTimeGroup(savedLeadTimeGroup);
         setInitialLeadTimeGroup(savedLeadTimeGroup);
 
@@ -302,6 +292,7 @@ const LeadTimeGroup = (props: Props) => {
             <Icon
               name="trash alternate"
               className={styles.deleteTriggerIcon}
+              disabled={newLeadTimeGroup?.in_use}
               onClick={(event: any) => {
                 event.stopPropagation();
                 setIsDeleting(true);
@@ -325,8 +316,16 @@ const LeadTimeGroup = (props: Props) => {
               handleLeadTimeGroupEdit={handleLeadTimeGroupEdit}
               handleLeadTimeDelete={handleLeadTimeDelete}
               showError={showError}
+              inUse={newLeadTimeGroup.in_use}
             />
-            <button onClick={handleAddLeadTime} className={styles.addButton}>
+            <button
+              onClick={!newLeadTimeGroup.in_use ? handleAddLeadTime : () => null}
+              className={styles.addButton}
+              style={{
+                cursor: newLeadTimeGroup.in_use ? 'default' : 'pointer',
+                opacity: newLeadTimeGroup.in_use ? 0.3 : 1,
+              }}
+            >
               {' '}
               Add Lead Time{' '}
             </button>
@@ -344,10 +343,8 @@ const LeadTimeGroup = (props: Props) => {
                 variant="secondary"
                 type="purpleGradient"
                 size="md"
-                onClick={() => {
-                  setIsSave(true);
-                }}
-                disabled={showError}
+                onClick={handleSave}
+                disabled={showError || newLeadTimeGroup?.in_use}
                 loading={isFetchingProgressForLeadTimeJob}
               >
                 Save
@@ -364,20 +361,6 @@ const LeadTimeGroup = (props: Props) => {
         onConfirm={() => {
           setIsDeleting(false);
           handleDeleteLeadTimeGroup(initialLeadTimeGroup.indexIdentifier || '');
-        }}
-      />
-      <Confirm
-        content={'Do you want to refresh all data caused by this change?'}
-        cancelButton="No"
-        confirmButton="Yes"
-        open={isSave}
-        onCancel={() => {
-          setIsSave(false);
-          handleSave(false);
-        }}
-        onConfirm={() => {
-          setIsSave(false);
-          handleSave(true);
         }}
       />
     </div>

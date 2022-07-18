@@ -5,7 +5,7 @@ import { v4 as uuid } from 'uuid';
 import styles from './index.module.scss';
 
 /* Components */
-import BoxContainer from '../BoxContainer';
+import BoxContainerSettings from '../BoxContainerSettings';
 import InputTable from './InputTable';
 import ActionButton from '../ActionButton';
 import Placeholder from '../Placeholder';
@@ -121,12 +121,12 @@ const SettingsInputTable = (props: Props) => {
     <div className={styles.settingsInputWrapper}>
       {/* PLACEHOLDER FOR LOADING STATE */}
       {isLoading && (
-        <BoxContainer className={styles.boxContainer}>
+        <BoxContainerSettings className={styles.boxContainer}>
           <Placeholder numberRows={5} numberParagraphs={1} />
-        </BoxContainer>
+        </BoxContainerSettings>
       )}
       {!isLoading && (
-        <BoxContainer className={styles.boxContainer}>
+        <BoxContainerSettings className={styles.boxContainer}>
           <InputTable
             data={tableData.filter(dataEntry => dataEntry.status !== 'inactive')}
             tableColumns={tableColumns}
@@ -144,6 +144,7 @@ const SettingsInputTable = (props: Props) => {
               </button>
             )}
             <ActionButton
+              className={styles.applyBtn}
               variant="secondary"
               type="purpleGradient"
               size="md"
@@ -153,7 +154,7 @@ const SettingsInputTable = (props: Props) => {
               Apply
             </ActionButton>
           </div>
-        </BoxContainer>
+        </BoxContainerSettings>
       )}
     </div>
   );
