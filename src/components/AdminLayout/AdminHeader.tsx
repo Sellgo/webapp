@@ -130,7 +130,12 @@ const AdminHeader = (props: Props) => {
                 <p className="email"> {email}</p>
               </div>
             </div>
-            <Dropdown.Item as={Link} to="/settings/profile" className="dropdownItem">
+            <Dropdown.Item
+              as={Link}
+              to="/settings/profile"
+              className="dropdownItem"
+              disabled={isAiStock && !isMigrated}
+            >
               <img src={SettingsIcon} alt="settings-icon" />
               My Profile
             </Dropdown.Item>
@@ -151,7 +156,7 @@ const AdminHeader = (props: Props) => {
               as={Link}
               to="/settings/billing"
               className="dropdownItem"
-              disabled={isBeta}
+              disabled={isBeta || (isAiStock && !isMigrated)}
             >
               <img src={BillingIcon} alt="billing-icon" />
               My Billing
@@ -160,7 +165,7 @@ const AdminHeader = (props: Props) => {
               as={Link}
               to="/settings/sp-connectivity"
               className="dropdownItem"
-              disabled={isBeta || !isAiStock}
+              disabled={isBeta || !isAiStock || !isMigrated}
             >
               <img src={ConnectivityIcon} alt="connectivity-icon" />
               Connectivity
