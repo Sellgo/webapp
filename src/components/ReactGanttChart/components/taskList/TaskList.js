@@ -45,12 +45,6 @@ export class TaskRow extends Component {
     });
   };
 
-  prioritySkuOptions = [
-    { key: 1, text: 'One', value: 1 },
-    { key: 2, text: 'Two', value: 2 },
-    { key: 3, text: 'Three', value: 3 },
-  ];
-
   componentDidMount() {
     this.props.handleSetPrioritySkuDetails(this.props.item);
   }
