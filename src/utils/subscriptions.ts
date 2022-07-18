@@ -120,3 +120,7 @@ export const generatePromoCodeMessage = (promoCode: PromoCode, paymentMode: stri
   }
   return message;
 };
+
+export const isMigrationSuccess = (sellerSubscription: SellerSubscription) => {
+  return sellerSubscription.perfect_stock_status === 'migration_success';
+};

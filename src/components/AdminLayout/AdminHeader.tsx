@@ -21,6 +21,7 @@ import { getSellerSubscription } from '../../selectors/Subscription';
 import {
   isAistockSubscription,
   isBetaAccount,
+  isMigrationSuccess,
   isSubscriptionIdFreeAccount,
   isSubscriptionIdFreeTrial,
 } from '../../utils/subscriptions';
@@ -62,6 +63,7 @@ const AdminHeader = (props: Props) => {
   const { email, first_name, last_name } = profile;
   const isBeta = isBetaAccount(sellerSubscription);
   const isAiStock = isAistockSubscription(sellerSubscription.subscription_id);
+  const isMigrated = isMigrationSuccess(sellerSubscription);
   const [openConfirm, setOpenConfirm] = React.useState<boolean>(false);
   const open = () => setOpenConfirm(true);
 
@@ -176,7 +178,7 @@ const AdminHeader = (props: Props) => {
               as={Link}
               to="/settings/aistock/lead-time"
               className="dropdownItem"
-              disabled={!isAiStock}
+              disabled={!isAiStock || !isMigrated}
             >
               <img src={PerfectStockIcon} alt="perfect-stock-icon" />
               Settings
