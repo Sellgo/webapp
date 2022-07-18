@@ -16,7 +16,7 @@ import { error, success } from '../../../../../utils/notifications';
 
 const DaysOfInventoryCore = () => {
   const [daysOfInventory, setDaysOfInventory] = React.useState('');
-  const [isRoundUp, setIsRoundUp] = React.useState<boolean | undefined>(true);
+  const [isRoundUp, setIsRoundUp] = React.useState<boolean | undefined>(false);
   const sellerID = localStorage.getItem('userId');
 
   /* Fetches all the triggers from backend */
