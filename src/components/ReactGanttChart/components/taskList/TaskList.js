@@ -8,6 +8,7 @@ import {
 import { Icon, Popup, Checkbox, Dropdown } from 'semantic-ui-react';
 import ToggleRadio from '../../../../components/ToggleRadio';
 import { ReactComponent as AlignOrderIcon } from '../../../../assets/images/arrow-right-to-bracket-solid.svg';
+import styles from './TaskList.module.scss';
 
 export class VerticalLine extends Component {
   constructor(props) {
@@ -93,7 +94,7 @@ export class TaskRow extends Component {
               {this.props.label}
             </span>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+          <div className={styles.editValueSelectionCellWrapper}>
             {this.state.selectedPrioritySku.name ? (
               <Popup
                 on="click"
@@ -101,7 +102,7 @@ export class TaskRow extends Component {
                 onClose={() => this.setState({ isOpen: false })}
                 onOpen={() => this.setState({ isOpen: true })}
                 trigger={
-                  <button>
+                  <button className={styles.selectionButton}>
                     <span>{this.state.selectedPrioritySku.name || '-'}</span>
                     <Icon name="angle down" />
                   </button>
@@ -109,17 +110,22 @@ export class TaskRow extends Component {
                 logo="dropdown"
                 basic
                 position="bottom center"
+                className={styles.popupWrapper}
                 content={
-                  <div style={{ cursor: 'pointer' }}>
+                  <div className={styles.optionsWrapper}>
                     {this.props.prioritySkuDetails?.selectedMerchantListings?.map((option) => (
                       <div
+                        style={{
+                          padding: '5px 10px',
+                          cursor: 'pointer',
+                        }}
                         key={option.id}
                         onClick={() => {
                           this.handleChangePrioritySku({ value: option.id, name: option.skuName });
                           this.setState({ isOpen: false });
                         }}
                       >
-                        <span>{option.skuName}</span>
+                        <span style={{}}>{option.skuName}</span>
                       </div>
                     ))}
                   </div>

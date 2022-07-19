@@ -1,0 +1,67 @@
+@import '../../../../design-system/new-colors.scss';
+
+.editValueSelectionCellWrapper {
+  display: flex;
+}
+
+.selectionButton {
+  width: 100%;
+  background: $prim_white;
+  border: 1px solid $grey_3;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: $fontweight_regular;
+  align-items: center;
+  font-size: 12px !important;
+  color: $grey_8;
+
+  &:hover {
+    background: $grey_1;
+  }
+
+  &:focus {
+    border: 2px solid $blue_6;
+  }
+
+  &:disabled {
+    background: $prim_white !important;
+    opacity: 0.7;
+  }
+
+  &__error {
+    border: 1px solid $system_red;
+  }
+}
+
+.popupWrapper {
+  min-width: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+}
+
+.optionsWrapper {
+  border: 1px solid $grey_3;
+  font-size: 12px;
+  max-height: 250px;
+  z-index: 999;
+  width: 100%;
+
+  .option {
+    color: $grey_8;
+    font-weight: 400;
+    font-size: 12px;
+    padding: 5px 10px;
+    cursor: pointer;
+
+    &:hover {
+      background: $grey_1 !important;
+      font-weight: 500 !important;
+    }
+
+    &.active {
+      font-weight: 500 !important;
+    }
+  }
+}
