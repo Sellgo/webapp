@@ -223,6 +223,14 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
+    name: 'Global: Alerts Management',
+    disabled: false,
+    url: '/settings/aistock/alerts-management',
+    showInSellgo: false,
+    showInAistock: true,
+    subPages: [],
+  },
+  {
     name: 'Order Planning: Days of Inventory',
     disabled: false,
     url: '/settings/aistock/days-of-inventory-settings',
