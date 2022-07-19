@@ -46,8 +46,7 @@ jobs:
           overwrite: true
       - run:
           name: Invalidate Cloudfront cache
-          command: aws cloudfront create-invalidation --distribution-id
-            ${WEBAPP_AWS_CLOUDFRONT_DISTRIBUTION_ID} --paths "/*"
+          command: aws cloudfront create-invalidation --distribution-id ${WEBAPP_AWS_CLOUDFRONT_DISTRIBUTION_ID} --paths "/*"
   run-lint:
     docker:
       - image: cimg/node:12.13.0
