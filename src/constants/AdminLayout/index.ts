@@ -69,6 +69,7 @@ export const NAV_ICONS = {
   ORDER_PLANNING: 'orderPlanning.svg',
   SALES_ESTIMATION: 'salesProjection.svg',
   PERFECT_STOCK_HOME: 'perfectStockHome.svg',
+  CASH_FLOW: 'cashFlow.svg',
   TPL: 'tpl.svg',
   ZAPIER: 'zapierIcon.svg',
 };
@@ -252,7 +253,7 @@ export const OPTIONS: NavOptions = [
       {
         label: 'Cash Flow Forecasting',
         description: 'Future Cash Flow Projection',
-        icon: require(`../../assets/images/${NAV_ICONS.PERFECT_STOCK_HOME}`),
+        icon: require(`../../assets/images/${NAV_ICONS.CASH_FLOW}`),
         path: '/aistock/home',
         disabled: false,
         isBeta: false,
