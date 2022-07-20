@@ -28,6 +28,7 @@ export class TaskRow extends Component {
   state = {
     isPopupOpen: false,
     selectedPrioritySku: { name: this.props.prioritySku, value: null },
+    prioritySkuOptions: {},
     isOpen: false,
   };
 
@@ -39,15 +40,41 @@ export class TaskRow extends Component {
 
   handleChangePrioritySku = ({ value, name }) => {
     this.setState({ selectedPrioritySku: { name, value } });
+
     this.props.handleUpdatePrioritySku({
-      id: this.props.prioritySkuDetails.id,
+      id: this.props.item.id,
       po_sku_id: parseInt(value),
       is_priority: true,
     });
   };
 
   componentDidMount() {
-    this.props.handleSetPrioritySkuDetails(this.props.item);
+    const selectedPurchaseOrder = this.props.purchaseOrders.find((purchaseOrder) => {
+      return purchaseOrder.id === this.props.item.id;
+    });
+
+    if (selectedPurchaseOrder) {
+      const selectedMerchantListings = selectedPurchaseOrder.merchant_listings.map(
+        (orderProduct) => ({
+          id: orderProduct.id?.toString() || '',
+          productName: orderProduct.title,
+          asin: orderProduct.asin,
+          img: orderProduct.image_url,
+          skuName: orderProduct.sku,
+          activePurchaseOrders: orderProduct.active_purchase_orders,
+          fulfillmentChannel: orderProduct.fulfillment_channel,
+          skuStatus: orderProduct.sku_status,
+        })
+      );
+
+      this.setState({
+        prioritySkuOptions: {
+          id: this.props.item.id,
+          prioritySku: this.props.prioritySku,
+          selectedMerchantListings,
+        },
+      });
+    }
   }
 
   render() {
@@ -94,7 +121,7 @@ export class TaskRow extends Component {
               {this.props.label}
             </span>
           </div>
-          <div className={styles.editValueSelectionCellWrapper}>
+          <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
             {this.state.selectedPrioritySku.name ? (
               <Popup
                 on="click"
@@ -113,7 +140,7 @@ export class TaskRow extends Component {
                 className={styles.popupWrapper}
                 content={
                   <div className={styles.optionsWrapper}>
-                    {this.props.prioritySkuDetails?.selectedMerchantListings?.map((option) => (
+                    {this.state.prioritySkuOptions?.selectedMerchantListings?.map((option) => (
                       <div
                         style={{
                           padding: '5px 10px',
@@ -286,7 +313,7 @@ export default class TaskList extends Component {
           item={item}
           label={item.name}
           prioritySku={item.prioritySku}
-          prioritySkuDetails={this.props.prioritySkuDetails}
+          purchaseOrders={this.props.purchaseOrders}
           top={i * this.props.itemheight}
           itemheight={this.props.itemheight}
           isSelected={this.props.selectedItem?.id === item?.id}
@@ -301,7 +328,6 @@ export default class TaskList extends Component {
           generateNextOrder={this.props.generateNextOrder}
           handleSetPrioritySku={this.props.handleSetPrioritySku}
           handleUpdatePrioritySku={this.props.handleUpdatePrioritySku}
-          handleSetPrioritySkuDetails={this.props.handleSetPrioritySkuDetails}
           handleSetPaymentTerm={this.props.handleSetPaymentTerm}
           handleConnectTpl={this.props.handleConnectTpl}
           handleIncludedToggle={this.props.handleIncludedToggle}

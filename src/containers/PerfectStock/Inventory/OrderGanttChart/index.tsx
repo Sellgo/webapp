@@ -161,33 +161,6 @@ const OrderGanttChart = (props: Props) => {
   const [isSettingPrioritySku, setIsSettingPrioritySku] = React.useState(false);
   const [prioritySkuDetails, setPrioritySkuDetails] = React.useState({});
 
-  const handleSetPrioritySkuDetails = (payload: GanttChartPurchaseOrder) => {
-    const selectedPurchaseOrder = purchaseOrders.find((purchaseOrder: PurchaseOrder) => {
-      return purchaseOrder.id === payload.id;
-    });
-
-    if (selectedPurchaseOrder) {
-      const selectedMerchantListings = selectedPurchaseOrder.merchant_listings.map(
-        (orderProduct: any) => ({
-          id: orderProduct.id?.toString() || '',
-          productName: orderProduct.title,
-          asin: orderProduct.asin,
-          img: orderProduct.image_url,
-          skuName: orderProduct.sku,
-          activePurchaseOrders: orderProduct.active_purchase_orders,
-          fulfillmentChannel: orderProduct.fulfillment_channel,
-          skuStatus: orderProduct.sku_status,
-        })
-      );
-
-      setPrioritySkuDetails({
-        id: payload.id,
-        prioritySku: payload.prioritySku,
-        selectedMerchantListings,
-      });
-    }
-  };
-
   const handleSetPrioritySkuClick = (payload: GanttChartPurchaseOrder) => {
     const selectedPurchaseOrder = purchaseOrders.find((purchaseOrder: PurchaseOrder) => {
       return purchaseOrder.id === payload.id;
@@ -501,7 +474,7 @@ const OrderGanttChart = (props: Props) => {
             }}
             sideWidth={OFFSET_TO_CHART_WIDTH - 18}
             unitWidth={UNIT_WIDTH}
-            prioritySkuDetails={prioritySkuDetails}
+            purchaseOrders={purchaseOrders}
             handleUpdatePrioritySku={updatePurchaseOrder}
             checkedPurchaseOrders={checkedPurchaseOrders}
             handleChangeMode={handleChangeTimeSetting}
@@ -524,7 +497,6 @@ const OrderGanttChart = (props: Props) => {
             isDraftMode={isDraftMode}
             generateNextOrder={handleGenerateNextOrderClick}
             handleSetPrioritySku={handleSetPrioritySkuClick}
-            handleSetPrioritySkuDetails={handleSetPrioritySkuDetails}
             handleSetPaymentTerm={handleSetPaymentTerm}
             handleDeleteSelectedTasks={() => setDeletingPurchaseOrders(true)}
             handleAlignOrder={handleAlignOrder}
