@@ -46,7 +46,7 @@ const EditValueSelectionCell = (props: Props) => {
   const handleOpen = () => setIsOpen(true);
   const alignmentSetting =
     align === 'left' ? 'flex-start' : align === 'right' ? 'flex-end' : 'center';
-  const selectedDisplayText = options.find(option => option.value === rowData[dataKey])?.text;
+  const selectedDisplayText = options.find((option) => option.value === rowData[dataKey])?.text;
 
   return (
     <Table.Cell {...otherProps}>
@@ -81,7 +81,10 @@ const EditValueSelectionCell = (props: Props) => {
             <div className={styles.optionsWrapper}>
               {options.map((option: IOption) => (
                 <div
-                  className={styles.option}
+                  style={{
+                    padding: '5px 10px',
+                    cursor: 'pointer',
+                  }}
                   key={option.key}
                   onClick={() => {
                     handleChange(dataKey, option.value, id);
