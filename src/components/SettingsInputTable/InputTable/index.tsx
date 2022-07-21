@@ -34,8 +34,6 @@ const InputTable = (props: Props) => {
     disableDelete,
     errorColumns,
   } = props;
-  console.log('tableColumns', tableColumns);
-  console.log('data', data);
   return (
     <section className={styles.inputTable}>
       <Table

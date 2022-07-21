@@ -93,7 +93,7 @@ const SettingsInputTable = (props: Props) => {
           (dataEntry[key] === '' || dataEntry[key] === undefined) &&
           !column.optional
         ) {
-          console.log(dataEntry[key], 'key')
+          console.log(dataEntry[key], 'key');
           hasError = true;
           return;
         }

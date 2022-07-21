@@ -366,7 +366,11 @@ function App() {
           <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} />
           <PrivateRoute exact={true} path="/settings/profile" component={Profile} />
           <PrivateRoute exact={true} path="/settings/aistock/lead-time" component={LeadTime} />
-          <PrivateRoute exact={true} path="/settings/aistock/alerts-management" component={AlertsManagement} />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/alerts-management"
+            component={AlertsManagement}
+          />
 
           <PrivateRoute
             exact={true}

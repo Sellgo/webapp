@@ -173,14 +173,14 @@ export const ALERTS_MANAGEMENT_SETTINGS_COLUMNS: Column[] = [
     type: 'toggle',
   },
   {
-    width: 250,
+    width: 300,
     dataKey: 'name',
     title: 'Event',
     type: 'text',
     disabled: true,
   },
   {
-    width: 200,
+    width: 160,
     dataKey: 'first_delay',
     title: '1st notification action',
     type: 'selection',
