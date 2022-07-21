@@ -39,6 +39,9 @@ import EmployeeExpenses from '../Settings/PerfectStockSettings/EmployeeExpenses'
 import LaunchExpenses from '../Settings/PerfectStockSettings/LaunchExpenses';
 import MiscExpenses from '../Settings/PerfectStockSettings/MiscExpenses';
 import PpcExpenses from '../Settings/PerfectStockSettings/PpcExpenses';
+import StorageDetails from '../Settings/PerfectStockSettings/StorageDetails3PL';
+import Replenishment3PL from '../Settings/PerfectStockSettings/Replenishment3PL';
+import ShipmentPacking from '../Settings/PerfectStockSettings/ShipmentPacking';
 import CashFlowReconcile from '../Settings/PerfectStockSettings/CashFlowReconcile';
 
 import SellgoNewSubscription from '../NewSellgoSubscription';
@@ -389,6 +392,21 @@ function App() {
             exact={true}
             path="/settings/aistock/container-settings"
             component={Containers}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/storage-details"
+            component={StorageDetails}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/replenishment"
+            component={Replenishment3PL}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/shipment-packing"
+            component={ShipmentPacking}
           />
           <PrivateRoute
             exact={true}

@@ -27,6 +27,8 @@ interface Props {
   marketPlaceChoices: MarketplaceOption[];
   handleChange: (option: MarketplaceOption) => void;
   userOnboardingResources: any;
+  className?: string;
+  labelClassName?: string;
 }
 
 const MarketPlaceFilter = (props: Props) => {
@@ -36,6 +38,8 @@ const MarketPlaceFilter = (props: Props) => {
     marketPlaceChoices,
     handleChange,
     userOnboardingResources,
+    className,
+    labelClassName,
   } = props;
 
   const trigger = (
@@ -58,7 +62,7 @@ const MarketPlaceFilter = (props: Props) => {
 
   return (
     <div className={styles.marketplaceFilter}>
-      <p>
+      <p className={labelClassName}>
         {label}
         {/* Onboarding */}
         {enableFilterOnboarding && tooltipText && (
@@ -71,7 +75,12 @@ const MarketPlaceFilter = (props: Props) => {
         )}
       </p>
 
-      <Dropdown className={styles.marketplaceDropdown} floating scrolling trigger={trigger}>
+      <Dropdown
+        className={`${styles.marketplaceDropdown} ${className}`}
+        floating
+        scrolling
+        trigger={trigger}
+      >
         <Dropdown.Menu className={styles.marketplaceMenu}>
           {marketPlaceChoices.map(option => {
             return (

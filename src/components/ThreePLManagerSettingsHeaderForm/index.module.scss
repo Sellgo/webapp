@@ -1,0 +1,38 @@
+@import '../../design-system/new-colors.scss';
+
+.selectHeaderForm {
+  display: flex !important;
+}
+
+.addButton {
+  background: none;
+  color: $blue_link_bg_light;
+  font-weight: $fontweight_medium;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-left: 40px;
+}
+
+.inputFilter {
+  width: 300px !important;
+
+  > p {
+    font-size: 16px !important;
+    color: $prim_black !important;
+    margin: 0 0 12px 0 !important;
+  }
+}
+
+.label {
+  font-size: 16px !important;
+  color: $prim_black !important;
+  margin: 0 0 12px 0 !important;
+  font-weight: 600;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+}

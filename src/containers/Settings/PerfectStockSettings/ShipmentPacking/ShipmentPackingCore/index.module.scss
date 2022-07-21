@@ -1,0 +1,212 @@
+@import '../../../../../design-system/new-colors.scss';
+
+.settingWrapper {
+  width: 100%;
+  padding-bottom: 200px;
+}
+
+.settingsPageWrapper {
+  display: flex;
+}
+
+.settingsTableWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  > p {
+    font-size: 16px;
+    font-weight: $fontweight_bold;
+    color: $prim_dark_2;
+    margin: 30px 0;
+  }
+}
+
+.settingsTableRow {
+  width: 100%;
+  display: flex;
+}
+
+.daysOfInventorySettingsBox {
+  background: $prim_white;
+  border: 1px solid $grey_3;
+  border-radius: 7px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px;
+
+  .applyButton {
+    align-self: flex-end;
+  }
+}
+
+.daysOfInventoryRow {
+  display: flex;
+  align-items: center;
+
+  .input {
+    min-width: 0;
+    width: 80px;
+  }
+}
+
+.instructionsBox {
+  margin-left: 18px;
+  background: $prim_white;
+  border-radius: 7px;
+  width: 500px;
+  max-height: 700px;
+  overflow-y: scroll;
+  border: 1px solid $grey_3;
+  padding: 18px;
+  font-size: 12px;
+  font-weight: $fontweight_medium;
+  color: $grey_8;
+  text-transform: uppercase;
+
+  > span {
+    margin-bottom: 100px;
+  }
+}
+
+.buttonsRow {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+
+  .resetButton {
+    margin-right: 18px;
+  }
+}
+
+.inputTable {
+  margin-top: 30px;
+}
+
+.filterSection {
+  border: 1px solid $grey_3;
+  border-radius: 7px;
+  padding: 30px;
+}
+
+.heading {
+  margin: 0 0 30px 0 !important;
+}
+
+.label {
+  color: $black_0;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 35px;
+}
+
+.shippingSection {
+  display: flex;
+  margin-bottom: 40px;
+}
+
+.shippingMethod {
+  margin-right: 100px;
+}
+
+.disabled {
+  opacity: 0.5;
+}
+
+.productInformation {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.productImage {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.productDetails {
+  width: calc(100% - 150px);
+  margin-left: 20px;
+}
+
+.productTitle {
+  color: $grey_7;
+  font-size: 16px;
+  font-weight: $fontweight_semibold;
+  text-align: left;
+  margin-bottom: 10px;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  height: 20px;
+  white-space: nowrap;
+}
+
+.productAttributes {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 120px 120px;
+  font-size: 10px !important;
+  font-weight: $fontweight_medium !important;
+  color: $black_1 !important;
+}
+
+.flagAndAsinCol {
+  display: flex;
+  flex-direction: row;
+
+  .flagIcon {
+    width: 20px;
+    margin-right: 8px;
+    object-fit: contain;
+  }
+
+  .productTitleTextBox {
+    margin-top: -5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.sizeTierAndStatusCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.productAsin {
+  font-size: 10px !important;
+  font-weight: $fontweight_medium !important;
+  color: $black_1 !important;
+
+  &:hover {
+    text-decoration-color: $black-1 !important;
+    font-size: 10px !important;
+    font-weight: $fontweight_semibold !important;
+    color: $black_1 !important;
+  }
+}
+
+.inputFilter {
+  min-width: unset !important;
+  width: 100% !important;
+}
+
+.columnWrapper {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.columnLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: $grey_7;
+}
