@@ -6,8 +6,6 @@ import styles from './index.module.scss';
 /* Components */
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
-import ElevioArticle from '../../../../components/ElevioArticle';
-import BoxContainerSettings from '../../../../components/BoxContainerSettings';
 import AlertsManagementMeta from './AlertsManagementMeta';
 import AlertsManagementCore from './AlertsManagementCore';
 
@@ -21,11 +19,11 @@ const AlertsManagement = (props: Props) => {
   return (
     <main className={styles.settingWrapper}>
       <PageHeader
-        title={'Lead Time'}
+        title={'Alerts Management'}
         breadcrumb={[
           { content: 'Home', to: '/' },
           { content: 'AiStock' },
-          { content: 'Days Of Inventory Settings' },
+          { content: 'Alerts Management Settings' },
         ]}
         auth={match.params.auth}
       />
