@@ -156,7 +156,6 @@ const PrivateRoute = connect(
     // TODO: Hoist this logic up to an AuthProvider that includes user's subscription as part
     // of auth object made available to all child components using context.
     useEffect(() => {
-      console.log('testing websockets');
       getSellerQuota();
 
       // Redirect to login if user is not authenticated
@@ -219,6 +218,51 @@ const PrivateRoute = connect(
       requireSubscription,
       location,
     ]);
+
+    const [findRefreshSocket, setFindRefreshSocket] = React.useState<WebSocket>();
+
+    const sellerId = localStorage.getItem('userId') || '';
+    const idToken = localStorage.getItem('idToken') || '';
+    const URL = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/perfect-stock/push?token=${idToken}`;
+
+    useEffect(() => {
+      const socketConnection = new WebSocket(URL);
+      socketConnection.onopen = () => {
+        setFindRefreshSocket(socketConnection);
+      };
+
+      return () => {
+        if (findRefreshSocket) {
+          findRefreshSocket.close();
+        }
+      };
+    }, []);
+
+    useEffect(() => {
+      console.log(findRefreshSocket, 'findRefreshSocket');
+      if (!findRefreshSocket) {
+        return;
+      }
+
+      // execute only if the export socket exists
+      if (findRefreshSocket) {
+        // if findRefreshSocket is open and not in connecting state
+        if (findRefreshSocket.OPEN && !findRefreshSocket.CONNECTING) {
+          // wehn incoming message is present from server
+          findRefreshSocket.onmessage = async (e) => {
+            const payload = JSON.parse(e.data);
+            console.log(payload, 'payload');
+          };
+
+          findRefreshSocket.send(JSON.stringify({ msg: 'hello' }));
+        }
+      }
+
+      // when findRefreshSocket connection is closed
+      findRefreshSocket.onclose = () => {
+        console.log('Find or refresh socket closed');
+      };
+    }, [findRefreshSocket]);
 
     // Render nothing. Redirect will be handled in above effect.
     if (!userIsAuthenticated) {
