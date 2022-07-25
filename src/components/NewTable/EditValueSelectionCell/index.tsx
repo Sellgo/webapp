@@ -46,7 +46,7 @@ const EditValueSelectionCell = (props: Props) => {
   const handleOpen = () => setIsOpen(true);
   const alignmentSetting =
     align === 'left' ? 'flex-start' : align === 'right' ? 'flex-end' : 'center';
-  const selectedDisplayText = options.find((option) => option.value === rowData[dataKey])?.text;
+  const selectedDisplayText = options.find(option => option.value === rowData[dataKey])?.text;
 
   return (
     <Table.Cell {...otherProps}>
