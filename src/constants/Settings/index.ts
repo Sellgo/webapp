@@ -231,7 +231,7 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
-    name: 'Order Planning: Default Shipping Container',
+    name: 'Order Planning: Shipping Container',
     disabled: false,
     url: '/settings/aistock/container-settings',
     showInSellgo: false,
