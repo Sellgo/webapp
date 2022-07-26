@@ -10,6 +10,7 @@ import './AdminHeader.scss';
 /* Components */
 import LogoutConfirm from '../LogoutConfirm';
 import QuotaMeter from '../QuotaMeter';
+import NotificationInbox from './NotificationInbox';
 
 /* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
@@ -52,14 +53,8 @@ interface Props {
 
 const AdminHeader = (props: Props) => {
   const userPicture = localStorage.getItem('userPicture');
-  const {
-    auth,
-    profile,
-    sellerSubscription,
-    setUserOnboarding,
-    userOnboarding,
-    getSellerInfo,
-  } = props;
+  const { auth, profile, sellerSubscription, setUserOnboarding, userOnboarding, getSellerInfo } =
+    props;
   const { email, first_name, last_name } = profile;
   const isBeta = isBetaAccount(sellerSubscription);
   const isAiStock = isAistockSubscription(sellerSubscription.subscription_id);
@@ -103,6 +98,10 @@ const AdminHeader = (props: Props) => {
         }
         content={<p className="enableLearningTooltipMessage">Toggle to enable learning mode</p>}
       />
+
+      <Menu.Item style={{ position: 'relative' }}>
+        <NotificationInbox />
+      </Menu.Item>
 
       <Menu.Item>
         <Dropdown

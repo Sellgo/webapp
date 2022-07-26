@@ -1,0 +1,94 @@
+@import '../../design-system/colors.scss';
+@import '../../design-system/new-colors.scss';
+
+.notificationContainer {
+  border: 1px solid $grey_3;
+  position: absolute;
+  padding: 20px;
+  top: 50px;
+  right: 20px;
+  width: 400px;
+  height: calc(100vh - 5em);
+  max-height: 700px;
+  border-radius: 7px;
+  background-color: #fff;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .headerWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .notificationHeader {
+      color: $grey_8;
+    }
+
+    .readToggle {
+      display: flex;
+      align-items: center;
+      gap: 0.8em;
+    }
+  }
+
+  .latestContainer {
+    margin-top: 2em;
+
+    .latestHeader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1em;
+
+      p {
+        color: $grey_7;
+      }
+    }
+
+    .messageContainer {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+      margin-bottom: 1em;
+
+      .picture {
+        width: 75px;
+        height: 45px;
+        border-radius: 40%;
+        background-color: $grey_3;
+      }
+
+      .read {
+        background-color: $blue_8;
+        width: 9px;
+        height: 5px;
+        border-radius: 50%;
+        align-self: flex-start;
+        margin-top: 0.4em;
+      }
+
+      .messageText {
+        color: $black_1;
+      }
+
+      .date {
+        color: $grey_8;
+      }
+
+      .skuContainer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 0.5em;
+      }
+    }
+  }
+}
+
+.bellIcon {
+  color: $prim_dark_1;
+  font-size: 18;
+}
