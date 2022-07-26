@@ -82,7 +82,7 @@ const TrialRemainingBanner = (props: Props) => {
           </Link>
         ) : (
           <p className={styles.bannerText} style={{ color: fontColor }}>
-            On Trial - {daysLeft()} days remaining.
+            Free trial account - {daysLeft()} days remaining.
           </p>
         )}
         <button onClick={() => setShowBanner(false)}>

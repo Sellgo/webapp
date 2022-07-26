@@ -62,7 +62,7 @@ export default function ResetPassword(props: Props) {
     setMessageDetails({
       key: uuid(),
       header: 'Reset Password Link Sent',
-      content: `A link to reset your email has been sent to ${email}`,
+      content: `A link to reset your password has been sent to ${email}`,
       isSuccess: true,
       isError: false,
       time: 0,

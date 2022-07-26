@@ -214,10 +214,10 @@ const Activation = (props: Props) => {
             state: { email: email, password: password },
           });
         } else {
-          setErrorMessage(`Failed to activate account. Please contact support.`);
+          setErrorMessage(`Failed to activate account. Please contact support@sellgo.com`);
         }
       } catch (err) {
-        setErrorMessage(`Failed to activate account. Please contact support.`);
+        setErrorMessage(`Failed to activate account. Please contact support@sellgo.com`);
       }
     } else {
       /* ------------------------------------------------------------------- */
@@ -239,10 +239,10 @@ const Activation = (props: Props) => {
             state: { email: email, password: password, isAiStock: true },
           });
         } else {
-          setErrorMessage(`Failed to activate account. Please contact support.`);
+          setErrorMessage(`Failed to activate account. Please contact support@aistock.co`);
         }
       } catch (err) {
-        setErrorMessage(`Failed to activate account. Please contact support.`);
+        setErrorMessage(`Failed to activate account. Please contact support@aistock.co`);
       }
     }
     setLoading(false);
