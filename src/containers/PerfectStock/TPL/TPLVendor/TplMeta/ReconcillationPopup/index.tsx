@@ -54,8 +54,8 @@ const AddEditSkuModal = (props: Props) => {
           merchant_listing_id:
             vendorSkus.find((sku: any) => sku.id === parseInt(id))?.merchant_listing_id || 0,
           quantity:
-            (vendorSkus.find((sku: any) => sku.id === parseInt(id))?.tpl_quantity || 0) +
-            (vendorSkus.find((sku: any) => sku.id === parseInt(id))?.reconcile || 0),
+            Number(vendorSkus.find((sku: any) => sku.id === parseInt(id))?.tpl_quantity || 0) +
+            Number(vendorSkus.find((sku: any) => sku.id === parseInt(id))?.reconcile || 0),
         };
       }),
     };
