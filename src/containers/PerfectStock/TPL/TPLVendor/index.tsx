@@ -20,7 +20,11 @@ import {
   getTplSkuData,
 } from '../../../../selectors/PerfectStock/Tpl';
 
+/* Constants */
+// import { TIME_SETTING } from '../../../../constants/PerfectStock/Tpl';
+
 /* Utils */
+import { getDateOnly } from '../../../../utils/date';
 import { downloadFile } from '../../../../utils/download';
 import { AppConfig } from '../../../../config';
 import { sellerIDSelector } from '../../../../selectors/Seller';
@@ -37,9 +41,34 @@ const TPLVendor = (props: Props) => {
   const { fetchTplSkuData, activeTplVendor, tplSkuData, isLoadingTplSkuData } = props;
 
   const [exportLoading, setExportLoading] = React.useState<boolean>(false);
+  const [headers, setHeaders] = React.useState<any>([]);
+
+  const generateHeaders = (startDate: Date, endDate: Date) => {
+    if (startDate && endDate) {
+      const dateArray = [];
+      let currentDate = startDate;
+      while (currentDate <= endDate) {
+        const dateString = getDateOnly(currentDate);
+        dateArray.push(dateString);
+        currentDate = new Date(currentDate.setDate(currentDate.getDate() + 1));
+      }
+      setHeaders(dateArray);
+    } else {
+      return [];
+    }
+  };
+
   React.useEffect(() => {
     fetchTplSkuData();
   }, [activeTplVendor.id]);
+
+  React.useEffect(() => {
+    if (tplSkuData && tplSkuData.length > 0) {
+      const fba_inventories = tplSkuData[0]?.fba_inventories;
+      const dateArray = Object.keys(fba_inventories);
+      generateHeaders(new Date(dateArray[0]), new Date(dateArray[dateArray.length - 1]));
+    }
+  }, [tplSkuData]);
 
   const handleOnExport = async () => {
     setExportLoading(true);
@@ -67,7 +96,11 @@ const TPLVendor = (props: Props) => {
         loading={exportLoading}
         onButtonClick={handleOnExport}
       />
-      <TplTable tplSkuData={tplSkuData} isLoadingTplSkuData={isLoadingTplSkuData} />
+      <TplTable
+        tplSkuData={tplSkuData}
+        isLoadingTplSkuData={isLoadingTplSkuData}
+        dateHeaders={headers}
+      />
     </main>
   );
 };

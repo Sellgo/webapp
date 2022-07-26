@@ -20,15 +20,17 @@ interface Props extends RowCell {
 const InventoryBarCell = (props: Props) => {
   const { isShowingDaysUntilStockout, ...otherProps } = props;
   const { rowData, dataKey } = otherProps;
+  console.log('rowData', rowData, dataKey);
 
   const inventory = rowData[dataKey];
+  console.log('inventory is ', inventory);
   let percent;
   let inventoryCount;
   let potentialLoss;
   if (inventory) {
     percent = inventory.percentage;
     inventoryCount = inventory.value;
-    potentialLoss = inventory.potential_loss;
+    potentialLoss = inventory.potential_loss || inventory.tpl;
   } else {
     potentialLoss = 0;
     percent = 0;

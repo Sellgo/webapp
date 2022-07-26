@@ -14,8 +14,12 @@ import placeholderImage from '../../../../../../assets/images/placeholderImage.s
 /* Interface */
 import { RowCell } from '../../../../../../interfaces/Table';
 
-const ProductInformation = (props: RowCell) => {
-  const { rowData } = props;
+interface Props extends RowCell {
+  showProductMetaDetailWrapper?: boolean;
+}
+
+const ProductInformation = (props: Props) => {
+  const { rowData, showProductMetaDetailWrapper = true } = props;
   const { image_url, asin, title, sku } = rowData;
   const productImage = image_url ? image_url.replace('SL75', 'SL140') : placeholderImage;
 
@@ -52,24 +56,26 @@ const ProductInformation = (props: RowCell) => {
             </div>
           </div>
         </div>
-        <div className={styles.productMetaDetailWrapper}>
-          <div className={styles.productMetaDetail}>
-            <div className={`${styles.circle} ${styles.circle__green}`} />
-            {rowData.active_purchase_orders} Orders
+        {showProductMetaDetailWrapper && (
+          <div className={styles.productMetaDetailWrapper}>
+            <div className={styles.productMetaDetail}>
+              <div className={`${styles.circle} ${styles.circle__green}`} />
+              {rowData.active_purchase_orders} Orders
+            </div>
+            <TooltipWrapper tooltipKey="FBA/FBM">
+              <div className={styles.productMetaDetail}>
+                <div className={`${styles.circle} ${styles.circle__orange}`} />
+                {rowData.fulfillment_channel === 'fba' ? 'FBA' : 'FBM'}
+              </div>
+            </TooltipWrapper>
+            <TooltipWrapper tooltipKey="Active/Inactive">
+              <div className={styles.productMetaDetail}>
+                <div className={`${styles.circle} ${styles.circle__blue}`} />
+                {rowData.sku_status === 'active' ? 'Active' : 'Inactive'}
+              </div>
+            </TooltipWrapper>
           </div>
-          <TooltipWrapper tooltipKey="FBA/FBM">
-            <div className={styles.productMetaDetail}>
-              <div className={`${styles.circle} ${styles.circle__orange}`} />
-              {rowData.fulfillment_channel === 'fba' ? 'FBA' : 'FBM'}
-            </div>
-          </TooltipWrapper>
-          <TooltipWrapper tooltipKey="Active/Inactive">
-            <div className={styles.productMetaDetail}>
-              <div className={`${styles.circle} ${styles.circle__blue}`} />
-              {rowData.sku_status === 'active' ? 'Active' : 'Inactive'}
-            </div>
-          </TooltipWrapper>
-        </div>
+        )}
       </div>
     </Table.Cell>
   );

@@ -67,3 +67,8 @@ export const SEND_IN_INTERVALS = [
     text: 'Monthly',
   },
 ];
+
+export const TIME_SETTING = {
+  DAY: 'month',
+  WEEK: 'year',
+};
