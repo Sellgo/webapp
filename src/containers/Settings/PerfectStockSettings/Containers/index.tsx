@@ -6,7 +6,6 @@ import styles from './index.module.scss';
 /* Components */
 import ContainersMeta from './ContainersMeta';
 import ContainersCore from './ContainersCore';
-//import DaysOfInventoryGroup from './DaysOfInventoryGroup';
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
 import ElevioArticle from '../../../../components/ElevioArticle';
@@ -43,11 +42,6 @@ const DaysOfInventory = (props: Props) => {
         <span>Step-By-Step Guide</span>
         <ElevioArticle articleId={''} />
       </BoxContainerSettings>
-
-      {/*<div className={styles.instructionsBox}>
-              <span>Step-By-Step Guide</span>
-              <ElevioArticle articleId={'17'} />
-    </div>*/}
     </main>
   );
 };

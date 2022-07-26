@@ -17,7 +17,7 @@ export const CONTAINERS_SETTINGS_COLUMNS: Column[] = [
     align: 'center',
   },
   {
-    width: 200,
+    width: 130,
     dataKey: 'container_size_cbm',
     title: 'Volume (CBM)',
     type: 'number',
@@ -33,7 +33,7 @@ export const CONTAINERS_SETTINGS_COLUMNS: Column[] = [
     align: 'center',
   },
   {
-    width: 200,
+    width: 130,
     dataKey: 'max_order_cbm',
     title: 'Max order (CBM)',
     type: 'number',
@@ -48,7 +48,7 @@ export const CONTAINERS_SETTINGS_COLUMNS: Column[] = [
     align: 'right',
   },
   {
-    width: 150,
+    width: 190,
     dataKey: 'market_price',
     title: 'Latest container price ($ USD)',
     type: 'number',
@@ -65,7 +65,7 @@ export const CONTAINERS_SETTINGS_COLUMNS: Column[] = [
     align: 'right',
   },
   {
-    width: 150,
+    width: 190,
     dataKey: 'price',
     title: 'Manual container price ($ USD)',
     type: 'number',
