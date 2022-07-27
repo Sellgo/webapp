@@ -22,6 +22,7 @@ export const CONTAINERS_SETTINGS_COLUMNS: Column[] = [
     title: 'Volume (CBM)',
     type: 'number',
     align: 'center',
+    // isEditable: true,
   },
   {
     width: 200,

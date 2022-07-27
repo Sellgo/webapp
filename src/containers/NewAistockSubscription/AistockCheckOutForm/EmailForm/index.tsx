@@ -101,7 +101,7 @@ const FreeAccountForm = (props: Props) => {
 
     /* Validate email format */
     if (!validateEmail(email)) {
-      setErrorMessage(`Error in email - email format validation failed: ${email}`);
+      setErrorMessage(`Email address is incorrect, please fix your email: ${email}`);
       setIsLoading(false);
       return;
     }
@@ -113,7 +113,7 @@ const FreeAccountForm = (props: Props) => {
       );
 
       if (verifyEmailStatus !== 200) {
-        setErrorMessage('This email is already being used.');
+        setErrorMessage(`This email ${email} is already being used.`);
         setIsLoading(false);
         return;
       }
@@ -122,7 +122,7 @@ const FreeAccountForm = (props: Props) => {
       handleUpdateEmail(email);
       handleGoToNextStep();
     } catch (e) {
-      setErrorMessage('This email is already being used.');
+      setErrorMessage(`This email ${email} is already being used.`);
       setIsLoading(false);
       return;
     }
