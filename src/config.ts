@@ -73,7 +73,7 @@ const AISTOCK_PROD_URLS = {
 const AISTOCK_DEV_KEYS = {
   STRIPE_API_KEY:
     'pk_test_51KyWdDB9r8idhGpi4FucpUjlDoA2F9NnHDqOlvfZpGvC202JeFR0RcHJYsto8Ho6IWuBKzudR16kL24egrSnApDt00PrZJrw6G',
-  PIXEL_ID: '990701281388485',
+  PIXEL_ID: '391690402953069',
   ELEVIO_ID: '5f21ef059e2e7',
   CHROME_EXT_ID: 'akkneemdhjpifmcbpcdanajpihknagbf',
   CHURNFLOW_SURVEY_ID: 'Lb8og4j8',
@@ -88,7 +88,7 @@ const AISTOCK_DEV_KEYS = {
 const AISTOCK_PROD_KEYS = {
   STRIPE_API_KEY:
     'pk_live_51KyVnxB27BJWvSTtNE7FrqZ5DnLyA3dtQ2bLzzAHckkXCFxzJayiGxyfio3qBfV8WGLqUyYh69lQdxsaPA1yHs0900lbQSzWuP',
-  PIXEL_ID: '990701281388485',
+  PIXEL_ID: '391690402953069',
   ELEVIO_ID: '5f21ef059e2e7',
   CHROME_EXT_ID: 'gldmigoakdolonchebfnmcfbjihelcec',
   CHURNFLOW_SURVEY_ID: 'Lb8og4j8',
@@ -119,21 +119,21 @@ const SELLGO_DEV_ANALYTICS = {
 };
 
 const SELLGO_PROD_ANALYTICS = {
-  gaTrackingId: 'UA-154653584-2',
+  gaTrackingId: 'UA-154653584-5',
   fullStoryOrgId: '18JTF6',
   googleTagManagerContainerId: 'GTM-KZN2GBV',
 };
 
 const AISTOCK_DEV_ANALYTICS = {
-  gaTrackingId: 'UA-154653584-1',
+  gaTrackingId: 'UA-235653036-2',
   fullStoryOrgId: 'Q36Y3',
-  googleTagManagerContainerId: 'GTM-5CNH6MV',
+  googleTagManagerContainerId: 'GTM-TCBV6PN',
 };
 
 const AISTOCK_PROD_ANALYTICS = {
-  gaTrackingId: 'UA-154653584-2',
+  gaTrackingId: 'UA-235653036-1',
   fullStoryOrgId: '18JTF6',
-  googleTagManagerContainerId: 'GTM-KZN2GBV',
+  googleTagManagerContainerId: 'GTM-TCBV6PN',
 };
 
 const DEV_MWS = {
