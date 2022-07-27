@@ -16,7 +16,7 @@ const QuantityCell = (props: Props) => {
   const qty = showNAIfNull(rowData[dataKey], formatNumber(rowData[dataKey]));
   let summedQuantity = '';
   if (rowData.reconcile) {
-    summedQuantity = formatNumber((rowData[dataKey] || 0) + rowData.reconcile);
+    summedQuantity = formatNumber((Number(rowData[dataKey]) || 0) + Number(rowData.reconcile));
   }
 
   return <Table.Cell {...props}>{isSum ? summedQuantity : qty}</Table.Cell>;
