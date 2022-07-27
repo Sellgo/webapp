@@ -176,14 +176,14 @@ const Signup = (props: Props, state: State) => {
       setFocusPassword(true);
     } else if (!validateEmail(email)) {
       setVerifySignupError(true);
-      setErrorMessage(`error in email - email format validation failed: ${email}`);
+      setErrorMessage(`Email address is incorrect, please fix your email: ${email}`);
       setEmailError(true);
     } else if (!Name.validate(firstName)) {
-      setErrorMessage('First Name must all be letters.');
+      setErrorMessage('First name must all be letters.');
       setVerifySignupError(true);
       setFnameError(true);
     } else if (!Name.validate(lastName)) {
-      setErrorMessage('Last Name must all be letters.');
+      setErrorMessage('Last name must all be letters.');
       setVerifySignupError(true);
       setLnameError(true);
     } else {
