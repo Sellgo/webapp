@@ -28,6 +28,7 @@ const DaysOfInventoryCore = () => {
 
       if (status === 200) {
         setDaysOfInventory(data.expected_sales_days_count || '');
+        setIsRoundUp(data.round_up_to_nearest_carton);
       }
     } catch (err) {
       setDaysOfInventory('');
