@@ -42,6 +42,10 @@ const DaysOfInventoryCore = () => {
       error('Please enter a valid days of inventory');
       return;
     }
+    if (Number(daysOfInventory) < 30) {
+      error('Valid days of inventory must be greater than 30');
+      return;
+    }
 
     try {
       const payload = {
@@ -78,6 +82,7 @@ const DaysOfInventoryCore = () => {
             isInteger
             isPositiveOnly
             className={styles.input}
+            error={!!(Number(daysOfInventory) < 30)}
           />
           &nbsp; days
         </div>
