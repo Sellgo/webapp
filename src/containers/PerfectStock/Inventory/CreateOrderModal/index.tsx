@@ -262,7 +262,7 @@ const CreateOrder = (props: Props) => {
           handleNext={() => setCreateOrderStep(createOrderStep + 1)}
         />
       );
-      headerContent = 'Select 1ST ORDER DATE';
+      headerContent = 'Select 1st Order Date';
       break;
     case CREATE_ORDER_STATUS.SELECT_LEAD_TIME:
       content = (
@@ -274,7 +274,7 @@ const CreateOrder = (props: Props) => {
           handleNext={() => setCreateOrderStep(createOrderStep + 1)}
         />
       );
-      headerContent = 'Select LEAD TIME';
+      headerContent = 'Select Lead Time';
       break;
 
     case CREATE_ORDER_STATUS.SELECT_PAYMENT_TERM:
@@ -287,7 +287,7 @@ const CreateOrder = (props: Props) => {
           handleNext={() => setCreateOrderStep(createOrderStep + 1)}
         />
       );
-      headerContent = 'Select LEAD TIME';
+      headerContent = 'Select Payment Term';
       break;
 
     case CREATE_ORDER_STATUS.ORDER_CREATED:
@@ -305,7 +305,7 @@ const CreateOrder = (props: Props) => {
           isCreateOrderLoading={isCreateOrderLoading}
         />
       );
-      headerContent = 'Select TPL';
+      headerContent = 'Select 3rd Party Logistic Warehouse';
       break;
 
     default:
