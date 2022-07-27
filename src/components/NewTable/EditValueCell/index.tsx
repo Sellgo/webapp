@@ -70,8 +70,15 @@ const EditValueCell = (props: Props) => {
                   isNumber={isNumber}
                   thousandSeperate={isNumber}
                   allow5Decimal={allow5Decimal}
-                  error={(!disabled && showEmptyError && !rowData?.dataKey) || hasError}
-                  disabled={disabled}
+                  error={
+                    (!disabled && showEmptyError && !rowData[`${dataKey}`]) ||
+                    hasError ||
+                    !!(rowData && rowData.errors && rowData.errors[`${dataKey}`])
+                  }
+                  disabled={disabled || rowData.disabled}
+                  maxValue={
+                    (rowData && rowData.maxValues && rowData.maxValues[`${dataKey}`]) || null
+                  }
                 />
                 <p>&nbsp;{appendMessage}</p>
               </div>
