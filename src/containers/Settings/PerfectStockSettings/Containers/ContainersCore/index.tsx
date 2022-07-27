@@ -168,6 +168,7 @@ const ContainersCore = () => {
       if (validateSave(current)) {
         try {
           const payload: { [key: string]: any } = {
+            // container_size_cbm: current.container_size_cbm,
             is_default: current.isRowSelected,
             max_size_perc: current.max_size_perc,
           };
