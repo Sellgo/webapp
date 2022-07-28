@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Helmet from 'react-helmet';
 import { Route, Router, Switch } from 'react-router-dom';
-import Elevio from 'elevio/lib/client';
+import Elevio from 'elevio/lib/react';
 import Axios from 'axios';
 import AdminLayout from '../../components/AdminLayout';
 import ScrollToTop from '../../components/ScrollToTop';
@@ -271,21 +271,26 @@ function App() {
     }
   };
 
+  React.useEffect(() => {
+    handleUpdateFaviconToAistock();
+  }, []);
+
+  const url = window.location.pathname;
+
   const loadElevio = () => {
     if (
       !isSellgoSession() &&
-      window.location.pathname !== '/' &&
-      !window.location.pathname.includes('/signup') &&
-      !window.location.pathname.includes('/reset-password')
+      url !== '/' &&
+      !url.includes('/subscription') &&
+      !url.includes('/signup') &&
+      !url.includes('/reset-password')
     ) {
-      Elevio.load(AppConfig.ELEVIO_KEY);
+      return <Elevio accountId={AppConfig.ELEVIO_KEY} />;
+    } else {
+      return null;
     }
   };
 
-  React.useEffect(() => {
-    loadElevio();
-    handleUpdateFaviconToAistock();
-  }, []);
   return (
     <div className="App__container">
       <Helmet>
@@ -293,6 +298,8 @@ function App() {
       </Helmet>
       <Router history={history}>
         <ScrollToTop />
+        {loadElevio()}
+
         <Switch>
           <Route
             exact={true}
