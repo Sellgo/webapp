@@ -158,7 +158,7 @@ export const exportProductDatabaseTable = (requestPayload: any, fileFormat: stri
         await downloadFile(url);
         success('File successfully exported');
       } else {
-        error('Export not available.');
+        error('Export not available');
       }
     }
   } catch (err) {

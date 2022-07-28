@@ -332,7 +332,7 @@ const Activation = (props: Props) => {
                   setOpenTOS(true);
                 }}
               >
-                terms of service&nbsp;
+                Terms of Service&nbsp;
               </span>
               and you have read our&nbsp;
               <span

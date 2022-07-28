@@ -41,7 +41,7 @@ const PrioritySkuSelection = (props: Props) => {
       });
       handleNext();
     } else {
-      error('Please select a priority sku');
+      error('Please select a priority SKU');
     }
   };
 
