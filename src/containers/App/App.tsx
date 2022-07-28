@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Helmet from 'react-helmet';
 import { Route, Router, Switch } from 'react-router-dom';
+import Elevio from 'elevio/lib/client';
 import Axios from 'axios';
 import AdminLayout from '../../components/AdminLayout';
 import ScrollToTop from '../../components/ScrollToTop';
@@ -270,7 +271,19 @@ function App() {
     }
   };
 
+  const loadElevio = () => {
+    if (
+      !isSellgoSession() &&
+      window.location.pathname !== '/' &&
+      !window.location.pathname.includes('/signup') &&
+      !window.location.pathname.includes('/reset-password')
+    ) {
+      Elevio.load(AppConfig.ELEVIO_KEY);
+    }
+  };
+
   React.useEffect(() => {
+    loadElevio();
     handleUpdateFaviconToAistock();
   }, []);
   return (
@@ -284,11 +297,11 @@ function App() {
           <Route
             exact={true}
             path="/"
-            render={renderProps => <Home auth={auth} {...renderProps} />}
+            render={(renderProps) => <Home auth={auth} {...renderProps} />}
           />
           <Route
             path="/callback"
-            render={renderProps => {
+            render={(renderProps) => {
               handleAuthentication(renderProps.location);
               return <PageLoader pageLoading={true} />;
             }}
@@ -296,13 +309,13 @@ function App() {
           <Route
             exact={true}
             path="/reset-password"
-            render={renderProps => <ResetPassword auth={auth} {...renderProps} />}
+            render={(renderProps) => <ResetPassword auth={auth} {...renderProps} />}
           />
 
           <Route
             exact={true}
             path="/subscription"
-            render={renderProps => (
+            render={(renderProps) => (
               <SubscriptionPages.NewSubscription auth={auth} {...renderProps} />
             )}
           />
@@ -310,7 +323,7 @@ function App() {
           <Route
             exact={true}
             path="/signup"
-            render={renderProps => (
+            render={(renderProps) => (
               <SubscriptionPages.FreeAccountForm auth={auth} {...renderProps} />
             )}
           />
@@ -324,7 +337,7 @@ function App() {
           <Route
             exact={true}
             path="/activation/success"
-            render={renderProps => (
+            render={(renderProps) => (
               <SubscriptionPages.ActivationSuccess auth={auth} {...renderProps} />
             )}
           />
@@ -340,7 +353,7 @@ function App() {
           <Route
             exact={true}
             path="/subscription/payment"
-            render={renderProps => <SubscriptionPages.Payment auth={auth} {...renderProps} />}
+            render={(renderProps) => <SubscriptionPages.Payment auth={auth} {...renderProps} />}
           />
           <PrivateRoute
             exact={true}
