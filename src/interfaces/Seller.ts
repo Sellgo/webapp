@@ -42,6 +42,7 @@ export interface SellerSubscription {
   is_aistock?: boolean;
   is_aistock_survey_filled?: boolean;
   perfect_stock_status: string;
+  is_trial_expired?: boolean;
 }
 
 export interface Merchant {

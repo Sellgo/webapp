@@ -18,7 +18,7 @@ const TrialRemainingBanner = (props: Props) => {
   const daysLeft = () => {
     const today = new Date();
     const expiry = new Date(expiryDate);
-    const diff = Math.abs(expiry.getTime() - today.getTime());
+    const diff = expiry.getTime() - today.getTime();
     const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
     return diffDays;
   };

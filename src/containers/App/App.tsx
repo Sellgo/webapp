@@ -195,7 +195,7 @@ const PrivateRoute = connect(
         isSubscriptionIdFreeTrial(sellerSubscription.subscription_id) &&
         window.location.pathname !== '/settings/pricing'
       ) {
-        if (sellerSubscription.is_free_trial_expired) {
+        if (sellerSubscription.is_trial_expired) {
           history.push('/activation');
         }
       }
