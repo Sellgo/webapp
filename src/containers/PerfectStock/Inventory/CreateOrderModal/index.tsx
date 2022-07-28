@@ -126,7 +126,7 @@ const CreateOrder = (props: Props) => {
       } else {
         isLoadingPurchaseOrders(false);
         setPurchaseOrdersLoadingMessage('');
-        error('Failed to create new order.');
+        error('Failed to create new order');
       }
     } catch (err) {
       console.error(err);

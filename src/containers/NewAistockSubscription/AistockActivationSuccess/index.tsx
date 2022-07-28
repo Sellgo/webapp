@@ -79,7 +79,7 @@ const ActivationSuccess = (props: Props) => {
       </section>
       <section className={styles.socialProofSection}>
         <img src={aistockLogo} alt="aistock-logo" className={styles.aistockLogo} />
-        <p className={styles.socialProofDesc}>Trusted by 100+ Amazon sellers</p>
+        <p className={styles.socialProofDesc}>Trusted by top Amazon brands</p>
         <div className={styles.socialProofIcons}>
           <img className={styles.logo} src={BBLogo} alt="bblogo" />
           <img className={styles.logo} src={TenFactorLogo} alt="TenFactorLogo" />
