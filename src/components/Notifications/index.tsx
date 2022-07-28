@@ -8,7 +8,9 @@ import { activeExportFiles, isFetchingActiveExports } from '../../selectors/Prod
 import CSV_IMAGE from '../../assets/images/Group 3622.svg';
 import XLSX_IMAGE from '../../assets/images/Group 3622 (1).svg';
 
-import PROGRESSING from '../../assets/images/sellgo-loading-animation-450-1.gif';
+import SELLGO_PROGRESSING from '../../assets/images/sellgo-loading-animation-450-1.gif';
+import AISTOCK_PROGRESSING from '../../assets/images/sellgo-loading-animation-450-1.gif';
+import { isSellgoSession } from '../../utils/session';
 import moment from 'moment';
 import { selectIsNotificationOpen } from '../../selectors/Notification';
 import { toggleNotification } from '../../actions/Notification';
@@ -24,12 +26,8 @@ interface Props {
 }
 
 const Notifications = (props: Props) => {
-  const {
-    activeExportFiles,
-    fetchActiveExportFiles,
-    fetchingActiveExports,
-    isNotificationOpen,
-  } = props;
+  const { activeExportFiles, fetchActiveExportFiles, fetchingActiveExports, isNotificationOpen } =
+    props;
 
   const getFileName = (file: string) => {
     let fileName: string | undefined = '';
@@ -48,7 +46,7 @@ const Notifications = (props: Props) => {
     }
 
     if (status === 'processing') {
-      image = PROGRESSING;
+      image = isSellgoSession() ? SELLGO_PROGRESSING : AISTOCK_PROGRESSING;
     }
 
     return image;
