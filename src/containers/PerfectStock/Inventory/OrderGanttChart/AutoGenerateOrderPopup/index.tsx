@@ -71,7 +71,7 @@ const AutoGenerateOrderPopup = (props: Props) => {
       error('Please enter a stock level alignment value');
       return;
     } else if (nextOrderCondition === 'DUS' && !dusThreshold) {
-      error('Please enter a Days Until Stockout alignment value');
+      error('Please enter "Days Until Stockout" alignment value');
       return;
     }
 

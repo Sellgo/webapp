@@ -293,7 +293,7 @@ const Signup = (props: Props, state: State) => {
               setOpenTOS(true);
             }}
           >
-            terms of service
+            Terms of Service
           </span>{' '}
           and you have read our{' '}
           <span
