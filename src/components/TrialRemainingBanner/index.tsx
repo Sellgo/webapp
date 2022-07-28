@@ -98,7 +98,7 @@ const TrialRemainingBanner = (props: Props) => {
           background: bannerColor,
         }}
       >
-        {daysLeft() <= 14 ? (
+        {daysLeft() === 14 ? (
           <Link
             to={{ pathname: 'https://calendly.com/sellgo-richard/aistock-onboarding' }}
             target="_blank"
@@ -111,7 +111,7 @@ const TrialRemainingBanner = (props: Props) => {
               <Icon name="arrow right" />
             </p>
           </Link>
-        ) : daysLeft() <= 13 ? (
+        ) : daysLeft() === 13 ? (
           <Link
             to="/subscription/payment"
             target="_blank"
@@ -123,7 +123,7 @@ const TrialRemainingBanner = (props: Props) => {
               <Icon name="arrow right" />
             </p>
           </Link>
-        ) : daysLeft() <= 12 ? (
+        ) : daysLeft() === 12 ? (
           <Link
             to="/subscription/payment"
             target="_blank"
@@ -135,7 +135,7 @@ const TrialRemainingBanner = (props: Props) => {
               <Icon name="arrow right" />
             </p>
           </Link>
-        ) : daysLeft() <= 11 ? (
+        ) : daysLeft() === 11 ? (
           <Link
             to="/subscription/payment"
             target="_blank"
@@ -147,7 +147,7 @@ const TrialRemainingBanner = (props: Props) => {
               <Icon name="arrow right" />
             </p>
           </Link>
-        ) : daysLeft() <= 10 ? (
+        ) : daysLeft() === 10 ? (
           <Link
             to="/subscription/payment"
             target="_blank"
@@ -159,7 +159,7 @@ const TrialRemainingBanner = (props: Props) => {
               <Icon name="arrow right" />
             </p>
           </Link>
-        ) : daysLeft() <= 9 ? (
+        ) : daysLeft() === 9 ? (
           <Link
             to="/subscription/payment"
             target="_blank"
@@ -171,7 +171,7 @@ const TrialRemainingBanner = (props: Props) => {
               <Icon name="arrow right" />
             </p>
           </Link>
-        ) : daysLeft() <= 8 ? (
+        ) : daysLeft() === 8 ? (
           <Link
             to="/subscription/payment"
             target="_blank"
@@ -183,7 +183,7 @@ const TrialRemainingBanner = (props: Props) => {
               <Icon name="arrow right" />
             </p>
           </Link>
-        ) : daysLeft() <= 7 ? (
+        ) : daysLeft() === 7 ? (
           <Link
             to="/subscription/payment"
             style={{ textDecoration: 'none' }}
@@ -194,7 +194,7 @@ const TrialRemainingBanner = (props: Props) => {
               (check right bottom).
             </p>
           </Link>
-        ) : daysLeft() <= 6 ? (
+        ) : daysLeft() === 6 ? (
           <Link
             to="/subscription/payment"
             target="_blank"
@@ -206,7 +206,7 @@ const TrialRemainingBanner = (props: Props) => {
               <Icon name="arrow right" />
             </p>
           </Link>
-        ) : daysLeft() <= 5 ? (
+        ) : daysLeft() === 5 ? (
           <Link
             to="/subscription/payment"
             target="_blank"
@@ -218,7 +218,7 @@ const TrialRemainingBanner = (props: Props) => {
               <Icon name="arrow right" />
             </p>
           </Link>
-        ) : daysLeft() <= 4 ? (
+        ) : daysLeft() === 4 ? (
           <Link
             to="/subscription/payment"
             target="_blank"
@@ -230,7 +230,7 @@ const TrialRemainingBanner = (props: Props) => {
               <Icon name="arrow right" />
             </p>
           </Link>
-        ) : daysLeft() <= 3 ? (
+        ) : daysLeft() === 3 ? (
           <Link
             to="/subscription/payment"
             target="_blank"
@@ -243,7 +243,7 @@ const TrialRemainingBanner = (props: Props) => {
               <Icon name="arrow right" />
             </p>
           </Link>
-        ) : daysLeft() <= 2 ? (
+        ) : daysLeft() === 2 ? (
           <Link
             to="/subscription/payment"
             target="_blank"
@@ -256,7 +256,7 @@ const TrialRemainingBanner = (props: Props) => {
               <Icon name="arrow right" />
             </p>
           </Link>
-        ) : daysLeft() <= 1 ? (
+        ) : daysLeft() === 1 ? (
           <Link
             to="/subscription/payment"
             target="_blank"
