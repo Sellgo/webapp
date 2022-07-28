@@ -1,85 +1,37 @@
-import * as React from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { Button, Icon, Checkbox } from 'semantic-ui-react';
 
+/* Styles */
 import styles from './NotificationInbox.module.scss';
 
-const NotificationInbox = () => {
-  const [showNotifications, setShowNotifications] = React.useState<boolean>(false);
+/* Selector */
+import {
+  selectNotificationsList,
+  selectIsNewIncomingNotification,
+} from '../../selectors/NotificationInbox';
+
+interface Props {
+  notificationsList: any;
+  isNewIncomingNotification: boolean;
+}
+
+const NotificationInbox = (props: Props) => {
+  const { notificationsList, isNewIncomingNotification } = props;
+
+  console.log(notificationsList, isNewIncomingNotification, 'notificationsList');
+
+  const [showNotifications, setShowNotifications] = useState<boolean>(false);
 
   const handleIconClick = () => {
     setShowNotifications((prev) => !prev);
   };
 
-  const data = [
-    {
-      message: 'Adipisicing velit incidunt impedit dolor accusamus.',
-      status: 'info',
-      read: false,
-      sku_name: 'sku name',
-      asin: 'asin',
-      order_name: 'order name',
-      date: '2 days ago',
-    },
-    {
-      message: 'Adipisicing velit incidunt impedit dolor accusamus.',
-      status: 'info',
-      read: false,
-      sku_name: 'sku name',
-      asin: 'asin',
-      order_name: 'order name',
-      date: '2 days ago',
-    },
-    {
-      message: 'Adipisicing velit incidunt impedit dolor accusamus.',
-      status: 'info',
-      read: true,
-      sku_name: 'sku name',
-      asin: 'asin',
-      order_name: 'order name',
-      date: '2 days ago',
-    },
-    {
-      message: 'Adipisicing velit incidunt impedit dolor accusamus.',
-      status: 'info',
-      read: false,
-      sku_name: 'sku name',
-      asin: 'asin',
-      order_name: 'order name',
-      date: '2 days ago',
-    },
-    {
-      message: 'Adipisicing velit incidunt impedit dolor accusamus.',
-      status: 'info',
-      read: false,
-      sku_name: 'sku name',
-      asin: 'asin',
-      order_name: 'order name',
-      date: '2 days ago',
-    },
-    {
-      message: 'Adipisicing velit incidunt impedit dolor accusamus.',
-      status: 'info',
-      read: false,
-      sku_name: 'sku name',
-      asin: 'asin',
-      order_name: 'order name',
-      date: '2 days ago',
-    },
-    {
-      message: 'Adipisicing velit incidunt impedit dolor accusamus.',
-      status: 'info',
-      read: false,
-      sku_name: 'sku name',
-      asin: 'asin',
-      order_name: 'order name',
-      date: '2 days ago',
-    },
-  ];
-
   return (
     <div>
       <Button icon onClick={handleIconClick} style={{ background: 'none', marginRight: '0.5em' }}>
         <Icon name="bell" className={styles.bellIcon} />
+        {isNewIncomingNotification && <Icon corner name="add" />}
       </Button>
       {showNotifications && (
         <div className={styles.notificationContainer}>
@@ -96,8 +48,8 @@ const NotificationInbox = () => {
               <p>Mark all as read</p>
             </div>
 
-            {data.length &&
-              data.map((notification) => (
+            {notificationsList?.length &&
+              notificationsList.map((notification: any) => (
                 <div className={styles.messageContainer}>
                   <div className={styles.picture}></div>
                   <div className={styles.message}>
@@ -122,4 +74,11 @@ const NotificationInbox = () => {
   );
 };
 
-export default NotificationInbox;
+const mapStateToProps = (state: any) => {
+  return {
+    notificationsList: selectNotificationsList(state),
+    isNewIncomingNotification: selectIsNewIncomingNotification(state),
+  };
+};
+
+export default connect(mapStateToProps)(NotificationInbox);

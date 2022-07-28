@@ -239,7 +239,6 @@ const PrivateRoute = connect(
     }, []);
 
     useEffect(() => {
-      console.log(findRefreshSocket, 'findRefreshSocket');
       if (!findRefreshSocket) {
         return;
       }
@@ -251,10 +250,10 @@ const PrivateRoute = connect(
           // wehn incoming message is present from server
           findRefreshSocket.onmessage = async (e) => {
             const payload = JSON.parse(e.data);
-            console.log(payload, 'payload');
+            console.log(JSON.parse(payload.message), 'payload');
           };
 
-          findRefreshSocket.send(JSON.stringify({ msg: 'hello' }));
+          findRefreshSocket.send(JSON.stringify({ msg: 'hello from frontend' }));
         }
       }
 
