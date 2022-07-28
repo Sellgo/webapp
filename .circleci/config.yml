@@ -17,6 +17,8 @@ jobs:
       - persist_to_workspace:
           root: build
           paths: .
+    # The resource_class feature allows configuring CPU and RAM resources for each job. Different resource classes are available for different executors. https://circleci.com/docs/2.0/configuration-reference/#resourceclass
+    resource_class: large
   build-dev:
     docker:
       - image: cimg/node:12.13.0
