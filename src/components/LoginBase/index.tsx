@@ -16,7 +16,7 @@ const LoginBase = (props: Props) => {
       <Grid.Row>
         <Grid.Column>
           <Image
-            src={isAistock ? '/images/aistockLogo.png' : '/images/sellgo_white_logo.png'}
+            src={isAistock ? '/images/aistock_white_logo.png' : '/images/sellgo_white_logo.png'}
             wrapped={true}
           />
         </Grid.Column>
