@@ -73,7 +73,7 @@ const AISTOCK_PROD_URLS = {
 const AISTOCK_DEV_KEYS = {
   STRIPE_API_KEY:
     'pk_test_51KyWdDB9r8idhGpi4FucpUjlDoA2F9NnHDqOlvfZpGvC202JeFR0RcHJYsto8Ho6IWuBKzudR16kL24egrSnApDt00PrZJrw6G',
-  PIXEL_ID: '990701281388485',
+  PIXEL_ID: '391690402953069',
   ELEVIO_ID: '5f21ef059e2e7',
   CHROME_EXT_ID: 'akkneemdhjpifmcbpcdanajpihknagbf',
   CHURNFLOW_SURVEY_ID: 'Lb8og4j8',
@@ -88,7 +88,7 @@ const AISTOCK_DEV_KEYS = {
 const AISTOCK_PROD_KEYS = {
   STRIPE_API_KEY:
     'pk_live_51KyVnxB27BJWvSTtNE7FrqZ5DnLyA3dtQ2bLzzAHckkXCFxzJayiGxyfio3qBfV8WGLqUyYh69lQdxsaPA1yHs0900lbQSzWuP',
-  PIXEL_ID: '990701281388485',
+  PIXEL_ID: '391690402953069',
   ELEVIO_ID: '5f21ef059e2e7',
   CHROME_EXT_ID: 'gldmigoakdolonchebfnmcfbjihelcec',
   CHURNFLOW_SURVEY_ID: 'Lb8og4j8',
@@ -112,16 +112,28 @@ const PROD_AUTH_CONFIG = {
   connection: 'Username-Password-Authentication',
 };
 
-const DEV_ANALYTICS = {
+const SELLGO_DEV_ANALYTICS = {
   gaTrackingId: 'UA-154653584-1',
   fullStoryOrgId: 'Q36Y3',
   googleTagManagerContainerId: 'GTM-5CNH6MV',
 };
 
-const PROD_ANALYTICS = {
-  gaTrackingId: 'UA-154653584-2',
+const SELLGO_PROD_ANALYTICS = {
+  gaTrackingId: 'UA-154653584-5',
   fullStoryOrgId: '18JTF6',
   googleTagManagerContainerId: 'GTM-KZN2GBV',
+};
+
+const AISTOCK_DEV_ANALYTICS = {
+  gaTrackingId: 'UA-235653036-2',
+  fullStoryOrgId: 'Q36Y3',
+  googleTagManagerContainerId: 'GTM-TCBV6PN',
+};
+
+const AISTOCK_PROD_ANALYTICS = {
+  gaTrackingId: 'UA-235653036-1',
+  fullStoryOrgId: '18JTF6',
+  googleTagManagerContainerId: 'GTM-TCBV6PN',
 };
 
 const DEV_MWS = {
@@ -136,7 +148,7 @@ const sellgoProd = {
   ...PROD_AUTH_CONFIG,
   ...SELLGO_PROD_URLS,
   ...SELLGO_PROD_KEYS,
-  ...PROD_ANALYTICS,
+  ...SELLGO_PROD_ANALYTICS,
   ...PROD_MWS,
   callbackUrl: 'https://app.sellgo.com/callback',
   sellgoUrls: { ...SELLGO_PROD_URLS },
@@ -147,7 +159,7 @@ const aistockProd = {
   ...PROD_AUTH_CONFIG,
   ...AISTOCK_PROD_URLS,
   ...AISTOCK_PROD_KEYS,
-  ...PROD_ANALYTICS,
+  ...AISTOCK_PROD_ANALYTICS,
   ...PROD_MWS,
   callbackUrl: 'https://app.aistock.co/callback',
   sellgoUrls: { ...SELLGO_PROD_URLS },
@@ -158,7 +170,7 @@ const sellgoDev = {
   ...DEV_AUTH_CONFIG,
   ...SELLGO_DEV_URLS,
   ...SELLGO_DEV_KEYS,
-  ...DEV_ANALYTICS,
+  ...SELLGO_DEV_ANALYTICS,
   ...DEV_MWS,
   callbackUrl: 'https://app.sellgo-dev.com/callback',
   sellgoUrls: { ...SELLGO_DEV_URLS },
@@ -169,7 +181,7 @@ const aistockDev = {
   ...DEV_AUTH_CONFIG,
   ...AISTOCK_DEV_URLS,
   ...AISTOCK_DEV_KEYS,
-  ...DEV_ANALYTICS,
+  ...AISTOCK_DEV_ANALYTICS,
   ...DEV_MWS,
   callbackUrl: 'https://app.predicts.co/callback',
   sellgoUrls: { ...SELLGO_DEV_URLS },
@@ -180,7 +192,7 @@ const sellgoLocal = {
   ...DEV_AUTH_CONFIG,
   ...SELLGO_DEV_URLS,
   ...SELLGO_DEV_KEYS,
-  ...DEV_ANALYTICS,
+  ...SELLGO_DEV_ANALYTICS,
   ...DEV_MWS,
   callbackUrl: 'http://localhost:3000/callback',
   sellgoUrls: { ...SELLGO_DEV_URLS },
@@ -191,7 +203,7 @@ const aistockLocal = {
   ...DEV_AUTH_CONFIG,
   ...AISTOCK_DEV_URLS,
   ...AISTOCK_DEV_KEYS,
-  ...DEV_ANALYTICS,
+  ...AISTOCK_DEV_ANALYTICS,
   ...DEV_MWS,
   callbackUrl: 'http://localhost:3000/callback',
   sellgoUrls: { ...SELLGO_DEV_URLS },
