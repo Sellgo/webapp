@@ -110,7 +110,7 @@ const PageHeader = (props: Props) => {
             onClick={() => setIsBetaFormOpen(true)}
             className={'surveyButton'}
           >
-            <MessageSmileIcon /> &nbsp;Feedback Survey
+            <MessageSmileIcon /> &nbsp;Feedback survey
           </ActionButton>
         )}
     </>
