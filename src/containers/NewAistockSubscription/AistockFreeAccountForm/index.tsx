@@ -226,7 +226,7 @@ const FreeAccountForm = (props: Props) => {
                   setOpenTOS(true);
                 }}
               >
-                terms of service&nbsp;
+                Terms of Service&nbsp;
               </span>
               and you have read our&nbsp;
               <span
@@ -272,14 +272,14 @@ const FreeAccountForm = (props: Props) => {
             setOpenTOS(true);
           }}
         >
-          Terms of service
+          Terms of Service
         </button>
         <button
           onClick={() => {
             setOpenPP(true);
           }}
         >
-          Privacy policy&nbsp;
+          Privacy Policy&nbsp;
         </button>
         <span>Copyright @ AiStock 2022</span>
       </div>
