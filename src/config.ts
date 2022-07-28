@@ -127,7 +127,7 @@ const SELLGO_PROD_ANALYTICS = {
 const AISTOCK_DEV_ANALYTICS = {
   gaTrackingId: 'UA-235653036-2',
   fullStoryOrgId: 'Q36Y3',
-  googleTagManagerContainerId: 'GTM-TCBV6PN',
+  googleTagManagerContainerId: 'GTM-5C5R9R4',
 };
 
 const AISTOCK_PROD_ANALYTICS = {
