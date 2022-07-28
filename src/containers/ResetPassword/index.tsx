@@ -73,21 +73,21 @@ export default function ResetPassword(props: Props) {
     <ResetPasswordBase messageDetails={messageDetails}>
       <Form className="reset-pw-form" onSubmit={handleSubmit}>
         <Header as="h1" textAlign="center">
-          Reset Password
+          Forgot password?
         </Header>
         <Form.Input
           label="Enter the email address associated with your account and we'll email you a password reset link."
           type="email"
-          placeholder="Email"
+          placeholder="Your email"
           {...bindEmail}
           required
         />
         {isAccess ? <span>{errorMessage}</span> : <span />}
         <Form.Field control={Button} fluid={true} primary={true} value="Submit">
-          Reset Password
+          Reset password
         </Form.Field>
         <a className="back-to-login" href="/">
-          <b>Back to Log in</b>
+          <b>Log in</b>
         </a>
       </Form>
     </ResetPasswordBase>
