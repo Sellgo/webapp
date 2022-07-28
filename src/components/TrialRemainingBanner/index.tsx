@@ -167,7 +167,7 @@ const TrialRemainingBanner = (props: Props) => {
             onClick={() => setShowBanner(false)}
           >
             <p className={styles.bannerText} style={{ color: fontColor }}>
-              You have {daysLeft()} more days of trial. &nbsp;<span>Upgrade now</span>
+              You have {daysLeft()} more days of free trial. &nbsp;<span>Upgrade now</span>
               <Icon name="arrow right" />
             </p>
           </Link>
