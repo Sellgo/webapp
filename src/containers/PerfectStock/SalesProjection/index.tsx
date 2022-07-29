@@ -40,7 +40,8 @@ import { sellerIDSelector } from '../../../selectors/Seller';
 
 const steps = [
   {
-    target: '#salesProjectionRefreshButton',
+    //target: '#salesProjectionRefreshButton',
+    target: '.TooltipWrapper_trigger__2DTYQ',
     content: 'Step 1',
     disableBeacon: true,
   },
@@ -141,6 +142,12 @@ const SalesProjection = (props: Props) => {
           }
         }}
         scrollToFirstStep={false}
+        disableScrolling={true}
+        disableCloseOnEsc={true}
+        spotlightClicks={true}
+        spotlightPadding={1}
+        scrollOffset={20}
+        scrollDuration={100}
       />
     </main>
   );

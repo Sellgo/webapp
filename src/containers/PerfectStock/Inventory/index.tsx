@@ -30,13 +30,18 @@ interface Props {
 
 const steps = [
   {
+    target: '.HeaderSortCell_headerCell__alignMiddle__3X7he',
+    content: 'Days until stockout',
+    disableBeacon: true,
+  },
+  {
     target: '.OrderPlanningMeta_createOrderButton__2PKw2',
-    content: 'Step 1',
+    content: 'The first step to your reordering needs',
     disableBeacon: true,
   },
   {
     target: '.timeLine',
-    content: 'Step 2',
+    content: 'Streamline Gantt chart',
     disableBeacon: true,
   },
 ];
@@ -75,6 +80,9 @@ const OrderPlanning = (props: Props) => {
             updatePerfectStockGetStartedStatus('isOrderPlanningTourRunning', false);
           }
         }}
+        scrollToFirstStep={false}
+        disableScrolling={true}
+        disableCloseOnEsc={true}
       />
     </main>
   );

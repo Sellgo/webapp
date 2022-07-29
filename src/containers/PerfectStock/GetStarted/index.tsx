@@ -29,8 +29,8 @@ const GetStarted = (props: Props) => {
       on={'click'}
       trigger={
         <div className={styles.getStartedButton}>
-          <div className={styles.circle}>5</div>
-          Get Started
+          <div className={styles.circle}>4</div>
+          Get started
         </div>
       }
       position="top right"

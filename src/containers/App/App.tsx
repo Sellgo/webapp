@@ -304,11 +304,11 @@ function App() {
           <Route
             exact={true}
             path="/"
-            render={(renderProps) => <Home auth={auth} {...renderProps} />}
+            render={renderProps => <Home auth={auth} {...renderProps} />}
           />
           <Route
             path="/callback"
-            render={(renderProps) => {
+            render={renderProps => {
               handleAuthentication(renderProps.location);
               return <PageLoader pageLoading={true} />;
             }}
@@ -316,13 +316,13 @@ function App() {
           <Route
             exact={true}
             path="/reset-password"
-            render={(renderProps) => <ResetPassword auth={auth} {...renderProps} />}
+            render={renderProps => <ResetPassword auth={auth} {...renderProps} />}
           />
 
           <Route
             exact={true}
             path="/subscription"
-            render={(renderProps) => (
+            render={renderProps => (
               <SubscriptionPages.NewSubscription auth={auth} {...renderProps} />
             )}
           />
@@ -330,7 +330,7 @@ function App() {
           <Route
             exact={true}
             path="/signup"
-            render={(renderProps) => (
+            render={renderProps => (
               <SubscriptionPages.FreeAccountForm auth={auth} {...renderProps} />
             )}
           />
@@ -344,7 +344,7 @@ function App() {
           <Route
             exact={true}
             path="/activation/success"
-            render={(renderProps) => (
+            render={renderProps => (
               <SubscriptionPages.ActivationSuccess auth={auth} {...renderProps} />
             )}
           />
@@ -360,7 +360,7 @@ function App() {
           <Route
             exact={true}
             path="/subscription/payment"
-            render={(renderProps) => <SubscriptionPages.Payment auth={auth} {...renderProps} />}
+            render={renderProps => <SubscriptionPages.Payment auth={auth} {...renderProps} />}
           />
           <PrivateRoute
             exact={true}
