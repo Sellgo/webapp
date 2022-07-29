@@ -54,13 +54,27 @@ const InventoryBarCell = (props: Props) => {
     );
   }
 
-  let isRepeatedZero = false;
-  const previousDay = getDateOnly(new Date(new Date(dataKey).getTime() - MILLISECONDS_IN_A_DAY));
-  if (rowData[previousDay] !== undefined && rowData[previousDay]?.percentage !== undefined) {
-    if (percent === 0 && rowData[previousDay].percentage === 0) {
-      isRepeatedZero = true;
+  const isRepeatedZero = (key: string, currentVal: number) => {
+    let repeatedZero = false;
+
+    const previousDay = getDateOnly(new Date(new Date(dataKey).getTime() - MILLISECONDS_IN_A_DAY));
+
+    if (rowData[previousDay] !== undefined && rowData[previousDay]?.[key] !== undefined) {
+      if (currentVal === 0 && rowData[previousDay]?.[key] === 0) {
+        repeatedZero = true;
+      }
     }
-  }
+
+    if (
+      !rowData?.[previousDay] &&
+      !rowData?.[dataKey] &&
+      getDateOnly(new Date(new Date(dataKey).getTime())) !== getDateOnly(new Date())
+    ) {
+      repeatedZero = true;
+    }
+
+    return repeatedZero;
+  };
 
   return (
     <Table.Cell {...otherProps}>
@@ -70,10 +84,10 @@ const InventoryBarCell = (props: Props) => {
       >
         <span className={styles.potentialLoss}> {displayLoss}</span>
         <span className={styles.inventoryCount}>
-          {displayInventoryCount === '0' ? ' ' : displayInventoryCount}
+          {!isRepeatedZero('value', inventoryCount) && displayInventoryCount}
         </span>
         <InventoryBar percent={percent / 100} />
-        {!isRepeatedZero && (
+        {!isRepeatedZero('percentage', percent) && (
           <span style={percent <= 20 ? { color: '#EB675E' } : {}}>{displayPercent}</span>
         )}
       </div>
