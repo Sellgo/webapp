@@ -3,6 +3,7 @@ import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig } from '../../config';
 import { SET_TOS, SET_PP, SET_NOTIFY_ID, actionTypes } from '../../constants/UserOnboarding/index';
+import { isSellgoSession } from '../../utils/session';
 
 export const setNotifyId = (notifyId: number) => ({
   type: SET_NOTIFY_ID,
@@ -19,15 +20,17 @@ export const setPP = (privacyPolicy: string) => ({
   payload: privacyPolicy,
 });
 
+const tos_type = isSellgoSession() ? 'terms_of_service' : 'aistock_terms_of_service';
 export const fetchTOS = () => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
-  const response = await Axios.get(AppConfig.BASE_URL_API + `content?type=terms_of_service`);
+  const response = await Axios.get(AppConfig.BASE_URL_API + `content?type=` + tos_type);
   if (response.data.length) {
     dispatch(setTOS(response.data));
   }
 };
 
+const pp_type = isSellgoSession() ? 'privacy_policy' : 'aistock_privacy_policy';
 export const fetchPP = () => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
-  const response = await Axios.get(AppConfig.BASE_URL_API + `content?type=privacy_policy`);
+  const response = await Axios.get(AppConfig.BASE_URL_API + `content?type=` + pp_type);
   if (response.data.length) {
     dispatch(setPP(response.data));
   }

@@ -9,7 +9,7 @@ import AdminHeader from '../AdminLayout/AdminHeader';
 import Auth from '../Auth/Auth';
 import AiStockBetaForm from '../AiStockBetaForm';
 import ActionButton from '../ActionButton';
-import { ReactComponent as PartyHornIcon } from '../../assets/images/party-horn-solid.svg';
+import { ReactComponent as MessageSmileIcon } from '../../assets/images/message-smile-solid.svg';
 
 /* Styles */
 import './index.scss';
@@ -110,7 +110,7 @@ const PageHeader = (props: Props) => {
             onClick={() => setIsBetaFormOpen(true)}
             className={'surveyButton'}
           >
-            <PartyHornIcon /> &nbsp;Win 1-year FREE
+            <MessageSmileIcon /> &nbsp;Feedback survey
           </ActionButton>
         )}
     </>

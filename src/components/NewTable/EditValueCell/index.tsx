@@ -41,37 +41,51 @@ const EditValueCell = (props: Props) => {
     hasError,
     ...otherProps
   } = props;
-  const { rowData, dataKey } = otherProps;
-
-  /* If identifier is not defined, default to the id of the cell */
-  const cellIdentifier = identifier ? rowData.identifier : rowData.id;
 
   return (
     <Table.Cell {...otherProps}>
-      <div className={styles.editValueCellWrapper}>
-        <p>{prependMessage}&nbsp;</p>
-        <InputFilter
-          isInteger={isInteger}
-          isPositiveOnly={isPositiveOnly}
-          value={rowData[dataKey] || ''}
-          handleChange={(value: string) => {
-            handleChange(dataKey, value, cellIdentifier);
-          }}
-          placeholder=""
-          className={`
-            ${styles.inputField}
+      {(rowData: any) => {
+        const { dataKey } = otherProps;
+        /* If identifier is not defined, default to the id of the cell */
+        const cellIdentifier = identifier ? rowData?.identifier : rowData?.id;
+        return (
+          <>
+            {rowData && (
+              <div className={styles.editValueCellWrapper}>
+                <p>{prependMessage}&nbsp;</p>
+                <InputFilter
+                  isInteger={isInteger}
+                  isPositiveOnly={isPositiveOnly}
+                  value={(rowData && rowData[`${dataKey}`]) || ''}
+                  handleChange={(value: string) => {
+                    handleChange(dataKey, value, cellIdentifier);
+                  }}
+                  placeholder=""
+                  className={`
+            ${styles.inputField} 
             ${!isLarge ? styles.inputField__small : ''}
             ${isLong ? styles.inputField__long : ''}
           `}
-          isDate={dataKey === 'start_date' || dataKey === 'end_date' || dataKey === 'date'}
-          isNumber={isNumber}
-          thousandSeperate={isNumber}
-          allow5Decimal={allow5Decimal}
-          error={(!disabled && showEmptyError && !rowData[dataKey]) || hasError}
-          disabled={disabled}
-        />
-        <p>&nbsp;{appendMessage}</p>
-      </div>
+                  isDate={dataKey === 'start_date' || dataKey === 'end_date' || dataKey === 'date'}
+                  isNumber={isNumber}
+                  thousandSeperate={isNumber}
+                  allow5Decimal={allow5Decimal}
+                  error={
+                    (!disabled && showEmptyError && !rowData[`${dataKey}`]) ||
+                    hasError ||
+                    !!(rowData && rowData.errors && rowData.errors[`${dataKey}`])
+                  }
+                  disabled={disabled || rowData.disabled}
+                  maxValue={
+                    (rowData && rowData.maxValues && rowData.maxValues[`${dataKey}`]) || null
+                  }
+                />
+                <p>&nbsp;{appendMessage}</p>
+              </div>
+            )}
+          </>
+        );
+      }}
     </Table.Cell>
   );
 };

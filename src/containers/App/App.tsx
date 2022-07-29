@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Helmet from 'react-helmet';
 import { Route, Router, Switch } from 'react-router-dom';
+import Elevio from 'elevio/lib/react';
 import Axios from 'axios';
 import AdminLayout from '../../components/AdminLayout';
 import ScrollToTop from '../../components/ScrollToTop';
@@ -195,7 +196,7 @@ const PrivateRoute = connect(
         isSubscriptionIdFreeTrial(sellerSubscription.subscription_id) &&
         window.location.pathname !== '/settings/pricing'
       ) {
-        if (sellerSubscription.is_free_trial_expired) {
+        if (sellerSubscription.is_trial_expired) {
           history.push('/activation');
         }
       }
@@ -273,6 +274,23 @@ function App() {
   React.useEffect(() => {
     handleUpdateFaviconToAistock();
   }, []);
+
+  const url = window.location.pathname;
+
+  const loadElevio = () => {
+    if (
+      !isSellgoSession() &&
+      url !== '/' &&
+      !url.includes('/subscription') &&
+      !url.includes('/signup') &&
+      !url.includes('/reset-password')
+    ) {
+      return <Elevio accountId={AppConfig.ELEVIO_KEY} />;
+    } else {
+      return null;
+    }
+  };
+
   return (
     <div className="App__container">
       <Helmet>
@@ -280,15 +298,17 @@ function App() {
       </Helmet>
       <Router history={history}>
         <ScrollToTop />
+        {loadElevio()}
+
         <Switch>
           <Route
             exact={true}
             path="/"
-            render={renderProps => <Home auth={auth} {...renderProps} />}
+            render={(renderProps) => <Home auth={auth} {...renderProps} />}
           />
           <Route
             path="/callback"
-            render={renderProps => {
+            render={(renderProps) => {
               handleAuthentication(renderProps.location);
               return <PageLoader pageLoading={true} />;
             }}
@@ -296,13 +316,13 @@ function App() {
           <Route
             exact={true}
             path="/reset-password"
-            render={renderProps => <ResetPassword auth={auth} {...renderProps} />}
+            render={(renderProps) => <ResetPassword auth={auth} {...renderProps} />}
           />
 
           <Route
             exact={true}
             path="/subscription"
-            render={renderProps => (
+            render={(renderProps) => (
               <SubscriptionPages.NewSubscription auth={auth} {...renderProps} />
             )}
           />
@@ -310,7 +330,7 @@ function App() {
           <Route
             exact={true}
             path="/signup"
-            render={renderProps => (
+            render={(renderProps) => (
               <SubscriptionPages.FreeAccountForm auth={auth} {...renderProps} />
             )}
           />
@@ -324,7 +344,7 @@ function App() {
           <Route
             exact={true}
             path="/activation/success"
-            render={renderProps => (
+            render={(renderProps) => (
               <SubscriptionPages.ActivationSuccess auth={auth} {...renderProps} />
             )}
           />
@@ -340,7 +360,7 @@ function App() {
           <Route
             exact={true}
             path="/subscription/payment"
-            render={renderProps => <SubscriptionPages.Payment auth={auth} {...renderProps} />}
+            render={(renderProps) => <SubscriptionPages.Payment auth={auth} {...renderProps} />}
           />
           <PrivateRoute
             exact={true}

@@ -32,7 +32,6 @@
   border: 1px solid $grey_3;
   border-radius: 7px;
   width: 100%;
-  height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -70,4 +69,23 @@
   > span {
     margin-bottom: 100px;
   }
+}
+
+.buttonsRow {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+
+  .resetButton {
+    margin-right: 18px;
+  }
+}
+
+.inputTable {
+  margin-top: 30px;
+}
+
+.disabledTable {
+  opacity: 0.7;
+  pointer-events: none;
 }

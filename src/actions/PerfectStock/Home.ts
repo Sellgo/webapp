@@ -113,7 +113,7 @@ export const fetchTopGraph = (granularity?: number) => async (dispatch: any) => 
         data: [],
       })
     );
-    console.error('Error fetching Tpl', err);
+    console.error('Error fetching 3PL', err);
   }
   dispatch(isLoadingTopChart(false));
 };

@@ -1,0 +1,94 @@
+@import '../../design-system/new-colors.scss';
+
+.orderSummaryWrapper {
+  margin-top: 18px;
+  background: $light_gray_background;
+  display: flex;
+  width: 100%;
+  height: 90px;
+  border-radius: 7px;
+  border: 1px solid $grey_13;
+  box-shadow: 0 3px 6px $grey_12;
+  position: relative;
+}
+
+.orderSummaryWrapperClosed {
+  height: 40px;
+}
+
+.orderName {
+  display: flex;
+  height: 100%;
+  padding: 10px 0 0 40px;
+  color: $black_0;
+  font-size: 14px;
+  font-weight: $fontweight_semibold;
+  text-transform: uppercase;
+
+  span {
+    margin-right: 30%;
+    height: max-content;
+    transform: rotate(-90deg);
+    color: $grey_8;
+  }
+}
+
+.statWrapper {
+  min-width: 112px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+}
+
+.stat {
+  margin-top: 10px;
+  font-size: 14px;
+  color: $black_1;
+  font-weight: $fontweight_semibold;
+  display: flex;
+
+  .super {
+    margin-top: -1px;
+    font-size: 75%;
+  }
+
+  &__small {
+    font-size: 12px;
+    margin-top: 0;
+  }
+
+  &__double {
+    margin-top: 0;
+  }
+
+  svg {
+    cursor: pointer;
+  }
+}
+
+.date {
+  height: 0;
+  font-size: 12px;
+  font-weight: $fontweight_semibold;
+  color: $sellgo_purple;
+}
+
+.statHeader {
+  height: 25px;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: $fontweight_medium;
+  color: $grey_8;
+  margin-top: 15px;
+}
+
+.icon {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  cursor: pointer;
+}

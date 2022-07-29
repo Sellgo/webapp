@@ -4,9 +4,8 @@ import React from 'react';
 import styles from './index.module.scss';
 
 /* Components */
-import DaysOfInventoryMeta from '../DaysOfInventory/DaysOfInventoryMeta';
-import DaysOfInventoryCore from '../DaysOfInventory/DaysOfInventoryCore';
-//import DaysOfInventoryGroup from './DaysOfInventoryGroup';
+import ContainersMeta from './ContainersMeta';
+import ContainersCore from './ContainersCore';
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
 import ElevioArticle from '../../../../components/ElevioArticle';
@@ -26,16 +25,16 @@ const DaysOfInventory = (props: Props) => {
         breadcrumb={[
           { content: 'Home', to: '/' },
           { content: 'AiStock' },
-          { content: 'Days Of Inventory' },
+          { content: 'Default Container' },
         ]}
         auth={match.params.auth}
       />
       <SettingsNav match={match} />
       <div className={styles.settingPerimeter}>
-        <DaysOfInventoryMeta />
+        <ContainersMeta />
         <div className={styles.settingsPageWrapper}>
           <div className={styles.settingsTableWrapper}>
-            <DaysOfInventoryCore />
+            <ContainersCore />
           </div>
         </div>
       </div>
@@ -43,11 +42,6 @@ const DaysOfInventory = (props: Props) => {
         <span>Step-By-Step Guide</span>
         <ElevioArticle articleId={''} />
       </BoxContainerSettings>
-
-      {/*<div className={styles.instructionsBox}>
-              <span>Step-By-Step Guide</span>
-              <ElevioArticle articleId={'17'} />
-    </div>*/}
     </main>
   );
 };

@@ -1,0 +1,90 @@
+@import '../../styles/tableReset.scss';
+@import '../../design-system/new-colors.scss';
+
+#inputContainerTable {
+  // header section
+  .rs-table-row-header {
+    border-radius: 0 !important;
+
+    // remove any border from rows header, well use body riow to add border-top
+    border: 0 !important;
+
+    // column heder cell
+    .rs-table-cell-content {
+      padding: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center;
+      font-size: 12px !important;
+      background: none;
+      font-weight: 500 !important;
+      border: 0 !important;
+    }
+  }
+
+  // body section
+  .rs-table-body-row-wrapper {
+    background: none !important;
+
+    .rs-table-body-wheel-area {
+      min-height: 0 !important;
+      background: none;
+
+      .rs-table-row {
+        border-bottom: 1px solid $grey_3;
+
+        /* ============== ZEBRA PATTERN  =============== */
+        &:nth-child(2n) {
+          background: transparent !important;
+
+          .rs-table-cell-content {
+            background: transparent !important;
+            color: $grey_8 !important;
+            height: 100%;
+            font-weight: $fontweight_medium;
+            font-size: 14px;
+          }
+        }
+
+        &:nth-child(2n + 1) {
+          background: transparent !important;
+
+          .rs-table-cell-content {
+            background: transparent !important;
+            color: $grey_8 !important;
+            font-weight: $fontweight_medium;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+
+    // Loader wrapper
+    .rs-table-loader-wrapper {
+      background: none !important;
+
+      .rs-table-loader {
+        background: none !important;
+      }
+
+      .rs-table-body-info {
+        background: none !important;
+      }
+    }
+  }
+
+  // scrollbar
+  // div[role='scrollbar'] {
+  //   background: $grey_3;
+  //   border-radius: 4px;
+  //   opacity: 1;
+  //   height: 5px;
+  //   width: 6px;
+
+  //   > .rs-table-scrollbar-handle {
+  //     background-color: $grey_6 !important;
+  //     opacity: 1 !important;
+  //     max-width: 100% !important;
+  //   }
+  // }
+}
