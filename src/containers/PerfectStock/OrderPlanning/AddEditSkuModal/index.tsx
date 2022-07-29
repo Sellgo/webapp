@@ -33,9 +33,8 @@ const AddEditSkuModal = (props: Props) => {
   const [orderProducts, setOrderProducts] = React.useState<any>([]);
   const [selectedProductIds, setSelectedProductIds] = React.useState<string[]>([]);
   const [prioritySkuId, setPrioritySkuId] = React.useState<string | null>(null);
-  const [isSubmitingProductAssignments, setIsSubmitingProductAssignments] = React.useState<boolean>(
-    false
-  );
+  const [isSubmitingProductAssignments, setIsSubmitingProductAssignments] =
+    React.useState<boolean>(false);
 
   const fetchOrderProducts = async () => {
     try {
@@ -73,7 +72,12 @@ const AddEditSkuModal = (props: Props) => {
         `${
           AppConfig.BASE_URL_API
         }sellers/${sellerIDSelector()}/purchase-order-templates/${templateId}`,
-        { merchant_listing_ids: selectedProductIds.map((id: string) => parseInt(id)) }
+        {
+          merchant_listing_ids: [
+            ...selectedProductIds.map((id: string) => parseInt(id)),
+            prioritySkuId,
+          ],
+        }
       );
       if (status === 200) {
         success('Products assigned successfully');
