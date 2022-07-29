@@ -48,7 +48,7 @@ export class TaskRow extends Component {
     });
   };
 
-  componentDidMount() {
+  updateSkuOptions() {
     const selectedPurchaseOrder = this.props.purchaseOrders.find((purchaseOrder) => {
       return purchaseOrder.id === this.props.item.id;
     });
@@ -76,6 +76,29 @@ export class TaskRow extends Component {
       });
     }
   }
+
+  componentDidMount() {
+    this.updateSkuOptions();
+  }
+
+  componentDidUpdate(_, prevState) {
+    if (prevState.prioritySkuOptions.prioritySku !== this.props.prioritySku) {
+      this.updateSkuOptions();
+      this.setState({
+        selectedPrioritySku: {
+          name: this.props.prioritySku,
+          value: null,
+        },
+      });
+    }
+  }
+
+  // componentDidUpdate(_prevProps, prevState) {
+  //   console.log(prevState.selectedPrioritySku.name, this.props.prioritySku);
+  //   if (prevState.selectedPrioritySku.name !== this.props.prioritySku) {
+  //     this.updateSkuOptions();
+  //   }
+  // }
 
   render() {
     const isFirstRow = this.props.item.id === -1;
@@ -206,16 +229,6 @@ export class TaskRow extends Component {
                       <span>Delete Order</span>
                     </button>
                     <p>SMART ORDER</p>
-                    <button
-                      onClick={() => {
-                        this.props.handleSetPrioritySku(this.props.item);
-                        this.setState({ isPopupOpen: false });
-                      }}
-                      disabled={!this.props.item.is_included}
-                    >
-                      <Icon name="check circle outline" />
-                      <span>Set Priority SKU</span>
-                    </button>
                     <button
                       onClick={() => {
                         this.props.handleSetPaymentTerm(this.props.item);
