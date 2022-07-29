@@ -93,13 +93,6 @@ export class TaskRow extends Component {
     }
   }
 
-  // componentDidUpdate(_prevProps, prevState) {
-  //   console.log(prevState.selectedPrioritySku.name, this.props.prioritySku);
-  //   if (prevState.selectedPrioritySku.name !== this.props.prioritySku) {
-  //     this.updateSkuOptions();
-  //   }
-  // }
-
   render() {
     const isFirstRow = this.props.item.id === -1;
     return (

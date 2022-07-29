@@ -557,6 +557,18 @@ const OrderGanttChart = (props: Props) => {
             className={styles.autoGenerateOrderModal}
           />
           <Modal
+            open={isSettingPrioritySku}
+            content={
+              <SetPrioritySkuPopup
+                handleCancel={() => setIsSettingPrioritySku(false)}
+                prioritySkuDetails={prioritySkuDetails}
+                handleUpdatePrioritySku={updatePurchaseOrder}
+              />
+            }
+            onClose={() => setIsSettingPrioritySku(false)}
+            className={styles.setPrioritySkuModal}
+          />
+          <Modal
             open={isSettingPaymentTerm}
             content={
               <SetPaymentTermPopup
