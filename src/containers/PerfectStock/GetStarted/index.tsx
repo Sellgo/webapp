@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+// import { useLocation } from 'react-router-dom';
 import { Popup, Progress } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
@@ -10,7 +11,10 @@ import getStartedInstructions from '../../../assets/onboardingResources/PerfectS
 
 /* Actions */
 import { getPerfectStockGetStartedStatus } from '../../../selectors/UserOnboarding';
-import { updatePerfectStockGetStartedStatus } from '../../../actions/UserOnboarding';
+import {
+  updatePerfectStockGetStartedStatus,
+  updatePerfectStockGetStartedJoyRideStatus,
+} from '../../../actions/UserOnboarding';
 
 /* Assets */
 import { ReactComponent as YoutubeLogo } from '../../../assets/images/youtubeLogo.svg';
@@ -20,32 +24,57 @@ import history from '../../../history';
 interface Props {
   perfectStockGetStartedStatus: any;
   updatePerfectStockGetStartedStatus: (key: string, status: boolean) => void;
+  updatePerfectStockGetStartedJoyRideStatus: (key: string, status: boolean) => void;
 }
 
 const GetStarted = (props: Props) => {
-  const { perfectStockGetStartedStatus, updatePerfectStockGetStartedStatus } = props;
+  const {
+    perfectStockGetStartedStatus,
+    updatePerfectStockGetStartedStatus,
+    updatePerfectStockGetStartedJoyRideStatus,
+  } = props;
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  let completedSteps = 0;
+  Object.values(perfectStockGetStartedStatus).forEach((getStartedStatus: any) => {
+    if (getStartedStatus) {
+      completedSteps += 1;
+    }
+  });
+
   return (
     <Popup
       on={'click'}
       trigger={
         <div className={styles.getStartedButton}>
-          <div className={styles.circle}>4</div>
+          <div className={styles.circle}>
+            {Object.keys(perfectStockGetStartedStatus).length - completedSteps}
+          </div>
           Get started
         </div>
       }
+      open={isOpen}
+      onOpen={() => setIsOpen(true)}
+      onClose={() => setIsOpen(false)}
       position="top right"
       content={
         <div className={styles.getStartedModal}>
           <p className={styles.getStartedHeader}> GET STARTED </p>
-          <Progress percent={20} color="blue" progress="percent" className={styles.progressBar} />
+          <Progress
+            percent={(100 / Object.keys(perfectStockGetStartedStatus).length) * completedSteps}
+            color="blue"
+            progress="percent"
+            className={styles.progressBar}
+          />
           {getStartedInstructions.map((instruction, index) => {
             const instructionCompleted = perfectStockGetStartedStatus[instruction.key];
             const onClick = () => {
               history.push(instruction.link);
               if (instruction.key === 'salesProjectionTour') {
-                updatePerfectStockGetStartedStatus('isSalesProjectionTourRunning', true);
+                updatePerfectStockGetStartedJoyRideStatus('isSalesProjectionTourRunning', true);
+                setIsOpen(false);
               } else if (instruction.key === 'orderPlanningTour') {
-                updatePerfectStockGetStartedStatus('isOrderPlanningTourRunning', true);
+                updatePerfectStockGetStartedJoyRideStatus('isOrderPlanningTourRunning', true);
+                setIsOpen(false);
               }
               updatePerfectStockGetStartedStatus(instruction.key, true);
             };
@@ -93,6 +122,8 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     updatePerfectStockGetStartedStatus: (key: string, status: boolean) =>
       dispatch(updatePerfectStockGetStartedStatus(key, status)),
+    updatePerfectStockGetStartedJoyRideStatus: (key: string, status: boolean) =>
+      dispatch(updatePerfectStockGetStartedJoyRideStatus(key, status)),
   };
 };
 

@@ -8,7 +8,7 @@ import {
   fetchSalesProjection,
   fetchRefreshProgress,
 } from '../../../actions/PerfectStock/SalesProjection';
-import { updatePerfectStockGetStartedStatus } from '../../../actions/UserOnboarding';
+import { updatePerfectStockGetStartedJoyRideStatus } from '../../../actions/UserOnboarding';
 
 /* Interfaces */
 import {
@@ -16,7 +16,7 @@ import {
   SalesProjectionFilters,
   SalesProjectionPayload,
 } from '../../../interfaces/PerfectStock/SalesProjection';
-import { PerfectStockGetStartedStatus } from '../../../interfaces/UserOnboarding';
+import { PerfectStockGetStartedJoyRideStatus } from '../../../interfaces/UserOnboarding';
 
 /* Selectors */
 import {
@@ -25,7 +25,7 @@ import {
   getSalesProjectionFilters,
   getSalesProjectionResults,
 } from '../../../selectors/PerfectStock/SalesProjection';
-import { getPerfectStockGetStartedStatus } from '../../../selectors/UserOnboarding';
+import { getPerfectStockGetStartedJoyRideStatus } from '../../../selectors/UserOnboarding';
 
 /* Containers */
 import SalesProjectionMeta from './SalesProjectionMeta';
@@ -48,8 +48,8 @@ const steps = [
 ];
 
 interface Props {
-  updatePerfectStockGetStartedStatus: (key: string, status: boolean) => void;
-  perfectStockGetStartedStatus: PerfectStockGetStartedStatus;
+  updatePerfectStockGetStartedJoyRideStatus: (key: string, status: boolean) => void;
+  perfectStockGetStartedJoyRideStatus: PerfectStockGetStartedJoyRideStatus;
   fetchSalesProjection: (payload: SalesProjectionPayload) => void;
   refreshProgress: number;
   isFetchingProgressForRefresh: boolean;
@@ -66,8 +66,8 @@ const SalesProjection = (props: Props) => {
     salesProjectionResult,
     refreshProgress,
     isFetchingProgressForRefresh,
-    perfectStockGetStartedStatus,
-    updatePerfectStockGetStartedStatus,
+    perfectStockGetStartedJoyRideStatus,
+    updatePerfectStockGetStartedJoyRideStatus,
   } = props;
 
   const [salesProjectionGraphData, setSalesProjectionGraphData] = React.useState<GraphDataSeries[]>(
@@ -133,13 +133,19 @@ const SalesProjection = (props: Props) => {
       <SalesProjectionTable />
       <JoyRide
         steps={steps}
-        run={perfectStockGetStartedStatus.isSalesProjectionTourRunning}
+        run={perfectStockGetStartedJoyRideStatus.isSalesProjectionTourRunning}
         continuous={true}
         showProgress={true}
         callback={(data: any) => {
           if (data.action === 'close' || data.action === 'reset') {
-            updatePerfectStockGetStartedStatus('isSalesProjectionTourRunning', false);
+            updatePerfectStockGetStartedJoyRideStatus('isSalesProjectionTourRunning', false);
           }
+        }}
+        styles={{
+          options: {
+            primaryColor: '#000',
+            zIndex: 100000000000,
+          },
         }}
         scrollToFirstStep={false}
         disableScrolling={true}
@@ -157,7 +163,7 @@ const mapStateToProps = (state: any) => {
   return {
     refreshProgress: getRefreshProgress(state),
     isFetchingProgressForRefresh: getIsFetchingProgressForRefresh(state),
-    perfectStockGetStartedStatus: getPerfectStockGetStartedStatus(state),
+    perfectStockGetStartedJoyRideStatus: getPerfectStockGetStartedJoyRideStatus(state),
     salesProjectionFilters: getSalesProjectionFilters(state),
     salesProjectionResult: getSalesProjectionResults(state),
   };
@@ -168,8 +174,8 @@ const mapDispatchToProps = (dispatch: any) => {
     fetchSalesProjection: (payload: SalesProjectionPayload) =>
       dispatch(fetchSalesProjection(payload)),
     fetchRefreshProgress: () => dispatch(fetchRefreshProgress()),
-    updatePerfectStockGetStartedStatus: (key: string, status: boolean) =>
-      dispatch(updatePerfectStockGetStartedStatus(key, status)),
+    updatePerfectStockGetStartedJoyRideStatus: (key: string, status: boolean) =>
+      dispatch(updatePerfectStockGetStartedJoyRideStatus(key, status)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SalesProjection);

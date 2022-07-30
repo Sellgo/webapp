@@ -4,28 +4,28 @@ import JoyRide from 'react-joyride';
 
 /* Actions */
 import { fetchRefreshProgress } from '../../../actions/PerfectStock/OrderPlanning';
-import { updatePerfectStockGetStartedStatus } from '../../../actions/UserOnboarding';
+import { updatePerfectStockGetStartedJoyRideStatus } from '../../../actions/UserOnboarding';
 
 /* Selectors */
 import {
   getIsFetchingProgressForRefresh,
   getRefreshProgress,
 } from '../../../selectors/PerfectStock/OrderPlanning';
-import { getPerfectStockGetStartedStatus } from '../../../selectors/UserOnboarding';
+import { getPerfectStockGetStartedJoyRideStatus } from '../../../selectors/UserOnboarding';
 
 /* Components */
 import ProgressBar from '../../../components/ProgressBar';
 import InventoryTable from './InventoryTable';
 import OrderGanttChart from './OrderGanttChart';
 import OrderPlanningMeta from './OrderPlanningMeta';
-import { PerfectStockGetStartedStatus } from '../../../interfaces/UserOnboarding';
+import { PerfectStockGetStartedJoyRideStatus } from '../../../interfaces/UserOnboarding';
 
 interface Props {
   isFetchingProgressForRefresh: boolean;
   fetchRefreshProgress: () => void;
   refreshProgress: number;
-  perfectStockGetStartedStatus: PerfectStockGetStartedStatus;
-  updatePerfectStockGetStartedStatus: (key: string, status: boolean) => void;
+  perfectStockGetStartedJoyRideStatus: PerfectStockGetStartedJoyRideStatus;
+  updatePerfectStockGetStartedJoyRideStatus: (key: string, status: boolean) => void;
 }
 
 const steps = [
@@ -51,8 +51,8 @@ const OrderPlanning = (props: Props) => {
     isFetchingProgressForRefresh,
     refreshProgress,
     fetchRefreshProgress,
-    perfectStockGetStartedStatus,
-    updatePerfectStockGetStartedStatus,
+    perfectStockGetStartedJoyRideStatus,
+    updatePerfectStockGetStartedJoyRideStatus,
   } = props;
 
   const [tableViewMode, setTableViewMode] = React.useState<'Inventory' | 'Stockout' | 'Today'>(
@@ -72,13 +72,19 @@ const OrderPlanning = (props: Props) => {
 
       <JoyRide
         steps={steps}
-        run={perfectStockGetStartedStatus.isOrderPlanningTourRunning}
+        run={perfectStockGetStartedJoyRideStatus.isOrderPlanningTourRunning}
         continuous={true}
         showProgress={true}
         callback={(data: any) => {
           if (data.action === 'close' || data.action === 'reset') {
-            updatePerfectStockGetStartedStatus('isOrderPlanningTourRunning', false);
+            updatePerfectStockGetStartedJoyRideStatus('isOrderPlanningTourRunning', false);
           }
+        }}
+        styles={{
+          options: {
+            primaryColor: '#000',
+            zIndex: 100000000000,
+          },
         }}
         scrollToFirstStep={false}
         disableScrolling={true}
@@ -91,14 +97,14 @@ const OrderPlanning = (props: Props) => {
 const mapStateToProps = (state: any) => ({
   refreshProgress: getRefreshProgress(state),
   isFetchingProgressForRefresh: getIsFetchingProgressForRefresh(state),
-  perfectStockGetStartedStatus: getPerfectStockGetStartedStatus(state),
+  perfectStockGetStartedJoyRideStatus: getPerfectStockGetStartedJoyRideStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchRefreshProgress: () => dispatch(fetchRefreshProgress()),
-    updatePerfectStockGetStartedStatus: (key: string, status: boolean) =>
-      dispatch(updatePerfectStockGetStartedStatus(key, status)),
+    updatePerfectStockGetStartedJoyRideStatus: (key: string, status: boolean) =>
+      dispatch(updatePerfectStockGetStartedJoyRideStatus(key, status)),
   };
 };
 

@@ -68,3 +68,23 @@ export const updatePerfectStockGetStartedStatus = (key: string, status: boolean)
   };
   dispatch(setPerfectStockGetStartedStatus(updatedPerfectStockGetStartedStatus));
 };
+
+export const setPerfectStockGetStartedJoyRideStatus = (
+  perfectStockGetStartedJoyRideStatus: any
+) => ({
+  type: actionTypes.SET_PERFECT_STOCK_GET_STARTED_JOY_RIDE_STATUS,
+  payload: perfectStockGetStartedJoyRideStatus,
+});
+
+export const updatePerfectStockGetStartedJoyRideStatus = (key: string, status: boolean) => async (
+  dispatch: any,
+  getState: any
+) => {
+  const perfectStockGetStartedJoyRideStatus = getState().userOnboarding
+    .perfectStockGetStartedJoyRideStatus;
+  const updatedPerfectStockGetStartedJoyRideStatus = {
+    ...perfectStockGetStartedJoyRideStatus,
+    [key]: status,
+  };
+  dispatch(setPerfectStockGetStartedJoyRideStatus(updatedPerfectStockGetStartedJoyRideStatus));
+};

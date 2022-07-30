@@ -15,7 +15,8 @@ const initialState = {
     createLeadTime: false,
     salesProjectionTour: false,
     orderPlanningTour: false,
-
+  },
+  perfectStockGetStartedJoyRideStatus: {
     isSalesProjectionTourRunning: false,
     isOrderPlanningTourRunning: false,
   },
@@ -40,6 +41,10 @@ export default (state = initialState, action: AnyAction) => {
 
     case actionTypes.SET_PERFECT_STOCK_GET_STARTED_STATUS: {
       return setIn(state, 'perfectStockGetStartedStatus', action.payload);
+    }
+
+    case actionTypes.SET_PERFECT_STOCK_GET_STARTED_JOY_RIDE_STATUS: {
+      return setIn(state, 'perfectStockGetStartedJoyRideStatus', action.payload);
     }
     default:
       return state;

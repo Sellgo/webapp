@@ -33,6 +33,7 @@ import {
 
 /* Actions */
 import { fetchRefreshProgress } from '../../../../actions/PerfectStock/LeadTime';
+import GetStarted from '../../../PerfectStock/GetStarted';
 
 interface Props {
   match: any;
@@ -194,6 +195,7 @@ const LeadTime = (props: Props) => {
         <span>Step-By-Step Guide</span>
         <ElevioArticle articleId={'17'} />
       </BoxContainerSettings>
+      <GetStarted />
     </main>
   );
 };
