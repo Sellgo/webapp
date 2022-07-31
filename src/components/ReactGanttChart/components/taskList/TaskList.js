@@ -48,13 +48,15 @@ export class TaskRow extends Component {
     });
   };
 
-  updateSkuOptions() {
-    const selectedPurchaseOrder = this.props.purchaseOrders.find((purchaseOrder) => {
+  getSelectedPurchaseOrder() {
+    return this.props.purchaseOrders.find((purchaseOrder) => {
       return purchaseOrder.id === this.props.item.id;
     });
+  }
 
-    if (selectedPurchaseOrder) {
-      const selectedMerchantListings = selectedPurchaseOrder.merchant_listings.map(
+  updateSkuOptions() {
+    if (this.getSelectedPurchaseOrder()) {
+      const selectedMerchantListings = this.getSelectedPurchaseOrder().merchant_listings.map(
         (orderProduct) => ({
           id: orderProduct.id?.toString() || '',
           productName: orderProduct.title,
@@ -82,6 +84,18 @@ export class TaskRow extends Component {
   }
 
   componentDidUpdate(_, prevState) {
+    const merchantListingIds = this.getSelectedPurchaseOrder()?.merchant_listings?.map(
+      (purchaseOrder) => purchaseOrder.id.toString()
+    );
+
+    const isMerchantListingEqual = merchantListingIds?.every(
+      (id, idx) => id === this.state.prioritySkuOptions.selectedMerchantListings[idx].id
+    );
+
+    if (!isMerchantListingEqual) {
+      this.updateSkuOptions();
+    }
+
     if (prevState.prioritySkuOptions.prioritySku !== this.props.prioritySku) {
       this.updateSkuOptions();
       this.setState({
