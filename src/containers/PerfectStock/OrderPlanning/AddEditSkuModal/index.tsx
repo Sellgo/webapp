@@ -33,8 +33,9 @@ const AddEditSkuModal = (props: Props) => {
   const [orderProducts, setOrderProducts] = React.useState<any>([]);
   const [selectedProductIds, setSelectedProductIds] = React.useState<string[]>([]);
   const [prioritySkuId, setPrioritySkuId] = React.useState<string | null>(null);
-  const [isSubmitingProductAssignments, setIsSubmitingProductAssignments] =
-    React.useState<boolean>(false);
+  const [isSubmitingProductAssignments, setIsSubmitingProductAssignments] = React.useState<boolean>(
+    false
+  );
 
   const fetchOrderProducts = async () => {
     try {

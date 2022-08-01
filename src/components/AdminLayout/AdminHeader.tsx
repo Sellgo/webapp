@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Icon, Image, Menu, Dropdown, Checkbox, Popup } from 'semantic-ui-react';
+import { Icon, Image, Menu, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -40,7 +40,7 @@ import PerfectStockIcon from '../../assets/images/perfectStockGrey.svg';
 import { getSellerInfo } from '../../actions/Settings';
 import ActionButton from '../ActionButton';
 import history from '../../history';
-import { isSellgoSession } from '../../utils/session';
+// import { isSellgoSession } from '../../utils/session';
 
 interface Props {
   auth: any;
@@ -53,8 +53,14 @@ interface Props {
 
 const AdminHeader = (props: Props) => {
   const userPicture = localStorage.getItem('userPicture');
-  const { auth, profile, sellerSubscription, setUserOnboarding, userOnboarding, getSellerInfo } =
-    props;
+  const {
+    auth,
+    profile,
+    sellerSubscription,
+    // setUserOnboarding,
+    // userOnboarding,
+    getSellerInfo,
+  } = props;
   const { email, first_name, last_name } = profile;
   const isBeta = isBetaAccount(sellerSubscription);
   const isAiStock = isAistockSubscription(sellerSubscription.subscription_id);
