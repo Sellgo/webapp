@@ -22,6 +22,9 @@ import { ReactComponent as YoutubeLogo } from '../../../assets/images/youtubeLog
 import { ReactComponent as GreenCheckCircle } from '../../../assets/images/greenCheckCircle.svg';
 import history from '../../../history';
 
+function sleep(n: number) {
+  return new Promise(resolve => setTimeout(resolve, n));
+}
 interface Props {
   perfectStockGetStartedStatus: any;
   updatePerfectStockGetStartedStatus: (key: string, status: boolean) => void;
@@ -75,8 +78,9 @@ const GetStarted = (props: Props) => {
           />
           {getStartedInstructions.map((instruction, index) => {
             const instructionCompleted = perfectStockGetStartedStatus[instruction.key];
-            const onClick = () => {
+            const onClick = async () => {
               history.push(instruction.link);
+              await sleep(1000);
               if (instruction.key === 'salesProjectionTour') {
                 updatePerfectStockGetStartedJoyRideStatus('isSalesProjectionTourRunning', true);
                 setIsOpen(false);
@@ -84,7 +88,9 @@ const GetStarted = (props: Props) => {
                 updatePerfectStockGetStartedJoyRideStatus('isOrderPlanningTourRunning', true);
                 setIsOpen(false);
               }
-              updatePerfectStockGetStartedStatus(instruction.key, true);
+              if (!(instruction.key === 'createLeadTime')) {
+                updatePerfectStockGetStartedStatus(instruction.key, true);
+              }
             };
             return (
               <div
