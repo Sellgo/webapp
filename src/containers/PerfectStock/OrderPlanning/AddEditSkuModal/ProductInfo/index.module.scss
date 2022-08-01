@@ -23,6 +23,27 @@
   justify-content: stretch;
 }
 
+.titleContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  height: 25px;
+}
+
+.prioritySku {
+  color: $prim_dark_1;
+  font-weight: 500;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  padding: 0.5em 1.2em;
+  background-color: $prim_white;
+}
+
+.prioritySkuBg {
+  background-color: $grey_3;
+}
+
 .productMetaDetails {
   display: flex;
   align-items: center;
