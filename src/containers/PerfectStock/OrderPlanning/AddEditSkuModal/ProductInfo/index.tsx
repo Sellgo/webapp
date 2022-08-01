@@ -16,7 +16,7 @@ import placeholderImage from '../../../../../assets/images/placeholderImage.svg'
 interface ProductInfo {
   rowData?: any;
   dataKey: string;
-  prioritySkuId: any;
+  prioritySkuId?: any;
 }
 
 const ProductInfo = (props: ProductInfo) => {

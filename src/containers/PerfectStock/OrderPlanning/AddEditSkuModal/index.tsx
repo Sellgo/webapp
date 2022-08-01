@@ -55,7 +55,6 @@ const AddEditSkuModal = (props: Props) => {
 
       selectedSKUs?.forEach((sku: any) => {
         if (sku.is_priority) {
-          console.log(sku);
           setPrioritySkuId(sku.merchant_listing_id);
         }
         selectedSkuIds.push(sku.merchant_listing_id.toString());
