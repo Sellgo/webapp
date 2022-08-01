@@ -30,13 +30,13 @@ interface Props {
 
 const steps = [
   {
-    target: '.StockOutDate_stockOutCell__2_GuP',
+    target: '.HeaderSortCell_headerCell__alignMiddle__3X7he',
     content: 'Days until stockout',
     disableBeacon: true,
   },
   {
-    target: '.ExpansionCell_expansionIcon__3gTq3',
-    content: 'Inventory graph',
+    target: '.OrderPlanningMeta_createOrderButton__2PKw2',
+    content: 'The first step to your reordering needs',
     disableBeacon: true,
   },
   {
@@ -50,18 +50,18 @@ const steps = [
     disableBeacon: true,
   },
   {
-    target: '.OrderPlanningMeta_createOrderButton__2PKw2',
-    content: 'The first step to your reordering needs',
-    disableBeacon: true,
-  },
-  {
     target: '.timeLine',
     content: 'Streamline Gantt chart details',
     disableBeacon: true,
   },
   {
     target: '.timeLine-edit-order',
-    content: 'Streamline Gantt chart details',
+    content: 'Edit order',
+    disableBeacon: true,
+  },
+  {
+    target: '.NavigationButton_navigationButton__1_nZU',
+    content: 'Order planning setting',
     disableBeacon: true,
   },
 ];
