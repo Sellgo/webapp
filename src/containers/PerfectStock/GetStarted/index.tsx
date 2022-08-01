@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import { useLocation } from 'react-router-dom';
 import { Popup, Progress } from 'semantic-ui-react';
 import { connect } from 'react-redux';
@@ -14,6 +14,7 @@ import { getPerfectStockGetStartedStatus } from '../../../selectors/UserOnboardi
 import {
   updatePerfectStockGetStartedStatus,
   updatePerfectStockGetStartedJoyRideStatus,
+  fetchPerfectStockGetStartedStatus,
 } from '../../../actions/UserOnboarding';
 
 /* Assets */
@@ -21,10 +22,14 @@ import { ReactComponent as YoutubeLogo } from '../../../assets/images/youtubeLog
 import { ReactComponent as GreenCheckCircle } from '../../../assets/images/greenCheckCircle.svg';
 import history from '../../../history';
 
+function sleep(n: number) {
+  return new Promise(resolve => setTimeout(resolve, n));
+}
 interface Props {
   perfectStockGetStartedStatus: any;
   updatePerfectStockGetStartedStatus: (key: string, status: boolean) => void;
   updatePerfectStockGetStartedJoyRideStatus: (key: string, status: boolean) => void;
+  fetchPerfectStockGetStartedStatus: () => void;
 }
 
 const GetStarted = (props: Props) => {
@@ -32,8 +37,14 @@ const GetStarted = (props: Props) => {
     perfectStockGetStartedStatus,
     updatePerfectStockGetStartedStatus,
     updatePerfectStockGetStartedJoyRideStatus,
+    fetchPerfectStockGetStartedStatus,
   } = props;
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    fetchPerfectStockGetStartedStatus();
+  }, []);
+
   let completedSteps = 0;
   Object.values(perfectStockGetStartedStatus).forEach((getStartedStatus: any) => {
     if (getStartedStatus) {
@@ -67,8 +78,9 @@ const GetStarted = (props: Props) => {
           />
           {getStartedInstructions.map((instruction, index) => {
             const instructionCompleted = perfectStockGetStartedStatus[instruction.key];
-            const onClick = () => {
+            const onClick = async () => {
               history.push(instruction.link);
+              await sleep(1000);
               if (instruction.key === 'salesProjectionTour') {
                 updatePerfectStockGetStartedJoyRideStatus('isSalesProjectionTourRunning', true);
                 setIsOpen(false);
@@ -76,7 +88,9 @@ const GetStarted = (props: Props) => {
                 updatePerfectStockGetStartedJoyRideStatus('isOrderPlanningTourRunning', true);
                 setIsOpen(false);
               }
-              updatePerfectStockGetStartedStatus(instruction.key, true);
+              if (!(instruction.key === 'createLeadTime')) {
+                updatePerfectStockGetStartedStatus(instruction.key, true);
+              }
             };
             return (
               <div
@@ -120,6 +134,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    fetchPerfectStockGetStartedStatus: () => dispatch(fetchPerfectStockGetStartedStatus()),
     updatePerfectStockGetStartedStatus: (key: string, status: boolean) =>
       dispatch(updatePerfectStockGetStartedStatus(key, status)),
     updatePerfectStockGetStartedJoyRideStatus: (key: string, status: boolean) =>
