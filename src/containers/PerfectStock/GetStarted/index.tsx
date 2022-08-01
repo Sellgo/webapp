@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import { useLocation } from 'react-router-dom';
 import { Popup, Progress } from 'semantic-ui-react';
 import { connect } from 'react-redux';
@@ -14,6 +14,7 @@ import { getPerfectStockGetStartedStatus } from '../../../selectors/UserOnboardi
 import {
   updatePerfectStockGetStartedStatus,
   updatePerfectStockGetStartedJoyRideStatus,
+  fetchPerfectStockGetStartedStatus,
 } from '../../../actions/UserOnboarding';
 
 /* Assets */
@@ -25,6 +26,7 @@ interface Props {
   perfectStockGetStartedStatus: any;
   updatePerfectStockGetStartedStatus: (key: string, status: boolean) => void;
   updatePerfectStockGetStartedJoyRideStatus: (key: string, status: boolean) => void;
+  fetchPerfectStockGetStartedStatus: () => void;
 }
 
 const GetStarted = (props: Props) => {
@@ -32,8 +34,14 @@ const GetStarted = (props: Props) => {
     perfectStockGetStartedStatus,
     updatePerfectStockGetStartedStatus,
     updatePerfectStockGetStartedJoyRideStatus,
+    fetchPerfectStockGetStartedStatus,
   } = props;
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    fetchPerfectStockGetStartedStatus();
+  }, []);
+
   let completedSteps = 0;
   Object.values(perfectStockGetStartedStatus).forEach((getStartedStatus: any) => {
     if (getStartedStatus) {
@@ -120,6 +128,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    fetchPerfectStockGetStartedStatus: () => dispatch(fetchPerfectStockGetStartedStatus()),
     updatePerfectStockGetStartedStatus: (key: string, status: boolean) =>
       dispatch(updatePerfectStockGetStartedStatus(key, status)),
     updatePerfectStockGetStartedJoyRideStatus: (key: string, status: boolean) =>

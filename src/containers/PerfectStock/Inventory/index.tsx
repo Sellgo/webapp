@@ -30,18 +30,21 @@ interface Props {
 
 const steps = [
   {
-    target: '.HeaderSortCell_headerCell__alignMiddle__3X7he',
+    target: '.HeaderSortCell_headerText__alignMiddle__3P4Sh',
     content: 'Days until stockout',
+    placement: 'bottom' as const,
     disableBeacon: true,
   },
   {
     target: '.OrderPlanningMeta_createOrderButton__2PKw2',
     content: 'The first step to your reordering needs',
+    placement: 'bottom' as const,
     disableBeacon: true,
   },
   {
     target: '.timeLine',
     content: 'Streamline Gantt chart',
+    placement: 'bottom' as const,
     disableBeacon: true,
   },
 ];

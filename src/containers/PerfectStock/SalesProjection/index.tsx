@@ -43,6 +43,7 @@ const steps = [
     //target: '#salesProjectionRefreshButton',
     target: '.TooltipWrapper_trigger__2DTYQ',
     content: 'Step 1',
+    placement: 'bottom' as const,
     disableBeacon: true,
   },
 ];

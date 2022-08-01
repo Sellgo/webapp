@@ -1,9 +1,12 @@
-import Axios from 'axios';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
+import axios from 'axios';
+
 import { AppConfig } from '../../config';
 import { SET_TOS, SET_PP, SET_NOTIFY_ID, actionTypes } from '../../constants/UserOnboarding/index';
 import { isSellgoSession } from '../../utils/session';
+
+import { sellerIDSelector } from '../../selectors/Seller';
 
 export const setNotifyId = (notifyId: number) => ({
   type: SET_NOTIFY_ID,
@@ -22,7 +25,7 @@ export const setPP = (privacyPolicy: string) => ({
 
 const tos_type = isSellgoSession() ? 'terms_of_service' : 'aistock_terms_of_service';
 export const fetchTOS = () => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
-  const response = await Axios.get(AppConfig.BASE_URL_API + `content?type=` + tos_type);
+  const response = await axios.get(AppConfig.BASE_URL_API + `content?type=` + tos_type);
   if (response.data.length) {
     dispatch(setTOS(response.data));
   }
@@ -30,7 +33,7 @@ export const fetchTOS = () => async (dispatch: ThunkDispatch<{}, {}, AnyAction>)
 
 const pp_type = isSellgoSession() ? 'privacy_policy' : 'aistock_privacy_policy';
 export const fetchPP = () => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
-  const response = await Axios.get(AppConfig.BASE_URL_API + `content?type=` + pp_type);
+  const response = await axios.get(AppConfig.BASE_URL_API + `content?type=` + pp_type);
   if (response.data.length) {
     dispatch(setPP(response.data));
   }
@@ -58,15 +61,39 @@ export const setPerfectStockGetStartedStatus = (perfectStockGetStartedStatus: an
 });
 
 export const updatePerfectStockGetStartedStatus = (key: string, status: boolean) => async (
-  dispatch: any,
-  getState: any
+  dispatch: any
 ) => {
-  const perfectStockGetStartedStatus = getState().userOnboarding.perfectStockGetStartedStatus;
-  const updatedPerfectStockGetStartedStatus = {
-    ...perfectStockGetStartedStatus,
-    [key]: status,
+  const sellerID = sellerIDSelector();
+  // const perfectStockGetStartedStatus = getState().userOnboarding.perfectStockGetStartedStatus;
+  let payloadKey: any;
+  if (key === 'connectAmazonStore') {
+    payloadKey = 'connect_amazon_store';
+  } else if (key === 'createLeadTime') {
+    payloadKey = 'setup_lead_time';
+  } else if (key === 'orderPlanningTour') {
+    payloadKey = 'tour_order_planning';
+  } else if (key === 'salesProjectionTour') {
+    payloadKey = 'tour_sales_projection';
+  }
+  const payload = {
+    [payloadKey]: status,
   };
-  dispatch(setPerfectStockGetStartedStatus(updatedPerfectStockGetStartedStatus));
+  try {
+    const { data } = await axios.patch(
+      `${AppConfig.BASE_URL_API}sellers/${sellerID}/perfect-stock/onboarding`,
+      payload
+    );
+    const perfectStockGetStartedStatus = {
+      connectAmazonStore: data?.connect_amazon_store,
+      createLeadTime: data?.setup_lead_time,
+      orderPlanningTour: data?.tour_order_planning,
+      salesProjectionTour: data?.tour_sales_projection,
+    };
+
+    dispatch(setPerfectStockGetStartedStatus(perfectStockGetStartedStatus));
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const setPerfectStockGetStartedJoyRideStatus = (
@@ -87,4 +114,23 @@ export const updatePerfectStockGetStartedJoyRideStatus = (key: string, status: b
     [key]: status,
   };
   dispatch(setPerfectStockGetStartedJoyRideStatus(updatedPerfectStockGetStartedJoyRideStatus));
+};
+
+export const fetchPerfectStockGetStartedStatus = () => async (dispatch: any) => {
+  const sellerID = sellerIDSelector();
+  try {
+    const { data } = await axios.get(
+      `${AppConfig.BASE_URL_API}sellers/${sellerID}/perfect-stock/onboarding`
+    );
+    const perfectStockGetStartedStatus = {
+      connectAmazonStore: data?.connect_amazon_store,
+      createLeadTime: data?.setup_lead_time,
+      orderPlanningTour: data?.tour_order_planning,
+      salesProjectionTour: data?.tour_sales_projection,
+    };
+
+    dispatch(setPerfectStockGetStartedStatus(perfectStockGetStartedStatus));
+  } catch (err) {
+    console.log(err);
+  }
 };
