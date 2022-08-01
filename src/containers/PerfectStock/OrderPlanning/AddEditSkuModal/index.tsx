@@ -32,9 +32,9 @@ const AddEditSkuModal = (props: Props) => {
   const { open, onCloseModal, templateId, refreshData, selectedSKUs } = props;
   const [orderProducts, setOrderProducts] = React.useState<any>([]);
   const [selectedProductIds, setSelectedProductIds] = React.useState<string[]>([]);
-  const [isSubmitingProductAssignments, setIsSubmitingProductAssignments] = React.useState<boolean>(
-    false
-  );
+  const [prioritySkuId, setPrioritySkuId] = React.useState<string | null>(null);
+  const [isSubmitingProductAssignments, setIsSubmitingProductAssignments] =
+    React.useState<boolean>(false);
 
   const fetchOrderProducts = async () => {
     try {
@@ -50,7 +50,16 @@ const AddEditSkuModal = (props: Props) => {
   React.useEffect(() => {
     if (open) {
       setOrderProducts([]);
-      const selectedSkuIds = selectedSKUs?.map((sku: any) => sku.merchant_listing_id.toString());
+      const selectedSkuIds: any = [];
+
+      selectedSKUs?.forEach((sku: any) => {
+        if (sku.is_priority) {
+          setPrioritySkuId(sku.merchant_listing_id);
+        } else {
+          selectedSkuIds.push(sku.merchant_listing_id.toString());
+        }
+      });
+
       setSelectedProductIds(selectedSkuIds ? selectedSkuIds : []);
       fetchOrderProducts();
     }
@@ -63,7 +72,12 @@ const AddEditSkuModal = (props: Props) => {
         `${
           AppConfig.BASE_URL_API
         }sellers/${sellerIDSelector()}/purchase-order-templates/${templateId}`,
-        { merchant_listing_ids: selectedProductIds.map((id: string) => parseInt(id)) }
+        {
+          merchant_listing_ids: [
+            ...selectedProductIds.map((id: string) => parseInt(id)),
+            prioritySkuId,
+          ],
+        }
       );
       if (status === 200) {
         success('Products assigned successfully');
@@ -89,16 +103,22 @@ const AddEditSkuModal = (props: Props) => {
   const isCreateOrderDisabled = false;
 
   /* Product options in the dropdown selection menu */
-  const orderProductOptions = orderProducts.map((orderProduct: any) => ({
-    id: orderProduct.id?.toString() || '',
-    productName: orderProduct.title,
-    asin: orderProduct.asin,
-    img: orderProduct.image_url,
-    skuName: orderProduct.sku,
-    activePurchaseOrders: orderProduct.active_purchase_orders,
-    fulfillmentChannel: orderProduct.fulfillment_channel,
-    skuStatus: orderProduct.sku_status,
-  }));
+  const orderProductOptions: any = [];
+
+  orderProducts.forEach((orderProduct: any) => {
+    if (orderProduct.id !== prioritySkuId) {
+      orderProductOptions.push({
+        id: orderProduct.id?.toString() || '',
+        productName: orderProduct.title,
+        asin: orderProduct.asin,
+        img: orderProduct.image_url,
+        skuName: orderProduct.sku,
+        activePurchaseOrders: orderProduct.active_purchase_orders,
+        fulfillmentChannel: orderProduct.fulfillment_channel,
+        skuStatus: orderProduct.sku_status,
+      });
+    }
+  });
 
   /* Display the selected products in the table, with asin and details */
   const selectedProducts = orderProducts.filter((orderProduct: any) => {

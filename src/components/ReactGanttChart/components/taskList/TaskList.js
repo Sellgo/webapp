@@ -48,13 +48,15 @@ export class TaskRow extends Component {
     });
   };
 
-  componentDidMount() {
-    const selectedPurchaseOrder = this.props.purchaseOrders.find((purchaseOrder) => {
+  getSelectedPurchaseOrder() {
+    return this.props.purchaseOrders.find((purchaseOrder) => {
       return purchaseOrder.id === this.props.item.id;
     });
+  }
 
-    if (selectedPurchaseOrder) {
-      const selectedMerchantListings = selectedPurchaseOrder.merchant_listings.map(
+  updateSkuOptions() {
+    if (this.getSelectedPurchaseOrder()) {
+      const selectedMerchantListings = this.getSelectedPurchaseOrder().merchant_listings.map(
         (orderProduct) => ({
           id: orderProduct.id?.toString() || '',
           productName: orderProduct.title,
@@ -72,6 +74,34 @@ export class TaskRow extends Component {
           id: this.props.item.id,
           prioritySku: this.props.prioritySku,
           selectedMerchantListings,
+        },
+      });
+    }
+  }
+
+  componentDidMount() {
+    this.updateSkuOptions();
+  }
+
+  componentDidUpdate(_, prevState) {
+    const merchantListingIds = this.getSelectedPurchaseOrder()?.merchant_listings?.map(
+      (purchaseOrder) => purchaseOrder.id.toString()
+    );
+
+    const isMerchantListingEqual = merchantListingIds?.every(
+      (id, idx) => id === this.state.prioritySkuOptions.selectedMerchantListings[idx].id
+    );
+
+    if (!isMerchantListingEqual) {
+      this.updateSkuOptions();
+    }
+
+    if (prevState.prioritySkuOptions.prioritySku !== this.props.prioritySku) {
+      this.updateSkuOptions();
+      this.setState({
+        selectedPrioritySku: {
+          name: this.props.prioritySku,
+          value: null,
         },
       });
     }
@@ -206,16 +236,6 @@ export class TaskRow extends Component {
                       <span>Delete Order</span>
                     </button>
                     <p>SMART ORDER</p>
-                    <button
-                      onClick={() => {
-                        this.props.handleSetPrioritySku(this.props.item);
-                        this.setState({ isPopupOpen: false });
-                      }}
-                      disabled={!this.props.item.is_included}
-                    >
-                      <Icon name="check circle outline" />
-                      <span>Set Priority SKU</span>
-                    </button>
                     <button
                       onClick={() => {
                         this.props.handleSetPaymentTerm(this.props.item);
