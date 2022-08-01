@@ -40,9 +40,58 @@ import { sellerIDSelector } from '../../../selectors/Seller';
 
 const steps = [
   {
-    //target: '#salesProjectionRefreshButton',
+    target: '.StockOutDate_stockOutCell__2A059',
+    content: 'Days until stockout',
+    disableBeacon: true,
+  },
+  {
+    target: '.ExpansionCell_expansionIcon__3gTq3 ',
+    content: 'Sales graph',
+    disableBeacon: true,
+  },
+  {
+    target: '.SalesEstimationStat_salesEstimationStatCell__2HULR',
+    content: 'Enable/ disable average sales',
+    disableBeacon: true,
+  },
+  {
+    target: '.SalesPrediction_salesPrediction__5eMZN',
+    content: 'Predictive/ manual sales adjustor',
+    disableBeacon: true,
+  },
+  {
+    target: '.SeasonalityAdjustor_seasonalityAdjustorCell__13cNZ',
+    content: 'Seasonality adjustor',
+    disableBeacon: true,
+  },
+  {
+    target: '.InventoryThreshold_inventoryThresholdCell__3uYTv',
+    content: 'Inventory threshold',
+    disableBeacon: true,
+  },
+  {
+    target: '.WeightedAverage_inventoryThresholdCell__bkNEK',
+    content: 'Weighted average sales',
+    disableBeacon: true,
+  },
+  {
     target: '.TooltipWrapper_trigger__2DTYQ',
-    content: 'Step 1',
+    content: 'Update data',
+    disableBeacon: true,
+  },
+  {
+    target: '.TopGraph_graphWrapper__MLkXm',
+    content: 'Sales chart',
+    disableBeacon: true,
+  },
+  {
+    target: '.CheckboxDropdownFilter_checkBoxDropdownFilters__3fJgj',
+    content: 'Choose SKU',
+    disableBeacon: true,
+  },
+  {
+    target: '.TableExport_exportBtn__1m92N',
+    content: 'Export sales data',
     disableBeacon: true,
   },
 ];

@@ -30,8 +30,23 @@ interface Props {
 
 const steps = [
   {
-    target: '.HeaderSortCell_headerCell__alignMiddle__3X7he',
+    target: '.StockOutDate_stockOutCell__2_GuP',
     content: 'Days until stockout',
+    disableBeacon: true,
+  },
+  {
+    target: '.ExpansionCell_expansionIcon__3gTq3',
+    content: 'Inventory graph',
+    disableBeacon: true,
+  },
+  {
+    target: '.InputTabSelection_inputTabSelection__2ez_k',
+    content: 'Inventory/ stockout/ today view',
+    disableBeacon: true,
+  },
+  {
+    target: '.InventoryBarCell_inventoryBarCell__1_Vrh',
+    content: 'Inventory burnout',
     disableBeacon: true,
   },
   {
@@ -41,7 +56,12 @@ const steps = [
   },
   {
     target: '.timeLine',
-    content: 'Streamline Gantt chart',
+    content: 'Streamline Gantt chart details',
+    disableBeacon: true,
+  },
+  {
+    target: '.timeLine-edit-order',
+    content: 'Streamline Gantt chart details',
     disableBeacon: true,
   },
 ];
