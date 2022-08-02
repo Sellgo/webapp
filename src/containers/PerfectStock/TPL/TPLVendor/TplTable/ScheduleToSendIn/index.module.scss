@@ -1,7 +1,6 @@
 @import '../../../../../../design-system/new-colors.scss';
 
 .scheduleToSendInCell {
-  background: $prim_dark_1;
   border-radius: 7px;
   height: 100%;
   width: 100%;
@@ -12,13 +11,17 @@
   align-items: flex-start;
   padding-left: 10px;
   padding-top: 5px;
+
+  &__radioBtn {
+    margin: 0 auto;
+  }
 }
 
 .toggleButton {
   margin-bottom: 10px;
 
   label {
-    color: $prim_white !important;
+    color: $grey_8 !important;
   }
 }
 

@@ -33,34 +33,25 @@ const TplTable = (props: Props) => {
   const { isLoadingTplSkuData, tplSkuData, dateHeaders } = props;
   const [expandedRowKeys, setExpandedRowkeys] = React.useState<string[]>([]);
 
-  // React.useEffect(() => {
-  //   if (tplSkuData && tplSkuData.length > 0) {
-  //     const tempExpandedRows: any = [];
-  //     tplSkuData.forEach((data: any) => {
-  //       tempExpandedRows.push(data.sku);
-  //     });
-  //     setExpandedRowkeys([...tempExpandedRows]);
-  //   }
-  // }, [tplSkuData]);
+  React.useEffect(() => {
+    if (tplSkuData && tplSkuData.length > 0) {
+      const tempExpandedRows: any = [];
+      tplSkuData.forEach((data: any) => {
+        tempExpandedRows.push(data.sku);
+      });
+      setExpandedRowkeys([...tempExpandedRows]);
+    }
+  }, [tplSkuData]);
 
   const displayTplSkuDataResults = tplSkuData.map((rowData: any) => {
     return {
       ...rowData,
       ...rowData.fba_inventories,
-      days_until_so: 100,
     };
   });
-  console.log('handle expansion', isLoadingTplSkuData, expandedRowKeys);
   return (
     <>
       <section className={styles.productDatabaseWrapper}>
-        <button
-          onClick={() => {
-            setExpandedRowkeys(['barbeque_grill']);
-          }}
-        >
-          click me
-        </button>
         <Table
           renderLoading={() =>
             isLoadingTplSkuData && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
@@ -72,11 +63,11 @@ const TplTable = (props: Props) => {
           hover={false}
           autoHeight
           rowHeight={90}
-          headerHeight={65}
+          headerHeight={70}
           rowKey="sku"
           virtualized
           id="tplTable"
-          rowExpandedHeight={1000}
+          rowExpandedHeight={150}
           expandedRowKeys={expandedRowKeys}
           renderRowExpanded={(rowData: any) => (
             <ExpandedTplTable rowData={rowData} isLoadingTplSkuData={isLoadingTplSkuData} />
@@ -116,6 +107,7 @@ const TplTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <MultipleStatBox
+              columnHeight={90}
               displayData={[
                 {
                   title: 'Working',
@@ -137,6 +129,21 @@ const TplTable = (props: Props) => {
               dataKey="working"
             />
           </Table.Column>
+
+          <Table.Column width={80} verticalAlign="middle" align="center">
+            <Table.HeaderCell> </Table.HeaderCell>
+            <Table.Cell>
+              <div className={styles.gasolineLabels}>
+                <p>
+                  Fulfillment <br /> Qty
+                </p>
+                <p>
+                  Restock <br /> Limit
+                </p>
+                <p>3PL Limit</p>
+              </div>
+            </Table.Cell>
+          </Table.Column>
           {/* Sales  */}
           {dateHeaders.map((date: string, index: number) => {
             return (
@@ -144,7 +151,13 @@ const TplTable = (props: Props) => {
                 <Table.HeaderCell>
                   <HeaderDateCell title={date} />
                 </Table.HeaderCell>
-                <InventoryBarCell dataKey={date} key={index} isShowingDaysUntilStockout={false} />
+                <InventoryBarCell
+                  columnHeight={90}
+                  dataKey={date}
+                  key={index}
+                  isShowingDaysUntilStockout={false}
+                  showTpl={true}
+                />
               </Table.Column>
             );
           })}

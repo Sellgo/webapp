@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Table } from 'rsuite';
+// import { Table } from 'rsuite';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -51,32 +51,30 @@ const DaysOfInventory = (props: Props) => {
   const defaultManualSalesPrediction = rowData.days_of_inventory;
 
   return (
-    <Table.Cell {...otherProps}>
-      <div
-        className={`
+    <div
+      className={`
           ${styles.salesPrediction} salesPrediction`}
-      >
-        {/* <Radio
+    >
+      {/* <Radio
           label={usingPredictiveSales ? 'Predictive' : 'Manual'}
           className={styles.radioSelection}
           checked={usingPredictiveSales}
           onChange={handleChangeProjectionMode}
           toggle
         /> */}
-        {usingPredictiveSales ? (
-          displayPredictiveSales
-        ) : (
-          <div className={styles.editManualSales}>
-            <InputWithSaveOptions
-              isNumber
-              isPositiveOnly
-              handleSave={handleSaveManualSales}
-              defaultValue={defaultManualSalesPrediction}
-            />
-          </div>
-        )}
-      </div>
-    </Table.Cell>
+      {usingPredictiveSales ? (
+        displayPredictiveSales
+      ) : (
+        <div className={styles.editManualSales}>
+          <InputWithSaveOptions
+            isNumber
+            isPositiveOnly
+            handleSave={handleSaveManualSales}
+            defaultValue={defaultManualSalesPrediction}
+          />
+        </div>
+      )}
+    </div>
   );
 };
 

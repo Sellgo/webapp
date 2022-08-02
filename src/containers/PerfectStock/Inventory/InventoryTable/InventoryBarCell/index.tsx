@@ -16,21 +16,21 @@ import { getDateOnly, MILLISECONDS_IN_A_DAY } from '../../../../../utils/date';
 
 interface Props extends RowCell {
   isShowingDaysUntilStockout?: boolean;
+  showTpl?: boolean;
+  columnHeight?: number;
 }
 const InventoryBarCell = (props: Props) => {
-  const { isShowingDaysUntilStockout, ...otherProps } = props;
+  const { isShowingDaysUntilStockout, showTpl = false, columnHeight, ...otherProps } = props;
   const { rowData, dataKey } = otherProps;
-  console.log('rowData', rowData, dataKey);
 
   const inventory = rowData[dataKey];
-  console.log('inventory is ', inventory);
   let percent;
   let inventoryCount;
   let potentialLoss;
   if (inventory) {
     percent = inventory.percentage;
     inventoryCount = inventory.value;
-    potentialLoss = inventory.potential_loss || inventory.tpl;
+    potentialLoss = inventory.potential_loss;
   } else {
     potentialLoss = 0;
     percent = 0;
@@ -43,7 +43,7 @@ const InventoryBarCell = (props: Props) => {
 
   if (isShowingDaysUntilStockout) {
     return (
-      <Table.Cell {...otherProps}>
+      <Table.Cell {...otherProps} height={columnHeight}>
         <div
           className={`
             ${styles.daysUntilStockoutCell}
@@ -65,19 +65,20 @@ const InventoryBarCell = (props: Props) => {
   }
 
   return (
-    <Table.Cell {...otherProps}>
+    <Table.Cell {...otherProps} height={columnHeight}>
       <div
         className={`
           ${styles.inventoryBarCell}`}
       >
-        <span className={styles.potentialLoss}> {displayLoss}</span>
+        {!showTpl && <span className={styles.potentialLoss}> {displayLoss}</span>}
         <span className={styles.inventoryCount}>
           {displayInventoryCount === '0' ? ' ' : displayInventoryCount}
         </span>
         <InventoryBar percent={percent / 100} />
-        {!isRepeatedZero && (
+        {!isRepeatedZero && !showTpl && (
           <span style={percent <= 20 ? { color: '#EB675E' } : {}}>{displayPercent}</span>
         )}
+        {showTpl && <span>{inventory.tpl}</span>}
       </div>
     </Table.Cell>
   );
