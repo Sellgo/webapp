@@ -134,3 +134,8 @@ export const fetchPerfectStockGetStartedStatus = () => async (dispatch: any) => 
     console.log(err);
   }
 };
+
+export const setShowGetStarted = (showGetStarted: boolean) => ({
+  type: actionTypes.SET_SHOW_GET_STARTED,
+  payload: showGetStarted,
+});

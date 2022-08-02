@@ -15,3 +15,5 @@ export const getPerfectStockGetStartedStatus = (state: any) =>
 
 export const getPerfectStockGetStartedJoyRideStatus = (state: any) =>
   get(state, 'userOnboarding.perfectStockGetStartedJoyRideStatus');
+
+export const getShowGetStarted = (state: any) => get(state, 'userOnboarding.showGetStarted');
