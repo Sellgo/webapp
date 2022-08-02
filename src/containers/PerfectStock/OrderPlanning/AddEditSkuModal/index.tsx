@@ -33,8 +33,9 @@ const AddEditSkuModal = (props: Props) => {
   const [orderProducts, setOrderProducts] = React.useState<any>([]);
   const [selectedProductIds, setSelectedProductIds] = React.useState<string[]>([]);
   const [prioritySkuId, setPrioritySkuId] = React.useState<string | null>(null);
-  const [isSubmitingProductAssignments, setIsSubmitingProductAssignments] =
-    React.useState<boolean>(false);
+  const [isSubmitingProductAssignments, setIsSubmitingProductAssignments] = React.useState<boolean>(
+    false
+  );
 
   const fetchOrderProducts = async () => {
     try {
@@ -50,7 +51,6 @@ const AddEditSkuModal = (props: Props) => {
   React.useEffect(() => {
     if (open) {
       setOrderProducts([]);
-
       const selectedSkuIds: any = [];
 
       selectedSKUs?.forEach((sku: any) => {
@@ -67,7 +67,6 @@ const AddEditSkuModal = (props: Props) => {
 
   const handleSubmit = async () => {
     setIsSubmitingProductAssignments(true);
-
     try {
       const { status } = await axios.patch(
         `${
@@ -75,7 +74,6 @@ const AddEditSkuModal = (props: Props) => {
         }sellers/${sellerIDSelector()}/purchase-order-templates/${templateId}`,
         { merchant_listing_ids: selectedProductIds.map((id: string) => parseInt(id)) }
       );
-
       if (status === 200) {
         success('Products assigned successfully');
         onCloseModal();
