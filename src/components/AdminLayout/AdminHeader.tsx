@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Icon, Image, Menu, Dropdown, Checkbox, Popup } from 'semantic-ui-react';
+import { Icon, Image, Menu, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -40,6 +40,7 @@ import PerfectStockIcon from '../../assets/images/perfectStockGrey.svg';
 import { getSellerInfo } from '../../actions/Settings';
 import ActionButton from '../ActionButton';
 import history from '../../history';
+// import { isSellgoSession } from '../../utils/session';
 
 interface Props {
   auth: any;
@@ -56,8 +57,8 @@ const AdminHeader = (props: Props) => {
     auth,
     profile,
     sellerSubscription,
-    setUserOnboarding,
-    userOnboarding,
+    // setUserOnboarding,
+    // userOnboarding,
     getSellerInfo,
   } = props;
   const { email, first_name, last_name } = profile;
@@ -88,22 +89,41 @@ const AdminHeader = (props: Props) => {
             Upgrade Access
           </ActionButton>
         )}
-      <Popup
-        className="enableLearningPopup"
-        trigger={
-          <Checkbox
-            toggle
-            label="Quick Learning"
-            className="userOnboardingToogle"
-            checked={userOnboarding}
-            onChange={(e: any, data) => {
-              setUserOnboarding(Boolean(data.checked));
-            }}
-          />
-        }
-        content={<p className="enableLearningTooltipMessage">Toggle to enable learning mode</p>}
-      />
-
+      {/*
+      {isSellgoSession() ? (
+        <Popup
+          className="enableLearningPopup"
+          trigger={
+            <Checkbox
+              toggle
+              label="Quick Learning"
+              className="userOnboardingToogle"
+              checked={userOnboarding}
+              onChange={(_e: any, data) => {
+                setUserOnboarding(Boolean(data.checked));
+              }}
+            />
+          }
+          content={<p className="enableLearningTooltipMessage">Toggle to enable learning mode</p>}
+        />
+      ) : (
+        <Popup
+          className="enableLearningPopup"
+          trigger={
+            <Checkbox
+              toggle
+              label="Quick Learning"
+              className="userOnboardingToogle"
+              checked={userOnboarding}
+              onChange={(_e: any, data) => {
+                setUserOnboarding(Boolean(data.checked));
+              }}
+            />
+          }
+          content={<p className="enableLearningTooltipMessage">Toggle to enable learning mode</p>}
+        />
+      )}
+      */}
       <Menu.Item>
         <Dropdown
           trigger={
