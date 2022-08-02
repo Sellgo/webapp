@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import cloneDeep from 'lodash/cloneDeep';
 import Config from '../../helpers/config/Config';
 import SelectionFilter from '../../../FormFilters/SelectionFilter';
-import {
-  TIME_SETTINGS_OPTIONS,
-  EMPTY_GANTT_CHART_PURCHASE_ORDER,
-} from '../../../../constants/PerfectStock/OrderPlanning';
-import { Icon, Popup, Checkbox, Dropdown } from 'semantic-ui-react';
+import { TIME_SETTINGS_OPTIONS } from '../../../../constants/PerfectStock/OrderPlanning';
+import { Icon, Popup, Checkbox } from 'semantic-ui-react';
 import ToggleRadio from '../../../../components/ToggleRadio';
 import { ReactComponent as AlignOrderIcon } from '../../../../assets/images/arrow-right-to-bracket-solid.svg';
 import styles from './TaskList.module.scss';
+import { setActivePurchaseOrder } from '../../../../actions/PerfectStock/OrderPlanning';
+import { getActivePurchaseOrder } from '../../../../selectors/PerfectStock/OrderPlanning';
 
 export class VerticalLine extends Component {
   constructor(props) {
@@ -46,6 +47,18 @@ export class TaskRow extends Component {
       po_sku_id: parseInt(value),
       is_priority: true,
     });
+
+    if (this.getSelectedPurchaseOrder()?.id === this.props.activePurchaseOrder?.id) {
+      const updatedActivePurchaseOrder = cloneDeep(this.getSelectedPurchaseOrder());
+
+      updatedActivePurchaseOrder.merchant_listings.forEach((item) => {
+        if (item.id.toString() === value) {
+          item.is_priority = true;
+        } else item.is_priority = false;
+      });
+
+      this.props.setActivePurchaseOrder(updatedActivePurchaseOrder);
+    }
   };
 
   getSelectedPurchaseOrder() {
@@ -318,7 +331,7 @@ export class TaskRow extends Component {
   }
 }
 
-export default class TaskList extends Component {
+class TaskList extends Component {
   constructor(props) {
     super(props);
   }
@@ -366,6 +379,8 @@ export default class TaskList extends Component {
           handleAlignOrder={this.props.handleAlignOrder}
           handleDisconnectTpl={this.props.handleDisconnectTpl}
           isDraftMode={this.props.isDraftMode}
+          setActivePurchaseOrder={this.props.setActivePurchaseOrder}
+          activePurchaseOrder={this.props.activePurchaseOrder}
         />
       );
     }
@@ -452,3 +467,19 @@ export default class TaskList extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    activePurchaseOrder: getActivePurchaseOrder(state),
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setActivePurchaseOrder: (task) => {
+      dispatch(setActivePurchaseOrder(task));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskList);

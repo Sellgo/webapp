@@ -33,8 +33,9 @@ const AddEditSkuModal = (props: Props) => {
   const [orderProducts, setOrderProducts] = React.useState<any>([]);
   const [selectedProductIds, setSelectedProductIds] = React.useState<string[]>([]);
   const [prioritySkuId, setPrioritySkuId] = React.useState<string | null>(null);
-  const [isSubmitingProductAssignments, setIsSubmitingProductAssignments] =
-    React.useState<boolean>(false);
+  const [isSubmitingProductAssignments, setIsSubmitingProductAssignments] = React.useState<boolean>(
+    false
+  );
 
   const fetchOrderProducts = async () => {
     try {
@@ -55,9 +56,8 @@ const AddEditSkuModal = (props: Props) => {
       selectedSKUs?.forEach((sku: any) => {
         if (sku.is_priority) {
           setPrioritySkuId(sku.merchant_listing_id);
-        } else {
-          selectedSkuIds.push(sku.merchant_listing_id.toString());
         }
+        selectedSkuIds.push(sku.merchant_listing_id.toString());
       });
 
       setSelectedProductIds(selectedSkuIds ? selectedSkuIds : []);
@@ -72,12 +72,7 @@ const AddEditSkuModal = (props: Props) => {
         `${
           AppConfig.BASE_URL_API
         }sellers/${sellerIDSelector()}/purchase-order-templates/${templateId}`,
-        {
-          merchant_listing_ids: [
-            ...selectedProductIds.map((id: string) => parseInt(id)),
-            prioritySkuId,
-          ],
-        }
+        { merchant_listing_ids: selectedProductIds.map((id: string) => parseInt(id)) }
       );
       if (status === 200) {
         success('Products assigned successfully');
@@ -87,7 +82,7 @@ const AddEditSkuModal = (props: Props) => {
         error('Something went wrong');
       }
     } catch (err) {
-      error('Something went wrong');
+      error(err?.response?.data?.message || 'Something went wrong');
       console.error(err);
     }
     setIsSubmitingProductAssignments(false);
@@ -103,22 +98,16 @@ const AddEditSkuModal = (props: Props) => {
   const isCreateOrderDisabled = false;
 
   /* Product options in the dropdown selection menu */
-  const orderProductOptions: any = [];
-
-  orderProducts.forEach((orderProduct: any) => {
-    if (orderProduct.id !== prioritySkuId) {
-      orderProductOptions.push({
-        id: orderProduct.id?.toString() || '',
-        productName: orderProduct.title,
-        asin: orderProduct.asin,
-        img: orderProduct.image_url,
-        skuName: orderProduct.sku,
-        activePurchaseOrders: orderProduct.active_purchase_orders,
-        fulfillmentChannel: orderProduct.fulfillment_channel,
-        skuStatus: orderProduct.sku_status,
-      });
-    }
-  });
+  const orderProductOptions = orderProducts.map((orderProduct: any) => ({
+    id: orderProduct.id?.toString() || '',
+    productName: orderProduct.title,
+    asin: orderProduct.asin,
+    img: orderProduct.image_url,
+    skuName: orderProduct.sku,
+    activePurchaseOrders: orderProduct.active_purchase_orders,
+    fulfillmentChannel: orderProduct.fulfillment_channel,
+    skuStatus: orderProduct.sku_status,
+  }));
 
   /* Display the selected products in the table, with asin and details */
   const selectedProducts = orderProducts.filter((orderProduct: any) => {
@@ -152,7 +141,7 @@ const AddEditSkuModal = (props: Props) => {
           {/* Product Info */}
           <Table.Column width={600} verticalAlign="middle" align="left">
             <Table.HeaderCell>Product Information</Table.HeaderCell>
-            <ProductInfo dataKey="productInfo" />
+            <ProductInfo dataKey="productInfo" prioritySkuId={prioritySkuId} />
           </Table.Column>
 
           {/* Delete Cell */}
