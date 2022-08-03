@@ -38,9 +38,8 @@ const ProductInfo = (props: ProductInfo) => {
           <div className={styles.titleContainer}>
             <span>{truncatedTitle}</span>
             <span
-              className={`${styles.prioritySku} ${
-                prioritySkuId === rowData?.id && styles.prioritySkuBg
-              }`}
+              className={`${styles.prioritySku} ${prioritySkuId === rowData?.id &&
+                styles.prioritySkuBg}`}
             >
               {prioritySkuId === rowData?.id && 'Priority SKU'}
             </span>
