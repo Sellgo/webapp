@@ -353,7 +353,7 @@ function CheckoutForm(props: MyProps) {
                   items: [
                     {
                       name: accountType,
-                      id: getSubscriptionID(accountType),
+                      id: SELLER_TYPE_PER_UNITS_SOLD[unitsSold].id,
                       price: stripeSubscription.plan.amount / 100,
                       brand: 'Stripe',
                       category: 'Subscription',
