@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 /* Styling */
@@ -12,6 +12,7 @@ import {
   getActivePurchaseOrder,
   getInventoryTableResults,
 } from '../../../../selectors/PerfectStock/OrderPlanning';
+import { getSellerSubscription } from '../../../../selectors/Subscription';
 
 /* Interfaces */
 import {
@@ -26,22 +27,29 @@ import {
   formatDecimal,
   printShortDate,
 } from '../../../../utils/format';
+import { isSubscriptionIdFreeTrial } from '../../../../utils/subscriptions';
+import history from '../../../../history';
 
 /* Components */
 import TooltipWrapper from '../../../../components/TooltipWrapper';
 import { ReactComponent as CalculatorIcon } from '../../../../assets/images/calculator-regular-rainbow.svg';
+import AlertModal from '../../../../components/AlertModal';
 
 /* Actions */
 import { updatePurchaseOrder } from '../../../../actions/PerfectStock/OrderPlanning';
+import { SellerSubscription } from '../../../../interfaces/Seller';
 
 interface Props {
   activeOrder: PurchaseOrder;
   updatePurchaseOrder: (payload: UpdatePurchaseOrderPayload) => void;
   inventoryTableResults: any[];
+  sellerSubscription: SellerSubscription;
 }
 
 const OrderSummary = (props: Props) => {
-  const { activeOrder, inventoryTableResults, updatePurchaseOrder } = props;
+  const { activeOrder, inventoryTableResults, updatePurchaseOrder, sellerSubscription } = props;
+  const [isAlertModalOpened, setIsAlertModalOpened] = useState<boolean>(false);
+
   const handleAutoCalculateShipping = () => {
     updatePurchaseOrder({
       id: activeOrder.id,
@@ -117,6 +125,14 @@ const OrderSummary = (props: Props) => {
     return null;
   }
 
+  const isFreeTrial = isSubscriptionIdFreeTrial(sellerSubscription?.subscription_id);
+
+  const handleBlurClick = () => {
+    if (isFreeTrial) {
+      setIsAlertModalOpened(true);
+    }
+  };
+
   return (
     <div className={styles.orderSummaryWrapper}>
       <div
@@ -184,14 +200,20 @@ const OrderSummary = (props: Props) => {
       </div>
       <div className={styles.statWrapper}>
         <TooltipWrapper tooltipKey="Deposit">
-          <span className={styles.statHeader}>Deposit</span>
+          <span className={`${styles.statHeader}`}>Deposit</span>
         </TooltipWrapper>
         {activeOrder.deposit_date && (
-          <span className={styles.date}>
+          <span
+            className={`${styles.date} ${isFreeTrial && styles.dateBlur}`}
+            onClick={() => handleBlurClick()}
+          >
             ETA {printShortDate(new Date(activeOrder.deposit_date))}
           </span>
         )}
-        <span className={styles.stat}>
+        <span
+          className={`${styles.stat} ${isFreeTrial && styles.textBlur}`}
+          onClick={() => handleBlurClick()}
+        >
           {showNAIfZeroOrNull(
             activeOrder.deposit_amount,
             `$${formatDecimal(activeOrder.deposit_amount)}`
@@ -203,11 +225,17 @@ const OrderSummary = (props: Props) => {
           <span className={styles.statHeader}>Mid Pay</span>
         </TooltipWrapper>
         {activeOrder.mid_pay_date && (
-          <span className={styles.date}>
+          <span
+            className={`${styles.date} ${isFreeTrial && styles.dateBlur}`}
+            onClick={() => handleBlurClick()}
+          >
             ETA {printShortDate(new Date(activeOrder.mid_pay_date))}
           </span>
         )}
-        <span className={styles.stat}>
+        <span
+          className={`${styles.stat} ${isFreeTrial && styles.textBlur}`}
+          onClick={() => handleBlurClick()}
+        >
           {showNAIfZeroOrNull(
             activeOrder.mid_pay_amount,
             `$${formatDecimal(activeOrder.mid_pay_amount)}`
@@ -219,11 +247,17 @@ const OrderSummary = (props: Props) => {
           <span className={styles.statHeader}>Paid In Full</span>
         </TooltipWrapper>
         {activeOrder.paid_full_date && (
-          <span className={styles.date}>
+          <span
+            className={`${styles.date} ${isFreeTrial && styles.dateBlur}`}
+            onClick={() => handleBlurClick()}
+          >
             ETA {printShortDate(new Date(activeOrder.paid_full_date))}
           </span>
         )}
-        <span className={styles.stat}>
+        <span
+          className={`${styles.stat} ${isFreeTrial && styles.textBlur}`}
+          onClick={() => handleBlurClick()}
+        >
           {showNAIfZeroOrNull(
             activeOrder.paid_full_amount,
             `$${formatDecimal(activeOrder.paid_full_amount)}`
@@ -267,6 +301,16 @@ const OrderSummary = (props: Props) => {
           )}
         </span>
       </div>
+      <AlertModal
+        isOpen={isAlertModalOpened}
+        title={'You discovered a Premium feature!'}
+        text={'With AiStock paid plan, you can create as many orders as you want'}
+        cancelText={'Dismiss'}
+        saveText={'Learn More'}
+        setIsOpen={(value: boolean) => setIsAlertModalOpened(value)}
+        handleCancel={() => setIsAlertModalOpened(false)}
+        handleSave={() => history.push({ pathname: '/settings/pricing' })}
+      />
     </div>
   );
 };
@@ -275,6 +319,7 @@ const mapStateToProps = (state: any) => {
   return {
     inventoryTableResults: getInventoryTableResults(state),
     activeOrder: getActivePurchaseOrder(state),
+    sellerSubscription: getSellerSubscription(state),
   };
 };
 
