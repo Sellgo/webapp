@@ -1,27 +1,27 @@
 [
   {
-    "title": "Connect Amazon Store",
-    "youtubeLink": "https://www.youtube.com/watch?v=_Xq-Q-Q-Q-Q",
-    "youtubeLabel": "Connect Amazon Store",
+    "title": "Connect Amazon store",
+    "youtubeLink": "",
+    "youtubeLabel": "",
     "key": "connectAmazonStore",
     "link": "/"
   },
   {
-    "title": "Create Lead Time",
-    "youtubeLink": "https://www.youtube.com/watch?v=_Xq-Q-Q-Q-Q",
-    "youtubeLabel": "Create Lead Time",
+    "title": "Create lead time",
+    "youtubeLink": "",
+    "youtubeLabel": "",
     "key": "createLeadTime",
     "link": "/settings/aistock/lead-time"
   },
   {
-    "title": "Sales Projection Tour",
+    "title": "Sales forecasting quick tour",
     "youtubeLink": "",
     "youtubeLabel": "",
     "key": "salesProjectionTour",
     "link": "/aistock/sales"
   },
   {
-    "title": "Order Planning Tour",
+    "title": "Order planning quick tour",
     "youtubeLink": "",
     "youtubeLabel": "",
     "key": "orderPlanningTour",
