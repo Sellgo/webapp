@@ -40,7 +40,7 @@ const PaymentTerms = (props: Props) => {
       </div>
       <BoxContainerSettings className={styles.elevioArticle}>
         <span>Step-By-Step Guide</span>
-        <ElevioArticle articleId={''} />
+        <ElevioArticle articleId={'30'} />
       </BoxContainerSettings>
     </main>
   );

@@ -192,7 +192,7 @@ const LeadTime = (props: Props) => {
       </div>
       <BoxContainerSettings className={styles.elevioArticle}>
         <span>Step-By-Step Guide</span>
-        <ElevioArticle articleId={'17'} />
+        <ElevioArticle articleId={'23'} />
       </BoxContainerSettings>
     </main>
   );
