@@ -41,57 +41,58 @@ import { sellerIDSelector } from '../../../selectors/Seller';
 const steps = [
   {
     target: '.StockOutDate_stockOutCell__2A059',
-    content: 'Days until stockout',
+    content:
+      'Days until stock out shows total number of days of domestic inventory still in stock.',
     disableBeacon: true,
   },
   {
     target: '.ExpansionCell_expansionIcon__3gTq3 ',
-    content: 'Sales graph',
+    content: 'Expand sales with seasonality adjustor here.',
     disableBeacon: true,
   },
   {
     target: '.SalesEstimationStat_salesEstimationStatCell__2HULR',
-    content: 'Enable/ disable average sales',
+    content: 'Click to disable/ enable sales period calculated into sales projection.',
     disableBeacon: true,
   },
   {
     target: '.SalesPrediction_salesPrediction__5eMZN',
-    content: 'Predictive/ manual sales adjustor',
+    content: 'Use predictive sales or override with manual sales as needed.',
     disableBeacon: true,
   },
   {
     target: '.SeasonalityAdjustor_seasonalityAdjustorCell__13cNZ',
-    content: 'Seasonality adjustor',
+    content: 'Click to enable/ disable seasonality adjustor here.',
     disableBeacon: true,
   },
   {
     target: '.InventoryThreshold_inventoryThresholdCell__3uYTv',
-    content: 'Inventory threshold',
+    content: 'Click to enable/ disable inventory threshold here.',
     disableBeacon: true,
   },
   {
     target: '.WeightedAverage_inventoryThresholdCell__bkNEK',
-    content: 'Weighted average sales',
+    content: 'Click to enable/ disable weighted average sales here.',
     disableBeacon: true,
   },
   {
     target: '.TooltipWrapper_trigger__2DTYQ',
-    content: 'Update data',
+    content: 'This shows the last time your data is updated, click to update manually.',
     disableBeacon: true,
   },
   {
     target: '.TopGraph_graphWrapper__MLkXm',
-    content: 'Sales chart',
+    content: 'Sales chart for selected/ all SKU.',
     disableBeacon: true,
   },
   {
     target: '.CheckboxDropdownFilter_checkBoxDropdownFilters__3fJgj',
-    content: 'Choose SKU',
+    content: 'Choose SKU to show.',
     disableBeacon: true,
   },
   {
     target: '.TableExport_exportBtn__1m92N',
-    content: 'Export sales data',
+    content: 'Export past/ future sales data here.',
     disableBeacon: true,
   },
 ];

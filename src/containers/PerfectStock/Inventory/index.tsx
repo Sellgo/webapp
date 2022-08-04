@@ -31,24 +31,26 @@ interface Props {
 const steps = [
   {
     target: '.HeaderSortCell_headerText__alignMiddle__3P4Sh',
-    content: 'Days until stockout',
+    content:
+      'Days until stock out shows total number of days of domestic inventory still in stock.',
     placement: 'bottom' as const,
     disableBeacon: true,
   },
   {
     target: '.OrderPlanningMeta_createOrderButton__2PKw2',
-    content: 'The first step to your reordering needs',
+    content: 'The first step to your reordering needs, click here to start creating smart order.',
     placement: 'bottom' as const,
     disableBeacon: true,
   },
   {
     target: '.InputTabSelection_inputTabSelection__2ez_k',
-    content: 'Inventory/ stockout/ today view',
+    content:
+      'Click here to change view of future inventory burnout or future stockout prediction or today inventory details.',
     disableBeacon: true,
   },
   {
     target: '.InventoryBarCell_inventoryBarCell__1_Vrh',
-    content: 'Inventory burnout',
+    content: 'Inventory burnout indicator.',
     disableBeacon: true,
   },
   {
@@ -58,12 +60,12 @@ const steps = [
   },
   {
     target: '.timeLine-edit-order',
-    content: 'Edit order',
+    content: 'click here to edit order.',
     disableBeacon: true,
   },
   {
     target: '.NavigationButton_navigationButton__1_nZU',
-    content: 'Order planning setting',
+    content: 'Click here to go to order planning setting',
     disableBeacon: true,
   },
 ];

@@ -8,8 +8,8 @@
   },
   {
     "title": "Create lead time",
-    "youtubeLink": "Youtube",
-    "youtubeLabel": "Youtube",
+    "youtubeLink": "",
+    "youtubeLabel": "",
     "key": "createLeadTime",
     "link": "/settings/aistock/lead-time"
   },
