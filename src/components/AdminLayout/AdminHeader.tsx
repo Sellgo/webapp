@@ -176,7 +176,7 @@ const AdminHeader = (props: Props) => {
               as={Link}
               to="/settings/billing"
               className="dropdownItem"
-              disabled={isBeta}
+              disabled={isBeta || (isAiStock && !isMigrated)}
             >
               <img src={BillingIcon} alt="billing-icon" />
               My Billing
