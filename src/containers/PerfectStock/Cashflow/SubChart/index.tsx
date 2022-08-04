@@ -15,7 +15,6 @@ import { GraphDataSeries } from '../../../../interfaces/PerfectStock/SalesProjec
 import styles from './index.module.scss';
 
 import { formatDecimal } from '../../../../utils/format';
-import history from '../../../../history';
 interface Props {
   isLoading?: boolean;
   graphs: GraphDataSeries[];
@@ -62,9 +61,6 @@ const SubChart = (props: Props) => {
                 ${total ? formatDecimal(total) : '0'} 
                 ${CASH_FLOW_CHART_DETAILS[graphs[0].name].unitAppend}
               </h2>
-              <p class="${styles.noDataAvailable} ${
-              styles.chartTotal
-            }">Click to see why no data is available</p>
             `,
             useHTML: true,
           },
@@ -268,7 +264,7 @@ const SubChart = (props: Props) => {
         saveText={'Learn More'}
         setIsOpen={(value: boolean) => setIsAlertModalOpened(value)}
         handleCancel={() => setIsAlertModalOpened(false)}
-        handleSave={() => history.push({ pathname: '/settings/pricing' })}
+        handleSave={() => window.open('/subscription/payment', '_blank')?.focus()}
       />
     </div>
   );

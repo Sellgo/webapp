@@ -28,7 +28,6 @@ import {
   printShortDate,
 } from '../../../../utils/format';
 import { isSubscriptionIdFreeTrial } from '../../../../utils/subscriptions';
-import history from '../../../../history';
 
 /* Components */
 import TooltipWrapper from '../../../../components/TooltipWrapper';
@@ -309,7 +308,7 @@ const OrderSummary = (props: Props) => {
         saveText={'Learn More'}
         setIsOpen={(value: boolean) => setIsAlertModalOpened(value)}
         handleCancel={() => setIsAlertModalOpened(false)}
-        handleSave={() => history.push({ pathname: '/settings/pricing' })}
+        handleSave={() => window.open('/subscription/payment', '_blank')?.focus()}
       />
     </div>
   );

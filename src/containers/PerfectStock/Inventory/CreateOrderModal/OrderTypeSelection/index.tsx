@@ -15,8 +15,6 @@ import AlertModal from '../../../../../components/AlertModal';
 /* Utils */
 import { isSubscriptionIdFreeTrial } from '../../../../../utils/subscriptions';
 
-import history from '../../../../../history';
-
 interface Props {
   sellerId: number;
   onCloseModal: () => void;
@@ -70,7 +68,11 @@ const OrderTypeSelection = (props: Props) => {
       <div className={styles.createOrderWrapper}>
         <div className={styles.createOrderBox}>
           <h2>What kind of Order would you like to create?</h2>
-          <RadioRow handleChange={() => setOrderType('single')} checked={orderType === 'single'}>
+          <RadioRow
+            handleChange={() => setOrderType('single')}
+            checked={orderType === 'single'}
+            className={styles.singleOrder}
+          >
             Single Order
           </RadioRow>
           <RadioRow
@@ -133,7 +135,7 @@ const OrderTypeSelection = (props: Props) => {
           saveText={'Learn More'}
           setIsOpen={(value: boolean) => setIsAlertModalOpened(value)}
           handleCancel={() => setIsAlertModalOpened(false)}
-          handleSave={() => history.push({ pathname: '/settings/pricing' })}
+          handleSave={() => window.open('/subscription/payment', '_blank')?.focus()}
         />
       </div>
     </>

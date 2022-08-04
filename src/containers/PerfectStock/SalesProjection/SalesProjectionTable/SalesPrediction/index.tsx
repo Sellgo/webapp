@@ -25,7 +25,6 @@ import { SellerSubscription } from '../../../../../interfaces/Seller';
 /* Utils */
 import { isSubscriptionIdFreeTrial } from '../../../../../utils/subscriptions';
 
-import history from '../../../../../history';
 interface Props extends RowCell {
   sellerSubscription: SellerSubscription;
   updateSalesProjectionProduct: (payload: SalesProjectionUpdatePayload) => void;
@@ -99,7 +98,7 @@ const SalesPrediction = (props: Props) => {
           saveText={'Learn More'}
           setIsOpen={(value: boolean) => setIsAlertModalOpened(value)}
           handleCancel={() => setIsAlertModalOpened(false)}
-          handleSave={() => history.push({ pathname: '/settings/pricing' })}
+          handleSave={() => window.open('/subscription/payment', '_blank')?.focus()}
         />
       </div>
     </Table.Cell>
