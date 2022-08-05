@@ -10,6 +10,8 @@ import './toggleReset.scss';
 /* Actions */
 import { updateSalesProjectionProduct } from '../../../../../actions/PerfectStock/SalesProjection';
 
+/* Selectors */
+import { getSellerSubscription } from '../../../../../selectors/Subscription';
 /* Components */
 import InputWithSaveOptions from '../../../../../components/InputWithSaveOptions';
 
@@ -17,15 +19,21 @@ import InputWithSaveOptions from '../../../../../components/InputWithSaveOptions
 import { RowCell } from '../../../../../interfaces/Table';
 import { SalesProjectionUpdatePayload } from '../../../../../interfaces/PerfectStock/SalesProjection';
 import { formatRating } from '../../../../../utils/format';
+import AlertModal from '../../../../../components/AlertModal';
+import { SellerSubscription } from '../../../../../interfaces/Seller';
+
+/* Utils */
+import { isSubscriptionIdFreeTrial } from '../../../../../utils/subscriptions';
 
 interface Props extends RowCell {
+  sellerSubscription: SellerSubscription;
   updateSalesProjectionProduct: (payload: SalesProjectionUpdatePayload) => void;
 }
 
 const SalesPrediction = (props: Props) => {
-  const { updateSalesProjectionProduct, ...otherProps } = props;
+  const { sellerSubscription, updateSalesProjectionProduct, ...otherProps } = props;
   const { rowData } = otherProps;
-
+  const [isAlertModalOpened, setIsAlertModalOpened] = React.useState<boolean>(false);
   const usingPredictiveSales = rowData.projection_mode === 'predictive';
 
   const handleSaveManualSales = (updatedSalesProjection: string) => {
@@ -39,6 +47,10 @@ const SalesPrediction = (props: Props) => {
   };
 
   const handleChangeProjectionMode = () => {
+    if (usingPredictiveSales && isSubscriptionIdFreeTrial(sellerSubscription?.subscription_id)) {
+      setIsAlertModalOpened(true);
+      return;
+    }
     const payload: SalesProjectionUpdatePayload = {
       id: rowData.id,
       updatePayload: {
@@ -78,14 +90,28 @@ const SalesPrediction = (props: Props) => {
             />
           </div>
         )}
+        <AlertModal
+          isOpen={isAlertModalOpened}
+          title={'You discovered a Premium feature!'}
+          text={'With AiStock paid plan, you can create as many orders as you want'}
+          cancelText={'Dismiss'}
+          saveText={'Learn More'}
+          setIsOpen={(value: boolean) => setIsAlertModalOpened(value)}
+          handleCancel={() => setIsAlertModalOpened(false)}
+          handleSave={() => window.open('/subscription/payment', '_blank')?.focus()}
+        />
       </div>
     </Table.Cell>
   );
 };
+
+const mapStateToProps = (state: any) => ({
+  sellerSubscription: getSellerSubscription(state),
+});
 
 const mapDispatchToProps = (dispatch: any) => ({
   updateSalesProjectionProduct: (payload: SalesProjectionUpdatePayload) =>
     dispatch(updateSalesProjectionProduct(payload)),
 });
 
-export default connect(null, mapDispatchToProps)(SalesPrediction);
+export default connect(mapStateToProps, mapDispatchToProps)(SalesPrediction);

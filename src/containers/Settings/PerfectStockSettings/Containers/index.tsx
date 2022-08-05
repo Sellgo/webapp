@@ -10,6 +10,7 @@ import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
 import ElevioArticle from '../../../../components/ElevioArticle';
 import BoxContainerSettings from '../../../../components/BoxContainerSettings';
+import GetStarted from '../../../PerfectStock/GetStarted';
 
 interface Props {
   match: any;
@@ -40,8 +41,9 @@ const DaysOfInventory = (props: Props) => {
       </div>
       <BoxContainerSettings className={styles.elevioArticle}>
         <span>Step-By-Step Guide</span>
-        <ElevioArticle articleId={''} />
+        <ElevioArticle articleId={'28'} />
       </BoxContainerSettings>
+      <GetStarted />
     </main>
   );
 };

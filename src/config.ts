@@ -136,7 +136,7 @@ const AISTOCK_DEV_ANALYTICS = {
 
 const AISTOCK_PROD_ANALYTICS = {
   gaTrackingId: 'UA-235653036-1',
-  fullStoryOrgId: '1C9SDM', //fullstory_22ww30
+  fullStoryOrgId: 'o-1C9SDM-na1', //fullstory_22ww30
   googleTagManagerContainerId: 'GTM-TCBV6PN',
 };
 

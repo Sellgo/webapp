@@ -1,4 +1,4 @@
-import { NavOptions } from '../../interfaces/Admin';
+import { NavOptions, NavbarBarBottomOptions } from '../../interfaces/Admin';
 
 /* New products following design */
 export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
@@ -72,6 +72,7 @@ export const NAV_ICONS = {
   CASH_FLOW: 'cashFlow.svg',
   TPL: 'tpl.svg',
   ZAPIER: 'zapierIcon.svg',
+  GET_STARTED: 'getStarted.svg',
 };
 
 export const OPTIONS: NavOptions = [
@@ -259,6 +260,14 @@ export const OPTIONS: NavOptions = [
         isBeta: false,
       },
     ],
+  },
+];
+
+export const BOTTOM_OPTIONS: NavbarBarBottomOptions = [
+  {
+    label: 'Get Started',
+    icon: require(`../../assets/images/${NAV_ICONS.GET_STARTED}`),
+    key: 'getStarted',
   },
 ];
 

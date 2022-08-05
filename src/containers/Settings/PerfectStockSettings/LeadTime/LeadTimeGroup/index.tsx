@@ -32,8 +32,10 @@ import { LEAD_TIME_OPTIONS } from '../../../../../constants/PerfectStock';
 
 import { getIsFetchingProgressForLeadTimeJob } from '../../../../../selectors/PerfectStock/LeadTime';
 
+import { getPerfectStockGetStartedStatus } from '../../../../../selectors/UserOnboarding';
 /* Actions */
 import { refreshLeadTimeProjection } from '../../../../../actions/PerfectStock/LeadTime';
+import { updatePerfectStockGetStartedStatus } from '../../../../../actions/UserOnboarding';
 interface Props {
   initialLeadTimeGroup: SingleLeadTimeGroup;
   isFetchingProgressForLeadTimeJob: boolean;
@@ -41,6 +43,8 @@ interface Props {
   handleDeleteLeadTimeGroup: (indexIdentifier: string) => void;
   fetchLeadTimeGroups: () => void;
   setInitialLeadTimeGroup: (value: SingleLeadTimeGroup) => void;
+  perfectStockGetStartedStatus: any;
+  updatePerfectStockGetStartedStatus: (key: string, status: boolean) => void;
 }
 
 const LeadTimeGroup = (props: Props) => {
@@ -50,6 +54,8 @@ const LeadTimeGroup = (props: Props) => {
     fetchLeadTimeGroups,
     setInitialLeadTimeGroup,
     isFetchingProgressForLeadTimeJob,
+    perfectStockGetStartedStatus,
+    updatePerfectStockGetStartedStatus,
   } = props;
   /* Modal State */
 
@@ -116,6 +122,9 @@ const LeadTimeGroup = (props: Props) => {
         res = await axios.patch(url, newLeadTimeGroup);
       } else {
         res = await axios.post(url, newLeadTimeGroup);
+        if (!perfectStockGetStartedStatus?.createLeadTime) {
+          updatePerfectStockGetStartedStatus('createLeadTime', true);
+        }
       }
 
       if (res.status === 201) {
@@ -369,12 +378,15 @@ const LeadTimeGroup = (props: Props) => {
 
 const mapStateToProps = (state: any) => ({
   isFetchingProgressForLeadTimeJob: getIsFetchingProgressForLeadTimeJob(state),
+  perfectStockGetStartedStatus: getPerfectStockGetStartedStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     refreshLeadTimeProjection: (perfect_stock_job_id: number) =>
       dispatch(refreshLeadTimeProjection(perfect_stock_job_id)),
+    updatePerfectStockGetStartedStatus: (key: string, status: boolean) =>
+      dispatch(updatePerfectStockGetStartedStatus(key, status)),
   };
 };
 
