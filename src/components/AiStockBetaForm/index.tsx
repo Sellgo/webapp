@@ -13,9 +13,6 @@ import ActionButton from '../ActionButton';
 /* Styling */
 import styles from './index.module.scss';
 
-/* Config */
-import { AppConfig } from '../../config';
-
 interface Props {
   isOpen: boolean;
   setModalOpen: (isOpen: boolean) => void;

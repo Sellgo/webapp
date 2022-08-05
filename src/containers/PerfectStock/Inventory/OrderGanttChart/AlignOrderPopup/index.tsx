@@ -33,7 +33,7 @@ const AlignOrderPopup = (props: Props) => {
 
   const handleSubmit = async () => {
     /* Validation Checks */
-    if (!Boolean(selectedTargetSku)) {
+    if (!selectedTargetSku) {
       error('Please select your target SKU');
       return;
     }
@@ -80,7 +80,7 @@ const AlignOrderPopup = (props: Props) => {
             isNumber
             isPositiveOnly
             value={stockLevelThreshold?.toString() || ''}
-            handleChange={(value) => setStockLevelThreshold(value ? parseFloat(value) : 0)}
+            handleChange={value => setStockLevelThreshold(value ? parseFloat(value) : 0)}
             className={styles.inputFilter}
           />
           % of target SKU&apos;s stock level
@@ -95,7 +95,7 @@ const AlignOrderPopup = (props: Props) => {
             isNumber
             isPositiveOnly
             value={dusThreshold?.toString() || ''}
-            handleChange={(value) => setDusThreshold(value ? parseInt(value) : 0)}
+            handleChange={value => setDusThreshold(value ? parseInt(value) : 0)}
             className={styles.inputFilter}
           />
           &nbsp;of target SKU&apos;s days until stockout

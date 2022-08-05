@@ -117,7 +117,7 @@ const PageHeader = (props: Props) => {
 
     let shouldDisplay = false;
 
-    numOfDays.forEach((day) => {
+    numOfDays.forEach(day => {
       const displayOnDate = new Date(startDate);
       displayOnDate.setDate(displayOnDate.getDate() + day);
       if (displayOnDate.toDateString() === new Date().toDateString()) {
@@ -176,9 +176,8 @@ const PageHeader = (props: Props) => {
           type="black"
           size="md"
           onClick={() => setIsFeedbackFormOpen(true)}
-          className={`surveyButton ${
-            shouldDisplayFormButton('testimonial', [], [7, 14, 21, 28]) && 'feedbackButton'
-          }`}
+          className={`surveyButton ${shouldDisplayFormButton('testimonial', [], [7, 14, 21, 28]) &&
+            'feedbackButton'}`}
         >
           <MessageSmileIcon /> &nbsp;Feedback survey
         </ActionButton>
