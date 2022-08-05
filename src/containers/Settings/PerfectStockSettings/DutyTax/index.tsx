@@ -10,6 +10,7 @@ import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
 import ElevioArticle from '../../../../components/ElevioArticle';
 import BoxContainerSettings from '../../../../components/BoxContainerSettings';
+import GetStarted from '../../../PerfectStock/GetStarted';
 
 interface Props {
   match: any;
@@ -42,6 +43,7 @@ const DutyTax = (props: Props) => {
         <span>Step-By-Step Guide</span>
         <ElevioArticle articleId={'29'} />
       </BoxContainerSettings>
+      <GetStarted />
     </main>
   );
 };
