@@ -16,6 +16,7 @@ import SidebarDropdown from './SidebarDropdown';
 import { getActiveIndex, OPTIONS, BOTTOM_OPTIONS } from '../../constants/AdminLayout';
 
 /* Utils */
+import history from '../../history';
 import { isAistockSubscription } from '../../utils/subscriptions';
 
 /* Types */
@@ -155,49 +156,58 @@ const Sidebar = (props: Props) => {
   };
 
   const handleNavBottomOptionClick = (key: string) => {
-    if (key === 'getStarted') {
-      setShowGetStarted(true);
+    switch (key) {
+      case 'getStarted':
+        setShowGetStarted(true);
+        break;
+
+      case 'featureRequest':
+        window.open('http://localhost:3000/feature-request', '_blank', 'noopener,noreferrer');
+        break;
+
+      default:
+        break;
     }
   };
 
   return (
-    <div className={styles.navbarWrapper}>
-      <Accordion
-        className={styles.navBar}
-        /* Reset expanded index to active page when resetting menu */
-        onMouseEnter={() => setExpandedIndex(activePageIndex)}
-      >
-        <div>
-          {navOptions.map((option: NavbarBarOption, index: number) => {
-            return (
-              <SidebarDropdown
+      <div className={styles.navbarWrapper}>
+        <Accordion
+          className={styles.navBar}
+          /* Reset expanded index to active page when resetting menu */
+          onMouseEnter={() => setExpandedIndex(activePageIndex)}
+        >
+          <div>
+            {navOptions.map((option: NavbarBarOption, index: number) => {
+              return (
+                <SidebarDropdown
+                  key={index}
+                  currentPath={currentPath}
+                  setCurrentPath={setCurrentPath}
+                  option={option}
+                  optionIndex={index}
+                  expandedIndex={expandedIndex}
+                  setExpandedIndex={handleSetExpandedIndex}
+                  mainOptionClassName={styles.mainNavOption}
+                  subOptionClassName={styles.subNavOptions}
+                />
+              );
+            })}
+          </div>
+          <div>
+            {BOTTOM_OPTIONS.map((option: NavbarBarBottomOption, index: number) => (
+              <SidebarBottomButtons
                 key={index}
-                currentPath={currentPath}
-                setCurrentPath={setCurrentPath}
                 option={option}
-                optionIndex={index}
-                expandedIndex={expandedIndex}
-                setExpandedIndex={handleSetExpandedIndex}
                 mainOptionClassName={styles.mainNavOption}
-                subOptionClassName={styles.subNavOptions}
+                handleClick={(key: string) => {
+                  handleNavBottomOptionClick(key);
+                }}
               />
-            );
-          })}
-        </div>
-        <div>
-          {BOTTOM_OPTIONS.map((option: NavbarBarBottomOption, index: number) => (
-            <SidebarBottomButtons
-              key={index}
-              option={option}
-              mainOptionClassName={styles.mainNavOption}
-              handleClick={(key: string) => {
-                handleNavBottomOptionClick(key);
-              }}
-            />
-          ))}
-        </div>
-      </Accordion>
-    </div>
+            ))}
+          </div>
+        </Accordion>
+      </div>
   );
 };
 

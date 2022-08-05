@@ -62,6 +62,7 @@ import AistockPricing from '../Settings/Pricing/AistockPricing';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import MainHomePage from '../MainHomePage';
+import FeatureRequest from '../FeatureRequest';
 
 /* Utils */
 import {
@@ -356,6 +357,8 @@ function App() {
           />
 
           <Route exact={true} path="/activation" component={SubscriptionPages.UpsellCtaPage} />
+
+          <Route exact={true} path="/feature-request" component={FeatureRequest} />
 
           <Route
             exact={true}
