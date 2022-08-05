@@ -41,6 +41,10 @@ export interface SellerSubscription {
   is_payment_pending?: boolean;
   is_aistock?: boolean;
   is_aistock_survey_filled?: boolean;
+  is_aistock_feedback_filled: boolean;
+  is_aistock_testimonial_filled: boolean;
+  trial_start_date: string;
+  paid_start_date: string;
   perfect_stock_status: string;
   is_trial_expired?: boolean;
 }

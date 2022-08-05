@@ -19,11 +19,12 @@ import { AppConfig } from '../../config';
 interface Props {
   isOpen: boolean;
   setModalOpen: (isOpen: boolean) => void;
+  surveyId: string;
   onSubmit: () => void;
 }
 
 const QuickWin = (props: Props) => {
-  const { isOpen, setModalOpen, onSubmit } = props;
+  const { isOpen, setModalOpen, onSubmit, surveyId } = props;
   const [completedSurvey, setCompletedSurvey] = React.useState<boolean>(false);
 
   return (
@@ -46,7 +47,7 @@ const QuickWin = (props: Props) => {
           </div>
           {!completedSurvey ? (
             <Widget
-              id={AppConfig.AISTOCK_SURVEY}
+              id={surveyId}
               className={styles.typeFormBox}
               onSubmit={() => {
                 setCompletedSurvey(true);

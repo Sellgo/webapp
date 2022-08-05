@@ -31,6 +31,7 @@ const SELLGO_DEV_KEYS = {
   BETA_FORM_ID: 'pvnHf0f6',
   AISTOCK_ONBOARDING_SURVEY: 'uBopgqgO',
   AISTOCK_SURVEY: 'H1yQNE6a',
+  AISTOCK_TESTIMONIAL_SURVEY: 'H1yQNE6a',
   ELEVIO_KEY: '6228edc3bb20d',
   ONBOARDING_VIDEO: '',
 };
@@ -45,6 +46,7 @@ const SELLGO_PROD_KEYS = {
   BETA_FORM_ID: 'pvnHf0f6',
   AISTOCK_ONBOARDING_SURVEY: 'uBopgqgO',
   AISTOCK_SURVEY: 'H1yQNE6a',
+  AISTOCK_TESTIMONIAL_SURVEY: 'H1yQNE6a',
   ELEVIO_KEY: '6228edc3bb20d',
   ONBOARDING_VIDEO: '',
 };
@@ -55,7 +57,7 @@ const SELLGO_PROD_KEYS = {
 const AISTOCK_DEV_URLS = {
   BASE_URL: 'https://app.predicts.co',
   BASE_URL_AUTH: 'sellgo-dev.auth0.com',
-  BASE_URL_API: 'https://api.sellgo-dev.com/api/',
+  BASE_URL_API: 'http://3.230.118.67/api/',
   CHANGE_PASS_API_URL: 'https://sellgo-dev.auth0.com/dbconnections/change_password',
   WEB_URL: 'https://predicts.co',
   WEBSOCKET_URL: 'wss://api.sellgo-dev.com/ws',
@@ -81,6 +83,7 @@ const AISTOCK_DEV_KEYS = {
   BETA_FORM_ID: 'pvnHf0f6',
   AISTOCK_ONBOARDING_SURVEY: 'uBopgqgO',
   AISTOCK_SURVEY: 'H1yQNE6a',
+  AISTOCK_TESTIMONIAL_SURVEY: 'H1yQNE6a',
   ELEVIO_KEY: '6228edc3bb20d',
   ONBOARDING_VIDEO: '',
 };
@@ -96,6 +99,7 @@ const AISTOCK_PROD_KEYS = {
   BETA_FORM_ID: 'pvnHf0f6',
   AISTOCK_ONBOARDING_SURVEY: 'uBopgqgO',
   AISTOCK_SURVEY: 'H1yQNE6a',
+  AISTOCK_TESTIMONIAL_SURVEY: 'H1yQNE6a',
   ELEVIO_KEY: '6228edc3bb20d',
   ONBOARDING_VIDEO: '',
 };
