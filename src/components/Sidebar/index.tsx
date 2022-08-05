@@ -24,7 +24,6 @@ import { SellerSubscription } from '../../interfaces/Seller';
 import { NavOptions, NavbarBarOption, NavbarBarBottomOption } from '../../interfaces/Admin';
 import SidebarBottomButtons from './SidebarBottomButtons';
 import { setShowGetStarted } from '../../actions/UserOnboarding';
-import App from '../../containers/App/App';
 
 /* ---------- CSS Logic for the Nav Bar ---------- */
 /* eslint-disable-next-line max-len */
