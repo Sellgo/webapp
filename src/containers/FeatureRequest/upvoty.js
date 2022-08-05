@@ -1,4 +1,6 @@
 // Always use the latest version of https://feedback.upvoty.com/javascript/upvoty.embed.js
+/* eslint-disable */
+
 export var upvoty = {
     debug: false,
     error: false,
