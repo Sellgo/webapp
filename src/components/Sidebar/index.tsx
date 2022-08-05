@@ -162,7 +162,7 @@ const Sidebar = (props: Props) => {
         break;
 
       case 'featureRequest':
-        window.open(`${AppConfig.WEB_URL}/feature-request`, '_blank', 'noopener,noreferrer');
+        window.open(`${AppConfig.BASE_URL}/feature-request`, '_blank', 'noopener,noreferrer');
         break;
 
       default:
