@@ -16,6 +16,7 @@
     "auth0-lock": "^11.28.1",
     "axios": "^0.21.1",
     "csv-parse": "^4.8.6",
+    "date-fns": "^2.29.1",
     "elevio": "^1.3.1",
     "file-saver": "^2.0.5",
     "generate-password": "^1.6.1",
