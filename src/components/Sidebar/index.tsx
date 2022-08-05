@@ -17,12 +17,14 @@ import { getActiveIndex, OPTIONS, BOTTOM_OPTIONS } from '../../constants/AdminLa
 
 /* Utils */
 import { isAistockSubscription } from '../../utils/subscriptions';
+import { AppConfig } from '../../config';
 
 /* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
 import { NavOptions, NavbarBarOption, NavbarBarBottomOption } from '../../interfaces/Admin';
 import SidebarBottomButtons from './SidebarBottomButtons';
 import { setShowGetStarted } from '../../actions/UserOnboarding';
+import App from '../../containers/App/App';
 
 /* ---------- CSS Logic for the Nav Bar ---------- */
 /* eslint-disable-next-line max-len */
@@ -161,7 +163,7 @@ const Sidebar = (props: Props) => {
         break;
 
       case 'featureRequest':
-        window.open('http://localhost:3000/feature-request', '_blank', 'noopener,noreferrer');
+        window.open(`${AppConfig.WEB_URL}/feature-request`, '_blank', 'noopener,noreferrer');
         break;
 
       default:
