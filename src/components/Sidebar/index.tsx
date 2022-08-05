@@ -16,7 +16,6 @@ import SidebarDropdown from './SidebarDropdown';
 import { getActiveIndex, OPTIONS, BOTTOM_OPTIONS } from '../../constants/AdminLayout';
 
 /* Utils */
-import history from '../../history';
 import { isAistockSubscription } from '../../utils/subscriptions';
 
 /* Types */
@@ -171,43 +170,43 @@ const Sidebar = (props: Props) => {
   };
 
   return (
-      <div className={styles.navbarWrapper}>
-        <Accordion
-          className={styles.navBar}
-          /* Reset expanded index to active page when resetting menu */
-          onMouseEnter={() => setExpandedIndex(activePageIndex)}
-        >
-          <div>
-            {navOptions.map((option: NavbarBarOption, index: number) => {
-              return (
-                <SidebarDropdown
-                  key={index}
-                  currentPath={currentPath}
-                  setCurrentPath={setCurrentPath}
-                  option={option}
-                  optionIndex={index}
-                  expandedIndex={expandedIndex}
-                  setExpandedIndex={handleSetExpandedIndex}
-                  mainOptionClassName={styles.mainNavOption}
-                  subOptionClassName={styles.subNavOptions}
-                />
-              );
-            })}
-          </div>
-          <div>
-            {BOTTOM_OPTIONS.map((option: NavbarBarBottomOption, index: number) => (
-              <SidebarBottomButtons
+    <div className={styles.navbarWrapper}>
+      <Accordion
+        className={styles.navBar}
+        /* Reset expanded index to active page when resetting menu */
+        onMouseEnter={() => setExpandedIndex(activePageIndex)}
+      >
+        <div>
+          {navOptions.map((option: NavbarBarOption, index: number) => {
+            return (
+              <SidebarDropdown
                 key={index}
+                currentPath={currentPath}
+                setCurrentPath={setCurrentPath}
                 option={option}
+                optionIndex={index}
+                expandedIndex={expandedIndex}
+                setExpandedIndex={handleSetExpandedIndex}
                 mainOptionClassName={styles.mainNavOption}
-                handleClick={(key: string) => {
-                  handleNavBottomOptionClick(key);
-                }}
+                subOptionClassName={styles.subNavOptions}
               />
-            ))}
-          </div>
-        </Accordion>
-      </div>
+            );
+          })}
+        </div>
+        <div>
+          {BOTTOM_OPTIONS.map((option: NavbarBarBottomOption, index: number) => (
+            <SidebarBottomButtons
+              key={index}
+              option={option}
+              mainOptionClassName={styles.mainNavOption}
+              handleClick={(key: string) => {
+                handleNavBottomOptionClick(key);
+              }}
+            />
+          ))}
+        </div>
+      </Accordion>
+    </div>
   );
 };
 
