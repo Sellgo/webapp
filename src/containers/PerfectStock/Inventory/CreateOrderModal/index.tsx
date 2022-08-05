@@ -31,6 +31,9 @@ import {
 import { AppConfig } from '../../../../config';
 import history from '../../../../history';
 
+/*Selectors */
+import { getSellerSubscription } from '../../../../selectors/Subscription';
+
 /* Actions */
 import {
   fetchPurchaseOrders,
@@ -51,9 +54,11 @@ import {
 /* Selectors */
 import { getCashflowOnboardingStatus } from '../../../../selectors/PerfectStock/Cashflow';
 import { sellerIDSelector } from '../../../../selectors/Seller';
+import { SellerSubscription } from '../../../../interfaces/Seller';
 
 interface Props {
   open: boolean;
+  sellerSubscription: SellerSubscription;
   setIsCreatingOrder: (open: boolean) => void;
   fetchPurchaseOrders: () => void;
   setActivePurchaseOrder: (order: PurchaseOrder) => void;
@@ -66,6 +71,7 @@ interface Props {
 const CreateOrder = (props: Props) => {
   const {
     open,
+    sellerSubscription,
     setIsCreatingOrder,
     fetchPurchaseOrders,
     setActivePurchaseOrder,
@@ -189,6 +195,7 @@ const CreateOrder = (props: Props) => {
       headerContent = 'Select order type';
       content = (
         <OrderTypeSelection
+          sellerId={sellerSubscription?.subscription_id}
           onCloseModal={() => setIsCreatingOrder(false)}
           createOrderPayload={createOrderPayload}
           setCreateOrderPayload={setCreateOrderPayload}
@@ -336,6 +343,7 @@ const CreateOrder = (props: Props) => {
 
 const mapStateToProps = (state: any) => ({
   cashflowOnboardingStatus: getCashflowOnboardingStatus(state),
+  sellerSubscription: getSellerSubscription(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {
