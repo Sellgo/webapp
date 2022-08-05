@@ -87,38 +87,45 @@ const PageHeader = (props: Props) => {
     handleUpdateFaviconToAistock();
   }, []);
 
-  const shouldDisplayFormButton = (formType: string, trials: number[], paid: number[]) => {
+  const shouldDisplayTestmonialButton = (numOfDays: number[]) => {
     const isPaidSellerSubscription =
       sellerSubscription?.subscription_id &&
       !isSubscriptionIdFreeTrial(sellerSubscription.subscription_id);
 
-    const startDate =
-      sellerSubscription?.paid_start_date || sellerSubscription?.trial_start_date || null;
-
-    const numOfDays = sellerSubscription?.paid_start_date
-      ? paid
-      : sellerSubscription?.trial_start_date
-      ? trials
-      : null;
-
-    const isFormFilled =
-      formType === 'feedback'
-        ? sellerSubscription?.is_aistock_feedback_filled
-        : sellerSubscription?.is_aistock_testimonial_filled;
-
     if (
-      !startDate ||
-      !numOfDays ||
-      isFormFilled ||
-      (!trials?.length && !paid?.length) ||
-      (formType === 'testimonial' && !isPaidSellerSubscription)
+      sellerSubscription?.is_aistock_testimonial_filled ||
+      !numOfDays.length ||
+      !sellerSubscription?.paid_start_date ||
+      !isPaidSellerSubscription
     )
       return false;
 
     let shouldDisplay = false;
 
-    numOfDays.forEach(day => {
-      const displayOnDate = new Date(startDate);
+    numOfDays.forEach((day) => {
+      const displayOnDate = new Date(sellerSubscription?.paid_start_date);
+      displayOnDate.setDate(displayOnDate.getDate() + day);
+      if (displayOnDate.toDateString() === new Date().toDateString()) {
+        shouldDisplay = true;
+      }
+    });
+
+    return shouldDisplay;
+  };
+
+  const shouldDisplayFeedbackButton = (numOfDays: number[]) => {
+    if (
+      sellerSubscription?.is_aistock_feedback_filled ||
+      !numOfDays.length ||
+      sellerSubscription?.paid_start_date ||
+      !sellerSubscription?.trial_start_date
+    )
+      return false;
+
+    let shouldDisplay = false;
+
+    numOfDays.forEach((day) => {
+      const displayOnDate = new Date(sellerSubscription?.trial_start_date);
       displayOnDate.setDate(displayOnDate.getDate() + day);
       if (displayOnDate.toDateString() === new Date().toDateString()) {
         shouldDisplay = true;
@@ -170,26 +177,25 @@ const PageHeader = (props: Props) => {
         surveyId={AppConfig.AISTOCK_TESTIMONIAL_SURVEY}
       />
 
-      {shouldDisplayFormButton('feedback', [7], [7, 14, 21, 28]) && (
+      {shouldDisplayFeedbackButton([7]) && (
         <ActionButton
           variant="primary"
           type="black"
           size="md"
           onClick={() => setIsFeedbackFormOpen(true)}
-          className={`surveyButton ${shouldDisplayFormButton('testimonial', [], [7, 14, 21, 28]) &&
-            'feedbackButton'}`}
+          className={'surveyButton'}
         >
           <MessageSmileIcon /> &nbsp;Feedback survey
         </ActionButton>
       )}
 
-      {shouldDisplayFormButton('testimonial', [], [7, 14, 21, 28]) && (
+      {shouldDisplayTestmonialButton([7, 14, 21, 28]) && (
         <ActionButton
           variant="primary"
           type="black"
           size="md"
           onClick={() => setIsTestimonialFormOpen(true)}
-          className="surveyButton testimonialButton"
+          className={'surveyButton'}
         >
           <MessageSmileIcon /> &nbsp;Testimonial survey
         </ActionButton>
