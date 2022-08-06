@@ -53,21 +53,9 @@ const QuickWin = (props: Props) => {
             />
           ) : (
             <div className={styles.completedSurveyContent}>
-              Thank you. Your survey has been received.
-              <br />
-              Your feedback is valuable in helping us to improve AiStock for you!
-              <br />
-              <br />
-              You will be informed via email, after 1 April 2022, if you are selected for the
-              giveaway.
-              <ActionButton
-                variant="primary"
-                type="purpleGradient"
-                size="md"
-                onClick={() => setModalOpen(false)}
-                className={styles.continueButton}
-              >
-                Continue To Ai Stock
+              Thank you so much.
+              <ActionButton onClick={() => setModalOpen(false)} variant="reset" size="md">
+                Back to AiStock
               </ActionButton>
             </div>
           )}

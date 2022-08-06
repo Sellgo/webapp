@@ -10,6 +10,8 @@ import Auth from '../Auth/Auth';
 import AiStockBetaForm from '../AiStockBetaForm';
 import ActionButton from '../ActionButton';
 import { ReactComponent as MessageSmileIcon } from '../../assets/images/message-smile-solid.svg';
+import { ReactComponent as StarReviewIcon } from '../../assets/images/star-sharp-solid.svg';
+import { ReactComponent as ReferralIcon } from '../../assets/images/thumbs-up-solid.svg';
 
 /* Styles */
 import './index.scss';
@@ -226,7 +228,7 @@ const PageHeader = (props: Props) => {
           onClick={() => setIsTestimonialFormOpen(true)}
           className={'surveyButton'}
         >
-          <MessageSmileIcon /> &nbsp;Testimonial survey
+          <StarReviewIcon /> &nbsp;Leave a review
         </ActionButton>
       )}
 
@@ -238,7 +240,7 @@ const PageHeader = (props: Props) => {
           onClick={() => setIsPromoterFormOpen(true)}
           className={'surveyButton'}
         >
-          <MessageSmileIcon /> &nbsp;Net promoter score
+          <ReferralIcon /> &nbsp;Tell your friend?
         </ActionButton>
       )}
     </>
