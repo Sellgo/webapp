@@ -104,7 +104,7 @@ const PageHeader = (props: Props) => {
 
     let shouldDisplay = false;
 
-    numOfDays.forEach(day => {
+    numOfDays.forEach((day) => {
       const displayOnDate = new Date(sellerSubscription?.paid_start_date);
       displayOnDate.setDate(displayOnDate.getDate() + day);
       if (displayOnDate.toDateString() === new Date().toDateString()) {
@@ -127,7 +127,7 @@ const PageHeader = (props: Props) => {
     let shouldDisplay = false;
 
     const displayOnDate = new Date(sellerSubscription?.trial_start_date);
-    displayOnDate.setDate(displayOnDate.getDate() + 7);
+    displayOnDate.setDate(displayOnDate.getDate() + day);
 
     if (displayOnDate.toDateString() === new Date().toDateString()) {
       shouldDisplay = true;
@@ -141,7 +141,9 @@ const PageHeader = (props: Props) => {
       sellerSubscription?.subscription_id &&
       !isSubscriptionIdFreeTrial(sellerSubscription.subscription_id);
 
-    if (sellerSubscription?.is_aistock_promoter_filled || !isPaidSellerSubscription) return false;
+    if (sellerSubscription?.is_aistock_promoter_filled || !day || !isPaidSellerSubscription) {
+      return false;
+    }
 
     let shouldDisplay = false;
 
