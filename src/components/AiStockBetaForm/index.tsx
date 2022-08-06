@@ -4,7 +4,7 @@ import { Modal } from 'semantic-ui-react';
 import { Widget } from '@typeform/embed-react';
 
 /* Images */
-import sellgoLogoWhiteWithText from '../../assets/images/sellgoLogoWhiteWithText.png';
+import aistockLogoWhiteWithText from '../../assets/images/aistockLogoWhiteWithText.png';
 import cross from '../../assets/images/crossIcon.svg';
 
 /* Components */
@@ -34,12 +34,12 @@ const QuickWin = (props: Props) => {
       content={
         <div>
           <div className={styles.header}>
-            <img className={styles.sellgoLogo} src={sellgoLogoWhiteWithText} alt="sellgo-logo" />
+            <img className={styles.sellgoLogo} src={aistockLogoWhiteWithText} alt="aistock-logo" />
             <img
               onClick={() => setModalOpen(false)}
               className={styles.crossIcon}
               src={cross}
-              alt="sellgo-logo"
+              alt="aistock-logo"
             />
           </div>
           {!completedSurvey ? (

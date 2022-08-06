@@ -104,7 +104,7 @@ const PageHeader = (props: Props) => {
 
     let shouldDisplay = false;
 
-    numOfDays.forEach((day) => {
+    numOfDays.forEach(day => {
       const displayOnDate = new Date(sellerSubscription?.paid_start_date);
       displayOnDate.setDate(displayOnDate.getDate() + day);
       if (displayOnDate.toDateString() === new Date().toDateString()) {
