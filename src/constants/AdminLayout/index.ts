@@ -73,6 +73,7 @@ export const NAV_ICONS = {
   TPL: 'tpl.svg',
   ZAPIER: 'zapierIcon.svg',
   GET_STARTED: 'getStarted.svg',
+  FEATURE_REQUEST: 'square-poll-horizontal-solid.svg',
 };
 
 export const OPTIONS: NavOptions = [
@@ -265,6 +266,11 @@ export const OPTIONS: NavOptions = [
 
 export const BOTTOM_OPTIONS: NavbarBarBottomOptions = [
   {
+    label: 'Feature Request',
+    icon: require(`../../assets/images/${NAV_ICONS.FEATURE_REQUEST}`),
+    key: 'featureRequest',
+  },
+  {
     label: 'Get Started',
     icon: require(`../../assets/images/${NAV_ICONS.GET_STARTED}`),
     key: 'getStarted',
@@ -272,7 +278,7 @@ export const BOTTOM_OPTIONS: NavbarBarBottomOptions = [
 ];
 
 export const getActiveIndex: (currentPath: string) => number = (currentPath: string) => {
-  return OPTIONS.findIndex(option => {
+  return OPTIONS.findIndex((option) => {
     return (
       option.subOptions &&
       option.subOptions.find((subOption: any) => {
