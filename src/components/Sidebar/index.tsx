@@ -17,6 +17,7 @@ import { getActiveIndex, OPTIONS, BOTTOM_OPTIONS } from '../../constants/AdminLa
 
 /* Utils */
 import { isAistockSubscription } from '../../utils/subscriptions';
+import { AppConfig } from '../../config';
 
 /* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
@@ -155,8 +156,17 @@ const Sidebar = (props: Props) => {
   };
 
   const handleNavBottomOptionClick = (key: string) => {
-    if (key === 'getStarted') {
-      setShowGetStarted(true);
+    switch (key) {
+      case 'getStarted':
+        setShowGetStarted(true);
+        break;
+
+      case 'featureRequest':
+        window.open(`${AppConfig.BASE_URL}/feature-request`, '_blank', 'noopener,noreferrer');
+        break;
+
+      default:
+        break;
     }
   };
 
