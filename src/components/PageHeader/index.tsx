@@ -53,6 +53,7 @@ const PageHeader = (props: Props) => {
   const { title, callToAction, breadcrumb, auth, sellerSubscription, updateSeller } = props;
   const [isFeedbackFormOpen, setIsFeedbackFormOpen] = React.useState(false);
   const [isTestimonialFormOpen, setIsTestimonialFormOpen] = React.useState(false);
+  const [isPromoterFormOpen, setIsPromoterFormOpen] = React.useState(false);
   const isNewProduct = NEW_PRODUCT_DESIGN_PATH_NAMES.includes(window.location.pathname);
   const previousTrialDuration = usePrevious(sellerSubscription.trial_left);
   const trialDurationLeft = sellerSubscription.trial_left || previousTrialDuration;
@@ -70,11 +71,12 @@ const PageHeader = (props: Props) => {
     updateSeller({ is_aistock_survey_filled: true });
   };
 
-  const handleSubmitFeedbackForm = async () =>
-    handleSubmitForm({ is_aistock_feedback_filled: true });
+  const handleSubmitFeedbackForm = () => handleSubmitForm({ is_aistock_feedback_filled: true });
 
-  const handleSubmitTestimonialForm = async () =>
+  const handleSubmitTestimonialForm = () =>
     handleSubmitForm({ is_aistock_testimonial_filled: true });
+
+  const handleSubmitPromoterForm = () => handleSubmitForm({ is_aistock_promoter_filled: true });
 
   const handleUpdateFaviconToAistock = () => {
     const faviconElement = document.getElementById('favicon');
@@ -102,7 +104,7 @@ const PageHeader = (props: Props) => {
 
     let shouldDisplay = false;
 
-    numOfDays.forEach((day) => {
+    numOfDays.forEach(day => {
       const displayOnDate = new Date(sellerSubscription?.paid_start_date);
       displayOnDate.setDate(displayOnDate.getDate() + day);
       if (displayOnDate.toDateString() === new Date().toDateString()) {
@@ -113,10 +115,10 @@ const PageHeader = (props: Props) => {
     return shouldDisplay;
   };
 
-  const shouldDisplayFeedbackButton = (numOfDays: number[]) => {
+  const shouldDisplayFeedbackButton = (day: number) => {
     if (
       sellerSubscription?.is_aistock_feedback_filled ||
-      !numOfDays.length ||
+      !day ||
       sellerSubscription?.paid_start_date ||
       !sellerSubscription?.trial_start_date
     )
@@ -124,13 +126,31 @@ const PageHeader = (props: Props) => {
 
     let shouldDisplay = false;
 
-    numOfDays.forEach((day) => {
-      const displayOnDate = new Date(sellerSubscription?.trial_start_date);
-      displayOnDate.setDate(displayOnDate.getDate() + day);
-      if (displayOnDate.toDateString() === new Date().toDateString()) {
-        shouldDisplay = true;
-      }
-    });
+    const displayOnDate = new Date(sellerSubscription?.trial_start_date);
+    displayOnDate.setDate(displayOnDate.getDate() + 7);
+
+    if (displayOnDate.toDateString() === new Date().toDateString()) {
+      shouldDisplay = true;
+    }
+
+    return shouldDisplay;
+  };
+
+  const shouldDisplayPromoterButton = (day: number) => {
+    const isPaidSellerSubscription =
+      sellerSubscription?.subscription_id &&
+      !isSubscriptionIdFreeTrial(sellerSubscription.subscription_id);
+
+    if (sellerSubscription?.is_aistock_promoter_filled || !isPaidSellerSubscription) return false;
+
+    let shouldDisplay = false;
+
+    const displayOnDate = new Date(sellerSubscription?.paid_start_date);
+    displayOnDate.setDate(displayOnDate.getDate() + day);
+
+    if (displayOnDate.toDateString() === new Date().toDateString()) {
+      shouldDisplay = true;
+    }
 
     return shouldDisplay;
   };
@@ -177,7 +197,14 @@ const PageHeader = (props: Props) => {
         surveyId={AppConfig.AISTOCK_TESTIMONIAL_SURVEY}
       />
 
-      {shouldDisplayFeedbackButton([7]) && (
+      <AiStockBetaForm
+        isOpen={isPromoterFormOpen}
+        setModalOpen={setIsPromoterFormOpen}
+        onSubmit={handleSubmitPromoterForm}
+        surveyId={AppConfig.AISTOCK_PROMOTER_SURVEY}
+      />
+
+      {shouldDisplayFeedbackButton(7) && (
         <ActionButton
           variant="primary"
           type="black"
@@ -198,6 +225,18 @@ const PageHeader = (props: Props) => {
           className={'surveyButton'}
         >
           <MessageSmileIcon /> &nbsp;Testimonial survey
+        </ActionButton>
+      )}
+
+      {shouldDisplayPromoterButton(30) && (
+        <ActionButton
+          variant="primary"
+          type="black"
+          size="md"
+          onClick={() => setIsPromoterFormOpen(true)}
+          className={'surveyButton'}
+        >
+          <MessageSmileIcon /> &nbsp;Net promoter score
         </ActionButton>
       )}
     </>
