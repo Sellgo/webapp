@@ -194,17 +194,20 @@ const Sidebar = (props: Props) => {
             );
           })}
         </div>
+
         <div>
-          {BOTTOM_OPTIONS.map((option: NavbarBarBottomOption, index: number) => (
-            <SidebarBottomButtons
-              key={index}
-              option={option}
-              mainOptionClassName={styles.mainNavOption}
-              handleClick={(key: string) => {
-                handleNavBottomOptionClick(key);
-              }}
-            />
-          ))}
+          {BOTTOM_OPTIONS.map((option: NavbarBarBottomOption, index: number) => {
+            return option?.disabled ? null : (
+              <SidebarBottomButtons
+                key={index}
+                option={option}
+                mainOptionClassName={styles.mainNavOption}
+                handleClick={(key: string) => {
+                  handleNavBottomOptionClick(key);
+                }}
+              />
+            );
+          })}
         </div>
       </Accordion>
     </div>

@@ -13,6 +13,7 @@ export type NavbarBarBottomOption = {
   label: string;
   icon: string;
   key: string;
+  disabled?: boolean;
 };
 
 export type NavbarBarBottomOptions = NavbarBarBottomOption[];
