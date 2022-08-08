@@ -24,6 +24,12 @@ const QuickWin = (props: Props) => {
   const { isOpen, setModalOpen, onSubmit, surveyId } = props;
   const [completedSurvey, setCompletedSurvey] = React.useState<boolean>(false);
 
+  React.useEffect(() => {
+    if (completedSurvey) {
+      setModalOpen(false);
+    }
+  }, [completedSurvey]);
+
   return (
     <Modal
       open={isOpen}
@@ -42,23 +48,14 @@ const QuickWin = (props: Props) => {
               alt="aistock-logo"
             />
           </div>
-          {!completedSurvey ? (
-            <Widget
-              id={surveyId}
-              className={styles.typeFormBox}
-              onSubmit={() => {
-                setCompletedSurvey(true);
-                onSubmit();
-              }}
-            />
-          ) : (
-            <div className={styles.completedSurveyContent}>
-              Thank you so much.
-              <ActionButton onClick={() => setModalOpen(false)} variant="reset" size="md">
-                Back to AiStock
-              </ActionButton>
-            </div>
-          )}
+          <Widget
+            id={surveyId}
+            className={styles.typeFormBox}
+            onSubmit={() => {
+              setCompletedSurvey(true);
+              onSubmit();
+            }}
+          />
         </div>
       }
     />
