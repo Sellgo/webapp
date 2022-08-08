@@ -276,11 +276,12 @@ export const BOTTOM_OPTIONS: NavbarBarBottomOptions = [
     label: 'Get Started',
     icon: require(`../../assets/images/${NAV_ICONS.GET_STARTED}`),
     key: 'getStarted',
+    disabled: isAiStockSession() ? false : true,
   },
 ];
 
 export const getActiveIndex: (currentPath: string) => number = (currentPath: string) => {
-  return OPTIONS.findIndex((option) => {
+  return OPTIONS.findIndex(option => {
     return (
       option.subOptions &&
       option.subOptions.find((subOption: any) => {

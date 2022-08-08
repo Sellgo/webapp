@@ -18,7 +18,6 @@ import { getActiveIndex, OPTIONS, BOTTOM_OPTIONS } from '../../constants/AdminLa
 /* Utils */
 import { isAistockSubscription } from '../../utils/subscriptions';
 import { AppConfig } from '../../config';
-import { isAiStockSession } from '../../utils/session';
 
 /* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
@@ -163,9 +162,7 @@ const Sidebar = (props: Props) => {
         break;
 
       case 'featureRequest':
-        if (isAiStockSession()) {
-          window.open(`${AppConfig.BASE_URL}/feature-request`, '_blank', 'noopener,noreferrer');
-        }
+        window.open(`${AppConfig.BASE_URL}/feature-request`, '_blank', 'noopener,noreferrer');
         break;
 
       default:
