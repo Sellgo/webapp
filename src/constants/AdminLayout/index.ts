@@ -1,4 +1,5 @@
 import { NavOptions, NavbarBarBottomOptions } from '../../interfaces/Admin';
+import { isAiStockSession } from '../../utils/session';
 
 /* New products following design */
 export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
@@ -269,16 +270,18 @@ export const BOTTOM_OPTIONS: NavbarBarBottomOptions = [
     label: 'Feature Request',
     icon: require(`../../assets/images/${NAV_ICONS.FEATURE_REQUEST}`),
     key: 'featureRequest',
+    disabled: isAiStockSession() ? false : true,
   },
   {
     label: 'Get Started',
     icon: require(`../../assets/images/${NAV_ICONS.GET_STARTED}`),
     key: 'getStarted',
+    disabled: isAiStockSession() ? false : true,
   },
 ];
 
 export const getActiveIndex: (currentPath: string) => number = (currentPath: string) => {
-  return OPTIONS.findIndex((option) => {
+  return OPTIONS.findIndex(option => {
     return (
       option.subOptions &&
       option.subOptions.find((subOption: any) => {
