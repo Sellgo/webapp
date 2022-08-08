@@ -7,9 +7,6 @@ import { Widget } from '@typeform/embed-react';
 import aistockLogoWhiteWithText from '../../assets/images/aistockLogoWhiteWithText.png';
 import cross from '../../assets/images/crossIcon.svg';
 
-/* Components */
-import ActionButton from '../ActionButton';
-
 /* Styling */
 import styles from './index.module.scss';
 
