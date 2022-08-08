@@ -17,7 +17,7 @@ const SidebarBottomButtons = (props: Props) => {
   /* If nav has no sub options */
   return (
     <div
-      className={`${styles.mainOption} 
+      className={`${styles.mainOption}
                         ${mainOptionClassName}
                     `}
       onClick={() => {

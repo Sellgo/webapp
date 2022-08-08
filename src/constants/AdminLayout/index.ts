@@ -1,4 +1,5 @@
 import { NavOptions, NavbarBarBottomOptions } from '../../interfaces/Admin';
+import { isAiStockSession } from '../../utils/session';
 
 /* New products following design */
 export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
@@ -269,6 +270,7 @@ export const BOTTOM_OPTIONS: NavbarBarBottomOptions = [
     label: 'Feature Request',
     icon: require(`../../assets/images/${NAV_ICONS.FEATURE_REQUEST}`),
     key: 'featureRequest',
+    disabled: isAiStockSession() ? false : true,
   },
   {
     label: 'Get Started',

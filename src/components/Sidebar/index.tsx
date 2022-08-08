@@ -18,6 +18,7 @@ import { getActiveIndex, OPTIONS, BOTTOM_OPTIONS } from '../../constants/AdminLa
 /* Utils */
 import { isAistockSubscription } from '../../utils/subscriptions';
 import { AppConfig } from '../../config';
+import { isAiStockSession } from '../../utils/session';
 
 /* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
@@ -162,7 +163,9 @@ const Sidebar = (props: Props) => {
         break;
 
       case 'featureRequest':
-        window.open(`${AppConfig.BASE_URL}/feature-request`, '_blank', 'noopener,noreferrer');
+        if (isAiStockSession()) {
+          window.open(`${AppConfig.BASE_URL}/feature-request`, '_blank', 'noopener,noreferrer');
+        }
         break;
 
       default:
@@ -194,17 +197,20 @@ const Sidebar = (props: Props) => {
             );
           })}
         </div>
+
         <div>
-          {BOTTOM_OPTIONS.map((option: NavbarBarBottomOption, index: number) => (
-            <SidebarBottomButtons
-              key={index}
-              option={option}
-              mainOptionClassName={styles.mainNavOption}
-              handleClick={(key: string) => {
-                handleNavBottomOptionClick(key);
-              }}
-            />
-          ))}
+          {BOTTOM_OPTIONS.map((option: NavbarBarBottomOption, index: number) => {
+            return option?.disabled ? null : (
+              <SidebarBottomButtons
+                key={index}
+                option={option}
+                mainOptionClassName={styles.mainNavOption}
+                handleClick={(key: string) => {
+                  handleNavBottomOptionClick(key);
+                }}
+              />
+            );
+          })}
         </div>
       </Accordion>
     </div>
