@@ -172,7 +172,7 @@ function CheckoutForm(props: MyProps) {
 
   React.useEffect(() => {
     // @ts-ignore
-    setUnitsSold(order);
+    setUnitsSold(getNearestUnitsSold(parseInt(order)));
     // @ts-ignore
     setUnitsSoldInput(parseInt(order));
   }, [order]);
