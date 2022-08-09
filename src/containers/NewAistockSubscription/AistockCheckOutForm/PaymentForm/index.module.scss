@@ -476,10 +476,6 @@
     padding-left: 2rem;
   }
 
-  @media screen and(max-width: 870px) {
-    display: none !important;
-  }
-
   .paymentToggleTextWrapper {
     margin-top: 11px;
     display: flex;
@@ -497,6 +493,12 @@
 
     .greenhighlight {
       background-color: $sellgo_neon_green;
+    }
+
+    .totalContainer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 
     .total {
