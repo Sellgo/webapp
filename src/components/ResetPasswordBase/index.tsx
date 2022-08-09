@@ -11,7 +11,7 @@ const ResetPasswordBase = (props: Props) => {
   const { messageDetails, children, isAistock } = props;
 
   return (
-    <Grid className="reset-password-content" columns={2}>
+    <Grid className="reset-password-content" columns={2} doubling>
       <MessageDisplay messageDetails={messageDetails} />
       <Grid.Row>
         <Grid.Column>

@@ -9,6 +9,11 @@ $base-font-size: 1em;
   background-image: linear-gradient(to right, #1e1e1e, #1e1e1e);
   margin: 0 !important;
 
+  @media screen and (max-width: 480px) {
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
+
   label {
     color: #fff !important;
     cursor: pointer;
@@ -21,6 +26,12 @@ $base-font-size: 1em;
 
   .row {
     min-height: 300px;
+
+    @media screen and (max-width: 480px) {
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+    }
 
     .column {
       padding: 0 !important;
@@ -38,6 +49,10 @@ $base-font-size: 1em;
           color: white;
           margin: 0;
           line-height: 0;
+
+          @media screen and (max-width: 480px) {
+            line-height: initial;
+          }
         }
 
         a {
