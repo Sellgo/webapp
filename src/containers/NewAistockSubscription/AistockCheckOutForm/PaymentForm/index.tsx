@@ -516,7 +516,7 @@ function CheckoutForm(props: MyProps) {
               <div className={styles.paymentToggleTextWrapper}>
                 <p className={styles.paymentToggleText}>
                   {isMonthly ? (
-                    <span>
+                    <span className={styles.totalContainer}>
                       Save with annual billing &nbsp;
                       <span className={styles.greenhighlight}>&nbsp;20% OFF&nbsp;</span>
                       <span className={styles.total}>
@@ -524,11 +524,10 @@ function CheckoutForm(props: MyProps) {
                       </span>
                     </span>
                   ) : (
-                    <span>
+                    <span className={styles.totalContainer}>
                       Switch to monthly &nbsp;
                       <span className={styles.total}>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $
-                        {formatDecimal(sellerPlan.monthlyPrice)} /mo
+                        ${formatDecimal(sellerPlan.monthlyPrice)} /mo
                       </span>
                     </span>
                   )}

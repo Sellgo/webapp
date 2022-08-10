@@ -12,7 +12,7 @@ const LoginBase = (props: Props) => {
   const { messageDetails, children, isAistock } = props;
 
   return (
-    <Grid className="login-cont" columns={2}>
+    <Grid className="login-cont" columns={2} doubling>
       <TopBanner
         text="For better experience please use your Desktop or Laptop"
         hideOnDesktop={true}

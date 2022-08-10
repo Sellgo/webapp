@@ -16,7 +16,7 @@ import SidebarDropdown from './SidebarDropdown';
 import { getActiveIndex, OPTIONS, BOTTOM_OPTIONS } from '../../constants/AdminLayout';
 
 /* Utils */
-import { isAistockSubscription } from '../../utils/subscriptions';
+import { isAistockSubscription, isMigrationSuccess } from '../../utils/subscriptions';
 import { AppConfig } from '../../config';
 
 /* Types */
@@ -171,7 +171,10 @@ const Sidebar = (props: Props) => {
   };
 
   return (
-    <div className={styles.navbarWrapper}>
+    <div
+      className={`${styles.navbarWrapper} ${!isMigrationSuccess(sellerSubscription) &&
+        styles.hideNavbar}`}
+    >
       <Accordion
         className={styles.navBar}
         /* Reset expanded index to active page when resetting menu */
