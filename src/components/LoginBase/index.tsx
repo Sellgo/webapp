@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Image, Divider } from 'semantic-ui-react';
 import MessageDisplay from '../MessageDisplay/MessageDisplay';
+import TopBanner from '../TopBanner';
 
 interface Props {
   messageDetails: any;
@@ -12,6 +13,10 @@ const LoginBase = (props: Props) => {
 
   return (
     <Grid className="login-cont" columns={2} doubling>
+      <TopBanner
+        text="For better experience please use your desktop or laptop"
+        hideOnDesktop={true}
+      />
       <MessageDisplay messageDetails={messageDetails} />
       <Grid.Row>
         <Grid.Column>

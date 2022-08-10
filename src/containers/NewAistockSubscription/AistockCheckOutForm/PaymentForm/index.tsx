@@ -527,8 +527,7 @@ function CheckoutForm(props: MyProps) {
                     <span className={styles.totalContainer}>
                       Switch to monthly &nbsp;
                       <span className={styles.total}>
-                        $
-                        {formatDecimal(sellerPlan.monthlyPrice)} /mo
+                        ${formatDecimal(sellerPlan.monthlyPrice)} /mo
                       </span>
                     </span>
                   )}
