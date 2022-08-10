@@ -14,7 +14,7 @@ const LoginBase = (props: Props) => {
   return (
     <Grid className="login-cont" columns={2} doubling>
       <TopBanner
-        text="For better experience please use your Desktop or Laptop"
+        text="For better experience please use your desktop or laptop"
         hideOnDesktop={true}
       />
       <MessageDisplay messageDetails={messageDetails} />
