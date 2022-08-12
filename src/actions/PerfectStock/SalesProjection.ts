@@ -165,6 +165,7 @@ export const updateSalesProjectionProduct = (payload: SalesProjectionUpdatePaylo
     const newSalesProjectionRow = {
       ...oldSalesProjectionRow,
       ...payload.updatePayload,
+      isLoading: true,
     };
     /* Set state first to be responsive */
     dispatch(setSalesProjectionRow(newSalesProjectionRow));
@@ -177,6 +178,7 @@ export const updateSalesProjectionProduct = (payload: SalesProjectionUpdatePaylo
       if (data?.predictive_sales) {
         const updatedSalesProjectionRow = {
           ...newSalesProjectionRow,
+          isLoading: false,
           predictive_sales: data.predictive_sales,
         };
         dispatch(setSalesProjectionRow(updatedSalesProjectionRow));

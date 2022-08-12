@@ -15,6 +15,10 @@
   padding-right: 45px !important;
   padding-left: 80px !important;
 
+  &__hide-breadcrumb {
+    justify-content: flex-end !important;
+  }
+
   &__left {
     display: flex;
     justify-content: space-evenly;

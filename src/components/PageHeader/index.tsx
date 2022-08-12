@@ -23,7 +23,7 @@ import { getSellerSubscription } from '../../selectors/Subscription';
 import { NEW_PRODUCT_DESIGN_PATH_NAMES } from '../../constants/AdminLayout';
 
 /* Utils */
-import { isSubscriptionIdFreeTrial } from '../../utils/subscriptions';
+import { isMigrationSuccess, isSubscriptionIdFreeTrial } from '../../utils/subscriptions';
 
 /* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
@@ -167,8 +167,14 @@ const PageHeader = (props: Props) => {
         </title>
       </Helmet>
 
-      <div className={`page-header ${isNewProduct ? 'new-page-header' : ''}`}>
-        {breadcrumb && breadcrumb.length > 0 && <BreadCrumb sections={breadcrumb} />}
+      <div
+        className={`page-header ${isNewProduct ? 'new-page-header' : ''} ${!isMigrationSuccess(
+          sellerSubscription
+        ) && 'page-header__hide-breadcrumb'}`}
+      >
+        {isMigrationSuccess(sellerSubscription) && breadcrumb && breadcrumb.length > 0 && (
+          <BreadCrumb sections={breadcrumb} />
+        )}
         <div className="page-header__left">
           <Header as="h2">
             <Header.Content>

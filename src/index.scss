@@ -379,6 +379,10 @@ i.icon.close::before {
 /* App main container */
 .App__container {
   height: 100vh;
+
+  @media screen and (max-width: 480px) {
+    height: auto;
+  }
 }
 
 /* New Global Styles */
