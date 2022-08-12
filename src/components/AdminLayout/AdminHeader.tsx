@@ -54,8 +54,14 @@ interface Props {
 
 const AdminHeader = (props: Props) => {
   const userPicture = localStorage.getItem('userPicture');
-  const { auth, profile, sellerSubscription, setUserOnboarding, userOnboarding, getSellerInfo } =
-    props;
+  const {
+    auth,
+    profile,
+    sellerSubscription,
+    setUserOnboarding,
+    userOnboarding,
+    getSellerInfo,
+  } = props;
   const { email, first_name, last_name } = profile;
   const isBeta = isBetaAccount(sellerSubscription);
   const isAiStock = isAistockSubscription(sellerSubscription.subscription_id);

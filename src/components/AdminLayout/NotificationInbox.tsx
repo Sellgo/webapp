@@ -47,8 +47,6 @@ const NotificationInbox = (props: Props) => {
     toggleMarkAllAsRead,
   } = props;
 
-  console.log(notificationsList, 'notificationsList');
-
   const [showNotifications, setShowNotifications] = useState<boolean>(false);
   const [showOnlyUnread, setShowOnlyUnread] = useState<boolean>(false);
 
@@ -61,11 +59,11 @@ const NotificationInbox = (props: Props) => {
   }, [isIncomingNotification, notificationsList]);
 
   const handleNotificationIconClick = () => {
-    setShowNotifications((prev) => !prev);
+    setShowNotifications(prev => !prev);
   };
 
   const handleShowOnlyUnread = () => {
-    setShowOnlyUnread((prev) => !prev);
+    setShowOnlyUnread(prev => !prev);
   };
 
   const handleMarkAsRead = (id: number) => {
@@ -95,7 +93,7 @@ const NotificationInbox = (props: Props) => {
     <>
       <Button icon onClick={handleNotificationIconClick} className={styles.notificationIconBtn}>
         <Icon name="bell" className={styles.bellIcon} />
-        {isIncomingNotification && <div className={styles.newNotificationDot}></div>}
+        {isIncomingNotification && <div className={styles.newNotificationDot} />}
       </Button>
 
       {showNotifications ? (
@@ -129,7 +127,7 @@ const NotificationInbox = (props: Props) => {
                       {notification?.image_url ? (
                         <img src={notification.image_url} alt={notification?.webapp_message} />
                       ) : (
-                        <div className={styles.imagePlaceholder}></div>
+                        <div className={styles.imagePlaceholder} />
                       )}
                     </div>
 
@@ -144,7 +142,7 @@ const NotificationInbox = (props: Props) => {
                           <div className={styles.severityContainer}>
                             <div
                               className={`${styles.severityDot} ${styles?.[notification.severity]}`}
-                            ></div>
+                            />
                             <div className={styles.severityText}>{notification.severity}</div>
                           </div>
                         ) : (
@@ -159,7 +157,7 @@ const NotificationInbox = (props: Props) => {
 
                     <div
                       className={`${styles.read} ${!notification.is_read ? styles.readDot : ''}`}
-                    ></div>
+                    />
                   </div>
                 ))
               : ''}
