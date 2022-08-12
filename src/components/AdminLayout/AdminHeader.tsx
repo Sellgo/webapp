@@ -27,6 +27,7 @@ import {
   isSubscriptionIdFreeTrial,
 } from '../../utils/subscriptions';
 import { setUserOnboarding } from '../../actions/UserOnboarding';
+import { isAiStockSession } from '../../utils/session';
 
 /* Icons */
 import SettingsIcon from '../../assets/images/settingsIcon.svg';
@@ -99,9 +100,11 @@ const AdminHeader = (props: Props) => {
         content={<p className="enableLearningTooltipMessage">Toggle to enable learning mode</p>}
       />
 
-      <Menu.Item style={{ position: 'relative' }}>
-        <NotificationInbox />
-      </Menu.Item>
+      {isAiStockSession() && (
+        <Menu.Item style={{ position: 'relative' }}>
+          <NotificationInbox />
+        </Menu.Item>
+      )}
 
       <Menu.Item>
         <Dropdown

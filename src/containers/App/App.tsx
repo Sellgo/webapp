@@ -13,6 +13,8 @@ import NotFound from '../../components/NotFound';
 import history from '../../history';
 import { connect } from 'react-redux';
 import { fetchSellerSubscription, fetchSubscriptions } from '../../actions/Settings/Subscription';
+import { fetchNotifications } from '../../actions/NotificationInbox';
+import { getSellerQuota } from '../../actions/Settings';
 import '../../analytics';
 import ResetPassword from '../ResetPassword';
 import Onboarding from '../Onboarding';
@@ -71,7 +73,6 @@ import {
   isSubscriptionIdFreeTrial,
 } from '../../utils/subscriptions';
 import { isAiStockSession, isSellgoSession } from '../../utils/session';
-import { getSellerQuota } from '../../actions/Settings';
 import { AppConfig } from '../../config';
 
 export const auth = new Auth();
@@ -133,6 +134,7 @@ const PrivateRoute = connect(
     fetchSellerSubscription: () => fetchSellerSubscription(),
     fetchSubscriptions: () => fetchSubscriptions(),
     getSellerQuota: () => getSellerQuota(),
+    fetchNotifications: () => fetchNotifications(),
   }
 )(
   ({
@@ -142,6 +144,7 @@ const PrivateRoute = connect(
     sellerQuota,
     fetchSellerSubscription,
     fetchSubscriptions,
+    fetchNotifications,
     getSellerQuota,
     location,
     ...rest
@@ -219,49 +222,50 @@ const PrivateRoute = connect(
       location,
     ]);
 
-    const [findRefreshSocket, setFindRefreshSocket] = React.useState<WebSocket>();
+    const [notificationSocket, setNotificationSocket] = React.useState<WebSocket | null>(null);
 
     const sellerId = localStorage.getItem('userId') || '';
     const idToken = localStorage.getItem('idToken') || '';
-    const URL = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/perfect-stock/push?token=${idToken}`;
 
     useEffect(() => {
-      const socketConnection = new WebSocket(URL);
-      socketConnection.onopen = () => {
-        setFindRefreshSocket(socketConnection);
-      };
-
-      return () => {
-        if (findRefreshSocket) {
-          findRefreshSocket.close();
-        }
-      };
-    }, []);
-
-    useEffect(() => {
-      if (!findRefreshSocket) {
+      if (!userIsAuthenticated || !isAiStockSession()) {
         return;
       }
 
+      fetchNotifications();
+
+      const WS_URL = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/perfect-stock/push?token=${idToken}`;
+      const socketConnection = new WebSocket(WS_URL);
+      socketConnection.onopen = () => {
+        setNotificationSocket(socketConnection);
+      };
+
+      return () => {
+        if (notificationSocket) {
+          notificationSocket.close();
+        }
+      };
+    }, [userIsAuthenticated]);
+
+    useEffect(() => {
       // execute only if the export socket exists
-      if (findRefreshSocket) {
-        // if findRefreshSocket is open and not in connecting state
-        if (findRefreshSocket.OPEN && !findRefreshSocket.CONNECTING) {
-          // wehn incoming message is present from server
-          findRefreshSocket.onmessage = async (e) => {
-            const payload = JSON.parse(e.data);
-            console.log(JSON.parse(payload.message), 'payload');
+      if (notificationSocket) {
+        // if notificationSocket is open and not in connecting state
+        if (notificationSocket.OPEN && !notificationSocket.CONNECTING) {
+          // when incoming message is present from server
+          notificationSocket.onmessage = async (_e) => {
+            fetchNotifications();
           };
 
-          findRefreshSocket.send(JSON.stringify({ msg: 'hello from frontend' }));
+          notificationSocket.send(JSON.stringify({ msg: 'notificationSocket connecting...' }));
+
+          // when notificationSocket connection is closed
+          notificationSocket.onclose = () => {
+            console.log('Find or refresh socket closed');
+          };
         }
       }
-
-      // when findRefreshSocket connection is closed
-      findRefreshSocket.onclose = () => {
-        console.log('Find or refresh socket closed');
-      };
-    }, [findRefreshSocket]);
+    }, [notificationSocket]);
 
     // Render nothing. Redirect will be handled in above effect.
     if (!userIsAuthenticated) {

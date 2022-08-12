@@ -1,84 +1,191 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Button, Icon, Checkbox } from 'semantic-ui-react';
+import { Button, Icon, Checkbox, Dimmer, Loader } from 'semantic-ui-react';
+import moment from 'moment';
 
 /* Styles */
 import styles from './NotificationInbox.module.scss';
 
-/* Selector */
+/* Selectors */
 import {
   selectNotificationsList,
-  selectIsNewIncomingNotification,
+  selectIncomingNotification,
+  selectIsLoadingNotifications,
 } from '../../selectors/NotificationInbox';
+
+/* Actions */
+import {
+  toggleIncomingNotification,
+  toggleMarkAsRead,
+  toggleMarkAllAsRead,
+} from '../../actions/NotificationInbox';
 
 interface Props {
   notificationsList: any;
-  isNewIncomingNotification: boolean;
+  isIncomingNotification: boolean;
+  isLoadingNotifications: boolean;
+  toggleIncomingNotification: (payload: boolean) => void;
+  toggleMarkAsRead: (payload: number) => void;
+  toggleMarkAllAsRead: (payload: any[]) => void;
 }
 
-const NotificationInbox = (props: Props) => {
-  const { notificationsList, isNewIncomingNotification } = props;
+const truncate = (str: string, n: number) => {
+  return str.length > n ? str.slice(0, n - 1) + '...' : str;
+};
 
-  console.log(notificationsList, isNewIncomingNotification, 'notificationsList');
+const getFormattedDate = (date: string) => {
+  return date ? moment(date).fromNow() : '';
+};
+
+const NotificationInbox = (props: Props) => {
+  const {
+    isLoadingNotifications,
+    notificationsList,
+    isIncomingNotification,
+    toggleIncomingNotification,
+    toggleMarkAsRead,
+    toggleMarkAllAsRead,
+  } = props;
+
+  console.log(notificationsList, 'notificationsList');
 
   const [showNotifications, setShowNotifications] = useState<boolean>(false);
+  const [showOnlyUnread, setShowOnlyUnread] = useState<boolean>(false);
 
-  const handleIconClick = () => {
+  useEffect(() => {
+    if (unreadMessages.length) {
+      toggleIncomingNotification(true);
+    } else {
+      toggleIncomingNotification(false);
+    }
+  }, [isIncomingNotification, notificationsList]);
+
+  const handleNotificationIconClick = () => {
     setShowNotifications((prev) => !prev);
   };
 
+  const handleShowOnlyUnread = () => {
+    setShowOnlyUnread((prev) => !prev);
+  };
+
+  const handleMarkAsRead = (id: number) => {
+    toggleMarkAsRead(id);
+  };
+
+  const handleMarkAllAsRead = () => {
+    // if (!unreadMessages.length) return;
+
+    const payload = notificationsList.map((msg: any) => ({
+      id: msg.id,
+      is_read: false,
+    }));
+
+    toggleMarkAllAsRead(payload);
+  };
+
+  const unreadMessages = notificationsList?.filter((notification: any) => !notification.is_read);
+
+  const filteredMessages = showOnlyUnread ? unreadMessages : notificationsList;
+
+  const sortedByDateMessages = filteredMessages.sort(
+    (a: any, b: any) => Date.parse(b.cdate) - Date.parse(a.cdate)
+  );
+
   return (
-    <div>
-      <Button icon onClick={handleIconClick} style={{ background: 'none', marginRight: '0.5em' }}>
+    <>
+      <Button icon onClick={handleNotificationIconClick} className={styles.notificationIconBtn}>
         <Icon name="bell" className={styles.bellIcon} />
-        {isNewIncomingNotification && <Icon corner name="add" />}
+        {isIncomingNotification && <div className={styles.newNotificationDot}></div>}
       </Button>
-      {showNotifications && (
+
+      {showNotifications ? (
         <div className={styles.notificationContainer}>
+          <Dimmer active={isLoadingNotifications} inverted>
+            <Loader active />
+          </Dimmer>
+
           <div className={styles.headerWrapper}>
             <h5 className={styles.notificationHeader}>Notifications</h5>
             <div className={styles.readToggle}>
-              <span>Only show unread</span> <Checkbox toggle />
+              <p>Only show unread</p>{' '}
+              <Checkbox toggle onChange={handleShowOnlyUnread} checked={showOnlyUnread} />
             </div>
           </div>
 
           <div className={styles.latestContainer}>
             <div className={styles.latestHeader}>
-              <p>LATEST</p>
-              <p>Mark all as read</p>
+              <h6>LATEST</h6>
+              <button onClick={handleMarkAllAsRead}>Mark all as read</button>
             </div>
 
-            {notificationsList?.length &&
-              notificationsList.map((notification: any) => (
-                <div className={styles.messageContainer}>
-                  <div className={styles.picture}></div>
-                  <div className={styles.message}>
-                    <div className={styles.messageText}>
-                      {notification.message}{' '}
-                      <span className={styles.date}>{notification.date}</span>
+            {sortedByDateMessages?.length
+              ? sortedByDateMessages.map((notification: any) => (
+                  <div
+                    className={styles.messageContainer}
+                    onClick={() => handleMarkAsRead(notification.id)}
+                    key={notification.id}
+                  >
+                    <div className={styles.picture}>
+                      {notification?.image_url ? (
+                        <img src={notification.image_url} alt={notification?.webapp_message} />
+                      ) : (
+                        <div className={styles.imagePlaceholder}></div>
+                      )}
                     </div>
-                    <div className={styles.skuContainer}>
-                      <div>{notification.sku_name}</div>
-                      <div>{notification.asin}</div>
-                      <div>{notification.order_name}</div>
-                    </div>
-                  </div>
 
-                  <div className={!notification.read ? styles.read : ''}></div>
-                </div>
-              ))}
+                    <div className={styles.message}>
+                      <p className={styles.messageText}>
+                        {truncate(notification?.webapp_message, 90)}
+                        <span className={styles.date}>{getFormattedDate(notification?.cdate)}</span>
+                      </p>
+
+                      <div className={styles.skuContainer}>
+                        {notification?.severity ? (
+                          <div className={styles.severityContainer}>
+                            <div
+                              className={`${styles.severityDot} ${styles?.[notification.severity]}`}
+                            ></div>
+                            <div className={styles.severityText}>{notification.severity}</div>
+                          </div>
+                        ) : (
+                          '-'
+                        )}
+
+                        <div>{notification?.sku || '-'}</div>
+                        <div>{notification?.asin || '-'}</div>
+                        <div>{notification?.order_number || '-'}</div>
+                      </div>
+                    </div>
+
+                    <div
+                      className={`${styles.read} ${!notification.is_read ? styles.readDot : ''}`}
+                    ></div>
+                  </div>
+                ))
+              : ''}
           </div>
         </div>
+      ) : (
+        ''
       )}
-    </div>
+    </>
   );
 };
 
 const mapStateToProps = (state: any) => {
   return {
     notificationsList: selectNotificationsList(state),
-    isNewIncomingNotification: selectIsNewIncomingNotification(state),
+    isIncomingNotification: selectIncomingNotification(state),
+    isLoadingNotifications: selectIsLoadingNotifications(state),
   };
 };
 
-export default connect(mapStateToProps)(NotificationInbox);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    toggleIncomingNotification: (payload: boolean) => dispatch(toggleIncomingNotification(payload)),
+    toggleMarkAsRead: (payload: number) => dispatch(toggleMarkAsRead(payload)),
+    toggleMarkAllAsRead: (payload: any[]) => dispatch(toggleMarkAllAsRead(payload)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationInbox);

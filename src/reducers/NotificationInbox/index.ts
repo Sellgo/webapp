@@ -1,90 +1,24 @@
 import * as actionTypes from '../../constants/NotificationInbox';
-
-const data = [
-  {
-    message: 'Adipisicing velit incidunt impedit dolor accusamus.',
-    status: 'info',
-    read: false,
-    sku_name: 'sku name',
-    asin: 'asin',
-    order_name: 'order name',
-    date: '2 days ago',
-  },
-  {
-    message: 'Adipisicing velit incidunt impedit dolor accusamus.',
-    status: 'info',
-    read: false,
-    sku_name: 'sku name',
-    asin: 'asin',
-    order_name: 'order name',
-    date: '2 days ago',
-  },
-  {
-    message: 'Adipisicing velit incidunt impedit dolor accusamus.',
-    status: 'info',
-    read: true,
-    sku_name: 'sku name',
-    asin: 'asin',
-    order_name: 'order name',
-    date: '2 days ago',
-  },
-  {
-    message: 'Adipisicing velit incidunt impedit dolor accusamus.',
-    status: 'info',
-    read: false,
-    sku_name: 'sku name',
-    asin: 'asin',
-    order_name: 'order name',
-    date: '2 days ago',
-  },
-  {
-    message: 'Adipisicing velit incidunt impedit dolor accusamus.',
-    status: 'info',
-    read: false,
-    sku_name: 'sku name',
-    asin: 'asin',
-    order_name: 'order name',
-    date: '2 days ago',
-  },
-  {
-    message: 'Adipisicing velit incidunt impedit dolor accusamus.',
-    status: 'info',
-    read: false,
-    sku_name: 'sku name',
-    asin: 'asin',
-    order_name: 'order name',
-    date: '2 days ago',
-  },
-  {
-    message: 'Adipisicing velit incidunt impedit dolor accusamus.',
-    status: 'info',
-    read: false,
-    sku_name: 'sku name',
-    asin: 'asin',
-    order_name: 'order name',
-    date: '2 days ago',
-  },
-];
+import { setIn } from '../../utils/immutablity';
 
 const INITIAL_STATE = {
-  isNewIncomingNotification: false,
-  notificationsList: data,
+  isIncomingNotification: true,
+  notificationsList: [],
+  isLoadingNotifications: false,
 };
 
 const notificationInboxReducer = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
-    case actionTypes.SET_INCOMING_NOTIFICATION: {
-      return {
-        ...state,
-        isNewIncomingNotification: action.payload,
-      };
+    case actionTypes.SET_IS_INCOMING_NOTIFICATION: {
+      return setIn(state, 'isIncomingNotification', action.payload);
     }
 
-    case actionTypes.SET_NOTIFICATION: {
-      return {
-        ...state,
-        notificationsList: [action.payload, ...state.notificationsList],
-      };
+    case actionTypes.SET_NOTIFICATIONS_LIST: {
+      return setIn(state, 'notificationsList', action.payload);
+    }
+
+    case actionTypes.SET_IS_LOADING_NOTIFICATIONS: {
+      return setIn(state, 'isLoadingNotifications', action.payload);
     }
 
     default:
