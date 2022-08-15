@@ -64,7 +64,7 @@ export const toggleMarkAllAsRead = (payload: any[]) => async (dispatch: any) => 
     const { data } = await axios.patch(URL, { alerts: payload });
 
     if (data) {
-      dispatch(fetchNotifications());
+      dispatch(setNotifications(data));
     }
   } catch (err) {
     console.error('Error updating notifications', err);
