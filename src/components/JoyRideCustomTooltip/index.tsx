@@ -1,7 +1,8 @@
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Image } from 'semantic-ui-react';
-
+import styles from './index.module.scss';
+import rightArrow from '../../assets/images/blueLongArrowRight.svg';
 interface Props {
   tooltipMessage: string;
 }
@@ -17,17 +18,6 @@ const JoyRideCustomTooltip = ({
   isLastStep,
 }: any) => (
   <div {...tooltipProps} className="react-joyride__tooltip" style={step?.styles?.tooltip}>
-    {console.log(
-      'step',
-      step,
-      '\n',
-      'backProps',
-      backProps,
-      '\n',
-      tooltipProps,
-      '\n primary pros',
-      primaryProps
-    )}
     <div style={step?.styles?.tooltipContainer}>
       {step.title && <div>{step.title}</div>}
 
@@ -35,12 +25,11 @@ const JoyRideCustomTooltip = ({
         <p>{step.content}</p>
         {step.image && <Image src={step.image} alt="tooltip Image" />}
         {step.link && (
-          <Link
-            to={{ pathname: `${step.link}` }}
-            target="_blank"
-            style={{ textDecoration: 'none' }}
-          >
-            <p>{step.linkText}</p>
+          <Link to={{ pathname: `${step.link}` }} target="_blank">
+            <div className={styles.linkBlock}>
+              <p className={styles.link}>{step.linkText}</p>
+              <Image src={rightArrow} width={25} height={10} />
+            </div>
           </Link>
         )}
       </div>
