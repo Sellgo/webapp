@@ -56,10 +56,10 @@ const NotificationInbox = (props: Props) => {
   });
 
   const observer = useRef(
-    new IntersectionObserver((entries) => {
+    new IntersectionObserver(entries => {
       const first = entries[0];
       if (first.isIntersecting) {
-        setPage((prev) => prev + 1);
+        setPage(prev => prev + 1);
       }
     })
   );
@@ -148,11 +148,11 @@ const NotificationInbox = (props: Props) => {
   }, [page]);
 
   const handleNotificationIconClick = () => {
-    setShowNotifications((prev) => !prev);
+    setShowNotifications(prev => !prev);
   };
 
   const handleShowOnlyUnread = () => {
-    setShowOnlyUnread((prev) => !prev);
+    setShowOnlyUnread(prev => !prev);
   };
 
   const handleMarkAllAsRead = () => {
