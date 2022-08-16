@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 /* Styles */
-import styles from './NotificationInbox.module.scss';
+import styles from './Message.module.scss';
 
 /* Actions */
 import { toggleMarkAsRead } from '../../actions/NotificationInbox';
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const truncate = (str: string, n: number) => {
-  return str.length > n ? str.slice(0, n - 1) + '...' : str;
+  return str?.length > n ? str.slice(0, n - 1) + '...' : str;
 };
 
 const getFormattedDate = (date: string) => {

@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Button, Icon, Checkbox, Dimmer, Loader } from 'semantic-ui-react';
 
 /* Components */
 import Message from './Message';
+
+/* Hooks */
+import useClickOutside from '../../hooks/useClickOutside';
 
 /* Styles */
 import styles from './NotificationInbox.module.scss';
@@ -16,7 +19,11 @@ import {
 } from '../../selectors/NotificationInbox';
 
 /* Actions */
-import { toggleIncomingNotification, toggleMarkAllAsRead } from '../../actions/NotificationInbox';
+import {
+  toggleIncomingNotification,
+  toggleMarkAllAsRead,
+  fetchNotifications,
+} from '../../actions/NotificationInbox';
 
 interface Props {
   notificationsList: any;
@@ -24,6 +31,7 @@ interface Props {
   isLoadingNotifications: boolean;
   toggleIncomingNotification: (payload: boolean) => void;
   toggleMarkAllAsRead: (payload: any[]) => void;
+  fetchNotifications: (payload: number) => void;
 }
 
 const NotificationInbox = (props: Props) => {
@@ -33,12 +41,30 @@ const NotificationInbox = (props: Props) => {
     isIncomingNotification,
     toggleIncomingNotification,
     toggleMarkAllAsRead,
+    fetchNotifications,
   } = props;
 
   const [showNotifications, setShowNotifications] = useState<boolean>(false);
   const [showOnlyUnread, setShowOnlyUnread] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [lastElement, setLastElement] = useState<any>(0);
 
-  const unreadNotifications = notificationsList?.filter(
+  const wrapperRef = useRef(null);
+
+  useClickOutside(wrapperRef, () => {
+    setShowNotifications(false);
+  });
+
+  const observer = useRef(
+    new IntersectionObserver((entries) => {
+      const first = entries[0];
+      if (first.isIntersecting) {
+        setPage((prev) => prev + 1);
+      }
+    })
+  );
+
+  const unreadNotifications = notificationsList?.results?.filter(
     (notification: any) => !notification.is_read
   );
 
@@ -48,11 +74,11 @@ const NotificationInbox = (props: Props) => {
   };
 
   const sortByDate = (notifications: any) => {
-    return notifications.sort((a: any, b: any) => Date.parse(b.cdate) - Date.parse(a.cdate));
+    return notifications?.sort((a: any, b: any) => Date.parse(b.cdate) - Date.parse(a.cdate));
   };
 
   const displayToday = (notifications: any) => {
-    const todayNotifications = notifications.filter(
+    const todayNotifications = notifications?.filter(
       (notification: any) =>
         new Date(notification.cdate).toDateString() === new Date().toDateString()
     );
@@ -61,7 +87,7 @@ const NotificationInbox = (props: Props) => {
   };
 
   const displayLatest = (notifications: any) => {
-    const latestNotifications = notifications.filter((notification: any) => {
+    const latestNotifications = notifications?.filter((notification: any) => {
       for (let i = 1; i < 8; i++) {
         const cdate = new Date(notification.cdate);
         const today = new Date();
@@ -77,7 +103,7 @@ const NotificationInbox = (props: Props) => {
   };
 
   const displayOlder = (notifications: any) => {
-    const olderNotifications = notifications.filter((notification: any) => {
+    const olderNotifications = notifications?.filter((notification: any) => {
       for (let i = 0; i < 8; i++) {
         const cdate = new Date(notification.cdate);
         const today = new Date();
@@ -93,12 +119,33 @@ const NotificationInbox = (props: Props) => {
   };
 
   useEffect(() => {
-    if (unreadNotifications.length) {
+    if (unreadNotifications?.length) {
       toggleIncomingNotification(true);
     } else {
       toggleIncomingNotification(false);
     }
-  }, [isIncomingNotification, notificationsList]);
+  }, [isIncomingNotification, notificationsList?.results]);
+
+  useEffect(() => {
+    const currentElement = lastElement;
+    const currentObserver = observer.current;
+
+    if (currentElement) {
+      currentObserver.observe(currentElement);
+    }
+
+    return () => {
+      if (currentElement) {
+        currentObserver.unobserve(currentElement);
+      }
+    };
+  }, [lastElement]);
+
+  useEffect(() => {
+    if (page <= notificationsList?.total_pages) {
+      fetchNotifications(page);
+    }
+  }, [page]);
 
   const handleNotificationIconClick = () => {
     setShowNotifications((prev) => !prev);
@@ -109,9 +156,9 @@ const NotificationInbox = (props: Props) => {
   };
 
   const handleMarkAllAsRead = () => {
-    if (!unreadNotifications.length) return;
+    if (!unreadNotifications?.length) return;
 
-    const payload = unreadNotifications.map((msg: any) => ({
+    const payload = unreadNotifications?.map((msg: any) => ({
       id: msg.id,
       is_read: true,
     }));
@@ -127,7 +174,7 @@ const NotificationInbox = (props: Props) => {
       </Button>
 
       {showNotifications ? (
-        <div className={styles.notificationContainer}>
+        <div ref={wrapperRef} className={styles.notificationContainer}>
           <Dimmer active={isLoadingNotifications} inverted>
             <Loader active />
           </Dimmer>
@@ -140,14 +187,14 @@ const NotificationInbox = (props: Props) => {
             </div>
           </div>
 
-          {displayToday(notificationsList).length ? (
+          {displayToday(notificationsList?.results)?.length ? (
             <div className={styles.latestContainer}>
               <div className={styles.latestHeader}>
                 <h6>TODAY</h6>
                 <button onClick={handleMarkAllAsRead}>Mark all as read</button>
               </div>
 
-              {displayToday(notificationsList).map((message: any) => (
+              {displayToday(notificationsList?.results).map((message: any) => (
                 <Message key={message.id} message={message} />
               ))}
             </div>
@@ -155,13 +202,16 @@ const NotificationInbox = (props: Props) => {
             ''
           )}
 
-          {displayLatest(notificationsList).length ? (
+          {displayLatest(notificationsList?.results)?.length ? (
             <div className={styles.latestContainer}>
               <div className={styles.latestHeader}>
                 <h6>LATEST</h6>
+                {!displayToday(notificationsList?.results)?.length && (
+                  <button onClick={handleMarkAllAsRead}>Mark all as read</button>
+                )}
               </div>
 
-              {displayLatest(notificationsList).map((message: any) => (
+              {displayLatest(notificationsList?.results).map((message: any) => (
                 <Message key={message.id} message={message} />
               ))}
             </div>
@@ -169,18 +219,25 @@ const NotificationInbox = (props: Props) => {
             ''
           )}
 
-          {displayOlder(notificationsList).length ? (
+          {displayOlder(notificationsList?.results)?.length ? (
             <div className={styles.latestContainer}>
               <div className={styles.latestHeader}>
                 <h6>OLDER</h6>
+                {!displayToday(notificationsList?.results)?.length &&
+                  !displayLatest(notificationsList?.results)?.length && (
+                    <button onClick={handleMarkAllAsRead}>Mark all as read</button>
+                  )}
               </div>
 
-              {displayOlder(notificationsList).map((message: any) => (
+              {displayOlder(notificationsList?.results).map((message: any) => (
                 <Message key={message.id} message={message} />
               ))}
             </div>
           ) : (
             ''
+          )}
+          {page <= notificationsList?.total_pages && (
+            <div style={{ height: '3em' }} ref={setLastElement} />
           )}
         </div>
       ) : (
@@ -202,6 +259,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     toggleIncomingNotification: (payload: boolean) => dispatch(toggleIncomingNotification(payload)),
     toggleMarkAllAsRead: (payload: any[]) => dispatch(toggleMarkAllAsRead(payload)),
+    fetchNotifications: (payload: number) => dispatch(fetchNotifications(payload)),
   };
 };
 
