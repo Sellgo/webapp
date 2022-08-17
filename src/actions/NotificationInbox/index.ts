@@ -26,7 +26,7 @@ export const toggleIncomingNotification = (payload: boolean) => ({
 
 export const fetchNotifications =
   (page: number = 1) =>
-  async (dispatch: any, _getState: any) => {
+  async (dispatch: any) => {
     try {
       const sellerId = sellerIDSelector();
       const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/alerts?page=${page}&per_page=15`;
