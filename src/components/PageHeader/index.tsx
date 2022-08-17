@@ -183,11 +183,9 @@ const PageHeader = (props: Props) => {
       </Helmet>
 
       <div
-        className={`page-header ${isNewProduct ? 'new-page-header' : ''} ${isAistockSubscription(
-          sellerSubscription.subscription_id
-        ) &&
-          !isMigrationSuccess(sellerSubscription) &&
-          'page-header__hide-breadcrumb'}`}
+        className={`page-header ${
+          isNewProduct ? 'new-page-header' : ''
+        } ${!shouldDisplayBreadcrumbs() && 'page-header__hide-breadcrumb'}`}
       >
         {shouldDisplayBreadcrumbs() && breadcrumb && breadcrumb.length > 0 && (
           <BreadCrumb sections={breadcrumb} />
