@@ -162,6 +162,17 @@ const PageHeader = (props: Props) => {
 
     return shouldDisplay;
   };
+  const shouldDisplayBreadcrumbs = () => {
+    if (isAistockSubscription(sellerSubscription.subscription_id)) {
+      if (isMigrationSuccess(sellerSubscription)) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  };
 
   return (
     <>
@@ -178,13 +189,9 @@ const PageHeader = (props: Props) => {
           !isMigrationSuccess(sellerSubscription) &&
           'page-header__hide-breadcrumb'}`}
       >
-        {isAistockSubscription(sellerSubscription.subscription_id) &&
-          isMigrationSuccess(sellerSubscription) &&
-          breadcrumb &&
-          breadcrumb.length > 0 && <BreadCrumb sections={breadcrumb} />}
-        {!isAistockSubscription(sellerSubscription.subscription_id) &&
-          breadcrumb &&
-          breadcrumb.length > 0 && <BreadCrumb sections={breadcrumb} />}
+        {shouldDisplayBreadcrumbs() && breadcrumb && breadcrumb.length > 0 && (
+          <BreadCrumb sections={breadcrumb} />
+        )}
         <div className="page-header__left">
           <Header as="h2">
             <Header.Content>
