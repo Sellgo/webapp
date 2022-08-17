@@ -8,6 +8,10 @@
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+
+  @media screen and (max-width: 480px) {
+    flex-direction: column;
+  }
 }
 
 .activationFormSection {
@@ -18,6 +22,11 @@
   align-items: flex-end;
   position: relative;
   margin-right: 5%;
+
+  @media screen and (max-width: 480px) {
+    margin-right: 0;
+    width: 100%;
+  }
 }
 
 .logo {
@@ -41,6 +50,14 @@
   border-radius: 20px;
   border: 1px solid $grey_3;
   box-shadow: 0 3px 6px 0 #2e3b4a29;
+
+  @media screen and (max-width: 480px) {
+    max-width: 350px;
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 1em;
+    padding: 1.5em;
+  }
 }
 
 .submitButton {
@@ -58,6 +75,11 @@
   &:disabled {
     opacity: 0.6;
   }
+
+  @media screen and (max-width: 480px) {
+    margin-right: 0;
+    margin-top: 0.8em;
+  }
 }
 
 .formHeader {
@@ -65,6 +87,11 @@
   font-weight: $fontweight_semibold;
   color: $prim_dark_2;
   margin-bottom: 30px;
+
+  @media screen and (max-width: 480px) {
+    text-align: right;
+    align-self: flex-start;
+  }
 }
 
 .formInput {
@@ -75,11 +102,17 @@
   margin: 15px 0;
   margin-right: 10px;
 
+  @media screen and (max-width: 480px) {
+    width: 100%;
+    margin: 0 auto;
+  }
+
   label {
     font-size: 16px;
     font-weight: 500;
     color: #3b4557;
     line-height: 20px;
+    margin-bottom: 0.5em;
   }
 
   input {
@@ -109,6 +142,11 @@
   color: $grey_8;
   font-size: 12px;
   font-weight: $fontweight_regular;
+
+  @media screen and (max-width: 480px) {
+    position: initial;
+    margin-top: 4em;
+  }
 
   button {
     background: none;

@@ -163,15 +163,15 @@ function CheckoutForm(props: MyProps) {
       setEmailError(true);
       return;
     } else if (!Name.validate(firstName)) {
-      handleError('First Name must all be letters.');
+      handleError('First Name must all be letters');
       setFnameError(true);
       return;
     } else if (!Name.validate(lastName)) {
-      handleError('Last Name must all be letters.');
+      handleError('Last Name must all be letters');
       setLnameError(true);
       return;
     } else if (password !== password2) {
-      handleError('Passwords do not match.');
+      handleError('Passwords do not match');
       return;
     }
 
@@ -182,11 +182,11 @@ function CheckoutForm(props: MyProps) {
       );
 
       if (verifyEmailStatus !== 200) {
-        handleError('This email is already being used.');
+        handleError('This email is already being used');
         return;
       }
     } catch (e) {
-      handleError('This email is already being used.');
+      handleError('This email is already being used');
       return;
     }
 
@@ -246,7 +246,7 @@ function CheckoutForm(props: MyProps) {
         if (response && response.data && response.data.message) {
           handleError(response.data.message);
         }
-        handleError('Failed to make payment.');
+        handleError('Failed to make payment');
         return;
       }
 

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Helmet from 'react-helmet';
 import { Route, Router, Switch } from 'react-router-dom';
+import Elevio from 'elevio/lib/react';
 import Axios from 'axios';
 import AdminLayout from '../../components/AdminLayout';
 import ScrollToTop from '../../components/ScrollToTop';
@@ -63,6 +64,7 @@ import AistockPricing from '../Settings/Pricing/AistockPricing';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import MainHomePage from '../MainHomePage';
+import FeatureRequest from '../FeatureRequest';
 
 /* Utils */
 import {
@@ -198,7 +200,7 @@ const PrivateRoute = connect(
         isSubscriptionIdFreeTrial(sellerSubscription.subscription_id) &&
         window.location.pathname !== '/settings/pricing'
       ) {
-        if (sellerSubscription.is_free_trial_expired) {
+        if (sellerSubscription.is_trial_expired) {
           history.push('/activation');
         }
       }
@@ -321,6 +323,23 @@ function App() {
   React.useEffect(() => {
     handleUpdateFaviconToAistock();
   }, []);
+
+  const url = window.location.pathname;
+
+  const loadElevio = () => {
+    if (
+      !isSellgoSession() &&
+      url !== '/' &&
+      !url.includes('/subscription') &&
+      !url.includes('/signup') &&
+      !url.includes('/reset-password')
+    ) {
+      return <Elevio accountId={AppConfig.ELEVIO_KEY} />;
+    } else {
+      return null;
+    }
+  };
+
   return (
     <div className="App__container">
       <Helmet>
@@ -328,6 +347,8 @@ function App() {
       </Helmet>
       <Router history={history}>
         <ScrollToTop />
+        {loadElevio()}
+
         <Switch>
           <Route
             exact={true}
@@ -384,6 +405,8 @@ function App() {
           />
 
           <Route exact={true} path="/activation" component={SubscriptionPages.UpsellCtaPage} />
+
+          <Route exact={true} path="/feature-request" component={FeatureRequest} />
 
           <Route
             exact={true}

@@ -34,6 +34,7 @@ import { useInput } from '../../../hooks/useInput';
 import { success } from '../../../utils/notifications';
 import { AppConfig } from '../../../config';
 import ProfileBoxFooter from '../../../components/BoxFooter';
+import GetStarted from '../../PerfectStock/GetStarted';
 
 interface Props {
   getSeller: () => void;
@@ -274,6 +275,7 @@ const Profile = (props: Props) => {
             </div>
           </ProfileBoxFooter>
         </div>
+        <GetStarted />
       </main>
     </>
   );

@@ -331,7 +331,7 @@ export const redeemCoupon = (coupon: any, id: any) => (dispatch: any) => {
 
   if (coupon) bodyFormData.append('coupon', coupon);
   else {
-    error('Coupon field is empty.');
+    error('Coupon field is empty');
     return;
   }
 

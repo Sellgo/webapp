@@ -1,0 +1,38 @@
+@import '../../../design-system/new-colors.scss';
+
+.mainOption {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  white-space: nowrap;
+  height: 50px;
+  position: relative;
+
+  .navLabel {
+    margin-left: 18px;
+    font-size: 14px;
+    color: $prim_white;
+    font-weight: normal;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background: $blue_8;
+  }
+}
+
+/* Icons */
+.navIcon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 15px;
+
+  img {
+    width: 25px;
+    height: 25px;
+  }
+}

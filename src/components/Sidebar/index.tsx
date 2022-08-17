@@ -13,14 +13,17 @@ import { getSellerSubscription } from '../../selectors/Subscription';
 import SidebarDropdown from './SidebarDropdown';
 
 /* Constants */
-import { getActiveIndex, OPTIONS } from '../../constants/AdminLayout';
+import { getActiveIndex, OPTIONS, BOTTOM_OPTIONS } from '../../constants/AdminLayout';
 
 /* Utils */
-import { isAistockSubscription } from '../../utils/subscriptions';
+import { isAistockSubscription, isMigrationSuccess } from '../../utils/subscriptions';
+import { AppConfig } from '../../config';
 
 /* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
-import { NavOptions, NavbarBarOption } from '../../interfaces/Admin';
+import { NavOptions, NavbarBarOption, NavbarBarBottomOption } from '../../interfaces/Admin';
+import SidebarBottomButtons from './SidebarBottomButtons';
+import { setShowGetStarted } from '../../actions/UserOnboarding';
 
 /* ---------- CSS Logic for the Nav Bar ---------- */
 /* eslint-disable-next-line max-len */
@@ -30,10 +33,11 @@ import { NavOptions, NavbarBarOption } from '../../interfaces/Admin';
 interface Props {
   sellerSubscription: SellerSubscription;
   match: any;
+  setShowGetStarted: (status: boolean) => void;
 }
 
 const Sidebar = (props: Props) => {
-  const { sellerSubscription, match } = props;
+  const { sellerSubscription, match, setShowGetStarted } = props;
 
   const [navOptions, setNavOptions] = React.useState<NavOptions>(OPTIONS);
   const [currentPath, setCurrentPath] = React.useState<string>(match.url);
@@ -151,28 +155,63 @@ const Sidebar = (props: Props) => {
     setExpandedIndex(newIndex);
   };
 
+  const handleNavBottomOptionClick = (key: string) => {
+    switch (key) {
+      case 'getStarted':
+        setShowGetStarted(true);
+        break;
+
+      case 'featureRequest':
+        window.open(`${AppConfig.BASE_URL}/feature-request`, '_blank', 'noopener,noreferrer');
+        break;
+
+      default:
+        break;
+    }
+  };
+
   return (
-    <div className={styles.navbarWrapper}>
+    <div
+      className={`${styles.navbarWrapper} ${!isMigrationSuccess(sellerSubscription) &&
+        styles.hideNavbar}`}
+    >
       <Accordion
         className={styles.navBar}
         /* Reset expanded index to active page when resetting menu */
         onMouseEnter={() => setExpandedIndex(activePageIndex)}
       >
-        {navOptions.map((option: NavbarBarOption, index: number) => {
-          return (
-            <SidebarDropdown
-              key={index}
-              currentPath={currentPath}
-              setCurrentPath={setCurrentPath}
-              option={option}
-              optionIndex={index}
-              expandedIndex={expandedIndex}
-              setExpandedIndex={handleSetExpandedIndex}
-              mainOptionClassName={styles.mainNavOption}
-              subOptionClassName={styles.subNavOptions}
-            />
-          );
-        })}
+        <div>
+          {navOptions.map((option: NavbarBarOption, index: number) => {
+            return (
+              <SidebarDropdown
+                key={index}
+                currentPath={currentPath}
+                setCurrentPath={setCurrentPath}
+                option={option}
+                optionIndex={index}
+                expandedIndex={expandedIndex}
+                setExpandedIndex={handleSetExpandedIndex}
+                mainOptionClassName={styles.mainNavOption}
+                subOptionClassName={styles.subNavOptions}
+              />
+            );
+          })}
+        </div>
+
+        <div>
+          {BOTTOM_OPTIONS.map((option: NavbarBarBottomOption, index: number) => {
+            return option?.disabled ? null : (
+              <SidebarBottomButtons
+                key={index}
+                option={option}
+                mainOptionClassName={styles.mainNavOption}
+                handleClick={(key: string) => {
+                  handleNavBottomOptionClick(key);
+                }}
+              />
+            );
+          })}
+        </div>
       </Accordion>
     </div>
   );
@@ -182,4 +221,10 @@ const mapStateToProps = (state: any) => ({
   sellerSubscription: getSellerSubscription(state),
 });
 
-export default connect(mapStateToProps)(Sidebar);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setShowGetStarted: (state: boolean) => dispatch(setShowGetStarted(state)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

@@ -33,6 +33,7 @@ import {
   DEFAULT_QUOTA_COLLECTION,
   DEFAULT_STRIPE_SUBSCRIPTION_INFO,
 } from '../../../constants/Settings/billing';
+import GetStarted from '../../PerfectStock/GetStarted';
 
 interface Props {
   fetchSellerSubscription: () => void;
@@ -183,6 +184,7 @@ const Billing = (props: Props) => {
             fetchTransactionHistoryAll={fetchTransactionHistoryAll}
           />
         </div>
+        <GetStarted />
       </main>
     </>
   );

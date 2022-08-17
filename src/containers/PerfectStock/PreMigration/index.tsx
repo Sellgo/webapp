@@ -35,7 +35,7 @@ const PreMigration = (props: Props) => {
       }sellers/${sellerIDSelector()}/perfect-stock/run-init-migration`;
       /* Set IS_MOCK to true to run migration in mock mode if in dev */
       const payload = {
-        is_mock: process.env.REACT_APP_ENV === 'production' ? false : true,
+        is_mock: false,
       };
       const { status } = await axios.post(url, payload);
 

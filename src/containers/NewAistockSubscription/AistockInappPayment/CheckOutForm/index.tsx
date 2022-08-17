@@ -54,6 +54,7 @@ import { PromoCode } from '../../../../interfaces/Subscription';
 /* Utils */
 import { generatePromoCodeMessage } from '../../../../utils/subscriptions';
 import ActionButton from '../../../../components/ActionButton';
+import { trackEvent } from '../../../../utils/analyticsTracking';
 
 /* Data */
 
@@ -170,8 +171,8 @@ function CheckoutForm(props: MyProps) {
     );
   };
 
-  /* Upon successful checking of the entered promo code, either a valid redeemedPromoCode code 
-  is returned, or an error message is returned. Upon completion of promo code check, set status 
+  /* Upon successful checking of the entered promo code, either a valid redeemedPromoCode code
+  is returned, or an error message is returned. Upon completion of promo code check, set status
   to checked and display success/error msg. */
   React.useEffect(() => {
     if (
@@ -261,6 +262,32 @@ function CheckoutForm(props: MyProps) {
         Axios.defaults.headers.common.Authorization = ``;
         createSubscriptionData(data);
       }
+
+      /* Tracking for google analytics upon successful payment */
+      trackEvent({
+        event: 'purchase',
+        ecommerce: {
+          transaction_id: '',
+          affiliation: 'Stripe',
+          revenue: isMonthly
+            ? SELLER_TYPE_PER_UNITS_SOLD[unitsSold].monthlyPrice
+            : SELLER_TYPE_PER_UNITS_SOLD[unitsSold].annualPrice,
+          tax: 0,
+          shipping: 0,
+          items: [
+            {
+              name: 'aistock',
+              id: SELLER_TYPE_PER_UNITS_SOLD[unitsSold].id,
+              price: isMonthly
+                ? SELLER_TYPE_PER_UNITS_SOLD[unitsSold].monthlyPrice
+                : SELLER_TYPE_PER_UNITS_SOLD[unitsSold].annualPrice,
+              brand: 'Stripe',
+              category: 'Subscription',
+              quantity: 1,
+            },
+          ],
+        },
+      });
     }
   };
   return (

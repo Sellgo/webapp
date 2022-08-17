@@ -15,6 +15,10 @@
   padding-right: 45px !important;
   padding-left: 80px !important;
 
+  &__hide-breadcrumb {
+    justify-content: flex-end !important;
+  }
+
   &__left {
     display: flex;
     justify-content: space-evenly;
@@ -112,11 +116,11 @@
 
 .surveyButton {
   position: fixed;
-  font-size: 14px !important;
-  width: 200px;
-  height: 50px !important;
-  bottom: 50px;
-  right: 50px;
+  font-size: 12px !important;
+  width: 160px;
+  height: 40px !important;
+  bottom: 20px;
+  right: 190px;
   z-index: 99;
 
   svg {

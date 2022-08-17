@@ -39,14 +39,24 @@
   padding: 0 !important;
   margin: 0 !important;
   box-shadow: none !important;
+  overflow: auto !important;
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
 }
 
 .optionsWrapper {
+  overflow: auto !important;
   border: 1px solid $grey_3;
   font-size: 12px;
   max-height: 250px;
   z-index: 999;
   width: 100%;
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
 
   .option {
     color: $grey_8;

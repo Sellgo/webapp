@@ -4,6 +4,10 @@
   margin: 40px auto;
   width: max-content;
 
+  @media screen and (max-width: 480px) {
+    width: auto;
+  }
+
   h2 {
     color: #3b4557;
     font-weight: $fontweight_semibold;

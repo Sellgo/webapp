@@ -92,7 +92,7 @@ export const fetchTplVendors = () => async (dispatch: any, getState: any) => {
     }
   } catch (err) {
     dispatch(setTplVendors([]));
-    console.error('Error fetching Tpl', err);
+    console.error('Error fetching 3pl', err);
   }
   dispatch(isLoadingTplVendors(false));
 };
@@ -141,7 +141,7 @@ export const fetchTplSkuData = () => async (dispatch: any, getState: any) => {
     }
   } catch (err) {
     dispatch(setTplSkuData([]));
-    console.error('Error fetching Tpl Sku Information', err);
+    console.error('Error fetching 3pl SKU Information', err);
   }
   dispatch(isLoadingTplSkuData(false));
 };
@@ -173,13 +173,13 @@ export const updateTplSkuData = (payload: UpdateTplSkuPayload) => async (
     const { status, data } = await axios.patch(URL, payload);
     if (status === 200) {
       dispatch(setSingleTplSku(data));
-      success('Successfully updated.');
+      success('Successfully updated');
     } else {
       dispatch(setTplSkuData(oldTplSkuData));
-      error('Failed to update.');
+      error('Failed to update');
     }
   } catch (err) {
     dispatch(setTplSkuData([]));
-    console.error('Error fetching Tpl Sku Information', err);
+    console.error('Error fetching 3pl SKU Information', err);
   }
 };
