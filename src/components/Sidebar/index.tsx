@@ -172,7 +172,10 @@ const Sidebar = (props: Props) => {
 
   return (
     <div
-      className={`${styles.navbarWrapper} ${!isMigrationSuccess(sellerSubscription) &&
+      className={`${styles.navbarWrapper} ${isAistockSubscription(
+        sellerSubscription.subscription_id
+      ) &&
+        !isMigrationSuccess(sellerSubscription) &&
         styles.hideNavbar}`}
     >
       <Accordion
