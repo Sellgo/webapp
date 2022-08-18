@@ -8,7 +8,7 @@ const UpvotyWidget = () => {
       upvoty.destroy();
     };
   }, []);
-  return <div data-upvoty style={{ height: '1000px'}} />;
+  return <div data-upvoty style={{ height: '1000px' }} />;
 };
 
 export default UpvotyWidget;
