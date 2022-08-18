@@ -23,7 +23,11 @@ import { getSellerSubscription } from '../../selectors/Subscription';
 import { NEW_PRODUCT_DESIGN_PATH_NAMES } from '../../constants/AdminLayout';
 
 /* Utils */
-import { isMigrationSuccess, isSubscriptionIdFreeTrial } from '../../utils/subscriptions';
+import {
+  isAistockSubscription,
+  isMigrationSuccess,
+  isSubscriptionIdFreeTrial,
+} from '../../utils/subscriptions';
 
 /* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
@@ -158,6 +162,17 @@ const PageHeader = (props: Props) => {
 
     return shouldDisplay;
   };
+  const shouldDisplayBreadcrumbs = () => {
+    if (isAistockSubscription(sellerSubscription.subscription_id)) {
+      if (isMigrationSuccess(sellerSubscription)) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  };
 
   return (
     <>
@@ -168,11 +183,11 @@ const PageHeader = (props: Props) => {
       </Helmet>
 
       <div
-        className={`page-header ${isNewProduct ? 'new-page-header' : ''} ${!isMigrationSuccess(
-          sellerSubscription
-        ) && 'page-header__hide-breadcrumb'}`}
+        className={`page-header ${
+          isNewProduct ? 'new-page-header' : ''
+        } ${!shouldDisplayBreadcrumbs() && 'page-header__hide-breadcrumb'}`}
       >
-        {isMigrationSuccess(sellerSubscription) && breadcrumb && breadcrumb.length > 0 && (
+        {shouldDisplayBreadcrumbs() && breadcrumb && breadcrumb.length > 0 && (
           <BreadCrumb sections={breadcrumb} />
         )}
         <div className="page-header__left">
