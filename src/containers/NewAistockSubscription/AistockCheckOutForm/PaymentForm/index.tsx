@@ -350,6 +350,7 @@ function CheckoutForm(props: MyProps) {
                   revenue: stripeSubscription.plan.amount / 100,
                   tax: 0,
                   shipping: 0,
+                  currency: 'USD',
                   items: [
                     {
                       name: accountType,

@@ -274,6 +274,7 @@ function CheckoutForm(props: MyProps) {
             : SELLER_TYPE_PER_UNITS_SOLD[unitsSold].annualPrice,
           tax: 0,
           shipping: 0,
+          currency: 'USD',
           items: [
             {
               name: 'aistock',
