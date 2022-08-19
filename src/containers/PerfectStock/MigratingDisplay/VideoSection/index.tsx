@@ -15,10 +15,10 @@ const VideoSection = (props: Props) => {
         <div className={styles.borderWrapper}>
           <div className={styles.youtubeEmbedContainer}>
             <iframe
-              title="Aistock Demo Video"
+              title="Aistock get started"
               width="860"
               height="500"
-              src={'https://www.youtube.com/embed/QmRUTeP6J-I'}
+              src={'https://youtu.be/nzauq0GWoFk'}
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write;
                   encrypted-media; gyroscope; picture-in-picture"
@@ -34,7 +34,7 @@ const VideoSection = (props: Props) => {
           onClick={() => props.setIsModalOpen(false)}
           className={styles.button}
         >
-          Stop greeting
+          Skip video
         </ActionButton>
       </section>
     </div>
