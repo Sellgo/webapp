@@ -15,10 +15,10 @@ const VideoSection = (props: Props) => {
         <div className={styles.borderWrapper}>
           <div className={styles.youtubeEmbedContainer}>
             <iframe
-              title="Aistock get started"
+              title="Aistock Demo Video"
               width="860"
               height="500"
-              src={'https://youtu.be/nzauq0GWoFk'}
+              src={'https://www.youtube.com/embed/nzauq0GWoFk'}
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write;
                   encrypted-media; gyroscope; picture-in-picture"
