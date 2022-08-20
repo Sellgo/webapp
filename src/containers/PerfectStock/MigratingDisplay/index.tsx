@@ -32,6 +32,7 @@ interface Props {
 const MigratingDisplay = (props: Props) => {
   const { subscription, fetchSellerSubscription } = props;
   const [eta, setEta] = React.useState<number>(-1);
+  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(true);
 
   const fetchMigrationProgress = async () => {
     try {
@@ -64,9 +65,9 @@ const MigratingDisplay = (props: Props) => {
   }, []);
   return (
     <>
+      {isModalOpen ? <VideoSection setIsModalOpen={setIsModalOpen} /> : null}
       <main className={styles.pilotLoginPageWrapper}>
         <AccountConnectionSection eta={eta} />
-        <VideoSection />
       </main>
     </>
   );
