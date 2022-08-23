@@ -31,6 +31,7 @@ import ProductResearch from '../ProductResearch';
 import KeywordResearch from '../KeywordResearch';
 import PerfectStock from '../PerfectStock';
 import LeadTime from '../Settings/PerfectStockSettings/LeadTime';
+import RestockLimit from '../Settings/PerfectStockSettings/RestockLimit';
 import DaysOfInventory from '../Settings/PerfectStockSettings/DaysOfInventory';
 import SkuSettings from '../Settings/PerfectStockSettings/SkuSettings';
 import Containers from '../Settings/PerfectStockSettings/Containers';
@@ -388,6 +389,11 @@ function App() {
           <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} />
           <PrivateRoute exact={true} path="/settings/profile" component={Profile} />
           <PrivateRoute exact={true} path="/settings/aistock/lead-time" component={LeadTime} />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/fba-restock-limit"
+            component={RestockLimit}
+          />
           <PrivateRoute
             exact={true}
             path="/settings/aistock/days-of-inventory-settings"

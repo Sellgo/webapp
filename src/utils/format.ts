@@ -18,13 +18,7 @@ export const formatDecimal = (num: any) => {
   }
 
   return (
-    parseFloat(num)
-      .toLocaleString()
-      .split('.')[0] +
-    '.' +
-    Number(num)
-      .toFixed(2)
-      .split('.')[1]
+    parseFloat(num).toLocaleString().split('.')[0] + '.' + Number(num).toFixed(2).split('.')[1]
   );
 };
 
@@ -62,7 +56,7 @@ export const truncateIntoTwoLines = (text: string, lineLength: number, maxLength
   let wentToNextLine = false;
   let line1 = '';
   let line2 = '';
-  sentence.map(word => {
+  sentence.map((word) => {
     if (line1.length + word.length <= lineLength && !wentToNextLine && !exceededMaxLength) {
       line1 += `${word} `;
     } else if (
@@ -294,8 +288,11 @@ export const isThousandSeperated = (value: string) => {
 
 /* Print date in MM/DD/YY, year in 2digits */
 export const printShortDate = (date: Date) => {
-  return `${date.getMonth() + 1}/${date.getDate() + 1}/${date
-    .getFullYear()
-    .toString()
-    .substr(2)}`;
+  return `${date.getMonth() + 1}/${date.getDate() + 1}/${date.getFullYear().toString().substr(2)}`;
+};
+
+export const numberWithCommas = (x: number | string) => {
+  if (!x) return 0;
+
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };

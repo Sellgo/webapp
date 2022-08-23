@@ -255,6 +255,14 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
+    name: '3PL Manager: FBA Restock Limit',
+    disabled: false,
+    url: '/settings/aistock/fba-restock-limit',
+    showInSellgo: false,
+    showInAistock: true,
+    subPages: [],
+  },
+  {
     name: 'Cash Flow: Employee Expenses',
     disabled: false,
     url: '/settings/aistock/employee-expenses-settings',
