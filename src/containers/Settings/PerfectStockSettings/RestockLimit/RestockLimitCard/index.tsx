@@ -83,9 +83,8 @@ const RestockLimitCard = (props: Props) => {
       <div className={styles.utilQuantity}>
         <div>Maximum Inventory Level</div>
         <input
-          className={`${styles.value} ${styles.restockThreshold} ${
-            restockLimit?.past_due && styles.pastDueInput
-          }`}
+          className={`${styles.value} ${styles.restockThreshold} ${restockLimit?.past_due &&
+            styles.pastDueInput}`}
           value={restockThreshold}
           onChange={handleChange}
         />

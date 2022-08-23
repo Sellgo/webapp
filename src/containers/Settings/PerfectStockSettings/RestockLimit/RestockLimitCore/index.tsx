@@ -78,7 +78,7 @@ const RestockLimitCore = () => {
 
       <div className={styles.restockLimits}>
         {restockLimits?.length
-          ? restockLimits.map((restockLimit) => (
+          ? restockLimits.map(restockLimit => (
               <RestockLimitCard
                 key={restockLimit.id}
                 restockLimit={restockLimit}
