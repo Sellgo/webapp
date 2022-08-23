@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 /* Styling */
@@ -32,7 +32,17 @@ interface Props {
 const MigratingDisplay = (props: Props) => {
   const { subscription, fetchSellerSubscription } = props;
   const [eta, setEta] = React.useState<number>(-1);
-  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(true);
+  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+
+  useEffect(() => {
+    const skippedVideo = window.localStorage.getItem('skippedGreetingVideo');
+
+    if (skippedVideo) {
+      setIsModalOpen(false);
+    } else {
+      setIsModalOpen(true);
+    }
+  }, []);
 
   const fetchMigrationProgress = async () => {
     try {
@@ -63,13 +73,12 @@ const MigratingDisplay = (props: Props) => {
       }, 2000);
     }
   }, []);
-  return (
-    <>
-      {isModalOpen ? <VideoSection setIsModalOpen={setIsModalOpen} /> : null}
-      <main className={styles.pilotLoginPageWrapper}>
-        <AccountConnectionSection eta={eta} />
-      </main>
-    </>
+  return isModalOpen ? (
+    <VideoSection setIsModalOpen={setIsModalOpen} />
+  ) : (
+    <main className={styles.pilotLoginPageWrapper}>
+      <AccountConnectionSection eta={eta} />
+    </main>
   );
 };
 

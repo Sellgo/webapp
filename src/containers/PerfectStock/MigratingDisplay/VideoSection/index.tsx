@@ -31,7 +31,10 @@ const VideoSection = (props: Props) => {
           type="grey"
           variant="primary"
           size="md"
-          onClick={() => props.setIsModalOpen(false)}
+          onClick={() => {
+            props.setIsModalOpen(false);
+            window.localStorage.setItem('skippedGreetingVideo', 'true');
+          }}
           className={styles.button}
         >
           Skip video
