@@ -129,7 +129,8 @@ const SalesForecastingWeightsCore = (props: Props) => {
   }, [salesProjectionResult]);
 
   React.useEffect(() => {
-    if (id >= 0) {
+    console.log('132');
+    if (id >= 0 && !isLoadingSalesProjection) {
       const chartMount = document.getElementById(`pie-graph-${id}`);
       if (chartMount) {
         Highcharts.chart({
@@ -201,7 +202,7 @@ const SalesForecastingWeightsCore = (props: Props) => {
         });
       }
     }
-  }, [id, weightedAverageSettings]);
+  }, [id, weightedAverageSettings, isLoadingSalesProjection]);
 
   return (
     <>

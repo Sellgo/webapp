@@ -2,7 +2,7 @@
 import React, { memo, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Highcharts from 'highcharts';
-
+import history from '../../history';
 /* Styling */
 import styles from './index.module.scss';
 
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const GraphDisplayButton = (props: Props) => {
-  const { handleClick, disabled, id, salesProjectionResult } = props;
+  const { disabled, id, salesProjectionResult } = props;
 
   const salesProjection = salesProjectionResult.find(result => result.id === id);
 
@@ -92,7 +92,13 @@ const GraphDisplayButton = (props: Props) => {
   }, [salesProjectionResult]);
 
   return (
-    <button className={styles.graphDisplayButton} onClick={handleClick} disabled={disabled}>
+    <button
+      className={styles.graphDisplayButton}
+      onClick={() => {
+        history.push('/settings/aistock/seasonality-adjustor');
+      }}
+      disabled={disabled}
+    >
       <div id={`graph-display-${id}`} className={styles.miniHighchart} />
     </button>
   );
