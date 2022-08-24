@@ -230,14 +230,14 @@ export const SETTINGS_PAGES = [
     showInAistock: true,
     subPages: [],
   },
-  {
-    name: 'Sales Forecasting: Stockout Sales Threshold',
-    disabled: false,
-    url: '/settings/aistock/stockout-threshold',
-    showInSellgo: false,
-    showInAistock: true,
-    subPages: [],
-  },
+  // {
+  //   name: 'Sales Forecasting: Stockout Sales Threshold',
+  //   disabled: false,
+  //   url: '/settings/aistock/stockout-threshold',
+  //   showInSellgo: false,
+  //   showInAistock: true,
+  //   subPages: [],
+  // },
   {
     name: 'Sales Forecasting: Weighted Average Sales',
     disabled: false,

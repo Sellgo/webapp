@@ -42,7 +42,7 @@ import MiscExpenses from '../Settings/PerfectStockSettings/MiscExpenses';
 import PpcExpenses from '../Settings/PerfectStockSettings/PpcExpenses';
 import CashFlowReconcile from '../Settings/PerfectStockSettings/CashFlowReconcile';
 import SalesForecastingAdjustor from '../Settings/PerfectStockSettings/SalesForecastingAdjustor';
-import SalesForcastingInventoryHistory from '../Settings/PerfectStockSettings/SalesForcastingInventoryHistory';
+// import SalesForcastingInventoryHistory from '../Settings/PerfectStockSettings/SalesForcastingInventoryHistory';
 import SalesForecastingWeights from '../Settings/PerfectStockSettings/SalesForecastingWeights';
 
 import SellgoNewSubscription from '../NewSellgoSubscription';
@@ -396,11 +396,11 @@ function App() {
             path="/settings/aistock/seasonality-adjustor"
             component={SalesForecastingAdjustor}
           />
-          <PrivateRoute
+          {/* <PrivateRoute
             exact={true}
             path="/settings/aistock/stockout-threshold"
             component={SalesForcastingInventoryHistory}
-          />
+          /> */}
           <PrivateRoute
             exact={true}
             path="/settings/aistock/weighted-average-sales"
