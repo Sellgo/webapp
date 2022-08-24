@@ -52,6 +52,7 @@ const SettingsNav = (props: Props) => {
               <div
                 className={`${styles.settingWrapper} ${isMigrationRunning &&
                   !isLeadTime &&
+                  !isSellgoSession() &&
                   styles.disabled}`}
                 key={page.url}
               >
