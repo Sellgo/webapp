@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Table } from 'rsuite';
 import { connect } from 'react-redux';
 import Highcharts from 'highcharts';
-
+import history from '../../../../../history';
 /* Styling */
 import styles from './index.module.scss';
 
@@ -22,7 +22,7 @@ interface Props extends RowCell {
 }
 
 const WeightedAverage = (props: Props) => {
-  const { updateSalesProjectionProduct, onChange, ...otherProps } = props;
+  const { updateSalesProjectionProduct, ...otherProps } = props;
   const { rowData } = otherProps;
   const defaultWeightActivated =
     rowData.weighted_average_included === true || rowData.weighted_average_included === 'true';
@@ -125,7 +125,7 @@ const WeightedAverage = (props: Props) => {
           className={`${styles.pieChart} ${
             defaultWeightActivated ? '' : styles.pieChart__disabled
           }`}
-          onClick={() => onChange(rowData)}
+          onClick={() => history.push('/settings/aistock/weighted-average-sales')}
         />
       </div>
     </Table.Cell>

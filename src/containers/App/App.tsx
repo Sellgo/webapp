@@ -41,6 +41,9 @@ import LaunchExpenses from '../Settings/PerfectStockSettings/LaunchExpenses';
 import MiscExpenses from '../Settings/PerfectStockSettings/MiscExpenses';
 import PpcExpenses from '../Settings/PerfectStockSettings/PpcExpenses';
 import CashFlowReconcile from '../Settings/PerfectStockSettings/CashFlowReconcile';
+import SalesForecastingAdjustor from '../Settings/PerfectStockSettings/SalesForecastingAdjustor';
+// import SalesForcastingInventoryHistory from '../Settings/PerfectStockSettings/SalesForcastingInventoryHistory';
+import SalesForecastingWeights from '../Settings/PerfectStockSettings/SalesForecastingWeights';
 
 import SellgoNewSubscription from '../NewSellgoSubscription';
 import SellgoPaymentSuccess from '../NewSellgoSubscription/SellgoPaymentSuccess';
@@ -388,6 +391,21 @@ function App() {
           <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} />
           <PrivateRoute exact={true} path="/settings/profile" component={Profile} />
           <PrivateRoute exact={true} path="/settings/aistock/lead-time" component={LeadTime} />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/seasonality-adjustor"
+            component={SalesForecastingAdjustor}
+          />
+          {/* <PrivateRoute
+            exact={true}
+            path="/settings/aistock/stockout-threshold"
+            component={SalesForcastingInventoryHistory}
+          /> */}
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/weighted-average-sales"
+            component={SalesForecastingWeights}
+          />
           <PrivateRoute
             exact={true}
             path="/settings/aistock/days-of-inventory-settings"
