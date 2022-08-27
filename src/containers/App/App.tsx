@@ -14,6 +14,8 @@ import NotFound from '../../components/NotFound';
 import history from '../../history';
 import { connect } from 'react-redux';
 import { fetchSellerSubscription, fetchSubscriptions } from '../../actions/Settings/Subscription';
+import { fetchNotifications } from '../../actions/NotificationInbox';
+import { getSellerQuota } from '../../actions/Settings';
 import '../../analytics';
 import ResetPassword from '../ResetPassword';
 import Onboarding from '../Onboarding';
@@ -76,7 +78,6 @@ import {
   isSubscriptionIdFreeTrial,
 } from '../../utils/subscriptions';
 import { isAiStockSession, isSellgoSession } from '../../utils/session';
-import { getSellerQuota } from '../../actions/Settings';
 import { AppConfig } from '../../config';
 
 export const auth = new Auth();
@@ -138,6 +139,7 @@ const PrivateRoute = connect(
     fetchSellerSubscription: () => fetchSellerSubscription(),
     fetchSubscriptions: () => fetchSubscriptions(),
     getSellerQuota: () => getSellerQuota(),
+    fetchNotifications: () => fetchNotifications(),
   }
 )(
   ({
@@ -147,6 +149,7 @@ const PrivateRoute = connect(
     sellerQuota,
     fetchSellerSubscription,
     fetchSubscriptions,
+    fetchNotifications,
     getSellerQuota,
     location,
     ...rest
@@ -223,6 +226,51 @@ const PrivateRoute = connect(
       requireSubscription,
       location,
     ]);
+
+    const [notificationSocket, setNotificationSocket] = React.useState<WebSocket | null>(null);
+
+    const sellerId = localStorage.getItem('userId') || '';
+    const idToken = localStorage.getItem('idToken') || '';
+
+    useEffect(() => {
+      if (!userIsAuthenticated || !isAiStockSession()) {
+        return;
+      }
+
+      fetchNotifications();
+
+      const WS_URL = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/perfect-stock/push?token=${idToken}`;
+      const socketConnection = new WebSocket(WS_URL);
+      socketConnection.onopen = () => {
+        setNotificationSocket(socketConnection);
+      };
+
+      return () => {
+        if (notificationSocket) {
+          notificationSocket.close();
+        }
+      };
+    }, [userIsAuthenticated]);
+
+    useEffect(() => {
+      // execute only if the export socket exists
+      if (notificationSocket) {
+        // if notificationSocket is open and not in connecting state
+        if (notificationSocket.OPEN && !notificationSocket.CONNECTING) {
+          // when incoming message is present from server
+          notificationSocket.onmessage = async () => {
+            fetchNotifications();
+          };
+
+          notificationSocket.send(JSON.stringify({ message: 'Trying to connect' }));
+
+          // when notificationSocket connection is closed
+          notificationSocket.onclose = () => {
+            console.log('Find or refresh socket closed');
+          };
+        }
+      }
+    }, [notificationSocket]);
 
     // Render nothing. Redirect will be handled in above effect.
     if (!userIsAuthenticated) {

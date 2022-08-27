@@ -99,7 +99,7 @@ export const fetchSellerSubscription = () => (dispatch: any) => {
       }
     })
     .catch(err => {
-      if (err.response.status === 403) {
+      if (err?.response?.status === 403) {
         auth.logout();
       }
     });
