@@ -36,7 +36,7 @@ const Message = (props: Props) => {
     >
       <div className={styles.picture}>
         {message?.image_url ? (
-          <img src={message.image_url} alt={message?.webapp_message} />
+          <img src={message.image_url} alt={message?.message} />
         ) : (
           <div className={styles.imagePlaceholder} />
         )}
@@ -44,7 +44,7 @@ const Message = (props: Props) => {
 
       <div className={styles.message}>
         <p className={styles.messageText}>
-          {truncate(message?.webapp_message, 90)}
+          {truncate(message?.message, 90)}
           <span className={styles.date}>{getFormattedDate(message?.cdate)}</span>
         </p>
 

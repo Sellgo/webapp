@@ -259,7 +259,7 @@ const PrivateRoute = connect(
             fetchNotifications();
           };
 
-          notificationSocket.send(JSON.stringify({ msg: 'notificationSocket connecting...' }));
+          notificationSocket.send(JSON.stringify({ message: 'Trying to connect' }));
 
           // when notificationSocket connection is closed
           notificationSocket.onclose = () => {
