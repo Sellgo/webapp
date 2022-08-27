@@ -1,7 +1,7 @@
 type IOption = {
-  key: string;
+  key: string | number | null;
   text: string;
-  value: string | number;
+  value: string | number | null;
 };
 
 export interface NumberOptions {
@@ -13,7 +13,7 @@ export interface NumberOptions {
 export interface Column {
   title: string;
   dataKey: string;
-  type: 'text' | 'number' | 'selection' | 'date';
+  type: 'text' | 'number' | 'selection' | 'date' | 'checkbox' | 'toggle';
   prepend?: string;
   append?: string;
   options?: IOption[];
