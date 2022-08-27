@@ -28,6 +28,7 @@ const DaysOfInventoryCore = () => {
 
       if (status === 200) {
         setDaysOfInventory(data.expected_sales_days_count || '');
+        setIsRoundUp(data.round_up_to_nearest_carton);
       }
     } catch (err) {
       setDaysOfInventory('');
@@ -39,6 +40,10 @@ const DaysOfInventoryCore = () => {
   const handleSave = async () => {
     if (!daysOfInventory) {
       error('Please enter a valid days of inventory');
+      return;
+    }
+    if (Number(daysOfInventory) < 30) {
+      error('Valid days of inventory must be greater than 30');
       return;
     }
 
@@ -77,6 +82,7 @@ const DaysOfInventoryCore = () => {
             isInteger
             isPositiveOnly
             className={styles.input}
+            error={!!(Number(daysOfInventory) < 30)}
           />
           &nbsp; days
         </div>

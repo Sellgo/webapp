@@ -7,6 +7,7 @@ import SettingsNav from '../SettingsNav';
 /* Components */
 import ElevioArticle from '../../../components/ElevioArticle';
 import BoxContainer from '../../../components/BoxContainer';
+import GetStarted from '../../PerfectStock/GetStarted';
 
 interface Props {
   match: any;
@@ -39,6 +40,7 @@ const Connectivity = (props: Props) => {
         <span>Step-By-Step Guide</span>
         <ElevioArticle articleId={'19'} />
       </BoxContainer>
+      <GetStarted />
     </main>
   );
 };

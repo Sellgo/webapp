@@ -172,7 +172,7 @@ function CheckoutForm(props: MyProps) {
 
   React.useEffect(() => {
     // @ts-ignore
-    setUnitsSold(order);
+    setUnitsSold(getNearestUnitsSold(parseInt(order)));
     // @ts-ignore
     setUnitsSoldInput(parseInt(order));
   }, [order]);
@@ -220,15 +220,15 @@ function CheckoutForm(props: MyProps) {
       setEmailError(true);
       return;
     } else if (!Name.validate(firstName)) {
-      handleError('Your account: first name must all be letters.');
+      handleError('Your account: first name must all be letters');
       setFnameError(true);
       return;
     } else if (!Name.validate(lastName)) {
-      handleError('Your account: last name must all be letters.');
+      handleError('Your account: last name must all be letters');
       setLnameError(true);
       return;
     } else if (password !== password2) {
-      handleError('Your account: passwords do not match.');
+      handleError('Your account: passwords do not match');
       return;
     }
 
@@ -239,11 +239,11 @@ function CheckoutForm(props: MyProps) {
       );
 
       if (verifyEmailStatus !== 200) {
-        handleError('Your account: this email is already being used.');
+        handleError('Your account: this email is already being used');
         return;
       }
     } catch (e) {
-      handleError('Your account: this email is already being used.');
+      handleError('Your account: this email is already being used');
       return;
     }
 
@@ -304,7 +304,7 @@ function CheckoutForm(props: MyProps) {
         if (response && response.data && response.data.message) {
           handleError(response.data.message);
         }
-        handleError('Error: failed to make payment.');
+        handleError('Error: failed to make payment');
         return;
       }
 
@@ -350,10 +350,11 @@ function CheckoutForm(props: MyProps) {
                   revenue: stripeSubscription.plan.amount / 100,
                   tax: 0,
                   shipping: 0,
+                  currency: 'USD',
                   items: [
                     {
                       name: accountType,
-                      id: getSubscriptionID(accountType),
+                      id: SELLER_TYPE_PER_UNITS_SOLD[unitsSold].id,
                       price: stripeSubscription.plan.amount / 100,
                       brand: 'Stripe',
                       category: 'Subscription',
@@ -516,7 +517,7 @@ function CheckoutForm(props: MyProps) {
               <div className={styles.paymentToggleTextWrapper}>
                 <p className={styles.paymentToggleText}>
                   {isMonthly ? (
-                    <span>
+                    <span className={styles.totalContainer}>
                       Save with annual billing &nbsp;
                       <span className={styles.greenhighlight}>&nbsp;20% OFF&nbsp;</span>
                       <span className={styles.total}>
@@ -524,11 +525,10 @@ function CheckoutForm(props: MyProps) {
                       </span>
                     </span>
                   ) : (
-                    <span>
+                    <span className={styles.totalContainer}>
                       Switch to monthly &nbsp;
                       <span className={styles.total}>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $
-                        {formatDecimal(sellerPlan.monthlyPrice)} /mo
+                        ${formatDecimal(sellerPlan.monthlyPrice)} /mo
                       </span>
                     </span>
                   )}

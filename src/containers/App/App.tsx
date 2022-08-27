@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Helmet from 'react-helmet';
 import { Route, Router, Switch } from 'react-router-dom';
+import Elevio from 'elevio/lib/react';
 import Axios from 'axios';
 import AdminLayout from '../../components/AdminLayout';
 import ScrollToTop from '../../components/ScrollToTop';
@@ -13,6 +14,8 @@ import NotFound from '../../components/NotFound';
 import history from '../../history';
 import { connect } from 'react-redux';
 import { fetchSellerSubscription, fetchSubscriptions } from '../../actions/Settings/Subscription';
+import { fetchNotifications } from '../../actions/NotificationInbox';
+import { getSellerQuota } from '../../actions/Settings';
 import '../../analytics';
 import ResetPassword from '../ResetPassword';
 import Onboarding from '../Onboarding';
@@ -41,6 +44,9 @@ import LaunchExpenses from '../Settings/PerfectStockSettings/LaunchExpenses';
 import MiscExpenses from '../Settings/PerfectStockSettings/MiscExpenses';
 import PpcExpenses from '../Settings/PerfectStockSettings/PpcExpenses';
 import CashFlowReconcile from '../Settings/PerfectStockSettings/CashFlowReconcile';
+import SalesForecastingAdjustor from '../Settings/PerfectStockSettings/SalesForecastingAdjustor';
+// import SalesForcastingInventoryHistory from '../Settings/PerfectStockSettings/SalesForcastingInventoryHistory';
+import SalesForecastingWeights from '../Settings/PerfectStockSettings/SalesForecastingWeights';
 
 import SellgoNewSubscription from '../NewSellgoSubscription';
 import SellgoPaymentSuccess from '../NewSellgoSubscription/SellgoPaymentSuccess';
@@ -62,6 +68,7 @@ import AistockPricing from '../Settings/Pricing/AistockPricing';
 
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import MainHomePage from '../MainHomePage';
+import FeatureRequest from '../FeatureRequest';
 
 /* Utils */
 import {
@@ -72,7 +79,6 @@ import {
   isSubscriptionIdFreeTrial,
 } from '../../utils/subscriptions';
 import { isAiStockSession, isSellgoSession } from '../../utils/session';
-import { getSellerQuota } from '../../actions/Settings';
 import { AppConfig } from '../../config';
 
 export const auth = new Auth();
@@ -134,6 +140,7 @@ const PrivateRoute = connect(
     fetchSellerSubscription: () => fetchSellerSubscription(),
     fetchSubscriptions: () => fetchSubscriptions(),
     getSellerQuota: () => getSellerQuota(),
+    fetchNotifications: () => fetchNotifications(),
   }
 )(
   ({
@@ -143,6 +150,7 @@ const PrivateRoute = connect(
     sellerQuota,
     fetchSellerSubscription,
     fetchSubscriptions,
+    fetchNotifications,
     getSellerQuota,
     location,
     ...rest
@@ -196,7 +204,7 @@ const PrivateRoute = connect(
         isSubscriptionIdFreeTrial(sellerSubscription.subscription_id) &&
         window.location.pathname !== '/settings/pricing'
       ) {
-        if (sellerSubscription.is_free_trial_expired) {
+        if (sellerSubscription.is_trial_expired) {
           history.push('/activation');
         }
       }
@@ -219,6 +227,51 @@ const PrivateRoute = connect(
       requireSubscription,
       location,
     ]);
+
+    const [notificationSocket, setNotificationSocket] = React.useState<WebSocket | null>(null);
+
+    const sellerId = localStorage.getItem('userId') || '';
+    const idToken = localStorage.getItem('idToken') || '';
+
+    useEffect(() => {
+      if (!userIsAuthenticated || !isAiStockSession()) {
+        return;
+      }
+
+      fetchNotifications();
+
+      const WS_URL = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/perfect-stock/push?token=${idToken}`;
+      const socketConnection = new WebSocket(WS_URL);
+      socketConnection.onopen = () => {
+        setNotificationSocket(socketConnection);
+      };
+
+      return () => {
+        if (notificationSocket) {
+          notificationSocket.close();
+        }
+      };
+    }, [userIsAuthenticated]);
+
+    useEffect(() => {
+      // execute only if the export socket exists
+      if (notificationSocket) {
+        // if notificationSocket is open and not in connecting state
+        if (notificationSocket.OPEN && !notificationSocket.CONNECTING) {
+          // when incoming message is present from server
+          notificationSocket.onmessage = async () => {
+            fetchNotifications();
+          };
+
+          notificationSocket.send(JSON.stringify({ message: 'Trying to connect' }));
+
+          // when notificationSocket connection is closed
+          notificationSocket.onclose = () => {
+            console.log('Find or refresh socket closed');
+          };
+        }
+      }
+    }, [notificationSocket]);
 
     // Render nothing. Redirect will be handled in above effect.
     if (!userIsAuthenticated) {
@@ -274,6 +327,23 @@ function App() {
   React.useEffect(() => {
     handleUpdateFaviconToAistock();
   }, []);
+
+  const url = window.location.pathname;
+
+  const loadElevio = () => {
+    if (
+      !isSellgoSession() &&
+      url !== '/' &&
+      !url.includes('/subscription') &&
+      !url.includes('/signup') &&
+      !url.includes('/reset-password')
+    ) {
+      return <Elevio accountId={AppConfig.ELEVIO_KEY} />;
+    } else {
+      return null;
+    }
+  };
+
   return (
     <div className="App__container">
       <Helmet>
@@ -281,6 +351,8 @@ function App() {
       </Helmet>
       <Router history={history}>
         <ScrollToTop />
+        {loadElevio()}
+
         <Switch>
           <Route
             exact={true}
@@ -338,6 +410,8 @@ function App() {
 
           <Route exact={true} path="/activation" component={SubscriptionPages.UpsellCtaPage} />
 
+          <Route exact={true} path="/feature-request" component={FeatureRequest} />
+
           <Route
             exact={true}
             path="/subscription/payment"
@@ -371,7 +445,21 @@ function App() {
             path="/settings/aistock/alerts-management"
             component={AlertsManagement}
           />
-
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/seasonality-adjustor"
+            component={SalesForecastingAdjustor}
+          />
+          {/* <PrivateRoute
+            exact={true}
+            path="/settings/aistock/stockout-threshold"
+            component={SalesForcastingInventoryHistory}
+          /> */}
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/weighted-average-sales"
+            component={SalesForecastingWeights}
+          />
           <PrivateRoute
             exact={true}
             path="/settings/aistock/days-of-inventory-settings"

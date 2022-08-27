@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Checkbox, Loader } from 'semantic-ui-react';
 import { DateRangePicker } from 'rsuite';
+import isAfter from 'date-fns/isAfter';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -246,6 +247,7 @@ const OrderPlanningMeta = (props: Props) => {
                       showOneCalendar
                       disabled={!(selectedExportType === 2)}
                       preventOverflow
+                      disabledDate={date => isAfter(date, new Date())}
                     />
                   </div>
                   <div

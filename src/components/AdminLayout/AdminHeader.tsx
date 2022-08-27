@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Icon, Image, Menu, Dropdown, Checkbox, Popup } from 'semantic-ui-react';
+import { Icon, Image, Menu, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -10,6 +10,7 @@ import './AdminHeader.scss';
 /* Components */
 import LogoutConfirm from '../LogoutConfirm';
 import QuotaMeter from '../QuotaMeter';
+import NotificationInbox from './NotificationInbox';
 
 /* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
@@ -26,6 +27,7 @@ import {
   isSubscriptionIdFreeTrial,
 } from '../../utils/subscriptions';
 import { setUserOnboarding } from '../../actions/UserOnboarding';
+import { isAiStockSession } from '../../utils/session';
 
 /* Icons */
 import SettingsIcon from '../../assets/images/settingsIcon.svg';
@@ -40,6 +42,7 @@ import PerfectStockIcon from '../../assets/images/perfectStockGrey.svg';
 import { getSellerInfo } from '../../actions/Settings';
 import ActionButton from '../ActionButton';
 import history from '../../history';
+// import { isSellgoSession } from '../../utils/session';
 
 interface Props {
   auth: any;
@@ -56,8 +59,8 @@ const AdminHeader = (props: Props) => {
     auth,
     profile,
     sellerSubscription,
-    setUserOnboarding,
-    userOnboarding,
+    // setUserOnboarding,
+    // userOnboarding,
     getSellerInfo,
   } = props;
   const { email, first_name, last_name } = profile;
@@ -88,21 +91,48 @@ const AdminHeader = (props: Props) => {
             Upgrade Access
           </ActionButton>
         )}
-      <Popup
-        className="enableLearningPopup"
-        trigger={
-          <Checkbox
-            toggle
-            label="Quick Learning"
-            className="userOnboardingToogle"
-            checked={userOnboarding}
-            onChange={(e: any, data) => {
-              setUserOnboarding(Boolean(data.checked));
-            }}
-          />
-        }
-        content={<p className="enableLearningTooltipMessage">Toggle to enable learning mode</p>}
-      />
+
+      {isAiStockSession() && (
+        <Menu.Item style={{ position: 'relative' }}>
+          <NotificationInbox />
+        </Menu.Item>
+      )}
+
+      {/*
+      {isSellgoSession() ? (
+        <Popup
+          className="enableLearningPopup"
+          trigger={
+            <Checkbox
+              toggle
+              label="Quick Learning"
+              className="userOnboardingToogle"
+              checked={userOnboarding}
+              onChange={(_e: any, data) => {
+                setUserOnboarding(Boolean(data.checked));
+              }}
+            />
+          }
+          content={<p className="enableLearningTooltipMessage">Toggle to enable learning mode</p>}
+        />
+      ) : (
+        <Popup
+          className="enableLearningPopup"
+          trigger={
+            <Checkbox
+              toggle
+              label="Quick Learning"
+              className="userOnboardingToogle"
+              checked={userOnboarding}
+              onChange={(_e: any, data) => {
+                setUserOnboarding(Boolean(data.checked));
+              }}
+            />
+          }
+          content={<p className="enableLearningTooltipMessage">Toggle to enable learning mode</p>}
+        />
+      )}
+      */}
 
       <Menu.Item>
         <Dropdown

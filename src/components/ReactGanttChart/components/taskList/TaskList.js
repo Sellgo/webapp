@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import cloneDeep from 'lodash/cloneDeep';
 import Config from '../../helpers/config/Config';
 import SelectionFilter from '../../../FormFilters/SelectionFilter';
-import {
-  TIME_SETTINGS_OPTIONS,
-  EMPTY_GANTT_CHART_PURCHASE_ORDER,
-} from '../../../../constants/PerfectStock/OrderPlanning';
+import { TIME_SETTINGS_OPTIONS } from '../../../../constants/PerfectStock/OrderPlanning';
 import { Icon, Popup, Checkbox } from 'semantic-ui-react';
 import ToggleRadio from '../../../../components/ToggleRadio';
 import { ReactComponent as AlignOrderIcon } from '../../../../assets/images/arrow-right-to-bracket-solid.svg';
+import styles from './TaskList.module.scss';
+import { setActivePurchaseOrder } from '../../../../actions/PerfectStock/OrderPlanning';
+import { getActivePurchaseOrder } from '../../../../selectors/PerfectStock/OrderPlanning';
 
 export class VerticalLine extends Component {
   constructor(props) {
@@ -26,6 +28,9 @@ export class TaskRow extends Component {
 
   state = {
     isPopupOpen: false,
+    selectedPrioritySku: { name: this.props.prioritySku, value: null },
+    prioritySkuOptions: {},
+    isOpen: false,
   };
 
   onChange = value => {
@@ -33,6 +38,87 @@ export class TaskRow extends Component {
       this.props.onUpdateTask(this.props.item, { name: value });
     }
   };
+
+  handleChangePrioritySku = ({ value, name }) => {
+    this.setState({ selectedPrioritySku: { name, value } });
+
+    this.props.handleUpdatePrioritySku({
+      id: this.props.item.id,
+      po_sku_id: parseInt(value),
+      is_priority: true,
+    });
+
+    if (this.getSelectedPurchaseOrder()?.id === this.props.activePurchaseOrder?.id) {
+      const updatedActivePurchaseOrder = cloneDeep(this.getSelectedPurchaseOrder());
+
+      updatedActivePurchaseOrder.merchant_listings.forEach(item => {
+        if (item.id.toString() === value) {
+          item.is_priority = true;
+        } else item.is_priority = false;
+      });
+
+      this.props.setActivePurchaseOrder(updatedActivePurchaseOrder);
+    }
+  };
+
+  getSelectedPurchaseOrder() {
+    return this.props.purchaseOrders.find(purchaseOrder => {
+      return purchaseOrder.id === this.props.item.id;
+    });
+  }
+
+  updateSkuOptions() {
+    if (this.getSelectedPurchaseOrder()) {
+      const selectedMerchantListings = this.getSelectedPurchaseOrder().merchant_listings.map(
+        orderProduct => ({
+          id: orderProduct.id?.toString() || '',
+          productName: orderProduct.title,
+          asin: orderProduct.asin,
+          img: orderProduct.image_url,
+          skuName: orderProduct.sku,
+          activePurchaseOrders: orderProduct.active_purchase_orders,
+          fulfillmentChannel: orderProduct.fulfillment_channel,
+          skuStatus: orderProduct.sku_status,
+        })
+      );
+
+      this.setState({
+        prioritySkuOptions: {
+          id: this.props.item.id,
+          prioritySku: this.props.prioritySku,
+          selectedMerchantListings,
+        },
+      });
+    }
+  }
+
+  componentDidMount() {
+    this.updateSkuOptions();
+  }
+
+  componentDidUpdate(_, prevState) {
+    const merchantListingIds = this.getSelectedPurchaseOrder()?.merchant_listings?.map(
+      purchaseOrder => purchaseOrder.id.toString()
+    );
+
+    const isMerchantListingEqual = merchantListingIds?.every(
+      (id, idx) => id === this.state.prioritySkuOptions.selectedMerchantListings[idx].id
+    );
+
+    if (!isMerchantListingEqual) {
+      this.updateSkuOptions();
+    }
+
+    if (prevState.prioritySkuOptions.prioritySku !== this.props.prioritySku) {
+      this.updateSkuOptions();
+      this.setState({
+        selectedPrioritySku: {
+          name: this.props.prioritySku,
+          value: null,
+        },
+      });
+    }
+  }
 
   render() {
     const isFirstRow = this.props.item.id === -1;
@@ -78,7 +164,47 @@ export class TaskRow extends Component {
               {this.props.label}
             </span>
           </div>
-          <div className="timeLine-side-task-row-priority-sku">{this.props.prioritySku || '-'}</div>
+          <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+            {this.state.selectedPrioritySku.name ? (
+              <Popup
+                on="click"
+                open={this.state.isOpen}
+                onClose={() => this.setState({ isOpen: false })}
+                onOpen={() => this.setState({ isOpen: true })}
+                trigger={
+                  <button className={styles.selectionButton}>
+                    <span>{this.state.selectedPrioritySku.name || '-'}</span>
+                    <Icon name="angle down" />
+                  </button>
+                }
+                logo="dropdown"
+                basic
+                position="bottom center"
+                className={styles.popupWrapper}
+                content={
+                  <div className={styles.optionsWrapper}>
+                    {this.state.prioritySkuOptions?.selectedMerchantListings?.map(option => (
+                      <div
+                        style={{
+                          padding: '5px 10px',
+                          cursor: 'pointer',
+                        }}
+                        key={option.id}
+                        onClick={() => {
+                          this.handleChangePrioritySku({ value: option.id, name: option.skuName });
+                          this.setState({ isOpen: false });
+                        }}
+                      >
+                        <span style={{}}>{option.skuName}</span>
+                      </div>
+                    ))}
+                  </div>
+                }
+              />
+            ) : (
+              '-'
+            )}
+          </div>
           {!isFirstRow ? (
             <ToggleRadio
               isToggled={this.props.item.is_included}
@@ -123,16 +249,6 @@ export class TaskRow extends Component {
                       <span>Delete Order</span>
                     </button>
                     <p>SMART ORDER</p>
-                    <button
-                      onClick={() => {
-                        this.props.handleSetPrioritySku(this.props.item);
-                        this.setState({ isPopupOpen: false });
-                      }}
-                      disabled={!this.props.item.is_included}
-                    >
-                      <Icon name="check circle outline" />
-                      <span>Set Priority SKU</span>
-                    </button>
                     <button
                       onClick={() => {
                         this.props.handleSetPaymentTerm(this.props.item);
@@ -215,7 +331,7 @@ export class TaskRow extends Component {
   }
 }
 
-export default class TaskList extends Component {
+class TaskList extends Component {
   constructor(props) {
     super(props);
   }
@@ -241,6 +357,7 @@ export default class TaskList extends Component {
           item={item}
           label={item.name}
           prioritySku={item.prioritySku}
+          purchaseOrders={this.props.purchaseOrders}
           top={i * this.props.itemheight}
           itemheight={this.props.itemheight}
           isSelected={this.props.selectedItem?.id === item?.id}
@@ -254,6 +371,7 @@ export default class TaskList extends Component {
           handleCheckPurchaseOrder={this.props.handleCheckPurchaseOrder}
           generateNextOrder={this.props.generateNextOrder}
           handleSetPrioritySku={this.props.handleSetPrioritySku}
+          handleUpdatePrioritySku={this.props.handleUpdatePrioritySku}
           handleSetPaymentTerm={this.props.handleSetPaymentTerm}
           handleConnectTpl={this.props.handleConnectTpl}
           handleIncludedToggle={this.props.handleIncludedToggle}
@@ -261,6 +379,8 @@ export default class TaskList extends Component {
           handleAlignOrder={this.props.handleAlignOrder}
           handleDisconnectTpl={this.props.handleDisconnectTpl}
           isDraftMode={this.props.isDraftMode}
+          setActivePurchaseOrder={this.props.setActivePurchaseOrder}
+          activePurchaseOrder={this.props.activePurchaseOrder}
         />
       );
     }
@@ -347,3 +467,19 @@ export default class TaskList extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    activePurchaseOrder: getActivePurchaseOrder(state),
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setActivePurchaseOrder: task => {
+      dispatch(setActivePurchaseOrder(task));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskList);

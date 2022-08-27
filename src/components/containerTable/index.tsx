@@ -21,6 +21,7 @@ interface Props {
   handleDeleteRow?: (id: number) => void;
   showError?: boolean;
   disableDelete?: boolean;
+  className?: string;
 }
 
 interface DataCellProps {
@@ -52,11 +53,11 @@ const InputTable = (props: Props) => {
     handleRadioClick,
     showError = false,
     errorColumns,
+    className,
   } = props;
 
-  console.log('data is', data);
   return (
-    <section className={styles.inputTable}>
+    <section className={`${styles.inputTable} ${className}`}>
       <Table
         data={data}
         height={400}
@@ -69,7 +70,6 @@ const InputTable = (props: Props) => {
         {tableColumns &&
           tableColumns.map((column: Column) => {
             const { dataKey } = column;
-            console.log('data key', dataKey);
             let contentCell;
             if (column.isEditable) {
               if (column.type === 'text') {

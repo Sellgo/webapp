@@ -475,7 +475,7 @@ const OrderGanttChart = (props: Props) => {
       <div className={styles.ganttChartWrapper}>
         <div
           className={`
-          ${styles.ganttChart} 
+          ${styles.ganttChart}
           ${isChartExpanded ? styles.ganttChart__expanded : ''}
           ${hideBottomBorder ? styles.ganttChart__hideBottomBorder : ''}`}
         >
@@ -500,6 +500,8 @@ const OrderGanttChart = (props: Props) => {
             }}
             sideWidth={OFFSET_TO_CHART_WIDTH - 18}
             unitWidth={UNIT_WIDTH}
+            purchaseOrders={purchaseOrders}
+            handleUpdatePrioritySku={updatePurchaseOrder}
             checkedPurchaseOrders={checkedPurchaseOrders}
             handleChangeMode={handleChangeTimeSetting}
             handleDeleteTask={handleDeleteTask}

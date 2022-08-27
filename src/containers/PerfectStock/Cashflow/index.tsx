@@ -11,6 +11,7 @@ import {
 
 /* Interfaces */
 import { Chart, SubChartSettings } from '../../../interfaces/PerfectStock/Home';
+import { SellerSubscription } from '../../../interfaces/Seller';
 
 /* Selectors */
 import {
@@ -21,6 +22,7 @@ import {
   getSubCharts,
   getSubChartSettings,
 } from '../../../selectors/PerfectStock/Cashflow';
+import { getSellerSubscription } from '../../../selectors/Subscription';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -39,6 +41,9 @@ import { ONBOARDING_STATUS_MAPPING } from '../../../constants/PerfectStock/Cashf
 import { ReactComponent as RedCross } from '../../../assets/images/redCrossCircle.svg';
 import history from '../../../history';
 
+/* Utils */
+import { isSubscriptionIdFreeTrial } from '../../../utils/subscriptions';
+
 interface Props {
   subChartSettings: SubChartSettings;
   subChartLoading: boolean;
@@ -46,6 +51,7 @@ interface Props {
   subCharts: Chart[];
   mainChart: Chart;
   onboardingStatus: any[];
+  sellerSubscription: SellerSubscription;
 
   fetchMainChart: (granularity?: number) => void;
   fetchSubCharts: () => void;
@@ -59,6 +65,7 @@ const Home = (props: Props) => {
     subCharts,
     subChartLoading,
     onboardingStatus,
+    sellerSubscription,
     fetchMainChart,
     fetchSubCharts,
     fetchCashflowOnboardingStatus,
@@ -130,12 +137,21 @@ const Home = (props: Props) => {
       <br />
       <div className={styles.subChartsWrapper}>
         {subCharts.map((item: Chart, index: number) => {
+          const name = item?.data[0]?.name;
+          let isFreeTrial = false;
+          if (
+            isSubscriptionIdFreeTrial(sellerSubscription?.subscription_id) &&
+            (name === 'mid_payments' || name === 'paid_full' || name === 'deposits')
+          ) {
+            isFreeTrial = true;
+          }
           return (
             <SubChart
               key={index}
               index={index}
               graphs={item.data}
               total={item.total}
+              isFreeTrial={isFreeTrial}
               isLoading={subChartLoading}
             />
           );
@@ -167,6 +183,7 @@ const mapStateToProps = (state: any) => {
     subChartSettings: getSubChartSettings(state),
     subCharts: getSubCharts(state),
     onboardingStatus: getCashflowOnboardingStatus(state),
+    sellerSubscription: getSellerSubscription(state),
   };
 };
 

@@ -165,6 +165,7 @@ export const updateSalesProjectionProduct = (payload: SalesProjectionUpdatePaylo
     const newSalesProjectionRow = {
       ...oldSalesProjectionRow,
       ...payload.updatePayload,
+      isLoading: true,
     };
     /* Set state first to be responsive */
     dispatch(setSalesProjectionRow(newSalesProjectionRow));
@@ -177,6 +178,7 @@ export const updateSalesProjectionProduct = (payload: SalesProjectionUpdatePaylo
       if (data?.predictive_sales) {
         const updatedSalesProjectionRow = {
           ...newSalesProjectionRow,
+          isLoading: false,
           predictive_sales: data.predictive_sales,
         };
         dispatch(setSalesProjectionRow(updatedSalesProjectionRow));
@@ -184,11 +186,11 @@ export const updateSalesProjectionProduct = (payload: SalesProjectionUpdatePaylo
     } else {
       /* If failed, revert to original state */
       dispatch(setSalesProjectionRow(oldSalesProjectionRow));
-      error('Failed to update.');
+      error('Failed to update');
     }
   } catch (err) {
     dispatch(setSalesProjectionRow(oldSalesProjectionRow));
-    error('Failed to update.');
+    error('Failed to update');
     console.error('Error updating sales estimation', err);
   }
 };
@@ -203,13 +205,13 @@ export const refreshSalesProjection = () => async (dispatch: any) => {
     if (data && data.perfect_stock_job_id) {
       dispatch(setRefreshSalesProjectionId(data.perfect_stock_job_id));
       dispatch(setIsFetchingProgressForRefresh(true));
-      success('Refreshing sales projection information.');
+      success('Refreshing sales projection');
     }
   } catch (err) {
     dispatch(setIsFetchingProgressForRefresh(false));
     const { status } = err.response;
     if (status === 429) {
-      error('Only 1 refresh per day allowed.');
+      error('Only 1 refresh per day allowed');
     }
     console.error('Error updating sales estimation', err);
   }
@@ -236,6 +238,6 @@ export const fetchRefreshProgress = () => async (dispatch: any, getState: any) =
     }
   } catch (err) {
     dispatch(setIsFetchingProgressForRefresh(false));
-    console.error('Error fetching progress for AiStock', err);
+    console.error('Error fetching AiStock progress', err);
   }
 };
