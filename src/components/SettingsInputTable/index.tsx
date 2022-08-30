@@ -90,7 +90,7 @@ const SettingsInputTable = (props: Props) => {
         const key = column.dataKey;
         if (
           dataEntry.status !== 'inactive' &&
-          (dataEntry[key] === null || dataEntry[key] === '' || dataEntry[key] === undefined) &&
+          (dataEntry[key] === '' || dataEntry[key] === undefined) &&
           !column.optional
         ) {
           hasError = true;
