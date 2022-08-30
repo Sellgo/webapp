@@ -81,9 +81,9 @@ const OnboardingIdentification = (props: Props) => {
 
           <div className={styles.buttonContainer}>
             <div className={styles.dotContainer}>
-              <div className={`${styles.dot} ${styles.selected}`}></div>
-              <div className={styles.dot}></div>
-              <div className={styles.dot}></div>
+              <div className={`${styles.dot} ${styles.selected}`} />
+              <div className={styles.dot} />
+              <div className={styles.dot} />
             </div>
           </div>
         </div>
