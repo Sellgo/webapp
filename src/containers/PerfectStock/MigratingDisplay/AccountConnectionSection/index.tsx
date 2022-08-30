@@ -1,4 +1,5 @@
 import React from 'react';
+import { Icon } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -9,6 +10,7 @@ import history from '../../../../history';
 
 /* Assets */
 import LeadTimeLogo from '../../../../assets/images/leadTime.svg';
+import GraduationCapLogo from '../../../../assets/images/graduation-cap-solid.png';
 import ZoomLogo from '../../../../assets/images/zoomLogo.png';
 
 /* Utils */
@@ -26,6 +28,16 @@ const AccountConnectionSection = (props: Props) => {
   /* Open www.calendly.com in new tab */
   const handleOpenNewCalendlyTab = () => {
     window.open('https://calendly.com/sellgo-richard/aistock-onboarding', '_blank');
+  };
+
+  /* Open www.help.aistock.co in new tab */
+  const handleOpenNewHelpTab = () => {
+    window.open('http://help.aistock.co', '_blank');
+  };
+
+  /* Open /contact-us in new tab */
+  const handleOpenNewContactUsTab = () => {
+    window.open('https://aistock.co/contact-us', '_blank');
   };
 
   return (
@@ -75,16 +87,31 @@ const AccountConnectionSection = (props: Props) => {
               Schedule a call
             </ActionButton>
           </div>
-        </div>
-        <div className={styles.migrationDesc}>
-          <h2>Thanks for your patience of waiting for the migration.</h2>
-          <p>
-            Say goodbye to missing out on growth, profits and healthy cash flow because of manual
-            and outdated supply chain. We will streamline and automate what is often the most
-            stressful, time consuming and costly process of your Amazon business.
-          </p>
+          <div className={styles.connectAccountCard}>
+            <img src={GraduationCapLogo} alt="graduation cap" className={styles.connectApiLogo} />
+            <p className={styles.connectApiLabel}> Browse AiStock Seller Academy </p>
+            <p className={styles.connectApiDesc}>Coming soon</p>
+            <ActionButton
+              type="purpleGradient"
+              variant="secondary"
+              size="md"
+              className={styles.sellerAcademyBtn}
+              onClick={handleOpenNewHelpTab}
+            >
+              <span>Check it out</span> <Icon name="external" />
+            </ActionButton>
+          </div>
         </div>
       </div>
+
+      <p className={styles.support}>
+        If you have trouble with the account, you can contact us at{' '}
+        <span className={styles.contactUs}>
+          <a href="mailto:support@aistock.co">support@aistock.co</a>{' '}
+          <Icon name="external" onClick={handleOpenNewContactUsTab} />
+        </span>{' '}
+        We Can Help.
+      </p>
     </section>
   );
 };
