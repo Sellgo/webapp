@@ -22,6 +22,7 @@ import CheckoutForm from './CheckOutForm';
 /* Components */
 import Auth from '../../../components/Auth/Auth';
 import history from '../../../history';
+import LeftArrow from '../../../assets/images/leftArrowLong.svg';
 
 /* Config */
 import { AppConfig } from '../../../config';
@@ -73,6 +74,10 @@ const Payment = (props: PaymentProps) => {
   return (
     <main className={styles.paymentPage}>
       <section>
+        <button className={styles.goBackButton} onClick={() => history.goBack()}>
+          <img src={LeftArrow} alt="left arrow" />
+          Back to previous page
+        </button>
         {!successPayment && !isSubscriptionIdPaid(sellerSubscription?.subscription_id) && (
           <Elements stripe={stripePromise}>
             <CheckoutForm
