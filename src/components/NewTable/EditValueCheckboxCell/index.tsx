@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 import { Table } from 'rsuite';
-import { Checkbox } from 'semantic-ui-react';
 import { RowCell } from '../../../interfaces/Table';
 import ToggleRadio from '../../../components/ToggleRadio';
 
