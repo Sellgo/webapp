@@ -10,6 +10,7 @@ import './AdminHeader.scss';
 /* Components */
 import LogoutConfirm from '../LogoutConfirm';
 import QuotaMeter from '../QuotaMeter';
+import NotificationInbox from './NotificationInbox';
 
 /* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
@@ -26,6 +27,7 @@ import {
   isSubscriptionIdFreeTrial,
 } from '../../utils/subscriptions';
 import { setUserOnboarding } from '../../actions/UserOnboarding';
+import { isAiStockSession } from '../../utils/session';
 
 /* Icons */
 import SettingsIcon from '../../assets/images/settingsIcon.svg';
@@ -89,6 +91,13 @@ const AdminHeader = (props: Props) => {
             Upgrade Access
           </ActionButton>
         )}
+
+      {isAiStockSession() && (
+        <Menu.Item style={{ position: 'relative' }}>
+          <NotificationInbox />
+        </Menu.Item>
+      )}
+
       {/*
       {isSellgoSession() ? (
         <Popup
@@ -124,6 +133,7 @@ const AdminHeader = (props: Props) => {
         />
       )}
       */}
+
       <Menu.Item>
         <Dropdown
           trigger={

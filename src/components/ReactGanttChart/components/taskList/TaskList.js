@@ -33,7 +33,7 @@ export class TaskRow extends Component {
     isOpen: false,
   };
 
-  onChange = (value) => {
+  onChange = value => {
     if (this.props.onUpdateTask) {
       this.props.onUpdateTask(this.props.item, { name: value });
     }
@@ -51,7 +51,7 @@ export class TaskRow extends Component {
     if (this.getSelectedPurchaseOrder()?.id === this.props.activePurchaseOrder?.id) {
       const updatedActivePurchaseOrder = cloneDeep(this.getSelectedPurchaseOrder());
 
-      updatedActivePurchaseOrder.merchant_listings.forEach((item) => {
+      updatedActivePurchaseOrder.merchant_listings.forEach(item => {
         if (item.id.toString() === value) {
           item.is_priority = true;
         } else item.is_priority = false;
@@ -62,7 +62,7 @@ export class TaskRow extends Component {
   };
 
   getSelectedPurchaseOrder() {
-    return this.props.purchaseOrders.find((purchaseOrder) => {
+    return this.props.purchaseOrders.find(purchaseOrder => {
       return purchaseOrder.id === this.props.item.id;
     });
   }
@@ -70,7 +70,7 @@ export class TaskRow extends Component {
   updateSkuOptions() {
     if (this.getSelectedPurchaseOrder()) {
       const selectedMerchantListings = this.getSelectedPurchaseOrder().merchant_listings.map(
-        (orderProduct) => ({
+        orderProduct => ({
           id: orderProduct.id?.toString() || '',
           productName: orderProduct.title,
           asin: orderProduct.asin,
@@ -98,7 +98,7 @@ export class TaskRow extends Component {
 
   componentDidUpdate(_, prevState) {
     const merchantListingIds = this.getSelectedPurchaseOrder()?.merchant_listings?.map(
-      (purchaseOrder) => purchaseOrder.id.toString()
+      purchaseOrder => purchaseOrder.id.toString()
     );
 
     const isMerchantListingEqual = merchantListingIds?.every(
@@ -135,7 +135,7 @@ export class TaskRow extends Component {
           <div className="timeLine-side-task-row-name-text">
             <Checkbox
               checked={
-                this.props.checkedPurchaseOrders.find((po) => po.id === this.props.item.id) ===
+                this.props.checkedPurchaseOrders.find(po => po.id === this.props.item.id) ===
                 undefined
                   ? false
                   : true
@@ -146,7 +146,7 @@ export class TaskRow extends Component {
               label=""
             />
             <span
-              onClick={(e) => {
+              onClick={e => {
                 this.props.onSelectItem(this.props.item);
                 this.props.onSelectTask(this.props.item);
               }}
@@ -183,7 +183,7 @@ export class TaskRow extends Component {
                 className={styles.popupWrapper}
                 content={
                   <div className={styles.optionsWrapper}>
-                    {this.state.prioritySkuOptions?.selectedMerchantListings?.map((option) => (
+                    {this.state.prioritySkuOptions?.selectedMerchantListings?.map(option => (
                       <div
                         style={{
                           padding: '5px 10px',
@@ -401,7 +401,7 @@ class TaskList extends Component {
             label="CHART TIMELINE"
             filterOptions={TIME_SETTINGS_OPTIONS}
             value={this.props.mode}
-            handleChange={(value) =>
+            handleChange={value =>
               this.props.handleChangeMode && this.props.handleChangeMode(value)
             }
             placeholder=""
@@ -468,15 +468,15 @@ class TaskList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     activePurchaseOrder: getActivePurchaseOrder(state),
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    setActivePurchaseOrder: (task) => {
+    setActivePurchaseOrder: task => {
       dispatch(setActivePurchaseOrder(task));
     },
   };
