@@ -173,57 +173,57 @@ export const ALERTS_MANAGEMENT_SETTINGS_COLUMNS: Column[] = [
     type: 'toggle',
   },
   {
-    width: 300,
+    width: 400,
     dataKey: 'name',
     title: 'Event',
     type: 'text',
     disabled: true,
   },
+  // {
+  //   width: 160,
+  //   dataKey: 'first_delay',
+  //   title: '1st notification action',
+  //   type: 'selection',
+  //   optional: true,
+  //   options: [
+  //     {
+  //       key: null,
+  //       text: 'Immediately',
+  //       value: null,
+  //     },
+  //     {
+  //       key: 12,
+  //       text: '12 hrs',
+  //       value: 12,
+  //     },
+  //     {
+  //       key: 24,
+  //       text: '24 hrs',
+  //       value: 24,
+  //     },
+  //   ],
+  // },
+  // {
+  //   width: 50,
+  //   dataKey: 'webapp',
+  //   title: 'Webapp',
+  //   type: 'checkbox',
+  //   optional: true,
+  // },
   {
-    width: 160,
-    dataKey: 'first_delay',
-    title: '1st notification action',
-    type: 'selection',
-    optional: true,
-    options: [
-      {
-        key: null,
-        text: 'Immediately',
-        value: null,
-      },
-      {
-        key: 12,
-        text: '12 hrs',
-        value: 12,
-      },
-      {
-        key: 24,
-        text: '24 hrs',
-        value: 24,
-      },
-    ],
-  },
-  {
-    width: 50,
-    dataKey: 'webapp',
-    title: 'Webapp',
-    type: 'checkbox',
-    optional: true,
-  },
-  {
-    width: 50,
+    width: 60,
     dataKey: 'email',
     title: 'Email',
     type: 'checkbox',
     optional: true,
   },
-  {
-    width: 50,
-    dataKey: 'sms',
-    title: 'SMS',
-    type: 'checkbox',
-    optional: true,
-  },
+  // {
+  //   width: 50,
+  //   dataKey: 'sms',
+  //   title: 'SMS',
+  //   type: 'checkbox',
+  //   optional: true,
+  // },
 ];
 
 export const GRAPH_SETTING_OPTIONS: { [key: string]: 'line' | 'bar' } = {

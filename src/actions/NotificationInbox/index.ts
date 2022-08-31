@@ -77,6 +77,7 @@ export const toggleMarkAllAsRead = (payload: any[]) => async (dispatch: any, get
     const { data } = await axios.patch(URL, { alerts: payload });
 
     if (data) {
+      console.log(selectNotificationsList(getState()), 'check inside action')
       dispatch(updateNotifications({ ...selectNotificationsList(getState()), results: data }));
     }
   } catch (err) {
