@@ -26,5 +26,12 @@
     "youtubeLabel": "",
     "key": "orderPlanningTour",
     "link": "/aistock/order"
+  },
+  {
+    "title": "Change restock limits",
+    "youtubeLink": "",
+    "youtubeLabel": "",
+    "key": "changeRestockLimits",
+    "link": "/settings/aistock/fba-restock-limit"
   }
 ]

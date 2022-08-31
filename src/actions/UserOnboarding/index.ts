@@ -74,6 +74,8 @@ export const updatePerfectStockGetStartedStatus = (key: string, status: boolean)
     payloadKey = 'tour_order_planning';
   } else if (key === 'salesProjectionTour') {
     payloadKey = 'tour_sales_projection';
+  } else if (key === 'changeRestockLimits') {
+    payloadKey = 'restock_limit';
   }
   const payload = {
     [payloadKey]: status,
@@ -88,6 +90,7 @@ export const updatePerfectStockGetStartedStatus = (key: string, status: boolean)
       createLeadTime: data?.setup_lead_time,
       orderPlanningTour: data?.tour_order_planning,
       salesProjectionTour: data?.tour_sales_projection,
+      changeRestockLimits: data?.restock_limit,
     };
 
     dispatch(setPerfectStockGetStartedStatus(perfectStockGetStartedStatus));
@@ -127,6 +130,7 @@ export const fetchPerfectStockGetStartedStatus = () => async (dispatch: any) => 
       createLeadTime: data?.setup_lead_time,
       orderPlanningTour: data?.tour_order_planning,
       salesProjectionTour: data?.tour_sales_projection,
+      changeRestockLimits: data?.restock_limit,
     };
 
     dispatch(setPerfectStockGetStartedStatus(perfectStockGetStartedStatus));
