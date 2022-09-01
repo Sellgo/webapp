@@ -61,6 +61,20 @@ const InputTable = (props: Props) => {
                 hasError={errorColumns && errorColumns.includes(column.dataKey)}
               />
             );
+          } else if (column.type === 'label') {
+            contentCell = (
+              <EditValueCell
+                dataKey={column.dataKey}
+                handleChange={handleEditRow}
+                showEmptyError={showError}
+                prependMessage={column.prepend}
+                appendMessage={column.append}
+                label
+                isLarge
+                isLong={column.width >= 300}
+                hasError={errorColumns && errorColumns.includes(column.dataKey)}
+              />
+            );
           } else if (column.type === 'number') {
             contentCell = (
               <EditValueCell

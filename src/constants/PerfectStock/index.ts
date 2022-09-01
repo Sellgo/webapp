@@ -176,7 +176,7 @@ export const ALERTS_MANAGEMENT_SETTINGS_COLUMNS: Column[] = [
     width: 400,
     dataKey: 'name',
     title: 'Event',
-    type: 'text',
+    type: 'label',
     disabled: true,
   },
   // {

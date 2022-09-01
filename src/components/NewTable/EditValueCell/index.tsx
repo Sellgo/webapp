@@ -21,6 +21,7 @@ interface Props extends RowCell {
   disabled?: boolean;
   isLarge?: boolean;
   isLong?: boolean;
+  label?: boolean;
   allow5Decimal?: boolean;
 }
 
@@ -36,6 +37,7 @@ const EditValueCell = (props: Props) => {
     isInteger,
     showEmptyError,
     disabled,
+    label,
     isLarge,
     isLong,
     hasError,
@@ -50,39 +52,44 @@ const EditValueCell = (props: Props) => {
         const cellIdentifier = identifier ? rowData?.identifier : rowData?.id;
         return (
           <>
-            {rowData && (
-              <div className={styles.editValueCellWrapper}>
-                <p>{prependMessage}&nbsp;</p>
-                <InputFilter
-                  isInteger={isInteger}
-                  isPositiveOnly={isPositiveOnly}
-                  value={(rowData && rowData[`${dataKey}`]) || ''}
-                  handleChange={(value: string) => {
-                    handleChange(dataKey, value, cellIdentifier);
-                  }}
-                  placeholder=""
-                  className={`
-            ${styles.inputField} 
+            {rowData &&
+              (label ? (
+                <p>{rowData?.[dataKey] || ''}&nbsp;</p>
+              ) : (
+                <div className={styles.editValueCellWrapper}>
+                  <p>{prependMessage}&nbsp;</p>
+                  <InputFilter
+                    isInteger={isInteger}
+                    isPositiveOnly={isPositiveOnly}
+                    value={(rowData && rowData[`${dataKey}`]) || ''}
+                    handleChange={(value: string) => {
+                      handleChange(dataKey, value, cellIdentifier);
+                    }}
+                    placeholder=""
+                    className={`
+            ${styles.inputField}
             ${!isLarge ? styles.inputField__small : ''}
             ${isLong ? styles.inputField__long : ''}
           `}
-                  isDate={dataKey === 'start_date' || dataKey === 'end_date' || dataKey === 'date'}
-                  isNumber={isNumber}
-                  thousandSeperate={isNumber}
-                  allow5Decimal={allow5Decimal}
-                  error={
-                    (!disabled && showEmptyError && !rowData[`${dataKey}`]) ||
-                    hasError ||
-                    !!(rowData && rowData.errors && rowData.errors[`${dataKey}`])
-                  }
-                  disabled={disabled || rowData.disabled}
-                  maxValue={
-                    (rowData && rowData.maxValues && rowData.maxValues[`${dataKey}`]) || null
-                  }
-                />
-                <p>&nbsp;{appendMessage}</p>
-              </div>
-            )}
+                    isDate={
+                      dataKey === 'start_date' || dataKey === 'end_date' || dataKey === 'date'
+                    }
+                    isNumber={isNumber}
+                    thousandSeperate={isNumber}
+                    allow5Decimal={allow5Decimal}
+                    error={
+                      (!disabled && showEmptyError && !rowData[`${dataKey}`]) ||
+                      hasError ||
+                      !!(rowData && rowData.errors && rowData.errors[`${dataKey}`])
+                    }
+                    disabled={disabled || rowData.disabled}
+                    maxValue={
+                      (rowData && rowData.maxValues && rowData.maxValues[`${dataKey}`]) || null
+                    }
+                  />
+                  <p>&nbsp;{appendMessage}</p>
+                </div>
+              ))}
           </>
         );
       }}
