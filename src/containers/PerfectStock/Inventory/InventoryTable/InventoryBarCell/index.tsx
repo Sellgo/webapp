@@ -78,7 +78,7 @@ const InventoryBarCell = (props: Props) => {
         {!isRepeatedZero && !showTpl && (
           <span style={percent <= 20 ? { color: '#EB675E' } : {}}>{displayPercent}</span>
         )}
-        {showTpl && <span>{inventory.tpl}</span>}
+        {showTpl && <span>{inventory?.tpl}</span>}
       </div>
     </Table.Cell>
   );

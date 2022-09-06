@@ -55,7 +55,7 @@ const SELLGO_PROD_KEYS = {
 const AISTOCK_DEV_URLS = {
   BASE_URL: 'https://app.predicts.co',
   BASE_URL_AUTH: 'sellgo-dev.auth0.com',
-  BASE_URL_API: 'https://api.sellgo-dev.com/api/',
+  BASE_URL_API: 'http://18.207.105.104/api/',
   CHANGE_PASS_API_URL: 'https://sellgo-dev.auth0.com/dbconnections/change_password',
   WEB_URL: 'https://predicts.co',
   WEBSOCKET_URL: 'wss://api.sellgo-dev.com/ws',
