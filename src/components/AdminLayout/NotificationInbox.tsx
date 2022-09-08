@@ -49,6 +49,8 @@ const NotificationInbox = (props: Props) => {
   const [page, setPage] = useState<number>(1);
   const [lastElement, setLastElement] = useState<any>(0);
 
+  console.log('notificationList', notificationsList);
+
   const wrapperRef = useRef(null);
 
   useClickOutside(wrapperRef, () => {
@@ -158,7 +160,7 @@ const NotificationInbox = (props: Props) => {
   const handleMarkAllAsRead = () => {
     if (!unreadNotifications?.length) return;
 
-    const payload = unreadNotifications?.map((msg: any) => ({
+    const payload = notificationsList?.results?.map((msg: any) => ({
       id: msg.id,
       is_read: true,
     }));
