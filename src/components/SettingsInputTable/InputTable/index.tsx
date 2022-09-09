@@ -9,6 +9,7 @@ import styles from './index.module.scss';
 import DeleteCell from '../../NewTable/DeleteCell';
 import EditValueCell from '../../NewTable/EditValueCell';
 import EditValueSelectionCell from '../../NewTable/EditValueSelectionCell';
+import EditValueCheckboxCell from '../../NewTable/EditValueCheckboxCell';
 
 /* Types */
 import { Column } from '../../../interfaces/PerfectStock/Settings';
@@ -60,6 +61,20 @@ const InputTable = (props: Props) => {
                 hasError={errorColumns && errorColumns.includes(column.dataKey)}
               />
             );
+          } else if (column.type === 'label') {
+            contentCell = (
+              <EditValueCell
+                dataKey={column.dataKey}
+                handleChange={handleEditRow}
+                showEmptyError={showError}
+                prependMessage={column.prepend}
+                appendMessage={column.append}
+                label
+                isLarge
+                isLong={column.width >= 300}
+                hasError={errorColumns && errorColumns.includes(column.dataKey)}
+              />
+            );
           } else if (column.type === 'number') {
             contentCell = (
               <EditValueCell
@@ -88,6 +103,18 @@ const InputTable = (props: Props) => {
                 disabled={column.disabled}
               />
             );
+          } else if (column.type === 'checkbox') {
+            contentCell = (
+              <EditValueCheckboxCell handleCheckboxClick={handleEditRow} dataKey={column.dataKey} />
+            );
+          } else if (column.type === 'toggle') {
+            contentCell = (
+              <EditValueCheckboxCell
+                handleCheckboxClick={handleEditRow}
+                dataKey={column.dataKey}
+                toggle
+              />
+            );
           } else {
             contentCell = (
               <EditValueSelectionCell
@@ -95,6 +122,7 @@ const InputTable = (props: Props) => {
                 dataKey={column.dataKey}
                 handleChange={handleEditRow}
                 showEmptyError={showError}
+                // @ts-ignore
                 options={column.options || []}
                 disabled={column.disabled}
               />

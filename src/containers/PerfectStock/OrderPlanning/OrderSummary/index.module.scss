@@ -1,4 +1,4 @@
-@import '../../../../design-system/new-colors';
+@import '../../../../design-system/new-colors.scss';
 
 .orderSummaryWrapper {
   margin-top: 18px;
@@ -72,4 +72,16 @@
   font-weight: $fontweight_medium;
   color: $grey_8;
   margin-top: 15px;
+}
+
+.textBlur {
+  color: transparent;
+  text-shadow: 0 0 15px rgb(0, 0, 0);
+  cursor: pointer;
+}
+
+.dateBlur {
+  color: transparent;
+  text-shadow: 0 0 15px $sellgo_purple;
+  cursor: pointer;
 }

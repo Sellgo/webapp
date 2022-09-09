@@ -108,7 +108,7 @@ const EditSeasonalityPopup = (props: Props) => {
         setSeasonalitySettings([...seasonalitySettings, data]);
       }
     } catch (err) {
-      error('Failed to add setting.');
+      error('Failed to add setting');
     }
   };
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { Input } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -33,6 +34,10 @@ import { ReactComponent as ExclaimationIcon } from '../../../../../assets/images
 /* Selectors */
 import { getTplActiveVendor } from '../../../../../selectors/PerfectStock/Tpl';
 import { getCashflowOnboardingStatus } from '../../../../../selectors/PerfectStock/Cashflow';
+
+/* Utils */
+
+import { validateNumberField } from '../../../../../utils/numberFieldValidation';
 
 interface Props {
   createUpdateTplVendor: (payload: TplVendor) => void;
@@ -287,81 +292,87 @@ const TplSettings = (props: Props) => {
             <p>MONTHLY STORAGE COST PER CBM</p>
             <div className={styles.advancedFilters}>
               {/* MONTHLY STORAGE COST PER PALLET */}
-              <InputFilter
-                label="Q1:"
-                placeholder="Q1"
-                value={tplSettings.monthly_cost_q1?.toString() || ''}
-                isNumber
-                isPositiveOnly
-                allow5Decimal
-                handleChange={(value: string) =>
-                  updateSellerDatabaseFilter('monthly_cost_q1', parseFloat(value))
-                }
-                className={`
-                    ${styles.inputFilter}
-                    ${styles.inputFilter__storageCost}
-                  `}
-              />
-              {!tplSettings.monthly_cost_q1 && (
-                <ExclaimationIcon className={styles.exclaimationIcon} />
-              )}
+              <div>
+                <p>Q1: </p>
+                <Input
+                  placeholder="Q1"
+                  value={tplSettings.monthly_cost_q1?.toString() || ''}
+                  onChange={(e: any) => {
+                    const value = e.target.value;
+                    if (validateNumberField(value, true, false, true, true)) {
+                      updateSellerDatabaseFilter('monthly_cost_q1', value);
+                    }
+                  }}
+                  className={`
+                  ${styles.inputFilter}
+                  ${styles.inputFilter__storageCost}
+                `}
+                />
+                {!tplSettings.monthly_cost_q1 && (
+                  <ExclaimationIcon className={styles.exclaimationIcon} />
+                )}
+              </div>
+              <div>
+                <p>Q2: </p>
+                <Input
+                  placeholder="Q2"
+                  value={tplSettings.monthly_cost_q2?.toString() || ''}
+                  onChange={(e: any) => {
+                    const value = e.target.value;
+                    if (validateNumberField(value, true, false, true, true)) {
+                      updateSellerDatabaseFilter('monthly_cost_q2', value);
+                    }
+                  }}
+                  className={`
+                  ${styles.inputFilter}
+                  ${styles.inputFilter__storageCost}
+                `}
+                />
+                {!tplSettings.monthly_cost_q2 && (
+                  <ExclaimationIcon className={styles.exclaimationIcon} />
+                )}
+              </div>
+              <div>
+                <p>Q3: </p>
+                <Input
+                  placeholder="Q3"
+                  value={tplSettings.monthly_cost_q3?.toString() || ''}
+                  onChange={(e: any) => {
+                    const value = e.target.value;
+                    if (validateNumberField(value, true, false, true, true)) {
+                      updateSellerDatabaseFilter('monthly_cost_q3', value);
+                    }
+                  }}
+                  className={`
+                  ${styles.inputFilter}
+                  ${styles.inputFilter__storageCost}
+                `}
+                />
 
-              <InputFilter
-                label="Q2:"
-                placeholder="Q2"
-                value={tplSettings.monthly_cost_q2?.toString() || ''}
-                isNumber
-                isPositiveOnly
-                allow5Decimal
-                handleChange={(value: string) =>
-                  updateSellerDatabaseFilter('monthly_cost_q2', parseFloat(value))
-                }
-                className={`
-                    ${styles.inputFilter}
-                    ${styles.inputFilter__storageCost}
-                  `}
-              />
-              {!tplSettings.monthly_cost_q2 && (
-                <ExclaimationIcon className={styles.exclaimationIcon} />
-              )}
-
-              <InputFilter
-                label="Q3:"
-                placeholder="Q3"
-                value={tplSettings.monthly_cost_q3?.toString() || ''}
-                isNumber
-                isPositiveOnly
-                allow5Decimal
-                handleChange={(value: string) =>
-                  updateSellerDatabaseFilter('monthly_cost_q3', parseFloat(value))
-                }
-                className={`
-                    ${styles.inputFilter}
-                    ${styles.inputFilter__storageCost}
-                  `}
-              />
-              {!tplSettings.monthly_cost_q3 && (
-                <ExclaimationIcon className={styles.exclaimationIcon} />
-              )}
-
-              <InputFilter
-                label="Q4:"
-                placeholder="Q4"
-                value={tplSettings.monthly_cost_q4?.toString() || ''}
-                isNumber
-                isPositiveOnly
-                allow5Decimal
-                handleChange={(value: string) =>
-                  updateSellerDatabaseFilter('monthly_cost_q4', parseFloat(value))
-                }
-                className={`
-                    ${styles.inputFilter}
-                    ${styles.inputFilter__storageCost}
-                  `}
-              />
-              {!tplSettings.monthly_cost_q4 && (
-                <ExclaimationIcon className={styles.exclaimationIcon} />
-              )}
+                {!tplSettings.monthly_cost_q3 && (
+                  <ExclaimationIcon className={styles.exclaimationIcon} />
+                )}
+              </div>
+              <div>
+                <p>Q4: </p>
+                <Input
+                  placeholder="Q4"
+                  value={tplSettings.monthly_cost_q4?.toString() || ''}
+                  onChange={(e: any) => {
+                    const value = e.target.value;
+                    if (validateNumberField(value, true, false, true, true)) {
+                      updateSellerDatabaseFilter('monthly_cost_q4', value);
+                    }
+                  }}
+                  className={`
+                  ${styles.inputFilter}
+                  ${styles.inputFilter__storageCost}
+                `}
+                />
+                {!tplSettings.monthly_cost_q4 && (
+                  <ExclaimationIcon className={styles.exclaimationIcon} />
+                )}
+              </div>
             </div>
             <FormFilterActions
               isBlack

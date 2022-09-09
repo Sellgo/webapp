@@ -304,7 +304,7 @@ export const fetchSellerInventoryTableResults = (payload: SellerInventoryTablePa
       );
     }
   } catch (err) {
-    console.error('Error fetching seller inventory table', err);
+    console.error('Error fetching seller inventory', err);
     dispatch(isLoadingSellerInventoryTable(false));
     dispatch(setSellerInventoryTableResults([]));
     dispatch(
@@ -334,7 +334,7 @@ export const deleteSellerFromTable = (payload: DeleteSellerPayload) => async (di
       success('Seller successfully deleted');
     }
   } catch (err) {
-    console.error('Error deleting seler from table', err);
+    console.error('Error deleting seller', err);
   }
 };
 
@@ -357,7 +357,7 @@ export const fetchSellerInventoryTableGroups = () => async (dispatch: any) => {
       dispatch(setSellerInventoryTableGroups([]));
     }
   } catch (err) {
-    console.error('Error fetching seller inventory table groups', err);
+    console.error('Error fetching seller inventory', err);
     dispatch(setSellerInventoryTableGroups([]));
   }
 };

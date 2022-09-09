@@ -24,6 +24,7 @@ import OrderSummary from './OrderSummary';
 import EditingOrderStatusBanner from './EditingOrderStatusBanner';
 import InventoryTable from './InventoryTable';
 import AddEditSkuModal from './AddEditSkuModal';
+import OrderVolumeOptimization from './OrderVolumeOptimization';
 
 /* Types */
 import {
@@ -76,6 +77,7 @@ const OrderPlanning = (props: Props) => {
     <main>
       <EditingOrderStatusBanner />
       <OrderGanttChart isDraftMode />
+      <OrderVolumeOptimization />
       <OrderSummary />
       <OrderPlanningMeta
         setIsEditingSKUs={setIsEditingSKUs}

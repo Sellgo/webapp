@@ -225,7 +225,7 @@ const FreeAccountForm = (props: Props) => {
                   setOpenTOS(true);
                 }}
               >
-                terms of service&nbsp;
+                Terms of Service&nbsp;
               </span>
               and you have read our&nbsp;
               <span
@@ -270,7 +270,7 @@ const FreeAccountForm = (props: Props) => {
             setOpenTOS(true);
           }}
         >
-          Terms Of Service
+          Terms of Service
         </button>
         <button
           onClick={() => {
