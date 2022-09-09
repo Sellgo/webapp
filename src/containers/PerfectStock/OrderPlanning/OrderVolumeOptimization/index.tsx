@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 /* Selectors */
-import { getActivePurchaseOrder } from '../../../../selectors/PerfectStock/OrderPlanning';
+import {
+  getActivePurchaseOrder,
+  getInventoryTableResults,
+} from '../../../../selectors/PerfectStock/OrderPlanning';
 
 /* Interfaces */
 import { PurchaseOrder } from '../../../../interfaces/PerfectStock/OrderPlanning';
@@ -19,10 +22,11 @@ import { AppConfig } from '../../../../config';
 
 interface Props {
   activeOrder: PurchaseOrder;
+  inventoryTableResults: any[];
 }
 
 const OrderVolumeOptimization = (props: Props) => {
-  const { activeOrder } = props;
+  const { activeOrder, inventoryTableResults } = props;
   const [volumeOptimizationData, setVolumeOptimizationData] = useState<any>([]);
   const [containersConfigData, setContainersConfigData] = useState<any>([]);
   const sellerID = localStorage.getItem('userId');
@@ -33,7 +37,6 @@ const OrderVolumeOptimization = (props: Props) => {
       );
 
       if (status === 200) {
-        console.log('API RESPONSE DTAA', data);
         const tempData: any[] = [];
         data.forEach((configData: any) => {
           tempData.push({
@@ -56,14 +59,12 @@ const OrderVolumeOptimization = (props: Props) => {
       );
 
       if (status === 200) {
-        console.log('API RESPONSE DTAA', data);
         if (data && !(data.length > 0)) {
           try {
             const { status, data } = await axios.post(
               `${AppConfig.BASE_URL_API}sellers/${sellerID}/purchase-orders/${activeOrder.id}/optimize-volume`
             );
             if (status === 201) {
-              console.log('API RESPONSE DTAA', data);
               setVolumeOptimizationData(data);
             }
           } catch (err) {
@@ -87,7 +88,7 @@ const OrderVolumeOptimization = (props: Props) => {
     if (activeOrder.id && activeOrder.id >= 0) {
       fetchOptimizeVolumeData();
     }
-  }, [activeOrder]);
+  }, [activeOrder, inventoryTableResults]);
 
   const patchContainerChange = async (
     shipping_container_id: number,
@@ -107,7 +108,7 @@ const OrderVolumeOptimization = (props: Props) => {
       }
     } catch (err) {
       error('Cannot update volume optimization data');
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -145,6 +146,7 @@ const OrderVolumeOptimization = (props: Props) => {
 const mapStateToProps = (state: any) => {
   return {
     activeOrder: getActivePurchaseOrder(state),
+    inventoryTableResults: getInventoryTableResults(state),
   };
 };
 

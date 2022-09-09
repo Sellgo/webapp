@@ -58,6 +58,6 @@ export const fetchRefreshProgress = () => async (dispatch: any, getState: any) =
     }
   } catch (err) {
     dispatch(setIsFetchingProgressForLeadTimeJob(false));
-    console.error('Error fetching progress for AiStock', err);
+    console.error('Error fetching AiStock progress', err);
   }
 };

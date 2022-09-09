@@ -31,6 +31,9 @@ import {
 import { AppConfig } from '../../../../config';
 import history from '../../../../history';
 
+/*Selectors */
+import { getSellerSubscription } from '../../../../selectors/Subscription';
+
 /* Actions */
 import {
   fetchPurchaseOrders,
@@ -51,9 +54,11 @@ import {
 /* Selectors */
 import { getCashflowOnboardingStatus } from '../../../../selectors/PerfectStock/Cashflow';
 import { sellerIDSelector } from '../../../../selectors/Seller';
+import { SellerSubscription } from '../../../../interfaces/Seller';
 
 interface Props {
   open: boolean;
+  sellerSubscription: SellerSubscription;
   setIsCreatingOrder: (open: boolean) => void;
   fetchPurchaseOrders: () => void;
   setActivePurchaseOrder: (order: PurchaseOrder) => void;
@@ -66,6 +71,7 @@ interface Props {
 const CreateOrder = (props: Props) => {
   const {
     open,
+    sellerSubscription,
     setIsCreatingOrder,
     fetchPurchaseOrders,
     setActivePurchaseOrder,
@@ -126,7 +132,7 @@ const CreateOrder = (props: Props) => {
       } else {
         isLoadingPurchaseOrders(false);
         setPurchaseOrdersLoadingMessage('');
-        error('Failed to create new order.');
+        error('Failed to create new order');
       }
     } catch (err) {
       console.error(err);
@@ -189,6 +195,7 @@ const CreateOrder = (props: Props) => {
       headerContent = 'Select order type';
       content = (
         <OrderTypeSelection
+          sellerId={sellerSubscription?.subscription_id}
           onCloseModal={() => setIsCreatingOrder(false)}
           createOrderPayload={createOrderPayload}
           setCreateOrderPayload={setCreateOrderPayload}
@@ -262,7 +269,7 @@ const CreateOrder = (props: Props) => {
           handleNext={() => setCreateOrderStep(createOrderStep + 1)}
         />
       );
-      headerContent = 'Select 1ST ORDER DATE';
+      headerContent = 'Select 1st Order Date';
       break;
     case CREATE_ORDER_STATUS.SELECT_LEAD_TIME:
       content = (
@@ -274,7 +281,7 @@ const CreateOrder = (props: Props) => {
           handleNext={() => setCreateOrderStep(createOrderStep + 1)}
         />
       );
-      headerContent = 'Select LEAD TIME';
+      headerContent = 'Select Lead Time';
       break;
 
     case CREATE_ORDER_STATUS.SELECT_PAYMENT_TERM:
@@ -287,7 +294,7 @@ const CreateOrder = (props: Props) => {
           handleNext={() => setCreateOrderStep(createOrderStep + 1)}
         />
       );
-      headerContent = 'Select LEAD TIME';
+      headerContent = 'Select Payment Term';
       break;
 
     case CREATE_ORDER_STATUS.ORDER_CREATED:
@@ -305,7 +312,7 @@ const CreateOrder = (props: Props) => {
           isCreateOrderLoading={isCreateOrderLoading}
         />
       );
-      headerContent = 'Select TPL';
+      headerContent = 'Select 3rd Party Logistic Warehouse';
       break;
 
     default:
@@ -336,6 +343,7 @@ const CreateOrder = (props: Props) => {
 
 const mapStateToProps = (state: any) => ({
   cashflowOnboardingStatus: getCashflowOnboardingStatus(state),
+  sellerSubscription: getSellerSubscription(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {

@@ -81,7 +81,10 @@ const EditValueSelectionCell = (props: Props) => {
             <div className={styles.optionsWrapper}>
               {options.map((option: IOption) => (
                 <div
-                  className={styles.option}
+                  style={{
+                    padding: '5px 10px',
+                    cursor: 'pointer',
+                  }}
                   key={option.key}
                   onClick={() => {
                     handleChange(dataKey, option.value, id);

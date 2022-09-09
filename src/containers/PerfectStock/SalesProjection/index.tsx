@@ -8,7 +8,7 @@ import {
   fetchSalesProjection,
   fetchRefreshProgress,
 } from '../../../actions/PerfectStock/SalesProjection';
-import { updatePerfectStockGetStartedStatus } from '../../../actions/UserOnboarding';
+import { updatePerfectStockGetStartedJoyRideStatus } from '../../../actions/UserOnboarding';
 
 /* Interfaces */
 import {
@@ -16,7 +16,7 @@ import {
   SalesProjectionFilters,
   SalesProjectionPayload,
 } from '../../../interfaces/PerfectStock/SalesProjection';
-import { PerfectStockGetStartedStatus } from '../../../interfaces/UserOnboarding';
+import { PerfectStockGetStartedJoyRideStatus } from '../../../interfaces/UserOnboarding';
 
 /* Selectors */
 import {
@@ -25,7 +25,7 @@ import {
   getSalesProjectionFilters,
   getSalesProjectionResults,
 } from '../../../selectors/PerfectStock/SalesProjection';
-import { getPerfectStockGetStartedStatus } from '../../../selectors/UserOnboarding';
+import { getPerfectStockGetStartedJoyRideStatus } from '../../../selectors/UserOnboarding';
 
 /* Containers */
 import SalesProjectionMeta from './SalesProjectionMeta';
@@ -40,15 +40,66 @@ import { sellerIDSelector } from '../../../selectors/Seller';
 
 const steps = [
   {
-    target: '#salesProjectionRefreshButton',
-    content: 'Step 1',
+    target: '.StockOutDate_stockOutCell__2A059',
+    content:
+      'Days until stock out shows total number of days of domestic inventory still in stock.',
+    disableBeacon: true,
+  },
+  {
+    target: '.ExpansionCell_expansionIcon__3gTq3 ',
+    content: 'Expand sales with seasonality adjustor here.',
+    disableBeacon: true,
+  },
+  {
+    target: '.SalesEstimationStat_salesEstimationStatCell__2HULR',
+    content: 'Click to disable/ enable sales period calculated into sales projection.',
+    disableBeacon: true,
+  },
+  {
+    target: '.SalesPrediction_salesPrediction__5eMZN',
+    content: 'Use predictive sales or override with manual sales as needed.',
+    disableBeacon: true,
+  },
+  {
+    target: '.SeasonalityAdjustor_seasonalityAdjustorCell__13cNZ',
+    content: 'Click to enable/ disable seasonality adjustor here.',
+    disableBeacon: true,
+  },
+  {
+    target: '.InventoryThreshold_inventoryThresholdCell__3uYTv',
+    content: 'Click to enable/ disable inventory threshold here.',
+    disableBeacon: true,
+  },
+  {
+    target: '.WeightedAverage_inventoryThresholdCell__bkNEK',
+    content: 'Click to enable/ disable weighted average sales here.',
+    disableBeacon: true,
+  },
+  {
+    target: '.TooltipWrapper_trigger__2DTYQ',
+    content: 'This shows the last time your data is updated, click to update manually.',
+    disableBeacon: true,
+  },
+  {
+    target: '.TopGraph_graphWrapper__MLkXm',
+    content: 'Sales chart for selected/ all SKU.',
+    disableBeacon: true,
+  },
+  {
+    target: '.CheckboxDropdownFilter_checkBoxDropdownFilters__3fJgj',
+    content: 'Choose SKU to show.',
+    disableBeacon: true,
+  },
+  {
+    target: '.TableExport_exportBtn__1m92N',
+    content: 'Export past/ future sales data here.',
     disableBeacon: true,
   },
 ];
 
 interface Props {
-  updatePerfectStockGetStartedStatus: (key: string, status: boolean) => void;
-  perfectStockGetStartedStatus: PerfectStockGetStartedStatus;
+  updatePerfectStockGetStartedJoyRideStatus: (key: string, status: boolean) => void;
+  perfectStockGetStartedJoyRideStatus: PerfectStockGetStartedJoyRideStatus;
   fetchSalesProjection: (payload: SalesProjectionPayload) => void;
   refreshProgress: number;
   isFetchingProgressForRefresh: boolean;
@@ -65,8 +116,8 @@ const SalesProjection = (props: Props) => {
     salesProjectionResult,
     refreshProgress,
     isFetchingProgressForRefresh,
-    perfectStockGetStartedStatus,
-    updatePerfectStockGetStartedStatus,
+    perfectStockGetStartedJoyRideStatus,
+    updatePerfectStockGetStartedJoyRideStatus,
   } = props;
 
   const [salesProjectionGraphData, setSalesProjectionGraphData] = React.useState<GraphDataSeries[]>(
@@ -132,15 +183,27 @@ const SalesProjection = (props: Props) => {
       <SalesProjectionTable />
       <JoyRide
         steps={steps}
-        run={perfectStockGetStartedStatus.isSalesProjectionTourRunning}
+        run={perfectStockGetStartedJoyRideStatus.isSalesProjectionTourRunning}
         continuous={true}
         showProgress={true}
         callback={(data: any) => {
           if (data.action === 'close' || data.action === 'reset') {
-            updatePerfectStockGetStartedStatus('isSalesProjectionTourRunning', false);
+            updatePerfectStockGetStartedJoyRideStatus('isSalesProjectionTourRunning', false);
           }
         }}
+        styles={{
+          options: {
+            primaryColor: '#000',
+            zIndex: 100000000000,
+          },
+        }}
         scrollToFirstStep={false}
+        disableScrolling={true}
+        disableCloseOnEsc={true}
+        spotlightClicks={true}
+        spotlightPadding={1}
+        scrollOffset={20}
+        scrollDuration={100}
       />
     </main>
   );
@@ -150,7 +213,7 @@ const mapStateToProps = (state: any) => {
   return {
     refreshProgress: getRefreshProgress(state),
     isFetchingProgressForRefresh: getIsFetchingProgressForRefresh(state),
-    perfectStockGetStartedStatus: getPerfectStockGetStartedStatus(state),
+    perfectStockGetStartedJoyRideStatus: getPerfectStockGetStartedJoyRideStatus(state),
     salesProjectionFilters: getSalesProjectionFilters(state),
     salesProjectionResult: getSalesProjectionResults(state),
   };
@@ -161,8 +224,8 @@ const mapDispatchToProps = (dispatch: any) => {
     fetchSalesProjection: (payload: SalesProjectionPayload) =>
       dispatch(fetchSalesProjection(payload)),
     fetchRefreshProgress: () => dispatch(fetchRefreshProgress()),
-    updatePerfectStockGetStartedStatus: (key: string, status: boolean) =>
-      dispatch(updatePerfectStockGetStartedStatus(key, status)),
+    updatePerfectStockGetStartedJoyRideStatus: (key: string, status: boolean) =>
+      dispatch(updatePerfectStockGetStartedJoyRideStatus(key, status)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SalesProjection);

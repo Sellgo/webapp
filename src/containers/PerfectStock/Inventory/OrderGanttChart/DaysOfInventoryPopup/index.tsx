@@ -72,7 +72,7 @@ const DaysOfInventoryPopup = (props: Props) => {
         setDaysOfInventory([...daysOfInventory, data]);
       }
     } catch (err) {
-      error('Failed to add setting.');
+      error('Failed to add setting');
     }
   };
 

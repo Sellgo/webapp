@@ -7,3 +7,8 @@ export type PerfectStockGetStartedStatus = {
   isSalesProjectionTourRunning: boolean;
   isOrderPlanningTourRunning: boolean;
 };
+
+export type PerfectStockGetStartedJoyRideStatus = {
+  isSalesProjectionTourRunning: boolean;
+  isOrderPlanningTourRunning: boolean;
+};

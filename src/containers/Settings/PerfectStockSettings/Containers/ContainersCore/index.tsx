@@ -21,7 +21,7 @@ import { CONTAINERS_SETTINGS_COLUMNS } from '../../../../../constants/Containers
 /* data */
 // import { data } from './data';
 
-const DaysOfInventory = () => {
+const ContainersCore = () => {
   const [containersConfig, setContainersConfig] = React.useState<any>({
     floor: [],
     nonFloor: [],
@@ -41,8 +41,14 @@ const DaysOfInventory = () => {
       let pushName = [];
       if (tempName[0].toLowerCase() === 'floor') {
         pushName = floor;
+        if (containerConfigData.is_default) {
+          setSelectedTable(0);
+        }
       } else if (tempName[0].toLowerCase() === 'non-floor') {
         pushName = nonFloor;
+        if (containerConfigData.is_default) {
+          setSelectedTable(1);
+        }
       }
       const maxOrderCdm =
         (Number(containerConfigData.container_size_cbm) *
@@ -63,6 +69,15 @@ const DaysOfInventory = () => {
           isRowSelected: !!containerConfigData.is_default,
           isMarketPriceSelected: !!containerConfigData.market_price,
           isCustomPriceSelected: !containerConfigData.market_price,
+          errors: {
+            container_size_cbm: false,
+            max_size_perc: false,
+            price: false,
+          },
+          maxValues: {
+            max_size_perc: 100,
+          },
+          disabled: !containerConfigData.is_default,
         });
     });
     setContainersConfig({
@@ -91,33 +106,52 @@ const DaysOfInventory = () => {
   };
 
   const handleEditRow = (dataKey: string, value: number, id: number, selectedType: string) => {
+    let tempData;
     if (selectedType === 'floor') {
-      const tempData = containersConfig.floor;
-      tempData[id - 1].dataKey = value;
-      if (dataKey === 'max_size_perc') {
-        tempData[id - 1].max_order_cbm = (
-          (tempData[id - 1].container_size_cbm * value) /
-          100
-        ).toFixed(2);
-      }
+      tempData = containersConfig.floor;
+    } else if (selectedType === 'nonFloor') {
+      tempData = containersConfig.nonFloor;
+    }
+    tempData[id - 1][`${dataKey}`] = value;
+    if (!value || Number(value) === 0) {
+      tempData[id - 1].errors[`${dataKey}`] = true;
+    } else {
+      tempData[id - 1].errors[`${dataKey}`] = false;
+    }
+    if (dataKey === 'max_size_perc') {
+      tempData[id - 1].max_order_cbm = (
+        (tempData[id - 1].container_size_cbm * value) /
+        100
+      ).toFixed(2);
+    }
+    if (selectedType === 'floor') {
       setContainersConfig({
         floor: tempData,
         nonFloor: containersConfig.nonFloor,
       });
     } else if (selectedType === 'nonFloor') {
-      const tempData = containersConfig.nonFloor;
-      tempData[id - 1].dataKey = value;
-      if (dataKey === 'max_size_perc') {
-        tempData[id - 1].max_order_cbm = (
-          (tempData[id - 1].container_size_cbm * value) /
-          100
-        ).toFixed(2);
-      }
       setContainersConfig({
         floor: containersConfig.floor,
         nonFloor: tempData,
       });
     }
+  };
+
+  const validateSave = (data: any) => {
+    if (!data.container_size_cbm || Number(data.container_size_cbm) === 0) {
+      error('Volume CBM is required and must be greater than 0');
+      return false;
+    }
+    if (!data.max_size_perc || Number(data.max_size_perc) === 0) {
+      error('Max order efficiency is required and must be greater than 0');
+      return false;
+    }
+    if (data.isCustomPriceSelected && (!data.price || Number(data.price) === 0)) {
+      error('Manual container price must be greater than 0');
+      return false;
+    }
+
+    return true;
   };
 
   const handleSave = async () => {
@@ -130,20 +164,30 @@ const DaysOfInventory = () => {
     const current = tempData.find((data: any) => {
       return !!data.isRowSelected;
     });
-    try {
-      const payload = {
-        is_default: current.isRowSelected,
-        max_size_perc: current.max_size_perc,
-        price: current.price,
-      };
-      const url = `${AppConfig.BASE_URL_API}sellers/${sellerID}/shipping-container-configs/${current._id}`;
-      const { status } = await axios.patch(url, payload);
-      if (status === 200) {
-        success('Default Container updated successfully');
+    if (current) {
+      if (validateSave(current)) {
+        try {
+          const payload: { [key: string]: any } = {
+            // container_size_cbm: current.container_size_cbm,
+            is_default: current.isRowSelected,
+            max_size_perc: current.max_size_perc,
+          };
+          if (current.isCustomPriceSelected) {
+            payload.price = Number(current.price);
+          }
+          const url = `${AppConfig.BASE_URL_API}sellers/${sellerID}/shipping-container-configs/${current._id}`;
+          const { status } = await axios.patch(url, payload);
+          if (status === 200) {
+            success('Default Container updated successfully');
+            fetchContainersConfig();
+          }
+        } catch (err) {
+          error('Failed to update default container');
+          console.error(err);
+        }
       }
-    } catch (err) {
-      error('Failed to update default container');
-      console.error(err);
+    } else {
+      error('Please select a container of the selected group of containers');
     }
   };
 
@@ -162,7 +206,13 @@ const DaysOfInventory = () => {
       if (!tempData[id - 1].isRowSelected) {
         for (let i = 0; i < tempData.length; i++) {
           const temp = tempData[i];
-          temp.id === id ? (temp.isRowSelected = true) : (temp.isRowSelected = false);
+          if (temp.id === id) {
+            temp.isRowSelected = true;
+            temp.disabled = false;
+          } else {
+            temp.isRowSelected = false;
+            temp.disabled = true;
+          }
           tempData[i] = temp;
         }
       }
@@ -207,7 +257,7 @@ const DaysOfInventory = () => {
         <div className={styles.daysOfInventorySettingsBox}>
           <p>Select your default container</p>
           <div className={styles.inputTableWrapper}>
-            <div className={styles.inputTable}>
+            <div className={`${styles.inputTable}`}>
               <Checkbox
                 radio
                 checked={!!(selectedTable === 0)}
@@ -225,13 +275,14 @@ const DaysOfInventory = () => {
                 handleRadioClick={(dataKey, dataRow) => {
                   hanleRadioClick(dataKey, dataRow.id, 'floor');
                 }}
+                className={`${selectedTable !== 0 && styles.disabledTable}`}
               />
             </div>
-            <div className={styles.inputTable}>
+            <div className={`${styles.inputTable}`}>
               <Checkbox
                 radio
                 checked={!!(selectedTable === 1)}
-                label="Floor Loaded Container"
+                label="Non-Floor Loaded Container"
                 onChange={() => {
                   if (selectedTable === 0) setSelectedTable(1);
                 }}
@@ -245,6 +296,7 @@ const DaysOfInventory = () => {
                 handleRadioClick={(dataKey, dataRow) => {
                   hanleRadioClick(dataKey, dataRow.id, 'nonFloor');
                 }}
+                className={`${selectedTable !== 1 && styles.disabledTable}`}
               />
             </div>
           </div>
@@ -274,4 +326,4 @@ const DaysOfInventory = () => {
   );
 };
 
-export default DaysOfInventory;
+export default ContainersCore;

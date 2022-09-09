@@ -441,7 +441,7 @@ export const updatePurchaseOrder = (
         success('Deleted order successfully');
       }
     } else {
-      error('Failed to update purchase order.');
+      error('Failed to update purchase order');
       dispatch(isLoadingInventoryTableResults(false));
       dispatch(setPurchaseOrders([]));
       dispatch(isLoadingPurchaseOrders(false));
@@ -518,7 +518,7 @@ export const fetchInventoryTable = (payload: InventoryTablePayload) => async (
     }
   } catch (err) {
     dispatch(setInventoryTableResults([]));
-    console.error('Error fetching inventory table', err);
+    console.error('Error fetching inventory', err);
   }
   dispatch(isLoadingInventoryTableResults(false));
 };
@@ -539,7 +539,7 @@ export const refreshInventoryTable = () => async (dispatch: any) => {
     dispatch(setIsFetchingProgressForRefresh(false));
     const { status } = err.response;
     if (status === 429) {
-      error('Only 1 refresh per day allowed.');
+      error('Only 1 refresh per day allowed');
     }
     console.error('Error updating sales estimation', err);
   }
@@ -564,7 +564,7 @@ export const fetchRefreshProgress = () => async (dispatch: any, getState: any) =
       } else if (data.status === 'failed') {
         dispatch(setIsFetchingProgressForRefresh(false));
         dispatch(setRefreshInventoryTableId(-1));
-        error('Refreshing of inventory table failed.');
+        error('Refreshing inventory failed');
       } else {
         dispatch(setRefreshProgress(parseFloat(data.progress)));
       }

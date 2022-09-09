@@ -46,6 +46,7 @@ interface Props {
   isPositiveOnly?: boolean;
   isNumber?: boolean;
   allow5Decimal?: boolean;
+  maxValue?: number;
   isDate?: boolean;
   onFocus?: () => void;
   onBlur?: () => void;
@@ -76,6 +77,7 @@ const InputFilter: React.FC<Props> = props => {
     handleKeyDown,
     handleKeyUp,
     allow5Decimal,
+    maxValue,
   } = props;
 
   /* Onboarding logic */
@@ -108,6 +110,10 @@ const InputFilter: React.FC<Props> = props => {
 
     /* Default float, allow 5 DPs */
     if (isNumber && allow5Decimal && !isLessThanFiveDecimalPoints(value)) {
+      return false;
+    }
+
+    if (isNumber && maxValue && Number(value) > maxValue) {
       return false;
     }
 

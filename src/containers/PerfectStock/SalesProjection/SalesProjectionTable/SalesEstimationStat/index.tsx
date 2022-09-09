@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table } from 'rsuite';
 import { connect } from 'react-redux';
+import { Loader } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -38,6 +39,7 @@ const SalesEstimationStat = (props: Props) => {
   const label = rowData[`${dataKey}_label`];
   const totalDays = rowData[`${dataKey}_days_count`];
   const inStockDays = rowData[`${dataKey}_instock_count`];
+  const isLoading = rowData.isLoading;
   // const isBestSeller = rowData[`${dataKey}_best_seller`];
 
   const handleIncludeExcludeStat = () => {
@@ -97,7 +99,11 @@ const SalesEstimationStat = (props: Props) => {
     );
   }
 
-  return <Table.Cell {...otherProps}>{displayContent}</Table.Cell>;
+  return (
+    <Table.Cell {...otherProps}>
+      {isLoading ? <Loader active inline size="tiny" /> : displayContent}
+    </Table.Cell>
+  );
 };
 
 const mapDispatchToProps = (dispatch: any) => {

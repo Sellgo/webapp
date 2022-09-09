@@ -5,26 +5,26 @@
   justify-content: center;
   align-items: center;
   background: $sellgo_yellow;
-  width: 150px;
+  width: 140px;
   height: 40px;
   border-radius: 7px;
   position: fixed;
-  bottom: 50px;
-  right: 100px;
-  font-size: 14px;
+  bottom: 20px;
+  right: 30px;
+  font-size: 12px;
   color: $grey_8;
   font-weight: $fontweight_semibold;
   cursor: pointer;
 
   .circle {
-    width: 25px;
-    height: 25px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     background: $prim_white;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 10px;
+    margin-right: 18px;
   }
 }
 
@@ -60,8 +60,8 @@
     }
 
     &__completed {
-      pointer-events: none;
-      opacity: 0.5;
+      //pointer-events: none;
+      //opacity: 0.5;
     }
   }
 
@@ -106,6 +106,7 @@
       font-weight: $fontweight_semibold !important;
       margin-top: -20px !important;
       color: $blue_link_bg_light !important;
+      right: unset !important;
     }
   }
 }

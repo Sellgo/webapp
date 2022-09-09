@@ -32,6 +32,7 @@ const AddEditSkuModal = (props: Props) => {
   const { open, onCloseModal, templateId, refreshData, selectedSKUs } = props;
   const [orderProducts, setOrderProducts] = React.useState<any>([]);
   const [selectedProductIds, setSelectedProductIds] = React.useState<string[]>([]);
+  const [prioritySkuId, setPrioritySkuId] = React.useState<string | null>(null);
   const [isSubmitingProductAssignments, setIsSubmitingProductAssignments] = React.useState<boolean>(
     false
   );
@@ -50,7 +51,15 @@ const AddEditSkuModal = (props: Props) => {
   React.useEffect(() => {
     if (open) {
       setOrderProducts([]);
-      const selectedSkuIds = selectedSKUs?.map((sku: any) => sku.merchant_listing_id.toString());
+      const selectedSkuIds: any = [];
+
+      selectedSKUs?.forEach((sku: any) => {
+        if (sku.is_priority) {
+          setPrioritySkuId(sku.merchant_listing_id);
+        }
+        selectedSkuIds.push(sku.merchant_listing_id.toString());
+      });
+
       setSelectedProductIds(selectedSkuIds ? selectedSkuIds : []);
       fetchOrderProducts();
     }
@@ -73,7 +82,7 @@ const AddEditSkuModal = (props: Props) => {
         error('Something went wrong');
       }
     } catch (err) {
-      error('Something went wrong');
+      error(err?.response?.data?.message || 'Something went wrong');
       console.error(err);
     }
     setIsSubmitingProductAssignments(false);
@@ -132,7 +141,7 @@ const AddEditSkuModal = (props: Props) => {
           {/* Product Info */}
           <Table.Column width={600} verticalAlign="middle" align="left">
             <Table.HeaderCell>Product Information</Table.HeaderCell>
-            <ProductInfo dataKey="productInfo" />
+            <ProductInfo dataKey="productInfo" prioritySkuId={prioritySkuId} />
           </Table.Column>
 
           {/* Delete Cell */}

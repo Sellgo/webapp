@@ -15,13 +15,16 @@ import styles from './index.module.scss';
 /* Types */
 import { AlignPurchaseOrderPayload } from '../../../../../interfaces/PerfectStock/OrderPlanning';
 
+/* Utils */
+import { error } from '../../../../../utils/notifications';
+
 interface Props {
   alignOrderDetails: any;
   handleAlignOrder: (payload: AlignPurchaseOrderPayload) => void;
   handleCancel: () => void;
 }
 
-const SetPrioritySkuPopup = (props: Props) => {
+const AlignOrderPopup = (props: Props) => {
   const { alignOrderDetails, handleCancel, handleAlignOrder } = props;
   const [selectedTargetSku, setSelectedTargetSku] = React.useState<string>('');
   const [alignmentSetting, setAlignmentSetting] = React.useState<'moq' | 'perc' | 'days'>('moq');
@@ -30,6 +33,11 @@ const SetPrioritySkuPopup = (props: Props) => {
 
   const handleSubmit = async () => {
     /* Validation Checks */
+    if (!selectedTargetSku) {
+      error('Please select your target SKU');
+      return;
+    }
+
     const payload: AlignPurchaseOrderPayload = {
       id: alignOrderDetails.id,
       is_moq: alignmentSetting === 'moq',
@@ -112,4 +120,4 @@ const SetPrioritySkuPopup = (props: Props) => {
   );
 };
 
-export default SetPrioritySkuPopup;
+export default AlignOrderPopup;

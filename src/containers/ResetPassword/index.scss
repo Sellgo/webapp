@@ -6,8 +6,13 @@ $base-font-size: 1em;
   min-height: 100vh;
   display: flex !important;
   align-items: center !important;
-  background-image: linear-gradient(to right, #344659, #1d2234);
+  background-image: linear-gradient(to right, #1e1e1e, #1e1e1e);
   margin: 0 !important;
+
+  @media screen and (max-width: 480px) {
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
 
   label {
     color: #fff !important;
@@ -15,12 +20,18 @@ $base-font-size: 1em;
   }
 
   .primary {
-    background-color: #349af8 !important;
+    background: linear-gradient(90deg, #fb7900, #b318f1) !important;
     cursor: pointer;
   }
 
   .row {
     min-height: 300px;
+
+    @media screen and (max-width: 480px) {
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+    }
 
     .column {
       padding: 0 !important;
@@ -34,10 +45,14 @@ $base-font-size: 1em;
         flex-direction: column;
 
         h1 {
-          font-size: 34px;
+          font-size: 24px;
           color: white;
           margin: 0;
           line-height: 0;
+
+          @media screen and (max-width: 480px) {
+            line-height: initial;
+          }
         }
 
         a {
@@ -65,8 +80,8 @@ $base-font-size: 1em;
 
           label {
             text-align: center;
-            font-size: 16px;
-            font-weight: 400;
+            font-size: 14px;
+            font-weight: 300;
             letter-spacing: -1px;
             line-height: 16px;
             margin: 20px 0;
@@ -77,7 +92,7 @@ $base-font-size: 1em;
           }
 
           .ui.input {
-            input[type='email']::placeholder {
+            input[type='your email']::placeholder {
               text-align: center;
             }
           }
