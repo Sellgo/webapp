@@ -47,6 +47,7 @@ const TPLVendor = (props: Props) => {
     if (startDate && endDate) {
       const dateArray = [];
       let currentDate = startDate;
+      console.log('current date is', currentDate);
       while (currentDate <= endDate) {
         const dateString = getDateOnly(currentDate);
         dateArray.push(dateString);
@@ -66,7 +67,11 @@ const TPLVendor = (props: Props) => {
     if (tplSkuData && tplSkuData.length > 0) {
       const fba_inventories = tplSkuData[0]?.fba_inventories;
       const dateArray = Object.keys(fba_inventories);
-      generateHeaders(new Date(dateArray[0]), new Date(dateArray[dateArray.length - 1]));
+      console.log('date array ', dateArray);
+      generateHeaders(
+        new Date(dateArray[0].replace(/-/g, '/')),
+        new Date(dateArray[dateArray.length - 1].replace(/-/g, '/'))
+      );
     }
   }, [tplSkuData]);
 
