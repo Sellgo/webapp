@@ -1,16 +1,17 @@
 import React from 'react';
-import { Table } from 'rsuite';
 
 /* Styling */
 import styles from './index.module.scss';
 
 /* Interface */
-import { RowCell } from '../../../../../../interfaces/Table';
 import { formatNumber, showNAIfNull, formatDecimal } from '../../../../../../utils/format';
 
-interface Props extends RowCell {
+interface Props {
   highlightZero?: boolean;
+  rowData?: any;
+  dataKey?: string;
 }
+
 const SingleStatBox = (props: Props) => {
   const { highlightZero, ...otherProps } = props;
   const { rowData, dataKey } = otherProps;
@@ -23,28 +24,24 @@ const SingleStatBox = (props: Props) => {
 
   if (displayStat === '0' && highlightZero) {
     return (
-      <Table.Cell {...otherProps}>
-        <div className={styles.displayStatWrapper}>
-          <div className={styles.zeroStat}>0</div>
-        </div>
-      </Table.Cell>
+      <div className={styles.displayStatWrapper}>
+        <div className={styles.zeroStat}>0</div>
+      </div>
     );
   }
 
   return (
-    <Table.Cell {...props}>
-      <div className={styles.displayStatWrapper}>
-        <span className={styles.displayStat}>{displayStat}</span>
-        <span
-          className={`
+    <div className={styles.displayStatWrapper}>
+      <span className={styles.displayStat}>{displayStat}</span>
+      <span
+        className={`
           ${styles.change}
           ${parseFloat(displayChange) < 0 ? styles.change__negative : styles.change__positive}
         `}
-        >
-          {displayChange !== '0.00' && displayChange !== '-' ? `${displayChange}%` : ''}
-        </span>
-      </div>
-    </Table.Cell>
+      >
+        {displayChange !== '0.00' && displayChange !== '-' ? `${displayChange}%` : ''}
+      </span>
+    </div>
   );
 };
 

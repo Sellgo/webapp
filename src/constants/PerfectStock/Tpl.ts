@@ -202,3 +202,8 @@ export const TPL_MONTHLY_STORAGE_COST_FORM = {
     },
   ],
 };
+
+export const TIME_SETTING = {
+  DAY: 'month',
+  WEEK: 'year',
+};

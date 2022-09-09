@@ -1,17 +1,9 @@
-@import '../../../../../styles/tableReset';
+@import '../../../../../../styles/tableReset';
 
-#tplTable {
+#expandedTplTable {
   background: $light_gray_background !important;
-  overflow-x: auto !important;
+  overflow-x: scroll !important;
   min-height: 600px !important;
-
-  .rs-table-cell {
-    height: 90px !important;
-  }
-
-  .rs-table-cell-content {
-    height: 90px !important;
-  }
 
   /* width */
   &::-webkit-scrollbar {
@@ -104,15 +96,6 @@
         }
       }
     }
-  }
-
-  .rs-table-row-expanded {
-    padding: 0;
-    border-top: 0;
-    background-color: inherit;
-    width: calc(100vw - 115px);
-    overflow-y: hidden;
-    overflow-x: scroll;
   }
 
   // scrollbar

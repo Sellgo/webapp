@@ -11,10 +11,11 @@ import { formatDecimal, formatNumber } from '../../../../../../utils/format';
 interface Props extends RowCell {
   displayData: { title: string; dataKey: string }[];
   isFloat?: boolean;
+  columnHeight?: number;
 }
 
 const InboundFulfillableStat = (props: Props) => {
-  const { displayData, isFloat, ...otherProps } = props;
+  const { displayData, isFloat, columnHeight, ...otherProps } = props;
   const { rowData } = otherProps;
 
   const updatedDisplayData = displayData.map(data => {
@@ -22,9 +23,8 @@ const InboundFulfillableStat = (props: Props) => {
     const title = data.title.replace('LND', `L${rowData.interval?.toString()}D`);
     return { ...data, title };
   });
-
   return (
-    <Table.Cell {...otherProps}>
+    <Table.Cell {...otherProps} height={columnHeight}>
       <div className={styles.inboundFulfillableStat}>
         {updatedDisplayData.map((data, index) => {
           const displayStat = isFloat
@@ -35,7 +35,7 @@ const InboundFulfillableStat = (props: Props) => {
             <div key={index} className={styles.statWrapper}>
               <p className={styles.statLabel}>{data.title}</p>
               <p className={styles.stat}>
-                {displayStat && displayStat !== 'NaN' ? displayStat : '-'}
+                {displayStat && displayStat !== 'NaN' ? displayStat : ''}
               </p>
             </div>
           );

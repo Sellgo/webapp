@@ -16,9 +16,11 @@ import { getDateOnly, MILLISECONDS_IN_A_DAY } from '../../../../../utils/date';
 
 interface Props extends RowCell {
   isShowingDaysUntilStockout?: boolean;
+  showTpl?: boolean;
+  columnHeight?: number;
 }
 const InventoryBarCell = (props: Props) => {
-  const { isShowingDaysUntilStockout, ...otherProps } = props;
+  const { isShowingDaysUntilStockout, showTpl = false, columnHeight, ...otherProps } = props;
   const { rowData, dataKey } = otherProps;
 
   const inventory = rowData[dataKey];
@@ -41,7 +43,7 @@ const InventoryBarCell = (props: Props) => {
 
   if (isShowingDaysUntilStockout) {
     return (
-      <Table.Cell {...otherProps}>
+      <Table.Cell {...otherProps} height={columnHeight}>
         <div
           className={`
             ${styles.daysUntilStockoutCell}
@@ -63,19 +65,20 @@ const InventoryBarCell = (props: Props) => {
   }
 
   return (
-    <Table.Cell {...otherProps}>
+    <Table.Cell {...otherProps} height={columnHeight}>
       <div
         className={`
           ${styles.inventoryBarCell}`}
       >
-        <span className={styles.potentialLoss}> {displayLoss}</span>
+        {!showTpl && <span className={styles.potentialLoss}> {displayLoss}</span>}
         <span className={styles.inventoryCount}>
           {displayInventoryCount === '0' ? ' ' : displayInventoryCount}
         </span>
         <InventoryBar percent={percent / 100} />
-        {!isRepeatedZero && (
+        {!isRepeatedZero && !showTpl && (
           <span style={percent <= 20 ? { color: '#EB675E' } : {}}>{displayPercent}</span>
         )}
+        {showTpl && <span>{inventory.tpl}</span>}
       </div>
     </Table.Cell>
   );

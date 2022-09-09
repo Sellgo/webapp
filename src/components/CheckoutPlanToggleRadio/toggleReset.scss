@@ -38,9 +38,11 @@
 }
 
 .toggleRadioRainbow {
+  margin: 0 auto;
+
   label {
     padding-left: 30px !important;
-    color: $prim_white !important;
+    color: $grey_8 !important;
     font-size: 10px;
     font-weight: $fontweight_semibold;
   }
