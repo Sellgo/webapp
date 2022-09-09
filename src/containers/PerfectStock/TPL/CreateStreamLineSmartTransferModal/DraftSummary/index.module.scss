@@ -1,0 +1,77 @@
+@import '../../../../../design-system/new-colors.scss';
+
+.createOrderWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.createOrderBox {
+  min-width: 0 !important;
+  padding: 30px;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h3 {
+    line-height: normal;
+    font-size: 24px;
+    font-weight: $fontweight_bold;
+    color: $black_1;
+  }
+}
+
+.inputBox {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  width: 700px;
+  margin-bottom: 30px;
+}
+
+.buttonsRow {
+  display: flex;
+  justify-content: flex-end;
+
+  > div {
+    margin-left: 18px;
+  }
+
+  .createButton {
+    > button {
+      padding: 0 20px !important;
+    }
+  }
+}
+
+.content {
+  display: flex;
+}
+
+.title {
+  font-size: 12px;
+  text-align: left;
+  font-weight: 700;
+}
+
+.subTitle {
+  font-size: 12px;
+  color: $grey_8;
+}
+
+.text {
+  font-size: 12px;
+}
+
+.firstContextBox {
+  display: flex;
+  justify-content: space-between;
+}
+
+.secondContextBox {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 30px;
+}

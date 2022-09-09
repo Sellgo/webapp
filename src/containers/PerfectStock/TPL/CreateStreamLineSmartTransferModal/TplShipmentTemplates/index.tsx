@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -7,27 +6,23 @@ import styles from './index.module.scss';
 /* Components */
 import SelectionFilter from '../../../../../components/FormFilters/SelectionFilter';
 import ActionButton from '../../../../../components/ActionButton';
-
-/* Interfaces */
-// import { CreateOrderPayload } from '../../../../../interfaces/PerfectStock/OrderPlanning';
-import { TplVendor, ReplenishmentFBA } from '../../../../../interfaces/PerfectStock/Tpl';
-
-/* Selectors */
-import { getTplVendors } from '../../../../../selectors/PerfectStock/Tpl';
+import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipboard';
 
 /* Utils */
 import { error } from '../../../../../utils/notifications';
 import history from '../../../../../history';
 
 /* Apis */
-import { fetchReplishmentTemplates } from '../../../../../libs/api/replenishmentTemplates';
-// import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipboard';
+import {
+  fetchAllPackingTemplates,
+  fetchPackingTemplateById,
+} from '../../../../../libs/api/tpl/packingTemplates';
 
 export const COLUMNS_DATA = [
   {
     key: 'productDetail',
     label: '',
-    width: '260',
+    width: '180',
     align: '',
   },
   {
@@ -39,25 +34,25 @@ export const COLUMNS_DATA = [
   {
     key: 'CartoonDimension',
     label: 'Cartoon dimension (in)',
-    width: '120',
+    width: '100',
     align: 'center',
   },
   {
     key: 'CartoonWeight',
     label: 'Cartoon weight (lb)',
-    width: '100',
+    width: '70',
     align: 'center',
   },
   {
     key: 'PrepGuidance',
     label: 'Prep  guidance',
-    width: '250',
+    width: '80',
     align: 'center',
   },
   {
     key: 'labels',
     label: 'Who label units?',
-    width: '250',
+    width: '100',
     align: 'center',
   },
 ];
@@ -67,33 +62,23 @@ interface Props {
   handleNext: () => void;
   setCreateStreamLinePayload: (payload: any) => void;
   createStreamLinePayload: any;
-  tplVendors: TplVendor[];
   createStreamLineStep: number;
 }
 
-const SelectFbaReplenishmentTemplate = (props: Props) => {
+const SelectShippingTemplate = (props: Props) => {
   const {
     handlePrev,
     handleNext,
     setCreateStreamLinePayload,
     createStreamLinePayload,
     createStreamLineStep,
-    tplVendors,
   } = props;
 
   const [replenishmentTemplatesOptions, setReplenishmentTemplatesOptions] = React.useState([]);
-  const [replenishmentTemplatesData, setReplenishmentTemplatesData] = React.useState<
-    ReplenishmentFBA[]
-  >([]);
-  const [currentReplenishmentTemplate, setCurrentReplenishmentTemplate] = React.useState<
-    ReplenishmentFBA
-  >();
-  const [currentTplVendor, setCurrentTplVendor] = React.useState<TplVendor>();
-  console.log(currentReplenishmentTemplate, currentTplVendor);
+  const [packingTemplateData, setPackingTemplateData] = React.useState<any[]>();
   const handleSubmit = () => {
     /* Handle Error */
-    console.log(createStreamLinePayload);
-    if (createStreamLinePayload.tpl_replenishment_template_id < 0) {
+    if (!(Number(createStreamLinePayload.tpl_packing_template_id) > 0)) {
       error('Please select a template');
       return;
     } else {
@@ -102,9 +87,8 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
   };
 
   const setReplenishmentTemplateOptions = async () => {
-    const replenishmentTemplates = await fetchReplishmentTemplates();
+    const replenishmentTemplates = await fetchAllPackingTemplates();
     if (!replenishmentTemplates?.hasError) {
-      setReplenishmentTemplatesData(replenishmentTemplates?.data);
       const tempReplenishmentTemplatesOptions = replenishmentTemplates?.data.map(
         (replenishmentTemplate: any) => ({
           key: replenishmentTemplate.id?.toString() || '',
@@ -123,41 +107,48 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
     }
   };
 
+  const getShippingTemplatedata = async (id: string) => {
+    const response = await fetchPackingTemplateById(Number(id));
+    if (response?.hasError) {
+      error(response.err);
+      return;
+    }
+    setPackingTemplateData(response?.data.tpl_packing_template_skus);
+  };
+
   React.useEffect(() => {
     setReplenishmentTemplateOptions();
+    if (Number(createStreamLinePayload.tpl_packing_template_id) > 0) {
+      getShippingTemplatedata(createStreamLinePayload.tpl_packing_template_id);
+    }
   }, []);
 
-  const handleSelectLeadTime = async (replenishmentTemplateId: string) => {
+  const handleSelectShippingTemplate = async (replenishmentTemplateId: string) => {
     if (replenishmentTemplateId === 'Create new lead time') {
       localStorage.setItem('createOrderStep', createStreamLineStep.toString());
       localStorage.setItem('createStreamLinePayload', JSON.stringify(createStreamLinePayload));
       history.push('/settings/aistock/lead-time');
       return;
     }
-    const replenishmentTemplate = replenishmentTemplatesData.find(
-      (replenishmentTemplateData: any) =>
-        replenishmentTemplateData?.id?.toString() === replenishmentTemplateId
-    );
-    const tplVendorId = replenishmentTemplate?.vendor_id?.toString();
-    const tempTplVendor = tplVendors.find(tplVendor => tplVendor?.id?.toString() === tplVendorId);
-    setCurrentReplenishmentTemplate(replenishmentTemplate);
-    setCurrentTplVendor(tempTplVendor);
     setCreateStreamLinePayload({
       ...createStreamLinePayload,
-      tpl_replenishment_template_id: parseInt(replenishmentTemplateId),
+      tpl_packing_template_id: parseInt(replenishmentTemplateId),
     });
+    await getShippingTemplatedata(replenishmentTemplateId);
   };
 
   return (
     <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>
-        <h3 className={styles.heading}>Select your FBA replenishment template*</h3>
+        <h3 className={styles.heading}>
+          Select your shipment prep template<span className={styles.asterick}>*</span>
+        </h3>
         <div className={styles.inputBox}>
           <div>
             <SelectionFilter
               filterOptions={replenishmentTemplatesOptions}
-              value={createStreamLinePayload.tpl_replenishment_template_id.toString()}
-              handleChange={handleSelectLeadTime}
+              value={createStreamLinePayload.tpl_packing_template_id.toString()}
+              handleChange={handleSelectShippingTemplate}
               placeholder="FBA replenishment template name*"
               label=""
               className={styles.selectField}
@@ -172,14 +163,13 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
                     <div
                       key={key}
                       style={{
-                        width: `${width}px`,
-                        marginRight: '40px',
+                        marginRight: '20px',
                       }}
                     >
                       <p
                         className={styles.columnLabel}
                         style={{
-                          width: '100%',
+                          width: `${width}px`,
                           textAlign: 'center',
                           margin: '0 auto',
                         }}
@@ -187,6 +177,148 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
                         {label}
                       </p>
                     </div>
+                  );
+                })}
+            </div>
+            <div className={styles.packingTemplateWrapper}>
+              {packingTemplateData &&
+                packingTemplateData.map((packingTemplate: any, index: number) => {
+                  const {
+                    image_url,
+                    title,
+                    asin,
+                    sku,
+                    length,
+                    width,
+                    height,
+                    weight,
+                    guidance,
+                    owner,
+                    carton_count,
+                    merchant_listing_id,
+                  } = packingTemplate;
+                  const merchantListIds: any[] = [];
+                  createStreamLinePayload.merchant_listings.forEach((merchant_listing: any) => {
+                    merchantListIds.push(merchant_listing.merchant_listing_id);
+                  });
+                  return (
+                    <>
+                      {merchantListIds.indexOf(merchant_listing_id) >= 0 && (
+                        <div key={index} className={styles.columnWrapper}>
+                          <div
+                            className={styles.productInformation}
+                            style={{
+                              width: `${COLUMNS_DATA[0].width}px`,
+                              marginRight: '20px',
+                            }}
+                          >
+                            <img src={image_url} className={styles.productImage} />
+                            <div className={styles.productDetails}>
+                              <p className={styles.productTitle}>{title}</p>
+                              <div className={styles.productAttributes}>
+                                <div className={styles.flagAndAsinCol}>
+                                  <img
+                                    className={styles.flagIcon}
+                                    src={require(`../../../../../assets/flags/US.png`)}
+                                  />
+                                  {/* ASIN and UPC details */}
+                                  <div className={styles.productTitleTextBox}>
+                                    {/* ASIN */}
+                                    {asin.length > 0 ? (
+                                      <CopyAndLocateClipboard
+                                        data={asin}
+                                        link={`http://www.amazon.com/dp/${asin}`}
+                                        className={styles.productAsin}
+                                      />
+                                    ) : (
+                                      '-'
+                                    )}
+
+                                    {/* UPC */}
+                                    <span className={styles.upcText}>{sku}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            style={{
+                              marginRight: '20px',
+                            }}
+                          >
+                            <p
+                              style={{
+                                width: `${COLUMNS_DATA[1].width}px`,
+                                textAlign: 'center',
+                                margin: '0 auto',
+                              }}
+                            >
+                              {carton_count}
+                            </p>
+                          </div>
+                          <div
+                            style={{
+                              marginRight: '20px',
+                            }}
+                          >
+                            <p
+                              style={{
+                                width: `${COLUMNS_DATA[2].width}px`,
+                                textAlign: 'center',
+                                margin: '0 auto',
+                              }}
+                            >
+                              {length} x {width} x {height}
+                            </p>
+                          </div>
+                          <div
+                            style={{
+                              marginRight: '20px',
+                            }}
+                          >
+                            <p
+                              style={{
+                                width: `${COLUMNS_DATA[3].width}px`,
+                                textAlign: 'center',
+                                margin: '0 auto',
+                              }}
+                            >
+                              {weight}
+                            </p>
+                          </div>
+                          <div
+                            style={{
+                              marginRight: '20px',
+                            }}
+                          >
+                            <p
+                              style={{
+                                width: `${COLUMNS_DATA[4].width}px`,
+                                textAlign: 'center',
+                                margin: '0 auto',
+                              }}
+                            >
+                              {guidance}
+                            </p>
+                          </div>
+                          <div
+                            style={{
+                              marginRight: '20px',
+                            }}
+                          >
+                            <p
+                              style={{
+                                width: `${COLUMNS_DATA[2].width}px`,
+                                textAlign: 'center',
+                                margin: '0 auto',
+                              }}
+                            >
+                              {owner}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                    </>
                   );
                 })}
             </div>
@@ -216,10 +348,4 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return {
-    tplVendors: getTplVendors(state),
-  };
-};
-
-export default connect(mapStateToProps)(SelectFbaReplenishmentTemplate);
+export default SelectShippingTemplate;

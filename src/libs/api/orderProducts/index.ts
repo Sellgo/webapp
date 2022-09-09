@@ -2,11 +2,13 @@ import axios from 'axios';
 import { AppConfig } from '../../../config';
 import { sellerIDSelector } from '../../../selectors/Seller';
 
-export const getOrderProducts = async () => {
+export const getOrderProducts = async (vendorId = -1) => {
+  let url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/tpl/products`;
+  if (vendorId > -1) {
+    url = `${url}?vendor_id=${vendorId}`;
+  }
   try {
-    const { status, data } = await axios.get(
-      `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-orders/products`
-    );
+    const { status, data } = await axios.get(url);
 
     if (status === 200) {
       return {

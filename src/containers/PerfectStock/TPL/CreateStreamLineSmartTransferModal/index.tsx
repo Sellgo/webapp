@@ -1,7 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Modal } from 'semantic-ui-react';
-import axios from 'axios';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -11,36 +9,16 @@ import BoxHeader from '../../../../components/BoxHeader';
 import BoxContainer from '../../../../components/BoxContainer';
 import ReplenishmentTypeSelection from './ReplenishmentTypeSelection';
 import StartDateSelection from './StartDateSelection';
-// import LeadTimeSelection from './LeadTimeSelection';
-// import OrderCreated from './OrderCreatedSuccess';
-// import OrderOptimisationSelection from './OrderOptimisationSelection';
 import SkuSelection from './SkuSelection';
-// import PrioritySkuSelection from './PrioritySkuSelection';
-// import InventoryThresholdSelection from './InventoryThresholdSelection';
-// import OrderIntervalSelection from './OrderIntervalSelection';
-// import ConnectTplSelection from './ConnectTplSelection';
-// import PaymentTermSelection from './PaymentTermSelection';
+import StartEndDateSelection from './StartEndDateSelection';
+import FbaReplenishmentTemplate from './FbaReplenishmentTemplate';
+import ReplenishmentCalculations from './ReplenishmentCalculations';
+import DraftSummary from './DraftSummary';
+import CreateOrAutomateDraft from './CreateOrAutomateDraft';
+import TplShipmentTemplates from './TplShipmentTemplates';
 
-/* Interfaces */
-import {
-  CreateOrderPayload,
-  PurchaseOrder,
-} from '../../../../interfaces/PerfectStock/OrderPlanning';
-
-/* Utils */
-import { AppConfig } from '../../../../config';
-// import history from '../../../../history';
-
-/* Actions */
-import {
-  fetchPurchaseOrders,
-  isLoadingPurchaseOrders,
-  setActivePurchaseOrder,
-  setPurchaseOrdersLoadingMessage,
-} from '../../../../actions/PerfectStock/OrderPlanning';
-import { updateCashflowOnboardingStatus } from '../../../../actions/PerfectStock/Home';
-
-import { error, success } from '../../../../utils/notifications';
+/* utils */
+import { error } from '../../../../utils/notifications';
 
 /* Constants */
 
@@ -49,34 +27,15 @@ import {
   CREATE_SAMRTLINE_FLOW,
 } from '../../../../constants/PerfectStock/Tpl';
 
-/* Selectors */
-import { getCashflowOnboardingStatus } from '../../../../selectors/PerfectStock/Cashflow';
-import { sellerIDSelector } from '../../../../selectors/Seller';
-import StartEndDateSelection from './StartEndDateSelection';
-import FbaReplenishmentTemplate from './FbaReplenishmentTemplate';
-
+/* APIs */
+import { createStreamLine } from '../../../../libs/api/tpl/inboundShipping';
 interface Props {
   open: boolean;
   setIsCreatingOrder: (open: boolean) => void;
-  fetchPurchaseOrders: () => void;
-  setActivePurchaseOrder: (order: PurchaseOrder) => void;
-  setPurchaseOrdersLoadingMessage: (message: string) => void;
-  isLoadingPurchaseOrders: (loading: boolean) => void;
-  cashflowOnboardingStatus: any[];
-  updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) => void;
 }
 
 const CreateStreamLine = (props: Props) => {
-  const {
-    open,
-    setIsCreatingOrder,
-    fetchPurchaseOrders,
-    setActivePurchaseOrder,
-    setPurchaseOrdersLoadingMessage,
-    isLoadingPurchaseOrders,
-    cashflowOnboardingStatus,
-    updateCashflowOnboardingStatus,
-  } = props;
+  const { open, setIsCreatingOrder } = props;
 
   const DEFAULT_ORDER = {
     creation_type: '',
@@ -85,8 +44,6 @@ const CreateStreamLine = (props: Props) => {
     merchant_listings: [],
     tpl_replenishment_template_id: -1,
     tpl_packing_template_id: -1,
-    order_payment_term_id: -1,
-    auto_generate_orders_days: -1,
     round_up_to_nearest_carton: false,
     create_first_draft: false,
     interval: null,
@@ -94,57 +51,30 @@ const CreateStreamLine = (props: Props) => {
   };
 
   const [createStreamLinePayload, setCreateStreamLinePayload] = React.useState(DEFAULT_ORDER);
-  const [isCreateOrderLoading, setIsCreateOrderLoading] = React.useState<boolean>(false);
   const [createOrderStep, setCreateOrderStep] = React.useState<number>(0);
   const [createOrderSelectedFlow, setCreateOrderSelectedFlow] = React.useState<string[]>(
     CREATE_SAMRTLINE_FLOW.SINGLE_TRANSFER
   );
+  const [createStreamLineResponse, setCreateStreamLineResponse] = React.useState<any>();
+  const [vendorId, setVendorId] = React.useState<number>(-1);
 
-  const orderPlanningOnboardingStatusId = cashflowOnboardingStatus.find(status => {
-    return status.step_name === 'orders_created' && !status.is_completed;
-  })?.id;
-
-  const handleCreateOrder = async (payload: CreateOrderPayload) => {
-    setIsCreateOrderLoading(true);
-    isLoadingPurchaseOrders(true);
-    setPurchaseOrdersLoadingMessage('Order creation in progress...');
-
-    /* Replacing merchant_listings with merchant_listing_ids in payload */
-    const merchantListings = payload.merchant_listings;
-    const merchantListingIdsWithMoq = merchantListings.map((merchantListing: any) => {
-      return {
-        merchant_listing_id: merchantListing.id,
-        moq: merchantListing.moq,
-      };
-    });
-    payload.merchant_listings = merchantListingIdsWithMoq;
-    try {
-      const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/purchase-order-templates`;
-      const res = await axios.post(url, payload);
-      if (res.status === 201) {
-        setActivePurchaseOrder(res.data.purchase_order);
-        fetchPurchaseOrders();
-        success('Successfully created smart order template.');
-        setCreateOrderStep(createOrderStep + 1);
-
-        if (orderPlanningOnboardingStatusId) {
-          updateCashflowOnboardingStatus(orderPlanningOnboardingStatusId, true);
-        }
-      } else {
-        isLoadingPurchaseOrders(false);
-        setPurchaseOrdersLoadingMessage('');
-        error('Failed to create new order.');
-      }
-    } catch (err) {
-      console.error(err);
-      isLoadingPurchaseOrders(false);
-      setPurchaseOrdersLoadingMessage('');
-      error('Failed to add');
+  const handleCreateStreamLine = async (value: boolean) => {
+    const payload = {
+      ...createStreamLinePayload,
+      create_first_draft: value,
+    };
+    const response = await createStreamLine(payload);
+    if (response?.hasError) {
+      error(response?.err);
     }
-    setIsCreateOrderLoading(false);
+    setCreateStreamLineResponse(response?.data);
+    setCreateOrderStep(createOrderStep + 1);
   };
 
-  console.log(handleCreateOrder, isCreateOrderLoading);
+  const setActiveVendorId = (value: number | undefined) => {
+    if (value) setVendorId(value);
+  };
+
   /* Reset the create order flow every time user cancels/opens modal */
   React.useEffect(() => {
     const savedCreateOrderStep = localStorage.getItem('createStreamLineStep');
@@ -169,11 +99,6 @@ const CreateStreamLine = (props: Props) => {
       setCreateOrderSelectedFlow(CREATE_SAMRTLINE_FLOW.SMART_STREAMLINE_MULTIPLE);
     }
   }, [createStreamLinePayload.creation_type]);
-
-  // const handleRedirectToDraftOrder = () => {
-  //   history.push('/aistock/create-order');
-  //   setIsCreatingOrder(false);
-  // };
 
   let content: JSX.Element;
   let headerContent: string;
@@ -219,7 +144,7 @@ const CreateStreamLine = (props: Props) => {
       break;
 
     case CREATE_STREAMLINE_STATUS.SELECT_FBA_REPLENISHMENT_TEMPLATE:
-      headerContent = 'SELECT START AND END REPLENISHMENT DATES';
+      headerContent = 'SELECT FBA REPLENISHMENT TEMPLATE';
       content = (
         <FbaReplenishmentTemplate
           handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
@@ -227,108 +152,72 @@ const CreateStreamLine = (props: Props) => {
           setCreateStreamLinePayload={setCreateStreamLinePayload}
           createStreamLineStep={createOrderStep}
           handleNext={() => setCreateOrderStep(createOrderStep + 1)}
+          setVendorId={value => setActiveVendorId(value)}
         />
       );
       break;
 
     case CREATE_STREAMLINE_STATUS.SELECT_SKUS:
-      headerContent = 'Select SKUs';
+      headerContent = 'CHOOSE SKU';
       content = (
         <SkuSelection
           handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
           createStreamLinePayload={createStreamLinePayload}
           setCreateStreamLinePayload={setCreateStreamLinePayload}
           handleNext={() => setCreateOrderStep(createOrderStep + 1)}
+          vendorId={vendorId}
         />
       );
       break;
-    // case CREATE_STREAMLINE_STATUS.SELECT_PRIORITY_SKUS:
-    //   headerContent = 'Select Priority SKUs';
-    //   content = (
-    //     <PrioritySkuSelection
-    //       handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
-    //       createStreamLinePayload={createStreamLinePayload}
-    //       setCreateStreamLinePayload={setCreateStreamLinePayload}
-    //       handleNext={() => setCreateOrderStep(createOrderStep + 1)}
-    //     />
-    //   );
-    //   break;
-    // case CREATE_STREAMLINE_STATUS.SELECT_INVENTORY_THRESHOLD:
-    //   headerContent = 'Select Next Order Trigger';
-    //   content = (
-    //     <InventoryThresholdSelection
-    //       handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
-    //       createStreamLinePayload={createStreamLinePayload}
-    //       setCreateStreamLinePayload={setCreateStreamLinePayload}
-    //       handleNext={() => setCreateOrderStep(createOrderStep + 1)}
-    //     />
-    //   );
-    //   break;
-    // case CREATE_STREAMLINE_STATUS.SELECT_TIME_INTERVAL:
-    //   headerContent = 'Select Interval';
-    //   content = (
-    //     <OrderIntervalSelection
-    //       handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
-    //       createStreamLinePayload={createStreamLinePayload}
-    //       setCreateStreamLinePayload={setCreateStreamLinePayload}
-    //       handleNext={() => setCreateOrderStep(createOrderStep + 1)}
-    //     />
-    //   );
-    //   break;
-    // case CREATE_STREAMLINE_STATUS.SELECT_START_DATE:
-    //   content = (
-    //     <StartDateSelection
-    //       handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
-    //       createStreamLinePayload={createStreamLinePayload}
-    //       setCreateStreamLinePayload={setCreateStreamLinePayload}
-    //       handleNext={() => setCreateOrderStep(createOrderStep + 1)}
-    //     />
-    //   );
-    //   headerContent = 'Select 1ST ORDER DATE';
-    //   break;
-    // case CREATE_STREAMLINE_STATUS.SELECT_LEAD_TIME:
-    //   content = (
-    //     <LeadTimeSelection
-    //       createOrderStep={createOrderStep}
-    //       handlePrevious={() => setCreateOrderStep(createOrderStep - 1)}
-    //       createStreamLinePayload={createStreamLinePayload}
-    //       setCreateStreamLinePayload={setCreateStreamLinePayload}
-    //       handleNext={() => setCreateOrderStep(createOrderStep + 1)}
-    //     />
-    //   );
-    //   headerContent = 'Select LEAD TIME';
-    //   break;
 
-    // case CREATE_STREAMLINE_STATUS.SELECT_PAYMENT_TERM:
-    //   content = (
-    //     <PaymentTermSelection
-    //       createOrderStep={createOrderStep}
-    //       handlePrevious={() => setCreateOrderStep(createOrderStep - 1)}
-    //       createStreamLinePayload={createStreamLinePayload}
-    //       setCreateStreamLinePayload={setCreateStreamLinePayload}
-    //       handleNext={() => setCreateOrderStep(createOrderStep + 1)}
-    //     />
-    //   );
-    //   headerContent = 'Select LEAD TIME';
-    //   break;
+    case CREATE_STREAMLINE_STATUS.SELECT_SHIPMENT_TEMPLATE:
+      headerContent = 'SELECT SHIPMENT PREP TEMPLATE';
+      content = (
+        <TplShipmentTemplates
+          handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
+          createStreamLinePayload={createStreamLinePayload}
+          setCreateStreamLinePayload={setCreateStreamLinePayload}
+          handleNext={() => setCreateOrderStep(createOrderStep + 1)}
+          createStreamLineStep={createOrderStep}
+        />
+      );
+      break;
 
-    // case CREATE_STREAMLINE_STATUS.ORDER_CREATED:
-    //   content = <OrderCreated handleNext={handleRedirectToDraftOrder} />;
-    //   headerContent = 'SMART ORDER TEMPLATE';
-    //   break;
+    case CREATE_STREAMLINE_STATUS.SELECT_QUANTITY:
+      headerContent = 'CALCULATE REPLENISHMENT QUANTITY';
+      content = (
+        <ReplenishmentCalculations
+          handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
+          createStreamLinePayload={createStreamLinePayload}
+          setCreateStreamLinePayload={setCreateStreamLinePayload}
+          handleNext={() => setCreateOrderStep(createOrderStep + 1)}
+          vendorId={vendorId}
+        />
+      );
+      break;
 
-    // case CREATE_STREAMLINE_STATUS.SELECT_TPL:
-    //   content = (
-    //     <ConnectTplSelection
-    //       handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
-    //       createStreamLinePayload={createStreamLinePayload}
-    //       setCreateStreamLinePayload={setCreateStreamLinePayload}
-    //       handleCreateOrder={handleCreateOrder}
-    //       isCreateOrderLoading={isCreateOrderLoading}
-    //     />
-    //   );
-    //   headerContent = 'Select TPL';
-    //   break;
+    case CREATE_STREAMLINE_STATUS.CREATE_AUTOMATE_DRAFT:
+      headerContent = 'CREATE OR AUTOMATE DRAFT';
+      content = (
+        <CreateOrAutomateDraft
+          handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
+          createStreamLinePayload={createStreamLinePayload}
+          setCreateStreamLinePayload={setCreateStreamLinePayload}
+          handleCreateStreamLine={(value: boolean) => handleCreateStreamLine(value)}
+        />
+      );
+      break;
+
+    case CREATE_STREAMLINE_STATUS.DRAFT_SUMMARY:
+      headerContent = 'SUMMARY';
+      content = (
+        <DraftSummary
+          createStreamLinePayload={createStreamLinePayload}
+          createDraftSummary={createStreamLineResponse}
+          handleClose={() => setIsCreatingOrder(false)}
+        />
+      );
+      break;
 
     default:
       content = <div>Error</div>;
@@ -336,7 +225,14 @@ const CreateStreamLine = (props: Props) => {
   }
 
   return (
-    <Modal open={open} className={styles.modalWrapper} onClose={() => setIsCreatingOrder(false)}>
+    <Modal
+      closeIcon
+      open={open}
+      className={styles.modalWrapper}
+      onClose={() => setIsCreatingOrder(false)}
+      closeOnEscape={false}
+      closeOnDimmerClick={false}
+    >
       <div>
         <BoxHeader>{headerContent}</BoxHeader>
         <BoxContainer className={styles.createOrderContent}>{content}</BoxContainer>
@@ -356,27 +252,4 @@ const CreateStreamLine = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({
-  cashflowOnboardingStatus: getCashflowOnboardingStatus(state),
-});
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    fetchPurchaseOrders: () => {
-      dispatch(fetchPurchaseOrders());
-    },
-    setActivePurchaseOrder: (order: PurchaseOrder) => {
-      dispatch(setActivePurchaseOrder(order));
-    },
-    isLoadingPurchaseOrders: (loading: boolean) => {
-      dispatch(isLoadingPurchaseOrders(loading));
-    },
-    setPurchaseOrdersLoadingMessage: (message: string) => {
-      dispatch(setPurchaseOrdersLoadingMessage(message));
-    },
-    updateCashflowOnboardingStatus: (onboardingCostId: number, newStatus: boolean) =>
-      dispatch(updateCashflowOnboardingStatus(onboardingCostId, newStatus)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateStreamLine);
+export default CreateStreamLine;

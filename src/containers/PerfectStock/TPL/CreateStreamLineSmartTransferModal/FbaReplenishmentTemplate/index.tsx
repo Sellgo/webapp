@@ -24,6 +24,7 @@ import { fetchReplishmentTemplates } from '../../../../../libs/api/replenishment
 interface Props {
   handlePrev: () => void;
   handleNext: () => void;
+  setVendorId: (value: number | undefined) => void;
   setCreateStreamLinePayload: (payload: any) => void;
   createStreamLinePayload: any;
   tplVendors: TplVendor[];
@@ -34,6 +35,7 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
   const {
     handlePrev,
     handleNext,
+    setVendorId,
     setCreateStreamLinePayload,
     createStreamLinePayload,
     createStreamLineStep,
@@ -98,6 +100,7 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
         replenishmentTemplateData?.id?.toString() === replenishmentTemplateId
     );
     const tplVendorId = replenishmentTemplate?.vendor_id?.toString();
+    setVendorId(replenishmentTemplate?.vendor_id);
     const tempTplVendor = tplVendors.find(tplVendor => tplVendor?.id?.toString() === tplVendorId);
     setCurrentReplenishmentTemplate(replenishmentTemplate);
     setCurrentTplVendor(tempTplVendor);

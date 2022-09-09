@@ -15,25 +15,32 @@ import ProductInfo from './ProductInfo';
 
 /* Utils */
 import { error } from '../../../../../utils/notifications';
+
+/* APIs */
 import { getOrderProducts } from '../../../../../libs/api/orderProducts';
 
 interface Props {
   handlePrev: () => void;
   handleNext: () => void;
   createStreamLinePayload: any;
+  vendorId: number;
   setCreateStreamLinePayload: (payload: any) => void;
 }
 
 const SkuSelection = (props: Props) => {
-  const { handlePrev, handleNext, createStreamLinePayload, setCreateStreamLinePayload } = props;
+  const {
+    handlePrev,
+    handleNext,
+    createStreamLinePayload,
+    vendorId,
+    setCreateStreamLinePayload,
+  } = props;
   const [orderSkus, setOrderSkus] = React.useState<any>([]);
-  const [addedSkus, setAddedSkus] = React.useState<any[]>(
-    createStreamLinePayload.merchant_listings || []
-  );
-  const addedSkuIds = addedSkus.map((sku: any) => sku.id.toString());
+  const [addedSkus, setAddedSkus] = React.useState<any[]>([]);
+  const addedSkuIds = addedSkus.map((sku: any) => sku?.id?.toString());
 
   const fetchOrderProducts = async () => {
-    const result = await getOrderProducts();
+    const result = await getOrderProducts(vendorId);
     if (result.hasError) {
       error(result.err);
       return;
@@ -56,7 +63,7 @@ const SkuSelection = (props: Props) => {
       const tempMerchantListings: any = [];
       addedSkus.forEach(addedSku => {
         tempMerchantListings.push({
-          merchant_listing_id: addedSku.id,
+          merchant_listing_id: addedSku.merchant_listing_id,
         });
       });
       setCreateStreamLinePayload({
@@ -110,29 +117,34 @@ const SkuSelection = (props: Props) => {
           hover={false}
           rowHeight={60}
           headerHeight={0}
-          id="skuSelectionTable"
+          id="skuSelectionTableStreamLine"
           shouldUpdateScroll={false}
           //  Props for table expansion
           rowExpandedHeight={300}
+          width={800}
         >
           {/* Product Info */}
-          <Table.Column width={520} verticalAlign="middle" align="left">
+          <Table.Column width={350} verticalAlign="middle" align="left">
             <Table.HeaderCell />
             <ProductInfo dataKey="productInfo" />
           </Table.Column>
 
-          {/* Edit Cell */}
-          {/* <Table.Column width={120} verticalAlign="middle" align="right">
-            <Table.HeaderCell />
-            <EditValueCell
-              dataKey="moq"
-              handleChange={handleChange}
-              isNumber
-              isInteger
-              isPositiveOnly
-              showEmptyError
-            />
-          </Table.Column> */}
+          {/* Storage Type */}
+          <Table.Column width={120} verticalAlign="middle" align="right">
+            <Table.HeaderCell>Size Category</Table.HeaderCell>
+            {/* <Table.Cell dataKey="storage_type" /> */}
+            <Table.Cell dataKey="storage_type" />
+          </Table.Column>
+
+          {/* {Total qty} */}
+          <Table.Column width={120} verticalAlign="middle" align="right">
+            <Table.HeaderCell>Total Restock Limit Qty</Table.HeaderCell>
+            <Table.Cell dataKey="max_allowed_quantity" />
+          </Table.Column>
+          <Table.Column width={120} verticalAlign="middle" align="right">
+            <Table.HeaderCell>Current 3PL Qty</Table.HeaderCell>
+            <Table.Cell dataKey="tpl_quantity" />
+          </Table.Column>
 
           {/* Delete Cell */}
           <Table.Column width={50} verticalAlign="middle" align="right" flexGrow={1}>

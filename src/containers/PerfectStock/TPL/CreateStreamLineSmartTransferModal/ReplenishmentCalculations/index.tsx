@@ -1,30 +1,20 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { Checkbox } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
 
 /* Components */
-// import SelectionFilter from '../../../../../components/FormFilters/SelectionFilter';
+import ProductsInformation from './ProductInformations';
 import ActionButton from '../../../../../components/ActionButton';
-
-/* Interfaces */
-// import { CreateOrderPayload } from '../../../../../interfaces/PerfectStock/OrderPlanning';
-import { TplVendor } from '../../../../../interfaces/PerfectStock/Tpl';
-
-/* Selectors */
-import { getTplVendors } from '../../../../../selectors/PerfectStock/Tpl';
 
 /* Utils */
 import { error } from '../../../../../utils/notifications';
 // import history from '../../../../../history';
 
 /* Apis */
-import { fetchReplishmentTemplates } from '../../../../../libs/api/replenishmentTemplates';
 import { calculateTplShipmentQuantities } from '../../../../../libs/api/tpl';
 import { getOrderProducts } from '../../../../../libs/api/orderProducts';
-// import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipboard';
-import { Checkbox } from 'semantic-ui-react';
 
 export const COLUMNS_DATA = [
   {
@@ -48,7 +38,7 @@ export const COLUMNS_DATA = [
   {
     key: 'roundToNextBox',
     label: 'Rounded to next box',
-    width: '180',
+    width: '160',
     align: 'center',
   },
   {
@@ -63,25 +53,24 @@ interface Props {
   handlePrev: () => void;
   handleNext: () => void;
   setCreateStreamLinePayload: (payload: any) => void;
+  vendorId: number;
   createStreamLinePayload: any;
-  tplVendors: TplVendor[];
-  createStreamLineStep: number;
-  merchantListIds: any[];
 }
 
-const SelectFbaReplenishmentTemplate = (props: Props) => {
+const ReplenishmentCalculationModal = (props: Props) => {
   const {
     handlePrev,
     handleNext,
-    // setCreateStreamLinePayload,
+    setCreateStreamLinePayload,
+    vendorId,
     createStreamLinePayload,
-    // createStreamLineStep,
-    // tplVendors,
-    merchantListIds,
   } = props;
 
   const [isRoundToNextChecked, setIsRoundToNextChecked] = React.useState<boolean>(false);
-  const [orderSkus, setOrderSkus] = React.useState<any>([]);
+  const [orderSkus, setOrderSkus] = React.useState<any>({});
+  const [replenishmentCalculationResults, setReplenishmentCalculationResults] = React.useState<
+    any[]
+  >([]);
 
   const handleSubmit = () => {
     /* Handle Error */
@@ -90,51 +79,49 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
       error('Please select a template');
       return;
     } else {
+      setCreateStreamLinePayload({
+        ...createStreamLinePayload,
+        round_up_to_nearest_carton: isRoundToNextChecked,
+      });
       handleNext();
     }
   };
 
-  const setReplenishmentTemplateOptions = async () => {
+  const setReplenishmentCalculations = async () => {
+    const merchantListIds: any[] = [];
+    createStreamLinePayload.merchant_listings.forEach((merchant_listing: any) => {
+      merchantListIds.push(merchant_listing.merchant_listing_id);
+    });
     const payload = {
-      vendor_id: 1,
+      vendor_id: vendorId,
       date: createStreamLinePayload.start_date,
       merchant_listing_ids: merchantListIds,
     };
     const calculationResults = await calculateTplShipmentQuantities(payload);
-    const replenishmentTemplates = await fetchReplishmentTemplates();
     if (!calculationResults?.hasError) {
-      // setReplenishmentTemplatesData(replenishmentTemplates?.data);
-      const tempReplenishmentTemplatesOptions = replenishmentTemplates?.data.map(
-        (replenishmentTemplate: any) => ({
-          key: replenishmentTemplate.id?.toString() || '',
-          value: replenishmentTemplate.id?.toString() || '',
-          text: replenishmentTemplate.name,
-        })
-      );
-
-      tempReplenishmentTemplatesOptions.push({
-        key: 'Create new lead time',
-        value: 'Create new lead time',
-        text: 'Create new lead time',
-      });
-
-      // setReplenishmentTemplatesOptions(tempReplenishmentTemplatesOptions);
+      console.log('110', calculationResults);
+      setReplenishmentCalculationResults(calculationResults?.data);
     }
   };
 
   React.useEffect(() => {
-    setReplenishmentTemplateOptions();
+    setReplenishmentCalculations();
   }, []);
 
   const fetchOrderProducts = async () => {
-    const result = await getOrderProducts();
+    const result = await getOrderProducts(vendorId);
     if (result.hasError) {
       error(result.err);
       return;
     }
+    const merchantListIds: any[] = [];
+    createStreamLinePayload.merchant_listings.forEach((merchant_listing: any) => {
+      merchantListIds.push(merchant_listing.merchant_listing_id);
+    });
     let tempData = {};
     result.data.forEach((dataElement: any) => {
-      const tempId = dataElement.id;
+      const tempId = dataElement.merchant_listing_id;
+      console.log('134', tempId, merchantListIds);
       if (merchantListIds.indexOf(tempId) >= 0) {
         const tempDataElement = {
           [tempId]: dataElement,
@@ -142,11 +129,12 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
         tempData = { ...tempData, ...tempDataElement };
       }
     });
+    console.log(142, tempData);
     setOrderSkus(tempData);
   };
 
   React.useEffect(() => {
-    if (orderSkus.length === 0) {
+    if (Object.keys(orderSkus).length === 0) {
       fetchOrderProducts();
     }
   }, [orderSkus.length]);
@@ -165,9 +153,9 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
                     <div
                       key={key}
                       style={{
-                        width: `${width}px`,
-                        marginRight: '40px',
+                        marginRight: '10px',
                       }}
+                      className={`${key === 'roundToNextBox' && styles.flex}`}
                     >
                       {key === 'roundToNextBox' ? (
                         <>
@@ -178,7 +166,7 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
                           <p
                             className={styles.columnLabel}
                             style={{
-                              width: '100%',
+                              width: `${width}px`,
                               textAlign: 'center',
                               margin: '0 auto',
                             }}
@@ -190,7 +178,7 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
                         <p
                           className={styles.columnLabel}
                           style={{
-                            width: '100%',
+                            width: `${width}px`,
                             textAlign: 'center',
                             margin: '0 auto',
                           }}
@@ -202,7 +190,16 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
                   );
                 })}
             </div>
-            {/* <ProductsInfo /> */}
+            {Object.keys(orderSkus).length > 0 && replenishmentCalculationResults.length > 0 && (
+              <ProductsInformation
+                setCreateStreamLinePayload={setCreateStreamLinePayload}
+                createStreamLinePayload={createStreamLinePayload}
+                isRoundToNextBoxChecked={isRoundToNextChecked}
+                shippingCalculationResults={replenishmentCalculationResults}
+                skusOrders={orderSkus}
+                columnsData={COLUMNS_DATA}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -229,10 +226,4 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return {
-    tplVendors: getTplVendors(state),
-  };
-};
-
-export default connect(mapStateToProps)(SelectFbaReplenishmentTemplate);
+export default ReplenishmentCalculationModal;
