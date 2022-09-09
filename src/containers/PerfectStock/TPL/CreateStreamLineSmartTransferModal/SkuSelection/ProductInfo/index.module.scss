@@ -1,0 +1,49 @@
+@import '../../../../../../design-system/new-colors';
+
+.productInfoContainer {
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  user-select: none;
+  color: $prim_dark_1;
+}
+
+.productImage {
+  width: 40px;
+  height: 40px;
+  margin-right: 18px;
+}
+
+.productDetails {
+  flex: 1;
+  min-height: 100% !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  font-size: 12px !important;
+  color: $grey_8;
+  font-weight: $fontweight_medium;
+}
+
+.productMetaDetails {
+  display: flex;
+  align-items: center;
+  margin-top: 3px;
+
+  img {
+    margin-right: 10px;
+  }
+
+  .metaInformation {
+    span {
+      font-size: 8px !important;
+      color: $grey_8 !important;
+      font-weight: $fontweight_medium;
+    }
+
+    .asin {
+      margin-top: 2px;
+    }
+  }
+}
