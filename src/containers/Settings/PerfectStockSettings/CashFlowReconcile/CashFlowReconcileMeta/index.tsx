@@ -1,7 +1,7 @@
 import React from 'react';
 
 /* Assets */
-import { ReactComponent as HourGlassIcon } from '../../../../../assets/images/hourglassIcon.svg';
+import { ReactComponent as SettingIcon } from '../../../../../assets/images/file-invoice-dollar-solid.svg';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -10,7 +10,7 @@ const CashFlowReconcileMeta = () => {
   return (
     <>
       <div className={styles.settingMetaTitle}>
-        <HourGlassIcon />
+        <SettingIcon />
         &nbsp;&nbsp;Cash Flow Reconcile Settings
       </div>
     </>

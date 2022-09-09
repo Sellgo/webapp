@@ -1,8 +1,12 @@
-import Axios from 'axios';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
+import axios from 'axios';
+
 import { AppConfig } from '../../config';
 import { SET_TOS, SET_PP, SET_NOTIFY_ID, actionTypes } from '../../constants/UserOnboarding/index';
+import { isSellgoSession } from '../../utils/session';
+
+import { sellerIDSelector } from '../../selectors/Seller';
 
 export const setNotifyId = (notifyId: number) => ({
   type: SET_NOTIFY_ID,
@@ -19,15 +23,17 @@ export const setPP = (privacyPolicy: string) => ({
   payload: privacyPolicy,
 });
 
+const tos_type = isSellgoSession() ? 'terms_of_service' : 'aistock_terms_of_service';
 export const fetchTOS = () => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
-  const response = await Axios.get(AppConfig.BASE_URL_API + `content?type=terms_of_service`);
+  const response = await axios.get(AppConfig.BASE_URL_API + `content?type=` + tos_type);
   if (response.data.length) {
     dispatch(setTOS(response.data));
   }
 };
 
+const pp_type = isSellgoSession() ? 'privacy_policy' : 'aistock_privacy_policy';
 export const fetchPP = () => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
-  const response = await Axios.get(AppConfig.BASE_URL_API + `content?type=privacy_policy`);
+  const response = await axios.get(AppConfig.BASE_URL_API + `content?type=` + pp_type);
   if (response.data.length) {
     dispatch(setPP(response.data));
   }
@@ -55,13 +61,81 @@ export const setPerfectStockGetStartedStatus = (perfectStockGetStartedStatus: an
 });
 
 export const updatePerfectStockGetStartedStatus = (key: string, status: boolean) => async (
+  dispatch: any
+) => {
+  const sellerID = sellerIDSelector();
+  // const perfectStockGetStartedStatus = getState().userOnboarding.perfectStockGetStartedStatus;
+  let payloadKey: any;
+  if (key === 'connectAmazonStore') {
+    payloadKey = 'connect_amazon_store';
+  } else if (key === 'createLeadTime') {
+    payloadKey = 'setup_lead_time';
+  } else if (key === 'orderPlanningTour') {
+    payloadKey = 'tour_order_planning';
+  } else if (key === 'salesProjectionTour') {
+    payloadKey = 'tour_sales_projection';
+  }
+  const payload = {
+    [payloadKey]: status,
+  };
+  try {
+    const { data } = await axios.patch(
+      `${AppConfig.BASE_URL_API}sellers/${sellerID}/perfect-stock/onboarding`,
+      payload
+    );
+    const perfectStockGetStartedStatus = {
+      connectAmazonStore: data?.connect_amazon_store,
+      createLeadTime: data?.setup_lead_time,
+      orderPlanningTour: data?.tour_order_planning,
+      salesProjectionTour: data?.tour_sales_projection,
+    };
+
+    dispatch(setPerfectStockGetStartedStatus(perfectStockGetStartedStatus));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const setPerfectStockGetStartedJoyRideStatus = (
+  perfectStockGetStartedJoyRideStatus: any
+) => ({
+  type: actionTypes.SET_PERFECT_STOCK_GET_STARTED_JOY_RIDE_STATUS,
+  payload: perfectStockGetStartedJoyRideStatus,
+});
+
+export const updatePerfectStockGetStartedJoyRideStatus = (key: string, status: boolean) => async (
   dispatch: any,
   getState: any
 ) => {
-  const perfectStockGetStartedStatus = getState().userOnboarding.perfectStockGetStartedStatus;
-  const updatedPerfectStockGetStartedStatus = {
-    ...perfectStockGetStartedStatus,
+  const perfectStockGetStartedJoyRideStatus = getState().userOnboarding
+    .perfectStockGetStartedJoyRideStatus;
+  const updatedPerfectStockGetStartedJoyRideStatus = {
+    ...perfectStockGetStartedJoyRideStatus,
     [key]: status,
   };
-  dispatch(setPerfectStockGetStartedStatus(updatedPerfectStockGetStartedStatus));
+  dispatch(setPerfectStockGetStartedJoyRideStatus(updatedPerfectStockGetStartedJoyRideStatus));
 };
+
+export const fetchPerfectStockGetStartedStatus = () => async (dispatch: any) => {
+  const sellerID = sellerIDSelector();
+  try {
+    const { data } = await axios.get(
+      `${AppConfig.BASE_URL_API}sellers/${sellerID}/perfect-stock/onboarding`
+    );
+    const perfectStockGetStartedStatus = {
+      connectAmazonStore: data?.connect_amazon_store,
+      createLeadTime: data?.setup_lead_time,
+      orderPlanningTour: data?.tour_order_planning,
+      salesProjectionTour: data?.tour_sales_projection,
+    };
+
+    dispatch(setPerfectStockGetStartedStatus(perfectStockGetStartedStatus));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const setShowGetStarted = (showGetStarted: boolean) => ({
+  type: actionTypes.SET_SHOW_GET_STARTED,
+  payload: showGetStarted,
+});

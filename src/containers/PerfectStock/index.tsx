@@ -28,6 +28,7 @@ import PageHeader from '../../components/PageHeader';
 import ProductMetaInformation from '../../components/ProductMetaInformation';
 import ProductLabel from '../../components/ProductLabel';
 import NavigationButton from '../../components/NavigationButton';
+import GetStarted from './GetStarted';
 
 /* Selectors */
 import { getUserOnboarding, getUserOnboardingResources } from '../../selectors/UserOnboarding';
@@ -360,7 +361,7 @@ const PerfectStock: React.FC<Props> = props => {
           </Tabs>
         </section>
 
-        {/* <GetStarted /> */}
+        <GetStarted />
       </main>
     </>
   );

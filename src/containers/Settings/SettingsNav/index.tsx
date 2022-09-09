@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -13,17 +14,22 @@ import { SETTINGS_PAGES } from '../../../constants/Settings';
 
 /* Types */
 import { isAiStockSession, isSellgoSession } from '../../../utils/session';
+import { isMigrationSuccess } from '../../../utils/subscriptions';
+import { SellerSubscription } from '../../../interfaces/Seller';
 
+import { getSellerSubscription } from '../../../selectors/Subscription';
 interface Props {
   match: any;
+  sellerSubscription: SellerSubscription;
 }
 
 const SettingsNav = (props: Props) => {
-  const { match } = props;
+  const { match, sellerSubscription } = props;
   const handleGoBack = () => {
     history.goBack();
   };
 
+  console.log('SETTINGS NAV =>', match);
   return (
     <div className={styles.settingsNav}>
       <button className={styles.goBackButton} onClick={handleGoBack}>
@@ -40,8 +46,15 @@ const SettingsNav = (props: Props) => {
 
           if (!page.disabled) {
             const isActive = match.path === page.url;
+            const isMigrationRunning = !isMigrationSuccess(sellerSubscription);
+            const isLeadTime = page.name === 'Global: Lead Time';
             return (
-              <div className={styles.settingWrapper} key={page.url}>
+              <div
+                className={`${styles.settingWrapper} ${isMigrationRunning &&
+                  !isLeadTime &&
+                  styles.disabled}`}
+                key={page.url}
+              >
                 {/* Main page */}
                 <Link key={page.url} to={page.url} style={{ textDecoration: 'none' }}>
                   <div
@@ -86,5 +99,10 @@ const SettingsNav = (props: Props) => {
     </div>
   );
 };
+const mapStateToProps = (state: any) => {
+  return {
+    sellerSubscription: getSellerSubscription(state),
+  };
+};
 
-export default SettingsNav;
+export default connect(mapStateToProps)(SettingsNav);

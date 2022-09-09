@@ -17,7 +17,6 @@ import BoxContainer from '../../../../components/BoxContainer';
 import Placeholder from '../../../../components/Placeholder';
 import ProductSalesTable from './ProductSalesTable';
 import ProductSalesGraph from './ProductSalesGraph';
-import ProductSettings from './ProductSettings';
 
 /* Interface */
 import {
@@ -117,19 +116,6 @@ const ExpandedProduct = (props: Props) => {
 
   return (
     <div className={styles.expandedProduct}>
-      <ProductSettings
-        productId={rowData.id}
-        defaultWeightActivated={
-          rowData.weighted_average_included === true || rowData.weighted_average_included === 'true'
-        }
-        defaultWeightL30D={rowData.avg_l30d_weight}
-        defaultWeightL90D={rowData.avg_l90d_weight}
-        defaultWeightL7D={rowData.avg_l7d_weight}
-        defaultWeightL61D90D={rowData.avg_61d_90d_weight}
-        defaultWeightL31D60D={rowData.avg_31d_60d_weight}
-        defaultWeightN30D={rowData.avg_n30d_ly_weight}
-        defaultWeightN90D={rowData.avg_n90d_ly_weight}
-      />
       <div className={styles.expandedProductTable}>
         <BoxHeader className={styles.tableHeader}>
           WEEKLY EXPECTED SALES WITH SEASONALITY ADJUSTOR

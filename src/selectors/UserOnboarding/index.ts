@@ -12,3 +12,8 @@ export const getUserOnboardingResources = (state: any) =>
 /* Selector to get AiStock get started status */
 export const getPerfectStockGetStartedStatus = (state: any) =>
   get(state, 'userOnboarding.perfectStockGetStartedStatus');
+
+export const getPerfectStockGetStartedJoyRideStatus = (state: any) =>
+  get(state, 'userOnboarding.perfectStockGetStartedJoyRideStatus');
+
+export const getShowGetStarted = (state: any) => get(state, 'userOnboarding.showGetStarted');

@@ -30,18 +30,30 @@ import {
   getRefreshProgress,
   getIsFetchingProgressForLeadTimeJob,
 } from '../../../../selectors/PerfectStock/LeadTime';
+import { getPerfectStockGetStartedStatus } from '../../../../selectors/UserOnboarding';
 
 /* Actions */
 import { fetchRefreshProgress } from '../../../../actions/PerfectStock/LeadTime';
+import { updatePerfectStockGetStartedStatus } from '../../../../actions/UserOnboarding';
+import GetStarted from '../../../PerfectStock/GetStarted';
 
 interface Props {
   match: any;
   refreshProgress: number;
   isFetchingProgressForLeadTimeJob: boolean;
   fetchRefreshProgress: () => void;
+  perfectStockGetStartedStatus: any;
+  updatePerfectStockGetStartedStatus: (key: string, status: boolean) => void;
 }
 const LeadTime = (props: Props) => {
-  const { match, refreshProgress, isFetchingProgressForLeadTimeJob, fetchRefreshProgress } = props;
+  const {
+    match,
+    refreshProgress,
+    isFetchingProgressForLeadTimeJob,
+    fetchRefreshProgress,
+    perfectStockGetStartedStatus,
+    updatePerfectStockGetStartedStatus,
+  } = props;
 
   const [leadTimeGroups, setLeadTimeGroups] = React.useState<SingleLeadTimeGroup[]>([]);
   const [isFetchLeadTimeGroupsLoading, setFetchLeadTimeGroupsLoading] = React.useState<boolean>(
@@ -58,6 +70,9 @@ const LeadTime = (props: Props) => {
       );
 
       if (data && data.length > 0) {
+        if (!perfectStockGetStartedStatus?.createLeadTime) {
+          updatePerfectStockGetStartedStatus('createLeadTime', true);
+        }
         const leadTimeGroupsWithIdentifier = data.map((leadTimeGroup: SingleLeadTimeGroup) => {
           return {
             ...leadTimeGroup,
@@ -192,8 +207,9 @@ const LeadTime = (props: Props) => {
       </div>
       <BoxContainerSettings className={styles.elevioArticle}>
         <span>Step-By-Step Guide</span>
-        <ElevioArticle articleId={'17'} />
+        <ElevioArticle articleId={'23'} />
       </BoxContainerSettings>
+      <GetStarted />
     </main>
   );
 };
@@ -201,11 +217,14 @@ const LeadTime = (props: Props) => {
 const mapStateToProps = (state: any) => ({
   refreshProgress: getRefreshProgress(state),
   isFetchingProgressForLeadTimeJob: getIsFetchingProgressForLeadTimeJob(state),
+  perfectStockGetStartedStatus: getPerfectStockGetStartedStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchRefreshProgress: () => dispatch(fetchRefreshProgress()),
+    updatePerfectStockGetStartedStatus: (key: string, status: boolean) =>
+      dispatch(updatePerfectStockGetStartedStatus(key, status)),
   };
 };
 

@@ -33,3 +33,16 @@
   color: $black_1;
   font-weight: $fontweight_medium;
 }
+
+.blur {
+  color: transparent;
+  text-shadow: 0 0 15px rgb(0, 0, 0);
+}
+
+.noDataAvailable {
+  font-size: 12px;
+}
+
+.freeTrialPointer {
+  cursor: pointer;
+}

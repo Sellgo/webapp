@@ -39,12 +39,14 @@ interface Props {
   disabled?: boolean;
   error?: boolean;
   className?: string;
+  labelClassName?: string;
   userOnboardingResources: any;
   handleOnPaste?: (value: string) => void;
   isInteger?: boolean;
   isPositiveOnly?: boolean;
   isNumber?: boolean;
   allow5Decimal?: boolean;
+  maxValue?: number;
   isDate?: boolean;
   onFocus?: () => void;
   onBlur?: () => void;
@@ -60,6 +62,7 @@ const InputFilter: React.FC<Props> = props => {
     value,
     handleChange,
     className,
+    labelClassName,
     userOnboardingResources,
     disabled,
     error,
@@ -74,6 +77,7 @@ const InputFilter: React.FC<Props> = props => {
     handleKeyDown,
     handleKeyUp,
     allow5Decimal,
+    maxValue,
   } = props;
 
   /* Onboarding logic */
@@ -106,6 +110,10 @@ const InputFilter: React.FC<Props> = props => {
 
     /* Default float, allow 5 DPs */
     if (isNumber && allow5Decimal && !isLessThanFiveDecimalPoints(value)) {
+      return false;
+    }
+
+    if (isNumber && maxValue && Number(value) > maxValue) {
       return false;
     }
 
@@ -143,7 +151,7 @@ const InputFilter: React.FC<Props> = props => {
   return (
     <div className={styles.inputFilter}>
       {label && (
-        <p>
+        <p className={labelClassName}>
           {label}
 
           {/* Onboarding */}

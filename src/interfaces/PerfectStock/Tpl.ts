@@ -35,3 +35,11 @@ export interface ReplenishmentFBA {
   carrier_name: string;
   isNew?: boolean;
 }
+export interface DefaultMarket {
+  text: string;
+  code: string;
+  value: string;
+  disabled: boolean;
+  key: string;
+  currency: string;
+}
