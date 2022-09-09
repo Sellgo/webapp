@@ -42,6 +42,7 @@ import PpcExpenses from '../Settings/PerfectStockSettings/PpcExpenses';
 import StorageDetails from '../Settings/PerfectStockSettings/StorageDetails3PL';
 import Replenishment3PL from '../Settings/PerfectStockSettings/Replenishment3PL';
 import ShipmentPacking from '../Settings/PerfectStockSettings/ShipmentPacking';
+import FbaInboundDraft from '../Settings/PerfectStockSettings/InBoundSettings';
 import CashFlowReconcile from '../Settings/PerfectStockSettings/CashFlowReconcile';
 
 import SellgoNewSubscription from '../NewSellgoSubscription';
@@ -407,6 +408,11 @@ function App() {
             exact={true}
             path="/settings/aistock/shipment-packing"
             component={ShipmentPacking}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/inbound-draft"
+            component={FbaInboundDraft}
           />
           <PrivateRoute
             exact={true}

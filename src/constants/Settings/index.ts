@@ -279,6 +279,14 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
+    name: 'FBA Inbound Draft',
+    disabled: false,
+    url: '/settings/aistock/inbound-draft',
+    showInSellgo: false,
+    showInAistock: true,
+    subPages: [],
+  },
+  {
     name: 'Cash Flow: Employee Expenses',
     disabled: false,
     url: '/settings/aistock/employee-expenses-settings',

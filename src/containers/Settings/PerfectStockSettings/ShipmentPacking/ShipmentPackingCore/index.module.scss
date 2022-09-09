@@ -202,6 +202,7 @@
 
 .columnWrapper {
   display: flex;
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 
@@ -209,4 +210,8 @@
   font-size: 14px;
   font-weight: 600;
   color: $grey_7;
+}
+
+.line {
+  margin: 30px 0;
 }
