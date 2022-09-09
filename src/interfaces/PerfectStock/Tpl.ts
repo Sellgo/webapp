@@ -23,3 +23,12 @@ export interface UpdateTplSkuPayload {
   days_of_inventory?: number;
   status?: string;
 }
+
+export interface DefaultMarket {
+  text: string;
+  code: string;
+  value: string;
+  disabled: boolean;
+  key: string;
+  currency: string;
+}

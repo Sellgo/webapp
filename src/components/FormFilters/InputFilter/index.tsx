@@ -39,6 +39,7 @@ interface Props {
   disabled?: boolean;
   error?: boolean;
   className?: string;
+  labelClassName?: string;
   userOnboardingResources: any;
   handleOnPaste?: (value: string) => void;
   isInteger?: boolean;
@@ -61,6 +62,7 @@ const InputFilter: React.FC<Props> = props => {
     value,
     handleChange,
     className,
+    labelClassName,
     userOnboardingResources,
     disabled,
     error,
@@ -149,7 +151,7 @@ const InputFilter: React.FC<Props> = props => {
   return (
     <div className={styles.inputFilter}>
       {label && (
-        <p>
+        <p className={labelClassName}>
           {label}
 
           {/* Onboarding */}

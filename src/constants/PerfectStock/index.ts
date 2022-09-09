@@ -17,6 +17,11 @@ export const PERFECT_STOCK_PAGES = [
   '/settings/aistock/duty-tax-settings',
   '/settings/aistock/container-settings',
   /*3PL*/
+  '/settings/aistock/storage-details',
+  '/settings/aistock/replenishment',
+  '/settings/aistock/shipment-packing',
+  /* FBA */
+  '/settings/aistock/inbound-draft',
   /*cash flow*/
   '/settings/aistock/employee-expenses-settings',
   '/settings/aistock/product-launch-expenses-settings',
@@ -36,6 +41,11 @@ export const HIDE_TAB_PAGES = [
   '/settings/aistock/duty-tax-settings',
   '/settings/aistock/container-settings',
   /*3PL*/
+  '/settings/aistock/storage-details',
+  '/settings/aistock/replenishment',
+  '/settings/aistock/shipment-packing',
+  /* FBA */
+  '/settings/aistock/inbound-draft',
   /*cash flow*/
   '/settings/aistock/employee-expenses-settings',
   '/settings/aistock/product-launch-expenses-settings',
