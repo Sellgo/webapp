@@ -92,7 +92,7 @@ const ReplenishmentCore = (props: Props) => {
           } else {
             setIsAPC(false);
           }
-          if (data[0].method === 'spd') {
+          if (data[0].method === 'SP') {
             setIsSPD(true);
           } else {
             setIsSPD(false);
@@ -197,7 +197,7 @@ const ReplenishmentCore = (props: Props) => {
       } else {
         setIsAPC(false);
       }
-      if (tempReplenishment.method === 'spd') {
+      if (tempReplenishment.method === 'SP') {
         setIsSPD(true);
       } else {
         setIsSPD(false);
@@ -243,7 +243,7 @@ const ReplenishmentCore = (props: Props) => {
                     } else {
                       setIsAPC(false);
                     }
-                    if (tempReplenishment.method === 'spd') {
+                    if (tempReplenishment.method === 'SP') {
                       setIsSPD(true);
                     } else {
                       setIsSPD(false);
@@ -277,7 +277,7 @@ const ReplenishmentCore = (props: Props) => {
                   label="Small Parcel Delivery (SPD)"
                   onChange={() => {
                     if (!isSPD) {
-                      updateSellerDatabaseFilter('method', 'spd');
+                      updateSellerDatabaseFilter('method', 'SP');
                       setIsSPD(true);
                     }
                   }}
@@ -356,7 +356,7 @@ const ReplenishmentCore = (props: Props) => {
                       } else {
                         setIsAPC(false);
                       }
-                      if (tempReplenishment.method === 'spd') {
+                      if (tempReplenishment.method === 'SP') {
                         setIsSPD(true);
                       } else {
                         setIsSPD(false);

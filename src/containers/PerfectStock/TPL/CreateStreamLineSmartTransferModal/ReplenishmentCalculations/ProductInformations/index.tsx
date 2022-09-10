@@ -69,6 +69,7 @@ const ProductsInformation = (props: Props) => {
             length_in,
             width_in,
             height_in,
+            tpl_quantity,
           } = shippingCalculationResult;
           const { image_url, title, asin, sku } = skusOrders[merchant_listing_id];
           let notRounded = 0;
@@ -131,7 +132,7 @@ const ProductsInformation = (props: Props) => {
                 }}
                 className={styles.columnValueWrapper}
               >
-                <p className={styles.columnText}>0</p>
+                <p className={styles.columnText}>{tpl_quantity}</p>
               </div>
 
               <div

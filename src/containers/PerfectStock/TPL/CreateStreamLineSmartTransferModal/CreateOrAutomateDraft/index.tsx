@@ -47,9 +47,9 @@ const CreateOrAutomateDraft = (props: Props) => {
     console.log(tempDate, startDate);
     const today = new Date();
     if (today >= tempDate) {
-      setIsInboundDueGreater(true);
-    } else {
       setIsInboundDueGreater(false);
+    } else {
+      setIsInboundDueGreater(true);
     }
   };
   React.useEffect(() => {
@@ -58,8 +58,17 @@ const CreateOrAutomateDraft = (props: Props) => {
   return (
     <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>
-        <h3>Your next FBA inbound will due in … days,</h3>
-        <h3>would you like to create draft now?</h3>
+        {isInboundDueGreater ? (
+          <>
+            <h3>Your next FBA inbound will due in … days,</h3>
+            <h3>would you like to create draft now?</h3>
+          </>
+        ) : (
+          <>
+            <h3>Your next FBA inbound is overdue,</h3>
+            <h3>would you like to create draft now?</h3>
+          </>
+        )}
         <div className={styles.inputBox}>
           {isInboundDueGreater ? (
             <ActionButton

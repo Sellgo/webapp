@@ -1,66 +1,51 @@
 export const PROP_GUIDANCE_OPTIONS = [
   {
-    key: 'Adult',
-    text: 'Adult',
-    value: 'adult',
+    key: 'Polybagging',
+    text: 'Polybagging',
+    value: 'Polybagging',
   },
   {
-    key: 'ApparelHanger',
-    text: 'Apparel or hanger',
-    value: 'apparel_hanger',
+    key: 'BubbleWrapping',
+    text: 'BubbleWrapping',
+    value: 'BubbleWrapping',
   },
   {
-    key: 'ApparelFabric',
-    text: 'Apparel, fabric, plush, and textiles',
-    value: 'apparel_fabric',
+    key: 'Taping',
+    text: 'Taping',
+    value: 'Taping',
   },
   {
-    key: 'Baby',
-    text: 'Baby',
-    value: 'baby',
+    key: 'BlackShrinkWrapping',
+    text: 'BlackShrinkWrapping',
+    value: 'BlackShrinkWrapping',
   },
   {
-    key: 'Liquids',
-    text: 'Liquids (non-glass)',
-    value: 'liquids',
+    key: 'Labeling',
+    text: 'Labeling',
+    value: 'Labeling',
   },
   {
-    key: 'Perforated',
-    text: 'Perforated packaging',
-    value: 'perforated',
+    key: 'HangGarment',
+    text: 'HangGarment',
+    value: 'HangGarment',
   },
   {
-    key: 'Powder',
-    text: 'Powder, pallets, and granular',
-    value: 'powder',
-  },
-  {
-    key: 'Sharp',
-    text: 'Sharp',
-    value: 'sharp',
-  },
-  {
-    key: 'Small',
-    text: 'Small',
-    value: 'small',
-  },
-  {
-    key: 'NoPrep',
+    key: 'NONE',
     text: 'No prep needed',
-    value: 'no_prep',
+    value: 'NONE',
   },
 ];
 
 export const OWNER_OPTIONS = [
   {
-    key: 'ByAmazon',
+    key: 'AMAZON',
     text: 'By Amazon',
-    value: 'amazon',
+    value: 'AMAZON',
   },
   {
-    key: 'BySeller',
+    key: 'SELLER',
     text: 'By Seller',
-    value: 'seller',
+    value: 'SELLER',
   },
 ];
 

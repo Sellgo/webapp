@@ -6,7 +6,7 @@ export const DEFAULT_NEW_REPLENISHMENT_TEMPLATE: ReplenishmentFBA = {
   vendor_id: 0,
   marketplace_id: 'ATVPDKIKX0DER',
   fulfillment: '',
-  method: 'spd',
+  method: 'SP',
   carrier_type: 'amz',
   carrier_name: '',
   status: 'active',

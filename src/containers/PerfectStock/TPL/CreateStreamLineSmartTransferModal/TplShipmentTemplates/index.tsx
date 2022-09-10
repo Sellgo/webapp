@@ -98,9 +98,9 @@ const SelectShippingTemplate = (props: Props) => {
       );
 
       tempReplenishmentTemplatesOptions.push({
-        key: 'Create new lead time',
-        value: 'Create new lead time',
-        text: 'Create new lead time',
+        key: 'Create new packing template',
+        value: 'Create new packing template',
+        text: 'Create new packing template',
       });
 
       setReplenishmentTemplatesOptions(tempReplenishmentTemplatesOptions);
@@ -124,10 +124,10 @@ const SelectShippingTemplate = (props: Props) => {
   }, []);
 
   const handleSelectShippingTemplate = async (replenishmentTemplateId: string) => {
-    if (replenishmentTemplateId === 'Create new lead time') {
+    if (replenishmentTemplateId === 'Create new packing template') {
       localStorage.setItem('createOrderStep', createStreamLineStep.toString());
       localStorage.setItem('createStreamLinePayload', JSON.stringify(createStreamLinePayload));
-      history.push('/settings/aistock/lead-time');
+      history.push('/settings/aistock/shipment-packing');
       return;
     }
     setCreateStreamLinePayload({

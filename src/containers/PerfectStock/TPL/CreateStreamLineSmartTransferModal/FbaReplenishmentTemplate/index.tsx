@@ -75,9 +75,9 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
       );
 
       tempReplenishmentTemplatesOptions.push({
-        key: 'Create new lead time',
-        value: 'Create new lead time',
-        text: 'Create new lead time',
+        key: 'Create new replenishment template',
+        value: 'Create new replenishment template',
+        text: 'Create new replenishment template',
       });
 
       setReplenishmentTemplatesOptions(tempReplenishmentTemplatesOptions);
@@ -88,11 +88,11 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
     setReplenishmentTemplateOptions();
   }, []);
 
-  const handleSelectLeadTime = async (replenishmentTemplateId: string) => {
-    if (replenishmentTemplateId === 'Create new lead time') {
+  const handleSelectReplenishment = async (replenishmentTemplateId: string) => {
+    if (replenishmentTemplateId === 'Create new replenishment template') {
       localStorage.setItem('createOrderStep', createStreamLineStep.toString());
       localStorage.setItem('createStreamLinePayload', JSON.stringify(createStreamLinePayload));
-      history.push('/settings/aistock/lead-time');
+      history.push('/settings/aistock/replenishment');
       return;
     }
     const replenishmentTemplate = replenishmentTemplatesData.find(
@@ -119,7 +119,7 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
             <SelectionFilter
               filterOptions={replenishmentTemplatesOptions}
               value={createStreamLinePayload.tpl_replenishment_template_id.toString()}
-              handleChange={handleSelectLeadTime}
+              handleChange={handleSelectReplenishment}
               placeholder="FBA replenishment template name*"
               label=""
               className={styles.selectField}
@@ -165,9 +165,9 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
               </div>
               <div>
                 <p className={styles.text}>
-                  {currentReplenishmentTemplate?.method === 'spd'
+                  {currentReplenishmentTemplate?.method === 'SP'
                     ? 'Small Parcel Delivery (SPD)'
-                    : currentReplenishmentTemplate?.method === 'add'
+                    : currentReplenishmentTemplate?.method === 'LTL'
                     ? 'Less than Truckload (LTL)'
                     : ''}
                 </p>
