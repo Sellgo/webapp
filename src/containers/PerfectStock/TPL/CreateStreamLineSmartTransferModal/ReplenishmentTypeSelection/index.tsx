@@ -23,6 +23,15 @@ const ReplenishmentTypeSelection = (props: Props) => {
   const [orderType, setOrderType] = React.useState<'single' | 'multiple'>('single');
   const [smartOrderInterval, setSmartOrderInterval] = React.useState<number | null>(null);
 
+  React.useEffect(() => {
+    if (createStreamLinePayload?.creation_type === 'single') {
+      setOrderType('single');
+    } else if (createStreamLinePayload?.creation_type === 'multiple') {
+      setOrderType('multiple');
+      setSmartOrderInterval(createStreamLinePayload?.interval);
+    }
+  }, []);
+
   const smartOrderIntervalsOptions = [
     {
       value: null,

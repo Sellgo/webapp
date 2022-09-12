@@ -211,12 +211,16 @@ const ProductsInformation = (props: Props) => {
                 </div>
                 <div className={styles.calculationResult}>
                   <p className={styles.calculationResult__title}>Box weight (lb.): </p>
-                  <p>{weight_lbs?.toFixed(2)}</p>
+                  <p className={styles.calculationResult__text}>{weight_lbs?.toFixed(2)}</p>
                 </div>
                 <div className={styles.calculationResult}>
                   <p className={styles.calculationResult__title}>Box dimensions (in): </p>
                   <p className={styles.calculationResult__text}>
-                    {length_in?.toFixed(2)}x{width_in?.toFixed(2)}x{height_in?.toFixed(2)}
+                    {length_in?.toFixed(2)}x
+                    <br />
+                    {width_in?.toFixed(2)}x
+                    <br />
+                    {height_in?.toFixed(2)}
                   </p>
                 </div>
               </div>

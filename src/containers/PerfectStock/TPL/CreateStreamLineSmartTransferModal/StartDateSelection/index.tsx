@@ -25,6 +25,15 @@ const StartDateSelection = (props: Props) => {
   const { handlePrev, handleNext, createStreamLinePayload, setCreateStreamLinePayload } = props;
   const [selectedDate, setSelectedDate] = React.useState<string>();
 
+  React.useEffect(() => {
+    if (createStreamLinePayload?.start_date && !(createStreamLinePayload?.start_date === '')) {
+      const tempDate = new Date(createStreamLinePayload?.start_date.replace(/-/g, '/'));
+      setSelectedDate(tempDate.toISOString().split('T')[0]);
+    } else {
+      setSelectedDate('');
+    }
+  }, []);
+
   const onSelectDate = (date: Date) => {
     if (date) {
       setSelectedDate(date.toISOString().split('T')[0]);
@@ -56,7 +65,7 @@ const StartDateSelection = (props: Props) => {
           <p className={styles.title}>Start Date</p>
           <DatePicker
             oneTap
-            selected={selectedDate ? new Date(selectedDate) : new Date()}
+            selected={selectedDate ? new Date(selectedDate.replace(/-/g, '/')) : new Date()}
             onChange={onSelectDate}
             disabledDate={(date: Date | undefined) => {
               const today = new Date();
