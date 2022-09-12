@@ -74,7 +74,6 @@ const ReplenishmentCalculationModal = (props: Props) => {
 
   const handleSubmit = () => {
     /* Handle Error */
-    console.log(createStreamLinePayload);
     if (createStreamLinePayload.tpl_replenishment_template_id < 0) {
       error('Please select a template');
       return;
@@ -99,7 +98,6 @@ const ReplenishmentCalculationModal = (props: Props) => {
     };
     const calculationResults = await calculateTplShipmentQuantities(payload);
     if (!calculationResults?.hasError) {
-      console.log('110', calculationResults);
       setReplenishmentCalculationResults(calculationResults?.data);
     }
   };
@@ -121,7 +119,6 @@ const ReplenishmentCalculationModal = (props: Props) => {
     let tempData = {};
     result.data.forEach((dataElement: any) => {
       const tempId = dataElement.merchant_listing_id;
-      console.log('134', tempId, merchantListIds);
       if (merchantListIds.indexOf(tempId) >= 0) {
         const tempDataElement = {
           [tempId]: dataElement,
@@ -129,7 +126,6 @@ const ReplenishmentCalculationModal = (props: Props) => {
         tempData = { ...tempData, ...tempDataElement };
       }
     });
-    console.log(142, tempData);
     setOrderSkus(tempData);
   };
 

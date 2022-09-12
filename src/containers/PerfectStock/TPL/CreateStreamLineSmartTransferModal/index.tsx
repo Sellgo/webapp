@@ -79,12 +79,15 @@ const CreateStreamLine = (props: Props) => {
   React.useEffect(() => {
     const savedCreateOrderStep = localStorage.getItem('createStreamLineStep');
     const savedCreateOrderPayload = localStorage.getItem('createStreamLinePayload');
+    const savedVendorId = localStorage.getItem('createStreamLinePayloadVendorId');
     if (savedCreateOrderStep && savedCreateOrderPayload && !open) {
       setCreateStreamLinePayload(JSON.parse(savedCreateOrderPayload));
       setCreateOrderStep(parseInt(savedCreateOrderStep));
+      setVendorId(Number(savedVendorId));
       setIsCreatingOrder(true);
       localStorage.removeItem('createStreamLinePayload');
       localStorage.removeItem('createStreamLineStep');
+      localStorage.removeItem('createStreamLinePayloadVendorId');
       return;
     } else if (!open) {
       setCreateStreamLinePayload(DEFAULT_ORDER);
@@ -124,7 +127,6 @@ const CreateStreamLine = (props: Props) => {
           handlePrev={() => setCreateOrderStep(createOrderStep - 1)}
           createStreamLinePayload={createStreamLinePayload}
           setCreateStreamLinePayload={setCreateStreamLinePayload}
-          // createStreamLineStep={createOrderStep}
           handleNext={() => setCreateOrderStep(createOrderStep + 1)}
         />
       );
@@ -179,6 +181,7 @@ const CreateStreamLine = (props: Props) => {
           setCreateStreamLinePayload={setCreateStreamLinePayload}
           handleNext={() => setCreateOrderStep(createOrderStep + 1)}
           createStreamLineStep={createOrderStep}
+          vendorId={vendorId}
         />
       );
       break;

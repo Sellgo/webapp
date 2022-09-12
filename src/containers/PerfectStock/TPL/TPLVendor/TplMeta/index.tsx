@@ -56,9 +56,9 @@ const TplMeta = (props: Props) => {
           size={'md'}
           type="purpleGradient"
           onClick={() => setIsCreatingStreamLine(true)}
-          className={styles.confirmButton}
+          className={`${styles.confirmButton} ${styles.streamLinePopupBtn}`}
         >
-          Stream line transfer
+          Stream Line Transfer
         </ActionButton>
         <button
           className={`${styles.exportBtn}`}

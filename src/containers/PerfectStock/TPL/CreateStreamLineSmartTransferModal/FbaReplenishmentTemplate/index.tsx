@@ -53,7 +53,6 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
 
   const handleSubmit = () => {
     /* Handle Error */
-    console.log(createStreamLinePayload);
     if (createStreamLinePayload.tpl_replenishment_template_id < 0) {
       error('Please select a template');
       return;
@@ -88,9 +87,17 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
     setReplenishmentTemplateOptions();
   }, []);
 
+  React.useEffect(() => {
+    if (replenishmentTemplatesOptions && replenishmentTemplatesOptions.length > 0) {
+      if (createStreamLinePayload?.tpl_replenishment_template_id > 0) {
+        handleSelectReplenishment(createStreamLinePayload.tpl_replenishment_template_id.toString());
+      }
+    }
+  }, [replenishmentTemplatesOptions]);
+
   const handleSelectReplenishment = async (replenishmentTemplateId: string) => {
     if (replenishmentTemplateId === 'Create new replenishment template') {
-      localStorage.setItem('createOrderStep', createStreamLineStep.toString());
+      localStorage.setItem('createStreamLineStep', createStreamLineStep.toString());
       localStorage.setItem('createStreamLinePayload', JSON.stringify(createStreamLinePayload));
       history.push('/settings/aistock/replenishment');
       return;
@@ -132,8 +139,8 @@ const SelectFbaReplenishmentTemplate = (props: Props) => {
               </div>
               <div>
                 <p className={styles.text}>
-                  {currentTplVendor?.name}, {currentTplVendor?.address}, {currentTplVendor?.city},{' '}
-                  {currentTplVendor?.state}, {currentTplVendor?.zip_code}
+                  {currentTplVendor?.name} {currentTplVendor?.address} {currentTplVendor?.city}{' '}
+                  {currentTplVendor?.state} {currentTplVendor?.zip_code}
                 </p>
               </div>
             </div>

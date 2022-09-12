@@ -133,3 +133,11 @@
   align-self: flex-end;
   margin-top: auto;
 }
+
+.streamLinePopupBtn {
+  margin-right: 25px !important;
+
+  > button {
+    padding: 10px !important;
+  }
+}

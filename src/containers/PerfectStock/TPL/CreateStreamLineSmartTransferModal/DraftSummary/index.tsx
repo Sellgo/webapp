@@ -5,10 +5,6 @@ import styles from './index.module.scss';
 
 /* Components */
 import ActionButton from '../../../../../components/ActionButton';
-
-/* Interfaces */
-// import { CreateOrderPayload } from '../../../../../interfaces/PerfectStock/OrderPlanning';
-
 interface Props {
   handleClose: () => void;
   createStreamLinePayload: any;
@@ -19,8 +15,15 @@ const DraftSummary = (props: Props) => {
   const { createStreamLinePayload, handleClose, createDraftSummary } = props;
 
   const handleSubmit = () => {
+    const shipmentId = createDraftSummary?.shipment_id;
     if (createStreamLinePayload.create_first_draft) {
       handleClose();
+    } else {
+      window.open(
+        // eslint-disable-next-line max-len
+        `https://sellercentral.amazon.com/gp/fba/inbound-shipment-workflow/index.html/ref=ag_fbaisw_btn_fbasqs#${shipmentId}/prepare`,
+        '_blank'
+      );
     }
   };
 
@@ -30,7 +33,7 @@ const DraftSummary = (props: Props) => {
         <h3>Summary of future FBA inbound draft</h3>
         <div className={styles.inputBox}>
           <div className={styles.firstContextBox}>
-            <div className={styles.contentBox}>
+            <div className={styles.contentDetailBox}>
               <p className={styles.title}>Shipment Name/ ID</p>
               <p className={styles.content}>
                 <span className={styles.subTitle}>Name: </span>
@@ -45,7 +48,7 @@ const DraftSummary = (props: Props) => {
                 <span className={styles.text}>NA</span>
               </p>
             </div>
-            <div>
+            <div className={styles.contentDetailBox}>
               <p className={styles.title}>Ship from</p>
               <p className={styles.text}>{createDraftSummary?.from_address}</p>
               {/* <p className={styles.text}>{createDraftSummary?.from_city}</p> */}
@@ -55,7 +58,7 @@ const DraftSummary = (props: Props) => {
               </p>
               <p className={styles.text}>{createDraftSummary?.from_country}</p>
             </div>
-            <div>
+            <div className={styles.contentDetailBox}>
               <p className={styles.title}>Ship from</p>
               <p className={styles.text}>{createDraftSummary?.ship_address_line_1}</p>
               <p className={styles.text}>{createDraftSummary?.ship_address_line_2}</p>
@@ -67,13 +70,13 @@ const DraftSummary = (props: Props) => {
             </div>
           </div>
           <div className={styles.secondContextBox}>
-            <div>
+            <div className={styles.contentDetailBox}>
               <p className={styles.title}>Ship from</p>
               <p className={styles.text}>{createDraftSummary?.mskus} MSKUs</p>
               <p className={styles.text}>{createDraftSummary?.units} Units</p>
             </div>
 
-            <div>
+            <div className={styles.contentDetailBox}>
               <p className={styles.title}>Shipping Status</p>
               <p className={styles.text}>{createDraftSummary?.shipment_status}</p>
               <p className={styles.content}>
@@ -85,6 +88,7 @@ const DraftSummary = (props: Props) => {
                 <span className={styles.text}>{createDraftSummary?.udate.split('T')[0]}</span>
               </p>
             </div>
+            <div className={styles.contentDetailBox} />
           </div>
         </div>
       </div>

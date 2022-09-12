@@ -28,6 +28,7 @@ const CreateOrAutomateDraft = (props: Props) => {
     handleCreateStreamLine,
   } = props;
   const [isInboundDueGreater, setIsInboundDueGreater] = React.useState<boolean>(false);
+  const [daysUntillDueDate, setDaysUntillDueDate] = React.useState<number>();
   const handleStreamLineSubmit = (value: boolean) => {
     setCreateStreamLinePayload({
       ...createStreamLinePayload,
@@ -44,12 +45,14 @@ const CreateOrAutomateDraft = (props: Props) => {
     const inboundDays = perfectStockConfig?.data.inbound_buffer_days;
     const startDate = new Date(createStreamLinePayload.start_date.replace(/-/g, '/'));
     const tempDate = new Date(startDate.getTime() - Number(inboundDays) * 24 * 60 * 60 * 1000);
-    console.log(tempDate, startDate);
     const today = new Date();
     if (today >= tempDate) {
       setIsInboundDueGreater(false);
     } else {
       setIsInboundDueGreater(true);
+      let daysDifference = tempDate.getTime() - today.getTime();
+      daysDifference = Math.ceil(daysDifference / (1000 * 3600 * 24));
+      setDaysUntillDueDate(daysDifference);
     }
   };
   React.useEffect(() => {
@@ -60,7 +63,7 @@ const CreateOrAutomateDraft = (props: Props) => {
       <div className={styles.createOrderBox}>
         {isInboundDueGreater ? (
           <>
-            <h3>Your next FBA inbound will due in … days,</h3>
+            <h3>Your next FBA inbound will due in {daysUntillDueDate} days,</h3>
             <h3>would you like to create draft now?</h3>
           </>
         ) : (

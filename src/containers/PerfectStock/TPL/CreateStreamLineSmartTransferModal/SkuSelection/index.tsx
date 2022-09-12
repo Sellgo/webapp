@@ -51,6 +51,14 @@ const SkuSelection = (props: Props) => {
   React.useEffect(() => {
     if (orderSkus.length === 0) {
       fetchOrderProducts();
+    } else {
+      const merchantListIds: string[] = [];
+      createStreamLinePayload.merchant_listings.forEach((merchant_listing: any) => {
+        merchantListIds.push(merchant_listing.merchant_listing_id.toString());
+      });
+      if (merchantListIds.length > 0) {
+        handleAddSkusOnModalLoad(merchantListIds);
+      }
     }
   }, [orderSkus.length]);
 
@@ -97,6 +105,14 @@ const SkuSelection = (props: Props) => {
     });
     setAddedSkus([...newSkus]);
   };
+
+  const handleAddSkusOnModalLoad = (merchantListingIds: string[]) => {
+    const newSkus = orderSkus.filter((sku: any) => {
+      return merchantListingIds.includes(sku.merchant_listing_id.toString());
+    });
+    setAddedSkus([...newSkus]);
+  };
+
   return (
     <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>

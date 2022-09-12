@@ -63,6 +63,7 @@ interface Props {
   setCreateStreamLinePayload: (payload: any) => void;
   createStreamLinePayload: any;
   createStreamLineStep: number;
+  vendorId: number;
 }
 
 const SelectShippingTemplate = (props: Props) => {
@@ -72,6 +73,7 @@ const SelectShippingTemplate = (props: Props) => {
     setCreateStreamLinePayload,
     createStreamLinePayload,
     createStreamLineStep,
+    vendorId,
   } = props;
 
   const [replenishmentTemplatesOptions, setReplenishmentTemplatesOptions] = React.useState([]);
@@ -125,8 +127,9 @@ const SelectShippingTemplate = (props: Props) => {
 
   const handleSelectShippingTemplate = async (replenishmentTemplateId: string) => {
     if (replenishmentTemplateId === 'Create new packing template') {
-      localStorage.setItem('createOrderStep', createStreamLineStep.toString());
+      localStorage.setItem('createStreamLineStep', createStreamLineStep.toString());
       localStorage.setItem('createStreamLinePayload', JSON.stringify(createStreamLinePayload));
+      localStorage.setItem('createStreamLinePayloadVendorId', vendorId.toString());
       history.push('/settings/aistock/shipment-packing');
       return;
     }
