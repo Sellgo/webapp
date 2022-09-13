@@ -1,0 +1,33 @@
+@import '../../../../../../design-system/new-colors.scss';
+
+.inboundFulfillableStat {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.statWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.statLabel {
+  width: 50px;
+  margin-right: 5px;
+  font-size: 8px;
+  color: $grey_8;
+  font-weight: $fontweight_medium;
+  text-align: right;
+}
+
+.stat {
+  width: 40px;
+  margin: 0;
+  font-size: 12px;
+  font-weight: $fontweight_semibold;
+  color: $grey_8;
+}

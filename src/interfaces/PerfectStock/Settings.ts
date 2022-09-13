@@ -13,7 +13,7 @@ export interface NumberOptions {
 export interface Column {
   title: string;
   dataKey: string;
-  type: 'text' | 'number' | 'selection' | 'date' | 'checkbox' | 'toggle';
+  type: 'text' | 'number' | 'selection' | 'date' | 'checkbox' | 'toggle' | 'label';
   prepend?: string;
   append?: string;
   options?: IOption[];

@@ -1,0 +1,28 @@
+@import '../../../design-system/new-colors.scss';
+
+.inputFilter {
+  width: 100% !important;
+  min-width: unset !important;
+
+  > p {
+    font-size: 14px !important;
+    margin: 0 0 12px 0 !important;
+  }
+}
+
+.label {
+  font-size: 14px !important;
+  margin: 0 0 12px 0 !important;
+  color: $grey_8;
+  font-weight: 600;
+}
+
+.marketPlace {
+  width: 100% !important;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.input {
+  padding-left: 0 !important;
+}

@@ -1,0 +1,116 @@
+@import '../../../../../design-system/new-colors.scss';
+
+.settingWrapper {
+  width: 100%;
+  padding-bottom: 200px;
+}
+
+.settingsPageWrapper {
+  display: flex;
+}
+
+.settingsTableWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  > p {
+    font-size: 16px;
+    font-weight: $fontweight_bold;
+    color: $prim_dark_2;
+    margin: 30px 0;
+  }
+}
+
+.settingsTableRow {
+  width: 100%;
+  display: flex;
+}
+
+.daysOfInventorySettingsBox {
+  background: $prim_white;
+  border: 1px solid $grey_3;
+  border-radius: 7px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px;
+
+  .applyButton {
+    align-self: flex-end;
+  }
+}
+
+.daysOfInventoryRow {
+  display: flex;
+  align-items: center;
+
+  .input {
+    min-width: 0;
+    width: 80px;
+  }
+}
+
+.instructionsBox {
+  margin-left: 18px;
+  background: $prim_white;
+  border-radius: 7px;
+  width: 500px;
+  max-height: 700px;
+  overflow-y: scroll;
+  border: 1px solid $grey_3;
+  padding: 18px;
+  font-size: 12px;
+  font-weight: $fontweight_medium;
+  color: $grey_8;
+  text-transform: uppercase;
+
+  > span {
+    margin-bottom: 100px;
+  }
+}
+
+.buttonsRow {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+
+  .resetButton {
+    margin-right: 18px;
+  }
+}
+
+.inputTable {
+  margin-top: 30px;
+}
+
+.filterSection {
+  border: 1px solid $grey_3;
+  border-radius: 7px;
+  padding: 30px;
+}
+
+.heading {
+  margin: 0 0 30px 0 !important;
+}
+
+.label {
+  color: $black_0;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 35px;
+}
+
+.shippingSection {
+  display: flex;
+  margin-bottom: 40px;
+}
+
+.shippingMethod {
+  margin-right: 100px;
+}
+
+.disabled {
+  opacity: 0.5;
+}

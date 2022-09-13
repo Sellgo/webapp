@@ -14,7 +14,7 @@ const INITIAL_STATE = {
 const tplReducer = (state = INITIAL_STATE, action: AnyAction) => {
   switch (action.type) {
     case actionTypes.IS_LOADING_TPL_VENDORS: {
-      return setIn(state, 'isLoadingSalesProjection', action.payload);
+      return setIn(state, 'isLoadingTplVendors', action.payload);
     }
 
     case actionTypes.SET_TPL_VENDORS: {

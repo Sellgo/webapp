@@ -1,0 +1,56 @@
+.createOrderWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.btn {
+  display: flex;
+}
+
+.selectField {
+  margin: 25px auto;
+}
+
+.buttonsRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 150px;
+
+  > div {
+    margin-left: 18px;
+  }
+}
+
+.contentBox {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  margin: 25px auto 0;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  width: 200px;
+}
+
+.text {
+  font-size: 14px;
+  text-align: left;
+}
+
+.contentWrapper {
+  display: flex;
+  margin-bottom: 25px;
+}
+
+.titleWrapper {
+  width: 200px;
+}
+
+.heading {
+  text-align: center;
+}

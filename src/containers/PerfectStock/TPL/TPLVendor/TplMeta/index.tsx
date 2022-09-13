@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Loader } from 'semantic-ui-react';
 
@@ -22,6 +22,7 @@ import { SellerSubscription } from '../../../../../interfaces/Seller';
 
 /* Assets */
 import BanIcon from '../../../../../assets/images/banIcon.svg';
+import CreateStreamLineSmartTransferModal from '../../CreateStreamLineSmartTransferModal';
 interface Props {
   fetchTplSkuData: () => void;
   tplSkuData: any[];
@@ -43,12 +44,22 @@ const TplMeta = (props: Props) => {
     loading,
   } = props;
   const [isReconciling, setIsReconciling] = React.useState<boolean>(false);
+  const [isCreatingStreamLine, setIsCreatingStreamLine] = useState<boolean>(false);
 
   const isExportAllowed = !DAILY_SUBSCRIPTION_PLANS.includes(sellerSubscription.subscription_id);
 
   return (
     <>
       <div className={styles.exportsContainer}>
+        <ActionButton
+          variant="secondary"
+          size={'md'}
+          type="purpleGradient"
+          onClick={() => setIsCreatingStreamLine(true)}
+          className={`${styles.confirmButton} ${styles.streamLinePopupBtn}`}
+        >
+          Stream Line Transfer
+        </ActionButton>
         <button
           className={`${styles.exportBtn}`}
           onClick={e => {
@@ -85,6 +96,10 @@ const TplMeta = (props: Props) => {
         refreshData={fetchTplSkuData}
         skusAvailable={tplSkuData}
         vendorId={activeTplVendor.id}
+      />
+      <CreateStreamLineSmartTransferModal
+        open={isCreatingStreamLine}
+        setIsCreatingOrder={setIsCreatingStreamLine}
       />
     </>
   );

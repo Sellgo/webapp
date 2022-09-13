@@ -44,6 +44,10 @@ import EmployeeExpenses from '../Settings/PerfectStockSettings/EmployeeExpenses'
 import LaunchExpenses from '../Settings/PerfectStockSettings/LaunchExpenses';
 import MiscExpenses from '../Settings/PerfectStockSettings/MiscExpenses';
 import PpcExpenses from '../Settings/PerfectStockSettings/PpcExpenses';
+import StorageDetails from '../Settings/PerfectStockSettings/StorageDetails3PL';
+import Replenishment3PL from '../Settings/PerfectStockSettings/Replenishment3PL';
+import ShipmentPacking from '../Settings/PerfectStockSettings/ShipmentPacking';
+import FbaInboundDraft from '../Settings/PerfectStockSettings/InBoundSettings';
 import CashFlowReconcile from '../Settings/PerfectStockSettings/CashFlowReconcile';
 import SalesForecastingAdjustor from '../Settings/PerfectStockSettings/SalesForecastingAdjustor';
 // import SalesForcastingInventoryHistory from '../Settings/PerfectStockSettings/SalesForcastingInventoryHistory';
@@ -445,7 +449,7 @@ function App() {
             exact={true}
             path="/settings/aistock/fba-restock-limit"
             component={RestockLimit}
-           />
+          />
 
           <PrivateRoute
             exact={true}
@@ -491,6 +495,26 @@ function App() {
             exact={true}
             path="/settings/aistock/container-settings"
             component={Containers}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/storage-details"
+            component={StorageDetails}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/replenishment"
+            component={Replenishment3PL}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/shipment-packing"
+            component={ShipmentPacking}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/inbound-draft"
+            component={FbaInboundDraft}
           />
           <PrivateRoute
             exact={true}

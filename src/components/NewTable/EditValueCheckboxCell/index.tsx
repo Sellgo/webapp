@@ -1,7 +1,8 @@
 import React, { memo } from 'react';
 import { Table } from 'rsuite';
-import { Checkbox } from 'semantic-ui-react';
 import { RowCell } from '../../../interfaces/Table';
+import ToggleRadio from '../../../components/ToggleRadio';
+import { Checkbox } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -23,19 +24,25 @@ const EditValueCheckBoxCell = (props: Props) => {
   return (
     <Table.Cell {...otherProps}>
       <div className={styles.checkBoxCell}>
-        <Checkbox
-          className={!toggle ? styles.checkbox : ''}
-          checked={checked}
-          onChange={(_e, data) => {
-            setChecked(data.checked);
-            if (toggle) {
-              handleCheckboxClick(dataKey, data.checked ? 'active' : null, rowData.id);
-            } else {
+        {toggle ? (
+          <ToggleRadio
+            isToggled={checked}
+            label=""
+            handleChange={() => {
+              handleCheckboxClick(dataKey, !checked ? 'active' : null, rowData.id);
+              setChecked((prev: boolean) => !prev);
+            }}
+          />
+        ) : (
+          <Checkbox
+            className={styles.checkbox}
+            checked={checked}
+            onChange={(_e: any, data: any) => {
+              setChecked(data.checked);
               handleCheckboxClick(dataKey, data.checked, rowData.id);
-            }
-          }}
-          toggle={toggle ? true : false}
-        />
+            }}
+          />
+        )}
       </div>
     </Table.Cell>
   );

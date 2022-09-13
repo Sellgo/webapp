@@ -375,7 +375,6 @@ const TplSettings = (props: Props) => {
               </div>
             </div>
             <FormFilterActions
-              isBlack
               onFind={handleSubmit}
               onReset={() => handleReset({ resetStorageCost: true })}
               disabled={false}

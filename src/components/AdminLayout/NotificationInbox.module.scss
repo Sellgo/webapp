@@ -9,7 +9,6 @@
   .bellIcon {
     color: $prim_dark_1;
     font-size: 18;
-
   }
 
   .newNotificationDot {
@@ -72,7 +71,8 @@
       justify-content: space-between;
       padding: 0 20px;
 
-      button, h6 {
+      button,
+      h6 {
         color: $grey_8;
         background: none;
         font-weight: 500;

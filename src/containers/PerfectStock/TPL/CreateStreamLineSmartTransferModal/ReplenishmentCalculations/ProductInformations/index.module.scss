@@ -1,0 +1,150 @@
+@import '../../../../../../design-system/new-colors.scss';
+
+.createOrderWrapper {
+  height: 250px;
+  overflow: auto;
+}
+
+.productInformation {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.productImage {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.productDetails {
+  width: calc(100% - 150px);
+  margin-left: 20px;
+}
+
+.productTitle {
+  color: $grey_7;
+  font-size: 16px;
+  font-weight: $fontweight_semibold;
+  text-align: left;
+  margin-bottom: 10px;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  height: 20px;
+  white-space: nowrap;
+}
+
+.productAttributes {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 120px 120px;
+  font-size: 10px !important;
+  font-weight: $fontweight_medium !important;
+  color: $black_1 !important;
+}
+
+.flagAndAsinCol {
+  display: flex;
+  flex-direction: row;
+
+  .flagIcon {
+    width: 20px;
+    margin-right: 8px;
+    object-fit: contain;
+  }
+
+  .productTitleTextBox {
+    margin-top: -5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.sizeTierAndStatusCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.productAsin {
+  font-size: 10px !important;
+  font-weight: $fontweight_medium !important;
+  color: $black_1 !important;
+
+  &:hover {
+    text-decoration-color: $black-1 !important;
+    font-size: 10px !important;
+    font-weight: $fontweight_semibold !important;
+    color: $black_1 !important;
+  }
+}
+
+.inputFilter {
+  min-width: unset !important;
+  width: 100% !important;
+}
+
+.columnWrapper {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.columnValueWrapper {
+  margin-right: 10px;
+  text-align: center;
+}
+
+.columnText {
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.calculationResult {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  &__title {
+    font-weight: 600;
+    font-size: 10px;
+    margin-right: 10px;
+  }
+
+  &__text {
+    font-weight: 500;
+    font-size: 10px;
+    margin-top: 0;
+    width: 25px;
+  }
+}
+
+.shipmentQuantityWrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  &__text {
+    margin-top: 0;
+  }
+
+  &__textTitle {
+    width: 70px;
+    text-align: left;
+  }
+
+  &__textNumber {
+    width: 50px;
+  }
+
+  &__inputFilter {
+    min-width: unset !important;
+    width: 50px;
+  }
+}
