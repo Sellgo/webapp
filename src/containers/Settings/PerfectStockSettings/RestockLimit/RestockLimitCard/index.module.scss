@@ -1,0 +1,72 @@
+@import '../../../../../design-system/new-colors.scss';
+
+.cardContainer {
+  border: 1px solid $grey_3;
+  border-radius: 0.5em;
+  width: 340px;
+  padding: 2em 2.5em 2.5em 0;
+
+  .value {
+    font-weight: 600;
+    color: $black_0;
+    font-size: 1.1rem;
+  }
+
+  .titleContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1.5em;
+    padding-left: 2em;
+    border-bottom: 1px solid $grey_3;
+
+    .title {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+  }
+
+  .progressContainer {
+    margin-top: 2em;
+    margin-bottom: 4.5em;
+    padding-left: 2em;
+
+    .progress {
+      color: $black_1;
+      text-align: left;
+      margin-top: 0.7em;
+      font-weight: 500;
+      font-size: 1.3rem;
+    }
+  }
+
+  .utilQuantity {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 2em;
+    margin-top: 1.8em;
+    font-weight: 500;
+  }
+
+  .restockThreshold {
+    border-radius: 4px;
+    width: 4em;
+    padding: 0.5em;
+    border: 1px solid $grey_3;
+  }
+
+  .pastDue {
+    color: $red_gradation_4;
+  }
+
+  .pastDueInput {
+    outline-color: $red_gradation_4;
+    border: 1px solid $red_gradation_4;
+  }
+
+  .lastUpdateLabel {
+    font-weight: 400;
+    color: $grey_6;
+  }
+}

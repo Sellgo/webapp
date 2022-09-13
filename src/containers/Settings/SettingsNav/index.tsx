@@ -60,7 +60,7 @@ const SettingsNav = (props: Props) => {
                   <div
                     className={
                       isActive
-                        ? `${styles.settingPageOption} 
+                        ? `${styles.settingPageOption}
                         ${styles.settingPageOption__active}`
                         : styles.settingPageOption
                     }
@@ -78,7 +78,7 @@ const SettingsNav = (props: Props) => {
                           <div
                             className={
                               isActive
-                                ? `${styles.settingSubPageOption} 
+                                ? `${styles.settingSubPageOption}
                                 ${styles.settingSubPageOption__small} ${styles.settingSubPageOption__active}`
                                 : `${styles.settingSubPageOption} ${styles.settingPageOption__small}`
                             }

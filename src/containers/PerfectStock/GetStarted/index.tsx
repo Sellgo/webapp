@@ -58,7 +58,6 @@ const GetStarted = (props: Props) => {
   });
   useEffect(() => {
     if (completedSteps === Object.keys(perfectStockGetStartedStatus).length && !showGetStarted) {
-      console.log('helo');
       setIsGetStartedVisible(false);
     } else {
       setIsGetStartedVisible(true);
