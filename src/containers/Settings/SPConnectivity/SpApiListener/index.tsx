@@ -3,7 +3,7 @@ import React from 'react';
 import { Dimmer, Loader } from 'semantic-ui-react';
 import { AppConfig } from '../../../../config';
 import { sellerIDSelector } from '../../../../selectors/Seller';
-import { success } from '../../../../utils/notifications';
+import { success, error } from '../../../../utils/notifications';
 import styles from './index.module.scss';
 
 const SpApiConnector = () => {
@@ -20,11 +20,10 @@ const SpApiConnector = () => {
         window.close();
         success('Connected to Amazon Seller Central successfully!');
       } else {
-        alert('Something went wrong!');
+        error('Something went wrong!');
       }
     } catch (err) {
-      console.error(err);
-      alert('Something went wrong!');
+      error(err?.response?.data?.message);
       // window.close();
     }
   };
