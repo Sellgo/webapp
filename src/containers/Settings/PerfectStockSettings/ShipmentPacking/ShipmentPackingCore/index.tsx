@@ -256,9 +256,18 @@ const ShipmentPackingCore = () => {
                         height,
                         weight,
                         guidance,
+                        prep_inst_list,
                         owner,
                         carton_count,
                       } = packingTemplate;
+                      const prepGuidanceOptions = PROP_GUIDANCE_OPTIONS.filter(
+                        propGuidanceOption => prep_inst_list.indexOf(propGuidanceOption.value) >= 0
+                      );
+                      prepGuidanceOptions.push({
+                        key: 'NONE',
+                        text: 'No prep needed',
+                        value: 'NONE',
+                      });
                       return (
                         <div key={index} className={styles.columnWrapper}>
                           <div
@@ -352,7 +361,7 @@ const ShipmentPackingCore = () => {
                           >
                             <SelectionFilter
                               placeholder={'Prep Guidance'}
-                              filterOptions={PROP_GUIDANCE_OPTIONS}
+                              filterOptions={prepGuidanceOptions}
                               value={guidance ? `${guidance}` : ''}
                               handleChange={(value: string) =>
                                 updateSellerDatabaseFilter('guidance', value, index)
