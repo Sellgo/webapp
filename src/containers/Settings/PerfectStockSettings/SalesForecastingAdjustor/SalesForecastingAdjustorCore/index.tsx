@@ -34,6 +34,7 @@ import {
 import { SalesProjectionUpdatePayload } from '../../../../../interfaces/PerfectStock/SalesProjection';
 import { Checkbox } from 'semantic-ui-react';
 import ProductInformation from '../../../../../components/ProductInformation';
+import ExpandedProduct from '../../../../PerfectStock/SalesProjection/ExpandedProduct';
 
 interface Props {
   salesProjectionResult: any;
@@ -55,6 +56,7 @@ const SalesForecastingAdjustorCore = (props: Props) => {
   const [isLoadingSeasonalitySettings, setIsLoadingSeasonalitySettings] = useState<boolean>(false);
   const [isSavingSeasonalitySettings, setIsSavingSeasonalitySettings] = useState<boolean>(false);
   const [id, setId] = useState<number>(-1);
+  const [selectedSalesProjection, setSelectedSalesProjection] = useState(null);
 
   /* Seasonality adjustor toggles */
   const handleSeasonalityAdjustorToggle = (
@@ -91,7 +93,7 @@ const SalesForecastingAdjustorCore = (props: Props) => {
   /* Hook called upon typing inside the input fields */
   const handleValueChange = (key: string, value: string, id: number) => {
     const newSeasonalitySettings = [...seasonalitySettings];
-    const index = newSeasonalitySettings.findIndex(item => item.id === id);
+    const index = newSeasonalitySettings.findIndex((item) => item.id === id);
     newSeasonalitySettings[index][key] = value;
     setSeasonalitySettings(newSeasonalitySettings);
   };
@@ -121,7 +123,7 @@ const SalesForecastingAdjustorCore = (props: Props) => {
   };
 
   const handleDelete = async (id: number) => {
-    const newSeasonalitySettings = seasonalitySettings.map(item => {
+    const newSeasonalitySettings = seasonalitySettings.map((item) => {
       if (item.id === id) {
         item.status = 'inactive';
       }
@@ -133,7 +135,7 @@ const SalesForecastingAdjustorCore = (props: Props) => {
   /* Saving of seasonality settings, triggered upon clicking of Save button */
   const handleSaveSeasonalitySettings = async () => {
     setIsSavingSeasonalitySettings(true);
-    const savedSeasonalitySettings = seasonalitySettings.map(setting => {
+    const savedSeasonalitySettings = seasonalitySettings.map((setting) => {
       if (setting.status === 'pending' && setting.name !== '' && setting.value !== '') {
         setting.status = 'active';
       }
@@ -166,8 +168,10 @@ const SalesForecastingAdjustorCore = (props: Props) => {
       );
       if (fisrtActiveSaleProjectionProduct) {
         setId(fisrtActiveSaleProjectionProduct?.id);
+        setSelectedSalesProjection(fisrtActiveSaleProjectionProduct);
       } else {
         setId(salesProjectionResult[0]?.id);
+        setSelectedSalesProjection(salesProjectionResult[0]);
       }
     }
   }, [salesProjectionResult]);
@@ -198,8 +202,9 @@ const SalesForecastingAdjustorCore = (props: Props) => {
                 return (
                   <div key={index}>
                     <div
-                      className={`${id === salesProjection.id &&
-                        styles.selectedProductInformationWrapper}
+                      className={`${
+                        id === salesProjection.id && styles.selectedProductInformationWrapper
+                      }
                     ${styles.productInformationWrapper}
                 `}
                     >
@@ -207,7 +212,10 @@ const SalesForecastingAdjustorCore = (props: Props) => {
                         checked={!!(id === salesProjection.id)}
                         radio
                         onChange={() => {
-                          if (id !== salesProjection.id) setId(salesProjection.id);
+                          if (id !== salesProjection.id) {
+                            setId(salesProjection.id);
+                            setSelectedSalesProjection(salesProjection);
+                          }
                         }}
                         className={styles.checkBox}
                       />
@@ -254,6 +262,7 @@ const SalesForecastingAdjustorCore = (props: Props) => {
                 );
               })}
           </div>
+
           <div className={styles.buttonsRow}>
             <ActionButton
               variant="reset"
@@ -274,6 +283,8 @@ const SalesForecastingAdjustorCore = (props: Props) => {
               Apply
             </ActionButton>
           </div>
+
+          {selectedSalesProjection && <ExpandedProduct rowData={selectedSalesProjection} />}
         </div>
       )}
     </>

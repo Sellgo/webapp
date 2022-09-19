@@ -88,9 +88,6 @@ const SalesEstimationTable = (props: Props) => {
           onSortColumn={handleSortColumn}
           sortType={sortType}
           sortColumn={sortColumn}
-          rowExpandedHeight={800}
-          expandedRowKeys={expandedRowKeys}
-          renderRowExpanded={(rowData: any) => <ExpandedProduct rowData={rowData} />}
           rowKey="id"
           virtualized
           id="salesProjectionTable"
