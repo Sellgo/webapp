@@ -93,7 +93,7 @@ const SalesForecastingAdjustorCore = (props: Props) => {
   /* Hook called upon typing inside the input fields */
   const handleValueChange = (key: string, value: string, id: number) => {
     const newSeasonalitySettings = [...seasonalitySettings];
-    const index = newSeasonalitySettings.findIndex((item) => item.id === id);
+    const index = newSeasonalitySettings.findIndex(item => item.id === id);
     newSeasonalitySettings[index][key] = value;
     setSeasonalitySettings(newSeasonalitySettings);
   };
@@ -123,7 +123,7 @@ const SalesForecastingAdjustorCore = (props: Props) => {
   };
 
   const handleDelete = async (id: number) => {
-    const newSeasonalitySettings = seasonalitySettings.map((item) => {
+    const newSeasonalitySettings = seasonalitySettings.map(item => {
       if (item.id === id) {
         item.status = 'inactive';
       }
@@ -135,7 +135,7 @@ const SalesForecastingAdjustorCore = (props: Props) => {
   /* Saving of seasonality settings, triggered upon clicking of Save button */
   const handleSaveSeasonalitySettings = async () => {
     setIsSavingSeasonalitySettings(true);
-    const savedSeasonalitySettings = seasonalitySettings.map((setting) => {
+    const savedSeasonalitySettings = seasonalitySettings.map(setting => {
       if (setting.status === 'pending' && setting.name !== '' && setting.value !== '') {
         setting.status = 'active';
       }
@@ -202,9 +202,8 @@ const SalesForecastingAdjustorCore = (props: Props) => {
                 return (
                   <div key={index}>
                     <div
-                      className={`${
-                        id === salesProjection.id && styles.selectedProductInformationWrapper
-                      }
+                      className={`${id === salesProjection.id &&
+                        styles.selectedProductInformationWrapper}
                     ${styles.productInformationWrapper}
                 `}
                     >

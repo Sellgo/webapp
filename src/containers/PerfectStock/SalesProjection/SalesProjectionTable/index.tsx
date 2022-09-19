@@ -30,7 +30,6 @@ import {
   getIsLoadingSalesProjection,
 } from '../../../../selectors/PerfectStock/SalesProjection';
 import { ReactComponent as ExclaimationIcon } from '../../../../assets/images/exclamation-triangle-solid.svg';
-import ExpandedProduct from '../ExpandedProduct';
 import InboundFulfillableStat from './InboundFulfillableStat';
 import SeasonalityAdjustor from './SeasonalityAdjustor';
 
