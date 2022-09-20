@@ -91,16 +91,6 @@ const SalesEstimationTable = (props: Props) => {
           virtualized
           id="salesProjectionTable"
         >
-          {/* Expand Cell */}
-          <Table.Column verticalAlign="top" fixed="left" align="left" width={30}>
-            <Table.HeaderCell> </Table.HeaderCell>
-            <ExpansionCell
-              dataKey={'id'}
-              expandedRowKeys={expandedRowKeys}
-              onChange={handleExpansion}
-            />
-          </Table.Column>
-
           {/* Product Information  */}
           <Table.Column minWidth={400} verticalAlign="middle" fixed align="center" flexGrow={4}>
             <Table.HeaderCell>
