@@ -24,7 +24,6 @@ import WeightedAverage from './WeightedAverage';
 /* Components */
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import Placeholder from '../../../../components/Placeholder';
-import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
 import {
   getSalesProjectionResults,
   getIsLoadingSalesProjection,
