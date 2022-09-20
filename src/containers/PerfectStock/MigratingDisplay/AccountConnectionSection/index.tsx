@@ -25,7 +25,7 @@ const AccountConnectionSection = (props: Props) => {
 
   /* Open www.calendly.com in new tab */
   const handleOpenNewCalendlyTab = () => {
-    window.open('https://calendly.com/sellgo-richard/aistock-onboarding', '_blank');
+    window.open('https://calendly.com/aistock-richard/onboarding', '_blank');
   };
 
   return (
