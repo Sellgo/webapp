@@ -26,6 +26,12 @@
   color: $grey_8;
   font-size: 14px;
   font-weight: $fontweight_semibold;
+
+  .authorizeButton {
+    color: $blue_7;
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
 
 .deleteIcon {
@@ -76,6 +82,7 @@
 
 .authorizeButton {
   width: 200px;
+  margin: 0 auto;
 }
 
 .dimmer {
@@ -98,5 +105,29 @@
     margin-top: 18px;
     background: none;
     font-weight: $fontweight_semibold;
+  }
+}
+
+.privacyInformation {
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+  background: $grey_3;
+  border-radius: 7px;
+  margin-top: 10px;
+  width: 800px;
+  height: 70px;
+
+  span {
+    font-size: 12px;
+    font-weight: $fontweight_medium;
+    color: $black_1;
+    margin-left: 18px;
+
+    .popupButton {
+      margin-left: 0;
+      text-decoration: underline;
+      cursor: pointer;
+    }
   }
 }

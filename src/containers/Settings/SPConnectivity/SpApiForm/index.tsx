@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Icon, Confirm, Loader, Dimmer } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { Form, Icon, Confirm, Loader, Dimmer, Modal, TextArea, Header } from 'semantic-ui-react';
 import axios from 'axios';
+import get from 'lodash/get';
+import { fetchTOS, fetchPP } from '../../../../actions/UserOnboarding';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -21,11 +24,9 @@ const defaultShowCredentials = {
   refreshToken: false,
 };
 
-interface Props {
-  setIsSpApiAuthenticated?: (isSpApiAuthenticated: boolean) => void;
-}
-const SpApiForm = (props: Props) => {
-  const { setIsSpApiAuthenticated } = props;
+const SpApiForm = (props: any) => {
+  const { setIsSpApiAuthenticated, termsOfService, privacyPolicy, fetchPP, fetchTOS } = props;
+
   const [deleteConfirmation, setDeleteConfirmation] = useState<boolean>(false);
   const [showCredentials, setShowCredentials] = useState(defaultShowCredentials);
   const [spApiId, setSpApiId] = useState<number>(-1);
@@ -34,6 +35,8 @@ const SpApiForm = (props: Props) => {
   const [amazonRefreshToken, setAmazonRefreshToken] = useState<string>('');
   const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
   const [fetchSpApiKeysInterval, setFetchSpApiKeysInterval] = useState<any>(null);
+  const [openTOS, setOpenTOS] = useState(false);
+  const [openPP, setOpenPP] = useState(false);
 
   const fetchSpApiKeys = async () => {
     try {
@@ -114,6 +117,48 @@ const SpApiForm = (props: Props) => {
       }
     }
   }, [isAuthenticating]);
+
+  useEffect(() => {
+    fetchTOS();
+    fetchPP();
+  }, [fetchTOS, fetchPP]);
+
+  const onClose = () => {
+    setOpenTOS(false);
+    setOpenPP(false);
+  };
+
+  const TOS = () => {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Header as="h4">Our Terms of Service</Header>
+        <Form>
+          <TextArea rows="20" value={termsOfService} />
+        </Form>
+      </div>
+    );
+  };
+
+  const PP = () => {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Header as="h4">Our Privacy Policy</Header>
+        <Form>
+          <TextArea rows="20" value={privacyPolicy} />
+        </Form>
+      </div>
+    );
+  };
+  const newUserExperiencePopup = () => {
+    return (
+      <Modal onClose={() => onClose()} size={'small'} open={openTOS || openPP}>
+        <Modal.Content>
+          {openTOS && <TOS />}
+          {openPP && <PP />}
+        </Modal.Content>
+      </Modal>
+    );
+  };
 
   return (
     <section className={styles.mwsFormWrapper}>
@@ -220,7 +265,15 @@ const SpApiForm = (props: Props) => {
           </div>
         ) : (
           <div className={styles.mwsFormGrid}>
-            <p className={styles.regionTitle}>North America region</p>
+            <p className={styles.regionTitle}>
+              North America region{' '}
+              <span
+                className={styles.authorizeButton}
+                onClick={() => window._elev.openArticle('17')}
+              >
+                How to authorize?
+              </span>
+            </p>
             <ActionButton
               type="purpleGradient"
               variant="primary"
@@ -232,6 +285,25 @@ const SpApiForm = (props: Props) => {
             </ActionButton>
           </div>
         )}
+
+        <div className={styles.privacyInformation}>
+          <Icon name="lock" color="black" size="big" />
+          <span>
+            AiStock is committed to maintaining the highest standard for security in order that your
+            valuable data can be kept safe and secure at channel and at storage. We promise that we
+            will never share your data with others. You can read more on our{' '}
+            <span className={styles.popupButton} onClick={() => setOpenTOS(true)}>
+              Terms of Service
+            </span>{' '}
+            and{' '}
+            <span className={styles.popupButton} onClick={() => setOpenPP(true)}>
+              Privacy Policy
+            </span>
+            .
+          </span>
+        </div>
+
+        {newUserExperiencePopup()}
       </BoxContainer>
 
       <Confirm
@@ -247,4 +319,16 @@ const SpApiForm = (props: Props) => {
   );
 };
 
-export default SpApiForm;
+const mapStateToProps = (state: any) => ({
+  termsOfService: get(state, 'userOnboarding.termsOfService'),
+  privacyPolicy: get(state, 'userOnboarding.privacyPolicy'),
+});
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchTOS: () => dispatch(fetchTOS()),
+    fetchPP: () => dispatch(fetchPP()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SpApiForm);
