@@ -8,8 +8,16 @@ import styles from './index.module.scss';
 /* components */
 import SpApiForm from '../../Settings/SPConnectivity/SpApiForm';
 import ActionButton from '../../../components/ActionButton';
-import ElevioArticle from '../../../components/ElevioArticle';
 import PilotOnboarding from '../PilotOnboarding';
+
+/* Assets */
+import TenFactorLogo from '../../../assets/images/TenFactorLogo.png';
+import MetkixLogo from '../../../assets/images/MetkixLogo.png';
+import LuxeLogo from '../../../assets/images/LuxeLogo.png';
+import SkopeLogo from '../../../assets/images/SkopeLogo.png';
+import BBLogo from '../../../assets/images/BBLogo.png';
+import BFLogo from '../../../assets/images/BFLogo.png';
+import aistockLogo from '../../../assets/images/aistockLogo.png';
 
 /* Utils */
 import { AppConfig } from '../../../config';
@@ -78,10 +86,18 @@ const PreMigration = (props: Props) => {
               Start migration now
             </ActionButton>
           </div>
-          <div className={styles.instructionsBox}>
-            <span>Step-by-step guide</span>
-            <ElevioArticle articleId={'17'} />
-          </div>
+          <section className={styles.socialProofSection}>
+            <img src={aistockLogo} alt="aistock-logo" className={styles.aistockLogo} />
+            <p className={styles.socialProofDesc}>Trusted by top Amazon brands</p>
+            <div className={styles.socialProofIcons}>
+              <img className={styles.logo} src={BBLogo} alt="bblogo" />
+              <img className={styles.logo} src={TenFactorLogo} alt="TenFactorLogo" />
+              <img className={styles.logo} src={MetkixLogo} alt="MetkixLogo" />
+              <img className={styles.logo} src={LuxeLogo} alt="LuxeLogo" />
+              <img className={styles.logo} src={SkopeLogo} alt="SkopeLogo" />
+              <img className={styles.logo} src={BFLogo} alt="BFLogo" />
+            </div>
+          </section>
         </div>
       </main>
     </>

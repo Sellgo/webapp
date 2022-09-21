@@ -47,6 +47,12 @@
     font-weight: $fontweight_medium;
     color: $black_1;
     margin-left: 18px;
+
+    .popupButton {
+      margin-left: 0;
+      text-decoration: underline;
+      cursor: pointer;
+    }
   }
 }
 
