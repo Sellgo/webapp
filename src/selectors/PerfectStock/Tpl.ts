@@ -24,3 +24,28 @@ export const getIsLoadingTplSkuData = (state: any) => {
 export const getTplSkuData = (state: any) => {
   return get(state, 'tpl.tplSkuData');
 };
+
+/* Selector to get tpl inbounds */
+export const getTplInbounds = (state: any) => {
+  return get(state, 'tpl.tplInbounds');
+};
+
+/* Selector to get loading state for tpl inbounds */
+export const getIsLoadingTplInbounds = (state: any) => {
+  return get(state, 'tpl.isLoadingTplInbounds');
+};
+
+/* Selector to get date range */
+export const getDateRange = (state: any) => {
+  return get(state, 'tpl.dateRange');
+};
+
+/* Selector to get time setting */
+export const getTimeSetting = (state: any) => {
+  return get(state, 'tpl.timeSetting');
+};
+
+/* Selector to get active tpl inbound */
+export const getActiveTplInbound = (state: any) => {
+  return get(state, 'tpl.activeTplInbound');
+};

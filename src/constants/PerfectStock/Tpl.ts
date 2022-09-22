@@ -1,4 +1,4 @@
-import { TplVendor } from '../../interfaces/PerfectStock/Tpl';
+import { TplInbound, TplVendor } from '../../interfaces/PerfectStock/Tpl';
 import { COUNTRY_DROPDOWN_LIST, STATES_DROPDOWN_LIST } from '../SellerResearch/SellerMap';
 /* All action types */
 export const actionTypes = {
@@ -7,6 +7,11 @@ export const actionTypes = {
   SET_TPL_ACTIVE_VENDOR: 'SET_TPL_ACTIVE_VENDOR',
   IS_LOADING_TPL_SKU_DATA: 'IS_LOADING_TPL_SKU_DATA',
   SET_TPL_SKU_DATA: 'SET_TPL_SKU_DATA',
+  IS_LOADING_TPL_INBOUNDS: 'IS_LOADING_TPL_INBOUNDS',
+  SET_TPL_INBOUNDS: 'SET_TPL_INBOUNDS',
+  SET_ACTIVE_TPL_INBOUND: 'SET_ACTIVE_TPL_INBOUND',
+  SET_DATE_RANGE: 'SET_DATE_RANGE',
+  SET_TIME_SETTING: 'SET_TIME_SETTING',
 };
 
 export const DEFAULT_NEW_TPL_VENDOR: TplVendor = {
@@ -248,4 +253,13 @@ export const REPLENISMENT_FULFILLMENTS = {
   blank_box: 'Blank Box',
   mix: 'Mixture of both',
   asdas: 'Mixture of both',
+};
+
+export const EMPTY_TPL_INBOUND: TplInbound = {
+  id: -1,
+  date: '',
+  name: '',
+  status: '',
+  is_included: false,
+  lead_time: -1,
 };

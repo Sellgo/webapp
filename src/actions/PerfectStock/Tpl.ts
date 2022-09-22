@@ -4,14 +4,30 @@ import axios from 'axios';
 import { AppConfig } from '../../config';
 
 /* Constants */
-import { actionTypes } from '../../constants/PerfectStock/Tpl';
+import { actionTypes, EMPTY_TPL_INBOUND } from '../../constants/PerfectStock/Tpl';
 
 /* Interfaces */
-import { TplVendor, UpdateTplSkuPayload } from '../../interfaces/PerfectStock/Tpl';
-import { getTplActiveVendor, getTplSkuData } from '../../selectors/PerfectStock/Tpl';
+import {
+  TplVendor,
+  UpdateTplSkuPayload,
+  TplInbound,
+  DateRange,
+  UpdateTplInboundPayload,
+} from '../../interfaces/PerfectStock/Tpl';
+import {
+  fetchShippingInboundByVendorId,
+  updateInboundShippings,
+} from '../../libs/api/tpl/inboundShipping';
+import {
+  getActiveTplInbound,
+  getTplActiveVendor,
+  getTplSkuData,
+  getDateRange,
+} from '../../selectors/PerfectStock/Tpl';
 
 /* Selectors */
 import { sellerIDSelector } from '../../selectors/Seller';
+import { getDateOnly } from '../../utils/date';
 import { error, success } from '../../utils/notifications';
 
 /* Action to set loading state for tpl */
@@ -41,6 +57,46 @@ export const setTplActiveVendor = (payload: TplVendor) => {
 export const isLoadingTplSkuData = (payload: boolean) => {
   return {
     type: actionTypes.IS_LOADING_TPL_SKU_DATA,
+    payload,
+  };
+};
+
+/* Action to set tpl inbounds */
+export const setTplInbounds = (payload: TplInbound[]) => {
+  return {
+    type: actionTypes.SET_TPL_INBOUNDS,
+    payload,
+  };
+};
+
+/* Action to set time settings */
+export const setTimeSettings = (payload: string) => {
+  return {
+    type: actionTypes.SET_TIME_SETTING,
+    payload,
+  };
+};
+
+/* Action to set date range */
+export const setDateRange = (payload: DateRange) => {
+  return {
+    type: actionTypes.SET_DATE_RANGE,
+    payload,
+  };
+};
+
+/* Action to set active tpl inbound */
+export const setActiveTplInbound = (payload: TplInbound | null) => {
+  return {
+    type: actionTypes.SET_ACTIVE_TPL_INBOUND,
+    payload: payload,
+  };
+};
+
+/* Action to set loading state for tpl inbounds */
+export const isLoadingTplInbounds = (payload: boolean) => {
+  return {
+    type: actionTypes.IS_LOADING_TPL_INBOUNDS,
     payload,
   };
 };
@@ -131,8 +187,22 @@ export const fetchTplSkuData = () => async (dispatch: any, getState: any) => {
   try {
     const state = getState();
     const vendor = getTplActiveVendor(state);
+    const activeTplInbound = getActiveTplInbound(state);
     const sellerId = sellerIDSelector();
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/sku-tpl-data?vendor_id=${vendor.id}`;
+    const startDate = new Date(getDateRange(state).startDate);
+    const startDateString = getDateOnly(startDate);
+    const endDate = new Date(getDateRange(state).endDate);
+    const endDateString = getDateOnly(endDate);
+
+    if (startDateString === '' || endDateString === '') {
+      dispatch(isLoadingTplSkuData(false));
+      return;
+    }
+    const resourceString =
+      `&start_date=${startDateString}` +
+      `&end_date=${endDateString}` +
+      `${activeTplInbound?.id !== -1 ? `&inbound_shipping_id=${activeTplInbound?.id}` : ''}`;
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/sku-tpl-data?vendor_id=${vendor.id}${resourceString}`;
     if (vendor.id) {
       const { data } = await axios.get(URL);
       if (data) {
@@ -142,6 +212,7 @@ export const fetchTplSkuData = () => async (dispatch: any, getState: any) => {
   } catch (err) {
     dispatch(setTplSkuData([]));
     console.error('Error fetching 3pl SKU Information', err);
+    error('failed to fetch data');
   }
   dispatch(isLoadingTplSkuData(false));
 };
@@ -182,4 +253,52 @@ export const updateTplSkuData = (payload: UpdateTplSkuPayload) => async (
     dispatch(setTplSkuData([]));
     console.error('Error fetching 3pl SKU Information', err);
   }
+};
+
+export const fetchShippingInbounds = () => async (dispatch: any, getState: any) => {
+  dispatch(isLoadingTplInbounds(true));
+  try {
+    const state = getState();
+    const vendor = getTplActiveVendor(state);
+    const response = await fetchShippingInboundByVendorId(Number(vendor.id));
+
+    if (!response?.hasError) {
+      const data = response?.data;
+      dispatch(setTplInbounds(data));
+
+      const activeTplInbound = getActiveTplInbound(state);
+      if (activeTplInbound) {
+        const activeTplInboundIndex = data.findIndex(
+          (tplInbound: TplInbound) => tplInbound.id === activeTplInbound.id
+        );
+        if (activeTplInboundIndex > -1) {
+          dispatch(setActiveTplInbound(data[activeTplInboundIndex]));
+        } else {
+          dispatch(setActiveTplInbound(EMPTY_TPL_INBOUND));
+        }
+      }
+    }
+  } catch (err) {
+    dispatch(setTplInbounds([]));
+    console.error('Error fetching inbound shippings', err);
+  }
+  dispatch(isLoadingTplInbounds(false));
+};
+
+export const updateTplInboundShippings = (payload: UpdateTplInboundPayload) => async (
+  dispatch: any
+) => {
+  dispatch(isLoadingTplInbounds(true));
+  try {
+    const response = await updateInboundShippings(payload);
+    if (!response?.hasError) {
+      success(response?.data?.message);
+      dispatch(fetchShippingInbounds());
+    } else {
+      error(response?.err);
+    }
+  } catch (err) {
+    console.error('Error updating Tpl Inbound Shippings', err);
+  }
+  dispatch(isLoadingTplInbounds(false));
 };
