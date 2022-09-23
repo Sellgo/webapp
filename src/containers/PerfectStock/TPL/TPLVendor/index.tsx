@@ -6,21 +6,25 @@ import axios from 'axios';
 import { fetchTplSkuData } from '../../../../actions/PerfectStock/Tpl';
 
 /* Interfaces */
-import { TplVendor } from '../../../../interfaces/PerfectStock/Tpl';
+import { DateRange, TplInbound, TplVendor } from '../../../../interfaces/PerfectStock/Tpl';
 
-/* Selectors */
-
-/* Containers */
+/* Components */
 import TplMeta from './TplMeta';
 import TplTable from './TplTable';
-import TplSettings from './TplSettings';
+import TplGanttChart from './TplGanttChart';
+
+/* Selectors */
 import {
+  getActiveTplInbound,
   getIsLoadingTplSkuData,
   getTplActiveVendor,
   getTplSkuData,
+  getDateRange,
+  getTimeSetting,
 } from '../../../../selectors/PerfectStock/Tpl';
 
 /* Constants */
+import { TimeSetting } from '../../../../constants/PerfectStock/OrderPlanning';
 // import { TIME_SETTING } from '../../../../constants/PerfectStock/Tpl';
 
 /* Utils */
@@ -35,10 +39,21 @@ interface Props {
   activeTplVendor: TplVendor;
   tplSkuData: any;
   isLoadingTplSkuData: boolean;
+  dateRange: DateRange;
+  timeSetting: TimeSetting;
+  activeTplInbound: TplInbound;
 }
 
 const TPLVendor = (props: Props) => {
-  const { fetchTplSkuData, activeTplVendor, tplSkuData, isLoadingTplSkuData } = props;
+  const {
+    fetchTplSkuData,
+    activeTplVendor,
+    tplSkuData,
+    isLoadingTplSkuData,
+    dateRange,
+    timeSetting,
+    activeTplInbound,
+  } = props;
 
   const [exportLoading, setExportLoading] = React.useState<boolean>(false);
   const [headers, setHeaders] = React.useState<any>([]);
@@ -47,7 +62,6 @@ const TPLVendor = (props: Props) => {
     if (startDate && endDate) {
       const dateArray = [];
       let currentDate = startDate;
-      console.log('current date is', currentDate);
       while (currentDate <= endDate) {
         const dateString = getDateOnly(currentDate);
         dateArray.push(dateString);
@@ -61,13 +75,12 @@ const TPLVendor = (props: Props) => {
 
   React.useEffect(() => {
     fetchTplSkuData();
-  }, [activeTplVendor.id]);
+  }, [activeTplVendor.id, dateRange.startDate, dateRange.endDate, timeSetting, activeTplInbound]);
 
   React.useEffect(() => {
     if (tplSkuData && tplSkuData.length > 0) {
       const fba_inventories = tplSkuData[0]?.fba_inventories;
       const dateArray = Object.keys(fba_inventories);
-      console.log('date array ', dateArray);
       generateHeaders(
         new Date(dateArray[0].replace(/-/g, '/')),
         new Date(dateArray[dateArray.length - 1].replace(/-/g, '/'))
@@ -95,7 +108,7 @@ const TPLVendor = (props: Props) => {
 
   return (
     <main>
-      <TplSettings />
+      <TplGanttChart />
       <TplMeta
         label="Export FBA Shipping Quantity"
         loading={exportLoading}
@@ -113,6 +126,9 @@ const TPLVendor = (props: Props) => {
 const mapStateToProps = (state: any) => {
   return {
     activeTplVendor: getTplActiveVendor(state),
+    activeTplInbound: getActiveTplInbound(state),
+    dateRange: getDateRange(state),
+    timeSetting: getTimeSetting(state),
     tplSkuData: getTplSkuData(state),
     isLoadingTplSkuData: getIsLoadingTplSkuData(state),
   };

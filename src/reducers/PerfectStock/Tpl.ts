@@ -1,7 +1,9 @@
 import { AnyAction } from 'redux';
 import { setIn } from '../../utils/immutablity';
 
-import { actionTypes } from '../../constants/PerfectStock/Tpl';
+import { actionTypes, EMPTY_TPL_INBOUND } from '../../constants/PerfectStock/Tpl';
+
+import { TIME_SETTING } from '../../constants/PerfectStock/OrderPlanning';
 
 const INITIAL_STATE = {
   isLoadingTplVendors: false,
@@ -9,6 +11,14 @@ const INITIAL_STATE = {
   isLoadingTplSkuData: false,
   tplSkuData: [],
   activeTplVendor: {},
+  activeTplInbound: EMPTY_TPL_INBOUND,
+  tplInbounds: [],
+  isLoadingTplInbounds: false,
+  timeSetting: TIME_SETTING.DAY,
+  dateRange: {
+    startDate: '',
+    endDate: '',
+  },
 };
 
 const tplReducer = (state = INITIAL_STATE, action: AnyAction) => {
@@ -31,6 +41,26 @@ const tplReducer = (state = INITIAL_STATE, action: AnyAction) => {
 
     case actionTypes.SET_TPL_SKU_DATA: {
       return setIn(state, 'tplSkuData', action.payload);
+    }
+
+    case actionTypes.IS_LOADING_TPL_INBOUNDS: {
+      return setIn(state, 'isLoadingTplInbounds', action.payload);
+    }
+
+    case actionTypes.SET_TPL_INBOUNDS: {
+      return setIn(state, 'tplInbounds', action.payload);
+    }
+
+    case actionTypes.SET_ACTIVE_TPL_INBOUND: {
+      return setIn(state, 'activeTplInbound', action.payload);
+    }
+
+    case actionTypes.SET_DATE_RANGE: {
+      return setIn(state, 'dateRange', action.payload);
+    }
+
+    case actionTypes.SET_TIME_SETTING: {
+      return setIn(state, 'timeSetting', action.payload);
     }
 
     default: {

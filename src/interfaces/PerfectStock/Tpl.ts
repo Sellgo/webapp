@@ -43,3 +43,23 @@ export interface DefaultMarket {
   key: string;
   currency: string;
 }
+
+export interface TplInbound {
+  id: number;
+  date: string;
+  name: string;
+  status: string;
+  is_included: null | boolean;
+  lead_time: number;
+}
+
+export interface DateRange {
+  startDate: string;
+  endDate: string;
+}
+
+export interface UpdateTplInboundPayload {
+  status?: 'active' | 'inactive';
+  is_included?: boolean;
+  inbound_shipping_ids: number[];
+}

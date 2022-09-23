@@ -16,14 +16,13 @@ interface Props {
 
 const MultipleStats = (props: Props) => {
   const { displayData, isFloat, ...otherProps } = props;
-  const { rowData, columnHeight } = otherProps;
+  const { rowData } = otherProps;
 
   const updatedDisplayData = displayData.map(data => {
     /* Replace all LND with inside title */
     const title = data.title.replace('LND', `L${rowData.interval?.toString()}D`);
     return { ...data, title };
   });
-  console.log('current columnHeight', columnHeight);
   return (
     <div className={styles.inboundFulfillableStat}>
       {updatedDisplayData.map((data, index) => {

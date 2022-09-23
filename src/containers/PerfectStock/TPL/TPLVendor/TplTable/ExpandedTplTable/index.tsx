@@ -21,7 +21,6 @@ interface Props {
 /* Main component */
 const ExpandedTplTable = (props: Props) => {
   const { rowData } = props;
-  console.log('expanded table view render', rowData);
   return (
     <>
       <section className={styles.productDatabaseWrapper}>
