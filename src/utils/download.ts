@@ -3,6 +3,7 @@ export const downloadFile = (url: string) => {
   a.style.display = 'none';
   a.href = url;
   document.body.appendChild(a);
+
   a.click();
   document.body.removeChild(a);
 };
