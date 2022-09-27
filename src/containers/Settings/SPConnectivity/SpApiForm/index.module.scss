@@ -26,12 +26,12 @@
   color: $grey_8;
   font-size: 14px;
   font-weight: $fontweight_semibold;
+}
 
-  .authorizeButton {
-    color: $blue_7;
-    text-decoration: underline;
-    cursor: pointer;
-  }
+.authorizeButton {
+  color: $blue_7;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .deleteIcon {
