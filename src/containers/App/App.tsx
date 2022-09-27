@@ -33,6 +33,7 @@ import ProductResearch from '../ProductResearch';
 import KeywordResearch from '../KeywordResearch';
 import PerfectStock from '../PerfectStock';
 import LeadTime from '../Settings/PerfectStockSettings/LeadTime';
+import RestockLimit from '../Settings/PerfectStockSettings/RestockLimit';
 import AlertsManagement from '../Settings/PerfectStockSettings/AlertsManagement';
 import DaysOfInventory from '../Settings/PerfectStockSettings/DaysOfInventory';
 import SkuSettings from '../Settings/PerfectStockSettings/SkuSettings';
@@ -357,11 +358,11 @@ function App() {
           <Route
             exact={true}
             path="/"
-            render={renderProps => <Home auth={auth} {...renderProps} />}
+            render={(renderProps) => <Home auth={auth} {...renderProps} />}
           />
           <Route
             path="/callback"
-            render={renderProps => {
+            render={(renderProps) => {
               handleAuthentication(renderProps.location);
               return <PageLoader pageLoading={true} />;
             }}
@@ -369,13 +370,13 @@ function App() {
           <Route
             exact={true}
             path="/reset-password"
-            render={renderProps => <ResetPassword auth={auth} {...renderProps} />}
+            render={(renderProps) => <ResetPassword auth={auth} {...renderProps} />}
           />
 
           <Route
             exact={true}
             path="/subscription"
-            render={renderProps => (
+            render={(renderProps) => (
               <SubscriptionPages.NewSubscription auth={auth} {...renderProps} />
             )}
           />
@@ -383,7 +384,7 @@ function App() {
           <Route
             exact={true}
             path="/signup"
-            render={renderProps => (
+            render={(renderProps) => (
               <SubscriptionPages.FreeAccountForm auth={auth} {...renderProps} />
             )}
           />
@@ -397,7 +398,7 @@ function App() {
           <Route
             exact={true}
             path="/activation/success"
-            render={renderProps => (
+            render={(renderProps) => (
               <SubscriptionPages.ActivationSuccess auth={auth} {...renderProps} />
             )}
           />
@@ -415,7 +416,7 @@ function App() {
           <Route
             exact={true}
             path="/subscription/payment"
-            render={renderProps => <SubscriptionPages.Payment auth={auth} {...renderProps} />}
+            render={(renderProps) => <SubscriptionPages.Payment auth={auth} {...renderProps} />}
           />
           <PrivateRoute
             exact={true}
@@ -440,11 +441,19 @@ function App() {
           <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} />
           <PrivateRoute exact={true} path="/settings/profile" component={Profile} />
           <PrivateRoute exact={true} path="/settings/aistock/lead-time" component={LeadTime} />
+
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/fba-restock-limit"
+            component={RestockLimit}
+          />
+
           <PrivateRoute
             exact={true}
             path="/settings/aistock/alerts-management"
             component={AlertsManagement}
           />
+
           <PrivateRoute
             exact={true}
             path="/settings/aistock/seasonality-adjustor"

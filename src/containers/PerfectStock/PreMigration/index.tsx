@@ -9,7 +9,9 @@ import styles from './index.module.scss';
 import SpApiForm from '../../Settings/SPConnectivity/SpApiForm';
 import ActionButton from '../../../components/ActionButton';
 import ElevioArticle from '../../../components/ElevioArticle';
-import PilotOnboarding from '../PilotOnboarding';
+import OnboardingIdentification from '../OnboardingIdentification';
+import OnboardingUpsell from '../OnboardingUpsell';
+import OnboardingWarmUp from '../OnboardingWarmUp';
 
 /* Utils */
 import { AppConfig } from '../../../config';
@@ -27,6 +29,7 @@ const PreMigration = (props: Props) => {
   const { fetchSellerSubscription } = props;
   const [showPreMigration, setShowPreMigration] = React.useState(false);
   const [isSpApiAuthenticated, setIsSpApiAuthenticated] = React.useState(false);
+  const [pilotOnboardingStep, setPilotOnboardingStep] = React.useState(1);
 
   const runMigration = async () => {
     try {
@@ -49,7 +52,16 @@ const PreMigration = (props: Props) => {
   };
 
   if (!showPreMigration) {
-    return <PilotOnboarding redirectToMigrate={() => setShowPreMigration(true)} />;
+    switch (pilotOnboardingStep) {
+      case 1:
+        return <OnboardingIdentification redirectToNextStep={() => setPilotOnboardingStep(2)} />;
+
+      case 2:
+        return <OnboardingUpsell redirectToNextStep={() => setPilotOnboardingStep(3)} />;
+
+      case 3:
+        return <OnboardingWarmUp redirectToMigrate={() => setShowPreMigration(true)} />;
+    }
   }
 
   return (

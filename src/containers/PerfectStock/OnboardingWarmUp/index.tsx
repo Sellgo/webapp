@@ -16,7 +16,7 @@ interface Props {
   redirectToMigrate?: () => void;
 }
 
-const PilotOnboarding = (props: Props) => {
+const OnboardingWarmUp = (props: Props) => {
   const { redirectToMigrate } = props;
   return (
     <>
@@ -57,16 +57,26 @@ const PilotOnboarding = (props: Props) => {
               that we will never share your data with others.
             </span>
           </div>
-          <ActionButton
-            variant={'primary'}
-            size="md"
-            type="purpleGradient"
-            className={styles.migrateButton}
-            onClick={redirectToMigrate}
-          >
-            Continue
-          </ActionButton>
+
+          <div className={styles.buttonContainer}>
+            <div className={styles.dotContainer}>
+              <div className={styles.dot} />
+              <div className={styles.dot} />
+              <div className={`${styles.dot} ${styles.selected}`} />
+            </div>
+
+            <ActionButton
+              variant={'primary'}
+              size="md"
+              type="purpleGradient"
+              className={styles.migrateButton}
+              onClick={redirectToMigrate}
+            >
+              Continue
+            </ActionButton>
+          </div>
         </div>
+
         <div className={styles.rightDisplayPictureWrapper}>
           <img
             src={MigrationDisplay}
@@ -85,4 +95,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(PilotOnboarding);
+export default connect(null, mapDispatchToProps)(OnboardingWarmUp);
