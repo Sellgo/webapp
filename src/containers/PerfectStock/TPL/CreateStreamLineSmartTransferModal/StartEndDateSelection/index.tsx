@@ -15,6 +15,7 @@ import ActionButton from '../../../../../components/ActionButton';
 import { error } from '../../../../../utils/notifications';
 import { Radio } from 'semantic-ui-react';
 import InputFilter from '../../../../../components/FormFilters/InputFilter';
+import format from 'date-fns/format';
 
 interface Props {
   handlePrev: () => void;
@@ -26,15 +27,15 @@ interface Props {
 const StartEndDateSelection = (props: Props) => {
   const { handlePrev, handleNext, createStreamLinePayload, setCreateStreamLinePayload } = props;
 
-  const [selectStartDate, setSelectStartDate] = React.useState<string>();
-  const [radioChecked, setRadioChecked] = React.useState<number>(0);
+  const [selectStartDate, setSelectStartDate] = React.useState<string>('');
+  const [radioChecked, setRadioChecked] = React.useState<number>(1);
   const [endDate, setEndDate] = React.useState<string>();
   const [numberOfMonths, setNumberOfMonths] = React.useState<string>('');
   const [tplThreshold, setTplThreshold] = React.useState<string>('');
   const onSelectDate = (date: Date, type: 'start' | 'end') => {
     let tempDate;
     if (date) {
-      tempDate = date.toISOString().split('T')[0];
+      tempDate = format(date, 'yyyy-MM-dd');
     } else {
       tempDate = '';
     }
@@ -44,6 +45,30 @@ const StartEndDateSelection = (props: Props) => {
       setEndDate(tempDate);
     }
   };
+
+  React.useEffect(() => {
+    if (createStreamLinePayload?.start_date && !(createStreamLinePayload?.start_date === '')) {
+      const tempDate = new Date(createStreamLinePayload?.start_date.replace(/-/g, '/'));
+      const result = format(tempDate, 'yyyy-MM-dd');
+      setSelectStartDate(result);
+    }
+    if (createStreamLinePayload?.end_date && !(createStreamLinePayload?.end_date === '')) {
+      const tempDate = new Date(createStreamLinePayload?.end_date.replace(/-/g, '/'));
+      const result = format(tempDate, 'yyyy-MM-dd');
+      setEndDate(result);
+      setRadioChecked(1);
+    } else if (
+      createStreamLinePayload.tpl_threshold &&
+      !(createStreamLinePayload?.tpl_threshold === '')
+    ) {
+      setTplThreshold(createStreamLinePayload.tpl_threshold);
+      setRadioChecked(3);
+    }
+  }, [
+    createStreamLinePayload.start_date,
+    createStreamLinePayload.end_date,
+    createStreamLinePayload.tpl_threshold,
+  ]);
 
   const handleSubmit = () => {
     /* Handle Error */
@@ -69,11 +94,10 @@ const StartEndDateSelection = (props: Props) => {
           return;
         }
         const startDate = new Date(selectStartDate.replace(/-/g, '/'));
-        const tempEndDate = new Date(
+        let tempEndDate: Date | string = new Date(
           startDate.setMonth(startDate.getMonth() + Number(numberOfMonths))
-        )
-          .toISOString()
-          .split('T')[0];
+        );
+        tempEndDate = format(tempEndDate, 'yyyy-MM-dd');
 
         const payload = {
           ...createStreamLinePayload,
@@ -102,6 +126,31 @@ const StartEndDateSelection = (props: Props) => {
     }
   };
 
+  const handlePrevClick = () => {
+    /* Handle Error */
+    let tempEndDate: Date | string | undefined | null = endDate;
+    let tempTplThreshold: string | null = tplThreshold;
+    if (numberOfMonths && Number(numberOfMonths) > 0) {
+      const startDate = new Date(selectStartDate.replace(/-/g, '/'));
+      tempEndDate = new Date(startDate.setMonth(startDate.getMonth() + Number(numberOfMonths)));
+      tempEndDate = format(tempEndDate, 'yyyy-MM-dd');
+    }
+
+    if (radioChecked === 3) {
+      tempEndDate = null;
+    } else {
+      tempTplThreshold = null;
+    }
+    const payload = {
+      ...createStreamLinePayload,
+      start_date: selectStartDate,
+      end_date: tempEndDate,
+      tpl_threshold: tempTplThreshold,
+    };
+    setCreateStreamLinePayload(payload);
+    handlePrev();
+  };
+
   return (
     <div className={styles.createOrderWrapper}>
       <div className={styles.createOrderBox}>
@@ -111,7 +160,7 @@ const StartEndDateSelection = (props: Props) => {
             <p className={styles.title}>Start Date</p>
             <DatePicker
               oneTap
-              selected={selectStartDate ? new Date(selectStartDate) : new Date()}
+              value={selectStartDate ? new Date(selectStartDate) : undefined}
               onChange={date => {
                 onSelectDate(date, 'start');
               }}
@@ -122,7 +171,7 @@ const StartEndDateSelection = (props: Props) => {
               }}
             />
           </div>
-          <div>
+          <div className={selectStartDate ? '' : styles.endDateBox}>
             <p className={styles.title}>End Date</p>
             <div className={styles.endDateRows}>
               <Radio checked={radioChecked === 1} onClick={() => setRadioChecked(1)} />
@@ -134,7 +183,7 @@ const StartEndDateSelection = (props: Props) => {
               </p>
               <DatePicker
                 oneTap
-                selected={endDate ? new Date(endDate) : new Date()}
+                value={endDate ? new Date(endDate) : undefined}
                 onChange={date => {
                   onSelectDate(date, 'end');
                 }}
@@ -207,7 +256,7 @@ const StartEndDateSelection = (props: Props) => {
       <div className={styles.buttonsRow}>
         <ActionButton
           className={styles.cancelButton}
-          onClick={handlePrev}
+          onClick={handlePrevClick}
           variant="reset"
           size="md"
         >

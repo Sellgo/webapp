@@ -13,6 +13,7 @@ import ActionButton from '../../../../../components/ActionButton';
 
 /* Utils */
 import { error } from '../../../../../utils/notifications';
+import format from 'date-fns/format';
 
 interface Props {
   handlePrev: () => void;
@@ -28,15 +29,21 @@ const StartDateSelection = (props: Props) => {
   React.useEffect(() => {
     if (createStreamLinePayload?.start_date && !(createStreamLinePayload?.start_date === '')) {
       const tempDate = new Date(createStreamLinePayload?.start_date.replace(/-/g, '/'));
-      setSelectedDate(tempDate.toISOString().split('T')[0]);
+      const result = format(tempDate, 'yyyy-MM-dd');
+      setSelectedDate(result);
     } else {
       setSelectedDate('');
     }
-  }, []);
+  }, [createStreamLinePayload?.start_date]);
 
   const onSelectDate = (date: Date) => {
+    const result = format(date, 'yyyy-MM-dd');
     if (date) {
-      setSelectedDate(date.toISOString().split('T')[0]);
+      const payload = {
+        ...createStreamLinePayload,
+        start_date: result,
+      };
+      setCreateStreamLinePayload(payload);
     } else {
       setSelectedDate('');
     }
@@ -48,11 +55,6 @@ const StartDateSelection = (props: Props) => {
       error('Please select a date');
       return;
     } else {
-      const payload = {
-        ...createStreamLinePayload,
-        start_date: selectedDate,
-      };
-      setCreateStreamLinePayload(payload);
       handleNext();
     }
   };
@@ -65,7 +67,7 @@ const StartDateSelection = (props: Props) => {
           <p className={styles.title}>Start Date</p>
           <DatePicker
             oneTap
-            selected={selectedDate ? new Date(selectedDate.replace(/-/g, '/')) : new Date()}
+            value={selectedDate ? new Date(selectedDate.replace(/-/g, '/')) : undefined}
             onChange={onSelectDate}
             disabledDate={(date: Date | undefined) => {
               const today = new Date();

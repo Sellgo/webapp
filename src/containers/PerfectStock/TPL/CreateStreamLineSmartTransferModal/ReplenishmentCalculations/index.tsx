@@ -32,18 +32,18 @@ export const COLUMNS_DATA = [
   {
     key: 'shipmentQty',
     label: 'Shipment Quantity',
+    width: '140',
+    align: 'center',
+  },
+  {
+    key: 'shipmentBoxes',
+    label: 'Shipment Boxes',
     width: '180',
     align: 'center',
   },
   {
     key: 'roundToNextBox',
     label: 'Rounded to next box',
-    width: '160',
-    align: 'center',
-  },
-  {
-    key: 'shipmentBoxes',
-    label: 'Shipment Boxes',
     width: '180',
     align: 'center',
   },
