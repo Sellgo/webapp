@@ -14,12 +14,6 @@
   display: grid;
   grid-template-rows: 40px;
   row-gap: 18px;
-
-  .authorizeButton {
-    color: $blue_7;
-    text-decoration: underline;
-    cursor: pointer;
-  }
 }
 
 .mwsFormTitle {
