@@ -37,8 +37,8 @@ const StartDateSelection = (props: Props) => {
   }, [createStreamLinePayload?.start_date]);
 
   const onSelectDate = (date: Date) => {
-    const result = format(date, 'yyyy-MM-dd');
     if (date) {
+      const result = format(date, 'yyyy-MM-dd');
       const payload = {
         ...createStreamLinePayload,
         start_date: result,
