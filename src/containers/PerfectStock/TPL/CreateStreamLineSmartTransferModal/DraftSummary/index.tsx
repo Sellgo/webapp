@@ -49,7 +49,7 @@ const DraftSummary = (props: Props) => {
               </p>
             </div>
             <div className={styles.contentDetailBox}>
-              <p className={styles.title}>Ship from</p>
+              <p className={styles.title}>Ship From</p>
               <p className={styles.text}>{createDraftSummary?.from_address}</p>
               {/* <p className={styles.text}>{createDraftSummary?.from_city}</p> */}
               <p className={styles.text}>
@@ -59,7 +59,7 @@ const DraftSummary = (props: Props) => {
               <p className={styles.text}>{createDraftSummary?.from_country}</p>
             </div>
             <div className={styles.contentDetailBox}>
-              <p className={styles.title}>Ship from</p>
+              <p className={styles.title}>Ship To</p>
               <p className={styles.text}>{createDraftSummary?.ship_address_line_1}</p>
               <p className={styles.text}>{createDraftSummary?.ship_address_line_2}</p>
               <p className={styles.text}>
@@ -71,7 +71,7 @@ const DraftSummary = (props: Props) => {
           </div>
           <div className={styles.secondContextBox}>
             <div className={styles.contentDetailBox}>
-              <p className={styles.title}>Ship from</p>
+              <p className={styles.title}>Shipment Contents</p>
               <p className={styles.text}>{createDraftSummary?.mskus} MSKUs</p>
               <p className={styles.text}>{createDraftSummary?.units} Units</p>
             </div>

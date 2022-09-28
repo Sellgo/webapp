@@ -321,7 +321,14 @@ const CreateOrder = (props: Props) => {
   }
 
   return (
-    <Modal open={open} className={styles.modalWrapper} onClose={() => setIsCreatingOrder(false)}>
+    <Modal
+      closeIcon
+      open={open}
+      className={styles.modalWrapper}
+      onClose={() => setIsCreatingOrder(false)}
+      closeOnEscape={false}
+      closeOnDimmerClick={false}
+    >
       <div>
         <BoxHeader>{headerContent}</BoxHeader>
         <BoxContainer className={styles.createOrderContent}>{content}</BoxContainer>

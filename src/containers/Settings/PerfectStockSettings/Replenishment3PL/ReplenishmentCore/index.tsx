@@ -86,13 +86,13 @@ const ReplenishmentCore = (props: Props) => {
           setIsNew(true);
           setIsLoading(false);
         } else {
-          setTplSettings(data[0]);
-          if (data[0].carrier_type === 'amz') {
+          setTplSettings(data[data.length - 1]);
+          if (data[data.length - 1].carrier_type === 'amz') {
             setIsAPC(true);
           } else {
             setIsAPC(false);
           }
-          if (data[0].method === 'SP') {
+          if (data[data.length - 1].method === 'SP') {
             setIsSPD(true);
           } else {
             setIsSPD(false);

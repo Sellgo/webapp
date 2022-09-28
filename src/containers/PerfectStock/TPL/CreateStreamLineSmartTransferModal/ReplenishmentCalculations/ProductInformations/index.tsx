@@ -185,19 +185,10 @@ const ProductsInformation = (props: Props) => {
                   </p>
                 </div>
               </div>
+
               <div
                 style={{
                   width: `${columnsData[3].width}px`,
-                }}
-                className={styles.columnValueWrapper}
-              >
-                <p className={styles.columnText}>
-                  {isRoundToNextBoxChecked ? rounded : notRounded}
-                </p>
-              </div>
-              <div
-                style={{
-                  width: `${columnsData[4].width}px`,
                 }}
                 className={styles.columnValueWrapper}
               >
@@ -216,13 +207,19 @@ const ProductsInformation = (props: Props) => {
                 <div className={styles.calculationResult}>
                   <p className={styles.calculationResult__title}>Box dimensions (in): </p>
                   <p className={styles.calculationResult__text}>
-                    {length_in?.toFixed(2)}x
-                    <br />
-                    {width_in?.toFixed(2)}x
-                    <br />
-                    {height_in?.toFixed(2)}
+                    {length_in?.toFixed(2)}x{width_in?.toFixed(2)}x{height_in?.toFixed(2)}
                   </p>
                 </div>
+              </div>
+              <div
+                style={{
+                  width: `${columnsData[4].width}px`,
+                }}
+                className={styles.columnValueWrapper}
+              >
+                <p className={styles.columnText}>
+                  {isRoundToNextBoxChecked ? rounded : notRounded}
+                </p>
               </div>
             </div>
           );
