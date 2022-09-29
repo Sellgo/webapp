@@ -46,6 +46,12 @@
   }
 }
 
+.elevioButton {
+  color: $blue_7;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .formInput {
   display: grid;
   grid-template-columns: 160px 300px;
