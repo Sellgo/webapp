@@ -268,7 +268,7 @@ const SpApiForm = (props: any) => {
             <p className={styles.regionTitle}>
               North America region{' '}
               <span
-                className={styles.authorizeButton}
+                className={`${styles.authorizeButton} ${styles.elevioButton}`}
                 onClick={() => window._elev.openArticle('17')}
               >
                 How to authorize?
