@@ -7,6 +7,7 @@ import Axios from 'axios';
 /* Utils */
 import { success, error } from '../../../../utils/notifications';
 import history from '../../../../history';
+import LeftArrow from '../../../../assets/images/leftArrowLong.svg';
 import { convertPlanNameToKey, isSubscriptionIdFreeTrial } from '../../../../utils/subscriptions';
 
 /* Config */
@@ -191,6 +192,10 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
         <main className={styles.subscriptionPage}>
           <section className={styles.subscriptionPageWrapper}>
+            <button className={styles.goBackButton} onClick={() => history.goBack()}>
+              <img src={LeftArrow} alt="left arrow" />
+              Back to previous page
+            </button>
             <div className={styles.planName}>
               <h2>Are you thinking to switch plan?</h2>
             </div>
