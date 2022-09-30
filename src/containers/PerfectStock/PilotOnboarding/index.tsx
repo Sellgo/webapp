@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Header, Modal, Form, TextArea } from 'semantic-ui-react';
+import get from 'lodash/get';
+import { fetchTOS, fetchPP } from '../../../actions/UserOnboarding';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -12,12 +14,54 @@ import ActionButton from '../../../components/ActionButton';
 import { fetchSellerSubscription } from '../../../actions/Settings/Subscription';
 import MigrationDisplay from '../../../assets/images/aistockPremigrationDisplay.png';
 
-interface Props {
-  redirectToMigrate?: () => void;
-}
+const PilotOnboarding = (props: any) => {
+  const { redirectToMigrate, termsOfService, privacyPolicy, fetchTOS, fetchPP } = props;
 
-const PilotOnboarding = (props: Props) => {
-  const { redirectToMigrate } = props;
+  const [openTOS, setOpenTOS] = useState(false);
+  const [openPP, setOpenPP] = useState(false);
+
+  useEffect(() => {
+    fetchTOS();
+    fetchPP();
+  }, [fetchTOS, fetchPP]);
+
+  const onClose = () => {
+    setOpenTOS(false);
+    setOpenPP(false);
+  };
+
+  const TOS = () => {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Header as="h4">Our Terms of Service</Header>
+        <Form>
+          <TextArea rows="20" value={termsOfService} />
+        </Form>
+      </div>
+    );
+  };
+
+  const PP = () => {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Header as="h4">Our Privacy Policy</Header>
+        <Form>
+          <TextArea rows="20" value={privacyPolicy} />
+        </Form>
+      </div>
+    );
+  };
+  const newUserExperiencePopup = () => {
+    return (
+      <Modal onClose={() => onClose()} size={'small'} open={openTOS || openPP}>
+        <Modal.Content>
+          {openTOS && <TOS />}
+          {openPP && <PP />}
+        </Modal.Content>
+      </Modal>
+    );
+  };
+
   return (
     <>
       <main className={styles.pilotOnboardingPage}>
@@ -52,9 +96,17 @@ const PilotOnboarding = (props: Props) => {
           <div className={styles.privacyInformation}>
             <Icon name="lock" color="black" size="big" />
             <span>
-              AiStock are committed to maintaining the highest standard for security in order that
+              AiStock is committed to maintaining the highest standard for security in order that
               your valuable data can be kept safe and secure at channel and at storage. We promise
-              that we will never share your data with others.
+              that we will never share your data with others. You can read more on our{' '}
+              <span className={styles.popupButton} onClick={() => setOpenTOS(true)}>
+                Terms of Service
+              </span>{' '}
+              and{' '}
+              <span className={styles.popupButton} onClick={() => setOpenPP(true)}>
+                Privacy Policy
+              </span>
+              .
             </span>
           </div>
           <ActionButton
@@ -74,15 +126,23 @@ const PilotOnboarding = (props: Props) => {
             alt="migration display"
           />
         </div>
+        {newUserExperiencePopup()}
       </main>
     </>
   );
 };
 
+const mapStateToProps = (state: any) => ({
+  termsOfService: get(state, 'userOnboarding.termsOfService'),
+  privacyPolicy: get(state, 'userOnboarding.privacyPolicy'),
+});
+
 const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchSellerSubscription: () => dispatch(fetchSellerSubscription()),
+    fetchTOS: () => dispatch(fetchTOS()),
+    fetchPP: () => dispatch(fetchPP()),
   };
 };
 
-export default connect(null, mapDispatchToProps)(PilotOnboarding);
+export default connect(mapStateToProps, mapDispatchToProps)(PilotOnboarding);
