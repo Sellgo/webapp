@@ -66,10 +66,12 @@ const FreeAccountForm = (props: Props) => {
     setOpenPP(false);
   };
 
+  console.log(termsOfService, privacyPolicy, 'check');
+
   const TOS = () => {
     return (
       <div style={{ textAlign: 'center' }}>
-        <Header as="h4">Our Terms of Service</Header>
+        <Header as="h4">Our of Service</Header>
         <Form>
           <TextArea rows="20" value={termsOfService} />
         </Form>
