@@ -1,0 +1,82 @@
+@import '../../design-system/colors.scss';
+@import '../../design-system/new-colors.scss';
+
+.notificationIconBtn {
+  background: none !important;
+  margin-right: 0.8em !important;
+  position: relative !important;
+
+  .bellIcon {
+    color: $prim_dark_1;
+    font-size: 18;
+
+  }
+
+  .newNotificationDot {
+    background-color: $blue_8;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    position: absolute;
+    margin-top: -17px;
+    margin-left: 14px;
+  }
+}
+
+.notificationContainer {
+  border: 1px solid $grey_3;
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  width: 540px;
+  height: calc(100vh - 5em);
+  max-height: 700px;
+  border-radius: 7px;
+  background-color: #fff;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .headerWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+
+    .notificationHeader {
+      color: $grey_8;
+      padding: 0 20px;
+    }
+
+    .readToggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8em;
+      padding: 0 20px;
+
+      p {
+        color: $grey_8;
+      }
+    }
+  }
+
+  .latestContainer {
+    margin-top: 2em;
+
+    .latestHeader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+
+      button, h6 {
+        color: $grey_8;
+        background: none;
+        font-weight: 500;
+      }
+    }
+  }
+}
