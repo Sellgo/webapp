@@ -65,6 +65,7 @@ const CreateStreamLine = (props: Props) => {
     const payload = {
       ...createStreamLinePayload,
       create_first_draft: value,
+      round_up_to_nearest_carton: true,
     };
     const response = await createStreamLine(payload);
     if (response?.hasError) {

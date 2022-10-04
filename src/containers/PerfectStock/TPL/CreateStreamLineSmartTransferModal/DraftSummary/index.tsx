@@ -36,16 +36,20 @@ const DraftSummary = (props: Props) => {
             <div className={styles.contentDetailBox}>
               <p className={styles.title}>Shipment Name/ ID</p>
               <p className={styles.content}>
-                <span className={styles.subTitle}>Name: </span>
-                <span className={styles.text}>{createDraftSummary?.ship_name}</span>
+                <span className={styles.subTitle}>Name: &nbsp;</span>
+                <span className={styles.text}>
+                  {createDraftSummary?.ship_name ? createDraftSummary?.ship_name : '  -'}
+                </span>
               </p>
               <p className={styles.content}>
-                <span className={styles.subTitle}>ID: </span>
-                <span className={styles.text}>{createDraftSummary?.shipment_id}</span>
+                <span className={styles.subTitle}>ID:&nbsp; </span>
+                <span className={styles.text}>
+                  {createDraftSummary?.shipment_id ? createDraftSummary?.shipment_id : '  -'}
+                </span>
               </p>
               <p className={styles.content}>
-                <span className={styles.subTitle}>Amazon Reference ID:</span>
-                <span className={styles.text}>NA</span>
+                <span className={styles.subTitle}>Amazon Reference ID: &nbsp;</span>
+                <span className={styles.text}>{'  -'}</span>
               </p>
             </div>
             <div className={styles.contentDetailBox}>
@@ -53,7 +57,7 @@ const DraftSummary = (props: Props) => {
               <p className={styles.text}>{createDraftSummary?.from_address}</p>
               {/* <p className={styles.text}>{createDraftSummary?.from_city}</p> */}
               <p className={styles.text}>
-                {createDraftSummary?.from_state},{createDraftSummary?.from_city}{' '}
+                {createDraftSummary?.from_state} {createDraftSummary?.from_city}{' '}
                 {createDraftSummary?.from_zip_code}
               </p>
               <p className={styles.text}>{createDraftSummary?.from_country}</p>
@@ -63,7 +67,7 @@ const DraftSummary = (props: Props) => {
               <p className={styles.text}>{createDraftSummary?.ship_address_line_1}</p>
               <p className={styles.text}>{createDraftSummary?.ship_address_line_2}</p>
               <p className={styles.text}>
-                {createDraftSummary?.ship_state},{createDraftSummary?.ship_city}{' '}
+                {createDraftSummary?.ship_state} {createDraftSummary?.ship_city}{' '}
                 {createDraftSummary?.ship_postal_code}
               </p>
               <p className={styles.text}>{createDraftSummary?.ship_country_code}</p>
@@ -80,11 +84,11 @@ const DraftSummary = (props: Props) => {
               <p className={styles.title}>Shipping Status</p>
               <p className={styles.text}>{createDraftSummary?.shipment_status}</p>
               <p className={styles.content}>
-                <span className={styles.subTitle}>Created: </span>
+                <span className={styles.subTitle}>Created: &nbsp;</span>
                 <span className={styles.text}>{createDraftSummary?.cdate.split('T')[0]}</span>
               </p>
               <p className={styles.content}>
-                <span className={styles.subTitle}>Updated: </span>
+                <span className={styles.subTitle}>Updated: &nbsp;</span>
                 <span className={styles.text}>{createDraftSummary?.udate.split('T')[0]}</span>
               </p>
             </div>
