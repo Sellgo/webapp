@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Modal } from 'semantic-ui-react';
 
 /* Styling */
@@ -20,6 +21,7 @@ import TplShipmentTemplates from './TplShipmentTemplates';
 /* utils */
 import { error } from '../../../../utils/notifications';
 
+import { fetchShippingInbounds } from '../../../../actions/PerfectStock/Tpl';
 /* Constants */
 
 import {
@@ -32,10 +34,11 @@ import { createStreamLine } from '../../../../libs/api/tpl/inboundShipping';
 interface Props {
   open: boolean;
   setIsCreatingOrder: (open: boolean) => void;
+  fetchShippingInbounds: () => void;
 }
 
 const CreateStreamLine = (props: Props) => {
-  const { open, setIsCreatingOrder } = props;
+  const { open, setIsCreatingOrder, fetchShippingInbounds } = props;
 
   const DEFAULT_ORDER = {
     creation_type: '',
@@ -66,9 +69,11 @@ const CreateStreamLine = (props: Props) => {
     const response = await createStreamLine(payload);
     if (response?.hasError) {
       error(response?.err);
+    } else {
+      setCreateStreamLineResponse(response?.data);
+      setCreateOrderStep(createOrderStep + 1);
+      fetchShippingInbounds();
     }
-    setCreateStreamLineResponse(response?.data);
-    setCreateOrderStep(createOrderStep + 1);
   };
 
   const setActiveVendorId = (value: number | undefined) => {
@@ -255,4 +260,12 @@ const CreateStreamLine = (props: Props) => {
   );
 };
 
-export default CreateStreamLine;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchShippingInbounds: () => {
+      dispatch(fetchShippingInbounds());
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(CreateStreamLine);

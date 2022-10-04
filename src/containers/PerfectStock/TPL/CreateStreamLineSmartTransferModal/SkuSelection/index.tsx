@@ -132,7 +132,7 @@ const SkuSelection = (props: Props) => {
           height={300}
           hover={false}
           rowHeight={60}
-          headerHeight={0}
+          headerHeight={50}
           id="skuSelectionTableStreamLine"
           shouldUpdateScroll={false}
           //  Props for table expansion
@@ -154,7 +154,7 @@ const SkuSelection = (props: Props) => {
 
           {/* {Total qty} */}
           <Table.Column width={120} verticalAlign="middle" align="right">
-            <Table.HeaderCell>Total Restock Limit Qty</Table.HeaderCell>
+            <Table.HeaderCell>Total Restock Limit</Table.HeaderCell>
             <Table.Cell dataKey="max_allowed_quantity" />
           </Table.Column>
           <Table.Column width={120} verticalAlign="middle" align="right">
