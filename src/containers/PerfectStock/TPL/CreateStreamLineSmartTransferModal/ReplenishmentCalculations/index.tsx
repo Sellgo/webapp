@@ -66,7 +66,7 @@ const ReplenishmentCalculationModal = (props: Props) => {
     createStreamLinePayload,
   } = props;
 
-  const [isRoundToNextChecked, setIsRoundToNextChecked] = React.useState<boolean>(false);
+  const [isRoundToNextChecked, setIsRoundToNextChecked] = React.useState<boolean>(true);
   const [orderSkus, setOrderSkus] = React.useState<any>({});
   const [replenishmentCalculationResults, setReplenishmentCalculationResults] = React.useState<
     any[]
@@ -95,6 +95,7 @@ const ReplenishmentCalculationModal = (props: Props) => {
       vendor_id: vendorId,
       date: createStreamLinePayload.start_date,
       merchant_listing_ids: merchantListIds,
+      round_up_to_nearest_carton: true,
     };
     const calculationResults = await calculateTplShipmentQuantities(payload);
     if (!calculationResults?.hasError) {
