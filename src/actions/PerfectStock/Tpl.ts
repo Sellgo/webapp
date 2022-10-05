@@ -277,6 +277,9 @@ export const fetchShippingInbounds = () => async (dispatch: any, getState: any) 
           dispatch(setActiveTplInbound(EMPTY_TPL_INBOUND));
         }
       }
+    } else {
+      dispatch(setTplInbounds([]));
+      dispatch(setActiveTplInbound(EMPTY_TPL_INBOUND));
     }
   } catch (err) {
     dispatch(setTplInbounds([]));
