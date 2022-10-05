@@ -47,7 +47,7 @@ const CreateStreamLine = (props: Props) => {
     merchant_listings: [],
     tpl_replenishment_template_id: -1,
     tpl_packing_template_id: -1,
-    round_up_to_nearest_carton: false,
+    round_up_to_nearest_carton: true,
     create_first_draft: false,
     interval: null,
     duration_months: '',
@@ -65,7 +65,6 @@ const CreateStreamLine = (props: Props) => {
     const payload = {
       ...createStreamLinePayload,
       create_first_draft: value,
-      round_up_to_nearest_carton: true,
     };
     const response = await createStreamLine(payload);
     if (response?.hasError) {
