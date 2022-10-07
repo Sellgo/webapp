@@ -24,13 +24,11 @@ import WeightedAverage from './WeightedAverage';
 /* Components */
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import Placeholder from '../../../../components/Placeholder';
-import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
 import {
   getSalesProjectionResults,
   getIsLoadingSalesProjection,
 } from '../../../../selectors/PerfectStock/SalesProjection';
 import { ReactComponent as ExclaimationIcon } from '../../../../assets/images/exclamation-triangle-solid.svg';
-import ExpandedProduct from '../ExpandedProduct';
 import InboundFulfillableStat from './InboundFulfillableStat';
 import SeasonalityAdjustor from './SeasonalityAdjustor';
 
@@ -88,23 +86,10 @@ const SalesEstimationTable = (props: Props) => {
           onSortColumn={handleSortColumn}
           sortType={sortType}
           sortColumn={sortColumn}
-          rowExpandedHeight={800}
-          expandedRowKeys={expandedRowKeys}
-          renderRowExpanded={(rowData: any) => <ExpandedProduct rowData={rowData} />}
           rowKey="id"
           virtualized
           id="salesProjectionTable"
         >
-          {/* Expand Cell */}
-          <Table.Column verticalAlign="top" fixed="left" align="left" width={30}>
-            <Table.HeaderCell> </Table.HeaderCell>
-            <ExpansionCell
-              dataKey={'id'}
-              expandedRowKeys={expandedRowKeys}
-              onChange={handleExpansion}
-            />
-          </Table.Column>
-
           {/* Product Information  */}
           <Table.Column minWidth={400} verticalAlign="middle" fixed align="center" flexGrow={4}>
             <Table.HeaderCell>
