@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { AppConfig } from '../../../../config';
-import { UpdateTplInboundPayload } from '../../../../interfaces/PerfectStock/Tpl';
+import {
+  UpdateTplInboundPayload,
+  UpdateTplInboundShippings,
+} from '../../../../interfaces/PerfectStock/Tpl';
 import { sellerIDSelector } from '../../../../selectors/Seller';
 
 export const createStreamLine = async (payload: {}) => {
@@ -66,7 +69,9 @@ export const fetchShippingInboundByVendorId = async (id: number) => {
   }
 };
 
-export const updateInboundShippings = async (payload: UpdateTplInboundPayload) => {
+export const updateInboundShippings = async (
+  payload: UpdateTplInboundPayload | UpdateTplInboundShippings
+) => {
   const sellerID = sellerIDSelector();
   try {
     const { status, data } = await axios.patch(

@@ -1,0 +1,53 @@
+@import '../../../../../../design-system/new-colors.scss';
+
+.salesPrediction {
+  height: 90px !important;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: $prim_white;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: $fontweight_bold;
+  background: $prim_dark_1 !important;
+
+  .editManualSales {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .textInput {
+      min-width: 70px;
+      width: 70px;
+      margin-right: 10px;
+      margin-bottom: 2px;
+
+      input {
+        height: 25px !important;
+        color: $grey_1 !important;
+        font-size: 10px;
+        font-weight: $fontweight_semibold;
+      }
+    }
+  }
+
+  .radioSelection {
+    width: 80px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+
+    label {
+      padding-left: 30px !important;
+      text-align: left;
+      font-size: 10px !important;
+      color: $grey_8 !important;
+      font-weight: $fontweight_semibold !important;
+    }
+  }
+}
+
+.predictive {
+  justify-content: center !important;
+}

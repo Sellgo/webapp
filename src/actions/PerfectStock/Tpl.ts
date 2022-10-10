@@ -4,7 +4,7 @@ import axios from 'axios';
 import { AppConfig } from '../../config';
 
 /* Constants */
-import { actionTypes, EMPTY_TPL_INBOUND } from '../../constants/PerfectStock/Tpl';
+import { actionTypes, EMPTY_TPL_INBOUND, TIME_SETTING } from '../../constants/PerfectStock/Tpl';
 
 /* Interfaces */
 import {
@@ -23,6 +23,7 @@ import {
   getTplActiveVendor,
   getTplSkuData,
   getDateRange,
+  getTimeSetting,
 } from '../../selectors/PerfectStock/Tpl';
 
 /* Selectors */
@@ -193,6 +194,13 @@ export const fetchTplSkuData = () => async (dispatch: any, getState: any) => {
     const startDateString = getDateOnly(startDate);
     const endDate = new Date(getDateRange(state).endDate);
     const endDateString = getDateOnly(endDate);
+    const timeSettings = getTimeSetting(state);
+    let displayMode;
+    if (timeSettings === TIME_SETTING.DAY) {
+      displayMode = 'daily';
+    } else {
+      displayMode = 'weekly';
+    }
 
     if (startDateString === '' || endDateString === '') {
       dispatch(isLoadingTplSkuData(false));
@@ -201,6 +209,7 @@ export const fetchTplSkuData = () => async (dispatch: any, getState: any) => {
     const resourceString =
       `&start_date=${startDateString}` +
       `&end_date=${endDateString}` +
+      `&display_mode=${displayMode}` +
       `${activeTplInbound?.id !== -1 ? `&inbound_shipping_id=${activeTplInbound?.id}` : ''}`;
     const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/sku-tpl-data?vendor_id=${vendor.id}${resourceString}`;
     if (vendor.id) {

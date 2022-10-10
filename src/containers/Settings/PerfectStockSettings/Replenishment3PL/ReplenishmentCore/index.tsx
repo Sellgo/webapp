@@ -16,14 +16,14 @@ import { ReplenishmentFBA } from '../../../../../interfaces/PerfectStock/Repleni
 import {
   DEFAULT_NEW_REPLENISHMENT_TEMPLATE,
   REPLENISHMENT_SETTINGS_FORM,
-  NON_AMAZAON_PARTNERED_CARRIERS,
+  // NON_AMAZAON_PARTNERED_CARRIERS,
 } from '../../../../../constants/PerfectStock/Replenishment';
 
 /* Actions */
 import { createUpdateTplVendor, setTplActiveVendor } from '../../../../../actions/PerfectStock/Tpl';
 
 /* Components */
-import SelectionFilter from '../../../../../components/FormFilters/SelectionFilter';
+// import SelectionFilter from '../../../../../components/FormFilters/SelectionFilter';
 import ThreePLManagerSettingsHeaderForm from '../../../../../components/ThreePLManagerSettingsHeaderForm';
 import FormTemplate from '../../../../../components/FormTemplate';
 import BoxContainer from '../../../../../components/BoxContainer';
@@ -301,7 +301,7 @@ const ReplenishmentCore = (props: Props) => {
                   }
                   disabled={!isSPD}
                 />
-                <div>
+                {/* <div>
                   <Checkbox
                     radio
                     checked={!isAPC}
@@ -326,10 +326,10 @@ const ReplenishmentCore = (props: Props) => {
                     }}
                     disabled={isAPC}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
-            <Checkbox
+            {/* <Checkbox
               radio
               checked={!isSPD}
               label="Less than truckload (LTL)"
@@ -340,7 +340,7 @@ const ReplenishmentCore = (props: Props) => {
                 }
               }}
               className={isSPD ? `${styles.label} ${styles.disabled}` : `${styles.label}`}
-            />
+            /> */}
             <div className={styles.buttonsRow}>
               <ActionButton
                 variant="reset"

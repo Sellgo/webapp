@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 /* Styling */
 import 'rsuite/dist/styles/rsuite-default.css';
@@ -8,19 +9,24 @@ import styles from './index.module.scss';
 /* Components */
 import DaysOfInventory from '../DaysOfInventory';
 import MultipleStats from '../MultipleStats';
-
-/* Selectors */
 import SingleStatBox from '../SingleStatBox';
+import ShipmentQuantity from '../Quantity';
 
+/* Interfaces */
+import { TplInbound } from '../../../../../../interfaces/PerfectStock/Tpl';
+
+/* Selector */
+import { getActiveTplInbound } from '../../../../../../selectors/PerfectStock/Tpl';
 interface Props {
   // States
   isLoadingTplSkuData: boolean;
   rowData: any;
+  activeTplInbound: TplInbound;
 }
 
 /* Main component */
 const ExpandedTplTable = (props: Props) => {
-  const { rowData } = props;
+  const { rowData, activeTplInbound } = props;
   return (
     <>
       <section className={styles.productDatabaseWrapper}>
@@ -50,14 +56,14 @@ const ExpandedTplTable = (props: Props) => {
           <MultipleStats
             isFloat
             displayData={[
-              {
-                title: 'Total LND',
-                dataKey: 'total_lnd',
-              },
-              {
-                title: 'Daily LND',
-                dataKey: 'avg_lnd',
-              },
+              // {
+              //   title: 'Total LND',
+              //   dataKey: 'total_lnd',
+              // },
+              // {
+              //   title: 'Daily LND',
+              //   dataKey: 'avg_lnd',
+              // },
               {
                 title: 'Forecast',
                 dataKey: 'forecast',
@@ -85,27 +91,30 @@ const ExpandedTplTable = (props: Props) => {
           </p>
           <SingleStatBox dataKey="tpl_quantity" rowData={rowData} />
         </div>
-        <div className={styles.expandedTableCol}>
-          <p className={styles.expandedTableCol__label}>Shipment Quantity</p>
-          <MultipleStats
-            displayData={[
-              {
-                title: 'Using LND',
-                dataKey: 'send_quantity_lnd',
-              },
-              {
-                title: 'Using Pred',
-                dataKey: 'send_quantity_predictive',
-              },
-              {
-                title: 'Avg',
-                dataKey: 'send_quantity_avg',
-              },
-            ]}
-            dataKey="working"
-            rowData={rowData}
-          />
-        </div>
+        {activeTplInbound.id > 0 && (
+          <div className={styles.expandedTableCol}>
+            <p className={styles.expandedTableCol__label}>Shipment Quantity</p>
+            <ShipmentQuantity rowData={rowData} dataKey={''} />
+            {/* <MultipleStats
+              displayData={[
+                {
+                  title: 'Using LND',
+                  dataKey: 'send_quantity_lnd',
+                },
+                {
+                  title: 'Using Pred',
+                  dataKey: 'send_quantity_predictive',
+                },
+                {
+                  title: 'Avg',
+                  dataKey: 'send_quantity_avg',
+                },
+              ]}
+              dataKey="working"
+              rowData={rowData}
+            /> */}
+          </div>
+        )}
         <div className={styles.expandedTableCol}>
           <p className={styles.expandedTableCol__label}>Shipment Quantity</p>
           <MultipleStats
@@ -159,5 +168,10 @@ const ExpandedTplTable = (props: Props) => {
     </>
   );
 };
+const mapStateToProps = (state: any) => {
+  return {
+    activeTplInbound: getActiveTplInbound(state),
+  };
+};
 
-export default ExpandedTplTable;
+export default connect(mapStateToProps)(ExpandedTplTable);
