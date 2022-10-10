@@ -63,3 +63,10 @@ export interface UpdateTplInboundPayload {
   is_included?: boolean;
   inbound_shipping_ids: number[];
 }
+
+export interface UpdateTplInboundShippings {
+  manual_quantity: number;
+  quantity: number;
+  quantity_mode: string;
+  inbound_shipping_sku_id: number;
+}

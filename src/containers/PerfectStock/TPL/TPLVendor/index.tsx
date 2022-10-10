@@ -25,7 +25,7 @@ import {
 
 /* Constants */
 import { TimeSetting } from '../../../../constants/PerfectStock/OrderPlanning';
-// import { TIME_SETTING } from '../../../../constants/PerfectStock/Tpl';
+import { TIME_SETTING } from '../../../../constants/PerfectStock/Tpl';
 
 /* Utils */
 import { getDateOnly } from '../../../../utils/date';
@@ -59,13 +59,14 @@ const TPLVendor = (props: Props) => {
   const [headers, setHeaders] = React.useState<any>([]);
 
   const generateHeaders = (startDate: Date, endDate: Date) => {
+    const DIFF = timeSetting === TIME_SETTING.DAY ? 1 : 7;
     if (startDate && endDate) {
       const dateArray = [];
       let currentDate = startDate;
       while (currentDate <= endDate) {
         const dateString = getDateOnly(currentDate);
         dateArray.push(dateString);
-        currentDate = new Date(currentDate.setDate(currentDate.getDate() + 1));
+        currentDate = new Date(currentDate.setDate(currentDate.getDate() + DIFF));
       }
       setHeaders(dateArray);
     } else {
@@ -89,13 +90,18 @@ const TPLVendor = (props: Props) => {
   }, [tplSkuData]);
 
   const handleOnExport = async () => {
+    console.log('inbpund ashipp', activeTplInbound);
     setExportLoading(true);
     try {
       const url = `${AppConfig.BASE_URL_API}sellers/${sellerIDSelector()}/perfect-stock/export`;
-      const { data } = await axios.post(url, {
+      const payload: any = {
         type: 'tpl_mgr',
         vendor_id: activeTplVendor.id,
-      });
+      };
+      if (activeTplInbound.id > 0) {
+        payload.inbound_shipping_id = activeTplInbound.id;
+      }
+      const { data } = await axios.post(url, payload);
       const exportUrl = data.report_xlsx_url;
       await downloadFile(exportUrl);
       success('File successfully downloaded');
