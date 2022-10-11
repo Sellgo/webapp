@@ -15,7 +15,7 @@ import { UpdateTplInboundShippings } from '../../../../../../interfaces/PerfectS
 
 /* Utils */
 import { formatNumber } from '../../../../../../utils/format';
-import { updateInboundShippings } from '../../../../../../libs/api/tpl/inboundShipping';
+import { updateInboundShipping } from '../../../../../../libs/api/tpl/inboundShipping';
 import { error, success } from '../../../../../../utils/notifications';
 
 const ShipmentQuantity = (props: RowCell) => {
@@ -34,7 +34,7 @@ const ShipmentQuantity = (props: RowCell) => {
       quantity: rowData.quantity,
     };
     try {
-      const response = await updateInboundShippings(payload);
+      const response = await updateInboundShipping(payload);
       if (!response?.hasError) {
         success(response?.data?.message);
       } else {
@@ -53,7 +53,7 @@ const ShipmentQuantity = (props: RowCell) => {
       quantity: rowData.quantity,
     };
     try {
-      const response = await updateInboundShippings(payload);
+      const response = await updateInboundShipping(payload);
       if (!response?.hasError) {
         setUsingPredictiveSales(!usingPredictiveSales);
         // success(response?.data?.message);

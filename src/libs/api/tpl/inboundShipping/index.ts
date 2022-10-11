@@ -69,13 +69,35 @@ export const fetchShippingInboundByVendorId = async (id: number) => {
   }
 };
 
-export const updateInboundShippings = async (
-  payload: UpdateTplInboundPayload | UpdateTplInboundShippings
-) => {
+export const updateInboundShippings = async (payload: UpdateTplInboundPayload) => {
   const sellerID = sellerIDSelector();
   try {
     const { status, data } = await axios.patch(
       `${AppConfig.BASE_URL_API}sellers/${sellerID}/inbound-shippings`,
+      payload
+    );
+
+    if (status === 200) {
+      return {
+        hasError: false,
+        err: null,
+        data: data,
+      };
+    }
+  } catch (err) {
+    return {
+      hasError: true,
+      err: err,
+      data: null,
+    };
+  }
+};
+
+export const updateInboundShipping = async (payload: UpdateTplInboundShippings) => {
+  const sellerID = sellerIDSelector();
+  try {
+    const { status, data } = await axios.patch(
+      `${AppConfig.BASE_URL_API}sellers/${sellerID}/tpl/inbound-shipping`,
       payload
     );
 
