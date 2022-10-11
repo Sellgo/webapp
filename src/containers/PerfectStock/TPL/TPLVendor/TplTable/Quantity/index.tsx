@@ -30,7 +30,7 @@ const ShipmentQuantity = (props: RowCell) => {
     const payload: UpdateTplInboundShippings = {
       inbound_shipping_sku_id: rowData.inbound_shipping_sku_id,
       manual_quantity: parseFloat(updatedSalesProjection),
-      quantity_mode: rowData.quantity_mode,
+      quantity_mode: 'manual',
       quantity: rowData.quantity,
     };
     try {

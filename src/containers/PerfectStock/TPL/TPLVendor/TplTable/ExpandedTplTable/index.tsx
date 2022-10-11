@@ -116,7 +116,7 @@ const ExpandedTplTable = (props: Props) => {
           </div>
         )}
         <div className={styles.expandedTableCol}>
-          <p className={styles.expandedTableCol__label}>Shipment Quantity</p>
+          <p className={styles.expandedTableCol__label}>Carton</p>
           <MultipleStats
             displayData={[
               {
