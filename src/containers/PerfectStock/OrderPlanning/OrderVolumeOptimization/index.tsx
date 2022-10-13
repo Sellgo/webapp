@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-
+import styles from './index.module.scss';
 /* Selectors */
 import {
   getActivePurchaseOrder,
@@ -19,6 +19,7 @@ import VolumeOptimizationAccodian from '../../../../components/VolumeOptimizatio
 
 /* Constants */
 import { AppConfig } from '../../../../config';
+import { Icon } from 'semantic-ui-react';
 
 interface Props {
   activeOrder: PurchaseOrder;
@@ -29,6 +30,7 @@ const OrderVolumeOptimization = (props: Props) => {
   const { activeOrder, inventoryTableResults } = props;
   const [volumeOptimizationData, setVolumeOptimizationData] = useState<any>([]);
   const [containersConfigData, setContainersConfigData] = useState<any>([]);
+  const [isOpen, setIsOpen] = React.useState<boolean>(true);
   const sellerID = localStorage.getItem('userId');
   const fetchContainersConfig = async () => {
     try {
@@ -118,27 +120,42 @@ const OrderVolumeOptimization = (props: Props) => {
 
   return (
     <>
-      {volumeOptimizationData &&
-        volumeOptimizationData.length > 0 &&
-        volumeOptimizationData.map((optimizationData: any) => {
-          const { id } = optimizationData;
-          return (
-            <VolumeOptimizationAccodian
-              key={optimizationData?.id}
-              name={optimizationData?.name}
-              containerDropDownOptions={containersConfigData}
-              maxVolumeCBM={optimizationData?.container_size_cbm}
-              maxVolumeFT={optimizationData?.container_size_cft}
-              orderEfficency={optimizationData?.efficiency}
-              orderVolumeCDM={optimizationData?.volume_cbm}
-              orderVolumeFT={optimizationData?.volume_cft}
-              dropDownActiveValue={optimizationData?.shipping_container_id}
-              handleContainerChange={(value: number) => {
-                patchContainerChange(value, id);
-              }}
-            />
-          );
-        })}
+      <div className={styles.orderVolumeOptimizationContainer}>
+        <h4>Volume Optimizations Containers List</h4>
+        <span
+          className={styles.icon}
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
+        >
+          <Icon name={isOpen ? 'caret up' : 'caret down'} />
+        </span>
+        {isOpen && (
+          <div className={styles.orderVolumeOptimizationBoxesWrapper}>
+            {volumeOptimizationData &&
+              volumeOptimizationData.length > 0 &&
+              volumeOptimizationData.map((optimizationData: any) => {
+                const { id } = optimizationData;
+                return (
+                  <VolumeOptimizationAccodian
+                    key={optimizationData?.id}
+                    name={optimizationData?.name}
+                    containerDropDownOptions={containersConfigData}
+                    maxVolumeCBM={optimizationData?.container_size_cbm}
+                    maxVolumeFT={optimizationData?.container_size_cft}
+                    orderEfficency={optimizationData?.efficiency}
+                    orderVolumeCDM={optimizationData?.volume_cbm}
+                    orderVolumeFT={optimizationData?.volume_cft}
+                    dropDownActiveValue={optimizationData?.shipping_container_id}
+                    handleContainerChange={(value: number) => {
+                      patchContainerChange(value, id);
+                    }}
+                  />
+                );
+              })}
+          </div>
+        )}
+      </div>
     </>
   );
 };
