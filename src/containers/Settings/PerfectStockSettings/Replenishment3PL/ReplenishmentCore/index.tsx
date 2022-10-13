@@ -15,6 +15,7 @@ import { ReplenishmentFBA } from '../../../../../interfaces/PerfectStock/Repleni
 /* Constants */
 import {
   DEFAULT_NEW_REPLENISHMENT_TEMPLATE,
+  NON_AMAZAON_PARTNERED_CARRIERS,
   REPLENISHMENT_SETTINGS_FORM,
   // NON_AMAZAON_PARTNERED_CARRIERS,
 } from '../../../../../constants/PerfectStock/Replenishment';
@@ -34,6 +35,7 @@ import ActionButton from '../../../../../components/ActionButton';
 import { getTplActiveVendor, getTplVendors } from '../../../../../selectors/PerfectStock/Tpl';
 import { Checkbox } from 'semantic-ui-react';
 import { success, error } from '../../../../../utils/notifications';
+import SelectionFilter from '../../../../../components/FormFilters/SelectionFilter';
 
 interface Props {
   createUpdateTplVendor: (payload: TplVendor) => void;
@@ -301,46 +303,52 @@ const ReplenishmentCore = (props: Props) => {
                   }
                   disabled={!isSPD}
                 />
-                {/* <div>
+                <div>
                   <Checkbox
                     radio
-                    checked={!isAPC}
+                    // checked={!isAPC}
+                    checked={false}
                     label="Non-Amazon partnered carrier"
-                    onChange={() => {
-                      if (isAPC) {
-                        updateSellerDatabaseFilter('carrier_type', 'non_amz');
-                        setIsAPC(false);
-                      }
-                    }}
+                    // onChange={() => {
+                    //   if (isAPC) {
+                    //     updateSellerDatabaseFilter('carrier_type', 'non_amz');
+                    //     setIsAPC(false);
+                    //   }
+                    // }}
                     className={
                       !isSPD || isAPC ? `${styles.label} ${styles.disabled}` : `${styles.label}`
                     }
-                    disabled={!isSPD}
+                    // disabled={!isSPD}
+                    disabled={true}
                   />
                   <SelectionFilter
                     placeholder="Non Amazon partnered carrier"
                     filterOptions={NON_AMAZAON_PARTNERED_CARRIERS}
                     value={tplSettings.carrier_name}
                     handleChange={(value: string) => {
-                      updateSellerDatabaseFilter('carrier_name', value);
+                      console.log(value);
+                      // updateSellerDatabaseFilter('carrier_name', value);
                     }}
-                    disabled={isAPC}
+                    // disabled={isAPC}
+                    disabled={true}
                   />
-                </div> */}
+                </div>
               </div>
             </div>
-            {/* <Checkbox
+            <Checkbox
               radio
-              checked={!isSPD}
+              // checked={!isSPD}
+              checked={false}
               label="Less than truckload (LTL)"
-              onChange={() => {
-                if (isSPD) {
-                  updateSellerDatabaseFilter('method', 'ltl');
-                  setIsSPD(false);
-                }
-              }}
+              // onChange={() => {
+              //   if (isSPD) {
+              //     updateSellerDatabaseFilter('method', 'ltl');
+              //     setIsSPD(false);
+              //   }
+              // }}
+              disabled={true}
               className={isSPD ? `${styles.label} ${styles.disabled}` : `${styles.label}`}
-            /> */}
+            />
             <div className={styles.buttonsRow}>
               <ActionButton
                 variant="reset"
