@@ -1,5 +1,28 @@
 @import '../../../design-system/new-colors';
 
+.sellerDatbasePage {
+  overflow: hidden;
+}
+
+.sellerDataBaseTableContainer {
+  margin-left: 30px;
+  display: flex;
+  flex-direction: column;
+  // overflow-y: scroll;
+  overflow: auto;
+}
+
 .filterMessage {
   margin: 20px 0;
+}
+
+.sellerDataBaseContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  // min-height: 100vh;
+  margin-top: 3rem;
+  padding-bottom: 4rem !important;
+  position: relative;
+  overflow-y: none !important;
 }

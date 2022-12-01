@@ -86,35 +86,36 @@ const DatabaseExport = (props: Props) => {
             appendMessage=" products."
           />
         )}
+        <div className={styles.exportBtn}>
+          <TableExport
+            loading={isLoadingSellerDatabaseExport}
+            label=""
+            disableExport={!shouldEnableExport}
+            onButtonClick={() => handleOnExport('xlsx')}
+            exportContent={
+              <>
+                <div className={styles.exportOptions}>
+                  <span>Export As</span>
+                  <button
+                    className={styles.exportOption}
+                    onClick={() => handleOnExport('xlsx')}
+                    disabled={!shouldEnableExport}
+                  >
+                    <XLSXExportImage /> .XLSX
+                  </button>
 
-        <TableExport
-          loading={isLoadingSellerDatabaseExport}
-          label=""
-          disableExport={!shouldEnableExport}
-          onButtonClick={() => handleOnExport('xlsx')}
-          exportContent={
-            <>
-              <div className={styles.exportOptions}>
-                <span>Export As</span>
-                <button
-                  className={styles.exportOption}
-                  onClick={() => handleOnExport('xlsx')}
-                  disabled={!shouldEnableExport}
-                >
-                  <XLSXExportImage /> .XLSX
-                </button>
-
-                <button
-                  className={styles.exportOption}
-                  onClick={() => handleOnExport('csv')}
-                  disabled={!shouldEnableExport}
-                >
-                  <CSVExportImage /> .CSV
-                </button>
-              </div>
-            </>
-          }
-        />
+                  <button
+                    className={styles.exportOption}
+                    onClick={() => handleOnExport('csv')}
+                    disabled={!shouldEnableExport}
+                  >
+                    <CSVExportImage /> .CSV
+                  </button>
+                </div>
+              </>
+            }
+          />
+        </div>
       </div>
     </>
   );

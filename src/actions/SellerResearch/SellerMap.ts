@@ -256,6 +256,11 @@ export const parseFilters = (sellerDatabaseFilter: any) => {
 };
 /* ================= Async actions =========================== */
 
+export const getSellerFilterQueryString = () => (dispatch: any, getState: any) => {
+  const allFiltersData = getSellerMapFilterData(getState());
+  const resourcePath = parseFilters(allFiltersData);
+  return resourcePath;
+};
 /* Action for fetching sellers for map */
 export const fetchSellersForMap = (payload: SellerMapPayload) => async (
   dispatch: any,

@@ -5,12 +5,11 @@ import { connect } from 'react-redux';
 import styles from './index.module.scss';
 
 /* Containers */
-import SellerDatabaseFilters from './DatabaseFilters';
 import SellerDatabaseTable from './DatabaseTable';
 import DatabaseExport from './DatabaseExport';
 
 /* Components */
-import FilterMessage from '../../../components/FilterMessage';
+import SellerMapFilter from '../SellerMaps/SellerMapFilter';
 
 /* Selectors */
 import { getFilterMessage } from '../../../selectors/SellerResearch/SellerDatabase';
@@ -30,7 +29,7 @@ interface Props {
 }
 
 const SellerDatabase = (props: Props) => {
-  const { showFilterMessage, fetchSellerDatabase } = props;
+  const { fetchSellerDatabase } = props;
 
   React.useEffect(() => {
     fetchSellerDatabase({ retrieve_default: true });
@@ -38,15 +37,13 @@ const SellerDatabase = (props: Props) => {
 
   return (
     <main className={styles.sellerDatbasePage}>
-      <SellerDatabaseFilters />
-      <FilterMessage
-        active={showFilterMessage.show}
-        message={showFilterMessage.message}
-        type={showFilterMessage.type}
-        className={styles.filterMessage}
-      />
-      <DatabaseExport />
-      <SellerDatabaseTable />
+      <section className={styles.sellerDataBaseContainer}>
+        <SellerMapFilter showFilter={true} />
+        <div className={styles.sellerDataBaseTableContainer}>
+          <DatabaseExport />
+          <SellerDatabaseTable />
+        </div>
+      </section>
     </main>
   );
 };

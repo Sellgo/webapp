@@ -4,7 +4,7 @@ import { Table } from 'rsuite';
 
 /* Styling */
 import styles from './index.module.scss';
-import 'rsuite/dist/styles/rsuite-default.css';
+// import 'rsuite/dist/styles/rsuite-default.css';
 import './globals.scss';
 
 /* Selectors */
@@ -91,13 +91,16 @@ const SellerDatabaseTable = (props: Props) => {
           renderLoading={() =>
             isLoadingSellerDatabase && <Placeholder numberParagraphs={2} numberRows={3} isGrey />
           }
+          affixHorizontalScrollbar={10}
+          shouldUpdateScroll={false}
           data={!isLoadingSellerDatabase ? sellerDatabaseResults : []}
           autoHeight
-          hover={true}
+          hover={false}
           rowHeight={200}
           headerHeight={55}
           sortColumn={sortColumn}
           sortType={sortType}
+          virtualized
           id="sellerDatabaseTable"
           className={sellerDatabaseResults.length === 0 ? 'no-scroll' : ''}
           onSortColumn={handleSortColumn}

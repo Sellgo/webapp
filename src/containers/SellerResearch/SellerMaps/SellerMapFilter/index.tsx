@@ -25,6 +25,7 @@ import {
 import {
   fetchSellersForMap,
   fetchSellersListForMap,
+  getSellerFilterQueryString,
   updateSellerMapFilterOptions,
 } from '../../../../actions/SellerResearch/SellerMap';
 
@@ -52,6 +53,7 @@ import {
 } from '../../../../constants/ProductResearch/ProductsDatabase';
 import { isValidAsin } from '../../../../constants';
 import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
+import history from '../../../../history';
 
 interface Props {
   isLoadingSellersForMap: boolean;
@@ -59,6 +61,7 @@ interface Props {
   showFilter: boolean;
   updateSellerMapFilterOptions: (payload: UpdateSellerMapFilterPayload) => void;
   fetchSellersFormap: (payload: SellerMapPayload) => void;
+  getSellerFilterQueryString: () => void;
   fetchSellersForSellerList: () => void;
 }
 
@@ -69,6 +72,7 @@ const SellerMapFilter = (props: Props) => {
     showFilter,
     updateSellerMapFilterOptions,
     fetchSellersFormap,
+    getSellerFilterQueryString,
     fetchSellersForSellerList,
   } = props;
 
@@ -109,7 +113,6 @@ const SellerMapFilter = (props: Props) => {
 
   /* Growth percent */
   const growthPercent = parseSellerMapFilterData(sellerMapFilterData, 'growth');
-
   /* Review */
   const review = parseSellerMapFilterData(sellerMapFilterData, 'review_ratings');
 
@@ -121,7 +124,6 @@ const SellerMapFilter = (props: Props) => {
 
   /* Merchant Name */
   const merchantName = parseSellerMapFilterData(sellerMapFilterData, 'merchant_name');
-
   /* Include Asin validation check */
   useEffect(() => {
     if (asins.value.include) {
@@ -164,11 +166,127 @@ const SellerMapFilter = (props: Props) => {
     }
   }, [asins.value.exclude]);
 
+  useEffect(() => {
+    if (window.location.search) {
+      const p: any = window.location.search
+        .slice(1)
+        .split('&')
+        .map(p => p.split('='))
+        .reduce((obj, [key, value]) => ({ ...obj, [key]: decodeURIComponent(value) }), {});
+      Object.keys(p).forEach((param: string) => {
+        let paramValue = p[param].replaceAll('|', ',');
+        switch (true) {
+          case param === 'categories':
+            paramValue = paramValue.split(',');
+            handleFilterChange('categories', paramValue);
+            break;
+          case param === 'max_count':
+            handleFilterChange('max_count', paramValue);
+            break;
+          case param === 'merchant_name':
+            handleFilterChange('merchant_name', paramValue);
+            break;
+          case param === 'business_name':
+            handleFilterChange('business_name', paramValue);
+            break;
+          case param === 'zip_code':
+            handleFilterChange('zip_code', paramValue);
+            break;
+          case param === 'has_phone':
+            handleFilterChange('has_phone', paramValue);
+            break;
+          case param === 'launched':
+            handleFilterChange('launched', paramValue);
+            break;
+          case param === 'seller_type':
+            handleFilterChange('seller_type', paramValue);
+            break;
+
+          case param === 'ordering':
+            handleFilterChange('ordering', paramValue);
+            break;
+
+          case param === 'country':
+            handleFilterChange('country', paramValue);
+            break;
+
+          case param === 'state':
+            handleFilterChange('state', paramValue);
+            break;
+
+          case param === 'marketplace_id':
+            handleFilterChange('marketplace_id', paramValue);
+            break;
+
+          case param.includes('include_') || param.includes('exclude_'):
+            {
+              const tempParam = param.includes('include_')
+                ? param.split('include_')[1]
+                : param.includes('exclude_')
+                ? param.split('exclude_')[1]
+                : '';
+              const include = p[`include_${tempParam}`]?.replaceAll('|', ',');
+              const exclude = p[`include_${tempParam}`]?.replaceAll('|', ',');
+              handleFilterChange(tempParam, {
+                exclude,
+                include,
+              });
+              handleFilterChange('marketplace_id', paramValue);
+            }
+            break;
+
+          case (param.includes('_min') && param.split('_min').length === 2) ||
+            (param.includes('_max') && param.split('_max').length === 2):
+            {
+              const tempParam = param.includes('_min')
+                ? param.split('_min')[0]
+                : param.includes('_max')
+                ? param.split('_max')[0]
+                : '';
+              const min = p[`${tempParam}_min`]?.replaceAll('|', ',');
+              const max = p[`${tempParam}_max`]?.replaceAll('|', ',');
+              handleFilterChange(tempParam, {
+                max,
+                min,
+              });
+              handleFilterChange('marketplace_id', paramValue);
+            }
+            break;
+
+          case (param.includes('_min') && param.split('_min').length === 3) ||
+            (param.includes('_max') && param.split('_max').length === 3):
+            {
+              const tempParam = param.includes('_min')
+                ? param.split('_min')[0]
+                : param.includes('_max')
+                ? param.split('_max')[0]
+                : '';
+              const min = p[`${tempParam}_min`].replaceAll('|', ',');
+              const max = p[`${tempParam}_max`].replaceAll('|', ',');
+              const period = tempParam[1];
+              handleFilterChange(tempParam, {
+                max,
+                min,
+                period,
+              });
+              handleFilterChange('marketplace_id', paramValue);
+            }
+            break;
+        }
+      });
+      fetchSellersFormap({ enableLoader: true });
+      fetchSellersForSellerList();
+    } else {
+      fetchSellersFormap({ resetMap: true });
+    }
+  }, [window.location.pathname]);
+
   const handleFilterChange = (keyName: any, value: any) => {
     updateSellerMapFilterOptions({ keyName, value });
   };
 
   const handleSubmit = () => {
+    history.push(`${window.location.pathname}?${getSellerFilterQueryString()}`);
     fetchSellersFormap({ enableLoader: true });
     fetchSellersForSellerList();
   };
@@ -446,6 +564,7 @@ export const mapDispatchToProps = (dispatch: any) => {
     updateSellerMapFilterOptions: (payload: UpdateSellerMapFilterPayload) =>
       dispatch(updateSellerMapFilterOptions(payload)),
     fetchSellersFormap: (payload: SellerMapPayload) => dispatch(fetchSellersForMap(payload)),
+    getSellerFilterQueryString: () => dispatch(getSellerFilterQueryString()),
     fetchSellersForSellerList: () => dispatch(fetchSellersListForMap({})),
   };
 };
