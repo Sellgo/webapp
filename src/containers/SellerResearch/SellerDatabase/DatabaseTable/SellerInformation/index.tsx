@@ -18,6 +18,8 @@ import { getMarketplaceFlag } from '../../../../../constants/Settings';
 
 /* Assets */
 import placeholderImage from '../../../../../assets/images/placeholderImage.svg';
+import ActionButton from '../../../../../components/ActionButton';
+import history from '../../../../../history';
 
 const SellerInformation = (props: RowCell) => {
   const { rowData } = props;
@@ -72,6 +74,17 @@ const SellerInformation = (props: RowCell) => {
             <h3>Marketplace:</h3>
             <img src={getMarketplaceFlag(marketplaceId)} alt="Marketplace Flags" />
           </div>
+
+          <ActionButton
+            variant="primary"
+            size="small"
+            type="purpleGradient"
+            onClick={() => {
+              history.push(`/seller-research/employees/${merchantId}`);
+            }}
+          >
+            Show Employees
+          </ActionButton>
         </div>
       </div>
     </Table.Cell>

@@ -1,0 +1,8 @@
+@import '../../../../design-system/new-colors.scss';
+
+.merchantEmailCell {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: $grey_8;
+}

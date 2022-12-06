@@ -69,6 +69,7 @@ import AistockPricing from '../Settings/Pricing/AistockPricing';
 import BetaUsersActivationForm from '../BetaUsersActivation';
 import MainHomePage from '../MainHomePage';
 import FeatureRequest from '../FeatureRequest';
+import MerchantEmployees from '../MerchantEmployees';
 
 /* Utils */
 import {
@@ -539,6 +540,13 @@ function App() {
             exact={true}
             path="/seller-research/:productName"
             component={SellerResearch}
+            requireSubscription={true}
+          />
+
+          <PrivateRoute
+            exact={true}
+            path="/seller-research/employees/:merchant_id"
+            component={MerchantEmployees}
             requireSubscription={true}
           />
 

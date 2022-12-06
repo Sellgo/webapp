@@ -1,0 +1,14 @@
+@import '../../../design-system/new-colors';
+
+.settingMetaTitle {
+  margin-top: 35px;
+  margin-bottom: 30px;
+  width: 100%;
+  height: 40px;
+  border-bottom: 1px solid $grey_3;
+  color: $black_1;
+  font-size: 14px;
+  font-weight: $fontweight_medium;
+  display: flex;
+  align-items: center;
+}

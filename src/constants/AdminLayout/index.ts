@@ -8,6 +8,7 @@ export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
   '/seller-research/database',
   '/seller-research/map',
   '/seller-research/finder',
+  '/seller-research/employees/:merchant_id',
 
   /* Keyword Research */
   '/keyword-research',
