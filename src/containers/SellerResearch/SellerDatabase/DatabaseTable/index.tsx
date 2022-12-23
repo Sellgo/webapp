@@ -124,15 +124,6 @@ const SellerDatabaseTable = (props: Props) => {
           renderRowExpanded={(rowData: any) => <ExpandedBusinessInformation rowData={rowData} />}
           rowKey="merchant_id"
         >
-          {/* Expand Cell */}
-          <Table.Column verticalAlign="top" fixed="left" align="left" width={30}>
-            <Table.HeaderCell> </Table.HeaderCell>
-            <ExpansionCell
-              dataKey={'merchant_id'}
-              expandedRowKeys={expandedRowKeys}
-              onChange={handleExpansion}
-            />
-          </Table.Column>
           {/* Seller Information */}
           <Table.Column width={250} verticalAlign="middle" fixed>
             <Table.HeaderCell>
@@ -178,6 +169,17 @@ const SellerDatabaseTable = (props: Props) => {
               secondDataKey="business_name"
               textAlign="left"
               isFirstTextBold
+            />
+          </Table.Column>
+
+          {/* Expansion Cell */}
+          <Table.Column verticalAlign="bottom" align="left" width={30}>
+            <Table.HeaderCell> </Table.HeaderCell>
+            <ExpansionCell
+              dataKey={'merchant_id'}
+              expandedRowKeys={expandedRowKeys}
+              onChange={handleExpansion}
+              isArrow
             />
           </Table.Column>
 
