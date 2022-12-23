@@ -10,12 +10,6 @@ import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipb
 /* Interface */
 import { RowCell } from '../../../../../interfaces/Table';
 
-/* Utils */
-import { truncateString } from '../../../../../utils/format';
-
-/* Constants */
-import { getMarketplaceFlag } from '../../../../../constants/Settings';
-
 /* Assets */
 import placeholderImage from '../../../../../assets/images/placeholderImage.svg';
 
@@ -26,12 +20,12 @@ const SellerInformation = (props: RowCell) => {
   const businessName = rowData.business_name;
   const merchantId = rowData.merchant_id;
   const sellerLink = rowData.seller_link;
-  const merchantName = rowData.merchant_name;
-  const businessAddress = rowData.address;
-  const businessCity = rowData.city;
-  const businessZipCode = rowData.zip_code;
-  const businessCountry = rowData.country;
-  const marketplaceId = rowData.marketplace_id;
+  // const merchantName = rowData.merchant_name;
+  // const businessAddress = rowData.address;
+  // const businessCity = rowData.city;
+  // const businessZipCode = rowData.zip_code;
+  // const businessCountry = rowData.country;
+  // const marketplaceId = rowData.marketplace_id;
 
   return (
     <Table.Cell {...props}>
@@ -43,16 +37,16 @@ const SellerInformation = (props: RowCell) => {
         </div>
 
         {/* Right part seller information */}
-        <div className={styles.sellerInformationRight}>
+        {/* <div className={styles.sellerInformationRight}>
           <h2>{merchantName ? merchantName : '-'}</h2>
 
-          {/* Business Name */}
+          Business Name
           <div className={styles.sellerBusinessDetails}>
             <h3>Business Name:</h3>
             <p>{businessName ? truncateString(businessName, 26) : '-'}</p>
           </div>
 
-          {/* Business Address */}
+          Business Address
 
           <div className={styles.sellerBusinessDetails}>
             <h3>Business Address:</h3>
@@ -67,12 +61,12 @@ const SellerInformation = (props: RowCell) => {
             </div>
           </div>
 
-          {/* Marketplace Details  */}
+          Marketplace Details 
           <div className={styles.sellerBusinessDetails}>
             <h3>Marketplace:</h3>
             <img src={getMarketplaceFlag(marketplaceId)} alt="Marketplace Flags" />
           </div>
-        </div>
+        </div> */}
       </div>
     </Table.Cell>
   );

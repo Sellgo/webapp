@@ -24,24 +24,22 @@ export const toggleIncomingNotification = (payload: boolean) => ({
   payload,
 });
 
-export const fetchNotifications =
-  (page: number = 1) =>
-  async (dispatch: any) => {
-    try {
-      const sellerId = sellerIDSelector();
-      const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/alerts?page=${page}&per_page=15`;
+export const fetchNotifications = (page = 1) => async (dispatch: any) => {
+  try {
+    const sellerId = sellerIDSelector();
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/alerts?page=${page}&per_page=15`;
 
-      dispatch(toggleLoadingNotification(true));
-      const { data } = await axios.get(URL);
+    dispatch(toggleLoadingNotification(true));
+    const { data } = await axios.get(URL);
 
-      if (data) {
-        dispatch(setNotifications(data));
-      }
-    } catch (err) {
-      console.error('Error fetching notifications', err);
+    if (data) {
+      dispatch(setNotifications(data));
     }
-    dispatch(toggleLoadingNotification(false));
-  };
+  } catch (err) {
+    console.error('Error fetching notifications', err);
+  }
+  dispatch(toggleLoadingNotification(false));
+};
 
 export const toggleMarkAsRead = (id: number) => async (dispatch: any, getState: any) => {
   try {
@@ -52,9 +50,9 @@ export const toggleMarkAsRead = (id: number) => async (dispatch: any, getState: 
     const { data } = await axios.patch(URL, payload);
 
     if (data) {
-      const updatedNotificationResults = selectNotificationsList(getState()).results.map(
-        (notification: any) => (notification.id === id ? data[0] : notification)
-      );
+      const updatedNotificationResults = selectNotificationsList(
+        getState()
+      ).results.map((notification: any) => (notification.id === id ? data[0] : notification));
 
       dispatch(
         updateNotifications({
@@ -77,7 +75,7 @@ export const toggleMarkAllAsRead = (payload: any[]) => async (dispatch: any, get
     const { data } = await axios.patch(URL, { alerts: payload });
 
     if (data) {
-      console.log(selectNotificationsList(getState()), 'check inside action')
+      console.log(selectNotificationsList(getState()), 'check inside action');
       dispatch(updateNotifications({ ...selectNotificationsList(getState()), results: data }));
     }
   } catch (err) {

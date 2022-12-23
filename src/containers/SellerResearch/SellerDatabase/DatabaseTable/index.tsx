@@ -29,9 +29,9 @@ import {
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import Placeholder from '../../../../components/Placeholder';
 import BrandsListCell from '../../../../components/NewTable/BrandsListCell';
-import RatingCell from '../../../../components/NewTable/RatingCell';
-import StatsCell from '../../../../components/NewTable/StatsCell';
-import ExtendedReviewsCell from '../../../../components/NewTable/ExtendedReviewsCell';
+// import RatingCell from '../../../../components/NewTable/RatingCell';
+// import StatsCell from '../../../../components/NewTable/StatsCell';
+// import ExtendedReviewsCell from '../../../../components/NewTable/ExtendedReviewsCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
 
 /* Containers */
@@ -41,6 +41,11 @@ import TruncatedTextCell from '../../../../components/NewTable/TruncatedTextCell
 
 /* Utils */
 import { onMountFixNewTableHeader } from '../../../../utils/newTable';
+import ImageCell from '../../../../components/NewTable/ImageCell';
+import MultipleDataCell from '../../../../components/NewTable/MultipleDataCell';
+import AddressCell from '../../../../components/NewTable/AddressCell';
+import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
+import ExpandedBusinessInformation from './ExpandedBusinessInformation';
 
 interface Props {
   isLoadingSellerDatabase: boolean;
@@ -61,6 +66,7 @@ const SellerDatabaseTable = (props: Props) => {
 
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortType, setSortType] = useState<'asc' | 'desc' | undefined>();
+  const [expandedRowKeys, setExpandedRowkeys] = React.useState<string[]>([]);
 
   const handleSortColumn = (sortColumn: string, sortType: 'asc' | 'desc' | undefined) => {
     setSortColumn(sortColumn);
@@ -79,6 +85,17 @@ const SellerDatabaseTable = (props: Props) => {
       sortDir: sortType === undefined ? 'asc' : sortType,
       marketplaceId: sellerMarketplace.value,
     });
+  };
+
+  const handleExpansion = (rowData: any) => {
+    const rowId = rowData.merchant_id;
+    const [currentExpandedRowId] = expandedRowKeys;
+
+    if (currentExpandedRowId !== rowId) {
+      setExpandedRowkeys([rowId]);
+    } else {
+      setExpandedRowkeys([]);
+    }
   };
 
   React.useEffect(() => {
@@ -102,9 +119,22 @@ const SellerDatabaseTable = (props: Props) => {
           className={sellerDatabaseResults.length === 0 ? 'no-scroll' : ''}
           onSortColumn={handleSortColumn}
           renderEmpty={() => <div />}
+          rowExpandedHeight={550}
+          expandedRowKeys={expandedRowKeys}
+          renderRowExpanded={(rowData: any) => <ExpandedBusinessInformation rowData={rowData} />}
+          rowKey="merchant_id"
         >
+          {/* Expand Cell */}
+          <Table.Column verticalAlign="top" fixed="left" align="left" width={30}>
+            <Table.HeaderCell> </Table.HeaderCell>
+            <ExpansionCell
+              dataKey={'merchant_id'}
+              expandedRowKeys={expandedRowKeys}
+              onChange={handleExpansion}
+            />
+          </Table.Column>
           {/* Seller Information */}
-          <Table.Column width={590} verticalAlign="middle" fixed>
+          <Table.Column width={250} verticalAlign="middle" fixed>
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Seller Information`}
@@ -117,8 +147,55 @@ const SellerDatabaseTable = (props: Props) => {
             <SellerInformation dataKey={'sellerInformation'} />
           </Table.Column>
 
+          {/* Market place image */}
+          <Table.Column width={250} verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Marketplace`}
+                dataKey="marketplace_id"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+                disableSort
+                alignMiddle
+              />
+            </Table.HeaderCell>
+            <ImageCell dataKey="marketplace_id" isMarketPlace />
+          </Table.Column>
+
+          {/* Business Name */}
+          <Table.Column width={250} verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Business Name`}
+                dataKey="merchant_name"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+                disableSort
+              />
+            </Table.HeaderCell>
+            <MultipleDataCell
+              dataKey="merchant_name"
+              secondDataKey="business_name"
+              textAlign="left"
+              isFirstTextBold
+            />
+          </Table.Column>
+
+          {/* Business Address */}
+          <Table.Column width={250} verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Business Address`}
+                dataKey="address"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+                disableSort
+              />
+            </Table.HeaderCell>
+            <AddressCell dataKey={'address'} textAlign="left" />
+          </Table.Column>
           {/* Number of ASIN */}
-          <Table.Column width={150} verticalAlign="middle" align="left">
+          <Table.Column width={250} verticalAlign="middle" align="left">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Number of ASINs`}
@@ -132,7 +209,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Brands */}
-          <Table.Column width={80} verticalAlign="middle" align="center">
+          <Table.Column width={250} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Brands`}
@@ -147,7 +224,7 @@ const SellerDatabaseTable = (props: Props) => {
 
           {/* Category */}
           <Table.Column
-            width={180}
+            width={250}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
             align="center"
@@ -165,7 +242,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Monthly Revenue = Sales Est. */}
-          <Table.Column
+          {/* <Table.Column
             width={150}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
@@ -181,10 +258,10 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <StatsCell dataKey="sales_estimate" autoPrependCurrencySign align="left" />
-          </Table.Column>
+          </Table.Column> */}
 
           {/* FBA Percent */}
-          <Table.Column
+          {/* <Table.Column
             width={120}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
@@ -200,10 +277,10 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <StatsCell dataKey="fba_percent" appendWith="%" align="left" asRounded={false} />
-          </Table.Column>
+          </Table.Column> */}
 
           {/* State */}
-          <Table.Column
+          {/* <Table.Column
             width={120}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
@@ -219,10 +296,10 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <TruncatedTextCell dataKey="state" maxLength={20} />
-          </Table.Column>
+          </Table.Column> */}
 
           {/* Country */}
-          <Table.Column
+          {/* <Table.Column
             width={120}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
@@ -238,10 +315,10 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <TruncatedTextCell dataKey="country" maxLength={20} />
-          </Table.Column>
+          </Table.Column> */}
 
           {/* Zip Code */}
-          <Table.Column
+          {/* <Table.Column
             width={120}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
@@ -257,10 +334,10 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <TruncatedTextCell dataKey="zip_code" maxLength={20} />
-          </Table.Column>
+          </Table.Column> */}
 
           {/* 1 Month Growth % */}
-          <Table.Column
+          {/* <Table.Column
             width={120}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
@@ -282,10 +359,10 @@ const SellerDatabaseTable = (props: Props) => {
               asRounded={false}
               asFloatRounded={true}
             />
-          </Table.Column>
+          </Table.Column> */}
 
           {/* 3 Month Growth % */}
-          <Table.Column
+          {/* <Table.Column
             width={120}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
@@ -307,10 +384,10 @@ const SellerDatabaseTable = (props: Props) => {
               asRounded={false}
               asFloatRounded={true}
             />
-          </Table.Column>
+          </Table.Column> */}
 
           {/* 6 Month Growth % */}
-          <Table.Column
+          {/* <Table.Column
             width={120}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
@@ -332,10 +409,10 @@ const SellerDatabaseTable = (props: Props) => {
               asRounded={false}
               asFloatRounded={true}
             />
-          </Table.Column>
+          </Table.Column> */}
 
           {/* 12 Month Growth % */}
-          <Table.Column
+          {/* <Table.Column
             width={120}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
@@ -357,10 +434,10 @@ const SellerDatabaseTable = (props: Props) => {
               asRounded={false}
               asFloatRounded={true}
             />
-          </Table.Column>
+          </Table.Column> */}
 
           {/* Rating L365D */}
-          <Table.Column
+          {/* <Table.Column
             width={130}
             verticalAlign="middle"
             sortable={!isLoadingSellerDatabase}
@@ -376,9 +453,9 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <RatingCell dataKey="seller_rating" asRounded={false} />
-          </Table.Column>
+          </Table.Column> */}
           {/* Rating % L365D */}
-          <Table.Column
+          {/* <Table.Column
             width={120}
             verticalAlign="middle"
             sortable={!isLoadingSellerDatabase}
@@ -394,10 +471,10 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <StatsCell dataKey="review_ratings" appendWith="%" />
-          </Table.Column>
+          </Table.Column> */}
 
           {/* Review L30D */}
-          <Table.Column
+          {/* <Table.Column
             width={120}
             verticalAlign="middle"
             sortable={!isLoadingSellerDatabase}
@@ -419,10 +496,10 @@ const SellerDatabaseTable = (props: Props) => {
               neutralReviewKey="neutral_30_days"
               dataKey="count_30_days"
             />
-          </Table.Column>
+          </Table.Column> */}
 
           {/* Review L90D */}
-          <Table.Column
+          {/* <Table.Column
             width={120}
             verticalAlign="middle"
             sortable={!isLoadingSellerDatabase}
@@ -444,10 +521,10 @@ const SellerDatabaseTable = (props: Props) => {
               neutralReviewKey="neutral_90_days"
               dataKey="count_90_days"
             />
-          </Table.Column>
+          </Table.Column> */}
 
           {/* Review 3650D */}
-          <Table.Column
+          {/* <Table.Column
             width={120}
             verticalAlign="middle"
             sortable={!isLoadingSellerDatabase}
@@ -469,10 +546,10 @@ const SellerDatabaseTable = (props: Props) => {
               neutralReviewKey="neutral_12_month"
               dataKey="count_12_month"
             />
-          </Table.Column>
+          </Table.Column> */}
 
           {/* Review Lifetime */}
-          <Table.Column
+          {/* <Table.Column
             width={120}
             verticalAlign="middle"
             sortable={!isLoadingSellerDatabase}
@@ -494,10 +571,10 @@ const SellerDatabaseTable = (props: Props) => {
               neutralReviewKey="neutral_lifetime"
               dataKey="count_lifetime"
             />
-          </Table.Column>
+          </Table.Column> */}
 
           {/* Seller Launched  */}
-          <Table.Column
+          {/* <Table.Column
             width={100}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
@@ -513,10 +590,10 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <TruncatedTextCell dataKey="launched" maxLength={20} />
-          </Table.Column>
+          </Table.Column> */}
 
           {/* Seller Type */}
-          <Table.Column
+          {/* <Table.Column
             width={100}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
@@ -532,10 +609,10 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <TruncatedTextCell dataKey="seller_type" maxLength={20} />
-          </Table.Column>
+          </Table.Column> */}
 
           {/* Seller Phone  */}
-          <Table.Column
+          {/* <Table.Column
             width={180}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
@@ -551,7 +628,7 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <TruncatedTextCell dataKey="phone" maxLength={20} />
-          </Table.Column>
+          </Table.Column> */}
         </Table>
 
         {sellerDatabaPaginationInfo && sellerDatabaPaginationInfo.total_pages > 0 && (

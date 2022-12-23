@@ -83,6 +83,7 @@
           .rs-table-cell-content {
             background: $light_gray_background !important;
             padding: 3px 10px !important;
+            height: 200px !important;
           }
         }
 
@@ -92,7 +93,12 @@
           .rs-table-cell-content {
             background: $grey_1 !important;
             padding: 3px 10px !important;
+            height: 200px !important;
           }
+        }
+
+        .rs-table-cell {
+          height: 200px !important;
         }
 
         /* ============== ROW HOVER  =============== */

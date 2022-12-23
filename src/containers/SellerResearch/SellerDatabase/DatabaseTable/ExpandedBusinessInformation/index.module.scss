@@ -1,0 +1,61 @@
+@import '../../../../../design-system/new-colors';
+
+.merchantDetails {
+  display: flex;
+  justify-content: space-between;
+  width: calc(100vw - 150px);
+  padding: 20px;
+
+  .businessInformation {
+    width: 45%;
+    margin-right: 50px;
+  }
+
+  .employeeInformation {
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.informationHeading {
+  font-size: 14px;
+  color: $grey_8;
+  margin-bottom: 20px;
+}
+
+.socialPresence {
+  &__linksRow {
+    margin-bottom: 20px;
+
+    &__links {
+      margin-right: 30px;
+    }
+  }
+}
+
+.companyInformation {
+  &_detailsBox {
+    display: flex;
+    margin-bottom: 15px;
+
+    &_icon {
+      width: 15px;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    &_heading {
+      width: 200px;
+      color: $black_1;
+      margin-right: 20px;
+      margin-top: 0;
+      font-weight: 600;
+      white-space: break-spaces;
+    }
+
+    &_text {
+      margin-top: 0;
+    }
+  }
+}

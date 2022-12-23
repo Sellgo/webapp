@@ -1,0 +1,102 @@
+@import '../../../../../../design-system/new-colors';
+
+.employeeInformationDetailPopup {
+  display: flex;
+  justify-content: space-between;
+  padding: 50px;
+
+  &__personalInformation {
+    width: 45%;
+
+    &__bio {
+      display: flex;
+      margin-bottom: 30px;
+
+      &__name {
+        color: $link_blue;
+        font-weight: 600;
+      }
+    }
+
+    &__detailsBox {
+      display: flex;
+      margin-bottom: 15px;
+      align-items: center;
+
+      &_icon {
+        width: 15px;
+        font-weight: 600;
+        text-align: left;
+      }
+
+      &_heading {
+        width: 74px;
+        color: $black_1;
+        margin-right: 20px;
+        margin-top: 0;
+        font-weight: 600;
+        white-space: break-spaces;
+      }
+
+      &_text {
+        margin-top: 0;
+        width: 500px;
+        white-space: break-spaces;
+      }
+    }
+  }
+
+  &__contactInformation {
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+
+    &_emails {
+      &__verified {
+        display: flex;
+        margin: 0;
+        margin-bottom: 20px;
+
+        svg {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    &_details {
+      margin: 0;
+      margin-bottom: 15px;
+    }
+  }
+}
+
+.socialPresence {
+  &__linksRow {
+    margin-bottom: 20px;
+
+    &__links {
+      margin-right: 30px;
+    }
+  }
+}
+
+.informationHeading {
+  font-size: 14px;
+  color: $grey_8;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.buttonsRow {
+  position: absolute;
+  bottom: 30px;
+  right: 60px;
+
+  &__text {
+    text-align: center;
+  }
+}
+
+.linkBlueText {
+  color: $link_blue;
+}

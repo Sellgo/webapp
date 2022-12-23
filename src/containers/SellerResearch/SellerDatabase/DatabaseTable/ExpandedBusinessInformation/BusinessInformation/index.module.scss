@@ -1,0 +1,48 @@
+@import '../../../../../../design-system/new-colors';
+
+.informationHeading {
+  font-size: 14px;
+  color: $grey_8;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.socialPresence {
+  &__linksRow {
+    margin-bottom: 20px;
+
+    &__links {
+      margin-right: 30px;
+    }
+  }
+}
+
+.companyInformation {
+  &_detailsBox {
+    display: flex;
+    margin-bottom: 15px;
+
+    &_icon {
+      width: 15px;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    &_heading {
+      width: 200px;
+      color: $black_1;
+      margin-right: 20px;
+      margin-top: 0;
+      font-weight: 600;
+      white-space: break-spaces;
+    }
+
+    &_text {
+      margin-top: 0;
+    }
+  }
+}
+
+.blueText {
+  color: $link_blue;
+}

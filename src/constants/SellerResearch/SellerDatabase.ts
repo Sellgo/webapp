@@ -344,3 +344,13 @@ export const getGrowthFilter = (apiFilterName: string, value: any) => {
   }
   return filter;
 };
+
+export const SOCIAL_LINK_COLORS: { [key: string]: any } = {
+  facebook: '#3B5998',
+  instagram: '',
+  twitter: '#00ACEE',
+  linkedin: '#0072B1',
+  youtube: '#FF0000',
+  pinterest: '#C8232C',
+  crunchbase: '#0287d1',
+};

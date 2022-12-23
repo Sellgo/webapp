@@ -332,3 +332,16 @@ export const getMarketplaceCurrency = (marketplaceId: string) => {
     return '$';
   }
 };
+
+/* Get marketplace name*/
+export const getMarketplaceName = (marketplaceId: string) => {
+  const marketplace = defaultMarketplaces.find((marketplace: any) => {
+    return marketplace.id === marketplaceId;
+  });
+
+  if (marketplace && marketplace.name) {
+    return marketplace.name;
+  } else {
+    return '-';
+  }
+};
