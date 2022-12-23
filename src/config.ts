@@ -213,7 +213,7 @@ const aistockLocal = {
   ...AISTOCK_DEV_KEYS,
   ...AISTOCK_DEV_ANALYTICS,
   ...DEV_MWS,
-  callbackUrl: 'http://localhost:3000/callback',
+  callbackUrl: 'http://54.166.52.145:5000/callback',
   sellgoUrls: { ...SELLGO_DEV_URLS },
   aistockUrls: { ...AISTOCK_DEV_URLS },
 };
