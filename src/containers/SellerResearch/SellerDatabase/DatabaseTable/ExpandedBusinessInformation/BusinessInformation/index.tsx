@@ -61,7 +61,10 @@ const BusinessInformation = (props: Props) => {
         <div className={styles.companyInformation_detailsBox}>
           <Icon name="amazon" className={styles.companyInformation_detailsBox_icon} />
           <p className={styles.companyInformation_detailsBox_heading}>Amazon store link</p>
-          <Link to={{ pathname: rowData?.seller_link }} className={styles.blueText}>
+          <Link
+            to={{ pathname: rowData?.seller_link }}
+            className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}
+          >
             {rowData?.seller_link}
           </Link>
         </div>
@@ -72,7 +75,9 @@ const BusinessInformation = (props: Props) => {
             className={styles.companyInformation_detailsBox_icon}
           />
           <p className={styles.companyInformation_detailsBox_heading}>Support phone</p>
-          <p className={styles.blueText}>{rowData?.phone ?? 'N/A'}</p>
+          <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
+            {rowData?.phone ?? 'N/A'}
+          </p>
         </div>
         <div className={styles.companyInformation_detailsBox}>
           <Icon
@@ -81,12 +86,16 @@ const BusinessInformation = (props: Props) => {
             className={styles.companyInformation_detailsBox_icon}
           />
           <p className={styles.companyInformation_detailsBox_heading}>Phone</p>
-          <p className={styles.blueText}>{rowData?.company_info?.phone ?? 'N/A'}</p>
+          <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
+            {rowData?.company_info?.phone ?? 'N/A'}
+          </p>
         </div>
         <div className={styles.companyInformation_detailsBox}>
           <Icon name="fax" className={styles.companyInformation_detailsBox_icon} />
           <p className={styles.companyInformation_detailsBox_heading}>Fax</p>
-          <p className={styles.blueText}>{rowData?.company_info?.fax ?? 'N/A'}</p>
+          <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
+            {rowData?.company_info?.fax ?? 'N/A'}
+          </p>
         </div>
         <div className={styles.companyInformation_detailsBox}>
           <Icon name="linkify" className={styles.companyInformation_detailsBox_icon} />
@@ -95,7 +104,7 @@ const BusinessInformation = (props: Props) => {
             <Link
               to={{ pathname: rowData?.company_info?.website_url }}
               target="_blank"
-              className={styles.blueText}
+              className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}
             >
               {rowData?.company_info?.website_url ?? 'N/A'}
             </Link>

@@ -21,7 +21,7 @@ interface Props {
 }
 const EmployeesInformation = (props: Props) => {
   const { rowData, className } = props;
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [employeesData, setEmployeesData] = useState<any>(null);
   const [activeEmployeeIndex, setActiveEmployeeIndex] = useState<number>(-1);
@@ -121,7 +121,7 @@ const EmployeesInformation = (props: Props) => {
             employeeData={employeesData[activeEmployeeIndex]}
             activeEmployeeIndex={activeEmployeeIndex}
             setEmployeeData={setEmployeesData}
-            className={styles.test}
+            merchantId={rowData.merchant_id}
           />
         </Modal>
       )}

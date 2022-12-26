@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import { Icon, Image } from 'semantic-ui-react';
-import { SOCIAL_LINK_COLORS } from '../../../../../../constants/SellerResearch/SellerDatabase';
 // Styles
 import styles from './index.module.scss';
 
@@ -10,6 +10,9 @@ import ActionButton from '../../../../../../components/ActionButton';
 import SocialLinkIcon from '../../../../../../components/SocialLinkIcon';
 import ValidCheckIcon from '../../../../../../components/Icons/ValidCheckIcon';
 import InValidCrossIcon from '../../../../../../components/Icons/InValidIcon';
+
+// Actions
+import { setCompanyInfo } from '../../../../../../actions/SellerResearch/SellerDatabase';
 
 // Selectors
 import { sellerIDSelector } from '../../../../../../selectors/Seller';
@@ -21,14 +24,18 @@ import { AppConfig } from '../../../../../../config';
 import { error, success } from '../../../../../../utils/notifications';
 import { getNumberOfDaysTillToday } from '../../../../../../utils/date';
 
+// Constant
+import { SOCIAL_LINK_COLORS } from '../../../../../../constants/SellerResearch/SellerDatabase';
+
 interface Props {
   employeeData?: any;
   activeEmployeeIndex: number;
+  merchantId: string;
   setEmployeeData: (a: any) => void;
-  className: string;
+  setCompanyInfo: (a: any, b: string) => void;
 }
 const EmployeeDetailInformation = (props: Props) => {
-  const { employeeData, setEmployeeData, activeEmployeeIndex } = props;
+  const { employeeData, setEmployeeData, activeEmployeeIndex, merchantId, setCompanyInfo } = props;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const unlockEmplloyeeDetail = async () => {
     setIsLoading(true);
@@ -49,6 +56,9 @@ const EmployeeDetailInformation = (props: Props) => {
           };
           return temp;
         });
+        if (data.company_info) {
+          setCompanyInfo(data.company_info, merchantId);
+        }
         success('Details unlocked successfully');
       }
     } catch (err) {
@@ -238,4 +248,8 @@ const EmployeeDetailInformation = (props: Props) => {
   );
 };
 
-export default EmployeeDetailInformation;
+const mapDispatchToProps = (dispatch: any) => ({
+  setCompanyInfo: (companyInfo: any, merhcantId: string) =>
+    dispatch(setCompanyInfo(companyInfo, merhcantId)),
+});
+export default connect(null, mapDispatchToProps)(EmployeeDetailInformation);

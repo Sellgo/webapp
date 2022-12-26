@@ -373,3 +373,21 @@ export const trackMerchantFromDatabase = (merchantId: string) => async (
     console.log('Error Tracking Seller', err);
   }
 };
+
+export const setCompanyInfo = (companyInfo: any, merchantId: string) => (
+  dispatch: any,
+  getState: any
+) => {
+  const sellers = getSellerDatabaseResults(getState());
+  const updatedSellersList = sellers.map((seller: any) => {
+    if (seller.merchant_id === merchantId) {
+      return {
+        ...seller,
+        company_info: companyInfo,
+      };
+    } else {
+      return seller;
+    }
+  });
+  dispatch(setSellerDatabaseResults(updatedSellersList));
+};

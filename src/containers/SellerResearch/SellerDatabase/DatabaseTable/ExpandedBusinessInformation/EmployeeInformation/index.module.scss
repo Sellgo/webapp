@@ -10,7 +10,9 @@
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
-  padding: 0 10px;
+  padding: 10px;
+  height: 470px;
+  overflow-y: auto;
 
   &__card {
     width: 400px !important;
