@@ -563,8 +563,8 @@ const SellerDatabaseFilters = (props: Props) => {
 
                 <CheckboxFilter
                   checkboxLabel="Sellers with contact"
-                  checked={sellerDatabaseFilters.sellerReachability}
-                  handleChange={value => updateSellerDatabaseFilter('has_contact', value)}
+                  checked={sellerDatabaseFilters.hasContact}
+                  handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
                 />
               </div>
 

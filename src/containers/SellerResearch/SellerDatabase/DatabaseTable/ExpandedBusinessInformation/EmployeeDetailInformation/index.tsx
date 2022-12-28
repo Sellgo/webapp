@@ -98,7 +98,7 @@ const EmployeeDetailInformation = (props: Props) => {
             ))}
           </div>
           <p className={styles.informationHeading}>Contact Person Information</p>
-          <div>
+          <div className={styles.employeeInformationDetailPopup__personalInformation__details}>
             <div className={styles.employeeInformationDetailPopup__personalInformation__detailsBox}>
               <Icon
                 name="amazon"
@@ -162,6 +162,8 @@ const EmployeeDetailInformation = (props: Props) => {
                   styles.employeeInformationDetailPopup__personalInformation__detailsBox_text
                 }
               >
+                {!employeeData?.skills && 'N/A'}
+                {employeeData?.skills?.length === 0 && 'N/A'}
                 {employeeData?.skills.map((skill: any, index: number) => (
                   <span>
                     {skill}

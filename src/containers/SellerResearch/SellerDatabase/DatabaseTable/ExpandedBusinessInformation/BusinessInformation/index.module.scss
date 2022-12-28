@@ -1,5 +1,12 @@
 @import '../../../../../../design-system/new-colors';
 
+@mixin no-scroll-bar() {
+  &::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+  }
+}
+
 .informationHeading {
   font-size: 14px;
   color: $grey_8;
@@ -18,6 +25,12 @@
 }
 
 .companyInformation {
+  &_details {
+    height: 355px;
+    overflow-y: auto;
+    @include no-scroll-bar();
+  }
+
   &_detailsBox {
     display: flex;
     margin-bottom: 15px;
@@ -48,4 +61,8 @@
 
 .blueText {
   color: $link_blue;
+}
+
+.companyinformation_details::-webkit-scrollbar {
+  display: none;
 }

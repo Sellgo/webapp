@@ -18,6 +18,11 @@ interface Props {
 }
 const BusinessInformation = (props: Props) => {
   const { rowData, className } = props;
+  const businessAddress = rowData.address;
+  const businessCity = rowData.city;
+  const businessZipCode = rowData.zip_code;
+  const businessCountry = rowData.country;
+  const businessState = rowData.state;
   return (
     <div className={className}>
       {/* Social presence */}
@@ -41,76 +46,89 @@ const BusinessInformation = (props: Props) => {
       {/* Company Information */}
       <div className={styles.companyInformation}>
         <p className={styles.informationHeading}>Company Information</p>
-        <div className={styles.companyInformation_detailsBox}>
-          <Icon name="amazon" className={styles.companyInformation_detailsBox_icon} />
-          <p className={styles.companyInformation_detailsBox_heading}>Amazon store name</p>
-          <p className={styles.companyInformation_detailsBox_text}>{rowData?.merchant_name}</p>
-        </div>
-        <div className={styles.companyInformation_detailsBox}>
-          <Icon name="heading" className={styles.companyInformation_detailsBox_icon} />
-          <p className={styles.companyInformation_detailsBox_heading}>Business name</p>
-          <p className={styles.companyInformation_detailsBox_text}>{rowData?.business_name}</p>
-        </div>
-        <div className={styles.companyInformation_detailsBox}>
-          <Icon name="world" className={styles.companyInformation_detailsBox_icon} />
-          <p className={styles.companyInformation_detailsBox_heading}>Marketplace</p>
-          <p className={styles.companyInformation_detailsBox_text}>
-            {getMarketplaceName(rowData?.marketplace_id)}
-          </p>
-        </div>
-        <div className={styles.companyInformation_detailsBox}>
-          <Icon name="amazon" className={styles.companyInformation_detailsBox_icon} />
-          <p className={styles.companyInformation_detailsBox_heading}>Amazon store link</p>
-          <Link
-            to={{ pathname: rowData?.seller_link }}
-            className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}
-          >
-            {rowData?.seller_link}
-          </Link>
-        </div>
-        <div className={styles.companyInformation_detailsBox}>
-          <Icon
-            name="phone"
-            flipped="horizontally"
-            className={styles.companyInformation_detailsBox_icon}
-          />
-          <p className={styles.companyInformation_detailsBox_heading}>Support phone</p>
-          <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
-            {rowData?.phone ?? 'N/A'}
-          </p>
-        </div>
-        <div className={styles.companyInformation_detailsBox}>
-          <Icon
-            name="phone"
-            flipped="horizontally"
-            className={styles.companyInformation_detailsBox_icon}
-          />
-          <p className={styles.companyInformation_detailsBox_heading}>Phone</p>
-          <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
-            {rowData?.company_info?.phone ?? 'N/A'}
-          </p>
-        </div>
-        <div className={styles.companyInformation_detailsBox}>
-          <Icon name="fax" className={styles.companyInformation_detailsBox_icon} />
-          <p className={styles.companyInformation_detailsBox_heading}>Fax</p>
-          <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
-            {rowData?.company_info?.fax ?? 'N/A'}
-          </p>
-        </div>
-        <div className={styles.companyInformation_detailsBox}>
-          <Icon name="linkify" className={styles.companyInformation_detailsBox_icon} />
-          <p className={styles.companyInformation_detailsBox_heading}>Website</p>
-          {rowData?.company_info?.website_url ? (
+        <div className={styles.companyInformation_details}>
+          <div className={styles.companyInformation_detailsBox}>
+            <Icon name="amazon" className={styles.companyInformation_detailsBox_icon} />
+            <p className={styles.companyInformation_detailsBox_heading}>Amazon store name</p>
+            <p className={styles.companyInformation_detailsBox_text}>{rowData?.merchant_name}</p>
+          </div>
+          <div className={styles.companyInformation_detailsBox}>
+            <Icon name="address card" className={styles.companyInformation_detailsBox_icon} />
+            <p className={styles.companyInformation_detailsBox_heading}>Business name</p>
+            <p className={styles.companyInformation_detailsBox_text}>{rowData?.business_name}</p>
+          </div>
+          <div className={styles.companyInformation_detailsBox}>
+            <Icon name="world" className={styles.companyInformation_detailsBox_icon} />
+            <p className={styles.companyInformation_detailsBox_heading}>Marketplace</p>
+            <p className={styles.companyInformation_detailsBox_text}>
+              {getMarketplaceName(rowData?.marketplace_id)}
+            </p>
+          </div>
+          <div className={styles.companyInformation_detailsBox}>
+            <Icon name="address card" className={styles.companyInformation_detailsBox_icon} />
+            <p className={styles.companyInformation_detailsBox_heading}>Address</p>
+            <p className={styles.companyInformation_detailsBox_text}>
+              <span>{businessAddress}</span>
+              <br />
+              <span>{`${businessCity && `${businessCity}, `}${businessState &&
+                `${businessState},`}${businessZipCode && `${businessZipCode},`}${businessCountry &&
+                `${businessCountry}`}`}</span>
+            </p>
+          </div>
+          <div className={styles.companyInformation_detailsBox}>
+            <Icon name="amazon" className={styles.companyInformation_detailsBox_icon} />
+            <p className={styles.companyInformation_detailsBox_heading}>Amazon store link</p>
             <Link
-              to={{ pathname: rowData?.company_info?.website_url }}
-              target="_blank"
+              to={{ pathname: rowData?.seller_link }}
               className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}
             >
-              {rowData?.company_info?.website_url ?? 'N/A'}
+              {rowData?.seller_link}
             </Link>
-          ) : (
-            <p>-</p>
-          )}
+          </div>
+          <div className={styles.companyInformation_detailsBox}>
+            <Icon
+              name="phone"
+              flipped="horizontally"
+              className={styles.companyInformation_detailsBox_icon}
+            />
+            <p className={styles.companyInformation_detailsBox_heading}>Support phone</p>
+            <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
+              {rowData?.phone ?? 'N/A'}
+            </p>
+          </div>
+          <div className={styles.companyInformation_detailsBox}>
+            <Icon
+              name="phone"
+              flipped="horizontally"
+              className={styles.companyInformation_detailsBox_icon}
+            />
+            <p className={styles.companyInformation_detailsBox_heading}>Phone</p>
+            <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
+              {rowData?.company_info?.phone ?? 'N/A'}
+            </p>
+          </div>
+          <div className={styles.companyInformation_detailsBox}>
+            <Icon name="fax" className={styles.companyInformation_detailsBox_icon} />
+            <p className={styles.companyInformation_detailsBox_heading}>Fax</p>
+            <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
+              {rowData?.company_info?.fax ?? 'N/A'}
+            </p>
+          </div>
+          <div className={styles.companyInformation_detailsBox}>
+            <Icon name="linkify" className={styles.companyInformation_detailsBox_icon} />
+            <p className={styles.companyInformation_detailsBox_heading}>Website</p>
+            {rowData?.company_info?.website_url ? (
+              <Link
+                to={{ pathname: rowData?.company_info?.website_url }}
+                target="_blank"
+                className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}
+              >
+                {rowData?.company_info?.website_url ?? 'N/A'}
+              </Link>
+            ) : (
+              <p>-</p>
+            )}
+          </div>
         </div>
       </div>
     </div>

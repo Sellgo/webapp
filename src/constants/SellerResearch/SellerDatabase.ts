@@ -141,6 +141,7 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   sellerType: { keyName: 'seller_type', type: F_TYPES.TEXT },
 
   sellerReachability: { keyName: 'has_phone', type: F_TYPES.TEXT },
+  hasContact: { keyName: 'has_contact', type: F_TYPES.TEXT },
 };
 
 export const GROWTH_PERCENT_FILTER_KEY_MAPPER = {
@@ -222,6 +223,7 @@ export const DEFAULT_SELLER_DATABASE_FILTER: any = {
   launched: '',
   sellerType: '',
   sellerRatings: DEFAULT_MIN_MAX_FILTER,
+  hasContact: false,
 };
 
 export const getMinMaxPeriodFilter = (apiFilterName: string, value: any, isReview?: boolean) => {
