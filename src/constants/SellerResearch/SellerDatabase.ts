@@ -355,4 +355,9 @@ export const SOCIAL_LINK_COLORS: { [key: string]: any } = {
   youtube: '#FF0000',
   pinterest: '#C8232C',
   crunchbase: '#0287d1',
+  angellist: '',
+  meetup: '#E51937',
+  foursquare: '#FA4779',
+  klout: '#E53935',
+  amazon: '#000000',
 };

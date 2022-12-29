@@ -7,7 +7,7 @@
   padding: 50px;
 
   &__personalInformation {
-    width: 45%;
+    width: 50%;
 
     &__bio {
       display: flex;
@@ -26,7 +26,7 @@
         display: none !important;
       }
     }
-    
+
     &__detailsBox {
       display: flex;
       margin-bottom: 15px;
@@ -58,7 +58,7 @@
   &__contactInformation {
     display: flex;
     justify-content: space-between;
-    width: 400px;
+    width: 450px;
 
     &_emails {
       &__verified {

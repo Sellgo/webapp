@@ -5,21 +5,22 @@ import { Table } from 'rsuite';
 import styles from './index.module.scss';
 
 /* Components */
-import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipboard';
+// import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipboard';
 
 /* Interface */
 import { RowCell } from '../../../../../interfaces/Table';
 
 /* Assets */
 import placeholderImage from '../../../../../assets/images/placeholderImage.svg';
+import { Icon } from 'semantic-ui-react';
 
 const SellerInformation = (props: RowCell) => {
   const { rowData } = props;
 
   const sellerLogo = rowData.seller_logo;
   const businessName = rowData.business_name;
-  const merchantId = rowData.merchant_id;
-  const sellerLink = rowData.seller_link;
+  // const merchantId = rowData.merchant_id;
+  // const sellerLink = rowData.seller_link;
   // const merchantName = rowData.merchant_name;
   // const businessAddress = rowData.address;
   // const businessCity = rowData.city;
@@ -33,7 +34,8 @@ const SellerInformation = (props: RowCell) => {
         {/* Left part seller information */}
         <div className={styles.sellerInformationLeft}>
           <img src={sellerLogo ? sellerLogo : placeholderImage} alt={businessName} />
-          <CopyAndLocateClipboard data={merchantId} link={sellerLink} />
+          {/* <CopyAndLocateClipboard data={merchantId} link={sellerLink} /> */}
+          {rowData?.is_looked_up ? <Icon name="lock open" /> : <Icon name="lock" />}
         </div>
 
         {/* Right part seller information */}
