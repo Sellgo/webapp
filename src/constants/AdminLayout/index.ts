@@ -7,7 +7,7 @@ export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
   '/seller-research',
   '/seller-research/database',
   '/seller-research/map',
-  '/seller-research/finder',
+  '/seller-research/collection',
 
   /* Keyword Research */
   '/keyword-research',
@@ -62,6 +62,7 @@ export const NAV_ICONS = {
   SELLER_DATABASE: 'sellerDatabaseIcon.svg',
   SELLER_MAP: 'sellerMapIcon.svg',
   SELLER_INVENTORY: 'sellerFinder.svg',
+  SELLER_COLLECTION: 'sellerCollection.svg',
   KEYWORD_RESEARCH: 'keywordResearchIcon.svg',
   KEYWORD_REVERSE: 'keywordReverseIcon.svg',
   KEYWORD_DATABASE: 'keywordDatabaseIcon.svg',
@@ -143,10 +144,10 @@ export const OPTIONS: NavOptions = [
         isBeta: false,
       },
       {
-        label: 'Seller Finder',
-        description: 'Find More Sellers from Inventories ',
-        icon: require(`../../assets/images/${NAV_ICONS.SELLER_INVENTORY}`),
-        path: '/seller-research/finder',
+        label: 'Seller Collection',
+        description: 'Unlocked Amazon Sellers',
+        icon: require(`../../assets/images/${NAV_ICONS.SELLER_COLLECTION}`),
+        path: '/seller-research/collection',
         disabled: false,
         isBeta: false,
       },

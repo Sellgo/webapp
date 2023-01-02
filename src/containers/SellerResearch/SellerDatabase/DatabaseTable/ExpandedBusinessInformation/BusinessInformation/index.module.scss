@@ -28,6 +28,7 @@
   &_details {
     height: 355px;
     overflow-y: auto;
+
     @include no-scroll-bar();
   }
 

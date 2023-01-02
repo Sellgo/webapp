@@ -65,10 +65,10 @@ const MainHomePage = (props: Props) => {
               disabled={false}
             />
             <HomepageCard
-              label="Seller Finder"
-              desc="Find More Sellers from Inventories"
-              to="/seller-research/finder"
-              icon={require(`../../assets/images/sellerFinder.svg`)}
+              label="Seller Collection"
+              desc="Get your unlocked Amazon Sellers collection"
+              to="/seller-research/collection"
+              icon={require(`../../assets/images/sellerCollection.svg`)}
               disabled={false}
             />
           </div>

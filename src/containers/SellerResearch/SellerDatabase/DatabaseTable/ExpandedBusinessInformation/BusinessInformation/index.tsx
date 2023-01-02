@@ -82,7 +82,7 @@ const BusinessInformation = (props: Props) => {
               to={{ pathname: rowData?.seller_link }}
               className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}
             >
-              {rowData?.seller_link}
+              {rowData?.company_info?.seller_link ?? rowData?.seller_link ?? 'N/A'}
             </Link>
           </div>
           <div className={styles.companyInformation_detailsBox}>

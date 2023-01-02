@@ -93,7 +93,7 @@ const EmployeeDetailInformation = (props: Props) => {
                 link={employeeData?.links[link]}
                 color={SOCIAL_LINK_COLORS[link.toLowerCase()]}
                 className={styles.socialPresence__linksRow__links}
-                disabled={!employeeData?.is_looked_up}
+                disabled={!employeeData?.is_looked_up || !employeeData?.links[link]}
               />
             ))}
           </div>

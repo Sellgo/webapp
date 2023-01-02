@@ -1,6 +1,5 @@
 @import '../../../../../../design-system/new-colors';
 
-
 .employeeInformationDetailPopup {
   display: flex;
   justify-content: space-between;
@@ -22,6 +21,7 @@
     &__details {
       height: 330px;
       overflow-y: auto;
+
       &::-webkit-scrollbar {
         display: none !important;
       }

@@ -142,6 +142,7 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
 
   sellerReachability: { keyName: 'has_phone', type: F_TYPES.TEXT },
   hasContact: { keyName: 'has_contact', type: F_TYPES.TEXT },
+  isLookedUp: { keyName: 'is_looked_up', type: F_TYPES.TEXT },
 };
 
 export const GROWTH_PERCENT_FILTER_KEY_MAPPER = {
