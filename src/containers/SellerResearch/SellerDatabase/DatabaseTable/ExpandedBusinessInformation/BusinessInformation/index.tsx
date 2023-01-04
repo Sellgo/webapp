@@ -33,9 +33,10 @@ const BusinessInformation = (props: Props) => {
             <SocialLinkIcon
               key={link}
               site={link.toLowerCase()}
-              link={rowData?.company_info?.links[link]}
+              link={rowData?.company_info?.links?.[link]}
               color={SOCIAL_LINK_COLORS[link.toLowerCase()]}
               className={styles.socialPresence__linksRow__links}
+              disabled={!rowData?.company_info?.links?.[link]}
             />
           ))}
           {Object.keys(rowData?.company_info?.links ?? {}).length === 0 && (

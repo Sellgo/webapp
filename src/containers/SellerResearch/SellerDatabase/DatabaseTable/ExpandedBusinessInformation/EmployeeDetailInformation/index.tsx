@@ -90,10 +90,10 @@ const EmployeeDetailInformation = (props: Props) => {
               <SocialLinkIcon
                 key={link}
                 site={link.toLowerCase()}
-                link={employeeData?.links[link]}
+                link={employeeData?.links?.[link]}
                 color={SOCIAL_LINK_COLORS[link.toLowerCase()]}
                 className={styles.socialPresence__linksRow__links}
-                disabled={!employeeData?.is_looked_up || !employeeData?.links[link]}
+                disabled={!employeeData?.is_looked_up || !employeeData?.links?.[link]}
               />
             ))}
           </div>

@@ -2,10 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 /* Styling */
-import styles from '../SellerDatabase/index.module.scss';
+import styles from './index.module.scss';
 
 /* Containers */
 import SellerDatabaseTable from '../SellerDatabase/DatabaseTable';
+import CollectionTableSearch from './CollectionTableSearch';
 
 /* Selectors */
 import { getFilterMessage } from '../../../selectors/SellerResearch/SellerDatabase';
@@ -33,6 +34,7 @@ const SellerCollection = (props: Props) => {
 
   return (
     <main className={styles.sellerDatbasePage}>
+      <CollectionTableSearch />
       <SellerDatabaseTable />
     </main>
   );

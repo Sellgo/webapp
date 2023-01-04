@@ -70,7 +70,7 @@ const EmployeesInformation = (props: Props) => {
                       <Image
                         floated="left"
                         size="mini"
-                        src="https://react.semantic-ui.com/images/avatar/large/steve.jpg"
+                        src={require(`../../../../../../assets/images/avatarPlaceholder.svg`)}
                         className={styles.employeeInformationDetails__card__description__image}
                       />
                       <Card.Header className={styles.employeeInformationDetails__card__header}>
