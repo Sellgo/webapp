@@ -39,6 +39,7 @@
     border-radius: 0 !important;
     border: none !important;
     border-bottom: 1px solid $grey_3 !important;
+    min-width: 2300px !important;
 
     /* Change position to fixed if scrolls out of sight */
     &__fixed {
@@ -63,12 +64,12 @@
   .rs-table-body-row-wrapper {
     background: $light_gray_background !important;
     min-height: 600px !important;
-    width: 3440px;
+    width: 2300px;
 
     .rs-table-body-wheel-area {
       background: $light_gray_background;
       transform: none !important;
-      width: 3440px;
+      width: 2300px;
       overflow-x: auto !important;
 
       //  Table row property
@@ -83,6 +84,7 @@
           .rs-table-cell-content {
             background: $light_gray_background !important;
             padding: 3px 10px !important;
+            height: 200px !important;
           }
         }
 
@@ -92,7 +94,12 @@
           .rs-table-cell-content {
             background: $grey_1 !important;
             padding: 3px 10px !important;
+            height: 200px !important;
           }
+        }
+
+        .rs-table-cell {
+          height: 200px !important;
         }
 
         /* ============== ROW HOVER  =============== */

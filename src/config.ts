@@ -6,7 +6,7 @@ import { isSellgoSession } from './utils/session';
 const SELLGO_DEV_URLS = {
   BASE_URL: 'https://app.sellgo-dev.com',
   BASE_URL_AUTH: 'sellgo-dev.auth0.com',
-  BASE_URL_API: 'https://api.sellgo-dev.com/api/',
+  BASE_URL_API: 'http://3.230.118.67/api/',
   CHANGE_PASS_API_URL: 'https://sellgo-dev.auth0.com/dbconnections/change_password',
   WEB_URL: 'https://sellgo-dev.com',
   WEBSOCKET_URL: 'wss://api.sellgo-dev.com/ws',
@@ -202,7 +202,7 @@ const sellgoLocal = {
   ...SELLGO_DEV_KEYS,
   ...SELLGO_DEV_ANALYTICS,
   ...DEV_MWS,
-  callbackUrl: 'http://localhost:3000/callback',
+  callbackUrl: 'http://54.166.52.145:5000/callback',
   sellgoUrls: { ...SELLGO_DEV_URLS },
   aistockUrls: { ...AISTOCK_DEV_URLS },
 };
@@ -213,7 +213,7 @@ const aistockLocal = {
   ...AISTOCK_DEV_KEYS,
   ...AISTOCK_DEV_ANALYTICS,
   ...DEV_MWS,
-  callbackUrl: 'http://localhost:3000/callback',
+  callbackUrl: 'http://54.166.52.145:5000/callback',
   sellgoUrls: { ...SELLGO_DEV_URLS },
   aistockUrls: { ...AISTOCK_DEV_URLS },
 };

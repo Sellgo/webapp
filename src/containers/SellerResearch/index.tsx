@@ -19,7 +19,7 @@ import ProductLabel from '../../components/ProductLabel';
 /* Containers */
 import SellerMaps from './SellerMaps';
 import SellerDatabase from './SellerDatabase';
-import SellerInventory from './SellerInventory';
+import SellerCollection from './SellerCollection';
 
 /* Assets */
 import sellerDatabaseOnborading from '../../assets/onboardingResources/SellerResearch/sellerDatabaseOnboarding.json';
@@ -143,8 +143,8 @@ const SellerResearch = (props: Props) => {
               </Tab>
               <Tab>
                 <ProductLabel
-                  label="FINDER"
-                  icon="Seller Finder"
+                  label="COLLECTION"
+                  icon="Seller Collection"
                   isActive={selectedTabList === 2}
                 />
               </Tab>
@@ -159,7 +159,7 @@ const SellerResearch = (props: Props) => {
             </TabPanel>
 
             <TabPanel>
-              <SellerInventory />
+              <SellerCollection />
             </TabPanel>
           </Tabs>
         </section>

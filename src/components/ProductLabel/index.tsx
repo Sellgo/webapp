@@ -7,6 +7,7 @@ import styles from './index.module.scss';
 import SellerDatabaseIcon from '../Icons/SellerResearch/SellerDatabase';
 import SellerFinderIcon from '../Icons/SellerResearch/SellerFinder';
 import SellerMapIcon from '../Icons/SellerResearch/SellerMap';
+import SellerCollectionIcon from '../Icons/SellerResearch/SellerCollection';
 
 import KeywordFinderIcon from '../Icons/KeywordResearch/KeywordFinder';
 import KeywordDatabaseIcon from '../Icons/KeywordResearch/KeywordDatabase';
@@ -30,6 +31,7 @@ interface Props {
     | 'Seller Database'
     | 'Seller Finder'
     | 'Seller Map'
+    | 'Seller Collection'
     | 'Product Database'
     | 'Product Tracker'
     | 'Keyword Finder'
@@ -74,6 +76,10 @@ const ProductLabel = (props: Props) => {
 
     case 'Seller Finder':
       iconPicture = <SellerFinderIcon fill={iconFill} />;
+      break;
+
+    case 'Seller Collection':
+      iconPicture = <SellerCollectionIcon fill={iconFill} />;
       break;
 
     case 'Keyword Database':

@@ -5,33 +5,28 @@ import { Table } from 'rsuite';
 import styles from './index.module.scss';
 
 /* Components */
-import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipboard';
+// import CopyAndLocateClipboard from '../../../../../components/CopyAndLocateClipboard';
 
 /* Interface */
 import { RowCell } from '../../../../../interfaces/Table';
 
-/* Utils */
-import { truncateString } from '../../../../../utils/format';
-
-/* Constants */
-import { getMarketplaceFlag } from '../../../../../constants/Settings';
-
 /* Assets */
 import placeholderImage from '../../../../../assets/images/placeholderImage.svg';
+import { Icon } from 'semantic-ui-react';
 
 const SellerInformation = (props: RowCell) => {
   const { rowData } = props;
 
   const sellerLogo = rowData.seller_logo;
   const businessName = rowData.business_name;
-  const merchantId = rowData.merchant_id;
-  const sellerLink = rowData.seller_link;
-  const merchantName = rowData.merchant_name;
-  const businessAddress = rowData.address;
-  const businessCity = rowData.city;
-  const businessZipCode = rowData.zip_code;
-  const businessCountry = rowData.country;
-  const marketplaceId = rowData.marketplace_id;
+  // const merchantId = rowData.merchant_id;
+  // const sellerLink = rowData.seller_link;
+  // const merchantName = rowData.merchant_name;
+  // const businessAddress = rowData.address;
+  // const businessCity = rowData.city;
+  // const businessZipCode = rowData.zip_code;
+  // const businessCountry = rowData.country;
+  // const marketplaceId = rowData.marketplace_id;
 
   return (
     <Table.Cell {...props}>
@@ -39,20 +34,21 @@ const SellerInformation = (props: RowCell) => {
         {/* Left part seller information */}
         <div className={styles.sellerInformationLeft}>
           <img src={sellerLogo ? sellerLogo : placeholderImage} alt={businessName} />
-          <CopyAndLocateClipboard data={merchantId} link={sellerLink} />
+          {/* <CopyAndLocateClipboard data={merchantId} link={sellerLink} /> */}
+          {rowData?.is_looked_up ? <Icon name="lock open" /> : <Icon name="lock" />}
         </div>
 
         {/* Right part seller information */}
-        <div className={styles.sellerInformationRight}>
+        {/* <div className={styles.sellerInformationRight}>
           <h2>{merchantName ? merchantName : '-'}</h2>
 
-          {/* Business Name */}
+          Business Name
           <div className={styles.sellerBusinessDetails}>
             <h3>Business Name:</h3>
             <p>{businessName ? truncateString(businessName, 26) : '-'}</p>
           </div>
 
-          {/* Business Address */}
+          Business Address
 
           <div className={styles.sellerBusinessDetails}>
             <h3>Business Address:</h3>
@@ -67,12 +63,12 @@ const SellerInformation = (props: RowCell) => {
             </div>
           </div>
 
-          {/* Marketplace Details  */}
+          Marketplace Details 
           <div className={styles.sellerBusinessDetails}>
             <h3>Marketplace:</h3>
             <img src={getMarketplaceFlag(marketplaceId)} alt="Marketplace Flags" />
           </div>
-        </div>
+        </div> */}
       </div>
     </Table.Cell>
   );

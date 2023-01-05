@@ -24,6 +24,8 @@ import { RowCell } from '../../../interfaces/Table';
 /* Assets */
 import { ReactComponent as ExpandedCellIcon } from '../../../assets/images/expandCell.svg';
 import { ReactComponent as DeExpandedCellIcon } from '../../../assets/images/deExpandCell.svg';
+import AngleUpBlack from '../../../assets/images/angle-up-black.svg';
+import AngleDownBlack from '../../../assets/images/angle-down-black.svg';
 
 interface Props extends RowCell {
   onChange: (rowData: any) => void;
@@ -31,6 +33,7 @@ interface Props extends RowCell {
   userOnboarding: boolean;
   userOnboardingResources: any;
   type?: 'buyBox' | 'sellerInventoryTable';
+  isArrow?: boolean;
 }
 
 const ExpansionCell = (props: Props) => {
@@ -40,6 +43,7 @@ const ExpansionCell = (props: Props) => {
     userOnboarding,
     userOnboardingResources,
     type,
+    isArrow,
     ...otherProps
   } = props;
   const { rowData, dataKey } = otherProps;
@@ -82,7 +86,11 @@ const ExpansionCell = (props: Props) => {
   return (
     <Table.Cell {...otherProps}>
       <div className={styles.expansionCell}>
-        {isExpandedRow ? (
+        {isArrow ? (
+          <div onClick={handleClick} className={styles.arrow}>
+            <img src={isExpandedRow ? AngleUpBlack : AngleDownBlack} />
+          </div>
+        ) : isExpandedRow ? (
           <DeExpandedCellIcon onClick={handleClick} className={expanionIconClasses} />
         ) : (
           <ExpandedCellIcon onClick={handleClick} className={expanionIconClasses} />
