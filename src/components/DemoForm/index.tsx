@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal } from 'semantic-ui-react';
+import { Image, Modal } from 'semantic-ui-react';
 import validator from 'validator';
 import axios from 'axios';
 import Select from 'react-select';
@@ -19,9 +19,11 @@ import {
 } from '../../assets/demoFormOptions';
 
 import { AppConfig } from '../../config';
+import { isSellgoSession } from '../../utils/session';
 
 interface Props {
   onRequestClose: () => void;
+  isSellgo?: boolean;
 }
 
 const DemoForm: React.FC<Props> = (props: Props) => {
@@ -100,6 +102,7 @@ const DemoForm: React.FC<Props> = (props: Props) => {
     totalOrdersErr,
   } = formDataError;
 
+  const currentCompanyName = isSellgoSession() ? 'Sellgo' : 'Aistock';
   /* Effects for Email validation */
   useEffect(() => {
     if (email.trim().length > 0) {
@@ -263,10 +266,10 @@ const DemoForm: React.FC<Props> = (props: Props) => {
       {showDemoForm && (
         <div className={styles.demoPage}>
           <form className={styles.demoPageForm} onSubmit={handleSubmit}>
-            <h2>See how AiStock can work for you</h2>
+            <h2>See how {currentCompanyName} can work for you</h2>
             <p>
-              Leave a few details below and we&apos;ll connect you with an AiStock expert who can
-              show you how AiStock can help your business.
+              Leave a few details below and we&apos;ll connect you with an {currentCompanyName}{' '}
+              expert who can show you how {currentCompanyName} can help your business.
             </p>
             <div className={styles.inputControlWrapper}>
               <FormInput
@@ -406,9 +409,10 @@ const DemoForm: React.FC<Props> = (props: Props) => {
             </button>
             <p className={styles.terms}>
               By subscribing, you agree to receive recurring automated marketing text messages (e.g.
-              cart reminders, promotional offers) from AiStock at the phone number provided on the
-              subscription form. Consent is not a condition to purchase. Msg & data rates may apply.
-              Msg frequency varies. Reply HELP for help and STOP to cancel. View our
+              cart reminders, promotional offers) from {currentCompanyName} at the phone number
+              provided on the subscription form. Consent is not a condition to purchase. Msg & data
+              rates may apply. Msg frequency varies. Reply HELP for help and STOP to cancel. View
+              our
               <a href="/privacy-policy">Privacy Policy</a>
               and
               <a href="/terms-of-use">Terms of Use.</a>
@@ -416,68 +420,85 @@ const DemoForm: React.FC<Props> = (props: Props) => {
             </p>
           </form>
           <div className={styles.existingBrands}>
-            {/* <div className={styles.socialProofIcons}>
-							<Image
-								src={'/Poshmark.png'}
-								alt="PoshmarkLogo"
-								width={100}
-								height={46}
-							/>
-							<Image
-								src={'/Corpay.png'}
-								alt="CorpayLogo"
-								width={100}
-								height={28}
-							/>
-							<Image src={'/Joom.png'} alt="JoomLogo" width={100} height={24} />
-							<Image
-								src={'/Clearbank.png'}
-								alt="ClearbankLogo"
-								width={100}
-								height={18}
-							/>
-							<Image src={'/Nest.png'} alt="NestLogo" width={100} height={38} />
-							<Image
-								src={'/Blackstone.png'}
-								alt="BlackstoneLogo"
-								width={100}
-								height={24}
-							/>
-							<Image
-								src={'/Fitchbrew.png'}
-								alt="FitchbrewLogo"
-								width={100}
-								height={34}
-							/>
-							<Image
-								src={'/MetkixLogo.png'}
-								alt="MetkixLogo"
-								width={70}
-								height={30}
-							/>
-							<Image
-								src={'/LuxeLogo.png'}
-								alt="LuxeLogo"
-								width={100}
-								height={52}
-							/>
-							<Image
-								src={'/Skopenow.png'}
-								alt="SkopeLogo"
-								width={100}
-								height={19}
-							/>
-							<Image src={'/BBLogo.png'} alt="BBLogo" width={100} height={17} />
-							<Image
-								src={'/Aspire.png'}
-								alt="AspireLogo"
-								width={100}
-								height={29}
-							/>
-						</div> */}
+            {isSellgoSession() && (
+              <div className={styles.socialProofIcons}>
+                <Image
+                  src={require('../../assets/images/Poshmark.png')}
+                  alt="PoshmarkLogo"
+                  width={100}
+                  height={46}
+                />
+                <Image
+                  src={require('../../assets/images/Corpay.png')}
+                  alt="CorpayLogo"
+                  width={100}
+                  height={28}
+                />
+                <Image
+                  src={require('../../assets/images/Joom.png')}
+                  alt="JoomLogo"
+                  width={100}
+                  height={24}
+                />
+                <Image
+                  src={require('../../assets/images/Clearbank.png')}
+                  alt="ClearbankLogo"
+                  width={100}
+                  height={18}
+                />
+                <Image
+                  src={require('../../assets/images/Nest.png')}
+                  alt="NestLogo"
+                  width={100}
+                  height={38}
+                />
+                <Image
+                  src={require('../../assets/images/Blackstone.png')}
+                  alt="BlackstoneLogo"
+                  width={100}
+                  height={24}
+                />
+                <Image
+                  src={require('../../assets/images/Fitchbrew.png')}
+                  alt="FitchbrewLogo"
+                  width={100}
+                  height={34}
+                />
+                <Image
+                  src={require('../../assets/images/MetkixLogo.png')}
+                  alt="MetkixLogo"
+                  width={70}
+                  height={30}
+                />
+                <Image
+                  src={require('../../assets/images/LuxeLogo.png')}
+                  alt="LuxeLogo"
+                  width={100}
+                  height={52}
+                />
+                <Image
+                  src={require('../../assets/images/Skopenow.png')}
+                  alt="SkopeLogo"
+                  width={100}
+                  height={19}
+                />
+                <Image
+                  src={require('../../assets/images/BBLogo.png')}
+                  alt="BBLogo"
+                  width={100}
+                  height={17}
+                />
+                <Image
+                  src={require('../../assets/images/Aspire.png')}
+                  alt="AspireLogo"
+                  width={100}
+                  height={29}
+                />
+              </div>
+            )}
             <p>
-              Many brands choose AiStock to deliver their remarkable growth for their online retail
-              businesses.
+              Many brands choose {currentCompanyName} to deliver their remarkable growth for their
+              online retail businesses.
             </p>
           </div>
         </div>

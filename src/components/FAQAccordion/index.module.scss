@@ -58,3 +58,11 @@
   border: 1px solid $grey_2;
   border-top: 0;
 }
+
+.whiteBg {
+  background-color: $prim_white !important;
+}
+
+.noColor {
+  color: unset !important;
+}

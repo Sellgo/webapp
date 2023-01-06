@@ -14,12 +14,16 @@ interface Props {
   monthlyPrice: number;
   annualPrice: number;
   className?: string;
+  isNew?: boolean;
 
   // plan details
   isMonthly: boolean;
 
   // subscription actions
-  changePlan: (subscriptionDetails: { name: string; id: number }) => void;
+  changePlan: (
+    subscriptionDetails: { name: string; id: number },
+    isUpgradingToYearly?: boolean
+  ) => void;
 
   // seller details
   sellerSubscription: any;
@@ -36,8 +40,9 @@ const GenericPriceCardHead: React.FC<Props> = props => {
     className,
     changePlan,
     sellerSubscription,
+    isNew,
   } = props;
-
+  console.log('is new', isNew);
   let isSubscribed;
   if (DAILY_SUBSCRIPTION_PLANS.includes(id)) {
     isSubscribed = sellerSubscription && sellerSubscription.subscription_id === id;
@@ -105,17 +110,29 @@ const GenericPriceCardHead: React.FC<Props> = props => {
           <p>Billed Monthly</p>
         )}
       </div>
-
+      {console.log('plan name', name, id)}
       {isSubscribed && !isPending ? (
-        <ActionButton
-          variant="secondary"
-          size="md"
-          type="grey"
-          className={styles.buyNowCTA}
-          disabled
-        >
-          Current Plan
-        </ActionButton>
+        sellerSubscription.payment_mode === 'monthly' ? (
+          <ActionButton
+            variant={isNew ? 'primary' : 'secondary'}
+            size="md"
+            type="purpleGradient"
+            className={styles.buyNowCTA}
+            onClick={() => changePlan({ name, id }, true)}
+          >
+            Switch to annual billing
+          </ActionButton>
+        ) : (
+          <ActionButton
+            variant="secondary"
+            size="md"
+            type="grey"
+            className={styles.buyNowCTA}
+            disabled
+          >
+            Activated
+          </ActionButton>
+        )
       ) : isSubscribed && isPending ? (
         <ActionButton
           variant="secondary"
@@ -129,7 +146,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
         </ActionButton>
       ) : (
         <ActionButton
-          variant="secondary"
+          variant={isNew ? 'primary' : 'secondary'}
           size="md"
           type="purpleGradient"
           className={styles.buyNowCTA}
