@@ -53,7 +53,6 @@ import SellgoPaymentSuccess from '../NewSellgoSubscription/SellgoPaymentSuccess'
 import SellgoFreeAccountForm from '../NewSellgoSubscription/SellgoFreeAccountForm';
 import SellgoActivation from '../NewSellgoSubscription/SellgoActivation';
 import SellgoActivationSuccess from '../NewSellgoSubscription/SellgoActivationSuccess';
-import SellgoInappPayment from '../NewSellgoSubscription/SellgoInappPayment';
 import SellgoUpsellCtaPage from '../UpsellCtaPage/Sellgo';
 import SellgoPricing from '../Settings/Pricing/SellgoPricing';
 
@@ -80,6 +79,7 @@ import {
 } from '../../utils/subscriptions';
 import { isAiStockSession, isSellgoSession } from '../../utils/session';
 import { AppConfig } from '../../config';
+import SellgoInAppPaymentV2 from '../NewSellgoSubscription/SellgoInAppPaymentV2';
 
 export const auth = new Auth();
 
@@ -102,7 +102,7 @@ const SellgoSubscriptionPages = {
   ActivationSuccess: SellgoActivationSuccess,
   UpsellCtaPage: SellgoUpsellCtaPage,
   Pricing: SellgoPricing,
-  Payment: SellgoInappPayment,
+  Payment: SellgoInAppPaymentV2,
 };
 
 const SubscriptionPages = isSellgoSession() ? SellgoSubscriptionPages : AistockSubscriptionPages;

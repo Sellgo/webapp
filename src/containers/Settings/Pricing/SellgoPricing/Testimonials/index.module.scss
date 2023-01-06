@@ -1,0 +1,25 @@
+@import '../../../../../design-system/new-colors';
+
+.testimonialSection {
+  width: 1200px;
+  margin: 60px auto;
+  text-align: center;
+
+  h2 {
+    font-size: $fontsize_subtitle_40;
+    font-weight: $fontweight_bold;
+    color: $black_1;
+    margin-bottom: 45px;
+  }
+
+  .testimonialsWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    height: 1100px;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      display: none !important;
+    }
+  }
+}

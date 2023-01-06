@@ -215,14 +215,14 @@ const QuotaAndPaymentsSection = (props: Props) => {
 
               {isSellgoSession() ? (
                 <div className={styles.quotaBarsWrapper}>
-                  <NewQuotaMeter
+                  {/* <NewQuotaMeter
                     className={styles.quotaBar}
                     type="Profit Finder"
                     quota={{
                       used: profitFinderUsed,
                       available: profitFinderAvailable,
                     }}
-                  />
+                  /> */}
                   <NewQuotaMeter
                     className={styles.quotaBar}
                     type="Seller Research"
@@ -231,13 +231,13 @@ const QuotaAndPaymentsSection = (props: Props) => {
                       available: sellerResearchAvailable,
                     }}
                   />
-                  <NewQuotaMeter
+                  {/* <NewQuotaMeter
                     type="Sales Estimation"
                     quota={{
                       used: salesEstUsed,
                       available: salesEstAvailable,
                     }}
-                  />
+                  /> */}
                 </div>
               ) : (
                 <div className={styles.quotaBarsWrapper} />

@@ -1,0 +1,52 @@
+@import '../../../../../../design-system/new-colors';
+
+.reviewsSection {
+  width: 380px;
+  height: 500px;
+  padding: 50px 30px;
+  margin: 0 30px 50px 0;
+  background-color: $prim_white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 20px;
+
+  p {
+    color: $black_1;
+    font-size: 20px;
+    font-weight: $fontweight_semibold;
+    height: 200px;
+    overflow-y: hidden;
+    text-align: left;
+  }
+
+  .reviewerRow {
+    margin-top: 2rem;
+    display: flex;
+    height: 100px;
+
+    img {
+      height: 100px;
+      width: 100px;
+    }
+  }
+}
+
+.reviewerDetails {
+  margin-left: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: $fontweight_bold;
+  color: $black_1;
+
+  span {
+    font-size: 14px;
+    font-weight: $fontweight_medium;
+  }
+}
+
+.marginRightZero {
+  margin-right: 0 !important;
+}

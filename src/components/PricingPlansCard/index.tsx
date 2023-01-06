@@ -24,7 +24,10 @@ interface Props {
   isMonthly: boolean;
 
   // subscription actions
-  changePlan: (subscriptionDetails: { name: string; id: number }) => void;
+  changePlan: (
+    subscriptionDetails: { name: string; id: number },
+    isUpgradingToYearly?: boolean
+  ) => void;
 
   // selelr details
   sellerSubscription: any;
@@ -69,6 +72,7 @@ const PricingPlansCard: React.FC<Props> = props => {
           changePlan={changePlan}
           // Seller details
           sellerSubscription={sellerSubscription}
+          isNew={isNew}
         />
 
         <p className={styles.planType}>{featureSubName}</p>

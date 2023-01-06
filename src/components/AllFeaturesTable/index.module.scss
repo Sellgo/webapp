@@ -1,0 +1,72 @@
+@import '../../design-system/new-colors.scss';
+
+.allFeaturesTable {
+  color: $prim_dark_2;
+  width: 100%;
+
+  thead {
+    background: $prim_white;
+    width: 100%;
+
+    tr {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 0;
+      min-width: 100%;
+
+      th {
+        font-size: $fontsize_content_14;
+        font-weight: $fontweight_bold;
+        text-transform: uppercase;
+        text-align: center;
+        flex: 1;
+      }
+
+      .first {
+        text-align: left;
+
+        div {
+          padding-left: 4rem;
+        }
+      }
+    }
+  }
+
+  tbody {
+    width: 100%;
+
+    tr {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+
+      &:nth-child(2n + 1) {
+        background: $grey_1;
+      }
+
+      td {
+        flex: 1;
+        font-size: $fontsize_content_12;
+        font-weight: $fontweight_regular;
+        color: $prim_dark_1;
+        text-align: center;
+      }
+
+      .first {
+        text-align: left;
+
+        div {
+          height: 100%;
+          margin-left: 4rem !important;
+        }
+      }
+
+      .blue {
+        color: $blue_7;
+      }
+    }
+  }
+}

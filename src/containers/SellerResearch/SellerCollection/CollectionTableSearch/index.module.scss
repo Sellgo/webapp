@@ -3,7 +3,7 @@
 .collectionSearchFormWrapper {
   display: flex;
   align-items: center;
-  
+
   .searchButton {
     margin-left: 20px;
   }
@@ -19,7 +19,6 @@
 }
 
 .searchInput {
-
   > input {
     border: 1px solid $grey_3 !important;
     outline: 0 !important;
@@ -36,6 +35,7 @@
 
     &:focus {
       border: 1px solid $grey_3 !important;
+
       .searchIcon {
         color: $grey_8 !important;
       }
