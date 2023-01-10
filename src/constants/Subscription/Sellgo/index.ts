@@ -1,6 +1,7 @@
 import { SubscriptionPlan, SummaryDetails } from '../../../interfaces/Subscription';
 
 export const DAILY_SUBSCRIPTION_PLANS = [7, 13];
+export const MONTHLY_AND_ANNUAL_PLANS_IDS = [10, 11, 12];
 export const FREE_ACCOUNT_SUBSCRIPTION_ID = 5;
 
 /* Used in webapp pricing page */

@@ -130,3 +130,10 @@
     justify-content: space-evenly;
   }
 }
+
+.confirmBtn {
+  button:nth-child(2) {
+    background: $orange_purple_gradient !important;
+    color: $prim_white !important;
+  }
+}
