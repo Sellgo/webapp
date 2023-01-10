@@ -171,10 +171,12 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         />
 
         <Confirm
+          className={styles.confirmBtn}
           content={`Would you like to change your plan to "${_.startCase(
             pendingSubscriptionMode
           )} ${pendingSubscriptionName}"`}
           open={pendingSubscription ? true : false}
+          confirmButton="Switch Plan"
           onCancel={() => {
             this.setState({
               pendingSubscription: false,
@@ -190,7 +192,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               pendingSubscriptionName: '',
               pendingSubscriptionMode: '',
             });
-
             this.changeSubscription(pendingSubscriptionId, pendingSubscriptionMode);
           }}
         />

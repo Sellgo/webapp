@@ -5,7 +5,10 @@ import styles from './index.module.scss';
 
 /* Components */
 import ActionButton from '../../ActionButton';
-import { DAILY_SUBSCRIPTION_PLANS } from '../../../constants/Subscription/Sellgo';
+import {
+  DAILY_SUBSCRIPTION_PLANS,
+  MONTHLY_AND_ANNUAL_PLANS_IDS,
+} from '../../../constants/Subscription/Sellgo';
 
 interface Props {
   id: number;
@@ -42,7 +45,9 @@ const GenericPriceCardHead: React.FC<Props> = props => {
     sellerSubscription,
     isNew,
   } = props;
-  console.log('is new', isNew);
+  const isAccountSubscribed = MONTHLY_AND_ANNUAL_PLANS_IDS.includes(
+    sellerSubscription.subscription_id
+  );
   let isSubscribed;
   if (DAILY_SUBSCRIPTION_PLANS.includes(id)) {
     isSubscribed = sellerSubscription && sellerSubscription.subscription_id === id;
@@ -73,6 +78,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
 				${styles.pricingCardHead}
 			`}
       >
+        {isSubscribed && <p className={styles.currentPlan}>Current Plan</p>}
         <div className={styles.pricingCardHead__Left}>
           <h2>{name}</h2>
           <p>{desc}</p>
@@ -110,11 +116,10 @@ const GenericPriceCardHead: React.FC<Props> = props => {
           <p>Billed Monthly</p>
         )}
       </div>
-      {console.log('plan name', name, id)}
       {isSubscribed && !isPending ? (
         sellerSubscription.payment_mode === 'monthly' ? (
           <ActionButton
-            variant={isNew ? 'primary' : 'secondary'}
+            variant="primary"
             size="md"
             type="purpleGradient"
             className={styles.buyNowCTA}
@@ -130,7 +135,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
             className={styles.buyNowCTA}
             disabled
           >
-            Activated
+            Curernt Plan
           </ActionButton>
         )
       ) : isSubscribed && isPending ? (
@@ -143,6 +148,16 @@ const GenericPriceCardHead: React.FC<Props> = props => {
         >
           Subscription expiring <br />
           at the end of the {sellerSubscription.payment_mode === 'monthly' ? ' month' : ' year'}
+        </ActionButton>
+      ) : isAccountSubscribed ? (
+        <ActionButton
+          variant={'secondary'}
+          size="md"
+          type="purpleGradient"
+          className={styles.buyNowCTA}
+          onClick={() => changePlan({ name, id })}
+        >
+          {isMonthly ? 'Switch to monthly billing' : 'Switch to annual billing'}
         </ActionButton>
       ) : (
         <ActionButton
