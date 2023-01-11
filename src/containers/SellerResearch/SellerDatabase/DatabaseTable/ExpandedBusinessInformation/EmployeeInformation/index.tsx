@@ -51,10 +51,14 @@ const EmployeesInformation = (props: Props) => {
     try {
       const sellerId = sellerIDSelector();
       // eslint-disable-next-line max-len
-      const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/retrieve-employee-detail?merchant_id=${rowData.merchant_id}&id=${rowData.id}&marketplace_id=${rowData.marketplace_id}`;
+      const formData = new FormData();
+      formData.append('merchant_id', `${rowData.merchant_id}`);
 
-      const { data } = await axios.get(URL);
+      formData.append('object_id', `${rowData.id}`);
+      formData.append('marketplace_id', `${rowData.marketplace_id}`);
+      const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/company-contact-request`;
 
+      const { data } = await axios.post(URL, formData);
       if (data) {
         if (data.company_info) {
           setCompanyInfo(data.company_info, rowData.merchant_id);
