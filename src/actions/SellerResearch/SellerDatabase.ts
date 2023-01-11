@@ -192,6 +192,39 @@ export const exportSellerDatabaseTable = (resourcePath: string) => async (
   }
   dispatch(setIsLoadingSellerDatabaseExport(false));
 };
+export const exportSellerEmployeesTable = (resourcePath: string) => async (
+  dispatch: any,
+  getState: any
+) => {
+  try {
+    dispatch(setIsLoadingSellerDatabaseExport(true));
+    const state = getState();
+    const paginationInfo = getSellerDatabasePaginationInfo(state);
+    const page = paginationInfo?.current_page || 1;
+    const sort = paginationInfo?.sort || '';
+    const sellerID = sellerIDSelector();
+
+    const { data } = await axios.get(
+      `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-empployees?page=${page}&${sort}&${resourcePath}`
+    );
+
+    if (data) {
+      const { url } = data;
+      if (url) {
+        await downloadFile(url);
+        success('File successfully exported');
+      }
+    }
+  } catch (err) {
+    const { response } = err as any;
+    const { status, data } = response;
+
+    if (status === 403) {
+      error(data.message);
+    }
+  }
+  dispatch(setIsLoadingSellerDatabaseExport(false));
+};
 
 /* Main seller databse fetcher */
 export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
@@ -212,6 +245,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
       fileFormat = 'csv',
       restoreLastSearch = false,
       retrieve_default = false,
+      exportEmployees = false,
     } = payload;
 
     // if filter request is passed
@@ -275,8 +309,11 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
     if (isExport && fileFormat) {
       const exportResource =
         `${marketplace}${filtersQueryString}` + `&is_export=${isExport}&file_format=${fileFormat}`;
-
-      dispatch(exportSellerDatabaseTable(exportResource));
+      if (exportEmployees) {
+        dispatch(exportSellerEmployeesTable(exportResource));
+      } else {
+        dispatch(exportSellerDatabaseTable(exportResource));
+      }
       return;
     }
 
