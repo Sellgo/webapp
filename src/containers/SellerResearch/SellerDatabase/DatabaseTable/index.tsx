@@ -116,7 +116,7 @@ const SellerDatabaseTable = (props: Props) => {
           sortColumn={sortColumn}
           sortType={sortType}
           id="sellerDatabaseTable"
-          className={sellerDatabaseResults.length === 0 ? 'no-scroll' : ''}
+          className={sellerDatabaseResults?.length === 0 ? 'no-scroll' : ''}
           onSortColumn={handleSortColumn}
           renderEmpty={() => <div />}
           rowExpandedHeight={550}
