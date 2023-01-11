@@ -215,7 +215,6 @@ function CheckoutForm(props: MyProps) {
     setLoading(true);
     const {
       accountType,
-      paymentMode,
       createSubscriptionData,
       retryInvoice,
       handlePaymentError,
@@ -258,7 +257,7 @@ function CheckoutForm(props: MyProps) {
         const data = {
           subscription_id: getSubscriptionID(accountType),
           payment_method_id: paymentMethodId,
-          payment_mode: paymentMode,
+          payment_mode: isMonthly ? 'monthly' : 'yearly',
           promo_code: promoCode,
         };
         Axios.defaults.headers.common.Authorization = ``;
