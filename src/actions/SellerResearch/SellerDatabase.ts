@@ -205,7 +205,7 @@ export const exportSellerEmployeesTable = (resourcePath: string) => async (
     const sellerID = sellerIDSelector();
 
     const { data } = await axios.get(
-      `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-empployees?page=${page}&${sort}&${resourcePath}`
+      `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-employees?page=${page}&${sort}&${resourcePath}`
     );
 
     if (data) {

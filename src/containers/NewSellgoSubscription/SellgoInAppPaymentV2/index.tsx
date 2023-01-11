@@ -74,10 +74,12 @@ const Payment = (props: PaymentProps) => {
   return (
     <main className={styles.paymentPage}>
       <section>
-        <button className={styles.goBackButton} onClick={() => history.goBack()}>
-          <img src={LeftArrow} alt="left arrow" />
-          Back to previous page
-        </button>
+        {!successPayment && (
+          <button className={styles.goBackButton} onClick={() => history.goBack()}>
+            <img src={LeftArrow} alt="left arrow" />
+            Back to previous page
+          </button>
+        )}
         {!successPayment && !isSubscriptionIdPaid(sellerSubscription?.subscription_id) && (
           <Elements stripe={stripePromise}>
             <CheckoutForm
