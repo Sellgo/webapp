@@ -61,9 +61,13 @@ const EmployeesInformation = (props: Props) => {
       const { data } = await axios.post(URL, formData);
       if (data) {
         if (data.company_info) {
-          setCompanyInfo(data.company_info, rowData.merchant_id);
+          const retrivedData = {
+            ...data.company_info,
+            is_contact_requested: true,
+          };
+          setCompanyInfo(retrivedData, rowData.merchant_id);
         }
-        success('Details unlocked successfully');
+        success('Company Details unlocked successfully');
       }
     } catch (err) {
       error('Cannot unlock details at the moment');
@@ -143,14 +147,20 @@ const EmployeesInformation = (props: Props) => {
                 <Card.Meta>
                   <ActionButton
                     variant="primary"
-                    type={rowData.is_contact_requested ? 'grey' : 'purpleGradient'}
+                    type={
+                      rowData?.company_info?.is_contact_requested || rowData?.is_contact_requested
+                        ? 'grey'
+                        : 'purpleGradient'
+                    }
                     size="small"
                     onClick={() => {
                       retriveCompanyInformation();
                     }}
                     className={styles.continueButton}
                     loading={isRetriveCompanyLoading}
-                    disabled={rowData.is_contact_requested}
+                    disabled={
+                      rowData?.company_info?.is_contact_requested || rowData?.is_contact_requested
+                    }
                   >
                     Request
                   </ActionButton>
