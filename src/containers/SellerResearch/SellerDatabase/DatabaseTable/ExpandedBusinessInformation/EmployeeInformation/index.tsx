@@ -143,13 +143,14 @@ const EmployeesInformation = (props: Props) => {
                 <Card.Meta>
                   <ActionButton
                     variant="primary"
-                    type={'purpleGradient'}
+                    type={rowData.is_contact_requested ? 'grey' : 'purpleGradient'}
                     size="small"
                     onClick={() => {
                       retriveCompanyInformation();
                     }}
                     className={styles.continueButton}
                     loading={isRetriveCompanyLoading}
+                    disabled={rowData.is_contact_requested}
                   >
                     Request
                   </ActionButton>
