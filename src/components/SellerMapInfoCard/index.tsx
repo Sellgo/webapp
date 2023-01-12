@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Loader, Dimmer, Icon } from 'semantic-ui-react';
 
 /* Assets */
-import { ReactComponent as SellerFinderIcon } from '../../assets/images/sellerFinder.svg';
+// import { ReactComponent as SellerFinderIcon } from '../../assets/images/sellerFinder.svg';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -28,8 +28,8 @@ import { trackMerchantFromDatabase } from '../../actions/SellerResearch/SellerDa
 
 /* Utils */
 import { removeSpecialChars, showNAIfZeroOrNull, truncateString } from '../../utils/format';
-import history from '../../history';
-import { timeout } from '../../utils/timeout';
+// import history from '../../history';
+// import { timeout } from '../../utils/timeout';
 
 interface Props {
   internalId: string;
@@ -49,7 +49,7 @@ const SellerMapInfoCard = (props: Props) => {
     showSellerDetailsCardForMap,
     fetchSellerDetailsForMap,
     setShowSellerDetailsCard,
-    trackMerchantFromDatabase,
+    // trackMerchantFromDatabase,
   } = props;
 
   useEffect(() => {
@@ -72,23 +72,23 @@ const SellerMapInfoCard = (props: Props) => {
     state = '',
     country = '',
     brands = [],
-    merchant_id = '',
+    // merchant_id = '',
     inventory_count = 0,
-    tracking_status = false,
+    // tracking_status = false,
   } = sellerDetailsForMap;
 
   const prettyBrands = brands.length > 0 ? removeSpecialChars(brands) : '-';
 
-  const inventoryButtonStyles = tracking_status
-    ? styles.checkInventoryActive
-    : styles.checkInventory;
-
+  // const inventoryButtonStyles = tracking_status
+  //   ? styles.checkInventoryActive
+  //   : styles.checkInventory;
+  //
   /* Handle click inventory button */
-  const handleClickInventory = async () => {
-    trackMerchantFromDatabase(merchant_id);
-    await timeout(1500);
-    history.push('/seller-research/collection');
-  };
+  // const handleClickInventory = async () => {
+  //   trackMerchantFromDatabase(merchant_id);
+  //   await timeout(1500);
+  //   history.push('/seller-research/collection');
+  // };
 
   return (
     <div className={styles.sellerMapInfoCard}>
@@ -170,10 +170,10 @@ const SellerMapInfoCard = (props: Props) => {
           </div>
 
           {/* Check Inventory Button */}
-          <button className={inventoryButtonStyles} onClick={handleClickInventory}>
+          {/* <button className={inventoryButtonStyles} onClick={handleClickInventory}>
             <SellerFinderIcon />
             <span>Inventory</span>
-          </button>
+          </button> */}
         </div>
       )}
     </div>
