@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, Popup } from 'semantic-ui-react';
+import { Button, Form } from 'semantic-ui-react';
 import LoginBase from '../../../components/LoginBase';
 import './index.scss';
 import Auth from '../../../components/Auth/Auth';
@@ -98,18 +98,9 @@ export default function Login(props: Props) {
         <Form.Field control={Button} fluid={true} primary={true} value="Submit">
           Log in
         </Form.Field>
-
-        {/* NOTE: temoporary fix */}
-        <Popup
-          on="hover"
-          content="We are experiencing outage currently"
-          trigger={<p className="temporary-sign-up">Sign up for free trial</p>}
-        />
-
-        {/* TODO:  uncommment it later */}
-        {/* <a className="sign-up" href="/signup"> */}
-        {/*   <b>Sign up for free trial</b> */}
-        {/* </a> */}
+        <a className="sign-up" href="/signup">
+          <b>Sign up for free trial</b>
+        </a>
       </Form>
     </LoginBase>
   );

@@ -54,19 +54,6 @@ $base-font-size: 1em;
           text-decoration: underline;
         }
 
-        // TODO: Remove temporary-sign-up later
-        .temporary-sign-up {
-          margin: auto;
-          color: #fff;
-          font-weight: 700;
-          cursor: pointer;
-        }
-
-        .temporary-sign-up:hover {
-          color: #2185d0;
-          text-decoration: underline;
-        }
-
         div.inline {
           display: flex;
           justify-content: space-between;
