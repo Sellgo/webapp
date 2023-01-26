@@ -34,15 +34,15 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
     monthlyPrice: 147,
     annualPrice: 1187,
     featureSubName: 'Everything in starter plan, plus',
-    desc: `Find the best seller, faster.`,
+    desc: `Filter the best seller, faster.`,
     isNew: true,
     featuresLists: [
       {
         title: 'Turn your leads into pipeline',
         featuresIncluded: [
-          'Verified personal, other email(s), and more',
-          'Mobile & direct phone number(s)',
-          'Send physical mail integration',
+          'Verified personal and other email(s),',
+          'Mobile and direct phone number(s),',
+          'Send physical mail integration, and more,',
         ],
       },
     ],
@@ -163,7 +163,7 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
       'Export data to spreadsheet',
     ],
   },
-  team: {
+  elite: {
     name: 'Elite',
     id: 12,
     idWithLegacyPlans: [12, 1],
@@ -184,13 +184,13 @@ export const PAYMENT_MODES = ['daily', 'monthly', 'yearly'];
 export const SUBSCRIPTION_DETAILS_LIST: SummaryDetails[] = [
   SUBSCRIPTION_DETAILS.starter,
   SUBSCRIPTION_DETAILS.professional,
-  SUBSCRIPTION_DETAILS.team,
+  SUBSCRIPTION_DETAILS.elite,
 ];
 
 export const subscriptionDetailsMapping: { [key: string]: number } = {
   starter: 10,
   professional: 11,
-  team: 12,
+  elite: 12,
 };
 
 export const getSubscriptionID = (planName: string) => {

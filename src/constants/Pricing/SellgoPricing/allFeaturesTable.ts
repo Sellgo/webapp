@@ -16,6 +16,12 @@ export const payMonthlyAndAnnualPlan = [
       ['Annual plan gets all the lookups unfront', '✓', '✓', '✓', '✓'],
       ['Easy billing', '✓', '✓', '✓', 'Contract'],
       ['Data is periodically updated', '✓', '✓', '✓', '✓'],
+      ['save & load searches', '✓', '✓', '✓', '✓'],
+      ['Track searches', '✓', '✓', '✓', '✓'],
+      ['Bulk CSV export', '✓', '✓', '✓', '✓'],
+      ['Record selection limit', '100', '100', '100', '25,000'],
+      ['Single sign On', '✓', '✓', '✓', '✓'],
+      ['Seller Map', '✓', '✓', '✓', '✓'],
       //['Additional user cost', '-', 'call', 'call']
     ],
   },
@@ -29,14 +35,19 @@ export const payMonthlyAndAnnualPlan = [
       ['Company search', '✓', '✓', '✓', '✓'],
       ['Company contact', '✓', '✓', '✓', '✓'],
       ['show beyond top 20 search', '✓', '✓', '✓', '✓'],
-      ['save & load searches', '✓', '✓', '✓', '✓'],
-      ['Track searches', '✓', '✓', '✓', '✓'],
+    ],
+  },
+
+  {
+    header: ['Business Metrics Information', 'Starter', 'Professional', 'Elite', 'Enterprise'],
+    body: [
+      ['Business model (1P / 3P / 1P+3P / Vendor Central', '🔒', '🔒', '🔒', '✓'],
+      ['Revenue estimation and growth', '✓', '✓', '✓', '✓'],
+      ['Product, brand and inventory detail', '✓', '✓', '✓', '✓'],
+      ['Category and sub-category detail', '✓', '✓', '✓', '✓'],
+      ['Dormant account', '🔒', '🔒', '🔒', '✓'],
+      ['Review and rating detail', '✓', '✓', '✓', '✓'],
       ['Brand/ product/ revenue change alerts', '🔒', '🔒', '🔒', '✓'],
-      ['Bulk CSV export', '✓', '✓', '✓', '✓'],
-      ['Org chart & company trends', '🔒', '✓', '✓', '✓'],
-      ['Record selection limit', '100', '100', '100', '25,000'],
-      ['Single sign On', '✓', '✓', '✓', '✓'],
-      ['Seller Map', '✓', '✓', '✓', '✓'],
     ],
   },
 
@@ -54,6 +65,7 @@ export const payMonthlyAndAnnualPlan = [
       ['Industry', '✓', '✓', '✓', '✓'],
       ['Company phone(s) + fax(es)', '✓', '✓', '✓', '✓'],
       ['Company email', '✓', '✓', '✓', '✓'],
+      ['Org chart & company trends', '🔒', '✓', '✓', '✓'],
       [
         'Company LinkedIn / Yelp / Twitter / Facebook / Instagram / Crunchbase/ Youtube / Pinterest*',
         '✓',
@@ -61,18 +73,6 @@ export const payMonthlyAndAnnualPlan = [
         '✓',
         '✓',
       ],
-    ],
-  },
-
-  {
-    header: ['Business Metrics Information', 'Starter', 'Professional', 'Elite', 'Enterprise'],
-    body: [
-      ['Business model (1P / 3P / 1P+3P / Vendor Central', '🔒', '🔒', '🔒', '✓'],
-      ['Revenue estimation and growth', '✓', '✓', '✓', '✓'],
-      ['Product, brand and inventory detail', '✓', '✓', '✓', '✓'],
-      ['Category and sub-category detail', '✓', '✓', '✓', '✓'],
-      ['Dormant account', '🔒', '🔒', '🔒', '✓'],
-      ['Review and rating detail', '✓', '✓', '✓', '✓'],
     ],
   },
 
