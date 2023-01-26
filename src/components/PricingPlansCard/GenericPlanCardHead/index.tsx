@@ -9,6 +9,7 @@ import {
   DAILY_SUBSCRIPTION_PLANS,
   MONTHLY_AND_ANNUAL_PLANS_IDS,
 } from '../../../constants/Subscription/Sellgo';
+import { formatNumber } from '../../../utils/format';
 
 interface Props {
   id: number;
@@ -86,30 +87,31 @@ const GenericPriceCardHead: React.FC<Props> = props => {
       </div>
       <div className={styles.startingAt}>
         <p>
-          Starts at {!isMonthly && <span className="strike-text">${Math.round(monthlyPrice)}</span>}
+          Starts At{' '}
+          {!isMonthly && <span className="strike-text">${formatNumber(monthlyPrice)}</span>}
         </p>
 
         {isMonthly ? (
           <span className={styles.betaPriceContainer}>
-            <h3 className={`${styles.actualPrice}`}>${Math.round(monthlyPrice)}/ Mo</h3>
+            <h3 className={`${styles.actualPrice}`}>${formatNumber(monthlyPrice)}/ Mo</h3>
           </span>
         ) : (
           <span className={styles.betaPriceContainer}>
-            <h3 className={`${styles.actualPrice}`}>${Math.round(annualPrice / 12)}/ Mo</h3>
+            <h3 className={`${styles.actualPrice}`}>${formatNumber(annualPrice / 12)}/ Mo</h3>
           </span>
         )}
 
         {!isMonthly ? (
           <p className={styles.billedAtPrice}>
             <span className={`${styles.originalPrice}`}>
-              Originally <span className="strike-text">${monthlyPrice * 12}</span>
+              Originally <span className="strike-text">${formatNumber(monthlyPrice * 12)}</span>
             </span>
             <span className={`${styles.newPrice}`}>
-              Billed ${Math.round(annualPrice)}
+              Now ${formatNumber(annualPrice)}
               /yr
             </span>
             <span className={`${styles.savings}`}>
-              Save ${Math.round(monthlyPrice * 12 - annualPrice)}
+              Save ${formatNumber(monthlyPrice * 12 - annualPrice)}
             </span>
           </p>
         ) : (
