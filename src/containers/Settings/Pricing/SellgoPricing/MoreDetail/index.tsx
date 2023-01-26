@@ -12,8 +12,9 @@ const MoreDetails = () => {
   return (
     <section className={styles.moreDetailsSection}>
       <p>
-        *Need more data? <br />
-        Do you have existing seller data that you want to enrich with our updated data?
+        *Need everything unlimited? <br />
+        'Verified personal, other email(s), and more', 'Mobile direct phone number(s)', 'Send
+        physical mail integration',
       </p>
       <ActionButton
         variant={'primary'}

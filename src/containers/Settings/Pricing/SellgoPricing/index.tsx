@@ -255,8 +255,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <img src={Stripe} alt="Protected by stripe logo" />
             </div>
           </section> */}
-          <PricingComparison planName={'Pricing & Plans'} />
           <MoreDetails />
+          <PricingComparison planName={'Pricing & Plans'} />
           <Testimonials />
           <BrandImages />
           <FAQSection />

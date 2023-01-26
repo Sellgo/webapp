@@ -20,8 +20,8 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
         title: 'Own your market',
         featuresIncluded: [
           'Verified professional email(s)',
-          'Basic seller revenue insights',
-          'Basic seller map access',
+          'Basic seller insights',
+          'Seller map access',
         ],
       },
     ],
@@ -33,16 +33,16 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
     salesEstimateCount: 2000,
     monthlyPrice: 147,
     annualPrice: 1187,
-    featureSubName: 'Full single-user access, plus',
+    featureSubName: 'Everything in starter plan, plus',
     desc: `Find the best seller, faster.`,
     isNew: true,
     featuresLists: [
       {
-        title: 'Turn leads into pipeline',
+        title: 'Turn your leads into pipeline',
         featuresIncluded: [
-          'Verified professional email(s)',
+          'Verified personal, other email(s), and more',
           'Mobile & direct phone number(s)',
-          'Org chart & company trends',
+          'Send physical mail integration',
         ],
       },
     ],
@@ -58,11 +58,11 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
     desc: `Achieve more ROI.`,
     featuresLists: [
       {
-        title: 'Hit revenue goals',
+        title: 'Hit your ambitious revenue goals',
         featuresIncluded: [
-          'Verified personal and other email(s)',
-          'Mobile & direct phone number(s)',
-          'Org chart & company trends',
+          'Social Media link/ username(s)',
+          'Zapier, Hubspot and Salesforce integrations',
+          'Data/ CRM enrichments',
         ],
       },
     ],
