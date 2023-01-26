@@ -19,6 +19,8 @@ interface Props {
   annualPrice: number;
   className?: string;
   isNew?: boolean;
+  monthlyLookups?: number;
+  annualLookups?: number;
 
   // plan details
   isMonthly: boolean;
@@ -45,6 +47,8 @@ const GenericPriceCardHead: React.FC<Props> = props => {
     changePlan,
     sellerSubscription,
     isNew,
+    monthlyLookups,
+    annualLookups,
   } = props;
   const isAccountSubscribed = MONTHLY_AND_ANNUAL_PLANS_IDS.includes(
     sellerSubscription.subscription_id
@@ -117,6 +121,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
         ) : (
           <p>Billed Monthly</p>
         )}
+        <p>{isMonthly ? formatNumber(monthlyLookups) : formatNumber(annualLookups)} lookups</p>
       </div>
       {isSubscribed && !isPending ? (
         sellerSubscription.payment_mode === 'monthly' ? (

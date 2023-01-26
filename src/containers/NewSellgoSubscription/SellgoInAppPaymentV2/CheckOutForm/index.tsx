@@ -40,7 +40,7 @@ import { PromoCode, SummaryDetails } from '../../../../interfaces/Subscription';
 
 /* Utils */
 import { generatePromoCodeMessage } from '../../../../utils/subscriptions';
-import { formatDecimal } from '../../../../utils/format';
+import { formatDecimal, formatNumber } from '../../../../utils/format';
 
 /* Constants */
 import {
@@ -160,7 +160,7 @@ function CheckoutForm(props: MyProps) {
       </Modal>
     );
   };
-
+  console.log('163', accountType);
   const summaryDetails: SummaryDetails = generateSubscriptionDetails(accountType.toLowerCase());
   /* Upon successful checking of the entered promo code, either a valid redeemedPromoCode code
   is returned, or an error message is returned. Upon completion of promo code check, set status
@@ -300,12 +300,12 @@ function CheckoutForm(props: MyProps) {
               <p className={styles.price}>
                 {isMonthly ? (
                   <>
-                    {`$${summaryDetails.monthlyPrice}`}
+                    {`$${formatNumber(summaryDetails.monthlyPrice)}`}
                     <span className={styles.pricerepeatition}> &nbsp;per month</span>
                   </>
                 ) : (
                   <>
-                    {`$${summaryDetails.annualPrice}`}
+                    {`$${formatNumber(summaryDetails.annualPrice)}`}
                     <span className={styles.pricerepeatition}>&nbsp; per year</span>
                   </>
                 )}

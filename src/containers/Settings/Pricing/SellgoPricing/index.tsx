@@ -22,8 +22,8 @@ import {
 import { getSellerInfo } from '../../../../actions/Settings';
 
 /* Assets */
-// import Setcard from '../../../../assets/images/4_Card_color_horizontal.svg';
-// import Stripe from '../../../../assets/images/powered_by_stripe.svg';
+import cardIcons from '../../../../assets/images/4_Card_color_horizontal.svg';
+import stripeIcon from '../../../../assets/images/powered_by_stripe.svg';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -237,6 +237,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     featuresLists={product.featuresLists}
                     // Plan details
                     isMonthly={isMonthly}
+                    monthlyLookups={product.monthlyLookups}
+                    annualLookups={product.annualLookups}
                     changePlan={(
                       subscriptionDetails: { name: string; id: number },
                       isUpgradingToYearly = false
@@ -260,6 +262,16 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
           <Testimonials />
           <BrandImages />
           <FAQSection />
+          <div className={styles.paymentMeta}>
+            <div className={styles.cardsWrapper}>
+              <img className={styles.cardsWrapper__cards} src={cardIcons} alt="cards" />
+              <img
+                className={styles.cardsWrapper__stripe}
+                src={stripeIcon}
+                alt="powered by stripe"
+              />
+            </div>
+          </div>
         </main>
       </>
     );
