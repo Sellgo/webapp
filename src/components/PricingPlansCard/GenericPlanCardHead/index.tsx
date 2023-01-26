@@ -86,7 +86,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
       </div>
       <div className={styles.startingAt}>
         <p>
-          Starts At {!isMonthly && <span className="strike-text">${Math.round(monthlyPrice)}</span>}
+          Starts at {!isMonthly && <span className="strike-text">${Math.round(monthlyPrice)}</span>}
         </p>
 
         {isMonthly ? (
@@ -105,7 +105,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
               Originally <span className="strike-text">${monthlyPrice * 12}</span>
             </span>
             <span className={`${styles.newPrice}`}>
-              Now ${Math.round(annualPrice)}
+              Billed ${Math.round(annualPrice)}
               /yr
             </span>
             <span className={`${styles.savings}`}>
@@ -135,7 +135,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
             className={styles.buyNowCTA}
             disabled
           >
-            Curernt Plan
+            Current Plan
           </ActionButton>
         )
       ) : isSubscribed && isPending ? (

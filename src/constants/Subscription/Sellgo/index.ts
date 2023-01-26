@@ -11,15 +11,15 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
     name: 'Starter',
     productsDatabase: 0,
     salesEstimateCount: 1000,
-    monthlyPrice: 37,
-    annualPrice: 324,
-    desc: `Accelerate your seller research process`,
+    monthlyPrice: 77,
+    annualPrice: 467,
+    desc: `Accelerate your seller research process.`,
     featureSubName: 'Start with',
     featuresLists: [
       {
         title: 'Own your market',
         featuresIncluded: [
-          'Accurate contacts and locations',
+          'Verified professional email(s)',
           'Basic seller revenue insights',
           'Basic seller map access',
         ],
@@ -31,8 +31,8 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
     name: 'Professional',
     productsDatabase: 0,
     salesEstimateCount: 2000,
-    monthlyPrice: 97,
-    annualPrice: 924,
+    monthlyPrice: 147,
+    annualPrice: 1187,
     featureSubName: 'Full single-user access, plus',
     desc: `Find the best seller, faster.`,
     isNew: true,
@@ -40,29 +40,29 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
       {
         title: 'Turn leads into pipeline',
         featuresIncluded: [
-          'Essential contact data and advanced company insights',
-          'Export data for annual plan',
-          'Advanced quota',
+          'Verified professional email(s)',
+          'Mobile & direct phone number(s)',
+          'Org chart & company trends',
         ],
       },
     ],
   },
   {
     id: 12,
-    name: 'Team',
+    name: 'Elite',
     productsDatabase: 0,
     salesEstimateCount: 3000,
-    monthlyPrice: 177,
-    annualPrice: 1764,
+    monthlyPrice: 297,
+    annualPrice: 2987,
     featureSubName: 'Everything in professional plan, plus',
     desc: `Achieve more ROI.`,
     featuresLists: [
       {
         title: 'Hit revenue goals',
         featuresIncluded: [
-          'Advanced seller research with accurate contact data',
-          'Full use of Seller Database/ Map',
-          'Seller Map top view 20,000 sellers',
+          'Verified personal and other email(s)',
+          'Mobile & direct phone number(s)',
+          'Org chart & company trends',
         ],
       },
     ],
@@ -75,24 +75,24 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     subscriptionId: 10, // subscriptionID if needed
     name: 'Starter',
     dailyPrice: 0,
-    monthlyPrice: 37,
-    annualPrice: 324,
+    monthlyPrice: 77,
+    annualPrice: 467,
     isDailyPlan: false,
   },
   {
     subscriptionId: 11, // subscriptionID if needed
     name: 'Professional',
     dailyPrice: 0,
-    monthlyPrice: 97,
-    annualPrice: 924,
+    monthlyPrice: 147,
+    annualPrice: 1187,
     isDailyPlan: false,
   },
   {
     subscriptionId: 12, // subscriptionID if needed
-    name: 'Team',
+    name: 'Elite',
     dailyPrice: 0,
-    monthlyPrice: 177,
-    annualPrice: 1764,
+    monthlyPrice: 297,
+    annualPrice: 2987,
     isDailyPlan: false,
   },
   {
@@ -124,7 +124,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   },
   {
     subscriptionId: 1, // subscriptionID if needed
-    name: 'Team  (D)',
+    name: 'Elite  (D)',
     dailyPrice: 0,
     isLegacy: true,
     monthlyPrice: 177,
@@ -139,8 +139,8 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     name: 'Starter',
     id: 10,
     idWithLegacyPlans: [10, 6],
-    monthlyPrice: 37,
-    annualPrice: 324,
+    monthlyPrice: 77,
+    annualPrice: 467,
     dailyPrice: -1,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
@@ -153,8 +153,8 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     name: 'Professional',
     id: 11,
     idWithLegacyPlans: [11, 2],
-    monthlyPrice: 97,
-    annualPrice: 924,
+    monthlyPrice: 147,
+    annualPrice: 1187,
     dailyPrice: -1,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
@@ -164,11 +164,11 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     ],
   },
   team: {
-    name: 'Team',
+    name: 'Elite',
     id: 12,
     idWithLegacyPlans: [12, 1],
-    monthlyPrice: 177,
-    annualPrice: 1764,
+    monthlyPrice: 297,
+    annualPrice: 2987,
     dailyPrice: -1,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [

@@ -204,8 +204,9 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
             <div className={styles.planShortSummary}>
               <p>
-                Supply chain? Inventory planning? Sales projection? 3PL replenishment? Cash flow
-                projection? We've got your back.
+                Emails? Phones? Categories? Brands? Reviews? Inventories?
+                <br />
+                We have valuable seller data to help you turn leads into customers.
               </p>
             </div>
             {/* <div> */}

@@ -1,77 +1,97 @@
 export const payMonthlyAndAnnualPlan = [
   {
-    header: ['Basic', 'Starter', 'Professional', 'Team'],
+    header: ['Basic', 'Starter', 'Professional', 'Elite', 'Enterprise'],
     body: [
-      ['Try for free, no credit card required', '✓', '✓', '✓'],
-      ['Cancel any time help', '✓', '✓', '✓'],
-      // ['Included users', '1', '1', '3'],
-      // ['Eligible for additional users', '-', '✓', '✓'],
-      // ['Additional user cost', '-', '$29/mo', '$29/mo']
+      ['Try for free, no credit card required', '✓', '✓', '✓', 'Talk to us'],
+      ['Cancel any time help', '✓', '✓', '✓', '✓'],
+      ['Included users', '1', '1', '1', 'Quote'],
+      ['Eligible for additional users', '-', '✓', '✓', '✓'],
+      [
+        'Included lookups/ user (monthly vs annual plan)',
+        '100 vs 1,400',
+        '240 vs 3,600',
+        '800 vs 12,000',
+        'Unlimited',
+      ],
+      ['Annual plan gets all the lookups unfront', '✓', '✓', '✓', '✓'],
+      ['Easy billing', '✓', '✓', '✓', 'Contract'],
+      ['Data is periodically updated', '✓', '✓', '✓', '✓'],
+      //['Additional user cost', '-', 'call', 'call']
     ],
   },
   {
-    header: ['your business', 'Starter', 'Professional', 'Team'],
+    header: ['In-app features', 'Starter', 'Professional', 'Elite', 'Enterprise'],
     body: [
-      ['Competitor', '✓', '', ''],
-      ['Reviewer', '✓', '', ''],
-      ['Influencer', '✓', '✓', ''],
-      ['Agency', '✓', '✓', '✓'],
-      ['Enabler', '✓', '✓', '✓'],
-      ['Aggregator', '✓', '✓', '✓'],
-      ['Marketplace', '✓', '✓', '✓'],
+      ['Verified email(s)', '✓', '✓', '✓', '✓'],
+      ['Personal email', '🔒', '✓', '✓', '✓'],
+      ['Decision maker search', '✓', '✓', '✓', '✓'],
+      ['Mobile & direct phone numbers', '🔒', '✓', '✓', '✓'],
+      ['Company search', '✓', '✓', '✓', '✓'],
+      ['Company contact', '✓', '✓', '✓', '✓'],
+      ['show beyond top 20 search', '✓', '✓', '✓', '✓'],
+      ['save & load searches', '✓', '✓', '✓', '✓'],
+      ['Track searches', '✓', '✓', '✓', '✓'],
+      ['Brand/ product/ revenue change alerts', '🔒', '🔒', '🔒', '✓'],
+      ['Bulk CSV export', '✓', '✓', '✓', '✓'],
+      ['Org chart & company trends', '🔒', '✓', '✓', '✓'],
+      ['Record selection limit', '100', '100', '100', '25,000'],
+      ['Single sign On', '✓', '✓', '✓', '✓'],
+      ['Seller Map', '✓', '✓', '✓', '✓'],
     ],
   },
+
   {
-    header: ['Seller Research', 'Starter', 'Professional', 'Team'],
+    header: ['Company Information', 'Starter', 'Professional', 'Elite', 'Enterprise'],
     body: [
+      ['Seller + registered business name', '✓', '✓', '✓', '✓'],
+      ['Address + city + state + zip + country of origin', '✓', '✓', '✓', '✓'],
+      ['Latitude + longitude data', '✓', '✓', '✓', '✓'],
+      ['Store phone number', '✓', '✓', '✓', '✓'],
+      ['Seller link to the storefront', '✓', '✓', '✓', '✓'],
+      ['Seller rating', '✓', '✓', '✓', '✓'],
+      ['Review rating', '✓', '✓', '✓', '✓'],
+      ['Company website/ domain', '✓', '✓', '✓', '✓'],
+      ['Industry', '✓', '✓', '✓', '✓'],
+      ['Company phone(s) + fax(es)', '✓', '✓', '✓', '✓'],
+      ['Company email', '✓', '✓', '✓', '✓'],
       [
-        'Seller Database or Seller Map',
-        '1,000 sellers/ mo',
-        '5,000 sellers/ mo',
-        '20,000 sellers/ mo*',
+        'Company LinkedIn / Yelp / Twitter / Facebook / Instagram / Crunchbase/ Youtube / Pinterest*',
+        '✓',
+        '✓',
+        '✓',
+        '✓',
       ],
-      ['Seller Map top view', '100 sellers', '10,000 sellers', '20,000 sellers*'],
-      [`Extract Seller's product`, '100 products/ mo', '5,000 products/ mo', '20,000 products/ mo'],
-      [
-        `Extract other sellers by seller's products`,
-        '1,000 sellers/ mo',
-        '5,000 sellers/ mo',
-        '20,000 sellers/ mo',
-      ],
-      ['Export Seller Database', '-', '✓', '✓'],
-      ['Show seller by brand', '-', '✓', '✓'],
-      ['Show seller by category', '-', '✓', '✓'],
     ],
-  } /* ,
-	{
-		header: ['Product Research', 'Starter', 'Professional', 'Team'],
-		body: [
-			['Chrome Extension', '✓', '✓', '✓'],
-			['Amazon best sales estimator', '1,000 estimates/ month', '✓', '✓'],
-			['Inventory insight', '-', '✓', '✓'],
-			['Market share insight', '-', '✓', '✓'],
-			['Product Database', '✓', '✓', '✓'],
-			['Brand Database', 'coming soon', 'coming soon', 'coming soon'],
-			['Category Database', 'coming soon', 'coming soon', 'coming soon']
-		]
-	},
-	{
-		header: ['Keyword Research', 'Starter', 'Professional', 'Team'],
-		body: [
-			['Keyword Finder', '3 keywords/ day', '✓', '✓'],
-			['Keyword Database', '3 keywords/ day', '✓', '✓'],
-			[
-				'Product Rank Tracker',
-				'3 keywords/ day',
-				'4,000 keywords',
-				'7,000 keywords*'
-			],
-			['Boost tracker', '-', '✓', '✓'],
-			['True rank performance', '-', '✓', '✓'],
-			['Zapier integration', '-', '-', '✓'],
-			['Drop/ raise trigger', '-', '-', '✓']
-		]
-	} */,
+  },
+
+  {
+    header: ['Business Metrics Information', 'Starter', 'Professional', 'Elite', 'Enterprise'],
+    body: [
+      ['Business model (1P / 3P / 1P+3P / Vendor Central', '🔒', '🔒', '🔒', '✓'],
+      ['Revenue estimation and growth', '✓', '✓', '✓', '✓'],
+      ['Product, brand and inventory detail', '✓', '✓', '✓', '✓'],
+      ['Category and sub-category detail', '✓', '✓', '✓', '✓'],
+      ['Dormant account', '🔒', '🔒', '🔒', '✓'],
+      ['Review and rating detail', '✓', '✓', '✓', '✓'],
+    ],
+  },
+
+  {
+    header: ['Decision Maker Information', 'Starter', 'Professional', 'Elite', 'Enterprise'],
+    body: [
+      ['Name, position and other detail', '✓', '✓', '✓', '✓'],
+      ['Verified professional email(s)', '✓', '✓', '✓', '✓'],
+      ['Verified personal email(s)', '🔒', '✓', '✓', '✓'],
+      ['Verified personal phone(s)', '🔒', '✓', '✓', '✓'],
+      [
+        'Verified LinkedIn/ Facebook/ Twitter/ Angel.co/ Meetup/ Foursquare/ Amazon wishlist/ Klout*',
+        '✓',
+        '✓',
+        '✓',
+        '✓',
+      ],
+    ],
+  },
 ];
 
 export const pay1DollarPlan = [
