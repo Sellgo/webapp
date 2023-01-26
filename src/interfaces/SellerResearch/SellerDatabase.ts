@@ -10,6 +10,7 @@ export interface SellerDatabasePayload {
   fileFormat?: 'csv' | 'xlsx';
   restoreLastSearch?: boolean;
   retrieve_default?: boolean;
+  exportEmployees?: boolean;
 }
 
 export interface ShowFilterMessage {

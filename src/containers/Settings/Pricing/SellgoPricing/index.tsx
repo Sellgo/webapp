@@ -206,7 +206,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <p>
                 Emails? Phones? Categories? Brands? Reviews? Inventories?
                 <br />
-                We have valuable seller data to help you turn leads into customers.
+                Access our updated and verified seller data to help you turn leads into customers.
               </p>
             </div>
             {/* <div> */}

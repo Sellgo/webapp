@@ -79,7 +79,7 @@ const AdminHeader = (props: Props) => {
   }, []);
   return (
     <div className="admin-header">
-      {isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) && <QuotaMeter />}
+      <QuotaMeter />
       {isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) &&
         !window.location.pathname.includes('pricing') && (
           <ActionButton

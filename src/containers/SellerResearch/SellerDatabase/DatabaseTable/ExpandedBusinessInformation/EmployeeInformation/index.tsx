@@ -14,14 +14,19 @@ import { sellerIDSelector } from '../../../../../../selectors/Seller';
 // Config
 import { AppConfig } from '../../../../../../config';
 import EmployeeDetailInformation from '../EmployeeDetailInformation';
+import { setCompanyInfo } from '../../../../../../actions/SellerResearch/SellerDatabase';
+import { connect } from 'react-redux';
+import { error, success } from '../../../../../../utils/notifications';
 
 interface Props {
   rowData?: any;
   className: string;
+  setCompanyInfo: (a: any, b: string) => void;
 }
 const EmployeesInformation = (props: Props) => {
-  const { rowData, className } = props;
+  const { rowData, className, setCompanyInfo } = props;
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isRetriveCompanyLoading, setIsRetriveCompanyLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [employeesData, setEmployeesData] = useState<any>(null);
   const [activeEmployeeIndex, setActiveEmployeeIndex] = useState<number>(-1);
@@ -40,6 +45,35 @@ const EmployeesInformation = (props: Props) => {
       console.error('Error fetching employees', err);
     }
     setIsLoading(false);
+  };
+  const retriveCompanyInformation = async () => {
+    setIsRetriveCompanyLoading(true);
+    try {
+      const sellerId = sellerIDSelector();
+      // eslint-disable-next-line max-len
+      const formData = new FormData();
+      formData.append('merchant_id', `${rowData.merchant_id}`);
+
+      formData.append('object_id', `${rowData.id}`);
+      formData.append('marketplace_id', `${rowData.marketplace_id}`);
+      const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/company-contact-request`;
+
+      const { data } = await axios.post(URL, formData);
+      if (data) {
+        if (data.company_info) {
+          const retrivedData = {
+            ...data.company_info,
+            is_contact_requested: true,
+          };
+          setCompanyInfo(retrivedData, rowData.merchant_id);
+        }
+        success('Company Details unlocked successfully');
+      }
+    } catch (err) {
+      error('Cannot unlock details at the moment');
+      console.error('Error fetching employees', err);
+    }
+    setIsRetriveCompanyLoading(false);
   };
 
   useEffect(() => {
@@ -110,6 +144,27 @@ const EmployeesInformation = (props: Props) => {
                 <Card.Meta className={styles.employeeInformationDetails__noDataFoundCard__meta}>
                   *We add new contacts every week and will notify you when it is available
                 </Card.Meta>
+                <Card.Meta>
+                  <ActionButton
+                    variant="primary"
+                    type={
+                      rowData?.company_info?.is_contact_requested || rowData?.is_contact_requested
+                        ? 'grey'
+                        : 'purpleGradient'
+                    }
+                    size="small"
+                    onClick={() => {
+                      retriveCompanyInformation();
+                    }}
+                    className={styles.continueButton}
+                    loading={isRetriveCompanyLoading}
+                    disabled={
+                      rowData?.company_info?.is_contact_requested || rowData?.is_contact_requested
+                    }
+                  >
+                    Request
+                  </ActionButton>
+                </Card.Meta>
               </Card.Content>
             </Card>
           )}
@@ -129,4 +184,9 @@ const EmployeesInformation = (props: Props) => {
   );
 };
 
-export default EmployeesInformation;
+const mapDispatchToProps = (dispatch: any) => ({
+  setCompanyInfo: (companyInfo: any, merhcantId: string) =>
+    dispatch(setCompanyInfo(companyInfo, merhcantId)),
+});
+
+export default connect(null, mapDispatchToProps)(EmployeesInformation);

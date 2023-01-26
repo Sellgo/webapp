@@ -117,6 +117,8 @@ const Sidebar = (props: Props) => {
       newNavOptions = handleDisableNavOption('Keyword Research', newNavOptions);
     } else {
       newNavOptions = handleDisableNavOption('AiStock', newNavOptions);
+      newNavOptions = handleDisableNavOption('Keyword Research', newNavOptions);
+      newNavOptions = handleDisableNavOption('Product Research', newNavOptions);
     }
 
     setNavOptions(newNavOptions);

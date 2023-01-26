@@ -19,6 +19,7 @@ import {
 
 /* ACtions */
 import { fetchSellerDatabase } from '../../../actions/SellerResearch/SellerDatabase';
+import DatabaseExport from './DatabaseExport';
 
 interface Props {
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
@@ -35,6 +36,7 @@ const SellerCollection = (props: Props) => {
   return (
     <main className={styles.sellerDatbasePage}>
       <CollectionTableSearch />
+      <DatabaseExport />
       <SellerDatabaseTable />
     </main>
   );
