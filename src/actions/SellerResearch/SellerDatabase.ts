@@ -348,7 +348,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
     );
 
     const { response } = err as any;
-    const { status, data } = response;
+    const { status, data } = response || {};
 
     if (status === 429) {
       error(data.message);
@@ -358,7 +358,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
     dispatch(
       setSellerDatabaseFilterMessage({
         show: status === 400,
-        message: data.message || '',
+        message: data?.message || '',
         type: 'error',
       })
     );

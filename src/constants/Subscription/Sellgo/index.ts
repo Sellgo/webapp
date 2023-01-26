@@ -13,6 +13,8 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
     salesEstimateCount: 1000,
     monthlyPrice: 77,
     annualPrice: 467,
+    monthlyLookups: 100,
+    annualLookups: 200,
     desc: `Accelerate your seller research process.`,
     featureSubName: 'Start with',
     featuresLists: [
@@ -33,6 +35,8 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
     salesEstimateCount: 2000,
     monthlyPrice: 147,
     annualPrice: 1187,
+    monthlyLookups: 100,
+    annualLookups: 200,
     featureSubName: 'Everything in starter plan, plus',
     desc: `Filter the best seller, faster.`,
     isNew: true,
@@ -54,6 +58,8 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
     salesEstimateCount: 3000,
     monthlyPrice: 297,
     annualPrice: 2987,
+    monthlyLookups: 100,
+    annualLookups: 200,
     featureSubName: 'Everything in professional plan, plus',
     desc: `Achieve more ROI.`,
     featuresLists: [
@@ -211,6 +217,9 @@ export const getSubscriptionNameKey = (id: number) => {
 };
 
 export const generateSubscriptionDetails = (planType: string) => {
+  if (planType === 'elite') {
+    planType = 'team';
+  }
   if (!planType) {
     return SUBSCRIPTION_DETAILS.starter;
   }

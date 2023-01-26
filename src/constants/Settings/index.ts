@@ -190,14 +190,14 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
 
-  {
-    name: 'API Keys',
-    disabled: false,
-    url: '/settings/api-keys',
-    showInSellgo: true,
-    showInAistock: false,
-    subPages: [],
-  },
+  // {
+  //   name: 'API Keys',
+  //   disabled: false,
+  //   url: '/settings/api-keys',
+  //   showInSellgo: true,
+  //   showInAistock: false,
+  //   subPages: [],
+  // },
   {
     name: 'Amazon SP-API Connectivity',
     disabled: false,

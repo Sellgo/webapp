@@ -6,16 +6,17 @@ import styles from './index.module.scss';
 import ActionButton from '../../../../../components/ActionButton';
 import { Modal } from 'semantic-ui-react';
 import DemoForm from '../../../../../components/DemoForm';
+import PricingPlansCardFeaturesList from '../../../../../components/PricingPlansCard/PricingPlansCardFeaturesList';
+import { MORE_DETAIL_FEATURES } from '../../../../../constants/Subscription/Sellgo/moreDetailFeatures';
 
 const MoreDetails = () => {
   const [isDemoFormOpen, setIsDemoFormOpen] = useState(false);
   return (
     <section className={styles.moreDetailsSection}>
-      <p>
-        *Need everything unlimited? <br />
-        'Verified personal, other email(s), and more', 'Mobile direct phone number(s)', 'Send
-        physical mail integration',
-      </p>
+      <p>*Need everything unlimited?</p>
+      <div className={styles.pricingPlansCardBody}>
+        <PricingPlansCardFeaturesList featuresIncluded={MORE_DETAIL_FEATURES} />
+      </div>
       <ActionButton
         variant={'primary'}
         size={'md'}
