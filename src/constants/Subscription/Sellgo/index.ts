@@ -169,7 +169,7 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
       'Export data to spreadsheet',
     ],
   },
-  elite: {
+  team: {
     name: 'Elite',
     id: 12,
     idWithLegacyPlans: [12, 1],
@@ -190,13 +190,13 @@ export const PAYMENT_MODES = ['daily', 'monthly', 'yearly'];
 export const SUBSCRIPTION_DETAILS_LIST: SummaryDetails[] = [
   SUBSCRIPTION_DETAILS.starter,
   SUBSCRIPTION_DETAILS.professional,
-  SUBSCRIPTION_DETAILS.elite,
+  SUBSCRIPTION_DETAILS.team,
 ];
 
 export const subscriptionDetailsMapping: { [key: string]: number } = {
   starter: 10,
   professional: 11,
-  elite: 12,
+  team: 12,
 };
 
 export const getSubscriptionID = (planName: string) => {
@@ -217,9 +217,9 @@ export const getSubscriptionNameKey = (id: number) => {
 };
 
 export const generateSubscriptionDetails = (planType: string) => {
-  if (planType === 'elite') {
-    planType = 'team';
-  }
+  // if (planType === 'elite') {
+  //   planType = 'team';
+  // }
   if (!planType) {
     return SUBSCRIPTION_DETAILS.starter;
   }
