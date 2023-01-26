@@ -22,22 +22,8 @@ export const payMonthlyAndAnnualPlan = [
       ['Record selection limit', '100', '100', '100', '25,000'],
       ['Single sign On', '✓', '✓', '✓', '✓'],
       ['Seller Map', '✓', '✓', '✓', '✓'],
-      //['Additional user cost', '-', 'call', 'call']
     ],
   },
-  {
-    header: ['In-app features', 'Starter', 'Professional', 'Elite', 'Enterprise'],
-    body: [
-      ['Verified email(s)', '✓', '✓', '✓', '✓'],
-      ['Personal email', '🔒', '✓', '✓', '✓'],
-      ['Decision maker search', '✓', '✓', '✓', '✓'],
-      ['Mobile & direct phone numbers', '🔒', '✓', '✓', '✓'],
-      ['Company search', '✓', '✓', '✓', '✓'],
-      ['Company contact', '✓', '✓', '✓', '✓'],
-      ['show beyond top 20 search', '✓', '✓', '✓', '✓'],
-    ],
-  },
-
   {
     header: ['Business Metrics Information', 'Starter', 'Professional', 'Elite', 'Enterprise'],
     body: [
@@ -50,10 +36,10 @@ export const payMonthlyAndAnnualPlan = [
       ['Brand/ product/ revenue change alerts', '🔒', '🔒', '🔒', '✓'],
     ],
   },
-
   {
     header: ['Company Information', 'Starter', 'Professional', 'Elite', 'Enterprise'],
     body: [
+      ['Company search & filter', '✓', '✓', '✓', '✓'],
       ['Seller + registered business name', '✓', '✓', '✓', '✓'],
       ['Address + city + state + zip + country of origin', '✓', '✓', '✓', '✓'],
       ['Latitude + longitude data', '✓', '✓', '✓', '✓'],
@@ -75,14 +61,14 @@ export const payMonthlyAndAnnualPlan = [
       ],
     ],
   },
-
   {
     header: ['Decision Maker Information', 'Starter', 'Professional', 'Elite', 'Enterprise'],
     body: [
+      ['Decision maker search & filter', '✓', '✓', '✓', '✓'],
       ['Name, position and other detail', '✓', '✓', '✓', '✓'],
       ['Verified professional email(s)', '✓', '✓', '✓', '✓'],
       ['Verified personal email(s)', '🔒', '✓', '✓', '✓'],
-      ['Verified personal phone(s)', '🔒', '✓', '✓', '✓'],
+      ['Verified mobile and direct phone(s)', '🔒', '✓', '✓', '✓'],
       [
         'Verified LinkedIn/ Facebook/ Twitter/ Angel.co/ Meetup/ Foursquare/ Amazon wishlist/ Klout*',
         '✓',
