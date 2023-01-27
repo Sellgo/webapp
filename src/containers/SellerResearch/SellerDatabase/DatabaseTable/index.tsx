@@ -29,9 +29,9 @@ import {
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import Placeholder from '../../../../components/Placeholder';
 import BrandsListCell from '../../../../components/NewTable/BrandsListCell';
-import RatingCell from '../../../../components/NewTable/RatingCell';
-import StatsCell from '../../../../components/NewTable/StatsCell';
-import ExtendedReviewsCell from '../../../../components/NewTable/ExtendedReviewsCell';
+//import RatingCell from '../../../../components/NewTable/RatingCell';
+//import StatsCell from '../../../../components/NewTable/StatsCell';
+//import ExtendedReviewsCell from '../../../../components/NewTable/ExtendedReviewsCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
 
 /* Containers */
@@ -439,7 +439,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column> */}
 
           {/* Rating L365D */}
-          <Table.Column
+          {/*<Table.Column
             width={130}
             verticalAlign="middle"
             sortable={!isLoadingSellerDatabase}
@@ -455,9 +455,9 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <RatingCell dataKey="seller_rating" asRounded={false} />
-          </Table.Column>
+        </Table.Column>*/}
           {/* Rating % L365D */}
-          <Table.Column
+          {/*<Table.Column
             width={120}
             verticalAlign="middle"
             sortable={!isLoadingSellerDatabase}
@@ -473,10 +473,10 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <StatsCell dataKey="review_ratings" appendWith="%" />
-          </Table.Column>
+      </Table.Column>*/}
 
           {/* Review L30D */}
-          <Table.Column
+          {/*<Table.Column
             width={120}
             verticalAlign="middle"
             sortable={!isLoadingSellerDatabase}
@@ -498,10 +498,10 @@ const SellerDatabaseTable = (props: Props) => {
               neutralReviewKey="neutral_30_days"
               dataKey="count_30_days"
             />
-          </Table.Column>
+          </Table.Column>*/}
 
           {/* Review L90D */}
-          <Table.Column
+          {/*<Table.Column
             width={120}
             verticalAlign="middle"
             sortable={!isLoadingSellerDatabase}
@@ -523,10 +523,10 @@ const SellerDatabaseTable = (props: Props) => {
               neutralReviewKey="neutral_90_days"
               dataKey="count_90_days"
             />
-          </Table.Column>
+          </Table.Column>*/}
 
           {/* Review 3650D */}
-          <Table.Column
+          {/*<Table.Column
             width={120}
             verticalAlign="middle"
             sortable={!isLoadingSellerDatabase}
@@ -548,10 +548,10 @@ const SellerDatabaseTable = (props: Props) => {
               neutralReviewKey="neutral_12_month"
               dataKey="count_12_month"
             />
-          </Table.Column>
+        </Table.Column>*/}
 
           {/* Review Lifetime */}
-          <Table.Column
+          {/* <Table.Column
             width={120}
             verticalAlign="middle"
             sortable={!isLoadingSellerDatabase}
@@ -573,7 +573,7 @@ const SellerDatabaseTable = (props: Props) => {
               neutralReviewKey="neutral_lifetime"
               dataKey="count_lifetime"
             />
-          </Table.Column>
+          </Table.Column>*/}
 
           {/* Seller Launched  */}
           {/* <Table.Column
