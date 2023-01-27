@@ -121,7 +121,11 @@ const GenericPriceCardHead: React.FC<Props> = props => {
         ) : (
           <p>Billed Monthly</p>
         )}
-        <p>{isMonthly ? formatNumber(monthlyLookups) : formatNumber(annualLookups)} lookups</p>
+        <p>
+          {isMonthly
+            ? `${formatNumber(monthlyLookups)} monthly lookups`
+            : `${formatNumber(annualLookups)} annual lookups and you can get all upfront`}
+        </p>
       </div>
       {isSubscribed && !isPending ? (
         sellerSubscription.payment_mode === 'monthly' ? (

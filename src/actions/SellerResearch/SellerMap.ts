@@ -350,7 +350,7 @@ export const fetchSellersListForMap = (payload: SellersListPayload) => async (
     dispatch(isLoadingSellersListForMap(false));
 
     if (err && err.response && err.response.status === 429) {
-      error('Seller Database Quota Exceeded');
+      error('Seller search for your current plan is out.');
     }
   }
 };

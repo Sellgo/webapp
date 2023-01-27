@@ -89,7 +89,7 @@ const AdminHeader = (props: Props) => {
             onClick={redirectToPricing}
             className="upgradeAccessButton"
           >
-            Upgrade Access
+            Upgrade access
           </ActionButton>
         )}
 

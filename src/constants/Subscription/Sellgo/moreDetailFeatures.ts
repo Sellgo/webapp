@@ -1,5 +1,8 @@
 export const MORE_DETAIL_FEATURES = [
-  'Verified personal, other email(s), and more',
-  'Mobile & direct phone number(s)',
-  'Send physical mail integration',
+  'Unlimited data access',
+  'API & CRM integration',
+  'Multiple user access',
+  'Bulk 10,000 records selection',
+  'Customizable reports',
+  'Dedicated account manager',
 ];
