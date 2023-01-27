@@ -57,7 +57,11 @@ const EmployeeDetailInformation = (props: Props) => {
           return temp;
         });
         if (data.company_info) {
-          setCompanyInfo(data.company_info, merchantId);
+          const payload = {
+            ...data.company_info,
+            is_looked_up: true,
+          };
+          setCompanyInfo(payload, merchantId);
         }
         success('Details unlocked successfully');
       }
