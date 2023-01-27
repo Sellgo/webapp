@@ -9,9 +9,23 @@ export const faqs = [
     answer: 'We include 10 free lookups and 100 free searches per month.',
   },
   {
+    question: 'What is lookups?',
+    answer:
+      'Lookups is the token that is being used to retrieve the contact information. 1 lookups can retrieve 1 decision maker all contact information (email, phone number or social media information), plus company contact information and much more.',
+  },
+  {
+    question: 'How many lookups do I get with paid account?',
+    answer:
+      'Starter account starts with 100 lookups monthly and 1,400 lookups yearly, Professional account starts with 240 lookups monthly and 3,600 lookups yearly, Elite account starts with 800 lookups monthly and 12,000 lookups yearly.',
+  },
+  {
+    question: 'Can I use the yearly lookups all at once?',
+    answer: 'Yes, you certainly can.',
+  },
+  {
     question: 'How can I learn more about Enterprise account?',
     answer:
-      'Click "Talk to an expert" above and our sales team will reach you out as soon as humanly possible.',
+      'Click "Talk to an expert" buton above and our sales team will reach you out as soon as humanly possible.',
   },
   {
     question: 'What marketplaces are supported?',

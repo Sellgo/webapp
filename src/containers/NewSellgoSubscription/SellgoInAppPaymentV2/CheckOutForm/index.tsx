@@ -273,17 +273,16 @@ function CheckoutForm(props: MyProps) {
         <section className={styles.reviewsSection}>
           <h2>The 1st Amazon Seller Database for E-commerce ecosystem!</h2>
           <p>
-            “Sellgo gives our supply chain one place to get whatever help we need. It gives us a
-            single point of integration for all our logistic process, helping us focus on increasing
-            sales and launch new products as we grow."
+            “Sellgo gives agency, aggregators or influencers to close more deals with high quality
+            leads."
           </p>
 
           <div className={styles.reviewerRow}>
             <img src={ProfilePicture} alt="profile picture" />
             <div className={styles.reviewerDetails}>
-              Andrew Erickson
+              Justin Willhite
               <br />
-              <span>7-figure Brand Entrepreneur</span>
+              <span>Amazon Product Content Creator</span>
             </div>
           </div>
         </section>
@@ -292,8 +291,9 @@ function CheckoutForm(props: MyProps) {
           <div className={styles.header}>
             <h2 className={styles.heading}>Sellgo pricing plan</h2>
             <p className={styles.description}>
-              Supply chain? Inventory planning? Sales projection? 3PL replenishment? Cash flow
-              projection? We've got your back.
+              We give the power to agency, aggregators or influencers to close more deals with high
+              quality leads. Access our database today and 7-day money back guarantee if you are not
+              satisfied.
             </p>
             <div className={styles.pricing}>
               <p className={styles.label}>{`${accountType}`}</p>
