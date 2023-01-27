@@ -13,7 +13,7 @@ const MoreDetails = () => {
   const [isDemoFormOpen, setIsDemoFormOpen] = useState(false);
   return (
     <section className={styles.moreDetailsSection}>
-      <p>*Need everything unlimited?</p>
+      <p>Need everything unlimited?</p>
       <div className={styles.pricingPlansCardBody}>
         <PricingPlansCardFeaturesList featuresIncluded={MORE_DETAIL_FEATURES} />
       </div>

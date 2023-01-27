@@ -66,7 +66,7 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
       {
         title: 'Hit your ambitious revenue goals',
         featuresIncluded: [
-          'Social Media link/ username(s)',
+          'Social Media link/ username(s)*',
           'Zapier, Hubspot and Salesforce integrations',
           'Data/ CRM enrichments',
         ],

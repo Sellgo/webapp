@@ -45,8 +45,8 @@ import {
 } from '../../../../constants/Subscription/Sellgo';
 import PricingComparison from './PricingComparison';
 import MoreDetails from './MoreDetail';
-import Testimonials from './Testimonials';
-import BrandImages from './BrandImages';
+//import Testimonials from './Testimonials';
+//import BrandImages from './BrandImages';
 
 interface SubscriptionProps {
   getSeller: () => void;
@@ -259,8 +259,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
           </section> */}
           <MoreDetails />
           <PricingComparison planName={'Pricing & Plans'} />
-          <Testimonials />
-          <BrandImages />
+          {/* <Testimonials /> */}
+          {/* <BrandImages /> */}
           <FAQSection />
           <div className={styles.paymentMeta}>
             <div className={styles.cardsWrapper}>
