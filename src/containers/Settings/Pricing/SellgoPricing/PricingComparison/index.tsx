@@ -33,6 +33,7 @@ const PricingComparison = (props: Props) => {
           return <AllFeaturesTable header={feature.header} body={feature.body} key={uuid()} />;
         })}
       </div>
+      {showComparison && <p className={styles.note}>* When the data is available</p>}
     </section>
   );
 };

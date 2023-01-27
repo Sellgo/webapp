@@ -80,7 +80,8 @@ const BusinessInformation = (props: Props) => {
             <Icon name="amazon" className={styles.companyInformation_detailsBox_icon} />
             <p className={styles.companyInformation_detailsBox_heading}>Amazon store link</p>
             <Link
-              to={{ pathname: rowData?.seller_link }}
+              to={{ pathname: rowData?.company_info?.seller_link ?? rowData?.seller_link }}
+              target="_blank"
               className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}
             >
               {rowData?.company_info?.seller_link ?? rowData?.seller_link ?? 'N/A'}

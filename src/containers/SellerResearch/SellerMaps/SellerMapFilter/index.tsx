@@ -96,7 +96,7 @@ const SellerMapFilter = (props: Props) => {
   const asins = parseSellerMapFilterData(sellerMapFilterData, 'asins');
 
   /* seller Reachability */
-  const sellerReachability = parseSellerMapFilterData(sellerMapFilterData, 'has_phone');
+  const sellerReachability = parseSellerMapFilterData(sellerMapFilterData, 'has_contact');
 
   /* Fba count */
   //const fbaCount = parseSellerMapFilterData(sellerMapFilterData, 'fba_percent');
@@ -304,10 +304,10 @@ const SellerMapFilter = (props: Props) => {
       {/* Seller Reachability */}
       <CheckboxFilter
         label="Seller Reachability"
-        checkboxLabel="Sellers with Phone"
+        checkboxLabel="Sellers with decision makers"
         checked={sellerReachability.value}
         handleChange={(value: any) => {
-          handleFilterChange('has_phone', value);
+          handleFilterChange('has_contact', value);
         }}
       />
 

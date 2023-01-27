@@ -35,7 +35,7 @@ const SellerInformation = (props: RowCell) => {
         <div className={styles.sellerInformationLeft}>
           <img src={sellerLogo ? sellerLogo : placeholderImage} alt={businessName} />
           {/* <CopyAndLocateClipboard data={merchantId} link={sellerLink} /> */}
-          {rowData?.is_looked_up ? <Icon name="lock open" /> : <Icon name="lock" />}
+          {rowData?.company_info?.is_looked_up || rowData?.is_looked_up ? '' : <Icon name="lock" />}
         </div>
 
         {/* Right part seller information */}
