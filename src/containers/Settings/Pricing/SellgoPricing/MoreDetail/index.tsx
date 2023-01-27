@@ -13,7 +13,7 @@ const MoreDetails = () => {
   const [isDemoFormOpen, setIsDemoFormOpen] = useState(false);
   return (
     <section className={styles.moreDetailsSection}>
-      <p>Need everything unlimited in an Enterprise plan?</p>
+      <p>Need everything unlimited in an account-based Enterprise plan?</p>
       <div className={styles.pricingPlansCardBody}>
         <PricingPlansCardFeaturesList featuresIncluded={MORE_DETAIL_FEATURES} />
       </div>

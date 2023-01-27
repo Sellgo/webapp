@@ -30,7 +30,7 @@ import ActionButton from '../../../../components/ActionButton';
 /* Assets */
 import cardIcons from '../../../../assets/images/4_Card_color_horizontal.svg';
 import stripeIcon from '../../../../assets/images/powered_by_stripe.svg';
-import ProfilePicture from '../../../../assets/images/jack.png';
+import ProfilePicture from '../../../../assets/images/justin.png';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -271,10 +271,10 @@ function CheckoutForm(props: MyProps) {
       <div className={styles.paymentForm}>
         {newUserExperiencePopup()}
         <section className={styles.reviewsSection}>
-          <h2>The 1st Amazon Seller Database for E-commerce ecosystem!</h2>
+          <h2>The 1st Amazon Seller Database that I ever needed!</h2>
           <p>
-            “Sellgo gives agency, aggregators or influencers to close more deals with high quality
-            leads."
+            “Sellgo enables me as an agency and influencer to close more deals with high quality
+            leads. My ROI got an immediate increase of 300% in a week!"
           </p>
 
           <div className={styles.reviewerRow}>
@@ -292,8 +292,8 @@ function CheckoutForm(props: MyProps) {
             <h2 className={styles.heading}>Sellgo pricing plan</h2>
             <p className={styles.description}>
               We give the power to agency, aggregators or influencers to close more deals with high
-              quality leads. Access our database today and 7-day money back guarantee if you are not
-              satisfied.
+              quality leads. Access our database today with 7-day money back guarantee if you are
+              not satisfied.
             </p>
             <div className={styles.pricing}>
               <p className={styles.label}>{`${accountType}`}</p>
