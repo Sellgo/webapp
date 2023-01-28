@@ -20,7 +20,7 @@ import StepsInfo from '../../../components/StepsInfo';
 import { useInput } from '../../../hooks/useInput';
 
 /* Constants */
-import { passwordPolicy, Length } from '../../../constants/Validators';
+import { passwordPolicy, Length, validateEmail, isFreeEmail } from '../../../constants/Validators';
 import { FREE_ACCOUNT_SUBSCRIPTION_ID } from '../../../constants/Subscription/Sellgo';
 
 /* Actions */
@@ -133,6 +133,14 @@ const FreeAccountForm = (props: Props) => {
       return;
     } else if (!name) {
       setErrorMessage(`Please enter your name.`);
+      setLoading(false);
+      return;
+    } else if (!validateEmail(email)) {
+      setErrorMessage(`error in email - email format validation failed: ${email}`);
+      setLoading(false);
+      return;
+    } else if (isFreeEmail(email.split('@')[1])) {
+      setErrorMessage(`Please use email with business domain.`);
       setLoading(false);
       return;
     }
