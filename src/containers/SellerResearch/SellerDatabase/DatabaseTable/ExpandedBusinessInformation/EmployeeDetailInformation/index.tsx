@@ -13,6 +13,7 @@ import InValidCrossIcon from '../../../../../../components/Icons/InValidIcon';
 
 // Actions
 import { setCompanyInfo } from '../../../../../../actions/SellerResearch/SellerDatabase';
+import { getSellerQuota } from '../../../../../../actions/Settings';
 
 // Selectors
 import { sellerIDSelector } from '../../../../../../selectors/Seller';
@@ -33,9 +34,17 @@ interface Props {
   merchantId: string;
   setEmployeeData: (a: any) => void;
   setCompanyInfo: (a: any, b: string) => void;
+  getSellerQuota: any;
 }
 const EmployeeDetailInformation = (props: Props) => {
-  const { employeeData, setEmployeeData, activeEmployeeIndex, merchantId, setCompanyInfo } = props;
+  const {
+    employeeData,
+    setEmployeeData,
+    activeEmployeeIndex,
+    merchantId,
+    setCompanyInfo,
+    getSellerQuota,
+  } = props;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const unlockEmplloyeeDetail = async () => {
     setIsLoading(true);
@@ -46,6 +55,7 @@ const EmployeeDetailInformation = (props: Props) => {
       const { data } = await axios.get(URL);
 
       if (data) {
+        getSellerQuota();
         setEmployeeData((preValue: any) => {
           const temp = [...preValue];
           temp[activeEmployeeIndex] = {
@@ -253,9 +263,9 @@ const EmployeeDetailInformation = (props: Props) => {
     </>
   );
 };
-
 const mapDispatchToProps = (dispatch: any) => ({
   setCompanyInfo: (companyInfo: any, merhcantId: string) =>
     dispatch(setCompanyInfo(companyInfo, merhcantId)),
+  getSellerQuota: () => dispatch(getSellerQuota()),
 });
 export default connect(null, mapDispatchToProps)(EmployeeDetailInformation);
