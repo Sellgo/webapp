@@ -22,8 +22,8 @@ import {
 import { getSellerInfo } from '../../../../actions/Settings';
 
 /* Assets */
-// import Setcard from '../../../../assets/images/4_Card_color_horizontal.svg';
-// import Stripe from '../../../../assets/images/powered_by_stripe.svg';
+import cardIcons from '../../../../assets/images/4_Card_color_horizontal.svg';
+import stripeIcon from '../../../../assets/images/powered_by_stripe.svg';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -45,8 +45,8 @@ import {
 } from '../../../../constants/Subscription/Sellgo';
 import PricingComparison from './PricingComparison';
 import MoreDetails from './MoreDetail';
-import Testimonials from './Testimonials';
-import BrandImages from './BrandImages';
+//import Testimonials from './Testimonials';
+//import BrandImages from './BrandImages';
 
 interface SubscriptionProps {
   getSeller: () => void;
@@ -204,8 +204,9 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
             <div className={styles.planShortSummary}>
               <p>
-                Supply chain? Inventory planning? Sales projection? 3PL replenishment? Cash flow
-                projection? We've got your back.
+                Emails? Phones? Categories? Brands? Reviews? Inventories?
+                <br />
+                Access #1 Amazon seller database to help you turn leads into customers.
               </p>
             </div>
             {/* <div> */}
@@ -236,6 +237,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     featuresLists={product.featuresLists}
                     // Plan details
                     isMonthly={isMonthly}
+                    monthlyLookups={product.monthlyLookups}
+                    annualLookups={product.annualLookups}
                     changePlan={(
                       subscriptionDetails: { name: string; id: number },
                       isUpgradingToYearly = false
@@ -254,11 +257,21 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <img src={Stripe} alt="Protected by stripe logo" />
             </div>
           </section> */}
-          <PricingComparison planName={'Pricing & Plans'} />
           <MoreDetails />
-          <Testimonials />
-          <BrandImages />
+          <PricingComparison planName={'Pricing & Plans'} />
+          {/* <Testimonials /> */}
+          {/* <BrandImages /> */}
           <FAQSection />
+          <div className={styles.paymentMeta}>
+            <div className={styles.cardsWrapper}>
+              <img className={styles.cardsWrapper__cards} src={cardIcons} alt="cards" />
+              <img
+                className={styles.cardsWrapper__stripe}
+                src={stripeIcon}
+                alt="powered by stripe"
+              />
+            </div>
+          </div>
         </main>
       </>
     );

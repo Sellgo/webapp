@@ -188,9 +188,9 @@ const FreeAccountForm = (props: Props) => {
           />
           <Form.Input
             size="huge"
-            label="Email*"
+            label="Business Email*"
             type="mail"
-            placeholder="Email"
+            placeholder="Business Email"
             value={email}
             className={styles.formInput}
             onChange={e => setEmail(e.target.value)}

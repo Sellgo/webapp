@@ -22,7 +22,7 @@ const PricingComparison = (props: Props) => {
     <section className={styles.pricingComparisonSection}>
       <div className={styles.comparisonTextContainer}>
         <p onClick={() => setShowComparison(!showComparison)}>
-          {showComparison ? 'Collapse Comparison' : 'Show Comparison'}
+          {showComparison ? 'Collapse Comparison' : 'Show Plan Comparison'}
           <span className={showComparison ? styles.rotateNegative : styles.rotatePositive}>
             &gt;
           </span>
@@ -33,6 +33,7 @@ const PricingComparison = (props: Props) => {
           return <AllFeaturesTable header={feature.header} body={feature.body} key={uuid()} />;
         })}
       </div>
+      {showComparison && <p className={styles.note}>* When the data is available</p>}
     </section>
   );
 };

@@ -8,7 +8,7 @@ import styles from './index.module.scss';
 import Check from '../../Icons/Check';
 
 interface Props {
-  title: string;
+  title?: string;
   featuresIncluded: any;
 }
 
@@ -17,7 +17,7 @@ const PricingPlansCardFeaturesList: React.FC<Props> = props => {
 
   return (
     <div className={styles.featuresList}>
-      <p>{title}</p>
+      {title && <p>{title}</p>}
       <ul>
         {featuresIncluded.map((featureName: string) => {
           return (

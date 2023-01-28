@@ -35,7 +35,7 @@ import PlansIcon from '../../assets/images/plansIcon.svg';
 import BillingIcon from '../../assets/images/billingIcon.svg';
 import ConnectivityIcon from '../../assets/images/connectivityIcon.svg';
 import LogoutIcon from '../../assets/images/logoutIcon.svg';
-import KeyIcon from '../../assets/images/key-regular.svg';
+// import KeyIcon from '../../assets/images/key-regular.svg';
 import PerfectStockIcon from '../../assets/images/perfectStockGrey.svg';
 
 /* Actions */
@@ -87,8 +87,9 @@ const AdminHeader = (props: Props) => {
             size={'md'}
             type="purpleGradient"
             onClick={redirectToPricing}
+            className="upgradeAccessButton"
           >
-            Upgrade Access
+            Upgrade access
           </ActionButton>
         )}
 
@@ -200,7 +201,7 @@ const AdminHeader = (props: Props) => {
               <img src={ConnectivityIcon} alt="connectivity-icon" />
               Connectivity
             </Dropdown.Item>
-            <Dropdown.Item
+            {/* <Dropdown.Item
               as={Link}
               to="/settings/api-keys"
               className="dropdownItem"
@@ -208,7 +209,7 @@ const AdminHeader = (props: Props) => {
             >
               <img src={KeyIcon} alt="key-icon" />
               API Keys
-            </Dropdown.Item>
+            </Dropdown.Item> */}
             <Dropdown.Item
               as={Link}
               to="/settings/aistock/lead-time"

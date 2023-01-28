@@ -6,15 +6,17 @@ import styles from './index.module.scss';
 import ActionButton from '../../../../../components/ActionButton';
 import { Modal } from 'semantic-ui-react';
 import DemoForm from '../../../../../components/DemoForm';
+import PricingPlansCardFeaturesList from '../../../../../components/PricingPlansCard/PricingPlansCardFeaturesList';
+import { MORE_DETAIL_FEATURES } from '../../../../../constants/Subscription/Sellgo/moreDetailFeatures';
 
 const MoreDetails = () => {
   const [isDemoFormOpen, setIsDemoFormOpen] = useState(false);
   return (
     <section className={styles.moreDetailsSection}>
-      <p>
-        *Need more data? <br />
-        Do you have existing seller data that you want to enrich with our updated data?
-      </p>
+      <p>Need everything unlimited in an account-based Enterprise plan?</p>
+      <div className={styles.pricingPlansCardBody}>
+        <PricingPlansCardFeaturesList featuresIncluded={MORE_DETAIL_FEATURES} />
+      </div>
       <ActionButton
         variant={'primary'}
         size={'md'}

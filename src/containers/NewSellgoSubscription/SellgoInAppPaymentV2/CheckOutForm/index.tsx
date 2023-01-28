@@ -30,7 +30,7 @@ import ActionButton from '../../../../components/ActionButton';
 /* Assets */
 import cardIcons from '../../../../assets/images/4_Card_color_horizontal.svg';
 import stripeIcon from '../../../../assets/images/powered_by_stripe.svg';
-import ProfilePicture from '../../../../assets/images/jack.png';
+import ProfilePicture from '../../../../assets/images/justin.png';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -40,7 +40,7 @@ import { PromoCode, SummaryDetails } from '../../../../interfaces/Subscription';
 
 /* Utils */
 import { generatePromoCodeMessage } from '../../../../utils/subscriptions';
-import { formatDecimal } from '../../../../utils/format';
+import { formatDecimal, formatNumber } from '../../../../utils/format';
 
 /* Constants */
 import {
@@ -160,7 +160,7 @@ function CheckoutForm(props: MyProps) {
       </Modal>
     );
   };
-
+  console.log('163', accountType);
   const summaryDetails: SummaryDetails = generateSubscriptionDetails(accountType.toLowerCase());
   /* Upon successful checking of the entered promo code, either a valid redeemedPromoCode code
   is returned, or an error message is returned. Upon completion of promo code check, set status
@@ -271,19 +271,18 @@ function CheckoutForm(props: MyProps) {
       <div className={styles.paymentForm}>
         {newUserExperiencePopup()}
         <section className={styles.reviewsSection}>
-          <h2>The 1st Amazon Seller Database for E-commerce ecosystem!</h2>
+          <h2>The 1st Amazon Seller Database that I ever needed!</h2>
           <p>
-            “Sellgo gives our supply chain one place to get whatever help we need. It gives us a
-            single point of integration for all our logistic process, helping us focus on increasing
-            sales and launch new products as we grow."
+            “Sellgo enables me as an agency and influencer to close more deals with high quality
+            leads. My ROI got an immediate increase of 300% in a week!"
           </p>
 
           <div className={styles.reviewerRow}>
             <img src={ProfilePicture} alt="profile picture" />
             <div className={styles.reviewerDetails}>
-              Andrew Erickson
+              Justin Willhite
               <br />
-              <span>7-figure Brand Entrepreneur</span>
+              <span>Amazon Product Content Creator</span>
             </div>
           </div>
         </section>
@@ -292,20 +291,21 @@ function CheckoutForm(props: MyProps) {
           <div className={styles.header}>
             <h2 className={styles.heading}>Sellgo pricing plan</h2>
             <p className={styles.description}>
-              Supply chain? Inventory planning? Sales projection? 3PL replenishment? Cash flow
-              projection? We've got your back.
+              We give the power to agency, aggregators or influencers to close more deals with high
+              quality leads. Access our database today with 7-day money back guarantee if you are
+              not satisfied.
             </p>
             <div className={styles.pricing}>
               <p className={styles.label}>{`${accountType}`}</p>
               <p className={styles.price}>
                 {isMonthly ? (
                   <>
-                    {`$${summaryDetails.monthlyPrice}`}
+                    {`$${formatNumber(summaryDetails.monthlyPrice)}`}
                     <span className={styles.pricerepeatition}> &nbsp;per month</span>
                   </>
                 ) : (
                   <>
-                    {`$${summaryDetails.annualPrice}`}
+                    {`$${formatNumber(summaryDetails.annualPrice)}`}
                     <span className={styles.pricerepeatition}>&nbsp; per year</span>
                   </>
                 )}
@@ -318,17 +318,17 @@ function CheckoutForm(props: MyProps) {
                 <p className={styles.orderTitle}>
                   {isMonthly ? (
                     <div>
-                      {
-                        /* {commify(formatString(PLAN_UNIT[unitsSold]))}*/ '100 lookups per month usage-based'
-                      }
+                      {/* {commify(formatString(PLAN_UNIT[unitsSold]))}*/ `${formatNumber(
+                        summaryDetails.monthlyLookups
+                      )} lookups per month usage-based`}
                       <br />
                       <span>billed monthly</span>
                     </div>
                   ) : (
                     <div>
-                      {
-                        /* {commify(formatString(PLAN_UNIT[unitsSold]))}*/ '100 lookups per month usage-based'
-                      }
+                      {/* {commify(formatString(PLAN_UNIT[unitsSold]))}*/ `${formatNumber(
+                        summaryDetails.annualLookups
+                      )} lookups per month usage-based`}
                       <br />
                       <span>billed yearly</span>
                     </div>
@@ -355,8 +355,14 @@ function CheckoutForm(props: MyProps) {
                   <p className={styles.paymentToggleText}>
                     {isMonthly ? (
                       <span>
-                        Save with annual billing &nbsp;
-                        <span className={styles.greenhighlight}>&nbsp;20% OFF&nbsp;</span>
+                        Save{' $'}
+                        {formatNumber(
+                          summaryDetails.monthlyPrice * 12 - summaryDetails.annualPrice
+                        )}{' '}
+                        with annual billing &nbsp;
+                        <span className={styles.greenhighlight}>
+                          &nbsp;{summaryDetails.annualSavingPercentage}% OFF&nbsp;
+                        </span>
                         <span className={styles.total}>
                           {formatDecimal(summaryDetails.annualPrice)} /year
                         </span>
@@ -443,7 +449,7 @@ function CheckoutForm(props: MyProps) {
             </div>
           </div>
 
-          <h2>Secure Credit Card Payment</h2>
+          <h2 className={styles.securePayment}>Secure Credit Card Payment</h2>
 
           <Form.Group className={styles.formGroup}>
             <Form.Field className={`${styles.formInput} ${styles.formInput__creditCard}`}>

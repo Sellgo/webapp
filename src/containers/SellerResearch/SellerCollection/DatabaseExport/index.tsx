@@ -75,6 +75,7 @@ const DatabaseExport = (props: Props) => {
           loading={isLoadingSellerDatabaseExport}
           label=""
           disableExport={!shouldEnableExport}
+          openPopUponDownloadClick
           exportContent={
             <>
               <div className={styles.exportOptions}>

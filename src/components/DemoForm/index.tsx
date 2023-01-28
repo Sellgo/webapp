@@ -266,10 +266,10 @@ const DemoForm: React.FC<Props> = (props: Props) => {
       {showDemoForm && (
         <div className={styles.demoPage}>
           <form className={styles.demoPageForm} onSubmit={handleSubmit}>
-            <h2>See how {currentCompanyName} can work for you</h2>
+            <h2>See how Sellgo can work for you</h2>
             <p>
               Leave a few details below and we&apos;ll connect you with an {currentCompanyName}{' '}
-              expert who can show you how {currentCompanyName} can help your business.
+              expert who can show you how Sellgo can help your business.
             </p>
             <div className={styles.inputControlWrapper}>
               <FormInput
@@ -370,7 +370,7 @@ const DemoForm: React.FC<Props> = (props: Props) => {
 								${styles.formInput__long}
 							`}
                 label=""
-                placeholder="Total Orders Per Month*"
+                placeholder="Total employees*"
                 id="totalOrders"
                 type="number"
                 name="totalOrders"
@@ -379,7 +379,7 @@ const DemoForm: React.FC<Props> = (props: Props) => {
                 autoComplete="off"
                 required
                 hasError={totalOrdersErr}
-                errorMessage="Please enter valid URL"
+                errorMessage="Please enter total employee"
               />
             </div>
             <FormInput

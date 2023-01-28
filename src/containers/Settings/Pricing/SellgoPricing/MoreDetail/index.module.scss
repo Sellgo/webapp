@@ -1,7 +1,7 @@
 .moreDetailsSection {
-  width: 1200px;
+  width: 310;
   margin: 60px auto;
-  text-align: center;
+  text-align: left;
 
   p {
     font-size: 20px;
@@ -11,4 +11,11 @@
   button {
     margin: 20px auto;
   }
+}
+
+.pricingPlansCardBody {
+  margin: 0 auto;
+  padding-left: 80px;
+  text-align: left;
+  width: 310px;
 }

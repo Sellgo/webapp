@@ -22,10 +22,10 @@ import {
 import {
   DEFAULT_SELLER_DATABASE_FILTER,
   DEFAULT_INCLUDE_EXCLUDE_ERROR,
-  FILTER_PERIOD_DURATIONS,
+  //FILTER_PERIOD_DURATIONS,
   DEFAULT_US_MARKET,
   SELLER_DB_MARKETPLACE,
-  FILTER_REVIEW_OPTIONS,
+  //FILTER_REVIEW_OPTIONS,
   // GROWTH_PERCENT_PERIOD_OPTIONS,
   // LAUNCHED_FILTER_OPTIONS,
   // SELLER_TYPE_FILTER_OPTIONS,
@@ -47,10 +47,10 @@ import AdvanceFilterToggle from '../../../../components/AdvanceFilterToggle';
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
-import PeriodFilter from '../../../../components/FormFilters/PeriodFilter';
+//import PeriodFilter from '../../../../components/FormFilters/PeriodFilter';
 import MarketPlaceFilter from '../../../../components/FormFilters/MarketPlaceFilter';
-import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
-import ReviewTypeFilter from '../../../../components/FormFilters/ReviewTypeFilter';
+//import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
+//import ReviewTypeFilter from '../../../../components/FormFilters/ReviewTypeFilter';
 import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxDropdownFilter';
 // import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
@@ -668,7 +668,7 @@ const SellerDatabaseFilters = (props: Props) => {
               /> */}
 
               {/*  Review Filter */}
-              <div className={styles.reviewGroupedFilter}>
+              {/*<div className={styles.reviewGroupedFilter}>
                 <ReviewTypeFilter
                   placeholder="Positive"
                   label="Review"
@@ -705,7 +705,7 @@ const SellerDatabaseFilters = (props: Props) => {
                     }}
                   />
                 </div>
-              </div>
+                  </div>*/}
 
               {/* Launched FIlter */}
               {/* <RadioListFilters
@@ -724,7 +724,7 @@ const SellerDatabaseFilters = (props: Props) => {
               /> */}
 
               {/* Seller Ratings */}
-              <MinMaxRatingsFilter
+              {/*<MinMaxRatingsFilter
                 label="Seller Ratings"
                 minValue={sellerDatabaseFilters.sellerRatings.min}
                 maxValue={sellerDatabaseFilters.sellerRatings.max}
@@ -734,7 +734,7 @@ const SellerDatabaseFilters = (props: Props) => {
                     [type]: value,
                   })
                 }
-              />
+              />*/}
             </div>
           )}
         </div>

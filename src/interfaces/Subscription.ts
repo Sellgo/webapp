@@ -19,6 +19,9 @@ export interface SummaryDetails {
   monthlyPrice: number;
   annualPrice: number;
   dailyPrice: number;
+  monthlyLookups?: number;
+  annualLookups?: number;
+  annualSavingPercentage?: number;
 }
 
 export interface SubscriptionPlan {
