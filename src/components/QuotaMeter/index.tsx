@@ -22,8 +22,8 @@ class QuotaMeter extends React.Component<QuotaMeterProps> {
     if (!sellerQuota) {
       return null;
     }
-    const used = sellerQuota.seller_research.used;
-    const available = sellerQuota.seller_research.available;
+    const used = sellerQuota?.seller_detail?.used;
+    const available = sellerQuota?.seller_detail?.available;
     const percent = (used / available) * 100;
 
     return (

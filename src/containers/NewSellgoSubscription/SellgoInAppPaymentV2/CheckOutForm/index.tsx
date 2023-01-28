@@ -30,7 +30,7 @@ import ActionButton from '../../../../components/ActionButton';
 /* Assets */
 import cardIcons from '../../../../assets/images/4_Card_color_horizontal.svg';
 import stripeIcon from '../../../../assets/images/powered_by_stripe.svg';
-import ProfilePicture from '../../../../assets/images/jack.png';
+import ProfilePicture from '../../../../assets/images/justin.png';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -318,17 +318,17 @@ function CheckoutForm(props: MyProps) {
                 <p className={styles.orderTitle}>
                   {isMonthly ? (
                     <div>
-                      {
-                        /* {commify(formatString(PLAN_UNIT[unitsSold]))}*/ '100 lookups per month usage-based'
-                      }
+                      {/* {commify(formatString(PLAN_UNIT[unitsSold]))}*/ `${formatNumber(
+                        summaryDetails.monthlyLookups
+                      )} lookups per month usage-based`}
                       <br />
                       <span>billed monthly</span>
                     </div>
                   ) : (
                     <div>
-                      {
-                        /* {commify(formatString(PLAN_UNIT[unitsSold]))}*/ '100 lookups per month usage-based'
-                      }
+                      {/* {commify(formatString(PLAN_UNIT[unitsSold]))}*/ `${formatNumber(
+                        summaryDetails.annualLookups
+                      )} lookups per month usage-based`}
                       <br />
                       <span>billed yearly</span>
                     </div>
@@ -355,8 +355,14 @@ function CheckoutForm(props: MyProps) {
                   <p className={styles.paymentToggleText}>
                     {isMonthly ? (
                       <span>
-                        Save with annual billing &nbsp;
-                        <span className={styles.greenhighlight}>&nbsp;20% OFF&nbsp;</span>
+                        Save{' $'}
+                        {formatNumber(
+                          summaryDetails.monthlyPrice * 12 - summaryDetails.annualPrice
+                        )}{' '}
+                        with annual billing &nbsp;
+                        <span className={styles.greenhighlight}>
+                          &nbsp;{summaryDetails.annualSavingPercentage}% OFF&nbsp;
+                        </span>
                         <span className={styles.total}>
                           {formatDecimal(summaryDetails.annualPrice)} /year
                         </span>
@@ -443,7 +449,7 @@ function CheckoutForm(props: MyProps) {
             </div>
           </div>
 
-          <h2>Secure Credit Card Payment</h2>
+          <h2 className={styles.securePayment}>Secure Credit Card Payment</h2>
 
           <Form.Group className={styles.formGroup}>
             <Form.Field className={`${styles.formInput} ${styles.formInput__creditCard}`}>
