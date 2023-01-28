@@ -148,6 +148,9 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     monthlyPrice: 77,
     annualPrice: 467,
     dailyPrice: -1,
+    monthlyLookups: 100,
+    annualLookups: 1400,
+    annualSavingPercentage: 49,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
       'Full access to Chrome extension.',
@@ -161,7 +164,10 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     idWithLegacyPlans: [11, 2],
     monthlyPrice: 147,
     annualPrice: 1187,
+    monthlyLookups: 240,
+    annualLookups: 3600,
     dailyPrice: -1,
+    annualSavingPercentage: 33,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
       'Full access in Chrome Extension + Sales Estimation',
@@ -176,6 +182,9 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     monthlyPrice: 297,
     annualPrice: 2987,
     dailyPrice: -1,
+    monthlyLookups: 800,
+    annualLookups: 12000,
+    annualSavingPercentage: 16,
     subDescription: '7-Days Money Back Guarantee',
     benefits: [
       '20,000 Sellers in Seller Database or Seller Map per month',
@@ -217,9 +226,9 @@ export const getSubscriptionNameKey = (id: number) => {
 };
 
 export const generateSubscriptionDetails = (planType: string) => {
-  // if (planType === 'elite') {
-  //   planType = 'team';
-  // }
+  if (planType === 'elite') {
+    planType = 'team';
+  }
   if (!planType) {
     return SUBSCRIPTION_DETAILS.starter;
   }
