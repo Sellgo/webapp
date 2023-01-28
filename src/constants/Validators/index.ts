@@ -1,6 +1,7 @@
 import PasswordValidator from 'password-validator';
 import { isPostalCode, isEmail } from 'validator';
 import { tldExists } from 'tldjs';
+import { FREE_EMAILS } from '../FreeEmails';
 
 export const Name = new PasswordValidator()
   .has()
@@ -48,4 +49,8 @@ export const postalCode = (code: string, country: any) => {
 
 export const validateEmail = (email: string) => {
   return isEmail(email) && tldExists(email);
+};
+
+export const isFreeEmail = (email: string) => {
+  return FREE_EMAILS.find(freeEmail => freeEmail === email);
 };
