@@ -14,11 +14,13 @@ import NotFound from '../../components/NotFound';
 import history from '../../history';
 import { connect } from 'react-redux';
 import { fetchSellerSubscription, fetchSubscriptions } from '../../actions/Settings/Subscription';
+import { fetchNotifications } from '../../actions/NotificationInbox';
+import { getSellerQuota } from '../../actions/Settings';
 import '../../analytics';
 import ResetPassword from '../ResetPassword';
 import Onboarding from '../Onboarding';
 import Billing from '../Settings/Billing';
-import APIConnectivity from '../Settings/APIConnectivity';
+// import APIConnectivity from '../Settings/APIConnectivity';
 import SPConnectivity from '../Settings/SPConnectivity';
 import SpApiListener from '../Settings/SPConnectivity/SpApiListener';
 import Profile from '../Settings/Profile';
@@ -31,6 +33,7 @@ import ProductResearch from '../ProductResearch';
 import KeywordResearch from '../KeywordResearch';
 import PerfectStock from '../PerfectStock';
 import LeadTime from '../Settings/PerfectStockSettings/LeadTime';
+import AlertsManagement from '../Settings/PerfectStockSettings/AlertsManagement';
 import DaysOfInventory from '../Settings/PerfectStockSettings/DaysOfInventory';
 import SkuSettings from '../Settings/PerfectStockSettings/SkuSettings';
 import Containers from '../Settings/PerfectStockSettings/Containers';
@@ -41,13 +44,15 @@ import LaunchExpenses from '../Settings/PerfectStockSettings/LaunchExpenses';
 import MiscExpenses from '../Settings/PerfectStockSettings/MiscExpenses';
 import PpcExpenses from '../Settings/PerfectStockSettings/PpcExpenses';
 import CashFlowReconcile from '../Settings/PerfectStockSettings/CashFlowReconcile';
+import SalesForecastingAdjustor from '../Settings/PerfectStockSettings/SalesForecastingAdjustor';
+// import SalesForcastingInventoryHistory from '../Settings/PerfectStockSettings/SalesForcastingInventoryHistory';
+import SalesForecastingWeights from '../Settings/PerfectStockSettings/SalesForecastingWeights';
 
 import SellgoNewSubscription from '../NewSellgoSubscription';
 import SellgoPaymentSuccess from '../NewSellgoSubscription/SellgoPaymentSuccess';
 import SellgoFreeAccountForm from '../NewSellgoSubscription/SellgoFreeAccountForm';
 import SellgoActivation from '../NewSellgoSubscription/SellgoActivation';
 import SellgoActivationSuccess from '../NewSellgoSubscription/SellgoActivationSuccess';
-import SellgoInappPayment from '../NewSellgoSubscription/SellgoInappPayment';
 import SellgoUpsellCtaPage from '../UpsellCtaPage/Sellgo';
 import SellgoPricing from '../Settings/Pricing/SellgoPricing';
 
@@ -73,8 +78,8 @@ import {
   isSubscriptionIdFreeTrial,
 } from '../../utils/subscriptions';
 import { isAiStockSession, isSellgoSession } from '../../utils/session';
-import { getSellerQuota } from '../../actions/Settings';
 import { AppConfig } from '../../config';
+import SellgoInAppPaymentV2 from '../NewSellgoSubscription/SellgoInAppPaymentV2';
 
 export const auth = new Auth();
 
@@ -97,7 +102,7 @@ const SellgoSubscriptionPages = {
   ActivationSuccess: SellgoActivationSuccess,
   UpsellCtaPage: SellgoUpsellCtaPage,
   Pricing: SellgoPricing,
-  Payment: SellgoInappPayment,
+  Payment: SellgoInAppPaymentV2,
 };
 
 const SubscriptionPages = isSellgoSession() ? SellgoSubscriptionPages : AistockSubscriptionPages;
@@ -135,6 +140,7 @@ const PrivateRoute = connect(
     fetchSellerSubscription: () => fetchSellerSubscription(),
     fetchSubscriptions: () => fetchSubscriptions(),
     getSellerQuota: () => getSellerQuota(),
+    fetchNotifications: () => fetchNotifications(),
   }
 )(
   ({
@@ -144,6 +150,7 @@ const PrivateRoute = connect(
     sellerQuota,
     fetchSellerSubscription,
     fetchSubscriptions,
+    fetchNotifications,
     getSellerQuota,
     location,
     ...rest
@@ -220,6 +227,51 @@ const PrivateRoute = connect(
       requireSubscription,
       location,
     ]);
+
+    const [notificationSocket, setNotificationSocket] = React.useState<WebSocket | null>(null);
+
+    const sellerId = localStorage.getItem('userId') || '';
+    const idToken = localStorage.getItem('idToken') || '';
+
+    useEffect(() => {
+      if (!userIsAuthenticated || !isAiStockSession()) {
+        return;
+      }
+
+      fetchNotifications();
+
+      const WS_URL = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/perfect-stock/push?token=${idToken}`;
+      const socketConnection = new WebSocket(WS_URL);
+      socketConnection.onopen = () => {
+        setNotificationSocket(socketConnection);
+      };
+
+      return () => {
+        if (notificationSocket) {
+          notificationSocket.close();
+        }
+      };
+    }, [userIsAuthenticated]);
+
+    useEffect(() => {
+      // execute only if the export socket exists
+      if (notificationSocket) {
+        // if notificationSocket is open and not in connecting state
+        if (notificationSocket.OPEN && !notificationSocket.CONNECTING) {
+          // when incoming message is present from server
+          notificationSocket.onmessage = async () => {
+            fetchNotifications();
+          };
+
+          notificationSocket.send(JSON.stringify({ message: 'Trying to connect' }));
+
+          // when notificationSocket connection is closed
+          notificationSocket.onclose = () => {
+            console.log('Find or refresh socket closed');
+          };
+        }
+      }
+    }, [notificationSocket]);
 
     // Render nothing. Redirect will be handled in above effect.
     if (!userIsAuthenticated) {
@@ -385,9 +437,29 @@ function App() {
           <PrivateRoute exact={true} path="/settings/billing" component={Billing} />
           <PrivateRoute exact={true} path="/settings/sp-connectivity" component={SPConnectivity} />
           <PrivateRoute exact={true} path="/settings/sp-api-listener" component={SpApiListener} />
-          <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} />
+          {/* <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} /> */}
           <PrivateRoute exact={true} path="/settings/profile" component={Profile} />
           <PrivateRoute exact={true} path="/settings/aistock/lead-time" component={LeadTime} />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/alerts-management"
+            component={AlertsManagement}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/seasonality-adjustor"
+            component={SalesForecastingAdjustor}
+          />
+          {/* <PrivateRoute
+            exact={true}
+            path="/settings/aistock/stockout-threshold"
+            component={SalesForcastingInventoryHistory}
+          /> */}
+          <PrivateRoute
+            exact={true}
+            path="/settings/aistock/weighted-average-sales"
+            component={SalesForecastingWeights}
+          />
           <PrivateRoute
             exact={true}
             path="/settings/aistock/days-of-inventory-settings"

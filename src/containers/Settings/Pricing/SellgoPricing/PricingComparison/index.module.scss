@@ -1,0 +1,35 @@
+.pricingComparisonSection {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.comparisonTextContainer {
+  border: 1px solid #ced4d9;
+  background-color: #fff;
+  padding: 5px;
+  text-align: center;
+  color: #1473e6;
+  font-weight: 700;
+  border-radius: 7px;
+  margin-bottom: 20px;
+}
+
+.hideFeatureTable {
+  display: none;
+  transition: 1s;
+}
+
+.rotateNegative {
+  margin-left: 5px;
+  transform: rotate(90deg) !important;
+}
+
+.rotatePositive {
+  margin-left: 5px;
+  transform: rotate(-90deg) !important;
+}
+
+.note {
+  margin-top: 20px;
+  text-align: center;
+}

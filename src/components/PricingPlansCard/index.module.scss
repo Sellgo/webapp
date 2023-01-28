@@ -2,7 +2,7 @@
 
 .pricingPlansCardWrapper {
   margin-top: 50px;
-  margin-left: 9px;
+  // margin-left: 9px;
   margin-right: 9px;
   position: relative;
   background: $prim_white;
@@ -38,7 +38,7 @@
   position: absolute;
   top: -50px;
   height: 50px;
-  background: $purple_pink_gradient;
+  background: $yellow_orange_gradient;
 
   /* To compensate for the 1px from border */
   width: calc(100% + 2px);

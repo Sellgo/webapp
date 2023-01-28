@@ -7,12 +7,12 @@ import styles from './index.module.scss';
 
 /* Constants */
 import {
-  FILTER_REVIEW_OPTIONS,
-  REVIEW_FILTER_PERIOD_DURATIONS,
-  GROWTH_FILTER_PERIOD_DURATIONS,
+  //FILTER_REVIEW_OPTIONS,
+  //REVIEW_FILTER_PERIOD_DURATIONS,
+  //GROWTH_FILTER_PERIOD_DURATIONS,
   parseSellerMapFilterData,
-  LAUNCHED_FILTER_OPTIONS,
-  FBA_PERCENT_FILTER_OPTIONS,
+  //LAUNCHED_FILTER_OPTIONS,
+  //FBA_PERCENT_FILTER_OPTIONS,
 } from '../../../../constants/SellerResearch';
 
 /* Selectors */
@@ -32,10 +32,10 @@ import {
 import Placeholder from '../../../../components/Placeholder';
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
-import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
-import ReviewTypeFilter from '../../../../components/FormFilters/ReviewTypeFilter';
-import PeriodFilter from '../../../../components/FormFilters/PeriodFilter';
-import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
+//import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
+//import ReviewTypeFilter from '../../../../components/FormFilters/ReviewTypeFilter';
+//import PeriodFilter from '../../../../components/FormFilters/PeriodFilter';
+//import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxDropdownFilter';
 
@@ -81,7 +81,7 @@ const SellerMapFilter = (props: Props) => {
   const categories = parseSellerMapFilterData(sellerMapFilterData, 'categories');
 
   /* Monthly revenue */
-  const monthlyRevenue = parseSellerMapFilterData(sellerMapFilterData, 'sales_estimate');
+  //const monthlyRevenue = parseSellerMapFilterData(sellerMapFilterData, 'sales_estimate');
 
   /* Business Name */
   const businessName = parseSellerMapFilterData(sellerMapFilterData, 'business_name');
@@ -96,10 +96,10 @@ const SellerMapFilter = (props: Props) => {
   const asins = parseSellerMapFilterData(sellerMapFilterData, 'asins');
 
   /* seller Reachability */
-  const sellerReachability = parseSellerMapFilterData(sellerMapFilterData, 'has_phone');
+  const sellerReachability = parseSellerMapFilterData(sellerMapFilterData, 'has_contact');
 
   /* Fba count */
-  const fbaCount = parseSellerMapFilterData(sellerMapFilterData, 'fba_percent');
+  //const fbaCount = parseSellerMapFilterData(sellerMapFilterData, 'fba_percent');
 
   /* # of ASINs */
   const numberOfInventory = parseSellerMapFilterData(sellerMapFilterData, 'inventory_count');
@@ -108,16 +108,16 @@ const SellerMapFilter = (props: Props) => {
   const brandsCount = parseSellerMapFilterData(sellerMapFilterData, 'number_brands');
 
   /* Growth percent */
-  const growthPercent = parseSellerMapFilterData(sellerMapFilterData, 'growth');
+  //const growthPercent = parseSellerMapFilterData(sellerMapFilterData, 'growth');
 
   /* Review */
-  const review = parseSellerMapFilterData(sellerMapFilterData, 'review_ratings');
+  //const review = parseSellerMapFilterData(sellerMapFilterData, 'review_ratings');
 
   /* Seller Launched */
-  const sellerLaunched = parseSellerMapFilterData(sellerMapFilterData, 'launched');
+  //const sellerLaunched = parseSellerMapFilterData(sellerMapFilterData, 'launched');
 
   /* Seller Ratings */
-  const sellerRatings = parseSellerMapFilterData(sellerMapFilterData, 'seller_rating');
+  //const sellerRatings = parseSellerMapFilterData(sellerMapFilterData, 'seller_rating');
 
   /* Merchant Name */
   const merchantName = parseSellerMapFilterData(sellerMapFilterData, 'merchant_name');
@@ -208,14 +208,14 @@ const SellerMapFilter = (props: Props) => {
       />
 
       {/* Monthly revenue */}
-      <MinMaxFilter
+      {/*<MinMaxFilter
         label="Monthly Revenue"
         minValue={monthlyRevenue.value.min}
         maxValue={monthlyRevenue.value.max}
         handleChange={(type: string, value: string) => {
           handleFilterChange('sales_estimate', { ...monthlyRevenue.value, [type]: value });
         }}
-      />
+      />*/}
 
       {/* Merchant Name */}
       <InputFilter
@@ -304,20 +304,20 @@ const SellerMapFilter = (props: Props) => {
       {/* Seller Reachability */}
       <CheckboxFilter
         label="Seller Reachability"
-        checkboxLabel="Sellers with Phone"
+        checkboxLabel="Sellers with decision makers"
         checked={sellerReachability.value}
         handleChange={(value: any) => {
-          handleFilterChange('has_phone', value);
+          handleFilterChange('has_contact', value);
         }}
       />
 
       {/* FBA % */}
-      <RadioListFilters
+      {/*<RadioListFilters
         label="FBA %"
         filterOptions={FBA_PERCENT_FILTER_OPTIONS}
         value={fbaCount.value}
         handleChange={(value: string) => handleFilterChange('fba_percent', value)}
-      />
+      />*/}
 
       {/* Number of ASINs */}
       <MinMaxFilter
@@ -341,7 +341,7 @@ const SellerMapFilter = (props: Props) => {
 
       {/* Growth percent */}
       <div className={styles.groupFilters}>
-        <MinMaxFilter
+        {/*<MinMaxFilter
           label="Growth %"
           minValue={growthPercent.value.min}
           maxValue={growthPercent.value.max}
@@ -351,8 +351,8 @@ const SellerMapFilter = (props: Props) => {
               [type]: value,
             });
           }}
-        />
-        <PeriodFilter
+        />*/}
+        {/*<PeriodFilter
           className={styles.periodFilter}
           placeholder="30D"
           value={growthPercent.value.period}
@@ -363,12 +363,12 @@ const SellerMapFilter = (props: Props) => {
               period,
             });
           }}
-        />
+        />*/}
       </div>
 
       {/* Review Filter */}
       <div className={styles.reviewGroupedFilter}>
-        <ReviewTypeFilter
+        {/*<ReviewTypeFilter
           placeholder="Positive"
           label="Review"
           filterOptions={FILTER_REVIEW_OPTIONS}
@@ -379,9 +379,9 @@ const SellerMapFilter = (props: Props) => {
               type,
             });
           }}
-        />
+        />*/}
         <div className={styles.groupFilters}>
-          <MinMaxFilter
+          {/*<MinMaxFilter
             label=""
             minValue={review.value.min}
             maxValue={review.value.max}
@@ -391,8 +391,8 @@ const SellerMapFilter = (props: Props) => {
                 [type]: value,
               });
             }}
-          />
-          <PeriodFilter
+          />*/}
+          {/*<PeriodFilter
             placeholder="30D"
             value={review.value.period}
             filterOptions={REVIEW_FILTER_PERIOD_DURATIONS}
@@ -402,27 +402,27 @@ const SellerMapFilter = (props: Props) => {
                 period,
               });
             }}
-          />
+          />*/}
         </div>
       </div>
 
       {/* Launched FIlter */}
-      <RadioListFilters
+      {/*<RadioListFilters
         label="Seller Launched"
         filterOptions={LAUNCHED_FILTER_OPTIONS}
         value={sellerLaunched.value}
         handleChange={(value: string) => handleFilterChange('launched', value)}
-      />
+      />*/}
 
       {/* Seller Ratings */}
-      <MinMaxRatingsFilter
+      {/*<MinMaxRatingsFilter
         label="Seller Ratings"
         minValue={sellerRatings.value.min}
         maxValue={sellerRatings.value.max}
         handleChange={(type: string, value: string) => {
           handleFilterChange('seller_rating', { ...sellerRatings.value, [type]: value });
         }}
-      />
+      />*/}
 
       <FormFilterActions
         onFind={handleSubmit}

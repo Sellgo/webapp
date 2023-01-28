@@ -306,6 +306,8 @@ export const SELLER_MAP_DEFAULT_FILTER = [
   // validated
   { keyName: 'brands', type: F_TYPES.INPUT_INCLUDE_EXCLUDE, value: DEFAULT_INCLUDE_EXCLUDE_FILTER },
   { keyName: 'has_phone', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
+  { keyName: 'has_contact', type: F_TYPES.TEXT, value: DEFAULT_TEXT_FILTER },
+
   { keyName: 'asins', type: F_TYPES.INPUT_INCLUDE_EXCLUDE, value: DEFAULT_INCLUDE_EXCLUDE_FILTER },
   { keyName: 'fba_percent', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },
   { keyName: 'inventory_count', type: F_TYPES.MIN_MAX, value: DEFAULT_MIN_MAX_FILTER },

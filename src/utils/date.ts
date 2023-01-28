@@ -75,3 +75,10 @@ export const isLessThan24Hours = (date: string | null) => {
 
   return getHours(date) <= 24 ? true : false;
 };
+
+export const getNumberOfDaysTillToday = (date: string) => {
+  const today = new Date();
+  const previousDate = new Date(date);
+  const differenceInMilliSecods = today.getTime() - previousDate.getTime();
+  return Math.ceil(differenceInMilliSecods / MILLISECONDS_IN_A_DAY);
+};

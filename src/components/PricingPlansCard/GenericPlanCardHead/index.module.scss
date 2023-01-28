@@ -98,6 +98,9 @@
 
   .savings {
     font-size: $fontsize_content_14;
+    background-color: $sellgo_neon_green;
+    padding: 3px;
+    border-radius: 7px;
 
     &__small {
       font-size: $fontsize_content_12;
@@ -162,4 +165,19 @@
     /* Override absolute position for the smaller pricing header card */
     left: 10px;
   }
+}
+
+.currentPlan {
+  position: absolute;
+  top: 0;
+  left: 37%;
+  padding: 5px;
+  background: $prim_dark_1;
+  color: $prim_white;
+  border-radius: 7px;
+}
+
+.lookups {
+  font-size: $fontsize_content_12 !important;
+  font-weight: $fontweight_semibold !important;
 }

@@ -22,8 +22,8 @@ import {
 import { getSellerInfo } from '../../../../actions/Settings';
 
 /* Assets */
-import Setcard from '../../../../assets/images/4_Card_color_horizontal.svg';
-import Stripe from '../../../../assets/images/powered_by_stripe.svg';
+import cardIcons from '../../../../assets/images/4_Card_color_horizontal.svg';
+import stripeIcon from '../../../../assets/images/powered_by_stripe.svg';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -43,6 +43,10 @@ import {
   DAILY_SUBSCRIPTION_PLANS,
   MONTHLY_AND_ANNUAL_PLANS,
 } from '../../../../constants/Subscription/Sellgo';
+import PricingComparison from './PricingComparison';
+import MoreDetails from './MoreDetail';
+//import Testimonials from './Testimonials';
+//import BrandImages from './BrandImages';
 
 interface SubscriptionProps {
   getSeller: () => void;
@@ -129,12 +133,15 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     history.push(`/subscription/payment`);
   }
 
-  getNewPlan = (subscriptionDetails: { name: string; id: number }) => {
+  getNewPlan = (subscriptionDetails: { name: string; id: number }, isUpgradingToYearly = false) => {
     if (DAILY_SUBSCRIPTION_PLANS.includes(subscriptionDetails.id)) {
       this.chooseSubscription(subscriptionDetails, 'daily');
       return;
     }
-
+    if (isUpgradingToYearly) {
+      this.chooseSubscription(subscriptionDetails, 'yearly');
+      return;
+    }
     const { isMonthly } = this.state;
     this.chooseSubscription(subscriptionDetails, isMonthly ? 'monthly' : 'yearly');
     return;
@@ -164,10 +171,12 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         />
 
         <Confirm
+          className={styles.confirmBtn}
           content={`Would you like to change your plan to "${_.startCase(
             pendingSubscriptionMode
           )} ${pendingSubscriptionName}"`}
           open={pendingSubscription ? true : false}
+          confirmButton="Switch Plan"
           onCancel={() => {
             this.setState({
               pendingSubscription: false,
@@ -183,7 +192,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               pendingSubscriptionName: '',
               pendingSubscriptionMode: '',
             });
-
             this.changeSubscription(pendingSubscriptionId, pendingSubscriptionMode);
           }}
         />
@@ -191,22 +199,29 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         <main className={styles.subscriptionPage}>
           <section className={styles.subscriptionPageWrapper}>
             <div className={styles.planName}>
-              <h2>Sellgo Subscription Plans</h2>
+              <h2>Sellgo simple pricing plan</h2>
             </div>
 
             <div className={styles.planShortSummary}>
               <p>
-                Sellgo offers flexible packages across our portfolio of data-driven solutions and
-                premium applications.
+                Emails? Phones? Categories? Brands? Reviews? Inventories?
+                <br />
+                Access #1 Amazon seller database to help you turn leads into customers.
               </p>
             </div>
-
+            {/* <div> */}
             <ToggleButton
               isToggled={!isMonthly}
               handleChange={() => this.setState({ isMonthly: !isMonthly })}
               className={styles.paymentModeToggleButton}
               options={['Pay monthly', 'Pay annually']}
             />
+
+            {/* <div className={styles.paymentToggleTextWrapper}>
+                <Image width={25} height={21} src="/handPointIcon.svg" alt="handpointicon" />
+                <p className={styles.paymentToggleText}>Up to 5 months free.</p>
+              </div> */}
+            {/* </div> */}
             <div className={styles.pricingPlansCardWrapper}>
               {MONTHLY_AND_ANNUAL_PLANS.map((product: any) => {
                 return (
@@ -222,9 +237,12 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     featuresLists={product.featuresLists}
                     // Plan details
                     isMonthly={isMonthly}
-                    changePlan={(subscriptionDetails: { name: string; id: number }) =>
-                      this.getNewPlan(subscriptionDetails)
-                    }
+                    monthlyLookups={product.monthlyLookups}
+                    annualLookups={product.annualLookups}
+                    changePlan={(
+                      subscriptionDetails: { name: string; id: number },
+                      isUpgradingToYearly = false
+                    ) => this.getNewPlan(subscriptionDetails, isUpgradingToYearly)}
                     // seller details
                     sellerSubscription={sellerSubscription}
                   />
@@ -233,16 +251,27 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             </div>
           </section>
 
-          <section className={styles.paymentMeta}>
+          {/* <section className={styles.paymentMeta}>
             <div className={styles.paymentMeta__images}>
               <img src={Setcard} alt="Different card payment options" />
               <img src={Stripe} alt="Protected by stripe logo" />
             </div>
-            <div className={styles.paymentMeta__text}>
-              <p />
-            </div>
-          </section>
+          </section> */}
+          <MoreDetails />
+          <PricingComparison planName={'Pricing & Plans'} />
+          {/* <Testimonials /> */}
+          {/* <BrandImages /> */}
           <FAQSection />
+          <div className={styles.paymentMeta}>
+            <div className={styles.cardsWrapper}>
+              <img className={styles.cardsWrapper__cards} src={cardIcons} alt="cards" />
+              <img
+                className={styles.cardsWrapper__stripe}
+                src={stripeIcon}
+                alt="powered by stripe"
+              />
+            </div>
+          </div>
         </main>
       </>
     );

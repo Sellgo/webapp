@@ -1,13 +1,14 @@
 .faqSection {
   min-height: 300px;
-  margin: 70px auto;
+  margin: 70px auto 0;
   max-width: 1200px;
-  padding-bottom: 100px;
+  width: 1085px;
+  padding-bottom: 50px;
 
   h2 {
-    font-size: 32px;
+    font-size: 28px;
     text-align: center;
-    font-weight: 600;
-    color: #3b4557;
+    font-weight: bold;
+    color: #1e1e1e;
   }
 }

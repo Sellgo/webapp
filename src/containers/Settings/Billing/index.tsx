@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-
 /* Actions */
 import { fetchSellerSubscription } from '../../../actions/Settings/Subscription';
 import { getSellerInfo } from '../../../actions/Settings';
@@ -34,6 +33,9 @@ import {
   DEFAULT_STRIPE_SUBSCRIPTION_INFO,
 } from '../../../constants/Settings/billing';
 import GetStarted from '../../PerfectStock/GetStarted';
+
+/* Utils */
+import { isSellgoSession } from '../../../utils/session';
 
 interface Props {
   fetchSellerSubscription: () => void;
@@ -184,7 +186,7 @@ const Billing = (props: Props) => {
             fetchTransactionHistoryAll={fetchTransactionHistoryAll}
           />
         </div>
-        <GetStarted />
+        {!isSellgoSession() && <GetStarted />}
       </main>
     </>
   );

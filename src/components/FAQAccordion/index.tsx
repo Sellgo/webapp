@@ -15,10 +15,11 @@ import styles from './index.module.scss';
 interface Props {
   data: any;
   horizontalFocus?: boolean;
+  isBgWhite?: boolean;
 }
 
 const FAQAccordion: React.FC<Props> = props => {
-  const { data, horizontalFocus = false } = props;
+  const { data, isBgWhite, horizontalFocus = false } = props;
 
   const accordionClass = horizontalFocus
     ? styles.faqAccordion__HorizontalFocus
@@ -33,19 +34,27 @@ const FAQAccordion: React.FC<Props> = props => {
       {data.map((faqDetails: any) => {
         return (
           <AccordionItem key={uuid()} className={accordionItemClass}>
-            <AccordionItemHeading className={styles.faqAccordionHeading}>
+            <AccordionItemHeading
+              className={`${styles.faqAccordionHeading} ${isBgWhite && styles.whiteBg}`}
+            >
               <AccordionItemButton className={styles.faqAccordionButton}>
                 <p>
                   <AccordionItemState>
                     {({ expanded }) => {
-                      return expanded ? <span>&#62;</span> : <span>&#62;</span>;
+                      return expanded ? (
+                        <span className={`${isBgWhite && styles.noColor}`}>&#62;</span>
+                      ) : (
+                        <span className={`${isBgWhite && styles.noColor}`}>&#62;</span>
+                      );
                     }}
                   </AccordionItemState>
                   {faqDetails.question}
                 </p>
               </AccordionItemButton>
             </AccordionItemHeading>
-            <AccordionItemPanel className={styles.faqAccordionPanel}>
+            <AccordionItemPanel
+              className={`${styles.faqAccordionPanel} ${isBgWhite && styles.whiteBg}`}
+            >
               <p>{faqDetails.answer}</p>
             </AccordionItemPanel>
           </AccordionItem>

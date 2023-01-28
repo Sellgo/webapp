@@ -1,0 +1,68 @@
+@import '../../../../../../design-system/new-colors';
+
+.informationHeading {
+  font-size: 14px;
+  color: $grey_8;
+  margin-bottom: 20px;
+}
+
+.employeeInformationDetails {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  padding: 10px;
+  height: 470px;
+  overflow-y: auto;
+
+  &__card {
+    width: 400px !important;
+    height: fit-content !important;
+    margin: 0 !important;
+    margin-right: 30px !important;
+    margin-bottom: 20px !important;
+
+    &__content {
+      display: flex;
+      padding: 5px 10px !important;
+    }
+
+    &__description {
+      width: 70%;
+
+      &__image {
+        margin-top: 1em;
+      }
+    }
+
+    &__header {
+      color: $link_blue !important;
+      font-weight: 600;
+    }
+
+    &__button {
+      align-self: center;
+    }
+
+    &__meta {
+      font-size: 12px;
+      width: 200px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+
+  &__noDataFoundCard {
+    width: fit-content !important;
+    height: fit-content !important;
+
+    &__header {
+      color: $link_blue !important;
+      font-weight: 600;
+    }
+  }
+}
+
+.modalWrapper {
+  width: fit-content !important;
+  height: 600px !important;
+}

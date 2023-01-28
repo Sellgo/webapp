@@ -10,6 +10,7 @@ import './AdminHeader.scss';
 /* Components */
 import LogoutConfirm from '../LogoutConfirm';
 import QuotaMeter from '../QuotaMeter';
+import NotificationInbox from './NotificationInbox';
 
 /* Types */
 import { SellerSubscription } from '../../interfaces/Seller';
@@ -26,6 +27,7 @@ import {
   isSubscriptionIdFreeTrial,
 } from '../../utils/subscriptions';
 import { setUserOnboarding } from '../../actions/UserOnboarding';
+import { isAiStockSession } from '../../utils/session';
 
 /* Icons */
 import SettingsIcon from '../../assets/images/settingsIcon.svg';
@@ -33,7 +35,7 @@ import PlansIcon from '../../assets/images/plansIcon.svg';
 import BillingIcon from '../../assets/images/billingIcon.svg';
 import ConnectivityIcon from '../../assets/images/connectivityIcon.svg';
 import LogoutIcon from '../../assets/images/logoutIcon.svg';
-import KeyIcon from '../../assets/images/key-regular.svg';
+// import KeyIcon from '../../assets/images/key-regular.svg';
 import PerfectStockIcon from '../../assets/images/perfectStockGrey.svg';
 
 /* Actions */
@@ -77,7 +79,7 @@ const AdminHeader = (props: Props) => {
   }, []);
   return (
     <div className="admin-header">
-      {isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) && <QuotaMeter />}
+      <QuotaMeter />
       {isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) &&
         !window.location.pathname.includes('pricing') && (
           <ActionButton
@@ -85,10 +87,18 @@ const AdminHeader = (props: Props) => {
             size={'md'}
             type="purpleGradient"
             onClick={redirectToPricing}
+            className="upgradeAccessButton"
           >
-            Upgrade Access
+            Upgrade access
           </ActionButton>
         )}
+
+      {isAiStockSession() && (
+        <Menu.Item style={{ position: 'relative' }}>
+          <NotificationInbox />
+        </Menu.Item>
+      )}
+
       {/*
       {isSellgoSession() ? (
         <Popup
@@ -124,6 +134,7 @@ const AdminHeader = (props: Props) => {
         />
       )}
       */}
+
       <Menu.Item>
         <Dropdown
           trigger={
@@ -190,7 +201,7 @@ const AdminHeader = (props: Props) => {
               <img src={ConnectivityIcon} alt="connectivity-icon" />
               Connectivity
             </Dropdown.Item>
-            <Dropdown.Item
+            {/* <Dropdown.Item
               as={Link}
               to="/settings/api-keys"
               className="dropdownItem"
@@ -198,7 +209,7 @@ const AdminHeader = (props: Props) => {
             >
               <img src={KeyIcon} alt="key-icon" />
               API Keys
-            </Dropdown.Item>
+            </Dropdown.Item> */}
             <Dropdown.Item
               as={Link}
               to="/settings/aistock/lead-time"

@@ -141,6 +141,8 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   sellerType: { keyName: 'seller_type', type: F_TYPES.TEXT },
 
   sellerReachability: { keyName: 'has_phone', type: F_TYPES.TEXT },
+  hasContact: { keyName: 'has_contact', type: F_TYPES.TEXT },
+  isLookedUp: { keyName: 'is_looked_up', type: F_TYPES.TEXT },
 };
 
 export const GROWTH_PERCENT_FILTER_KEY_MAPPER = {
@@ -222,6 +224,7 @@ export const DEFAULT_SELLER_DATABASE_FILTER: any = {
   launched: '',
   sellerType: '',
   sellerRatings: DEFAULT_MIN_MAX_FILTER,
+  hasContact: false,
 };
 
 export const getMinMaxPeriodFilter = (apiFilterName: string, value: any, isReview?: boolean) => {
@@ -343,4 +346,19 @@ export const getGrowthFilter = (apiFilterName: string, value: any) => {
     return null;
   }
   return filter;
+};
+
+export const SOCIAL_LINK_COLORS: { [key: string]: any } = {
+  facebook: '#3B5998',
+  instagram: '',
+  twitter: '#00ACEE',
+  linkedin: '#0072B1',
+  youtube: '#FF0000',
+  pinterest: '#C8232C',
+  crunchbase: '#0287d1',
+  angellist: '',
+  meetup: '#E51937',
+  foursquare: '#FA4779',
+  klout: '#E53935',
+  amazon: '#000000',
 };

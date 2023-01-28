@@ -1,0 +1,19 @@
+@import '../../../../../design-system/new-colors';
+
+.brandImageSection {
+  // width: 1200px;
+  margin: 60px auto;
+  text-align: center;
+
+  h2 {
+    font-size: $fontsize_subtitle_36;
+    font-weight: $fontweight_bold;
+    color: $black_1;
+    margin-bottom: 45px;
+  }
+
+  img {
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+}

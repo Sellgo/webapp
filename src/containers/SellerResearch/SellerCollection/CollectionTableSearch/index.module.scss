@@ -1,0 +1,44 @@
+@import '../../../../design-system/new-colors';
+
+.collectionSearchFormWrapper {
+  display: flex;
+  align-items: center;
+
+  .searchButton {
+    margin-left: 20px;
+  }
+}
+
+.searchForm {
+  height: 100%;
+  align-self: flex-end;
+}
+
+.searchIcon {
+  color: $grey_8 !important;
+}
+
+.searchInput {
+  > input {
+    border: 1px solid $grey_3 !important;
+    outline: 0 !important;
+    border-radius: 3px;
+    font-size: 12px;
+    color: $grey_8 !important;
+    height: 35px !important;
+    padding: 10px !important;
+    width: 500px;
+
+    &::placeholder {
+      color: $grey_5;
+    }
+
+    &:focus {
+      border: 1px solid $grey_3 !important;
+
+      .searchIcon {
+        color: $grey_8 !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,69 @@
+@import '../../../../../../design-system/new-colors';
+
+@mixin no-scroll-bar() {
+  &::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+  }
+}
+
+.informationHeading {
+  font-size: 14px;
+  color: $grey_8;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.socialPresence {
+  &__linksRow {
+    margin-bottom: 20px;
+
+    &__links {
+      margin-right: 30px;
+    }
+  }
+}
+
+.companyInformation {
+  &_details {
+    height: 355px;
+    overflow-y: auto;
+
+    @include no-scroll-bar();
+  }
+
+  &_detailsBox {
+    display: flex;
+    margin-bottom: 15px;
+
+    &_icon {
+      width: 15px;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    &_heading {
+      width: 200px;
+      color: $black_1;
+      margin-right: 20px;
+      margin-top: 0;
+      font-weight: 600;
+      white-space: break-spaces;
+    }
+
+    &_text {
+      margin-top: 0;
+      width: 300px;
+      white-space: normal;
+      overflow: hidden;
+    }
+  }
+}
+
+.blueText {
+  color: $link_blue;
+}
+
+.companyinformation_details::-webkit-scrollbar {
+  display: none;
+}

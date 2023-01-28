@@ -1,7 +1,6 @@
 @import '../../../../../../styles/tableReset';
 
 #seasonalityTable {
-  overflow-x: hidden !important;
   max-height: 250px;
   overflow-y: auto !important;
 
@@ -55,9 +54,6 @@
   // body section
   .rs-table-body-row-wrapper {
     .rs-table-body-wheel-area {
-      transform: none !important;
-      overflow-x: none !important;
-
       //  Table row property
       .rs-table-row {
         // height: 190px !important; //
@@ -84,34 +80,6 @@
           }
         }
       }
-    }
-  }
-
-  // scrollbar
-  div[role='scrollbar'] {
-    display: none !important;
-    bottom: 40px !important;
-    background: $grey_3;
-    border-radius: 4px;
-    position: fixed !important;
-    opacity: 0;
-    height: 10px;
-    max-width: 90vw !important;
-    margin-left: auto !important;
-
-    &.rs-table-scrollbar.rs-table-scrollbar-pressed {
-      opacity: 1 !important;
-    }
-
-    &:hover {
-      opacity: 1;
-    }
-
-    > .rs-table-scrollbar-handle {
-      background-color: $grey_6 !important;
-      opacity: 1 !important;
-      height: 8px;
-      max-width: 100% !important;
     }
   }
 }

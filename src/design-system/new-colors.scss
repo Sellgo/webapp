@@ -63,6 +63,7 @@ $black_1: #1e1e1e;
 
 /* Systems and Accents */
 $accent_blue: #349af8;
+$link_blue: #2680eb;
 $accent_orange: #fc7900; //show on cta hover
 $system_orange: #f4aa74;
 $system_red: #eb675e;
@@ -93,11 +94,14 @@ $linecolor_dimgrey: $second_dimgrey;
 $border-color-1: #707070;
 
 /* Font size scale */
+$fontsize_title_56: 56px;
 $fontsize_title_54: 54px;
 $fontsize_title_46: 46px;
 
 $fontsize_subtitle_40: 40px;
 $fontsize_subtitle_38: 38px;
+$fontsize_subtitle_36: 36px;
+$fontsize_subtitle_34: 34px;
 $fontsize_subtitle_32: 32px;
 $fontsize_subtitle_28: 28px;
 $fontsize_subtitle_24: 24px;
@@ -137,6 +141,7 @@ $orange_purple_gradient: linear-gradient(90deg, #fb7900, #b318f1);
 $blue_purple_gradient: linear-gradient(90deg, #00f0ff, #b318f1);
 $sellgo_purple: #b318f1;
 $sellgo_yellow: #ffcc2f;
+$yellow_orange_gradient: linear-gradient(90deg, #ffcc2f, #ffcc2f, #fc7900);
 $orange_dark_gradient: linear-gradient(90deg, #fc7900, #7e3d00);
 $orange_purple_gradient: linear-gradient(90deg, #fb7900, #b318f1);
 $purple_blue_gradient: linear-gradient(90deg, #b318f1, #00f0ff);

@@ -22,13 +22,13 @@ import {
 import {
   DEFAULT_SELLER_DATABASE_FILTER,
   DEFAULT_INCLUDE_EXCLUDE_ERROR,
-  FILTER_PERIOD_DURATIONS,
+  //FILTER_PERIOD_DURATIONS,
   DEFAULT_US_MARKET,
   SELLER_DB_MARKETPLACE,
-  FILTER_REVIEW_OPTIONS,
-  GROWTH_PERCENT_PERIOD_OPTIONS,
-  LAUNCHED_FILTER_OPTIONS,
-  SELLER_TYPE_FILTER_OPTIONS,
+  //FILTER_REVIEW_OPTIONS,
+  // GROWTH_PERCENT_PERIOD_OPTIONS,
+  // LAUNCHED_FILTER_OPTIONS,
+  // SELLER_TYPE_FILTER_OPTIONS,
   FILTER_QUERY_KEY_MAPPER,
   getMinMaxPeriodFilter,
   getGrowthFilter,
@@ -47,12 +47,12 @@ import AdvanceFilterToggle from '../../../../components/AdvanceFilterToggle';
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
-import PeriodFilter from '../../../../components/FormFilters/PeriodFilter';
+//import PeriodFilter from '../../../../components/FormFilters/PeriodFilter';
 import MarketPlaceFilter from '../../../../components/FormFilters/MarketPlaceFilter';
-import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
-import ReviewTypeFilter from '../../../../components/FormFilters/ReviewTypeFilter';
+//import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
+//import ReviewTypeFilter from '../../../../components/FormFilters/ReviewTypeFilter';
 import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxDropdownFilter';
-import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
+// import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
 import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
 
@@ -354,8 +354,44 @@ const SellerDatabaseFilters = (props: Props) => {
             }}
           />
 
-          {/*  Include brands */}
+          {/* Merchant Name */}
           <InputFilter
+            label="Merchant Name"
+            placeholder="Merchant Name"
+            value={sellerDatabaseFilters.merchantName}
+            handleChange={(value: string) => updateSellerDatabaseFilter('merchantName', value)}
+          />
+
+          {/* Include ASINS */}
+          <InputFilter
+            label="Include ASINs or ISBNs"
+            placeholder="Enter separated by comma"
+            value={sellerDatabaseFilters.asins.include.toUpperCase()}
+            handleChange={(value: string) =>
+              updateSellerDatabaseFilter('asins', {
+                ...sellerDatabaseFilters.asins,
+                include: value,
+              })
+            }
+            error={asinsError.include}
+          />
+
+          {/* Include Seller IDs */}
+          <InputFilter
+            label="Include Seller IDs"
+            placeholder="Enter separated by comma"
+            value={sellerDatabaseFilters.sellerIds.include.toUpperCase()}
+            handleChange={(value: string) =>
+              updateSellerDatabaseFilter('sellerIds', {
+                ...sellerDatabaseFilters.sellerIds,
+                include: value,
+              })
+            }
+            error={sellerIdsError.include}
+          />
+
+          {/*  Include brands */}
+          {/* <InputFilter
             label="Include Brands"
             placeholder="Enter separated by comma"
             value={sellerDatabaseFilters.brands.include}
@@ -365,10 +401,10 @@ const SellerDatabaseFilters = (props: Props) => {
                 include: value,
               })
             }
-          />
+          /> */}
 
           {/* Monthly Revenue = Sales Estimate */}
-          <MinMaxFilter
+          {/* <MinMaxFilter
             label="Monthly Revenue"
             minValue={sellerDatabaseFilters.monthlyRevenue.min}
             maxValue={sellerDatabaseFilters.monthlyRevenue.max}
@@ -379,7 +415,7 @@ const SellerDatabaseFilters = (props: Props) => {
               })
             }
             prependWith={marketPlace.currency}
-          />
+          /> */}
         </div>
         <div className={styles.advancedFilterWrapper}>
           <AdvanceFilterToggle
@@ -390,12 +426,12 @@ const SellerDatabaseFilters = (props: Props) => {
           {showAdvancedFilter && (
             <div className={styles.showAdvancedFilter}>
               {/* Merchant Name */}
-              <InputFilter
+              {/* <InputFilter
                 label="Merchant Name"
                 placeholder="Merchant Name"
                 value={sellerDatabaseFilters.merchantName}
                 handleChange={(value: string) => updateSellerDatabaseFilter('merchantName', value)}
-              />
+              /> */}
 
               {/* Business name */}
               <InputFilter
@@ -405,12 +441,25 @@ const SellerDatabaseFilters = (props: Props) => {
                 handleChange={(value: string) => updateSellerDatabaseFilter('businessName', value)}
               />
 
-              {/* Merchant Name */}
-              <InputFilter
+              {/* Zip code */}
+              {/* <InputFilter
                 label="Zip Code"
                 placeholder="Zip Code"
                 value={sellerDatabaseFilters.zipCode}
                 handleChange={(value: string) => updateSellerDatabaseFilter('zipCode', value)}
+              /> */}
+
+              {/*  Include brands */}
+              <InputFilter
+                label="Include Brands"
+                placeholder="Enter separated by comma"
+                value={sellerDatabaseFilters.brands.include}
+                handleChange={(value: string) =>
+                  updateSellerDatabaseFilter('brands', {
+                    ...sellerDatabaseFilters.brands,
+                    include: value,
+                  })
+                }
               />
 
               {/* Exclude brands */}
@@ -427,7 +476,7 @@ const SellerDatabaseFilters = (props: Props) => {
               />
 
               {/* Include ASINS */}
-              <InputFilter
+              {/* <InputFilter
                 label="Include ASINs or ISBNs"
                 placeholder="Enter separated by comma"
                 value={sellerDatabaseFilters.asins.include.toUpperCase()}
@@ -438,7 +487,7 @@ const SellerDatabaseFilters = (props: Props) => {
                   })
                 }
                 error={asinsError.include}
-              />
+              /> */}
 
               {/* Exclude ASINS Name */}
               <InputFilter
@@ -455,7 +504,7 @@ const SellerDatabaseFilters = (props: Props) => {
               />
 
               {/* Include Seller IDs */}
-              <InputFilter
+              {/* <InputFilter
                 label="Include Seller IDs"
                 placeholder="Enter separated by comma"
                 value={sellerDatabaseFilters.sellerIds.include.toUpperCase()}
@@ -466,7 +515,7 @@ const SellerDatabaseFilters = (props: Props) => {
                   })
                 }
                 error={sellerIdsError.include}
-              />
+              /> */}
 
               {/* Exclude Seller IDS */}
               <InputFilter
@@ -504,15 +553,24 @@ const SellerDatabaseFilters = (props: Props) => {
               />
 
               {/* Seller Reachability */}
-              <CheckboxFilter
-                label="Seller Reachability"
-                checkboxLabel="Sellers with Phone"
-                checked={sellerDatabaseFilters.sellerReachability}
-                handleChange={value => updateSellerDatabaseFilter('sellerReachability', value)}
-              />
+              <div>
+                {/* <CheckboxFilter
+                  label="Seller Reachability"
+                  checkboxLabel="Sellers with Phone"
+                  checked={sellerDatabaseFilters.sellerReachability}
+                  handleChange={value => updateSellerDatabaseFilter('sellerReachability', value)}
+                /> */}
+
+                <CheckboxFilter
+                  label="Seller Reachability"
+                  checkboxLabel="Sellers with decision makers"
+                  checked={sellerDatabaseFilters.hasContact}
+                  handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
+                />
+              </div>
 
               {/* # of Inventory */}
-              <MinMaxFilter
+              {/* <MinMaxFilter
                 label="# of Inventory"
                 minValue={sellerDatabaseFilters.numOfInventory.min}
                 maxValue={sellerDatabaseFilters.numOfInventory.max}
@@ -522,11 +580,11 @@ const SellerDatabaseFilters = (props: Props) => {
                     [type]: value,
                   })
                 }
-              />
+              /> */}
 
               {/* # of Brands */}
               <MinMaxFilter
-                label="# of Brands"
+                label="Number of Brands"
                 minValue={sellerDatabaseFilters.numOfBrands.min}
                 maxValue={sellerDatabaseFilters.numOfBrands.max}
                 handleChange={(type: string, value: string) =>
@@ -538,7 +596,7 @@ const SellerDatabaseFilters = (props: Props) => {
               />
 
               {/* Growth % */}
-              <div className={styles.groupFilters}>
+              {/* <div className={styles.groupFilters}>
                 <MinMaxFilter
                   label="Growth %"
                   minValue={sellerDatabaseFilters.growthPercent.min}
@@ -565,10 +623,10 @@ const SellerDatabaseFilters = (props: Props) => {
                     });
                   }}
                 />
-              </div>
+              </div> */}
 
               {/* Review Count */}
-              <div className={styles.groupFilters}>
+              {/* <div className={styles.groupFilters}>
                 <MinMaxFilter
                   label="Review Count"
                   minValue={sellerDatabaseFilters.reviewCount.min}
@@ -593,10 +651,10 @@ const SellerDatabaseFilters = (props: Props) => {
                     });
                   }}
                 />
-              </div>
+              </div> */}
 
               {/* FBA Percent */}
-              <MinMaxFilter
+              {/* <MinMaxFilter
                 label="FBA %"
                 minValue={sellerDatabaseFilters.fbaPercent.min}
                 maxValue={sellerDatabaseFilters.fbaPercent.max}
@@ -607,10 +665,10 @@ const SellerDatabaseFilters = (props: Props) => {
                   })
                 }
                 appendWith="%"
-              />
+              /> */}
 
               {/*  Review Filter */}
-              <div className={styles.reviewGroupedFilter}>
+              {/*<div className={styles.reviewGroupedFilter}>
                 <ReviewTypeFilter
                   placeholder="Positive"
                   label="Review"
@@ -647,26 +705,26 @@ const SellerDatabaseFilters = (props: Props) => {
                     }}
                   />
                 </div>
-              </div>
+                  </div>*/}
 
               {/* Launched FIlter */}
-              <RadioListFilters
+              {/* <RadioListFilters
                 filterOptions={LAUNCHED_FILTER_OPTIONS}
                 label="Seller Launched"
                 value={sellerDatabaseFilters.launched}
                 handleChange={(value: string) => updateSellerDatabaseFilter('launched', value)}
-              />
+              /> */}
 
               {/* Seller Type FIlter */}
-              <RadioListFilters
+              {/* <RadioListFilters
                 label="Seller Type"
                 filterOptions={SELLER_TYPE_FILTER_OPTIONS}
                 value={sellerDatabaseFilters.sellerType}
                 handleChange={(value: string) => updateSellerDatabaseFilter('sellerType', value)}
-              />
+              /> */}
 
               {/* Seller Ratings */}
-              <MinMaxRatingsFilter
+              {/*<MinMaxRatingsFilter
                 label="Seller Ratings"
                 minValue={sellerDatabaseFilters.sellerRatings.min}
                 maxValue={sellerDatabaseFilters.sellerRatings.max}
@@ -676,7 +734,7 @@ const SellerDatabaseFilters = (props: Props) => {
                     [type]: value,
                   })
                 }
-              />
+              />*/}
             </div>
           )}
         </div>

@@ -190,14 +190,14 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
 
-  {
-    name: 'API Keys',
-    disabled: false,
-    url: '/settings/api-keys',
-    showInSellgo: true,
-    showInAistock: false,
-    subPages: [],
-  },
+  // {
+  //   name: 'API Keys',
+  //   disabled: false,
+  //   url: '/settings/api-keys',
+  //   showInSellgo: true,
+  //   showInAistock: false,
+  //   subPages: [],
+  // },
   {
     name: 'Amazon SP-API Connectivity',
     disabled: false,
@@ -218,6 +218,38 @@ export const SETTINGS_PAGES = [
     name: 'Global: SKU Settings',
     disabled: false,
     url: '/settings/aistock/sku-settings',
+    showInSellgo: false,
+    showInAistock: true,
+    subPages: [],
+  },
+  {
+    name: 'Sales Forecasting: Seasonality Adjustor',
+    disabled: false,
+    url: '/settings/aistock/seasonality-adjustor',
+    showInSellgo: false,
+    showInAistock: true,
+    subPages: [],
+  },
+  // {
+  //   name: 'Sales Forecasting: Stockout Sales Threshold',
+  //   disabled: false,
+  //   url: '/settings/aistock/stockout-threshold',
+  //   showInSellgo: false,
+  //   showInAistock: true,
+  //   subPages: [],
+  // },
+  {
+    name: 'Sales Forecasting: Weighted Average Sales',
+    disabled: false,
+    url: '/settings/aistock/weighted-average-sales',
+    showInSellgo: false,
+    showInAistock: true,
+    subPages: [],
+  },
+  {
+    name: 'Global: Alerts Management',
+    disabled: false,
+    url: '/settings/aistock/alerts-management',
     showInSellgo: false,
     showInAistock: true,
     subPages: [],
@@ -298,5 +330,18 @@ export const getMarketplaceCurrency = (marketplaceId: string) => {
     return marketplace.currency;
   } else {
     return '$';
+  }
+};
+
+/* Get marketplace name*/
+export const getMarketplaceName = (marketplaceId: string) => {
+  const marketplace = defaultMarketplaces.find((marketplace: any) => {
+    return marketplace.id === marketplaceId;
+  });
+
+  if (marketplace && marketplace.name) {
+    return marketplace.name;
+  } else {
+    return '-';
   }
 };

@@ -5,7 +5,11 @@ import styles from './index.module.scss';
 
 /* Components */
 import ActionButton from '../../ActionButton';
-import { DAILY_SUBSCRIPTION_PLANS } from '../../../constants/Subscription/Sellgo';
+import {
+  DAILY_SUBSCRIPTION_PLANS,
+  MONTHLY_AND_ANNUAL_PLANS_IDS,
+} from '../../../constants/Subscription/Sellgo';
+import { formatNumber } from '../../../utils/format';
 
 interface Props {
   id: number;
@@ -14,12 +18,18 @@ interface Props {
   monthlyPrice: number;
   annualPrice: number;
   className?: string;
+  isNew?: boolean;
+  monthlyLookups?: number;
+  annualLookups?: number;
 
   // plan details
   isMonthly: boolean;
 
   // subscription actions
-  changePlan: (subscriptionDetails: { name: string; id: number }) => void;
+  changePlan: (
+    subscriptionDetails: { name: string; id: number },
+    isUpgradingToYearly?: boolean
+  ) => void;
 
   // seller details
   sellerSubscription: any;
@@ -36,8 +46,13 @@ const GenericPriceCardHead: React.FC<Props> = props => {
     className,
     changePlan,
     sellerSubscription,
+    isNew,
+    monthlyLookups,
+    annualLookups,
   } = props;
-
+  const isAccountSubscribed = MONTHLY_AND_ANNUAL_PLANS_IDS.includes(
+    sellerSubscription.subscription_id
+  );
   let isSubscribed;
   if (DAILY_SUBSCRIPTION_PLANS.includes(id)) {
     isSubscribed = sellerSubscription && sellerSubscription.subscription_id === id;
@@ -68,6 +83,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
 				${styles.pricingCardHead}
 			`}
       >
+        {isSubscribed && <p className={styles.currentPlan}>Current Plan</p>}
         <div className={styles.pricingCardHead__Left}>
           <h2>{name}</h2>
           <p>{desc}</p>
@@ -75,47 +91,64 @@ const GenericPriceCardHead: React.FC<Props> = props => {
       </div>
       <div className={styles.startingAt}>
         <p>
-          Starts At {!isMonthly && <span className="strike-text">${Math.round(monthlyPrice)}</span>}
+          Starts At{' '}
+          {!isMonthly && <span className="strike-text">${formatNumber(monthlyPrice)}</span>}
         </p>
 
         {isMonthly ? (
           <span className={styles.betaPriceContainer}>
-            <h3 className={`${styles.actualPrice}`}>${Math.round(monthlyPrice)}/ Mo</h3>
+            <h3 className={`${styles.actualPrice}`}>${formatNumber(monthlyPrice)}/ Mo</h3>
           </span>
         ) : (
           <span className={styles.betaPriceContainer}>
-            <h3 className={`${styles.actualPrice}`}>${Math.round(annualPrice / 12)}/ Mo</h3>
+            <h3 className={`${styles.actualPrice}`}>${formatNumber(annualPrice / 12)}/ Mo</h3>
           </span>
         )}
 
         {!isMonthly ? (
           <p className={styles.billedAtPrice}>
             <span className={`${styles.originalPrice}`}>
-              Originally <span className="strike-text">${monthlyPrice * 12}</span>
+              Originally <span className="strike-text">${formatNumber(monthlyPrice * 12)}</span>
             </span>
             <span className={`${styles.newPrice}`}>
-              Now ${Math.round(annualPrice)}
+              Now ${formatNumber(annualPrice)}
               /yr
             </span>
             <span className={`${styles.savings}`}>
-              Save ${Math.round(monthlyPrice * 12 - annualPrice)}
+              Save ${formatNumber(monthlyPrice * 12 - annualPrice)}
             </span>
           </p>
         ) : (
           <p>Billed Monthly</p>
         )}
+        <p className={styles.lookups}>
+          {isMonthly
+            ? `${formatNumber(monthlyLookups)} monthly lookups`
+            : `${formatNumber(annualLookups)} annual lookups and you can get all upfront`}
+        </p>
       </div>
-
       {isSubscribed && !isPending ? (
-        <ActionButton
-          variant="secondary"
-          size="md"
-          type="grey"
-          className={styles.buyNowCTA}
-          disabled
-        >
-          Current Plan
-        </ActionButton>
+        sellerSubscription.payment_mode === 'monthly' ? (
+          <ActionButton
+            variant="primary"
+            size="md"
+            type="purpleGradient"
+            className={styles.buyNowCTA}
+            onClick={() => changePlan({ name, id }, true)}
+          >
+            Switch to annual billing
+          </ActionButton>
+        ) : (
+          <ActionButton
+            variant="secondary"
+            size="md"
+            type="grey"
+            className={styles.buyNowCTA}
+            disabled
+          >
+            Current Plan
+          </ActionButton>
+        )
       ) : isSubscribed && isPending ? (
         <ActionButton
           variant="secondary"
@@ -127,9 +160,19 @@ const GenericPriceCardHead: React.FC<Props> = props => {
           Subscription expiring <br />
           at the end of the {sellerSubscription.payment_mode === 'monthly' ? ' month' : ' year'}
         </ActionButton>
+      ) : isAccountSubscribed ? (
+        <ActionButton
+          variant={'secondary'}
+          size="md"
+          type="purpleGradient"
+          className={styles.buyNowCTA}
+          onClick={() => changePlan({ name, id })}
+        >
+          {isMonthly ? 'Switch to monthly billing' : 'Switch to annual billing'}
+        </ActionButton>
       ) : (
         <ActionButton
-          variant="secondary"
+          variant={isNew ? 'primary' : 'secondary'}
           size="md"
           type="purpleGradient"
           className={styles.buyNowCTA}

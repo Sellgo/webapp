@@ -34,6 +34,7 @@ interface Props {
   userOnboarding: boolean;
   userOnboardingResources: any;
   onButtonClick?: () => void;
+  openPopUponDownloadClick?: boolean;
   disableExport?: boolean;
   sellerSubscription: SellerSubscription;
   hideCTA?: boolean;
@@ -52,6 +53,7 @@ const TableExport = (props: Props) => {
     userOnboardingResources,
     disableExport,
     onButtonClick,
+    openPopUponDownloadClick,
     sellerSubscription,
     hideCTA,
     exportConfirmation,
@@ -81,6 +83,10 @@ const TableExport = (props: Props) => {
           if (exportConfirmation && setConfirmOpen) {
             setConfirmOpen(true);
           } else {
+            if (openPopUponDownloadClick) {
+              setOpenPopup(true);
+              return;
+            }
             onButtonClick && onButtonClick();
           }
         }}
