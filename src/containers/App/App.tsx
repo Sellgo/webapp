@@ -50,6 +50,7 @@ import SalesForecastingWeights from '../Settings/PerfectStockSettings/SalesForec
 
 import SellgoNewSubscription from '../NewSellgoSubscription';
 import SellgoPaymentSuccess from '../NewSellgoSubscription/SellgoPaymentSuccess';
+import SellgoPilotOnboarding from '../NewSellgoSubscription/PilotOnboarding';
 import SellgoFreeAccountForm from '../NewSellgoSubscription/SellgoFreeAccountForm';
 import SellgoActivation from '../NewSellgoSubscription/SellgoActivation';
 import SellgoActivationSuccess from '../NewSellgoSubscription/SellgoActivationSuccess';
@@ -103,6 +104,7 @@ const SellgoSubscriptionPages = {
   UpsellCtaPage: SellgoUpsellCtaPage,
   Pricing: SellgoPricing,
   Payment: SellgoInAppPaymentV2,
+  PilotLogin: SellgoPilotOnboarding,
 };
 
 const SubscriptionPages = isSellgoSession() ? SellgoSubscriptionPages : AistockSubscriptionPages;
@@ -399,6 +401,13 @@ function App() {
             path="/activation/success"
             render={renderProps => (
               <SubscriptionPages.ActivationSuccess auth={auth} {...renderProps} />
+            )}
+          />
+          <Route
+            exact={true}
+            path="/activation/pilot/onboarding"
+            render={renderProps => (
+              <SellgoSubscriptionPages.PilotLogin auth={auth} {...renderProps} />
             )}
           />
 
