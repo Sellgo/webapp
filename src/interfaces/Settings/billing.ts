@@ -9,6 +9,7 @@ export interface QuotaCollection {
   profit_finder: Quota;
   product_tracker: Quota;
   seller_research: Quota;
+  seller_detail?: Quota;
 }
 
 export interface StripeSubscriptionInfo {
