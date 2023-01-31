@@ -204,7 +204,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
             <div className={styles.planShortSummary}>
               <p>
-                Emails? Phones? Categories? Brands? Reviews? Inventories?
+                Emails? Phones? Categories? Brands? Inventories?
                 <br />
                 Access #1 Amazon seller database to help you turn leads into customers.
               </p>

@@ -33,26 +33,25 @@ const UpsellCtaPage = () => {
       <div className={styles.leftSection}>
         <h2>You have 0 quota available with free account.</h2>
         <p>
-          Wait for {daysTillNextMonth()} days to restore your free quota, or upgrade to get
-          immediate access.
+          Wait for {daysTillNextMonth()} days to restore your free quota, or upgrade to usage-based
+          account to get immediate access to more than 1M Amazon seller database.
         </p>
         <div className={styles.benefitsTable}>
           <div className={styles.benefitsColumn}>
             <h2>Benefits</h2>
-            <span>Export seller data</span>
+            <span>Unlock emails, phones, and more</span>
             <span>Advanced filtering</span>
-            <span>Unlock 2,000 seller access</span>
+            <span>Export bulk data, and more</span>
           </div>
           <div className={styles.freePlanColumn}>
-            <h2>Free</h2>
-            <span>-</span>
-            <span>-</span>
-            <span>-</span>
+            <h2>Free account</h2>
+            <span>10 lookups/ month</span>
+            <span>Limited</span>
+            <span>Limited</span>
           </div>
           <div className={styles.professionalColumn}>
-            <h2>Professional</h2>
-            <p className={styles.price}>$97/mo</p>
-            <span>Yes</span>
+            <h2>Usage-based starts at $77/ month</h2>
+            <span>Immediate access to up to 12,000 lookups</span>
             <span>Yes</span>
             <span>Yes</span>
           </div>
@@ -64,7 +63,7 @@ const UpsellCtaPage = () => {
           onClick={redirectToPricing}
           className={styles.activateButton}
         >
-          Activate now
+          Upgrade now
         </ActionButton>
       </div>
       <img src={UpsellPicture} alt="upsell image" className={styles.upsellImg} />
