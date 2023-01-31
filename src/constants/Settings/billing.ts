@@ -8,6 +8,7 @@ export const DEFAULT_QUOTA_COLLECTION = {
   profit_finder: DEFAULT_QUOTA,
   product_tracker: DEFAULT_QUOTA,
   seller_research: DEFAULT_QUOTA,
+  seller_detail: DEFAULT_QUOTA,
 };
 
 export const DEFAULT_STRIPE_SUBSCRIPTION_INFO = {

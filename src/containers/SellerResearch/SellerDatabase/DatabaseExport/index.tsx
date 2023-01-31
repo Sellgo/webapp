@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 /* Styling */
@@ -27,13 +27,13 @@ import {
 } from '../../../../selectors/SellerResearch/SellerDatabase';
 
 /* Components */
-import TableExport from '../../../../components/NewTable/TableExport';
+// import TableExport from '../../../../components/NewTable/TableExport';
 import TableResultsMessage from '../../../../components/TableResultsMessage';
 import TableErrorMessage from '../../../../components/TableErrorMessage';
 
 /* Assets */
-import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
-import { ReactComponent as CSVExportImage } from '../../../../assets/images/csvExportImage.svg';
+// import { ReactComponent as XLSXExportImage } from '../../../../assets/images/xlsxExportImage.svg';
+// import { ReactComponent as CSVExportImage } from '../../../../assets/images/csvExportImage.svg';
 
 interface Props {
   sellerDatabaseResults: any;
@@ -48,24 +48,24 @@ interface Props {
 
 const DatabaseExport = (props: Props) => {
   const {
-    isLoadingSellerDatabaseExport,
-    fetchSellerDatabase,
+    // isLoadingSellerDatabaseExport,
+    // fetchSellerDatabase,
     sellerDatabaseResults,
-    isLoadingSellerDatabase,
+    // isLoadingSellerDatabase,
     sellerDatabaseFilterMessage,
     sellerDatabasePaginationInfo,
-    sellerMarketplace,
+    // sellerMarketplace,
     sellerDatabaseQuotaExceeded,
   } = props;
 
-  const handleOnExport = (fileFormat: 'csv' | 'xlsx') => {
-    fetchSellerDatabase({ isExport: true, fileFormat, marketplaceId: sellerMarketplace.value });
-  };
+  // const handleOnExport = (fileFormat: 'csv' | 'xlsx') => {
+  //   fetchSellerDatabase({ isExport: true, fileFormat, marketplaceId: sellerMarketplace.value });
+  // };
 
-  const shouldEnableExport = useMemo(
-    () => !isLoadingSellerDatabase && sellerDatabaseResults.length > 0,
-    [isLoadingSellerDatabase, sellerDatabaseResults]
-  );
+  // const shouldEnableExport = useMemo(
+  //   () => !isLoadingSellerDatabase && sellerDatabaseResults.length > 0,
+  //   [isLoadingSellerDatabase, sellerDatabaseResults]
+  // );
   return (
     <>
       <div className={styles.exportsContainer}>
@@ -87,7 +87,7 @@ const DatabaseExport = (props: Props) => {
           />
         )}
 
-        <TableExport
+        {/* <TableExport
           loading={isLoadingSellerDatabaseExport}
           label=""
           disableExport={!shouldEnableExport}
@@ -114,7 +114,7 @@ const DatabaseExport = (props: Props) => {
               </div>
             </>
           }
-        />
+        /> */}
       </div>
     </>
   );
