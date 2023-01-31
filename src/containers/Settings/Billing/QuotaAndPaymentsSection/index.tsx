@@ -87,11 +87,11 @@ const QuotaAndPaymentsSection = (props: Props) => {
 
   /* Calculation of quotas */
   const salesEstAvailable = quotas.sales_estimation.available || 1;
-  const sellerResearchAvailable = quotas.seller_research.available || 1;
+  const sellerResearchAvailable = quotas?.seller_detail?.available || 1;
   const profitFinderAvailable = quotas.profit_finder.available || 1;
 
   const salesEstUsed = Math.min(quotas.sales_estimation.used || 0, salesEstAvailable);
-  const sellerResearchUsed = Math.min(quotas.seller_research.used || 0, sellerResearchAvailable);
+  const sellerResearchUsed = Math.min(quotas?.seller_detail?.used || 0, sellerResearchAvailable);
   const profitFinderUsed = Math.min(quotas.profit_finder.used || 0, profitFinderAvailable);
 
   const salesEstPercent = salesEstUsed / salesEstAvailable;

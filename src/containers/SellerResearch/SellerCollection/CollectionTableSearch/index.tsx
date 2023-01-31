@@ -23,7 +23,7 @@ const CollectionTableSearch = (props: Props) => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    fetchSellerDatabase({ filterPayload: { businessName: businessName } });
+    fetchSellerDatabase({ filterPayload: { isLookedUp: true, businessName: businessName } });
   };
   return (
     <>
@@ -44,7 +44,9 @@ const CollectionTableSearch = (props: Props) => {
           type={'purpleGradient'}
           size="small"
           onClick={() => {
-            fetchSellerDatabase({ filterPayload: { businessName: businessName } });
+            fetchSellerDatabase({
+              filterPayload: { businessName: businessName, isLookedUp: true },
+            });
           }}
           className={styles.searchButton}
           disabled={!businessName}

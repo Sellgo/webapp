@@ -23,7 +23,7 @@ import history from '../../../../../history';
 import { timeout } from '../../../../../utils/timeout';
 
 /* Assets */
-import { ReactComponent as SellerFinderIcon } from '../../../../../assets/images/sellerFinder.svg';
+// import { ReactComponent as SellerFinderIcon } from '../../../../../assets/images/sellerFinder.svg';
 
 interface Props extends RowCell {
   trackMerchantFromDatabase: (payload: string) => void;
@@ -95,11 +95,11 @@ const SellerActions = (props: Props) => {
                       <span>Copy ASINs in columns</span>
                     </button>
 
-                    <p>INVENTORY</p>
+                    {/* <p>INVENTORY</p>
                     <button onClick={() => handleSellerTrack(false)}>
                       <SellerFinderIcon />
                       <span>Check more inventory</span>
-                    </button>
+                    </button> */}
                   </div>
                 </>
               }
