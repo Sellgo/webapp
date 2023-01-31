@@ -93,39 +93,43 @@ const SellgoPilotOnboarding = (props: any) => {
     <>
       <main className={styles.pilotOnboardingPage}>
         <div className={styles.leftSection}>
-          <h2>Let&apos;s start the migration, it&apos;s fast, easy and secure!</h2>
+          <h2>
+            Unlock analytics, mobile numbers and emails,
+            <br />
+            in Seconds!
+          </h2>
           <p>
-            Connecting your Amazon account to AiStock will unlock the power of automation to your
-            supply chain system.
+            Uncover high-intent e-commerce business decision makers in your target market to crush
+            your quota.
           </p>
-          <p>Once connected, you'll be able to:</p>
+          <p>With your access, you'll be able to:</p>
           <div className={styles.benefitRow}>
             <Icon name="checkmark" color="purple" />
             <div className={styles.benefitText}>
-              <p>Knowing when you&apos;re at risk of stockout</p>
-              <span>with our alert automation tool.</span>
+              <p>Find decision makers and their emails and phone numbers</p>
+              <span>with our database tools.</span>
             </div>
           </div>
           <div className={styles.benefitRow}>
             <Icon name="checkmark" color="purple" />
             <div className={styles.benefitText}>
-              <p>Knowing what your future sales</p>
-              <span>with our sales forecasting.</span>
+              <p>Increase in productivity, no more random targeting</p>
+              <span>with our validated email database.</span>
             </div>
           </div>
           <div className={styles.benefitRow}>
             <Icon name="checkmark" color="purple" />
             <div className={styles.benefitText}>
-              <p>Knowing when to place your next orders</p>
-              <span>with our order planning tool.</span>
+              <p>Increase in demos scheduled</p>
+              <span>with bulk export and integration.</span>
             </div>
           </div>
           <div className={styles.privacyInformation}>
             <Icon name="lock" color="black" size="big" />
             <span>
-              AiStock is committed to maintaining the highest standard for security in order that
-              your valuable data can be kept safe and secure at channel and at storage. We promise
-              that we will never share your data with others. You can read more on our{' '}
+              Sellgo is committed to maintaining the highest standard of data security and privacy.
+              We promise that we will never share anybody's data with others. You can read more on
+              our{' '}
               <span className={styles.popupButton} onClick={() => setOpenTOS(true)}>
                 Terms of Service
               </span>{' '}

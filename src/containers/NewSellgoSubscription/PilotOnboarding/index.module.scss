@@ -16,7 +16,7 @@
   height: 100%;
 
   > h2 {
-    width: 800px;
+    width: 900px;
     font-size: 30px;
     font-weight: $fontweight_bold;
     color: $black_1;
@@ -24,7 +24,7 @@
   }
 
   > p {
-    width: 800px;
+    width: 900px;
     margin-bottom: 2rem;
     font-size: 14px;
     font-weight: $fontweight_medium;
@@ -39,7 +39,7 @@
   background: $grey_3;
   border-radius: 7px;
   margin-top: 30px;
-  width: 800px;
+  width: 900px;
   height: 70px;
 
   span {
@@ -59,7 +59,7 @@
 .benefitRow {
   display: flex;
   align-items: center;
-  width: 800px;
+  width: 900px;
   margin-bottom: 18px;
 
   .benefitText {
