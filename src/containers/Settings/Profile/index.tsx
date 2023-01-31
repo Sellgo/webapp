@@ -35,6 +35,7 @@ import { success } from '../../../utils/notifications';
 import { AppConfig } from '../../../config';
 import ProfileBoxFooter from '../../../components/BoxFooter';
 import GetStarted from '../../PerfectStock/GetStarted';
+import { isSellgoSession } from '../../../utils/session';
 
 interface Props {
   getSeller: () => void;
@@ -275,7 +276,7 @@ const Profile = (props: Props) => {
             </div>
           </ProfileBoxFooter>
         </div>
-        <GetStarted />
+        {!isSellgoSession() && <GetStarted />}
       </main>
     </>
   );

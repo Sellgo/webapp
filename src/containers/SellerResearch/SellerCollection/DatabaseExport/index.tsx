@@ -31,6 +31,7 @@ import TableExport from '../../../../components/NewTable/TableExport';
 
 /* Assets */
 import { ReactComponent as CSVExportImage } from '../../../../assets/images/csvExportImage.svg';
+import TableResultsMessage from '../../../../components/TableResultsMessage';
 
 interface Props {
   sellerDatabaseResults: any;
@@ -49,6 +50,8 @@ const DatabaseExport = (props: Props) => {
     fetchSellerDatabase,
     sellerDatabaseResults,
     isLoadingSellerDatabase,
+    sellerDatabasePaginationInfo,
+    sellerDatabaseFilterMessage,
     sellerMarketplace,
   } = props;
 
@@ -71,6 +74,15 @@ const DatabaseExport = (props: Props) => {
   return (
     <>
       <div className={styles.exportsContainer}>
+        {!sellerDatabaseFilterMessage.show && sellerDatabasePaginationInfo.total_pages > 0 && (
+          <TableResultsMessage
+            prependMessage="Viewing"
+            count={sellerDatabasePaginationInfo.count}
+            actualCount={sellerDatabaseResults ? sellerDatabaseResults.length : 0}
+            appendMessage="sellers"
+            limitType="seller_database_display_limit"
+          />
+        )}
         <TableExport
           loading={isLoadingSellerDatabaseExport}
           label=""
