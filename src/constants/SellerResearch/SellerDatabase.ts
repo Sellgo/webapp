@@ -31,15 +31,15 @@ export const FILTER_REVIEW_OPTIONS = [
 
 /* Growth * Period values */
 export const GROWTH_PERCENT_PERIOD_OPTIONS = [
-  { key: '30D', text: '30D', value: 'growth_month' },
-  { key: '90D', text: '90D', value: 'growth_L90D' },
-  { key: '180D', text: '180D', value: 'growth_L180D' },
-  { key: '365D', text: '365D', value: 'growth_year' },
+  { key: '30D', text: 'L30D', value: 'growth_month' },
+  { key: '90D', text: 'L3M', value: 'growth_L90D' },
+  { key: '180D', text: 'L6M', value: 'growth_L180D' },
+  { key: '365D', text: 'L1Y', value: 'growth_year' },
 ];
 
 export const GROWTH_COUNT_PERIOD_OPTIONS = [
-  { key: '30D', text: '30D', value: 'growth_month_count' },
-  { key: '180D', text: '180D', value: 'growth_count_L180D' },
+  { key: '30D', text: 'L30D', value: 'growth_month_count' },
+  { key: '180D', text: 'L6M', value: 'growth_count_L180D' },
 ];
 
 export const REVERSE_GROWTH_PERCENT_MAPPER = {};

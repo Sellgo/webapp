@@ -21,14 +21,16 @@ const AdvancedFilterToggle = (props: Props) => {
     <div
       className={styles.advancedFilterToggle}
       onClick={handleClick}
-      style={{ background: !showAdvancedFilter ? '#F9F9FA' : ' #3B4557' }}
+      style={{ background: !showAdvancedFilter ? '#F9F9FA' : ' #95A1AC' }}
     >
       <img
         className={styles.filterIcon}
         src={!showAdvancedFilter ? FilterBlack : FilterWhite}
         alt="filter"
       />
-      <span style={{ color: !showAdvancedFilter ? '#636D76' : '#FFFFFF' }}>Advanced Filters</span>
+      <span style={{ color: !showAdvancedFilter ? '#636D76' : '#FFFFFF' }}>
+        Marketplace Metrics
+      </span>
       <span>
         {showAdvancedFilter ? (
           <img src={AngleUpWhite} alt="angle" />

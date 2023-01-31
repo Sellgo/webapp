@@ -3,10 +3,9 @@
 .selectionFilterWrapper {
   width: max-content;
   height: max-content !important;
-  min-width: 250px;
+  min-width: 180px;
 
   p {
-    margin: 0 7px 3px;
     color: $grey_8 !important;
     font-size: 12px;
     font-weight: 600;
@@ -17,8 +16,8 @@
     color: $grey_8 !important;
     background-color: $prim_white;
     border: 1px solid $grey_3;
-    max-height: 35px !important;
-    min-height: 35px !important;
+    max-height: 30px !important;
+    min-height: 30px !important;
     height: 35px;
     font-size: 12px;
     font-weight: 500 !important;

@@ -6,8 +6,8 @@
   p {
     margin: 0;
     color: $grey_8;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 600;
   }
 }
 
@@ -17,7 +17,7 @@
   align-items: center;
 
   svg {
-    margin: 0 10px;
+    margin: 0 5px;
 
     path {
       fill: $grey_6 !important;

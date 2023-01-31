@@ -4,13 +4,13 @@
   p {
     margin: 0;
     color: $grey_8 !important;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 600;
   }
 }
 
 .inputWrapper {
-  min-width: 230px;
+  min-width: 180px;
 
   input {
     border: 1px solid $grey_3 !important;
@@ -18,7 +18,7 @@
     border-radius: 3px;
     font-size: 12px;
     color: $grey_8 !important;
-    height: 35px !important;
+    height: 30px !important;
     padding: 10px !important;
     width: 100%;
 

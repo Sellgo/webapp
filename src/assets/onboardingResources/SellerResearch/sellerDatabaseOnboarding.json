@@ -11,7 +11,7 @@
       "youtubeLink": "",
       "tooltipText": "Amazon marketplace where the sellers sell"
     },
-    "Categories": {
+    "Main product category": {
       "youtubeLink": "",
       "tooltipText": "Product categories associated with each Amazon marketplace"
     },
@@ -19,17 +19,25 @@
       "youtubeLink": "",
       "tooltipText": "Include popular brands that the sellers carry (separate with comma)"
     },
-    "Monthly Revenue": {
+    " Revenue estimation $": {
       "youtubeLink": "",
       "tooltipText": "Estimated monthly revenue of sellers"
     },
-    "Merchant Name": {
+    "Company name": {
       "youtubeLink": "",
-      "tooltipText": "Seller name on Amazon product listing"
+      "tooltipText": "Find Seller name on Amazon product listing or company registered business name"
     },
-    "Business Name": {
+    "Industry": {
       "youtubeLink": "",
-      "tooltipText": "Seller registered business name"
+      "tooltipText": "Type of industry"
+    },
+    "Keyword": {
+      "youtubeLink": "",
+      "tooltipText": "Company keyword"
+    },
+    "Number of Employee": {
+      "youtubeLink": "",
+      "tooltipText": "Number of employee"
     },
     "Exclude Brands": {
       "youtubeLink": "",
@@ -51,23 +59,23 @@
       "youtubeLink": "",
       "tooltipText": "Find other sellers except the one with unique seller IDs (separate with comma)"
     },
-    "Seller Country": {
+    "Location": {
       "youtubeLink": "",
-      "tooltipText": "Sellers' country of origin"
+      "tooltipText": "Sellers' country/ location of origin"
     },
-    "U.S. States": {
+    "State Location": {
       "youtubeLink": "",
       "tooltipText": "Only show for U.S. sellers"
     },
-    "Seller Reachability": {
+    "Reachability": {
       "youtubeLink": "",
       "tooltipText": "Show sellers with decision makers"
     },
-    "# of Inventory": {
+    "Products Count": {
       "youtubeLink": "",
       "tooltipText": "Total count of ASINs that the sellers carry"
     },
-    "# of Brands": {
+    "Brands count": {
       "youtubeLink": "",
       "tooltipText": "Total count of brands that the sellers carry"
     },
@@ -98,6 +106,10 @@
     "Seller Ratings": {
       "youtubeLink": "",
       "tooltipText": "Total count of ratings"
+    },
+    "Business model": {
+      "youtubeLink": "",
+      "tooltipText": "Business Model (1P, Authorized 3P, Exclusive 3P, Blended 1P/3P, Vendor Central)"
     }
   },
 

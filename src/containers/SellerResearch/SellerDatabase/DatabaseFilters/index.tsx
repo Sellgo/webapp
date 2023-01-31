@@ -22,13 +22,13 @@ import {
 import {
   DEFAULT_SELLER_DATABASE_FILTER,
   DEFAULT_INCLUDE_EXCLUDE_ERROR,
-  //FILTER_PERIOD_DURATIONS,
+  FILTER_PERIOD_DURATIONS,
   DEFAULT_US_MARKET,
   SELLER_DB_MARKETPLACE,
-  //FILTER_REVIEW_OPTIONS,
-  // GROWTH_PERCENT_PERIOD_OPTIONS,
-  // LAUNCHED_FILTER_OPTIONS,
-  // SELLER_TYPE_FILTER_OPTIONS,
+  FILTER_REVIEW_OPTIONS,
+  GROWTH_PERCENT_PERIOD_OPTIONS,
+  LAUNCHED_FILTER_OPTIONS,
+  //SELLER_TYPE_FILTER_OPTIONS,
   FILTER_QUERY_KEY_MAPPER,
   getMinMaxPeriodFilter,
   getGrowthFilter,
@@ -38,7 +38,7 @@ import { getProductCategories } from '../../../../constants/ProductResearch/Prod
 import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
 import {
   COUNTRY_DROPDOWN_LIST,
-  STATES_DROPDOWN_LIST,
+  //STATES_DROPDOWN_LIST,
 } from '../../../../constants/SellerResearch/SellerMap';
 import { F_TYPES } from '../../../../constants/SellerResearch';
 
@@ -47,12 +47,12 @@ import AdvanceFilterToggle from '../../../../components/AdvanceFilterToggle';
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
-//import PeriodFilter from '../../../../components/FormFilters/PeriodFilter';
+import PeriodFilter from '../../../../components/FormFilters/PeriodFilter';
 import MarketPlaceFilter from '../../../../components/FormFilters/MarketPlaceFilter';
 //import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
-//import ReviewTypeFilter from '../../../../components/FormFilters/ReviewTypeFilter';
+import ReviewTypeFilter from '../../../../components/FormFilters/ReviewTypeFilter';
 import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxDropdownFilter';
-// import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
+import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
 import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
 
@@ -331,6 +331,67 @@ const SellerDatabaseFilters = (props: Props) => {
       <section className={styles.filterSection}>
         <div className={styles.basicFilters}>
           {/* Marketplace */}
+
+          {/* Feature request */}
+          {/* Company Name */}
+          <div>
+            <InputFilter
+              label="Company name"
+              placeholder="Company name"
+              value={sellerDatabaseFilters.merchantName}
+              handleChange={(value: string) => updateSellerDatabaseFilter('merchantName', value)}
+            />
+
+            {/* Feature request */}
+            <CheckboxFilter
+              //label="Exact match"
+              checkboxLabel="Exact match"
+              checked={sellerDatabaseFilters.hasContact}
+              handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
+            />
+          </div>
+
+          {/* Business name */}
+          {/*<InputFilter
+                label="Business Name"
+                placeholder="Business Name"
+                value={sellerDatabaseFilters.businessName}
+                handleChange={(value: string) => updateSellerDatabaseFilter('businessName', value)}
+          />*/}
+
+          <div>
+            {/* Feature request */}
+            {/* Location */}
+            <SelectionFilter
+              label="Location"
+              placeholder="Country"
+              filterOptions={COUNTRY_DROPDOWN_LIST}
+              value={sellerDatabaseFilters.country}
+              handleChange={(value: string) => {
+                updateSellerDatabaseFilter('country', value);
+              }}
+            />
+
+            {/* Zip code */}
+            <InputFilter
+              label="Zip Code"
+              placeholder="Zip code"
+              value={sellerDatabaseFilters.zipCode}
+              handleChange={(value: string) => updateSellerDatabaseFilter('zipCode', value)}
+            />
+          </div>
+
+          {/* All States */}
+          {/*<SelectionFilter
+                label="State Location"
+                placeholder="All States"
+                filterOptions={STATES_DROPDOWN_LIST}
+                value={sellerDatabaseFilters.state}
+                handleChange={(value: string) => updateSellerDatabaseFilter('state', value)}
+                disabled={sellerDatabaseFilters.country !== 'US'}
+              />*/}
+
+          {/* Feature request */}
           <MarketPlaceFilter
             label="Choose Marketplace"
             marketplaceDetails={marketPlace}
@@ -344,78 +405,119 @@ const SellerDatabaseFilters = (props: Props) => {
             }}
           />
 
-          {/* Categories */}
-          <CheckboxDropdownFilter
-            filterOptions={getProductCategories(marketPlace.code)}
-            label="Categories"
-            selectedValues={sellerDatabaseFilters.categories}
-            handleChange={(newCategories: string[]) => {
-              updateSellerDatabaseFilter('categories', [...newCategories]);
-            }}
-          />
+          <div>
+            {/* Feature request */}
+            {/* Industry */}
+            <CheckboxDropdownFilter
+              filterOptions={getProductCategories(marketPlace.code)}
+              label="Industry"
+              selectedValues={sellerDatabaseFilters.categories}
+              handleChange={(newCategories: string[]) => {
+                updateSellerDatabaseFilter('categories', [...newCategories]);
+              }}
+            />
 
-          {/* Merchant Name */}
-          <InputFilter
-            label="Merchant Name"
-            placeholder="Merchant Name"
-            value={sellerDatabaseFilters.merchantName}
-            handleChange={(value: string) => updateSellerDatabaseFilter('merchantName', value)}
-          />
+            {/* Feature request */}
+            {/* Keyword */}
+            <InputFilter
+              label="Keyword"
+              placeholder="Keyword"
+              value={sellerDatabaseFilters.merchantName}
+              handleChange={(value: string) => updateSellerDatabaseFilter('merchantName', value)}
+            />
+          </div>
 
-          {/* Include ASINS */}
-          <InputFilter
-            label="Include ASINs or ISBNs"
-            placeholder="Enter separated by comma"
-            value={sellerDatabaseFilters.asins.include.toUpperCase()}
-            handleChange={(value: string) =>
-              updateSellerDatabaseFilter('asins', {
-                ...sellerDatabaseFilters.asins,
-                include: value,
-              })
-            }
-            error={asinsError.include}
-          />
+          {/* Feature request */}
+          {/* # of Brands */}
+          <div>
+            <MinMaxFilter
+              label="Number of employee"
+              minValue={sellerDatabaseFilters.numOfBrands.min}
+              maxValue={sellerDatabaseFilters.numOfBrands.max}
+              handleChange={(type: string, value: string) =>
+                updateSellerDatabaseFilter('numOfBrands', {
+                  ...sellerDatabaseFilters.numOfBrands,
+                  [type]: value,
+                })
+              }
+            />
 
-          {/* Include Seller IDs */}
-          <InputFilter
-            label="Include Seller IDs"
-            placeholder="Enter separated by comma"
-            value={sellerDatabaseFilters.sellerIds.include.toUpperCase()}
-            handleChange={(value: string) =>
-              updateSellerDatabaseFilter('sellerIds', {
-                ...sellerDatabaseFilters.sellerIds,
-                include: value,
-              })
-            }
-            error={sellerIdsError.include}
-          />
+            {/* Feature request */}
+            <MinMaxFilter
+              label="Number of decision maker"
+              minValue={sellerDatabaseFilters.numOfBrands.min}
+              maxValue={sellerDatabaseFilters.numOfBrands.max}
+              handleChange={(type: string, value: string) =>
+                updateSellerDatabaseFilter('numOfBrands', {
+                  ...sellerDatabaseFilters.numOfBrands,
+                  [type]: value,
+                })
+              }
+            />
+          </div>
+          {/* Seller Reachability */}
+          <div>
+            {/* Feature request */}
+            <CheckboxFilter
+              label="Company"
+              checkboxLabel="Email/ phone"
+              checked={sellerDatabaseFilters.hasContact}
+              handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
+            />
 
-          {/*  Include brands */}
-          {/* <InputFilter
-            label="Include Brands"
-            placeholder="Enter separated by comma"
-            value={sellerDatabaseFilters.brands.include}
-            handleChange={(value: string) =>
-              updateSellerDatabaseFilter('brands', {
-                ...sellerDatabaseFilters.brands,
-                include: value,
-              })
-            }
-          /> */}
+            {/* Feature request */}
+            <CheckboxFilter
+              checkboxLabel="Physical address"
+              checked={sellerDatabaseFilters.sellerReachability}
+              handleChange={value => updateSellerDatabaseFilter('sellerReachability', value)}
+            />
 
-          {/* Monthly Revenue = Sales Estimate */}
-          {/* <MinMaxFilter
-            label="Monthly Revenue"
-            minValue={sellerDatabaseFilters.monthlyRevenue.min}
-            maxValue={sellerDatabaseFilters.monthlyRevenue.max}
-            handleChange={(type: string, value: string) =>
-              updateSellerDatabaseFilter('monthlyRevenue', {
-                ...sellerDatabaseFilters.monthlyRevenue,
-                [type]: value,
-              })
-            }
-            prependWith={marketPlace.currency}
-          /> */}
+            {/* Feature request */}
+            <CheckboxFilter
+              checkboxLabel="Website"
+              checked={sellerDatabaseFilters.sellerReachability}
+              handleChange={value => updateSellerDatabaseFilter('sellerReachability', value)}
+            />
+
+            {/* Feature request */}
+            <CheckboxFilter
+              checkboxLabel="Social media"
+              checked={sellerDatabaseFilters.sellerReachability}
+              handleChange={value => updateSellerDatabaseFilter('sellerReachability', value)}
+            />
+          </div>
+
+          {/* Seller Reachability */}
+          <div>
+            {/* Feature request */}
+            <CheckboxFilter
+              label="Decision maker"
+              checkboxLabel="Professional email"
+              checked={sellerDatabaseFilters.hasContact}
+              handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
+            />
+
+            {/* Feature request */}
+            <CheckboxFilter
+              checkboxLabel="Personal email"
+              checked={sellerDatabaseFilters.hasContact}
+              handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
+            />
+
+            {/* Feature request */}
+            <CheckboxFilter
+              checkboxLabel="Phone"
+              checked={sellerDatabaseFilters.hasContact}
+              handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
+            />
+
+            {/* Feature request */}
+            <CheckboxFilter
+              checkboxLabel="Social media link"
+              checked={sellerDatabaseFilters.sellerReachability}
+              handleChange={value => updateSellerDatabaseFilter('sellerReachability', value)}
+            />
+          </div>
         </div>
         <div className={styles.advancedFilterWrapper}>
           <AdvanceFilterToggle
@@ -425,236 +527,375 @@ const SellerDatabaseFilters = (props: Props) => {
 
           {showAdvancedFilter && (
             <div className={styles.showAdvancedFilter}>
-              {/* Merchant Name */}
-              {/* <InputFilter
-                label="Merchant Name"
-                placeholder="Merchant Name"
-                value={sellerDatabaseFilters.merchantName}
-                handleChange={(value: string) => updateSellerDatabaseFilter('merchantName', value)}
-              /> */}
-
-              {/* Business name */}
-              <InputFilter
-                label="Business Name"
-                placeholder="Business Name"
-                value={sellerDatabaseFilters.businessName}
-                handleChange={(value: string) => updateSellerDatabaseFilter('businessName', value)}
-              />
-
-              {/* Zip code */}
-              {/* <InputFilter
-                label="Zip Code"
-                placeholder="Zip Code"
-                value={sellerDatabaseFilters.zipCode}
-                handleChange={(value: string) => updateSellerDatabaseFilter('zipCode', value)}
-              /> */}
-
-              {/*  Include brands */}
-              <InputFilter
-                label="Include Brands"
-                placeholder="Enter separated by comma"
-                value={sellerDatabaseFilters.brands.include}
-                handleChange={(value: string) =>
-                  updateSellerDatabaseFilter('brands', {
-                    ...sellerDatabaseFilters.brands,
-                    include: value,
-                  })
-                }
-              />
-
-              {/* Exclude brands */}
-              <InputFilter
-                label="Exclude Brands"
-                placeholder="Enter separated by comma"
-                value={sellerDatabaseFilters.brands.exclude}
-                handleChange={(value: string) =>
-                  updateSellerDatabaseFilter('brands', {
-                    ...sellerDatabaseFilters.brands,
-                    exclude: value,
-                  })
-                }
-              />
-
-              {/* Include ASINS */}
-              {/* <InputFilter
-                label="Include ASINs or ISBNs"
-                placeholder="Enter separated by comma"
-                value={sellerDatabaseFilters.asins.include.toUpperCase()}
-                handleChange={(value: string) =>
-                  updateSellerDatabaseFilter('asins', {
-                    ...sellerDatabaseFilters.asins,
-                    include: value,
-                  })
-                }
-                error={asinsError.include}
-              /> */}
-
-              {/* Exclude ASINS Name */}
-              <InputFilter
-                label="Exclude ASINs or ISBNs"
-                placeholder="Enter separated by comma"
-                value={sellerDatabaseFilters.asins.exclude.toUpperCase()}
-                handleChange={(value: string) =>
-                  updateSellerDatabaseFilter('asins', {
-                    ...sellerDatabaseFilters.asins,
-                    exclude: value,
-                  })
-                }
-                error={asinsError.exclude}
-              />
-
-              {/* Include Seller IDs */}
-              {/* <InputFilter
-                label="Include Seller IDs"
-                placeholder="Enter separated by comma"
-                value={sellerDatabaseFilters.sellerIds.include.toUpperCase()}
-                handleChange={(value: string) =>
-                  updateSellerDatabaseFilter('sellerIds', {
-                    ...sellerDatabaseFilters.sellerIds,
-                    include: value,
-                  })
-                }
-                error={sellerIdsError.include}
-              /> */}
-
-              {/* Exclude Seller IDS */}
-              <InputFilter
-                label="Exclude Seller IDs"
-                placeholder="Enter separated by comma"
-                value={sellerDatabaseFilters.sellerIds.exclude.toUpperCase()}
-                handleChange={(value: string) =>
-                  updateSellerDatabaseFilter('sellerIds', {
-                    ...sellerDatabaseFilters.sellerIds,
-                    exclude: value,
-                  })
-                }
-                error={sellerIdsError.exclude}
-              />
-
-              {/* Country */}
-              <SelectionFilter
-                label="Seller Country"
-                placeholder="Country"
-                filterOptions={COUNTRY_DROPDOWN_LIST}
-                value={sellerDatabaseFilters.country}
-                handleChange={(value: string) => {
-                  updateSellerDatabaseFilter('country', value);
-                }}
-              />
-
-              {/* All States */}
-              <SelectionFilter
-                label="U.S. States"
-                placeholder="All States"
-                filterOptions={STATES_DROPDOWN_LIST}
-                value={sellerDatabaseFilters.state}
-                handleChange={(value: string) => updateSellerDatabaseFilter('state', value)}
-                disabled={sellerDatabaseFilters.country !== 'US'}
-              />
-
-              {/* Seller Reachability */}
               <div>
-                {/* <CheckboxFilter
-                  label="Seller Reachability"
-                  checkboxLabel="Sellers with Phone"
-                  checked={sellerDatabaseFilters.sellerReachability}
-                  handleChange={value => updateSellerDatabaseFilter('sellerReachability', value)}
-                /> */}
+                {/* Categories */}
+                <CheckboxDropdownFilter
+                  filterOptions={getProductCategories(marketPlace.code)}
+                  label="Main product category"
+                  selectedValues={sellerDatabaseFilters.categories}
+                  handleChange={(newCategories: string[]) => {
+                    updateSellerDatabaseFilter('categories', [...newCategories]);
+                  }}
+                />
 
+                {/* Feature request */}
+                {/* Business model */}
+                <CheckboxDropdownFilter
+                  filterOptions={getProductCategories(marketPlace.code)}
+                  label="Business model"
+                  selectedValues={sellerDatabaseFilters.categories}
+                  handleChange={(newCategories: string[]) => {
+                    updateSellerDatabaseFilter('categories', [...newCategories]);
+                  }}
+                />
+              </div>
+
+              <div>
+                {/* Feature request */}
+                {/* Monthly Revenue = Sales Estimate */}
+                <div className={styles.groupFilters}>
+                  <MinMaxFilter
+                    label="Revenue estimation $"
+                    minValue={sellerDatabaseFilters.monthlyRevenue.min}
+                    maxValue={sellerDatabaseFilters.monthlyRevenue.max}
+                    handleChange={(type: string, value: string) =>
+                      updateSellerDatabaseFilter('monthlyRevenue', {
+                        ...sellerDatabaseFilters.monthlyRevenue,
+                        [type]: value,
+                      })
+                    }
+                    prependWith={marketPlace.currency}
+                  />
+
+                  {/* Feature request */}
+                  <PeriodFilter
+                    placeholder="30D"
+                    label="Period"
+                    className={styles.filterPeriod}
+                    value={sellerDatabaseFilters.growthPercent.period}
+                    filterOptions={GROWTH_PERCENT_PERIOD_OPTIONS}
+                    handleChange={(period: string) => {
+                      updateSellerDatabaseFilter('growthPercent', {
+                        ...sellerDatabaseFilters.growthPercent,
+                        period,
+                      });
+                    }}
+                  />
+                </div>
+
+                {/* Feature request */}
+                {/* Growth % */}
+                <div className={styles.groupFilters}>
+                  <MinMaxFilter
+                    label="Growth %"
+                    minValue={sellerDatabaseFilters.growthPercent.min}
+                    maxValue={sellerDatabaseFilters.growthPercent.max}
+                    handleChange={(type: string, value: string) =>
+                      updateSellerDatabaseFilter('growthPercent', {
+                        ...sellerDatabaseFilters.growthPercent,
+                        [type]: value,
+                      })
+                    }
+                    appendWith="%"
+                  />
+
+                  {/* Feature request */}
+                  <PeriodFilter
+                    placeholder="30D"
+                    label="Period"
+                    className={styles.filterPeriod}
+                    value={sellerDatabaseFilters.growthPercent.period}
+                    filterOptions={GROWTH_PERCENT_PERIOD_OPTIONS}
+                    handleChange={(period: string) => {
+                      updateSellerDatabaseFilter('growthPercent', {
+                        ...sellerDatabaseFilters.growthPercent,
+                        period,
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div>
+                {/* # of Brands */}
+                <MinMaxFilter
+                  label="Brands count"
+                  minValue={sellerDatabaseFilters.numOfBrands.min}
+                  maxValue={sellerDatabaseFilters.numOfBrands.max}
+                  handleChange={(type: string, value: string) =>
+                    updateSellerDatabaseFilter('numOfBrands', {
+                      ...sellerDatabaseFilters.numOfBrands,
+                      [type]: value,
+                    })
+                  }
+                />
+
+                <div>
+                  {/* Feature request */}
+                  <div className={styles.groupFilters}>
+                    <CheckboxFilter
+                      checkboxLabel="Increase"
+                      checked={sellerDatabaseFilters.hasContact}
+                      handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
+                    />
+
+                    <PeriodFilter
+                      placeholder="30D"
+                      className={styles.filterPeriod}
+                      value={sellerDatabaseFilters.growthPercent.period}
+                      filterOptions={GROWTH_PERCENT_PERIOD_OPTIONS}
+                      handleChange={(period: string) => {
+                        updateSellerDatabaseFilter('growthPercent', {
+                          ...sellerDatabaseFilters.growthPercent,
+                          period,
+                        });
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* Feature request */}
+                <div className={styles.groupFilters}>
+                  <CheckboxFilter
+                    checkboxLabel="Decrease"
+                    checked={sellerDatabaseFilters.hasContact}
+                    handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
+                  />
+
+                  {/* Feature request */}
+                  <PeriodFilter
+                    placeholder="30D"
+                    className={styles.filterPeriod}
+                    value={sellerDatabaseFilters.growthPercent.period}
+                    filterOptions={GROWTH_PERCENT_PERIOD_OPTIONS}
+                    handleChange={(period: string) => {
+                      updateSellerDatabaseFilter('growthPercent', {
+                        ...sellerDatabaseFilters.growthPercent,
+                        period,
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div>
+                {/*  Include brands */}
+                <InputFilter
+                  label="Include Brands"
+                  placeholder="Enter separated by comma"
+                  value={sellerDatabaseFilters.brands.include}
+                  handleChange={(value: string) =>
+                    updateSellerDatabaseFilter('brands', {
+                      ...sellerDatabaseFilters.brands,
+                      include: value,
+                    })
+                  }
+                />
+
+                {/* Exclude brands */}
+                <InputFilter
+                  label="Exclude Brands"
+                  placeholder="Enter separated by comma"
+                  value={sellerDatabaseFilters.brands.exclude}
+                  handleChange={(value: string) =>
+                    updateSellerDatabaseFilter('brands', {
+                      ...sellerDatabaseFilters.brands,
+                      exclude: value,
+                    })
+                  }
+                />
+              </div>
+
+              <div>
+                {/* # of Inventory */}
+                <MinMaxFilter
+                  label="Products count"
+                  minValue={sellerDatabaseFilters.numOfInventory.min}
+                  maxValue={sellerDatabaseFilters.numOfInventory.max}
+                  handleChange={(type: string, value: string) =>
+                    updateSellerDatabaseFilter('numOfInventory', {
+                      ...sellerDatabaseFilters.numOfInventory,
+                      [type]: value,
+                    })
+                  }
+                />
+
+                <div>
+                  {/* Feature request */}
+                  <div className={styles.groupFilters}>
+                    <CheckboxFilter
+                      checkboxLabel="Increase"
+                      checked={sellerDatabaseFilters.hasContact}
+                      handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
+                    />
+                    {/* Feature request */}
+                    <PeriodFilter
+                      placeholder="30D"
+                      className={styles.filterPeriod}
+                      value={sellerDatabaseFilters.growthPercent.period}
+                      filterOptions={GROWTH_PERCENT_PERIOD_OPTIONS}
+                      handleChange={(period: string) => {
+                        updateSellerDatabaseFilter('growthPercent', {
+                          ...sellerDatabaseFilters.growthPercent,
+                          period,
+                        });
+                      }}
+                    />
+                  </div>
+
+                  <div className={styles.groupFilters}>
+                    {/* Feature request */}
+                    <CheckboxFilter
+                      checkboxLabel="Decrease"
+                      checked={sellerDatabaseFilters.hasContact}
+                      handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
+                    />
+                    {/* Feature request */}
+                    <PeriodFilter
+                      placeholder="30D"
+                      className={styles.filterPeriod}
+                      value={sellerDatabaseFilters.growthPercent.period}
+                      filterOptions={GROWTH_PERCENT_PERIOD_OPTIONS}
+                      handleChange={(period: string) => {
+                        updateSellerDatabaseFilter('growthPercent', {
+                          ...sellerDatabaseFilters.growthPercent,
+                          period,
+                        });
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                {/* Include ASINS */}
+                <InputFilter
+                  label="Include ASINs or ISBNs"
+                  placeholder="Enter separated by comma"
+                  value={sellerDatabaseFilters.asins.include.toUpperCase()}
+                  handleChange={(value: string) =>
+                    updateSellerDatabaseFilter('asins', {
+                      ...sellerDatabaseFilters.asins,
+                      include: value,
+                    })
+                  }
+                  error={asinsError.include}
+                />
+
+                {/* Exclude ASINS Name */}
+                <InputFilter
+                  label="Exclude ASINs or ISBNs"
+                  placeholder="Enter separated by comma"
+                  value={sellerDatabaseFilters.asins.exclude.toUpperCase()}
+                  handleChange={(value: string) =>
+                    updateSellerDatabaseFilter('asins', {
+                      ...sellerDatabaseFilters.asins,
+                      exclude: value,
+                    })
+                  }
+                  error={asinsError.exclude}
+                />
+              </div>
+
+              <div>
+                {/* Review Count */}
+                <div className={styles.groupFilters}>
+                  <MinMaxFilter
+                    label="Review Count"
+                    minValue={sellerDatabaseFilters.reviewCount.min}
+                    maxValue={sellerDatabaseFilters.reviewCount.max}
+                    handleChange={(type: string, value: string) =>
+                      updateSellerDatabaseFilter('reviewCount', {
+                        ...sellerDatabaseFilters.reviewCount,
+                        [type]: value,
+                      })
+                    }
+                  />
+                  <PeriodFilter
+                    placeholder="30D"
+                    label="Period"
+                    value={sellerDatabaseFilters.reviewCount.period}
+                    className={styles.filterPeriod}
+                    filterOptions={FILTER_PERIOD_DURATIONS}
+                    handleChange={(period: string) => {
+                      updateSellerDatabaseFilter('reviewCount', {
+                        ...sellerDatabaseFilters.reviewCount,
+                        period,
+                      });
+                    }}
+                  />
+                </div>
+
+                {/*  Review Filter */}
+                <div className={styles.reviewGroupedFilter}>
+                  <ReviewTypeFilter
+                    placeholder="Positive"
+                    label="Review"
+                    filterOptions={FILTER_REVIEW_OPTIONS}
+                    value={sellerDatabaseFilters.review.type}
+                    handleChange={(type: string) => {
+                      updateSellerDatabaseFilter('review', {
+                        ...sellerDatabaseFilters.review,
+                        type,
+                      });
+                    }}
+                  />
+                  <div className={styles.groupFilters}>
+                    <MinMaxFilter
+                      label=""
+                      minValue={sellerDatabaseFilters.review.min}
+                      maxValue={sellerDatabaseFilters.review.max}
+                      handleChange={(type: string, value: string) =>
+                        updateSellerDatabaseFilter('review', {
+                          ...sellerDatabaseFilters.review,
+                          [type]: value,
+                        })
+                      }
+                    />
+                    <PeriodFilter
+                      placeholder="30D"
+                      value={sellerDatabaseFilters.review.period}
+                      filterOptions={FILTER_PERIOD_DURATIONS}
+                      handleChange={(period: string) => {
+                        updateSellerDatabaseFilter('review', {
+                          ...sellerDatabaseFilters.review,
+                          period,
+                        });
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                {/* Feature request */}
+                {/* Launched FIlter */}
+                <RadioListFilters
+                  filterOptions={LAUNCHED_FILTER_OPTIONS}
+                  label="Active/ inactive seller account"
+                  value={sellerDatabaseFilters.launched}
+                  handleChange={(value: string) => updateSellerDatabaseFilter('launched', value)}
+                />
+
+                {/* Seller Type FIlter */}
+                {/* <RadioListFilters
+                label="Seller Type"
+                filterOptions={SELLER_TYPE_FILTER_OPTIONS}
+                value={sellerDatabaseFilters.sellerType}
+                handleChange={(value: string) => updateSellerDatabaseFilter('sellerType', value)}
+              /> */}
+
+                {/* Feature request */}
                 <CheckboxFilter
-                  label="Seller Reachability"
-                  checkboxLabel="Sellers with decision makers"
+                  checkboxLabel="Dormant account"
                   checked={sellerDatabaseFilters.hasContact}
                   handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
                 />
               </div>
 
-              {/* # of Inventory */}
-              {/* <MinMaxFilter
-                label="# of Inventory"
-                minValue={sellerDatabaseFilters.numOfInventory.min}
-                maxValue={sellerDatabaseFilters.numOfInventory.max}
-                handleChange={(type: string, value: string) =>
-                  updateSellerDatabaseFilter('numOfInventory', {
-                    ...sellerDatabaseFilters.numOfInventory,
-                    [type]: value,
-                  })
-                }
-              /> */}
-
-              {/* # of Brands */}
-              <MinMaxFilter
-                label="Number of Brands"
-                minValue={sellerDatabaseFilters.numOfBrands.min}
-                maxValue={sellerDatabaseFilters.numOfBrands.max}
-                handleChange={(type: string, value: string) =>
-                  updateSellerDatabaseFilter('numOfBrands', {
-                    ...sellerDatabaseFilters.numOfBrands,
-                    [type]: value,
-                  })
-                }
-              />
-
-              {/* Growth % */}
-              {/* <div className={styles.groupFilters}>
-                <MinMaxFilter
-                  label="Growth %"
-                  minValue={sellerDatabaseFilters.growthPercent.min}
-                  maxValue={sellerDatabaseFilters.growthPercent.max}
-                  handleChange={(type: string, value: string) =>
-                    updateSellerDatabaseFilter('growthPercent', {
-                      ...sellerDatabaseFilters.growthPercent,
-                      [type]: value,
-                    })
-                  }
-                  appendWith="%"
-                />
-
-                <PeriodFilter
-                  placeholder="30D"
-                  label="Period"
-                  className={styles.filterPeriod}
-                  value={sellerDatabaseFilters.growthPercent.period}
-                  filterOptions={GROWTH_PERCENT_PERIOD_OPTIONS}
-                  handleChange={(period: string) => {
-                    updateSellerDatabaseFilter('growthPercent', {
-                      ...sellerDatabaseFilters.growthPercent,
-                      period,
-                    });
-                  }}
-                />
-              </div> */}
-
-              {/* Review Count */}
-              {/* <div className={styles.groupFilters}>
-                <MinMaxFilter
-                  label="Review Count"
-                  minValue={sellerDatabaseFilters.reviewCount.min}
-                  maxValue={sellerDatabaseFilters.reviewCount.max}
-                  handleChange={(type: string, value: string) =>
-                    updateSellerDatabaseFilter('reviewCount', {
-                      ...sellerDatabaseFilters.reviewCount,
-                      [type]: value,
-                    })
-                  }
-                />
-                <PeriodFilter
-                  placeholder="30D"
-                  label="Period"
-                  value={sellerDatabaseFilters.reviewCount.period}
-                  className={styles.filterPeriod}
-                  filterOptions={FILTER_PERIOD_DURATIONS}
-                  handleChange={(period: string) => {
-                    updateSellerDatabaseFilter('reviewCount', {
-                      ...sellerDatabaseFilters.reviewCount,
-                      period,
-                    });
-                  }}
-                />
-              </div> */}
-
+              {/* Feature request */}
               {/* FBA Percent */}
-              {/* <MinMaxFilter
+              <MinMaxFilter
                 label="FBA %"
                 minValue={sellerDatabaseFilters.fbaPercent.min}
                 maxValue={sellerDatabaseFilters.fbaPercent.max}
@@ -665,63 +906,7 @@ const SellerDatabaseFilters = (props: Props) => {
                   })
                 }
                 appendWith="%"
-              /> */}
-
-              {/*  Review Filter */}
-              {/*<div className={styles.reviewGroupedFilter}>
-                <ReviewTypeFilter
-                  placeholder="Positive"
-                  label="Review"
-                  filterOptions={FILTER_REVIEW_OPTIONS}
-                  value={sellerDatabaseFilters.review.type}
-                  handleChange={(type: string) => {
-                    updateSellerDatabaseFilter('review', {
-                      ...sellerDatabaseFilters.review,
-                      type,
-                    });
-                  }}
-                />
-                <div className={styles.groupFilters}>
-                  <MinMaxFilter
-                    label=""
-                    minValue={sellerDatabaseFilters.review.min}
-                    maxValue={sellerDatabaseFilters.review.max}
-                    handleChange={(type: string, value: string) =>
-                      updateSellerDatabaseFilter('review', {
-                        ...sellerDatabaseFilters.review,
-                        [type]: value,
-                      })
-                    }
-                  />
-                  <PeriodFilter
-                    placeholder="30D"
-                    value={sellerDatabaseFilters.review.period}
-                    filterOptions={FILTER_PERIOD_DURATIONS}
-                    handleChange={(period: string) => {
-                      updateSellerDatabaseFilter('review', {
-                        ...sellerDatabaseFilters.review,
-                        period,
-                      });
-                    }}
-                  />
-                </div>
-                  </div>*/}
-
-              {/* Launched FIlter */}
-              {/* <RadioListFilters
-                filterOptions={LAUNCHED_FILTER_OPTIONS}
-                label="Seller Launched"
-                value={sellerDatabaseFilters.launched}
-                handleChange={(value: string) => updateSellerDatabaseFilter('launched', value)}
-              /> */}
-
-              {/* Seller Type FIlter */}
-              {/* <RadioListFilters
-                label="Seller Type"
-                filterOptions={SELLER_TYPE_FILTER_OPTIONS}
-                value={sellerDatabaseFilters.sellerType}
-                handleChange={(value: string) => updateSellerDatabaseFilter('sellerType', value)}
-              /> */}
+              />
 
               {/* Seller Ratings */}
               {/*<MinMaxRatingsFilter
@@ -734,6 +919,34 @@ const SellerDatabaseFilters = (props: Props) => {
                     [type]: value,
                   })
                 }
+              />*/}
+
+              {/* Include Seller IDs */}
+              {/*<InputFilter
+            label="Include Seller IDs"
+            placeholder="Enter separated by comma"
+            value={sellerDatabaseFilters.sellerIds.include.toUpperCase()}
+            handleChange={(value: string) =>
+              updateSellerDatabaseFilter('sellerIds', {
+                ...sellerDatabaseFilters.sellerIds,
+                include: value,
+              })
+            }
+            error={sellerIdsError.include}
+          />*/}
+
+              {/* Exclude Seller IDS */}
+              {/*<InputFilter
+                label="Exclude Seller IDs"
+                placeholder="Enter separated by comma"
+                value={sellerDatabaseFilters.sellerIds.exclude.toUpperCase()}
+                handleChange={(value: string) =>
+                  updateSellerDatabaseFilter('sellerIds', {
+                    ...sellerDatabaseFilters.sellerIds,
+                    exclude: value,
+                  })
+                }
+                error={sellerIdsError.exclude}
               />*/}
             </div>
           )}

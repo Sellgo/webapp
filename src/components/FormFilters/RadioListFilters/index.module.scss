@@ -1,13 +1,13 @@
 @import '../../../design-system/colors.scss';
 
 .radioBoxFilters {
-  min-width: 250px;
+  min-width: 180px;
 
   p {
     margin: 0;
     color: $grey_8;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 600;
   }
 }
 
@@ -20,7 +20,7 @@
 }
 
 .checkbox {
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 
   &:last-child {
     margin-bottom: 0;
@@ -28,7 +28,7 @@
 
   label {
     color: $grey_8 !important;
-    margin-left: 18px !important;
+    margin-left: 1px !important;
   }
 
   label::before {
