@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import { Progress } from 'semantic-ui-react';
 import { getSellerQuota } from '../../actions/Settings';
 import './index.scss';
+import { formatNumber } from '../../utils/format';
 
 interface QuotaMeterProps {
   sellerQuota: any;
@@ -29,7 +30,7 @@ class QuotaMeter extends React.Component<QuotaMeterProps> {
     return (
       <div className="quota-meter">
         <Progress percent={percent} size="tiny" color="blue">
-          {`${used} used out of ${available}`}
+          {`${formatNumber(used)} used out of ${formatNumber(available)}`}
         </Progress>
       </div>
     );
