@@ -19,8 +19,8 @@ import { success } from '../../../../../utils/notifications';
 import { trackMerchantFromDatabase } from '../../../../../actions/SellerResearch/SellerDatabase';
 
 /* Utils */
-import history from '../../../../../history';
-import { timeout } from '../../../../../utils/timeout';
+// import history from '../../../../../history';
+// import { timeout } from '../../../../../utils/timeout';
 
 /* Assets */
 // import { ReactComponent as SellerFinderIcon } from '../../../../../assets/images/sellerFinder.svg';
@@ -30,26 +30,26 @@ interface Props extends RowCell {
 }
 
 const SellerActions = (props: Props) => {
-  const { trackMerchantFromDatabase, ...otherProps } = props;
+  const { ...otherProps } = props;
 
   const { rowData } = otherProps;
 
   const asinList = rowData.asins;
   const isSellerTracked =
     rowData.tracking_status === true || rowData.tracking_status === 'active' ? true : false;
-  const merchantId = rowData.merchant_id;
+  // const merchantId = rowData.merchant_id;
   const inventoryCount = rowData.inventory_count;
 
   const parsedAsinList = parseKpiLists(asinList);
 
   /* Track seller */
-  const handleSellerTrack = async (newTab: boolean) => {
-    trackMerchantFromDatabase(merchantId);
-    if (newTab) {
-      await timeout(500);
-      history.push('/seller-research/collection');
-    }
-  };
+  // const handleSellerTrack = async (newTab: boolean) => {
+  //   trackMerchantFromDatabase(merchantId);
+  //   if (newTab) {
+  //     await timeout(500);
+  //     history.push('/seller-research/collection');
+  //   }
+  // };
 
   /* Copy Asins */
   const handleCopyAsins = (deliminator?: string) => {
@@ -66,7 +66,7 @@ const SellerActions = (props: Props) => {
           <div className={styles.actionCell}>
             <button
               className={styles.actionButton}
-              onClick={() => handleSellerTrack(false)}
+              // onClick={() => handleSellerTrack(false)}
               style={{
                 color: isSellerTracked ? '#3b4557' : '#636d76',
                 fontWeight: isSellerTracked ? 500 : 400,
