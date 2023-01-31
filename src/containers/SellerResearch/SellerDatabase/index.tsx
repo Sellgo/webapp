@@ -23,7 +23,7 @@ import {
 
 /* ACtions */
 import { fetchSellerDatabase } from '../../../actions/SellerResearch/SellerDatabase';
-import SellgoGreetingVideoSection from '../../NewSellgoSubscription/VideoSection';
+// import SellgoGreetingVideoSection from '../../NewSellgoSubscription/VideoSection';
 
 interface Props {
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
@@ -32,20 +32,20 @@ interface Props {
 
 const SellerDatabase = (props: Props) => {
   const { showFilterMessage, fetchSellerDatabase } = props;
-  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+  // const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   React.useEffect(() => {
     fetchSellerDatabase({ retrieve_default: true });
   }, []);
 
-  React.useEffect(() => {
-    const skippedVideo = window.localStorage.getItem('skippedSellgoGreetingVideo');
+  // React.useEffect(() => {
+  //   const skippedVideo = window.localStorage.getItem('skippedSellgoGreetingVideo');
 
-    if (skippedVideo) {
-      setIsModalOpen(false);
-    } else {
-      setIsModalOpen(true);
-    }
-  }, []);
+  //   if (skippedVideo) {
+  //     setIsModalOpen(false);
+  //   } else {
+  //     setIsModalOpen(true);
+  //   }
+  // }, []);
   return (
     <main className={styles.sellerDatbasePage}>
       <SellerDatabaseFilters />
@@ -57,7 +57,7 @@ const SellerDatabase = (props: Props) => {
       />
       <DatabaseExport />
       <SellerDatabaseTable />
-      {isModalOpen && <SellgoGreetingVideoSection setIsModalOpen={setIsModalOpen} />}
+      {/* {isModalOpen && <SellgoGreetingVideoSection setIsModalOpen={setIsModalOpen} />} */}
     </main>
   );
 };
