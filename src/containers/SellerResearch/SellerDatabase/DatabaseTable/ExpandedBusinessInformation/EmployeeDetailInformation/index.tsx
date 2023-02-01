@@ -35,7 +35,6 @@ import { SOCIAL_LINK_COLORS } from '../../../../../../constants/SellerResearch/S
 
 // Interfaces
 import { SellerSubscription } from '../../../../../../interfaces/Seller';
-import { Link } from 'react-router-dom';
 
 interface Props {
   employeeData?: any;
@@ -103,6 +102,10 @@ const EmployeeDetailInformation = (props: Props) => {
     invalid: <InValidCrossIcon />,
   };
 
+  const redirectToPricing = () => {
+    const win = window.open('/settings/pricing', '_blank');
+    win?.focus();
+  };
   return (
     <>
       <div className={styles.employeeInformationDetailPopup}>
@@ -298,13 +301,9 @@ const EmployeeDetailInformation = (props: Props) => {
                 <p>
                   {employeeData?.phones?.length || employeeData?.teaser?.phones?.length} phones are
                   found,{' '}
-                  <Link
-                    to="/settings/pricing"
-                    target="_blank"
-                    className={styles.upgradeAccess_link}
-                  >
+                  <span onClick={redirectToPricing} className={styles.upgradeAccess_link}>
                     upgrade access
-                  </Link>
+                  </span>
                 </p>
               </div>
             )}
