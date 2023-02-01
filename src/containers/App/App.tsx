@@ -196,7 +196,7 @@ const PrivateRoute = connect(
         window.location.pathname !== '/settings/pricing'
       ) {
         console.log(window.location.pathname);
-        if (sellerQuota?.seller_research.available - sellerQuota?.seller_research.used <= 0) {
+        if (sellerQuota?.seller_detail.available - sellerQuota?.seller_detail.used <= 0) {
           history.push('/activation');
         }
       }
