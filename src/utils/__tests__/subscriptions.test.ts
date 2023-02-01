@@ -79,7 +79,7 @@ describe('Testing subscription ID', () => {
   });
 
   test('Testing Browser Extension Plan ID', () => {
-    expect(subscriptions.isSubscriptionIdStarter(6)).toBeTruthy();
+    expect(subscriptions.isSubscriptionIdStarter(10)).toBeTruthy();
   });
 });
 

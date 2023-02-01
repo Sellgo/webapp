@@ -17,6 +17,7 @@ import { getSellerQuota } from '../../../../../../actions/Settings';
 
 // Selectors
 import { sellerIDSelector } from '../../../../../../selectors/Seller';
+import { getSellerSubscription } from '../../../../../../selectors/Subscription';
 
 // Config
 import { AppConfig } from '../../../../../../config';
@@ -24,9 +25,17 @@ import { AppConfig } from '../../../../../../config';
 // Utils
 import { error, success } from '../../../../../../utils/notifications';
 import { getNumberOfDaysTillToday } from '../../../../../../utils/date';
+import {
+  isSubscriptionIdFreeAccount,
+  isSubscriptionIdStarter,
+} from '../../../../../../utils/subscriptions';
 
 // Constant
 import { SOCIAL_LINK_COLORS } from '../../../../../../constants/SellerResearch/SellerDatabase';
+
+// Interfaces
+import { SellerSubscription } from '../../../../../../interfaces/Seller';
+import { Link } from 'react-router-dom';
 
 interface Props {
   employeeData?: any;
@@ -35,6 +44,7 @@ interface Props {
   setEmployeeData: (a: any) => void;
   setCompanyInfo: (a: any, b: string) => void;
   getSellerQuota: any;
+  sellerSubscription: SellerSubscription;
 }
 const EmployeeDetailInformation = (props: Props) => {
   const {
@@ -44,8 +54,13 @@ const EmployeeDetailInformation = (props: Props) => {
     merchantId,
     setCompanyInfo,
     getSellerQuota,
+    sellerSubscription,
   } = props;
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const isPhoneVisible = !(
+    isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) ||
+    isSubscriptionIdStarter(sellerSubscription.subscription_id)
+  );
   const unlockEmplloyeeDetail = async () => {
     setIsLoading(true);
     try {
@@ -63,6 +78,7 @@ const EmployeeDetailInformation = (props: Props) => {
             emails: data?.emails,
             links: data?.links,
             is_looked_up: true,
+            phones: data?.phones,
           };
           return temp;
         });
@@ -189,7 +205,7 @@ const EmployeeDetailInformation = (props: Props) => {
             </div>
           </div>
         </div>
-        {/* Contact Information */}
+        {/* Email Information */}
         <div className={styles.employeeInformationDetailPopup__contactInformation}>
           <div className={styles.employeeInformationDetailPopup__contactInformation_emails}>
             <p className={styles.informationHeading}>Emails</p>
@@ -245,6 +261,95 @@ const EmployeeDetailInformation = (props: Props) => {
               })}
           </div>
         </div>
+        {/* Phone Information */}
+        <div className={styles.employeeInformationDetailPopup__contactPhoneInformation}>
+          <div className={styles.employeeInformationDetailPopup__contactInformation_phones}>
+            <p className={styles.informationHeading}>Phone</p>
+            {isPhoneVisible && (
+              <>
+                {!employeeData?.is_looked_up &&
+                  employeeData?.teaser?.phones &&
+                  employeeData?.teaser?.phones.map((phone: any) => (
+                    <p
+                      className={`${styles.linkBlueText} 
+                  ${styles.employeeInformationDetailPopup__contactInformation_details}`}
+                    >
+                      {phone.number}
+                    </p>
+                  ))}
+                {employeeData?.is_looked_up &&
+                  employeeData?.phones &&
+                  employeeData?.phones.map((phoneData: any) => {
+                    const { number, status } = phoneData;
+                    return (
+                      <div
+                        className={`${styles.employeeInformationDetailPopup__contactInformation_emails__verified} 
+                    ${styles.employeeInformationDetailPopup__contactInformation_details}`}
+                      >
+                        {emailVerificationIcons[status]}
+                        <p className={styles.linkBlueText}>{number}</p>
+                      </div>
+                    );
+                  })}
+              </>
+            )}
+            {!isPhoneVisible && (
+              <div className={styles.upgradeAccess}>
+                <p>
+                  {employeeData?.phones?.length || employeeData?.teaser?.phones?.length} phones are
+                  found,{' '}
+                  <Link
+                    to="/settings/pricing"
+                    target="_blank"
+                    className={styles.upgradeAccess_link}
+                  >
+                    upgrade access
+                  </Link>
+                </p>
+              </div>
+            )}
+          </div>
+          {isPhoneVisible && (
+            <div
+              className={
+                styles.employeeInformationDetailPopup__contactInformation_emailLastVerified
+              }
+            >
+              <p className={styles.informationHeading}>Last Verified</p>
+              {isPhoneVisible && (
+                <>
+                  {!employeeData?.is_looked_up &&
+                    employeeData?.teaser?.phones &&
+                    employeeData?.teaser?.phones.map(() => (
+                      <p
+                        className={
+                          styles.employeeInformationDetailPopup__contactInformation_details
+                        }
+                      >
+                        x x ago
+                      </p>
+                    ))}
+                  {employeeData?.is_looked_up &&
+                    employeeData?.phones &&
+                    employeeData?.phones.map((phoneData: any) => {
+                      const { last_verified } = phoneData;
+                      return (
+                        <>
+                          <p
+                            className={
+                              styles.employeeInformationDetailPopup__contactInformation_details
+                            }
+                          >
+                            {getNumberOfDaysTillToday(last_verified)} days ago
+                          </p>
+                        </>
+                      );
+                    })}
+                </>
+              )}
+            </div>
+          )}
+        </div>
       </div>
       {!employeeData?.is_looked_up && (
         <div className={styles.buttonsRow}>
@@ -263,9 +368,16 @@ const EmployeeDetailInformation = (props: Props) => {
     </>
   );
 };
+
+const mapStateToProps = (state: any) => {
+  return {
+    sellerSubscription: getSellerSubscription(state),
+  };
+};
+
 const mapDispatchToProps = (dispatch: any) => ({
   setCompanyInfo: (companyInfo: any, merhcantId: string) =>
     dispatch(setCompanyInfo(companyInfo, merhcantId)),
   getSellerQuota: () => dispatch(getSellerQuota()),
 });
-export default connect(null, mapDispatchToProps)(EmployeeDetailInformation);
+export default connect(mapStateToProps, mapDispatchToProps)(EmployeeDetailInformation);

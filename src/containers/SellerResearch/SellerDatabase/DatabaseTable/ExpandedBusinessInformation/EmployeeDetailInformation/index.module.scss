@@ -5,8 +5,12 @@
   justify-content: space-between;
   padding: 50px;
 
+  @media (max-width: 1600px) {
+    max-width: 1200px;
+  }
+
   &__personalInformation {
-    width: 50%;
+    width: 45%;
 
     &__bio {
       display: flex;
@@ -58,9 +62,41 @@
   &__contactInformation {
     display: flex;
     justify-content: space-between;
-    width: 450px;
+    width: 400px;
+    margin-right: 100px;
+
+    @media (max-width: 1600px) {
+      margin-right: 50px;
+    }
 
     &_emails {
+      &__verified {
+        display: flex;
+        margin: 0;
+        margin-bottom: 20px;
+
+        svg {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    &_details {
+      margin: 0;
+      margin-bottom: 15px;
+    }
+  }
+
+  &__contactPhoneInformation {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+
+    @media (max-width: 1600px) {
+      width: 400px;
+    }
+
+    &_phones {
       &__verified {
         display: flex;
         margin: 0;
@@ -108,4 +144,15 @@
 
 .linkBlueText {
   color: $link_blue;
+}
+
+.upgradeAccess {
+  font-size: $fontsize_content_12;
+  color: $grey_8;
+
+  &_link {
+    color: $accent_blue;
+    font-weight: 600;
+    text-decoration: underline;
+  }
 }
