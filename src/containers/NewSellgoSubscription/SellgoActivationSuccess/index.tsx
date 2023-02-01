@@ -24,7 +24,7 @@ interface Props {
 }
 
 const ActivationSuccess = (props: Props) => {
-  const { auth, location } = props;
+  const { location } = props;
   const [progressMessage, setProgressMessage] = React.useState<string>('Preparing your account..');
 
   /* Email and password should be passed from history.push in Activation component */
@@ -57,21 +57,10 @@ const ActivationSuccess = (props: Props) => {
   }, []);
 
   const redirectAndLogin = () => {
-    auth.webAuth.login(
-      {
-        responseType: 'token',
-        realm: 'Username-Password-Authentication',
-        username: email,
-        password: password,
-      },
-      (err: any) => {
-        if (err) {
-          console.log('Error: ', err);
-        } else {
-          console.log('Success!');
-        }
-      }
-    );
+    history.push({
+      pathname: '/activation/pilot/onboarding',
+      state: { email, password },
+    });
   };
   return (
     <main className={styles.successPage}>
@@ -84,7 +73,7 @@ const ActivationSuccess = (props: Props) => {
       </section>
       <section className={styles.socialProofSection}>
         <img src={sellgoLogo} alt="sellgo-logo" className={styles.sellgoLogo} />
-        <p className={styles.socialProofDesc}>Trusted by 1,000+ businesses.</p>
+        <p className={styles.socialProofDesc}>Trusted by 10,000+ businesses.</p>
         <div className={styles.socialProofIcons}>
           <img className={styles.logo} src={BBLogo} alt="bblogo" />
           <img className={styles.logo} src={TenFactorLogo} alt="TenFactorLogo" />
