@@ -7,7 +7,7 @@
   },
 
   {
-    "Choose Marketplace": {
+    "Choose marketplace": {
       "youtubeLink": "",
       "tooltipText": "Amazon marketplace where the sellers sell"
     },
@@ -15,11 +15,11 @@
       "youtubeLink": "",
       "tooltipText": "Product categories associated with each Amazon marketplace"
     },
-    "Include Brands": {
+    "Include brands": {
       "youtubeLink": "",
       "tooltipText": "Include popular brands that the sellers carry (separate with comma)"
     },
-    " Revenue estimation $": {
+    "Revenue estimation $": {
       "youtubeLink": "",
       "tooltipText": "Estimated monthly revenue of sellers"
     },
@@ -35,11 +35,15 @@
       "youtubeLink": "",
       "tooltipText": "Company keyword"
     },
-    "Number of Employee": {
+    "Number of employee": {
       "youtubeLink": "",
       "tooltipText": "Number of employee"
     },
-    "Exclude Brands": {
+    "Number of decision maker": {
+      "youtubeLink": "",
+      "tooltipText": "Number of employee with decision authority in the company"
+    },
+    "Exclude brands": {
       "youtubeLink": "",
       "tooltipText": "Exclude popular brands that the sellers carry (separate with comma)"
     },
@@ -51,11 +55,11 @@
       "youtubeLink": "",
       "tooltipText": "Exclude unique ASINs or ISBNs that the sellers carry (separate with comma)"
     },
-    "Include Seller IDs": {
+    "Include seller IDs": {
       "youtubeLink": "",
       "tooltipText": "Find unique seller IDs (separate with comma)"
     },
-    "Exclude Seller IDs": {
+    "Exclude seller IDs": {
       "youtubeLink": "",
       "tooltipText": "Find other sellers except the one with unique seller IDs (separate with comma)"
     },
@@ -63,7 +67,7 @@
       "youtubeLink": "",
       "tooltipText": "Sellers' country/ location of origin"
     },
-    "State Location": {
+    "State location": {
       "youtubeLink": "",
       "tooltipText": "Only show for U.S. sellers"
     },
@@ -71,7 +75,7 @@
       "youtubeLink": "",
       "tooltipText": "Show sellers with decision makers"
     },
-    "Products Count": {
+    "Products count": {
       "youtubeLink": "",
       "tooltipText": "Total count of ASINs that the sellers carry"
     },
@@ -83,7 +87,7 @@
       "youtubeLink": "",
       "tooltipText": "Total percentage of seller business growth by period"
     },
-    "Review Count": {
+    "Review count": {
       "youtubeLink": "",
       "tooltipText": "Total review count by period"
     },
@@ -95,15 +99,15 @@
       "youtubeLink": "",
       "tooltipText": "Total count of positive, neutral and negative review by period"
     },
-    "Seller Launched": {
+    "Active/ inactive seller account": {
       "youtubeLink": "",
       "tooltipText": "How long the sellers have been selling"
     },
-    "Seller Type": {
+    "Seller type": {
       "youtubeLink": "",
       "tooltipText": "Wholesale or Private Label sellers"
     },
-    "Seller Ratings": {
+    "Seller rating": {
       "youtubeLink": "",
       "tooltipText": "Total count of ratings"
     },

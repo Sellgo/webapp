@@ -16,9 +16,9 @@ export const INFO_FILTER_MESSAGE = `Enter at least one filter and click 'Find' t
 
 /* Period Durations for filters */
 export const FILTER_PERIOD_DURATIONS = [
-  { key: '30D', text: '30D', value: '30_days' },
-  { key: '90D', text: '90D', value: '90_days' },
-  { key: '365D', text: '365D', value: '12_month' },
+  { key: '30D', text: 'L30D', value: '30_days' },
+  { key: '90D', text: 'L3M', value: '90_days' },
+  { key: '365D', text: 'L1Y', value: '12_month' },
   { key: 'All', text: 'All', value: 'lifetime' },
 ];
 

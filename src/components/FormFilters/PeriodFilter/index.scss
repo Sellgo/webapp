@@ -10,6 +10,7 @@
     color: $grey_8;
     font-size: 12px;
     font-weight: 600;
+    margin-top: 7px;
   }
 }
 
@@ -29,6 +30,7 @@
   align-items: center;
   background: #fff;
   cursor: pointer !important;
+  margin-top: 7px;
 
   &__focused {
     border: 2px solid $blue_6 !important;

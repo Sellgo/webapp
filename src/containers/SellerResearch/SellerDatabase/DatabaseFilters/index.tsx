@@ -393,7 +393,7 @@ const SellerDatabaseFilters = (props: Props) => {
 
           {/* Feature request */}
           <MarketPlaceFilter
-            label="Choose Marketplace"
+            label="Choose marketplace"
             marketplaceDetails={marketPlace}
             marketPlaceChoices={SELLER_DB_MARKETPLACE}
             handleChange={(option: MarketplaceOption) => {
@@ -513,7 +513,7 @@ const SellerDatabaseFilters = (props: Props) => {
 
             {/* Feature request */}
             <CheckboxFilter
-              checkboxLabel="Social media link"
+              checkboxLabel="Social media"
               checked={sellerDatabaseFilters.sellerReachability}
               handleChange={value => updateSellerDatabaseFilter('sellerReachability', value)}
             />
@@ -634,13 +634,15 @@ const SellerDatabaseFilters = (props: Props) => {
                   {/* Feature request */}
                   <div className={styles.groupFilters}>
                     <CheckboxFilter
-                      checkboxLabel="Increase"
+                      label=" "
+                      checkboxLabel="Increasing"
                       checked={sellerDatabaseFilters.hasContact}
                       handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
                     />
 
                     <PeriodFilter
-                      placeholder="30D"
+                      label=" "
+                      placeholder="L30D"
                       className={styles.filterPeriod}
                       value={sellerDatabaseFilters.growthPercent.period}
                       filterOptions={GROWTH_PERCENT_PERIOD_OPTIONS}
@@ -657,14 +659,16 @@ const SellerDatabaseFilters = (props: Props) => {
                 {/* Feature request */}
                 <div className={styles.groupFilters}>
                   <CheckboxFilter
-                    checkboxLabel="Decrease"
+                    label=" "
+                    checkboxLabel="Decreasing"
                     checked={sellerDatabaseFilters.hasContact}
                     handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
                   />
 
                   {/* Feature request */}
                   <PeriodFilter
-                    placeholder="30D"
+                    label=" "
+                    placeholder="L30D"
                     className={styles.filterPeriod}
                     value={sellerDatabaseFilters.growthPercent.period}
                     filterOptions={GROWTH_PERCENT_PERIOD_OPTIONS}
@@ -681,7 +685,7 @@ const SellerDatabaseFilters = (props: Props) => {
               <div>
                 {/*  Include brands */}
                 <InputFilter
-                  label="Include Brands"
+                  label="Include brands"
                   placeholder="Enter separated by comma"
                   value={sellerDatabaseFilters.brands.include}
                   handleChange={(value: string) =>
@@ -694,7 +698,7 @@ const SellerDatabaseFilters = (props: Props) => {
 
                 {/* Exclude brands */}
                 <InputFilter
-                  label="Exclude Brands"
+                  label="Exclude brands"
                   placeholder="Enter separated by comma"
                   value={sellerDatabaseFilters.brands.exclude}
                   handleChange={(value: string) =>
@@ -724,13 +728,15 @@ const SellerDatabaseFilters = (props: Props) => {
                   {/* Feature request */}
                   <div className={styles.groupFilters}>
                     <CheckboxFilter
-                      checkboxLabel="Increase"
+                      label=" "
+                      checkboxLabel="Increasing"
                       checked={sellerDatabaseFilters.hasContact}
                       handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
                     />
                     {/* Feature request */}
                     <PeriodFilter
-                      placeholder="30D"
+                      label=" "
+                      placeholder="L30D"
                       className={styles.filterPeriod}
                       value={sellerDatabaseFilters.growthPercent.period}
                       filterOptions={GROWTH_PERCENT_PERIOD_OPTIONS}
@@ -746,13 +752,15 @@ const SellerDatabaseFilters = (props: Props) => {
                   <div className={styles.groupFilters}>
                     {/* Feature request */}
                     <CheckboxFilter
-                      checkboxLabel="Decrease"
+                      label=" "
+                      checkboxLabel="Decreasing"
                       checked={sellerDatabaseFilters.hasContact}
                       handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
                     />
                     {/* Feature request */}
                     <PeriodFilter
-                      placeholder="30D"
+                      label=" "
+                      placeholder="L30D"
                       className={styles.filterPeriod}
                       value={sellerDatabaseFilters.growthPercent.period}
                       filterOptions={GROWTH_PERCENT_PERIOD_OPTIONS}
@@ -801,7 +809,7 @@ const SellerDatabaseFilters = (props: Props) => {
                 {/* Review Count */}
                 <div className={styles.groupFilters}>
                   <MinMaxFilter
-                    label="Review Count"
+                    label="Seller rating"
                     minValue={sellerDatabaseFilters.reviewCount.min}
                     maxValue={sellerDatabaseFilters.reviewCount.max}
                     handleChange={(type: string, value: string) =>
@@ -829,8 +837,9 @@ const SellerDatabaseFilters = (props: Props) => {
                 {/*  Review Filter */}
                 <div className={styles.reviewGroupedFilter}>
                   <ReviewTypeFilter
-                    placeholder="Positive"
                     label="Review"
+                    placeholder="Positive"
+                    //label="Review"
                     filterOptions={FILTER_REVIEW_OPTIONS}
                     value={sellerDatabaseFilters.review.type}
                     handleChange={(type: string) => {
@@ -842,7 +851,7 @@ const SellerDatabaseFilters = (props: Props) => {
                   />
                   <div className={styles.groupFilters}>
                     <MinMaxFilter
-                      label=""
+                      label=" "
                       minValue={sellerDatabaseFilters.review.min}
                       maxValue={sellerDatabaseFilters.review.max}
                       handleChange={(type: string, value: string) =>
@@ -853,7 +862,8 @@ const SellerDatabaseFilters = (props: Props) => {
                       }
                     />
                     <PeriodFilter
-                      placeholder="30D"
+                      label=" "
+                      placeholder="L30D"
                       value={sellerDatabaseFilters.review.period}
                       filterOptions={FILTER_PERIOD_DURATIONS}
                       handleChange={(period: string) => {
@@ -891,22 +901,22 @@ const SellerDatabaseFilters = (props: Props) => {
                   checked={sellerDatabaseFilters.hasContact}
                   handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
                 />
-              </div>
 
-              {/* Feature request */}
-              {/* FBA Percent */}
-              <MinMaxFilter
-                label="FBA %"
-                minValue={sellerDatabaseFilters.fbaPercent.min}
-                maxValue={sellerDatabaseFilters.fbaPercent.max}
-                handleChange={(type: string, value: string) =>
-                  updateSellerDatabaseFilter('fbaPercent', {
-                    ...sellerDatabaseFilters.fbaPercent,
-                    [type]: value,
-                  })
-                }
-                appendWith="%"
-              />
+                {/* Feature request */}
+                {/* FBA Percent */}
+                <MinMaxFilter
+                  label="FBA %"
+                  minValue={sellerDatabaseFilters.fbaPercent.min}
+                  maxValue={sellerDatabaseFilters.fbaPercent.max}
+                  handleChange={(type: string, value: string) =>
+                    updateSellerDatabaseFilter('fbaPercent', {
+                      ...sellerDatabaseFilters.fbaPercent,
+                      [type]: value,
+                    })
+                  }
+                  appendWith="%"
+                />
+              </div>
 
               {/* Seller Ratings */}
               {/*<MinMaxRatingsFilter
