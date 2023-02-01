@@ -46,7 +46,7 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
         featuresIncluded: [
           'Verified personal and other email(s),',
           'Mobile and direct phone number(s),',
-          'Send physical mail integration, and more,',
+          'Advanced analytics, and more,',
         ],
       },
     ],
@@ -66,8 +66,8 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
       {
         title: 'Hit your ambitious revenue goals',
         featuresIncluded: [
-          'Social Media link/ username(s)*',
-          'Zapier, Hubspot and Salesforce integrations',
+          'Social media link(s)/ username(s)*',
+          'Advanced integrations',
           'Data/ CRM enrichments',
         ],
       },

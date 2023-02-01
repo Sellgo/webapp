@@ -43,7 +43,7 @@ import TruncatedTextCell from '../../../../components/NewTable/TruncatedTextCell
 import { onMountFixNewTableHeader } from '../../../../utils/newTable';
 import ImageCell from '../../../../components/NewTable/ImageCell';
 import MultipleDataCell from '../../../../components/NewTable/MultipleDataCell';
-import AddressCell from '../../../../components/NewTable/AddressCell';
+// import AddressCell from '../../../../components/NewTable/AddressCell';
 import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
 import ExpandedBusinessInformation from './ExpandedBusinessInformation';
 
@@ -184,7 +184,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Business Address */}
-          <Table.Column width={250} verticalAlign="middle" align="center">
+          {/* <Table.Column width={250} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Business Address`}
@@ -195,7 +195,7 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <AddressCell dataKey={'address'} textAlign="left" />
-          </Table.Column>
+          </Table.Column> */}
           {/* Number of ASIN */}
           <Table.Column width={250} verticalAlign="middle" align="left">
             <Table.HeaderCell>
@@ -211,7 +211,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Brands */}
-          <Table.Column width={150} verticalAlign="middle" align="center">
+          <Table.Column width={250} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Brands`}
@@ -226,7 +226,7 @@ const SellerDatabaseTable = (props: Props) => {
 
           {/* Category */}
           <Table.Column
-            width={150}
+            width={250}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
             align="center"
