@@ -184,6 +184,7 @@ export const PRODUCTS_DATABASE_CATEGORIES = [
     value: 'Industrial & Scientific',
     text: 'Industrial & Scientific',
   },
+  { key: 'Others', value: 'Others', text: 'Others' },
 ];
 
 export const MX_PRODUCTS_DATABASE_CATEGORIES = [
@@ -242,6 +243,7 @@ export const MX_PRODUCTS_DATABASE_CATEGORIES = [
   { key: 'Tienda Kindle', value: 'Tienda Kindle', text: 'Tienda Kindle' },
   { key: 'Videojuegos', value: 'Videojuegos', text: 'Videojuegos' },
   { key: 'Oficina y Papelería', value: 'Oficina y Papelería', text: 'Oficina y Papelería' },
+  { key: 'Others', value: 'Others', text: 'Others' },
 ];
 
 export const IT_PRODUCTS_DATABASE_CATEGORIES = [
@@ -309,6 +311,7 @@ export const IT_PRODUCTS_DATABASE_CATEGORIES = [
   { key: 'None', value: 'None', text: 'None' },
   { key: 'Sport e tempo libero', value: 'Sport e tempo libero', text: 'Sport e tempo libero' },
   { key: 'Altro', value: 'Altro', text: 'Altro' },
+  { key: 'Others', value: 'Others', text: 'Others' },
 ];
 
 export const UK_PRODUCTS_DATABASE_CATEGORIES = [
@@ -374,6 +377,7 @@ export const UK_PRODUCTS_DATABASE_CATEGORIES = [
   { key: 'None', value: 'None', text: 'None' },
   { key: 'Automotive', value: 'Automotive', text: 'Automotive' },
   { key: 'Luggage', value: 'Luggage', text: 'Luggage' },
+  { key: 'Others', value: 'Others', text: 'Others' },
 ];
 
 export const CA_PRODUCTS_DATABASE_CATEGORIES = [
@@ -440,6 +444,7 @@ export const CA_PRODUCTS_DATABASE_CATEGORIES = [
   { key: 'Baby', value: 'Baby', text: 'Baby' },
   { key: 'Pet Supplies', value: 'Pet Supplies', text: 'Pet Supplies' },
   { key: 'Sports & Outdoors', value: 'Sports & Outdoors', text: 'Sports & Outdoors' },
+  { key: 'Others', value: 'Others', text: 'Others' },
 ];
 
 export const getProductCategories = (marketplaceCode: string) => {
