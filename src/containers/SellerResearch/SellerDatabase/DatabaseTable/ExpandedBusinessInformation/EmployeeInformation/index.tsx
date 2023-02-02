@@ -36,13 +36,23 @@ const EmployeesInformation = (props: Props) => {
       // eslint-disable-next-line max-len
       const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchants-employees?page=1&ordering=id&merchant_id=${rowData.merchant_id}`;
 
-      const { data } = await axios.get(URL);
+      const { data, status } = await axios.get(URL);
 
       if (data) {
         setEmployeesData(data.results);
       }
+
+      if (status === 429) {
+        error(data.message);
+      }
     } catch (err) {
       console.error('Error fetching employees', err);
+      const { response } = err as any;
+      const { status, data } = response;
+
+      if (status === 429) {
+        error(data.message);
+      }
     }
     setIsLoading(false);
   };
@@ -93,7 +103,15 @@ const EmployeesInformation = (props: Props) => {
             employeesData &&
             employeesData.length > 0 &&
             employeesData.map((emploeeData: any, index: number) => {
-              const { first_name, last_name, title, teaser, is_looked_up } = emploeeData;
+              const {
+                first_name,
+                last_name,
+                title,
+                teaser,
+                is_looked_up,
+                emails,
+                phones,
+              } = emploeeData;
               return (
                 <Card
                   className={styles.employeeInformationDetails__card}
@@ -114,7 +132,11 @@ const EmployeesInformation = (props: Props) => {
                         {title}
                       </Card.Meta>
                       <Card.Meta className={styles.employeeInformationDetails__card__meta}>
-                        <Icon name="mail" /> {teaser.emails.length}
+                        <Icon name="mail" disabled /> {emails?.length ?? teaser?.emails?.length}{' '}
+                        <div className={styles.phoneIcon}>
+                          <Icon flipped="horizontally" name="phone" disabled />{' '}
+                          {phones?.length ?? teaser?.phones?.length}
+                        </div>
                       </Card.Meta>
                     </div>
                     <div className={styles.employeeInformationDetails__card__button}>

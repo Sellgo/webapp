@@ -48,6 +48,11 @@
       width: 200px;
       overflow: hidden;
       white-space: nowrap;
+      display: flex;
+
+      .phoneIcon {
+        margin-left: 15px;
+      }
     }
   }
 
