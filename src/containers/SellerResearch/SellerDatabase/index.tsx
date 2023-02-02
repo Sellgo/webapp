@@ -34,7 +34,7 @@ const SellerDatabase = (props: Props) => {
   const { showFilterMessage, fetchSellerDatabase } = props;
   // const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   React.useEffect(() => {
-    fetchSellerDatabase({ restoreLastSearch: true });
+    fetchSellerDatabase({ retrieve_default: true });
   }, []);
 
   // React.useEffect(() => {
