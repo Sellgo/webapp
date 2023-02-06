@@ -34,7 +34,7 @@ const EmployeesInformation = (props: Props) => {
     try {
       const sellerId = sellerIDSelector();
       // eslint-disable-next-line max-len
-      const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchants-employees?page=1&ordering=id&merchant_id=${rowData.merchant_id}`;
+      const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/merchants-employees?page=1&ordering=id&merchant_id=${rowData.merchant_id}&marketplace_id=${rowData.marketplace_id}`;
 
       const { data, status } = await axios.get(URL);
 
