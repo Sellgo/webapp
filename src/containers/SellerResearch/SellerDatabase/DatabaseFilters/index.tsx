@@ -37,9 +37,8 @@ import {
 import { getProductCategories } from '../../../../constants/ProductResearch/ProductsDatabase';
 import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
 import {
-  // COUNTRY_DROPDOWN_LIST,
+  ALL_US_STATES,
   SELLER_DATABASE_COUNTRY_DROPDOWN_LIST,
-  STATES_DROPDOWN_LIST,
 } from '../../../../constants/SellerResearch/SellerMap';
 import { F_TYPES } from '../../../../constants/SellerResearch';
 
@@ -54,7 +53,6 @@ import MarketPlaceFilter from '../../../../components/FormFilters/MarketPlaceFil
 //import ReviewTypeFilter from '../../../../components/FormFilters/ReviewTypeFilter';
 import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxDropdownFilter';
 //import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
-import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
 import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
 
 /* Selectors */
@@ -89,7 +87,7 @@ const SellerDatabaseFilters = (props: Props) => {
       setSellerDatabaseFilters({
         ...sellerDatabaseFilters,
         [key]: value,
-        state: '',
+        states: [],
       });
     } else {
       setSellerDatabaseFilters({
@@ -108,6 +106,7 @@ const SellerDatabaseFilters = (props: Props) => {
     const filterPayload = { ...sellerDatabaseFilters };
     filterPayload.categories = filterPayload.categories.join('|');
     filterPayload.countries = filterPayload.countries.join('|');
+    filterPayload.states = filterPayload.states.join('|');
     filterPayload.country = filterPayload.country === 'All Countries' ? '' : filterPayload.country;
     filterPayload.state = filterPayload.state === 'All States' ? '' : filterPayload.state;
 
@@ -140,6 +139,10 @@ const SellerDatabaseFilters = (props: Props) => {
         if (restoredFilter.countries) {
           restoredFilter.countries = restoredFilter.countries.split('|');
           restoredSellerDatabaseFilters.countries = restoredFilter.countries;
+        }
+        if (restoredFilter.states) {
+          restoredFilter.states = restoredFilter.states.split('|');
+          restoredSellerDatabaseFilters.states = restoredFilter.states;
         }
 
         /* Special treatment to set marketplace */
@@ -382,15 +385,6 @@ const SellerDatabaseFilters = (props: Props) => {
           <div>
             {/* Feature request */}
             {/* Location */}
-            {/* <SelectionFilter
-              label="Location"
-              placeholder="Country"
-              filterOptions={COUNTRY_DROPDOWN_LIST}
-              value={sellerDatabaseFilters.country}
-              handleChange={(value: string) => {
-                updateSellerDatabaseFilter('country', value);
-              }}
-            /> */}
             <CheckboxDropdownFilter
               filterOptions={SELLER_DATABASE_COUNTRY_DROPDOWN_LIST}
               label="Location"
@@ -410,12 +404,21 @@ const SellerDatabaseFilters = (props: Props) => {
           </div>
 
           {/* All States */}
-          <SelectionFilter
+          {/* <SelectionFilter
             label="State Location"
             placeholder="All States"
             filterOptions={STATES_DROPDOWN_LIST}
             value={sellerDatabaseFilters.state}
             handleChange={(value: string) => updateSellerDatabaseFilter('state', value)}
+            disabled={sellerDatabaseFilters.countries.indexOf('US') === -1}
+          /> */}
+          <CheckboxDropdownFilter
+            filterOptions={ALL_US_STATES}
+            label="All states"
+            selectedValues={sellerDatabaseFilters.states}
+            handleChange={(newStates: string[]) => {
+              updateSellerDatabaseFilter('states', [...newStates]);
+            }}
             disabled={sellerDatabaseFilters.countries.indexOf('US') === -1}
           />
 
@@ -472,16 +475,17 @@ const SellerDatabaseFilters = (props: Props) => {
           {/* Seller Reachability */}
           <div>
             {/* Feature request */}
-            <CheckboxFilter
+            {/* <CheckboxFilter
               label="Company"
               checkboxLabel="Email/ phone"
               checked={sellerDatabaseFilters.hasContact}
               handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
-            />
+            /> */}
 
             {/* Feature request */}
             {/* Physical address */}
             <CheckboxFilter
+              label="Company"
               checkboxLabel="Physical address"
               checked={sellerDatabaseFilters.hasAddress}
               handleChange={value => updateSellerDatabaseFilter('hasAddress', value)}
@@ -504,6 +508,36 @@ const SellerDatabaseFilters = (props: Props) => {
             />
           </div>
 
+          <div>
+            {/* Feature request */}
+            <CheckboxFilter
+              label="Decision makers"
+              checkboxLabel="Professional email"
+              checked={sellerDatabaseFilters.hasProfessionalEmail}
+              handleChange={value => updateSellerDatabaseFilter('hasProfessionalEmail', value)}
+            />
+
+            {/* Feature request */}
+            {/* Physical address */}
+            <CheckboxFilter
+              checkboxLabel="Personal email"
+              checked={sellerDatabaseFilters.hasPersonalEmail}
+              handleChange={value => updateSellerDatabaseFilter('hasPersonalEmail', value)}
+            />
+            <CheckboxFilter
+              checkboxLabel="Phone"
+              checked={sellerDatabaseFilters.hasEmployeePhone}
+              handleChange={value => updateSellerDatabaseFilter('hasEmployeePhone', value)}
+            />
+
+            {/* Feature request */}
+            {/* Social media */}
+            <CheckboxFilter
+              checkboxLabel="Social media"
+              checked={sellerDatabaseFilters.hasEmployeeSocial}
+              handleChange={value => updateSellerDatabaseFilter('hasEmployeeSocial', value)}
+            />
+          </div>
           {/* Seller Reachability */}
           {/* <div> */}
           {/* Feature request */}
@@ -740,6 +774,18 @@ const SellerDatabaseFilters = (props: Props) => {
                     })
                   }
                 /> */}
+              {/* Number of employee */}
+              <MinMaxFilter
+                label="Employees count"
+                minValue={sellerDatabaseFilters.numOfEmployees.min}
+                maxValue={sellerDatabaseFilters.numOfEmployees.max}
+                handleChange={(type: string, value: string) =>
+                  updateSellerDatabaseFilter('numOfEmployees', {
+                    ...sellerDatabaseFilters.numOfEmployees,
+                    [type]: value,
+                  })
+                }
+              />
 
               {/* <div> */}
               {/* Feature request */}

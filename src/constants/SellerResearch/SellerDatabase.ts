@@ -148,6 +148,12 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   hasCompanySocial: { keyName: 'has_company_social', type: F_TYPES.TEXT },
   isLookedUp: { keyName: 'is_looked_up', type: F_TYPES.TEXT },
   countries: { keyName: 'countries', type: F_TYPES.TEXT },
+  states: { keyName: 'states', type: F_TYPES.TEXT },
+  hasProfessionalEmail: { keyName: 'has_professional_email', type: F_TYPES.TEXT },
+  hasPersonalEmail: { keyName: 'has_personal_email', type: F_TYPES.TEXT },
+  hasEmployeePhone: { keyName: 'has_employee_phone', type: F_TYPES.TEXT },
+  hasEmployeeSocial: { keyName: 'has_employee_social', type: F_TYPES.TEXT },
+  numOfEmployees: { keyName: 'number_employees', type: F_TYPES.MIN_MAX },
 };
 
 export const GROWTH_PERCENT_FILTER_KEY_MAPPER = {
@@ -211,6 +217,7 @@ export const prettyPrintSeller = (sellerType: string) => {
 export const DEFAULT_SELLER_DATABASE_FILTER: any = {
   categories: [],
   countries: [],
+  states: [],
   brands: DEFAULT_INCLUDE_EXCLUDE_FILTER,
   monthlyRevenue: DEFAULT_MIN_MAX_FILTER,
   businessName: '',
@@ -235,6 +242,11 @@ export const DEFAULT_SELLER_DATABASE_FILTER: any = {
   hasAddress: false,
   hasWebsite: false,
   hasCompanySocial: false,
+  hasProfessionalEmail: false,
+  hasPersonalEmail: false,
+  hasEmployeePhone: false,
+  hasEmployeeSocial: false,
+  numOfEmployees: DEFAULT_MIN_MAX_FILTER,
 };
 
 export const getMinMaxPeriodFilter = (apiFilterName: string, value: any, isReview?: boolean) => {
