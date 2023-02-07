@@ -37,8 +37,9 @@ import {
 import { getProductCategories } from '../../../../constants/ProductResearch/ProductsDatabase';
 import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
 import {
-  COUNTRY_DROPDOWN_LIST,
-  //STATES_DROPDOWN_LIST,
+  // COUNTRY_DROPDOWN_LIST,
+  SELLER_DATABASE_COUNTRY_DROPDOWN_LIST,
+  STATES_DROPDOWN_LIST,
 } from '../../../../constants/SellerResearch/SellerMap';
 import { F_TYPES } from '../../../../constants/SellerResearch';
 
@@ -84,7 +85,7 @@ const SellerDatabaseFilters = (props: Props) => {
   const [marketPlace, setMarketPlace] = useState<MarketplaceOption>(DEFAULT_US_MARKET);
 
   const updateSellerDatabaseFilter = (key: string, value: any) => {
-    if (key === 'country') {
+    if (key === 'countries') {
       setSellerDatabaseFilters({
         ...sellerDatabaseFilters,
         [key]: value,
@@ -106,6 +107,7 @@ const SellerDatabaseFilters = (props: Props) => {
   const handleSubmit = () => {
     const filterPayload = { ...sellerDatabaseFilters };
     filterPayload.categories = filterPayload.categories.join('|');
+    filterPayload.countries = filterPayload.countries.join('|');
     filterPayload.country = filterPayload.country === 'All Countries' ? '' : filterPayload.country;
     filterPayload.state = filterPayload.state === 'All States' ? '' : filterPayload.state;
 
@@ -134,6 +136,10 @@ const SellerDatabaseFilters = (props: Props) => {
         if (restoredFilter.categories) {
           restoredFilter.categories = restoredFilter.categories.split('|');
           restoredSellerDatabaseFilters.categories = restoredFilter.categories;
+        }
+        if (restoredFilter.countries) {
+          restoredFilter.countries = restoredFilter.countries.split('|');
+          restoredSellerDatabaseFilters.countries = restoredFilter.countries;
         }
 
         /* Special treatment to set marketplace */
@@ -338,8 +344,8 @@ const SellerDatabaseFilters = (props: Props) => {
             <InputFilter
               label="Company name"
               placeholder="Company name"
-              value={sellerDatabaseFilters.merchantName}
-              handleChange={(value: string) => updateSellerDatabaseFilter('merchantName', value)}
+              value={sellerDatabaseFilters.companyName}
+              handleChange={(value: string) => updateSellerDatabaseFilter('companyName', value)}
             />
 
             {/* Feature request */}
@@ -362,13 +368,21 @@ const SellerDatabaseFilters = (props: Props) => {
           <div>
             {/* Feature request */}
             {/* Location */}
-            <SelectionFilter
+            {/* <SelectionFilter
               label="Location"
               placeholder="Country"
               filterOptions={COUNTRY_DROPDOWN_LIST}
               value={sellerDatabaseFilters.country}
               handleChange={(value: string) => {
                 updateSellerDatabaseFilter('country', value);
+              }}
+            /> */}
+            <CheckboxDropdownFilter
+              filterOptions={SELLER_DATABASE_COUNTRY_DROPDOWN_LIST}
+              label="Location"
+              selectedValues={sellerDatabaseFilters.countries}
+              handleChange={(newCountries: string[]) => {
+                updateSellerDatabaseFilter('countries', [...newCountries]);
               }}
             />
 
@@ -382,14 +396,14 @@ const SellerDatabaseFilters = (props: Props) => {
           </div>
 
           {/* All States */}
-          {/*<SelectionFilter
-                label="State Location"
-                placeholder="All States"
-                filterOptions={STATES_DROPDOWN_LIST}
-                value={sellerDatabaseFilters.state}
-                handleChange={(value: string) => updateSellerDatabaseFilter('state', value)}
-                disabled={sellerDatabaseFilters.country !== 'US'}
-              />*/}
+          <SelectionFilter
+            label="State Location"
+            placeholder="All States"
+            filterOptions={STATES_DROPDOWN_LIST}
+            value={sellerDatabaseFilters.state}
+            handleChange={(value: string) => updateSellerDatabaseFilter('state', value)}
+            disabled={sellerDatabaseFilters.countries.indexOf('US') === -1}
+          />
 
           {/* Feature request */}
           <MarketPlaceFilter
@@ -466,24 +480,27 @@ const SellerDatabaseFilters = (props: Props) => {
             />
 
             {/* Feature request */}
+            {/* Physical address */}
             <CheckboxFilter
               checkboxLabel="Physical address"
-              checked={sellerDatabaseFilters.sellerReachability}
-              handleChange={value => updateSellerDatabaseFilter('sellerReachability', value)}
+              checked={sellerDatabaseFilters.hasAddress}
+              handleChange={value => updateSellerDatabaseFilter('hasAddress', value)}
             />
 
             {/* Feature request */}
+            {/* Website */}
             <CheckboxFilter
               checkboxLabel="Website"
-              checked={sellerDatabaseFilters.sellerReachability}
-              handleChange={value => updateSellerDatabaseFilter('sellerReachability', value)}
+              checked={sellerDatabaseFilters.hasWebsite}
+              handleChange={value => updateSellerDatabaseFilter('hasWebsite', value)}
             />
 
             {/* Feature request */}
+            {/* Social media */}
             <CheckboxFilter
               checkboxLabel="Social media"
-              checked={sellerDatabaseFilters.sellerReachability}
-              handleChange={value => updateSellerDatabaseFilter('sellerReachability', value)}
+              checked={sellerDatabaseFilters.hasCompanySocial}
+              handleChange={value => updateSellerDatabaseFilter('hasCompanySocial', value)}
             />
           </div>
 
