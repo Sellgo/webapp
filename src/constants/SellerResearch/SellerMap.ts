@@ -151,6 +151,18 @@ export const COUNTRY_DROPDOWN_LIST = [
   ...INCLUDED_COUNTRY_LIST,
 ];
 
+export const SELLER_DATABASE_COUNTRY_DROPDOWN_LIST = [
+  {
+    code: 'US',
+    flag: 'us',
+    text: 'United States',
+    key: 'US',
+    value: 'US',
+    center: INITIAL_CENTER,
+  },
+  ...INCLUDED_COUNTRY_LIST,
+];
+
 export const ALL_US_STATES = allUsStatesList.map((usState: USState) => {
   return {
     code: usState.state,

@@ -84,7 +84,7 @@ const SellerMapFilter = (props: Props) => {
   //const monthlyRevenue = parseSellerMapFilterData(sellerMapFilterData, 'sales_estimate');
 
   /* Business Name */
-  const businessName = parseSellerMapFilterData(sellerMapFilterData, 'business_name');
+  //const businessName = parseSellerMapFilterData(sellerMapFilterData, 'business_name');
 
   /* Zip Code */
   const zipCode = parseSellerMapFilterData(sellerMapFilterData, 'zip_code');
@@ -196,6 +196,37 @@ const SellerMapFilter = (props: Props) => {
           <Loader active={isLoadingSellersForMap} size="medium" content="" />
         </Segment>
       )}
+
+      {/* Merchant Name */}
+      <InputFilter
+        placeholder="Company Name"
+        label="Company Name"
+        value={merchantName.value}
+        handleChange={(value: any) => {
+          handleFilterChange('merchant_name', value);
+        }}
+      />
+
+      {/* Merchant Name */}
+      {/*<InputFilter
+        placeholder="Company Name"
+        label="Merchant Name"
+        value={merchantName.value}
+        handleChange={(value: any) => {
+          handleFilterChange('merchant_name', value);
+        }}
+      />*/}
+
+      {/* Business Name */}
+      {/*<InputFilter
+        placeholder="Business Name"
+        label="Business Name"
+        value={businessName.value}
+        handleChange={(value: any) => {
+          handleFilterChange('business_name', value);
+        }}
+      />*/}
+
       {/* Categories */}
       <CheckboxDropdownFilter
         filterOptions={getProductCategories(marketplace.value.code)}
@@ -216,26 +247,6 @@ const SellerMapFilter = (props: Props) => {
           handleFilterChange('sales_estimate', { ...monthlyRevenue.value, [type]: value });
         }}
       />*/}
-
-      {/* Merchant Name */}
-      <InputFilter
-        placeholder="Merchant Name"
-        label="Merchant Name"
-        value={merchantName.value}
-        handleChange={(value: any) => {
-          handleFilterChange('merchant_name', value);
-        }}
-      />
-
-      {/* Business Name */}
-      <InputFilter
-        placeholder="Business Name"
-        label="Business Name"
-        value={businessName.value}
-        handleChange={(value: any) => {
-          handleFilterChange('business_name', value);
-        }}
-      />
 
       {/* Zip Code */}
       <InputFilter

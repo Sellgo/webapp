@@ -16,9 +16,9 @@ export const INFO_FILTER_MESSAGE = `Enter at least one filter and click 'Find' t
 
 /* Period Durations for filters */
 export const FILTER_PERIOD_DURATIONS = [
-  { key: '30D', text: '30D', value: '30_days' },
-  { key: '90D', text: '90D', value: '90_days' },
-  { key: '365D', text: '365D', value: '12_month' },
+  { key: '30D', text: 'L30D', value: '30_days' },
+  { key: '90D', text: 'L3M', value: '90_days' },
+  { key: '365D', text: 'L1Y', value: '12_month' },
   { key: 'All', text: 'All', value: 'lifetime' },
 ];
 
@@ -31,15 +31,15 @@ export const FILTER_REVIEW_OPTIONS = [
 
 /* Growth * Period values */
 export const GROWTH_PERCENT_PERIOD_OPTIONS = [
-  { key: '30D', text: '30D', value: 'growth_month' },
-  { key: '90D', text: '90D', value: 'growth_L90D' },
-  { key: '180D', text: '180D', value: 'growth_L180D' },
-  { key: '365D', text: '365D', value: 'growth_year' },
+  { key: '30D', text: 'L30D', value: 'growth_month' },
+  { key: '90D', text: 'L3M', value: 'growth_L90D' },
+  { key: '180D', text: 'L6M', value: 'growth_L180D' },
+  { key: '365D', text: 'L1Y', value: 'growth_year' },
 ];
 
 export const GROWTH_COUNT_PERIOD_OPTIONS = [
-  { key: '30D', text: '30D', value: 'growth_month_count' },
-  { key: '180D', text: '180D', value: 'growth_count_L180D' },
+  { key: '30D', text: 'L30D', value: 'growth_month_count' },
+  { key: '180D', text: 'L6M', value: 'growth_count_L180D' },
 ];
 
 export const REVERSE_GROWTH_PERCENT_MAPPER = {};
@@ -112,6 +112,7 @@ export const F_TYPES = {
 /* Map the payload keys to query keys for API */
 export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: string } } = {
   merchantName: { keyName: 'merchant_name', type: F_TYPES.TEXT },
+  companyName: { keyName: 'company_name', type: F_TYPES.TEXT },
   zipCode: { keyName: 'zip_code', type: F_TYPES.TEXT },
   asins: { keyName: 'asins', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
   sellerIds: { keyName: 'merchant_ids', type: F_TYPES.INPUT_INCLUDE_EXCLUDE },
@@ -142,7 +143,11 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
 
   sellerReachability: { keyName: 'has_phone', type: F_TYPES.TEXT },
   hasContact: { keyName: 'has_contact', type: F_TYPES.TEXT },
+  hasAddress: { keyName: 'has_address', type: F_TYPES.TEXT },
+  hasWebsite: { keyName: 'has_website', type: F_TYPES.TEXT },
+  hasCompanySocial: { keyName: 'has_company_social', type: F_TYPES.TEXT },
   isLookedUp: { keyName: 'is_looked_up', type: F_TYPES.TEXT },
+  countries: { keyName: 'countries', type: F_TYPES.TEXT },
 };
 
 export const GROWTH_PERCENT_FILTER_KEY_MAPPER = {
@@ -205,11 +210,13 @@ export const prettyPrintSeller = (sellerType: string) => {
 
 export const DEFAULT_SELLER_DATABASE_FILTER: any = {
   categories: [],
+  countries: [],
   brands: DEFAULT_INCLUDE_EXCLUDE_FILTER,
   monthlyRevenue: DEFAULT_MIN_MAX_FILTER,
   businessName: '',
   zipCode: '',
   merchantName: '',
+  companyName: '',
   asins: DEFAULT_INCLUDE_EXCLUDE_FILTER,
   sellerIds: DEFAULT_INCLUDE_EXCLUDE_FILTER,
   country: 'All Countries',
@@ -225,6 +232,9 @@ export const DEFAULT_SELLER_DATABASE_FILTER: any = {
   sellerType: '',
   sellerRatings: DEFAULT_MIN_MAX_FILTER,
   hasContact: false,
+  hasAddress: false,
+  hasWebsite: false,
+  hasCompanySocial: false,
 };
 
 export const getMinMaxPeriodFilter = (apiFilterName: string, value: any, isReview?: boolean) => {

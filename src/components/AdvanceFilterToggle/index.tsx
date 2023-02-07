@@ -7,7 +7,7 @@ import styles from './index.module.scss';
 import FilterBlack from '../../assets/images/filter-black.svg';
 import FilterWhite from '../../assets/images/filter-white.svg';
 import AngleUpWhite from '../../assets/images/angle-up-white.svg';
-import AngleDownBlack from '../../assets/images/angle-down-black.svg';
+import AngleDownWhite from '../../assets/images/angle-down-white.svg';
 
 interface Props {
   handleClick: () => void;
@@ -21,19 +21,21 @@ const AdvancedFilterToggle = (props: Props) => {
     <div
       className={styles.advancedFilterToggle}
       onClick={handleClick}
-      style={{ background: !showAdvancedFilter ? '#F9F9FA' : ' #3B4557' }}
+      style={{ background: !showAdvancedFilter ? '#3B4557' : ' #95A1AC' }}
     >
       <img
         className={styles.filterIcon}
-        src={!showAdvancedFilter ? FilterBlack : FilterWhite}
+        src={!showAdvancedFilter ? FilterWhite : FilterBlack}
         alt="filter"
       />
-      <span style={{ color: !showAdvancedFilter ? '#636D76' : '#FFFFFF' }}>Advanced Filters</span>
+      <span style={{ color: !showAdvancedFilter ? '#FFFFFF' : '#3B4557' }}>
+        Marketplace Metrics
+      </span>
       <span>
         {showAdvancedFilter ? (
           <img src={AngleUpWhite} alt="angle" />
         ) : (
-          <img src={AngleDownBlack} alt="angle" />
+          <img src={AngleDownWhite} alt="angle" />
         )}
       </span>
     </div>
