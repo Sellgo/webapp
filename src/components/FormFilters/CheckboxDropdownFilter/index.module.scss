@@ -20,8 +20,10 @@
 .checkboxListWrapper {
   display: flex;
   flex-direction: row;
-  width: 60rem;
+  width: 65rem;
   flex-wrap: wrap;
+  height: 400px;
+  overflow: auto;
 
   .checkboxOption {
     margin-bottom: 18px;

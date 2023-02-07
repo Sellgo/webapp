@@ -134,7 +134,7 @@ const EmployeeDetailInformation = (props: Props) => {
           <div className={styles.employeeInformationDetailPopup__personalInformation__details}>
             <div className={styles.employeeInformationDetailPopup__personalInformation__detailsBox}>
               <Icon
-                name="amazon"
+                name="industry"
                 className={
                   styles.employeeInformationDetailPopup__personalInformation__detailsBox_icon
                 }
@@ -156,7 +156,7 @@ const EmployeeDetailInformation = (props: Props) => {
             </div>
             <div className={styles.employeeInformationDetailPopup__personalInformation__detailsBox}>
               <Icon
-                name="amazon"
+                name="map marker alternate"
                 className={
                   styles.employeeInformationDetailPopup__personalInformation__detailsBox_icon
                 }
@@ -178,7 +178,7 @@ const EmployeeDetailInformation = (props: Props) => {
             </div>
             <div className={styles.employeeInformationDetailPopup__personalInformation__detailsBox}>
               <Icon
-                name="amazon"
+                name="list ol"
                 className={
                   styles.employeeInformationDetailPopup__personalInformation__detailsBox_icon
                 }
