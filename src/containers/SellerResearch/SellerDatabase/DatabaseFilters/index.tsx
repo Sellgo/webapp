@@ -22,12 +22,12 @@ import {
 import {
   DEFAULT_SELLER_DATABASE_FILTER,
   DEFAULT_INCLUDE_EXCLUDE_ERROR,
-  FILTER_PERIOD_DURATIONS,
+  //FILTER_PERIOD_DURATIONS,
   DEFAULT_US_MARKET,
   SELLER_DB_MARKETPLACE,
-  FILTER_REVIEW_OPTIONS,
-  GROWTH_PERCENT_PERIOD_OPTIONS,
-  LAUNCHED_FILTER_OPTIONS,
+  //FILTER_REVIEW_OPTIONS,
+  //GROWTH_PERCENT_PERIOD_OPTIONS,
+  //LAUNCHED_FILTER_OPTIONS,
   //SELLER_TYPE_FILTER_OPTIONS,
   FILTER_QUERY_KEY_MAPPER,
   getMinMaxPeriodFilter,
@@ -48,12 +48,12 @@ import AdvanceFilterToggle from '../../../../components/AdvanceFilterToggle';
 import InputFilter from '../../../../components/FormFilters/InputFilter';
 import FormFilterActions from '../../../../components/FormFilters/FormFilterActions';
 import MinMaxFilter from '../../../../components/FormFilters/MinMaxFilter';
-import PeriodFilter from '../../../../components/FormFilters/PeriodFilter';
+//import PeriodFilter from '../../../../components/FormFilters/PeriodFilter';
 import MarketPlaceFilter from '../../../../components/FormFilters/MarketPlaceFilter';
 //import MinMaxRatingsFilter from '../../../../components/FormFilters/MinMaxRatingsFilter';
-import ReviewTypeFilter from '../../../../components/FormFilters/ReviewTypeFilter';
+//import ReviewTypeFilter from '../../../../components/FormFilters/ReviewTypeFilter';
 import CheckboxDropdownFilter from '../../../../components/FormFilters/CheckboxDropdownFilter';
-import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
+//import RadioListFilters from '../../../../components/FormFilters/RadioListFilters';
 import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
 import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
 
@@ -349,13 +349,27 @@ const SellerDatabaseFilters = (props: Props) => {
             />
 
             {/* Feature request */}
-            <CheckboxFilter
+            {/* <CheckboxFilter
               //label="Exact match"
               checkboxLabel="Exact match"
               checked={sellerDatabaseFilters.hasContact}
               handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
-            />
+            /> */}
           </div>
+
+          {/* Feature request */}
+          <MarketPlaceFilter
+            label="Choose marketplace"
+            marketplaceDetails={marketPlace}
+            marketPlaceChoices={SELLER_DB_MARKETPLACE}
+            handleChange={(option: MarketplaceOption) => {
+              setMarketPlace(option);
+              setSellerDatabaseMarketplace(option);
+              if (getProductCategories(option.code) !== getProductCategories(marketPlace.code)) {
+                updateSellerDatabaseFilter('categories', []);
+              }
+            }}
+          />
 
           {/* Business name */}
           {/*<InputFilter
@@ -405,46 +419,32 @@ const SellerDatabaseFilters = (props: Props) => {
             disabled={sellerDatabaseFilters.countries.indexOf('US') === -1}
           />
 
+          {/* <div> */}
           {/* Feature request */}
-          <MarketPlaceFilter
-            label="Choose marketplace"
-            marketplaceDetails={marketPlace}
-            marketPlaceChoices={SELLER_DB_MARKETPLACE}
-            handleChange={(option: MarketplaceOption) => {
-              setMarketPlace(option);
-              setSellerDatabaseMarketplace(option);
-              if (getProductCategories(option.code) !== getProductCategories(marketPlace.code)) {
-                updateSellerDatabaseFilter('categories', []);
-              }
-            }}
-          />
-
-          <div>
-            {/* Feature request */}
-            {/* Industry */}
-            <CheckboxDropdownFilter
+          {/* Industry */}
+          {/* <CheckboxDropdownFilter
               filterOptions={getProductCategories(marketPlace.code)}
               label="Industry"
               selectedValues={sellerDatabaseFilters.categories}
               handleChange={(newCategories: string[]) => {
                 updateSellerDatabaseFilter('categories', [...newCategories]);
               }}
-            />
+            /> */}
 
-            {/* Feature request */}
-            {/* Keyword */}
-            <InputFilter
+          {/* Feature request */}
+          {/* Keyword */}
+          {/* <InputFilter
               label="Keyword"
               placeholder="Keyword"
               value={sellerDatabaseFilters.merchantName}
               handleChange={(value: string) => updateSellerDatabaseFilter('merchantName', value)}
-            />
-          </div>
+            /> */}
+          {/* </div> */}
 
           {/* Feature request */}
           {/* # of Brands */}
-          <div>
-            <MinMaxFilter
+          {/* <div> */}
+          {/* <MinMaxFilter
               label="Number of employee"
               minValue={sellerDatabaseFilters.numOfBrands.min}
               maxValue={sellerDatabaseFilters.numOfBrands.max}
@@ -454,10 +454,10 @@ const SellerDatabaseFilters = (props: Props) => {
                   [type]: value,
                 })
               }
-            />
+            /> */}
 
-            {/* Feature request */}
-            <MinMaxFilter
+          {/* Feature request */}
+          {/* <MinMaxFilter
               label="Number of decision maker"
               minValue={sellerDatabaseFilters.numOfBrands.min}
               maxValue={sellerDatabaseFilters.numOfBrands.max}
@@ -467,8 +467,8 @@ const SellerDatabaseFilters = (props: Props) => {
                   [type]: value,
                 })
               }
-            />
-          </div>
+            /> */}
+          {/* </div> */}
           {/* Seller Reachability */}
           <div>
             {/* Feature request */}
@@ -505,36 +505,36 @@ const SellerDatabaseFilters = (props: Props) => {
           </div>
 
           {/* Seller Reachability */}
-          <div>
-            {/* Feature request */}
-            <CheckboxFilter
+          {/* <div> */}
+          {/* Feature request */}
+          {/* <CheckboxFilter
               label="Decision maker"
               checkboxLabel="Professional email"
               checked={sellerDatabaseFilters.hasContact}
               handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
-            />
+            /> */}
 
-            {/* Feature request */}
-            <CheckboxFilter
+          {/* Feature request */}
+          {/* <CheckboxFilter
               checkboxLabel="Personal email"
               checked={sellerDatabaseFilters.hasContact}
               handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
-            />
+            /> */}
 
-            {/* Feature request */}
-            <CheckboxFilter
+          {/* Feature request */}
+          {/* <CheckboxFilter
               checkboxLabel="Phone"
               checked={sellerDatabaseFilters.hasContact}
               handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
-            />
+            /> */}
 
-            {/* Feature request */}
-            <CheckboxFilter
+          {/* Feature request */}
+          {/* <CheckboxFilter
               checkboxLabel="Social media"
               checked={sellerDatabaseFilters.sellerReachability}
               handleChange={value => updateSellerDatabaseFilter('sellerReachability', value)}
-            />
-          </div>
+            /> */}
+          {/* </div> */}
         </div>
         <div className={styles.advancedFilterWrapper}>
           <AdvanceFilterToggle
@@ -557,21 +557,21 @@ const SellerDatabaseFilters = (props: Props) => {
 
                 {/* Feature request */}
                 {/* Business model */}
-                <CheckboxDropdownFilter
+                {/* <CheckboxDropdownFilter
                   filterOptions={getProductCategories(marketPlace.code)}
                   label="Business model"
                   selectedValues={sellerDatabaseFilters.categories}
                   handleChange={(newCategories: string[]) => {
                     updateSellerDatabaseFilter('categories', [...newCategories]);
                   }}
-                />
+                /> */}
               </div>
 
-              <div>
-                {/* Feature request */}
-                {/* Monthly Revenue = Sales Estimate */}
-                <div className={styles.groupFilters}>
-                  <MinMaxFilter
+              {/* <div> */}
+              {/* Feature request */}
+              {/* Monthly Revenue = Sales Estimate */}
+              {/* <div className={styles.groupFilters}> */}
+              {/* <MinMaxFilter
                     label="Revenue estimation $"
                     minValue={sellerDatabaseFilters.monthlyRevenue.min}
                     maxValue={sellerDatabaseFilters.monthlyRevenue.max}
@@ -582,10 +582,10 @@ const SellerDatabaseFilters = (props: Props) => {
                       })
                     }
                     prependWith={marketPlace.currency}
-                  />
+                  /> */}
 
-                  {/* Feature request */}
-                  <PeriodFilter
+              {/* Feature request */}
+              {/* <PeriodFilter
                     placeholder="30D"
                     label="Period"
                     className={styles.filterPeriod}
@@ -597,13 +597,13 @@ const SellerDatabaseFilters = (props: Props) => {
                         period,
                       });
                     }}
-                  />
-                </div>
+                  /> */}
+              {/* </div> */}
 
-                {/* Feature request */}
-                {/* Growth % */}
-                <div className={styles.groupFilters}>
-                  <MinMaxFilter
+              {/* Feature request */}
+              {/* Growth % */}
+              {/* <div className={styles.groupFilters}> */}
+              {/* <MinMaxFilter
                     label="Growth %"
                     minValue={sellerDatabaseFilters.growthPercent.min}
                     maxValue={sellerDatabaseFilters.growthPercent.max}
@@ -614,10 +614,10 @@ const SellerDatabaseFilters = (props: Props) => {
                       })
                     }
                     appendWith="%"
-                  />
+                  /> */}
 
-                  {/* Feature request */}
-                  <PeriodFilter
+              {/* Feature request */}
+              {/* <PeriodFilter
                     placeholder="30D"
                     label="Period"
                     className={styles.filterPeriod}
@@ -629,9 +629,9 @@ const SellerDatabaseFilters = (props: Props) => {
                         period,
                       });
                     }}
-                  />
-                </div>
-              </div>
+                  /> */}
+              {/* </div> */}
+              {/* </div> */}
 
               <div>
                 {/* # of Brands */}
@@ -647,17 +647,17 @@ const SellerDatabaseFilters = (props: Props) => {
                   }
                 />
 
-                <div>
-                  {/* Feature request */}
-                  <div className={styles.groupFilters}>
-                    <CheckboxFilter
+                {/* <div> */}
+                {/* Feature request */}
+                {/* <div className={styles.groupFilters}> */}
+                {/* <CheckboxFilter
                       label=" "
                       checkboxLabel="Increasing"
                       checked={sellerDatabaseFilters.hasContact}
                       handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
-                    />
+                    /> */}
 
-                    <PeriodFilter
+                {/* <PeriodFilter
                       label=" "
                       placeholder="L30D"
                       className={styles.filterPeriod}
@@ -669,21 +669,21 @@ const SellerDatabaseFilters = (props: Props) => {
                           period,
                         });
                       }}
-                    />
-                  </div>
-                </div>
+                    /> */}
+                {/* </div> */}
+                {/* </div> */}
 
                 {/* Feature request */}
-                <div className={styles.groupFilters}>
-                  <CheckboxFilter
+                {/* <div className={styles.groupFilters}> */}
+                {/* <CheckboxFilter
                     label=" "
                     checkboxLabel="Decreasing"
                     checked={sellerDatabaseFilters.hasContact}
                     handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
-                  />
+                  /> */}
 
-                  {/* Feature request */}
-                  <PeriodFilter
+                {/* Feature request */}
+                {/* <PeriodFilter
                     label=" "
                     placeholder="L30D"
                     className={styles.filterPeriod}
@@ -695,8 +695,8 @@ const SellerDatabaseFilters = (props: Props) => {
                         period,
                       });
                     }}
-                  />
-                </div>
+                  /> */}
+                {/* </div> */}
               </div>
 
               <div>
@@ -727,9 +727,9 @@ const SellerDatabaseFilters = (props: Props) => {
                 />
               </div>
 
-              <div>
-                {/* # of Inventory */}
-                <MinMaxFilter
+              {/* <div> */}
+              {/* # of Inventory */}
+              {/* <MinMaxFilter
                   label="Products count"
                   minValue={sellerDatabaseFilters.numOfInventory.min}
                   maxValue={sellerDatabaseFilters.numOfInventory.max}
@@ -739,19 +739,19 @@ const SellerDatabaseFilters = (props: Props) => {
                       [type]: value,
                     })
                   }
-                />
+                /> */}
 
-                <div>
-                  {/* Feature request */}
-                  <div className={styles.groupFilters}>
-                    <CheckboxFilter
+              {/* <div> */}
+              {/* Feature request */}
+              {/* <div className={styles.groupFilters}> */}
+              {/* <CheckboxFilter
                       label=" "
                       checkboxLabel="Increasing"
                       checked={sellerDatabaseFilters.hasContact}
                       handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
-                    />
-                    {/* Feature request */}
-                    <PeriodFilter
+                    /> */}
+              {/* Feature request */}
+              {/* <PeriodFilter
                       label=" "
                       placeholder="L30D"
                       className={styles.filterPeriod}
@@ -763,19 +763,19 @@ const SellerDatabaseFilters = (props: Props) => {
                           period,
                         });
                       }}
-                    />
-                  </div>
+                    /> */}
+              {/* </div> */}
 
-                  <div className={styles.groupFilters}>
-                    {/* Feature request */}
-                    <CheckboxFilter
+              {/* <div className={styles.groupFilters}> */}
+              {/* Feature request */}
+              {/* <CheckboxFilter
                       label=" "
                       checkboxLabel="Decreasing"
                       checked={sellerDatabaseFilters.hasContact}
                       handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
-                    />
-                    {/* Feature request */}
-                    <PeriodFilter
+                    /> */}
+              {/* Feature request */}
+              {/* <PeriodFilter
                       label=" "
                       placeholder="L30D"
                       className={styles.filterPeriod}
@@ -787,10 +787,10 @@ const SellerDatabaseFilters = (props: Props) => {
                           period,
                         });
                       }}
-                    />
-                  </div>
-                </div>
-              </div>
+                    /> */}
+              {/* </div> */}
+              {/* </div> */}
+              {/* </div> */}
 
               <div>
                 {/* Include ASINS */}
@@ -822,10 +822,10 @@ const SellerDatabaseFilters = (props: Props) => {
                 />
               </div>
 
-              <div>
-                {/* Review Count */}
-                <div className={styles.groupFilters}>
-                  <MinMaxFilter
+              {/* <div> */}
+              {/* Review Count */}
+              {/* <div className={styles.groupFilters}> */}
+              {/* <MinMaxFilter
                     label="Seller rating"
                     minValue={sellerDatabaseFilters.reviewCount.min}
                     maxValue={sellerDatabaseFilters.reviewCount.max}
@@ -835,8 +835,8 @@ const SellerDatabaseFilters = (props: Props) => {
                         [type]: value,
                       })
                     }
-                  />
-                  <PeriodFilter
+                  /> */}
+              {/* <PeriodFilter
                     placeholder="30D"
                     label="Period"
                     value={sellerDatabaseFilters.reviewCount.period}
@@ -848,12 +848,12 @@ const SellerDatabaseFilters = (props: Props) => {
                         period,
                       });
                     }}
-                  />
-                </div>
+                  /> */}
+              {/* </div> */}
 
-                {/*  Review Filter */}
-                <div className={styles.reviewGroupedFilter}>
-                  <ReviewTypeFilter
+              {/*  Review Filter */}
+              {/* <div className={styles.reviewGroupedFilter}> */}
+              {/* <ReviewTypeFilter
                     label="Review"
                     placeholder="Positive"
                     //label="Review"
@@ -865,9 +865,9 @@ const SellerDatabaseFilters = (props: Props) => {
                         type,
                       });
                     }}
-                  />
-                  <div className={styles.groupFilters}>
-                    <MinMaxFilter
+                  /> */}
+              {/* <div className={styles.groupFilters}> */}
+              {/* <MinMaxFilter
                       label=" "
                       minValue={sellerDatabaseFilters.review.min}
                       maxValue={sellerDatabaseFilters.review.max}
@@ -877,8 +877,8 @@ const SellerDatabaseFilters = (props: Props) => {
                           [type]: value,
                         })
                       }
-                    />
-                    <PeriodFilter
+                    /> */}
+              {/* <PeriodFilter
                       label=" "
                       placeholder="L30D"
                       value={sellerDatabaseFilters.review.period}
@@ -889,20 +889,20 @@ const SellerDatabaseFilters = (props: Props) => {
                           period,
                         });
                       }}
-                    />
-                  </div>
-                </div>
-              </div>
+                    /> */}
+              {/* </div> */}
+              {/* </div> */}
+              {/* </div> */}
 
               <div>
                 {/* Feature request */}
                 {/* Launched FIlter */}
-                <RadioListFilters
+                {/* <RadioListFilters
                   filterOptions={LAUNCHED_FILTER_OPTIONS}
                   label="Active/ inactive seller account"
                   value={sellerDatabaseFilters.launched}
                   handleChange={(value: string) => updateSellerDatabaseFilter('launched', value)}
-                />
+                /> */}
 
                 {/* Seller Type FIlter */}
                 {/* <RadioListFilters
@@ -913,15 +913,15 @@ const SellerDatabaseFilters = (props: Props) => {
               /> */}
 
                 {/* Feature request */}
-                <CheckboxFilter
+                {/* <CheckboxFilter
                   checkboxLabel="Dormant account"
                   checked={sellerDatabaseFilters.hasContact}
                   handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
-                />
+                /> */}
 
                 {/* Feature request */}
                 {/* FBA Percent */}
-                <MinMaxFilter
+                {/* <MinMaxFilter
                   label="FBA %"
                   minValue={sellerDatabaseFilters.fbaPercent.min}
                   maxValue={sellerDatabaseFilters.fbaPercent.max}
@@ -932,7 +932,7 @@ const SellerDatabaseFilters = (props: Props) => {
                     })
                   }
                   appendWith="%"
-                />
+                /> */}
               </div>
 
               {/* Seller Ratings */}
