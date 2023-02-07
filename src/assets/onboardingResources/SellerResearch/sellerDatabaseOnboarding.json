@@ -7,31 +7,43 @@
   },
 
   {
-    "Choose Marketplace": {
+    "Choose marketplace": {
       "youtubeLink": "",
       "tooltipText": "Amazon marketplace where the sellers sell"
     },
-    "Categories": {
+    "Main product category": {
       "youtubeLink": "",
       "tooltipText": "Product categories associated with each Amazon marketplace"
     },
-    "Include Brands": {
+    "Include brands": {
       "youtubeLink": "",
       "tooltipText": "Include popular brands that the sellers carry (separate with comma)"
     },
-    "Monthly Revenue": {
+    "Revenue estimation $": {
       "youtubeLink": "",
       "tooltipText": "Estimated monthly revenue of sellers"
     },
-    "Merchant Name": {
+    "Company name": {
       "youtubeLink": "",
-      "tooltipText": "Seller name on Amazon product listing"
+      "tooltipText": "Find Seller name on Amazon product listing or company registered business name"
     },
-    "Business Name": {
+    "Industry": {
       "youtubeLink": "",
-      "tooltipText": "Seller registered business name"
+      "tooltipText": "Type of industry"
     },
-    "Exclude Brands": {
+    "Keyword": {
+      "youtubeLink": "",
+      "tooltipText": "Company keyword"
+    },
+    "Number of employee": {
+      "youtubeLink": "",
+      "tooltipText": "Number of employee"
+    },
+    "Number of decision maker": {
+      "youtubeLink": "",
+      "tooltipText": "Number of employee with decision authority in the company"
+    },
+    "Exclude brands": {
       "youtubeLink": "",
       "tooltipText": "Exclude popular brands that the sellers carry (separate with comma)"
     },
@@ -43,31 +55,31 @@
       "youtubeLink": "",
       "tooltipText": "Exclude unique ASINs or ISBNs that the sellers carry (separate with comma)"
     },
-    "Include Seller IDs": {
+    "Include seller IDs": {
       "youtubeLink": "",
       "tooltipText": "Find unique seller IDs (separate with comma)"
     },
-    "Exclude Seller IDs": {
+    "Exclude seller IDs": {
       "youtubeLink": "",
       "tooltipText": "Find other sellers except the one with unique seller IDs (separate with comma)"
     },
-    "Seller Country": {
+    "Location": {
       "youtubeLink": "",
-      "tooltipText": "Sellers' country of origin"
+      "tooltipText": "Sellers' country/ location of origin"
     },
-    "U.S. States": {
+    "State location": {
       "youtubeLink": "",
       "tooltipText": "Only show for U.S. sellers"
     },
-    "Seller Reachability": {
+    "Reachability": {
       "youtubeLink": "",
       "tooltipText": "Show sellers with decision makers"
     },
-    "# of Inventory": {
+    "Products count": {
       "youtubeLink": "",
       "tooltipText": "Total count of ASINs that the sellers carry"
     },
-    "# of Brands": {
+    "Brands count": {
       "youtubeLink": "",
       "tooltipText": "Total count of brands that the sellers carry"
     },
@@ -75,7 +87,7 @@
       "youtubeLink": "",
       "tooltipText": "Total percentage of seller business growth by period"
     },
-    "Review Count": {
+    "Review count": {
       "youtubeLink": "",
       "tooltipText": "Total review count by period"
     },
@@ -87,17 +99,21 @@
       "youtubeLink": "",
       "tooltipText": "Total count of positive, neutral and negative review by period"
     },
-    "Seller Launched": {
+    "Active/ inactive seller account": {
       "youtubeLink": "",
       "tooltipText": "How long the sellers have been selling"
     },
-    "Seller Type": {
+    "Seller type": {
       "youtubeLink": "",
       "tooltipText": "Wholesale or Private Label sellers"
     },
-    "Seller Ratings": {
+    "Seller rating": {
       "youtubeLink": "",
       "tooltipText": "Total count of ratings"
+    },
+    "Business model": {
+      "youtubeLink": "",
+      "tooltipText": "Business Model (1P, Authorized 3P, Exclusive 3P, Blended 1P/3P, Vendor Central)"
     }
   },
 

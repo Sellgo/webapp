@@ -1,13 +1,14 @@
 @import '../../../design-system/colors.scss';
 
 .checkBoxDropdownFilters {
-  width: 250px !important;
+  width: 180px !important;
 
   p {
     margin: 0;
     color: $grey_8 !important;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 7px;
   }
 }
 
@@ -19,8 +20,10 @@
 .checkboxListWrapper {
   display: flex;
   flex-direction: row;
-  width: 60rem;
+  width: 65rem;
   flex-wrap: wrap;
+  height: 400px;
+  overflow: auto;
 
   .checkboxOption {
     margin-bottom: 18px;
@@ -47,7 +50,7 @@
 .buttonWrapper {
   background: none;
   padding: 0;
-  min-width: 250px;
+  min-width: 180px;
 
   &__disabled {
     pointer-events: none;
@@ -56,7 +59,7 @@
 }
 
 .inputWrapper {
-  min-width: 250px;
+  min-width: 180px;
 
   .dropdownArrow {
     opacity: 1 !important;
@@ -71,7 +74,7 @@
     border-radius: 3px;
     font-size: 12px !important;
     color: $grey_8 !important;
-    height: 35px !important;
+    height: 30px !important;
     padding: 10px !important;
     width: 100%;
     caret-color: transparent !important;

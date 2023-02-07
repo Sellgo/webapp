@@ -6,8 +6,9 @@
   p {
     margin: 0;
     color: $grey_8;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 7px;
   }
 }
 
@@ -17,7 +18,7 @@
   align-items: center;
 
   svg {
-    margin: 0 10px;
+    margin: 0 5px;
 
     path {
       fill: $grey_6 !important;
@@ -30,8 +31,8 @@
     border-radius: 3px;
     font-size: 12px;
     color: $grey_8 !important;
-    width: 100px !important;
-    height: 35px !important;
+    width: 45px !important;
+    height: 30px !important;
     padding: 10px !important;
     margin: 0;
 
@@ -57,9 +58,9 @@
 }
 
 .append {
-  margin-right: 10px;
+  margin-right: 3px;
 }
 
 .prepend {
-  margin-left: 10px;
+  margin-left: 3px;
 }
