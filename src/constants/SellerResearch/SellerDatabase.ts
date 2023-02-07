@@ -153,7 +153,7 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   hasPersonalEmail: { keyName: 'has_personal_email', type: F_TYPES.TEXT },
   hasEmployeePhone: { keyName: 'has_employee_phone', type: F_TYPES.TEXT },
   hasEmployeeSocial: { keyName: 'has_employee_social', type: F_TYPES.TEXT },
-  numOfEmployees: { keyName: 'number_employees', type: F_TYPES.MIN_MAX },
+  numOfEmployees: { keyName: 'employees_count', type: F_TYPES.MIN_MAX },
 };
 
 export const GROWTH_PERCENT_FILTER_KEY_MAPPER = {
