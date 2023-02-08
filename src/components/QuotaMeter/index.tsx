@@ -26,11 +26,12 @@ class QuotaMeter extends React.Component<QuotaMeterProps> {
     const used = sellerQuota?.seller_detail?.used;
     const available = sellerQuota?.seller_detail?.available;
     const percent = (used / available) * 100;
+    const remaining = available - used;
 
     return (
       <div className="quota-meter">
         <Progress percent={percent} size="tiny" color="blue">
-          {`${formatNumber(used)} used out of ${formatNumber(available)}`}
+          {`You have ${formatNumber(remaining)} lookups remaining`}
         </Progress>
       </div>
     );

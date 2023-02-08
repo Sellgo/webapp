@@ -76,10 +76,10 @@ const DatabaseExport = (props: Props) => {
       <div className={styles.exportsContainer}>
         {!sellerDatabaseFilterMessage.show && sellerDatabasePaginationInfo.total_pages > 0 && (
           <TableResultsMessage
-            prependMessage="Viewing"
+            prependMessage="Showing"
             count={sellerDatabasePaginationInfo.count}
             actualCount={sellerDatabaseResults ? sellerDatabaseResults.length : 0}
-            appendMessage="sellers"
+            appendMessage="contacts"
             limitType="seller_database_display_limit"
           />
         )}
