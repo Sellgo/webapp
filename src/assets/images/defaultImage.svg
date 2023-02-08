@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="410" height="70.513" viewBox="0 0 410 70.513">
+  <defs>
+    <linearGradient id="linear-gradient" y1="0.5" x2="1" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fc7900"/>
+      <stop offset="1" stop-color="#ffcc2f"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" y1="0.5" x2="1" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0"/>
+      <stop offset="0" stop-color="#090909"/>
+      <stop offset="0" stop-color="#ffcc2f"/>
+      <stop offset="1" stop-color="#b318f1"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" y1="0.537" x2="1.031" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#b318f1"/>
+      <stop offset="1" stop-color="#ff61df"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_6868" data-name="Group 6868" transform="translate(-740 -342)" opacity="0.7">
+    <g id="Group_6626" data-name="Group 6626" transform="translate(19325 19221)">
+      <path id="waveform-lines-solid" d="M22,2a2,2,0,0,0-4,0V30a2,2,0,0,0,4,0ZM34,6a2,2,0,0,0-4,0V26a2,2,0,0,0,4,0ZM16,8a2,2,0,0,0-4,0V24a2,2,0,0,0,4,0Zm12,2a2,2,0,0,0-4,0V22a2,2,0,0,0,4,0ZM10,14a2,2,0,0,0-4,0v4a2,2,0,0,0,4,0ZM0,16a2,2,0,1,0,2-2A2,2,0,0,0,0,16Zm36,0a2,2,0,1,0,2-2A2,2,0,0,0,36,16Z" transform="translate(-18577 -18866)" fill="url(#linear-gradient)"/>
+    </g>
+    <path id="magnifying-glass-thin" d="M69.7,68.138l-20.4-20.4A28.5,28.5,0,0,0,28.319,0,28.442,28.442,0,1,0,47.627,49.289l20.4,20.4a1.7,1.7,0,0,0,.766.32,1.326,1.326,0,0,0,.773-.321A1.013,1.013,0,0,0,69.7,68.138ZM28.319,54.7A26.254,26.254,0,1,1,54.573,28.442,26.281,26.281,0,0,1,28.319,54.7Z" transform="translate(740 342.502)" fill="#ced4d9"/>
+    <path id="bars-staggered-solid" d="M0,66.5A2.5,2.5,0,0,1,2.5,64h30a2.5,2.5,0,0,1,0,5H2.5A2.5,2.5,0,0,1,0,66.5ZM5,79a2.5,2.5,0,0,1,2.5-2.5h30a2.5,2.5,0,0,1,0,5H7.5A2.5,2.5,0,0,1,5,79ZM35,91.5A2.5,2.5,0,0,1,32.5,94H2.5a2.5,2.5,0,0,1,0-5h30A2.5,2.5,0,0,1,35,91.5Z" transform="translate(928 291)" fill="url(#linear-gradient-2)"/>
+    <path id="message-thin" d="M60.237,2.061a6.533,6.533,0,0,1,6.55,6.428V47.668a6.454,6.454,0,0,1-6.55,6.428H39.862L23.118,66.661V54.1H7.834a6.533,6.533,0,0,1-6.55-6.428V8.488a6.454,6.454,0,0,1,6.55-6.428h52.4Zm0-2.061H7.834A8.726,8.726,0,0,0-.9,8.611V47.79A8.646,8.646,0,0,0,7.834,56.4h13.1v11.46a1.852,1.852,0,0,0,1.788,2.009,1.6,1.6,0,0,0,.948-.317L40.715,56.769H60.366A8.726,8.726,0,0,0,69.1,48.158V8.611A8.848,8.848,0,0,0,60.237,0Z" transform="translate(910.9 342.502)" fill="#ced4d9"/>
+    <path id="circle-thin" d="M70,35A35,35,0,1,1,35,0,35,35,0,0,1,70,35ZM35,2.188A32.813,32.813,0,1,0,67.813,35,32.821,32.821,0,0,0,35,2.188Z" transform="translate(1080 342)" fill="#ced4d9"/>
+    <path id="chart-mixed-solid_1_" data-name="chart-mixed-solid (1)" d="M39.067,36.457a2.5,2.5,0,0,0-3.125-3.906L24.958,41.34,16.5,35a2.5,2.5,0,0,0-3.063.047l-12.5,10a2.5,2.5,0,1,0,3.125,3.906l10.985-8.789L23.5,46.5a2.5,2.5,0,0,0,3.063-.047ZM12.5,49.5v15a2.5,2.5,0,1,0,5,0v-15a2.5,2.5,0,1,0-5,0ZM2.5,57v7.5a2.5,2.5,0,1,0,5,0V57a2.5,2.5,0,0,0-5,0ZM25,52a2.5,2.5,0,0,0-2.5,2.5v10a2.5,2.5,0,1,0,5,0v-10A2.5,2.5,0,0,0,25,52Zm7.5-2.5v15a2.5,2.5,0,1,0,5,0v-15a2.5,2.5,0,1,0-5,0Z" transform="translate(1093.996 327.496)" fill="url(#linear-gradient-3)"/>
+  </g>
+</svg>

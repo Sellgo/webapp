@@ -46,6 +46,7 @@ import MultipleDataCell from '../../../../components/NewTable/MultipleDataCell';
 // import AddressCell from '../../../../components/NewTable/AddressCell';
 import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
 import ExpandedBusinessInformation from './ExpandedBusinessInformation';
+import { DEFAULT_PAGES_LIST } from '../../../../constants/SellerResearch/SellerInventory';
 
 interface Props {
   isLoadingSellerDatabase: boolean;
@@ -78,9 +79,10 @@ const SellerDatabaseTable = (props: Props) => {
     });
   };
 
-  const handlePageChange = (pageNo: number) => {
+  const handlePageChange = (pageNo: number, perPage?: any) => {
     fetchSellerDatabase({
       page: pageNo,
+      perPage: perPage || 50,
       sort: sortColumn || undefined,
       sortDir: sortType === undefined ? 'asc' : sortType,
       marketplaceId: sellerMarketplace.value,
@@ -640,6 +642,9 @@ const SellerDatabaseTable = (props: Props) => {
               currentPage={sellerDatabaPaginationInfo.current_page}
               onPageChange={handlePageChange}
               showSiblingsCount={3}
+              showPerPage={true}
+              perPage={sellerDatabaPaginationInfo.per_page}
+              perPageList={DEFAULT_PAGES_LIST}
             />
           </footer>
         )}
