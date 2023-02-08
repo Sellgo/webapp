@@ -15,6 +15,10 @@ export const getFilterMessage = (state: any) => {
   return get(state, 'sellerDatabase.showFilterMessage');
 };
 
+export const getShowDatabaseTable = (state: any) => {
+  return get(state, 'sellerDatabase.showDatabaseTable');
+};
+
 /* Selector to get the empty filter messages */
 export const getSellerDatabaseResults = (state: any) => {
   return get(state, 'sellerDatabase.sellerDatabaseResults');

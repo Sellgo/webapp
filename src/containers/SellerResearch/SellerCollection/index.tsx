@@ -30,7 +30,7 @@ const SellerCollection = (props: Props) => {
   const { fetchSellerDatabase } = props;
 
   React.useEffect(() => {
-    fetchSellerDatabase({ filterPayload: { isLookedUp: true } });
+    fetchSellerDatabase({ filterPayload: { isLookedUp: true, isCollection: true } });
   }, []);
 
   return (

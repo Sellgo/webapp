@@ -24,6 +24,7 @@
     &__content {
       display: flex;
       padding: 5px 10px !important;
+      box-shadow: 0 0 10px $grey_3 !important;
     }
 
     &__description {

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="440" height="143" viewBox="0 0 440 143">
+  <defs>
+    <linearGradient id="linear-gradient" y1="0.5" x2="1" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fc7900"/>
+      <stop offset="1" stop-color="#ffcc2f"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" y1="0.5" x2="1" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0"/>
+      <stop offset="0" stop-color="#090909"/>
+      <stop offset="0" stop-color="#ffcc2f"/>
+      <stop offset="1" stop-color="#b318f1"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" y1="0.537" x2="1.031" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#b318f1"/>
+      <stop offset="1" stop-color="#ff61df"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_6628" data-name="Group 6628" transform="translate(-740 -342)">
+    <g id="Group_6627" data-name="Group 6627">
+      <g id="Group_6626" data-name="Group 6626" transform="translate(19322 19221.502)">
+        <path id="waveform-lines-solid" d="M38.5,3.5a3.5,3.5,0,0,0-7,0v49a3.5,3.5,0,0,0,7,0Zm21,7a3.5,3.5,0,0,0-7,0v35a3.5,3.5,0,0,0,7,0ZM28,14a3.5,3.5,0,0,0-7,0V42a3.5,3.5,0,0,0,7,0Zm21,3.5a3.5,3.5,0,0,0-7,0v21a3.5,3.5,0,0,0,7,0Zm-31.5,7a3.5,3.5,0,0,0-7,0v7a3.5,3.5,0,0,0,7,0ZM0,28a3.5,3.5,0,1,0,3.5-3.5A3.5,3.5,0,0,0,0,28Zm63,0a3.5,3.5,0,1,0,3.5-3.5A3.5,3.5,0,0,0,63,28Z" transform="translate(-18577 -18866)" fill="url(#linear-gradient)"/>
+      </g>
+      <path id="magnifying-glass-thin" d="M99.566,97.34,70.421,68.194A40.72,40.72,0,0,0,40.455,0,40.631,40.631,0,1,0,68.038,70.413L97.183,99.559a2.431,2.431,0,0,0,1.094.457,1.9,1.9,0,0,0,1.1-.458A1.447,1.447,0,0,0,99.566,97.34Zm-59.111-19.2A37.506,37.506,0,1,1,77.961,40.631,37.544,37.544,0,0,1,40.455,78.137Z" transform="translate(740 342.502)" fill="#ced4d9"/>
+      <path id="bars-staggered-solid" d="M0,68.375A4.37,4.37,0,0,1,4.375,64h52.5a4.375,4.375,0,0,1,0,8.75H4.375A4.37,4.37,0,0,1,0,68.375ZM8.75,90.25a4.37,4.37,0,0,1,4.375-4.375h52.5a4.375,4.375,0,0,1,0,8.75h-52.5A4.37,4.37,0,0,1,8.75,90.25Zm52.5,21.875a4.37,4.37,0,0,1-4.375,4.375H4.375a4.375,4.375,0,0,1,0-8.75h52.5A4.37,4.37,0,0,1,61.25,112.125Z" transform="translate(928 291)" fill="url(#linear-gradient-2)"/>
+      <path id="message-thin" d="M86.438,2.944A9.332,9.332,0,0,1,95.8,12.126V68.1a9.22,9.22,0,0,1-9.358,9.182H57.332L33.411,95.23V77.279H11.577A9.332,9.332,0,0,1,2.219,68.1V12.126a9.22,9.22,0,0,1,9.358-9.182H86.438Zm0-2.944H11.577A12.465,12.465,0,0,0-.9,12.3V68.272a12.352,12.352,0,0,0,12.477,12.3H30.292V96.946a2.646,2.646,0,0,0,2.554,2.87,2.288,2.288,0,0,0,1.355-.453L58.55,81.1H86.623A12.465,12.465,0,0,0,99.1,68.8V12.3A12.64,12.64,0,0,0,86.438,0Z" transform="translate(910.9 342.502)" fill="#ced4d9"/>
+      <path id="circle-thin" d="M100,50A50,50,0,1,1,50,0,50,50,0,0,1,100,50ZM50,3.125A46.875,46.875,0,1,0,96.875,50,46.887,46.887,0,0,0,50,3.125Z" transform="translate(1080 342)" fill="#ced4d9"/>
+      <path id="chart-mixed-solid_1_" data-name="chart-mixed-solid (1)" d="M68.365,39.8A4.377,4.377,0,0,0,62.9,32.961L43.673,48.342,28.88,37.254a4.372,4.372,0,0,0-5.359.082L1.645,54.836a4.377,4.377,0,0,0,5.469,6.836L26.337,46.291,41.13,57.379a4.372,4.372,0,0,0,5.359-.082ZM21.879,62.63V88.88a4.375,4.375,0,1,0,8.75,0V62.63a4.375,4.375,0,1,0-8.75,0ZM4.379,75.755V88.88a4.375,4.375,0,1,0,8.75,0V75.755a4.375,4.375,0,0,0-8.75,0ZM43.755,67A4.37,4.37,0,0,0,39.38,71.38v17.5a4.375,4.375,0,1,0,8.75,0V71.38A4.37,4.37,0,0,0,43.755,67ZM56.88,62.63V88.88a4.375,4.375,0,1,0,8.75,0V62.63a4.375,4.375,0,1,0-8.75,0Z" transform="translate(1094.996 329.371)" fill="url(#linear-gradient-3)"/>
+    </g>
+    <text id="Chorus" transform="translate(751 481)" fill="#707070" font-size="16" font-family="WorkSans-Regular, Work Sans"><tspan x="0" y="0">Chorus</tspan></text>
+    <text id="Chat" transform="translate(933 481)" fill="#707070" font-size="16" font-family="WorkSans-Regular, Work Sans"><tspan x="0" y="0">Chat</tspan></text>
+    <text id="Convert" transform="translate(1098 481)" fill="#707070" font-size="16" font-family="WorkSans-Regular, Work Sans"><tspan x="0" y="0">Convert</tspan></text>
+  </g>
+</svg>
