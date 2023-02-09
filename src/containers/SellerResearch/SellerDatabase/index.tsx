@@ -23,6 +23,7 @@ import {
 
 /* ACtions */
 import { fetchSellerDatabase } from '../../../actions/SellerResearch/SellerDatabase';
+import DefaultDisplay from './DefaultDisplay';
 // import SellgoGreetingVideoSection from '../../NewSellgoSubscription/VideoSection';
 
 interface Props {
@@ -33,8 +34,13 @@ interface Props {
 const SellerDatabase = (props: Props) => {
   const { showFilterMessage, fetchSellerDatabase } = props;
   // const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+  const [showFilterInitMessage, setShowFilterInitMessage] = React.useState<boolean>(false);
   React.useEffect(() => {
-    fetchSellerDatabase({ retrieve_default: true });
+    if (localStorage.getItem('isFilteredOnce')) {
+      fetchSellerDatabase({ restoreLastSearch: true });
+      return;
+    }
+    setShowFilterInitMessage(true);
   }, []);
 
   // React.useEffect(() => {
@@ -48,15 +54,22 @@ const SellerDatabase = (props: Props) => {
   // }, []);
   return (
     <main className={styles.sellerDatbasePage}>
-      <SellerDatabaseFilters />
-      <FilterMessage
-        active={showFilterMessage.show}
-        message={showFilterMessage.message}
-        type={showFilterMessage.type}
-        className={styles.filterMessage}
-      />
-      <DatabaseExport />
-      <SellerDatabaseTable />
+      <SellerDatabaseFilters setShowFilterInitMessage={setShowFilterInitMessage} />
+
+      {showFilterInitMessage ? (
+        <DefaultDisplay />
+      ) : (
+        <>
+          <FilterMessage
+            active={showFilterMessage.show}
+            message={showFilterMessage.message}
+            type={showFilterMessage.type}
+            className={styles.filterMessage}
+          />
+          <DatabaseExport />
+          <SellerDatabaseTable />
+        </>
+      )}
       {/* {isModalOpen && <SellgoGreetingVideoSection setIsModalOpen={setIsModalOpen} />} */}
     </main>
   );

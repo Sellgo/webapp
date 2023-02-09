@@ -66,6 +66,7 @@ interface Props {
   setSellerDatabaseMarketplace: (payload: MarketplaceOption) => void;
   setIsRestoringSellerDatabaseLastSearch: (isRestoringSellerDatabaseLastSearch: boolean) => void;
   sellerDatabaseIsRestoringLastSearch: boolean;
+  setShowFilterInitMessage: (a: boolean) => void;
 }
 
 const SellerDatabaseFilters = (props: Props) => {
@@ -74,6 +75,7 @@ const SellerDatabaseFilters = (props: Props) => {
     setSellerDatabaseMarketplace,
     sellerDatabaseIsRestoringLastSearch,
     setIsRestoringSellerDatabaseLastSearch,
+    setShowFilterInitMessage,
   } = props;
 
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
@@ -109,11 +111,15 @@ const SellerDatabaseFilters = (props: Props) => {
     filterPayload.states = filterPayload.states.join('|');
     filterPayload.country = filterPayload.country === 'All Countries' ? '' : filterPayload.country;
     filterPayload.state = filterPayload.state === 'All States' ? '' : filterPayload.state;
-
+    delete filterPayload.isLookedUp;
+    delete filterPayload.isCollection;
+    setShowFilterInitMessage(false);
     fetchSellerDatabase({ filterPayload, marketplaceId: marketPlace.value });
+    localStorage.setItem('isFilteredOnce', 'true');
   };
 
   const handleReset = () => {
+    setShowFilterInitMessage(true);
     setSellerDatabaseMarketplace(DEFAULT_US_MARKET);
     setSellerDatabaseFilters(DEFAULT_SELLER_DATABASE_FILTER);
     /* Reset Error States */
@@ -124,6 +130,7 @@ const SellerDatabaseFilters = (props: Props) => {
   };
 
   const handleRestoreLastSearch = async () => {
+    setShowFilterInitMessage(false);
     const sellerID = sellerIDSelector();
     try {
       const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/last-search?type=seller_database`;
