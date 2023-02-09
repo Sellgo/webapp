@@ -3,6 +3,7 @@ export interface SellerDatabasePayload {
   resetFilter?: boolean;
   enabledLoader?: boolean;
   page?: number;
+  perPage?: number;
   sort?: string;
   sortDir?: 'asc' | 'desc';
   marketplaceId?: string;

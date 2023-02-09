@@ -154,6 +154,7 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   hasEmployeePhone: { keyName: 'has_employee_phone', type: F_TYPES.TEXT },
   hasEmployeeSocial: { keyName: 'has_employee_social', type: F_TYPES.TEXT },
   numOfEmployees: { keyName: 'employees_count', type: F_TYPES.MIN_MAX },
+  isCollection: { keyName: 'is_collection', type: F_TYPES.TEXT },
 };
 
 export const GROWTH_PERCENT_FILTER_KEY_MAPPER = {

@@ -237,6 +237,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
       resetFilter = false,
       filterPayload,
       page = 1,
+      perPage = 50,
       sort = 'seller_id',
       sortDir = 'asc',
       enabledLoader = true,
@@ -247,7 +248,6 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
       retrieve_default = false,
       exportEmployees = false,
     } = payload;
-
     // if filter request is passed
     if (resetFilter) {
       removeSellerDatabaseFilters();
@@ -277,7 +277,9 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
       if (data) {
         dispatch(setSellerDatabaseQuotaExceeded(false));
         dispatch(setSellerDatabaseResults(results));
-        dispatch(setSellerDatabasePaginationInfo({ ...paginationInfo, sort: '' }));
+        dispatch(
+          setSellerDatabasePaginationInfo({ ...paginationInfo, sort: '', per_page: perPage })
+        );
         dispatch(setSellerDatabaseFilterMessage({ show: false, message: '', type: 'info' }));
         dispatch(setIsLoadingSellerDatabase(false));
       }
@@ -285,6 +287,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
     }
 
     const pagination = `page=${page}`;
+    const pageLimit = `per_page=${perPage}`;
     const sorting = `ordering=${sortDir === 'desc' ? `-${sort}` : sort}`;
     const marketplace = `marketplace_id=${marketplaceId}`;
     const retrieveDefault = `retrieve_default=${retrieve_default ? 'true' : 'false'}`;
@@ -304,7 +307,8 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
       filtersQueryString = parseFilters(extractSellerDatabaseFilters());
     }
 
-    const resourcePath = `${pagination}&${sorting}&${marketplace}&${retrieveDefault}&${filtersQueryString}`;
+    // eslint-disable-next-line max-len
+    const resourcePath = `${pagination}&${pageLimit}&${sorting}&${marketplace}&${retrieveDefault}&${filtersQueryString}`;
 
     if (isExport && fileFormat) {
       const exportResource =
@@ -331,10 +335,13 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
     const { data } = await axios.get(URL);
 
     const { results, ...paginationInfo } = data;
+    console.log('337', paginationInfo);
     if (data) {
       dispatch(setSellerDatabaseQuotaExceeded(false));
       dispatch(setSellerDatabaseResults(results));
-      dispatch(setSellerDatabasePaginationInfo({ ...paginationInfo, sort: sorting }));
+      dispatch(
+        setSellerDatabasePaginationInfo({ ...paginationInfo, sort: sorting, per_page: perPage })
+      );
       dispatch(setSellerDatabaseFilterMessage({ show: false, message: '', type: 'info' }));
       dispatch(setIsLoadingSellerDatabase(false));
     }
@@ -344,7 +351,13 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
     dispatch(setIsLoadingSellerDatabase(false));
     dispatch(setSellerDatabaseResults([]));
     dispatch(
-      setSellerDatabasePaginationInfo({ total_pages: 0, current_page: 0, count: 0, sort: '' })
+      setSellerDatabasePaginationInfo({
+        total_pages: 0,
+        current_page: 0,
+        count: 0,
+        sort: '',
+        per_page: 50,
+      })
     );
 
     const { response } = err as any;

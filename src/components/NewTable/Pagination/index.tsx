@@ -59,6 +59,7 @@ const TablePagination = (props: Props) => {
             }}
             className="perPageDropdown"
           />
+          <span>&nbsp; results per page &nbsp; &nbsp;</span>
         </div>
       )}
 
