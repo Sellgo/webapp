@@ -1,0 +1,30 @@
+@import '../../../../../design-system/new-colors';
+
+.blueTxt {
+  white-space: pre-wrap;
+  color: $link_blue;
+  font-weight: 600;
+}
+
+.links {
+  .socialLinks {
+    margin-top: 10px;
+    a {
+      margin-right: 7px;
+    }
+  }
+}
+
+.disable {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.marketPlaceLink {
+  display: flex;
+  align-items: center;
+
+  i {
+    margin-left: 5px;
+  }
+}

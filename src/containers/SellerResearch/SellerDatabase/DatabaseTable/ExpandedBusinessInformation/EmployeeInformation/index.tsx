@@ -17,6 +17,7 @@ import EmployeeDetailInformation from '../EmployeeDetailInformation';
 import { setCompanyInfo } from '../../../../../../actions/SellerResearch/SellerDatabase';
 import { connect } from 'react-redux';
 import { error, success } from '../../../../../../utils/notifications';
+import ValidCheckIcon from '../../../../../../components/Icons/ValidCheckIcon';
 
 interface Props {
   rowData?: any;
@@ -111,6 +112,7 @@ const EmployeesInformation = (props: Props) => {
                 is_looked_up,
                 emails,
                 phones,
+                location,
               } = emploeeData;
               return (
                 <Card
@@ -126,17 +128,27 @@ const EmployeesInformation = (props: Props) => {
                         className={styles.employeeInformationDetails__card__description__image}
                       />
                       <Card.Header className={styles.employeeInformationDetails__card__header}>
-                        {first_name} {last_name}
+                        {first_name} {last_name}{' '}
+                        <div className={styles.employeeInformationDetails__card__contact}>
+                          <Icon name="mail" disabled={!is_looked_up} color="grey" />
+                          <p>{emails?.length ?? teaser?.emails?.length}</p>{' '}
+                          <div className={styles.phoneIcon}>
+                            <Icon
+                              flipped="horizontally"
+                              name="phone"
+                              disabled={!is_looked_up}
+                              color="grey"
+                            />{' '}
+                            {phones?.length ?? teaser?.phones?.length}
+                          </div>
+                        </div>
                       </Card.Header>
                       <Card.Meta className={styles.employeeInformationDetails__card__meta}>
                         {title}
                       </Card.Meta>
                       <Card.Meta className={styles.employeeInformationDetails__card__meta}>
-                        <Icon name="mail" disabled /> {emails?.length ?? teaser?.emails?.length}{' '}
-                        <div className={styles.phoneIcon}>
-                          <Icon flipped="horizontally" name="phone" disabled />{' '}
-                          {phones?.length ?? teaser?.phones?.length}
-                        </div>
+                        <Icon name="map marker alternate" size="small" color="grey" />{' '}
+                        <span className={styles.location}>{location}</span>
                       </Card.Meta>
                     </div>
                     <div className={styles.employeeInformationDetails__card__button}>
@@ -150,7 +162,13 @@ const EmployeesInformation = (props: Props) => {
                         }}
                         className={styles.continueButton}
                       >
-                        {is_looked_up ? 'VIEW' : 'GET INFO'}
+                        {is_looked_up ? (
+                          <div>
+                            <ValidCheckIcon fill="#fff" /> VIEW
+                          </div>
+                        ) : (
+                          <div>GET INFO</div>
+                        )}
                       </ActionButton>
                     </div>
                   </Card.Content>

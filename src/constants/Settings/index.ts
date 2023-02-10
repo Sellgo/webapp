@@ -345,3 +345,16 @@ export const getMarketplaceName = (marketplaceId: string) => {
     return '-';
   }
 };
+
+/* Get marketplace link */
+export const getMarketplaceLink = (marketplaceId: string) => {
+  const marketplace = defaultMarketplaces.find((marketplace: any) => {
+    return marketplace.id === marketplaceId;
+  });
+
+  if (marketplace && marketplace.name) {
+    return marketplace.link;
+  } else {
+    return null;
+  }
+};

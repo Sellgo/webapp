@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import numeral from 'numeral';
+import countriesList from '../assets/countriesList.json';
 
 export const formatCurrency = (num: any) =>
   Number(num).toLocaleString('en-US', {
@@ -298,4 +299,9 @@ export const printShortDate = (date: Date) => {
     .getFullYear()
     .toString()
     .substr(2)}`;
+};
+
+export const getCountryFullName = (identifier: string) => {
+  const country = countriesList.find(singleCountry => singleCountry.country === identifier);
+  return country?.name ?? '-';
 };

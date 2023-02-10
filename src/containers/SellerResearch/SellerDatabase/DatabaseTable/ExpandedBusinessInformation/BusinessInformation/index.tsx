@@ -11,6 +11,7 @@ import SocialLinkIcon from '../../../../../../components/SocialLinkIcon';
 
 // Constants
 import { SOCIAL_LINK_COLORS } from '../../../../../../constants/SellerResearch/SellerDatabase';
+import ValidCheckIcon from '../../../../../../components/Icons/ValidCheckIcon';
 
 interface Props {
   rowData?: any;
@@ -79,13 +80,22 @@ const BusinessInformation = (props: Props) => {
           <div className={styles.companyInformation_detailsBox}>
             <Icon name="amazon" className={styles.companyInformation_detailsBox_icon} />
             <p className={styles.companyInformation_detailsBox_heading}>Amazon store link</p>
-            <Link
-              to={{ pathname: rowData?.company_info?.seller_link ?? rowData?.seller_link }}
-              target="_blank"
-              className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}
-            >
-              {rowData?.company_info?.seller_link ?? rowData?.seller_link ?? 'N/A'}
-            </Link>
+            {rowData?.company_info?.seller_link || rowData?.seller_link ? (
+              <div className={styles.verifiedIconBox}>
+                {rowData.is_looked_up && <ValidCheckIcon />}
+                <Link
+                  to={{ pathname: rowData?.company_info?.seller_link ?? rowData?.seller_link }}
+                  target="_blank"
+                  className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}
+                >
+                  {rowData?.company_info?.seller_link ?? rowData?.seller_link ?? 'N/A'}
+                </Link>
+              </div>
+            ) : (
+              <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
+                N/A
+              </p>
+            )}
           </div>
           <div className={styles.companyInformation_detailsBox}>
             <Icon
@@ -94,9 +104,18 @@ const BusinessInformation = (props: Props) => {
               className={styles.companyInformation_detailsBox_icon}
             />
             <p className={styles.companyInformation_detailsBox_heading}>Support phone</p>
-            <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
-              {rowData?.phone ?? 'N/A'}
-            </p>
+            {rowData?.phone ? (
+              <div className={styles.verifiedIconBox}>
+                {rowData.is_looked_up && <ValidCheckIcon />}
+                <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
+                  {rowData?.phone}
+                </p>
+              </div>
+            ) : (
+              <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
+                N/A
+              </p>
+            )}
           </div>
           <div className={styles.companyInformation_detailsBox}>
             <Icon
@@ -105,30 +124,53 @@ const BusinessInformation = (props: Props) => {
               className={styles.companyInformation_detailsBox_icon}
             />
             <p className={styles.companyInformation_detailsBox_heading}>Phone</p>
-            <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
-              {rowData?.company_info?.phone ?? 'N/A'}
-            </p>
+            {rowData?.company_info?.phone ? (
+              <div className={styles.verifiedIconBox}>
+                {rowData.is_looked_up && <ValidCheckIcon />}
+                <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
+                  {rowData?.company_info?.phone}
+                </p>
+              </div>
+            ) : (
+              <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
+                N/A
+              </p>
+            )}
           </div>
           <div className={styles.companyInformation_detailsBox}>
             <Icon name="fax" className={styles.companyInformation_detailsBox_icon} />
             <p className={styles.companyInformation_detailsBox_heading}>Fax</p>
-            <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
-              {rowData?.company_info?.fax ?? 'N/A'}
-            </p>
+            {rowData?.company_info?.fax ? (
+              <div className={styles.verifiedIconBox}>
+                {rowData.is_looked_up && <ValidCheckIcon />}
+                <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
+                  {rowData?.company_info?.fax}
+                </p>
+              </div>
+            ) : (
+              <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
+                N/A
+              </p>
+            )}
           </div>
           <div className={styles.companyInformation_detailsBox}>
             <Icon name="linkify" className={styles.companyInformation_detailsBox_icon} />
             <p className={styles.companyInformation_detailsBox_heading}>Website</p>
             {rowData?.company_info?.website_url ? (
-              <Link
-                to={{ pathname: rowData?.company_info?.website_url }}
-                target="_blank"
-                className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}
-              >
-                {rowData?.company_info?.website_url ?? 'N/A'}
-              </Link>
+              <div className={styles.verifiedIconBox}>
+                {rowData.is_looked_up && <ValidCheckIcon />}
+                <Link
+                  to={{ pathname: rowData?.company_info?.website_url }}
+                  target="_blank"
+                  className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}
+                >
+                  {rowData?.company_info?.website_url}
+                </Link>
+              </div>
             ) : (
-              <p>-</p>
+              <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
+                N/A
+              </p>
             )}
           </div>
         </div>

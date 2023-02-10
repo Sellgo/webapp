@@ -15,7 +15,7 @@
   overflow-y: auto;
 
   &__card {
-    width: 400px !important;
+    width: 480px !important;
     height: fit-content !important;
     margin: 0 !important;
     margin-right: 30px !important;
@@ -38,6 +38,17 @@
     &__header {
       color: $link_blue !important;
       font-weight: 600;
+      display: flex;
+    }
+
+    &__contact {
+      display: flex;
+      margin-left: 10px;
+      color: $grey_3 !important;
+
+      .phoneIcon {
+        margin-left: 15px;
+      }
     }
 
     &__button {
@@ -50,9 +61,10 @@
       overflow: hidden;
       white-space: nowrap;
       display: flex;
+      align-items: center;
 
-      .phoneIcon {
-        margin-left: 15px;
+      .location {
+        margin-left: 5px;
       }
     }
   }
