@@ -160,10 +160,10 @@ const EmployeesInformation = (props: Props) => {
                           setActiveEmployeeIndex(index);
                           setOpen(true);
                         }}
-                        className={styles.continueButton}
+                        // className={styles.continueButton}
                       >
                         {is_looked_up ? (
-                          <div>
+                          <div className={styles.continueButton}>
                             <ValidCheckIcon fill="#fff" /> VIEW
                           </div>
                         ) : (

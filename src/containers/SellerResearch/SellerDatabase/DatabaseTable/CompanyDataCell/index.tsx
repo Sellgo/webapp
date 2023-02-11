@@ -46,44 +46,54 @@ const CompanyDataCell = (props: Props) => {
             </Link>
           )}
           <div className={styles.socialLinks}>
-            {isDisabled ? (
-              <Icon name="linkify" className={styles.companyInformation_detailsBox_icon} />
-            ) : (
-              <Link
-                to={{ pathname: rowData?.company_info?.website_url }}
-                target="_blank"
-                className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}
-              >
-                <Icon name="linkify" className={styles.companyInformation_detailsBox_icon} />
-              </Link>
+            {rowData?.company_info?.website_url && (
+              <>
+                {isDisabled ? (
+                  <Icon name="linkify" className={styles.companyInformation_detailsBox_icon} />
+                ) : (
+                  <Link
+                    to={{ pathname: rowData?.company_info?.website_url }}
+                    target="_blank"
+                    className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}
+                  >
+                    <Icon name="linkify" className={styles.companyInformation_detailsBox_icon} />
+                  </Link>
+                )}
+              </>
             )}
-            <SocialLinkIcon
-              width={14}
-              height={14}
-              site={'facebook'}
-              link={rowData?.company_info?.links?.facebook}
-              color={SOCIAL_LINK_COLORS.facebook}
-              className={styles.socialPresence__linksRow__links}
-              disabled={isDisabled || !rowData?.company_info?.links?.facebook}
-            />
-            <SocialLinkIcon
-              width={14}
-              height={14}
-              site={'twitter'}
-              link={rowData?.company_info?.links?.twitter}
-              color={SOCIAL_LINK_COLORS.twitter}
-              className={styles.socialPresence__linksRow__links}
-              disabled={isDisabled || !rowData?.company_info?.links?.twitter}
-            />
-            <SocialLinkIcon
-              width={14}
-              height={14}
-              site={'linkedin'}
-              link={rowData?.company_info?.links?.linkedin}
-              color={SOCIAL_LINK_COLORS.linkedin}
-              className={styles.socialPresence__linksRow__links}
-              disabled={isDisabled || !rowData?.company_info?.links?.linkedin}
-            />
+            {rowData?.company_info?.links?.hasOwnProperty('facebook') && (
+              <SocialLinkIcon
+                width={14}
+                height={14}
+                site={'facebook'}
+                link={rowData?.company_info?.links?.facebook}
+                color={SOCIAL_LINK_COLORS.facebook}
+                className={styles.socialPresence__linksRow__links}
+                disabled={isDisabled || !rowData?.company_info?.links?.facebook}
+              />
+            )}
+            {rowData?.company_info?.links?.hasOwnProperty('twitter') && (
+              <SocialLinkIcon
+                width={14}
+                height={14}
+                site={'twitter'}
+                link={rowData?.company_info?.links?.twitter}
+                color={SOCIAL_LINK_COLORS.twitter}
+                className={styles.socialPresence__linksRow__links}
+                disabled={isDisabled || !rowData?.company_info?.links?.twitter}
+              />
+            )}
+            {rowData?.company_info?.links?.hasOwnProperty('linkedin') && (
+              <SocialLinkIcon
+                width={14}
+                height={14}
+                site={'linkedin'}
+                link={rowData?.company_info?.links?.linkedin}
+                color={SOCIAL_LINK_COLORS.linkedin}
+                className={styles.socialPresence__linksRow__links}
+                disabled={isDisabled || !rowData?.company_info?.links?.linkedin}
+              />
+            )}
           </div>
         </div>
       </div>

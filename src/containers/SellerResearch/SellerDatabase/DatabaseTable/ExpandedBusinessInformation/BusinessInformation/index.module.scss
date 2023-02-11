@@ -71,8 +71,14 @@
 .verifiedIconBox {
   display: flex;
   align-items: center;
+  width: 300px;
 
   svg {
     margin-right: 5px;
   }
+
+  .companyInformation_detailsBox_text {
+    width: 265px;
+  }
+
 }

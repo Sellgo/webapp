@@ -53,6 +53,15 @@
 
     &__button {
       align-self: center;
+
+      .continueButton {
+        display: flex;
+        align-items: center;
+
+        svg {
+          margin-right: 7px;
+        }
+      }
     }
 
     &__meta {

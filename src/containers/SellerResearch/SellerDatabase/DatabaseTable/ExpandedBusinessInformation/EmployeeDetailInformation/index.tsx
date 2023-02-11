@@ -112,7 +112,11 @@ const EmployeeDetailInformation = (props: Props) => {
         {/* Personal information */}
         <div className={styles.employeeInformationDetailPopup__personalInformation}>
           <div className={styles.employeeInformationDetailPopup__personalInformation__bio}>
-            <Image />
+            <Image
+              size="mini"
+              src={require(`../../../../../../assets/images/avatarPlaceholder.svg`)}
+              className={styles.employeeInformationDetails__card__description__image}
+            />
             <p className={styles.employeeInformationDetailPopup__personalInformation__bio__name}>
               {employeeData.first_name} {employeeData.last_name}
             </p>
