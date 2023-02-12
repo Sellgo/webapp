@@ -120,9 +120,9 @@ const APIForm = () => {
 
   return (
     <section className={styles.apiFormWrapper}>
-      <ProfileBoxHeader>API Keys</ProfileBoxHeader>
+      <ProfileBoxHeader>Zapier API Keys</ProfileBoxHeader>
       <BoxContainer>
-        <p className={styles.apiFormTitle}> Please select your API keys below. </p>
+        <p className={styles.apiFormTitle}> Please connect and validate your API keys below: </p>
         <Form className={`${styles.apiFormGrid} apiForm`}>
           <Dimmer inverted active={isLoading}>
             <Loader />

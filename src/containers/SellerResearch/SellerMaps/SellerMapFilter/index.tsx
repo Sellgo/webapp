@@ -250,8 +250,8 @@ const SellerMapFilter = (props: Props) => {
 
       {/* Zip Code */}
       <InputFilter
-        placeholder="Zip Code"
-        label="Zip Code"
+        placeholder="Zip code"
+        label="Zip code"
         value={zipCode.value}
         handleChange={(value: any) => {
           handleFilterChange('zip_code', value);
