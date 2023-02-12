@@ -40,7 +40,7 @@
     border: none !important;
     //border-bottom: 1px solid $grey_3 !important;
     background-color: $grey_10 !important;
-    min-width: 2200px !important;
+    min-width: 1790px !important;
 
     /* Change position to fixed if scrolls out of sight */
     &__fixed {
@@ -65,12 +65,12 @@
   .rs-table-body-row-wrapper {
     background: $light_gray_background !important;
     min-height: 600px !important;
-    width: 2200px;
+    width: 1790px;
 
     .rs-table-body-wheel-area {
       background: $light_gray_background;
       transform: none !important;
-      width: 2200px;
+      width: 1790px;
       overflow-x: auto !important;
 
       //  Table row property
@@ -78,7 +78,7 @@
         // height: 190px !important; //
         border-bottom: 5px solid $light_gray_background;
         border-radius: 10px;
-        box-shadow: 7px 0 7px $grey_3;
+        box-shadow: 1px 0 7px $grey_3;
 
         /* ============== ZEBRA PATTERN  =============== */
         &:nth-child(2n) {
