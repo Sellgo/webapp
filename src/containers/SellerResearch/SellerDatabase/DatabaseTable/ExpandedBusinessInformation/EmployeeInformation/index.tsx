@@ -18,6 +18,7 @@ import { setCompanyInfo } from '../../../../../../actions/SellerResearch/SellerD
 import { connect } from 'react-redux';
 import { error, success } from '../../../../../../utils/notifications';
 import ValidCheckIcon from '../../../../../../components/Icons/ValidCheckIcon';
+import UserMagnifyingIcon from '../../../../../../components/Icons/UserMagnifyingIcon';
 
 interface Props {
   rowData?: any;
@@ -164,10 +165,12 @@ const EmployeesInformation = (props: Props) => {
                       >
                         {is_looked_up ? (
                           <div className={styles.continueButton}>
-                            <ValidCheckIcon fill="#fff" /> VIEW
+                            <ValidCheckIcon fill="#3CF7AF" /> View
                           </div>
                         ) : (
-                          <div>GET INFO</div>
+                          <div className={styles.continueButton}>
+                            <UserMagnifyingIcon fill="#fff" /> Get info
+                          </div>
                         )}
                       </ActionButton>
                     </div>

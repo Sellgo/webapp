@@ -14,6 +14,7 @@ import { RowCell } from '../../../interfaces/Table';
 /* Assets */
 import ActionButton from '../../ActionButton';
 import ValidCheckIcon from '../../Icons/ValidCheckIcon';
+import AddUserIcon from '../../Icons/AddUserIcon';
 
 interface Props extends RowCell {
   onChange: (rowData: any) => void;
@@ -55,7 +56,7 @@ const ExpansionCell = (props: Props) => {
         {!isLookedUp ? (
           <ActionButton variant="primary" type="purpleGradient" size="md" onClick={handleClick}>
             <div className={styles.unlockedBtn}>
-              <ValidCheckIcon fill="#FFF" /> Contact
+              <AddUserIcon fill="#FFF" /> Contact
             </div>
           </ActionButton>
         ) : (

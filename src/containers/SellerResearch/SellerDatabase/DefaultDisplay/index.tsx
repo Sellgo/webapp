@@ -15,7 +15,7 @@ const DefaultDisplay = () => {
         Get started by putting a name, keyword, or LinkedIn url above, or for a more refined search,
         use the filters to the left!
       </p>
-      <p className={styles.linkText}>Learn how to get started with some examples</p>
+      {/* <p className={styles.linkText}>Learn how to get started with some examples</p> */}
     </section>
   );
 };

@@ -2,7 +2,9 @@
 
 .informationHeading {
   font-size: 14px;
+  font-weight: 600;
   color: $grey_8;
+  margin-left: 10px;
   margin-bottom: 10px;
 }
 
@@ -18,7 +20,7 @@
     width: 480px !important;
     height: fit-content !important;
     margin: 0 !important;
-    margin-right: 1px !important;
+    margin-right: 3px !important;
     margin-bottom: 11px !important;
 
     &__content {
@@ -40,12 +42,13 @@
       font-size: 14px;
       font-weight: 600;
       display: flex;
+      padding-left: 7px;
     }
 
     &__contact {
       display: flex;
       margin-left: 11px;
-      color: $grey_3 !important;
+      color: $grey_4 !important;
 
       .phoneIcon {
         margin-left: 11px;
@@ -67,11 +70,13 @@
 
     &__meta {
       font-size: 12px;
+      font-weight: 600;
       width: 200px;
       overflow: hidden;
       white-space: nowrap;
       display: flex;
       align-items: center;
+      padding-left: 7px;
 
       .location {
         margin-left: 5px;
