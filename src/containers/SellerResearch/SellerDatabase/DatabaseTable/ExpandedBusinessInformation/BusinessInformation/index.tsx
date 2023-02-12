@@ -82,7 +82,7 @@ const BusinessInformation = (props: Props) => {
             <p className={styles.companyInformation_detailsBox_heading}>Amazon store link</p>
             {rowData?.company_info?.seller_link || rowData?.seller_link ? (
               <div className={styles.verifiedIconBox}>
-                {rowData.is_looked_up && <ValidCheckIcon />}
+                {rowData.is_looked_up && <ValidCheckIcon fill="#5DC560" />}
                 <Link
                   to={{ pathname: rowData?.company_info?.seller_link ?? rowData?.seller_link }}
                   target="_blank"
@@ -106,7 +106,7 @@ const BusinessInformation = (props: Props) => {
             <p className={styles.companyInformation_detailsBox_heading}>Support phone</p>
             {rowData?.phone ? (
               <div className={styles.verifiedIconBox}>
-                {rowData.is_looked_up && <ValidCheckIcon />}
+                {rowData.is_looked_up && <ValidCheckIcon fill="#5DC560" />}
                 <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
                   {rowData?.phone}
                 </p>
@@ -126,7 +126,7 @@ const BusinessInformation = (props: Props) => {
             <p className={styles.companyInformation_detailsBox_heading}>Phone</p>
             {rowData?.company_info?.phone ? (
               <div className={styles.verifiedIconBox}>
-                {rowData.is_looked_up && <ValidCheckIcon />}
+                {rowData.is_looked_up && <ValidCheckIcon fill="#5DC560" />}
                 <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
                   {rowData?.company_info?.phone}
                 </p>
@@ -142,7 +142,7 @@ const BusinessInformation = (props: Props) => {
             <p className={styles.companyInformation_detailsBox_heading}>Fax</p>
             {rowData?.company_info?.fax ? (
               <div className={styles.verifiedIconBox}>
-                {rowData.is_looked_up && <ValidCheckIcon />}
+                {rowData.is_looked_up && <ValidCheckIcon fill="#5DC560" />}
                 <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
                   {rowData?.company_info?.fax}
                 </p>
@@ -158,7 +158,7 @@ const BusinessInformation = (props: Props) => {
             <p className={styles.companyInformation_detailsBox_heading}>Website</p>
             {rowData?.company_info?.website_url ? (
               <div className={styles.verifiedIconBox}>
-                {rowData.is_looked_up && <ValidCheckIcon />}
+                {rowData.is_looked_up && <ValidCheckIcon fill="#5DC560" />}
                 <Link
                   to={{ pathname: rowData?.company_info?.website_url }}
                   target="_blank"

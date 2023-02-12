@@ -53,13 +53,15 @@ const ExpansionCell = (props: Props) => {
     <Table.Cell {...otherProps}>
       <div className={styles.expansionCell}>
         {!isLookedUp ? (
-          <ActionButton variant="secondary" type="purpleGradient" size="md" onClick={handleClick}>
-            Contact
+          <ActionButton variant="primary" type="purpleGradient" size="md" onClick={handleClick}>
+            <div className={styles.unlockedBtn}>
+              <ValidCheckIcon fill="#FFF" /> Contact
+            </div>
           </ActionButton>
         ) : (
-          <ActionButton variant="primary" type="black" size="md" onClick={handleClick}>
+          <ActionButton variant="secondary" type="black" size="md" onClick={handleClick}>
             <div className={styles.unlockedBtn}>
-              <ValidCheckIcon fill="#fff" /> VIEW
+              <ValidCheckIcon fill="#5DC560" /> View
             </div>
           </ActionButton>
         )}

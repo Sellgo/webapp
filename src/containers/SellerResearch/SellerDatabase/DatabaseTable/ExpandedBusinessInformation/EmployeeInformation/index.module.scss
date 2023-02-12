@@ -3,14 +3,14 @@
 .informationHeading {
   font-size: 14px;
   color: $grey_8;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .employeeInformationDetails {
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
-  padding: 10px;
+  padding: 7px;
   height: 470px;
   overflow-y: auto;
 
@@ -18,12 +18,12 @@
     width: 480px !important;
     height: fit-content !important;
     margin: 0 !important;
-    margin-right: 30px !important;
-    margin-bottom: 20px !important;
+    margin-right: 1px !important;
+    margin-bottom: 11px !important;
 
     &__content {
       display: flex;
-      padding: 5px 10px !important;
+      padding: 7px 10px !important;
       box-shadow: 0 0 10px $grey_3 !important;
     }
 
@@ -37,17 +37,18 @@
 
     &__header {
       color: $link_blue !important;
+      font-size: 14px;
       font-weight: 600;
       display: flex;
     }
 
     &__contact {
       display: flex;
-      margin-left: 10px;
+      margin-left: 11px;
       color: $grey_3 !important;
 
       .phoneIcon {
-        margin-left: 15px;
+        margin-left: 11px;
       }
     }
 

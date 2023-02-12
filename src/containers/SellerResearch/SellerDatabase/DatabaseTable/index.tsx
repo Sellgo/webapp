@@ -160,7 +160,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column> */}
 
           {/* Business Name */}
-          <Table.Column width={250} verticalAlign="middle" align="center">
+          <Table.Column width={200} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Company`}
@@ -189,10 +189,10 @@ const SellerDatabaseTable = (props: Props) => {
 
           {/* Country */}
           <Table.Column
-            width={250}
+            width={200}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
-            align="center"
+            align="left"
           >
             <Table.HeaderCell>
               <HeaderSortCell
@@ -225,10 +225,10 @@ const SellerDatabaseTable = (props: Props) => {
 
           {/* Category */}
           <Table.Column
-            width={250}
+            width={200}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
-            align="center"
+            align="left"
           >
             <Table.HeaderCell>
               <HeaderSortCell
@@ -262,7 +262,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column> */}
 
           {/* Products */}
-          <Table.Column width={250} verticalAlign="middle" align="center">
+          <Table.Column width={100} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Products`}
@@ -276,7 +276,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Brands */}
-          <Table.Column width={250} verticalAlign="middle" align="center">
+          <Table.Column width={100} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Brands`}
@@ -289,7 +289,7 @@ const SellerDatabaseTable = (props: Props) => {
             <NumberCell dataKey="brands" />
           </Table.Column>
 
-          <Table.Column width={250} verticalAlign="middle" align="center">
+          <Table.Column width={100} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`# of employees`}
@@ -303,7 +303,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Expansion Button cell */}
-          <Table.Column width={250} verticalAlign="middle" align="center">
+          <Table.Column width={150} verticalAlign="middle" align="center">
             <Table.HeaderCell> </Table.HeaderCell>
             <ExpansionButtonCell
               dataKey={'is_looked_up'}

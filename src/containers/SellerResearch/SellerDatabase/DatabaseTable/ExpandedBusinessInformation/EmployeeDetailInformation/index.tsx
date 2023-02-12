@@ -98,7 +98,7 @@ const EmployeeDetailInformation = (props: Props) => {
   };
 
   const emailVerificationIcons: { [key: string]: any } = {
-    valid: <ValidCheckIcon />,
+    valid: <ValidCheckIcon fill="#5DC560" />,
     invalid: <InValidCrossIcon />,
   };
 
