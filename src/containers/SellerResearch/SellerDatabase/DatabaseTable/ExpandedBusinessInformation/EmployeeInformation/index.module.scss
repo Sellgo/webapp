@@ -17,7 +17,7 @@
   overflow-y: auto;
 
   &__card {
-    width: 480px !important;
+    width: 580px !important;
     height: fit-content !important;
     margin: 0 !important;
     margin-right: 3px !important;
@@ -30,7 +30,7 @@
     }
 
     &__description {
-      width: 70%;
+      width: 80%;
 
       &__image {
         margin-top: 1em;
@@ -71,7 +71,7 @@
     &__meta {
       font-size: 12px;
       font-weight: 600;
-      width: 200px;
+      width: 380px;
       overflow: hidden;
       white-space: nowrap;
       display: flex;
@@ -89,8 +89,16 @@
     height: fit-content !important;
 
     &__header {
-      color: $link_blue !important;
+      color: $grey_8 !important;
       font-weight: 600;
+      padding-top: 11px;
+    }
+
+    &__meta {
+      color: $grey_6 !important;
+      font-weight: 400;
+      padding-top: 11px;
+      padding-bottom: 18px;
     }
   }
 }

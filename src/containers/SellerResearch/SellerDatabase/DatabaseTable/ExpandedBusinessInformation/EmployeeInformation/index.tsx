@@ -19,6 +19,7 @@ import { connect } from 'react-redux';
 import { error, success } from '../../../../../../utils/notifications';
 import ValidCheckIcon from '../../../../../../components/Icons/ValidCheckIcon';
 import UserMagnifyingIcon from '../../../../../../components/Icons/UserMagnifyingIcon';
+import UserRequestIcon from '../../../../../../components/Icons/UserRequestIcon';
 
 interface Props {
   rowData?: any;
@@ -193,7 +194,7 @@ const EmployeesInformation = (props: Props) => {
                     type={
                       rowData?.company_info?.is_contact_requested || rowData?.is_contact_requested
                         ? 'grey'
-                        : 'purpleGradient'
+                        : 'black'
                     }
                     size="small"
                     onClick={() => {
@@ -205,7 +206,9 @@ const EmployeesInformation = (props: Props) => {
                       rowData?.company_info?.is_contact_requested || rowData?.is_contact_requested
                     }
                   >
-                    Request
+                    <div className={styles.continueButton}>
+                      <UserRequestIcon fill="#FFF" /> Request
+                    </div>
                   </ActionButton>
                 </Card.Meta>
               </Card.Content>
