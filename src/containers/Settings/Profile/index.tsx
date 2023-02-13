@@ -15,8 +15,10 @@ import BoxHeader from '../../../components/BoxHeader';
 import BoxContainer from '../../../components/BoxContainer';
 import OrangeButton from '../../../components/OrangeButton';
 import StepsInfo from '../../../components/StepsInfo';
-import HelpingHandsIcon from '../../../assets/images/hands-helping-solid.svg';
+import BoxContainerSettings from '../../../components/BoxContainerSettings';
+import ElevioArticle from '../../../components/ElevioArticle';
 import SettingsNav from '../SettingsNav';
+import HelpingHandsIcon from '../../../assets/images/hands-helping-solid.svg';
 
 /* Constants */
 import {
@@ -276,6 +278,12 @@ const Profile = (props: Props) => {
             </div>
           </ProfileBoxFooter>
         </div>
+        {isSellgoSession() && (
+          <BoxContainerSettings className={styles.elevioArticle}>
+            <span>Step-By-Step Guide</span>
+            <ElevioArticle articleId={'27'} />
+          </BoxContainerSettings>
+        )}
         {!isSellgoSession() && <GetStarted />}
       </main>
     </>

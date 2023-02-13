@@ -26,3 +26,21 @@
     margin-left: 5px;
   }
 }
+
+.elevioArticle {
+  margin-top: 50px;
+  margin-left: 11px;
+  font-size: 12px;
+  font-weight: $fontweight_medium;
+  border-radius: 7px;
+  color: $grey_8;
+  text-transform: uppercase;
+  height: 700px;
+  overflow-y: auto;
+  min-width: 0;
+  max-width: 400px;
+
+  > span {
+    margin-bottom: 100px;
+  }
+}

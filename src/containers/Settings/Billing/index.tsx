@@ -12,6 +12,8 @@ import styles from './index.module.scss';
 import PageHeader from '../../../components/PageHeader';
 import PastTransactionsSection from './PastTransactionsSection';
 import SettingsNav from '../SettingsNav';
+import BoxContainerSettings from '../../../components/BoxContainerSettings';
+import ElevioArticle from '../../../components/ElevioArticle';
 
 /* Types */
 import { AppConfig } from '../../../config';
@@ -186,6 +188,12 @@ const Billing = (props: Props) => {
             fetchTransactionHistoryAll={fetchTransactionHistoryAll}
           />
         </div>
+        {isSellgoSession() && (
+          <BoxContainerSettings className={styles.elevioArticle}>
+            <span>Step-By-Step Guide</span>
+            <ElevioArticle articleId={'27'} />
+          </BoxContainerSettings>
+        )}
         {!isSellgoSession() && <GetStarted />}
       </main>
     </>

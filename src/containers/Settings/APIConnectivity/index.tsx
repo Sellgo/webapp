@@ -3,7 +3,9 @@ import PageHeader from '../../../components/PageHeader';
 import styles from './index.module.scss';
 import APIForm from './APIForm';
 import SettingsNav from '../SettingsNav';
-
+import BoxContainerSettings from '../../../components/BoxContainerSettings';
+import ElevioArticle from '../../../components/ElevioArticle';
+import { isSellgoSession } from '../../../utils/session';
 interface Props {
   match: any;
 }
@@ -26,6 +28,12 @@ const APIConnectivity = (props: Props) => {
         <div>
           <APIForm />
         </div>
+        {isSellgoSession() && (
+          <BoxContainerSettings className={styles.elevioArticle}>
+            <span>Step-By-Step Guide</span>
+            <ElevioArticle articleId={'27'} />
+          </BoxContainerSettings>
+        )}
       </div>
     </>
   );
