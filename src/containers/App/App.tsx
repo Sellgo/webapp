@@ -20,7 +20,7 @@ import '../../analytics';
 import ResetPassword from '../ResetPassword';
 import Onboarding from '../Onboarding';
 import Billing from '../Settings/Billing';
-// import APIConnectivity from '../Settings/APIConnectivity';
+import APIConnectivity from '../Settings/APIConnectivity';
 import SPConnectivity from '../Settings/SPConnectivity';
 import SpApiListener from '../Settings/SPConnectivity/SpApiListener';
 import Profile from '../Settings/Profile';
@@ -446,7 +446,7 @@ function App() {
           <PrivateRoute exact={true} path="/settings/billing" component={Billing} />
           <PrivateRoute exact={true} path="/settings/sp-connectivity" component={SPConnectivity} />
           <PrivateRoute exact={true} path="/settings/sp-api-listener" component={SpApiListener} />
-          {/* <PrivateRoute exact={true} path="/settings/api-keys" component={APIConnectivity} /> */}
+          <PrivateRoute exact={true} path="/settings/integration" component={APIConnectivity} />
           <PrivateRoute exact={true} path="/settings/profile" component={Profile} />
           <PrivateRoute exact={true} path="/settings/aistock/lead-time" component={LeadTime} />
           <PrivateRoute

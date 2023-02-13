@@ -190,14 +190,14 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
 
-  // {
-  //   name: 'API Keys',
-  //   disabled: false,
-  //   url: '/settings/api-keys',
-  //   showInSellgo: true,
-  //   showInAistock: false,
-  //   subPages: [],
-  // },
+  {
+    name: 'Integration',
+    disabled: false,
+    url: '/settings/integration',
+    showInSellgo: true,
+    showInAistock: false,
+    subPages: [],
+  },
   {
     name: 'Amazon SP-API Connectivity',
     disabled: false,
@@ -343,5 +343,18 @@ export const getMarketplaceName = (marketplaceId: string) => {
     return marketplace.name;
   } else {
     return '-';
+  }
+};
+
+/* Get marketplace link */
+export const getMarketplaceLink = (marketplaceId: string) => {
+  const marketplace = defaultMarketplaces.find((marketplace: any) => {
+    return marketplace.id === marketplaceId;
+  });
+
+  if (marketplace && marketplace.name) {
+    return marketplace.link;
+  } else {
+    return null;
   }
 };

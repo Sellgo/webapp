@@ -1,0 +1,9 @@
+@import '../../../../../design-system/new-colors';
+
+.txtCell {
+  white-space: pre-wrap;
+
+  &__bold {
+    font-weight: 700;
+  }
+}

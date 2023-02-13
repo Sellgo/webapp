@@ -3,8 +3,8 @@
 .merchantDetails {
   display: flex;
   justify-content: space-between;
-  width: calc(100vw - 150px);
-  padding: 20px;
+  width: calc(100vw - 130px);
+  padding: 10px;
 
   .businessInformation {
     width: 40%;
@@ -12,7 +12,8 @@
   }
 
   .employeeInformation {
-    width: 54%;
+    width: 580px;
+    margin-right: 100px;
     display: flex;
     flex-direction: column;
   }
