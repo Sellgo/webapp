@@ -2,7 +2,6 @@
 
 .exportsContainer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-top: 30px;
   margin-bottom: 18px;
@@ -68,4 +67,12 @@
       }
     }
   }
+}
+
+.exportBtn {
+  padding: 3px 10px;
+  margin-left: 20px !important;
+  border: 1px solid $grey_13;
+  align-items: unset !important;
+  background-color: $prim_white;
 }

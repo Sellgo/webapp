@@ -27,7 +27,7 @@ import {
   isSubscriptionIdFreeTrial,
 } from '../../utils/subscriptions';
 import { setUserOnboarding } from '../../actions/UserOnboarding';
-import { isAiStockSession } from '../../utils/session';
+import { isAiStockSession, isSellgoSession } from '../../utils/session';
 
 /* Icons */
 import SettingsIcon from '../../assets/images/settingsIcon.svg';
@@ -79,7 +79,7 @@ const AdminHeader = (props: Props) => {
   }, []);
   return (
     <div className="admin-header">
-      <QuotaMeter />
+      {isSellgoSession() && <QuotaMeter />}
       {isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) &&
         !window.location.pathname.includes('pricing') && (
           <ActionButton
