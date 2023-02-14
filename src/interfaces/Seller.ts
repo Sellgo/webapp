@@ -48,6 +48,7 @@ export interface SellerSubscription {
   paid_start_date: string;
   perfect_stock_status: string;
   is_trial_expired?: boolean;
+  is_sellgo_feedback_filled?: boolean;
 }
 
 export interface Merchant {

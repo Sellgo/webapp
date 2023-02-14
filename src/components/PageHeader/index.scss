@@ -114,6 +114,22 @@
   }
 }
 
+.sellgoSurveyButton {
+  position: fixed;
+  font-size: 12px !important;
+  width: 160px;
+  height: 40px !important;
+  bottom: 100px;
+  right: 190px;
+  z-index: 99;
+
+  svg {
+    margin-right: 10px;
+    width: 15px;
+    height: 15px;
+  }
+}
+
 .surveyButton {
   position: fixed;
   font-size: 12px !important;

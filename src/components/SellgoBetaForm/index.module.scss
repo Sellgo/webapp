@@ -1,0 +1,58 @@
+@import '../../design-system/new-colors.scss';
+
+.quickWinModal {
+  width: 90vh !important;
+  border-radius: 7px !important;
+}
+
+.header {
+  background-color: $prim_dark_1;
+  border: 1px solid $prim_dark_1;
+  width: 100%;
+  height: 40px;
+  border-radius: 7px 7px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .sellgoLogo {
+    height: 17px;
+    margin: auto;
+    justify-self: center;
+  }
+
+  .crossIcon {
+    margin-right: 10px;
+    height: 15px;
+    justify-self: flex-end !important;
+  }
+}
+
+.typeFormBox {
+  height: 57vh;
+}
+
+.completedSurveyContent {
+  height: 200px;
+  padding: 0 30px;
+  font-weight: $fontweight_medium;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+
+  .buttonsRow {
+    display: flex;
+    justify-content: flex-end;
+    //margin-top: auto;
+
+    > div {
+      margin-left: 18px;
+    }
+
+    .continueButton {
+      width: 200px;
+    }
+  }
+}

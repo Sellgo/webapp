@@ -8,6 +8,8 @@ import BreadCrumb from '../BreadCrumb';
 import AdminHeader from '../AdminLayout/AdminHeader';
 import Auth from '../Auth/Auth';
 import AiStockBetaForm from '../AiStockBetaForm';
+
+import SellgoBetaForm from '../SellgoBetaForm';
 import ActionButton from '../ActionButton';
 import { ReactComponent as MessageSmileIcon } from '../../assets/images/message-smile-solid.svg';
 import { ReactComponent as StarReviewIcon } from '../../assets/images/star-sharp-solid.svg';
@@ -58,6 +60,7 @@ const usePrevious = (value: any) => {
 const PageHeader = (props: Props) => {
   const { title, callToAction, breadcrumb, auth, sellerSubscription, updateSeller } = props;
   const [isFeedbackFormOpen, setIsFeedbackFormOpen] = React.useState(false);
+  const [isSellgoFeedbackFormOpen, setIsSellgoFeedbackFormOpen] = React.useState(false);
   const [isTestimonialFormOpen, setIsTestimonialFormOpen] = React.useState(false);
   const [isPromoterFormOpen, setIsPromoterFormOpen] = React.useState(false);
   const isNewProduct = NEW_PRODUCT_DESIGN_PATH_NAMES.includes(window.location.pathname);
@@ -78,6 +81,9 @@ const PageHeader = (props: Props) => {
   };
 
   const handleSubmitFeedbackForm = () => handleSubmitForm({ is_aistock_feedback_filled: true });
+
+  const handleSubmitSellgoFeedbackForm = () =>
+    handleSubmitForm({ is_sellgo_feedback_filled: true });
 
   const handleSubmitTestimonialForm = () =>
     handleSubmitForm({ is_aistock_testimonial_filled: true });
@@ -124,6 +130,27 @@ const PageHeader = (props: Props) => {
   const shouldDisplayFeedbackButton = (day: number) => {
     if (
       sellerSubscription?.is_aistock_feedback_filled ||
+      !day ||
+      sellerSubscription?.paid_start_date ||
+      !sellerSubscription?.trial_start_date
+    )
+      return false;
+
+    let shouldDisplay = false;
+
+    const displayOnDate = new Date(sellerSubscription?.trial_start_date);
+    displayOnDate.setDate(displayOnDate.getDate() + day);
+
+    if (displayOnDate.toDateString() === new Date().toDateString()) {
+      shouldDisplay = true;
+    }
+
+    return shouldDisplay;
+  };
+
+  const shouldDisplayFeedbackButtonOnSellgo = (day: number) => {
+    if (
+      sellerSubscription?.is_sellgo_feedback_filled ||
       !day ||
       sellerSubscription?.paid_start_date ||
       !sellerSubscription?.trial_start_date
@@ -208,6 +235,13 @@ const PageHeader = (props: Props) => {
         </div>
       </div>
 
+      <SellgoBetaForm
+        isOpen={isSellgoFeedbackFormOpen}
+        setModalOpen={setIsSellgoFeedbackFormOpen}
+        onSubmit={handleSubmitSellgoFeedbackForm}
+        surveyId={AppConfig.AISTOCK_SURVEY}
+      />
+
       <AiStockBetaForm
         isOpen={isFeedbackFormOpen}
         setModalOpen={setIsFeedbackFormOpen}
@@ -236,6 +270,18 @@ const PageHeader = (props: Props) => {
           size="md"
           onClick={() => setIsFeedbackFormOpen(true)}
           className={'surveyButton'}
+        >
+          <MessageSmileIcon /> &nbsp;Feedback survey
+        </ActionButton>
+      )}
+
+      {shouldDisplayFeedbackButtonOnSellgo(7) && (
+        <ActionButton
+          variant="primary"
+          type="black"
+          size="md"
+          onClick={() => setIsSellgoFeedbackFormOpen(true)}
+          className={'sellgoSurveyButton'}
         >
           <MessageSmileIcon /> &nbsp;Feedback survey
         </ActionButton>
