@@ -27,7 +27,7 @@ const Zapier = () => {
     try {
       const res = await axios.get(`${AppConfig.BASE_URL_API}sellers/${sellerID}/api-key`);
       if (!res.data.api_key_id) {
-        history.push('/settings/api-keys');
+        history.push('/settings/integration');
       }
     } catch (err) {
       console.log(err);

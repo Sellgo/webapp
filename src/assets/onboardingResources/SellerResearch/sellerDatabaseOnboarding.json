@@ -67,7 +67,11 @@
       "youtubeLink": "",
       "tooltipText": "Sellers' country/ location of origin"
     },
-    "State location": {
+    "Zip code": {
+      "youtubeLink": "",
+      "tooltipText": "Filter by Zip code."
+    },
+    "All states": {
       "youtubeLink": "",
       "tooltipText": "Only show for U.S. sellers"
     },
@@ -114,6 +118,14 @@
     "Business model": {
       "youtubeLink": "",
       "tooltipText": "Business Model (1P, Authorized 3P, Exclusive 3P, Blended 1P/3P, Vendor Central)"
+    },
+    "Company": {
+      "youtubeLink": "",
+      "tooltipText": "Show the possible contact touchpoints of companies."
+    },
+    "Decision makers": {
+      "youtubeLink": "",
+      "tooltipText": "Show the possible decision makers who are reachable."
     }
   },
 
@@ -124,7 +136,7 @@
     },
     "inventory_count": {
       "youtubeLink": "",
-      "tooltipText": "Total count of ASINs that the sellers carry"
+      "tooltipText": "Total count of products that the sellers carry"
     },
     "brands": {
       "youtubeLink": "",

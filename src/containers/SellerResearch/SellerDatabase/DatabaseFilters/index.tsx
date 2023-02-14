@@ -403,7 +403,7 @@ const SellerDatabaseFilters = (props: Props) => {
 
             {/* Zip code */}
             <InputFilter
-              label="Zip Code"
+              label="Zip code"
               placeholder="Zip code"
               value={sellerDatabaseFilters.zipCode}
               handleChange={(value: string) => updateSellerDatabaseFilter('zipCode', value)}

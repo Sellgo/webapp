@@ -5,7 +5,7 @@ import { Table } from 'rsuite';
 import styles from './index.module.scss';
 
 /* Utils */
-import { truncateString } from '../../../utils/format';
+import { getCountryFullName, truncateString } from '../../../utils/format';
 
 /* Interface */
 import { RowCell } from '../../../interfaces/Table';
@@ -14,10 +14,12 @@ import { prettyPrintSeller } from '../../../constants/SellerResearch/SellerDatab
 /* Interface */
 interface Props extends RowCell {
   maxLength?: number;
+  showCountryFullName?: boolean;
+  newClassName?: string;
 }
 
 const TruncatedTextCell = (props: Props) => {
-  const { rowData, dataKey, maxLength = 20 } = props;
+  const { rowData, dataKey, maxLength = 20, showCountryFullName, newClassName } = props;
 
   let displayText = '';
 
@@ -29,13 +31,19 @@ const TruncatedTextCell = (props: Props) => {
     displayText = rawContent;
   }
 
+  if (dataKey === 'country' && showCountryFullName) {
+    displayText = getCountryFullName(rawContent);
+  }
+
   if (dataKey === 'seller_type') {
     displayText = prettyPrintSeller(displayText);
   }
 
   return (
     <Table.Cell {...props}>
-      <div className={styles.truncatedTextCell}>{truncateString(displayText, maxLength)}</div>
+      <div className={`${styles.truncatedTextCell} ${newClassName}`}>
+        {truncateString(displayText, maxLength)}
+      </div>
     </Table.Cell>
   );
 };

@@ -38,9 +38,9 @@
   .rs-table-row-header {
     border-radius: 0 !important;
     border: none !important;
-    border-bottom: 1px solid $grey_3 !important;
+    //border-bottom: 1px solid $grey_3 !important;
     background-color: $grey_10 !important;
-    min-width: 1724px !important;
+    min-width: 1790px !important;
 
     /* Change position to fixed if scrolls out of sight */
     &__fixed {
@@ -54,7 +54,7 @@
       padding: 0 !important;
       display: flex !important;
       align-items: center !important;
-      font-size: 12px !important;
+      font-size: 14px !important;
       color: $grey_6 !important;
       background: $light_gray_background;
       font-weight: 500 !important;
@@ -65,50 +65,52 @@
   .rs-table-body-row-wrapper {
     background: $light_gray_background !important;
     min-height: 600px !important;
-    width: 1724px;
+    width: 1790px;
 
     .rs-table-body-wheel-area {
       background: $light_gray_background;
       transform: none !important;
-      width: 1724px;
+      width: 1790px;
       overflow-x: auto !important;
 
       //  Table row property
       .rs-table-row {
         // height: 190px !important; //
-        border-bottom: 1px solid $grey_3;
+        border-bottom: 5px solid $light_gray_background;
+        border-radius: 10px;
+        box-shadow: 1px 0 7px $grey_3;
 
         /* ============== ZEBRA PATTERN  =============== */
         &:nth-child(2n) {
-          background: $light_gray_background !important;
+          background: $prim_white !important;
 
           .rs-table-cell-content {
-            background: $light_gray_background !important;
+            background: $prim_white !important;
             padding: 3px 10px !important;
-            height: 200px !important;
+            height: 90px !important;
           }
         }
 
         &:nth-child(2n + 1) {
-          background: $grey_1 !important;
+          background: $prim_white !important;
 
           .rs-table-cell-content {
-            background: $grey_1 !important;
+            background: $prim_white !important;
             padding: 3px 10px !important;
-            height: 200px !important;
+            height: 90px !important;
           }
         }
 
         .rs-table-cell {
-          height: 200px !important;
+          height: 90px !important;
         }
 
         /* ============== ROW HOVER  =============== */
         &:hover {
-          background: $orange_10 !important;
+          background: $grey_1 !important;
 
           .rs-table-cell-content {
-            background: $orange_10 !important;
+            background: $grey_1 !important;
           }
         }
       }

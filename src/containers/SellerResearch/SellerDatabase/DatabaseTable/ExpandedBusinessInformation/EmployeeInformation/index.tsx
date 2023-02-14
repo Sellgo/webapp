@@ -17,6 +17,9 @@ import EmployeeDetailInformation from '../EmployeeDetailInformation';
 import { setCompanyInfo } from '../../../../../../actions/SellerResearch/SellerDatabase';
 import { connect } from 'react-redux';
 import { error, success } from '../../../../../../utils/notifications';
+import ValidCheckIcon from '../../../../../../components/Icons/ValidCheckIcon';
+import UserMagnifyingIcon from '../../../../../../components/Icons/UserMagnifyingIcon';
+import UserRequestIcon from '../../../../../../components/Icons/UserRequestIcon';
 
 interface Props {
   rowData?: any;
@@ -111,6 +114,7 @@ const EmployeesInformation = (props: Props) => {
                 is_looked_up,
                 emails,
                 phones,
+                location,
               } = emploeeData;
               return (
                 <Card
@@ -126,17 +130,27 @@ const EmployeesInformation = (props: Props) => {
                         className={styles.employeeInformationDetails__card__description__image}
                       />
                       <Card.Header className={styles.employeeInformationDetails__card__header}>
-                        {first_name} {last_name}
+                        {first_name} {last_name}{' '}
+                        <div className={styles.employeeInformationDetails__card__contact}>
+                          <Icon name="mail" disabled={!is_looked_up} color="grey" />
+                          <p>{emails?.length ?? teaser?.emails?.length}</p>{' '}
+                          <div className={styles.phoneIcon}>
+                            <Icon
+                              flipped="horizontally"
+                              name="phone"
+                              disabled={!is_looked_up}
+                              color="grey"
+                            />{' '}
+                            {phones?.length ?? teaser?.phones?.length}
+                          </div>
+                        </div>
                       </Card.Header>
                       <Card.Meta className={styles.employeeInformationDetails__card__meta}>
                         {title}
                       </Card.Meta>
                       <Card.Meta className={styles.employeeInformationDetails__card__meta}>
-                        <Icon name="mail" disabled /> {emails?.length ?? teaser?.emails?.length}{' '}
-                        <div className={styles.phoneIcon}>
-                          <Icon flipped="horizontally" name="phone" disabled />{' '}
-                          {phones?.length ?? teaser?.phones?.length}
-                        </div>
+                        <Icon name="map marker alternate" size="small" color="grey" />{' '}
+                        <span className={styles.location}>{location}</span>
                       </Card.Meta>
                     </div>
                     <div className={styles.employeeInformationDetails__card__button}>
@@ -148,9 +162,17 @@ const EmployeesInformation = (props: Props) => {
                           setActiveEmployeeIndex(index);
                           setOpen(true);
                         }}
-                        className={styles.continueButton}
+                        // className={styles.continueButton}
                       >
-                        {is_looked_up ? 'VIEW' : 'GET INFO'}
+                        {is_looked_up ? (
+                          <div className={styles.continueButton}>
+                            <ValidCheckIcon fill="#3CF7AF" /> View
+                          </div>
+                        ) : (
+                          <div className={styles.continueButton}>
+                            <UserMagnifyingIcon fill="#fff" /> Get info
+                          </div>
+                        )}
                       </ActionButton>
                     </div>
                   </Card.Content>
@@ -172,7 +194,7 @@ const EmployeesInformation = (props: Props) => {
                     type={
                       rowData?.company_info?.is_contact_requested || rowData?.is_contact_requested
                         ? 'grey'
-                        : 'purpleGradient'
+                        : 'black'
                     }
                     size="small"
                     onClick={() => {
@@ -184,7 +206,9 @@ const EmployeesInformation = (props: Props) => {
                       rowData?.company_info?.is_contact_requested || rowData?.is_contact_requested
                     }
                   >
-                    Request
+                    <div className={styles.continueButton}>
+                      <UserRequestIcon fill="#FFF" /> Request
+                    </div>
                   </ActionButton>
                 </Card.Meta>
               </Card.Content>

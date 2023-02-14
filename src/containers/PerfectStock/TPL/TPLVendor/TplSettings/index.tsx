@@ -238,8 +238,8 @@ const TplSettings = (props: Props) => {
 
               {/* Zip code */}
               <InputFilter
-                label="Zip Code"
-                placeholder="Zip Code"
+                label="Zip code"
+                placeholder="Zip code"
                 value={tplSettings.zip_code?.toString() || ''}
                 handleChange={(value: string) => updateSellerDatabaseFilter('zip_code', value)}
                 isNumber

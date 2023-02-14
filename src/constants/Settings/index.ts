@@ -189,11 +189,10 @@ export const SETTINGS_PAGES = [
     showInAistock: true,
     subPages: [],
   },
-
   // {
-  //   name: 'API Keys',
+  //   name: 'Integration',
   //   disabled: false,
-  //   url: '/settings/api-keys',
+  //   url: '/settings/integration',
   //   showInSellgo: true,
   //   showInAistock: false,
   //   subPages: [],
@@ -343,5 +342,18 @@ export const getMarketplaceName = (marketplaceId: string) => {
     return marketplace.name;
   } else {
     return '-';
+  }
+};
+
+/* Get marketplace link */
+export const getMarketplaceLink = (marketplaceId: string) => {
+  const marketplace = defaultMarketplaces.find((marketplace: any) => {
+    return marketplace.id === marketplaceId;
+  });
+
+  if (marketplace && marketplace.name) {
+    return marketplace.link;
+  } else {
+    return null;
   }
 };

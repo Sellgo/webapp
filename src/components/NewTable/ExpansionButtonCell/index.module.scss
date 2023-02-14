@@ -1,0 +1,57 @@
+@import '../../../design-system/new-colors';
+
+.expansionCell {
+  align-self: flex-start !important;
+  padding: 0 !important;
+  position: relative;
+}
+
+.expansionIcon {
+  cursor: pointer;
+
+  path {
+    fill: $grey_8 !important;
+  }
+}
+
+.expansionIconDisabled {
+  cursor: not-allowed;
+
+  path {
+    fill: $grey_3 !important;
+  }
+}
+
+.youtubeLogo {
+  position: absolute;
+  z-index: 9999999 !important;
+  top: -10px !important;
+  right: 5px !important;
+
+  path {
+    fill: $youtube-red !important;
+    cursor: pointer;
+  }
+}
+
+.infoCircle {
+  font-size: 10px !important;
+  color: $grey_6 !important;
+  position: absolute;
+  z-index: 9999999 !important;
+  top: -10px !important;
+  right: 0 !important;
+}
+
+.arrow {
+  cursor: pointer;
+}
+
+.unlockedBtn {
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 10px;
+  }
+}

@@ -28,7 +28,7 @@ import {
 /* Components */
 import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import Placeholder from '../../../../components/Placeholder';
-import BrandsListCell from '../../../../components/NewTable/BrandsListCell';
+// import BrandsListCell from '../../../../components/NewTable/BrandsListCell';
 //import RatingCell from '../../../../components/NewTable/RatingCell';
 //import StatsCell from '../../../../components/NewTable/StatsCell';
 //import ExtendedReviewsCell from '../../../../components/NewTable/ExtendedReviewsCell';
@@ -36,17 +36,21 @@ import TablePagination from '../../../../components/NewTable/Pagination';
 
 /* Containers */
 import SellerInformation from './SellerInformation';
-import SellerActions from './SellerActions';
+// import SellerActions from './SellerActions';
 import TruncatedTextCell from '../../../../components/NewTable/TruncatedTextCell';
 
 /* Utils */
 import { onMountFixNewTableHeader } from '../../../../utils/newTable';
-import ImageCell from '../../../../components/NewTable/ImageCell';
-import MultipleDataCell from '../../../../components/NewTable/MultipleDataCell';
+// import ImageCell from '../../../../components/NewTable/ImageCell';
+// import MultipleDataCell from '../../../../components/NewTable/MultipleDataCell';
 // import AddressCell from '../../../../components/NewTable/AddressCell';
 import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
 import ExpandedBusinessInformation from './ExpandedBusinessInformation';
 import { DEFAULT_PAGES_LIST } from '../../../../constants/SellerResearch/SellerInventory';
+import EmployeeStatsCell from './EmployeeStatsCell';
+import NumberCell from '../../../../components/NewTable/NumberCell';
+import ExpansionButtonCell from '../../../../components/NewTable/ExpansionButtonCell';
+import CompanyDataCell from './CompanyDataCell';
 
 interface Props {
   isLoadingSellerDatabase: boolean;
@@ -113,7 +117,7 @@ const SellerDatabaseTable = (props: Props) => {
           data={!isLoadingSellerDatabase ? sellerDatabaseResults : []}
           autoHeight
           hover={true}
-          rowHeight={200}
+          rowHeight={90}
           headerHeight={55}
           sortColumn={sortColumn}
           sortType={sortType}
@@ -130,7 +134,7 @@ const SellerDatabaseTable = (props: Props) => {
           <Table.Column width={250} verticalAlign="middle" fixed>
             <Table.HeaderCell>
               <HeaderSortCell
-                title={`Seller Information`}
+                title={``}
                 dataKey="seller_information"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
@@ -141,7 +145,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Market place image */}
-          <Table.Column width={250} verticalAlign="middle" align="center">
+          {/* <Table.Column width={250} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Marketplace`}
@@ -153,36 +157,20 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <ImageCell dataKey="marketplace_id" isMarketPlace />
-          </Table.Column>
+          </Table.Column> */}
 
           {/* Business Name */}
-          <Table.Column width={250} verticalAlign="middle" align="center">
+          <Table.Column width={300} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title={`Business Name`}
+                title={`Company`}
                 dataKey="merchant_name"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
                 disableSort
               />
             </Table.HeaderCell>
-            <MultipleDataCell
-              dataKey="merchant_name"
-              secondDataKey="business_name"
-              textAlign="left"
-              isFirstTextBold
-            />
-          </Table.Column>
-
-          {/* Expansion Cell */}
-          <Table.Column verticalAlign="bottom" align="left" width={30}>
-            <Table.HeaderCell> </Table.HeaderCell>
-            <ExpansionCell
-              dataKey={'merchant_id'}
-              expandedRowKeys={expandedRowKeys}
-              onChange={handleExpansion}
-              isArrow
-            />
+            <CompanyDataCell dataKey="merchant_name" textAlign="left" />
           </Table.Column>
 
           {/* Business Address */}
@@ -198,8 +186,69 @@ const SellerDatabaseTable = (props: Props) => {
             </Table.HeaderCell>
             <AddressCell dataKey={'address'} textAlign="left" />
           </Table.Column> */}
+
+          {/* Country */}
+          <Table.Column
+            width={250}
+            sortable={!isLoadingSellerDatabase}
+            verticalAlign="middle"
+            align="left"
+          >
+            <Table.HeaderCell>
+              <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
+                title={`Country of origin`}
+                dataKey="country"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+                alignMiddle
+              />
+            </Table.HeaderCell>
+            <TruncatedTextCell
+              dataKey="country"
+              showCountryFullName
+              maxLength={50}
+              newClassName={styles.displayBoldCenteredText}
+            />
+          </Table.Column>
+
+          {/* Expansion Cell */}
+          <Table.Column verticalAlign="bottom" align="left" width={30}>
+            <Table.HeaderCell> </Table.HeaderCell>
+            <ExpansionCell
+              dataKey={'merchant_id'}
+              expandedRowKeys={expandedRowKeys}
+              onChange={handleExpansion}
+              isArrow
+            />
+          </Table.Column>
+
+          {/* Category */}
+          <Table.Column
+            width={250}
+            sortable={!isLoadingSellerDatabase}
+            verticalAlign="middle"
+            align="left"
+          >
+            <Table.HeaderCell>
+              <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
+                title={`Category`}
+                dataKey="category"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+                alignMiddle
+              />
+            </Table.HeaderCell>
+            <TruncatedTextCell
+              dataKey="category"
+              maxLength={20}
+              newClassName={styles.displayBoldCenteredText}
+            />
+          </Table.Column>
+
           {/* Number of ASIN */}
-          <Table.Column width={250} verticalAlign="middle" align="left">
+          {/* <Table.Column width={250} verticalAlign="middle" align="left">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Number of ASINs`}
@@ -210,39 +259,57 @@ const SellerDatabaseTable = (props: Props) => {
               />
             </Table.HeaderCell>
             <SellerActions dataKey="sellerActions" />
+          </Table.Column> */}
+
+          {/* Products */}
+          <Table.Column width={150} verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Products`}
+                dataKey="inventory_count"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+                alignMiddle
+              />
+            </Table.HeaderCell>
+            <NumberCell dataKey="inventory_count" />
           </Table.Column>
 
           {/* Brands */}
-          <Table.Column width={250} verticalAlign="middle" align="center">
+          <Table.Column width={150} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Brands`}
                 dataKey="brands"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
-                disableSort
+                alignMiddle
               />
             </Table.HeaderCell>
-            <BrandsListCell dataKey="brands" />
+            <NumberCell dataKey="brands" />
           </Table.Column>
 
-          {/* Category */}
-          <Table.Column
-            width={250}
-            sortable={!isLoadingSellerDatabase}
-            verticalAlign="middle"
-            align="center"
-          >
+          <Table.Column width={150} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                disabled={isLoadingSellerDatabase}
-                title={`Category`}
-                dataKey="category"
+                title={`# of employees`}
+                dataKey="employee_stats.employees_count"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
+                alignMiddle
               />
             </Table.HeaderCell>
-            <TruncatedTextCell dataKey="category" maxLength={20} />
+            <EmployeeStatsCell dataKey="employees_count" />
+          </Table.Column>
+
+          {/* Expansion Button cell */}
+          <Table.Column width={250} verticalAlign="middle" align="center">
+            <Table.HeaderCell> </Table.HeaderCell>
+            <ExpansionButtonCell
+              dataKey={'is_looked_up'}
+              expandedRowKeys={expandedRowKeys}
+              onChange={handleExpansion}
+            />
           </Table.Column>
 
           {/* Monthly Revenue = Sales Est. */}

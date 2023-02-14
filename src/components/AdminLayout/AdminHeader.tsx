@@ -35,7 +35,7 @@ import PlansIcon from '../../assets/images/plansIcon.svg';
 import BillingIcon from '../../assets/images/billingIcon.svg';
 import ConnectivityIcon from '../../assets/images/connectivityIcon.svg';
 import LogoutIcon from '../../assets/images/logoutIcon.svg';
-// import KeyIcon from '../../assets/images/key-regular.svg';
+//import KeyIcon from '../../assets/images/key-regular.svg';
 import PerfectStockIcon from '../../assets/images/perfectStockGrey.svg';
 
 /* Actions */
@@ -203,12 +203,12 @@ const AdminHeader = (props: Props) => {
             </Dropdown.Item>
             {/* <Dropdown.Item
               as={Link}
-              to="/settings/api-keys"
+              to="/settings/integration"
               className="dropdownItem"
               disabled={isBeta || isAiStock}
             >
               <img src={KeyIcon} alt="key-icon" />
-              API Keys
+              Integration
             </Dropdown.Item> */}
             <Dropdown.Item
               as={Link}
