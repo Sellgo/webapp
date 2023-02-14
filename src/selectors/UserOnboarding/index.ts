@@ -17,3 +17,12 @@ export const getPerfectStockGetStartedJoyRideStatus = (state: any) =>
   get(state, 'userOnboarding.perfectStockGetStartedJoyRideStatus');
 
 export const getShowGetStarted = (state: any) => get(state, 'userOnboarding.showGetStarted');
+
+export const getSellgoGetStartedStatus = (state: any) =>
+  get(state, 'userOnboarding.sellgoGetStartedStatus');
+
+export const getSellgoGetStartedJoyRideStatus = (state: any) =>
+  get(state, 'userOnboarding.sellgoGetStartedJoyRideStatus');
+
+export const getShowSellgoGetStarted = (state: any) =>
+  get(state, 'userOnboarding.showSellgoGetStarted');

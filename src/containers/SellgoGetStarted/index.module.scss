@@ -1,4 +1,4 @@
-@import '../../../design-system/new-colors';
+@import '../../design-system/new-colors';
 
 .getStartedButton {
   display: flex;
@@ -9,7 +9,7 @@
   height: 40px;
   border-radius: 7px;
   position: fixed;
-  bottom: 20px;
+  bottom: 100px;
   right: 30px;
   font-size: 12px;
   color: $grey_8;

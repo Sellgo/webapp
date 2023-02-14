@@ -14,17 +14,17 @@
     "link": "/settings/aistock/lead-time"
   },
   {
-    "title": "Sales forecasting quick tour",
+    "title": "Seller Database quick tour",
     "youtubeLink": "",
     "youtubeLabel": "",
-    "key": "salesProjectionTour",
-    "link": "/aistock/sales"
+    "key": "sellerDatabaseTour",
+    "link": "/seller-research/database"
   },
   {
-    "title": "Order planning quick tour",
+    "title": "Collection tour",
     "youtubeLink": "",
     "youtubeLabel": "",
-    "key": "orderPlanningTour",
-    "link": "/aistock/order"
+    "key": "collectionTour",
+    "link": "/seller-research/collection"
   }
 ]

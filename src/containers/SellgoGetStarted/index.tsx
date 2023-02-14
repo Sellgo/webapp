@@ -7,62 +7,59 @@ import { connect } from 'react-redux';
 import styles from './index.module.scss';
 
 /* Constnats */
-import getStartedInstructions from '../../../assets/onboardingResources/SellerResearch/getStartedInstructions.json';
+import getStartedInstructions from '../../assets/onboardingResources/SellerResearch/getStartedInstructions.json';
 
 /* Actions */
+import { getSellgoGetStartedStatus, getShowSellgoGetStarted } from '../../selectors/UserOnboarding';
 import {
-  getPerfectStockGetStartedStatus,
-  getShowGetStarted,
-} from '../../../selectors/UserOnboarding';
-import {
-  updatePerfectStockGetStartedStatus,
-  updatePerfectStockGetStartedJoyRideStatus,
-  fetchPerfectStockGetStartedStatus,
-} from '../../../actions/UserOnboarding';
+  updateSellgoGetStartedStatus,
+  updateSellgoGetStartedJoyRideStatus,
+  // fetchPerfectStockGetStartedStatus,
+} from '../../actions/UserOnboarding';
 
 /* Assets */
-import { ReactComponent as YoutubeLogo } from '../../../assets/images/youtubeLogo.svg';
-import { ReactComponent as GreenCheckCircle } from '../../../assets/images/greenCheckCircle.svg';
-import history from '../../../history';
+import { ReactComponent as YoutubeLogo } from '../../assets/images/youtubeLogo.svg';
+import { ReactComponent as GreenCheckCircle } from '../../assets/images/greenCheckCircle.svg';
+import history from '../../history';
 
 function sleep(n: number) {
   return new Promise(resolve => setTimeout(resolve, n));
 }
 interface Props {
-  perfectStockGetStartedStatus: any;
-  updatePerfectStockGetStartedStatus: (key: string, status: boolean) => void;
-  updatePerfectStockGetStartedJoyRideStatus: (key: string, status: boolean) => void;
-  fetchPerfectStockGetStartedStatus: () => void;
+  sellgoGetStartedStatus: any;
+  updateSellgoGetStartedStatus: (key: string, status: boolean) => void;
+  updateSellgoGetStartedJoyRideStatus: (key: string, status: boolean) => void;
+  // fetchPerfectStockGetStartedStatus: () => void;
   showGetStarted: boolean;
 }
 
 const SellgoGetStarted = (props: Props) => {
   const {
-    perfectStockGetStartedStatus,
-    updatePerfectStockGetStartedStatus,
-    updatePerfectStockGetStartedJoyRideStatus,
-    fetchPerfectStockGetStartedStatus,
+    sellgoGetStartedStatus,
+    updateSellgoGetStartedStatus,
+    updateSellgoGetStartedJoyRideStatus,
+    // fetchPerfectStockGetStartedStatus,
     showGetStarted,
   } = props;
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isGetStartedVisible, setIsGetStartedVisible] = useState<boolean>(false);
-  useEffect(() => {
-    fetchPerfectStockGetStartedStatus();
-  }, []);
+  // useEffect(() => {
+  //   fetchPerfectStockGetStartedStatus();
+  // }, []);
 
   let completedSteps = 0;
-  Object.values(perfectStockGetStartedStatus).forEach((getStartedStatus: any) => {
+  Object.values(sellgoGetStartedStatus).forEach((getStartedStatus: any) => {
     if (getStartedStatus) {
       completedSteps += 1;
     }
   });
   useEffect(() => {
-    if (completedSteps === Object.keys(perfectStockGetStartedStatus).length && !showGetStarted) {
-      console.log('helo');
-      setIsGetStartedVisible(false);
-    } else {
-      setIsGetStartedVisible(true);
-    }
+    // if (completedSteps === Object.keys(sellgoGetStartedStatus).length && !showGetStarted) {
+    //   setIsGetStartedVisible(false);
+    // } else {
+    //   setIsGetStartedVisible(true);
+    // }
+    setIsGetStartedVisible(true);
   }, [completedSteps, showGetStarted]);
   return (
     <>
@@ -72,7 +69,7 @@ const SellgoGetStarted = (props: Props) => {
           trigger={
             <div className={styles.getStartedButton}>
               <div className={styles.circle}>
-                {Object.keys(perfectStockGetStartedStatus).length - completedSteps}
+                {Object.keys(sellgoGetStartedStatus).length - completedSteps}
               </div>
               Get started
             </div>
@@ -85,25 +82,25 @@ const SellgoGetStarted = (props: Props) => {
             <div className={styles.getStartedModal}>
               <p className={styles.getStartedHeader}> GET STARTED </p>
               <Progress
-                percent={(100 / Object.keys(perfectStockGetStartedStatus).length) * completedSteps}
+                percent={(100 / Object.keys(sellgoGetStartedStatus).length) * completedSteps}
                 color="blue"
                 progress="percent"
                 className={styles.progressBar}
               />
               {getStartedInstructions.map((instruction, index) => {
-                const instructionCompleted = perfectStockGetStartedStatus[instruction.key];
+                const instructionCompleted = sellgoGetStartedStatus[instruction.key];
                 const onClick = async () => {
                   history.push(instruction.link);
                   await sleep(1000);
-                  if (instruction.key === 'salesProjectionTour') {
-                    updatePerfectStockGetStartedJoyRideStatus('isSalesProjectionTourRunning', true);
+                  if (instruction.key === 'sellerDatabaseTour') {
+                    updateSellgoGetStartedJoyRideStatus('isSellerDatabaseTourRunning', true);
                     setIsOpen(false);
-                  } else if (instruction.key === 'orderPlanningTour') {
-                    updatePerfectStockGetStartedJoyRideStatus('isOrderPlanningTourRunning', true);
+                  } else if (instruction.key === 'collectionTour') {
+                    updateSellgoGetStartedJoyRideStatus('isCollectionTourRunning', true);
                     setIsOpen(false);
                   }
                   if (!(instruction.key === 'createLeadTime')) {
-                    updatePerfectStockGetStartedStatus(instruction.key, true);
+                    updateSellgoGetStartedStatus(instruction.key, true);
                   }
                 };
                 return (
@@ -144,18 +141,18 @@ const SellgoGetStarted = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    perfectStockGetStartedStatus: getPerfectStockGetStartedStatus(state),
-    showGetStarted: getShowGetStarted(state),
+    sellgoGetStartedStatus: getSellgoGetStartedStatus(state),
+    showGetStarted: getShowSellgoGetStarted(state),
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchPerfectStockGetStartedStatus: () => dispatch(fetchPerfectStockGetStartedStatus()),
-    updatePerfectStockGetStartedStatus: (key: string, status: boolean) =>
-      dispatch(updatePerfectStockGetStartedStatus(key, status)),
-    updatePerfectStockGetStartedJoyRideStatus: (key: string, status: boolean) =>
-      dispatch(updatePerfectStockGetStartedJoyRideStatus(key, status)),
+    // fetchPerfectStockGetStartedStatus: () => dispatch(fetchPerfectStockGetStartedStatus()),
+    updateSellgoGetStartedStatus: (key: string, status: boolean) =>
+      dispatch(updateSellgoGetStartedStatus(key, status)),
+    updateSellgoGetStartedJoyRideStatus: (key: string, status: boolean) =>
+      dispatch(updateSellgoGetStartedJoyRideStatus(key, status)),
   };
 };
 

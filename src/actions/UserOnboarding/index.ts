@@ -60,6 +60,11 @@ export const setPerfectStockGetStartedStatus = (perfectStockGetStartedStatus: an
   payload: perfectStockGetStartedStatus,
 });
 
+export const setSellgoGetStartedStatus = (sellgoGetStartedStatus: any) => ({
+  type: actionTypes.SET_SELLGO_GET_STARTED_STATUS,
+  payload: sellgoGetStartedStatus,
+});
+
 export const updatePerfectStockGetStartedStatus = (key: string, status: boolean) => async (
   dispatch: any
 ) => {
@@ -96,11 +101,27 @@ export const updatePerfectStockGetStartedStatus = (key: string, status: boolean)
   }
 };
 
+export const updateSellgoGetStartedStatus = (key: string, status: boolean) => async (
+  dispatch: any,
+  getState: any
+) => {
+  const sellgoGetStartedStatus = getState().userOnboarding.sellgoGetStartedStatus;
+  console.log('CURRENT STATUS', sellgoGetStartedStatus);
+  const tempSellgoGetStartedStatus = { ...sellgoGetStartedStatus, [key]: status };
+  console.log('TEMP STATUS', tempSellgoGetStartedStatus);
+  dispatch(setSellgoGetStartedStatus(tempSellgoGetStartedStatus));
+};
+
 export const setPerfectStockGetStartedJoyRideStatus = (
   perfectStockGetStartedJoyRideStatus: any
 ) => ({
   type: actionTypes.SET_PERFECT_STOCK_GET_STARTED_JOY_RIDE_STATUS,
   payload: perfectStockGetStartedJoyRideStatus,
+});
+
+export const setSellgoGetStartedJoyRideStatus = (sellgoGetStartedJoyRideStatus: any) => ({
+  type: actionTypes.SET_SELLGO_GET_STARTED_JOY_RIDE_STATUS,
+  payload: sellgoGetStartedJoyRideStatus,
 });
 
 export const updatePerfectStockGetStartedJoyRideStatus = (key: string, status: boolean) => async (
@@ -114,6 +135,18 @@ export const updatePerfectStockGetStartedJoyRideStatus = (key: string, status: b
     [key]: status,
   };
   dispatch(setPerfectStockGetStartedJoyRideStatus(updatedPerfectStockGetStartedJoyRideStatus));
+};
+
+export const updateSellgoGetStartedJoyRideStatus = (key: string, status: boolean) => async (
+  dispatch: any,
+  getState: any
+) => {
+  const sellgoGetStartedJoyRideStatus = getState().userOnboarding.sellgoGetStartedJoyRideStatus;
+  const updateSellgoGetStartedJoyRideStatus = {
+    ...sellgoGetStartedJoyRideStatus,
+    [key]: status,
+  };
+  dispatch(setSellgoGetStartedJoyRideStatus(updateSellgoGetStartedJoyRideStatus));
 };
 
 export const fetchPerfectStockGetStartedStatus = () => async (dispatch: any) => {
