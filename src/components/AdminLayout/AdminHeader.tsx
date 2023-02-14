@@ -35,7 +35,7 @@ import PlansIcon from '../../assets/images/plansIcon.svg';
 import BillingIcon from '../../assets/images/billingIcon.svg';
 import ConnectivityIcon from '../../assets/images/connectivityIcon.svg';
 import LogoutIcon from '../../assets/images/logoutIcon.svg';
-import KeyIcon from '../../assets/images/key-regular.svg';
+//import KeyIcon from '../../assets/images/key-regular.svg';
 import PerfectStockIcon from '../../assets/images/perfectStockGrey.svg';
 
 /* Actions */
@@ -168,7 +168,7 @@ const AdminHeader = (props: Props) => {
               disabled={isAiStock && !isMigrated}
             >
               <img src={SettingsIcon} alt="settings-icon" />
-              My Profile
+              My profile
             </Dropdown.Item>
             <Dropdown.Item
               as={Link}
@@ -181,7 +181,7 @@ const AdminHeader = (props: Props) => {
               disabled={isBeta}
             >
               <img src={PlansIcon} alt="plans-icon" />
-              Update Subscription
+              My subscription
             </Dropdown.Item>
             <Dropdown.Item
               as={Link}
@@ -190,7 +190,7 @@ const AdminHeader = (props: Props) => {
               disabled={isBeta || (isAiStock && !isMigrated)}
             >
               <img src={BillingIcon} alt="billing-icon" />
-              My Billing
+              My billing
             </Dropdown.Item>
             <Dropdown.Item
               as={Link}
@@ -201,7 +201,7 @@ const AdminHeader = (props: Props) => {
               <img src={ConnectivityIcon} alt="connectivity-icon" />
               Connectivity
             </Dropdown.Item>
-            <Dropdown.Item
+            {/* <Dropdown.Item
               as={Link}
               to="/settings/integration"
               className="dropdownItem"
@@ -209,7 +209,7 @@ const AdminHeader = (props: Props) => {
             >
               <img src={KeyIcon} alt="key-icon" />
               Integration
-            </Dropdown.Item>
+            </Dropdown.Item> */}
             <Dropdown.Item
               as={Link}
               to="/settings/aistock/lead-time"

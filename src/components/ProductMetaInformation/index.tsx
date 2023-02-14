@@ -61,7 +61,7 @@ const ProductMetaInformation = (props: Props) => {
       {showRestoreLastSearch && (
         <button onClick={restoreLastSearch} className={styles.restoreLastSearchButton}>
           <Icon name="undo" />
-          Last Search
+          Last search
         </button>
       )}
       {showTutorialOnboarding && (
