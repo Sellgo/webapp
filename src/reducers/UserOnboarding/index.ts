@@ -22,12 +22,13 @@ const initialState = {
   },
   showGetStarted: false,
   sellgoGetStartedStatus: {
-    connectAmazonStore: true,
-    createLeadTime: false,
-    sellerDatabaseTour: false,
-    collectionTour: false,
+    sellgoTour: true,
+    ceTour: false,
+    exportTour: false,
+    crmTour: false,
   },
   sellgoGetStartedJoyRideStatus: {
+    isSellgoTourRunning: false,
     isSellerDatabaseTourRunning: false,
     isCollectionTourRunning: false,
   },

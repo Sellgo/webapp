@@ -12,6 +12,9 @@ import DatabaseExport from './DatabaseExport';
 
 /* Components */
 import FilterMessage from '../../../components/FilterMessage';
+import DefaultDisplay from './DefaultDisplay';
+import SellgoGetStarted from '../../SellgoGetStarted';
+// import SellgoGreetingVideoSection from '../../NewSellgoSubscription/VideoSection';
 
 /* Selectors */
 import { getFilterMessage } from '../../../selectors/SellerResearch/SellerDatabase';
@@ -25,10 +28,7 @@ import {
 
 /* ACtions */
 import { fetchSellerDatabase } from '../../../actions/SellerResearch/SellerDatabase';
-import DefaultDisplay from './DefaultDisplay';
-import SellgoGetStarted from '../../SellgoGetStarted';
 import { updateSellgoGetStartedJoyRideStatus } from '../../../actions/UserOnboarding';
-// import SellgoGreetingVideoSection from '../../NewSellgoSubscription/VideoSection';
 
 interface Props {
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;

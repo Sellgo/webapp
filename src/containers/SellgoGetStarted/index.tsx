@@ -92,16 +92,17 @@ const SellgoGetStarted = (props: Props) => {
                 const onClick = async () => {
                   history.push(instruction.link);
                   await sleep(1000);
-                  if (instruction.key === 'sellerDatabaseTour') {
+                  if (instruction.key === 'sellgoTour') {
+                    updateSellgoGetStartedJoyRideStatus('isSellgoTourRunning', true);
+                    setIsOpen(false);
+                  } else if (instruction.key === 'exportTour') {
                     updateSellgoGetStartedJoyRideStatus('isSellerDatabaseTourRunning', true);
                     setIsOpen(false);
-                  } else if (instruction.key === 'collectionTour') {
+                  } else if (instruction.key === 'crmTour') {
                     updateSellgoGetStartedJoyRideStatus('isCollectionTourRunning', true);
                     setIsOpen(false);
                   }
-                  if (!(instruction.key === 'createLeadTime')) {
-                    updateSellgoGetStartedStatus(instruction.key, true);
-                  }
+                  updateSellgoGetStartedStatus(instruction.key, true);
                 };
                 return (
                   <div
