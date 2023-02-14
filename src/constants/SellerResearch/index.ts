@@ -9,10 +9,11 @@ export const SELLER_RESEARCH_PAGES = [
 export const SELLER_RESEARCH_PRODUCT_DETAILS = [
   {
     name: 'Seller Database',
-    desc: 'Easily Identify Amazon Sellers by Category, Brand, and much more.',
+    desc: 'Easily identify Amazon sellers by category, brand, and much more.',
   },
-  { name: 'Seller Map', desc: 'Locate and Scout Millions of Amazon Sellers in seconds.' },
-  { name: 'Seller Collection', desc: 'Unlocked Amazon Sellers collection' },
+  { name: 'Seller Map', desc: 'Locate and scout millions of Amazon sellers in seconds.' },
+
+  { name: 'Seller Collection', desc: 'Unlocked Amazon sellers collection' },
 ];
 
 /* ======================================================= */

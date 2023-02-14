@@ -168,7 +168,7 @@ const AdminHeader = (props: Props) => {
               disabled={isAiStock && !isMigrated}
             >
               <img src={SettingsIcon} alt="settings-icon" />
-              My Profile
+              My profile
             </Dropdown.Item>
             <Dropdown.Item
               as={Link}
@@ -181,7 +181,7 @@ const AdminHeader = (props: Props) => {
               disabled={isBeta}
             >
               <img src={PlansIcon} alt="plans-icon" />
-              My Subscription
+              My subscription
             </Dropdown.Item>
             <Dropdown.Item
               as={Link}
@@ -190,7 +190,7 @@ const AdminHeader = (props: Props) => {
               disabled={isBeta || (isAiStock && !isMigrated)}
             >
               <img src={BillingIcon} alt="billing-icon" />
-              My Billing
+              My billing
             </Dropdown.Item>
             <Dropdown.Item
               as={Link}

@@ -29,7 +29,7 @@ const AdvancedFilterToggle = (props: Props) => {
         alt="filter"
       />
       <span style={{ color: !showAdvancedFilter ? '#FFFFFF' : '#3B4557' }}>
-        Marketplace Metrics
+        Marketplace metrics
       </span>
       <span>
         {showAdvancedFilter ? (
