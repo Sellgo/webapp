@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Connect Amazon store",
+    "youtubeLink": "",
+    "youtubeLabel": "",
+    "key": "connectAmazonStore",
+    "link": "/"
+  },
+  {
+    "title": "Create lead time",
+    "youtubeLink": "",
+    "youtubeLabel": "",
+    "key": "createLeadTime",
+    "link": "/settings/aistock/lead-time"
+  },
+  {
+    "title": "Sales forecasting quick tour",
+    "youtubeLink": "",
+    "youtubeLabel": "",
+    "key": "salesProjectionTour",
+    "link": "/aistock/sales"
+  },
+  {
+    "title": "Order planning quick tour",
+    "youtubeLink": "",
+    "youtubeLabel": "",
+    "key": "orderPlanningTour",
+    "link": "/aistock/order"
+  }
+]

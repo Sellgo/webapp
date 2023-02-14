@@ -1,0 +1,112 @@
+@import '../../../design-system/new-colors';
+
+.getStartedButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $sellgo_yellow;
+  width: 140px;
+  height: 40px;
+  border-radius: 7px;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  font-size: 12px;
+  color: $grey_8;
+  font-weight: $fontweight_semibold;
+  cursor: pointer;
+
+  .circle {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: $prim_white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 18px;
+  }
+}
+
+.getStartedModal {
+  height: 390px;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  padding: 20px;
+
+  .getStartedHeader {
+    font-size: 14px;
+    font-weight: $fontweight_semibold;
+    color: $grey_8;
+    margin-bottom: 30px;
+  }
+
+  .getStartedInstruction {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 5px;
+    cursor: pointer;
+    height: 50px;
+    width: 100%;
+    text-decoration: none !important;
+
+    &:hover {
+      background: $grey_1;
+      text-decoration: none !important;
+    }
+
+    &__completed {
+      //pointer-events: none;
+      //opacity: 0.5;
+    }
+  }
+
+  .notCompletedCircle {
+    border: 1px solid $grey_3;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+  }
+
+  .instructionWrapper {
+    display: flex;
+    flex-direction: column;
+    margin-left: 18px;
+
+    h1 {
+      font-size: 14px;
+      font-weight: $fontweight_semibold;
+      color: $grey_8;
+      line-height: 20px;
+    }
+
+    a {
+      font-size: 12px !important;
+      font-weight: $fontweight_regular !important;
+      color: $grey_8 !important;
+      text-decoration: none !important;
+    }
+  }
+}
+
+.progressBar {
+  width: 100% !important;
+  height: 5px !important;
+
+  > div {
+    height: 5px !important;
+
+    > div {
+      // margin-bottom: 10px !important;
+      font-size: 12px !important;
+      font-weight: $fontweight_semibold !important;
+      margin-top: -20px !important;
+      color: $blue_link_bg_light !important;
+      right: unset !important;
+    }
+  }
+}

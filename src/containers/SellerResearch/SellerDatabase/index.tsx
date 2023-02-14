@@ -24,6 +24,7 @@ import {
 /* ACtions */
 import { fetchSellerDatabase } from '../../../actions/SellerResearch/SellerDatabase';
 import DefaultDisplay from './DefaultDisplay';
+import SellgoGetStarted from '../../PerfectStock/SellgoGetStarted';
 // import SellgoGreetingVideoSection from '../../NewSellgoSubscription/VideoSection';
 
 interface Props {
@@ -68,6 +69,7 @@ const SellerDatabase = (props: Props) => {
           />
           <DatabaseExport />
           <SellerDatabaseTable />
+          <SellgoGetStarted />
         </>
       )}
       {/* {isModalOpen && <SellgoGreetingVideoSection setIsModalOpen={setIsModalOpen} />} */}

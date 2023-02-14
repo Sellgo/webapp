@@ -21,6 +21,17 @@ const initialState = {
     isOrderPlanningTourRunning: false,
   },
   showGetStarted: false,
+  SellgoGetStartedStatus: {
+    connectAmazonStore: true,
+    createLeadTime: false,
+    salesProjectionTour: false,
+    orderPlanningTour: false,
+  },
+  sellgoGetStartedJoyRideStatus: {
+    isSellerDatabaseTourRunning: false,
+    isCollectionTourRunning: false,
+  },
+  showSellgoGetStarted: false,
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -50,6 +61,18 @@ export default (state = initialState, action: AnyAction) => {
     case actionTypes.SET_SHOW_GET_STARTED: {
       return setIn(state, 'showGetStarted', action.payload);
     }
+
+    case actionTypes.SET_SELLGO_GET_STARTED_STATUS: {
+      return setIn(state, 'SellgoGetStartedStatus', action.payload);
+    }
+
+    case actionTypes.SET_SELLGO_GET_STARTED_JOY_RIDE_STATUS: {
+      return setIn(state, 'sellgoGetStartedJoyRideStatus', action.payload);
+    }
+    case actionTypes.SET_SHOW_SELLGO_GET_STARTED: {
+      return setIn(state, 'showSellgoGetStarted', action.payload);
+    }
+
     default:
       return state;
   }
