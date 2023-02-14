@@ -189,15 +189,14 @@ export const SETTINGS_PAGES = [
     showInAistock: true,
     subPages: [],
   },
-
-  {
-    name: 'Integration',
-    disabled: false,
-    url: '/settings/integration',
-    showInSellgo: true,
-    showInAistock: false,
-    subPages: [],
-  },
+  // {
+  //   name: 'Integration',
+  //   disabled: false,
+  //   url: '/settings/integration',
+  //   showInSellgo: true,
+  //   showInAistock: false,
+  //   subPages: [],
+  // },
   {
     name: 'Amazon SP-API Connectivity',
     disabled: false,
