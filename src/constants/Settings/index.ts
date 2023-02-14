@@ -166,7 +166,7 @@ export const getMarketplaceFlag = (marketplaceId: string) => {
 
 export const SETTINGS_PAGES = [
   {
-    name: 'My Profile',
+    name: 'My profile',
     disabled: false,
     url: '/settings/profile',
     showInSellgo: true,
@@ -182,7 +182,7 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
-    name: 'My Billing',
+    name: 'My billing',
     disabled: false,
     url: '/settings/billing',
     showInSellgo: true,
