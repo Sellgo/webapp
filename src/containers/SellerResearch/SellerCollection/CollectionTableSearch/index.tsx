@@ -27,7 +27,7 @@ const CollectionTableSearch = (props: Props) => {
   };
   return (
     <>
-      <p>Search Sellers</p>
+      <p>Search</p>
       <div className={styles.collectionSearchFormWrapper}>
         <form onSubmit={handleSubmit} className={styles.searchForm}>
           <Input
@@ -51,7 +51,7 @@ const CollectionTableSearch = (props: Props) => {
           className={styles.searchButton}
           disabled={!businessName}
         >
-          Check Seller
+          Check
         </ActionButton>
       </div>
     </>

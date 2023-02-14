@@ -20,7 +20,7 @@
 }
 
 .exportOptions {
-  min-width: 115px;
+  min-width: 125px;
   min-height: max-content;
   padding: 0;
   padding-top: 10px;
@@ -40,7 +40,7 @@
   border: 0;
   outline: 0;
   width: 100%;
-  font-weight: 400 !important;
+  font-weight: 400;
   font-size: 14px;
   display: flex;
   justify-content: flex-start;
@@ -52,6 +52,8 @@
 
   &:hover {
     background: $grey_1;
+    font-size: 14px;
+    font-weight: 600;
   }
 
   svg {
@@ -70,9 +72,15 @@
 }
 
 .exportBtn {
-  padding: 3px 10px;
-  margin-left: 20px !important;
-  border: 1px solid $grey_13;
+  padding: 3px 11px;
+  margin-left: 30px !important;
+  border: 1px solid $grey_3;
   align-items: unset !important;
   background-color: $prim_white;
+  border-radius: 7px;
+
+  &:hover {
+    background: $grey_1;
+    font-size: 14px;
+  }
 }
