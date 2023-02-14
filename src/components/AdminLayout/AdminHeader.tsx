@@ -181,7 +181,7 @@ const AdminHeader = (props: Props) => {
               disabled={isBeta}
             >
               <img src={PlansIcon} alt="plans-icon" />
-              Update Subscription
+              My Subscription
             </Dropdown.Item>
             <Dropdown.Item
               as={Link}
