@@ -129,7 +129,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
   const DimmerContent: ReactChild = (
     <Dimmer active={!hasActivePlan} inverted>
       <div className={styles.dimmerWrapper}>
-        No Active Plan Found
+        No active plan found
         <div className={styles.buttonsRow}>
           <OrangeButton
             asExternal
@@ -138,7 +138,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
             navigateTo="/settings/pricing"
             className={styles.actionButton}
           >
-            View Plans
+            View plans
           </OrangeButton>
           {!hasPaymentMethod && (
             <OrangeButton
@@ -147,7 +147,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
               onClick={handleModalOpen}
               className={`${styles.actionButton} ${styles.dimmerButton}`}
             >
-              Add Card
+              Add a new card
             </OrangeButton>
           )}
         </div>
@@ -177,7 +177,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
                 support@aistock.co
               </a>
             )}
-            . We Can Help.
+            . We can help.
           </div>
         </BoxFooter>
       </section>
