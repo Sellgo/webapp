@@ -328,7 +328,7 @@ function CheckoutForm(props: MyProps) {
                     <div>
                       {/* {commify(formatString(PLAN_UNIT[unitsSold]))}*/ `${formatNumber(
                         summaryDetails.annualLookups
-                      )} lookups per month usage-based`}
+                      )} lookups per year usage-based`}
                       <br />
                       <span>billed yearly</span>
                     </div>
