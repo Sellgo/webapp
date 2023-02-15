@@ -6,7 +6,7 @@ import { isSellgoSession } from './utils/session';
 const SELLGO_DEV_URLS = {
   BASE_URL: 'https://app.sellgo-dev.com',
   BASE_URL_AUTH: 'sellgo-dev.auth0.com',
-  BASE_URL_API: 'https://api.sellgo-dev.com/api/',
+  BASE_URL_API: 'http://localhost:8000/api/',
   CHANGE_PASS_API_URL: 'https://sellgo-dev.auth0.com/dbconnections/change_password',
   WEB_URL: 'https://sellgo-dev.com',
   WEBSOCKET_URL: 'wss://api.sellgo-dev.com/ws',
