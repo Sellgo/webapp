@@ -100,4 +100,8 @@
   height: 28px;
   border: 1px solid $grey_3;
   border-radius: 7px;
+
+  .disabledText {
+    opacity: 0.3;
+  }
 }
