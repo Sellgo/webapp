@@ -11,9 +11,8 @@ export const SELLER_RESEARCH_PRODUCT_DETAILS = [
     name: 'Seller Database',
     desc: 'Easily identify Amazon sellers by category, brand, and much more.',
   },
-  { name: 'Seller Map', desc: 'Locate and scout millions of Amazon sellers in seconds.' },
-
-  { name: 'Seller Collection', desc: 'Unlocked Amazon sellers collection' },
+  { name: 'Seller Map', desc: 'Locate and Scout Millions of Amazon Sellers in seconds.' },
+  { name: 'My Contact', desc: 'Unlocked Companies and Decision Makers' },
 ];
 
 /* ======================================================= */

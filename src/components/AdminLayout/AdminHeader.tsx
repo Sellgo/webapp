@@ -27,7 +27,7 @@ import {
   isSubscriptionIdFreeTrial,
 } from '../../utils/subscriptions';
 import { setUserOnboarding } from '../../actions/UserOnboarding';
-import { isAiStockSession } from '../../utils/session';
+import { isAiStockSession, isSellgoSession } from '../../utils/session';
 
 /* Icons */
 import SettingsIcon from '../../assets/images/settingsIcon.svg';
@@ -35,7 +35,7 @@ import PlansIcon from '../../assets/images/plansIcon.svg';
 import BillingIcon from '../../assets/images/billingIcon.svg';
 import ConnectivityIcon from '../../assets/images/connectivityIcon.svg';
 import LogoutIcon from '../../assets/images/logoutIcon.svg';
-//import KeyIcon from '../../assets/images/key-regular.svg';
+import KeyIcon from '../../assets/images/key-regular.svg';
 import PerfectStockIcon from '../../assets/images/perfectStockGrey.svg';
 
 /* Actions */
@@ -79,7 +79,7 @@ const AdminHeader = (props: Props) => {
   }, []);
   return (
     <div className="admin-header">
-      <QuotaMeter />
+      {isSellgoSession() && <QuotaMeter />}
       {isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) &&
         !window.location.pathname.includes('pricing') && (
           <ActionButton
@@ -201,7 +201,7 @@ const AdminHeader = (props: Props) => {
               <img src={ConnectivityIcon} alt="connectivity-icon" />
               Connectivity
             </Dropdown.Item>
-            {/* <Dropdown.Item
+            <Dropdown.Item
               as={Link}
               to="/settings/integration"
               className="dropdownItem"
@@ -209,7 +209,7 @@ const AdminHeader = (props: Props) => {
             >
               <img src={KeyIcon} alt="key-icon" />
               Integration
-            </Dropdown.Item> */}
+            </Dropdown.Item>
             <Dropdown.Item
               as={Link}
               to="/settings/aistock/lead-time"

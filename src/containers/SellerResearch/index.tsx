@@ -143,7 +143,7 @@ const SellerResearch = (props: Props) => {
               </Tab>
               <Tab>
                 <ProductLabel
-                  label="COLLECTION"
+                  label="MY CONTACT"
                   icon="Seller Collection"
                   isActive={selectedTabList === 2}
                 />
