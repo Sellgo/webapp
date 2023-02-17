@@ -18,6 +18,8 @@ import { isMigrationSuccess } from '../../../utils/subscriptions';
 import { SellerSubscription } from '../../../interfaces/Seller';
 
 import { getSellerSubscription } from '../../../selectors/Subscription';
+import { subscriptionDetailsMapping } from '../../../constants/Subscription/Sellgo';
+import { Icon } from 'semantic-ui-react';
 interface Props {
   match: any;
   sellerSubscription: SellerSubscription;
@@ -48,6 +50,15 @@ const SettingsNav = (props: Props) => {
             const isActive = match.path === page.url;
             const isMigrationRunning = !isMigrationSuccess(sellerSubscription);
             const isLeadTime = page.name === 'Global: Lead Time';
+            const isEnablesForEliteOnly = page.isOnlyForElite;
+            let showLock = false;
+            if (
+              isEnablesForEliteOnly &&
+              page.showInSellgo &&
+              subscriptionDetailsMapping.team !== sellerSubscription.subscription_id
+            ) {
+              showLock = true;
+            }
             return (
               <div
                 className={`${styles.settingWrapper} ${isMigrationRunning &&
@@ -66,7 +77,7 @@ const SettingsNav = (props: Props) => {
                         : styles.settingPageOption
                     }
                   >
-                    {page.name}
+                    {page.name} {showLock && <Icon name="lock" />}
                   </div>
                 </Link>
                 <div className={styles.settingsSubPagesMenu}>
