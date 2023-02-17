@@ -196,6 +196,7 @@ export const SETTINGS_PAGES = [
     showInSellgo: true,
     showInAistock: false,
     subPages: [],
+    isOnlyForElite: true,
   },
   {
     name: 'Amazon SP-API Connectivity',
