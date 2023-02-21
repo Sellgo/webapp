@@ -175,7 +175,7 @@ const BusinessInformation = (props: Props) => {
           </div>
 
           <div className={styles.companyInformation_detailsBox}>
-            <Icon name="linkify" className={styles.companyInformation_detailsBox_icon} />
+            <Icon name="mail" className={styles.companyInformation_detailsBox_icon} />
             <p className={styles.companyInformation_detailsBox_heading}>
               Company Emails {`(${rowData?.emails?.length ?? 0})`}
             </p>
