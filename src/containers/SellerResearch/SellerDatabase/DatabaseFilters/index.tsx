@@ -83,8 +83,10 @@ const SellerDatabaseFilters = (props: Props) => {
     DEFAULT_SELLER_DATABASE_FILTER
   );
   const [marketPlace, setMarketPlace] = useState<MarketplaceOption>(DEFAULT_US_MARKET);
+  const [isFilteredOnce, setIsFilteredOnce] = useState<boolean>(false);
 
   const updateSellerDatabaseFilter = (key: string, value: any) => {
+    setIsFilteredOnce(true);
     if (key === 'countries') {
       setSellerDatabaseFilters({
         ...sellerDatabaseFilters,
@@ -98,6 +100,12 @@ const SellerDatabaseFilters = (props: Props) => {
       });
     }
   };
+
+  useEffect(() => {
+    if (isFilteredOnce) {
+      handleSubmit();
+    }
+  }, [sellerDatabaseFilters]);
 
   /* Error States */
   const [asinsError, setAsinsError] = useState(DEFAULT_INCLUDE_EXCLUDE_ERROR);
