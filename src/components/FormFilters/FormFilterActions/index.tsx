@@ -16,6 +16,7 @@ interface Props {
   className?: string;
   hideReset?: boolean;
   isBlack?: boolean;
+  hideSubmit?: boolean;
 }
 
 const FormFilterActions: React.FC<Props> = props => {
@@ -29,6 +30,7 @@ const FormFilterActions: React.FC<Props> = props => {
     className,
     withSecondarySubmit = false,
     hideReset = false,
+    hideSubmit = false,
   } = props;
 
   return (
@@ -39,17 +41,18 @@ const FormFilterActions: React.FC<Props> = props => {
             {resetLabel}
           </ActionButton>
         )}
-
-        <ActionButton
-          variant={withSecondarySubmit ? 'secondary' : 'primary'}
-          type={isBlack ? 'black' : 'purpleGradient'}
-          disabled={disabled}
-          size="md"
-          onClick={onFind}
-          className={styles.submitButton}
-        >
-          {submitLabel}
-        </ActionButton>
+        {!hideSubmit && (
+          <ActionButton
+            variant={withSecondarySubmit ? 'secondary' : 'primary'}
+            type={isBlack ? 'black' : 'purpleGradient'}
+            disabled={disabled}
+            size="md"
+            onClick={onFind}
+            className={styles.submitButton}
+          >
+            {submitLabel}
+          </ActionButton>
+        )}
       </div>
     </div>
   );

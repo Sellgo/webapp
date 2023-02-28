@@ -1171,6 +1171,7 @@ const SellerDatabaseFilters = (props: Props) => {
           onFind={handleSubmit}
           onReset={handleReset}
           disabled={disableFormSubmit}
+          hideSubmit
         />
       </section>
     </>
