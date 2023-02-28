@@ -27,6 +27,7 @@ interface Props {
   minValue: string;
   maxValue: string;
   handleChange: (type: string, value: string) => void;
+  handleKeyDown?: (e: any) => void;
   userOnboardingResources: any;
   appendWith?: string;
   prependWith?: string;
@@ -38,6 +39,7 @@ const MinMaxFilter: React.FC<Props> = props => {
     minValue,
     maxValue,
     handleChange,
+    handleKeyDown,
     userOnboardingResources,
     appendWith,
     prependWith,
@@ -86,6 +88,15 @@ const MinMaxFilter: React.FC<Props> = props => {
               handleChange && handleChange('min', e.target.value);
             }
           }}
+          onKeyDown={(e: any) => {
+            if (
+              !isNaN(e.target.value) &&
+              (parseFloat(e.target.value) >= 0 || !e.target.value) &&
+              !isError
+            ) {
+              handleKeyDown && handleKeyDown(e);
+            }
+          }}
           error={isError}
         />
         <FilterRightArrow />
@@ -98,6 +109,15 @@ const MinMaxFilter: React.FC<Props> = props => {
           onChange={(e: any) => {
             if (!isNaN(e.target.value) && (parseFloat(e.target.value) >= 0 || !e.target.value)) {
               handleChange && handleChange('max', e.target.value);
+            }
+          }}
+          onKeyDown={(e: any) => {
+            if (
+              !isNaN(e.target.value) &&
+              (parseFloat(e.target.value) >= 0 || !e.target.value) &&
+              !isError
+            ) {
+              handleKeyDown && handleKeyDown(e);
             }
           }}
           error={isError}

@@ -82,6 +82,9 @@ const SellerDatabaseFilters = (props: Props) => {
   const [sellerDatabaseFilters, setSellerDatabaseFilters] = useState(
     DEFAULT_SELLER_DATABASE_FILTER
   );
+  const [sellerDatabaseTextFieldFilters, setSellerDatabaseTextFieldFilters] = useState(
+    DEFAULT_SELLER_DATABASE_FILTER
+  );
   const [marketPlace, setMarketPlace] = useState<MarketplaceOption>(DEFAULT_US_MARKET);
   const [isFilteredOnce, setIsFilteredOnce] = useState<boolean>(false);
 
@@ -101,6 +104,21 @@ const SellerDatabaseFilters = (props: Props) => {
     }
   };
 
+  const updateSellerDatabaseTextFieldFilter = (key: string, value: any) => {
+    if (key === 'countries') {
+      setSellerDatabaseTextFieldFilters({
+        ...sellerDatabaseFilters,
+        [key]: value,
+        states: [],
+      });
+    } else {
+      setSellerDatabaseTextFieldFilters({
+        ...sellerDatabaseFilters,
+        [key]: value,
+      });
+    }
+  };
+
   useEffect(() => {
     if (isFilteredOnce) {
       handleSubmit();
@@ -113,6 +131,9 @@ const SellerDatabaseFilters = (props: Props) => {
 
   /* Handlers */
   const handleSubmit = () => {
+    if (asinsError.include || asinsError.exclude) {
+      return;
+    }
     const filterPayload = { ...sellerDatabaseFilters };
     filterPayload.categories = filterPayload.categories.join('|');
     filterPayload.countries = filterPayload.countries.join('|');
@@ -239,6 +260,7 @@ const SellerDatabaseFilters = (props: Props) => {
         });
 
         setSellerDatabaseFilters(restoredSellerDatabaseFilters);
+        setSellerDatabaseTextFieldFilters(restoredSellerDatabaseFilters);
       }
     } catch (err) {
       handleReset();
@@ -264,8 +286,8 @@ const SellerDatabaseFilters = (props: Props) => {
 
   /* Include Asin validation check */
   useEffect(() => {
-    if (sellerDatabaseFilters.asins.include) {
-      const asinList = sellerDatabaseFilters.asins.include.split(',');
+    if (sellerDatabaseTextFieldFilters.asins.include) {
+      const asinList = sellerDatabaseTextFieldFilters.asins.include.split(',');
 
       const isValidAsinList = asinList
         .filter((a: string) => a.trim().length > 0)
@@ -281,12 +303,12 @@ const SellerDatabaseFilters = (props: Props) => {
         include: false,
       }));
     }
-  }, [sellerDatabaseFilters.asins.include]);
+  }, [sellerDatabaseTextFieldFilters.asins.include]);
 
   /* Exclude Asin validation check */
   useEffect(() => {
-    if (sellerDatabaseFilters.asins.exclude) {
-      const asinList = sellerDatabaseFilters.asins.exclude.split(',');
+    if (sellerDatabaseTextFieldFilters.asins.exclude) {
+      const asinList = sellerDatabaseTextFieldFilters.asins.exclude.split(',');
 
       const isValidAsinList = asinList
         .filter((a: string) => a.trim().length > 0)
@@ -302,7 +324,7 @@ const SellerDatabaseFilters = (props: Props) => {
         exclude: false,
       }));
     }
-  }, [sellerDatabaseFilters.asins.exclude]);
+  }, [sellerDatabaseTextFieldFilters.asins.exclude]);
 
   /* Include Seller ID validation check */
   useEffect(() => {
@@ -362,8 +384,15 @@ const SellerDatabaseFilters = (props: Props) => {
             <InputFilter
               label="Company name"
               placeholder="Company name"
-              value={sellerDatabaseFilters.companyName}
-              handleChange={(value: string) => updateSellerDatabaseFilter('companyName', value)}
+              value={sellerDatabaseTextFieldFilters.companyName}
+              handleKeyDown={e => {
+                if (e.key === 'Enter') {
+                  updateSellerDatabaseFilter('companyName', e.target.value);
+                }
+              }}
+              handleChange={(value: string) =>
+                updateSellerDatabaseTextFieldFilter('companyName', value)
+              }
             />
 
             {/* Feature request */}
@@ -413,8 +442,15 @@ const SellerDatabaseFilters = (props: Props) => {
             <InputFilter
               label="Zip code"
               placeholder="Zip code"
-              value={sellerDatabaseFilters.zipCode}
-              handleChange={(value: string) => updateSellerDatabaseFilter('zipCode', value)}
+              value={sellerDatabaseTextFieldFilters.zipCode}
+              handleKeyDown={e => {
+                if (e.key === 'Enter') {
+                  updateSellerDatabaseFilter('zipCode', e.target.value);
+                }
+              }}
+              handleChange={(value: string) =>
+                updateSellerDatabaseTextFieldFilter('zipCode', value)
+              }
             />
           </div>
 
@@ -686,14 +722,22 @@ const SellerDatabaseFilters = (props: Props) => {
                 {/* # of Brands */}
                 <MinMaxFilter
                   label="Brands count"
-                  minValue={sellerDatabaseFilters.numOfBrands.min}
-                  maxValue={sellerDatabaseFilters.numOfBrands.max}
+                  minValue={sellerDatabaseTextFieldFilters.numOfBrands.min}
+                  maxValue={sellerDatabaseTextFieldFilters.numOfBrands.max}
                   handleChange={(type: string, value: string) =>
-                    updateSellerDatabaseFilter('numOfBrands', {
-                      ...sellerDatabaseFilters.numOfBrands,
+                    updateSellerDatabaseTextFieldFilter('numOfBrands', {
+                      ...sellerDatabaseTextFieldFilters.numOfBrands,
                       [type]: value,
                     })
                   }
+                  handleKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      updateSellerDatabaseFilter(
+                        'numOfBrands',
+                        sellerDatabaseTextFieldFilters.numOfBrands
+                      );
+                    }
+                  }}
                 />
 
                 {/* <div> */}
@@ -753,10 +797,25 @@ const SellerDatabaseFilters = (props: Props) => {
                 <InputFilter
                   label="Include brands"
                   placeholder="Enter separated by comma"
-                  value={sellerDatabaseFilters.brands.include}
+                  // value={sellerDatabaseFilters.brands.include}
+                  // handleChange={(value: string) =>
+                  //   updateSellerDatabaseFilter('brands', {
+                  //     ...sellerDatabaseFilters.brands,
+                  //     include: value,
+                  //   })
+                  // }
+                  value={sellerDatabaseTextFieldFilters.brands.include}
+                  handleKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      updateSellerDatabaseFilter('brands', {
+                        exclude: '',
+                        include: e.target.value,
+                      });
+                    }
+                  }}
                   handleChange={(value: string) =>
-                    updateSellerDatabaseFilter('brands', {
-                      ...sellerDatabaseFilters.brands,
+                    updateSellerDatabaseTextFieldFilter('brands', {
+                      ...sellerDatabaseTextFieldFilters.brands,
                       include: value,
                     })
                   }
@@ -766,10 +825,24 @@ const SellerDatabaseFilters = (props: Props) => {
                 <InputFilter
                   label="Exclude brands"
                   placeholder="Enter separated by comma"
-                  value={sellerDatabaseFilters.brands.exclude}
+                  // value={sellerDatabaseFilters.brands.exclude}
+                  // handleChange={(value: string) =>
+                  //   updateSellerDatabaseFilter('brands', {
+                  //     ...sellerDatabaseFilters.brands,
+                  //     exclude: value,
+                  //   })
+                  value={sellerDatabaseTextFieldFilters.brands.exclude}
+                  handleKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      updateSellerDatabaseFilter('brands', {
+                        include: '',
+                        exclude: e.target.value,
+                      });
+                    }
+                  }}
                   handleChange={(value: string) =>
-                    updateSellerDatabaseFilter('brands', {
-                      ...sellerDatabaseFilters.brands,
+                    updateSellerDatabaseTextFieldFilter('brands', {
+                      ...sellerDatabaseTextFieldFilters.brands,
                       exclude: value,
                     })
                   }
@@ -792,14 +865,22 @@ const SellerDatabaseFilters = (props: Props) => {
               {/* Number of employee */}
               <MinMaxFilter
                 label="Employees count"
-                minValue={sellerDatabaseFilters.numOfEmployees.min}
-                maxValue={sellerDatabaseFilters.numOfEmployees.max}
+                minValue={sellerDatabaseTextFieldFilters.numOfEmployees.min}
+                maxValue={sellerDatabaseTextFieldFilters.numOfEmployees.max}
                 handleChange={(type: string, value: string) =>
-                  updateSellerDatabaseFilter('numOfEmployees', {
-                    ...sellerDatabaseFilters.numOfEmployees,
+                  updateSellerDatabaseTextFieldFilter('numOfEmployees', {
+                    ...sellerDatabaseTextFieldFilters.numOfEmployees,
                     [type]: value,
                   })
                 }
+                handleKeyDown={e => {
+                  if (e.key === 'Enter') {
+                    updateSellerDatabaseFilter(
+                      'numOfEmployees',
+                      sellerDatabaseTextFieldFilters.numOfEmployees
+                    );
+                  }
+                }}
               />
 
               {/* <div> */}
@@ -858,10 +939,28 @@ const SellerDatabaseFilters = (props: Props) => {
                 <InputFilter
                   label="Include ASINs or ISBNs"
                   placeholder="Enter separated by comma"
-                  value={sellerDatabaseFilters.asins.include.toUpperCase()}
+                  // value={sellerDatabaseFilters.asins.include.toUpperCase()}
+                  // handleChange={(value: string) =>
+                  //   updateSellerDatabaseFilter('asins', {
+                  //     ...sellerDatabaseFilters.asins,
+                  //     include: value,
+                  //   })
+                  // }
+                  value={sellerDatabaseTextFieldFilters.asins.include.toUpperCase()}
+                  handleKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      if (asinsError.include) {
+                        return;
+                      }
+                      updateSellerDatabaseFilter('asins', {
+                        exclude: '',
+                        include: e.target.value,
+                      });
+                    }
+                  }}
                   handleChange={(value: string) =>
-                    updateSellerDatabaseFilter('asins', {
-                      ...sellerDatabaseFilters.asins,
+                    updateSellerDatabaseTextFieldFilter('asins', {
+                      ...sellerDatabaseTextFieldFilters.asins,
                       include: value,
                     })
                   }
@@ -872,10 +971,28 @@ const SellerDatabaseFilters = (props: Props) => {
                 <InputFilter
                   label="Exclude ASINs or ISBNs"
                   placeholder="Enter separated by comma"
-                  value={sellerDatabaseFilters.asins.exclude.toUpperCase()}
+                  // value={sellerDatabaseFilters.asins.exclude.toUpperCase()}
+                  // handleChange={(value: string) =>
+                  //   updateSellerDatabaseFilter('asins', {
+                  //     ...sellerDatabaseFilters.asins,
+                  //     exclude: value,
+                  //   })
+                  // }
+                  value={sellerDatabaseTextFieldFilters.asins.exclude.toUpperCase()}
+                  handleKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      if (asinsError.exclude) {
+                        return;
+                      }
+                      updateSellerDatabaseFilter('asins', {
+                        include: '',
+                        exclude: e.target.value,
+                      });
+                    }
+                  }}
                   handleChange={(value: string) =>
-                    updateSellerDatabaseFilter('asins', {
-                      ...sellerDatabaseFilters.asins,
+                    updateSellerDatabaseTextFieldFilter('asins', {
+                      ...sellerDatabaseTextFieldFilters.asins,
                       exclude: value,
                     })
                   }
