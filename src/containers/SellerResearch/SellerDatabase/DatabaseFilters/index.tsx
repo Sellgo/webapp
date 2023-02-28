@@ -141,6 +141,7 @@ const SellerDatabaseFilters = (props: Props) => {
 
   const handleReset = () => {
     setShowFilterInitMessage(true);
+    setIsFilteredOnce(false);
     setSellerDatabaseMarketplace(DEFAULT_US_MARKET);
     setSellerDatabaseFilters(DEFAULT_SELLER_DATABASE_FILTER);
     setSellerDatabaseTextFieldFilters(DEFAULT_SELLER_DATABASE_FILTER);
