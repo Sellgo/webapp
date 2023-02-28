@@ -82,46 +82,38 @@ const SellerDatabaseFilters = (props: Props) => {
   const [sellerDatabaseFilters, setSellerDatabaseFilters] = useState(
     DEFAULT_SELLER_DATABASE_FILTER
   );
-  const [sellerDatabaseTextFieldFilters, setSellerDatabaseTextFieldFilters] = useState(
-    DEFAULT_SELLER_DATABASE_FILTER
-  );
+  const [sellerDatabaseTextFieldFilters, setSellerDatabaseTextFieldFilters] = useState({
+    ...DEFAULT_SELLER_DATABASE_FILTER,
+  });
   const [marketPlace, setMarketPlace] = useState<MarketplaceOption>(DEFAULT_US_MARKET);
   const [isFilteredOnce, setIsFilteredOnce] = useState<boolean>(false);
 
   const updateSellerDatabaseFilter = (key: string, value: any) => {
     setIsFilteredOnce(true);
     if (key === 'countries') {
-      setSellerDatabaseFilters({
-        ...sellerDatabaseFilters,
-        [key]: value,
-        states: [],
-      });
+      setSellerDatabaseFilters((prevValues: any) => ({ ...prevValues, [key]: value, states: [] }));
     } else {
-      setSellerDatabaseFilters({
-        ...sellerDatabaseFilters,
-        [key]: value,
-      });
+      setSellerDatabaseFilters((prevValues: any) => ({ ...prevValues, [key]: value }));
     }
   };
 
   const updateSellerDatabaseTextFieldFilter = (key: string, value: any) => {
+    // console.log('108 =>', sellerDatabaseTextFieldFilters, key, value);
     if (key === 'countries') {
-      setSellerDatabaseTextFieldFilters({
-        ...sellerDatabaseFilters,
+      setSellerDatabaseTextFieldFilters((prevValues: any) => ({
+        ...prevValues,
         [key]: value,
         states: [],
-      });
+      }));
     } else {
-      setSellerDatabaseTextFieldFilters({
-        ...sellerDatabaseFilters,
-        [key]: value,
-      });
+      setSellerDatabaseTextFieldFilters((prevValues: any) => ({ ...prevValues, [key]: value }));
     }
   };
 
   useEffect(() => {
     if (isFilteredOnce) {
       handleSubmit();
+      setSellerDatabaseTextFieldFilters({ ...sellerDatabaseFilters });
     }
   }, [sellerDatabaseFilters]);
 
@@ -151,6 +143,7 @@ const SellerDatabaseFilters = (props: Props) => {
     setShowFilterInitMessage(true);
     setSellerDatabaseMarketplace(DEFAULT_US_MARKET);
     setSellerDatabaseFilters(DEFAULT_SELLER_DATABASE_FILTER);
+    setSellerDatabaseTextFieldFilters(DEFAULT_SELLER_DATABASE_FILTER);
     /* Reset Error States */
     setAsinsError(DEFAULT_INCLUDE_EXCLUDE_ERROR);
     setSellerIdsError(DEFAULT_INCLUDE_EXCLUDE_ERROR);
@@ -393,6 +386,7 @@ const SellerDatabaseFilters = (props: Props) => {
               handleChange={(value: string) =>
                 updateSellerDatabaseTextFieldFilter('companyName', value)
               }
+              className={sellerDatabaseTextFieldFilters.companyName && styles.activeFilter}
             />
 
             {/* Feature request */}
@@ -451,6 +445,7 @@ const SellerDatabaseFilters = (props: Props) => {
               handleChange={(value: string) =>
                 updateSellerDatabaseTextFieldFilter('zipCode', value)
               }
+              className={sellerDatabaseTextFieldFilters.zipCode && styles.activeFilter}
             />
           </div>
 
@@ -738,6 +733,12 @@ const SellerDatabaseFilters = (props: Props) => {
                       );
                     }
                   }}
+                  maxClassName={
+                    sellerDatabaseTextFieldFilters.numOfBrands.max && styles.activeFilter
+                  }
+                  minClassName={
+                    sellerDatabaseTextFieldFilters.numOfBrands.min && styles.activeFilter
+                  }
                 />
 
                 {/* <div> */}
@@ -819,6 +820,7 @@ const SellerDatabaseFilters = (props: Props) => {
                       include: value,
                     })
                   }
+                  className={sellerDatabaseTextFieldFilters.brands.include && styles.activeFilter}
                 />
 
                 {/* Exclude brands */}
@@ -835,7 +837,7 @@ const SellerDatabaseFilters = (props: Props) => {
                   handleKeyDown={e => {
                     if (e.key === 'Enter') {
                       updateSellerDatabaseFilter('brands', {
-                        include: '',
+                        ...sellerDatabaseTextFieldFilters.brands,
                         exclude: e.target.value,
                       });
                     }
@@ -846,6 +848,7 @@ const SellerDatabaseFilters = (props: Props) => {
                       exclude: value,
                     })
                   }
+                  className={sellerDatabaseTextFieldFilters.brands.exclude && styles.activeFilter}
                 />
               </div>
 
@@ -881,6 +884,12 @@ const SellerDatabaseFilters = (props: Props) => {
                     );
                   }
                 }}
+                maxClassName={
+                  sellerDatabaseTextFieldFilters.numOfEmployees.max && styles.activeFilter
+                }
+                minClassName={
+                  sellerDatabaseTextFieldFilters.numOfEmployees.min && styles.activeFilter
+                }
               />
 
               {/* <div> */}
@@ -953,7 +962,7 @@ const SellerDatabaseFilters = (props: Props) => {
                         return;
                       }
                       updateSellerDatabaseFilter('asins', {
-                        exclude: '',
+                        ...sellerDatabaseTextFieldFilters.asins,
                         include: e.target.value,
                       });
                     }
@@ -965,6 +974,7 @@ const SellerDatabaseFilters = (props: Props) => {
                     })
                   }
                   error={asinsError.include}
+                  className={sellerDatabaseTextFieldFilters.asins.include && styles.activeFilter}
                 />
 
                 {/* Exclude ASINS Name */}
@@ -985,7 +995,7 @@ const SellerDatabaseFilters = (props: Props) => {
                         return;
                       }
                       updateSellerDatabaseFilter('asins', {
-                        include: '',
+                        ...sellerDatabaseTextFieldFilters.asins,
                         exclude: e.target.value,
                       });
                     }
@@ -997,6 +1007,7 @@ const SellerDatabaseFilters = (props: Props) => {
                     })
                   }
                   error={asinsError.exclude}
+                  className={sellerDatabaseTextFieldFilters.asins.exclude && styles.activeFilter}
                 />
               </div>
 

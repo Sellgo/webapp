@@ -31,6 +31,8 @@ interface Props {
   userOnboardingResources: any;
   appendWith?: string;
   prependWith?: string;
+  minClassName?: string;
+  maxClassName?: string;
 }
 
 const MinMaxFilter: React.FC<Props> = props => {
@@ -43,6 +45,8 @@ const MinMaxFilter: React.FC<Props> = props => {
     userOnboardingResources,
     appendWith,
     prependWith,
+    minClassName,
+    maxClassName,
   } = props;
 
   const isError = React.useMemo(() => {
@@ -82,7 +86,7 @@ const MinMaxFilter: React.FC<Props> = props => {
           placeholder="Min"
           value={minValue}
           data-filter="min"
-          className="minMaxFilters"
+          className={`minMaxFilters ${minClassName}`}
           onChange={(e: any) => {
             if (!isNaN(e.target.value) && (parseFloat(e.target.value) >= 0 || !e.target.value)) {
               handleChange && handleChange('min', e.target.value);
@@ -105,7 +109,7 @@ const MinMaxFilter: React.FC<Props> = props => {
           placeholder="Max"
           value={maxValue}
           data-filter="max"
-          className="minMaxFilters"
+          className={`minMaxFilters ${maxClassName}`}
           onChange={(e: any) => {
             if (!isNaN(e.target.value) && (parseFloat(e.target.value) >= 0 || !e.target.value)) {
               handleChange && handleChange('max', e.target.value);
