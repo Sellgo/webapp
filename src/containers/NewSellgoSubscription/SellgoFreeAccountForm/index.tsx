@@ -257,7 +257,7 @@ const FreeAccountForm = (props: Props) => {
         </div>
       </section>
       <section className={styles.reviewsSection}>
-        <h2>The most comprehensive Amazon seller database!</h2>
+        <h2>The most comprehensive Amazon seller leads database!</h2>
         <p>
           "We have very aggressive revenue growth targets. We knew that we needed Sellgo seller
           database that would enable us to scale, and help us to deliver on our goals."
