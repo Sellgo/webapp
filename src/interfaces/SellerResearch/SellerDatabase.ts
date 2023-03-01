@@ -1,5 +1,6 @@
 export interface SellerDatabasePayload {
   filterPayload?: any;
+  excludeMarketPlace?: boolean;
   resetFilter?: boolean;
   enabledLoader?: boolean;
   page?: number;

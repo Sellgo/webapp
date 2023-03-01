@@ -50,7 +50,7 @@ interface Props {
   onFocus?: () => void;
   onBlur?: () => void;
   thousandSeperate?: boolean;
-  handleKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  handleKeyDown?: (e: any) => void;
   handleKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 

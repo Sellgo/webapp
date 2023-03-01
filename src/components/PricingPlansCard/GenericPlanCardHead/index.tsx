@@ -97,11 +97,11 @@ const GenericPriceCardHead: React.FC<Props> = props => {
 
         {isMonthly ? (
           <span className={styles.betaPriceContainer}>
-            <h3 className={`${styles.actualPrice}`}>${formatNumber(monthlyPrice)}/ Mo</h3>
+            <h3 className={`${styles.actualPrice}`}>${formatNumber(monthlyPrice)}/ mo</h3>
           </span>
         ) : (
           <span className={styles.betaPriceContainer}>
-            <h3 className={`${styles.actualPrice}`}>${formatNumber(annualPrice / 12)}/ Mo</h3>
+            <h3 className={`${styles.actualPrice}`}>${formatNumber(annualPrice / 12)}/ mo</h3>
           </span>
         )}
 
@@ -123,8 +123,8 @@ const GenericPriceCardHead: React.FC<Props> = props => {
         )}
         <p className={styles.lookups}>
           {isMonthly
-            ? `${formatNumber(monthlyLookups)} monthly lookups`
-            : `${formatNumber(annualLookups)} annual lookups and you can get all upfront`}
+            ? `${formatNumber(monthlyLookups)} lookups`
+            : `${formatNumber(annualLookups)} lookups`}
         </p>
       </div>
       {isSubscribed && !isPending ? (

@@ -173,6 +173,37 @@ const BusinessInformation = (props: Props) => {
               </p>
             )}
           </div>
+
+          <div className={styles.companyInformation_detailsBox}>
+            <Icon name="mail" className={styles.companyInformation_detailsBox_icon} />
+            <p className={styles.companyInformation_detailsBox_heading}>
+              Company Emails {`(${rowData?.emails?.length ?? 0})`}
+            </p>
+            {rowData?.emails?.length > 0 ? (
+              <div className={styles.companyEmailsBox}>
+                {rowData?.emails?.map((emailData: any) => (
+                  <>
+                    {emailData.type === 'company' && (
+                      <div className={styles.verifiedIconBox}>
+                        {rowData.is_looked_up && emailData.last_verified && (
+                          <ValidCheckIcon fill="#5DC560" />
+                        )}
+                        <p
+                          className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}
+                        >
+                          {emailData.email}
+                        </p>
+                      </div>
+                    )}
+                  </>
+                ))}
+              </div>
+            ) : (
+              <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
+                N/A
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>

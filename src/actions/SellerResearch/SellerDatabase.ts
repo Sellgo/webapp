@@ -236,6 +236,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
     const {
       resetFilter = false,
       filterPayload,
+      excludeMarketPlace = false,
       page = 1,
       perPage = 50,
       sort = 'seller_id',
@@ -248,6 +249,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
       retrieve_default = false,
       exportEmployees = false,
     } = payload;
+    console.log('Filter pay;load ', filterPayload);
     // if filter request is passed
     if (resetFilter) {
       removeSellerDatabaseFilters();
@@ -308,7 +310,12 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
     }
 
     // eslint-disable-next-line max-len
-    const resourcePath = `${pagination}&${pageLimit}&${sorting}&${marketplace}&${retrieveDefault}&${filtersQueryString}`;
+    let resourcePath;
+    if (excludeMarketPlace) {
+      resourcePath = `${pagination}&${pageLimit}&${sorting}&${retrieveDefault}&${filtersQueryString}`;
+    } else {
+      resourcePath = `${pagination}&${pageLimit}&${sorting}&${marketplace}&${retrieveDefault}&${filtersQueryString}`;
+    }
 
     if (isExport && fileFormat) {
       const exportResource =
