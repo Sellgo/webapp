@@ -35,9 +35,9 @@
       "youtubeLink": "",
       "tooltipText": "Company keyword"
     },
-    "Number of employee": {
+    "Number of employees": {
       "youtubeLink": "",
-      "tooltipText": "Number of employee"
+      "tooltipText": "Number of employees"
     },
     "Number of decision maker": {
       "youtubeLink": "",
@@ -47,11 +47,11 @@
       "youtubeLink": "",
       "tooltipText": "Exclude popular brands that the sellers carry (separate with comma)"
     },
-    "Include ASINs or ISBNs": {
+    "Include Product IDs": {
       "youtubeLink": "",
       "tooltipText": "Include unique ASINs or ISBNs that the sellers carry (separate with comma)"
     },
-    "Exclude ASINs or ISBNs": {
+    "Exclude Product IDs": {
       "youtubeLink": "",
       "tooltipText": "Exclude unique ASINs or ISBNs that the sellers carry (separate with comma)"
     },
@@ -71,7 +71,7 @@
       "youtubeLink": "",
       "tooltipText": "Filter by Zip code."
     },
-    "All states": {
+    "U.S. states": {
       "youtubeLink": "",
       "tooltipText": "Only show for U.S. sellers"
     },
