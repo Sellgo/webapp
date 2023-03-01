@@ -145,6 +145,7 @@ export const FILTER_QUERY_KEY_MAPPER: { [key: string]: { keyName: string; type: 
   hasContact: { keyName: 'has_contact', type: F_TYPES.TEXT },
   hasAddress: { keyName: 'has_address', type: F_TYPES.TEXT },
   hasWebsite: { keyName: 'has_website', type: F_TYPES.TEXT },
+  hasCompanyEmail: { keyName: 'has_company_email', type: F_TYPES.TEXT },
   hasCompanySocial: { keyName: 'has_company_social', type: F_TYPES.TEXT },
   isLookedUp: { keyName: 'is_looked_up', type: F_TYPES.TEXT },
   countries: { keyName: 'countries', type: F_TYPES.TEXT },
