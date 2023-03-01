@@ -67,3 +67,9 @@
     margin-top: 10px;
   }
 }
+
+.activeFilter {
+  input {
+    border: 2px solid $blue_6 !important;
+  }
+}

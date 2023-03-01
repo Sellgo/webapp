@@ -27,9 +27,12 @@ interface Props {
   minValue: string;
   maxValue: string;
   handleChange: (type: string, value: string) => void;
+  handleKeyDown?: (e: any) => void;
   userOnboardingResources: any;
   appendWith?: string;
   prependWith?: string;
+  minClassName?: string;
+  maxClassName?: string;
 }
 
 const MinMaxFilter: React.FC<Props> = props => {
@@ -38,9 +41,12 @@ const MinMaxFilter: React.FC<Props> = props => {
     minValue,
     maxValue,
     handleChange,
+    handleKeyDown,
     userOnboardingResources,
     appendWith,
     prependWith,
+    minClassName,
+    maxClassName,
   } = props;
 
   const isError = React.useMemo(() => {
@@ -80,10 +86,19 @@ const MinMaxFilter: React.FC<Props> = props => {
           placeholder="Min"
           value={minValue}
           data-filter="min"
-          className="minMaxFilters"
+          className={`minMaxFilters ${minClassName}`}
           onChange={(e: any) => {
             if (!isNaN(e.target.value) && (parseFloat(e.target.value) >= 0 || !e.target.value)) {
               handleChange && handleChange('min', e.target.value);
+            }
+          }}
+          onKeyDown={(e: any) => {
+            if (
+              !isNaN(e.target.value) &&
+              (parseFloat(e.target.value) >= 0 || !e.target.value) &&
+              !isError
+            ) {
+              handleKeyDown && handleKeyDown(e);
             }
           }}
           error={isError}
@@ -94,10 +109,19 @@ const MinMaxFilter: React.FC<Props> = props => {
           placeholder="Max"
           value={maxValue}
           data-filter="max"
-          className="minMaxFilters"
+          className={`minMaxFilters ${maxClassName}`}
           onChange={(e: any) => {
             if (!isNaN(e.target.value) && (parseFloat(e.target.value) >= 0 || !e.target.value)) {
               handleChange && handleChange('max', e.target.value);
+            }
+          }}
+          onKeyDown={(e: any) => {
+            if (
+              !isNaN(e.target.value) &&
+              (parseFloat(e.target.value) >= 0 || !e.target.value) &&
+              !isError
+            ) {
+              handleKeyDown && handleKeyDown(e);
             }
           }}
           error={isError}
