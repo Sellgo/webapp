@@ -546,10 +546,17 @@ const SellerDatabaseFilters = (props: Props) => {
               handleChange={value => updateSellerDatabaseFilter('hasWebsite', value)}
             />
 
+            {/* Email address */}
+            <CheckboxFilter
+              checkboxLabel="Company email"
+              checked={sellerDatabaseFilters.hasCompanyEmail}
+              handleChange={value => updateSellerDatabaseFilter('hasCompanyEmail', value)}
+            />
+
             {/* Feature request */}
             {/* Social media */}
             <CheckboxFilter
-              checkboxLabel="Social media"
+              checkboxLabel="Company social media"
               checked={sellerDatabaseFilters.hasCompanySocial}
               handleChange={value => updateSellerDatabaseFilter('hasCompanySocial', value)}
             />
