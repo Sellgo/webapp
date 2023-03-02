@@ -1,0 +1,126 @@
+@import '../../../../../design-system/new-colors';
+
+.settingWrapper {
+  width: 100%;
+  display: flex;
+}
+
+.settingPerimeter {
+  width: 100%;
+  max-width: 1920px;
+  padding-bottom: 200px;
+}
+
+.settingsPageWrapper {
+  display: flex;
+}
+
+.settingsTableWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  > p {
+    font-size: 16px;
+    font-weight: $fontweight_bold;
+    color: $prim_dark_2;
+    margin: 30px 0;
+  }
+}
+
+.elevioArticle {
+  margin-top: 105px;
+  margin-left: 11px;
+  font-size: 12px;
+  font-weight: $fontweight_medium;
+  border-radius: 7px;
+  color: $grey_8;
+  text-transform: uppercase;
+  height: 700px;
+  overflow-y: auto;
+  min-width: 0;
+  max-width: 400px;
+
+  > span {
+    margin-bottom: 100px;
+  }
+}
+
+.mappingPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 650px;
+}
+
+.sellgoProperties {
+  background-color: $prim_white;
+  border: 1px solid $grey_3;
+  border-radius: 7px;
+  width: 370px;
+  padding: 20px;
+
+  &__box {
+    margin-top: 40px;
+    height: 350px;
+    overflow: auto;
+  }
+
+  &__name {
+    padding: 7px;
+    margin-bottom: 10px;
+    font-size: $fontsize_content_14;
+    font-weight: $fontweight_medium;
+    border: 1px solid $grey_3;
+    border-radius: 7px;
+  }
+}
+
+.hubspotProperties {
+  background-color: $prim_white;
+  border: 1px solid $grey_3;
+  border-radius: 7px;
+  width: 370px;
+  padding: 20px;
+
+  &__box {
+    margin-top: 40px;
+    height: 350px;
+    overflow: auto;
+  }
+
+  &__name {
+    padding: 7px;
+    margin-bottom: 10px;
+    font-size: $fontsize_content_14;
+    font-weight: $fontweight_medium;
+    border-radius: 7px;
+    width: unset;
+
+    .selectionFilter {
+      background-color: $grey_1 !important;
+    }
+  }
+}
+
+.labelWrapper {
+  display: flex;
+  align-items: center;
+
+  &__label {
+    margin-left: 10px;
+    font-size: $fontsize_content_14;
+    font-weight: $fontweight_semibold;
+  }
+}
+
+.mappingWrapper {
+  display: flex;
+  justify-content: space-between;
+  height: 480px;
+}
+
+.mappingLinkLogo {
+  margin: 0 20px;
+  width: 25px;
+}

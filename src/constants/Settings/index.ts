@@ -198,6 +198,14 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
+    name: 'HubSpot Integration',
+    disabled: false,
+    url: '/settings/integration/hubspot',
+    showInSellgo: true,
+    showInAistock: false,
+    subPages: [],
+  },
+  {
     name: 'Amazon SP-API Connectivity',
     disabled: false,
     url: '/settings/sp-connectivity',

@@ -81,6 +81,9 @@ import {
 import { isAiStockSession, isSellgoSession } from '../../utils/session';
 import { AppConfig } from '../../config';
 import SellgoInAppPaymentV2 from '../NewSellgoSubscription/SellgoInAppPaymentV2';
+import HubSpotIntegration from '../Settings/Hubspot/HubSpotIntegration';
+import HubSpotIntegrationRedirect from '../Settings/Hubspot/HubSpotIntegrationRedirect';
+import HubSpotIntegrationMapping from '../Settings/Hubspot/HubspotIntegrationMapping';
 
 export const auth = new Auth();
 
@@ -448,6 +451,21 @@ function App() {
           <PrivateRoute exact={true} path="/settings/sp-api-listener" component={SpApiListener} />
           <PrivateRoute exact={true} path="/settings/integration" component={APIConnectivity} />
           <PrivateRoute exact={true} path="/settings/profile" component={Profile} />
+          <PrivateRoute
+            exact={true}
+            path="/settings/integration/hubspot"
+            component={HubSpotIntegration}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/hs-api-listener"
+            component={HubSpotIntegrationRedirect}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/settings/hs-mapping"
+            component={HubSpotIntegrationMapping}
+          />
           <PrivateRoute exact={true} path="/settings/aistock/lead-time" component={LeadTime} />
           <PrivateRoute
             exact={true}
