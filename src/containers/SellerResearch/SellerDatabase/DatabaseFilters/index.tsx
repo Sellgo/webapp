@@ -397,6 +397,33 @@ const SellerDatabaseFilters = (props: Props) => {
               checked={sellerDatabaseFilters.hasContact}
               handleChange={value => updateSellerDatabaseFilter('hasContact', value)}
             /> */}
+
+            {/* Number of employee */}
+            <MinMaxFilter
+              label="Number of employees"
+              minValue={sellerDatabaseTextFieldFilters.numOfEmployees.min}
+              maxValue={sellerDatabaseTextFieldFilters.numOfEmployees.max}
+              handleChange={(type: string, value: string) =>
+                updateSellerDatabaseTextFieldFilter('numOfEmployees', {
+                  ...sellerDatabaseTextFieldFilters.numOfEmployees,
+                  [type]: value,
+                })
+              }
+              handleKeyDown={e => {
+                if (e.key === 'Enter') {
+                  updateSellerDatabaseFilter(
+                    'numOfEmployees',
+                    sellerDatabaseTextFieldFilters.numOfEmployees
+                  );
+                }
+              }}
+              maxClassName={
+                sellerDatabaseTextFieldFilters.numOfEmployees.max && styles.activeFilter
+              }
+              minClassName={
+                sellerDatabaseTextFieldFilters.numOfEmployees.min && styles.activeFilter
+              }
+            />
           </div>
 
           {/* Feature request */}
@@ -433,6 +460,16 @@ const SellerDatabaseFilters = (props: Props) => {
               }}
             />
 
+            <CheckboxDropdownFilter
+              filterOptions={ALL_US_STATES}
+              label="U.S. states"
+              selectedValues={sellerDatabaseFilters.states}
+              handleChange={(newStates: string[]) => {
+                updateSellerDatabaseFilter('states', [...newStates]);
+              }}
+              disabled={sellerDatabaseFilters.countries.indexOf('US') === -1}
+            />
+
             {/* Zip code */}
             <InputFilter
               label="Zip code"
@@ -459,15 +496,6 @@ const SellerDatabaseFilters = (props: Props) => {
             handleChange={(value: string) => updateSellerDatabaseFilter('state', value)}
             disabled={sellerDatabaseFilters.countries.indexOf('US') === -1}
           /> */}
-          <CheckboxDropdownFilter
-            filterOptions={ALL_US_STATES}
-            label="All states"
-            selectedValues={sellerDatabaseFilters.states}
-            handleChange={(newStates: string[]) => {
-              updateSellerDatabaseFilter('states', [...newStates]);
-            }}
-            disabled={sellerDatabaseFilters.countries.indexOf('US') === -1}
-          />
 
           {/* <div> */}
           {/* Feature request */}
@@ -592,6 +620,7 @@ const SellerDatabaseFilters = (props: Props) => {
               handleChange={value => updateSellerDatabaseFilter('hasEmployeeSocial', value)}
             />
           </div>
+
           {/* Seller Reachability */}
           {/* <div> */}
           {/* Feature request */}
@@ -799,9 +828,7 @@ const SellerDatabaseFilters = (props: Props) => {
                     }}
                   /> */}
                 {/* </div> */}
-              </div>
 
-              <div>
                 {/*  Include brands */}
                 <InputFilter
                   label="Include brands"
@@ -873,32 +900,6 @@ const SellerDatabaseFilters = (props: Props) => {
                     })
                   }
                 /> */}
-              {/* Number of employee */}
-              <MinMaxFilter
-                label="Employees count"
-                minValue={sellerDatabaseTextFieldFilters.numOfEmployees.min}
-                maxValue={sellerDatabaseTextFieldFilters.numOfEmployees.max}
-                handleChange={(type: string, value: string) =>
-                  updateSellerDatabaseTextFieldFilter('numOfEmployees', {
-                    ...sellerDatabaseTextFieldFilters.numOfEmployees,
-                    [type]: value,
-                  })
-                }
-                handleKeyDown={e => {
-                  if (e.key === 'Enter') {
-                    updateSellerDatabaseFilter(
-                      'numOfEmployees',
-                      sellerDatabaseTextFieldFilters.numOfEmployees
-                    );
-                  }
-                }}
-                maxClassName={
-                  sellerDatabaseTextFieldFilters.numOfEmployees.max && styles.activeFilter
-                }
-                minClassName={
-                  sellerDatabaseTextFieldFilters.numOfEmployees.min && styles.activeFilter
-                }
-              />
 
               {/* <div> */}
               {/* Feature request */}
@@ -952,9 +953,36 @@ const SellerDatabaseFilters = (props: Props) => {
               {/* </div> */}
 
               <div>
+                {/* # of Inventory */}
+                <MinMaxFilter
+                  label="Products count"
+                  minValue={sellerDatabaseTextFieldFilters.numOfInventory.min}
+                  maxValue={sellerDatabaseTextFieldFilters.numOfInventory.max}
+                  handleChange={(type: string, value: string) =>
+                    updateSellerDatabaseTextFieldFilter('numOfInventory', {
+                      ...sellerDatabaseTextFieldFilters.numOfInventory,
+                      [type]: value,
+                    })
+                  }
+                  handleKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      updateSellerDatabaseFilter(
+                        'numOfInventory',
+                        sellerDatabaseTextFieldFilters.numOfInventory
+                      );
+                    }
+                  }}
+                  maxClassName={
+                    sellerDatabaseTextFieldFilters.numOfInventory.max && styles.activeFilter
+                  }
+                  minClassName={
+                    sellerDatabaseTextFieldFilters.numOfInventory.min && styles.activeFilter
+                  }
+                />
+
                 {/* Include ASINS */}
                 <InputFilter
-                  label="Include ASINs or ISBNs"
+                  label="Include Product IDs"
                   placeholder="Enter separated by comma"
                   // value={sellerDatabaseFilters.asins.include.toUpperCase()}
                   // handleChange={(value: string) =>
@@ -987,7 +1015,7 @@ const SellerDatabaseFilters = (props: Props) => {
 
                 {/* Exclude ASINS Name */}
                 <InputFilter
-                  label="Exclude ASINs or ISBNs"
+                  label="Exclude Product IDs"
                   placeholder="Enter separated by comma"
                   // value={sellerDatabaseFilters.asins.exclude.toUpperCase()}
                   // handleChange={(value: string) =>
