@@ -7,6 +7,7 @@ import {
   NEW_PRODUCT_DESIGN_PATH_NAMES,
   HIDE_NAV_BAR_PATH_NAMES,
 } from '../../constants/AdminLayout';
+import { isSellgoSession } from '../../utils/session';
 
 interface Props {
   subscriptionType: string;
@@ -38,7 +39,7 @@ class AdminLayout extends React.Component<Props> {
     } else {
       return (
         <main className="admin-layout-wrapper">
-          <Sidebar match={match} />
+          {!isSellgoSession() && <Sidebar match={match} />}
           <Segment
             className={`admin-layout ${isNewProduct ? 'new-admin-layout' : ''}`}
             basic={true}

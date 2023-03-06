@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import styles from './index.module.scss';
 
 /* Containers */
-import SellerDatabaseFilters from './DatabaseFilters';
+import SellerDatabaseFilters from './DatabaseFiltersLeft';
 import SellerDatabaseTable from './DatabaseTable';
 import DatabaseExport from './DatabaseExport';
 
@@ -57,9 +57,11 @@ const SellerDatabase = (props: Props) => {
       <SellerDatabaseFilters setShowFilterInitMessage={setShowFilterInitMessage} />
 
       {showFilterInitMessage ? (
-        <DefaultDisplay />
+        <div className={styles.defaultDisplaySection}>
+          <DefaultDisplay />
+        </div>
       ) : (
-        <>
+        <div className={styles.tableSection}>
           <FilterMessage
             active={showFilterMessage.show}
             message={showFilterMessage.message}
@@ -68,7 +70,7 @@ const SellerDatabase = (props: Props) => {
           />
           <DatabaseExport />
           <SellerDatabaseTable />
-        </>
+        </div>
       )}
       {/* {isModalOpen && <SellgoGreetingVideoSection setIsModalOpen={setIsModalOpen} />} */}
     </main>

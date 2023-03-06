@@ -3,3 +3,16 @@
 .filterMessage {
   margin: 20px 0;
 }
+
+.sellerDatbasePage {
+  display: flex;
+}
+
+.defaultDisplaySection {
+  width: calc(100% - 300px);
+}
+
+.tableSection {
+  width: calc(100% - 300px);
+  margin-left: 20px;
+}

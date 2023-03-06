@@ -1,0 +1,128 @@
+@import '../../../../design-system/new-colors';
+
+.filterSection {
+  padding: 0;
+  width: 300px;
+}
+
+/* Basic Filter Styles */
+.basicFilters {
+  background: $prim_white;
+  padding: 20px 10px 20px 15px;
+  margin-left: -35px;
+  height: max-content;
+}
+
+/* Advanced Filter Styles */
+.advancedFilterWrapper {
+  background: $grey_10;
+  box-shadow: 0 3px 6px #00000029;
+  border-radius: 7px;
+  height: max-content !important;
+  user-select: none;
+}
+
+.showAdvancedFilter {
+  padding: 11px 18px;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(auto, 1fr);
+  grid-column-gap: 18px;
+  grid-row-gap: 0;
+  justify-content: start;
+
+  @media only screen and (max-width: 1650px) {
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 18px;
+
+    .spacers {
+      display: none;
+    }
+  }
+
+  @media only screen and(max-width: 1450px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.filterPeriod {
+  p {
+    opacity: 0 !important;
+  }
+}
+
+.groupFilters {
+  display: flex;
+  align-items: flex-start;
+}
+
+.reviewGroupedFilter {
+  .groupFilters {
+    margin-top: 10px;
+  }
+}
+
+.activeFilter {
+  input {
+    border: 2px solid $blue_6 !important;
+  }
+}
+
+.accordian__title {
+  display: flex;
+  justify-content: space-between;
+
+  &__block {
+    display: flex;
+    color: $grey_8;
+  }
+
+  &__arrowImage {
+    width: 15px;
+  }
+}
+
+.accordianBlockWrapper {
+  padding: 10px 10px 20px 20px;
+  margin-top: 10px;
+
+  &__active {
+    // border: 1px solid;
+    // border-image-source: $orange_purple_gradient;
+    // border-radius: 7px;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 7px;
+      padding: 2px;
+      background: $orange_purple_gradient;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+    }
+
+    .accordian__title__block {
+      color: $prim_dark_1 !important;
+    }
+  }
+}
+
+.filterType {
+  display: flex;
+  padding: 15px 0;
+
+  &__text {
+    margin-left: 15px;
+  }
+
+  &__img {
+    cursor: pointer;
+  }
+}
+
+.hide {
+  display: none !important;
+}
