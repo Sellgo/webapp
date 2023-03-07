@@ -575,7 +575,7 @@ const SellerDatabaseFilters = (props: Props) => {
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
-                  <Icon name="building" className={styles.accordian__title__icon} />
+                  <Icon name="users" className={styles.accordian__title__icon} />
                   <p>Contact</p>
                 </div>
                 <Image
@@ -765,7 +765,7 @@ const SellerDatabaseFilters = (props: Props) => {
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
-                  <Icon name="building" className={styles.accordian__title__icon} />
+                  <Icon name="list" className={styles.accordian__title__icon} />
                   <p>Categories</p>
                 </div>
                 <Image
@@ -799,7 +799,7 @@ const SellerDatabaseFilters = (props: Props) => {
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
-                  <Icon name="group" className={styles.accordian__title__icon} />
+                  <Icon name="tag" className={styles.accordian__title__icon} />
                   <p>Brands</p>
                 </div>
                 <Image
@@ -906,7 +906,7 @@ const SellerDatabaseFilters = (props: Props) => {
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
-                  <Icon name="building" className={styles.accordian__title__icon} />
+                  <Icon name="boxes" className={styles.accordian__title__icon} />
                   <p>Products</p>
                 </div>
                 <Image
