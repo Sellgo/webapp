@@ -418,7 +418,7 @@ const SellerDatabaseFilters = (props: Props) => {
               className={styles.filterType__img}
             />
           )}
-          <p className={styles.filterType__text}>GENERAL</p>
+          <p className={styles.filterType__text}>GENERAL </p>
         </div>
         <div className={`${styles.basicFilters} ${!showGeneralFilters && styles.hide}`}>
           {/* Marketplace */}
@@ -439,7 +439,7 @@ const SellerDatabaseFilters = (props: Props) => {
               >
                 <div className={styles.accordian__title__block}>
                   <Icon name="building" className={styles.accordian__title__icon} />
-                  <p>Company Name</p>
+                  <p>Company name</p>
                 </div>
                 <Image
                   src={generalFiltersActiveIndexes.includes(0) ? upArrow : downArrow}
@@ -467,50 +467,6 @@ const SellerDatabaseFilters = (props: Props) => {
             </div>
             <div
               className={`${styles.accordianBlockWrapper} ${generalFiltersActiveIndexes.includes(
-                6
-              ) && styles.accordianBlockWrapper__active}`}
-            >
-              <Accordion.Title
-                active={generalFiltersActiveIndexes.includes(6)}
-                index={6}
-                onClick={() => handleGeneralFilterActiveIndexes(6)}
-                className={styles.accordian__title}
-              >
-                <div className={styles.accordian__title__block}>
-                  <Icon name="map marker alternate" className={styles.accordian__title__icon} />
-                  <p>Location</p>
-                </div>
-                <Image
-                  src={generalFiltersActiveIndexes.includes(6) ? upArrow : downArrow}
-                  className={styles.accordian__title__arrowImage}
-                />
-              </Accordion.Title>
-              <Accordion.Content active={generalFiltersActiveIndexes.includes(6)}>
-                <div>
-                  {/* Location */}
-                  <CheckboxDropdownFilter
-                    filterOptions={SELLER_DATABASE_COUNTRY_DROPDOWN_LIST}
-                    label=""
-                    selectedValues={sellerDatabaseFilters.countries}
-                    handleChange={(newCountries: string[]) => {
-                      updateSellerDatabaseFilter('countries', [...newCountries]);
-                    }}
-                  />
-
-                  <CheckboxDropdownFilter
-                    filterOptions={ALL_US_STATES}
-                    label="U.S. states"
-                    selectedValues={sellerDatabaseFilters.states}
-                    handleChange={(newStates: string[]) => {
-                      updateSellerDatabaseFilter('states', [...newStates]);
-                    }}
-                    disabled={sellerDatabaseFilters.countries.indexOf('US') === -1}
-                  />
-                </div>
-              </Accordion.Content>
-            </div>
-            <div
-              className={`${styles.accordianBlockWrapper} ${generalFiltersActiveIndexes.includes(
                 1
               ) && styles.accordianBlockWrapper__active}`}
             >
@@ -521,8 +477,8 @@ const SellerDatabaseFilters = (props: Props) => {
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
-                  <Icon name="pin" className={styles.accordian__title__icon} />
-                  <p>Zip code</p>
+                  <Icon name="world" className={styles.accordian__title__icon} />
+                  <p>Marketplace</p>
                 </div>
                 <Image
                   src={generalFiltersActiveIndexes.includes(1) ? upArrow : downArrow}
@@ -530,95 +486,6 @@ const SellerDatabaseFilters = (props: Props) => {
                 />
               </Accordion.Title>
               <Accordion.Content active={generalFiltersActiveIndexes.includes(1)}>
-                <div>
-                  <InputFilter
-                    label=""
-                    placeholder="Zip code"
-                    value={sellerDatabaseTextFieldFilters.zipCode}
-                    handleKeyDown={e => {
-                      if (e.key === 'Enter') {
-                        updateSellerDatabaseFilter('zipCode', e.target.value);
-                      }
-                    }}
-                    handleChange={(value: string) =>
-                      updateSellerDatabaseTextFieldFilter('zipCode', value)
-                    }
-                    className={sellerDatabaseTextFieldFilters.zipCode && styles.activeFilter}
-                  />
-                </div>
-              </Accordion.Content>
-            </div>
-            <div
-              className={`${styles.accordianBlockWrapper} ${generalFiltersActiveIndexes.includes(
-                2
-              ) && styles.accordianBlockWrapper__active}`}
-            >
-              <Accordion.Title
-                active={generalFiltersActiveIndexes.includes(2)}
-                index={2}
-                onClick={() => handleGeneralFilterActiveIndexes(2)}
-                className={styles.accordian__title}
-              >
-                <div className={styles.accordian__title__block}>
-                  <Icon name="group" className={styles.accordian__title__icon} />
-                  <p># Employees</p>
-                </div>
-                <Image
-                  src={generalFiltersActiveIndexes.includes(2) ? upArrow : downArrow}
-                  className={styles.accordian__title__arrowImage}
-                />
-              </Accordion.Title>
-              <Accordion.Content active={generalFiltersActiveIndexes.includes(2)}>
-                <div>
-                  <MinMaxFilter
-                    label=""
-                    minValue={sellerDatabaseTextFieldFilters.numOfEmployees.min}
-                    maxValue={sellerDatabaseTextFieldFilters.numOfEmployees.max}
-                    handleChange={(type: string, value: string) =>
-                      updateSellerDatabaseTextFieldFilter('numOfEmployees', {
-                        ...sellerDatabaseTextFieldFilters.numOfEmployees,
-                        [type]: value,
-                      })
-                    }
-                    handleKeyDown={e => {
-                      if (e.key === 'Enter') {
-                        updateSellerDatabaseFilter(
-                          'numOfEmployees',
-                          sellerDatabaseTextFieldFilters.numOfEmployees
-                        );
-                      }
-                    }}
-                    maxClassName={
-                      sellerDatabaseTextFieldFilters.numOfEmployees.max && styles.activeFilter
-                    }
-                    minClassName={
-                      sellerDatabaseTextFieldFilters.numOfEmployees.min && styles.activeFilter
-                    }
-                  />
-                </div>
-              </Accordion.Content>
-            </div>
-            <div
-              className={`${styles.accordianBlockWrapper} ${generalFiltersActiveIndexes.includes(
-                3
-              ) && styles.accordianBlockWrapper__active}`}
-            >
-              <Accordion.Title
-                active={generalFiltersActiveIndexes.includes(3)}
-                index={3}
-                onClick={() => handleGeneralFilterActiveIndexes(3)}
-                className={styles.accordian__title}
-              >
-                <div className={styles.accordian__title__block}>
-                  <Icon name="world" className={styles.accordian__title__icon} />
-                  <p>Marketplace</p>
-                </div>
-                <Image
-                  src={generalFiltersActiveIndexes.includes(3) ? upArrow : downArrow}
-                  className={styles.accordian__title__arrowImage}
-                />
-              </Accordion.Title>
-              <Accordion.Content active={generalFiltersActiveIndexes.includes(3)}>
                 <div>
                   <MarketPlaceFilter
                     label=""
@@ -639,29 +506,89 @@ const SellerDatabaseFilters = (props: Props) => {
             </div>
             <div
               className={`${styles.accordianBlockWrapper} ${generalFiltersActiveIndexes.includes(
-                4
+                2
               ) && styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={generalFiltersActiveIndexes.includes(4)}
-                index={4}
-                onClick={() => handleGeneralFilterActiveIndexes(4)}
+                active={generalFiltersActiveIndexes.includes(2)}
+                index={2}
+                onClick={() => handleGeneralFilterActiveIndexes(2)}
+                className={styles.accordian__title}
+              >
+                <div className={styles.accordian__title__block}>
+                  <Icon name="map marker alternate" className={styles.accordian__title__icon} />
+                  <p>Location</p>
+                </div>
+                <Image
+                  src={generalFiltersActiveIndexes.includes(2) ? upArrow : downArrow}
+                  className={styles.accordian__title__arrowImage}
+                />
+              </Accordion.Title>
+              <Accordion.Content active={generalFiltersActiveIndexes.includes(2)}>
+                <div>
+                  {/* Location */}
+                  <CheckboxDropdownFilter
+                    filterOptions={SELLER_DATABASE_COUNTRY_DROPDOWN_LIST}
+                    label="Country of origin"
+                    selectedValues={sellerDatabaseFilters.countries}
+                    handleChange={(newCountries: string[]) => {
+                      updateSellerDatabaseFilter('countries', [...newCountries]);
+                    }}
+                  />
+
+                  <CheckboxDropdownFilter
+                    filterOptions={ALL_US_STATES}
+                    label="U.S. states"
+                    selectedValues={sellerDatabaseFilters.states}
+                    handleChange={(newStates: string[]) => {
+                      updateSellerDatabaseFilter('states', [...newStates]);
+                    }}
+                    disabled={sellerDatabaseFilters.countries.indexOf('US') === -1}
+                  />
+                  <InputFilter
+                    label="Zip code"
+                    placeholder="Zip code"
+                    value={sellerDatabaseTextFieldFilters.zipCode}
+                    handleKeyDown={e => {
+                      if (e.key === 'Enter') {
+                        updateSellerDatabaseFilter('zipCode', e.target.value);
+                      }
+                    }}
+                    handleChange={(value: string) =>
+                      updateSellerDatabaseTextFieldFilter('zipCode', value)
+                    }
+                    className={sellerDatabaseTextFieldFilters.zipCode && styles.activeFilter}
+                  />
+                </div>
+              </Accordion.Content>
+            </div>
+
+            <div
+              className={`${styles.accordianBlockWrapper} ${generalFiltersActiveIndexes.includes(
+                3
+              ) && styles.accordianBlockWrapper__active}`}
+            >
+              <Accordion.Title
+                active={generalFiltersActiveIndexes.includes(3)}
+                index={3}
+                onClick={() => handleGeneralFilterActiveIndexes(3)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
                   <Icon name="building" className={styles.accordian__title__icon} />
-                  <p>Company</p>
+                  <p>Contact</p>
                 </div>
                 <Image
-                  src={generalFiltersActiveIndexes.includes(4) ? upArrow : downArrow}
+                  src={generalFiltersActiveIndexes.includes(3) ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={generalFiltersActiveIndexes.includes(4)}>
+              <Accordion.Content active={generalFiltersActiveIndexes.includes(3)}>
                 <div>
                   {/* Feature request */}
                   {/* Physical address */}
                   <CheckboxFilter
+                    label="Company"
                     checkboxLabel="Physical address"
                     checked={sellerDatabaseFilters.hasAddress}
                     handleChange={value => updateSellerDatabaseFilter('hasAddress', value)}
@@ -691,30 +618,10 @@ const SellerDatabaseFilters = (props: Props) => {
                   />
                 </div>
               </Accordion.Content>
-            </div>
-            <div
-              className={`${styles.accordianBlockWrapper} ${generalFiltersActiveIndexes.includes(
-                5
-              ) && styles.accordianBlockWrapper__active}`}
-            >
-              <Accordion.Title
-                active={generalFiltersActiveIndexes.includes(5)}
-                index={5}
-                onClick={() => handleGeneralFilterActiveIndexes(5)}
-                className={styles.accordian__title}
-              >
-                <div className={styles.accordian__title__block}>
-                  <Icon name="building" className={styles.accordian__title__icon} />
-                  <p>Decision makers</p>
-                </div>
-                <Image
-                  src={generalFiltersActiveIndexes.includes(5) ? upArrow : downArrow}
-                  className={styles.accordian__title__arrowImage}
-                />
-              </Accordion.Title>
-              <Accordion.Content active={generalFiltersActiveIndexes.includes(5)}>
+              <Accordion.Content active={generalFiltersActiveIndexes.includes(3)}>
                 <div>
                   <CheckboxFilter
+                    label="Decision maker"
                     checkboxLabel="Professional email"
                     checked={sellerDatabaseFilters.hasProfessionalEmail}
                     handleChange={value =>
@@ -730,7 +637,7 @@ const SellerDatabaseFilters = (props: Props) => {
                     handleChange={value => updateSellerDatabaseFilter('hasPersonalEmail', value)}
                   />
                   <CheckboxFilter
-                    checkboxLabel="Phone"
+                    checkboxLabel="Direct phone"
                     checked={sellerDatabaseFilters.hasEmployeePhone}
                     handleChange={value => updateSellerDatabaseFilter('hasEmployeePhone', value)}
                   />
@@ -745,6 +652,82 @@ const SellerDatabaseFilters = (props: Props) => {
                 </div>
               </Accordion.Content>
             </div>
+            {/* <div
+              className={`${styles.accordianBlockWrapper} ${generalFiltersActiveIndexes.includes(
+                4
+              ) && styles.accordianBlockWrapper__active}`}
+            >
+              <Accordion.Title
+                active={generalFiltersActiveIndexes.includes(4)}
+                index={4}
+                onClick={() => handleGeneralFilterActiveIndexes(4)}
+                className={styles.accordian__title}
+              >
+                <div className={styles.accordian__title__block}>
+                  <Icon name="building" className={styles.accordian__title__icon} />
+                  <p>Employees</p>
+                </div>
+                <Image
+                  src={generalFiltersActiveIndexes.includes(4) ? upArrow : downArrow}
+                  className={styles.accordian__title__arrowImage}
+                />
+              </Accordion.Title>
+              <Accordion.Content active={generalFiltersActiveIndexes.includes(4)}>
+                <div>
+                  <MinMaxFilter
+                    label=""
+                    minValue={sellerDatabaseTextFieldFilters.numOfEmployees.min}
+                    maxValue={sellerDatabaseTextFieldFilters.numOfEmployees.max}
+                    handleChange={(type: string, value: string) =>
+                      updateSellerDatabaseTextFieldFilter('numOfEmployees', {
+                        ...sellerDatabaseTextFieldFilters.numOfEmployees,
+                        [type]: value,
+                      })
+                    }
+                    handleKeyDown={e => {
+                      if (e.key === 'Enter') {
+                        updateSellerDatabaseFilter(
+                          'numOfEmployees',
+                          sellerDatabaseTextFieldFilters.numOfEmployees
+                        );
+                      }
+                    }}
+                    maxClassName={
+                      sellerDatabaseTextFieldFilters.numOfEmployees.max && styles.activeFilter
+                    }
+                    minClassName={
+                      sellerDatabaseTextFieldFilters.numOfEmployees.min && styles.activeFilter
+                    }
+                  />
+                </div>
+              </Accordion.Content>
+              <Accordion.Content active={generalFiltersActiveIndexes.includes(4)}>
+                <div>
+                  <CheckboxFilter
+                    checkboxLabel="Professional email"
+                    checked={sellerDatabaseFilters.hasProfessionalEmail}
+                    handleChange={value =>
+                      updateSellerDatabaseFilter('hasProfessionalEmail', value)
+                    }
+                  />              
+                  <CheckboxFilter
+                    checkboxLabel="Personal email"
+                    checked={sellerDatabaseFilters.hasPersonalEmail}
+                    handleChange={value => updateSellerDatabaseFilter('hasPersonalEmail', value)}
+                  />
+                  <CheckboxFilter
+                    checkboxLabel="Phone"
+                    checked={sellerDatabaseFilters.hasEmployeePhone}
+                    handleChange={value => updateSellerDatabaseFilter('hasEmployeePhone', value)}
+                  />
+                  <CheckboxFilter
+                    checkboxLabel="Social media"
+                    checked={sellerDatabaseFilters.hasEmployeeSocial}
+                    handleChange={value => updateSellerDatabaseFilter('hasEmployeeSocial', value)}
+                  />
+                </div>
+              </Accordion.Content>
+            </div> */}
           </Accordion>
         </div>
         <div className={styles.filterType}>
@@ -794,7 +777,7 @@ const SellerDatabaseFilters = (props: Props) => {
                 <div>
                   <CheckboxDropdownFilter
                     filterOptions={getProductCategories(marketPlace.code)}
-                    label=""
+                    label="Main product categories"
                     selectedValues={sellerDatabaseFilters.categories}
                     handleChange={(newCategories: string[]) => {
                       updateSellerDatabaseFilter('categories', [...newCategories]);
@@ -817,7 +800,7 @@ const SellerDatabaseFilters = (props: Props) => {
               >
                 <div className={styles.accordian__title__block}>
                   <Icon name="group" className={styles.accordian__title__icon} />
-                  <p># Brands</p>
+                  <p>Brands</p>
                 </div>
                 <Image
                   src={buyingIntentFiltersActiveIndexes.includes(1) ? upArrow : downArrow}
@@ -827,7 +810,7 @@ const SellerDatabaseFilters = (props: Props) => {
               <Accordion.Content active={buyingIntentFiltersActiveIndexes.includes(1)}>
                 <div>
                   <MinMaxFilter
-                    label=""
+                    label="Brands count"
                     minValue={sellerDatabaseTextFieldFilters.numOfBrands.min}
                     maxValue={sellerDatabaseTextFieldFilters.numOfBrands.max}
                     handleChange={(type: string, value: string) =>
@@ -851,32 +834,6 @@ const SellerDatabaseFilters = (props: Props) => {
                       sellerDatabaseTextFieldFilters.numOfBrands.min && styles.activeFilter
                     }
                   />
-                </div>
-              </Accordion.Content>
-            </div>
-            <div
-              className={`${
-                styles.accordianBlockWrapper
-              } ${buyingIntentFiltersActiveIndexes.includes(2) &&
-                styles.accordianBlockWrapper__active}`}
-            >
-              <Accordion.Title
-                active={buyingIntentFiltersActiveIndexes.includes(2)}
-                index={2}
-                onClick={() => handleBuyingIntentFilterActiveIndexes(2)}
-                className={styles.accordian__title}
-              >
-                <div className={styles.accordian__title__block}>
-                  <Icon name="industry" className={styles.accordian__title__icon} />
-                  <p>Brands</p>
-                </div>
-                <Image
-                  src={buyingIntentFiltersActiveIndexes.includes(2) ? upArrow : downArrow}
-                  className={styles.accordian__title__arrowImage}
-                />
-              </Accordion.Title>
-              <Accordion.Content active={buyingIntentFiltersActiveIndexes.includes(2)}>
-                <div>
                   {/*  Include brands */}
                   <InputFilter
                     label="Include brands"
@@ -939,29 +896,29 @@ const SellerDatabaseFilters = (props: Props) => {
             <div
               className={`${
                 styles.accordianBlockWrapper
-              } ${buyingIntentFiltersActiveIndexes.includes(3) &&
+              } ${buyingIntentFiltersActiveIndexes.includes(2) &&
                 styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={buyingIntentFiltersActiveIndexes.includes(3)}
+                active={buyingIntentFiltersActiveIndexes.includes(2)}
                 index={3}
-                onClick={() => handleBuyingIntentFilterActiveIndexes(3)}
+                onClick={() => handleBuyingIntentFilterActiveIndexes(2)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
                   <Icon name="building" className={styles.accordian__title__icon} />
-                  <p># Products</p>
+                  <p>Products</p>
                 </div>
                 <Image
-                  src={buyingIntentFiltersActiveIndexes.includes(3) ? upArrow : downArrow}
+                  src={buyingIntentFiltersActiveIndexes.includes(2) ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={buyingIntentFiltersActiveIndexes.includes(3)}>
+              <Accordion.Content active={buyingIntentFiltersActiveIndexes.includes(2)}>
                 <div>
                   {/* # of Inventory */}
                   <MinMaxFilter
-                    label=""
+                    label="Products count"
                     minValue={sellerDatabaseTextFieldFilters.numOfInventory.min}
                     maxValue={sellerDatabaseTextFieldFilters.numOfInventory.max}
                     handleChange={(type: string, value: string) =>
@@ -985,32 +942,6 @@ const SellerDatabaseFilters = (props: Props) => {
                       sellerDatabaseTextFieldFilters.numOfInventory.min && styles.activeFilter
                     }
                   />
-                </div>
-              </Accordion.Content>
-            </div>
-            <div
-              className={`${
-                styles.accordianBlockWrapper
-              } ${buyingIntentFiltersActiveIndexes.includes(4) &&
-                styles.accordianBlockWrapper__active}`}
-            >
-              <Accordion.Title
-                active={buyingIntentFiltersActiveIndexes.includes(4)}
-                index={4}
-                onClick={() => handleBuyingIntentFilterActiveIndexes(4)}
-                className={styles.accordian__title}
-              >
-                <div className={styles.accordian__title__block}>
-                  <Icon name="search" className={styles.accordian__title__icon} />
-                  <p>Products</p>
-                </div>
-                <Image
-                  src={buyingIntentFiltersActiveIndexes.includes(4) ? upArrow : downArrow}
-                  className={styles.accordian__title__arrowImage}
-                />
-              </Accordion.Title>
-              <Accordion.Content active={buyingIntentFiltersActiveIndexes.includes(4)}>
-                <div>
                   {/* Include ASINS */}
                   <InputFilter
                     label="Include Product IDs"
