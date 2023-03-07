@@ -2,13 +2,14 @@
 
 .filterSection {
   padding: 0;
-  width: 300px;
+  width: 220px;
 }
 
 /* Basic Filter Styles */
 .basicFilters {
   background: $prim_white;
-  padding: 20px 10px 20px 15px;
+  border-radius: 0 10px 10px 0;
+  padding: 3px 10px 7px 3px;
   margin-left: -35px;
   height: max-content;
 }
@@ -78,13 +79,13 @@
   }
 
   &__arrowImage {
-    width: 15px;
+    width: 11px;
   }
 }
 
 .accordianBlockWrapper {
-  padding: 10px 10px 20px 20px;
-  margin-top: 10px;
+  padding: 7px 18px 11px 18px;
+  margin-top: 3px;
 
   &__active {
     // border: 1px solid;
@@ -112,10 +113,12 @@
 
 .filterType {
   display: flex;
-  padding: 15px 0;
+  margin-left: -14px;
+  padding: 11px 0 11px 0;
 
   &__text {
-    margin-left: 15px;
+    margin-left: 11px;
+    font-weight: $fontweight_semibold;
   }
 
   &__img {

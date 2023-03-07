@@ -418,7 +418,7 @@ const SellerDatabaseFilters = (props: Props) => {
               className={styles.filterType__img}
             />
           )}
-          <p className={styles.filterType__text}>GENERAL </p>
+          <p className={styles.filterType__text}>GENERAL</p>
         </div>
         <div className={`${styles.basicFilters} ${!showGeneralFilters && styles.hide}`}>
           {/* Marketplace */}

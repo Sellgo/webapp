@@ -131,7 +131,7 @@ const SellerDatabaseTable = (props: Props) => {
           rowKey="merchant_id"
         >
           {/* Seller Information */}
-          <Table.Column width={250} verticalAlign="middle" fixed>
+          <Table.Column width={140} verticalAlign="middle" fixed>
             <Table.HeaderCell>
               <HeaderSortCell
                 title={``}
@@ -189,7 +189,7 @@ const SellerDatabaseTable = (props: Props) => {
 
           {/* Country */}
           <Table.Column
-            width={250}
+            width={180}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
             align="left"
