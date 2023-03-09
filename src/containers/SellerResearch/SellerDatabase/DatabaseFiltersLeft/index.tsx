@@ -34,7 +34,11 @@ import {
   getMinMaxPeriodFilter,
   getGrowthFilter,
   getMarketplace,
+  SIMPLE_SD_FILTERS,
+  MIN_MAX_SD_FILTERS,
+  INCLUDE_EXCLUDE_SD_FILTERS,
 } from '../../../../constants/SellerResearch/SellerDatabase';
+
 import { getProductCategories } from '../../../../constants/ProductResearch/ProductsDatabase';
 import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
 import {
@@ -94,6 +98,7 @@ const SellerDatabaseFilters = (props: Props) => {
   const [sellerDatabaseFilters, setSellerDatabaseFilters] = useState(
     DEFAULT_SELLER_DATABASE_FILTER
   );
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [sellerDatabaseTextFieldFilters, setSellerDatabaseTextFieldFilters] = useState({
     ...DEFAULT_SELLER_DATABASE_FILTER,
   });
@@ -101,6 +106,7 @@ const SellerDatabaseFilters = (props: Props) => {
   const [isFilteredOnce, setIsFilteredOnce] = useState<boolean>(false);
 
   const updateSellerDatabaseFilter = (key: string, value: any) => {
+    console.log(key, value);
     setIsFilteredOnce(true);
     if (key === 'countries') {
       setSellerDatabaseFilters((prevValues: any) => ({ ...prevValues, [key]: value, states: [] }));
@@ -119,6 +125,66 @@ const SellerDatabaseFilters = (props: Props) => {
       }));
     } else {
       setSellerDatabaseTextFieldFilters((prevValues: any) => ({ ...prevValues, [key]: value }));
+    }
+  };
+
+  const getActiveFilters = () => {
+    console.log(sellerDatabaseFilters);
+    const activeFilters: string[] = [];
+    SIMPLE_SD_FILTERS.forEach(sdFilter => {
+      console.log(
+        Array.isArray(sellerDatabaseFilters[sdFilter]),
+        sellerDatabaseFilters[sdFilter].length > 0
+      );
+      if (Array.isArray(sellerDatabaseFilters[sdFilter])) {
+        if (sellerDatabaseFilters[sdFilter].length > 0) {
+          activeFilters.push(sdFilter);
+        }
+      } else if (sellerDatabaseFilters[sdFilter]) {
+        activeFilters.push(sdFilter);
+      }
+    });
+    MIN_MAX_SD_FILTERS.forEach(minMaxSdFilter => {
+      if (sellerDatabaseFilters[minMaxSdFilter].min || sellerDatabaseFilters[minMaxSdFilter].max) {
+        activeFilters.push(minMaxSdFilter);
+      }
+    });
+    INCLUDE_EXCLUDE_SD_FILTERS.forEach(includeExcludeSdFilter => {
+      if (
+        sellerDatabaseFilters[includeExcludeSdFilter].include ||
+        sellerDatabaseFilters[includeExcludeSdFilter].exclude
+      ) {
+        activeFilters.push(includeExcludeSdFilter);
+      }
+    });
+    console.log('active ', activeFilters);
+    setActiveFilters([...activeFilters]);
+  };
+
+  const removeActiveFilter = (filterName: string) => {
+    if (SIMPLE_SD_FILTERS.indexOf(filterName) >= 0) {
+      if (Array.isArray(sellerDatabaseFilters[filterName])) {
+        updateSellerDatabaseFilter(filterName, []);
+      } else if (typeof sellerDatabaseFilters[filterName] === 'string') {
+        updateSellerDatabaseFilter(filterName, '');
+      } else {
+        updateSellerDatabaseFilter(filterName, false);
+      }
+      return;
+    }
+    if (MIN_MAX_SD_FILTERS.indexOf(filterName) >= 0) {
+      updateSellerDatabaseFilter(filterName, {
+        min: '',
+        max: '',
+      });
+      return;
+    }
+    if (INCLUDE_EXCLUDE_SD_FILTERS.indexOf(filterName) >= 0) {
+      updateSellerDatabaseFilter(filterName, {
+        include: '',
+        exclude: '',
+      });
+      return;
     }
   };
 
@@ -370,6 +436,10 @@ const SellerDatabaseFilters = (props: Props) => {
     }
   }, [sellerDatabaseFilters.sellerIds.exclude]);
 
+  useEffect(() => {
+    getActiveFilters();
+  }, [sellerDatabaseFilters]);
+
   /* Overall form submit diable condition */
   const disableFormSubmit = useMemo(() => {
     const shouldDisabledFormSubmit =
@@ -402,9 +472,46 @@ const SellerDatabaseFilters = (props: Props) => {
   //   setBuyingIntentFiltersActiveIndexes([...newIndex]);
   // };
 
+  const handleAccordianUpArrowClick = (number: number) => {
+    if (filterActiveIndex === number) {
+      setFilterActiveIndex(-1);
+    } else {
+      setFilterActiveIndex(number);
+    }
+  };
+
   return (
     <>
       <section className={styles.filterSection}>
+        <div className={styles.activeFiltersWrapper}>
+          {activeFilters && activeFilters.length > 0 && (
+            <>
+              <div className={styles.btnWrapper}>
+                <button onClick={() => handleReset()} className={styles.btn}>
+                  <span className={styles.cross}>x</span>Clear All
+                </button>
+              </div>
+              <div className={styles.activeFiltersPils}>
+                {activeFilters.map((activeFilter, index) => {
+                  return (
+                    <div key={index} className={styles.activeFiltersPils__pil}>
+                      <p key={index}>
+                        {activeFilter}{' '}
+                        <span
+                          className={styles.cross}
+                          onClick={() => removeActiveFilter(activeFilter)}
+                        >
+                          x
+                        </span>
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
+          {(!activeFilters || activeFilters.length) === 0 && <p>No Active Filters yet</p>}
+        </div>
         <div className={styles.filterType}>
           {showGeneralFilters ? (
             <Image
@@ -434,7 +541,7 @@ const SellerDatabaseFilters = (props: Props) => {
               <Accordion.Title
                 active={filterActiveIndex === 0}
                 index={0}
-                onClick={() => setFilterActiveIndex(0)}
+                onClick={() => handleAccordianUpArrowClick(0)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -472,7 +579,7 @@ const SellerDatabaseFilters = (props: Props) => {
               <Accordion.Title
                 active={filterActiveIndex === 1}
                 index={1}
-                onClick={() => setFilterActiveIndex(1)}
+                onClick={() => handleAccordianUpArrowClick(1)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -510,7 +617,7 @@ const SellerDatabaseFilters = (props: Props) => {
               <Accordion.Title
                 active={filterActiveIndex === 2}
                 index={2}
-                onClick={() => setFilterActiveIndex(2)}
+                onClick={() => handleAccordianUpArrowClick(2)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -568,7 +675,7 @@ const SellerDatabaseFilters = (props: Props) => {
               <Accordion.Title
                 active={filterActiveIndex === 3}
                 index={3}
-                onClick={() => setFilterActiveIndex(3)}
+                onClick={() => handleAccordianUpArrowClick(3)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -657,7 +764,7 @@ const SellerDatabaseFilters = (props: Props) => {
               <Accordion.Title
                 active={filterActiveIndex === 4)}
                 index={4}
-                onClick={() => setFilterActiveIndex(4)}
+                onClick={() => handleAccordianUpArrowClick(4)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -756,7 +863,7 @@ const SellerDatabaseFilters = (props: Props) => {
               <Accordion.Title
                 active={filterActiveIndex === 8}
                 index={0}
-                onClick={() => setFilterActiveIndex(8)}
+                onClick={() => handleAccordianUpArrowClick(8)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -788,7 +895,7 @@ const SellerDatabaseFilters = (props: Props) => {
               <Accordion.Title
                 active={filterActiveIndex === 9}
                 index={1}
-                onClick={() => setFilterActiveIndex(9)}
+                onClick={() => handleAccordianUpArrowClick(9)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -893,7 +1000,7 @@ const SellerDatabaseFilters = (props: Props) => {
               <Accordion.Title
                 active={filterActiveIndex === 10}
                 index={3}
-                onClick={() => setFilterActiveIndex(10)}
+                onClick={() => handleAccordianUpArrowClick(10)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>

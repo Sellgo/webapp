@@ -251,6 +251,48 @@ export const DEFAULT_SELLER_DATABASE_FILTER: any = {
   numOfEmployees: DEFAULT_MIN_MAX_FILTER,
 };
 
+export const SIMPLE_SD_FILTERS = [
+  'categories',
+  'countries',
+  'states',
+  'zipCode',
+  'hasContact',
+  'hasAddress',
+  'hasWebsite',
+  'hasCompanySocial',
+  'hasProfessionalEmail',
+  'hasPersonalEmail',
+  'hasEmployeePhone',
+  'hasEmployeeSocial',
+  'companyName',
+];
+
+export const MIN_MAX_SD_FILTERS = ['numOfInventory', 'numOfBrands'];
+
+export const INCLUDE_EXCLUDE_SD_FILTERS = ['brands', 'asins'];
+
+export const FILTER_ICON_NAMES: {
+  [key: string]: string;
+} = {
+  categories: 'list',
+  countries: 'map marker alternate',
+  states: 'map marker alternate',
+  zipCode: 'map marker alternate',
+  hasContact: 'users',
+  hasAddress: 'users',
+  hasWebsite: 'users',
+  hasCompanySocial: 'users',
+  hasProfessionalEmail: 'users',
+  hasPersonalEmail: 'users',
+  hasEmployeePhone: 'users',
+  hasEmployeeSocial: 'users',
+  companyName: 'building',
+  numOfInventory: 'boxes',
+  numOfBrands: 'tag',
+  brands: 'tag',
+  asins: 'boxes',
+};
+
 export const getMinMaxPeriodFilter = (apiFilterName: string, value: any, isReview?: boolean) => {
   let filter = {};
 

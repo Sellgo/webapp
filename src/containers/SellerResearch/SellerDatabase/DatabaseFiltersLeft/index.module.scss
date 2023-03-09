@@ -131,3 +131,46 @@
 .hide {
   display: none !important;
 }
+
+.activeFiltersWrapper {
+  padding: 20px 18px 11px 18px !important;
+  margin-top: 3px;
+  background: #fff;
+  border-radius: 7px 7px 7px 7px;
+  margin-left: -24px;
+
+  .activeFiltersPils {
+    display: flex;
+    flex-wrap: wrap;
+
+    &__pil {
+      padding: 5px;
+      margin: 10px 0 0 10px;
+      background-color: $grey_6;
+      color: $prim_white;
+      font-size: 12px;
+      border-radius: 7px;
+
+      .cross {
+        margin-left: 5px;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .btnWrapper {
+    display: flex;
+    justify-content: flex-end;
+
+    .btn {
+      background: transparent;
+      border: 1px solid;
+      border-radius: 7px;
+      float: right;
+
+      .cross {
+        margin-right: 5px;
+      }
+    }
+  }
+}
