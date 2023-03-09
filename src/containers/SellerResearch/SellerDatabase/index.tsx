@@ -10,7 +10,7 @@ import SellerDatabaseTable from './DatabaseTable';
 import DatabaseExport from './DatabaseExport';
 
 /* Components */
-import FilterMessage from '../../../components/FilterMessage';
+// import FilterMessage from '../../../components/FilterMessage';
 
 /* Selectors */
 import { getFilterMessage } from '../../../selectors/SellerResearch/SellerDatabase';
@@ -32,7 +32,7 @@ interface Props {
 }
 
 const SellerDatabase = (props: Props) => {
-  const { showFilterMessage, fetchSellerDatabase } = props;
+  const { fetchSellerDatabase } = props;
   // const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const [showFilterInitMessage, setShowFilterInitMessage] = React.useState<boolean>(false);
   React.useEffect(() => {
@@ -62,12 +62,12 @@ const SellerDatabase = (props: Props) => {
         </div>
       ) : (
         <div className={styles.tableSection}>
-          <FilterMessage
+          {/* <FilterMessage
             active={showFilterMessage.show}
             message={showFilterMessage.message}
             type={showFilterMessage.type}
             className={styles.filterMessage}
-          />
+          /> */}
           <DatabaseExport />
           <SellerDatabaseTable />
         </div>

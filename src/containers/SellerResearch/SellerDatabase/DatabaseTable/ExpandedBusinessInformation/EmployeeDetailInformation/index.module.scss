@@ -167,3 +167,13 @@
     cursor: pointer;
   }
 }
+
+.contactInfo {
+  display: flex;
+  max-height: 450px;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
+}

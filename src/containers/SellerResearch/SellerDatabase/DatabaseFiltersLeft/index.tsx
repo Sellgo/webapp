@@ -86,10 +86,11 @@ const SellerDatabaseFilters = (props: Props) => {
 
   const [showGeneralFilters, setShowGeneralFilters] = useState(true);
   const [showBuyingIntentFilters, setShowBuyingIntentFilters] = useState(true);
-  const [generalFiltersActiveIndexes, setGeneralFiltersActiveIndexes] = useState<number[]>([-1]);
-  const [buyingIntentFiltersActiveIndexes, setBuyingIntentFiltersActiveIndexes] = useState<
-    number[]
-  >([-1]);
+  // const [generalFiltersActiveIndexes, setGeneralFiltersActiveIndexes] = useState<number[]>([-1]);
+  // const [buyingIntentFiltersActiveIndexes, setBuyingIntentFiltersActiveIndexes] = useState<
+  //   number[]
+  // >([-1]);
+  const [filterActiveIndex, setFilterActiveIndex] = useState<number>(-1);
   const [sellerDatabaseFilters, setSellerDatabaseFilters] = useState(
     DEFAULT_SELLER_DATABASE_FILTER
   );
@@ -377,29 +378,29 @@ const SellerDatabaseFilters = (props: Props) => {
     return shouldDisabledFormSubmit;
   }, [asinsError.include, asinsError.exclude, sellerIdsError.include, sellerIdsError.exclude]);
 
-  const handleGeneralFilterActiveIndexes = (activeIndex: number) => {
-    const newIndex = [...generalFiltersActiveIndexes];
+  // const setFilterActiveIndex = (activeIndex: number) => {
+  //   const newIndex = [...generalFiltersActiveIndexes];
 
-    const currentIndexPosition = generalFiltersActiveIndexes.indexOf(activeIndex);
-    if (currentIndexPosition > -1) {
-      newIndex.splice(currentIndexPosition, 1);
-    } else {
-      newIndex.push(activeIndex);
-    }
-    setGeneralFiltersActiveIndexes([...newIndex]);
-  };
+  //   const currentIndexPosition = generalFiltersActiveIndexes.indexOf(activeIndex);
+  //   if (currentIndexPosition > -1) {
+  //     newIndex.splice(currentIndexPosition, 1);
+  //   } else {
+  //     newIndex.push(activeIndex);
+  //   }
+  //   setGeneralFiltersActiveIndexes([...newIndex]);
+  // };
 
-  const handleBuyingIntentFilterActiveIndexes = (activeIndex: number) => {
-    const newIndex = [...buyingIntentFiltersActiveIndexes];
+  // const setFilterActiveIndex = (activeIndex: number) => {
+  //   const newIndex = [...buyingIntentFiltersActiveIndexes];
 
-    const currentIndexPosition = buyingIntentFiltersActiveIndexes.indexOf(activeIndex);
-    if (currentIndexPosition > -1) {
-      newIndex.splice(currentIndexPosition, 1);
-    } else {
-      newIndex.push(activeIndex);
-    }
-    setBuyingIntentFiltersActiveIndexes([...newIndex]);
-  };
+  //   const currentIndexPosition = buyingIntentFiltersActiveIndexes.indexOf(activeIndex);
+  //   if (currentIndexPosition > -1) {
+  //     newIndex.splice(currentIndexPosition, 1);
+  //   } else {
+  //     newIndex.push(activeIndex);
+  //   }
+  //   setBuyingIntentFiltersActiveIndexes([...newIndex]);
+  // };
 
   return (
     <>
@@ -427,14 +428,13 @@ const SellerDatabaseFilters = (props: Props) => {
           {/* Company Name */}
           <Accordion>
             <div
-              className={`${styles.accordianBlockWrapper} ${generalFiltersActiveIndexes.includes(
-                0
-              ) && styles.accordianBlockWrapper__active}`}
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 0 &&
+                styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={generalFiltersActiveIndexes.includes(0)}
+                active={filterActiveIndex === 0}
                 index={0}
-                onClick={() => handleGeneralFilterActiveIndexes(0)}
+                onClick={() => setFilterActiveIndex(0)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -442,11 +442,11 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Company name</p>
                 </div>
                 <Image
-                  src={generalFiltersActiveIndexes.includes(0) ? upArrow : downArrow}
+                  src={filterActiveIndex === 0 ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={generalFiltersActiveIndexes.includes(0)}>
+              <Accordion.Content active={filterActiveIndex === 0}>
                 <div>
                   <InputFilter
                     label=""
@@ -466,14 +466,13 @@ const SellerDatabaseFilters = (props: Props) => {
               </Accordion.Content>
             </div>
             <div
-              className={`${styles.accordianBlockWrapper} ${generalFiltersActiveIndexes.includes(
-                1
-              ) && styles.accordianBlockWrapper__active}`}
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 1 &&
+                styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={generalFiltersActiveIndexes.includes(1)}
+                active={filterActiveIndex === 1}
                 index={1}
-                onClick={() => handleGeneralFilterActiveIndexes(1)}
+                onClick={() => setFilterActiveIndex(1)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -481,11 +480,11 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Marketplace</p>
                 </div>
                 <Image
-                  src={generalFiltersActiveIndexes.includes(1) ? upArrow : downArrow}
+                  src={filterActiveIndex === 1 ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={generalFiltersActiveIndexes.includes(1)}>
+              <Accordion.Content active={filterActiveIndex === 1}>
                 <div>
                   <MarketPlaceFilter
                     label=""
@@ -505,14 +504,13 @@ const SellerDatabaseFilters = (props: Props) => {
               </Accordion.Content>
             </div>
             <div
-              className={`${styles.accordianBlockWrapper} ${generalFiltersActiveIndexes.includes(
-                2
-              ) && styles.accordianBlockWrapper__active}`}
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 2 &&
+                styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={generalFiltersActiveIndexes.includes(2)}
+                active={filterActiveIndex === 2}
                 index={2}
-                onClick={() => handleGeneralFilterActiveIndexes(2)}
+                onClick={() => setFilterActiveIndex(2)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -520,11 +518,11 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Location</p>
                 </div>
                 <Image
-                  src={generalFiltersActiveIndexes.includes(2) ? upArrow : downArrow}
+                  src={filterActiveIndex === 2 ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={generalFiltersActiveIndexes.includes(2)}>
+              <Accordion.Content active={filterActiveIndex === 2}>
                 <div>
                   {/* Location */}
                   <CheckboxDropdownFilter
@@ -564,14 +562,13 @@ const SellerDatabaseFilters = (props: Props) => {
             </div>
 
             <div
-              className={`${styles.accordianBlockWrapper} ${generalFiltersActiveIndexes.includes(
-                3
-              ) && styles.accordianBlockWrapper__active}`}
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 3 &&
+                styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={generalFiltersActiveIndexes.includes(3)}
+                active={filterActiveIndex === 3}
                 index={3}
-                onClick={() => handleGeneralFilterActiveIndexes(3)}
+                onClick={() => setFilterActiveIndex(3)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -579,11 +576,11 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Contact</p>
                 </div>
                 <Image
-                  src={generalFiltersActiveIndexes.includes(3) ? upArrow : downArrow}
+                  src={filterActiveIndex === 3 ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={generalFiltersActiveIndexes.includes(3)}>
+              <Accordion.Content active={filterActiveIndex === 3}>
                 <div>
                   {/* Feature request */}
                   {/* Physical address */}
@@ -618,7 +615,7 @@ const SellerDatabaseFilters = (props: Props) => {
                   />
                 </div>
               </Accordion.Content>
-              <Accordion.Content active={generalFiltersActiveIndexes.includes(3)}>
+              <Accordion.Content active={filterActiveIndex === 3}>
                 <div>
                   <CheckboxFilter
                     label="Decision maker"
@@ -653,14 +650,14 @@ const SellerDatabaseFilters = (props: Props) => {
               </Accordion.Content>
             </div>
             {/* <div
-              className={`${styles.accordianBlockWrapper} ${generalFiltersActiveIndexes.includes(
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 
                 4
               ) && styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={generalFiltersActiveIndexes.includes(4)}
+                active={filterActiveIndex === 4)}
                 index={4}
-                onClick={() => handleGeneralFilterActiveIndexes(4)}
+                onClick={() => setFilterActiveIndex(4)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -668,11 +665,11 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Employees</p>
                 </div>
                 <Image
-                  src={generalFiltersActiveIndexes.includes(4) ? upArrow : downArrow}
+                  src={filterActiveIndex === 4) ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={generalFiltersActiveIndexes.includes(4)}>
+              <Accordion.Content active={filterActiveIndex === 4)}>
                 <div>
                   <MinMaxFilter
                     label=""
@@ -701,7 +698,7 @@ const SellerDatabaseFilters = (props: Props) => {
                   />
                 </div>
               </Accordion.Content>
-              <Accordion.Content active={generalFiltersActiveIndexes.includes(4)}>
+              <Accordion.Content active={filterActiveIndex === 4)}>
                 <div>
                   <CheckboxFilter
                     checkboxLabel="Professional email"
@@ -753,15 +750,13 @@ const SellerDatabaseFilters = (props: Props) => {
           {/* Company Name */}
           <Accordion>
             <div
-              className={`${
-                styles.accordianBlockWrapper
-              } ${buyingIntentFiltersActiveIndexes.includes(0) &&
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 8 &&
                 styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={buyingIntentFiltersActiveIndexes.includes(0)}
+                active={filterActiveIndex === 8}
                 index={0}
-                onClick={() => handleBuyingIntentFilterActiveIndexes(0)}
+                onClick={() => setFilterActiveIndex(8)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -769,11 +764,11 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Categories</p>
                 </div>
                 <Image
-                  src={buyingIntentFiltersActiveIndexes.includes(0) ? upArrow : downArrow}
+                  src={filterActiveIndex === 8 ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={buyingIntentFiltersActiveIndexes.includes(0)}>
+              <Accordion.Content active={filterActiveIndex === 8}>
                 <div>
                   <CheckboxDropdownFilter
                     filterOptions={getProductCategories(marketPlace.code)}
@@ -787,15 +782,13 @@ const SellerDatabaseFilters = (props: Props) => {
               </Accordion.Content>
             </div>
             <div
-              className={`${
-                styles.accordianBlockWrapper
-              } ${buyingIntentFiltersActiveIndexes.includes(1) &&
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 9 &&
                 styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={buyingIntentFiltersActiveIndexes.includes(1)}
+                active={filterActiveIndex === 9}
                 index={1}
-                onClick={() => handleBuyingIntentFilterActiveIndexes(1)}
+                onClick={() => setFilterActiveIndex(9)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -803,11 +796,11 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Brands</p>
                 </div>
                 <Image
-                  src={buyingIntentFiltersActiveIndexes.includes(1) ? upArrow : downArrow}
+                  src={filterActiveIndex === 9 ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={buyingIntentFiltersActiveIndexes.includes(1)}>
+              <Accordion.Content active={filterActiveIndex === 9}>
                 <div>
                   <MinMaxFilter
                     label="Brands count"
@@ -894,15 +887,13 @@ const SellerDatabaseFilters = (props: Props) => {
               </Accordion.Content>
             </div>
             <div
-              className={`${
-                styles.accordianBlockWrapper
-              } ${buyingIntentFiltersActiveIndexes.includes(2) &&
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 10 &&
                 styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={buyingIntentFiltersActiveIndexes.includes(2)}
+                active={filterActiveIndex === 10}
                 index={3}
-                onClick={() => handleBuyingIntentFilterActiveIndexes(2)}
+                onClick={() => setFilterActiveIndex(10)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -910,11 +901,11 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Products</p>
                 </div>
                 <Image
-                  src={buyingIntentFiltersActiveIndexes.includes(2) ? upArrow : downArrow}
+                  src={filterActiveIndex === 10 ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={buyingIntentFiltersActiveIndexes.includes(2)}>
+              <Accordion.Content active={filterActiveIndex === 10}>
                 <div>
                   {/* # of Inventory */}
                   <MinMaxFilter

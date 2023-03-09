@@ -19,7 +19,7 @@ class AdminLayout extends React.Component<Props> {
     const { children, match } = this.props;
 
     const isNewProduct = NEW_PRODUCT_DESIGN_PATH_NAMES.includes(window.location.pathname);
-
+    const isSellerDatabase = window.location.pathname === '/seller-research/database';
     const hideNavBar = HIDE_NAV_BAR_PATH_NAMES.includes(
       window.location.pathname + window.location.search
     );
@@ -29,7 +29,9 @@ class AdminLayout extends React.Component<Props> {
       return (
         <main className="admin-layout-wrapper">
           <Segment
-            className={`admin-layout new-admin-layout new-admin-layout__hide-nav`}
+            className={`admin-layout new-admin-layout new-admin-layout__hide-nav ${
+              isSellerDatabase ? 'admin-layout__hide-overflow' : ''
+            }`}
             basic={true}
           >
             <>{children}</>
@@ -41,7 +43,9 @@ class AdminLayout extends React.Component<Props> {
         <main className="admin-layout-wrapper">
           {!isSellgoSession() && <Sidebar match={match} />}
           <Segment
-            className={`admin-layout ${isNewProduct ? 'new-admin-layout' : ''}`}
+            className={`admin-layout ${isNewProduct ? 'new-admin-layout' : ''} ${
+              isSellerDatabase ? 'admin-layout__hide-overflow' : ''
+            }`}
             basic={true}
           >
             <>{children}</>
