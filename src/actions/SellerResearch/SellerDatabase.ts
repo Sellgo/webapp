@@ -238,7 +238,7 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
       filterPayload,
       excludeMarketPlace = false,
       page = 1,
-      perPage = 50,
+      perPage = 20,
       sort = 'seller_id',
       sortDir = 'asc',
       enabledLoader = true,

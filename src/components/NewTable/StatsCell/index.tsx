@@ -73,8 +73,8 @@ const StatsCell = (props: Props) => {
         className={`${styles.statsCell} ${className} ${isOrderPlanning && styles.smFontSize}`}
         style={{
           alignSelf: alignSettings,
-          color: specialKpi ? '#3B4557' : '#636d76',
-          fontWeight: specialKpi ? 500 : 400,
+          color: specialKpi ? '#636d76' : '#3B4557',
+          fontWeight: specialKpi ? 500 : 600,
           textAlign: align,
         }}
       >
