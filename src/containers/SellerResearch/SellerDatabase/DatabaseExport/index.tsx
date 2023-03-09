@@ -28,7 +28,7 @@ import {
 
 /* Components */
 // import TableExport from '../../../../components/NewTable/TableExport';
-import TableResultsMessage from '../../../../components/TableResultsMessage';
+//import TableResultsMessage from '../../../../components/TableResultsMessage';
 import TableErrorMessage from '../../../../components/TableErrorMessage';
 
 /* Assets */
@@ -50,10 +50,10 @@ const DatabaseExport = (props: Props) => {
   const {
     // isLoadingSellerDatabaseExport,
     // fetchSellerDatabase,
-    sellerDatabaseResults,
+    //sellerDatabaseResults,
     // isLoadingSellerDatabase,
     sellerDatabaseFilterMessage,
-    sellerDatabasePaginationInfo,
+    //sellerDatabasePaginationInfo,
     // sellerMarketplace,
     sellerDatabaseQuotaExceeded,
   } = props;
@@ -69,7 +69,7 @@ const DatabaseExport = (props: Props) => {
   return (
     <>
       <div className={styles.exportsContainer}>
-        {!sellerDatabaseFilterMessage.show && sellerDatabasePaginationInfo.total_pages > 0 && (
+        {/* {!sellerDatabaseFilterMessage.show && sellerDatabasePaginationInfo.total_pages > 0 && (
           <TableResultsMessage
             prependMessage="Showing"
             count={sellerDatabasePaginationInfo.count}
@@ -77,7 +77,7 @@ const DatabaseExport = (props: Props) => {
             appendMessage="results"
             limitType="seller_database_display_limit"
           />
-        )}
+        )} */}
 
         {!sellerDatabaseFilterMessage.show && sellerDatabaseQuotaExceeded && (
           <TableErrorMessage
