@@ -145,7 +145,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Business Name */}
-          <Table.Column width={270} verticalAlign="middle" align="center">
+          <Table.Column width={300} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Company`}
@@ -226,7 +226,7 @@ const SellerDatabaseTable = (props: Props) => {
 
           {/* Category */}
           <Table.Column
-            width={220}
+            width={240}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
             align="left"
@@ -251,7 +251,7 @@ const SellerDatabaseTable = (props: Props) => {
 
           {/* Monthly Revenue = Sales Est. */}
           <Table.Column
-            width={100}
+            width={140}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
             align="center"
@@ -277,7 +277,7 @@ const SellerDatabaseTable = (props: Props) => {
 
           {/* 12 Month Growth % */}
           <Table.Column
-            width={100}
+            width={90}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
             align="center"
@@ -334,7 +334,7 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column>
 
           {/* Brands */}
-          <Table.Column width={110} verticalAlign="middle" align="center">
+          <Table.Column width={90} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Brands`}
@@ -347,7 +347,7 @@ const SellerDatabaseTable = (props: Props) => {
             <NumberCell dataKey="brands" />
           </Table.Column>
 
-          <Table.Column width={110} verticalAlign="middle" align="center">
+          <Table.Column width={90} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
                 title={`Employees`}
