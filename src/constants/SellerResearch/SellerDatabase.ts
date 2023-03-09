@@ -267,7 +267,7 @@ export const SIMPLE_SD_FILTERS = [
   'companyName',
 ];
 
-export const MIN_MAX_SD_FILTERS = ['numOfInventory', 'numOfBrands'];
+export const MIN_MAX_SD_FILTERS = ['numOfInventory', 'numOfBrands', 'monthlyRevenue'];
 
 export const INCLUDE_EXCLUDE_SD_FILTERS = ['brands', 'asins'];
 

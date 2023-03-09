@@ -888,6 +888,7 @@ const SellerDatabaseFilters = (props: Props) => {
                 </div>
               </Accordion.Content>
             </div>
+
             <div
               className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 9 &&
                 styles.accordianBlockWrapper__active}`}
@@ -899,8 +900,8 @@ const SellerDatabaseFilters = (props: Props) => {
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
-                  <Icon name="tag" className={styles.accordian__title__icon} />
-                  <p>Brands</p>
+                  <Icon name="chart line" className={styles.accordian__title__icon} />
+                  <p>Revenue</p>
                 </div>
                 <Image
                   src={filterActiveIndex === 9 ? upArrow : downArrow}
@@ -910,86 +911,55 @@ const SellerDatabaseFilters = (props: Props) => {
               <Accordion.Content active={filterActiveIndex === 9}>
                 <div>
                   <MinMaxFilter
-                    label="Brands count"
-                    minValue={sellerDatabaseTextFieldFilters.numOfBrands.min}
-                    maxValue={sellerDatabaseTextFieldFilters.numOfBrands.max}
+                    label="Annual revenue estimate"
+                    minValue={sellerDatabaseTextFieldFilters.monthlyRevenue.min}
+                    maxValue={sellerDatabaseTextFieldFilters.monthlyRevenue.max}
                     handleChange={(type: string, value: string) =>
-                      updateSellerDatabaseTextFieldFilter('numOfBrands', {
-                        ...sellerDatabaseTextFieldFilters.numOfBrands,
+                      updateSellerDatabaseTextFieldFilter('monthlyRevenue', {
+                        ...sellerDatabaseTextFieldFilters.monthlyRevenue,
                         [type]: value,
                       })
                     }
                     handleKeyDown={e => {
                       if (e.key === 'Enter') {
                         updateSellerDatabaseFilter(
-                          'numOfBrands',
-                          sellerDatabaseTextFieldFilters.numOfBrands
+                          'monthlyRevenue',
+                          sellerDatabaseTextFieldFilters.monthlyRevenue
                         );
                       }
                     }}
                     maxClassName={
-                      sellerDatabaseTextFieldFilters.numOfBrands.max && styles.activeFilter
+                      sellerDatabaseTextFieldFilters.monthlyRevenue.max && styles.activeFilter
                     }
                     minClassName={
-                      sellerDatabaseTextFieldFilters.numOfBrands.min && styles.activeFilter
+                      sellerDatabaseTextFieldFilters.monthlyRevenue.min && styles.activeFilter
                     }
                   />
-                  {/*  Include brands */}
-                  <InputFilter
-                    label="Include brands"
-                    placeholder="Enter separated by comma"
-                    // value={sellerDatabaseFilters.brands.include}
-                    // handleChange={(value: string) =>
-                    //   updateSellerDatabaseFilter('brands', {
-                    //     ...sellerDatabaseFilters.brands,
-                    //     include: value,
-                    //   })
-                    // }
-                    value={sellerDatabaseTextFieldFilters.brands.include}
-                    handleKeyDown={e => {
-                      if (e.key === 'Enter') {
-                        updateSellerDatabaseFilter('brands', {
-                          exclude: '',
-                          include: e.target.value,
-                        });
-                      }
-                    }}
-                    handleChange={(value: string) =>
-                      updateSellerDatabaseTextFieldFilter('brands', {
-                        ...sellerDatabaseTextFieldFilters.brands,
-                        include: value,
+                  {/* <MinMaxFilter
+                    label="Annual growth estimate (%)"
+                    minValue={sellerDatabaseTextFieldFilters.growthPercent.min}
+                    maxValue={sellerDatabaseTextFieldFilters.growthPercent.max}
+                    handleChange={(type: string, value: string) =>
+                      updateSellerDatabaseTextFieldFilter('growthPercent', {
+                        ...sellerDatabaseTextFieldFilters.growthPercent,
+                        [type]: value,
                       })
                     }
-                    className={sellerDatabaseTextFieldFilters.brands.include && styles.activeFilter}
-                  />
-
-                  {/* Exclude brands */}
-                  <InputFilter
-                    label="Exclude brands"
-                    placeholder="Enter separated by comma"
-                    // value={sellerDatabaseFilters.brands.exclude}
-                    // handleChange={(value: string) =>
-                    //   updateSellerDatabaseFilter('brands', {
-                    //     ...sellerDatabaseFilters.brands,
-                    //     exclude: value,
-                    //   })
-                    value={sellerDatabaseTextFieldFilters.brands.exclude}
                     handleKeyDown={e => {
                       if (e.key === 'Enter') {
-                        updateSellerDatabaseFilter('brands', {
-                          ...sellerDatabaseTextFieldFilters.brands,
-                          exclude: e.target.value,
-                        });
+                        updateSellerDatabaseFilter(
+                          'growthPercent',
+                          sellerDatabaseTextFieldFilters.growthPercent
+                        );
                       }
                     }}
-                    handleChange={(value: string) =>
-                      updateSellerDatabaseTextFieldFilter('brands', {
-                        ...sellerDatabaseTextFieldFilters.brands,
-                        exclude: value,
-                      })
+                    maxClassName={
+                      sellerDatabaseTextFieldFilters.growthPercent.max && styles.activeFilter
                     }
-                    className={sellerDatabaseTextFieldFilters.brands.exclude && styles.activeFilter}
-                  />
+                    minClassName={
+                      sellerDatabaseTextFieldFilters.growthPercent.min && styles.activeFilter
+                    }
+                  />                          */}
                 </div>
               </Accordion.Content>
             </div>
@@ -1115,6 +1085,7 @@ const SellerDatabaseFilters = (props: Props) => {
           onReset={handleReset}
           disabled={disableFormSubmit}
           hideSubmit
+          hideReset
         />
       </section>
     </>
