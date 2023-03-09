@@ -786,6 +786,7 @@ const SellerDatabaseFilters = (props: Props) => {
                 </div>
               </Accordion.Content>
             </div>
+
             <div
               className={`${
                 styles.accordianBlockWrapper
@@ -799,8 +800,8 @@ const SellerDatabaseFilters = (props: Props) => {
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
-                  <Icon name="tag" className={styles.accordian__title__icon} />
-                  <p>Brands</p>
+                  <Icon name="chart line" className={styles.accordian__title__icon} />
+                  <p>Revenue</p>
                 </div>
                 <Image
                   src={buyingIntentFiltersActiveIndexes.includes(1) ? upArrow : downArrow}
@@ -808,6 +809,83 @@ const SellerDatabaseFilters = (props: Props) => {
                 />
               </Accordion.Title>
               <Accordion.Content active={buyingIntentFiltersActiveIndexes.includes(1)}>
+                <div>
+                  <MinMaxFilter
+                    label="Annual revenue estimate"
+                    minValue={sellerDatabaseTextFieldFilters.monthlyRevenue.min}
+                    maxValue={sellerDatabaseTextFieldFilters.monthlyRevenue.max}
+                    handleChange={(type: string, value: string) =>
+                      updateSellerDatabaseTextFieldFilter('monthlyRevenue', {
+                        ...sellerDatabaseTextFieldFilters.monthlyRevenue,
+                        [type]: value,
+                      })
+                    }
+                    handleKeyDown={e => {
+                      if (e.key === 'Enter') {
+                        updateSellerDatabaseFilter(
+                          'monthlyRevenue',
+                          sellerDatabaseTextFieldFilters.monthlyRevenue
+                        );
+                      }
+                    }}
+                    maxClassName={
+                      sellerDatabaseTextFieldFilters.monthlyRevenue.max && styles.activeFilter
+                    }
+                    minClassName={
+                      sellerDatabaseTextFieldFilters.monthlyRevenue.min && styles.activeFilter
+                    }
+                  />
+                  {/* <MinMaxFilter
+                    label="Annual growth estimate (%)"
+                    minValue={sellerDatabaseTextFieldFilters.growthPercent.min}
+                    maxValue={sellerDatabaseTextFieldFilters.growthPercent.max}
+                    handleChange={(type: string, value: string) =>
+                      updateSellerDatabaseTextFieldFilter('growthPercent', {
+                        ...sellerDatabaseTextFieldFilters.growthPercent,
+                        [type]: value,
+                      })
+                    }
+                    handleKeyDown={e => {
+                      if (e.key === 'Enter') {
+                        updateSellerDatabaseFilter(
+                          'growthPercent',
+                          sellerDatabaseTextFieldFilters.growthPercent
+                        );
+                      }
+                    }}
+                    maxClassName={
+                      sellerDatabaseTextFieldFilters.growthPercent.max && styles.activeFilter
+                    }
+                    minClassName={
+                      sellerDatabaseTextFieldFilters.growthPercent.min && styles.activeFilter
+                    }
+                  />                          */}
+                </div>
+              </Accordion.Content>
+            </div>
+
+            <div
+              className={`${
+                styles.accordianBlockWrapper
+              } ${buyingIntentFiltersActiveIndexes.includes(2) &&
+                styles.accordianBlockWrapper__active}`}
+            >
+              <Accordion.Title
+                active={buyingIntentFiltersActiveIndexes.includes(2)}
+                index={1}
+                onClick={() => handleBuyingIntentFilterActiveIndexes(2)}
+                className={styles.accordian__title}
+              >
+                <div className={styles.accordian__title__block}>
+                  <Icon name="tag" className={styles.accordian__title__icon} />
+                  <p>Brands</p>
+                </div>
+                <Image
+                  src={buyingIntentFiltersActiveIndexes.includes(2) ? upArrow : downArrow}
+                  className={styles.accordian__title__arrowImage}
+                />
+              </Accordion.Title>
+              <Accordion.Content active={buyingIntentFiltersActiveIndexes.includes(2)}>
                 <div>
                   <MinMaxFilter
                     label="Brands count"
@@ -896,13 +974,13 @@ const SellerDatabaseFilters = (props: Props) => {
             <div
               className={`${
                 styles.accordianBlockWrapper
-              } ${buyingIntentFiltersActiveIndexes.includes(2) &&
+              } ${buyingIntentFiltersActiveIndexes.includes(3) &&
                 styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={buyingIntentFiltersActiveIndexes.includes(2)}
+                active={buyingIntentFiltersActiveIndexes.includes(3)}
                 index={3}
-                onClick={() => handleBuyingIntentFilterActiveIndexes(2)}
+                onClick={() => handleBuyingIntentFilterActiveIndexes(3)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -910,11 +988,11 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Products</p>
                 </div>
                 <Image
-                  src={buyingIntentFiltersActiveIndexes.includes(2) ? upArrow : downArrow}
+                  src={buyingIntentFiltersActiveIndexes.includes(3) ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={buyingIntentFiltersActiveIndexes.includes(2)}>
+              <Accordion.Content active={buyingIntentFiltersActiveIndexes.includes(3)}>
                 <div>
                   {/* # of Inventory */}
                   <MinMaxFilter
