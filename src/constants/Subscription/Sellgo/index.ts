@@ -8,67 +8,71 @@ export const FREE_ACCOUNT_SUBSCRIPTION_ID = 5;
 export const MONTHLY_AND_ANNUAL_PLANS = [
   {
     id: 10, // subscriptionID if needed
-    name: 'Starter',
+    name: 'Personal',
     productsDatabase: 0,
     salesEstimateCount: 1000,
     monthlyPrice: 77,
     annualPrice: 467,
     monthlyLookups: 100,
     annualLookups: 1200,
-    desc: `Accelerate your seller research process.`,
-    featureSubName: 'Start with',
+    desc: `Essential for finding your prospects`,
+    featureSubName: 'Everything in Free, plus',
     featuresLists: [
       {
-        title: 'Own your market',
+        title: '',
         featuresIncluded: [
-          'Verified professional email(s)',
-          'Basic seller insights',
+          'Verified emails, direct phones and social media links',
+          'Contact management',
+          'Bulk export',
+          'Basic CRM integration',
           'Seller map access',
         ],
       },
     ],
   },
-  {
-    id: 11,
-    name: 'Professional',
-    productsDatabase: 0,
-    salesEstimateCount: 2000,
-    monthlyPrice: 147,
-    annualPrice: 1187,
-    monthlyLookups: 250,
-    annualLookups: 3000,
-    featureSubName: 'Everything in starter plan, plus',
-    desc: `Filter the best seller, faster.`,
-    featuresLists: [
-      {
-        title: 'Turn your leads into pipeline',
-        featuresIncluded: [
-          'Verified personal and other email(s),',
-          'Mobile and direct phone number(s),',
-          'Advanced analytics, and more,',
-        ],
-      },
-    ],
-  },
+  // {
+  //   id: 11,
+  //   name: 'Professional',
+  //   productsDatabase: 0,
+  //   salesEstimateCount: 2000,
+  //   monthlyPrice: 147,
+  //   annualPrice: 1187,
+  //   monthlyLookups: 250,
+  //   annualLookups: 3000,
+  //   featureSubName: 'Everything in starter plan, plus',
+  //   desc: `Filter the best seller, faster.`,
+  //   featuresLists: [
+  //     {
+  //       title: 'Turn your leads into pipeline',
+  //       featuresIncluded: [
+  //         'Verified personal and other email(s),',
+  //         'Mobile and direct phone number(s),',
+  //         'Advanced analytics, and more,',
+  //       ],
+  //     },
+  //   ],
+  // },
   {
     id: 12,
-    name: 'Elite',
+    name: 'Business',
     productsDatabase: 0,
     salesEstimateCount: 3000,
     monthlyPrice: 347,
     annualPrice: 2987,
-    monthlyLookups: 700,
-    annualLookups: 8400,
+    monthlyLookups: 500,
+    annualLookups: 6000,
     featureSubName: 'Everything in professional plan, plus',
-    desc: `Achieve more ROI.`,
+    desc: `Perfect for small teams with simple workflows`,
     isNew: true,
     featuresLists: [
       {
-        title: 'Hit your ambitious revenue goals',
+        title: '',
         featuresIncluded: [
-          'Social media link(s)/ username(s)*',
-          'Advanced integrations',
-          'Data/ CRM enrichments',
+          'Advanced prospecting filter',
+          'Bulk prospecting',
+          'Advanced decision maker data',
+          'Advanced company data',
+          'Bulk prospecting (25 contacts)',
         ],
       },
     ],
@@ -79,7 +83,7 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
 export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
     subscriptionId: 10, // subscriptionID if needed
-    name: 'Starter',
+    name: 'Personal',
     dailyPrice: 0,
     monthlyPrice: 77,
     annualPrice: 467,
@@ -95,7 +99,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   },
   {
     subscriptionId: 12, // subscriptionID if needed
-    name: 'Elite',
+    name: 'Business',
     dailyPrice: 0,
     monthlyPrice: 347,
     annualPrice: 2987,
@@ -142,7 +146,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
 /* Used in Summary page */
 export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   starter: {
-    name: 'Starter',
+    name: 'Personal',
     id: 10,
     idWithLegacyPlans: [10, 6],
     monthlyPrice: 77,
@@ -176,7 +180,7 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     ],
   },
   team: {
-    name: 'Elite',
+    name: 'Business',
     id: 12,
     idWithLegacyPlans: [12, 1],
     monthlyPrice: 347,
@@ -209,7 +213,7 @@ export const subscriptionDetailsMapping: { [key: string]: number } = {
 };
 
 export const getSubscriptionID = (planName: string) => {
-  if (planName === 'elite') {
+  if (planName === 'Business') {
     planName = 'team';
   }
   const DEFAULT_PROFESSIONAL_PLAN_ID = 11;
@@ -229,7 +233,7 @@ export const getSubscriptionNameKey = (id: number) => {
 };
 
 export const generateSubscriptionDetails = (planType: string) => {
-  if (planType === 'elite') {
+  if (planType === 'Business') {
     planType = 'team';
   }
   if (!planType) {

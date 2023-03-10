@@ -83,7 +83,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
 				${styles.pricingCardHead}
 			`}
       >
-        {isSubscribed && <p className={styles.currentPlan}>Current Plan</p>}
+        {isSubscribed && <p className={styles.currentPlan}>This is your current plan</p>}
         <div className={styles.pricingCardHead__Left}>
           <h2>{name}</h2>
           <p>{desc}</p>

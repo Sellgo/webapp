@@ -1,38 +1,120 @@
 export const payMonthlyAndAnnualPlan = [
   {
-    header: ['Basic', 'Starter', 'Professional', 'Elite'],
+    header: ['Plan details', 'Free', 'Personal', 'Business', 'Enterprise'],
     body: [
-      ['Try for free, no credit card required', '✓', '✓', '✓'],
-      ['Cancel any time help', '✓', '✓', '✓'],
-      ['Included users', '1', '1', '1'],
-      ['Eligible for additional users', '-', '✓', '✓'],
+      // ['Try for free, no credit card required', '✓', '✓', '✓'],
+      // ['Cancel any time help', '✓', '✓', '✓'],
       [
-        'Included lookups/ user (monthly vs annual plan)',
-        '100 vs 1,200',
-        '250 vs 3,000',
-        '700 vs 8,400',
+        'Included lookups',
+        '5 monthly per user',
+        '100 monthly or 1,200 yearly, per user',
+        '500 monthly or 6,000 yearly, per user',
+        'Custom plan',
       ],
-      ['Annual plan gets all the lookups unfront', '✓', '✓', '✓'],
-      ['Easy billing', '✓', '✓', '✓'],
-      //['Data is periodically updated', '✓', '✓', '✓', '✓'],
-      //['Save & load searches', '✓', '✓', '✓', '✓'],
-      //['Track searches', '✓', '✓', '✓', '✓'],
-      ['Bulk CSV export', '✓', '✓', '✓'],
-      //['Record selection limit', '100', '100', '100', '25,000'],
-      ['Single sign On', '✓', '✓', '✓'],
-      ['Seller Map', '✓', '✓', '✓'],
+      ['User(s)', '1', '1', '1-5 users', 'Custom plan'],
+      ['Get annual lookups unfront', '-', '✓', '✓', '✓'],
+      ['Seller Map', '-', '✓', '✓', '✓'],
     ],
   },
   {
-    header: ['Business Metrics Information', 'Starter', 'Professional', 'Elite'],
+    header: ['Amazon marketplace', 'Free', 'Personal', 'Business', 'Enterprise'],
     body: [
-      //['Business model (1P / 3P / 1P+3P / Vendor Central', '🔒', '🔒', '✓'],
-      //['Revenue estimation and growth', '✓', '✓', '✓'],
-      ['Product, brand and inventory detail', '✓', '✓', '✓'],
-      ['Category and sub-category detail', '✓', '✓', '✓'],
-      //['Dormant account', '🔒', '🔒', '✓'],
-      //['Review and rating detail', '✓', '✓', '✓'],
-      //['Brand/ product/ revenue change alerts', '🔒', '🔒', '✓'],
+      ['North America: United States, Canada, Mexico', '✓', '✓', '✓', '✓'],
+      ['Europe: United Kingdom, Germany, Italy, French, Spain', '✓', '✓', '✓', '✓'],
+      ['Asia: India', '-', '-', '-', '✓'],
+    ],
+  },
+  {
+    header: ['Business Data', 'Free', 'Personal', 'Business', 'Enterprise'],
+    body: [
+      ['Company search & filter', '✓', '✓', '✓', '✓'],
+      ['Decision maker search & filter', '✓', '✓', '✓', '✓'],
+      ['Verified professional emails', '✓', '✓', '✓', '✓'],
+      ['Verified personal emails', '✓', '✓', '✓', '✓'],
+      ['Verified mobile and direct phones', '✓', '✓', '✓', '✓'],
+      ['Verified social media handles*', '✓', '✓', '✓', '✓'],
+      ['Advanced decision maker data ', '-', '-', '✓', '✓'],
+      ['Advanced company data ', '-', '-', '✓', '✓'],
+    ],
+  },
+  {
+    header: ['Prospecting Platform', 'Free', 'Personal', 'Business', 'Enterprise'],
+    body: [
+      ['Standard prospecting filters', '✓', '✓', '✓', '✓'],
+
+      ['Revenues and growth filter ', '✓', '✓', '✓', '✓'],
+      ['Category, product, and brand filter', '✓', '✓', '✓', '✓'],
+      ['Advanced prospecting filter', '-', '-', '✓', '✓'],
+      ['Bulk prospecting', '-', '-', '25 contacts', '1,000 contacts'],
+      ['Custom buying intent signals', '-', '-', '-', '✓'],
+      ['Custom buying intent alerts', '-', '-', '-', '✓'],
+    ],
+  },
+  {
+    header: ['Contacts management', 'Free', 'Personal', 'Business', 'Enterprise'],
+    body: [
+      ['Lists management', '-', '✓', '✓', '✓'],
+      ['Bulk CSV export', '-', '✓', '✓', '✓'],
+    ],
+  },
+  {
+    header: ['CRM integrations', 'Free', 'Personal', 'Business', 'Enterprise'],
+    body: [
+      ['Zapier', '-', '✓', '✓', '✓'],
+      ['Hubspot', '-', '✓', '✓', '✓'],
+      ['Salesforce', '-', '-', '-', '✓'],
+      ['Zoho', '-', '-', '-', '✓'],
+      ['Pipedrive', '-', '-', '-', '✓'],
+      ['Bullhorn', '-', '-', '-', '✓'],
+      ['Salesloft', '-', '-', '-', '✓'],
+      ['Outreach', '-', '-', '-', '✓'],
+      ['MS Dynamics', '-', '-', '-', '✓'],
+    ],
+  },
+  {
+    header: ['Team and analytics', 'Free', 'Personal', 'Business', 'Enterprise'],
+    body: [
+      ['Create groups', '-', '-', '-', '✓'],
+      ['Manager seat', '-', '-', '-', '✓'],
+      ['Lookups allocation by group', '-', '-', '-', '✓'],
+      ['Lookups usage overview', '-', '-', '✓', '✓'],
+      ['Ideal customer profiles', '-', '-', '-', '✓'],
+    ],
+  },
+  {
+    header: ['Data enrichment', 'Free', 'Personal', 'Business', 'Enterprise'],
+    body: [
+      ['CSV enrichment', '-', '-', '-', '✓'],
+      ['API', '-', '-', '-', '✓'],
+      ['Salesforce data enrichment', '-', '-', '-', '✓'],
+    ],
+  },
+  // ,
+  // {
+  // 	header: [
+  // 		'Compliance', 'Free', 'Personal', 'Business', 'Enterprise'
+  // 	],
+  // 	body: [
+  // 		['GDPR compliant', '✓', '✓', '✓', '✓'],
+  // 		['CCPA compliant', '✓', '✓', '✓', '✓'],
+  // 		['SOC2 compliant', '✓', '✓', '✓', '✓'],
+  // 		['ISO 27701 compliant', '✓', '✓', '✓', '✓'],
+  // 		['Do-not-call list', '-', '-', '-', '✓'],
+  // 	]
+  // }
+  {
+    header: ['SSO', 'Free', 'Personal', 'Business', 'Enterprise'],
+    body: [
+      ['Google', '✓', '✓', '✓', '✓'],
+      // ['Office 365', '✓', '✓', '✓', '✓'],
+      ['Auth0', '-', '-', '-', '✓'],
+    ],
+  },
+  {
+    header: ['Support', 'Free', 'Personal', 'Business', 'Enterprise'],
+    body: [
+      ['Custom onboarding', '-', '-', '-', '✓'],
+      ['Dedicated account manager', '-', '-', '-', '✓'],
     ],
   },
   {
