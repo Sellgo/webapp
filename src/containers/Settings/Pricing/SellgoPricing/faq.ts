@@ -16,7 +16,7 @@ export const faqs = [
   {
     question: 'How many lookups do I get with paid account?',
     answer:
-      'Starter account starts with 100 lookups monthly and 1,400 lookups yearly, Professional account starts with 240 lookups monthly and 3,600 lookups yearly, Elite account starts with 800 lookups monthly and 12,000 lookups yearly.',
+      'Personal account starts with 100 lookups monthly and 1,200 lookups yearly, Business account starts with 500 lookups monthly and 6,000 lookups yearly.',
   },
   {
     question: 'Can I use the yearly lookups all at once?',
@@ -25,7 +25,7 @@ export const faqs = [
   {
     question: 'How can I learn more about Enterprise account?',
     answer:
-      'Click "Talk to an expert" buton above and our sales team will reach you out as soon as humanly possible.',
+      'Click "Contact sales" button above and our sales team will reach you out as soon as humanly possible.',
   },
   {
     question: 'What marketplaces are supported?',
@@ -45,7 +45,7 @@ export const faqs = [
   {
     question: 'What is your refund policy?',
     answer:
-      "we do offer a 7-day money-back guarantee on our standard plans for every new customers (special promotions or trials excluded). If you decide the product isn't the right for within 7 days we will give you a full refund, no questions asked. Simply email us at support@sellgo.com to speak to the team if you have additional questions.",
+      'Currently we do not offer refund policy. Email us at support@sellgo.com to speak to the team if you have additional questions.',
   },
   {
     question: 'What forms of payment do you accept?',
@@ -55,7 +55,7 @@ export const faqs = [
   {
     question: 'How many users can I have on my account?',
     answer:
-      'Our Starter/ Professional/ Elite plan is limited to 1 user. Our Enterprise plan works great for any kind of teams.',
+      'Our Personal plan is limited to 1 user, Business plan can have max 5 users. Our Enterprise plan works great for any kind of teams.',
   },
   {
     question: 'What information can be given to authorized users?',

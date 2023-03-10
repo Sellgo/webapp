@@ -24,7 +24,7 @@ const MoreDetails = () => {
         className={styles.completeButton}
         onClick={() => setIsDemoFormOpen(true)}
       >
-        Talk to an expert
+        Contact sales
       </ActionButton>
 
       <Modal

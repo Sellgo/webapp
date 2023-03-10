@@ -117,46 +117,6 @@ export const payMonthlyAndAnnualPlan = [
       ['Dedicated account manager', '-', '-', '-', '✓'],
     ],
   },
-  {
-    header: ['Company Information', 'Starter', 'Professional', 'Elite'],
-    body: [
-      ['Company search & filter', '✓', '✓', '✓'],
-      ['Seller + registered business name', '✓', '✓', '✓'],
-      ['Address + city + state + zip + country of origin', '✓', '✓', '✓'],
-      ['Latitude + longitude data', '✓', '✓', '✓'],
-      ['Store phone number', '✓', '✓', '✓'],
-      ['Seller link to the storefront', '✓', '✓', '✓'],
-      //['Seller rating', '✓', '✓', '✓'],
-      //['Review rating', '✓', '✓', '✓'],
-      ['Company website/ domain', '✓', '✓', '✓'],
-      ['Industry', '✓', '✓', '✓'],
-      ['Company phone(s) + fax(es)', '✓', '✓', '✓'],
-      ['Company email', '✓', '✓', '✓'],
-      ['Org chart & company trends', '🔒', '✓', '✓'],
-      [
-        'Company LinkedIn / Yelp / Twitter / Facebook / Instagram / Crunchbase/ Youtube / Pinterest*',
-        '✓',
-        '✓',
-        '✓',
-      ],
-    ],
-  },
-  {
-    header: ['Decision Maker Information', 'Starter', 'Professional', 'Elite'],
-    body: [
-      ['Decision maker search & filter', '✓', '✓', '✓'],
-      ['Name, position and other detail', '✓', '✓', '✓'],
-      ['Verified professional email(s)', '✓', '✓', '✓'],
-      ['Verified personal email(s)', '🔒', '✓', '✓'],
-      ['Verified mobile and direct phone(s)', '🔒', '✓', '✓'],
-      [
-        'Verified LinkedIn/ Facebook/ Twitter/ Angel.co/ Meetup/ Foursquare/ Amazon wishlist/ Klout*',
-        '✓',
-        '✓',
-        '✓',
-      ],
-    ],
-  },
 ];
 
 export const pay1DollarPlan = [
