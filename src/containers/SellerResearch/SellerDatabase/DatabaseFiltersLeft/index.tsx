@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Accordion, Icon, Image } from 'semantic-ui-react';
+import { Accordion, Icon, Image, Radio } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -34,7 +34,14 @@ import {
   getMinMaxPeriodFilter,
   getGrowthFilter,
   getMarketplace,
+  SIMPLE_SD_FILTERS,
+  MIN_MAX_SD_FILTERS,
+  INCLUDE_EXCLUDE_SD_FILTERS,
+  PRODUCT_COUNT_CHOICES,
+  BRANDS_COUNT_CHOICES,
+  SALES_ESTIMATE_CHOICES,
 } from '../../../../constants/SellerResearch/SellerDatabase';
+
 import { getProductCategories } from '../../../../constants/ProductResearch/ProductsDatabase';
 import { isValidAmazonSellerId, isValidAsin } from '../../../../constants';
 import {
@@ -86,13 +93,18 @@ const SellerDatabaseFilters = (props: Props) => {
 
   const [showGeneralFilters, setShowGeneralFilters] = useState(true);
   const [showBuyingIntentFilters, setShowBuyingIntentFilters] = useState(true);
-  const [generalFiltersActiveIndexes, setGeneralFiltersActiveIndexes] = useState<number[]>([-1]);
-  const [buyingIntentFiltersActiveIndexes, setBuyingIntentFiltersActiveIndexes] = useState<
-    number[]
-  >([-1]);
+  // const [generalFiltersActiveIndexes, setGeneralFiltersActiveIndexes] = useState<number[]>([-1]);
+  // const [buyingIntentFiltersActiveIndexes, setBuyingIntentFiltersActiveIndexes] = useState<
+  //   number[]
+  // >([-1]);
+  const [revenueChoiceIndex, setRevenueChoiceIndex] = useState<number>(-1);
+  const [productChoiceIndex, setProductChoiceIndex] = useState<number>(-1);
+  const [brandChoiceIndex, setBrandChoiceIndex] = useState<number>(-1);
+  const [filterActiveIndex, setFilterActiveIndex] = useState<number>(-1);
   const [sellerDatabaseFilters, setSellerDatabaseFilters] = useState(
     DEFAULT_SELLER_DATABASE_FILTER
   );
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [sellerDatabaseTextFieldFilters, setSellerDatabaseTextFieldFilters] = useState({
     ...DEFAULT_SELLER_DATABASE_FILTER,
   });
@@ -100,6 +112,7 @@ const SellerDatabaseFilters = (props: Props) => {
   const [isFilteredOnce, setIsFilteredOnce] = useState<boolean>(false);
 
   const updateSellerDatabaseFilter = (key: string, value: any) => {
+    console.log(key, value);
     setIsFilteredOnce(true);
     if (key === 'countries') {
       setSellerDatabaseFilters((prevValues: any) => ({ ...prevValues, [key]: value, states: [] }));
@@ -118,6 +131,66 @@ const SellerDatabaseFilters = (props: Props) => {
       }));
     } else {
       setSellerDatabaseTextFieldFilters((prevValues: any) => ({ ...prevValues, [key]: value }));
+    }
+  };
+
+  const getActiveFilters = () => {
+    console.log(sellerDatabaseFilters);
+    const activeFilters: string[] = [];
+    SIMPLE_SD_FILTERS.forEach(sdFilter => {
+      console.log(
+        Array.isArray(sellerDatabaseFilters[sdFilter]),
+        sellerDatabaseFilters[sdFilter].length > 0
+      );
+      if (Array.isArray(sellerDatabaseFilters[sdFilter])) {
+        if (sellerDatabaseFilters[sdFilter].length > 0) {
+          activeFilters.push(sdFilter);
+        }
+      } else if (sellerDatabaseFilters[sdFilter]) {
+        activeFilters.push(sdFilter);
+      }
+    });
+    MIN_MAX_SD_FILTERS.forEach(minMaxSdFilter => {
+      if (sellerDatabaseFilters[minMaxSdFilter].min || sellerDatabaseFilters[minMaxSdFilter].max) {
+        activeFilters.push(minMaxSdFilter);
+      }
+    });
+    INCLUDE_EXCLUDE_SD_FILTERS.forEach(includeExcludeSdFilter => {
+      if (
+        sellerDatabaseFilters[includeExcludeSdFilter].include ||
+        sellerDatabaseFilters[includeExcludeSdFilter].exclude
+      ) {
+        activeFilters.push(includeExcludeSdFilter);
+      }
+    });
+    console.log('active ', activeFilters);
+    setActiveFilters([...activeFilters]);
+  };
+
+  const removeActiveFilter = (filterName: string) => {
+    if (SIMPLE_SD_FILTERS.indexOf(filterName) >= 0) {
+      if (Array.isArray(sellerDatabaseFilters[filterName])) {
+        updateSellerDatabaseFilter(filterName, []);
+      } else if (typeof sellerDatabaseFilters[filterName] === 'string') {
+        updateSellerDatabaseFilter(filterName, '');
+      } else {
+        updateSellerDatabaseFilter(filterName, false);
+      }
+      return;
+    }
+    if (MIN_MAX_SD_FILTERS.indexOf(filterName) >= 0) {
+      updateSellerDatabaseFilter(filterName, {
+        min: '',
+        max: '',
+      });
+      return;
+    }
+    if (INCLUDE_EXCLUDE_SD_FILTERS.indexOf(filterName) >= 0) {
+      updateSellerDatabaseFilter(filterName, {
+        include: '',
+        exclude: '',
+      });
+      return;
     }
   };
 
@@ -369,6 +442,10 @@ const SellerDatabaseFilters = (props: Props) => {
     }
   }, [sellerDatabaseFilters.sellerIds.exclude]);
 
+  useEffect(() => {
+    getActiveFilters();
+  }, [sellerDatabaseFilters]);
+
   /* Overall form submit diable condition */
   const disableFormSubmit = useMemo(() => {
     const shouldDisabledFormSubmit =
@@ -377,33 +454,133 @@ const SellerDatabaseFilters = (props: Props) => {
     return shouldDisabledFormSubmit;
   }, [asinsError.include, asinsError.exclude, sellerIdsError.include, sellerIdsError.exclude]);
 
-  const handleGeneralFilterActiveIndexes = (activeIndex: number) => {
-    const newIndex = [...generalFiltersActiveIndexes];
+  // const setFilterActiveIndex = (activeIndex: number) => {
+  //   const newIndex = [...generalFiltersActiveIndexes];
 
-    const currentIndexPosition = generalFiltersActiveIndexes.indexOf(activeIndex);
-    if (currentIndexPosition > -1) {
-      newIndex.splice(currentIndexPosition, 1);
+  //   const currentIndexPosition = generalFiltersActiveIndexes.indexOf(activeIndex);
+  //   if (currentIndexPosition > -1) {
+  //     newIndex.splice(currentIndexPosition, 1);
+  //   } else {
+  //     newIndex.push(activeIndex);
+  //   }
+  //   setGeneralFiltersActiveIndexes([...newIndex]);
+  // };
+
+  // const setFilterActiveIndex = (activeIndex: number) => {
+  //   const newIndex = [...buyingIntentFiltersActiveIndexes];
+
+  //   const currentIndexPosition = buyingIntentFiltersActiveIndexes.indexOf(activeIndex);
+  //   if (currentIndexPosition > -1) {
+  //     newIndex.splice(currentIndexPosition, 1);
+  //   } else {
+  //     newIndex.push(activeIndex);
+  //   }
+  //   setBuyingIntentFiltersActiveIndexes([...newIndex]);
+  // };
+
+  const handleAccordianUpArrowClick = (number: number) => {
+    if (filterActiveIndex === number) {
+      setFilterActiveIndex(-1);
     } else {
-      newIndex.push(activeIndex);
+      setFilterActiveIndex(number);
     }
-    setGeneralFiltersActiveIndexes([...newIndex]);
   };
 
-  const handleBuyingIntentFilterActiveIndexes = (activeIndex: number) => {
-    const newIndex = [...buyingIntentFiltersActiveIndexes];
+  useEffect(() => {
+    handleProductCountChange();
+  }, [productChoiceIndex]);
 
-    const currentIndexPosition = buyingIntentFiltersActiveIndexes.indexOf(activeIndex);
-    if (currentIndexPosition > -1) {
-      newIndex.splice(currentIndexPosition, 1);
-    } else {
-      newIndex.push(activeIndex);
+  const handleProductCountChange = () => {
+    if (productChoiceIndex >= 0) {
+      if (productChoiceIndex === 6) {
+        updateSellerDatabaseTextFieldFilter('numOfInventory', {
+          min: '',
+          max: '',
+        });
+        return;
+      }
+      updateSellerDatabaseFilter('numOfInventory', {
+        min: PRODUCT_COUNT_CHOICES[productChoiceIndex].minValue,
+        max: PRODUCT_COUNT_CHOICES[productChoiceIndex].maxValue,
+      });
+      return;
     }
-    setBuyingIntentFiltersActiveIndexes([...newIndex]);
+  };
+
+  useEffect(() => {
+    handleBrandCountChange();
+  }, [brandChoiceIndex]);
+
+  const handleBrandCountChange = () => {
+    if (brandChoiceIndex >= 0) {
+      if (brandChoiceIndex === 5) {
+        updateSellerDatabaseTextFieldFilter('numOfBrands', {
+          min: '',
+          max: '',
+        });
+        return;
+      }
+      updateSellerDatabaseFilter('numOfBrands', {
+        min: BRANDS_COUNT_CHOICES[brandChoiceIndex].minValue,
+        max: BRANDS_COUNT_CHOICES[brandChoiceIndex].maxValue,
+      });
+      return;
+    }
+  };
+
+  useEffect(() => {
+    handleSalesEstimateChange();
+  }, [revenueChoiceIndex]);
+
+  const handleSalesEstimateChange = () => {
+    if (revenueChoiceIndex >= 0) {
+      if (revenueChoiceIndex === 10) {
+        updateSellerDatabaseTextFieldFilter('monthlyRevenue', {
+          min: '',
+          max: '',
+        });
+        return;
+      }
+      updateSellerDatabaseFilter('monthlyRevenue', {
+        min: SALES_ESTIMATE_CHOICES[revenueChoiceIndex].minValue,
+        max: SALES_ESTIMATE_CHOICES[revenueChoiceIndex].maxValue,
+      });
+      return;
+    }
   };
 
   return (
     <>
       <section className={styles.filterSection}>
+        <div className={styles.activeFiltersWrapper}>
+          {activeFilters && activeFilters.length > 0 && (
+            <>
+              <div className={styles.btnWrapper}>
+                <button onClick={() => handleReset()} className={styles.btn}>
+                  <span className={styles.cross}>x</span>Clear all
+                </button>
+              </div>
+              <div className={styles.activeFiltersPils}>
+                {activeFilters.map((activeFilter, index) => {
+                  return (
+                    <div key={index} className={styles.activeFiltersPils__pil}>
+                      <p key={index}>
+                        {activeFilter}{' '}
+                        <span
+                          className={styles.cross}
+                          onClick={() => removeActiveFilter(activeFilter)}
+                        >
+                          x
+                        </span>
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
+          {(!activeFilters || activeFilters.length) === 0 && <p>Filter by</p>}
+        </div>
         <div className={styles.filterType}>
           {showGeneralFilters ? (
             <Image
@@ -427,14 +604,13 @@ const SellerDatabaseFilters = (props: Props) => {
           {/* Company Name */}
           <Accordion>
             <div
-              className={`${styles.accordianBlockWrapper} ${generalFiltersActiveIndexes.includes(
-                0
-              ) && styles.accordianBlockWrapper__active}`}
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 0 &&
+                styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={generalFiltersActiveIndexes.includes(0)}
+                active={filterActiveIndex === 0}
                 index={0}
-                onClick={() => handleGeneralFilterActiveIndexes(0)}
+                onClick={() => handleAccordianUpArrowClick(0)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -442,11 +618,11 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Company name</p>
                 </div>
                 <Image
-                  src={generalFiltersActiveIndexes.includes(0) ? upArrow : downArrow}
+                  src={filterActiveIndex === 0 ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={generalFiltersActiveIndexes.includes(0)}>
+              <Accordion.Content active={filterActiveIndex === 0}>
                 <div>
                   <InputFilter
                     label=""
@@ -466,14 +642,13 @@ const SellerDatabaseFilters = (props: Props) => {
               </Accordion.Content>
             </div>
             <div
-              className={`${styles.accordianBlockWrapper} ${generalFiltersActiveIndexes.includes(
-                1
-              ) && styles.accordianBlockWrapper__active}`}
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 1 &&
+                styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={generalFiltersActiveIndexes.includes(1)}
+                active={filterActiveIndex === 1}
                 index={1}
-                onClick={() => handleGeneralFilterActiveIndexes(1)}
+                onClick={() => handleAccordianUpArrowClick(1)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -481,11 +656,11 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Marketplace</p>
                 </div>
                 <Image
-                  src={generalFiltersActiveIndexes.includes(1) ? upArrow : downArrow}
+                  src={filterActiveIndex === 1 ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={generalFiltersActiveIndexes.includes(1)}>
+              <Accordion.Content active={filterActiveIndex === 1}>
                 <div>
                   <MarketPlaceFilter
                     label=""
@@ -505,14 +680,13 @@ const SellerDatabaseFilters = (props: Props) => {
               </Accordion.Content>
             </div>
             <div
-              className={`${styles.accordianBlockWrapper} ${generalFiltersActiveIndexes.includes(
-                2
-              ) && styles.accordianBlockWrapper__active}`}
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 2 &&
+                styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={generalFiltersActiveIndexes.includes(2)}
+                active={filterActiveIndex === 2}
                 index={2}
-                onClick={() => handleGeneralFilterActiveIndexes(2)}
+                onClick={() => handleAccordianUpArrowClick(2)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -520,11 +694,11 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Location</p>
                 </div>
                 <Image
-                  src={generalFiltersActiveIndexes.includes(2) ? upArrow : downArrow}
+                  src={filterActiveIndex === 2 ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={generalFiltersActiveIndexes.includes(2)}>
+              <Accordion.Content active={filterActiveIndex === 2}>
                 <div>
                   {/* Location */}
                   <CheckboxDropdownFilter
@@ -564,14 +738,13 @@ const SellerDatabaseFilters = (props: Props) => {
             </div>
 
             <div
-              className={`${styles.accordianBlockWrapper} ${generalFiltersActiveIndexes.includes(
-                3
-              ) && styles.accordianBlockWrapper__active}`}
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 3 &&
+                styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={generalFiltersActiveIndexes.includes(3)}
+                active={filterActiveIndex === 3}
                 index={3}
-                onClick={() => handleGeneralFilterActiveIndexes(3)}
+                onClick={() => handleAccordianUpArrowClick(3)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -579,11 +752,11 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Contact</p>
                 </div>
                 <Image
-                  src={generalFiltersActiveIndexes.includes(3) ? upArrow : downArrow}
+                  src={filterActiveIndex === 3 ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={generalFiltersActiveIndexes.includes(3)}>
+              <Accordion.Content active={filterActiveIndex === 3}>
                 <div>
                   {/* Feature request */}
                   {/* Physical address */}
@@ -618,7 +791,7 @@ const SellerDatabaseFilters = (props: Props) => {
                   />
                 </div>
               </Accordion.Content>
-              <Accordion.Content active={generalFiltersActiveIndexes.includes(3)}>
+              <Accordion.Content active={filterActiveIndex === 3}>
                 <div>
                   <CheckboxFilter
                     label="Decision maker"
@@ -653,14 +826,14 @@ const SellerDatabaseFilters = (props: Props) => {
               </Accordion.Content>
             </div>
             {/* <div
-              className={`${styles.accordianBlockWrapper} ${generalFiltersActiveIndexes.includes(
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 
                 4
               ) && styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={generalFiltersActiveIndexes.includes(4)}
+                active={filterActiveIndex === 4)}
                 index={4}
-                onClick={() => handleGeneralFilterActiveIndexes(4)}
+                onClick={() => handleAccordianUpArrowClick(4)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -668,11 +841,11 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Employees</p>
                 </div>
                 <Image
-                  src={generalFiltersActiveIndexes.includes(4) ? upArrow : downArrow}
+                  src={filterActiveIndex === 4) ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={generalFiltersActiveIndexes.includes(4)}>
+              <Accordion.Content active={filterActiveIndex === 4)}>
                 <div>
                   <MinMaxFilter
                     label=""
@@ -701,7 +874,7 @@ const SellerDatabaseFilters = (props: Props) => {
                   />
                 </div>
               </Accordion.Content>
-              <Accordion.Content active={generalFiltersActiveIndexes.includes(4)}>
+              <Accordion.Content active={filterActiveIndex === 4)}>
                 <div>
                   <CheckboxFilter
                     checkboxLabel="Professional email"
@@ -753,15 +926,13 @@ const SellerDatabaseFilters = (props: Props) => {
           {/* Company Name */}
           <Accordion>
             <div
-              className={`${
-                styles.accordianBlockWrapper
-              } ${buyingIntentFiltersActiveIndexes.includes(0) &&
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 8 &&
                 styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={buyingIntentFiltersActiveIndexes.includes(0)}
+                active={filterActiveIndex === 8}
                 index={0}
-                onClick={() => handleBuyingIntentFilterActiveIndexes(0)}
+                onClick={() => handleAccordianUpArrowClick(8)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -769,11 +940,11 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Categories</p>
                 </div>
                 <Image
-                  src={buyingIntentFiltersActiveIndexes.includes(0) ? upArrow : downArrow}
+                  src={filterActiveIndex === 8 ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={buyingIntentFiltersActiveIndexes.includes(0)}>
+              <Accordion.Content active={filterActiveIndex === 8}>
                 <div>
                   <CheckboxDropdownFilter
                     filterOptions={getProductCategories(marketPlace.code)}
@@ -788,15 +959,13 @@ const SellerDatabaseFilters = (props: Props) => {
             </div>
 
             <div
-              className={`${
-                styles.accordianBlockWrapper
-              } ${buyingIntentFiltersActiveIndexes.includes(1) &&
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 9 &&
                 styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={buyingIntentFiltersActiveIndexes.includes(1)}
+                active={filterActiveIndex === 9}
                 index={1}
-                onClick={() => handleBuyingIntentFilterActiveIndexes(1)}
+                onClick={() => handleAccordianUpArrowClick(9)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -804,37 +973,57 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Revenue</p>
                 </div>
                 <Image
-                  src={buyingIntentFiltersActiveIndexes.includes(1) ? upArrow : downArrow}
+                  src={filterActiveIndex === 9 ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={buyingIntentFiltersActiveIndexes.includes(1)}>
+              <Accordion.Content active={filterActiveIndex === 9}>
                 <div>
-                  <MinMaxFilter
-                    label="Annual revenue estimate"
-                    minValue={sellerDatabaseTextFieldFilters.monthlyRevenue.min}
-                    maxValue={sellerDatabaseTextFieldFilters.monthlyRevenue.max}
-                    handleChange={(type: string, value: string) =>
-                      updateSellerDatabaseTextFieldFilter('monthlyRevenue', {
-                        ...sellerDatabaseTextFieldFilters.monthlyRevenue,
-                        [type]: value,
-                      })
-                    }
-                    handleKeyDown={e => {
-                      if (e.key === 'Enter') {
-                        updateSellerDatabaseFilter(
-                          'monthlyRevenue',
-                          sellerDatabaseTextFieldFilters.monthlyRevenue
-                        );
+                  <p>Annual revenue estimate</p>
+                  <div className={styles.minMaxCount}>
+                    {SALES_ESTIMATE_CHOICES.map((choice, index) => (
+                      <div key={index} className={styles.minMaxCount__choice}>
+                        <Radio
+                          label={choice.label}
+                          checked={revenueChoiceIndex === index}
+                          onClick={() => setRevenueChoiceIndex(index)}
+                        />
+                      </div>
+                    ))}
+                    <Radio
+                      className={styles.minMaxCount__choice}
+                      label="Custom"
+                      checked={revenueChoiceIndex === 10}
+                      onClick={() => setRevenueChoiceIndex(10)}
+                    />
+                  </div>
+                  {revenueChoiceIndex === 10 && (
+                    <MinMaxFilter
+                      label=""
+                      minValue={sellerDatabaseTextFieldFilters.monthlyRevenue.min}
+                      maxValue={sellerDatabaseTextFieldFilters.monthlyRevenue.max}
+                      handleChange={(type: string, value: string) =>
+                        updateSellerDatabaseTextFieldFilter('monthlyRevenue', {
+                          ...sellerDatabaseTextFieldFilters.monthlyRevenue,
+                          [type]: value,
+                        })
                       }
-                    }}
-                    maxClassName={
-                      sellerDatabaseTextFieldFilters.monthlyRevenue.max && styles.activeFilter
-                    }
-                    minClassName={
-                      sellerDatabaseTextFieldFilters.monthlyRevenue.min && styles.activeFilter
-                    }
-                  />
+                      handleKeyDown={e => {
+                        if (e.key === 'Enter') {
+                          updateSellerDatabaseFilter(
+                            'monthlyRevenue',
+                            sellerDatabaseTextFieldFilters.monthlyRevenue
+                          );
+                        }
+                      }}
+                      maxClassName={
+                        sellerDatabaseTextFieldFilters.monthlyRevenue.max && styles.activeFilter
+                      }
+                      minClassName={
+                        sellerDatabaseTextFieldFilters.monthlyRevenue.min && styles.activeFilter
+                      }
+                    />
+                  )}
                   {/* <MinMaxFilter
                     label="Annual growth estimate (%)"
                     minValue={sellerDatabaseTextFieldFilters.growthPercent.min}
@@ -863,17 +1052,14 @@ const SellerDatabaseFilters = (props: Props) => {
                 </div>
               </Accordion.Content>
             </div>
-
             <div
-              className={`${
-                styles.accordianBlockWrapper
-              } ${buyingIntentFiltersActiveIndexes.includes(2) &&
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 10 &&
                 styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={buyingIntentFiltersActiveIndexes.includes(2)}
+                active={filterActiveIndex === 10}
                 index={1}
-                onClick={() => handleBuyingIntentFilterActiveIndexes(2)}
+                onClick={() => handleAccordianUpArrowClick(10)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -881,37 +1067,57 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Brands</p>
                 </div>
                 <Image
-                  src={buyingIntentFiltersActiveIndexes.includes(2) ? upArrow : downArrow}
+                  src={filterActiveIndex === 10 ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={buyingIntentFiltersActiveIndexes.includes(2)}>
+              <Accordion.Content active={filterActiveIndex === 10}>
                 <div>
-                  <MinMaxFilter
-                    label="Brands count"
-                    minValue={sellerDatabaseTextFieldFilters.numOfBrands.min}
-                    maxValue={sellerDatabaseTextFieldFilters.numOfBrands.max}
-                    handleChange={(type: string, value: string) =>
-                      updateSellerDatabaseTextFieldFilter('numOfBrands', {
-                        ...sellerDatabaseTextFieldFilters.numOfBrands,
-                        [type]: value,
-                      })
-                    }
-                    handleKeyDown={e => {
-                      if (e.key === 'Enter') {
-                        updateSellerDatabaseFilter(
-                          'numOfBrands',
-                          sellerDatabaseTextFieldFilters.numOfBrands
-                        );
+                  <p>Brands count</p>
+                  <div className={styles.minMaxCount}>
+                    {BRANDS_COUNT_CHOICES.map((choice, index) => (
+                      <div key={index} className={styles.minMaxCount__choice}>
+                        <Radio
+                          label={choice.label}
+                          checked={brandChoiceIndex === index}
+                          onClick={() => setBrandChoiceIndex(index)}
+                        />
+                      </div>
+                    ))}
+                    <Radio
+                      className={styles.minMaxCount__choice}
+                      label="Custom"
+                      checked={brandChoiceIndex === 5}
+                      onClick={() => setBrandChoiceIndex(5)}
+                    />
+                  </div>
+                  {brandChoiceIndex === 5 && (
+                    <MinMaxFilter
+                      label=""
+                      minValue={sellerDatabaseTextFieldFilters.numOfBrands.min}
+                      maxValue={sellerDatabaseTextFieldFilters.numOfBrands.max}
+                      handleChange={(type: string, value: string) =>
+                        updateSellerDatabaseTextFieldFilter('numOfBrands', {
+                          ...sellerDatabaseTextFieldFilters.numOfBrands,
+                          [type]: value,
+                        })
                       }
-                    }}
-                    maxClassName={
-                      sellerDatabaseTextFieldFilters.numOfBrands.max && styles.activeFilter
-                    }
-                    minClassName={
-                      sellerDatabaseTextFieldFilters.numOfBrands.min && styles.activeFilter
-                    }
-                  />
+                      handleKeyDown={e => {
+                        if (e.key === 'Enter') {
+                          updateSellerDatabaseFilter(
+                            'numOfBrands',
+                            sellerDatabaseTextFieldFilters.numOfBrands
+                          );
+                        }
+                      }}
+                      maxClassName={
+                        sellerDatabaseTextFieldFilters.numOfBrands.max && styles.activeFilter
+                      }
+                      minClassName={
+                        sellerDatabaseTextFieldFilters.numOfBrands.min && styles.activeFilter
+                      }
+                    />
+                  )}
                   {/*  Include brands */}
                   <InputFilter
                     label="Include brands"
@@ -972,15 +1178,13 @@ const SellerDatabaseFilters = (props: Props) => {
               </Accordion.Content>
             </div>
             <div
-              className={`${
-                styles.accordianBlockWrapper
-              } ${buyingIntentFiltersActiveIndexes.includes(3) &&
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 11 &&
                 styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={buyingIntentFiltersActiveIndexes.includes(3)}
+                active={filterActiveIndex === 11}
                 index={3}
-                onClick={() => handleBuyingIntentFilterActiveIndexes(3)}
+                onClick={() => handleAccordianUpArrowClick(11)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -988,38 +1192,60 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Products</p>
                 </div>
                 <Image
-                  src={buyingIntentFiltersActiveIndexes.includes(3) ? upArrow : downArrow}
+                  src={filterActiveIndex === 11 ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={buyingIntentFiltersActiveIndexes.includes(3)}>
+              <Accordion.Content active={filterActiveIndex === 11}>
+                <p>Products count</p>
                 <div>
+                  {/* Inventory Choices */}
+
+                  <div className={styles.minMaxCount}>
+                    {PRODUCT_COUNT_CHOICES.map((choice, index) => (
+                      <div key={index} className={styles.minMaxCount__choice}>
+                        <Radio
+                          label={choice.label}
+                          checked={productChoiceIndex === index}
+                          onClick={() => setProductChoiceIndex(index)}
+                        />
+                      </div>
+                    ))}
+                    <Radio
+                      className={styles.minMaxCount__choice}
+                      label="Custom"
+                      checked={productChoiceIndex === 5}
+                      onClick={() => setProductChoiceIndex(5)}
+                    />
+                  </div>
                   {/* # of Inventory */}
-                  <MinMaxFilter
-                    label="Products count"
-                    minValue={sellerDatabaseTextFieldFilters.numOfInventory.min}
-                    maxValue={sellerDatabaseTextFieldFilters.numOfInventory.max}
-                    handleChange={(type: string, value: string) =>
-                      updateSellerDatabaseTextFieldFilter('numOfInventory', {
-                        ...sellerDatabaseTextFieldFilters.numOfInventory,
-                        [type]: value,
-                      })
-                    }
-                    handleKeyDown={e => {
-                      if (e.key === 'Enter') {
-                        updateSellerDatabaseFilter(
-                          'numOfInventory',
-                          sellerDatabaseTextFieldFilters.numOfInventory
-                        );
+                  {productChoiceIndex === 5 && (
+                    <MinMaxFilter
+                      label=""
+                      minValue={sellerDatabaseTextFieldFilters.numOfInventory.min}
+                      maxValue={sellerDatabaseTextFieldFilters.numOfInventory.max}
+                      handleChange={(type: string, value: string) =>
+                        updateSellerDatabaseTextFieldFilter('numOfInventory', {
+                          ...sellerDatabaseTextFieldFilters.numOfInventory,
+                          [type]: value,
+                        })
                       }
-                    }}
-                    maxClassName={
-                      sellerDatabaseTextFieldFilters.numOfInventory.max && styles.activeFilter
-                    }
-                    minClassName={
-                      sellerDatabaseTextFieldFilters.numOfInventory.min && styles.activeFilter
-                    }
-                  />
+                      handleKeyDown={e => {
+                        if (e.key === 'Enter') {
+                          updateSellerDatabaseFilter(
+                            'numOfInventory',
+                            sellerDatabaseTextFieldFilters.numOfInventory
+                          );
+                        }
+                      }}
+                      maxClassName={
+                        sellerDatabaseTextFieldFilters.numOfInventory.max && styles.activeFilter
+                      }
+                      minClassName={
+                        sellerDatabaseTextFieldFilters.numOfInventory.min && styles.activeFilter
+                      }
+                    />
+                  )}
                   {/* Include ASINS */}
                   <InputFilter
                     label="Include Product IDs"
@@ -1095,6 +1321,7 @@ const SellerDatabaseFilters = (props: Props) => {
           onReset={handleReset}
           disabled={disableFormSubmit}
           hideSubmit
+          hideReset
         />
       </section>
     </>

@@ -3,6 +3,8 @@
 .sellerDatbaseTableWrapper {
   margin-top: 0;
   padding-bottom: 125px !important;
+  overflow: auto;
+  max-height: 75vh;
 }
 
 .sellerDatabasePagination {
