@@ -19,7 +19,7 @@ export const isSellgoSession = () => {
   }
 
   // Only affects LOCAL TESTING; true = SELLGO, false = AISTOCK
-  return true;
+  return false;
 };
 
 export const isAiStockSession = () => {
