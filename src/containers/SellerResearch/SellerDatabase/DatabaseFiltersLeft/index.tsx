@@ -555,11 +555,6 @@ const SellerDatabaseFilters = (props: Props) => {
         <div className={styles.activeFiltersWrapper}>
           {activeFilters && activeFilters.length > 0 && (
             <>
-              <div className={styles.btnWrapper}>
-                <button onClick={() => handleReset()} className={styles.btn}>
-                  <span className={styles.cross}>x</span>Clear all
-                </button>
-              </div>
               <div className={styles.activeFiltersPils}>
                 {activeFilters.map((activeFilter, index) => {
                   return (
@@ -576,6 +571,11 @@ const SellerDatabaseFilters = (props: Props) => {
                     </div>
                   );
                 })}
+              </div>
+              <div className={styles.btnWrapper}>
+                <button onClick={() => handleReset()} className={styles.btn}>
+                  <span className={styles.cross}>x</span>Clear all
+                </button>
               </div>
             </>
           )}
@@ -758,32 +758,22 @@ const SellerDatabaseFilters = (props: Props) => {
               </Accordion.Title>
               <Accordion.Content active={filterActiveIndex === 3}>
                 <div>
-                  {/* Feature request */}
-                  {/* Physical address */}
                   <CheckboxFilter
                     label="Company"
                     checkboxLabel="Physical address"
                     checked={sellerDatabaseFilters.hasAddress}
                     handleChange={value => updateSellerDatabaseFilter('hasAddress', value)}
                   />
-
-                  {/* Feature request */}
-                  {/* Website */}
                   <CheckboxFilter
                     checkboxLabel="Website"
                     checked={sellerDatabaseFilters.hasWebsite}
                     handleChange={value => updateSellerDatabaseFilter('hasWebsite', value)}
                   />
-
-                  {/* Email address */}
                   <CheckboxFilter
                     checkboxLabel="Company email"
                     checked={sellerDatabaseFilters.hasCompanyEmail}
                     handleChange={value => updateSellerDatabaseFilter('hasCompanyEmail', value)}
                   />
-
-                  {/* Feature request */}
-                  {/* Social media */}
                   <CheckboxFilter
                     checkboxLabel="Company social media"
                     checked={sellerDatabaseFilters.hasCompanySocial}
@@ -801,9 +791,6 @@ const SellerDatabaseFilters = (props: Props) => {
                       updateSellerDatabaseFilter('hasProfessionalEmail', value)
                     }
                   />
-
-                  {/* Feature request */}
-                  {/* Physical address */}
                   <CheckboxFilter
                     checkboxLabel="Personal email"
                     checked={sellerDatabaseFilters.hasPersonalEmail}
@@ -814,9 +801,6 @@ const SellerDatabaseFilters = (props: Props) => {
                     checked={sellerDatabaseFilters.hasEmployeePhone}
                     handleChange={value => updateSellerDatabaseFilter('hasEmployeePhone', value)}
                   />
-
-                  {/* Feature request */}
-                  {/* Social media */}
                   <CheckboxFilter
                     checkboxLabel="Social media"
                     checked={sellerDatabaseFilters.hasEmployeeSocial}
@@ -917,7 +901,7 @@ const SellerDatabaseFilters = (props: Props) => {
               className={styles.filterType__img}
             />
           )}
-          <p className={styles.filterType__text}>BUYING INTENT</p>
+          <p className={styles.filterType__text}>MARKETPLACE METRICS</p>
         </div>
         <div className={`${styles.basicFilters} ${!showBuyingIntentFilters && styles.hide}`}>
           {/* Marketplace */}
