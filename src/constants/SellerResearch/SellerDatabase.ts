@@ -293,6 +293,90 @@ export const FILTER_ICON_NAMES: {
   asins: 'boxes',
 };
 
+export const SALES_ESTIMATE_CHOICES = [
+  {
+    label: '1- 10',
+    minValue: '1',
+    maxValue: '10',
+  },
+  {
+    label: '11 - 50',
+    minValue: '11',
+    maxValue: '50',
+  },
+  {
+    label: '100 - 500',
+    minValue: '100',
+    maxValue: '500',
+  },
+  {
+    label: '500 - 1000',
+    minValue: '500',
+    maxValue: '1000',
+  },
+  {
+    label: '1000 - 10000',
+    minValue: '1000',
+    maxValue: '10000',
+  },
+];
+
+export const PRODUCT_COUNT_CHOICES = [
+  {
+    label: '1- 10',
+    minValue: '1',
+    maxValue: '10',
+  },
+  {
+    label: '11 - 50',
+    minValue: '11',
+    maxValue: '50',
+  },
+  {
+    label: '100 - 500',
+    minValue: '100',
+    maxValue: '500',
+  },
+  {
+    label: '500 - 1000',
+    minValue: '500',
+    maxValue: '1000',
+  },
+  {
+    label: '1000 - 10000',
+    minValue: '1000',
+    maxValue: '10000',
+  },
+];
+
+export const BRANDS_COUNT_CHOICES = [
+  {
+    label: '1- 10',
+    minValue: '1',
+    maxValue: '10',
+  },
+  {
+    label: '11 - 50',
+    minValue: '11',
+    maxValue: '50',
+  },
+  {
+    label: '100 - 500',
+    minValue: '100',
+    maxValue: '500',
+  },
+  {
+    label: '500 - 1000',
+    minValue: '500',
+    maxValue: '1000',
+  },
+  {
+    label: '1000 - 10000',
+    minValue: '1000',
+    maxValue: '10000',
+  },
+];
+
 export const getMinMaxPeriodFilter = (apiFilterName: string, value: any, isReview?: boolean) => {
   let filter = {};
 
