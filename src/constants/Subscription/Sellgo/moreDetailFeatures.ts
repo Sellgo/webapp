@@ -1,8 +1,12 @@
 export const MORE_DETAIL_FEATURES = [
-  'Unlimited data access',
-  'API & CRM integration',
-  'Multiple user access',
-  'Bulk 10,000 records selection',
-  'Customizable reports',
+  'CSV enrichment',
+  'Bulk prospecting (1,000 contacts)',
+  'Advanced CRM integration',
+  'Buying intent signals',
+  'Buying intent alerts',
+  'Salesforce data enrichment',
+  'Sellgo API',
+  'SSO',
+  'Advanced team management',
   'Dedicated account manager',
 ];
