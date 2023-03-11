@@ -295,9 +295,9 @@ export const FILTER_ICON_NAMES: {
 
 export const SALES_ESTIMATE_CHOICES = [
   {
-    label: '1- 10',
-    minValue: '1',
-    maxValue: '10',
+    label: '< $100K',
+    minValue: '0',
+    maxValue: '100000',
   },
   {
     label: '11 - 50',

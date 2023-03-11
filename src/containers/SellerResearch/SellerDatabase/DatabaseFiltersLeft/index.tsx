@@ -521,8 +521,8 @@ const SellerDatabaseFilters = (props: Props) => {
         return;
       }
       updateSellerDatabaseFilter('numOfBrands', {
-        min: PRODUCT_COUNT_CHOICES[brandChoiceIndex].minValue,
-        max: PRODUCT_COUNT_CHOICES[brandChoiceIndex].maxValue,
+        min: BRANDS_COUNT_CHOICES[brandChoiceIndex].minValue,
+        max: BRANDS_COUNT_CHOICES[brandChoiceIndex].maxValue,
       });
       return;
     }
@@ -542,8 +542,8 @@ const SellerDatabaseFilters = (props: Props) => {
         return;
       }
       updateSellerDatabaseFilter('monthlyRevenue', {
-        min: PRODUCT_COUNT_CHOICES[revenueChoiceIndex].minValue,
-        max: PRODUCT_COUNT_CHOICES[revenueChoiceIndex].maxValue,
+        min: SALES_ESTIMATE_CHOICES[revenueChoiceIndex].minValue,
+        max: SALES_ESTIMATE_CHOICES[revenueChoiceIndex].maxValue,
       });
       return;
     }
