@@ -170,11 +170,12 @@
 .currentPlan {
   position: absolute;
   top: 0;
-  left: 37%;
+  left: 23%;
   padding: 5px;
-  background: $prim_dark_1;
+  background: $blue_6;
   color: $prim_white;
   border-radius: 7px;
+  font-weight: 600;
 }
 
 .lookups {
