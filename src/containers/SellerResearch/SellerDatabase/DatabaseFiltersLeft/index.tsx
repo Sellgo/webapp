@@ -579,7 +579,7 @@ const SellerDatabaseFilters = (props: Props) => {
               </div>
             </>
           )}
-          {(!activeFilters || activeFilters.length) === 0 && <p>No Active Filters yet</p>}
+          {(!activeFilters || activeFilters.length) === 0 && <p>Filter by</p>}
         </div>
         <div className={styles.filterType}>
           {showGeneralFilters ? (
