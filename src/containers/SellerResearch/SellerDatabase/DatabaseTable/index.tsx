@@ -323,28 +323,28 @@ const SellerDatabaseTable = (props: Props) => {
           >
             <Table.HeaderCell>
               <HeaderSortCell
-                title={`Products`}
-                dataKey="inventory_count"
+                title={`Total products`}
+                dataKey="whls_total_product"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
                 alignMiddle
               />
             </Table.HeaderCell>
-            <NumberCell dataKey="inventory_count" />
+            <NumberCell dataKey="whls_total_product" />
           </Table.Column>
 
           {/* Brands */}
           <Table.Column width={90} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title={`Brands`}
-                dataKey="brands"
+                title={`Total brands`}
+                dataKey="whls_total_brand"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
                 alignMiddle
               />
             </Table.HeaderCell>
-            <NumberCell dataKey="brands" />
+            <NumberCell dataKey="whls_total_brand" />
           </Table.Column>
 
           <Table.Column width={90} verticalAlign="middle" align="center">

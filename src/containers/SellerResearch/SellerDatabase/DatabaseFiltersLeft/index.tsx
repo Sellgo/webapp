@@ -492,7 +492,7 @@ const SellerDatabaseFilters = (props: Props) => {
 
   const handleProductCountChange = () => {
     if (productChoiceIndex >= 0) {
-      if (productChoiceIndex === 5) {
+      if (productChoiceIndex === 6) {
         updateSellerDatabaseTextFieldFilter('numOfInventory', {
           min: '',
           max: '',
@@ -534,7 +534,7 @@ const SellerDatabaseFilters = (props: Props) => {
 
   const handleSalesEstimateChange = () => {
     if (revenueChoiceIndex >= 0) {
-      if (revenueChoiceIndex === 5) {
+      if (revenueChoiceIndex === 10) {
         updateSellerDatabaseTextFieldFilter('monthlyRevenue', {
           min: '',
           max: '',
@@ -557,7 +557,7 @@ const SellerDatabaseFilters = (props: Props) => {
             <>
               <div className={styles.btnWrapper}>
                 <button onClick={() => handleReset()} className={styles.btn}>
-                  <span className={styles.cross}>x</span>Clear All
+                  <span className={styles.cross}>x</span>Clear all
                 </button>
               </div>
               <div className={styles.activeFiltersPils}>
@@ -993,11 +993,11 @@ const SellerDatabaseFilters = (props: Props) => {
                     <Radio
                       className={styles.minMaxCount__choice}
                       label="Custom"
-                      checked={revenueChoiceIndex === 5}
-                      onClick={() => setRevenueChoiceIndex(5)}
+                      checked={revenueChoiceIndex === 10}
+                      onClick={() => setRevenueChoiceIndex(10)}
                     />
                   </div>
-                  {revenueChoiceIndex === 5 && (
+                  {revenueChoiceIndex === 10 && (
                     <MinMaxFilter
                       label=""
                       minValue={sellerDatabaseTextFieldFilters.monthlyRevenue.min}

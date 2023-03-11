@@ -3,7 +3,7 @@
 .filterSection {
   padding: 0;
   width: 220px;
-  
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -150,13 +150,14 @@
     &__pil {
       padding: 5px;
       margin: 10px 0 0 10px;
-      background-color: $grey_6;
+      background-color: $grey_5;
       color: $prim_white;
       font-size: 12px;
       border-radius: 7px;
 
       .cross {
         margin-left: 5px;
+        font-size: 10px;
         cursor: pointer;
       }
     }
@@ -168,9 +169,11 @@
 
     .btn {
       background: transparent;
-      border: 1px solid;
+      border: 1px $grey_4 solid;
       border-radius: 7px;
       float: right;
+      font-size: 12px;
+      color: $grey_8;
 
       .cross {
         margin-right: 5px;
@@ -182,8 +185,11 @@
 .minMaxCount {
   display: flex;
   flex-direction: column;
+  margin-bottom: 0.5em;
 
   &__choice {
-    margin-bottom: 5px;
+    margin-top: 0.7em;
+    font-size: 10px;
+    font-weight: 300;
   }
 }

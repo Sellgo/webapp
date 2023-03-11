@@ -300,31 +300,56 @@ export const SALES_ESTIMATE_CHOICES = [
     maxValue: '100000',
   },
   {
-    label: '11 - 50',
-    minValue: '11',
-    maxValue: '50',
+    label: '$100K - $200K',
+    minValue: '100000',
+    maxValue: '200000',
   },
   {
-    label: '100 - 500',
-    minValue: '100',
-    maxValue: '500',
+    label: '$200K - $300K',
+    minValue: '200000',
+    maxValue: '300000',
   },
   {
-    label: '500 - 1000',
-    minValue: '500',
-    maxValue: '1000',
+    label: '$300K - $500K',
+    minValue: '300000',
+    maxValue: '500000',
   },
   {
-    label: '1000 - 10000',
-    minValue: '1000',
-    maxValue: '10000',
+    label: '$500K - $1M',
+    minValue: '500000',
+    maxValue: '1000000',
+  },
+  {
+    label: '$1M - $2M',
+    minValue: '1000000',
+    maxValue: '2000000',
+  },
+  {
+    label: '$2M - $3M',
+    minValue: '2000000',
+    maxValue: '3000000',
+  },
+  {
+    label: '$3M - $5M',
+    minValue: '3000000',
+    maxValue: '5000000',
+  },
+  {
+    label: '$5M - $10M',
+    minValue: '5000000',
+    maxValue: '10000000',
+  },
+  {
+    label: '> $10M',
+    minValue: '10000000',
+    maxValue: '1000000000',
   },
 ];
 
 export const PRODUCT_COUNT_CHOICES = [
   {
-    label: '1- 10',
-    minValue: '1',
+    label: '< 10',
+    minValue: '0',
     maxValue: '10',
   },
   {
@@ -338,21 +363,26 @@ export const PRODUCT_COUNT_CHOICES = [
     maxValue: '500',
   },
   {
-    label: '500 - 1000',
+    label: '500 - 1,000',
     minValue: '500',
     maxValue: '1000',
   },
   {
-    label: '1000 - 10000',
+    label: '1,000 - 10,000',
     minValue: '1000',
     maxValue: '10000',
+  },
+  {
+    label: '> 10,000',
+    minValue: '10000',
+    maxValue: '1000000',
   },
 ];
 
 export const BRANDS_COUNT_CHOICES = [
   {
-    label: '1- 10',
-    minValue: '1',
+    label: '< 10',
+    minValue: '0',
     maxValue: '10',
   },
   {
@@ -366,14 +396,14 @@ export const BRANDS_COUNT_CHOICES = [
     maxValue: '500',
   },
   {
-    label: '500 - 1000',
+    label: '500 - 1,000',
     minValue: '500',
     maxValue: '1000',
   },
   {
-    label: '1000 - 10000',
+    label: '> 1,000',
     minValue: '1000',
-    maxValue: '10000',
+    maxValue: '1000000',
   },
 ];
 
