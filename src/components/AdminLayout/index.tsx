@@ -7,6 +7,7 @@ import {
   NEW_PRODUCT_DESIGN_PATH_NAMES,
   HIDE_NAV_BAR_PATH_NAMES,
 } from '../../constants/AdminLayout';
+import { isSellgoSession } from '../../utils/session';
 
 interface Props {
   subscriptionType: string;
@@ -18,7 +19,7 @@ class AdminLayout extends React.Component<Props> {
     const { children, match } = this.props;
 
     const isNewProduct = NEW_PRODUCT_DESIGN_PATH_NAMES.includes(window.location.pathname);
-
+    const isSellerDatabase = window.location.pathname === '/seller-research/database';
     const hideNavBar = HIDE_NAV_BAR_PATH_NAMES.includes(
       window.location.pathname + window.location.search
     );
@@ -28,7 +29,9 @@ class AdminLayout extends React.Component<Props> {
       return (
         <main className="admin-layout-wrapper">
           <Segment
-            className={`admin-layout new-admin-layout new-admin-layout__hide-nav`}
+            className={`admin-layout new-admin-layout new-admin-layout__hide-nav ${
+              isSellerDatabase ? 'admin-layout__hide-overflow' : ''
+            }`}
             basic={true}
           >
             <>{children}</>
@@ -38,9 +41,11 @@ class AdminLayout extends React.Component<Props> {
     } else {
       return (
         <main className="admin-layout-wrapper">
-          <Sidebar match={match} />
+          {!isSellgoSession() && <Sidebar match={match} />}
           <Segment
-            className={`admin-layout ${isNewProduct ? 'new-admin-layout' : ''}`}
+            className={`admin-layout ${isNewProduct ? 'new-admin-layout' : ''} ${
+              isSellerDatabase ? 'admin-layout__hide-overflow' : ''
+            }`}
             basic={true}
           >
             <>{children}</>

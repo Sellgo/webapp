@@ -13,18 +13,18 @@ const MoreDetails = () => {
   const [isDemoFormOpen, setIsDemoFormOpen] = useState(false);
   return (
     <section className={styles.moreDetailsSection}>
-      <p>Need everything unlimited in an account-based Enterprise plan?</p>
+      <p>Enterprise</p>
       <div className={styles.pricingPlansCardBody}>
         <PricingPlansCardFeaturesList featuresIncluded={MORE_DETAIL_FEATURES} />
       </div>
       <ActionButton
         variant={'primary'}
         size={'md'}
-        type="purpleGradient"
+        type="black"
         className={styles.completeButton}
         onClick={() => setIsDemoFormOpen(true)}
       >
-        Talk to an expert
+        Contact sales
       </ActionButton>
 
       <Modal

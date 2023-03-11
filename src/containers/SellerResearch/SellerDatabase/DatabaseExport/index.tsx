@@ -74,7 +74,7 @@ const DatabaseExport = (props: Props) => {
             prependMessage="Showing"
             count={sellerDatabasePaginationInfo.count}
             actualCount={sellerDatabaseResults ? sellerDatabaseResults.length : 0}
-            appendMessage="sellers"
+            appendMessage="results"
             limitType="seller_database_display_limit"
           />
         )} */}
