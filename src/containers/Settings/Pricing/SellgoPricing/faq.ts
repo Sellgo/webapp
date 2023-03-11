@@ -2,11 +2,12 @@
 export const faqs = [
   {
     question: 'Is there a free trial?',
-    answer: 'Of course, just sign up easily with free account and enjoy your free account forever.',
+    answer:
+      'Of course, just sign up easily with free account and enjoy your free account forever with 5 lookups per month.',
   },
   {
     question: 'What do I get with free account?',
-    answer: 'We include 10 free lookups and 100 free searches per month.',
+    answer: 'We include 5 free lookups and 100 free searches per month.',
   },
   {
     question: 'What is lookups?',
@@ -16,7 +17,7 @@ export const faqs = [
   {
     question: 'How many lookups do I get with paid account?',
     answer:
-      'Personal account starts with 100 lookups monthly and 1,200 lookups yearly, Business account starts with 500 lookups monthly and 6,000 lookups yearly.',
+      'Personal account starts with 100 lookups monthly and 1,200 lookups yearly, Business account starts with 500 lookups monthly and 6,000 lookups yearly. Enterprise plan has custom number of lookups up to unlimited.',
   },
   {
     question: 'Can I use the yearly lookups all at once?',
