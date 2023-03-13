@@ -45,13 +45,13 @@ const UpsellCtaPage = () => {
           </div>
           <div className={styles.freePlanColumn}>
             <h2>Free account</h2>
-            <span>10 lookups/ month</span>
+            <span>5 lookups/ month</span>
             <span>Limited</span>
             <span>Limited</span>
           </div>
           <div className={styles.professionalColumn}>
             <h2>Usage-based starts at $77/ month</h2>
-            <span>Immediate access to up to 12,000 lookups</span>
+            <span>Immediate access to up to more lookups</span>
             <span>Yes</span>
             <span>Yes</span>
           </div>
