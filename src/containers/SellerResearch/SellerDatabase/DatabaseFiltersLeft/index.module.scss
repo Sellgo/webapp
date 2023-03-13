@@ -13,6 +13,7 @@
 .basicFilters {
   background: $prim_white;
   border-radius: 7px 7px 7px 7px;
+  box-shadow: 3px -3px 6px 1px rgba($grey_3, 0.5);
   padding: 0 0 0 0;
   margin-left: -10px;
   height: max-content;
@@ -138,9 +139,11 @@
 
 .activeFiltersWrapper {
   padding: 20px 18px 11px 18px !important;
-  margin-top: 7px;
+  margin-top: 18px;
+  margin-bottom: 0.5em;
   background: #fff;
   border-radius: 7px 7px 7px 7px;
+  box-shadow: 3px -3px 6px 1px rgba($grey_3, 0.5);
   margin-left: -14px;
 
   .activeFiltersPils {
