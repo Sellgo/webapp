@@ -201,15 +201,15 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
 export const PAYMENT_MODES = ['daily', 'monthly', 'yearly'];
 
 export const SUBSCRIPTION_DETAILS_LIST: SummaryDetails[] = [
-  SUBSCRIPTION_DETAILS.starter,
+  SUBSCRIPTION_DETAILS.personal,
   SUBSCRIPTION_DETAILS.professional,
-  SUBSCRIPTION_DETAILS.team,
+  SUBSCRIPTION_DETAILS.business,
 ];
 
 export const subscriptionDetailsMapping: { [key: string]: number } = {
-  starter: 10,
+  personal: 10,
   professional: 11,
-  team: 12,
+  business: 12,
 };
 
 export const getSubscriptionID = (planName: string) => {
