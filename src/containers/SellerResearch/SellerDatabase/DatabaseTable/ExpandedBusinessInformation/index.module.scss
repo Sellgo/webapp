@@ -3,8 +3,12 @@
 .merchantDetails {
   display: flex;
   justify-content: space-between;
-  width: calc(90vw - 20px);
+  width: calc(90vw - 60px);
   padding: 10px;
+
+  @media screen and (min-width: 2100px) {
+    width: 1790px !important;
+  }
 
   .businessInformation {
     width: 40%;
