@@ -154,10 +154,63 @@ const SellerDatabaseFilters = (props: Props) => {
         }
       } else if (sellerDatabaseFilters[sdFilter]) {
         activeFilters.push(sdFilter);
-        activeFilterValues = {
-          ...activeFilterValues,
-          [sdFilter]: sellerDatabaseFilters[sdFilter],
-        };
+        switch (sdFilter) {
+          case 'hasContact':
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: 'Has Contacts',
+            };
+            break;
+          case 'hasAddress':
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: 'Has Address',
+            };
+            break;
+          case 'hasWebsite':
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: 'Has Website',
+            };
+            break;
+          case 'hasCompanySocial':
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: 'Has Company Socials',
+            };
+            break;
+          case 'hasProfessionalEmail':
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: 'Has Professional Emails',
+            };
+            break;
+          case 'hasPersonalEmail':
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: 'Has Personal Emails',
+            };
+            break;
+          case 'hasEmployeePhone':
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: 'Has Employees Phones',
+            };
+            break;
+          case 'hasEmployeeSocial':
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: 'Has Employee Socials',
+            };
+            break;
+
+          default:
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: sellerDatabaseFilters[sdFilter],
+            };
+            break;
+        }
       }
     });
     MIN_MAX_SD_FILTERS.forEach(minMaxSdFilter => {
