@@ -102,7 +102,7 @@ const SellerResearch = (props: Props) => {
         title={`Seller Research`}
         breadcrumb={[
           { content: 'Home', to: '/' },
-          { content: 'Seller Research', to: '/database' },
+          { content: 'Seller Research', to: '' },
           {
             content: SELLER_RESEARCH_PRODUCT_DETAILS[selectedTabList].name,
             to: SELLER_RESEARCH_PAGES[selectedTabList],
