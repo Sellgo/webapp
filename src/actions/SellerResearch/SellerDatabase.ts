@@ -298,11 +298,25 @@ export const fetchSellerDatabase = (payload: SellerDatabasePayload) => async (
 
     if (!filterPayload) {
       filterPayloadData = extractSellerDatabaseFilters();
+      if (Array.isArray(filterPayloadData.categories)) {
+        filterPayloadData.categories = filterPayloadData.categories.join('|');
+      }
+      if (Array.isArray(filterPayloadData.countries)) {
+        filterPayloadData.countries = filterPayloadData.countries.join('|');
+      }
+      if (Array.isArray(filterPayloadData.states)) {
+        filterPayloadData.states = filterPayloadData.states.join('|');
+      }
+      filterPayloadData.country =
+        filterPayloadData.country === 'All Countries' ? '' : filterPayloadData.country;
+      filterPayloadData.state =
+        filterPayloadData.state === 'All States' ? '' : filterPayloadData.state;
     } else {
       storeSellerDatabaseFilters(filterPayload);
       filterPayloadData = filterPayload;
     }
 
+    console.log('606', filterPayloadData);
     let filtersQueryString: string = parseFilters(filterPayloadData);
 
     if (!filtersQueryString) {
