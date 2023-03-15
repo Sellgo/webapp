@@ -155,12 +155,8 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     monthlyLookups: 100,
     annualLookups: 1200,
     annualSavingPercentage: 49,
-    subDescription: '7-Day Money Back Guarantee',
-    benefits: [
-      'Full access to Chrome extension.',
-      'Limited access to seller database suite.',
-      '7-day money back guarantee',
-    ],
+    subDescription: '',
+    benefits: ['Full access to Chrome extension.', 'Limited access to seller database suite.', ''],
   },
   professional: {
     name: 'Professional',
@@ -172,7 +168,7 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     annualLookups: 3000,
     dailyPrice: -1,
     annualSavingPercentage: 33,
-    subDescription: '7-Day Money Back Guarantee',
+    subDescription: '',
     benefits: [
       'Full access in Chrome Extension + Sales Estimation',
       '5,000 Sellers in Seller Database or Seller Map per month',
@@ -189,7 +185,7 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     monthlyLookups: 700,
     annualLookups: 8400,
     annualSavingPercentage: 28,
-    subDescription: '7-Day Money Back Guarantee',
+    subDescription: '',
     benefits: [
       '20,000 Sellers in Seller Database or Seller Map per month',
       'Top view of 20,000 sellers in the Seller Map',

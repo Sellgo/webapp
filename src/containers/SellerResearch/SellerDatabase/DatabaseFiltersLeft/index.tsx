@@ -73,6 +73,7 @@ import SquareMinusRegular from '../../../../assets/images/minus-square-regular.s
 import SquarePlusRegular from '../../../../assets/images/plus-square-regular (1).svg';
 import downArrow from '../../../../assets/images/sorting-icon-down.svg';
 import upArrow from '../../../../assets/images/angle-up-black.svg';
+import OnboardingTooltip from '../../../../components/OnboardingTooltip';
 
 interface Props {
   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
@@ -93,6 +94,7 @@ const SellerDatabaseFilters = (props: Props) => {
 
   const [showGeneralFilters, setShowGeneralFilters] = useState(true);
   const [showBuyingIntentFilters, setShowBuyingIntentFilters] = useState(true);
+  const [activeFilterValues, setActiveFilterValues] = useState<{ [key: string]: any }>({});
   // const [generalFiltersActiveIndexes, setGeneralFiltersActiveIndexes] = useState<number[]>([-1]);
   // const [buyingIntentFiltersActiveIndexes, setBuyingIntentFiltersActiveIndexes] = useState<
   //   number[]
@@ -104,7 +106,6 @@ const SellerDatabaseFilters = (props: Props) => {
   const [sellerDatabaseFilters, setSellerDatabaseFilters] = useState(
     DEFAULT_SELLER_DATABASE_FILTER
   );
-  const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [sellerDatabaseTextFieldFilters, setSellerDatabaseTextFieldFilters] = useState({
     ...DEFAULT_SELLER_DATABASE_FILTER,
   });
@@ -137,6 +138,7 @@ const SellerDatabaseFilters = (props: Props) => {
   const getActiveFilters = () => {
     console.log(sellerDatabaseFilters);
     const activeFilters: string[] = [];
+    let activeFilterValues = {};
     SIMPLE_SD_FILTERS.forEach(sdFilter => {
       console.log(
         Array.isArray(sellerDatabaseFilters[sdFilter]),
@@ -145,14 +147,98 @@ const SellerDatabaseFilters = (props: Props) => {
       if (Array.isArray(sellerDatabaseFilters[sdFilter])) {
         if (sellerDatabaseFilters[sdFilter].length > 0) {
           activeFilters.push(sdFilter);
+          activeFilterValues = {
+            ...activeFilterValues,
+            [sdFilter]: sellerDatabaseFilters[sdFilter].toString(),
+          };
         }
       } else if (sellerDatabaseFilters[sdFilter]) {
         activeFilters.push(sdFilter);
+        switch (sdFilter) {
+          case 'hasContact':
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: 'Contacts',
+            };
+            break;
+          case 'hasAddress':
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: 'Address',
+            };
+            break;
+          case 'hasWebsite':
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: 'Company website',
+            };
+            break;
+          case 'hasCompanyEmail':
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: 'Company email',
+            };
+            break;
+          case 'hasCompanySocial':
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: 'Company social media',
+            };
+            break;
+          case 'hasProfessionalEmail':
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: 'Professional email',
+            };
+            break;
+          case 'hasPersonalEmail':
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: 'Personal email',
+            };
+            break;
+          case 'hasEmployeePhone':
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: 'Direct phone',
+            };
+            break;
+          case 'hasEmployeeSocial':
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: 'Personal social media',
+            };
+            break;
+
+          default:
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: sellerDatabaseFilters[sdFilter],
+            };
+            break;
+        }
       }
     });
     MIN_MAX_SD_FILTERS.forEach(minMaxSdFilter => {
       if (sellerDatabaseFilters[minMaxSdFilter].min || sellerDatabaseFilters[minMaxSdFilter].max) {
         activeFilters.push(minMaxSdFilter);
+        if (!sellerDatabaseFilters[minMaxSdFilter].min) {
+          activeFilterValues = {
+            ...activeFilterValues,
+            [minMaxSdFilter]: `<${sellerDatabaseFilters[minMaxSdFilter].max}`,
+          };
+        } else if (!sellerDatabaseFilters[minMaxSdFilter].max) {
+          activeFilterValues = {
+            ...activeFilterValues,
+            [minMaxSdFilter]: `>${sellerDatabaseFilters[minMaxSdFilter].min}`,
+          };
+        } else {
+          activeFilterValues = {
+            ...activeFilterValues,
+            // eslint-disable-next-line max-len
+            [minMaxSdFilter]: `${sellerDatabaseFilters[minMaxSdFilter].min} -> ${sellerDatabaseFilters[minMaxSdFilter].max}`,
+          };
+        }
       }
     });
     INCLUDE_EXCLUDE_SD_FILTERS.forEach(includeExcludeSdFilter => {
@@ -160,14 +246,32 @@ const SellerDatabaseFilters = (props: Props) => {
         sellerDatabaseFilters[includeExcludeSdFilter].include ||
         sellerDatabaseFilters[includeExcludeSdFilter].exclude
       ) {
+        if (sellerDatabaseFilters[includeExcludeSdFilter].include) {
+          activeFilterValues = {
+            ...activeFilterValues,
+            // eslint-disable-next-line max-len
+            [`${includeExcludeSdFilter}__include`]: `Include -> ${sellerDatabaseFilters[includeExcludeSdFilter].include}`,
+          };
+        }
+        if (sellerDatabaseFilters[includeExcludeSdFilter].exclude) {
+          activeFilterValues = {
+            ...activeFilterValues,
+            // eslint-disable-next-line max-len
+            [`${includeExcludeSdFilter}__exclude`]: `Exclude -> ${sellerDatabaseFilters[includeExcludeSdFilter].exclude}`,
+          };
+        }
         activeFilters.push(includeExcludeSdFilter);
       }
     });
-    console.log('active ', activeFilters);
-    setActiveFilters([...activeFilters]);
+    setActiveFilterValues({ ...activeFilterValues });
   };
 
   const removeActiveFilter = (filterName: string) => {
+    if (filterName.includes('__include')) {
+      filterName = filterName.replace('__include', '');
+    } else if (filterName.includes('__exclude')) {
+      filterName = filterName.replace('__exclude', '');
+    }
     if (SIMPLE_SD_FILTERS.indexOf(filterName) >= 0) {
       if (Array.isArray(sellerDatabaseFilters[filterName])) {
         updateSellerDatabaseFilter(filterName, []);
@@ -549,24 +653,52 @@ const SellerDatabaseFilters = (props: Props) => {
     }
   };
 
+  const currentIcon: { [key: string]: any } = {
+    companyName: <Icon name="building" className={styles.accordian__title__icon} />,
+    countries: <Icon name="map marker alternate" className={styles.accordian__title__icon} />,
+    states: <Icon name="map marker alternate" className={styles.accordian__title__icon} />,
+    zipCode: <Icon name="map marker alternate" className={styles.accordian__title__icon} />,
+    hasAddress: <Icon name="users" className={styles.accordian__title__icon} />,
+    hasContact: <Icon name="users" className={styles.accordian__title__icon} />,
+    hasWebsite: <Icon name="globe" className={styles.accordian__title__icon} />,
+    hasCompanyEmail: <Icon name="envelope" className={styles.accordian__title__icon} />,
+    hasCompanySocial: <Icon name="users" className={styles.accordian__title__icon} />,
+    hasProfessionalEmail: <Icon name="envelope" className={styles.accordian__title__icon} />,
+    hasPersonalEmail: <Icon name="envelope" className={styles.accordian__title__icon} />,
+    hasEmployeePhone: <Icon name="phone" className={styles.accordian__title__icon} />,
+    hasEmployeeSocial: <Icon name="users" className={styles.accordian__title__icon} />,
+    categories: <Icon name="list" className={styles.accordian__title__icon} />,
+    numOfInventory: <Icon name="boxes" className={styles.accordian__title__icon} />,
+    numOfBrands: <Icon name="tag" className={styles.accordian__title__icon} />,
+    monthlyRevenue: <Icon name="chart line" className={styles.accordian__title__icon} />,
+    brands__include: <Icon name="tag" className={styles.accordian__title__icon} />,
+    brands__exclude: <Icon name="tag" className={styles.accordian__title__icon} />,
+    asins__include: <Icon name="boxes" className={styles.accordian__title__icon} />,
+    asins__exclude: <Icon name="boxes" className={styles.accordian__title__icon} />,
+  };
+
   return (
     <>
       <section className={styles.filterSection}>
         <div className={styles.activeFiltersWrapper}>
-          {activeFilters && activeFilters.length > 0 && (
+          {activeFilterValues && Object.keys(activeFilterValues).length > 0 && (
             <>
               <div className={styles.activeFiltersPils}>
-                {activeFilters.map((activeFilter, index) => {
+                {Object.keys(activeFilterValues).map((activeFilter, index) => {
                   return (
                     <div key={index} className={styles.activeFiltersPils__pil}>
-                      <p key={index}>
-                        {activeFilter}{' '}
-                        <span
-                          className={styles.cross}
-                          onClick={() => removeActiveFilter(activeFilter)}
-                        >
-                          x
-                        </span>
+                      <div className={styles.icons}>{currentIcon[activeFilter]}</div>
+                      <p className={styles.activeFiltersPils__pil__text}>
+                        {activeFilterValues[activeFilter]}{' '}
+                        <OnboardingTooltip
+                          youtubeLink={''}
+                          tooltipMessage={activeFilterValues[activeFilter]}
+                          infoIconClassName="infoOnboardingIcon"
+                          youtubeIconClassName="youtubeOnboarding"
+                        />
+                      </p>
+                      <p className={styles.cross} onClick={() => removeActiveFilter(activeFilter)}>
+                        x
                       </p>
                     </div>
                   );
@@ -579,7 +711,9 @@ const SellerDatabaseFilters = (props: Props) => {
               </div>
             </>
           )}
-          {(!activeFilters || activeFilters.length) === 0 && <p>Filter by</p>}
+          {(!activeFilterValues || Object.keys(activeFilterValues).length) === 0 && (
+            <p>Filter by</p>
+          )}
         </div>
         <div className={styles.filterType}>
           {showGeneralFilters ? (
