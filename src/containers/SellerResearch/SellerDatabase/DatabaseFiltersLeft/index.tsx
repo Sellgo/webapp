@@ -158,49 +158,55 @@ const SellerDatabaseFilters = (props: Props) => {
           case 'hasContact':
             activeFilterValues = {
               ...activeFilterValues,
-              [sdFilter]: 'Has Contacts',
+              [sdFilter]: 'Contacts',
             };
             break;
           case 'hasAddress':
             activeFilterValues = {
               ...activeFilterValues,
-              [sdFilter]: 'Has Address',
+              [sdFilter]: 'Address',
             };
             break;
           case 'hasWebsite':
             activeFilterValues = {
               ...activeFilterValues,
-              [sdFilter]: 'Has Website',
+              [sdFilter]: 'Company website',
+            };
+            break;
+          case 'hasCompanyEmail':
+            activeFilterValues = {
+              ...activeFilterValues,
+              [sdFilter]: 'Company email',
             };
             break;
           case 'hasCompanySocial':
             activeFilterValues = {
               ...activeFilterValues,
-              [sdFilter]: 'Has Company Socials',
+              [sdFilter]: 'Company social media',
             };
             break;
           case 'hasProfessionalEmail':
             activeFilterValues = {
               ...activeFilterValues,
-              [sdFilter]: 'Has Professional Emails',
+              [sdFilter]: 'Professional email',
             };
             break;
           case 'hasPersonalEmail':
             activeFilterValues = {
               ...activeFilterValues,
-              [sdFilter]: 'Has Personal Emails',
+              [sdFilter]: 'Personal email',
             };
             break;
           case 'hasEmployeePhone':
             activeFilterValues = {
               ...activeFilterValues,
-              [sdFilter]: 'Has Employees Phones',
+              [sdFilter]: 'Direct phone',
             };
             break;
           case 'hasEmployeeSocial':
             activeFilterValues = {
               ...activeFilterValues,
-              [sdFilter]: 'Has Employee Socials',
+              [sdFilter]: 'Personal social media',
             };
             break;
 
@@ -224,7 +230,7 @@ const SellerDatabaseFilters = (props: Props) => {
         } else if (!sellerDatabaseFilters[minMaxSdFilter].max) {
           activeFilterValues = {
             ...activeFilterValues,
-            [minMaxSdFilter]: `>${sellerDatabaseFilters[minMaxSdFilter].min}}`,
+            [minMaxSdFilter]: `>${sellerDatabaseFilters[minMaxSdFilter].min}`,
           };
         } else {
           activeFilterValues = {
@@ -654,11 +660,12 @@ const SellerDatabaseFilters = (props: Props) => {
     zipCode: <Icon name="map marker alternate" className={styles.accordian__title__icon} />,
     hasAddress: <Icon name="users" className={styles.accordian__title__icon} />,
     hasContact: <Icon name="users" className={styles.accordian__title__icon} />,
-    hasWebsite: <Icon name="users" className={styles.accordian__title__icon} />,
+    hasWebsite: <Icon name="globe" className={styles.accordian__title__icon} />,
+    hasCompanyEmail: <Icon name="envelope" className={styles.accordian__title__icon} />,
     hasCompanySocial: <Icon name="users" className={styles.accordian__title__icon} />,
-    hasProfessionalEmail: <Icon name="users" className={styles.accordian__title__icon} />,
-    hasPersonalEmail: <Icon name="users" className={styles.accordian__title__icon} />,
-    hasEmployeePhone: <Icon name="users" className={styles.accordian__title__icon} />,
+    hasProfessionalEmail: <Icon name="envelope" className={styles.accordian__title__icon} />,
+    hasPersonalEmail: <Icon name="envelope" className={styles.accordian__title__icon} />,
+    hasEmployeePhone: <Icon name="phone" className={styles.accordian__title__icon} />,
     hasEmployeeSocial: <Icon name="users" className={styles.accordian__title__icon} />,
     categories: <Icon name="list" className={styles.accordian__title__icon} />,
     numOfInventory: <Icon name="boxes" className={styles.accordian__title__icon} />,
