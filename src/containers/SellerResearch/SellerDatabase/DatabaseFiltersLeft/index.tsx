@@ -724,17 +724,12 @@ const SellerDatabaseFilters = (props: Props) => {
             <Accordion.Title
               active={filterActiveIndex === 0}
               index={0}
-              onClick={() => handleAccordianUpArrowClick(0)}
               className={styles.marketplace__title}
             >
               <div className={styles.marketplace__title__block}>
                 <Icon name="amazon" className={styles.marketplace__title__icon} />
-                <p>Amazon</p>
+                <p>Amazon marketplace</p>
               </div>
-              <Image
-                src={filterActiveIndex === 0 ? upArrow : downArrow}
-                className={styles.marketplace__title__arrowImage}
-              />
             </Accordion.Title>
             <Accordion.Content active={filterActiveIndex === 0}>
               <div>
