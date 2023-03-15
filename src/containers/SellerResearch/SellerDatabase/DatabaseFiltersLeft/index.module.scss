@@ -158,9 +158,19 @@
       font-size: 9px;
       font-weight: 500;
       border-radius: 7px;
+      display: flex;
+      align-items: center;
+
+      &__text {
+        max-width: 125px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
 
       .cross {
         margin-left: 3px;
+        margin-top: 0;
         font-size: 12px;
         cursor: pointer;
       }
