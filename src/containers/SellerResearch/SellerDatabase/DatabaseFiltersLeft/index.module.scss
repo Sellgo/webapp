@@ -3,12 +3,6 @@
 .filterSection {
   padding: 0;
   width: 240px;
-  overflow-y: auto;
-  max-height: 77vh;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }
 
 /* Basic Filter Styles */
