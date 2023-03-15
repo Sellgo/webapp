@@ -292,8 +292,7 @@ function CheckoutForm(props: MyProps) {
             <h2 className={styles.heading}>Sellgo secure payment page</h2>
             <p className={styles.description}>
               We guarantee that the payment process is secured and confidential through Stripe. We
-              do not store your payment credential information. Every new customers gets 7-day money
-              back guarantee if not satisfied.
+              do not store your payment credential information.
             </p>
             <div className={styles.pricing}>
               <p className={styles.label}>{`${accountType}`}</p>

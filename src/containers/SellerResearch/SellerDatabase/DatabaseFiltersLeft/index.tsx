@@ -1142,6 +1142,7 @@ const SellerDatabaseFilters = (props: Props) => {
                       }
                     />
                   )}
+
                   {/* <MinMaxFilter
                     label="Annual growth estimate (%)"
                     minValue={sellerDatabaseTextFieldFilters.growthPercent.min}
