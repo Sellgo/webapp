@@ -715,6 +715,48 @@ const SellerDatabaseFilters = (props: Props) => {
             <p>Filter by</p>
           )}
         </div>
+
+        <div className={`${styles.basicFilters}`}>
+          <div
+            className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 0 &&
+              styles.accordianBlockWrapper__active}`}
+          >
+            <Accordion.Title
+              active={filterActiveIndex === 0}
+              index={0}
+              onClick={() => handleAccordianUpArrowClick(0)}
+              className={styles.marketplace__title}
+            >
+              <div className={styles.marketplace__title__block}>
+                <Icon name="amazon" className={styles.marketplace__title__icon} />
+                <p>Amazon</p>
+              </div>
+              <Image
+                src={filterActiveIndex === 0 ? upArrow : downArrow}
+                className={styles.marketplace__title__arrowImage}
+              />
+            </Accordion.Title>
+            <Accordion.Content active={filterActiveIndex === 0}>
+              <div>
+                <MarketPlaceFilter
+                  label=""
+                  marketplaceDetails={marketPlace}
+                  marketPlaceChoices={SELLER_DB_MARKETPLACE}
+                  handleChange={(option: MarketplaceOption) => {
+                    setMarketPlace(option);
+                    setSellerDatabaseMarketplace(option);
+                    if (
+                      getProductCategories(option.code) !== getProductCategories(marketPlace.code)
+                    ) {
+                      updateSellerDatabaseFilter('categories', []);
+                    }
+                  }}
+                />
+              </div>
+            </Accordion.Content>
+          </div>
+        </div>
+
         <div className={styles.filterType}>
           {showGeneralFilters ? (
             <Image
@@ -738,13 +780,13 @@ const SellerDatabaseFilters = (props: Props) => {
           {/* Company Name */}
           <Accordion>
             <div
-              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 0 &&
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 1 &&
                 styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={filterActiveIndex === 0}
-                index={0}
-                onClick={() => handleAccordianUpArrowClick(0)}
+                active={filterActiveIndex === 1}
+                index={1}
+                onClick={() => handleAccordianUpArrowClick(1)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -752,11 +794,11 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Company name</p>
                 </div>
                 <Image
-                  src={filterActiveIndex === 0 ? upArrow : downArrow}
+                  src={filterActiveIndex === 1 ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={filterActiveIndex === 0}>
+              <Accordion.Content active={filterActiveIndex === 1}>
                 <div>
                   <InputFilter
                     label=""
@@ -775,14 +817,14 @@ const SellerDatabaseFilters = (props: Props) => {
                 </div>
               </Accordion.Content>
             </div>
-            <div
-              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 1 &&
+            {/* <div
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 2 &&
                 styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={filterActiveIndex === 1}
-                index={1}
-                onClick={() => handleAccordianUpArrowClick(1)}
+                active={filterActiveIndex === 2}
+                index={2}
+                onClick={() => handleAccordianUpArrowClick(2)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -790,11 +832,11 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Marketplace</p>
                 </div>
                 <Image
-                  src={filterActiveIndex === 1 ? upArrow : downArrow}
+                  src={filterActiveIndex === 2 ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={filterActiveIndex === 1}>
+              <Accordion.Content active={filterActiveIndex === 2}>
                 <div>
                   <MarketPlaceFilter
                     label=""
@@ -812,15 +854,15 @@ const SellerDatabaseFilters = (props: Props) => {
                   />
                 </div>
               </Accordion.Content>
-            </div>
+            </div> */}
             <div
-              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 2 &&
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 3 &&
                 styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={filterActiveIndex === 2}
-                index={2}
-                onClick={() => handleAccordianUpArrowClick(2)}
+                active={filterActiveIndex === 3}
+                index={3}
+                onClick={() => handleAccordianUpArrowClick(3)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -828,11 +870,11 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Location</p>
                 </div>
                 <Image
-                  src={filterActiveIndex === 2 ? upArrow : downArrow}
+                  src={filterActiveIndex === 3 ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={filterActiveIndex === 2}>
+              <Accordion.Content active={filterActiveIndex === 3}>
                 <div>
                   {/* Location */}
                   <CheckboxDropdownFilter
@@ -872,13 +914,13 @@ const SellerDatabaseFilters = (props: Props) => {
             </div>
 
             <div
-              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 3 &&
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 6 &&
                 styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={filterActiveIndex === 3}
-                index={3}
-                onClick={() => handleAccordianUpArrowClick(3)}
+                active={filterActiveIndex === 6}
+                index={6}
+                onClick={() => handleAccordianUpArrowClick(6)}
                 className={styles.accordian__title}
               >
                 <div className={styles.accordian__title__block}>
@@ -886,11 +928,11 @@ const SellerDatabaseFilters = (props: Props) => {
                   <p>Contact</p>
                 </div>
                 <Image
-                  src={filterActiveIndex === 3 ? upArrow : downArrow}
+                  src={filterActiveIndex === 6 ? upArrow : downArrow}
                   className={styles.accordian__title__arrowImage}
                 />
               </Accordion.Title>
-              <Accordion.Content active={filterActiveIndex === 3}>
+              <Accordion.Content active={filterActiveIndex === 6}>
                 <div>
                   <CheckboxFilter
                     label="Company"
@@ -915,7 +957,7 @@ const SellerDatabaseFilters = (props: Props) => {
                   />
                 </div>
               </Accordion.Content>
-              <Accordion.Content active={filterActiveIndex === 3}>
+              <Accordion.Content active={filterActiveIndex === 6}>
                 <div>
                   <CheckboxFilter
                     label="Decision maker"

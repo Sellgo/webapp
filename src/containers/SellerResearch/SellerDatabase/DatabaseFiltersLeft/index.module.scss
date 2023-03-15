@@ -2,7 +2,9 @@
 
 .filterSection {
   padding: 0;
-  width: 220px;
+  width: 240px;
+  overflow-y: auto;
+  max-height: 77vh;
 
   &::-webkit-scrollbar {
     display: none;
@@ -15,7 +17,7 @@
   border-radius: 7px 7px 7px 7px;
   box-shadow: 3px -3px 6px 1px rgba($grey_3, 0.5);
   padding: 0 0 0 0;
-  margin-left: -10px;
+  margin-left: 0;
   height: max-content;
 }
 
@@ -118,6 +120,23 @@
   }
 }
 
+.marketplace__title {
+  display: flex;
+  justify-content: space-between;
+  //margin-bottom: 1px;
+
+  &__block {
+    display: flex;
+    color: $grey_8;
+    font-size: 14px;
+    //margin-bottom: 1em;
+  }
+
+  &__arrowImage {
+    width: 11px;
+  }
+}
+
 .filterType {
   display: flex;
   padding: 11px 0 7px 0;
@@ -144,7 +163,7 @@
   background: #fff;
   border-radius: 7px 7px 7px 7px;
   box-shadow: 3px -3px 6px 1px rgba($grey_3, 0.5);
-  margin-left: -14px;
+  margin-left: 0;
 
   .activeFiltersPils {
     display: flex;
