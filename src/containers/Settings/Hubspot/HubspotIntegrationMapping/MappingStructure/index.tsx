@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Image } from 'semantic-ui-react';
 
 /* Styles */
 import styles from './index.module.scss';
 
 /* Components */
-// import SettingsNav from '../../SettingsNav';
-// import PageHeader from '../../../../components/PageHeader';
-import { error, success } from '../../../../../utils/notifications';
-// import history from '../../../../../history';
-import { sellerIDSelector } from '../../../../../selectors/Seller';
 import SelectionFilter from '../../../../../components/FormFilters/SelectionFilter';
-import { Image } from 'semantic-ui-react';
+import ActionButton from '../../../../../components/ActionButton';
+
+/* Selectors */
+import { sellerIDSelector } from '../../../../../selectors/Seller';
+
+/* Assets */
 import SellgoLogo from '../../../../../assets/images/sellgo_logo.svg';
 import MappingLogo from '../../../../../assets/images/link-simple-solid.svg';
-import ActionButton from '../../../../../components/ActionButton';
+
+/* Utils */
+import { error, success } from '../../../../../utils/notifications';
 import history from '../../../../../history';
+import { AppConfig } from '../../../../../config';
 
 type IOption = {
   key: string;
@@ -35,27 +39,24 @@ const HubSpotIntegrationMappingStructure = (props: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [hubspotFilterOptions, sethubspotFilterOptions] = useState<IOption[]>([]);
-  const [properties, setProperties] = useState([{ is: 0, sellgo_prop: '', hubspot_prop: '' }]);
+  const [properties, setProperties] = useState([{ id: 0, sellgo_prop: '', hubspot_prop: '' }]);
   const getHubspotMapping = async () => {
     setIsLoading(true);
     try {
       const sellerId = sellerIDSelector();
       const res = await axios.get(
-        `http://3.230.118.67/api/sellers/${sellerId}/hubspot-mappings/${mappingType}`
+        `${AppConfig.BASE_URL_API}sellers/${sellerId}/hubspot-mappings/${mappingType}`
       );
       if (res.status === 200) {
         const { data } = res;
         setProperties(data);
-        console.log(isLoading);
         const hubspotMappedProperties = data.map(
           (hubspotMappedProperty: any) => hubspotMappedProperty.hubspot_prop
         );
-        console.log('hubspotMappedProperties', hubspotMappedProperties);
         const filteredProperties = hubspotProperties.filter(
           hubspotMappedProperty =>
             hubspotMappedProperties.indexOf(hubspotMappedProperty.value) === -1
         );
-        console.log('filteredProperties', filteredProperties);
         sethubspotFilterOptions([...filteredProperties, { key: '', value: '', text: '-' }]);
         setIsLoading(false);
       }
@@ -79,7 +80,6 @@ const HubSpotIntegrationMappingStructure = (props: Props) => {
   //   }, [isConnectedToHubspot]);
 
   const updateHubspotPropertyValue = (index: number, value: string) => {
-    console.log('index', index);
     const tempHubSpotFilters = hubspotFilterOptions.filter(
       hubspotFilterOption => hubspotFilterOption.value !== value
     );
@@ -94,20 +94,18 @@ const HubSpotIntegrationMappingStructure = (props: Props) => {
     try {
       const sellerId = sellerIDSelector();
       const res = await axios.post(
-        `http://3.230.118.67/api/sellers/${sellerId}/hubspot-mappings/${mappingType}`,
+        `${AppConfig.BASE_URL_API}sellers/${sellerId}/hubspot-mappings/${mappingType}`,
         {
           mappings: properties,
         }
       );
       if (res.status === 201) {
-        // const { data } = res;
-        console.log(res);
         success(`${mappingType} hubspot properties updated successfully`);
         setIsSubmitting(false);
         if (step === 0) {
           setStep(1);
         } else if (step === 1) {
-          history.push('/new');
+          setStep(2);
         }
       }
     } catch (e) {
@@ -137,7 +135,6 @@ const HubSpotIntegrationMappingStructure = (props: Props) => {
                 <p className={styles.labelWrapper__label}>Sellgo property for Company</p>
               </div>
               <div className={styles.sellgoProperties__box}>
-                {console.log('proper', properties)}
                 {properties.map(property => (
                   <p key={property.sellgo_prop} className={styles.sellgoProperties__name}>
                     {property.sellgo_prop}
@@ -169,7 +166,6 @@ const HubSpotIntegrationMappingStructure = (props: Props) => {
                       value={property.hubspot_prop}
                       handleChange={(value: string) => {
                         updateHubspotPropertyValue(index, value);
-                        console.log(value);
                       }}
                       className={styles.hubspotProperties__name}
                     />

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Loader } from 'semantic-ui-react';
 
 /* Styles */
 import styles from './index.module.scss';
@@ -7,14 +8,19 @@ import styles from './index.module.scss';
 /* Components */
 import SettingsNav from '../../SettingsNav';
 import PageHeader from '../../../../components/PageHeader';
-import { error } from '../../../../utils/notifications';
-import history from '../../../../history';
-import { sellerIDSelector } from '../../../../selectors/Seller';
-import { AppConfig } from '../../../../config';
-import { Loader } from 'semantic-ui-react';
 import HubSpotIntegrationRedirectMeta from './HubSpotIntegrationRedirectMeta';
 import BoxContainerSettings from '../../../../components/BoxContainerSettings';
 import ElevioArticle from '../../../../components/ElevioArticle';
+
+/* Utils */
+import { error } from '../../../../utils/notifications';
+import history from '../../../../history';
+
+/* Constants */
+import { AppConfig } from '../../../../config';
+
+/* Selectors */
+import { sellerIDSelector } from '../../../../selectors/Seller';
 
 interface Props {
   match: any;
@@ -49,7 +55,7 @@ const HubSpotIntegrationRedirect = (props: Props) => {
     if (isConnectedToHubspot) {
       console.log('connected');
       setTimeout(() => {
-        history.push('/settings/hb-mapping');
+        history.push('/settings/hs-mapping');
       }, 3000);
     }
   }, [isConnectedToHubspot]);

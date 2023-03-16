@@ -27,15 +27,9 @@
   height: 760px !important;
   display: flex;
   background: $prim_white;
-  border: 1px solid $grey_3;
-  border-radius: 7px;
   flex-direction: column;
   justify-content: space-between;
   padding: 30px;
-
-  &__details {
-    margin-top: 290px;
-  }
 
   .applyButton {
     align-self: flex-end;
@@ -47,6 +41,7 @@
     font-weight: $fontweight_bold;
     color: $black_1;
     text-align: center;
+    margin-bottom: 100px;
   }
 
   &__description {
@@ -56,4 +51,34 @@
     font-weight: $fontweight_medium;
     text-align: center;
   }
+
+  .syncRules {
+    &__wrapper {
+      display: flex;
+      border: 1px solid $grey_3;
+      border-radius: 7px;
+      padding: 20px;
+      margin-top: 30px;
+
+      &_active {
+        background-color: $grey_10;
+        box-shadow: 0 3px 6px $grey_12;
+      }
+    }
+
+    &__descriptionBox {
+      display: flex;
+      flex-direction: column;
+      margin-left: 30px;
+
+      &_details {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+.formSearchAndReset {
+  display: flex;
+  justify-content: flex-end;
 }
