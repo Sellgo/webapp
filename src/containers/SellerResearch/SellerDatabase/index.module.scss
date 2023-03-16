@@ -6,6 +6,12 @@
 
 .sellerDatbasePage {
   display: flex;
+  overflow-y: auto;
+  max-height: 77vh;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .defaultDisplaySection {

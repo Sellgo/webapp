@@ -136,14 +136,9 @@ const SellerDatabaseFilters = (props: Props) => {
   };
 
   const getActiveFilters = () => {
-    console.log(sellerDatabaseFilters);
     const activeFilters: string[] = [];
     let activeFilterValues = {};
     SIMPLE_SD_FILTERS.forEach(sdFilter => {
-      console.log(
-        Array.isArray(sellerDatabaseFilters[sdFilter]),
-        sellerDatabaseFilters[sdFilter].length > 0
-      );
       if (Array.isArray(sellerDatabaseFilters[sdFilter])) {
         if (sellerDatabaseFilters[sdFilter].length > 0) {
           activeFilters.push(sdFilter);
@@ -449,6 +444,10 @@ const SellerDatabaseFilters = (props: Props) => {
     }
   };
 
+  useEffect(() => {
+    localStorage.setItem('sellerDatabaseFilters', JSON.stringify(sellerDatabaseFilters));
+  }, [sellerDatabaseFilters]);
+
   /* Effect on component mount */
   useEffect(() => {
     handleReset();
@@ -680,139 +679,143 @@ const SellerDatabaseFilters = (props: Props) => {
   return (
     <>
       <section className={styles.filterSection}>
-        <div className={styles.activeFiltersWrapper}>
-          {activeFilterValues && Object.keys(activeFilterValues).length > 0 && (
-            <>
-              <div className={styles.activeFiltersPils}>
-                {Object.keys(activeFilterValues).map((activeFilter, index) => {
-                  return (
-                    <div key={index} className={styles.activeFiltersPils__pil}>
-                      <div className={styles.icons}>{currentIcon[activeFilter]}</div>
-                      <p className={styles.activeFiltersPils__pil__text}>
-                        {activeFilterValues[activeFilter]}{' '}
-                        <OnboardingTooltip
-                          youtubeLink={''}
-                          tooltipMessage={activeFilterValues[activeFilter]}
-                          infoIconClassName="infoOnboardingIcon"
-                          youtubeIconClassName="youtubeOnboarding"
-                        />
-                      </p>
-                      <p className={styles.cross} onClick={() => removeActiveFilter(activeFilter)}>
-                        x
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className={styles.btnWrapper}>
-                <button onClick={() => handleReset()} className={styles.btn}>
-                  <span className={styles.cross}>x</span>Clear all
-                </button>
-              </div>
-            </>
-          )}
-          {(!activeFilterValues || Object.keys(activeFilterValues).length) === 0 && (
-            <p>Filter by</p>
-          )}
-        </div>
-
-        <div className={`${styles.basicFilters}`}>
-          <div
-            className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 0 &&
-              styles.accordianBlockWrapper__active}`}
-          >
-            <Accordion.Title
-              active={filterActiveIndex === 0}
-              index={0}
-              className={styles.marketplace__title}
-            >
-              <div className={styles.marketplace__title__block}>
-                <Icon name="amazon" className={styles.marketplace__title__icon} />
-                <p>Amazon marketplace</p>
-              </div>
-            </Accordion.Title>
-            <Accordion.Content active={filterActiveIndex === 0}>
-              <div>
-                <MarketPlaceFilter
-                  label=""
-                  marketplaceDetails={marketPlace}
-                  marketPlaceChoices={SELLER_DB_MARKETPLACE}
-                  handleChange={(option: MarketplaceOption) => {
-                    setMarketPlace(option);
-                    setSellerDatabaseMarketplace(option);
-                    if (
-                      getProductCategories(option.code) !== getProductCategories(marketPlace.code)
-                    ) {
-                      updateSellerDatabaseFilter('categories', []);
-                    }
-                  }}
-                />
-              </div>
-            </Accordion.Content>
+        <div>
+          <div className={styles.activeFiltersWrapper}>
+            {activeFilterValues && Object.keys(activeFilterValues).length > 0 && (
+              <>
+                <div className={styles.activeFiltersPils}>
+                  {Object.keys(activeFilterValues).map((activeFilter, index) => {
+                    return (
+                      <div key={index} className={styles.activeFiltersPils__pil}>
+                        <div className={styles.icons}>{currentIcon[activeFilter]}</div>
+                        <p className={styles.activeFiltersPils__pil__text}>
+                          {activeFilterValues[activeFilter]}{' '}
+                          <OnboardingTooltip
+                            youtubeLink={''}
+                            tooltipMessage={activeFilterValues[activeFilter]}
+                            infoIconClassName="infoOnboardingIcon"
+                            youtubeIconClassName="youtubeOnboarding"
+                          />
+                        </p>
+                        <p
+                          className={styles.cross}
+                          onClick={() => removeActiveFilter(activeFilter)}
+                        >
+                          x
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className={styles.btnWrapper}>
+                  <button onClick={() => handleReset()} className={styles.btn}>
+                    <span className={styles.cross}>x</span>Clear all
+                  </button>
+                </div>
+              </>
+            )}
+            {(!activeFilterValues || Object.keys(activeFilterValues).length) === 0 && (
+              <p>Filter by</p>
+            )}
           </div>
-        </div>
 
-        <div className={styles.filterType}>
-          {showGeneralFilters ? (
-            <Image
-              src={SquareMinusRegular}
-              onClick={() => setShowGeneralFilters(false)}
-              className={styles.filterType__img}
-            />
-          ) : (
-            <Image
-              src={SquarePlusRegular}
-              onClick={() => setShowGeneralFilters(true)}
-              className={styles.filterType__img}
-            />
-          )}
-          <p className={styles.filterType__text}>GENERAL </p>
-        </div>
-        <div className={`${styles.basicFilters} ${!showGeneralFilters && styles.hide}`}>
-          {/* Marketplace */}
-
-          {/* Feature request */}
-          {/* Company Name */}
-          <Accordion>
+          <div className={`${styles.basicFilters}`}>
             <div
-              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 1 &&
+              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 0 &&
                 styles.accordianBlockWrapper__active}`}
             >
               <Accordion.Title
-                active={filterActiveIndex === 1}
-                index={1}
-                onClick={() => handleAccordianUpArrowClick(1)}
-                className={styles.accordian__title}
+                active={filterActiveIndex === 0}
+                index={0}
+                className={styles.marketplace__title}
               >
-                <div className={styles.accordian__title__block}>
-                  <Icon name="building" className={styles.accordian__title__icon} />
-                  <p>Company name</p>
+                <div className={styles.marketplace__title__block}>
+                  <Icon name="amazon" className={styles.marketplace__title__icon} />
+                  <p>Amazon marketplace</p>
                 </div>
-                <Image
-                  src={filterActiveIndex === 1 ? upArrow : downArrow}
-                  className={styles.accordian__title__arrowImage}
-                />
               </Accordion.Title>
-              <Accordion.Content active={filterActiveIndex === 1}>
+              <Accordion.Content active={filterActiveIndex === 0}>
                 <div>
-                  <InputFilter
+                  <MarketPlaceFilter
                     label=""
-                    placeholder="Enter Company name"
-                    value={sellerDatabaseTextFieldFilters.companyName}
-                    handleKeyDown={e => {
-                      if (e.key === 'Enter') {
-                        updateSellerDatabaseFilter('companyName', e.target.value);
+                    marketplaceDetails={marketPlace}
+                    marketPlaceChoices={SELLER_DB_MARKETPLACE}
+                    handleChange={(option: MarketplaceOption) => {
+                      setMarketPlace(option);
+                      setSellerDatabaseMarketplace(option);
+                      if (
+                        getProductCategories(option.code) !== getProductCategories(marketPlace.code)
+                      ) {
+                        updateSellerDatabaseFilter('categories', []);
                       }
                     }}
-                    handleChange={(value: string) =>
-                      updateSellerDatabaseTextFieldFilter('companyName', value)
-                    }
-                    className={sellerDatabaseTextFieldFilters.companyName && styles.activeFilter}
                   />
                 </div>
               </Accordion.Content>
             </div>
-            {/* <div
+          </div>
+
+          <div className={styles.filterType}>
+            {showGeneralFilters ? (
+              <Image
+                src={SquareMinusRegular}
+                onClick={() => setShowGeneralFilters(false)}
+                className={styles.filterType__img}
+              />
+            ) : (
+              <Image
+                src={SquarePlusRegular}
+                onClick={() => setShowGeneralFilters(true)}
+                className={styles.filterType__img}
+              />
+            )}
+            <p className={styles.filterType__text}>GENERAL </p>
+          </div>
+          <div className={`${styles.basicFilters} ${!showGeneralFilters && styles.hide}`}>
+            {/* Marketplace */}
+
+            {/* Feature request */}
+            {/* Company Name */}
+            <Accordion>
+              <div
+                className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 1 &&
+                  styles.accordianBlockWrapper__active}`}
+              >
+                <Accordion.Title
+                  active={filterActiveIndex === 1}
+                  index={1}
+                  onClick={() => handleAccordianUpArrowClick(1)}
+                  className={styles.accordian__title}
+                >
+                  <div className={styles.accordian__title__block}>
+                    <Icon name="building" className={styles.accordian__title__icon} />
+                    <p>Company name</p>
+                  </div>
+                  <Image
+                    src={filterActiveIndex === 1 ? upArrow : downArrow}
+                    className={styles.accordian__title__arrowImage}
+                  />
+                </Accordion.Title>
+                <Accordion.Content active={filterActiveIndex === 1}>
+                  <div>
+                    <InputFilter
+                      label=""
+                      placeholder="Enter Company name"
+                      value={sellerDatabaseTextFieldFilters.companyName}
+                      handleKeyDown={e => {
+                        if (e.key === 'Enter') {
+                          updateSellerDatabaseFilter('companyName', e.target.value);
+                        }
+                      }}
+                      handleChange={(value: string) =>
+                        updateSellerDatabaseTextFieldFilter('companyName', value)
+                      }
+                      className={sellerDatabaseTextFieldFilters.companyName && styles.activeFilter}
+                    />
+                  </div>
+                </Accordion.Content>
+              </div>
+              {/* <div
               className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 2 &&
                 styles.accordianBlockWrapper__active}`}
             >
@@ -850,137 +853,138 @@ const SellerDatabaseFilters = (props: Props) => {
                 </div>
               </Accordion.Content>
             </div> */}
-            <div
-              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 3 &&
-                styles.accordianBlockWrapper__active}`}
-            >
-              <Accordion.Title
-                active={filterActiveIndex === 3}
-                index={3}
-                onClick={() => handleAccordianUpArrowClick(3)}
-                className={styles.accordian__title}
+              <div
+                className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 3 &&
+                  styles.accordianBlockWrapper__active}`}
               >
-                <div className={styles.accordian__title__block}>
-                  <Icon name="map marker alternate" className={styles.accordian__title__icon} />
-                  <p>Location</p>
-                </div>
-                <Image
-                  src={filterActiveIndex === 3 ? upArrow : downArrow}
-                  className={styles.accordian__title__arrowImage}
-                />
-              </Accordion.Title>
-              <Accordion.Content active={filterActiveIndex === 3}>
-                <div>
-                  {/* Location */}
-                  <CheckboxDropdownFilter
-                    filterOptions={SELLER_DATABASE_COUNTRY_DROPDOWN_LIST}
-                    label="Country of origin"
-                    selectedValues={sellerDatabaseFilters.countries}
-                    handleChange={(newCountries: string[]) => {
-                      updateSellerDatabaseFilter('countries', [...newCountries]);
-                    }}
+                <Accordion.Title
+                  active={filterActiveIndex === 3}
+                  index={3}
+                  onClick={() => handleAccordianUpArrowClick(3)}
+                  className={styles.accordian__title}
+                >
+                  <div className={styles.accordian__title__block}>
+                    <Icon name="map marker alternate" className={styles.accordian__title__icon} />
+                    <p>Location</p>
+                  </div>
+                  <Image
+                    src={filterActiveIndex === 3 ? upArrow : downArrow}
+                    className={styles.accordian__title__arrowImage}
                   />
+                </Accordion.Title>
+                <Accordion.Content active={filterActiveIndex === 3}>
+                  <div>
+                    {/* Location */}
+                    <CheckboxDropdownFilter
+                      filterOptions={SELLER_DATABASE_COUNTRY_DROPDOWN_LIST}
+                      label="Country of origin"
+                      selectedValues={sellerDatabaseFilters.countries}
+                      handleChange={(newCountries: string[]) => {
+                        updateSellerDatabaseFilter('countries', [...newCountries]);
+                      }}
+                    />
 
-                  <CheckboxDropdownFilter
-                    filterOptions={ALL_US_STATES}
-                    label="U.S. states"
-                    selectedValues={sellerDatabaseFilters.states}
-                    handleChange={(newStates: string[]) => {
-                      updateSellerDatabaseFilter('states', [...newStates]);
-                    }}
-                    disabled={sellerDatabaseFilters.countries.indexOf('US') === -1}
-                  />
-                  <InputFilter
-                    label="Zip code"
-                    placeholder="Zip code"
-                    value={sellerDatabaseTextFieldFilters.zipCode}
-                    handleKeyDown={e => {
-                      if (e.key === 'Enter') {
-                        updateSellerDatabaseFilter('zipCode', e.target.value);
+                    <CheckboxDropdownFilter
+                      filterOptions={ALL_US_STATES}
+                      label="U.S. states"
+                      selectedValues={sellerDatabaseFilters.states}
+                      handleChange={(newStates: string[]) => {
+                        updateSellerDatabaseFilter('states', [...newStates]);
+                      }}
+                      disabled={sellerDatabaseFilters.countries.indexOf('US') === -1}
+                      popUpPosition={'bottom right'}
+                    />
+                    <InputFilter
+                      label="Zip code"
+                      placeholder="Zip code"
+                      value={sellerDatabaseTextFieldFilters.zipCode}
+                      handleKeyDown={e => {
+                        if (e.key === 'Enter') {
+                          updateSellerDatabaseFilter('zipCode', e.target.value);
+                        }
+                      }}
+                      handleChange={(value: string) =>
+                        updateSellerDatabaseTextFieldFilter('zipCode', value)
                       }
-                    }}
-                    handleChange={(value: string) =>
-                      updateSellerDatabaseTextFieldFilter('zipCode', value)
-                    }
-                    className={sellerDatabaseTextFieldFilters.zipCode && styles.activeFilter}
-                  />
-                </div>
-              </Accordion.Content>
-            </div>
+                      className={sellerDatabaseTextFieldFilters.zipCode && styles.activeFilter}
+                    />
+                  </div>
+                </Accordion.Content>
+              </div>
 
-            <div
-              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 6 &&
-                styles.accordianBlockWrapper__active}`}
-            >
-              <Accordion.Title
-                active={filterActiveIndex === 6}
-                index={6}
-                onClick={() => handleAccordianUpArrowClick(6)}
-                className={styles.accordian__title}
+              <div
+                className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 6 &&
+                  styles.accordianBlockWrapper__active}`}
               >
-                <div className={styles.accordian__title__block}>
-                  <Icon name="users" className={styles.accordian__title__icon} />
-                  <p>Contact</p>
-                </div>
-                <Image
-                  src={filterActiveIndex === 6 ? upArrow : downArrow}
-                  className={styles.accordian__title__arrowImage}
-                />
-              </Accordion.Title>
-              <Accordion.Content active={filterActiveIndex === 6}>
-                <div>
-                  <CheckboxFilter
-                    label="Company"
-                    checkboxLabel="Physical address"
-                    checked={sellerDatabaseFilters.hasAddress}
-                    handleChange={value => updateSellerDatabaseFilter('hasAddress', value)}
+                <Accordion.Title
+                  active={filterActiveIndex === 6}
+                  index={6}
+                  onClick={() => handleAccordianUpArrowClick(6)}
+                  className={styles.accordian__title}
+                >
+                  <div className={styles.accordian__title__block}>
+                    <Icon name="users" className={styles.accordian__title__icon} />
+                    <p>Contact</p>
+                  </div>
+                  <Image
+                    src={filterActiveIndex === 6 ? upArrow : downArrow}
+                    className={styles.accordian__title__arrowImage}
                   />
-                  <CheckboxFilter
-                    checkboxLabel="Website"
-                    checked={sellerDatabaseFilters.hasWebsite}
-                    handleChange={value => updateSellerDatabaseFilter('hasWebsite', value)}
-                  />
-                  <CheckboxFilter
-                    checkboxLabel="Company email"
-                    checked={sellerDatabaseFilters.hasCompanyEmail}
-                    handleChange={value => updateSellerDatabaseFilter('hasCompanyEmail', value)}
-                  />
-                  <CheckboxFilter
-                    checkboxLabel="Company social media"
-                    checked={sellerDatabaseFilters.hasCompanySocial}
-                    handleChange={value => updateSellerDatabaseFilter('hasCompanySocial', value)}
-                  />
-                </div>
-              </Accordion.Content>
-              <Accordion.Content active={filterActiveIndex === 6}>
-                <div>
-                  <CheckboxFilter
-                    label="Decision maker"
-                    checkboxLabel="Professional email"
-                    checked={sellerDatabaseFilters.hasProfessionalEmail}
-                    handleChange={value =>
-                      updateSellerDatabaseFilter('hasProfessionalEmail', value)
-                    }
-                  />
-                  <CheckboxFilter
-                    checkboxLabel="Personal email"
-                    checked={sellerDatabaseFilters.hasPersonalEmail}
-                    handleChange={value => updateSellerDatabaseFilter('hasPersonalEmail', value)}
-                  />
-                  <CheckboxFilter
-                    checkboxLabel="Direct phone"
-                    checked={sellerDatabaseFilters.hasEmployeePhone}
-                    handleChange={value => updateSellerDatabaseFilter('hasEmployeePhone', value)}
-                  />
-                  <CheckboxFilter
-                    checkboxLabel="Social media"
-                    checked={sellerDatabaseFilters.hasEmployeeSocial}
-                    handleChange={value => updateSellerDatabaseFilter('hasEmployeeSocial', value)}
-                  />
-                </div>
-              </Accordion.Content>
-            </div>
-            {/* <div
+                </Accordion.Title>
+                <Accordion.Content active={filterActiveIndex === 6}>
+                  <div>
+                    <CheckboxFilter
+                      label="Company"
+                      checkboxLabel="Physical address"
+                      checked={sellerDatabaseFilters.hasAddress}
+                      handleChange={value => updateSellerDatabaseFilter('hasAddress', value)}
+                    />
+                    <CheckboxFilter
+                      checkboxLabel="Website"
+                      checked={sellerDatabaseFilters.hasWebsite}
+                      handleChange={value => updateSellerDatabaseFilter('hasWebsite', value)}
+                    />
+                    <CheckboxFilter
+                      checkboxLabel="Company email"
+                      checked={sellerDatabaseFilters.hasCompanyEmail}
+                      handleChange={value => updateSellerDatabaseFilter('hasCompanyEmail', value)}
+                    />
+                    <CheckboxFilter
+                      checkboxLabel="Company social media"
+                      checked={sellerDatabaseFilters.hasCompanySocial}
+                      handleChange={value => updateSellerDatabaseFilter('hasCompanySocial', value)}
+                    />
+                  </div>
+                </Accordion.Content>
+                <Accordion.Content active={filterActiveIndex === 6}>
+                  <div>
+                    <CheckboxFilter
+                      label="Decision maker"
+                      checkboxLabel="Professional email"
+                      checked={sellerDatabaseFilters.hasProfessionalEmail}
+                      handleChange={value =>
+                        updateSellerDatabaseFilter('hasProfessionalEmail', value)
+                      }
+                    />
+                    <CheckboxFilter
+                      checkboxLabel="Personal email"
+                      checked={sellerDatabaseFilters.hasPersonalEmail}
+                      handleChange={value => updateSellerDatabaseFilter('hasPersonalEmail', value)}
+                    />
+                    <CheckboxFilter
+                      checkboxLabel="Direct phone"
+                      checked={sellerDatabaseFilters.hasEmployeePhone}
+                      handleChange={value => updateSellerDatabaseFilter('hasEmployeePhone', value)}
+                    />
+                    <CheckboxFilter
+                      checkboxLabel="Social media"
+                      checked={sellerDatabaseFilters.hasEmployeeSocial}
+                      handleChange={value => updateSellerDatabaseFilter('hasEmployeeSocial', value)}
+                    />
+                  </div>
+                </Accordion.Content>
+              </div>
+              {/* <div
               className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 
                 4
               ) && styles.accordianBlockWrapper__active}`}
@@ -1056,131 +1060,131 @@ const SellerDatabaseFilters = (props: Props) => {
                 </div>
               </Accordion.Content>
             </div> */}
-          </Accordion>
-        </div>
-        <div className={styles.filterType}>
-          {showBuyingIntentFilters ? (
-            <Image
-              src={SquareMinusRegular}
-              onClick={() => setShowBuyingIntentFilters(false)}
-              className={styles.filterType__img}
-            />
-          ) : (
-            <Image
-              src={SquarePlusRegular}
-              onClick={() => setShowBuyingIntentFilters(true)}
-              className={styles.filterType__img}
-            />
-          )}
-          <p className={styles.filterType__text}>MARKETPLACE METRICS</p>
-        </div>
-        <div className={`${styles.basicFilters} ${!showBuyingIntentFilters && styles.hide}`}>
-          {/* Marketplace */}
+            </Accordion>
+          </div>
+          <div className={styles.filterType}>
+            {showBuyingIntentFilters ? (
+              <Image
+                src={SquareMinusRegular}
+                onClick={() => setShowBuyingIntentFilters(false)}
+                className={styles.filterType__img}
+              />
+            ) : (
+              <Image
+                src={SquarePlusRegular}
+                onClick={() => setShowBuyingIntentFilters(true)}
+                className={styles.filterType__img}
+              />
+            )}
+            <p className={styles.filterType__text}>MARKETPLACE METRICS</p>
+          </div>
+          <div className={`${styles.basicFilters} ${!showBuyingIntentFilters && styles.hide}`}>
+            {/* Marketplace */}
 
-          {/* Feature request */}
-          {/* Company Name */}
-          <Accordion>
-            <div
-              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 8 &&
-                styles.accordianBlockWrapper__active}`}
-            >
-              <Accordion.Title
-                active={filterActiveIndex === 8}
-                index={0}
-                onClick={() => handleAccordianUpArrowClick(8)}
-                className={styles.accordian__title}
+            {/* Feature request */}
+            {/* Company Name */}
+            <Accordion>
+              <div
+                className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 8 &&
+                  styles.accordianBlockWrapper__active}`}
               >
-                <div className={styles.accordian__title__block}>
-                  <Icon name="list" className={styles.accordian__title__icon} />
-                  <p>Categories</p>
-                </div>
-                <Image
-                  src={filterActiveIndex === 8 ? upArrow : downArrow}
-                  className={styles.accordian__title__arrowImage}
-                />
-              </Accordion.Title>
-              <Accordion.Content active={filterActiveIndex === 8}>
-                <div>
-                  <CheckboxDropdownFilter
-                    filterOptions={getProductCategories(marketPlace.code)}
-                    label="Main product categories"
-                    selectedValues={sellerDatabaseFilters.categories}
-                    handleChange={(newCategories: string[]) => {
-                      updateSellerDatabaseFilter('categories', [...newCategories]);
-                    }}
+                <Accordion.Title
+                  active={filterActiveIndex === 8}
+                  index={0}
+                  onClick={() => handleAccordianUpArrowClick(8)}
+                  className={styles.accordian__title}
+                >
+                  <div className={styles.accordian__title__block}>
+                    <Icon name="list" className={styles.accordian__title__icon} />
+                    <p>Categories</p>
+                  </div>
+                  <Image
+                    src={filterActiveIndex === 8 ? upArrow : downArrow}
+                    className={styles.accordian__title__arrowImage}
                   />
-                </div>
-              </Accordion.Content>
-            </div>
-
-            <div
-              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 9 &&
-                styles.accordianBlockWrapper__active}`}
-            >
-              <Accordion.Title
-                active={filterActiveIndex === 9}
-                index={1}
-                onClick={() => handleAccordianUpArrowClick(9)}
-                className={styles.accordian__title}
-              >
-                <div className={styles.accordian__title__block}>
-                  <Icon name="chart line" className={styles.accordian__title__icon} />
-                  <p>Revenue</p>
-                </div>
-                <Image
-                  src={filterActiveIndex === 9 ? upArrow : downArrow}
-                  className={styles.accordian__title__arrowImage}
-                />
-              </Accordion.Title>
-              <Accordion.Content active={filterActiveIndex === 9}>
-                <div>
-                  <p>Annual revenue estimate</p>
-                  <div className={styles.minMaxCount}>
-                    {SALES_ESTIMATE_CHOICES.map((choice, index) => (
-                      <div key={index} className={styles.minMaxCount__choice}>
-                        <Radio
-                          label={choice.label}
-                          checked={revenueChoiceIndex === index}
-                          onClick={() => setRevenueChoiceIndex(index)}
-                        />
-                      </div>
-                    ))}
-                    <Radio
-                      className={styles.minMaxCount__choice}
-                      label="Custom"
-                      checked={revenueChoiceIndex === 10}
-                      onClick={() => setRevenueChoiceIndex(10)}
+                </Accordion.Title>
+                <Accordion.Content active={filterActiveIndex === 8}>
+                  <div>
+                    <CheckboxDropdownFilter
+                      filterOptions={getProductCategories(marketPlace.code)}
+                      label="Main product categories"
+                      selectedValues={sellerDatabaseFilters.categories}
+                      handleChange={(newCategories: string[]) => {
+                        updateSellerDatabaseFilter('categories', [...newCategories]);
+                      }}
                     />
                   </div>
-                  {revenueChoiceIndex === 10 && (
-                    <MinMaxFilter
-                      label=""
-                      minValue={sellerDatabaseTextFieldFilters.monthlyRevenue.min}
-                      maxValue={sellerDatabaseTextFieldFilters.monthlyRevenue.max}
-                      handleChange={(type: string, value: string) =>
-                        updateSellerDatabaseTextFieldFilter('monthlyRevenue', {
-                          ...sellerDatabaseTextFieldFilters.monthlyRevenue,
-                          [type]: value,
-                        })
-                      }
-                      handleKeyDown={e => {
-                        if (e.key === 'Enter') {
-                          updateSellerDatabaseFilter(
-                            'monthlyRevenue',
-                            sellerDatabaseTextFieldFilters.monthlyRevenue
-                          );
-                        }
-                      }}
-                      maxClassName={
-                        sellerDatabaseTextFieldFilters.monthlyRevenue.max && styles.activeFilter
-                      }
-                      minClassName={
-                        sellerDatabaseTextFieldFilters.monthlyRevenue.min && styles.activeFilter
-                      }
-                    />
-                  )}
+                </Accordion.Content>
+              </div>
 
-                  {/* <MinMaxFilter
+              <div
+                className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 9 &&
+                  styles.accordianBlockWrapper__active}`}
+              >
+                <Accordion.Title
+                  active={filterActiveIndex === 9}
+                  index={1}
+                  onClick={() => handleAccordianUpArrowClick(9)}
+                  className={styles.accordian__title}
+                >
+                  <div className={styles.accordian__title__block}>
+                    <Icon name="chart line" className={styles.accordian__title__icon} />
+                    <p>Revenue</p>
+                  </div>
+                  <Image
+                    src={filterActiveIndex === 9 ? upArrow : downArrow}
+                    className={styles.accordian__title__arrowImage}
+                  />
+                </Accordion.Title>
+                <Accordion.Content active={filterActiveIndex === 9}>
+                  <div>
+                    <p>Annual revenue estimate</p>
+                    <div className={styles.minMaxCount}>
+                      {SALES_ESTIMATE_CHOICES.map((choice, index) => (
+                        <div key={index} className={styles.minMaxCount__choice}>
+                          <Radio
+                            label={choice.label}
+                            checked={revenueChoiceIndex === index}
+                            onClick={() => setRevenueChoiceIndex(index)}
+                          />
+                        </div>
+                      ))}
+                      <Radio
+                        className={styles.minMaxCount__choice}
+                        label="Custom"
+                        checked={revenueChoiceIndex === 10}
+                        onClick={() => setRevenueChoiceIndex(10)}
+                      />
+                    </div>
+                    {revenueChoiceIndex === 10 && (
+                      <MinMaxFilter
+                        label=""
+                        minValue={sellerDatabaseTextFieldFilters.monthlyRevenue.min}
+                        maxValue={sellerDatabaseTextFieldFilters.monthlyRevenue.max}
+                        handleChange={(type: string, value: string) =>
+                          updateSellerDatabaseTextFieldFilter('monthlyRevenue', {
+                            ...sellerDatabaseTextFieldFilters.monthlyRevenue,
+                            [type]: value,
+                          })
+                        }
+                        handleKeyDown={e => {
+                          if (e.key === 'Enter') {
+                            updateSellerDatabaseFilter(
+                              'monthlyRevenue',
+                              sellerDatabaseTextFieldFilters.monthlyRevenue
+                            );
+                          }
+                        }}
+                        maxClassName={
+                          sellerDatabaseTextFieldFilters.monthlyRevenue.max && styles.activeFilter
+                        }
+                        minClassName={
+                          sellerDatabaseTextFieldFilters.monthlyRevenue.min && styles.activeFilter
+                        }
+                      />
+                    )}
+
+                    {/* <MinMaxFilter
                     label="Annual growth estimate (%)"
                     minValue={sellerDatabaseTextFieldFilters.growthPercent.min}
                     maxValue={sellerDatabaseTextFieldFilters.growthPercent.max}
@@ -1205,280 +1209,289 @@ const SellerDatabaseFilters = (props: Props) => {
                       sellerDatabaseTextFieldFilters.growthPercent.min && styles.activeFilter
                     }
                   />                          */}
-                </div>
-              </Accordion.Content>
-            </div>
-            <div
-              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 10 &&
-                styles.accordianBlockWrapper__active}`}
-            >
-              <Accordion.Title
-                active={filterActiveIndex === 10}
-                index={1}
-                onClick={() => handleAccordianUpArrowClick(10)}
-                className={styles.accordian__title}
-              >
-                <div className={styles.accordian__title__block}>
-                  <Icon name="tag" className={styles.accordian__title__icon} />
-                  <p>Brands</p>
-                </div>
-                <Image
-                  src={filterActiveIndex === 10 ? upArrow : downArrow}
-                  className={styles.accordian__title__arrowImage}
-                />
-              </Accordion.Title>
-              <Accordion.Content active={filterActiveIndex === 10}>
-                <div>
-                  <p>Brands count</p>
-                  <div className={styles.minMaxCount}>
-                    {BRANDS_COUNT_CHOICES.map((choice, index) => (
-                      <div key={index} className={styles.minMaxCount__choice}>
-                        <Radio
-                          label={choice.label}
-                          checked={brandChoiceIndex === index}
-                          onClick={() => setBrandChoiceIndex(index)}
-                        />
-                      </div>
-                    ))}
-                    <Radio
-                      className={styles.minMaxCount__choice}
-                      label="Custom"
-                      checked={brandChoiceIndex === 5}
-                      onClick={() => setBrandChoiceIndex(5)}
-                    />
                   </div>
-                  {brandChoiceIndex === 5 && (
-                    <MinMaxFilter
-                      label=""
-                      minValue={sellerDatabaseTextFieldFilters.numOfBrands.min}
-                      maxValue={sellerDatabaseTextFieldFilters.numOfBrands.max}
-                      handleChange={(type: string, value: string) =>
-                        updateSellerDatabaseTextFieldFilter('numOfBrands', {
-                          ...sellerDatabaseTextFieldFilters.numOfBrands,
-                          [type]: value,
-                        })
-                      }
+                </Accordion.Content>
+              </div>
+              <div
+                className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 10 &&
+                  styles.accordianBlockWrapper__active}`}
+              >
+                <Accordion.Title
+                  active={filterActiveIndex === 10}
+                  index={1}
+                  onClick={() => handleAccordianUpArrowClick(10)}
+                  className={styles.accordian__title}
+                >
+                  <div className={styles.accordian__title__block}>
+                    <Icon name="tag" className={styles.accordian__title__icon} />
+                    <p>Brands</p>
+                  </div>
+                  <Image
+                    src={filterActiveIndex === 10 ? upArrow : downArrow}
+                    className={styles.accordian__title__arrowImage}
+                  />
+                </Accordion.Title>
+                <Accordion.Content active={filterActiveIndex === 10}>
+                  <div>
+                    <p>Brands count</p>
+                    <div className={styles.minMaxCount}>
+                      {BRANDS_COUNT_CHOICES.map((choice, index) => (
+                        <div key={index} className={styles.minMaxCount__choice}>
+                          <Radio
+                            label={choice.label}
+                            checked={brandChoiceIndex === index}
+                            onClick={() => setBrandChoiceIndex(index)}
+                          />
+                        </div>
+                      ))}
+                      <Radio
+                        className={styles.minMaxCount__choice}
+                        label="Custom"
+                        checked={brandChoiceIndex === 5}
+                        onClick={() => setBrandChoiceIndex(5)}
+                      />
+                    </div>
+                    {brandChoiceIndex === 5 && (
+                      <MinMaxFilter
+                        label=""
+                        minValue={sellerDatabaseTextFieldFilters.numOfBrands.min}
+                        maxValue={sellerDatabaseTextFieldFilters.numOfBrands.max}
+                        handleChange={(type: string, value: string) =>
+                          updateSellerDatabaseTextFieldFilter('numOfBrands', {
+                            ...sellerDatabaseTextFieldFilters.numOfBrands,
+                            [type]: value,
+                          })
+                        }
+                        handleKeyDown={e => {
+                          if (e.key === 'Enter') {
+                            updateSellerDatabaseFilter(
+                              'numOfBrands',
+                              sellerDatabaseTextFieldFilters.numOfBrands
+                            );
+                          }
+                        }}
+                        maxClassName={
+                          sellerDatabaseTextFieldFilters.numOfBrands.max && styles.activeFilter
+                        }
+                        minClassName={
+                          sellerDatabaseTextFieldFilters.numOfBrands.min && styles.activeFilter
+                        }
+                      />
+                    )}
+                    {/*  Include brands */}
+                    <InputFilter
+                      label="Include brands"
+                      placeholder="Enter separated by comma"
+                      // value={sellerDatabaseFilters.brands.include}
+                      // handleChange={(value: string) =>
+                      //   updateSellerDatabaseFilter('brands', {
+                      //     ...sellerDatabaseFilters.brands,
+                      //     include: value,
+                      //   })
+                      // }
+                      value={sellerDatabaseTextFieldFilters.brands.include}
                       handleKeyDown={e => {
                         if (e.key === 'Enter') {
-                          updateSellerDatabaseFilter(
-                            'numOfBrands',
-                            sellerDatabaseTextFieldFilters.numOfBrands
-                          );
+                          updateSellerDatabaseFilter('brands', {
+                            exclude: '',
+                            include: e.target.value,
+                          });
                         }
                       }}
-                      maxClassName={
-                        sellerDatabaseTextFieldFilters.numOfBrands.max && styles.activeFilter
-                      }
-                      minClassName={
-                        sellerDatabaseTextFieldFilters.numOfBrands.min && styles.activeFilter
-                      }
-                    />
-                  )}
-                  {/*  Include brands */}
-                  <InputFilter
-                    label="Include brands"
-                    placeholder="Enter separated by comma"
-                    // value={sellerDatabaseFilters.brands.include}
-                    // handleChange={(value: string) =>
-                    //   updateSellerDatabaseFilter('brands', {
-                    //     ...sellerDatabaseFilters.brands,
-                    //     include: value,
-                    //   })
-                    // }
-                    value={sellerDatabaseTextFieldFilters.brands.include}
-                    handleKeyDown={e => {
-                      if (e.key === 'Enter') {
-                        updateSellerDatabaseFilter('brands', {
-                          exclude: '',
-                          include: e.target.value,
-                        });
-                      }
-                    }}
-                    handleChange={(value: string) =>
-                      updateSellerDatabaseTextFieldFilter('brands', {
-                        ...sellerDatabaseTextFieldFilters.brands,
-                        include: value,
-                      })
-                    }
-                    className={sellerDatabaseTextFieldFilters.brands.include && styles.activeFilter}
-                  />
-
-                  {/* Exclude brands */}
-                  <InputFilter
-                    label="Exclude brands"
-                    placeholder="Enter separated by comma"
-                    // value={sellerDatabaseFilters.brands.exclude}
-                    // handleChange={(value: string) =>
-                    //   updateSellerDatabaseFilter('brands', {
-                    //     ...sellerDatabaseFilters.brands,
-                    //     exclude: value,
-                    //   })
-                    value={sellerDatabaseTextFieldFilters.brands.exclude}
-                    handleKeyDown={e => {
-                      if (e.key === 'Enter') {
-                        updateSellerDatabaseFilter('brands', {
+                      handleChange={(value: string) =>
+                        updateSellerDatabaseTextFieldFilter('brands', {
                           ...sellerDatabaseTextFieldFilters.brands,
-                          exclude: e.target.value,
-                        });
-                      }
-                    }}
-                    handleChange={(value: string) =>
-                      updateSellerDatabaseTextFieldFilter('brands', {
-                        ...sellerDatabaseTextFieldFilters.brands,
-                        exclude: value,
-                      })
-                    }
-                    className={sellerDatabaseTextFieldFilters.brands.exclude && styles.activeFilter}
-                  />
-                </div>
-              </Accordion.Content>
-            </div>
-            <div
-              className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 11 &&
-                styles.accordianBlockWrapper__active}`}
-            >
-              <Accordion.Title
-                active={filterActiveIndex === 11}
-                index={3}
-                onClick={() => handleAccordianUpArrowClick(11)}
-                className={styles.accordian__title}
-              >
-                <div className={styles.accordian__title__block}>
-                  <Icon name="boxes" className={styles.accordian__title__icon} />
-                  <p>Products</p>
-                </div>
-                <Image
-                  src={filterActiveIndex === 11 ? upArrow : downArrow}
-                  className={styles.accordian__title__arrowImage}
-                />
-              </Accordion.Title>
-              <Accordion.Content active={filterActiveIndex === 11}>
-                <p>Products count</p>
-                <div>
-                  {/* Inventory Choices */}
-
-                  <div className={styles.minMaxCount}>
-                    {PRODUCT_COUNT_CHOICES.map((choice, index) => (
-                      <div key={index} className={styles.minMaxCount__choice}>
-                        <Radio
-                          label={choice.label}
-                          checked={productChoiceIndex === index}
-                          onClick={() => setProductChoiceIndex(index)}
-                        />
-                      </div>
-                    ))}
-                    <Radio
-                      className={styles.minMaxCount__choice}
-                      label="Custom"
-                      checked={productChoiceIndex === 5}
-                      onClick={() => setProductChoiceIndex(5)}
-                    />
-                  </div>
-                  {/* # of Inventory */}
-                  {productChoiceIndex === 5 && (
-                    <MinMaxFilter
-                      label=""
-                      minValue={sellerDatabaseTextFieldFilters.numOfInventory.min}
-                      maxValue={sellerDatabaseTextFieldFilters.numOfInventory.max}
-                      handleChange={(type: string, value: string) =>
-                        updateSellerDatabaseTextFieldFilter('numOfInventory', {
-                          ...sellerDatabaseTextFieldFilters.numOfInventory,
-                          [type]: value,
+                          include: value,
                         })
                       }
-                      handleKeyDown={e => {
-                        if (e.key === 'Enter') {
-                          updateSellerDatabaseFilter(
-                            'numOfInventory',
-                            sellerDatabaseTextFieldFilters.numOfInventory
-                          );
-                        }
-                      }}
-                      maxClassName={
-                        sellerDatabaseTextFieldFilters.numOfInventory.max && styles.activeFilter
-                      }
-                      minClassName={
-                        sellerDatabaseTextFieldFilters.numOfInventory.min && styles.activeFilter
+                      className={
+                        sellerDatabaseTextFieldFilters.brands.include && styles.activeFilter
                       }
                     />
-                  )}
-                  {/* Include ASINS */}
-                  <InputFilter
-                    label="Include Product IDs"
-                    placeholder="Enter separated by comma"
-                    // value={sellerDatabaseFilters.asins.include.toUpperCase()}
-                    // handleChange={(value: string) =>
-                    //   updateSellerDatabaseFilter('asins', {
-                    //     ...sellerDatabaseFilters.asins,
-                    //     include: value,
-                    //   })
-                    // }
-                    value={sellerDatabaseTextFieldFilters.asins.include.toUpperCase()}
-                    handleKeyDown={e => {
-                      if (e.key === 'Enter') {
-                        if (asinsError.include) {
-                          return;
-                        }
-                        updateSellerDatabaseFilter('asins', {
-                          ...sellerDatabaseTextFieldFilters.asins,
-                          include: e.target.value,
-                        });
-                      }
-                    }}
-                    handleChange={(value: string) =>
-                      updateSellerDatabaseTextFieldFilter('asins', {
-                        ...sellerDatabaseTextFieldFilters.asins,
-                        include: value,
-                      })
-                    }
-                    error={asinsError.include}
-                    className={sellerDatabaseTextFieldFilters.asins.include && styles.activeFilter}
-                  />
 
-                  {/* Exclude ASINS Name */}
-                  <InputFilter
-                    label="Exclude Product IDs"
-                    placeholder="Enter separated by comma"
-                    // value={sellerDatabaseFilters.asins.exclude.toUpperCase()}
-                    // handleChange={(value: string) =>
-                    //   updateSellerDatabaseFilter('asins', {
-                    //     ...sellerDatabaseFilters.asins,
-                    //     exclude: value,
-                    //   })
-                    // }
-                    value={sellerDatabaseTextFieldFilters.asins.exclude.toUpperCase()}
-                    handleKeyDown={e => {
-                      if (e.key === 'Enter') {
-                        if (asinsError.exclude) {
-                          return;
+                    {/* Exclude brands */}
+                    <InputFilter
+                      label="Exclude brands"
+                      placeholder="Enter separated by comma"
+                      // value={sellerDatabaseFilters.brands.exclude}
+                      // handleChange={(value: string) =>
+                      //   updateSellerDatabaseFilter('brands', {
+                      //     ...sellerDatabaseFilters.brands,
+                      //     exclude: value,
+                      //   })
+                      value={sellerDatabaseTextFieldFilters.brands.exclude}
+                      handleKeyDown={e => {
+                        if (e.key === 'Enter') {
+                          updateSellerDatabaseFilter('brands', {
+                            ...sellerDatabaseTextFieldFilters.brands,
+                            exclude: e.target.value,
+                          });
                         }
-                        updateSellerDatabaseFilter('asins', {
-                          ...sellerDatabaseTextFieldFilters.asins,
-                          exclude: e.target.value,
-                        });
+                      }}
+                      handleChange={(value: string) =>
+                        updateSellerDatabaseTextFieldFilter('brands', {
+                          ...sellerDatabaseTextFieldFilters.brands,
+                          exclude: value,
+                        })
                       }
-                    }}
-                    handleChange={(value: string) =>
-                      updateSellerDatabaseTextFieldFilter('asins', {
-                        ...sellerDatabaseTextFieldFilters.asins,
-                        exclude: value,
-                      })
-                    }
-                    error={asinsError.exclude}
-                    className={sellerDatabaseTextFieldFilters.asins.exclude && styles.activeFilter}
+                      className={
+                        sellerDatabaseTextFieldFilters.brands.exclude && styles.activeFilter
+                      }
+                    />
+                  </div>
+                </Accordion.Content>
+              </div>
+              <div
+                className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 11 &&
+                  styles.accordianBlockWrapper__active}`}
+              >
+                <Accordion.Title
+                  active={filterActiveIndex === 11}
+                  index={3}
+                  onClick={() => handleAccordianUpArrowClick(11)}
+                  className={styles.accordian__title}
+                >
+                  <div className={styles.accordian__title__block}>
+                    <Icon name="boxes" className={styles.accordian__title__icon} />
+                    <p>Products</p>
+                  </div>
+                  <Image
+                    src={filterActiveIndex === 11 ? upArrow : downArrow}
+                    className={styles.accordian__title__arrowImage}
                   />
-                </div>
-              </Accordion.Content>
-            </div>
-          </Accordion>
+                </Accordion.Title>
+                <Accordion.Content active={filterActiveIndex === 11}>
+                  <p>Products count</p>
+                  <div>
+                    {/* Inventory Choices */}
+
+                    <div className={styles.minMaxCount}>
+                      {PRODUCT_COUNT_CHOICES.map((choice, index) => (
+                        <div key={index} className={styles.minMaxCount__choice}>
+                          <Radio
+                            label={choice.label}
+                            checked={productChoiceIndex === index}
+                            onClick={() => setProductChoiceIndex(index)}
+                          />
+                        </div>
+                      ))}
+                      <Radio
+                        className={styles.minMaxCount__choice}
+                        label="Custom"
+                        checked={productChoiceIndex === 5}
+                        onClick={() => setProductChoiceIndex(5)}
+                      />
+                    </div>
+                    {/* # of Inventory */}
+                    {productChoiceIndex === 5 && (
+                      <MinMaxFilter
+                        label=""
+                        minValue={sellerDatabaseTextFieldFilters.numOfInventory.min}
+                        maxValue={sellerDatabaseTextFieldFilters.numOfInventory.max}
+                        handleChange={(type: string, value: string) =>
+                          updateSellerDatabaseTextFieldFilter('numOfInventory', {
+                            ...sellerDatabaseTextFieldFilters.numOfInventory,
+                            [type]: value,
+                          })
+                        }
+                        handleKeyDown={e => {
+                          if (e.key === 'Enter') {
+                            updateSellerDatabaseFilter(
+                              'numOfInventory',
+                              sellerDatabaseTextFieldFilters.numOfInventory
+                            );
+                          }
+                        }}
+                        maxClassName={
+                          sellerDatabaseTextFieldFilters.numOfInventory.max && styles.activeFilter
+                        }
+                        minClassName={
+                          sellerDatabaseTextFieldFilters.numOfInventory.min && styles.activeFilter
+                        }
+                      />
+                    )}
+                    {/* Include ASINS */}
+                    <InputFilter
+                      label="Include Product IDs"
+                      placeholder="Enter separated by comma"
+                      // value={sellerDatabaseFilters.asins.include.toUpperCase()}
+                      // handleChange={(value: string) =>
+                      //   updateSellerDatabaseFilter('asins', {
+                      //     ...sellerDatabaseFilters.asins,
+                      //     include: value,
+                      //   })
+                      // }
+                      value={sellerDatabaseTextFieldFilters.asins.include.toUpperCase()}
+                      handleKeyDown={e => {
+                        if (e.key === 'Enter') {
+                          if (asinsError.include) {
+                            return;
+                          }
+                          updateSellerDatabaseFilter('asins', {
+                            ...sellerDatabaseTextFieldFilters.asins,
+                            include: e.target.value,
+                          });
+                        }
+                      }}
+                      handleChange={(value: string) =>
+                        updateSellerDatabaseTextFieldFilter('asins', {
+                          ...sellerDatabaseTextFieldFilters.asins,
+                          include: value,
+                        })
+                      }
+                      error={asinsError.include}
+                      className={
+                        sellerDatabaseTextFieldFilters.asins.include && styles.activeFilter
+                      }
+                    />
+
+                    {/* Exclude ASINS Name */}
+                    <InputFilter
+                      label="Exclude Product IDs"
+                      placeholder="Enter separated by comma"
+                      // value={sellerDatabaseFilters.asins.exclude.toUpperCase()}
+                      // handleChange={(value: string) =>
+                      //   updateSellerDatabaseFilter('asins', {
+                      //     ...sellerDatabaseFilters.asins,
+                      //     exclude: value,
+                      //   })
+                      // }
+                      value={sellerDatabaseTextFieldFilters.asins.exclude.toUpperCase()}
+                      handleKeyDown={e => {
+                        if (e.key === 'Enter') {
+                          if (asinsError.exclude) {
+                            return;
+                          }
+                          updateSellerDatabaseFilter('asins', {
+                            ...sellerDatabaseTextFieldFilters.asins,
+                            exclude: e.target.value,
+                          });
+                        }
+                      }}
+                      handleChange={(value: string) =>
+                        updateSellerDatabaseTextFieldFilter('asins', {
+                          ...sellerDatabaseTextFieldFilters.asins,
+                          exclude: value,
+                        })
+                      }
+                      error={asinsError.exclude}
+                      className={
+                        sellerDatabaseTextFieldFilters.asins.exclude && styles.activeFilter
+                      }
+                    />
+                  </div>
+                </Accordion.Content>
+              </div>
+            </Accordion>
+          </div>
+          <FormFilterActions
+            onFind={handleSubmit}
+            onReset={handleReset}
+            disabled={disableFormSubmit}
+            hideSubmit
+            hideReset
+          />
         </div>
-        <FormFilterActions
-          onFind={handleSubmit}
-          onReset={handleReset}
-          disabled={disableFormSubmit}
-          hideSubmit
-          hideReset
-        />
       </section>
     </>
   );
