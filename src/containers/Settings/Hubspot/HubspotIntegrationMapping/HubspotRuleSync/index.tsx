@@ -51,7 +51,7 @@ const HubSpotRulesSync = (props: Props) => {
     const sellerID = sellerIDSelector();
 
     // eslint-disable-next-line max-len
-    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database?is_hubspot_export=true`;
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database?is_looked_up=true&is_hubspot_export=true`;
     try {
       const { status, data } = await axios.get(URL);
       if (status === 200) {
