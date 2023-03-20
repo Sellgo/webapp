@@ -57,7 +57,7 @@ const HubSpotIntegrationMappingStructure = (props: Props) => {
           hubspotMappedProperty =>
             hubspotMappedProperties.indexOf(hubspotMappedProperty.value) === -1
         );
-        sethubspotFilterOptions([...filteredProperties, { key: '', value: '', text: '-' }]);
+        sethubspotFilterOptions([...filteredProperties]);
         setIsLoading(false);
       }
     } catch (e) {
@@ -150,7 +150,10 @@ const HubSpotIntegrationMappingStructure = (props: Props) => {
               </div>
               <div className={styles.hubspotProperties__box}>
                 {properties.map((property, index) => {
-                  const filteringOptions = [...hubspotFilterOptions];
+                  const filteringOptions = [
+                    { key: '', value: '', text: '-' },
+                    ...hubspotFilterOptions,
+                  ];
                   const currentFilter = hubspotProperties.find(
                     hubspotProperty => hubspotProperty.value === property.hubspot_prop
                   );
