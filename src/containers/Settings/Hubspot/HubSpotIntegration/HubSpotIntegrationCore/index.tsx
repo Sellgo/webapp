@@ -79,7 +79,7 @@ const HubSpotIntegrationCore = () => {
                 onClick={handleSave}
                 disabled={false}
               >
-                Authorize Access Here
+                Agree and authorize access
               </ActionButton>
             </>
           )}
