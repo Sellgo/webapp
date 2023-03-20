@@ -48,7 +48,7 @@ const HubSpotIntegrationCore = () => {
     const url =
       `https://app.hubspot.com/oauth/authorize?` +
       `client_id=0fb23fb3-6a68-4e4e-86db-1c31bb718977` +
-      `&redirect_uri=${AppConfig.BASE_URL}/settings/hs-api-listener` +
+      `&redirect_uri=http://localhost:3000/settings/hs-api-listener` +
       `&scope=tickets%20e-commerce%20crm.objects.contacts.read%20crm.objects.contacts.write%20crm.objects.companies.write%20crm.objects.companies.read`;
     window.open(url, '_blank');
   };

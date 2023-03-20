@@ -132,7 +132,7 @@ const HubSpotIntegrationMappingStructure = (props: Props) => {
             <div className={styles.sellgoProperties}>
               <div className={styles.labelWrapper}>
                 <Image src={SellgoLogo} />
-                <p className={styles.labelWrapper__label}>Sellgo property for Company</p>
+                <p className={styles.labelWrapper__label}>Sellgo property</p>
               </div>
               <div className={styles.sellgoProperties__box}>
                 {properties.map(property => (

@@ -55,6 +55,7 @@
 
     .active {
       font-weight: $fontweight_bold;
+      text-decoration: underline;
     }
   }
 
@@ -84,7 +85,7 @@
   padding: 20px;
 
   &__box {
-    margin-top: 40px;
+    margin-top: 1em;
   }
 
   &__name {
@@ -92,8 +93,10 @@
     margin-bottom: 10px;
     font-size: $fontsize_content_14;
     font-weight: $fontweight_medium;
-    border: 1px solid $grey_3;
+    color: $grey_8;
+    //border: 1px solid $grey_3;
     border-radius: 7px;
+    background-color: #f7f7f7;
   }
 }
 
@@ -103,7 +106,7 @@
   padding: 20px;
 
   &__box {
-    margin-top: 40px;
+    margin-top: 1em;
   }
 
   &__name {
@@ -132,12 +135,14 @@
 }
 
 .mappingWrapper {
+  margin-top: 1em;
   display: flex;
   justify-content: space-between;
   border: 1px solid $grey_3;
   border-radius: 7px;
   height: 600px;
   overflow: auto;
+  width: 800px;
 }
 
 .mappingLinkLogo {
