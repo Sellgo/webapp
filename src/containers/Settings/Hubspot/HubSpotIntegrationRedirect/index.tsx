@@ -55,7 +55,7 @@ const HubSpotIntegrationRedirect = (props: Props) => {
     if (isConnectedToHubspot) {
       console.log('connected');
       setTimeout(() => {
-        history.push('/settings/hs-mapping');
+        history.push('/settings/hubspot-mapping');
       }, 3000);
     }
   }, [isConnectedToHubspot]);

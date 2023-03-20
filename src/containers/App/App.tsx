@@ -449,7 +449,11 @@ function App() {
           <PrivateRoute exact={true} path="/settings/billing" component={Billing} />
           <PrivateRoute exact={true} path="/settings/sp-connectivity" component={SPConnectivity} />
           <PrivateRoute exact={true} path="/settings/sp-api-listener" component={SpApiListener} />
-          <PrivateRoute exact={true} path="/settings/integration" component={APIConnectivity} />
+          <PrivateRoute
+            exact={true}
+            path="/settings/integration/zapier"
+            component={APIConnectivity}
+          />
           <PrivateRoute exact={true} path="/settings/profile" component={Profile} />
           <PrivateRoute
             exact={true}
@@ -463,7 +467,7 @@ function App() {
           />
           <PrivateRoute
             exact={true}
-            path="/settings/hs-mapping"
+            path="/settings/hubspot-mapping"
             component={HubSpotIntegrationMapping}
           />
           <PrivateRoute exact={true} path="/settings/aistock/lead-time" component={LeadTime} />

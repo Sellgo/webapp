@@ -164,7 +164,7 @@ const HubSpotIntegrationAuthenticated = (props: Props) => {
               variant={'primary'}
               type={'grey'}
               size="md"
-              onClick={() => history.push('/settings/hs-mapping')}
+              onClick={() => history.push('/settings/hubspot-mapping')}
               className={styles.submitButton}
               disabled={isSyncing || isSubmitting}
             >
@@ -174,13 +174,13 @@ const HubSpotIntegrationAuthenticated = (props: Props) => {
         </div>
         <div className={styles.tabs}>
           <p className={`${styles.tab} ${step === 0 && styles.active}`} onClick={() => setStep(0)}>
-            Companies
+            COMPANIES
           </p>
           <p
             className={`${styles.tab} ${styles.tab_last} ${step === 1 && styles.active}`}
             onClick={() => setStep(1)}
           >
-            Contacts
+            CONTACTS
           </p>
         </div>
         {isLoading && (

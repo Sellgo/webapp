@@ -54,36 +54,37 @@
 }
 
 .sellgoProperties {
-  background-color: $prim_white;
-  width: 370px;
-  padding: 20px;
+  //background-color: $prim_white;
+  width: 420px;
+  padding: 1em;
 
   &__box {
-    margin-top: 40px;
+    margin-top: 1em;
   }
 
   &__name {
-    padding: 5.5px;
+    padding: 6.4px;
     margin-bottom: 10px;
     font-size: $fontsize_content_12;
     font-weight: $fontweight_medium;
-    border: 1px solid $grey_3;
+    //border: 1px solid $grey_3;
     border-radius: 7px;
+    background-color: #f7f7f7;
   }
 }
 
 .hubspotProperties {
   background-color: $prim_white;
-  width: 370px;
-  padding: 20px;
+  width: 420px;
+  padding: 1em;
 
   &__box {
-    margin-top: 40px;
+    margin-top: 1em;
   }
 
   &__name {
     margin-bottom: 10px;
-    font-size: $fontsize_content_14;
+    font-size: $fontsize_content_12;
     font-weight: $fontweight_medium;
     border-radius: 7px;
     width: unset;
@@ -113,6 +114,7 @@
   border-radius: 7px;
   height: 600px;
   overflow-y: scroll;
+  margin-top: 1em;
 
   &::-webkit-scrollbar {
     width: 5px;

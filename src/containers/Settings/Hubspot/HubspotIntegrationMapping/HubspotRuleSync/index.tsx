@@ -63,7 +63,7 @@ const HubSpotRulesSync = (props: Props) => {
   };
   const handleSubmit = async () => {
     if (!isOneTimeSync) {
-      history.push('/seller-research/collection');
+      history.push('/settings/integration/hubspot');
       return;
     }
     setIsSubmitting(true);
@@ -75,7 +75,7 @@ const HubSpotRulesSync = (props: Props) => {
     }
     setTimeout(() => {
       setIsSubmitting(false);
-      history.push('/seller-research/collection');
+      history.push('/settings/integration/hubspot');
     }, 1000);
 
     return;

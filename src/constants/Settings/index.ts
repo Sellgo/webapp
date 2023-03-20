@@ -190,9 +190,9 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
-    name: 'Integration',
+    name: 'Zapier Integration',
     disabled: false,
-    url: '/settings/integration',
+    url: '/settings/integration/zapier',
     showInSellgo: true,
     showInAistock: false,
     subPages: [],
