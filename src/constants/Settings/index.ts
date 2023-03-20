@@ -28,7 +28,7 @@ export const defaultMarketplaces = [
   {
     name: 'UK',
     code: 'GB',
-    link: 'amazon.uk',
+    link: 'amazon.co.uk',
     id: 'A1F83G8C2ARO7P',
     disabled: true,
     currency: '£',
@@ -41,7 +41,7 @@ export const defaultMarketplaces = [
     disabled: true,
     currency: '$',
   },
-  { name: 'Brazil', code: 'BR', link: 'amazon.com', id: 'A2Q3Y263D00KWC', disabled: true },
+  { name: 'Brazil', code: 'BR', link: 'amazon.com.br', id: 'A2Q3Y263D00KWC', disabled: true },
   {
     name: 'Mexico',
     code: 'MX',
@@ -58,23 +58,23 @@ export const defaultMarketplaces = [
     disabled: true,
   },
   { name: 'Germany', code: 'DE', link: 'amazon.de', id: 'A1PA6795UKMFR9', disabled: true },
-  { name: 'Spain', code: 'ES', link: 'amazon.com', id: 'A1RKKUPIHCS9HS', disabled: true },
-  { name: 'France', code: 'FR', link: 'amazon.com', id: 'A13V1IB3VIYZZH', disabled: true },
+  { name: 'Spain', code: 'ES', link: 'amazon.es', id: 'A1RKKUPIHCS9HS', disabled: true },
+  { name: 'France', code: 'FR', link: 'amazon.fr', id: 'A13V1IB3VIYZZH', disabled: true },
 
   { name: 'India', code: 'IN', link: 'amazon.in', id: 'A21TJRUUN4KGV', disabled: true },
   {
     name: 'Italy',
     code: 'IT',
-    link: 'amazon.com',
+    link: 'amazon.it',
     id: 'APJ6JRA9NG5V4',
     disabled: true,
     currency: '€',
   },
-  { name: 'Turkey', code: 'TR', link: 'amazon.com', id: 'A33AVAJ2PDY3EV', disabled: true },
+  { name: 'Turkey', code: 'TR', link: 'amazon.com.tr', id: 'A33AVAJ2PDY3EV', disabled: true },
   {
     name: 'Singapore',
     code: 'SG',
-    link: 'amazon.com',
+    link: 'amazon.sg',
     id: 'A19VAU5U5O7RUS',
     disabled: true,
   },
@@ -85,8 +85,8 @@ export const defaultMarketplaces = [
     id: 'A39IBJ37TRP1C6',
     disabled: true,
   },
-  { name: 'Japan', code: 'JP', link: 'amazon.com', id: 'A1VC38T7YXB528', disabled: true },
-  { name: 'China', code: 'CN', link: 'amazon.com', id: 'AAHKV2X7AFYLW', disabled: true },
+  { name: 'Japan', code: 'JP', link: 'amazon.co.jp', id: 'A1VC38T7YXB528', disabled: true },
+  { name: 'China', code: 'CN', link: 'amazon.cn', id: 'AAHKV2X7AFYLW', disabled: true },
 ];
 
 export const countryList = [
