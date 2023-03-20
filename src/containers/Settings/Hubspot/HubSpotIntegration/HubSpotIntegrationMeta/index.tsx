@@ -1,8 +1,8 @@
 import React from 'react';
+import { Image } from 'semantic-ui-react';
 
 /* Assets */
-import { ReactComponent as SettingIcon } from '../../../../../assets/images/calendar-range-solid.svg';
-
+import HubspotLogo from '../../../../../assets/images/hubspot.svg';
 /* Styling */
 import styles from './index.module.scss';
 
@@ -10,7 +10,7 @@ const HubSpotIntegrationMeta = () => {
   return (
     <>
       <div className={styles.settingMetaTitle}>
-        <SettingIcon />
+        <Image src={HubspotLogo} />
         &nbsp;&nbsp;HubSpot Setup
       </div>
     </>

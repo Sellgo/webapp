@@ -15,6 +15,7 @@ import { sellerIDSelector } from '../../../../../selectors/Seller';
 /* Assets */
 import SellgoLogo from '../../../../../assets/images/sellgo_logo.svg';
 import MappingLogo from '../../../../../assets/images/link-simple-solid.svg';
+import HubspotLogo from '../../../../../assets/images/hubspot.svg';
 
 /* Utils */
 import { error, success } from '../../../../../utils/notifications';
@@ -145,7 +146,7 @@ const HubSpotIntegrationMappingStructure = (props: Props) => {
             <Image src={MappingLogo} className={styles.mappingLinkLogo} />
             <div className={styles.hubspotProperties}>
               <div className={styles.labelWrapper}>
-                <Image src={SellgoLogo} />
+                <Image src={HubspotLogo} />
                 <p className={styles.labelWrapper__label}>Hubspot property</p>
               </div>
               <div className={styles.hubspotProperties__box}>

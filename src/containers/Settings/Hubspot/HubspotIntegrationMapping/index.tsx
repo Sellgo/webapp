@@ -105,12 +105,17 @@ const HubSpotIntegrationMapping = (props: Props) => {
               {step === 0 && <p>Map Sellgo Company property to Hubspot field.</p>}
               {step === 1 && <p>Map Sellgo Contacts property to Hubspot field.</p>}
               {(step === 0 || step === 1) && hubspotProperties.length > 0 && (
-                <HubSpotIntegrationMappingStructure
-                  mappingType={step === 0 ? 'companies' : 'contacts'}
-                  hubspotProperties={hubspotProperties}
-                  step={step}
-                  setStep={setStep}
-                />
+                <>
+                  <p className={styles.note}>
+                    * To create new property, add that property in your hubspot and refresh
+                  </p>
+                  <HubSpotIntegrationMappingStructure
+                    mappingType={step === 0 ? 'companies' : 'contacts'}
+                    hubspotProperties={hubspotProperties}
+                    step={step}
+                    setStep={setStep}
+                  />
+                </>
               )}
               {step === 2 && <HubSpotRulesSync setStep={setStep} />}
             </div>

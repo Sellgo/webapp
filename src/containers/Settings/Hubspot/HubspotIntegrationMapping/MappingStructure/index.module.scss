@@ -50,26 +50,22 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 650px;
+  height: 100%;
 }
 
 .sellgoProperties {
   background-color: $prim_white;
-  border: 1px solid $grey_3;
-  border-radius: 7px;
   width: 370px;
   padding: 20px;
 
   &__box {
     margin-top: 40px;
-    height: 480px;
-    overflow: auto;
   }
 
   &__name {
-    padding: 7px;
+    padding: 5.5px;
     margin-bottom: 10px;
-    font-size: $fontsize_content_14;
+    font-size: $fontsize_content_12;
     font-weight: $fontweight_medium;
     border: 1px solid $grey_3;
     border-radius: 7px;
@@ -78,19 +74,14 @@
 
 .hubspotProperties {
   background-color: $prim_white;
-  border: 1px solid $grey_3;
-  border-radius: 7px;
   width: 370px;
   padding: 20px;
 
   &__box {
     margin-top: 40px;
-    height: 480px;
-    overflow: auto;
   }
 
   &__name {
-    padding: 7px;
     margin-bottom: 10px;
     font-size: $fontsize_content_14;
     font-weight: $fontweight_medium;
@@ -106,6 +97,7 @@
 .labelWrapper {
   display: flex;
   align-items: center;
+  height: 34px;
 
   &__label {
     margin-left: 10px;
@@ -117,7 +109,14 @@
 .mappingWrapper {
   display: flex;
   //justify-content: space-between;
-  height: 680px;
+  border: 1px solid $grey_3;
+  border-radius: 7px;
+  height: 600px;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
 }
 
 .mappingLinkLogo {
@@ -128,4 +127,5 @@
 .formSearchAndReset {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 30px;
 }

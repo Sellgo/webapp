@@ -149,3 +149,11 @@
   margin: 0 20px;
   width: 25px;
 }
+
+.btnRow {
+  display: flex;
+
+  .syncButton {
+    margin-left: 30px;
+  }
+}

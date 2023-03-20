@@ -18,6 +18,7 @@ import { error, success } from '../../../../../../utils/notifications';
 /* Assets */
 import MappingLogo from '../../../../../../assets/images/link-simple-solid.svg';
 import SellgoLogo from '../../../../../../assets/images/sellgo_logo.svg';
+import HubspotLogo from '../../../../../../assets/images/hubspot.svg';
 
 /* Constants */
 import history from '../../../../../../history';
@@ -31,6 +32,7 @@ const HubSpotIntegrationAuthenticated = (props: Props) => {
   const { hubspotAuthId, setIsAuthenticated } = props;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isSyncing, setIsSyncing] = useState<boolean>(false);
   const [step, setStep] = useState<number>(0);
   const [properties, setProperties] = useState([{ id: 0, sellgo_prop: '', hubspot_prop: '' }]);
 
@@ -85,6 +87,42 @@ const HubSpotIntegrationAuthenticated = (props: Props) => {
     }
   };
 
+  const handlePushContactsTohubspot = async () => {
+    const sellerID = sellerIDSelector();
+
+    // eslint-disable-next-line max-len
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-employees?is_looked_up=true&is_hubspot_export=true`;
+    try {
+      const { status, data } = await axios.get(URL);
+      if (status === 200) {
+        success(data.message);
+      }
+    } catch (err) {
+      console.log('error: ', err);
+    }
+  };
+  const handlePushCompaniesTohubspot = async () => {
+    const sellerID = sellerIDSelector();
+
+    // eslint-disable-next-line max-len
+    const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/merchants-database?is_looked_up=true&is_hubspot_export=true`;
+    try {
+      const { status, data } = await axios.get(URL);
+      if (status === 200) {
+        success(data.message);
+      }
+    } catch (err) {
+      console.log('error: ', err);
+    }
+  };
+
+  const handleSyncNow = async () => {
+    setIsSyncing(true);
+    await handlePushCompaniesTohubspot();
+    await handlePushContactsTohubspot();
+    setIsSyncing(false);
+  };
+
   useEffect(() => {
     getHubspotMapping();
   }, [step]);
@@ -95,16 +133,30 @@ const HubSpotIntegrationAuthenticated = (props: Props) => {
         <div className={styles.hubspotCore__details}>
           <div className={styles.options}>
             <p className={styles.hubspotCore__label}>Status: CONNECTED</p>
-            <ActionButton
-              variant={'secondary'}
-              type={'grey'}
-              size="md"
-              onClick={disconnectHubspotAuth}
-              loading={isSubmitting}
-              className={styles.submitButton}
-            >
-              {'Disconnect'}
-            </ActionButton>
+            <div className={styles.btnRow}>
+              <ActionButton
+                variant={'secondary'}
+                type={'grey'}
+                size="md"
+                onClick={disconnectHubspotAuth}
+                loading={isSubmitting}
+                disabled={isSyncing}
+                className={styles.submitButton}
+              >
+                {'Disconnect'}
+              </ActionButton>
+              <ActionButton
+                variant={'primary'}
+                type={'purpleGradient'}
+                size="md"
+                onClick={handleSyncNow}
+                loading={isSyncing}
+                disabled={isSubmitting}
+                className={styles.syncButton}
+              >
+                {'Sync now'}
+              </ActionButton>
+            </div>
           </div>
           <div className={styles.options}>
             <p className={styles.hubspotCore__label}>Current mapping</p>
@@ -113,8 +165,8 @@ const HubSpotIntegrationAuthenticated = (props: Props) => {
               type={'grey'}
               size="md"
               onClick={() => history.push('/settings/hs-mapping')}
-              loading={isSubmitting}
               className={styles.submitButton}
+              disabled={isSyncing || isSubmitting}
             >
               {'Edit Mapping'}
             </ActionButton>
@@ -142,7 +194,9 @@ const HubSpotIntegrationAuthenticated = (props: Props) => {
               <div className={styles.sellgoProperties}>
                 <div className={styles.labelWrapper}>
                   <Image src={SellgoLogo} />
-                  <p className={styles.labelWrapper__label}>Sellgo property for Company</p>
+                  <p className={styles.labelWrapper__label}>
+                    Sellgo property for {step === 0 ? 'Company' : 'Contacts'}
+                  </p>
                 </div>
                 <div className={styles.sellgoProperties__box}>
                   {console.log('proper', properties)}
@@ -156,7 +210,7 @@ const HubSpotIntegrationAuthenticated = (props: Props) => {
               <Image src={MappingLogo} className={styles.mappingLinkLogo} />
               <div className={styles.hubspotProperties}>
                 <div className={styles.labelWrapper}>
-                  <Image src={SellgoLogo} />
+                  <Image src={HubspotLogo} />
                   <p className={styles.labelWrapper__label}>Hubspot property</p>
                 </div>
                 <div className={styles.hubspotProperties__box}>
