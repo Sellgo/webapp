@@ -33,7 +33,7 @@ const TablePagination = (props: Props) => {
     showLastItem = false,
     showfirstItem = false,
     showPerPage = false,
-    perPage = 50,
+    perPage = 20,
     perPageList,
   } = props;
 

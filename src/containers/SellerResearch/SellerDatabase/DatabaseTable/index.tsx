@@ -30,7 +30,7 @@ import HeaderSortCell from '../../../../components/NewTable/HeaderSortCell';
 import Placeholder from '../../../../components/Placeholder';
 // import BrandsListCell from '../../../../components/NewTable/BrandsListCell';
 //import RatingCell from '../../../../components/NewTable/RatingCell';
-//import StatsCell from '../../../../components/NewTable/StatsCell';
+import StatsCell from '../../../../components/NewTable/StatsCell';
 //import ExtendedReviewsCell from '../../../../components/NewTable/ExtendedReviewsCell';
 import TablePagination from '../../../../components/NewTable/Pagination';
 
@@ -41,7 +41,7 @@ import TruncatedTextCell from '../../../../components/NewTable/TruncatedTextCell
 
 /* Utils */
 import { onMountFixNewTableHeader } from '../../../../utils/newTable';
-// import ImageCell from '../../../../components/NewTable/ImageCell';
+import ImageCell from '../../../../components/NewTable/ImageCell';
 // import MultipleDataCell from '../../../../components/NewTable/MultipleDataCell';
 // import AddressCell from '../../../../components/NewTable/AddressCell';
 import ExpansionCell from '../../../../components/NewTable/ExpansionCell';
@@ -131,7 +131,7 @@ const SellerDatabaseTable = (props: Props) => {
           rowKey="merchant_id"
         >
           {/* Seller Information */}
-          <Table.Column width={250} verticalAlign="middle" fixed>
+          <Table.Column width={140} verticalAlign="middle" fixed>
             <Table.HeaderCell>
               <HeaderSortCell
                 title={``}
@@ -143,21 +143,6 @@ const SellerDatabaseTable = (props: Props) => {
             </Table.HeaderCell>
             <SellerInformation dataKey={'sellerInformation'} />
           </Table.Column>
-
-          {/* Market place image */}
-          {/* <Table.Column width={250} verticalAlign="middle" align="center">
-            <Table.HeaderCell>
-              <HeaderSortCell
-                title={`Marketplace`}
-                dataKey="marketplace_id"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
-                disableSort
-                alignMiddle
-              />
-            </Table.HeaderCell>
-            <ImageCell dataKey="marketplace_id" isMarketPlace />
-          </Table.Column> */}
 
           {/* Business Name */}
           <Table.Column width={300} verticalAlign="middle" align="center">
@@ -187,20 +172,36 @@ const SellerDatabaseTable = (props: Props) => {
             <AddressCell dataKey={'address'} textAlign="left" />
           </Table.Column> */}
 
+          {/* Market place image */}
+          <Table.Column width={75} verticalAlign="middle" align="center">
+            <Table.HeaderCell>
+              <HeaderSortCell
+                title={`Marketplace`}
+                dataKey="marketplace_id"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+                disableSort
+                alignMiddle
+              />
+            </Table.HeaderCell>
+            <ImageCell dataKey="marketplace_id" isMarketPlace />
+          </Table.Column>
+
           {/* Country */}
           <Table.Column
-            width={250}
+            width={140}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
             align="left"
           >
             <Table.HeaderCell>
               <HeaderSortCell
-                disabled={isLoadingSellerDatabase}
+                // disabled={isLoadingSellerDatabase}
                 title={`Country of origin`}
                 dataKey="country"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
+                disableSort
                 alignMiddle
               />
             </Table.HeaderCell>
@@ -225,18 +226,19 @@ const SellerDatabaseTable = (props: Props) => {
 
           {/* Category */}
           <Table.Column
-            width={250}
+            width={240}
             sortable={!isLoadingSellerDatabase}
             verticalAlign="middle"
             align="left"
           >
             <Table.HeaderCell>
               <HeaderSortCell
-                disabled={isLoadingSellerDatabase}
+                //disabled={isLoadingSellerDatabase}
                 title={`Category`}
                 dataKey="category"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
+                disableSort
                 alignMiddle
               />
             </Table.HeaderCell>
@@ -244,6 +246,57 @@ const SellerDatabaseTable = (props: Props) => {
               dataKey="category"
               maxLength={20}
               newClassName={styles.displayBoldCenteredText}
+            />
+          </Table.Column>
+
+          {/* Monthly Revenue = Sales Est. */}
+          <Table.Column
+            width={140}
+            sortable={!isLoadingSellerDatabase}
+            verticalAlign="middle"
+            align="center"
+          >
+            <Table.HeaderCell>
+              <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
+                title={`Annual revenue`}
+                dataKey="sales_estimate"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+                alignMiddle
+              />
+            </Table.HeaderCell>
+            <StatsCell
+              dataKey="sales_estimate"
+              autoPrependCurrencySign
+              align="left"
+              asRounded={true}
+              asFloatRounded={true}
+            />
+          </Table.Column>
+
+          {/* 12 Month Growth % */}
+          <Table.Column
+            width={90}
+            sortable={!isLoadingSellerDatabase}
+            verticalAlign="middle"
+            align="center"
+          >
+            <Table.HeaderCell>
+              <HeaderSortCell
+                disabled={isLoadingSellerDatabase}
+                title={`Annual\ngrowth`}
+                dataKey="growth_year"
+                currentSortColumn={sortColumn}
+                currentSortType={sortType}
+              />
+            </Table.HeaderCell>
+            <StatsCell
+              dataKey="growth_year"
+              appendWith="%"
+              align="left"
+              asRounded={true}
+              asFloatRounded={true}
             />
           </Table.Column>
 
@@ -262,37 +315,42 @@ const SellerDatabaseTable = (props: Props) => {
           </Table.Column> */}
 
           {/* Products */}
-          <Table.Column width={150} verticalAlign="middle" align="center">
+          <Table.Column
+            width={110}
+            sortable={!isLoadingSellerDatabase}
+            verticalAlign="middle"
+            align="center"
+          >
             <Table.HeaderCell>
               <HeaderSortCell
-                title={`Products`}
-                dataKey="inventory_count"
+                title={`Total products`}
+                dataKey="whls_total_product"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
                 alignMiddle
               />
             </Table.HeaderCell>
-            <NumberCell dataKey="inventory_count" />
+            <NumberCell dataKey="whls_total_product" />
           </Table.Column>
 
           {/* Brands */}
-          <Table.Column width={150} verticalAlign="middle" align="center">
+          <Table.Column width={90} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title={`Brands`}
-                dataKey="brands"
+                title={`Total brands`}
+                dataKey="whls_total_brand"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
                 alignMiddle
               />
             </Table.HeaderCell>
-            <NumberCell dataKey="brands" />
+            <NumberCell dataKey="whls_total_brand" />
           </Table.Column>
 
-          <Table.Column width={150} verticalAlign="middle" align="center">
+          <Table.Column width={90} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title={`# of employees`}
+                title={`Employees`}
                 dataKey="employee_stats.employees_count"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
@@ -311,25 +369,6 @@ const SellerDatabaseTable = (props: Props) => {
               onChange={handleExpansion}
             />
           </Table.Column>
-
-          {/* Monthly Revenue = Sales Est. */}
-          {/* <Table.Column
-            width={150}
-            sortable={!isLoadingSellerDatabase}
-            verticalAlign="middle"
-            align="center"
-          >
-            <Table.HeaderCell>
-              <HeaderSortCell
-                disabled={isLoadingSellerDatabase}
-                title={`Monthly Revenue\nEstimate`}
-                dataKey="sales_estimate"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
-              />
-            </Table.HeaderCell>
-            <StatsCell dataKey="sales_estimate" autoPrependCurrencySign align="left" />
-          </Table.Column> */}
 
           {/* FBA Percent */}
           {/* <Table.Column
@@ -475,31 +514,6 @@ const SellerDatabaseTable = (props: Props) => {
             </Table.HeaderCell>
             <StatsCell
               dataKey="growth_L180D"
-              appendWith="%"
-              align="left"
-              asRounded={false}
-              asFloatRounded={true}
-            />
-          </Table.Column> */}
-
-          {/* 12 Month Growth % */}
-          {/* <Table.Column
-            width={120}
-            sortable={!isLoadingSellerDatabase}
-            verticalAlign="middle"
-            align="center"
-          >
-            <Table.HeaderCell>
-              <HeaderSortCell
-                disabled={isLoadingSellerDatabase}
-                title={`12 Month\nGrowth %`}
-                dataKey="growth_year"
-                currentSortColumn={sortColumn}
-                currentSortType={sortType}
-              />
-            </Table.HeaderCell>
-            <StatsCell
-              dataKey="growth_year"
               appendWith="%"
               align="left"
               asRounded={false}

@@ -8,67 +8,71 @@ export const FREE_ACCOUNT_SUBSCRIPTION_ID = 5;
 export const MONTHLY_AND_ANNUAL_PLANS = [
   {
     id: 10, // subscriptionID if needed
-    name: 'Starter',
+    name: 'Personal',
     productsDatabase: 0,
     salesEstimateCount: 1000,
     monthlyPrice: 77,
     annualPrice: 467,
     monthlyLookups: 100,
-    annualLookups: 1400,
-    desc: `Accelerate your seller research process.`,
-    featureSubName: 'Start with',
+    annualLookups: 1200,
+    desc: `Essential for finding your prospects`,
+    featureSubName: 'Everything in Free, plus',
     featuresLists: [
       {
-        title: 'Own your market',
+        title: '',
         featuresIncluded: [
-          'Verified professional email(s)',
-          'Basic seller insights',
+          'Verified emails, direct phones and social media links',
+          'Contact management',
+          'Bulk export',
+          'Basic CRM integration',
           'Seller map access',
         ],
       },
     ],
   },
+  // {
+  //   id: 11,
+  //   name: 'Professional',
+  //   productsDatabase: 0,
+  //   salesEstimateCount: 2000,
+  //   monthlyPrice: 147,
+  //   annualPrice: 1187,
+  //   monthlyLookups: 250,
+  //   annualLookups: 3000,
+  //   featureSubName: 'Everything in starter plan, plus',
+  //   desc: `Filter the best seller, faster.`,
+  //   featuresLists: [
+  //     {
+  //       title: 'Turn your leads into pipeline',
+  //       featuresIncluded: [
+  //         'Verified personal and other email(s),',
+  //         'Mobile and direct phone number(s),',
+  //         'Advanced analytics, and more,',
+  //       ],
+  //     },
+  //   ],
+  // },
   {
-    id: 11,
-    name: 'Professional',
+    id: 12,
+    name: 'Business',
     productsDatabase: 0,
-    salesEstimateCount: 2000,
-    monthlyPrice: 147,
-    annualPrice: 1187,
-    monthlyLookups: 240,
-    annualLookups: 3600,
-    featureSubName: 'Everything in starter plan, plus',
-    desc: `Filter the best seller, faster.`,
+    salesEstimateCount: 3000,
+    monthlyPrice: 347,
+    annualPrice: 2987,
+    monthlyLookups: 500,
+    annualLookups: 6000,
+    featureSubName: 'Everything in professional plan, plus',
+    desc: `Perfect for small teams with simple workflows`,
     isNew: true,
     featuresLists: [
       {
-        title: 'Turn your leads into pipeline',
+        title: '',
         featuresIncluded: [
-          'Verified personal and other email(s),',
-          'Mobile and direct phone number(s),',
-          'Advanced analytics, and more,',
-        ],
-      },
-    ],
-  },
-  {
-    id: 12,
-    name: 'Elite',
-    productsDatabase: 0,
-    salesEstimateCount: 3000,
-    monthlyPrice: 297,
-    annualPrice: 2987,
-    monthlyLookups: 800,
-    annualLookups: 12000,
-    featureSubName: 'Everything in professional plan, plus',
-    desc: `Achieve more ROI.`,
-    featuresLists: [
-      {
-        title: 'Hit your ambitious revenue goals',
-        featuresIncluded: [
-          'Social media link(s)/ username(s)*',
-          'Advanced integrations',
-          'Data/ CRM enrichments',
+          'Advanced prospecting filter',
+          'Bulk prospecting',
+          'Advanced decision maker data',
+          'Advanced company data',
+          'Bulk prospecting (25 contacts)',
         ],
       },
     ],
@@ -79,7 +83,7 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
 export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
     subscriptionId: 10, // subscriptionID if needed
-    name: 'Starter',
+    name: 'Personal',
     dailyPrice: 0,
     monthlyPrice: 77,
     annualPrice: 467,
@@ -95,9 +99,9 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   },
   {
     subscriptionId: 12, // subscriptionID if needed
-    name: 'Elite',
+    name: 'Business',
     dailyPrice: 0,
-    monthlyPrice: 297,
+    monthlyPrice: 347,
     annualPrice: 2987,
     isDailyPlan: false,
   },
@@ -142,21 +146,17 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
 /* Used in Summary page */
 export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   starter: {
-    name: 'Starter',
+    name: 'Personal',
     id: 10,
     idWithLegacyPlans: [10, 6],
     monthlyPrice: 77,
     annualPrice: 467,
     dailyPrice: -1,
     monthlyLookups: 100,
-    annualLookups: 1400,
+    annualLookups: 1200,
     annualSavingPercentage: 49,
-    subDescription: '7-Days Money Back Guarantee',
-    benefits: [
-      'Full access to Chrome extension.',
-      'Limited access to seller database suite.',
-      '7-day money back guarantee',
-    ],
+    subDescription: '',
+    benefits: ['Full access to Chrome extension.', 'Limited access to seller database suite.', ''],
   },
   professional: {
     name: 'Professional',
@@ -164,11 +164,11 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     idWithLegacyPlans: [11, 2],
     monthlyPrice: 147,
     annualPrice: 1187,
-    monthlyLookups: 240,
-    annualLookups: 3600,
+    monthlyLookups: 250,
+    annualLookups: 3000,
     dailyPrice: -1,
     annualSavingPercentage: 33,
-    subDescription: '7-Days Money Back Guarantee',
+    subDescription: '',
     benefits: [
       'Full access in Chrome Extension + Sales Estimation',
       '5,000 Sellers in Seller Database or Seller Map per month',
@@ -176,16 +176,16 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     ],
   },
   team: {
-    name: 'Elite',
+    name: 'Business',
     id: 12,
     idWithLegacyPlans: [12, 1],
-    monthlyPrice: 297,
+    monthlyPrice: 347,
     annualPrice: 2987,
     dailyPrice: -1,
-    monthlyLookups: 800,
-    annualLookups: 12000,
-    annualSavingPercentage: 16,
-    subDescription: '7-Days Money Back Guarantee',
+    monthlyLookups: 700,
+    annualLookups: 8400,
+    annualSavingPercentage: 28,
+    subDescription: '',
     benefits: [
       '20,000 Sellers in Seller Database or Seller Map per month',
       'Top view of 20,000 sellers in the Seller Map',
@@ -197,19 +197,19 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
 export const PAYMENT_MODES = ['daily', 'monthly', 'yearly'];
 
 export const SUBSCRIPTION_DETAILS_LIST: SummaryDetails[] = [
-  SUBSCRIPTION_DETAILS.starter,
+  SUBSCRIPTION_DETAILS.personal,
   SUBSCRIPTION_DETAILS.professional,
-  SUBSCRIPTION_DETAILS.team,
+  SUBSCRIPTION_DETAILS.business,
 ];
 
 export const subscriptionDetailsMapping: { [key: string]: number } = {
-  starter: 10,
+  personal: 10,
   professional: 11,
-  team: 12,
+  business: 12,
 };
 
 export const getSubscriptionID = (planName: string) => {
-  if (planName === 'elite') {
+  if (planName === 'Business') {
     planName = 'team';
   }
   const DEFAULT_PROFESSIONAL_PLAN_ID = 11;
@@ -229,7 +229,7 @@ export const getSubscriptionNameKey = (id: number) => {
 };
 
 export const generateSubscriptionDetails = (planType: string) => {
-  if (planType === 'elite') {
+  if (planType === 'Business') {
     planType = 'team';
   }
   if (!planType) {

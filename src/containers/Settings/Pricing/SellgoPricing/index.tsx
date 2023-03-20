@@ -199,15 +199,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         <main className={styles.subscriptionPage}>
           <section className={styles.subscriptionPageWrapper}>
             <div className={styles.planName}>
-              <h2>Sellgo simple pricing plan</h2>
+              <h2>"Sellgo pays for itself 10x over"</h2>
             </div>
 
             <div className={styles.planShortSummary}>
-              <p>
-                Emails? Phones? Categories? Brands? Inventories?
-                <br />
-                Access #1 Amazon seller database to help you turn leads into customers.
-              </p>
+              <p>Reach millions of Amazon seller decision makers and their teams</p>
             </div>
             {/* <div> */}
             <ToggleButton
@@ -248,6 +244,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                   />
                 );
               })}
+              <MoreDetails />
             </div>
           </section>
 
@@ -257,7 +254,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <img src={Stripe} alt="Protected by stripe logo" />
             </div>
           </section> */}
-          <MoreDetails />
+          {/* <MoreDetails /> */}
           <PricingComparison planName={'Pricing & Plans'} />
           {/* <Testimonials /> */}
           {/* <BrandImages /> */}

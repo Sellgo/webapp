@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 import styles from './index.module.scss';
 
 /* Containers */
-import SellerDatabaseFilters from './DatabaseFilters';
+import SellerDatabaseFilters from './DatabaseFiltersLeft';
 import SellerDatabaseTable from './DatabaseTable';
 import DatabaseExport from './DatabaseExport';
 
 /* Components */
-import FilterMessage from '../../../components/FilterMessage';
+// import FilterMessage from '../../../components/FilterMessage';
 
 /* Selectors */
 import { getFilterMessage } from '../../../selectors/SellerResearch/SellerDatabase';
@@ -32,7 +32,7 @@ interface Props {
 }
 
 const SellerDatabase = (props: Props) => {
-  const { showFilterMessage, fetchSellerDatabase } = props;
+  const { fetchSellerDatabase } = props;
   // const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const [showFilterInitMessage, setShowFilterInitMessage] = React.useState<boolean>(false);
   React.useEffect(() => {
@@ -57,18 +57,20 @@ const SellerDatabase = (props: Props) => {
       <SellerDatabaseFilters setShowFilterInitMessage={setShowFilterInitMessage} />
 
       {showFilterInitMessage ? (
-        <DefaultDisplay />
+        <div className={styles.defaultDisplaySection}>
+          <DefaultDisplay />
+        </div>
       ) : (
-        <>
-          <FilterMessage
+        <div className={styles.tableSection}>
+          {/* <FilterMessage
             active={showFilterMessage.show}
             message={showFilterMessage.message}
             type={showFilterMessage.type}
             className={styles.filterMessage}
-          />
+          /> */}
           <DatabaseExport />
           <SellerDatabaseTable />
-        </>
+        </div>
       )}
       {/* {isModalOpen && <SellgoGreetingVideoSection setIsModalOpen={setIsModalOpen} />} */}
     </main>

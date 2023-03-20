@@ -266,10 +266,10 @@ const DemoForm: React.FC<Props> = (props: Props) => {
       {showDemoForm && (
         <div className={styles.demoPage}>
           <form className={styles.demoPageForm} onSubmit={handleSubmit}>
-            <h2>See how Sellgo can work for you</h2>
+            <h2>Ready to own your market?</h2>
             <p>
-              Leave a few details below and we&apos;ll connect you with an {currentCompanyName}{' '}
-              expert who can show you how Sellgo can help your business.
+              Sellgo is the most powerful e-comm leads intelligence solution on earth to help you
+              find, engage and close B2B deals with ease.
             </p>
             <div className={styles.inputControlWrapper}>
               <FormInput
@@ -364,7 +364,7 @@ const DemoForm: React.FC<Props> = (props: Props) => {
                 errorMessage="Please enter company name"
               />
 
-              <FormInput
+              {/* <FormInput
                 className={`
 								${styles.formInput}
 								${styles.formInput__long}
@@ -380,9 +380,9 @@ const DemoForm: React.FC<Props> = (props: Props) => {
                 required
                 hasError={totalOrdersErr}
                 errorMessage="Please enter total employee"
-              />
+              /> */}
             </div>
-            <FormInput
+            {/* <FormInput
               className={styles.selectCheckbox}
               type="checkbox"
               name="isExistingCustomer"
@@ -392,7 +392,7 @@ const DemoForm: React.FC<Props> = (props: Props) => {
               label="Please tick here if you are an existing customer."
               value={isExistingCustomer ? 'on' : 'off'}
               labelLast
-            />
+            /> */}
             <button
               className={`ctabutton ctabutton--primary ctabutton--medium ${styles.submitButton}`}
               type="submit"
@@ -408,7 +408,7 @@ const DemoForm: React.FC<Props> = (props: Props) => {
               Submit
             </button>
             <p className={styles.terms}>
-              By subscribing, you agree to receive recurring automated marketing text messages (e.g.
+              {/* By subscribing, you agree to receive recurring automated marketing text messages (e.g.
               cart reminders, promotional offers) from {currentCompanyName} at the phone number
               provided on the subscription form. Consent is not a condition to purchase. Msg & data
               rates may apply. Msg frequency varies. Reply HELP for help and STOP to cancel. View
@@ -416,7 +416,7 @@ const DemoForm: React.FC<Props> = (props: Props) => {
               <a href="/privacy-policy">Privacy Policy</a>
               and
               <a href="/terms-of-use">Terms of Use.</a>
-              By clicking submit, you agree to our Terms of Service.
+              By clicking submit, you agree to our Terms of Service. */}
             </p>
           </form>
           <div className={styles.existingBrands}>

@@ -39,3 +39,12 @@ export interface MarketplaceOption {
   key: string;
   currency?: string;
 }
+
+export type SD_FILTER_ICON =
+  | 'list'
+  | 'map marker alternate'
+  | 'users'
+  | 'building'
+  | 'boxes'
+  | 'tag'
+  | '';

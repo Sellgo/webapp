@@ -15,7 +15,7 @@
     margin-top: 6rem;
     min-height: 100vh;
     width: 100%;
-    padding: 0 25px 0 35px;
+    padding: 0 7px 0 18px;
     overflow: auto !important;
 
     @media only screen and (max-width: 1450px) {
@@ -33,13 +33,19 @@
 
   &.ui.segment.new-admin-layout {
     background-color: $light_gray_background;
-    margin-top: 6rem;
+    margin-top: 3rem;
     min-height: 100vh !important;
     overflow-y: auto;
 
     &__hide-nav {
       margin-top: 0;
       padding: 0;
+    }
+  }
+
+  &__hide-overflow {
+    &.ui.segment {
+      overflow: hidden !important;
     }
   }
 }

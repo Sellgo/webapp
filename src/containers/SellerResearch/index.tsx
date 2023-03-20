@@ -101,8 +101,8 @@ const SellerResearch = (props: Props) => {
       <PageHeader
         title={`Seller Research`}
         breadcrumb={[
-          { content: 'Homes', to: '/' },
-          { content: 'Seller Research', to: '/database' },
+          { content: 'Home', to: '/' },
+          { content: 'Seller Research', to: '' },
           {
             content: SELLER_RESEARCH_PRODUCT_DETAILS[selectedTabList].name,
             to: SELLER_RESEARCH_PAGES[selectedTabList],

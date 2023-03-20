@@ -1,21 +1,27 @@
 .moreDetailsSection {
-  width: 310;
-  margin: 60px auto;
+  width: 320;
+  padding-left: 50px;
   text-align: left;
+  margin-top: 50px;
+  margin-right: 9px;
+  position: relative;
+  background: #fff;
+  border-radius: 7px;
+  min-height: 540px;
+  border: 1px solid #c0c0c0;
 
   p {
-    font-size: 20px;
-    font-weight: 800;
-  }
-
-  button {
-    margin: 20px auto;
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 1.8em;
   }
 }
 
 .pricingPlansCardBody {
   margin: 0 auto;
-  padding-left: 80px;
+  padding-left: 0;
   text-align: left;
-  width: 310px;
+  width: 320px;
+  margin-top: 3em;
+  margin-bottom: 3em;
 }

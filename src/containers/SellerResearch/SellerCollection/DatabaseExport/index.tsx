@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
+import { get } from 'lodash';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -39,6 +40,7 @@ import { AppConfig } from '../../../../config';
 
 /* Utils */
 import { success } from '../../../../utils/notifications';
+import { subscriptionDetailsMapping } from '../../../../constants/Subscription/Sellgo';
 
 interface Props {
   sellerDatabaseResults: any;
@@ -49,6 +51,7 @@ interface Props {
   sellerDatabasePaginationInfo: SellerDatabasePaginationInfo;
   sellerMarketplace: MarketplaceOption;
   sellerDatabaseQuotaExceeded: boolean;
+  sellerSubscription: any;
 }
 
 const DatabaseExport = (props: Props) => {
@@ -60,6 +63,7 @@ const DatabaseExport = (props: Props) => {
     sellerDatabasePaginationInfo,
     sellerDatabaseFilterMessage,
     sellerMarketplace,
+    sellerSubscription,
   } = props;
 
   const handleOnExport = (type: 'company' | 'employee') => {
@@ -73,6 +77,11 @@ const DatabaseExport = (props: Props) => {
       exportEmployees: type === 'employee',
     });
   };
+
+  const isElite = useMemo(
+    () => !!(subscriptionDetailsMapping.team === sellerSubscription.subscription_id),
+    [sellerSubscription.subscription_id]
+  );
 
   const handlePushToZapier = async () => {
     const sellerID = sellerIDSelector();
@@ -107,9 +116,10 @@ const DatabaseExport = (props: Props) => {
         <button
           className={styles.zapierButton}
           onClick={() => handlePushToZapier()}
-          disabled={!shouldEnableExport}
+          disabled={!shouldEnableExport || !isElite}
         >
-          <Icon name="cloud upload" size="small" /> &nbsp; Push to Zapier
+          <Icon name={isElite ? 'cloud upload' : 'lock'} size="small" /> &nbsp;{' '}
+          <span className={!isElite ? styles.disabledText : ''}>Push to Zapier</span>
         </button>
         <TableExport
           loading={isLoadingSellerDatabaseExport}
@@ -146,6 +156,7 @@ const DatabaseExport = (props: Props) => {
 };
 
 const mapStateToProps = (state: any) => ({
+  sellerSubscription: get(state, 'subscription.sellerSubscription'),
   sellerDatabaseResults: getSellerDatabaseResults(state),
   isLoadingSellerDatabase: getIsLoadingSellerDatabase(state),
   isLoadingSellerDatabaseExport: getIsLoadingSellerDatabaseExport(state),
