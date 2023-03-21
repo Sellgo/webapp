@@ -203,12 +203,21 @@ const AdminHeader = (props: Props) => {
             </Dropdown.Item>
             <Dropdown.Item
               as={Link}
-              to="/settings/integration"
+              to="/settings/integration/zapier"
               className="dropdownItem"
               disabled={isBeta || isAiStock}
             >
               <img src={KeyIcon} alt="key-icon" />
-              Integration
+              Zapier Integration
+            </Dropdown.Item>
+            <Dropdown.Item
+              as={Link}
+              to="/settings/integration/hubspot"
+              className="dropdownItem"
+              disabled={isBeta || isAiStock}
+            >
+              <img src={KeyIcon} alt="key-icon" />
+              Hubspot Integration
             </Dropdown.Item>
             <Dropdown.Item
               as={Link}
