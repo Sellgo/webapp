@@ -92,6 +92,10 @@
     .selectionFilter {
       background-color: $grey_1 !important;
     }
+
+    &_disabled {
+      background-color: #636d76 !important;
+    }
   }
 }
 

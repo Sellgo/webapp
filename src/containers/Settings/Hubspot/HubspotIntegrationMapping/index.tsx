@@ -20,6 +20,7 @@ import { sellerIDSelector } from '../../../../selectors/Seller';
 /* Utils */
 import history from '../../../../history';
 import { AppConfig } from '../../../../config';
+import { HubspotPropertyType } from '../../../../interfaces/Hubspot';
 
 interface Props {
   match: any;
@@ -31,6 +32,7 @@ const HubSpotIntegrationMapping = (props: Props) => {
   const [isAuthenticationChecking, setIsAuthenticationChecking] = useState<boolean>(true);
 
   const [hubspotProperties, setHubspotProperties] = useState<any[]>([]);
+  const [hubspotPropertiesType, setHubspotPropertiesType] = useState({});
 
   const getHubspotAuth = async () => {
     setIsAuthenticationChecking(true);
@@ -64,14 +66,18 @@ const HubSpotIntegrationMapping = (props: Props) => {
       );
       if (res.status === 200) {
         const { data } = res;
-        const properties = data.map((hubspotProperty: any) => {
-          return {
+        const properties: any[] = [];
+        const propertyType: { [key: string]: string } = {};
+        data.forEach((hubspotProperty: HubspotPropertyType) => {
+          properties.push({
             text: hubspotProperty.label,
             key: hubspotProperty.name,
             value: hubspotProperty.name,
-          };
+          });
+          propertyType[hubspotProperty.name] = hubspotProperty.type;
         });
         setHubspotProperties([...properties]);
+        setHubspotPropertiesType({ ...propertyType });
       }
     } catch (e) {
       console.log(e);
@@ -112,6 +118,7 @@ const HubSpotIntegrationMapping = (props: Props) => {
                   <HubSpotIntegrationMappingStructure
                     mappingType={step === 0 ? 'companies' : 'contacts'}
                     hubspotProperties={hubspotProperties}
+                    hubspotPropertiesType={hubspotPropertiesType}
                     step={step}
                     setStep={setStep}
                   />

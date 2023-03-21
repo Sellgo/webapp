@@ -52,6 +52,7 @@ const SettingsNav = (props: Props) => {
             const isLeadTime = page.name === 'Global: Lead Time';
             const isEnablesForEliteOnly = page.isOnlyForElite;
             let showLock = false;
+            const isBeta = page.isBeta;
             if (
               isEnablesForEliteOnly &&
               page.showInSellgo &&
@@ -77,7 +78,8 @@ const SettingsNav = (props: Props) => {
                         : styles.settingPageOption
                     }
                   >
-                    {page.name} {showLock && <Icon name="lock" />}
+                    {page.name} {showLock && <Icon name="lock" />}{' '}
+                    {isBeta && <p className={styles.beta}>Beta</p>}
                   </div>
                 </Link>
                 <div className={styles.settingsSubPagesMenu}>
