@@ -1,0 +1,84 @@
+@import '../../../../../design-system/new-colors';
+
+.settingWrapper {
+  width: 100%;
+  padding-bottom: 200px;
+}
+
+.settingsPageWrapper {
+  display: flex;
+}
+
+.settingsTableWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  > p {
+    font-size: 16px;
+    font-weight: $fontweight_bold;
+    color: $prim_dark_2;
+    margin: 30px 0;
+  }
+}
+
+.hubspotCore {
+  width: 100%;
+  height: 760px !important;
+  display: flex;
+  background: $prim_white;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px;
+
+  .applyButton {
+    align-self: flex-end;
+    padding: 0 15px !important;
+  }
+
+  &__label {
+    font-size: $fontsize_subtitle_24;
+    font-weight: $fontweight_bold;
+    color: $black_1;
+    text-align: center;
+    margin-bottom: 100px;
+  }
+
+  &__description {
+    padding: 0 100px;
+    color: $black_0;
+    font-size: $fontsize_content_14;
+    font-weight: $fontweight_medium;
+    text-align: center;
+  }
+
+  .syncRules {
+    &__wrapper {
+      display: flex;
+      border: 1px solid $grey_3;
+      border-radius: 7px;
+      padding: 20px;
+      margin-top: 30px;
+
+      &_active {
+        background-color: $grey_10;
+        box-shadow: 0 3px 6px $grey_12;
+      }
+    }
+
+    &__descriptionBox {
+      display: flex;
+      flex-direction: column;
+      margin-left: 30px;
+
+      &_details {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+.formSearchAndReset {
+  display: flex;
+  justify-content: flex-end;
+}

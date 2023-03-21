@@ -13,11 +13,11 @@ const APIConnectivity = (props: Props) => {
   return (
     <>
       <PageHeader
-        title={'API Keys'}
+        title={'Zapier API Keys'}
         breadcrumb={[
           { content: 'Home', to: '/' },
           { content: 'Settings' },
-          { content: 'API Keys' },
+          { content: 'Zapier API Keys' },
         ]}
         auth={match.params.auth}
       />

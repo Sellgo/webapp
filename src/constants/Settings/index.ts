@@ -190,13 +190,20 @@ export const SETTINGS_PAGES = [
     subPages: [],
   },
   {
-    name: 'Integration',
+    name: 'Zapier Integration',
     disabled: false,
-    url: '/settings/integration',
+    url: '/settings/integration/zapier',
     showInSellgo: true,
     showInAistock: false,
     subPages: [],
-    isOnlyForElite: true,
+  },
+  {
+    name: 'HubSpot Integration',
+    disabled: false,
+    url: '/settings/integration/hubspot',
+    showInSellgo: true,
+    showInAistock: false,
+    subPages: [],
   },
   {
     name: 'Amazon SP-API Connectivity',

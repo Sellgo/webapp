@@ -14,9 +14,9 @@ export const makeOrGetUniqueTabID = () => {
 };
 
 export const isSellgoSession = () => {
-  if (process.env.REACT_APP_ENV === 'production' || process.env.REACT_APP_ENV === 'development') {
-    return window.location.href.includes('sellgo');
-  }
+  // if (process.env.REACT_APP_ENV === 'production' || process.env.REACT_APP_ENV === 'development') {
+  //   return window.location.href.includes('sellgo');
+  // }
 
   // Only affects LOCAL TESTING; true = SELLGO, false = AISTOCK
   return false;
