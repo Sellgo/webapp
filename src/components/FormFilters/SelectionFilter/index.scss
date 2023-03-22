@@ -12,6 +12,15 @@
     margin-top: 7px;
   }
 
+  .selectionFilter_ellipsis {
+    .text {
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
   .ui.dropdown.selectionFilter {
     margin: 0;
     color: $grey_8 !important;

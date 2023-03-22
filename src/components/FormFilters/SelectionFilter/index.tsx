@@ -34,6 +34,7 @@ interface Props {
   loading?: boolean;
   userOnboardingResources: any;
   error?: boolean;
+  textStyleEllipsis?: boolean;
 }
 
 const SelectionFilter: React.FC<Props> = props => {
@@ -48,6 +49,7 @@ const SelectionFilter: React.FC<Props> = props => {
     userOnboardingResources,
     className,
     error,
+    textStyleEllipsis,
   } = props;
 
   const [isFocused, setFocused] = React.useState<boolean>(false);
@@ -56,6 +58,7 @@ const SelectionFilter: React.FC<Props> = props => {
   const enableFilterOnboarding = Object.keys(filterOnboarding).length > 0;
 
   const { tooltipText } = filterOnboarding[label || ''] || FALLBACK_ONBOARDING_DETAILS;
+  const ellipseStyleClassName = textStyleEllipsis ? 'selectionFilter_ellipsis' : '';
 
   useEffect(() => {
     const allSelectionDropdown = document.querySelectorAll('.selectionFilterWrapper');
@@ -88,7 +91,11 @@ const SelectionFilter: React.FC<Props> = props => {
       <Dropdown
         fluid
         search
-        className={isFocused ? 'selectionFilter selectionFilter__focused' : ' selectionFilter'}
+        className={
+          isFocused
+            ? `selectionFilter selectionFilter__focused ${ellipseStyleClassName}`
+            : ` selectionFilter ${ellipseStyleClassName}`
+        }
         options={filterOptions}
         placeholder={placeholder}
         scrolling
