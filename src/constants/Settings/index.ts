@@ -196,6 +196,7 @@ export const SETTINGS_PAGES = [
     showInSellgo: true,
     showInAistock: false,
     subPages: [],
+    isBeta: true,
   },
   {
     name: 'HubSpot Integration',
@@ -204,6 +205,7 @@ export const SETTINGS_PAGES = [
     showInSellgo: true,
     showInAistock: false,
     subPages: [],
+    isBeta: true,
   },
   {
     name: 'Amazon SP-API Connectivity',
