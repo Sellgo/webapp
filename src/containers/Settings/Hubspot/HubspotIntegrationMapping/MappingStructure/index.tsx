@@ -22,6 +22,9 @@ import { error, success } from '../../../../../utils/notifications';
 import history from '../../../../../history';
 import { AppConfig } from '../../../../../config';
 
+/* Constants */
+import { NON_EDITABLE_FIELDS, canSubmitHubspotMappings } from '../../../../../constants/Hubspot';
+
 type IOption = {
   key: string;
   value: string;
@@ -33,14 +36,18 @@ interface Props {
   hubspotProperties: IOption[];
   step: number;
   setStep: (a: number) => void;
+  hubspotPropertiesType: any;
 }
 
 const HubSpotIntegrationMappingStructure = (props: Props) => {
-  const { mappingType, hubspotProperties, step, setStep } = props;
+  const { mappingType, hubspotProperties, step, setStep, hubspotPropertiesType } = props;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [hubspotFilterOptions, sethubspotFilterOptions] = useState<IOption[]>([]);
-  const [properties, setProperties] = useState([{ id: 0, sellgo_prop: '', hubspot_prop: '' }]);
+  const [properties, setProperties] = useState([
+    { id: 0, sellgo_prop: '', hubspot_prop: '', sellgo_prop_type: '' },
+  ]);
+  const [errorIndex, setErrorIndex] = useState<number[]>([-1]);
   const getHubspotMapping = async () => {
     setIsLoading(true);
     try {
@@ -84,14 +91,36 @@ const HubSpotIntegrationMappingStructure = (props: Props) => {
     const tempHubSpotFilters = hubspotFilterOptions.filter(
       hubspotFilterOption => hubspotFilterOption.value !== value
     );
+
     const tempProperties = properties;
+    const isError =
+      value &&
+      hubspotPropertiesType[value] &&
+      hubspotPropertiesType[value] !== tempProperties[index].sellgo_prop_type;
+
     tempProperties[index].hubspot_prop = value;
     sethubspotFilterOptions([...tempHubSpotFilters]);
     setProperties([...tempProperties]);
+    if (isError) {
+      setErrorIndex([...errorIndex, index]);
+    } else {
+      const errIndex = errorIndex.indexOf(index);
+      if (errIndex > -1) {
+        const tempErrIndexes = errorIndex;
+        tempErrIndexes.splice(errIndex, 1);
+        setErrorIndex([...tempErrIndexes]);
+      }
+    }
   };
 
   const submitHubspotProperties = async () => {
     setIsSubmitting(true);
+    const errMsg = canSubmitHubspotMappings(properties, hubspotPropertiesType);
+    if (errMsg) {
+      error(errMsg);
+      setIsSubmitting(false);
+      return;
+    }
     try {
       const sellerId = sellerIDSelector();
       const res = await axios.post(
@@ -137,9 +166,13 @@ const HubSpotIntegrationMappingStructure = (props: Props) => {
               </div>
               <div className={styles.sellgoProperties__box}>
                 {properties.map(property => (
-                  <p key={property.sellgo_prop} className={styles.sellgoProperties__name}>
-                    {property.sellgo_prop}
-                  </p>
+                  <div
+                    key={property.sellgo_prop}
+                    className={styles.sellgoProperties__propertyWrapper}
+                  >
+                    <p className={styles.sellgoProperties__name}>{property.sellgo_prop}</p>
+                    <p className={styles.sellgoProperties__dataType}>{property.sellgo_prop_type}</p>
+                  </div>
                 ))}
               </div>
             </div>
@@ -151,6 +184,8 @@ const HubSpotIntegrationMappingStructure = (props: Props) => {
               </div>
               <div className={styles.hubspotProperties__box}>
                 {properties.map((property, index) => {
+                  const { sellgo_prop, hubspot_prop } = property;
+                  const isDisabled = step === 1 && NON_EDITABLE_FIELDS.indexOf(sellgo_prop) >= 0;
                   const filteringOptions = [
                     { key: '', value: '', text: '-' },
                     ...hubspotFilterOptions,
@@ -159,20 +194,29 @@ const HubSpotIntegrationMappingStructure = (props: Props) => {
                     hubspotProperty => hubspotProperty.value === property.hubspot_prop
                   );
                   if (currentFilter) {
-                    filteringOptions.push(currentFilter);
+                    filteringOptions.unshift(currentFilter);
                   }
                   return (
-                    <SelectionFilter
-                      label=""
-                      placeholder="-"
-                      key={index}
-                      filterOptions={filteringOptions}
-                      value={property.hubspot_prop}
-                      handleChange={(value: string) => {
-                        updateHubspotPropertyValue(index, value);
-                      }}
-                      className={styles.hubspotProperties__name}
-                    />
+                    <div key={index} className={styles.hubspotProperties__propertyWrapper}>
+                      <SelectionFilter
+                        label=""
+                        placeholder="-"
+                        key={index}
+                        filterOptions={filteringOptions}
+                        value={hubspot_prop}
+                        handleChange={(value: string) => {
+                          updateHubspotPropertyValue(index, value);
+                        }}
+                        className={`${styles.hubspotProperties__name} ${isDisabled &&
+                          styles.hubspotProperties__name_disabled}`}
+                        disabled={isDisabled}
+                        textStyleEllipsis={true}
+                        error={errorIndex.indexOf(index) >= 0}
+                      />
+                      <p className={styles.hubspotProperties__dataType}>
+                        {hubspot_prop ? hubspotPropertiesType[hubspot_prop] : '-'}
+                      </p>
+                    </div>
                   );
                 })}
               </div>
