@@ -1,0 +1,13 @@
+@import '../../design-system/new-colors.scss';
+
+.link {
+  color: $blue_link_bg_light;
+  text-decoration: underline;
+  text-transform: capitalize;
+}
+
+.linkBlock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
