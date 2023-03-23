@@ -1,0 +1,19 @@
+.pieChart {
+  cursor: pointer;
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  z-index: 0;
+
+  &__disabled {
+    cursor: arrow;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}
+
+.graphBlock {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 50px;
+}
