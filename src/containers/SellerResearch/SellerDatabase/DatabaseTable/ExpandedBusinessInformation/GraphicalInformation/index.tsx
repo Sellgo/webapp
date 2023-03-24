@@ -65,7 +65,7 @@ const GraphicalInformation = (props: Props) => {
       buildPieChart(`pie-graph-brands-${rowData.merchant_id}`, [
         {
           name: 'Top Brands',
-          y: parseFloat('16.5'),
+          y: parseFloat(`16.5`),
         },
         {
           name: '',
@@ -108,7 +108,7 @@ const GraphicalInformation = (props: Props) => {
           />
         </div>
       </div>
-      {/* <div className={styles.graphBlock}>
+      <div className={styles.graphBlock}>
         <div>
           <div>
             <p>Brand ownership</p>
@@ -127,7 +127,7 @@ const GraphicalInformation = (props: Props) => {
             className={`${styles.pieChart} ${styles.pieChart__fba}`}
           />
         </div>
-      </div> */}
+      </div>
     </section>
   );
 };

@@ -14,23 +14,6 @@
     width: 30%;
     margin-right: 25px;
   }
-
-  .employeeInformation {
-    width: 35%;
-    margin-right: 100px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .graphicalInformation {
-    width: 35%;
-    display: flex;
-    flex-direction: column;
-    margin-right: 35px;
-    border: 1px solid $grey_3;
-    border-radius: 20px;
-    box-shadow: 0 3px 6px $grey_12;
-  }
 }
 
 .informationHeading {
@@ -72,5 +55,34 @@
     &_text {
       margin-top: 0;
     }
+  }
+}
+
+.specificDetails {
+  width: 70%;
+
+  .employeeInformation {
+    width: 50%;
+    margin-right: 100px;
+    display: flex;
+    flex-direction: column;
+    float: right;
+  }
+
+  .graphicalInformation {
+    display: flex;
+    flex-direction: column;
+    margin-right: 35px;
+    border: 1px solid $grey_3;
+    border-radius: 20px;
+    box-shadow: 0 3px 6px $grey_12;
+  }
+}
+.tabs {
+  display: flex;
+
+  p {
+    margin: 0;
+    margin-left: 10px;
   }
 }
