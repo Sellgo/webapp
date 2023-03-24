@@ -62,27 +62,36 @@ const GraphicalInformation = (props: Props) => {
   useEffect(() => {
     const chartMountBrands = document.getElementById(`pie-graph-brands-${rowData.merchant_id}`);
     if (chartMountBrands) {
+      const topBrandPercentage =
+        rowData.whls_total_brand > 0
+          ? ((rowData.whls_top_brand ?? 0) / rowData.whls_total_brand) * 100
+          : 0;
       buildPieChart(`pie-graph-brands-${rowData.merchant_id}`, [
         {
           name: 'Top Brands',
-          y: parseFloat(`16.5`),
+          y: parseFloat(`${topBrandPercentage}`),
         },
         {
-          name: '',
-          y: parseFloat('52.2'),
+          name: 'Total Brands',
+          y: parseFloat(`${100 - topBrandPercentage}`),
         },
       ]);
     }
     const chartMountProducts = document.getElementById(`pie-graph-products-${rowData.merchant_id}`);
     if (chartMountProducts) {
+      const topProductsPercentage =
+        rowData.whls_total_product > 0
+          ? ((rowData.whls_top_product ?? 0) / rowData.whls_total_product) * 100
+          : 0;
+
       buildPieChart(`pie-graph-products-${rowData.merchant_id}`, [
         {
           name: 'Top Products',
-          y: parseFloat('16.5'),
+          y: parseFloat(`${topProductsPercentage}`),
         },
         {
-          name: '',
-          y: parseFloat('52.2'),
+          name: 'Total Products',
+          y: parseFloat(`${100 - topProductsPercentage}`),
         },
       ]);
     }
