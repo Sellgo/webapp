@@ -143,7 +143,7 @@ const GraphicalInformation = (props: Props) => {
         <div className={styles.informationBlock}>
           <div className={styles.informationBlock__details}>
             <p className={styles.informationBlock__details_title}>Primary Category</p>
-            <p className={styles.informationBlock__details_description}>Category</p>
+            <p className={styles.informationBlock__details_description}>{rowData.category}</p>
           </div>
           <div className={styles.informationBlock__details}>
             <p className={styles.informationBlock__details_title}>Sub category</p>
@@ -153,11 +153,15 @@ const GraphicalInformation = (props: Props) => {
         <div className={styles.informationBlock}>
           <div className={styles.informationBlock__details}>
             <p className={styles.informationBlock__details_title}>Single brand?</p>
-            <p className={styles.informationBlock__details_description}>Yes</p>
+            <p className={styles.informationBlock__details_description}>
+              {rowData.whls_total_brand === 1 ? 'Yes' : 'No'}
+            </p>
           </div>
           <div>
             <p className={styles.informationBlock__details_title}>Close brand</p>
-            <p className={styles.informationBlock__details_description}>Brand name</p>
+            <p className={styles.informationBlock__details_description}>
+              {rowData?.brands?.[0] ?? '-'}
+            </p>
           </div>
         </div>
       </div>
