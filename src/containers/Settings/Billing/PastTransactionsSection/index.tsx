@@ -38,7 +38,7 @@ const PastTransactionsSection = (props: Props) => {
     return (
       <section className={styles.billingHistoryWrapper}>
         <BoxHeader>Billing History</BoxHeader>
-        <BoxContainer>
+        <BoxContainer className={styles.pastTransactionHistory}>
           <div className={styles.transactionHistoryTable}>No past transactions found.</div>
         </BoxContainer>
       </section>
@@ -48,7 +48,7 @@ const PastTransactionsSection = (props: Props) => {
     <>
       <section className={styles.billingHistoryWrapper}>
         <BoxHeader>Billing History</BoxHeader>
-        <BoxContainer>
+        <BoxContainer className={styles.pastTransactionHistory}>
           <div className={styles.transactionHistoryTable}>
             <Table
               renderLoading={() => loading && <Placeholder numberRows={0} numberParagraphs={3} />}

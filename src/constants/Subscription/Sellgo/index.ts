@@ -213,6 +213,12 @@ export const subscriptionDetailsMapping: { [key: string]: number } = {
   team: 12,
 };
 
+export const subscriptionDetailsMappingById: { [key: number]: string } = {
+  10: 'starter',
+  11: 'professional',
+  12: 'team',
+};
+
 export const getSubscriptionID = (planName: string) => {
   if (planName === 'elite') {
     planName = 'team';
@@ -247,4 +253,9 @@ export const generateSubscriptionDetails = (planType: string) => {
     return SUBSCRIPTION_DETAILS.starter;
   }
   return planDetails;
+};
+
+export const getSubscriptionDetailsById = (planId: number) => {
+  const planType = subscriptionDetailsMappingById[planId];
+  return generateSubscriptionDetails(planType);
 };

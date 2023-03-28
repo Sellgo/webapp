@@ -1,0 +1,31 @@
+@import '../../../../design-system/new-colors';
+
+.overageWrapper {
+  margin-bottom: 40px;
+}
+
+.overage {
+  margin-bottom: 40px;
+
+  &__text {
+    font-size: $fontsize_content_14;
+    color: $grey_8;
+    font-weight: $fontweight_medium;
+  }
+
+  &__cost {
+    display: inline-block;
+    width: 50px;
+    margin: 0 10px;
+    font-size: $fontsize_content_16;
+    font-weight: $fontweight_semibold;
+  }
+
+  &__number {
+    display: inline-block;
+    width: 100px;
+    margin-right: 5px;
+    font-size: $fontsize_content_16;
+    font-weight: $fontweight_semibold;
+  }
+}

@@ -17,6 +17,8 @@ const PlanTypeRectangle = (props: Props) => {
     { [styles.planTypeButton__professional]: plan === 'Professional Plan' },
     { [styles.planTypeButton__basic]: plan === 'Starter Plan' },
     { [styles.planTypeButton__team]: plan === 'Team Plan' },
+    { [styles.planTypeButton__basic]: plan === 'Personal Plan' },
+    { [styles.planTypeButton__team]: plan === 'Business Plan' },
     { [styles.planTypeButton__wholesale]: plan === 'Wholesale Arbitrage $1 Plan' },
     { [styles.planTypeButton__wholesale]: plan === 'Wholesale Arbitrage $1.99 Plan' },
     { [styles.planTypeButton__seller]: plan === 'Seller Scout Pro Plan' }
@@ -29,7 +31,7 @@ const PlanTypeRectangle = (props: Props) => {
   } else if (plan === 'Wholesale Arbitrage $1.99 Plan') {
     displayPlanText = '$1.99 Plan';
   } else {
-    displayPlanText = plan.substring(0, plan.length - 5);
+    displayPlanText = plan && plan.substring(0, plan.length - 5);
   }
 
   const sizeClassName = isSmall ? styles.planTypeButton__small : '';
