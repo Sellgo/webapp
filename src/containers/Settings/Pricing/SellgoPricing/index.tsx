@@ -225,6 +225,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     key={product.id}
                     id={product.id}
                     name={product.name}
+                    displayName={product.displayName}
                     isNew={product.isNew}
                     monthlyPrice={product.monthlyPrice}
                     annualPrice={product.annualPrice}
