@@ -187,8 +187,8 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     monthlyPrice: 347,
     annualPrice: 2987,
     dailyPrice: -1,
-    monthlyLookups: 700,
-    annualLookups: 8400,
+    monthlyLookups: 500,
+    annualLookups: 6000,
     annualSavingPercentage: 28,
     subDescription: '',
     benefits: [
