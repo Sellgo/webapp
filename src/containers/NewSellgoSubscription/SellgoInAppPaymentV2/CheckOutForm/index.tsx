@@ -295,7 +295,9 @@ function CheckoutForm(props: MyProps) {
               do not store your payment credential information.
             </p>
             <div className={styles.pricing}>
-              <p className={styles.label}>{`${accountType}`}</p>
+              <p className={styles.label}>{`${summaryDetails?.displayName ??
+                summaryDetails?.name ??
+                accountType}`}</p>
               <p className={styles.price}>
                 {isMonthly ? (
                   <>

@@ -14,6 +14,7 @@ import { formatNumber } from '../../../utils/format';
 interface Props {
   id: number;
   name: string;
+  displayName?: string;
   desc: string;
   monthlyPrice: number;
   annualPrice: number;
@@ -39,6 +40,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
   const {
     id,
     name,
+    displayName,
     isMonthly,
     monthlyPrice,
     annualPrice,
@@ -85,7 +87,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
       >
         {isSubscribed && <p className={styles.currentPlan}>This is your current plan</p>}
         <div className={styles.pricingCardHead__Left}>
-          <h2>{name}</h2>
+          <h2>{displayName ?? name}</h2>
           <p>{desc}</p>
         </div>
       </div>
