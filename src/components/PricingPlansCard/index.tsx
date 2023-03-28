@@ -13,6 +13,7 @@ interface Props {
   // product details
   id: number;
   name: string;
+  displayName?: string;
   monthlyPrice: number;
   annualPrice: number;
   desc: string;
@@ -39,6 +40,7 @@ const PricingPlansCard: React.FC<Props> = props => {
   const {
     id,
     name,
+    displayName,
     isNew,
     monthlyPrice,
     annualPrice,
@@ -68,6 +70,7 @@ const PricingPlansCard: React.FC<Props> = props => {
         <GenericPlanCardHead
           id={id}
           name={name}
+          displayName={displayName}
           desc={desc}
           monthlyPrice={monthlyPrice}
           annualPrice={annualPrice}

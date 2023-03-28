@@ -22,6 +22,7 @@ export interface SummaryDetails {
   monthlyLookups?: number;
   annualLookups?: number;
   annualSavingPercentage?: number;
+  displayName?: string;
 }
 
 export interface SubscriptionPlan {

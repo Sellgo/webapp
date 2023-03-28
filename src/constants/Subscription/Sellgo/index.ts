@@ -8,7 +8,8 @@ export const FREE_ACCOUNT_SUBSCRIPTION_ID = 5;
 export const MONTHLY_AND_ANNUAL_PLANS = [
   {
     id: 10, // subscriptionID if needed
-    name: 'Personal',
+    name: 'Starter',
+    displayName: 'Personal',
     productsDatabase: 0,
     salesEstimateCount: 1000,
     monthlyPrice: 77,
@@ -54,7 +55,8 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
   // },
   {
     id: 12,
-    name: 'Business',
+    name: 'Elite',
+    displayName: 'Business',
     productsDatabase: 0,
     salesEstimateCount: 3000,
     monthlyPrice: 347,
@@ -83,7 +85,7 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
 export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
     subscriptionId: 10, // subscriptionID if needed
-    name: 'Personal',
+    name: 'Starter',
     dailyPrice: 0,
     monthlyPrice: 77,
     annualPrice: 467,
@@ -99,7 +101,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   },
   {
     subscriptionId: 12, // subscriptionID if needed
-    name: 'Business',
+    name: 'Elite',
     dailyPrice: 0,
     monthlyPrice: 347,
     annualPrice: 2987,
@@ -146,7 +148,8 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
 /* Used in Summary page */
 export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   starter: {
-    name: 'Personal',
+    name: 'Starter',
+    displayName: 'Personal',
     id: 10,
     idWithLegacyPlans: [10, 6],
     monthlyPrice: 77,
@@ -160,6 +163,7 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   },
   professional: {
     name: 'Professional',
+    displayName: '',
     id: 11,
     idWithLegacyPlans: [11, 2],
     monthlyPrice: 147,
@@ -176,7 +180,8 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     ],
   },
   team: {
-    name: 'Business',
+    name: 'Elite',
+    displayName: 'Business',
     id: 12,
     idWithLegacyPlans: [12, 1],
     monthlyPrice: 347,
@@ -197,27 +202,27 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
 export const PAYMENT_MODES = ['daily', 'monthly', 'yearly'];
 
 export const SUBSCRIPTION_DETAILS_LIST: SummaryDetails[] = [
-  SUBSCRIPTION_DETAILS.personal,
+  SUBSCRIPTION_DETAILS.starter,
   SUBSCRIPTION_DETAILS.professional,
-  SUBSCRIPTION_DETAILS.business,
+  SUBSCRIPTION_DETAILS.team,
 ];
 
 export const subscriptionDetailsMapping: { [key: string]: number } = {
-  personal: 10,
+  starter: 10,
   professional: 11,
-  business: 12,
+  team: 12,
 };
 
 export const getSubscriptionID = (planName: string) => {
-  if (planName === 'Business') {
+  if (planName === 'elite') {
     planName = 'team';
   }
-  const DEFAULT_PROFESSIONAL_PLAN_ID = 11;
+  const DEFAULT_PLAN_ID = 10;
   const id = subscriptionDetailsMapping[planName];
   if (id) {
     return id;
   } else {
-    return DEFAULT_PROFESSIONAL_PLAN_ID;
+    return DEFAULT_PLAN_ID;
   }
 };
 
@@ -229,7 +234,7 @@ export const getSubscriptionNameKey = (id: number) => {
 };
 
 export const generateSubscriptionDetails = (planType: string) => {
-  if (planType === 'Business') {
+  if (planType === 'elite') {
     planType = 'team';
   }
   if (!planType) {
