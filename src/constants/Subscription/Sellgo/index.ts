@@ -259,3 +259,18 @@ export const getSubscriptionDetailsById = (planId: number) => {
   const planType = subscriptionDetailsMappingById[planId];
   return generateSubscriptionDetails(planType);
 };
+
+export const isSubscriptionUpgrading = (
+  currentSubscription: SummaryDetails,
+  isCurrentSubscriptionBilledMonthly: boolean,
+  selectedSubscription: SummaryDetails,
+  isSelectedSubscriptionBilledMonthly: boolean
+) => {
+  const currentPrice = isCurrentSubscriptionBilledMonthly
+    ? currentSubscription.monthlyPrice
+    : currentSubscription.annualPrice;
+  const comparisonPrice = isSelectedSubscriptionBilledMonthly
+    ? selectedSubscription.monthlyPrice
+    : selectedSubscription.annualPrice;
+  return comparisonPrice > currentPrice;
+};
