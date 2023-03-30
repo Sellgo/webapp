@@ -2,16 +2,16 @@ import React from 'react';
 import { Confirm } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
-import Axios from 'axios';
+// import Axios from 'axios';
 import _ from 'lodash';
 
 /* Utils */
-import { success, error } from '../../../../utils/notifications';
+import { success } from '../../../../utils/notifications';
 import history from '../../../../history';
 import { convertPlanNameToKey, isSubscriptionNotPaid } from '../../../../utils/subscriptions';
 
 /* Config */
-import { AppConfig } from '../../../../config';
+// import { AppConfig } from '../../../../config';
 
 /* Actions */
 import {
@@ -100,31 +100,29 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     if (isSubscriptionNotPaid(subscriptionType)) {
       this.checkout(subscription, paymentMode);
     } else {
-      this.setState({
-        pendingSubscription: true,
-        pendingSubscriptionId: subscription.id,
-        pendingSubscriptionName: subscription.name,
-        pendingSubscriptionMode: paymentMode,
-      });
+      this.changeSubscription(subscription, paymentMode);
     }
   }
 
   // Change plan that user is subscribed to
-  changeSubscription(subscriptionId: any, paymentMode: string) {
-    const { profile, fetchSellerSubscription } = this.props;
-    const bodyFormData = new FormData();
-    bodyFormData.append('subscription_id', subscriptionId);
-    bodyFormData.append('payment_mode', paymentMode);
+  changeSubscription(subscription: any, paymentMode: string) {
+    localStorage.setItem('planType', convertPlanNameToKey(subscription.name));
+    localStorage.setItem('paymentMode', paymentMode);
+    history.push(`/subscription/update`);
+    // const { profile, fetchSellerSubscription } = this.props;
+    // const bodyFormData = new FormData();
+    // bodyFormData.append('subscription_id', subscriptionId);
+    // bodyFormData.append('payment_mode', paymentMode);
 
-    Axios.post(AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/update`, bodyFormData)
-      .then(() => {
-        // Re-fetch subscription to update UI
-        fetchSellerSubscription();
-        success(`You have changed your subscription`);
-      })
-      .catch(() => {
-        error(`There was an error changing subscription`);
-      });
+    // Axios.post(AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/update`, bodyFormData)
+    //   .then(() => {
+    //     // Re-fetch subscription to update UI
+    //     fetchSellerSubscription();
+    //     success(`You have changed your subscription`);
+    //   })
+    //   .catch(() => {
+    //     error(`There was an error changing subscription`);
+    //   });
   }
 
   checkout(subscription: Subscription, paymentMode: string) {

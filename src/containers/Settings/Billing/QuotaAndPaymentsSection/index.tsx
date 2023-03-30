@@ -39,6 +39,7 @@ import { capitalizeFirstLetter, formatDecimal } from '../../../../utils/format';
 import { sellerIDSelector } from '../../../../selectors/Seller';
 import { error, success } from '../../../../utils/notifications';
 import { isSellgoSession } from '../../../../utils/session';
+import { getSubscriptionDetailsById } from '../../../../constants/Subscription/Sellgo';
 
 const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
 interface Props {
@@ -84,7 +85,14 @@ const QuotaAndPaymentsSection = (props: Props) => {
   );
 
   const isSubscriptionExpiring = sellerSubscription && sellerSubscription.status === 'pending';
-
+  const subscriptionFeDetails =
+    sellerSubscription && getSubscriptionDetailsById(sellerSubscription?.subscription_id);
+  let subscriptionFePlanName: SubscriptionPlanType = null;
+  if (subscriptionFeDetails?.name === 'Starter') {
+    subscriptionFePlanName = 'Personal Plan';
+  } else if (subscriptionFeDetails?.name === 'Elite') {
+    subscriptionFePlanName = 'Business Plan';
+  }
   /* Calculation of quotas */
   const salesEstAvailable = quotas.sales_estimation.available || 1;
   const sellerResearchAvailable = quotas?.seller_detail?.available || 1;
@@ -196,7 +204,9 @@ const QuotaAndPaymentsSection = (props: Props) => {
               {DimmerContent}
               {isSellgoSession() ? (
                 <div className={styles.planDetailsRow}>
-                  <PlanTypeRectangle plan={subscriptionPlan} />
+                  <PlanTypeRectangle
+                    plan={subscriptionFePlanName ? subscriptionFePlanName : subscriptionPlan}
+                  />
                   <span>
                     &nbsp; - You have used {formatDecimal(totalUsedQuotaPercent)}% of the available
                     quota.
@@ -277,7 +287,6 @@ const QuotaAndPaymentsSection = (props: Props) => {
               </div>
             </div>
           </span>
-
           {/* Only show payments section if user has a credit card added. */}
           {hasPaymentMethod && (
             <span className={styles.paymentsSection}>
