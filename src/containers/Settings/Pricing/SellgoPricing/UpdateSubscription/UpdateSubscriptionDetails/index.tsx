@@ -48,10 +48,9 @@ import {
   isSubscriptionUpgrading,
 } from '../../../../../../constants/Subscription/Sellgo';
 import { sellerIDSelector } from '../../../../../../selectors/Seller';
-import { error, success } from '../../../../../../utils/notifications';
+import { error } from '../../../../../../utils/notifications';
 import { AppConfig } from '../../../../../../config';
 import SubscriptionDetailsComparisonTable from './SubsriptionComparisonTable';
-import history from '../../../../../../history';
 
 /* Data */
 
@@ -94,6 +93,7 @@ interface MyProps {
   fetchTOS: any;
   prorateValue: number;
   fetchSellerSubscription: () => void;
+  setSuccessPayment: (a: boolean) => void;
 }
 
 function UpdateSubscriptionDetails(props: MyProps) {
@@ -112,6 +112,7 @@ function UpdateSubscriptionDetails(props: MyProps) {
     promoCodeObj,
     prorateValue,
     fetchSellerSubscription,
+    setSuccessPayment,
   } = props;
   const [isPromoCodeChecked, setPromoCodeChecked] = useState<boolean>(false);
   // const [promoCode, setPromoCode] = useState<string>('');
@@ -166,7 +167,6 @@ function UpdateSubscriptionDetails(props: MyProps) {
       </Modal>
     );
   };
-  console.log('163', accountType);
   const summaryDetails: SummaryDetails = generateSubscriptionDetails(
     accountType?.toLowerCase() ?? ''
   );
@@ -179,7 +179,6 @@ function UpdateSubscriptionDetails(props: MyProps) {
     summaryDetails,
     isMonthly
   );
-  console.log('177 => ', isSubsciptionUpgrade);
   /* Upon successful checking of the entered promo code, either a valid redeemedPromoCode code
   is returned, or an error message is returned. Upon completion of promo code check, set status
   to checked and display success/error msg. */
@@ -237,12 +236,11 @@ function UpdateSubscriptionDetails(props: MyProps) {
       bodyFormData
     )
       .then(() => {
-        success(`You have changed your subscription`);
+        setSuccessPayment(true);
         fetchSellerSubscription();
-        history.push('/settings/pricing');
       })
       .catch(() => {
-        error(`There was an error changing subscription`);
+        error(`Failed to change subscription`);
       });
   };
 
