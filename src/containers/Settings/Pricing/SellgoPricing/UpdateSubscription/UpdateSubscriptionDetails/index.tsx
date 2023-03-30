@@ -7,7 +7,7 @@ import {
   // CardCvcElement,
   useStripe,
 } from '@stripe/react-stripe-js';
-import { Form, Header, Modal, TextArea, Loader } from 'semantic-ui-react';
+import { Form, Header, Modal, TextArea, Loader, Icon } from 'semantic-ui-react';
 import 'rc-slider/assets/index.css';
 import Axios from 'axios';
 
@@ -260,10 +260,13 @@ function UpdateSubscriptionDetails(props: MyProps) {
         <div className={styles.paymentInfoForm}>
           <div className={styles.header}>
             <h2 className={styles.heading}>Sellgo secure payment page</h2>
-            <p className={styles.description}>
-              We guarantee that the payment process is secured and confidential through Stripe. We
-              do not store your payment credential information.
-            </p>
+            <div className={styles.descriptionBlock}>
+              <Icon name="lock" color="grey" />
+              <p className={styles.description}>
+                We guarantee that the payment process is secured and confidential through Stripe. We
+                do not store your payment credential information.
+              </p>
+            </div>
             <div className={styles.pricing}>
               <p className={styles.label}>{`${summaryDetails?.displayName ??
                 summaryDetails?.name ??
@@ -312,7 +315,7 @@ function UpdateSubscriptionDetails(props: MyProps) {
                 )}
               </div>
 
-              <div className={styles.paymentModeToggle}>
+              {/* <div className={styles.paymentModeToggle}>
                 <div className={styles.paymentToggleTextWrapper}>
                   <p className={styles.paymentToggleText}>
                     {isMonthly ? (
@@ -334,7 +337,7 @@ function UpdateSubscriptionDetails(props: MyProps) {
                     )}
                   </p>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <div className={styles.totalItemsWrapper}>
@@ -425,7 +428,7 @@ function UpdateSubscriptionDetails(props: MyProps) {
                     </strong>
                     subscription will begin today and will renew on
                     <strong>
-                      {prettyPrintDate(new Date(sellerSubscription?.next_billing_cycle_date))}
+                      {prettyPrintDate(new Date(sellerSubscription?.next_billing_cycle_date))}.
                     </strong>
                   </p>
                 ) : (
@@ -437,7 +440,7 @@ function UpdateSubscriptionDetails(props: MyProps) {
                     </strong>
                     subscription will begin on{' '}
                     <strong>
-                      {prettyPrintDate(new Date(sellerSubscription?.next_billing_cycle_date))}
+                      {prettyPrintDate(new Date(sellerSubscription?.next_billing_cycle_date))}.
                     </strong>
                   </p>
                 )}
@@ -445,8 +448,8 @@ function UpdateSubscriptionDetails(props: MyProps) {
                   Once your payment is successful you will have access to{' '}
                   <strong>
                     {isMonthly
-                      ? `${formatNumber(summaryDetails?.monthlyLookups)} lookups per month`
-                      : `${formatNumber(summaryDetails?.annualLookups)} lookups per year`}
+                      ? `${formatNumber(summaryDetails?.monthlyLookups)} lookups per month.`
+                      : `${formatNumber(summaryDetails?.annualLookups)} lookups per year.`}
                   </strong>
                 </p>
               </div>
