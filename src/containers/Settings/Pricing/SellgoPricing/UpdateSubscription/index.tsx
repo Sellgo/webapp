@@ -25,13 +25,13 @@ import LeftArrow from '../../../../../assets/images/leftArrowLong.svg';
 
 /* Config */
 import { AppConfig } from '../../../../../config';
+import SuccessContent from './SuccessContent/SuccessContent';
 
 const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
 
 interface PaymentProps {
   location: any;
   subscriptionType: string;
-  successPayment: any;
   stripeErrorMessage: any;
   auth: Auth;
   sellerSubscription: any;
@@ -39,8 +39,8 @@ interface PaymentProps {
 }
 
 const Payment = (props: PaymentProps) => {
-  const { successPayment, stripeErrorMessage, sellerSubscription, fetchSellerSubscription } = props;
-
+  const { stripeErrorMessage, sellerSubscription, fetchSellerSubscription } = props;
+  const [successPayment, setSuccessPayment] = useState<boolean>(false);
   const accountType = localStorage.getItem('planType') || '';
   const paymentMode = localStorage.getItem('paymentMode') || '';
   const sellerID = localStorage.getItem('userId');
@@ -87,15 +87,17 @@ const Payment = (props: PaymentProps) => {
             Back to previous page
           </button>
         )}
-        {sellerSubscription && prorateValue && (
+        {!successPayment && sellerSubscription && prorateValue && (
           <Elements stripe={stripePromise}>
             <UpdateSubscriptionDetails
               accountType={accountType}
               paymentMode={paymentMode}
               prorateValue={prorateValue}
+              setSuccessPayment={setSuccessPayment}
             />
           </Elements>
         )}
+        {successPayment && <SuccessContent />}
       </section>
     </main>
   );
@@ -103,7 +105,6 @@ const Payment = (props: PaymentProps) => {
 
 const mapStateToProps = (state: {}) => ({
   subscriptionType: _.get(state, 'subscription.subscriptionType'),
-  successPayment: _.get(state, 'subscription.successPayment'),
   stripeErrorMessage: _.get(state, 'subscription.stripeErrorMessage'),
   sellerSubscription: _.get(state, 'subscription.sellerSubscription'),
 });
