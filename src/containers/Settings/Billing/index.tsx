@@ -12,6 +12,8 @@ import styles from './index.module.scss';
 import PageHeader from '../../../components/PageHeader';
 import PastTransactionsSection from './PastTransactionsSection';
 import SettingsNav from '../SettingsNav';
+import BoxContainerSettings from '../../../components/BoxContainerSettings';
+import ElevioArticle from '../../../components/ElevioArticle';
 
 /* Types */
 import { AppConfig } from '../../../config';
@@ -36,6 +38,8 @@ import GetStarted from '../../PerfectStock/GetStarted';
 
 /* Utils */
 import { isSellgoSession } from '../../../utils/session';
+import BillingMeta from './BillingMeta';
+import Overage from './Overage';
 
 interface Props {
   fetchSellerSubscription: () => void;
@@ -163,29 +167,43 @@ const Billing = (props: Props) => {
 
       <main className={styles.billingPageWrapper}>
         <SettingsNav match={match} />
-        <div className={styles.billingPage}>
-          <QuotaAndPaymentsSection
-            sellerSubscription={sellerSubscription}
-            subscriptionPlan={subscriptionPlan}
-            subscriptionDetails={subscriptionStripeInfo}
-            quotas={quotas}
-            card={creditCardInfo}
-            isQuotaLoading={isQuotaLoading}
-            isSubscriptionStripeLoading={isSubscriptionStripeLoading}
-            isCreditCardLoading={isCreditCardLoading}
-            fetchCreditCardInfo={fetchCreditCardInfo}
-            hasActivePlan={hasActivePlan}
-            hasPaymentMethod={hasPaymentMethod}
-            getSellerInfo={getSellerInfo}
-            fetchSellerSubscription={fetchSellerSubscription}
-          />
+        <div className={styles.settingPerimeter}>
+          <BillingMeta />
+          <div className={styles.settingsPageWrapper}>
+            <div className={styles.settingsTableWrapper}>
+              <div className={styles.billingPage}>
+                <QuotaAndPaymentsSection
+                  sellerSubscription={sellerSubscription}
+                  subscriptionPlan={subscriptionPlan}
+                  subscriptionDetails={subscriptionStripeInfo}
+                  quotas={quotas}
+                  card={creditCardInfo}
+                  isQuotaLoading={isQuotaLoading}
+                  isSubscriptionStripeLoading={isSubscriptionStripeLoading}
+                  isCreditCardLoading={isCreditCardLoading}
+                  fetchCreditCardInfo={fetchCreditCardInfo}
+                  hasActivePlan={hasActivePlan}
+                  hasPaymentMethod={hasPaymentMethod}
+                  getSellerInfo={getSellerInfo}
+                  fetchSellerSubscription={fetchSellerSubscription}
+                />
 
-          <PastTransactionsSection
-            transactionHistory={transactionHistory}
-            loading={isTransactionHistoryLoading}
-            fetchTransactionHistoryAll={fetchTransactionHistoryAll}
-          />
+                <Overage />
+
+                <PastTransactionsSection
+                  transactionHistory={transactionHistory}
+                  loading={isTransactionHistoryLoading}
+                  fetchTransactionHistoryAll={fetchTransactionHistoryAll}
+                />
+              </div>
+            </div>
+          </div>
         </div>
+
+        <BoxContainerSettings className={styles.elevioArticle}>
+          <span>Step-By-Step Guide</span>
+          <ElevioArticle articleId={'27'} />
+        </BoxContainerSettings>
         {!isSellgoSession() && <GetStarted />}
       </main>
     </>

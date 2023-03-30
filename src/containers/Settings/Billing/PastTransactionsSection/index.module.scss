@@ -1,9 +1,5 @@
 @import '../../../../design-system/new-colors.scss';
 
-.billingHistoryWrapper {
-  width: 1000px;
-}
-
 .transactionHistoryTable {
   position: relative;
   padding-bottom: 90px;
@@ -20,4 +16,8 @@
   font-size: 14px;
   font-weight: 500;
   color: $grey_8;
+}
+
+.pastTransactionHistory {
+  min-height: 250px !important;
 }

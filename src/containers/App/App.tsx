@@ -84,6 +84,7 @@ import SellgoInAppPaymentV2 from '../NewSellgoSubscription/SellgoInAppPaymentV2'
 import HubSpotIntegration from '../Settings/Hubspot/HubSpotIntegration';
 import HubSpotIntegrationRedirect from '../Settings/Hubspot/HubSpotIntegrationRedirect';
 import HubSpotIntegrationMapping from '../Settings/Hubspot/HubspotIntegrationMapping';
+import UpdateSubscription from '../Settings/Pricing/SellgoPricing/UpdateSubscription';
 
 export const auth = new Auth();
 
@@ -429,6 +430,7 @@ function App() {
             path="/subscription/payment"
             render={renderProps => <SubscriptionPages.Payment auth={auth} {...renderProps} />}
           />
+          <Route exact={true} path="/subscription/update" component={UpdateSubscription} />
           <PrivateRoute
             exact={true}
             path="/home"

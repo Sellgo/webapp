@@ -10,6 +10,48 @@
   padding-bottom: 200px;
 }
 
-.billingPage {
-  margin-top: 50px;
+.elevioArticle {
+  margin-top: 105px;
+  margin-left: 11px;
+  font-size: 12px;
+  font-weight: $fontweight_medium;
+  border-radius: 7px;
+  color: $grey_8;
+  text-transform: uppercase;
+  height: 700px;
+  overflow-y: auto;
+  min-width: 0 !important;
+  max-width: 400px !important;
+
+  > span {
+    margin-bottom: 100px;
+  }
+}
+
+.settingWrapper {
+  width: 100%;
+  display: flex;
+}
+
+.settingPerimeter {
+  width: 100%;
+  max-width: 1920px;
+  padding-bottom: 200px;
+}
+
+.settingsPageWrapper {
+  display: flex;
+}
+
+.settingsTableWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  > p {
+    font-size: 16px;
+    font-weight: $fontweight_bold;
+    color: $prim_dark_2;
+    margin: 30px 0;
+  }
 }
