@@ -1,0 +1,128 @@
+@import '../../../design-system/new-colors';
+
+@mixin no-scroll-bar() {
+  &::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+  }
+}
+
+.summaryDetails {
+  padding: 30px 50px;
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: 0 3px 6px #00000029;
+  display: flex;
+}
+
+.informationHeading {
+  font-size: 12px;
+  color: $grey_8;
+  margin-bottom: 11px;
+  font-weight: 600;
+}
+
+.socialPresence {
+  width: 33%;
+
+  &__linksRow {
+    margin: 30px 0;
+
+    &__links {
+      margin-right: 30px;
+    }
+  }
+}
+
+.companyInformation {
+  &_details {
+    height: 355px;
+    overflow-y: auto;
+
+    @include no-scroll-bar();
+  }
+
+  &_detailsBox {
+    display: flex;
+    margin-bottom: 11px;
+
+    &_icon {
+      width: 15px;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    &_heading {
+      width: 140px;
+      color: $black_1;
+      margin-left: 0;
+      margin-right: 0;
+      margin-top: 0;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: break-spaces;
+    }
+
+    &_text {
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 0;
+      margin-left: 0;
+      width: 200px;
+      white-space: normal;
+      overflow: hidden;
+    }
+  }
+}
+
+.blueText {
+  color: $link_blue;
+}
+
+.companyinformation_details::-webkit-scrollbar {
+  display: none;
+}
+
+.verifiedIconBox {
+  display: flex;
+  align-items: center;
+  width: 300px;
+
+  svg {
+    margin-right: 5px;
+  }
+
+  .companyInformation_detailsBox_text {
+    width: 265px;
+  }
+}
+
+.companyEmailsBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.businessIdentity {
+  display: flex;
+  align-items: center;
+
+  &__name {
+    color: $link_blue;
+    padding-left: 11px;
+    font-size: 20px;
+    font-weight: 700;
+  }
+}
+
+.businessAddress {
+  display: flex;
+  margin-top: 30px;
+
+  &__text {
+    font-size: 14px;
+    margin-top: 0;
+    margin-left: 0;
+    white-space: normal;
+    overflow: hidden;
+  }
+}

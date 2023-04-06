@@ -85,6 +85,7 @@ import HubSpotIntegration from '../Settings/Hubspot/HubSpotIntegration';
 import HubSpotIntegrationRedirect from '../Settings/Hubspot/HubSpotIntegrationRedirect';
 import HubSpotIntegrationMapping from '../Settings/Hubspot/HubspotIntegrationMapping';
 import UpdateSubscription from '../Settings/Pricing/SellgoPricing/UpdateSubscription';
+import SellerDetails from '../SellerDetails';
 
 export const auth = new Auth();
 
@@ -430,7 +431,11 @@ function App() {
             path="/subscription/payment"
             render={renderProps => <SubscriptionPages.Payment auth={auth} {...renderProps} />}
           />
-          <Route exact={true} path="/subscription/update" component={UpdateSubscription} />
+          <Route
+            exact={true}
+            path="/subscription/update"
+            render={renderProps => <UpdateSubscription auth={auth} {...renderProps} />}
+          />
           <PrivateRoute
             exact={true}
             path="/home"
@@ -607,6 +612,13 @@ function App() {
             exact={true}
             path="/activate-beta-account"
             component={BetaUsersActivationForm}
+            requireSubscription={false}
+          />
+
+          <PrivateRoute
+            exact={true}
+            path="/seller-details"
+            component={SellerDetails}
             requireSubscription={false}
           />
 

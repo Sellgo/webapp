@@ -1,0 +1,180 @@
+@import '../../../../design-system/new-colors';
+
+.employeeInformationDetailPopup {
+  display: flex;
+  justify-content: space-between;
+  padding: 50px;
+  flex-direction: column;
+
+  @media (max-width: 1600px) {
+    max-width: 1200px;
+  }
+
+  &__personalInformation {
+    width: 45%;
+
+    &__bio {
+      display: flex;
+      margin-bottom: 30px;
+      align-items: center;
+
+      img {
+        margin-right: 12px;
+      }
+
+      &__name {
+        color: $link_blue;
+        padding-left: 11px;
+        font-size: 20px;
+        font-weight: 700;
+      }
+    }
+
+    &__details {
+      height: 200px;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        display: none !important;
+      }
+    }
+
+    &__detailsBox {
+      display: flex;
+      margin-bottom: 15px;
+      align-items: baseline;
+
+      &_icon {
+        width: 15px;
+        font-weight: 600;
+        text-align: left;
+      }
+
+      &_heading {
+        width: 74px;
+        color: $black_1;
+        font-size: 14px;
+        margin-right: 20px;
+        margin-top: 0;
+        font-weight: 600;
+        white-space: break-spaces;
+      }
+
+      &_text {
+        margin-top: 0;
+        font-size: 14px;
+        width: 600px;
+        color: $black_1;
+        white-space: break-spaces;
+      }
+    }
+  }
+
+  &__contactInformation {
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+    margin-right: 100px;
+
+    @media (max-width: 1600px) {
+      margin-right: 50px;
+    }
+
+    &_emails {
+      &__verified {
+        display: flex;
+        margin: 0;
+        margin-bottom: 20px;
+
+        svg {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    &_details {
+      margin: 0;
+      margin-bottom: 15px;
+    }
+  }
+
+  &__contactPhoneInformation {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+
+    @media (max-width: 1600px) {
+      width: 400px;
+    }
+
+    &_phones {
+      &__verified {
+        display: flex;
+        margin: 0;
+        margin-bottom: 20px;
+
+        svg {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    &_details {
+      margin: 0;
+      margin-bottom: 15px;
+    }
+  }
+}
+
+.socialPresence {
+  &__linksRow {
+    margin-bottom: 20px;
+
+    &__links {
+      margin-right: 30px;
+    }
+  }
+}
+
+.informationHeading {
+  font-size: 14px;
+  color: $grey_8;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.buttonsRow {
+  position: absolute;
+  bottom: 30px;
+  right: 60px;
+
+  &__text {
+    text-align: center;
+  }
+}
+
+.linkBlueText {
+  color: $link_blue;
+}
+
+.upgradeAccess {
+  font-size: $fontsize_content_12;
+  color: $grey_8;
+
+  &_link {
+    color: $accent_blue;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.contactInfo {
+  display: flex;
+  max-height: 300px;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
+}
