@@ -218,7 +218,7 @@ const EmployeesInformation = (props: Props) => {
               </Card>
             )}
           </div>
-          <div>
+          <div className={styles.contactDetailsInformation}>
             {activeEmployeeIndex >= 0 && (
               <ContactDetailInformation
                 employeeData={employeesData[activeEmployeeIndex]}

@@ -617,7 +617,7 @@ function App() {
 
           <PrivateRoute
             exact={true}
-            path="/seller-details"
+            path="/seller-details/:seller_id"
             component={SellerDetails}
             requireSubscription={false}
           />

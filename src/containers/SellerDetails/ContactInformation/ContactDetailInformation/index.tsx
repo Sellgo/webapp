@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { Icon, Image } from 'semantic-ui-react';
@@ -35,6 +35,7 @@ import { SOCIAL_LINK_COLORS } from '../../../../constants/SellerResearch/SellerD
 
 // Interfaces
 import { SellerSubscription } from '../../../../interfaces/Seller';
+import { FREE_EMAILS } from '../../../../constants/FreeEmails';
 
 interface Props {
   employeeData?: any;
@@ -56,6 +57,8 @@ const ContactDetailInformation = (props: Props) => {
     sellerSubscription,
   } = props;
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [professionalEmails, setProfessionalEmails] = useState<any[]>([]);
+  const [personalEmails, setPersonalEmails] = useState<any[]>([]);
   const isPhoneVisible = !(
     isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) ||
     isSubscriptionIdStarter(sellerSubscription.subscription_id)
@@ -106,6 +109,47 @@ const ContactDetailInformation = (props: Props) => {
     const win = window.open('/settings/pricing', '_blank');
     win?.focus();
   };
+
+  const setProfessionalAndPersonalEmails = () => {
+    const tempProfessionalEmails: any[] = [];
+    const tempPersonalEmails: any[] = [];
+    if (employeeData?.is_looked_up) {
+      employeeData?.emails?.forEach((emailData: any) => {
+        if (emailData.type.includes('professional')) {
+          tempProfessionalEmails.push(emailData);
+        } else if (emailData.type.includes('personal')) {
+          tempPersonalEmails.push(emailData);
+        }
+      });
+    } else if (!employeeData?.is_looked_up) {
+      console.log('GET NFOR', employeeData);
+      employeeData?.teaser?.emails?.forEach((email: any) => {
+        if (FREE_EMAILS.indexOf(email) >= 0) {
+          tempPersonalEmails.push({
+            email,
+            status: '',
+            last_verified: '',
+          });
+        } else {
+          tempProfessionalEmails.push({
+            email,
+            status: '',
+            last_verified: '',
+          });
+        }
+      });
+    }
+    setProfessionalEmails([...tempProfessionalEmails]);
+    setPersonalEmails([...tempPersonalEmails]);
+  };
+
+  console.log('Professional => ', professionalEmails);
+  console.log('Personal => ', personalEmails);
+
+  useEffect(() => {
+    setProfessionalAndPersonalEmails();
+  }, [employeeData]);
+
   return (
     <>
       <div className={styles.employeeInformationDetailPopup}>
@@ -136,7 +180,7 @@ const ContactDetailInformation = (props: Props) => {
         </div>
         <div className={styles.contactInfo}>
           {/* Email Information */}
-          <div className={styles.employeeInformationDetailPopup__contactInformation}>
+          {/* <div className={styles.employeeInformationDetailPopup__contactInformation}>
             <div className={styles.employeeInformationDetailPopup__contactInformation_emails}>
               <p className={styles.informationHeading}>Emails</p>
               {!employeeData?.is_looked_up &&
@@ -194,7 +238,74 @@ const ContactDetailInformation = (props: Props) => {
                   );
                 })}
             </div>
+          </div> */}
+
+          {/* Professional Emails */}
+          <div className={styles.emailWrapper}>
+            <div className={styles.emailWrapper__metaData}>
+              <p>Professional Emails {`(${professionalEmails.length ?? 0})`}</p>
+              <p>Last Verified</p>
+            </div>
+            <div className={styles.emailWrapper__emailBoxes}>
+              <div className={styles.emailWrapper__emailBoxes__container}>
+                {employeeData?.is_looked_up &&
+                  professionalEmails &&
+                  professionalEmails.length > 0 &&
+                  professionalEmails.map((emailData: any) => {
+                    const { email, status, last_verified } = emailData;
+                    return (
+                      <div
+                        key={`${email}-${status}`}
+                        className={`${styles.emailWrapper__contactInformation_emails__verified} 
+                    ${styles.emailWrapper__contactInformation_details}`}
+                      >
+                        <div className={styles.emailWrapper__contactInformation__emailIconBox}>
+                          {emailVerificationIcons[status]}
+                          <p className={styles.linkBlueText}>{email}</p>
+                        </div>
+                        <p className={styles.emailWrapper__contactInformation_details}>
+                          {getNumberOfDaysTillToday(last_verified)} days ago
+                        </p>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
           </div>
+
+          {/* Personal Emails */}
+          <div className={styles.emailWrapper}>
+            <div className={styles.emailWrapper__metaData}>
+              <p>Personal Emails {`(${personalEmails.length ?? 0})`}</p>
+              <p>Last Verified</p>
+            </div>
+            <div className={styles.emailWrapper__emailBoxes}>
+              <div className={styles.emailWrapper__emailBoxes__container}>
+                {employeeData?.is_looked_up &&
+                  personalEmails &&
+                  personalEmails.length > 0 &&
+                  personalEmails.map((emailData: any) => {
+                    const { email, status, last_verified } = emailData;
+                    return (
+                      <div
+                        key={`${email}-${status}`}
+                        className={`${styles.emailWrapper__contactInformation_emails__verified} 
+                    ${styles.emailWrapper__contactInformation_details}`}
+                      >
+                        <div className={styles.emailWrapper__contactInformation__emailIconBox}>
+                          {emailVerificationIcons[status]}
+                          <p className={styles.linkBlueText}>{email}</p>
+                        </div>
+                        <p className={styles.emailWrapper__contactInformation_details}>
+                          {getNumberOfDaysTillToday(last_verified)} days ago
+                        </p>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          </div>
+
           {/* Phone Information */}
           <div className={styles.employeeInformationDetailPopup__contactPhoneInformation}>
             <div className={styles.employeeInformationDetailPopup__contactInformation_phones}>

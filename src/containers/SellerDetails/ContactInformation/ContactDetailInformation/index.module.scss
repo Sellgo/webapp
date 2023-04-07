@@ -1,5 +1,12 @@
 @import '../../../../design-system/new-colors';
 
+@mixin no-scroll-bar() {
+  &::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+  }
+}
+
 .employeeInformationDetailPopup {
   display: flex;
   justify-content: space-between;
@@ -70,34 +77,6 @@
     }
   }
 
-  &__contactInformation {
-    display: flex;
-    justify-content: space-between;
-    width: 400px;
-    margin-right: 100px;
-
-    @media (max-width: 1600px) {
-      margin-right: 50px;
-    }
-
-    &_emails {
-      &__verified {
-        display: flex;
-        margin: 0;
-        margin-bottom: 20px;
-
-        svg {
-          margin-right: 10px;
-        }
-      }
-    }
-
-    &_details {
-      margin: 0;
-      margin-bottom: 15px;
-    }
-  }
-
   &__contactPhoneInformation {
     display: flex;
     justify-content: space-between;
@@ -137,9 +116,10 @@
 }
 
 .informationHeading {
-  font-size: 14px;
-  color: $grey_8;
+  margin-top: 30px;
   margin-bottom: 20px;
+  color: $grey_8;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -155,6 +135,8 @@
 
 .linkBlueText {
   color: $link_blue;
+  width: 170px !important;
+  overflow: hidden;
 }
 
 .upgradeAccess {
@@ -171,10 +153,74 @@
 
 .contactInfo {
   display: flex;
-  max-height: 300px;
-  overflow: auto;
 
   &::-webkit-scrollbar {
     display: none !important;
+  }
+}
+
+.emailWrapper {
+  width: 340px;
+  margin-right: 30px;
+
+  &__metaData {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__emailBoxes {
+    width: 340px;
+    border: 1px solid #ced4d9;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 3px 6px #00000029;
+
+    &__container {
+      max-height: 225px;
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      @include no-scroll-bar();
+    }
+  }
+
+  &__contactInformation {
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+    margin-right: 100px;
+
+    @media (max-width: 1600px) {
+      margin-right: 50px;
+    }
+
+    &_emails {
+      &__verified {
+        display: flex;
+        justify-content: space-between;
+        margin: 0;
+        margin-bottom: 20px;
+
+        svg {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    &_details {
+      margin: 0;
+      margin-bottom: 15px;
+    }
+
+    &__emailIconBox {
+      display: flex;
+      align-items: center;
+    }
   }
 }

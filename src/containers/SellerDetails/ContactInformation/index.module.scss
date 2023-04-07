@@ -25,15 +25,15 @@
 }
 
 .employeeInformationDetails {
-  display: flex;
-  flex-direction: column;
-  align-content: flex-start;
+  // display: flex;
+  // flex-direction: column;
+  // align-content: flex-start;
   padding: 30px;
   height: 470px;
   overflow-y: auto;
 
   &__card {
-    width: 580px !important;
+    width: 500px !important;
     height: fit-content !important;
     margin: 0 !important;
     margin-right: 3px !important;
@@ -87,7 +87,7 @@
     &__meta {
       font-size: 12px;
       font-weight: 600;
-      width: 380px;
+      width: 300px;
       overflow: hidden;
       white-space: nowrap;
       display: flex;
@@ -122,4 +122,8 @@
 .modalWrapper {
   width: fit-content !important;
   height: 600px !important;
+}
+
+.contactDetailsInformation {
+  position: relative;
 }
