@@ -13,7 +13,7 @@ import ValidCheckIcon from '../../../../components/Icons/ValidCheckIcon';
 import InValidCrossIcon from '../../../../components/Icons/InValidIcon';
 
 // Actions
-import { setCompanyInfo } from '../../../../actions/SellerResearch/SellerDatabase';
+// import { setCompanyInfo } from '../../../../actions/SellerResearch/SellerDatabase';
 import { getSellerQuota } from '../../../../actions/Settings';
 
 // Selectors
@@ -39,23 +39,23 @@ import { SellerSubscription } from '../../../../interfaces/Seller';
 import { FREE_EMAILS } from '../../../../constants/FreeEmails';
 
 interface Props {
+  rowData?: any;
   employeeData?: any;
   activeEmployeeIndex: number;
-  merchantId: string;
   setEmployeeData: (a: any) => void;
-  setCompanyInfo: (a: any, b: string) => void;
+  setCurrentData: (a: any) => void;
   getSellerQuota: any;
   sellerSubscription: SellerSubscription;
 }
 const ContactDetailInformation = (props: Props) => {
   const {
+    rowData,
     employeeData,
     setEmployeeData,
     activeEmployeeIndex,
-    merchantId,
-    setCompanyInfo,
     getSellerQuota,
     sellerSubscription,
+    setCurrentData,
   } = props;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [professionalEmails, setProfessionalEmails] = useState<any[]>([]);
@@ -90,7 +90,10 @@ const ContactDetailInformation = (props: Props) => {
             ...data.company_info,
             is_looked_up: true,
           };
-          setCompanyInfo(payload, merchantId);
+          setCurrentData({
+            ...rowData,
+            company_info: payload,
+          });
         }
         success('Details unlocked successfully');
       }
@@ -532,8 +535,6 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
-  setCompanyInfo: (companyInfo: any, merhcantId: string) =>
-    dispatch(setCompanyInfo(companyInfo, merhcantId)),
   getSellerQuota: () => dispatch(getSellerQuota()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ContactDetailInformation);

@@ -13,8 +13,6 @@ import { sellerIDSelector } from '../../../selectors/Seller';
 
 // Config
 import { AppConfig } from '../../../config';
-import { setCompanyInfo } from '../../../actions/SellerResearch/SellerDatabase';
-import { connect } from 'react-redux';
 import { error, success } from '../../../utils/notifications';
 import ValidCheckIcon from '../../../components/Icons/ValidCheckIcon';
 import UserMagnifyingIcon from '../../../components/Icons/UserMagnifyingIcon';
@@ -23,10 +21,10 @@ import ContactDetailInformation from './ContactDetailInformation';
 
 interface Props {
   rowData?: any;
-  setCompanyInfo: (a: any, b: string) => void;
+  setCurrentData: (a: any) => void;
 }
 const EmployeesInformation = (props: Props) => {
-  const { rowData, setCompanyInfo } = props;
+  const { rowData, setCurrentData } = props;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRetriveCompanyLoading, setIsRetriveCompanyLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
@@ -78,7 +76,10 @@ const EmployeesInformation = (props: Props) => {
             ...data.company_info,
             is_contact_requested: true,
           };
-          setCompanyInfo(retrivedData, rowData.merchant_id);
+          setCurrentData({
+            ...rowData,
+            company_info: retrivedData,
+          });
         }
         success('Company Details unlocked successfully');
       }
@@ -224,7 +225,8 @@ const EmployeesInformation = (props: Props) => {
                 employeeData={employeesData[activeEmployeeIndex]}
                 activeEmployeeIndex={activeEmployeeIndex}
                 setEmployeeData={setEmployeesData}
-                merchantId={rowData.merchant_id}
+                rowData={rowData}
+                setCurrentData={setCurrentData}
               />
             )}
           </div>
@@ -234,9 +236,4 @@ const EmployeesInformation = (props: Props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch: any) => ({
-  setCompanyInfo: (companyInfo: any, merhcantId: string) =>
-    dispatch(setCompanyInfo(companyInfo, merhcantId)),
-});
-
-export default connect(null, mapDispatchToProps)(EmployeesInformation);
+export default EmployeesInformation;

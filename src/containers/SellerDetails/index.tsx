@@ -182,7 +182,9 @@ const SellerDetails = () => {
             setCurrentTab={setCurrentTab}
             className={styles.tabs}
           />
-          {currentTab === 0 && <ContactInformation rowData={currentSeller} />}
+          {currentTab === 0 && (
+            <ContactInformation rowData={currentSeller} setCurrentData={setCurrentSeller} />
+          )}
         </main>
       )}
     </>
