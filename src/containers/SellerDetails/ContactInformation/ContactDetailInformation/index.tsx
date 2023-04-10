@@ -36,7 +36,7 @@ import { SOCIAL_LINK_COLORS } from '../../../../constants/SellerResearch/SellerD
 
 // Interfaces
 import { SellerSubscription } from '../../../../interfaces/Seller';
-import { FREE_EMAILS } from '../../../../constants/FreeEmails';
+// import { FREE_EMAILS } from '../../../../constants/FreeEmails';
 
 interface Props {
   rowData?: any;
@@ -127,16 +127,16 @@ const ContactDetailInformation = (props: Props) => {
       });
     } else if (!employeeData?.is_looked_up) {
       console.log('GET NFOR', employeeData);
-      employeeData?.teaser?.emails?.forEach((email: any) => {
-        if (FREE_EMAILS.indexOf(email) >= 0) {
-          tempPersonalEmails.push({
-            email,
+      employeeData?.teaser?.emails?.forEach((emailData: any) => {
+        if (emailData.type.includes('professional')) {
+          tempProfessionalEmails.push({
+            email: emailData.email,
             status: '',
             last_verified: 'x x ago',
           });
-        } else {
-          tempProfessionalEmails.push({
-            email,
+        } else if (emailData.type.includes('personal')) {
+          tempPersonalEmails.push({
+            email: emailData.email,
             status: '',
             last_verified: 'x x ago',
           });

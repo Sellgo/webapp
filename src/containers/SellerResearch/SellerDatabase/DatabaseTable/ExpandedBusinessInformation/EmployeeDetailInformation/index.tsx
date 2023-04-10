@@ -219,12 +219,12 @@ const EmployeeDetailInformation = (props: Props) => {
               <p className={styles.informationHeading}>Emails</p>
               {!employeeData?.is_looked_up &&
                 employeeData?.teaser?.emails &&
-                employeeData?.teaser?.emails.map((email: string) => (
+                employeeData?.teaser?.emails.map((emailData: any) => (
                   <p
                     className={`${styles.linkBlueText} 
                   ${styles.employeeInformationDetailPopup__contactInformation_details}`}
                   >
-                    ****@{email}
+                    {emailData.email}
                   </p>
                 ))}
               {employeeData?.is_looked_up &&
