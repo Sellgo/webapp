@@ -36,7 +36,7 @@ const BusinessInformation = (props: Props) => {
     <div className={className}>
       {/* Social presence */}
       <div className={styles.socialPresence}>
-        <p className={styles.informationHeading}>Company Social Presence</p>
+        {/* <p className={styles.informationHeading}>Company Social Presence</p> */}
         <div className={styles.socialPresence__linksRow}>
           {Object.keys(rowData?.company_info?.links ?? {}).map((link: string) => (
             <SocialLinkIcon
@@ -49,7 +49,7 @@ const BusinessInformation = (props: Props) => {
             />
           ))}
           {Object.keys(rowData?.company_info?.links ?? {}).length === 0 && (
-            <p className={styles.socialPresence__linksRow__links}>No Social Links Available</p>
+            <p className={styles.socialPresence__linksRow__links}>-</p>
           )}
         </div>
       </div>
@@ -245,7 +245,7 @@ const BusinessInformation = (props: Props) => {
         size="md"
         onClick={reRouteToSellerDetailsPage}
       >
-        See Details
+        View company
       </ActionButton>
     </div>
   );

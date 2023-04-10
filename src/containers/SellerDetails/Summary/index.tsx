@@ -36,8 +36,8 @@ const BusinessInformation = (props: Props) => {
           <Icon name="map marker alternate" className={styles.companyInformation_detailsBox_icon} />
           <p className={styles.businessAddress__text}>
             <span>{businessAddress}</span>
-            <span>{`${businessCity && `${businessCity}, `}${businessState &&
-              `${businessState},`}${businessZipCode && `${businessZipCode},`}${businessCountry &&
+            <span>{`, ${businessCity && `${businessCity}, `}${businessState &&
+              `${businessState}, `}${businessZipCode && `${businessZipCode}, `}${businessCountry &&
               `${businessCountry}`}`}</span>
           </p>
         </div>
@@ -53,7 +53,7 @@ const BusinessInformation = (props: Props) => {
             />
           ))}
           {Object.keys(rowData?.company_info?.links ?? {}).length === 0 && (
-            <p className={styles.socialPresence__linksRow__links}>No Social Links Available</p>
+            <p className={styles.socialPresence__linksRow__links}>-</p>
           )}
         </div>
       </div>

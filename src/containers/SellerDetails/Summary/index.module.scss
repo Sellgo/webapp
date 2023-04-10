@@ -8,8 +8,8 @@
 }
 
 .summaryDetails {
-  padding: 30px 50px;
-  border-radius: 20px;
+  padding: 18px 30px;
+  border-radius: 7px;
   background-color: #fff;
   box-shadow: 0 3px 6px #00000029;
   display: flex;
@@ -36,7 +36,7 @@
 
 .companyInformation {
   &_details {
-    height: 355px;
+    height: 255px;
     overflow-y: auto;
 
     @include no-scroll-bar();

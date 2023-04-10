@@ -3,10 +3,10 @@
 .ContactInformationBox {
   display: flex;
   flex-direction: column;
-  height: 900px;
-  margin-top: 50px;
+  height: 700px;
+  margin-top: 18px;
   background-color: #fff;
-  border-radius: 20px;
+  border-radius: 7px;
   box-shadow: 0 3px 6px #00000029;
 
   @media (max-width: 1400px) {
@@ -19,7 +19,7 @@
   font-weight: 600;
   color: $grey_8;
   padding-left: 30px;
-  padding-top: 30px;
+  padding-top: 18px;
   margin-bottom: 10px;
   border-bottom: 1px solid #f7f7f7;
 }
@@ -113,13 +113,13 @@
     }
 
     &:hover {
-      background-color: #fff8f3 !important;
+      background-color: #f7f7f7 !important;
       cursor: pointer !important;
       text-decoration: none !important;
     }
 
     &:focus {
-      background-color: #fff8f3 !important;
+      background-color: #f7f7f7 !important;
       cursor: pointer !important;
       text-decoration: none !important;
     }
