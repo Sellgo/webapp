@@ -95,13 +95,17 @@
 
     &__meta {
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 300;
       width: 300px;
       overflow: hidden;
       white-space: nowrap;
       display: flex;
       align-items: center;
       padding-left: 7px;
+
+      &__unlcoked {
+        font-weight: 600;
+      }
 
       @media (max-width: 1600px) {
         width: 200px !important;
@@ -155,9 +159,13 @@
 
     &__meta {
       color: $grey_6 !important;
-      font-weight: 400;
+      font-weight: 300;
       padding-top: 11px;
       padding-bottom: 18px;
+
+      &__unlcoked {
+        font-weight: 600;
+      }
     }
   }
 }

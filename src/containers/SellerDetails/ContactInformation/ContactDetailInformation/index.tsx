@@ -212,6 +212,7 @@ const ContactDetailInformation = (props: Props) => {
                       </div>
                     );
                   })}
+                {(!professionalEmails || !(professionalEmails.length > 0)) && <p>-</p>}
               </div>
             </div>
           </div>
@@ -248,6 +249,8 @@ const ContactDetailInformation = (props: Props) => {
                       </div>
                     );
                   })}
+
+                {(!personalEmails || !(personalEmails.length > 0)) && <p>-</p>}
               </div>
             </div>
           </div>
