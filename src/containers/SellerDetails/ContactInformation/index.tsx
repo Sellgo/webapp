@@ -14,7 +14,6 @@ import { sellerIDSelector } from '../../../selectors/Seller';
 // Config
 import { AppConfig } from '../../../config';
 import { error, success } from '../../../utils/notifications';
-import ValidCheckIcon from '../../../components/Icons/ValidCheckIcon';
 import UserMagnifyingIcon from '../../../components/Icons/UserMagnifyingIcon';
 import UserRequestIcon from '../../../components/Icons/UserRequestIcon';
 import ContactDetailInformation from './ContactDetailInformation';
@@ -200,42 +199,47 @@ const EmployeesInformation = (props: Props) => {
                             </div>
                           </div>
                         </Card.Header>
-                        <Card.Meta className={styles.employeeInformationDetails__card__meta}>
+                        <Card.Meta
+                          className={`${styles.employeeInformationDetails__card__meta} ${
+                            is_looked_up
+                              ? styles.employeeInformationDetails__card__meta__unlcoked
+                              : ''
+                          }`}
+                        >
                           {title}
                         </Card.Meta>
-                        <Card.Meta className={styles.employeeInformationDetails__card__meta}>
+                        <Card.Meta
+                          className={`${styles.employeeInformationDetails__card__meta} ${
+                            is_looked_up
+                              ? styles.employeeInformationDetails__card__meta__unlcoked
+                              : ''
+                          }`}
+                        >
                           <Icon name="map marker alternate" size="small" color="grey" />{' '}
                           <span className={styles.location}>{location}</span>
                         </Card.Meta>
                       </div>
-                      <div className={styles.employeeInformationDetails__card__button}>
-                        <ActionButton
-                          variant="primary"
-                          type={is_looked_up ? 'black' : 'purpleGradient'}
-                          size="small"
-                          loading={activeEmployeeIndex === index && isUnlocking}
-                          onClick={() => {
-                            if (!is_looked_up) {
-                              unlockEmplloyeeDetail(index);
-                              return;
-                            }
-
-                            setActiveEmployeeIndex(index);
-                            setOpen(true);
-                          }}
-                          // className={styles.continueButton}
-                        >
-                          {is_looked_up ? (
-                            <div className={styles.continueButton}>
-                              <ValidCheckIcon fill="#3CF7AF" /> View
-                            </div>
-                          ) : (
+                      {!is_looked_up && (
+                        <div className={styles.employeeInformationDetails__card__button}>
+                          <ActionButton
+                            variant="primary"
+                            type={is_looked_up ? 'black' : 'purpleGradient'}
+                            size="small"
+                            loading={activeEmployeeIndex === index && isUnlocking}
+                            onClick={() => {
+                              if (!is_looked_up) {
+                                unlockEmplloyeeDetail(index);
+                                return;
+                              }
+                            }}
+                            // className={styles.continueButton}
+                          >
                             <div className={styles.continueButton}>
                               <UserMagnifyingIcon fill="#fff" /> Unlock
                             </div>
-                          )}
-                        </ActionButton>
-                      </div>
+                          </ActionButton>
+                        </div>
+                      )}
                     </Card.Content>
                   </Card>
                 );
