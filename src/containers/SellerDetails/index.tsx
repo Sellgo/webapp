@@ -13,6 +13,8 @@ import { sellerIDSelector } from '../../selectors/Seller';
 import { AppConfig } from '../../config';
 import axios from 'axios';
 import { error } from '../../utils/notifications';
+import PageHeader from '../../components/PageHeader';
+import { capitalizeWords } from '../../utils/format';
 
 /* Containers */
 
@@ -33,16 +35,20 @@ import { error } from '../../utils/notifications';
 // import DefaultDisplay from './DefaultDisplay';
 // import SellgoGreetingVideoSection from '../../NewSellgoSubscription/VideoSection';
 
-// interface Props {
-//   fetchSellerDatabase: (payload: SellerDatabasePayload) => void;
-//   showFilterMessage: ShowFilterMessage;
-// }
+interface Props {
+  match: any;
+}
 
-const SellerDetails = () => {
+const SellerDetails = (props: Props) => {
+  const { match } = props;
   //   const { fetchSellerDatabase } = props;
   const location = window.location.pathname;
   const tempLocation = location.split('/');
-  const id = tempLocation[tempLocation.length - 1];
+  const sellerNameWithid = tempLocation[tempLocation.length - 1];
+  const tempId = sellerNameWithid.split('_');
+  const id = tempId[tempId.length - 1];
+  tempId.splice(-2);
+  const brandName = tempId.join(' ');
   console.log('LOCATION ', location);
   const [currentTab, setCurrentTab] = useState<number>(0);
   const [currentSeller, setCurrentSeller] = useState<any>();
@@ -173,6 +179,18 @@ const SellerDetails = () => {
   }, []);
   return (
     <>
+      <PageHeader
+        title={`Seller Details`}
+        breadcrumb={[
+          { content: 'Home', to: '/' },
+          { content: 'Brands', to: '' },
+          {
+            content: capitalizeWords(brandName),
+            to: '',
+          },
+        ]}
+        auth={match.params.auth}
+      />
       {currentSeller && (
         <main className={styles.sellerDetailsPage}>
           <Summary rowData={currentSeller} />

@@ -53,7 +53,8 @@
     }
 
     &_heading {
-      width: 140px;
+      // width: 140px;
+      width: 25px;
       color: $black_1;
       margin-left: 0;
       margin-right: 0;
@@ -61,6 +62,14 @@
       font-size: 12px;
       font-weight: 600;
       white-space: break-spaces;
+
+      &__sic {
+        width: 45px !important;
+      }
+
+      &__naics {
+        width: 45px !important;
+      }
     }
 
     &_text {
@@ -68,7 +77,8 @@
       font-weight: 600;
       margin-top: 0;
       margin-left: 0;
-      width: 200px;
+      // width: 200px;
+      width: 350px;
       white-space: normal;
       overflow: hidden;
     }

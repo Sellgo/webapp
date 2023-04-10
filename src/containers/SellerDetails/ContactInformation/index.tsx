@@ -29,7 +29,7 @@ const EmployeesInformation = (props: Props) => {
   const [isRetriveCompanyLoading, setIsRetriveCompanyLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [employeesData, setEmployeesData] = useState<any>(null);
-  const [activeEmployeeIndex, setActiveEmployeeIndex] = useState<number>(-1);
+  const [activeEmployeeIndex, setActiveEmployeeIndex] = useState<number>(0);
   console.log(open, activeEmployeeIndex);
   const fetchEmployeesInformation = async () => {
     try {
@@ -118,7 +118,11 @@ const EmployeesInformation = (props: Props) => {
                 } = emploeeData;
                 return (
                   <Card
-                    className={styles.employeeInformationDetails__card}
+                    className={`${styles.employeeInformationDetails__card} ${
+                      index === activeEmployeeIndex
+                        ? styles.employeeInformationDetails__card__active
+                        : ''
+                    }`}
                     key={`employeeData-${index}`}
                   >
                     <Card.Content className={styles.employeeInformationDetails__card__content}>
@@ -220,7 +224,7 @@ const EmployeesInformation = (props: Props) => {
             )}
           </div>
           <div className={styles.contactDetailsInformation}>
-            {activeEmployeeIndex >= 0 && (
+            {activeEmployeeIndex >= 0 && employeesData && (
               <ContactDetailInformation
                 employeeData={employeesData[activeEmployeeIndex]}
                 activeEmployeeIndex={activeEmployeeIndex}

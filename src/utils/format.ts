@@ -305,3 +305,11 @@ export const getCountryFullName = (identifier: string) => {
   const country = countriesList.find(singleCountry => singleCountry.country === identifier);
   return country?.name ?? '-';
 };
+
+export const capitalizeWords = (str: string) => {
+  return str
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
