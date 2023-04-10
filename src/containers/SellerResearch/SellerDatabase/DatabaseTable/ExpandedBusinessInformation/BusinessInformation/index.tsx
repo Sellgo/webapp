@@ -12,6 +12,8 @@ import SocialLinkIcon from '../../../../../../components/SocialLinkIcon';
 // Constants
 import { SOCIAL_LINK_COLORS } from '../../../../../../constants/SellerResearch/SellerDatabase';
 import ValidCheckIcon from '../../../../../../components/Icons/ValidCheckIcon';
+import ActionButton from '../../../../../../components/ActionButton';
+import history from '../../../../../../history';
 
 interface Props {
   rowData?: any;
@@ -24,6 +26,12 @@ const BusinessInformation = (props: Props) => {
   const businessZipCode = rowData.zip_code;
   const businessCountry = rowData.country;
   const businessState = rowData.state;
+
+  const reRouteToSellerDetailsPage = () => {
+    history.push(
+      `/seller-details/${rowData?.business_name?.replace(/\s+/g, '_')}_profile_${rowData?.id}`
+    );
+  };
   return (
     <div className={className}>
       {/* Social presence */}
@@ -230,6 +238,15 @@ const BusinessInformation = (props: Props) => {
           </div>
         </div>
       </div>
+
+      <ActionButton
+        variant="primary"
+        type="purpleGradient"
+        size="md"
+        onClick={reRouteToSellerDetailsPage}
+      >
+        See Details
+      </ActionButton>
     </div>
   );
 };
