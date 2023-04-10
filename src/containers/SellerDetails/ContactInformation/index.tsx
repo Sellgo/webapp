@@ -18,14 +18,18 @@ import ValidCheckIcon from '../../../components/Icons/ValidCheckIcon';
 import UserMagnifyingIcon from '../../../components/Icons/UserMagnifyingIcon';
 import UserRequestIcon from '../../../components/Icons/UserRequestIcon';
 import ContactDetailInformation from './ContactDetailInformation';
+import { connect } from 'react-redux';
+import { getSellerQuota } from '../../../actions/Settings';
 
 interface Props {
   rowData?: any;
   setCurrentData: (a: any) => void;
+  getSellerQuota: () => void;
 }
 const EmployeesInformation = (props: Props) => {
-  const { rowData, setCurrentData } = props;
+  const { rowData, setCurrentData, getSellerQuota } = props;
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isUnlocking, setIsUnlocking] = useState<boolean>(false);
   const [isRetriveCompanyLoading, setIsRetriveCompanyLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [employeesData, setEmployeesData] = useState<any>(null);
@@ -95,6 +99,49 @@ const EmployeesInformation = (props: Props) => {
     fetchEmployeesInformation();
   }, []);
 
+  const unlockEmplloyeeDetail = async (index: number) => {
+    setActiveEmployeeIndex(index);
+    setIsUnlocking(true);
+    try {
+      const sellerId = sellerIDSelector();
+      const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/retrieve-employee-detail?id=${employeesData[index].id}`;
+
+      const { data } = await axios.get(URL);
+
+      if (data) {
+        getSellerQuota();
+        setEmployeesData((preValue: any) => {
+          const temp = [...preValue];
+          temp[index] = {
+            ...temp[index],
+            emails: data?.emails,
+            links: data?.links,
+            is_looked_up: true,
+            phones: data?.phones,
+          };
+          return temp;
+        });
+        if (data.company_info) {
+          const payload = {
+            ...data.company_info,
+            is_looked_up: true,
+          };
+          setCurrentData({
+            ...rowData,
+            company_info: payload,
+          });
+        }
+        success('Details unlocked successfully');
+      }
+    } catch (err) {
+      error('Cannot unlock details at the moment');
+      console.error('Error fetching employees', err);
+    }
+    setIsUnlocking(false);
+
+    setOpen(true);
+  };
+
   return (
     <>
       <div className={styles.ContactInformationBox}>
@@ -124,6 +171,10 @@ const EmployeesInformation = (props: Props) => {
                         : ''
                     }`}
                     key={`employeeData-${index}`}
+                    onClick={() => {
+                      setActiveEmployeeIndex(index);
+                      setOpen(true);
+                    }}
                   >
                     <Card.Content className={styles.employeeInformationDetails__card__content}>
                       <div className={styles.employeeInformationDetails__card__description}>
@@ -162,7 +213,13 @@ const EmployeesInformation = (props: Props) => {
                           variant="primary"
                           type={is_looked_up ? 'black' : 'purpleGradient'}
                           size="small"
+                          loading={activeEmployeeIndex === index && isUnlocking}
                           onClick={() => {
+                            if (!is_looked_up) {
+                              unlockEmplloyeeDetail(index);
+                              return;
+                            }
+
                             setActiveEmployeeIndex(index);
                             setOpen(true);
                           }}
@@ -174,7 +231,7 @@ const EmployeesInformation = (props: Props) => {
                             </div>
                           ) : (
                             <div className={styles.continueButton}>
-                              <UserMagnifyingIcon fill="#fff" /> Get info
+                              <UserMagnifyingIcon fill="#fff" /> Unlock
                             </div>
                           )}
                         </ActionButton>
@@ -225,13 +282,7 @@ const EmployeesInformation = (props: Props) => {
           </div>
           <div className={styles.contactDetailsInformation}>
             {activeEmployeeIndex >= 0 && employeesData && (
-              <ContactDetailInformation
-                employeeData={employeesData[activeEmployeeIndex]}
-                activeEmployeeIndex={activeEmployeeIndex}
-                setEmployeeData={setEmployeesData}
-                rowData={rowData}
-                setCurrentData={setCurrentData}
-              />
+              <ContactDetailInformation employeeData={employeesData[activeEmployeeIndex]} />
             )}
           </div>
         </div>
@@ -240,4 +291,8 @@ const EmployeesInformation = (props: Props) => {
   );
 };
 
-export default EmployeesInformation;
+const mapDispatchToProps = (dispatch: any) => ({
+  getSellerQuota: () => dispatch(getSellerQuota()),
+});
+
+export default connect(null, mapDispatchToProps)(EmployeesInformation);

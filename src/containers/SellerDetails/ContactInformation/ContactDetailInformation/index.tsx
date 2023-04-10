@@ -1,30 +1,19 @@
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { Icon, Image } from 'semantic-ui-react';
 // Styles
 import styles from './index.module.scss';
 
 // Components
-import ActionButton from '../../../../components/ActionButton';
 import SocialLinkIcon from '../../../../components/SocialLinkIcon';
 import ValidCheckIcon from '../../../../components/Icons/ValidCheckIcon';
 import InValidCrossIcon from '../../../../components/Icons/InValidIcon';
 
-// Actions
-// import { setCompanyInfo } from '../../../../actions/SellerResearch/SellerDatabase';
-import { getSellerQuota } from '../../../../actions/Settings';
-
 // Selectors
-import { sellerIDSelector } from '../../../../selectors/Seller';
 import { getSellerSubscription } from '../../../../selectors/Subscription';
 
-// Config
-import { AppConfig } from '../../../../config';
-
 // Utils
-import { error, success } from '../../../../utils/notifications';
 import { getNumberOfDaysTillToday } from '../../../../utils/date';
 import {
   isSubscriptionIdFreeAccount,
@@ -39,70 +28,17 @@ import { SellerSubscription } from '../../../../interfaces/Seller';
 // import { FREE_EMAILS } from '../../../../constants/FreeEmails';
 
 interface Props {
-  rowData?: any;
   employeeData?: any;
-  activeEmployeeIndex: number;
-  setEmployeeData: (a: any) => void;
-  setCurrentData: (a: any) => void;
-  getSellerQuota: any;
   sellerSubscription: SellerSubscription;
 }
 const ContactDetailInformation = (props: Props) => {
-  const {
-    rowData,
-    employeeData,
-    setEmployeeData,
-    activeEmployeeIndex,
-    getSellerQuota,
-    sellerSubscription,
-    setCurrentData,
-  } = props;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { employeeData, sellerSubscription } = props;
   const [professionalEmails, setProfessionalEmails] = useState<any[]>([]);
   const [personalEmails, setPersonalEmails] = useState<any[]>([]);
   const isPhoneVisible = !(
     isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) ||
     isSubscriptionIdStarter(sellerSubscription.subscription_id)
   );
-  const unlockEmplloyeeDetail = async () => {
-    setIsLoading(true);
-    try {
-      const sellerId = sellerIDSelector();
-      const URL = `${AppConfig.BASE_URL_API}sellers/${sellerId}/retrieve-employee-detail?id=${employeeData.id}`;
-
-      const { data } = await axios.get(URL);
-
-      if (data) {
-        getSellerQuota();
-        setEmployeeData((preValue: any) => {
-          const temp = [...preValue];
-          temp[activeEmployeeIndex] = {
-            ...temp[activeEmployeeIndex],
-            emails: data?.emails,
-            links: data?.links,
-            is_looked_up: true,
-            phones: data?.phones,
-          };
-          return temp;
-        });
-        if (data.company_info) {
-          const payload = {
-            ...data.company_info,
-            is_looked_up: true,
-          };
-          setCurrentData({
-            ...rowData,
-            company_info: payload,
-          });
-        }
-        success('Details unlocked successfully');
-      }
-    } catch (err) {
-      error('Cannot unlock details at the moment');
-      console.error('Error fetching employees', err);
-    }
-    setIsLoading(false);
-  };
 
   const emailVerificationIcons: { [key: string]: any } = {
     valid: <ValidCheckIcon fill="#5DC560" />,
@@ -510,20 +446,6 @@ const ContactDetailInformation = (props: Props) => {
           </div>
         </div>
       </div>
-      {!employeeData?.is_looked_up && (
-        <div className={styles.buttonsRow}>
-          <ActionButton
-            variant="primary"
-            type="purpleGradient"
-            size="md"
-            loading={isLoading}
-            onClick={() => unlockEmplloyeeDetail()}
-          >
-            Unlock Info
-          </ActionButton>
-          <p className={styles.buttonsRow__text}>Uses 1 token</p>
-        </div>
-      )}
     </>
   );
 };
@@ -534,7 +456,4 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => ({
-  getSellerQuota: () => dispatch(getSellerQuota()),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(ContactDetailInformation);
+export default connect(mapStateToProps)(ContactDetailInformation);

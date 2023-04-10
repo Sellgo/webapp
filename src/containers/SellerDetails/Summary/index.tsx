@@ -94,13 +94,11 @@ const BusinessInformation = (props: Props) => {
                   target="_blank"
                   className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}
                 >
-                  {rowData?.company_info?.seller_link ?? rowData?.seller_link ?? 'N/A'}
+                  {rowData?.company_info?.seller_link ?? rowData?.seller_link ?? '-'}
                 </Link>
               </div>
             ) : (
-              <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
-                N/A
-              </p>
+              <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>-</p>
             )}
           </div>
           {/* <div className={styles.companyInformation_detailsBox}>
@@ -120,7 +118,7 @@ const BusinessInformation = (props: Props) => {
               </div>
             ) : (
               <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
-                N/A
+                -
               </p>
             )}
           </div> */}
@@ -140,9 +138,7 @@ const BusinessInformation = (props: Props) => {
                 </p>
               </div>
             ) : (
-              <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
-                N/A
-              </p>
+              <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>-</p>
             )}
           </div>
           <div className={styles.companyInformation_detailsBox}>
@@ -157,9 +153,7 @@ const BusinessInformation = (props: Props) => {
                 </p>
               </div>
             ) : (
-              <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
-                N/A
-              </p>
+              <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>-</p>
             )}
           </div>
           <div className={styles.companyInformation_detailsBox}>
@@ -178,9 +172,7 @@ const BusinessInformation = (props: Props) => {
                 </Link>
               </div>
             ) : (
-              <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
-                N/A
-              </p>
+              <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>-</p>
             )}
           </div>
 
@@ -233,7 +225,7 @@ const BusinessInformation = (props: Props) => {
                   </div>
                 ) : (
                   <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
-                    N/A
+                    -
                   </p>
                 )}
               </>

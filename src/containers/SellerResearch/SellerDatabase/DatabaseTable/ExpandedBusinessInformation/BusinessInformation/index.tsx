@@ -13,7 +13,6 @@ import SocialLinkIcon from '../../../../../../components/SocialLinkIcon';
 import { SOCIAL_LINK_COLORS } from '../../../../../../constants/SellerResearch/SellerDatabase';
 import ValidCheckIcon from '../../../../../../components/Icons/ValidCheckIcon';
 import ActionButton from '../../../../../../components/ActionButton';
-import history from '../../../../../../history';
 
 interface Props {
   rowData?: any;
@@ -28,9 +27,10 @@ const BusinessInformation = (props: Props) => {
   const businessState = rowData.state;
 
   const reRouteToSellerDetailsPage = () => {
-    history.push(
-      `/seller-details/${rowData?.business_name?.replace(/\s+/g, '_')}_profile_${rowData?.id}`
-    );
+    const uri = `/seller-details/${rowData?.business_name?.replace(/\s+/g, '_')}_profile_${
+      rowData?.id
+    }`;
+    window.open(uri, '_blank');
   };
   return (
     <div className={className}>
