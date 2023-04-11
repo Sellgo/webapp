@@ -225,13 +225,8 @@ const BusinessInformation = (props: Props) => {
         </div>
       </div>
 
-      <ActionButton
-        variant="primary"
-        type="purpleGradient"
-        size="md"
-        onClick={reRouteToSellerDetailsPage}
-      >
-        View insight
+      <ActionButton variant="primary" type="black" size="md" onClick={reRouteToSellerDetailsPage}>
+        Insight
       </ActionButton>
     </div>
   );

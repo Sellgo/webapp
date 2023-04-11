@@ -62,7 +62,7 @@ const ExpansionCell = (props: Props) => {
         ) : (
           <ActionButton variant="secondary" type="black" size="md" onClick={handleClick}>
             <div className={styles.unlockedBtn}>
-              <ValidCheckIcon fill="#5DC560" /> Insight
+              <ValidCheckIcon fill="#5DC560" /> View
             </div>
           </ActionButton>
         )}
