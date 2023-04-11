@@ -5,6 +5,7 @@
   flex-direction: column;
   height: fit-content;
   margin-top: 18px;
+  padding-bottom: 30px;
   background-color: #fff;
   border-radius: 7px;
   box-shadow: 0 3px 6px #00000029;
@@ -33,7 +34,7 @@
   // flex-direction: column;
   // align-content: flex-start;
   padding: 30px;
-  height: 770px;
+  height: 870px;
   overflow-y: auto;
 
   @media (max-width: 1600px) {
