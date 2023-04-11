@@ -172,7 +172,7 @@ const BusinessInformation = (props: Props) => {
                 </Link>
               </div>
             ) : (
-              <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>-</p>
+              <p className={`${styles.companyInformation_detailsBox_text}`}>-</p>
             )}
           </div>
 
@@ -224,9 +224,7 @@ const BusinessInformation = (props: Props) => {
                     ))}
                   </div>
                 ) : (
-                  <p className={`${styles.companyInformation_detailsBox_text} ${styles.blueText}`}>
-                    -
-                  </p>
+                  <p className={`${styles.companyInformation_detailsBox_text}`}>-</p>
                 )}
               </>
             )}
@@ -294,7 +292,7 @@ const BusinessInformation = (props: Props) => {
             <Icon name="industry" className={styles.companyInformation_detailsBox_icon} />
             <p className={styles.companyInformation_detailsBox_heading}>{''}</p>
             <p className={styles.companyInformation_detailsBox_text}>
-              {rowData?.company_info?.industry_group?.join(', ') ?? '-'}
+              {rowData?.company_info?.industry_group?.join(' | ') ?? '-'}
             </p>
           </div>
         </div>

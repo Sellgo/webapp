@@ -25,6 +25,7 @@ import { AppConfig } from '../../../../../../config';
 // Utils
 import { error, success } from '../../../../../../utils/notifications';
 import { getNumberOfDaysTillToday } from '../../../../../../utils/date';
+import { formatNumber } from '../../../../../../utils/format';
 import {
   isSubscriptionIdFreeAccount,
   isSubscriptionIdStarter,
@@ -121,7 +122,7 @@ const EmployeeDetailInformation = (props: Props) => {
               {employeeData.first_name} {employeeData.last_name}
             </p>
           </div>
-          <p className={styles.informationHeading}>Contact Person Social Presence</p>
+          <p className={styles.informationHeading} />
           <div className={styles.socialPresence__linksRow}>
             {Object.keys(employeeData?.links ?? {}).map((link: string) => (
               <SocialLinkIcon
@@ -134,7 +135,7 @@ const EmployeeDetailInformation = (props: Props) => {
               />
             ))}
           </div>
-          <p className={styles.informationHeading}>Contact Person Information</p>
+          <p className={styles.informationHeading}>Information</p>
           <div className={styles.employeeInformationDetailPopup__personalInformation__details}>
             <div className={styles.employeeInformationDetailPopup__personalInformation__detailsBox}>
               <Icon
@@ -180,7 +181,7 @@ const EmployeeDetailInformation = (props: Props) => {
                 {employeeData?.location ?? '-'}
               </p>
             </div>
-            <div className={styles.employeeInformationDetailPopup__personalInformation__detailsBox}>
+            {/* <div className={styles.employeeInformationDetailPopup__personalInformation__detailsBox}>
               <Icon
                 name="list ol"
                 className={
@@ -204,12 +205,11 @@ const EmployeeDetailInformation = (props: Props) => {
                 {employeeData?.skills.map((skill: any, index: number) => (
                   <span>
                     {skill}
-                    {index < employeeData?.skills?.length - 1 && ','}
-                    &nbsp;
+                    {index < employeeData?.skills?.length - 1 && '\n'}
                   </span>
                 ))}
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className={styles.contactInfo}>
@@ -266,7 +266,7 @@ const EmployeeDetailInformation = (props: Props) => {
                           styles.employeeInformationDetailPopup__contactInformation_details
                         }
                       >
-                        {getNumberOfDaysTillToday(last_verified)} days ago
+                        {formatNumber(getNumberOfDaysTillToday(last_verified))} days ago
                       </p>
                     </>
                   );
@@ -348,7 +348,7 @@ const EmployeeDetailInformation = (props: Props) => {
                                 styles.employeeInformationDetailPopup__contactInformation_details
                               }
                             >
-                              {getNumberOfDaysTillToday(last_verified)} days ago
+                              {formatNumber(getNumberOfDaysTillToday(last_verified))} days ago
                             </p>
                           </>
                         );

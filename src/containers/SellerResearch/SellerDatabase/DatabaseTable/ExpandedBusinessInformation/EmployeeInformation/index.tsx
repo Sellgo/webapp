@@ -166,7 +166,7 @@ const EmployeesInformation = (props: Props) => {
                       >
                         {is_looked_up ? (
                           <div className={styles.continueButton}>
-                            <ValidCheckIcon fill="#3CF7AF" /> View
+                            <ValidCheckIcon fill="#fff" /> View
                           </div>
                         ) : (
                           <div className={styles.continueButton}>
@@ -183,7 +183,7 @@ const EmployeesInformation = (props: Props) => {
             <Card className={styles.employeeInformationDetails__noDataFoundCard}>
               <Card.Content className={styles.employeeInformationDetails__noDataFoundCard__content}>
                 <Card.Header className={styles.employeeInformationDetails__noDataFoundCard__header}>
-                  No Contact Found
+                  No contact found
                 </Card.Header>
                 <Card.Meta className={styles.employeeInformationDetails__noDataFoundCard__meta}>
                   *We add new contacts every week and will notify you when it is available

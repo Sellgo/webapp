@@ -56,13 +56,13 @@ const ExpansionCell = (props: Props) => {
         {!isLookedUp ? (
           <ActionButton variant="primary" type="purpleGradient" size="md" onClick={handleClick}>
             <div className={styles.unlockedBtn}>
-              <AddUserIcon fill="#FFF" /> Contact
+              <AddUserIcon fill="#FFF" /> Unlock
             </div>
           </ActionButton>
         ) : (
           <ActionButton variant="secondary" type="black" size="md" onClick={handleClick}>
             <div className={styles.unlockedBtn}>
-              <ValidCheckIcon fill="#5DC560" /> View
+              <ValidCheckIcon fill="#5DC560" /> Insight
             </div>
           </ActionButton>
         )}

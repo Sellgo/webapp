@@ -350,7 +350,7 @@ const SellerDatabaseTable = (props: Props) => {
           <Table.Column width={90} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title={`Employees`}
+                title={`Decision makers`}
                 dataKey="employee_stats.employees_count"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
