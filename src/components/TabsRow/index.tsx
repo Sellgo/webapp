@@ -13,7 +13,7 @@ interface Props {
 const TabsRow = (props: Props) => {
   const { tabs, currentTab, setCurrentTab, className } = props;
   const TABS_ICON: { [key: string]: any } = {
-    contact: <Icon name="building" />,
+    contact: <Icon name="user" />,
   };
 
   return (

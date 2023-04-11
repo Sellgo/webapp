@@ -202,7 +202,7 @@ const EmployeesInformation = (props: Props) => {
                         <Card.Meta
                           className={`${styles.employeeInformationDetails__card__meta} ${
                             is_looked_up
-                              ? styles.employeeInformationDetails__card__meta__unlcoked
+                              ? styles.employeeInformationDetails__card__meta__unlocked
                               : ''
                           }`}
                         >
@@ -211,7 +211,7 @@ const EmployeesInformation = (props: Props) => {
                         <Card.Meta
                           className={`${styles.employeeInformationDetails__card__meta} ${
                             is_looked_up
-                              ? styles.employeeInformationDetails__card__meta__unlcoked
+                              ? styles.employeeInformationDetails__card__meta__unlocked
                               : ''
                           }`}
                         >
