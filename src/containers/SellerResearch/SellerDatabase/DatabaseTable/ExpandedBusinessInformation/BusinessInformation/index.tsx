@@ -27,9 +27,7 @@ const BusinessInformation = (props: Props) => {
   const businessState = rowData.state;
 
   const reRouteToSellerDetailsPage = () => {
-    const uri = `/seller-details/${rowData?.business_name?.replace(/\s+/g, '_')}_profile_${
-      rowData?.id
-    }`;
+    const uri = `/insight/${rowData?.business_name?.replace(/\s+/g, '_')}_profile_${rowData?.id}`;
     window.open(uri, '_blank');
   };
   return (
