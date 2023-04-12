@@ -26,8 +26,9 @@
 
 .companyInformation {
   &_details {
-    height: 355px;
+    height: fit-content;
     overflow-y: auto;
+    padding-bottom: 3em;
 
     @include no-scroll-bar();
   }

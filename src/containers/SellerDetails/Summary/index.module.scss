@@ -23,7 +23,7 @@
 }
 
 .socialPresence {
-  width: 33%;
+  width: 30%;
 
   &__linksRow {
     margin: 30px 0;
@@ -36,7 +36,7 @@
 
 .companyInformation {
   &_details {
-    height: 255px;
+    height: fit-content;
     overflow-y: auto;
 
     @include no-scroll-bar();
@@ -53,8 +53,8 @@
     }
 
     &_heading {
-      // width: 140px;
-      width: 25px;
+      padding-left: 7px;
+      width: 130px;
       color: $black_1;
       margin-left: 0;
       margin-right: 0;
@@ -73,6 +73,7 @@
     }
 
     &_text {
+      padding-left: 18px;
       font-size: 12px;
       font-weight: 600;
       margin-top: 0;
@@ -97,6 +98,7 @@
   display: flex;
   align-items: center;
   width: 300px;
+  padding-left: 18px;
 
   svg {
     margin-right: 5px;

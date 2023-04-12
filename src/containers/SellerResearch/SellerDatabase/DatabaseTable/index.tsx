@@ -125,7 +125,7 @@ const SellerDatabaseTable = (props: Props) => {
           className={sellerDatabaseResults?.length === 0 ? 'no-scroll' : ''}
           onSortColumn={handleSortColumn}
           renderEmpty={() => <div />}
-          rowExpandedHeight={550}
+          rowExpandedHeight={370}
           expandedRowKeys={expandedRowKeys}
           renderRowExpanded={(rowData: any) => <ExpandedBusinessInformation rowData={rowData} />}
           rowKey="merchant_id"

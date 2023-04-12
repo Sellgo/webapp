@@ -45,6 +45,7 @@ interface Props {
   setCompanyInfo: (a: any, b: string) => void;
   getSellerQuota: any;
   sellerSubscription: SellerSubscription;
+  rowData?: any;
 }
 const EmployeeDetailInformation = (props: Props) => {
   const {
@@ -55,7 +56,9 @@ const EmployeeDetailInformation = (props: Props) => {
     setCompanyInfo,
     getSellerQuota,
     sellerSubscription,
+    rowData,
   } = props;
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const isPhoneVisible = !(
     isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) ||
@@ -107,6 +110,12 @@ const EmployeeDetailInformation = (props: Props) => {
     const win = window.open('/settings/pricing', '_blank');
     win?.focus();
   };
+
+  const reRouteToSellerDetailsPage = () => {
+    const uri = `/insight/${rowData?.business_name?.replace(/\s+/g, '_')}_profile_${rowData?.id}`;
+    window.open(uri, '_blank');
+  };
+
   return (
     <>
       <div className={styles.employeeInformationDetailPopup}>
@@ -247,7 +256,7 @@ const EmployeeDetailInformation = (props: Props) => {
                 styles.employeeInformationDetailPopup__contactInformation_emailLastVerified
               }
             >
-              <p className={styles.informationHeading}>Last Verified</p>
+              <p className={styles.informationHeading}>Last verified</p>
               {!employeeData?.is_looked_up &&
                 employeeData?.teaser?.emails &&
                 employeeData?.teaser?.emails.map(() => (
@@ -360,7 +369,7 @@ const EmployeeDetailInformation = (props: Props) => {
           </div>
         </div>
       </div>
-      {!employeeData?.is_looked_up && (
+      {!employeeData?.is_looked_up ? (
         <div className={styles.buttonsRow}>
           <ActionButton
             variant="primary"
@@ -372,6 +381,17 @@ const EmployeeDetailInformation = (props: Props) => {
             Unlock Info
           </ActionButton>
           <p className={styles.buttonsRow__text}>Uses 1 token</p>
+        </div>
+      ) : (
+        <div className={styles.buttonsRow}>
+          <ActionButton
+            variant="primary"
+            type="purpleGradient"
+            size="md"
+            onClick={reRouteToSellerDetailsPage}
+          >
+            View more
+          </ActionButton>
         </div>
       )}
     </>

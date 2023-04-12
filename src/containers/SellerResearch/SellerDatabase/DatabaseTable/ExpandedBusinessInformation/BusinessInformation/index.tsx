@@ -7,10 +7,10 @@ import styles from './index.module.scss';
 
 // Components
 import { getMarketplaceName } from '../../../../../../constants/Settings';
-import SocialLinkIcon from '../../../../../../components/SocialLinkIcon';
+// import SocialLinkIcon from '../../../../../../components/SocialLinkIcon';
 
 // Constants
-import { SOCIAL_LINK_COLORS } from '../../../../../../constants/SellerResearch/SellerDatabase';
+// import { SOCIAL_LINK_COLORS } from '../../../../../../constants/SellerResearch/SellerDatabase';
 import ValidCheckIcon from '../../../../../../components/Icons/ValidCheckIcon';
 import ActionButton from '../../../../../../components/ActionButton';
 
@@ -33,8 +33,8 @@ const BusinessInformation = (props: Props) => {
   return (
     <div className={className}>
       {/* Social presence */}
-      <div className={styles.socialPresence}>
-        {/* <p className={styles.informationHeading}>Company Social Presence</p> */}
+      {/* <div className={styles.socialPresence}>
+        <p className={styles.informationHeading}>Company Social Presence</p>
         <div className={styles.socialPresence__linksRow}>
           {Object.keys(rowData?.company_info?.links ?? {}).map((link: string) => (
             <SocialLinkIcon
@@ -50,7 +50,7 @@ const BusinessInformation = (props: Props) => {
             <p className={styles.socialPresence__linksRow__links}>-</p>
           )}
         </div>
-      </div>
+      </div> */}
       {/* Company Information */}
       <div className={styles.companyInformation}>
         <p className={styles.informationHeading}>Company Information</p>
@@ -101,7 +101,7 @@ const BusinessInformation = (props: Props) => {
               <p className={`${styles.companyInformation_detailsBox_text}`}>-</p>
             )}
           </div>
-          <div className={styles.companyInformation_detailsBox}>
+          {/* <div className={styles.companyInformation_detailsBox}>
             <Icon
               name="phone"
               flipped="horizontally"
@@ -118,8 +118,8 @@ const BusinessInformation = (props: Props) => {
             ) : (
               <p className={`${styles.companyInformation_detailsBox_text}`}>-</p>
             )}
-          </div>
-          <div className={styles.companyInformation_detailsBox}>
+          </div> */}
+          {/* <div className={styles.companyInformation_detailsBox}>
             <Icon
               name="phone"
               flipped="horizontally"
@@ -136,8 +136,8 @@ const BusinessInformation = (props: Props) => {
             ) : (
               <p className={`${styles.companyInformation_detailsBox_text}`}>-</p>
             )}
-          </div>
-          <div className={styles.companyInformation_detailsBox}>
+          </div> */}
+          {/* <div className={styles.companyInformation_detailsBox}>
             <Icon name="fax" className={styles.companyInformation_detailsBox_icon} />
             <p className={styles.companyInformation_detailsBox_heading}>Fax</p>
             {rowData?.company_info?.fax ? (
@@ -150,7 +150,7 @@ const BusinessInformation = (props: Props) => {
             ) : (
               <p className={`${styles.companyInformation_detailsBox_text}`}>-</p>
             )}
-          </div>
+          </div> */}
           <div className={styles.companyInformation_detailsBox}>
             <Icon name="linkify" className={styles.companyInformation_detailsBox_icon} />
             <p className={styles.companyInformation_detailsBox_heading}>Website</p>
@@ -170,7 +170,7 @@ const BusinessInformation = (props: Props) => {
             )}
           </div>
 
-          <div className={styles.companyInformation_detailsBox}>
+          {/* <div className={styles.companyInformation_detailsBox}>
             <Icon name="mail" className={styles.companyInformation_detailsBox_icon} />
             <p className={styles.companyInformation_detailsBox_heading}>
               Company Emails{' '}
@@ -221,12 +221,17 @@ const BusinessInformation = (props: Props) => {
                 )}
               </>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
 
-      <ActionButton variant="primary" type="black" size="md" onClick={reRouteToSellerDetailsPage}>
-        Insight
+      <ActionButton
+        variant="primary"
+        type="purpleGradient"
+        size="md"
+        onClick={reRouteToSellerDetailsPage}
+      >
+        View insight
       </ActionButton>
     </div>
   );
