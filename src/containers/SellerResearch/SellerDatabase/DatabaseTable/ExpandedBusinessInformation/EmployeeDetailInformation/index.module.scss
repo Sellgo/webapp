@@ -3,7 +3,7 @@
 .employeeInformationDetailPopup {
   display: flex;
   justify-content: space-between;
-  padding: 50px;
+  padding: 40px 30px;
 
   @media (max-width: 1600px) {
     max-width: 1200px;
@@ -30,7 +30,7 @@
     }
 
     &__details {
-      height: 330px;
+      height: 300px;
       overflow-y: auto;
 
       &::-webkit-scrollbar {
@@ -62,7 +62,7 @@
       &_text {
         margin-top: 0;
         font-size: 14px;
-        width: 600px;
+        width: 400px;
         color: $black_1;
         white-space: break-spaces;
       }
@@ -72,8 +72,8 @@
   &__contactInformation {
     display: flex;
     justify-content: space-between;
-    width: 400px;
-    margin-right: 100px;
+    width: 350px;
+    margin-right: 30px;
 
     @media (max-width: 1600px) {
       margin-right: 50px;
@@ -83,7 +83,7 @@
       &__verified {
         display: flex;
         margin: 0;
-        margin-bottom: 20px;
+        margin-bottom: 18px;
 
         svg {
           margin-right: 10px;
@@ -100,7 +100,7 @@
   &__contactPhoneInformation {
     display: flex;
     justify-content: space-between;
-    width: 300px;
+    width: 220px;
 
     @media (max-width: 1600px) {
       width: 400px;
@@ -110,7 +110,7 @@
       &__verified {
         display: flex;
         margin: 0;
-        margin-bottom: 20px;
+        margin-bottom: 18px;
 
         svg {
           margin-right: 10px;
@@ -127,10 +127,10 @@
 
 .socialPresence {
   &__linksRow {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 
     &__links {
-      margin-right: 30px;
+      margin-right: 18px;
     }
   }
 }
@@ -138,14 +138,14 @@
 .informationHeading {
   font-size: 14px;
   color: $grey_8;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   font-weight: 600;
 }
 
 .buttonsRow {
   position: absolute;
   bottom: 30px;
-  right: 60px;
+  right: 40px;
 
   &__text {
     text-align: center;

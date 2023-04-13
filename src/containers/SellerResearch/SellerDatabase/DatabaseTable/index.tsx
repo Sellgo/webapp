@@ -125,7 +125,7 @@ const SellerDatabaseTable = (props: Props) => {
           className={sellerDatabaseResults?.length === 0 ? 'no-scroll' : ''}
           onSortColumn={handleSortColumn}
           renderEmpty={() => <div />}
-          rowExpandedHeight={550}
+          rowExpandedHeight={370}
           expandedRowKeys={expandedRowKeys}
           renderRowExpanded={(rowData: any) => <ExpandedBusinessInformation rowData={rowData} />}
           rowKey="merchant_id"
@@ -350,7 +350,7 @@ const SellerDatabaseTable = (props: Props) => {
           <Table.Column width={90} verticalAlign="middle" align="center">
             <Table.HeaderCell>
               <HeaderSortCell
-                title={`Employees`}
+                title={`Decision makers`}
                 dataKey="employee_stats.employees_count"
                 currentSortColumn={sortColumn}
                 currentSortType={sortType}
@@ -366,7 +366,7 @@ const SellerDatabaseTable = (props: Props) => {
             <ExpansionButtonCell
               dataKey={'is_looked_up'}
               expandedRowKeys={expandedRowKeys}
-              onChange={handleExpansion}
+              // onChange={handleExpansion}
             />
           </Table.Column>
 

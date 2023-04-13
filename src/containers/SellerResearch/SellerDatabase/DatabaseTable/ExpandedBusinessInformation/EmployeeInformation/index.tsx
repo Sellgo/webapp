@@ -94,6 +94,11 @@ const EmployeesInformation = (props: Props) => {
     fetchEmployeesInformation();
   }, []);
 
+  const reRouteToSellerDetailsPage = () => {
+    const uri = `/insight/${rowData?.business_name?.replace(/\s+/g, '_')}_profile_${rowData?.id}`;
+    window.open(uri, '_blank');
+  };
+
   return (
     <>
       <div className={className}>
@@ -146,34 +151,64 @@ const EmployeesInformation = (props: Props) => {
                         </div>
                       </Card.Header>
                       <Card.Meta className={styles.employeeInformationDetails__card__meta}>
-                        {title}
-                      </Card.Meta>
-                      <Card.Meta className={styles.employeeInformationDetails__card__meta}>
+                        {title} &nbsp;
                         <Icon name="map marker alternate" size="small" color="grey" />{' '}
                         <span className={styles.location}>{location}</span>
                       </Card.Meta>
+                      {/* <Card.Meta className={styles.employeeInformationDetails__card__meta}>
+                        <Icon name="map marker alternate" size="small" color="grey" />{' '}
+                        <span className={styles.location}>{location}</span>
+                      </Card.Meta> */}
                     </div>
                     <div className={styles.employeeInformationDetails__card__button}>
-                      <ActionButton
+                      {/* <ActionButton
                         variant="primary"
                         type={is_looked_up ? 'black' : 'purpleGradient'}
                         size="small"
-                        onClick={() => {
-                          setActiveEmployeeIndex(index);
-                          setOpen(true);
-                        }}
+                        // onClick={() => {
+                        //   setActiveEmployeeIndex(index);
+                        //   setOpen(true);
+                        // }}
+                        onClick={reRouteToSellerDetailsPage}
                         // className={styles.continueButton}
                       >
                         {is_looked_up ? (
                           <div className={styles.continueButton}>
-                            <ValidCheckIcon fill="#3CF7AF" /> View
+                            <ValidCheckIcon fill="#fff" /> View
                           </div>
                         ) : (
                           <div className={styles.continueButton}>
                             <UserMagnifyingIcon fill="#fff" /> Get info
                           </div>
                         )}
-                      </ActionButton>
+                      </ActionButton> */}
+
+                      {is_looked_up ? (
+                        <ActionButton
+                          variant="primary"
+                          type={is_looked_up ? 'black' : 'purpleGradient'}
+                          size="small"
+                          onClick={() => {
+                            setActiveEmployeeIndex(index);
+                            setOpen(true);
+                          }}
+                        >
+                          <div className={styles.continueButton}>
+                            <ValidCheckIcon fill="#fff" /> View
+                          </div>
+                        </ActionButton>
+                      ) : (
+                        <ActionButton
+                          variant="primary"
+                          type={is_looked_up ? 'black' : 'purpleGradient'}
+                          size="small"
+                          onClick={reRouteToSellerDetailsPage}
+                        >
+                          <div className={styles.continueButton}>
+                            <UserMagnifyingIcon fill="#fff" /> Get info
+                          </div>
+                        </ActionButton>
+                      )}
                     </div>
                   </Card.Content>
                 </Card>
@@ -183,7 +218,7 @@ const EmployeesInformation = (props: Props) => {
             <Card className={styles.employeeInformationDetails__noDataFoundCard}>
               <Card.Content className={styles.employeeInformationDetails__noDataFoundCard__content}>
                 <Card.Header className={styles.employeeInformationDetails__noDataFoundCard__header}>
-                  No Contact Found
+                  No contact found
                 </Card.Header>
                 <Card.Meta className={styles.employeeInformationDetails__noDataFoundCard__meta}>
                   *We add new contacts every week and will notify you when it is available
@@ -223,6 +258,7 @@ const EmployeesInformation = (props: Props) => {
             activeEmployeeIndex={activeEmployeeIndex}
             setEmployeeData={setEmployeesData}
             merchantId={rowData.merchant_id}
+            rowData={rowData}
           />
         </Modal>
       )}
