@@ -36,7 +36,7 @@ const SocialLinkIcon = (props: Props) => {
       <Facebook width={width ?? 20} height={height ?? 20} fill={disabled ? '#9A9A9A' : color} />
     ),
     instagram: (
-      <Instagram width={width ?? 20} height={height ?? 20} fill={disabled ? '#9A9A9A' : ''} />
+      <Instagram width={width ?? 20} height={height ?? 20} fill={disabled ? '#9A9A9A' : color} />
     ),
     linkedin: (
       <LinkedIn width={width ?? 20} height={height ?? 20} fill={disabled ? '#9A9A9A' : color} />

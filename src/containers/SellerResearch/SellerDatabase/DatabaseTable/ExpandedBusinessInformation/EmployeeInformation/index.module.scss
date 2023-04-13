@@ -12,28 +12,28 @@
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
-  padding: 7px;
-  height: 470px;
+  padding: 2px;
+  height: 300px;
   overflow-y: auto;
 
   &__card {
     width: 580px !important;
     height: fit-content !important;
     margin: 0 !important;
-    margin-right: 3px !important;
-    margin-bottom: 11px !important;
+    margin-right: 7px !important;
+    margin-bottom: 7px !important;
 
     &__content {
       display: flex;
-      padding: 7px 10px !important;
-      box-shadow: 0 0 10px $grey_3 !important;
+      padding: 5px 11px !important;
+      // box-shadow: 0 0 10px $grey_3 !important;
     }
 
     &__description {
       width: 80%;
 
       &__image {
-        margin-top: 1em;
+        margin-top: 0.5em;
       }
     }
 
@@ -70,8 +70,8 @@
 
     &__meta {
       font-size: 12px;
-      font-weight: 600;
-      width: 380px;
+      font-weight: 500;
+      width: 360px;
       overflow: hidden;
       white-space: nowrap;
       display: flex;

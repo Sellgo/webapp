@@ -1,0 +1,237 @@
+@import '../../../../design-system/new-colors';
+
+@mixin no-scroll-bar() {
+  &::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+  }
+}
+
+.employeeInformationDetailPopup {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 40px;
+  flex-direction: column;
+
+  @media (max-width: 1600px) {
+    max-width: 1200px;
+  }
+
+  @media (max-width: 1400px) {
+    max-width: 800px;
+  }
+
+  &__personalInformation {
+    width: 45%;
+
+    &__bio {
+      display: flex;
+      margin-bottom: 18px;
+      align-items: center;
+
+      img {
+        margin-right: 18px;
+      }
+
+      &__name {
+        color: $link_blue;
+        padding-left: 1px;
+        font-size: $fontsize_subtitle_24;
+        font-weight: $fontweight_bold;
+      }
+    }
+
+    &__details {
+      height: fit-content;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        display: none !important;
+      }
+    }
+
+    &__detailsBox {
+      display: flex;
+      margin-bottom: 11px;
+      align-items: baseline;
+
+      &_icon {
+        width: 14px;
+        font-weight: $fontweight_semibold;
+        text-align: left;
+      }
+
+      &_heading {
+        width: 74px;
+        color: $black_1;
+        font-size: $fontsize_content_14;
+        margin-left: 7px;
+        margin-right: 18px;
+        margin-top: 0;
+        font-weight: $fontweight_semibold;
+        white-space: break-spaces;
+      }
+
+      &_text {
+        margin-top: 0;
+        font-size: $fontsize_content_14;
+        width: 800px;
+        color: $black_1;
+        white-space: break-spaces;
+      }
+    }
+  }
+
+  &__contactPhoneInformation {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+
+    @media (max-width: 1600px) {
+      width: 400px;
+    }
+
+    &_phones {
+      &__verified {
+        display: flex;
+        margin: 0;
+        margin-bottom: 20px;
+
+        svg {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    &_details {
+      margin: 0;
+      margin-bottom: 15px;
+    }
+  }
+}
+
+.socialPresence {
+  &__linksRow {
+    margin-bottom: 18px;
+
+    &__links {
+      margin-right: 18px;
+    }
+  }
+}
+
+.informationHeading {
+  margin-top: 30px;
+  margin-bottom: 18px;
+  color: $grey_8;
+  font-size: 14px;
+  font-weight: $fontweight_semibold;
+}
+
+.buttonsRow {
+  position: absolute;
+  bottom: 30px;
+  right: 60px;
+
+  &__text {
+    text-align: center;
+  }
+}
+
+.linkBlueText {
+  color: $link_blue;
+  width: 230px !important;
+  overflow: hidden;
+}
+
+.upgradeAccess {
+  font-size: $fontsize_content_12;
+  color: $grey_8;
+
+  &_link {
+    color: $accent_blue;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.contactInfo {
+  display: flex;
+  flex-wrap: wrap;
+
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
+}
+
+.emailWrapper {
+  width: 380px;
+  margin-right: 18px;
+  margin-bottom: 18px;
+
+  &__metaData {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 4px;
+    margin-left: 18px;
+    margin-right: 11px;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__emailBoxes {
+    width: 380px;
+    border: 1px solid #ced4d9;
+    border-radius: 7px;
+    padding: 7px 7px;
+    box-shadow: 0 3px 6px $grey_3;
+
+    &__container {
+      max-height: fit-content;
+      overflow-y: auto;
+      overflow-x: hidden;
+      margin-right: 7px;
+
+      @include no-scroll-bar();
+    }
+  }
+
+  &__contactInformation {
+    display: flex;
+    justify-content: space-between;
+    width: 40px;
+    margin-right: 100px;
+
+    @media (max-width: 1600px) {
+      margin-right: 50px;
+    }
+
+    &_emails {
+      &__verified {
+        display: flex;
+        justify-content: space-between;
+        margin: 0;
+        margin-bottom: 20px;
+
+        svg {
+          margin-left: 4px;
+          margin-right: 7px;
+        }
+      }
+    }
+
+    &_details {
+      margin: 0;
+      margin-bottom: 11px;
+    }
+
+    &__emailIconBox {
+      display: flex;
+      align-items: center;
+    }
+  }
+}

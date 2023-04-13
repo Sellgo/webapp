@@ -25,6 +25,7 @@ import { AppConfig } from '../../../../../../config';
 // Utils
 import { error, success } from '../../../../../../utils/notifications';
 import { getNumberOfDaysTillToday } from '../../../../../../utils/date';
+import { formatNumber } from '../../../../../../utils/format';
 import {
   isSubscriptionIdFreeAccount,
   isSubscriptionIdStarter,
@@ -44,6 +45,7 @@ interface Props {
   setCompanyInfo: (a: any, b: string) => void;
   getSellerQuota: any;
   sellerSubscription: SellerSubscription;
+  rowData?: any;
 }
 const EmployeeDetailInformation = (props: Props) => {
   const {
@@ -54,7 +56,9 @@ const EmployeeDetailInformation = (props: Props) => {
     setCompanyInfo,
     getSellerQuota,
     sellerSubscription,
+    rowData,
   } = props;
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const isPhoneVisible = !(
     isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) ||
@@ -106,6 +110,12 @@ const EmployeeDetailInformation = (props: Props) => {
     const win = window.open('/settings/pricing', '_blank');
     win?.focus();
   };
+
+  const reRouteToSellerDetailsPage = () => {
+    const uri = `/insight/${rowData?.business_name?.replace(/\s+/g, '_')}_profile_${rowData?.id}`;
+    window.open(uri, '_blank');
+  };
+
   return (
     <>
       <div className={styles.employeeInformationDetailPopup}>
@@ -121,7 +131,7 @@ const EmployeeDetailInformation = (props: Props) => {
               {employeeData.first_name} {employeeData.last_name}
             </p>
           </div>
-          <p className={styles.informationHeading}>Contact Person Social Presence</p>
+          <p className={styles.informationHeading} />
           <div className={styles.socialPresence__linksRow}>
             {Object.keys(employeeData?.links ?? {}).map((link: string) => (
               <SocialLinkIcon
@@ -134,7 +144,7 @@ const EmployeeDetailInformation = (props: Props) => {
               />
             ))}
           </div>
-          <p className={styles.informationHeading}>Contact Person Information</p>
+          <p className={styles.informationHeading}>Information</p>
           <div className={styles.employeeInformationDetailPopup__personalInformation__details}>
             <div className={styles.employeeInformationDetailPopup__personalInformation__detailsBox}>
               <Icon
@@ -180,7 +190,7 @@ const EmployeeDetailInformation = (props: Props) => {
                 {employeeData?.location ?? '-'}
               </p>
             </div>
-            <div className={styles.employeeInformationDetailPopup__personalInformation__detailsBox}>
+            {/* <div className={styles.employeeInformationDetailPopup__personalInformation__detailsBox}>
               <Icon
                 name="list ol"
                 className={
@@ -204,12 +214,11 @@ const EmployeeDetailInformation = (props: Props) => {
                 {employeeData?.skills.map((skill: any, index: number) => (
                   <span>
                     {skill}
-                    {index < employeeData?.skills?.length - 1 && ','}
-                    &nbsp;
+                    {index < employeeData?.skills?.length - 1 && '\n'}
                   </span>
                 ))}
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className={styles.contactInfo}>
@@ -219,12 +228,12 @@ const EmployeeDetailInformation = (props: Props) => {
               <p className={styles.informationHeading}>Emails</p>
               {!employeeData?.is_looked_up &&
                 employeeData?.teaser?.emails &&
-                employeeData?.teaser?.emails.map((email: string) => (
+                employeeData?.teaser?.emails.map((emailData: any) => (
                   <p
                     className={`${styles.linkBlueText} 
                   ${styles.employeeInformationDetailPopup__contactInformation_details}`}
                   >
-                    ****@{email}
+                    {emailData.email}
                   </p>
                 ))}
               {employeeData?.is_looked_up &&
@@ -247,7 +256,7 @@ const EmployeeDetailInformation = (props: Props) => {
                 styles.employeeInformationDetailPopup__contactInformation_emailLastVerified
               }
             >
-              <p className={styles.informationHeading}>Last Verified</p>
+              <p className={styles.informationHeading}>Last verified</p>
               {!employeeData?.is_looked_up &&
                 employeeData?.teaser?.emails &&
                 employeeData?.teaser?.emails.map(() => (
@@ -266,7 +275,7 @@ const EmployeeDetailInformation = (props: Props) => {
                           styles.employeeInformationDetailPopup__contactInformation_details
                         }
                       >
-                        {getNumberOfDaysTillToday(last_verified)} days ago
+                        {formatNumber(getNumberOfDaysTillToday(last_verified))} days ago
                       </p>
                     </>
                   );
@@ -348,7 +357,7 @@ const EmployeeDetailInformation = (props: Props) => {
                                 styles.employeeInformationDetailPopup__contactInformation_details
                               }
                             >
-                              {getNumberOfDaysTillToday(last_verified)} days ago
+                              {formatNumber(getNumberOfDaysTillToday(last_verified))} days ago
                             </p>
                           </>
                         );
@@ -360,7 +369,7 @@ const EmployeeDetailInformation = (props: Props) => {
           </div>
         </div>
       </div>
-      {!employeeData?.is_looked_up && (
+      {!employeeData?.is_looked_up ? (
         <div className={styles.buttonsRow}>
           <ActionButton
             variant="primary"
@@ -372,6 +381,17 @@ const EmployeeDetailInformation = (props: Props) => {
             Unlock Info
           </ActionButton>
           <p className={styles.buttonsRow__text}>Uses 1 token</p>
+        </div>
+      ) : (
+        <div className={styles.buttonsRow}>
+          <ActionButton
+            variant="primary"
+            type="purpleGradient"
+            size="md"
+            onClick={reRouteToSellerDetailsPage}
+          >
+            View more
+          </ActionButton>
         </div>
       )}
     </>

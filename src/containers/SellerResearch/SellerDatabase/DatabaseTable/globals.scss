@@ -108,10 +108,14 @@
 
         /* ============== ROW HOVER  =============== */
         &:hover {
-          background: $grey_1 !important;
+          background-color: $grey_1 !important;
+          cursor: pointer !important;
+          text-decoration: none !important;
 
           .rs-table-cell-content {
-            background: $grey_1 !important;
+            background-color: $grey_1 !important;
+            cursor: pointer !important;
+            text-decoration: none !important;
           }
         }
       }

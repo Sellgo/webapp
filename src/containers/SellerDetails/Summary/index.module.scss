@@ -1,4 +1,4 @@
-@import '../../../../../../design-system/new-colors';
+@import '../../../design-system/new-colors';
 
 @mixin no-scroll-bar() {
   &::-webkit-scrollbar {
@@ -7,16 +7,26 @@
   }
 }
 
+.summaryDetails {
+  padding: 18px 30px;
+  border-radius: 7px;
+  background-color: #fff;
+  box-shadow: 0 3px 6px #00000029;
+  display: flex;
+}
+
 .informationHeading {
-  font-size: 14px;
+  font-size: 12px;
   color: $grey_8;
   margin-bottom: 11px;
   font-weight: 600;
 }
 
 .socialPresence {
+  width: 30%;
+
   &__linksRow {
-    margin-bottom: 20px;
+    margin: 30px 0;
 
     &__links {
       margin-right: 18px;
@@ -28,7 +38,6 @@
   &_details {
     height: fit-content;
     overflow-y: auto;
-    padding-bottom: 3em;
 
     @include no-scroll-bar();
   }
@@ -44,7 +53,8 @@
     }
 
     &_heading {
-      width: 140px;
+      padding-left: 7px;
+      width: 130px;
       color: $black_1;
       margin-left: 0;
       margin-right: 0;
@@ -52,14 +62,24 @@
       font-size: 12px;
       font-weight: 600;
       white-space: break-spaces;
+
+      &__sic {
+        width: 45px !important;
+      }
+
+      &__naics {
+        width: 45px !important;
+      }
     }
 
     &_text {
+      padding-left: 18px;
       font-size: 12px;
       font-weight: 600;
       margin-top: 0;
       margin-left: 0;
-      width: 200px;
+      // width: 200px;
+      width: 350px;
       white-space: normal;
       overflow: hidden;
     }
@@ -78,6 +98,7 @@
   display: flex;
   align-items: center;
   width: 300px;
+  padding-left: 18px;
 
   svg {
     margin-right: 5px;
@@ -91,4 +112,30 @@
 .companyEmailsBox {
   display: flex;
   flex-direction: column;
+}
+
+.businessIdentity {
+  display: flex;
+  align-items: center;
+
+  &__name {
+    color: $link_blue;
+    padding-left: 11px;
+    font-size: 24px;
+    font-weight: 700;
+  }
+}
+
+.businessAddress {
+  display: flex;
+  margin-top: 30px;
+
+  &__text {
+    font-size: 14px;
+    font-weight: $fontweight_medium;
+    margin-top: 0;
+    margin-left: 0;
+    white-space: normal;
+    overflow: hidden;
+  }
 }
