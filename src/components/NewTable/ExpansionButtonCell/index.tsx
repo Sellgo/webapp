@@ -17,7 +17,7 @@ import ValidCheckIcon from '../../Icons/ValidCheckIcon';
 import AddUserIcon from '../../Icons/AddUserIcon';
 
 interface Props extends RowCell {
-  // onChange: (rowData: any) => void;
+  onChange?: (rowData: any) => void;
   expandedRowKeys: string[];
   userOnboarding: boolean;
   userOnboardingResources: any;

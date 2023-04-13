@@ -366,7 +366,7 @@ const SellerDatabaseTable = (props: Props) => {
             <ExpansionButtonCell
               dataKey={'is_looked_up'}
               expandedRowKeys={expandedRowKeys}
-              onChange={handleExpansion}
+              // onChange={handleExpansion}
             />
           </Table.Column>
 

@@ -52,7 +52,7 @@ const EmployeesInformation = (props: Props) => {
     } catch (err) {
       console.error('Error fetching employees', err);
       const { response } = err as any;
-      const { status, data } = response;
+      const { status, data } = response || {};
 
       if (status === 429) {
         error(data.message);
@@ -143,9 +143,17 @@ const EmployeesInformation = (props: Props) => {
 
   return (
     <>
-      <div className={styles.ContactInformationBox}>
+      <div
+        className={`${styles.ContactInformationBox} ${
+          !employeesData || !(employeesData.length > 0) ? styles.noContactHeight : ''
+        }`}
+      >
         <div className={styles.informationHeading}>CONTACT INFO</div>
-        <div className={styles.employeeInformationDetailsBox}>
+        <div
+          className={`${styles.employeeInformationDetailsBox} ${
+            !employeesData || !(employeesData.length > 0) ? styles.noContactHeight : ''
+          }`}
+        >
           <div className={styles.employeeInformationDetails}>
             {isLoading && <Placeholder numberParagraphs={3} numberRows={5} isGrey />}
             {!isLoading &&
@@ -285,7 +293,7 @@ const EmployeesInformation = (props: Props) => {
             )}
           </div>
           <div className={styles.contactDetailsInformation}>
-            {activeEmployeeIndex >= 0 && employeesData && (
+            {activeEmployeeIndex >= 0 && employeesData && employeesData.length > 0 && (
               <ContactDetailInformation employeeData={employeesData[activeEmployeeIndex]} />
             )}
           </div>

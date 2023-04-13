@@ -258,6 +258,7 @@ const EmployeesInformation = (props: Props) => {
             activeEmployeeIndex={activeEmployeeIndex}
             setEmployeeData={setEmployeesData}
             merchantId={rowData.merchant_id}
+            rowData={rowData}
           />
         </Modal>
       )}
