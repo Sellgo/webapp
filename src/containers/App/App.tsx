@@ -80,7 +80,7 @@ import {
 } from '../../utils/subscriptions';
 import { isAiStockSession, isSellgoSession } from '../../utils/session';
 import { AppConfig } from '../../config';
-import SellgoInAppPaymentV2 from '../NewSellgoSubscription/SellgoInAppPaymentV2';
+import SellgoInAppPaymentV2 from '../NewSellgoSubscription/SellgoInAppPaymentV3';
 import HubSpotIntegration from '../Settings/Hubspot/HubSpotIntegration';
 import HubSpotIntegrationRedirect from '../Settings/Hubspot/HubSpotIntegrationRedirect';
 import HubSpotIntegrationMapping from '../Settings/Hubspot/HubspotIntegrationMapping';

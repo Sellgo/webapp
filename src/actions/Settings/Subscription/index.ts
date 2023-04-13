@@ -113,6 +113,7 @@ export const createSubscription = (data: any) => (dispatch: any) => {
   bodyFormData.set('payment_method_id', data.payment_method_id);
   bodyFormData.set('payment_mode', data.payment_mode);
   bodyFormData.set('promo_code', data.promo_code);
+  bodyFormData.set('free_trial', data.free_trial);
   return Axios.post(
     AppConfig.BASE_URL_API + `sellers/${sellerID}/subscription/create`,
     bodyFormData
