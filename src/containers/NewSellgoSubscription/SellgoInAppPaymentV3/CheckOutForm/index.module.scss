@@ -419,12 +419,14 @@
     border: 1px solid $grey_3;
     border-left: 11px solid $grey_3;
     border-radius: 7px;
+    cursor: pointer;
   }
 
   &__active {
     border-left: 11px solid $prim_dark_1;
     background: $prim_white;
     box-shadow: 0 3px 6px #00000029;
+    cursor: pointer;
   }
 
   &__label {
