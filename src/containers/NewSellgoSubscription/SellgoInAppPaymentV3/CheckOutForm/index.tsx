@@ -596,7 +596,6 @@ function CheckoutForm(props: MyProps) {
                   ? 'By clicking "Start my subscription", you agree to our'
                   : 'By clicking "Start my free trial", you agree to our'
               }`}{' '}
-              &nbsp;
               <span
                 onClick={() => {
                   setOpenTOS(true);
@@ -604,7 +603,7 @@ function CheckoutForm(props: MyProps) {
               >
                 Terms of Service&nbsp;
               </span>
-              and &nbsp;
+              and&nbsp;
               <span
                 onClick={() => {
                   setOpenPP(true);
@@ -624,7 +623,7 @@ function CheckoutForm(props: MyProps) {
               onClick={handleSubmit}
               disabled={!stripe || stripeLoading || isLoading}
             >
-              Start my subscription&nbsp;
+              Start my subscription
               {false && <Loader active={isLoading} inline size="mini" inverted />}
             </ActionButton>
           ) : (
@@ -636,7 +635,7 @@ function CheckoutForm(props: MyProps) {
               onClick={handleSubmit}
               disabled={!stripe || stripeLoading || isLoading}
             >
-              Start my free trial&nbsp;
+              Start my free trial
               {false && <Loader active={isLoading} inline size="mini" inverted />}
             </ActionButton>
           )}
@@ -657,23 +656,6 @@ function CheckoutForm(props: MyProps) {
               />
             </div>
           </div>
-          {/* <div className={styles.copyrightFooter}>
-            <button
-              onClick={() => {
-                setOpenTOS(true);
-              }}
-            >
-              Terms of Service
-            </button>
-            <button
-              onClick={() => {
-                setOpenPP(true);
-              }}
-            >
-              Privacy Policy&nbsp;
-            </button>
-            <span>Copyright @ sellgo 2023</span>
-          </div> */}
         </div>
 
         <div className={styles.notes}>
