@@ -423,6 +423,8 @@
 
   &__active {
     border-left: 11px solid $prim_dark_1;
+    background: $prim_white;
+    box-shadow: 0 3px 6px #00000029;
   }
 
   &__label {
