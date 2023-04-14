@@ -40,7 +40,7 @@ import { PromoCode, SummaryDetails } from '../../../../interfaces/Subscription';
 
 /* Utils */
 import { generatePromoCodeMessage } from '../../../../utils/subscriptions';
-import { formatDecimal, formatNumber, prettyPrintDate } from '../../../../utils/format';
+import { formatNumber, prettyPrintDate } from '../../../../utils/format';
 
 /* Constants */
 import {
@@ -332,22 +332,22 @@ function CheckoutForm(props: MyProps) {
                   <p className={styles.orderSummaryContainer__details__title}>Annual</p>
                   {isPayNow && (
                     <p className={styles.orderSummaryContainer__details__priceCut}>
-                      ${`${formatNumber(summaryDetails?.annualPrice)}`} <span>per year</span>
+                      USD ${`${formatNumber(summaryDetails?.annualPrice)}`} <span>/year</span>
                     </p>
                   )}
                   <p className={styles.orderSummaryContainer__details__price}>
-                    $
+                    USD $
                     {`${
                       isPayNow
                         ? formatNumber(
                             (summaryDetails?.annualPrice - summaryDetails?.annualPrice * 0.2) / 12
                           )
-                        : formatNumber(summaryDetails?.annualPrice)
+                        : formatNumber(summaryDetails?.annualPrice / 12)
                     }`}{' '}
-                    <span>per month</span>
+                    <span>/month</span>
                   </p>
                   <p className={styles.orderSummaryContainer__details__description}>
-                    Billed yearly for USD $
+                    Billed annually for USD $
                     {`${
                       isPayNow
                         ? formatNumber(
@@ -362,7 +362,7 @@ function CheckoutForm(props: MyProps) {
                     </p>
                   )}
                 </div>
-                <p className={styles.bestValue}>Best Value</p>
+                <p className={styles.bestValue}>BEST VALUE</p>
               </div>
               <div
                 className={`${styles.orderSummaryContainer__box} ${
@@ -375,11 +375,11 @@ function CheckoutForm(props: MyProps) {
                   <p className={styles.orderSummaryContainer__details__title}>Monthly</p>
                   {isPayNow && (
                     <p className={styles.orderSummaryContainer__details__priceCut}>
-                      ${`${formatNumber(summaryDetails?.monthlyPrice)}`} <span>per month</span>
+                      USD ${`${formatNumber(summaryDetails?.monthlyPrice)}`} <span>/month</span>
                     </p>
                   )}
                   <p className={styles.orderSummaryContainer__details__price}>
-                    $
+                    USD $
                     {`${
                       isPayNow
                         ? formatNumber(
@@ -387,7 +387,7 @@ function CheckoutForm(props: MyProps) {
                           )
                         : formatNumber(summaryDetails?.monthlyPrice)
                     }`}{' '}
-                    <span>per month</span>
+                    <span>/month</span>
                   </p>
                   <p className={styles.orderSummaryContainer__details__description}>
                     Billed monthly for USD $
@@ -407,6 +407,37 @@ function CheckoutForm(props: MyProps) {
                 </div>
               </div>
             </>
+
+            <p className={styles.orderSummaryContainer__label}>Enter your billing details</p>
+
+            <Form.Group className={styles.formGroup}>
+              <Form.Field className={`${styles.formInput} ${styles.formInput__creditCard}`}>
+                {/* <label htmlFor="CardNumber">Credit Card Number</label> */}
+                <CardNumberElement
+                  id="CardNumber"
+                  options={CARD_ELEMENT_OPTIONS}
+                  className={`${styles.stripeInput} ${styles.stripeInput__creditCard}`}
+                />
+              </Form.Field>
+
+              <Form.Field className={`${styles.formInput} ${styles.formInput__expiry}`}>
+                {/* <label htmlFor="expiry">Expiry Date</label> */}
+                <CardExpiryElement
+                  id="expiry"
+                  options={CARD_ELEMENT_OPTIONS}
+                  className={`${styles.stripeInput} ${styles.stripeInput__expiry}`}
+                />
+              </Form.Field>
+
+              <Form.Field className={`${styles.formInput} ${styles.formInput__cvc}`}>
+                {/* <label htmlFor="cvc">CVC</label> */}
+                <CardCvcElement
+                  id="cvc"
+                  options={CARD_ELEMENT_OPTIONS}
+                  className={`${styles.stripeInput} ${styles.stripeInput__cvc}`}
+                />
+              </Form.Field>
+            </Form.Group>
 
             <div className={styles.totalItemsWrapper}>
               <Form.Group className={`${styles.formGroup} ${styles.formGroup__promo}`}>
@@ -430,16 +461,16 @@ function CheckoutForm(props: MyProps) {
                     <p className={styles.orderPrice}>
                       {isMonthly ? (
                         <span>
-                          -$
-                          {formatDecimal(
+                          - USD $
+                          {formatNumber(
                             summaryDetails.monthlyPrice -
                               calculateDiscountedPrice(summaryDetails.monthlyPrice)
                           )}
                         </span>
                       ) : (
                         <span>
-                          -$
-                          {formatDecimal(
+                          - USD $
+                          {formatNumber(
                             summaryDetails.annualPrice -
                               calculateDiscountedPrice(summaryDetails.annualPrice)
                           )}
@@ -458,88 +489,70 @@ function CheckoutForm(props: MyProps) {
             </div>
           </div>
 
-          <h2 className={styles.securePayment}>Enter your billing details</h2>
-
-          <Form.Group className={styles.formGroup}>
-            <Form.Field className={`${styles.formInput} ${styles.formInput__creditCard}`}>
-              {/* <label htmlFor="CardNumber">Credit Card Number</label> */}
-              <CardNumberElement
-                id="CardNumber"
-                options={CARD_ELEMENT_OPTIONS}
-                className={`${styles.stripeInput} ${styles.stripeInput__creditCard}`}
-              />
-            </Form.Field>
-
-            <Form.Field className={`${styles.formInput} ${styles.formInput__expiry}`}>
-              {/* <label htmlFor="expiry">Expiry Date</label> */}
-              <CardExpiryElement
-                id="expiry"
-                options={CARD_ELEMENT_OPTIONS}
-                className={`${styles.stripeInput} ${styles.stripeInput__expiry}`}
-              />
-            </Form.Field>
-
-            <Form.Field className={`${styles.formInput} ${styles.formInput__cvc}`}>
-              {/* <label htmlFor="cvc">CVC</label> */}
-              <CardCvcElement
-                id="cvc"
-                options={CARD_ELEMENT_OPTIONS}
-                className={`${styles.stripeInput} ${styles.stripeInput__cvc}`}
-              />
-            </Form.Field>
-          </Form.Group>
-
           <div className={styles.totalPriceSummary}>
-            <p className={styles.totalPriceSummary__label}>Order Summary</p>
+            <p className={styles.totalPriceSummary__label}>Order summary</p>
             <div className={styles.totalPriceSummary__priceDetails}>
               <p>{summaryDetails.displayName} plan</p>
-
               <p className={styles.orderPrice}>
                 USD $
-                {isMonthly
-                  ? formatDecimal(calculateDiscountedPrice(summaryDetails.monthlyPrice))
-                  : formatDecimal(calculateDiscountedPrice(summaryDetails.annualPrice))}
+                {`${
+                  isMonthly
+                    ? formatNumber(calculateDiscountedPrice(summaryDetails.monthlyPrice))
+                    : formatNumber(calculateDiscountedPrice(summaryDetails.annualPrice))
+                }`}{' '}
+                {isMonthly ? ` /month` : ` /year`}
               </p>
             </div>
 
             {isPayNow && (
-              <div className={styles.totalPriceSummary__priceDetails}>
-                <p>20% OFF discount for first month:</p>
-
+              <div className={styles.totalPriceSummary__discountDetails}>
+                <p>
+                  20% OFF discount for first
+                  {isMonthly ? ` month` : ` year`}
+                </p>
                 <p className={styles.orderPrice}>
-                  USD $
-                  {isMonthly
-                    ? formatDecimal(calculateDiscountedPrice(summaryDetails.monthlyPrice * 0.2))
-                    : formatDecimal(calculateDiscountedPrice(summaryDetails.annualPrice * 0.2))}
+                  - USD $
+                  {`${
+                    isMonthly
+                      ? formatNumber(calculateDiscountedPrice(summaryDetails.monthlyPrice * 0.2))
+                      : formatNumber(calculateDiscountedPrice(summaryDetails.annualPrice * 0.2))
+                  }`}{' '}
+                  {isMonthly ? ` /month` : ` /year`}
                 </p>
               </div>
             )}
             <hr />
-            <div className={styles.totalPriceSummary__priceDetails}>
-              <p>Due now</p>
+            {/* <p className={styles.totalPriceSummary__due}>DUE NOW</p> */}
+            <div className={styles.totalPriceSummary__dueDetails}>
+              <p>DUE NOW</p>
               {!isPayNow && (
                 <>
-                  <p className={`${styles.orderPrice} ${styles.purpleText}`}>USD $0.00</p>
+                  <p className={`${styles.orderPrice} ${styles.purpleText}`}>USD $0</p>
                 </>
               )}
               {isPayNow && (
                 <p className={`${styles.orderPrice} ${styles.purpleText}`}>
-                  USD $
-                  {isMonthly
-                    ? formatDecimal(
-                        calculateDiscountedPrice(
-                          summaryDetails.monthlyPrice - summaryDetails.monthlyPrice * 0.2
-                        )
-                      )
-                    : formatDecimal(
-                        calculateDiscountedPrice(
-                          summaryDetails.annualPrice - summaryDetails.annualPrice * 0.2
-                        )
-                      )}
+                  <strong>
+                    USD $
+                    {`${
+                      isMonthly
+                        ? formatNumber(
+                            calculateDiscountedPrice(
+                              summaryDetails.monthlyPrice - summaryDetails.monthlyPrice * 0.2
+                            )
+                          )
+                        : formatNumber(
+                            calculateDiscountedPrice(
+                              summaryDetails.annualPrice - summaryDetails.annualPrice * 0.2
+                            )
+                          )
+                    }`}{' '}
+                  </strong>
+                  {isMonthly ? ` /month` : ` /year`}
                 </p>
               )}
             </div>
-            {!isPayNow && (
+            {!isPayNow ? (
               <p className={styles.totalPriceSummary__cardCharge}>
                 Your card will be charged USD $
                 {`${
@@ -547,26 +560,43 @@ function CheckoutForm(props: MyProps) {
                     ? formatNumber(summaryDetails.monthlyPrice)
                     : formatNumber(summaryDetails.annualPrice)
                 }`}{' '}
-                + tax on {prettyPrintDate(new Date(new Date().setDate(new Date().getDate() + 7)))}.
+                on{' '}
+                <strong>
+                  {prettyPrintDate(new Date(new Date().setDate(new Date().getDate() + 7)))}.
+                </strong>
+              </p>
+            ) : (
+              <p className={styles.totalPriceSummary__cardCharge}>
+                Your card will be charged USD $
+                {`${
+                  isMonthly
+                    ? formatNumber(
+                        calculateDiscountedPrice(
+                          summaryDetails.monthlyPrice - summaryDetails.monthlyPrice * 0.2
+                        )
+                      )
+                    : formatNumber(
+                        calculateDiscountedPrice(
+                          summaryDetails.annualPrice - summaryDetails.annualPrice * 0.2
+                        )
+                      )
+                }`}{' '}
+                on{' '}
+                <strong>
+                  {prettyPrintDate(new Date(new Date().setDate(new Date().getDate())))}.
+                </strong>
               </p>
             )}
           </div>
 
-          <ActionButton
-            variant={'primary'}
-            size={'md'}
-            type="purpleGradient"
-            className={styles.completeButton}
-            onClick={handleSubmit}
-            disabled={!stripe || stripeLoading || isLoading}
-          >
-            Complete payment&nbsp;
-            {false && <Loader active={isLoading} inline size="mini" inverted />}
-          </ActionButton>
-
           <div className={styles.consent}>
             <p>
-              By clicking Complete payment, you agree to our&nbsp;
+              {`${
+                isPayNow
+                  ? 'By clicking "Start my subscription", you agree to our'
+                  : 'By clicking "Start my free trial", you agree to our'
+              }`}{' '}
+              &nbsp;
               <span
                 onClick={() => {
                   setOpenTOS(true);
@@ -584,6 +614,33 @@ function CheckoutForm(props: MyProps) {
               </span>
             </p>
           </div>
+
+          {isPayNow ? (
+            <ActionButton
+              variant={'primary'}
+              size={'md'}
+              type="purpleGradient"
+              className={styles.completeButton}
+              onClick={handleSubmit}
+              disabled={!stripe || stripeLoading || isLoading}
+            >
+              Start my subscription&nbsp;
+              {false && <Loader active={isLoading} inline size="mini" inverted />}
+            </ActionButton>
+          ) : (
+            <ActionButton
+              variant={'primary'}
+              size={'md'}
+              type="purpleGradient"
+              className={styles.completeButton}
+              onClick={handleSubmit}
+              disabled={!stripe || stripeLoading || isLoading}
+            >
+              Start my free trial&nbsp;
+              {false && <Loader active={isLoading} inline size="mini" inverted />}
+            </ActionButton>
+          )}
+
           {!successPayment && errorMessage.length > 0 && (
             <div className={styles.paymentErrorMessage}>
               <p>{errorMessage}</p>
@@ -600,7 +657,7 @@ function CheckoutForm(props: MyProps) {
               />
             </div>
           </div>
-          <div className={styles.copyrightFooter}>
+          {/* <div className={styles.copyrightFooter}>
             <button
               onClick={() => {
                 setOpenTOS(true);
@@ -615,15 +672,15 @@ function CheckoutForm(props: MyProps) {
             >
               Privacy Policy&nbsp;
             </button>
-            <span>Copyright @ sellgo 2022</span>
-          </div>
+            <span>Copyright @ sellgo 2023</span>
+          </div> */}
         </div>
 
         <div className={styles.notes}>
           {isPayNow && (
             <>
               <p className={styles.skipTrial}>
-                Skip the trial -20% off on{' '}
+                Skip the trial - 20% off on{' '}
                 {isMonthly
                   ? `${summaryDetails.displayName} Monthly plan for an entire month`
                   : `${summaryDetails.displayName} Annual plan for an entire year`}
@@ -632,18 +689,19 @@ function CheckoutForm(props: MyProps) {
           )}
           <div className={styles.notesWrapper}>
             {!isPayNow && (
-              <p>
+              <p className={styles.notesWrapper__freeTrial}>
                 Your 7-day trial is <strong>100% free</strong> and lasts until{' '}
                 <strong>
                   {prettyPrintDate(new Date(new Date().setDate(new Date().getDate() + 7)))}.
                 </strong>{' '}
                 Cancel any time.
+                <br />
               </p>
             )}
-            <p>
-              <strong>Your {summaryDetails.displayName} plan includes:</strong>
+            <p className={styles.notesWrapper__benefitTitle}>
+              Your {summaryDetails.displayName} plan includes:
             </p>
-            <ul>
+            <p className={styles.notesWrapper__benefit}>
               {summaryDetails?.benefits?.map((benefit: string) => {
                 return (
                   <>
@@ -655,15 +713,13 @@ function CheckoutForm(props: MyProps) {
                   </>
                 );
               })}
-            </ul>
+            </p>
           </div>
           <div className={styles.notesWrapper}>
             {isPayNow && (
               <div>
-                <p>
-                  <strong>How does the discount offer work?</strong>
-                </p>
-                <p>
+                <p className={styles.notesWrapper__faqTitle}>How does the discount offer work?</p>
+                <p className={styles.notesWrapper__faqContent}>
                   Your discount applies for one {isMonthly ? 'month' : 'year'}. After your discount
                   period expires, you’ll be charged standard rates.
                 </p>
@@ -671,27 +727,23 @@ function CheckoutForm(props: MyProps) {
             )}
             {!isPayNow && (
               <div>
-                <p>
-                  <strong>Will I see this charge right away?</strong>
-                </p>
-                <p>
+                <p className={styles.notesWrapper__faqTitle}>Will I see this charge right away?</p>
+                <p className={styles.notesWrapper__faqContent}>
                   No. You won{`’`}t be charged until after your free trial ends on{' '}
                   {prettyPrintDate(new Date(new Date().setDate(new Date().getDate() + 7)))}. After
-                  your free trial, you{`’`}ll be charged{' '}
-                  <strong>
-                    USD ${isMonthly ? summaryDetails.monthlyPrice : summaryDetails.annualPrice}
-                  </strong>{' '}
+                  your free trial, you{`’`}ll be charged USD $
+                  {isMonthly
+                    ? formatNumber(summaryDetails.monthlyPrice)
+                    : formatNumber(summaryDetails.annualPrice)}{' '}
                   (plus tax) monthly until you change your plan or cancel your subscription.
                 </p>
               </div>
             )}
             <div>
-              <p>
-                <strong>Can I change or cancel my plan?</strong>
-              </p>
-              <p>
-                Yes, you can switch to a new plan or cancel your subscription at any time. Please
-                note, refunds can only be issued within 30 days of your subscription start date.
+              <p className={styles.notesWrapper__faqTitle}>Can I change or cancel my plan?</p>
+              <p className={styles.notesWrapper__faqContent}>
+                Yes, you can switch to a new plan or cancel your subscription at any time. We don't
+                offer refund due to the nature of the data service.
               </p>
             </div>
           </div>

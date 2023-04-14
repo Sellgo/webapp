@@ -503,7 +503,7 @@ function CheckoutForm(props: MyProps) {
               >
                 Terms of Service&nbsp;
               </span>
-              and &nbsp;
+              and&nbsp;
               <span
                 onClick={() => {
                   setOpenPP(true);
