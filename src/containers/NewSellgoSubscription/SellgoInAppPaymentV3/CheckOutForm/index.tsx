@@ -297,7 +297,7 @@ function CheckoutForm(props: MyProps) {
             </h2>
             <p className={styles.description}>
               We guarantee that the payment process is secured and confidential through Stripe. We
-              do not store your payment credential information.
+              don{`'`}t store your payment credential information.
             </p>
             {/* <div className={styles.pricing}>
               <p className={styles.label}>{`${summaryDetails?.displayName ??
@@ -326,10 +326,13 @@ function CheckoutForm(props: MyProps) {
                 className={`${styles.orderSummaryContainer__box} ${
                   isMonthly ? '' : styles.orderSummaryContainer__active
                 }`}
+                onClick={() => setIsMonthly(false)}
               >
                 <Radio checked={!isMonthly} onClick={() => setIsMonthly(false)} />
                 <div className={styles.orderSummaryContainer__details}>
-                  <p className={styles.orderSummaryContainer__details__title}>Annual</p>
+                  <p className={styles.orderSummaryContainer__details__title}>
+                    {summaryDetails.displayName} Annual
+                  </p>
                   {isPayNow && (
                     <p className={styles.orderSummaryContainer__details__priceCut}>
                       USD ${`${formatNumber(summaryDetails?.annualPrice)}`} <span>/year</span>
@@ -368,11 +371,14 @@ function CheckoutForm(props: MyProps) {
                 className={`${styles.orderSummaryContainer__box} ${
                   isMonthly ? styles.orderSummaryContainer__active : ''
                 }`}
+                onClick={() => setIsMonthly(true)}
               >
                 {' '}
                 <Radio checked={isMonthly} onClick={() => setIsMonthly(true)} />
                 <div className={styles.orderSummaryContainer__details}>
-                  <p className={styles.orderSummaryContainer__details__title}>Monthly</p>
+                  <p className={styles.orderSummaryContainer__details__title}>
+                    {summaryDetails.displayName} Monthly
+                  </p>
                   {isPayNow && (
                     <p className={styles.orderSummaryContainer__details__priceCut}>
                       USD ${`${formatNumber(summaryDetails?.monthlyPrice)}`} <span>/month</span>
@@ -409,7 +415,6 @@ function CheckoutForm(props: MyProps) {
             </>
 
             <p className={styles.orderSummaryContainer__label}>Enter your billing details</p>
-
             <Form.Group className={styles.formGroup}>
               <Form.Field className={`${styles.formInput} ${styles.formInput__creditCard}`}>
                 {/* <label htmlFor="CardNumber">Credit Card Number</label> */}
@@ -492,7 +497,10 @@ function CheckoutForm(props: MyProps) {
           <div className={styles.totalPriceSummary}>
             <p className={styles.totalPriceSummary__label}>Order summary</p>
             <div className={styles.totalPriceSummary__priceDetails}>
-              <p>{summaryDetails.displayName} plan</p>
+              <p>
+                {summaryDetails.displayName}
+                {isMonthly ? ` Monthly` : ` Annual`} plan
+              </p>
               <p className={styles.orderPrice}>
                 USD $
                 {`${
@@ -703,7 +711,7 @@ function CheckoutForm(props: MyProps) {
                 <p className={styles.notesWrapper__faqTitle}>How does the discount offer work?</p>
                 <p className={styles.notesWrapper__faqContent}>
                   Your discount applies for one {isMonthly ? 'month' : 'year'}. After your discount
-                  period expires, you’ll be charged standard rates.
+                  period expires, you ll be charged standard rates.
                 </p>
               </div>
             )}
@@ -717,15 +725,15 @@ function CheckoutForm(props: MyProps) {
                   {isMonthly
                     ? formatNumber(summaryDetails.monthlyPrice)
                     : formatNumber(summaryDetails.annualPrice)}{' '}
-                  (plus tax) monthly until you change your plan or cancel your subscription.
+                  monthly until you change your plan or cancel your subscription.
                 </p>
               </div>
             )}
             <div>
               <p className={styles.notesWrapper__faqTitle}>Can I change or cancel my plan?</p>
               <p className={styles.notesWrapper__faqContent}>
-                Yes, you can switch to a new plan or cancel your subscription at any time. We don't
-                offer refund due to the nature of the data service.
+                Yes, you can switch to a new plan or cancel your subscription at any time. We don
+                {`’`}t offer refund due to the nature of the data service.
               </p>
             </div>
           </div>
