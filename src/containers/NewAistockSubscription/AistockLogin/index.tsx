@@ -80,7 +80,7 @@ export default function Login(props: Props) {
     setMessageDetails({
       key: uuid(),
       header: 'Email Not Verified',
-      content: `Please verify email before loggin in`,
+      content: `Please verify email before logging in`,
       isSuccess: false,
       isError: true,
       time: 0,

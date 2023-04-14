@@ -8,6 +8,10 @@
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+
+  &__title {
+    width: 100%;
+  }
 }
 
 .reviewsSection {
@@ -139,6 +143,8 @@
   font-size: 20px;
   font-weight: $fontweight_semibold;
   color: $prim_dark_2;
+  text-align: center;
+  margin-bottom: 18px;
 }
 
 .formInput {
