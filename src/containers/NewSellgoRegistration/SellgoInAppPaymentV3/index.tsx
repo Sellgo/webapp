@@ -15,13 +15,13 @@ import { fetchSellerSubscription } from '../../../actions/Settings/Subscription'
 import { isSubscriptionIdPaid } from '../../../utils/subscriptions';
 
 /* Containers */
-import PaidContent from './PaidContent';
+// import PaidContent from './PaidContent';
 import SuccessContent from './SuccessContent/SuccessContent';
 import CheckoutForm from './CheckOutForm';
 
 /* Components */
 import Auth from '../../../components/Auth/Auth';
-import history from '../../../history';
+// import history from '../../../history';
 // import LeftArrow from '../../../assets/images/leftArrowLong.svg';
 
 /* Config */
@@ -29,19 +29,30 @@ import { AppConfig } from '../../../config';
 import { subscriptionDetailsMappingByPlanName } from '../../../constants/Subscription/Sellgo';
 
 const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
-
 interface PaymentProps {
-  location: any;
-  subscriptionType: string;
+  location?: any;
+  subscriptionType?: string;
   successPayment: any;
   stripeErrorMessage: any;
   auth: Auth;
   sellerSubscription: any;
   fetchSellerSubscription: () => void;
+  userName: string;
+  email: string;
+  password: string;
 }
 
 const Payment = (props: PaymentProps) => {
-  const { successPayment, stripeErrorMessage, sellerSubscription, fetchSellerSubscription } = props;
+  const {
+    auth,
+    successPayment,
+    stripeErrorMessage,
+    sellerSubscription,
+    fetchSellerSubscription,
+    userName,
+    email,
+    password,
+  } = props;
 
   const [paymentError, setPaymentError] = useState(false);
   const [paymentErrorMessage, setPaymentErrorMessage] = useState('');
@@ -67,7 +78,7 @@ const Payment = (props: PaymentProps) => {
     isFreeTrial = false;
   }
 
-  const sellerID = localStorage.getItem('userId');
+  // const sellerID = localStorage.getItem('userId');
 
   const handlePaymentError = (data: any) => {
     if (_.isEmpty(data)) return;
@@ -75,14 +86,17 @@ const Payment = (props: PaymentProps) => {
     setPaymentErrorMessage(data.message);
   };
 
+  console.log('seller subscription');
+
   useEffect(() => {
     localStorage.setItem('loginRedirectPath', '/');
 
     if (localStorage.getItem('isLoggedIn') === 'true') {
       localStorage.setItem('loginRedirectPath', '/');
-    } else if (_.isEmpty(sellerID)) {
-      history.push('/subscription');
     }
+    // else if (_.isEmpty(sellerID)) {
+    //   history.push('/subscription');
+    // }
     if (sellerSubscription === undefined && localStorage.getItem('idToken') !== null) {
       Axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('idToken')}`;
       fetchSellerSubscription();
@@ -100,16 +114,21 @@ const Payment = (props: PaymentProps) => {
             Back to previous page
           </button>
         )} */}
-        {!successPayment && !isSubscriptionIdPaid(sellerSubscription?.subscription_id) && (
-          <Elements stripe={stripePromise}>
-            <CheckoutForm
-              accountType={accountType}
-              paymentMode={paymentMode}
-              handlePaymentError={handlePaymentError}
-              isPayNow={!isFreeTrial}
-            />
-          </Elements>
-        )}
+        <Elements stripe={stripePromise}>
+          <CheckoutForm
+            auth={auth}
+            accountType={accountType}
+            paymentMode={paymentMode}
+            handlePaymentError={handlePaymentError}
+            isPayNow={!isFreeTrial}
+            userName={userName}
+            email={email}
+            password={password}
+          />
+        </Elements>
+        {/* {!successPayment && !isSubscriptionIdPaid(sellerSubscription?.subscription_id) && (
+          
+        )} */}
         {!successPayment &&
           !isSubscriptionIdPaid(sellerSubscription?.subscription_id) &&
           paymentError && (
@@ -117,7 +136,7 @@ const Payment = (props: PaymentProps) => {
               <p>{paymentErrorMessage}</p>
             </div>
           )}
-        {isSubscriptionIdPaid(sellerSubscription?.subscription_id) && <PaidContent />}
+        {/* {isSubscriptionIdPaid(sellerSubscription?.subscription_id) && <PaidContent />} */}
 
         {successPayment && <SuccessContent />}
       </section>

@@ -1,0 +1,35 @@
+@import '../../design-system/new-colors.scss';
+
+.progress_bar {
+  padding: 30px 50px 0;
+  margin-bottom: 50px;
+
+  &__label {
+    color: $prim_dark_1;
+    font-size: $fontsize_content_16;
+    font-weight: $fontweight_medium;
+  }
+
+  &__wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    .step {
+      width: 33%;
+      padding: 5px 0;
+      border-radius: 7px;
+      background: $orange_purple_gradient;
+
+      &__inactive {
+        opacity: 0.3;
+      }
+    }
+  }
+}
+
+.registrationPage {
+  background-color: $grey_10;
+  height: 100vh;
+  position: relative;
+}

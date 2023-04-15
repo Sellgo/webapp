@@ -8,7 +8,7 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
-import { Form, Header, Modal, TextArea, Loader, Radio } from 'semantic-ui-react';
+import { Form, Header, Modal, TextArea, Loader, Radio, Icon, Image } from 'semantic-ui-react';
 import 'rc-slider/assets/index.css';
 import Axios from 'axios';
 
@@ -47,7 +47,11 @@ import {
   generateSubscriptionDetails,
   getSubscriptionID,
 } from '../../../../constants/Subscription/Sellgo';
+import { AppConfig } from '../../../../config';
+// import { trackEvent } from '../../../../utils/analyticsTracking';
+import Auth from '../../../../components/Auth/Auth';
 
+import sellgoGradientLogo from '../../../../assets/images/sellgoGradientLogo.png';
 /* Data */
 
 const CARD_ELEMENT_OPTIONS = {
@@ -68,6 +72,7 @@ const CARD_ELEMENT_OPTIONS = {
 };
 
 interface MyProps {
+  auth: Auth;
   sellerSubscription: any;
   accountType: string;
   paymentMode: string;
@@ -89,12 +94,16 @@ interface MyProps {
   fetchPP: any;
   fetchTOS: any;
   isPayNow: boolean;
+  userName: string;
+  email: string;
+  password: string;
 }
 
 function CheckoutForm(props: MyProps) {
   const stripe: any = useStripe();
   const elements = useElements();
   const {
+    auth,
     stripeLoading,
     checkPromoCode,
     redeemedPromoCode,
@@ -107,6 +116,9 @@ function CheckoutForm(props: MyProps) {
     successPayment,
     promoCodeObj,
     isPayNow,
+    userName,
+    email,
+    password,
   } = props;
   const [isPromoCodeChecked, setPromoCodeChecked] = useState<boolean>(false);
   const [promoCode, setPromoCode] = useState<string>('');
@@ -180,6 +192,8 @@ function CheckoutForm(props: MyProps) {
     setErrorMessage(err);
   };
 
+  console.log('HANDLE CHECKOUT ERROR => ', errorMessage);
+
   const calculateDiscountedPrice = (price: number) => {
     if (promoCodeObj && promoCodeObj.percent_off) {
       return price * ((100 - promoCodeObj.percent_off) / 100);
@@ -213,60 +227,148 @@ function CheckoutForm(props: MyProps) {
     setPromoError('');
   };
 
-  const handleSubmit = async () => {
+  const handleSubmitV2 = async () => {
     setLoading(true);
-    const {
-      accountType,
-      createSubscriptionData,
-      retryInvoice,
-      handlePaymentError,
-      setStripeLoad,
-    } = props;
+    const firstName = userName.split(' ')[0] ?? '';
+    const lastName = userName.split(' ')[1] ?? '';
+    // event.preventDefault();
+    Axios.defaults.headers.common.Authorization = ``;
+
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make  sure to disable form submission until Stripe.js has loaded.
       return;
     }
 
-    setStripeLoad(true);
     const cardElement = elements.getElement(CardNumberElement);
-
-    // If a previous payment was attempted, get the latest invoice
-    const latestInvoicePaymentIntentStatus = localStorage.getItem(
-      'latestInvoicePaymentIntentStatus'
-    );
-
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
       card: cardElement,
+      billing_details: {
+        name: `${firstName} ${lastName}`,
+      },
     });
 
+    let stripeSubscription: any = null;
     if (error) {
-      handlePaymentError(error);
-      setStripeLoad(false);
-      handleError(error);
-      setLoading(false);
+      console.log(310);
+      handleError(error.message);
+      return;
     } else {
+      /* Make stripe payment */
       const paymentMethodId = paymentMethod.id;
-      if (latestInvoicePaymentIntentStatus === 'requires_payment_method') {
-        // Update the payment method and retry invoice payment
-        const invoiceId = localStorage.getItem('latestInvoiceId');
-        retryInvoice({
-          paymentMethodId,
-          invoiceId,
-        });
-      } else {
-        const data = {
-          subscription_id: getSubscriptionID(accountType),
-          payment_method_id: paymentMethodId,
-          payment_mode: isMonthly ? 'monthly' : 'yearly',
-          free_trial: isPayNow ? false : true,
-          promo_code: promoCode,
-        };
-        Axios.defaults.headers.common.Authorization = ``;
-        createSubscriptionData(data);
+      const bodyFormData = new FormData();
+      bodyFormData.set('email', email.toLowerCase());
+      bodyFormData.set('subscription_id', String(getSubscriptionID(accountType)));
+      bodyFormData.set('payment_method_id', paymentMethodId);
+      bodyFormData.set('payment_mode', paymentMode);
+      bodyFormData.set('promo_code', promoCode);
+      bodyFormData.set('free_trial', isPayNow ? 'false' : 'true');
+
+      // @ts-ignore
+      const referralID = typeof window !== 'undefined' && window.Rewardful.referral;
+      if (referralID) {
+        bodyFormData.set('referral', referralID);
+      }
+
+      try {
+        const { data } = await Axios.post(
+          AppConfig.BASE_URL_API + `sellers/subscription/create`,
+          bodyFormData
+        );
+        const { stripe_subscription } = data;
+        if (
+          stripe_subscription &&
+          (stripe_subscription.status === 'active' ||
+            stripe_subscription.status === 'trialing' ||
+            stripe_subscription?.payment_intent?.status === 'succeeded')
+        ) {
+          stripeSubscription = stripe_subscription;
+          localStorage.removeItem('planType');
+        } else if (data.message) {
+          console.log(341);
+          handleError(data.message);
+          return;
+        }
+      } catch (e) {
+        console.log(347, e);
+        const { response } = e as any;
+        if (response && response.data && response.data.message) {
+          console.log(348);
+          handleError(response.data.message);
+          return;
+        }
+        console.log(351);
+        handleError('Failed to make payment');
+        return;
+      }
+
+      /* Create auth0 account */
+      if (stripeSubscription) {
+        /* After successful sign up, auth.getSellerID will change the page */
+        auth.webAuth.signup(
+          {
+            connection: 'Username-Password-Authentication',
+            email: email.toLowerCase(),
+            password: password,
+            userMetadata: {
+              first_name: firstName,
+              last_name: lastName,
+            },
+          },
+          (err: any) => {
+            if (err) {
+              // This should not happen
+              console.log(373);
+              handleError(err.description);
+              return;
+            } else {
+              // Successful Signup
+              const data: any = {
+                email: email.trim().toLowerCase(), // trim out white spaces to prevent 500
+                name: firstName + ' ' + lastName,
+                first_name: firstName,
+                last_name: lastName,
+                stripe_subscription_id: stripeSubscription.id,
+                stripe_customer_id: stripeSubscription.customer,
+                subscription_id: getSubscriptionID(accountType),
+                payment_mode: paymentMode,
+                password: password,
+              };
+
+              /* Tracking for google analytics upon successful payment */
+              // trackEvent({
+              //   event: 'purchase',
+              //   ecommerce: {
+              //     transaction_id: stripeSubscription.id,
+              //     affiliation: 'Stripe',
+              //     revenue: stripeSubscription.plan.amount / 100,
+              //     tax: 0,
+              //     shipping: 0,
+              //     currency: 'USD',
+              //     items: [
+              //       {
+              //         name: accountType,
+              //         id: getSubscriptionID(accountType),
+              //         price: stripeSubscription.plan.amount / 100,
+              //         brand: 'Stripe',
+              //         category: 'Subscription',
+              //         quantity: 1,
+              //       },
+              //     ],
+              //   },
+              // });
+              auth.getSellerID(data, 'newSubscription');
+            }
+          }
+        );
       }
     }
+  };
+
+  const benefitIcon: { [key: string]: any } = {
+    chromeExtension: <Icon name="building" />,
+    sellerDatabase: <Icon name="building" />,
   };
 
   return (
@@ -274,6 +376,7 @@ function CheckoutForm(props: MyProps) {
       <div className={styles.paymentForm}>
         {newUserExperiencePopup()}
         <section className={styles.reviewsSection}>
+          <Image src={sellgoGradientLogo} alt="sellgo logo" width={170} />
           <h2>The 1st Amazon Seller Database that I ever needed!</h2>
           <p>
             “Sellgo enables me as an agency and influencer to close more deals with high quality
@@ -295,10 +398,13 @@ function CheckoutForm(props: MyProps) {
             <h2 className={styles.heading}>
               Enter your <span className={styles.heading__purple}>billing information</span>
             </h2>
-            <p className={styles.description}>
-              We guarantee that the payment process is secured and confidential through Stripe. We
-              don{`'`}t store your payment credential information.
-            </p>
+            <div className={styles.descriptionWrapper}>
+              <Icon name="lock" color="grey" />
+              <p className={styles.description}>
+                We guarantee that the payment process is secured and confidential through Stripe. We
+                don{`'`}t store your payment credential information.
+              </p>
+            </div>
             {/* <div className={styles.pricing}>
               <p className={styles.label}>{`${summaryDetails?.displayName ??
                 summaryDetails?.name ??
@@ -622,13 +728,19 @@ function CheckoutForm(props: MyProps) {
             </p>
           </div>
 
+          {!successPayment && errorMessage.length > 0 && (
+            <div className={styles.paymentErrorMessage}>
+              <p>{errorMessage}</p>
+            </div>
+          )}
+
           {isPayNow ? (
             <ActionButton
               variant={'primary'}
               size={'md'}
               type="purpleGradient"
               className={styles.completeButton}
-              onClick={handleSubmit}
+              onClick={handleSubmitV2}
               disabled={!stripe || stripeLoading || isLoading}
             >
               Start my subscription
@@ -640,18 +752,12 @@ function CheckoutForm(props: MyProps) {
               size={'md'}
               type="purpleGradient"
               className={styles.completeButton}
-              onClick={handleSubmit}
+              onClick={handleSubmitV2}
               disabled={!stripe || stripeLoading || isLoading}
             >
               Start my free trial
               {false && <Loader active={isLoading} inline size="mini" inverted />}
             </ActionButton>
-          )}
-
-          {!successPayment && errorMessage.length > 0 && (
-            <div className={styles.paymentErrorMessage}>
-              <p>{errorMessage}</p>
-            </div>
           )}
 
           <div className={styles.paymentMeta}>
@@ -692,13 +798,13 @@ function CheckoutForm(props: MyProps) {
               Your {summaryDetails.displayName} plan includes:
             </p>
             <p className={styles.notesWrapper__benefit}>
-              {summaryDetails?.benefits?.map((benefit: string) => {
+              {summaryDetails?.benefitWithIcons?.map((benefit: any) => {
                 return (
                   <>
-                    {benefit && (
-                      <li key={benefit}>
-                        <span>{benefit}</span>
-                      </li>
+                    {benefit.name && (
+                      <div>
+                        {benefitIcon[benefit.name]} <span>{benefit.description}</span>
+                      </div>
                     )}
                   </>
                 );

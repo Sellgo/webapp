@@ -160,6 +160,10 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     annualSavingPercentage: 49,
     subDescription: '',
     benefits: ['Full access to Chrome extension.', 'Limited access to seller database suite.', ''],
+    benefitWithIcons: [
+      { name: 'chromeExtension', description: 'Full access to Chrome extension.' },
+      { name: 'sellerDatabase', description: 'Limited access to seller database suite.' },
+    ],
   },
   professional: {
     name: 'Professional',
@@ -195,6 +199,14 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
       '20,000 Sellers in Seller Database or Seller Map per month',
       'Top view of 20,000 sellers in the Seller Map',
       'Export data to spreadsheet',
+    ],
+    benefitWithIcons: [
+      {
+        name: 'sellerCount',
+        description: '20,000 Sellers in Seller Database or Seller Map per month.',
+      },
+      { name: 'sellerMap', description: 'Top view of 20,000 sellers in the Seller Map' },
+      { name: 'export', description: 'Export data to spreadsheet' },
     ],
   },
 };

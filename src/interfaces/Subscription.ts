@@ -23,6 +23,7 @@ export interface SummaryDetails {
   annualLookups?: number;
   annualSavingPercentage?: number;
   displayName?: string;
+  benefitWithIcons?: { [key: string]: string }[];
 }
 
 export interface SubscriptionPlan {
