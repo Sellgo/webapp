@@ -292,7 +292,6 @@ function CheckoutForm(props: MyProps) {
           return;
         }
       } catch (e) {
-        console.log(347, e);
         const { response } = e as any;
         if (response && response.data && response.data.message) {
           console.log(348);
@@ -558,7 +557,10 @@ function CheckoutForm(props: MyProps) {
               onClick={() => setShowPromoField(!showPromoField)}
             >
               {' '}
-              <span>{'<'}</span> Add promotion code
+              <span>
+                <Icon name={showPromoField ? 'caret up' : 'caret down'} />
+              </span>{' '}
+              Add promotion code
             </p>
             {showPromoField && (
               <div className={styles.totalItemsWrapper}>

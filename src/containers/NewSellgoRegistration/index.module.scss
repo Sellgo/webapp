@@ -4,6 +4,10 @@
   padding: 30px 500px 0;
   margin-bottom: 50px;
 
+  @media screen and (max-height: 1100px) {
+    margin-bottom: 30px;
+  }
+
   &__label {
     color: $grey_8;
     font-size: $fontsize_content_16;
