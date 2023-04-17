@@ -11,7 +11,7 @@ class SignupBase extends React.Component<any> {
         <MessageDisplay messageDetails={messageDetails} />
         <Grid.Row>
           <Grid.Column>
-            <Image src="/images/sellgo_white_logo.png" wrapped={true} />
+            <Image src="/images/sellgo_gradation_logo_2.png" wrapped={true} />
           </Grid.Column>
           <Grid.Column>{children}</Grid.Column>
         </Grid.Row>

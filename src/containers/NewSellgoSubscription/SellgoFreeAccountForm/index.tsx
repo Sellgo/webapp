@@ -10,7 +10,7 @@ import styles from './index.module.scss';
 import Auth from '../../../components/Auth/Auth';
 
 /* Assets */
-import newSellgoLogo from '../../../assets/images/sellgoNewLogo.png';
+import newSellgoLogo from '../../../assets/images/sellgo_gradation_logo_2.png';
 import ProfilePicture from '../../../assets/images/justin.png';
 
 /* Components */
@@ -182,9 +182,8 @@ const FreeAccountForm = (props: Props) => {
     <main className={styles.activationPage}>
       {newUserExperiencePopup()}
       <section className={styles.activationFormSection}>
-        <img src={newSellgoLogo} className={styles.logo} alt="Sellgo Company Logo" />
         <div className={styles.activationForm}>
-          <p className={styles.formHeader}>Create a free account</p>
+          <p className={styles.formHeader}>Sign up here</p>
           <Form.Input
             size="huge"
             label="Name"
@@ -196,9 +195,9 @@ const FreeAccountForm = (props: Props) => {
           />
           <Form.Input
             size="huge"
-            label="Business Email*"
+            label="Business email address*"
             type="mail"
-            placeholder="Business Email"
+            placeholder="Business email address"
             value={email}
             className={styles.formInput}
             onChange={e => setEmail(e.target.value)}
@@ -217,9 +216,9 @@ const FreeAccountForm = (props: Props) => {
           </Form.Field>
           <Form.Input
             size="huge"
-            label="Confirm Password*"
+            label="Confirm password*"
             type="password"
-            placeholder="Confirm Password"
+            placeholder="Confirm password"
             required
             {...bindPassword2}
             className={styles.formInput}
@@ -248,7 +247,7 @@ const FreeAccountForm = (props: Props) => {
           </div>
           <p className={styles.error}>{errorMessage}</p>
           <button className={styles.submitButton} onClick={handleSubmit} disabled={isLoading}>
-            Sign up now&nbsp;
+            Create my account&nbsp;
             <Loader active={isLoading} inline inverted size="mini" />
           </button>
           <p className={styles.signIn}>
@@ -257,6 +256,7 @@ const FreeAccountForm = (props: Props) => {
         </div>
       </section>
       <section className={styles.reviewsSection}>
+        <img src={newSellgoLogo} className={styles.logo} alt="Sellgo Company Logo" />
         <h2>The most comprehensive Amazon seller leads database!</h2>
         <p>
           "We have very aggressive revenue growth targets. We knew that we needed Sellgo seller
@@ -287,7 +287,7 @@ const FreeAccountForm = (props: Props) => {
         >
           Privacy Policy&nbsp;
         </button>
-        <span>Copyright @ Sellgo 2022</span>
+        <span>Copyright @ Sellgo 2023</span>
       </div>
     </main>
   );

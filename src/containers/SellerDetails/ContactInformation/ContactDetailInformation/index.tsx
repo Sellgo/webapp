@@ -69,13 +69,13 @@ const ContactDetailInformation = (props: Props) => {
           tempProfessionalEmails.push({
             email: emailData.email,
             status: '',
-            last_verified: 'x x ago',
+            last_verified: '... days ago',
           });
         } else if (emailData.type.includes('personal')) {
           tempPersonalEmails.push({
             email: emailData.email,
             status: '',
-            last_verified: 'x x ago',
+            last_verified: '... days ago',
           });
         }
       });
@@ -265,7 +265,7 @@ const ContactDetailInformation = (props: Props) => {
                 Direct phone{' '}
                 {`(${employeeData?.phones?.length || employeeData?.teaser?.phones?.length || 0})`}
               </p>
-              <p>Last Verified</p>
+              <p>Last verified</p>
             </div>
             <div className={styles.emailWrapper__emailBoxes}>
               <div className={styles.emailWrapper__emailBoxes__container}>
@@ -288,17 +288,21 @@ const ContactDetailInformation = (props: Props) => {
                         const { number, status, last_verified } = phoneData;
                         return (
                           <div
-                            className={`${styles.employeeInformationDetailPopup__contactInformation_emails__verified} 
-                    ${styles.employeeInformationDetailPopup__contactInformation_details}`}
+                            className={`${styles.emailWrapper__contactInformation_emails__verified} 
+                        ${styles.emailWrapper__contactInformation_details}`}
                           >
-                            {emailVerificationIcons[status]}
-                            <p className={styles.linkBlueText}>{number}</p>
-                            <p
-                              className={
-                                styles.employeeInformationDetailPopup__contactInformation_details
-                              }
-                            >
-                              {formatNumber(getNumberOfDaysTillToday(last_verified))} days ago
+                            <div className={styles.emailWrapper__contactInformation__emailIconBox}>
+                              {emailVerificationIcons[status]}
+                              <p className={styles.linkBlueText}>{number}</p>
+                            </div>
+                            <p className={styles.emailWrapper__contactInformation_details}>
+                              {employeeData?.is_looked_up ? (
+                                <>
+                                  {formatNumber(getNumberOfDaysTillToday(last_verified))} days ago
+                                </>
+                              ) : (
+                                <>{last_verified}</>
+                              )}
                             </p>
                           </div>
                         );
@@ -306,19 +310,24 @@ const ContactDetailInformation = (props: Props) => {
                     {!employeeData?.is_looked_up &&
                       employeeData?.teaser?.phones &&
                       employeeData?.teaser?.phones.map((phone: any) => (
-                        <div>
-                          <p
-                            className={`${styles.linkBlueText} 
-                  ${styles.employeeInformationDetailPopup__contactInformation_details}`}
-                          >
-                            {phone.number}
-                          </p>
+                        <div
+                          className={`${styles.emailWrapper__contactInformation_emails__verified} 
+                        ${styles.emailWrapper__contactInformation_details}`}
+                        >
+                          <div className={styles.emailWrapper__contactInformation__emailIconBox}>
+                            <p
+                              className={`${styles.linkBlueText} 
+                            ${styles.employeeInformationDetailPopup__contactInformation_details}`}
+                            >
+                              {phone.number}
+                            </p>
+                          </div>
                           <p
                             className={
                               styles.employeeInformationDetailPopup__contactInformation_details
                             }
                           >
-                            x x ago
+                            ... days ago
                           </p>
                         </div>
                       ))}

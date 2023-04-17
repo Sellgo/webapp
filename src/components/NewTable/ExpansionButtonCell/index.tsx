@@ -77,7 +77,7 @@ const ExpansionCell = (props: Props) => {
             onClick={reRouteToSellerDetailsPage}
           >
             <div className={styles.unlockedBtn}>
-              <ValidCheckIcon fill="#5DC560" /> View
+              <ValidCheckIcon fill="#5DC560" /> Insight
             </div>
           </ActionButton>
         )}
