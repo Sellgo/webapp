@@ -503,7 +503,7 @@ function CheckoutForm(props: MyProps) {
               >
                 Terms of Service&nbsp;
               </span>
-              and &nbsp;
+              and&nbsp;
               <span
                 onClick={() => {
                   setOpenPP(true);
@@ -546,7 +546,7 @@ function CheckoutForm(props: MyProps) {
         >
           Privacy Policy&nbsp;
         </button>
-        <span>Copyright @ sellgo 2022</span>
+        <span>Copyright @ Sellgo 2023</span>
       </div>
     </>
   );

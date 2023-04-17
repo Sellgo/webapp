@@ -51,7 +51,7 @@ import SalesForecastingWeights from '../Settings/PerfectStockSettings/SalesForec
 import SellgoNewSubscription from '../NewSellgoSubscription';
 import SellgoPaymentSuccess from '../NewSellgoSubscription/SellgoPaymentSuccess';
 import SellgoPilotOnboarding from '../NewSellgoSubscription/PilotOnboarding';
-import SellgoFreeAccountForm from '../NewSellgoSubscription/SellgoFreeAccountForm';
+// import SellgoFreeAccountForm from '../NewSellgoSubscription/SellgoFreeAccountForm';
 import SellgoActivation from '../NewSellgoSubscription/SellgoActivation';
 import SellgoActivationSuccess from '../NewSellgoSubscription/SellgoActivationSuccess';
 import SellgoUpsellCtaPage from '../UpsellCtaPage/Sellgo';
@@ -86,6 +86,7 @@ import HubSpotIntegrationRedirect from '../Settings/Hubspot/HubSpotIntegrationRe
 import HubSpotIntegrationMapping from '../Settings/Hubspot/HubspotIntegrationMapping';
 import UpdateSubscription from '../Settings/Pricing/SellgoPricing/UpdateSubscription';
 import SellerDetails from '../SellerDetails';
+import SellgoRegistration from '../NewSellgoRegistration';
 
 export const auth = new Auth();
 
@@ -103,7 +104,7 @@ const AistockSubscriptionPages = {
 const SellgoSubscriptionPages = {
   NewSubscription: SellgoNewSubscription,
   PaymentSuccess: SellgoPaymentSuccess,
-  FreeAccountForm: SellgoFreeAccountForm,
+  FreeAccountForm: SellgoRegistration,
   Activation: SellgoActivation,
   ActivationSuccess: SellgoActivationSuccess,
   UpsellCtaPage: SellgoUpsellCtaPage,

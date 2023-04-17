@@ -23,6 +23,8 @@ export interface SummaryDetails {
   annualLookups?: number;
   annualSavingPercentage?: number;
   displayName?: string;
+  monthlyBenefits?: { [key: string]: string }[];
+  annuallyBenefits?: { [key: string]: string }[];
 }
 
 export interface SubscriptionPlan {
