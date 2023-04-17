@@ -295,7 +295,7 @@ const FreeAccountForm = (props: Props) => {
           >
             Privacy Policy&nbsp;
           </button>
-          <span>Copyright @ Sellgo 2022</span>
+          <span>Copyright @ Sellgo 2023</span>
         </div>
       </main>
     </>
