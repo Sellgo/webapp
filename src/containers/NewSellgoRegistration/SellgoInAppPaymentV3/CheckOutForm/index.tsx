@@ -753,12 +753,6 @@ function CheckoutForm(props: MyProps) {
             </p>
           </div>
 
-          {!successPayment && errorMessage.length > 0 && (
-            <div className={styles.paymentErrorMessage}>
-              <p>{errorMessage}</p>
-            </div>
-          )}
-
           {isPayNow ? (
             <ActionButton
               variant={'primary'}
@@ -783,6 +777,12 @@ function CheckoutForm(props: MyProps) {
               Start my free trial
               {false && <Loader active={isLoading} inline size="mini" inverted />}
             </ActionButton>
+          )}
+
+          {!successPayment && errorMessage.length > 0 && (
+            <div className={styles.paymentErrorMessage}>
+              <p>{errorMessage}</p>
+            </div>
           )}
 
           <div className={styles.paymentMeta}>

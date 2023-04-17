@@ -145,18 +145,17 @@
 }
 
 .paymentErrorMessage {
-  background: #eb675e;
-  color: #fff;
+  color: #eb675e;
   border-radius: 7px;
   width: 100%;
   height: auto;
   display: flex;
   justify-content: center;
   align-items: left;
-  margin-top: 20px;
-  font-size: 16px;
+  margin-top: 18px;
+  font-size: $fontsize_content_14;
   font-weight: $fontweight_semibold;
-  padding: 15px 0;
+  //padding: 15px 0;
 }
 
 .redemptionMessage {
@@ -786,7 +785,7 @@
 
 .notes {
   margin-left: 30px;
-  margin-top: 305px;
+  margin-top: 200px;
 }
 
 .notesWrapper {
