@@ -84,6 +84,10 @@
   border-radius: 8px;
   border: 1px solid $grey_3;
   box-shadow: 0 3px 6px 0 #2e3b4a29;
+
+  @media screen and(max-height: 900px) {
+    height: 500px;
+  }
 }
 
 .reviewerDetails {
@@ -109,6 +113,10 @@
   align-items: center;
   justify-content: flex-start;
   margin-bottom: 40px;
+
+  @media screen and(max-height: 900px) {
+    margin-bottom: 10px;
+  }
 
   p {
     font-size: 12px;
@@ -154,6 +162,10 @@
   width: 400px;
   margin: 15px 0;
   margin-right: 10px;
+
+  @media screen and (max-height: 900px) {
+    margin: 5px 0;
+  }
 
   label {
     font-size: 16px;
