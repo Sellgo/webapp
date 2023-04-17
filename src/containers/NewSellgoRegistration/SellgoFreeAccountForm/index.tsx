@@ -138,6 +138,22 @@ const FreeAccountForm = (props: Props) => {
     }
   }, []);
 
+  const sendDataToDrip = async () => {
+    try {
+      /* Verify email */
+      const dripFormData = new FormData();
+      dripFormData.append('email', email);
+      dripFormData.append('firstname', name?.split(' ')?.[0] ?? '');
+      dripFormData.append('lastname', name?.split(' ')?.[1] ?? '');
+      dripFormData.append('drop_off_point', 'Signup');
+
+      await axios.post(AppConfig.BASE_URL_API + `sellers/create-hubspot`, dripFormData);
+    } catch (e) {
+      console.log('Error sending to drip => ', e);
+      return;
+    }
+  };
+
   const handleSubmit = async () => {
     setLoading(true);
     if (!passwordPolicy.validate(password)) {
@@ -176,6 +192,7 @@ const FreeAccountForm = (props: Props) => {
       setLoading(false);
       return;
     }
+    sendDataToDrip();
     setUserName(name);
     setUserEmail(email);
     setUserPassword(password);

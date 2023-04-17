@@ -580,6 +580,36 @@
   }
 }
 
+.showPromoCodeText {
+  color: $grey_8;
+  font-size: $fontsize_content_14;
+  font-weight: $fontweight_regular;
+  cursor: pointer;
+  padding-top: 18px;
+  padding-bottom: 18px;
+
+  span {
+    margin-left: 5px;
+    display: inline-block;
+    transform: rotate(-90deg);
+  }
+}
+
+.hidePromoCodeText {
+  color: $grey_8;
+  font-size: $fontsize_content_14;
+  font-weight: $fontweight_regular;
+  padding-top: 18px;
+  padding-bottom: 18px;
+  cursor: pointer;
+
+  span {
+    margin-left: 5px;
+    display: inline-block;
+    transform: rotate(90deg);
+  }
+}
+
 .consent {
   margin-top: 1rem;
   display: flex;
@@ -684,8 +714,7 @@
 }
 
 .totalItemsWrapper {
-  margin-top: 0.5rem;
-  margin-bottom: 30px;
+  margin-bottom: 18px;
   width: 100%;
 
   .totalPrice {
