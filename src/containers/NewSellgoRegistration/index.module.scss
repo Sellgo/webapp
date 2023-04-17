@@ -1,13 +1,14 @@
 @import '../../design-system/new-colors.scss';
 
 .progress_bar {
-  padding: 30px 50px 0;
+  padding: 30px 500px 0;
   margin-bottom: 50px;
 
   &__label {
-    color: $prim_dark_1;
+    color: $grey_8;
     font-size: $fontsize_content_16;
-    font-weight: $fontweight_medium;
+    font-weight: $fontweight_regular;
+    margin-bottom: 11px;
   }
 
   &__wrapper {
@@ -16,7 +17,7 @@
     justify-content: space-between;
 
     .step {
-      width: 33%;
+      width: 32%;
       padding: 5px 0;
       border-radius: 7px;
       background: $orange_purple_gradient;

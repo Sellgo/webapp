@@ -185,12 +185,12 @@ const FreeAccountForm = (props: Props) => {
 
   return (
     <>
-      <p className={styles.label}>Start hitting your number in two clicks</p>
+      <p className={styles.label}>Start hitting your sales number in two clicks</p>
       <main className={styles.activationPage}>
         {newUserExperiencePopup()}
         <section className={styles.activationFormSection}>
           <div className={styles.activationForm}>
-            <p className={styles.formHeader}>Create a free account</p>
+            <p className={styles.formHeader}>Easy sign up</p>
             <Form.Input
               size="huge"
               label="Name"
@@ -254,7 +254,7 @@ const FreeAccountForm = (props: Props) => {
             </div>
             <p className={styles.error}>{errorMessage}</p>
             <button className={styles.submitButton} onClick={handleSubmit} disabled={isLoading}>
-              Sign up now&nbsp;
+              Create my account&nbsp;
               <Loader active={isLoading} inline inverted size="mini" />
             </button>
             <p className={styles.signIn}>

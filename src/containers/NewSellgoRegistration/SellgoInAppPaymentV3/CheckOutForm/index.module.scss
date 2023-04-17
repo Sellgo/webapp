@@ -4,6 +4,7 @@
   display: flex;
   align-items: flex-start;
   height: max-content;
+  margin-bottom: 140px;
 
   h1 {
     font-size: $fontsize_subtitle_20;
@@ -202,7 +203,7 @@
 }
 
 .paymentInfoForm {
-  padding-top: 140px;
+  margin-top: 1rem;
   margin-left: 70px;
   display: flex;
   flex-direction: column;
