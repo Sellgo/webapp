@@ -127,6 +127,7 @@ function CheckoutForm(props: MyProps) {
   const { termsOfService, privacyPolicy, fetchPP, fetchTOS } = props;
   const [openTOS, setOpenTOS] = React.useState<boolean>(false);
   const [openPP, setOpenPP] = React.useState<boolean>(false);
+  const [showPromoField, setShowPromoField] = useState<boolean>(false);
 
   /* ---------------------------------------- */
   /* -------------- TOS --------------------- */
@@ -261,7 +262,7 @@ function CheckoutForm(props: MyProps) {
       bodyFormData.set('email', email.toLowerCase());
       bodyFormData.set('subscription_id', String(getSubscriptionID(accountType)));
       bodyFormData.set('payment_method_id', paymentMethodId);
-      bodyFormData.set('payment_mode', paymentMode);
+      bodyFormData.set('payment_mode', isMonthly ? 'monthly' : 'yearly');
       bodyFormData.set('promo_code', promoCode);
       bodyFormData.set('free_trial', isPayNow ? 'false' : 'true');
 
@@ -552,25 +553,32 @@ function CheckoutForm(props: MyProps) {
                 />
               </Form.Field>
             </Form.Group>
-
-            <div className={styles.totalItemsWrapper}>
-              <Form.Group className={`${styles.formGroup} ${styles.formGroup__promo}`}>
-                <Form.Input
-                  className={`${styles.formInput} ${styles.formInput__promo}`}
-                  size="large"
-                  type="text"
-                  placeholder="Add promotion code"
-                  value={promoCode}
-                  onChange={handlePromoCodeChange}
-                />
-                <button
-                  disabled={!promoCode || promoLoading}
-                  className={styles.redeemButton}
-                  onClick={handleCheckPromoCode}
-                >
-                  Redeem
-                </button>
-                {/* {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
+            <p
+              className={showPromoField ? styles.hidePromoCodeText : styles.showPromoCodeText}
+              onClick={() => setShowPromoField(!showPromoField)}
+            >
+              {' '}
+              <span>{'<'}</span> Add promotion code
+            </p>
+            {showPromoField && (
+              <div className={styles.totalItemsWrapper}>
+                <Form.Group className={`${styles.formGroup} ${styles.formGroup__promo}`}>
+                  <Form.Input
+                    className={`${styles.formInput} ${styles.formInput__promo}`}
+                    size="large"
+                    type="text"
+                    placeholder="Add promotion code"
+                    value={promoCode}
+                    onChange={handlePromoCodeChange}
+                  />
+                  <button
+                    disabled={!promoCode || promoLoading}
+                    className={styles.redeemButton}
+                    onClick={handleCheckPromoCode}
+                  >
+                    Redeem
+                  </button>
+                  {/* {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
                   <div className={styles.couponItem}>
                     <p className={styles.orderPrice}>
                       {isMonthly ? (
@@ -593,16 +601,19 @@ function CheckoutForm(props: MyProps) {
                     </p>
                   </div>
                 )} */}
-              </Form.Group>
-              {/* <p className={styles.redemptionMessage__success}>
+                </Form.Group>
+                {/* <p className={styles.redemptionMessage__success}>
                 {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
                   <span>
                     {generatePromoCodeMessage(redeemedPromoCode, isMonthly ? 'monthly' : 'yearly')}
                   </span>
                 )}
               </p> */}
-              <p className={styles.redemptionMessage__error}>{isPromoCodeChecked && promoError}</p>
-            </div>
+                <p className={styles.redemptionMessage__error}>
+                  {isPromoCodeChecked && promoError}
+                </p>
+              </div>
+            )}
           </div>
 
           <div className={styles.totalPriceSummary}>

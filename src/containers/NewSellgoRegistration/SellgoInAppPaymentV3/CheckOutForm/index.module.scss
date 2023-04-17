@@ -580,6 +580,32 @@
   }
 }
 
+.showPromoCodeText {
+  color: $grey_8;
+  font-size: $fontsize_content_14;
+  font-weight: $fontweight_regular;
+  cursor: pointer;
+
+  span {
+    margin-left: 5px;
+    display: inline-block;
+    transform: rotate(-90deg);
+  }
+}
+
+.hidePromoCodeText {
+  color: $grey_8;
+  font-size: $fontsize_content_14;
+  font-weight: $fontweight_regular;
+  cursor: pointer;
+
+  span {
+    margin-left: 5px;
+    display: inline-block;
+    transform: rotate(90deg);
+  }
+}
+
 .consent {
   margin-top: 1rem;
   display: flex;
