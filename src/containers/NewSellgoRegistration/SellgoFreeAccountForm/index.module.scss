@@ -19,13 +19,18 @@
   // justify-content: center;
 
   h2 {
-    width: 400px;
+    width: 450px;
     color: $black_1;
-    font-size: 28px;
+    font-size: $fontsize_subtitle_20;
     font-weight: $fontweight_bold;
-    margin-bottom: 30px;
-    padding-bottom: 30px;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
     border-bottom: 1px solid $border-color-1;
+    line-height: $fontlineheight_content_30;
+
+    @media screen and (max-width: 1800px) {
+      width: 315px;
+    }
   }
 
   p {

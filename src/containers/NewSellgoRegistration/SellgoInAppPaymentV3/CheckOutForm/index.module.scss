@@ -289,7 +289,7 @@
   // margin-top: 7em;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
-  padding: 120px 80px 0;
+  padding: 70px 80px 0;
   background: $yellow_purple_gradient;
   position: sticky;
   top: 0;
@@ -302,11 +302,13 @@
   h2 {
     width: 450px;
     color: $black_1;
-    font-size: $fontsize_subtitle_28;
+    font-size: $fontsize_subtitle_20;
     font-weight: $fontweight_bold;
+    margin-top: 30px;
     margin-bottom: 1rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid $border-color-1;
+    line-height: $fontlineheight_content_30;
 
     @media screen and (max-width: 1800px) {
       width: 315px;
