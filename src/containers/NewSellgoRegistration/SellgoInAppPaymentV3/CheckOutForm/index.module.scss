@@ -294,6 +294,11 @@
   position: sticky;
   top: 0;
 
+  @media screen and (max-width: 1800px) {
+    width: 360px;
+    padding: 120px 30px 0;
+  }
+
   h2 {
     width: 450px;
     color: $black_1;
@@ -302,6 +307,10 @@
     margin-bottom: 1rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid $border-color-1;
+
+    @media screen and (max-width: 1800px) {
+      width: 315px;
+    }
   }
 
   p {
@@ -310,6 +319,10 @@
     font-size: $fontsize_content_14;
     font-weight: $fontweight_regular;
     font-style: italic;
+
+    @media screen and (max-width: 1800px) {
+      width: 315px;
+    }
   }
 
   .reviewerRow {
@@ -823,6 +836,10 @@
   border: 1px solid $grey_3;
   border-radius: 7px;
 
+  @media screen and (max-width: 1600px) {
+    width: 350px;
+  }
+
   &__freeTrial {
     font-size: $fontsize_content_14;
     color: $prim_dark_1;
@@ -874,6 +891,10 @@
   font-size: $fontsize_content_14;
   color: $prim_dark_1;
   font-weight: $fontweight_regular;
+
+  @media screen and (max-width: 1600px) {
+    width: 350px;
+  }
 }
 
 .purpleText {
