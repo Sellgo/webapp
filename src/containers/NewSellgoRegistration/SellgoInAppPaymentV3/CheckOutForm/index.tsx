@@ -369,6 +369,9 @@ function CheckoutForm(props: MyProps) {
   const benefitIcon: { [key: string]: any } = {
     chromeExtension: <Icon name="building" />,
     sellerDatabase: <Icon name="building" />,
+    sellerCount: <Icon name="building" />,
+    sellerMap: <Icon name="building" />,
+    export: <Icon name="building" />,
   };
 
   return (
@@ -567,7 +570,7 @@ function CheckoutForm(props: MyProps) {
                 >
                   Redeem
                 </button>
-                {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
+                {/* {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
                   <div className={styles.couponItem}>
                     <p className={styles.orderPrice}>
                       {isMonthly ? (
@@ -589,13 +592,15 @@ function CheckoutForm(props: MyProps) {
                       )}
                     </p>
                   </div>
-                )}
+                )} */}
               </Form.Group>
-              <p className={styles.redemptionMessage__success}>
+              {/* <p className={styles.redemptionMessage__success}>
                 {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message && (
-                  <span>{generatePromoCodeMessage(redeemedPromoCode, paymentMode)}</span>
+                  <span>
+                    {generatePromoCodeMessage(redeemedPromoCode, isMonthly ? 'monthly' : 'yearly')}
+                  </span>
                 )}
-              </p>
+              </p> */}
               <p className={styles.redemptionMessage__error}>{isPromoCodeChecked && promoError}</p>
             </div>
           </div>
@@ -611,29 +616,49 @@ function CheckoutForm(props: MyProps) {
                 USD $
                 {`${
                   isMonthly
-                    ? formatNumber(calculateDiscountedPrice(summaryDetails.monthlyPrice))
-                    : formatNumber(calculateDiscountedPrice(summaryDetails.annualPrice))
+                    ? formatNumber(summaryDetails.monthlyPrice)
+                    : formatNumber(summaryDetails.annualPrice)
                 }`}{' '}
                 {isMonthly ? ` /month` : ` /year`}
               </p>
             </div>
-
-            {isPayNow && (
+            {isPromoCodeChecked && redeemedPromoCode && redeemedPromoCode.message ? (
               <div className={styles.totalPriceSummary__discountDetails}>
                 <p>
-                  20% OFF discount for first
-                  {isMonthly ? ` month` : ` year`}
+                  {generatePromoCodeMessage(redeemedPromoCode, isMonthly ? 'monthly' : 'yearly')}
                 </p>
                 <p className={styles.orderPrice}>
                   - USD $
                   {`${
                     isMonthly
-                      ? formatNumber(calculateDiscountedPrice(summaryDetails.monthlyPrice * 0.2))
-                      : formatNumber(calculateDiscountedPrice(summaryDetails.annualPrice * 0.2))
+                      ? formatNumber(calculateDiscountedPrice(summaryDetails.monthlyPrice))
+                      : formatNumber(calculateDiscountedPrice(summaryDetails.annualPrice))
                   }`}{' '}
                   {isMonthly ? ` /month` : ` /year`}
                 </p>
               </div>
+            ) : (
+              <>
+                {isPayNow && (
+                  <div className={styles.totalPriceSummary__discountDetails}>
+                    <p>
+                      20% OFF discount for first
+                      {isMonthly ? ` month` : ` year`}
+                    </p>
+                    <p className={styles.orderPrice}>
+                      - USD $
+                      {`${
+                        isMonthly
+                          ? formatNumber(
+                              calculateDiscountedPrice(summaryDetails.monthlyPrice * 0.2)
+                            )
+                          : formatNumber(calculateDiscountedPrice(summaryDetails.annualPrice * 0.2))
+                      }`}{' '}
+                      {isMonthly ? ` /month` : ` /year`}
+                    </p>
+                  </div>
+                )}
+              </>
             )}
             <hr />
             {/* <p className={styles.totalPriceSummary__due}>DUE NOW</p> */}

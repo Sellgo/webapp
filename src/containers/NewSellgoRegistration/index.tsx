@@ -184,11 +184,11 @@ const SellgoRegistration = (props: Props) => {
   return (
     <div className={styles.registrationPage}>
       <section className={styles.progress_bar}>
-        <p className={styles.progress_bar__label}>Step {step} of 3</p>
+        <p className={styles.progress_bar__label}>Step {step} of 2</p>
         <div className={styles.progress_bar__wrapper}>
           <div className={styles.step} />
           <div className={`${styles.step} ${step < 2 ? styles.step__inactive : ''}`} />
-          <div className={`${styles.step} ${step < 3 ? styles.step__inactive : ''}`} />
+          {/* <div className={`${styles.step} ${step < 3 ? styles.step__inactive : ''}`} /> */}
         </div>
       </section>
       {step === 1 && (
