@@ -823,17 +823,29 @@ function CheckoutForm(props: MyProps) {
               Your {summaryDetails.displayName} plan includes:
             </p>
             <p className={styles.notesWrapper__benefit}>
-              {summaryDetails?.benefitWithIcons?.map((benefit: any) => {
-                return (
-                  <>
-                    {benefit.name && (
-                      <div>
-                        {benefitIcon[benefit.name]} <span>{benefit.description}</span>
-                      </div>
-                    )}
-                  </>
-                );
-              })}
+              {isMonthly
+                ? summaryDetails?.monthlyBenefits?.map((benefit: any) => {
+                    return (
+                      <>
+                        {benefit.name && (
+                          <div>
+                            {benefitIcon[benefit.name]} <span>{benefit.description}</span>
+                          </div>
+                        )}
+                      </>
+                    );
+                  })
+                : summaryDetails?.annuallyBenefits?.map((benefit: any) => {
+                    return (
+                      <>
+                        {benefit.name && (
+                          <div>
+                            {benefitIcon[benefit.name]} <span>{benefit.description}</span>
+                          </div>
+                        )}
+                      </>
+                    );
+                  })}
             </p>
           </div>
           <div className={styles.notesWrapper}>

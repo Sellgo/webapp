@@ -160,9 +160,15 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     annualSavingPercentage: 20,
     subDescription: '',
     benefits: ['Full access to Chrome extension.', 'Limited access to seller database suite.', ''],
-    benefitWithIcons: [
-      { name: 'chromeExtension', description: 'Full access to Chrome extension.' },
-      { name: 'sellerDatabase', description: 'Limited access to seller database suite.' },
+    monthlyBenefits: [
+      { name: 'checked', description: '1. 1 user' },
+      { name: 'checked', description: '2. 1,000 brand reports per month' },
+      { name: 'checked', description: '3. Contact info with emails' },
+    ],
+    annuallyBenefits: [
+      { name: 'checked', description: '1. 1 user' },
+      { name: 'checked', description: '2. 12,000 brand reports per year, get all upfront' },
+      { name: 'checked', description: '3. Contact info with emails' },
     ],
   },
   professional: {
@@ -200,13 +206,15 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
       'Top view of 20,000 sellers in the Seller Map',
       'Export data to spreadsheet',
     ],
-    benefitWithIcons: [
-      {
-        name: 'sellerCount',
-        description: '20,000 Sellers in Seller Database or Seller Map per month.',
-      },
-      { name: 'sellerMap', description: 'Top view of 20,000 sellers in the Seller Map' },
-      { name: 'export', description: 'Export data to spreadsheet' },
+    monthlyBenefits: [
+      { name: 'checked', description: '1. Unlimited users' },
+      { name: 'checked', description: '2. 5,000 brand reports per month' },
+      { name: 'checked', description: '3. Contact info with emails, phones, social media' },
+    ],
+    annuallyBenefits: [
+      { name: 'checked', description: '1. Unlimited users' },
+      { name: 'checked', description: '2. 60,000 brand reports per year, get all upfront' },
+      { name: 'checked', description: '3. Contact info with emails, phones, social media' },
     ],
   },
 };
