@@ -865,10 +865,14 @@ function CheckoutForm(props: MyProps) {
                   No. You won{`’`}t be charged until after your free trial ends on{' '}
                   {prettyPrintDate(new Date(new Date().setDate(new Date().getDate() + 7)))}. After
                   your free trial, you{`’`}ll be charged USD $
-                  {isMonthly
-                    ? formatNumber(summaryDetails.monthlyPrice)
-                    : formatNumber(summaryDetails.annualPrice)}{' '}
-                  monthly until you change your plan or cancel your subscription.
+                  {`${
+                    isMonthly
+                      ? formatNumber(summaryDetails.monthlyPrice)
+                      : formatNumber(summaryDetails.annualPrice)
+                  }
+                  `}{' '}
+                  {isMonthly ? 'monthly' : 'annually'} until you change your plan or cancel your
+                  subscription.
                 </p>
               </div>
             )}
