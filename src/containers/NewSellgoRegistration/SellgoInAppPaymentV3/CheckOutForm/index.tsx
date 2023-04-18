@@ -775,7 +775,8 @@ function CheckoutForm(props: MyProps) {
               onClick={handleSubmitV2}
               disabled={!stripe || stripeLoading || isLoading}
             >
-              Start my subscription
+              Start my subscription &nbsp;
+              <Loader active={isLoading} inline inverted size="mini" />
               {false && <Loader active={isLoading} inline size="mini" inverted />}
             </ActionButton>
           ) : (
@@ -787,7 +788,8 @@ function CheckoutForm(props: MyProps) {
               onClick={handleSubmitV2}
               disabled={!stripe || stripeLoading || isLoading}
             >
-              Start my free trial
+              Start my free trial &nbsp;
+              <Loader active={isLoading} inline inverted size="mini" />
               {false && <Loader active={isLoading} inline size="mini" inverted />}
             </ActionButton>
           )}
