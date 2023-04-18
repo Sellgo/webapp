@@ -424,7 +424,7 @@ function UpdateSubscriptionDetails(props: MyProps) {
                       {summaryDetails?.displayName ?? summaryDetails?.name}{' '}
                       {`${isMonthly ? 'monthly' : 'yearly'}`}{' '}
                     </strong>
-                    subscription will begin today and will renew on
+                    subscription will begin today and will renew on{' '}
                     <strong>
                       {prettyPrintDate(new Date(sellerSubscription?.next_billing_cycle_date))}.
                     </strong>

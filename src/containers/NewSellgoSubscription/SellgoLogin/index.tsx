@@ -5,6 +5,7 @@ import './index.scss';
 import Auth from '../../../components/Auth/Auth';
 import { useInput } from '../../../hooks/useInput';
 import { v4 as uuid } from 'uuid';
+import { AppConfig } from '../../../config';
 
 interface Props {
   auth: Auth;
@@ -98,7 +99,12 @@ export default function Login(props: Props) {
         <Form.Field control={Button} fluid={true} primary={true} value="Submit">
           Log in
         </Form.Field>
-        <a className="sign-up" href="/signup">
+        <a
+          className="sign-up"
+          href={`${AppConfig.WEB_URL}/pricing`}
+          target="_blank"
+          rel="noreferrer noopener"
+        >
           <b>Sign up for free trial</b>
         </a>
       </Form>
