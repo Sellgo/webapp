@@ -1,8 +1,8 @@
 import React, { ReactChild, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import { Modal, Dimmer, Confirm, Loader } from 'semantic-ui-react';
-import Axios from 'axios';
+import { Modal, Dimmer } from 'semantic-ui-react';
+// import Axios from 'axios';
 
 /* App Config */
 import { AppConfig } from '../../../../config';
@@ -36,8 +36,8 @@ import { SellerSubscription } from '../../../../interfaces/Seller';
 
 /* Utils */
 import { capitalizeFirstLetter, formatDecimal, formatNumber } from '../../../../utils/format';
-import { sellerIDSelector } from '../../../../selectors/Seller';
-import { error, success } from '../../../../utils/notifications';
+// import { sellerIDSelector } from '../../../../selectors/Seller';
+// import { error, success } from '../../../../utils/notifications';
 import { isSellgoSession } from '../../../../utils/session';
 import { getSubscriptionDetailsById } from '../../../../constants/Subscription/Sellgo';
 
@@ -71,18 +71,16 @@ const QuotaAndPaymentsSection = (props: Props) => {
     fetchCreditCardInfo,
     hasActivePlan,
     hasPaymentMethod,
-    fetchSellerSubscription,
-    getSellerInfo,
   } = props;
 
   const [unitsSoldInput] = useState<number>(1000);
   const [unitsSold] = useState<UNITS_SOLD_TYPE>('1,000');
   const sellerPlan = getSellerPlan(unitsSold);
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
-  const [isCancellingSubscription, setCancellingSubscription] = React.useState<boolean>(false);
-  const [isCancelSubscriptionLoading, setCancelSubscriptionLoading] = React.useState<boolean>(
-    false
-  );
+  // const [isCancellingSubscription, setCancellingSubscription] = React.useState<boolean>(false);
+  // const [isCancelSubscriptionLoading, setCancelSubscriptionLoading] = React.useState<boolean>(
+  //   false
+  // );
 
   const isSubscriptionExpiring = sellerSubscription && sellerSubscription.status === 'pending';
   const subscriptionFeDetails =
@@ -117,21 +115,21 @@ const QuotaAndPaymentsSection = (props: Props) => {
     setModalOpen(false);
   };
 
-  const cancelSubscription = () => {
-    setCancelSubscriptionLoading(true);
-    Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerIDSelector()}/subscription/cancel`)
-      .then(() => {
-        getSellerInfo();
-        fetchSellerSubscription();
-        success(`Your subscription has been cancelled`);
-        history.push('/churnflow');
-        setCancelSubscriptionLoading(false);
-      })
-      .catch(() => {
-        setCancelSubscriptionLoading(false);
-        error(`There was an error cancelling your subscription`);
-      });
-  };
+  // const cancelSubscription = () => {
+  //   setCancelSubscriptionLoading(true);
+  //   Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerIDSelector()}/subscription/cancel`)
+  //     .then(() => {
+  //       getSellerInfo();
+  //       fetchSellerSubscription();
+  //       success(`Your subscription has been cancelled`);
+  //       history.push('/churnflow');
+  //       setCancelSubscriptionLoading(false);
+  //     })
+  //     .catch(() => {
+  //       setCancelSubscriptionLoading(false);
+  //       error(`There was an error cancelling your subscription`);
+  //     });
+  // };
 
   /* Content to show if user has no active plan, and no payment methods */
   const DimmerContent: ReactChild = (
@@ -270,17 +268,15 @@ const QuotaAndPaymentsSection = (props: Props) => {
                       asExternal
                       type="white"
                       size="small"
-                      onClick={() => setCancellingSubscription(true)}
-                      className={`
-                        ${styles.actionButton} 
-                        ${isCancelSubscriptionLoading ? styles.actionButton__disabled : ''}
-                      `}
+                      onClick={() => history.push('/churnflow')}
+                      className={styles.actionButton}
                     >
-                      {!isCancelSubscriptionLoading ? (
+                      {/* {!isCancelSubscriptionLoading ? (
                         'Cancel plan'
                       ) : (
                         <Loader inline active={true} size="tiny" />
-                      )}
+                      )} */}
+                      Cancel plan
                     </OrangeButton>
                   )}
                 </div>
@@ -358,7 +354,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
         </Elements>
       </Modal>
 
-      <Confirm
+      {/* <Confirm
         content="Are you sure you want to cancel your subscription?"
         open={isCancellingSubscription}
         onCancel={() => {
@@ -369,7 +365,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
           setCancellingSubscription(false);
         }}
         loading={true}
-      />
+      /> */}
     </section>
   );
 };
