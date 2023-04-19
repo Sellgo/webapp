@@ -47,6 +47,12 @@ const Payment = (props: PaymentProps) => {
   const [prorateValue, setProrateValue] = useState<number>();
   console.log('Seller subscription', sellerSubscription);
 
+  useEffect(() => {
+    if (sellerSubscription && sellerSubscription.is_trialing) {
+      history.push('/settings/pricing');
+    }
+  }, [sellerSubscription]);
+
   const fetchCurrentProtate = async () => {
     try {
       const URL = `${AppConfig.BASE_URL_API}sellers/${sellerID}/billing/current-prorate`;

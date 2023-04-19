@@ -34,6 +34,7 @@ interface Props {
 
   // selelr details
   sellerSubscription: any;
+  isFreeTrial?: boolean;
 }
 
 const PricingPlansCard: React.FC<Props> = props => {
@@ -52,6 +53,7 @@ const PricingPlansCard: React.FC<Props> = props => {
     annualLookups,
     changePlan,
     sellerSubscription,
+    isFreeTrial = false,
   } = props;
 
   return (
@@ -82,6 +84,7 @@ const PricingPlansCard: React.FC<Props> = props => {
           isNew={isNew}
           monthlyLookups={monthlyLookups}
           annualLookups={annualLookups}
+          isFreeTrial={isFreeTrial}
         />
 
         <p className={styles.planType}>{featureSubName}</p>
