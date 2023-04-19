@@ -240,6 +240,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     ) => this.getNewPlan(subscriptionDetails, isUpgradingToYearly)}
                     // seller details
                     sellerSubscription={sellerSubscription}
+                    isFreeTrial={sellerSubscription.is_trialing}
                   />
                 );
               })}

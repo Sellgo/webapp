@@ -34,6 +34,7 @@ interface Props {
 
   // seller details
   sellerSubscription: any;
+  isFreeTrial?: boolean;
 }
 
 const GenericPriceCardHead: React.FC<Props> = props => {
@@ -51,6 +52,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
     isNew,
     monthlyLookups,
     annualLookups,
+    isFreeTrial = false,
   } = props;
   const isAccountSubscribed = MONTHLY_AND_ANNUAL_PLANS_IDS.includes(
     sellerSubscription.subscription_id
@@ -137,6 +139,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
             type="purpleGradient"
             className={styles.buyNowCTA}
             onClick={() => changePlan({ name, id }, true)}
+            disabled={isFreeTrial}
           >
             Switch to annual billing
           </ActionButton>
@@ -169,6 +172,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
           type="purpleGradient"
           className={styles.buyNowCTA}
           onClick={() => changePlan({ name, id })}
+          disabled={isFreeTrial}
         >
           {isMonthly ? 'Switch to monthly billing' : 'Switch to annual billing'}
         </ActionButton>
@@ -179,6 +183,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
           type="purpleGradient"
           className={styles.buyNowCTA}
           onClick={() => changePlan({ name, id })}
+          disabled={isFreeTrial}
         >
           Activate plan
         </ActionButton>
