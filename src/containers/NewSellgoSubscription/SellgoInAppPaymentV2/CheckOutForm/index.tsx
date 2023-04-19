@@ -259,6 +259,7 @@ function CheckoutForm(props: MyProps) {
           payment_method_id: paymentMethodId,
           payment_mode: isMonthly ? 'monthly' : 'yearly',
           promo_code: promoCode,
+          free_trial: false,
         };
         Axios.defaults.headers.common.Authorization = ``;
         createSubscriptionData(data);
