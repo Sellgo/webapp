@@ -143,14 +143,16 @@ const ChurnFlow = (props: Props) => {
             />
           );
         }
-        <ChurnFlowContent
-          onClick={() => redirectToHome()}
-          title="Thanks for your help"
-          desc="Your opinion is really important to us, one more step to complete the survey."
-          buttonText="Next"
-          img={TofuAndSoybean}
-          isButtonGrey
-        />;
+        return (
+          <ChurnFlowContent
+            onClick={() => redirectToHome()}
+            title="Thanks for your help"
+            desc="Your opinion is really important to us, one more step to complete the survey."
+            buttonText="Next"
+            img={TofuAndSoybean}
+            isButtonGrey
+          />
+        );
 
       // case POST_SURVEY_2:
       //   return (
