@@ -320,7 +320,10 @@ const PrivateRoute = connect(
                     <TrialRemainingBanner expiryDate={sellerSubscription.expiry_date} />
                   )}
                 {isPaymentPending && (
-                  <FailedPaymentsBanner paymentMode={sellerSubscription.payment_mode} />
+                  <FailedPaymentsBanner
+                    paymentMode={sellerSubscription.payment_mode}
+                    paymentFailedCount={sellerSubscription.payment_failed_count}
+                  />
                 )}
                 <Component {...props} />
               </AdminLayout>
