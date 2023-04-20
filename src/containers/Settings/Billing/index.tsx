@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 /* Actions */
@@ -40,6 +40,8 @@ import GetStarted from '../../PerfectStock/GetStarted';
 import { isSellgoSession } from '../../../utils/session';
 import BillingMeta from './BillingMeta';
 import Overage from './Overage';
+import { error, success } from '../../../utils/notifications';
+import { sellerIDSelector } from '../../../selectors/Seller';
 
 interface Props {
   fetchSellerSubscription: () => void;
@@ -62,6 +64,7 @@ const Billing = (props: Props) => {
   const [hasPaymentMethod, setHasPaymentMethod] = React.useState<boolean>(true);
   const [isTransactionHistoryLoading, setTransactionHistoryLoading] = React.useState<boolean>(true);
   const [transactionHistory, setTransactionHistory] = React.useState<Transaction[]>([]);
+  const [resumeSubscription, setResumeSubscription] = useState<boolean>(false);
 
   const [isQuotaLoading, setQuotaLoading] = React.useState<boolean>(true);
   const [quotas, setQuotas] = React.useState<QuotaCollection>(DEFAULT_QUOTA_COLLECTION);
@@ -157,6 +160,25 @@ const Billing = (props: Props) => {
     fetchTransactionHistoryPastYear();
   }, []);
 
+  const removeSubscriptionCancel = async () => {
+    setResumeSubscription(true);
+    try {
+      const sellerId = sellerIDSelector();
+      const url = `${AppConfig.BASE_URL_API}sellers/${sellerId}/subscription/redo-cancel
+      `;
+      const res = await axios.post(url);
+      const { status } = res;
+      if (status === 200) {
+        fetchSellerSubscription();
+        success('Subscription resumed successfully');
+      }
+    } catch (err) {
+      console.error(err);
+      error('Cannot resume subscription at the moment');
+    }
+    setResumeSubscription(false);
+  };
+
   return (
     <>
       <PageHeader
@@ -186,6 +208,8 @@ const Billing = (props: Props) => {
                   hasPaymentMethod={hasPaymentMethod}
                   getSellerInfo={getSellerInfo}
                   fetchSellerSubscription={fetchSellerSubscription}
+                  resumeSubscription={resumeSubscription}
+                  removeSubscriptionCancel={removeSubscriptionCancel}
                 />
 
                 <Overage />
