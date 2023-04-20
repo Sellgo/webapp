@@ -188,14 +188,14 @@ const GenericPriceCardHead: React.FC<Props> = props => {
             {prettyPrintDate(new Date(sellerSubscription.next_billing_cycle_date ?? ''))}
           </p>
           <ActionButton
-            variant="secondary"
+            variant="primary"
             size="md"
-            type="grey"
+            type="purpleGradient"
             className={`${styles.buyNowCTA} ${styles.removeCancelCTA}`}
             onClick={async () => await removeSubscriptionCancel()}
             loading={resumeSubscription}
           >
-            Remove Cancellation
+            Remove cancellation
           </ActionButton>
         </>
       ) : isAccountSubscribed ? (

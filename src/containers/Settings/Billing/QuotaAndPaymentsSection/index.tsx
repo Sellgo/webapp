@@ -45,7 +45,6 @@ import {
 // import { error, success } from '../../../../utils/notifications';
 import { isSellgoSession } from '../../../../utils/session';
 import { getSubscriptionDetailsById } from '../../../../constants/Subscription/Sellgo';
-import ActionButton from '../../../../components/ActionButton';
 
 const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
 interface Props {
@@ -79,7 +78,6 @@ const QuotaAndPaymentsSection = (props: Props) => {
     fetchCreditCardInfo,
     hasActivePlan,
     hasPaymentMethod,
-    resumeSubscription,
     removeSubscriptionCancel,
   } = props;
 
@@ -265,8 +263,20 @@ const QuotaAndPaymentsSection = (props: Props) => {
                 </div>
               )}
 
+              {isSellgoSession() && sellerSubscription.status === 'pending' && (
+                <div className={styles.resumeSubscriptionText}>
+                  <p className={styles.cancelWarningText}>
+                    Your subscription will not renew after{' '}
+                    <strong>
+                      {prettyPrintDate(new Date(sellerSubscription.next_billing_cycle_date ?? ''))}
+                    </strong>
+                  </p>
+                </div>
+              )}
+
               <div className={styles.innerGrid}>
                 {/* <p className={styles.actionLabel}> Action </p> */}
+
                 <div className={styles.planActions}>
                   <OrangeButton
                     asExternal
@@ -278,6 +288,19 @@ const QuotaAndPaymentsSection = (props: Props) => {
                   >
                     Change plan
                   </OrangeButton>
+                  {isSellgoSession() && sellerSubscription.status === 'pending' && (
+                    <div className={styles.resumeSubscriptionWrapper}>
+                      <OrangeButton
+                        // asExternal
+                        type="primary"
+                        size="small"
+                        onClick={() => removeSubscriptionCancel()}
+                        className={styles.actionButton}
+                      >
+                        Remove cancellation
+                      </OrangeButton>
+                    </div>
+                  )}
                   {!isSubscriptionExpiring && (
                     <OrangeButton
                       asExternal
@@ -337,7 +360,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
               </div>
             </span>
           )}
-          {isSellgoSession() && sellerSubscription.status === 'pending' && (
+          {/* {isSellgoSession() && sellerSubscription.status === 'pending' && (
             <div className={styles.resumeSubscriptionWrapper}>
               <p className={styles.cancelWarningText}>
                 Subscription expiring by{' '}
@@ -351,10 +374,10 @@ const QuotaAndPaymentsSection = (props: Props) => {
                 className={styles.resumeSubscriptionWrapper__button}
                 loading={resumeSubscription}
               >
-                Remove Cancellation
+                Remove cancellation
               </ActionButton>
             </div>
-          )}
+          )} */}
         </div>
       </BoxContainer>
       <BoxFooter>
