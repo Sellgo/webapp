@@ -683,6 +683,13 @@ const SellerDatabaseFilters = (props: Props) => {
           <div className={styles.activeFiltersWrapper}>
             {activeFilterValues && Object.keys(activeFilterValues).length > 0 && (
               <>
+                <div className={styles.btnWrapper}>
+                  <p>Active filters</p>
+                  <button onClick={() => handleReset()} className={styles.btn}>
+                    <span className={styles.cross}>x</span>
+                    Clear all
+                  </button>
+                </div>
                 <div className={styles.activeFiltersPils}>
                   {Object.keys(activeFilterValues).map((activeFilter, index) => {
                     return (
@@ -707,15 +714,11 @@ const SellerDatabaseFilters = (props: Props) => {
                     );
                   })}
                 </div>
-                <div className={styles.btnWrapper}>
-                  <button onClick={() => handleReset()} className={styles.btn}>
-                    <span className={styles.cross}>x</span>Clear all
-                  </button>
-                </div>
               </>
             )}
+
             {(!activeFilterValues || Object.keys(activeFilterValues).length) === 0 && (
-              <p>Filter by</p>
+              <p>No active filters</p>
             )}
           </div>
 
