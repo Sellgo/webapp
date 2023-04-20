@@ -30,7 +30,7 @@ const SettingsBanner = (props: Props) => {
     <div className={styles.editingOrderStatusBanner} style={{ background: bannerColor }}>
       <button onClick={handleGoBack} style={{ color: textColor }}>
         {' '}
-        <LeftArrow className={textColor === '#fff' ? styles.whiteIcon : ''} /> Back to previous page
+        <LeftArrow className={textColor === '#fff' ? styles.whiteIcon : ''} /> Back
       </button>
       <p style={{ color: textColor }}>{title}</p>
     </div>

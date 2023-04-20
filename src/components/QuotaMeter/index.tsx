@@ -31,7 +31,7 @@ class QuotaMeter extends React.Component<QuotaMeterProps> {
     return (
       <div className="quota-meter">
         <Progress percent={percent} size="tiny" color="blue">
-          {`You have ${formatNumber(remaining)} lookups remaining`}
+          {`You have ${formatNumber(remaining)} remaining lookups`}
         </Progress>
       </div>
     );

@@ -65,27 +65,27 @@ const PastTransactionsSection = (props: Props) => {
               </Table.Column>
 
               <Table.Column width={130} verticalAlign="middle" align="center">
-                <Table.HeaderCell>ID</Table.HeaderCell>
+                <Table.HeaderCell>Transaction ID</Table.HeaderCell>
                 <Table.Cell dataKey="id" />
               </Table.Column>
 
               <Table.Column width={130} verticalAlign="middle" align="center">
-                <Table.HeaderCell>Date</Table.HeaderCell>
+                <Table.HeaderCell>Billing date</Table.HeaderCell>
                 <Table.Cell dataKey="date" />
               </Table.Column>
 
-              <Table.Column width={100} verticalAlign="middle" align="center">
-                <Table.HeaderCell>Amount</Table.HeaderCell>
+              <Table.Column width={140} verticalAlign="middle" align="center">
+                <Table.HeaderCell>Amount (USD$)</Table.HeaderCell>
                 <Table.Cell dataKey="price" />
               </Table.Column>
 
-              <Table.Column width={120} verticalAlign="middle" align="center">
-                <Table.HeaderCell>Description</Table.HeaderCell>
+              <Table.Column width={160} verticalAlign="middle" align="center">
+                <Table.HeaderCell>Plan</Table.HeaderCell>
                 <PlanDescriptionCell dataKey="desc" />
               </Table.Column>
 
-              <Table.Column width={280} verticalAlign="middle">
-                <Table.HeaderCell>Payment Method</Table.HeaderCell>
+              <Table.Column width={240} verticalAlign="middle" align="center">
+                <Table.HeaderCell>Payment method</Table.HeaderCell>
                 <PaymentMethodCell dataKey="card_type" />
               </Table.Column>
 

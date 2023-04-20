@@ -9,7 +9,7 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
   {
     id: 10, // subscriptionID if needed
     name: 'Starter',
-    displayName: 'Personal',
+    displayName: 'Professional',
     productsDatabase: 0,
     salesEstimateCount: 1000,
     monthlyPrice: 77,
@@ -17,7 +17,7 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
     monthlyLookups: 100,
     annualLookups: 1200,
     desc: `Essential for finding your prospects`,
-    featureSubName: 'Everything in Free, plus',
+    featureSubName: 'Start with:',
     featuresLists: [
       {
         title: '',
@@ -63,7 +63,7 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
     annualPrice: 2987,
     monthlyLookups: 500,
     annualLookups: 6000,
-    featureSubName: 'Everything in professional plan, plus',
+    featureSubName: 'Everything in Professional plan, plus',
     desc: `Perfect for small teams with simple workflows`,
     isNew: true,
     featuresLists: [

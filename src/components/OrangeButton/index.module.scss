@@ -21,11 +21,12 @@
 
   &__secondary {
     background: #fff;
-    color: #fc7900;
-    border: 1px solid #fc7900;
+    color: #3b4557;
+    border: 1px solid #3b4557;
 
     &:hover {
-      color: #fc7900 !important;
+      color: #3b4557 !important;
+      opacity: 0.8;
     }
   }
 
@@ -47,6 +48,17 @@
 
     &:hover {
       color: $grey_8 !important;
+    }
+  }
+
+  &__black {
+    background: #1e1e1e;
+    color: #fff;
+    border: 1px solid #1e1e1e;
+    font-weight: normal !important;
+
+    &:hover {
+      color: #fff !important;
     }
   }
 

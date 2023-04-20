@@ -67,7 +67,8 @@
 
   .formLabel {
     width: 100%;
-    text-align: right;
+    text-align: left;
+    padding-left: 18px;
   }
 
   .formValue {
@@ -117,6 +118,7 @@
   .updateButton {
     margin-left: 18px;
     margin-right: 30px;
+    margin-bottom: 18px;
     width: 140px;
 
     &__disabled {

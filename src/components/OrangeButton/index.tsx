@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import styles from './index.module.scss';
 
 interface Props {
-  type: 'primary' | 'secondary' | 'grey' | 'white' | 'blue';
+  type: 'primary' | 'secondary' | 'grey' | 'white' | 'blue' | 'black';
   size: 'small' | 'medium' | 'large';
   navigateTo?: string;
   onClick?: () => any;

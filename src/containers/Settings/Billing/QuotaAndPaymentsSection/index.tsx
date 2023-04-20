@@ -165,7 +165,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
   if (isQuotaLoading || isSubscriptionStripeLoading || isCreditCardLoading) {
     return (
       <section className={styles.quotaAndPaymentsWrapper}>
-        <BoxHeader>Billing</BoxHeader>
+        <BoxHeader>Plan and Billing</BoxHeader>
         <BoxContainer>
           <Placeholder numberParagraphs={3} numberRows={3} />
         </BoxContainer>
@@ -192,11 +192,11 @@ const QuotaAndPaymentsSection = (props: Props) => {
 
   return (
     <section className={styles.quotaAndPaymentsWrapper}>
-      <BoxHeader>Billing</BoxHeader>
+      <BoxHeader>Plan and Billing</BoxHeader>
       <BoxContainer>
         <div className={styles.billingGrid}>
           <span className={styles.quotaSection}>
-            <p className={`${styles.boxTitle}`}> Your Plan</p>
+            <p className={`${styles.boxTitle}`}> Current plan</p>
             <div>
               {/* Show dimmer content if user has no active subscription, but has payment method */}
               {DimmerContent}
@@ -206,9 +206,43 @@ const QuotaAndPaymentsSection = (props: Props) => {
                     plan={subscriptionFePlanName ? subscriptionFePlanName : subscriptionPlan}
                   />
                   <span>
-                    &nbsp; - You have used {formatDecimal(totalUsedQuotaPercent)}% of the available
-                    quota.
+                    {/* &nbsp; - You have used {formatDecimal(totalUsedQuotaPercent)}% of the available
+                    quota. */}
                   </span>
+
+                  {isSellgoSession() ? (
+                    <div className={styles.quotaBarsWrapper}>
+                      {/* <NewQuotaMeter
+                    className={styles.quotaBar}
+                    type="Profit Finder"
+                    quota={{
+                      used: profitFinderUsed,
+                      available: profitFinderAvailable,
+                    }}
+                  /> */}
+                      <NewQuotaMeter
+                        className={styles.quotaBar}
+                        type="Remaining lookups"
+                        quota={{
+                          used: sellerResearchUsed,
+                          available: sellerResearchAvailable,
+                        }}
+                      />
+                      <span>
+                        &nbsp; You have used {formatDecimal(totalUsedQuotaPercent)}% of the
+                        available lookups.
+                      </span>
+                      {/* <NewQuotaMeter
+                    type="Sales Estimation"
+                    quota={{
+                      used: salesEstUsed,
+                      available: salesEstAvailable,
+                    }}
+                  /> */}
+                    </div>
+                  ) : (
+                    <div className={styles.quotaBarsWrapper} />
+                  )}
                 </div>
               ) : (
                 <div className={styles.planDetailsRow}>
@@ -221,52 +255,23 @@ const QuotaAndPaymentsSection = (props: Props) => {
                 </div>
               )}
 
-              {isSellgoSession() ? (
-                <div className={styles.quotaBarsWrapper}>
-                  {/* <NewQuotaMeter
-                    className={styles.quotaBar}
-                    type="Profit Finder"
-                    quota={{
-                      used: profitFinderUsed,
-                      available: profitFinderAvailable,
-                    }}
-                  /> */}
-                  <NewQuotaMeter
-                    className={styles.quotaBar}
-                    type="Seller Research"
-                    quota={{
-                      used: sellerResearchUsed,
-                      available: sellerResearchAvailable,
-                    }}
-                  />
-                  {/* <NewQuotaMeter
-                    type="Sales Estimation"
-                    quota={{
-                      used: salesEstUsed,
-                      available: salesEstAvailable,
-                    }}
-                  /> */}
-                </div>
-              ) : (
-                <div className={styles.quotaBarsWrapper} />
-              )}
-
               <div className={styles.innerGrid}>
-                <p className={styles.actionLabel}> Action </p>
+                {/* <p className={styles.actionLabel}> Action </p> */}
                 <div className={styles.planActions}>
                   <OrangeButton
                     asExternal
-                    type="white"
+                    type="primary"
                     size="small"
-                    navigateTo="/settings/pricing"
+                    //navigateTo="/settings/pricing"
+                    onClick={() => history.push('/settings/pricing')}
                     className={styles.actionButton}
                   >
-                    Change Plan
+                    Change plan
                   </OrangeButton>
                   {!isSubscriptionExpiring && (
                     <OrangeButton
                       asExternal
-                      type="white"
+                      type="secondary"
                       size="small"
                       onClick={() => history.push('/cancel')}
                       className={styles.actionButton}
@@ -286,21 +291,31 @@ const QuotaAndPaymentsSection = (props: Props) => {
           {/* Only show payments section if user has a credit card added. */}
           {hasPaymentMethod && (
             <span className={styles.paymentsSection}>
-              <p className={`${styles.boxTitle} ${styles.boxTitle_payment}`}> Payment Method</p>
+              <p className={`${styles.boxTitle} ${styles.boxTitle_payment}`}> Payment method</p>
               <div>
                 <div className={styles.paymentsInformationRow}>
                   <img src={CreditCardIcon} className={styles.creditCardIcon} alt="credit-card" />
                   <p> {capitalizeFirstLetter(card.brand)} </p>
                   <p className={styles.cardNumber}> **** **** **** {card.last4}</p>
+                  <OrangeButton
+                    type="primary"
+                    size="small"
+                    onClick={handleModalOpen}
+                    className={styles.actionButton}
+                  >
+                    Change payment
+                  </OrangeButton>
                 </div>
                 <div className={styles.innerGrid}>
-                  {hasActivePlan && <p className={styles.paymentDetailsLabel}> Next Payment Due</p>}
+                  {hasActivePlan && (
+                    <p className={styles.paymentDetailsLabel}> Next payment due:</p>
+                  )}
                   {hasActivePlan && (
                     <p className={styles.paymentDetailsContent}>
                       {!isSubscriptionExpiring ? subscriptionDetails.next_due_date : '-'}
                     </p>
                   )}
-                  {hasActivePlan && <p className={styles.paymentDetailsLabel}> Amount </p>}
+                  {hasActivePlan && <p className={styles.paymentDetailsLabel}> Amount:</p>}
                   {hasActivePlan && (
                     <p className={styles.paymentDetailsContent}>
                       {!isSubscriptionExpiring
@@ -308,15 +323,6 @@ const QuotaAndPaymentsSection = (props: Props) => {
                         : '-'}
                     </p>
                   )}
-                  <p className={styles.actionLabel}> Action </p>
-                  <OrangeButton
-                    type="white"
-                    size="small"
-                    onClick={handleModalOpen}
-                    className={styles.actionButton}
-                  >
-                    Change Payment
-                  </OrangeButton>
                 </div>
               </div>
             </span>

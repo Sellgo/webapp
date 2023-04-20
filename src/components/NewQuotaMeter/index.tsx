@@ -8,7 +8,7 @@ interface Props {
   type:
     | 'Profit Finder'
     | 'Product Tracker'
-    | 'Seller Research'
+    | 'Remaining lookups'
     | 'Product Research'
     | 'Keyword Research'
     | 'Sales Estimation';
@@ -41,7 +41,7 @@ const NewQuotaMeter = (props: Props) => {
       color = 'green';
       break;
 
-    case 'Seller Research':
+    case 'Remaining lookups':
       color = 'violet';
       break;
 

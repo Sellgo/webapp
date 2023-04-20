@@ -28,7 +28,7 @@
   margin-right: 18px;
 
   label {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     margin-bottom: 5px;
     color: #3b4557;
@@ -118,6 +118,10 @@
     width: 200px;
     border-radius: 7px;
     margin-left: 18px;
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
 }
 
