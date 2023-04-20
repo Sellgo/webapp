@@ -117,7 +117,7 @@ const ChurnFlow = (props: Props) => {
         if (isSellgoSession()) {
           return (
             <Widget
-              id={AppConfig.CHURNFLOW_SURVEY_ID}
+              id={sellerSubscription.is_trialing ? 'lRbakXWS' : 'W4sHZIwR'}
               className={styles.typeFormBox}
               onSubmit={() => cancelSubscription()}
             />

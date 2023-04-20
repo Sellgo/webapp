@@ -35,11 +35,17 @@ import {
 import { SellerSubscription } from '../../../../interfaces/Seller';
 
 /* Utils */
-import { capitalizeFirstLetter, formatDecimal, formatNumber } from '../../../../utils/format';
+import {
+  capitalizeFirstLetter,
+  formatDecimal,
+  formatNumber,
+  prettyPrintDate,
+} from '../../../../utils/format';
 // import { sellerIDSelector } from '../../../../selectors/Seller';
 // import { error, success } from '../../../../utils/notifications';
 import { isSellgoSession } from '../../../../utils/session';
 import { getSubscriptionDetailsById } from '../../../../constants/Subscription/Sellgo';
+import ActionButton from '../../../../components/ActionButton';
 
 const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
 interface Props {
@@ -56,6 +62,8 @@ interface Props {
   hasPaymentMethod: boolean;
   fetchSellerSubscription: () => void;
   getSellerInfo: () => void;
+  resumeSubscription: boolean;
+  removeSubscriptionCancel: () => void;
 }
 
 const QuotaAndPaymentsSection = (props: Props) => {
@@ -71,6 +79,8 @@ const QuotaAndPaymentsSection = (props: Props) => {
     fetchCreditCardInfo,
     hasActivePlan,
     hasPaymentMethod,
+    resumeSubscription,
+    removeSubscriptionCancel,
   } = props;
 
   const [unitsSoldInput] = useState<number>(1000);
@@ -326,6 +336,24 @@ const QuotaAndPaymentsSection = (props: Props) => {
                 </div>
               </div>
             </span>
+          )}
+          {isSellgoSession() && sellerSubscription.status === 'pending' && (
+            <div className={styles.resumeSubscriptionWrapper}>
+              <p className={styles.cancelWarningText}>
+                Subscription expiring by{' '}
+                {prettyPrintDate(new Date(sellerSubscription.next_billing_cycle_date ?? ''))}
+              </p>
+              <ActionButton
+                variant="primary"
+                size="md"
+                type="purpleGradient"
+                onClick={() => removeSubscriptionCancel()}
+                className={styles.resumeSubscriptionWrapper__button}
+                loading={resumeSubscription}
+              >
+                Remove Cancellation
+              </ActionButton>
+            </div>
           )}
         </div>
       </BoxContainer>

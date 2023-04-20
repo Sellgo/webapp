@@ -49,6 +49,7 @@ export interface SellerSubscription {
   perfect_stock_status: string;
   is_trial_expired?: boolean;
   next_billing_cycle_date?: string;
+  is_trialing?: boolean;
 }
 
 export interface Merchant {

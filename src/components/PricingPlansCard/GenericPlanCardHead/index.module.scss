@@ -184,3 +184,13 @@
   font-weight: $fontweight_bold !important;
   padding-bottom: 0.5em;
 }
+
+.removeCancelCTA {
+  margin-top: 0.5rem !important;
+}
+
+.cancelWarningText {
+  color: $system_red;
+  text-align: center;
+  font-weight: $fontweight_medium;
+}
