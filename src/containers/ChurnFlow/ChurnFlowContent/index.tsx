@@ -24,6 +24,7 @@ const ChurnFlowContent = (props: Props) => {
       <img className={styles.churnFlowContent__img} src={img} />
       <h2 className={styles.churnFlowContent__title}>{title}</h2>
       <p className={styles.churnFlowContent__desc}>{desc}</p>
+
       <OrangeButton type={buttonType} size="medium" onClick={onClick}>
         {buttonText}
       </OrangeButton>

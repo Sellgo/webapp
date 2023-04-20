@@ -94,8 +94,8 @@ const ChurnFlow = (props: Props) => {
             <ChurnFlowContent
               onClick={() => handleChangeSurveyPhase(IN_SURVEY)}
               title={`We're sorry to see you go`}
-              desc={`In order to improve our services,
-             we need you to answer a few quick questions. Your insights can help us improve the product for others.`}
+              desc={`To cancel your subscription, please click the 'Cancel my subscription' button below and 
+              help us improve our services by answering a few quick questions.`}
               buttonText="Cancel my subscription"
               img={sellgoLogo}
             />
@@ -105,8 +105,8 @@ const ChurnFlow = (props: Props) => {
             <ChurnFlowContent
               onClick={() => handleChangeSurveyPhase(IN_SURVEY)}
               title={`We're sorry to see you go`}
-              desc={`In order to improve our services,
-             we need you to answer a few quick questions. Your insights can help us improve the product for others.`}
+              desc={`To cancel your subscription, please click the 'Cancel my subscription' button below and 
+              help us improve our services by answering a few quick questions.`}
               buttonText="Cancel my subscription"
               img={aistockLogo}
             />
@@ -136,11 +136,13 @@ const ChurnFlow = (props: Props) => {
           return (
             <ChurnFlowContent
               onClick={() => redirectToHome()}
-              title="Thank you for being our valued customer."
-              desc={`Your subscription is already scheduled for cancellation by end of the current billing period, ${
+              title="Thank you for being a valued customer."
+              desc={`Your subscription has been scheduled for cancellation at the end of the current billing period, ${
                 isSubscriptionIdFreeAccount(sellerSubscription.subscription_id)
                   ? 'immediately'
-                  : `${prettyPrintDate(new Date(sellerSubscription.next_billing_cycle_date ?? ''))}`
+                  : ` at the end of the current billing period, ${prettyPrintDate(
+                      new Date(sellerSubscription.next_billing_cycle_date ?? '')
+                    )}`
               }`}
               buttonText="Done"
               img={sellgoLogo}
