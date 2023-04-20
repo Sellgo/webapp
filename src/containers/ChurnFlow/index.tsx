@@ -21,7 +21,7 @@ import { getSellerInfo } from '../../actions/Settings';
 
 /* Images */
 import leftArrow from '../../assets/images/left-arrow.svg';
-import sellgoLogo from '../../assets/images/SellgoNewestLogo.png';
+import sellgoLogo from '../../assets/images/sellgo_gradation_logo_2_2x.png';
 import aistockLogo from '../../assets/images/aistockLogo.png';
 import TofuAndSoybean from '../../assets/images/TofuAndSoybean.png';
 // import Tofu from '../../assets/images/Tofu.png';
@@ -49,13 +49,19 @@ interface Props {
 
 const ChurnFlow = (props: Props) => {
   const { sellerSubscription, fetchSellerSubscription, getSeller } = props;
-
+  const [isCancelled, setIsCancelled] = useState(false);
   const [surveyPhase, setSurveyPhase] = useState(PRE_SURVEY);
 
   useEffect(() => {
     getSeller();
     fetchSellerSubscription();
   }, []);
+
+  useEffect(() => {
+    if (sellerSubscription && sellerSubscription.status === 'pending' && !isCancelled) {
+      history.push('/');
+    }
+  }, [sellerSubscription]);
 
   const handleChangeSurveyPhase = (newPhase: string) => {
     setSurveyPhase(newPhase);
@@ -68,6 +74,7 @@ const ChurnFlow = (props: Props) => {
     axios
       .post(AppConfig.BASE_URL_API + `sellers/${sellerIDSelector()}/subscription/cancel`)
       .then(() => {
+        setIsCancelled(true);
         fetchSellerSubscription();
         success(`Your subscription has been cancelled`);
         handleChangeSurveyPhase(POST_SURVEY_1);
@@ -88,8 +95,8 @@ const ChurnFlow = (props: Props) => {
               onClick={() => handleChangeSurveyPhase(IN_SURVEY)}
               title={`We're sorry to see you go`}
               desc={`In order to improve our services,
-             we need you to answer 3 quick questions. Your insights can help us improve the product for others.`}
-              buttonText="Quick Survey"
+             we need you to answer a few quick questions. Your insights can help us improve the product for others.`}
+              buttonText="Cancel my subscription"
               img={sellgoLogo}
             />
           );
@@ -99,8 +106,8 @@ const ChurnFlow = (props: Props) => {
               onClick={() => handleChangeSurveyPhase(IN_SURVEY)}
               title={`We're sorry to see you go`}
               desc={`In order to improve our services,
-             we need you to answer 3 quick questions. Your insights can help us improve the product for others.`}
-              buttonText="Quick Survey"
+             we need you to answer a few quick questions. Your insights can help us improve the product for others.`}
+              buttonText="Cancel my subscription"
               img={aistockLogo}
             />
           );
@@ -129,16 +136,14 @@ const ChurnFlow = (props: Props) => {
           return (
             <ChurnFlowContent
               onClick={() => redirectToHome()}
-              title="We are sorry to see you go"
-              desc={`Your subscription will be cancelled ${
+              title="Thank you for being our valued customer."
+              desc={`Your subscription is already scheduled for cancellation by end of the current billing period, ${
                 isSubscriptionIdFreeAccount(sellerSubscription.subscription_id)
-                  ? 'imidiately'
-                  : `by ${prettyPrintDate(
-                      new Date(sellerSubscription.next_billing_cycle_date ?? '')
-                    )}`
+                  ? 'immediately'
+                  : `${prettyPrintDate(new Date(sellerSubscription.next_billing_cycle_date ?? ''))}`
               }`}
-              buttonText="Next"
-              img={TofuAndSoybean}
+              buttonText="Done"
+              img={sellgoLogo}
               isButtonGrey
             />
           );
@@ -146,8 +151,8 @@ const ChurnFlow = (props: Props) => {
         return (
           <ChurnFlowContent
             onClick={() => redirectToHome()}
-            title="Thanks for your help"
-            desc="Your opinion is really important to us, one more step to complete the survey."
+            title="Thank you for being our valued customer."
+            desc="Your opinion is really important to us."
             buttonText="Next"
             img={TofuAndSoybean}
             isButtonGrey
@@ -175,14 +180,14 @@ const ChurnFlow = (props: Props) => {
           { content: 'Home', to: '/' },
           { content: 'Settings', to: '/settings' },
           { content: 'Pricing', to: '/settings/pricing' },
-          { content: 'Churn Flow', to: '/churnflow' },
+          { content: 'Churn Flow', to: '/cancel' },
         ]}
         auth={match.params.auth}
       /> */}
       {surveyPhase !== POST_SURVEY_1 && (
-        <Link to="/settings/pricing" className={styles.goBackButton}>
+        <Link to="/settings/billing" className={styles.goBackButton}>
           <img src={leftArrow} />
-          <p>Cancel and go back to subscription</p>
+          <p>Back</p>
         </Link>
       )}
       {generateTypeFormContent()}

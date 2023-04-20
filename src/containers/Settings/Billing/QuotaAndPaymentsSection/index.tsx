@@ -122,7 +122,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
   //       getSellerInfo();
   //       fetchSellerSubscription();
   //       success(`Your subscription has been cancelled`);
-  //       history.push('/churnflow');
+  //       history.push('/cancel');
   //       setCancelSubscriptionLoading(false);
   //     })
   //     .catch(() => {
@@ -268,7 +268,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
                       asExternal
                       type="white"
                       size="small"
-                      onClick={() => history.push('/churnflow')}
+                      onClick={() => history.push('/cancel')}
                       className={styles.actionButton}
                     >
                       {/* {!isCancelSubscriptionLoading ? (

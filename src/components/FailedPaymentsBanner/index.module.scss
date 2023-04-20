@@ -6,15 +6,15 @@
   left: 0;
   z-index: 99999;
   background: $system_red;
-  height: 70px;
+  height: 40px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 
   p {
-    font-size: 16px;
-    font-weight: $fontweight_semibold;
+    font-size: 14px;
+    font-weight: $fontweight_medium;
     color: $prim_white;
     text-decoration: none !important;
 

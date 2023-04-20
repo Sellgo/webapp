@@ -319,7 +319,7 @@ const PrivateRoute = connect(
                   isSubscriptionIdFreeTrial(sellerSubscription.subscription_id) && (
                     <TrialRemainingBanner expiryDate={sellerSubscription.expiry_date} />
                   )}
-                {isPaymentPending && (
+                {!isPaymentPending && (
                   <FailedPaymentsBanner
                     paymentMode={sellerSubscription.payment_mode}
                     paymentFailedCount={sellerSubscription.payment_failed_count}
@@ -615,7 +615,7 @@ function App() {
 
           <PrivateRoute
             exact={true}
-            path="/churnflow"
+            path="/cancel"
             component={ChurnFlow}
             requireSubscription={true}
           />
