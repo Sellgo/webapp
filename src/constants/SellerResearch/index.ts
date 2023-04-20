@@ -1,9 +1,5 @@
 /* Routes on Seller Research */
-export const SELLER_RESEARCH_PAGES = [
-  '/seller-research/database',
-  '/seller-research/map',
-  '/seller-research/collection',
-];
+export const SELLER_RESEARCH_PAGES = ['/abm/database', '/abm/map', '/abm/collection'];
 
 /* Seller Research Product Details */
 export const SELLER_RESEARCH_PRODUCT_DETAILS = [
@@ -12,7 +8,7 @@ export const SELLER_RESEARCH_PRODUCT_DETAILS = [
     desc: 'Easily identify Amazon sellers by category, brand, and much more.',
   },
   { name: 'Seller Map', desc: 'Locate and Scout Millions of Amazon Sellers in seconds.' },
-  { name: 'My Contact', desc: 'Unlocked Companies and Decision Makers' },
+  { name: 'Collection', desc: 'Unlocked Companies and Decision Makers' },
 ];
 
 /* ======================================================= */

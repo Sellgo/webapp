@@ -18,16 +18,15 @@ const FailedPaymentsBanner = (props: Props) => {
   let bannerText;
   switch (paymentFailedCount) {
     case 1:
-      bannerText = `Recurring ${paymentMode} payment to Sellgo was unsuccessful for first time, please update your billing
-      information to continue your subscription`;
+      bannerText = `Recurring ${paymentMode} payment to Sellgo was unsuccessful, please update your payment method 
+      to continue your subscription`;
       break;
     case 2:
-      bannerText = `Recurring ${paymentMode} payment to Sellgo was unsuccessful for second time, please update your billing
-      information to continue your subscription`;
+      bannerText = `Keep your leads generation uninterrupted! Update your payment method now to avoid any interruption`;
       break;
     case 3:
-      bannerText = `Recurring ${paymentMode} payment to Sellgo was unsuccessful for last time, please update your billing
-        information to continue your subscription`;
+      bannerText = `We can't wait to keep providing you with awesome leads! Update your payment method before the last charge 
+      attempt to avoid cancellation`;
       break;
     default:
       bannerText = `Recurring ${paymentMode} payment to Sellgo was unsuccessful, please update your billing

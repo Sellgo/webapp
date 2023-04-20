@@ -74,7 +74,7 @@ const KeywordResearch = (props: Props) => {
     /* If on a different tab, redirect to correct tab */
     if (currentIndex !== selectedTabList) {
       if (currentIndex === -1) {
-        /* If is on any other page, e.g. /seller-research, or /seller-research/asd, redirect to first product */
+        /* If is on any other page, e.g. /abm, or /abm/asd, redirect to first product */
         handleTabChange(0);
       } else {
         /* Update tab according to page */
