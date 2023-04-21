@@ -19,7 +19,7 @@ class AdminLayout extends React.Component<Props> {
     const { children, match } = this.props;
 
     const isNewProduct = NEW_PRODUCT_DESIGN_PATH_NAMES.includes(window.location.pathname);
-    const isSellerDatabase = window.location.pathname === '/seller-research/database';
+    const isSellerDatabase = window.location.pathname === '/abm/database';
     const hideNavBar = HIDE_NAV_BAR_PATH_NAMES.includes(
       window.location.pathname + window.location.search
     );

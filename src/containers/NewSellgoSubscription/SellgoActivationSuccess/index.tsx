@@ -73,7 +73,9 @@ const ActivationSuccess = (props: Props) => {
       </section>
       <section className={styles.socialProofSection}>
         <img src={sellgoLogo} alt="sellgo-logo" className={styles.sellgoLogo} />
-        <p className={styles.socialProofDesc}>Trusted by 7,000+ businesses.</p>
+        <p className={styles.socialProofDesc}>
+          Over 10,000 businesses trust our platform - see why for yourself!
+        </p>
         <div className={styles.socialProofIcons}>
           <img className={styles.logo} src={BBLogo} alt="bblogo" />
           <img className={styles.logo} src={TenFactorLogo} alt="TenFactorLogo" />

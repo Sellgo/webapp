@@ -90,7 +90,7 @@ const Payment = (props: PaymentProps) => {
         {!successPayment && (
           <button className={styles.goBackButton} onClick={() => history.goBack()}>
             <img src={LeftArrow} alt="left arrow" />
-            Back to previous page
+            Back
           </button>
         )}
         {!successPayment && sellerSubscription && prorateValue && (

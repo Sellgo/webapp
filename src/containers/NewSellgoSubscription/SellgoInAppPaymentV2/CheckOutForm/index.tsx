@@ -259,6 +259,7 @@ function CheckoutForm(props: MyProps) {
           payment_method_id: paymentMethodId,
           payment_mode: isMonthly ? 'monthly' : 'yearly',
           promo_code: promoCode,
+          free_trial: false,
         };
         Axios.defaults.headers.common.Authorization = ``;
         createSubscriptionData(data);
@@ -291,8 +292,8 @@ function CheckoutForm(props: MyProps) {
           <div className={styles.header}>
             <h2 className={styles.heading}>Sellgo secure payment page</h2>
             <p className={styles.description}>
-              We guarantee that the payment process is secured and confidential through Stripe. We
-              do not store your payment credential information.
+              Your payment is secured and confidential through Stripe. We do not store any of your
+              payment credentials.
             </p>
             <div className={styles.pricing}>
               <p className={styles.label}>{`${summaryDetails?.displayName ??

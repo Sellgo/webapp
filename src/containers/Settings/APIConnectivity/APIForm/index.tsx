@@ -156,7 +156,7 @@ const APIForm = (props: Props) => {
           />
 
           <div className={`${styles.formInput} ${styles.formInput__apiType}`}>
-            <label className={styles.formLabel}> 3rd Party </label>
+            <label className={styles.formLabel}> Integration platform: </label>
             <p className={`${styles.formValue} ${styles.formValue__key}`}>
               <img src={API_TYPES_LIST[0].icon} alt={API_TYPES_LIST[0].name} />
               Zapier
@@ -164,7 +164,7 @@ const APIForm = (props: Props) => {
           </div>
           {!isNew && !isEditingName && (
             <div className={`${styles.formInput} ${styles.formInput__name}`}>
-              <p className={styles.formLabel}> Name </p>
+              <p className={styles.formLabel}> API key name </p>
               <p className={styles.formValue}>
                 {apiName}
                 <Icon
@@ -181,7 +181,7 @@ const APIForm = (props: Props) => {
               className={`${styles.formInput} ${styles.formInput__name}`}
               label={
                 <div className={styles.formLabel}>
-                  <span>Name &nbsp;</span>
+                  <span>API key name:</span>
                 </div>
               }
               placeholder="API Key Name"
@@ -228,7 +228,7 @@ const APIForm = (props: Props) => {
               </ActionButton>
             )}
             <OrangeButton
-              type="blue"
+              type="primary"
               size="small"
               onClick={handleApiUpdate}
               className={

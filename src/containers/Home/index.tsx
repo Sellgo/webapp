@@ -75,7 +75,7 @@ class Home extends React.Component<any> {
       } else if (isAiStockSession()) {
         history.replace('/aistock/sales');
       } else {
-        history.replace('/seller-research/database');
+        history.replace('/abm/database');
       }
     }
 

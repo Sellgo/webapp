@@ -155,7 +155,6 @@ const PrivateRoute = connect(
     component: Component,
     requireSubscription,
     sellerSubscription,
-    sellerQuota,
     fetchSellerSubscription,
     fetchSubscriptions,
     fetchNotifications,
@@ -202,9 +201,9 @@ const PrivateRoute = connect(
         window.location.pathname !== '/settings/pricing'
       ) {
         console.log(window.location.pathname);
-        if (sellerQuota?.seller_detail.available - sellerQuota?.seller_detail.used <= 0) {
-          history.push('/activation');
-        }
+        // if (sellerQuota?.seller_detail.available - sellerQuota?.seller_detail.used <= 0) {
+        history.push('/activation');
+        // }
       }
 
       if (
@@ -228,6 +227,9 @@ const PrivateRoute = connect(
         // so for now using window.location.pathname.
         window.location.pathname = '/subscription/payment';
       }
+      // if (isSellgoSession() && isSubscriptionIdFreeAccount(sellerSubscription.subscription_id)) {
+      //   window.location.pathname = '/activation';
+      // }
     }, [
       userIsAuthenticated,
       sellerSubscription,
@@ -235,6 +237,12 @@ const PrivateRoute = connect(
       requireSubscription,
       location,
     ]);
+
+    // useEffect(() => {
+    // if (isSellgoSession() && isSubscriptionIdFreeAccount(sellerSubscription.subscription_id)) {
+    //   window.location.pathname = '/activation';
+    // }
+    // }, [])
 
     const [notificationSocket, setNotificationSocket] = React.useState<WebSocket | null>(null);
 
@@ -312,7 +320,10 @@ const PrivateRoute = connect(
                     <TrialRemainingBanner expiryDate={sellerSubscription.expiry_date} />
                   )}
                 {isPaymentPending && (
-                  <FailedPaymentsBanner paymentMode={sellerSubscription.payment_mode} />
+                  <FailedPaymentsBanner
+                    paymentMode={sellerSubscription.payment_mode}
+                    paymentFailedCount={sellerSubscription.payment_failed_count}
+                  />
                 )}
                 <Component {...props} />
               </AdminLayout>
@@ -576,7 +587,7 @@ function App() {
 
           <PrivateRoute
             exact={true}
-            path="/seller-research/:productName"
+            path="/abm/:productName"
             component={SellerResearch}
             requireSubscription={true}
           />
@@ -604,7 +615,7 @@ function App() {
 
           <PrivateRoute
             exact={true}
-            path="/churnflow"
+            path="/cancel"
             component={ChurnFlow}
             requireSubscription={true}
           />

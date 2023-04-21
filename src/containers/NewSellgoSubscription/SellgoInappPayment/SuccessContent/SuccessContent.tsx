@@ -22,7 +22,7 @@ const SuccessContent = (props: any) => {
 
       {!sellerSubscription && <p>Please verify you email</p>}
 
-      <p>We have sent you a receipt in your email</p>
+      <p>A receipt has been sent to your email.</p>
       <button
         onClick={() => {
           localStorage.setItem('loginRedirectPath', '/');

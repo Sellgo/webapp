@@ -1,8 +1,8 @@
 import React, { ReactChild, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import { Modal, Dimmer, Confirm, Loader } from 'semantic-ui-react';
-import Axios from 'axios';
+import { Modal, Dimmer } from 'semantic-ui-react';
+// import Axios from 'axios';
 
 /* App Config */
 import { AppConfig } from '../../../../config';
@@ -35,9 +35,14 @@ import {
 import { SellerSubscription } from '../../../../interfaces/Seller';
 
 /* Utils */
-import { capitalizeFirstLetter, formatDecimal, formatNumber } from '../../../../utils/format';
-import { sellerIDSelector } from '../../../../selectors/Seller';
-import { error, success } from '../../../../utils/notifications';
+import {
+  capitalizeFirstLetter,
+  formatDecimal,
+  formatNumber,
+  prettyPrintDate,
+} from '../../../../utils/format';
+// import { sellerIDSelector } from '../../../../selectors/Seller';
+// import { error, success } from '../../../../utils/notifications';
 import { isSellgoSession } from '../../../../utils/session';
 import { getSubscriptionDetailsById } from '../../../../constants/Subscription/Sellgo';
 
@@ -56,6 +61,8 @@ interface Props {
   hasPaymentMethod: boolean;
   fetchSellerSubscription: () => void;
   getSellerInfo: () => void;
+  resumeSubscription: boolean;
+  removeSubscriptionCancel: () => void;
 }
 
 const QuotaAndPaymentsSection = (props: Props) => {
@@ -71,18 +78,17 @@ const QuotaAndPaymentsSection = (props: Props) => {
     fetchCreditCardInfo,
     hasActivePlan,
     hasPaymentMethod,
-    fetchSellerSubscription,
-    getSellerInfo,
+    removeSubscriptionCancel,
   } = props;
 
   const [unitsSoldInput] = useState<number>(1000);
   const [unitsSold] = useState<UNITS_SOLD_TYPE>('1,000');
   const sellerPlan = getSellerPlan(unitsSold);
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
-  const [isCancellingSubscription, setCancellingSubscription] = React.useState<boolean>(false);
-  const [isCancelSubscriptionLoading, setCancelSubscriptionLoading] = React.useState<boolean>(
-    false
-  );
+  // const [isCancellingSubscription, setCancellingSubscription] = React.useState<boolean>(false);
+  // const [isCancelSubscriptionLoading, setCancelSubscriptionLoading] = React.useState<boolean>(
+  //   false
+  // );
 
   const isSubscriptionExpiring = sellerSubscription && sellerSubscription.status === 'pending';
   const subscriptionFeDetails =
@@ -117,21 +123,21 @@ const QuotaAndPaymentsSection = (props: Props) => {
     setModalOpen(false);
   };
 
-  const cancelSubscription = () => {
-    setCancelSubscriptionLoading(true);
-    Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerIDSelector()}/subscription/cancel`)
-      .then(() => {
-        getSellerInfo();
-        fetchSellerSubscription();
-        success(`Your subscription has been cancelled`);
-        history.push('/churnflow');
-        setCancelSubscriptionLoading(false);
-      })
-      .catch(() => {
-        setCancelSubscriptionLoading(false);
-        error(`There was an error cancelling your subscription`);
-      });
-  };
+  // const cancelSubscription = () => {
+  //   setCancelSubscriptionLoading(true);
+  //   Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerIDSelector()}/subscription/cancel`)
+  //     .then(() => {
+  //       getSellerInfo();
+  //       fetchSellerSubscription();
+  //       success(`Your subscription has been cancelled`);
+  //       history.push('/cancel');
+  //       setCancelSubscriptionLoading(false);
+  //     })
+  //     .catch(() => {
+  //       setCancelSubscriptionLoading(false);
+  //       error(`There was an error cancelling your subscription`);
+  //     });
+  // };
 
   /* Content to show if user has no active plan, and no payment methods */
   const DimmerContent: ReactChild = (
@@ -167,7 +173,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
   if (isQuotaLoading || isSubscriptionStripeLoading || isCreditCardLoading) {
     return (
       <section className={styles.quotaAndPaymentsWrapper}>
-        <BoxHeader>Billing</BoxHeader>
+        <BoxHeader>Plan and Billing</BoxHeader>
         <BoxContainer>
           <Placeholder numberParagraphs={3} numberRows={3} />
         </BoxContainer>
@@ -194,11 +200,11 @@ const QuotaAndPaymentsSection = (props: Props) => {
 
   return (
     <section className={styles.quotaAndPaymentsWrapper}>
-      <BoxHeader>Billing</BoxHeader>
+      <BoxHeader>Plan and Billing</BoxHeader>
       <BoxContainer>
         <div className={styles.billingGrid}>
           <span className={styles.quotaSection}>
-            <p className={`${styles.boxTitle}`}> Your Plan</p>
+            <p className={`${styles.boxTitle}`}> Current plan</p>
             <div>
               {/* Show dimmer content if user has no active subscription, but has payment method */}
               {DimmerContent}
@@ -208,9 +214,43 @@ const QuotaAndPaymentsSection = (props: Props) => {
                     plan={subscriptionFePlanName ? subscriptionFePlanName : subscriptionPlan}
                   />
                   <span>
-                    &nbsp; - You have used {formatDecimal(totalUsedQuotaPercent)}% of the available
-                    quota.
+                    {/* &nbsp; - You have used {formatDecimal(totalUsedQuotaPercent)}% of the available
+                    quota. */}
                   </span>
+
+                  {isSellgoSession() ? (
+                    <div className={styles.quotaBarsWrapper}>
+                      {/* <NewQuotaMeter
+                    className={styles.quotaBar}
+                    type="Profit Finder"
+                    quota={{
+                      used: profitFinderUsed,
+                      available: profitFinderAvailable,
+                    }}
+                  /> */}
+                      <NewQuotaMeter
+                        className={styles.quotaBar}
+                        type="Remaining lookups"
+                        quota={{
+                          used: sellerResearchUsed,
+                          available: sellerResearchAvailable,
+                        }}
+                      />
+                      <span>
+                        &nbsp; You have used {formatDecimal(totalUsedQuotaPercent)}% of the
+                        available lookups.
+                      </span>
+                      {/* <NewQuotaMeter
+                    type="Sales Estimation"
+                    quota={{
+                      used: salesEstUsed,
+                      available: salesEstAvailable,
+                    }}
+                  /> */}
+                    </div>
+                  ) : (
+                    <div className={styles.quotaBarsWrapper} />
+                  )}
                 </div>
               ) : (
                 <div className={styles.planDetailsRow}>
@@ -223,64 +263,58 @@ const QuotaAndPaymentsSection = (props: Props) => {
                 </div>
               )}
 
-              {isSellgoSession() ? (
-                <div className={styles.quotaBarsWrapper}>
-                  {/* <NewQuotaMeter
-                    className={styles.quotaBar}
-                    type="Profit Finder"
-                    quota={{
-                      used: profitFinderUsed,
-                      available: profitFinderAvailable,
-                    }}
-                  /> */}
-                  <NewQuotaMeter
-                    className={styles.quotaBar}
-                    type="Seller Research"
-                    quota={{
-                      used: sellerResearchUsed,
-                      available: sellerResearchAvailable,
-                    }}
-                  />
-                  {/* <NewQuotaMeter
-                    type="Sales Estimation"
-                    quota={{
-                      used: salesEstUsed,
-                      available: salesEstAvailable,
-                    }}
-                  /> */}
+              {isSellgoSession() && sellerSubscription.status === 'pending' && (
+                <div className={styles.resumeSubscriptionText}>
+                  <p className={styles.cancelWarningText}>
+                    Your subscription will not renew after{' '}
+                    <strong>
+                      {prettyPrintDate(new Date(sellerSubscription.next_billing_cycle_date ?? ''))}
+                    </strong>
+                  </p>
                 </div>
-              ) : (
-                <div className={styles.quotaBarsWrapper} />
               )}
 
               <div className={styles.innerGrid}>
-                <p className={styles.actionLabel}> Action </p>
+                {/* <p className={styles.actionLabel}> Action </p> */}
+
                 <div className={styles.planActions}>
                   <OrangeButton
                     asExternal
-                    type="white"
+                    type="primary"
                     size="small"
-                    navigateTo="/settings/pricing"
+                    //navigateTo="/settings/pricing"
+                    onClick={() => history.push('/settings/pricing')}
                     className={styles.actionButton}
                   >
-                    Change Plan
+                    Change plan
                   </OrangeButton>
+                  {isSellgoSession() && sellerSubscription.status === 'pending' && (
+                    <div className={styles.resumeSubscriptionWrapper}>
+                      <OrangeButton
+                        // asExternal
+                        type="primary"
+                        size="small"
+                        onClick={() => removeSubscriptionCancel()}
+                        className={styles.actionButton}
+                      >
+                        Remove cancellation
+                      </OrangeButton>
+                    </div>
+                  )}
                   {!isSubscriptionExpiring && (
                     <OrangeButton
                       asExternal
-                      type="white"
+                      type="secondary"
                       size="small"
-                      onClick={() => setCancellingSubscription(true)}
-                      className={`
-                        ${styles.actionButton} 
-                        ${isCancelSubscriptionLoading ? styles.actionButton__disabled : ''}
-                      `}
+                      onClick={() => history.push('/cancel')}
+                      className={styles.actionButton}
                     >
-                      {!isCancelSubscriptionLoading ? (
+                      {/* {!isCancelSubscriptionLoading ? (
                         'Cancel plan'
                       ) : (
                         <Loader inline active={true} size="tiny" />
-                      )}
+                      )} */}
+                      Cancel plan
                     </OrangeButton>
                   )}
                 </div>
@@ -290,21 +324,31 @@ const QuotaAndPaymentsSection = (props: Props) => {
           {/* Only show payments section if user has a credit card added. */}
           {hasPaymentMethod && (
             <span className={styles.paymentsSection}>
-              <p className={`${styles.boxTitle} ${styles.boxTitle_payment}`}> Payment Method</p>
+              <p className={`${styles.boxTitle} ${styles.boxTitle_payment}`}> Payment method</p>
               <div>
                 <div className={styles.paymentsInformationRow}>
                   <img src={CreditCardIcon} className={styles.creditCardIcon} alt="credit-card" />
                   <p> {capitalizeFirstLetter(card.brand)} </p>
                   <p className={styles.cardNumber}> **** **** **** {card.last4}</p>
+                  <OrangeButton
+                    type="primary"
+                    size="small"
+                    onClick={handleModalOpen}
+                    className={styles.actionButton}
+                  >
+                    Change payment
+                  </OrangeButton>
                 </div>
                 <div className={styles.innerGrid}>
-                  {hasActivePlan && <p className={styles.paymentDetailsLabel}> Next Payment Due</p>}
+                  {hasActivePlan && (
+                    <p className={styles.paymentDetailsLabel}> Next payment due:</p>
+                  )}
                   {hasActivePlan && (
                     <p className={styles.paymentDetailsContent}>
                       {!isSubscriptionExpiring ? subscriptionDetails.next_due_date : '-'}
                     </p>
                   )}
-                  {hasActivePlan && <p className={styles.paymentDetailsLabel}> Amount </p>}
+                  {hasActivePlan && <p className={styles.paymentDetailsLabel}> Amount:</p>}
                   {hasActivePlan && (
                     <p className={styles.paymentDetailsContent}>
                       {!isSubscriptionExpiring
@@ -312,15 +356,6 @@ const QuotaAndPaymentsSection = (props: Props) => {
                         : '-'}
                     </p>
                   )}
-                  <p className={styles.actionLabel}> Action </p>
-                  <OrangeButton
-                    type="white"
-                    size="small"
-                    onClick={handleModalOpen}
-                    className={styles.actionButton}
-                  >
-                    Change Payment
-                  </OrangeButton>
                 </div>
               </div>
             </span>
@@ -358,7 +393,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
         </Elements>
       </Modal>
 
-      <Confirm
+      {/* <Confirm
         content="Are you sure you want to cancel your subscription?"
         open={isCancellingSubscription}
         onCancel={() => {
@@ -369,7 +404,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
           setCancellingSubscription(false);
         }}
         loading={true}
-      />
+      /> */}
     </section>
   );
 };

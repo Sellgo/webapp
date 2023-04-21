@@ -229,7 +229,7 @@ const HubSpotIntegrationMappingStructure = (props: Props) => {
 
             <ActionButton
               variant={'secondary'}
-              type={'purpleGradient'}
+              type={'black'}
               size="md"
               onClick={submitHubspotProperties}
               loading={isSubmitting}

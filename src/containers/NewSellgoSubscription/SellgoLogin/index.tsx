@@ -69,7 +69,7 @@ export default function Login(props: Props) {
   function success() {
     setMessageDetails({
       key: uuid(),
-      header: 'Account Created',
+      header: 'Account created',
       content: `A link to verify your email has been sent to ${location.state.email}`,
       isSuccess: true,
       isError: false,
@@ -80,7 +80,7 @@ export default function Login(props: Props) {
   function verifyEmail() {
     setMessageDetails({
       key: uuid(),
-      header: 'Email Not Verified',
+      header: 'Email not verified',
       content: `Please verify email before logging in`,
       isSuccess: false,
       isError: true,
@@ -101,7 +101,7 @@ export default function Login(props: Props) {
         </Form.Field>
         <a
           className="sign-up"
-          href={`${AppConfig.WEB_URL}/pricing`}
+          href={`${AppConfig.WEB_URL}/select-plan`}
           target="_blank"
           rel="noreferrer noopener"
         >

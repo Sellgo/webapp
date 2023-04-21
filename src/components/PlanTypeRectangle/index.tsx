@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import styles from './index.module.scss';
 
 import { SubscriptionPlanType } from '../../interfaces/Settings/billing';
+import { toUpper } from 'lodash';
 
 interface Props {
   plan: SubscriptionPlanType;
@@ -14,10 +15,10 @@ interface Props {
 const PlanTypeRectangle = (props: Props) => {
   const { plan, isSmall } = props;
   const className = classNames(
-    { [styles.planTypeButton__professional]: plan === 'Professional Plan' },
     { [styles.planTypeButton__basic]: plan === 'Starter Plan' },
-    { [styles.planTypeButton__team]: plan === 'Team Plan' },
     { [styles.planTypeButton__basic]: plan === 'Personal Plan' },
+    { [styles.planTypeButton__basic]: plan === 'Professional Plan' },
+    { [styles.planTypeButton__professional]: plan === 'Team Plan' },
     { [styles.planTypeButton__team]: plan === 'Business Plan' },
     { [styles.planTypeButton__wholesale]: plan === 'Wholesale Arbitrage $1 Plan' },
     { [styles.planTypeButton__wholesale]: plan === 'Wholesale Arbitrage $1.99 Plan' },
@@ -31,7 +32,7 @@ const PlanTypeRectangle = (props: Props) => {
   } else if (plan === 'Wholesale Arbitrage $1.99 Plan') {
     displayPlanText = '$1.99 Plan';
   } else {
-    displayPlanText = plan && plan.substring(0, plan.length - 5);
+    displayPlanText = plan && toUpper(plan.substring(0, plan.length - 5));
   }
 
   const sizeClassName = isSmall ? styles.planTypeButton__small : '';
