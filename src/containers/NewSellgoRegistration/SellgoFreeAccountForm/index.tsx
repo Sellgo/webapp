@@ -145,7 +145,7 @@ const FreeAccountForm = (props: Props) => {
       dripFormData.append('email', email);
       dripFormData.append('firstname', name?.split(' ')?.[0] ?? '');
       dripFormData.append('lastname', name?.split(' ')?.[1] ?? '');
-      dripFormData.append('drop_off_point', 'Signup');
+      dripFormData.append('status', 'Signup');
 
       await axios.post(AppConfig.BASE_URL_API + `sellers/create-hubspot`, dripFormData);
     } catch (e) {
