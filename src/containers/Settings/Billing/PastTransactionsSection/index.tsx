@@ -81,7 +81,7 @@ const PastTransactionsSection = (props: Props) => {
 
               <Table.Column width={160} verticalAlign="middle" align="center">
                 <Table.HeaderCell>Plan</Table.HeaderCell>
-                <PlanDescriptionCell dataKey="desc" />
+                <PlanDescriptionCell dataKey="subscription_id" />
               </Table.Column>
 
               <Table.Column width={240} verticalAlign="middle" align="center">
