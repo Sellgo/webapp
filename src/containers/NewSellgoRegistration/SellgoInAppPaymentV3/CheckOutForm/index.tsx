@@ -332,7 +332,7 @@ function CheckoutForm(props: MyProps) {
                 stripe_subscription_id: stripeSubscription.id,
                 stripe_customer_id: stripeSubscription.customer,
                 subscription_id: getSubscriptionID(accountType),
-                payment_mode: paymentMode,
+                payment_mode: isMonthly ? 'monthly' : 'yearly',
                 password: password,
               };
 
