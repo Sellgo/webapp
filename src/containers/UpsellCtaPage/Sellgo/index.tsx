@@ -31,7 +31,7 @@ const UpsellCtaPage = () => {
   return (
     <main className={styles.upsellCtaPage}>
       <div className={styles.leftSection}>
-        <h2>Update your subscription now</h2>
+        <h2>Activate your subscription now</h2>
         <p>
           Stay ahead of the game by unlocking premium leads! Don't miss out on new opportunities -
           stay subscribed.
@@ -39,8 +39,7 @@ const UpsellCtaPage = () => {
         <div className={styles.benefitsTable}>
           <div className={styles.benefitsColumn}>
             <h2>
-              Benefits
-              <br />
+              Get started with $399/month for annual plan
               <br />
             </h2>
             <span>Unlimited leads discovery</span>
@@ -54,14 +53,10 @@ const UpsellCtaPage = () => {
             <span>Limited</span>
           </div> */}
           <div className={styles.professionalColumn}>
-            <h2>
-              Get started with usage-based pricing
-              <br />
-              from just $399/month
-            </h2>
+            <h2>Benefits</h2>
             <span>Immediate access to high quality leads</span>
             <span>Email, phones, social media, and more</span>
-            <span>CSV or CRM, even Zapier!</span>
+            <span>CSV, CRM, and Zapier!</span>
           </div>
         </div>
         <ActionButton
@@ -71,7 +66,7 @@ const UpsellCtaPage = () => {
           onClick={redirectToPricing}
           className={styles.activateButton}
         >
-          Activate now
+          Activate subscription now
         </ActionButton>
       </div>
       <img src={UpsellPicture} alt="upsell image" className={styles.upsellImg} />
