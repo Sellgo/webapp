@@ -185,12 +185,6 @@
   align-items: center;
   //width: 30%;
 
-  .cancelWarningText {
-    font-size: 14px;
-    color: $system_red;
-    font-weight: $fontweight_regular;
-  }
-
   &__button {
     //margin-left: 30px;
     padding: 11px !important;
@@ -207,6 +201,7 @@
     font-size: 14px;
     color: $system_red;
     font-weight: $fontweight_medium;
+    padding-right: 90px;
   }
 
   &__button {

@@ -17,6 +17,7 @@ const MoreDetails = () => {
       <div className={styles.pricingPlansCardBody}>
         <PricingPlansCardFeaturesList featuresIncluded={MORE_DETAIL_FEATURES} />
       </div>
+
       <ActionButton
         variant={'primary'}
         size={'md'}

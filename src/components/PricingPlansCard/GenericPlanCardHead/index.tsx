@@ -178,14 +178,16 @@ const GenericPriceCardHead: React.FC<Props> = props => {
             className={styles.buyNowCTA}
             disabled
           >
-            Current Plan
+            Current plan
           </ActionButton>
         )
       ) : isSubscribed && isPending ? (
         <>
           <p className={styles.cancelWarningText}>
             Subscription expiring by{' '}
-            {prettyPrintDate(new Date(sellerSubscription.next_billing_cycle_date ?? ''))}
+            <strong>
+              {prettyPrintDate(new Date(sellerSubscription.next_billing_cycle_date ?? ''))}
+            </strong>
           </p>
           <ActionButton
             variant="primary"

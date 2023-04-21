@@ -39,7 +39,7 @@ import GetStarted from '../../PerfectStock/GetStarted';
 /* Utils */
 import { isSellgoSession } from '../../../utils/session';
 import BillingMeta from './BillingMeta';
-import Overage from './Overage';
+// import Overage from './Overage';
 import { error, success } from '../../../utils/notifications';
 import { sellerIDSelector } from '../../../selectors/Seller';
 
@@ -212,7 +212,7 @@ const Billing = (props: Props) => {
                   removeSubscriptionCancel={removeSubscriptionCancel}
                 />
 
-                <Overage />
+                {/* <Overage /> */}
 
                 <PastTransactionsSection
                   transactionHistory={transactionHistory}

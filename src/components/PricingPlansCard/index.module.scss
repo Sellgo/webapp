@@ -36,9 +36,9 @@
 
 .newFeatureBanner {
   position: absolute;
-  top: -50px;
-  height: 50px;
-  background: $yellow_orange_gradient;
+  top: -40px;
+  height: 40px;
+  background: $orange_purple_gradient;
 
   /* To compensate for the 1px from border */
   width: calc(100% + 2px);
@@ -52,7 +52,7 @@
   font-size: $fontsize_content_18;
   font-weight: $fontweight_semibold;
   color: $prim_white;
-  padding: 0 90px;
+  padding: 0 110px;
 }
 
 .pricingPlansCard {

@@ -360,24 +360,6 @@ const QuotaAndPaymentsSection = (props: Props) => {
               </div>
             </span>
           )}
-          {/* {isSellgoSession() && sellerSubscription.status === 'pending' && (
-            <div className={styles.resumeSubscriptionWrapper}>
-              <p className={styles.cancelWarningText}>
-                Subscription expiring by{' '}
-                {prettyPrintDate(new Date(sellerSubscription.next_billing_cycle_date ?? ''))}
-              </p>
-              <ActionButton
-                variant="primary"
-                size="md"
-                type="purpleGradient"
-                onClick={() => removeSubscriptionCancel()}
-                className={styles.resumeSubscriptionWrapper__button}
-                loading={resumeSubscription}
-              >
-                Remove cancellation
-              </ActionButton>
-            </div>
-          )} */}
         </div>
       </BoxContainer>
       <BoxFooter>
