@@ -35,12 +35,7 @@ import {
 import { SellerSubscription } from '../../../../interfaces/Seller';
 
 /* Utils */
-import {
-  capitalizeFirstLetter,
-  formatDecimal,
-  formatNumber,
-  prettyPrintDate,
-} from '../../../../utils/format';
+import { capitalizeFirstLetter, formatDecimal, prettyPrintDate } from '../../../../utils/format';
 // import { sellerIDSelector } from '../../../../selectors/Seller';
 // import { error, success } from '../../../../utils/notifications';
 import { isSellgoSession } from '../../../../utils/session';
@@ -351,9 +346,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
                   {hasActivePlan && <p className={styles.paymentDetailsLabel}> Amount:</p>}
                   {hasActivePlan && (
                     <p className={styles.paymentDetailsContent}>
-                      {!isSubscriptionExpiring
-                        ? formatNumber(subscriptionDetails.payment_amount)
-                        : '-'}
+                      {!isSubscriptionExpiring ? subscriptionDetails.payment_amount : '-'}
                     </p>
                   )}
                 </div>
