@@ -90,7 +90,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
     sellerSubscription && getSubscriptionDetailsById(sellerSubscription?.subscription_id);
   let subscriptionFePlanName: SubscriptionPlanType = null;
   if (subscriptionFeDetails?.name === 'Starter') {
-    subscriptionFePlanName = 'Personal Plan';
+    subscriptionFePlanName = 'Professional Plan';
   } else if (subscriptionFeDetails?.name === 'Elite') {
     subscriptionFePlanName = 'Business Plan';
   }
@@ -207,6 +207,11 @@ const QuotaAndPaymentsSection = (props: Props) => {
                 <div className={styles.planDetailsRow}>
                   <PlanTypeRectangle
                     plan={subscriptionFePlanName ? subscriptionFePlanName : subscriptionPlan}
+                    planType={
+                      sellerSubscription.is_trialing
+                        ? 'free trial'
+                        : sellerSubscription.payment_mode
+                    }
                   />
                   <span>
                     {/* &nbsp; - You have used {formatDecimal(totalUsedQuotaPercent)}% of the available
@@ -279,7 +284,9 @@ const QuotaAndPaymentsSection = (props: Props) => {
                     size="small"
                     //navigateTo="/settings/pricing"
                     onClick={() => history.push('/settings/pricing')}
-                    className={styles.actionButton}
+                    className={`${styles.actionButton} ${
+                      sellerSubscription?.is_trialing ? styles.disabledBtn : ''
+                    }`}
                   >
                     Change plan
                   </OrangeButton>
