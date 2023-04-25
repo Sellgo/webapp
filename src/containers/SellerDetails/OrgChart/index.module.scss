@@ -1,0 +1,62 @@
+@import '../../../design-system/new-colors';
+
+@mixin no-scroll-bar() {
+  &::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+  }
+}
+
+.OrgChartBox {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  margin-top: 18px;
+  padding-bottom: 30px;
+  background-color: #fff;
+  border-radius: 7px;
+  box-shadow: 0 3px 6px #00000029;
+}
+
+.orgChartWrapper {
+  overflow: auto;
+  padding: 0 30px 30px;
+
+  @include no-scroll-bar();
+}
+
+.informationHeading {
+  font-size: 14px;
+  font-weight: 600;
+  color: $grey_8;
+  padding-left: 30px;
+  padding-top: 18px;
+  margin-bottom: 30px;
+  padding-bottom: 11px;
+  border-bottom: 1px solid $grey_3;
+}
+
+.employeeBox {
+  width: 300px;
+  margin: auto;
+  border: 1px solid $grey_13;
+  border-radius: 7px;
+  box-shadow: 0 3px 6px #00000029;
+  padding: 20px;
+
+  .name {
+    color: $link_blue;
+    font-size: $fontsize_content_14;
+    font-weight: $fontweight_semibold;
+  }
+
+  .positon {
+    color: $grey_8;
+    font-size: $fontsize_content_10;
+    font-weight: $fontweight_regular;
+  }
+
+  .socialLink {
+    margin-right: 10px;
+  }
+}
