@@ -1,6 +1,4 @@
-import React, { useMemo, useState } from 'react';
-import { connect } from 'react-redux';
-import { get } from 'lodash';
+import React, { useState } from 'react';
 
 import { Form, Icon, Confirm, Dimmer, Loader } from 'semantic-ui-react';
 import axios from 'axios';
@@ -24,14 +22,8 @@ import BoxContainer from '../../../../components/BoxContainer';
 
 /* Assets */
 import KeyIcon from '../../../../assets/images/key-regular.svg';
-import { subscriptionDetailsMapping } from '../../../../constants/Subscription/Sellgo';
 
-interface Props {
-  sellerSubscription: any;
-}
-
-const APIForm = (props: Props) => {
-  const { sellerSubscription } = props;
+const APIForm = () => {
   const [apiPrefix, setApiPrefix] = useState<string>('');
   const [apiKeyId, setApiKeyId] = useState<number>();
   const [apiKey, setApiKey] = useState<string>('');
@@ -41,10 +33,6 @@ const APIForm = (props: Props) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [isLoading, setLoading] = useState<boolean>(false);
   const sellerID = localStorage.getItem('userId');
-  const isElite = useMemo(
-    () => !!(subscriptionDetailsMapping.team === sellerSubscription.subscription_id),
-    [sellerSubscription.subscription_id]
-  );
   React.useEffect(() => {
     const fetchApiKeys = async () => {
       setLoading(true);
@@ -65,7 +53,6 @@ const APIForm = (props: Props) => {
   }, []);
 
   const handleApiUpdate = async () => {
-    if (!isElite) return null;
     setLoading(true);
     if (isNew) {
       /* Create new API KEY */
@@ -132,13 +119,7 @@ const APIForm = (props: Props) => {
   };
 
   return (
-    <section
-      className={
-        !isElite
-          ? `${styles.apiFormWrapper} ${styles.apiFormWrapperDisabled}`
-          : styles.apiFormWrapper
-      }
-    >
+    <section className={styles.apiFormWrapper}>
       <ProfileBoxHeader>Zapier API Keys</ProfileBoxHeader>
       <BoxContainer>
         <p className={styles.apiFormTitle}> Please connect and validate your API keys below: </p>
@@ -152,7 +133,6 @@ const APIForm = (props: Props) => {
               isNew ? `${styles.deleteIcon} ${styles.deleteIcon__disabled}` : styles.deleteIcon
             }
             onClick={() => setDeleteConfirmation(true)}
-            disabled={!isElite}
           />
 
           <div className={`${styles.formInput} ${styles.formInput__apiType}`}>
@@ -171,7 +151,6 @@ const APIForm = (props: Props) => {
                   name="pencil"
                   className={`${styles.pencilIcon}`}
                   onClick={() => setEditingName(!isEditingName)}
-                  disabled={!isElite}
                 />
               </p>
             </div>
@@ -256,8 +235,4 @@ const APIForm = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({
-  sellerSubscription: get(state, 'subscription.sellerSubscription'),
-});
-
-export default connect(mapStateToProps)(APIForm);
+export default APIForm;
