@@ -10,10 +10,11 @@ import { toUpper } from 'lodash';
 interface Props {
   plan: SubscriptionPlanType;
   isSmall?: boolean;
+  planType?: string;
 }
 
 const PlanTypeRectangle = (props: Props) => {
-  const { plan, isSmall } = props;
+  const { plan, isSmall, planType } = props;
   const className = classNames(
     { [styles.planTypeButton__basic]: plan === 'Starter Plan' },
     { [styles.planTypeButton__basic]: plan === 'Personal Plan' },
@@ -39,7 +40,7 @@ const PlanTypeRectangle = (props: Props) => {
 
   return (
     <div className={`${styles.planTypeButton} ${className} ${sizeClassName}`}>
-      {displayPlanText}
+      {displayPlanText} {planType ? planType : ''}
     </div>
   );
 };

@@ -238,6 +238,7 @@ function CheckoutForm(props: MyProps) {
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make  sure to disable form submission until Stripe.js has loaded.
+      setLoading(false);
       return;
     }
 
@@ -254,6 +255,7 @@ function CheckoutForm(props: MyProps) {
     if (error) {
       console.log(310);
       handleError(error.message);
+      setLoading(false);
       return;
     } else {
       /* Make stripe payment */
@@ -289,6 +291,7 @@ function CheckoutForm(props: MyProps) {
         } else if (data.message) {
           console.log(341);
           handleError(data.message);
+          setLoading(false);
           return;
         }
       } catch (e) {
@@ -296,10 +299,12 @@ function CheckoutForm(props: MyProps) {
         if (response && response.data && response.data.message) {
           console.log(348);
           handleError(response.data.message);
+          setLoading(false);
           return;
         }
         console.log(351);
         handleError('Failed to make payment');
+        setLoading(false);
         return;
       }
 
@@ -321,6 +326,7 @@ function CheckoutForm(props: MyProps) {
               // This should not happen
               console.log(373);
               handleError(err.description);
+              setLoading(false);
               return;
             } else {
               // Successful Signup
@@ -359,6 +365,8 @@ function CheckoutForm(props: MyProps) {
               //   },
               // });
               auth.getSellerID(data, 'newSubscription');
+
+              localStorage.removeItem('isFilteredOnce');
             }
           }
         );

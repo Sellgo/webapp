@@ -162,13 +162,17 @@
 .paymentDetailsLabel {
   color: $grey_8;
   text-align: left;
-  margin: 0;
+  width: 200px;
+
+  // margin: 0;
 }
 
 .paymentDetailsContent {
   color: $prim_dark_1;
   text-align: left;
-  margin: 0;
+  margin-left: 3em;
+  // margin-right: 1em;
+  // margin: 0;
 }
 
 .popupForm {
@@ -208,4 +212,10 @@
     margin-left: 30px;
     padding: 5px !important;
   }
+}
+
+.disabledBtn {
+  opacity: 0.1;
+  pointer-events: none;
+  cursor: not-allowed;
 }

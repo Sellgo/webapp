@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Header, Modal, TextArea, Loader } from 'semantic-ui-react';
 import { get } from 'lodash';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -28,9 +29,7 @@ import { fetchTOS, fetchPP } from '../../../actions/UserOnboarding';
 
 /* Utils */
 import { decodeBase64 } from '../../../utils/format';
-import axios from 'axios';
 import { AppConfig } from '../../../config';
-import { error } from '../../../utils/notifications';
 
 interface Props {
   match?: any;
@@ -155,6 +154,7 @@ const FreeAccountForm = (props: Props) => {
   };
 
   const handleSubmit = async () => {
+    setErrorMessage('');
     setLoading(true);
     if (!passwordPolicy.validate(password)) {
       setFocusPassword(true);
@@ -179,12 +179,12 @@ const FreeAccountForm = (props: Props) => {
         `${AppConfig.BASE_URL_API}checkout/verify-email/${email.toLowerCase()}`
       );
       if (verifyEmailStatus !== 200) {
-        error('This email is already being used');
+        setErrorMessage('This email is already being used');
         setLoading(false);
         return;
       }
     } catch (e) {
-      error('This email is already being used');
+      setErrorMessage('This email is already being used');
       setLoading(false);
       return;
     }

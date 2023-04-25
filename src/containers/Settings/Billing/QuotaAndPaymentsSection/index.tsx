@@ -35,7 +35,13 @@ import {
 import { SellerSubscription } from '../../../../interfaces/Seller';
 
 /* Utils */
-import { capitalizeFirstLetter, formatDecimal, prettyPrintDate } from '../../../../utils/format';
+import {
+  capitalizeFirstLetter,
+  formatCurrency,
+  prettyPrintDate,
+  prettyPrintNumber,
+  stringToNumber,
+} from '../../../../utils/format';
 // import { sellerIDSelector } from '../../../../selectors/Seller';
 // import { error, success } from '../../../../utils/notifications';
 import { isSellgoSession } from '../../../../utils/session';
@@ -90,7 +96,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
     sellerSubscription && getSubscriptionDetailsById(sellerSubscription?.subscription_id);
   let subscriptionFePlanName: SubscriptionPlanType = null;
   if (subscriptionFeDetails?.name === 'Starter') {
-    subscriptionFePlanName = 'Personal Plan';
+    subscriptionFePlanName = 'Professional Plan';
   } else if (subscriptionFeDetails?.name === 'Elite') {
     subscriptionFePlanName = 'Business Plan';
   }
@@ -207,6 +213,11 @@ const QuotaAndPaymentsSection = (props: Props) => {
                 <div className={styles.planDetailsRow}>
                   <PlanTypeRectangle
                     plan={subscriptionFePlanName ? subscriptionFePlanName : subscriptionPlan}
+                    planType={
+                      sellerSubscription.is_trialing
+                        ? 'Free Trial'
+                        : sellerSubscription.payment_mode
+                    }
                   />
                   <span>
                     {/* &nbsp; - You have used {formatDecimal(totalUsedQuotaPercent)}% of the available
@@ -232,7 +243,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
                         }}
                       />
                       <span>
-                        &nbsp; You have used {formatDecimal(totalUsedQuotaPercent)}% of the
+                        &nbsp; You have used {prettyPrintNumber(totalUsedQuotaPercent)}% of the
                         available lookups.
                       </span>
                       {/* <NewQuotaMeter
@@ -279,7 +290,9 @@ const QuotaAndPaymentsSection = (props: Props) => {
                     size="small"
                     //navigateTo="/settings/pricing"
                     onClick={() => history.push('/settings/pricing')}
-                    className={styles.actionButton}
+                    className={`${styles.actionButton} ${
+                      sellerSubscription?.is_trialing ? styles.disabledBtn : ''
+                    }`}
                   >
                     Change plan
                   </OrangeButton>
@@ -343,10 +356,14 @@ const QuotaAndPaymentsSection = (props: Props) => {
                       {!isSubscriptionExpiring ? subscriptionDetails.next_due_date : '-'}
                     </p>
                   )}
-                  {hasActivePlan && <p className={styles.paymentDetailsLabel}> Amount:</p>}
+                  {hasActivePlan && (
+                    <p className={styles.paymentDetailsLabel}> Next payment amount:</p>
+                  )}
                   {hasActivePlan && (
                     <p className={styles.paymentDetailsContent}>
-                      {!isSubscriptionExpiring ? subscriptionDetails.payment_amount : '-'}
+                      {!isSubscriptionExpiring
+                        ? formatCurrency(stringToNumber(subscriptionDetails.payment_amount))
+                        : '-'}
                     </p>
                   )}
                 </div>
@@ -368,7 +385,7 @@ const QuotaAndPaymentsSection = (props: Props) => {
               support@aistock.co
             </a>
           )}
-          . We Can Help.
+          . We can help.
         </div>
       </BoxFooter>
       <Modal
