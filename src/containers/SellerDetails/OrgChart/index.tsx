@@ -5,8 +5,13 @@ import { Tree, TreeNode } from 'react-organizational-chart';
 import styles from './index.module.scss';
 import { tempOrgData } from './temp';
 import EmployeeBox from './EmployeeBox';
+import ActionButton from '../../../components/ActionButton';
 
-const OrgChart = () => {
+interface Props {
+  setStep: (a: number) => void;
+}
+const OrgChart = (props: Props) => {
+  const { setStep } = props;
   const [isOrgChartLoading, setIsOrgChartLoading] = useState<boolean>(false);
   const [headData, setHeadData] = useState<any>({});
   const [reportingEmployeesData, setReportingEmployeesData] = useState<any[]>([]);
@@ -32,7 +37,21 @@ const OrgChart = () => {
   }, []);
   return (
     <div className={styles.OrgChartBox}>
-      <div className={styles.informationHeading}>COMPANY ORG</div>
+      <div className={styles.informationHeading}>
+        <p>COMPANY ORG</p>{' '}
+        <ActionButton
+          variant="primary"
+          type={'black'}
+          size="small"
+          // loading={activeEmployeeIndex === index && isUnlocking}
+          onClick={() => {
+            console.log('Call the bulk unlock api');
+          }}
+          // className={styles.continueButton}
+        >
+          Bulk Unlock
+        </ActionButton>
+      </div>
 
       {!isOrgChartLoading && (
         <div className={styles.orgChartWrapper}>
@@ -48,6 +67,10 @@ const OrgChart = () => {
                     numOfEmails={headData?.emails?.length ?? headData?.teasers?.emails?.length ?? 0}
                     numOfPhones={headData?.phones?.length ?? headData?.teasers?.phones?.length ?? 0}
                     isDisabled={!headData.is_looked_up}
+                    onNameClick={() => {
+                      localStorage.setItem('activeEmployeeId', headData.id);
+                      setStep(0);
+                    }}
                   />
                 }
               </div>
@@ -70,6 +93,10 @@ const OrgChart = () => {
                         employeeData?.phones?.length ?? employeeData?.teasers?.phones?.length ?? 0
                       }
                       isDisabled={!employeeData.is_looked_up}
+                      onNameClick={() => {
+                        localStorage.setItem('activeEmployeeId', employeeData.id);
+                        setStep(0);
+                      }}
                     />
                   }
                 />

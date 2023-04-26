@@ -7,6 +7,10 @@
   }
 }
 
+.btn {
+  margin: 10px auto 0;
+}
+
 .OrgChartBox {
   display: flex;
   flex-direction: column;
@@ -26,13 +30,13 @@
 }
 
 .informationHeading {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  padding: 18px 30px 11px 30px;
+  color: $grey_8;
   font-size: 14px;
   font-weight: 600;
-  color: $grey_8;
-  padding-left: 30px;
-  padding-top: 18px;
-  margin-bottom: 30px;
-  padding-bottom: 11px;
   border-bottom: 1px solid $grey_3;
 }
 

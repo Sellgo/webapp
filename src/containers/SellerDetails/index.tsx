@@ -204,7 +204,7 @@ const SellerDetails = (props: Props) => {
           {currentTab === 0 && (
             <ContactInformation rowData={currentSeller} setCurrentData={setCurrentSeller} />
           )}
-          {currentTab === 1 && <OrgChart />}
+          {currentTab === 1 && <OrgChart setStep={setCurrentTab} />}
         </main>
       )}
     </>

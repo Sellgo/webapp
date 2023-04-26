@@ -4,6 +4,7 @@ import styles from './index.module.scss';
 import { Icon } from 'semantic-ui-react';
 import { SOCIAL_LINK_COLORS } from '../../../constants/SellerResearch/SellerDatabase';
 import SocialLinkIcon from '../../../components/SocialLinkIcon';
+import ActionButton from '../../../components/ActionButton';
 /* Containers */
 
 interface Props {
@@ -14,6 +15,8 @@ interface Props {
   numOfEmails: number;
   numOfPhones: number;
   isDisabled: boolean;
+  isLookedUp?: boolean;
+  onNameClick?: () => void;
 }
 
 const EmployeeBox = (props: Props) => {
@@ -25,6 +28,8 @@ const EmployeeBox = (props: Props) => {
     numOfEmails,
     numOfPhones,
     isDisabled,
+    isLookedUp,
+    onNameClick,
   } = props;
 
   return (
@@ -34,7 +39,9 @@ const EmployeeBox = (props: Props) => {
         src={require(`../../../assets/images/avatarPlaceholder.svg`)}
         className={styles.employeeInformationDetails__card__description__image}
       /> */}
-      <p className={styles.name}>{name}</p>
+      <p className={styles.name} onClick={onNameClick}>
+        {name}
+      </p>
       <p className={styles.position}>{position}</p>
       <div>
         <SocialLinkIcon
@@ -61,6 +68,18 @@ const EmployeeBox = (props: Props) => {
           <span>{numOfPhones}</span>
         </>
       </div>
+      <ActionButton
+        variant="primary"
+        type={'purpleGradient'}
+        size="small"
+        // loading={activeEmployeeIndex === index && isUnlocking}
+        onClick={() => {
+          console.log('Call the unlock api');
+        }}
+        className={styles.btn}
+      >
+        {isLookedUp ? 'View' : 'Unlock'}
+      </ActionButton>
     </div>
   );
 };
