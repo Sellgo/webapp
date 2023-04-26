@@ -56,6 +56,9 @@ const OrgChart = (props: Props) => {
       {!isOrgChartLoading && (
         <div className={styles.orgChartWrapper}>
           <Tree
+            lineWidth={'1px'}
+            lineColor={'#CED4D9'}
+            lineBorderRadius={'10px'}
             label={
               <div>
                 {
