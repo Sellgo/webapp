@@ -16,6 +16,7 @@ import { error } from '../../utils/notifications';
 import PageHeader from '../../components/PageHeader';
 import { capitalizeWords } from '../../utils/format';
 import OrgChart from './OrgChart';
+import ReviewRatings from './ReviewRatings';
 
 /* Containers */
 
@@ -196,7 +197,7 @@ const SellerDetails = (props: Props) => {
         <main className={styles.sellerDetailsPage}>
           <Summary rowData={currentSeller} />
           <TabsRow
-            tabs={['contact', 'org chart']}
+            tabs={['contact', 'org chart', 'Reviews']}
             currentTab={currentTab}
             setCurrentTab={setCurrentTab}
             className={styles.tabs}
@@ -205,6 +206,7 @@ const SellerDetails = (props: Props) => {
             <ContactInformation rowData={currentSeller} setCurrentData={setCurrentSeller} />
           )}
           {currentTab === 1 && <OrgChart setStep={setCurrentTab} />}
+          {currentTab === 2 && <ReviewRatings />}
         </main>
       )}
     </>
