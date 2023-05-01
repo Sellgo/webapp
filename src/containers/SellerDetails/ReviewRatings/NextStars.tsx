@@ -65,7 +65,7 @@ const NextStars = () => {
                 marks
                 markClassName="example-mark"
                 min={1}
-                max={Number(data?.max_decrease_rating)}
+                max={3}
                 step={0.1}
                 value={decreaseSliderValue}
                 thumbClassName={styles.sliderThumb}
@@ -76,6 +76,11 @@ const NextStars = () => {
                 }}
                 renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
               />
+              <div className={styles.lineNumber}>
+                <p>1</p>
+                <p>2</p>
+                <p>3</p>
+              </div>
             </div>
             <p className={styles.decreasingStarsLabel}>
               To <strong>DECREASE</strong> to <strong>{decreaseSliderValue}</strong> rating
@@ -85,7 +90,12 @@ const NextStars = () => {
                 const currentStarValue = getStars('decrease', starValue);
                 console.log(currentStarValue);
                 return (
-                  <div key={starValue} className={styles.reviewRatingsWrapper__percentageRating}>
+                  <div
+                    key={starValue}
+                    className={`${styles.reviewRatingsWrapper__percentageRating} ${
+                      currentStarValue?.rating_star === 0 ? styles.disabled : ''
+                    }`}
+                  >
                     <ReactStars
                       count={5}
                       value={starValue}
@@ -108,7 +118,7 @@ const NextStars = () => {
                 className={styles.horizontalSlider}
                 marks
                 markClassName="example-mark"
-                min={Number(data.current_rating)}
+                min={3}
                 max={5}
                 step={0.1}
                 value={increaseSliderValue}
@@ -120,6 +130,12 @@ const NextStars = () => {
                 }}
                 renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
               />
+
+              <div className={styles.lineNumber}>
+                <p>3</p>
+                <p>4</p>
+                <p>5</p>
+              </div>
             </div>
             <p className={styles.increasingStarsLabel}>
               To <strong>INCREASE</strong> to <strong>{increaseSliderValue}</strong> rating
@@ -129,7 +145,12 @@ const NextStars = () => {
                 const currentStarValue = getStars('increase', starValue);
                 console.log(currentStarValue);
                 return (
-                  <div key={starValue} className={styles.reviewRatingsWrapper__percentageRating}>
+                  <div
+                    key={starValue}
+                    className={`${styles.reviewRatingsWrapper__percentageRating} ${
+                      currentStarValue?.rating_star === 0 ? styles.disabled : ''
+                    }`}
+                  >
                     <ReactStars
                       count={5}
                       value={starValue}
@@ -138,7 +159,7 @@ const NextStars = () => {
                       edit={false}
                     />
                     <p>
-                      {currentStarValue?.required_stars ?? '-'} {starValue} star review is needed
+                      {currentStarValue?.required_stars ?? 0} {starValue} star review is needed
                     </p>
                   </div>
                 );

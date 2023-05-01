@@ -163,10 +163,21 @@
   }
 }
 
+.disabled {
+  opacity: 0.5;
+}
+
 .horizontalSlider {
   width: 40%;
   height: 10px;
   margin: auto;
+}
+
+.lineNumber {
+  display: flex;
+  justify-content: space-between;
+  width: 40%;
+  margin: 10px auto 0;
 }
 
 .sliderThumb {
