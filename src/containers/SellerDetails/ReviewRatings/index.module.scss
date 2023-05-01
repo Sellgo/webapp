@@ -162,3 +162,50 @@
     }
   }
 }
+
+.horizontalSlider {
+  width: 40%;
+  height: 10px;
+  margin: auto;
+}
+
+.sliderThumb {
+  height: 25px;
+  line-height: 25px;
+  width: 25px;
+  text-align: center;
+  background-color: #fff;
+  color: #fff;
+  border: 1px solid #eb675e;
+  border-radius: 50%;
+  cursor: grab;
+  top: -10px;
+}
+
+.sliderThumbIncrease {
+  border: 1px solid #349af8;
+}
+
+.sliderTrack {
+  top: 0;
+  bottom: 0;
+  background: #eb675e;
+  opacity: 0.7;
+  border-radius: 999px;
+}
+
+.sliderTrackIncrease {
+  background: #349af8;
+}
+
+.decreasingStarsLabel {
+  margin-top: 30px;
+  text-align: center;
+  color: #eb675e;
+}
+
+.increasingStarsLabel {
+  margin-top: 30px;
+  text-align: center;
+  color: #349af8;
+}
