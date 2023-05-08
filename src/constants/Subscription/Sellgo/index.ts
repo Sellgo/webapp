@@ -1,13 +1,13 @@
 import { SubscriptionPlan, SummaryDetails } from '../../../interfaces/Subscription';
 
 export const DAILY_SUBSCRIPTION_PLANS = [7, 13];
-export const MONTHLY_AND_ANNUAL_PLANS_IDS = [10, 11, 12];
+export const MONTHLY_AND_ANNUAL_PLANS_IDS = [30, 11, 32];
 export const FREE_ACCOUNT_SUBSCRIPTION_ID = 5;
 
 /* Used in webapp pricing page */
 export const MONTHLY_AND_ANNUAL_PLANS = [
   {
-    id: 10, // subscriptionID if needed
+    id: 30, // subscriptionID if needed
     name: 'Starter',
     displayName: 'Professional',
     productsDatabase: 0,
@@ -48,7 +48,7 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
   //   ],
   // },
   {
-    id: 12,
+    id: 32,
     name: 'Elite',
     displayName: 'Business',
     productsDatabase: 0,
@@ -76,7 +76,7 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
 /* Used in Change plan Modal */
 export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
-    subscriptionId: 10, // subscriptionID if needed
+    subscriptionId: 30, // subscriptionID if needed
     name: 'Starter',
     dailyPrice: 0,
     monthlyPrice: 77,
@@ -92,7 +92,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     isDailyPlan: false,
   },
   {
-    subscriptionId: 12, // subscriptionID if needed
+    subscriptionId: 32, // subscriptionID if needed
     name: 'Elite',
     dailyPrice: 0,
     monthlyPrice: 347,
@@ -142,8 +142,8 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   starter: {
     name: 'Starter',
     displayName: 'Professional',
-    id: 10,
-    idWithLegacyPlans: [10, 6],
+    id: 30,
+    idWithLegacyPlans: [30, 6],
     monthlyPrice: 499,
     annualPrice: 4790,
     dailyPrice: -1,
@@ -184,8 +184,8 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   team: {
     name: 'Elite',
     displayName: 'Business',
-    id: 12,
-    idWithLegacyPlans: [12, 1],
+    id: 32,
+    idWithLegacyPlans: [32, 1],
     monthlyPrice: 999,
     annualPrice: 9590,
     dailyPrice: -1,
@@ -220,15 +220,15 @@ export const SUBSCRIPTION_DETAILS_LIST: SummaryDetails[] = [
 ];
 
 export const subscriptionDetailsMapping: { [key: string]: number } = {
-  starter: 10,
+  starter: 30,
   professional: 11,
-  team: 12,
+  team: 32,
 };
 
 export const subscriptionDetailsMappingById: { [key: number]: string } = {
-  10: 'starter',
+  30: 'starter',
   11: 'professional',
-  12: 'team',
+  32: 'team',
 };
 
 export const subscriptionDetailsMappingByPlanName: { [key: string]: string } = {
@@ -240,7 +240,7 @@ export const getSubscriptionID = (planName: string) => {
   if (planName === 'elite') {
     planName = 'team';
   }
-  const DEFAULT_PLAN_ID = 10;
+  const DEFAULT_PLAN_ID = 30;
   const id = subscriptionDetailsMapping[planName];
   if (id) {
     return id;
