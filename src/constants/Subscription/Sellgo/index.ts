@@ -7,7 +7,7 @@ export const FREE_ACCOUNT_SUBSCRIPTION_ID = 5;
 /* Used in webapp pricing page */
 export const MONTHLY_AND_ANNUAL_PLANS = [
   {
-    id: 10, // subscriptionID if needed
+    id: 30, // subscriptionID if needed
     name: 'Starter',
     displayName: 'Professional',
     productsDatabase: 0,
@@ -48,7 +48,7 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
   //   ],
   // },
   {
-    id: 12,
+    id: 32,
     name: 'Elite',
     displayName: 'Business',
     productsDatabase: 0,
@@ -142,7 +142,7 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   starter: {
     name: 'Starter',
     displayName: 'Professional',
-    id: 10,
+    id: 30,
     idWithLegacyPlans: [10, 6],
     monthlyPrice: 499,
     annualPrice: 4790,
@@ -184,7 +184,7 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   team: {
     name: 'Elite',
     displayName: 'Business',
-    id: 12,
+    id: 32,
     idWithLegacyPlans: [12, 1],
     monthlyPrice: 999,
     annualPrice: 9590,
