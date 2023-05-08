@@ -87,7 +87,7 @@ const SellerMapInfoCard = (props: Props) => {
   // const handleClickInventory = async () => {
   //   trackMerchantFromDatabase(merchant_id);
   //   await timeout(1500);
-  //   history.push('/seller-research/collection');
+  //   history.push('/abm/collection');
   // };
 
   return (

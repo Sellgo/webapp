@@ -36,7 +36,7 @@ const SettingsNav = (props: Props) => {
     <div className={styles.settingsNav}>
       <button className={styles.goBackButton} onClick={handleGoBack}>
         <img src={LeftArrow} alt="left arrow" />
-        Back to previous page
+        Back
       </button>
       <div className={styles.settingsPagesMenu}>
         {SETTINGS_PAGES.map((page: any) => {

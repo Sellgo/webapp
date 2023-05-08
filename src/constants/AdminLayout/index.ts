@@ -4,10 +4,10 @@ import { isAiStockSession } from '../../utils/session';
 /* New products following design */
 export const NEW_PRODUCT_DESIGN_PATH_NAMES = [
   /* Seller Research */
-  '/seller-research',
-  '/seller-research/database',
-  '/seller-research/map',
-  '/seller-research/collection',
+  '/abm',
+  '/abm/database',
+  '/abm/map',
+  '/abm/collection',
 
   /* Keyword Research */
   '/keyword-research',
@@ -123,7 +123,7 @@ export const OPTIONS: NavOptions = [
   {
     label: 'Seller Research',
     icon: require(`../../assets/images/${NAV_ICONS.SELLER_RESEARCH}`),
-    path: '/seller-research',
+    path: '/abm',
     disabled: false,
     isBeta: false,
     subOptions: [
@@ -131,7 +131,7 @@ export const OPTIONS: NavOptions = [
         label: 'Seller Database',
         description: 'Discover >1M of Amazon Sellers',
         icon: require(`../../assets/images/${NAV_ICONS.SELLER_DATABASE}`),
-        path: '/seller-research/database',
+        path: '/abm/database',
         disabled: false,
         isBeta: false,
       },
@@ -139,7 +139,7 @@ export const OPTIONS: NavOptions = [
         label: 'Seller Map',
         description: 'Interactive Map of Amazon Sellers',
         icon: require(`../../assets/images/${NAV_ICONS.SELLER_MAP}`),
-        path: '/seller-research/map',
+        path: '/abm/map',
         disabled: false,
         isBeta: false,
       },
@@ -147,7 +147,7 @@ export const OPTIONS: NavOptions = [
         label: 'Seller Collection',
         description: 'Unlocked Amazon Sellers',
         icon: require(`../../assets/images/${NAV_ICONS.SELLER_COLLECTION}`),
-        path: '/seller-research/collection',
+        path: '/abm/collection',
         disabled: false,
         isBeta: false,
       },

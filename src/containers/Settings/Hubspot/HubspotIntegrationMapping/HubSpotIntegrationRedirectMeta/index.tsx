@@ -12,7 +12,7 @@ const HubSpotIntegrationMappingMeta = () => {
     <>
       <div className={styles.settingMetaTitle}>
         <Image src={HubspotLogo} />
-        &nbsp;&nbsp;HubSpot Setup
+        &nbsp;&nbsp;HubSpot setup
       </div>
     </>
   );

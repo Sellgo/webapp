@@ -53,21 +53,21 @@ const MainHomePage = (props: Props) => {
             <HomepageCard
               label="Seller Database"
               desc="Discover >1M of Amazon Sellers"
-              to="/seller-research/database"
+              to="/abm/database"
               icon={require(`../../assets/images/sellerDatabaseIcon.svg`)}
               disabled={false}
             />
             <HomepageCard
               label="Seller Map"
               desc="Interactive Map of Amazon Sellers"
-              to="/seller-research/map"
+              to="/abm/map"
               icon={require(`../../assets/images/sellerMapIcon.svg`)}
               disabled={false}
             />
             <HomepageCard
               label="Seller Collection"
               desc="Get your unlocked Amazon Sellers collection"
-              to="/seller-research/collection"
+              to="/abm/collection"
               icon={require(`../../assets/images/sellerCollection.svg`)}
               disabled={false}
             />

@@ -114,11 +114,11 @@ const UpdateCardForm = (props: MyProps) => {
 
   return (
     <div className={styles.checkoutContainer}>
-      <h2>Adding Credit Card Payment</h2>
+      <h2>Change new payment method</h2>
 
       <form onSubmit={handleSubmit}>
         <Form.Field className={styles.formInput}>
-          <label htmlFor="CardNumber">Credit Card Number</label>
+          <label htmlFor="CardNumber">Credit card number</label>
           <CardNumberElement
             id="CardNumber"
             options={CARD_ELEMENT_OPTIONS}
@@ -130,14 +130,14 @@ const UpdateCardForm = (props: MyProps) => {
           <Form.Input
             className={styles.formInput}
             size="huge"
-            label="Name on Card"
+            label="Name on card"
             type="text"
             placeholder="John Smith"
             {...bindName}
           />
 
           <Form.Field className={`${styles.formInput} ${styles.formInput__expiry}`}>
-            <label htmlFor="expiry">Expiry Date</label>
+            <label htmlFor="expiry">Expiry date</label>
             <CardExpiryElement
               id="expiry"
               options={CARD_ELEMENT_OPTIONS}
@@ -164,7 +164,7 @@ const UpdateCardForm = (props: MyProps) => {
           <div className={styles.paymentButtons}>
             <div className={styles.buttonWrapper}>
               <OrangeButton
-                type="white"
+                type="secondary"
                 size="medium"
                 onClick={() => handleCloseModal()}
                 className={styles.whiteButton}
@@ -174,8 +174,8 @@ const UpdateCardForm = (props: MyProps) => {
               {stripeLoading && <Dimmer blurring inverted active />}
             </div>
             <div className={styles.buttonWrapper}>
-              <OrangeButton type="white" size="medium" className={styles.whiteButton}>
-                Change Payment
+              <OrangeButton type="primary" size="medium" className={styles.whiteButton}>
+                Change payment
               </OrangeButton>
               {stripeLoading && (
                 <Dimmer inverted active>

@@ -143,6 +143,10 @@ $blue_purple_gradient: linear-gradient(90deg, #00f0ff, #b318f1);
 $sellgo_purple: #b318f1;
 $sellgo_yellow: #ffcc2f;
 $yellow_orange_gradient: linear-gradient(90deg, #ffcc2f, #ffcc2f, #fc7900);
+
+$yellow_purple_gradient: linear-gradient(90deg, rgba(255, 204, 47, 0.3), rgba(255, 97, 223, 0.3));
+$yellow_green_gradient: linear-gradient(90deg, #fefaea, #dfffde);
+$green_yellow_gradient: linear-gradient(90deg, #dfffde, #fefaea);
 $orange_dark_gradient: linear-gradient(90deg, #fc7900, #7e3d00);
 $orange_purple_gradient: linear-gradient(90deg, #fb7900, #b318f1);
 $purple_blue_gradient: linear-gradient(90deg, #b318f1, #00f0ff);
@@ -152,6 +156,8 @@ $pink_blue_gradient: linear-gradient(90deg, #ff61df, #ff61df, #ff61df, #00f0ff);
 $pink_purple_blue_gradient: linear-gradient(90deg, #ff61df, #b318f1, #00f0ff);
 $orange_purple_pink_gradient: linear-gradient(90deg, #fc7900, #b318f1, #ff61df);
 $sellgo_neon_green: #3cf7af;
+$sellgo_comfort_green: #dfffde;
+$sellgo_comfort_red: #ff4b46;
 
 /* Link colors */
 $blue_link_bg_dark: #4b9cf5;

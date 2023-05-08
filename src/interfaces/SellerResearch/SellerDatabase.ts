@@ -47,4 +47,5 @@ export type SD_FILTER_ICON =
   | 'building'
   | 'boxes'
   | 'tag'
+  | 'checked'
   | '';

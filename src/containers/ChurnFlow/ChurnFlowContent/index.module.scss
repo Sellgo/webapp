@@ -1,7 +1,7 @@
 @import '../../../design-system/colors.scss';
 
 .churnFlowContent {
-  height: 70vh;
+  height: 50vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -9,19 +9,22 @@
   text-align: center;
 
   &__img {
-    width: 15rem;
+    width: 22rem;
+    padding-bottom: 4em;
   }
 
   &__title {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    font-size: 20px;
+    margin-bottom: 3rem;
+    font-size: 24px;
     color: $prim_dark_2;
     font-weight: 600;
   }
 
   &__desc {
     width: 40rem;
-    margin-bottom: 2rem;
+    margin-bottom: 4rem;
+    font-size: 14px;
+    color: $prim_dark_2;
+    font-weight: 400;
   }
 }

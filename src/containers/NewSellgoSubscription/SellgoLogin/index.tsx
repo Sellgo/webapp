@@ -5,6 +5,7 @@ import './index.scss';
 import Auth from '../../../components/Auth/Auth';
 import { useInput } from '../../../hooks/useInput';
 import { v4 as uuid } from 'uuid';
+import { AppConfig } from '../../../config';
 
 interface Props {
   auth: Auth;
@@ -68,7 +69,7 @@ export default function Login(props: Props) {
   function success() {
     setMessageDetails({
       key: uuid(),
-      header: 'Account Created',
+      header: 'Account created',
       content: `A link to verify your email has been sent to ${location.state.email}`,
       isSuccess: true,
       isError: false,
@@ -79,8 +80,8 @@ export default function Login(props: Props) {
   function verifyEmail() {
     setMessageDetails({
       key: uuid(),
-      header: 'Email Not Verified',
-      content: `Please verify email before loggin in`,
+      header: 'Email not verified',
+      content: `Please verify email before logging in`,
       isSuccess: false,
       isError: true,
       time: 0,
@@ -94,12 +95,17 @@ export default function Login(props: Props) {
         <span className="reset-password">
           <a href="/reset-password"> Forgot password </a>
         </span>
-        {isAccess ? <span>Incorrect Username or Password!</span> : <span />}
+        {isAccess ? <span>Incorrect username or password!</span> : <span />}
         <Form.Field control={Button} fluid={true} primary={true} value="Submit">
           Log in
         </Form.Field>
-        <a className="sign-up" href="/signup">
-          <b>Sign up for free account</b>
+        <a
+          className="sign-up"
+          href={`${AppConfig.WEB_URL}/select-plan`}
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          <b>Sign up for free trial</b>
         </a>
       </Form>
     </LoginBase>

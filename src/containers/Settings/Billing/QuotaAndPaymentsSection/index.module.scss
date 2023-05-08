@@ -10,18 +10,20 @@
   .quotaSection,
   .paymentsSection {
     display: grid;
-    grid-template-columns: 180px 800px;
+    grid-template-columns: 180px 700px;
     column-gap: 18px;
     grid-template-rows: max-content;
     position: relative;
   }
 
   .quotaSection {
-    margin-bottom: 50px;
+    margin-bottom: 40px;
   }
 }
 
 .innerGrid {
+  margin-top: 30px;
+  margin-bottom: 30px;
   display: grid;
   grid-template-columns: 130px max-content;
   column-gap: 18px;
@@ -33,11 +35,15 @@
 
 .planActions {
   display: flex;
+  column-gap: 18px;
+  row-gap: 18px;
+  width: 500px;
+  justify-content: flex-end;
 }
 
 .boxTitle {
   width: 100%;
-  text-align: right;
+  text-align: left;
   padding-right: 18px;
   margin-top: 5px !important;
   grid-column-start: 1;
@@ -48,7 +54,7 @@
 }
 
 .actionLabel {
-  text-align: right;
+  text-align: left;
   font-size: 14px;
   color: $prim_dark_1;
   font-weight: normal;
@@ -56,11 +62,16 @@
 }
 
 .actionButton {
-  width: 140px !important;
+  width: 170px !important;
   font-weight: normal !important;
   font-size: 14px !important;
   padding: 0 !important;
   margin-right: 18px;
+
+  &:hover {
+    opacity: 0.8;
+    cursor: pointer;
+  }
 
   &__disabled {
     pointer-events: none;
@@ -102,14 +113,18 @@
   align-items: center;
   color: $grey_8;
   font-size: 14px;
+  padding-bottom: 40px;
+  width: 480px;
+  border-bottom: 1px solid $grey_3;
 }
 
 .quotaBarsWrapper {
-  margin-top: 20px;
-  margin-bottom: 30px;
+  //margin-top: 20px;
+  margin-bottom: 18px;
+  padding-left: 70px;
   display: flex;
   flex-wrap: wrap;
-  height: 100px;
+  height: 30px;
 
   .quotaBar {
     margin-right: 90px;
@@ -122,7 +137,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 300px;
+  width: 500px;
   height: 40px;
   margin-bottom: 30px;
 
@@ -146,14 +161,18 @@
 
 .paymentDetailsLabel {
   color: $grey_8;
-  text-align: right;
-  margin: 0;
+  text-align: left;
+  width: 200px;
+
+  // margin: 0;
 }
 
 .paymentDetailsContent {
   color: $prim_dark_1;
   text-align: left;
-  margin: 0;
+  margin-left: 3em;
+  // margin-right: 1em;
+  // margin: 0;
 }
 
 .popupForm {
@@ -162,4 +181,41 @@
 
 .mailLink {
   color: $accent-blue;
+}
+
+.resumeSubscriptionWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  //width: 30%;
+
+  &__button {
+    //margin-left: 30px;
+    padding: 11px !important;
+  }
+}
+
+.resumeSubscriptionText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 18px;
+
+  .cancelWarningText {
+    font-size: 14px;
+    color: $system_red;
+    font-weight: $fontweight_medium;
+    padding-right: 90px;
+  }
+
+  &__button {
+    margin-left: 30px;
+    padding: 5px !important;
+  }
+}
+
+.disabledBtn {
+  opacity: 0.1;
+  pointer-events: none;
+  cursor: not-allowed;
 }

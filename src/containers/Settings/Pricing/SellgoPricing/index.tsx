@@ -197,11 +197,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         <main className={styles.subscriptionPage}>
           <section className={styles.subscriptionPageWrapper}>
             <div className={styles.planName}>
-              <h2>"Sellgo pays for itself 10x over"</h2>
+              <h2>Simple pricing plan</h2>
             </div>
 
             <div className={styles.planShortSummary}>
-              <p>Reach millions of Amazon seller decision makers and their teams</p>
+              <p>Discover the full value of Sellgo and see how it pays for itself 10 times over!</p>
             </div>
             {/* <div> */}
             <ToggleButton
@@ -240,6 +240,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     ) => this.getNewPlan(subscriptionDetails, isUpgradingToYearly)}
                     // seller details
                     sellerSubscription={sellerSubscription}
+                    isFreeTrial={sellerSubscription.is_trialing}
                   />
                 );
               })}

@@ -74,7 +74,7 @@ const HubSpotIntegrationCore = () => {
               <ActionButton
                 className={styles.applyButton}
                 variant="primary"
-                type="purpleGradient"
+                type="black"
                 size="md"
                 onClick={handleSave}
                 disabled={false}

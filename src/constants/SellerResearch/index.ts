@@ -1,18 +1,21 @@
 /* Routes on Seller Research */
-export const SELLER_RESEARCH_PAGES = [
-  '/seller-research/database',
-  '/seller-research/map',
-  '/seller-research/collection',
-];
+export const SELLER_RESEARCH_PAGES = ['/abm/database', '/abm/map', '/abm/collection'];
 
 /* Seller Research Product Details */
 export const SELLER_RESEARCH_PRODUCT_DETAILS = [
   {
     name: 'Seller Database',
-    desc: 'Easily identify Amazon sellers by category, brand, and much more.',
+    // desc: 'Easily identify Amazon sellers by category, brand, and much more.',
+    desc:
+      'Access our seller database to effortlessly identify Amazon sellers by category, revenue, and more!',
   },
-  { name: 'Seller Map', desc: 'Locate and Scout Millions of Amazon Sellers in seconds.' },
-  { name: 'My Contact', desc: 'Unlocked Companies and Decision Makers' },
+  {
+    name: 'Seller Map',
+    //desc: 'Locate and Scout Millions of Amazon Sellers in seconds.',
+    desc:
+      'Discover millions of Amazon sellers in seconds with our powerful scouting and locating tools!',
+  },
+  { name: 'Collection', desc: 'Access unlocked company profiles and decision makers with ease!' },
 ];
 
 /* ======================================================= */

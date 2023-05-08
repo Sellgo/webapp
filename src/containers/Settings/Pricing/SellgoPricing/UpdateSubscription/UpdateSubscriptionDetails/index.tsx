@@ -261,8 +261,8 @@ function UpdateSubscriptionDetails(props: MyProps) {
             <div className={styles.descriptionBlock}>
               <Icon name="lock" color="grey" />
               <p className={styles.description}>
-                We guarantee that the payment process is secured and confidential through Stripe. We
-                do not store your payment credential information.
+                Your payment is secured and confidential through Stripe. We do not store any of your
+                payment credentials.
               </p>
             </div>
             <div className={styles.pricing}>
@@ -424,7 +424,7 @@ function UpdateSubscriptionDetails(props: MyProps) {
                       {summaryDetails?.displayName ?? summaryDetails?.name}{' '}
                       {`${isMonthly ? 'monthly' : 'yearly'}`}{' '}
                     </strong>
-                    subscription will begin today and will renew on
+                    subscription will begin today and will renew on{' '}
                     <strong>
                       {prettyPrintDate(new Date(sellerSubscription?.next_billing_cycle_date))}.
                     </strong>
@@ -542,7 +542,7 @@ function UpdateSubscriptionDetails(props: MyProps) {
         >
           Privacy Policy&nbsp;
         </button>
-        <span>Copyright @ sellgo 2022</span>
+        <span>Copyright @ Sellgo 2023</span>
       </div>
     </>
   );

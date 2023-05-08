@@ -22,7 +22,7 @@ const PricingComparison = (props: Props) => {
     <section className={styles.pricingComparisonSection}>
       <div className={styles.comparisonTextContainer}>
         <p onClick={() => setShowComparison(!showComparison)}>
-          {showComparison ? 'Collapse Comparison' : 'Show Plan Comparison'}
+          {showComparison ? 'Collapse' : 'Plan comparison'}
           <span className={showComparison ? styles.rotateNegative : styles.rotatePositive}>
             &gt;
           </span>

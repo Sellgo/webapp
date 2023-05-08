@@ -180,7 +180,7 @@ export const removeSpecialCharctersFromKeywords = (keywords: string) => {
 
 export const prettyPrintDate = (date: Date) => {
   return `${date.getDate()} ${date.toLocaleString('default', {
-    month: 'short',
+    month: 'long',
   })} ${date.getFullYear()}`;
 };
 

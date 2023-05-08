@@ -47,7 +47,7 @@ const SellerActions = (props: Props) => {
   //   trackMerchantFromDatabase(merchantId);
   //   if (newTab) {
   //     await timeout(500);
-  //     history.push('/seller-research/collection');
+  //     history.push('/abm/collection');
   //   }
   // };
 

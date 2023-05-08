@@ -50,16 +50,18 @@
   position: relative;
   align-items: center;
   justify-content: center;
-  margin-bottom: 40px;
+  margin-bottom: 18px;
 }
 
 .innerGrid {
-  width: 500px;
   display: grid;
   column-gap: 30px;
   row-gap: 18px;
   grid-template-columns: 170px 300px;
-  padding-left: 20px;
+  padding-left: 18px;
+  padding-bottom: 30px;
+  width: 500px;
+  border-bottom: 1px solid $grey_3;
 }
 
 .formActionRow {
@@ -92,7 +94,7 @@
 }
 
 .formLabel {
-  text-align: right;
+  text-align: left;
   padding: 0;
   margin: 0;
   font-size: 14px;
@@ -120,6 +122,7 @@
   align-items: center;
 
   .updateButton {
+    margin-top: 1px;
     position: relative;
     align-self: flex-end;
 

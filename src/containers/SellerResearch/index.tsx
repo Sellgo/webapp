@@ -70,7 +70,7 @@ const SellerResearch = (props: Props) => {
     /* If on a different tab, redirect to correct tab */
     if (currentIndex !== selectedTabList) {
       if (currentIndex === -1) {
-        /* If is on any other page, e.g. /seller-research, or /seller-research/asd, redirect to first product */
+        /* If is on any other page, e.g. /abm, or /abm/asd, redirect to first product */
         handleTabChange(0);
       } else {
         /* Update tab according to page */
@@ -102,7 +102,7 @@ const SellerResearch = (props: Props) => {
         title={`Seller Research`}
         breadcrumb={[
           { content: 'Home', to: '/' },
-          { content: 'Seller Research', to: '' },
+          // { content: 'Seller Research', to: '' },
           {
             content: SELLER_RESEARCH_PRODUCT_DETAILS[selectedTabList].name,
             to: SELLER_RESEARCH_PAGES[selectedTabList],
@@ -143,7 +143,7 @@ const SellerResearch = (props: Props) => {
               </Tab>
               <Tab>
                 <ProductLabel
-                  label="MY CONTACT"
+                  label="CONTACT"
                   icon="Seller Collection"
                   isActive={selectedTabList === 2}
                 />

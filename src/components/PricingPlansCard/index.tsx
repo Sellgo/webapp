@@ -34,6 +34,7 @@ interface Props {
 
   // selelr details
   sellerSubscription: any;
+  isFreeTrial?: boolean;
 }
 
 const PricingPlansCard: React.FC<Props> = props => {
@@ -52,6 +53,7 @@ const PricingPlansCard: React.FC<Props> = props => {
     annualLookups,
     changePlan,
     sellerSubscription,
+    isFreeTrial = false,
   } = props;
 
   return (
@@ -63,7 +65,7 @@ const PricingPlansCard: React.FC<Props> = props => {
       {isNew && (
         <div className={styles.newFeatureBanner}>
           <img src={Star} width={25} height={25} />
-          Most popular
+          Best value
         </div>
       )}
       <div className={`${styles.pricingPlansCard}`}>
@@ -82,6 +84,7 @@ const PricingPlansCard: React.FC<Props> = props => {
           isNew={isNew}
           monthlyLookups={monthlyLookups}
           annualLookups={annualLookups}
+          isFreeTrial={isFreeTrial}
         />
 
         <p className={styles.planType}>{featureSubName}</p>

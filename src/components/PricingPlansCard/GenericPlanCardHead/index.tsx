@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -9,7 +9,13 @@ import {
   DAILY_SUBSCRIPTION_PLANS,
   MONTHLY_AND_ANNUAL_PLANS_IDS,
 } from '../../../constants/Subscription/Sellgo';
-import { formatNumber } from '../../../utils/format';
+import { formatNumber, prettyPrintDate } from '../../../utils/format';
+import { sellerIDSelector } from '../../../selectors/Seller';
+import { AppConfig } from '../../../config';
+import axios from 'axios';
+import { error } from '../../../utils/notifications';
+import { fetchSellerSubscription } from '../../../actions/Settings/Subscription';
+import { connect } from 'react-redux';
 
 interface Props {
   id: number;
@@ -34,6 +40,8 @@ interface Props {
 
   // seller details
   sellerSubscription: any;
+  isFreeTrial?: boolean;
+  fetchSellerSubscription: () => void;
 }
 
 const GenericPriceCardHead: React.FC<Props> = props => {
@@ -51,7 +59,10 @@ const GenericPriceCardHead: React.FC<Props> = props => {
     isNew,
     monthlyLookups,
     annualLookups,
+    isFreeTrial = false,
+    fetchSellerSubscription,
   } = props;
+  const [resumeSubscription, setResumeSubscription] = useState<boolean>(false);
   const isAccountSubscribed = MONTHLY_AND_ANNUAL_PLANS_IDS.includes(
     sellerSubscription.subscription_id
   );
@@ -72,6 +83,24 @@ const GenericPriceCardHead: React.FC<Props> = props => {
     sellerSubscription.subscription_id === id &&
     sellerSubscription &&
     sellerSubscription.status === 'pending';
+
+  const removeSubscriptionCancel = async () => {
+    setResumeSubscription(true);
+    try {
+      const sellerId = sellerIDSelector();
+      const url = `${AppConfig.BASE_URL_API}sellers/${sellerId}/subscription/redo-cancel
+      `;
+      const res = await axios.post(url);
+      const { status } = res;
+      if (status === 200) {
+        fetchSellerSubscription();
+      }
+    } catch (err) {
+      console.error(err);
+      error('Cannot resume subscription at the moment');
+    }
+    setResumeSubscription(false);
+  };
 
   return (
     <div
@@ -137,6 +166,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
             type="purpleGradient"
             className={styles.buyNowCTA}
             onClick={() => changePlan({ name, id }, true)}
+            disabled={isFreeTrial || sellerSubscription.status === 'pending'}
           >
             Switch to annual billing
           </ActionButton>
@@ -148,20 +178,28 @@ const GenericPriceCardHead: React.FC<Props> = props => {
             className={styles.buyNowCTA}
             disabled
           >
-            Current Plan
+            Current plan
           </ActionButton>
         )
       ) : isSubscribed && isPending ? (
-        <ActionButton
-          variant="secondary"
-          size="md"
-          type="grey"
-          className={styles.buyNowCTA}
-          disabled
-        >
-          Subscription expiring <br />
-          at the end of the {sellerSubscription.payment_mode === 'monthly' ? ' month' : ' year'}
-        </ActionButton>
+        <>
+          <p className={styles.cancelWarningText}>
+            Subscription expiring by{' '}
+            <strong>
+              {prettyPrintDate(new Date(sellerSubscription.next_billing_cycle_date ?? ''))}
+            </strong>
+          </p>
+          <ActionButton
+            variant="primary"
+            size="md"
+            type="purpleGradient"
+            className={`${styles.buyNowCTA} ${styles.removeCancelCTA}`}
+            onClick={async () => await removeSubscriptionCancel()}
+            loading={resumeSubscription}
+          >
+            Remove cancellation
+          </ActionButton>
+        </>
       ) : isAccountSubscribed ? (
         <ActionButton
           variant={'secondary'}
@@ -169,6 +207,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
           type="purpleGradient"
           className={styles.buyNowCTA}
           onClick={() => changePlan({ name, id })}
+          disabled={isFreeTrial || sellerSubscription.status === 'pending'}
         >
           {isMonthly ? 'Switch to monthly billing' : 'Switch to annual billing'}
         </ActionButton>
@@ -179,6 +218,7 @@ const GenericPriceCardHead: React.FC<Props> = props => {
           type="purpleGradient"
           className={styles.buyNowCTA}
           onClick={() => changePlan({ name, id })}
+          disabled={isFreeTrial || sellerSubscription.status === 'pending'}
         >
           Activate plan
         </ActionButton>
@@ -191,4 +231,8 @@ GenericPriceCardHead.defaultProps = {
   className: '',
 };
 
-export default GenericPriceCardHead;
+const mapDispatchToProps = {
+  fetchSellerSubscription: () => fetchSellerSubscription(),
+};
+
+export default connect(null, mapDispatchToProps)(GenericPriceCardHead);

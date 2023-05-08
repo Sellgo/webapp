@@ -9,25 +9,19 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
   {
     id: 10, // subscriptionID if needed
     name: 'Starter',
-    displayName: 'Personal',
+    displayName: 'Professional',
     productsDatabase: 0,
     salesEstimateCount: 1000,
-    monthlyPrice: 77,
-    annualPrice: 467,
-    monthlyLookups: 100,
-    annualLookups: 1200,
+    monthlyPrice: 499,
+    annualPrice: 4790,
+    monthlyLookups: 1000,
+    annualLookups: 12000,
     desc: `Essential for finding your prospects`,
-    featureSubName: 'Everything in Free, plus',
+    featureSubName: 'Start with:',
     featuresLists: [
       {
         title: '',
-        featuresIncluded: [
-          'Verified emails, direct phones and social media links',
-          'Contact management',
-          'Bulk export',
-          'Basic CRM integration',
-          'Seller map access',
-        ],
+        featuresIncluded: ['Unlimited search', 'Bulk list export', 'CRM integration'],
       },
     ],
   },
@@ -59,22 +53,20 @@ export const MONTHLY_AND_ANNUAL_PLANS = [
     displayName: 'Business',
     productsDatabase: 0,
     salesEstimateCount: 3000,
-    monthlyPrice: 347,
-    annualPrice: 2987,
-    monthlyLookups: 500,
-    annualLookups: 6000,
-    featureSubName: 'Everything in professional plan, plus',
+    monthlyPrice: 999,
+    annualPrice: 9590,
+    monthlyLookups: 3000,
+    annualLookups: 36000,
+    featureSubName: 'Everything in Professional plan, plus',
     desc: `Perfect for small teams with simple workflows`,
     isNew: true,
     featuresLists: [
       {
         title: '',
         featuresIncluded: [
-          'Advanced prospecting filter',
-          'Bulk prospecting',
-          'Advanced decision maker data',
-          'Advanced company data',
-          'Bulk prospecting (25 contacts)',
+          'Buying intent signals',
+          'Decision maker enrichment',
+          'Advanced engagement',
         ],
       },
     ],
@@ -149,17 +141,27 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
 export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
   starter: {
     name: 'Starter',
-    displayName: 'Personal',
+    displayName: 'Professional',
     id: 10,
     idWithLegacyPlans: [10, 6],
-    monthlyPrice: 77,
-    annualPrice: 467,
+    monthlyPrice: 499,
+    annualPrice: 4790,
     dailyPrice: -1,
-    monthlyLookups: 100,
-    annualLookups: 1200,
-    annualSavingPercentage: 49,
+    monthlyLookups: 1000,
+    annualLookups: 12000,
+    annualSavingPercentage: 20,
     subDescription: '',
     benefits: ['Full access to Chrome extension.', 'Limited access to seller database suite.', ''],
+    monthlyBenefits: [
+      { name: 'checked', description: '1. 1 user' },
+      { name: 'checked', description: '2. 1,000 brand insights per month' },
+      { name: 'checked', description: '3. Contact info with emails' },
+    ],
+    annuallyBenefits: [
+      { name: 'checked', description: '1. 1 user' },
+      { name: 'checked', description: '2. 12,000 brand insights per year, get all upfront' },
+      { name: 'checked', description: '3. Contact info with emails' },
+    ],
   },
   professional: {
     name: 'Professional',
@@ -184,17 +186,27 @@ export const SUBSCRIPTION_DETAILS: { [key: string]: SummaryDetails } = {
     displayName: 'Business',
     id: 12,
     idWithLegacyPlans: [12, 1],
-    monthlyPrice: 347,
-    annualPrice: 2987,
+    monthlyPrice: 999,
+    annualPrice: 9590,
     dailyPrice: -1,
-    monthlyLookups: 500,
-    annualLookups: 6000,
-    annualSavingPercentage: 28,
+    monthlyLookups: 3000,
+    annualLookups: 36000,
+    annualSavingPercentage: 20,
     subDescription: '',
     benefits: [
       '20,000 Sellers in Seller Database or Seller Map per month',
       'Top view of 20,000 sellers in the Seller Map',
       'Export data to spreadsheet',
+    ],
+    monthlyBenefits: [
+      { name: 'checked', description: '1. Start at 5 users' },
+      { name: 'checked', description: '2. 3,000 brand insights per month' },
+      { name: 'checked', description: '3. Contact info with emails, phones, social media' },
+    ],
+    annuallyBenefits: [
+      { name: 'checked', description: '1. Start at 5 users' },
+      { name: 'checked', description: '2. 36,000 brand insights per year, get all upfront' },
+      { name: 'checked', description: '3. Contact info with emails, phones, social media' },
     ],
   },
 };
@@ -217,6 +229,11 @@ export const subscriptionDetailsMappingById: { [key: number]: string } = {
   10: 'starter',
   11: 'professional',
   12: 'team',
+};
+
+export const subscriptionDetailsMappingByPlanName: { [key: string]: string } = {
+  personal: 'starter',
+  business: 'team',
 };
 
 export const getSubscriptionID = (planName: string) => {

@@ -17,9 +17,9 @@ const SuccessContent = () => {
 
   return (
     <section className={styles.successContainer}>
-      <h2>Payment success, thank you.</h2>
+      <h2>Payment successful! Thank you.</h2>
 
-      <p>We have sent you a receipt in your email</p>
+      <p>A receipt has been sent to your email.</p>
       <button
         onClick={() => {
           localStorage.setItem('loginRedirectPath', '/');

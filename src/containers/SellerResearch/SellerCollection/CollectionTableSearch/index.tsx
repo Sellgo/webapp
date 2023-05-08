@@ -53,7 +53,7 @@ const CollectionTableSearch = (props: Props) => {
           className={styles.searchButton}
           disabled={!businessName}
         >
-          Check
+          Search
         </ActionButton>
       </div>
     </>

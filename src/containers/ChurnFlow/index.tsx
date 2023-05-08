@@ -21,27 +21,35 @@ import { getSellerInfo } from '../../actions/Settings';
 
 /* Images */
 import leftArrow from '../../assets/images/left-arrow.svg';
-import sellgoLogo from '../../assets/images/SellgoNewestLogo.png';
+import sellgoLogo from '../../assets/images/sellgo_gradation_logo_2_2x.png';
 import aistockLogo from '../../assets/images/aistockLogo.png';
 import TofuAndSoybean from '../../assets/images/TofuAndSoybean.png';
-import Tofu from '../../assets/images/Tofu.png';
+// import Tofu from '../../assets/images/Tofu.png';
 
 /* Components */
-import PageHeader from '../../components/PageHeader';
+// import PageHeader from '../../components/PageHeader';
 import ChurnFlowContent from './ChurnFlowContent';
 
 /* Constants */
-import { PRE_SURVEY, IN_SURVEY, POST_SURVEY_1, POST_SURVEY_2 } from '../../constants/Churnflow';
+import { PRE_SURVEY, IN_SURVEY, POST_SURVEY_1 } from '../../constants/Churnflow';
+import axios from 'axios';
+import { sellerIDSelector } from '../../selectors/Seller';
+import { error, success } from '../../utils/notifications';
+import { getSellerSubscription } from '../../selectors/Subscription';
+import { SellerSubscription } from '../../interfaces/Seller';
+import { isSubscriptionIdFreeAccount } from '../../utils/subscriptions';
+import { prettyPrintDate } from '../../utils/format';
 
 interface Props {
   match: any;
+  sellerSubscription: SellerSubscription;
   fetchSellerSubscription: () => void;
   getSeller: () => void;
 }
 
 const ChurnFlow = (props: Props) => {
-  const { match, fetchSellerSubscription, getSeller } = props;
-
+  const { sellerSubscription, fetchSellerSubscription, getSeller } = props;
+  const [isCancelled, setIsCancelled] = useState(false);
   const [surveyPhase, setSurveyPhase] = useState(PRE_SURVEY);
 
   useEffect(() => {
@@ -49,12 +57,32 @@ const ChurnFlow = (props: Props) => {
     fetchSellerSubscription();
   }, []);
 
+  useEffect(() => {
+    if (sellerSubscription && sellerSubscription.status === 'pending' && !isCancelled) {
+      history.push('/');
+    }
+  }, [sellerSubscription]);
+
   const handleChangeSurveyPhase = (newPhase: string) => {
     setSurveyPhase(newPhase);
   };
 
   const redirectToHome = () => {
     history.push('/');
+  };
+  const cancelSubscription = () => {
+    axios
+      .post(AppConfig.BASE_URL_API + `sellers/${sellerIDSelector()}/subscription/cancel`)
+      .then(() => {
+        setIsCancelled(true);
+        fetchSellerSubscription();
+        success(`Your subscription has been cancelled`);
+        handleChangeSurveyPhase(POST_SURVEY_1);
+        // history.push('/churnflow');
+      })
+      .catch(() => {
+        error(`There was an error cancelling your subscription`);
+      });
   };
 
   /* Generates churn flow content dependant on phase of survey */
@@ -66,9 +94,9 @@ const ChurnFlow = (props: Props) => {
             <ChurnFlowContent
               onClick={() => handleChangeSurveyPhase(IN_SURVEY)}
               title={`We're sorry to see you go`}
-              desc={`In order to improve our services,
-             we need you to answer 3 quick questions. Your insights can help us improve the product for others.`}
-              buttonText="Quick Survey"
+              desc={`To cancel your subscription, please click the 'Cancel my subscription' button below and 
+              help us improve our services by answering a few quick questions.`}
+              buttonText="Cancel my subscription"
               img={sellgoLogo}
             />
           );
@@ -77,15 +105,24 @@ const ChurnFlow = (props: Props) => {
             <ChurnFlowContent
               onClick={() => handleChangeSurveyPhase(IN_SURVEY)}
               title={`We're sorry to see you go`}
-              desc={`In order to improve our services,
-             we need you to answer 3 quick questions. Your insights can help us improve the product for others.`}
-              buttonText="Quick Survey"
+              desc={`To cancel your subscription, please click the 'Cancel my subscription' button below and 
+              help us improve our services by answering a few quick questions.`}
+              buttonText="Cancel my subscription"
               img={aistockLogo}
             />
           );
         }
 
       case IN_SURVEY:
+        if (isSellgoSession()) {
+          return (
+            <Widget
+              id={sellerSubscription.is_trialing ? 'lRbakXWS' : 'W4sHZIwR'}
+              className={styles.typeFormBox}
+              onSubmit={() => cancelSubscription()}
+            />
+          );
+        }
         return (
           <Widget
             id={AppConfig.CHURNFLOW_SURVEY_ID}
@@ -95,51 +132,76 @@ const ChurnFlow = (props: Props) => {
         );
 
       case POST_SURVEY_1:
+        if (isSellgoSession()) {
+          return (
+            <ChurnFlowContent
+              onClick={() => redirectToHome()}
+              title="Thank you for being a valued customer."
+              desc={`Your subscription has been scheduled for cancellation at the end of the current billing period, ${
+                isSubscriptionIdFreeAccount(sellerSubscription.subscription_id)
+                  ? 'immediately'
+                  : ` at the end of the current billing period, ${prettyPrintDate(
+                      new Date(sellerSubscription.next_billing_cycle_date ?? '')
+                    )}`
+              }`}
+              buttonText="Done"
+              img={sellgoLogo}
+              isButtonGrey
+            />
+          );
+        }
         return (
           <ChurnFlowContent
-            onClick={() => handleChangeSurveyPhase(POST_SURVEY_2)}
-            title="Thanks for your help"
-            desc="Your opinion is really important to us, one more step to complete the survey."
+            onClick={() => redirectToHome()}
+            title="Thank you for being our valued customer."
+            desc="Your opinion is really important to us."
             buttonText="Next"
             img={TofuAndSoybean}
             isButtonGrey
           />
         );
 
-      case POST_SURVEY_2:
-        return (
-          <ChurnFlowContent
-            onClick={redirectToHome}
-            title="About Your Subscription"
-            desc="We will let you know if we need more information."
-            buttonText="Complete"
-            img={Tofu}
-            isButtonGrey
-          />
-        );
+      // case POST_SURVEY_2:
+      //   return (
+      //     <ChurnFlowContent
+      //       onClick={redirectToHome}
+      //       title="About Your Subscription"
+      //       desc="We will let you know if we need more information."
+      //       buttonText="Complete"
+      //       img={Tofu}
+      //       isButtonGrey
+      //     />
+      //   );
     }
   };
   return (
     <main>
-      <PageHeader
+      {/* <PageHeader
         title={`Churnflow`}
         breadcrumb={[
           { content: 'Home', to: '/' },
           { content: 'Settings', to: '/settings' },
           { content: 'Pricing', to: '/settings/pricing' },
-          { content: 'Churn Flow', to: '/churnflow' },
+          { content: 'Churn Flow', to: '/cancel' },
         ]}
         auth={match.params.auth}
-      />
-      <Link to="/settings/pricing" className={styles.goBackButton}>
-        <img src={leftArrow} />
-        <p>Cancel and go back to subscription</p>
-      </Link>
+      /> */}
+      {surveyPhase !== POST_SURVEY_1 && (
+        <Link to="/settings/billing" className={styles.goBackButton}>
+          <img src={leftArrow} />
+          <p>Back</p>
+        </Link>
+      )}
       {generateTypeFormContent()}
     </main>
   );
 };
-const mapStateToProps = () => ({});
+
+const mapStateToProps = (state: any) => {
+  return {
+    sellerSubscription: getSellerSubscription(state),
+  };
+};
 
 const mapDispatchToProps = {
   getSeller: () => getSellerInfo(),

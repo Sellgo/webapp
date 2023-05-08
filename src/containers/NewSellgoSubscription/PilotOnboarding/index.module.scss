@@ -98,3 +98,14 @@
   margin-top: 30px;
   margin-left: 600px;
 }
+
+.typeFormBox {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  overscroll-behavior: contain;
+
+  &__hidden {
+    width: 0;
+  }
+}

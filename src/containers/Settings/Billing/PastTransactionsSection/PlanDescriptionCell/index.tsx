@@ -15,16 +15,12 @@ const PlanDescriptionCell = (props: RowCell) => {
   const { rowData, dataKey } = props;
   let planName: SubscriptionPlanType;
 
-  if (rowData[dataKey].includes('Professional')) {
+  if (rowData[dataKey] === 10) {
     planName = 'Professional Plan';
-  } else if (rowData[dataKey].includes('Team')) {
+  } else if (rowData[dataKey] === 11) {
     planName = 'Team Plan';
-  } else if (rowData[dataKey].includes('Starter')) {
-    planName = 'Starter Plan';
-  } else if (rowData[dataKey].includes('Wholesale')) {
-    planName = 'Wholesale Arbitrage $1 Plan';
-  } else if (rowData[dataKey].includes('Seller Scout')) {
-    planName = 'Seller Scout Pro Plan';
+  } else if (rowData[dataKey] === 12) {
+    planName = 'Business Plan';
   } else {
     planName = 'Professional Plan';
   }

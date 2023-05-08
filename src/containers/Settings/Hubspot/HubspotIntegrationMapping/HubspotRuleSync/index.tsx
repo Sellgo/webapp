@@ -127,7 +127,7 @@ const HubSpotRulesSync = (props: Props) => {
 
         <ActionButton
           variant={'secondary'}
-          type={'purpleGradient'}
+          type={'black'}
           size="md"
           onClick={handleSubmit}
           loading={isSubmitting}

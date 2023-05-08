@@ -212,7 +212,7 @@ const Profile = (props: Props) => {
                   </div>
                 </span>
 
-                <label className={`${styles.formLabel} ${passwordClassName}`}>New Password</label>
+                <label className={`${styles.formLabel} ${passwordClassName}`}>New password</label>
                 <StepsInfo
                   className={`${styles.formInput} ${passwordClassName}`}
                   isFocusPW={isFocusPW}
@@ -225,7 +225,7 @@ const Profile = (props: Props) => {
                 />
 
                 <label className={`${styles.formLabel} ${passwordClassName}`}>
-                  Confirm New Password
+                  Confirm new password
                 </label>
                 <Form.Input
                   className={`${styles.formInput} ${passwordClassName}`}
@@ -250,7 +250,7 @@ const Profile = (props: Props) => {
               <OrangeButton
                 className={`${styles.updateButton} ${!isEditingPassword &&
                   styles.updateButton__disabled}`}
-                type="blue"
+                type="primary"
                 size="small"
                 onClick={() => {
                   !loading && isEditingPassword && handleSubmit();
