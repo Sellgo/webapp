@@ -73,8 +73,8 @@ export const isAiStock = (sellerSubscription: SellerSubscription) => {
   return sellerSubscription.is_aistock;
 };
 
-export const isAistockSubscription = (subscriptionId: number) => subscriptionId > 20;
-export const isSellgoSubscription = (subscriptionId: number) => subscriptionId <= 20;
+export const isAistockSubscription = (subscriptionId: number) => subscriptionId > 90;
+export const isSellgoSubscription = (subscriptionId: number) => subscriptionId <= 90;
 
 /* Convert from text readable plan name to key format plan name */
 export const convertPlanNameToKey = (planType: string) => {

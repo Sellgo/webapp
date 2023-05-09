@@ -137,7 +137,7 @@ const ChurnFlow = (props: Props) => {
             <ChurnFlowContent
               onClick={() => redirectToHome()}
               title="Thank you for being a valued customer."
-              desc={`Your subscription has been scheduled for cancellation at the end of the current billing period, ${
+              desc={`Your subscription has been scheduled for cancellation ${
                 isSubscriptionIdFreeAccount(sellerSubscription.subscription_id)
                   ? 'immediately'
                   : ` at the end of the current billing period, ${prettyPrintDate(
