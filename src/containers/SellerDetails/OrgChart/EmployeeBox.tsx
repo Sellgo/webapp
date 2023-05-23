@@ -17,6 +17,7 @@ interface Props {
   isDisabled: boolean;
   isLookedUp?: boolean;
   onNameClick?: () => void;
+  onCtaClick: () => void;
 }
 
 const EmployeeBox = (props: Props) => {
@@ -30,6 +31,7 @@ const EmployeeBox = (props: Props) => {
     isDisabled,
     isLookedUp,
     onNameClick,
+    onCtaClick,
   } = props;
 
   return (
@@ -70,11 +72,11 @@ const EmployeeBox = (props: Props) => {
       </div>
       <ActionButton
         variant="primary"
-        type={'purpleGradient'}
+        type={isLookedUp ? 'black' : 'purpleGradient'}
         size="small"
         // loading={activeEmployeeIndex === index && isUnlocking}
         onClick={() => {
-          console.log('Call the unlock api');
+          onCtaClick();
         }}
         className={styles.btn}
       >
