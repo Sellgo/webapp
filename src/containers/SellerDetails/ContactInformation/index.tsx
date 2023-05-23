@@ -43,6 +43,14 @@ const EmployeesInformation = (props: Props) => {
       const { data, status } = await axios.get(URL);
 
       if (data) {
+        const activeEmployeeId = localStorage.getItem('activeEmployeeId');
+        const activeEmployeeIdIndex = data?.results?.findIndex((employee: any) => {
+          return employee.id === activeEmployeeId;
+        });
+        if (activeEmployeeIdIndex >= 0) {
+          setActiveEmployeeIndex(activeEmployeeIdIndex);
+          localStorage.removeItem('activeEmployeeId');
+        }
         setEmployeesData(data.results);
       }
 

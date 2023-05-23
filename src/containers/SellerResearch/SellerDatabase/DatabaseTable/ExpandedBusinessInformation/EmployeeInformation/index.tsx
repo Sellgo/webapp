@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Card, Image, Modal, Placeholder, Icon } from 'semantic-ui-react';
+import { Card, Image, Placeholder, Icon } from 'semantic-ui-react';
 
 // Styles
 import styles from './index.module.scss';
@@ -13,7 +13,7 @@ import { sellerIDSelector } from '../../../../../../selectors/Seller';
 
 // Config
 import { AppConfig } from '../../../../../../config';
-import EmployeeDetailInformation from '../EmployeeDetailInformation';
+// import EmployeeDetailInformation from '../EmployeeDetailInformation';
 import { setCompanyInfo } from '../../../../../../actions/SellerResearch/SellerDatabase';
 import { connect } from 'react-redux';
 import { error, success } from '../../../../../../utils/notifications';
@@ -30,9 +30,9 @@ const EmployeesInformation = (props: Props) => {
   const { rowData, className, setCompanyInfo } = props;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRetriveCompanyLoading, setIsRetriveCompanyLoading] = useState<boolean>(false);
-  const [open, setOpen] = useState<boolean>(false);
+  // const [open, setOpen] = useState<boolean>(false);
   const [employeesData, setEmployeesData] = useState<any>(null);
-  const [activeEmployeeIndex, setActiveEmployeeIndex] = useState<number>(-1);
+  // const [activeEmployeeIndex, setActiveEmployeeIndex] = useState<number>(-1);
   const fetchEmployeesInformation = async () => {
     try {
       const sellerId = sellerIDSelector();
@@ -112,6 +112,7 @@ const EmployeesInformation = (props: Props) => {
             employeesData.length > 0 &&
             employeesData.map((emploeeData: any, index: number) => {
               const {
+                id,
                 first_name,
                 last_name,
                 title,
@@ -189,8 +190,8 @@ const EmployeesInformation = (props: Props) => {
                           type={is_looked_up ? 'black' : 'purpleGradient'}
                           size="small"
                           onClick={() => {
-                            setActiveEmployeeIndex(index);
-                            setOpen(true);
+                            localStorage.setItem('activeEmployeeId', id);
+                            reRouteToSellerDetailsPage();
                           }}
                         >
                           <div className={styles.continueButton}>
@@ -251,7 +252,7 @@ const EmployeesInformation = (props: Props) => {
           )}
         </div>
       </div>
-      {activeEmployeeIndex >= 0 && (
+      {/* {activeEmployeeIndex >= 0 && (
         <Modal open={open} className={styles.modalWrapper} onClose={() => setOpen(false)} closeIcon>
           <EmployeeDetailInformation
             employeeData={employeesData[activeEmployeeIndex]}
@@ -261,7 +262,7 @@ const EmployeesInformation = (props: Props) => {
             rowData={rowData}
           />
         </Modal>
-      )}
+      )} */}
     </>
   );
 };

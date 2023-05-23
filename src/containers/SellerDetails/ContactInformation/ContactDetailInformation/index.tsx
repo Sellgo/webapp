@@ -16,10 +16,10 @@ import { getSellerSubscription } from '../../../../selectors/Subscription';
 // Utils
 import { getNumberOfDaysTillToday } from '../../../../utils/date';
 import { formatNumber } from '../../../../utils/format';
-import {
-  isSubscriptionIdFreeAccount,
-  isSubscriptionIdStarter,
-} from '../../../../utils/subscriptions';
+// import {
+//   isSubscriptionIdFreeAccount,
+//   isSubscriptionIdStarter,
+// } from '../../../../utils/subscriptions';
 
 // Constant
 import { SOCIAL_LINK_COLORS } from '../../../../constants/SellerResearch/SellerDatabase';
@@ -33,23 +33,23 @@ interface Props {
   sellerSubscription: SellerSubscription;
 }
 const ContactDetailInformation = (props: Props) => {
-  const { employeeData, sellerSubscription } = props;
+  const { employeeData } = props;
   const [professionalEmails, setProfessionalEmails] = useState<any[]>([]);
   const [personalEmails, setPersonalEmails] = useState<any[]>([]);
-  const isPhoneVisible = !(
-    isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) ||
-    isSubscriptionIdStarter(sellerSubscription.subscription_id)
-  );
+  // const isPhoneVisible = !(
+  //   isSubscriptionIdFreeAccount(sellerSubscription.subscription_id) ||
+  //   isSubscriptionIdStarter(sellerSubscription.subscription_id)
+  // );
 
   const emailVerificationIcons: { [key: string]: any } = {
     valid: <ValidCheckIcon fill="#5DC560" />,
     invalid: <InValidCrossIcon />,
   };
 
-  const redirectToPricing = () => {
-    const win = window.open('/settings/pricing', '_blank');
-    win?.focus();
-  };
+  // const redirectToPricing = () => {
+  //   const win = window.open('/settings/pricing', '_blank');
+  //   win?.focus();
+  // };
 
   const setProfessionalAndPersonalEmails = () => {
     const tempProfessionalEmails: any[] = [];
@@ -269,7 +269,7 @@ const ContactDetailInformation = (props: Props) => {
             </div>
             <div className={styles.emailWrapper__emailBoxes}>
               <div className={styles.emailWrapper__emailBoxes__container}>
-                {!isPhoneVisible && (
+                {/* {!isPhoneVisible && (
                   <div className={styles.upgradeAccess}>
                     <p>
                       {employeeData?.phones?.length || employeeData?.teaser?.phones?.length} phones
@@ -279,60 +279,56 @@ const ContactDetailInformation = (props: Props) => {
                       </span>
                     </p>
                   </div>
-                )}
-                {isPhoneVisible && (
-                  <>
-                    {employeeData?.is_looked_up &&
-                      employeeData?.phones &&
-                      employeeData?.phones.map((phoneData: any) => {
-                        const { number, status, last_verified } = phoneData;
-                        return (
-                          <div
-                            className={`${styles.emailWrapper__contactInformation_emails__verified} 
-                        ${styles.emailWrapper__contactInformation_details}`}
-                          >
-                            <div className={styles.emailWrapper__contactInformation__emailIconBox}>
-                              {emailVerificationIcons[status]}
-                              <p className={styles.linkBlueText}>{number}</p>
-                            </div>
-                            <p className={styles.emailWrapper__contactInformation_details}>
-                              {employeeData?.is_looked_up ? (
-                                <>
-                                  {formatNumber(getNumberOfDaysTillToday(last_verified))} days ago
-                                </>
-                              ) : (
-                                <>{last_verified}</>
-                              )}
-                            </p>
-                          </div>
-                        );
-                      })}
-                    {!employeeData?.is_looked_up &&
-                      employeeData?.teaser?.phones &&
-                      employeeData?.teaser?.phones.map((phone: any) => (
+                )} */}
+                <>
+                  {employeeData?.is_looked_up &&
+                    employeeData?.phones &&
+                    employeeData?.phones.map((phoneData: any) => {
+                      const { number, status, last_verified } = phoneData;
+                      return (
                         <div
                           className={`${styles.emailWrapper__contactInformation_emails__verified} 
                         ${styles.emailWrapper__contactInformation_details}`}
                         >
                           <div className={styles.emailWrapper__contactInformation__emailIconBox}>
-                            <p
-                              className={`${styles.linkBlueText} 
-                            ${styles.employeeInformationDetailPopup__contactInformation_details}`}
-                            >
-                              {phone.number}
-                            </p>
+                            {emailVerificationIcons[status]}
+                            <p className={styles.linkBlueText}>{number}</p>
                           </div>
-                          <p
-                            className={
-                              styles.employeeInformationDetailPopup__contactInformation_details
-                            }
-                          >
-                            ... days ago
+                          <p className={styles.emailWrapper__contactInformation_details}>
+                            {employeeData?.is_looked_up ? (
+                              <>{formatNumber(getNumberOfDaysTillToday(last_verified))} days ago</>
+                            ) : (
+                              <>{last_verified}</>
+                            )}
                           </p>
                         </div>
-                      ))}
-                  </>
-                )}
+                      );
+                    })}
+                  {!employeeData?.is_looked_up &&
+                    employeeData?.teaser?.phones &&
+                    employeeData?.teaser?.phones.map((phone: any) => (
+                      <div
+                        className={`${styles.emailWrapper__contactInformation_emails__verified} 
+                        ${styles.emailWrapper__contactInformation_details}`}
+                      >
+                        <div className={styles.emailWrapper__contactInformation__emailIconBox}>
+                          <p
+                            className={`${styles.linkBlueText} 
+                            ${styles.employeeInformationDetailPopup__contactInformation_details}`}
+                          >
+                            {phone.number}
+                          </p>
+                        </div>
+                        <p
+                          className={
+                            styles.employeeInformationDetailPopup__contactInformation_details
+                          }
+                        >
+                          ... days ago
+                        </p>
+                      </div>
+                    ))}
+                </>
               </div>
             </div>
           </div>
