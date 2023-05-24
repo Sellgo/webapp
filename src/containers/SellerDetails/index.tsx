@@ -15,6 +15,7 @@ import axios from 'axios';
 import { error } from '../../utils/notifications';
 import PageHeader from '../../components/PageHeader';
 import { capitalizeWords } from '../../utils/format';
+import OrgChart from './OrgChart';
 
 /* Containers */
 
@@ -195,7 +196,7 @@ const SellerDetails = (props: Props) => {
         <main className={styles.sellerDetailsPage}>
           <Summary rowData={currentSeller} />
           <TabsRow
-            tabs={['contact']}
+            tabs={['contact', 'org chart']}
             currentTab={currentTab}
             setCurrentTab={setCurrentTab}
             className={styles.tabs}
@@ -203,6 +204,7 @@ const SellerDetails = (props: Props) => {
           {currentTab === 0 && (
             <ContactInformation rowData={currentSeller} setCurrentData={setCurrentSeller} />
           )}
+          {currentTab === 1 && <OrgChart currentSeller={currentSeller} setStep={setCurrentTab} />}
         </main>
       )}
     </>
