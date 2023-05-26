@@ -14,6 +14,7 @@ const TabsRow = (props: Props) => {
   const { tabs, currentTab, setCurrentTab, className } = props;
   const TABS_ICON: { [key: string]: any } = {
     contact: <Icon name="user" />,
+    'org chart': <Icon name="sitemap" />,
   };
 
   return (
@@ -25,6 +26,7 @@ const TabsRow = (props: Props) => {
           type={currentTab === index ? 'purpleGradient' : 'grey'}
           size="md"
           onClick={() => setCurrentTab(index)}
+          className={styles.tabBtn}
         >
           <div className={styles.tabInfo}>
             {TABS_ICON[tab]} <p className={styles.tabInfo__text}>{tab}</p>
