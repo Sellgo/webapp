@@ -76,6 +76,33 @@
   }
 }
 
+.address__block {
+  display: flex;
+
+  &__city {
+    width: 100%;
+    margin-right: 20px;
+  }
+
+  &__zipCode {
+    width: 100%;
+  }
+
+  &__country {
+    width: 100%;
+    margin-right: 20px;
+  }
+
+  &__states {
+    width: 100%;
+  }
+}
+
+.inputFilter {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
 .stripeInput {
   height: 40px;
   background: #fff;
