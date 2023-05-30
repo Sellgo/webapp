@@ -575,42 +575,13 @@ function CheckoutForm(props: MyProps) {
             </>
 
             <p className={styles.orderSummaryContainer__label}>Enter your billing details</p>
-            <Form.Group className={styles.formGroup}>
-              <Form.Field className={`${styles.formInput} ${styles.formInput__creditCard}`}>
-                {/* <label htmlFor="CardNumber">Credit Card Number</label> */}
-                <CardNumberElement
-                  id="CardNumber"
-                  options={CARD_ELEMENT_OPTIONS}
-                  className={`${styles.stripeInput} ${styles.stripeInput__creditCard}`}
-                />
-              </Form.Field>
-
-              <Form.Field className={`${styles.formInput} ${styles.formInput__expiry}`}>
-                {/* <label htmlFor="expiry">Expiry Date</label> */}
-                <CardExpiryElement
-                  id="expiry"
-                  options={CARD_ELEMENT_OPTIONS}
-                  className={`${styles.stripeInput} ${styles.stripeInput__expiry}`}
-                />
-              </Form.Field>
-
-              <Form.Field className={`${styles.formInput} ${styles.formInput__cvc}`}>
-                {/* <label htmlFor="cvc">CVC</label> */}
-                <CardCvcElement
-                  id="cvc"
-                  options={CARD_ELEMENT_OPTIONS}
-                  className={`${styles.stripeInput} ${styles.stripeInput__cvc}`}
-                />
-              </Form.Field>
-            </Form.Group>
-            <p className={styles.orderSummaryContainer__label}>Enter your address details</p>
             <>
               <div className={styles.secondRow}>
                 <div className={styles.address__block}>
                   {/* First Name */}
                   <InputFilter
-                    label="First Name"
-                    placeholder="First Name"
+                    label="First name on card"
+                    placeholder="First name"
                     value={address.first_name || ''}
                     handleChange={(value: string) => updateAddress('first_name', value)}
                     className={`
@@ -622,8 +593,8 @@ function CheckoutForm(props: MyProps) {
 
                   {/* Last Name */}
                   <InputFilter
-                    label="Last Name"
-                    placeholder="Last Name"
+                    label="Last name on card"
+                    placeholder="Last name"
                     value={address.last_name?.toString() || ''}
                     handleChange={(value: string) => updateAddress('last_name', value)}
                     isNumber
@@ -638,7 +609,7 @@ function CheckoutForm(props: MyProps) {
                 </div>
                 {/* Address */}
                 <InputFilter
-                  label="Address"
+                  label="Address on card"
                   placeholder="Address"
                   value={address.address_line_1 || ''}
                   handleChange={(value: string) => updateAddress('address_line_1', value)}
@@ -711,6 +682,35 @@ function CheckoutForm(props: MyProps) {
                   />
                 </div>
               </div>
+              <p className={styles.orderSummaryContainer__label}>Enter your credit card details</p>
+              <Form.Group className={styles.formGroup}>
+                <Form.Field className={`${styles.formInput} ${styles.formInput__creditCard}`}>
+                  {/* <label htmlFor="CardNumber">Credit Card Number</label> */}
+                  <CardNumberElement
+                    id="CardNumber"
+                    options={CARD_ELEMENT_OPTIONS}
+                    className={`${styles.stripeInput} ${styles.stripeInput__creditCard}`}
+                  />
+                </Form.Field>
+
+                <Form.Field className={`${styles.formInput} ${styles.formInput__expiry}`}>
+                  {/* <label htmlFor="expiry">Expiry Date</label> */}
+                  <CardExpiryElement
+                    id="expiry"
+                    options={CARD_ELEMENT_OPTIONS}
+                    className={`${styles.stripeInput} ${styles.stripeInput__expiry}`}
+                  />
+                </Form.Field>
+
+                <Form.Field className={`${styles.formInput} ${styles.formInput__cvc}`}>
+                  {/* <label htmlFor="cvc">CVC</label> */}
+                  <CardCvcElement
+                    id="cvc"
+                    options={CARD_ELEMENT_OPTIONS}
+                    className={`${styles.stripeInput} ${styles.stripeInput__cvc}`}
+                  />
+                </Form.Field>
+              </Form.Group>
             </>
             <p
               className={showPromoField ? styles.hidePromoCodeText : styles.showPromoCodeText}
@@ -872,7 +872,7 @@ function CheckoutForm(props: MyProps) {
                     ? formatNumber(summaryDetails.monthlyPrice)
                     : formatNumber(summaryDetails.annualPrice)
                 }`}{' '}
-                on{' '}
+                plus sales tax, on{' '}
                 <strong>
                   {prettyPrintDate(new Date(new Date().setDate(new Date().getDate() + 7)))}.
                 </strong>
@@ -893,7 +893,7 @@ function CheckoutForm(props: MyProps) {
                         )
                       )
                 }`}{' '}
-                on{' '}
+                plus sales tax, on{' '}
                 <strong>
                   {prettyPrintDate(new Date(new Date().setDate(new Date().getDate())))}.
                 </strong>
@@ -1046,8 +1046,8 @@ function CheckoutForm(props: MyProps) {
                       : formatNumber(summaryDetails.annualPrice)
                   }
                   `}{' '}
-                  {isMonthly ? 'monthly' : 'annually'} until you change your plan or cancel your
-                  subscription.
+                  {isMonthly ? 'monthly' : 'annually'} plus sales tax, until you change your plan or
+                  cancel your subscription.
                 </p>
               </div>
             )}
