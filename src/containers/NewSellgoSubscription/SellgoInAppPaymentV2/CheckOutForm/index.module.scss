@@ -664,6 +664,13 @@
   &__states {
     width: 100%;
   }
+
+  &__label {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: #3b4557;
+    line-height: 20px !important;
+  }
 }
 
 .inputFilter {

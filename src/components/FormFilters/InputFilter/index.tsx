@@ -40,6 +40,7 @@ interface Props {
   error?: boolean;
   checkoutClassName?: string;
   className?: string;
+  labelClassname?: string;
   userOnboardingResources: any;
   handleOnPaste?: (value: string) => void;
   isInteger?: boolean;
@@ -63,6 +64,7 @@ const InputFilter: React.FC<Props> = props => {
     handleChange,
     checkoutClassName,
     className,
+    labelClassname,
     userOnboardingResources,
     disabled,
     error,
@@ -151,7 +153,7 @@ const InputFilter: React.FC<Props> = props => {
   return (
     <div className={`${styles.inputFilter} ${checkoutClassName}`}>
       {label && (
-        <p>
+        <p className={labelClassname}>
           {label}
 
           {/* Onboarding */}

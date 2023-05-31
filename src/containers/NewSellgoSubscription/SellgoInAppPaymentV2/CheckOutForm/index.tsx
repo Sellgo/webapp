@@ -541,6 +541,7 @@ function CheckoutForm(props: MyProps) {
                   ${styles.inputFilter__long}
                 `}
                   checkoutClassName={styles.address__block__city}
+                  labelClassname={styles.address__block__label}
                 />
 
                 {/* Last Name */}
@@ -555,6 +556,7 @@ function CheckoutForm(props: MyProps) {
                   
                 `}
                   checkoutClassName={styles.address__block__zipCode}
+                  labelClassname={styles.address__block__label}
                 />
               </div>
               {/* Address */}
@@ -567,6 +569,7 @@ function CheckoutForm(props: MyProps) {
                   ${styles.inputFilter}
                   ${styles.inputFilter__long}
                 `}
+                labelClassname={styles.address__block__label}
               />
 
               <div className={styles.address__block}>
@@ -581,6 +584,7 @@ function CheckoutForm(props: MyProps) {
                   ${styles.inputFilter__long}
                 `}
                   checkoutClassName={styles.address__block__city}
+                  labelClassname={styles.address__block__label}
                 />
 
                 {/* Zip code */}
@@ -597,6 +601,7 @@ function CheckoutForm(props: MyProps) {
                   
                 `}
                   checkoutClassName={styles.address__block__zipCode}
+                  labelClassname={styles.address__block__label}
                 />
               </div>
               <div className={styles.address__block}>
@@ -614,6 +619,7 @@ function CheckoutForm(props: MyProps) {
                   ${styles.inputFilter__short}
                 `}
                   checkoutClassName={styles.address__block__country}
+                  labelClassname={styles.address__block__label}
                 />
 
                 {/* All States */}
@@ -629,6 +635,7 @@ function CheckoutForm(props: MyProps) {
                   ${styles.inputFilter__short}
                 `}
                   checkoutClassName={styles.address__block__states}
+                  labelClassname={styles.address__block__label}
                 />
               </div>
             </div>
