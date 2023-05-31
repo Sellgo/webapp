@@ -526,7 +526,7 @@ function CheckoutForm(props: MyProps) {
               />
             </Form.Field>
           </Form.Group>
-          <p className={styles.orderSummaryContainer__label}>Enter your billing details</p>
+          <h2 className={styles.securePayment}>Enter your billing details</h2>
           <>
             <div className={styles.secondRow}>
               <div className={styles.address__block}>
