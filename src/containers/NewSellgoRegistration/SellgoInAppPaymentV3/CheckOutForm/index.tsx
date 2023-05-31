@@ -134,13 +134,20 @@ function CheckoutForm(props: MyProps) {
   const [openTOS, setOpenTOS] = React.useState<boolean>(false);
   const [openPP, setOpenPP] = React.useState<boolean>(false);
   const [showPromoField, setShowPromoField] = useState<boolean>(false);
-  const [address, setAddress] = useState<any>({});
+  const [address, setAddress] = useState<any>({
+    first_name: '',
+    last_name: '',
+    city: '',
+    country: '',
+    postal_code: '',
+    address_line_1: '',
+  });
 
   const updateAddress = (key: string, value: string) => {
-    setAddress({
-      ...address,
+    setAddress((prevState: any) => ({
+      ...prevState,
       [key]: value,
-    });
+    }));
   };
 
   /* ---------------------------------------- */
@@ -597,8 +604,6 @@ function CheckoutForm(props: MyProps) {
                     placeholder="Last name"
                     value={address.last_name?.toString() || ''}
                     handleChange={(value: string) => updateAddress('last_name', value)}
-                    isNumber
-                    isPositiveOnly
                     className={`
                   ${styles.inputFilter}
                   ${styles.inputFilter__short}
