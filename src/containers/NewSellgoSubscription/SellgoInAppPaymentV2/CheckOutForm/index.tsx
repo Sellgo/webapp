@@ -47,6 +47,12 @@ import {
   generateSubscriptionDetails,
   getSubscriptionID,
 } from '../../../../constants/Subscription/Sellgo';
+import InputFilter from '../../../../components/FormFilters/InputFilter';
+import SelectionFilter from '../../../../components/FormFilters/SelectionFilter';
+import {
+  ALL_US_STATES,
+  SELLER_DATABASE_COUNTRY_DROPDOWN_LIST,
+} from '../../../../constants/SellerResearch/SellerMap';
 
 /* Data */
 
@@ -113,6 +119,21 @@ function CheckoutForm(props: MyProps) {
   const { termsOfService, privacyPolicy, fetchPP, fetchTOS } = props;
   const [openTOS, setOpenTOS] = React.useState<boolean>(false);
   const [openPP, setOpenPP] = React.useState<boolean>(false);
+  const [address, setAddress] = useState<any>({
+    first_name: '',
+    last_name: '',
+    city: '',
+    country: '',
+    postal_code: '',
+    address_line_1: '',
+  });
+
+  const updateAddress = (key: string, value: string) => {
+    setAddress((prevState: any) => ({
+      ...prevState,
+      [key]: value,
+    }));
+  };
 
   /* ---------------------------------------- */
   /* -------------- TOS --------------------- */
@@ -211,6 +232,17 @@ function CheckoutForm(props: MyProps) {
     setPromoError('');
   };
 
+  const verifyAddress = (obj: { [key: string]: string }, keys: string[]) => {
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      // eslint-disable-next-line no-prototype-builtins
+      if (!obj.hasOwnProperty(key) || obj[key] === '') {
+        return false;
+      }
+    }
+    return true;
+  };
+
   const handleSubmit = async () => {
     setLoading(true);
     const {
@@ -254,6 +286,19 @@ function CheckoutForm(props: MyProps) {
           invoiceId,
         });
       } else {
+        const isAddressVerified = verifyAddress(address, [
+          'first_name',
+          'last_name',
+          'address_line_1',
+          'city',
+          'country',
+          'postal_code',
+        ]);
+        if (!isAddressVerified) {
+          handleError('Complete address details');
+          setLoading(false);
+          return;
+        }
         const data = {
           subscription_id: getSubscriptionID(accountType),
           payment_method_id: paymentMethodId,
@@ -262,7 +307,7 @@ function CheckoutForm(props: MyProps) {
           free_trial: false,
         };
         Axios.defaults.headers.common.Authorization = ``;
-        createSubscriptionData(data);
+        createSubscriptionData({ ...data, ...address });
       }
     }
   };
@@ -481,6 +526,113 @@ function CheckoutForm(props: MyProps) {
               />
             </Form.Field>
           </Form.Group>
+          <p className={styles.orderSummaryContainer__label}>Enter your billing details</p>
+          <>
+            <div className={styles.secondRow}>
+              <div className={styles.address__block}>
+                {/* First Name */}
+                <InputFilter
+                  label="First name on card"
+                  placeholder="First name"
+                  value={address.first_name || ''}
+                  handleChange={(value: string) => updateAddress('first_name', value)}
+                  className={`
+                  ${styles.inputFilter}
+                  ${styles.inputFilter__long}
+                `}
+                  checkoutClassName={styles.address__block__city}
+                />
+
+                {/* Last Name */}
+                <InputFilter
+                  label="Last name on card"
+                  placeholder="Last name"
+                  value={address.last_name?.toString() || ''}
+                  handleChange={(value: string) => updateAddress('last_name', value)}
+                  className={`
+                  ${styles.inputFilter}
+                  ${styles.inputFilter__short}
+                  
+                `}
+                  checkoutClassName={styles.address__block__zipCode}
+                />
+              </div>
+              {/* Address */}
+              <InputFilter
+                label="Address on card"
+                placeholder="Address"
+                value={address.address_line_1 || ''}
+                handleChange={(value: string) => updateAddress('address_line_1', value)}
+                className={`
+                  ${styles.inputFilter}
+                  ${styles.inputFilter__long}
+                `}
+              />
+
+              <div className={styles.address__block}>
+                {/* City */}
+                <InputFilter
+                  label="City"
+                  placeholder="City"
+                  value={address.city || ''}
+                  handleChange={(value: string) => updateAddress('city', value)}
+                  className={`
+                  ${styles.inputFilter}
+                  ${styles.inputFilter__long}
+                `}
+                  checkoutClassName={styles.address__block__city}
+                />
+
+                {/* Zip code */}
+                <InputFilter
+                  label="Zip code"
+                  placeholder="Zip code"
+                  value={address.postal_code?.toString() || ''}
+                  handleChange={(value: string) => updateAddress('postal_code', value)}
+                  isNumber
+                  isPositiveOnly
+                  className={`
+                  ${styles.inputFilter}
+                  ${styles.inputFilter__short}
+                  
+                `}
+                  checkoutClassName={styles.address__block__zipCode}
+                />
+              </div>
+              <div className={styles.address__block}>
+                {/* Country */}
+                <SelectionFilter
+                  label="Country"
+                  placeholder="Country"
+                  filterOptions={SELLER_DATABASE_COUNTRY_DROPDOWN_LIST}
+                  value={address.country || ''}
+                  handleChange={(value: string) => {
+                    updateAddress('country', value);
+                  }}
+                  className={`
+                  ${styles.inputFilter}
+                  ${styles.inputFilter__short}
+                `}
+                  checkoutClassName={styles.address__block__country}
+                />
+
+                {/* All States */}
+                <SelectionFilter
+                  label="U.S. States"
+                  placeholder="All States"
+                  filterOptions={ALL_US_STATES}
+                  value={address.state || ''}
+                  handleChange={(value: string) => updateAddress('state', value)}
+                  disabled={address.country !== 'US'}
+                  className={`
+                  ${styles.inputFilter}
+                  ${styles.inputFilter__short}
+                `}
+                  checkoutClassName={styles.address__block__states}
+                />
+              </div>
+            </div>
+          </>
 
           <ActionButton
             variant={'primary'}
