@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Loader, Segment } from 'semantic-ui-react';
+import { Accordion, Icon, Image, Loader, Segment } from 'semantic-ui-react';
 
 /* Styling */
 import styles from './index.module.scss';
@@ -53,6 +53,12 @@ import {
 import { isValidAsin } from '../../../../constants';
 import CheckboxFilter from '../../../../components/FormFilters/CheckboxFilter';
 
+/* Assets */
+import SquareMinusRegular from '../../../../assets/images/minus-square-regular.svg';
+import SquarePlusRegular from '../../../../assets/images/plus-square-regular (1).svg';
+import downArrow from '../../../../assets/images/sorting-icon-down.svg';
+import upArrow from '../../../../assets/images/angle-up-black.svg';
+
 interface Props {
   isLoadingSellersForMap: boolean;
   sellerMapFilterData: any[];
@@ -73,6 +79,10 @@ const SellerMapFilter = (props: Props) => {
   } = props;
 
   const [asinsError, setAsinsError] = useState(DEFAULT_INCLUDE_EXCLUDE_ERROR);
+  const [showGeneralFilters, setShowGeneralFilters] = useState(true);
+  const [showBuyingIntentFilters, setShowBuyingIntentFilters] = useState(true);
+
+  const [filterActiveIndex, setFilterActiveIndex] = useState<number>(-1);
 
   /* Get marketplace */
   const marketplace = parseSellerMapFilterData(sellerMapFilterData, 'marketplace_id');
@@ -122,6 +132,15 @@ const SellerMapFilter = (props: Props) => {
   /* Merchant Name */
   const merchantName = parseSellerMapFilterData(sellerMapFilterData, 'merchant_name');
 
+  const TEXT_INPUT_FILTERS = [
+    'merchant_name',
+    'zip_code',
+    'brands',
+    'asins',
+    'inventory_count',
+    'number_brands',
+  ];
+
   /* Include Asin validation check */
   useEffect(() => {
     if (asins.value.include) {
@@ -164,8 +183,15 @@ const SellerMapFilter = (props: Props) => {
     }
   }, [asins.value.exclude]);
 
-  const handleFilterChange = (keyName: any, value: any) => {
+  const handleFilterChange = (keyName: any, value: any, pressedKey?: string) => {
     updateSellerMapFilterOptions({ keyName, value });
+    if (TEXT_INPUT_FILTERS.indexOf(keyName) >= 0) {
+      if (pressedKey === 'Enter') {
+        handleSubmit();
+      }
+    } else {
+      handleSubmit();
+    }
   };
 
   const handleSubmit = () => {
@@ -185,6 +211,14 @@ const SellerMapFilter = (props: Props) => {
     );
   }
 
+  const handleAccordianUpArrowClick = (number: number) => {
+    if (filterActiveIndex === number) {
+      setFilterActiveIndex(-1);
+    } else {
+      setFilterActiveIndex(number);
+    }
+  };
+
   return (
     <div className={`${styles.filterWrapper} ${!showFilter ? styles.filterWrapper__closed : ''}`}>
       {isLoadingSellersForMap && (
@@ -198,14 +232,390 @@ const SellerMapFilter = (props: Props) => {
       )}
 
       {/* Merchant Name */}
-      <InputFilter
+      <div className={styles.filterType}>
+        {showGeneralFilters ? (
+          <Image
+            src={SquareMinusRegular}
+            onClick={() => setShowGeneralFilters(false)}
+            className={styles.filterType__img}
+          />
+        ) : (
+          <Image
+            src={SquarePlusRegular}
+            onClick={() => setShowGeneralFilters(true)}
+            className={styles.filterType__img}
+          />
+        )}
+        <p className={styles.filterType__text}>GENERAL </p>
+      </div>
+      <div className={`${styles.basicFilters} ${!showGeneralFilters && styles.hide}`}>
+        <Accordion>
+          <div
+            className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 0 &&
+              styles.accordianBlockWrapper__active}`}
+          >
+            <Accordion.Title
+              active={filterActiveIndex === 0}
+              index={0}
+              onClick={() => handleAccordianUpArrowClick(0)}
+              className={styles.accordian__title}
+            >
+              <div className={styles.accordian__title__block}>
+                <Icon name="building" className={styles.accordian__title__icon} />
+                <p>Company name</p>
+              </div>
+              <Image
+                src={filterActiveIndex === 0 ? upArrow : downArrow}
+                className={styles.accordian__title__arrowImage}
+              />
+            </Accordion.Title>
+            <Accordion.Content active={filterActiveIndex === 0}>
+              <div>
+                <InputFilter
+                  placeholder="Company Name"
+                  label=""
+                  value={merchantName.value}
+                  handleKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      handleFilterChange('merchant_name', e.target.value, 'Enter');
+                    }
+                  }}
+                  handleChange={(value: any) => {
+                    handleFilterChange('merchant_name', value);
+                  }}
+                />
+              </div>
+            </Accordion.Content>
+          </div>
+          <div
+            className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 1 &&
+              styles.accordianBlockWrapper__active}`}
+          >
+            <Accordion.Title
+              active={filterActiveIndex === 1}
+              index={1}
+              onClick={() => handleAccordianUpArrowClick(1)}
+              className={styles.accordian__title}
+            >
+              <div className={styles.accordian__title__block}>
+                <Icon name="map marker alternate" className={styles.accordian__title__icon} />
+                <p>Zip Code</p>
+              </div>
+              <Image
+                src={filterActiveIndex === 1 ? upArrow : downArrow}
+                className={styles.accordian__title__arrowImage}
+              />
+            </Accordion.Title>
+            <Accordion.Content active={filterActiveIndex === 1}>
+              <div>
+                <InputFilter
+                  placeholder="Zip code"
+                  label=""
+                  value={zipCode.value}
+                  handleKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      handleFilterChange('zip_code', e.target.value, 'Enter');
+                    }
+                  }}
+                  handleChange={(value: any) => {
+                    handleFilterChange('zip_code', value);
+                  }}
+                />
+              </div>
+            </Accordion.Content>
+          </div>
+          <div
+            className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 4 &&
+              styles.accordianBlockWrapper__active}`}
+          >
+            <Accordion.Title
+              active={filterActiveIndex === 4}
+              index={4}
+              onClick={() => handleAccordianUpArrowClick(4)}
+              className={styles.accordian__title}
+            >
+              <div className={styles.accordian__title__block}>
+                <Icon name="map marker alternate" className={styles.accordian__title__icon} />
+                <p>Contact</p>
+              </div>
+              <Image
+                src={filterActiveIndex === 4 ? upArrow : downArrow}
+                className={styles.accordian__title__arrowImage}
+              />
+            </Accordion.Title>
+            <Accordion.Content active={filterActiveIndex === 4}>
+              <div>
+                <CheckboxFilter
+                  label="Seller Reachability"
+                  checkboxLabel="Sellers with decision makers"
+                  checked={sellerReachability.value}
+                  handleChange={(value: any) => {
+                    handleFilterChange('has_contact', value);
+                  }}
+                />
+              </div>
+            </Accordion.Content>
+          </div>
+        </Accordion>
+      </div>
+      <div className={styles.filterType}>
+        {showBuyingIntentFilters ? (
+          <Image
+            src={SquareMinusRegular}
+            onClick={() => setShowBuyingIntentFilters(false)}
+            className={styles.filterType__img}
+          />
+        ) : (
+          <Image
+            src={SquarePlusRegular}
+            onClick={() => setShowBuyingIntentFilters(true)}
+            className={styles.filterType__img}
+          />
+        )}
+        <p className={styles.filterType__text}>MARKETPLACE METRICS</p>
+      </div>
+      <div className={`${styles.basicFilters} ${!showBuyingIntentFilters && styles.hide}`}>
+        <Accordion>
+          <div
+            className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 2 &&
+              styles.accordianBlockWrapper__active}`}
+          >
+            <Accordion.Title
+              active={filterActiveIndex === 2}
+              index={2}
+              onClick={() => handleAccordianUpArrowClick(2)}
+              className={styles.accordian__title}
+            >
+              <div className={styles.accordian__title__block}>
+                <Icon name="list" className={styles.accordian__title__icon} />
+                <p>Categories</p>
+              </div>
+              <Image
+                src={filterActiveIndex === 2 ? upArrow : downArrow}
+                className={styles.accordian__title__arrowImage}
+              />
+            </Accordion.Title>
+            <Accordion.Content active={filterActiveIndex === 2}>
+              <div>
+                <CheckboxDropdownFilter
+                  filterOptions={getProductCategories(marketplace.value.code)}
+                  label="Categories"
+                  selectedValues={categories.value}
+                  popUpPosition="bottom right"
+                  handleChange={(newCategories: string[]) => {
+                    handleFilterChange('categories', [...newCategories]);
+                  }}
+                />
+              </div>
+            </Accordion.Content>
+          </div>
+          <div
+            className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 3 &&
+              styles.accordianBlockWrapper__active}`}
+          >
+            <Accordion.Title
+              active={filterActiveIndex === 3}
+              index={3}
+              onClick={() => handleAccordianUpArrowClick(3)}
+              className={styles.accordian__title}
+            >
+              <div className={styles.accordian__title__block}>
+                <Icon name="map marker alternate" className={styles.accordian__title__icon} />
+                <p>Brands</p>
+              </div>
+              <Image
+                src={filterActiveIndex === 3 ? upArrow : downArrow}
+                className={styles.accordian__title__arrowImage}
+              />
+            </Accordion.Title>
+            <Accordion.Content active={filterActiveIndex === 3}>
+              <div>
+                <InputFilter
+                  label="Include Brands"
+                  placeholder="Enter separated by comma"
+                  value={brands.value.include}
+                  handleKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      handleFilterChange(
+                        'brands',
+                        {
+                          ...brands.value,
+                          include: e.target.value,
+                        },
+                        'Enter'
+                      );
+                    }
+                  }}
+                  handleChange={(value: string) =>
+                    handleFilterChange('brands', {
+                      ...brands.value,
+                      include: value,
+                    })
+                  }
+                />
+
+                {/* Exclude Brands */}
+                <InputFilter
+                  label="Exclude Brands"
+                  placeholder="Enter separated by comma"
+                  value={brands.value.exclude}
+                  handleKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      handleFilterChange(
+                        'brands',
+                        {
+                          ...brands.value,
+                          exclude: e.target.value,
+                        },
+                        'Enter'
+                      );
+                    }
+                  }}
+                  handleChange={(value: string) =>
+                    handleFilterChange('brands', {
+                      ...brands.value,
+                      exclude: value,
+                    })
+                  }
+                />
+
+                <MinMaxFilter
+                  label="Number of Brands"
+                  minValue={brandsCount.value.min}
+                  maxValue={brandsCount.value.max}
+                  handleKeyDown={(e, type) => {
+                    if (e.key === 'Enter' && type) {
+                      handleFilterChange(
+                        'number_brands',
+                        {
+                          ...brandsCount.value,
+                          [type]: e.target.value,
+                        },
+                        'Enter'
+                      );
+                    }
+                  }}
+                  handleChange={(type: string, value: string) => {
+                    handleFilterChange('number_brands', { ...brandsCount.value, [type]: value });
+                  }}
+                />
+              </div>
+            </Accordion.Content>
+          </div>
+          <div
+            className={`${styles.accordianBlockWrapper} ${filterActiveIndex === 5 &&
+              styles.accordianBlockWrapper__active}`}
+          >
+            <Accordion.Title
+              active={filterActiveIndex === 5}
+              index={5}
+              onClick={() => handleAccordianUpArrowClick(5)}
+              className={styles.accordian__title}
+            >
+              <div className={styles.accordian__title__block}>
+                <Icon name="map marker alternate" className={styles.accordian__title__icon} />
+                <p>Products</p>
+              </div>
+              <Image
+                src={filterActiveIndex === 5 ? upArrow : downArrow}
+                className={styles.accordian__title__arrowImage}
+              />
+            </Accordion.Title>
+            <Accordion.Content active={filterActiveIndex === 5}>
+              <div>
+                {/* Include ASINS */}
+                <InputFilter
+                  label="Include ASINs or ISBNs"
+                  placeholder="Enter separated by comma"
+                  value={asins.value.include.toUpperCase()}
+                  handleKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      handleFilterChange(
+                        'asins',
+                        {
+                          ...asins.value,
+                          include: e.target.value,
+                        },
+                        'Enter'
+                      );
+                    }
+                  }}
+                  handleChange={(value: string) =>
+                    handleFilterChange('asins', {
+                      ...asins.value,
+                      include: value,
+                    })
+                  }
+                  error={asinsError.include}
+                />
+
+                {/* Exclude ASINS Name */}
+                <InputFilter
+                  label="Exclude ASINs or ISBNs"
+                  placeholder="Enter separated by comma"
+                  value={asins.value.exclude.toUpperCase()}
+                  handleKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      handleFilterChange(
+                        'asins',
+                        {
+                          ...asins.value,
+                          exclude: e.target.value,
+                        },
+                        'Enter'
+                      );
+                    }
+                  }}
+                  handleChange={(value: string) =>
+                    handleFilterChange('asin', {
+                      ...asins.value,
+                      exclude: value,
+                    })
+                  }
+                  error={asinsError.exclude}
+                />
+
+                <MinMaxFilter
+                  label="Number of ASINs"
+                  minValue={numberOfInventory.value.min}
+                  maxValue={numberOfInventory.value.max}
+                  handleKeyDown={(e, type) => {
+                    if (e.key === 'Enter' && type) {
+                      handleFilterChange(
+                        'inventory_count',
+                        {
+                          ...numberOfInventory.value,
+                          [type]: e.target.value,
+                        },
+                        'Enter'
+                      );
+                    }
+                  }}
+                  handleChange={(type: string, value: string) => {
+                    handleFilterChange('inventory_count', {
+                      ...numberOfInventory.value,
+                      [type]: value,
+                    });
+                  }}
+                />
+              </div>
+            </Accordion.Content>
+          </div>
+        </Accordion>
+      </div>
+      {/* <InputFilter
         placeholder="Company Name"
         label="Company Name"
         value={merchantName.value}
+        handleKeyDown={e => {
+          if (e.key === 'Enter') {
+            handleFilterChange('merchant_name', e.target.value, 'Enter');
+          }
+        }}
         handleChange={(value: any) => {
           handleFilterChange('merchant_name', value);
         }}
-      />
+      /> */}
 
       {/* Merchant Name */}
       {/*<InputFilter
@@ -228,7 +638,7 @@ const SellerMapFilter = (props: Props) => {
       />*/}
 
       {/* Categories */}
-      <CheckboxDropdownFilter
+      {/* <CheckboxDropdownFilter
         filterOptions={getProductCategories(marketplace.value.code)}
         label="Categories"
         selectedValues={categories.value}
@@ -236,7 +646,7 @@ const SellerMapFilter = (props: Props) => {
         handleChange={(newCategories: string[]) => {
           handleFilterChange('categories', [...newCategories]);
         }}
-      />
+      /> */}
 
       {/* Monthly revenue */}
       {/*<MinMaxFilter
@@ -249,17 +659,17 @@ const SellerMapFilter = (props: Props) => {
       />*/}
 
       {/* Zip Code */}
-      <InputFilter
+      {/* <InputFilter
         placeholder="Zip code"
         label="Zip code"
         value={zipCode.value}
         handleChange={(value: any) => {
           handleFilterChange('zip_code', value);
         }}
-      />
+      /> */}
 
       {/* Include Brands */}
-      <InputFilter
+      {/* <InputFilter
         label="Include Brands"
         placeholder="Enter separated by comma"
         value={brands.value.include}
@@ -269,10 +679,10 @@ const SellerMapFilter = (props: Props) => {
             include: value,
           })
         }
-      />
+      /> */}
 
       {/* Exclude Brands */}
-      <InputFilter
+      {/* <InputFilter
         label="Exclude Brands"
         placeholder="Enter separated by comma"
         value={brands.value.exclude}
@@ -282,10 +692,10 @@ const SellerMapFilter = (props: Props) => {
             exclude: value,
           })
         }
-      />
+      /> */}
 
       {/* Include ASINS */}
-      <InputFilter
+      {/* <InputFilter
         label="Include ASINs or ISBNs"
         placeholder="Enter separated by comma"
         value={asins.value.include.toUpperCase()}
@@ -296,10 +706,10 @@ const SellerMapFilter = (props: Props) => {
           })
         }
         error={asinsError.include}
-      />
+      /> */}
 
       {/* Exclude ASINS Name */}
-      <InputFilter
+      {/* <InputFilter
         label="Exclude ASINs or ISBNs"
         placeholder="Enter separated by comma"
         value={asins.value.exclude.toUpperCase()}
@@ -310,17 +720,17 @@ const SellerMapFilter = (props: Props) => {
           })
         }
         error={asinsError.exclude}
-      />
+      /> */}
 
       {/* Seller Reachability */}
-      <CheckboxFilter
+      {/* <CheckboxFilter
         label="Seller Reachability"
         checkboxLabel="Sellers with decision makers"
         checked={sellerReachability.value}
         handleChange={(value: any) => {
           handleFilterChange('has_contact', value);
         }}
-      />
+      /> */}
 
       {/* FBA % */}
       {/*<RadioListFilters
@@ -331,24 +741,24 @@ const SellerMapFilter = (props: Props) => {
       />*/}
 
       {/* Number of ASINs */}
-      <MinMaxFilter
+      {/* <MinMaxFilter
         label="Number of ASINs"
         minValue={numberOfInventory.value.min}
         maxValue={numberOfInventory.value.max}
         handleChange={(type: string, value: string) => {
           handleFilterChange('inventory_count', { ...numberOfInventory.value, [type]: value });
         }}
-      />
+      /> */}
 
       {/* Number of brands */}
-      <MinMaxFilter
+      {/* <MinMaxFilter
         label="Number of Brands"
         minValue={brandsCount.value.min}
         maxValue={brandsCount.value.max}
         handleChange={(type: string, value: string) => {
           handleFilterChange('number_brands', { ...brandsCount.value, [type]: value });
         }}
-      />
+      /> */}
 
       {/* Growth percent */}
       <div className={styles.groupFilters}>
@@ -440,6 +850,7 @@ const SellerMapFilter = (props: Props) => {
         onReset={handleReset}
         className={styles.filtersSubmit}
         disabled={asinsError.include || asinsError.exclude}
+        hideSubmit={true}
       />
     </div>
   );
