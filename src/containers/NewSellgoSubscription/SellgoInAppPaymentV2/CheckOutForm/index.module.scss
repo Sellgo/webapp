@@ -643,3 +643,37 @@
 .securePayment {
   line-height: 1;
 }
+
+.address__block {
+  display: flex;
+
+  &__city {
+    width: 100%;
+    margin-right: 20px;
+  }
+
+  &__zipCode {
+    width: 100%;
+  }
+
+  &__country {
+    width: 100%;
+    margin-right: 20px;
+  }
+
+  &__states {
+    width: 100%;
+  }
+
+  &__label {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: #3b4557;
+    line-height: 20px !important;
+  }
+}
+
+.inputFilter {
+  margin-bottom: 11px;
+  width: 100%;
+}

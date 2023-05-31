@@ -27,7 +27,7 @@ interface Props {
   minValue: string;
   maxValue: string;
   handleChange: (type: string, value: string) => void;
-  handleKeyDown?: (e: any) => void;
+  handleKeyDown?: (e: any, name?: string) => void;
   userOnboardingResources: any;
   appendWith?: string;
   prependWith?: string;
@@ -98,7 +98,7 @@ const MinMaxFilter: React.FC<Props> = props => {
               (parseFloat(e.target.value) >= 0 || !e.target.value) &&
               !isError
             ) {
-              handleKeyDown && handleKeyDown(e);
+              handleKeyDown && handleKeyDown(e, 'min');
             }
           }}
           error={isError}
@@ -121,7 +121,7 @@ const MinMaxFilter: React.FC<Props> = props => {
               (parseFloat(e.target.value) >= 0 || !e.target.value) &&
               !isError
             ) {
-              handleKeyDown && handleKeyDown(e);
+              handleKeyDown && handleKeyDown(e, 'max');
             }
           }}
           error={isError}

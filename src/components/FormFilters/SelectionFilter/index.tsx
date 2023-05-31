@@ -25,6 +25,8 @@ type IOption = {
 
 interface Props {
   label?: string;
+  labelClassname?: string;
+  checkoutClassName?: string;
   className?: string;
   filterOptions: IOption[];
   placeholder: string;
@@ -40,6 +42,7 @@ interface Props {
 const SelectionFilter: React.FC<Props> = props => {
   const {
     label,
+    labelClassname,
     filterOptions,
     placeholder,
     value,
@@ -47,6 +50,7 @@ const SelectionFilter: React.FC<Props> = props => {
     disabled = false,
     loading = false,
     userOnboardingResources,
+    checkoutClassName,
     className,
     error,
     textStyleEllipsis,
@@ -72,9 +76,9 @@ const SelectionFilter: React.FC<Props> = props => {
     }
   }, []);
   return (
-    <div className={`selectionFilterWrapper ${className}`}>
+    <div className={`selectionFilterWrapper ${className} ${checkoutClassName}`}>
       {label && (
-        <p className={`${disabled ? 'disabled' : ''}`}>
+        <p className={`${labelClassname} ${disabled ? 'disabled' : ''}`}>
           {label}
           {/* Youtube On boarding Icon */}
           {enableFilterOnboarding && tooltipText && (
