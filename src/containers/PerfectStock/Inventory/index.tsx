@@ -19,6 +19,7 @@ import InventoryTable from './InventoryTable';
 import OrderGanttChart from './OrderGanttChart';
 import OrderPlanningMeta from './OrderPlanningMeta';
 import { PerfectStockGetStartedJoyRideStatus } from '../../../interfaces/UserOnboarding';
+import JoyRideCustomTooltip from '../../../components/JoyRideCustomTooltip';
 
 interface Props {
   isFetchingProgressForRefresh: boolean;
@@ -113,6 +114,7 @@ const OrderPlanning = (props: Props) => {
         scrollToFirstStep={false}
         disableScrolling={true}
         disableCloseOnEsc={true}
+        tooltipComponent={JoyRideCustomTooltip}
       />
     </main>
   );

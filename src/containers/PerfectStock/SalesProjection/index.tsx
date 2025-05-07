@@ -30,8 +30,11 @@ import { getPerfectStockGetStartedJoyRideStatus } from '../../../selectors/UserO
 /* Containers */
 import SalesProjectionMeta from './SalesProjectionMeta';
 import SalesProjectionTable from './SalesProjectionTable';
-import ProgressBar from '../../../components/ProgressBar';
 import TopGraph from './TopGraph';
+
+/* Components */
+import ProgressBar from '../../../components/ProgressBar';
+import JoyRideCustomTooltip from '../../../components/JoyRideCustomTooltip';
 
 /* Utils */
 import { getDateOnly, addNumberOfDays } from '../../../utils/date';
@@ -204,6 +207,7 @@ const SalesProjection = (props: Props) => {
         spotlightPadding={1}
         scrollOffset={20}
         scrollDuration={100}
+        tooltipComponent={JoyRideCustomTooltip}
       />
     </main>
   );
