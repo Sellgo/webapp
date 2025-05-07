@@ -1,6 +1,8 @@
 import React from 'react';
 import './index.scss';
-import loadingAnimation from '../../assets/images/sellgo-loading-animation-450-1.gif';
+import sellgoLoadingAnimation from '../../assets/images/sellgo-loading-animation-450-1.gif';
+import aistockLoadingAnimation from '../../assets/images/sellgo-loading-animation-450-1.gif';
+import { isSellgoSession } from '../../utils/session';
 
 const PageLoader = (props: any) => {
   const { pageLoading, isSearchManagement } = props;
@@ -10,7 +12,11 @@ const PageLoader = (props: any) => {
         isSearchManagement ? 'search-management-page' : ''
       }`}
     >
-      <img src={loadingAnimation} alt="loading" />
+      {isSellgoSession() ? (
+        <img src={sellgoLoadingAnimation} alt="loading" />
+      ) : (
+        <img src={aistockLoadingAnimation} alt="loading" />
+      )}
     </div>
   );
 };
