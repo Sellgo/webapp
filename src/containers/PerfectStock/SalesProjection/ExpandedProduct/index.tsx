@@ -117,9 +117,7 @@ const ExpandedProduct = (props: Props) => {
   return (
     <div className={styles.expandedProduct}>
       <div className={styles.expandedProductTable}>
-        <BoxHeader className={styles.tableHeader}>
-          WEEKLY EXPECTED SALES WITH SEASONALITY ADJUSTOR
-        </BoxHeader>
+        <BoxHeader className={styles.tableHeader}>SALES CALENDAR: {rowData.sku}</BoxHeader>
         <BoxContainer className={styles.tableContainer}>
           {/* Placeholder is used here because the headers are pre-rendered, and the table data is huge */}
           {isLoadingProductProjectedSales ? (
